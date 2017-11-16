@@ -359,7 +359,7 @@
       <message>&MSG_ECX;</message>
         <suggestion>o \2</suggestion>
         <suggestion>a <match no='2' postag='(A..|N.|Z.)MS(.+)' postag_replace='$1FS$2' postag_regexp='yes'/></suggestion>
-      <url>https://gl.wikipedia.org/wiki/Artigo_(gram%C3%A1tica)</url>
+      <url>http://www.lingua.gal/c/document_library/get_file?file_path=/portal-lingua/celga/celga-1/material-alumno/Manual_Aula_de_Galego_1_resumo_gramatical.pdf</url>
       <example correction='O boi|A (boi)'><marker>A boi</marker> está no pasto.</example>
       <example type='correct'>A vaca está no pasto.</example>
     </rule>
@@ -373,7 +373,7 @@
       </pattern>
       <message>Posíbel erro de concordancia de xénero.</message>
         <suggestion>o \2</suggestion>
-      <url>https://gl.wikipedia.org/wiki/Artigo_(gram%C3%A1tica)</url>
+      <url>http://www.lingua.gal/c/document_library/get_file?file_path=/portal-lingua/celga/celga-1/material-alumno/Manual_Aula_de_Galego_1_resumo_gramatical.pdf</url>
       <example correction="O dogma"><marker>A dogma</marker> de quen sabe moito.</example>
     </rule>
 
@@ -456,7 +456,7 @@
       <message>&MSG_ECX;</message>
         <suggestion>a \2</suggestion>
         <suggestion>o <match no='2' postag='(A..|N.|Z.)FS(.+)' postag_replace='$1MS$2' postag_regexp='yes'/></suggestion>
-      <url>https://gl.wikipedia.org/wiki/Artigo_(gram%C3%A1tica)</url>
+      <url>http://www.lingua.gal/c/document_library/get_file?file_path=/portal-lingua/celga/celga-1/material-alumno/Manual_Aula_de_Galego_1_resumo_gramatical.pdf</url>
       <example correction='A cadela|O can'><marker>O cadela</marker> está no pasto.</example>
       <example type='correct'>A cadela está no pasto.</example>
     </rule>
@@ -464,7 +464,7 @@
   <rulegroup id='GENERAL_NUMBER_AGREEMENT_ERRORS' name="Concordancia de Número: Geral">
     <!--            General number concordance errors            -->
     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-19 -->
-      <url>https://gl.wikibooks.org/wiki/Portugu%C3%AAs/Concord%C3%A2ncia/Concord%C3%A2ncia_nominal</url>
+      <url>http://www.lingua.gal/c/document_library/get_file?file_path=/portal-lingua/celga/celga-1/material-alumno/Manual_Aula_de_Galego_1_resumo_gramatical.pdf</url>
       <antipattern case_sensitive='yes'>
           <unify negate='yes'><!-- XXX Proper names exception -->
             <feature id="gender"/><feature id="number"/>
@@ -582,7 +582,7 @@
       <example>Son todo oídos</example>
       <example>Uso óculos desde os 6 anos,</example>
       <example>Calzas, o máis posíbel resgadas.</example>
-      <example>O Monte Camarões é o volcán máis activo do oeste africano, tendo numerosas erupcións rexistradas.</example>
+      <example>O Monte Camerún é o volcán máis activo do oeste africano, tendo numerosas erupcións rexistradas.</example>
       <example>O número nove.</example>
       <example>Alí fóra están cero graos.</example>
     </rule>
@@ -635,7 +635,7 @@
         <marker>
           <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.)[FC]S.+' postag_regexp='yes'>
             <exception postag='(?:D[ADIP].|N.|A..|Z.)[FC]P.+|C.|R.' postag_regexp='yes'/>
-            <exception regexp='yes'>.+[°′″]</exception></token>
+            <exception regexp='yes'>a|.+[°′″]</exception></token><!-- TODO improve 'a' as preposition disambiguation -->
           <token regexp='yes' min='0'>&adverbios_de_intensidade;</token><!-- XXX use POS after disambiguation improvements -->
           <token postag='(?:N.|A..|Z.)[FC]P.+' postag_regexp='yes'>
             <exception postag='(?:N.|A..|Z.)[FC]S.+|P[ID].[CFM].+|(C|R).+|SPS00.*' postag_regexp='yes'/></token>
@@ -645,7 +645,7 @@
       <message>&MSG_ECN;</message>
         <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no="4" postag="(N.|[AD]..)[FC]P(.+)" postag_replace='$1[FC]S$2' postag_regexp="yes"/></suggestion>
         <suggestion><match no="2" postag="(D[ADIP].|NC|A..)[FC]S(.+)" postag_replace='$1[FC]P$2' postag_regexp="yes"/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/></suggestion>
-      <example correction='A vaca|As vacas'><marker>A vacas</marker> son malhadas.</example>
+      <example correction='Unha vaca|Unhas vacas'><marker>Unha vacas</marker> son malhadas, outras non.</example>
       <example>O programa Lendas do Futuro é bo?</example>
       <example>Unha vez acordadas as novas condicións, será feito o abastecemento eléctrico.</example>
       <!--example correction='unión empobrecida|unións empobrecidas'>As rexións na <marker>unión empobrecidas</marker> acabaron por ser culpabilizadas.</example XXX uncomment after better tagging of VMPs -->
