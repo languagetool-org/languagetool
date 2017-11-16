@@ -443,6 +443,13 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       if (!hunspellDict.misspelled(suggestion)) {
         return Collections.singletonList(suggestion);
       }
+    } else if (word.matches(".*uess.*")) {
+      suggestion = word.replaceAll("uess", "üß");
+      if (!hunspellDict.misspelled(suggestion)) {
+        return Collections.singletonList(suggestion);
+      }
+    } else if (word.matches("bi[sß][ij]en")) {
+      return Collections.singletonList("bisschen");
     } else if (word.equals("gin")) {
       return Collections.singletonList("ging");
     } else if (word.equals("ua") || word.equals("ua.")) {

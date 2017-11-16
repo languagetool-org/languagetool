@@ -185,6 +185,9 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("folklorisch", "folkloristisch", rule, lt);
     assertFirstSuggestion("Religiösischen", "Religiösen", rule, lt);
     assertFirstSuggestion("reschaschiert", "recherchiert", rule, lt);
+    assertFirstSuggestion("bißjen", "bisschen", rule, lt);
+    assertFirstSuggestion("bisien", "bisschen", rule, lt);
+    assertFirstSuggestion("Gruessen", "Grüßen", rule, lt);
   }
 
   @Test
