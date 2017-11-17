@@ -80,7 +80,7 @@ public class AgreementRule extends Rule {
       new PatternTokenBuilder().posRegex("VER:.*").build(),
       new PatternTokenBuilder().token("das").build(),
       new PatternTokenBuilder().tokenRegex("nächste[ns]?").build(),
-      new PatternTokenBuilder().tokenRegex("Montag|Dienstag|Mittwoch|Donnerstag|Freitag|Samstag|Sonntag|Woche|Monat|Jahr").build()
+      new PatternTokenBuilder().tokenRegex("Montag|D(ien|onner)stag|Mittwoch|Freitag|S(ams|onn)tag|Woche|Monat|Jahr").build()
     ),
     Arrays.asList(
       new PatternTokenBuilder().tokenRegex("(?i:ist|war)").build(),
@@ -102,7 +102,7 @@ public class AgreementRule extends Rule {
       new PatternTokenBuilder().posRegex("ADJ:AKK:.*").build()  // "Ein für viele wichtiges Anliegen."
     ),
     Arrays.asList(
-      new PatternTokenBuilder().tokenRegex("das|die|der").build(),
+      new PatternTokenBuilder().tokenRegex("d(as|ie|er)").build(),
       new PatternTokenBuilder().token("einem").build(),
       new PatternTokenBuilder().token("Angst").build()  // "Dinge, die/ Etwas, das einem Angst macht"
     ),
@@ -142,7 +142,7 @@ public class AgreementRule extends Rule {
     ),
     Arrays.asList(
         new PatternTokenBuilder().pos(JLanguageTool.SENTENCE_START_TAGNAME).build(),
-        new PatternTokenBuilder().tokenRegex("Das|Dies").build(),
+        new PatternTokenBuilder().tokenRegex("D(a|ie)s").build(),
         new PatternTokenBuilder().posRegex("VER:[123]:.*").build(),
         new PatternTokenBuilder().posRegex("SUB:NOM:.*").build()// "Das erfordert Können und..." / "Dies bestätigte Polizeimeister Huber"
     ),
@@ -165,7 +165,7 @@ public class AgreementRule extends Rule {
         new PatternTokenBuilder().token("Besitz").build()
     ),
     Arrays.asList(
-        new PatternTokenBuilder().tokenRegex("die|den|[md]einen?").build(),
+        new PatternTokenBuilder().tokenRegex("d(ie|en)|[md]einen?").build(),
         new PatternTokenBuilder().token("Top").build(),
         new PatternTokenBuilder().tokenRegex("\\d+").build()
     ),
@@ -536,7 +536,7 @@ public class AgreementRule extends Rule {
         String term2 = tokens[pos].getToken();
         boolean prep = PREPOSITIONS.contains(term1);
         relPronoun = REL_PRONOUN.contains(term2);
-        return prep && relPronoun || (tokens[pos-1].hasPosTag("KON:UNT") && term2.matches("(dies|jen)e[rmns]?"));
+        return prep && relPronoun || (tokens[pos-1].hasPosTag("KON:UNT") && (tokens[pos].hasLemma("jen") || tokens[pos].hasLemma("dies")));
       }
     }
     return false;

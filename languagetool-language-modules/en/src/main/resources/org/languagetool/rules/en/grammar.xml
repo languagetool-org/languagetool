@@ -2528,7 +2528,7 @@ USA
                     <token regexp="yes">to|who|which|that|['´]</token>
                 </antipattern>
                 <pattern>
-                    <token regexp="yes">can|couldn|didn?|doesn|don|mustn?|needn?|oughtn?|shan|shouldn?|won|wouldn?|to</token>
+                    <token regexp="yes">can|couldn|didn?|do(es)?n|mustn?|needn?|oughtn?|shan|shouldn?|won|wouldn?|to</token>
                     <token regexp="yes" min="0">['´]</token>
                     <token min="0" regexp="yes">(no)?t</token>
                     <token postag="VB"><exception regexp="yes">believe|think|say|admit</exception></token>
@@ -3075,7 +3075,7 @@ USA
                         <token regexp="yes">['’]</token>
                         <token>s</token>
                     </marker>
-                    <token postag="VBD|VBP" postag_regexp="yes"><exception postag="NN.*|JJ.*" postag_regexp="yes"/><exception>got</exception></token>
+                    <token postag="VB[DP]" postag_regexp="yes"><exception postag="NN.*|JJ.*" postag_regexp="yes"/><exception>got</exception></token>
                 </pattern>
                 <message>Consider using the plural form here: <suggestion>\2\4</suggestion>.</message>
                 <short>Possible typo</short>
@@ -6365,7 +6365,7 @@ USA
         </rule>
         <rule id="DONT_WHAT" name="missing verb (dont't what / dont't know what)">
             <pattern>
-                <token regexp="yes">can|couldn|didn|doesn|don|ha[ds]n|haven|mustn|needn|oughtn|shan|shouldn|won|wouldn</token>
+                <token regexp="yes">can|couldn|didn|do(es)?n|ha[ds]n|haven|mustn|needn|oughtn|shan|shouldn|won|wouldn</token>
                 <token regexp="yes">[´`']</token>
                 <token>t</token>
                 <token min="0" regexp="yes">even|really|actually</token>
@@ -7573,7 +7573,7 @@ USA
                 <token min="0" max="1" postag="RB"/>
                 <marker>
                     <token postag="VBP?" postag_regexp="yes">
-                        <exception postag_regexp="yes" postag="VBD|R[BP]|IN"/>
+                        <exception postag_regexp="yes" postag="VBD|R[BP]|IN|JJR"/>
                         <exception>true</exception>
                     </token>
                 </marker>
@@ -7598,6 +7598,7 @@ USA
             <example>But he insisted that it be housed in a special museum.</example>
             <example>Many other components beside it determine how much cooling you'll get.</example>
             <example>How had it come to this?</example>
+            <example>He could do it even better.</example>
         </rule>
         <rulegroup id="DID_PAST" name="'did' with past tense verb">
             <rule>
@@ -7637,7 +7638,7 @@ USA
             <rule>
                 <pattern>
                     <token postag="SENT_START"/>
-                    <token min="0" postag="WRB|WP" postag_regexp="yes"/>
+                    <token min="0" postag="W(RB|P)" postag_regexp="yes"/>
                     <token>did</token>
                     <token regexp="yes">I|you|s?he|we|they</token>
                     <marker>
@@ -9128,7 +9129,7 @@ USA
                 <pattern>
                     <token regexp="yes" postag="VB.?" postag_regexp="yes">ha[ds]|(?:ha)?ve</token>
                     <marker>
-                        <token postag="VB[DP]?" postag_regexp="yes"><exception postag="VBN|NN:U.*|JJ.*|RB" postag_regexp="yes"/></token>
+                        <token postag="VB[DP]?" postag_regexp="yes"><exception postag="VBN|NN:UN?|JJ.*|RB" postag_regexp="yes"/></token>
                     </marker>
                     <token><exception postag="VBG"/></token>
                 </pattern>
@@ -9209,7 +9210,7 @@ USA
             <rule>
                 <pattern>
                     <token postag="SENT_START"/>
-                    <token postag="WRB|WP" postag_regexp="yes"/>
+                    <token postag="W(RB|P)" postag_regexp="yes"/>
                     <token regexp="yes">ha[ds]|have</token>
                     <token postag="PRP"/>
                     <marker>
@@ -9250,7 +9251,7 @@ USA
             <rule>
                 <pattern>
                     <token postag="SENT_START"/>
-                    <token postag="WRB|WP" postag_regexp="yes"/>
+                    <token postag="W(RB|P)" postag_regexp="yes"/>
                     <token regexp="yes">ha[ds]|have</token>
                     <token postag="PRP"/>
                     <marker>
@@ -9272,9 +9273,9 @@ USA
         </antipattern>
             <rule>
                 <pattern>
-                    <token regexp="yes">been|w(?:as|ere)|is|are|am<exception scope="previous" postag_regexp="yes" postag="VBP?" negate="yes" regexp="yes">ha(?:ve|s)</exception><exception postag='NNP'/></token>
+                    <token inflected="yes">be<exception scope="previous" postag_regexp="yes" postag="VBP?" negate="yes" regexp="yes">ha(?:ve|s)</exception><exception postag='NNP'/></token>
                     <marker>
-                        <token postag="VB[DP]?" postag_regexp="yes"><exception postag="VBN|NN:U.*|JJ.*|RB|IN" postag_regexp="yes"/><exception regexp="yes">are|am</exception></token>
+                        <token postag="VB[DP]?" postag_regexp="yes"><exception postag="VBN|NN:UN?|JJ.*|RB|IN" postag_regexp="yes"/><exception regexp="yes">are|am</exception></token>
                     </marker>
                     <token><exception regexp="yes">['’]</exception><exception postag="NNS"/></token>
                 </pattern>
@@ -9309,7 +9310,7 @@ USA
                     </and>
                 </antipattern>
                 <pattern>
-                    <token regexp="yes">been|w(?:as|ere)|is|are|am<exception scope="previous" postag_regexp="yes" postag="VBP?" negate="yes" regexp="yes">ha(?:ve|s)</exception><exception postag='NNP'/></token>
+                    <token inflected="yes">be<exception scope="previous" postag_regexp="yes" postag="VBP?" negate="yes" regexp="yes">ha(?:ve|s)</exception><exception postag='NNP'/></token>
                     <token postag="RB"><exception regexp="yes">in|t?here</exception><exception postag="VBN|JJ.*|CC" postag_regexp="yes"/></token>
                     <marker>
                         <token postag="VB[DP]?" postag_regexp="yes"><exception postag="VBN|JJ.*|IN|RB" postag_regexp="yes"/></token>
@@ -10983,7 +10984,7 @@ USA
                     <token>a</token>
                     <token>much</token>
                 </marker>
-                <token postag="NN|NN:U|NN:UN" postag_regexp="yes"><exception postag="JJR"/></token>
+                <token postag="NN(:UN?)?" postag_regexp="yes"><exception postag="JJR"/></token>
             </pattern>
             <message>Maybe you should omit the article 'a', leaving only <suggestion>much</suggestion>.</message>
             <short>Grammatical problem: unnecessary 'a'</short>
@@ -10993,7 +10994,7 @@ USA
         </rule>
         <rule id="MOST_SUPERLATIVE" name="No 'more' or 'most' before superlatives">
             <pattern>
-                <token regexp="yes">more|most</token>
+                <token regexp="yes">mo(re|st)</token>
                 <token postag="JJS|RBS" postag_regexp="yes"/>
             </pattern>
             <message>Use only <suggestion>\2</suggestion> (without '\1') when you use the superlative.</message>
@@ -11266,7 +11267,7 @@ USA
                 <token>as</token>
                 <token postag="JJ|RB" postag_regexp="yes"><exception>other</exception><exception postag="JJR"/></token>
                 <marker>
-                    <token regexp="yes">like|than|then</token>
+                    <token regexp="yes">like|th[ae]n</token>
                 </marker>
             </pattern>
             <message>Comparison is written 'as \2 <suggestion>as</suggestion>'.</message>
@@ -11507,7 +11508,7 @@ USA
             <rule>
                 <pattern case_sensitive="no">
                     <token postag="SENT_START"/>
-                    <token postag="WRB|WP" postag_regexp="yes"/>
+                    <token postag="W(RB|P)" postag_regexp="yes"/>
                     <marker>
                         <token>has</token>
                     </marker>
@@ -11544,7 +11545,7 @@ USA
             <rule>
                 <pattern case_sensitive="no">
                     <token postag="SENT_START"/>
-                    <token postag="WRB|WP" postag_regexp="yes"/>
+                    <token postag="W(RB|P)" postag_regexp="yes"/>
                     <marker>
                         <token>is</token>
                     </marker>
@@ -11557,7 +11558,7 @@ USA
             <rule>
                 <pattern case_sensitive="no">
                     <token postag="SENT_START"/>
-                    <token postag="WRB|WP" postag_regexp="yes"/>
+                    <token postag="W(RB|P)" postag_regexp="yes"/>
                     <marker>
                         <token>is</token>
                     </marker>
@@ -11822,7 +11823,7 @@ USA
             <rule>
                 <pattern case_sensitive="no">
                     <token postag="SENT_START"/>
-                    <token postag="WRB|WP" postag_regexp="yes"/>
+                    <token postag="W(RB|P)" postag_regexp="yes"/>
                     <marker>
                         <token regexp="yes">Have|Are|Am</token>
                     </marker>
@@ -11835,7 +11836,7 @@ USA
             <rule>
                 <pattern case_sensitive="no">
                     <token postag="SENT_START"/>
-                    <token postag="WRB|WP" postag_regexp="yes"/>
+                    <token postag="W(RB|P)" postag_regexp="yes"/>
                     <marker>
                         <token regexp="yes">Have|Are|Am</token>
                     </marker>
@@ -11852,7 +11853,7 @@ USA
                     <token postag="SENT_START" skip="-1"><exception inflected="yes" postag="V.*" postag_regexp="yes" regexp="yes" scope="next">have|be</exception><exception postag="MD" scope="next">haven</exception></token>
                     <token regexp="yes">I|you|s?he|we|they</token>
                     <marker>
-                        <token postag="VBN"><exception postag="VBD|VBP" postag_regexp="yes"/></token>
+                        <token postag="VBN"><exception postag="VB[DP]" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
                 <message>Possible grammatical error. You used a past participle without using any required verb ('be' or 'have'). Did you mean <suggestion><match no="3" postag="VBD" postag_regexp="yes"/></suggestion>?</message>
@@ -12361,7 +12362,7 @@ USA
           <marker>
               <token regexp="yes">\d+<exception regexp="yes">[01]</exception></token>
               <token postag="NNP"/>            
-              <token regexp="yes">Ave|Avenue|Street|Terrace|Square|St|Circle|Drive</token>
+              <token regexp="yes">Ave(nue)?|Street|Terrace|Square|St|Circle|Drive</token>
            </marker>            
           </antipattern>    
           <antipattern>
@@ -12465,7 +12466,7 @@ USA
                         <exception>year</exception><!-- "16 year old Ahmad" -->
                         <exception>trained</exception><!-- "300 to 400 being trained each year" - mistagging by OpenNLP -->
                         <exception>caused</exception>
-                        <exception regexp="yes">Ave|Avenue|Street|Terrace|Square|Plaza</exception><!-- probably an address, "333 Grant Avenue" -->
+                        <exception regexp="yes">Ave(nue)?|Street|Terrace|Square|Plaza</exception><!-- probably an address, "333 Grant Avenue" -->
                     </token>
                 </marker>
             </pattern>
@@ -12798,7 +12799,7 @@ USA
             <url>https://en.oxforddictionaries.com/grammar/double-negatives</url>
             <rule>
                 <pattern>
-                    <token regexp="yes">ain|aren|can|couldn|didn|doesn|don|ha[ds]n|haven|isn|mayn|mightn|mustn|needn|oughtn|sh(a|ould)n|wasn|weren|won|wouldn</token>
+                    <token regexp="yes">ain|aren|can|couldn|didn|do(es)?n|ha[ds]n|haven|isn|mayn|mightn|mustn|needn|oughtn|sh(a|ould)n|wasn|weren|won|wouldn</token>
                     <token regexp="yes">’|'|´</token>
                     <token>t</token>
                     <token>not</token>
@@ -12809,7 +12810,7 @@ USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">ain|aren|can|couldn|didn|doesn|don|ha[ds]n|haven|isn|mayn|mightn|mustn|needn|oughtn|shan|shouldn|wasn|weren|won|wouldn</token>
+                    <token regexp="yes">ain|aren|can|couldn|didn|do(es)?n|ha[ds]n|haven|isn|mayn|mightn|mustn|needn|oughtn|shan|shouldn|wasn|weren|won|wouldn</token>
                     <token regexp="yes">’|'|´</token>
                     <token>t</token>
                     <token>have</token>
@@ -15010,6 +15011,12 @@ USA
                 <example correction="eighteen-inch">An <marker>eighteen inch</marker> monitor is too big for my desk.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token regexp="yes">left|right</token>
+                    <token>hand</token>
+                    <token postag="VB.+" postag_regexp="yes"/>
+                    <token postag="JJ"/>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token regexp="yes">left|right</token>
@@ -15020,6 +15027,7 @@ USA
                 <message>Did you mean the adjective <suggestion>\1-hand</suggestion>?</message>
                 <short>Missing hyphen</short>
                 <example correction="right-hand">He is her <marker>right hand</marker> man.</example>
+                <example>His left hand felt numb.</example>
                 <example correction="left-hand">You'll see the bank on the <marker>left hand</marker> side of the hospital.</example>
             </rule>
             <rule><!-- English-speaking -->
@@ -23177,7 +23185,7 @@ USA
         <rulegroup id="WRONG_APOSTROPHE" name="Wrong apostrophe character">
             <rule>
                 <pattern>
-                    <token regexp="yes">ain|aren|can|couldn|didn|doesn|don|ha[ds]n|haven|isn|mayn|mightn|mustn|needn|oughtn|shan|shouldn|wasn|weren|won|wouldn</token>
+                    <token regexp="yes">ain|aren|can|couldn|didn|do(es)?n|ha[ds]n|haven|isn|mayn|mightn|mustn|needn|oughtn|shan|shouldn|wasn|weren|won|wouldn</token>
                     <token regexp="yes">[´`]</token>
                     <token>t</token>
                 </pattern>

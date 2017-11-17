@@ -8025,7 +8025,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token regexp="yes">(nach|trotz|seit|außer|in)dem</token>
                     </marker>
                     <token postag="SUB:DAT:SIN:(MAS|NEU)" postag_regexp="yes"/>
-                    <token postag="(SENT_END)|VER:(AUX:)?(1|2|3):.+" postag_regexp="yes"><exception postag="(PA2|SUB|ART|ADJ):.+" postag_regexp="yes"/><exception regexp="yes">sieben|äußerst|anstelle|einst|meinen?|tausenden?</exception></token>
+                    <token postag="(SENT_END)|VER:(AUX:)?(1|2|3):.+" postag_regexp="yes"><exception postag="(PA2|SUB|ART|ADJ):.+" postag_regexp="yes"/><exception regexp="yes">werden|sieben|äußerst|anstelle|einst|meinen?|tausenden?</exception></token>
                 </pattern>
                 <message>Möglicherweise muss <suggestion><match no="1" regexp_replace="" regexp_match="dem"/> dem</suggestion> hier getrennt geschrieben werden.</message>
                 <example correction="nach dem">Die Ruhe <marker>nachdem</marker> Sturm ist vollkommen.</example>
@@ -8034,21 +8034,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Nach dem"><marker>Nachdem</marker> Frühstück wurde ich müde.</example>
                 <example><marker>Nach dem</marker> Essen zwei Tabletten.</example>
                 <example><marker>Trotzdem</marker> danke.</example>
-            </rule>
-            <rule>
-                <pattern case_sensitive="yes">
-                    <marker>
-                        <token regexp="yes" case_sensitive="no">(nach|seit|trotz|außer|in)dem</token>
-                    </marker>
-                    <token postag="SUB:DAT:SIN:(MAS|NEU)" postag_regexp="yes"/>
-                    <!-- token>Essen</token -->
-                    <token postag="(SENT_END)|VER:(AUX:)?(1|2|3):.+" postag_regexp="yes"><exception postag="(PA2|SUB|ART|ADJ):.+" postag_regexp="yes"/><exception regexp="yes">sieben|äußerst|anstelle|einst|meinen?|tausenden?</exception></token>
-                </pattern>
-                <message>Möglicherweise muss <suggestion><match no="1" regexp_replace="" regexp_match="dem"/> dem</suggestion> hier getrennt geschrieben werden.</message>
-                <example correction="Seit dem"><marker>Seitdem</marker> Frühstück bin ich müde.</example>
+                <example>Er konnte trotzdem Anwalt werden.</example>
                 <example correction="Außer dem"><marker>Außerdem</marker> Frühstück hat das Hotel noch einiges mehr zu bieten.</example>
                 <example correction="Nach dem"><marker>Nachdem</marker> Frühstück wurde ich müde.</example>
                 <example><marker>Nach dem</marker> Essen zwei Tabletten.</example>
+                <example>Er konnte trotzdem Anwalt werden.</example>
                 <example><marker>Nachdem</marker> Essen gegen Stuttgart verloren hatte, waren wir geknickt.</example>
             </rule>
             <rule>
@@ -34693,6 +34683,12 @@ Andere Projekte</example>
                     <token>kurz</token>
                     <token>nachdem</token>
                 </antipattern>
+                <antipattern>
+                    <token>,</token>
+                    <token>erst</token>
+                    <token>recht</token>
+                    <token regexp="yes">weil|wenn|falls|nachdem</token>
+                </antipattern>
                 <pattern>
                     <marker>
                     <token>
@@ -34714,6 +34710,7 @@ Andere Projekte</example>
                 <example>Wir kamen, drei Tage nachdem wir aufgebrochen waren, in Rom an.</example>
                 <example>Ich bin erstaunt ob deiner schnellen Antwort.</example>
                 <example>Der Waffenstillstand unterbrach das Programm, kurz nachdem es begonnen hatte.</example>
+                <example>Er tut das, erst recht wenn er betrunken ist.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -34808,7 +34805,7 @@ Andere Projekte</example>
                     <token postag="VER:(AUX|MOD):.*" postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
-                    <token regexp="yes" skip="-1">da|weil|ob(wohl|gleich)?|damit|sodass|dass|indem|wenn|falls|sofern|während|bevor|nachdem|seitdem|so(bald|lange)|was|als|wie|bis|wer|wo|wohin<exception regexp="yes" scope="next">,|\.|:|;|-|–|\)|\(|„|“|»|«|"|und|oder</exception></token>
+                    <token regexp="yes" skip="-1">weil|ob(wohl|gleich)?|da(mit|ss)?|indem|wenn|falls|während|bevor|nachdem|seitdem|so(bald|dass|fern|lange)|was|als|wie|bis|wer|wo|wohin<exception regexp="yes" scope="next">,|\.|:|;|-|–|\)|\(|„|“|»|«|"|und|oder</exception></token>
                     <token postag="VER.*:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes"/>
                     <token postag="VER.*:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes"/>
                     <token regexp="yes">,|\.|:|;|-|–|\)|\(|„|“|»|«|"|und|oder</token>
@@ -34867,7 +34864,7 @@ Andere Projekte</example>
                     <token regexp="yes">,|\.|:|\?|!|;|-|–|\)|\(|„|“|»|«|"|und|oder</token>
                 </antipattern>
                 <antipattern>
-                    <token regexp="yes" skip="-1">da|weil|ob(wohl|gleich)?|damit|sodass|dass|indem|wenn|falls|sofern|während|bevor|nachdem|seitdem|so(bald|lange)|was|als|wie|bis|wer|wo|wohin<exception regexp="yes" scope="next">,|\.|:|;|-|–|\)|\(|„|“|»|«|"|und|oder</exception></token>
+                    <token regexp="yes" skip="-1">weil|ob(wohl|gleich)?|da(mit|ss)?|indem|wenn|falls|während|bevor|nachdem|seitdem|so(bald|dass|fern|lange)|was|als|wie|bis|wer|wo|wohin<exception regexp="yes" scope="next">,|\.|:|;|-|–|\)|\(|„|“|»|«|"|und|oder</exception></token>
                     <token postag="VER.*:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes"/>
                     <token postag="VER.*:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes"/>
                     <token regexp="yes">,|\.|:|;|-|–|\)|\(|„|“|»|«|"|und|oder</token>
@@ -34875,7 +34872,7 @@ Andere Projekte</example>
                 <pattern>
                     <token>,</token>
                     <marker>
-                    <token regexp="yes" skip="-1">da|weil|ob(wohl|gleich)?|damit|sodass|dass|indem|wenn|falls|sofern|während|bevor|nachdem|seitdem|so(bald|lange)|was|als|wie|bis|wer|wo|wohin<exception regexp="yes" scope="next">,|\.|:|;|-|–|—|\)|\(|„|“|»|«|"|und|oder</exception></token>
+                    <token regexp="yes" skip="-1">weil|ob(wohl|gleich)?|da(mit|ss)?|indem|wenn|falls|während|bevor|nachdem|seitdem|so(bald|dass|fern|lange)|was|als|wie|bis|wer|wo|wohin<exception regexp="yes" scope="next">,|\.|:|;|-|–|—|\)|\(|„|“|»|«|"|und|oder</exception></token>
                     <token postag="VER.*:[1-3]:.*|VER:.*:[1-3]:.*|VER:IMP:.*" postag_regexp="yes" skip="-1">
                         <exception postag="VER:INF:.*|VER:AUX:.*:KJ[12]|PA[12]:.*|SUB:.*|EIG:.*|AD[JV]:.*|ART:.*|PR[OP]:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
                         <exception  inflected="yes" regexp="yes">bleiben|lassen|sieben</exception>
@@ -34961,7 +34958,7 @@ Andere Projekte</example>
                         <exception  inflected="yes" regexp="yes">bleiben|lassen|versuchen|bemühen|sieben|achten</exception>   <!-- siebte, achte werden nicht als Zahlwort erkannt  -->
                         <exception>bitte</exception>
                         <exception regexp="yes" scope="next">,|\.|:|\?|!|;|-|–|—|\)|\(|„|“|»|«|"|und|oder</exception>
-                        <exception regexp="yes" scope="next">da|weil|ob(wohl|gleich)?|damit|sodass|dass|indem|wenn|falls|sofern|während|bevor|nachdem|seitdem|so(bald|lange)|was|als|wie|bis|wer|wo|wohin|sondern|aber</exception>
+                        <exception regexp="yes" scope="next">weil|ob(wohl|gleich)?|da(mit|ss)?|indem|wenn|falls|während|bevor|nachdem|seitdem|so(bald|dass|fern|lange)|was|als|wie|bis|wer|wo|wohin|sondern|aber</exception>
                     </token>
                     <token postag="VER:[1-3]:.*|VER.*:[1-3]:.*|VER:IMP:.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöü]+
                         <exception postag="VER:INF:.*|VER:MOD:INF.*|PA[12]:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
@@ -35040,7 +35037,7 @@ Andere Projekte</example>
                     </token>
                 </antipattern>
                 <antipattern>
-                    <token skip="-1" regexp="yes">da|weil|ob(wohl|gleich)?|damit|sodass|dass|indem|wenn|falls|sofern|während|bevor|nachdem|seitdem|so(bald|lange)|was|als|wie|bis|wer|wo|wohin
+                    <token skip="-1" regexp="yes">weil|ob(wohl|gleich)?|da(mit|ss)?|indem|wenn|falls|während|bevor|nachdem|seitdem|so(bald|dass|fern|lange)|was|als|wie|bis|wer|wo|wohin
                         <exception regexp="yes" scope="next">,|;|:|-|–|\)|\(|„|“|»|«|"|und|oder</exception>
                     </token>
                     <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes">
@@ -35079,7 +35076,7 @@ Andere Projekte</example>
                     </token>
                     <marker>
                     <token postag="SUB:.*|PRO:(PER|IND):.*" postag_regexp="yes">
-                        <exception scope="previous" regexp="yes">da|weil|ob(wohl|gleich)?|damit|sodass|dass|indem|wenn|falls|sofern|während|bevor|nachdem|seitdem|so(bald|lange)|was|als|wie|bis|wer|wo|wohin</exception>
+                        <exception scope="previous" regexp="yes">weil|ob(wohl|gleich)?|da(mit|ss)?|indem|wenn|falls|während|bevor|nachdem|seitdem|so(bald|dass|fern|lange)|was|als|wie|bis|wer|wo|wohin</exception>
                         <exception postag="ART:.*|ADV.*|KON.*" postag_regexp="yes"/>
                     </token>
                     <token skip="-1" regexp="yes" case_sensitive="yes">d(e[mnr]|ie|as|essen|e[nr]en)|welche[mrs]?|wessen<exception regexp="yes" scope="next">,|;|:|-|–|\)|\(|„|“|»|«|"|und|oder</exception></token>
@@ -35172,7 +35169,7 @@ Andere Projekte</example>
                     <marker>
                     <token postag="SUB:.*|PRO:(PER|IND):.*" postag_regexp="yes">
                         <exception postag="ART:.*|ADV.*|KON.*" postag_regexp="yes"/>
-                        <exception regexp="yes" scope="previous">da|weil|ob(wohl|gleich)?|damit|sodass|dass|indem|wenn|falls|sofern|während|bevor|nachdem|seitdem|so(bald|lange)|was|als|wie|bis|wer|wo|wohin</exception>
+                        <exception regexp="yes" scope="previous">weil|ob(wohl|gleich)?|da(mit|ss)?|indem|wenn|falls|während|bevor|nachdem|seitdem|so(bald|dass|fern|lange)|was|als|wie|bis|wer|wo|wohin</exception>
                     </token>
                     <token skip="-1" regexp="yes" case_sensitive="yes">d(e[mnr]|ie|as|essen|e[nr]en)|welche[mrs]?|wessen<exception regexp="yes" scope="next">,|;|:|-|–|\)|\(|„|“|»|«|"|und|oder</exception></token>
                     <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes">
@@ -35188,7 +35185,7 @@ Andere Projekte</example>
             <rule>
                 <antipattern>
                     <token>,</token>
-                    <token skip="-1" regexp="yes">da|weil|ob(wohl|gleich)?|damit|sodass|dass|indem|wenn|falls|sofern|während|bevor|nachdem|seitdem|so(bald|lange)|was|als|wie|bis|wer|wo|wohin|warum|womit|welche(r|s)?
+                    <token skip="-1" regexp="yes">weil|ob(wohl|gleich)?|da(mit|ss)?|indem|wenn|falls|während|bevor|nachdem|seitdem|so(bald|dass|fern|lange)|was|als|wie|bis|wer|wo|wohin|warum|womit|welche(r|s)?
                         <exception scope="next" regexp="yes">,|;|:|-|–|—|\)|\(|„|“|»|«|"</exception>
                     </token>
                     <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes">
@@ -35264,7 +35261,7 @@ Andere Projekte</example>
                     <marker>
                     <token postag="SUB:.*|PRO:(PER|IND):.*" postag_regexp="yes">
                         <exception postag="ART:.*|ADV.*|KON.*" postag_regexp="yes"/>
-                        <exception regexp="yes" scope="previous">da|weil|ob(wohl|gleich)?|damit|sodass|dass|indem|wenn|falls|sofern|während|bevor|nachdem|seitdem|so(bald|lange)|was|als|wie|bis|wer|wo|wohin|und|oder</exception>
+                        <exception regexp="yes" scope="previous">weil|ob(wohl|gleich)?|da(mit|ss)?|indem|wenn|falls|während|bevor|nachdem|seitdem|so(bald|dass|fern|lange)|was|als|wie|bis|wer|wo|wohin|und|oder</exception>
                     </token>
                     <token postag="PRP:.*" postag_regexp="yes"/>
                     <token skip="-1" regexp="yes" case_sensitive="yes">d(e[mnr]|ie|as|essen|e[nr]en)|welche[mrs]?|wessen<exception regexp="yes" scope="next">,|;|:|-|–|\)|\(|„|“|»|«|"|und|oder</exception></token>
@@ -35286,7 +35283,7 @@ Andere Projekte</example>
             <rule>
                 <antipattern>
                     <token>,</token>
-                    <token skip="-1" regexp="yes">da|weil|ob(wohl|gleich)?|damit|sodass|dass|indem|wenn|falls|sofern|während|bevor|nachdem|seitdem|so(bald|lange)|was|als|wie|bis|wer|wo|wohin|warum|womit|welche(r|s)?
+                    <token skip="-1" regexp="yes">weil|ob(wohl|gleich)?|da(mit|ss)?|indem|wenn|falls|während|bevor|nachdem|seitdem|so(bald|dass|fern|lange)|was|als|wie|bis|wer|wo|wohin|warum|womit|welche(r|s)?
                         <exception scope="next" regexp="yes">,|;|:|-|–|—|\)|\(|„|“|»|«|"</exception>
                     </token>
                     <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes">
@@ -35347,7 +35344,7 @@ Andere Projekte</example>
                     <marker>
                     <token postag="SUB:.*|PRO:(PER|IND):.*" postag_regexp="yes">
                         <exception postag="ART:.*|ADV.*|KON.*" postag_regexp="yes"/>
-                        <exception regexp="yes" scope="previous">da|weil|ob(wohl|gleich)?|damit|sodass|dass|indem|wenn|falls|sofern|während|bevor|nachdem|seitdem|so(bald|lange)|was|als|wie|bis|wer|wo|wohin</exception>
+                        <exception regexp="yes" scope="previous">weil|ob(wohl|gleich)?|da(mit|ss)?|indem|wenn|falls|während|bevor|nachdem|seitdem|so(bald|dass|fern|lange)|was|als|wie|bis|wer|wo|wohin</exception>
                     </token>
                     <token postag="PRP:.*" postag_regexp="yes"/>
                     <token skip="-1" regexp="yes" case_sensitive="yes">d(e[mnr]|ie|as|essen|e[nr]en)|welche[mrs]?|wessen<exception regexp="yes" scope="next">,|;|:|-|–|\)|\(|„|“|»|«|"|und|oder</exception></token>
@@ -35363,7 +35360,7 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <antipattern>
-                    <token skip="-1" regexp="yes">da|weil|ob(wohl|gleich)?|damit|sodass|dass|indem|wenn|falls|sofern|während|bevor|nachdem|seitdem|so(bald|lange)|was|als|wie|bis|wer|wo|wohin
+                    <token skip="-1" regexp="yes">weil|ob(wohl|gleich)?|da(mit|ss)?|indem|wenn|falls|während|bevor|nachdem|seitdem|so(bald|dass|fern|lange)|was|als|wie|bis|wer|wo|wohin
                         <exception scope="next" regexp="yes">,|;|:|-|–|\)|\(|„|“|»|«|"|und|oder</exception>
                     </token>
                     <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes">
@@ -35418,7 +35415,7 @@ Andere Projekte</example>
                 <pattern>
                     <marker>
                     <token skip="-1" postag="SUB:.*|PRO:.*" postag_regexp="yes">
-                        <exception scope="previous" regexp="yes">da|weil|ob(wohl|gleich)?|damit|sodass|dass|indem|wenn|falls|sofern|während|bevor|nachdem|seitdem|so(bald|lange)|was|als|wie|bis|wer|wo|wohin</exception>
+                        <exception scope="previous" regexp="yes">weil|ob(wohl|gleich)?|da(mit|ss)?|indem|wenn|falls|während|bevor|nachdem|seitdem|so(bald|dass|fern|lange)|was|als|wie|bis|wer|wo|wohin</exception>
                         <exception postag="ADV.*|KON.*" postag_regexp="yes"/>
                         <exception scope ="next" postag="SUB:.*" postag_regexp="yes"/>
                         <exception scope="next" regexp="yes">,|;|:|-|–|\)|\(|„|“|»|«|"|und|oder</exception>
@@ -35453,7 +35450,7 @@ Andere Projekte</example>
                     </token>
                 </antipattern>
                 <antipattern>
-                    <token skip="-1" regexp="yes">da|weil|ob(wohl|gleich)?|damit|sodass|dass|indem|wenn|falls|sofern|während|bevor|nachdem|seitdem|so(bald|lange)|was|als|wie|bis|wer|wo|wohin
+                    <token skip="-1" regexp="yes">weil|ob(wohl|gleich)?|da(mit|ss)?|indem|wenn|falls|während|bevor|nachdem|seitdem|so(bald|dass|fern|lange)|was|als|wie|bis|wer|wo|wohin
                         <exception scope="next" regexp="yes">,|;|:|-|–|—|\)|\(|„|“|»|«|"</exception>
                     </token>
                     <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes">
@@ -35463,7 +35460,7 @@ Andere Projekte</example>
                 </antipattern>
                 <antipattern>
                     <token skip="-1" postag="SUB:.*SIN.*(FEM|MAS).*|SUB:.*PLU.*|PRO:.*SIN.*(FEM|MAS).*|PRO:.*PLU.*" postag_regexp="yes">
-                        <exception scope="previous" regexp="yes">da|weil|ob(wohl|gleich)?|damit|sodass|dass|indem|wenn|falls|sofern|während|bevor|nachdem|seitdem|so(bald|lange)|was|als|wie|bis|wer|wo|wohin</exception>
+                        <exception scope="previous" regexp="yes">weil|ob(wohl|gleich)?|da(mit|ss)?|indem|wenn|falls|während|bevor|nachdem|seitdem|so(bald|dass|fern|lange)|was|als|wie|bis|wer|wo|wohin</exception>
                         <exception postag="ADV.*|KON.*" postag_regexp="yes"/>
                         <exception scope ="next" postag="SUB:.*SIN.*(FEM|MAS).*|SUB:.*PLU.*" postag_regexp="yes"/>
                         <exception scope="next" regexp="yes">,|;|:|-|–|—|\)|\(|„|“|»|«|"|und|oder</exception>
@@ -35482,7 +35479,7 @@ Andere Projekte</example>
                 </antipattern>
                 <antipattern>
                     <token skip="-1" postag="SUB:.*SIN.*(FEM|MAS).*|SUB:.*PLU.*|PRO:.*SIN.*(FEM|MAS).*|PRO:.*PLU.*" postag_regexp="yes">
-                        <exception scope="previous" regexp="yes">da|weil|ob(wohl|gleich)?|damit|sodass|dass|indem|wenn|falls|sofern|während|bevor|nachdem|seitdem|so(bald|lange)|was|als|wie|bis|wer|wo|wohin</exception>
+                        <exception scope="previous" regexp="yes">weil|ob(wohl|gleich)?|da(mit|ss)?|indem|wenn|falls|während|bevor|nachdem|seitdem|so(bald|dass|fern|lange)|was|als|wie|bis|wer|wo|wohin</exception>
                         <exception postag="ADV.*|KON.*" postag_regexp="yes"/>
                         <exception scope ="next" postag="SUB:.*SIN.*(FEM|MAS).*|SUB:.*PLU.*" postag_regexp="yes"/>
                         <exception scope="next" regexp="yes">,|;|:|-|–|—|\)|\(|„|“|»|«|"|und|oder</exception>
@@ -35531,7 +35528,7 @@ Andere Projekte</example>
                 <pattern>
                     <marker>
                     <token skip="-1" postag="SUB:.*SIN.*(FEM|MAS).*|SUB:.*PLU.*|PRO:.*SIN.*(FEM|MAS).*|PRO:.*PLU.*" postag_regexp="yes">
-                        <exception scope="previous" regexp="yes">da|weil|ob(wohl|gleich)?|damit|sodass|dass|indem|wenn|falls|sofern|während|bevor|nachdem|seitdem|so(bald|lange)|was|als|wie|bis|wer|wo|wohin</exception>
+                        <exception scope="previous" regexp="yes">weil|ob(wohl|gleich)?|da(mit|ss)?|indem|wenn|falls|während|bevor|nachdem|seitdem|so(bald|dass|fern|lange)|was|als|wie|bis|wer|wo|wohin</exception>
                         <exception postag="ADV.*|KON.*" postag_regexp="yes"/>
                         <exception scope ="next" postag="SUB:.*SIN.*(FEM|MAS).*|SUB:.*PLU.*" postag_regexp="yes"/>
                         <exception scope="next" regexp="yes">,|;|:|-|–|—|\)|\(|„|“|»|«|"|und|oder</exception>
@@ -35577,7 +35574,7 @@ Andere Projekte</example>
                     </token>
                 </antipattern>
                 <antipattern>
-                    <token skip="-1" regexp="yes">da|weil|ob(wohl|gleich)?|damit|sodass|dass|indem|wenn|falls|sofern|während|bevor|nachdem|seitdem|so(bald|lange)|was|als|wie|bis|wer|wo|wohin|warum|womit
+                    <token skip="-1" regexp="yes">weil|ob(wohl|gleich)?|da(mit|ss)?|indem|wenn|falls|während|bevor|nachdem|seitdem|so(bald|dass|fern|lange)|was|als|wie|bis|wer|wo|wohin|warum|womit
                         <exception scope="next" regexp="yes">,|;|:|-|–|—|\)|\(|„|“|»|«|"</exception>
                     </token>
                     <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes">
@@ -35587,7 +35584,7 @@ Andere Projekte</example>
                 </antipattern>
                 <antipattern>
                     <token skip="-1" postag="SUB:.*SIN.*NEU.*|PRO:.*IND.*SIN.*(ALG|NEU).*" postag_regexp="yes">
-                        <exception scope="previous" regexp="yes">da|weil|ob(wohl|gleich)?|damit|sodass|dass|indem|wenn|falls|sofern|während|bevor|nachdem|seitdem|so(bald|lange)|was|als|wie|bis|wer|wo|wohin|warum|womit</exception>
+                        <exception scope="previous" regexp="yes">weil|ob(wohl|gleich)?|da(mit|ss)?|indem|wenn|falls|während|bevor|nachdem|seitdem|so(bald|dass|fern|lange)|was|als|wie|bis|wer|wo|wohin|warum|womit</exception>
                         <exception postag="ADV.*|KON.*|PRO:PER.*" postag_regexp="yes"/>
                         <exception scope ="next" postag="SUB:.*SIN.*NEU.*" postag_regexp="yes"/>
                         <exception scope="next" regexp="yes">,|;|:|-|–|—|\)|\(|„|“|»|«|"|und|oder</exception>
@@ -35606,7 +35603,7 @@ Andere Projekte</example>
                 </antipattern>
                 <antipattern>
                     <token skip="-1" postag="SUB:.*SIN.*NEU.*|PRO:.*IND.*SIN.*(ALG|NEU).*" postag_regexp="yes">
-                        <exception scope="previous" regexp="yes">da|weil|ob(wohl|gleich)?|damit|sodass|dass|indem|wenn|falls|sofern|während|bevor|nachdem|seitdem|so(bald|lange)|was|als|wie|bis|wer|wo|wohin|warum|womit</exception>
+                        <exception scope="previous" regexp="yes">weil|ob(wohl|gleich)?|da(mit|ss)?|indem|wenn|falls|während|bevor|nachdem|seitdem|so(bald|dass|fern|lange)|was|als|wie|bis|wer|wo|wohin|warum|womit</exception>
                         <exception postag="ADV.*|KON.*|PRO:PER.*" postag_regexp="yes"/>
                         <exception scope ="next" postag="SUB:.*SIN.*NEU.*" postag_regexp="yes"/>
                         <exception scope="next" regexp="yes">,|;|:|-|–|—|\)|\(|„|“|»|«|"|und|oder</exception>
@@ -35649,7 +35646,7 @@ Andere Projekte</example>
                 <pattern>
                     <marker>
                     <token skip="-1" postag="SUB:.*SIN.*NEU.*|PRO:.*IND.*SIN.*(ALG|NEU).*" postag_regexp="yes">
-                        <exception scope="previous" regexp="yes">da|weil|ob(wohl|gleich)?|damit|sodass|dass|indem|wenn|falls|sofern|während|bevor|nachdem|seitdem|so(bald|lange)|was|als|wie|bis|wer|wo|wohin|womit</exception>
+                        <exception scope="previous" regexp="yes">weil|ob(wohl|gleich)?|da(mit|ss)?|indem|wenn|falls|während|bevor|nachdem|seitdem|so(bald|dass|fern|lange)|was|als|wie|bis|wer|wo(hin|mit)?</exception>
                         <exception postag="ADV.*|KON.*|PRO:PER.*|VER.*" postag_regexp="yes"/>
                         <exception scope ="next" postag="SUB:.*SIN.*NEU.*" postag_regexp="yes"/>
                         <exception scope="next" regexp="yes">,|;|:|-|–|—|\)|\(|„|“|»|«|"|und|oder</exception>
@@ -35675,7 +35672,7 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <antipattern>
-                    <token skip="-1" regexp="yes">da|weil|ob(wohl|gleich)?|damit|sodass|dass|indem|wenn|falls|sofern|während|bevor|nachdem|seitdem|so(bald|lange)|was|als|wie|bis|wer|wo|wohin
+                    <token skip="-1" regexp="yes">weil|ob(wohl|gleich)?|da(mit|ss)?|indem|wenn|falls|während|bevor|nachdem|seitdem|so(bald|dass|fern|lange)|was|als|wie|bis|wer|wo|wohin
                         <exception scope="next" regexp="yes">,|;|:|-|–|\)|\(|„|“|»|«|"|und|oder</exception>
                     </token>
                     <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes">
@@ -35731,7 +35728,7 @@ Andere Projekte</example>
                 <pattern>
                     <marker>
                     <token skip="-1" postag="SUB:.*|PRO:.*" postag_regexp="yes">
-                        <exception scope="previous" regexp="yes">da|weil|ob(wohl|gleich)?|damit|sodass|dass|indem|wenn|falls|sofern|während|bevor|nachdem|seitdem|so(bald|lange)|was|als|wie|bis|wer|wo|wohin</exception>
+                        <exception scope="previous" regexp="yes">weil|ob(wohl|gleich)?|da(mit|ss)?|indem|wenn|falls|während|bevor|nachdem|seitdem|so(bald|dass|fern|lange)|was|als|wie|bis|wer|wo|wohin</exception>
                         <exception postag="ADV.*|KON.*" postag_regexp="yes"/>
                         <exception scope ="next" postag="SUB:.*" postag_regexp="yes"/>
                         <exception scope="next" regexp="yes">,|;|:|-|–|\)|\(|„|“|»|«|"|und|oder</exception>
@@ -35773,7 +35770,7 @@ Andere Projekte</example>
                     </token>
                 </antipattern>
                 <antipattern>
-                    <token skip="-1" regexp="yes">da|weil|ob(wohl|gleich)?|damit|sodass|dass|indem|wenn|falls|sofern|während|bevor|nachdem|seitdem|so(bald|lange)|was|als|wie|bis|wer|wo|wohin|welchen
+                    <token skip="-1" regexp="yes">weil|ob(wohl|gleich)?|da(mit|ss)?|indem|wenn|falls|während|bevor|nachdem|seitdem|so(bald|dass|fern|lange)|was|als|wie|bis|wer|wo|wohin|welchen
                         <exception scope="next" regexp="yes">,|;|:|-|–|—|\)|\(|„|“|»|«|"</exception>
                     </token>
                     <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes">
@@ -35783,7 +35780,7 @@ Andere Projekte</example>
                 </antipattern>
                 <antipattern>
                     <token skip="-1" postag="SUB:.*SIN.*(FEM|MAS).*|SUB:.*PLU.*|PRO:.*SIN.*(FEM|MAS).*|PRO:.*PLU.*" postag_regexp="yes">
-                        <exception scope="previous" regexp="yes">da|weil|ob(wohl|gleich)?|damit|sodass|dass|indem|wenn|falls|sofern|während|bevor|nachdem|seitdem|so(bald|lange)|was|als|wie|bis|wer|wo|wohin</exception>
+                        <exception scope="previous" regexp="yes">weil|ob(wohl|gleich)?|da(mit|ss)?|indem|wenn|falls|während|bevor|nachdem|seitdem|so(bald|dass|fern|lange)|was|als|wie|bis|wer|wo|wohin</exception>
                         <exception postag="ADV.*|KON.*" postag_regexp="yes"/>
                         <exception scope ="next" postag="SUB:.*SIN.*(FEM|MAS).*|SUB:.*PLU.*" postag_regexp="yes"/>
                         <exception scope="next" regexp="yes">,|;|:|-|–|—|\)|\(|„|“|»|«|"|und|oder</exception>
@@ -35802,7 +35799,7 @@ Andere Projekte</example>
                 </antipattern>
                 <antipattern>
                     <token skip="-1" postag="SUB:.*SIN.*(FEM|MAS).*|SUB:.*PLU.*|PRO:.*SIN.*(FEM|MAS).*|PRO:.*PLU.*" postag_regexp="yes">
-                        <exception scope="previous" regexp="yes">da|weil|ob(wohl|gleich)?|damit|sodass|dass|indem|wenn|falls|sofern|während|bevor|nachdem|seitdem|so(bald|lange)|was|als|wie|bis|wer|wo|wohin</exception>
+                        <exception scope="previous" regexp="yes">weil|ob(wohl|gleich)?|da(mit|ss)?|indem|wenn|falls|während|bevor|nachdem|seitdem|so(bald|dass|fern|lange)|was|als|wie|bis|wer|wo|wohin</exception>
                         <exception postag="ADV.*|KON.*" postag_regexp="yes"/>
                         <exception scope ="next" postag="SUB:.*SIN.*(FEM|MAS).*|SUB:.*PLU.*" postag_regexp="yes"/>
                         <exception scope="next" regexp="yes">,|;|:|-|–|—|\)|\(|„|“|»|«|"|und|oder</exception>
@@ -35841,7 +35838,7 @@ Andere Projekte</example>
                 <pattern>
                     <marker>
                     <token skip="-1" postag="SUB:.*SIN.*(FEM|MAS).*|SUB:.*PLU.*|PRO:.*SIN.*(FEM|MAS).*|PRO:.*PLU.*" postag_regexp="yes">
-                        <exception scope="previous" regexp="yes">da|weil|ob(wohl|gleich)?|damit|sodass|dass|indem|wenn|falls|sofern|während|bevor|nachdem|seitdem|so(bald|lange)|was|als|wie|bis|wer|wo|wohin</exception>
+                        <exception scope="previous" regexp="yes">weil|ob(wohl|gleich)?|da(mit|ss)?|indem|wenn|falls|während|bevor|nachdem|seitdem|so(bald|dass|fern|lange)|was|als|wie|bis|wer|wo|wohin</exception>
                         <exception postag="ADV.*|KON.*" postag_regexp="yes"/>
                         <exception scope ="next" postag="SUB:.*SIN.*(FEM|MAS).*|SUB:.*PLU.*" postag_regexp="yes"/>
                         <exception scope="next" regexp="yes">,|;|:|-|–|—|\)|\(|„|“|»|«|"|und|oder</exception>
@@ -35886,7 +35883,7 @@ Andere Projekte</example>
                     </token>
                 </antipattern>
                 <antipattern>
-                    <token skip="-1" regexp="yes">da|weil|ob(wohl|gleich)?|damit|sodass|dass|indem|wenn|falls|sofern|während|bevor|nachdem|seitdem|so(bald|lange)|was|als|wie|bis|wer|wo|wohin|warum|womit
+                    <token skip="-1" regexp="yes">weil|ob(wohl|gleich)?|da(mit|ss)?|indem|wenn|falls|während|bevor|nachdem|seitdem|so(bald|dass|fern|lange)|was|als|wie|bis|wer|wo|wohin|warum|womit
                         <exception scope="next" regexp="yes">,|;|:|-|–|—|\)|\(|„|“|»|«|"</exception>
                     </token>
                     <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes">
@@ -35896,7 +35893,7 @@ Andere Projekte</example>
                 </antipattern>
                 <antipattern>
                     <token skip="-1" postag="SUB:.*SIN.*NEU.*|PRO:.*IND.*SIN.*(ALG|NEU).*" postag_regexp="yes">
-                        <exception scope="previous" regexp="yes">da|weil|ob(wohl|gleich)?|damit|sodass|dass|indem|wenn|falls|sofern|während|bevor|nachdem|seitdem|so(bald|lange)|was|als|wie|bis|wer|wo|wohin|warum|womit</exception>
+                        <exception scope="previous" regexp="yes">weil|ob(wohl|gleich)?|da(mit|ss)?|indem|wenn|falls|während|bevor|nachdem|seitdem|so(bald|dass|fern|lange)|was|als|wie|bis|wer|wo|wohin|warum|womit</exception>
                         <exception postag="ADV.*|KON.*|PRO:PER.*" postag_regexp="yes"/>
                         <exception scope ="next" postag="SUB:.*SIN.*NEU.*" postag_regexp="yes"/>
                         <exception scope="next" regexp="yes">,|;|:|-|–|—|\)|\(|„|“|»|«|"|und|oder</exception>
@@ -35948,7 +35945,7 @@ Andere Projekte</example>
                 </antipattern>
                 <pattern>
                     <token skip="-1" postag="SUB:.*SIN.*NEU.*|PRO:.*IND.*SIN.*(ALG|NEU).*" postag_regexp="yes">
-                        <exception scope="previous" regexp="yes">da|weil|ob(wohl|gleich)?|damit|sodass|dass|indem|wenn|falls|sofern|während|bevor|nachdem|seitdem|so(bald|lange)|was|als|wie|bis|wer|wo|wohin|womit</exception>
+                        <exception scope="previous" regexp="yes">weil|ob(wohl|gleich)?|da(mit|ss)?|indem|wenn|falls|während|bevor|nachdem|seitdem|so(bald|dass|fern|lange)|was|als|wie|bis|wer|wo(hin|mit)?</exception>
                         <exception postag="ADV.*|KON.*|PRO:PER.*|VER.*" postag_regexp="yes"/>
                         <exception scope ="next" postag="SUB:.*SIN.*NEU.*" postag_regexp="yes"/>
                         <exception scope="next" regexp="yes">,|;|:|-|–|—|\)|\(|„|“|»|«|"|und|oder</exception>
@@ -36264,7 +36261,7 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <antipattern>
-                    <token regexp="yes">.*pho[nt]ograph.*|graphe(mi(sch|k)|mati(sch|k)|ologi(sch|e)).*|Graph(en|em)?</token>
+                    <token regexp="yes">.*pho[nt]ograph.*|graphe(mi(sch|k)|mati(sch|k)|ologi(sch|e)).*|Graph(e[nm])?</token>
                 </antipattern>
                 <pattern>
                     <token regexp="yes">.*graph.*</token>
