@@ -8035,18 +8035,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example><marker>Nach dem</marker> Essen zwei Tabletten.</example>
                 <example><marker>Trotzdem</marker> danke.</example>
                 <example>Er konnte trotzdem Anwalt werden.</example>
-            </rule>
-            <rule>
-                <pattern case_sensitive="yes">
-                    <marker>
-                        <token regexp="yes" case_sensitive="no">(nach|seit|trotz|außer|in)dem</token>
-                    </marker>
-                    <token postag="SUB:DAT:SIN:(MAS|NEU)" postag_regexp="yes"/>
-                    <!-- token>Essen</token -->
-                    <token postag="(SENT_END)|VER:(AUX:)?(1|2|3):.+" postag_regexp="yes"><exception postag="(PA2|SUB|ART|ADJ):.+" postag_regexp="yes"/><exception regexp="yes">werden|sieben|äußerst|anstelle|einst|meinen?|tausenden?</exception></token>
-                </pattern>
-                <message>Möglicherweise muss <suggestion><match no="1" regexp_replace="" regexp_match="dem"/> dem</suggestion> hier getrennt geschrieben werden.</message>
-                <example correction="Seit dem"><marker>Seitdem</marker> Frühstück bin ich müde.</example>
                 <example correction="Außer dem"><marker>Außerdem</marker> Frühstück hat das Hotel noch einiges mehr zu bieten.</example>
                 <example correction="Nach dem"><marker>Nachdem</marker> Frühstück wurde ich müde.</example>
                 <example><marker>Nach dem</marker> Essen zwei Tabletten.</example>
