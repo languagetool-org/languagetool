@@ -80,8 +80,8 @@ public class CaseRule extends Rule {
     ),
     Arrays.asList(
       // see http://www.rechtschreibrat.com/DOX/rfdr_Woerterverzeichnis_2017.pdf
-      token("Guten"),
-      token("Tag")
+      csToken("Guten"),
+      csToken("Tag")
     ),
     Arrays.asList(
       // see http://www.rechtschreibrat.com/DOX/rfdr_Woerterverzeichnis_2017.pdf
@@ -101,7 +101,7 @@ public class CaseRule extends Rule {
     Arrays.asList(
       // see http://www.rechtschreibrat.com/DOX/rfdr_Woerterverzeichnis_2017.pdf
       regex("Roten?"),
-      token("Grütze")
+      csToken("Grütze")
     ),
     Arrays.asList(
       regex("Vereinigte[ns]?"),
@@ -145,7 +145,7 @@ public class CaseRule extends Rule {
         regex("[\\.?!]")
     ),
     Arrays.asList(
-        token(","),
+        csToken(","),
         regex("[md]eine?|du"),
         posRegex(".*ADJ.*|UNKNOWN"),
         regex("[\\.?!]")
@@ -169,7 +169,7 @@ public class CaseRule extends Rule {
     ),
     Arrays.asList(
         // Er fragte,ob das gelingen wird.
-        token("das"),
+        csToken("das"),
         posRegex("VER:.*"),
         posRegex("VER:AUX:.*"),
         pos("PKT")
@@ -1152,8 +1152,7 @@ private void addRuleMatch(List<RuleMatch> ruleMatches, String msg, AnalyzedToken
 
   private boolean isLanguage(int i, AnalyzedTokenReadings[] tokens, String token) {
     boolean maybeLanguage = languages.contains(token) ||
-                            languages.contains(StringUtils.removeEnd(token, "e")) ||  // z.B. "ins Japanische übersetzt"
-                            languages.contains(StringUtils.removeEnd(token, "en"));   // z.B. "im Japanischen"
+                            languages.contains(StringUtils.removeEnd(StringUtils.removeEnd(token, "n"), "e"));   // z.B. "im Japanischen" / z.B. "ins Japanische übersetzt"
     AnalyzedTokenReadings prevToken = i > 0 ? tokens[i-1] : null;
     AnalyzedTokenReadings nextReadings = i < tokens.length-1 ? tokens[i+1] : null;
     return maybeLanguage && (!hasNounReading(nextReadings) || (prevToken != null && prevToken.getToken().equals("auf")));
