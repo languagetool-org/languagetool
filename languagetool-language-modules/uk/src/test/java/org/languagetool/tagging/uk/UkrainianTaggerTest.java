@@ -51,9 +51,9 @@ public class UkrainianTaggerTest {
     TestTools.myAssert("віл", "віл/[віл]noun:anim:m:v_naz", tokenizer, tagger);
     TestTools.myAssert("Віл", "Віл/[віл]noun:anim:m:v_naz", tokenizer, tagger);
     TestTools.myAssert("ВІЛ", "ВІЛ/[ВІЛ]noun:inanim:m:v_dav:nv:np:abbr|ВІЛ/[ВІЛ]noun:inanim:m:v_kly:nv:np:abbr|ВІЛ/[ВІЛ]noun:inanim:m:v_mis:nv:np:abbr|ВІЛ/[ВІЛ]noun:inanim:m:v_naz:nv:np:abbr|ВІЛ/[ВІЛ]noun:inanim:m:v_oru:nv:np:abbr|ВІЛ/[ВІЛ]noun:inanim:m:v_rod:nv:np:abbr|ВІЛ/[ВІЛ]noun:inanim:m:v_zna:nv:np:abbr|ВІЛ/[віл]noun:anim:m:v_naz", tokenizer, tagger);
-    TestTools.myAssert("далі", "далі/[даль]noun:inanim:f:v_dav|далі/[даль]noun:inanim:f:v_mis|далі/[даль]noun:inanim:f:v_rod|далі/[даль]noun:inanim:p:v_kly|далі/[даль]noun:inanim:p:v_naz|далі/[даль]noun:inanim:p:v_zna|далі/[далі]adv", tokenizer, tagger);
+    TestTools.myAssert("далі", "далі/[даль]noun:inanim:f:v_dav|далі/[даль]noun:inanim:f:v_mis|далі/[даль]noun:inanim:f:v_rod|далі/[даль]noun:inanim:p:v_kly|далі/[даль]noun:inanim:p:v_naz|далі/[даль]noun:inanim:p:v_zna|далі/[далі]adv:compc:&predic", tokenizer, tagger);
     TestTools.myAssert("Далі", "Далі/[Даль]noun:anim:m:v_mis:prop:lname|Далі/[Далі]noun:anim:m:v_dav:nv:np:prop:lname|Далі/[Далі]noun:anim:m:v_kly:nv:np:prop:lname|Далі/[Далі]noun:anim:m:v_mis:nv:np:prop:lname|Далі/[Далі]noun:anim:m:v_naz:nv:np:prop:lname|Далі/[Далі]noun:anim:m:v_oru:nv:np:prop:lname"
-        +"|Далі/[Далі]noun:anim:m:v_rod:nv:np:prop:lname|Далі/[Далі]noun:anim:m:v_zna:nv:np:prop:lname|Далі/[даль]noun:inanim:f:v_dav|Далі/[даль]noun:inanim:f:v_mis|Далі/[даль]noun:inanim:f:v_rod|Далі/[даль]noun:inanim:p:v_kly|Далі/[даль]noun:inanim:p:v_naz|Далі/[даль]noun:inanim:p:v_zna|Далі/[далі]adv", tokenizer, tagger);
+        +"|Далі/[Далі]noun:anim:m:v_rod:nv:np:prop:lname|Далі/[Далі]noun:anim:m:v_zna:nv:np:prop:lname|Далі/[даль]noun:inanim:f:v_dav|Далі/[даль]noun:inanim:f:v_mis|Далі/[даль]noun:inanim:f:v_rod|Далі/[даль]noun:inanim:p:v_kly|Далі/[даль]noun:inanim:p:v_naz|Далі/[даль]noun:inanim:p:v_zna|Далі/[далі]adv:compc:&predic", tokenizer, tagger);
     TestTools.myAssert("Бен", "Бен/[Бен]noun:anim:m:v_naz:prop:fname|Бен/[бен]part:pers", tokenizer, tagger);
     TestTools.myAssert("бен", "бен/[бен]part:pers", tokenizer, tagger);
 

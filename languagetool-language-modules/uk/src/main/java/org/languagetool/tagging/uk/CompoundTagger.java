@@ -47,7 +47,7 @@ class CompoundTagger {
   private static final String TAG_INANIM = ":inanim";
   private static final String NV_TAG = ":nv";
   private static final Pattern EXTRA_TAGS = Pattern.compile(":bad");
-  private static final Pattern EXTRA_TAGS_DROP = Pattern.compile(":(compb|np|ns|slang|rare|xp[1-9]|&predic|&insert)");
+  private static final Pattern EXTRA_TAGS_DROP = Pattern.compile(":(comp.|np|ns|slang|rare|xp[1-9]|&predic|&insert)");
   private static final Pattern NOUN_SING_V_ROD_REGEX = Pattern.compile("noun.*?:[mfn]:v_rod.*");
   private static final Pattern NOUN_V_NAZ_REGEX = Pattern.compile("noun.*?:.:v_naz.*");
   private static final Pattern SING_REGEX_F = Pattern.compile(":[mfn]:");
@@ -89,12 +89,12 @@ class CompoundTagger {
   private static final List<String> NUMBERED_ENTITIES = Arrays.asList("Ан", "Боїнг", "ВАЗ", "ГАЗ", "Мі", "Міг", "ЗІЛ", "ЗАЗ", "Т", "Ту", "УТ", "Як");
 
   static {
-    rightPartsWithLeftTagMap.put("бо", Pattern.compile("(verb.*:impr|.*pron|noun|adv|intj|part|predic).*"));
+    rightPartsWithLeftTagMap.put("бо", Pattern.compile("(verb.*:impr|.*pron|noun|adv|intj|part).*"));
     rightPartsWithLeftTagMap.put("но", Pattern.compile("(verb.*:(impr|futr)|intj).*")); 
     rightPartsWithLeftTagMap.put("от", Pattern.compile("(.*pron|adv|part).*"));
     rightPartsWithLeftTagMap.put("то", Pattern.compile("(adv.*pron|adj.*pron|conj).*")); // adv|part|conj
     // noun gives false on зразу-таки
-    rightPartsWithLeftTagMap.put("таки", Pattern.compile("(verb.*:(futr|past|pres)|adv|.*pron|part|predic|insert).*")); 
+    rightPartsWithLeftTagMap.put("таки", Pattern.compile("(verb.*:(futr|past|pres)|adv|.*pron|part).*")); 
     
     dashPrefixes = ExtraDictionaryLoader.loadSet("/uk/dash_prefixes.txt");
     leftMasterSet = ExtraDictionaryLoader.loadSet("/uk/dash_left_master.txt");
