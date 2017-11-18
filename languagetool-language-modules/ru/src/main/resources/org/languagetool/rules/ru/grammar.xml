@@ -2292,14 +2292,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <unify negate="no">
                         <feature id="person"/>
                         <feature id="number"/>       
-                        <token postag="VB:Real:.*:.*" postag_regexp="yes"  skip="2" >
-                            <exception negate_pos="yes" postag="VB:Real:.*:.*" postag_regexp="yes" />
+                        <token postag="VB:(Real|IMP|Fut):.*:.*" postag_regexp="yes"  skip="2" >
+                            <exception negate_pos="yes" postag="VB:(Real|IMP|Fut):.*:.*" postag_regexp="yes" />
                             <exception regexp="yes">Бил|МОК</exception>
                             <exception scope="next" regexp="yes">;|:|[\p{Punct}]|-|[,]|–|—|не|и|или|--|чего</exception>
                             <exception scope="next" postag_regexp="yes" postag="PREP|INTERJECTION|VB:INF:"></exception>
                         </token>
-                        <token postag="VB:Real:.*:.*" postag_regexp="yes">
-                            <exception negate_pos="yes" postag="VB:Real:.*:.*" postag_regexp="yes" />
+                        <token postag="VB:(Real|IMP|Fut):.*:.*" postag_regexp="yes">
+                            <exception negate_pos="yes" postag="VB:(Real|IMP|Fut):.*:.*" postag_regexp="yes" />
                             <exception regexp="yes">Бил|МОК</exception>
                             <exception scope="previous" regexp="yes">;|:|[\p{Punct}]|-|[,]|–|—|не|и|или</exception>
                             <exception scope="previous" postag_regexp="yes" postag="PREP|INTERJECTION|VB:INF:"></exception>
@@ -2312,6 +2312,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Ты можешь выбрать чего хочешь.</example>
                 <example>Пока живу — надеюсь.</example>
                 <example>Ты можешь сожалеть сколько хочешь.</example>
+                <example>Покрась и побели забор.</example>
                 <example correction="смеётся, радуется|смеётся и радуется">Он <marker>смеётся радуется</marker> жизни.</example>
             </rule>
                                                                                                          
