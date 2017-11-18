@@ -743,7 +743,7 @@ final class TokenAgreementAdjNounExceptionHelper {
     // adjp:pasv + adj:v_oru + noun (case governed by adjp)
     // підсвічений синім діамант
     if( i > 1
-        && PosTagHelper.hasPosTagPart(tokens[i-2], "adjp:pasv") // could be :&adjp or :&_adjp
+        && PosTagHelper.hasPosTagPart(tokens[i-2], "adjp:pasv") // could be :&adjp or :&&adjp
         && PosTagHelper.hasPosTag(tokens[i-1], "adj.*v_oru.*")
         && ! Collections.disjoint(InflectionHelper.getAdjInflections(tokens[i-2].getReadings()), slaveInflections) ) {
       logException();
@@ -756,7 +756,7 @@ final class TokenAgreementAdjNounExceptionHelper {
     // оприлюднений депутатом Юрієм
     // вкриті плющем будинки
     // всі вкриті плющем
-    if( PosTagHelper.hasPosTagPart(adjAnalyzedTokenReadings, "adjp:pasv") // could be :&adjp or :&_adjp
+    if( PosTagHelper.hasPosTagPart(adjAnalyzedTokenReadings, "adjp:pasv") // could be :&adjp or :&&adjp
         && PosTagHelper.hasPosTagPart(tokens[i], "v_oru") ) {
       logException();
       return true;
