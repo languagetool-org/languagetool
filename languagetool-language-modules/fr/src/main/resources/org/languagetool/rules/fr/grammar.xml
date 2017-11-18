@@ -8812,7 +8812,7 @@ though, and has since been slightly modified)-->
           <token min="0" max="1" regexp="yes">pas|plus|guère</token>
           <token regexp="yes">les?|la|en|y|lui|[vn]ous|[mts]e</token>
           <marker>
-            <token postag="V.*" postag_regexp="yes" regexp="yes">.*ée?s?</token>
+            <token postag="V.*" postag_regexp="yes" regexp="yes">.*ée?s?<exception postag="N.*" postag_regexp="yes"/></token>
           </marker>
         </pattern>
         <message>Le verbe « \4 » devrait être à l’infinitif après le verbe modal « \1 ».</message>
@@ -8821,6 +8821,7 @@ though, and has since been slightly modified)-->
         <example correction="manger">Je ne veux pas les <marker>mangé</marker>.</example>
         <example correction="manger">Je ne veux pas les <marker>mangés</marker>.</example>
         <example>Je regarde la <marker>télé</marker>.</example>
+        <example>Je compte les <marker>invités</marker>.</example>
       </rule>
     </rulegroup>
     <rulegroup id="ACCEPTER_DE_VPPA" name="accepter de + verbe ppa">
