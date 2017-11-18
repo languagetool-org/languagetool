@@ -8758,7 +8758,7 @@ though, and has since been slightly modified)-->
           <token postag="V ppa .*" postag_regexp="yes"/>
         </antipattern>
         <pattern>
-          <token inflected="yes" regexp="yes" postag="V.*" postag_regexp="yes">adorer|aimer|aller|(re)?compter|(re)?descendre|(re)?détester|(re)?désirer|(re)?devoir|entendre|(ré)?espérer|(re)?faillir|(re)?faire|(re)?falloir|penser|pouvoir|(re)?préférer|regarder|savoir|(re)?souhaiter|retourner|venir|(re)?vouloir
+          <token inflected="yes" regexp="yes" postag="V.*" postag_regexp="yes">adorer|aimer|aller|(re)?compter|(re)?descendre|(re)?détester|(re)?désirer|(re)?devoir|entendre|(ré)?espérer|(re)?faillir|(re)?faire|(re)?falloir|(re)?penser|pouvoir|(re)?préférer|regarder|savoir|(re)?souhaiter|retourner|venir|(re)?vouloir
             <exception postag="V ind pres 1 s">puis</exception>
           </token>
           <marker>
@@ -8780,7 +8780,7 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <token>ne</token>
-          <token inflected="yes" regexp="yes" postag="V.*" postag_regexp="yes">aller|(re)?compter|(re)?descendre|(re)?détester|(re)?désirer|(re)?devoir|réespérer|(re)?faillir|(re)?faire|(re)?falloir|penser|pouvoir|(re)?préférer|regarder|savoir|(re)?souhaiter|retourner|venir|(re)?vouloir</token>
+          <token inflected="yes" regexp="yes" postag="V.*" postag_regexp="yes">aller|(re)?compter|(re)?descendre|(re)?détester|(re)?désirer|(re)?devoir|réespérer|(re)?faillir|(re)?faire|(re)?falloir|(re)?penser|pouvoir|(re)?préférer|regarder|savoir|(re)?souhaiter|retourner|venir|(re)?vouloir</token>
           <token regexp="yes">pas|plus|point|guère|jamais|rien</token>
           <marker>
             <token postag="V.*" postag_regexp="yes" regexp="yes">.*ée?s?</token>
@@ -8803,6 +8803,22 @@ though, and has since been slightly modified)-->
         <message>Le verbe « \5 » devrait être à l’infinitif après le verbe modal « \3 ».</message>
         <suggestion><match no="5" postag="V.* inf" postag_regexp="yes"/></suggestion>
         <example correction="changer">Je n’aime pas <marker>changé</marker> d’école.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes" regexp="yes" postag="V.*" postag_regexp="yes">adorer|aimer|aller|(re)?compter|(re)?descendre|(re)?détester|(re)?désirer|(re)?devoir|entendre|(ré)?espérer|(re)?faillir|(re)?faire|(re)?falloir|(re)?penser|pouvoir|(re)?préférer|regarder|savoir|(re)?souhaiter|retourner|venir|(re)?vouloir
+            <exception postag="V ind pres 1 s">puis</exception>
+          </token>
+          <token min="0" max="1" regexp="yes">pas|plus|guère</token>
+          <token regexp="yes">les?|la|en|y|lui|[vn]ous|[mts]e</token>
+          <marker>
+            <token postag="V.*" postag_regexp="yes" regexp="yes">.*ée?s?</token>
+          </marker>
+        </pattern>
+        <message>Le verbe « \4 » devrait être à l’infinitif après le verbe modal « \1 ».</message>
+        <suggestion><match no="4" postag="V.* inf" postag_regexp="yes"/></suggestion>
+        <example correction="téléphoner">Je veux lui <marker>téléphoné</marker>.</example>
+        <example correction="manger">Je ne veux pas les <marker>mangé</marker>.</example>
       </rule>
     </rulegroup>
     <rulegroup id="ACCEPTER_DE_VPPA" name="accepter de + verbe ppa">
