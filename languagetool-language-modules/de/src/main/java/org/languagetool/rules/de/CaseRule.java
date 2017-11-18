@@ -263,6 +263,11 @@ public class CaseRule extends Rule {
        csToken("90"),
        csToken("/"),
        csToken("Die")
+     ),
+     Arrays.asList(
+       // "Öffentlicher Dienst"
+       new PatternTokenBuilder().token("öffentlich").matchInflectedForms().build(),
+       new PatternTokenBuilder().csToken("Dienst").matchInflectedForms().build()
      )
   );
 
