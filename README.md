@@ -39,7 +39,7 @@ Commands:
    commandline                 Runs command line version of LanguageTool
    server                      Runs server version of LanguageTool
 
-Packages:
+Packages (only if -b is specified):
    standalone                  Installs standalone package
    wikipedia                   Installs Wikipedia package
    office-extension            Installs the LibreOffice/OpenOffice extension package

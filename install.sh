@@ -73,7 +73,7 @@ display_help() {
     echo '   commandline                   Runs command line version of LanguageTool'
     echo '   server                        Runs server version of LanguageTool'
     echo
-    echo 'Packages:'
+    echo 'Packages(only if -b is specified):'
     echo '   standalone                  Installs standalone package'
     echo '   wikipedia                   Installs Wikipedia package'
     echo '   office-extension            Installs the LibreOffice/OpenOffice extension package'
