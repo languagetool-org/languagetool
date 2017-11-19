@@ -141,7 +141,7 @@ class LanguageToolHttpHandler implements HttpHandler {
         response = e.getMessage();
       } else if (e.getCause() != null && e.getCause() instanceof TimeoutException) {
         errorCode = HttpURLConnection.HTTP_UNAVAILABLE;
-        response = "Checking took longer than " + config.getMaxCheckTimeMillis()/1000 + " seconds, which is this server's limit. " +
+        response = "Checking took longer than " + config.getMaxCheckTimeMillis()/1000.0f + " seconds, which is this server's limit. " +
                    "Please make sure you have selected the proper language or consider submitting a shorter text.";
       } else {
         response = "Internal Error: " + e.getMessage();

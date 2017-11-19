@@ -56,6 +56,13 @@
     could have a URL. A `RuleMatch` URL will overwrite the `Rule` URL in the
     JSON output.
 
+#### LT server
+  * change in configuration: `requestLimit` and `requestLimitPeriodInSeconds` now both
+    need to be set for the limit to work
+  * new property key `timeoutRequestLimit`: similar to `requestLimit`, but this one limits 
+    not all requests but blocks once this many timeout have been caused by the IP in the
+    time span set by `requestLimitPeriodInSeconds`
+
 
 ## 3.9 (2017-09-26)
 
