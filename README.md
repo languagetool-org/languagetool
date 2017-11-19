@@ -21,7 +21,7 @@ For more technical details, see [our wiki](http://wiki.languagetool.org).
 #### Installation
 To install, simply type:
 ```
-curl -l https://git.io/vFHpu -o install.sh
+curl -L https://git.io/vFHpu -o install.sh
 bash install.sh <options>
 ```
 
