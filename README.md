@@ -25,6 +25,7 @@ curl -l https://git.io/vFHpu -o install.sh
 sh install.sh <options>
 ```
 
+```
 Usage: install.sh <option> <package>
 Options:
    -h --help                   Show help
@@ -42,6 +43,7 @@ Packages:
    standalone                  Installs standalone package
    wikipedia                   Installs Wikipedia package
    office-extension            Installs the LibreOffice/OpenOffice extension package
+```
 
 #### How to build from source
 
