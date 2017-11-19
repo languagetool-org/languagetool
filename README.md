@@ -35,9 +35,9 @@ Options:
    -c --command <command>      Specifies post-installation command to run (default gui)
 
 Commands:
-   GUI                           Runs GUI version of LanguageTool
-   commandline                   Runs command line version of LanguageTool
-   server                        Runs server version of LanguageTool
+   GUI                         Runs GUI version of LanguageTool
+   commandline                 Runs command line version of LanguageTool
+   server                      Runs server version of LanguageTool
 
 Packages:
    standalone                  Installs standalone package
