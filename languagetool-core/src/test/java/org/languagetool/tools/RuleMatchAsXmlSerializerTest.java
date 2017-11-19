@@ -97,7 +97,7 @@ public class RuleMatchAsXmlSerializerTest {
     assertTrue(xml.contains(">\n" +
             "<error fromy=\"44\" fromx=\"98\" toy=\"45\" tox=\"99\" ruleId=\"FAKE_ID\" msg=\"myMessage\" " +
             "replacements=\"\" context=\"...s is an test...\" contextoffset=\"8\" offset=\"8\" errorlength=\"2\" " +
-            "category=\"Misc\" categoryid=\"MISC\" locqualityissuetype=\"misspelling\"/>\n" +
+            "category=\"Miscellaneous\" categoryid=\"MISC\" locqualityissuetype=\"misspelling\"/>\n" +
             "</matches>\n"));
   }
 
@@ -157,7 +157,7 @@ public class RuleMatchAsXmlSerializerTest {
     assertTrue(xml.contains(">\n" +
             "<error fromy=\"44\" fromx=\"98\" toy=\"45\" tox=\"99\" ruleId=\"FAKE_ID\" msg=\"myMessage\" " +
             "replacements=\"\" context=\"...s is an test...\" contextoffset=\"8\" offset=\"8\" errorlength=\"2\" url=\"http://server.org?id=1&amp;foo=bar\" " +
-            "category=\"Misc\" categoryid=\"MISC\" locqualityissuetype=\"misspelling\"/>\n" +
+            "category=\"Miscellaneous\" categoryid=\"MISC\" locqualityissuetype=\"misspelling\"/>\n" +
             "</matches>\n"));
   }
 
@@ -175,7 +175,7 @@ public class RuleMatchAsXmlSerializerTest {
     assertTrue(xml.contains(">\n" +
             "<error fromy=\"44\" fromx=\"98\" toy=\"45\" tox=\"99\" ruleId=\"FAKE_ID\" msg=\"myMessage\" " +
             "replacements=\"\" context=\"... is &quot;an test...\" contextoffset=\"8\" offset=\"9\" errorlength=\"2\" " +
-            "category=\"Misc\" categoryid=\"MISC\" locqualityissuetype=\"misspelling\"/>\n" +
+            "category=\"Miscellaneous\" categoryid=\"MISC\" locqualityissuetype=\"misspelling\"/>\n" +
             "</matches>\n"));
   }
 

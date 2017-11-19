@@ -70,7 +70,7 @@ public abstract class Rule {
     if (messages != null) {
       setCategory(Categories.MISC.getCategory(messages));  // the default, sub classes may overwrite this
     } else {
-      setCategory(new Category(CategoryIds.MISC, "Misc"));
+      setCategory(new Category(CategoryIds.MISC, "Miscellaneous"));
     }
   }
 
