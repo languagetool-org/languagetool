@@ -2265,7 +2265,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                             <exception negate_pos="yes" postag="VB:Past:.*" postag_regexp="yes" />
                             <exception regexp="yes">Бил|МОК</exception>
                             <exception scope="next" regexp="yes">;|:|[\p{Punct}]|-|[,]|–|—|не|и|или|--|чего</exception>
-                            <exception scope="next" postag_regexp="yes" postag="PREP|INTERJECTION"></exception>
+                            <exception scope="next"  postag="INTERJECTION"></exception>
                         </token>
                         <token postag="VB:Past:.*" postag_regexp="yes">
                             <exception negate_pos="yes" postag="VB:Past:.*" postag_regexp="yes" />
@@ -2285,6 +2285,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="смеялась, радовалась|смеялась и радовалась">Она <marker>смеялась радовалась</marker> жизни.</example>
                 <example correction="смеялись, радовались|смеялись и радовались">Они <marker>смеялись радовались</marker> жизни.</example>
                 <example correction="взошло, освещало|взошло и освещало">Солнце <marker>взошло освещало</marker> местность.</example>
+                <example correction="шёл по улице, говорил|шёл по улице и говорил">Он <marker>шёл по улице говорил</marker> по телефону.</example>
             </rule>
             <rule>
             <!-- TODO: add exception with extended postag (пойти|давать|идти|брать|воровать|быть|делать|сделать)  -->       
@@ -2297,7 +2298,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                             <exception regexp="yes">Бил|МОК</exception>
                             <exception regexp="yes" inflected="yes">пойти|давать|идти|брать|воровать|быть|делать|сделать</exception>
                             <exception scope="next" regexp="yes">;|:|[\p{Punct}]|-|[,]|–|—|не|и|или|--|чего</exception>
-                            <exception scope="next" postag_regexp="yes" postag="PREP|INTERJECTION|VB:INF:"></exception>
+                            <exception scope="next" postag_regexp="yes" postag="INTERJECTION|VB:INF:"></exception>
                         </token>
                         <token postag="VB:(Real|IMP|Fut):.*:.*" postag_regexp="yes">
                             <exception negate_pos="yes" postag="VB:(Real|IMP|Fut):.*:.*" postag_regexp="yes" />
@@ -2318,8 +2319,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Я сделаю всё что могу.</example>
                 <example>Иди помоги мыть посуду.</example>
                 <example correction="смеётся, радуется|смеётся и радуется">Он <marker>смеётся радуется</marker> жизни.</example>
-            </rule>
-                                                                                                         
+            </rule>                                                                                                      
         </rulegroup>                 
     	<rule default="on" id="takim_obrazom_chto" name="Запятая после «таким образом»">
     	    <pattern case_sensitive="no">
