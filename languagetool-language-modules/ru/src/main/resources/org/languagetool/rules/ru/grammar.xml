@@ -2256,7 +2256,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     
     <category id="PUNCTUATION" name="Пунктуация">
         <rulegroup default="on" id="Verb_comma_Verb" name="Глаголы как однородные члены предложения">
-            <!-- TODO: This rules can unify -->
             <!-- TODO Another example: "Он шёл по улице говорил по телефону" Correction: "Он шёл по улице и говорил по телефону" or "Он шёл по улице, говорил по телефону".  -->
             <rule>    
                 <pattern case_sensitive="yes">
@@ -2287,7 +2286,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="смеялись, радовались|смеялись и радовались">Они <marker>смеялись радовались</marker> жизни.</example>
                 <example correction="взошло, освещало|взошло и освещало">Солнце <marker>взошло освещало</marker> местность.</example>
             </rule>
-             <rule>    
+            <rule>
+            <!-- TODO: add exception with extended postag (пойти|давать|идти|брать|воровать|быть|делать|сделать)  -->       
                 <pattern case_sensitive="yes">
                     <unify negate="no">
                         <feature id="person"/>
@@ -2295,6 +2295,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token postag="VB:(Real|IMP|Fut):.*:.*" postag_regexp="yes"  skip="2" >
                             <exception negate_pos="yes" postag="VB:(Real|IMP|Fut):.*:.*" postag_regexp="yes" />
                             <exception regexp="yes">Бил|МОК</exception>
+                            <exception regexp="yes" inflected="yes">пойти|давать|идти|брать|воровать|быть|делать|сделать</exception>
                             <exception scope="next" regexp="yes">;|:|[\p{Punct}]|-|[,]|–|—|не|и|или|--|чего</exception>
                             <exception scope="next" postag_regexp="yes" postag="PREP|INTERJECTION|VB:INF:"></exception>
                         </token>
@@ -2313,6 +2314,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Пока живу — надеюсь.</example>
                 <example>Ты можешь сожалеть сколько хочешь.</example>
                 <example>Покрась и побели забор.</example>
+                <example>Я, может, скоро сдамся и вместо этого пойду вздремну.</example>
+                <example>Я сделаю всё что могу.</example>
+                <example>Иди помоги мыть посуду.</example>
                 <example correction="смеётся, радуется|смеётся и радуется">Он <marker>смеётся радуется</marker> жизни.</example>
             </rule>
                                                                                                          
