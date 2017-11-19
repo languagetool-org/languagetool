@@ -22,7 +22,7 @@ For more technical details, see [our wiki](http://wiki.languagetool.org).
 To install, simply type:
 ```
 curl -l https://git.io/vFHpu -o install.sh
-sh install.sh <options>
+bash install.sh <options>
 ```
 
 ```
