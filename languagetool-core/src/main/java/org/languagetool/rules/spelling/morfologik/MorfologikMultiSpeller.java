@@ -123,8 +123,9 @@ public class MorfologikMultiSpeller {
       // Creating the dictionary at runtime can easily take 50ms for spelling.txt files
       // that are ~50KB. We don't want that overhead for every check of a short sentence,
       // so we cache the result:
-      Collections.sort(lines, FSABuilder.LEXICAL_ORDERING);
-      FSA fsa = FSABuilder.build(lines);
+      List<byte[]> linesCopy = new ArrayList<>(lines);
+      Collections.sort(linesCopy, FSABuilder.LEXICAL_ORDERING);
+      FSA fsa = FSABuilder.build(linesCopy);
       ByteArrayOutputStream fsaOutStream = new CFSA2Serializer().serialize(fsa, new ByteArrayOutputStream());
       ByteArrayInputStream fsaInStream = new ByteArrayInputStream(fsaOutStream.toByteArray());
       String infoFile = dictPath.replace(".dict", ".info");
