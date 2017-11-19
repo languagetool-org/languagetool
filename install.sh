@@ -85,7 +85,7 @@ display_help() {
 
 install() {
     echo "Removing any old copy of LanguageTools Stable in this directory"
-    rm LanguageTool-stable.zip
+    rm LanguageTool-stable.zip &>/dev/null
 
     echo "Installing LanguageTools Stable"
     version=stable
@@ -170,6 +170,6 @@ if [ "$build" == YES ]; then
 else
     install
     postinstall_command
-    echo "Running $command"
-    "$RELEASE-$version"/$cmd.jar
+    echo "Running $cmd, press CTRL-C to cancel"
+    sudo "$RELEASE-$version"/$cmd.jar
 fi
