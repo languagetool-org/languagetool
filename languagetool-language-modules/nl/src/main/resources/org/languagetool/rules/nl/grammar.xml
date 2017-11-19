@@ -214,6 +214,15 @@ Ad random -> at random, willekeurig
 		<rulegroup id="ALLEEN_BE" name="Alleen gebruikelijk in België">
 			<rule>
 				<pattern>
+					<token regexp='yes'>.{5,}kost</token> 
+				</pattern>
+				<message>Standaardtaal is <suggestion>\1en</suggestion>.</message>
+				<url>http://taaladvies.net/taal/advies/vraag/474/</url>
+				<example correction='verbouwingskosten'>Ik maalde niet om de <marker>verbouwingskost</marker>.</example>
+				<example>IK maal niet om de verbouwingskosten.</example>
+			</rule>
+			<rule>
+				<pattern>
 					<token regexp='yes'>droogkuis|nieuwkuis</token> 
 				</pattern>
 				<message>Standaardtaal voor dit woord is <suggestion>stomerij</suggestion>.</message>

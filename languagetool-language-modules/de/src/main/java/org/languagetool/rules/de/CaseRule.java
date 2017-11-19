@@ -263,6 +263,16 @@ public class CaseRule extends Rule {
        csToken("90"),
        csToken("/"),
        csToken("Die")
+     ),
+     Arrays.asList(
+       // "Öffentlicher Dienst"
+       regex("Öffentlich(e[nmr]?)?"),
+       new PatternTokenBuilder().csToken("Dienst").matchInflectedForms().build()
+     ),
+     Arrays.asList(
+       // https://de.wikipedia.org/wiki/Neue_Mittelschule
+       regex("Neue[nr]?"),
+       new PatternTokenBuilder().csToken("Mittelschule").matchInflectedForms().build()
      )
   );
 

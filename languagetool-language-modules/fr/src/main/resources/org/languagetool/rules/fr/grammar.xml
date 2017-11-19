@@ -1838,7 +1838,7 @@ though, and has since been slightly modified)-->
       <pattern>
         <marker><token>ce</token></marker>
         <token postag="V.*" postag_regexp="yes">
-          <exception postag="[NJ] [me] s" postag_regexp="yes"/>
+          <exception postag="[NJ] [me] sp?" postag_regexp="yes"/>
           <exception inflected="yes" regexp="yes">être|devoir|pouvoir</exception>
           <exception regexp="yes">faisant|faire</exception>
         </token>
@@ -1851,6 +1851,7 @@ though, and has since been slightly modified)-->
       <example>Ce peuple</example>
       <example>Ce faisant, il se rapprochait.</example>
       <example>Pour ce faire, vous disposez d’un délai d’une semaine.</example>
+      <example>Ce tapis est beau.</example>
     </rule>
     <rule id="MA" name="MA au lieu de M’A">
       <pattern>
@@ -8166,6 +8167,14 @@ though, and has since been slightly modified)-->
           <token regexp="yes">ondes|signaux|échos|émetteurs|interféromètres|récepteurs|réflecteurs|brouilleurs|stations</token>
           <token regexp="yes">radio|radar|météo</token>
         </antipattern>
+        <antipattern>
+          <token>tortues</token>
+          <token>luth</token>
+        </antipattern>
+        <antipattern>
+          <token>imprimantes</token>
+          <token>laser</token>
+        </antipattern>
         <pattern>
           <token negate="yes" regexp="yes">des?</token>
           <marker>
@@ -8223,6 +8232,8 @@ though, and has since been slightly modified)-->
         <example>Les véhicules.</example>
         <example>Les ondes radio.</example>
         <example>Des événements différents ayant lieu en même temps.</example>
+        <example>Les tortues luth.</example>
+        <example>Les imprimantes laser.</example>
       </rule>
     </rulegroup>
     <rulegroup id="ACCORD_GENRE" name="Accord en genre">
@@ -8341,6 +8352,14 @@ though, and has since been slightly modified)-->
           <token>empreinte</token>
           <token>carbone</token>
         </antipattern>
+        <antipattern>
+          <token inflected="yes">tortue</token>
+          <token>luth</token>
+        </antipattern>
+        <antipattern>
+          <token inflected="yes">imprimante</token>
+          <token>laser</token>
+        </antipattern>
         <pattern>
           <token postag="[DJ] f .*" postag_regexp="yes" skip="1">
             <exception postag="[NJ] [me] .*|V .*" postag_regexp="yes"/>
@@ -8393,6 +8412,8 @@ though, and has since been slightly modified)-->
         <example>Les bonnes gens.</example>
         <example>J’habite 10 avenue Constantin Arnaud.</example>
         <example>L’une des pires.</example>
+        <example>Les tortues luth.</example>
+        <example>L’imprimante laser.</example>
       </rule>
       <rule name="nom féminin suivi du masculin">
         <antipattern>
@@ -8758,7 +8779,7 @@ though, and has since been slightly modified)-->
           <token postag="V ppa .*" postag_regexp="yes"/>
         </antipattern>
         <pattern>
-          <token inflected="yes" regexp="yes" postag="V.*" postag_regexp="yes">adorer|aimer|aller|(re)?compter|(re)?descendre|(re)?détester|(re)?désirer|(re)?devoir|entendre|(ré)?espérer|(re)?faillir|(re)?faire|(re)?falloir|penser|pouvoir|(re)?préférer|regarder|savoir|(re)?souhaiter|retourner|venir|(re)?vouloir
+          <token inflected="yes" regexp="yes" postag="V.*" postag_regexp="yes">adorer|aimer|aller|(re)?compter|(re)?descendre|(re)?détester|(re)?désirer|(re)?devoir|entendre|(ré)?espérer|(re)?faillir|(re)?faire|(re)?falloir|(re)?penser|pouvoir|(re)?préférer|regarder|savoir|(re)?souhaiter|retourner|venir|(re)?vouloir
             <exception postag="V ind pres 1 s">puis</exception>
           </token>
           <marker>
@@ -8780,7 +8801,7 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <token>ne</token>
-          <token inflected="yes" regexp="yes" postag="V.*" postag_regexp="yes">aller|(re)?compter|(re)?descendre|(re)?détester|(re)?désirer|(re)?devoir|réespérer|(re)?faillir|(re)?faire|(re)?falloir|penser|pouvoir|(re)?préférer|regarder|savoir|(re)?souhaiter|retourner|venir|(re)?vouloir</token>
+          <token inflected="yes" regexp="yes" postag="V.*" postag_regexp="yes">aller|(re)?compter|(re)?descendre|(re)?détester|(re)?désirer|(re)?devoir|réespérer|(re)?faillir|(re)?faire|(re)?falloir|(re)?penser|pouvoir|(re)?préférer|regarder|savoir|(re)?souhaiter|retourner|venir|(re)?vouloir</token>
           <token regexp="yes">pas|plus|point|guère|jamais|rien</token>
           <marker>
             <token postag="V.*" postag_regexp="yes" regexp="yes">.*ée?s?</token>
@@ -8803,6 +8824,25 @@ though, and has since been slightly modified)-->
         <message>Le verbe « \5 » devrait être à l’infinitif après le verbe modal « \3 ».</message>
         <suggestion><match no="5" postag="V.* inf" postag_regexp="yes"/></suggestion>
         <example correction="changer">Je n’aime pas <marker>changé</marker> d’école.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes" regexp="yes" postag="V.*" postag_regexp="yes">adorer|aimer|aller|(re)?compter|(re)?descendre|(re)?détester|(re)?désirer|(re)?devoir|entendre|(ré)?espérer|(re)?faillir|(re)?faire|(re)?falloir|(re)?penser|pouvoir|(re)?préférer|regarder|savoir|(re)?souhaiter|retourner|venir|(re)?vouloir
+            <exception postag="V ind pres 1 s">puis</exception>
+          </token>
+          <token min="0" max="1" regexp="yes">pas|plus|guère</token>
+          <token regexp="yes">les?|la|en|y|lui|[vn]ous|[mts]e</token>
+          <marker>
+            <token postag="V.*" postag_regexp="yes" regexp="yes">.*ée?s?<exception postag="N.*" postag_regexp="yes"/></token>
+          </marker>
+        </pattern>
+        <message>Le verbe « \4 » devrait être à l’infinitif après le verbe modal « \1 ».</message>
+        <suggestion><match no="4" postag="V.* inf" postag_regexp="yes"/></suggestion>
+        <example correction="téléphoner">Je veux lui <marker>téléphoné</marker>.</example>
+        <example correction="manger">Je ne veux pas les <marker>mangé</marker>.</example>
+        <example correction="manger">Je ne veux pas les <marker>mangés</marker>.</example>
+        <example>Je regarde la <marker>télé</marker>.</example>
+        <example>Je compte les <marker>invités</marker>.</example>
       </rule>
     </rulegroup>
     <rulegroup id="ACCEPTER_DE_VPPA" name="accepter de + verbe ppa">
@@ -21358,12 +21398,13 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="APPRECIER_QUE" name="apprécier que">
       <pattern>
-        <token inflected="yes" skip="1">apprécier</token>
+        <token inflected="yes">apprécier</token>
         <token>que</token>
       </pattern>
       <message>« Apprécier que » est un anglicisme (to appreciate that). Employez <suggestion>aimer que</suggestion>, <suggestion>désirer que</suggestion>, <suggestion>souhaiter que</suggestion>, <suggestion>savoir gré</suggestion> (à quelqu’un), <suggestion>être reconnaissant</suggestion> (envers quelqu’un).</message>
+      <url>http://www.btb.termiumplus.gc.ca/tpv2guides/guides/clefsfp/index-fra.html?lang=fra&amp;lettr=indx_catlog_a&amp;page=9kBr-9qNa6k4.html</url>
       <example correction="aimer que|désirer que|souhaiter que|savoir gré|être reconnaissant"><marker>apprécie que</marker></example>
-      <example><marker>aime que</marker></example>
+      <example>J’apprécie ce que tu dis.</example>
       <example>Ils m’apprécient en tant que collègue.</example>
     </rule>
     <rule id="ETRE_A_SON_MEILLEUR" name="être à son meilleur">
@@ -21374,6 +21415,7 @@ though, and has since been slightly modified)-->
         <token>meilleur</token>
       </pattern>
       <message>« Être à son meilleur » est un anglicisme (to be at one's best). Employez <suggestion>être au sommet de sa forme</suggestion>, <suggestion>exceller</suggestion>, <suggestion>être au mieux</suggestion>.</message>
+      <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=3572</url>
       <example correction="être au sommet de sa forme|exceller|être au mieux"><marker>être à mon meilleur</marker></example>
       <example><marker>être au sommet de ma forme</marker></example>
     </rule>
