@@ -138,6 +138,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("[oO]rganisativ(e[nmrs]?)?", "tiv", "torisch");
     putRepl("[hH]eilei[td]s?", "[hH]eilei[td]", "Highlight");
     putRepl("[mM]atschscheiben?", "[mM]atschsch", "Mattsch");
+    put("schafen?", w -> Arrays.asList(w.replaceFirst("sch", "schl"), w.replaceFirst("af", "arf"), w.replaceFirst("af", "aff")));
+    put("gans", "ganz");
+    put("[oO]r?ganisazion", "Organisation");
     put("[oO]rganisative", "Organisation");
     put("zucc?h?inis?", "Zucchini");
     put("[mM]itag", "Mittag");
