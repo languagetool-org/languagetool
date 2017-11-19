@@ -125,7 +125,7 @@ build () {
 }
 
 detect_maven() {
-    if [ -x "$(mvn -v)" ]; then
+    if ! hash "mvn -v"&>/dev/null; then
         install_maven
     else return
     fi
@@ -140,8 +140,8 @@ detect_java() {
 install_maven() {
     echo "Installing maven . . ."
     if [[ "$OSTYPE" == "linux-gnu" ]]; then
-        apt-get update
-        apt-get install maven
+        sudo apt-get update
+        sudo apt-get install maven
 
     elif [[ "$OSTYPE" == "darwin"* ]]; then
         if ! [ -x "$(brew -v)" ]; then
@@ -162,8 +162,8 @@ install_java() {
     echo "Installing java . . ."
 
     if [[ "$OSTYPE" == "linux-gnu" ]]; then
-        apt-get update
-        apt-get install java
+        sudo apt-get update
+        sudo apt-get install java
 
     elif [[ "$OSTYPE" == "darwin"* ]]; then
         if ! [ -x "$(brew -v)" ]; then
