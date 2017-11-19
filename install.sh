@@ -92,7 +92,7 @@ install() {
     RELEASE_URL="https://languagetool.org/download/LanguageTool-stable.zip"
     curl -l $RELEASE_URL -o LanguageTool-stable.zip
     DIR=$(unzip LanguageTool-stable.zip | grep -m1 'creating:' | cut -d' ' -f5- )
-    rm -r $DIR
+    rm -r $DIR &>/dev/null
     RELEASE=${DIR%/}
 
     # Getting rid of any old folders with the same name
@@ -158,6 +158,7 @@ install_maven() {
 }
 
 install_java() {
+    echo "Java is not installed"
     echo "Installing java . . ."
 
     if [[ "$OSTYPE" == "linux-gnu" ]]; then
@@ -190,10 +191,15 @@ postinstall_command () {
     fi
 }
 
+# Help option
 if [ "$help" == YES ]; then
     display_help
 fi
 
+# Detect if Java is installed
+detect_java
+
+# Build or install
 if [ "$build" == YES ]; then
     build
     echo "Your build is done."
