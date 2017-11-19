@@ -580,6 +580,12 @@ public class AgreementRule extends Rule {
       String shortMsg = "Möglicherweise keine Übereinstimmung bezüglich " + errorDetails;
       ruleMatch = new RuleMatch(this, token1.getStartPos(),
               token2.getEndPos(), msg, shortMsg);
+      /*try {
+        // this will not give a match for compounds that are not in the dictionary...
+        ruleMatch.setUrl(new URL("https://www.korrekturen.de/flexion/deklination/" + token2.getToken() + "/"));
+      } catch (MalformedURLException e) {
+        throw new RuntimeException(e);
+      }*/
       AgreementSuggestor suggestor = new AgreementSuggestor(language.getSynthesizer(), token1, token2);
       List<String> suggestions = suggestor.getSuggestions();
       ruleMatch.setSuggestedReplacements(suggestions);

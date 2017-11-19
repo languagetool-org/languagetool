@@ -679,6 +679,7 @@ public class JLanguageTool {
     RuleMatch thisMatch = new RuleMatch(match.getRule(),
         fromPos, toPos, match.getMessage(), match.getShortMessage());
     thisMatch.setSuggestedReplacements(match.getSuggestedReplacements());
+    thisMatch.setUrl(match.getUrl());
     String sentencePartToError = sentence.substring(0, match.getFromPos());
     String sentencePartToEndOfError = sentence.substring(0, match.getToPos());
     int lastLineBreakPos = sentencePartToError.lastIndexOf('\n');
@@ -1005,6 +1006,7 @@ public class JLanguageTool {
             int newFromPos = annotatedText.getOriginalTextPositionFor(match.getFromPos());
             int newToPos = annotatedText.getOriginalTextPositionFor(match.getToPos() - 1) + 1;
             RuleMatch newMatch = new RuleMatch(match.getRule(), newFromPos, newToPos, match.getMessage(), match.getShortMessage());
+            newMatch.setUrl(match.getUrl());
             newMatch.setLine(range.from.line);
             newMatch.setEndLine(range.to.line);
             if (match.getLine() == 0) {
