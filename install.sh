@@ -124,23 +124,10 @@ build () {
     fi
 }
 
-detect_maven() {
-    if ! hash "mvn -v"&>/dev/null; then
-        install_maven
-    else return
-    fi
-}
-
-detect_java() {
-    if [ -x "$(java -version)" ]; then
-        install_java
-    else return
-    fi
-}
 install_maven() {
     echo "Installing maven . . ."
     if [[ "$OSTYPE" == "linux-gnu" ]]; then
-        sudo apt-get update
+        sudo apt-get update -y
         sudo apt-get install maven
 
     elif [[ "$OSTYPE" == "darwin"* ]]; then
@@ -163,7 +150,7 @@ install_java() {
 
     if [[ "$OSTYPE" == "linux-gnu" ]]; then
         sudo apt-get update
-        sudo apt-get install java
+        sudo apt-get install java -y
 
     elif [[ "$OSTYPE" == "darwin"* ]]; then
         if ! [ -x "$(brew -v)" ]; then
@@ -179,6 +166,18 @@ install_java() {
     fi
 }
 
+detect_maven() {
+    if ! [ -x "$(mvn -v)" ]; then
+        install_maven
+    fi
+}
+
+detect_java() {
+    if ! [ -x "$(java -version)" ]; then
+        install_maven
+    fi
+}
+
 postinstall_command () {
     if [ "$command" = GUI ] || [ "$command" = GUI ]; then
         cmd="languagetool-standalone/"
@@ -191,13 +190,14 @@ postinstall_command () {
     fi
 }
 
+
+# Detect if Java is installed
+detect_java
+
 # Help option
 if [ "$help" == YES ]; then
     display_help
 fi
-
-# Detect if Java is installed
-detect_java
 
 # Build or install
 if [ "$build" == YES ]; then
