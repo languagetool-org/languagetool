@@ -131,17 +131,48 @@ detect_maven() {
     fi
 }
 
+detect_java() {
+    if [ -x "$(java -version)" ]; then
+        install_java
+    else return
+    fi
+}
 install_maven() {
     echo "Installing maven . . ."
     if [[ "$OSTYPE" == "linux-gnu" ]]; then
+        apt-get update
         apt-get install maven
+
     elif [[ "$OSTYPE" == "darwin"* ]]; then
         if ! [ -x "$(brew -v)" ]; then
                /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
         fi
+        brew update
         brew install maven
+
     else
-            echo "Error: Maven is not installed"
+            echo "Error: java is not installed and operating system detection error"
+            echo "   OS type not supported!"
+            echo "   Please install maven yourself or override automatic OS detection with -o <OS> See help for more details."
+    fi
+}
+
+install_java() {
+    echo "Installing java . . ."
+
+    if [[ "$OSTYPE" == "linux-gnu" ]]; then
+        apt-get update
+        apt-get install java
+
+    elif [[ "$OSTYPE" == "darwin"* ]]; then
+        if ! [ -x "$(brew -v)" ]; then
+               /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+        fi
+        brew update
+        brew cask install java
+
+    else
+            echo "Error: java is not installed and operating system detection error"
             echo "   OS type not supported!"
             echo "   Please install maven yourself or override automatic OS detection with -o <OS> See help for more details."
     fi
@@ -171,5 +202,5 @@ else
     install
     postinstall_command
     echo "Running $cmd, press CTRL-C to cancel"
-    sudo "$RELEASE-$version"/$cmd.jar
+    java -jar "$RELEASE-$version"/$cmd.jar
 fi
