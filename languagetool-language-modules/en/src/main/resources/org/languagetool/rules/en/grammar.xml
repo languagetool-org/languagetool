@@ -10892,7 +10892,7 @@ USA
                 <pattern>
                     <token inflected="yes">be</token>
                     <token min="0" max="1" postag="RB"/>
-                    <token inflected="yes" postag="VBG" regexp="yes">doubt|believe|imagine|know|(dis)?like|love|hate|prefer|reali[zs]e|recogni[sz]e|remember|suppose|understand|want|wish|appear|hear|seem|smell|sound|taste|agree|deny|disagree|impress|mean|please|promise|satisfy|belong|concern|consist|contain|depend|deserve|involve|matter|need|own|possess</token>
+                    <token inflected="yes" postag="VBG" regexp="yes">doubt|believe|imagine|know|(dis)?like|love|hate|prefer|reali[zs]e|recogni[sz]e|remember|suppose|understand|w(ant|ish)|appear|hear|s(eem|mell|ound)|taste|agree|d(eny|isagree)|impress|mean|p(lease|romise)|satisfy|belong|con(cern|sist|tain)|de(pend|serve)|involve|matter|need|own|possess</token>
                 </pattern>
                 <message>The verb '\3' is normally not used in the progressive form. Try a simple form instead.</message>
                 <short>Grammatical problem: do not use the progressive</short>
@@ -12047,7 +12047,7 @@ USA
                     <token>afraid</token>
                     <token>of</token>
                     <marker>
-                        <token postag="NN"><exception postag="NNS|NNPS|NN:U.*" postag_regexp="yes"/><exception regexp="yes">dark|wind|rain</exception></token>
+                        <token postag="NN"><exception postag="NNP?S|NN:U.*" postag_regexp="yes"/><exception regexp="yes">dark|wind|rain</exception></token>
                     </marker>
                     <token><exception postag="JJ.*|NN.*" postag_regexp="yes"/></token>
                 </pattern>
@@ -12364,7 +12364,7 @@ USA
                     <token>of</token>
                     <token postag="NNP?" postag_regexp="yes"><exception postag="NN:.*|NNP?S|JJ.*" postag_regexp="yes"/></token>
                 </marker>
-                <token><exception postag="NNS|NNPS|NN:U.*" postag_regexp="yes"/><exception regexp="yes">['’]</exception></token>
+                <token><exception postag="NNP?S|NN:U.*" postag_regexp="yes"/><exception regexp="yes">['’]</exception></token>
             </pattern>
             <message>Possible agreement error. The noun <match no="3"/> seems to be countable; consider using: <suggestion><match no="1"/> of <match no="3" postag="NNP?S" postag_regexp="yes"/></suggestion>.</message>
             <short>Grammatical problem</short>
@@ -12684,7 +12684,7 @@ USA
                         <token>many</token>
                         <token postag="NN:U"><exception postag="NN:UN|NN[PS]?|NNPS|JJ.*|VBG" postag_regexp="yes"/></token>
                     </marker>
-                    <token><exception postag="NNS|NNPS|CC" postag_regexp="yes"/><exception regexp="yes">['’]</exception></token>
+                    <token><exception postag="NNP?S|CC" postag_regexp="yes"/><exception regexp="yes">['’]</exception></token>
                 </pattern>
                 <message>Possible agreement error. The noun <match no="2"/> seems to be uncountable; consider using: <suggestion>much <match no="2"/></suggestion>, <suggestion>a good deal of <match no="2"/></suggestion>.</message>
                 <short>Grammatical problem</short>
@@ -12714,7 +12714,7 @@ USA
                         <token postag="JJ"><exception postag="NN:UN|NNP?|NNS|NNPS" postag_regexp="yes"/></token>
                         <token postag="NN:U"><exception postag="NN:UN|NNP?|NNP?S|JJ.*" postag_regexp="yes"/></token>
                     </marker>
-                    <token><exception postag="NNS|NNPS|CC" postag_regexp="yes"/><exception regexp="yes">['’]</exception></token>
+                    <token><exception postag="NNP?S|CC" postag_regexp="yes"/><exception regexp="yes">['’]</exception></token>
                 </pattern>
                 <message>Possible agreement error. The noun <match no="3"/> seems to be uncountable; consider using: <suggestion>much <match no="2"/> <match no="3"/></suggestion>, <suggestion>a good deal of <match no="2"/> <match no="3"/></suggestion>.</message>
                 <short>Grammatical problem</short>
@@ -12746,7 +12746,7 @@ USA
                         <token>of</token>
                         <token postag="NN:U"><exception postag="NN:UN|NNP?|NNP?S|JJ.*" postag_regexp="yes"/></token>
                     </marker>
-                    <token><exception postag="NNS|NNPS|CC" postag_regexp="yes"/><exception regexp="yes">['’]</exception></token>
+                    <token><exception postag="NNP?S|CC" postag_regexp="yes"/><exception regexp="yes">['’]</exception></token>
                 </pattern>
                 <message>Possible agreement error. The noun <match no="4"/> seems to be uncountable; consider using: <suggestion>much <match no="4"/></suggestion>, <suggestion>a good deal of <match no="4"/></suggestion>.</message>
                 <short>Grammatical problem</short>
@@ -12964,7 +12964,7 @@ USA
                 <!-- Does it have a comma or semicolon or end with an exclamation or question mark?-->
                 <antipattern>
                     <token postag='SENT_START'/>
-                    <token regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
+                    <token regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|wh(?:e(?:n(?:ever)?|re(?:ever|as)?|ther)|ich(?:ever)?|ile|o(?:m?(?:ever)?|se))
                     </token>
                     <token skip='-1'/>
                     <!-- start search after 2nd token in case it is a comma -->
@@ -12973,7 +12973,7 @@ USA
                 <!-- Does it have an unpunctuated CC/SC?-->
                 <antipattern>
                     <token postag='SENT_START'/>
-                    <token regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
+                    <token regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|wh(?:e(?:n(?:ever)?|re(?:ever|as)?|ther)|ich(?:ever)?|ile|o(?:m?(?:ever)?|se))
                     </token>
                     <token skip='-1'/>
                     <!-- start search after 2nd token in case it is a comma -->
@@ -13001,7 +13001,7 @@ USA
                 <pattern>
                     <marker>
                         <token postag='SENT_START'/>
-                        <token skip="-1" regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
+                        <token skip="-1" regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|wh(?:e(?:n(?:ever)?|re(?:ever|as)?|ther)|ich(?:ever)?|ile|o(?:m?(?:ever)?|se))
                             <exception postag="DT"/>
                         </token>
                     </marker>
@@ -13027,7 +13027,7 @@ USA
                 <antipattern>
                     <token postag='SENT_START'/>
                     <token>Even</token>
-                    <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
+                    <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|wh(?:e(?:n(?:ever)?|re(?:ever|as)?|ther)|ich(?:ever)?|ile|o(?:m?(?:ever)?|se))
                     </token>
                     <!-- start search after 2nd token in case it is a comma -->
                     <token regexp='yes'>[,;:!\?]</token>
@@ -13036,7 +13036,7 @@ USA
                 <antipattern>
                     <token postag='SENT_START'/>
                     <token>Even</token>
-                    <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
+                    <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|wh(?:e(?:n(?:ever)?|re(?:ever|as)?|ther)|ich(?:ever)?|ile|o(?:m?(?:ever)?|se))
                     </token>
                     <!-- start search after 2nd token in case it is a comma -->
                     <token postag='CC'/>
@@ -13046,7 +13046,7 @@ USA
                     <marker>
                         <token postag='SENT_START'/>
                         <token>even</token>
-                        <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
+                        <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|wh(?:e(?:n(?:ever)?|re(?:ever|as)?|ther)|ich(?:ever)?|ile|o(?:m?(?:ever)?|se))
                             <exception postag="DT"/>
                         </token>
                     </marker>
@@ -13067,7 +13067,7 @@ USA
                 <antipattern>
                     <token postag='SENT_START'/>
                     <token>So</token>
-                    <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
+                    <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|wh(?:e(?:n(?:ever)?|re(?:ever|as)?|ther)|ich(?:ever)?|ile|o(?:m?(?:ever)?|se))
                     </token>
                     <!-- start search after 2nd token in case it is a comma -->
                     <token regexp='yes'>[,;:!\?]</token>
@@ -13076,7 +13076,7 @@ USA
                 <antipattern>
                     <token postag='SENT_START'/>
                     <token>So</token>
-                    <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
+                    <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|wh(?:e(?:n(?:ever)?|re(?:ever|as)?|ther)|ich(?:ever)?|ile|o(?:m?(?:ever)?|se))
                     </token>
                     <!-- start search after 2nd token in case it is a comma -->
                     <token postag='CC'/>
@@ -13086,7 +13086,7 @@ USA
                     <marker>
                         <token postag='SENT_START'/>
                         <token>So</token>
-                        <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
+                        <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|wh(?:e(?:n(?:ever)?|re(?:ever|as)?|ther)|ich(?:ever)?|ile|o(?:m?(?:ever)?|se))
                         </token>
                     </marker>
                     <token postag='SENT_END'/>
@@ -13106,7 +13106,7 @@ USA
                     <token postag='SENT_START'/>
                     <token>So</token>
                     <token postag=',|:' postag_regexp='yes'/>
-                    <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
+                    <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|wh(?:e(?:n(?:ever)?|re(?:ever|as)?|ther)|ich(?:ever)?|ile|o(?:m?(?:ever)?|se))
                     </token>
                     <!-- start search after 2nd token in case it is a comma -->
                     <token regexp='yes'>[,;:!\?]</token>
@@ -13116,7 +13116,7 @@ USA
                     <token postag='SENT_START'/>
                     <token>So</token>
                     <token postag=',|:' postag_regexp='yes'/>
-                    <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
+                    <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|wh(?:e(?:n(?:ever)?|re(?:ever|as)?|ther)|ich(?:ever)?|ile|o(?:m?(?:ever)?|se))
                     </token>
                     <!-- start search after 2nd token in case it is a comma -->
                     <token postag='CC'/>
@@ -13127,7 +13127,7 @@ USA
                         <token postag='SENT_START'/>
                         <token>So</token>
                         <token postag=',|:' postag_regexp='yes'/>
-                        <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
+                        <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|wh(?:e(?:n(?:ever)?|re(?:ever|as)?|ther)|ich(?:ever)?|ile|o(?:m?(?:ever)?|se))
                         </token>
                     </marker>
                     <token postag='SENT_END'/>
@@ -13147,7 +13147,7 @@ USA
                     <token postag='SENT_START'/>
                     <token>So</token>
                     <token>even</token>
-                    <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
+                    <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|wh(?:e(?:n(?:ever)?|re(?:ever|as)?|ther)|ich(?:ever)?|ile|o(?:m?(?:ever)?|se))
                     </token>
                     <!-- start search after 2nd token in case it is a comma -->
                     <token regexp='yes'>[,;:!\?]</token>
@@ -13157,7 +13157,7 @@ USA
                     <token postag='SENT_START'/>
                     <token>So</token>
                     <token>even</token>
-                    <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
+                    <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|wh(?:e(?:n(?:ever)?|re(?:ever|as)?|ther)|ich(?:ever)?|ile|o(?:m?(?:ever)?|se))
                     </token>
                     <!-- start search after 2nd token in case it is a comma -->
                     <token postag='CC'/>
@@ -13167,7 +13167,7 @@ USA
                     <token postag='SENT_START'/>
                     <token>So</token>
                     <token>even</token>
-                    <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
+                    <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|wh(?:e(?:n(?:ever)?|re(?:ever|as)?|ther)|ich(?:ever)?|ile|o(?:m?(?:ever)?|se))
                     </token>
                     <token postag='SENT_END'/>
                 </pattern>
@@ -13187,7 +13187,7 @@ USA
                     <token>So</token>
                     <token postag=',|:' postag_regexp='yes'/>
                     <token>even</token>
-                    <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
+                    <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|wh(?:e(?:n(?:ever)?|re(?:ever|as)?|ther)|ich(?:ever)?|ile|o(?:m?(?:ever)?|se))
                     </token>
                     <!-- start search after 2nd token in case it is a comma -->
                     <token regexp='yes'>[,;:!\?]</token>
@@ -13198,7 +13198,7 @@ USA
                     <token>So</token>
                     <token postag=',|:' postag_regexp='yes'/>
                     <token>even</token>
-                    <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
+                    <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|wh(?:e(?:n(?:ever)?|re(?:ever|as)?|ther)|ich(?:ever)?|ile|o(?:m?(?:ever)?|se))
                     </token>
                     <!-- start search after 2nd token in case it is a comma -->
                     <token postag='CC'/>
@@ -13209,7 +13209,7 @@ USA
                     <token>So</token>
                     <token postag=',|:' postag_regexp='yes'/>
                     <token>even</token>
-                    <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
+                    <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|wh(?:e(?:n(?:ever)?|re(?:ever|as)?|ther)|ich(?:ever)?|ile|o(?:m?(?:ever)?|se))
                     </token>
                     <token postag='SENT_END'/>
                 </pattern>
