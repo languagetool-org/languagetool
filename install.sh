@@ -101,7 +101,7 @@ install() {
     echo "Unzipping"
     unzip -u LanguageTool-stable.zip
 
-    mv LanguageTool-3.9 "$RELEASE-$version"
+    mv $RELEASE "$RELEASE-$version"
     echo "Cleaning up"
     rm LanguageTool-stable.zip
 }
@@ -179,7 +179,7 @@ detect_java() {
 }
 
 postinstall_command () {
-    if [ "$command" = GUI ] || [ "$command" = GUI ]; then
+    if [ "$command" = GUI ] || [ "$command" = gui ] || [ "$command" = standalone ]; then
         cmd="languagetool-standalone/"
     elif [ "$command" = commandline ] || [ "$command" = cmdline ] || [ "$command" = cmd ] || [ "$command" = CMD ] || [ "$command" = "command line" ]; then
         cmd="languagetool-commandline"
