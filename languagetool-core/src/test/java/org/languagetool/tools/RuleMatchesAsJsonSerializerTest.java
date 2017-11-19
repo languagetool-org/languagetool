@@ -27,8 +27,6 @@ import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
 
@@ -79,11 +77,7 @@ public class RuleMatchesAsJsonSerializerTest {
   static class FakeRule extends Rule {
     FakeRule() {
       setLocQualityIssueType(ITSIssueType.Addition);
-      try {
-        setUrl(new URL("http://foobar.org/blah"));
-      } catch (MalformedURLException e) {
-        throw new RuntimeException(e);
-      }
+      setUrl(Tools.getUrl("http://foobar.org/blah"));
     }
     @Override
     public String getId() {

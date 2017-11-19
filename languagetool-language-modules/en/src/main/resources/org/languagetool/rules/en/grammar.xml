@@ -2993,7 +2993,7 @@ USA
                     <marker>
                         <token postag="NNP?S" postag_regexp="yes" regexp="yes">\p{Lu}?\p{Ll}*s<exception regexp="yes">eats|says|likes|loves|hates|customs|sports|decreases|does|his|ones|relations|affairs|weapons|crimes</exception><exception postag="VBZ|RB|IN|JJ|NN:.*|NNP?" postag_regexp="yes"/></token>
                     </marker>
-                    <token postag="NN|NN:.*" postag_regexp="yes" regexp="yes">\p{Ll}{2,}<exception regexp="yes">department|sector|exam|faculty|given|can|today|yesterday|tomorrow|now|in|are</exception><exception postag="VBG|VB|VBP|VB[DN]|RB|MD|IN|JJ.*|CC|PRP|NNP.*" postag_regexp="yes"/></token>
+                    <token postag="NN|NN:.*" postag_regexp="yes" regexp="yes">\p{Ll}{2,}<exception regexp="yes">equipment|department|sector|exam|faculty|given|can|today|yesterday|tomorrow|now|in|are</exception><exception postag="VBG|VB|VBP|VB[DN]|RB|MD|IN|JJ.*|CC|PRP|NNP.*" postag_regexp="yes"/></token>
                     <token><exception regexp="yes">\p{Punct}|and|or</exception></token>
                 </pattern>
                 <message>Apostrophe might be missing. Did you mean <suggestion><match no="3"/>'</suggestion> or <suggestion><match suppress_misspelled="yes" no="3" postag="NN(P)?S" postag_regexp="yes" postag_replace="NN$1(:U.?)?" setpos="no"/>'s</suggestion>?</message>
@@ -3012,6 +3012,7 @@ USA
                 <example>Gershwin overlays the slow blues theme from section B in the final “Grandioso.”</example>
                 <example correction="darts'|dart's">The <marker>darts</marker> trajectory is calculated thus:</example>
                 <example type="triggers_error">The English <marker>darts</marker> player is likely to win this tournament.</example>
+                <example>The main communications equipment failed.</example>
                 <example>The <marker>darts</marker> tip is made of tungsten.</example><!-- False negative -->
                 <example>The functions sine and cosine take values between -1 and 1.</example>
                 <example>That baby does nothing but cry.</example>
@@ -7558,6 +7559,11 @@ USA
                 <token>second</token>
                 <token>hand</token>
             </antipattern>
+            <antipattern>
+                <token>to</token>
+                <token>do</token>
+                <token>it</token>
+            </antipattern>
             <pattern>
                 <!-- 't': from "doesn't" etc -->
                 <token><exception regexp="yes">can|could|must|might|shall|does|will|ll|would|should|may|t|did|be|is|were|was|that|about|of|lest|whether|surrounding|had</exception><exception regexp="yes" inflected="yes">hear|feel|see|insist|call|claim|make|let</exception><exception postag="IN"/></token>
@@ -7591,6 +7597,7 @@ USA
             <example>Many other components beside it determine how much cooling you'll get.</example>
             <example>How had it come to this?</example>
             <example>He could do it even better.</example>
+            <example>The details of how to do it have been explained.</example>
         </rule>
         <rulegroup id="DID_PAST" name="'did' with past tense verb">
             <rule>
@@ -7874,7 +7881,7 @@ USA
         <rulegroup id="DONT_NEEDS" name="don't ... 3rd person verb">
             <rule>
                 <pattern>
-                    <token regexp="yes">don|won</token>
+                    <token regexp="yes">[dw]on</token>
                     <token regexp="yes">['’]</token>
                     <token>t</token>
                     <marker>
@@ -8016,7 +8023,7 @@ USA
             <pattern case_sensitive="yes">
                 <token><exception regexp="yes">’|'|\.</exception><exception postag="SENT_START"/></token>
                 <marker>
-                    <token regexp="yes">the|The|an|An|a</token>
+                    <token regexp="yes">[Tt]he|[Aa]n|a</token>
                     <token postag="SENT_END" regexp="yes">\.|\?|!</token>
                 </marker>
             </pattern>
@@ -8040,7 +8047,7 @@ USA
             <pattern case_sensitive="yes">
                 <token><exception regexp="yes">’|'|\.</exception><exception postag="SENT_START"/></token>
                 <marker>
-                    <token regexp="yes">the|The|an?|An</token>
+                    <token regexp="yes">[Tt]he|[Aa]n?</token>
                     <token regexp="yes">[,;]</token>
                 </marker>
             </pattern>
@@ -9307,7 +9314,11 @@ USA
                     </and>
                 </antipattern>
                 <pattern>
-                    <token inflected="yes">be<exception scope="previous" postag_regexp="yes" postag="VBP?" negate="yes" regexp="yes">ha(?:ve|s)</exception><exception postag='NNP'/></token>
+                    <token inflected="yes">be
+                        <exception scope="previous" postag_regexp="yes" postag="VBP?" negate="yes" regexp="yes">ha(?:ve|s)</exception>
+                        <exception postag='NNP'/>
+                        <exception scope="previous">there</exception>
+                    </token>
                     <token postag="RB"><exception regexp="yes">in|t?here</exception><exception postag="VBN|JJ.*|CC" postag_regexp="yes"/></token>
                     <marker>
                         <token postag="VB[DP]?" postag_regexp="yes"><exception postag="VBN|JJ.*|IN|RB" postag_regexp="yes"/></token>
@@ -9324,6 +9335,7 @@ USA
                 <example>As they are differentially <marker>phase</marker> modulated...</example>
                 <example>Indirect consumption is usually <marker>oil</marker>.</example>
                 <example>Indirect consumption is mainly <marker>oil and natural gas</marker>.</example>
+                <example>“There is still hope,” said Fernando.</example>
             </rule>
         </rulegroup>
         <rulegroup id="MASS_AGREEMENT" name="Agreement: Mass/singular noun + non-third person verb">
@@ -10424,7 +10436,7 @@ USA
                     <!--  to exclude phrases like: 'the turned up card' -->
                     <token><exception postag="DT|WDT" postag_regexp="yes"/></token>
                     <token><exception postag="VBN|VBD" postag_regexp="yes"/></token>
-                    <token postag="IN"><exception regexp="yes">as|at|by|for|in|on|to|of|following|than|after</exception><exception postag="JJ.*" postag_regexp="yes"/></token>
+                    <token postag="IN"><exception regexp="yes">a[st]|by|for|[io]n|to|of|following|than|after</exception><exception postag="JJ.*" postag_regexp="yes"/></token>
                     <marker>
                         <token postag="NN"><exception postag="CC|UH|DT|WDT|RP|JJ.*|IN|CD|RB.*|VBD|VBZ|VBN|MD|NNP|NNP?S|PRP.*|WRB" postag_regexp="yes"/><exception regexp="yes">(?iu)\p{Lu}\p{Ll}+</exception></token>
                     </marker>
@@ -10440,7 +10452,7 @@ USA
                 <pattern>
                     <token><exception postag="DT|WDT" postag_regexp="yes"/></token>
                     <token><exception postag="VBN|VBD" postag_regexp="yes"/></token>
-                    <token postag="IN"><exception regexp="yes">as|at|by|for|in|on|to|of|following|re</exception><exception postag="JJ.*" postag_regexp="yes"/></token>
+                    <token postag="IN"><exception regexp="yes">a[st]|by|for|[io]n|to|of|following|re</exception><exception postag="JJ.*" postag_regexp="yes"/></token>
                     <marker>
                         <token postag="JJ"><exception postag="VBG|VB|WRB|RB.*|CD|IN|DT|WDT|NNP" postag_regexp="yes"/><exception regexp="yes">(?iu)\p{Lu}\p{Ll}+</exception></token>
                         <token postag="NN"><exception postag="CC|DT|WDT|RP|JJ|IN|CD|JJR|RBS|VB[DN]|MD|NNP|NNS" postag_regexp="yes"/></token>
@@ -10459,7 +10471,7 @@ USA
                           this kind of rules should be added for all above
                           prepositions with exceptions -->
                     <token postag="SENT_START"/>
-                    <token postag="IN"><exception regexp="yes">as|at|by|for|in|on|to|of|following</exception><exception postag="JJ.*" postag_regexp="yes"/></token>
+                    <token postag="IN"><exception regexp="yes">a[st]|by|for|[io]n|to|of|following</exception><exception postag="JJ.*" postag_regexp="yes"/></token>
                     <marker>
                         <token postag="NN"><exception postag="CC|UH|DT|WDT|RP|JJ.*|IN|CD|RB.*|VB[DN]|MD|NN[PS]|NNPS|PRP.*|WRB" postag_regexp="yes"/><exception regexp="yes">(?iu)\p{Lu}\p{Ll}+</exception></token>
                     </marker>
@@ -10475,7 +10487,7 @@ USA
                 <pattern>
                     <!-- to include phrases like: 'About a long month ago,...' -->
                     <token postag="SENT_START"/>
-                    <token postag="IN"><exception regexp="yes">as|at|by|for|in|on|to|of|following</exception><exception postag="JJ.*" postag_regexp="yes"/></token>
+                    <token postag="IN"><exception regexp="yes">a[st]|by|for|[io]n|to|of|following</exception><exception postag="JJ.*" postag_regexp="yes"/></token>
                     <marker>
                         <token postag="JJ"><exception postag="VBG|VB|WRB|RB.*|CD|IN|DT|WDT|NNP" postag_regexp="yes"/></token>
                         <token postag="NN"><exception postag="DT|WDT|RP|JJ|IN|CD|JJR|RBS|VB[DN]|MD|NNP|NNS" postag_regexp="yes"/></token>
@@ -10586,7 +10598,7 @@ USA
             <url>http://www.ef.com/english-resources/english-grammar/gerund-equals-infinitive/</url>
             <rule>
                 <pattern>
-                    <token inflected="yes" regexp="yes" postag="VB.*" postag_regexp="yes">admit|appreciate|avoid|delay|practice|risk|deny|discuss|imagine|recommend|suggest|dislike|keep|tolerate|enjoy|mind|miss|resent|finish|postpone|resist<exception scope="previous" regexp="yes" inflected="yes">of|be</exception></token>
+                    <token inflected="yes" regexp="yes" postag="VB.*" postag_regexp="yes">a(dmit|ppreciate|void)|delay|practice|risk|deny|discuss|imagine|suggest|dislike|keep|tolerate|enjoy|mi(nd|ss)|re(commend|s(ent|istist))|finish|postpone<exception scope="previous" regexp="yes" inflected="yes">of|be</exception></token>
                     <token>to</token>
                     <token postag="VB"><exception postag="NN:UN?" postag_regexp="yes"/></token>
                 </pattern>
@@ -10762,6 +10774,10 @@ USA
                     <token>help</token>
                     <token postag="VBG"/>
                 </antipattern>
+                <antipattern case_sensitive="yes">
+                    <token>developing</token>
+                    <token>countries</token>
+                </antipattern>
                 <pattern>
                     <token inflected="yes">help</token>
                     <marker>
@@ -10876,7 +10892,7 @@ USA
                 <pattern>
                     <token inflected="yes">be</token>
                     <token min="0" max="1" postag="RB"/>
-                    <token inflected="yes" postag="VBG" regexp="yes">doubt|believe|imagine|know|(dis)?like|love|hate|prefer|reali[zs]e|recogni[sz]e|remember|suppose|understand|want|wish|appear|hear|seem|smell|sound|taste|agree|deny|disagree|impress|mean|please|promise|satisfy|belong|concern|consist|contain|depend|deserve|involve|matter|need|own|possess</token>
+                    <token inflected="yes" postag="VBG" regexp="yes">doubt|believe|imagine|know|(dis)?like|love|hate|prefer|reali[zs]e|recogni[sz]e|remember|suppose|understand|w(ant|ish)|appear|hear|s(eem|mell|ound)|taste|agree|d(eny|isagree)|impress|mean|p(lease|romise)|satisfy|belong|con(cern|sist|tain)|de(pend|serve)|involve|matter|need|own|possess</token>
                 </pattern>
                 <message>The verb '\3' is normally not used in the progressive form. Try a simple form instead.</message>
                 <short>Grammatical problem: do not use the progressive</short>
@@ -10915,7 +10931,7 @@ USA
                     <marker>
                         <token>this</token>
                     </marker>
-                    <token postag="NNS"><exception postag="VBZ|NN|NN:UN|NN:U|JJ.*" postag_regexp="yes"/><exception>data</exception></token>
+                    <token postag="NNS"><exception postag="VBZ|NN|NN:UN?|JJ.*" postag_regexp="yes"/><exception>data</exception></token>
                     <token><exception postag="NNP?|NN:.*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Did you mean <suggestion>these</suggestion>?</message>
@@ -12031,7 +12047,7 @@ USA
                     <token>afraid</token>
                     <token>of</token>
                     <marker>
-                        <token postag="NN"><exception postag="NNS|NNPS|NN:U.*" postag_regexp="yes"/><exception regexp="yes">dark|wind|rain</exception></token>
+                        <token postag="NN"><exception postag="NNP?S|NN:U.*" postag_regexp="yes"/><exception regexp="yes">dark|wind|rain</exception></token>
                     </marker>
                     <token><exception postag="JJ.*|NN.*" postag_regexp="yes"/></token>
                 </pattern>
@@ -12348,7 +12364,7 @@ USA
                     <token>of</token>
                     <token postag="NNP?" postag_regexp="yes"><exception postag="NN:.*|NNP?S|JJ.*" postag_regexp="yes"/></token>
                 </marker>
-                <token><exception postag="NNS|NNPS|NN:U.*" postag_regexp="yes"/><exception regexp="yes">['’]</exception></token>
+                <token><exception postag="NNP?S|NN:U.*" postag_regexp="yes"/><exception regexp="yes">['’]</exception></token>
             </pattern>
             <message>Possible agreement error. The noun <match no="3"/> seems to be countable; consider using: <suggestion><match no="1"/> of <match no="3" postag="NNP?S" postag_regexp="yes"/></suggestion>.</message>
             <short>Grammatical problem</short>
@@ -12668,7 +12684,7 @@ USA
                         <token>many</token>
                         <token postag="NN:U"><exception postag="NN:UN|NN[PS]?|NNPS|JJ.*|VBG" postag_regexp="yes"/></token>
                     </marker>
-                    <token><exception postag="NNS|NNPS|CC" postag_regexp="yes"/><exception regexp="yes">['’]</exception></token>
+                    <token><exception postag="NNP?S|CC" postag_regexp="yes"/><exception regexp="yes">['’]</exception></token>
                 </pattern>
                 <message>Possible agreement error. The noun <match no="2"/> seems to be uncountable; consider using: <suggestion>much <match no="2"/></suggestion>, <suggestion>a good deal of <match no="2"/></suggestion>.</message>
                 <short>Grammatical problem</short>
@@ -12698,7 +12714,7 @@ USA
                         <token postag="JJ"><exception postag="NN:UN|NNP?|NNS|NNPS" postag_regexp="yes"/></token>
                         <token postag="NN:U"><exception postag="NN:UN|NNP?|NNP?S|JJ.*" postag_regexp="yes"/></token>
                     </marker>
-                    <token><exception postag="NNS|NNPS|CC" postag_regexp="yes"/><exception regexp="yes">['’]</exception></token>
+                    <token><exception postag="NNP?S|CC" postag_regexp="yes"/><exception regexp="yes">['’]</exception></token>
                 </pattern>
                 <message>Possible agreement error. The noun <match no="3"/> seems to be uncountable; consider using: <suggestion>much <match no="2"/> <match no="3"/></suggestion>, <suggestion>a good deal of <match no="2"/> <match no="3"/></suggestion>.</message>
                 <short>Grammatical problem</short>
@@ -12730,7 +12746,7 @@ USA
                         <token>of</token>
                         <token postag="NN:U"><exception postag="NN:UN|NNP?|NNP?S|JJ.*" postag_regexp="yes"/></token>
                     </marker>
-                    <token><exception postag="NNS|NNPS|CC" postag_regexp="yes"/><exception regexp="yes">['’]</exception></token>
+                    <token><exception postag="NNP?S|CC" postag_regexp="yes"/><exception regexp="yes">['’]</exception></token>
                 </pattern>
                 <message>Possible agreement error. The noun <match no="4"/> seems to be uncountable; consider using: <suggestion>much <match no="4"/></suggestion>, <suggestion>a good deal of <match no="4"/></suggestion>.</message>
                 <short>Grammatical problem</short>
@@ -14912,14 +14928,14 @@ USA
                 <antipattern>
                     <!-- typical headline, but may hide real errors... -->
                     <token>Further</token>
-                    <token>reading</token>
+                    <token postag="VBG" regexp="yes">(add|comp(licat|ound)|exp(and|lain)|read|stat)ing</token>
                 </antipattern>
                 <pattern>
                     <!-- TODO: also cover the case where a new sub-clause is connected by ";|, $adverb," and detect missing punctuation -->
                     <token postag="SENT_START"/>
                     <!-- now, next, then and yet are not solely linking adverbs and result in too many false positives -->
                     <marker>
-                        <token regexp="yes">accordingly|additionally|al(so|as)|besides|comparatively|con(sequent|verse)ly|elsewhere|equally|finally|further(more)?|hence(forth)?|however|in(deed|stead)|likewise|meanwhile|moreover|namely|n(ever|one)theless|otherwise|rather|similarly|still|subsequently|thereafter|therefore|thus|typically
+                        <token regexp="yes">a(ccordingly|dditionally|l(so|as))|besides|c(omparatively|on(sequent|verse)ly)|e(lsewhere|qually)|f(inally|urther(more)?)|h(ence(forth)?|owever)|in(deed|stead)|likewise|m(eanwhile|oreover)|n(amely|(ever|one)theless)|otherwise|rather|s(imilarly|till|ubsequently)|t(ere(after|fore)|hus|ypically)
                             <exception negate_pos="yes" postag="RB">further</exception>
                         </token>
                     </marker>
@@ -15170,7 +15186,7 @@ USA
             <token min="0"/>
             <marker>
                 <token>,</token>
-                <token regexp="yes">which|where|what|wh[oy]|whether|if|whose</token>
+                <token regexp="yes">wh(ich|ere|at|[oy]|ether|ose)|if</token>
             </marker>
             <token><exception postag="VB.*" postag_regexp="yes"/></token>
         </pattern>
@@ -22671,7 +22687,7 @@ USA
         <!-- transmit – send -->
 
         <!-- type of – (omit) -->
-        <rule id="TYPE_OF" name="that exists (omit)">
+        <rule id="TYPE_OF" name="type of (omit)">
             <pattern>
                 <token>type</token>
                 <token>of</token>
@@ -24072,7 +24088,7 @@ USA
                <token>?</token>
             </antipattern>
             <antipattern>
-               <token regexp="yes">don|doesn|didn</token>
+               <token regexp="yes">d(o|oes|id)n</token>
                <token spacebefore="no" regexp="yes">['’]</token>
                <token spacebefore="no">t</token>
             </antipattern>
@@ -24787,11 +24803,11 @@ USA
             <message>Many of our authors use 'of' as an all-purpose preposition in the place of '<suggestion>from</suggestion>', '<suggestion>by</suggestion>', '<suggestion>in</suggestion>', '<suggestion>on</suggestion>', '<suggestion>at</suggestion>' etc., Moreover, phrases with 'of' are often used instead of possessive '-s' constructions or noun-noun compounds. This can lead to ambiguity even where it is not grammatically wrong; for example, in the phrase 'the system of control of the Commission', is the Commission being controlled (audited?) or is it doing the controlling?</message>
             <url>http://euenglish.webs.com/</url>
             <short>EU English: of</short>
-            <example type="incorrect" correction="from|by|in|on|at">Previous reports <marker>of</marker> the Court…</example>
+            <example type="incorrect" correction="from|by|[io]n|at">Previous reports <marker>of</marker> the Court…</example>
             <example>Previous reports <marker>by</marker> the Court…</example>
-            <example type="incorrect" correction="from|by|in|on|at">Communication <marker>of</marker> the Commission…</example>
+            <example type="incorrect" correction="from|by|[io]n|at">Communication <marker>of</marker> the Commission…</example>
             <example>Communication <marker>from</marker> the Commission…</example>
-            <example type="incorrect" correction="from|by|in|on|at">EC reports <marker>of</marker> the projects…</example>
+            <example type="incorrect" correction="from|by|[io]n|at">EC reports <marker>of</marker> the projects…</example>
             <example>EC reports <marker>on</marker> the projects…</example>
             <example><marker>Dispose of</marker> the waste.</example> - Refer to DISPOSE_OF -
             <example>When you are <marker>disposing of</marker> the waste, wear protective clothing.</example>

@@ -18,9 +18,11 @@
  */
 package org.languagetool.rules;
 
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.ApiCleanupNeeded;
 import org.languagetool.tools.StringTools;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -46,6 +48,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
   private LinePosition linePosition = new LinePosition(-1, -1);
   private ColumnPosition columnPosition = new ColumnPosition(-1, -1);
   private List<String> suggestedReplacements = new ArrayList<>();
+  private URL url;
 
   /**
    * Creates a RuleMatch object, taking the rule that triggered
@@ -233,6 +236,23 @@ public class RuleMatch implements Comparable<RuleMatch> {
     return Collections.unmodifiableList(suggestedReplacements);
   }
 
+  /**
+   * A URL that points to a more detailed error description or {@code null}.
+   * Note that the {@link Rule} itself might also have an URL, which is usually
+   * a less specific one than this. This one will overwrite the rule's URL in
+   * the JSON output.
+   * @since 4.0
+   */
+  @Nullable
+  public URL getUrl() {
+    return url;
+  }
+
+  /** @since 4.0 */
+  public void setUrl(URL url) {
+    this.url = url;
+  }
+  
   @Override
   public String toString() {
     return rule.getId() + ":" + offsetPosition + ":" + message;

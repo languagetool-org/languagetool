@@ -37,7 +37,6 @@
     - [pt-AO pre-AO] Dicionários Portugueses Complementares 2.2
     - [pt-MZ pre-AO] Dicionários Natura 14.08.2017
     
-    
 #### Russian
   * new false friends added (thanks to ZakShaker)
   * added and improved some rules
@@ -50,6 +49,19 @@
 
 #### GUI (stand-alone version)
   * show line numbers in the text area
+
+#### Java API
+  * A `RuleMatch` can now have a URL, too. The URL usually points to a page that
+    describes the error or grammar rule in more detail. Before, only the `Rule`
+    could have a URL. A `RuleMatch` URL will overwrite the `Rule` URL in the
+    JSON output.
+
+#### LT server
+  * change in configuration: `requestLimit` and `requestLimitPeriodInSeconds` now both
+    need to be set for the limit to work
+  * new property key `timeoutRequestLimit`: similar to `requestLimit`, but this one limits 
+    not all requests but blocks once this many timeout have been caused by the IP in the
+    time span set by `requestLimitPeriodInSeconds`
 
 
 ## 3.9 (2017-09-26)

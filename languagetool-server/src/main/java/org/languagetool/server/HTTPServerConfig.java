@@ -52,6 +52,7 @@ public class HTTPServerConfig {
   protected Mode mode;
   protected File languageModelDir = null;
   protected int requestLimit;
+  protected int timeoutRequestLimit;
   protected int requestLimitPeriodInSeconds;
   protected boolean trustXForwardForHeader;
   protected int maxWorkQueueSize;
@@ -129,6 +130,7 @@ public class HTTPServerConfig {
         secretTokenKey = getOptionalProperty(props, "secretTokenKey", null);
         maxCheckTimeMillis = Long.parseLong(getOptionalProperty(props, "maxCheckTimeMillis", "-1"));
         requestLimit = Integer.parseInt(getOptionalProperty(props, "requestLimit", "0"));
+        timeoutRequestLimit = Integer.parseInt(getOptionalProperty(props, "timeoutRequestLimit", "0"));
         requestLimitPeriodInSeconds = Integer.parseInt(getOptionalProperty(props, "requestLimitPeriodInSeconds", "0"));
         trustXForwardForHeader = Boolean.valueOf(getOptionalProperty(props, "trustXForwardForHeader", "false"));
         maxWorkQueueSize = Integer.parseInt(getOptionalProperty(props, "maxWorkQueueSize", "0"));
@@ -252,6 +254,11 @@ public class HTTPServerConfig {
 
   int getRequestLimit() {
     return requestLimit;
+  }
+
+  /** @since 4.0 */
+  int getTimeoutRequestLimit() {
+    return timeoutRequestLimit;
   }
 
   int getRequestLimitPeriodInSeconds() {

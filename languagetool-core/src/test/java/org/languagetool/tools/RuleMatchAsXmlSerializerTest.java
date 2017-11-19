@@ -29,7 +29,6 @@ import org.languagetool.rules.patterns.PatternToken;
 import org.languagetool.rules.patterns.PatternRule;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -98,7 +97,7 @@ public class RuleMatchAsXmlSerializerTest {
     assertTrue(xml.contains(">\n" +
             "<error fromy=\"44\" fromx=\"98\" toy=\"45\" tox=\"99\" ruleId=\"FAKE_ID\" msg=\"myMessage\" " +
             "replacements=\"\" context=\"...s is an test...\" contextoffset=\"8\" offset=\"8\" errorlength=\"2\" " +
-            "category=\"Misc\" categoryid=\"MISC\" locqualityissuetype=\"misspelling\"/>\n" +
+            "category=\"Miscellaneous\" categoryid=\"MISC\" locqualityissuetype=\"misspelling\"/>\n" +
             "</matches>\n"));
   }
 
@@ -146,11 +145,7 @@ public class RuleMatchAsXmlSerializerTest {
     RuleMatch match = new RuleMatch(new FakeRule() {
       @Override
       public URL getUrl() {
-        try {
-          return new URL("http://server.org?id=1&foo=bar");
-        } catch (MalformedURLException e) {
-          throw new RuntimeException(e);
-        }
+        return Tools.getUrl("http://server.org?id=1&foo=bar");
       }
     }, 8, 10, "myMessage");
     match.setColumn(99);
@@ -162,7 +157,7 @@ public class RuleMatchAsXmlSerializerTest {
     assertTrue(xml.contains(">\n" +
             "<error fromy=\"44\" fromx=\"98\" toy=\"45\" tox=\"99\" ruleId=\"FAKE_ID\" msg=\"myMessage\" " +
             "replacements=\"\" context=\"...s is an test...\" contextoffset=\"8\" offset=\"8\" errorlength=\"2\" url=\"http://server.org?id=1&amp;foo=bar\" " +
-            "category=\"Misc\" categoryid=\"MISC\" locqualityissuetype=\"misspelling\"/>\n" +
+            "category=\"Miscellaneous\" categoryid=\"MISC\" locqualityissuetype=\"misspelling\"/>\n" +
             "</matches>\n"));
   }
 
@@ -180,7 +175,7 @@ public class RuleMatchAsXmlSerializerTest {
     assertTrue(xml.contains(">\n" +
             "<error fromy=\"44\" fromx=\"98\" toy=\"45\" tox=\"99\" ruleId=\"FAKE_ID\" msg=\"myMessage\" " +
             "replacements=\"\" context=\"... is &quot;an test...\" contextoffset=\"8\" offset=\"9\" errorlength=\"2\" " +
-            "category=\"Misc\" categoryid=\"MISC\" locqualityissuetype=\"misspelling\"/>\n" +
+            "category=\"Miscellaneous\" categoryid=\"MISC\" locqualityissuetype=\"misspelling\"/>\n" +
             "</matches>\n"));
   }
 

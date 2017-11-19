@@ -32,9 +32,9 @@ import org.languagetool.tagging.de.GermanToken;
 import org.languagetool.tagging.de.GermanToken.POSType;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 import org.languagetool.tools.StringTools;
+import org.languagetool.tools.Tools;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.*;
 import java.util.regex.Pattern;
@@ -721,11 +721,7 @@ public class CaseRule extends Rule {
 
   @Override
   public URL getUrl() {
-    try {
-      return new URL("http://www.canoo.net/services/GermanSpelling/Regeln/Gross-klein/index.html");
-    } catch (MalformedURLException e) {
-      throw new RuntimeException(e);
-    }
+    return Tools.getUrl("http://www.canoo.net/services/GermanSpelling/Regeln/Gross-klein/index.html");
   }
 
   @Override

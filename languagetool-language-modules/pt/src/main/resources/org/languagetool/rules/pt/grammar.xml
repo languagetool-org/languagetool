@@ -4555,26 +4555,6 @@ title="Easy editing stylesheet" ?>
       <example correction="chegaram a saber">Eles <marker>chegaram a saberem</marker> os resultados?</example>
     </rule>
 
-    <rule id='CICLO_VICIOSO' name="Círculo vicioso">
-    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
-      <pattern>
-          <token>ciclo</token>
-          <token regexp='yes'>viciosos?</token>
-      </pattern>
-      <message>Substitua por <suggestion>círculo vicioso</suggestion>.</message>
-      <example correction="círculo vicioso">O <marker>ciclo vicioso</marker> da pobreza.</example>
-    </rule>
-
-    <rule id='CÍRCULO_FECHADO' name="Ciclo fechado">
-    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
-      <pattern>
-          <token>círculo</token>
-          <token>fechado</token>
-      </pattern>
-      <message>Substitua por <suggestion>ciclo fechado</suggestion>.</message>
-      <example correction="ciclo fechado">Uma produção de <marker>círculo fechado</marker>.</example>
-    </rule>
-
     <rule id='CONTRA_CAPA' name="Contracapa/Contrapartida">
     <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
@@ -4745,17 +4725,6 @@ title="Easy editing stylesheet" ?>
       <example>Consagrava-se dia e noite aos deveres de seu ministério.</example>
     </rule>
 
-    <rule id='DIAGNÓSTICO_RESERVADO' name="Prognóstico reservado">
-    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
-      <pattern>
-          <token regexp='yes'>diagnósticos?</token>
-          <token regexp='yes'>reservados?</token>
-      </pattern>
-      <message>Substitua por <suggestion>prognóstico<match no='1' regexp_match='(diagnóstico)(s?)' regexp_replace='$2'/> \2</suggestion>.</message>
-      <example correction="prognóstico reservado">A Ana mantém-se com <marker>diagnóstico reservado</marker>.</example>
-      <example correction="prognósticos reservados">Temos <marker>diagnósticos reservados</marker>.</example>
-    </rule>
-
     <rule id='EM_VÊS_DE_DA_DAS_DO_DOS' name="Confusão: vês - vez">
     <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
@@ -4833,18 +4802,6 @@ title="Easy editing stylesheet" ?>
       </pattern>
       <message>Substitua por <suggestion>falou-se de</suggestion>.</message>
       <example correction="falou-se de">Hoje <marker>falaram-se de</marker> de vários problemas.</example>
-    </rule>
-
-    <rule id='FAZER_AS_COISAS_DIREITAS' name="Fazer as coisas direito">
-    <!-- Created by Marco A.G.Pinto -->
-      <pattern>
-          <token inflected='yes'>fazer</token>
-          <token>as</token>
-          <token>coisas</token>
-          <token>direitas</token>
-      </pattern>
-      <message>Substitua por <suggestion>\1 \2 \3 direito</suggestion>.</message>
-      <example correction="fazer as coisas direito">Preciso <marker>fazer as coisas direitas</marker>.</example>
     </rule>
 
 	<rule id='FAZER_DESPORTO' name="Praticar desporto">
@@ -4958,17 +4915,6 @@ title="Easy editing stylesheet" ?>
       </pattern>
       <message>Substitua por <suggestion>maior</suggestion>.</message>
       <example correction="maior">Aquele artigo é <marker>mais grande</marker> que o outro.</example>
-    </rule>
-
-    <!-- MANDATO DE BUSCA mandado de busca -->
-    <rule id='MANDATO_DE_BUSCA' name="Mandado de busca">
-      <pattern>
-          <token>mandato</token>
-          <token>de</token>
-          <token>busca</token>
-      </pattern>
-      <message>Substitua por <suggestion>mandado de busca</suggestion>.</message>
-      <example correction="mandado de busca">A polícia tem um <marker>mandato de busca</marker>.</example>
     </rule>
 
     <!-- MAS E SIM mas é sim -->
@@ -5111,16 +5057,6 @@ title="Easy editing stylesheet" ?>
       <example correction="obrigado">O meu muito <marker>obrigada</marker> por tudo.</example>
     </rule>
 
-    <!-- OVELHA RANHOSA ovelha ronhosa -->
-    <rule id='OVELHA_RANHOSA' name="Confusão: ranhosa - ronhosa">
-      <pattern>
-          <token>ovelha</token>
-          <token>ranhosa</token>
-      </pattern>
-      <message>Substitua por <suggestion>\1 ronhosa</suggestion>.</message>
-      <example correction="ovelha ronhosa">Ele é a <marker>ovelha ranhosa</marker> da família.</example>
-    </rule>
-
     <!-- PALAVRAS-CHAVES palavras-chave -->
     <rule id='PALAVRAS-CHAVES' name="Palavras-chave">
       <pattern>
@@ -5141,17 +5077,6 @@ title="Easy editing stylesheet" ?>
       </pattern>
       <message>Substitua por <suggestion>palavras de ordem</suggestion>.</message>
       <example correction="palavras de ordem">Manifestantes gritam <marker>palavras de ordens</marker>.</example>
-    </rule>
-
-    <!-- O ANOS/ONUS/ÂNUS DA PROVA o ónus da prova -->
-    <rule id='O_ANOS-ONUS-ÂNUS_DA_PROVA' name="Confusão: anos - ónus">
-      <pattern>
-          <token regexp="yes">anos|onus|ânus</token>
-          <token>da</token>
-          <token>prova</token>
-      </pattern>
-      <message>Usar: <suggestion>ónus \2 \3</suggestion>.</message>
-      <example correction="ónus da prova">O <marker>anos da prova</marker> é nosso.</example>
     </rule>
 
     <!-- O MAIS + ADJ-PLURAL + POSSÍVEIS - o mais adj-plural possível -->
@@ -5247,19 +5172,6 @@ title="Easy editing stylesheet" ?>
       <example correction="por dinheiro e poder">Eles fazem tudo <marker>por dinheiro e puder</marker>.</example>
     </rule>
 
-    <!-- POR FORMA A QUE para que >
-    <rule id='POR_FORMA_A_QUE' name="Confusão: quê - que">
-     XXX Moved to wordiness. Remove after release.
-      <pattern>
-          <token>por</token>
-          <token>forma</token>
-          <token>a</token>
-          <token>que</token>
-      </pattern>
-      <message>Substitua por <suggestion>para que</suggestion>.</message>
-      <example correction="para que">Isto é feito <marker>por forma a que</marker> os cidadãos possam ser livres.</example>
-    </rule-->
-
     <rule id='PÔR_PERGUNTAS' name="Fazer perguntas">
     <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
@@ -5286,20 +5198,6 @@ title="Easy editing stylesheet" ?>
       <message>Substitua por <suggestion>gosto \2 \3</suggestion>.</message>
       <example correction="gosto em convidá">Terei o maior <marker>prazer em convidá</marker>-los para a festa.</example>
     </rule>
-
-    <!-- PREMIO prémio -->
-    <!-- XXX Covered by HOMONYM rulegroup. Remove after release.>
-    <rule id='PREMIO' name="Confusão: premio - prémio">
-      <pattern>
-          <token>o</token>
-          <token regexp="yes">meu|nosso|teu|seu|vosso</token>
-        <marker>
-          <token>premio</token>
-        </marker>
-      </pattern>
-      <message>Substitua por <suggestion>prémio</suggestion>.</message>
-      <example correction="prémio">Vem receber o teu <marker>premio</marker>.</example>
-    </rule-->
 
     <rule id='QUANDO_MAIS_NÃO_FOSSE' name="Quanto mais não fosse">
     <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
@@ -5388,19 +5286,6 @@ title="Easy editing stylesheet" ?>
       <example correction="para">O martelo serviu <marker>a</marker> fazer o banco.</example>
     </rule>
 
-    <!-- SEXTA DE VIME cesta de vime -->
-    <rule id='SEXTA_DE_VIME' name="Confusão: sexta - cesta">
-      <pattern>
-        <marker>
-          <token>sexta</token>
-        </marker>
-          <token>de</token>
-          <token>vime</token>
-      </pattern>
-      <message>Substitua por <suggestion>cesta</suggestion>.</message>
-      <example correction="cesta">Ela tem uma <marker>sexta</marker> de vime.</example>
-    </rule>
-
     <rule id='SOBRE_MESA' name="Sobremesa">
     <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
@@ -5443,18 +5328,6 @@ title="Easy editing stylesheet" ?>
       </pattern>
       <message>Substitua por <suggestion>terá lugar</suggestion>.</message>
       <example correction="terá lugar">O evento <marker>tomará lugar</marker> em Lisboa.</example>
-    </rule>
-
-    <rule id='UM_BAIXO-ASSINADO' name="Um abaixo-assinado">
-    <!-- Created by Marco A.G. Pinto, Portuguese rule -->
-      <pattern>
-          <token>um</token>
-          <token>baixo</token>
-          <token min='0' regexp='yes'>&tracos_de_separacao;</token>
-          <token>assinado</token>
-      </pattern>
-      <message>Substitua por <suggestion>um abaixo-assinado</suggestion>.</message>
-      <example correction="um abaixo-assinado">As pessoas fizeram <marker>um baixo-assinado</marker>.</example>
     </rule>
 
     <rule id='UM_CERTO_DIA' name="certo dia">
@@ -25107,10 +24980,149 @@ TODO Write better examples
 
  </category>
 
+ <category id='EGGCORNS' name="Calinadas">
+
+    <rule id='FALTA_DE_DISTRACAO' name="Calinada: falta de distração">
+    <!-- Created by Tiago F. Santos, 2017-11-18 -->
+      <pattern>
+          <token regexp='yes'>faltas?</token>
+          <token>de</token>
+          <token>distração</token>
+      </pattern>
+      <message>Substitua por <suggestion>\1 de atenção</suggestion>.</message>
+      <example correction="faltas de atenção">Este programa é o que é preciso para evitar <marker>faltas de distração</marker>.</example>
+    </rule>
+
+    <rule id='CICLO_VICIOSO' name="Calinada: Círculo vicioso">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
+      <pattern>
+          <token>ciclo</token>
+          <token regexp='yes'>viciosos?</token>
+      </pattern>
+      <message>Substitua por <suggestion>círculo vicioso</suggestion>.</message>
+      <example correction="círculo vicioso">O <marker>ciclo vicioso</marker> da pobreza.</example>
+    </rule>
+
+    <rule id='CÍRCULO_FECHADO' name="Calinada: Ciclo fechado">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
+      <pattern>
+          <token>círculo</token>
+          <token>fechado</token>
+      </pattern>
+      <message>Substitua por <suggestion>ciclo fechado</suggestion>.</message>
+      <example correction="ciclo fechado">Uma produção de <marker>círculo fechado</marker>.</example>
+    </rule>
+
+    <rule id='DIAGNÓSTICO_RESERVADO' name="Calinada: Prognóstico reservado">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
+      <pattern>
+          <token regexp='yes'>diagnósticos?</token>
+          <token regexp='yes'>reservados?</token>
+      </pattern>
+      <message>Substitua por <suggestion>prognóstico<match no='1' regexp_match='(diagnóstico)(s?)' regexp_replace='$2'/> \2</suggestion>.</message>
+      <example correction="prognóstico reservado">A Ana mantém-se com <marker>diagnóstico reservado</marker>.</example>
+      <example correction="prognósticos reservados">Temos <marker>diagnósticos reservados</marker>.</example>
+    </rule>
+
+    <rule id='FAZER_AS_COISAS_DIREITAS' name="Calinada: Fazer as coisas direito">
+    <!-- Created by Marco A.G.Pinto -->
+      <pattern>
+          <token inflected='yes'>fazer</token>
+          <token>as</token>
+          <token>coisas</token>
+          <token>direitas</token>
+      </pattern>
+      <message>Substitua por <suggestion>\1 \2 \3 direito</suggestion>.</message>
+      <example correction="fazer as coisas direito">Preciso <marker>fazer as coisas direitas</marker>.</example>
+    </rule>
+
+    <rule id='MANDATO_DE_BUSCA' name="Calinada: Mandado de busca">
+    <!-- Created by Marco A.G.Pinto -->
+      <pattern>
+          <token>mandato</token>
+          <token>de</token>
+          <token>busca</token>
+      </pattern>
+      <message>Substitua por <suggestion>mandado de busca</suggestion>.</message>
+      <url>http://emportuguescorrecto.blogs.sapo.pt/14304.html</url>
+      <example correction="mandado de busca">A polícia tem um <marker>mandato de busca</marker>.</example>
+    </rule>
+
+    <rule id='OVELHA_RANHOSA' name="Calinada: ranhosa - ronhosa">
+    <!-- Created by Marco A.G.Pinto -->
+      <pattern>
+          <token>ovelha</token>
+          <token>ranhosa</token>
+      </pattern>
+      <message>Substitua por <suggestion>\1 ronhosa</suggestion>.</message>
+      <example correction="ovelha ronhosa">Ele é a <marker>ovelha ranhosa</marker> da família.</example>
+    </rule>
+
+    <rule id='O_ANOS-ONUS-ÂNUS_DA_PROVA' name="Calinada: anos - ónus">
+    <!-- Created by Marco A.G.Pinto -->
+      <pattern>
+          <token regexp="yes">anos|onus|ânus</token>
+          <token>da</token>
+          <token>prova</token>
+      </pattern>
+      <message>Usar: <suggestion>ónus \2 \3</suggestion>.</message>
+      <example correction="ónus da prova">O <marker>anos da prova</marker> é nosso.</example>
+    </rule>
+
+    <rule id='SEXTA_DE_VIME' name="Calinada: Sexta de vime">
+    <!-- Created by Marco A.G.Pinto -->
+      <pattern>
+          <token>sexta</token>
+          <token>de</token>
+          <token>vime</token>
+      </pattern>
+      <message>Substitua por <suggestion>cesta de vime</suggestion>.</message>
+      <example correction="cesta de vime">Ela tem uma <marker>sexta de vime</marker>.</example>
+    </rule>
+
+    <rule id='UM_BAIXO-ASSINADO' name="Calinada: Um abaixo-assinado">
+    <!-- Created by Marco A.G. Pinto, Portuguese rule -->
+      <pattern>
+          <token>um</token>
+          <token>baixo</token>
+          <token min='0' regexp='yes'>&tracos_de_separacao;</token>
+          <token>assinado</token>
+      </pattern>
+      <message>Substitua por <suggestion>um abaixo-assinado</suggestion>.</message>
+      <example correction="um abaixo-assinado">As pessoas fizeram <marker>um baixo-assinado</marker>.</example>
+    </rule>
+
+  <rulegroup id='MEDICINA_TRADICIONAL_CHINESA' name="Calinada: 'medicina tradicional chinesa'">
+    <!-- Created by Marco A.G. Pinto, 2017-XX-XX -->
+      <short>Erro de tradução.</short>
+    <rule>
+      <pattern>
+          <token>medicina</token>
+          <token>antiga</token>
+          <token>chinesa</token>
+      </pattern>
+      <message>Expressão não pode ser traduzida literalmente.</message>
+        <suggestion>medicina tradicional chinesa</suggestion>
+      <example correction="medicina tradicional chinesa">A <marker>medicina antiga chinesa</marker> é milenar.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>medicina</token>
+          <token>chinesa</token>
+          <token>antiga</token>
+      </pattern>
+      <message>Expressão não pode ser traduzida literalmente.</message>
+        <suggestion>medicina tradicional chinesa</suggestion>
+      <example correction="medicina tradicional chinesa">A <marker>medicina chinesa antiga</marker> é milenar.</example>
+    </rule>
+  </rulegroup>
+
+</category>
+
  <category id='TRANSLATION_ERRORS' name="Erros de Tradução" type="mistranslation">
 
-    <!-- CAMINHAR CAMINHOS percorrer caminhos -->
     <rule id='CAMINHAR_CAMINHOS' name="percorrer caminhos">
+    <!-- Created by Marco A.G. Pinto, 2017-XX-XX -->
       <pattern>
         <marker>
           <token inflected='yes'>caminhar</token>
@@ -25121,8 +25133,8 @@ TODO Write better examples
       <example correction="percorrer">Deve <marker>caminhar</marker> caminhos descobertos por tentativa e erro.</example>
     </rule>
 
-    <!-- ATAQUES EM MASSA ataques em grande escala -->
     <rule id='ATAQUES_EM_MASSA' name="Ataques em grande escala">
+    <!-- Created by Marco A.G. Pinto, 2017-XX-XX -->
       <pattern>
           <token regexp='yes'>ataques?</token>
           <token>em</token>
@@ -25308,8 +25320,8 @@ TODO Write better examples
     </rule>
   </rulegroup>
 
-    <!-- FURTO DE IDENTIDADE usurpação de identidade -->
     <rule id='FURTO_DE_IDENTIDADE' name="Usurpação de identidade">
+    <!-- Created by Marco A.G. Pinto, 2017-XX-XX -->
       <pattern>
           <token>furto</token>
           <token>de</token>
@@ -25355,30 +25367,6 @@ TODO Write better examples
       <url>https://pt.wikipedia.org/wiki/Aspas</url>
       <example correction="“">A palavra <marker>„</marker>desenvovedor” vem do inglês e traduz-se em programador.</example>
     </rule>
-
-  <rulegroup id='MEDICINA_TRADICIONAL_CHINESA' name="Erro de tradução: 'medicina tradicional Chinesa'">
-      <short>Erro de tradução.</short>
-    <rule>
-      <pattern>
-          <token>medicina</token>
-          <token>antiga</token>
-          <token>chinesa</token>
-      </pattern>
-      <message>Expressão não pode ser traduzida literalmente.</message>
-        <suggestion>medicina tradicional Chinesa</suggestion>
-      <example correction="medicina tradicional Chinesa">A <marker>medicina antiga chinesa</marker> é milenar.</example>
-    </rule>
-    <rule>
-      <pattern>
-          <token>medicina</token>
-          <token>chinesa</token>
-          <token>antiga</token>
-      </pattern>
-      <message>Expressão não pode ser traduzida literalmente.</message>
-        <suggestion>medicina tradicional Chinesa</suggestion>
-      <example correction="medicina tradicional Chinesa">A <marker>medicina chinesa antiga</marker> é milenar.</example>
-    </rule>
-  </rulegroup>
 
   <rulegroup id='PEQUENO_INTESTINO' name="Erro de tradução: 'intestino delgado'">
       <short>Erro de tradução.</short>
