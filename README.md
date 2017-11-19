@@ -18,6 +18,31 @@ for issues to get started.
 
 For more technical details, see [our wiki](http://wiki.languagetool.org).
 
+#### Installation
+To install, simply type:
+```
+curl -l https://git.io/vFHpu -o install.sh
+sh install.sh <options>
+```
+
+Usage: install.sh <option> <package>
+Options:
+   -h --help                   Show help
+   -o --override <OS>          Override automatic OS detection with <OS>
+   -b --build                  Builds packages from the bleeding edge development copy of LanguageTool
+   -p --package <package>      Specifies package to install when building (default all)
+   -c --command <command>      Specifies post-installation command to run (default gui)
+
+Commands:
+   GUI                           Runs GUI version of LanguageTool
+   commandline                   Runs command line version of LanguageTool
+   server                        Runs server version of LanguageTool
+
+Packages:
+   standalone                  Installs standalone package
+   wikipedia                   Installs Wikipedia package
+   office-extension            Installs the LibreOffice/OpenOffice extension package
+
 #### How to build from source
 
 Before start: you will need to clone from GitHub and install Java 8 and Apache Maven.
