@@ -174,7 +174,7 @@ detect_maven() {
 
 detect_java() {
     if ! [ -x "$(java -version)" ]; then
-        install_maven
+        install_java
     fi
 }
 
