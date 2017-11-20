@@ -129,12 +129,14 @@ public class Main extends WeakBase implements XJobExecutor,
   //   > 0 checks numParasToCheck before and after the processed paragraph 
   
   private static final String END_OF_PARAGRAPH = "\n";  //  Paragraph Separator from gciterator.cxx: 0x2029
+  private static final int MAX_CHECK_HEURISTIC = 20;
   private int numParasToCheck = 5;
   private List<String> allParas = null;
   private List<RuleMatch> fullTextMatches;
   private boolean textIsChecked = false; 
   private boolean doFullTextCheck = true; 
-  private int numCurPara;
+  private int numCurPara = 0;
+  private int numLastPara = 0;
   private int paraPos;
   private int divNum = 0;
   
@@ -461,6 +463,7 @@ public class Main extends WeakBase implements XJobExecutor,
       String paraText, int startPos,
       int endPos, String docID) throws InterruptedException {
     if (startPos == 0) {
+      if (numParasToCheck != 0 && this.docID != docID) initFullTextProof();
       paraPos = getParaPos(paraText);
       try {
         if (paraPos < 0) {                                          //  Position not found; check only Paragraph context
@@ -900,6 +903,57 @@ public class Main extends WeakBase implements XJobExecutor,
    */
   
   /**
+   * Different possibilities of return
+   */
+  private int returnOneParaCheck() {
+    doFullTextCheck = false;   // paragraph position can not be found
+    return -1;
+  }
+  
+  private int returnContinueCheck() {
+    if(numParasToCheck > 0) doFullTextCheck = false;
+    else doFullTextCheck = true;
+    return getStartOfParagraph(numCurPara);
+  }
+  
+  private int returnNewCheck() {
+    if(numParasToCheck > 0) doFullTextCheck = false;
+    else doFullTextCheck = true;
+    textIsChecked = false;
+    return getStartOfParagraph(numCurPara);
+  }
+  
+  /**
+   * Reset allParas Return: false if failed
+   */
+  private boolean resetAllParas() {
+  List<String> tmpAllParas = LODocument.getAllParagraphs(xContext);
+  if (tmpAllParas.size() < 1) return false;
+  allParas = tmpAllParas;
+  return true;
+  }
+  
+  /**
+   * Initialize Full Text Proof
+   */
+  private void initFullTextProof() {
+    List<String> tmpAllParas = LODocument.getAllParagraphs(xContext);
+    if (tmpAllParas != null && tmpAllParas.size() > 0) {
+      allParas = tmpAllParas;
+      int pNum = LODocument.getNumberOfAllTextParagraphs(xContext);
+      if (pNum >= 0)
+      divNum = allParas.size() - LODocument.getNumberOfAllTextParagraphs(xContext);
+    } else {
+      tmpAllParas = LODocument.getAllTextParagraphs(xContext);
+      divNum = 0;
+      if (tmpAllParas != null && tmpAllParas.size() > 0) allParas = tmpAllParas;
+      else allParas = null;
+    }
+    numCurPara = 0;
+    numLastPara = numCurPara;
+  }
+  
+  /**
    * Gives Back the full Text as String
    */
   private String getDocAsString() {
@@ -941,15 +995,15 @@ public class Main extends WeakBase implements XJobExecutor,
     return -1;
   }
   
-  /*
+  /**
    * Heuristic try to find position (for dialog box search)  
    */
   private int findNextParaPos(int startPara, String paraStr) {
     if (allParas == null) return -1;
-    for (int i = startPara + 1; i < allParas.size(); i++) {
+    for (int i = startPara; i < startPara + MAX_CHECK_HEURISTIC && i < allParas.size(); i++) {
       if (paraStr.equals(allParas.get(i))) return i;
     }
-    for (int i = 0; i < startPara && i < allParas.size(); i++) {
+    for (int i = startPara; i >= 0 && i >= startPara - MAX_CHECK_HEURISTIC; i--) {
       if (paraStr.equals(allParas.get(i))) return i;
     }
     return -1;
@@ -960,68 +1014,41 @@ public class Main extends WeakBase implements XJobExecutor,
    * gives Back the Position in full text / -1 if Paragraph can not be found
    */
   private int getParaPos(String chPara) {
-    if(numParasToCheck == 0) {  //  check only the processed paragraph
-      doFullTextCheck = false;
-      return -1;
-    }
-    if (allParas == null || allParas.size() < 1) {
-      List<String> tmpAllParas = LODocument.getAllParagraphs(xContext);
-      if (tmpAllParas == null || tmpAllParas.size() < 1) {  //  something is wrong
-        doFullTextCheck = false;
-        return -1;
-      }
-      textIsChecked = false;
-      allParas = tmpAllParas;
-      divNum = allParas.size() - LODocument.getNumberOfAllTextParagraphs(xContext);
+    if(numParasToCheck == 0) return returnOneParaCheck();  //  check only the processed paragraph
+    if (allParas == null || allParas.size() < 1 || divNum < 0) {
+      initFullTextProof();
+      if (allParas == null || allParas.size() < 1) return returnOneParaCheck();
     }
     
-    numCurPara = LODocument.getNumFlatParagraphs(xContext);
-    if (numCurPara < 0) {    
-      // no automatic FlatParagraph Iterator -> try to get ViewCursor position 
-      numCurPara = LODocument.getViewCursorParagraph(xContext) + divNum;
-      if (numCurPara < 0) {
-        doFullTextCheck = false;   // paragraph position can not be found
-        return -1;
-      }
-      if (!chPara.equals(allParas.get(numCurPara))) {
-        //   text can't be changed -> search for next match
-        numCurPara = findNextParaPos(numCurPara, chPara);
-      }
-    } 
-    if (numCurPara < 0) {
-      doFullTextCheck = false;   // paragraph position can not be found
-      return -1;
+    // try to get ViewCursor position (mouse click)
+    int nParas = LODocument.getViewCursorParagraph(xContext) + divNum;
+    if (nParas < 0 || nParas >= allParas.size() || !chPara.equals(allParas.get(nParas))) {
+    // try to get next position from last (dialog proof)
+      nParas = findNextParaPos(numLastPara, chPara);
     }
-    
-    if(numParasToCheck > 0) doFullTextCheck = false;
-    else doFullTextCheck = true;  //  do full check - if not explicitly changed (only full text search)
+    numCurPara = nParas;
+    if (numCurPara >= 0 && numCurPara < allParas.size()) {
+      numLastPara = numCurPara;
+      return returnContinueCheck();
+    }
+    //  try to get paragraph position from automatic iteration
+    if (numCurPara < allParas.size()) numCurPara = LODocument.getNumFlatParagraphs(xContext);
+    if (numCurPara < divNum || numCurPara < 0) return returnOneParaCheck(); // Process footnote, etc. or paragraph position can not be found
     
     if (numCurPara >= allParas.size()) {  //   a paragraph is added
-      List<String> tmpAllParas = LODocument.getAllParagraphs(xContext);
-      if (tmpAllParas == null || tmpAllParas.size() < 1) {
-        doFullTextCheck = false;
-        return -1;
-      }
-      allParas = tmpAllParas;
-      divNum = allParas.size() - LODocument.getNumberOfAllTextParagraphs(xContext);
-      textIsChecked = false;
-      if(numParasToCheck > 0) doFullTextCheck = false;
+      if (!resetAllParas()) return returnOneParaCheck();
+      else return returnNewCheck(); 
     } else if (!chPara.equals(allParas.get(numCurPara))) {   //  text is changed
-      int nParas = LODocument.getNumberOfAllParagraphs(xContext);
-      if (nParas > 0 && nParas != allParas.size()) {   //  paragraphs were added or deleted 
-        List<String> tmpAllParas = LODocument.getAllParagraphs(xContext);
-        if (tmpAllParas.size() < 1) {
-          doFullTextCheck = false;
-          return -1;
-        }
-        allParas = tmpAllParas;
-        divNum = allParas.size() - LODocument.getNumberOfAllTextParagraphs(xContext);
+      nParas = LODocument.getNumberOfAllParagraphs(xContext);
+      if (nParas < 1) return returnOneParaCheck();
+      else if (nParas != allParas.size()) {   //  paragraphs were added or deleted 
+        if (!resetAllParas()) return returnOneParaCheck();
+        else return returnNewCheck(); 
       } else { 
         allParas.set(numCurPara, chPara);
+        return returnNewCheck();
       }
-      if(numParasToCheck > 0) doFullTextCheck = false;
-      textIsChecked = false;
     }
-    return getStartOfParagraph(numCurPara);
+    return returnContinueCheck();
   }
 }
