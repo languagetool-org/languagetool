@@ -59,7 +59,7 @@ done
 
 display_help() {
     echo
-    echo 'An installer for Language Tools stable releases.'
+    echo 'An tool for installing or building for LanguageTool.'
     echo 'Usage: install.sh <option> <package>'
     echo 'Options:'
     echo '   -h --help                   Show help'
