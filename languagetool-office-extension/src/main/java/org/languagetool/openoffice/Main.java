@@ -927,10 +927,10 @@ public class Main extends WeakBase implements XJobExecutor,
    * Reset allParas Return: false if failed
    */
   private boolean resetAllParas() {
-  List<String> tmpAllParas = LODocument.getAllParagraphs(xContext);
-  if (tmpAllParas.size() < 1) return false;
-  allParas = tmpAllParas;
-  return true;
+    List<String> tmpAllParas = LODocument.getAllParagraphs(xContext);
+    if (tmpAllParas.size() < 1) return false;
+    allParas = tmpAllParas;
+    return true;
   }
   
   /**
