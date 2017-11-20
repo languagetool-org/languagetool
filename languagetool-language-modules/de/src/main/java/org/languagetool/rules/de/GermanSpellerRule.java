@@ -142,6 +142,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("[mM]atschscheiben?", "[mM]atschsch", "Mattsch");
     put("schafen?", w -> Arrays.asList(w.replaceFirst("sch", "schl"), w.replaceFirst("af", "arf"), w.replaceFirst("af", "aff")));
     put("gans", "ganz");
+    put("Pearl-Harbou?r", "Pearl Harbor");
     put("zucc?h?inis?", "Zucchini");
     put("[mM]itag", "Mittag");
     put("Lexion", "Lexikon");
