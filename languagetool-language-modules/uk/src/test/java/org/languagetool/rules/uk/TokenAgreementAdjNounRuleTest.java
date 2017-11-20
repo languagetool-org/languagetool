@@ -76,9 +76,10 @@ public class TokenAgreementAdjNounRuleTest {
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("цинічна винахідливості")).length);
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("наступній рік свого життя")).length);
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("жодного кубічного метру в Україні не буде")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("кладний рік на фондовим ринку")).length);
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("складний рік на фондовим ринку")).length);
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("є найкращий засобом для очистки")).length);
     
-    // не працює через іменник французька (мова)
+    // не працює через іменник "французька" (мова)
 //    assertEquals(1, rule.match(langTool.getAnalyzedSentence("французька політик")).length);
 
     RuleMatch[] matches0 = rule.match(langTool.getAnalyzedSentence("4 російських винищувача"));

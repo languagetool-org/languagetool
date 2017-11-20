@@ -57,6 +57,9 @@ public class TokenAgreementNounVerbRuleTest {
     //TODO:
 //    assertMatches(1, "На честь Джудіт Резнік названо кратер");
     
+    //TODO:
+    //assertEmptyMatch("подружжя під прізвищем Крилови оселилося в Москві");
+    
     // inf
     assertEmptyMatch("и зуміє наша держава забезпечити власні потреби");
     assertEmptyMatch("так навчила мене бабуся місити пухке дріжджове тісто");

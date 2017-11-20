@@ -131,7 +131,7 @@
     <example type="untouched">Мій дорогий, розколений кришталю,</example>
   </rule>
  -->
-  <rule name="Рідкі слова" id="DIS_RARE_WORDS">
+  <rule name="Рідкі слова" id="RARE_MOZHNA">
     <pattern>
       <and>
         <token postag_regexp="yes" postag=".*:rare.*">можна
@@ -147,6 +147,26 @@
         inputform="Можна[можна/noninfl:&amp;predic,можний/adj:f:v_kly:rare,можний/adj:f:v_naz:rare]" 
         outputform="Можна[можна/noninfl:&amp;predic]"><marker>Можна</marker> поломати ногу.</example>
     <example type="untouched">Можний дядько.</example>
+  </rule>
+
+  <rule name="Злісний" id="RARE_ZLISNY">
+    <pattern>
+      <token inflected="yes" postag_regexp="yes" postag="noun:anim.*">злісний</token>
+    </pattern>
+    <disambig action="remove" postag="noun:anim.*?:rare.*"/>
+    <example type="ambiguous"
+        inputform="Злісний[злісний/adj:m:v_kly:compb,злісний/adj:m:v_naz:compb,злісний/adj:m:v_zna:rinanim:compb,злісний/noun:anim:m:v_kly:rare,злісний/noun:anim:m:v_naz:rare]"
+        outputform="Злісний[злісний/adj:m:v_kly:compb,злісний/adj:m:v_naz:compb,злісний/adj:m:v_zna:rinanim:compb]"><marker>Злісний</marker> корупціонер.</example>
+  </rule>
+
+  <rule name="Добрий" id="DOBRYY_ADJ">
+    <pattern>
+      <token postag_regexp="yes" postag="verb.*">добрий</token>
+    </pattern>
+    <disambig action="remove" postag="verb:perf:impr:s:2.*"/>
+    <example type="ambiguous"
+        inputform="добрий[добрий/adj:m:v_kly:compb,добрий/adj:m:v_naz:compb,добрий/adj:m:v_zna:rinanim:compb,добрити/verb:perf:impr:s:2:xp2]"
+        outputform="добрий[добрий/adj:m:v_kly:compb,добрий/adj:m:v_naz:compb,добрий/adj:m:v_zna:rinanim:compb]"><marker>добрий</marker> вечір.</example>
   </rule>
 
   <rule name="Тих (займенник - не дієслово)" id="DIS_TYH">
