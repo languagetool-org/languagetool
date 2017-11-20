@@ -265,11 +265,7 @@ public abstract class SpellingCheckRule extends Rule {
    * @since 2.8
    */
   protected void filterSuggestions(List<String> suggestions) {
-    for (int i = 0; i < suggestions.size(); i++) {
-      if (isProhibited(suggestions.get(i))) {
-        suggestions.remove(i);
-      }
-    }
+    suggestions.removeIf(suggestion -> isProhibited(suggestion));
   }
 
   /**
