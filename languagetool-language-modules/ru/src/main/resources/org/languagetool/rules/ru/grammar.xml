@@ -5231,12 +5231,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Унёс <marker>свои тело</marker> и душу.</example>
             <example correction=""><marker>эти отношение</marker></example>
         </rule>
-        <rule  id="Unify_PNN_NN_number" name="Согласование местоимения с существительным по числу" default="off">
+        <rule  id="Unify_PNN_NN_number" name="Согласование местоимения с существительным по числу">
             <pattern>
                 <marker>
                     <unify negate="yes">
                         <feature id="number"/>
-                        <token postag="PNN:.*" postag_regexp="yes"><exception scope="previous" regexp="yes">,|-|—</exception><exception inflected="yes" regexp="yes" >это|то</exception></token>
+                        <token postag="PNN:.*" postag_regexp="yes"><exception scope="previous" regexp="yes">,|-|—</exception><exception scope="previous" postag="PREP"></exception><exception inflected="yes" regexp="yes" >это|то</exception></token>
                         <token postag="NN:.*" postag_regexp="yes"><exception negate_pos="yes" postag="NN:.*" postag_regexp="yes" />
                             <!-- Слова без буквы ё имеют неправильный падеж -->
                             <exception regexp="yes">&missing_yo;</exception>
@@ -5247,6 +5247,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Местоимение не согласуется с существительным по числу.</message>
             <short>Не согласуются по числу</short>
             <example>По сумме всех запусков оптимизации.</example>
+            <example>Это и повлияло на их решение.</example>
             <example correction="">По сумме <marker>всего запускам</marker> оптимизации.</example>
         </rule>                                           
         <rulegroup default="on" id="Soglasovanie_ADJ_NN" name="Согласование прилагательного с существительным">
