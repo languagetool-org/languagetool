@@ -183,9 +183,17 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     ADDITIONAL_SUGGESTIONS.put(Pattern.compile(pattern), f);
   }
 
+  private static final GermanWordSplitter splitter = getSplitter();
+  private static GermanWordSplitter getSplitter() {
+    try {
+      return new GermanWordSplitter(false);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
   private final LineExpander lineExpander = new LineExpander();
   private final GermanCompoundTokenizer compoundTokenizer;
-  private final GermanWordSplitter splitter;
   private final Synthesizer synthesizer;
   private final Tagger tagger;
 
@@ -196,11 +204,6 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     compoundTokenizer = language.getStrictCompoundTokenizer();
     tagger = language.getTagger();
     synthesizer = language.getSynthesizer();
-    try {
-      splitter = new GermanWordSplitter(false);
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
   }
 
   @Override
