@@ -189,6 +189,7 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("bisien", "bisschen", rule, lt);
     assertFirstSuggestion("Gruessen", "Grüßen", rule, lt);
     assertFirstSuggestion("Matschscheibe", "Mattscheibe", rule, lt);
+    assertFirstSuggestion("Pearl-Harbour", "Pearl Harbor", rule, lt);
   }
 
   @Test
