@@ -38,6 +38,10 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     setCheckCompound(true);
     addExamplePair(Example.wrong("This <marker>sentenc</marker> contains a spelling mistake."),
                    Example.fixed("This <marker>sentence</marker> contains a spelling mistake."));
+    String languageSpecificIgnoreFile = getSpellingFileName().replace(".txt", "_"+language.getShortCodeWithCountryAndVariant()+".txt");
+    for (String ignoreWord : wordListLoader.loadWords(languageSpecificIgnoreFile)) {
+      addIgnoreWords(ignoreWord);
+    }
   }
 
   @Override
