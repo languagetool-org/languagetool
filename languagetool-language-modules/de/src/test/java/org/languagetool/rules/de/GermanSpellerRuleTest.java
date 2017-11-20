@@ -190,6 +190,7 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("Gruessen", "Grüßen", rule, lt);
     assertFirstSuggestion("Matschscheibe", "Mattscheibe", rule, lt);
     assertFirstSuggestion("Pearl-Harbour", "Pearl Harbor", rule, lt);
+    assertFirstSuggestion("Kompatibelkeit", "Kompatibilität", rule, lt);
   }
 
   @Test
