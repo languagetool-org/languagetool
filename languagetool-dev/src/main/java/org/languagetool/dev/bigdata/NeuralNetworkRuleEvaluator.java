@@ -87,43 +87,43 @@ class NeuralNetworkRuleEvaluator {
     List<Sentence> allToken1Sentences = getRelevantSentences(inputsOrDir, token1, maxSentences);
     List<Sentence> allToken2Sentences = getRelevantSentences(inputsOrDir, token2, maxSentences);
     evaluate(rule, allToken1Sentences, true, token1, token2, evalValues1, evalMinScores);
-    evaluate(rule, allToken1Sentences, false, token2, token1, evalValues2, evalMinScores);
+    evaluate(rule, allToken1Sentences, false, token2, token1, evalValues1, evalMinScores);
     evaluate(rule, allToken2Sentences, true, token2, token1, evalValues2, evalMinScores);
-    evaluate(rule, allToken2Sentences, false, token1, token2, evalValues1, evalMinScores);
+    evaluate(rule, allToken2Sentences, false, token1, token2, evalValues2, evalMinScores);
     return printEvalResult(allToken1Sentences, allToken2Sentences, token1, token2);
   }
 
-  private void evaluate(NeuralNetworkRule rule, List<Sentence> sentences, boolean isCorrect, String token1, String token2, Map<Double, EvalValues> evalValues, List<Double> evalMinScores) {
+  private void evaluate(NeuralNetworkRule rule, List<Sentence> sentences, boolean token1IsCorrect, String token1, String token2, Map<Double, EvalValues> evalValues, List<Double> evalMinScores) {
     println("======================");
     printf("Starting evaluation on " + sentences.size() + " sentences with %s/%s:\n", token1, token2);
     JLanguageTool lt = new JLanguageTool(language);
     disableAllRules(lt);
     for (Sentence sentence : sentences) {
-      evaluateSentence(rule, isCorrect, token1, token2, evalValues, evalMinScores, lt, sentence);
+      evaluateSentence(rule, token1IsCorrect, token1, token2, evalValues, evalMinScores, lt, sentence);
     }
   }
 
-  private void evaluateSentence(NeuralNetworkRule rule, boolean isCorrect, String token1, String token2, Map<Double, EvalValues> evalValues, List<Double> evalMinScores, JLanguageTool lt, Sentence sentence) {
-    String textToken = isCorrect ? token1 : token2;
+  private void evaluateSentence(NeuralNetworkRule rule, boolean token1IsCorrect, String token1, String token2, Map<Double, EvalValues> evalValues, List<Double> evalMinScores, JLanguageTool lt, Sentence sentence) {
+    String textToken = token1IsCorrect ? token1 : token2;
     String plainText = sentence.getText();
     String replacement = token1;
-    String replacedTokenSentence = isCorrect ? plainText : plainText.replaceFirst("(?i)\\b" + textToken + "\\b", replacement);
+    String replacedTokenSentence = token1IsCorrect ? plainText : plainText.replaceFirst("(?i)\\b" + textToken + "\\b", replacement);
     try {
       AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence(replacedTokenSentence);
       for (Double minScore : evalMinScores) {
-        evaluateSentenceWithMinScore(rule, isCorrect, textToken, plainText, replacement, analyzedSentence, evalValues, minScore);
+        evaluateSentenceWithMinScore(rule, token1IsCorrect, textToken, plainText, replacement, analyzedSentence, evalValues, minScore);
       }
     } catch (IOException e) {
       throw new RuntimeException("Error while analyzing sentence", e);
     }
   }
 
-  private void evaluateSentenceWithMinScore(NeuralNetworkRule rule, boolean isCorrect, String textToken, String plainText, String replacement, AnalyzedSentence analyzedSentence, Map<Double, EvalValues> evalValues, Double minScore) throws IOException {
+  private void evaluateSentenceWithMinScore(NeuralNetworkRule rule, boolean textTokenIsCorrect, String textToken, String plainText, String replacement, AnalyzedSentence analyzedSentence, Map<Double, EvalValues> evalValues, Double minScore) throws IOException {
     rule.setMinScore(minScore);
     RuleMatch[] matches = rule.match(analyzedSentence);
     boolean consideredCorrect = matches.length == 0;
     String displayStr = plainText.replaceFirst("(?i)\\b" + textToken + "\\b", "**" + replacement + "**");
-    if (isCorrect) {
+    if (textTokenIsCorrect) {
       if (consideredCorrect) {
         evalValues.get(minScore).trueNegatives++;
 //        println("true negative: " + displayStr);
@@ -156,14 +156,14 @@ class NeuralNetworkRuleEvaluator {
     System.out.println("\nEvaluation results for " + token1 + "/" + token2
             + " with " + sentences + " sentences as of " + new Date() + ":");
 
-    System.out.println("Results for " + token1);
+    System.out.println("Results for " + token1 + " (where " + token1 + " is correctly used or " + token1 + " must be suggested)");
     evalValues1.keySet().stream()
             .sorted()
             .map(certainty -> new EvalResult(allToken1Sentences, allToken2Sentences, token1, token2, evalValues1.get(certainty), certainty))
             .forEach(evalResult -> System.out.println(evalResult.getSummary()));
     System.out.println();
 
-    System.out.println("Results for " + token2);
+    System.out.println("Results for " + token2 + " (where " + token2 + " is correctly used or " + token2 + " must be suggested)");
     evalValues2.keySet().stream()
             .sorted()
             .map(certainty -> new EvalResult(allToken1Sentences, allToken2Sentences, token1, token2, evalValues2.get(certainty), certainty))
