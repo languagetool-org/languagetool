@@ -13894,6 +13894,35 @@ USA
             <example correction="worry about">Don't <marker>worry for</marker>.</example>
             <example>I am worried about her.</example>
         </rule>
+  <rulegroup id="COLLOCATION_ERRORS_BOKOMARU" name="Common colocation errors">
+    <!-- Created by Nicholas Walker (Bokumaru), 2017-11-14 -->
+    <!-- https://forum.languagetool.org/t/en-english-collocation-rules-to-contribute-to-lt/2318 -->
+      <url>http://www.kentlee7.com/writ/collocation.errors.typical.pdf</url>
+      <short>Collocation error</short>
+    <rule id='APPLY_TO' name='Collocation: apply to/for'>
+      <pattern>
+          <token  inflected="yes">apply</token>
+          <token>to</token>
+          <token min='0' postag="DT"/>
+          <token min='0'>more</token>
+          <token regexp="yes">assistance|welfare|funds|membership</token>
+      </pattern>
+      <message>You can apply to a company or university, but you apply for \4. Revise: <suggestion>\1 for <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> \5</suggestion>.</message>
+      <example correction='apply for welfare'>You can <marker>apply to welfare</marker>.</example>
+      <example>You can apply to the job online.</example>
+      <example correction='apply for more assistance'>You can <marker>apply to more assistance</marker>.</example>
+    </rule>
+    <rule id='APPLY_FOR' name='Collocation: apply for/to'>
+      <pattern>
+          <token  inflected="yes">apply</token>
+          <token>for</token>
+          <token postag_regexp="yes" postag="PRP\$|DT"/>
+          <token regexp="yes">company|university|college|school</token>
+      </pattern>
+      <message>You can apply for a job or welfare, but you apply to a \4. Revise: <suggestion>\1 to \3 \4</suggestion>.</message>
+      <example correction='apply to another University'>You try and <marker>apply for another University</marker>!</example>
+    </rule>
+  </rulegroup>
     </category>
 
     <!-- ====================================================================== -->
