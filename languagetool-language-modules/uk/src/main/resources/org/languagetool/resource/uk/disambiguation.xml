@@ -324,7 +324,7 @@
       <marker>
         <token inflected="yes" postag_regexp="yes" postag="noun.*">Люба</token>
       </marker>
-      <token postag_regexp="yes" postag="noun.*:(lname|patr).*"/>
+      <token postag_regexp="yes" postag="noun.*?:[lp]name.*"/>
     </pattern>
     <disambig><match no="1" postag="noun.*" postag_regexp="yes"/></disambig>
     <example type="ambiguous" 
@@ -351,7 +351,7 @@
   <rule name="Однолітерні скорочення лише з малої" id="SINGLE_CHAR_ABBR_NO_CAPS">
     <pattern>
       <token case_sensitive="yes" postag_regexp="yes" postag=".*:abbr.*" regexp="yes">[А-ЯІЇЄҐ]\.
-        <exception postag_regexp="yes" postag=".*(fname|patr).*"/>
+        <exception postag_regexp="yes" postag=".*?[fp]name.*"/>
       </token>
     </pattern>
     <disambig action="remove" postag=".*"/>
@@ -367,7 +367,7 @@
   <rule name="Скорочення та ініціали" id="ABBR_VS_INITIALS">
     <pattern>
       <token case_sensitive="yes" postag_regexp="yes" postag=".*:abbr.*" regexp="yes">[А-ЯІЇЄҐ]\.
-        <exception postag_regexp="yes" postag=".*:(fname|patr).*"></exception>
+        <exception postag_regexp="yes" postag=".*?:[fp]name.*"></exception>
       </token>
     </pattern>
     <disambig action="remove" postag=".*:abbr.*"/>

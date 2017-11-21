@@ -620,7 +620,7 @@ class CompoundTagger {
 
 
   private boolean isJuniorSenior(AnalyzedToken leftAnalyzedToken, AnalyzedToken rightAnalyzedToken) {
-    return leftAnalyzedToken.getPOSTag().matches(".*:([lf]name|patr).*") && rightAnalyzedToken.getLemma().matches(".*(молодший|старший)");
+    return leftAnalyzedToken.getPOSTag().matches(".*?:[flp]name.*") && rightAnalyzedToken.getLemma().matches(".*(молодший|старший)");
   }
 
   // right part is numr

@@ -47,7 +47,7 @@ public class UkrainianHybridDisambiguator extends AbstractDisambiguator {
   private static final Pattern INANIM_VKLY = Pattern.compile("noun:inanim:.:v_kly.*");
   private static final Pattern PLURAL_NAME = Pattern.compile("noun:anim:p:.*:fname.*");
 //  private static final Pattern PLURAL_LNAME_OR_PATR = Pattern.compile("noun:anim:p:.*:lname.*");
-  private static final String PLURAL_LNAME = "noun:anim:p:.*:(lname|patr).*";
+  private static final String PLURAL_LNAME = "noun:anim:p:.*:[lp]name.*";
   
   private final Disambiguator chunker = new MultiWordChunker("/uk/multiwords.txt", true);
   private final Disambiguator disambiguator = new XmlRuleDisambiguator(new Ukrainian());
@@ -170,7 +170,7 @@ public class UkrainianHybridDisambiguator extends AbstractDisambiguator {
 
         int nextPos = i + 1 + spacedOffset;
         
-        // checking for :patr
+        // checking for :pname
         if( nextPos + 1 + spacedOffset < tokens.length
             && isInitial(tokens, nextPos)
             && (! spaced || isSpace(tokens[nextPos+1].getToken()) )
@@ -179,7 +179,7 @@ public class UkrainianHybridDisambiguator extends AbstractDisambiguator {
           int currPos = nextPos;
           nextPos += 1 + spacedOffset;
           
-          AnalyzedTokenReadings newReadings = getInitialReadings(tokens[currPos], tokens[nextPos], "patr");
+          AnalyzedTokenReadings newReadings = getInitialReadings(tokens[currPos], tokens[nextPos], "pname");
           tokens[currPos] = newReadings;
         }
         

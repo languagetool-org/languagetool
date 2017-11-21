@@ -160,7 +160,7 @@ public class UkrainianDisambiguationRuleTest extends DisambiguationRuleTest {
     TestTools.myAssert("Є.Л.Бакуліна",
       "/[null]SENT_START"
         + " Є./[Є.]noun:anim:f:v_naz:prop:fname:abbr|Є./[Є.]noun:anim:m:v_rod:prop:fname:abbr|Є./[Є.]noun:anim:m:v_zna:prop:fname:abbr"
-        + " Л./[Л.]noun:anim:f:v_naz:prop:patr:abbr|Л./[Л.]noun:anim:m:v_rod:prop:patr:abbr|Л./[Л.]noun:anim:m:v_zna:prop:patr:abbr"
+        + " Л./[Л.]noun:anim:f:v_naz:prop:pname:abbr|Л./[Л.]noun:anim:m:v_rod:prop:pname:abbr|Л./[Л.]noun:anim:m:v_zna:prop:pname:abbr"
         + " Бакуліна/[Бакулін]noun:anim:m:v_rod:prop:lname|Бакуліна/[Бакулін]noun:anim:m:v_zna:prop:lname|Бакуліна/[Бакуліна]noun:anim:f:v_naz:prop:lname",
       tokenizer, sentenceTokenizer, tagger, disambiguator);
     
@@ -169,7 +169,7 @@ public class UkrainianDisambiguationRuleTest extends DisambiguationRuleTest {
           + "  /[null]null"
           + " Є./[Є.]noun:anim:f:v_naz:prop:fname:abbr|Є./[Є.]noun:anim:m:v_rod:prop:fname:abbr|Є./[Є.]noun:anim:m:v_zna:prop:fname:abbr"
           + "  /[null]null"
-          + " Л./[Л.]noun:anim:f:v_naz:prop:patr:abbr|Л./[Л.]noun:anim:m:v_rod:prop:patr:abbr|Л./[Л.]noun:anim:m:v_zna:prop:patr:abbr"
+          + " Л./[Л.]noun:anim:f:v_naz:prop:pname:abbr|Л./[Л.]noun:anim:m:v_rod:prop:pname:abbr|Л./[Л.]noun:anim:m:v_zna:prop:pname:abbr"
           + "  /[null]null"
           + " Бакуліна/[Бакулін]noun:anim:m:v_rod:prop:lname|Бакуліна/[Бакулін]noun:anim:m:v_zna:prop:lname|Бакуліна/[Бакуліна]noun:anim:f:v_naz:prop:lname",
         tokenizer, sentenceTokenizer, tagger, disambiguator);
@@ -180,7 +180,7 @@ public class UkrainianDisambiguationRuleTest extends DisambiguationRuleTest {
           + "  /[null]null"
           + " Є./[Є.]noun:anim:f:v_naz:prop:fname:abbr|Є./[Є.]noun:anim:m:v_rod:prop:fname:abbr|Є./[Є.]noun:anim:m:v_zna:prop:fname:abbr"
           + "  /[null]null"
-          + " Л./[Л.]noun:anim:f:v_naz:prop:patr:abbr|Л./[Л.]noun:anim:m:v_rod:prop:patr:abbr|Л./[Л.]noun:anim:m:v_zna:prop:patr:abbr"
+          + " Л./[Л.]noun:anim:f:v_naz:prop:pname:abbr|Л./[Л.]noun:anim:m:v_rod:prop:pname:abbr|Л./[Л.]noun:anim:m:v_zna:prop:pname:abbr"
           + "  /[null]null"
           + " Бакуліна/[Бакулін]noun:anim:m:v_rod:prop:lname|Бакуліна/[Бакулін]noun:anim:m:v_zna:prop:lname|Бакуліна/[Бакуліна]noun:anim:f:v_naz:prop:lname"
           + "  /[null]null"
@@ -188,7 +188,7 @@ public class UkrainianDisambiguationRuleTest extends DisambiguationRuleTest {
           + "  /[null]null"
           + " Г./[Г.]noun:anim:m:v_naz:prop:fname:abbr"
           + "  /[null]null"
-          + " К./[К.]noun:anim:m:v_naz:prop:patr:abbr"
+          + " К./[К.]noun:anim:m:v_naz:prop:pname:abbr"
           + "  /[null]null"
           + " Бакулін/[Бакулін]noun:anim:m:v_naz:prop:lname",
         tokenizer, sentenceTokenizer, tagger, disambiguator);

@@ -792,7 +792,7 @@ final class TokenAgreementAdjNounExceptionHelper {
           && PosTagHelper.hasPosTagPart(tokens[i+1], "noun:") ) {
 
         // вдячний редакторові Вільяму
-//        if( PosTagHelper.hasPosTag(tokens[i+1], "noun:anim.*([fl]name|patr).*")
+//        if( PosTagHelper.hasPosTag(tokens[i+1], "noun:anim.*?[flp]name.*")
 //            && caseGovernmentMatches(adjTokenReadings, InflectionHelper.getNounInflections(tokens[i+1].getReadings())) ) {
 //          logException();
 //          return true;
