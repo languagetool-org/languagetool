@@ -4,6 +4,8 @@
 
 #### English
   * removed the category MISC and moved the rules to more specific categories
+  * added WordCordCoherencyRule
+  * added support for locale-specific spelling suggestions (locale-specific spelling_en-XY.txt files)
 
 #### Galician
   * added and improved rules, including:
