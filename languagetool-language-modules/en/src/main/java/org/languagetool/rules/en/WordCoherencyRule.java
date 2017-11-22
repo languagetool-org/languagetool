@@ -35,8 +35,8 @@ public class WordCoherencyRule extends AbstractWordCoherencyRule {
 
   public WordCoherencyRule(ResourceBundle messages) throws IOException {
     super(messages);
-    addExamplePair(Example.wrong("I work with one disk at a time. Each <marker>disc</marker> measures one inch in diameter."),
-                   Example.fixed("I work with one disk at a time. Each <marker>disk</marker> measures one inch in diameter."));
+    addExamplePair(Example.wrong("He likes archaeology. Really? She likes <marker>archeology</marker>, too."),
+                   Example.fixed("He likes archaeology. Really? She likes <marker>archaeology</marker>, too."));
   }
 
   @Override

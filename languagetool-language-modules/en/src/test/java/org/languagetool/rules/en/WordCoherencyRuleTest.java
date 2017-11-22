@@ -45,24 +45,24 @@ public class WordCoherencyRuleTest {
   @Test
   public void testRule() throws IOException {
     // correct sentences:
-    assertGood("He owns a disk. She owns a disk, too.");
-    assertGood("He owns a disc. She owns a disc, too.");
+    assertGood("He likes archeology. She likes archeology, too.");
+    assertGood("He likes archaeology. She likes archaeology, too.");
     // errors:
-    assertError("He owns a disc. She owns a disk, too.");
+    assertError("He likes archaeology. She likes archeology, too.");
   }
 
   @Test
   public void testCallIndependence() throws IOException {
-    assertGood("He owns a disc");
-    assertGood("She owns a disk, too.");  // this won't be noticed, the calls are independent of each other
+    assertGood("He likes archaeology.");
+    assertGood("She likes archeology, too.");  // this won't be noticed, the calls are independent of each other
   }
 
   @Test
   public void testMatchPosition() throws IOException {
-    List<RuleMatch> ruleMatches = lt.check("He owns a disk. She owns a disc, too.");
+    List<RuleMatch> ruleMatches = lt.check("He likes archaeology. She likes archeology, too.");
     assertThat(ruleMatches.size(), is(1));
-    assertThat(ruleMatches.get(0).getFromPos(), is(27));
-    assertThat(ruleMatches.get(0).getToPos(), is(31));
+    assertThat(ruleMatches.get(0).getFromPos(), is(32));
+    assertThat(ruleMatches.get(0).getToPos(), is(42));
   }
 
   private void assertGood(String s) throws IOException {
@@ -73,9 +73,9 @@ public class WordCoherencyRuleTest {
 
   @Test
   public void testRuleCompleteTexts() throws IOException {
-    assertEquals(0, lt.check("He owns a disk. Really? Yes, he owns a disk.").size());
-    assertEquals(1, lt.check("He owns a disk. Really? Yes, he owns a disc.").size());
-    assertEquals(1, lt.check("He owns a disc. Really? Yes, he owns a disk.").size());
+    assertEquals(0, lt.check("He likes archaeology. Really? She likes archaeology, too.").size());
+    assertEquals(1, lt.check("He likes archaeology. Really? She likes archeology, too.").size());
+    assertEquals(1, lt.check("He likes archeology. Really? She likes archaeology, too.").size());
   }
 
   private void assertError(String s) throws IOException {
