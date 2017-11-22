@@ -6606,6 +6606,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="несмотря на">Премия в этом году состоялась <marker>не смотря на</marker> кризис.</example>
                 <example correction="невзирая на">Премия в этом году состоялась <marker>не взирая на</marker> кризис.</example>
             </rule>
+            
+            <rule>
+                <!-- навстречу/ на встречу               
+                -->
+                <pattern case_sensitive="no">
+                    <token>навстречу</token>
+                    <token>с</token>
+                </pattern>
+                <message>Пишется раздельно: <suggestion>на встречу \2</suggestion>.</message>
+                <short>Пишется раздельно.</short>
+                <example correction="на встречу с">Я иду  <marker>навстречу с</marker> искусством.</example>
+                <example>Я иду на встречу с искусством.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="no">
+                    <token>на</token>
+                    <token>встречу</token>
+                    <token postag_regexp="yes" postag=".*.:.*:.*:D"></token>
+                </pattern>
+                <message>Пишется слитно: <suggestion>навстречу \3</suggestion>.</message>
+                <short>Пишется слитно.</short>
+                <example correction="навстречу движению">Я иду  <marker>на встречу движению</marker>.</example>
+                <example>Я иду навстречу движению.</example>
+            </rule>
+            
+            
         </rulegroup>
         <rulegroup id="TO_JE" name="Правописание «тоже/то же»">
           <rule>
