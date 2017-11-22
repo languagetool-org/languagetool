@@ -41,7 +41,7 @@ import java.net.URL;
  */
 public class GalicianWikipediaRule extends AbstractSimpleReplaceRule2 {
 
-  public static final String WIKIPEDIA_COMMON_ERRORS = "WIKIPEDIA_COMMON_ERRORS";
+  public static final String WIKIPEDIA_COMMON_ERRORS = "GL_WIKIPEDIA_COMMON_ERRORS";
 
   private static final String FILE_NAME = "/gl/wikipedia.txt";
   private static final Locale GL_LOCALE = new Locale("gl");// locale used on case-conversion

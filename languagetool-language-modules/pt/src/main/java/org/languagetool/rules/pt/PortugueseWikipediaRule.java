@@ -41,7 +41,7 @@ import java.net.URL;
  */
 public class PortugueseWikipediaRule extends AbstractSimpleReplaceRule2 {
 
-  public static final String WIKIPEDIA_COMMON_ERRORS = "WIKIPEDIA_COMMON_ERRORS";
+  public static final String WIKIPEDIA_COMMON_ERRORS = "PT_WIKIPEDIA_COMMON_ERRORS";
 
   private static final String FILE_NAME = "/pt/wikipedia.txt";
   private static final Locale PT_LOCALE = new Locale("pt");// locale used on case-conversion

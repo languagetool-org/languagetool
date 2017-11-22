@@ -176,7 +176,7 @@ public class Galician extends Language {
       // case "BIASED_OPINION_WORDS":      return -31;
       // case "WEAK_WORDS":                return -32;
       // case "PT_AGREEMENT_REPLACE":      return -35;
-      case "WIKIPEDIA_COMMON_ERRORS":   return -45;
+      case "GL_WIKIPEDIA_COMMON_ERRORS":   return -45;
       case "HUNSPELL_RULE":             return -50;
       // case "NO_VERB":                   return -52;
       // case "CRASE_CONFUSION":           return -55;
