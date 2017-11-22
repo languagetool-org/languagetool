@@ -10,6 +10,7 @@
 #### Galician
   * added and improved rules, including:
     - grammar: agreement rules added (only number and gender agreement)
+    - common normative errors: includes Castilianisms, Lusitanianisms, Hipergalicisms, archaisms and Anglicisms correction
     - style: barbarism, redundant expressions, and wordy expressions detection added
     - typography: spacing and number formatting improvements; chemical formulas; degree 
       signs; dashes; punctuation; international system standards; and mathematical symbol formatting
