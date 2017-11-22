@@ -81,6 +81,7 @@ title="Easy editing stylesheet" ?>
     <!ENTITY haver_impessoal "(?:h(?:á|avia|ouve|ouvera|averá|averia|aja|ouvesse|ouver))">
 
     <!ENTITY adj_nomes_paronimos_a "(?:(?:p(?:á(?:(?:gin|sco|ri)a|(?:bul|li)o|ti(?:na|o))|r(?:(?:e(?:sság|fác)|ontuár)io|átic[ao])|lá(?:ci(?:d[ao]|to)|gio)|ará(?:grafo|lise)|erdulári[ao]|sicanálise|osfácio)|á(?:(?:t(?:rop|ic)|f(?:ric|i)|bson)[ao]|r(?:i(?:c[ao]|a)|bitr[ao]|vore)|c(?:(?:er|id)[ao]|aro)|(?:s(?:cu|i)|[vx]il)a|g(?:raf[ao]|ua)|(?:lvidr|dit)o|pod[aeo])|c(?:á(?:(?:l(?:cul|am)|dmi)o|r(?:(?:cer|i)e|dia)|(?:ps|b)ula)|o(?:nt(?:rári[ao]|ágio)|missári[ao])|a(?:tál(?:ise|ogo)|ntárid[ae]))|a(?:n(?:iversário|álise)|má(?:si[ao]|lgama)|(?:lgáli|záfam)a|(?:pan|d)ágio|cárid[ao])|g(?:á(?:(?:strul|bi|zu)a|lic[ao]|rrulo)|(?:r(?:amátic|ávid)|inástic)[ao]|ládio)|s(?:(?:e(?:cretári|lvátic)|u(?:bsecret|m)ári)[ao]|á(?:(?:tur|bi)a|culo)|alário)|l(?:á(?:(?:ce|za)r[ao]|(?:gr|st)ima|pid[ae]|tego)|arápi[ao])|e(?:(?:pigramátic|mpresári)[ao]|(?:ficá|nxár)cia|stá[dg]io)|r(?:á(?:b(?:i(?:d[ao]|a)|ano|ula)|dio|fia)|essábio|ipária)|má(?:(?:scar|cul|fi)a|g(?:ic[ao]|oa)|t(?:ico|ria))|v(?:á(?:lid[ao]|ria)|oluntári[ao]|iático)|h(?:emodiálise|ilári[ao]|á[bl]ito)|d(?:i(?:cionário|álise)|ádiva)|t(?:ráf(?:eg[ao]|ico)|ábula)|in(?:flacionária|ventário)|bá(?:scul[ao]|lsamo|tega)|f(?:áb(?:ric|ul)|aláci)a|jáculo))s?">
+    <!ENTITY adj_nomes_paronimos_a_2 "(?:mágic[ao])s?">
     <!ENTITY adj_nomes_paronimos_e "(?:(?:p(?:r(?:é(?:(?:dic|vi)a|lio)|ivilégio)|(?:ér(?:ol|vi)|ilhéri)a|erpétu[ao])|t(?:r(?:ép(?:id[ao]|lica|ano)|agédia)|ér(?:ci[ao]|ebra|mino)|elégrafo)|r(?:é(?:(?:c(?:it|ov)|plic|mor)a|g(?:ulo|ia))|e(?:mémor[ao]|vérbero))|d(?:é(?:c(?:upl|im)[ao]|bito)|e(?:crépit[ao]|scrédito)|oméstic[ao])|a(?:(?:(?:cé(?:qu|d)|mnés)i|lméceg)a|(?:(?:dvérb|sséd)i|préstam)o)|e(?:s(?:tr(?:atégia|épito)|péc(?:ulo|ie))|xército)|v(?:é(?:(?:get|ner)[ao]|(?:rmin|sti)a)|enéfic[ao])|(?:(?:f(?:acéc|ér)|inérc|hérn|lér)i|névo)a|sé(?:r(?:i[aeo]|via)|c(?:i[ao]|ulo))|c(?:omé(?:rcio|dia)|élebre|rédito)|g(?:a(?:ldéri[ao]|udério)|émula)|é(?:mul[ao]|dito)|médic?[ao]))s?">
     <!ENTITY adj_nomes_paronimos_eh "(?:(?:(?:p(?:r(?:(?:ovi|u)d|efer)|e(?:n(?:it|d)|stil)|ot)|i(?:n(?:(?:teli|dul)g|flu)|mpertin|rrever)|re(?:(?:minis|ti)c|[fv]er|sid)|(?:(?:neg|di)li|a)g|qu(?:intess|er)|t(?:ang|end)|minud|ger)ência|c(?:o(?:n(?:f(?:er|id)|ting)ência|mpêndio)|(?:(?:re|a)d|lem)ência)|e(?:(?:xperi|min|vid)ência|stipêndio)|vi(?:lipêndio|vência)|silêncio))s?">
     <!ENTITY adj_nomes_paronimos_eh_2 "incêndio">
@@ -13447,7 +13448,7 @@ o tomate'>
     <rule>
       <pattern>
           <token regexp='yes'>eu|tu|el[ea]s?|nós|vós|vocês?</token>
-          <token regexp='yes'>&adj_nomes_paronimos_a;</token>
+          <token regexp='yes'>&adj_nomes_paronimos_a;|&adj_nomes_paronimos_a_2;</token>
       </pattern>
       <message>Se pretende utilizar o verbo, não deve acentuar a palavra.</message>
         <suggestion>\1 <match no="2" regexp_match="[Áá]" regexp_replace="a"/></suggestion>
@@ -13456,7 +13457,7 @@ o tomate'>
     </rule>
     <rule>
       <pattern>
-          <token regexp='yes'>&adj_nomes_paronimos_a;</token>
+          <token regexp='yes'>&adj_nomes_paronimos_a;|&adj_nomes_paronimos_a_2;</token>
           <token regexp='yes' spacebefore='no'>&tracos_de_separacao;</token>
           <token postag_regexp='yes' postag='PP.+' spacebefore='no'/>
       </pattern>
@@ -19759,6 +19760,17 @@ TODO Write better examples
         <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> dívida<match no='3' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
       <example correction='uma dívida'><marker>uma divida</marker>.</example>
       <example correction='umas dívidas'><marker>umas dividas</marker>.</example>
+    </rule>
+    <rule id='PARONYM_MAGICA_613' name='Parónimo: divida'>
+      <pattern>
+          <token regexp='yes'>&art_detecao_paronimos;</token>
+          <token min='0' postag='A.+' postag_regexp='yes'/>
+          <token regexp='yes'>magic[ao]s?</token>
+      </pattern>
+      <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
+        <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> mágic<match no='3' regexp_match='.+?([ao]s?)$' regexp_replace='$1'/></suggestion>
+      <example correction='uma mágica'><marker>uma magica</marker>.</example>
+      <example correction='uns mágicos'><marker>uns magicos</marker>.</example>
     </rule>
   </rulegroup>
 

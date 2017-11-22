@@ -16,9 +16,9 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.rules.pt;
+package org.languagetool.rules.gl;
 
-import org.languagetool.language.Portuguese;
+import org.languagetool.language.Galician;
 import org.languagetool.rules.AbstractSimpleReplaceRule2;
 import org.languagetool.rules.Categories;
 import org.languagetool.rules.Example;
@@ -37,14 +37,14 @@ import java.net.URL;
  * <code>/pt/wikipedia.txt</code>.
  *
  * @author Tiago F. Santos 
- * @since 3.6
+ * @since 4.0
  */
-public class PortugueseWikipediaRule extends AbstractSimpleReplaceRule2 {
+public class GalicianWikipediaRule extends AbstractSimpleReplaceRule2 {
 
-  public static final String WIKIPEDIA_COMMON_ERRORS = "PT_WIKIPEDIA_COMMON_ERRORS";
+  public static final String WIKIPEDIA_COMMON_ERRORS = "GL_WIKIPEDIA_COMMON_ERRORS";
 
-  private static final String FILE_NAME = "/pt/wikipedia.txt";
-  private static final Locale PT_LOCALE = new Locale("pt");// locale used on case-conversion
+  private static final String FILE_NAME = "/gl/wikipedia.txt";
+  private static final Locale GL_LOCALE = new Locale("gl");// locale used on case-conversion
 
   @Override
   public final String getFileName() {
@@ -52,12 +52,12 @@ public class PortugueseWikipediaRule extends AbstractSimpleReplaceRule2 {
   }
 
 
-  public PortugueseWikipediaRule(ResourceBundle messages) throws IOException {
-    super(messages, new Portuguese());
+  public GalicianWikipediaRule(ResourceBundle messages) throws IOException {
+    super(messages, new Galician());
     super.setCategory(Categories.WIKIPEDIA.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Grammar);
-    addExamplePair(Example.wrong("<marker>mais também</marker>"),
-                   Example.fixed("<marker>mas também</marker>"));
+    addExamplePair(Example.wrong("<marker>a efectos de</marker>"),
+                   Example.fixed("<marker>para os efectos de</marker>"));
   }
 
   @Override
@@ -67,7 +67,7 @@ public class PortugueseWikipediaRule extends AbstractSimpleReplaceRule2 {
 
   @Override
   public String getDescription() {
-    return "Erros frequentes nos artigos da Wikipédia";
+    return "Erros frecuentes nos artigos da Wikipedia";
   }
 
   @Override
@@ -77,7 +77,7 @@ public class PortugueseWikipediaRule extends AbstractSimpleReplaceRule2 {
   
   @Override
   public String getSuggestion() {
-    return " é um erro. Considere utilizar ";
+    return " é un erro. Considere utilizar ";
   }
 
   @Override
@@ -87,12 +87,12 @@ public class PortugueseWikipediaRule extends AbstractSimpleReplaceRule2 {
 
   @Override
   public URL getUrl() {
-    return Tools.getUrl("https://pt.wikipedia.org/wiki/Wikip%C3%A9dia:Lista_de_erros_comuns/M%C3%A1quinas");
+    return Tools.getUrl("https://gl.wikipedia.org/wiki/Wikipedia:Erros_de_ortograf%C3%ADa_e_desviaci%C3%B3ns");
   }
 
   @Override
   public Locale getLocale() {
-    return PT_LOCALE;
+    return GL_LOCALE;
   }
 
 }

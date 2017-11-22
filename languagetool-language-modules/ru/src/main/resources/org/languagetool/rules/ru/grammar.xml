@@ -5124,7 +5124,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Тосковать по дому.</example>
            </rule>
         </rulegroup>      
-        <rule  id="Unify_PADJ_NN_case" name="Согласование притяжательного прилагательного с существительным по падежу">
+        <rule  id="Unify_PADJ_NN_case" name="Согласование притяжательного прилагательного (местоимения) с существительным по падежу">
             <!-- TODO remove свой + все формы from exception -->       
             <antipattern>
                 <token>во</token>
@@ -5148,7 +5148,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </unify>				        
                 </marker>
             </pattern>
-            <message>Притяжательное прилагательное не согласуется с существительным по падежу.</message>
+            <message>Притяжательное прилагательное (местоимение) не согласуется с существительным по падежу.</message>
             <short>Не согласуются по падежу</short>
             <example>моё отношение</example>
             <example>Сама кашу заварила, сама и расхлёбывай.</example>
@@ -5156,7 +5156,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Положив тем самым основы коалиции.</example>
             <example correction=""><marker>моему отношение</marker></example>
         </rule>
-        <rule  id="Unify_PADJ_NN_gender" name="Согласование притяжательного прилагательного с существительным по роду">
+        <rule  id="Unify_PADJ_NN_gender" name="Согласование притяжательного прилагательного (местоимения) с существительным по роду">
             <!-- TODO remove свой + все формы from exception -->                 
             <pattern>
                 <marker>
@@ -5175,7 +5175,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </unify>				        
                 </marker>
             </pattern>
-            <message>Притяжательное прилагательное не согласуется с существительным по роду.</message>
+            <message>Притяжательное прилагательное (местоимение) не согласуется с существительным по роду.</message>
             <short>Не согласуются по роду</short>
             <example>моё отношение</example>
             <example>Сама кашу заварила, сама и расхлёбывай.</example>
@@ -5183,7 +5183,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Он каждые полчаса бежит в лабораторию.</example>
             <example correction=""><marker>моей отношение</marker></example>
         </rule>
-        <rule  id="Unify_PADJ_NN_number" name="Согласование притяжательного прилагательного с существительным по числу">
+        <rule  id="Unify_PADJ_NN_number" name="Согласование притяжательного прилагательного (местоимения) с существительным по числу">
             <!-- TODO remove свой + все формы from exception -->
             <antipattern>
               <marker>
@@ -5222,7 +5222,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </unify>				        
                 </marker>
             </pattern>
-            <message>Притяжательное прилагательное не согласуется с существительным по числу.</message>
+            <message>Притяжательное прилагательное (местоимение) не согласуется с существительным по числу.</message>
             <short>Не согласуются по числу</short>
             <example>это отношение</example>
             <example>Он каждые полчаса бежит в лабораторию.</example>
@@ -5232,11 +5232,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction=""><marker>эти отношение</marker></example>
         </rule>
         <rule  id="Unify_PNN_NN_number" name="Согласование местоимения с существительным по числу" default="off">
+            <!-- Disabled. Может быть не только согласование, но и управление.
+            "Целое больше суммы его частей."
+            "Давай, я завяжу тебе шнурки."
+            -->
             <pattern>
                 <marker>
                     <unify negate="yes">
                         <feature id="number"/>
-                        <token postag="PNN:.*" postag_regexp="yes"><exception scope="previous" regexp="yes">,|-|—</exception><exception inflected="yes" regexp="yes" >это|то</exception></token>
+                        <token postag="PNN:.*" postag_regexp="yes"><exception scope="previous" regexp="yes">,|-|—</exception><exception scope="previous" postag="PREP"></exception><exception inflected="yes" regexp="yes" >это|то</exception></token>
                         <token postag="NN:.*" postag_regexp="yes"><exception negate_pos="yes" postag="NN:.*" postag_regexp="yes" />
                             <!-- Слова без буквы ё имеют неправильный падеж -->
                             <exception regexp="yes">&missing_yo;</exception>
@@ -5247,6 +5251,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Местоимение не согласуется с существительным по числу.</message>
             <short>Не согласуются по числу</short>
             <example>По сумме всех запусков оптимизации.</example>
+            <example>Это и повлияло на их решение.</example>
             <example correction="">По сумме <marker>всего запускам</marker> оптимизации.</example>
         </rule>                                           
         <rulegroup default="on" id="Soglasovanie_ADJ_NN" name="Согласование прилагательного с существительным">
@@ -6601,6 +6606,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="несмотря на">Премия в этом году состоялась <marker>не смотря на</marker> кризис.</example>
                 <example correction="невзирая на">Премия в этом году состоялась <marker>не взирая на</marker> кризис.</example>
             </rule>
+            
+            <rule>
+                <!-- навстречу/ на встречу               
+                -->
+                <pattern case_sensitive="no">
+                    <token>навстречу</token>
+                    <token>с</token>
+                </pattern>
+                <message>Пишется раздельно: <suggestion>на встречу \2</suggestion>.</message>
+                <short>Пишется раздельно.</short>
+                <example correction="на встречу с">Я иду  <marker>навстречу с</marker> искусством.</example>
+                <example>Я иду на встречу с искусством.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="no">
+                    <token>на</token>
+                    <token>встречу</token>
+                    <token postag_regexp="yes" postag=".*.:.*:.*:D"></token>
+                </pattern>
+                <message>Пишется слитно: <suggestion>навстречу \3</suggestion>.</message>
+                <short>Пишется слитно.</short>
+                <example correction="навстречу движению">Я иду  <marker>на встречу движению</marker>.</example>
+                <example>Я иду навстречу движению.</example>
+            </rule>
+            
+            
         </rulegroup>
         <rulegroup id="TO_JE" name="Правописание «тоже/то же»">
           <rule>

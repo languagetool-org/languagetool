@@ -6,7 +6,7 @@ German Disambiguation Rules for LanguageTool
 Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
 -->
   <!DOCTYPE rules [
-    <!ENTITY zal_adj "(?-i)(\d+-|(ein|zw(ei|an)|dreiß?|vier|fünf|sechs?|sieb|acht|neun)(zehn|zig)?)(jähr|bänd|seit|monat|täg)">
+    <!ENTITY zal_adj "(?-i)(\d+-|(ein|zw(ei|an)|dreiß?|vier|fünf|s(echs?|ieb(en)?)|acht|neun)(zehn|zig)?)(jähr|bänd|seit|monat|täg|köpf)">
 ]>
 
 <rules lang="de" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/resource/disambiguation.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
@@ -2515,6 +2515,12 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
       <pattern case_sensitive="yes">
         <token>Machu</token>
         <token>Picchu</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="-köpfig" id="köpfig">
+      <pattern case_sensitive="yes">
+        <token regexp="yes">\d+-köpfige.?</token>
       </pattern>
       <disambig action="ignore_spelling"/>
     </rule>

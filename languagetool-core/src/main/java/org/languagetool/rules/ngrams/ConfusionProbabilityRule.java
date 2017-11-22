@@ -18,6 +18,9 @@
  */
 package org.languagetool.rules.ngrams;
 
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
@@ -33,6 +36,7 @@ import org.languagetool.tools.Tools;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * LanguageTool's homophone confusion check that uses ngram lookups
@@ -52,6 +56,20 @@ public abstract class ConfusionProbabilityRule extends Rule {
 
   private static final boolean DEBUG = false;
 
+  // Speed up the server use case, where rules get initialized for every call:
+  private static final LoadingCache<String, Map<String, List<ConfusionSet>>> confSetCache = CacheBuilder.newBuilder()
+      .expireAfterWrite(10, TimeUnit.MINUTES)
+      .build(new CacheLoader<String, Map<String, List<ConfusionSet>>>() {
+        @Override
+        public Map<String, List<ConfusionSet>> load(@NotNull String fileInClassPath) throws IOException {
+          ConfusionSetLoader confusionSetLoader = new ConfusionSetLoader();
+          ResourceDataBroker dataBroker = JLanguageTool.getDataBroker();
+          try (InputStream confusionSetStream = dataBroker.getFromResourceDirAsStream(fileInClassPath)) {
+            return confusionSetLoader.loadConfusionSet(confusionSetStream);
+          }
+        }
+      });
+
   private final Map<String,List<ConfusionSet>> wordToSets = new HashMap<>();
   private final LanguageModel lm;
   private final int grams;
@@ -65,15 +83,9 @@ public abstract class ConfusionProbabilityRule extends Rule {
     super(messages);
     setCategory(Categories.TYPOS.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.NonConformance);
-    ResourceDataBroker dataBroker = JLanguageTool.getDataBroker();
     for (String filename : getFilenames()) {
       String path = "/" + language.getShortCode() + "/" + filename;
-      try (InputStream confusionSetStream = dataBroker.getFromResourceDirAsStream(path)) {
-        ConfusionSetLoader confusionSetLoader = new ConfusionSetLoader();
-        this.wordToSets.putAll(confusionSetLoader.loadConfusionSet(confusionSetStream));
-      } catch (IOException e) {
-        throw new RuntimeException(e);
-      }
+      this.wordToSets.putAll(confSetCache.getUnchecked(path));
     }
     this.lm = Objects.requireNonNull(languageModel);
     this.language = Objects.requireNonNull(language);

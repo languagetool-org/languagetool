@@ -4,10 +4,13 @@
 
 #### English
   * removed the category MISC and moved the rules to more specific categories
+  * added WordCordCoherencyRule
+  * added support for locale-specific spelling suggestions (locale-specific spelling_en-XY.txt files)
 
 #### Galician
   * added and improved rules, including:
     - grammar: agreement rules added (only number and gender agreement)
+    - common normative errors: includes Castilianisms, Lusitanianisms, Hipergalicisms, archaisms and Anglicisms correction
     - style: barbarism, redundant expressions, and wordy expressions detection added
     - typography: spacing and number formatting improvements; chemical formulas; degree 
       signs; dashes; punctuation; international system standards; and mathematical symbol formatting
