@@ -23347,18 +23347,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token postag="V.N.*" postag_regexp="yes" regexp="yes">.+e</token>
-                    <marker>
-                        <token postag="P0.*|PP.*" postag_regexp="yes">-vos</token>
-                    </marker>
-                </pattern>
-                <message>Forma de pronom incorrecta.</message>
-                <suggestion>-us</suggestion>
-                <example correction="-us">Veure<marker>-vos</marker>.</example>
-                <example>Veure-us.</example>
-            </rule>
-            <rule>
-                <pattern>
                     <token postag="V.[MNG].*" postag_regexp="yes"><exception postag="V.N.*" postag_regexp="yes" regexp="yes">.+e</exception></token>
                     <marker>
                         <token postag="P0.*|PP.*" postag_regexp="yes">-us</token>
@@ -24125,6 +24113,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="EXIGEIX_US" name="Exigeix la forma 'us': ¿Què vos/us sembla?" type="style">
+            <url>http://www.ceice.gva.es/documents/161863132/163843714/Criteris+Ling%C3%BC%C3%ADstics_web.pdf#page=32</url>
             <rule>
                 <pattern>
                     <marker>
@@ -24132,8 +24121,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token><exception postag="V...2P.*" postag_regexp="yes" /><exception>guard</exception></token>
                 </pattern>
-                <message>És preferible la forma <suggestion>us</suggestion>.</message>
-                <short>Forma preferible</short>
+                <message>Forma preferible.</message>
+                <suggestion>us</suggestion>
                 <example correction="us"><marker>vos</marker> sembla bé</example>
                 <example>vós sou l'únic sant</example>
                 <example>Déu vos guard</example>
@@ -24149,6 +24138,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Forma preferible</short>
                 <example correction="us|vós"><marker>vos</marker> assembleu molt</example>
                 <example>vós sembleu un sant</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="V.N.*" postag_regexp="yes" regexp="yes">.+e</token>
+                    <marker>
+                        <token postag="P0.*|PP.*" postag_regexp="yes">-vos</token>
+                    </marker>
+                </pattern>
+                <message>Forma preferible.</message>
+                <suggestion>-us</suggestion>
+                <example correction="-us">Veure<marker>-vos</marker>.</example>
+                <example>Veure-us.</example>
             </rule>
         </rulegroup>
         <rule id="LEN" name="le'n">
