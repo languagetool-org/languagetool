@@ -191,6 +191,9 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("Matschscheibe", "Mattscheibe", rule, lt);
     assertFirstSuggestion("Pearl-Harbour", "Pearl Harbor", rule, lt);
     assertFirstSuggestion("Kompatibelkeit", "Kompatibilität", rule, lt);
+    assertFirstSuggestion("WiFi-Direkt", "Wi-Fi Direct", rule, lt);
+    assertFirstSuggestion("Wi-Fi-Direct", "Wi-Fi Direct", rule, lt);
+    assertFirstSuggestion("hofen", "hoffen", rule, lt);
   }
 
   @Test

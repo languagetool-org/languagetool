@@ -128,8 +128,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("[wW]ohlfühlseins?", w -> Arrays.asList("Wellness", w.replaceFirst("[wW]ohlfühlsein", "Wohlbefinden"), w.replaceFirst("[wW]ohlfühlsein", "Wohlfühlen")));
     putRepl("[sS]chmett?e?rling(s|en?)?", "[sS]chmett?e?rling", "Schmetterling");
     putRepl("^[eE]inlamie?nie?r(st|en?|(t(e[nmrs]?)?))?", "^einlamie?nie?r", "laminier");
-    putRepl("bravuröse?[nrms]?", "bravur", "bravour");
-    putRepl("[aA]ss?ecoires?", "[aA]ss?ecoire", "Accessoire");
+    putRepl("[bB]ravurös(e[nrms]?)?", "vur", "vour");
+    putRepl("[aA]ss?ecoires?", "[aA]ss?ec", "Access");
     putRepl("[aA]ufwechse?lungsreich(er|st)?(e[nmrs]?)?", "ufwechse?lung", "bwechslung");
     putRepl("[iI]nordnung", "ordnung", " Ordnung");
     putRepl("[wW]ienerschnitzel[ns]?", "[wW]ieners", "Wiener S");
@@ -141,6 +141,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("[hH]eilei[td]s?", "[hH]eilei[td]", "Highlight");
     putRepl("[mM]atschscheiben?", "[mM]atschsch", "Mattsch");
     put("schafen?", w -> Arrays.asList(w.replaceFirst("sch", "schl"), w.replaceFirst("af", "arf"), w.replaceFirst("af", "aff")));
+    putRepl("[hH]ofen?", "of", "off");
+    put("Wi-?Fi-Dire[ck]t", "Wi-Fi Direct");
     put("gans", "ganz");
     put("Pearl-Harbou?r", "Pearl Harbor");
     put("[kK]ompatibelkeit", "Kompatibilität");
