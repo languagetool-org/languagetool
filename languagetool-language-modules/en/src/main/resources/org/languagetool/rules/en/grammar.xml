@@ -13900,6 +13900,7 @@ USA
       <url>http://www.kentlee7.com/writ/collocation.errors.typical.pdf</url>
       <short>Collocation error</short>
     <rule id='APPLY_TO' name='Collocation: apply to/for'>
+    <!-- Created by Nicholas Walker (Bokumaru), 2017-11-14 -->
       <pattern>
           <token  inflected="yes">apply</token>
           <token>to</token>
@@ -13913,6 +13914,7 @@ USA
       <example correction='apply for more assistance'>You can <marker>apply to more assistance</marker>.</example>
     </rule>
     <rule id='APPLY_FOR' name='Collocation: apply for/to'>
+    <!-- Created by Nicholas Walker (Bokumaru), 2017-11-14 -->
       <pattern>
           <token  inflected="yes">apply</token>
           <token>for</token>
@@ -13921,6 +13923,29 @@ USA
       </pattern>
       <message>You can apply for a job or welfare, but you apply to a \4. Revise: <suggestion>\1 to \3 \4</suggestion>.</message>
       <example correction='apply to another University'>You try and <marker>apply for another University</marker>!</example>
+    </rule>
+    <rule id='VERB_IN_AT' name='Collocation: Sit in/at'>
+    <!-- Created by Nicholas Walker (Bokumaru), 2017-11-14 -->
+      <pattern>
+          <token postag_regexp="yes" postag="PRP|NNP"/>
+          <token regexp="yes" inflected="yes">sit|eat|work</token>
+          <token>in</token>
+          <token postag_regexp="yes" postag="PRP\$|DT"/>
+          <token>desk</token>
+      </pattern>
+      <message>The usual preposition for activities with a desk is "at."  Try this: <suggestion>\1 \2 at \4 \5</suggestion>.</message>
+      <example correction='I eat at my desk'>At lunch, I eat with my colleague working or <marker>I eat in my desk</marker> alone.</example>
+    </rule>
+    <rule id='BETWEEN_TO_AND' name='Collocation: Between ... to/and ...'>
+    <!-- Created by Nicholas Walker (Bokumaru), 2017-11-14 -->
+      <pattern>
+          <token>between</token>
+          <token/>
+          <token>to</token>
+          <token/>
+      </pattern>
+      <message>Use "between" + "and" not "to."  Try this: <suggestion>\1 \2 and \4</suggestion>.</message>
+      <example correction='between three and five'>Children <marker>between three to five</marker> are cute.</example>
     </rule>
   </rulegroup>
     </category>
