@@ -13895,12 +13895,12 @@ USA
             <example>I am worried about her.</example>
         </rule>
   <rulegroup id="COLLOCATION_ERRORS_BOKOMARU" name="Common colocation errors">
-    <!-- Created by Nicholas Walker (Bokumaru), 2017-11-14 -->
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
     <!-- https://forum.languagetool.org/t/en-english-collocation-rules-to-contribute-to-lt/2318 -->
       <url>http://www.kentlee7.com/writ/collocation.errors.typical.pdf</url>
       <short>Collocation error</short>
     <rule id='APPLY_TO' name='Collocation: apply to/for'>
-    <!-- Created by Nicholas Walker (Bokumaru), 2017-11-14 -->
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
       <pattern>
           <token  inflected="yes">apply</token>
           <token>to</token>
@@ -13914,7 +13914,7 @@ USA
       <example correction='apply for more assistance'>You can <marker>apply to more assistance</marker>.</example>
     </rule>
     <rule id='APPLY_FOR' name='Collocation: apply for/to'>
-    <!-- Created by Nicholas Walker (Bokumaru), 2017-11-14 -->
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
       <pattern>
           <token  inflected="yes">apply</token>
           <token>for</token>
@@ -13925,7 +13925,7 @@ USA
       <example correction='apply to another University'>You try and <marker>apply for another University</marker>!</example>
     </rule>
     <rule id='VERB_IN_AT' name='Collocation: Sit in/at'>
-    <!-- Created by Nicholas Walker (Bokumaru), 2017-11-14 -->
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
       <pattern>
           <token postag_regexp="yes" postag="PRP|NNP"/>
           <token regexp="yes" inflected="yes">sit|eat|work</token>
@@ -13937,7 +13937,7 @@ USA
       <example correction='I eat at my desk'>At lunch, I eat with my colleague working or <marker>I eat in my desk</marker> alone.</example>
     </rule>
     <rule id='BETWEEN_TO_AND' name='Collocation: Between ... to/and ...'>
-    <!-- Created by Nicholas Walker (Bokumaru), 2017-11-14 -->
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
       <pattern>
           <token>between</token>
           <token/>
@@ -13947,7 +13947,123 @@ USA
       <message>Use "between" + "and" not "to."  Try this: <suggestion>\1 \2 and \4</suggestion>.</message>
       <example correction='between three and five'>Children <marker>between three to five</marker> are cute.</example>
     </rule>
+    <rule id='WELL_IN_ON' name='Collocation: Well in/on'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token regexp="yes" inflected="yes">do|be</token>
+          <token regexp="yes">well|badly</token>
+          <token>in</token>
+          <token regexp="yes">exams|tests|examinations</token>
+      </pattern>
+      <message>Use "\2 on" with "\4". Try this: <suggestion>\1 \2 on \4</suggestion>.</message>
+      <example correction='do badly on tests'>I <marker>do badly in tests</marker> for I'm lazy.</example>
+    </rule>
   </rulegroup>
+
+  <rulegroup id='GOOD_IN_AT' name='Collocation: Good in/at'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+    <!-- https://forum.languagetool.org/t/en-english-collocation-rules-to-contribute-to-lt/2318 -->
+      <url>http://www.kentlee7.com/writ/collocation.errors.typical.pdf</url>
+      <short>Collocation error</short>
+    <rule>
+      <pattern>
+        <marker>
+          <token inflected="yes">good</token>
+          <token>in</token>
+          <token>world</token>
+          <token>geography</token>
+        </marker>
+          <token>
+            <exception>class</exception></token>
+      </pattern>
+      <message>Use "good at" to mean "skilled" with school subjects. Try this: <suggestion>\1 at \3 \4</suggestion>.</message>
+      <example correction='good at world geography'>I'm <marker>good in world geography</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token inflected="yes">good</token>
+          <token>in</token>
+          <token>social</token>
+          <token>studies</token>
+        </marker>
+          <token>
+            <exception>class</exception></token>
+      </pattern>
+      <message>Use "good at" to mean "skilled" with school subjects. Try this: <suggestion>\1 at \3 \4</suggestion>.</message>
+      <example correction='good at social studies'>I'm <marker>good in social studies</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token inflected="yes">good</token>
+          <token>in</token>
+          <token>physical</token>
+          <token>education</token>
+        </marker>
+          <token>
+            <exception>class</exception></token>
+      </pattern>
+      <message>Use "good at" to mean "skilled" with school subjects. Try this: <suggestion>\1 at \3 \4</suggestion>.</message>
+      <example correction='good at physical education'>I'm <marker>good in physical education</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token inflected="yes">good</token>
+          <token>in</token>
+          <token>language</token>
+          <token>arts</token>
+        </marker>
+          <token>
+            <exception>class</exception></token>
+      </pattern>
+      <message>Use "good at" to mean "skilled" with school subjects. Try this: <suggestion>\1 at \3 \4</suggestion>.</message>
+      <example correction='good at language arts'>I'm <marker>good in language arts</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token inflected="yes">good</token>
+          <token>in</token>
+          <token>home</token>
+          <token>economics</token>
+        </marker>
+          <token>
+            <exception>class</exception></token>
+      </pattern>
+      <message>Use "good at" to mean "skilled" with school subjects. Try this: <suggestion>\1 at \3 \4</suggestion>.</message>
+      <example correction='good at home economics'>I'm <marker>good in home economics</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token inflected="yes">good</token>
+          <token>in</token>
+          <token>computer</token>
+          <token>science</token>
+        </marker>
+          <token>
+            <exception>class</exception></token>
+      </pattern>
+      <message>Use "good at" to mean "skilled" with school subjects. Try this: <suggestion>\1 at \3 \4</suggestion>.</message>
+      <example correction='good at computer science'>I'm <marker>good in computer science</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token inflected="yes">good</token>
+          <token>in</token>
+          <token regexp="yes">algebra|archaeology|art|band|biology|botany|calculus|chemistry|drama|economics|English|French|geography|geology|geometry|German|gym|health|history|keyboarding|languages|literature|math|mathematics|music|PE|physics|psychology|reading|science|writing</token>
+        </marker>
+          <token>
+            <exception>class</exception></token>
+      </pattern>
+      <message>Use "good at" to mean "skilled" with school subjects. Try this: <suggestion>\1 at \3</suggestion>.</message>
+      <example correction='good at math'>I'm <marker>good in math</marker>. I was good in running errands.</example>
+    </rule>
+  </rulegroup>
+
     </category>
 
     <!-- ====================================================================== -->
