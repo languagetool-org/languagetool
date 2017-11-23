@@ -661,7 +661,7 @@ though, and has since been slightly modified)-->
           <token>la</token>
           <marker><token regexp="yes">côte|cotte</token></marker>
         </pattern>
-        <message>confusion probable entre <suggestion>cote</suggestion> et « côte ».</message>
+        <message>Confusion probable entre <suggestion>cote</suggestion> et « côte ».</message>
         <example correction="cote">il n’a plus la <marker>côte</marker>.</example>
       </rule>
       <rule>
@@ -28946,7 +28946,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">(?:Open|Web)Gl<exception regexp="yes">(?-i)OpenGL|WebGL</exception></token>
+          <token regexp="yes">(?:Open|Web)[-‑‐]?Gl<exception regexp="yes">(?-i)OpenGL|WebGL</exception></token>
         </pattern>
         <message>Écrivez <suggestion><match no="1" case_conversion="startupper" regexp_match="..$" regexp_replace=""/>GL</suggestion>.</message>
         <example correction="OpenGL">La bibliothèque <marker>OpenGl</marker>.</example>
@@ -28965,7 +28965,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">(?:Open|Web)Cl<exception regexp="yes">(?-i)OpenCL|WebCL</exception></token>
+          <token regexp="yes">(?:Open|Web)[-‑‐]?Cl<exception regexp="yes">(?-i)OpenCL|WebCL</exception></token>
         </pattern>
         <message>Écrivez <suggestion><match no="1" case_conversion="startupper" regexp_match="..$" regexp_replace=""/>CL</suggestion>.</message>
         <example correction="OpenCL"><marker>OpenCl</marker>.</example>
@@ -28984,20 +28984,74 @@ though, and has since been slightly modified)-->
     <rule id="WINDOWS" name="Window → Windows">
       <pattern>
         <marker><token>Window</token></marker>
-        <token regexp="yes">(?-i)9[58x]|2000|Me|CE|SE|RT|NT|XP|Vista|[789]|Mobile|Millenium|Server|Phone|Media</token>
+        <token regexp="yes">(?-i)9[58x]|2000|Me|CE|SE|RT|NT|XP|Vista|[78]|8\.1|10|Mobile|Millenium|Server|Phone|Media</token>
       </pattern>
       <message>Voulez-vous écrire <suggestion>Windows</suggestion> s’il s’agit du système d’exploitation de Microsoft ?</message>
       <url>https://fr.wikipedia.org/wiki/Windows</url>
       <example correction="Windows"><marker>Window</marker> Vista plante tout le temps.</example>
     </rule>
-    <rule id="X_WINDOW" name="X Window">
+    <rulegroup id="X_WINDOW" name="X Window">
+      <rule>
+        <pattern>
+          <token case_sensitive="yes">X</token>
+          <token>Windows</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>X Window</suggestion> ?</message>
+        <url>https://fr.wikipedia.org/wiki/X_Toolkit</url>
+        <example correction="X Window">C’est le MIT qui a publié la première version de <marker>X Windows</marker> en juin 1984.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">X[-‑‐]?Windows?</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>X Window</suggestion> ?</message>
+        <url>https://fr.wikipedia.org/wiki/X_Toolkit</url>
+        <example correction="X Window">C’est le MIT qui a publié la première version de <marker>X-Windows</marker> en juin 1984.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="OPEN_STREET_MAP" name="OpenStreetMap">
+      <url>https://fr.wikipedia.org/wiki/OpenStreetMap</url>
+      <rule>
+        <pattern>
+          <token>Open</token>
+          <token regexp="yes">Streets?</token>
+          <token regexp="yes">Maps?</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>OpenStreetMap</suggestion> ?</message>
+        <example correction="OpenStreetMap"><marker>Open Street Map</marker></example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">Openss?[-‑‐]?treets?</token>
+          <token regexp="yes">Maps?</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>OpenStreetMap</suggestion> ?</message>
+        <example correction="OpenStreetMap"><marker>OpenStreet Map</marker></example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">Opens?</token>
+          <token regexp="yes">Streets?[-‑‐]?Maps?</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>OpenStreetMap</suggestion> ?</message>
+        <example correction="OpenStreetMap"><marker>Open StreetMap</marker></example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">Opens?[-‑‐]?Streets?[-‑‐]?Maps?<exception regexp="yes">(?-i)OpenStreetMap</exception></token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>OpenStreetMap</suggestion> ?</message>
+        <example correction="OpenStreetMap"><marker>OpenStreetsMap</marker></example>
+      </rule>
+    </rulegroup>
+    <rule id="SONY_ERICSSON" name="Sony Ericsson">
       <pattern>
-        <token case_sensitive="yes">X</token>
-        <token>Windows</token>
+        <token>Sony</token>
+        <token regexp="yes">Eri(ck?|k)ss?on<exception>Ericsson</exception></token>
       </pattern>
-      <message>Voulez-vous écrire <suggestion>X Window</suggestion> ?</message>
-      <url>https://fr.wikipedia.org/wiki/X_Toolkit</url>
-      <example correction="X Window">C’est le MIT qui a publié la première version de <marker>X Windows</marker> en juin 1984.</example>
+      <message>Voulez-vous écrire <suggestion>Sony Ericsson</suggestion> ?</message>
+      <url>https://fr.wikipedia.org/wiki/Sony_Ericsson</url>
+      <example correction="Sony Ericsson"><marker>Sony Ericson</marker></example>
     </rule>
     <rulegroup id="COCOTTE-MINUTE" name="Cocotte-Minute">
       <rule>
