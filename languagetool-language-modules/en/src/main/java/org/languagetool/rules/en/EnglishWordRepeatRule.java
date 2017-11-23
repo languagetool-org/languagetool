@@ -43,6 +43,9 @@ public class EnglishWordRepeatRule extends WordRepeatRule {
 
   @Override
   public boolean ignore(AnalyzedTokenReadings[] tokens, int position) {
+    if (position == 0) {
+      return false;
+    }
     if (wordRepetitionOf("had", tokens, position) && posIsIn(tokens, position - 2, "PRP")) {
       return true;   // "If I had had time, I would have gone to see him."
     }
@@ -76,23 +79,27 @@ public class EnglishWordRepeatRule extends WordRepeatRule {
     if (wordRepetitionOf("Li", tokens, position)) {
       return true;   // "Li Li", Chinese name
     }
-    if (position > 0 && tokens[position - 1].getToken().matches("may") && tokens[position].getToken().matches("May")) {
-      return true;   // "may May"
+    if (tokens[position].getToken().endsWith("ay")) {
+      if (tokens[position - 1].getToken().equals("may") && tokens[position].getToken().equals("May")) {
+        return true;   // "may May"
+      }
+      if (tokens[position - 1].getToken().equals("May") && tokens[position].getToken().equals("may")) {
+        return true;   // "May may"
+      }
+      if (tokens[1].getToken().equals("May") && tokens[2].getToken().equals("May")) {
+        return true;   // "May May" SENT_START
+      }
     }
-    if (position > 0 && tokens[position - 1].getToken().matches("May") && tokens[position].getToken().matches("may")) {
-      return true;   // "May may"
-    }
-    if (position > 0 && tokens[1].getToken().matches("May") && tokens[2].getToken().matches("May")) {
-      return true;   // "May May" SENT_START
-    }
-    if (position > 0 && tokens[position - 1].getToken().matches("will") && tokens[position].getToken().matches("Will")) {
-      return true;   // "will Will"
-    }
-    if (position > 0 && tokens[position - 1].getToken().matches("Will") && tokens[position].getToken().matches("will")) {
-      return true;   // "Will will"
-    }
-    if (position > 0 && tokens[1].getToken().matches("Will") && tokens[2].getToken().matches("Will")) {
-      return true;   // "Will Will" SENT_START
+    if (tokens[position].getToken().endsWith("ill")) {
+      if (position > 0 && tokens[position - 1].getToken().equals("will") && tokens[position].getToken().equals("Will")) {
+        return true;   // "will Will"
+      }
+      if (tokens[position - 1].getToken().equals("Will") && tokens[position].getToken().equals("will")) {
+        return true;   // "Will will"
+      }
+      if (tokens[1].getToken().equals("Will") && tokens[2].getToken().equals("Will")) {
+        return true;   // "Will Will" SENT_START
+      }
     }
     return false;
   }
@@ -109,7 +116,7 @@ public class EnglishWordRepeatRule extends WordRepeatRule {
   }
 
   private boolean wordRepetitionOf(String word, AnalyzedTokenReadings[] tokens, int position) {
-    return position > 0 && tokens[position - 1].getToken().equals(word) && tokens[position].getToken().equals(word);
+    return tokens[position - 1].getToken().equals(word) && tokens[position].getToken().equals(word);
   }
 
 }
