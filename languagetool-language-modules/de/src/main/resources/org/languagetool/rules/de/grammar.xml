@@ -3864,6 +3864,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="werde">Falls ich dazu gezwungen <marker>erde</marker>, werde ich mich beschweren.</example>
             </rule>
         </rulegroup>
+        <rule id="GEROCHEN_GEBROCHEN" name="gerochen (gebrochen)">
+            <pattern>
+                <marker><token inflected="yes" case_sensitive="yes">gerochen</token></marker>
+                <token regexp="yes">&sprachadj1;|Arm|Bein</token>
+            </pattern>
+            <message>Meinten Sie <suggestion><match no="1" regexp_match="ger" regexp_replace="gebr"/></suggestion>?</message>
+            <example correction="gebrochenem">Er antwortete in <marker>gerochenem</marker> Englisch.</example>
+            <example correction="gebrochenes">Sein <marker>gerochenes</marker> Bein behindert ihn.</example>
+        </rule>
     </category>
 
     <!-- ====================================================================== -->
