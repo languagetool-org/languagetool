@@ -110,6 +110,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Tippfehler -->
     <!-- ====================================================================== -->
     <category id="TYPOS" name="Mögliche Tippfehler">
+        <rule id="DE_KOMMA" name="de, (dem)">
+            <antipattern>
+                <token>.</token>
+                <token>de</token>
+                <token>,</token>
+            </antipattern>
+            <pattern>
+                <token>de</token>
+                <token>,</token>
+            </pattern>
+            <message>Meinten Sie <suggestion>dem</suggestion>?</message>
+            <example correction="dem">Wir kommen mit <marker>de,</marker> Plan gut voran.</example>
+            <example>Ich war auf heise.<marker>de,</marker> dort fanden die jährlichen Trollweltmeisterschaften statt.</example>
+        </rule>
         <rule id="EUCH_ALL" name="euch all (alle)">
             <pattern>
                 <token>euch</token>
