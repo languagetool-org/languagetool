@@ -43,7 +43,7 @@ import static org.junit.Assert.*;
 public class TextCheckerTest {
 
   private final String english = "This is clearly an English text, should be easy to detect.";
-  private final TextChecker checker = new V2TextChecker(new HTTPServerConfig(), false);
+  private final TextChecker checker = new V2TextChecker(new HTTPServerConfig(), false, null);
 
   @Test
   public void testMaxTextLength() throws Exception {
@@ -52,7 +52,7 @@ public class TextCheckerTest {
     params.put("language", "en");
     HTTPServerConfig config1 = new HTTPServerConfig();
     config1.setMaxTextLength(10);
-    TextChecker checker = new V2TextChecker(config1, false);
+    TextChecker checker = new V2TextChecker(config1, false, null);
     try {
       checker.checkText(new AnnotatedTextBuilder().addText("longer than 10 chars").build(), new FakeHttpExchange(), params, null, null);
       fail();
