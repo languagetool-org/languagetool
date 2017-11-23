@@ -6438,7 +6438,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Соревнования за место в команде.</example>
                 <example correction="заместо">Это новое оборудование можно  использовать <marker>за место</marker> старого.</example>
             </rule>
-            <!--TODO: навстречу   -->
             <rule>
                 <!--насчёт   -->      
                 <pattern case_sensitive="no">
@@ -6455,8 +6454,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Деньги переведены <marker>на счёт</marker> 00000000000000.</example>
                 <example>Деньги переведены <marker>на счёт</marker> Visa 11111111111111.</example>
                 <example>Деньги переведены <marker>на счёт</marker> поставщика.</example>
-       <!--     <example>Я иду <marker>на встречу</marker> с другом.</example>
-                <example correction="навстречу">Они шли <marker>на встречу</marker> друг другу.</example>  -->
                 <example correction="насчёт">Тебе следует быть осторожным <marker>на счёт</marker> того, чтобы пойти в поход.</example>
             </rule>
             <rule>
@@ -6576,9 +6573,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Пишется слитно.</short>
                 <example correction="заранее">Он прибыл на станцию <marker>за ранее</marker>.</example>
             </rule>
-            
-            
-            
             <rule>
                 <!-- поверх, подо, помимо              
                 -->
@@ -6594,8 +6588,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>По мимо</marker> чисто игровых проблем на ситуацию в таблице могут влиять и различные нюансы.</example>
             </rule>
             <rule>
-                <!-- невзирая на, несмотря на               
-                -->
+                <!-- невзирая на, несмотря на -->
                 <pattern case_sensitive="no">
                     <token>не</token>
                     <token regexp="yes">взирая|смотря</token>
@@ -6606,32 +6599,36 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="несмотря на">Премия в этом году состоялась <marker>не смотря на</marker> кризис.</example>
                 <example correction="невзирая на">Премия в этом году состоялась <marker>не взирая на</marker> кризис.</example>
             </rule>
-            
+           
             <rule>
-                <!-- навстречу/ на встречу               
-                -->
+                <!-- навстречу/ на встречу   -->
                 <pattern case_sensitive="no">
                     <token>навстречу</token>
                     <token>с</token>
                 </pattern>
                 <message>Пишется раздельно: <suggestion>на встречу \2</suggestion>.</message>
                 <short>Пишется раздельно.</short>
-                <example correction="на встречу с">Я иду  <marker>навстречу с</marker> искусством.</example>
+                <example correction="на встречу с">Я иду <marker>навстречу с</marker> искусством.</example>
                 <example>Я иду на встречу с искусством.</example>
+                <example>Я иду на встречу с другом.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="no">
-                    <token>на</token>
-                    <token>встречу</token>
-                    <token postag_regexp="yes" postag=".*.:.*:.*:D"></token>
+                    <marker>
+                        <token>на</token>
+                        <token>встречу</token>
+                    </marker>
+                    <or>
+                        <token postag_regexp="yes" postag=".*.:.*:.*:D"></token>
+                        <token>друг</token>
+                    </or>
                 </pattern>
-                <message>Пишется слитно: <suggestion>навстречу \3</suggestion>.</message>
+                <message>Пишется слитно: <suggestion>навстречу</suggestion>.</message>
                 <short>Пишется слитно.</short>
-                <example correction="навстречу движению">Я иду  <marker>на встречу движению</marker>.</example>
+                <example correction="навстречу">Я иду <marker>на встречу</marker> движению.</example>
                 <example>Я иду навстречу движению.</example>
-            </rule>
-            
-            
+                <example correction="навстречу">Они шли <marker>на встречу</marker> друг другу.</example>
+            </rule>        
         </rulegroup>
         <rulegroup id="TO_JE" name="Правописание «тоже/то же»">
           <rule>
