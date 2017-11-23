@@ -99,8 +99,19 @@ public class HunspellRule extends SpellingCheckRule {
             messages.getString("spelling"),
             messages.getString("desc_spelling_short"));
         List<String> suggestions = getSuggestions(word);
-        suggestions.addAll(0, getAdditionalTopSuggestions(suggestions, word));
-        suggestions.addAll(getAdditionalSuggestions(suggestions, word));
+        List<String> additionalTopSuggestions = getAdditionalTopSuggestions(suggestions, word);
+        Collections.reverse(additionalTopSuggestions);
+        for (String additionalTopSuggestion : additionalTopSuggestions) {
+          if (!word.equals(additionalTopSuggestion)) {
+            suggestions.add(0, additionalTopSuggestion);
+          }
+        }
+        List<String> additionalSuggestions = getAdditionalSuggestions(suggestions, word);
+        for (String additionalSuggestion : additionalSuggestions) {
+          if (!word.equals(additionalSuggestion)) {
+            suggestions.addAll(additionalSuggestions);
+          }
+        }
         if (!suggestions.isEmpty()) {
           filterSuggestions(suggestions);
           filterDupes(suggestions);
