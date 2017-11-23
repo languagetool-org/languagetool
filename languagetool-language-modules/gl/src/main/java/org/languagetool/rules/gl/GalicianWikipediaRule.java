@@ -33,8 +33,8 @@ import java.net.URL;
 
 /**
  * A rule that matches common Wikipedia errors. 
- * Portuguese implementations. Loads the list of words from
- * <code>/pt/wikipedia.txt</code>.
+ * Galician implementations. Loads the list of words from
+ * <code>/gl/wikipedia.txt</code>.
  *
  * @author Tiago F. Santos 
  * @since 4.0
