@@ -34179,6 +34179,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <url>http://esadir.cat/entrades/fitxa/node/arxiu</url>
                 <example correction="arxivament">l'<marker>arxiu</marker> dictat pel jutge.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" skip="3">sobreseïment|jutge|tribunal|audiència</token>
+                    <marker>
+                        <token inflected="yes">arxiu</token>
+                    </marker>
+                </pattern>
+                <message>En el sentit de "acció d'arxivar" cal dir <suggestion><match no="1" postag="(NC.*)" postag_regexp="yes" postag_replace="$1">arxivament</match></suggestion>.</message>
+                <url>http://esadir.cat/entrades/fitxa/node/arxiu</url>
+                <example correction="arxivament">Va ordenar el sobreseïment i l'<marker>arxiu</marker>.</example>
+            </rule>
         </rulegroup>
         <rule id="SOBAT" name="sobat"> <!-- remove "sobatre" from dictionary? -->
             <pattern>
