@@ -13936,7 +13936,7 @@ USA
       <message>The usual preposition for activities with a desk is "at."  Try this: <suggestion>\1 \2 at \4 \5</suggestion>.</message>
       <example correction='I eat at my desk'>At lunch, I eat with my colleague working or <marker>I eat in my desk</marker> alone.</example>
     </rule>
-    <rule id='BETWEEN_TO_AND' name='Collocation: Between ... to/and ...' default='off'>
+    <rule id='BETWEEN_TO_AND' name='Collocation: Between ... to/and ...'>
     <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
       <pattern>
           <token>between</token>
@@ -13959,6 +13959,34 @@ USA
       </pattern>
       <message>Use "\2 on" with "\4". Try this: <suggestion>\1 \2 on \4</suggestion>.</message>
       <example correction='do badly on tests'>I <marker>do badly in tests</marker> for I'm lazy.</example>
+    </rule>
+    <rule id='ADMITTED_AT_TO' name='Collocation: Admitted at/to'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern case_sensitive="yes">
+          <token>admitted</token>
+          <token>at</token>
+          <token regexp="yes">\p{Lu}.+</token>
+          <token regexp="yes">University|College|Hospital|Clinic</token>
+      </pattern>
+      <message>The usual collocation for "admit" is "to"," not "at." It is better to say this: <suggestion>\1 to \3 \4</suggestion>.</message>
+      <example correction='admitted to Princeton College'>On his way to an interview to be <marker>admitted at Princeton College</marker>, Quentin and his childhood best friend James arrive on a crime scene where they find the corpse of the man who was supposed to interview the former, along with a very nonchalant paramedic.</example>
+    </rule>
+    <rule id='SUMMON_AT_TO' name='Collocation: Summon at/to'>
+    <!-- Created by Nicholas Walker (Bokumaru), 2017-11-14 -->
+      <pattern>
+          <token inflected="yes">summon</token>
+          <token>at</token>
+          <token regexp="yes">an?|the</token>
+          <token min='0' regexp="yes">very|really</token>
+          <token min='0' postag="JJ">
+            <exception regexp='yes'>very|really</exception></token>
+          <token postag_regexp="yes" postag="NN(:UN?)?">
+            <exception regexp="yes">moment|time</exception></token>
+      </pattern>
+      <message>The usual collocation is "summon to" a place, or "summon at" a time/moment. Use "to" instead: <suggestion>\1 to \3 <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/> \6</suggestion>.</message>
+      <example correction='summoned to an examination'>Without him knowing, Quentin was <marker>summoned at an examination</marker> in order to get his admission to this institution.</example>
+      <example correction='summoned to a particular examination'>Without him knowing, Quentin was <marker>summoned at a particular examination</marker> in order to get his admission to this institution.</example>
+      <example correction='summoned to a very particular examination'>Without him knowing, Quentin was <marker>summoned at a very particular examination</marker> in order to get his admission to this institution.</example>
     </rule>
   </rulegroup>
 
