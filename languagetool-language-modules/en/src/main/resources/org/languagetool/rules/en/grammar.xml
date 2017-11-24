@@ -8045,9 +8045,9 @@ USA
                 <token>a</token>
             </antipattern>
             <pattern case_sensitive="yes">
-                <token><exception regexp="yes">’|'|\.</exception><exception postag="SENT_START"/></token>
+                <token><exception regexp="yes">’|'|\.|:</exception><exception postag="SENT_START"/></token>
                 <marker>
-                    <token regexp="yes">[Tt]he|[Aa]n?</token>
+                    <token regexp="yes">[Tt]he|an?|An</token>
                     <token regexp="yes">[,;]</token>
                 </marker>
             </pattern>
@@ -10598,7 +10598,7 @@ USA
             <url>http://www.ef.com/english-resources/english-grammar/gerund-equals-infinitive/</url>
             <rule>
                 <pattern>
-                    <token inflected="yes" regexp="yes" postag="VB.*" postag_regexp="yes">a(?:dmit|ppreciate|void)|d(?:i(?:scuss|slike)|e(?:lay|ny))|practice|risk|imagine|suggest|keep|tolerate|enjoy|mi(?:nd|ss)|re(?:commend|s(?:ent|ist))|finish|postpone<exception scope="previous" regexp="yes" inflected="yes">of|be</exception></token>
+                    <token inflected="yes" regexp="yes" postag="VB.*" postag_regexp="yes">a(dmit|ppreciate|void)|delay|practice|risk|deny|discuss|imagine|suggest|dislike|keep|tolerate|enjoy|mi(nd|ss)|re(commend|s(ent|istist))|finish|postpone<exception scope="previous" regexp="yes" inflected="yes">of|be</exception></token>
                     <token>to</token>
                     <token postag="VB"><exception postag="NN:UN?" postag_regexp="yes"/></token>
                 </pattern>
@@ -12964,7 +12964,7 @@ USA
                 <!-- Does it have a comma or semicolon or end with an exclamation or question mark?-->
                 <antipattern>
                     <token postag='SENT_START'/>
-                    <token regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|wh(?:e(?:n(?:ever)?|re(?:ever|as)?|ther)|ich(?:ever)?|ile|o(?:m?(?:ever)?|se))
+                    <token regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
                     </token>
                     <token skip='-1'/>
                     <!-- start search after 2nd token in case it is a comma -->
@@ -12973,7 +12973,7 @@ USA
                 <!-- Does it have an unpunctuated CC/SC?-->
                 <antipattern>
                     <token postag='SENT_START'/>
-                    <token regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|wh(?:e(?:n(?:ever)?|re(?:ever|as)?|ther)|ich(?:ever)?|ile|o(?:m?(?:ever)?|se))
+                    <token regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
                     </token>
                     <token skip='-1'/>
                     <!-- start search after 2nd token in case it is a comma -->
@@ -13001,7 +13001,7 @@ USA
                 <pattern>
                     <marker>
                         <token postag='SENT_START'/>
-                        <token skip="-1" regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|wh(?:e(?:n(?:ever)?|re(?:ever|as)?|ther)|ich(?:ever)?|ile|o(?:m?(?:ever)?|se))
+                        <token skip="-1" regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
                             <exception postag="DT"/>
                         </token>
                     </marker>
@@ -13027,7 +13027,7 @@ USA
                 <antipattern>
                     <token postag='SENT_START'/>
                     <token>Even</token>
-                    <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|wh(?:e(?:n(?:ever)?|re(?:ever|as)?|ther)|ich(?:ever)?|ile|o(?:m?(?:ever)?|se))
+                    <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
                     </token>
                     <!-- start search after 2nd token in case it is a comma -->
                     <token regexp='yes'>[,;:!\?]</token>
@@ -13036,7 +13036,7 @@ USA
                 <antipattern>
                     <token postag='SENT_START'/>
                     <token>Even</token>
-                    <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|wh(?:e(?:n(?:ever)?|re(?:ever|as)?|ther)|ich(?:ever)?|ile|o(?:m?(?:ever)?|se))
+                    <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
                     </token>
                     <!-- start search after 2nd token in case it is a comma -->
                     <token postag='CC'/>
@@ -13046,7 +13046,7 @@ USA
                     <marker>
                         <token postag='SENT_START'/>
                         <token>even</token>
-                        <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|wh(?:e(?:n(?:ever)?|re(?:ever|as)?|ther)|ich(?:ever)?|ile|o(?:m?(?:ever)?|se))
+                        <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
                             <exception postag="DT"/>
                         </token>
                     </marker>
@@ -13067,7 +13067,7 @@ USA
                 <antipattern>
                     <token postag='SENT_START'/>
                     <token>So</token>
-                    <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|wh(?:e(?:n(?:ever)?|re(?:ever|as)?|ther)|ich(?:ever)?|ile|o(?:m?(?:ever)?|se))
+                    <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
                     </token>
                     <!-- start search after 2nd token in case it is a comma -->
                     <token regexp='yes'>[,;:!\?]</token>
@@ -13076,7 +13076,7 @@ USA
                 <antipattern>
                     <token postag='SENT_START'/>
                     <token>So</token>
-                    <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|wh(?:e(?:n(?:ever)?|re(?:ever|as)?|ther)|ich(?:ever)?|ile|o(?:m?(?:ever)?|se))
+                    <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
                     </token>
                     <!-- start search after 2nd token in case it is a comma -->
                     <token postag='CC'/>
@@ -13086,7 +13086,7 @@ USA
                     <marker>
                         <token postag='SENT_START'/>
                         <token>So</token>
-                        <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|wh(?:e(?:n(?:ever)?|re(?:ever|as)?|ther)|ich(?:ever)?|ile|o(?:m?(?:ever)?|se))
+                        <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
                         </token>
                     </marker>
                     <token postag='SENT_END'/>
@@ -13106,7 +13106,7 @@ USA
                     <token postag='SENT_START'/>
                     <token>So</token>
                     <token postag=',|:' postag_regexp='yes'/>
-                    <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|wh(?:e(?:n(?:ever)?|re(?:ever|as)?|ther)|ich(?:ever)?|ile|o(?:m?(?:ever)?|se))
+                    <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
                     </token>
                     <!-- start search after 2nd token in case it is a comma -->
                     <token regexp='yes'>[,;:!\?]</token>
@@ -13116,7 +13116,7 @@ USA
                     <token postag='SENT_START'/>
                     <token>So</token>
                     <token postag=',|:' postag_regexp='yes'/>
-                    <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|wh(?:e(?:n(?:ever)?|re(?:ever|as)?|ther)|ich(?:ever)?|ile|o(?:m?(?:ever)?|se))
+                    <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
                     </token>
                     <!-- start search after 2nd token in case it is a comma -->
                     <token postag='CC'/>
@@ -13127,7 +13127,7 @@ USA
                         <token postag='SENT_START'/>
                         <token>So</token>
                         <token postag=',|:' postag_regexp='yes'/>
-                        <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|wh(?:e(?:n(?:ever)?|re(?:ever|as)?|ther)|ich(?:ever)?|ile|o(?:m?(?:ever)?|se))
+                        <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
                         </token>
                     </marker>
                     <token postag='SENT_END'/>
@@ -13147,7 +13147,7 @@ USA
                     <token postag='SENT_START'/>
                     <token>So</token>
                     <token>even</token>
-                    <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|wh(?:e(?:n(?:ever)?|re(?:ever|as)?|ther)|ich(?:ever)?|ile|o(?:m?(?:ever)?|se))
+                    <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
                     </token>
                     <!-- start search after 2nd token in case it is a comma -->
                     <token regexp='yes'>[,;:!\?]</token>
@@ -13157,7 +13157,7 @@ USA
                     <token postag='SENT_START'/>
                     <token>So</token>
                     <token>even</token>
-                    <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|wh(?:e(?:n(?:ever)?|re(?:ever|as)?|ther)|ich(?:ever)?|ile|o(?:m?(?:ever)?|se))
+                    <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
                     </token>
                     <!-- start search after 2nd token in case it is a comma -->
                     <token postag='CC'/>
@@ -13167,7 +13167,7 @@ USA
                     <token postag='SENT_START'/>
                     <token>So</token>
                     <token>even</token>
-                    <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|wh(?:e(?:n(?:ever)?|re(?:ever|as)?|ther)|ich(?:ever)?|ile|o(?:m?(?:ever)?|se))
+                    <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
                     </token>
                     <token postag='SENT_END'/>
                 </pattern>
@@ -13187,7 +13187,7 @@ USA
                     <token>So</token>
                     <token postag=',|:' postag_regexp='yes'/>
                     <token>even</token>
-                    <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|wh(?:e(?:n(?:ever)?|re(?:ever|as)?|ther)|ich(?:ever)?|ile|o(?:m?(?:ever)?|se))
+                    <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
                     </token>
                     <!-- start search after 2nd token in case it is a comma -->
                     <token regexp='yes'>[,;:!\?]</token>
@@ -13198,7 +13198,7 @@ USA
                     <token>So</token>
                     <token postag=',|:' postag_regexp='yes'/>
                     <token>even</token>
-                    <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|wh(?:e(?:n(?:ever)?|re(?:ever|as)?|ther)|ich(?:ever)?|ile|o(?:m?(?:ever)?|se))
+                    <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
                     </token>
                     <!-- start search after 2nd token in case it is a comma -->
                     <token postag='CC'/>
@@ -13209,7 +13209,7 @@ USA
                     <token>So</token>
                     <token postag=',|:' postag_regexp='yes'/>
                     <token>even</token>
-                    <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|wh(?:e(?:n(?:ever)?|re(?:ever|as)?|ther)|ich(?:ever)?|ile|o(?:m?(?:ever)?|se))
+                    <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|tha[nt]|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
                     </token>
                     <token postag='SENT_END'/>
                 </pattern>
@@ -13894,6 +13894,206 @@ USA
             <example correction="worry about">Don't <marker>worry for</marker>.</example>
             <example>I am worried about her.</example>
         </rule>
+  <rulegroup id="COLLOCATION_ERRORS_BOKOMARU" name="Common colocation errors">
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+    <!-- https://forum.languagetool.org/t/en-english-collocation-rules-to-contribute-to-lt/2318 -->
+      <url>http://www.kentlee7.com/writ/collocation.errors.typical.pdf</url>
+      <short>Collocation error</short>
+    <rule id='APPLY_TO' name='Collocation: apply to/for'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token  inflected="yes">apply</token>
+          <token>to</token>
+          <token min='0' postag="DT"/>
+          <token min='0'>more</token>
+          <token regexp="yes">assistance|welfare|funds|membership</token>
+      </pattern>
+      <message>You can apply to a company or university, but you apply for \4. Revise: <suggestion>\1 for <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> \5</suggestion>.</message>
+      <example correction='apply for welfare'>You can <marker>apply to welfare</marker>.</example>
+      <example>You can apply to the job online.</example>
+      <example correction='apply for more assistance'>You can <marker>apply to more assistance</marker>.</example>
+    </rule>
+    <rule id='APPLY_FOR' name='Collocation: apply for/to'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token  inflected="yes">apply</token>
+          <token>for</token>
+          <token postag_regexp="yes" postag="PRP\$|DT"/>
+          <token regexp="yes">company|university|college|school</token>
+      </pattern>
+      <message>You can apply for a job or welfare, but you apply to a \4. Revise: <suggestion>\1 to \3 \4</suggestion>.</message>
+      <example correction='apply to another University'>You try and <marker>apply for another University</marker>!</example>
+    </rule>
+    <rule id='VERB_IN_AT' name='Collocation: Sit in/at'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token postag_regexp="yes" postag="PRP|NNP"/>
+          <token regexp="yes" inflected="yes">sit|eat|work</token>
+          <token>in</token>
+          <token postag_regexp="yes" postag="PRP\$|DT"/>
+          <token>desk</token>
+      </pattern>
+      <message>The usual preposition for activities with a desk is "at."  Try this: <suggestion>\1 \2 at \4 \5</suggestion>.</message>
+      <example correction='I eat at my desk'>At lunch, I eat with my colleague working or <marker>I eat in my desk</marker> alone.</example>
+    </rule>
+    <rule id='BETWEEN_TO_AND' name='Collocation: Between ... to/and ...'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token>between</token>
+          <token postag='CD'/>
+          <token>to</token>
+          <token postag='CD'/>
+      </pattern>
+      <message>Use "between" + "and" not "to."  Try this: <suggestion>\1 \2 and \4</suggestion>.</message>
+      <example correction='between three and five'>Children <marker>between three to five</marker> are cute.</example>
+      <example>...aspen parkland, a biome transitional between prairie to the south and boreal forest to the north.</example>
+      <example>...causing the electrostatic interactions between them to be strong.</example>
+    </rule>
+    <rule id='WELL_IN_ON' name='Collocation: Well in/on'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token regexp="yes" inflected="yes">do|be</token>
+          <token regexp="yes">well|badly</token>
+          <token>in</token>
+          <token regexp="yes">exams|tests|examinations</token>
+      </pattern>
+      <message>Use "\2 on" with "\4". Try this: <suggestion>\1 \2 on \4</suggestion>.</message>
+      <example correction='do badly on tests'>I <marker>do badly in tests</marker> for I'm lazy.</example>
+    </rule>
+    <rule id='ADMITTED_AT_TO' name='Collocation: Admitted at/to'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern case_sensitive="yes">
+          <token>admitted</token>
+          <token>at</token>
+          <token regexp="yes">\p{Lu}.+</token>
+          <token regexp="yes">University|College|Hospital|Clinic</token>
+      </pattern>
+      <message>The usual collocation for "admit" is "to"," not "at." It is better to say this: <suggestion>\1 to \3 \4</suggestion>.</message>
+      <example correction='admitted to Princeton College'>On his way to an interview to be <marker>admitted at Princeton College</marker>, Quentin and his childhood best friend James arrive on a crime scene where they find the corpse of the man who was supposed to interview the former, along with a very nonchalant paramedic.</example>
+    </rule>
+    <rule id='SUMMON_AT_TO' name='Collocation: Summon at/to'>
+    <!-- Created by Nicholas Walker (Bokumaru), 2017-11-14 -->
+      <pattern>
+          <token inflected="yes">summon</token>
+          <token>at</token>
+          <token regexp="yes">an?|the</token>
+          <token min='0' regexp="yes">very|really</token>
+          <token min='0' postag="JJ">
+            <exception regexp='yes'>very|really</exception></token>
+          <token postag_regexp="yes" postag="NN(:UN?)?">
+            <exception regexp="yes">moment|time</exception></token>
+      </pattern>
+      <message>The usual collocation is "summon to" a place, or "summon at" a time/moment. Use "to" instead: <suggestion>\1 to \3 <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/> \6</suggestion>.</message>
+      <example correction='summoned to an examination'>Without him knowing, Quentin was <marker>summoned at an examination</marker> in order to get his admission to this institution.</example>
+      <example correction='summoned to a particular examination'>Without him knowing, Quentin was <marker>summoned at a particular examination</marker> in order to get his admission to this institution.</example>
+      <example correction='summoned to a very particular examination'>Without him knowing, Quentin was <marker>summoned at a very particular examination</marker> in order to get his admission to this institution.</example>
+    </rule>
+  </rulegroup>
+
+  <rulegroup id='GOOD_IN_AT' name='Collocation: Good in/at'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+    <!-- https://forum.languagetool.org/t/en-english-collocation-rules-to-contribute-to-lt/2318 -->
+      <url>http://www.kentlee7.com/writ/collocation.errors.typical.pdf</url>
+      <short>Collocation error</short>
+    <rule>
+      <pattern>
+        <marker>
+          <token inflected="yes">good</token>
+          <token>in</token>
+          <token>world</token>
+          <token>geography</token>
+        </marker>
+          <token>
+            <exception>class</exception></token>
+      </pattern>
+      <message>Use "good at" to mean "skilled" with school subjects. Try this: <suggestion>\1 at \3 \4</suggestion>.</message>
+      <example correction='good at world geography'>I'm <marker>good in world geography</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token inflected="yes">good</token>
+          <token>in</token>
+          <token>social</token>
+          <token>studies</token>
+        </marker>
+          <token>
+            <exception>class</exception></token>
+      </pattern>
+      <message>Use "good at" to mean "skilled" with school subjects. Try this: <suggestion>\1 at \3 \4</suggestion>.</message>
+      <example correction='good at social studies'>I'm <marker>good in social studies</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token inflected="yes">good</token>
+          <token>in</token>
+          <token>physical</token>
+          <token>education</token>
+        </marker>
+          <token>
+            <exception>class</exception></token>
+      </pattern>
+      <message>Use "good at" to mean "skilled" with school subjects. Try this: <suggestion>\1 at \3 \4</suggestion>.</message>
+      <example correction='good at physical education'>I'm <marker>good in physical education</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token inflected="yes">good</token>
+          <token>in</token>
+          <token>language</token>
+          <token>arts</token>
+        </marker>
+          <token>
+            <exception>class</exception></token>
+      </pattern>
+      <message>Use "good at" to mean "skilled" with school subjects. Try this: <suggestion>\1 at \3 \4</suggestion>.</message>
+      <example correction='good at language arts'>I'm <marker>good in language arts</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token inflected="yes">good</token>
+          <token>in</token>
+          <token>home</token>
+          <token>economics</token>
+        </marker>
+          <token>
+            <exception>class</exception></token>
+      </pattern>
+      <message>Use "good at" to mean "skilled" with school subjects. Try this: <suggestion>\1 at \3 \4</suggestion>.</message>
+      <example correction='good at home economics'>I'm <marker>good in home economics</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token inflected="yes">good</token>
+          <token>in</token>
+          <token>computer</token>
+          <token>science</token>
+        </marker>
+          <token>
+            <exception>class</exception></token>
+      </pattern>
+      <message>Use "good at" to mean "skilled" with school subjects. Try this: <suggestion>\1 at \3 \4</suggestion>.</message>
+      <example correction='good at computer science'>I'm <marker>good in computer science</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token inflected="yes">good</token>
+          <token>in</token>
+          <token regexp="yes">algebra|archaeology|art|band|biology|botany|calculus|chemistry|drama|economics|English|French|geography|geology|geometry|German|gym|health|history|keyboarding|languages|literature|math|mathematics|music|PE|physics|psychology|reading|science|writing</token>
+        </marker>
+          <token>
+            <exception>class</exception></token>
+      </pattern>
+      <message>Use "good at" to mean "skilled" with school subjects. Try this: <suggestion>\1 at \3</suggestion>.</message>
+      <example correction='good at math'>I'm <marker>good in math</marker>. I was good in running errands.</example>
+    </rule>
+  </rulegroup>
+
     </category>
 
     <!-- ====================================================================== -->
@@ -14900,7 +15100,7 @@ USA
                     <marker><token chunk="B-PP">besides</token></marker>
                 </antipattern>
                 <antipattern>
-                    <marker><token>also</token></marker>
+                    <marker><token regexp="yes">also|elsewhere</token></marker>
                     <token regexp="yes">in|since</token>
                 </antipattern>
                 <antipattern>
@@ -14935,7 +15135,7 @@ USA
                     <token postag="SENT_START"/>
                     <!-- now, next, then and yet are not solely linking adverbs and result in too many false positives -->
                     <marker>
-                        <token regexp="yes">a(ccordingly|dditionally|l(so|as))|besides|c(omparatively|on(sequent|verse)ly)|e(lsewhere|qually)|f(inally|urther(more)?)|h(ence(forth)?|owever)|in(deed|stead)|likewise|m(eanwhile|oreover)|n(amely|(ever|one)theless)|otherwise|rather|s(imilarly|till|ubsequently)|t(ere(after|fore)|hus|ypically)
+                        <token regexp="yes">a(ccordingly|dditionally|l(so|as))|besides|c(omparatively|on(sequent|verse)ly)|e(lsewhere|qually)|f(inally|urther(more)?)|h(ence(forth)?|owever)|in(deed|stead)|likewise|m(eanwhile|oreover)|n(amely|(ever|one)theless)|otherwise|rather|s(imilarly|till|ubsequently)|t(here(after|fore)|hus|ypically)
                             <exception negate_pos="yes" postag="RB">further</exception>
                         </token>
                     </marker>
@@ -22687,7 +22887,7 @@ USA
         <!-- transmit – send -->
 
         <!-- type of – (omit) -->
-        <rule id="TYPE_OF" name="that exists (omit)">
+        <rule id="TYPE_OF" name="type of (omit)">
             <pattern>
                 <token>type</token>
                 <token>of</token>

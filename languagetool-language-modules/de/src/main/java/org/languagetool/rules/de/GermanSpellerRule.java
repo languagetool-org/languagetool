@@ -128,17 +128,24 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("[wW]ohlfühlseins?", w -> Arrays.asList("Wellness", w.replaceFirst("[wW]ohlfühlsein", "Wohlbefinden"), w.replaceFirst("[wW]ohlfühlsein", "Wohlfühlen")));
     putRepl("[sS]chmett?e?rling(s|en?)?", "[sS]chmett?e?rling", "Schmetterling");
     putRepl("^[eE]inlamie?nie?r(st|en?|(t(e[nmrs]?)?))?", "^einlamie?nie?r", "laminier");
-    putRepl("bravuröse?[nrms]?", "bravur", "bravour");
-    putRepl("[aA]ss?ecoires?", "[aA]ss?ecoire", "Accessoire");
+    putRepl("[bB]ravurös(e[nrms]?)?", "vur", "vour");
+    putRepl("[aA]ss?ecoires?", "[aA]ss?ec", "Access");
     putRepl("[aA]ufwechse?lungsreich(er|st)?(e[nmrs]?)?", "ufwechse?lung", "bwechslung");
     putRepl("[iI]nordnung", "ordnung", " Ordnung");
     putRepl("[wW]ienerschnitzel[ns]?", "[wW]ieners", "Wiener S");
     putRepl("[kK]oxial(e[nmrs]?)?", "x", "ax");
     putRepl("[dD]urchnitt?lich(e[nmrs]?)?", "nitt?", "schnitt");
     putRepl("[oO]rganisativ(e[nmrs]?)?", "tiv", "torisch");
+    put("[oO]r?ganisazion", "Organisation");
+    put("[oO]rganisative", "Organisation");
     putRepl("[hH]eilei[td]s?", "[hH]eilei[td]", "Highlight");
     putRepl("[mM]atschscheiben?", "[mM]atschsch", "Mattsch");
-    put("[oO]rganisative", "Organisation");
+    put("schafen?", w -> Arrays.asList(w.replaceFirst("sch", "schl"), w.replaceFirst("af", "arf"), w.replaceFirst("af", "aff")));
+    putRepl("[hH]ofen?", "of", "off");
+    put("Wi-?Fi-Dire[ck]t", "Wi-Fi Direct");
+    put("gans", "ganz");
+    put("Pearl-Harbou?r", "Pearl Harbor");
+    put("[kK]ompatibelkeit", "Kompatibilität");
     put("zucc?h?inis?", "Zucchini");
     put("[mM]itag", "Mittag");
     put("Lexion", "Lexikon");
@@ -180,9 +187,17 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     ADDITIONAL_SUGGESTIONS.put(Pattern.compile(pattern), f);
   }
 
+  private static final GermanWordSplitter splitter = getSplitter();
+  private static GermanWordSplitter getSplitter() {
+    try {
+      return new GermanWordSplitter(false);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
   private final LineExpander lineExpander = new LineExpander();
   private final GermanCompoundTokenizer compoundTokenizer;
-  private final GermanWordSplitter splitter;
   private final Synthesizer synthesizer;
   private final Tagger tagger;
 
@@ -193,11 +208,6 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     compoundTokenizer = language.getStrictCompoundTokenizer();
     tagger = language.getTagger();
     synthesizer = language.getSynthesizer();
-    try {
-      splitter = new GermanWordSplitter(false);
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
   }
 
   @Override
@@ -282,9 +292,10 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       String morfoFile = "/de/hunspell/de_" + language.getCountries()[0] + ".dict";
       if (JLanguageTool.getDataBroker().resourceExists(morfoFile)) {
         // spell data will not exist in LibreOffice/OpenOffice context
-        try (InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream("/de/hunspell/spelling.txt");
+        String path = "/de/hunspell/spelling.txt";
+        try (InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(path);
              BufferedReader br = new BufferedReader(new InputStreamReader(stream, "utf-8"))) {
-          return new MorfologikMultiSpeller(morfoFile, new ExpandingReader(br), MAX_EDIT_DISTANCE);
+          return new MorfologikMultiSpeller(morfoFile, new ExpandingReader(br), path, MAX_EDIT_DISTANCE);
         }
       } else {
         return null;

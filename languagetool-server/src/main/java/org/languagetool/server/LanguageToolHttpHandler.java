@@ -58,7 +58,7 @@ class LanguageToolHttpHandler implements HttpHandler {
     } else {
       this.ownIps = new HashSet<>();
     }
-    this.textCheckerV2 = new V2TextChecker(config, internal);
+    this.textCheckerV2 = new V2TextChecker(config, internal, workQueue);
   }
 
   /** @since 2.6 */
@@ -130,9 +130,11 @@ class LanguageToolHttpHandler implements HttpHandler {
       String response;
       int errorCode;
       boolean textLoggingAllowed = false;
+      boolean logStacktrace = true;
       if (e instanceof TextTooLongException) {
         errorCode = HttpURLConnection.HTTP_ENTITY_TOO_LARGE;
         response = e.getMessage();
+        logStacktrace = false;
       } else if (e instanceof AuthException ||  e.getCause() != null && e.getCause() instanceof AuthException) {
         errorCode = HttpURLConnection.HTTP_FORBIDDEN;
         response = e.getMessage();
@@ -141,21 +143,22 @@ class LanguageToolHttpHandler implements HttpHandler {
         response = e.getMessage();
       } else if (e.getCause() != null && e.getCause() instanceof TimeoutException) {
         errorCode = HttpURLConnection.HTTP_UNAVAILABLE;
-        response = "Checking took longer than " + config.getMaxCheckTimeMillis()/1000 + " seconds, which is this server's limit. " +
+        response = "Checking took longer than " + config.getMaxCheckTimeMillis()/1000.0f + " seconds, which is this server's limit. " +
                    "Please make sure you have selected the proper language or consider submitting a shorter text.";
       } else {
         response = "Internal Error: " + e.getMessage();
         errorCode = HttpURLConnection.HTTP_INTERNAL_ERROR;
         textLoggingAllowed = true;
       }
-      logError(remoteAddress, e, errorCode, httpExchange, parameters, textLoggingAllowed);
+      logError(remoteAddress, e, errorCode, httpExchange, parameters, textLoggingAllowed, logStacktrace);
       sendError(httpExchange, errorCode, "Error: " + response);
     } finally {
       httpExchange.close();
     }
   }
 
-  private void logError(String remoteAddress, Exception e, int errorCode, HttpExchange httpExchange, Map<String, String> params, boolean textLoggingAllowed) {
+  private void logError(String remoteAddress, Exception e, int errorCode, HttpExchange httpExchange, Map<String, String> params, 
+                        boolean textLoggingAllowed, boolean logStacktrace) {
     String message = "An error has occurred: '" +  e.getMessage() + "', sending HTTP code " + errorCode + ". ";
     message += "Access from " + remoteAddress + ", ";
     message += "HTTP user agent: " + getHttpUserAgent(httpExchange) + ", ";
@@ -166,10 +169,15 @@ class LanguageToolHttpHandler implements HttpHandler {
     if (text != null) {
       message += "text length: " + text.length() + ", ";
     }
-    message += "Stacktrace follows:";
-    print(message, System.err);
-    //noinspection CallToPrintStackTrace
-    e.printStackTrace();
+    if (logStacktrace) {
+      message += "Stacktrace follows:";
+      print(message, System.err);
+      //noinspection CallToPrintStackTrace
+      e.printStackTrace();
+    } else {
+      message += "(no stacktrace logged)";
+      print(message, System.err);
+    }
     if (config.isVerbose() && text != null && textLoggingAllowed) {
       print("Exception was caused by this text (" + text.length() + " chars, showing up to 500):\n" +
               StringUtils.abbreviate(text, 500), System.err);

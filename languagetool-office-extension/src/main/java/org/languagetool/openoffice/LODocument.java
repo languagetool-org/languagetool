@@ -66,21 +66,21 @@ class LODocument {
 
   /** Returns the current XComponent */
   private static XComponent getCurrentComponent(XComponentContext xContext) {
-  	XDesktop xdesktop = getCurrentDesktop(xContext);
-   	if(xdesktop == null) return null;
-   	else return xdesktop.getCurrentComponent();
+    XDesktop xdesktop = getCurrentDesktop(xContext);
+    if(xdesktop == null) return null;
+    else return xdesktop.getCurrentComponent();
   }
     
   /** Returns the current text document (if any) */
   private static XTextDocument getCurrentDocument(XComponentContext xContext) {
-  	XComponent curcomp = getCurrentComponent(xContext);
-   	if (curcomp == null) return null;
-   	else return UnoRuntime.queryInterface(XTextDocument.class, curcomp);
+    XComponent curcomp = getCurrentComponent(xContext);
+    if (curcomp == null) return null;
+    else return UnoRuntime.queryInterface(XTextDocument.class, curcomp);
   }
 
   /** Returns the text cursor (if any) */
   private static XTextCursor getCursor(XComponentContext xContext) {
-   	XTextDocument curdoc = getCurrentDocument(xContext);
+    XTextDocument curdoc = getCurrentDocument(xContext);
     if (curdoc == null) return null;
     XText xText = curdoc.getText();
     if (xText == null) return null;
@@ -95,13 +95,30 @@ class LODocument {
   }
   
   /** Returns Number of all Paragraphs of Document without footnotes etc.  */
-  static int getNumberOfAllTextParagraphs(XComponentContext xContext) {
+  public static int getNumberOfAllTextParagraphs(XComponentContext xContext) {
     XParagraphCursor xpcursor = getParagraphCursor(xContext);
     if (xpcursor == null) return 0;
     xpcursor.gotoStart(false);
     int npara = 1;
     while (xpcursor.gotoNextParagraph(false)) npara++;
     return npara;
+  }
+
+  /** Returns all Paragraphs of Document without footnotes etc.  */
+  public static List<String> getAllTextParagraphs(XComponentContext xContext) {
+    List<String> allParas = new ArrayList<>();
+    XParagraphCursor xpcursor = getParagraphCursor(xContext);
+    if (xpcursor == null) return allParas;
+    xpcursor.gotoStart(false);
+    xpcursor.gotoStartOfParagraph(false);
+    xpcursor.gotoEndOfParagraph(true);
+    allParas.add(xpcursor.getString());
+    while (xpcursor.gotoNextParagraph(false)) {
+      xpcursor.gotoStartOfParagraph(false);
+      xpcursor.gotoEndOfParagraph(true);
+      allParas.add(xpcursor.getString());
+    }
+    return allParas;
   }
 
   /** Returns ViewCursor */
@@ -121,7 +138,7 @@ class LODocument {
   }
 
   /** Returns Paragraph number under ViewCursor */
-  static int getViewCursorParagraph(XComponentContext xContext) {
+  public static int getViewCursorParagraph(XComponentContext xContext) {
     XTextViewCursor xViewCursor = getViewCursor(xContext);
     if(xViewCursor == null) return -4;
     XText xDocumentText = xViewCursor.getText();
@@ -136,18 +153,29 @@ class LODocument {
     return pos;
   }
 
-  /** Returns Number of Paragraph from FlatParagaph */
-  static int getNumFlatParagraphs(XComponentContext xContext) {
+  /** Returns XFlatParagraphIterator */
+  private static XFlatParagraphIterator getXFlatParagraphIterator (XComponentContext xContext) {
     XComponent xCurrentComponent = getCurrentComponent(xContext);
-    if(xCurrentComponent == null) return -3;
+    if(xCurrentComponent == null) return null;
     XFlatParagraphIteratorProvider xFlatParaItPro 
         = UnoRuntime.queryInterface(XFlatParagraphIteratorProvider.class, xCurrentComponent);
-    if(xFlatParaItPro == null) return -2;
+    if(xFlatParaItPro == null) return null;
     try {
-      XFlatParagraphIterator xFlatParaIter 
-          = xFlatParaItPro.getFlatParagraphIterator(TextMarkupType.PROOFREADING, true);
-      XFlatParagraph xFlatPara = xFlatParaIter.getLastPara();
-      if(xFlatPara == null) return -1;
+      return xFlatParaItPro.getFlatParagraphIterator(TextMarkupType.PROOFREADING, true);
+    } catch (Throwable t) {
+      Main.showError(t);
+      return null;
+    }
+      
+  }
+  
+  /** Returns Number of Paragraph from FlatParagaph */
+  static int getNumFlatParagraphs(XComponentContext xContext) {
+    XFlatParagraphIterator xFlatParaIter = getXFlatParagraphIterator (xContext);
+    if(xFlatParaIter == null) return -1;
+    XFlatParagraph xFlatPara = xFlatParaIter.getLastPara();
+    if(xFlatPara == null) return -1;
+    try {
       int pos = -1;
       while (xFlatPara != null) {
         xFlatPara = xFlatParaIter.getParaBefore(xFlatPara);
@@ -156,20 +184,17 @@ class LODocument {
       return pos;
     } catch (Throwable t) {
       Main.showError(t);
-      return 0;
+      return -1;
     }
   }
 
   /** Returns all Paragraphs of Document */
   static List<String> getAllParagraphs(XComponentContext xContext) {
     List<String> allParas = new ArrayList<>();
+    XFlatParagraphIterator xFlatParaIter = getXFlatParagraphIterator (xContext);
+    if(xFlatParaIter == null) return allParas;
     XFlatParagraph lastFlatPara = null;
-    XComponent xCurrentComponent = getCurrentComponent(xContext);
-    if(xCurrentComponent == null) return allParas;
-    XFlatParagraphIteratorProvider xFlatParaItPro = UnoRuntime.queryInterface(XFlatParagraphIteratorProvider.class, xCurrentComponent);
-    if(xFlatParaItPro == null) return allParas;
     try {
-      XFlatParagraphIterator xFlatParaIter = xFlatParaItPro.getFlatParagraphIterator(TextMarkupType.PROOFREADING, true);
       XFlatParagraph xFlatPara = xFlatParaIter.getLastPara();
       if(xFlatPara == null) return allParas;
       while (xFlatPara != null) {
@@ -189,15 +214,10 @@ class LODocument {
 
   /** Returns Number of all Paragraphs of Document / Returns < 0 on Error  */
   static int getNumberOfAllParagraphs(XComponentContext xContext) {
+    XFlatParagraphIterator xFlatParaIter = getXFlatParagraphIterator (xContext);
+    if(xFlatParaIter == null) return -1;
     XFlatParagraph lastFlatPara;
-    XComponent xCurrentComponent = getCurrentComponent(xContext);
-    if(xCurrentComponent == null) return -3;
-    XFlatParagraphIteratorProvider xFlatParaItPro 
-        = UnoRuntime.queryInterface(XFlatParagraphIteratorProvider.class, xCurrentComponent);
-    if(xFlatParaItPro == null) return -2;
     try {
-      XFlatParagraphIterator xFlatParaIter 
-          = xFlatParaItPro.getFlatParagraphIterator(TextMarkupType.PROOFREADING, true);
       XFlatParagraph xFlatPara = xFlatParaIter.getLastPara();
       if(xFlatPara == null) return -1;
       lastFlatPara = xFlatPara;
@@ -215,7 +235,7 @@ class LODocument {
       return num;
     } catch (Throwable t) {
       Main.showError(t);
-      return -4;
+      return -1;
     }
   }
   

@@ -147,7 +147,8 @@ public class Galician extends Language {
             new CastWordsRule(messages),
             new GalicianRedundancyRule(messages),
             new GalicianWordinessRule(messages),
-            new GalicianBarbarismsRule(messages)
+            new GalicianBarbarismsRule(messages),
+            new GalicianWikipediaRule(messages)
     );
   }
 
@@ -175,6 +176,7 @@ public class Galician extends Language {
       // case "BIASED_OPINION_WORDS":      return -31;
       // case "WEAK_WORDS":                return -32;
       // case "PT_AGREEMENT_REPLACE":      return -35;
+      case "GL_WIKIPEDIA_COMMON_ERRORS":   return -45;
       case "HUNSPELL_RULE":             return -50;
       // case "NO_VERB":                   return -52;
       // case "CRASE_CONFUSION":           return -55;
@@ -183,7 +185,6 @@ public class Galician extends Language {
       // case "T-V_DISTINCTION_ALL":       return -101;
       // case "REPEATED_WORDS":            return -210;
       // case "REPEATED_WORDS_3X":         return -211;
-      // case "WIKIPEDIA_COMMON_ERRORS":   return -500;
       case "TOO_LONG_SENTENCE_20":      return -997;
       case "TOO_LONG_SENTENCE_25":      return -998;
       case "TOO_LONG_SENTENCE_30":      return -999;

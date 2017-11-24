@@ -64,7 +64,7 @@ public abstract class SpellingCheckRule extends Rule {
   private Map<String,Set<String>> wordsToBeIgnoredDictionaryIgnoreCase = new HashMap<>();
   private final Set<String> wordsToBeIgnored = new HashSet<>();
   private final Set<String> wordsToBeProhibited = new HashSet<>();
-  private final CachingWordListLoader wordListLoader = new CachingWordListLoader();
+  protected final CachingWordListLoader wordListLoader = new CachingWordListLoader();
   
   private List<DisambiguationPatternRule> antiPatterns = new ArrayList<>();
   private boolean considerIgnoreWords = true;
@@ -265,11 +265,7 @@ public abstract class SpellingCheckRule extends Rule {
    * @since 2.8
    */
   protected void filterSuggestions(List<String> suggestions) {
-    for (int i = 0; i < suggestions.size(); i++) {
-      if (isProhibited(suggestions.get(i))) {
-        suggestions.remove(i);
-      }
-    }
+    suggestions.removeIf(suggestion -> isProhibited(suggestion));
   }
 
   /**

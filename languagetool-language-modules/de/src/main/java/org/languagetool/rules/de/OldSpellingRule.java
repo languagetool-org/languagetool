@@ -32,7 +32,7 @@ public class OldSpellingRule extends Rule {
 
   private static final String DESC = "Findet Schreibweisen, die nur in der alten Rechtschreibung gültig waren";
 
-  private final static OldSpellingData data = new OldSpellingData(DESC);
+  private static final OldSpellingData data = new OldSpellingData(DESC);
 
   public OldSpellingRule(ResourceBundle messages) throws IOException {
     super.setCategory(Categories.TYPOS.getCategory(messages));

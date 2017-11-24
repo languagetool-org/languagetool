@@ -23347,18 +23347,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token postag="V.N.*" postag_regexp="yes" regexp="yes">.+e</token>
-                    <marker>
-                        <token postag="P0.*|PP.*" postag_regexp="yes">-vos</token>
-                    </marker>
-                </pattern>
-                <message>Forma de pronom incorrecta.</message>
-                <suggestion>-us</suggestion>
-                <example correction="-us">Veure<marker>-vos</marker>.</example>
-                <example>Veure-us.</example>
-            </rule>
-            <rule>
-                <pattern>
                     <token postag="V.[MNG].*" postag_regexp="yes"><exception postag="V.N.*" postag_regexp="yes" regexp="yes">.+e</exception></token>
                     <marker>
                         <token postag="P0.*|PP.*" postag_regexp="yes">-us</token>
@@ -24125,6 +24113,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="EXIGEIX_US" name="Exigeix la forma 'us': ¿Què vos/us sembla?" type="style">
+            <url>http://www.ceice.gva.es/documents/161863132/163843714/Criteris+Ling%C3%BC%C3%ADstics_web.pdf#page=32</url>
             <rule>
                 <pattern>
                     <marker>
@@ -24132,8 +24121,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token><exception postag="V...2P.*" postag_regexp="yes" /><exception>guard</exception></token>
                 </pattern>
-                <message>És preferible la forma <suggestion>us</suggestion>.</message>
-                <short>Forma preferible</short>
+                <message>Forma preferible.</message>
+                <suggestion>us</suggestion>
                 <example correction="us"><marker>vos</marker> sembla bé</example>
                 <example>vós sou l'únic sant</example>
                 <example>Déu vos guard</example>
@@ -24149,6 +24138,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Forma preferible</short>
                 <example correction="us|vós"><marker>vos</marker> assembleu molt</example>
                 <example>vós sembleu un sant</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="V.N.*" postag_regexp="yes" regexp="yes">.+e</token>
+                    <marker>
+                        <token postag="P0.*|PP.*" postag_regexp="yes">-vos</token>
+                    </marker>
+                </pattern>
+                <message>Forma preferible.</message>
+                <suggestion>-us</suggestion>
+                <example correction="-us">Veure<marker>-vos</marker>.</example>
+                <example>Veure-us.</example>
             </rule>
         </rulegroup>
         <rule id="LEN" name="le'n">
@@ -29027,7 +29028,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token skip="1" inflected="yes">muntar</token>
                     <token skip="1" postag="D[^R].MS.*" postag_regexp="yes"/>
-                    <token regexp="yes">pollastre|ciri</token>
+                    <token>pollastre</token>
                 </pattern>
                 <message>Expressió incorrecta.</message>
                 <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1" include_skipped="all">armar</match> <match no="2" include_skipped="all"/> escàndol</suggestion>
@@ -29043,7 +29044,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token skip="1" inflected="yes" regexp="yes">armar|organitzar|moure</token>
                     <token skip="1" postag="D[^R].MS.*" postag_regexp="yes"/>
                     <marker>
-                        <token regexp="yes">pollastre|ciri</token>
+                        <token>pollastre</token>
                     </marker>
                 </pattern>
                 <message>Expressió incorrecta.</message>
@@ -29053,13 +29054,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>cacau</suggestion>
                 <suggestion>cartapell</suggestion>
                 <example correction="escàndol|sagramental|canyaret|cacau|cartapell">Van organitzar un bon <marker>pollastre</marker>.</example>
-                <example correction="escàndol|sagramental|canyaret|cacau|cartapell">Van moure un bon <marker>ciri</marker>.</example>
             </rule>
             <rule>
                 <pattern>
                     <token skip="1" postag="D[^R].MS.*" postag_regexp="yes"/>
                     <marker>
-                        <token skip="3" regexp="yes">pollastre|ciri</token>
+                        <token skip="3">pollastre</token>
                     </marker>
                     <token inflected="yes" regexp="yes">armar|organitzar|moure|muntar</token>
                 </pattern>
@@ -34178,6 +34178,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>En el sentit de "acció d'arxivar" cal dir <suggestion><match no="1" postag="(NC.*)" postag_regexp="yes" postag_replace="$1">arxivament</match></suggestion>.</message>
                 <url>http://esadir.cat/entrades/fitxa/node/arxiu</url>
                 <example correction="arxivament">l'<marker>arxiu</marker> dictat pel jutge.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" skip="3">sobreseïment|jutge|tribunal|audiència</token>
+                    <marker>
+                        <token inflected="yes">arxiu</token>
+                    </marker>
+                </pattern>
+                <message>En el sentit de "acció d'arxivar" cal dir <suggestion><match no="1" postag="(NC.*)" postag_regexp="yes" postag_replace="$1">arxivament</match></suggestion>.</message>
+                <url>http://esadir.cat/entrades/fitxa/node/arxiu</url>
+                <example correction="arxivament">Va ordenar el sobreseïment i l'<marker>arxiu</marker>.</example>
             </rule>
         </rulegroup>
         <rule id="SOBAT" name="sobat"> <!-- remove "sobatre" from dictionary? -->

@@ -18,16 +18,21 @@
  */
 package org.languagetool.rules.spelling.morfologik;
 
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
 import morfologik.fsa.FSA;
 import morfologik.fsa.builders.FSABuilder;
 import morfologik.fsa.builders.CFSA2Serializer;
 import morfologik.stemming.Dictionary;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.JLanguageTool;
 
 import java.io.*;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Morfologik speller that merges results from binary (.dict) and plain text (.txt) dictionaries.
@@ -36,6 +41,14 @@ import java.util.*;
  */
 public class MorfologikMultiSpeller {
 
+  private static final LoadingCache<BufferedReaderWithSource, List<byte[]>> dictCache = CacheBuilder.newBuilder()
+          .expireAfterWrite(10, TimeUnit.MINUTES)
+          .build(new CacheLoader<BufferedReaderWithSource, List<byte[]>>() {
+            @Override
+            public List<byte[]> load(@NotNull BufferedReaderWithSource reader) throws IOException {
+              return getLines(reader.br);
+            }
+          });
   private static final Map<String,Dictionary> dicPathToDict = new HashMap<>();
 
   private final List<MorfologikSpeller> spellers;
@@ -49,7 +62,7 @@ public class MorfologikMultiSpeller {
   public MorfologikMultiSpeller(String binaryDictPath, String plainTextPath, int maxEditDistance) throws IOException {
     this(binaryDictPath,
          new BufferedReader(new InputStreamReader(JLanguageTool.getDataBroker().getFromResourceDirAsStream(plainTextPath), "utf-8")),
-         maxEditDistance);
+         plainTextPath, maxEditDistance);
     if (!plainTextPath.endsWith(".txt")) {
       throw new RuntimeException("Unsupported dictionary, plain text file needs to have suffix .txt: " + plainTextPath);
     }
@@ -61,12 +74,12 @@ public class MorfologikMultiSpeller {
    * @param maxEditDistance maximum edit distance for accepting suggestions
    * @since 3.0
    */
-  public MorfologikMultiSpeller(String binaryDictPath, BufferedReader plainTextReader, int maxEditDistance) throws IOException {
+  public MorfologikMultiSpeller(String binaryDictPath, BufferedReader plainTextReader, String plainTextReaderPath, int maxEditDistance) throws IOException {
     MorfologikSpeller speller = getBinaryDict(binaryDictPath, maxEditDistance);
     List<MorfologikSpeller> spellers = new ArrayList<>();
     spellers.add(speller);
     convertsCase = speller.convertsCase();
-    MorfologikSpeller plainTextSpeller = getPlainTextDictSpellerOrNull(plainTextReader, binaryDictPath, maxEditDistance);
+    MorfologikSpeller plainTextSpeller = getPlainTextDictSpellerOrNull(plainTextReader, plainTextReaderPath, binaryDictPath, maxEditDistance);
     if (plainTextSpeller != null) {
       spellers.add(plainTextSpeller);
     }
@@ -82,8 +95,8 @@ public class MorfologikMultiSpeller {
   }
 
   @Nullable
-  private MorfologikSpeller getPlainTextDictSpellerOrNull(BufferedReader plainTextReader, String dictPath, int maxEditDistance) throws IOException {
-    List<byte[]> lines = getLines(plainTextReader);
+  private MorfologikSpeller getPlainTextDictSpellerOrNull(BufferedReader plainTextReader, String plainTextReaderPath, String dictPath, int maxEditDistance) throws IOException {
+    List<byte[]> lines = dictCache.getUnchecked(new BufferedReaderWithSource(plainTextReader, plainTextReaderPath));
     if (lines.isEmpty()) {
       return null;
     }
@@ -91,7 +104,7 @@ public class MorfologikMultiSpeller {
     return new MorfologikSpeller(dictionary, maxEditDistance);
   }
 
-  private List<byte[]> getLines(BufferedReader br) throws IOException {
+  private static List<byte[]> getLines(BufferedReader br) throws IOException {
     List<byte[]> lines = new ArrayList<>();
     String line;
     while ((line = br.readLine()) != null) {
@@ -110,8 +123,9 @@ public class MorfologikMultiSpeller {
       // Creating the dictionary at runtime can easily take 50ms for spelling.txt files
       // that are ~50KB. We don't want that overhead for every check of a short sentence,
       // so we cache the result:
-      Collections.sort(lines, FSABuilder.LEXICAL_ORDERING);
-      FSA fsa = FSABuilder.build(lines);
+      List<byte[]> linesCopy = new ArrayList<>(lines);
+      Collections.sort(linesCopy, FSABuilder.LEXICAL_ORDERING);
+      FSA fsa = FSABuilder.build(linesCopy);
       ByteArrayOutputStream fsaOutStream = new CFSA2Serializer().serialize(fsa, new ByteArrayOutputStream());
       ByteArrayInputStream fsaInStream = new ByteArrayInputStream(fsaOutStream.toByteArray());
       String infoFile = dictPath.replace(".dict", ".info");
@@ -157,5 +171,29 @@ public class MorfologikMultiSpeller {
   public boolean convertsCase() {
     return convertsCase;
   }
+
+  static class BufferedReaderWithSource {
+    private BufferedReader br;
+    private String path;
+    
+    BufferedReaderWithSource(BufferedReader br, String path) {
+      this.br = Objects.requireNonNull(br);
+      this.path = Objects.requireNonNull(path);
+    }
+    
+    @Override
+    public boolean equals(Object o) {
+      if (this == o) return true;
+      if (o == null || getClass() != o.getClass()) return false;
+      BufferedReaderWithSource that = (BufferedReaderWithSource) o;
+      return path.equals(that.path);
+    }
+    
+    @Override
+    public int hashCode() {
+      return path.hashCode();
+    }
+  }
+
 
 }

@@ -38,8 +38,8 @@ class V2TextChecker extends TextChecker {
 
   private static final String JSON_CONTENT_TYPE = "application/json";
 
-  V2TextChecker(HTTPServerConfig config, boolean internalServer) {
-    super(config, internalServer);
+  V2TextChecker(HTTPServerConfig config, boolean internalServer, Queue<Runnable> workQueue) {
+    super(config, internalServer, workQueue);
   }
 
   @Override

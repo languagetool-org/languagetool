@@ -99,8 +99,19 @@ public class HunspellRule extends SpellingCheckRule {
             messages.getString("spelling"),
             messages.getString("desc_spelling_short"));
         List<String> suggestions = getSuggestions(word);
-        suggestions.addAll(0, getAdditionalTopSuggestions(suggestions, word));
-        suggestions.addAll(getAdditionalSuggestions(suggestions, word));
+        List<String> additionalTopSuggestions = getAdditionalTopSuggestions(suggestions, word);
+        Collections.reverse(additionalTopSuggestions);
+        for (String additionalTopSuggestion : additionalTopSuggestions) {
+          if (!word.equals(additionalTopSuggestion)) {
+            suggestions.add(0, additionalTopSuggestion);
+          }
+        }
+        List<String> additionalSuggestions = getAdditionalSuggestions(suggestions, word);
+        for (String additionalSuggestion : additionalSuggestions) {
+          if (!word.equals(additionalSuggestion)) {
+            suggestions.addAll(additionalSuggestions);
+          }
+        }
         if (!suggestions.isEmpty()) {
           filterSuggestions(suggestions);
           filterDupes(suggestions);
@@ -119,7 +130,7 @@ public class HunspellRule extends SpellingCheckRule {
     if (word.length() == 1) { // hunspell dictionaries usually do not contain punctuation
       isAlphabetic = Character.isAlphabetic(word.charAt(0));
     }
-    return (isAlphabetic && !word.equals("--") && hunspellDict.misspelled(word)) || isProhibited(removeTrailingDot(word));
+    return (isAlphabetic && !"--".equals(word) && hunspellDict.misspelled(word)) || isProhibited(removeTrailingDot(word));
   }
   
   void filterDupes(List<String> words) {
@@ -157,7 +168,7 @@ public class HunspellRule extends SpellingCheckRule {
     AnalyzedTokenReadings[] sentenceTokens = getSentenceWithImmunization(sentence).getTokens();
     for (int i = 1; i < sentenceTokens.length; i++) {
       String token = sentenceTokens[i].getToken();
-      if (isUrl(token) || isEMail(token) || sentenceTokens[i].isImmunized() || sentenceTokens[i].isIgnoredBySpeller()) {
+      if (sentenceTokens[i].isImmunized() || isUrl(token) || isEMail(token) || sentenceTokens[i].isIgnoredBySpeller() || (token.length() == 2 && Character.isSurrogatePair(token.charAt(0), token.charAt(1)))) {
         // replace URLs and immunized tokens with whitespace to ignore them for spell checking:
         for (int j = 0; j < token.length(); j++) {
           sb.append(' ');

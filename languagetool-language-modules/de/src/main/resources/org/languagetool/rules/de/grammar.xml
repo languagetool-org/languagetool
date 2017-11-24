@@ -110,6 +110,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Tippfehler -->
     <!-- ====================================================================== -->
     <category id="TYPOS" name="Mögliche Tippfehler">
+        <rule id="DE_KOMMA" name="de, (dem)">
+            <antipattern>
+                <token>.</token>
+                <token>de</token>
+                <token>,</token>
+            </antipattern>
+            <pattern>
+                <token>de</token>
+                <token>,</token>
+            </pattern>
+            <message>Meinten Sie <suggestion>dem</suggestion>?</message>
+            <example correction="dem">Wir kommen mit <marker>de,</marker> Plan gut voran.</example>
+            <example>Ich war auf heise.<marker>de,</marker> dort fanden die jährlichen Trollweltmeisterschaften statt.</example>
+        </rule>
         <rule id="EUCH_ALL" name="euch all (alle)">
             <pattern>
                 <token>euch</token>
@@ -3850,6 +3864,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="werde">Falls ich dazu gezwungen <marker>erde</marker>, werde ich mich beschweren.</example>
             </rule>
         </rulegroup>
+        <rule id="GEROCHEN_GEBROCHEN" name="gerochen (gebrochen)">
+            <pattern>
+                <marker><token inflected="yes" case_sensitive="yes">gerochen</token></marker>
+                <token regexp="yes">&sprachadj1;|Arm|Bein</token>
+            </pattern>
+            <message>Meinten Sie <suggestion><match no="1" regexp_match="ger" regexp_replace="gebr"/></suggestion>?</message>
+            <example correction="gebrochenem">Er antwortete in <marker>gerochenem</marker> Englisch.</example>
+            <example correction="gebrochenes">Sein <marker>gerochenes</marker> Bein behindert ihn.</example>
+        </rule>
     </category>
 
     <!-- ====================================================================== -->
@@ -10743,6 +10766,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion></suggestion>
             <example correction="">Italdesign, eines der weltweit besten Designbüros <marker>der Welt</marker>.</example>
             <example>Sie verkaufte 300 Millionen Tonträger weltweit, damit ist sie die kommerziell erfolgreichste Sängerin der Welt . </example>
+        </rule>
+        <rule id="ZENTRALER_KERNBAUSTEIN" name="zentraler Kernbaustein">
+            <pattern>
+                <token inflected="yes">zentral</token>
+                <token inflected="yes">Kernbaustein</token>
+            </pattern>
+            <message>Die Wendung '\1 \2' ist redundant. Sprechen Sie einfach von <suggestion>\2</suggestion> oder <suggestion>\1 <match no="2" regexp_match="Kernb" regexp_replace="B"/></suggestion></message>
+            <example correction="Kernbausteinen|zentralen Bausteinen">Das Modul besteht aus drei <marker>zentralen Kernbausteinen</marker>.</example>
         </rule>
         <rule id="NEBEN_MIT" name="neben mit">
             <antipattern>
@@ -34961,7 +34992,7 @@ Andere Projekte</example>
                         <exception regexp="yes" scope="next">weil|ob(wohl|gleich)?|da(mit|ss)?|indem|wenn|falls|während|bevor|nachdem|seitdem|so(bald|dass|fern|lange)|was|als|wie|bis|wer|wo|wohin|sondern|aber</exception>
                     </token>
                     <token postag="VER:[1-3]:.*|VER.*:[1-3]:.*|VER:IMP:.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöü]+
-                        <exception postag="VER:INF:.*|VER:MOD:INF.*|PA[12]:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
+                        <exception postag="VER:(INF:|PA2).*|VER:MOD:INF.*|PA[12]:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
                         <exception inflected="yes" regexp="yes">bleiben|lassen|sieben|achten</exception>   <!-- siebte, achte werden nicht als Zahlwort erkannt  -->
                         <exception>bitte</exception>
                         <exception>sog</exception>
@@ -34978,6 +35009,7 @@ Andere Projekte</example>
                 <example>Es war jahrelang mangelhaft unterhalten worden und hatte erhebliche Schäden.</example>
                 <example>Es war verlegt worden, aber es arbeitete dennoch nicht profitabel.</example>
                 <example>Die Bürger schickten statt der ausgefüllten Bögen Müll in Umschlägen zurück.</example>
+                <example>Er war mit einem Lkw kollidiert.</example>
                 <example>Da die für Schmucksteine begehrteste Farbe nur selten zu finden ist, wird mindere Qualität durch Brennen verbessert.</example>
             </rule>
         </rulegroup>

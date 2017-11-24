@@ -98,7 +98,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     int idx = -1;
     for (AnalyzedTokenReadings token : tokens) {
       idx++;
-      if (canBeIgnored(tokens, idx, token) || token.isImmunized()) {
+      if (canBeIgnored(tokens, idx, token)) {
         continue;
       }
       // if we use token.getToken() we'll get ignored characters inside and speller will choke
@@ -180,7 +180,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
           + word.length(), messages.getString("spelling"),
           messages.getString("desc_spelling_short"));
       List<String> suggestions = speller1.getSuggestions(word);
-      if (suggestions.size() == 0 && word.length() >= 5) {
+      if (suggestions.isEmpty() && word.length() >= 5) {
         // speller1 uses a maximum edit distance of 1, it won't find suggestion for "garentee", "greatful" etc.
         suggestions.addAll(speller2.getSuggestions(word));
       }
