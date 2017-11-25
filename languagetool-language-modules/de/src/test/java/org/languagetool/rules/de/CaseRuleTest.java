@@ -146,6 +146,8 @@ public class CaseRuleTest {
     assertGood("Schon Le Monde schrieb das.");
     // unknown word:
     assertGood("In Blubberdorf macht man das so.");
+    // Exception definied in case_rule_exceptions.txt:
+    assertGood("Der Thriller spielt zur Zeit des Zweiten Weltkriegs");
 
     assertGood("Anders als physikalische Konstanten werden mathematische Konstanten unabhängig von jedem physikalischen Maß definiert.");
     assertGood("Eine besonders einfache Klasse bilden die polylogarithmischen Konstanten.");

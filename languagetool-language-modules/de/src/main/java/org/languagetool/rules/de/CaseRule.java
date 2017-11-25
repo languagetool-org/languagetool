@@ -1205,7 +1205,7 @@ private void addRuleMatch(List<RuleMatch> ruleMatches, String msg, AnalyzedToken
       if (i >= parts.length || j >= tokens.length) {
         return false;
       }
-      if (!tokens[j].getToken().equals(parts[i])) {
+      if (!tokens[j].getToken().matches(parts[i])) {
         return false;
       }
       i++;
