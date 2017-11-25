@@ -162,6 +162,25 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
   }
 
   /**
+   * Checks if the token has a postag starting with the given string.
+   *
+   * @param posTag POS tag substring to look for
+   * @since 4.0
+   */
+  public boolean hasPosTagStartingWith(String posTag) {
+    boolean found = false;
+    for (AnalyzedToken reading : anTokReadings) {
+      if (reading.getPOSTag() != null) {
+        found = reading.getPOSTag().startsWith(posTag);
+        if (found) {
+          break;
+        }
+      }
+    }
+    return found;
+  }
+
+  /**
    * Checks if at least one of the readings matches a given POS tag regex.
    *
    * @param posTagRegex POS tag regular expression to look for

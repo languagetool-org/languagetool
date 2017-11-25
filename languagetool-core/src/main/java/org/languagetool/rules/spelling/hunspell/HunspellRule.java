@@ -31,6 +31,8 @@ import java.util.regex.Pattern;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
+
+import org.apache.commons.lang3.StringUtils;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
@@ -56,6 +58,12 @@ public class HunspellRule extends SpellingCheckRule {
 
   private static final String NON_ALPHABETIC = "[^\\p{L}]";
 
+  private static final String[] WHITESPACE_ARRAY = new String[20];
+  static {
+    for (int i = 0; i < 20; i++) {
+      WHITESPACE_ARRAY[i] = StringUtils.repeat(' ', i);
+    }
+  }
   protected Pattern nonWordPattern;
 
   public HunspellRule(ResourceBundle messages, Language language) {
@@ -170,8 +178,12 @@ public class HunspellRule extends SpellingCheckRule {
       String token = sentenceTokens[i].getToken();
       if (sentenceTokens[i].isImmunized() || isUrl(token) || isEMail(token) || sentenceTokens[i].isIgnoredBySpeller() || (token.length() == 2 && Character.isSurrogatePair(token.charAt(0), token.charAt(1)))) {
         // replace URLs and immunized tokens with whitespace to ignore them for spell checking:
-        for (int j = 0; j < token.length(); j++) {
-          sb.append(' ');
+        if (token.length() < 20) {
+          sb.append(WHITESPACE_ARRAY[token.length()]);
+        } else {
+          for (int j = 0; j < token.length(); j++) {
+            sb.append(' ');
+          }
         }
       } else {
         sb.append(token);

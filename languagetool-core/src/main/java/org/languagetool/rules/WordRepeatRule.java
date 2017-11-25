@@ -65,7 +65,7 @@ public class WordRepeatRule extends Rule {
   @Override
   public RuleMatch[] match(AnalyzedSentence sentence) {
     List<RuleMatch> ruleMatches = new ArrayList<>();
-    AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
+    AnalyzedTokenReadings[] tokens = getSentenceWithImmunization(sentence).getTokensWithoutWhitespace();
     String prevToken = "";
     // we start from token 1, token no. 0 is guaranteed to be SENT_START
     for (int i = 1; i < tokens.length; i++) {
