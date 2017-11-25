@@ -286,9 +286,14 @@ public class GermanTagger extends BaseTagger {
     List<AnalyzedToken> result = new ArrayList<>();
     for (TaggedWord taggedWord : taggedWords) {
       List<String> allButLastPart = compoundParts.subList(0, compoundParts.size() - 1);
-      String lemma = String.join("", allButLastPart)
-              + StringTools.lowercaseFirstChar(taggedWord.getLemma());
-      result.add(new AnalyzedToken(word, taggedWord.getPosTag(), lemma));
+      StringBuilder lemma = new StringBuilder();
+      int i = 0;
+      for (String s : allButLastPart) {
+        lemma.append(i == 0 ? s : StringTools.lowercaseFirstChar(s));
+        i++;
+      }
+      lemma.append(StringTools.lowercaseFirstChar(taggedWord.getLemma()));
+      result.add(new AnalyzedToken(word, taggedWord.getPosTag(), lemma.toString()));
     }
     return result;
   }
