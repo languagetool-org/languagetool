@@ -4086,7 +4086,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Mögliche Wortverwechslung</short>
             <rule>
                 <pattern>
-                    <token regexp="yes">(To\-do\-)?Liste</token>
+                    <token regexp="yes">(To\-do\-)?Listen?|Checklisten?</token>
                     <marker>
                         <token inflected="yes">abhacken</token>
                     </marker>
@@ -4103,6 +4103,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Meinten Sie <suggestion><match no="1" regexp_match="äck" regexp_replace="äk"/></suggestion> (kleiner Haken)?</message>
                 <example correction="Häkchen">Ich habe ein <marker>Häckchen</marker> gesetzt.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="LEITEND" name="leidend (leitend)">
+            <short>Mögliche Wortverwechslung</short>
+            <rule>
+                <pattern>
+                    <marker><token inflected="yes">leidend</token></marker>
+                    <token inflected="yes" regexp="yes">Position|Stellung|Angestellter?</token>
+                </pattern>
+                <message>Meinten Sie <suggestion><match no="1" regexp_match="eid" regexp_replace="eit"/></suggestion>?</message>
+                <example correction="leitende">Er hat eine <marker>leidende</marker> Position.</example>
             </rule>
         </rulegroup>
         <rulegroup id="LIESST" name="ließt (liest)">
