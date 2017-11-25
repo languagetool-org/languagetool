@@ -45,8 +45,9 @@ import java.util.regex.Pattern;
  */
 public class GermanTagger extends BaseTagger {
 
+  private static final Pattern IMPERATIVE_PATTERN = Pattern.compile("[iI](ch|hr)|[eE][rs]|[Ss]ie");
+  
   private final ManualTagger removalTagger;
-  private final Pattern IMPERATIVE_PATTERN = Pattern.compile("[iI](ch|hr)|[eE][rs]|[Ss]ie");
 
   private GermanCompoundTokenizer compoundTokenizer;
 
