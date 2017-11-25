@@ -5316,7 +5316,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token postag="SENT_START|CC" postag_regexp="yes" skip="-1"><exception postag="PR.*" postag_regexp="yes" scope="next"/><exception scope="next">perquè</exception></token>
+                    <token postag="SENT_START|CC|_PUNCT.*" postag_regexp="yes" skip="-1"><exception postag="PR.*" postag_regexp="yes" scope="next"/><exception scope="next">perquè</exception></token>
                     <token regexp="yes">vaig|vas|va|van<exception postag="_GN_MS|_GN_FP|complement|.*LOC_ADV.*" postag_regexp="yes"/></token>
                     <marker>
                         <token postag="VM[^NGP].*" postag_regexp="yes"><exception postag="V.[NGP].*" postag_regexp="yes"></exception></token>
@@ -5326,8 +5326,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="3" postag="V.N.*" postag_regexp="yes"/></suggestion>
                 <suggestion><match no="3" postag="V.G.*" postag_regexp="yes"/></suggestion>
                 <suggestion><match no="3" postag="V.P.*" postag_regexp="yes"/></suggestion>
-                <short>Falta un infinitiu, un gerundi o un participi</short>
                 <example correction="córrer|corrent|correguda|corregudes|corregut|correguts">Vaig <marker>corre</marker>.</example>
+                <example correction="traslladar|traslladant|traslladada|traslladades|traslladat|traslladats">Quan va complir un any, es va <marker>trasllada</marker> a Saragossa.</example>
                 <example>Vaig córrer.</example>
                 <example>que el vas torni a tancar-se</example>
                 <example>els que hi van són vampirs.</example>
