@@ -32,6 +32,9 @@
   * added and improved rules
   * improved POS tagging of hyphenated compounds (e.g., "CO2-arm" is recgonized as a variant of "arm")
 
+#### Polish
+  * added rules
+
 #### Portuguese
   * added and improved rules
   * disambiguation improvements
