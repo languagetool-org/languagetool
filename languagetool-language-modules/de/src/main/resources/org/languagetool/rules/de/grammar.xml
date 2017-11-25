@@ -28949,6 +28949,16 @@ Andere Projekte</example>
                 <example>Dass ihr trotz dieser Krankheit arbeiten könnt, ist gut.</example>
                 <example>Sie sagte, dass es ihr leid tut.</example>
             </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag="SENT_START"/>
+                    <token postag="ADV.*" postag_regexp="yes" regexp="yes">W[a-zäöü]+</token>
+                    <token regexp="yes">sind|waren</token>
+                    <marker><token postag="SUB:NOM:SIN:.+" postag_regexp="yes"><exception postag="SUB:NOM:PLU:.+" postag_regexp="yes"></exception></token></marker>
+                </pattern>
+                <message>Sollte hier der Plural <suggestion><match no="4" postag_regexp="yes" postag="SUB:NOM:SIN:(.*)" postag_replace="SUB:NOM:PLU:$1"/></suggestion> verwendet werden?</message>
+                <example correction="Eigenleistungen">Wo sind <marker>Eigenleistung</marker> am besten möglich?</example>
+            </rule>
         </rulegroup>
         <rule id="PASSIV_KEIN_PARTIZIP" name="fehlerhafte Passivkonstruktion (z.B. 'ist fahndet (gefahndet) worden')">
             <pattern>
