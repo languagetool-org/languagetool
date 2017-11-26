@@ -18955,7 +18955,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token postag="V.{6}[VBZ34567]" postag_regexp="yes"><exception postag="V.{6}[0CXY12]|V.SP...V|N.*|AQ.*|SPS00|RG|.*_GN_.*|&lt;/?NP.*" postag_regexp="yes"/><exception regexp="yes">vinga|aviam|contacte|africa</exception></token>
                         <token postag="_possible_nompropi"/>
                     </and>
-                </pattern> 
+                </pattern>
                 <message>Paraula desconeguda com a nom propi.</message>
                 <example correction="">Maria <marker>Barbara</marker> Bach</example>
                 <example correction="">i <marker>Adoram</marker>, fill d'Abdà,</example>
@@ -32956,7 +32956,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </category>
     <category id="DISPUTED_FORMS" name="C5) Formes normatives discutides: ressituar" type="style">
         <rulegroup id="FORMES_NORMATIVES" name="Usa formes normatives (AVL, IEC): ressituar" default="on">
-            <rule id="RESITUAR" name="Exigeix 'ressituar'">
+            <rule id="RESITUAR" name="Exigeix 'ressituar' (AVL, IEC)">
                 <pattern>
                     <token inflected="yes">resituar</token>
                 </pattern>
@@ -32964,10 +32964,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">ressituar</match></suggestion>
                 <short>Ortografia discutida</short>
                 <example correction="ressituats"><marker>resituats</marker></example>
-                <example>ressituats.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="FORMES_NO_NORMATIVES" name="Usa formes no normatives: corresponsable, resituar, termostable" default="on">
+        <rulegroup id="FORMES_NO_NORMATIVES" name="Usa formes no normatives: resituar" default="off">
             <rule id="RESSITUAR" name="Exigeix 'resituar'">
                 <pattern>
                     <token inflected="yes">ressituar</token>
@@ -32976,7 +32975,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">resituar</match></suggestion>
                 <short>Ortografia discutida</short>
                 <example correction="resituats"><marker>ressituats</marker></example>
-                <example>resituats.</example>
             </rule>
         </rulegroup>
     </category>
@@ -41505,7 +41503,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                  <message>Combinació col·loquial.</message>
                  <suggestion>\1s<match no="2" regexp_match="'(.)" regexp_replace="-$1e"/></suggestion>
                  <example correction="Digues-me"><marker>Digue'm</marker> què vols.</example>
-	    </rule>
+           </rule>
             <rule>
                  <pattern>
                      <token regexp="yes">&verbs_colloquials;</token>
@@ -41514,7 +41512,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                  <message>Combinació col·loquial.</message>
                  <suggestion>\1s-lo</suggestion>
                  <example correction="Dugues-lo"><marker>Dugue'l</marker> demà.</example>
-	    </rule>
+            </rule>
             <rule>
                  <pattern>
                      <token regexp="yes">&verbs_colloquials;</token>
@@ -41523,7 +41521,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                  <message>Combinació col·loquial.</message>
                  <suggestion>\1s\2</suggestion>
                  <example correction="Digues-li"><marker>Digue-li</marker> això.</example>
-	    </rule>
+            </rule>
         </rulegroup>
         <rule id="ESCOMENCAR" name="escomençar" >
             <pattern>
