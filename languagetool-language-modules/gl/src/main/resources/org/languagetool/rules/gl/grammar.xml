@@ -4292,6 +4292,26 @@
 
  </category>
 
+ <category id='REPETITIONS' name='Repetições' type='duplication'>
+
+    <rule id='CONJUNCTION_REPETITION' name="Repetição de conjunções" default='on'>
+    <!-- Created by Tiago F. Santos, Portuguese rule, 2016-12-03	-->
+      <pattern>
+          <token regexp="yes" skip='6'>ademais|aínda|alén|conforme|entanto|mais|obstante|porén|pronto|senón|sexa|tamén
+            <exception scope='next' postag_regexp='yes' postag="_PUNCT|''"/></token>
+        <marker>
+          <token><match no="0"/></token>
+        </marker>
+      </pattern>
+      <message>Repetición estilisticamente incorrecta.</message>
+      <!-- url>https://pt.wikiversity.org/wiki/Norma_padrão_da_língua_portuguesa/Repetições_e_elipses</url XXX localize URL -->
+      <example correction="">Tamén escribiu <marker>tamén</marker> para un xornal nacional.</example>
+      <example correction="">Aínda que non é <marker>aínda</marker> que definitivo.</example>
+      <example>Sexa por vergoña, sexa por timidez.</example>
+    </rule>
+ 
+ </category>
+
  <category id="LIBREOFFICE_RULES" name="LibreOffice: Regras para textos formatados" default="off">
 
     <rule id="FINAL_PUNCTUATION" name="Puntuación final en falta">
