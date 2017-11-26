@@ -33448,6 +33448,61 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Com de gran ha de ser l'ampolla?</example>
         </rule>
     </category>
+    <category id="ACCEPTED_BY_AVL" name="Paraules i expressions admeses per l'AVL però no per altres" type="grammar" default="on">
+        <rule id="VIAL_VIARI" name="vial (nom)/viari (adj)">
+            <pattern>
+                <token postag="NC.*" postag_regexp="yes"><exception regexp="yes">nous?</exception></token>
+                <token inflected="yes">vial</token>
+            </pattern>
+            <message>"Vial" és un nom, no un adjectiu.</message>
+            <suggestion>\1 <match no="1" postag_regexp="yes" postag="NC(..).*" postag_replace="AQ.$1.">viari</match></suggestion>
+            <url>http://esadir.cat/entrades/fitxa/id/2381</url>
+            <example correction="Seguretat viària"><marker>Seguretat vial</marker>.</example>
+            <example correction="Connexions viàries"><marker>Connexions vials</marker>.</example>
+            <example>Van construir nous vials de comunicació.</example>
+        </rule>
+        <rulegroup id="ROTAR_GIRAR" name="rotar/girar">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="V.*" postag_regexp="yes" inflected="yes" skip="7">rotar<exception></exception></token>
+                    </marker>
+                    <token inflected="yes" regexp="yes">&context_ROTAR_GIRAR;</token>
+                </pattern>
+                <message>Paraula incorrecta en aquest context.</message>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">girar</match></suggestion>
+                <example correction="girar">Va <marker>rotar</marker> un angle de 180 graus.</example>
+                <example>No ho faré perquè no em rota.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes" skip="7">&context_ROTAR_GIRAR;</token>
+                    <marker>
+                        <token postag="V.*" postag_regexp="yes" inflected="yes" >rotar<exception></exception></token>
+                    </marker>
+                </pattern>
+                <message>Paraula incorrecta en aquest context.</message>
+                <suggestion><match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">girar</match></suggestion>
+                <example correction="girar">Mesurar angles o <marker>rotar</marker> objectes.</example>
+            </rule>
+        </rulegroup>
+        <rule id="DESAFORAT" name="*desaforat/desmesurat">
+            <pattern>
+                <token postag="V.P.*" postag_regexp="yes" inflected="yes">desaforar<exception postag="_GV_" /></token>
+            </pattern>
+            <message>Correcte si és del v. desaforar. En altres sentits, es considera antic.</message>
+            <suggestion><match no="1" postag_regexp="yes" postag="V.P..(.)(.)." postag_replace="AQ0$2$10">desmesurat</match></suggestion>
+            <suggestion><match no="1" postag_regexp="yes" postag="V.P..(.)(.)." postag_replace="AQ0$2$10">boig</match></suggestion>
+            <suggestion><match no="1" postag_regexp="yes" postag="V.P..(.)(.)." postag_replace="AQ0$2$10">espantós</match></suggestion>
+            <suggestion><match no="1" postag_regexp="yes" postag="V.P..(.)(.)." postag_replace="AQ0$2$10">furiós</match></suggestion>
+            <suggestion><match no="1" postag_regexp="yes" postag="V.P..(.)(.)." postag_replace="AQ0$2$10">acèrrim</match></suggestion>
+            <suggestion><match no="1" postag_regexp="yes" postag="(V.P.*)" postag_replace="$1">aferrissar</match></suggestion>
+            <suggestion><match no="1" postag_regexp="yes" postag="(V.P.*)" postag_replace="$1">acarnissar</match></suggestion>
+            <example correction="desmesurats|boigs|bojos|espantosos|furiosos|acèrrims|aferrissats|acarnissats">Uns crits <marker>desaforats</marker>.</example>
+            <example>L'han desaforat.</example>
+            <example>Fou desaforat.</example>
+        </rule>
+    </category>
     <category id="INCORRECT_WORDS_IN_CONTEXT" name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
             (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
@@ -33495,7 +33550,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token inflected="yes">malat</token>
             </pattern>
-            <message>¿Volíeu dir <suggestion><match no="1" postag="NCM(.)000" postag_regexp="yes" postag_replace="AQ0M$10">malalt</match></suggestion>? "Malat" és un terme de químia.</message>
+            <message>¿Volíeu dir <suggestion><match no="1" postag="NCM(.)000" postag_regexp="yes" postag_replace="AQ0M$10">malalt</match></suggestion>? 'Malat' és un terme de químia.</message>
             <example correction="malalts">Els <marker>malats</marker>.</example>
         </rule>
         <rule id="TREPAR_GRIMPAR" name="trepar/grimpar">
@@ -33533,7 +33588,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>pastís</token>
                 </marker>
             </pattern>
-            <message>Referit a una tècnica de pintura cal dir <suggestion>pastel</suggestion>?</message>
+            <message>Referit a una tècnica de pintura cal dir <suggestion>pastel</suggestion>.</message>
             <example correction="pastel">En colors <marker>pastís</marker>.</example>
         </rule>
         <rulegroup id="RECORD" name="*record/rècord olímpic">
@@ -33749,7 +33804,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token>antes</token>
             </pattern>
-            <message>¿Volíeu dir <suggestion>abans</suggestion>? Una 'anta' és un tipus pilar.</message>
+            <message>¿Volíeu dir <suggestion>abans</suggestion>? Una 'anta' és un tipus de pilar.</message>
             <example correction="abans">Has de vindre <marker>antes</marker>.</example>
         </rule>
         <rulegroup id="ALOS" name="Alòs/Alós">
@@ -33832,7 +33887,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token inflected="yes">tupar<exception postag="_GN_.*" postag_regexp="yes"/></token>
             </pattern>
-            <message>¿Volíeu dir <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">topar</match></suggestion>? "Tupar" és una variant de "atupar, batre".</message>
+            <message>¿Volíeu dir <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">topar</match></suggestion>? "Tupar" vol dir "pegar colps, batre, atupar".</message>
             <example correction="toparen"><marker>tuparen</marker></example>
             <example>de can Tupí</example>
         </rule>
@@ -33900,7 +33955,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token>encontra</token>
                 </pattern>
-                <message>Possible confusió. "Encontra" és correcte com a forma del verb "encontrar".</message>
+                <message>Possible confusió. Correcte com a forma del verb 'encontrar'.</message>
                 <suggestion>en contra</suggestion>
                 <suggestion>encontre</suggestion>
                 <suggestion>troba</suggestion>
@@ -33925,21 +33980,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token regexp="yes">conduits?</token>
             </pattern>
-            <message>Si és participi del verb 'conduir', falta una dièresi. "Conduit" és correcte en altres sentits.</message>
+            <message>Si és participi del verb 'conduir', falta una dièresi. 'Conduit' és correcte en altres sentits.</message>
             <suggestion><match no="1" regexp_match="(?iu)conduit(s?)" regexp_replace="conduït$1" /></suggestion>
             <example correction="conduïts">Són <marker>conduits</marker> pels taxistes.</example>
-        </rule>
-        <rule id="VIAL_VIARI" name="vial (nom)/viari (adj)">
-            <pattern>
-                <token postag="NC.*" postag_regexp="yes"><exception regexp="yes">nous?</exception></token>
-                <token inflected="yes">vial</token>
-            </pattern>
-            <message>"Vial" és un nom, no un adjectiu.</message>
-            <suggestion>\1 <match no="1" postag_regexp="yes" postag="NC(..).*" postag_replace="AQ.$1.">viari</match></suggestion>
-            <url>http://esadir.cat/entrades/fitxa/id/2381</url>
-            <example correction="Seguretat viària"><marker>Seguretat vial</marker>.</example>
-            <example correction="Connexions viàries"><marker>Connexions vials</marker>.</example>
-            <example>Van construir nous vials de comunicació.</example>
         </rule>
         <rulegroup id="DESPRENDRE_DESPENDRE" name="despendre / desprendre">
             <!-- es pot completar amb més paraules -->
@@ -33989,7 +34032,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </marker>
                 <token postag="SENT_END"/>
             </pattern>
-            <message>Possible confusió. "Odre" és correcte com a nom de recipient.</message>
+            <message>Possible confusió. 'Odre' és correcte com a nom de recipient.</message>
             <suggestion><match no="2" regexp_match="(?iu)odre(s?)" regexp_replace="ordre$1" /></suggestion>
             <suggestion><match no="2" regexp_match="(?iu)odre(s?)" regexp_replace="orde$1" /></suggestion>
             <example correction="ordre|orde">Per <marker>odre</marker> del rei.</example>
@@ -34002,7 +34045,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token inflected="yes">xunga</token>
             </pattern>
-            <message>¿Volíeu dir <suggestion><match no="1" postag="N..(.).*" postag_regexp="yes" postag_replace="V.P..$1F.">fotre</match></suggestion>?" Xunga" existeix com a nom d'ocell.</message>
+            <message>¿Volíeu dir <suggestion><match no="1" postag="N..(.).*" postag_regexp="yes" postag_replace="V.P..$1F.">fotre</match></suggestion>? 'Xunga' existeix com a nom d'ocell.</message>
             <suggestion><match no="1" postag="N..(.).*" postag_regexp="yes" postag_replace="V.P..$1F.">fúmer</match></suggestion>
             <suggestion><match no="1" postag="N..(.).*" postag_regexp="yes" postag_replace="V.P..$1F.">pansir</match></suggestion>
             <suggestion><match no="1" postag="N..(.).*" postag_regexp="yes" postag_replace="V.P..$1F.">atrotinar</match></suggestion>
@@ -34056,7 +34099,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token inflected="yes">nassal</token>
             </pattern>
-            <message>¿Volíeu dir <suggestion><match no="1" postag="NC.(.).*" postag_regexp="yes" postag_replace="AQ.C$1.">nasal</match></suggestion>? El "nassal" és una part de l'armadura de cavaller.</message>
+            <message>¿Volíeu dir <suggestion><match no="1" postag="NC.(.).*" postag_regexp="yes" postag_replace="AQ.C$1.">nasal</match></suggestion>? El 'nassal' és una part de l'armadura de cavaller.</message>
             <example correction="nasals">Les obertures <marker>nassals</marker>.</example>
         </rule>
         <rule id="ORDENADOR_ORDINADOR" name="ordenador/ordinador">
@@ -34094,7 +34137,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token>farola</token>
                 </pattern>
-                <message>¿Volíeu dir <suggestion>fanal</suggestion>? "Farola" és sinònim de "far".</message>
+                <message>¿Volíeu dir <suggestion>fanal</suggestion>? 'Farola' és sinònim de 'far'.</message>
                 <example correction="fanal">La <marker>farola</marker>.</example>
                 <example correction="fanal">Tipus <marker>farola</marker>.</example>
             </rule>
@@ -34102,7 +34145,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token>faroles</token>
                 </pattern>
-                <message>¿Volíeu dir <suggestion>fanals</suggestion>? "Farola" és sinònim de "far".</message>
+                <message>¿Volíeu dir <suggestion>fanals</suggestion>? 'Farola' és sinònim de 'far'.</message>
                 <example correction="fanals">Les <marker>faroles</marker>.</example>
             </rule>
         </rulegroup>
@@ -34141,10 +34184,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token min="0" max="4" postag="RG|.*LOC.*" postag_regexp="yes"/>
                 <token inflected="yes">per</token>
             </pattern>
-            <message>¿Volíeu dir <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">vetllar</match></suggestion>? "Velar" és correcte en altres sentits.</message>
+            <message>¿Volíeu dir <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">vetllar</match></suggestion>? 'Velar' és correcte en altres sentits.</message>
             <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">vetlar</match></suggestion>
             <example correction="vetllar|vetlar">Volen <marker>velar</marker> sempre per la seguretat.</example>
-            <example correction="vetllessin|vetlessin">que <marker>velessin</marker> pel bon funcionament.</example>            <example>Una vela per superfície</example>
+            <example correction="vetllessin|vetlessin">que <marker>velessin</marker> pel bon funcionament.</example>
+            <example>Una vela per superfície</example>
         </rule>
         <rulegroup id="ARXIU_ARXIVAMENT" name="arxiu/arxivament">
             <rule>
@@ -34207,7 +34251,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>anticip</token>
                 </marker>
             </pattern>
-            <message>¿Volíeu dir <suggestion>avançament</suggestion>? Correcte si és del verb "anticipar" (forma balear).</message>
+            <message>¿Volíeu dir <suggestion>avançament</suggestion>? Correcte si és del verb 'anticipar' (forma balear).</message>
             <suggestion>acompte</suggestion>
             <suggestion>paga i senyal</suggestion>
             <suggestion>bestreta</suggestion>
@@ -34303,31 +34347,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion>tuits</suggestion>
             <example correction="piulades|tuits">Ha fet molts <marker>tuïts</marker>.</example>
         </rule>
-        <rulegroup id="ROTAR_GIRAR" name="rotar/girar">
-            <rule>
-                <pattern>
-                    <marker>
-                        <token postag="V.*" postag_regexp="yes" inflected="yes" skip="7">rotar<exception></exception></token>
-                    </marker>
-                    <token inflected="yes" regexp="yes">&context_ROTAR_GIRAR;</token>
-                </pattern>
-                <message>Paraula incorrecta en aquest context.</message>
-                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">girar</match></suggestion>
-                <example correction="girar">Va <marker>rotar</marker> un angle de 180 graus.</example>
-                <example>No ho faré perquè no em rota.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token inflected="yes" regexp="yes" skip="7">&context_ROTAR_GIRAR;</token>
-                    <marker>
-                        <token postag="V.*" postag_regexp="yes" inflected="yes" >rotar<exception></exception></token>
-                    </marker>
-                </pattern>
-                <message>Paraula incorrecta en aquest context.</message>
-                <suggestion><match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">girar</match></suggestion>
-                <example correction="girar">Mesurar angles o <marker>rotar</marker> objectes.</example>
-            </rule>
-        </rulegroup>
         <rule id="FICAR_POSAR" name="ficar/posar">
             <pattern>
                 <marker>
@@ -34368,7 +34387,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </marker>
                 <token inflected="yes">per</token>
             </pattern>
-            <message>"Trepar" vol dir "foradar". És incorrecte en altres sentits.</message>
+            <message>'Trepar' vol dir 'foradar'. És incorrecte en altres sentits.</message>
             <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">grimpar</match></suggestion>
             <suggestion>(enfilar-se)</suggestion>
             <example correction="grimpava|(enfilar-se)">Aquell <marker>trepava</marker> pel mur.</example>
@@ -34382,7 +34401,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token inflected="yes" regexp="yes">&context_TAXA;</token>
                 </pattern>
                 <message>¿Volíeu dir <suggestion><match no="1" postag="(N.*)" postag_regexp="yes" postag_replace="$1">taxa</match></suggestion>?</message>
-                <short>Possible confusió</short>
                 <example correction="taxa">La <marker>tassa</marker> de desocupació</example>
                 <example correction="taxes">Les <marker>tasses</marker> d'interés</example>
                 <example correction="taxes">Les <marker>tasses</marker> i índexs espesrats</example>
@@ -34396,34 +34414,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>¿Volíeu dir <suggestion><match no="2" postag="(N.*)" postag_regexp="yes" postag_replace="$1">taxa</match></suggestion>?</message>
-                <short>Possible confusió</short>
                 <example correction="taxes">No volien augmentar les <marker>tasses</marker>.</example>
                 <example>Van apujar les taxes.</example>
             </rule>
         </rulegroup>
-        <rule id="DESAFORAT" name="*desaforat/desmesurat">
-            <pattern>
-                <token postag="V.P.*" postag_regexp="yes" inflected="yes">desaforar<exception postag="_GV_" /></token>
-            </pattern>
-            <message>Correcte si és participi del verb desaforar. Incorrecte en altres sentits.</message>
-            <suggestion><match no="1" postag_regexp="yes" postag="V.P..(.)(.)." postag_replace="AQ0$2$10">desmesurat</match></suggestion>
-            <suggestion><match no="1" postag_regexp="yes" postag="V.P..(.)(.)." postag_replace="AQ0$2$10">boig</match></suggestion>
-            <suggestion><match no="1" postag_regexp="yes" postag="V.P..(.)(.)." postag_replace="AQ0$2$10">espantós</match></suggestion>
-            <suggestion><match no="1" postag_regexp="yes" postag="V.P..(.)(.)." postag_replace="AQ0$2$10">furiós</match></suggestion>
-            <suggestion><match no="1" postag_regexp="yes" postag="V.P..(.)(.)." postag_replace="AQ0$2$10">acèrrim</match></suggestion>
-            <suggestion><match no="1" postag_regexp="yes" postag="(V.P.*)" postag_replace="$1">aferrissar</match></suggestion>
-            <suggestion><match no="1" postag_regexp="yes" postag="(V.P.*)" postag_replace="$1">acarnissar</match></suggestion>
-            <example correction="desmesurats|boigs|bojos|espantosos|furiosos|acèrrims|aferrissats|acarnissats">Uns crits <marker>desaforats</marker>.</example>
-            <example>L'han desaforat.</example>
-            <example>Fou desaforat.</example>
-        </rule>
         <rule id="ATERRADOR" name="aterrador/aterridor">
             <pattern>
                 <token inflected="yes">aterrador</token>
             </pattern>
-            <message>¿Volíeu dir <suggestion><match no="1" postag="(AQ.*)" postag_regexp="yes" postag_replace="$1">aterridor</match></suggestion> (= que causa terror)?</message>
+            <message>¿Volíeu dir <suggestion><match no="1" postag="(AQ.*)" postag_regexp="yes" postag_replace="$1">aterridor</match></suggestion> (= que causa terror)? Correcte en altres sentits.</message>
             <url>http://esadir.cat/entrades/fitxa/id/2572</url>
-            <short>Possible confusió</short>
             <example correction="aterridora">Una descripció <marker>aterradora</marker>.</example>
             <example>una descripció aterridora</example>
         </rule>
@@ -34565,7 +34565,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion>puix que</suggestion>
             <suggestion>atès que</suggestion>
             <suggestion>atés que</suggestion>
-            <short>Possible incorrecció.</short>
             <example correction="ja que|sempre que|per tal com|puix que|atès que|atés que"><marker>tota vegada que</marker>.</example>
             <example>per tal com</example>
         </rule>
@@ -34573,7 +34572,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token inflected="yes">estorar<exception postag="_GN.*|N.*" postag_regexp="yes"/></token>
             </pattern>
-            <message>¿Volíeu dir <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">astorar</match></suggestion>? "Estorar" vol dir "posar estores, catifes".</message>
+            <message>¿Volíeu dir <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">astorar</match></suggestion>? 'Estorar' vol dir 'posar estores, catifes'.</message>
             <example correction="astorà">S'<marker>estorà</marker> moltíssim.</example>
             <example correction="astora">No m'<marker>estora</marker> gens.</example>
             <example>Una estora d'espart.</example>
@@ -34592,13 +34591,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <url>http://esadir.cat/entrades/fitxa/node/amanar</url>
             <example correction="arreglat|manegat|manipulat|falsejat|alterat">Estava <marker>amanyat</marker>.</example>
             <example correction="arreglades|manegades|manipulades|falsejades|alterades">Estaven <marker>amanyades</marker>.</example>
-            <example>Estava manipulat.</example>
         </rule>
         <rule id="DOLENCA" name="dolença/malaltia">
             <pattern>
                 <token inflected="yes">dolença</token>
             </pattern>
-            <message>¿Volíeu dir <suggestion><match no="1" postag="(NC.*)" postag_regexp="yes" postag_replace="$1">malaltia</match></suggestion>? "<match no="1" case_conversion ="startupper"/>" té uns usos restringits.</message>
+            <message>¿Volíeu dir <suggestion><match no="1" postag="(NC.*)" postag_regexp="yes" postag_replace="$1">malaltia</match></suggestion>? <match no="1" case_conversion ="startupper"/> vol dir 'dolor anímic, pena'.</message>
             <suggestion><match no="1" postag="(NC.*)" postag_regexp="yes" postag_replace="$1">xacra</match></suggestion>
             <suggestion><match no="1" postag="NCF(.*)" postag_regexp="yes" postag_replace="NCM$1">mal</match></suggestion>
             <short>Possible confusió</short>
