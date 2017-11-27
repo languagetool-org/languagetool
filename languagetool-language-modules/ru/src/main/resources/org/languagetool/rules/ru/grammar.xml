@@ -408,7 +408,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         
         
         <rulegroup id="uroven_uvelichilsja" name="Логические ошибки «уровень повысился/увеличился»">
-            <!-- TODO:   добавить    <token min="0" max="3"></token> - исправлено другим способом skip="3"-->          
+            <!--  <token min="0" max="3"></token> - реализовано другим способом skip="3"-->          
             <rule> 
                 <pattern>
                     <token skip="3">уровень</token>
@@ -2200,7 +2200,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup default="on" id="Genitsya" name="«Жениться»/«выйти замуж»">
             <rule>
                 <pattern case_sensitive="no">
-                    <!--          -->
                     <token>он</token>
                     <token>вышел</token>
                     <token>замуж</token>
@@ -2215,7 +2214,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern case_sensitive="no">
-                    <!--          -->
                     <token postag="NN:.*:Masc:Sin:.*" postag_regexp="yes"></token>  
                     <token>вышел</token>
                     <token>замуж</token>
@@ -2229,7 +2227,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             
             <rule>
                 <pattern case_sensitive="no">
-                    <!--          -->
                     <token>она</token>
                     <token>женилась</token>
                 </pattern>
@@ -2241,7 +2238,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern case_sensitive="no">
-                    <!--          -->
                     <token postag="NN:.*:Fem:Sin:.*" postag_regexp="yes"></token>  
                     <token>женилась</token>    
                 </pattern>
@@ -2254,7 +2250,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>                   
     </category>
     
-    <category id="PUNCTUATION" name="Пунктуация">
+    <category id="PUNCTUATION" name="Пунктуация">     
+        <rulegroup id="PUNCT_DPT" name="Запятые при деепричасти и деепричастном обороте">
+            <rule>
+                <pattern>
+                    <token postag="PNN:.*" postag_regexp="yes"></token>
+                    <token postag="DPT:.*" postag_regexp="yes"></token>
+                    <token postag="VB:.*" postag_regexp="yes"></token>
+                </pattern>
+                <message>Деепричастие и деепричастный оборот выделяются запятыми: <suggestion>\1, \2, \3</suggestion>.</message>
+                <url>http://new.gramota.ru/spravka/rules/151-zap-19-32</url>
+                <short>Запятые при деепричастном обороте</short>
+                <example correction="Он, улыбаясь, шёл"><marker>Он улыбаясь шёл</marker> вперёд.</example>
+                <example>Он, улыбаясь, шёл вперёд.</example>
+            </rule>
+        </rulegroup>
         <rulegroup default="on" id="Verb_comma_Verb" name="Глаголы как однородные члены предложения">
             <!-- TODO Another example: "Он шёл по улице говорил по телефону" Correction: "Он шёл по улице и говорил по телефону" or "Он шёл по улице, говорил по телефону".  -->
             <rule>    
