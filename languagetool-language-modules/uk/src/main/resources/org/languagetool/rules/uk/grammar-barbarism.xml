@@ -3451,12 +3451,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <token regexp="yes">і?з</token>
             <token>числа</token>
           </marker>
-          <token postag_regexp="yes" postag=".*v_rod.*">
-            <exception postag_regexp="yes" postag="numr.*"/>
-          </token>
+          <token postag_regexp="yes" postag="num.*" min="0"/>
+          <token postag_regexp="yes" postag="(noun|adj).*v_rod.*"/>
         </pattern>
         <message>Правильно: <suggestion>з-поміж</suggestion></message>
         <example correction="з-поміж">навіть <marker>із числа</marker> її знайомих</example>
+        <example correction="з-поміж">навіть <marker>з числа</marker> французьких акторів</example>
+        <example>з числа 33 викреслюємо останню цифру</example>
       </rule>
     </rulegroup>
 
