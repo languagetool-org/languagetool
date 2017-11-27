@@ -17,6 +17,7 @@ _args_ = None
 _logger_ = None
 _out_file_ = None
 LOG_FORMAT = '%(asctime)-15s %(levelname)s %(message)s'
+DIST_TAGS = []
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Changes PoS tags to LT tags in file containing Serbian word corpus.')
@@ -66,6 +67,12 @@ def close_out_file():
 def check_word_type(lemma, postag, lttag):
     return lttag
 
+def count_tags(lttag):
+    global DIST_TAGS
+    taglist = lttag.split(':')
+    for tag in taglist:
+        if not tag in DIST_TAGS:
+            DIST_TAGS.append(tag)
 
 # Parse input file
 def parse_file():
@@ -81,7 +88,15 @@ def parse_file():
             lparts = line.split('\t')
             # Check if there is a tag
             if len(lparts[2]) > 0:
-                lttag = srptagging.get_tag(lparts[2], ':')
+                try:
+                    lttag = srptagging.get_tag(lparts[2], ':')
+                    if lttag.find('ERROR') != -1:
+                        _logger_.error("{} for wordform {}, lemma {}".format(lttag, lparts[0], lparts[1]))
+                        continue
+                    count_tags(lttag)
+                except KeyError:
+                    _logger_.error("Getting LT tag: wordform {}, lemma {}, tag {}".format(lparts[0], lparts[1], lparts[2]))
+                    continue
                 # Handle special cases and word types
                 newltag = check_word_type(lparts[1], lparts[2], lttag)
                 if lttag not in (None, ''):
@@ -94,6 +109,7 @@ def parse_file():
                 break
         f.close()
     _logger_.info("Finished processing input file '{}': total {} lines.".format(_args_.input_file, cnt))
+    _logger_.info("Found following distinctive LT tags: {}".format(sorted(DIST_TAGS)))
 
 
 if __name__ == "__main__":
