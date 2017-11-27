@@ -16,24 +16,31 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.tagging.disambiguation.rules.uk;
+package org.languagetool.tagging.disambiguation.uk;
 
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.languagetool.AnalyzedSentence;
+import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Ukrainian;
+import org.languagetool.rules.uk.LemmaHelper;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.disambiguation.MultiWordChunker;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationRuleTest;
-import org.languagetool.tagging.disambiguation.uk.UkrainianHybridDisambiguator;
+import org.languagetool.tagging.disambiguation.uk.SimpleDisambiguator.TokenMatcher;
 import org.languagetool.tagging.disambiguation.xx.DemoDisambiguator;
+import org.languagetool.tagging.uk.PosTagHelper;
 import org.languagetool.tagging.uk.UkrainianTagger;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.uk.UkrainianWordTokenizer;
@@ -81,9 +88,16 @@ public class UkrainianDisambiguationRuleTest extends DisambiguationRuleTest {
       "/[null]SENT_START Поломане/[поломаний]adj:n:v_kly:&adjp:pasv:perf:coll|Поломане/[поломаний]adj:n:v_naz:&adjp:pasv:perf:coll|Поломане/[поломаний]adj:n:v_zna:&adjp:pasv:perf:coll"
       + "  /[null]null крило/[крило]noun:inanim:n:v_naz|крило/[крило]noun:inanim:n:v_zna|крило/[крити]verb:imperf:past:n",
       tokenizer, sentenceTokenizer, tagger, disambiguator);
+
     TestTools.myAssert("до",
       "/[null]SENT_START до/[до]noun:inanim:n:v_dav:nv|до/[до]noun:inanim:n:v_mis:nv|до/[до]noun:inanim:n:v_naz:nv|до/[до]noun:inanim:n:v_oru:nv|до/[до]noun:inanim:n:v_rod:nv"
       +"|до/[до]noun:inanim:n:v_zna:nv|до/[до]noun:inanim:p:v_dav:nv|до/[до]noun:inanim:p:v_mis:nv|до/[до]noun:inanim:p:v_naz:nv|до/[до]noun:inanim:p:v_oru:nv|до/[до]noun:inanim:p:v_rod:nv|до/[до]noun:inanim:p:v_zna:nv|до/[до]prep",
+      tokenizer, sentenceTokenizer, tagger, disambiguator);
+
+    TestTools.myAssert("мій лемківський краю...",
+        "/[null]SENT_START мій/[мій]adj:m:v_kly:&pron:pos|мій/[мій]adj:m:v_naz:&pron:pos|мій/[мій]adj:m:v_zna:rinanim:&pron:pos  /[null]null"
+        + " лемківський/[лемківський]adj:m:v_kly|лемківський/[лемківський]adj:m:v_naz|лемківський/[лемківський]adj:m:v_zna:rinanim  /[null]null"
+        + " краю/[край]noun:inanim:m:v_dav|краю/[край]noun:inanim:m:v_kly|краю/[край]noun:inanim:m:v_mis|краю/[край]noun:inanim:m:v_rod .../[null]null",
       tokenizer, sentenceTokenizer, tagger, disambiguator);
 
     // still v_kly
@@ -217,6 +231,44 @@ public class UkrainianDisambiguationRuleTest extends DisambiguationRuleTest {
         tokenizer, sentenceTokenizer, tagger, disambiguator);
   }
 
+  @Test
+  public void testDisambiguatorRemove() throws IOException {
+
+    TestTools.myAssert("По кривій", 
+      "/[null]SENT_START По/[по]prep  /[null]null" +
+      " кривій/[крива]noun:inanim:f:v_dav|кривій/[крива]noun:inanim:f:v_mis|кривій/[кривий]adj:f:v_dav:compb|кривій/[кривий]adj:f:v_mis:compb",
+      tokenizer, sentenceTokenizer, tagger, disambiguator);
+
+    TestTools.myAssert("Попри", 
+        "/[null]SENT_START Попри/[попри]prep",
+        tokenizer, sentenceTokenizer, tagger, disambiguator);
+
+    TestTools.myAssert("Орися", 
+        "/[null]SENT_START Орися/[Орися]noun:anim:f:v_naz:prop:fname",
+        tokenizer, sentenceTokenizer, tagger, disambiguator);
+  }
+
+  @Test
+  public void testDisambiguatorRemovePresentInDictionary() throws IOException {
+    // make sure our disambiguation lines are valid lines in dictionary
+    Map<String, TokenMatcher> map = new SimpleDisambiguator().DISAMBIG_REMOVE_MAP;
+    for (Entry<String, TokenMatcher> entry : map.entrySet()) {
+      List<AnalyzedTokenReadings> tagged = tagger.tag(Arrays.asList(entry.getKey()));
+      AnalyzedTokenReadings taggedToken = tagged.get(0);
+      TokenMatcher tokenMatcher = entry.getValue();
+      
+      assertTrue(String.format("%s not found in dictionary, tags: %s", entry.toString(), tagged.toString()), matches(taggedToken, tokenMatcher));
+    }
+  }
+
+  private static boolean matches(AnalyzedTokenReadings taggedToken, TokenMatcher tokenMatcher) {
+    for(AnalyzedToken analyzedToken: taggedToken.getReadings()) {
+      if( tokenMatcher.matches(analyzedToken) )
+        return true;
+    }
+    return false;
+  }
+  
   @Test
   public void testChunker() throws Exception {
     JLanguageTool lt = new JLanguageTool(new Ukrainian());
