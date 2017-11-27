@@ -52,6 +52,11 @@
 
 #### General
   * Now runs with Java 9 (compilation with Maven still has issue with Java9)
+  * The spell checker tries harder to find suggestion for misspellings that have
+    a Levenshtein distance of larger than 2. The maximum Levenshtein distance is now 3.
+    This way you now get a suggestion for e.g. `algortherm` (algorithm) or `theromator` (thermometer).
+    In the worst case (every single word of a text misspelled), this has a performance
+    penalty of about 30%.
 
 #### GUI (stand-alone version)
   * show line numbers in the text area
