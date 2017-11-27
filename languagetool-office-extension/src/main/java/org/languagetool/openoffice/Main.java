@@ -126,7 +126,7 @@ public class Main extends WeakBase implements XJobExecutor,
   //  numParasToCheck: Paragraphs to be checked for full text rules
   //  < 0 check full text (time intensive)
   //  == 0 check only one paragraph (works like LT Version <= 3.9)
-  //   > 0 checks numParasToCheck before and after the processed paragraph 
+  //   > 0 checks numParasToCheck before and after the processed paragraph
   
   private static final String END_OF_PARAGRAPH = "\n";  //  Paragraph Separator from gciterator.cxx: 0x2029
   private int numParasToCheck = 5;
