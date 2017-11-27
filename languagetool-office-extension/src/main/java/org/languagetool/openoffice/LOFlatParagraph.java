@@ -40,8 +40,9 @@ import com.sun.star.uno.XComponentContext;
  * @author Fred Kruse
  */
 public class LOFlatParagraph {
-  private XFlatParagraphIterator xFlatParaIter;
-  private XFlatParagraph xFlatPara;
+  
+  private final XFlatParagraphIterator xFlatParaIter;
+  private final XFlatParagraph xFlatPara;
   
   LOFlatParagraph(XComponentContext xContext) throws Exception {
     xFlatParaIter = getXFlatParagraphIterator(xContext);
@@ -58,16 +59,14 @@ public class LOFlatParagraph {
     return UnoRuntime.queryInterface(XDesktop.class, desktop);
   }
 
-  /** Returns the current XComponent 
-   * @throws Exception */
+  /** Returns the current XComponent */
   private static XComponent getCurrentComponent(XComponentContext xContext) throws Exception {
     XDesktop xdesktop = getCurrentDesktop(xContext);
     if(xdesktop == null) return null;
     else return xdesktop.getCurrentComponent();
   }
     
-  /** Returns XFlatParagraphIterator 
-   * @throws Exception */
+  /** Returns XFlatParagraphIterator */
   private static XFlatParagraphIterator getXFlatParagraphIterator (XComponentContext xContext) throws Exception {
     XComponent xCurrentComponent = getCurrentComponent(xContext);
     if(xCurrentComponent == null) return null;
@@ -77,13 +76,13 @@ public class LOFlatParagraph {
     return xFlatParaItPro.getFlatParagraphIterator(TextMarkupType.PROOFREADING, true);
   }
   
-  /** Returns FlatParagaph */
+  /** Returns FlatParagraph */
   private static XFlatParagraph getFlatParagraph(XFlatParagraphIterator xFlatParaIter) {
     if(xFlatParaIter == null) return null;
     return xFlatParaIter.getLastPara();
   }
     
- /** Is FlatParagraph from Automatic Iteration */
+  /** Is FlatParagraph from Automatic Iteration */
   public boolean isFlatParaFromIter() throws IllegalArgumentException {
     if(xFlatParaIter == null || xFlatPara == null) return false;
     if(xFlatParaIter.getParaBefore(xFlatPara) != null 
