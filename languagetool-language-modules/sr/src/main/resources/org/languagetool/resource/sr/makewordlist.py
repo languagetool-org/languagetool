@@ -7,16 +7,19 @@
 
 import argparse
 import logging
-import re
 import os
 import sys
 
 """
-Program creates wordlist file
-"""
-_args_, _logger_, _freqs_ = None, None, list()
-_freqmap_ = dict()
+Program creates wordlist file processing word list selected
+from database. Format of input file is:
 
+wordform   lemma   postag   frequency
+
+Items are separated with <TAB> character.
+"""
+
+_args_, _logger_, _freqs_, _freqmap_ = None, None, list(), dict()
 LOG_FORMAT = '%(asctime)-15s %(levelname)s %(message)s'
 
 def parse_args():
@@ -79,7 +82,8 @@ def find_frequencies():
     _freqs_ = sorted(freq)
 
 
-# Maps list of word frequencies to numbers from 1 to 255
+# Maps word frequencies to numbers from 1 to 255
+# With this algorithm we try equal distribution
 def distribute_word_frequencies():
     global _freqmap_
     _logger_.info( "Frequencies: first {}, last {}.".format(_freqs_[0], _freqs_[-1]) )
