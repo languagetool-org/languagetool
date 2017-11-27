@@ -3043,7 +3043,7 @@
              previous verb (that could be head of the PP instead of the NP, etc
              TODO: Java rule to check this error.
         -->
-    <!-- Created by Susana Sotelo Docío 
+    <!-- Created by Susana Sotelo Docío
     <rule id="SUBST_A_INF" name="substantivo + a + inf">
       <pattern>
           <token postag="NC.*" postag_regexp="yes">
@@ -3972,23 +3972,6 @@
     </rule>
   </rulegroup>
 
-  <rulegroup id="REPETIDA" name="Palabra repetida">
-    <rule>
-    <!-- Created by Susana Sotelo Docío -->
-      <pattern>
-          <token>
-            <exception postag="SENT_START"/></token>
-          <token>
-                        <match no="0"/>
-            <exception regexp="yes">\p{Lu}\p{Ll}+|\.|\p{Lu}\.|se|moi|son|sapiens</exception>
-          </token>
-      </pattern>
-      <message>Posíbel erro tipográfico: repetíu unha palabra.</message>
-      <example correction="">Como acontece coa maior parte das <marker>linguas linguas</marker> romances.</example>
-      <example>Como acontece coa maior parte das <marker>linguas</marker> romances.</example>
-    </rule>
-  </rulegroup>
-
   <rulegroup id="VEN_BEN" name="ven vs. ben">
     <rule>
     <!-- Created by Susana Sotelo Docío -->
@@ -4183,7 +4166,7 @@
     <rule>
     <!-- Created by Susana Sotelo Docío -->
       <pattern>
-          <token regexp="yes">ést?[ea]</token>
+          <token regexp="yes">ést?[ea]s?</token>
       </pattern>
       <message>Posíbel erro: en galego os pronomes demostrativos (este, ese, aquel) non levan til. Quería vostede dicir <suggestion><match no="1" regexp_match="(?iu)é(.*)" regexp_replace="e$1"/></suggestion>?</message>
       <example correction="esta">Eles consideran que se lle das confianza á xente <marker>ésta</marker> responderá correctamente.</example>
@@ -4287,6 +4270,91 @@
       <short>Locución incorrecta.</short>
       <example correction="caixa de suxestións">O cliente ten á súa disposición un <marker>buzón de suxerencias</marker>.</example>
       <example>O cliente ten á súa disposición unha <marker>caixa de suxestións</marker>.</example>
+    </rule>
+  </rulegroup>
+
+ </category>
+
+ <category id='REPETITIONS' name='Repetições' type='duplication'>
+
+    <rule id='CONJUNCTION_REPETITION' name="Repetición de conxunción">
+    <!-- Created by Tiago F. Santos, Portuguese rule, 2016-12-03	-->
+      <pattern>
+          <token regexp="yes" skip='6'>ademais|aínda|alén|conforme|entanto|mais|obstante|porén|pronto|senón|sexa|tamén
+            <exception scope='next' postag_regexp='yes' postag="_PUNCT|''"/></token>
+        <marker>
+          <token><match no="0"/></token>
+        </marker>
+      </pattern>
+      <message>Repetición estilisticamente incorrecta.</message>
+    <!-- url>https://pt.wikiversity.org/wiki/Norma_padrão_da_língua_portuguesa/Repetições_e_elipses</url XXX localize URL -->
+      <example correction="">Tamén escribiu <marker>tamén</marker> para un xornal nacional.</example>
+      <example correction="">Aínda que non é <marker>aínda</marker> que definitivo.</example>
+      <example>Sexa por vergoña, sexa por timidez.</example>
+    </rule>
+
+  <rulegroup id="WORD_REPETITION" name="Palabra repetida">
+    <rule>
+    <!-- Created by Susana Sotelo Docío -->
+      <pattern>
+          <token>
+            <exception postag="SENT_START"/></token>
+          <token><match no="0"/>
+            <exception regexp="yes">\p{Lu}\p{Ll}+|\.|\p{Lu}\.|se|moi|son|sapiens</exception></token>
+      </pattern>
+      <message>Posíbel erro tipográfico: repetíu unha palabra.</message>
+        <suggestion>\1</suggestion>
+      <example correction="linguas">Como acontece coa maior parte das <marker>linguas linguas</marker> romances.</example>
+      <example>Como acontece coa maior parte das <marker>linguas</marker> romances.</example>
+    </rule>
+  </rulegroup>
+
+  <rulegroup id='PHRASE_REPETITION' name="Duplicación de palabras (por alí por alí)">
+    <!--    Localized and improved by Tiago F. Santos, from english grammar.xml, 2016-11-30    -->
+      <short>*Segmento duplicado</short>
+    <rule>
+      <antipattern>
+          <token regexp='yes'>un(?:ha)?</token>
+          <token regexp='yes'>amig[ao]</token>
+          <token>de</token>
+      </antipattern>
+      <pattern>
+          <token negate_pos="yes" postag="SENT_START" regexp="yes">
+            <exception/>\p{L}+</token>
+          <token regexp="yes">
+            <exception>e</exception>\p{L}+</token>
+          <token regexp="yes">
+            <exception>e</exception>\p{L}+</token>
+          <token><match no="0"/></token>
+          <token><match no="1"/></token>
+          <token><match no="2"/></token>
+      </pattern>
+      <message>Este segmento está duplicado. Talvez queira, só, dicir <suggestion>\1 \2 \3</suggestion>.</message>
+      <example correction="do final de">Hepatologia <marker>do final de do final de</marker> século.</example>
+      <example>Un amigo dun amigo de seu pai non é necesariamente un amigo.</example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token regexp='yes'>cara|día|face|lado|paso|pouco|terra</token>
+          <token>a </token>
+          <token><match no="0"/></token>
+      </antipattern>
+      <pattern>
+          <token negate_pos="yes" postag="SENT_START" regexp="yes">
+            <exception>e</exception>\p{L}+</token>
+          <token regexp="yes">
+            <exception>e</exception>\p{L}+</token>
+          <token><match no="0"/></token>
+          <token><match no="1"/></token>
+      </pattern>
+      <message>Este segmento está duplicado. Talvez queira, só, dicir <suggestion>\1 \2</suggestion>.</message>
+      <example correction="do final">Hepatologia <marker>do final do final</marker> de século.</example>
+      <example correction="colocou o">El volveu novamente ao estudo, e <marker>colocou o colocou o</marker> candeeiro em cima da mesa.</example>
+      <example correction="vén da">A carruaje con accesibilidade para deficientes motores <marker>vén da vén da</marker> Universidade do Porto.</example>
+      <example>Todo o que eles querían era ficar tranquilos, e ollar e ollar e ollar.</example>
+      <example>As instrucións son executadas paso a paso a partir do comezo da lista.</example>
+      <example>…integrar o día a día a partir de o…</example>
+      <example>Imos pensar en solucións terra-a-terra.</example>
     </rule>
   </rulegroup>
 

@@ -7529,7 +7529,7 @@ title="Easy editing stylesheet" ?>
     <rule id='CONJUNCTION_REPETITION' name="Repetição de conjunções" default='on'>
     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-12-03	-->
       <pattern>
-          <token regexp="yes"  skip='6'>mas|embora|porém|todavia|senão|obstante|contudo|logo|portanto|conforme|entretanto|entanto|também|além|demais|ademais
+          <token regexp="yes" skip='6'>ademais|além|conforme|contudo|demais|embora|entanto|entretanto|logo|mas|obstante|porém|portanto|seja|senão|também|todavia
             <exception scope='next' postag_regexp='yes' postag="_PUNCT|''"/></token>
         <marker>
           <token><match no="0"/></token>
@@ -7662,11 +7662,11 @@ title="Easy editing stylesheet" ?>
     </rule>
 
   <rulegroup id='PHRASE_REPETITION' name="Duplicação de palavras (por ali por ali)">
-    <!--    Localized and improved by Tiago F. Santos, from english grammar.xml, 2016-11-30    -->
+    <!--    Localized and improved by Tiago F. Santos, from English grammar.xml, 2016-11-30    -->
       <short>Segmento duplicado</short>
     <rule>
       <antipattern>
-          <token>um</token>
+          <token regexp='yes'>uma?</token>
           <token regexp='yes'>amig[ao]</token>
           <token>de</token>
       </antipattern>
@@ -7701,7 +7701,7 @@ title="Easy editing stylesheet" ?>
       </pattern>
       <message>Este segmento está duplicado. Talvez queira, apenas, dizer <suggestion>\1 \2</suggestion>.</message>
       <example correction="do final">Hepatologia <marker>do final do final</marker> de século.</example>
-      <example correction="colocou o">Ele voltou novamente ao estudo, e <marker>colocou o colocou o</marker> candeeiro encima da mesa table</example>
+      <example correction="colocou o">Ele voltou novamente ao estudo, e <marker>colocou o colocou o</marker> candeeiro encima da mesa.</example>
       <example correction="vem da">A carruagem com acessibilidade para deficientes motores <marker>vem da vem da</marker> Universidade do Porto.</example>
       <example>Tudo o que eles queriam era ficar quietos, e olhar e olhar e olhar.</example>
       <example>As instruções são executadas passo a passo a partir do começo da lista.</example>
@@ -20827,6 +20827,29 @@ TODO Write better examples
       <url>https://pt.wiktionary.org/wiki/cerrar</url>
       <example correction='carpinteiro cerra'>O <marker>carpinteiro serra</marker>-te isso à medida.</example>
       <example>Formigueiro-da-serra</example>
+    </rule>
+  </rulegroup>
+
+  <rulegroup id="VEM_BEM" name="Confusão: vem -> bem">
+    <rule>
+    <!-- Localized from Galician by Tiago F. Santos, 2017-11-26 -->
+      <pattern>
+          <token>tão</token>
+          <token>vem</token>
+          <token>como</token>
+      </pattern>
+      <message>A forma 'bem' é, probabelmente, um advérbio e, por tanto, deve escrever-se com 'b'. Pretende dizer <suggestion>\1 bem \3</suggestion>?</message>
+      <example correction="tão bem como">Joga <marker>tão vem como</marker> o pai.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token postag="V[SM][SMI].+" postag_regexp="yes">
+            <exception postag="V[SM][SMI].+" postag_regexp="yes" negate_pos="yes"/></token>
+          <token>vem</token>
+      </pattern>
+      <message>A forma 'bem' é, probabelmente, um advérbio e, por tanto, deve escrever-se com 'b'. Pretende dizer <suggestion>\1 bem</suggestion>?</message>
+      <example correction="Vejo bem"><marker>Vejo vem</marker> o esquema proposto.</example>
+    <!-- falso positivo: cando o amoso ven sempre un rapaz -->
     </rule>
   </rulegroup>
 

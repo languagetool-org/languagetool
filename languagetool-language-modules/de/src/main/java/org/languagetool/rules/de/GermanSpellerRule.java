@@ -146,6 +146,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("gans", "ganz");
     put("Pearl-Harbou?r", "Pearl Harbor");
     put("[kK]ompatibelkeit", "Kompatibilität");
+    put("[fF]r[uü]h?st[uü]c?k", "Frühstück");
     put("zucc?h?inis?", "Zucchini");
     put("[mM]itag", "Mittag");
     put("Lexion", "Lexikon");

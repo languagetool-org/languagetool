@@ -113,6 +113,7 @@ public class CaseRuleTest {
     assertGood("Eine Gruppe Betrunkener singt.");
     assertGood("Bei Betreten des Hauses.");
     assertGood("Das Aus für Italien ist bitter.");
+    assertGood("Anmeldung bis Fr. 1.12.");
 
     assertBad("Sie Vertraute niemandem.");
     assertBad("Beten Lernt man in Nöten.");
@@ -146,6 +147,8 @@ public class CaseRuleTest {
     assertGood("Schon Le Monde schrieb das.");
     // unknown word:
     assertGood("In Blubberdorf macht man das so.");
+    // Exception definied in case_rule_exceptions.txt:
+    assertGood("Der Thriller spielt zur Zeit des Zweiten Weltkriegs");
 
     assertGood("Anders als physikalische Konstanten werden mathematische Konstanten unabhängig von jedem physikalischen Maß definiert.");
     assertGood("Eine besonders einfache Klasse bilden die polylogarithmischen Konstanten.");
