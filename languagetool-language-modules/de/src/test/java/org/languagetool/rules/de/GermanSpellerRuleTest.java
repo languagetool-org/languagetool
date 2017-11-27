@@ -194,6 +194,7 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("WiFi-Direkt", "Wi-Fi Direct", rule, lt);
     assertFirstSuggestion("Wi-Fi-Direct", "Wi-Fi Direct", rule, lt);
     assertFirstSuggestion("hofen", "hoffen", rule, lt);
+    assertFirstSuggestion("frustuck", "Frühstück", rule, lt);
   }
 
   @Test
