@@ -29,6 +29,7 @@ DDESC = {
     'GL' : 'глагол', # врста речи
     'GN' : 'општи', # прилог (општи?)
     'GG' : 'глаголски', # прилог
+    'GR' : 'градивна', # именица
     'GV' : 'главни', # глагол
     'IM' : 'именица', # врста речи
     'IF' : 'имперфект', # глаголско време
@@ -64,9 +65,9 @@ DDESC = {
     'PK' : 'показна', # заменица
     'PL' : 'прилог', # врста речи
     'PM' : 'помоћни', # глагол
-    'PN' : 'глаголски прилог садашњи', # present participle
+    'PN' : 'глаголски садашњи', # прилог, present participle
     'PO' : 'позитив', # степен поређења
-    'PP' : 'глаголски прилог прошли', # past participle
+    'PP' : 'глаголски прошли', # прилог, past participle
     'PR' : 'придев', # врста речи
     'PS' : 'присвојни/а', # придев или заменица
     'PT' : 'потврдна', # речца
@@ -82,7 +83,7 @@ DDESC = {
     'SK' : 'скраћеница', # као посебна "врста речи"
     'SV' : 'словима', # начин писања броја
     'SR' : 'средњи род', # род
-    'ST' : 'ствар', # врста именице
+    'ST' : 'неживо', # врста именице
     'SU' : 'суперлатив', # степен поређења
     'UP' : 'упитна', # заменица, прилог или речца
     'UZ' : 'узвик', # врста речи
@@ -92,15 +93,15 @@ DDESC = {
     'VO' : 'вокатив', # падеж
     'ZA' : 'заједничка', # именица
     'ZM' : 'заменица', # врста речи
-    'ZB' : 'збирно', # број
+    'ZB' : 'збирна', # именица
     'ZE' : 'женски род', # род
     'ZI' : 'живо биће', # врста именице
     'ZV' : 'зависни', # везник
 }
 
 DNOUN = dict(
-    type    = dict(c='ZA', p='VL'),
-    # зај)едничка, вла)стита
+    type    = dict(c='ZA', p='VL', o='ZB', m='GR'),
+    # зај)едничка (common), вла)стита (proper), збирна (collective), градивна (mass)
     gender  = dict(m='MU', f='ZE', n='SR'),
     # муш)ки, зен)ски, сре)дњи
     number  = dict(s='0J', p='0M'),
@@ -149,8 +150,8 @@ def _print_noun_tags(sep, wrdesc):
                             pprint(st, None)
 
 DVERB = dict(
-    type     = dict(m='GV', a='PM', c='KO',),
-    # Врста: GV = гла)вни, PM = пом)оћни, KO = односни, PV = повратни
+    type     = dict(m='GV', a='PM', c='KO', r='PV'),
+    # Врста: GV = main (главни), PM = auxiliarry (помоћни), KO = copula (односни), PV = reflexive (повратни)
     vform    = dict(n='IN', r='PZ', f='FU', m='IP', a='AO', e='IF', p='RA', q='PD', s='PN', t='PP'),
     # Облик: IN = инфинитив, PZ = презент, FU = футур
     # Партиципи:
@@ -163,7 +164,7 @@ DVERB = dict(
     # Лице: 1 = прво, 2 = друго, 3 = треће
     number   = {'s' : '0J', 'p' : '0M', '-' : '0'},
     # Број: јед)нина, мно)жина
-    gender   = dict(m='MU', f='ZE', n='SR'),
+    gender   = {'-' : '0', 'm' : 'MU', 'f' : 'ZE', 'n' : 'SR'},
     # Род: мус)ки, зен)ски, сре)дњи
     negative = dict(y='NG', n='0')
 )
@@ -239,7 +240,7 @@ DADJ = dict(
     # Степен поређења: поз)итив, ком)паратив, суп)ерлатив
     gender  = dict(m='MU', f='ZE', n='SR'),
     # Род: мус)ки, зен)ски, сре)дњи
-    number  = dict(s='0J', p='0M', t='ZB'),
+    number  = dict(s='0J', p='0M'),
     # Број: јед)нина, мно)жина, зби)ран
     case    = dict(n='NO', g='GE', d='DA', a='AK', v='VO', i='IS', l='LO'),
     # Падеж: ном)инатив, ген)итив, дат)ив, аку)затив, вок)атив, инс)трументал, лок)атив
@@ -251,7 +252,7 @@ DADJ = dict(
 
 # Tags starting with "A" - adjectives (придев)
 def _get_adjective_tag(msd, sep):
-    if len(msd) < 7:
+    if len(msd) < 6:
         return "ERROR: Incorrect adjective tag '{}'".format(msd)
     ret = "PR"
     ret += sep + DADJ[ 'type'   ][ msd[1] ] # Type
@@ -259,7 +260,8 @@ def _get_adjective_tag(msd, sep):
     ret += sep + DADJ[ 'gender' ][ msd[3] ] # Gender
     ret += sep + DADJ[ 'number' ][ msd[4] ] # Number
     ret += sep + DADJ[ 'case'   ][ msd[5] ] # Case
-    ret += sep + DADJ[ 'defin'  ][ msd[6] ] # Definitiveness
+    if len(msd) == 7:
+        ret += sep + DADJ[ 'defin'  ][ msd[6] ] # Definitiveness
     if len(msd) == 8: # Animate
         ret += sep + DADJ[ 'animate' ][ msd[7] ]
     return ret
@@ -1609,6 +1611,12 @@ Vap-pn
 Vap-sf
 Vap-sm
 Vap-sn
+Var1p-y
+Var1s-y
+Var2p-y
+Var2s-y
+Var3p-y
+Var3s-y
 Var1p
 Var1s
 Var2p
