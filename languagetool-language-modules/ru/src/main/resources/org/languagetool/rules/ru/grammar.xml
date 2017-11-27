@@ -2264,6 +2264,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Он, улыбаясь, шёл"><marker>Он улыбаясь шёл</marker> вперёд.</example>
                 <example>Он, улыбаясь, шёл вперёд.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token postag="VB:.*" postag_regexp="yes"></token>
+                    <token>,</token>
+                    <token postag="DPT:.*" postag_regexp="yes"></token>
+                    <token>.</token>
+                </pattern>
+                <message>Запятая не нужна, одиночное деепричастие в конце предложения выступает в роли наречия: <suggestion>\1 \3\4</suggestion>.</message>
+                <url>http://new.gramota.ru/spravka/rules/151-zap-19-32</url>
+                <short>Запятая не нужна</short>
+                <example correction="шёл улыбаясь.">Он <marker>шёл, улыбаясь.</marker></example>
+            </rule>
         </rulegroup>
         <rulegroup default="on" id="Verb_comma_Verb" name="Глаголы как однородные члены предложения">
             <!-- TODO Another example: "Он шёл по улице говорил по телефону" Correction: "Он шёл по улице и говорил по телефону" or "Он шёл по улице, говорил по телефону".  -->
