@@ -14007,7 +14007,8 @@ USA
       <message>The usual collocation for "accompany" is "by," not "with." It is better to say this: <suggestion>\1 by</suggestion>.</message>
       <example correction='accompany by'>Land reclamation is always <marker>accompany with</marker> pollution.</example>
     </rule>
-    <rule id='POPULAR_AMONG_WITH' name='Collocation: Popular among/with'>
+    <rule id='POPULAR_AMONG_WITH' name='Collocation: Popular among/with' default='off'>
+    <!-- XXX although 'popular with' is more common, 'popular among' has widespread usage with a slightly different meaning -->
     <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
       <pattern>
           <token>popular</token>
@@ -14029,6 +14030,28 @@ USA
       </pattern>
       <message>Use "for" with "play." You probably meant this: <suggestion>\1 <match no='2' include_skipped='all'/> for</suggestion>.</message>
       <example correction='plays regularly for'>He <marker>plays regularly with</marker> that team.</example>
+    </rule>
+    <rule id='OPPOSITE_FROM_TO' name='Collocation: Opposite from/to'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token>opposite</token>
+          <token>from</token>
+          <token postag_regexp="yes" postag="DT|NNP|OPRP|PRP\$"/>
+      </pattern>
+      <message>Use "to" with "opposite." You probably meant this: <suggestion>\1 to \3</suggestion>.</message>
+      <example correction='opposite to ours'>Their house is <marker>opposite from ours</marker>.</example>
+    </rule>
+    <rule id='MARRY_WITH' name='Collocation: Marry with/to'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+        <marker>
+          <token inflected="yes">marry</token>
+          <token>with</token>
+        </marker>
+          <token postag_regexp="yes" postag="DT|NNP|OPRP"/>
+      </pattern>
+      <message>Use "to" with "marry." You probably meant this: <suggestion>\1 to</suggestion>.</message>
+      <example correction='married to'>Angela was <marker>married with</marker> a rich man.</example>
     </rule>
   </rulegroup>
 
