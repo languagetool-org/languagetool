@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang3.StringUtils;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.tagging.BaseTagger;
 import org.languagetool.tagging.TaggedWord;
@@ -109,6 +110,20 @@ public class UkrainianTagger extends BaseTagger {
           }
         }
         
+        tokens = newTokens;
+      }
+      // try УКРАЇНА as Україна
+      else if( StringUtils.isAllUpperCase(word) ) {
+        String newWord = StringUtils.capitalize(StringUtils.lowerCase(word));
+        List<AnalyzedToken> newTokens = super.getAnalyzedTokens(newWord);
+
+        for (int i = 0; i < newTokens.size(); i++) {
+          AnalyzedToken analyzedToken = newTokens.get(i);
+          String lemma = analyzedToken.getLemma();
+          AnalyzedToken newToken = new AnalyzedToken(word, analyzedToken.getPOSTag(), lemma);
+          newTokens.set(i, newToken);
+        }
+
         tokens = newTokens;
       }
     }

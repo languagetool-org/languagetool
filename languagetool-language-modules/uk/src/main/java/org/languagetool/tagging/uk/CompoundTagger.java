@@ -86,7 +86,7 @@ class CompoundTagger {
   );
 
   private static final List<String> WORDS_WITH_YEAR = Arrays.asList("євро", "гра", "бюджет", "вибори", "олімпіада", "універсіада");
-  private static final List<String> NUMBERED_ENTITIES = Arrays.asList("Ан", "Боїнг", "ВАЗ", "ГАЗ", "Мі", "Міг", "ЗІЛ", "ЗАЗ", "Т", "Ту", "УТ", "Як");
+  private static final List<String> NUMBERED_ENTITIES = Arrays.asList("Ан", "Боїнг", "ВАЗ", "ГАЗ", "Мі", "Міг", "ЗІЛ", "ЗАЗ", "Т", "Ту", "УТ", "Як", "Іл", "Су");
 
   static {
     rightPartsWithLeftTagMap.put("бо", Pattern.compile("(verb.*:impr|.*pron|noun|adv|intj|part).*"));
@@ -189,6 +189,7 @@ class CompoundTagger {
           String lemma = leftWord + "-" + "й";  // lemma is approximate here, we mostly care about the tag
           newAnalyzedTokens.add(new AnalyzedToken(word, IPOSTag.adj.getText() + tag + ":&numr", lemma));
         }
+
         // з 3-ма вікнами - не дуже правильно, але вживають часто
         if( "ма".equals(rightWord) ) {
           newAnalyzedTokens.add(new AnalyzedToken(word, IPOSTag.noun.getText() + ":p:v_oru:&numr:bad", leftWord));
@@ -196,9 +197,9 @@ class CompoundTagger {
         // вбивство 148-ми селян
         else if( "ми".equals(rightWord) 
             && Pattern.compile("(.*[^1]|^)[78]").matcher(leftWord).matches() ) {
-          newAnalyzedTokens.add(new AnalyzedToken(word, IPOSTag.noun.getText() + ":p:v_rod:&numr:bad", leftWord));
-          newAnalyzedTokens.add(new AnalyzedToken(word, IPOSTag.noun.getText() + ":p:v_dav:&numr:bad", leftWord));
-          newAnalyzedTokens.add(new AnalyzedToken(word, IPOSTag.noun.getText() + ":p:v_mis:&numr:bad", leftWord));
+          newAnalyzedTokens.add(new AnalyzedToken(word, "numr:p:v_rod:bad", leftWord));
+          newAnalyzedTokens.add(new AnalyzedToken(word, "numr:p:v_dav:bad", leftWord));
+          newAnalyzedTokens.add(new AnalyzedToken(word, "numr:p:v_mis:bad", leftWord));
         }
       }
       else {
@@ -228,6 +229,13 @@ class CompoundTagger {
             }
           }
           return newAnalyzedTokens;
+        }
+        // вбивство 15-ти селян
+        else if( "ти".equals(rightWord) 
+            && Pattern.compile(".*([0569]|1[0-9])").matcher(leftWord).matches() ) {
+          newAnalyzedTokens.add(new AnalyzedToken(word, "numr:p:v_rod:bad", leftWord));
+          newAnalyzedTokens.add(new AnalyzedToken(word, "numr:p:v_dav:bad", leftWord));
+          newAnalyzedTokens.add(new AnalyzedToken(word, "numr:p:v_mis:bad", leftWord));
         }
         }
 
