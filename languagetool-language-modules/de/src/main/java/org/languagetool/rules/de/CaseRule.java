@@ -920,6 +920,10 @@ public class CaseRule extends Rule {
 
   private boolean hasNounReading(AnalyzedTokenReadings readings) {
     if (readings !=  null) {
+      // Anmeldung bis Fr. 1.12. (Fr. as abbreviation of Freitag is has a noun reading!)
+      if (readings.hasPosTagStartingWith("ABK:") && readings.hasPartialPosTag("SUB")) {
+        return true;
+      }
       // "Die Schöne Tür": "Schöne" also has a noun reading but like "SUB:AKK:SIN:FEM:ADJ", ignore that:
       try {
         AnalyzedTokenReadings allReadings = tagger.lookup(readings.getToken());  // unification in disambiguation.xml removes reading, so look up again
