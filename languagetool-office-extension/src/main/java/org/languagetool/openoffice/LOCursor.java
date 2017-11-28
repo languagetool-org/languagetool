@@ -44,8 +44,8 @@ import com.sun.star.uno.XComponentContext;
  */
 class LOCursor {
   
-  private XParagraphCursor xPCursor;
-  private XTextViewCursor xVCursor;
+  private final XParagraphCursor xPCursor;
+  private final XTextViewCursor xVCursor;
   
   LOCursor(XComponentContext xContext) throws Exception {
     xPCursor = getParagraphCursor(xContext);
@@ -54,7 +54,6 @@ class LOCursor {
 
   /**
    * Returns the current XDesktop
-   * @throws Exception 
    */
   private static XDesktop getCurrentDesktop(XComponentContext xContext) throws Exception {
     if (xContext == null) return null;
@@ -66,24 +65,21 @@ class LOCursor {
     return UnoRuntime.queryInterface(XDesktop.class, desktop);
   }
 
-  /** Returns the current XComponent 
-   * @throws Exception */
+  /** Returns the current XComponent */
   private static XComponent getCurrentComponent(XComponentContext xContext) throws Exception {
     XDesktop xdesktop = getCurrentDesktop(xContext);
     if(xdesktop == null) return null;
     else return xdesktop.getCurrentComponent();
   }
     
-  /** Returns the current text document (if any) 
-   * @throws Exception */
+  /** Returns the current text document (if any) */
   private static XTextDocument getCurrentDocument(XComponentContext xContext) throws Exception {
     XComponent curcomp = getCurrentComponent(xContext);
     if (curcomp == null) return null;
     else return UnoRuntime.queryInterface(XTextDocument.class, curcomp);
   }
 
-  /** Returns the text cursor (if any) 
-   * @throws Exception */
+  /** Returns the text cursor (if any) */
   private static XTextCursor getCursor(XComponentContext xContext) throws Exception {
     XTextDocument curdoc = getCurrentDocument(xContext);
     if (curdoc == null) return null;
@@ -92,16 +88,14 @@ class LOCursor {
     else return xText.createTextCursor();
   }
 
-  /** Returns ParagraphCursor from TextCursor 
-   * @throws Exception */
+  /** Returns ParagraphCursor from TextCursor */
   private static XParagraphCursor getParagraphCursor(XComponentContext xContext) throws Exception {
     XTextCursor xcursor = getCursor(xContext);
     if(xcursor == null) return null;
     return UnoRuntime.queryInterface(XParagraphCursor.class, xcursor);
   }
   
-  /** Returns ViewCursor 
-   * @throws Exception */
+  /** Returns ViewCursor */
   private static XTextViewCursor getViewCursor(XComponentContext xContext) throws Exception {
     XDesktop xDesktop = getCurrentDesktop(xContext);
     if(xDesktop == null) return null;
@@ -118,7 +112,7 @@ class LOCursor {
   }
 
  /** Returns Number of all Paragraphs of Document without footnotes etc.  */
-  public int getNumberOfAllTextParagraphs() {
+  public int getNumberOfAllTextParagraphs() throws Exception {
     if (xPCursor == null) return 0;
     xPCursor.gotoStart(false);
     int npara = 1;
@@ -127,7 +121,7 @@ class LOCursor {
   }
 
   /** Returns all Paragraphs of Document without footnotes etc.  */
-  public List<String> getAllTextParagraphs() {
+  public List<String> getAllTextParagraphs() throws Exception {
     List<String> allParas = new ArrayList<>();
     if (xPCursor == null) return allParas;
     xPCursor.gotoStart(false);
@@ -143,7 +137,7 @@ class LOCursor {
   }
 
   /** Returns Paragraph number under ViewCursor */
-  public int getViewCursorParagraph() {
+  public int getViewCursorParagraph() throws Exception {
     if(xVCursor == null) return -4;
     XText xDocumentText = xVCursor.getText();
     if(xDocumentText == null) return -3;

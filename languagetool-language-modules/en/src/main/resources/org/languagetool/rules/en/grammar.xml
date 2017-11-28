@@ -14053,6 +14053,27 @@ USA
       <message>Use "to" with "marry." You probably meant this: <suggestion>\1 to</suggestion>.</message>
       <example correction='married to'>Angela was <marker>married with</marker> a rich man.</example>
     </rule>
+    <rule id='PREFER_OVER_TO' name='Collocation: Prefer over/to'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token inflected="yes">prefer</token>
+          <token postag_regexp="yes" postag="NN.*"/>
+          <token>over</token>
+          <token postag_regexp="yes" postag="NN.*"/>
+      </pattern>
+      <message>Use "to" with "prefer." You probably meant this: <suggestion>\1 \2 to \4</suggestion>.</message>
+      <example correction='prefers overalls to skirts'>She much <marker>prefers overalls over skirts</marker>, because she enjoys playing in the mud</example>
+    </rule>
+    <rule id='TALK_AT_TO' name='Collocation: Talk at/to'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token inflected="yes">talk</token>
+          <token>at</token>
+          <token postag="NNP"/>
+      </pattern>
+      <message>Talking at someone means they aren't listening. You probably meant this: <suggestion>\1 to \3</suggestion> or <suggestion>\1 with \3</suggestion>.</message>
+      <example correction='talking to Charles|talking with Charles'>I was <marker>talking at Charles</marker> about</example>
+    </rule>
   </rulegroup>
 
   <rulegroup id='GOOD_IN_AT' name='Collocation: Good in/at'>

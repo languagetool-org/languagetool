@@ -38,6 +38,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
   
   protected MorfologikMultiSpeller speller1;
   protected MorfologikMultiSpeller speller2;
+  protected MorfologikMultiSpeller speller3;
   protected Locale conversionLocale;
 
   private boolean ignoreTaggedWords = false;
@@ -132,6 +133,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     if (plainTextDict != null) {
       speller1 = new MorfologikMultiSpeller(binaryDict, plainTextDict, 1);
       speller2 = new MorfologikMultiSpeller(binaryDict, plainTextDict, 2);
+      speller3 = new MorfologikMultiSpeller(binaryDict, plainTextDict, 3);
       setConvertsCase(speller1.convertsCase());
     } else {
       throw new RuntimeException("Could not find ignore spell file in path: " + getSpellingFileName());
@@ -183,6 +185,9 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
       if (suggestions.isEmpty() && word.length() >= 5) {
         // speller1 uses a maximum edit distance of 1, it won't find suggestion for "garentee", "greatful" etc.
         suggestions.addAll(speller2.getSuggestions(word));
+        if (suggestions.isEmpty()) {
+          suggestions.addAll(speller3.getSuggestions(word));
+        }
       }
       suggestions.addAll(0, getAdditionalTopSuggestions(suggestions, word));
       suggestions.addAll(getAdditionalSuggestions(suggestions, word));

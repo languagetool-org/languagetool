@@ -25,8 +25,6 @@ import org.junit.Test;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
-import org.languagetool.Languages;
-import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
 import java.util.*;
@@ -36,6 +34,17 @@ import static org.junit.Assert.*;
 @SuppressWarnings("ConstantConditions")
 public class GermanTaggerTest {
 
+  @Test
+  public void testLemmaOfForDashCompounds() throws IOException {
+    GermanTagger tagger = new GermanTagger();
+    AnalyzedTokenReadings aToken = tagger.lookup("Zahn-Arzt-Verband");
+    List<String> lemmas = new ArrayList<>();
+    for (AnalyzedToken analyzedToken : aToken) {
+      lemmas.add(analyzedToken.getLemma());
+    }
+    assertTrue(lemmas.contains("Zahnarztverband"));
+  }
+  
   @Test
   public void testTagger() throws IOException {
     GermanTagger tagger = new GermanTagger();
