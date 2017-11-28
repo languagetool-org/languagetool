@@ -14,7 +14,7 @@
     - style: barbarism, redundant expressions, and wordy expressions detection added
     - typography: spacing and number formatting improvements; chemical formulas; degree 
       signs; dashes; punctuation; international system standards; and mathematical symbol formatting
-  * development and LibreOffice rules categories added
+  * development, punctuation and repetition rules categories added
   * multiword disambiguation added
   * disambiguation improvements
   * new word tokenizer
@@ -37,6 +37,7 @@
 
 #### Portuguese
   * added and improved rules
+  * Libreoffice category rules moved to other categories
   * disambiguation improvements
   * updated Hunspell dictionaries to:
     - [pt-PT pos-AO] Dicionários Portugueses Complementares 2.2
