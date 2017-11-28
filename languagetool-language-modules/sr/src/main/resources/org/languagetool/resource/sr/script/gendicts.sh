@@ -13,7 +13,7 @@ rm_temp_files() {
     echo "done."
 }
 
-trap 'rm_temp_files' EXIT SIGINT SIGTERM
+#trap 'rm_temp_files' EXIT SIGINT SIGTERM
 
 DIALECT=$1
 
@@ -30,6 +30,8 @@ fi
 INPUT_DIR=/opt/app/s/smd/lt
 CORPUS_FILE=${INPUT_DIR}/synth-serbian-${DIADESC}-corpus.txt
 CORPUS_HUNSPELL_FILE=${INPUT_DIR}/hunspell-serbian-${DIADESC}-corpus.txt
+DICT_DIR=dictionary
+DICTIONARY_PATH=${DICT_DIR}/${DIADESC}
 TEMPDIR=/tmp
 FREQFILE=${INPUT_DIR}/serbian-${DIADESC}-wordlist.xml
 
@@ -39,10 +41,10 @@ if [ ! -f ${CORPUS_FILE} ]; then
 fi
 
 echo "Generating Serbian ${DIADESC} POS dictionary ..."
-ltposdic -i ${CORPUS_FILE} -info serbian.info -freq ${FREQFILE} -o serbian_${DIADESC}.dict
+ltposdic -i ${CORPUS_FILE} -info serbian.info -freq ${FREQFILE} -o ${DICTIONARY_PATH}/serbian.dict
 
 echo "Generating Serbian SYNTH ${DIADESC} dictionary ..."
-ltsyndic -i ${CORPUS_FILE} -info serbian_synth.info -o serbian_${DIADESC}_synth.dict
+ltsyndic -i ${CORPUS_FILE} -info serbian_synth.info -o ${DICTIONARY_PATH}/serbian_synth.dict
 
 echo "Generating Serbian HunSpell ${DIADESC} dictionary ..."
-ltspldic -i ${CORPUS_HUNSPELL_FILE} -info serbian.info -freq ${FREQFILE} -o hunspell/sr_${DIADESC}.dict
+ltspldic -i ${CORPUS_HUNSPELL_FILE} -info serbian.info -freq ${FREQFILE} -o ${DICTIONARY_PATH}/sr_hunspell.dict
