@@ -269,13 +269,15 @@ public class Main extends WeakBase implements XJobExecutor,
       int nSuggestedBehindEndOfSentencePosition,
       PropertyValue[] propertyValues) {
     ProofreadingResult paRes = new ProofreadingResult();
+    paRes.nStartOfSentencePosition = startOfSentencePos;
+    paRes.nStartOfNextSentencePosition = nSuggestedBehindEndOfSentencePosition;
+    paRes.nBehindEndOfSentencePosition = paRes.nStartOfNextSentencePosition;
+    paRes.xProofreader = this;
+    paRes.aLocale = locale;
+    paRes.aDocumentIdentifier = docID;
+    paRes.aText = paraText;
+    paRes.aProperties = propertyValues;
     try {
-      paRes.nStartOfSentencePosition = startOfSentencePos;
-      paRes.xProofreader = this;
-      paRes.aLocale = locale;
-      paRes.aDocumentIdentifier = docID;
-      paRes.aText = paraText;
-      paRes.aProperties = propertyValues;
       int[] footnotePositions = getPropertyValues("FootnotePositions", propertyValues);  // since LO 4.3
       return doGrammarCheckingInternal(paraText, locale, paRes, footnotePositions);
     } catch (Throwable t) {
@@ -376,7 +378,6 @@ public class Main extends WeakBase implements XJobExecutor,
         }
       } catch (Throwable t) {
         showError(t);
-        paRes.nBehindEndOfSentencePosition = paraText.length();
       }
     }
     return paRes;
@@ -925,8 +926,9 @@ public class Main extends WeakBase implements XJobExecutor,
   
   /**
    * Reset allParas
+   * @throws com.sun.star.uno.Exception 
    */
-  private void ResetAllParas(LOCursor loCursor, LOFlatParagraph loFlaPa) throws IllegalArgumentException {
+  private void ResetAllParas(LOCursor loCursor, LOFlatParagraph loFlaPa) throws com.sun.star.uno.Exception {
     allParas = loCursor.getAllTextParagraphs();
     divNum = loFlaPa.getNumberOfAllFlatPara()- allParas.size();
     textIsChecked = false;

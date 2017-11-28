@@ -112,7 +112,7 @@ class LOCursor {
   }
 
  /** Returns Number of all Paragraphs of Document without footnotes etc.  */
-  public int getNumberOfAllTextParagraphs() {
+  public int getNumberOfAllTextParagraphs() throws Exception {
     if (xPCursor == null) return 0;
     xPCursor.gotoStart(false);
     int npara = 1;
@@ -121,7 +121,7 @@ class LOCursor {
   }
 
   /** Returns all Paragraphs of Document without footnotes etc.  */
-  public List<String> getAllTextParagraphs() {
+  public List<String> getAllTextParagraphs() throws Exception {
     List<String> allParas = new ArrayList<>();
     if (xPCursor == null) return allParas;
     xPCursor.gotoStart(false);
@@ -137,7 +137,7 @@ class LOCursor {
   }
 
   /** Returns Paragraph number under ViewCursor */
-  public int getViewCursorParagraph() {
+  public int getViewCursorParagraph() throws Exception {
     if(xVCursor == null) return -4;
     XText xDocumentText = xVCursor.getText();
     if(xDocumentText == null) return -3;
