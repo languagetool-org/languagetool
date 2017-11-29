@@ -19,8 +19,6 @@
 
 package org.languagetool.rules.spelling.hunspell;
 
-import static org.junit.Assert.assertEquals;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
