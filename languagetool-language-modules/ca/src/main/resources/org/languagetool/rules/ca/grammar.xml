@@ -40174,20 +40174,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="vergonya pels altres|vergonya per ell|vergonya per ella|vergonya per ells|vergonya"><marker>vergonya aliena</marker></example>
             <example>vergonya pels altres</example>
         </rule>
-        <rule id="MOSTRADOR" name="mostrador">
-            <pattern>
-                <token regexp="yes">mostradors?</token>
-            </pattern>
-            <message>Si és un nom, val més dir: <suggestion><match no="1" regexp_match="mostrador(.?)" regexp_replace="taulell$1"/></suggestion>, <suggestion><match no="1" regexp_match="mostrador(.*)" regexp_replace="aparador$1"/></suggestion>.</message>
-            <short>Forma preferible</short>
-            <example correction="taulell|aparador"><marker>mostrador</marker></example>
-            <example>taulell</example>
-        </rule>
         <rule id="ACCENTUACIO_PRINCIPAL" name="Exigeix accentuacions principals: sépia" default="off">
             <pattern>
                 <token regexp="yes">sèpi(a|es)</token>
             </pattern>
-            <message>La forma principal és: <suggestion><match no="1" regexp_match="^(.+)è()" regexp_replace="$1é$2"></match></suggestion>.</message>
+            <message>La forma principal és: <suggestion><match no="1" regexp_match="(?iu)(.+)è()" regexp_replace="$1é$2"></match></suggestion>.</message>
             <short>Forma preferible</short>
             <example correction="sépia">La <marker>sèpia</marker>.</example>
             <example><marker>sépies</marker>.</example>
@@ -41836,14 +41827,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="goma|pega|goma d'enganxar|cola">¿Has comprat <marker>pegament</marker>?</example>
             <example>No tinc cola</example>
         </rule>
-        <rule id="PORGAR_PURGAR" name="porgar/purgar">
+        <!--<rule id="PORGAR_PURGAR" name="porgar/purgar">
             <pattern>
                 <token inflected="yes">porgar</token>
             </pattern>
             <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(?iu)po(.+)" regexp_replace="pu$1"/></suggestion> (sentits més habituals) en comptes de "<match no="1"/>" (sentits menys habituals)?</message>
             <example correction="purgar">Cal <marker>porgar</marker>-lo.</example>
             <example>purgar</example>
-        </rule>
+        </rule>-->
         <rule id="DEPARAR" name="deparar">
             <pattern>
                 <token inflected="yes">deparar</token>
@@ -42420,6 +42411,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="DNV_SECONDARY_FORM" name="Paraules admeses pedl DNV (AVL), però com a formes secundàries">
+        <rule id="MOSTRADOR" name="mostrador">
+            <pattern>
+                <token regexp="yes">mostradors?</token>
+            </pattern>
+            <message>Com a nom, val més usar una altra paraula.</message>
+            <suggestion><match no="1" regexp_match="mostrador(.?)" regexp_replace="taulell$1"/></suggestion>
+            <suggestion><match no="1" regexp_match="mostrador(.*)" regexp_replace="aparador$1"/></suggestion>.</message>
+            <example correction="taulell|aparador"><marker>mostrador</marker></example>
+        </rule>
         <rule id="A_MIDA_QUE" name="a mida que/a mesura que">
             <pattern>
                 <token>a</token>
