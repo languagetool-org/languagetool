@@ -41367,7 +41367,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token>ahí</token>
             </pattern>
-            <message>Paraula admesa només per alguns diccionaris, que val més evitar en llenguatge formal.</message>
+            <message>Forma preferible.</message>
             <url>http://www.ceice.gva.es/documents/161863132/163843714/Criteris+Ling%C3%BC%C3%ADstics_web.pdf#page=70</url>
             <suggestion>aquí</suggestion>
             <suggestion>ací</suggestion>
@@ -41546,7 +41546,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
     </category>
-    <category id="DNV_PRIMARY_FORM" name="Paraules admeses pel DNV (AVL), però no per altres diccionaris" type="grammar">
+    <category id="DNV_PRIMARY_FORM" name="Paraules admeses pel DNV (AVL), però no per altres diccionaris" type="style">
         <rule id="EN_BREU" name="en breu">
             <pattern>
                 <marker>
@@ -41838,14 +41838,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="goma|pega|goma d'enganxar|cola">¿Has comprat <marker>pegament</marker>?</example>
             <example>No tinc cola</example>
         </rule>
-        <!--<rule id="PORGAR_PURGAR" name="porgar/purgar">
-            <pattern>
-                <token inflected="yes">porgar</token>
-            </pattern>
-            <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(?iu)po(.+)" regexp_replace="pu$1"/></suggestion> (sentits més habituals) en comptes de "<match no="1"/>" (sentits menys habituals)?</message>
-            <example correction="purgar">Cal <marker>porgar</marker>-lo.</example>
-            <example>purgar</example>
-        </rule>-->
         <rule id="DEPARAR" name="deparar">
             <pattern>
                 <token inflected="yes">deparar</token>
@@ -41945,16 +41937,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>En cas que la divisa original s'hagi depreciat</example>
             </rule>
         </rulegroup>
-        <!--<rule id="MUNDAR" name="mundar">
-            <pattern>
-                <token inflected="yes">mundar<exception postag="AQ.*" postag_regexp="yes"/></token>
-            </pattern>
-            <message>El verb "mundar" és un arcaisme.</message>
-            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">purificar</match></suggestion>
-            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">netejar</match></suggestion>
-            <example correction="purifico|netejo">aquell <marker>mundo</marker> com una taronja.</example>
-            <example>Era massa mundà per al seu gust</example>
-        </rule>-->
         <rule id="MITAT" name="mitat">
             <pattern>
                 <token inflected="yes">mitat</token>
@@ -42421,7 +42403,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>És de tipus MIME.</example>
         </rule>
     </category>
-    <category id="DNV_SECONDARY_FORM" name="Paraules admeses pedl DNV (AVL), però com a formes secundàries">
+    <category id="DNV_SECONDARY_FORM" name="Paraules admeses pedl DNV (AVL), però com a formes secundàries" type="style">
         <rule id="MOSTRADOR" name="mostrador">
             <pattern>
                 <token regexp="yes">mostradors?</token>
@@ -42466,9 +42448,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token regexp="yes">ninguna?|ningune?s</token>
             </pattern>
-            <message>No s'usa en registres formals.</message>
+            <message>Forma secundària</message>
             <suggestion>cap</suggestion>
-            <short>Llenguatge col·loquial</short>
             <example correction="cap"><marker>ningun</marker> home</example>
             <example>cap home</example>
         </rule>
@@ -42853,7 +42834,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="espera">Vés-hi i  <marker>aguarda</marker>'m.</example>
         </rule>
     </category>
-    <category id="DNV_COLLOQUIAL" name="paraules col·loquials segons el DNV">
+    <category id="DNV_COLLOQUIAL" name="paraules col·loquials segons el DNV"  type="style">
         <rule id="AGULLETES" name="*tenir agulletes">
             <pattern>
                 <token inflected="yes" skip="1">tenir</token>
@@ -43431,33 +43412,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>D'una forma racionalment sostenible.</example>
             <example>De manera mínimament ordenada.</example>
         </rule>
-        <!-- <rule id="FRASE_INCOMPLETA" name="frase incompleta: falta verb darrere 'que'">
-            <antipattern>
-            <marker>
-            <token>que</token>
-            <token regexp="yes">sí|no</token>
-            </marker>
-            </antipattern>
-            <pattern>
-            <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes" inflected="yes">meitat|millor|pitjor|més|menys|abans|igual|mateix|altre</exception></token>
-            <marker>
-            <token skip="-1">que<exception scope="next" postag="V.[SI].*" postag_regexp="yes"/><exception scope="previous" regexp="yes">encara|bé</exception></token>
-            <token postag="SENT_END"><exception>…</exception><exception postag="_trespunts"/></token>
-            </marker>
-            </pattern>
-            <message>Frase probablement incompleta.</message>
-            <example correction="">Crec <marker>que la cosa així.</marker></example>
-            <example correction="">M'agrada això <marker>que allò.</marker></example>
-            <example correction="">per evitar <marker>que ferides profundes.</marker></example>
-            <example correction="">Si fos així, et diria <marker>que.</marker></example>
-            <example>Crec que la cosa és així.</example>
-            <example>Crec que és més gran que ample.</example>
-            <example>Et diria que...</example>
-            <example>Et diria que…</example>
-            <example>Tant pot ser que sí com que no.</example>
-            <example>Et diria que sí.</example>
-            <example>Abans això que allò.</example>
-            </rule> -->
         <rule id="POTSER_SIGUI" name="potser *sigui/és">
             <pattern> <!-- <exception scope="next" regexp="yes">que|quan|perquè|si|qui|quals?</exception> -->
                 <token regexp="yes">probablement|potser|possiblement<exception scope="previous" regexp="yes">quan|si</exception></token>
