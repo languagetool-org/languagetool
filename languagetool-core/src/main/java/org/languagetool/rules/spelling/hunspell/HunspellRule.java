@@ -19,6 +19,8 @@
 
 package org.languagetool.rules.spelling.hunspell;
 
+import static org.junit.Assert.assertEquals;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -176,7 +178,7 @@ public class HunspellRule extends SpellingCheckRule {
     AnalyzedTokenReadings[] sentenceTokens = getSentenceWithImmunization(sentence).getTokens();
     for (int i = 1; i < sentenceTokens.length; i++) {
       String token = sentenceTokens[i].getToken();
-      if (sentenceTokens[i].isImmunized() || isUrl(token) || isEMail(token) || sentenceTokens[i].isIgnoredBySpeller() || (token.length() == 2 && Character.isSurrogatePair(token.charAt(0), token.charAt(1)))) {
+      if (sentenceTokens[i].isImmunized() || isUrl(token) || isEMail(token) || sentenceTokens[i].isIgnoredBySpeller()) {
         // replace URLs and immunized tokens with whitespace to ignore them for spell checking:
         if (token.length() < 20) {
           sb.append(WHITESPACE_ARRAY[token.length()]);
@@ -184,6 +186,18 @@ public class HunspellRule extends SpellingCheckRule {
           for (int j = 0; j < token.length(); j++) {
             sb.append(' ');
           }
+        }
+      } else if (token.length() > 1 && token.codePointCount(0, token.length()) != token.length()) {
+        // some symbols such as emojis (😂) have a string length that equals 2 
+        for (int charIndex = 0; charIndex < token.length();) {
+          int unicodeCodePoint = token.codePointAt(charIndex);
+          int increment = Character.charCount(unicodeCodePoint);
+          if (increment == 1) {
+            sb.append(token.charAt(charIndex));
+          } else {
+            sb.append("  ");
+          }
+          charIndex += increment;
         }
       } else {
         sb.append(token);
