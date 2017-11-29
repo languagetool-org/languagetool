@@ -18878,6 +18878,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="SPELLING" name="Errors ortogràfics" type="misspelling">
+        <rule id="SENS" name="se'ns / sens">
+            <pattern>
+                <marker>
+                    <token>se</token>
+                    <token>'ns</token>
+                </marker>
+                <token regexp="yes">dubte|falta|nombre</token> <!--mesura?-->
+            </pattern>
+            <message>¿Volíeu dir <suggestion>sens</suggestion>?</message>
+            <example correction="Sens"><marker>Se'ns</marker> dubte, és així.</example>
+        </rule>
         <rule id="MHI" name="mhi/m'hi">
             <pattern>
                 <token regexp="yes">[mtnls](hi|ho)<exception regexp="yes">[ln]ho</exception></token>
@@ -42416,9 +42427,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">mostradors?</token>
             </pattern>
             <message>Com a nom, val més usar una altra paraula.</message>
-            <suggestion><match no="1" regexp_match="mostrador(.?)" regexp_replace="taulell$1"/></suggestion>
-            <suggestion><match no="1" regexp_match="mostrador(.*)" regexp_replace="aparador$1"/></suggestion>.</message>
+            <suggestion><match no="1" regexp_match="(?iu)mostrador(.?)" regexp_replace="taulell$1"/></suggestion>
+            <suggestion><match no="1" regexp_match="(?iu)mostrador(.*)" regexp_replace="aparador$1"/></suggestion>
             <example correction="taulell|aparador"><marker>mostrador</marker></example>
+            <example correction="taulells|aparadors">Els <marker>mostradors</marker></example>
         </rule>
         <rule id="A_MIDA_QUE" name="a mida que/a mesura que">
             <pattern>
