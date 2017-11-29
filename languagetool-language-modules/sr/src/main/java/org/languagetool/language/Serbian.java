@@ -23,13 +23,10 @@ import org.languagetool.Language;
 import org.languagetool.LanguageMaintainedState;
 import org.languagetool.databroker.ResourceDataBroker;
 import org.languagetool.rules.*;
-import org.languagetool.rules.sr.MorfologikSerbianSpellerRule;
-import org.languagetool.rules.sr.SimpleGrammarReplaceRule;
-import org.languagetool.rules.sr.SimpleStyleReplaceRule;
 import org.languagetool.synthesis.Synthesizer;
-import org.languagetool.synthesis.sr.SerbianSynthesizer;
+import org.languagetool.synthesis.sr.EkavianSynthesizer;
 import org.languagetool.tagging.Tagger;
-import org.languagetool.tagging.sr.SerbianTagger;
+import org.languagetool.tagging.sr.EkavianTagger;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
 
@@ -40,6 +37,9 @@ import java.util.ResourceBundle;
 
 /**
  * Support for Serbian language
+ *
+ * Attributes common to all Serbian dialects
+ *
  * @since 4.0
  */
 public class Serbian extends Language {
@@ -94,7 +94,7 @@ public class Serbian extends Language {
   @Override
   public Tagger getTagger() {
     if (tagger == null) {
-      tagger = new SerbianTagger();
+      tagger = new EkavianTagger();
     }
     return tagger;
   }
@@ -102,7 +102,7 @@ public class Serbian extends Language {
   @Override
   public Synthesizer getSynthesizer() {
     if (synthesizer == null) {
-      synthesizer = new SerbianSynthesizer();
+      synthesizer = new EkavianSynthesizer();
     }
     return synthesizer;
   }
@@ -136,13 +136,10 @@ public class Serbian extends Language {
                     Example.fixed("Почела је школа. <marker>Деца</marker> су поново села у клупе.")),
             new MultipleWhitespaceRule(messages, this),
             new SentenceWhitespaceRule(messages),
-            new WordRepeatRule(messages, this),
-            // Serbian-specific rules
-            new MorfologikSerbianSpellerRule(messages, this),
-            new SimpleGrammarReplaceRule(messages),
-            new SimpleStyleReplaceRule(messages)
+            new WordRepeatRule(messages, this)
     );
   }
+
 
   @Override
   public List<String> getRuleFileNames() {

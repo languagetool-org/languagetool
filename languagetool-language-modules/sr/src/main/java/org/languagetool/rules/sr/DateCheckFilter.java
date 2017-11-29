@@ -46,7 +46,7 @@ public class DateCheckFilter extends AbstractDateCheckFilter {
     if (day.startsWith("пе") || day.equals("петак")) return Calendar.FRIDAY;
     if (day.startsWith("су") || day.equals("субота")) return Calendar.SATURDAY;
     if (day.startsWith("не") || day.equals("недеља")) return Calendar.SUNDAY;
-    throw new RuntimeException("Could not find day of week for '" + dayStr + "'");
+    throw new RuntimeException("Редни број дана у недељи за '" + dayStr + "' не постоји.");
   }
 
   @Override
@@ -70,6 +70,6 @@ public class DateCheckFilter extends AbstractDateCheckFilter {
     if (mon.equals("октобар") || monthStr.equals("X") || mon.equals("октобра") || mon.equals("окт")) return 10;
     if (mon.equals("новембар") || monthStr.equals("XI") || mon.equals("новембра") || mon.equals("нов")) return 11;
     if (mon.equals("децембар") || monthStr.equals("XII") || mon.equals("децембра") || mon.equals("дец")) return 12;
-    throw new RuntimeException("Could not find month '" + monthStr + "'");
+    throw new RuntimeException("Месец '" + monthStr + "' не постоји.");
   }
 }

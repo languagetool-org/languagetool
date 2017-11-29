@@ -18,9 +18,8 @@
  */
 package org.languagetool.language;
 
-
 /** @since 4.0 */
-public class BosniaSerbian extends Serbian {
+public class BosniaSerbian extends JekavianSerbian {
 
   @Override
   public String[] getCountries() {
@@ -29,7 +28,7 @@ public class BosniaSerbian extends Serbian {
 
   @Override
   public String getName() {
-    return "Serbian (Bosnia)";
+    return "Serbian (Bosnia and Herzegovina)";
   }
 
 }

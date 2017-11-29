@@ -13,7 +13,7 @@ rm_temp_files() {
     echo "done."
 }
 
-#trap 'rm_temp_files' EXIT SIGINT SIGTERM
+trap 'rm_temp_files' EXIT SIGINT SIGTERM
 
 DIALECT=$1
 
@@ -27,6 +27,7 @@ else
 fi
 
 # Adjust as needed
+MYDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 INPUT_DIR=/opt/app/s/smd/lt
 CORPUS_FILE=${INPUT_DIR}/synth-serbian-${DIADESC}-corpus.txt
 CORPUS_HUNSPELL_FILE=${INPUT_DIR}/hunspell-serbian-${DIADESC}-corpus.txt
@@ -41,10 +42,13 @@ if [ ! -f ${CORPUS_FILE} ]; then
 fi
 
 echo "Generating Serbian ${DIADESC} POS dictionary ..."
-ltposdic -i ${CORPUS_FILE} -info serbian.info -freq ${FREQFILE} -o ${DICTIONARY_PATH}/serbian.dict
+ltposdic -i ${CORPUS_FILE} -info ${MYDIR}/../${DICT_DIR}/serbian.info \
+    -freq ${FREQFILE} -o ${MYDIR}/../${DICTIONARY_PATH}/serbian.dict
 
 echo "Generating Serbian SYNTH ${DIADESC} dictionary ..."
-ltsyndic -i ${CORPUS_FILE} -info serbian_synth.info -o ${DICTIONARY_PATH}/serbian_synth.dict
+ltsyndic -i ${CORPUS_FILE} -info ${MYDIR}/../${DICT_DIR}/serbian_synth.info \
+    -o ${MYDIR}/../${DICTIONARY_PATH}/serbian_synth.dict
 
 echo "Generating Serbian HunSpell ${DIADESC} dictionary ..."
-ltspldic -i ${CORPUS_HUNSPELL_FILE} -info serbian.info -freq ${FREQFILE} -o ${DICTIONARY_PATH}/sr_hunspell.dict
+ltspldic -i ${CORPUS_HUNSPELL_FILE} -info ${MYDIR}/../${DICT_DIR}/serbian.info \
+    -freq ${FREQFILE} -o ${MYDIR}/../${DICTIONARY_PATH}/serbian_hunspell.dict

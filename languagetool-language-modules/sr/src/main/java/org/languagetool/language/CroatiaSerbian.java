@@ -18,9 +18,8 @@
  */
 package org.languagetool.language;
 
-
 /** @since 4.0 */
-public class CroatiaSerbian extends Serbian {
+public class CroatiaSerbian extends JekavianSerbian {
 
   @Override
   public String[] getCountries() {

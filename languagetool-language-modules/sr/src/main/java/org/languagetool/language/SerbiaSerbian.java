@@ -19,6 +19,16 @@
 package org.languagetool.language;
 
 
+import org.languagetool.rules.Rule;
+import org.languagetool.rules.sr.ekavian.SimpleGrammarEkavianReplaceRule;
+import org.languagetool.rules.sr.ekavian.MorfologikEkavianSpellerRule;
+import org.languagetool.rules.sr.ekavian.SimpleStyleEkavianReplaceRule;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ResourceBundle;
+
 /** @since 4.0 */
 public class SerbiaSerbian extends Serbian {
 
@@ -32,4 +42,13 @@ public class SerbiaSerbian extends Serbian {
     return "Serbian (Serbia)";
   }
 
+  @Override
+  public List<Rule> getRelevantRules(ResourceBundle messages) throws IOException {
+    List<Rule> rules = new ArrayList<>();
+    rules.addAll(super.getRelevantRules(messages));
+    rules.add(new MorfologikEkavianSpellerRule(messages, this));
+    rules.add(new SimpleGrammarEkavianReplaceRule(messages));
+    rules.add(new SimpleStyleEkavianReplaceRule(messages));
+    return rules;
+  }
 }

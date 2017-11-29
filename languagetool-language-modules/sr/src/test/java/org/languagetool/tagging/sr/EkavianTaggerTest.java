@@ -26,14 +26,14 @@ import org.languagetool.tokenizers.WordTokenizer;
 
 import java.io.IOException;
 
-public class SerbianTaggerTest {
+public class EkavianTaggerTest {
 
-  private SerbianTagger tagger;
+  private EkavianTagger tagger;
   private WordTokenizer tokenizer;
 
   @Before
   public void setUp() throws Exception {
-    tagger = new SerbianTagger();
+    tagger = new EkavianTagger();
     tokenizer = new WordTokenizer();
   }
 

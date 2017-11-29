@@ -18,25 +18,25 @@
  */
 package org.languagetool.tagging.sr;
 
-import org.languagetool.tagging.BaseTagger;
 
 import java.util.Locale;
 
-
 /** @since 4.0 */
-public class SerbianTagger extends BaseTagger {
+public class EkavianTagger extends SerbianTagger {
 
-  public SerbianTagger() {
-    super("/sr/serbian.dict", new Locale("sr"));
+  private final static String DICTIONARY_PATH = "/sr/dictionary/ekavian/";
+
+  public EkavianTagger() {
+    super(DICTIONARY_PATH + "serbian.dict", new Locale("sr"));
   }
 
   @Override
   public String getManualAdditionsFileName() {
-    return "/sr/added.txt";
+    return DICTIONARY_PATH + "added.txt";
   }
 
   @Override
   public String getManualRemovalsFileName() {
-    return "/sr/removed.txt";
+    return DICTIONARY_PATH + "removed.txt";
   }
 }
