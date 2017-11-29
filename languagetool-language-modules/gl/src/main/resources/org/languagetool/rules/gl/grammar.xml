@@ -4369,6 +4369,78 @@
     </rule>
   </rulegroup>
 
+    <rule id='REPEATED_WORDS' name="Palavras repetidas (2x)" default='on' type='style'>
+    <!-- Created by Tiago F. Santos , Portuguese rule, 2016-12-03 		-->
+    <!-- XXX If the user finds this rule too intrusive, they will disable it and use REPEATED_WORDS_3X as a fallback		 	-->
+      <antipattern>
+          <token regexp='yes'>cara|día|face|fronte|paso|porta|tempos?|terra|t[éê]te</token>
+          <token min='0' regexp='yes' spacebefore='no'>&hifen;</token>
+          <token regexp='yes'>[àa]o?</token>
+          <token min='0' regexp='yes' spacebefore='no'>&hifen;</token>
+          <token regexp='yes'>cara|día|face|fronte|paso|porta|tempos?|terra|t[*éê]te</token>
+      </antipattern>
+      <antipattern>
+          <token/>
+          <token regexp='yes'>é|son</token>
+          <token><match no="0"/></token>
+          <token>&quot;</token>
+      </antipattern>
+      <antipattern>
+          <token/>
+          <token regexp='yes'>é|son</token>
+          <token><match no="0"/></token>
+          <token postag_regexp='yes' postag="_PUNCT|''"/>
+      </antipattern>
+      <antipattern>
+          <token>de</token>
+          <token/>
+          <token regexp='yes'>en|para</token>
+          <token><match no="1"/></token>
+      </antipattern>
+      <antipattern>
+          <token/>
+          <token regexp='yes'>a|e|tras</token>
+          <token><match no="0"/></token>
+      </antipattern>
+      <pattern>
+          <token>
+            <exception regexp='yes'>&hifen;</exception></token>
+          <token skip='-1'/>
+        <marker>
+          <token><match no="1"/>
+            <exception postag='(?:C|D|NP|P|SP|Z).+|R[GN].*|_PUNCT|_GN_|UNKNOWN' postag_regexp='yes'/>
+            <exception inflected='yes' regexp='yes'>&verbos_auxiliares_part_pasado;</exception>
+            <exception regexp='yes'>son|&divisas;|&unidades_de_medida_por_extenso;|&expressoes_de_tempo;</exception>
+            <exception regexp='yes'>[\d,. ]*['"/\|%º°′″‴]*(&unidades_de_medida;){0,1}</exception>
+          </token>
+        </marker>
+          <token negate='yes' regexp='yes'>&hifen;</token>
+      </pattern>
+      <message>Para mellorar o texto, procure variar máis os termos utilizados.</message>
+      <!-- url>https://pt.wikiversity.org/wiki/Norma_padrão_de a_lingua_portuguesa/Repeticións_e_elipses</url-->
+      <short>Problema de estilo. Palabra repetida.</short>
+      <example correction="">Saíu de coche, logo despois de pegar nas chaves do <marker>coche</marker>.</example>
+      <!-- example correction="">Principalmente migrantes teñen procurado residencia en Alagoas, estabelecéndose <marker>principalmente</marker> na costa.</example -->
+      <example type='incorrect'>As repeticións empobrecem o texto, porque as <marker>repeticións</marker> son aborrecidas de ler.</example>
+      <example>Non virá máis.</example>
+      <example>Descoñezo o significado da palabra "imposíbel".</example>
+      <example>Proteínas son biopolímeros cuxas unidades monoméricas son os aminoácidos.</example>
+      <example>…pola posesión do diploma fornecido pola autoridade educacional e…</example>
+      <example>Club de Choro do Río de Xaneiro</example>
+      <example>Grupos indíxenas Pataxó, Pataxó-hã-hã-hãe, Quiriri e o extinguido Camacã.</example>
+      <example>Isto son exemplos do día a día.</example>
+      <example>É preciso dar tempo ao tempo.</example>
+      <example>371 575 m³ para Gas Natural Comprimido, 243 024 m³ para usuarios comerciais, 120 119 m³ para</example>
+      <example>99,6% con iluminación pública, 99,3% con recada de residuos e 89,7% dos lares ten</example>
+      <example>Andou de estación en estación á procura dela.</example>
+      <example correction="">Andou de estación si en <marker>estación</marker> non á procura dela.</example>
+      <example>Cerca de 42% de todos os xudeus residen en Israel e cerca de 42% nos Estados Unidos e Canadá, coa maioría restante na Europa.</example>
+      <example>Non estou totalmente satisfeito coa situación, mais regras son regras", dixen Bolt.</example>
+      <example>Hectáreas e hectáreas de terra ardida.</example>
+      <example>Bateu a marca na proba dos cen metros, moi antes de considerar competir nos catrocentos metros barreiras.</example>
+      <example>Traballo é traballo, aguardiente é aguardiente.</example>
+    </rule>
+
     <rule id='REPEATED_WORDS_3X' name="Palabras repetidas (3x)" default='on' type='style'>
     <!-- Created by Tiago F. Santos , Portuguese rule, 2016-12-03 	-->
       <antipattern>
