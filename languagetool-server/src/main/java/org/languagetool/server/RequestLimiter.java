@@ -20,6 +20,7 @@ package org.languagetool.server;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
@@ -32,14 +33,16 @@ class RequestLimiter {
   final List<RequestEvent> requestEvents = new CopyOnWriteArrayList<>();
   
   private final int requestLimit;
+  private final int requestLimitInBytes;
   private final int requestLimitPeriodInSeconds;
 
   /**
    * @param requestLimit the maximum number of request per <tt>requestLimitPeriodInSeconds</tt>
    * @param requestLimitPeriodInSeconds the time period over which requests are considered, in seconds
    */
-  RequestLimiter(int requestLimit, int requestLimitPeriodInSeconds) {
+  RequestLimiter(int requestLimit, int requestLimitInBytes, int requestLimitPeriodInSeconds) {
     this.requestLimit = requestLimit;
+    this.requestLimitInBytes = requestLimitInBytes;
     this.requestLimitPeriodInSeconds = requestLimitPeriodInSeconds;
   }
 
@@ -48,6 +51,14 @@ class RequestLimiter {
    */
   int getRequestLimit() {
     return requestLimit;
+  }
+
+  /**
+   * The maximum number of request bytes per {@link #getRequestLimitPeriodInSeconds()}.
+   * @since 4.0
+   */
+  int getRequestLimitInBytes() {
+    return requestLimitInBytes;
   }
 
   /**
@@ -61,22 +72,41 @@ class RequestLimiter {
    * @param ipAddress the client's IP address
    * @return true if access is allowed because the request limit is not reached yet
    */
-  boolean isAccessOkay(String ipAddress) {
+  boolean isAccessOkay(String ipAddress, Map<String, String> parameters) {
+    int reqSize = getRequestSize(parameters);
     while (requestEvents.size() > REQUEST_QUEUE_SIZE) {
       requestEvents.remove(0);
     }
-    requestEvents.add(new RequestEvent(ipAddress, new Date()));
+    requestEvents.add(new RequestEvent(ipAddress, new Date(), reqSize));
     return !limitReached(ipAddress);
   }
-  
+
+  private int getRequestSize(Map<String, String> params) {
+    String text = params.get("text");
+    if (text != null) {
+      return text.length();
+    } else {
+      String data = params.get("data");
+      if (data != null) {
+        return data.length();
+      }
+    }
+    return 0;
+  }
+
   boolean limitReached(String ipAddress) {
     int requestsByIp = 0;
+    int requestSizeByIp = 0;
     // all requests before this date are considered old:
     Date thresholdDate = new Date(System.currentTimeMillis() - requestLimitPeriodInSeconds * 1000);
     for (RequestEvent requestEvent : requestEvents) {
       if (requestEvent.ip.equals(ipAddress) && requestEvent.date.after(thresholdDate)) {
         requestsByIp++;
-        if (requestsByIp > requestLimit) {
+        if (requestLimit > 0 && requestsByIp > requestLimit) {
+          return true;
+        }
+        requestSizeByIp += requestEvent.getSizeInBytes();
+        if (requestLimitInBytes > 0 && requestSizeByIp > requestLimitInBytes) {
           return true;
         }
       }
@@ -88,14 +118,20 @@ class RequestLimiter {
 
     private final String ip;
     private final Date date;
+    private final int sizeInBytes;
 
-    RequestEvent(String ip, Date date) {
+    RequestEvent(String ip, Date date, int sizeInBytes) {
       this.ip = ip;
       this.date = new Date(date.getTime());
+      this.sizeInBytes = sizeInBytes;
     }
 
     protected Date getDate() {
       return date;
+    }
+    
+    protected int getSizeInBytes() {
+      return sizeInBytes;
     }
 
   }

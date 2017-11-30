@@ -30,7 +30,7 @@ class ErrorRequestLimiter extends RequestLimiter {
    * @param requestLimitPeriodInSeconds the time period over which requests are considered, in seconds
    */
   ErrorRequestLimiter(int requestLimit, int requestLimitPeriodInSeconds) {
-    super(requestLimit, requestLimitPeriodInSeconds);
+    super(requestLimit, 0, requestLimitPeriodInSeconds);
   }
 
   /**
@@ -48,7 +48,7 @@ class ErrorRequestLimiter extends RequestLimiter {
     while (requestEvents.size() > REQUEST_QUEUE_SIZE) {
       requestEvents.remove(0);
     }
-    requestEvents.add(new RequestEvent(ipAddress, new Date()));
+    requestEvents.add(new RequestEvent(ipAddress, new Date(), 0));
   }
   
 }

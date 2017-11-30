@@ -74,6 +74,9 @@
   * new property key `timeoutRequestLimit`: similar to `requestLimit`, but this one limits 
     not all requests but blocks once this many timeout have been caused by the IP in the
     time span set by `requestLimitPeriodInSeconds`
+  * new property key `requestLimitInBytes`: similar to `requestLimit`, but this one limits
+    the aggregated size of requests caused by an IP in the time span set 
+    by `requestLimitPeriodInSeconds` 
 
 
 ## 3.9 (2017-09-26)

@@ -20,6 +20,9 @@ package org.languagetool.server;
 
 import org.junit.Test;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -27,20 +30,38 @@ public class RequestLimiterTest {
   
   @Test
   public void testIsAccessOkay() throws Exception {
-    RequestLimiter limiter = new RequestLimiter(3, 2);
+    RequestLimiter limiter = new RequestLimiter(3, 0, 2);
     String firstIp = "192.168.10.1";
     String secondIp = "192.168.10.2";
-    assertTrue(limiter.isAccessOkay(firstIp));
-    assertTrue(limiter.isAccessOkay(firstIp));
-    assertTrue(limiter.isAccessOkay(firstIp));
-    assertFalse(limiter.isAccessOkay(firstIp));
-    assertTrue(limiter.isAccessOkay(secondIp));
+    Map<String, String> params = new HashMap<>();
+    assertTrue(limiter.isAccessOkay(firstIp, params));
+    assertTrue(limiter.isAccessOkay(firstIp, params));
+    assertTrue(limiter.isAccessOkay(firstIp, params));
+    assertFalse(limiter.isAccessOkay(firstIp, params));
+    assertTrue(limiter.isAccessOkay(secondIp, params));
     Thread.sleep(2500);
-    assertTrue(limiter.isAccessOkay(firstIp));
-    assertTrue(limiter.isAccessOkay(secondIp));
-    assertTrue(limiter.isAccessOkay(secondIp));
-    assertTrue(limiter.isAccessOkay(secondIp));
-    assertFalse(limiter.isAccessOkay(secondIp));
+    assertTrue(limiter.isAccessOkay(firstIp, params));
+    assertTrue(limiter.isAccessOkay(secondIp, params));
+    assertTrue(limiter.isAccessOkay(secondIp, params));
+    assertTrue(limiter.isAccessOkay(secondIp, params));
+    assertFalse(limiter.isAccessOkay(secondIp, params));
+  }
+  
+  @Test
+  public void testIsAccessOkayWithByteLimit() throws Exception {
+    RequestLimiter limiter = new RequestLimiter(10, 35, 2);
+    String firstIp = "192.168.10.1";
+    String secondIp = "192.168.10.2";
+    Map<String, String> params = new HashMap<>();
+    params.putIfAbsent("text", "0123456789");
+    assertTrue(limiter.isAccessOkay(firstIp, params));  // 10 bytes
+    assertTrue(limiter.isAccessOkay(firstIp, params));  // 20 bytes
+    assertTrue(limiter.isAccessOkay(firstIp, params));  // 30 bytes
+    assertFalse(limiter.isAccessOkay(firstIp, params));  // 40 bytes!
+    assertTrue(limiter.isAccessOkay(secondIp, params));
+    Thread.sleep(2500);
+    assertTrue(limiter.isAccessOkay(firstIp, params));
+    assertTrue(limiter.isAccessOkay(secondIp, params));
   }
   
 }
