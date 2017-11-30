@@ -114,6 +114,7 @@ public class CaseRuleTest {
     assertGood("Bei Betreten des Hauses.");
     assertGood("Das Aus für Italien ist bitter.");
     assertGood("Anmeldung bis Fr. 1.12.");
+    assertGood("Weil er Unmündige sexuell missbraucht haben soll, wurde ein Lehrer verhaftet.");
 
     assertBad("Sie Vertraute niemandem.");
     assertBad("Beten Lernt man in Nöten.");
