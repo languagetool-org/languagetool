@@ -21,6 +21,7 @@ package org.languagetool.server;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.tools.StringTools;
 
@@ -79,9 +80,8 @@ class LanguageToolHttpHandler implements HttpHandler {
       // so we consume the request now, even before checking for request limits:
       parameters = getRequestQuery(httpExchange, requestedUri);
       if (requestLimiter != null && !requestLimiter.isAccessOkay(remoteAddress)) {
-        String text = parameters.get("text");
-        String textSizeMessage = text != null ? " Text size: " + text.length() + "." :  "";
-        String errorMessage = "Error: Access from " + remoteAddress + " denied - too many requests." +
+        String textSizeMessage = getTextOrDataSizeMessage(parameters);
+        String errorMessage = "Error: Access from " + remoteAddress + " denied - too many requests. " +
                 textSizeMessage +
                 " Allowed maximum requests: " + requestLimiter.getRequestLimit() +
                 " requests per " + requestLimiter.getRequestLimitPeriodInSeconds() + " seconds";
@@ -91,9 +91,8 @@ class LanguageToolHttpHandler implements HttpHandler {
         return;
       }
       if (errorRequestLimiter != null && !errorRequestLimiter.wouldAccessBeOkay(remoteAddress)) {
-        String text = parameters.get("text");
-        String textSizeMessage = text != null ? " Text size: " + text.length() + "." :  "";
-        String errorMessage = "Error: Access from " + remoteAddress + " denied - too many recent timeouts." +
+        String textSizeMessage = getTextOrDataSizeMessage(parameters);
+        String errorMessage = "Error: Access from " + remoteAddress + " denied - too many recent timeouts. " +
                 textSizeMessage +
                 " Allowed maximum timeouts: " + errorRequestLimiter.getRequestLimit() +
                 " per " + errorRequestLimiter.getRequestLimitPeriodInSeconds() + " seconds";
@@ -155,6 +154,20 @@ class LanguageToolHttpHandler implements HttpHandler {
     } finally {
       httpExchange.close();
     }
+  }
+
+  @NotNull
+  private String getTextOrDataSizeMessage(Map<String, String> parameters) {
+    String text = parameters.get("text");
+    if (text != null) {
+      return "Text size: " + text.length() + ".";
+    } else {
+      String data = parameters.get("data");
+      if (data != null) {
+        return "Data size: " + data.length() + ".";
+      }
+    }
+    return "";
   }
 
   private void logError(String remoteAddress, Exception e, int errorCode, HttpExchange httpExchange, Map<String, String> params, 
