@@ -37,7 +37,7 @@ public class ErrorRequestLimiterTest {
     limiter.logAccess(ip1);
     assertFalse(limiter.wouldAccessBeOkay(ip1));
     assertTrue(limiter.wouldAccessBeOkay(ip2));
-    Thread.sleep(1250);
+    Thread.sleep(1050);
     assertTrue(limiter.wouldAccessBeOkay(ip1));
   }
 
