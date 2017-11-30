@@ -3802,6 +3802,31 @@ title="Easy editing stylesheet" ?>
       <example>Antes isto que aquilo.</example>
     </rule>
 
+    <rule id="POSSIVELMENTE_CONJUNTIVO" name="Sintaxe: Possivelmente + conjuntivo">
+    <!--    Localized from Catalan grammar.xml by Tiago F. Santos, 2017-11-29      -->
+      <pattern><!-- <exception scope="next" regexp="yes">que|quan|perquè|si|qui|quals?</exception> -->
+          <token regexp="yes">provavelmente|quiçá|possivelmente
+            <exception scope="previous" regexp="yes">quando|se</exception></token>
+          <token min="0" max="2" postag="R[NG].*" postag_regexp="yes">
+            <exception>quando</exception></token>
+          <token postag="V.S.*" postag_regexp="yes">
+            <exception postag="V.I.+|NP.+" postag_regexp="yes"/></token>
+      </pattern>
+      <message>Provavelmente faz um verbo no indicativo.</message>
+        <suggestion>\1 <match no='2' include_skipped='all'/> <match no="3" postag="(V.)S(.*)" postag_regexp="yes" postag_replace="$1I$2"/></suggestion>
+      <short>Tempo verbal incorreto</short>
+      <example correction="Provavelmente tens"><marker>Provavelmente tenhas</marker> razão.</example>
+      <example correction="Provavelmente ainda tens"><marker>Provavelmente ainda tenhas</marker> razão.</example>
+      <example correction="Quiçá não gostas"><marker>Quiçá não gostes</marker> sempre.</example>
+      <example correction="possivelmente já estava">fez pensar que <marker>possivelmente já estivesse</marker> façanha de dantes</example>
+      <example>Quiçá chegaram no ano passado.</example>
+      <example>quando provavelmente se produza a proibição</example>
+      <example>Quiçá se tivessem podido se desenvolver.</example>
+      <example>Quiçá encontrarei quem mo possa explicar.</example>
+      <example>como se quiçá não o tivesse de ver mais</example>
+      <example>Quiçá quando se acabe o curso voltará</example>
+    </rule>
+    
  </category>
 
  <category id='CASING' name='Capitalização' type='grammar'>
