@@ -3768,6 +3768,40 @@ title="Easy editing stylesheet" ?>
       <example correction="eficiente">O processo foi resolvido <marker>eficientemente</marker> e permanentemente.</example>
     </rule>
 
+    <rule id="INCOMPLETE_SENTENCE" name="Síntaxe: Frase incompleta: falta verbo após o 'que'">
+    <!--    Localized from Catalan grammar.xml by Tiago F. Santos, 2017-11-29      -->
+      <antipattern>
+        <marker>
+          <token>que</token>
+          <token regexp="yes">sim|não</token>
+        </marker>
+      </antipattern>
+      <pattern>
+          <token postag="SENT_START" skip="-1">
+            <exception scope="next" regexp="yes" inflected="yes">metade|melhor|pior|mais|menos|antes|igual|mesmo|outro</exception></token>
+        <marker>
+          <token skip="-1">que
+            <exception scope="next" postag="V.[SI].*" postag_regexp="yes"/>
+            <exception scope="previous" regexp="yes">ainda|bem</exception></token>
+          <token postag="SENT_END">
+            <exception>…</exception>
+            <exception postag="_TRESPONTOS"/></token>
+        </marker>
+      </pattern>
+      <message>Frase provavelmente incompleta.</message>
+      <example correction="">Acho <marker>que a coisa assim.</marker></example>
+      <example correction="">Gosto disto <marker>que aquilo.</marker></example>
+    <!-- example correction="">Para evitar <marker>que feridas profundas.</marker></example-->
+      <example correction="">Se fosse assim, dir-te-ia <marker>que.</marker></example>
+      <example>Acho que a coisa é assim.</example>
+      <example>Acho que é mais grande que largo.</example>
+      <example>Dir-te-ia que...</example>
+      <example>Dir-te-ia que…</example>
+      <example>Tanto pode ser que sim como que não.</example>
+      <example>Dir-te-ia que sim.</example>
+      <example>Antes isto que aquilo.</example>
+    </rule>
+
  </category>
 
  <category id='CASING' name='Capitalização' type='grammar'>
