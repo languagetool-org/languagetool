@@ -42863,7 +42863,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token inflected="yes">antepassat</token>
             </pattern>
             <message>Paraula admesa només en alguns diccionaris.</message>
-            <suggestion><match no="1" regexp_match="ante(.+)" regexp_replace="avant$1" /></suggestion>
+            <suggestion><match no="1" regexp_match="(?iu)ante(.+)" regexp_replace="avant$1" /></suggestion>
             <example correction="avantpassades">Les nostres <marker>antepassades</marker>.</example>
         </rule>
         <rule id="RABO" name="rabo">
@@ -42947,11 +42947,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">trages?</token>
             </pattern>
             <message>Paraula només admesa per alguns diccionaris.</message>
-            <suggestion><match no="1" regexp_match="trage(s?)" regexp_replace="vestit$1"/></suggestion>
-            <suggestion><match no="1" regexp_match="trage(s?)" regexp_replace="vestit$1"/> d'home</suggestion>
+            <suggestion><match no="1" regexp_match="(?iu)trage(s?)" regexp_replace="vestit$1"/></suggestion>
+            <suggestion><match no="1" regexp_match="(?iu)trage(s?)" regexp_replace="vestit$1"/> d'home</suggestion>
             <url>http://www.avl.gva.es/lexicval/xhtml/dnv.xhtml?paraula=trage</url>
             <example correction="vestits|vestits d'home">Els <marker>trages</marker>.</example>
             <example correction="vestit|vestit d'home">El <marker>trage</marker>.</example>
+        </rule>
+        <rule id="ENSAIG" name="ensaig, ensajar (DNV)">
+            <pattern>
+                <token regexp="yes" inflected="yes">ensaig|ensajar</token>
+            </pattern>
+            <message>Paraula només admesa per alguns diccionaris.</message>
+            <suggestion><match no="1" regexp_match="(?iu)ens(.+)" regexp_replace="ass$1"/></suggestion>
+            <url>http://www.avl.gva.es/lexicval/xhtml/dnv.xhtml?paraula=trage</url>
+            <example correction="assajos">Els <marker>ensajos</marker>.</example>
+            <example correction="assageu">Quan <marker>ensageu</marker>.</example>
         </rule>
         <!--<rule id="ACOLLONAR" name="acollonar/acollonir" >
             <pattern>
@@ -43014,19 +43024,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="FIDEUA" name="fideuà, mascletà / fideuada, mascletada">
             <rule>
                 <pattern>
-                    <token regexp="yes">mascletà|fideuà</token>
+                    <token regexp="yes">mascletà|fideuà|mocadorà|espardenyà</token>
                 </pattern>
                 <message>Forma col·loquial.</message>
-                <suggestion><match no="1" regexp_match="(.+)[àÀ]" regexp_replace="$1ada"/></suggestion>
+                <suggestion><match no="1" regexp_match="(?iu)(.+)à" regexp_replace="$1ada"/></suggestion>
                 <example correction="Fideuada"><marker>Fideuà</marker></example>
                 <example correction="mascletada">La <marker>mascletà</marker></example>
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">mascletaes|fideuaes</token>
+                    <token regexp="yes">mascletaes|fideuaes|mocadoraes|espardenyaes</token>
                 </pattern>
                 <message>Forma col·loquial.</message>
-                <suggestion><match no="1" regexp_match="(.+)[aA][eE][sS]" regexp_replace="$1ades"/></suggestion>
+                <suggestion><match no="1" regexp_match="(?iu)(.+)aes" regexp_replace="$1ades"/></suggestion>
                 <example correction="Fideuades"><marker>Fideuaes</marker></example>
                 <example correction="mascletades">Les <marker>mascletaes</marker></example>
             </rule>
