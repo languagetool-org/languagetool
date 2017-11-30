@@ -46,6 +46,7 @@ import java.util.List;
 /**
  * Check text against AtD via HTTP. Comment in in {@link RealWordCorpusEvaluator}.
  * @since 2.7
+ * @deprecated deprecated since 4.0
  */
 class AtDEvaluator implements Evaluator {
 
