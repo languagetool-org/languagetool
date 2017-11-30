@@ -772,8 +772,8 @@ public class CaseRule extends Rule {
             // avoid false alarm for "Er kann ihr das bieten, was sie verdient."
             // avoid false alarm for "Das wissen die meisten." / "Um das sagen zu können, ..."
             // avoid false alarm for "Du musst/solltest/könntest das wissen, damit du die Prüfung bestehst / weil wir das gestern besprochen haben."
-        	// avoid false alarm for "Wir werden das stoppen."
-        	// avoid false alarm for "Wahre Liebe muss das aushalten."
+            // avoid false alarm for "Wir werden das stoppen."
+            // avoid false alarm for "Wahre Liebe muss das aushalten."
             continue;
           }
         }
@@ -799,7 +799,7 @@ public class CaseRule extends Rule {
                  i < tokens.length-1 &&
                  Character.isLowerCase(tokens[i+1].getToken().charAt(0)) &&
                  tokens[i+1].matchesPosTagRegex("VER:[123]:.*")) {
-    	// "Viele Minderjährige sind" but not "Das wirklich Wichtige Verfahren ist"
+        // "Viele Minderjährige sind" but not "Das wirklich Wichtige Verfahren ist"
         continue;  
       }
       if (analyzedToken.getAnalyzedToken(0).getPOSTag() == null && lowercaseReadings == null) {
@@ -919,7 +919,7 @@ public class CaseRule extends Rule {
   }
 
   private boolean hasNounReading(AnalyzedTokenReadings readings) {
-    if (readings !=  null) {
+    if (readings != null) {
       // Anmeldung bis Fr. 1.12. (Fr. as abbreviation of Freitag is has a noun reading!)
       if (readings.hasPosTagStartingWith("ABK:") && readings.hasPartialPosTag("SUB")) {
         return true;
@@ -957,7 +957,7 @@ public class CaseRule extends Rule {
 
   private void potentiallyAddUppercaseMatch(List<RuleMatch> ruleMatches, AnalyzedTokenReadings[] tokens, int i, AnalyzedTokenReadings analyzedToken, String token, AnalyzedTokenReadings lowercaseReadings) {
     boolean isUpperFirst = Character.isUpperCase(token.charAt(0));
-	if (isUpperFirst &&
+    if (isUpperFirst &&
         token.length() > 1 &&     // length limit = ignore abbreviations
         !tokens[i].isIgnoredBySpeller() &&
         !tokens[i].isImmunized() &&
@@ -991,17 +991,17 @@ public class CaseRule extends Rule {
   }
 
   private boolean isVerbFollowing(int i, AnalyzedTokenReadings[] tokens, AnalyzedTokenReadings lowercaseReadings) {
-	AnalyzedTokenReadings[] subarray = new AnalyzedTokenReadings[ tokens.length - i ];
-	System.arraycopy(tokens, i, subarray, 0, subarray.length);
-	if (lowercaseReadings != null) {
-	  subarray[0] = lowercaseReadings;
-	}
-	// capitalization after ":" requires an independent clause to follow
-	// if there is not a single verb, the tokens cannot be part of an independent clause
-	return getTokensWithPartialPosTagCount(subarray, "VER") != 0;
+    AnalyzedTokenReadings[] subarray = new AnalyzedTokenReadings[ tokens.length - i ];
+    System.arraycopy(tokens, i, subarray, 0, subarray.length);
+    if (lowercaseReadings != null) {
+      subarray[0] = lowercaseReadings;
+    }
+    // capitalization after ":" requires an independent clause to follow
+    // if there is not a single verb, the tokens cannot be part of an independent clause
+    return getTokensWithPartialPosTagCount(subarray, "VER") != 0;
 }
 
-private void addRuleMatch(List<RuleMatch> ruleMatches, String msg, AnalyzedTokenReadings tokenReadings, String fixedWord) {
+  private void addRuleMatch(List<RuleMatch> ruleMatches, String msg, AnalyzedTokenReadings tokenReadings, String fixedWord) {
     RuleMatch ruleMatch = new RuleMatch(this, tokenReadings.getStartPos(), tokenReadings.getEndPos(), msg);
     ruleMatch.setSuggestedReplacement(fixedWord);
     ruleMatches.add(ruleMatch);
@@ -1064,7 +1064,7 @@ private void addRuleMatch(List<RuleMatch> ruleMatches, String msg, AnalyzedToken
 
   private boolean isNumber(String token) {
     try {
-      if(StringUtils.isNumeric(token)) {
+      if (StringUtils.isNumeric(token)) {
         return true;
       }
       AnalyzedTokenReadings lookup = tagger.lookup(StringTools.lowercaseFirstChar(token));
