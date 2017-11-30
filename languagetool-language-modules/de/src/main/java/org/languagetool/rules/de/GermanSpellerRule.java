@@ -448,6 +448,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return Collections.singletonList("bisschen");
     } else if (word.equals("gin")) {
       return Collections.singletonList("ging");
+    } else if (word.equals("dh") || word.equals("dh.")) {
+      return Collections.singletonList("d.\u202fh.");
     } else if (word.equals("ua") || word.equals("ua.")) {
       return Collections.singletonList("u.\u202fa.");
     } else if (word.equals("zb") || word.equals("zb.")) {
