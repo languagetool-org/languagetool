@@ -23,8 +23,7 @@ import org.junit.Test;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 public class RequestLimiterTest {
   
@@ -34,19 +33,19 @@ public class RequestLimiterTest {
     String firstIp = "192.168.10.1";
     String secondIp = "192.168.10.2";
     Map<String, String> params = new HashMap<>();
-    assertTrue(limiter.isAccessOkay(firstIp, params));
-    assertTrue(limiter.isAccessOkay(firstIp, params));
-    assertTrue(limiter.isAccessOkay(firstIp, params));
-    assertFalse(limiter.isAccessOkay(firstIp, params));
-    assertTrue(limiter.isAccessOkay(secondIp, params));
+    assertOkay(limiter, firstIp, params);
+    assertOkay(limiter, firstIp, params);
+    assertOkay(limiter, firstIp, params);
+    assertException(limiter, firstIp, params);
+    assertOkay(limiter, secondIp, params);
     Thread.sleep(2500);
-    assertTrue(limiter.isAccessOkay(firstIp, params));
-    assertTrue(limiter.isAccessOkay(secondIp, params));
-    assertTrue(limiter.isAccessOkay(secondIp, params));
-    assertTrue(limiter.isAccessOkay(secondIp, params));
-    assertFalse(limiter.isAccessOkay(secondIp, params));
+    assertOkay(limiter, firstIp, params);
+    assertOkay(limiter, secondIp, params);
+    assertOkay(limiter, secondIp, params);
+    assertOkay(limiter, secondIp, params);
+    assertException(limiter, secondIp, params);
   }
-  
+
   @Test
   public void testIsAccessOkayWithByteLimit() throws Exception {
     RequestLimiter limiter = new RequestLimiter(10, 35, 2);
@@ -54,14 +53,29 @@ public class RequestLimiterTest {
     String secondIp = "192.168.10.2";
     Map<String, String> params = new HashMap<>();
     params.putIfAbsent("text", "0123456789");
-    assertTrue(limiter.isAccessOkay(firstIp, params));  // 10 bytes
-    assertTrue(limiter.isAccessOkay(firstIp, params));  // 20 bytes
-    assertTrue(limiter.isAccessOkay(firstIp, params));  // 30 bytes
-    assertFalse(limiter.isAccessOkay(firstIp, params));  // 40 bytes!
-    assertTrue(limiter.isAccessOkay(secondIp, params));
+    assertOkay(limiter, firstIp, params);  // 10 bytes
+    assertOkay(limiter, firstIp, params);  // 20 bytes
+    assertOkay(limiter, firstIp, params);  // 30 bytes
+    assertException(limiter, firstIp, params);  // 40 bytes!
+    assertOkay(limiter, secondIp, params);
     Thread.sleep(2500);
-    assertTrue(limiter.isAccessOkay(firstIp, params));
-    assertTrue(limiter.isAccessOkay(secondIp, params));
+    assertOkay(limiter, firstIp, params);
+    assertOkay(limiter, secondIp, params);
+  }
+
+  private void assertOkay(RequestLimiter limiter, String ip, Map<String, String> params) {
+    try {
+      limiter.checkAccess(ip, params);
+    } catch (TooManyRequestsException e) {
+      fail();
+    }
+  }
+
+  private void assertException(RequestLimiter limiter, String ip, Map<String, String> params) {
+    try {
+      limiter.checkAccess(ip, params);
+      fail();
+    } catch (TooManyRequestsException ignored) {}
   }
   
 }

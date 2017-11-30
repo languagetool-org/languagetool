@@ -38,7 +38,12 @@ class ErrorRequestLimiter extends RequestLimiter {
    * @return true if access is allowed because the request limit is not reached yet
    */
   boolean wouldAccessBeOkay(String ipAddress) {
-    return !limitReached(ipAddress);
+    try {
+      checkLimit(ipAddress);
+      return true;
+    } catch (TooManyRequestsException e) {
+      return false;
+    }
   }
   
   /**

@@ -79,17 +79,16 @@ class LanguageToolHttpHandler implements HttpHandler {
       // not an error but may make the underlying TCP connection unusable for following exchanges.",
       // so we consume the request now, even before checking for request limits:
       parameters = getRequestQuery(httpExchange, requestedUri);
-      if (requestLimiter != null && !requestLimiter.isAccessOkay(remoteAddress, parameters)) {
-        String textSizeMessage = getTextOrDataSizeMessage(parameters);
-        String errorMessage = "Error: Access from " + remoteAddress + " denied - too many or too large requests. " +
-                textSizeMessage + " Allowed maximum requests: ";
-        errorMessage += (requestLimiter.getRequestLimit() > 0 ? requestLimiter.getRequestLimit() : "unlimited") + " requests and ";
-        errorMessage += (requestLimiter.getRequestLimitInBytes() > 0 ? requestLimiter.getRequestLimitInBytes() : "unlimited") + " bytes";
-        errorMessage += " per " + requestLimiter.getRequestLimitPeriodInSeconds() + " seconds";
-        sendError(httpExchange, HttpURLConnection.HTTP_FORBIDDEN, errorMessage);
-        print(errorMessage + " - useragent: " + parameters.get("useragent") +
-              " - HTTP UserAgent: " + getHttpUserAgent(httpExchange));
-        return;
+      if (requestLimiter != null) {
+        try {
+          requestLimiter.checkAccess(remoteAddress, parameters);
+        } catch (TooManyRequestsException e) {
+          String errorMessage = "Error: Access from " + remoteAddress + " denied: " + e.getMessage();
+          sendError(httpExchange, HttpURLConnection.HTTP_FORBIDDEN, errorMessage);
+          print(errorMessage + " - useragent: " + parameters.get("useragent") +
+                  " - HTTP UserAgent: " + getHttpUserAgent(httpExchange));
+          return;
+        }
       }
       if (errorRequestLimiter != null && !errorRequestLimiter.wouldAccessBeOkay(remoteAddress)) {
         String textSizeMessage = getTextOrDataSizeMessage(parameters);

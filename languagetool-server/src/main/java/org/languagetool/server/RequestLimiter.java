@@ -70,15 +70,15 @@ class RequestLimiter {
 
   /**
    * @param ipAddress the client's IP address
-   * @return true if access is allowed because the request limit is not reached yet
+   * @throws TooManyRequestsException if access is not allowed because the request limit is reached
    */
-  boolean isAccessOkay(String ipAddress, Map<String, String> parameters) {
+  void checkAccess(String ipAddress, Map<String, String> parameters) {
     int reqSize = getRequestSize(parameters);
     while (requestEvents.size() > REQUEST_QUEUE_SIZE) {
       requestEvents.remove(0);
     }
     requestEvents.add(new RequestEvent(ipAddress, new Date(), reqSize));
-    return !limitReached(ipAddress);
+    checkLimit(ipAddress);
   }
 
   private int getRequestSize(Map<String, String> params) {
@@ -94,7 +94,7 @@ class RequestLimiter {
     return 0;
   }
 
-  boolean limitReached(String ipAddress) {
+  void checkLimit(String ipAddress) {
     int requestsByIp = 0;
     int requestSizeByIp = 0;
     // all requests before this date are considered old:
@@ -103,15 +103,16 @@ class RequestLimiter {
       if (requestEvent.ip.equals(ipAddress) && requestEvent.date.after(thresholdDate)) {
         requestsByIp++;
         if (requestLimit > 0 && requestsByIp > requestLimit) {
-          return true;
+          throw new TooManyRequestsException("Request limit of " + requestLimit + " requests per " +
+                  requestLimitPeriodInSeconds + " seconds exceeded");
         }
         requestSizeByIp += requestEvent.getSizeInBytes();
         if (requestLimitInBytes > 0 && requestSizeByIp > requestLimitInBytes) {
-          return true;
+          throw new TooManyRequestsException("Request size limit of " + requestLimitInBytes + " bytes per " +
+                  requestLimitPeriodInSeconds + " seconds exceeded");
         }
       }
     }
-    return false;
   }
   
   protected static class RequestEvent {
@@ -130,7 +131,7 @@ class RequestLimiter {
       return date;
     }
     
-    protected int getSizeInBytes() {
+    int getSizeInBytes() {
       return sizeInBytes;
     }
 
