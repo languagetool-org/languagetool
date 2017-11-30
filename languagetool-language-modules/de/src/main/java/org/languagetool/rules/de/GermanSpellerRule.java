@@ -326,11 +326,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   protected List<String> sortSuggestionByQuality(String misspelling, List<String> suggestions) {
     List<String> result = new ArrayList<>();
     for (String suggestion : suggestions) {
-      if (misspelling.equalsIgnoreCase(suggestion)) {
-        // this should be preferred - only case differs:
-        result.add(0, suggestion);
-      } else if (suggestion.contains(" ")) {
-        // prefer e.g. "vor allem":
+      if (misspelling.equalsIgnoreCase(suggestion) || suggestion.contains(" ")) {
+        // this should be preferred - only case differs || prefer e.g. "vor allem":
         result.add(0, suggestion);
       } else {
         result.add(suggestion);
@@ -343,7 +340,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   protected boolean ignoreWord(List<String> words, int idx) throws IOException {
     boolean ignore = super.ignoreWord(words, idx);
     boolean ignoreUncapitalizedWord = !ignore && idx == 0 && super.ignoreWord(StringUtils.uncapitalize(words.get(0)));
-    boolean ignoreByHyphen = false, ignoreHyphenatedCompound = false;
+    boolean ignoreByHyphen = false;
+    boolean ignoreHyphenatedCompound = false;
     if (!ignore && !ignoreUncapitalizedWord) {
       if (words.get(idx).contains("-")) {
         ignoreByHyphen = words.get(idx).endsWith("-") && ignoreByHangingHyphen(words, idx);
@@ -356,7 +354,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   @Override
   protected List<String> getAdditionalTopSuggestions(List<String> suggestions, String word) throws IOException {
     String suggestion;
-    if ("WIFI".equals(word) || "wifi".equals(word) || "WiFi".equals(word)) {
+    if ("WIFI".equalsIgnoreCase(word)) {
       return Collections.singletonList("Wi-Fi");
     } else if ("genomen".equals(word)) {
       return Collections.singletonList("genommen");
@@ -376,28 +374,13 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       if (!hunspellDict.misspelled(suggestion)) {
         return Collections.singletonList(suggestion);
       }
-    } else if (word.endsWith("parties")) {
-      suggestion = word.replaceFirst("parties$", "partys");
-      if (!hunspellDict.misspelled(suggestion)) {
-        return Collections.singletonList(suggestion);
-      }
-    } else if (word.endsWith("derbies")) {
-      suggestion = word.replaceFirst("derbies$", "derbys");
-      if (!hunspellDict.misspelled(suggestion)) {
-        return Collections.singletonList(suggestion);
-      }
-    } else if (word.endsWith("stories")) {
-      suggestion = word.replaceFirst("stories$", "storys");
+    } else if (word.endsWith("tips")) {
+      suggestion = word.replaceFirst("tips$", "tipps");
       if (!hunspellDict.misspelled(suggestion)) {
         return Collections.singletonList(suggestion);
       }
     } else if (word.endsWith("tip")) {
-      suggestion = word.replaceFirst("tip$", "tipp");
-      if (!hunspellDict.misspelled(suggestion)) {
-        return Collections.singletonList(suggestion);
-      }
-    } else if (word.endsWith("tips")) {
-      suggestion = word.replaceFirst("tips$", "tipps");
+      suggestion = word + "p";
       if (!hunspellDict.misspelled(suggestion)) {
         return Collections.singletonList(suggestion);
       }
@@ -506,6 +489,21 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
         return Collections.singletonList("Babys");
       } else if (word.equals("Ladies")) {
         return Collections.singletonList("Ladys");
+      } else if (word.endsWith("derbies")) {
+        suggestion = word.replaceFirst("derbies$", "derbys");
+        if (!hunspellDict.misspelled(suggestion)) {
+          return Collections.singletonList(suggestion);
+        }
+      } else if (word.endsWith("stories")) {
+        suggestion = word.replaceFirst("stories$", "storys");
+        if (!hunspellDict.misspelled(suggestion)) {
+          return Collections.singletonList(suggestion);
+        }
+      } else if (word.endsWith("parties")) {
+        suggestion = word.replaceFirst("parties$", "partys");
+        if (!hunspellDict.misspelled(suggestion)) {
+          return Collections.singletonList(suggestion);
+        }
       }
     } else if (word.equals("Hallochen")) {
       return Arrays.asList("Hallöchen", "hallöchen");
@@ -574,9 +572,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
           stopAt = words.length-2;
         }
         for (int idx = startAt; idx < stopAt; idx++) {
-          if (super.ignoreWord(words[idx])) {
-            suggestionLists.add(Collections.singletonList(words[idx]));
-          } else if (hunspellDict.misspelled(words[idx])) {
+          if (hunspellDict.misspelled(words[idx])) {
             List<String> list = sortSuggestionByQuality(words[idx], super.getSuggestions(words[idx]));
             suggestionLists.add(list);
           } else {
@@ -707,16 +703,16 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       // only search for compounds that start(!) with a word from spelling.txt
       int end = super.startsWithIgnoredWord(word, true);
       if (end < 3) {
-    	// support for geographical adjectives - although "süd/ost/west/nord" are not in spelling.txt 
-    	// to accept sentences such as
-    	// "Der westperuanische Ferienort, das ostargentinische Städtchen, das südukrainische Brauchtum, der nordägyptische Staudamm."
-    	if (word.startsWith("ost") || word.startsWith("süd")) {
+        // support for geographical adjectives - although "süd/ost/west/nord" are not in spelling.txt 
+        // to accept sentences such as
+        // "Der westperuanische Ferienort, das ostargentinische Städtchen, das südukrainische Brauchtum, der nordägyptische Staudamm."
+        if (word.startsWith("ost") || word.startsWith("süd")) {
           end = 3;
-    	} else if (word.startsWith("west") || word.startsWith("nord")) {
-    	  end = 4;
-    	} else {
-    	  return false;
-    	}
+        } else if (word.startsWith("west") || word.startsWith("nord")) {
+          end = 4;
+        } else {
+          return false;
+        }
       }
       String ignoredWord = word.substring(0, end);
       String partialWord = word.substring(end);
