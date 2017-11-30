@@ -356,7 +356,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   @Override
   protected List<String> getAdditionalTopSuggestions(List<String> suggestions, String word) throws IOException {
     String suggestion;
-    if ("WIFI".equals(word) || "wifi".equals(word)) {
+    if ("WIFI".equals(word) || "wifi".equals(word) || "WiFi".equals(word)) {
       return Collections.singletonList("Wi-Fi");
     } else if ("genomen".equals(word)) {
       return Collections.singletonList("genommen");
