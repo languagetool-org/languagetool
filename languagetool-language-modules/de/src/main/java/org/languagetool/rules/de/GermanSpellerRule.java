@@ -37,6 +37,7 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nullable;
+import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
@@ -785,4 +786,12 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     }
   }
 
+  @Override
+  protected boolean isQuotedCompound (AnalyzedSentence analyzedSentence, int idx, String token) {
+    if (idx > 3 && token.startsWith("-")) {
+      return "“".equals(analyzedSentence.getTokens()[idx-1].getToken()) &&
+          "„".equals(analyzedSentence.getTokens()[idx-3].getToken());
+    }
+    return false;
+  }
 }

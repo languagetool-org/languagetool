@@ -81,6 +81,14 @@ public class HunspellRule extends SpellingCheckRule {
     return messages.getString("desc_spelling");
   }
 
+  /**
+   * Is the given token part of a hyphenated compound preceded by a quoted token (e.g., „Spiegel“-Magazin) 
+   * and should be treated as an ordinary hypenated compound (e.g., „Spiegel-Magazin“)
+   */
+  protected boolean isQuotedCompound (AnalyzedSentence analyzedSentence, int idx, String token) {
+    return false;
+  }
+
   @Override
   public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
     List<RuleMatch> ruleMatches = new ArrayList<>();
@@ -129,7 +137,6 @@ public class HunspellRule extends SpellingCheckRule {
       }
       len += word.length() + 1;
     }
-
     return toRuleMatchArray(ruleMatches);
   }
 
@@ -171,14 +178,20 @@ public class HunspellRule extends SpellingCheckRule {
     return nonWordPattern.split(sentence);
   }
 
-  private String getSentenceTextWithoutUrlsAndImmunizedTokens(AnalyzedSentence sentence) {
+  protected String getSentenceTextWithoutUrlsAndImmunizedTokens(AnalyzedSentence sentence) {
     StringBuilder sb = new StringBuilder();
     AnalyzedTokenReadings[] sentenceTokens = getSentenceWithImmunization(sentence).getTokens();
     for (int i = 1; i < sentenceTokens.length; i++) {
       String token = sentenceTokens[i].getToken();
-      if (sentenceTokens[i].isImmunized() || isUrl(token) || isEMail(token) || sentenceTokens[i].isIgnoredBySpeller()) {
+      if (sentenceTokens[i].isImmunized() || isUrl(token) || isEMail(token) || sentenceTokens[i].isIgnoredBySpeller() || isQuotedCompound(sentence, i, token)) {
+        if (isQuotedCompound(sentence, i, token)) {
+          int lastPos = sb.length()-1;
+          char lastChar = sb.charAt(lastPos);
+          sb.deleteCharAt(lastPos);
+          sb.append(token).append(lastChar);
+        }
         // replace URLs and immunized tokens with whitespace to ignore them for spell checking:
-        if (token.length() < 20) {
+        else if (token.length() < 20) {
           sb.append(WHITESPACE_ARRAY[token.length()]);
         } else {
           for (int j = 0; j < token.length(); j++) {
