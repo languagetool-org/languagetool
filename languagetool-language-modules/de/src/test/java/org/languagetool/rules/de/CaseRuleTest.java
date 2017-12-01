@@ -115,6 +115,9 @@ public class CaseRuleTest {
     assertGood("Das Aus für Italien ist bitter.");
     assertGood("Anmeldung bis Fr. 1.12.");
     assertGood("Weil er Unmündige sexuell missbraucht haben soll, wurde ein Lehrer verhaftet.");
+    assertGood("Tausende Gläubige kamen.");
+    assertGood("Es kamen Tausende Gläubige.");
+    assertGood("Das schließen Forscher aus den gefundenen Spuren.");
 
     assertBad("Sie Vertraute niemandem.");
     assertBad("Beten Lernt man in Nöten.");

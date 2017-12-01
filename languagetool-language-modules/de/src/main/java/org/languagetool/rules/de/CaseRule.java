@@ -273,7 +273,22 @@ public class CaseRule extends Rule {
        // https://de.wikipedia.org/wiki/Neue_Mittelschule
        regex("Neue[nr]?"),
        new PatternTokenBuilder().csToken("Mittelschule").matchInflectedForms().build()
-     )
+     ),
+     Arrays.asList(
+       regex("Neue[ns]?"),
+       new PatternTokenBuilder().csToken("Rathaus").matchInflectedForms().build()
+     ),
+     Arrays.asList( // "Das schließen Forscher aus ..."
+       new PatternTokenBuilder().pos(JLanguageTool.SENTENCE_START_TAGNAME).build(),
+       new PatternTokenBuilder().csToken("Das").build(),
+       new PatternTokenBuilder().pos("VER:INF:NON").build(), 
+       new PatternTokenBuilder().posRegex("SUB:NOM:PLU:.+").build()
+    ),
+    Arrays.asList( // "Tausende Gläubige kamen, um ihn zu sehen."
+      new PatternTokenBuilder().tokenRegex("[tT]ausende?").build(),
+      new PatternTokenBuilder().posRegex("SUB:NOM:.+").build(), 
+      new PatternTokenBuilder().posRegex(JLanguageTool.SENTENCE_END_TAGNAME+"|VER:[1-3]:.+").build()
+   )
   );
 
   private static PatternToken token(String token) {
