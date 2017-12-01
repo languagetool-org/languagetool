@@ -4,7 +4,7 @@
 
 #### English
   * removed the category MISC and moved the rules to more specific categories
-  * added WordCordCoherencyRule
+  * added WordCoherencyRule
   * added support for locale-specific spelling suggestions (locale-specific spelling_en-XY.txt files)
 
 #### Galician
@@ -61,6 +61,7 @@
     This way you now get a suggestion for e.g. `algortherm` (algorithm) or `theromator` (thermometer).
     In the worst case (every single word of a text misspelled), this has a performance
     penalty of about 30%.
+  * Better support for Unicode codepoints greater than `0xFFFF`
 
 #### GUI (stand-alone version)
   * show line numbers in the text area
