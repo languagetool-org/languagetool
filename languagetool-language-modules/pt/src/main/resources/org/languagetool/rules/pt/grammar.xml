@@ -3778,13 +3778,13 @@ title="Easy editing stylesheet" ?>
       </antipattern>
       <pattern>
           <token postag="SENT_START" skip="-1">
-            <exception scope="next" regexp="yes" inflected="yes">metade|melhor|pior|mais|menos|antes|igual|mesmo|outro</exception></token>
+            <exception scope="next" regexp="yes" inflected="yes">metade|melhor|pior|mais|menos|antes|depois|maior|menor|igual|mesmo|outro</exception></token>
         <marker>
           <token skip="-1">que
-            <exception scope="next" postag="V.[SI].*" postag_regexp="yes"/>
+            <exception scope="next" postag="V.[SI].*|VMN0000" postag_regexp="yes"/>
             <exception scope="previous" regexp="yes">ainda|bem</exception></token>
           <token postag="SENT_END">
-            <exception>…</exception>
+            <exception regexp='yes'>…|:</exception>
             <exception postag="_TRESPONTOS"/></token>
         </marker>
       </pattern>
@@ -3810,7 +3810,7 @@ title="Easy editing stylesheet" ?>
           <token min="0" max="2" postag="R[NG].*" postag_regexp="yes">
             <exception>quando</exception></token>
           <token postag="V.S.*" postag_regexp="yes">
-            <exception postag="V.I.+|NP.+" postag_regexp="yes"/></token>
+            <exception postag="(V.I|NP|S).+" postag_regexp="yes"/></token>
       </pattern>
       <message>Provavelmente faz um verbo no indicativo.</message>
         <suggestion>\1 <match no='2' include_skipped='all'/> <match no="3" postag="(V.)S(.*)" postag_regexp="yes" postag_replace="$1I$2"/></suggestion>
