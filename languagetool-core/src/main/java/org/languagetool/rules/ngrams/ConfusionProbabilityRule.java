@@ -128,7 +128,7 @@ public abstract class ConfusionProbabilityRule extends Rule {
             if (betterAlternative != null && !isException(text)) {
               ConfusionString stringFromText = getConfusionString(set, tokens.get(pos));
               String message = getMessage(stringFromText, betterAlternative);
-              RuleMatch match = new RuleMatch(this, googleToken.startPos, googleToken.endPos, message);
+              RuleMatch match = new RuleMatch(this, sentence, googleToken.startPos, googleToken.endPos, message);
               match.setSuggestedReplacement(betterAlternative.getString());
               matches.add(match);
             }

@@ -113,7 +113,7 @@ public class SimpleReplaceRenamedRule extends Rule {
           }
         }
 
-        RuleMatch match = createRuleMatch(tokenReadings, replacements, getMessage(renamedLemmas.iterator().next(), info));
+        RuleMatch match = createRuleMatch(tokenReadings, replacements, getMessage(renamedLemmas.iterator().next(), info), sentence);
         ruleMatches.add(match);
       }
 
@@ -130,8 +130,8 @@ public class SimpleReplaceRenamedRule extends Rule {
     return msg;
   }
 
-  private RuleMatch createRuleMatch(AnalyzedTokenReadings readings, List<String> replacements, String msg) {
-    RuleMatch potentialRuleMatch = new RuleMatch(this, readings.getStartPos(), readings.getEndPos(), msg, "Перейменована назва");
+  private RuleMatch createRuleMatch(AnalyzedTokenReadings readings, List<String> replacements, String msg, AnalyzedSentence sentence) {
+    RuleMatch potentialRuleMatch = new RuleMatch(this, sentence, readings.getStartPos(), readings.getEndPos(), msg, "Перейменована назва");
     potentialRuleMatch.setSuggestedReplacements(replacements);
 
     return potentialRuleMatch;

@@ -80,9 +80,9 @@ public class TokenAgreementNounVerbRule extends Rule {
   }
 
   @Override
-  public final RuleMatch[] match(AnalyzedSentence text) {
+  public final RuleMatch[] match(AnalyzedSentence sentence) {
     List<RuleMatch> ruleMatches = new ArrayList<>();
-    AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();    
+    AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();    
 
     List<AnalyzedToken> nounTokenReadings = new ArrayList<>(); 
     AnalyzedTokenReadings nounAnalyzedTokenReadings = null;
@@ -202,7 +202,7 @@ public class TokenAgreementNounVerbRule extends Rule {
         String msg = String.format("Не узгоджено іменник з дієсловом: \"%s\" (%s) і \"%s\" (%s)", 
             nounTokenReadings.get(0).getToken(), formatInflections(masterInflections, true), 
             verbTokenReadings.get(0).getToken(), formatInflections(slaveInflections, false));
-        RuleMatch potentialRuleMatch = new RuleMatch(this, nounAnalyzedTokenReadings.getStartPos(), tokenReadings.getEndPos(), msg, getShort());
+        RuleMatch potentialRuleMatch = new RuleMatch(this, sentence, nounAnalyzedTokenReadings.getStartPos(), tokenReadings.getEndPos(), msg, getShort());
         ruleMatches.add(potentialRuleMatch);
       }
 

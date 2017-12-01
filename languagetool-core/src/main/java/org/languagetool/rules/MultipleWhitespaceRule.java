@@ -84,7 +84,7 @@ public class MultipleWhitespaceRule extends Rule {
             // no match for typical email signature delimiter
             continue;
           }
-          RuleMatch ruleMatch = new RuleMatch(this, prevPos, pos + prevLen, message);
+          RuleMatch ruleMatch = new RuleMatch(this, sentence, prevPos, pos + prevLen, message);
           ruleMatch.setSuggestedReplacement(" ");
           ruleMatches.add(ruleMatch);
         }

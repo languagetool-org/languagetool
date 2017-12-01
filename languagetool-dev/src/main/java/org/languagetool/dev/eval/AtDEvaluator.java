@@ -105,7 +105,7 @@ class AtDEvaluator implements Evaluator {
       int fromPos = text.getPlainText().indexOf(errorText) + preContext.length() + 1;
       int toPos = fromPos + string.length();
       NodeList suggestions = (NodeList)xPath.evaluate("suggestions", error, XPathConstants.NODESET);
-      RuleMatch ruleMatch = new RuleMatch(new AtdRule(), 
+      RuleMatch ruleMatch = new RuleMatch(new AtdRule(), null, 
               text.getOriginalTextPositionFor(fromPos), text.getOriginalTextPositionFor(toPos), description);
       for (int j = 0; j < suggestions.getLength(); j++) {
         Node option = suggestions.item(j);

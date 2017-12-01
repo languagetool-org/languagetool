@@ -44,9 +44,9 @@ public class ToolsTest {
   
   @Test
   public void testCorrectTextFromMatches() {
-    RuleMatch match1 = new RuleMatch(new FakeRule(), 0, 9, "msg1");
+    RuleMatch match1 = new RuleMatch(new FakeRule(), null, 0, 9, "msg1");
     match1.setSuggestedReplacement("I've had");
-    RuleMatch match2 = new RuleMatch(new FakeRule(), 0, 9, "msg2");
+    RuleMatch match2 = new RuleMatch(new FakeRule(), null, 0, 9, "msg2");
     match2.setSuggestedReplacement("I have");
     List<RuleMatch> matches = Arrays.asList(match1, match2);
     assertThat(Tools.correctTextFromMatches("I've have", matches), is("I've had"));

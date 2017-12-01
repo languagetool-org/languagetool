@@ -444,13 +444,13 @@ public class AgreementRule extends Rule {
               continue;
             }
             RuleMatch ruleMatch = checkDetAdjNounAgreement(tokens[i],
-                nextToken, tokens[tokenPos]);
+                nextToken, tokens[tokenPos], sentence);
             if (ruleMatch != null) {
               ruleMatches.add(ruleMatch);
             }
           }
         } else if (GermanHelper.hasReadingOfType(nextToken, POSType.NOMEN) && !"Herr".equals(nextToken.getToken())) {
-          RuleMatch ruleMatch = checkDetNounAgreement(tokens[i], nextToken);
+          RuleMatch ruleMatch = checkDetNounAgreement(tokens[i], nextToken, sentence);
           if (ruleMatch != null) {
             ruleMatches.add(ruleMatch);
           }
@@ -544,7 +544,7 @@ public class AgreementRule extends Rule {
 
   @Nullable
   private RuleMatch checkDetNounAgreement(AnalyzedTokenReadings token1,
-      AnalyzedTokenReadings token2) {
+      AnalyzedTokenReadings token2, AnalyzedSentence sentence) {
     // TODO: remove "-".equals(token2.getToken()) after the bug fix 
     // see Daniel's comment from 20.12.2016 at https://github.com/languagetool-org/languagetool/issues/635
     if (NOUNS_TO_BE_IGNORED.contains(token2.getToken()) || "-".equals(token2.getToken())) {
@@ -578,7 +578,7 @@ public class AgreementRule extends Rule {
       String msg = "Möglicherweise fehlende grammatische Übereinstimmung zwischen Artikel und Nomen " +
             "bezüglich " + errorDetails + ".";
       String shortMsg = "Möglicherweise keine Übereinstimmung bezüglich " + errorDetails;
-      ruleMatch = new RuleMatch(this, token1.getStartPos(),
+      ruleMatch = new RuleMatch(this, sentence, token1.getStartPos(),
               token2.getEndPos(), msg, shortMsg);
       /*try {
         // this will not give a match for compounds that are not in the dictionary...
@@ -610,7 +610,7 @@ public class AgreementRule extends Rule {
   }
 
   private RuleMatch checkDetAdjNounAgreement(AnalyzedTokenReadings token1,
-      AnalyzedTokenReadings token2, AnalyzedTokenReadings token3) {
+      AnalyzedTokenReadings token2, AnalyzedTokenReadings token3, AnalyzedSentence sentence) {
     // TODO: remove (token3 == null || token3.getToken().length() < 2) 
     // see Daniel's comment from 20.12.2016 at https://github.com/languagetool-org/languagetool/issues/635
     if(token3 == null || token3.getToken().length() < 2) {
@@ -624,7 +624,7 @@ public class AgreementRule extends Rule {
             "Nomen bezüglich Kasus, Numerus oder Genus. Beispiel: 'mein kleiner Haus' " +
             "statt 'mein kleines Haus'";
       String shortMsg = "Möglicherweise keine Übereinstimmung bezüglich Kasus, Numerus oder Genus";
-      ruleMatch = new RuleMatch(this, token1.getStartPos(), token3.getEndPos(), msg, shortMsg);
+      ruleMatch = new RuleMatch(this, sentence, token1.getStartPos(), token3.getEndPos(), msg, shortMsg);
     }
     return ruleMatch;
   }

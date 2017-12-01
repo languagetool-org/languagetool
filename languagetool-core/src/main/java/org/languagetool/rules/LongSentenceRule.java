@@ -104,7 +104,7 @@ public class LongSentenceRule extends Rule {
       }
     }
     if (numWords > maxWords) {
-      RuleMatch ruleMatch = new RuleMatch(this, 0, pos, msg);
+      RuleMatch ruleMatch = new RuleMatch(this, sentence, 0, pos, msg);
       ruleMatches.add(ruleMatch);
     }
     return toRuleMatchArray(ruleMatches);

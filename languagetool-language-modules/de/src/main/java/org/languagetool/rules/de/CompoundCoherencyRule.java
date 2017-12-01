@@ -77,7 +77,7 @@ public class CompoundCoherencyRule extends TextLevelRule {
             String other = textOcc.get(0);
             if (containsHyphenInside(other) || containsHyphenInside(token)) {
               String msg = "Uneinheitliche Verwendung von Bindestrichen. Der Text enthält sowohl '" + token + "' als auch '" + other + "'.";
-              RuleMatch ruleMatch = new RuleMatch(this, pos + atr.getStartPos(), pos + atr.getEndPos(), msg);
+              RuleMatch ruleMatch = new RuleMatch(this, sentence, pos + atr.getStartPos(), pos + atr.getEndPos(), msg);
               if (token.replace("-", "").equalsIgnoreCase(other.replace("-", ""))) {
                 // might be different inflected forms, so only suggest if really just the hyphen is different:
                 ruleMatch.setSuggestedReplacement(other);

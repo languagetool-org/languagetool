@@ -70,7 +70,7 @@ public class WhiteSpaceAtBeginOfParagraph extends Rule {
     int i;
     for (i = 1; i < tokens.length && isWhitespaceDel(tokens[i]); i++);
     if (i > 1 && i < tokens.length && !tokens[i].isLinebreak()) {
-      RuleMatch ruleMatch = new RuleMatch(this, tokens[1].getStartPos(),
+      RuleMatch ruleMatch = new RuleMatch(this, sentence, tokens[1].getStartPos(),
               tokens[i].getEndPos(), messages.getString("whitespace_at_begin_parapgraph_msg"));
       ruleMatch.setSuggestedReplacement(tokens[i].getToken());
       ruleMatches.add(ruleMatch);

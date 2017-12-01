@@ -187,7 +187,7 @@ public class SimpleReplaceVerbsRule extends AbstractSimpleReplaceRule {
         }
         if (possibleReplacements.size() > 0) {
           RuleMatch potentialRuleMatch = createRuleMatch(tokenReadings,
-              possibleReplacements);
+              possibleReplacements, sentence);
           ruleMatches.add(potentialRuleMatch);
         }
       }

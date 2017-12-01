@@ -67,7 +67,7 @@ class RegexPatternRule extends AbstractPatternRule implements RuleMatcher {
       msg = replaceMatchElements(msg, matchSuggestions);
       int markStart = matcher.start(markGroup);
       int markEnd = matcher.end(markGroup);
-      RuleMatch ruleMatch = new RuleMatch(this, markStart, markEnd, msg, null, sentenceStart, null);
+      RuleMatch ruleMatch = new RuleMatch(this, sentenceObj, markStart, markEnd, msg, null, sentenceStart, null);
       List<String> allSuggestions = new ArrayList<>();
       if (matchSuggestions.size() > 0) {
         allSuggestions.addAll(matchSuggestions);

@@ -80,14 +80,14 @@ public class DoublePunctuationRule extends Rule {
       }
       if (dotCount == 2 && !".".equals(nextToken) && !"?".equals(prevToken) && !"!".equals(prevToken)) {
         int fromPos = Math.max(0, startPos - 1);
-        RuleMatch ruleMatch = new RuleMatch(this, fromPos, startPos + 1,
+        RuleMatch ruleMatch = new RuleMatch(this, sentence, fromPos, startPos + 1,
             getDotMessage(), messages.getString("double_dots_short"));
         ruleMatch.setSuggestedReplacement(".");
         ruleMatches.add(ruleMatch);
         dotCount = 0;
       } else if (commaCount == 2 && !getCommaCharacter().equals(nextToken)) {
         int fromPos = Math.max(0, startPos - 1);
-        RuleMatch ruleMatch = new RuleMatch(this, fromPos, startPos + 1,
+        RuleMatch ruleMatch = new RuleMatch(this, sentence, fromPos, startPos + 1,
             getCommaMessage(), messages.getString("double_commas_short"));
         ruleMatch.setSuggestedReplacement(getCommaCharacter());
         ruleMatches.add(ruleMatch);

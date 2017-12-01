@@ -70,6 +70,9 @@
     describes the error or grammar rule in more detail. Before, only the `Rule`
     could have a URL. A `RuleMatch` URL will overwrite the `Rule` URL in the
     JSON output.
+  * A `RuleMatch` now also has information about the sentence the error occurred in
+    (it used to have only position information and the caller was expected to find
+    the error context and/or sentence position in the original text).
 
 #### LT server
   * change in configuration: `requestLimit` and `requestLimitPeriodInSeconds` now both
@@ -79,7 +82,9 @@
     time span set by `requestLimitPeriodInSeconds`
   * new property key `requestLimitInBytes`: similar to `requestLimit`, but this one limits
     the aggregated size of requests caused by an IP in the time span set 
-    by `requestLimitPeriodInSeconds` 
+    by `requestLimitPeriodInSeconds`
+  * The JSON output now contains a `sentence` property with the text of the sentence
+    the occurred in.
 
 
 ## 3.9 (2017-09-26)

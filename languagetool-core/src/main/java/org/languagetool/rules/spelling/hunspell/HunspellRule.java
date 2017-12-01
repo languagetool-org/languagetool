@@ -102,7 +102,7 @@ public class HunspellRule extends SpellingCheckRule {
         continue;
       }
       if (isMisspelled(word)) {
-        RuleMatch ruleMatch = new RuleMatch(this,
+        RuleMatch ruleMatch = new RuleMatch(this, sentence,
             len, len + word.length(),
             messages.getString("spelling"),
             messages.getString("desc_spelling_short"));

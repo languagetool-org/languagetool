@@ -453,10 +453,10 @@ public class PatternRuleMatcherTest {
   public void testEquals() throws Exception {
     PatternRule patternRule1 = new PatternRule("id1", Languages.getLanguageForShortCode("xx"),
             Collections.<PatternToken>emptyList(), "desc1", "msg1", "short1");
-    RuleMatch ruleMatch1 = new RuleMatch(patternRule1, 0, 1, "message");
-    RuleMatch ruleMatch2 = new RuleMatch(patternRule1, 0, 1, "message");
+    RuleMatch ruleMatch1 = new RuleMatch(patternRule1, null, 0, 1, "message");
+    RuleMatch ruleMatch2 = new RuleMatch(patternRule1, null, 0, 1, "message");
     assertTrue(ruleMatch1.equals(ruleMatch2));
-    RuleMatch ruleMatch3 = new RuleMatch(patternRule1, 0, 9, "message");
+    RuleMatch ruleMatch3 = new RuleMatch(patternRule1, null, 0, 9, "message");
     assertFalse(ruleMatch1.equals(ruleMatch3));
     assertFalse(ruleMatch2.equals(ruleMatch3));
   }
