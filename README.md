@@ -21,8 +21,7 @@ For more technical details, see [our wiki](http://wiki.languagetool.org).
 #### Scripted installation and building
 To install or build using a script, simply type:
 ```
-curl -L https://git.io/vFHpu -o install.sh
-bash install.sh <options>
+curl -L https://git.io/vFHpu | sudo bash <options>
 ```
 
 ```
@@ -34,15 +33,16 @@ Options:
    -p --package <package>      Specifies package to install when building (default all)
    -c --command <command>      Specifies post-installation command to run (default gui)
 
+Packages (only if -b is specified):
+    standalone                  Installs standalone package
+    wikipedia                   Installs Wikipedia package
+    office-extension            Installs the LibreOffice/OpenOffice extension package
+
 Commands:
    GUI                         Runs GUI version of LanguageTool
    commandline                 Runs command line version of LanguageTool
    server                      Runs server version of LanguageTool
 
-Packages (only if -b is specified):
-   standalone                  Installs standalone package
-   wikipedia                   Installs Wikipedia package
-   office-extension            Installs the LibreOffice/OpenOffice extension package
 ```
 
 #### How to build from source
