@@ -80,7 +80,7 @@ done
 display_help() {
     echo
     echo 'Script version 2.0.'
-    echo 'An tool for installing or building for LanguageTool.'
+    echo 'An tool for installing or building LanguageTool.'
     echo 'Usage: install.sh <option> <package>'
     echo 'Options:'
     echo '   -h --help                   Show help'
@@ -92,15 +92,15 @@ display_help() {
     echo '   -d --depth <value>          Specifies the depth to clone when building LanguageTool yourself.'
     echo '   -t --text <file>            Specifies what text to be spellchecked by LanguageTool command line (default spellcheck.txt)'
     echo
-    echo 'Commands:'
-    echo '   GUI                         Runs GUI version of LanguageTool'
-    echo '   commandline                 Runs command line version of LanguageTool'
-    echo '   server                      Runs server version of LanguageTool'
-    echo
     echo 'Packages(only if -b is specified):'
     echo '   standalone                  Installs standalone package'
     echo '   wikipedia                   Installs Wikipedia package'
     echo '   office-extension            Installs the LibreOffice/OpenOffice extension package'
+    echo
+    echo 'Commands:'
+    echo '   GUI                         Runs GUI version of LanguageTool'
+    echo '   commandline                 Runs command line version of LanguageTool'
+    echo '   server                      Runs server version of LanguageTool'
     echo
     echo 'Submit a GitHub issue if you are encountering problems or want to suggest new features'
     echo
