@@ -2278,6 +2278,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="шёл улыбаясь.">Он <marker>шёл, улыбаясь.</marker></example>
             </rule>
         </rulegroup>
+        <rulegroup id="PUNCT_VB_INF_OBOROT" name="Запятые при обстоятельственном обороте">
+            <rule>
+            <!-- Оборот с неопределенной формой глагола со всеми относящимися к ней словами,
+            присоединёнными союзами чтобы (чтоб), для того чтобы (чтоб), с тем чтобы (чтоб) и т. п. выделяется запятыми. -->    
+                <pattern>
+                    <token><exception regexp="yes">,|;</exception><exception postag="SENT_START"></exception></token>
+                    <token regexp="yes">чтобы|чтоб</token>
+                    <token postag="VB:INF:"></token>
+                </pattern>
+                <message>Оборот с неопределенной формой глагола со всеми относящимися к ней словами, присоединёнными союзами «чтобы/чтоб»: <suggestion>\1, \2 \3</suggestion>.</message>
+                <url>http://new.gramota.ru/spravka/rules/151-zap-19-32</url>
+                <short>Запятые при обстоятельственном обороте</short>
+                <example correction="крыльцо, чтобы освежиться">Я вышел на <marker>крыльцо чтобы освежиться</marker>.</example>
+                <example>Я вышел на крыльцо, чтобы освежиться.</example>
+            </rule>
+        </rulegroup>
         <rulegroup default="on" id="Verb_comma_Verb" name="Глаголы как однородные члены предложения">
             <!-- TODO Another example: "Он шёл по улице говорил по телефону" Correction: "Он шёл по улице и говорил по телефону" or "Он шёл по улице, говорил по телефону".  -->
             <rule>    
