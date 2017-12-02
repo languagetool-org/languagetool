@@ -95,7 +95,7 @@ public class CaseRule extends Rule {
     ),
     Arrays.asList(
       // see http://www.rechtschreibrat.com/DOX/rfdr_Woerterverzeichnis_2017.pdf
-      regex("Neuen?"),
+      regex("Neue[ns]?"),
       token("Jahr(s|es)?|Linken?")
     ),
     Arrays.asList(
@@ -271,12 +271,8 @@ public class CaseRule extends Rule {
      ),
      Arrays.asList(
        // https://de.wikipedia.org/wiki/Neue_Mittelschule
-       regex("Neue[nr]?"),
-       new PatternTokenBuilder().csToken("Mittelschule").matchInflectedForms().build()
-     ),
-     Arrays.asList(
-       regex("Neue[ns]?"),
-       new PatternTokenBuilder().csToken("Rathaus").matchInflectedForms().build()
+       regex("Neue[nrs]?"),
+       new PatternTokenBuilder().tokenRegex("Mittelschule|Rathaus").matchInflectedForms().build()
      ),
      Arrays.asList( // "Das schließen Forscher aus ..."
        new PatternTokenBuilder().pos(JLanguageTool.SENTENCE_START_TAGNAME).build(),
@@ -288,6 +284,10 @@ public class CaseRule extends Rule {
       new PatternTokenBuilder().tokenRegex("[tT]ausende?").build(),
       new PatternTokenBuilder().posRegex("SUB:NOM:.+").build(), 
       new PatternTokenBuilder().posRegex(JLanguageTool.SENTENCE_END_TAGNAME+"|VER:[1-3]:.+").build()
+   ),
+    Arrays.asList(
+      csToken("Fair"),
+      csToken("Trade")
    )
   );
 
