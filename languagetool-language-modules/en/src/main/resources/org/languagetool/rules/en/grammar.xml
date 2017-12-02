@@ -14154,6 +14154,36 @@ USA
       <message>The usual preposition for "island" is "on" not "in".  Revise: <suggestion>on \2 <match no='3' include_skipped='all'/> island</suggestion>.</message>
       <example correction='on a small island'>Our house is located <marker>in a small island</marker> surrounded by ices. There are no other houses around us.</example>
     </rule>
+    <rule id='CRAZY_ON_WITH' name='Collocation: Crazy on/with'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token regexp="yes" inflected="yes">drive|make</token>
+          <token regexp="yes">me|you|him|her|us|them</token>
+    <!-- object case pronouns -->
+        <marker>
+          <token>crazy</token>
+          <token>on</token>
+        </marker>
+          <token postag_regexp="yes" postag="DT|PRP\$"/>
+          <token postag_regexp="yes" postag="N.*">
+            <exception regexp="yes">drug|medicine|narcotic|hallucinogen</exception></token>
+      </pattern>
+      <message>The usual preposition for "crazy" is "with" not "on".  Revise: <suggestion>crazy with</suggestion>.</message>
+      <example correction='crazy with'>What makes me <marker>crazy on</marker> this dwelling is that some time we are higher than the clouds.</example>
+    </rule>
+    <rule id='HIDE_OF_FROM' name='Collocation: Hide of/from'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+        <marker>
+          <token inflected="yes">hide</token>
+          <token>of</token>
+        </marker>
+          <token postag_regexp="yes" postag="DT|PRP\$|JJ|VBG"/>
+          <token/>
+      </pattern>
+      <message>The usual preposition for "\1" is "from" not "\2".  Revise: <suggestion>\1 from</suggestion>.</message>
+      <example correction='hide from'>This is very useful to <marker>hide of</marker> prying tourists.</example>
+    </rule>
   </rulegroup>
 
   <rulegroup id='GOOD_IN_AT' name='Collocation: Good in/at'>
