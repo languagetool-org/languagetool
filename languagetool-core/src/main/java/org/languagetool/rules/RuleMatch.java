@@ -113,6 +113,8 @@ public class RuleMatch implements Comparable<RuleMatch> {
    * This message is scanned for &lt;suggestion&gt;...&lt;/suggestion&gt;
    * to get suggested fixes for the problem detected by this rule. 
    * 
+   * @param fromPos error start position in original text
+   * @param toPos error end position in original text
    * @param shortMessage used for example in OpenOffice/LibreOffice's context menu (may be null)
    * @param startWithUppercase whether the original text at the position
    *    of the match starts with an uppercase character
@@ -210,14 +212,14 @@ public class RuleMatch implements Comparable<RuleMatch> {
   }
 
   /**
-   * Position of the start of the error (in characters, zero-based).
+   * Position of the start of the error (in characters, zero-based, relative to the original input text).
    */
   public int getFromPos() {
     return offsetPosition.getStart();
   }
 
   /**
-   * Position of the end of the error (in characters, zero-based).
+   * Position of the end of the error (in characters, zero-based, relative to the original input text).
    */
   public int getToPos() {
     return offsetPosition.getEnd();
