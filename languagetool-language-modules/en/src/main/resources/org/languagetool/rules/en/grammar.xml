@@ -14126,6 +14126,34 @@ USA
       <message>The usual preposition for "passionate" is "about" not "by".  Revise: <suggestion>passionate about</suggestion>.</message>
       <example correction='passionate about'>I am very <marker>passionated by</marker> my job.</example>
     </rule>
+    <rule id='IN_THE_OUTSIDE' name='Collocation: in/on the outside'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+        <marker>
+          <token>in</token>
+          <token>the</token>
+          <token>outside</token>
+        </marker>
+          <token postag_regexp="yes" postag="IN|SENT_END|,"/>
+      </pattern>
+      <message>The usual preposition for "outside" is "on" not "in".  Revise: <suggestion>on the outside</suggestion>.</message>
+      <example correction='on the outside'>There are white windows <marker>in the outside</marker> of the house.</example>
+    </rule>
+    <rule id='IN_A_ISLAND' name='Collocation: in/on a island'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+        <marker>
+          <token>in</token>
+          <token postag_regexp="yes" postag="DT|PRP\$"/>
+          <token min="0" postag="JJ"/>
+          <token>island</token>
+        </marker>
+          <token>
+            <exception postag_regexp="yes" postag="N.*"/></token>
+      </pattern>
+      <message>The usual preposition for "island" is "on" not "in".  Revise: <suggestion>on \2 <match no='3' include_skipped='all'/> island</suggestion>.</message>
+      <example correction='on a small island'>Our house is located <marker>in a small island</marker> surrounded by ices. There are no other houses around us.</example>
+    </rule>
   </rulegroup>
 
   <rulegroup id='GOOD_IN_AT' name='Collocation: Good in/at'>
