@@ -6,6 +6,7 @@
   * removed the category MISC and moved the rules to more specific categories
   * added WordCoherencyRule
   * added support for locale-specific spelling suggestions (locale-specific spelling_en-XY.txt files)
+  * updated en_GB spellchecker dictionary from https://github.com/marcoagpinto/aoo-mozilla-en-dict
 
 #### Galician
   * added and improved rules, including:
