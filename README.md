@@ -21,7 +21,7 @@ For more technical details, see [our wiki](http://wiki.languagetool.org).
 #### Scripted installation and building
 To install or build using a script, simply type:
 ```
-curl -L https://git.io/vFHpu | sudo bash <options>
+curl -L https://bit.ly/2kfvAha | sudo bash <options>
 ```
 
 ```
