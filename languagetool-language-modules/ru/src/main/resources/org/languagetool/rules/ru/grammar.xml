@@ -2309,6 +2309,34 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Я вышел на крыльцо, чтобы освежиться.</example>
                 <example>Врагам понадобилось почти 10 месяцев, только чтобы захватить город.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token><exception regexp="yes">,|;</exception><exception postag="SENT_START"></exception></token>
+                    <token>только</token>
+                    <token regexp="yes">чтобы|чтоб</token>
+                    <token postag="VB:INF:"></token>
+                </pattern>
+                <message>Оборот с неопределенной формой глагола со всеми относящимися к ней словами, присоединёнными союзами «чтобы/чтоб»: <suggestion>\1, \2 \3 \4</suggestion>.</message>
+                <url>http://new.gramota.ru/spravka/rules/151-zap-19-32</url>
+                <short>Запятые при обстоятельственном обороте</short>
+                <example correction="крыльцо, только чтобы освежиться">Я вышел на <marker>крыльцо только чтобы освежиться</marker>.</example>
+                <example>Я вышел на крыльцо, только чтобы освежиться.</example>
+                <example>Врагам понадобилось почти 10 месяцев, только чтобы захватить город.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token><exception regexp="yes">,|;</exception><exception postag="SENT_START"></exception></token>
+                    <token regexp="yes">для|с|вместо</token>
+                    <token regexp="yes">того|тем</token>
+                    <token regexp="yes">чтобы|чтоб</token>
+                    <token postag="VB:INF:"></token>
+                </pattern>
+                <message>Оборот с неопределенной формой глагола со всеми относящимися к ней словами, присоединёнными союзами «для того чтобы, с тем чтоб»: <suggestion>\1, \2 \3 \4 \5</suggestion>.</message>
+                <url>http://new.gramota.ru/spravka/rules/151-zap-19-32</url>
+                <short>Запятые при обстоятельственном обороте</short>
+                <example correction="крыльцо, для того чтобы освежиться">Я вышел на <marker>крыльцо для того чтобы освежиться</marker>.</example>
+                <example>Я вышел на крыльцо, для того чтобы освежиться.</example>
+            </rule>         
         </rulegroup>
         <rulegroup default="on" id="Verb_comma_Verb" name="Глаголы как однородные члены предложения">
             <!-- TODO Another example: "Он шёл по улице говорил по телефону" Correction: "Он шёл по улице и говорил по телефону" or "Он шёл по улице, говорил по телефону".  -->
