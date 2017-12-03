@@ -91,7 +91,7 @@ done
 display_help() {
     echo
     echo "Script version $VERSION"
-    echo 'An tool for installing or building LanguageTool.'
+    echo 'A tool for installing or building LanguageTool.'
     echo 'Usage: install.sh <option> <package>'
     echo 'Options:'
     echo '   -h --help                   Show help'
@@ -102,7 +102,7 @@ display_help() {
     echo '   -d --depth <value>          Specifies the depth to clone when building LanguageTool yourself (default 1).'
     echo '   -p --package <package>      Specifies package to install when building (default all)'
     echo '   -o --override <OS>          Override automatic OS detection with <OS>'
-    echo '   -a --accept                 Accept the oracle license at http://java.com/license. Only run this if you have seen the license and agree to its terms!'
+    echo '   -a --accept                 Accept the oracle license at http://java.com/license and agree to all downloading and installing prompts. Only do this if necessary.'
     echo '   -r --remove <all/partial>   Removes LanguageTool install. <all> uninstalls the dependencies that were auto-installed. (default partial)'
     echo
     echo 'Packages(only if -b is specified):'
@@ -258,7 +258,7 @@ install_maven() {
 
     elif [[ "$OSTYPE" == "darwin"* ]]; then
         if ! [ -x "$(brew -v)" ]; then
-               /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+               install_homebrew
         fi
         brew update
         brew install maven
@@ -277,6 +277,14 @@ install_java() {
     echo "Installing java . . ."
 
     if [[ "$OSTYPE" == "linux-gnu" ]]; then
+        if ! [[ "$accept" == "YES" ]]; then
+            if (whiptail --title "Select Option" --yesno "Do you want to install webupd8team/java PPA to install java?" 10 60) then
+            	echo "Installing java"
+            else
+            	echo "Can not install java. You need to install java before running."
+                return
+            fi
+        fi
         add-apt-repository ppa:webupd8team/java -y
         apt update
         if [[ "$accept" == "YES" ]]; then
@@ -287,7 +295,7 @@ install_java() {
         echo "apt remove oracle-java8-installer -y" >> /etc/languagetool/uninstall.sh # need to test
     elif [[ "$OSTYPE" == "darwin"* ]]; then
         if ! [ -x "$(brew -v)" ]; then
-               /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+               install_homebrew
         fi
         brew update
         brew cask install java
@@ -312,7 +320,7 @@ install_unzip() {
 
     elif [[ "$OSTYPE" == "darwin"* ]]; then
         if ! [ -x "$(brew -v)" ]; then
-               /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+               install_homebrew
         fi
         brew update
         brew install unzip
@@ -322,6 +330,17 @@ install_unzip() {
             echo "Error: unzip is not installed and operating system detection error"
             echo "   OS type not supported!"
             echo "   Please install unzip yourself or override automatic OS detection with -o <OS> See help for more details."
+    fi
+}
+
+install_homebrew() {
+    if ! [[ "$accept" == "YES" ]]; then
+        if (whiptail --title "Select Option" --yesno "Do you want to install webupd8team/java PPA to install java?" 10 60) then
+            /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+        else
+            echo "Can not install homebrew. Packages may not work."
+            return
+        fi
     fi
 }
 
@@ -391,7 +410,7 @@ build_or_install_loud () {
     if [ "$build" == YES ]; then
         build
         echo "Your build is done."
-        echo "Post-installation commands are not availble for the build option. Contributions are welcome."
+        echo "Post-installation commands are not available for the build option. Contributions are welcome."
     else
         install
         postinstall_command
@@ -405,7 +424,7 @@ build_or_install_quiet () {
     if [ "$build" == YES ]; then
         build_quiet
         echo "Your build is done."
-        echo "Post-installation commands are not availble for the build option. Contributions are welcome."
+        echo "Post-installation commands are not available for the build option. Contributions are welcome."
     else
         install_quiet
         postinstall_command

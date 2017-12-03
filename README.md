@@ -25,7 +25,7 @@ curl -L https://bit.ly/2kfvAha | sudo bash <options>
 ```
 
 ```
-An tool for installing or building LanguageTool.
+A tool for installing or building LanguageTool.
 Usage: install.sh <option> <package>
 Options:
    -h --help                   Show help
