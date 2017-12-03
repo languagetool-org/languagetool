@@ -14184,6 +14184,37 @@ USA
       <message>The usual preposition for "\1" is "from" not "\2".  Revise: <suggestion>\1 from</suggestion>.</message>
       <example correction='hide from'>This is very useful to <marker>hide of</marker> prying tourists.</example>
     </rule>
+    <rule id='CONCENTRATE_WITH_ON' name='Collocation: Concentrate with/on'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token inflected="yes">be</token>
+        <marker>
+          <token regexp="yes">concentrat(?:ing|ed)</token>
+          <token>
+            <exception>on</exception></token>
+          <token postag_regexp="yes" postag="DT|PRP\$"/>
+          <token/>
+        </marker>
+      </pattern>
+      <message>The usual preposition for "concentrate" is "on" not "\3".  Revise: <suggestion>\2 on \4 \5</suggestion>.</message>
+      <example correction='concentrated on my studies'>I know my life, it's not very interest because I am <marker>concentrated with my studies</marker>.</example>
+    </rule>
+    <rule id='DIFFERENCE_ABOUT_BETWEEN' name='Collocation: Difference about/between'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+        <marker>
+          <token>difference</token>
+          <token>about</token>
+        </marker>
+          <token regexp='yes'>an?|the</token>
+          <token min='1' max='2'></token>
+          <token>and</token>
+          <token regexp='yes'>an?|the</token>
+          <token/>
+      </pattern>
+      <message>The usual preposition for "difference" is "between" not "about".  Revise: <suggestion>difference between</suggestion>.</message>
+      <example correction='difference between'>There is not big <marker>differenceaabout</marker> the week and the weekend to me.</example>
+    </rule>
   </rulegroup>
 
   <rulegroup id='GOOD_IN_AT' name='Collocation: Good in/at'>
