@@ -38345,20 +38345,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="una casualitat"><marker>un casual</marker> ho va impedir</example>
             <example>per un casual accident</example>
         </rule>
-        <rule id="CARA_DURA" name="cara dura">
-            <pattern>
-                <token skip="1">cara</token>
-                <token>dura</token>
-            </pattern>
-            <message>Cal usar una altra expressió.</message>
-            <suggestion>(tenir) barra</suggestion>
-            <suggestion>(tenir) la cara gruixuda</suggestion>
-            <suggestion>(ser) un barrut</suggestion>
-            <suggestion>(ser) un penques</suggestion>
-            <suggestion>(ser) un galtes</suggestion>
-            <example correction="(tenir) barra|(tenir) la cara gruixuda|(ser) un barrut|(ser) un penques|(ser) un galtes"><marker>cara dura</marker></example>
-            <example correction="(tenir) barra|(tenir) la cara gruixuda|(ser) un barrut|(ser) un penques|(ser) un galtes">Tenia una <marker>cara molt dura</marker></example>
-        </rule>
         <rulegroup id="DEMES" name="*els demés/*pel demés/*i demés">
             <rule>
                 <pattern>
@@ -41569,6 +41555,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="DNV_PRIMARY_FORM" name="Paraules admeses pel DNV (AVL), però no per altres diccionaris" type="style">
+        <rule id="CARA_DURA" name="cara dura">
+            <pattern>
+                <token skip="1">cara</token>
+                <token>dura</token>
+            </pattern>
+            <message>Cal usar una altra expressió.</message>
+            <suggestion>(tenir) barra</suggestion>
+            <suggestion>(tenir) la cara gruixuda</suggestion>
+            <suggestion>(ser) un barrut</suggestion>
+            <suggestion>(ser) un penques</suggestion>
+            <suggestion>(ser) un galtes</suggestion>
+            <example correction="(tenir) barra|(tenir) la cara gruixuda|(ser) un barrut|(ser) un penques|(ser) un galtes"><marker>cara dura</marker></example>
+            <example correction="(tenir) barra|(tenir) la cara gruixuda|(ser) un barrut|(ser) un penques|(ser) un galtes">Tenia una <marker>cara molt dura</marker></example>
+        </rule>
         <rule id="EN_BREU" name="en breu">
             <pattern>
                 <marker>
@@ -41664,9 +41664,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion>ben mirat</suggestion>
             <example correction="al cap i a la fi|al capdavall|fet i fet|comptat i debatut|ben mirat"><marker>a fi de comptes</marker>, no en traurem res</example>
         </rule>
-        <rule id="PUDENTA" name="Evita el femení: pudenta -es, coenta -es">
+        <rule id="PUDENTA" name="Evita el femení: pudenta, coenta, lluenta">
             <pattern>
-                <token regexp="yes">(pudent|coent)(a|es)</token>
+                <token regexp="yes">(pudent|coent|lluent)(a|es)</token>
             </pattern>
             <message>Forma col·loquial de femení.</message>
             <suggestion><match no="1" regexp_match="(?iu)(.+)(a|e)(s?)" regexp_replace="$1$3" /></suggestion>
