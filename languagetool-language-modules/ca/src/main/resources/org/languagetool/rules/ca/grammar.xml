@@ -16150,6 +16150,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Fou la darrera seu del govern revolucionari.</example>
                 <example>Aquella va ser la seva darrera seua.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token>la</token>
+                    <marker>
+                        <token>darrere</token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>darrera</suggestion> (femení de 'darrer')?</message>
+                <example correction="darrera">La <marker>darrere</marker> vegada.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="D..FS." postag_regexp="yes"/>
+                    <marker>
+                        <token>darrere</token>
+                    </marker>
+                    <token postag="NC[FC]S.*|A..[FC]S." postag_regexp="yes"/>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>darrera</suggestion> (femení de 'darrer')?</message>
+                <example correction="darrera">Eixa <marker>darrere</marker> intuïció.</example>
+                <example correction="darrera">Una <marker>darrere</marker> explicació.</example>
+            </rule>
         </rulegroup>
         <rule id="ES_VA_FA_CARREC" name="es *va/fa càrrec"> <!--  es va/fa servir/sentir? -->
             <pattern>
