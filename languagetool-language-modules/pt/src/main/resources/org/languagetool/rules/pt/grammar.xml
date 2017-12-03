@@ -3988,7 +3988,7 @@ title="Easy editing stylesheet" ?>
           <token regexp="yes">as?|umas?</token>
           <token regexp="yes">pontas?|facas?|lâminas?|tesouras?|espadas?</token>
       </pattern>
-      <message>Substitua por <suggestion><match no='1' postag='V.+'>afiar</match></suggestion>.</message>
+      <message>Substitua por <suggestion><match no='1' postag='V.+' postag_regexp='yes'>afiar</match></suggestion>.</message>
       <example correction="afiar">É preciso <marker>afear</marker> as facas.</example>
     </rule>
 
@@ -4009,8 +4009,8 @@ title="Easy editing stylesheet" ?>
           <token  min="0" regexp="yes">as?|umas?|os?|um|uns</token>
           <token regexp="yes">casas?|apartamentos?|habitaç(?:ão|ões)|imóv(?:el|eis)</token>
       </pattern>
-      <message>Se não pretende realçar o tipo de imóvel, considere <suggestion><match no='1' postag='V.+'>arrendar</match></suggestion>.</message>
-        <suggestion><match no='1' postag='V.+'>arrendar</match> \2 \3</suggestion>
+      <message>Se não pretende realçar o tipo de imóvel, considere <suggestion><match no='1' postag='V.+' postag_regexp='yes'>arrendar</match></suggestion>.</message>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>arrendar</match> \2 \3</suggestion>
       <example correction="arrendar|arrendar uma casa">Vou <marker>alugar uma casa</marker> em Lisboa.</example>
       <example correction="Arrendei|Arrendei um apartamento"><marker>Aluguei um apartamento</marker> em Lisboa.</example>
     </rule>
@@ -4872,8 +4872,8 @@ title="Easy editing stylesheet" ?>
           <token min="0" regexp="yes">muito|pouco|algum|bastante|nenhum|mais|menos</token>
           <token>desporto</token>
       </pattern>
-      <message>Substitua por <suggestion><match no='1' postag='V.+'>praticar</match></suggestion>.</message>
-        <suggestion><match no='1' postag='V.+'>praticar</match></suggestion>
+      <message>Substitua por <suggestion><match no='1' postag='V.+' postag_regexp='yes'>praticar</match></suggestion>.</message>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>praticar</match></suggestion>
       <example correction="praticar">Vou <marker>fazer</marker> muito desporto.</example>
     </rule>
 
@@ -5238,8 +5238,8 @@ title="Easy editing stylesheet" ?>
           <token postag_regexp='yes' postag='D.+' min='0'/>
           <token regexp="yes">perguntas?</token>
       </pattern>
-      <message>Substitua por <match no='1' postag='V.+'>fazer</match>.</message>
-        <suggestion><match no='1' postag='V.+'>fazer</match> \2 \3</suggestion>
+      <message>Substitua por <match no='1' postag='V.+' postag_regexp='yes'>fazer</match>.</message>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>fazer</match> \2 \3</suggestion>
       <example correction="fazer uma pergunta">Vou <marker>pôr uma pergunta</marker> pertinente.</example>
     </rule>
 
@@ -8087,7 +8087,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>de</token>
       </pattern>
       <message>Expressão desnecessariamente complexa. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>indicar</match></suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>indicar</match></suggestion>
       <example correction='indicar'><marker>dar uma indicação de</marker>.</example>
     </rule>
     <rule>
@@ -8098,7 +8098,7 @@ tokenizer spreadsheet in the forum	     -->
           <token regexp='yes'>de|des[st][ae]s?|dis[st]o</token>
       </pattern>
       <message>Expressão desnecessariamente complexa. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>apreciar</match></suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>apreciar</match></suggestion>
       <example correction='apreciar'><marker>derivar grande prazer de</marker>.</example>
     </rule>
     <rule>
@@ -8120,7 +8120,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>coisa</token>
       </pattern>
       <message>Expressão desnecessariamente complexa. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>repetir</match></suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>repetir</match></suggestion>
       <example correction='repetir'><marker>dizer exatamente a mesma coisa</marker>.</example>
     </rule>
     <rule>
@@ -8140,7 +8140,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>de</token>
       </pattern>
       <message>Expressão desnecessariamente complexa. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>poder</match></suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>poder</match></suggestion>
       <example correction='poder'><marker>estar em posição de</marker>.</example>
     </rule>
     <rule>
@@ -8150,7 +8150,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>com</token>
       </pattern>
       <message>Expressão desnecessariamente complexa. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>contactar</match></suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>contactar</match></suggestion>
       <example correction='contactar'>Vai <marker>fazer contacto com</marker> outra operadora.</example>
     </rule>
     <rule>
@@ -8170,7 +8170,7 @@ tokenizer spreadsheet in the forum	     -->
           <token regexp='yes'>arranjos?</token>
       </pattern>
       <message>Expressão desnecessariamente complexa. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>arranjar</match></suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>arranjar</match></suggestion>
       <example correction='arranjar'>Vai <marker>fazer um arranjo</marker>.</example>
     </rule>
     <rule>
@@ -8180,8 +8180,8 @@ tokenizer spreadsheet in the forum	     -->
           <token regexp='yes'>esforços?</token>
       </pattern>
       <message>Expressão desnecessariamente complexa. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>tentar</match></suggestion>
-        <suggestion><match no='1' postag='V.+'>esforçar</match></suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>tentar</match></suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>esforçar</match></suggestion>
       <example correction='tentar|esforçar'>Vamos <marker>fazer um esforço</marker> mais tarde?</example>
     </rule>
     <rule>
@@ -8196,7 +8196,7 @@ tokenizer spreadsheet in the forum	     -->
           <token regexp='yes'>planos?</token>
       </pattern>
       <message>Expressão desnecessariamente complexa. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>planear</match></suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>planear</match></suggestion>
       <example correction='planear'>Vamos <marker>fazer um plano</marker>.</example>
     </rule>
     <rule>
@@ -8206,7 +8206,7 @@ tokenizer spreadsheet in the forum	     -->
           <token regexp='yes'>aquisiç(?:ão|ões)</token>
       </pattern>
       <message>Expressão desnecessariamente complexa. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>adquirir</match></suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>adquirir</match></suggestion>
       <example correction='adquirir'>Vamos <marker>fazer uma aquisição</marker>.</example>
     </rule>
     <rule>
@@ -8216,7 +8216,7 @@ tokenizer spreadsheet in the forum	     -->
           <token regexp='yes'>determinaç(?:ão|ões)</token>
       </pattern>
       <message>Expressão desnecessariamente complexa. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>decidir</match></suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>decidir</match></suggestion>
       <example correction='decidir'>Vamos <marker>fazer uma determinação</marker>.</example>
     </rule>
     <rule>
@@ -8226,7 +8226,7 @@ tokenizer spreadsheet in the forum	     -->
           <token regexp='yes'>suposiç(?:ão|ões)</token>
       </pattern>
       <message>Expressão desnecessariamente complexa. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>supor</match></suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>supor</match></suggestion>
       <example correction='supor'>Vamos <marker>fazer uma suposição</marker>.</example>
     </rule>
     <rule>
@@ -8236,7 +8236,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>em</token>
       </pattern>
       <message>Expressão desnecessariamente complexa. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>entrar</match></suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>entrar</match></suggestion>
       <example correction='entrar'>Vamos <marker>ganhar entrada em</marker>.</example>
     </rule>
     <rule>
@@ -8246,7 +8246,7 @@ tokenizer spreadsheet in the forum	     -->
           <token regexp='yes'>conta|consideração</token>
       </pattern>
       <message>Expressão desnecessariamente complexa. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>considerar</match></suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>considerar</match></suggestion>
       <example correction='considerar'>Vamos <marker>levar em conta</marker>.</example>
     </rule>
     <rule>
@@ -8267,7 +8267,7 @@ tokenizer spreadsheet in the forum	     -->
       </pattern>
       <message>Expressão desnecessariamente complexa. Procure alternativas.</message>
         <suggestion>APAGAR</suggestion>
-        <suggestion><match no='1' postag='V.+'>ser</match></suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>ser</match></suggestion>
       <example correction='APAGAR|ser'>Vamos <marker>poder ser visto como</marker>.</example>
     </rule>
     <rule>
@@ -8317,7 +8317,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>compreensão</token>
       </pattern>
       <message>Expressão desnecessariamente complexa. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>esclarecer</match></suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>esclarecer</match></suggestion>
       <example correction='(Esclarecer)'><marker>Ser útil na compreensão</marker>.</example>
     </rule>
     <rule>
@@ -8339,8 +8339,8 @@ tokenizer spreadsheet in the forum	     -->
           <token>de</token>
       </pattern>
       <message>Expressão desnecessariamente complexa. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>conseguir</match></suggestion>
-        <suggestion><match no='1' postag='V.+'>poder</match></suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>conseguir</match></suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>poder</match></suggestion>
       <example correction='conseguir|poder'>Vamos <marker>ter a capacidade de</marker>.</example>
     </rule>
     <rule>
@@ -8352,7 +8352,7 @@ tokenizer spreadsheet in the forum	     -->
       </pattern>
       <message>Expressão desnecessariamente complexa. Procure alternativas.</message>
         <suggestion>afetar</suggestion>
-        <suggestion><match no='1' postag='V.+'>influenciar</match></suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>influenciar</match></suggestion>
       <example correction='afetar|influenciar'>Vamos <marker>ter um efeito sobre</marker>.</example>
     </rule>
     <rule>
@@ -8373,7 +8373,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>decisão</token>
       </pattern>
       <message>Expressão desnecessariamente complexa. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>decidir</match></suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>decidir</match></suggestion>
       <example correction='decidir'>Vamos <marker>tomar uma decisão</marker>.</example>
     </rule>
     <rule>
@@ -8383,8 +8383,8 @@ tokenizer spreadsheet in the forum	     -->
           <token>mente</token>
       </pattern>
       <message>Expressão desnecessariamente complexa. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>lembrar</match></suggestion>
-        <suggestion><match no='1' postag='V.+'>sugerir</match></suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>lembrar</match></suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>sugerir</match></suggestion>
       <example correction='lembrar|sugerir'>Vamos <marker>trazer à mente</marker>.</example>
     </rule>
     <rule>
@@ -10304,7 +10304,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>siri</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>manter</match> segredo</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>manter</match> segredo</suggestion>
       <example correction='manter segredo'><marker>fazer boca de siri</marker>.</example>
       <example correction='manténs segredo'><marker>fazes boca de siri</marker>.</example>
     </rule>
@@ -10360,7 +10360,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>merecer</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>merecer</match></suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>merecer</match></suggestion>
       <example correction='merecer'><marker>fazer por merecer</marker>.</example>
     </rule>
     <rule id='CLICHE_7_FAZER' name='Clichê: Fazer tempestade em copo de água'>
@@ -10373,7 +10373,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>água</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>transformar</match> banalidades em tragédia</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>transformar</match> banalidades em tragédia</suggestion>
       <example correction='Transformou banalidades em tragédia'><marker>Fez tempestade em copo de água</marker>.</example>
     </rule>
     <rule id='CLICHE_8_FAZER' name='Clichê: Fazer um negócio da china'>
@@ -10385,7 +10385,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>china</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>aproveitar</match> uma grande oportunidade</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>aproveitar</match> uma grande oportunidade</suggestion>
       <example correction='aproveitar uma grande oportunidade'><marker>fazer um negócio da china</marker>.</example>
     </rule>
     <rule id='CLICHE_9_INSERIR' name='Clichê: Inserir no contexto'>
@@ -10395,7 +10395,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>contexto</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>enquadrar</match></suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>enquadrar</match></suggestion>
       <example correction='enquadrar'><marker>inserir no contexto</marker>.</example>
     </rule>
     <rule id='CLICHE_10_INSPIRAR' name='Clichê: Inspirar cuidado'>
@@ -10413,8 +10413,8 @@ tokenizer spreadsheet in the forum	     -->
           <token>arames</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>enervar</match>-se</suggestion>
-        <suggestion><match no='1' postag='V.+'>irritar</match>-se</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>enervar</match>-se</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>irritar</match>-se</suggestion>
       <example correction='Enervou-se|Irritou-se'><marker>Foi aos arames</marker>.</example>
     </rule>
     <rule id='CLICHE_12_IR' name='Clichê: Ir buscar o carro'>
@@ -10425,7 +10425,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>carro</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>sair</match> de casa</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>sair</match> de casa</suggestion>
       <example correction='sair de casa'><marker>ir buscar o carro</marker>.</example>
     </rule>
     <rule id='CLICHE_13_IR' name='Clichê: Ir catar coquinho'>
@@ -10468,8 +10468,8 @@ tokenizer spreadsheet in the forum	     -->
           <token>melhor</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>morrer</match></suggestion>
-        <suggestion><match no='1' postag='V.+'>falecer</match></suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>morrer</match></suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>falecer</match></suggestion>
       <example correction='Morreu|Faleceu'><marker>Foi desta para melhor</marker>.</example>
     </rule>
     <rule id='CLICHE_17_IR' name='Clichê: Ir para o espaço'>
@@ -10480,10 +10480,10 @@ tokenizer spreadsheet in the forum	     -->
           <token regexp='yes'>espaço|saco</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion>não <match no='1' postag='V.+'>funcionar</match></suggestion>
-        <suggestion><match no='1' postag='V.+'>falhar</match></suggestion>
-        <suggestion><match no='1' postag='V.+'>dar</match> errado</suggestion>
-        <suggestion><match no='1' postag='V.+'>morrer</match></suggestion>
+        <suggestion>não <match no='1' postag='V.+' postag_regexp='yes'>funcionar</match></suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>falhar</match></suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>dar</match> errado</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>morrer</match></suggestion>
       <example correction='não (funcionar)|(falhar)|dar errado|morrer'><marker>ir para o espaço</marker>.</example>
     </rule>
     <rule id='CLICHE_18_IR' name='Clichê: Ir para cucuia'>
@@ -10493,10 +10493,10 @@ tokenizer spreadsheet in the forum	     -->
           <token>cucuia</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion>não <match no='1' postag='V.+'>funcionar</match></suggestion>
-        <suggestion><match no='1' postag='V.+'>falhar</match></suggestion>
-        <suggestion><match no='1' postag='V.+'>dar</match> errado</suggestion>
-        <suggestion><match no='1' postag='V.+'>morrer</match></suggestion>
+        <suggestion>não <match no='1' postag='V.+' postag_regexp='yes'>funcionar</match></suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>falhar</match></suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>dar</match> errado</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>morrer</match></suggestion>
       <example correction='não (funcionar)|(falhar)|dar errado|morrer'><marker>ir para cucuia</marker>.</example>
     </rule>
     <rule id='CLICHE_20_IR' name='Clichê: Ir pentear macaco'>
@@ -10506,8 +10506,8 @@ tokenizer spreadsheet in the forum	     -->
           <token regexp='yes'>macacos?</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>procurar</match> o que fazer</suggestion>
-        <suggestion>não se <match no='1' postag='V.+'>intrometer</match></suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>procurar</match> o que fazer</suggestion>
+        <suggestion>não se <match no='1' postag='V.+' postag_regexp='yes'>intrometer</match></suggestion>
       <example correction='procurar o que fazer|não se (intrometer)'><marker>ir pentear macaco</marker>.</example>
     </rule>
     <rule id='CLICHE_22_IR' name='Clichê: Ir por água abaixo'>
@@ -10518,7 +10518,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>abaixo</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>falhar</match></suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>falhar</match></suggestion>
       <example correction='Falhou'><marker>Foi por água abaixo</marker>.</example>
     </rule>
     <rule id='CLICHE_11_FAZER' name='Clichê: Fazer de olhos fechados'>
@@ -10542,7 +10542,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>bananeira</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>ficar</match> despreocupado</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>ficar</match> despreocupado</suggestion>
       <example correction='ficar despreocupado'><marker>ficar à sombra da bananeira</marker>.</example>
     </rule>
     <rule id='CLICHE_13_FICAR' name='Clichê: Ficar a ver navios'>
@@ -10573,7 +10573,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>coração</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>emocionar</match></suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>emocionar</match></suggestion>
       <example correction='emocionar'><marker>inundar o coração</marker>.</example>
     </rule>
     <rule id='CLICHE_16_LAVAR' name='Clichê: Lavar roupa suja'>
@@ -10583,7 +10583,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>suja</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>discutir</match> assuntos particulares em público</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>discutir</match> assuntos particulares em público</suggestion>
       <example correction='discutir assuntos particulares em público'><marker>lavar roupa suja</marker>.</example>
     </rule>
     <rule id='CLICHE_17_LEVANTAR' name='Clichê: Levantar acampamento'>
@@ -10592,7 +10592,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>acampamento</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>sair</match></suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>sair</match></suggestion>
       <example correction='sair'><marker>levantar acampamento</marker>.</example>
     </rule>
     <rule id='CLICHE_18_LEVANTAR' name='Clichê: Levantar com o pé esquerdo'>
@@ -10606,7 +10606,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>esquerdo</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>ter</match> um dia mau</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>ter</match> um dia mau</suggestion>
       <example correction='teve um dia mau'><marker>levantou-se com o pé esquerdo</marker>.</example>
     </rule>
     <rule id='CLICHE_19_METER' name='Clichê: Meter o dedo na ferida'>
@@ -10618,7 +10618,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>ferida</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>insistir</match> em situação problemática</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>insistir</match> em situação problemática</suggestion>
       <example correction='insistir em situação problemática'><marker>meter o dedo na ferida</marker>.</example>
     </rule>
     <rule id='CLICHE_110_METER' name='Clichê: Meter o rabo entre as pernas'>
@@ -10631,8 +10631,8 @@ tokenizer spreadsheet in the forum	     -->
           <token>pernas</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>submeter</match>-se</suggestion>
-        <suggestion><match no='1' postag='V.+'>acobardar</match>-se</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>submeter</match>-se</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>acobardar</match>-se</suggestion>
       <example correction='submeter-se|acobardar-se'><marker>meter o rabo entre as pernas</marker>.</example>
     </rule>
     <rule id='CLICHE_111_PENDURAR' name='Clichê: Pendurar as botas'>
@@ -10642,8 +10642,8 @@ tokenizer spreadsheet in the forum	     -->
           <token regexp='yes'>botas|chuteiras</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>aposentar</match>-se</suggestion>
-        <suggestion><match no='1' postag='V.+'>desistir</match></suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>aposentar</match>-se</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>desistir</match></suggestion>
       <example correction='aposentar-se|desistir'><marker>pendurar as botas</marker>.</example>
     </rule>
     <rule id='CLICHE_113_PENSAR' name='Clichê: Pensar com os seus botões'>
@@ -10666,7 +10666,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>bezerra</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>distrair</match>-se</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>distrair</match>-se</suggestion>
       <example correction='distrair-se'><marker>pensar na morte da bezerra</marker>.</example>
     </rule>
     <rule id='CLICHE_115_PENSAR' name='Clichê: Pensar na morte da bezerra'>
@@ -10678,7 +10678,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>bezerra</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>estar</match> distraído</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>estar</match> distraído</suggestion>
       <example correction='estás distraído'><marker>pensas na morte da bezerra</marker>.</example>
     </rule>
     <rule id='CLICHE_116_PENTEAR' name='Clichê: Pentear macacos'>
@@ -10712,8 +10712,8 @@ tokenizer spreadsheet in the forum	     -->
           <token>água</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>cansar</match></suggestion>
-        <suggestion><match no='1' postag='V.+'>acabar</match> com a paciência</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>cansar</match></suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>acabar</match> com a paciência</suggestion>
       <example correction='(cansar)|acabar com a paciência'><marker>pôr a cabeça em água</marker>.</example>
     </rule>
     <rule id='CLICHE_119_POR' name='Clichê: Pôr a casa em ordem'>
@@ -10736,7 +10736,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>massa</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>fazer</match></suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>fazer</match></suggestion>
       <example correction='fazer'><marker>pôr a mão na massa</marker>.</example>
     </rule>
     <rule id='CLICHE_121_POR' name='Clichê: Pôr a pata na poça'>
@@ -10748,7 +10748,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>poça</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>fazer</match> asneira</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>fazer</match> asneira</suggestion>
       <example correction='fazer asneira'><marker>pôr a pata na poça</marker>.</example>
     </rule>
     <rule id='CLICHE_122_POR' name='Clichê: Pôr as barbas de molho'>
@@ -10760,7 +10760,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>molho</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>precaver</match>-se</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>precaver</match>-se</suggestion>
       <example correction='precaver-se'><marker>pôr as barbas de molho</marker>.</example>
     </rule>
     <rule id='CLICHE_123_POR' name='Clichê: Pôr as cartas na mesa'>
@@ -10772,7 +10772,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>mesa</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-    <!--<suggestion><match no='1' postag='V.+'>revelar</match></suggestion> TODO Add revelar to POS tagger -->
+    <!--<suggestion><match no='1' postag='V.+' postag_regexp='yes'>revelar</match></suggestion> TODO Add revelar to POS tagger -->
       <example correction=''><marker>pôr as cartas na mesa</marker>.</example>
     </rule>
     <rule id='CLICHE_124_POR' name='Clichê: Pôr as cartas na mesa'>
@@ -10784,7 +10784,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>mesa</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>expor</match> os factos</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>expor</match> os factos</suggestion>
       <example correction='exponhas os factos|expõe os factos'><marker>põe as cartas na mesa</marker>.</example>
     </rule>
     <rule id='CLICHE_124_LANCAR' name='Clichê: Lançar os dados'>
@@ -10794,7 +10794,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>dados</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>expor</match> os factos</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>expor</match> os factos</suggestion>
       <example correction='exponhas os factos|expõe os factos'><marker>lança os dados</marker>.</example>
     </rule>
     <rule id='CLICHE_125_POR' name='Clichê: Por força das circunstâncias'>
@@ -10825,7 +10825,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>obra</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>trabalhar</match> com afinco</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>trabalhar</match> com afinco</suggestion>
       <example correction='trabalhar com afinco'><marker>pôr mãos à obra</marker>.</example>
     </rule>
     <rule id='CLICHE_128_POR' name='Clichê: Pôr minhoca na cabeça'>
@@ -10836,7 +10836,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>cabeça</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>criar</match> problemas onde não existem</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>criar</match> problemas onde não existem</suggestion>
       <example correction='(criar) problemas onde não existem'><marker>pôr minhoca na cabeça</marker>.</example>
     </rule>
     <rule id='CLICHE_129_POR' name='Clichê: Pôr os pontos nos is'>
@@ -10848,7 +10848,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>is</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>esclarecer</match> a situação</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>esclarecer</match> a situação</suggestion>
       <example correction='(esclarecer) a situação'><marker>pôr os pontos nos is</marker>.</example>
     </rule>
     <rule id='CLICHE_21_ABALAR' name='Clichê: Abalar os alicerces'>
@@ -10858,7 +10858,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>alicerces</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>afectar</match></suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>afectar</match></suggestion>
       <example correction='afectar'><marker>abalar os alicerces</marker>.</example><!-- TODO add AO90 afetar to pos tagger and synthetiser -->
     </rule>
     <rule id='CLICHE_22_ABANDONAR' name='Clichê: Abandonar o barco'>
@@ -10868,7 +10868,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>barco</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>desistir</match></suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>desistir</match></suggestion>
       <example correction='desistir'><marker>abandonar o barco</marker>.</example>
     </rule>
     <rule id='CLICHE_23_ABOTOAR' name='Clichê: Abotoar o paletó'>
@@ -10878,7 +10878,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>paletó</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>morrer</match></suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>morrer</match></suggestion>
       <example correction='morrer'><marker>abotoar o paletó</marker>.</example>
     </rule>
     <rule id='CLICHE_24_ABRAÇAR' name='Clichê: Abraçar uma causa'>
@@ -10899,7 +10899,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>ouro</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>começar</match> bem</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>começar</match> bem</suggestion>
       <example correction='começar bem'><marker>abrir com chave de ouro</marker>.</example>
     </rule>
     <rule id='CLICHE_26_ABRIR' name='Clichê: Abrir espaço na agenda'>
@@ -10919,10 +10919,10 @@ tokenizer spreadsheet in the forum	     -->
           <token min='0'>de</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>renunciar</match> a</suggestion>
-        <suggestion><match no='1' postag='V.+'>deixar</match> de</suggestion>
-        <suggestion><match no='1' postag='V.+'>largar</match> a</suggestion>
-        <suggestion><match no='1' postag='V.+'>permitir</match></suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>renunciar</match> a</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>deixar</match> de</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>largar</match> a</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>permitir</match></suggestion>
       <example correction='renunciar a|deixar de|largar a|permitir'><marker>abrir mão de</marker>.</example>
     </rule>
     <rule id='CLICHE_29_ABRIR' name='Clichê: Abrir o coração'>
@@ -10932,8 +10932,8 @@ tokenizer spreadsheet in the forum	     -->
           <token>coração</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>desabafar</match></suggestion>
-        <suggestion><match no='1' postag='V.+'>declarar</match>-se sinceramente</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>desabafar</match></suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>declarar</match>-se sinceramente</suggestion>
       <example correction='desabafar|declarar-se sinceramente'><marker>abrir o coração</marker>.</example>
     </rule>
     <rule id='CLICHE_210_ABRIR' name='Clichê: Abrir o jogo'>
@@ -10943,8 +10943,8 @@ tokenizer spreadsheet in the forum	     -->
           <token>jogo</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>denunciar</match></suggestion>
-        <suggestion><match no='1' postag='V.+'>revelar</match> detalhes</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>denunciar</match></suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>revelar</match> detalhes</suggestion>
       <example correction='denunciar|revelar detalhes'><marker>abrir o jogo</marker>.</example><!-- TODO Add revelar to POS tagger -->
     </rule>
     <rule id='CLICHE_211_ABRIR' name='Clichê: Abrir os olhos a alguém'>
@@ -10956,8 +10956,8 @@ tokenizer spreadsheet in the forum	     -->
           <token>alguém</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>convencer</match></suggestion>
-        <suggestion><match no='1' postag='V.+'>alertar</match></suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>convencer</match></suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>alertar</match></suggestion>
       <example correction='convencer|alertar'><marker>abrir os olhos a alguém</marker>.</example>
     </rule>
     <rule id='CLICHE_212_ACABAR' name='Clichê: Acabar em pizza'>
@@ -10967,7 +10967,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>pizza</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>ficar</match> por resolver</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>ficar</match> por resolver</suggestion>
       <example correction='ficar por resolver'><marker>acabar em pizza</marker>.</example>
     </rule>
     <rule id='CLICHE_213_ACERTAR' name='Clichê: Acertar agulhas'>
@@ -10976,9 +10976,9 @@ tokenizer spreadsheet in the forum	     -->
           <token>agulhas</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-    <!--<suggestion><match no='1' postag='V.+'>pôr</match>-se de acordo</suggestion> TODO fix pôr POS tag -->
-        <suggestion><match no='1' postag='V.+'>combinar</match> algo</suggestion>
-        <suggestion><match no='1' postag='V.+'>entender</match>-se</suggestion>
+    <!--<suggestion><match no='1' postag='V.+' postag_regexp='yes'>pôr</match>-se de acordo</suggestion> TODO fix pôr POS tag -->
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>combinar</match> algo</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>entender</match>-se</suggestion>
       <example correction='combinar algo|entender-se'><marker>acertar agulhas</marker>.</example>
     </rule>
     <rule id='CLICHE_214_ACERTAR' name='Clichê: Acertar em cheio'>
@@ -10988,8 +10988,8 @@ tokenizer spreadsheet in the forum	     -->
           <token regexp='yes'>cheio|lata|mosca|mouche</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>acertar</match> precisamente</suggestion>
-        <suggestion><match no='1' postag='V.+'>acertar</match> à primeira</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>acertar</match> precisamente</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>acertar</match> à primeira</suggestion>
       <example correction='acertar precisamente|acertar à primeira'><marker>acertar na lata</marker>.</example>
       <example correction='acertar precisamente|acertar à primeira'><marker>acertar em cheio</marker>.</example>
       <example correction='acertar precisamente|acertar à primeira'><marker>acertar na mosca</marker>.</example>
@@ -11004,7 +11004,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>cavalo</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>procurar</match> problemas onde não existem</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>procurar</match> problemas onde não existem</suggestion>
       <example correction='procurar problemas onde não existem'><marker>achar chifre em cabeça de cavalo</marker>.</example>
     </rule>
     <rule id='CLICHE_219_ACHAR' name='Clichê: Achar pêlo em ovo'>
@@ -11015,7 +11015,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>ovo</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>procurar</match> o impossível</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>procurar</match> o impossível</suggestion>
       <example correction='procurar o impossível'><marker>achar pêlo em ovo</marker>.</example>
     </rule>
     <rule id='CLICHE_220_ACOLHER' name='Clichê: Acolher de braços abertos'>
@@ -11026,7 +11026,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>abertos</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>acolher</match> bem</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>acolher</match> bem</suggestion>
       <example correction='acolher bem'><marker>acolher de braços abertos</marker>.</example>
     </rule>
     <rule id='CLICHE_221_ACORDAR' name='Clichê: Acordar com os pés de fora'>
@@ -11049,7 +11049,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>boca</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>procurar</match> atrair favores</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>procurar</match> atrair favores</suggestion>
       <example correction='procurar atrair favores'><marker>adoçar a boca</marker>.</example>
     </rule>
     <rule id='CLICHE_223_AFIRMAR' name='Clichê: Afirmar com bastante precisão'>
@@ -11060,7 +11060,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>precisão</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>afirmar</match></suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>afirmar</match></suggestion>
       <example correction='afirmar'><marker>afirmar com bastante precisão</marker>.</example>
     </rule>
     <rule id='CLICHE_224_AFOGAR' name='Clichê: Afogar as mágoas'>
@@ -11081,7 +11081,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>dentes</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion>não <match no='1' postag='V.+'>desistir</match> facilmente</suggestion>
+        <suggestion>não <match no='1' postag='V.+' postag_regexp='yes'>desistir</match> facilmente</suggestion>
       <example correction='não desistir facilmente'><marker>agarrar com unhas e dentes</marker>.</example>
     </rule>
     <rule id='CLICHE_226_AMARRAR' name='Clichê: Amarrar o burro'>
@@ -11091,8 +11091,8 @@ tokenizer spreadsheet in the forum	     -->
           <token regexp='yes'>burr[ao]</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>ficar</match> em descanso</suggestion>
-        <suggestion><match no='1' postag='V.+'>comprometer</match>-se</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>ficar</match> em descanso</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>comprometer</match>-se</suggestion>
       <example correction='ficar em descanso|comprometer-se'><marker>amarrar o burro</marker>.</example>
     </rule>
     <rule id='CLICHE_227_ANDAR' name='Clichê: Andar feito barata tonta'>
@@ -11103,7 +11103,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>tonta</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>estar</match> distraído</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>estar</match> distraído</suggestion>
       <example correction='estás distraído'><marker>andas feito barata tonta</marker>.</example>
     </rule>
     <rule id='CLICHE_228_ANDAR' name='Clichê: Andar na linha'>
@@ -11113,8 +11113,8 @@ tokenizer spreadsheet in the forum	     -->
           <token>linha</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>estar</match> elegante</suggestion>
-        <suggestion><match no='1' postag='V.+'>agir</match> corretamente</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>estar</match> elegante</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>agir</match> corretamente</suggestion>
       <example correction='estás elegante|ages corretamente'><marker>andas na linha</marker>.</example>
     </rule>
     <rule id='CLICHE_229_ANDAR' name='Clichê: Andar nas nuvens'>
@@ -11124,7 +11124,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>nuvens</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>estar</match> desatento</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>estar</match> desatento</suggestion>
       <example correction='estás desatento'><marker>andas nas nuvens</marker>.</example>
     </rule>
     <rule id='CLICHE_230_APANHAR' name='Clichê: Apanhar a pata'>
@@ -11134,7 +11134,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>pata</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>ter</match> controlo sobre</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>ter</match> controlo sobre</suggestion>
       <example correction='teve controlo sobre'><marker>apanhou a pata</marker>.</example>
     </rule>
     <rule id='CLICHE_231_APANHAR' name='Clichê: Apanhar de surpresa'>
@@ -11144,7 +11144,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>surpresa</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>surpreender</match></suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>surpreender</match></suggestion>
       <example correction='surpreender'><marker>apanhar de surpresa</marker>.</example>
     </rule>
     <rule id='CLICHE_232_APARAR' name='Clichê: Aparar as arestas'>
@@ -11154,7 +11154,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>arestas</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>aprimorar</match></suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>aprimorar</match></suggestion>
       <example correction='aprimorar'><marker>aparar as arestas</marker>.</example>
     </rule>
     <rule id='CLICHE_233_APROVEITAR' name='Clichê: Aproveitar a boleia'>
@@ -11187,7 +11187,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>outros</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>trabalhar</match> para proveito alheio</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>trabalhar</match> para proveito alheio</suggestion>
       <example correction='trabalhar para proveito alheio'><marker>aquecer água para o mate dos outros</marker>.</example>
     </rule>
     <rule id='CLICHE_236_ARMAR' name='Clichê: Armar um barraco'>
@@ -11197,9 +11197,9 @@ tokenizer spreadsheet in the forum	     -->
           <token>barraco</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>criar</match> confusão em público</suggestion>
-        <suggestion><match no='1' postag='V.+'>discutir</match></suggestion>
-        <suggestion><match no='1' postag='V.+'>brigar</match></suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>criar</match> confusão em público</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>discutir</match></suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>brigar</match></suggestion>
       <example correction='criar confusão em público|discutir|brigar'><marker>armar um barraco</marker>.</example>
     </rule>
     <rule id='CLICHE_237_ARRANCAR' name='Clichê: Arrancar cabelos'>
@@ -11209,7 +11209,7 @@ tokenizer spreadsheet in the forum	     -->
           <token regexp='yes'>cabelos?</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>entrar</match> em desespero</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>entrar</match> em desespero</suggestion>
       <example correction='entrar em desespero'><marker>arrancar cabelos</marker>.</example>
       <example correction='entrar em desespero'><marker>arrancar os cabelos</marker>.</example>
     </rule>
@@ -11220,8 +11220,8 @@ tokenizer spreadsheet in the forum	     -->
           <token regexp='yes'>asas?|asinhas?</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>enamorar</match>-se</suggestion>
-        <suggestion><match no='1' postag='V.+'>insinuar</match>-se a alguém</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>enamorar</match>-se</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>insinuar</match>-se a alguém</suggestion>
       <example correction='enamorar-se|insinuar-se a alguém'><marker>arrastar as asas</marker>.</example>
     </rule>
     <rule id='CLICHE_240_ARMAR-SE' name='Clichê: Armar-se até aos dentes|armado até aos dentes|armado até os dentes'>
@@ -11234,8 +11234,8 @@ tokenizer spreadsheet in the forum	     -->
           <token>dentes</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion>exageradamente <match no='1' postag='V.+'>armar</match></suggestion>
-        <suggestion><match no='1' postag='V.+'>preparar</match> para uma situação</suggestion>
+        <suggestion>exageradamente <match no='1' postag='V.+' postag_regexp='yes'>armar</match></suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>preparar</match> para uma situação</suggestion>
       <example correction='exageradamente armar|preparar para uma situação'><marker>armar-se até aos dentes</marker>.</example>
       <example correction='exageradamente armado|preparado para uma situação'><marker>armado até aos dentes</marker>.</example>
     </rule>
@@ -11257,8 +11257,8 @@ tokenizer spreadsheet in the forum	     -->
           <token>mangas</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>trabalhar</match> com afinco</suggestion>
-        <suggestion><match no='1' postag='V.+'>iniciar</match> algo</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>trabalhar</match> com afinco</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>iniciar</match> algo</suggestion>
       <example correction='trabalhar com afinco|iniciar algo'><marker>arregaçar as mangas</marker>.</example>
       <example correction='trabalhar com afinco|iniciar algo'><marker>arregaçar as mangas</marker>.</example>
     </rule>
@@ -11271,7 +11271,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>coçar</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>procurar</match> por problemas</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>procurar</match> por problemas</suggestion>
       <example correction='procurar por problemas'><marker>arrumar sarna para se coçar</marker>.</example>
     </rule>
     <rule id='CLICHE_246_IR' name='Clichê: Ir chatear o camões'>
@@ -11291,7 +11291,7 @@ tokenizer spreadsheet in the forum	     -->
           <token regexp='yes'>fumo|bilhas</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>ter</match> dificuldade</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>ter</match> dificuldade</suggestion>
       <example correction='ter dificuldade'><marker>ver fumo</marker>.</example>
     </rule>
     <rule id='CLICHE_249_VER' name='Clichê: Ver a avó pela greta'>
@@ -11303,7 +11303,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>greta</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>estar</match> quase a morrer</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>estar</match> quase a morrer</suggestion>
       <example correction='estar quase a morrer'><marker>ver a avó pela greta</marker>.</example>
     </rule>
     <rule id='CLICHE_31_AGRADAR' name='Clichê: Agradar gregos e troianos'>
@@ -11314,7 +11314,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>troianos</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>agradar</match> a todos</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>agradar</match> a todos</suggestion>
       <example correction='agradar a todos'><marker>agradar gregos e troianos</marker>.</example>
     </rule>
     <rule id='CLICHE_32_ATINGIR' name='Clichê: Atingir em cheio'>
@@ -11340,8 +11340,8 @@ tokenizer spreadsheet in the forum	     -->
           <token>ovo</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>puxar</match> o saco</suggestion>
-        <suggestion><match no='1' postag='V.+'>idolatrar</match> incondicionalmente</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>puxar</match> o saco</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>idolatrar</match> incondicionalmente</suggestion>
       <example correction='puxar o saco|idolatrar incondicionalmente'><marker>babar ovo</marker>.</example>
     </rule>
     <rule id='CLICHE_35_BAIXAR' name='Clichê: Baixar a bola'>
@@ -11351,8 +11351,8 @@ tokenizer spreadsheet in the forum	     -->
           <token>bola</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>acalmar</match>-se</suggestion>
-        <suggestion><match no='1' postag='V.+'>ser</match> mais comedido</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>acalmar</match>-se</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>ser</match> mais comedido</suggestion>
       <example correction='acalmou-se|foi mais comedido'><marker>baixou a bola</marker>.</example>
     </rule>
     <rule id='CLICHE_36_BAIXAR' name='Clichê: Baixar a guarda'>
@@ -11362,8 +11362,8 @@ tokenizer spreadsheet in the forum	     -->
           <token>guarda</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>descontrair</match></suggestion>
-        <suggestion><match no='1' postag='V.+'>facilitar</match></suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>descontrair</match></suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>facilitar</match></suggestion>
       <example correction='descontrair|facilitar'><marker>baixar a guarda</marker>.</example>
     </rule>
     <rule id='CLICHE_37_BATER' name='Clichê: Bater as botas'>
@@ -11373,8 +11373,8 @@ tokenizer spreadsheet in the forum	     -->
           <token>botas</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>morrer</match></suggestion>
-        <suggestion><match no='1' postag='V.+'>falecer</match></suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>morrer</match></suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>falecer</match></suggestion>
       <example correction='morrer|falecer'><marker>bater as botas</marker>.</example>
     </rule>
     <rule id='CLICHE_38_BATER' name='Clichê: Bater com a cabeça na parede'>
@@ -11387,7 +11387,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>parede</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>aprender</match> com os erros</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>aprender</match> com os erros</suggestion>
       <example correction='aprender com os erros'><marker>bater com a cabeça na parede</marker>.</example>
     </rule>
     <rule id='CLICHE_39_BATER' name='Clichê: Bater com as dez'>
@@ -11398,7 +11398,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>dez</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>morrer</match></suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>morrer</match></suggestion>
       <example correction='morrer'><marker>bater com as dez</marker>.</example>
     </rule>
     <rule id='CLICHE_310_BATER' name='Clichê: Bater de frente com'>
@@ -11409,7 +11409,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>com</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>entrar</match> em conflito</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>entrar</match> em conflito</suggestion>
       <example correction='entrar em conflito'><marker>bater de frente com</marker>.</example>
     </rule>
     <rule id='CLICHE_311_BATER' name='Clichê: Bater em retirada'>
@@ -11419,7 +11419,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>retirada</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>fugir</match></suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>fugir</match></suggestion>
       <example correction='fugir'><marker>bater em retirada</marker>.</example>
     </rule>
     <rule id='CLICHE_312_BATER' name='Clichê: Bater na mesma tecla'>
@@ -11430,8 +11430,8 @@ tokenizer spreadsheet in the forum	     -->
           <token>tecla</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>repetir</match></suggestion>
-        <suggestion><match no='1' postag='V.+'>insistir</match></suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>repetir</match></suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>insistir</match></suggestion>
       <example correction='repetir|insistir'><marker>bater na mesma tecla</marker>.</example>
     </rule>
     <rule id='CLICHE_313_BATER' name='Clichê: Bater papo'>
@@ -11440,7 +11440,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>papo</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>conversar</match></suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>conversar</match></suggestion>
       <example correction='conversar'><marker>bater papo</marker>.</example>
     </rule>
     <rule id='CLICHE_314_BEBER' name='Clichê: Beber água nas orelhas dos outros'>
@@ -11453,7 +11453,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>outros</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>viver</match> sempre a cochichar</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>viver</match> sempre a cochichar</suggestion>
       <example correction='viver sempre a cochichar'><marker>beber água nas orelhas dos outros</marker>.</example>
     </rule>
     <rule id='CLICHE_316_BOTAR' name='Clichê: Botar a boca no trombone|pôr a boca no trombone'>
@@ -11465,7 +11465,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>trombone</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>revelar</match> um segredo</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>revelar</match> um segredo</suggestion>
       <example correction='revelar um segredo'><marker>botar a boca no trombone</marker>.</example>
     </rule>
     <rule id='CLICHE_317_BOTAR' name='Clichê: Botar banca'>
@@ -11487,7 +11487,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>bois</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>saltar</match> etapas de forma inapropriada</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>saltar</match> etapas de forma inapropriada</suggestion>
       <example correction='saltar etapas de forma inapropriada'><marker>botar o carro na frente dos bois</marker>.</example>
     </rule>
     <rule id='CLICHE_319_BOTAR' name='Clichê: Botar para quebrar|mandar ver'>
@@ -11497,7 +11497,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>quebrar</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>fazer</match> algo com extrema intensidade</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>fazer</match> algo com extrema intensidade</suggestion>
       <example correction='faze algo com extrema intensidade|fazes algo com extrema intensidade'><marker>botas para quebrar</marker>.</example>
     </rule>
     <rule id='CLICHE_319_BOTAR_2' name='Clichê: Botar para quebrar|mandar ver'>
@@ -11506,7 +11506,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>ver</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>fazer</match> algo com extrema intensidade</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>fazer</match> algo com extrema intensidade</suggestion>
       <example correction='fi algo com extrema intensidade|fiz algo com extrema intensidade'><marker>mandei ver</marker>.</example>
     </rule>
     <rule id='CLICHE_320_BRINCAR' name='Clichê: Brincar com fogo'>
@@ -11516,7 +11516,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>fogo</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>arriscar</match></suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>arriscar</match></suggestion>
       <example correction='arriscar'><marker>brincar com fogo</marker>.</example>
     </rule>
     <rule id='CLICHE_321_CAIR' name='Clichê: Cair pelas tabelas'>
@@ -11535,7 +11535,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>ficha</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>entender</match> tardiamente</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>entender</match> tardiamente</suggestion>
       <example correction='entender tardiamente'><marker>cair a ficha</marker>.</example>
     </rule>
     <rule id='CLICHE_323_CAIR' name='Clichê: Cair como uma luva'>
@@ -11546,7 +11546,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>luva</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>ficar</match> bem</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>ficar</match> bem</suggestion>
       <example correction='ficar bem'><marker>cair como uma luva</marker>.</example>
     </rule>
     <rule id='CLICHE_324_CAIR' name='Clichê: Cair das nuvens'>
@@ -11556,7 +11556,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>nuvens</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>voltar</match> à realidade</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>voltar</match> à realidade</suggestion>
       <example correction='voltar à realidade'><marker>cair das nuvens</marker>.</example>
     </rule>
     <rule id='CLICHE_325_CAIR' name='Clichê: Cair de maduro'>
@@ -11575,7 +11575,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>terra</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>perder</match></suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>perder</match></suggestion>
       <example correction='perder'><marker>cair por terra</marker>.</example>
     </rule>
     <rule id='CLICHE_327_CANTAR' name='Clichê: Cantar vitória'>
@@ -11584,7 +11584,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>vitória</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>festejar</match></suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>festejar</match></suggestion>
       <example correction='festejar'><marker>cantar vitória</marker>.</example>
     </rule>
     <rule id='CLICHE_328_CARREGAR' name='Clichê: Carregar nas tintas'>
@@ -11594,7 +11594,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>tintas</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>exagerar</match> na descrição</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>exagerar</match> na descrição</suggestion>
       <example correction='exagerar na descrição'><marker>carregar nas tintas</marker>.</example>
     </rule>
     <rule id='CLICHE_329_CAUSAR' name='Clichê: Causar espécie'>
@@ -11603,7 +11603,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>espécie</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>fazer</match> confusão</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>fazer</match> confusão</suggestion>
       <example correction='fi confusão|fiz confusão'><marker>causei espécie</marker>.</example>
     </rule>
     <rule id='CLICHE_330_CHEGAR' name='Clichê: Chegar a um denominador comum'>
@@ -11626,8 +11626,8 @@ tokenizer spreadsheet in the forum	     -->
           <token>derramado</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>lamentar</match>-se por algo que não tem solução</suggestion>
-        <suggestion><match no='1' postag='V.+'>lamentar</match>-se pelo passado</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>lamentar</match>-se por algo que não tem solução</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>lamentar</match>-se pelo passado</suggestion>
       <example correction='lamentar-se por algo que não tem solução|lamentar-se pelo passado'><marker>chorar sobre o leite derramado</marker>.</example>
     </rule>
     <rule id='CLICHE_332_CHOVER' name='Clichê: Chover no molhado'>
@@ -11645,7 +11645,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>alto</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>vangloriar</match>-se</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>vangloriar</match>-se</suggestion>
       <example correction='vangloriar-se'><marker>chutar alto</marker>.</example>
     </rule>
     <rule id='CLICHE_334_CHUTAR' name='Clichê: Chutar o balde'>
@@ -11664,8 +11664,8 @@ tokenizer spreadsheet in the forum	     -->
           <token>balde</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>agir</match> irresponsavelmente</suggestion>
-        <suggestion><match no='1' postag='V.+'>adiar</match> o problema</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>agir</match> irresponsavelmente</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>adiar</match> o problema</suggestion>
       <example correction='agir irresponsavelmente|adiar o problema'><marker>chutar o balde</marker>.</example>
     </rule>
     <rule id='CLICHE_336_CHUTAR' name='Clichê: Chutar o pau da barraca'>
@@ -11677,8 +11677,8 @@ tokenizer spreadsheet in the forum	     -->
           <token>barraca</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>agir</match> irresponsavelmente</suggestion>
-        <suggestion><match no='1' postag='V.+'>adiar</match> o problema</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>agir</match> irresponsavelmente</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>adiar</match> o problema</suggestion>
       <example correction='agir irresponsavelmente|adiar o problema'><marker>chutar o pau da barraca</marker>.</example>
     </rule>
     <rule id='CLICHE_337_COLOCAR' name='Clichê: Colocar melancia na cabeça'>
@@ -11689,8 +11689,8 @@ tokenizer spreadsheet in the forum	     -->
           <token>cabeça</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>querer</match> aparecer</suggestion>
-        <suggestion><match no='1' postag='V.+'>exibir</match>-se</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>querer</match> aparecer</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>exibir</match>-se</suggestion>
       <example correction='quis aparecer|exibiu-se'><marker>colocou melancia na cabeça</marker>.</example>
     </rule>
     <rule id='CLICHE_338_COLOCAR' name='Clichê: Colocar um ponto final'>
@@ -11701,7 +11701,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>final</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>terminar</match></suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>terminar</match></suggestion>
       <example correction='terminar'><marker>colocar um ponto final</marker>.</example>
     </rule>
     <rule id='CLICHE_339_COMER' name='Clichê: Comer água'>
@@ -11710,7 +11710,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>água</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>sair</match> para beber</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>sair</match> para beber</suggestion>
       <example correction='sair para beber'><marker>comer água</marker>.</example>
     </rule>
     <rule id='CLICHE_340_COMER' name='Clichê: Comer como um abade'>
@@ -11721,7 +11721,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>abade</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>comer</match> muito</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>comer</match> muito</suggestion>
       <example correction='comer muito'><marker>comer como um abade</marker>.</example>
     </rule>
     <rule id='CLICHE_341_COMER' name='Clichê: Comer cru e quente'>
@@ -11732,7 +11732,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>quente</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>ser</match> apressado e pouco perfeccionista</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>ser</match> apressado e pouco perfeccionista</suggestion>
       <example correction='fui apressado e pouco perfeccionista'><marker>comi cru e quente</marker>.</example>
     </rule>
     <rule id='CLICHE_342_COMPRAR' name='Clichê: Comprar gato por lebre'>
@@ -11743,7 +11743,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>lebre</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>ser</match> enganado</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>ser</match> enganado</suggestion>
       <example correction='foi enganado'><marker>comprou gato por lebre</marker>.</example>
     </rule>
     <rule id='CLICHE_343_CONFUNDIR' name='Clichê: Confundir alhos com bugalhos'>
@@ -11754,8 +11754,8 @@ tokenizer spreadsheet in the forum	     -->
           <token>bugalhos</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>confundir</match> conceitos</suggestion>
-        <suggestion><match no='1' postag='V.+'>confundir</match> factos</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>confundir</match> conceitos</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>confundir</match> factos</suggestion>
       <example correction='confundir conceitos|confundir factos'><marker>confundir alhos com bugalhos</marker>.</example>
     </rule>
     <rule id='CLICHE_344_CONJUGAR' name='Clichê: Conjugar esforços'>
@@ -11784,7 +11784,7 @@ tokenizer spreadsheet in the forum	     -->
           <token regexp='yes'>êxitos?</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>ter</match> sucesso</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>ter</match> sucesso</suggestion>
       <example correction='tive sucesso'><marker>coroei de êxito</marker>.</example>
     </rule>
     <rule id='CLICHE_347_CORRER' name='Clichê: Correr por fora'>
@@ -11803,7 +11803,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>vazas</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>impedir</match></suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>impedir</match></suggestion>
       <example correction='impedir'><marker>cortar as vazas</marker>.</example>
     </rule>
     <rule id='CLICHE_349_COSTURAR' name='Clichê: Costurar um acordo'>
@@ -11843,8 +11843,8 @@ tokenizer spreadsheet in the forum	     -->
           <token>curta</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>arrumar</match> problema</suggestion>
-        <suggestion><match no='1' postag='V.+'>provocar</match></suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>arrumar</match> problema</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>provocar</match></suggestion>
       <example correction='arrumar problema|provocar'><marker>cutucar a onça com vara curta</marker>.</example>
     </rule>
     <rule id='CLICHE_353_DAR' name='Clichê: Dar a devida atenção'>
@@ -11867,7 +11867,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>grande</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>ir</match> chatear outro</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>ir</match> chatear outro</suggestion>
       <example correction='vai chatear outro|vás chatear outro'><marker>dá a volta ao bilhar grande</marker>.</example>
     </rule>
     <rule id='CLICHE_355_DAR' name='Clichê: Dar a volta por cima'>
@@ -11879,7 +11879,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>cima</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>recuperar</match>-se</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>recuperar</match>-se</suggestion>
       <example correction='recuperar-se'><marker>dar a volta por cima</marker>.</example>
     </rule>
     <rule id='CLICHE_356_DAR' name='Clichê: Dar bilingue'>
@@ -11888,8 +11888,8 @@ tokenizer spreadsheet in the forum	     -->
           <token>bilingue</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>mentir</match></suggestion>
-        <suggestion><match no='1' postag='V.+'>enganar</match></suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>mentir</match></suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>enganar</match></suggestion>
       <example correction='mentir|enganar'><marker>dar bilingue</marker>.</example>
     </rule>
     <rule id='CLICHE_357_DAR' name='Clichê: Dar bola'>
@@ -11898,7 +11898,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>bola</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>insinuar</match>-se romanticamente para alguém</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>insinuar</match>-se romanticamente para alguém</suggestion>
       <example correction='insinuar-se romanticamente para alguém'><marker>dar bola</marker>.</example>
     </rule>
     <rule id='CLICHE_358_DAR' name='Clichê: Dar com a cara na porta'>
@@ -11911,8 +11911,8 @@ tokenizer spreadsheet in the forum	     -->
           <token>porta</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>decepcionar</match>-se</suggestion>
-        <suggestion><match no='1' postag='V.+'>procurar</match> e não encontrar</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>decepcionar</match>-se</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>procurar</match> e não encontrar</suggestion>
       <example correction='decepcionar-se|procurar e não encontrar'><marker>dar com a cara na porta</marker>.</example>
     </rule>
     <rule id='CLICHE_359_DAR' name='Clichê: Dar com a língua nos dentes'>
@@ -11925,7 +11925,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>dentes</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>contar</match> um segredo</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>contar</match> um segredo</suggestion>
       <example correction='contar um segredo'><marker>dar com a língua nos dentes</marker>.</example>
     </rule>
     <rule id='CLICHE_360_DAR' name='Clichê: Dar com o nariz na porta'>
@@ -11938,8 +11938,8 @@ tokenizer spreadsheet in the forum	     -->
           <token>porta</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>decepcionar</match>-se</suggestion>
-        <suggestion><match no='1' postag='V.+'>procurar</match> e não encontrar</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>decepcionar</match>-se</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>procurar</match> e não encontrar</suggestion>
       <example correction='decepcionar-se|procurar e não encontrar'><marker>dar com o nariz na porta</marker>.</example>
     </rule>
     <rule id='CLICHE_361_DAR' name='Clichê: Dar com os burros na água'>
@@ -11960,8 +11960,8 @@ tokenizer spreadsheet in the forum	     -->
           <token>galho</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>causar</match> dificuldades</suggestion>
-        <suggestion><match no='1' postag='V.+'>causar</match> complicações</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>causar</match> dificuldades</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>causar</match> complicações</suggestion>
       <example correction='causar dificuldades|causar complicações'><marker>dar galho</marker>.</example>
     </rule>
     <rule id='CLICHE_363_DAR' name='Clichê: Dar gasosa'>
@@ -11970,8 +11970,8 @@ tokenizer spreadsheet in the forum	     -->
           <token>gasosa</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>entregar</match> gorjeta</suggestion>
-        <suggestion><match no='1' postag='V.+'>subornar</match></suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>entregar</match> gorjeta</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>subornar</match></suggestion>
       <example correction='entregar gorjeta|subornar'><marker>dar gasosa</marker>.</example>
     </rule>
     <rule id='CLICHE_364_DAR' name='Clichê: Dar jajão'>
@@ -11980,8 +11980,8 @@ tokenizer spreadsheet in the forum	     -->
           <token>jajão</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>simular</match></suggestion>
-        <suggestion><match no='1' postag='V.+'>ameaçar</match></suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>simular</match></suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>ameaçar</match></suggestion>
       <example correction='simular|ameaçar'><marker>dar jajão</marker>.</example>
     </rule>
     <rule id='CLICHE_365_DAR' name='Clichê: Dar mancada'>
@@ -11990,8 +11990,8 @@ tokenizer spreadsheet in the forum	     -->
           <token>mancada</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion>não <match no='1' postag='V.+'>cumprir</match> promessa</suggestion>
-        <suggestion><match no='1' postag='V.+'>descontrair</match></suggestion>
+        <suggestion>não <match no='1' postag='V.+' postag_regexp='yes'>cumprir</match> promessa</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>descontrair</match></suggestion>
       <example correction='não cumprir promessa|descontrair'><marker>dar mancada</marker>.</example>
     </rule>
     <rule id='CLICHE_366_DAR' name='Clichê: Dar na telha'>
@@ -12034,8 +12034,8 @@ tokenizer spreadsheet in the forum	     -->
           <token>torcer</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>voltar</match> atrás na decisão</suggestion>
-        <suggestion><match no='1' postag='V.+'>voltar</match> atrás na opinião</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>voltar</match> atrás na decisão</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>voltar</match> atrás na opinião</suggestion>
       <example correction='voltar atrás na decisão|voltar atrás na opinião'><marker>dar o braço a torcer</marker>.</example>
     </rule>
     <rule id='CLICHE_370_DAR' name='Clichê: Dar o braço a torcer'>
@@ -12047,8 +12047,8 @@ tokenizer spreadsheet in the forum	     -->
           <token>torcer</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>voltar</match> atrás numa decisão</suggestion>
-        <suggestion><match no='1' postag='V.+'>colocar</match> o orgulho de parte</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>voltar</match> atrás numa decisão</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>colocar</match> o orgulho de parte</suggestion>
       <example correction='voltar atrás numa decisão|colocar o orgulho de parte'><marker>dar o braço a torcer</marker>.</example>
     </rule>
     <rule id='CLICHE_371_DAR' name='Clichê: Dar o último adeus'>
@@ -12059,7 +12059,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>adeus</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>despedir</match>-se</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>despedir</match>-se</suggestion>
       <example correction='despedir-se'><marker>dar o último adeus</marker>.</example>
     </rule>
     <rule id='CLICHE_372_DAR' name='Clichê: Dar pau na máquina'>
@@ -12070,7 +12070,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>máquina</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>dar</match> urgência</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>dar</match> urgência</suggestion>
       <example correction='dar urgência'><marker>dar pau na máquina</marker>.</example>
     </rule>
     <rule id='CLICHE_373_DAR' name='Clichê: Dar troco'>
@@ -12079,7 +12079,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>troco</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>dar</match> conversa</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>dar</match> conversa</suggestion>
       <example correction='dar conversa'><marker>dar troco</marker>.</example>
     </rule>
     <rule id='CLICHE_374_DAR' name='Clichê: Dar uma de joão sem braço'>
@@ -12092,7 +12092,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>braço</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>fazer</match>-se de desentendido</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>fazer</match>-se de desentendido</suggestion>
       <example correction='fi-se de desentendido|fiz-se de desentendido'><marker>dei uma de joão sem braço</marker>.</example>
     </rule>
     <rule id='CLICHE_375_DAR' name='Clichê: Dar uma mãozinha'>
@@ -12102,7 +12102,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>mãozinha</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>ajudar</match></suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>ajudar</match></suggestion>
       <example correction='ajudar'><marker>dar uma mãozinha</marker>.</example>
     </rule>
     <rule id='CLICHE_376_DAR' name='Clichê: Dar uma mãozinha'>
@@ -12112,7 +12112,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>mãozinha</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>dar</match> uma pequena ajuda</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>dar</match> uma pequena ajuda</suggestion>
       <example correction='dar uma pequena ajuda'><marker>dar uma mãozinha</marker>.</example>
     </rule>
     <rule id='CLICHE_377_DEBELAR' name='Clichê: Debelar as chamas'>
@@ -12122,7 +12122,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>chamas</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>dissipar</match></suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>dissipar</match></suggestion>
       <example correction='dissipar'><marker>debelar as chamas</marker>.</example>
     </rule>
     <rule id='CLICHE_378_DEITAR' name='Clichê: Deitar o cabelo'>
@@ -12132,7 +12132,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>cabelo</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>correr</match> muito</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>correr</match> muito</suggestion>
       <example correction='correr muito'><marker>deitar o cabelo</marker>.</example>
     </rule>
     <rule id='CLICHE_379_DEITAR' name='Clichê: Deitar raízes'>
@@ -12159,8 +12159,8 @@ tokenizer spreadsheet in the forum	     -->
           <token>mão</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion>não <match no='1' postag='V.+'>colaborar</match></suggestion>
-        <suggestion><match no='1' postag='V.+'>abandonar</match></suggestion>
+        <suggestion>não <match no='1' postag='V.+' postag_regexp='yes'>colaborar</match></suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>abandonar</match></suggestion>
       <example correction='não colaborar|abandonar'><marker>deixar na mão</marker>.</example>
     </rule>
     <rule id='CLICHE_382_DEIXAR' name='Clichê: Deixar a desejar'>
@@ -12187,7 +12187,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>apresentações</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>ser</match> famoso</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>ser</match> famoso</suggestion>
       <example correction='sejas famoso|sê famoso'><marker>dispensa apresentações</marker>.</example>
     </rule>
     <rule id='CLICHE_385_DISSIPAR' name='Clichê: Dissipar dúvidas'>
@@ -12237,7 +12237,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>mão</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>ter</match> o poder</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>ter</match> o poder</suggestion>
       <example correction='ter o poder'><marker>estar com a faca e o queijo na mão</marker>.</example>
     </rule>
     <rule id='CLICHE_389_ESTAR' name='Clichê: Estar com o pé atrás da porta|de pé atrás'>
@@ -12251,7 +12251,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>porta</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>estar</match> desconfiado</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>estar</match> desconfiado</suggestion>
       <example correction='estar desconfiado'><marker>estar com o pé atrás da porta</marker>.</example>
     </rule>
     <rule id='CLICHE_389_ESTAR_2' name='Clichê: Estar com o pé atrás da porta|de pé atrás'>
@@ -12262,7 +12262,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>atrás</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>estar</match> desconfiado</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>estar</match> desconfiado</suggestion>
       <example correction='estar desconfiado'><marker>estar de pé atrás</marker>.</example>
     </rule>
     <rule id='CLICHE_390_ESTAR' name='Clichê: Estar com os azeites'>
@@ -12288,7 +12288,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>cova</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>estar</match> para morrer</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>estar</match> para morrer</suggestion>
       <example correction='estar para morrer'><marker>estar com os pés para a cova</marker>.</example>
     </rule>
     <rule id='CLICHE_392_ESTAR' name='Clichê: Estar com uma mão na vela e outra no soro'>
@@ -12305,7 +12305,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>soro</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>estar</match> em estado grave</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>estar</match> em estado grave</suggestion>
         <suggestion>\1 prestes a morrer</suggestion>
       <example correction='estar em estado grave|estar prestes a morrer'><marker>estar com uma mão na vela e outra no soro</marker>.</example>
     </rule>
@@ -12319,7 +12319,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>sapato</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>ter</match> um problema por resolver</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>ter</match> um problema por resolver</suggestion>
       <example correction='tive um problema por resolver'><marker>estive com uma pedra no sapato</marker>.</example>
     </rule>
     <rule id='CLICHE_394_ESTAR' name='Clichê: Estar a dar sopa'>
@@ -12330,7 +12330,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>sopa</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>estar</match> inadvertidamente vulnerável</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>estar</match> inadvertidamente vulnerável</suggestion>
       <example correction='estar inadvertidamente vulnerável'><marker>estar dando sopa</marker>.</example>
     </rule>
     <rule id='CLICHE_395_ESTAR' name='Clichê: Estar de gesso'>
@@ -12340,7 +12340,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>gesso</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion>não <match no='1' postag='V.+'>dar</match> resposta</suggestion>
+        <suggestion>não <match no='1' postag='V.+' postag_regexp='yes'>dar</match> resposta</suggestion>
       <example correction='não dar resposta'><marker>estar de gesso</marker>.</example>
     </rule>
     <rule id='CLICHE_396_ESTAR' name='Clichê: Estar de mãos a abanar'>
@@ -12352,7 +12352,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>abanar</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion>não <match no='1' postag='V.+'>conseguir</match> o que pretendia</suggestion>
+        <suggestion>não <match no='1' postag='V.+' postag_regexp='yes'>conseguir</match> o que pretendia</suggestion>
       <example correction='não conseguir o que pretendia'><marker>estar de mãos a abanar</marker>.</example>
     </rule>
     <rule id='CLICHE_397_ESTAR' name='Clichê: Estar de mãos a abanar|abanando'>
@@ -12364,7 +12364,7 @@ tokenizer spreadsheet in the forum	     -->
           <token regexp='yes'>abanar|abanando</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion>não <match no='1' postag='V.+'>conseguir</match> o que pretendia</suggestion>
+        <suggestion>não <match no='1' postag='V.+' postag_regexp='yes'>conseguir</match> o que pretendia</suggestion>
       <example correction='não conseguir o que pretendia'><marker>estar de mãos a abanar</marker>.</example>
     </rule>
     <rule id='CLICHE_398_ESTAR' name='Clichê: Estar de mãos atadas'>
@@ -12375,7 +12375,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>atadas</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion>não <match no='1' postag='V.+'>poder</match> fazer nada</suggestion>
+        <suggestion>não <match no='1' postag='V.+' postag_regexp='yes'>poder</match> fazer nada</suggestion>
       <example correction='não poder fazer nada'><marker>estar de mãos atadas</marker>.</example>
     </rule>
     <rule id='CLICHE_399_ESTAR' name='Clichê: Estar de trombas'>
@@ -12385,7 +12385,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>trombas</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>estar</match> aborrecido</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>estar</match> aborrecido</suggestion>
       <example correction='estar aborrecido'><marker>estar de trombas</marker>.</example>
     </rule>
     <rule id='CLICHE_3100_ESTAR' name='Clichê: Estar giro'>
@@ -12407,8 +12407,8 @@ tokenizer spreadsheet in the forum	     -->
           <token>alguém</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>utilizar</match> emprestado</suggestion>
-        <suggestion><match no='1' postag='V.+'>utilizar</match> de graça</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>utilizar</match> emprestado</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>utilizar</match> de graça</suggestion>
       <example correction='(utilizar) emprestado|(utilizar) de graça'><marker>estar na aba de alguém</marker>.</example>
     </rule>
     <rule id='CLICHE_3102_FAZER' name='Clichê: Fazer vista grossa'>
@@ -12418,7 +12418,7 @@ tokenizer spreadsheet in the forum	     -->
           <token>grossa</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>fingir</match> que não <match no='1' postag='V.+'>ver</match></suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>fingir</match> que não <match no='1' postag='V.+' postag_regexp='yes'>ver</match></suggestion>
         <suggestion>relevar
 egligenciar</suggestion>
       <example correction='fingi que não vi'><marker>fiz vista grossa</marker>.</example>
@@ -12430,7 +12430,7 @@ egligenciar</suggestion>
           <token>pé</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>insistir</match></suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>insistir</match></suggestion>
       <example correction='insistir'><marker>fincar o pé</marker>.</example>
     </rule>
     <rule id='CLICHE_3104_GERAR' name='Clichê: Gerar polémica'>
@@ -12449,7 +12449,7 @@ egligenciar</suggestion>
           <token>pulmões</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>gritar</match> com toda a força</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>gritar</match> com toda a força</suggestion>
       <example correction='gritar com toda a força'><marker>gritar a plenos pulmões</marker>.</example>
     </rule>
     <rule id='CLICHE_3106_LEVAR' name='Clichê: Levar à barra dos tribunais'>
@@ -12461,7 +12461,7 @@ egligenciar</suggestion>
           <token>tribunais</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>levar</match> a tribunal</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>levar</match> a tribunal</suggestion>
       <example correction='levar a tribunal'><marker>levar à barra dos tribunais</marker>.</example>
     </rule>
     <rule id='CLICHE_3107_LEVAR' name='Clichê: Levar a peito'>
@@ -12471,8 +12471,8 @@ egligenciar</suggestion>
           <token>peito</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>tomar</match> para si</suggestion>
-        <suggestion><match no='1' postag='V.+'>ofender</match>-se</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>tomar</match> para si</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>ofender</match>-se</suggestion>
       <example correction='tomar para si|ofender-se'><marker>levar a peito</marker>.</example>
     </rule>
     <rule id='CLICHE_3108_LEVAR' name='Clichê: Levar chumbo|levar ferro|levar pau'>
@@ -12481,8 +12481,8 @@ egligenciar</suggestion>
           <token regexp='yes'>chumbo|ferro|pau</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>fracassar</match></suggestion>
-        <suggestion><match no='1' postag='V.+'>sofrer</match> violência</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>fracassar</match></suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>sofrer</match> violência</suggestion>
       <example correction='fracassar|sofrer violência'><marker>levar chumbo</marker>.</example>
     </rule>
     <rule id='CLICHE_3109_LEVAR' name='Clichê: Levar de vencida'>
@@ -12500,7 +12500,7 @@ egligenciar</suggestion>
           <token>toco</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>ser</match> deixado</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>ser</match> deixado</suggestion>
       <example correction='foi deixado'><marker>levou toco</marker>.</example>
     </rule>
     <rule id='CLICHE_3111_LEVAR' name='Clichê: Levar tudo por trás'>
@@ -12511,8 +12511,8 @@ egligenciar</suggestion>
           <token>trás</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>entender</match> tudo de maneira pejorativa</suggestion>
-        <suggestion><match no='1' postag='V.+'>entender</match> sempre o contrário</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>entender</match> tudo de maneira pejorativa</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>entender</match> sempre o contrário</suggestion>
       <example correction='entender tudo de maneira pejorativa|entender sempre o contrário'><marker>levar tudo por trás</marker>.</example>
     </rule>
     <rule id='CLICHE_3112_LEVAR' name='Clichê: Levar um fora'>
@@ -12522,8 +12522,8 @@ egligenciar</suggestion>
           <token>fora</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>ser</match> descartado</suggestion>
-        <suggestion><match no='1' postag='V.+'>ser</match> impedido</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>ser</match> descartado</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>ser</match> impedido</suggestion>
       <example correction='foi descartado|foi impedido'><marker>levou um fora</marker>.</example>
     </rule>
     <rule id='CLICHE_3113_LEVAR' name='Clichê: Levar um mambo militar'>
@@ -12534,7 +12534,7 @@ egligenciar</suggestion>
           <token>militar</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>ser</match> submetido a uma reação extrema</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>ser</match> submetido a uma reação extrema</suggestion>
       <example correction='foi submetido a uma reação extrema'><marker>levou um mambo militar</marker>.</example>
     </rule>
     <rule id='CLICHE_3114_METER' name='Clichê: Meter os pés pelas mãos'>
@@ -12546,8 +12546,8 @@ egligenciar</suggestion>
           <token>mãos</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>agir</match> desajeitadamente</suggestion>
-        <suggestion><match no='1' postag='V.+'>agir</match> com pressa</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>agir</match> desajeitadamente</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>agir</match> com pressa</suggestion>
       <example correction='agir desajeitadamente|agir com pressa'><marker>meter os pés pelas mãos</marker>.</example>
     </rule>
     <rule id='CLICHE_3115_MEXER' name='Clichê: Mexer num vespeiro'>
@@ -12566,7 +12566,7 @@ egligenciar</suggestion>
           <token>amores</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>gostar</match></suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>gostar</match></suggestion>
       <example correction='gostar'><marker>morrer de amores</marker>.</example>
     </rule>
     <rule id='CLICHE_3118_PASSAR' name='Clichê: Passar a pente fino'>
@@ -12577,8 +12577,8 @@ egligenciar</suggestion>
           <token>fino</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>analisar</match> minuciosamente</suggestion>
-        <suggestion><match no='1' postag='V.+'>escrutinar</match> minuciosamente</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>analisar</match> minuciosamente</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>escrutinar</match> minuciosamente</suggestion>
       <example correction='analisar minuciosamente|escrutinar minuciosamente'><marker>passar a pente fino</marker>.</example>
     </rule>
     <rule id='CLICHE_3119_PASSAR' name='Clichê: Passar em branco'>
@@ -12616,8 +12616,8 @@ egligenciar</suggestion>
           <token>linha</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>perder</match> a educação</suggestion>
-        <suggestion><match no='1' postag='V.+'>perder</match> a elegância</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>perder</match> a educação</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>perder</match> a elegância</suggestion>
       <example correction='perder a educação|perder a elegância'><marker>perder a linha</marker>.</example>
     </rule>
     <rule id='CLICHE_3123_PERDER' name='Clichê: Perder as estribeiras'>
@@ -12627,7 +12627,7 @@ egligenciar</suggestion>
           <token>estribeiras</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>desnortear</match>-se</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>desnortear</match>-se</suggestion>
       <example correction='desnortear-se'><marker>perder as estribeiras</marker>.</example>
     </rule>
     <rule id='CLICHE_3124_PERDER' name='Clichê: Perder o fio à meada'>
@@ -12639,7 +12639,7 @@ egligenciar</suggestion>
           <token>meada</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>desnortear</match>-se</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>desnortear</match>-se</suggestion>
       <example correction='desnortear-se'><marker>perder o fio à meada</marker>.</example>
     </rule>
     <rule id='CLICHE_41_CRIANÇAS' name='Clichê: Crianças ser o futuro'>
@@ -12681,7 +12681,7 @@ egligenciar</suggestion>
           <token>bola</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='2' postag='V.+'>ser</match> maluco</suggestion>
+        <suggestion><match no='2' postag='V.+' postag_regexp='yes'>ser</match> maluco</suggestion>
       <example correction='sejas maluco|sê maluco'><marker>não bate bem da bola</marker>.</example>
     </rule>
     <rule id='CLICHE_45_NÃO' name='Clichê: Não deixou margem a dúvidas'>
@@ -12703,7 +12703,7 @@ egligenciar</suggestion>
           <token>aí</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='2' postag='V.+'>ignorar</match></suggestion>
+        <suggestion><match no='2' postag='V.+' postag_regexp='yes'>ignorar</match></suggestion>
       <example correction='Ignoro'><marker>Não estou nem aí</marker>.</example>
     </rule>
     <rule id='CLICHE_47_NÃO' name='Clichê: Não fazer bom cabelo'>
@@ -12714,9 +12714,9 @@ egligenciar</suggestion>
           <token>cabelo</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion>não <match no='2' postag='V.+'>ouvir</match></suggestion>
-        <suggestion>não <match no='2' postag='V.+'>servir</match></suggestion>
-        <suggestion>não <match no='2' postag='V.+'>combinar</match> bem</suggestion>
+        <suggestion>não <match no='2' postag='V.+' postag_regexp='yes'>ouvir</match></suggestion>
+        <suggestion>não <match no='2' postag='V.+' postag_regexp='yes'>servir</match></suggestion>
+        <suggestion>não <match no='2' postag='V.+' postag_regexp='yes'>combinar</match> bem</suggestion>
       <example correction='não ouvir|não servir|não (combinar) bem'><marker>não fazer bom cabelo</marker>.</example>
     </rule>
     <rule id='CLICHE_48_NÃO' name='Clichê: Não fugir ao seu destino'>
@@ -12738,7 +12738,7 @@ egligenciar</suggestion>
           <token regexp='yes'>apresentaç(?:ão|ões)</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='2' postag='V.+'>ser</match> famoso</suggestion>
+        <suggestion><match no='2' postag='V.+' postag_regexp='yes'>ser</match> famoso</suggestion>
       <example correction='és famoso'><marker>não precisas de apresentação</marker>.</example>
     </rule>
     <rule id='CLICHE_410_NÃO' name='Clichê: Não saiu do papel'>
@@ -12760,7 +12760,7 @@ egligenciar</suggestion>
           <token regexp='yes'>escadas?</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion>não <match no='1' postag='V.+'>prestar</match> correta atenção ao assunto</suggestion>
+        <suggestion>não <match no='1' postag='V.+' postag_regexp='yes'>prestar</match> correta atenção ao assunto</suggestion>
       <example correction='não prestar correta atenção ao assunto'><marker>ouvir o recado na escada</marker>.</example>
     </rule>
     <rule id='CLICHE_412_PAGAR' name='Clichê: Pagar o pato'>
@@ -12770,7 +12770,7 @@ egligenciar</suggestion>
           <token>pato</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>ser</match> responsabilizado por algo que não cometeu</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>ser</match> responsabilizado por algo que não cometeu</suggestion>
       <example correction='for responsabilizado por algo que não cometeu'><marker>pagar o pato</marker>.</example>
     </rule>
     <rule id='CLICHE_413_PIRAR' name='Clichê: Pirar na batatinha'>
@@ -12780,9 +12780,9 @@ egligenciar</suggestion>
           <token>batatinha</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>pensar</match> no improvável</suggestion>
-        <suggestion><match no='1' postag='V.+'>imaginar</match> o impossível</suggestion>
-        <suggestion><match no='1' postag='V.+'>propor</match> o impossível</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>pensar</match> no improvável</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>imaginar</match> o impossível</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>propor</match> o impossível</suggestion>
       <example correction='pensar no improvável|imaginar o impossível|propuser o impossível'><marker>pirar na batatinha</marker>.</example>
     </rule>
     <rule id='CLICHE_414_PISAR' name='Clichê: Pisar na bola
@@ -12793,7 +12793,7 @@ o tomate'>
           <token regexp='yes'>bola|tomate</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>cometer</match> um deslize</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>cometer</match> um deslize</suggestion>
       <example correction='cometer um deslize'><marker>pisar na bola</marker>.</example>
     </rule>
     <rule id='CLICHE_415_PROCURAR' name='Clichê: Procurar chifre em cabeça de cavalo'>
@@ -12806,7 +12806,7 @@ o tomate'>
           <token>cavalo</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>exagerar</match> problemas</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>exagerar</match> problemas</suggestion>
       <example correction='exagerar problemas'><marker>procurar chifre em cabeça de cavalo</marker>.</example>
     </rule>
     <rule id='CLICHE_416_PROCURAR' name='Clichê: Procurar pelo em ovo'>
@@ -12817,7 +12817,7 @@ o tomate'>
           <token>ovo</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>exagerar</match> problemas</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>exagerar</match> problemas</suggestion>
       <example correction='exagerar problemas'><marker>procurar pelo em ovo</marker>.</example>
     </rule>
     <rule id='CLICHE_417_PROCURAR' name='Clichê: Procurar sarna para se coçar'>
@@ -12829,7 +12829,7 @@ o tomate'>
           <token>coçar</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>envolver</match>-se em problemas sem necessidade</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>envolver</match>-se em problemas sem necessidade</suggestion>
       <example correction='envolver-se em problemas sem necessidade'><marker>procurar sarna para se coçar</marker>.</example>
     </rule>
     <rule id='CLICHE_418_PROCURAR' name='Clichê: Procurar uma agulha num palheiro'>
@@ -12841,7 +12841,7 @@ o tomate'>
           <token>palheiro</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>tentar</match> algo quase impossível</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>tentar</match> algo quase impossível</suggestion>
       <example correction='tentar algo quase impossível'><marker>procurar uma agulha num palheiro</marker>.</example>
     </rule>
     <rule id='CLICHE_419_PLANTAR' name='Clichê: Plantar bananeira'>
@@ -12850,7 +12850,7 @@ o tomate'>
           <token regexp='yes'>bananeiras?</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>colocar</match>-se de cabeça para baixo</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>colocar</match>-se de cabeça para baixo</suggestion>
       <example correction='colocar-se de cabeça para baixo'><marker>plantar bananeira</marker>.</example>
     </rule>
     <rule id='CLICHE_420_QUEBRAR' name='Clichê: Quebrar o galho'>
@@ -12860,7 +12860,7 @@ o tomate'>
           <token>galho</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>improvisar</match></suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>improvisar</match></suggestion>
       <example correction='improvisar'><marker>quebrar o galho</marker>.</example>
     </rule>
     <rule id='CLICHE_421_QUEBRAR' name='Clichê: Quebrar o protocolo'>
@@ -12892,7 +12892,7 @@ o tomate'>
           <token>fria</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>ter</match> entusiasmo transformado em desilusão</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>ter</match> entusiasmo transformado em desilusão</suggestion>
       <example correction='tiver entusiasmo transformado em desilusão'><marker>receber um balde de água fria</marker>.</example>
     </rule>
     <rule id='CLICHE_424_RESOLVER' name='Clichê: Resolver um pepino'>
@@ -12920,8 +12920,8 @@ o tomate'>
           <token>vela</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>atrapalhar</match> namoro</suggestion>
-        <suggestion><match no='1' postag='V.+'>estar</match> sozinho com um casal</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>atrapalhar</match> namoro</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>estar</match> sozinho com um casal</suggestion>
       <example correction='atrapalhar namoro|estiver sozinho com um casal'><marker>segurar vela</marker>.</example>
     </rule>
     <rule id='CLICHE_427_SENTIR' name='Clichê: Sentir dor de corno'>
@@ -12943,7 +12943,7 @@ o tomate'>
           <token>cotovelo</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>sentir</match> inveja</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>sentir</match> inveja</suggestion>
       <example correction='sentir inveja'><marker>sentir dor de cotovelo</marker>.</example>
     </rule>
     <rule id='CLICHE_429_SER' name='Clichê: Ser de bom comer'>
@@ -12954,8 +12954,8 @@ o tomate'>
           <token>comer</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>ter</match> boa boca</suggestion>
-        <suggestion><match no='1' postag='V.+'>consentir</match> na infidelidade da própria mulher</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>ter</match> boa boca</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>consentir</match> na infidelidade da própria mulher</suggestion>
       <example correction='ter boa boca|consentir na infidelidade da própria mulher'><marker>ser de bom comer</marker>.</example>
     </rule>
     <rule id='CLICHE_431_SER' name='Clichê: Ser um chato de galocha'>
@@ -12979,8 +12979,8 @@ o tomate'>
           <token spacebefore='no'>ninguém</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion>não <match no='1' postag='V.+'>ter</match> importância</suggestion>
-        <suggestion>não <match no='1' postag='V.+'>ter</match> peso social</suggestion>
+        <suggestion>não <match no='1' postag='V.+' postag_regexp='yes'>ter</match> importância</suggestion>
+        <suggestion>não <match no='1' postag='V.+' postag_regexp='yes'>ter</match> peso social</suggestion>
         <suggestion>\1 destituído de poder económico</suggestion>
       <example correction='não ter importância|não ter peso social|ser destituído de poder económico'><marker>ser um joão-ninguém</marker>.</example>
     </rule>
@@ -12993,7 +12993,7 @@ o tomate'>
           <token>tintas</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>mudar</match> de ideias facilmente</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>mudar</match> de ideias facilmente</suggestion>
         <suggestion>\1 traidor</suggestion>
       <example correction='mudar de ideias facilmente|ser traidor'><marker>ser um troca-tintas</marker>.</example>
     </rule>
@@ -13012,8 +13012,8 @@ o tomate'>
           <token>outras</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion>não <match no='1' postag='V.+'>ter</match> personalidade própria</suggestion>
-        <suggestion><match no='1' postag='V.+'>deixar</match>-se influenciar facilmente</suggestion>
+        <suggestion>não <match no='1' postag='V.+' postag_regexp='yes'>ter</match> personalidade própria</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>deixar</match>-se influenciar facilmente</suggestion>
       <example correction='não ter personalidade própria|deixar-se influenciar facilmente'><marker>ser um maria-vai-com-as-outras</marker>.</example>
     </rule>
     <rule id='CLICHE_435_SER' name='Clichê: Ser uma mala sem alça'>
@@ -13037,7 +13037,7 @@ o tomate'>
           <token>roda</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>ajudar</match> muito</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>ajudar</match> muito</suggestion>
         <suggestion>\1 prestável</suggestion>
       <example correction='ajudar muito|ser prestável'><marker>ser uma mão na roda</marker>.</example>
     </rule>
@@ -13051,7 +13051,7 @@ o tomate'>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
         <suggestion>\1 um estorvo</suggestion>
-        <suggestion><match no='1' postag='V.+'>atrapalhar</match></suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>atrapalhar</match></suggestion>
       <example correction='É um estorvo|Atrapalha'><marker>É uma pedra no sapato</marker>.</example>
     </rule>
     <rule id='CLICHE_438_TER' name='Clichê: Ter a barriga a dar horas'>
@@ -13075,7 +13075,7 @@ o tomate'>
           <token regexp='yes'>carpinteiros?</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>estar</match> irrequieto</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>estar</match> irrequieto</suggestion>
       <example correction='estar irrequieto'><marker>ter bicho carpinteiro</marker>.</example>
     </rule>
     <rule id='CLICHE_440_TER' name='Clichê: Ter lata'>
@@ -13084,7 +13084,7 @@ o tomate'>
           <token>lata</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>ser</match> descarado</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>ser</match> descarado</suggestion>
       <example correction='ser descarado'><marker>ter lata</marker>.</example>
     </rule>
     <rule id='CLICHE_441_TER' name='Clichê: Ter macacos no sótão'>
@@ -13117,7 +13117,7 @@ o tomate'>
           <token regexp='yes'>joelhos?</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>urinar</match></suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>urinar</match></suggestion>
       <example correction='urinar'><marker>tirar água do joelho</marker>.</example>
     </rule>
     <rule id='CLICHE_444_TIRAR' name='Clichê: Tirar de letra'>
@@ -13127,7 +13127,7 @@ o tomate'>
           <token>letra</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>fazer</match> algo com facilidade</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>fazer</match> algo com facilidade</suggestion>
       <example correction='fizer algo com facilidade'><marker>tirar de letra</marker>.</example>
     </rule>
     <rule id='CLICHE_445_TIRAR' name='Clichê: Tirar o cavalo da chuva'>
@@ -13139,8 +13139,8 @@ o tomate'>
           <token>chuva</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>desistir</match> de algo</suggestion>
-        <suggestion><match no='1' postag='V.+'>desistir</match> de alguém</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>desistir</match> de algo</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>desistir</match> de alguém</suggestion>
       <example correction='desistir de algo|desistir de alguém'><marker>tirar o cavalo da chuva</marker>.</example>
     </rule>
     <rule id='CLICHE_446_TIRAR' name='Clichê: Tirar onda'>
@@ -13149,8 +13149,8 @@ o tomate'>
           <token>onda</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>brincar</match></suggestion>
-        <suggestion><match no='1' postag='V.+'>enganar</match></suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>brincar</match></suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>enganar</match></suggestion>
       <example correction='brincar|enganar'><marker>tirar onda</marker>.</example>
     </rule>
     <rule id='CLICHE_447_TOMAR' name='Clichê: Tomar um banho de loja'>
@@ -13173,7 +13173,7 @@ o tomate'>
           <token>lá</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>ser</match> descartado</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>ser</match> descartado</suggestion>
       <example correction='for descartado'><marker>tomar um chega para lá</marker>.</example>
     </rule>
     <rule id='CLICHE_449_TRAIR-SE' name='Clichê: Trair-se pela emoção'>
@@ -13194,7 +13194,7 @@ o tomate'>
           <token>tona</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion>re<match no='1' postag='V.+'>visitar</match></suggestion>
+        <suggestion>re<match no='1' postag='V.+' postag_regexp='yes'>visitar</match></suggestion>
       <example correction='revisita|revisites'><marker>traz à tona</marker>.</example>
     </rule>
     <rule id='CLICHE_451_TREPAR' name='Clichê: Trepar paredes'>
@@ -13203,7 +13203,7 @@ o tomate'>
           <token>paredes</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>estar</match> desesperado</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>estar</match> desesperado</suggestion>
       <example correction='estiver desesperado'><marker>trepar paredes</marker>.</example>
     </rule>
     <rule id='CLICHE_452_TROCAR' name='Clichê: Trocar alhos por bugalhos'>
@@ -13214,8 +13214,8 @@ o tomate'>
           <token>bugalhos</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>confundir</match> factos</suggestion>
-        <suggestion><match no='1' postag='V.+'>confundir</match> histórias</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>confundir</match> factos</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>confundir</match> histórias</suggestion>
       <example correction='confundir factos|confundir histórias'><marker>trocar alhos por bugalhos</marker>.</example>
     </rule>
     <rule id='CLICHE_453_TROCAR' name='Clichê: Trocar as bolas'>
@@ -13225,7 +13225,7 @@ o tomate'>
           <token>bolas</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>atrapalhar</match>-se</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>atrapalhar</match>-se</suggestion>
       <example correction='atrapalhar-se'><marker>trocar as bolas</marker>.</example>
     </rule>
     <rule id='CLICHE_454_TROCAR' name='Clichê: Trocar farpas'>
@@ -13253,8 +13253,8 @@ o tomate'>
           <token>mãos</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>agir</match> desajeitadamente</suggestion>
-        <suggestion><match no='1' postag='V.+'>agir</match> com pressa</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>agir</match> desajeitadamente</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>agir</match> com pressa</suggestion>
       <example correction='agir desajeitadamente|agir com pressa'><marker>trocar os pés pelas mãos</marker>.</example>
     </rule>
     <rule id='CLICHE_457_TROCAR' name='Clichê: Trocar seis por meia dúzia'>
@@ -13266,7 +13266,7 @@ o tomate'>
           <token>dúzia</token>
       </pattern>
       <message>Frase-feita. Procure alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>trocar</match> sem fazer qualquer diferença</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>trocar</match> sem fazer qualquer diferença</suggestion>
       <example correction='trocar sem fazer qualquer diferença'><marker>trocar seis por meia dúzia</marker>.</example>
     </rule>
     <rule id='ABANDONAR_O_LEITO' name="Clichê: Deixar a cama">
@@ -13512,7 +13512,7 @@ o tomate'>
           <token regexp="yes">sapatos?|chinelos?|meias?|luvas?|botas?|peúgas?|ténis|sapatilhas?</token>
       </pattern>
       <message>Utilize o verbo calçar</message>
-        <suggestion><match no='1' postag='V.+'>calçar</match></suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>calçar</match></suggestion>
       <example correction="Calces|Calça"><marker>Veste os sapatos</marker>.</example>
       <example><marker>Calçar os sapatos</marker>.</example>
     </rule>
@@ -24121,7 +24121,7 @@ TODO Write better examples
           <token>sofrimento</token>
       </pattern>
       <message>Linguagem informal. Considere as alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>matar</match></suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>matar</match></suggestion>
       <example correction='matar'><marker>acabar com o sofrimento</marker>.</example>
     </rule>
     <rule>
@@ -24149,7 +24149,7 @@ TODO Write better examples
           <token regexp='yes'>papos?</token>
       </pattern>
       <message>Linguagem informal. Considere as alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>falar</match></suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>falar</match></suggestion>
       <example correction='falar'><marker>bater papo</marker>.</example>
     </rule>
     <rule>
@@ -24299,7 +24299,7 @@ TODO Write better examples
           <token>saco</token>
       </pattern>
       <message>Linguagem informal. Considere as alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>aborrecer</match></suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>aborrecer</match></suggestion>
       <example correction='aborrecer'><marker>encher o saco</marker>.</example>
     </rule>
     <rule>
@@ -24317,7 +24317,7 @@ TODO Write better examples
           <token>mal</token>
       </pattern>
       <message>Linguagem informal. Considere as alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>maldizer</match></suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>maldizer</match></suggestion>
       <example correction='maldiga'><marker>fala mal</marker>.</example>
     </rule>
     <!--rule>
@@ -24396,7 +24396,7 @@ TODO Write better examples
           <token>cara</token>
       </pattern>
       <message>Linguagem informal. Considere as alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>ser</match> óbvio</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>ser</match> óbvio</suggestion>
       <example correction='sejas óbvio|sê óbvio'><marker>está na cara</marker>.</example>
     </rule>
     <rule>
@@ -24617,8 +24617,8 @@ TODO Write better examples
           <token>que</token>
       </pattern>
       <message>Linguagem informal. Considere as alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>pensar</match> que</suggestion>
-        <suggestion><match no='1' postag='V.+'>julgar</match> que</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>pensar</match> que</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>julgar</match> que</suggestion>
       <example correction='penso que|julgo que'>Eu <marker>acho que</marker> devemos vencer.</example>
     </rule>
     <rule id='BASEIA-SE_EM' name="Tem por base" default='off'>
@@ -24778,7 +24778,7 @@ TODO Write better examples
           <token>biscoito</token>
       </pattern>
       <message>Esta expressão é de baixo calão. Considere as alternativas.</message>
-        <suggestion><match no='1' postag='V.+'>fazer</match> sexo</suggestion>
+        <suggestion><match no='1' postag='V.+' postag_regexp='yes'>fazer</match> sexo</suggestion>
       <example correction='fizer sexo'><marker>molhar o biscoito</marker>.</example>
     </rule>
     <rule>
@@ -25265,7 +25265,7 @@ TODO Write better examples
         </marker>
           <token>caminhos</token>
       </pattern>
-      <message>Substitua por <suggestion><match no='1' postag='V.+'>percorrer</match></suggestion>.</message>
+      <message>Substitua por <suggestion><match no='1' postag='V.+' postag_regexp='yes'>percorrer</match></suggestion>.</message>
       <example correction="percorrer">Deve <marker>caminhar</marker> caminhos descobertos por tentativa e erro.</example>
     </rule>
 
