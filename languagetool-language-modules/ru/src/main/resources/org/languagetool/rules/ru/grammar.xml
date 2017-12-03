@@ -2282,6 +2282,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
             <!-- Оборот с неопределенной формой глагола со всеми относящимися к ней словами,
             присоединёнными союзами чтобы (чтоб), для того чтобы (чтоб), с тем чтобы (чтоб) и т. п. выделяется запятыми. -->    
+               <antipattern> 
+                    <token regexp="yes">для|с|вместо</token>
+                    <marker>
+                        <token regexp="yes">того|тем</token>
+                        <token regexp="yes">чтобы|чтоб</token>
+                        <token postag="VB:INF:"></token>
+                    </marker>
+                </antipattern>
+                 <antipattern>
+                    <marker>
+                        <token>только</token>
+                        <token regexp="yes">чтобы|чтоб</token>
+                        <token postag="VB:INF:"></token>
+                    </marker>
+                </antipattern>
                 <pattern>
                     <token><exception regexp="yes">,|;</exception><exception postag="SENT_START"></exception></token>
                     <token regexp="yes">чтобы|чтоб</token>
@@ -2292,6 +2307,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Запятые при обстоятельственном обороте</short>
                 <example correction="крыльцо, чтобы освежиться">Я вышел на <marker>крыльцо чтобы освежиться</marker>.</example>
                 <example>Я вышел на крыльцо, чтобы освежиться.</example>
+                <example>Врагам понадобилось почти 10 месяцев, только чтобы захватить город.</example>
             </rule>
         </rulegroup>
         <rulegroup default="on" id="Verb_comma_Verb" name="Глаголы как однородные члены предложения">
