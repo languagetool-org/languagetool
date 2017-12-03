@@ -161,6 +161,21 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
     return found;
   }
 
+ /**
+  * Checks if the token has amy of the given particular POS tags (only a part of the given POS tag needs to match)
+  *
+  * @param posTags POS tag substring to look for
+  * @since 4.0
+  */
+  public boolean hasAnyPartialPosTag(String... posTags) {
+    for (String posTag : posTags) {
+      if (hasPartialPosTag(posTag)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   /**
    * Checks if the token has a postag starting with the given string.
    *

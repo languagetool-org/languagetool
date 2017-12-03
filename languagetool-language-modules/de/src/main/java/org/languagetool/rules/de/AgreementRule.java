@@ -25,6 +25,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nullable;
@@ -264,17 +265,6 @@ public class AgreementRule extends Rule {
     )
   );
 
-
-  private static final Set<String> MODIFIERS = new HashSet<>(Arrays.asList(
-    "besonders",
-    "fast",
-    "geradezu",
-    "sehr",
-    "überaus",
-    "ziemlich"
-  ));
-
-
   private static final Set<String> VIELE_WENIGE_LOWERCASE = new HashSet<>(Arrays.asList(
     "viele",
     "vieler",
@@ -303,26 +293,7 @@ public class AgreementRule extends Rule {
     REL_PRONOUN.add("welches");
   }
 
-  private static final Set<String> PREPOSITIONS = new HashSet<>();
-  static {
-    PREPOSITIONS.add("in");
-    PREPOSITIONS.add("auf");
-    PREPOSITIONS.add("an");
-    PREPOSITIONS.add("ab");
-    PREPOSITIONS.add("aus");
-    PREPOSITIONS.add("für");
-    PREPOSITIONS.add("zu");
-    PREPOSITIONS.add("bei");
-    PREPOSITIONS.add("nach");
-    PREPOSITIONS.add("über");
-    PREPOSITIONS.add("von");
-    PREPOSITIONS.add("mit");
-    PREPOSITIONS.add("durch");
-    PREPOSITIONS.add("während");
-    PREPOSITIONS.add("unter");
-    PREPOSITIONS.add("ohne");
-    // TODO: add more
-  }
+  private static final Pattern MEASURES = Pattern.compile(".*([gG]ramm|[mM]eter)");
   
   private static final Set<String> PRONOUNS_TO_BE_IGNORED = new HashSet<>(Arrays.asList(
     "ich",
@@ -404,16 +375,15 @@ public class AgreementRule extends Rule {
       boolean ignore = couldBeRelativeOrDependentClause(tokens, i);
       if (i > 0) {
         String prevToken = tokens[i-1].getToken().toLowerCase();
-        if ((tokens[i].getToken().equals("eine") || tokens[i].getToken().equals("einen"))
-            && (prevToken.equals("der") || prevToken.equals("die") || prevToken.equals("das") || prevToken.equals("des") || prevToken.equals("dieses"))) {
+        if (StringUtils.equalsAny(tokens[i].getToken(), "eine", "einen")
+            && StringUtils.equalsAny(prevToken, "der", "die", "das", "des", "dieses")) {
           // TODO: "der eine Polizist" -> nicht ignorieren, sondern "der polizist" checken; "auf der einen Seite"
           ignore = true;
         }
       }
       
       // avoid false alarm on "nichts Gutes" and "alles Gute"
-      if (tokenReadings.getToken().equals("nichts") || tokenReadings.getToken().equals("alles")
-          || tokenReadings.getToken().equals("dies")) {
+      if (StringUtils.equalsAny(tokenReadings.getToken(), "nichts", "alles", "dies")) {
         ignore = true;
       }
 
@@ -472,7 +442,7 @@ public class AgreementRule extends Rule {
    * @return index of first non-modifier token
    */
   private int getPosAfterModifier(int startAt, AnalyzedTokenReadings[] tokens) {
-    if ((startAt + 1) < tokens.length && MODIFIERS.contains(tokens[startAt].getToken())) {
+    if ((startAt + 1) < tokens.length && tokens[startAt].hasPosTag("ADV:MOD")) {
       startAt++;
     }
     if ((startAt + 1) < tokens.length && (StringUtils.isNumeric(tokens[startAt].getToken()) || tokens[startAt].hasPosTag("ZAL"))) {
@@ -480,7 +450,7 @@ public class AgreementRule extends Rule {
       if ((startAt + 3) < tokens.length && ",".equals(tokens[startAt+1].getToken()) && StringUtils.isNumeric(tokens[startAt+2].getToken())) {
         posAfterModifier = startAt + 3;
       }
-      if (tokens[posAfterModifier].getToken().matches(".*([gG]ramm|[mM]eter)")) {
+      if (MEASURES.matcher(tokens[posAfterModifier].getToken()).matches()) {
         return posAfterModifier + 1;
       }
     }
@@ -536,9 +506,8 @@ public class AgreementRule extends Rule {
       // or: "Die Polizei erwischte die Diebin, weil diese Ausweis und Visitenkarte hinterließ."
       comma = tokens[pos-2].getToken().equals(",");
       if(comma) {
-        String term1 = tokens[pos-1].getToken();
         String term2 = tokens[pos].getToken();
-        boolean prep = PREPOSITIONS.contains(term1);
+        boolean prep = tokens[pos-1].hasPosTagStartingWith("PRP:");
         relPronoun = REL_PRONOUN.contains(term2);
         return prep && relPronoun || (tokens[pos-1].hasPosTag("KON:UNT") && (tokens[pos].hasLemma("jen") || tokens[pos].hasLemma("dies")));
       }

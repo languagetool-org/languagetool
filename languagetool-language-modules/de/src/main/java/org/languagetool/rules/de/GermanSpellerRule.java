@@ -687,7 +687,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private String getWordAfterEnumerationOrNull(List<String> words, int idx) {
     for (int i = idx; i < words.size(); i++) {
       String word = words.get(i);
-      boolean inEnumeration = ",".equals(word) || "und".equals(word) || "oder".equals(word) || word.trim().isEmpty() || word.endsWith("-");
+      boolean inEnumeration = StringUtils.equalsAny(word, ",", "und", "oder") || word.trim().isEmpty() || word.endsWith("-");
       if (!inEnumeration) {
         return word;
       }
