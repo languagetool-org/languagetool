@@ -25,7 +25,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-# Default options
+# Options
+VERSION="2.2"
 clone_depth="1"
 text="spellcheck.txt"
 
@@ -56,6 +57,12 @@ case $key in
     shift # past argument
     shift # past value
     ;;
+    -r|--remove)
+    remove="$2"
+    uninstall=YES
+    shift # past argument
+    shift # past value
+    ;;
     -b|--build)
     build=YES
     shift # past argument
@@ -74,23 +81,29 @@ case $key in
     quiet=YES
     shift # past argument
     ;;
+    -a|--accept)
+    accept=YES
+    shift # past argument
+    ;;
 esac
 done
 
 display_help() {
     echo
-    echo 'Script version 2.0.'
+    echo "Script version $VERSION"
     echo 'An tool for installing or building LanguageTool.'
     echo 'Usage: install.sh <option> <package>'
     echo 'Options:'
     echo '   -h --help                   Show help'
-    echo '   -o --override <OS>          Override automatic OS detection with <OS>'
     echo '   -b --build                  Builds packages from the bleeding edge development copy of LanguageTool'
-    echo '   -p --package <package>      Specifies package to install when building (default all)'
     echo '   -c --command <command>      Specifies post-installation command to run (default gui when screen is detected)'
     echo '   -q --quiet                  Shut up LanguageTool installer! Only tell me important stuff!'
-    echo '   -d --depth <value>          Specifies the depth to clone when building LanguageTool yourself.'
     echo '   -t --text <file>            Specifies what text to be spellchecked by LanguageTool command line (default spellcheck.txt)'
+    echo '   -d --depth <value>          Specifies the depth to clone when building LanguageTool yourself (default 1).'
+    echo '   -p --package <package>      Specifies package to install when building (default all)'
+    echo '   -o --override <OS>          Override automatic OS detection with <OS>'
+    echo '   -a --accept                 Accept the oracle license at http://java.com/license. Only run this if you have seen the license and agree to its terms!'
+    echo '   -r --remove <all/partial>   Removes LanguageTool install. <all> uninstalls the dependencies that were auto-installed. (default partial)'
     echo
     echo 'Packages(only if -b is specified):'
     echo '   standalone                  Installs standalone package'
@@ -109,7 +122,7 @@ display_help() {
 
 install() {
     echo "Removing any old copy of LanguageTools Stable in this directory"
-    rm LanguageTool-stable.zip &>/dev/null
+    rm LanguageTool-stable.zip &>/dev/null # maybe switch with 2> /dev/null
 
     detect_unzip
 
@@ -206,11 +219,42 @@ build_quiet () {
     fi
 }
 
+uninstall_loud () {
+    touch languagetool
+    rm -r "languagetool"
+    touch LanguageTool-uninstall
+    rm -r "LanguageTool-"*
+    if [ "$remove" = "all" ] || [ "$remove" = "ALL" ] || [ "$remove" = "a" ] || [ "$remove" = "A" ]; then
+        detect_uninstall
+        bash /etc/languagetool/uninstall.sh
+        rm /etc/languagetool/uninstall.sh
+    fi
+    echo "LanguageTool uninstalled!"
+    exit
+}
+
+uninstall_quiet () {
+    touch languagetool
+    rm -r "languagetool"
+    touch LanguageTool-uninstall
+    rm -r "LanguageTool-"*
+    if [ "$remove" = "all" ] || [ "$remove" = "ALL" ] || [ "$remove" = "a" ] || [ "$remove" = "A" ]; then
+        detect_uninstall
+        echo "This may take some time . . ."
+        sudo bash /etc/languagetool/uninstall.sh &>/dev/null
+        sudo rm /etc/languagetool/uninstall.sh # Find way to silence this
+    fi
+    exit
+}
+
 install_maven() {
+    detect_uninstall
+    echo "Maven is not installed."
     echo "Installing maven . . ."
     if [[ "$OSTYPE" == "linux-gnu" ]]; then
         apt update -y
         apt install maven -y
+        echo "apt remove maven -y" >> /etc/languagetool/uninstall.sh
 
     elif [[ "$OSTYPE" == "darwin"* ]]; then
         if ! [ -x "$(brew -v)" ]; then
@@ -218,6 +262,7 @@ install_maven() {
         fi
         brew update
         brew install maven
+        echo "brew remove maven" >> /etc/languagetool/uninstall.sh
 
     else
             echo "Error: java is not installed and operating system detection error"
@@ -227,20 +272,25 @@ install_maven() {
 }
 
 install_java() {
-    echo "Java is not installed"
+    detect_uninstall
+    echo "Java is not installed."
     echo "Installing java . . ."
 
     if [[ "$OSTYPE" == "linux-gnu" ]]; then
         add-apt-repository ppa:webupd8team/java -y
         apt update
+        if [[ "$accept" == "YES" ]]; then
+            echo debconf shared/accepted-oracle-license-v1-1 select true | debconf-set-selections
+        fi
         apt install oracle-java8-installer -y
-
+        echo "apt remove oracle-java8-installer -y" >> /etc/languagetool/uninstall.sh # need to test
     elif [[ "$OSTYPE" == "darwin"* ]]; then
         if ! [ -x "$(brew -v)" ]; then
                /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
         fi
         brew update
         brew cask install java
+        echo "brew remove java" >> /etc/languagetool/uninstall.sh
 
     else
             echo "Error: java is not installed and operating system detection error"
@@ -250,12 +300,14 @@ install_java() {
 }
 
 install_unzip() {
-    echo "Java is not installed"
-    echo "Installing java . . ."
+    detect_uninstall
+    echo "Unzip is not installed."
+    echo "Installing unzip . . ."
 
     if [[ "$OSTYPE" == "linux-gnu" ]]; then
         apt update
         apt install unzip
+        echo "apt remove unzip -y" >> /etc/languagetool/uninstall.sh
 
     elif [[ "$OSTYPE" == "darwin"* ]]; then
         if ! [ -x "$(brew -v)" ]; then
@@ -263,6 +315,7 @@ install_unzip() {
         fi
         brew update
         brew install unzip
+        echo "brew remove unzip" >> /etc/languagetool/uninstall.sh
 
     else
             echo "Error: unzip is not installed and operating system detection error"
@@ -297,6 +350,14 @@ detect_screen() {
     fi
 }
 
+detect_uninstall() {
+    if ! [ -e "/etc/languagetool/uninstall.sh" ]; then
+        mkdir -p /etc/languagetool
+        touch /etc/languagetool/uninstall.sh
+        echo "#!/bin/bash" >> /etc/languagetool/uninstall.sh
+    fi
+}
+
 postinstall_command () {
     detect_screen
     file=""
@@ -307,11 +368,14 @@ postinstall_command () {
         check_command_line
     elif [ "$command" = server ] || [ "$command" = web ]; then
         cmd="languagetool-server"
+    elif [ "$command" = none ] || [ "$command" = N ] || [ "$command" = n ]; then
+        cmd=""
     else
         cmd="languagetool"
     fi
 }
 
+# Checks if file specified with commnd line option exists
 check_command_line () {
     if [ -e $file ]; then
         cmd="languagetool-commandline"
@@ -336,7 +400,7 @@ build_or_install_loud () {
 }
 
 build_or_install_quiet () {
-    # Build or install loudly
+    # Build or install quietly
     if [ "$build" == YES ]; then
         build_quiet
         echo "Your build is done."
@@ -357,6 +421,16 @@ if [ "$help" == YES ]; then
     display_help
 fi
 
+# Detect if uninstalled was selected
+if [ "$uninstall" == YES ]; then
+    if [ "$quiet" == YES ]; then
+        uninstall_quiet
+    else
+        uninstall_loud
+    fi
+fi
+
+# Build or install options
 if [ "$quiet" == YES ]; then
     build_or_install_quiet
 else
