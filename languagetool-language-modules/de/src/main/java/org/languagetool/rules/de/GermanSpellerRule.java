@@ -143,6 +143,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("[mM]atschscheiben?", "[mM]atschsch", "Mattsch");
     put("schafen?", w -> Arrays.asList(w.replaceFirst("sch", "schl"), w.replaceFirst("af", "arf"), w.replaceFirst("af", "aff")));
     putRepl("[hH]ofen?", "of", "off");
+    putRepl("[rR]ecourcen?", "[rR]ec", "Ress");
+    putRepl("[fF]amm?ill?i?arisch(e[mnrs]?)?", "amm?ill?i?arisch", "amiliär");
     put("Wi-?Fi-Dire[ck]t", "Wi-Fi Direct");
     put("gans", "ganz");
     put("Pearl-Harbou?r", "Pearl Harbor");
