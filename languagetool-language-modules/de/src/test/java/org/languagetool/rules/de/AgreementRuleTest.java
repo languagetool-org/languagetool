@@ -87,9 +87,15 @@ public class AgreementRuleTest {
     assertGood("Er fragte, ob das Spaß macht.");
     assertGood("Das viele Geld wird ihr helfen.");
     assertGood("Er verspricht jedem hohe Gewinne.");
+    assertGood("Er versprach allen Renditen jenseits von 15 Prozent.");
+    assertGood("Sind das Eier aus Bodenhaltung?");
+    assertGood("Dir macht doch irgendwas Sorgen.");
+    assertGood("Sie fragte, ob das wirklich Kunst sei.");
     assertGood("Für ihn ist das Alltag.");
     assertGood("Für die Religiösen ist das Blasphemie.");
     assertGood("Das ist ein super Tipp.");
+    assertGood("Er nahm allen Mut zusammen und ging los.");
+    assertGood("Sie kann einem Angst einjagen.");
 
     assertGood("Das Dach von meinem Auto.");
     assertGood("Das Dach von meinen Autos.");
@@ -142,6 +148,7 @@ public class AgreementRuleTest {
 
     assertGood("Das erfordert Können.");
     assertGood("Ist das Kunst?");
+    assertGood("Ist das Kunst oder Abfall?");
     assertGood("Die Zeitdauer, während der Wissen nützlich bleibt, wird kürzer.");
     assertGood("Es sollte nicht viele solcher Bilder geben");
     assertGood("In den 80er Jahren.");

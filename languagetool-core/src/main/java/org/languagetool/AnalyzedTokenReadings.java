@@ -143,6 +143,26 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
   }
 
   /**
+   * Checks if one of the token's readings has one of the given lemmas
+   *
+   * @param lemmas to look for
+   */
+  public boolean hasAnyLemma(String... lemmas) {
+    boolean found = false;
+    for(String lemma : lemmas) {
+      for (AnalyzedToken reading : anTokReadings) {
+        if (reading.getLemma() != null) {
+          found = lemma.equals(reading.getLemma());
+          if (found) {
+            return found;
+          }
+        }
+      }
+    }
+    return found;
+  }
+
+  /**
    * Checks if the token has a particular POS tag, whereas only a part of the given POS tag needs to match.
    *
    * @param posTag POS tag substring to look for
