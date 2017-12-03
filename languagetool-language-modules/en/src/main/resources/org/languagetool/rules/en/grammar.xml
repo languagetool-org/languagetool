@@ -14207,13 +14207,33 @@ USA
           <token>about</token>
         </marker>
           <token regexp='yes'>an?|the</token>
-          <token min='1' max='2'></token>
+          <token/>
           <token>and</token>
           <token regexp='yes'>an?|the</token>
           <token/>
       </pattern>
       <message>The usual preposition for "difference" is "between" not "about".  Revise: <suggestion>difference between</suggestion>.</message>
-      <example correction='difference between'>There is not big <marker>differenceaabout</marker> the week and the weekend to me.</example>
+      <example correction='difference between'>There is not big <marker>difference about</marker> the week and the weekend to me.</example>
+    </rule>
+    <rule id='IMPORTANT_WITH_TO' name='Collocation: Important with/to'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token>important</token>
+          <token>with</token>
+          <token postag_regexp="yes" postag="NNP|PRP">
+            <exception regexp="yes">an?|all|many|some|multiple|most</exception></token>
+      </pattern>
+      <message>The usual preposition for "\1" is "to" not "with".  Revise: <suggestion>\1 to \3</suggestion>.</message>
+      <example correction='important to you'>Family who is closest and <marker>important with you</marker>.</example>
+    </rule>
+    <rule id='CONSIST_TO_OF' name='Collocation: Consist to/of'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token inflected="yes">consist</token>
+          <token>to</token>
+      </pattern>
+      <message>The usual preposition for "\1" is "of" not "to".  Revise: <suggestion>\1 of</suggestion>.</message>
+      <example correction='consists of'>There is a program in medicine and this program <marker>consists to</marker> diagnostic people to know if  their body works well.</example>
     </rule>
   </rulegroup>
 
