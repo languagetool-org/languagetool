@@ -288,6 +288,11 @@ public class CaseRule extends Rule {
     Arrays.asList(
       csToken("Fair"),
       csToken("Trade")
+   ),
+    Arrays.asList(
+      csToken("Virtual"),
+      csToken("Private"),
+      csToken("Network")
    )
   );
 
