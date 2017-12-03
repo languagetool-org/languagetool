@@ -335,11 +335,21 @@ install_unzip() {
 
 install_homebrew() {
     if ! [[ "$accept" == "YES" ]]; then
-        if (whiptail --title "Select Option" --yesno "Do you want to install webupd8team/java PPA to install java?" 10 60) then
+        /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+    else
+        dialog=$( osascript \
+        -e 'tell application "System Events"' \
+        -e 'activate' \
+        -e 'set dialog_result to display dialog "Do you want to get homebrew to install packages necessary for languagetool?" with title "LanguageTool Installer" buttons {"Yes","No"} default button 1' \
+        -e 'end tell' \
+        -e 'get button returned of dialog_Result'
+        )
+        if [[ "$dialog" = "Yes" ]]; then
             /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
         else
-            echo "Can not install homebrew. Packages may not work."
-            return
+            echo "Can not install homebrew. Packages will not work."
+            echo "Exiting"
+            exit 1
         fi
     fi
 }
