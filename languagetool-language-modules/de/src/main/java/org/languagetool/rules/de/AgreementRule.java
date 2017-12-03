@@ -168,7 +168,7 @@ public class AgreementRule extends Rule {
     ),
     Arrays.asList(
       new PatternTokenBuilder().token("allen").build(),
-      new PatternTokenBuilder().token("Besitz").build()
+      new PatternTokenBuilder().tokenRegex("Besitz|Mut").build()
     ),
     Arrays.asList(
       new PatternTokenBuilder().tokenRegex("d(ie|en)|[md]einen?").build(),
@@ -275,11 +275,6 @@ public class AgreementRule extends Rule {
     Arrays.asList( // "ei der Daus"
       new PatternTokenBuilder().csToken("der").build(),
       new PatternTokenBuilder().csToken("Daus").build()
-    ),
-    Arrays.asList( // "Er nahm allen Mut zusammen"
-      new PatternTokenBuilder().csToken("allen").build(),
-      new PatternTokenBuilder().csToken("Mut").build(),
-      new PatternTokenBuilder().csToken("zusammen").build()
     ),
     Arrays.asList(
       new PatternTokenBuilder().csToken("dem").build(),
