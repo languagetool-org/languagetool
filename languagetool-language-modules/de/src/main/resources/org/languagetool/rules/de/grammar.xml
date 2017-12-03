@@ -14579,17 +14579,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="IM_AUS" name="im aus (Aus)">
             <rule>
                 <pattern>
-                    <token regexp="yes">i(m|ns)</token>
+                    <token regexp="yes">i(m|ns)|das</token>
                     <marker>
                         <token case_sensitive="yes">aus</token>
                     </marker>
-                    <token postag="SENT_END|PKT|VER:.*" postag_regexp="yes"/>
+                    <token postag="SENT_END|PKT|VER:.*|^PRP:.+" postag_regexp="yes"/>
                 </pattern>
                 <message>&inwend;'im Aus sein/landen' wird <suggestion>Aus</suggestion> großgeschrieben.</message>
                 <short>&prgk;.</short>
                 <example correction="Aus">Der Ball landete im <marker>aus</marker>.</example>
                 <example correction="Aus">Weil der Ball im <marker>aus</marker> landete, verlor er das Spiel.</example>
                 <example correction="Aus">Der Ball rollte ins <marker>aus</marker>.</example>
+                <example correction="Aus">Das <marker>aus</marker> für Italien kam unerwartet.</example>
                 <example>Im aus vielen Erzählungen bekannten Atlantis soll ein Schatz liegen.</example>
                 <example>Der Ball rollte ins Aus.</example>
             </rule>
@@ -14602,7 +14603,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">(vor)?gestern|heute</token>
                 </antipattern>
                 <pattern>
-                    <token regexp="yes">im|das</token>
+                    <token regexp="yes">im|ins|das</token>
                     <marker>
                         <token case_sensitive="yes" regexp="yes">(vor)?gestern|heute</token>
                     </marker>
@@ -14656,11 +14657,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>klaren</token>
                     </marker>
-                    <token>darüber</token>
+                    <token regexp="yes">darüber|,</token>
                 </pattern>
                 <message>&inwend;'sich im Klaren sein' wird <suggestion>Klaren</suggestion> großgeschrieben.</message>
                 <short>&prgk;.</short>
                 <example correction="Klaren">Bin ich mir im <marker>klaren</marker> darüber?</example>
+                <example correction="Klaren">Wir sind uns im <marker>klaren</marker>, was das bedeutet.</example>
                 <example correction="Klaren">Ich bin mir nicht im <marker>klaren</marker> darüber.</example>
                 <example correction="Klaren">Warum seid ihr euch im <marker>klaren</marker> darüber, dass das nicht gut ist?</example>
                 <example>Bin ich dir im <marker>klaren</marker> Wasser begegnet?</example>
