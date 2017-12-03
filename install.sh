@@ -265,7 +265,7 @@ install_maven() {
         echo "brew remove maven" >> /etc/languagetool/uninstall.sh
 
     else
-            echo "Error: java is not installed and operating system detection error"
+            echo "Error: maven is not installed and operating system detection error"
             echo "   OS type not supported!"
             echo "   Please install maven yourself or override automatic OS detection with -o <OS> See help for more details."
     fi
@@ -296,7 +296,7 @@ install_java() {
     else
             echo "Error: java is not installed and operating system detection error"
             echo "   OS type not supported!"
-            echo "   Please install maven yourself or override automatic OS detection with -o <OS> See help for more details."
+            echo "   Please install java yourself or override automatic OS detection with -o <OS> See help for more details."
     fi
 }
 
@@ -321,7 +321,7 @@ install_unzip() {
     else
             echo "Error: unzip is not installed and operating system detection error"
             echo "   OS type not supported!"
-            echo "   Please install maven yourself or override automatic OS detection with -o <OS> See help for more details."
+            echo "   Please install unzip yourself or override automatic OS detection with -o <OS> See help for more details."
     fi
 }
 
