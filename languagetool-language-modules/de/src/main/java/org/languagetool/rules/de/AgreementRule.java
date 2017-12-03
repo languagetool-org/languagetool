@@ -285,6 +285,11 @@ public class AgreementRule extends Rule {
       new PatternTokenBuilder().csToken("schenken").matchInflectedForms().build(),
       new PatternTokenBuilder().csToken("dem").build(),
       new PatternTokenBuilder().csToken("Achtung").build()
+    ),
+    Arrays.asList(
+      new PatternTokenBuilder().csToken("zum").build(),
+      new PatternTokenBuilder().csToken("einen").build(),
+      new PatternTokenBuilder().posRegex("ADJ:.+").build()
     )
   );
 

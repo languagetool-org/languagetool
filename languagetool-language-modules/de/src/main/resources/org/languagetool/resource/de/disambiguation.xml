@@ -1910,8 +1910,8 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     </rule>
 
     <rule name="Fifth Avenue" id="FIFTH_AVENUE">
-        <pattern>
-            <token>Fifth</token>
+        <pattern case_sensitive="yes">
+            <token regexp="yes">Fifth|5th</token>
             <token>Avenue</token>
         </pattern>
         <disambig action="ignore_spelling"/>
@@ -2012,8 +2012,9 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
 
     <rule name="virtual" id="VIRTUAL_REALITY">
         <pattern>
-            <token>Virtual</token>
-            <token regexp="yes">Reality|Environments?</token>
+            <token case_sensitive="yes">Virtual</token>
+            <token regexp="yes">Reality|Environments?|Private</token>
+            <token min="0">Network</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -2535,14 +2536,6 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
       <pattern case_sensitive="yes">
         <token>Low</token>
         <token>Carb</token>
-      </pattern>
-      <disambig action="ignore_spelling"/>
-    </rule>
-    <rule name="VPN" id="VPN">
-      <pattern case_sensitive="yes">
-        <token>Virtual</token>
-        <token>Private</token>
-        <token>Network</token>
       </pattern>
       <disambig action="ignore_spelling"/>
     </rule>
