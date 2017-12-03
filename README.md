@@ -24,8 +24,19 @@ To install or build using a script, simply type:
 curl -L https://bit.ly/2kfvAha | sudo bash <options>
 ```
 
+If you're feeling paranoid and want to ensure the script is safe before running it as root, type:
+
 ```
-A tool for installing or building LanguageTool.
+curl -L https://bit.ly/2kfvAha -o install.sh
+openssl dgst -SHA256 install.sh
+```
+If the output of the checksum matches the checksums listed at `install.sh.DIGESTS`, proceed. You can replace SHA256 with any secure checksum listed.
+
+```
+sudo bash install.sh <options>
+```
+
+```
 Usage: install.sh <option> <package>
 Options:
    -h --help                   Show help
@@ -50,7 +61,7 @@ Commands:
    server                      Runs server version of LanguageTool
 ```
 
-#### How to build from source
+#### Alternate way to build from source
 
 Before start: you will need to clone from GitHub and install Java 8 and Apache Maven.
 
