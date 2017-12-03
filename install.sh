@@ -280,6 +280,7 @@ install_java() {
         add-apt-repository ppa:webupd8team/java -y
         apt update
         if [[ "$accept" == "YES" ]]; then
+            echo "You have read and agreed to the Oracle java license at http://java.com/license"
             echo debconf shared/accepted-oracle-license-v1-1 select true | debconf-set-selections
         fi
         apt install oracle-java8-installer -y
