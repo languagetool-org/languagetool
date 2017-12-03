@@ -759,7 +759,7 @@ public class CaseRule extends Rule {
     for (int i = 0; i < tokens.length; i++) {
       //Note: defaulting to the first analysis is only save if we only query for sentence start
       String posToken = tokens[i].getAnalyzedToken(0).getPOSTag();
-      if (posToken != null && posToken.equals(JLanguageTool.SENTENCE_START_TAGNAME)) {
+      if (JLanguageTool.SENTENCE_START_TAGNAME.equals(posToken)) {
         continue;
       }
       if (i == 1) {   // don't care about first word, UppercaseSentenceStartRule does this already
@@ -851,8 +851,7 @@ public class CaseRule extends Rule {
     // "Das ist zu Prüfen." but not "Das geht zu Herzen."
     if ("zu".equals(tokens[pos-1].getToken()) &&
       !tokens[pos].matchesPosTagRegex(".*(NEU|MAS|FEM)$") &&
-      lowercaseReadings != null &&
-      lowercaseReadings.hasPartialPosTag("VER:INF:")) {
+      hasPartialTag(lowercaseReadings, "VER:INF:")) {
       return true;
     }
     // find error in: "Man müsse Überlegen, wie man das Problem löst."
@@ -945,18 +944,14 @@ public class CaseRule extends Rule {
         return true;
       }
       // "Die Schöne Tür": "Schöne" also has a noun reading but like "SUB:AKK:SIN:FEM:ADJ", ignore that:
-      try {
-        AnalyzedTokenReadings allReadings = tagger.lookup(readings.getToken());  // unification in disambiguation.xml removes reading, so look up again
-        if (allReadings != null) {
-          for (AnalyzedToken reading : allReadings) {
-            String posTag = reading.getPOSTag();
-            if (posTag != null && posTag.contains("SUB:") && !posTag.contains(":ADJ")) {
-              return true;
-            }
+      AnalyzedTokenReadings allReadings = lookup(readings.getToken());  // unification in disambiguation.xml removes reading, so look up again
+      if (allReadings != null) {
+        for (AnalyzedToken reading : allReadings) {
+          String posTag = reading.getPOSTag();
+          if (posTag != null && posTag.contains("SUB:") && !posTag.contains(":ADJ")) {
+            return true;
           }
         }
-      } catch (IOException e) {
-        throw new RuntimeException("Could not lookup " + readings.getToken(), e);
       }
     }
     return false;
@@ -1083,15 +1078,11 @@ public class CaseRule extends Rule {
   }
 
   private boolean isNumber(String token) {
-    try {
-      if (StringUtils.isNumeric(token)) {
-        return true;
-      }
-      AnalyzedTokenReadings lookup = tagger.lookup(StringTools.lowercaseFirstChar(token));
-      return lookup != null && lookup.hasPosTag("ZAL");
-    } catch (IOException e) {
-      throw new RuntimeException(e);
+    if (StringUtils.isNumeric(token)) {
+      return true;
     }
+    AnalyzedTokenReadings lookup = lookup(StringTools.lowercaseFirstChar(token));
+    return lookup != null && lookup.hasPosTag("ZAL");
   }
 
   private boolean isAdverbAndNominalization(int i, AnalyzedTokenReadings[] tokens) {
@@ -1129,11 +1120,7 @@ public class CaseRule extends Rule {
     AnalyzedTokenReadings prevLowercaseReadings = null;
 
     if (i > 1 && sentenceStartExceptions.contains(tokens[i-2].getToken())) {
-      try {
-        prevLowercaseReadings = tagger.lookup(prevToken.getToken().toLowerCase());
-      } catch (IOException e) {
-        throw new RuntimeException(e);
-      }
+      prevLowercaseReadings = lookup(prevToken.getToken().toLowerCase());
     }
 
     // ignore "Der Versuch, Neues zu lernen / Gutes zu tun / Spannendes auszuprobieren"
@@ -1240,4 +1227,13 @@ public class CaseRule extends Rule {
     return true;
   }
 
+  private AnalyzedTokenReadings lookup(String word) {
+    AnalyzedTokenReadings lookupResult = null;
+    try {
+      lookupResult = tagger.lookup(word);
+    } catch (IOException e) {
+      throw new RuntimeException("Could not lookup '"+word+"'.", e);
+    }
+    return lookupResult;
+  }
 }
