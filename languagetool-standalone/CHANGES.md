@@ -38,6 +38,7 @@
 
 #### Polish
   * added rules
+  * disambiguation improvements
 
 #### Portuguese
   * added and improved rules
