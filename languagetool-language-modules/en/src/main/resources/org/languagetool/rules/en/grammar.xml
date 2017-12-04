@@ -18816,6 +18816,17 @@ USA
     <!-- Nonstandard Phrases -->
     <!-- ====================================================================== -->
     <category id="NONSTANDARD_PHRASES" name="Nonstandard Phrases" type="misspelling">
+      <rule id="IN_X_ORDER" name="redundant determiner: 'in (an) alphabetical order">
+          <pattern case_sensitive="yes">
+              <token>in</token>
+              <token regexp="yes">an?</token>
+              <token regexp="yes">alphabetical|ascending|descending</token>
+              <token>order</token>
+          </pattern>
+          <message>Unless there is more than one '\3 \4', leave out the determiner '\2'.<suggestion>\1 \3 \4</suggestion></message>
+          <url>https://jakubmarian.com/in-an-alphabetical-order-vs-in-alphabetical-order-in-english/</url>
+          <example correction="in alphabetical order">List the names <marker>in an alphabetical order</marker>.</example>
+      </rule>
       <rule id="I_NEVER_HAVE_BEEN" name="I never have been (I have never been)">
           <pattern>
               <token>I</token>
