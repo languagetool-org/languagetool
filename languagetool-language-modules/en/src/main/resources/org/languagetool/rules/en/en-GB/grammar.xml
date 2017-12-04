@@ -213,6 +213,18 @@ USA
             <example type="incorrect" correction="aeroplanes">These <marker>air planes</marker> can fly for 12 hours when they are fully loaded with fuel.</example>
             <example type="correct">This <marker>aeroplane</marker> is very quiet.</example>
         </rule>
+        <rule id="SI_UNITS_OF_MEASURMENT_ADJECTIVES_AME" name="1-liter/1-litre">
+            <pattern>
+                <token regexp="yes">([0-9]+-)(yotta|zetta|exa|peta|tera|giga|mega|kilo|hecto|deka|deci|centi|milli|micro|nano|pico|femto|atto|zepto|yocto)?(gram|liter|meter)<exception postag="NNP"/></token>
+            </pattern>
+            <message>The word '<match no="1"/>' is an adjective (SI unit of measurement), but the spelling is not correct British English.</message>
+            <short>AmE/BrE: SI units (adjectives)</short>
+            <example type="incorrect">Use a <marker>6-millimeter</marker> bolt.</example>
+            <example type="correct">Use a <marker>6-millimetre</marker> bolt.</example>
+            <example type="correct">Do not find incorrect English: use a <marker>10-millimeters</marker> bolt.</example>
+            <example type="incorrect">Use a <marker>10-meter</marker> rope.</example>
+            <example type="incorrect">The 4.<marker>6-centigram</marker> difference is not a problem.</example>
+            <example type="incorrect">Also find typgoraphic errors: a 5.7.<marker>8-femtogram</marker> difference is not important.</example>
+       </rule>
     </category>
-
 </rules>

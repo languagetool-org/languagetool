@@ -19147,6 +19147,20 @@ USA
                 <example correction="7:45">It's <marker>7:45 o'clock</marker>.</example>
             </rule>
         </rulegroup>
+        <rule id="SI_UNITS_OF_MEASURMENT_ADJECTIVES_PLURAL" name="5-farads/5-farad">
+            <pattern>
+                <token regexp="yes">([0-9]+-)(yotta|zetta|exa|peta|tera|giga|mega|kilo|hecto|deca|deka|deci|centi|milli|micro|nano|pico|femto|atto|zepto|yocto)?(amperes|becquerels|candelas|coulombs|farads|grams|grammes|grays|henries|hertz|joules|katals|kelvins|liters|litres|lumens|lux|meters|metres|moles|newtons|ohms|pascals|radians|siemens|sieverts|steradians|teslas|volts|watts|webers)<exception postag="NNP"/></token>
+            </pattern>
+            <message>The word '<match no="1"/>' is an adjective (SI unit of measurement), but the spelling is not correct. Do not use a plural adjective. Refer to section 5.3.3 in 'The International System of Units (SI)'.</message>
+            <url>https://www.bipm.org/utils/common/pdf/si_brochure_8_en.pdf</url>
+            <short>SI units, plural adjectives</short>
+            <example type="incorrect">Use a <marker>6-microfarads</marker> capacitor.</example>
+            <example type="correct">Use a <marker>6-microfarad</marker> capacitor.</example>
+            <example type="incorrect">A <marker>10-milliohms</marker> resistor is necessary.</example>
+            <example type="incorrect">Use a <marker>10-metres</marker> rope.</example>
+            <example type="incorrect">The 4.<marker>6-centigrammes</marker> difference is not a problem.</example>
+            <example type="incorrect">Also find typgoraphic errors: a 5.7.<marker>8-femtogrammes</marker> difference is not important.</example>
+        </rule>
     </category>
 
     <!-- ====================================================================== -->
