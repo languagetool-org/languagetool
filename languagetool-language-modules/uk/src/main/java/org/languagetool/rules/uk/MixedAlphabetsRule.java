@@ -94,7 +94,7 @@ public class MixedAlphabetsRule extends Rule {
           && tokenString.equals("i")
           && CYRILLIC_FIRST_LETTER.matcher(tokens[i+1].getToken()).matches() ) {
         String msg = "Вжито латинську «і» замість кирилічної";
-        RuleMatch potentialRuleMatch = createRuleMatch(tokenReadings, Arrays.asList(toCyrillic(tokenString)), msg);
+        RuleMatch potentialRuleMatch = createRuleMatch(tokenReadings, Arrays.asList(toCyrillic(tokenString)), msg, sentence);
         ruleMatches.add(potentialRuleMatch);
       }
       else if (COMMON_CYR_LETTERS.matcher(tokenString).matches()) {
@@ -104,7 +104,7 @@ public class MixedAlphabetsRule extends Rule {
           replacements.add( toLatin(tokenString) );
 
           String msg = "Вжито кирилічну літеру замість латинської";
-          RuleMatch potentialRuleMatch = createRuleMatch(tokenReadings, replacements, msg);
+          RuleMatch potentialRuleMatch = createRuleMatch(tokenReadings, replacements, msg, sentence);
           ruleMatches.add(potentialRuleMatch);
         }
       }
