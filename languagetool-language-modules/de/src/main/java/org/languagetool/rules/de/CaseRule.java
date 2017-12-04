@@ -161,13 +161,6 @@ public class CaseRule extends Rule {
         posRegex("VER:AUX:.*")
     ),
     Arrays.asList(
-        //token("dass"),
-        posRegex("PRO:PER:.*|EIG:.*"),
-        csToken("das"),
-        posRegex("PA2:.*"),
-        posRegex("VER:AUX:.*")
-    ),
-    Arrays.asList(
         // Er fragte,ob das gelingen wird.
         csToken("das"),
         posRegex("VER:.*"),
@@ -1188,7 +1181,7 @@ public class CaseRule extends Rule {
   }
 
   private boolean isFollowedByRelativeOrSubordinateClause(int i, AnalyzedTokenReadings[] tokens) {
-    if (i < tokens.length - 2) {
+    if (i < tokens.length - 4) {
       return ",".equals(tokens[i+1].getToken()) && (INTERROGATIVE_PARTICLES.contains(tokens[i+2].getToken()) || tokens[i+2].hasPartialPosTag("KON:UNT"));
     }
     return false;
