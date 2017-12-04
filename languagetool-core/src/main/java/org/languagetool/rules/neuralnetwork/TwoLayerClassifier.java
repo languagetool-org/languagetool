@@ -6,7 +6,7 @@ import java.io.InputStream;
 import java.util.Arrays;
 import java.util.stream.Stream;
 
-public class TwoLayerClassifier implements IClassifier {
+public class TwoLayerClassifier implements Classifier {
 
   private final Dictionary dictionary;
   private final Matrix embedding;

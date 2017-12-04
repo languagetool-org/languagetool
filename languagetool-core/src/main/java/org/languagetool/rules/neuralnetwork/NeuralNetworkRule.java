@@ -20,7 +20,7 @@ public class NeuralNetworkRule extends Rule {
   private double minScore;
 
   private static final int CONTEXT_LENGTH = 5;
-  protected IClassifier classifier;
+  protected Classifier classifier;
 
   private final String id;
 
@@ -40,13 +40,13 @@ public class NeuralNetworkRule extends Rule {
       System.out.println("deep rule for" + confusionSet.toString());
       classifier = new TwoLayerClassifier(dictionary, embedding, W1Stream, b1Stream, W2Stream, b2Stream);
     } catch (RuntimeException e) {
-      classifier = new Classifier(dictionary, embedding, W1Stream, b1Stream);
+      classifier = new SingleLayerClassifier(dictionary, embedding, W1Stream, b1Stream);
     }
 
     this.id = createId(language);
   }
 
-  public NeuralNetworkRule(ResourceBundle messages, Language language, ScoredConfusionSet confusionSet, IClassifier classifier) {
+  public NeuralNetworkRule(ResourceBundle messages, Language language, ScoredConfusionSet confusionSet, Classifier classifier) {
     super(messages);
     super.setCategory(Categories.TYPOS.getCategory(messages));
 
