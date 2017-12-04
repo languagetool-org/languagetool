@@ -50,6 +50,7 @@ import org.languagetool.tagging.uk.PosTagHelper;
  * @author Andriy Rysin
  */
 public class TokenAgreementPrepNounRule extends Rule {
+  private static final Pattern NOUN_ANIM_V_NAZ_PATTERN = Pattern.compile("noun:anim.*:v_naz.*");
   private static final String NO_VIDMINOK_SUBSTR = ":nv";
   private static final String VIDMINOK_SUBSTR = ":v_";
   private static final Pattern VIDMINOK_REGEX = Pattern.compile(":(v_[a-z]+)");
@@ -492,11 +493,10 @@ public class TokenAgreementPrepNounRule extends Rule {
     }
     else if( reqTokenReadings.getToken().equalsIgnoreCase("о") ) {
       for(AnalyzedToken token: tokenReadings.getReadings()) {
-        String posTag2 = token.getPOSTag();
-        if( posTag2.matches("noun:anim.*:v_naz.*") ) {
+        if( PosTagHelper.hasPosTag(token, NOUN_ANIM_V_NAZ_PATTERN) ) {
           msg += ". Можливо тут «о» — це вигук і потрібно кличний відмінок?";
           try {
-            String newPostag = posTag2.replace("v_naz", "v_kly");
+            String newPostag = token.getPOSTag().replace("v_naz", "v_kly");
             String[] synthesized = ukrainianSynthesizer.synthesize(token, newPostag, false);
             for (String string : synthesized) {
               if( ! string.equals(token.getToken()) && ! suggestions.contains(string) ) {

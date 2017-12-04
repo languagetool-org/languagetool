@@ -373,6 +373,18 @@ public class TokenAgreementNounVerbRuleTest {
     
   }
   
+  @Test
+  public void testSpecialChars() throws IOException {
+    assertEmptyMatch("Тарас при\u00ADбіг.");
+
+    RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("Тарас при\u00ADбігла."));
+    assertEquals(1, matches.length);
+
+    matches = rule.match(langTool.getAnalyzedSentence("Та\u00ADрас прибігла."));
+    assertEquals(1, matches.length);
+  }
+
+  
   private void assertMatches(int num, String text) throws IOException {
     assertEquals(num, rule.match(langTool.getAnalyzedSentence(text)).length);
   }
