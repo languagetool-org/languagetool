@@ -30167,6 +30167,13 @@ Andere Projekte</example>
                 <example>Ein Architekturmodell von Objekten insbesondere aus der Informatik, das als Vorlage für die Entwicklung dient, wird Referenzarchitektur genannt.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token postag='ART:.+:.+:PLU:MAS' postag_regexp='yes'></token>
+                    <token postag='SUB:.+:PLU:MAS' postag_regexp='yes'></token>
+                    <token>,</token>
+                    <token regexp='yes' skip="-1">d(ie|as)</token>
+                    <token>,</token>
+                </antipattern>
                 <pattern>
                     <token postag='ART:.+:.+:SIN:MAS' postag_regexp='yes'></token>
                     <token postag='SUB:.+:SIN:MAS' postag_regexp='yes'></token>
@@ -30185,6 +30192,7 @@ Andere Projekte</example>
                 <example>Erfahrung ist die Summe der Fehler, die man gemacht hat.</example>
                 <example>Einen Krieg mit den Goten, die bereits sein Vorgänger entscheidend geschlagen hatte, konnte er relativ schnell zu Ende führen.</example>
                 <example>RISC ist eine Abkürzung aus dem IT-Bereich, die eine Bauart von Prozessoren bezeichnet.</example>
+                <example>Er zeigte ihn den Beamten, die sich wunderten, dass er gekommen war.</example>
             </rule>
         </rulegroup> 
     </category>
@@ -30204,7 +30212,7 @@ Andere Projekte</example>
             <example correction="Meines Erachtens"><marker>Meines Erachtens nach</marker> hätte der Richter den Angeklagten freisprechen müssen.</example>
         </rule>
         <rule id="FUENFTES_RAD" name="drittes (fünftes) Rad am Wagen">
-            <regexp>(dritte|drittes) (Rad) (am) (Wagen)</regexp>
+            <regexp>(drittes?) (Rad) (am) (Wagen)</regexp>
             <message>Die Redewendung im Sinne von 'überflüssig; fehl am Platz' lautet <suggestion><match no="1" regexp_match="dritt" regexp_replace="fünft"/> Rad am Wagen</suggestion>.</message>
             <example correction="fünfte Rad am Wagen">Er war das <marker>dritte Rad am Wagen</marker></example>
             <example correction="fünftes Rad am Wagen">Er fühlt sich wie ein <marker>drittes Rad am Wagen</marker></example>
