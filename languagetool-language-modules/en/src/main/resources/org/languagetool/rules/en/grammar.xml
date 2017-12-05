@@ -14138,6 +14138,20 @@ USA
       <message>The usual preposition for "passionate" is "about" not "by".  Revise: <suggestion>passionate about</suggestion>.</message>
       <example correction='passionate about'>I am very <marker>passionated by</marker> my job.</example>
     </rule>
+    <rule id='PASSIONATE_BY_ABOUT_2' name='Collocation: passionate by/about (stricter)' default='off'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+      <marker>
+          <token postag_regexp="yes" postag="VB[PZD]|R[BP]"/>
+          <token>passionate</token>
+          <token>by</token>
+      </marker>
+          <token min="0" postag_regexp="yes" postag="DT|PRP\$"/>
+          <token postag_regexp="yes" postag="NN:UN?"/>
+      </pattern>
+      <message>The usual preposition for "passionate" is "about" not "by".  Revise: <suggestion>\1 passionate about</suggestion> or <suggestion>\1 inspired by</suggestion>.</message>
+      <example correction='really passionate about|really inspired by'>I'm <marker>really passionate by</marker> the chocolate, it's my vocation.</example>
+    </rule>
     <rule id='IN_THE_OUTSIDE' name='Collocation: in/on the outside'>
     <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
       <pattern>
@@ -14301,6 +14315,34 @@ USA
       </pattern>
       <message>The usual preposition for "\3" is "in" not "at".  Revise: <suggestion>in the \3</suggestion>.</message>
       <example correction='in the morning'>I hardly ever drinks coffee <marker>at the morning</marker> because this make me crazy.</example>
+    </rule>
+    <rule id='IN_ON_A_TEAM' name='Collocation: in/on a team'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token>the</token>
+          <token regexp="yes">person|guy|chap|one</token>
+    <!-- Singular only -->
+          <token skip="-1"/>
+          <token skip="-1">need</token>
+    <!-- Present tense only-->
+        <marker>
+          <token>in</token>
+          <token postag_regexp="yes" postag="DT|PRP\$"/>
+          <token>team</token>
+        </marker>
+      </pattern>
+      <message>The usual preposition for "team" is "on" not "in".  Revise: <suggestion>on \6 \7</suggestion>.</message>
+      <example correction='on his team'>I’m the one Frank Catania need <marker>in his team</marker>.</example>
+    </rule>
+    <rule id='ADDICTION_TO_OF' name='Collocation: addiction to/of'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token>addiction</token>
+          <token>of</token>
+          <token>drugs</token>
+      </pattern>
+      <message>The usual preposition for \1 is "to." Did you mean, <suggestion>\1 to \3</suggestion>?</message>
+      <example correction='addiction to drugs'>I would like to work with people who have an <marker>addiction of drugs</marker>.</example>
     </rule>
   </rulegroup>
 
