@@ -294,6 +294,15 @@
     <rule>
       <pattern>
         <marker>
+          <token postag="&lt;RG_&gt;"/>
+          <token postag="&lt;/RG_&gt;"/>
+        </marker>
+      </pattern>
+      <disambig action="replace"><wd pos="RG_"/><wd pos="RG_"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
           <token postag="&lt;RG&gt;"/>
           <token/>
           <token postag="&lt;/RG&gt;"/>
@@ -303,12 +312,31 @@
     </rule>
     <rule>
       <pattern>
+        <marker>
+          <token postag="&lt;RG_&gt;"/>
+          <token/>
+          <token postag="&lt;/RG_&gt;"/>
+        </marker>
+      </pattern>
+      <disambig action="replace"><wd pos="RG_"/><wd pos="RG_"/><wd pos="RG_"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
           <token postag="&lt;RG&gt;"/>
           <token/>
           <token/>
           <token postag="&lt;/RG&gt;"/>
       </pattern>
       <disambig action="replace"><wd pos="RG"/><wd pos="RG"/><wd pos="RG"/><wd pos="RG"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+          <token postag="&lt;RG_&gt;"/>
+          <token/>
+          <token/>
+          <token postag="&lt;/RG_&gt;"/>
+      </pattern>
+      <disambig action="replace"><wd pos="RG_"/><wd pos="RG_"/><wd pos="RG_"/><wd pos="RG_"/></disambig>
     </rule>
     <rule>
       <pattern>
@@ -2206,6 +2234,15 @@
           <token>t</token>
           <token regexp="yes" spacebefore='no'>&hifen;</token>
           <token regexp="yes" spacebefore='no'>shirts?</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule id="STAND-UP_COMEDY" name="Stand-up comedy">
+      <pattern>
+          <token>stand</token>
+          <token regexp="yes" spacebefore='no'>&hifen;</token>
+          <token spacebefore='no'>up</token>
+          <token regexp="yes">comed(y|ies)</token>
       </pattern>
       <disambig action="ignore_spelling"/>
     </rule>
