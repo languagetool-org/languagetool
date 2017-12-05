@@ -14235,6 +14235,61 @@ USA
       <message>The usual preposition for "\1" is "of" not "to".  Revise: <suggestion>\1 of</suggestion>.</message>
       <example correction='consists of'>There is a program in medicine and this program <marker>consists to</marker> diagnostic people to know if  their body works well.</example>
     </rule>
+    <rule id='IN_ON_BIRTHDAY' name='Collocation: in/on birthday'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <marker>
+          <token>in</token>
+          <token postag="PRP$"/>
+          <token>birthday</token>
+          </marker>
+          <token>
+            <exception regexp="yes">suits?</exception></token>
+      </pattern>
+      <message>The usual preposition for "birthdays" is "on".  Revise: <suggestion>on \2 \3</suggestion>.</message>
+      <example correction='on my birthday'>My favorite thing is bag, I love my bag very much because it is a gift from my girl friend <marker>in my birthday</marker>, it is a red bag, I have kept it for 2 years and forever.</example>
+    </rule>
+    <rule id='PARTICIPATE_TO_IN' name='Collocation: Participate to/in'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+        <marker>
+          <token inflected="yes">participate</token>
+          <token>to</token>
+        </marker>
+          <token postag_regexp="yes" postag="DT|PRP\$"/>
+      </pattern>
+      <message>The usual preposition for "\1" is "in" not "to".  Revise: <suggestion>\1 in</suggestion>.</message>
+      <example correction='participate in'>They <marker>participate to</marker> many activities, which contains organize laboratory experiments, supervise students research, conducting many lectures and of course, writing textbooks.</example>
+    </rule>
+    <rule id='ON_IN_A_MEETING' name='Collocation: on/in a meeting'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+        <marker>
+          <token postag_regexp="yes" postag="NNP|PRP"/>
+          <token inflected="yes">be</token>
+          <token>on</token>
+          <token min="0" postag="DT"/>
+          <token>meeting</token>
+        </marker>
+          <token>
+            <exception postag_regexp="yes" postag="NN:UN?"/></token>
+      </pattern>
+      <message>The usual preposition for "\4 \5" is "in" not "on".  Revise: <suggestion>\1 \2 in <match no='4' include_skipped='all'/> meeting</suggestion>.</message>
+      <example correction='I was in a meeting'><marker>I was on a meeting</marker>.</example>
+    </rule>
+    <rule id='IN_AT_THE_MORNING' name='Collocation: at/in the morning'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+        <marker>
+          <token>at</token>
+          <token>the</token>
+          <token regexp="yes">morning|afternoon</token>
+        </marker>
+          <token postag_regexp="yes" postag="CC|SENT_END"/>
+      </pattern>
+      <message>The usual preposition for "\3" is "in" not "at".  Revise: <suggestion>in the \3</suggestion>.</message>
+      <example correction='in the morning'>I hardly ever drinks coffee <marker>at the morning</marker> because this make me crazy.</example>
+    </rule>
   </rulegroup>
 
   <rulegroup id='GOOD_IN_AT' name='Collocation: Good in/at'>
