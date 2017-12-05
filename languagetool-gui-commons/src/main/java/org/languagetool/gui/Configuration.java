@@ -39,6 +39,7 @@ import java.util.List;
 public class Configuration {
   
   static final int DEFAULT_SERVER_PORT = 8081;  // should be HTTPServerConfig.DEFAULT_PORT but we don't have that dependency
+  static final int DEFAULT_NUM_CHECK_PARAS = 5;  //  default number of parameters to be checked by TextLevelRules in LO/OO 
   static final int FONT_STYLE_INVALID = -1;
   static final int FONT_SIZE_INVALID = -1;
 
@@ -56,6 +57,7 @@ public class Configuration {
   private static final String TAGGER_SHOWS_DISAMBIG_LOG_KEY = "taggerShowsDisambigLog";
   private static final String SERVER_RUN_KEY = "serverMode";
   private static final String SERVER_PORT_KEY = "serverPort";
+  private static final String PARA_CHECK_KEY = "numberParagraphs";
   private static final String USE_GUI_KEY = "useGUIConfig";
   private static final String FONT_NAME_KEY = "font.name";
   private static final String FONT_STYLE_KEY = "font.style";
@@ -86,6 +88,7 @@ public class Configuration {
   private int fontStyle = FONT_STYLE_INVALID;
   private int fontSize = FONT_SIZE_INVALID;
   private int serverPort = DEFAULT_SERVER_PORT;
+  private int numParasToCheck = DEFAULT_NUM_CHECK_PARAS;
   private String externalRuleDirectory;
   private String lookAndFeelName;
 
@@ -103,8 +106,8 @@ public class Configuration {
   }
 
   public Configuration(File baseDir, String filename, Language lang) throws IOException {
-    if (!baseDir.isDirectory()) {
-      throw new IllegalArgumentException("Not a directory: " + baseDir);
+    if (baseDir == null || !baseDir.isDirectory()) {
+      throw new IllegalArgumentException("Cannot open file " + filename + " in directory " + baseDir);
     }
     configFile = new File(baseDir, filename);
     loadConfiguration(lang);
@@ -143,6 +146,7 @@ public class Configuration {
     this.fontStyle = configuration.fontStyle;
     this.fontSize = configuration.fontSize;
     this.serverPort = configuration.serverPort;
+    this.numParasToCheck = configuration.numParasToCheck;
     this.lookAndFeelName = configuration.lookAndFeelName;
     this.externalRuleDirectory = configuration.externalRuleDirectory;
     this.disabledRuleIds.clear();
@@ -266,6 +270,24 @@ public class Configuration {
     externalRuleDirectory = path;
   }
 
+  /**
+   * get the number of paragraphs to be checked for TextLevelRules 
+   * @since 4.0
+   */
+  public int getNumParasToCheck() {
+    return numParasToCheck;
+  }
+
+  /**
+   * set the number of paragraphs to be checked for TextLevelRules 
+   * @since 4.0
+   */
+  public void setNumParasToCheck(int numParas) {
+    this.numParasToCheck = numParas;
+  }
+
+
+  
   /**
    * Returns the name of the GUI's editing textarea font.
    * @return the name of the font.
@@ -449,6 +471,11 @@ public class Configuration {
         externalRuleDirectory = extRules;
       }
 
+      String paraCheckString = (String) props.get(PARA_CHECK_KEY);
+      if (paraCheckString != null) {
+        numParasToCheck = Integer.parseInt(paraCheckString);
+      }
+
       String colorsString = (String) props.get(ERROR_COLORS_KEY);
       parseErrorColors(colorsString);
 
@@ -534,6 +561,7 @@ public class Configuration {
     props.setProperty(USE_GUI_KEY, Boolean.toString(guiConfig));
     props.setProperty(SERVER_RUN_KEY, Boolean.toString(runServer));
     props.setProperty(SERVER_PORT_KEY, Integer.toString(serverPort));
+    props.setProperty(PARA_CHECK_KEY, Integer.toString(numParasToCheck));
     if (fontName != null) {
       props.setProperty(FONT_NAME_KEY, fontName);
     }

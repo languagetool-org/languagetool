@@ -67,7 +67,7 @@ class RegexPatternRule extends AbstractPatternRule implements RuleMatcher {
       msg = replaceMatchElements(msg, matchSuggestions);
       int markStart = matcher.start(markGroup);
       int markEnd = matcher.end(markGroup);
-      RuleMatch ruleMatch = new RuleMatch(this, markStart, markEnd, msg, null, sentenceStart, null);
+      RuleMatch ruleMatch = new RuleMatch(this, sentenceObj, markStart, markEnd, msg, null, sentenceStart, null);
       List<String> allSuggestions = new ArrayList<>();
       if (matchSuggestions.size() > 0) {
         allSuggestions.addAll(matchSuggestions);
@@ -102,10 +102,14 @@ class RegexPatternRule extends AbstractPatternRule implements RuleMatcher {
     Matcher sMatcher = suggestionPattern.matcher(msg);
     StringBuffer sb = new StringBuffer();
     int i = 0;
-    while (sMatcher.find()) {
-      if (i < suggestions.size()) {
-        sMatcher.appendReplacement(sb, "<suggestion>" + suggestions.get(i++) + "</suggestion>");
+    try {
+      while (sMatcher.find()) {
+        if (i < suggestions.size()) {
+          sMatcher.appendReplacement(sb, "<suggestion>" + suggestions.get(i++).replace("$", "\\$") + "</suggestion>");
+        }
       }
+    } catch (Exception e) {
+      throw new RuntimeException("Exception running regex of rule " + getFullId() + " with matcher " + sMatcher + " on: '" + msg + "'", e);
     }
     sMatcher.appendTail(sb);
     return sb.toString();

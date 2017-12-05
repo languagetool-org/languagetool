@@ -75,13 +75,13 @@ public class RussianVerbConjugationRule extends Rule {
                         if (verbMatcher.find()) {
                             Pair<String, String> verbPair = new ImmutablePair<>(verbMatcher.group(2), verbMatcher.group(3));
                             if (isConjugationInPresentOrFutureWrong(pronounPair, verbPair)) {
-                                addRuleMatch(ruleMatches, currentReading, nextReading);
+                                addRuleMatch(ruleMatches, currentReading, nextReading, sentence);
                             }
                         } else {
                             verbMatcher = PAST_VERB.matcher(nextPosTag);
                             if (verbMatcher.find()) {
                                 if (isConjugationInPastWrong(pronounMatcher.group(1), verbMatcher.group(1))) {
-                                    addRuleMatch(ruleMatches, currentReading, nextReading);
+                                    addRuleMatch(ruleMatches, currentReading, nextReading, sentence);
                                 }
                             }
                         }
@@ -109,8 +109,8 @@ public class RussianVerbConjugationRule extends Rule {
         return !pronoun.equals(verb);
     }
 
-    private void addRuleMatch(List<RuleMatch> ruleMatches, AnalyzedTokenReadings currentReading, AnalyzedTokenReadings nextReading) {
-        RuleMatch ruleMatch = new RuleMatch(this, currentReading.getStartPos(), nextReading.getEndPos(), "Неверное спряжение глагола или неверное местоимение", getShort());
+    private void addRuleMatch(List<RuleMatch> ruleMatches, AnalyzedTokenReadings currentReading, AnalyzedTokenReadings nextReading, AnalyzedSentence sentence) {
+        RuleMatch ruleMatch = new RuleMatch(this, sentence, currentReading.getStartPos(), nextReading.getEndPos(), "Неверное спряжение глагола или неверное местоимение", getShort());
         ruleMatches.add(ruleMatch);
     }
 

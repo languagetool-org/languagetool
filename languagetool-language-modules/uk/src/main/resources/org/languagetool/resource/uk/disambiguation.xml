@@ -144,8 +144,8 @@
     </pattern>
     <disambig action="remove" postag=".*:rare.*"/>
     <example type="ambiguous"
-        inputform="Можна[можна/predic,можний/adj:f:v_kly:rare,можний/adj:f:v_naz:rare]" 
-        outputform="Можна[можна/predic]"><marker>Можна</marker> поломати ногу.</example>
+        inputform="Можна[можна/noninfl:&amp;predic,можний/adj:f:v_kly:rare,можний/adj:f:v_naz:rare]" 
+        outputform="Можна[можна/noninfl:&amp;predic]"><marker>Можна</marker> поломати ногу.</example>
     <example type="untouched">Можний дядько.</example>
   </rule>
 
@@ -158,6 +158,17 @@
         inputform="тих[тихнути/verb:imperf:past:m,той/adj:p:v_mis:&amp;pron:dem,той/adj:p:v_rod:&amp;pron:dem,той/adj:p:v_zna:ranim:&amp;pron:dem]"
         outputform="тих[той/adj:p:v_mis:&amp;pron:dem,той/adj:p:v_rod:&amp;pron:dem,той/adj:p:v_zna:ranim:&amp;pron:dem]"
         >До <marker>тих</marker> людей.</example>
+  </rule>
+
+  <rule name="Округи (іменник - не прийменник)" id="OKRUGY">
+    <pattern>
+      <token>округи</token>
+    </pattern>
+    <disambig action="remove" postag="prep:rv_rod"/>
+    <example type="ambiguous"
+        inputform="округи[округ/noun:inanim:p:v_naz,округ/noun:inanim:p:v_zna,округа/noun:inanim:f:v_rod,округа/noun:inanim:p:v_naz,округа/noun:inanim:p:v_zna,округи/prep:rv_rod]"
+        outputform="округи[округ/noun:inanim:p:v_naz,округ/noun:inanim:p:v_zna,округа/noun:inanim:f:v_rod,округа/noun:inanim:p:v_naz,округа/noun:inanim:p:v_zna]"
+        >Одномандатні <marker>округи</marker>.</example>
   </rule>
 
   <rule name="Прийменник і частка 'на'" id="DIS_PREP_NA">
@@ -247,6 +258,26 @@
   </rule>
   -->
 
+  <rule name="Номер_будинку" id="STREET_NUMBER">
+    <pattern>
+      <token regexp="yes" inflected="yes">вул.|вулиця|номер|№</token>
+      <token min="0" max="3">
+        <exception regexp="yes">[0-9]+-[а-еєґ]</exception>
+      </token>
+      <marker>
+        <token regexp="yes">[0-9]+-[а-еєґ]</token>
+      </marker>
+    </pattern>
+    <disambig action="add"><wd lemma="0-а" pos="number"/></disambig>
+    <example type="ambiguous" 
+        inputform="17-а[17-й/adj:f:v_naz:&amp;numr]"
+        outputform="17-а[0-а/number,17-й/adj:f:v_naz:&amp;numr]">З № <marker>17-а</marker>.</example>
+    <example type="ambiguous" 
+        inputform="17-а[17-й/adj:f:v_naz:&amp;numr]"
+        outputform="17-а[0-а/number,17-й/adj:f:v_naz:&amp;numr]">На вул. Рубчака <marker>17-а</marker>.</example>
+    <example type="untouched">17-а сторінка.</example>
+  </rule>
+
   <rule name="Люба з великої літери в середині речення - ім'я" id="DIS_LUBA_INSIDE_SENTENCE">
     <pattern case_sensitive="yes">
       <and>
@@ -333,7 +364,7 @@
         <token regexp="yes" postag_regexp="yes" postag="(noun|adj).*">[А-ЯІЇЄҐ][а-яіїєґ'-]+
           <exception scope="previous" postag="SENT_START"/>
           <exception scope="previous" regexp="yes">[«„“*\[\]:(—–-]</exception>
-          <exception>Як</exception>
+          <exception regexp="yes">Як|Серед</exception>
         </token>
         <token postag_regexp="yes" postag="(verb|prep|adv).*"/>
       </and>
@@ -351,6 +382,7 @@
     <example type="untouched">Читайте також: Менше законів.</example>
     <example type="untouched">Слово подяки Як побачать читачі</example>
     <example type="untouched">* Нехай роблять все</example>
+    <example type="untouched">східної Галичини XV-XVIII ст. Серед них – привілеї</example>
   </rule>
 
   <!-- тимчасовий манівець для невідомих власних імен після прийменника, що збігаються з дієсловом -->
@@ -413,6 +445,20 @@
     <example type="untouched">лютого морозу</example>
   </rule>
 
+  <rule name="Чайна" id="chayna">
+    <pattern>
+      <marker>
+        <token inflected="yes">чайна</token>
+      </marker>
+      <token inflected="yes" regexp="yes">ложка|сервіз|церемонія|кущ|троянда|заварка|запарка</token>
+    </pattern>
+    <disambig><match no="1" postag="adj.*" postag_regexp="yes"/></disambig>
+    <example type="ambiguous"
+        inputform="чайній[чайна/noun:inanim:f:v_dav,чайна/noun:inanim:f:v_mis,чайний/adj:f:v_dav,чайний/adj:f:v_mis]"
+        outputform="чайній[чайний/adj:f:v_dav,чайний/adj:f:v_mis]">на <marker>чайній</marker> церемонії</example>
+    <example type="untouched">меню чайних і ресторанів</example>
+  </rule>
+
   <rule name="Прикметники без порівняльного ступеня" id="NON_COMPARATIVE">
     <pattern>
       <marker>
@@ -431,21 +477,18 @@
     <pattern>
       <token><exception>,</exception><exception postag="SENT_START"/></token>
       <marker>
-        <and>
-          <token postag_regexp="yes" postag="verb.*"/>
-          <token postag_regexp="yes" postag="insert"/>
-        </and>
+        <token postag_regexp="yes" postag="verb.*insert.*"/>
       </marker>
       <!--
         <token><exception>,</exception><exception postag="SENT_END"/></token>
       -->
     </pattern>
-    <disambig><match no="1" postag="verb.*" postag_regexp="yes"/></disambig>
+    <disambig><match no="1" postag="(verb.*):&amp;insert(.*)" postag_regexp="yes" postag_replace="$1$2"/></disambig>
     <example type="ambiguous" 
-        inputform="бачиш[бачити/verb:imperf:pres:s:2,бачиш/insert]" 
+        inputform="бачиш[бачити/verb:imperf:pres:s:2:&amp;insert]" 
         outputform="бачиш[бачити/verb:imperf:pres:s:2]">по <marker>бачиш</marker> його</example>
     <example type="ambiguous" 
-        inputform="сподіваюся[сподіватися/verb:rev:imperf:pres:s:1,сподіваюся/insert]" 
+        inputform="сподіваюся[сподіватися/verb:rev:imperf:pres:s:1:&amp;insert]" 
         outputform="сподіваюся[сподіватися/verb:rev:imperf:pres:s:1]">тому варто <marker>сподіваюся</marker>, що так буде</example>
     <example type="untouched">велике, бачиш, цабе</example>
   </rule>
@@ -991,6 +1034,26 @@
         outputform="рік[рік/noun:inanim:m:v_naz,рік/noun:inanim:m:v_zna,ріка/noun:inanim:p:v_rod]"
             >минулий <marker>рік</marker>.</example>
     <example type="untouched">минулого року.</example>
+  </rule>
+
+  <rule name="Як" id="JAK">
+    <pattern>
+      <token negate="yes" regexp="yes">дикий|свійський|домашній</token>
+      <marker>
+        <token>як</token>
+      </marker>
+      <token negate="yes" regexp="yes">дикий|свійський|домашній</token>
+    </pattern>
+    <disambig action="remove" postag="noun:anim:m:v_naz"/>
+    <example type="ambiguous"
+        inputform="як[як/adv:&amp;pron:int:rel,як/conj:subord,як/noun:anim:m:v_naz,як/part]"
+        outputform="як[як/adv:&amp;pron:int:rel,як/conj:subord,як/part]"
+            >і <marker>як</marker> верховний арбітр.</example>
+    <example type="ambiguous"
+        inputform="Як[Як/noun:anim:m:v_naz:prop:lname,як/adv:&amp;pron:int:rel,як/conj:subord,як/noun:anim:m:v_naz,як/part]"
+        outputform="Як[Як/noun:anim:m:v_naz:prop:lname,як/adv:&amp;pron:int:rel,як/conj:subord,як/part]"
+        ><marker>Як</marker> модернізм і тепер постмодернізм</example>
+    <example type="untouched">Дикий як — гірська тварина.</example>
   </rule>
 
   <!-- TOOD: redo when dictionary updated

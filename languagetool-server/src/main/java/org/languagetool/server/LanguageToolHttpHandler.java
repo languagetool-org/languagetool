@@ -21,6 +21,7 @@ package org.languagetool.server;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.tools.StringTools;
 
@@ -41,22 +42,24 @@ class LanguageToolHttpHandler implements HttpHandler {
 
   private final Set<String> allowedIps;  
   private final RequestLimiter requestLimiter;
+  private final ErrorRequestLimiter errorRequestLimiter;
   private final LinkedBlockingQueue<Runnable> workQueue;
   private final TextChecker textCheckerV2;
   private final HTTPServerConfig config;
   private final Set<String> ownIps;
   
-  LanguageToolHttpHandler(HTTPServerConfig config, Set<String> allowedIps, boolean internal, RequestLimiter requestLimiter, LinkedBlockingQueue<Runnable> workQueue) {
+  LanguageToolHttpHandler(HTTPServerConfig config, Set<String> allowedIps, boolean internal, RequestLimiter requestLimiter, ErrorRequestLimiter errorLimiter, LinkedBlockingQueue<Runnable> workQueue) {
     this.config = config;
     this.allowedIps = allowedIps;
     this.requestLimiter = requestLimiter;
+    this.errorRequestLimiter = errorLimiter;
     this.workQueue = workQueue;
     if (config.getTrustXForwardForHeader()) {
       this.ownIps = getServersOwnIps();
     } else {
       this.ownIps = new HashSet<>();
     }
-    this.textCheckerV2 = new V2TextChecker(config, internal);
+    this.textCheckerV2 = new V2TextChecker(config, internal, workQueue);
   }
 
   /** @since 2.6 */
@@ -76,16 +79,26 @@ class LanguageToolHttpHandler implements HttpHandler {
       // not an error but may make the underlying TCP connection unusable for following exchanges.",
       // so we consume the request now, even before checking for request limits:
       parameters = getRequestQuery(httpExchange, requestedUri);
-      if (requestLimiter != null && !requestLimiter.isAccessOkay(remoteAddress)) {
-        String text = parameters.get("text");
-        String textSizeMessage = text != null ? " Text size: " + text.length() + "." :  "";
-        String errorMessage = "Error: Access from " + remoteAddress + " denied - too many requests." +
+      if (requestLimiter != null) {
+        try {
+          requestLimiter.checkAccess(remoteAddress, parameters);
+        } catch (TooManyRequestsException e) {
+          String errorMessage = "Error: Access from " + remoteAddress + " denied: " + e.getMessage();
+          sendError(httpExchange, HttpURLConnection.HTTP_FORBIDDEN, errorMessage);
+          print(errorMessage + " - useragent: " + parameters.get("useragent") +
+                  " - HTTP UserAgent: " + getHttpUserAgent(httpExchange));
+          return;
+        }
+      }
+      if (errorRequestLimiter != null && !errorRequestLimiter.wouldAccessBeOkay(remoteAddress)) {
+        String textSizeMessage = getTextOrDataSizeMessage(parameters);
+        String errorMessage = "Error: Access from " + remoteAddress + " denied - too many recent timeouts. " +
                 textSizeMessage +
-                " Allowed maximum requests: " + requestLimiter.getRequestLimit() +
-                " requests per " + requestLimiter.getRequestLimitPeriodInSeconds() + " seconds";
+                " Allowed maximum timeouts: " + errorRequestLimiter.getRequestLimit() +
+                " per " + errorRequestLimiter.getRequestLimitPeriodInSeconds() + " seconds";
         sendError(httpExchange, HttpURLConnection.HTTP_FORBIDDEN, errorMessage);
         print(errorMessage + " - useragent: " + parameters.get("useragent") +
-              " - HTTP UserAgent: " + getHttpUserAgent(httpExchange));
+                " - HTTP UserAgent: " + getHttpUserAgent(httpExchange));
         return;
       }
       if (config.getMaxWorkQueueSize() != 0 && workQueue.size() > config.getMaxWorkQueueSize()) {
@@ -98,7 +111,7 @@ class LanguageToolHttpHandler implements HttpHandler {
         if (requestedUri.getRawPath().startsWith("/v2/")) {
           ApiV2 apiV2 = new ApiV2(textCheckerV2, config.getAllowOriginUrl());
           String pathWithoutVersion = requestedUri.getRawPath().substring("/v2/".length());
-          apiV2.handleRequest(pathWithoutVersion, httpExchange, parameters);
+          apiV2.handleRequest(pathWithoutVersion, httpExchange, parameters, errorRequestLimiter, remoteAddress);
         } else if (requestedUri.getRawPath().endsWith("/Languages")) {
           throw new IllegalArgumentException("You're using an old version of our API that's not supported anymore. Please see https://languagetool.org/http-api/migration.php");
         } else {
@@ -116,49 +129,82 @@ class LanguageToolHttpHandler implements HttpHandler {
       String response;
       int errorCode;
       boolean textLoggingAllowed = false;
+      boolean logStacktrace = true;
       if (e instanceof TextTooLongException) {
         errorCode = HttpURLConnection.HTTP_ENTITY_TOO_LARGE;
+        response = e.getMessage();
+        logStacktrace = false;
+      } else if (e instanceof AuthException ||  e.getCause() != null && e.getCause() instanceof AuthException) {
+        errorCode = HttpURLConnection.HTTP_FORBIDDEN;
         response = e.getMessage();
       } else if (e instanceof IllegalArgumentException) {
         errorCode = HttpURLConnection.HTTP_BAD_REQUEST;
         response = e.getMessage();
       } else if (e.getCause() != null && e.getCause() instanceof TimeoutException) {
         errorCode = HttpURLConnection.HTTP_UNAVAILABLE;
-        response = "Checking took longer than " + config.getMaxCheckTimeMillis()/1000 + " seconds, which is this server's limit. " +
+        response = "Checking took longer than " + config.getMaxCheckTimeMillis()/1000.0f + " seconds, which is this server's limit. " +
                    "Please make sure you have selected the proper language or consider submitting a shorter text.";
       } else {
         response = "Internal Error: " + e.getMessage();
         errorCode = HttpURLConnection.HTTP_INTERNAL_ERROR;
         textLoggingAllowed = true;
       }
-      logError(remoteAddress, e, errorCode, httpExchange, parameters, textLoggingAllowed);
+      logError(remoteAddress, e, errorCode, httpExchange, parameters, textLoggingAllowed, logStacktrace);
       sendError(httpExchange, errorCode, "Error: " + response);
     } finally {
       httpExchange.close();
     }
   }
 
-  private void logError(String remoteAddress, Exception e, int errorCode, HttpExchange httpExchange, Map<String, String> params, boolean textLoggingAllowed) {
-    String message = "An error has occurred, sending HTTP code " + errorCode + ". ";
+  @NotNull
+  private String getTextOrDataSizeMessage(Map<String, String> parameters) {
+    String text = parameters.get("text");
+    if (text != null) {
+      return "Text size: " + text.length() + ".";
+    } else {
+      String data = parameters.get("data");
+      if (data != null) {
+        return "Data size: " + data.length() + ".";
+      }
+    }
+    return "";
+  }
+
+  private void logError(String remoteAddress, Exception e, int errorCode, HttpExchange httpExchange, Map<String, String> params, 
+                        boolean textLoggingAllowed, boolean logStacktrace) {
+    String message = "An error has occurred: '" +  e.getMessage() + "', sending HTTP code " + errorCode + ". ";
     message += "Access from " + remoteAddress + ", ";
     message += "HTTP user agent: " + getHttpUserAgent(httpExchange) + ", ";
+    message += "User agent param: " + params.get("useragent") + ", ";
+    message += "Referrer: " + getHttpReferrer(httpExchange) + ", ";
     message += "language: " + params.get("language") + ", ";
     String text = params.get("text");
     if (text != null) {
       message += "text length: " + text.length() + ", ";
     }
-    message += "Stacktrace follows:";
-    print(message, System.err);
-    //noinspection CallToPrintStackTrace
-    e.printStackTrace();
+    if (logStacktrace) {
+      message += "Stacktrace follows:";
+      print(message, System.err);
+      //noinspection CallToPrintStackTrace
+      e.printStackTrace();
+    } else {
+      message += "(no stacktrace logged)";
+      print(message, System.err);
+    }
     if (config.isVerbose() && text != null && textLoggingAllowed) {
       print("Exception was caused by this text (" + text.length() + " chars, showing up to 500):\n" +
               StringUtils.abbreviate(text, 500), System.err);
     }
   }
 
+  @Nullable
   private String getHttpUserAgent(HttpExchange httpExchange) {
     return httpExchange.getRequestHeaders().getFirst("User-Agent");
+  }
+
+  @Nullable
+  private String getHttpReferrer(HttpExchange httpExchange) {
+    return httpExchange.getRequestHeaders().getFirst("Referer");
   }
 
   // Call only if really needed, seems to be slow on some Windows machines.
@@ -224,7 +270,7 @@ class LanguageToolHttpHandler implements HttpHandler {
     String query;
     if ("post".equalsIgnoreCase(httpExchange.getRequestMethod())) {
       try (InputStreamReader isr = new InputStreamReader(httpExchange.getRequestBody(), ENCODING)) {
-        query = readerToString(isr, config.getMaxTextLength());
+        query = readerToString(isr, config.getMaxTextHardLength());
       }
     } else {
       query = requestedUri.getRawQuery();
@@ -241,14 +287,14 @@ class LanguageToolHttpHandler implements HttpHandler {
       if (readBytes <= 0) {
         break;
       }
-      int generousMaxLength = maxTextLength * 3 + 1000;  // once character can be encoded as e.g. "%D8" plus space for other parameters
+      int generousMaxLength = maxTextLength * 3 + 1000;  // one character can be encoded as e.g. "%D8", plus space for other parameters
       if (generousMaxLength < 0) {  // might happen as it can overflow
         generousMaxLength = Integer.MAX_VALUE;
       }
       if (sb.length() > 0 && sb.length() > generousMaxLength) {
         // don't stop at maxTextLength as that's the text length, but here also other parameters
         // are included (still we need this check here so we don't OOM if someone posts a few hundred MB)...
-        throw new TextTooLongException("Your text exceeds this server's limit of " + maxTextLength + " characters.");
+        throw new TextTooLongException("Your text's length exceeds this server's hard limit of " + maxTextLength + " characters.");
       }
       sb.append(new String(chars, 0, readBytes));
     }

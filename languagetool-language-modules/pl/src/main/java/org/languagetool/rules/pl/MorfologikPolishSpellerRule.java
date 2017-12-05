@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules.pl;
 
+import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
 import org.languagetool.rules.*;
@@ -107,11 +108,11 @@ public final class MorfologikPolishSpellerRule extends MorfologikSpellerRule {
   }
 
   @Override
-  protected List<RuleMatch> getRuleMatches(final String word, final int startPos)
+  protected List<RuleMatch> getRuleMatches(final String word, final int startPos, AnalyzedSentence sentence)
           throws IOException {
     final List<RuleMatch> ruleMatches = new ArrayList<>();
     if (isMisspelled(speller1, word) && isNotCompound(word)) {
-      final RuleMatch ruleMatch = new RuleMatch(this, startPos, startPos
+      final RuleMatch ruleMatch = new RuleMatch(this, sentence, startPos, startPos
               + word.length(), messages.getString("spelling"),
               messages.getString("desc_spelling_short"));
       //If lower case word is not a misspelled word, return it as the only suggestion

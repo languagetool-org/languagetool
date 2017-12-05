@@ -140,6 +140,9 @@ public class RuleMatchesAsJsonSerializer {
     g.writeNumberField("offset", contextOffset);
     g.writeNumberField("length", match.getToPos()-match.getFromPos());
     g.writeEndObject();
+    if (match.getSentence() != null) {
+      g.writeStringField("sentence", match.getSentence().getText().trim());
+    }
   }
 
   private void writeRule(JsonGenerator g, RuleMatch match) throws IOException {
@@ -153,10 +156,14 @@ public class RuleMatchesAsJsonSerializer {
     }
     g.writeStringField("description", match.getRule().getDescription());
     g.writeStringField("issueType", match.getRule().getLocQualityIssueType().toString());
-    if (match.getRule().getUrl() != null) {
+    if (match.getUrl() != null || match.getRule().getUrl() != null) {
       g.writeArrayFieldStart("urls");  // currently only one, but keep it extensible
       g.writeStartObject();
-      g.writeStringField("value", match.getRule().getUrl().toString());
+      if (match.getUrl() != null) {
+        g.writeStringField("value", match.getUrl().toString());
+      } else {
+        g.writeStringField("value", match.getRule().getUrl().toString());
+      }
       g.writeEndObject();
       g.writeEndArray();
     }

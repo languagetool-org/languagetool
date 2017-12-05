@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <?xml-stylesheet type="text/xsl" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/print.xsl" title="Pretty print" ?>
 <?xml-stylesheet type="text/css" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.css" title="Easy editing stylesheet" ?>
-
 <!--
 Dutch grammar, typo and style rules for LanguageTool
 Copyright (C) 2006,2007,2008, 2009, 2010, 2011 R. J. Baars (baarsrj@xs4all.nl)
@@ -40,12 +39,19 @@ opzoeken overeenkomende vorm:
 <match no="1" postag="WKW.*" postag_regexp="yes">
 <match no="1" postag=".*ZNW.*" postag_regexp="yes">
 <match no="1" postag="BNW.*" postag_regexp="yes">
-<match no="1" postag="(ZNW:EKV:DE_)|(ZNW:MRV:DE_)|(ZNW:EKV:VRK:HET)|(ZNW:MRV:DE_r)" postag_replace="ZNW:EKV:HET|$2|$3|$4">
+<match no="1" postag="(ZNW:EKV:DE_)|(ZNW:MRV:DE_)|(ZNW:EKV:VRK:HET)|(ZNW:MRV:DE_)" postag_replace="ZNW:EKV:HET|$2|$3|$4">
 regexp case-insensitive maken : (?i)
 
 -->
 <!-- MOGELIJKE REGELS 
 Ad random -> at random, willekeurig
+-->
+<!-- mogelijk ook te gebruiken!
+<rule ...>
+<regexp>\bhalf an our\b</regexp>
+<message>Did you mean <suggestion>half an hour</suggestion>?</message>
+<example>....</example>
+</rule>
 -->
 <!-- definieer macro's voor datumregels -->
 <!DOCTYPE rules [
@@ -54,8 +60,7 @@ Ad random -> at random, willekeurig
 <!ENTITY months "januari|februari|maart|april|mei|juni|juli|augustus|september|oktober|november|december">
 <!ENTITY abbrevMonths "jan|feb|(maa|mar|mrt)|apr|jun|jul|aug|sep|oct|nov|dec">
 ]>
-
-<rules lang="nl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
+<rules xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" lang="nl" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
 	<!--
 	
 	
@@ -167,7 +172,7 @@ Ad random -> at random, willekeurig
 				</pattern>
 				<message>Februari heeft maar 28 dagen, of 29 in schrikkeljaren.</message>
 				<example type="incorrect">Het gebeurde op <marker>30 feb</marker> 2014.</example>
-				<example>Heet gebeurde op <marker>28 feb</marker> 2014.</example>
+				<example>Het gebeurde op <marker>28 feb</marker> 2014.</example>
 			</rule>
 		</rulegroup>
 	</category>
@@ -207,7 +212,24 @@ Ad random -> at random, willekeurig
 	-->
 	<category id="BE_NL" name="Verschil België en Nederland">
 		<rulegroup id="ALLEEN_BE" name="Alleen gebruikelijk in België">
-			<!-- 2014-08-23 TaalTik regel werkt goed -->
+			<rule>
+				<pattern>
+					<token regexp='yes'>.{5,}kost</token> 
+				</pattern>
+				<message>Standaardtaal is <suggestion>\1en</suggestion>.</message>
+				<url>http://taaladvies.net/taal/advies/vraag/474/</url>
+				<example correction='verbouwingskosten'>Ik maalde niet om de <marker>verbouwingskost</marker>.</example>
+				<example>IK maal niet om de verbouwingskosten.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token regexp='yes'>droogkuis|nieuwkuis</token> 
+				</pattern>
+				<message>Standaardtaal voor dit woord is <suggestion>stomerij</suggestion>.</message>
+				<url>http://taaladvies.net/taal/advies/vraag/225/droogkuis_nieuwkuis_stomerij/</url>
+				<example correction='stomerij'>Dat hemd moet naar de <marker>droogkuis</marker>.</example>
+				<example>Dat hemd moet naar de stomerij.</example>
+			</rule>
 			<rule>
 				<pattern>
 					<token regexp="yes">barema|weddeschaal</token>
@@ -308,9 +330,6 @@ Ad random -> at random, willekeurig
 				<example>Hij is een <marker>gegoed</marker> mens.</example>
 			</rule>
 			<rule>
-				<!--
-				2014-08-19 TaalTIk: regel werkt prima, url toegevoegd
-				-->
 				<pattern>
 					<token>begroting</token>
 					<token/>
@@ -418,11 +437,19 @@ Ad random -> at random, willekeurig
 		<rulegroup id="LANG_WOORD" name="Lang woord">
 			<rule>
 				<pattern>
-					<token regexp="yes">^\P{M}{20,}$</token>
+					<token regexp="yes">^\P{M}{20,29}$</token>
 				</pattern>
 				<message>Lange woorden kunnen een tekst lastig maken. Kan het niet eenvoudiger?</message>
 				<example type="incorrect"><marker>krokodillentranendal</marker>.</example>
-				<example>Het is een <marker>dal met krokodillentranen</marker>.</example>
+			</rule>
+		</rulegroup>		
+		<rulegroup id="ERG_LANG_WOORD" name="Lang woord">
+			<rule>
+				<pattern>
+					<token regexp="yes">^\P{M}{30,}$</token>
+				</pattern>
+				<message>Lange woorden kunnen een tekst lastig maken. Kan het niet eenvoudiger?</message>
+				<example type="incorrect"><marker>krokodillentranendalengevaltestje</marker>.</example>
 			</rule>
 		</rulegroup>		
 		<rulegroup id="MEER_DAN_18_WOORDEN" name="Lange zin, mogelijk lastig leesbaar" default="off">
@@ -1602,7 +1629,43 @@ Ad random -> at random, willekeurig
 		</rulegroup>
 	</category>
 	<category id="COMPOUNDING" name="Aaneen of los">
+
+		<rulegroup id="DE_WEGGAAT" name="De weggaat = de weg gaat">
+			<rule>
+				<pattern>
+					<token/>
+					<token>de</token>
+					<token inflected="yes">weggaan</token>
+				</pattern>
+				<message>Je bedoelt vast: <suggestion>\1 \2 <match no="3" regexp_match="^(weg)(.*)" regexp_replace="weg $2"/></suggestion></message>
+				<example correction="uit de weg gaat">Ik snap dat hij het <marker>uit de weggaat</marker>.</example>
+				<example>Ik snap dat hij het <marker>uit de weg gaat</marker>.</example>
+			</rule>
+		</rulegroup>
 		
+		<rulegroup id="DANKJE_WEL" name=" ">
+			<rule>
+				<pattern>
+					<token>dankje</token>
+					<token>wel</token>
+				</pattern>
+				<message>Juist is: <suggestion>dank je wel</suggestion>.</message>
+				<example correction="dank je wel">Ik zie een <marker>dankje wel</marker>.</example>
+			</rule>
+		</rulegroup>
+		
+		<rulegroup id="COLLEGA_ZNW" name=" ">
+			<antipattern><token>collega</token><token regexp="yes">van|heeft|een</token></antipattern>
+			<antipattern><token>collega</token><token postag="BNW.*|WKW.*" postag_regexp="yes"/></antipattern>
+			<rule>
+				<pattern>
+					<token>collega</token>
+					<token postag_regexp="yes" postag="ZNW.*"><exception regexp="yes" case_sensitive="yes">[A-Z][a-z].*|van|heeft|een|bij|ons</exception></token>
+				</pattern>
+				<message>ALs de \2 collega's zijn, dan is het: <suggestion>\1-\2</suggestion>.</message>
+				<example correction="collega-huisarts">Ik zie een <marker>collega huisarts</marker>.</example>
+			</rule>
+		</rulegroup>
 		
 		<rulegroup id="TST_DARM_SYNDROOM" name="prikkelbare darmsyndroom → prikkelbaredarmsyndroom">
 			<rule>
@@ -1836,7 +1899,7 @@ Ad random -> at random, willekeurig
 					<marker>
 						<token>zede</token>
 					</marker>
-					<token postag_regexp="yes" postag="ZNW.*"></token>
+					<token postag_regexp="yes" postag="ZNW.*"/>
 				</pattern>
 				<message>Hoewel '<match no="1"/>' een correct woord is, is de kans aanwezig dat hier <suggestion><match no="1" regexp_match="^(.*?)(de)$" regexp_replace="$1 $2"/></suggestion> moet staan.</message>
 				<example correction="ze de">Toen sloten <marker>zede</marker> deur.</example>
@@ -2015,7 +2078,7 @@ Ad random -> at random, willekeurig
 					<marker>
 						<token skip="3">opmaat</token>
 					</marker>
-					<token inflected="yes" >maken</token>
+					<token inflected="yes">maken</token>
 				</pattern>
 				<message>Hoewel '<match no="1"/>' een correct woord is, is de kans groot dat hier <suggestion>op maat</suggestion> moet staan.</message>
 				<example correction="op maat">Wanneer hij het <marker>opmaat</marker> maakt.</example>
@@ -2028,7 +2091,7 @@ Ad random -> at random, willekeurig
 					<marker>
 						<token skip="6">opmaat</token>
 					</marker>
-					<token inflected="yes" >maken</token>
+					<token inflected="yes">maken</token>
 				</pattern>
 				<message>Hoewel '<match no="1"/>' een correct woord is, is de kans groot dat hier <suggestion>op maat</suggestion> moet staan.</message>
 				<example correction="op maat">Hij gaat het <marker>opmaat</marker> voor je maken.</example>
@@ -2088,7 +2151,7 @@ Ad random -> at random, willekeurig
 					<marker>
 						<token>onderhaar</token>
 					</marker>
-					<token postag_regexp="yes" postag=".*ZNW.*"></token>
+					<token postag_regexp="yes" postag=".*ZNW.*"/>
 				</pattern>
 				<message>Hoewel '<match no="1"/>' een correct woord is, is de kans groot dat hier <suggestion>onder haar</suggestion> moet staan.</message>
 				<example correction="onder haar">Een kussen <marker>onderhaar</marker> billen.</example>
@@ -2139,7 +2202,7 @@ Ad random -> at random, willekeurig
 				</pattern>
 				<message>Hoewel '<match no="1"/>' een correct woord is (betekent 'nodig'), is de kans erg groot dat hier <suggestion>in geval van</suggestion> moet staan.</message>
 				<example correction="in geval van">Het is fout <marker>ingeval van</marker> een vergissing.</example>
-				<example >Het is fout <marker>in geval van</marker> een vergissing.</example>
+				<example>Het is fout <marker>in geval van</marker> een vergissing.</example>
 			</rule>
 		</rulegroup>
 		<rulegroup id="INWERKING_TREDEN" name="inwerking treden → in werking treden">
@@ -2436,7 +2499,7 @@ Ad random -> at random, willekeurig
 		<rulegroup id="XXX_DING" name="KLM vliegtuig → KLM-vliegtuig">
 			<!-- 2014-08-20 TaalTik -->
 			<antipattern><token>niet</token><token>meer</token></antipattern>
-			<antipattern><token></token><token regexp="yes">kost|weer|stelt|was|niet|uitvoeren</token></antipattern>
+			<antipattern><token/><token regexp="yes">kost|weer|stelt|was|niet|uitvoeren</token></antipattern>
 			<rule>
 				<pattern case_sensitive="yes">
 					<token regexp="yes">06|[A-Z]{2,4}<exception regexp="yes">JIJ|ZIJN|ONZE|IK|RVS|GB|MB|MS|BV|GEEN|HBO|VMBO|MBO|VWO|NA|IN|MOET|EK|WK|DE|ALLE|EN|DIE|ELKE|MET|MIJN</exception></token>
@@ -2505,12 +2568,22 @@ Ad random -> at random, willekeurig
 			<rule>
 				<pattern>
 					<token regexp="yes">[0-9]{1,3}</token>
-					<token regexp="yes">(jarig|duims|armig|benig|bloemig|cellig|daags|eiig|tonner|ponder|delig|hoek|kops|tallig|persoons|steens|stelig|talig|urig|baans|plusser).*</token>
+					<token regexp="yes">(jarig|duims|armig|benig|bloemig|cellig|daags|assig|eiig|rijig|zadig|tonner|ponder|delig|hoekig|kops|tallig|persoons|steens|stelig|talig|urig|baans|plusser).*</token>
 				</pattern>
 				<message>Hier moet vast een koppelteken: <suggestion><match no="1"/>-<match no="2"/></suggestion></message>
 				<url>https://onzetaal.nl/taaladvies/advies/80-jarig-80-jarig</url>
 				<example correction="30-jarige">Ik feliciteer de <marker>30 jarige</marker> persoon.</example>
 				<example>Ik feliciteer de <marker>22-jarige</marker>.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token postag="GET"/>
+					<token regexp="yes">(jarig|duims|armig|benig|bloemig|cellig|daags|assig|eiig|rijig|zadig|tonner|ponder|delig|hoekig|kops|tallig|persoons|steens|stelig|talig|urig|baans|plusser).*</token>
+				</pattern>
+				<message>Dit hoort vast aan elkaar: <suggestion><match no="1"/><match no="2"/></suggestion></message>
+				<url>https://onzetaal.nl/taaladvies/advies/80-jarig-80-jarig</url>
+				<example correction="dertigjarige">Ik feliciteer de <marker>dertig jarige</marker> persoon.</example>
+				<example>Ik feliciteer de <marker>tienjarige</marker>.</example>
 			</rule>
 		</rulegroup>
 		<rulegroup id="VANZELFSPREKEND" name="van zelfsprekend → vanzelfsprekend">
@@ -2521,7 +2594,7 @@ Ad random -> at random, willekeurig
 					<token regexp="yes">zelfsprekend.*</token>
 				</pattern>
 				<message>Dit moet vast zijn: <suggestion><match no="1"/><match no="2"/></suggestion></message>
-				<url></url>
+				<url/>
 				<example correction="vanzelfsprekend">Dat is <marker>van zelfsprekend</marker>.</example>
 				<example>Ik feliciteer je <marker>vanzelfsprekend</marker>.</example>
 			</rule>
@@ -2534,7 +2607,7 @@ Ad random -> at random, willekeurig
 					<token>kras</token>
 				</pattern>
 				<message>Dit moet vast zijn: <suggestion><match no="1"/><match no="2"/></suggestion></message>
-				<url></url>
+				<url/>
 				<example correction="kriskras">We gaan <marker>kris kras</marker> er doorheen.</example>
 				<example>We gaan<marker>kriskras</marker> er doorheen.</example>
 			</rule>
@@ -2543,12 +2616,12 @@ Ad random -> at random, willekeurig
 			<!-- 2017-06-20 TaalTik -->
 			<rule>
 				<pattern>
-					<token regexp="yes" >peper|peper-</token>
+					<token regexp="yes">peper|peper-</token>
 					<token regexp="yes">en|&amp;</token>
 					<token regexp="yes">zoutstel.*</token>
 				</pattern>
 				<message>Dit moet vast zijn: <suggestion>peper-en-<match no="3"/></suggestion></message>
-				<url></url>
+				<url/>
 				<example correction="peper-en-zoutstelletje">Ik pak het <marker>peper en zoutstelletje</marker>.</example>
 				<example>Hij pakt het <marker>peper-en-zoutstel</marker>.</example>
 			</rule>
@@ -2557,16 +2630,16 @@ Ad random -> at random, willekeurig
 			<!-- 2017-06-20 TaalTik -->
 			<rule>
 				<pattern>
-					<token regexp="yes" >[aA]rt</token>
+					<token regexp="yes">[aA]rt</token>
 					<token regexp="yes">[dD]eco....*</token>
 				</pattern>
 				<message>Dit moet vast zijn: <suggestion>art-<match no="2" case_conversion="startlower"/></suggestion></message>
-				<url></url>
+				<url/>
 				<example correction="art-decostijl">Het gebouw is in <marker>art decostijl</marker>.</example>
 				<example>Ik houd van de <marker>art-decostijl</marker>.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup  id="BIJNA_DOOD_ERVARING" name="bijna dood ervaring → bijna-doodervaring">
+		<rulegroup id="BIJNA_DOOD_ERVARING" name="bijna dood ervaring → bijna-doodervaring">
 			<!-- 2017-06-20 TaalTik -->
 			<rule>
 				<pattern>
@@ -2575,7 +2648,7 @@ Ad random -> at random, willekeurig
 					<token regexp="yes">ervaring.*</token>
 				</pattern>
 				<message>Dit moet vast zijn: <suggestion>bijna-dood<match no="3"/></suggestion></message>
-				<url></url>
+				<url/>
 				<example correction="bijna-doodervaringen">Ik geloof niet in <marker>bijna dood ervaringen</marker>.</example>
 				<example>Hij had een <marker>bijna-doodervaring</marker>.</example>
 			</rule>
@@ -2865,6 +2938,7 @@ Ad random -> at random, willekeurig
 				<example correction="auto's">Ik houd van <marker>auto 's</marker>.</example>
 			</rule>
 		</rulegroup>		
+
 		<rulegroup id="DES_DE" name="des de / des te">
 			<rule>
 				<pattern>
@@ -2955,15 +3029,15 @@ Ad random -> at random, willekeurig
 		</rulegroup>
 		<rulegroup id="TE_VREEMD" name="Vreemd woordpatroon met 'te'">
 			<rule>
-				<antipattern><token>des</token><token>te</token><token postag="BNW:VGR:ONV|BNW:VGR:VRB" postag_regexp="yes"/></antipattern>
-				<antipattern><token>te</token><token regexp="yes">gronde|wapen|fiets|vondeling|leen|vriend|schande|kijk|over|gelde|dikwijls|grabbel|beurt|keer|hoop|koop|huur|pas|werk|boven|onpas|boek|paard|pletter|buiten|lijf|goeder|voet|woord|water|binnen|hulp|midden|berde|gast|[")(]</token></antipattern>
-				<antipattern><token>te</token><token postag="WKW:TGW:INF|WKW:TGW:INF:LOS|BNW:STL:ONV|BNW:STL:INV|BNW:STL:VRB|WKW:ODW:ONV|WKW:VTD:ONV" postag_regexp="yes"/></antipattern>
-				<antipattern case_sensitive="yes"><token>te</token><token regexp="yes">[A-Z][a-z].*</token></antipattern>
+				<antipattern><token>des</token><token>te</token><token postag="BNW:VGR:ONV|BNW:VGR:VRB|BYW:JES" postag_regexp="yes"/></antipattern>
+				<antipattern><token>te</token><token regexp="yes">gronde|wapen|fiets|vondeling|leen|vriend|schande|kijk|over|gelde|dikwijls|grabbel|beurt|keer|hoop|koop|huur|pas|werk|boven|onpas|boek|paard|pletter|buiten|lijf|goeder|voet|woord|water|binnen|hulp|midden|berde|gast|voorschijn|keur[")(]</token></antipattern>
+				<antipattern><token>te</token><token postag="WKW:TGW:INF|WKW:TGW:INF:LOS|BNW:STL:ONV|BNW:STL:INV|BNW:STL:VRB|WKW:ODW:ONV|WKW:VTD:ONV|BYW:JES" postag_regexp="yes"/></antipattern>
+				<antipattern case_sensitive="yes"><token>te</token><token regexp="yes" case_sensitive="yes">([A-Z][a-z]|IJ).*</token></antipattern> <!-- plaatsnaam -->
 				<antipattern case_sensitive="yes"><token>al</token><token>te</token><token>beste</token></antipattern>
 				
 				<pattern>
 					<token>te</token>
-					<token><exception regexp="yes">'|"</exception></token>
+					<token><exception regexp="yes" negate="yes">.*[a-z].*</exception></token>
 				</pattern>
 				<message>Vreemde woordcombinatie: \1 \2</message>
 				<example type="incorrect">Dit is <marker>te deur</marker>.</example>
@@ -3004,7 +3078,7 @@ Ad random -> at random, willekeurig
 			2014-08-23 TaalTik regel komt niet te vaak op, maar raakt ook niet vaak een juist geval TODO: betere grip op vergelijkingen krijgen -->
 			<rule>
 				<pattern>
-					<token postag="BNW:VGR.*" postag_regexp="yes"></token>
+					<token postag="BNW:VGR.*" postag_regexp="yes"/>
 					<token>als</token>
 				</pattern>
 				<message>Als dit een vergelijking is, dan is juist: <suggestion><match no="1"/> dan</suggestion></message>
@@ -3353,7 +3427,7 @@ Ad random -> at random, willekeurig
 					<token>straat</token>
 					<token regexp="yes">Bass|Cook|Davis|Denemarken|Drake|Florida|Formosa|Hinlopen|Hudson|Joegor|Karimata|Koerilen|KoninginCharlotte|Korea|LaPérouse|Madoera|Magallanes|Magellaan|Makassar|Malakka|Mozambique|Nares|Palk|Singapore|Soemba|Soenda|Torres|Tsugaru|Yucatan</token>
 				</pattern>
-				<message>Wanneer u het aardrijkskundige begrip bedoelt, dan is <suggestion><match no="1" case_conversion="startupper"></match> <match no="2"/></suggestion> correct.</message>
+				<message>Wanneer u het aardrijkskundige begrip bedoelt, dan is <suggestion><match no="1" case_conversion="startupper"/> <match no="2"/></suggestion> correct.</message>
 				<short>Hoofdletter? (ID088)</short>
 				<example correction="Straat Bass">De <marker>straat Bass</marker>.</example>
 				<example>De <marker>Straat Bass</marker>.</example>
@@ -3491,7 +3565,7 @@ Ad random -> at random, willekeurig
 					<marker>
 						<token regexp="yes">[0-9]|[1][0-9]|[1-9]0|[1-9][0-9]00|[1-9]00</token>
 					</marker>
-					<token></token>
+					<token/>
 				</pattern>
 				<message>Ronde getallen en getallen onder de twintig worden in tekst bij voorkeur in letters geschreven</message>
 				<url>https://onzetaal.nl/taaladvies/advies/getallen-in-letters-of-cijfers</url>
@@ -3571,7 +3645,7 @@ Ad random -> at random, willekeurig
 				<pattern>
 					<token case_sensitive="yes" regexp="yes">BTW|LED|CV|CD|DVD|TV|IC</token>
 				</pattern>
-				<message>Dit woord hoeft niet met hoofdletters: <suggestion><match no="1" case_conversion ="alllower"/></suggestion></message>
+				<message>Dit woord hoeft niet met hoofdletters: <suggestion><match no="1" case_conversion="alllower"/></suggestion></message>
 				<example correction="btw">Ik boek de <marker>BTW</marker>.</example>
 			</rule>
 			<rule>
@@ -3625,9 +3699,10 @@ Ad random -> at random, willekeurig
 				<pattern case_sensitive="yes">
 					<marker>
 						<token>,</token>
-						<token regexp="yes">[A-Z][a-z].*<exception postag_regexp="yes" postag="ENM.*"/>
+						<token regexp="yes">[A-Z][a-z].*
+							<exception postag_regexp="yes" postag="ENM.*"/>
 							<exception regexp="yes">St|Ch|Th|Ph</exception>
-							<exception regexp="yes">Engels|Frans|Duits</exception>
+							<exception regexp="yes">(Engel|Fran|Duits).*</exception>
 						</token>
 					</marker>
 					<token><exception regexp="yes">[A-Z][a-z].*</exception></token>
@@ -4020,7 +4095,7 @@ Ad random -> at random, willekeurig
 				<pattern>
 					<token regexp="yes">^eigenge.+(n|d|t|de|te)$<exception regexp="yes">^eigengereid.*</exception></token>
 				</pattern>
-				<message>Niet fout, maar <suggestion><match no="1" regexp_match="eigen(.*)" regexp_replace="zelf$1"></match></suggestion> is minder informeel.</message>
+				<message>Niet fout, maar <suggestion><match no="1" regexp_match="eigen(.*)" regexp_replace="zelf$1"/></suggestion> is minder informeel.</message>
 				<short>zelfge~</short>
 				<example correction="zelfgemaakte">Het is een <marker>eigengemaakte</marker> taart.</example>
 				<example>Het is een <marker>zelfgemaakte</marker> taart.</example>
@@ -4300,7 +4375,7 @@ Ad random -> at random, willekeurig
 					</marker>
 					<token negate="yes">=</token> <!-- uitzondering voor Wikipedia : image= -->
 				</pattern>
-				<message>Engels. Suggesties: <suggestion>imago</suggestion> of <suggestion><match no="1" postag="(ZNW:EKV:HET)|(ZNW:MRV:DE_)|(ZNW:EKV:VRK:HET)|(ZNW:MRV:DE_r)" postag_replace="ZNW:EKV:DE_|$2|$3|$4">afbeelding</match></suggestion>.</message>
+				<message>Engels. Suggesties: <suggestion>imago</suggestion> of <suggestion><match no="1" postag="(ZNW:EKV:HET)|(ZNW:MRV:DE_)|(ZNW:EKV:VRK:HET)|(ZNW:MRV:DE_)" postag_replace="ZNW:EKV:DE_|$2|$3|$4">afbeelding</match></suggestion>.</message>
 				<example correction="imago|afbeelding">Het is mijn <marker>image</marker>.</example>
 			</rule>
 		</rulegroup>
@@ -4526,7 +4601,7 @@ Ad random -> at random, willekeurig
 				<example correction="weekeinde">Gebruik het <marker>weekend</marker>.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="CRUISECONTROL" name="cruisecontrol +> snelheidsregeling">
+		<rulegroup id="CRUISECONTROL" name="cruisecontrol +&gt; snelheidsregeling">
 			<rule>
 				<!-- 2014-08-20 TaalTik -->
 				<pattern>
@@ -4610,7 +4685,7 @@ Ad random -> at random, willekeurig
 		<token postag="ZNW:EKV:VRK:HET"/>
 		</marker>
 		</pattern>
-		<message>Na <match no="1"/> hoort een meervoud: <suggestion><match no="2" postag_regexp="yes" postag=".*ZNW.*" postag_replace="ZNW:MRV:DE_r"/></suggestion></message>
+		<message>Na <match no="1"/> hoort een meervoud: <suggestion><match no="2" postag_regexp="yes" postag=".*ZNW.*" postag_replace="ZNW:MRV:DE_"/></suggestion></message>
 		<example correction="deurtjes">Ik zie beide <marker>deurtje</marker>.</example>
 		</rule>
 		</rulegroup>
@@ -4835,7 +4910,7 @@ Ad random -> at random, willekeurig
 				</pattern>
 				<message>Juist is <suggestion>desalniettemin</suggestion>, gebruikelijker is <suggestion>toch</suggestion>.</message>
 				<example correction="Desalniettemin|Toch"><marker>Des al niet te min</marker> is het fout.</example>
-				<example ><marker>Toch</marker> is het goed.</example>
+				<example><marker>Toch</marker> is het goed.</example>
 			</rule>
 		</rulegroup>
 		<rulegroup id="DESALNIETTEMIN" name="Desalniettemin → toch">
@@ -4845,7 +4920,7 @@ Ad random -> at random, willekeurig
 				</pattern>
 				<message>Minder plechtig is <suggestion>toch</suggestion>.</message>
 				<example correction="Toch"><marker>Desalniettemin</marker> is het fout.</example>
-				<example ><marker>Toch</marker> is het goed.</example>
+				<example><marker>Toch</marker> is het goed.</example>
 			</rule>
 		</rulegroup>
 		<rulegroup id="TENEINDE" name="Teneinde → om">
@@ -5119,7 +5194,7 @@ Ad random -> at random, willekeurig
 				<pattern>
 					<token regexp="yes">.*aanvrage</token>
 				</pattern>
-				<message>Dit is ouderwets. Gebruik <suggestion><match no="1" regexp_match="(.*)vrage$" regexp_replace="$1vraag" /></suggestion>.</message>
+				<message>Dit is ouderwets. Gebruik <suggestion><match no="1" regexp_match="(.*)vrage$" regexp_replace="$1vraag"/></suggestion>.</message>
 				<url>http://taaladvies.net/taal/advies/vraag/69/asielaanvrage_asielaanvraag/</url>
 				<example correction="aanvraag">Ik deed een <marker>aanvrage</marker>.</example>
 				<example>Ik zie haar <marker>ook</marker>.</example>
@@ -5424,7 +5499,7 @@ Ad random -> at random, willekeurig
 				<pattern>
 					<token inflected="yes">discrepantie</token>
 				</pattern>
-				<message>Dit is ouderwets. Gebruik <suggestion><match no="1" postag="(ZNW:EKV:DE_)|(ZNW:MRV:DE_)|(ZNW:EKV:VRK:HET)|(ZNW:MRV:DE_r)" postag_replace="ZNW:EKV:HET|$2|$3|$4" postag_regexp="yes" >verschil</match></suggestion> of <suggestion><match no="1" postag=".*ZNW.*" postag_regexp="yes">tegenstrijdigheid</match></suggestion>.</message>
+				<message>Dit is ouderwets. Gebruik <suggestion><match no="1" postag="(ZNW:EKV:DE_)|(ZNW:MRV:DE_)|(ZNW:EKV:VRK:HET)|(ZNW:MRV:DE_)" postag_replace="ZNW:EKV:HET|$2|$3|$4" postag_regexp="yes">verschil</match></suggestion> of <suggestion><match no="1" postag=".*ZNW.*" postag_regexp="yes">tegenstrijdigheid</match></suggestion>.</message>
 				<url>https://onzetaal.nl/taaladvies/advies/ouderwets-taalgebruik</url>
 				<example correction="verschil|tegenstrijdigheid">De werkgroep ziet een <marker>discrepantie</marker> in de resultaten.</example>
 				<example>De werkgroep ziet een <marker>verschil</marker> in de resultaten.</example>
@@ -5960,8 +6035,8 @@ Ad random -> at random, willekeurig
 		<rulegroup id="ACHTEN" name="achten">
 			<rule>
 				<antipattern><token>zevens</token><token>en</token><token>achten</token></antipattern>
-				<antipattern><token></token><token>voor</token><token>achten</token></antipattern>
-				<antipattern><token></token><token></token><token>acht</token></antipattern>
+				<antipattern><token/><token>voor</token><token>achten</token></antipattern>
+				<antipattern><token/><token/><token>acht</token></antipattern>
 				<pattern>
 					<token/>
 					<token/>
@@ -7349,7 +7424,7 @@ Ad random -> at random, willekeurig
 				<pattern>
 					<token inflected="yes">convenant</token>
 				</pattern>
-				<message>De tekst wordt vlotter als je deze herschrijft met <suggestion><match no="1" postag="(ZNW:EKV:HET)|(ZNW:MRV:DE_)|(ZNW:EKV:VRK:HET)|(ZNW:MRV:DE_r)" postag_replace="ZNW:EKV:DE_|$2|$3|$4">overeenkomst</match></suggestion> of <suggestion><match no="1" postag="(ZNW:EKV:HET)|(ZNW:MRV:DE_)|(ZNW:EKV:VRK:HET)|(ZNW:MRV:DE_r)" postag_replace="ZNW:EKV:DE_|$2|$3|$4">afspraak</match></suggestion>.</message>
+				<message>De tekst wordt vlotter als je deze herschrijft met <suggestion><match no="1" postag="(ZNW:EKV:HET)|(ZNW:MRV:DE_)|(ZNW:EKV:VRK:HET)|(ZNW:MRV:DE_)" postag_replace="ZNW:EKV:DE_|$2|$3|$4">overeenkomst</match></suggestion> of <suggestion><match no="1" postag="(ZNW:EKV:HET)|(ZNW:MRV:DE_)|(ZNW:EKV:VRK:HET)|(ZNW:MRV:DE_)" postag_replace="ZNW:EKV:DE_|$2|$3|$4">afspraak</match></suggestion>.</message>
 				<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
 				<example correction="overeenkomst|afspraak">A <marker>convenant</marker> B.</example>
 				<example>A <marker>overeenkomst</marker>.</example>
@@ -8218,7 +8293,7 @@ Ad random -> at random, willekeurig
 				<message>De tekst wordt vlotter als je de dit woord vermijdt.</message>
 				<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
 				<example type="incorrect">A <marker>testervaring</marker> B.</example>
-				<example>A <marker></marker>.</example>
+				<example>A <marker/>.</example>
 			</rule>
 		</rulegroup>
 		<rulegroup id="ESCALEREN" name="escaleren">
@@ -9411,7 +9486,7 @@ Ad random -> at random, willekeurig
 				<pattern>
 					<token inflected="yes">implicatie</token>
 				</pattern>
-				<message>De tekst wordt vlotter als je deze herschrijft met <suggestion><match no="1" postag="(ZNW:EKV:DE_)|(ZNW:MRV:DE_)|(ZNW:EKV:VRK:HET)|(ZNW:MRV:DE_r)" postag_replace="ZNW:EKV:HET|$2|$3|$4">gevolg</match></suggestion>.</message>
+				<message>De tekst wordt vlotter als je deze herschrijft met <suggestion><match no="1" postag="(ZNW:EKV:DE_)|(ZNW:MRV:DE_)|(ZNW:EKV:VRK:HET)|(ZNW:MRV:DE_)" postag_replace="ZNW:EKV:HET|$2|$3|$4">gevolg</match></suggestion>.</message>
 				<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
 				<example correction="gevolg">A <marker>implicatie</marker> B.</example>
 				<example>A <marker>gevolg</marker>.</example>
@@ -10365,7 +10440,7 @@ Ad random -> at random, willekeurig
 				<pattern>
 					<token inflected="yes">kwantiteit</token>
 				</pattern>
-				<message>De tekst wordt vlotter als je deze herschrijft met <suggestion><match no="1" postag=".*ZNW.*" postag_regexp="yes">hoeveelheid</match></suggestion>, <suggestion><match no="1" postag="(ZNW:EKV:DE_)|(ZNW:MRV:DE_)|(ZNW:EKV:VRK:HET)|(ZNW:MRV:DE_r)" postag_replace="ZNW:EKV:HET|$2|$3|$4">bedrag</match></suggestion> of <suggestion><match no="1" postag=".*ZNW.*" postag_regexp="yes">grootte</match></suggestion>.</message>
+				<message>De tekst wordt vlotter als je deze herschrijft met <suggestion><match no="1" postag=".*ZNW.*" postag_regexp="yes">hoeveelheid</match></suggestion>, <suggestion><match no="1" postag="(ZNW:EKV:DE_)|(ZNW:MRV:DE_)|(ZNW:EKV:VRK:HET)|(ZNW:MRV:DE_)" postag_replace="ZNW:EKV:HET|$2|$3|$4">bedrag</match></suggestion> of <suggestion><match no="1" postag=".*ZNW.*" postag_regexp="yes">grootte</match></suggestion>.</message>
 				<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
 				<example correction="hoeveelheid|bedrag|grootte">A <marker>kwantiteit</marker> B.</example>
 				<example>A <marker>hoeveelheid</marker>.</example>
@@ -11909,7 +11984,7 @@ Ad random -> at random, willekeurig
 				<pattern>
 					<token inflected="yes">panel</token>
 				</pattern>
-				<message>De tekst wordt vlotter als je deze herschrijft met <suggestion><match no="1" postag="(ZNW:EKV:HET)|(ZNW:MRV:DE_)|(ZNW:EKV:VRK:HET)|(ZNW:MRV:DE_r)" postag_replace="ZNW:EKV:DE_|$2|$3|$4">onderzoeksgroep</match></suggestion> of algemener <suggestion><match no="1" postag="(ZNW:EKV:HET)|(ZNW:MRV:DE_)|(ZNW:EKV:VRK:HET)|(ZNW:MRV:DE_r)" postag_replace="ZNW:EKV:DE_|$2|$3|$4">groep</match></suggestion>.</message>
+				<message>De tekst wordt vlotter als je deze herschrijft met <suggestion><match no="1" postag="(ZNW:EKV:HET)|(ZNW:MRV:DE_)|(ZNW:EKV:VRK:HET)|(ZNW:MRV:DE_)" postag_replace="ZNW:EKV:DE_|$2|$3|$4">onderzoeksgroep</match></suggestion> of algemener <suggestion><match no="1" postag="(ZNW:EKV:HET)|(ZNW:MRV:DE_)|(ZNW:EKV:VRK:HET)|(ZNW:MRV:DE_)" postag_replace="ZNW:EKV:DE_|$2|$3|$4">groep</match></suggestion>.</message>
 				<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
 				<example correction="onderzoeksgroep|groep">A <marker>panel</marker> B.</example>
 				<example>A <marker>onderzoeksgroep</marker>.</example>
@@ -12030,7 +12105,7 @@ Ad random -> at random, willekeurig
 				<pattern>
 					<token inflected="yes">pilot</token>
 				</pattern>
-				<message>De tekst wordt vlotter als je deze herschrijft met <suggestion><match no="1" postag="(ZNW:EKV:DE_)|(ZNW:MRV:DE_)|(ZNW:EKV:VRK:HET)|(ZNW:MRV:DE_r)" postag_replace="ZNW:EKV:HET|$2|$3|$4">proefproject</match></suggestion> of iets dergelijks.</message>
+				<message>De tekst wordt vlotter als je deze herschrijft met <suggestion><match no="1" postag="(ZNW:EKV:DE_)|(ZNW:MRV:DE_)|(ZNW:EKV:VRK:HET)|(ZNW:MRV:DE_)" postag_replace="ZNW:EKV:HET|$2|$3|$4">proefproject</match></suggestion> of iets dergelijks.</message>
 				<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
 				<example correction="proefproject">A <marker>pilot</marker> B.</example>
 				<example>A <marker>proefproject</marker>.</example>
@@ -13146,7 +13221,7 @@ Ad random -> at random, willekeurig
 				<message>De tekst wordt vlotter als je '<match no="1"/>' vermijdt.</message>
 				<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
 				<example type="incorrect">A <marker>beleidstechnisch</marker> B.</example>
-				<example>A <marker></marker>.</example>
+				<example>A <marker/>.</example>
 			</rule>
 		</rulegroup>
 		<rulegroup id="TE_DEZEN" name="te dezen">
@@ -14110,7 +14185,7 @@ Ad random -> at random, willekeurig
 				<pattern>
 					<token inflected="yes">verbeterpunt</token>
 				</pattern>
-				<message>De tekst wordt vlotter als je deze herschrijft met 'iets dat beter moet' of <suggestion><match no="1" postag="(ZNW:EKV:HET)|(ZNW:MRV:DE_)|(ZNW:EKV:VRK:HET)|(ZNW:MRV:DE_r)" postag_replace="ZNW:EKV:DE_|$2|$3|$4">fout</match></suggestion>.</message>
+				<message>De tekst wordt vlotter als je deze herschrijft met 'iets dat beter moet' of <suggestion><match no="1" postag="(ZNW:EKV:HET)|(ZNW:MRV:DE_)|(ZNW:EKV:VRK:HET)|(ZNW:MRV:DE_)" postag_replace="ZNW:EKV:DE_|$2|$3|$4">fout</match></suggestion>.</message>
 				<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
 				<example correction="fout">A <marker>verbeterpunt</marker> B.</example>
 				<example>A <marker>dingen die beter moeten</marker>.</example>
@@ -14625,6 +14700,18 @@ Ad random -> at random, willekeurig
 		<example>A <marker>zien; tijdelijk de functie hebben van</marker>.</example>
 		</rule>
 		-->
+		<rulegroup id="AL_WEER" name="al weer / alweer">
+			<rule>
+				<pattern>
+					<token>al</token>
+					<token>weer</token>
+				</pattern>
+				<message>Juist is <suggestion>alweer</suggestion>.</message>
+				<url>http://taaladvies.net/taal/advies/vraag/39/al_weer_alweer/</url>
+				<example correction="alweer">Het wordt <marker>al weer</marker> vroeg donker.</example>
+				<example>AHet wordt <marker>alweer</marker> vroeg donker.</example>
+			</rule>
+		</rulegroup>
 		<rulegroup id="WEDER" name="weder">
 			<rule>
 				<pattern>
@@ -15362,9 +15449,9 @@ Ad random -> at random, willekeurig
 				<pattern>
 					<marker>
 						<token>Er</token>
-						<token regexp='yes'>mist|miste|missen|misten</token>
+						<token regexp="yes">mist|miste|missen|misten</token>
 					</marker>
-					<token><exception postag='WKW:TGW:INF'/></token>
+					<token><exception postag="WKW:TGW:INF"/></token>
 				</pattern>
 				<message>Gebruik <match no="2"/> niet in de betekenis van ontbreken.</message>
 				<url>http://taaladvies.net/taal/advies/vraag/552/</url>
@@ -15396,7 +15483,7 @@ Ad random -> at random, willekeurig
 				Regel werkt goed
 				-->
 				<pattern>
-					<token regexp="yes">vreselijk|gigantisch|enorm</token>
+					<token regexp="yes">vreselijk|enorm|^(mega|ultra|super|giga).*</token>
 				</pattern>
 				<message>Is hier wellicht sprake van overdrijving?</message>
 				<example type="incorrect">Het is een <marker>gigantisch</marker> probleem.</example>
@@ -15781,7 +15868,7 @@ Ad random -> at random, willekeurig
 					</marker>
 					<token postag=".*ZNW.*" postag_regexp="yes"><exception regexp="yes">ons|niet|voor|wel</exception></token> 
 				</pattern>
-				<message>U bedoelt vast <suggestion><match no="2" postag="WKW:VTD:VRB" /></suggestion></message>
+				<message>U bedoelt vast <suggestion><match no="2" regexp_match="(.e)$" regexp_replace="e"/></suggestion></message>
 				<example correction="verbrande">Zie de <marker>verbrandde</marker> fiets.</example>
 			</rule>
 		</rulegroup>
@@ -15833,7 +15920,7 @@ Ad random -> at random, willekeurig
 						<token>inbeeld</token>
 					</marker>
 				</pattern>
-				<message>U bedoelt vast <suggestion><match no="2" postag="WKW:TGW:3EP" postag_regexp="yes"></match></suggestion></message>
+				<message>U bedoelt vast <suggestion><match no="2" postag="WKW:TGW:3EP" postag_regexp="yes"/></suggestion></message>
 				<example correction="inbeeldt">Ik denk dat hij het zich <marker>inbeeld</marker>.</example>
 				<example>Ik denk dat hij het zich <marker>inbeeldt</marker>.</example>
 			</rule>
@@ -16779,6 +16866,88 @@ Ad random -> at random, willekeurig
 		</rule>
 		</rulegroup>
 		-->
+		
+		<rulegroup id="HET_ZEI_ZO" name="het zei zo → het zij zo">
+			<rule>
+				<pattern>
+					<token regexp="yes">het|dit|dat</token>	
+					<marker>
+					<token>zei</token>	
+				</marker>
+					<token>zo</token>	
+				</pattern>
+				<message>U bedoelt vast : \1 <suggestion>zij</suggestion> zo.</message>
+				<url>https://onzetaal.nl/taaladvies/het-zij-zo-het-zei-zo/</url>
+				<example correction="zij">Het <marker>zei</marker> zo.</example>
+				<example>Het <marker>zij</marker>zo.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="METEN_PERSEN" name="meten en persen → Meden en Perzen">
+			<rule>
+				<pattern>
+					<token>wet</token>	
+					<token>van</token>	
+					<token>meten</token>	
+					<token>en</token>	
+					<token>persen</token>	
+				</pattern>
+				<message>Dit kan grappig bedoeld zijn, maar ook gewoon fout van: <suggestion>wet van Meden en Perzen</suggestion>.</message>
+				<url>https://onzetaal.nl/taaladvies/dat-is-geen-wet-van-meden-en-perzen/</url>
+				<example correction="wet van Meden en Perzen">Dit is geen <marker>wet van meten en persen</marker>.</example>
+				<example>Dit is geen <marker>wet van Meden en Perzen</marker>.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="BAADT_NIET" name="Baadt het niet → baat het niet">
+			<rule>
+				<pattern>
+					<marker>
+						<token regexp="yes">baadt|baad</token>	
+					</marker>
+					<token regexp="yes">het|dit|dat</token>
+					<token>niet</token>
+				</pattern>
+				<message>Bedoelt u wellicht: <suggestion>baat</suggestion> \2 \3?</message>
+				<example correction="Baat"><marker>Baadt</marker> dit niet, dan is het fout.</example>
+				<example><marker>Baat</marker> dit niet, dan is het goed.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="BEDOENING" name="Bedoening → bedoeling">
+			<rule>
+				<pattern>
+					<token postag="BNW:STL:VRB"><exception regexp="yes">drukke|trieste|leuke|saaie|natte|gezellige|ascetische|risicovolle|belachelijke|leerzame|softe|nervueze|kale|zelfingenomen|delicate|wereldvreemde|ludieke|prijzige</exception></token>
+					<token>bedoening</token>
+				</pattern>
+				<message>Bedoelt u wellicht: <suggestion>\1 bedoeling</suggestion>?</message>
+				<example correction="goede bedoeling">Dit is een <marker>goede bedoening</marker>.</example>
+				<example>Het is een <marker>goede bedoeling</marker>.</example>
+			</rule>
+		</rulegroup>
+		
+		<!-- TaalTik 2017-09-11 -->
+		<rulegroup id="BEDOELING" name="Bedoeling → bedoening">
+			<rule>
+				<pattern>
+					<token regexp="yes">drukke|trieste|leuke|saaie|natte|gezellige|ascetische|risicovolle|belachelijke|leerzame|softe|nervueze|kale|zelfingenomen|delicate|wereldvreemde|ludieke|prijzige</token>
+					<token>bedoeling</token>
+				</pattern>
+				<message>Bedoelt u wellicht: <suggestion>\1 bedoening</suggestion>?</message>
+				<example correction="saaie bedoening">Dit is een <marker>saaie bedoeling</marker>.</example>
+				<example>Het is een <marker>saaie bedoening</marker>.</example>
+			</rule>
+		</rulegroup>	
+		
+		<!-- TaalTik 2017-09-11 -->
+		<rulegroup id="HUISHOUDELIJK_GEWELD" name="Huishoudelijk geweld of huiselijk geweld">
+			<rule>
+				<pattern>
+					<token>huishoudelijk</token>
+					<token>geweld</token>
+				</pattern>
+				<message>U bedoelt vast : <suggestion>huiselijk geweld</suggestion>.</message>
+				<example correction="huiselijk geweld">Het <marker>huishoudelijk geweld</marker> wordt erger.</example>
+			</rule>
+		</rulegroup>
+		
 		<!-- TaalTik 2014-09-26 nieuw -->
 		<rulegroup id="CADET" name="Cadet of kadet">
 			<rule>
@@ -16804,7 +16973,7 @@ Ad random -> at random, willekeurig
 		</rulegroup>
 		
 		<!-- TaalTik 2014-09-26 nieuw -->
-		<rulegroup id="BUIGEN_OP" name="Buigen op => bogen op">
+		<rulegroup id="BUIGEN_OP" name="Buigen op =&gt; bogen op">
 			<rule>
 				<pattern>
 					<token regexp="yes">buigen|buigt</token>
@@ -16913,7 +17082,7 @@ Ad random -> at random, willekeurig
 			</rule>
 		</rulegroup>
 		
-		<rulegroup id="VERKEERD_IN_STAAT" name="Verkeerd in goede staat => verkeert in goede staat">
+		<rulegroup id="VERKEERD_IN_STAAT" name="Verkeerd in goede staat =&gt; verkeert in goede staat">
 			<rule>
 				<pattern>
 					<marker>
@@ -17877,9 +18046,9 @@ Ad random -> at random, willekeurig
 				<!-- TODO Afraden van al deze ouderwetsigheid -->
 				<antipattern><token>ten</token><token>langen</token><token>leste</token></antipattern>
 				<pattern>
-					<token></token>
+					<token/>
 					<token>langen</token>
-					<token></token>
+					<token/>
 				</pattern>
 				<message>U bedoel vast <suggestion>ten langen leste</suggestion>, of er is iets anders mis ('langen'?). Moderner mag natuurlijk ook.</message>
 				<url>https://onzetaal.nl/taaladvies/advies/staande-uitdrukkingen</url>
@@ -18733,7 +18902,7 @@ Ad random -> at random, willekeurig
 					<token>mama</token>
 					<token>en</token>
 					<token>papa</token>
-					<token regexp="yes" >lening.*</token>
+					<token regexp="yes">lening.*</token>
 				</pattern>
 				<message>U bedoelt vast: <suggestion>\1-\2-\3\4</suggestion> of <suggestion>\1-\2-\3-\4</suggestion></message>
 				<url>https://onzetaal.nl/taaladvies/advies/twee-onder-een-kap-woning</url>
@@ -18970,7 +19139,7 @@ Ad random -> at random, willekeurig
 					<token>stap</token>
 					<token>voor</token>
 					<token>stap</token>
-					<token postag_regexp="yes" postag=".*ZNW.*"><exception regexp="yes">bij|een|weer|hele|wat|hoe|kan</exception><exception postag="WKW:TGW:INF" /></token>
+					<token postag_regexp="yes" postag=".*ZNW.*"><exception regexp="yes">bij|een|weer|hele|wat|hoe|kan</exception><exception postag="WKW:TGW:INF"/></token>
 				</pattern>
 				<message>Bedoelt u wellicht: <suggestion>\1-\2-\3\4</suggestion> of <suggestion>\1-\2-\3-\4</suggestion></message>
 				<url>https://onzetaal.nl/taaladvies/advies/twee-onder-een-kap-woning</url>
@@ -19294,7 +19463,7 @@ Ad random -> at random, willekeurig
 					<token>poep</token>
 					<token>en</token>
 					<token>pies</token>
-					<token regexp="yes" >humor|grap|grappen</token>
+					<token regexp="yes">humor|grap|grappen</token>
 				</pattern>
 				<message>U bedoelt vast: <suggestion>\1-\2-\3\4</suggestion> of <suggestion>\1-\2-\3-\4</suggestion></message>
 				<url>https://onzetaal.nl/taaladvies/advies/twee-onder-een-kap-woning</url>
@@ -19372,7 +19541,7 @@ Ad random -> at random, willekeurig
 				<pattern>
 					<token>alle</token>
 					<token regexp="yes">twee|drie|vier</token>
-					<token postag_regexp="yes" postag="ZNW:MRV:DE_|ZNW:MRV:DE_r"><exception postag="WKW:TGW:INF|WKW:VTD:ONV" postag_regexp="yes"/></token>
+					<token postag_regexp="yes" postag="ZNW:MRV:DE_|ZNW:MRV:VRK:DE_"><exception postag="WKW:TGW:INF|WKW:VTD:ONV" postag_regexp="yes"/></token>
 				</pattern>
 				<message>Bedoelt u wellicht: <suggestion>\1 \2 de \3</suggestion>.</message>
 				<url>https://onzetaal.nl/taaladvies/advies/alle-drie-winnaars-alle-drie-de-winnaars</url>
@@ -19456,7 +19625,7 @@ Ad random -> at random, willekeurig
 				advies wordt wel vaak vertoond, maar is ook vaak wel van toepassing.
 				-->
 				<pattern>
-					<token regexp="yes">jij|wij|zij|mij></token>
+					<token regexp="yes">jij|wij|zij|mij&gt;</token>
 					</pattern>
 					<message>Als er geen speciale nadruk ligt op \1, dan is <suggestion><match no="1" regexp_match="(?i)ij" regexp_replace="e"/></suggestion> gebruikelijker.</message>
 					<url>https://onzetaal.nl/taaladvies/advies/wij-we</url>
@@ -19673,14 +19842,14 @@ Ad random -> at random, willekeurig
 						<token regexp="yes">mand|manden</token>
 						<token>geldig</token>
 					</pattern>
-					<message>U bedoelt vast: <suggestion><match no="1" regexp_match="mand" regexp_replace="maand" /> geldig</suggestion>.</message>
+					<message>U bedoelt vast: <suggestion><match no="1" regexp_match="mand" regexp_replace="maand"/> geldig</suggestion>.</message>
 					<example correction="maand geldig">De offerte is een <marker>mand geldig</marker>.</example>
 					<example>De aanbieding is een <marker>maand geldig</marker>.</example>
 				</rule>
 			</rulegroup>
 			
 		</category>
-		<category id="CLICHES" name="Uit: Hoe bereidt je een paard? : clichés">
+	<category id="CLICHES" name="Uit: Hoe bereidt je een paard? : clichés">
 			
 			<rulegroup id="KASSA_RINKELT" name="De kassa rinkelt">
 				<rule>
@@ -19973,7 +20142,7 @@ Ad random -> at random, willekeurig
 					<pattern>
 						<token inflected="yes" skip="6">trekken</token>
 						<token skip="1">aan</token>
-						<token >jas</token>
+						<token>jas</token>
 					</pattern>
 					<message>Pas op voor clichés. Als dit figuurlijk is, probeer het dan op een andere manier uit te drukken.</message>
 					<example type="incorrect">Ze <marker>trok mij aan mijn jas</marker>.</example>
@@ -20931,7 +21100,7 @@ Ad random -> at random, willekeurig
 			</rulegroup>
 			
 		</category>
-		<category id="AARSRIVALEN" name="Uit: Aarsrivalen, scheldkarbonades en terminale baden">
+	<category id="AARSRIVALEN" name="Uit: Aarsrivalen, scheldkarbonades en terminale baden">
 			
 			<rulegroup id="VLUCHTHAVEN" name="vluchthaven → luchthaven">
 				<rule>
@@ -21320,7 +21489,7 @@ Ad random -> at random, willekeurig
 					<example correction="jammer">Het is <marker>een soort van jammer</marker> dat het vaak voorkomt.</example>
 				</rule>
 			</rulegroup>
-			<rulegroup id="HEUR_HAAR" name="Heur haar => haar haar">
+			<rulegroup id="HEUR_HAAR" name="Heur haar =&gt; haar haar">
 				<!-- TaalTik, 2014-10-02, nieuw -->
 				<rule>
 					<pattern>
@@ -21334,7 +21503,7 @@ Ad random -> at random, willekeurig
 				</rule>
 			</rulegroup>
 		</category>
-		<category id="REPETITIONS" name="Herhaling van woorden of woordgroepen.">
+	<category id="REPETITIONS" name="Herhaling van woorden of woordgroepen.">
 			<rulegroup id="DUBBEL_WOORD" name="Dubbel woord">
 				<!-- 2014-08-20 TaalTik -->
 				<rule>
@@ -21392,18 +21561,18 @@ Ad random -> at random, willekeurig
 				</rule>
 			</rulegroup>
 		</category>
-		<category id="TYPOGRAPHY" name="Aandachtspunten rond o.a. punten en aanhalingstekens.">
+	<category id="TYPOGRAPHY" name="Aandachtspunten rond o.a. punten en aanhalingstekens.">
 			<rulegroup id="KOMMA_APO" name=",&quot; → &quot;,">
 				<rule>
 					<!-- TaalTik 2014-09-18 -->
 					<pattern>
 						<token>,</token>
-						<token>&quot;</token>
+						<token>"</token>
 					</pattern>
-					<message>De komma valt meestal buiten de aanhalingstekens: <suggestion>&quot;,</suggestion></message>
+					<message>De komma valt meestal buiten de aanhalingstekens: <suggestion>",</suggestion></message>
 					<short>,"</short>
-					<example correction="&quot;,">"Dat is vreemd<marker>,&quot;</marker> zegt hij.</example>
-					<example>&quot;Dat is vreemd&quot;, zegt hij.</example>
+					<example correction="&quot;,">"Dat is vreemd<marker>,"</marker> zegt hij.</example>
+					<example>"Dat is vreemd", zegt hij.</example>
 				</rule>
 			</rulegroup>
 			<rulegroup id="GEDACHTESTREEPJE" name="- → —">
@@ -21552,12 +21721,11 @@ Ad random -> at random, willekeurig
 						<token spacebefore="yes">,</token>
 						<token spacebefore="no">,</token>
 					</pattern>
-					<message>Gebruik niet twee keer , maar <suggestion>&quot;</suggestion> of <suggestion>„</suggestion></message>
+					<message>Gebruik niet twee keer , maar <suggestion>"</suggestion> of <suggestion>„</suggestion></message>
 					<example correction="&quot;|„">Ik lees een <marker>,,</marker>lekker.</example>
-					<example>Ik lees een <marker>„</marker>lekker&quot;.</example>
+					<example>Ik lees een <marker>„</marker>lekker".</example>
 				</rule>
 			</rulegroup>
 		</category>
 
-	</rules>
-	
+  </rules>

@@ -51,7 +51,7 @@ class ApiV2 {
     this.allowOriginUrl = allowOriginUrl;
   }
 
-  void handleRequest(String path, HttpExchange httpExchange, Map<String, String> parameters) throws Exception {
+  void handleRequest(String path, HttpExchange httpExchange, Map<String, String> parameters, ErrorRequestLimiter errorRequestLimiter, String remoteAddress) throws Exception {
     if (path.equals("languages")) {
       String response = getLanguages();
       ServerTools.setCommonHeaders(httpExchange, JSON_CONTENT_TYPE, allowOriginUrl);
@@ -68,11 +68,11 @@ class ApiV2 {
       } else {
         throw new RuntimeException("Missing 'text' or 'data' parameter");
       }
-      textChecker.checkText(aText, httpExchange, parameters);
+      textChecker.checkText(aText, httpExchange, parameters, errorRequestLimiter, remoteAddress);
     } else if (path.equals("log")) {
       // used so the client (especially the browser add-ons) can report internal issues:
       String message = parameters.get("message");
-      if (message.length() > 250) {
+      if (message != null && message.length() > 250) {
         message = message.substring(0, 250) + "...";
       }
       ServerTools.print("Log message from client: " + message + " - User-Agent: " + httpExchange.getRequestHeaders().getFirst("User-Agent"));

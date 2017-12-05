@@ -75,6 +75,8 @@ public class TokenAgreementAdjNounRuleTest {
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("кволого тюльпан")).length);
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("цинічна винахідливості")).length);
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("наступній рік свого життя")).length);
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("жодного кубічного метру в Україні не буде")).length);
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("кладний рік на фондовим ринку")).length);
     
     // не працює через іменник французька (мова)
 //    assertEquals(1, rule.match(langTool.getAnalyzedSentence("французька політик")).length);
@@ -104,6 +106,8 @@ public class TokenAgreementAdjNounRuleTest {
     // relies on disambiguation
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("— робочій день.")).length);
     assertEmptyMatch("президентів Леонідів Кравчука та Кучму");
+
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("угода на 30 років зі щорічного поставкою росіянами ...")).length);
     
     // missing/extra letter
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("сприймали так власні громадян")).length);
@@ -118,7 +122,7 @@ public class TokenAgreementAdjNounRuleTest {
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("Генеральній прокураторі")).length);
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("була низька передумов")).length);
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("після смерті легендарного Фреді Меркюрі")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Юна викрадача й не здогадувалася")).length);
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("юна викрадача й не здогадувалася")).length);
 
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("По повернені кореспондентів")).length);
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("в очікувані експериментатора")).length);
@@ -130,7 +134,7 @@ public class TokenAgreementAdjNounRuleTest {
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("Як правило, це чоловіки, годувальними сімей")).length);
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("з московською боку")).length);
 
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("від войовничих хозар")).length);
+//    assertEquals(1, rule.match(langTool.getAnalyzedSentence("від войовничих хозар")).length);
 
     // wrong gender
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("з насиджених барліг")).length);
@@ -160,6 +164,7 @@ public class TokenAgreementAdjNounRuleTest {
     // false :nv
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("затверджений народним віче")).length);
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("На великому родинному віче")).length);
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("в листопаді 2015 року на народні віче до Кривого Рогу")).length);
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("як японські ніндзя")).length);
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("приталені пальто")).length);
     
@@ -204,6 +209,13 @@ public class TokenAgreementAdjNounRuleTest {
     assertEmptyMatch("п’ять шостих населення");
 
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("п'ять шості світу")).length);
+
+    assertEmptyMatch("1/8-ї фіналу");
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("1/8-ї фіналом")).length);
+
+    assertEmptyMatch("з 11-ма годинами");
+    assertEmptyMatch("вбивство 148-ми селян");
+
     
     // площею, об'ємом...
     assertEmptyMatch("чотирициліндровий об’ємом 1000 куб. см.");
@@ -282,6 +294,10 @@ public class TokenAgreementAdjNounRuleTest {
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("3-й класи поснідали")).length);
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("одному-два непоганих шанси")).length);
     
+    RuleMatch[] match = rule.match(langTool.getAnalyzedSentence("залишилося сиротами 22-є дітей"));
+    assertEquals(1, match.length);
+    assertTrue(match[0].getMessage().contains("літерне нарощення після кількісного числівника"));
+    
     assertEmptyMatch("восьмого – дев’ятого класів");
     assertEmptyMatch("перший — дев’ятий класи");
 
@@ -310,17 +326,28 @@ public class TokenAgreementAdjNounRuleTest {
     assertEmptyMatch("природний тисячею років підтверджений");
     
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("на 131-му хвилині")).length);
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("О 12–ї годині")).length);
 
 
     assertEmptyMatch("Анонсована тиждень тому домовленість");
     assertEmptyMatch("забули про популярні пару років тому");
+
+    assertEmptyMatch("завищена разів у десять");
     assertEmptyMatch("інвестиція на найближчі років п’ять");
     assertEmptyMatch("до розташованого кілометрів за шість");
     assertEmptyMatch("заповнені відсотків на 80");
     assertEmptyMatch("лячно було перші хвилин 40");
     assertEmptyMatch("і посаджений років на 10–15");
     assertEmptyMatch("і піднятий відсотки на 3");
+    assertEmptyMatch("Поховавши році в п'ятдесятому жінку");
+
+    assertEmptyMatch("хвилини з 55-ї вірмени почали застосовувати пресинг");
     
+    assertEmptyMatch("один 5-а клас");
+    assertEmptyMatch("маршрутка номер 29-а фірми “Фіакр”");
+
+    assertEmptyMatch("на вул. Рубчака, 17-а Тарас Стецьків");
+    assertEmptyMatch("вулиці Володимира Великого, 35-а Юрій Борсук");
 
     /////////// plurals /////////
     
@@ -464,8 +491,9 @@ public class TokenAgreementAdjNounRuleTest {
     //////// adjp ////////////
 
     // adjp:actv:imperf + noun (case government)
-    // we ignore adjp:actv:imperf - it's handled by simple replace rule
+    // we ignore adjp:actv.*:bad - it's handled by simple replace rule
     assertEmptyMatch("обмежуючий власність");
+    assertEmptyMatch("створивший історію");
 
     
     // adjp + (весь) в біле/чорне
@@ -696,6 +724,17 @@ public class TokenAgreementAdjNounRuleTest {
     //TODO: turn back on when we can handle pron
 //    assertEquals(1, rule.match(langTool.getAnalyzedSentence("із такою самого зневагою")).length);
 //    assertEquals(1, rule.match(langTool.getAnalyzedSentence("на вибори само висуванцем")).length);
+  }
+  
+  @Test
+  public void testSpecialChars() throws IOException {
+    assertEmptyMatch("зелений поді\u00ADум");
+
+    RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("зелений по\u00ADділка."));
+    assertEquals(1, matches.length);
+
+    matches = rule.match(langTool.getAnalyzedSentence("зе\u00ADлений поділка."));
+    assertEquals(1, matches.length);
   }
   
   private void assertEmptyMatch(String text) throws IOException {

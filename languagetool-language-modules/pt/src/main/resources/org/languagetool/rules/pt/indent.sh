@@ -1,5 +1,7 @@
 echo 'Please wait...'
 
+sed -ri 's/([^ ])(<exception)/\1\n            \2/' $@
+
 sed -ri 's/^[ \t]*(<\/?category)/ \1/' $@
 sed -ri 's/^[ \t]*(<\/?(rulegroup|!DOCTYPE|phrases|unification))/  \1/' $@
 sed -ri 's/^[ \t]*(<\/?(rule[ >]|!--|!ENTITY|phrase[ >]|equivalence))/    \1/' $@

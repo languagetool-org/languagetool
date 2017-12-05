@@ -45,7 +45,7 @@ public class SimpleReplaceRuleTest {
     assertEquals(0, matches.length);
 
     // incorrect sentences:
-    matches = rule.match(langTool.getAnalyzedSentence("Ці рядки повинні співпадати."));
+    matches = rule.match(langTool.getAnalyzedSentence("Ці рядки повинні співпадати"));
     assertEquals(1, matches.length);
     assertEquals(2, matches[0].getSuggestedReplacements().size());
     assertEquals(Arrays.asList("збігатися", "сходитися"), matches[0].getSuggestedReplacements());

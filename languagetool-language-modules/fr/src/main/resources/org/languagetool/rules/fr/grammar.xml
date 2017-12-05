@@ -661,7 +661,7 @@ though, and has since been slightly modified)-->
           <token>la</token>
           <marker><token regexp="yes">côte|cotte</token></marker>
         </pattern>
-        <message>confusion probable entre <suggestion>cote</suggestion> et « côte ».</message>
+        <message>Confusion probable entre <suggestion>cote</suggestion> et « côte ».</message>
         <example correction="cote">il n’a plus la <marker>côte</marker>.</example>
       </rule>
       <rule>
@@ -1838,7 +1838,7 @@ though, and has since been slightly modified)-->
       <pattern>
         <marker><token>ce</token></marker>
         <token postag="V.*" postag_regexp="yes">
-          <exception postag="[NJ] [me] s" postag_regexp="yes"/>
+          <exception postag="[NJ] [me] sp?" postag_regexp="yes"/>
           <exception inflected="yes" regexp="yes">être|devoir|pouvoir</exception>
           <exception regexp="yes">faisant|faire</exception>
         </token>
@@ -1851,6 +1851,7 @@ though, and has since been slightly modified)-->
       <example>Ce peuple</example>
       <example>Ce faisant, il se rapprochait.</example>
       <example>Pour ce faire, vous disposez d’un délai d’une semaine.</example>
+      <example>Ce tapis est beau.</example>
     </rule>
     <rule id="MA" name="MA au lieu de M’A">
       <pattern>
@@ -3523,7 +3524,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">Mic?ke?[iy]</token>
           <token regexp="yes">Doll?en[sz]</token>
         </pattern>
-        <message>Écrivez <suggestion>Micky Dolenz</suggestion> s’il s’agit l’acteur, réalisateur, pproducteur, scénariste, musicien et compositeur américain.</message>
+        <message>Écrivez <suggestion>Micky Dolenz</suggestion> s’il s’agit l’acteur, réalisateur, producteur, scénariste, musicien et compositeur américain.</message>
         <url>https://fr.wikipedia.org/wiki/Micky_Dolenz</url>
         <example correction="Micky Dolenz"><marker>Mickey Dolenz</marker> est né en 1945.</example>
       </rule>
@@ -3706,6 +3707,32 @@ though, and has since been slightly modified)-->
         <message>Écrivez <suggestion>Weird Al Yankovic</suggestion> s’il s’agit du chanteur américain.</message>
         <url>https://fr.wikipedia.org/wiki/Weird_Al_Yankovic</url>
         <example correction="Weird Al Yankovic"><marker>Weird al Yankovich</marker></example>
+      </rule>
+      <rule>
+        <antipattern>
+          <token>Andrea</token>
+          <token>Bocelli</token>
+        </antipattern>
+        <pattern>
+          <token regexp="yes">Andr[eé]a?</token>
+          <token regexp="yes">Bocc?h?ell?i</token>
+        </pattern>
+        <message>Écrivez <suggestion>Andrea Bocelli</suggestion> s’il s’agit du ténor italien.</message>
+        <url>https://fr.wikipedia.org/wiki/Andrea_Bocelli</url>
+        <example correction="Andrea Bocelli"><marker>Andrea Boccelli</marker> est né en 1958.</example>
+      </rule>
+      <rule>
+        <antipattern>
+          <token>Ennio</token>
+          <token>Morricone</token>
+        </antipattern>
+        <pattern>
+          <token regexp="yes">[EÉ]nn?io</token>
+          <token regexp="yes">Morr?icc?onn?[eé]</token>
+        </pattern>
+        <message>Écrivez <suggestion>Ennio Morricone</suggestion> s’il s’agit du compositeur italien.</message>
+        <url>https://nl.wikipedia.org/wiki/Ennio_Morricone</url>
+        <example correction="Ennio Morricone"><marker>Ennio Moricone</marker> est né en 1928.</example>
       </rule>
       <rule>
         <antipattern>
@@ -4034,13 +4061,20 @@ though, and has since been slightly modified)-->
         <example correction="Bram Moolenaar"><marker>Bram Moolenar</marker> est l’auteur de Vim.</example>
       </rule>
       <rule>
-        <pattern>
+        <antipattern>
           <token>Henri</token>
-          <marker><token regexp="yes">Point?carr?é<exception>Poincaré</exception></token></marker>
+          <token>Poincaré</token>
+        </antipattern>
+        <pattern>
+          <marker>
+            <token regexp="yes">Henr[iy]</token>
+            <token regexp="yes">Point?carr?[ée]</token>
+          </marker>
         </pattern>
-        <message>Écrivez <suggestion>Poincaré</suggestion> s’il s’agit du mathématicien français.</message>
+        <message>Écrivez <suggestion>Henri Poincaré</suggestion> s’il s’agit du mathématicien français.</message>
         <url>https://fr.wikipedia.org/wiki/Henri_Poincar%C3%A9</url>
-        <example correction="Poincaré">Henri <marker>Pointcaré</marker></example>
+        <example correction="Henri Poincaré"><marker>Henri Pointcaré</marker></example>
+        <example correction="Henri Poincaré"><marker>Henry Poincaré</marker></example>
       </rule>
       <rule>
         <pattern>
@@ -4078,7 +4112,7 @@ though, and has since been slightly modified)-->
         </antipattern>
         <pattern>
           <token regexp="yes">Fran[cç]ois</token>
-          <token regexp="yes">Mit?terr?and</token>
+          <token regexp="yes">Mit?te?rr?an[dt]?</token>
         </pattern>
         <message>Écrivez <suggestion>François Mitterrand</suggestion> s’il s’agit du président de la république.</message>
         <url>https://fr.wikipedia.org/wiki/Fran%C3%A7ois_Mitterrand</url>
@@ -4113,11 +4147,11 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <antipattern>
-          <token regexp="yes">Emmanuel|Brigitte</token>
+          <token>Emmanuel</token>
           <token>Macron</token>
         </antipattern>
         <pattern>
-          <token regexp="yes">[EÉ]mm?ann?uel(lle)?|Brigitt?e?</token>
+          <token regexp="yes">[EÉ]mm?ann?uel(lle)?</token>
           <token regexp="yes">Ma(c|c?k)a?ron</token>
         </pattern>
         <message>Écrivez <suggestion>Emmanuel Macron</suggestion> s’il s’agit du président de la république.</message>
@@ -4232,6 +4266,15 @@ though, and has since been slightly modified)-->
         <message>Écrivez <suggestion>Ringo Starr</suggestion> s’il s’agit du membre des Beatles.</message>
         <url>https://fr.wikipedia.org/wiki/Ringo_Starr</url>
         <example correction="Ringo Starr"><marker>Ringo Star</marker></example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">[ÉE]mm?ann?uell?e?<exception>Emanuel</exception></token>
+          <token>Lasker</token>
+        </pattern>
+        <message>Écrivez <suggestion>Emanuel Lasker</suggestion> s’il s’agit du champion du monde d’Échecs.</message>
+        <url>https://fr.wikipedia.org/wiki/Emanuel_Lasker</url>
+        <example correction="Emanuel Lasker"><marker>Emmanuel Lasker</marker></example>
       </rule>
       <rule>
         <antipattern>
@@ -7779,6 +7822,18 @@ though, and has since been slightly modified)-->
         <example correction="acres">Une superficie de 50 <marker>âcres</marker>.</example>
       </rule>
     </rulegroup>
+    <rule id="GITE" name="gîte">
+      <pattern>
+        <token inflected="yes" regexp="yes">prendre|donner</token>
+        <marker>
+          <token>du</token>
+          <token regexp="yes">g[îi]te</token>
+        </marker>
+      </pattern>
+      <message>Le mot « gîte » est féminin quand il s’agit de l’inclinaison d’un navire. Voulez-vous écrire <suggestion>de la gîte</suggestion>.</message>
+      <url>http://www.academie-francaise.fr/le-gite-la-gite</url>
+      <example correction="de la gîte">Le voilier prend <marker>du gîte</marker>.</example>
+    </rule>
   </category>
   <category id="CAT_ELISION" name="Élision">
     <rulegroup id="EL_PRESQUE" name="Élision de presque">
@@ -8124,6 +8179,14 @@ though, and has since been slightly modified)-->
           <token regexp="yes">ondes|signaux|échos|émetteurs|interféromètres|récepteurs|réflecteurs|brouilleurs|stations</token>
           <token regexp="yes">radio|radar|météo</token>
         </antipattern>
+        <antipattern>
+          <token>tortues</token>
+          <token>luth</token>
+        </antipattern>
+        <antipattern>
+          <token>imprimantes</token>
+          <token>laser</token>
+        </antipattern>
         <pattern>
           <token negate="yes" regexp="yes">des?</token>
           <marker>
@@ -8181,6 +8244,8 @@ though, and has since been slightly modified)-->
         <example>Les véhicules.</example>
         <example>Les ondes radio.</example>
         <example>Des événements différents ayant lieu en même temps.</example>
+        <example>Les tortues luth.</example>
+        <example>Les imprimantes laser.</example>
       </rule>
     </rulegroup>
     <rulegroup id="ACCORD_GENRE" name="Accord en genre">
@@ -8299,6 +8364,14 @@ though, and has since been slightly modified)-->
           <token>empreinte</token>
           <token>carbone</token>
         </antipattern>
+        <antipattern>
+          <token inflected="yes">tortue</token>
+          <token>luth</token>
+        </antipattern>
+        <antipattern>
+          <token inflected="yes">imprimante</token>
+          <token>laser</token>
+        </antipattern>
         <pattern>
           <token postag="[DJ] f .*" postag_regexp="yes" skip="1">
             <exception postag="[NJ] [me] .*|V .*" postag_regexp="yes"/>
@@ -8351,6 +8424,8 @@ though, and has since been slightly modified)-->
         <example>Les bonnes gens.</example>
         <example>J’habite 10 avenue Constantin Arnaud.</example>
         <example>L’une des pires.</example>
+        <example>Les tortues luth.</example>
+        <example>L’imprimante laser.</example>
       </rule>
       <rule name="nom féminin suivi du masculin">
         <antipattern>
@@ -8716,7 +8791,7 @@ though, and has since been slightly modified)-->
           <token postag="V ppa .*" postag_regexp="yes"/>
         </antipattern>
         <pattern>
-          <token inflected="yes" regexp="yes" postag="V.*" postag_regexp="yes">adorer|aimer|aller|(re)?compter|(re)?descendre|(re)?détester|(re)?désirer|(re)?devoir|entendre|(ré)?espérer|(re)?faillir|(re)?faire|(re)?falloir|penser|pouvoir|(re)?préférer|regarder|savoir|(re)?souhaiter|retourner|venir|(re)?vouloir
+          <token inflected="yes" regexp="yes" postag="V.*" postag_regexp="yes">adorer|aimer|aller|(re)?compter|(re)?descendre|(re)?détester|(re)?désirer|(re)?devoir|entendre|(ré)?espérer|(re)?faillir|(re)?faire|(re)?falloir|(re)?penser|pouvoir|(re)?préférer|regarder|savoir|(re)?souhaiter|retourner|venir|(re)?vouloir
             <exception postag="V ind pres 1 s">puis</exception>
           </token>
           <marker>
@@ -8738,7 +8813,7 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <token>ne</token>
-          <token inflected="yes" regexp="yes" postag="V.*" postag_regexp="yes">aller|(re)?compter|(re)?descendre|(re)?détester|(re)?désirer|(re)?devoir|réespérer|(re)?faillir|(re)?faire|(re)?falloir|penser|pouvoir|(re)?préférer|regarder|savoir|(re)?souhaiter|retourner|venir|(re)?vouloir</token>
+          <token inflected="yes" regexp="yes" postag="V.*" postag_regexp="yes">aller|(re)?compter|(re)?descendre|(re)?détester|(re)?désirer|(re)?devoir|réespérer|(re)?faillir|(re)?faire|(re)?falloir|(re)?penser|pouvoir|(re)?préférer|regarder|savoir|(re)?souhaiter|retourner|venir|(re)?vouloir</token>
           <token regexp="yes">pas|plus|point|guère|jamais|rien</token>
           <marker>
             <token postag="V.*" postag_regexp="yes" regexp="yes">.*ée?s?</token>
@@ -8761,6 +8836,25 @@ though, and has since been slightly modified)-->
         <message>Le verbe « \5 » devrait être à l’infinitif après le verbe modal « \3 ».</message>
         <suggestion><match no="5" postag="V.* inf" postag_regexp="yes"/></suggestion>
         <example correction="changer">Je n’aime pas <marker>changé</marker> d’école.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes" regexp="yes" postag="V.*" postag_regexp="yes">adorer|aimer|aller|(re)?compter|(re)?descendre|(re)?détester|(re)?désirer|(re)?devoir|entendre|(ré)?espérer|(re)?faillir|(re)?faire|(re)?falloir|(re)?penser|pouvoir|(re)?préférer|regarder|savoir|(re)?souhaiter|retourner|venir|(re)?vouloir
+            <exception postag="V ind pres 1 s">puis</exception>
+          </token>
+          <token min="0" max="1" regexp="yes">pas|plus|guère</token>
+          <token regexp="yes">les?|la|en|y|lui|[vn]ous|[mts]e</token>
+          <marker>
+            <token postag="V.*" postag_regexp="yes" regexp="yes">.*ée?s?<exception postag="N.*" postag_regexp="yes"/></token>
+          </marker>
+        </pattern>
+        <message>Le verbe « \4 » devrait être à l’infinitif après le verbe modal « \1 ».</message>
+        <suggestion><match no="4" postag="V.* inf" postag_regexp="yes"/></suggestion>
+        <example correction="téléphoner">Je veux lui <marker>téléphoné</marker>.</example>
+        <example correction="manger">Je ne veux pas les <marker>mangé</marker>.</example>
+        <example correction="manger">Je ne veux pas les <marker>mangés</marker>.</example>
+        <example>Je regarde la <marker>télé</marker>.</example>
+        <example>Je compte les <marker>invités</marker>.</example>
       </rule>
     </rulegroup>
     <rulegroup id="ACCEPTER_DE_VPPA" name="accepter de + verbe ppa">
@@ -12336,6 +12430,56 @@ though, and has since been slightly modified)-->
         <example>Mes enfants ne m’en veulent pas.</example>
       </rule>
     </rulegroup>
+    <rulegroup id="ACCORD_LA_PLUPART" name="Accord avec la plupart">
+      <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=1650</url>
+      <rule>
+        <pattern>
+          <token>la</token>
+          <token>plupart</token>
+          <token min="0" max="1">ne</token>
+          <marker><token postag="V .*" postag_regexp="yes"><exception postag="V .* 3 p" postag_regexp="yes"/></token></marker>
+        </pattern>
+        <message>Lorsque la plupart est employé seul, sans complément, le verbe devrait être à la 3e personne du pluriel.</message>
+        <example correction="">La plupart <marker>pense</marker> qu’il gagnera.</example>
+        <example>La plupart <marker>pensent</marker> qu’il gagnera.</example>
+        <example correction="">La plupart ne <marker>pense</marker> pas qu’il gagnera.</example>
+        <example>La plupart ne <marker>pensent</marker> pas qu’il gagnera.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>la</token>
+          <token>plupart</token>
+          <token min="0" max="1">ne</token>
+          <token regexp="yes">l[ae]|les|lui|leur|[nv]ous</token>
+          <marker><token postag="V .*" postag_regexp="yes"><exception postag="V .* 3 p" postag_regexp="yes"/></token></marker>
+        </pattern>
+        <message>Lorsque la plupart est employé seul, sans complément, le verbe devrait être à la 3e personne du pluriel.</message>
+        <example correction="">La plupart ne nous <marker>voit</marker> pas.</example>
+        <example>La plupart ne nous <marker>voient</marker> pas.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>la</token>
+          <token>plupart</token>
+          <token min="0" max="1">ne</token>
+          <token regexp="yes">[lmnst]</token>
+          <token regexp="yes">['´‘’′]</token>
+          <token min="0" max="1">en</token>
+          <marker><token postag="V .*" postag_regexp="yes"><exception postag="V .* 3 p" postag_regexp="yes"/></token></marker>
+        </pattern>
+        <message>Lorsque la plupart est employé seul, sans complément, le verbe devrait être à la 3e personne du pluriel.</message>
+        <example correction="">La plupart n’<marker>arrive</marker> jamais à l’heure.</example>
+        <example>La plupart n’<marker>arrivent</marker> jamais à l’heure.</example>
+        <example correction="">La plupart s’<marker>intéresse</marker> à la politique.</example>
+        <example>La plupart s’<marker>intéressent</marker> à la politique.</example>
+        <example correction="">La plupart ne s’<marker>intéresse</marker> à la politique.</example>
+        <example>La plupart ne s’<marker>intéressent</marker> à la politique.</example>
+        <example correction="">La plupart s’en <marker>fiche</marker>.</example>
+        <example>La plupart s’en <marker>fichent</marker>.</example>
+        <example correction="">La plupart ne s’en <marker>fiche</marker>.</example>
+        <example>La plupart ne s’en <marker>fichent</marker>.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="ACCORD_LA_PLUPART_DES" name="Accord avec la plupart des">
       <rule>
         <pattern>
@@ -12579,32 +12723,45 @@ though, and has since been slightly modified)-->
       </rule>
     </rulegroup>
     <rulegroup id="DEMI" name="demi et demie">
+      <url>https://www.projet-voltaire.fr/regles-orthographe/demi-ou-demie/</url>
       <rule>
         <pattern>
-          <token regexp="yes">heures?</token>
+          <token regexp="yes">(minute|heure|semaine|année|cuillère|tonne|bouteille|tasse|page)s?</token>
           <token>et</token>
-          <marker><token regexp="yes">demis?</token></marker>
+          <marker><token regexp="yes">demis?|demies</token></marker>
         </pattern>
         <message>Employez <suggestion>demie</suggestion>.</message>
         <example correction="demie">Il est trois heures et <marker>demi</marker>.</example>
-        <example>Il est trois heures et demie.</example>
+        <example correction="demie">Il est trois heures et <marker>demis</marker>.</example>
+        <example correction="demie">Il est trois heures et <marker>demies</marker>.</example>
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">demie?</token>
-          <token>heure</token>
+          <token regexp="yes">(jour|an|siècle|kilo|degré|verre)s?</token>
+          <token>et</token>
+          <marker><token regexp="yes">demis|demies?</token></marker>
         </pattern>
-        <message>Employez <suggestion>demi-heure</suggestion>.</message>
+        <message>Employez <suggestion>demi</suggestion>.</message>
+        <example correction="demi">Trois ans et <marker>demis</marker>.</example>
+        <example correction="demi">Trois ans et <marker>demie</marker>.</example>
+        <example correction="demi">Trois ans et <marker>demies</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">demie?s?</token>
+          <token regexp="yes">(douzaine|cercle|litre|journée|heure|sœur|soeur|frère|fin|sel|finale|centre|pension|portion|mot|morte?|blonde?|longueur|page|mesure|écrémée?|tour|teinte)s?</token>
+        </pattern>
+        <message>Devant un nom ou adjective « demi » est invariable et se rattache avec un trait d’union.</message>
+        <suggestion>demi-\2</suggestion>
         <example correction="demi-heure">L’entretien dure environ une <marker>demi heure</marker>.</example>
-        <example>L’entretien dure environ une demi-heure.</example>
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">demie[-‑‐]heure</token>
+          <token regexp="yes">(demis|demies?)[-‑‐](douzaine|cercle|litre|journée|heure|frère|sœur|soeur|fin|sel|finale|centre|pension|portion|mot|morte?|blonde?|longueur|page|mesure|écrémée?|tour|teinte)s?</token>
         </pattern>
-        <message>Employez <suggestion>demi-heure</suggestion>.</message>
+        <message>Devant un nom ou adjective « demi » est invariable et se rattache avec un trait d’union.</message>
+        <suggestion><match no="1" regexp_match="demis|demies?" regexp_replace="demi"/></suggestion>
         <example correction="demi-heure">L’entretien dure environ une <marker>demie-heure</marker>.</example>
-        <example>L’entretien dure environ une demi-heure.</example>
       </rule>
       <rule>
         <pattern>
@@ -12623,7 +12780,6 @@ though, and has since been slightly modified)-->
       </pattern>
       <message>On écrit <suggestion>la plupart</suggestion>.</message>
       <example correction="La plupart"><marker>La plus part</marker> du temps</example>
-      <example>La plupart du temps</example>
     </rule>
     <rule id="NUL_PART" name="nul part (nulle part)">
       <pattern>
@@ -12632,7 +12788,6 @@ though, and has since been slightly modified)-->
       </pattern>
       <message>On écrit <suggestion>nulle part</suggestion>.</message>
       <example correction="nulle part">Il n’a <marker>nul part</marker> où aller.</example>
-      <example>Il n’a nulle part où aller.</example>
     </rule>
     <rule id="TRES_BEAUCOUP" name="très/trop + adverbe superlatif">
       <pattern>
@@ -21255,12 +21410,13 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="APPRECIER_QUE" name="apprécier que">
       <pattern>
-        <token inflected="yes" skip="1">apprécier</token>
+        <token inflected="yes">apprécier</token>
         <token>que</token>
       </pattern>
       <message>« Apprécier que » est un anglicisme (to appreciate that). Employez <suggestion>aimer que</suggestion>, <suggestion>désirer que</suggestion>, <suggestion>souhaiter que</suggestion>, <suggestion>savoir gré</suggestion> (à quelqu’un), <suggestion>être reconnaissant</suggestion> (envers quelqu’un).</message>
+      <url>http://www.btb.termiumplus.gc.ca/tpv2guides/guides/clefsfp/index-fra.html?lang=fra&amp;lettr=indx_catlog_a&amp;page=9kBr-9qNa6k4.html</url>
       <example correction="aimer que|désirer que|souhaiter que|savoir gré|être reconnaissant"><marker>apprécie que</marker></example>
-      <example><marker>aime que</marker></example>
+      <example>J’apprécie ce que tu dis.</example>
       <example>Ils m’apprécient en tant que collègue.</example>
     </rule>
     <rule id="ETRE_A_SON_MEILLEUR" name="être à son meilleur">
@@ -21271,6 +21427,7 @@ though, and has since been slightly modified)-->
         <token>meilleur</token>
       </pattern>
       <message>« Être à son meilleur » est un anglicisme (to be at one's best). Employez <suggestion>être au sommet de sa forme</suggestion>, <suggestion>exceller</suggestion>, <suggestion>être au mieux</suggestion>.</message>
+      <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=3572</url>
       <example correction="être au sommet de sa forme|exceller|être au mieux"><marker>être à mon meilleur</marker></example>
       <example><marker>être au sommet de ma forme</marker></example>
     </rule>
@@ -28387,16 +28544,6 @@ though, and has since been slightly modified)-->
       <message>« Sans craintes » est une expression fautive (expression invariable). Employez <suggestion>sans crainte</suggestion>.</message>
       <example correction="sans crainte"><marker>sans craintes</marker></example>
     </rule>
-    <rule id="A_LABRIS" name="à l’abris">
-      <pattern>
-        <token>à</token>
-        <token>l</token>
-        <token regexp="yes">['´‘’′]</token>
-        <token>abris</token>
-      </pattern>
-      <message>« À l’abris » est une expression fautive (expression invariable). Employez <suggestion>à l\3abri</suggestion>.</message>
-      <example correction="à l’abri"><marker>à l’abris</marker></example>
-    </rule>
     <rule id="SUPER" name="supers">
       <pattern>
         <token>supers</token>
@@ -28799,7 +28946,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">(?:Open|Web)Gl<exception regexp="yes">(?-i)OpenGL|WebGL</exception></token>
+          <token regexp="yes">(?:Open|Web)[-‑‐]?Gl<exception regexp="yes">(?-i)OpenGL|WebGL</exception></token>
         </pattern>
         <message>Écrivez <suggestion><match no="1" case_conversion="startupper" regexp_match="..$" regexp_replace=""/>GL</suggestion>.</message>
         <example correction="OpenGL">La bibliothèque <marker>OpenGl</marker>.</example>
@@ -28818,7 +28965,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">(?:Open|Web)Cl<exception regexp="yes">(?-i)OpenCL|WebCL</exception></token>
+          <token regexp="yes">(?:Open|Web)[-‑‐]?Cl<exception regexp="yes">(?-i)OpenCL|WebCL</exception></token>
         </pattern>
         <message>Écrivez <suggestion><match no="1" case_conversion="startupper" regexp_match="..$" regexp_replace=""/>CL</suggestion>.</message>
         <example correction="OpenCL"><marker>OpenCl</marker>.</example>
@@ -28837,20 +28984,74 @@ though, and has since been slightly modified)-->
     <rule id="WINDOWS" name="Window → Windows">
       <pattern>
         <marker><token>Window</token></marker>
-        <token regexp="yes">(?-i)9[58x]|2000|Me|CE|SE|RT|NT|XP|Vista|[789]|Mobile|Millenium|Server|Phone|Media</token>
+        <token regexp="yes">(?-i)9[58x]|2000|Me|CE|SE|RT|NT|XP|Vista|[78]|8\.1|10|Mobile|Millenium|Server|Phone|Media</token>
       </pattern>
       <message>Voulez-vous écrire <suggestion>Windows</suggestion> s’il s’agit du système d’exploitation de Microsoft ?</message>
       <url>https://fr.wikipedia.org/wiki/Windows</url>
       <example correction="Windows"><marker>Window</marker> Vista plante tout le temps.</example>
     </rule>
-    <rule id="X_WINDOW" name="X Window">
+    <rulegroup id="X_WINDOW" name="X Window">
+      <rule>
+        <pattern>
+          <token case_sensitive="yes">X</token>
+          <token>Windows</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>X Window</suggestion> ?</message>
+        <url>https://fr.wikipedia.org/wiki/X_Toolkit</url>
+        <example correction="X Window">C’est le MIT qui a publié la première version de <marker>X Windows</marker> en juin 1984.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">X[-‑‐]?Windows?</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>X Window</suggestion> ?</message>
+        <url>https://fr.wikipedia.org/wiki/X_Toolkit</url>
+        <example correction="X Window">C’est le MIT qui a publié la première version de <marker>X-Windows</marker> en juin 1984.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="OPEN_STREET_MAP" name="OpenStreetMap">
+      <url>https://fr.wikipedia.org/wiki/OpenStreetMap</url>
+      <rule>
+        <pattern>
+          <token>Open</token>
+          <token regexp="yes">Streets?</token>
+          <token regexp="yes">Maps?</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>OpenStreetMap</suggestion> ?</message>
+        <example correction="OpenStreetMap"><marker>Open Street Map</marker></example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">Openss?[-‑‐]?treets?</token>
+          <token regexp="yes">Maps?</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>OpenStreetMap</suggestion> ?</message>
+        <example correction="OpenStreetMap"><marker>OpenStreet Map</marker></example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">Opens?</token>
+          <token regexp="yes">Streets?[-‑‐]?Maps?</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>OpenStreetMap</suggestion> ?</message>
+        <example correction="OpenStreetMap"><marker>Open StreetMap</marker></example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">Opens?[-‑‐]?Streets?[-‑‐]?Maps?<exception regexp="yes">(?-i)OpenStreetMap</exception></token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>OpenStreetMap</suggestion> ?</message>
+        <example correction="OpenStreetMap"><marker>OpenStreetsMap</marker></example>
+      </rule>
+    </rulegroup>
+    <rule id="SONY_ERICSSON" name="Sony Ericsson">
       <pattern>
-        <token case_sensitive="yes">X</token>
-        <token>Windows</token>
+        <token>Sony</token>
+        <token regexp="yes">Eri(ck?|k)ss?on<exception>Ericsson</exception></token>
       </pattern>
-      <message>Voulez-vous écrire <suggestion>X Window</suggestion> ?</message>
-      <url>https://fr.wikipedia.org/wiki/X_Toolkit</url>
-      <example correction="X Window">C’est le MIT qui a publié la première version de <marker>X Windows</marker> en juin 1984.</example>
+      <message>Voulez-vous écrire <suggestion>Sony Ericsson</suggestion> ?</message>
+      <url>https://fr.wikipedia.org/wiki/Sony_Ericsson</url>
+      <example correction="Sony Ericsson"><marker>Sony Ericson</marker></example>
     </rule>
     <rulegroup id="COCOTTE-MINUTE" name="Cocotte-Minute">
       <rule>

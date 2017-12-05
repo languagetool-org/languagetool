@@ -42,7 +42,7 @@ public class UkrainianWordTokenizer implements Tokenizer {
         + "\u2028\u2029\u202a\u202b\u202c\u202d\u202e\u202f"
         + "\u205F\u2060\u2061\u2062\u2063\u206A\u206b\u206c\u206d"
         + "\u206E\u206F\u3000\u3164\ufeff\uffa0\ufff9\ufffa\ufffb" 
-        + ",.;()[]{}<>!?:/|\\\"«»„”“…¿¡\t\n\r\uE100\uE101\uE102\uE110";
+        + ",.;()[]{}<>!?:/|\\\"«»„”“…¿¡=\t\n\r\uE100\uE101\uE102\uE110";
 
 
   // for handling exceptions
@@ -101,7 +101,8 @@ public class UkrainianWordTokenizer implements Tokenizer {
   private static final String ABBR_DOT_2_SMALL_LETTERS_REPL = "$1" + NON_BREAKING_DOT_SUBST + BREAKING_PLACEHOLDER + "$2" + NON_BREAKING_DOT_SUBST;
 
   // скорочення що не можуть бути в кінці речення
-  private static final Pattern ABBR_DOT_NON_ENDING_PATTERN = Pattern.compile("([^а-яіїєґА-ЯІЇЄҐ'-](?:амер|англ|бл(?:изьк)?|буд|вірм|грец(?:ьк)|див|дол|досл|доц|ел|жін|заст|зв|ім|івр|ісп|італ|к|каф|кв|[1-9]-кімн|кімн|кл|м|н|напр|п|пен|перекл|пл|пор|поч|прибл|пров|просп|[Рр]ед|[Рр]еж|рт|с|[Сс]в|соц|співавт|стор|табл|тел|укр|філол|фр|франц|ч|чайн|ц))\\.(?!$)");
+  private static final Pattern ABBR_DOT_NON_ENDING_PATTERN = Pattern.compile("([^а-яіїєґА-ЯІЇЄҐ'-](?:амер|англ|акад(ем)?|бл(?:изьк)?|буд|вип|вірм|грец(?:ьк)|див|дод|дол|досл|доц|доп|ел|жін|заст|зб|зв|ім|івр|ісп|італ"
+      + "|к|каф|канд|кв|[1-9]-кімн|кімн|кл|м|н|напр|п|пен|перекл|пл|пор|поч|прибл|пров|просп|[Рр]ед|[Рр]еж|рт|с|[Сс]в|соц|співавт|стор|табл|тел|укр|філол|фр|франц|ч|чайн|ц))\\.(?!$)");
   // скорочення що можуть бути в кінці речення
   private static final Pattern ABBR_DOT_ENDING_PATTERN = Pattern.compile("([^а-яіїєґА-ЯІЇЄҐ'-]((та|й) ін|е|коп|обл|р|рр|руб|ст|стол|стор|чол|шт))\\.");
   private static final Pattern ABBR_DOT_I_T_P_PATTERN = Pattern.compile("([ій][ \u00A0]+т)\\.([ \u00A0]*(д|п|ін))\\.");

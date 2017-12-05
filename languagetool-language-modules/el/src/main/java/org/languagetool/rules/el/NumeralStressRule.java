@@ -122,7 +122,7 @@ public class NumeralStressRule extends Rule {
           suffix = suffixMap.get(suffix);
           String suggestion = number + suffix;
           String msg = "<suggestion>" + suggestion + "</suggestion>";
-          RuleMatch match = new RuleMatch(this, token.getStartPos(),
+          RuleMatch match = new RuleMatch(this, sentence, token.getStartPos(),
                   token.getEndPos(), msg, "Πρόβλημα ορθογραφίας");
           ruleMatches.add(match);
         }

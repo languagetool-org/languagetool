@@ -1,11 +1,114 @@
 # LanguageTool Change Log
 
-## 3.9-SNAPSHOT (release planned for 2017-09-26)
+## 4.0-SNAPSHOT (release planned for 2017-12-29)
+
+#### English
+  * removed the category MISC and moved the rules to more specific categories
+  * added WordCoherencyRule
+  * added support for locale-specific spelling suggestions (locale-specific spelling_en-XY.txt files)
+  * updated en_GB spellchecker dictionary from https://github.com/marcoagpinto/aoo-mozilla-en-dict
+
+#### Galician
+  * added and improved rules, including:
+    - grammar: agreement rules added (only number and gender agreement)
+    - common normative errors: includes Castilianisms, Lusitanianisms, Hipergalicisms, archaisms and Anglicisms correction
+    - style: barbarism, redundant expressions, and wordy expressions detection added
+    - typography: spacing and number formatting improvements; chemical formulas; degree 
+      signs; dashes; punctuation; international system standards; and mathematical symbol formatting
+  * development, punctuation and repetition rules categories added
+  * multiword disambiguation added
+  * disambiguation improvements
+  * new word tokenizer
+  * significant POS tagging and synthesizing improvements
+  * spellchecking exceptions for:
+    - abbreviations;
+    - variables in formulas, units, and related statistical vocabulary;
+    - common Latin, English and French expressions;
+    - species scientific names;
+    - famous personalities
+  * updated Hunspell dictionaries to:
+    - [gl-ES] Version 12.10 "Xoán Manuel Pintos"
+
+#### German
+  * added and improved rules
+  * New rule that checks coherency of hyphen usage in compounds, e.g. it complains
+    when "Ärzteverband" and "Ärzte-Verband" are both used in the same text. While both
+    spellings are correct, it's probably a good idea to stick to one spelling.
+  * improved POS tagging of hyphenated compounds (e.g., "CO2-arm" is recgonized as a variant of "arm")
+
+#### Polish
+  * added rules
+  * disambiguation improvements
+
+#### Portuguese
+  * added and improved rules
+  * Libreoffice category rules moved to other categories
+  * disambiguation improvements
+  * updated Hunspell dictionaries to:
+    - [pt-PT pos-AO] Dicionários Portugueses Complementares 2.2
+    - [pt-AO pre-AO] Dicionários Portugueses Complementares 2.2
+    - [pt-MZ pre-AO] Dicionários Natura 14.08.2017
+    
+#### Russian
+  * new false friends added (thanks to ZakShaker)
+  * added and improved some rules
+
+#### Serbian
+  * initial support for Serbian by Zoltán Csala
+
+#### General
+  * Now runs with Java 9 (compilation with Maven still has issue with Java9)
+  * The spell checker tries harder to find suggestion for misspellings that have
+    a Levenshtein distance of larger than 2. The maximum Levenshtein distance is now 3.
+    This way you now get a suggestion for e.g. `algortherm` (algorithm) or `theromator` (thermometer).
+    In the worst case (every single word of a text misspelled), this has a performance
+    penalty of about 30%.
+  * Better support for Unicode codepoints greater than `0xFFFF`
+
+#### GUI (stand-alone version)
+  * show line numbers in the text area
+
+#### Java API
+  * A `RuleMatch` can now have a URL, too. The URL usually points to a page that
+    describes the error or grammar rule in more detail. Before, only the `Rule`
+    could have a URL. A `RuleMatch` URL will overwrite the `Rule` URL in the
+    JSON output.
+  * A `RuleMatch` now also has information about the sentence the error occurred in
+    (it used to have only position information and the caller was expected to find
+    the error context and/or sentence position in the original text).
+
+#### LT server
+  * change in configuration: `requestLimit` and `requestLimitPeriodInSeconds` now both
+    need to be set for the limit to work
+  * new property key `timeoutRequestLimit`: similar to `requestLimit`, but this one limits 
+    not all requests but blocks once this many timeout have been caused by the IP in the
+    time span set by `requestLimitPeriodInSeconds`
+  * new property key `requestLimitInBytes`: similar to `requestLimit`, but this one limits
+    the aggregated size of requests caused by an IP in the time span set 
+    by `requestLimitPeriodInSeconds`
+  * The JSON output now contains a `sentence` property with the text of the sentence
+    the occurred in.
+
+
+## 3.9 (2017-09-26)
+
+#### Breton
+  * small rule improvements
+
+#### Catalan
+  * added and improved rules
+
+#### Dutch
+  * added and improved rules
 
 #### English
   * added and improved rules
 
+#### Esperanto
+  * added and improved rules
+
 #### French
+  * added and improved rules
   * upgraded dictionaries to Dicollecte-6.1
 
 #### German
@@ -19,30 +122,51 @@
     to `spelling.txt`
   * updates according to "Amtliches Regelwerk der deutschen Rechtschreibung aktualisiert",
     6/2017 (http://www.rechtschreibrat.com/DOX/rfdr_PM_2017-06-29_Aktualisierung_Regelwerk.pdf)
+  * added POS tagging of alternative imperative forms such as "Geh" or "küss" (in
+    addition to "Gehe"/"küsse")
+  * introduced two new line endings ('?' and '$') for the data-file `compounds.txt`; these
+    endings indicate that the mid-word parts of the compound need to be lower-cased
+    (e.g., 'Geräte Wahl' -> 'Gerätewahl')  
 
 #### Portuguese
   * added and improved grammar and style rules, including:
-    - grammar: general agreement rules, pronominal collocations, paronyms and homophones detection improvements; time agreement rules added
+    - grammar: general agreement rules, pronominal collocations, paronyms and homophones
+      detection improvements; time agreement rules added
     - punctuation: greetings and farewell punctuation
-    - style: puffery, weasel words, weak expressions, and biased opinion words detection added (disabled by default)
+    - style: puffery, weasel words, weak expressions, and biased opinion words detection added
+      (disabled by default)
     - syntax: new category; fragment detection improvements
     - typography: spacing, number, and mathematical symbol formatting improvements
   * disambiguation improvements
   * false friends added
     - Portuguese to Galician (16 new pairs)
   * significant POS tagging and synthesizing improvements
-  * spellchecking exceptions for abbreviations, variables in formulas, units, and related statistical vocabulary
+  * spellchecking exceptions for abbreviations, variables in formulas, units, and related
+    statistical vocabulary
   * updated Hunspell dictionaries to:
-    - [pt-PT pos-AO] Dicionários Portugueses Complementares 1.5
-    - [pt-AO pre-AO] Dicionários Portugueses Complementares 1.5
+    - [pt-PT pos-AO] Dicionários Portugueses Complementares 2.0
+    - [pt-AO pre-AO] Dicionários Portugueses Complementares 2.0
     - [pt-MZ pre-AO] Dicionários Natura 15.06.2017
 
 #### Russian
   * spelling dictionary update
+  * added and improved some rules
+
+#### Spanish
+  * added and improved some rules
+
+#### Ukrainian
+  * significant dictionary update:
+    - more than 60K of new words
+    - some inflection adjustments
+  * improved dynamic tagging for compound words
+  * many new rules (barbarism, grammar, and spelling)
+  * inflection agreement rule updates
 
 #### Java API
   * `AnnotatedText` (built via `AnnotatedTextBuilder`) can now contain
     document-level meta data. This might be used by rules in the future.
+
 
 ## 3.8 (2017-06-27)
 
@@ -121,6 +245,7 @@
      at the startup time will be the new default rules. Previously these rules were "forgotten" 
      when a server query used the parameters for enabling and disabling rules. Now the rules 
      from the query will be added to the rules from the configuration file. 
+
 
 ## 3.7 (2017-03-27)
 

@@ -73,7 +73,7 @@ public class SentenceWhitespaceRule extends TextLevelRule {
           int startPos = 0;
           String firstToken = tokens[1].getToken();
           int endPos = firstToken.length();
-          RuleMatch ruleMatch = new RuleMatch(this, pos+startPos, pos+endPos, getMessage(prevSentenceEndsWithNumber));
+          RuleMatch ruleMatch = new RuleMatch(this, sentence, pos+startPos, pos+endPos, getMessage(prevSentenceEndsWithNumber));
           ruleMatch.setSuggestedReplacement(" " + firstToken);
           ruleMatches.add(ruleMatch);
         }

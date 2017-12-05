@@ -31,6 +31,7 @@ public enum IPOSTag {
   date("date"),
   time("time"),
   advp("advp"),
+  prep("prep"),
   predic("predic"),
   insert("insert"),
   abbr("abbr"),

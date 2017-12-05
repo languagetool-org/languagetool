@@ -46,12 +46,16 @@ public class HTTPServerConfig {
   protected int port = DEFAULT_PORT;
   protected String allowOriginUrl = null;
   protected int maxTextLength = Integer.MAX_VALUE;
+  protected int maxTextHardLength = Integer.MAX_VALUE;
+  protected String secretTokenKey = null;
   protected long maxCheckTimeMillis = -1;
   protected int maxCheckThreads = 10;
   protected Mode mode;
   protected File languageModelDir = null;
   protected File word2vecModelDir = null;
   protected int requestLimit;
+  protected int requestLimitInBytes;
+  protected int timeoutRequestLimit;
   protected int requestLimitPeriodInSeconds;
   protected boolean trustXForwardForHeader;
   protected int maxWorkQueueSize;
@@ -128,8 +132,12 @@ public class HTTPServerConfig {
       try (FileInputStream fis = new FileInputStream(file)) {
         props.load(fis);
         maxTextLength = Integer.parseInt(getOptionalProperty(props, "maxTextLength", Integer.toString(Integer.MAX_VALUE)));
+        maxTextHardLength = Integer.parseInt(getOptionalProperty(props, "maxTextHardLength", Integer.toString(Integer.MAX_VALUE)));
+        secretTokenKey = getOptionalProperty(props, "secretTokenKey", null);
         maxCheckTimeMillis = Long.parseLong(getOptionalProperty(props, "maxCheckTimeMillis", "-1"));
         requestLimit = Integer.parseInt(getOptionalProperty(props, "requestLimit", "0"));
+        requestLimitInBytes = Integer.parseInt(getOptionalProperty(props, "requestLimitInBytes", "0"));
+        timeoutRequestLimit = Integer.parseInt(getOptionalProperty(props, "timeoutRequestLimit", "0"));
         requestLimitPeriodInSeconds = Integer.parseInt(getOptionalProperty(props, "requestLimitPeriodInSeconds", "0"));
         trustXForwardForHeader = Boolean.valueOf(getOptionalProperty(props, "trustXForwardForHeader", "false"));
         maxWorkQueueSize = Integer.parseInt(getOptionalProperty(props, "maxWorkQueueSize", "0"));
@@ -217,19 +225,63 @@ public class HTTPServerConfig {
   }
 
   /**
-   * @param maxTextLength the maximum text length allowed (in number of characters), texts that are longer
-   *                      will cause an exception when being checked
+   * @param len the maximum text length allowed (in number of characters), texts that are longer
+   *            will cause an exception when being checked, unless the user can provide
+   *            a JWT 'token' parameter with a 'maxTextLength' claim          
    */
-  public void setMaxTextLength(int maxTextLength) {
-    this.maxTextLength = maxTextLength;
+  public void setMaxTextLength(int len) {
+    this.maxTextLength = len;
+  }
+
+  /**
+   * @param len the maximum text length allowed (in number of characters), texts that are longer
+   *            will cause an exception when being checked even if the user can provide a JWT token
+   * @since 3.9
+   */
+  public void setMaxTextHardLength(int len) {
+    this.maxTextHardLength = len;
   }
 
   int getMaxTextLength() {
     return maxTextLength;
   }
 
+  /**
+   * Limit for maximum text length - text cannot be longer than this, even if user has valid secret token.
+   * @since 3.9
+   */
+  int getMaxTextHardLength() {
+    return maxTextHardLength;
+  }
+
+  /**
+   * Optional JWT token key. Can be used to circumvent the maximum text length (but not maxTextHardLength).
+   * @since 3.9
+   */
+  @Nullable
+  String getSecretTokenKey() {
+    return secretTokenKey;
+  }
+
+  /**
+   * @since 4.0
+   */
+  void setSecretTokenKey(String secretTokenKey) {
+    this.secretTokenKey = secretTokenKey;
+  }
+
   int getRequestLimit() {
     return requestLimit;
+  }
+
+  /** @since 4.0 */
+  int getTimeoutRequestLimit() {
+    return timeoutRequestLimit;
+  }
+
+  /** @since 4.0 */
+  int getRequestLimitInBytes() {
+    return requestLimitInBytes;
   }
 
   int getRequestLimitPeriodInSeconds() {

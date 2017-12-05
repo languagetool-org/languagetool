@@ -189,6 +189,9 @@ public class ConfigurationDialog implements ActionListener {
     if (!insideOffice) {
       createNonOfficeElements(cons, portPanel);
     }
+    else {
+      createOfficeElements(cons, portPanel);
+    }
 
     JPanel buttonPanel = new JPanel();
     buttonPanel.setLayout(new GridBagLayout());
@@ -333,6 +336,104 @@ public class ConfigurationDialog implements ActionListener {
       }
     });
     portPanel.add(serverSettingsCheckbox, cons);
+  }
+  
+  private void createOfficeElements(GridBagConstraints cons, JPanel portPanel) {
+    int numParaCheck = config.getNumParasToCheck();
+    JRadioButton[] radioButtons = new JRadioButton[3];
+    ButtonGroup numParaGroup = new ButtonGroup();
+    radioButtons[0] = new JRadioButton(Tools.getLabel(messages.getString("guiCheckOnlyParagraph")));
+    radioButtons[0].setActionCommand("ParagraphCheck");
+
+    radioButtons[1] = new JRadioButton(Tools.getLabel(messages.getString("guiCheckFullText")));
+    radioButtons[1].setActionCommand("FullTextCheck");
+    
+    radioButtons[2] = new JRadioButton(Tools.getLabel(messages.getString("guiCheckNumParagraphs")));
+    radioButtons[2].setActionCommand("NParagraphCheck");
+    radioButtons[2].setSelected(true);
+
+    JTextField numParaField = new JTextField(Integer.toString(5), 2);
+    numParaField.setEnabled(radioButtons[2].isSelected());
+    numParaField.setMinimumSize(new Dimension(30, 25));
+    
+    for (int i = 0; i < 3; i++) {
+      numParaGroup.add(radioButtons[i]);
+    }
+    
+    if (numParaCheck == 0) {
+      radioButtons[0].setSelected(true);
+      numParaField.setEnabled(false);
+    } else if (numParaCheck < 0) {
+      radioButtons[1].setSelected(true);
+      numParaField.setEnabled(false);    
+    } else {
+      radioButtons[2].setSelected(true);
+      numParaField.setText(Integer.toString(numParaCheck));
+      numParaField.setEnabled(true);
+    }
+
+    radioButtons[0].addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        numParaField.setEnabled(false);
+        config.setNumParasToCheck(0);
+      }
+    });
+    
+    radioButtons[1].addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        numParaField.setEnabled(false);
+        config.setNumParasToCheck(-1);
+      }
+    });
+    
+    radioButtons[2].addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        int numParaCheck = Integer.parseInt(numParaField.getText());
+        if (numParaCheck < 1) numParaCheck = 1;
+        else if (numParaCheck > 99) numParaCheck = 99;
+        config.setNumParasToCheck(numParaCheck);
+        numParaField.setForeground(Color.BLACK);
+        numParaField.setText(Integer.toString(numParaCheck));
+        numParaField.setEnabled(true);
+      }
+    });
+    
+    numParaField.getDocument().addDocumentListener(new DocumentListener() {
+
+      @Override
+      public void insertUpdate(DocumentEvent e) {
+        changedUpdate(e);
+      }
+
+      @Override
+      public void removeUpdate(DocumentEvent e) {
+        changedUpdate(e);
+      }
+
+      @Override
+      public void changedUpdate(DocumentEvent e) {
+        try {
+          int numParaCheck = Integer.parseInt(numParaField.getText());
+          if (numParaCheck > 0 && numParaCheck < 99) {
+            numParaField.setForeground(Color.BLACK);
+            config.setNumParasToCheck(numParaCheck);
+          } else {
+            numParaField.setForeground(Color.RED);
+          }
+        } catch (NumberFormatException ex) {
+          numParaField.setForeground(Color.RED);
+        }
+      }
+    });
+
+
+    
+    for (int i = 0; i < 3; i++) {
+      portPanel.add(radioButtons[i], cons);
+      if (i < 2) cons.gridy++;
+    }
+    cons.gridx = 1;
+    portPanel.add(numParaField, cons);
   }
 
   @NotNull

@@ -21,7 +21,7 @@ package org.languagetool.openoffice;
 /**
  * LibreOffice/OpenOffice integration.
  * 
- * @author Marcin Miłkowski
+ * @author Marcin Miłkowski, Fred Kruse
  */
 import java.io.File;
 import java.util.ArrayList;
@@ -100,7 +100,7 @@ public class Main extends WeakBase implements XJobExecutor,
   private Configuration config;
   private JLanguageTool langTool;
   private Language docLanguage;
-  private String docID;
+  private String docID = null;
 
   // Rules disabled using the config dialog box rather than Spelling dialog box
   // or the context menu.
@@ -118,6 +118,28 @@ public class Main extends WeakBase implements XJobExecutor,
   private int position;
   private List<RuleMatch> paragraphMatches;
   private XComponentContext xContext;
+  
+  /**
+   * Full text Check
+   */
+  
+  //  numParasToCheck: Paragraphs to be checked for full text rules
+  //  < 0 check full text (time intensive)
+  //  == 0 check only one paragraph (works like LT Version <= 3.9)
+  //   > 0 checks numParasToCheck before and after the processed paragraph
+  
+  private static final String END_OF_PARAGRAPH = "\n";  //  Paragraph Separator from gciterator.cxx: 0x2029
+  private int numParasToCheck = 5;
+  private List<String> allParas = null;
+  private List<RuleMatch> fullTextMatches;
+  private boolean textIsChecked = false; 
+  private boolean doFullTextCheck = true; 
+  private int numCurPara = 0;
+  private int numLastVCPara = 0;
+  private int numLastFlPara = 0;
+  private int paraPos;
+  private int divNum = 0;
+  
 
   public Main(XComponentContext xCompContext) {
     changeContext(xCompContext);
@@ -127,6 +149,7 @@ public class Main extends WeakBase implements XJobExecutor,
   private void prepareConfig(Language lang) {
     try {
       config = new Configuration(getHomeDir(), CONFIG_FILE, lang);
+      numParasToCheck = config.getNumParasToCheck();
       disabledRules = config.getDisabledRuleIds();
       if (disabledRules == null) {
         disabledRules = new HashSet<>();
@@ -246,13 +269,15 @@ public class Main extends WeakBase implements XJobExecutor,
       int nSuggestedBehindEndOfSentencePosition,
       PropertyValue[] propertyValues) {
     ProofreadingResult paRes = new ProofreadingResult();
+    paRes.nStartOfSentencePosition = startOfSentencePos;
+    paRes.nStartOfNextSentencePosition = nSuggestedBehindEndOfSentencePosition;
+    paRes.nBehindEndOfSentencePosition = paRes.nStartOfNextSentencePosition;
+    paRes.xProofreader = this;
+    paRes.aLocale = locale;
+    paRes.aDocumentIdentifier = docID;
+    paRes.aText = paraText;
+    paRes.aProperties = propertyValues;
     try {
-      paRes.nStartOfSentencePosition = startOfSentencePos;
-      paRes.xProofreader = this;
-      paRes.aLocale = locale;
-      paRes.aDocumentIdentifier = docID;
-      paRes.aText = paraText;
-      paRes.aProperties = propertyValues;
       int[] footnotePositions = getPropertyValues("FootnotePositions", propertyValues);  // since LO 4.3
       return doGrammarCheckingInternal(paraText, locale, paRes, footnotePositions);
     } catch (Throwable t) {
@@ -329,7 +354,8 @@ public class Main extends WeakBase implements XJobExecutor,
                     new SingleProofreadingError[ruleMatches.size() + pErrorCount];
             int i = 0;
             for (RuleMatch myRuleMatch : ruleMatches) {
-              errorArray[i] = createOOoError(myRuleMatch, paRes.nStartOfSentencePosition);
+              errorArray[i] = createOOoError(myRuleMatch, paRes.nStartOfSentencePosition, 
+            		                            sentence.length(), sentence.charAt(sentence.length()-1));
               i++;
             }
             // add para matches
@@ -352,7 +378,6 @@ public class Main extends WeakBase implements XJobExecutor,
         }
       } catch (Throwable t) {
         showError(t);
-        paRes.nBehindEndOfSentencePosition = paraText.length();
       }
     }
     return paRes;
@@ -387,7 +412,7 @@ public class Main extends WeakBase implements XJobExecutor,
           langTool.activateLanguageModelRules(ngramDirectory);
         }
       }
-      for (Rule rule : langTool.getAllActiveRules()) {
+      for (Rule rule : langTool.getAllActiveOfficeRules()) {
         if (rule.isDictionaryBasedSpellingRule()) {
           langTool.disableRule(rule.getId());
         }
@@ -437,31 +462,68 @@ public class Main extends WeakBase implements XJobExecutor,
   @Nullable
   private synchronized SingleProofreadingError[] checkParaRules(
       String paraText, int startPos,
-      int endPos, String docID) {
+      int endPos, String docID) throws InterruptedException {
     if (startPos == 0) {
       try {
-        paragraphMatches = langTool.check(paraText, true,
+        if (numParasToCheck != 0 && (this.docID == null || !this.docID.equals(docID))) allParas = null;
+        paraPos = getParaPos(paraText);
+        if (paraPos < 0) {                                          //  Position not found; check only Paragraph context
+          paragraphMatches = langTool.check(paraText, true,
+              JLanguageTool.ParagraphHandling.ONLYPARA);
+        } else if (numParasToCheck > 0 && !doFullTextCheck) {          //  Check numParasToCheck paragraphs while text is changed
+          paragraphMatches = langTool.check(getDocAsString(), true,
+              JLanguageTool.ParagraphHandling.ONLYPARA);
+        }
+        else if (!textIsChecked) {                                  //  Check Full Text only if not already checked
+        fullTextMatches = langTool.check(getDocAsString(), true,
             JLanguageTool.ParagraphHandling.ONLYPARA);
+        textIsChecked = true;   // mark Text as checked till next change; use saved fullTextMatches
+      }
         this.docID = docID;
       } catch (Throwable t) {
         showError(t);
       }
     }
-    if (paragraphMatches != null && !paragraphMatches.isEmpty() && docID.equals(this.docID)) {
-      List<SingleProofreadingError> errorList = new ArrayList<>(paragraphMatches.size());
-      for (RuleMatch myRuleMatch : paragraphMatches) {
-        int startErrPos = myRuleMatch.getFromPos();
-        int endErrPos = myRuleMatch.getToPos();
-        if (startErrPos >= startPos && startErrPos < endPos
-            && endErrPos >= startPos && endErrPos < endPos) {
-          errorList.add(createOOoError(myRuleMatch, 0));
+    try {
+      if (!doFullTextCheck && paragraphMatches != null && !paragraphMatches.isEmpty() && docID.equals(this.docID)) {
+        List<SingleProofreadingError> errorList = new ArrayList<>();
+        int textPos = paraPos;
+        if (textPos < 0) textPos = 0;
+        for (RuleMatch myRuleMatch : paragraphMatches) {
+          int startErrPos = myRuleMatch.getFromPos() - textPos;
+          int endErrPos = myRuleMatch.getToPos() - textPos;
+          if (startErrPos >= startPos && startErrPos <= endPos
+              && endErrPos >= startPos && endErrPos <= endPos) {
+            errorList.add(createOOoError(myRuleMatch, -textPos, myRuleMatch.getToPos() - textPos, 
+                                          paraText.charAt(myRuleMatch.getToPos()-textPos-1)));
+          }
+        }
+        if (!errorList.isEmpty()) {
+          SingleProofreadingError[] errorArray = errorList.toArray(new SingleProofreadingError[errorList.size()]);
+          Arrays.sort(errorArray, new ErrorPositionComparator());
+          return errorArray;
+        }
+      } else if (doFullTextCheck && fullTextMatches != null && !fullTextMatches.isEmpty() && docID.equals(this.docID)) {
+        List<SingleProofreadingError> errorList = new ArrayList<>();
+        int textPos = paraPos;
+        if (textPos < 0) textPos = 0;
+        for (RuleMatch myRuleMatch : fullTextMatches) {
+          int startErrPos = myRuleMatch.getFromPos() - textPos;
+          int endErrPos = myRuleMatch.getToPos() - textPos;
+          if (startErrPos >= startPos && startErrPos <= endPos
+              && endErrPos >= startPos && endErrPos <= endPos) {
+            errorList.add(createOOoError(myRuleMatch, -textPos, myRuleMatch.getToPos() - textPos, 
+                                          paraText.charAt(myRuleMatch.getToPos()-textPos-1)));
+          }
+        }
+        if (!errorList.isEmpty()) {
+          SingleProofreadingError[] errorArray = errorList.toArray(new SingleProofreadingError[errorList.size()]);
+          Arrays.sort(errorArray, new ErrorPositionComparator());
+          return errorArray;
         }
       }
-      if (!errorList.isEmpty()) {
-        SingleProofreadingError[] errorArray = errorList.toArray(new SingleProofreadingError[errorList.size()]);
-        Arrays.sort(errorArray, new ErrorPositionComparator());
-        return errorArray;
-      }
+    } catch (Throwable t) {
+      showError(t);
     }
     return null;
   }
@@ -469,7 +531,7 @@ public class Main extends WeakBase implements XJobExecutor,
   /**
    * Creates a SingleGrammarError object for use in LO/OO.
    */
-  private SingleProofreadingError createOOoError(RuleMatch ruleMatch, int startIndex) {
+  private SingleProofreadingError createOOoError(RuleMatch ruleMatch, int startIndex, int sentencesLength, char lastChar) {
     SingleProofreadingError aError = new SingleProofreadingError();
     aError.nErrorType = TextMarkupType.PROOFREADING;
     // the API currently has no support for formatting text in comments
@@ -485,6 +547,18 @@ public class Main extends WeakBase implements XJobExecutor,
     aError.aShortComment = org.languagetool.gui.Tools.shortenComment(aError.aShortComment);
     int numSuggestions = ruleMatch.getSuggestedReplacements().size();
     String[] allSuggestions = ruleMatch.getSuggestedReplacements().toArray(new String[numSuggestions]);
+    //  Filter: remove suggestions for override dot at the end of sentences
+    //  needed because of error in dialog
+    if (lastChar == '.' && (ruleMatch.getToPos() + startIndex) == sentencesLength) {
+      int i;
+      for (i = 0; i < numSuggestions && i < MAX_SUGGESTIONS 
+    		  && allSuggestions[i].charAt(allSuggestions[i].length()-1) == '.'; i++);
+      if (i < numSuggestions && i < MAX_SUGGESTIONS) {
+    	numSuggestions = 0;
+    	allSuggestions = new String[0];
+      }
+    }
+    //  End of Filter
     if (numSuggestions > MAX_SUGGESTIONS) {
       aError.aSuggestions = Arrays.copyOfRange(allSuggestions, 0, MAX_SUGGESTIONS);
     } else {
@@ -526,6 +600,7 @@ public class Main extends WeakBase implements XJobExecutor,
     prepareConfig(lang);
     ConfigThread configThread = new ConfigThread(lang, config, this);
     configThread.start();
+    numParasToCheck = config.getNumParasToCheck();
   }
 
   /**
@@ -824,4 +899,178 @@ public class Main extends WeakBase implements XJobExecutor,
     }
   }
 
+  /**
+   * Full Text Check  (Workaround for XProofread interface)
+   */
+  
+  /**
+   * Different possibilities of return
+   */
+  private int returnOneParaCheck() {
+    doFullTextCheck = false;   // paragraph position can not be found
+    return -1;
+  }
+  
+  private int returnContinueCheck() {
+    if(numParasToCheck > 0) doFullTextCheck = false;
+    else doFullTextCheck = true;
+    return getStartOfParagraph(numCurPara);
+  }
+  
+  private int returnNewCheck() {
+    if(numParasToCheck > 0) doFullTextCheck = false;
+    else doFullTextCheck = true;
+    textIsChecked = false;
+    return getStartOfParagraph(numCurPara);
+  }
+  
+  /**
+   * Reset allParas
+   * @throws com.sun.star.uno.Exception 
+   */
+  private void ResetAllParas(LOCursor loCursor, LOFlatParagraph loFlaPa) throws com.sun.star.uno.Exception {
+    allParas = loCursor.getAllTextParagraphs();
+    divNum = loFlaPa.getNumberOfAllFlatPara()- allParas.size();
+    textIsChecked = false;
+  }
+
+  /**
+   * Initialize Full Text Proof
+   * @throws Exception 
+   */
+  private void initFullTextProof() throws Exception {
+    LOCursor loCursor = new LOCursor(xContext);
+    LOFlatParagraph loFlaPa = new LOFlatParagraph(xContext);
+    ResetAllParas(loCursor, loFlaPa);
+    numCurPara = 0;
+    numLastVCPara = numCurPara;
+    numLastFlPara = numCurPara;
+  }
+  
+  /**
+   * Gives Back the full Text as String
+   */
+  private String getDocAsString() {
+    if (allParas == null || allParas.size() < 1) return "";
+    int startPos;
+    int endPos;
+    if(numParasToCheck < 1 || doFullTextCheck) {
+      startPos = 0;
+      endPos = allParas.size();
+    } else {
+      startPos = numCurPara - numParasToCheck;
+      if(startPos < 0) startPos = 0;
+      endPos = numCurPara + numParasToCheck;
+      if(endPos > allParas.size()) endPos = allParas.size();
+    }
+    String docText = allParas.get(startPos);
+    for (int i = startPos + 1; i < endPos; i++) {
+      docText += END_OF_PARAGRAPH + allParas.get(i);
+    }
+    return docText;
+  }
+  
+  /**
+   * Gives Back the StartPosition of Paragraph 
+   */
+  private int getStartOfParagraph(int nPara) {
+    if (allParas != null) {
+      int startPos;
+      if(numParasToCheck < 1 || doFullTextCheck) {
+        startPos = 0;
+      } else {
+        startPos = numCurPara - numParasToCheck;
+        if(startPos < 0) startPos = 0;
+      }
+      int pos = 0;
+      for(int i = startPos; i < nPara; i++) pos += allParas.get(i).length() + 1;
+      return pos;
+    }
+    return -1;
+  }
+  
+  /**
+   * Heuristic try to find next position (dialog box or automatic iteration)  
+   */
+  private int findNextParaPos(int startPara, String paraStr) {
+    if (allParas == null) return -1;
+    int i;
+    for (i = startPara + 1; i < allParas.size() && allParas.get(i).length() < 1; i++);
+    if (i < allParas.size() && paraStr.equals(allParas.get(i))) return i;
+    if (paraStr.equals(allParas.get(startPara))) return startPara;
+    for (i = startPara - 1; i >= 0 && allParas.get(i).length() < 1; i--);
+    if (i >= 0 && paraStr.equals(allParas.get(i))) return i;
+    return -1;
+  }
+  
+  /**
+   * Search for Position of Paragraph
+   * gives Back the Position in full text / -1 if Paragraph can not be found
+   */
+  private int getParaPos(String chPara) throws Exception {
+    if(numParasToCheck == 0) return returnOneParaCheck();  //  check only the processed paragraph
+    if (allParas == null || allParas.size() < 1 || divNum < 0) {
+      initFullTextProof();
+      if (allParas == null || allParas.size() < 1) return returnOneParaCheck();
+    }
+    
+    // try to get next position from last ViewCursorPosition (proof per dialog box)
+    int nParas = findNextParaPos(numLastVCPara, chPara);
+    if (nParas >= 0) {
+      numLastVCPara = nParas;
+      numCurPara = nParas;
+      return returnContinueCheck();
+    }
+
+    // try to get next position from last Position of FlatParagraph (automatic Iteration without Text change)
+    nParas = findNextParaPos(numLastFlPara, chPara);
+    if (nParas >= 0) {
+      numLastFlPara = nParas;
+      numCurPara = nParas;
+      return returnContinueCheck();
+    }
+
+    // try to get ViewCursor position (proof initiated by mouse click)
+    LOCursor loCursor = new LOCursor(xContext);
+    nParas = loCursor.getViewCursorParagraph();
+    if (nParas >= 0 && nParas < allParas.size() && chPara.equals(allParas.get(nParas))) {
+      numLastVCPara = nParas;
+      numCurPara = nParas;
+      return returnContinueCheck();
+    }
+    
+    // Test if Size of allParas is correct; Reset if not
+    LOFlatParagraph loFlaPa = new LOFlatParagraph(xContext);
+    boolean isReset = false;
+    if(nParas >= allParas.size() || allParas.size() != loCursor.getNumberOfAllTextParagraphs()) {
+      ResetAllParas(loCursor, loFlaPa);
+      isReset = true;
+    }
+    
+    //  try to get paragraph position from automatic iteration
+    nParas = loFlaPa.getCurNumFlatParagraphs();
+    if(nParas < 0 || (nParas == 0 && !loFlaPa.isFlatParaFromIter())) {  //  no automatic iteration
+      return returnOneParaCheck();
+    }
+    
+    if(divNum < 0) {
+      divNum = loFlaPa.getNumberOfAllFlatPara()- allParas.size();
+      if(divNum < 0) return returnOneParaCheck();
+    }
+    
+    if(nParas < divNum) return returnOneParaCheck(); //  Proof footnote etc.
+    
+    nParas -= divNum;
+    numLastFlPara = nParas;
+    numCurPara = nParas;
+    if (!chPara.equals(allParas.get(numCurPara))) {
+      if(isReset) return returnOneParaCheck();
+      else {
+        allParas.set(numCurPara, chPara);
+        return returnNewCheck();
+      }
+    }
+    if(isReset) return returnNewCheck();
+    else return returnContinueCheck();
+  }
 }

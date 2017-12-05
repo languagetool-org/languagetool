@@ -74,12 +74,12 @@ public abstract class AbstractWordCoherencyRule extends TextLevelRule {
           RuleMatch otherMatch = shouldNotAppearWord.get(token);
           String otherSpelling = otherMatch.getMessage();
           String msg = getMessage(token, otherSpelling);
-          RuleMatch ruleMatch = new RuleMatch(this, pos+tmpToken.getStartPos(), pos+tmpToken.getEndPos(), msg);
+          RuleMatch ruleMatch = new RuleMatch(this, sentence, pos+tmpToken.getStartPos(), pos+tmpToken.getEndPos(), msg);
           ruleMatch.setSuggestedReplacement(otherSpelling);
           ruleMatches.add(ruleMatch);
         } else if (getWordMap().containsKey(token)) {
           String shouldNotAppear = getWordMap().get(token);
-          RuleMatch potentialRuleMatch = new RuleMatch(this, pos+tmpToken.getStartPos(), pos+tmpToken.getEndPos(), token);
+          RuleMatch potentialRuleMatch = new RuleMatch(this, sentence, pos+tmpToken.getStartPos(), pos+tmpToken.getEndPos(), token);
           shouldNotAppearWord.put(shouldNotAppear, potentialRuleMatch);
         }
       }

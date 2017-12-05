@@ -195,6 +195,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
 
+
+
     <!--VOY_HA_INF ir + ha + INF-->
 
     <rule id="VOY_HA_INF" name="ir ha + infinitivo (a)">
@@ -230,6 +232,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
       <example correction="Voy a hablar"><marker>Voy hablar</marker> con ella.</example>
 
+    </rule>
+
+    <rule id="ECHO_HECHO" name="*echo/hecho">
+        <pattern>
+            <token inflected="yes" regexp="yes">ser|estar|parecer|resultar|este</token>
+            <marker>
+                <token regexp="yes">echo|echa|echas</token>
+            </marker>
+        </pattern>
+        <message>Si es del verbo hacer, se escribe <suggestion>h\2</suggestion>.</message>
+        <example correction="hecho">Parece <marker>echo</marker> de madera.</example>
+        <example correction="hecho">Está <marker>echo</marker> de madera.</example>
+        <example correction="hecha">Esta <marker>echa</marker> de madera.</example>
     </rule>
 
     <!-- PRONOM_TILDE Pronombres personales con o sin tilde -->
@@ -387,11 +402,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
     </rulegroup>
 
-    <rulegroup id="VERBO_TILDE" name="Verbos con o sin tilde">
 
-        <short>El verbo lleva tilde.</short>
-
-        <rule id="ESTA_PARTICIPIO" name="*esta/está + participio">
+    <rulegroup id="ESTA_TILDE" name="*esta/está">
+        <antipattern>
+            <marker>
+                <token postag="SPS00"/>
+                <token>esta</token>
+            </marker>
+        </antipattern>
+        <antipattern>
+            <marker>
+                <token postag="V.[SIGN].*|V.P..SF" postag_regexp="yes"/>
+                <token>esta</token>
+            </marker>
+        </antipattern>
+        <rule> <!-- está + participio-->
             <pattern>
                 <marker>
                     <token>esta</token>
@@ -405,7 +430,95 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Está"><marker>Esta</marker> agotado.</example>
             <example>Esta revista es antigua.</example>
             <example>Esta comida es buena.</example>
+            <example>Al ser esta superada.</example>
+            <example>Siendo esta formada por varios miembros</example>
+            <example>cuando sea esta formada por varios miembros</example>
+            <!-- <example>Al verse esta superada.</example> better disambiguation needed-->
         </rule>
+        <rule> <!--está + gerundio-->
+            <pattern>
+                <marker>
+                    <token>esta</token>
+                </marker>
+                <token min="0" postag="RG"/>
+                <token postag="V.G.*" postag_regexp="yes"><exception postag="NCFS000"/></token>
+            </pattern>
+            <message>Si es del verbo estar, se escribe <suggestion>está</suggestion>.</message>
+            <example correction="Está"><marker>Esta</marker> cantando.</example>
+            <example correction="Está"><marker>Esta</marker> siempre corriendo.</example>
+            <example correction="Está"><marker>Esta</marker> esperando.</example>
+        </rule>
+        <rule> <!--está + preposición, adverbio-->
+            <antipattern>
+                 <marker>
+                     <token>en</token>
+                     <token>realidad</token>
+                 </marker>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token>esta</token>
+                </marker>
+                <token regexp="yes">en|con|entre|aquí|ahí|allí|allá|el|la|lo|un|una|uno</token>
+            </pattern>
+            <message>Si es del verbo estar, se escribe <suggestion>está</suggestion>.</message>
+            <example correction="está">El niño <marker>esta</marker> en la guardería.</example>
+            <example correction="Está"><marker>Esta</marker> en la guardería.</example>
+            <example correction="Está"><marker>Esta</marker> en aquella.</example>
+            <example correction="está">Lo que <marker>esta</marker> aquí.</example>
+            <example>Sustituye a esta en la jerarquía.</example>
+            <example>aunque esta en realidad no lo sea</example>
+            <example>Tras esta en 1954</example>
+            <example>Ante esta en mayo</example>
+            <example>Finalizada esta en 1445</example>
+            <example>Se une con esta en sus puntos extremos</example>
+            <example>Al contraponer esta con aquella.</example>
+            <example>Se divide esta entre la suma de los pesos.</example>
+            <!--<example>para evitar que esta entre.</example> difficult-->
+            <example>siendo esta uno de los mejores ejemplos</example>
+            <example>es esta una de las mejores</example>
+            <example>por ser esta la casa matriz</example>
+        </rule>
+        <rule> <!-- está + adjetivo-->
+            <antipattern>
+                <marker>
+                    <token>esta</token>
+                    <token postag="A...S.|V.P..SF" postag_regexp="yes"/>
+                    <token postag="NCFS000"/>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token>esta</token>
+                    <token min="1" max="3" postag="A..[FC][SN].|V.P..SF|NCFS.*|CC" postag_regexp="yes"/>
+                    <token postag="V.[SI].*" postag_regexp="yes"/>
+                </marker>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token>esta</token>
+                </marker>
+                <token min="0" postag="RG"/>
+                <token postag="A...S." postag_regexp="yes"><exception postag="NCFS000|AO0FS0" postag_regexp="yes"/></token>
+            </pattern>
+            <message>Si es del verbo estar, se escribe <suggestion>está</suggestion>.</message>
+            <example correction="Está"><marker>Esta</marker> disponible.</example>
+            <example correction="Está"><marker>Esta</marker> muy bonito.</example>
+            <example correction="Está"><marker>Esta</marker> preciosa.</example>
+            <example correction="está">Tu cuenta <marker>esta</marker> vacía.</example>
+            <example>Esta preciosa y antigua casa</example> <!-- "y" needs disambiguation -->
+            <example>Esta preciosa casa es muy antiga.</example>
+            <example>En esta tercera ocasión.</example>
+            <example>Esta tercera decisión fue la definitiva.</example>
+            <example>Esta última es la mejor</example>
+            <example>Esta es preciosa.</example>
+        </rule>
+    </rulegroup>
+  
+    <rulegroup id="VERBO_TILDE" name="Verbos con o sin tilde">
+
+        <short>El verbo lleva tilde.</short>
+
 
         <!-- LO_SE lo sé-->
 
@@ -881,6 +994,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>al encontrarse ésta en baja</example>
         <example>Cuanto más bajo se encuentre el sol</example>
         <example>El papel de las arqueas</example>
+        <example>El sobre contenía información</example>
     </rule>
     <rule id="SURGIR_EFECTO" name="*surgir/surtir efecto">
             <pattern>

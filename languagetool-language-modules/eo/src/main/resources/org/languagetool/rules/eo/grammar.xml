@@ -381,7 +381,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <pattern>
           <token regexp="yes" inflected="yes">geadult(?:in)?o|(?:ge)?adultino</token>
         </pattern>
-        <message>Ĉu vi intencis skribi <suggestion><match no="3" regexp_match="u" regexp_replace="o"/></suggestion>?</message>
+        <message>Ĉu vi intencis skribi <suggestion><match no="1" regexp_match="u" regexp_replace="o"/></suggestion>?</message>
         <example correction="adoltino">Maria baldaŭ fariĝos <marker>adultino</marker>.</example>
       </rule>
       <rule>
@@ -688,17 +688,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <url>http://www.reta-vortaro.de/revo/art/tomograf.html#lng_</url>
       <example correction="tomografiilo">Komputila <marker>tomografo</marker></example>
     </rule>
-    <rule id="UNIKA" name="unika (ununura)">
-      <pattern>
-        <marker>
-          <token regexp="yes">unikaj?n?</token>
-        </marker>
-        <token regexp="yes">(?:ge)?(?:fil|infan|beb)(?:et)?(?:in)?oj?n?</token>
-      </pattern>
-      <message>Laŭ Revo, «\1» estas evitinda en tiu kunteksto. Uzu <suggestion><match no="1" regexp_match=".*a(.*)" regexp_replace="ununura"/></suggestion>.</message>
+    <rulegroup id="UNIKA" name="unika (ununura)">
       <url>http://www.reta-vortaro.de/revo/art/unik.html#unik.0a</url>
-      <example correction="Ununura"><marker>Unika</marker> filo.</example>
-    </rule>
+      <rule>
+        <pattern>
+          <marker><token regexp="yes">unikaj?n?</token></marker>
+          <token regexp="yes">(?:ge)?(?:fil|id|infan|beb)(?:et)?(?:in)?oj?n?</token>
+        </pattern>
+        <message>Laŭ Revo, «\1» estas evitinda en tiu kunteksto. Uzu <suggestion><match no="1" regexp_match=".*a(.*)" regexp_replace="ununura"/></suggestion>.</message>
+        <example correction="Ununura"><marker>Unika</marker> filo.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">(?:ge)?(?:fil|id|infan|beb)(?:et)?(?:in)?oj?n?</token>
+          <marker><token regexp="yes">unikaj?n?</token></marker>
+        </pattern>
+        <message>Laŭ Revo, «\2» estas evitinda en tiu kunteksto. Uzu <suggestion><match no="2" regexp_match=".*a(.*)" regexp_replace="ununura"/></suggestion>.</message>
+        <example correction="ununura">Filino <marker>unika</marker>.</example>
+      </rule>
+    </rulegroup>
     <rule id="POCENTO" name="pocento (elcento)">
       <pattern>
         <token inflected="yes">pocento</token>
@@ -785,7 +793,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <pattern>
         <token inflected="yes">diĝita</token>
       </pattern>
-      <message>Laŭ Revo kaj PIV, la vorto «\1» estas evitinda. Uzu <suggestion><match no="11" regexp_match="^....." regexp_replace="ciferec"/></suggestion>.</message>
+      <message>Laŭ Revo kaj PIV, la vorto «\1» estas evitinda. Uzu <suggestion><match no="1" regexp_match="^....." regexp_replace="ciferec"/></suggestion>.</message>
       <url>http://www.reta-vortaro.de/revo/art/digxit.html#digxit.0a</url>
       <example correction="ciferecan">Mi aĉetis <marker>diĝitan</marker> fotilon.</example>
     </rule>
@@ -867,6 +875,108 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <message>Uzu <suggestion><match no="1" regexp_match="^...." regexp_replace="malfa"/></suggestion>.</message>
       <url>http://bertilow.com/pmeg/vortfarado/afiksoj/prefiksoj/mal.html#i-6a5</url>
       <example correction="malfacila">Estas <marker>dificila</marker> demando.</example>
+    </rule>
+    <rulegroup id="HUMIDA" name="humida → malseka">
+      <url>http://www.reta-vortaro.de/revo/art/humid.html#humid.0a</url>
+      <rule>
+        <pattern>
+          <marker><token inflected="yes" regexp="yes">humid(e[tg])?a</token></marker>
+          <token min="0" max="1" postag="E .*" postag_regexp="yes"/>
+          <token inflected="yes" regexp="yes">(argil|branĉ|bot|buf|.*ĉemiz|ĉifon|fenestr|fingr|galoĉ|grund|har|haŭt|herb|kamp|lip|okul|poŝtuk|man|mantel|mur|naztuk|.*pantalon|neĝ|pajl|rigard|ran|sabl|ŝose|ŝton|ŝtrump|ŝu|ter|tolaĵ|tol|vang|vest|veturej|vitr)(e[gjt])?o</token>
+        </pattern>
+        <message>La vorto «\1» estas evitinda ekster scienca kunteksto, kiam ne temas pri kvanto de gasstata akvo en la aero.</message>
+        <suggestion><match no="1" regexp_match="^....." regexp_replace="malsek"/></suggestion>
+        <example correction="malsekaj">Liaj <marker>humidaj</marker> okuloj.</example>
+        <example>La humida vento.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes" regexp="yes">(argil|branĉ|bot|buf|.*ĉemiz|ĉifon|fenestr|fingr|galoĉ|grund|har|haŭt|herb|kamp|lip|okul|poŝtuk|man|mantel|mur|naztuk|.*pantalon|neĝ|pajl|rigard|ran|sabl|ŝose|ŝton|ŝtrump|ŝu|ter|tolaĵ|tol|vang|vest|veturej|vitr)(e[gjt])?o</token>
+          <token min="0" max="1" postag="E .*" postag_regexp="yes"/>
+          <marker><token inflected="yes" regexp="yes">humid(e[tg])?a</token></marker>
+        </pattern>
+        <message>La vorto «\3» estas evitinda ekster scienca kunteksto, kiam ne temas pri kvanto de gasstata akvo en la aero.</message>
+        <suggestion><match no="3" regexp_match="^....." regexp_replace="malsek"/></suggestion>
+        <example correction="malsekaj">Liaj okuloj <marker>humidaj</marker>.</example>
+        <example correction="malsekaj">Liaj okuloj preskaŭ <marker>humidaj</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes" regexp="yes">(argil|branĉ|bot|buf|.*ĉemiz|ĉifon|fenestr|fingr|galoĉ|grund|har|haŭt|herb|kamp|lip|okul|poŝtuk|man|mantel|mur|naztuk|.*pantalon|neĝ|pajl|rigard|ran|sabl|ŝose|ŝton|ŝtrump|ŝu|ter|tolaĵ|tol|vang|vest|veturej|vitr)(e[gjt])?o</token>
+          <token inflected="yes" regexp="yes">esti|iĝi|fariĝi|resti</token>
+          <token min="0" max="1" postag="E .*" postag_regexp="yes"/>
+          <marker><token inflected="yes" regexp="yes">humid(e[tg])?a</token></marker>
+        </pattern>
+        <message>La vorto «\4» estas evitinda ekster scienca kunteksto, kiam ne temas pri kvanto de gasstata akvo en la aero.</message>
+        <suggestion><match no="4" regexp_match="^....." regexp_replace="malsek"/></suggestion>
+        <example correction="malsekaj">Liaj okuloj estis <marker>humidaj</marker>.</example>
+        <example correction="malsekaj">Liaj okuloj estis tre <marker>humidaj</marker>.</example>
+        <example correction="malseka">Liaj kampego estis tro <marker>humida</marker>.</example>
+        <example>La aero estas humida.</example>
+      </rule>
+    </rulegroup>
+    <rule id="INTERNLANDO" name="internlando">
+      <pattern>
+        <token inflected="yes">internlando</token>
+      </pattern>
+      <message>La vorto «\1» estas arkaismo kaj evitinda laŭ Revo.</message>
+      <suggestion><match no="1" regexp_match="^.........." regexp_replace="landintern"/></suggestion>
+      <url>http://www.reta-vortaro.de/revo/art/land.html#land.intern0o</url>
+      <example correction="landinterno">La <marker>internlando</marker>.</example>
+    </rule>
+    <rule id="HUMANITARA" name="humanitara">
+      <pattern>
+        <token inflected="yes">humanitara</token>
+      </pattern>
+      <message>La vorto «\1» estas evitinda laŭ Revo.</message>
+      <suggestion><match no="1" regexp_match="^.{9}" regexp_replace="homhelp"/></suggestion>
+      <url>http://www.reta-vortaro.de/revo/art/humanitar.html#humanitar.0a</url>
+      <example correction="homhelpaj">La <marker>humanitaraj</marker> organizaĵoj.</example>
+    </rule>
+    <rule id="LEGUMENO" name="legumeno">
+      <pattern>
+        <token inflected="yes">legumeno</token>
+      </pattern>
+      <message>La vorto «\1» estas evitinda laŭ Revo.</message>
+      <suggestion><match no="1" regexp_match="^.{7}" regexp_replace="guŝ"/></suggestion>
+      <url>http://www.reta-vortaro.de/revo/art/legume.html</url>
+      <example correction="guŝo">La <marker>legumeno</marker>.</example>
+    </rule>
+    <rule id="LIMETO" name="limeto">
+      <pattern>
+        <token inflected="yes">limeto</token>
+      </pattern>
+      <message>La vorto «\1» estas evitinda laŭ Revo.</message>
+      <suggestion><match no="1" regexp_match="^.{5}" regexp_replace="limed"/></suggestion>
+      <url>http://www.reta-vortaro.de/revo/art/limet.html</url>
+      <example correction="limedoj">La <marker>limetoj</marker>.</example>
+    </rule>
+    <rule id="FOLIOLO" name="foliolo">
+      <pattern>
+        <token inflected="yes">foliolo</token>
+      </pattern>
+      <message>La vorto «\1» estas evitinda laŭ Revo.</message>
+      <suggestion><match no="1" regexp_match="^.{6}" regexp_replace="folier"/></suggestion>
+      <url>http://www.reta-vortaro.de/revo/art/foliol.html#foliol.0o</url>
+      <example correction="foliero">La <marker>foliolo</marker>.</example>
+    </rule>
+    <rule id="APARATO" name="aparato">
+      <pattern>
+        <token inflected="yes" regexp="yes">digesta|endokrina|kardiovaskula|nerva|reprodukta|tegumenta|spira</token>
+        <marker><token inflected="yes">aparato</token></marker>
+      </pattern>
+      <message>La vorto «\2» estas evitinda laŭ Revo en tiu kunteksto. Uzu <suggestion><match no="2" regexp_match="^.{6}" regexp_replace="sistem"/></suggestion> aŭ <suggestion><match no="2" regexp_match="^.{6}" regexp_replace="organar"/></suggestion>.</message>
+      <url>http://www.reta-vortaro.de/revo/art/aparat.html#lng_</url>
+      <example correction="sistemo|organaro">La digesta <marker>aparato</marker> inflamiĝis.</example>
+    </rule>
+    <rule id="MORTE_NASKITA" name="morte naskita">
+      <pattern>
+        <token>morte</token>
+        <token inflected="yes">naskita</token>
+      </pattern>
+      <message>Laŭ Revo, «\1 \2» estas evitinda. Uzu <suggestion>malvive \2</suggestion>.</message>
+      <url>http://www.reta-vortaro.de/revo/art/nask.html#nask.morte0ita</url>
+      <example correction="malvive naskita">Lia filo estis <marker>morte naskita</marker>.</example>
     </rule>
   </category>
   <category id="ARKAISMOJ" name="Arkaismoj">
@@ -2066,7 +2176,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="">Mi <marker>vi</marker> vidas kaj vin aŭdas.</example>
       <example correction="">Mi <marker>vi</marker> ankoraŭ ne tre bone vidas.</example>
       <example>Mi <marker>vin</marker> ankoraŭ ne tre bone vidas.</example>
-      <example correction="">Mi <marker>vi</marker> ne bene vidas.</example>
+      <example correction="">Mi <marker>vi</marker> ne bone vidas.</example>
       <example>Mi <marker>vin</marker> vidas.</example>
       <example correction="">Ĉar hieraŭ mi <marker>vi</marker> vidis.</example>
       <example>Ĉar hieraŭ mi <marker>vin</marker> vidis.</example>
@@ -3822,7 +3932,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token>la</token>
           <token regexp="yes">(?-i)(?:Adamitiko|Akadono|Alevato|Ĉenglio|Fanagalo|Interlingv[ae]o|Interlinguo|Interpreso|Intergloso|Gestono|Ĥotono|Latino|Lingvafrankao|Loĵbano|Loglano|Loglio|Neo-?(latino|romano)|Nov-?latino|Novialo|Papiamento|Sanskrito|Solresolo|Tokipono|Tokpisino|Urduo|Uropio|Volapuko|Voksigido)n?</token>
         </pattern>
-        <message>Ŝajnas, ke <suggestion>\3</suggestion> temas pri propra nomo de lingvo. Oni ne metas «la» antaŭ o-vortaj lingvonomoj.</message>
+        <message>Ŝajnas, ke <suggestion>\2</suggestion> temas pri propra nomo de lingvo. Oni ne metas «la» antaŭ o-vortaj lingvonomoj.</message>
         <url>http://bertilow.com/pmeg/gramatiko/propraj_nomoj/landoj_popoloj_lingvoj.html#i-r76</url>
         <example correction="Volapukon">Mi lernas <marker>la Volapukon</marker>.</example>
       </rule>

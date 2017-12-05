@@ -39,6 +39,11 @@ public class AgreementSuggestorTest {
     assertSuggestion("das/der/ART:DEF:NOM:PLU:FEM Häuser/Haus/SUB:NOM:PLU:NEU", "[die Häuser]");
     assertSuggestion("das/der/ART:DEF:NOM:PLU:FEM Häusern/Haus/SUB:DAT:PLU:NEU", "[den Häusern]");
     assertSuggestion("dieser/dies/PRO:DEM:GEN:PLU:NEU:B/S Buch/Buch/SUB:NOM:SIN:NEU", "[dieser Bücher, dieses Buch]");
+    assertSuggestion("die/der/PRO:IND:NOM:PLU:NEU:B/S Kabels/Kabel/SUB:GEN:PLU:NEU", "[die Kabel]");
+    assertSuggestion("die/der/PRO:IND:NOM:PLU:NEU:B/S LAN-Kabels/LAN-Kabel/SUB:GEN:PLU:NEU", "[die LAN-Kabel]");
+    assertSuggestion("mehrere/mehrer/PRO:IND:NOM:PLU:NEU:B/S Kabels/Kabel/SUB:GEN:SIN:MAS", "[mehrere Kabel]");
+    assertSuggestion("mehrere/mehrer/PRO:IND:NOM:PLU:NEU:B/S LAN-Kabels/LAN-Kabel/SUB:GEN:SIN:MAS", "[mehrere LAN-Kabel]");
+    assertSuggestion("mehrere/mehrer/PRO:IND:NOM:PLU:NEU:B/S WLAN-LAN-Kabels/WLAN-LAN-Kabel/SUB:GEN:SIN:MAS", "[mehrere WLAN-LAN-Kabel]");
   }
 
   private void assertSuggestion(String input, String expectedSuggestions) {

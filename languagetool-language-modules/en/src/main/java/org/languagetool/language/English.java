@@ -176,9 +176,19 @@ public class English extends Language implements AutoCloseable {
                 Example.wrong("This house is old. <marker>it</marker> was built in 1950."),
                 Example.fixed("This house is old. <marker>It</marker> was built in 1950.")),
         new MultipleWhitespaceRule(messages, this),
-        new LongSentenceRule(messages),
+        new LongSentenceRule(messages, 20, false),
+        new LongSentenceRule(messages, 25, false),
+        new LongSentenceRule(messages, 30, false),
+        new LongSentenceRule(messages, 35, false),
+        new LongSentenceRule(messages, 40, false),
+        new LongSentenceRule(messages, 45, false),
+        new LongSentenceRule(messages, 50, false),
+        new LongSentenceRule(messages, 60, false),
         new SentenceWhitespaceRule(messages),
         new OpenNMTRule(),
+        new WhiteSpaceBeforeParagraphEnd(messages),
+        new WhiteSpaceAtBeginOfParagraph(messages),
+        new EmptyLineRule(messages),
         // specific to English:
         new EnglishUnpairedBracketsRule(messages, this),
         new EnglishWordRepeatRule(messages, this),
@@ -187,7 +197,8 @@ public class English extends Language implements AutoCloseable {
         new CompoundRule(messages),
         new ContractionSpellingRule(messages),
         new EnglishWrongWordInContextRule(messages),
-        new EnglishDashRule()
+        new EnglishDashRule(),
+        new WordCoherencyRule(messages)
     );
   }
 

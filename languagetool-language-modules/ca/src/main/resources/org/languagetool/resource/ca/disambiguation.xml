@@ -4738,23 +4738,53 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filter" postag="NCFS.*"></disambig>
     </rule>
-    <rulegroup id="VISTA" name="vista"> <!-- Descarta la variant valenciana: jo vist| tu vistes, ell vista -->
+    <rulegroup id="VISTA" name="vista"> <!-- tracta la variant valenciana: jo vist| tu vistes, ell vista -->
         <rule>
             <pattern>
                 <marker>
-                    <token postag="V.*V" postag_regexp="yes" regexp="yes">vist(a|es)?</token>
+                    <token>vist</token>
                 </marker>
+                <token min="0">-</token>
+                <token>i</token>
+                <token min="0">-</token>
+                <token>plau</token>
             </pattern>
-            <disambig action="filter" postag="VMP.*|N.*"></disambig>
+            <disambig action="filter" postag="V.P.*"></disambig>
         </rule>
         <rule>
             <pattern>
-                <token><exception postag="D..M.." postag_regexp="yes"/></token>
+                <token regexp="yes">es|em|el|la|els|les|ens|us|se|me|vos|jo|ell</token>
                 <marker>
-                    <token regexp="yes">vist(a|es)</token>
+                    <token postag="V.*V" postag_regexp="yes">vist</token>
                 </marker>
             </pattern>
-            <disambig action="filter" postag="NCF.*|V.P.*"></disambig>
+            <disambig action="filter" postag="V.*V|_GV_"></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">es|em|el|els|les|ens|us|se|me|vos|jo|ell</token>
+                <marker>
+                    <token postag="V.*V" postag_regexp="yes">vista</token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="V.*V|_GV_"></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">et|te|tu</token>
+                <marker>
+                    <token postag="V.*V" postag_regexp="yes">vistes</token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="V.*V|_GV_"></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="V.P.*|N.*" postag_regexp="yes" regexp="yes">vist|vista|vistes</token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="V.P.*|N.*|_GV_"></disambig>
         </rule>
     </rulegroup>
     <rulegroup id="VIU" name="viu (verb, adj, nom)">
@@ -6353,7 +6383,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <unify>
                 <feature id="nombre"/>
                 <token postag="D[^R].*" postag_regexp="yes"/>
-                <token inflected="yes">suau</token><!--<exception postag="N.*" postag_regexp="yes"/></token>-->
+                <token inflected="yes" regexp="yes">suau|diferent</token><!--<exception postag="N.*" postag_regexp="yes"/></token>-->
                 <marker>
                     <token postag="N.*" postag_regexp="yes" regexp="yes" inflected="yes">vessant|corrent|pendent</token>
                 </marker>
@@ -8411,6 +8441,16 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <token postag="NCMS000">capital</token>
         </pattern>
         <disambig action="filterall"/>
+    </rule>
+    <rule id="en_prep" name="en (preposició)">
+        <pattern>
+            <token postag="V.P.*" postag_regexp="yes"/>
+            <marker>
+               <token postag="SPS00">en</token>
+            </marker>
+            <token regexp="yes">\p{Lu}.*</token>
+        </pattern>
+        <disambig action="filter" postag="SPS00"/>
     </rule>
     <rulegroup id="DetNom" name="Determinant + nom">
         <!-- Caldria diferenciar/elimianr alguns casos. Per exemple DN + DI

@@ -92,9 +92,20 @@ abstract class Server {
   @Nullable
   protected RequestLimiter getRequestLimiterOrNull(HTTPServerConfig config) {
     int requestLimit = config.getRequestLimit();
+    int requestLimitInBytes = config.getRequestLimitInBytes();
     int requestLimitPeriodInSeconds = config.getRequestLimitPeriodInSeconds();
-    if (requestLimit > 0 || requestLimitPeriodInSeconds > 0) {
-      return new RequestLimiter(requestLimit, requestLimitPeriodInSeconds);
+    if ((requestLimit > 0 || requestLimitInBytes > 0) && requestLimitPeriodInSeconds > 0) {
+      return new RequestLimiter(requestLimit, requestLimitInBytes, requestLimitPeriodInSeconds);
+    }
+    return null;
+  }
+
+  @Nullable
+  protected ErrorRequestLimiter getErrorRequestLimiterOrNull(HTTPServerConfig config) {
+    int requestLimit = config.getTimeoutRequestLimit();
+    int requestLimitPeriodInSeconds = config.getRequestLimitPeriodInSeconds();
+    if (requestLimit > 0 && requestLimitPeriodInSeconds > 0) {
+      return new ErrorRequestLimiter(requestLimit, requestLimitPeriodInSeconds);
     }
     return null;
   }
@@ -107,11 +118,15 @@ abstract class Server {
     System.out.println("                 'mode' - 'LanguageTool' or 'AfterTheDeadline' (DEPRECATED) for emulation of After the Deadline output (optional)");
     System.out.println("                 'afterTheDeadlineLanguage' - language code like 'en' or 'en-GB' (required if mode is 'AfterTheDeadline') - DEPRECATED");
     System.out.println("                 'maxTextLength' - maximum text length, longer texts will cause an error (optional)");
+    System.out.println("                 'maxTextHardLength' - maximum text length, applies even to users with a special secret 'token' parameter (optional)");
+    System.out.println("                 'secretTokenKey' - secret JWT token key, if set by user and valid, maxTextLength can be increased by the user (optional)");
     System.out.println("                 'maxCheckTimeMillis' - maximum time in milliseconds allowed per check (optional)");
     System.out.println("                 'maxCheckThreads' - maximum number of threads working in parallel (optional)");
     System.out.println("                 'cacheSize' - size of internal cache in number of sentences (optional, default: 0)");
-    System.out.println("                 'requestLimit' - maximum number of requests (optional)");
-    System.out.println("                 'requestLimitPeriodInSeconds' - time period to which requestLimit applies (optional)");
+    System.out.println("                 'requestLimit' - maximum number of requests per requestLimitPeriodInSeconds (optional)");
+    System.out.println("                 'requestLimitInBytes' - maximum aggregated size of requests per requestLimitPeriodInSeconds (optional)");
+    System.out.println("                 'timeoutRequestLimit' - maximum number of timeout request (optional)");
+    System.out.println("                 'requestLimitPeriodInSeconds' - time period to which requestLimit and timeoutRequestLimit applies (optional)");
     System.out.println("                 'languageModel' - a directory with '1grams', '2grams', '3grams' sub directories which contain a Lucene index");
     System.out.println("                  each with ngram occurrence counts; activates the confusion rule if supported (optional)");
     System.out.println("                 'maxWorkQueueSize' - reject request if request queue gets larger than this (optional)");

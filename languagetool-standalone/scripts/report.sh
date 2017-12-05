@@ -68,6 +68,9 @@ echo "An error has occurred      : `grep -c 'An error has occurred' $TMPFILE`" >
 echo "too many requests          : `grep -c 'too many requests' $TMPFILE`" >>$OUTFILE
 echo "too many requests (Android): `grep -c 'too many requests.*androidspell' $TMPFILE`" >>$OUTFILE
 
+echo "Request limit              : `grep -c 'Request limit of' $TMPFILE`" >>$OUTFILE
+echo "Request size limit         : `grep -c 'Request size limit of' $TMPFILE`" >>$OUTFILE
+
 echo "" >>$OUTFILE
 echo "Top HTTP error codes:" >>$OUTFILE
 grep "An error has occurred" /tmp/log.temp|sed 's/.*HTTP code \([0-9]\+\)..*/HTTP code \1/'|sort |uniq -c| sort -r -n >>$OUTFILE
@@ -79,6 +82,10 @@ grep "too many requests" $TMPFILE | cut -c 21-59 | sort | uniq -c | sort -r -n |
 echo "" >>$OUTFILE
 echo "Top 10 Errors:" >>$OUTFILE
 grep 'Could not check sentence' $TMPFILE_ALL | grep -v "Caused by:" | uniq -c | sort -n -r | head -n 10 >>$OUTFILE
+
+echo "" >>$OUTFILE
+echo "Top 30 external Referers:" >>$OUTFILE
+grep "Check done:" /tmp/log.temp | awk -F ', ' '{print $4}' | grep -v "languagetool.org" | cut -c -100 | sed 's#https\?://\([.a-z0-9:-]\+\)/.*#\1#' | sort | uniq -c | sort -r -n | head -n 30 >>$OUTFILE
 
 #echo "" >>$OUTFILE
 #echo "Up to 50 client errors sent to the server:" >>$OUTFILE
@@ -119,7 +126,5 @@ grep "$DATE_APACHE" /home/languagetool/api/apache_not_found.log | grep $YEAR | t
 echo "" >>$OUTFILE
 echo -n "Number of client-side errors: " >>$OUTFILE
 grep "$DATE_APACHE" /home/languagetool/api/apache_error.log | grep -c $YEAR >>$OUTFILE
-echo "Client-side errors (max. 20):" >>$OUTFILE
-grep "$DATE_APACHE" /home/languagetool/api/apache_error.log | grep $YEAR | tail -n 20 >>$OUTFILE
 
 cat $OUTFILE | mail -a 'Content-Type: text/plain; charset=utf-8' -s "LanguageTool API Report" daniel.naber@languagetool.org

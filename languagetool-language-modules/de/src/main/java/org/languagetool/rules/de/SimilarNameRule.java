@@ -75,7 +75,7 @@ public class SimilarNameRule extends TextLevelRule {
           String similarName = similarName(word, namesSoFar);
           if (similarName != null) {
             String msg = "'" + word + "' ähnelt dem vorher benutzten '" + similarName + "', handelt es sich evtl. um einen Tippfehler?";
-            RuleMatch ruleMatch = new RuleMatch(this, pos+token.getStartPos(), pos+token.getEndPos(), msg);
+            RuleMatch ruleMatch = new RuleMatch(this, sentence, pos+token.getStartPos(), pos+token.getEndPos(), msg);
             ruleMatch.setSuggestedReplacement(similarName);
             ruleMatches.add(ruleMatch);
           }

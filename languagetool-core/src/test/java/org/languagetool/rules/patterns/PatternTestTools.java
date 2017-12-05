@@ -40,11 +40,11 @@ public final class PatternTestTools {
   // These characters should not be present in token values as they split tokens in all languages.
   private static final Pattern TOKEN_SEPARATOR_PATTERN = Pattern.compile("[ 	.,:;…!?(){}<>«»\"]");
 
-  private static final Pattern PROBABLE_PATTERN = Pattern.compile(".*([^*]\\*|[.+?{}()|\\[\\]].*|\\\\d).*");
+  private static final Pattern PROBABLE_PATTERN = Pattern.compile("(\\\\[dDsSwW])|.*([^*]\\*|[.+?{}()|\\[\\]].*|\\\\d).*");
 
   // Polish POS tags use dots, so do not consider the presence of a dot
   // as indicating a probable regular expression.
-  private static final Pattern PROBABLE_PATTERN_PL_POS = Pattern.compile(".*([^*]\\*|[+?{}()|\\[\\]].*|\\\\d).*");
+  private static final Pattern PROBABLE_PATTERN_PL_POS = Pattern.compile("(\\\\[dDsSwW])|.*([^*]\\*|[+?{}()|\\[\\]].*|\\\\d).*");
 
   private static final Pattern CHAR_SET_PATTERN = Pattern.compile("\\[^?([^\\]]+)\\]");
   private static final Pattern STRICT_CHAR_SET_PATTERN = Pattern.compile("(\\(\\?-i\\))?.*(?<!\\\\)\\[^?([^\\]]+)\\]");

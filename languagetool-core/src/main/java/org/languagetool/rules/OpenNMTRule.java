@@ -100,7 +100,7 @@ public class OpenNMTRule extends Rule {
         int to = getRightWordBoundary(sentenceText, getLastDiffPosition(sentenceText, cleanTranslation));
         int replacementTo = getRightWordBoundary(cleanTranslation, getLastDiffPosition(cleanTranslation, sentenceText));
         String message = "OpenNMT suggests that this might(!) be better phrased differently, please check.";
-        RuleMatch ruleMatch = new RuleMatch(this, from, to, message);
+        RuleMatch ruleMatch = new RuleMatch(this, sentence, from, to, message);
         ruleMatch.setSuggestedReplacement(cleanTranslation.substring(from, replacementTo)); 
         ruleMatches.add(ruleMatch);
         return toRuleMatchArray(ruleMatches);

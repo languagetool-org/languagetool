@@ -18,9 +18,12 @@
  */
 package org.languagetool.rules;
 
+import org.jetbrains.annotations.Nullable;
+import org.languagetool.AnalyzedSentence;
 import org.languagetool.ApiCleanupNeeded;
 import org.languagetool.tools.StringTools;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -42,16 +45,19 @@ public class RuleMatch implements Comparable<RuleMatch> {
   private final OffsetPosition offsetPosition;
   private final String message;
   private final String shortMessage;   // used e.g. for OOo/LO context menu
+  private final AnalyzedSentence sentence;
 
   private LinePosition linePosition = new LinePosition(-1, -1);
   private ColumnPosition columnPosition = new ColumnPosition(-1, -1);
   private List<String> suggestedReplacements = new ArrayList<>();
+  private URL url;
 
   /**
    * Creates a RuleMatch object, taking the rule that triggered
    * this match, position of the match and an explanation message.
    * This message is scanned for &lt;suggestion&gt;...&lt;/suggestion&gt;
    * to get suggested fixes for the problem detected by this rule.
+   * @deprecated use a constructor that also takes an {@code AnalyzedSentence} parameter (deprecated since 4.0)
    */
   public RuleMatch(Rule rule, int fromPos, int toPos, String message) {
     this(rule, fromPos, toPos, message, null, false, null);
@@ -62,7 +68,18 @@ public class RuleMatch implements Comparable<RuleMatch> {
    * this match, position of the match and an explanation message.
    * This message is scanned for &lt;suggestion&gt;...&lt;/suggestion&gt;
    * to get suggested fixes for the problem detected by this rule.
-   *
+   * @since 4.0
+   */
+  public RuleMatch(Rule rule, AnalyzedSentence sentence, int fromPos, int toPos, String message) {
+    this(rule, sentence, fromPos, toPos, message, null, false, null);
+  }
+
+  /**
+   * Creates a RuleMatch object, taking the rule that triggered
+   * this match, position of the match and an explanation message.
+   * This message is scanned for &lt;suggestion&gt;...&lt;/suggestion&gt;
+   * to get suggested fixes for the problem detected by this rule.
+   * @deprecated use a constructor that also takes an {@code AnalyzedSentence} parameter (deprecated since 4.0)
    * @param shortMessage used for example in OpenOffice/LibreOffice's context menu
    */
   public RuleMatch(Rule rule, int fromPos, int toPos, String message, String shortMessage) {
@@ -73,13 +90,35 @@ public class RuleMatch implements Comparable<RuleMatch> {
    * Creates a RuleMatch object, taking the rule that triggered
    * this match, position of the match and an explanation message.
    * This message is scanned for &lt;suggestion&gt;...&lt;/suggestion&gt;
+   * to get suggested fixes for the problem detected by this rule.
+   *
+   * @param shortMessage used for example in OpenOffice/LibreOffice's context menu
+   * @since 4.0
+   */
+  public RuleMatch(Rule rule, AnalyzedSentence sentence, int fromPos, int toPos, String message, String shortMessage) {
+    this(rule, sentence, fromPos, toPos, message, shortMessage, false, null);
+  }
+
+  /**
+   * @deprecated use a constructor that also takes an {@code AnalyzedSentence} parameter (deprecated since 4.0)
+   */
+  public RuleMatch(Rule rule, int fromPos, int toPos, String message, String shortMessage,
+                   boolean startWithUppercase, String suggestionsOutMsg) {
+    this(rule, null, fromPos, toPos, message, shortMessage, startWithUppercase, suggestionsOutMsg);
+  }
+  
+  /**
+   * Creates a RuleMatch object, taking the rule that triggered
+   * this match, position of the match and an explanation message.
+   * This message is scanned for &lt;suggestion&gt;...&lt;/suggestion&gt;
    * to get suggested fixes for the problem detected by this rule. 
    * 
    * @param shortMessage used for example in OpenOffice/LibreOffice's context menu (may be null)
    * @param startWithUppercase whether the original text at the position
    *    of the match starts with an uppercase character
+   * @since 4.0
    */
-  public RuleMatch(Rule rule, int fromPos, int toPos, String message, String shortMessage, 
+  public RuleMatch(Rule rule, AnalyzedSentence sentence, int fromPos, int toPos, String message, String shortMessage, 
       boolean startWithUppercase, String suggestionsOutMsg) {
     this.rule = Objects.requireNonNull(rule);
     if (toPos <= fromPos) {
@@ -101,6 +140,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
         suggestedReplacements.add(replacement);
       }
     }
+    this.sentence = sentence;
   }
 
   public Rule getRule() {
@@ -233,6 +273,28 @@ public class RuleMatch implements Comparable<RuleMatch> {
     return Collections.unmodifiableList(suggestedReplacements);
   }
 
+  /**
+   * A URL that points to a more detailed error description or {@code null}.
+   * Note that the {@link Rule} itself might also have an URL, which is usually
+   * a less specific one than this. This one will overwrite the rule's URL in
+   * the JSON output.
+   * @since 4.0
+   */
+  @Nullable
+  public URL getUrl() {
+    return url;
+  }
+
+  /** @since 4.0 */
+  public void setUrl(URL url) {
+    this.url = url;
+  }
+
+  /** @since 4.0 */
+  public AnalyzedSentence getSentence() {
+    return sentence;
+  }
+  
   @Override
   public String toString() {
     return rule.getId() + ":" + offsetPosition + ":" + message;
@@ -253,12 +315,13 @@ public class RuleMatch implements Comparable<RuleMatch> {
     return Objects.equals(rule.getId(), other.rule.getId())
         && Objects.equals(offsetPosition, other.offsetPosition)
         && Objects.equals(message, other.message)
-        && Objects.equals(suggestedReplacements, other.suggestedReplacements);
+        && Objects.equals(suggestedReplacements, other.suggestedReplacements)
+        && Objects.equals(sentence, other.sentence);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(rule.getId(), offsetPosition, message, suggestedReplacements);
+    return Objects.hash(rule.getId(), offsetPosition, message, suggestedReplacements, sentence);
   }
 
   static class OffsetPosition extends MatchPosition {

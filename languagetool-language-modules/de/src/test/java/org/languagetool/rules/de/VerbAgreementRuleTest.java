@@ -56,6 +56,10 @@ public class VerbAgreementRuleTest {
     assertThat(match2.length, is(1));
     assertThat(match2[0].getFromPos(), is(12+3));
     assertThat(match2[0].getToPos(), is(12+16));
+    RuleMatch[] match3 = rule.match(lt.analyzeText("Ihr könnt das Training abbrechen, weil es nichts bringen wird. Er geht los und sagt dabei: Werde ich machen."));
+    assertThat(match3.length, is(1));
+    assertThat(match3[0].getFromPos(), is(97));
+    assertThat(match3[0].getToPos(), is(107));
   }
   
   @Test

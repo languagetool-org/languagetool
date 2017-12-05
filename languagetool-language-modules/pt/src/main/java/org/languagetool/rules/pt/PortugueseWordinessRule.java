@@ -23,11 +23,11 @@ import org.languagetool.rules.AbstractSimpleReplaceRule2;
 import org.languagetool.rules.Categories;
 import org.languagetool.rules.Example;
 import org.languagetool.rules.ITSIssueType;
+import org.languagetool.tools.Tools;
 
 import java.io.IOException;
 import java.util.Locale;
 import java.util.ResourceBundle;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 /**
@@ -85,11 +85,7 @@ public class PortugueseWordinessRule extends AbstractSimpleReplaceRule2 {
 
   @Override
   public URL getUrl() {
-    try {
-      return new URL("https://pt.wikipedia.org/wiki/V%C3%ADcio_de_linguagem#Prolixidade_ou_preciosismo");
-    } catch (MalformedURLException e) {
-      throw new RuntimeException(e);
-    }
+    return Tools.getUrl("https://pt.wikipedia.org/wiki/V%C3%ADcio_de_linguagem#Prolixidade_ou_preciosismo");
   }
 
   @Override

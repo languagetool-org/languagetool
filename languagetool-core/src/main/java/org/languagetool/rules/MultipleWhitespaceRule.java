@@ -65,23 +65,26 @@ public class MultipleWhitespaceRule extends Rule {
     int i = 1;
     while (i < tokens.length) {
       boolean tokenIsTab = tokens[i].getToken().equals("\t");
+      boolean tokenIsFunction = tokens[i].getToken().equals("\u200B"); // functions (e.g. page number, page count)  in LO/OO 
       boolean prevTokenIsLinebreak = tokens[i -1].isLinebreak();
-      isLineBreakContinuation = (prevTokenIsLinebreak || isLineBreakContinuation) && tokens[i].isWhitespace() && !tokenIsTab;
+      isLineBreakContinuation = (prevTokenIsLinebreak || isLineBreakContinuation) && tokens[i].isWhitespace() && !tokenIsTab && !tokenIsFunction;
       if ((tokens[i].isWhitespace() ||
-          StringTools.isNonBreakingWhitespace(tokens[i].getToken())) && prevWhite && !tokenIsTab && !prevTokenIsLinebreak && !isLineBreakContinuation) {
+          StringTools.isNonBreakingWhitespace(tokens[i].getToken())) && prevWhite && !tokenIsTab && !tokenIsFunction
+          && !prevTokenIsLinebreak && !isLineBreakContinuation) {
         int pos = tokens[i -1].getStartPos();
         while (i < tokens.length && (tokens[i].isWhitespace() ||
-            StringTools.isNonBreakingWhitespace(tokens[i].getToken()))) {
+            StringTools.isNonBreakingWhitespace(tokens[i].getToken())) && !tokenIsFunction
+            && !tokens[i].isLinebreak()) {    // preserve LF because LO/OO can't handle grammar errors including LF
           prevLen += tokens[i].getToken().length();
           i++;
         }
         String message = messages.getString("whitespace_repetition");
-        if (prevLen > 0) {
+        if (prevLen > 1) {
           if (prevPos >= 2 && sentence.getText().substring(prevPos-2, pos + prevLen).equals("-- \n")) {
             // no match for typical email signature delimiter
             continue;
           }
-          RuleMatch ruleMatch = new RuleMatch(this, prevPos, pos + prevLen, message);
+          RuleMatch ruleMatch = new RuleMatch(this, sentence, prevPos, pos + prevLen, message);
           ruleMatch.setSuggestedReplacement(" ");
           ruleMatches.add(ruleMatch);
         }

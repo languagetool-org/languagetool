@@ -63,13 +63,15 @@ abstract class TextChecker {
   
   private final Map<String,Integer> languageCheckCounts = new HashMap<>(); 
   private final boolean internalServer;
+  private Queue<Runnable> workQueue;
   private final LanguageIdentifier identifier;
   private final ExecutorService executorService;
   private final ResultCache cache;
 
-  TextChecker(HTTPServerConfig config, boolean internalServer) {
+  TextChecker(HTTPServerConfig config, boolean internalServer, Queue<Runnable> workQueue) {
     this.config = config;
     this.internalServer = internalServer;
+    this.workQueue = workQueue;
     this.identifier = new LanguageIdentifier();
     this.executorService = Executors.newCachedThreadPool();
     this.cache = config.getCacheSize() > 0 ? new ResultCache(config.getCacheSize()) : null;
@@ -79,11 +81,12 @@ abstract class TextChecker {
     executorService.shutdownNow();
   }
   
-  void checkText(AnnotatedText aText, HttpExchange httpExchange, Map<String, String> parameters) throws Exception {
+  void checkText(AnnotatedText aText, HttpExchange httpExchange, Map<String, String> parameters, ErrorRequestLimiter errorRequestLimiter, String remoteAddress) throws Exception {
     checkParams(parameters);
     long timeStart = System.currentTimeMillis();
-    if (aText.getPlainText().length() > config.maxTextLength) {
-      throw new TextTooLongException("Your text exceeds this server's limit of " + config.maxTextLength +
+    UserLimits limits = getUserLimits(parameters);
+    if (aText.getPlainText().length() > limits.getMaxTextLength()) {
+      throw new TextTooLongException("Your text exceeds the limit of " + limits.getMaxTextLength() +
               " characters (it's " + aText.getPlainText().length() + " characters). Please submit a shorter text.");
     }
     //print("Check start: " + text.length() + " chars, " + langParam);
@@ -124,11 +127,11 @@ abstract class TextChecker {
     });
     boolean incompleteResult = false;
     List<RuleMatch> matches;
-    if (config.maxCheckTimeMillis < 0) {
+    if (limits.getMaxCheckTimeMillis() < 0) {
       matches = future.get();
     } else {
       try {
-        matches = future.get(config.maxCheckTimeMillis, TimeUnit.MILLISECONDS);
+        matches = future.get(limits.getMaxCheckTimeMillis(), TimeUnit.MILLISECONDS);
       } catch (ExecutionException e) {
         if (e.getCause() != null && e.getCause() instanceof OutOfMemoryError) {
           throw (OutOfMemoryError)e.getCause();
@@ -138,8 +141,11 @@ abstract class TextChecker {
       } catch (TimeoutException e) {
         boolean cancelled = future.cancel(true);
         Path loadFile = Paths.get("/proc/loadavg");  // works in Linux only(?)
-        String loadInfo = loadFile.toFile().exists() ? Files.readAllLines(loadFile).toString(): "(unknown)";
-        String message = "Text checking took longer than allowed maximum of " + config.maxCheckTimeMillis +
+        String loadInfo = loadFile.toFile().exists() ? Files.readAllLines(loadFile).toString() : "(unknown)";
+        if (errorRequestLimiter != null) {
+          errorRequestLimiter.logAccess(remoteAddress);
+        }
+        String message = "Text checking took longer than allowed maximum of " + limits.getMaxCheckTimeMillis() +
                          " milliseconds (cancelled: " + cancelled +
                          ", language: " + lang.getShortCodeWithCountryAndVariant() +
                          ", " + aText.getPlainText().length() + " characters of text, system load: " + loadInfo + ")";
@@ -182,7 +188,18 @@ abstract class TextChecker {
     print("Check done: " + aText.getPlainText().length() + " chars, " + languageMessage + ", #" + count + ", " + referrer + ", "
             + matches.size() + " matches, "
             + (System.currentTimeMillis() - timeStart) + "ms, agent:" + agent
-            + ", " + messageSent);
+            + ", " + messageSent + ", q:" + (workQueue != null ? workQueue.size() : "?"));
+  }
+
+  private UserLimits getUserLimits(Map<String, String> params) {
+    String token = params.get("token");
+    if (token != null) {
+      return UserLimits.getLimitsFromToken(config, token);
+    } else if (params.get("username") != null && params.get("password") != null) {
+      return UserLimits.getLimitsFromUserAccount(config, params.get("username"), params.get("password"));
+    } else {
+      return UserLimits.getDefaultLimits(config);
+    }
   }
 
   protected void checkParams(Map<String, String> parameters) {
@@ -193,7 +210,7 @@ abstract class TextChecker {
 
   private List<RuleMatch> getRuleMatches(AnnotatedText aText, Language lang,
                                          Language motherTongue, QueryParams params, RuleMatchListener listener) throws Exception {
-    if (cache != null && cache.requestCount() % CACHE_STATS_PRINT == 0) {
+    if (cache != null && cache.requestCount() > 0 && cache.requestCount() % CACHE_STATS_PRINT == 0) {
       String hitPercentage = String.format(Locale.ENGLISH, "%.2f", cache.hitRate() * 100.0f);
       print("Cache stats: " + hitPercentage + "% hit rate");
     }
@@ -277,8 +294,8 @@ abstract class TextChecker {
     print("Using options configured in " + config.getRulesConfigFile());
     // If we are explicitly configuring from rules, ignore the useGUIConfig flag
     if (config.getRulesConfigFile() != null) {
-      org.languagetool.gui.Tools.configureFromRules(langTool, new Configuration(config.getRulesConfigFile().getParentFile(),
-              config.getRulesConfigFile().getName(), lang));
+      org.languagetool.gui.Tools.configureFromRules(langTool, new Configuration(config.getRulesConfigFile()
+          .getCanonicalFile().getParentFile(), config.getRulesConfigFile().getName(), lang));
     } else {
       throw new RuntimeException("config.getRulesConfigFile() is null");
     }

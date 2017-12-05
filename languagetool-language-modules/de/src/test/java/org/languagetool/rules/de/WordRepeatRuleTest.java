@@ -41,6 +41,7 @@ public class WordRepeatRuleTest {
     assertGood("Sätze, die die testen.", lt);
     assertGood("Das Haus, auf das das Mädchen zeigt.", lt);
     assertGood("Warum fragen Sie sie nicht selbst?", lt);
+    assertGood("Er tut das, damit sie sie nicht sieht.", lt);
 
     assertBad("Die die Sätze zum testen.", lt);
     assertBad("Und die die Sätze zum testen.", lt);

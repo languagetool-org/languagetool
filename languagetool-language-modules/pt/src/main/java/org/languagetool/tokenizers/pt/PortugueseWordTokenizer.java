@@ -78,6 +78,7 @@ public class PortugueseWordTokenizer extends WordTokenizer {
   // dots in ordinals
   private static final Pattern DOTTED_ORDINALS_PATTERN = Pattern.compile("([\\d])\\.([aoªº][sˢ]?)", Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
   private static final String DOTTED_ORDINALS_REPL = "$1" + NON_BREAKING_DOT_SUBST + "$2";
+
   public PortugueseWordTokenizer() {
   }
 
