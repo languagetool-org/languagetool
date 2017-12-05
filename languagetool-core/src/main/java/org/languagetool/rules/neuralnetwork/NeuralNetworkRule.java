@@ -110,7 +110,6 @@ public class NeuralNetworkRule extends Rule {
     List<RuleMatch> ruleMatches = new ArrayList<>();
     AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
     for(int i = 1; i < tokens.length; i++) {
-//    for(int i = CONTEXT_LENGTH/2; i < tokens.length - CONTEXT_LENGTH/2; i++) {
       String token = tokens[i].getToken();
       if(getSubjects().contains(token)) {
         final String[] context = getContext(tokens, i);
