@@ -18878,7 +18878,8 @@ USA
               <token regexp="yes">alphabetical|ascending|descending</token>
               <token>order</token>
           </pattern>
-          <message>Unless there is more than one '\3 \4', leave out the determiner '\2'.<suggestion>\1 \3 \4</suggestion></message>
+          <message>Unless there is more than one '\3 \4', leave out the determiner '\2'.</message>
+          <suggestion>\1 \3 \4</suggestion>
           <url>https://jakubmarian.com/in-an-alphabetical-order-vs-in-alphabetical-order-in-english/</url>
           <example correction="in alphabetical order">List the names <marker>in an alphabetical order</marker>.</example>
       </rule>
@@ -21060,6 +21061,16 @@ USA
     <!-- Style -->
     <!-- ====================================================================== -->
     <category id="STYLE" name="Style" type="style">
+        <rule id="MOST_EVERYONE" name="most (almost) every">
+            <pattern>
+                <token regexp="yes">most(ly)?</token>
+                <token regexp="yes">(any|every)(body|one|where)?</token>
+            </pattern>
+            <message>The phrase '\1 \2' is colloquial. In formal/ written English you shoudl avoid it. Use <suggestion>almost \2</suggestion> instead!</message>
+            <url>http://www.englishessaywritingtips.com/2011/09/common-errors-in-spoken-english-most-everyone/</url>
+            <example correction="Almost everyone"><marker>Most everyone</marker> saw him.</example>
+            <example correction="almost everywhere">They are <marker>most everywhere</marker>.</example>
+        </rule>
         <rule id="WHEN_WHERE" name="where/when">
             <pattern>
                 <token regexp="yes">times?|months?|weeks?|years?|days?|hours?</token>
