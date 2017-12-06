@@ -808,30 +808,21 @@ public class Main extends WeakBase implements XJobExecutor,
   }
 
   static void showError(Throwable e) {
-//    if (!isDebugMode) {
-      if (testMode) {
-        throw new RuntimeException(e);
-      }
-      String msg = "An error has occurred in LanguageTool "
-          + JLanguageTool.VERSION + ":\n" + e + "\nStacktrace:\n";
-      msg += Tools.getFullStackTrace(e);
-      String metaInfo = "OS: " + System.getProperty("os.name") + " on "
-          + System.getProperty("os.arch") + ", Java version "
-          + System.getProperty("java.version") + " from "
-          + System.getProperty("java.vm.vendor");
-      msg += metaInfo;
-      DialogThread dt = new DialogThread(msg);
-      e.printStackTrace();
-      dt.start();
-/*    } else {
-      try {
-        throw new Exception(e);
-      } catch (Exception e1) {
-        // TODO Automatisch generierter Erfassungsblock
-        e1.printStackTrace();
-      }
+    if (testMode) {
+      throw new RuntimeException(e);
     }
-*/  }
+    String msg = "An error has occurred in LanguageTool "
+        + JLanguageTool.VERSION + ":\n" + e + "\nStacktrace:\n";
+    msg += Tools.getFullStackTrace(e);
+    String metaInfo = "OS: " + System.getProperty("os.name") + " on "
+        + System.getProperty("os.arch") + ", Java version "
+        + System.getProperty("java.version") + " from "
+        + System.getProperty("java.vm.vendor");
+    msg += metaInfo;
+    DialogThread dt = new DialogThread(msg);
+    e.printStackTrace();
+    dt.start();
+  }
 
   private File getHomeDir() {
     String homeDir = System.getProperty("user.home");
@@ -936,7 +927,6 @@ public class Main extends WeakBase implements XJobExecutor,
   private int returnContinueCheck(boolean isReset) {
     if(numParasToCheck > 0) doFullTextCheck = false;
     else doFullTextCheck = true;
-//    doFullTextCheck = true;
     if(isReset) textIsChecked = false;
     return getStartOfParagraph(numCurPara);
   }
