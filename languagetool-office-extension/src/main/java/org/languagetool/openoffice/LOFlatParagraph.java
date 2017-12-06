@@ -29,7 +29,6 @@ import com.sun.star.text.TextMarkupType;
 import com.sun.star.text.XFlatParagraph;
 import com.sun.star.text.XFlatParagraphIterator;
 import com.sun.star.text.XFlatParagraphIteratorProvider;
-import com.sun.star.uno.Exception;
 import com.sun.star.uno.UnoRuntime;
 import com.sun.star.uno.XComponentContext;
 
@@ -41,100 +40,132 @@ import com.sun.star.uno.XComponentContext;
  */
 public class LOFlatParagraph {
   
-  private final XFlatParagraphIterator xFlatParaIter;
-  private final XFlatParagraph xFlatPara;
+  private XFlatParagraphIterator xFlatParaIter = null;
+  private XFlatParagraph xFlatPara = null;
   
-  LOFlatParagraph(XComponentContext xContext) throws Exception {
+  LOFlatParagraph(XComponentContext xContext) {
     xFlatParaIter = getXFlatParagraphIterator(xContext);
     xFlatPara = getFlatParagraph(xFlatParaIter);
   }
 
-  private static XDesktop getCurrentDesktop(XComponentContext xContext) throws Exception {
-    if (xContext == null) return null;
-    XMultiComponentFactory xMCF = UnoRuntime.queryInterface(XMultiComponentFactory.class,
-            xContext.getServiceManager());
-    if (xMCF == null) return null;
-    Object desktop = xMCF.createInstanceWithContext("com.sun.star.frame.Desktop", xContext);
-    if (desktop == null) return null;
-    return UnoRuntime.queryInterface(XDesktop.class, desktop);
+  private static XDesktop getCurrentDesktop(XComponentContext xContext) {
+    try {
+      if (xContext == null) return null;
+      XMultiComponentFactory xMCF = UnoRuntime.queryInterface(XMultiComponentFactory.class,
+              xContext.getServiceManager());
+      if (xMCF == null) return null;
+      Object desktop = xMCF.createInstanceWithContext("com.sun.star.frame.Desktop", xContext);
+      if (desktop == null) return null;
+      return UnoRuntime.queryInterface(XDesktop.class, desktop);
+    } catch (Exception e) {
+      return null;
+    }
   }
 
   /** Returns the current XComponent */
-  private static XComponent getCurrentComponent(XComponentContext xContext) throws Exception {
-    XDesktop xdesktop = getCurrentDesktop(xContext);
-    if(xdesktop == null) return null;
-    else return xdesktop.getCurrentComponent();
+  private static XComponent getCurrentComponent(XComponentContext xContext) {
+    try {
+      XDesktop xdesktop = getCurrentDesktop(xContext);
+      if(xdesktop == null) return null;
+      else return xdesktop.getCurrentComponent();
+    } catch (Exception e) {
+      return null;
+    }
   }
     
   /** Returns XFlatParagraphIterator */
-  private static XFlatParagraphIterator getXFlatParagraphIterator (XComponentContext xContext) throws Exception {
-    XComponent xCurrentComponent = getCurrentComponent(xContext);
-    if(xCurrentComponent == null) return null;
-    XFlatParagraphIteratorProvider xFlatParaItPro 
-        = UnoRuntime.queryInterface(XFlatParagraphIteratorProvider.class, xCurrentComponent);
-    if(xFlatParaItPro == null) return null;
-    return xFlatParaItPro.getFlatParagraphIterator(TextMarkupType.PROOFREADING, true);
+  private static XFlatParagraphIterator getXFlatParagraphIterator (XComponentContext xContext) {
+    try {
+      XComponent xCurrentComponent = getCurrentComponent(xContext);
+      if(xCurrentComponent == null) return null;
+      XFlatParagraphIteratorProvider xFlatParaItPro 
+          = UnoRuntime.queryInterface(XFlatParagraphIteratorProvider.class, xCurrentComponent);
+      if(xFlatParaItPro == null) return null;
+      return xFlatParaItPro.getFlatParagraphIterator(TextMarkupType.PROOFREADING, true);
+    } catch (Exception e) {
+      return null;
+    }
   }
   
   /** Returns FlatParagraph */
   private static XFlatParagraph getFlatParagraph(XFlatParagraphIterator xFlatParaIter) {
-    if(xFlatParaIter == null) return null;
-    return xFlatParaIter.getLastPara();
+    try {
+      if(xFlatParaIter == null) return null;
+      return xFlatParaIter.getLastPara();
+    } catch (Exception e) {
+      return null;
+    }
   }
     
   /** Is FlatParagraph from Automatic Iteration */
-  public boolean isFlatParaFromIter() throws IllegalArgumentException {
-    if(xFlatParaIter == null || xFlatPara == null) return false;
-    if(xFlatParaIter.getParaBefore(xFlatPara) != null 
-        || xFlatParaIter.getParaAfter(xFlatPara) != null) return true;
-    return false;
+  public boolean isFlatParaFromIter() {
+    try {
+      if(xFlatParaIter == null || xFlatPara == null) return false;
+      if(xFlatParaIter.getParaBefore(xFlatPara) != null 
+          || xFlatParaIter.getParaAfter(xFlatPara) != null) return true;
+      return false;
+    } catch (Exception e) {
+      return false;
+    }
   }
 
   /** Returns Current Paragraph Number from FlatParagaph */
-  public int getCurNumFlatParagraphs() throws IllegalArgumentException {
-    if(xFlatParaIter == null || xFlatPara == null) return -1;
-    int pos = -1;
-    XFlatParagraph tmpXFlatPara = xFlatPara;
-    while (tmpXFlatPara != null) {
-      tmpXFlatPara = xFlatParaIter.getParaBefore(tmpXFlatPara);
-      pos++;
+  public int getCurNumFlatParagraphs() {
+    try {
+      if(xFlatParaIter == null || xFlatPara == null) return -1;
+      int pos = -1;
+      XFlatParagraph tmpXFlatPara = xFlatPara;
+      while (tmpXFlatPara != null) {
+        tmpXFlatPara = xFlatParaIter.getParaBefore(tmpXFlatPara);
+        pos++;
+      }
+      return pos;
+    } catch (Exception e) {
+      return -1;
     }
-    return pos;
   }
 
   /** Returns Text of all FlatParagraphs of Document */
-  public List<String> getAllFlatParagraphs() throws IllegalArgumentException {
-    List<String> allParas = new ArrayList<>();
-    if(xFlatParaIter == null || xFlatPara == null) return allParas;
-    XFlatParagraph tmpFlatPara = xFlatPara;
-    while (tmpFlatPara != null) {
-      allParas.add(0, tmpFlatPara.getText());
-      tmpFlatPara = xFlatParaIter.getParaBefore(tmpFlatPara);
+  public List<String> getAllFlatParagraphs() throws IllegalArgumentException, Exception {
+    try {
+      List<String> allParas = new ArrayList<>();
+      if(xFlatParaIter == null || xFlatPara == null) return null;
+      XFlatParagraph tmpFlatPara = xFlatPara;
+      while (tmpFlatPara != null) {
+        allParas.add(0, tmpFlatPara.getText());
+        tmpFlatPara = xFlatParaIter.getParaBefore(tmpFlatPara);
+      }
+      tmpFlatPara = xFlatParaIter.getParaAfter(xFlatPara);
+      while (tmpFlatPara != null) {
+        allParas.add(tmpFlatPara.getText());
+        tmpFlatPara = xFlatParaIter.getParaAfter(tmpFlatPara);
+      }
+      return allParas;
+    } catch (Exception e) {
+      return null;
     }
-    tmpFlatPara = xFlatParaIter.getParaAfter(xFlatPara);
-    while (tmpFlatPara != null) {
-      allParas.add(tmpFlatPara.getText());
-      tmpFlatPara = xFlatParaIter.getParaAfter(tmpFlatPara);
-    }
-    return allParas;
   }
 
   /** Returns Number of all FlatParagraphs of Document / Returns < 0 on Error  */
-  public int getNumberOfAllFlatPara() throws IllegalArgumentException {
-    if(xFlatParaIter == null || xFlatPara == null) return -1;
-    XFlatParagraph tmpFlatPara = xFlatPara;
-    int num = 0;
-    while (tmpFlatPara != null) {
-      tmpFlatPara = xFlatParaIter.getParaBefore(tmpFlatPara);
-      num++;
+  public int getNumberOfAllFlatPara() {
+    try {
+      if(xFlatParaIter == null || xFlatPara == null) return -1;
+      XFlatParagraph tmpFlatPara = xFlatPara;
+      int num = 0;
+      while (tmpFlatPara != null) {
+        tmpFlatPara = xFlatParaIter.getParaBefore(tmpFlatPara);
+        num++;
+      }
+      tmpFlatPara = xFlatPara;
+      num--;
+      while (tmpFlatPara != null) {
+        tmpFlatPara = xFlatParaIter.getParaAfter(tmpFlatPara);
+        num++;
+      }
+      return num;
+    } catch (Exception e) {
+      return -1;
     }
-    tmpFlatPara = xFlatPara;
-    num--;
-    while (tmpFlatPara != null) {
-      tmpFlatPara = xFlatParaIter.getParaAfter(tmpFlatPara);
-      num++;
-    }
-    return num;
   }
   
 }
