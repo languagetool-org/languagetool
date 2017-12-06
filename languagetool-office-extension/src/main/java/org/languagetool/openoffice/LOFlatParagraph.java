@@ -21,6 +21,8 @@ package org.languagetool.openoffice;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.jetbrains.annotations.Nullable;
+
 import com.sun.star.frame.XDesktop;
 import com.sun.star.lang.IllegalArgumentException;
 import com.sun.star.lang.XComponent;
@@ -48,6 +50,11 @@ public class LOFlatParagraph {
     xFlatPara = getFlatParagraph(xFlatParaIter);
   }
 
+  /**
+   * Returns the current XDesktop
+   * Returns null if it fails
+   */
+  @Nullable
   private static XDesktop getCurrentDesktop(XComponentContext xContext) {
     try {
       if (xContext == null) return null;
@@ -62,7 +69,11 @@ public class LOFlatParagraph {
     }
   }
 
-  /** Returns the current XComponent */
+  /** 
+   * Returns the current XComponent 
+   * Returns null if it fails
+   */
+  @Nullable
   private static XComponent getCurrentComponent(XComponentContext xContext) {
     try {
       XDesktop xdesktop = getCurrentDesktop(xContext);
@@ -73,7 +84,11 @@ public class LOFlatParagraph {
     }
   }
     
-  /** Returns XFlatParagraphIterator */
+  /**
+   * Returns XFlatParagraphIterator 
+   * Returns null if it fails
+   */
+  @Nullable
   private static XFlatParagraphIterator getXFlatParagraphIterator (XComponentContext xContext) {
     try {
       XComponent xCurrentComponent = getCurrentComponent(xContext);
@@ -87,7 +102,11 @@ public class LOFlatParagraph {
     }
   }
   
-  /** Returns FlatParagraph */
+  /**
+   * Returns FlatParagraph
+   * Returns null if it fails
+   */
+  @Nullable
   private static XFlatParagraph getFlatParagraph(XFlatParagraphIterator xFlatParaIter) {
     try {
       if(xFlatParaIter == null) return null;
@@ -97,7 +116,10 @@ public class LOFlatParagraph {
     }
   }
     
-  /** Is FlatParagraph from Automatic Iteration */
+  /**
+   * is true if FlatParagraph is from Automatic Iteration
+   * else is false and at failure
+   */
   public boolean isFlatParaFromIter() {
     try {
       if(xFlatParaIter == null || xFlatPara == null) return false;
@@ -109,7 +131,10 @@ public class LOFlatParagraph {
     }
   }
 
-  /** Returns Current Paragraph Number from FlatParagaph */
+  /**
+   * Returns Current Paragraph Number from FlatParagaph
+   * Returns -1 if it fails
+   */
   public int getCurNumFlatParagraphs() {
     try {
       if(xFlatParaIter == null || xFlatPara == null) return -1;
@@ -125,7 +150,11 @@ public class LOFlatParagraph {
     }
   }
 
-  /** Returns Text of all FlatParagraphs of Document */
+  /**
+   * Returns Text of all FlatParagraphs of Document
+   * Returns null if it fails
+   */
+  @Nullable
   public List<String> getAllFlatParagraphs() throws IllegalArgumentException, Exception {
     try {
       List<String> allParas = new ArrayList<>();
@@ -146,7 +175,10 @@ public class LOFlatParagraph {
     }
   }
 
-  /** Returns Number of all FlatParagraphs of Document / Returns < 0 on Error  */
+  /**
+   * Returns Number of all FlatParagraphs of Document
+   * Returns negative value if it fails
+   */
   public int getNumberOfAllFlatPara() {
     try {
       if(xFlatParaIter == null || xFlatPara == null) return -1;

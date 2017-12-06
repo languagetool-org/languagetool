@@ -21,6 +21,8 @@ package org.languagetool.openoffice;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.jetbrains.annotations.Nullable;
+
 import com.sun.star.frame.XController;
 import com.sun.star.frame.XDesktop;
 import com.sun.star.frame.XModel;
@@ -53,7 +55,9 @@ class LOCursor {
 
   /**
    * Returns the current XDesktop
+   * Returns null if it fails
    */
+  @Nullable
   private static XDesktop getCurrentDesktop(XComponentContext xContext) {
     try {
       if (xContext == null) return null;
@@ -68,7 +72,11 @@ class LOCursor {
     }
   }
 
-  /** Returns the current XComponent */
+  /**
+   * Returns the current XComponent
+   * Returns null if it fails
+   */
+  @Nullable
   private static XComponent getCurrentComponent(XComponentContext xContext) {
     try {
       XDesktop xdesktop = getCurrentDesktop(xContext);
@@ -79,7 +87,11 @@ class LOCursor {
     }
   }
     
-  /** Returns the current text document (if any) */
+  /**
+   * Returns the current text document (if any) 
+   * Returns null if it fails
+   */
+  @Nullable
   private static XTextDocument getCurrentDocument(XComponentContext xContext) {
     try {
       XComponent curcomp = getCurrentComponent(xContext);
@@ -90,7 +102,11 @@ class LOCursor {
     }
 }
 
-  /** Returns the text cursor (if any) */
+  /** 
+   * Returns the text cursor (if any)
+   * Returns null if it fails
+   */
+  @Nullable
   private static XTextCursor getCursor(XComponentContext xContext) {
     try {
       XTextDocument curdoc = getCurrentDocument(xContext);
@@ -103,7 +119,11 @@ class LOCursor {
     }
 }
 
-  /** Returns ParagraphCursor from TextCursor */
+  /** 
+   * Returns ParagraphCursor from TextCursor 
+   * Returns null if it fails
+   */
+  @Nullable
   private static XParagraphCursor getParagraphCursor(XComponentContext xContext) {
     try {
       XTextCursor xcursor = getCursor(xContext);
@@ -114,7 +134,11 @@ class LOCursor {
     }
 }
   
-  /** Returns ViewCursor */
+  /** 
+   * Returns ViewCursor 
+   * Returns null if it fails
+   */
+  @Nullable
   private static XTextViewCursor getViewCursor(XComponentContext xContext) {
     try {
       XDesktop xDesktop = getCurrentDesktop(xContext);
@@ -134,7 +158,10 @@ class LOCursor {
     }
 }
 
- /** Returns Number of all Paragraphs of Document without footnotes etc.  */
+ /** 
+  * Returns Number of all Paragraphs of Document without footnotes etc.  
+   * Returns 0 if it fails
+  */
   public int getNumberOfAllTextParagraphs() {
     try {
       if (xPCursor == null) return 0;
@@ -147,7 +174,11 @@ class LOCursor {
     }
 }
 
-  /** Returns all Paragraphs of Document without footnotes etc.  */
+  /** 
+   * Returns all Paragraphs of Document without footnotes etc.  
+   * Returns null if it fails
+   */
+  @Nullable
   public List<String> getAllTextParagraphs() {
     try {
       List<String> allParas = new ArrayList<>();
@@ -167,7 +198,10 @@ class LOCursor {
     }
  }
 
-  /** Returns Paragraph number under ViewCursor */
+  /** 
+   * Returns Paragraph number under ViewCursor 
+   * Returns a negative value if it fails
+   */
   public int getViewCursorParagraph() {
     try {
       if(xVCursor == null) return -4;
@@ -185,7 +219,6 @@ class LOCursor {
       return -1;
     }
   }
-
   
 }
   
