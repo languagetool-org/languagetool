@@ -14325,9 +14325,8 @@ USA
     <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
       <pattern>
           <token>the</token>
-          <token regexp="yes">person|guy|chap|one</token>
+          <token regexp="yes" skip="-1">person|guy|chap|one</token>
     <!-- Singular only -->
-          <token skip="-1"/>
           <token skip="-1">need</token>
     <!-- Present tense only-->
         <marker>
@@ -14336,7 +14335,7 @@ USA
           <token>team</token>
         </marker>
       </pattern>
-      <message>The usual preposition for "team" is "on" not "in".  Revise: <suggestion>on \6 \7</suggestion>.</message>
+      <message>The usual preposition for "team" is "on" not "in".  Revise: <suggestion>on \5 \6</suggestion>.</message>
       <example correction='on his team'>I’m the one Frank Catania need <marker>in his team</marker>.</example>
     </rule>
     <rule id='ADDICTION_TO_OF' name='Collocation: addiction to/of'>
@@ -14348,6 +14347,69 @@ USA
       </pattern>
       <message>The usual preposition for \1 is "to." Did you mean, <suggestion>\1 to \3</suggestion>?</message>
       <example correction='addiction to drugs'>I would like to work with people who have an <marker>addiction of drugs</marker>.</example>
+    </rule>
+    <rule id='ON_IN_CHARGE_OF' name='Collocation: on/in charge of'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token regexp="yes">is|was</token>
+          <token regexp='yes'>an?|the</token>
+          <token>person</token>
+          <token>on</token>
+          <token>charge</token>
+          <token regexp="yes">of|to</token>
+      </pattern>
+      <message>The usual preposition for \5 is "in." Did you mean, <suggestion>\1 \2 \3 in charge of</suggestion>?</message>
+      <example correction='is the person in charge of'>Julie <marker>is the person on charge to</marker> the security.</example>
+    </rule>
+    <!--rule> XXX Because I only think about the summer season, I only work for the summer holidays. XXX This is correct. Enable only after improvement.
+      <pattern>
+          <token>for</token>
+          <token regexp='yes'>an?|the</token>
+          <token regexp="yes">winter|spring|summer|fall</token>
+          <token regexp="yes">vacation|holiday|holidays</token>
+      </pattern>
+      <message>The usual preposition for \4 is "during." Did you mean, <suggestion>during the \3 \4</suggestion>?</message>
+      <example correction='during the summer holidays'>I work only <marker>for the summer holidays</marker>.</example>
+    </rule>
+    <rule id='XXXXX' name='Collocation: '>
+    < Created by Nicholas Walker (Bokomaru), 2017-11-14 >
+      <pattern>
+          <token>when</token>
+          <token/>
+          <token inflected="yes">be</token>
+          <token>in</token>
+          <token regexp="yes">vacation|holiday</token>
+      </pattern>
+      <message>The usual preposition for \5 is "on." Did you mean, <suggestion>\1 \2 \3 on \5</suggestion>?</message>
+      <example correction=''><marker></marker>I work only for the summer holidays.</example>
+    </rule-->
+    <rule id='IN_AT_A_PARTY' name='Collocation: in/at a party'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token>in</token>
+          <token>a</token>
+          <token>party</token>
+      </pattern>
+      <message>Unless you mean "in a political party," the usual preposition for a party is "at." Did you mean, <suggestion>at a party</suggestion>?</message>
+      <example correction='at a party'>Later, I started working as a Research Assistant in university projects again, where I met her <marker>in a party</marker>.</example>
+    </rule>
+    <rule id='WORK_IN_ON_A_PROJECT' name='Collocation: '>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token postag_regexp="yes" postag="PRP|NNP"/>
+          <token>started</token>
+        <marker>
+          <token regexp="yes">work|working</token>
+          <token min='0'>as</token>
+          <token min='0'>a</token>
+          <token min='0' max='2' postag_regexp="yes" postag="NN(:UN?)?"/>
+          <token>in</token>
+          <token postag_regexp="yes" postag="JJ|NN(:UN?)?"/>
+          <token>projects</token>
+        </marker>
+      </pattern>
+      <message>The usual preposition for "\3...projects" is "on". Did you mean, <suggestion>\3 <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/> <match no='6' include_skipped='all'/> on \8 projects</suggestion>?</message>
+      <example correction='working as a Research Assistant on university projects'>Later, I started <marker>working as a Research Assistant in university projects</marker> again.</example>
     </rule>
   </rulegroup>
 
