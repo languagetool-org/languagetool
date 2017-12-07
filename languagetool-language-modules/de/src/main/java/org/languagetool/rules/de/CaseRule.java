@@ -249,7 +249,7 @@ public class CaseRule extends Rule {
        // "Das Aus für Italien kam unerwartet."
        token("das"),
        csToken("Aus"),
-       posRegex("^PRP:.+")
+       posRegex("^PRP:.+|VER:[1-3]:.+")
      ),
      Arrays.asList(
        // "Bündnis 90/Die Grünen"
