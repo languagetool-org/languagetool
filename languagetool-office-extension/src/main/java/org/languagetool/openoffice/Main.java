@@ -941,7 +941,7 @@ public class Main extends WeakBase implements XJobExecutor,
   /**
    * Reset allParas
    */
-  private void ResetAllParas(LOCursor loCursor) {
+  private void ResetAllParas(LOCursor loCursor) throws Exception {
     allParas = loCursor.getAllTextParagraphs();
     textIsChecked = false;
   }
@@ -993,6 +993,7 @@ public class Main extends WeakBase implements XJobExecutor,
    */
   private int findNextParaPos(int startPara, String paraStr) {
     if (allParas == null || allParas.size() < 1) return -1;
+    if (startPara >= allParas.size() || startPara < 0) startPara = 0;
     int i;
     for (i = startPara + 1; i < allParas.size() && allParas.get(i).length() < 1; i++);
     if (i < allParas.size() && paraStr.equals(allParas.get(i))) return i;
