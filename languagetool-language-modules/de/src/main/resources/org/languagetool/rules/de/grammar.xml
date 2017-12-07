@@ -10853,42 +10853,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Er hat sie <marker>dann im Stich</marker> gelassen.</example>
             </rule>-->
         </rulegroup>
-        <rulegroup id="UND_UNS" name="Möglicher Tippfehler: 'und (uns)'">
-    <!-- TODO Wir treffen und um fünf Uhr. -->
-    <rule>
-        <pattern>
-            <token>wir</token>
-            <marker>
-                <token>und</token>
-            </marker>
-            <token min="0" max="1"><exception>uns</exception><exception>,</exception><exception postag="VER:1:PLU:.*|.*NOM.*" postag_regexp="yes"/></token>
-            <token postag="VER:1:PLU:.*" postag_regexp="yes"><exception negate="yes" postag="VER:.*" postag_regexp="yes"/></token>
-        </pattern>
-        <message>Meinten Sie <suggestion>uns</suggestion>?</message>
-        <short>Möglicher Tippfehler</short>
-        <example type="incorrect" correction="uns">Ich wollte, dass wir <marker>und</marker> treffen.</example>
-        <example type="correct">Ich wollte, dass wir <marker>uns</marker> treffen.</example>
-        <example type="correct">Ich wollte, dass wir <marker>und Max uns</marker> treffen.</example>
-        <example type="correct">Können wir <marker>und</marker> Max morgen kommen?</example>
-    </rule>
-    <rule>
-        <pattern>
-            <token>wir</token>
-            <marker>
-                <token>und</token>
-            </marker>
-            <token><exception>uns</exception><exception>,</exception><exception postag="VER:1:PLU:.*|.*NOM.*" postag_regexp="yes"/></token>
-            <token min="0" max="5"><exception>uns</exception><exception>,</exception><exception postag="VER:1:PLU:.*" postag_regexp="yes"/></token>
-            <token postag="VER:1:PLU:.*" postag_regexp="yes"><exception negate="yes" postag="VER:.*" postag_regexp="yes"/></token>
-        </pattern>
-        <message>Meinten Sie <suggestion>uns</suggestion>?</message>
-        <short>Möglicher Tippfehler</short>
-        <example type="incorrect" correction="uns">Ich wollte, dass wir <marker>und</marker> um 16 Uhr treffen.</example>
-        <example type="correct">Ich wollte, dass wir <marker>uns</marker> um 16 Uhr treffen.</example>
-        <example type="correct">Ich wollte, dass wir <marker>und Max uns</marker> treffen.</example>
-        <example type="correct">Können wir <marker>und</marker> Max morgen kommen?</example>
-    </rule>
-</rulegroup>
         <rule id="DOPPELUNG_MODALVERB" name="Wiederholdung von Modalverben">
             <antipattern>
                 <token>können</token>
