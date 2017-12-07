@@ -160,7 +160,7 @@ public abstract class Language {
   /**
    * @param indexDir directory with a subdirectories like 'en', each containing dictionary.txt and final_embeddings.txt
    * @return a {@link Word2VecModel} or {@code null} if this language doesn't support one
-   * @since 3.10
+   * @since 4.0
    */
   @Nullable
   public Word2VecModel getWord2VecModel(File indexDir) throws IOException {
@@ -170,7 +170,7 @@ public abstract class Language {
   /**
    * Get a list of rules that require a {@link Word2VecModel}. Returns an empty list for
    * languages that don't have such rules.
-   * @since 3.10
+   * @since 4.0
    */
   public List<Rule> getRelevantWord2VecModelRules(ResourceBundle messages, Word2VecModel word2vecModel) throws IOException {
     return Collections.emptyList();

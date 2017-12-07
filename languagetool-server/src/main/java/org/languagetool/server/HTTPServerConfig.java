@@ -313,7 +313,7 @@ public class HTTPServerConfig {
 
   /**
    * Get word2vec model directory (which contains 'en' sub directories and final_embeddings.txt and dictionary.txt) or {@code null}.
-   * @since 3.10
+   * @since 4.0
    */
   @Nullable
   File getWord2VecModelDir() {

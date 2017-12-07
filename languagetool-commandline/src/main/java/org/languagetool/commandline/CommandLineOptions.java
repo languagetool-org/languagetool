@@ -240,7 +240,7 @@ public class CommandLineOptions {
 
   /**
    * @return a directory with a word2vec language model for use with neural network rules in sub directories like ({@code en}), or {@code null}
-   * @since 3.10
+   * @since 4.0
    */
   @Nullable
   public File getWord2VecModel() {
@@ -248,7 +248,7 @@ public class CommandLineOptions {
   }
 
   /**
-   * @since 3.10
+   * @since 4.0
    */
   public void setWord2VecModel(File neuralNetworkLanguageModel) {
     this.word2vecModel = neuralNetworkLanguageModel;

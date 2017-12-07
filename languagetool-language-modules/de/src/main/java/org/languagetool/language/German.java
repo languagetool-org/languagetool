@@ -246,7 +246,7 @@ public class German extends Language implements AutoCloseable {
     );
   }
 
-  /** @since 3.10 */
+  /** @since 4.0 */
   @Override
   public List<Rule> getRelevantWord2VecModelRules(ResourceBundle messages, Word2VecModel word2vecModel) throws IOException {
     return NeuralNetworkRuleCreator.createRules(messages, this, word2vecModel);

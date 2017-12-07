@@ -198,13 +198,13 @@ public class Portuguese extends Language implements AutoCloseable {
     );
   }
 
-  /** @since 3.10 */
+  /** @since 4.0 */
   @Override
   public synchronized Word2VecModel getWord2VecModel(File indexDir) throws IOException {
     return new Word2VecModel(indexDir + File.separator + getShortCode());
   }
 
-  /** @since 3.10 */
+  /** @since 4.0 */
   @Override
   public List<Rule> getRelevantWord2VecModelRules(ResourceBundle messages, Word2VecModel word2vecModel) throws IOException {
     return NeuralNetworkRuleCreator.createRules(messages, this, word2vecModel);

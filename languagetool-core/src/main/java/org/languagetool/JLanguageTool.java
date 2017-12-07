@@ -336,7 +336,7 @@ public class JLanguageTool {
   /**
    * Activate rules that depend on a word2vec language model.
    * @param indexDir directory with a subdirectories like 'en', each containing dictionary.txt and final_embeddings.txt
-   * @since 3.10
+   * @since 4.0
    */
   public void activateWord2VecModelRules(File indexDir) throws IOException {
     Word2VecModel word2vecModel = language.getWord2VecModel(indexDir);
