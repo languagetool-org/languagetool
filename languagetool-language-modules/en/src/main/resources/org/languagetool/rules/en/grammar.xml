@@ -3191,6 +3191,43 @@ USA
             <example correction="sparkling wine">I love <marker>sparking wine</marker>.</example>
             <example>I hate sparkling wine.</example>
         </rule>
+        <rulegroup id="THROWS_THROES" name="throws (throes)">
+            <rule>
+                <pattern>
+                    <token regexp="yes">final|first|last|death</token>
+                    <marker><token>throws</token></marker>
+                </pattern>
+                <message>Did you mean <suggestion>throes</suggestion> (= a painful struggle)?</message>
+                <example correction="throes">He was in the final <marker>throws</marker> of death.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token skip="1">the</token>
+                    <marker><token>throws</token></marker>
+                    <token>of</token>
+                </pattern>
+                <message>Did you mean <suggestion>throes</suggestion> (= a painful struggle)?</message>
+                <example correction="throes">The country is still in the <marker>throws</marker> of major crisis.</example>
+            </rule>
+        </rulegroup>
+        <rule id="THOUGH_THROUGH" name="though (through)">
+            <pattern>
+                <token inflected="yes">read</token>
+                <marker><token>though</token></marker>
+            </pattern>
+            <message>Did you mean <suggestion>through</suggestion>?</message>
+            <short>Possible typo</short>
+            <example correction="through">You should read <marker>though</marker> this cpntract.</example>
+        </rule>
+        <rule id="ENVELOPE_ENVELOP" name="envelope (envelop)">
+            <pattern>
+                <marker><token>envelope</token></marker>
+                <token postag="PRP.?" postag_regexp="yes"/>
+            </pattern>
+            <message>Did you mean the verb <suggestion>envelop</suggestion>?</message>
+            <short>Possible typo</short>
+            <example correction="envelop">The smell started to <marker>envelope</marker> me.</example>
+        </rule>
         <rule id="VERY_MATCH" name="very match (much)">
             <pattern>
                 <token>you</token>
@@ -15008,6 +15045,23 @@ USA
                 <short>Punctuation error</short>
                 <example>Who's responsible for providing public facilities, <marker>i.e.,</marker> a post office, library, etc. for the Northwest?</example>
                 <example correction="i.e.">Who's responsible for providing public facilities, <marker>i. e.</marker>, a post office, library, etc. for the Northwest?</example>
+            </rule>
+        </rulegroup>
+        <rulegroup name="space in 'o´clock'" id="O_CLOCK">
+            <rule>
+                <antipattern case_sensitive="yes">
+                    <token>o</token>
+                    <token spacebefore="no" regexp="yes">['’´]</token>
+                    <token spacebefore="no">clock</token>
+                </antipattern>
+                <pattern case_sensitive="yes">
+                    <token>o</token>
+                    <token regexp="yes">['´]</token>
+                    <token spacebefore="yes">clock</token>
+                </pattern>
+                <message>There should be no space here: <suggestion>o\2clock</suggestion>.</message>
+                <short>Punctuation error</short>
+                <example correction="o'clock">They meet at 2 <marker>o' clock</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup default="off" id="COMMA_BEFORE_AND" name="Missing comma before 'and, or, nor, yet, so, but' (inclompete)">
