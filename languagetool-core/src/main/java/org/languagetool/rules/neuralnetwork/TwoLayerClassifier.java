@@ -10,8 +10,8 @@ public class TwoLayerClassifier implements Classifier {
   private final Matrix W_fc2;
   private final Matrix b_fc2;
 
-  public TwoLayerClassifier(Dictionary dictionary, Matrix embedding, InputStream W1, InputStream b1, InputStream W2, InputStream b2) {
-    this.embedding = new Embedding(dictionary, embedding);
+  public TwoLayerClassifier(Embedding embedding, InputStream W1, InputStream b1, InputStream W2, InputStream b2) {
+    this.embedding = embedding;
     W_fc1 = new Matrix(W1);
     b_fc1 = new Matrix(b1).transpose();
     W_fc2 = new Matrix(W2);

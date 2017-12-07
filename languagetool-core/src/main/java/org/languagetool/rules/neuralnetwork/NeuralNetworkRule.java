@@ -3,7 +3,6 @@ package org.languagetool.rules.neuralnetwork;
 import org.jetbrains.annotations.NotNull;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.rules.Categories;
 import org.languagetool.rules.Rule;
@@ -24,7 +23,7 @@ public class NeuralNetworkRule extends Rule {
 
   private final String id;
 
-  public NeuralNetworkRule(ResourceBundle messages, Language language, ScoredConfusionSet confusionSet, Dictionary dictionary, Matrix embedding) {
+  public NeuralNetworkRule(ResourceBundle messages, Language language, ScoredConfusionSet confusionSet, Word2VecModel word2VecModel) {
     super(messages);
     super.setCategory(Categories.TYPOS.getCategory(messages));
 
@@ -32,15 +31,19 @@ public class NeuralNetworkRule extends Rule {
     this.descriptions = confusionSet.getTokenDescriptions();
     this.minScore = confusionSet.getScore();
 
-    final InputStream W1Stream = streamFor(language, "W_fc1.txt");
-    final InputStream b1Stream = streamFor(language, "b_fc1.txt");
     try {
-      final InputStream W2Stream = streamFor(language, "W_fc2.txt");
-      final InputStream b2Stream = streamFor(language, "b_fc2.txt");
-      System.out.println("deep rule for" + confusionSet.toString());
-      classifier = new TwoLayerClassifier(dictionary, embedding, W1Stream, b1Stream, W2Stream, b2Stream);
-    } catch (RuntimeException e) {
-      classifier = new SingleLayerClassifier(dictionary, embedding, W1Stream, b1Stream);
+      final InputStream W1Stream = streamFor(word2VecModel.getPath(), "W_fc1.txt");
+      final InputStream b1Stream = streamFor(word2VecModel.getPath(), "b_fc1.txt");
+      try {
+        final InputStream W2Stream = streamFor(word2VecModel.getPath(), "W_fc2.txt");
+        final InputStream b2Stream = streamFor(word2VecModel.getPath(), "b_fc2.txt");
+        System.out.println("deep rule for" + confusionSet.toString());
+        classifier = new TwoLayerClassifier(word2VecModel.getEmbedding(), W1Stream, b1Stream, W2Stream, b2Stream);
+      } catch (FileNotFoundException e) {
+        classifier = new SingleLayerClassifier(word2VecModel.getEmbedding(), W1Stream, b1Stream);
+      }
+    } catch (FileNotFoundException e) {
+      throw new IllegalStateException("weights for confusion set " + confusionSet.toString() + " are missing");
     }
 
     this.id = createId(language);
@@ -64,9 +67,9 @@ public class NeuralNetworkRule extends Rule {
     return language.getShortCode().toUpperCase() + "_" + subjects.get(0) + "_VS_" + subjects.get(1) + "_NEURALNETWORK";
   }
 
-  private InputStream streamFor(Language language, String filename) {
+  private InputStream streamFor(File path, String filename) throws FileNotFoundException {
     String folderName = String.join("_", subjects);
-    return JLanguageTool.getDataBroker().getFromResourceDirAsStream("/" + language.getShortCode() + "/neuralnetwork/" + folderName + "/" + filename);
+    return new FileInputStream(path.getPath() + File.separator + "neuralnetwork" + File.separator + folderName + File.separator + filename);
   }
 
   public List<String> getSubjects() {

@@ -6,22 +6,18 @@ import java.io.FileNotFoundException;
 
 public class Word2VecModel {
 
-  private final Dictionary dictionary;
-  private final Matrix embedding;
+  private final Embedding embedding;
 
   private final File path;
 
   public Word2VecModel(String path) throws FileNotFoundException {
-    dictionary = new org.languagetool.rules.neuralnetwork.Dictionary(new FileInputStream(path + File.separator + "dictionary.txt"));
-    embedding = new Matrix(new FileInputStream(path + File.separator + "final_embeddings.txt"));
+    Dictionary dictionary = new org.languagetool.rules.neuralnetwork.Dictionary(new FileInputStream(path + File.separator + "dictionary.txt"));
+    Matrix embedding = new Matrix(new FileInputStream(path + File.separator + "final_embeddings.txt"));
+    this.embedding = new Embedding(dictionary, embedding);
     this.path = new File(path);
   }
 
-  public Dictionary getDictionary() {
-    return dictionary;
-  }
-
-  public Matrix getEmbedding() {
+  public Embedding getEmbedding() {
     return embedding;
   }
 

@@ -18,7 +18,7 @@ public class TwoLayerClassifierTest {
     ByteArrayInputStream b_fc1 = new ByteArrayInputStream("1\n2\n3\n4".getBytes(StandardCharsets.UTF_8.name()));
     ByteArrayInputStream W_fc2 = new ByteArrayInputStream("1 1.1\n2.2 2\n3 3.5\n4.6 4".getBytes(StandardCharsets.UTF_8.name()));
     ByteArrayInputStream b_fc2 = new ByteArrayInputStream("-1\n-2".getBytes(StandardCharsets.UTF_8.name()));
-    TwoLayerClassifier twoLayerClassifier = new TwoLayerClassifier(dictionary, embedding, W_fc1, b_fc1, W_fc2, b_fc2);
+    TwoLayerClassifier twoLayerClassifier = new TwoLayerClassifier(new Embedding(dictionary, embedding), W_fc1, b_fc1, W_fc2, b_fc2);
 
     float[] scores = twoLayerClassifier.getScores(new String[]{"foo", "bar", "foo", "foo"});
 

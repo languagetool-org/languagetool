@@ -8,8 +8,8 @@ public class SingleLayerClassifier implements Classifier {
   private final Matrix W_fc1;
   private final Matrix b_fc1;
 
-  public SingleLayerClassifier(Dictionary dictionary, Matrix embedding, InputStream WPath, InputStream bPath) {
-    this.embedding = new Embedding(dictionary, embedding);
+  public SingleLayerClassifier(Embedding embedding, InputStream WPath, InputStream bPath) {
+    this.embedding = embedding;
     W_fc1 = new Matrix(WPath);
     b_fc1 = new Matrix(bPath).transpose();
   }

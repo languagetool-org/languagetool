@@ -29,7 +29,7 @@ public abstract class NeuralNetworkRuleCreator {
 
     List<Rule> neuralNetworkRules = new ArrayList<>();
     for(ScoredConfusionSet confusionSet : confusionSets) {
-      neuralNetworkRules.add(new NeuralNetworkRule(messages, language, confusionSet, word2vecModel.getDictionary(), word2vecModel.getEmbedding()));
+      neuralNetworkRules.add(new NeuralNetworkRule(messages, language, confusionSet, word2vecModel));
     }
 
     return neuralNetworkRules;
