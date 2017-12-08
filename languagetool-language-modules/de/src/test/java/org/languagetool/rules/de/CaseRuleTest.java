@@ -113,6 +113,7 @@ public class CaseRuleTest {
     assertGood("Eine Gruppe Betrunkener singt.");
     assertGood("Bei Betreten des Hauses.");
     assertGood("Das Aus für Italien ist bitter.");
+    assertGood("Das Aus kam unerwartet.");
     assertGood("Anmeldung bis Fr. 1.12.");
     assertGood("Weil er Unmündige sexuell missbraucht haben soll, wurde ein Lehrer verhaftet.");
     assertGood("Tausende Gläubige kamen.");
