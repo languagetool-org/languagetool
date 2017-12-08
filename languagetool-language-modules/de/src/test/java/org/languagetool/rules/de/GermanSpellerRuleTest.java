@@ -198,6 +198,7 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("recourcen", "Ressourcen", rule, lt);
     assertFirstSuggestion("familliarisches", "familiäres", rule, lt);
     assertFirstSuggestion("sommerverie", "Sommerferien", rule, lt);
+    assertFirstSuggestion("thelepatie", "Telepathie", rule, lt);
   }
 
   @Test

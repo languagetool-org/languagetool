@@ -146,6 +146,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("[sS]ommerverien?", "[sS]ommerverie", "Sommerferien");
     putRepl("[rR]ecourcen?", "[rR]ec", "Ress");
     putRepl("[fF]amm?ill?i?arisch(e[mnrs]?)?", "amm?ill?i?arisch", "amiliär");
+    put("[tT]h?elepath?ie", "Telepathie");
     put("Wi-?Fi-Dire[ck]t", "Wi-Fi Direct");
     put("gans", "ganz");
     put("Pearl-Harbou?r", "Pearl Harbor");
