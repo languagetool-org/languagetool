@@ -1633,7 +1633,7 @@ USA
                     <marker>
                         <token>stationary</token>
                     </marker>
-                    <token regexp="yes">(store|shop|supplie|supply|material|supplier|cupboard)s?</token>
+                    <token regexp="yes">(store|shop|supplier?|supply|material|cupboard)s?</token>
                 </pattern>
                 <message>Did you mean <suggestion>stationery</suggestion> (= materials for writing) instead of 'stationary' (= immobile/unchanged)?</message>
                 <short>Possible typo</short>
@@ -1715,21 +1715,7 @@ USA
         <rulegroup id="I_AM_NOTE_SURE" name="I'm note (not) sure">
             <rule>
                 <pattern>
-                    <token>I</token>
-                    <token>am</token>
-                    <marker>
-                        <token>note</token>
-                    </marker>
-                    <token>sure</token>
-                </pattern>
-                <message>Did you mean <suggestion>not</suggestion>?</message>
-                <example correction="not">I am <marker>note</marker> sure.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token>I</token>
-                    <token regexp="yes">['’]</token>
-                    <token>m</token>
+                    <token inflected="yes">be</token>
                     <marker>
                         <token>note</token>
                     </marker>
@@ -1737,6 +1723,7 @@ USA
                 </pattern>
                 <message>Did you mean <suggestion>not</suggestion>?</message>
                 <example correction="not">I'm <marker>note</marker> sure.</example>
+                <example correction="not">I am <marker>note</marker> sure.</example>
             </rule>
         </rulegroup>
         <rule id="NUT_NOT" name="nut (not)">
@@ -1889,7 +1876,7 @@ USA
                 <marker>
                     <token>is</token>
                 </marker>
-                <token regexp="yes">was|wasn</token>
+                <token regexp="yes">wasn?</token>
             </pattern>
             <message>Did you mean <suggestion>it</suggestion>?</message>
             <short>Possible typo</short>
@@ -1910,7 +1897,7 @@ USA
         </rule>
         <rule id="LOOK_ATE" name="look ate (at)">
             <pattern>
-                <token>look</token>
+                <token inflected="yes" regexp="yes">look|stand</token>
                 <marker>
                     <token>ate</token>
                 </marker>
