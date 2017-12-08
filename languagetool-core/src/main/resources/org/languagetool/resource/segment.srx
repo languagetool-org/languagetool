@@ -4508,6 +4508,11 @@
 </rule>
 </languagerule>
 <languagerule languagerulename="German">
+<!--support simple lists in markdown style-->
+<rule break="yes">
+<beforebreak>\r?\n\s*[-*]+\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
 <!-- Split at e.g. "1a. Und ..." -->
 <rule break="yes">
 <beforebreak>\d+[a-z]\.\s</beforebreak>
@@ -4601,10 +4606,10 @@
 </rule>
 <rule break="no">
 <beforebreak>\d+\.\s</beforebreak>
-<afterbreak>Jan|Jän|Feb|Febr|Mär|Apr|Mai|Jun|Jul|Aug|Sep|Sept|Okt|Nov|Dez</afterbreak>
+<afterbreak>Jan|Jän|Febr?|Mär|Apr|Mai|Jun|Jul|Aug|Sept?|Okt|Nov|Dez</afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>(Jan|Jän|Feb|Febr|Mär|Apr|Mai|Jun|Jul|Aug|Sep|Sept|Okt|Nov|Dez)\.\s</beforebreak>
+<beforebreak>(Jan|Jän|Febr?|Mär|Apr|Mai|Jun|Jul|Aug|Sept?|Okt|Nov|Dez)\.\s</beforebreak>
 <afterbreak>\d\d(\d\d)?</afterbreak>
 </rule>
 <!-- ähnliche Fälle außerhalb der Monatsnamen -->
@@ -4614,7 +4619,7 @@
 </rule>
 <!-- English abbreviations - but these work globally for all languages -->
 <rule break="no">
-<beforebreak>\b(Mr|Mrs|No|pp|St|no|Sr|Jr|Bros|etc|vs|esp|[Ff]ig|Jan|Feb|Mar|Apr|Jun|Jul|Aug|Sep|Sept|Oct|Okt|Nov|Dec|PhD|al|cf|Inc|Ms|Gen|Sen|Prof|Corp|Co|Ltd)\.\s</beforebreak>
+<beforebreak>\b(Mr|Mrs|No|pp|St|no|Sr|Jr|Bros|etc|vs|esp|[Ff]ig|Jan|Feb|Mar|Apr|Jun|Jul|Aug|Sept?|Oct|Okt|Nov|Dec|PhD|al|cf|Inc|Ms|Gen|Sen|Prof|Corp|Co|Ltd)\.\s</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <!-- Latin abbreviations - but these work globally for all languages -->
