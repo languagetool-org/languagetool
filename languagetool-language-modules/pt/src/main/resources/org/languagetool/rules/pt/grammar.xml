@@ -45,7 +45,7 @@ title="Easy editing stylesheet" ?>
     <!ENTITY outros_toponimos_com_artigo "(?:Europa|A(?:lgarve|madora)|C(?:airo|aldas|ovilhã)|Figueira|Guarda|Porto|Avenida|Largo|Praceta|Rua|Terreiro)"><!-- TODO praça cause mismatched article. verufy -->
     <!ENTITY toponimos_sem_artigo "(?:A(?:lagoas|ngola|ragão)|B(?:raga|urma)|C(?:astela|oimbra|uba)|Espanha|F(?:aro|rança)|Goiás|Havana|I(?:nglaterra|tália)|Lisboa|M(?:adagáscar|arrocos|oçambique)|P(?:aris|ernambuco|ortugal)|R(?:ondônia|oraima)|S(?:ergipe|ri)|T(?:ai[uw]an|aiuã|imor)|M(?:ercúrio|arte)|Vénus|Júpiter|Saturno|Urano|Neptuno|Plutão)">
 
-    <!ENTITY precede_nome_proprio "(?:a(?:ssociação|venida)|balneário|c(?:asal?|o(?:lec?ção|ligação|meta|ncurso|ndecoração|pa)|urso)|d(?:esigna(?:ção|d[ao]s?)|istribuição)|es(?:cola|tação|tilo)|f(?:ilme|ragata|undação)|g(?:aleria|alardão|eração)|herdade|i(?:lha|mpério|niciativa|nstituto|ntitulado)|l(?:agoa?|ei|iceu|ivro)|m(?:onte|useu)|n(?:avio|ovela)|o(?:bra|rquestra)|pr(?:aça|émio|ograma|ojec?to)|quinta|r(?:egistr?o|eino|elatório|evista|io|ua)|serra|t(?:aça|eatro|ema|ipo)|universidade|versão)">
+    <!ENTITY precede_nome_proprio "(?:a(?:ssociação|venida)|balneário|c(?:a(sal?|nção)|o(?:lec?ção|ligação|meta|ncurso|ndecoração|pa)|urso)|d(?:esigna(?:ção|d[ao]s?)|istribuição)|es(?:cola|tação|tilo)|f(?:ilme|ragata|undação)|g(?:aleria|alardão|eração)|herdade|i(?:lha|mpério|niciativa|nstituto|ntitulado)|l(?:agoa?|ei|iceu|ivro)|m(?:onte|useu)|n(?:avio|ovela)|o(?:bra|rquestra)|pr(?:aça|émio|ograma|ojec?to)|quinta|r(?:egistr?o|eino|elatório|evista|io|ua)|serra|t(?:aça|eatro|ema|ipo)|universidade|versão)">
     <!ENTITY divisas "(?:euros|dólares|francos|pesos|libras|rublos|rupias|i(?:uanes|enes)|[€£¥$₽])">
 
     <!ENTITY separadores_de_oracoes "(?:[,;:…–—\(«“]|\-|\[)">
@@ -6514,6 +6514,12 @@ title="Easy editing stylesheet" ?>
       <antipattern>
           <token regexp='yes'>&quot;</token>
           <token regexp="yes" spacebefore='no'>aliás|entretanto|outrossim|pois|porém|portanto|contudo|mas|todavia</token>
+      </antipattern>
+      <antipattern>
+          <token postag='SENT_START|_PUNCT' postag_regexp='yes'/>
+          <token>pois</token>
+          <token>bem</token>
+          <token postag='_PUNCT'/>
       </antipattern>
       <pattern>
         <marker>
