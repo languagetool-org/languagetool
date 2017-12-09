@@ -14457,6 +14457,49 @@ USA
       <message>The usual preposition for this expression is "to". Did you mean, <suggestion>\1 down to</suggestion>?</message>
       <example correction='talk down to'>Don't you ever <marker>talk down about</marker> my baby boy or Kristy.</example>
     </rule>
+    <rule id='IN_ON_THE_FOOT' name='Collocation: in/on the foot'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token inflected="yes">wear</token>
+          <token postag="DT"/>
+          <token/>
+        <marker>
+          <token>in</token>
+          <token postag="PRP$"/>
+          <token inflected="yes">foot</token>
+        </marker>
+      </pattern>
+      <message>The usual preposition for feet is "on". Did you mean, <suggestion>on \5 \6</suggestion>?</message>
+      <short>Collocation error</short>
+      <example correction='on my feet'>He is wearing a crocs <marker>in my feet</marker>.</example>
+    </rule>
+    <rule id='AT_IN_THE_MORNING' name='Collocation: at/in the morning'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+        <marker>
+          <token regexp='yes'>at|on</token>
+          <token regexp='yes'>an?|the</token>
+          <token regexp="yes">morning|afternoon|evening</token>
+        </marker>
+          <token postag="SENT_END"/>
+      </pattern>
+      <message>The usual collocation for "\3" is "in". Revise: <suggestion>in the \3</suggestion>.</message>
+      <example correction='in the evening'>I like to do soccer <marker>on the evening</marker>.</example>
+    </rule>
+    <rule id='AT_OVER_THE_WEEKEND' name='Collocation: at/over the weekend'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+      <marker>
+          <token regexp='yes'>at|on</token>
+          <token regexp='yes'>an?|the</token>
+          <token>weekend</token>
+          </marker>
+          <token postag="SENT_END"/>
+      </pattern>
+      <message>The usual collocation for "\3" is "over" or "during". Revise: <suggestion>over the \3</suggestion> or <suggestion>during the \3</suggestion>.</message>
+      <url>http://learnersdictionary.com/qa/Over-the-weekend-on-the-weekend-at-the-weekend</url>
+      <example correction='over the weekend|during the weekend'>I like to do soccer <marker>on the weekend</marker>.</example>
+    </rule>
   </rulegroup>
 
     <rule id='GOOD_IN_AT_GERUND' name='Collocation: good in/at'>
