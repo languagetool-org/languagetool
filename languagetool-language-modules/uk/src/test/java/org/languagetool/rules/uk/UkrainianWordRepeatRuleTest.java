@@ -50,7 +50,7 @@ public class UkrainianWordRepeatRuleTest {
     assertEmptyMatch("1.30 3.20 3.20");
     assertEmptyMatch("ще в В.Кандинського");
     assertEmptyMatch("Від добра добра не шукають.");
-    assertEmptyMatch("Що що, а кіно в Україні...");
+    assertEmptyMatch("Що, що, а кіно в Україні...");
     assertEmptyMatch("Відповідно до ст. ст. 3, 7, 18.");
 
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("без без повного розрахунку")).length);
