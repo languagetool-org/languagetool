@@ -394,6 +394,11 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       if (!hunspellDict.misspelled(suggestion)) {
         return Collections.singletonList(suggestion);
       }
+    } else if (word.startsWith("[dD]urschnitt")) {
+      suggestion = word.replaceFirst("^urschnitt", "urchschnitt");
+      if (!hunspellDict.misspelled(suggestion)) {
+        return Collections.singletonList(suggestion);
+      }
     } else if (word.startsWith("Bundstift")) {
       suggestion = word.replaceFirst("^Bundstift", "Buntstift");
       if (!hunspellDict.misspelled(suggestion)) {

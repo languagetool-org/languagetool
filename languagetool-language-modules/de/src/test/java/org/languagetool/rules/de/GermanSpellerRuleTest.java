@@ -178,6 +178,7 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("Medallion", "Medaillon", rule, lt);
     assertFirstSuggestion("diagnosiere", "diagnostiziere", rule, lt);
     assertFirstSuggestion("diagnoziert", "diagnostiziert", rule, lt);
+    assertFirstSuggestion("durschnittliche", "durchschnittliche", rule, lt);
     assertFirstSuggestion("durchnitliche", "durchschnittliche", rule, lt);
     assertFirstSuggestion("Heileit", "Highlight", rule, lt);
     assertFirstSuggestion("todesbedrohende", "lebensbedrohende", rule, lt);
@@ -199,6 +200,7 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("familliarisches", "familiäres", rule, lt);
     assertFirstSuggestion("sommerverie", "Sommerferien", rule, lt);
     assertFirstSuggestion("thelepatie", "Telepathie", rule, lt);
+    assertFirstSuggestion("Durschnittswerte", "Durchschnittswerte", rule, lt);
   }
 
   @Test
