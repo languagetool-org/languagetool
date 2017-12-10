@@ -14500,6 +14500,69 @@ USA
       <url>http://learnersdictionary.com/qa/Over-the-weekend-on-the-weekend-at-the-weekend</url>
       <example correction='over the weekend|during the weekend'>I like to do soccer <marker>on the weekend</marker>.</example>
     </rule>
+    <rule id='GET_A_JOB_IN_WITH' name='Collocation: get a job in/with'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token inflected="yes">get</token>
+          <token regexp="yes">a|the</token>
+          <token regexp="yes">job|position</token>
+        <marker>
+          <token>in</token>
+          <token>the</token>
+          <token regexp="yes">[A-Z][A-Z]+</token><!--Acronym-->
+        </marker>
+      </pattern>
+      <message>The usual preposition for "\1 \2 \3" is "with" for an organization. Revise: <suggestion>with \5 \6</suggestion>.</message>
+      <example correction='with the SPVM'>The text is also a very important things for the people who want to get a job <marker>in the SPVM</marker>.</example>
+    </rule>
+    <rule id='PLAY_GAMES' name='Collocation: do/play game'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+        <marker>
+          <token regexp="yes" inflected="yes">go|do</token>
+          <token regexp="yes">ball|soccer|chess|tennis|golf|hockey|videogames|cards|football|basketball</token>
+        </marker>
+          <token>
+            <exception postag_regexp="yes" postag="NN(:UN?|S)?|VBG"/></token>
+      </pattern>
+      <message>The usual collocation for an activity that does not end in "-ing" and is something you can win is "play" not "do" or "go." Revise: <suggestion><match no='1' postag='V.+'>play</match> \2</suggestion>.</message>
+      <example correction='play soccer'>I like to <marker>do soccer</marker> on the weekend.</example>
+      <example correction='playing soccer'>I like <marker>doing soccer</marker> on the weekend.</example>
+    </rule>
+    <rule id='DO_ARTS' name='Collocation: go/do art'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <marker>
+          <token regexp="yes" inflected="yes">go|play</token>
+          <token regexp="yes">art|ballet|exercise|judo|karate|puzzles|taekwondo|weightlifting|yoga</token>
+          </marker>
+          <token>
+            <exception postag_regexp="yes" postag="NN(:UN?|S)?|VBG"/></token>
+      </pattern>
+      <message>The usual collocation for an activity that does not end in "-ing" and is not something you can win is "do" not "go" or "play." Revise: <suggestion><match no='1' postag='V.+'>do</match> \2</suggestion>.</message>
+      <example correction='does ballet'>My sister <marker>plays ballet</marker> at the community center.</example>
+    </rule>
+    <rule id='GO_GERUNG' name='Collocation: do/go activity'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <antipattern>
+          <token inflected="yes">be</token>
+          <token>done</token>
+          <token postag="VBG"/>
+      </antipattern>
+      <pattern>
+          <marker>
+          <token regexp="yes" inflected="yes">do|play</token>
+          <token postag="VBG">
+            <exception regexp="yes">training|marketing|lapping|engineering|nursing|weightlifting</exception></token>
+          </marker>
+          <token>
+            <exception postag_regexp="yes" postag="NN(:UN?|S)?"/></token>
+      </pattern>
+      <message>The usual collocation for an activity ending in "-ing" is "go" not "do" or "play." Revise: <suggestion><match no='1' postag='V.+'>go</match> \2</suggestion>.</message>
+      <example correction='go jogging'>Do you <marker>do jogging</marker>?</example>
+      <example correction='goes jogging'>He <marker>does jogging</marker>.</example>
+      <example>After the squad is done installing the gear.</example>
+    </rule>
   </rulegroup>
 
     <rule id='GOOD_IN_AT_GERUND' name='Collocation: good in/at'>
