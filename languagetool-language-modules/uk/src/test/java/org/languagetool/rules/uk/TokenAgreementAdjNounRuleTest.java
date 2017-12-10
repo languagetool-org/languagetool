@@ -223,6 +223,8 @@ public class TokenAgreementAdjNounRuleTest {
     assertEmptyMatch("10 жовтих площею 1,5 ");
     assertEmptyMatch("безплатні довжиною від 100 до 1000 метрів");
 
+    assertEmptyMatch("за метр кубічний води");
+
     // річних
     assertEmptyMatch("200% річних прибутку");
     

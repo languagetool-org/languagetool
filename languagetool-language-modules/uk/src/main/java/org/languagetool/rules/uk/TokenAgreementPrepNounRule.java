@@ -187,6 +187,7 @@ public class TokenAgreementPrepNounRule extends Rule {
       }
 
       Set<String> expectedCases = CaseGovernmentHelper.getCaseGovernments(prepTokenReadings, IPOSTag.prep.name());
+      expectedCases.remove("v_inf"); // we don't care about rv_inf here
       posTagsToFind.addAll(expectedCases);
       
 

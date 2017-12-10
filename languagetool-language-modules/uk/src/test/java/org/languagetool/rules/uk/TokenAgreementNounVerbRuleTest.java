@@ -309,8 +309,9 @@ public class TokenAgreementNounVerbRuleTest {
     assertEmptyMatch("Левова їхня частка працюють через російських туроператорів");
     
     //numr
-    assertEmptyMatch("понад тисяча отримали порання");
+    assertEmptyMatch("понад тисяча отримали поранення");
     assertEmptyMatch("Решта 121 депутат висловилися проти");
+    assertEmptyMatch("понад сотня отримали поранення");
     //TODO:
 //    assertEmptyMatch("Троє пілотів і 31 глядач загинули миттєво.");
   }

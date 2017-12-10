@@ -152,6 +152,15 @@ final class TokenAgreementAdjNounExceptionHelper {
       return true;
     }
 
+    // 10 метрів квадратних води
+    if( i > 3
+        && LemmaHelper.hasLemma(tokens[i-2], Pattern.compile(".*метр.*"))
+        && LemmaHelper.hasLemma(tokens[i-1], Pattern.compile("квадратний|кубічний"))
+        && PosTagHelper.hasPosTagPart(tokens[i], "v_rod") ) {
+      logException();
+      return true;
+    }
+
     // молодшого гвардії сержанта
     if( i > 1 && i < tokens.length - 1
         && tokens[i].getToken().equals("гвардії")
