@@ -183,8 +183,8 @@ public class Galician extends Language {
       // case "FINAL_STOPS":               return -75;
       // case "T-V_DISTINCTION":           return -100;
       // case "T-V_DISTINCTION_ALL":       return -101;
-      // case "REPEATED_WORDS":            return -210;
-      // case "REPEATED_WORDS_3X":         return -211;
+      case "REPEATED_WORDS":            return -210;
+      case "REPEATED_WORDS_3X":         return -211;
       case "TOO_LONG_SENTENCE_20":      return -997;
       case "TOO_LONG_SENTENCE_25":      return -998;
       case "TOO_LONG_SENTENCE_30":      return -999;
