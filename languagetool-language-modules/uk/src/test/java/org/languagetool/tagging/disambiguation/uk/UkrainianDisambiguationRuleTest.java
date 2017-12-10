@@ -77,7 +77,7 @@ public class UkrainianDisambiguationRuleTest extends DisambiguationRuleTest {
        tokenizer, sentenceTokenizer, tagger, demoDisambiguator);
 
     TestTools.myAssert("Прийшла Люба додому.", 
-      "/[null]SENT_START Прийшла/[прийти]verb:perf:past:f|Прийшла/[прийшлий]adj:f:v_kly|Прийшла/[прийшлий]adj:f:v_naz  /[null]null Люба/[Люба]noun:anim:f:v_naz:prop:fname  /[null]null додому/[додому]adv ./[null]null",
+      "/[null]SENT_START Прийшла/[прийти]verb:perf:past:f  /[null]null Люба/[Люба]noun:anim:f:v_naz:prop:fname  /[null]null додому/[додому]adv ./[null]null",
        tokenizer, sentenceTokenizer, tagger, disambiguator);
   }
 

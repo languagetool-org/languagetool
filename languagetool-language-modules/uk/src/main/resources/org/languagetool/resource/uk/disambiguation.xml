@@ -1022,6 +1022,72 @@
     <example type="untouched">принесли Києві</example>
   </rule>
 
+  <rule name="Дієслово «дій»" id="VERB_DIY">
+    <pattern>
+      <marker>
+        <token case_sensitive="yes">Дій</token>
+      </marker>
+      <token regexp="yes" min="0">["»]</token>
+      <token regexp="yes">[!—-]</token>
+    </pattern>
+    <disambig><match no="1" postag="verb.*" postag_regexp="yes"/></disambig>
+    <example type="ambiguous"
+        inputform="Дій[дія/noun:inanim:p:v_rod,діяти/verb:imperf:impr:s:2]"
+        outputform="Дій[діяти/verb:imperf:impr:s:2]"
+        >Йому кажуть: «<marker>Дій</marker>!».
+      </example>
+    <example type="untouched">З усіх дій, ці треба зробити.</example>
+  </rule>
+
+  <rule name="Іменник «дій»" id="NOUN_DIY">
+    <pattern>
+      <marker>
+        <token>дій</token>
+      </marker>
+    </pattern>
+    <disambig><match no="1" postag="noun.*" postag_regexp="yes"/></disambig>
+    <example type="ambiguous"
+        inputform="дій[дія/noun:inanim:p:v_rod,діяти/verb:imperf:impr:s:2]"
+        outputform="дій[дія/noun:inanim:p:v_rod]"
+        >Сума всіх <marker>дій</marker>.
+    </example>
+    <!--
+    <example type="untouched">Дій!</example>
+    -->
+  </rule>
+
+  <rule name="Іменник «води»" id="NOUN_VODY">
+    <pattern>
+      <marker>
+        <token>води</token>
+      </marker>
+      <token><exception postag_regexp="yes" postag="noun.*?v_rod.*?&amp;pron.*"/></token>
+    </pattern>
+    <disambig><match no="1" postag="noun.*" postag_regexp="yes"/></disambig>
+    <example type="ambiguous"
+        inputform="води[вода/noun:inanim:f:v_rod,вода/noun:inanim:p:v_naz,вода/noun:inanim:p:v_zna,водити/verb:imperf:impr:s:2]"
+        outputform="води[вода/noun:inanim:f:v_rod,вода/noun:inanim:p:v_naz,вода/noun:inanim:p:v_zna]"
+        >Не стало <marker>води</marker> у річці.
+    </example>
+    <example type="untouched">не води мене колами.</example>
+  </rule>
+
+  <rule name="Іменник «води» 2" id="NOUN_VODY_2">
+    <pattern>
+      <marker>
+        <token postag="SENT_END">води</token>
+      </marker>
+    </pattern>
+    <disambig><match no="1" postag="noun.*" postag_regexp="yes"/></disambig>
+    <example type="ambiguous"
+        inputform="води[&lt;/S&gt;,вода/noun:inanim:f:v_rod,вода/noun:inanim:p:v_naz,вода/noun:inanim:p:v_zna,водити/verb:imperf:impr:s:2]"
+        outputform="води[&lt;/S&gt;,вода/noun:inanim:f:v_rod,вода/noun:inanim:p:v_naz,вода/noun:inanim:p:v_zna]"
+        >Не стало <marker>води</marker>
+    </example>
+    <example type="untouched">не води мене колами.</example>
+  </rule>
+
+
   <!-- TOOD: redo when dictionary updated
   <rule name="Числівник, як іменник годин 1" id="NUMR_AS_HOUR_NOUN1">
     <pattern>
