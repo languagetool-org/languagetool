@@ -52,6 +52,7 @@ public class UkrainianWordRepeatRuleTest {
     assertEmptyMatch("Від добра добра не шукають.");
     assertEmptyMatch("Що, що, а кіно в Україні...");
     assertEmptyMatch("Відповідно до ст. ст. 3, 7, 18.");
+    assertEmptyMatch("Не можу сказати ні так, ні ні.");
 
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("без без повного розрахунку")).length);
     RuleMatch[] match = rule.match(langTool.getAnalyzedSentence("Верховної Ради І і ІІ скликань"));

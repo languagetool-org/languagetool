@@ -49,7 +49,7 @@ public class UkrainianWordRepeatRule extends WordRepeatRule {
     if( position > 3
         && token.equals("ні")
         && tokens[position-2].getToken().equals(",")
-        && tokens[position-1].getToken().equalsIgnoreCase("так") )
+        && tokens[position-3].getToken().equalsIgnoreCase("так") )
       return true;
 
     if( REPEAT_ALLOWED_SET.contains(token.toLowerCase()) )

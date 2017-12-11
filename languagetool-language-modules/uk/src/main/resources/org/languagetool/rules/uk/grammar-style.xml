@@ -78,10 +78,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <exception inflected="yes">один</exception>
           </token>
         </pattern>
+<!--
+    we need to convert to v_zna:rinanim, but numr does not have rianim so we'll use v_naz as a hack for now
         <message>З числівником замість «більше» краще вживати «понад», або «більше ніж/як»: <suggestion>понад <match no="2" postag="numr:p:v_zna"/></suggestion></message>
         <suggestion>більш як <match no="2" postag="numr:p:v_zna"/></suggestion>
         <suggestion>більше ніж <match no="2" postag="numr:p:v_zna"/></suggestion>
+-->
+        <message>З числівником замість «більше» краще вживати «понад», або «більше ніж/як»: <suggestion>понад <match no="2" postag="numr:p:v_naz"/></suggestion></message>
+        <suggestion>більш як <match no="2" postag="numr:p:v_naz"/></suggestion>
+        <suggestion>більше ніж <match no="2" postag="numr:p:v_naz"/></suggestion>
         <example correction="понад сто|більш як сто|більше ніж сто"><marker>більше ста</marker>.</example>
+        <example correction="понад два|понад двоє|понад дві|більш як два|більш як двоє|більш як дві|більше ніж два|більше ніж двоє|більше ніж дві"><marker>більше двох</marker>.</example>
         <example>Більше одного</example>
         <example>цюпка не більше шести кроків вдовж</example>
       </rule>

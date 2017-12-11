@@ -8,58 +8,58 @@
 
   <unification feature="number">
     <equivalence type="s">
-      <token postag=".*:[smnf]:.*" postag_regexp="yes"></token>
+      <token postag=".*?:[smnf]:.*" postag_regexp="yes"></token>
     </equivalence>
     <equivalence type="p">
-      <token postag=".*:p:.*" postag_regexp="yes"></token>
+      <token postag=".*?:p:.*" postag_regexp="yes"></token>
     </equivalence>
   </unification>
   <unification feature="gender">
     <equivalence type="f">
-      <token postag=".*:f:.*" postag_regexp="yes" />
+      <token postag=".*?:f:.*" postag_regexp="yes" />
     </equivalence>
     <equivalence type="m">
-      <token postag=".*:m:.*" postag_regexp="yes" />
+      <token postag=".*?:m:.*" postag_regexp="yes" />
     </equivalence>
     <equivalence type="n">
-      <token postag=".*:n:.*" postag_regexp="yes" />
+      <token postag=".*?:n:.*" postag_regexp="yes" />
     </equivalence>
     <equivalence type="pl">
-      <token postag=".*:p:.*" postag_regexp="yes" />
+      <token postag=".*?:p:.*" postag_regexp="yes" />
     </equivalence>
   </unification>
   <unification feature="case">
     <equivalence type="v_naz">
-      <token postag=".*:v_naz.*" postag_regexp="yes"></token>
+      <token postag=".*?:v_naz.*" postag_regexp="yes"></token>
     </equivalence>
     <equivalence type="v_rod">
-      <token postag=".*:v_rod.*" postag_regexp="yes"></token>
+      <token postag=".*?:v_rod.*" postag_regexp="yes"></token>
     </equivalence>
     <equivalence type="v_dav">
-      <token postag=".*:v_dav.*" postag_regexp="yes"></token>
+      <token postag=".*?:v_dav.*" postag_regexp="yes"></token>
     </equivalence>
     <equivalence type="v_zna">
-      <token postag=".*:v_zna.*" postag_regexp="yes"></token>
+      <token postag=".*?:v_zna.*" postag_regexp="yes"></token>
     </equivalence>
     <equivalence type="v_oru">
-      <token postag=".*:v_oru.*" postag_regexp="yes"></token>
+      <token postag=".*?:v_oru.*" postag_regexp="yes"></token>
     </equivalence>
     <equivalence type="v_mis">
-      <token postag=".*:v_mis.*" postag_regexp="yes"></token>
+      <token postag=".*?:v_mis.*" postag_regexp="yes"></token>
     </equivalence>
     <equivalence type="v_kly">
-      <token postag=".*:v_kly.*" postag_regexp="yes"></token>
+      <token postag=".*?:v_kly.*" postag_regexp="yes"></token>
     </equivalence>
   </unification>
   <unification feature="person">
     <equivalence type="pri">
-      <token postag=".*:1.*"></token>
+      <token postag=".*?:1.*"></token>
     </equivalence>
     <equivalence type="sec">
-      <token postag=".*:2.*"></token>
+      <token postag=".*?:2.*"></token>
     </equivalence>
     <equivalence type="tri">
-      <token postag=".*:3.*"></token>
+      <token postag=".*?:3.*"></token>
     </equivalence>
   </unification>
 
@@ -106,15 +106,11 @@
         >Одномандатні <marker>округи</marker>.</example>
   </rule>
 
-  <rule name="Прийменник і частка 'на'" id="DIS_PREP_NA">
+  <rule name="Прийменник і частка 'на'" id="DIS_PREP_NA1">
     <pattern>
       <token>на</token>
-      <token postag_regexp="yes" postag="(adj|noun|pron).*">
+      <token postag_regexp="yes" postag="(adj|noun).*">
         <exception>тобі</exception>
-        <!--
-          <exception postag_regexp="yes" postag="&lt;.*"/>
-          <exception postag_regexp="yes" postag="(adj|noun).*:v_naz.*|&lt;.*"/>
-        -->
       </token>
     </pattern>
     <disambig><match no="1" postag="prep.*|&lt;.*" postag_regexp="yes"/></disambig>
@@ -123,11 +119,41 @@
         outputform="На[на/prep]"><marker>На</marker> столі лежала книжка.</example>
     <example type="untouched">На тобі портфель.</example>
     <!--
-    <example type="untouched">Виносити на люди внутрішні проблеми.</example>
+    <example type="ambiguous">Виносити на люди внутрішні проблеми.</example>
     <example type="untouched">На портфель, Василю.</example>
     -->
   </rule>
-
+<!--
+  TODO: needed when we can ignore insert phrases
+  <rule name="Прийменник і частка 'на' з комою" id="DIS_PREP_NA2">
+    <pattern>
+      <token>на
+        <exception scope="previous" regexp="yes">[,—]|ось|от|тобі</exception>
+      </token>
+      <token>,</token>
+      <token>
+        <exception regexp="yes">маєш|на|тобі|це|[—–-]</exception>
+        <exception postag_regexp="yes" postag="verb.*?:impr.*"/>
+        <exception postag_regexp="yes" postag="noun.*?:v_kly.*"/>
+      </token>
+    </pattern>
+    <disambig><match no="1" postag="prep.*|&lt;.*" postag_regexp="yes"/></disambig>
+    <example type="ambiguous" 
+        inputform="На[на/intj,на/part,на/prep:rv_zna:rv_mis]" 
+        outputform="На[на/prep:rv_zna:rv_mis]"><marker>На</marker>, мабуть, вже наступний поїзд.</example>
+    <example type="untouched">На, маєш, тобі портфель.</example>
+    <example type="untouched">На, на, гризи!</example>
+    <example type="untouched">На, гризи!</example>
+    <example type="untouched">На, це тобі!</example>
+    <example type="untouched">на, небоже, що нікому не гоже</example>
+    <example type="untouched">на, бери, бери все</example>
+    <example type="untouched">треба електрозварників — на, малярів — будь ласка</example>
+    <example type="untouched">Ось на, краще поїж</example>
+    <example type="untouched">Ось на, і бувай здорова</example>
+    <example type="untouched">І от тобі на, така метаморфоза</example>
+    <example type="untouched">Ну, на, дурне, понюхай</example>
+  </rule>
+-->
   <rule name="Згідно" id="DIS_PREP_ZGIDNO_Z1">
     <pattern>
       <marker>
@@ -228,7 +254,7 @@
 
   <rule name="Однолітерні скорочення лише з малої" id="SINGLE_CHAR_ABBR_NO_CAPS">
     <pattern>
-      <token case_sensitive="yes" postag_regexp="yes" postag=".*:abbr.*" regexp="yes">[А-ЯІЇЄҐ]\.
+      <token case_sensitive="yes" postag_regexp="yes" postag=".*?:abbr.*" regexp="yes">[А-ЯІЇЄҐ]\.
         <exception postag_regexp="yes" postag=".*?[fp]name.*"/>
       </token>
     </pattern>
@@ -244,11 +270,11 @@
 <!-- 
   <rule name="Скорочення та ініціали" id="ABBR_VS_INITIALS">
     <pattern>
-      <token case_sensitive="yes" postag_regexp="yes" postag=".*:abbr.*" regexp="yes">[А-ЯІЇЄҐ]\.
+      <token case_sensitive="yes" postag_regexp="yes" postag=".*?:abbr.*" regexp="yes">[А-ЯІЇЄҐ]\.
         <exception postag_regexp="yes" postag=".*?:[fp]name.*"></exception>
       </token>
     </pattern>
-    <disambig action="remove" postag=".*:abbr.*"/>
+    <disambig action="remove" postag=".*?:abbr.*"/>
     <example type="ambiguous" 
         inputform="С.[с./noun:inanim:f:v_dav:nv:abbr,с./noun:inanim:f:v_mis:nv:abbr,с./noun:inanim:f:v_naz:nv:abbr,с./noun:inanim:f:v_oru:nv:abbr,с./noun:inanim:f:v_rod:nv:abbr,с./noun:inanim:f:v_zna:nv:abbr,с./noun:inanim:p:v_dav:nv:abbr,с./noun:inanim:p:v_mis:nv:abbr,с./noun:inanim:p:v_naz:nv:abbr,с./noun:inanim:p:v_oru:nv:abbr,с./noun:inanim:p:v_rod:nv:abbr,с./noun:inanim:p:v_zna:nv:abbr]" 
         outputform="С.[С.]"><marker>С.</marker> Макаров.</example>
@@ -349,7 +375,7 @@
       </marker>
     </pattern>
     <!--
-    <disambig action="remove"><match no="1" postag_regexp="yes" postag=".*:alt.*"></match></disambig>
+    <disambig action="remove"><match no="1" postag_regexp="yes" postag=".*?:alt.*"></match></disambig>
     -->
     <disambig action="add"><wd lemma="автор" pos="noun:inanim:m:v_naz:abbr">Авт</wd></disambig>
     <example type="ambiguous" 
@@ -481,15 +507,13 @@
     <example type="untouched">великий вибух</example>
   </rule>
 
+<!-- 
   <rule name="Вставні слова виділяються комами" id="DIS_INSERTS">
     <pattern>
       <token><exception>,</exception><exception postag="SENT_START"/></token>
       <marker>
         <token postag_regexp="yes" postag="verb.*insert.*"/>
       </marker>
-      <!--
-        <token><exception>,</exception><exception postag="SENT_END"/></token>
-      -->
     </pattern>
     <disambig><match no="1" postag="(verb.*):&amp;insert(.*)" postag_regexp="yes" postag_replace="$1$2"/></disambig>
     <example type="ambiguous" 
@@ -500,7 +524,8 @@
         outputform="сподіваюся[сподіватися/verb:rev:imperf:pres:s:1]">тому варто <marker>сподіваюся</marker>, що так буде</example>
     <example type="untouched">велике, бачиш, цабе</example>
   </rule>
-
+-->
+ 
   <!--
   <rule name="Вставні слова виділяються комами 2" id="DIS_INSERTS_2">
     <pattern>
@@ -891,7 +916,7 @@
       <marker>
         <token>ван</token>
       </marker>
-      <token postag_regexp="yes" postag=".*:lname.*"/>
+      <token postag_regexp="yes" postag=".*?:lname.*"/>
     </pattern>
     <disambig><match no="1" postag="part.*" postag_regexp="yes"/></disambig>
     <example type="ambiguous" 

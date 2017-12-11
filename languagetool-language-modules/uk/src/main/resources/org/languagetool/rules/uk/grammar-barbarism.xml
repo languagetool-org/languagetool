@@ -4265,6 +4265,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </pattern>
       <message>Правильно: <suggestion>кремнієва</suggestion></message>
       <example correction="кремнієва"><marker>силіконова</marker> долина</example>
+      <example correction="кремнієва">про яку <marker>силіконову</marker> долину йде мова</example>
       <example>силіконовому долина</example>
     </rule>
 
@@ -4558,12 +4559,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           -->
           </token>
         </antipattern>
+        <antipattern>
+          <token inflected="yes">право</token>
+          <token>на</token>
+          <token postag_regexp="yes" postag="noun:.*:v_naz.*"/>
+        </antipattern>
         <pattern>
           <marker>
             <unify>
               <feature id="number"/>
 
-              <token inflected="yes" postag_regexp="yes" negate_pos="yes" postag="verb:imperf:.*:n">бути
+              <token inflected="yes" postag_regexp="yes" negate_pos="yes" postag="verb:imperf:.*:n(:.*|$)">бути
                 <exception>суть</exception>
               </token>
               <token inflected="yes" postag_regexp="yes" postag="adj.*:v_(naz|oru).*">правий</token>
@@ -4589,6 +4595,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>у них не було права</example>
         <example>у них були права й привілеї</example>
         <example>завтра не буде права нарікати</example>
+        <example>у них не було права на смерть</example>
         <example>найважливішими є права людини</example>
       </rule>
     </rulegroup>
