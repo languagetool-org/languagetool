@@ -29,14 +29,15 @@ import java.util.ResourceBundle;
 /**
  * A rule that matches words which should not be used and suggests correct ones instead.
  * Serbian implementations. Loads the list of words from
- * <code>/sr/dictionary/jekavian/replace-grammar.txt</code>.
+ * <code>/sr/jekavian/replace-grammar.txt</code>.
  *
  * @author Zoltan Csala
+ *
  * @since 4.0
  */
 public class SimpleGrammarJekavianReplaceRule extends AbstractSimpleReplaceRule {
 
-  private static final Map<String, List<String>> wrongWords = load("/sr/dictionary/jekavian/replace-grammar.txt");
+  private static final Map<String, List<String>> wrongWords = load("/sr/jekavian/replace-grammar.txt");
   private static final Locale SR_LOCALE = new Locale("sr");  // locale used on case-conversion
 
   public SimpleGrammarJekavianReplaceRule(ResourceBundle messages) throws IOException {
@@ -50,7 +51,7 @@ public class SimpleGrammarJekavianReplaceRule extends AbstractSimpleReplaceRule 
 
   @Override
   public final String getId() {
-    return "SR_JEKAVIAN_SIMPLE_GRAMMAR_REPLACE";
+    return "SR_JEKAVIAN_SIMPLE_GRAMMAR_REPLACE_RULE";
   }
 
   @Override

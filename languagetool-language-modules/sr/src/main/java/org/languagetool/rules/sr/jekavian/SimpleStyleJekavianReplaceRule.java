@@ -29,14 +29,14 @@ import java.util.ResourceBundle;
 /**
  * A rule that matches words which should not be used and suggests correct ones instead.
  * Serbian implementations. Loads the list of words from
- * <code>/sr/replace-style.txt</code>.
+ * <code>/sr/jekavian/replace-style.txt</code>.
  *
  * @author Zoltan Csala
  * @since 4.0
  */
 public class SimpleStyleJekavianReplaceRule extends AbstractSimpleReplaceRule {
 
-  private static final Map<String, List<String>> wrongWords = load("/sr/replace-style.txt");
+  private static final Map<String, List<String>> wrongWords = load("/sr/jekavian/replace-style.txt");
   private static final Locale SR_LOCALE = new Locale("sr");  // locale used on case-conversion
 
   public SimpleStyleJekavianReplaceRule(ResourceBundle messages) throws IOException {
@@ -50,17 +50,17 @@ public class SimpleStyleJekavianReplaceRule extends AbstractSimpleReplaceRule {
 
   @Override
   public final String getId() {
-    return "SR_SIMPLE_STYLE_REPLACE";
+    return "SR_JEKAVIAN_SIMPLE_STYLE_REPLACE_RULE";
   }
 
   @Override
   public String getDescription() {
-    return "Провера стилски лоших речи или израза";
+    return "Провера стилски лоших ријечи или израза";
   }
 
   @Override
   public String getShort() {
-    return "Стилски лоша реч тј. израз";
+    return "Стилски лоша ријеч тј. израз";
   }
 
   @Override
@@ -70,7 +70,7 @@ public class SimpleStyleJekavianReplaceRule extends AbstractSimpleReplaceRule {
 
   @Override
   public String getMessage(String tokenStr, List<String> replacements) {
-    return "Уместо израза „" + tokenStr + "“ било би боље да користите: "
+    return "Умјесто израза „" + tokenStr + "“ било би боље да користите: "
             + String.join(", ", replacements) + ".";
   }
 }

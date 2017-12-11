@@ -23,6 +23,7 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Serbian;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.sr.ekavian.SimpleGrammarEkavianReplaceRule;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -33,7 +34,7 @@ public class SimpleGrammarEkavianReplaceRuleTest {
 
   @Test
   public void testRule() throws IOException {
-    SimpleGrammarReplaceRule rule = new SimpleGrammarReplaceRule(TestTools.getEnglishMessages());
+    SimpleGrammarEkavianReplaceRule rule = new SimpleGrammarEkavianReplaceRule(TestTools.getEnglishMessages());
     RuleMatch[] matches;
     JLanguageTool langTool = new JLanguageTool(new Serbian());
 

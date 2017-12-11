@@ -23,7 +23,7 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Serbian;
 import org.languagetool.rules.RuleMatch;
-
+import org.languagetool.rules.sr.ekavian.SimpleStyleEkavianReplaceRule;
 import java.io.IOException;
 import java.util.Arrays;
 
@@ -33,7 +33,7 @@ public class SimpleStyleEkavianReplaceRuleTest {
 
   @Test
   public void testRule() throws IOException {
-    SimpleStyleReplaceRule rule = new SimpleStyleReplaceRule(TestTools.getEnglishMessages());
+    SimpleStyleEkavianReplaceRule rule = new SimpleStyleEkavianReplaceRule(TestTools.getEnglishMessages());
     RuleMatch[] matches;
     JLanguageTool langTool = new JLanguageTool(new Serbian());
 

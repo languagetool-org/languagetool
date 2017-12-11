@@ -18,7 +18,7 @@
  */
 package org.languagetool.rules.sr.ekavian;
 
-import org.languagetool.Language;
+import org.languagetool.language.SerbianSerbian;
 import org.languagetool.rules.Example;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
 
@@ -27,15 +27,15 @@ import java.util.ResourceBundle;
 
 
 /** @since 4.0 */
-public class MorfologikEkavianSpellerRule extends org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule {
+public class MorfologikEkavianSpellerRule extends MorfologikSpellerRule {
 
-  public static final String RULE_ID = "MORFOLOGIK_RULE_SR_EKAVIAN";
+  public static final String RULE_ID = "SR_EKAVIAN_MORFOLOGIK_SPELLER_RULE";
 
   private static final String RESOURCE_FILENAME = "/sr/dictionary/ekavian/serbian_hunspell.dict";
 
   public MorfologikEkavianSpellerRule(
           ResourceBundle messages,
-          Language language) throws IOException {
+          SerbianSerbian language) throws IOException {
 
     super(messages, language);
     addExamplePair(

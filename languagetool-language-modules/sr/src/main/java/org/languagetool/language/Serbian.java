@@ -23,10 +23,6 @@ import org.languagetool.Language;
 import org.languagetool.LanguageMaintainedState;
 import org.languagetool.databroker.ResourceDataBroker;
 import org.languagetool.rules.*;
-import org.languagetool.synthesis.Synthesizer;
-import org.languagetool.synthesis.sr.EkavianSynthesizer;
-import org.languagetool.tagging.Tagger;
-import org.languagetool.tagging.sr.EkavianTagger;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
 
@@ -40,14 +36,14 @@ import java.util.ResourceBundle;
  *
  * Attributes common to all Serbian dialects
  *
+ * @author Zoltán Csala
+ *
  * @since 4.0
  */
 public class Serbian extends Language {
 
-  private static final Language SERBIA_SERBIAN = new SerbiaSerbian();
+  private static final Language SERBIA_SERBIAN = new SerbianSerbian();
   private SentenceTokenizer sentenceTokenizer;
-  private Tagger tagger;
-  private Synthesizer synthesizer;
 
   // Grammar rules distributed over multiple .XML files
   // We want to keep our rules small and tidy.
@@ -89,22 +85,6 @@ public class Serbian extends Language {
     return new Contributor[]{
             new Contributor("Золтан Чала (Csala, Zoltán)")
     };
-  }
-
-  @Override
-  public Tagger getTagger() {
-    if (tagger == null) {
-      tagger = new EkavianTagger();
-    }
-    return tagger;
-  }
-
-  @Override
-  public Synthesizer getSynthesizer() {
-    if (synthesizer == null) {
-      synthesizer = new EkavianSynthesizer();
-    }
-    return synthesizer;
   }
 
   @Override

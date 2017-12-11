@@ -36,7 +36,7 @@ import java.util.ResourceBundle;
  */
 public class SimpleStyleEkavianReplaceRule extends AbstractSimpleReplaceRule {
 
-  private static final Map<String, List<String>> wrongWords = load("/sr/replace-style.txt");
+  private static final Map<String, List<String>> wrongWords = load("/sr/ekavian/replace-style.txt");
   private static final Locale SR_LOCALE = new Locale("sr");  // locale used on case-conversion
 
   public SimpleStyleEkavianReplaceRule(ResourceBundle messages) throws IOException {
@@ -50,7 +50,7 @@ public class SimpleStyleEkavianReplaceRule extends AbstractSimpleReplaceRule {
 
   @Override
   public final String getId() {
-    return "SR_SIMPLE_STYLE_REPLACE";
+    return "SR_EKAVIAN_SIMPLE_STYLE_REPLACE_RULE";
   }
 
   @Override

@@ -27,11 +27,11 @@ import java.util.Arrays;
 
 import static org.junit.Assert.*;
 
-public class SerbianSynthesizerTest {
+public class EkavianSynthesizerTest {
 
   @Test
   public final void testSynthesizeString() throws IOException {
-    SerbianSynthesizer synth = new SerbianSynthesizer();
+    EkavianSynthesizer synth = new EkavianSynthesizer();
 
     // Negative test - POS tag that does not exist
     assertEquals(synth.synthesize(dummyToken("катаклингер"), "катаклингер").length, 0);
