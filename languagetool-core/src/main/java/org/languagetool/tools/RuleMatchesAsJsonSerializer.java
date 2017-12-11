@@ -140,6 +140,9 @@ public class RuleMatchesAsJsonSerializer {
     g.writeNumberField("offset", contextOffset);
     g.writeNumberField("length", match.getToPos()-match.getFromPos());
     g.writeEndObject();
+    if (match.getSentence() != null) {
+      g.writeStringField("sentence", match.getSentence().getText().trim());
+    }
   }
 
   private void writeRule(JsonGenerator g, RuleMatch match) throws IOException {

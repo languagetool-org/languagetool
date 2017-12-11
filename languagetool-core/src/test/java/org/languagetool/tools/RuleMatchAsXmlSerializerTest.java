@@ -82,7 +82,7 @@ public class RuleMatchAsXmlSerializerTest {
     List<RuleMatch> matches = new ArrayList<>();
     String text = "This is an test sentence. Here's another sentence with more text.";
     FakeRule rule = new FakeRule();
-    RuleMatch match = new RuleMatch(rule, 8, 10, "myMessage");
+    RuleMatch match = new RuleMatch(rule, null, 8, 10, "myMessage");
     match.setColumn(99);
     match.setEndColumn(100);
     match.setLine(44);
@@ -108,7 +108,7 @@ public class RuleMatchAsXmlSerializerTest {
     List<PatternToken> patternTokens = Collections.emptyList();
     Rule patternRule = new PatternRule("MY_ID", LANG, patternTokens, "my description", "my message", "short message");
     patternRule.setCategory(new Category(new CategoryId("TEST_ID"), "MyCategory"));
-    RuleMatch match = new RuleMatch(patternRule, 8, 10, "myMessage");
+    RuleMatch match = new RuleMatch(patternRule, null, 8, 10, "myMessage");
     match.setColumn(99);
     match.setEndColumn(100);
     match.setLine(44);
@@ -122,7 +122,7 @@ public class RuleMatchAsXmlSerializerTest {
             "</matches>\n"));
 
     patternRule.setCategory(new Category(new CategoryId("CAT_ID"), "MyCategory"));
-    RuleMatch match2 = new RuleMatch(patternRule, 8, 10, "myMessage");
+    RuleMatch match2 = new RuleMatch(patternRule, null, 8, 10, "myMessage");
     String xml2 = SERIALIZER.ruleMatchesToXml(Collections.singletonList(match2), text, 5, LANG, LANG);
     assertTrue(xml2.contains("category=\"MyCategory\""));
     assertTrue(xml2.contains("categoryid=\"CAT_ID\""));
@@ -132,7 +132,7 @@ public class RuleMatchAsXmlSerializerTest {
   public void testRuleMatchesWithShortMessage() throws IOException {
     List<RuleMatch> matches = new ArrayList<>();
     String text = "This is a test sentence.";
-    RuleMatch match = new RuleMatch(new FakeRule(), 8, 10, "myMessage", "short message");
+    RuleMatch match = new RuleMatch(new FakeRule(), null, 8, 10, "myMessage", "short message");
     matches.add(match);
     String xml = SERIALIZER.ruleMatchesToXml(matches, text, 5, LANG, null);
     assertTrue(xml.contains("shortmsg=\"short message\""));
@@ -147,7 +147,7 @@ public class RuleMatchAsXmlSerializerTest {
       public URL getUrl() {
         return Tools.getUrl("http://server.org?id=1&foo=bar");
       }
-    }, 8, 10, "myMessage");
+    }, null, 8, 10, "myMessage");
     match.setColumn(99);
     match.setEndColumn(100);
     match.setLine(44);
@@ -165,7 +165,7 @@ public class RuleMatchAsXmlSerializerTest {
   public void testRuleMatchesToXMLEscapeBug() throws IOException {
     List<RuleMatch> matches = new ArrayList<>();
     String text = "This is \"an test sentence. Here's another sentence with more text.";
-    RuleMatch match = new RuleMatch(new FakeRule(), 9, 11, "myMessage");
+    RuleMatch match = new RuleMatch(new FakeRule(), null, 9, 11, "myMessage");
     match.setColumn(99);
     match.setEndColumn(100);
     match.setLine(44);

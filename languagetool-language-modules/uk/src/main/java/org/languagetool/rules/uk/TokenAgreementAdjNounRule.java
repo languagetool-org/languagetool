@@ -79,9 +79,9 @@ public class TokenAgreementAdjNounRule extends Rule {
   }
 
   @Override
-  public final RuleMatch[] match(AnalyzedSentence text) {
+  public final RuleMatch[] match(AnalyzedSentence sentence) {
     List<RuleMatch> ruleMatches = new ArrayList<>();
-    AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
+    AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
 
     List<AnalyzedToken> adjTokenReadings = new ArrayList<>(); 
     AnalyzedTokenReadings adjAnalyzedTokenReadings = null;
@@ -220,7 +220,7 @@ public class TokenAgreementAdjNounRule extends Rule {
           msg += ". Можливо вжито зайве літерне нарощення після кількісного числівника?";
         }
 
-        RuleMatch potentialRuleMatch = new RuleMatch(this, adjAnalyzedTokenReadings.getStartPos(), tokenReadings.getEndPos(), msg, getShort());
+        RuleMatch potentialRuleMatch = new RuleMatch(this, sentence, adjAnalyzedTokenReadings.getStartPos(), tokenReadings.getEndPos(), msg, getShort());
         
         Synthesizer ukrainianSynthesizer = ukrainian.getSynthesizer();
         List<String> suggestions = new ArrayList<>();

@@ -971,7 +971,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rule name="Social Media" id="SOCIAL_MEDIA">
         <pattern case_sensitive="yes">
             <token>Social</token>
-            <token>Media</token>
+            <token regexp="yes">Bot|Media</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -1707,7 +1707,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <!-- http://www.korrekturen.de/wortliste/fair_play.shtml -->
         <pattern case_sensitive="yes">
             <token>Fair</token>
-            <token>Play</token>
+            <token regexp="yes">Play|Trade</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -1863,7 +1863,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rule name="Potz Blitz" id="POTZ_BLITZ">
         <pattern>
             <token>potz</token>
-            <token regexp="yes">Blitz|Blut|Donner|Donnerwetter|Marter|Teufel</token>
+            <token regexp="yes">Blitz|Blut|Donner(wetter)?|Marter|Teufel</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -1910,8 +1910,8 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     </rule>
 
     <rule name="Fifth Avenue" id="FIFTH_AVENUE">
-        <pattern>
-            <token>Fifth</token>
+        <pattern case_sensitive="yes">
+            <token regexp="yes">Fifth|5th</token>
             <token>Avenue</token>
         </pattern>
         <disambig action="ignore_spelling"/>
@@ -2012,8 +2012,9 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
 
     <rule name="virtual" id="VIRTUAL_REALITY">
         <pattern>
-            <token>Virtual</token>
-            <token regexp="yes">Reality|Environments?</token>
+            <token case_sensitive="yes">Virtual</token>
+            <token regexp="yes">Reality|Environments?|Private</token>
+            <token min="0">Network</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -2528,6 +2529,13 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
       <pattern case_sensitive="yes">
         <token>of</token>
         <token regexp="yes">Arts|Business|Engineering|Laws|Science</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Low Carb" id="LOW_CARB">
+      <pattern case_sensitive="yes">
+        <token>Low</token>
+        <token>Carb</token>
       </pattern>
       <disambig action="ignore_spelling"/>
     </rule>

@@ -979,64 +979,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       -->
     </rule>
 
-  </category>
-
-  <category id="LOGICAL_ERRORS" name="Логічні помилки">
-    <rulegroup id="INVALID_DATE" name="Неправильна дата, наприклад '31 лютого 2014'">
-      <rule>
-        <pattern>
-          <marker>
-            <token>31</token>
-            <token regexp="yes">квітень|квітня|кві|червень|червня|вересень|вересня|вер|листопад|листопада|лис</token>
-          </marker>
-        </pattern>
-        <message>Місяць \2 має лише 30 днів.</message>
-        <example correction="">Це трапилося <marker>31 листопада</marker> 2014 р.</example>
-        <example>Це трапилося <marker>30 листопада</marker> 2014 р.</example>
-      </rule>
-      <rule>
-        <pattern>
-          <marker>
-            <token regexp="yes">3[01]</token>
-            <token regexp="yes">лютий|лютого|лют</token>
-          </marker>
-        </pattern>
-        <message>Лютий має 28 днів або 29 днів у переступному році.</message>
-        <example correction="">Це трапилося <marker>30 лютого</marker> 2014 р.</example>
-        <example>Це трапилося <marker>28 лютого</marker> 2014 р.</example>
-      </rule>
-    </rulegroup>
-
-    <rule id="YEAR_20001" name="Забагато нулів в номері року">
-      <pattern>
-        <token regexp="yes">&months;|рік</token>
-        <token regexp="yes">200\d\d</token>
-      </pattern>
-      <message>Можливо <suggestion><match no="1"/> <match no="2" regexp_match="200" regexp_replace="20"/></suggestion>?</message>
-      <short>Помилка друку?</short>
-      <example>Мою поїздку запланували на травень 2014 р.</example>
-      <example correction="травень 2014">Мою поїздку запланували на <marker>травень 20014</marker> р.</example>
-    </rule>
-
-    <rulegroup id="DATE_WEEKDAY1" name="День тижня не відповідає даті">
-      <!-- "понеділок, 7 жовтня 2014" -->
-      <rule>
-        <pattern>
-          <token regexp="yes">&weekdays;</token>
-          <token>,</token>
-          <token regexp="yes">\d\d?</token>
-          <token regexp="yes">&months;|&abbrevMonths;</token>
-          <token regexp="yes">\d\d\d\d</token>
-        </pattern>
-        <filter class="org.languagetool.rules.uk.DateCheckFilter" args="year:\5 month:\4 day:\3 weekDay:\1"/>
-        <message>Днем тижня \3 \4 \5 є не \1, а {realDay}.</message>
-        <example correction="">Конференція відбудеться в <marker>понеділок, 7 жовтня 2014</marker> р.</example>
-        <example correction="">Конференція відбудеться в <marker>понеділок, 7 жов 2014</marker> р.</example>
-        <example>Конференція відбудеться у вівторок, 7 жовтня 2014 р.</example>
-        <example>Конференція відбудеться у вівторок, 7 жов 2014 р.</example>
-      </rule>
-    </rulegroup>
-
     <rulegroup id="SAMYI_WITH_ADJ" name="Самий з прикметниками">
       <!-- TODO: якщо робити це правило загальним фальшивих помилок більше ніж правильних позначень,
           тож поки що обмежимося лише двома більш-менш стабільними випадками
@@ -1188,43 +1130,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>На самому Першому Національному пояснили</example>
       </rule>
     </rulegroup>
-
-<!--
-    Складно відрізнити правильні випадки, напр.:
-     * де шукати ресурси для їх забезпечення
-     * Пізніше до їх захисту приєдналися Джордж
-     * не можна буде забезпечити їх виконання
-    <rulegroup id="YIH_YIHNIY" name="Їх і їхній" default="off">
-      <rule>
-        <antipattern>
-          <token regexp="yes">що|то</token>
-          <token>їх</token>
-          <token postag_regexp="yes" postag="noun.*"/>
-          <token postag_regexp="yes" postag="adv.*" min="0"/>
-          <token postag_regexp="yes" postag="verb.*"/>
-        </antipattern>
-        <antipattern>
-          <token>їх</token>
-          <token postag_regexp="yes" postag="noun.*:v_oru.*"/>
-        </antipattern>
-        <pattern>
-          <marker>
-            <token>їх</token>
-          </marker>
-          <token postag_regexp="yes" postag="noun.*">
-            <exception negate_pos="yes" postag_regexp="yes" postag="noun.*"/>
-            <exception postag_regexp="yes" postag="noun.*pron.*"/>
-          </token>
-        </pattern>
-        <message>Можливо мало бути <suggestion>їхній</suggestion>?</message>
-        <example correction="їхній">спочатку <marker>їх</marker> пенсії обкладають...</example>
-        <example>Чому їх не навчили державної мови?</example>
-        <example>Чому їх ми не навчили державної мови?</example>
-        <example>що їх поліція назбирала</example>
-        <example>ми почастували їх обідом</example>
-      </rule>
-    </rulegroup>
--->
 
     <rulegroup id="BIL_MASC" name="Біль - ч.р.">
       <rule>
@@ -1573,6 +1478,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
 
+
+    <rule id="DASYSH" name="Дасиш, їсиш, відповісиш">
+      <pattern>
+        <marker>
+          <token regexp="yes">.*дасиш|.*їсиш|.+вісиш
+            <exception postag_regexp="yes" postag="[a-z].*"/>
+          </token>
+        </marker>
+      </pattern>
+      <message>Правильно: <suggestion><match no="1" regexp_match="(.*)ш" regexp_replace="$1"/></suggestion></message>
+      <example correction="віддаси"><marker>віддасиш</marker>.</example>
+      <example correction="їси"><marker>їсиш</marker>.</example>
+      <example correction="розповіси"><marker>розповісиш</marker>.</example>
+      <example>вивісиш</example>
+    </rule>
+
 <!--
     TODO: досить складна логіка
     <rulegroup id="NE_Z_PRUKMETNYKAMY" name="Не з прикметниками">
@@ -1588,6 +1509,64 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
 -->
+
+  </category>
+
+  <category id="LOGICAL_ERRORS" name="Логічні помилки">
+    <rulegroup id="INVALID_DATE" name="Неправильна дата, наприклад '31 лютого 2014'">
+      <rule>
+        <pattern>
+          <marker>
+            <token>31</token>
+            <token regexp="yes">квітень|квітня|кві|червень|червня|вересень|вересня|вер|листопад|листопада|лис</token>
+          </marker>
+        </pattern>
+        <message>Місяць \2 має лише 30 днів.</message>
+        <example correction="">Це трапилося <marker>31 листопада</marker> 2014 р.</example>
+        <example>Це трапилося <marker>30 листопада</marker> 2014 р.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker>
+            <token regexp="yes">3[01]</token>
+            <token regexp="yes">лютий|лютого|лют</token>
+          </marker>
+        </pattern>
+        <message>Лютий має 28 днів або 29 днів у переступному році.</message>
+        <example correction="">Це трапилося <marker>30 лютого</marker> 2014 р.</example>
+        <example>Це трапилося <marker>28 лютого</marker> 2014 р.</example>
+      </rule>
+    </rulegroup>
+
+    <rule id="YEAR_20001" name="Забагато нулів в номері року">
+      <pattern>
+        <token regexp="yes">&months;|рік</token>
+        <token regexp="yes">200\d\d</token>
+      </pattern>
+      <message>Можливо <suggestion><match no="1"/> <match no="2" regexp_match="200" regexp_replace="20"/></suggestion>?</message>
+      <short>Помилка друку?</short>
+      <example>Мою поїздку запланували на травень 2014 р.</example>
+      <example correction="травень 2014">Мою поїздку запланували на <marker>травень 20014</marker> р.</example>
+    </rule>
+
+    <rulegroup id="DATE_WEEKDAY1" name="День тижня не відповідає даті">
+      <!-- "понеділок, 7 жовтня 2014" -->
+      <rule>
+        <pattern>
+          <token regexp="yes">&weekdays;</token>
+          <token>,</token>
+          <token regexp="yes">\d\d?</token>
+          <token regexp="yes">&months;|&abbrevMonths;</token>
+          <token regexp="yes">\d\d\d\d</token>
+        </pattern>
+        <filter class="org.languagetool.rules.uk.DateCheckFilter" args="year:\5 month:\4 day:\3 weekDay:\1"/>
+        <message>Днем тижня \3 \4 \5 є не \1, а {realDay}.</message>
+        <example correction="">Конференція відбудеться в <marker>понеділок, 7 жовтня 2014</marker> р.</example>
+        <example correction="">Конференція відбудеться в <marker>понеділок, 7 жов 2014</marker> р.</example>
+        <example>Конференція відбудеться у вівторок, 7 жовтня 2014 р.</example>
+        <example>Конференція відбудеться у вівторок, 7 жов 2014 р.</example>
+      </rule>
+    </rulegroup>
   </category>
 
 </rules>

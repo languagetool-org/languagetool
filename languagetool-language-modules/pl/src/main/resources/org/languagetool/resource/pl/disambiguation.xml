@@ -10077,18 +10077,19 @@
         <rule> <!-- 19 --> <!-- liczebnik główny congr w roli podmiotu -->
             <pattern>
                 <token postag_regexp="yes" postag="num:pl:nom.*:congr"/>
-                <token postag="verb.*pl.*" postag_regexp="yes"/>
+                <token postag="verb.*pl.*" postag_regexp="yes"><exception postag="verb:impt:pl.*" postag_regexp="yes"/></token>
             </pattern>
             <disambig action="filterall"/>
         </rule>
         <rule> <!-- 20 --> <!-- liczebnik główny congr w roli podmiotu -->
             <pattern>
                 <token postag_regexp="yes" postag="num:pl:nom.*:rec"/>
-                <token postag="verb.*sg.*" postag_regexp="yes"/>
+                <token postag="verb.*sg.*" postag_regexp="yes"><exception postag="verb:impt:sg.*" postag_regexp="yes"/></token>
             </pattern>
             <disambig action="filterall"/>
             <example type="ambiguous" inputform="gra[gra/subst:sg:nom:f,grać/verb:fin:sg:ter:imperf:refl.nonrefl]"
             outputform="gra[grać/verb:fin:sg:ter:imperf:refl.nonrefl]">Osiem <marker>gra</marker> w obronie.</example>
+            <example type="untouched">To szczątki dwóch wierz.</example>
         </rule>
     </rulegroup>
 

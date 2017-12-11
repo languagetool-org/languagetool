@@ -140,7 +140,7 @@ public class UppercaseSentenceStartRule extends TextLevelRule {
       if (checkToken.length() > 0) {
         char firstChar = checkToken.charAt(0);
         if (!preventError && Character.isLowerCase(firstChar)) {
-          RuleMatch ruleMatch = new RuleMatch(this,
+          RuleMatch ruleMatch = new RuleMatch(this, sentence,
                   pos+tokens[matchTokenPos].getStartPos(),
                   pos+tokens[matchTokenPos].getEndPos(),
                   messages.getString("incorrect_case"));

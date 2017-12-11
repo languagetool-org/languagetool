@@ -2,10 +2,7 @@ package org.languagetool.rules.uk;
 
 import java.util.*;
 
-import org.languagetool.AnalyzedToken;
-import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
+import org.languagetool.*;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.WordRepeatRule;
 import org.languagetool.tagging.uk.IPOSTag;
@@ -70,13 +67,13 @@ public class UkrainianWordRepeatRule extends WordRepeatRule {
   }
 
   @Override
-  protected RuleMatch createRuleMatch(String prevToken, String token, int prevPos, int pos, String msg) {
+  protected RuleMatch createRuleMatch(String prevToken, String token, int prevPos, int pos, String msg, AnalyzedSentence sentence) {
     boolean doubleI = prevToken.equals("І") && token.equals("і");
     if( doubleI ) {
       msg += " або, можливо, перша І має бути латинською.";
     }
     
-    RuleMatch ruleMatch = super.createRuleMatch(prevToken, token, prevPos, pos, msg);
+    RuleMatch ruleMatch = super.createRuleMatch(prevToken, token, prevPos, pos, msg, sentence);
 
     if( doubleI ) {
       List<String> replacements = new ArrayList<>(ruleMatch.getSuggestedReplacements());

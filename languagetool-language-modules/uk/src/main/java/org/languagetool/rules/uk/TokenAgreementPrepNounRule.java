@@ -50,6 +50,7 @@ import org.languagetool.tagging.uk.PosTagHelper;
  * @author Andriy Rysin
  */
 public class TokenAgreementPrepNounRule extends Rule {
+  private static final Pattern NOUN_ANIM_V_NAZ_PATTERN = Pattern.compile("noun:anim.*:v_naz.*");
   private static final String NO_VIDMINOK_SUBSTR = ":nv";
   private static final String VIDMINOK_SUBSTR = ":v_";
   private static final Pattern VIDMINOK_REGEX = Pattern.compile(":(v_[a-z]+)");
@@ -81,9 +82,9 @@ public class TokenAgreementPrepNounRule extends Rule {
   }
 
   @Override
-  public final RuleMatch[] match(AnalyzedSentence text) {
+  public final RuleMatch[] match(AnalyzedSentence sentence) {
     List<RuleMatch> ruleMatches = new ArrayList<>();
-    AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();    
+    AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();    
     boolean insideMultiword = false;
 
     AnalyzedTokenReadings prepTokenReadings = null;
@@ -341,7 +342,7 @@ public class TokenAgreementPrepNounRule extends Rule {
           }
         }
 
-        RuleMatch potentialRuleMatch = createRuleMatch(tokenReadings, prepTokenReadings, posTagsToFind);
+        RuleMatch potentialRuleMatch = createRuleMatch(tokenReadings, prepTokenReadings, posTagsToFind, sentence);
         ruleMatches.add(potentialRuleMatch);
       }
 
@@ -414,7 +415,7 @@ public class TokenAgreementPrepNounRule extends Rule {
     return ! vidminokFound; //false;
   }
 
-  private RuleMatch createRuleMatch(AnalyzedTokenReadings tokenReadings, AnalyzedTokenReadings reqTokenReadings, Set<String> posTagsToFind) {
+  private RuleMatch createRuleMatch(AnalyzedTokenReadings tokenReadings, AnalyzedTokenReadings reqTokenReadings, Set<String> posTagsToFind, AnalyzedSentence sentence) {
     String tokenString = tokenReadings.getToken();
     
     Synthesizer ukrainianSynthesizer = ukrainian.getSynthesizer();
@@ -492,11 +493,10 @@ public class TokenAgreementPrepNounRule extends Rule {
     }
     else if( reqTokenReadings.getToken().equalsIgnoreCase("о") ) {
       for(AnalyzedToken token: tokenReadings.getReadings()) {
-        String posTag2 = token.getPOSTag();
-        if( posTag2.matches("noun:anim.*:v_naz.*") ) {
+        if( PosTagHelper.hasPosTag(token, NOUN_ANIM_V_NAZ_PATTERN) ) {
           msg += ". Можливо тут «о» — це вигук і потрібно кличний відмінок?";
           try {
-            String newPostag = posTag2.replace("v_naz", "v_kly");
+            String newPostag = token.getPOSTag().replace("v_naz", "v_kly");
             String[] synthesized = ukrainianSynthesizer.synthesize(token, newPostag, false);
             for (String string : synthesized) {
               if( ! string.equals(token.getToken()) && ! suggestions.contains(string) ) {
@@ -512,7 +512,7 @@ public class TokenAgreementPrepNounRule extends Rule {
       
     }
         
-    RuleMatch potentialRuleMatch = new RuleMatch(this, tokenReadings.getStartPos(), tokenReadings.getEndPos(), msg, getShort());
+    RuleMatch potentialRuleMatch = new RuleMatch(this, sentence, tokenReadings.getStartPos(), tokenReadings.getEndPos(), msg, getShort());
 
     potentialRuleMatch.setSuggestedReplacements(suggestions);
 

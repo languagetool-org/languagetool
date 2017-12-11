@@ -37,6 +37,7 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nullable;
+import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
@@ -142,6 +143,10 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("[mM]atschscheiben?", "[mM]atschsch", "Mattsch");
     put("schafen?", w -> Arrays.asList(w.replaceFirst("sch", "schl"), w.replaceFirst("af", "arf"), w.replaceFirst("af", "aff")));
     putRepl("[hH]ofen?", "of", "off");
+    putRepl("[sS]ommerverien?", "[sS]ommerverien?", "Sommerferien");
+    putRepl("[rR]ecourcen?", "[rR]ec", "Ress");
+    putRepl("[fF]amm?ill?i?arisch(e[mnrs]?)?", "amm?ill?i?arisch", "amiliär");
+    put("[tT]h?elepath?ie", "Telepathie");
     put("Wi-?Fi-Dire[ck]t", "Wi-Fi Direct");
     put("gans", "ganz");
     put("Pearl-Harbou?r", "Pearl Harbor");
@@ -326,11 +331,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   protected List<String> sortSuggestionByQuality(String misspelling, List<String> suggestions) {
     List<String> result = new ArrayList<>();
     for (String suggestion : suggestions) {
-      if (misspelling.equalsIgnoreCase(suggestion)) {
-        // this should be preferred - only case differs:
-        result.add(0, suggestion);
-      } else if (suggestion.contains(" ")) {
-        // prefer e.g. "vor allem":
+      if (misspelling.equalsIgnoreCase(suggestion) || suggestion.contains(" ")) {
+        // this should be preferred - only case differs || prefer e.g. "vor allem":
         result.add(0, suggestion);
       } else {
         result.add(suggestion);
@@ -343,7 +345,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   protected boolean ignoreWord(List<String> words, int idx) throws IOException {
     boolean ignore = super.ignoreWord(words, idx);
     boolean ignoreUncapitalizedWord = !ignore && idx == 0 && super.ignoreWord(StringUtils.uncapitalize(words.get(0)));
-    boolean ignoreByHyphen = false, ignoreHyphenatedCompound = false;
+    boolean ignoreByHyphen = false;
+    boolean ignoreHyphenatedCompound = false;
     if (!ignore && !ignoreUncapitalizedWord) {
       if (words.get(idx).contains("-")) {
         ignoreByHyphen = words.get(idx).endsWith("-") && ignoreByHangingHyphen(words, idx);
@@ -356,7 +359,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   @Override
   protected List<String> getAdditionalTopSuggestions(List<String> suggestions, String word) throws IOException {
     String suggestion;
-    if ("WIFI".equals(word) || "wifi".equals(word)) {
+    if ("WIFI".equalsIgnoreCase(word)) {
       return Collections.singletonList("Wi-Fi");
     } else if ("genomen".equals(word)) {
       return Collections.singletonList("genommen");
@@ -376,33 +379,23 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       if (!hunspellDict.misspelled(suggestion)) {
         return Collections.singletonList(suggestion);
       }
-    } else if (word.endsWith("parties")) {
-      suggestion = word.replaceFirst("parties$", "partys");
-      if (!hunspellDict.misspelled(suggestion)) {
-        return Collections.singletonList(suggestion);
-      }
-    } else if (word.endsWith("derbies")) {
-      suggestion = word.replaceFirst("derbies$", "derbys");
-      if (!hunspellDict.misspelled(suggestion)) {
-        return Collections.singletonList(suggestion);
-      }
-    } else if (word.endsWith("stories")) {
-      suggestion = word.replaceFirst("stories$", "storys");
-      if (!hunspellDict.misspelled(suggestion)) {
-        return Collections.singletonList(suggestion);
-      }
-    } else if (word.endsWith("tip")) {
-      suggestion = word.replaceFirst("tip$", "tipp");
-      if (!hunspellDict.misspelled(suggestion)) {
-        return Collections.singletonList(suggestion);
-      }
     } else if (word.endsWith("tips")) {
       suggestion = word.replaceFirst("tips$", "tipps");
       if (!hunspellDict.misspelled(suggestion)) {
         return Collections.singletonList(suggestion);
       }
+    } else if (word.endsWith("tip")) {
+      suggestion = word + "p";
+      if (!hunspellDict.misspelled(suggestion)) {
+        return Collections.singletonList(suggestion);
+      }
     } else if (word.endsWith("oullie")) {
       suggestion = word.replaceFirst("oullie$", "ouille");
+      if (!hunspellDict.misspelled(suggestion)) {
+        return Collections.singletonList(suggestion);
+      }
+    } else if (word.startsWith("[dD]urschnitt")) {
+      suggestion = word.replaceFirst("^urschnitt", "urchschnitt");
       if (!hunspellDict.misspelled(suggestion)) {
         return Collections.singletonList(suggestion);
       }
@@ -465,6 +458,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return Collections.singletonList("bisschen");
     } else if (word.equals("gin")) {
       return Collections.singletonList("ging");
+    } else if (word.equals("dh") || word.equals("dh.")) {
+      return Collections.singletonList("d.\u202fh.");
     } else if (word.equals("ua") || word.equals("ua.")) {
       return Collections.singletonList("u.\u202fa.");
     } else if (word.equals("zb") || word.equals("zb.")) {
@@ -506,6 +501,21 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
         return Collections.singletonList("Babys");
       } else if (word.equals("Ladies")) {
         return Collections.singletonList("Ladys");
+      } else if (word.endsWith("derbies")) {
+        suggestion = word.replaceFirst("derbies$", "derbys");
+        if (!hunspellDict.misspelled(suggestion)) {
+          return Collections.singletonList(suggestion);
+        }
+      } else if (word.endsWith("stories")) {
+        suggestion = word.replaceFirst("stories$", "storys");
+        if (!hunspellDict.misspelled(suggestion)) {
+          return Collections.singletonList(suggestion);
+        }
+      } else if (word.endsWith("parties")) {
+        suggestion = word.replaceFirst("parties$", "partys");
+        if (!hunspellDict.misspelled(suggestion)) {
+          return Collections.singletonList(suggestion);
+        }
       }
     } else if (word.equals("Hallochen")) {
       return Arrays.asList("Hallöchen", "hallöchen");
@@ -574,9 +584,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
           stopAt = words.length-2;
         }
         for (int idx = startAt; idx < stopAt; idx++) {
-          if (super.ignoreWord(words[idx])) {
-            suggestionLists.add(Collections.singletonList(words[idx]));
-          } else if (hunspellDict.misspelled(words[idx])) {
+          if (hunspellDict.misspelled(words[idx])) {
             List<String> list = sortSuggestionByQuality(words[idx], super.getSuggestions(words[idx]));
             suggestionLists.add(list);
           } else {
@@ -686,7 +694,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private String getWordAfterEnumerationOrNull(List<String> words, int idx) {
     for (int i = idx; i < words.size(); i++) {
       String word = words.get(i);
-      boolean inEnumeration = ",".equals(word) || "und".equals(word) || "oder".equals(word) || word.trim().isEmpty() || word.endsWith("-");
+      boolean inEnumeration = StringUtils.equalsAny(word, ",", "und", "oder") || word.trim().isEmpty() || word.endsWith("-");
       if (!inEnumeration) {
         return word;
       }
@@ -707,16 +715,16 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       // only search for compounds that start(!) with a word from spelling.txt
       int end = super.startsWithIgnoredWord(word, true);
       if (end < 3) {
-    	// support for geographical adjectives - although "süd/ost/west/nord" are not in spelling.txt 
-    	// to accept sentences such as
-    	// "Der westperuanische Ferienort, das ostargentinische Städtchen, das südukrainische Brauchtum, der nordägyptische Staudamm."
-    	if (word.startsWith("ost") || word.startsWith("süd")) {
+        // support for geographical adjectives - although "süd/ost/west/nord" are not in spelling.txt 
+        // to accept sentences such as
+        // "Der westperuanische Ferienort, das ostargentinische Städtchen, das südukrainische Brauchtum, der nordägyptische Staudamm."
+        if (word.startsWith("ost") || word.startsWith("süd")) {
           end = 3;
-    	} else if (word.startsWith("west") || word.startsWith("nord")) {
-    	  end = 4;
-    	} else {
-    	  return false;
-    	}
+        } else if (word.startsWith("west") || word.startsWith("nord")) {
+          end = 4;
+        } else {
+          return false;
+        }
       }
       String ignoredWord = word.substring(0, end);
       String partialWord = word.substring(end);
@@ -787,4 +795,12 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     }
   }
 
+  @Override
+  protected boolean isQuotedCompound (AnalyzedSentence analyzedSentence, int idx, String token) {
+    if (idx > 3 && token.startsWith("-")) {
+      return "“".equals(analyzedSentence.getTokens()[idx-1].getToken()) &&
+          "„".equals(analyzedSentence.getTokens()[idx-3].getToken());
+    }
+    return false;
+  }
 }

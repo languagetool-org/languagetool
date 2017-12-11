@@ -97,7 +97,7 @@ public class MissingVerbRule extends Rule {
       i++;
     }
     if (!verbFound && lastToken != null && sentence.getTokensWithoutWhitespace().length >= MIN_TOKENS_FOR_ERROR) {
-      RuleMatch match = new RuleMatch(this, 0, lastToken.getStartPos() + lastToken.getToken().length(), "Dieser Satz scheint kein Verb zu enthalten");
+      RuleMatch match = new RuleMatch(this, sentence, 0, lastToken.getStartPos() + lastToken.getToken().length(), "Dieser Satz scheint kein Verb zu enthalten");
       return new RuleMatch[]{ match };
     }
     return new RuleMatch[0];

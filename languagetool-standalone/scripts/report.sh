@@ -68,6 +68,9 @@ echo "An error has occurred      : `grep -c 'An error has occurred' $TMPFILE`" >
 echo "too many requests          : `grep -c 'too many requests' $TMPFILE`" >>$OUTFILE
 echo "too many requests (Android): `grep -c 'too many requests.*androidspell' $TMPFILE`" >>$OUTFILE
 
+echo "Request limit              : `grep -c 'Request limit of' $TMPFILE`" >>$OUTFILE
+echo "Request size limit         : `grep -c 'Request size limit of' $TMPFILE`" >>$OUTFILE
+
 echo "" >>$OUTFILE
 echo "Top HTTP error codes:" >>$OUTFILE
 grep "An error has occurred" /tmp/log.temp|sed 's/.*HTTP code \([0-9]\+\)..*/HTTP code \1/'|sort |uniq -c| sort -r -n >>$OUTFILE

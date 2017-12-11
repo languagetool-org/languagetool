@@ -30,7 +30,7 @@ import static org.junit.Assert.assertNull;
 
 public class DateCheckFilterTest {
 
-  private final RuleMatch match = new RuleMatch(new FakeRule(), 0, 10, "message");
+  private final RuleMatch match = new RuleMatch(new FakeRule(), null, 0, 10, "message");
   private final DateCheckFilter filter = new DateCheckFilter();
 
   @Test

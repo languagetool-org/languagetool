@@ -162,7 +162,7 @@ public abstract class WrongWordInContextRule extends Rule {
         if (matchedContext[notFoundWord] && !matchedContext[foundWord]) {
           String msg = getMessage(matchedToken, matchedToken.replaceFirst(contextWords.matches[foundWord],contextWords.matches[notFoundWord]),
                   contextWords.explanations[notFoundWord], contextWords.explanations[foundWord]);
-          RuleMatch ruleMatch = new RuleMatch(this, startPos, endPos, msg, getShortMessageString());
+          RuleMatch ruleMatch = new RuleMatch(this, sentence, startPos, endPos, msg, getShortMessageString());
           ruleMatches.add(ruleMatch);
         }
       } // if foundWord != -1

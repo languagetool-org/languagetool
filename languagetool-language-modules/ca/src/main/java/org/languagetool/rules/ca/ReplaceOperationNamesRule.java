@@ -165,7 +165,7 @@ public class ReplaceOperationNamesRule extends AbstractSimpleReplaceRule {
           }
         }
         if (possibleReplacements.size() > 0) {
-            RuleMatch potentialRuleMatch = createRuleMatch(tokens[i],possibleReplacements);
+            RuleMatch potentialRuleMatch = createRuleMatch(tokens[i],possibleReplacements, sentence);
             ruleMatches.add(potentialRuleMatch);
         }
       }

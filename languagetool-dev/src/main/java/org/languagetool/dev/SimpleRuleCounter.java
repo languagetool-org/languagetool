@@ -79,7 +79,7 @@ public class SimpleRuleCounter {
         return !(t.getNegation() || t.getPOSNegation() || t.hasAndGroup() || t.hasExceptionList() || 
                  t.hasNextException() || t.hasOrGroup() || t.isInflected() || t.isPOStagRegularExpression() ||
                  t.getPOStag() != null || t.isReferenceElement() || t.isSentenceStart() ||
-                 t.getSkipNext() >= 1);
+                 t.getSkipNext() != 0);
     }
 
     public static void main(String[] args) {

@@ -74,7 +74,7 @@ public class EmptyLineRule extends TextLevelRule {
           if (i < tokens.length && tokens[i].isLinebreak()) { 
             int toPos = pos + tokens[firstLB - 1].getEndPos();
             int fromPos = toPos - 1;
-            RuleMatch ruleMatch = new RuleMatch(this, fromPos, toPos, messages.getString("empty_line_rule_msg"));
+            RuleMatch ruleMatch = new RuleMatch(this, sentence, fromPos, toPos, messages.getString("empty_line_rule_msg"));
             // Can't use SuggestedReplacement because of problems in LO/OO dialog with linebreaks
             ruleMatches.add(ruleMatch);
             i--;

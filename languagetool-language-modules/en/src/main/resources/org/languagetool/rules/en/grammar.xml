@@ -1633,7 +1633,7 @@ USA
                     <marker>
                         <token>stationary</token>
                     </marker>
-                    <token regexp="yes">(store|shop|supplie|supply|material|supplier|cupboard)s?</token>
+                    <token regexp="yes">(store|shop|supplier?|supply|material|cupboard)s?</token>
                 </pattern>
                 <message>Did you mean <suggestion>stationery</suggestion> (= materials for writing) instead of 'stationary' (= immobile/unchanged)?</message>
                 <short>Possible typo</short>
@@ -1715,21 +1715,7 @@ USA
         <rulegroup id="I_AM_NOTE_SURE" name="I'm note (not) sure">
             <rule>
                 <pattern>
-                    <token>I</token>
-                    <token>am</token>
-                    <marker>
-                        <token>note</token>
-                    </marker>
-                    <token>sure</token>
-                </pattern>
-                <message>Did you mean <suggestion>not</suggestion>?</message>
-                <example correction="not">I am <marker>note</marker> sure.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token>I</token>
-                    <token regexp="yes">['’]</token>
-                    <token>m</token>
+                    <token inflected="yes">be</token>
                     <marker>
                         <token>note</token>
                     </marker>
@@ -1737,6 +1723,7 @@ USA
                 </pattern>
                 <message>Did you mean <suggestion>not</suggestion>?</message>
                 <example correction="not">I'm <marker>note</marker> sure.</example>
+                <example correction="not">I am <marker>note</marker> sure.</example>
             </rule>
         </rulegroup>
         <rule id="NUT_NOT" name="nut (not)">
@@ -1889,7 +1876,7 @@ USA
                 <marker>
                     <token>is</token>
                 </marker>
-                <token regexp="yes">was|wasn</token>
+                <token regexp="yes">wasn?</token>
             </pattern>
             <message>Did you mean <suggestion>it</suggestion>?</message>
             <short>Possible typo</short>
@@ -1910,7 +1897,7 @@ USA
         </rule>
         <rule id="LOOK_ATE" name="look ate (at)">
             <pattern>
-                <token>look</token>
+                <token inflected="yes" regexp="yes">look|stand</token>
                 <marker>
                     <token>ate</token>
                 </marker>
@@ -3162,7 +3149,7 @@ USA
             <rule>
                 <pattern>
                     <token>once</token>
-                    <token>and</token>
+                    <token regexp="yes">and|on</token>
                     <token>a</token>
                     <token>while</token>
                 </pattern>
@@ -3173,7 +3160,7 @@ USA
             <rule>
                 <pattern>
                     <token>once</token>
-                    <token>and</token>
+                    <token regexp="yes">and|on</token>
                     <token>awhile</token>
                 </pattern>
                 <message>This is a non-standard phrase. Did you mean <suggestion>once in a while</suggestion>?</message>
@@ -3184,12 +3171,52 @@ USA
         <rule id="SPARKING_WINE" name="sparking (sparkling) wine">
             <pattern>
                 <token>sparking</token>
-                <token regexp="yes">wines?</token>
+                <token regexp="yes">wines?|water</token>
             </pattern>
             <message>Possible typo. Did you mean <suggestion>sparkling \2</suggestion>?</message>
             <short>Possible typo</short>
             <example correction="sparkling wine">I love <marker>sparking wine</marker>.</example>
             <example>I hate sparkling wine.</example>
+        </rule>
+        <rulegroup id="THROWS_THROES" name="throws (throes)">
+            <rule>
+                <pattern>
+                    <token regexp="yes">final|first|last|death</token>
+                    <marker><token>throws</token></marker>
+                </pattern>
+                <message>Did you mean <suggestion>throes</suggestion> (= a painful struggle)?</message>
+                <example correction="throes">He was in the final <marker>throws</marker> of death.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token skip="1">the</token>
+                    <marker><token>throws</token></marker>
+                    <token>of</token>
+                </pattern>
+                <message>Did you mean <suggestion>throes</suggestion> (= a painful struggle)?</message>
+                <example correction="throes">The country is still in the <marker>throws</marker> of a major crisis.</example>
+            </rule>
+        </rulegroup>
+        <rule id="THOUGH_THROUGH" name="though (through)">
+            <pattern>
+                <token inflected="yes" regexp="yes">read|go|look|fly|drive</token>
+                <marker><token>though</token></marker>
+                <token><exception regexp="yes">[,;.:]</exception></token>
+            </pattern>
+            <message>Did you mean <suggestion>through</suggestion>?</message>
+            <short>Possible typo</short>
+            <example correction="through">You should read <marker>though</marker> this cpntract.</example>
+            <example correction="through">He is going <marker>though</marker> a rough time.</example>
+            <example>You should have a look though.</example>
+        </rule>
+        <rule id="ENVELOPE_ENVELOP" name="envelope (envelop)">
+            <pattern>
+                <marker><token>envelope</token></marker>
+                <token postag="PRP.?" postag_regexp="yes"/>
+            </pattern>
+            <message>Did you mean the verb <suggestion>envelop</suggestion>?</message>
+            <short>Possible typo</short>
+            <example correction="envelop">The smell started to <marker>envelope</marker> me.</example>
         </rule>
         <rule id="VERY_MATCH" name="very match (much)">
             <pattern>
@@ -3221,7 +3248,7 @@ USA
                 <token regexp="yes">hasn|weren|hadn|haven</token>
                 <token spacebefore="no" regexp="yes">['’]</token>
                 <token>t</token>
-                <token regexp="yes">ab[iod]e|alight|ar[io]se|ate|aw[ao]ke|be(ar|came)?|bef[ae]ll|beg(an|et|in|ot)|behold|bend|beseech|betake|bethink|betook|bind|bit|bite|bleed|blew|blow|bore|break|breed|bring|broke|browbeat|build|burn|buy|came|catch|chide|choose|chose|clap|cling|clothe|creep|dare|daydream|deal|did|dig|disprove|dive|do|dove|drank|draw|dream|drew|drink|drive|drove|dwell|eat|fall|feed|feel|fell|fight|find|flee|flew|fling|fly|forbade|forbear|forbid|forbore|forego|foresaw|foresee|foretell|forewent|forgave|forget|forgive|forgot|forsake|forsook|forswear|freeze|frostbite|froze|gainsay|gave|get|gild|give|go|grew|grind|grow|hang|have|hear|heave|hew|hewed|hid|hide|hold|inbreed|inlay|keep|kneel|knew|know|lade|landslide|lay|lead|lean|leap|learn|leave|lend|lie|light|lose|make|mean|meet|mislead|misspell|mistake|mistook|misunderstand|mow|outdid|outdo|outgrew|outgrow|outlay|outran|outride|outshine|overbore|overcame|overdo|overeat|overhang|overhear|overlay|overleap|overlie|overran|override|oversaw|oversee|overtake|overthrew|overthrow|overtook|overwrite|partake|partook|pay|plead|prove|ran|rang|rebuild|redid|redo|reeve|refit|regrow|relay|relight|remake|rend|repay|retake|retell|rethink|retook|rewind|rewrite|rewrote|ride|ring|rise|rived|rode|rose|sang|sank|saw|say|see|seek|sell|send|sew|shake|shave|shear|sheared|shine|shoe|shook|shoot|show|showed|shrank|shrink|sing|sink|sit|slay|sleep|slide|sling|slink|smell|smite|sneak|sow|sowed|speak|speed|spell|spend|spill|spin|spoil|spoke|sprang|spring|stand|stank|stave|steal|stick|sting|stink|stole|strew|strewed|stride|strike|string|strip|strive|stro[dv]e|sunburn|swam|swear|sweep|swell(ed)?|swim|swing|swore|take|teach|tear|tell|think|threw|thrive|throve|throw|took|tore|tread|troubleshoot|typewrite|unb[ei]nd|undergo|underlay|underlie|undersell|understand|undertake|undertook|underwent|undid|undo|unlearn|unmake|unsay|unwind|uphold|vex|wake|was|waylay|wear|weave|wed|weep|went|whet|wind?|withdr[ae]w|withhold|withstand|wo[krv]e|wring|write|wrote</token>
+                <token regexp="yes">ab[iod]e|alight|ar[io]se|ate|aw[ao]ke|be(ar|came)?|bef[ae]ll|beg(an|et|in|ot)|behold|bend|beseech|betake|bethink|betook|bind|bit|bite|bleed|blew|blow|bore|break|breed|bring|broke|browbeat|build|burn|buy|came|catch|chide|choo?se|clap|cling|clothe|creep|dare|daydream|deal|di[dg]|disprove|dive|do|dove|drank|draw|dream|drew|drink|dr[io]ve|dwell|eat|f[ae]ll|feed|feel|fight|find|flee|flew|fling|fly|forbade|forbear|forbid|forbore|forego|foresaw|foresee|foretell|forewent|forgave|forget|forgive|forgot|forsake|forsook|forswear|freeze|frostbite|froze|gainsay|gave|get|gild|give|go|grew|grind|grow|hang|have|hear|heave|hew|hewed|hid|hide|hold|inbreed|inlay|keep|kneel|knew|know|lade|landslide|lay|lead|lean|leap|learn|leave|lend|lie|light|lose|make|mean|meet|mislead|misspell|mistake|mistook|misunderstand|mow|outdid|outdo|outgrew|outgrow|outlay|outran|outride|outshine|overbore|overcame|overdo|overeat|overhang|overhear|overlay|overleap|overlie|overran|override|oversaw|oversee|overtake|overthrew|overthrow|overtook|overwrite|partake|partook|pay|plead|prove|ran|rang|rebuild|redid|redo|reeve|refit|regrow|relay|relight|remake|rend|repay|retake|retell|rethink|retook|rewind|rewrite|rewrote|ride|ring|rise|rived|rode|rose|sang|sank|saw|say|see|seek|sell|send|sew|shake|shave|shear|sheared|shine|shoe|shook|shoot|show|showed|shrank|shrink|sing|sink|sit|slay|sleep|slide|sling|slink|smell|smite|sneak|sow|sowed|speak|speed|spell|spend|spill|spin|spoil|spoke|sprang|spring|stand|stank|stave|steal|stick|sting|stink|stole|strew|strewed|stride|strike|string|strip|strive|stro[dv]e|sunburn|swam|swear|sweep|swell(ed)?|swim|swing|swore|take|teach|tear|tell|think|threw|thrive|throve|throw|took|tore|tread|troubleshoot|typewrite|unb[ei]nd|undergo|underlay|underlie|undersell|understand|undertake|undertook|underwent|undid|undo|unlearn|unmake|unsay|unwind|uphold|vex|wake|was|waylay|wear|weave|wed|weep|went|whet|wind?|withdr[ae]w|withhold|withstand|wo[krv]e|wring|write|wrote</token>
             </pattern>
             <message>Did you mean <suggestion><match no="1"/><match no="2"/><match no="3"/> <match no="4" postag="VBN"/></suggestion>?</message>
             <example correction="haven't bitten">They <marker>haven't bit</marker> their tongue.</example>
@@ -7063,6 +7090,18 @@ USA
                 </pattern>
                 <message>Did you mean <suggestion>at</suggestion>?</message>
                 <example correction="at">She came <marker>on</marker> 7 o'clock.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="HAPPEN_TO" name="wrong preposition: 'happen with' (happen to)">
+            <rule>
+                <pattern>
+                    <token inflected="yes">happen</token>
+                    <marker><token>with</token></marker>
+                    <token postag="PRP"/>
+                </pattern>
+                <message>The verb 'happen' usually requires the preposition <suggestion>to</suggestion>.</message>
+                <url>https://www.merriam-webster.com/dictionary/happen%20to</url>
+                <example correction="to">What happened <marker>with</marker> him?</example>
             </rule>
         </rulegroup>
         <rulegroup id="DISCUSS_ABOUT" name="wrong preposition: 'discuss about something' (discuss something)">
@@ -14106,7 +14145,466 @@ USA
       <message>The usual preposition for "repercussion" is "on" not "with".  Revise: <suggestion>\1 on</suggestion>.</message>
       <example correction='repercussions on'>This action has <marker>repercussions with</marker> the entire community.</example>
     </rule>
+    <rule id='LOOK_AT_TO' name='Collocation: Look at/to'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token inflected="yes">look</token>
+          <token>at</token>
+          <token regexp='yes'>a|the</token>
+          <token>mirror</token>
+      </pattern>
+      <message>The usual preposition for "mirror" is "in" not "at".  Revise: <suggestion>\1 in a mirror</suggestion>.</message>
+      <example correction='looking in a mirror'>I suppose what makes me unusual is the fact that I can put on make up without <marker>looking at a mirror</marker>.</example>
+    </rule>
+    <rule id='PASSIONATE_BY_ABOUT' name='Collocation: Passionate by/about'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token regexp="yes">passionated?</token>
+          <token>by</token>
+      </pattern>
+      <message>The usual preposition for "passionate" is "about" not "by".  Revise: <suggestion>passionate about</suggestion>.</message>
+      <example correction='passionate about'>I am very <marker>passionated by</marker> my job.</example>
+    </rule>
+    <rule id='PASSIONATE_BY_ABOUT_2' name='Collocation: passionate by/about (stricter)' default='off'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+      <marker>
+          <token postag_regexp="yes" postag="VB[PZD]|R[BP]"/>
+          <token>passionate</token>
+          <token>by</token>
+      </marker>
+          <token min="0" postag_regexp="yes" postag="DT|PRP\$"/>
+          <token postag_regexp="yes" postag="NN:UN?"/>
+      </pattern>
+      <message>The usual preposition for "passionate" is "about" not "by".  Revise: <suggestion>\1 passionate about</suggestion> or <suggestion>\1 inspired by</suggestion>.</message>
+      <example correction='really passionate about|really inspired by'>I'm <marker>really passionate by</marker> the chocolate, it's my vocation.</example>
+    </rule>
+    <rule id='IN_THE_OUTSIDE' name='Collocation: in/on the outside'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+        <marker>
+          <token>in</token>
+          <token>the</token>
+          <token>outside</token>
+        </marker>
+          <token postag_regexp="yes" postag="IN|SENT_END|,"/>
+      </pattern>
+      <message>The usual preposition for "outside" is "on" not "in".  Revise: <suggestion>on the outside</suggestion>.</message>
+      <example correction='on the outside'>There are white windows <marker>in the outside</marker> of the house.</example>
+    </rule>
+    <rule id='IN_A_ISLAND' name='Collocation: in/on a island'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+        <marker>
+          <token>in</token>
+          <token postag_regexp="yes" postag="DT|PRP\$"/>
+          <token min="0" postag="JJ"/>
+          <token>island</token>
+        </marker>
+          <token>
+            <exception postag_regexp="yes" postag="N.*"/></token>
+      </pattern>
+      <message>The usual preposition for "island" is "on" not "in".  Revise: <suggestion>on \2 <match no='3' include_skipped='all'/> island</suggestion>.</message>
+      <example correction='on a small island'>Our house is located <marker>in a small island</marker> surrounded by ices. There are no other houses around us.</example>
+    </rule>
+    <rule id='CRAZY_ON_WITH' name='Collocation: Crazy on/with'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token regexp="yes" inflected="yes">drive|make</token>
+          <token regexp="yes">me|you|him|her|us|them</token>
+    <!-- object case pronouns -->
+        <marker>
+          <token>crazy</token>
+          <token>on</token>
+        </marker>
+          <token postag_regexp="yes" postag="DT|PRP\$"/>
+          <token postag_regexp="yes" postag="N.*">
+            <exception regexp="yes">drug|medicine|narcotic|hallucinogen</exception></token>
+      </pattern>
+      <message>The usual preposition for "crazy" is "with" not "on".  Revise: <suggestion>crazy with</suggestion>.</message>
+      <example correction='crazy with'>What makes me <marker>crazy on</marker> this dwelling is that some time we are higher than the clouds.</example>
+    </rule>
+    <rule id='HIDE_OF_FROM' name='Collocation: Hide of/from'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+        <marker>
+          <token inflected="yes">hide</token>
+          <token>of</token>
+        </marker>
+          <token postag_regexp="yes" postag="DT|PRP\$|JJ|VBG"/>
+          <token/>
+      </pattern>
+      <message>The usual preposition for "\1" is "from" not "\2".  Revise: <suggestion>\1 from</suggestion>.</message>
+      <example correction='hide from'>This is very useful to <marker>hide of</marker> prying tourists.</example>
+    </rule>
+    <rule id='CONCENTRATE_WITH_ON' name='Collocation: Concentrate with/on'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token inflected="yes">be</token>
+        <marker>
+          <token regexp="yes">concentrat(?:ing|ed)</token>
+          <token>
+            <exception>on</exception></token>
+          <token postag_regexp="yes" postag="DT|PRP\$"/>
+          <token/>
+        </marker>
+      </pattern>
+      <message>The usual preposition for "concentrate" is "on" not "\3".  Revise: <suggestion>\2 on \4 \5</suggestion>.</message>
+      <example correction='concentrated on my studies'>I know my life, it's not very interest because I am <marker>concentrated with my studies</marker>.</example>
+    </rule>
+    <rule id='DIFFERENCE_ABOUT_BETWEEN' name='Collocation: Difference about/between'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+        <marker>
+          <token>difference</token>
+          <token>about</token>
+        </marker>
+          <token regexp='yes'>an?|the</token>
+          <token/>
+          <token>and</token>
+          <token regexp='yes'>an?|the</token>
+          <token/>
+      </pattern>
+      <message>The usual preposition for "difference" is "between" not "about".  Revise: <suggestion>difference between</suggestion>.</message>
+      <example correction='difference between'>There is not big <marker>difference about</marker> the week and the weekend to me.</example>
+    </rule>
+    <rule id='IMPORTANT_WITH_TO' name='Collocation: Important with/to'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token>important</token>
+          <token>with</token>
+          <token postag_regexp="yes" postag="NNP|PRP">
+            <exception regexp="yes">an?|all|many|some|multiple|most</exception></token>
+      </pattern>
+      <message>The usual preposition for "\1" is "to" not "with".  Revise: <suggestion>\1 to \3</suggestion>.</message>
+      <example correction='important to you'>Family who is closest and <marker>important with you</marker>.</example>
+    </rule>
+    <rule id='CONSIST_TO_OF' name='Collocation: Consist to/of'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token inflected="yes">consist</token>
+          <token>to</token>
+      </pattern>
+      <message>The usual preposition for "\1" is "of" not "to".  Revise: <suggestion>\1 of</suggestion>.</message>
+      <example correction='consists of'>There is a program in medicine and this program <marker>consists to</marker> diagnostic people to know if  their body works well.</example>
+    </rule>
+    <rule id='IN_ON_BIRTHDAY' name='Collocation: in/on birthday'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <marker>
+          <token>in</token>
+          <token postag="PRP$"/>
+          <token>birthday</token>
+          </marker>
+          <token>
+            <exception regexp="yes">suits?</exception></token>
+      </pattern>
+      <message>The usual preposition for "birthdays" is "on".  Revise: <suggestion>on \2 \3</suggestion>.</message>
+      <example correction='on my birthday'>My favorite thing is bag, I love my bag very much because it is a gift from my girl friend <marker>in my birthday</marker>, it is a red bag, I have kept it for 2 years and forever.</example>
+    </rule>
+    <rule id='PARTICIPATE_TO_IN' name='Collocation: Participate to/in'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <antipattern>
+          <token>to</token>
+          <token regexp='yes'>a|some|any</token>
+          <token>degree</token>
+      </antipattern>
+      <pattern>
+        <marker>
+          <token inflected="yes">participate</token>
+          <token>to</token>
+        </marker>
+          <token postag_regexp="yes" postag="DT|PRP\$"/>
+      </pattern>
+      <message>The usual preposition for "\1" is "in" not "to".  Revise: <suggestion>\1 in</suggestion>.</message>
+      <example correction='participate in'>They <marker>participate to</marker> many activities, which contains organize laboratory experiments, supervise students research, conducting many lectures and of course, writing textbooks.</example>
+    </rule>
+    <rule id='ON_IN_A_MEETING' name='Collocation: on/in a meeting'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+        <marker>
+          <token postag_regexp="yes" postag="NNP|PRP"/>
+          <token inflected="yes">be</token>
+          <token>on</token>
+          <token min="0" postag="DT"/>
+          <token>meeting</token>
+        </marker>
+          <token>
+            <exception postag_regexp="yes" postag="NN:UN?"/></token>
+      </pattern>
+      <message>The usual preposition for "\4 \5" is "in" not "on".  Revise: <suggestion>\1 \2 in <match no='4' include_skipped='all'/> meeting</suggestion>.</message>
+      <example correction='I was in a meeting'><marker>I was on a meeting</marker>.</example>
+    </rule>
+    <rule id='IN_AT_THE_MORNING' name='Collocation: at/in the morning'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+        <marker>
+          <token>at</token>
+          <token>the</token>
+          <token regexp="yes">morning|afternoon</token>
+        </marker>
+          <token postag_regexp="yes" postag="CC|SENT_END"/>
+      </pattern>
+      <message>The usual preposition for "\3" is "in" not "at".  Revise: <suggestion>in the \3</suggestion>.</message>
+      <example correction='in the morning'>I hardly ever drinks coffee <marker>at the morning</marker> because this make me crazy.</example>
+    </rule>
+    <rule id='IN_ON_A_TEAM' name='Collocation: in/on a team'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token>the</token>
+          <token regexp="yes" skip="-1">person|guy|chap|one</token>
+    <!-- Singular only -->
+          <token skip="-1">need</token>
+    <!-- Present tense only-->
+        <marker>
+          <token>in</token>
+          <token postag_regexp="yes" postag="DT|PRP\$"/>
+          <token>team</token>
+        </marker>
+      </pattern>
+      <message>The usual preposition for "team" is "on" not "in".  Revise: <suggestion>on \5 \6</suggestion>.</message>
+      <example correction='on his team'>I’m the one Frank Catania need <marker>in his team</marker>.</example>
+    </rule>
+    <rule id='ADDICTION_TO_OF' name='Collocation: addiction to/of'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token>addiction</token>
+          <token>of</token>
+          <token>drugs</token>
+      </pattern>
+      <message>The usual preposition for \1 is "to." Did you mean, <suggestion>\1 to \3</suggestion>?</message>
+      <example correction='addiction to drugs'>I would like to work with people who have an <marker>addiction of drugs</marker>.</example>
+    </rule>
+    <rule id='ON_IN_CHARGE_OF' name='Collocation: on/in charge of'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token regexp="yes">is|was</token>
+          <token regexp='yes'>an?|the</token>
+          <token>person</token>
+          <token>on</token>
+          <token>charge</token>
+          <token regexp="yes">of|to</token>
+      </pattern>
+      <message>The usual preposition for \5 is "in." Did you mean, <suggestion>\1 \2 \3 in charge of</suggestion>?</message>
+      <example correction='is the person in charge of'>Julie <marker>is the person on charge to</marker> the security.</example>
+    </rule>
+    <!--rule> XXX Because I only think about the summer season, I only work for the summer holidays. XXX This is correct. Enable only after improvement.
+      <pattern>
+          <token>for</token>
+          <token regexp='yes'>an?|the</token>
+          <token regexp="yes">winter|spring|summer|fall</token>
+          <token regexp="yes">vacation|holiday|holidays</token>
+      </pattern>
+      <message>The usual preposition for \4 is "during." Did you mean, <suggestion>during the \3 \4</suggestion>?</message>
+      <example correction='during the summer holidays'>I work only <marker>for the summer holidays</marker>.</example>
+    </rule>
+    <rule id='XXXXX' name='Collocation: '>
+    < Created by Nicholas Walker (Bokomaru), 2017-11-14 >
+      <pattern>
+          <token>when</token>
+          <token/>
+          <token inflected="yes">be</token>
+          <token>in</token>
+          <token regexp="yes">vacation|holiday</token>
+      </pattern>
+      <message>The usual preposition for \5 is "on." Did you mean, <suggestion>\1 \2 \3 on \5</suggestion>?</message>
+      <example correction=''><marker></marker>I work only for the summer holidays.</example>
+    </rule-->
+    <rule id='IN_AT_A_PARTY' name='Collocation: in/at a party'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token>in</token>
+          <token>a</token>
+          <token>party</token>
+      </pattern>
+      <message>Unless you mean "in a political party," the usual preposition for a party is "at." Did you mean, <suggestion>at a party</suggestion>?</message>
+      <example correction='at a party'>Later, I started working as a Research Assistant in university projects again, where I met her <marker>in a party</marker>.</example>
+    </rule>
+    <rule id='WORK_IN_ON_A_PROJECT' name='Collocation: '>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token postag_regexp="yes" postag="PRP|NNP"/>
+          <token>started</token>
+        <marker>
+          <token regexp="yes">work|working</token>
+          <token min='0'>as</token>
+          <token min='0'>a</token>
+          <token min='0' max='2' postag_regexp="yes" postag="NN(:UN?)?"/>
+          <token>in</token>
+          <token postag_regexp="yes" postag="JJ|NN(:UN?)?"/>
+          <token>projects</token>
+        </marker>
+      </pattern>
+      <message>The usual preposition for "\3...projects" is "on". Did you mean, <suggestion>\3 <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/> <match no='6' include_skipped='all'/> on \8 projects</suggestion>?</message>
+      <example correction='working as a Research Assistant on university projects'>Later, I started <marker>working as a Research Assistant in university projects</marker> again.</example>
+    </rule>
+    <rule id='SUFFER_OF_WITH' name='Collocation: suffer of/with/from'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token inflected="yes">suffer</token>
+          <token>of</token>
+      </pattern>
+      <message>The usual preposition for this expression is "from" or "with." Did you mean <suggestion>\1 from</suggestion> or <suggestion>\1 with</suggestion>?</message>
+      <example correction='suffering from|suffering with'>A clinical psychologist deals with people <marker>suffering of</marker> bipolar disorder.</example>
+    </rule>
+    <rule id='TALK_DOWN_ABOUT_TO' name='Collocation: talk down about/to'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token inflected="yes">talk</token>
+          <token>down</token>
+          <token>about</token>
+      </pattern>
+      <message>The usual preposition for this expression is "to". Did you mean, <suggestion>\1 down to</suggestion>?</message>
+      <example correction='talk down to'>Don't you ever <marker>talk down about</marker> my baby boy or Kristy.</example>
+    </rule>
+    <rule id='IN_ON_THE_FOOT' name='Collocation: in/on the foot'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token inflected="yes">wear</token>
+          <token postag="DT"/>
+          <token/>
+        <marker>
+          <token>in</token>
+          <token postag="PRP$"/>
+          <token inflected="yes">foot</token>
+        </marker>
+      </pattern>
+      <message>The usual preposition for feet is "on". Did you mean, <suggestion>on \5 \6</suggestion>?</message>
+      <short>Collocation error</short>
+      <example correction='on my feet'>He is wearing a crocs <marker>in my feet</marker>.</example>
+    </rule>
+    <rule id='AT_IN_THE_MORNING' name='Collocation: at/in the morning'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+        <marker>
+          <token regexp='yes'>at|on</token>
+          <token regexp='yes'>an?|the</token>
+          <token regexp="yes">morning|afternoon|evening</token>
+        </marker>
+          <token postag="SENT_END"/>
+      </pattern>
+      <message>The usual collocation for "\3" is "in". Revise: <suggestion>in the \3</suggestion>.</message>
+      <example correction='in the evening'>I like to do soccer <marker>on the evening</marker>.</example>
+    </rule>
+    <rule id='AT_OVER_THE_WEEKEND' name='Collocation: at/over the weekend'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+      <marker>
+          <token regexp='yes'>at|on</token>
+          <token regexp='yes'>an?|the</token>
+          <token>weekend</token>
+          </marker>
+          <token postag="SENT_END"/>
+      </pattern>
+      <message>The usual collocation for "\3" is "over" or "during". Revise: <suggestion>over the \3</suggestion> or <suggestion>during the \3</suggestion>.</message>
+      <url>http://learnersdictionary.com/qa/Over-the-weekend-on-the-weekend-at-the-weekend</url>
+      <example correction='over the weekend|during the weekend'>I like to do soccer <marker>on the weekend</marker>.</example>
+    </rule>
+    <rule id='GET_A_JOB_IN_WITH' name='Collocation: get a job in/with'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token inflected="yes">get</token>
+          <token regexp="yes">a|the</token>
+          <token regexp="yes">job|position</token>
+        <marker>
+          <token>in</token>
+          <token>the</token>
+          <token regexp="yes">[A-Z][A-Z]+</token><!--Acronym-->
+        </marker>
+      </pattern>
+      <message>The usual preposition for "\1 \2 \3" is "with" for an organization. Revise: <suggestion>with \5 \6</suggestion>.</message>
+      <example correction='with the SPVM'>The text is also a very important things for the people who want to get a job <marker>in the SPVM</marker>.</example>
+    </rule>
+    <rule id='PLAY_GAMES' name='Collocation: do/play game'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+        <marker>
+          <token regexp="yes" inflected="yes">go|do</token>
+          <token regexp="yes">ball|soccer|chess|tennis|golf|hockey|videogames|cards|football|basketball</token>
+        </marker>
+          <token>
+            <exception postag_regexp="yes" postag="NN(:UN?|S)?|VBG"/></token>
+      </pattern>
+      <message>The usual collocation for an activity that does not end in "-ing" and is something you can win is "play" not "do" or "go." Revise: <suggestion><match no='1' postag='V.+'>play</match> \2</suggestion>.</message>
+      <example correction='play soccer'>I like to <marker>do soccer</marker> on the weekend.</example>
+      <example correction='playing soccer'>I like <marker>doing soccer</marker> on the weekend.</example>
+    </rule>
+    <rule id='DO_ARTS' name='Collocation: go/do art'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <marker>
+          <token regexp="yes" inflected="yes">go|play</token>
+          <token regexp="yes">art|ballet|exercise|judo|karate|puzzles|taekwondo|weightlifting|yoga</token>
+          </marker>
+          <token>
+            <exception postag_regexp="yes" postag="NN(:UN?|S)?|VBG"/></token>
+      </pattern>
+      <message>The usual collocation for an activity that does not end in "-ing" and is not something you can win is "do" not "go" or "play." Revise: <suggestion><match no='1' postag='V.+'>do</match> \2</suggestion>.</message>
+      <example correction='does ballet'>My sister <marker>plays ballet</marker> at the community center.</example>
+    </rule>
+    <rule id='GO_GERUNG' name='Collocation: do/go activity'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <antipattern>
+          <token inflected="yes">be</token>
+          <token>done</token>
+          <token postag="VBG"/>
+      </antipattern>
+      <pattern>
+          <marker>
+          <token regexp="yes" inflected="yes">do|play</token>
+          <token postag="VBG">
+            <exception regexp="yes">training|marketing|lapping|engineering|nursing|weightlifting|boarding</exception></token>
+          </marker>
+          <token>
+            <exception postag_regexp="yes" postag="NN(:UN?|S)?"/></token>
+      </pattern>
+      <message>The usual collocation for an activity ending in "-ing" is "go" not "do" or "play." Revise: <suggestion><match no='1' postag='V.+'>go</match> \2</suggestion>.</message>
+      <example correction='go jogging'>Do you <marker>do jogging</marker>?</example>
+      <example correction='goes jogging'>He <marker>does jogging</marker>.</example>
+      <example>After the squad is done installing the gear.</example>
+    </rule>
+    <rule id='DAMAGE_OF_TO' name='Collocation: damage of/to'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token>damage</token>
+          <token>of</token>
+      </pattern>
+      <message>The usual collocation for word "damage" is "to" not "of." Revise: <suggestion>\1 to</suggestion>.</message>
+      <example correction='damage to'>It may cause <marker>damage of</marker> wildlife.</example>
+    </rule>
+    <rule id='INTEREST_ABOUT_IN' name='Collocation: interest about/in'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token regexp="yes">less|more|of</token>
+          <token regexp="yes">interest|interests|interested</token>
+          <token>about</token>
+      </pattern>
+      <message>The usual collocation for word "interest" is "in" not "about." Revise: <suggestion>\1 \2 in</suggestion>.</message>
+      <example correction='more interest in'>They are <marker>more interest about</marker> the money, like how it's manage.</example>
+    </rule>
+    <rule id='VULNERABLE_FROM_TO' name='Collocation: vulnerable from/to'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token>vulnerable</token>
+          <token>from</token>
+      </pattern>
+      <message>The usual collocation for word "vulnerable" is "to" not "from," as in "vulnerable to attack."  Revise: <suggestion>vulnerable to</suggestion>.</message>
+      <example correction='vulnerable to'>We do want to differ from other solutions where you must redirect all your domain names to a service provider, leaving your server <marker>vulnerable from</marker> direct attacks and having you hassle with domain records all the time.</example>
+    </rule>
   </rulegroup>
+
+    <rule id='GOOD_IN_AT_GERUND' name='Collocation: good in/at'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token>good</token>
+          <token>in</token>
+          <token postag="VBG"/>
+      </pattern>
+      <message>The usual preposition for this expression is "at". Did you mean, <suggestion>\1 at \3</suggestion>?</message>
+      <url>http://www.kentlee7.com/writ/collocation.errors.typical.pdf</url>
+      <short>Collocation error</short>
+      <example correction='good at swimming'>He is <marker>good in swimming</marker>.</example>
+    </rule>
 
   <rulegroup id='GOOD_IN_AT' name='Collocation: Good in/at'>
     <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
@@ -14703,6 +15201,23 @@ USA
                 <short>Punctuation error</short>
                 <example>Who's responsible for providing public facilities, <marker>i.e.,</marker> a post office, library, etc. for the Northwest?</example>
                 <example correction="i.e.">Who's responsible for providing public facilities, <marker>i. e.</marker>, a post office, library, etc. for the Northwest?</example>
+            </rule>
+        </rulegroup>
+        <rulegroup name="space in 'o´clock'" id="O_CLOCK">
+            <rule>
+                <antipattern case_sensitive="yes">
+                    <token>o</token>
+                    <token spacebefore="no" regexp="yes">['’´]</token>
+                    <token spacebefore="no">clock</token>
+                </antipattern>
+                <pattern case_sensitive="yes">
+                    <token>o</token>
+                    <token regexp="yes">['´]</token>
+                    <token spacebefore="yes">clock</token>
+                </pattern>
+                <message>There should be no space here: <suggestion>o\2clock</suggestion>.</message>
+                <short>Punctuation error</short>
+                <example correction="o'clock">They meet at 2 <marker>o' clock</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup default="off" id="COMMA_BEFORE_AND" name="Missing comma before 'and, or, nor, yet, so, but' (inclompete)">
@@ -18687,6 +19202,18 @@ USA
     <!-- Nonstandard Phrases -->
     <!-- ====================================================================== -->
     <category id="NONSTANDARD_PHRASES" name="Nonstandard Phrases" type="misspelling">
+      <rule id="IN_X_ORDER" name="redundant determiner: 'in (an) alphabetical order">
+          <pattern case_sensitive="yes">
+              <token>in</token>
+              <token regexp="yes">an?</token>
+              <token regexp="yes">alphabetical|ascending|descending</token>
+              <token>order</token>
+          </pattern>
+          <message>Unless there is more than one '\3 \4', leave out the determiner '\2'.</message>
+          <suggestion>\1 \3 \4</suggestion>
+          <url>https://jakubmarian.com/in-an-alphabetical-order-vs-in-alphabetical-order-in-english/</url>
+          <example correction="in alphabetical order">List the names <marker>in an alphabetical order</marker>.</example>
+      </rule>
       <rule id="I_NEVER_HAVE_BEEN" name="I never have been (I have never been)">
           <pattern>
               <token>I</token>
@@ -19018,6 +19545,20 @@ USA
                 <example correction="7:45">It's <marker>7:45 o'clock</marker>.</example>
             </rule>
         </rulegroup>
+        <rule id="SI_UNITS_OF_MEASURMENT_ADJECTIVES_PLURAL" name="5-farads/5-farad">
+            <pattern>
+                <token regexp="yes">([0-9]+-)(yotta|zetta|exa|peta|tera|giga|mega|kilo|hecto|deca|deka|deci|centi|milli|micro|nano|pico|femto|atto|zepto|yocto)?(amperes|becquerels|candelas|coulombs|farads|grams|grammes|grays|henries|hertz|joules|katals|kelvins|liters|litres|lumens|lux|meters|metres|moles|newtons|ohms|pascals|radians|siemens|sieverts|steradians|teslas|volts|watts|webers)<exception postag="NNP"/></token>
+            </pattern>
+            <message>The word '<match no="1"/>' is an adjective (SI unit of measurement), but the spelling is not correct. Do not use a plural adjective. Refer to section 5.3.3 in 'The International System of Units (SI)'.</message>
+            <url>https://www.bipm.org/utils/common/pdf/si_brochure_8_en.pdf</url>
+            <short>SI units, plural adjectives</short>
+            <example type="incorrect">Use a <marker>6-microfarads</marker> capacitor.</example>
+            <example type="correct">Use a <marker>6-microfarad</marker> capacitor.</example>
+            <example type="incorrect">A <marker>10-milliohms</marker> resistor is necessary.</example>
+            <example type="incorrect">Use a <marker>10-metres</marker> rope.</example>
+            <example type="incorrect">The 4.<marker>6-centigrammes</marker> difference is not a problem.</example>
+            <example type="incorrect">Also find typgoraphic errors: a 5.7.<marker>8-femtogrammes</marker> difference is not important.</example>
+        </rule>
     </category>
 
     <!-- ====================================================================== -->
@@ -20851,6 +21392,16 @@ USA
     <!-- Style -->
     <!-- ====================================================================== -->
     <category id="STYLE" name="Style" type="style">
+        <rule id="MOST_EVERYONE" name="most (almost) every">
+            <pattern>
+                <token regexp="yes">most(ly)?</token>
+                <token regexp="yes">(any|every)(body|one|where)?</token>
+            </pattern>
+            <message>The phrase '\1 \2' is colloquial. In formal/ written English you should avoid it. Use <suggestion>almost \2</suggestion> instead!</message>
+            <url>http://www.englishessaywritingtips.com/2011/09/common-errors-in-spoken-english-most-everyone/</url>
+            <example correction="Almost everyone"><marker>Most everyone</marker> saw him.</example>
+            <example correction="almost everywhere">They are <marker>most everywhere</marker>.</example>
+        </rule>
         <rule id="WHEN_WHERE" name="where/when">
             <pattern>
                 <token regexp="yes">times?|months?|weeks?|years?|days?|hours?</token>

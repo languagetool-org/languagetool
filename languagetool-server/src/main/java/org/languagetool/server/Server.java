@@ -92,9 +92,10 @@ abstract class Server {
   @Nullable
   protected RequestLimiter getRequestLimiterOrNull(HTTPServerConfig config) {
     int requestLimit = config.getRequestLimit();
+    int requestLimitInBytes = config.getRequestLimitInBytes();
     int requestLimitPeriodInSeconds = config.getRequestLimitPeriodInSeconds();
-    if (requestLimit > 0 && requestLimitPeriodInSeconds > 0) {
-      return new RequestLimiter(requestLimit, requestLimitPeriodInSeconds);
+    if ((requestLimit > 0 || requestLimitInBytes > 0) && requestLimitPeriodInSeconds > 0) {
+      return new RequestLimiter(requestLimit, requestLimitInBytes, requestLimitPeriodInSeconds);
     }
     return null;
   }
@@ -122,7 +123,8 @@ abstract class Server {
     System.out.println("                 'maxCheckTimeMillis' - maximum time in milliseconds allowed per check (optional)");
     System.out.println("                 'maxCheckThreads' - maximum number of threads working in parallel (optional)");
     System.out.println("                 'cacheSize' - size of internal cache in number of sentences (optional, default: 0)");
-    System.out.println("                 'requestLimit' - maximum number of requests (optional)");
+    System.out.println("                 'requestLimit' - maximum number of requests per requestLimitPeriodInSeconds (optional)");
+    System.out.println("                 'requestLimitInBytes' - maximum aggregated size of requests per requestLimitPeriodInSeconds (optional)");
     System.out.println("                 'timeoutRequestLimit' - maximum number of timeout request (optional)");
     System.out.println("                 'requestLimitPeriodInSeconds' - time period to which requestLimit and timeoutRequestLimit applies (optional)");
     System.out.println("                 'languageModel' - a directory with '1grams', '2grams', '3grams' sub directories which contain a Lucene index");

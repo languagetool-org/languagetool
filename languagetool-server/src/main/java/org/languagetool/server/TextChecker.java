@@ -93,6 +93,13 @@ abstract class TextChecker {
     boolean autoDetectLanguage = getLanguageAutoDetect(parameters);
     List<String> preferredVariants = getPreferredVariants(parameters);
     Language lang = getLanguage(aText.getPlainText(), parameters, preferredVariants);
+    Integer count = languageCheckCounts.get(lang.getShortCodeWithCountryAndVariant());
+    if (count == null) {
+      count = 1;
+    } else {
+      count++;
+    }
+    print("Starting check: " + aText.getPlainText().length() + " chars, #" + count);
     String motherTongueParam = parameters.get("motherTongue");
     Language motherTongue = motherTongueParam != null ? Languages.getLanguageForShortCode(motherTongueParam) : null;
     boolean useEnabledOnly = "yes".equals(parameters.get("enabledOnly")) || "true".equals(parameters.get("enabledOnly"));
@@ -147,7 +154,7 @@ abstract class TextChecker {
         }
         String message = "Text checking took longer than allowed maximum of " + limits.getMaxCheckTimeMillis() +
                          " milliseconds (cancelled: " + cancelled +
-                         ", language: " + lang.getShortCodeWithCountryAndVariant() +
+                         ", language: " + lang.getShortCodeWithCountryAndVariant() + ", #" + count +
                          ", " + aText.getPlainText().length() + " characters of text, system load: " + loadInfo + ")";
         if (params.allowIncompleteResults) {
           print(message + " - returning " + ruleMatchesSoFar.size() + " matches found so far");
@@ -178,12 +185,6 @@ abstract class TextChecker {
       languageMessage += "[auto]";
     }
     String agent = parameters.get("useragent") != null ? parameters.get("useragent") : "-";
-    Integer count = languageCheckCounts.get(lang.getShortCodeWithCountryAndVariant());
-    if (count == null) {
-      count = 1;
-    } else {
-      count++;
-    }
     languageCheckCounts.put(lang.getShortCodeWithCountryAndVariant(), count);
     print("Check done: " + aText.getPlainText().length() + " chars, " + languageMessage + ", #" + count + ", " + referrer + ", "
             + matches.size() + " matches, "
@@ -210,7 +211,7 @@ abstract class TextChecker {
 
   private List<RuleMatch> getRuleMatches(AnnotatedText aText, Language lang,
                                          Language motherTongue, QueryParams params, RuleMatchListener listener) throws Exception {
-    if (cache != null && cache.requestCount() % CACHE_STATS_PRINT == 0) {
+    if (cache != null && cache.requestCount() > 0 && cache.requestCount() % CACHE_STATS_PRINT == 0) {
       String hitPercentage = String.format(Locale.ENGLISH, "%.2f", cache.hitRate() * 100.0f);
       print("Cache stats: " + hitPercentage + "% hit rate");
     }

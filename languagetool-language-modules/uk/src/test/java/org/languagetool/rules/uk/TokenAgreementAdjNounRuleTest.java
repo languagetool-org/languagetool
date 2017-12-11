@@ -726,6 +726,17 @@ public class TokenAgreementAdjNounRuleTest {
 //    assertEquals(1, rule.match(langTool.getAnalyzedSentence("на вибори само висуванцем")).length);
   }
   
+  @Test
+  public void testSpecialChars() throws IOException {
+    assertEmptyMatch("зелений поді\u00ADум");
+
+    RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("зелений по\u00ADділка."));
+    assertEquals(1, matches.length);
+
+    matches = rule.match(langTool.getAnalyzedSentence("зе\u00ADлений поділка."));
+    assertEquals(1, matches.length);
+  }
+  
   private void assertEmptyMatch(String text) throws IOException {
     assertEquals(Collections.<RuleMatch>emptyList(), Arrays.asList(rule.match(langTool.getAnalyzedSentence(text))));
   }

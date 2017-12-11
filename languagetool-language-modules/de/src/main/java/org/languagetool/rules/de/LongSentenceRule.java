@@ -146,7 +146,7 @@ public class LongSentenceRule extends org.languagetool.rules.LongSentenceRule {
           }
           if (k < tokens.length) {
             if (numWordsInt > maxWords) {
-              RuleMatch ruleMatch = new RuleMatch(this, fromPosInt, toPosInt, msg);
+              RuleMatch ruleMatch = new RuleMatch(this, sentence, fromPosInt, toPosInt, msg);
               ruleMatches.add(ruleMatch);
             }
             for (i = k; i < tokens.length && !isWordCount(tokens[i].getToken()); i++) ;
@@ -161,7 +161,7 @@ public class LongSentenceRule extends org.languagetool.rules.LongSentenceRule {
       }
       if (numWords > maxWords) {
         for (int j = 0; j < fromPos.size(); j++) {
-          RuleMatch ruleMatch = new RuleMatch(this, fromPos.get(j), toPos.get(j), msg);
+          RuleMatch ruleMatch = new RuleMatch(this, sentence, fromPos.get(j), toPos.get(j), msg);
           ruleMatches.add(ruleMatch);
         }
       } else {

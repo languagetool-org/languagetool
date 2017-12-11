@@ -59,10 +59,6 @@ public class SimpleReplaceDNVRuleTest {
     assertEquals(1, matches.length);
     assertEquals("arxipèlags", matches[0].getSuggestedReplacements().get(0));
     
-    matches = rule.match(langTool.getAnalyzedSentence("Llavors no ensajaven"));
-    assertEquals(1, matches.length);
-    assertEquals("assajaven", matches[0].getSuggestedReplacements().get(0));
-    
     matches = rule.match(langTool.getAnalyzedSentence("acevéssiu"));
     assertEquals(1, matches.length);
     assertEquals("encebéssiu", matches[0].getSuggestedReplacements().get(0));
