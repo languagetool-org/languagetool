@@ -14553,7 +14553,7 @@ USA
           <marker>
           <token regexp="yes" inflected="yes">do|play</token>
           <token postag="VBG">
-            <exception regexp="yes">training|marketing|lapping|engineering|nursing|weightlifting</exception></token>
+            <exception regexp="yes">training|marketing|lapping|engineering|nursing|weightlifting|boarding</exception></token>
           </marker>
           <token>
             <exception postag_regexp="yes" postag="NN(:UN?|S)?"/></token>
@@ -14562,6 +14562,34 @@ USA
       <example correction='go jogging'>Do you <marker>do jogging</marker>?</example>
       <example correction='goes jogging'>He <marker>does jogging</marker>.</example>
       <example>After the squad is done installing the gear.</example>
+    </rule>
+    <rule id='DAMAGE_OF_TO' name='Collocation: damage of/to'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token>damage</token>
+          <token>of</token>
+      </pattern>
+      <message>The usual collocation for word "damage" is "to" not "of." Revise: <suggestion>\1 to</suggestion>.</message>
+      <example correction='damage to'>It may cause <marker>damage of</marker> wildlife.</example>
+    </rule>
+    <rule id='INTEREST_ABOUT_IN' name='Collocation: interest about/in'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token regexp="yes">less|more|of</token>
+          <token regexp="yes">interest|interests|interested</token>
+          <token>about</token>
+      </pattern>
+      <message>The usual collocation for word "interest" is "in" not "about." Revise: <suggestion>\1 \2 in</suggestion>.</message>
+      <example correction='more interest in'>They are <marker>more interest about</marker> the money, like how it's manage.</example>
+    </rule>
+    <rule id='VULNERABLE_FROM_TO' name='Collocation: vulnerable from/to'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token>vulnerable</token>
+          <token>from</token>
+      </pattern>
+      <message>The usual collocation for word "vulnerable" is "to" not "from," as in "vulnerable to attack."  Revise: <suggestion>vulnerable to</suggestion>.</message>
+      <example correction='vulnerable to'>We do want to differ from other solutions where you must redirect all your domain names to a service provider, leaving your server <marker>vulnerable from</marker> direct attacks and having you hassle with domain records all the time.</example>
     </rule>
   </rulegroup>
 
