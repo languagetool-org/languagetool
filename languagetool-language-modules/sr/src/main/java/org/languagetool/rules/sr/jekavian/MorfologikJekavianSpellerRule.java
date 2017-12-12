@@ -18,7 +18,7 @@
  */
 package org.languagetool.rules.sr.jekavian;
 
-import org.languagetool.language.JekavianSerbian;
+import org.languagetool.Language;
 import org.languagetool.rules.Example;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
 
@@ -29,13 +29,12 @@ import java.util.ResourceBundle;
 /** @since 4.0 */
 public class MorfologikJekavianSpellerRule extends MorfologikSpellerRule {
 
-  public static final String RULE_ID = "SR_JEKAVIAN_MORFOLOGIK_SPELLER_RULE";
-
-  private static final String RESOURCE_FILENAME = "/sr/dictionary/jekavian/serbian_hunspell.dict";
+  public static final String RULE_ID = "MORFOLOGIK_RULE_SR_HR";
+  private static final String BASE_DICTIONARY_PATH = "/sr/dictionary/јekavian/";
 
   public MorfologikJekavianSpellerRule(
           ResourceBundle messages,
-          JekavianSerbian language) throws IOException {
+          Language language) throws IOException {
 
     super(messages, language);
     addExamplePair(
@@ -46,11 +45,27 @@ public class MorfologikJekavianSpellerRule extends MorfologikSpellerRule {
 
   @Override
   public String getFileName() {
-    return RESOURCE_FILENAME;
+    return BASE_DICTIONARY_PATH + "serbian.dict";
   }
 
   @Override
   public String getId() {
     return RULE_ID;
+  }
+
+  @Override
+  // File with ignored words
+  public String getSpellingFileName() {
+    return BASE_DICTIONARY_PATH + "spelling.txt";
+  }
+
+  @Override
+  public String getIgnoreFileName() {
+    return BASE_DICTIONARY_PATH + "ignored.txt";
+  }
+
+  @Override
+  public String getProhibitFileName() {
+    return BASE_DICTIONARY_PATH + "prohibit.txt";
   }
 }

@@ -25,6 +25,13 @@ import java.util.Locale;
 /** @since 4.0 */
 public class SerbianTagger extends BaseTagger {
 
+  protected final static String BASE_DICTIONARY_PATH = "/sr/dictionary";
+  protected final static String EKAVIAN_DICTIONARY_PATH = BASE_DICTIONARY_PATH + "/ekavian/";
+
+  public SerbianTagger() {
+    super(EKAVIAN_DICTIONARY_PATH + "serbian.dict", new Locale("sr"));
+  }
+
   public SerbianTagger(final String fileName, final Locale conversionLocale) {
     super(fileName, conversionLocale);
   }

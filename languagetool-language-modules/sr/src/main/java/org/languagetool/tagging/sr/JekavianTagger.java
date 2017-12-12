@@ -23,7 +23,7 @@ import java.util.Locale;
 /** @since 4.0 */
 public class JekavianTagger extends SerbianTagger {
 
-  private final static String DICTIONARY_PATH = "/sr/dictionary/jekavian/";
+  private final static String DICTIONARY_PATH = BASE_DICTIONARY_PATH + "/jekavian/";
 
   public JekavianTagger() {
     super(DICTIONARY_PATH + "serbian.dict", new Locale("sr"));

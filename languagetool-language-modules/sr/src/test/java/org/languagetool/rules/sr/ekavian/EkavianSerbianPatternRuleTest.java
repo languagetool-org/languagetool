@@ -1,5 +1,5 @@
 /* LanguageTool, a natural language style checker
- * Copyright (C) 2007 Daniel Naber (http://www.danielnaber.de)
+ * Copyright (C) 2017 Daniel Naber (http://www.danielnaber.de)
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -16,25 +16,17 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.language;
+package org.languagetool.rules.sr.ekavian;
 
-/**
- * Support for Serbian language spoken in Croatia
- *
- * @author Zoltán Csala
- *
- * @since 4.0
- */
-public class CroatianSerbian extends JekavianSerbian {
+import org.junit.Test;
+import org.languagetool.rules.patterns.PatternRuleTest;
 
-  @Override
-  public String[] getCountries() {
-    return new String[]{ "HR" };
+import java.io.IOException;
+
+public class EkavianSerbianPatternRuleTest extends PatternRuleTest {
+
+  @Test
+  public void testRules() throws IOException {
+    //runGrammarRulesFromXmlTest();
   }
-
-  @Override
-  public String getName() {
-    return "Serbian (Croatia)";
-  }
-
 }

@@ -36,26 +36,39 @@ import static org.junit.Assert.*;
  *
  * @since 4.0
  */
-public class JekavianTaggerTest {
+public class JekavianTaggerTest extends AbstractSerbianTaggerTest {
 
-  private JekavianTagger tagger;
-  private WordTokenizer tokenizer;
-
-  @Before
-  public void setUp() throws Exception {
-    tagger = new JekavianTagger();
-    tokenizer = new WordTokenizer();
+  protected JekavianTagger createTagger() {
+    return new JekavianTagger();
   }
 
+  /**
+   * Special case for auxilliary verb "jesam" (I am)
+   *
+   * @throws IOException
+   */
   @Test
-  public void testDictionary() throws IOException {
-    TestTools.testDictionary(tagger, new JekavianSerbian());
+  public void testTaggerJesam() throws IOException {
+    assertHasLemmaAndPos("је", "јесам", "GL:PM:PZ:3L:0J");
+    assertHasLemmaAndPos("јеси", "јесам", "GL:PM:PZ:2L:0J");
+    assertHasLemmaAndPos("смо", "јесам", "GL:PM:PZ:1L:0M");
+  }
+
+  /**
+   * Word that exists only in Јеkavian dictionary
+   *
+   * @throws IOException
+   */
+  @Test
+  public void testTaggerSvijet() throws Exception {
+    assertHasLemmaAndPos("цвијете", "цвијет", "IM:ZA:MU:0J:VO");
+    assertHasLemmaAndPos("цвијетом", "цвијет", "IM:ZA:MU:0J:IN");
   }
 
   @Test
   public void testTagger() throws IOException {
-    TestTools.myAssert("Ово је лијеп цвијет.", "Ово/[овај]ZM:PK:0:SR:0J:AK|Ово/[овај]ZM:PK:0:SR:0J:NO -- је/[јесам]GL:PM:PZ:3L:0J -- лијеп/[лијеп]PR:OP:PO:MU:0J:AK:ST|лијеп/[лијеп]PR:OP:PO:MU:0J:NO:NE|лијеп/[лијеп]PR:OP:PO:MU:0J:VO:NE -- цвијет/[цвијет]IM:ZA:MU:0J:AK:ST|цвијет/[цвијет]IM:ZA:MU:0J:NO", tokenizer, tagger);
+    TestTools.myAssert("Ово је лијеп цвијет.", "Ово/[овај]ZM:PK:0:SR:0J:AK|Ово/[овај]ZM:PK:0:SR:0J:NO -- је/[јесам]GL:PM:PZ:3L:0J -- лијеп/[лијеп]PR:OP:PO:MU:0J:AK:ST|лијеп/[лијеп]PR:OP:PO:MU:0J:NO:NE|лијеп/[лијеп]PR:OP:PO:MU:0J:VO:NE -- цвијет/[цвијет]IM:ZA:MU:0J:AK:ST|цвијет/[цвијет]IM:ZA:MU:0J:NO", getTokenizer(), getTagger());
     // Proof that Jekavian tagger does not tag Ekavian words
-    TestTools.myAssert("Ала је леп овај свет, онде поток, овде свет.", "Ала/[ала]IM:ZA:ZE:0J:NO|Ала/[ала]IM:ZA:ZE:0M:GE -- је/[јесам]GL:PM:PZ:3L:0J -- леп/[лепак]PR:OP:PO:MU:0J:VO:NE -- овај/[овај]ZM:PK:0:MU:0J:AK:ST|овај/[овај]ZM:PK:0:MU:0J:NO -- свет/[свет]PR:OP:PO:MU:0J:AK:ST|свет/[свет]PR:OP:PO:MU:0J:NO:NE|свет/[свет]PR:OP:PO:MU:0J:VO:NE -- онде/[null]null -- поток/[поток]IM:ZA:MU:0J:AK:ST|поток/[поток]IM:ZA:MU:0J:NO -- овде/[null]null -- свет/[свет]PR:OP:PO:MU:0J:AK:ST|свет/[свет]PR:OP:PO:MU:0J:NO:NE|свет/[свет]PR:OP:PO:MU:0J:VO:NE", tokenizer, tagger);
+    TestTools.myAssert("Ала је леп овај свет, онде поток, овде свет.", "Ала/[ала]IM:ZA:ZE:0J:NO|Ала/[ала]IM:ZA:ZE:0M:GE -- је/[јесам]GL:PM:PZ:3L:0J -- леп/[лепак]PR:OP:PO:MU:0J:VO:NE -- овај/[овај]ZM:PK:0:MU:0J:AK:ST|овај/[овај]ZM:PK:0:MU:0J:NO -- свет/[свет]PR:OP:PO:MU:0J:AK:ST|свет/[свет]PR:OP:PO:MU:0J:NO:NE|свет/[свет]PR:OP:PO:MU:0J:VO:NE -- онде/[null]null -- поток/[поток]IM:ZA:MU:0J:AK:ST|поток/[поток]IM:ZA:MU:0J:NO -- овде/[null]null -- свет/[свет]PR:OP:PO:MU:0J:AK:ST|свет/[свет]PR:OP:PO:MU:0J:NO:NE|свет/[свет]PR:OP:PO:MU:0J:VO:NE", getTokenizer(), getTagger());
   }
 }

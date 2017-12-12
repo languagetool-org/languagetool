@@ -29,7 +29,7 @@ public class BosnianSerbian extends JekavianSerbian {
 
   @Override
   public String[] getCountries() {
-    return new String[]{"BA"};
+    return new String[]{ "BA" };
   }
 
   @Override
