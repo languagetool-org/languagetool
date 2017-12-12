@@ -258,6 +258,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="напередодні|напе 1 редодні"><marker>напе1редодні</marker></example>
         <example>40х40х30</example>
       </rule>
+
       <rule>
         <antipattern>
           <token regexp="yes">[А-ЯІЇЄҐ].*</token>
@@ -283,7 +284,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <token regexp="yes">[$+-]?[0-9,-]*[0-9,][а-яіїєґ'][а-яіїєґ'-]*\.?
               <exception case_sensitive="yes">1С</exception>
               <exception regexp="yes">[0-9]+'</exception>
-              <exception case_sensitive="yes" regexp="yes">[+-]?[0-9,-]*[0-9][оo][СC]</exception>	<!-- both lat and cyr o and C -->
+              <exception case_sensitive="yes" regexp="yes">[+-]?[0-9,-]*[0-9][оo][СC]</exception>	<!-- both lat and cyr o and C, taken care by rule below -->
             </token>
           </marker>
         </pattern>
@@ -296,6 +297,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="1981 р.|1981-р.">З <marker>1981р.</marker></example>
         <example correction="1989 го|1989-го">15 лютого <marker>1989го</marker>.</example>
         <example correction="0,4-10 кВ|0,4-10-кВ">напруги <marker>0,4-10кВ</marker>.</example>
+        <!--TODO: for some reason antipattrn tiggers here when no space between тис. and ,
+        <example correction="6 те|6-те">5-те місце — $10 тис., <marker>6те</marker> місце — $6 тис..</example>
+        -->
         <example>Естафета 4х100 м.</example>
         <example>Грушевського, 9а</example>
         <example>Грушевського, буд. 9а</example>
@@ -434,15 +438,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
     <rulegroup id="ABBREVIATIONS_MISSING_DOT" name="Скорочення - пропущена крапка">
       <rule>
+        <antipattern>
+          <token regexp="yes">коп|тис</token>
+          <token regexp="yes">[….!?]|\.\.\.</token>   <!-- dot may still happen separately - tokenizing all cases properly is hard -->
+        </antipattern>
         <pattern>
           <token regexp="yes">.*[0-9]</token>
           <marker>
-            <token>коп</token>
+            <token regexp="yes">коп|тис</token>
           </marker>
         </pattern>
         <message>Скорочення з відкиданням літер пишуться з крапкою: <suggestion><match no="2"/>.</suggestion></message>
         <example correction="коп.">зросла на 50—70 <marker>коп</marker>/л</example>
         <example correction="коп.">496 грн 75 <marker>коп</marker> за екземпляр</example>
+        <example correction="тис.">штраф у 150 <marker>тис</marker> гривень</example>
+        <example correction="тис.">штраф у 150 <marker>тис</marker></example>
+        <example correction="тис.">штраф у 150&#xA; <marker>тис</marker> гривень</example>
+        <example>це $400&#xA;   тис.», – розповідає Олег.</example>
+        <example>це 100 тис…</example>
+        <example>це 100 тис...</example>
       </rule>
     </rulegroup>
 
