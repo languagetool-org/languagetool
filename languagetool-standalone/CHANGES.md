@@ -56,6 +56,13 @@
 #### Serbian
   * initial support for Serbian by Zoltán Csala
 
+#### Ukrainian
+  * big dictionary update (~10K new lemmas)
+  * improvements in tokenization
+  * compound word tagging improvements
+  * more than 350 new disambiguation rules
+  * several new barbarism and grammar rules
+
 #### General
   * Now runs with Java 9 (compilation with Maven still has issue with Java9)
   * The spell checker tries harder to find suggestion for misspellings that have
