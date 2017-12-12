@@ -152,6 +152,15 @@ final class TokenAgreementAdjNounExceptionHelper {
       return true;
     }
 
+    // 10 метрів квадратних води
+    if( i > 3
+        && LemmaHelper.hasLemma(tokens[i-2], Pattern.compile(".*метр.*"))
+        && LemmaHelper.hasLemma(tokens[i-1], Pattern.compile("квадратний|кубічний"))
+        && PosTagHelper.hasPosTagPart(tokens[i], "v_rod") ) {
+      logException();
+      return true;
+    }
+
     // молодшого гвардії сержанта
     if( i > 1 && i < tokens.length - 1
         && tokens[i].getToken().equals("гвардії")
@@ -743,7 +752,7 @@ final class TokenAgreementAdjNounExceptionHelper {
     // adjp:pasv + adj:v_oru + noun (case governed by adjp)
     // підсвічений синім діамант
     if( i > 1
-        && PosTagHelper.hasPosTagPart(tokens[i-2], "adjp:pasv") // could be :&adjp or :&_adjp
+        && PosTagHelper.hasPosTagPart(tokens[i-2], "adjp:pasv") // could be :&adjp or :&&adjp
         && PosTagHelper.hasPosTag(tokens[i-1], "adj.*v_oru.*")
         && ! Collections.disjoint(InflectionHelper.getAdjInflections(tokens[i-2].getReadings()), slaveInflections) ) {
       logException();
@@ -756,7 +765,7 @@ final class TokenAgreementAdjNounExceptionHelper {
     // оприлюднений депутатом Юрієм
     // вкриті плющем будинки
     // всі вкриті плющем
-    if( PosTagHelper.hasPosTagPart(adjAnalyzedTokenReadings, "adjp:pasv") // could be :&adjp or :&_adjp
+    if( PosTagHelper.hasPosTagPart(adjAnalyzedTokenReadings, "adjp:pasv") // could be :&adjp or :&&adjp
         && PosTagHelper.hasPosTagPart(tokens[i], "v_oru") ) {
       logException();
       return true;
@@ -792,7 +801,7 @@ final class TokenAgreementAdjNounExceptionHelper {
           && PosTagHelper.hasPosTagPart(tokens[i+1], "noun:") ) {
 
         // вдячний редакторові Вільяму
-//        if( PosTagHelper.hasPosTag(tokens[i+1], "noun:anim.*([fl]name|patr).*")
+//        if( PosTagHelper.hasPosTag(tokens[i+1], "noun:anim.*?[flp]name.*")
 //            && caseGovernmentMatches(adjTokenReadings, InflectionHelper.getNounInflections(tokens[i+1].getReadings())) ) {
 //          logException();
 //          return true;

@@ -201,6 +201,7 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("sommerverie", "Sommerferien", rule, lt);
     assertFirstSuggestion("thelepatie", "Telepathie", rule, lt);
     assertFirstSuggestion("Durschnittswerte", "Durchschnittswerte", rule, lt);
+    assertFirstSuggestion("berücksichtung", "Berücksichtigung", rule, lt);
   }
 
   @Test

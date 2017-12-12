@@ -76,9 +76,10 @@ public class TokenAgreementAdjNounRuleTest {
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("цинічна винахідливості")).length);
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("наступній рік свого життя")).length);
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("жодного кубічного метру в Україні не буде")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("кладний рік на фондовим ринку")).length);
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("складний рік на фондовим ринку")).length);
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("є найкращий засобом для очистки")).length);
     
-    // не працює через іменник французька (мова)
+    // не працює через іменник "французька" (мова)
 //    assertEquals(1, rule.match(langTool.getAnalyzedSentence("французька політик")).length);
 
     RuleMatch[] matches0 = rule.match(langTool.getAnalyzedSentence("4 російських винищувача"));
@@ -221,6 +222,8 @@ public class TokenAgreementAdjNounRuleTest {
     assertEmptyMatch("чотирициліндровий об’ємом 1000 куб. см.");
     assertEmptyMatch("10 жовтих площею 1,5 ");
     assertEmptyMatch("безплатні довжиною від 100 до 1000 метрів");
+
+    assertEmptyMatch("за метр кубічний води");
 
     // річних
     assertEmptyMatch("200% річних прибутку");

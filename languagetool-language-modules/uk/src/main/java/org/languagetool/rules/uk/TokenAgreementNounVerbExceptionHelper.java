@@ -197,8 +197,9 @@ public final class TokenAgreementNounVerbExceptionHelper {
 //          return true;
 //        }
         
-        if( PosTagHelper.hasPosTagPart(tokens[i-1], "numr") ) { 
-//            && ! LemmaHelper.hasLemma(tokens[i-1], "один") ) {
+        if( (PosTagHelper.hasPosTagPart(tokens[i-1], "numr")
+            && ! LemmaHelper.hasLemma(tokens[i-1], "один"))
+            || LemmaHelper.hasLemma(tokens[i-1], Arrays.asList("сотня", "тисяча", "десяток")) ) {
           logException();
           return true;
         }

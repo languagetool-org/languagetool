@@ -13,10 +13,10 @@ import org.languagetool.tagging.uk.PosTagHelper;
  */
 public class UkrainianWordRepeatRule extends WordRepeatRule {
   private static final HashSet<String> REPEAT_ALLOWED_SET = new HashSet<>(
-      Arrays.asList("що", "ні", "одне", "ось", "ст.")
+      Arrays.asList("ст.")
   );
   private static final HashSet<String> REPEAT_ALLOWED_CAPS_SET = new HashSet<>(
-      Arrays.asList("ПРО", "Джей", "Ді")
+      Arrays.asList("Джей", "Бі", "Сі")
   );
 
   public UkrainianWordRepeatRule(ResourceBundle messages, Language language) {
@@ -34,10 +34,24 @@ public class UkrainianWordRepeatRule extends WordRepeatRule {
     String token = analyzedTokenReadings.getToken();
     
     // від добра добра не шукають
-    if( position > 1 && token.equals("добра")
+    if( position > 2 
+        && token.equals("добра")
         && tokens[position-2].getToken().equalsIgnoreCase("від") )
       return true;
     
+    // Тому що що?
+    if( position > 1 
+        && token.equals("що")
+        && tokens[position-2].getToken().equalsIgnoreCase("тому") )
+      return true;
+
+    // ні так, ні ні
+    if( position > 3
+        && token.equals("ні")
+        && tokens[position-2].getToken().equals(",")
+        && tokens[position-3].getToken().equalsIgnoreCase("так") )
+      return true;
+
     if( REPEAT_ALLOWED_SET.contains(token.toLowerCase()) )
       return true;
 

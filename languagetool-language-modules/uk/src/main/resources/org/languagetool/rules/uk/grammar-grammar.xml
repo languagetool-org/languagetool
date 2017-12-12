@@ -35,7 +35,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
     <rule id="PREP_BEFORE_VERB" name="Прийменник перед дієсловом">
       <antipattern>
-        <token regexp="yes">о?крім|замість|(за)?для|(за)?ради|замість</token>
+        <token regexp="yes">о?крім|замість|(за)?для|(за)?ради</token>
         <token postag_regexp="yes" postag="verb.*inf.*"/>
       </antipattern>
       <antipattern>
@@ -70,7 +70,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example>кількість захворювань на гепатит В зменшилась у вісім разів.</example>
       <example correction="їхати">Їм треба <marker>в їхати</marker>.</example>
       <example correction="будь"><marker>для будь</marker> кого</example>
+      <!-- ловимо іншим правилом
       <example correction="грати">потрапляти <marker>за грати</marker>.</example>
+      -->
     </rule>
 
     <rulegroup id="MODAL_WORD" name="Узгодження з модальними словами">
@@ -80,7 +82,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token inflected="yes">можна</token>
         </antipattern>
         <pattern>
-          <token regexp="yes">варто|годі|можна|повинно|треба
+          <token regexp="yes">варто|годі|можна|повинно|треба|має|мусить
             <exception scope="previous" regexp="yes">кого</exception>
           </token>
           <token regexp="yes" min="0">було|буде</token>
@@ -213,79 +215,146 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <rule>
         <pattern>
           <token inflected="yes" regexp="yes">навч[иа]ти|навча(вши|ючи)|навчивши</token>
-          <token postag_regexp="yes" postag="noun:anim.*:v_zna.*|noun.*v_zna.*pron:pers.*" min="0"/>
+          <token postag_regexp="yes" postag="noun:anim.*?:v_zna.*|noun.*?v_zna.*pron:pers.*" min="0"/>
           <marker>
-            <token postag_regexp="yes" postag="noun:inanim:.:v_dav.*|adj.*v_dav.*">
-              <exception postag_regexp="yes" postag="noun:.*:v_(rod|zna|oru).*|noun:anim.*:v_naz.*|adv.*"/>
-            </token>
+            <unify>
+              <feature id="gender"/>
+              <feature id="case"/>
+              <token postag_regexp="yes" postag="adj:.:v_dav.*" min="0"/>
+              <token postag_regexp="yes" postag="noun:inanim:.:v_dav.*">
+                <exception postag_regexp="yes" postag="noun:.*:v_(rod|zna|oru).*|noun:anim.*:v_naz.*|adv.*"/>
+  <!--               <exception scope="next">нікому</exception>  --> <!-- не вірити -->
+              </token>
+            </unify>
           </marker>
-          <token>
-            <exception>нікому</exception> <!-- не вірити -->
-          </token>
         </pattern>
         <message>Навчати чого</message>
         <example correction="">навчати <marker>математиці</marker>.</example>
-        <example correction="">навчати <marker>елементарній</marker> математиці.</example>
-        <example correction="">навчати учнів <marker>елементарній</marker> математиці.</example>
-        <example correction="">навчати їх <marker>елементарній</marker> математиці.</example>
+        <example correction="">навчати <marker>елементарній математиці</marker>.</example>
+        <example correction="">навчати учнів <marker>елементарній математиці</marker>.</example>
+        <example correction="">навчати їх <marker>елементарній математиці</marker></example>
         <example correction="">навчати <marker>цьому</marker> виду спорту.</example>
-        <example correction="">навчали <marker>улюбленому</marker> заняттю.</example>
+        <example correction="">навчали <marker>улюбленому заняттю</marker>.</example>
         <example correction="">навчити <marker>всьому</marker>.</example>
+        <example correction="">навчали <marker>необхідним навикам</marker>.</example>
+        <example correction="">Вас хтось навчив <marker>цим рухам</marker>?</example>
+        <example correction="">навчають <marker>незнайомим словам</marker>.</example>
         <!-- TODO:
-            <example correction="">навчали <marker>необхідним</marker> навикам.</example>
-            <example correction="">Вас хтось навчив <marker>цим</marker> рухам?</example>
-            <example correction="">навчають незнайомим словам.</example>
-        -->
-        <example>навчати математики</example>
-        <example>навчати елементарної математики</example>
-        <example>навчати фаху</example>
-        <example>навчати їх</example>
-        <example>навчило її нікому не вірити</example>
+        <example correction="">якій навчали <marker>художній майстерності</marker> обдарованих дітей</example>
+         -->
+        <example>навчати математики.</example>
+        <example>навчати елементарної математики.</example>
+        <example>навчати фаху.</example>
+        <example>навчати їх.</example>
+        <example>навчило її нікому не вірити.</example>
         <example>Чого навчила вас ця поразка?</example>
         <example>якого мене навчили друзі.</example>
-        <!-- TODO:
-            <example>Цьому мав би навчити попередній досвід.</example>
-        -->
+        <example>Цьому мав би навчити попередній досвід.</example>
+        <example>якої їх навчив їхній лідер,</example>
       </rule>
+
       <rule>
+        <pattern>
+          <token inflected="yes" regexp="yes">навч[иа]ти|навча(вши|ючи)|навчивши</token>
+          <token postag_regexp="yes" postag="noun:anim.*?:v_zna.*|noun.*?v_zna.*?pron:pers.*" min="0"/>
+          <marker>
+            <token postag_regexp="yes" postag="(noun|adj):.:v_dav.*">
+              <exception postag_regexp="yes" postag="noun.*?:v_rod.*"/>
+              <exception regexp="yes">їх|його|її</exception>
+            </token>
+          </marker>
+          <or> 
+            <token regexp="yes">[\p{Punct}–—-]</token>
+            <token postag_regexp="yes" postag="conj.*"/>
+          </or>
+        </pattern>
+        <message>Навчати чого</message>
+        <example correction="">Мене навчили <marker>головному</marker> — бачити кінцеву мету</example>
+        <example correction="">навчити дітей <marker>елементарному</marker> й прищепити любов</example>
+        <example>а він навчив її,</example>
+      </rule>
+
+      <rule>
+        <antipattern>
+          <token regexp="yes">їх|його|її</token>
+          <unify>
+            <feature id="gender"/>
+            <feature id="case"/>
+            <token postag_regexp="yes" postag="adj:.:v_rod.*" min="0"/>
+            <token postag_regexp="yes" postag="noun:inanim:.:v_rod.*"/>
+          </unify>
+        </antipattern>
+        <pattern>
+          <token inflected="yes" regexp="yes">навч[иа]ти|навча(вши|ючи)|навчивши</token>
+          <token regexp="yes">їх|його|її</token>
+          <marker>
+            <token postag_regexp="yes" postag="adj:.:v_dav.*" min="0"/>
+            <token postag_regexp="yes" postag="noun:inanim:.:v_dav.*">
+              <exception postag_regexp="yes" postag="noun:inanim:.:v_oru.*|adv.*"/>
+            </token>
+          </marker>
+        </pattern>
+        <message>Навчати чого</message>
+        <example correction="">навчають її <marker>іноземним мовам</marker>.</example>
+        <example correction="">навчити їх <marker>здоровому способу</marker> життя.</example>
+        <example>навчають її живопису.</example>
+      </rule>
+
+      <rule>
+        <antipattern>
+          <token inflected="yes" regexp="yes">навч[иа]тися|навча(вши|ючи)сь|навчившись</token>
+          <unify>
+            <feature id="gender"/>
+            <feature id="case"/>
+            <token postag_regexp="yes" postag="adj:.:v_rod.*" min="0"/>
+            <token postag_regexp="yes" postag="noun:inanim:.:v_rod.*"/>
+          </unify>
+        </antipattern>
         <pattern>
           <token inflected="yes" regexp="yes">навч[иа]тися|навча(вши|ючи)сь|навчившись</token>
           <marker>
-            <token postag_regexp="yes" postag="noun:inanim.*:v_dav.*|adj.*v_dav.*">
-              <!--TODO: всьому|цьому -->
-              <exception postag_regexp="yes" postag="(noun|adj):.*:v_(rod|zna|oru).*|noun:anim.*|adv.*"/>
-              <exception>самому</exception>
+            <token postag_regexp="yes" postag="adj:.:v_dav.*" min="0"/>
+            <token postag_regexp="yes" postag="noun:inanim:.:v_dav.*">
+              <exception postag_regexp="yes" postag="noun:anim:.:v_naz.*|adv.*|.*?numr.*"/>
             </token>
           </marker>
           <token>
+            <exception postag_regexp="yes" postag="verb.*"/>
             <exception>нікому</exception> <!-- не вірити -->
           </token>
         </pattern>
-        <message>Навчати чого</message>
+        <message>Навчатися чого</message>
         <example correction="">навчатися <marker>математиці</marker>.</example>
-        <example correction="">навчатися <marker>елементарній</marker> математиці.</example>
+        <example correction="">навчатися <marker>елементарній математиці</marker>.</example>
         <example correction="">навчатися <marker>цьому</marker> виду спорту.</example>
-        <example correction="">навчалися <marker>улюбленому</marker> заняттю.</example>
+        <example correction="">навчалися <marker>улюбленому заняттю</marker>.</example>
         <example correction="">навчитися <marker>всьому</marker>.</example>
-        <example correction="">навчитися <marker>цій</marker> екзотиці.</example>
+        <example correction="">навчитися <marker>цій екзотиці</marker>.</example>
         <example correction="">не навчилися <marker>нічому</marker>.</example>
         <example correction="">не навчилися <marker>дечому</marker>.</example>
-        <!-- TODO:
-            <example correction="">навчитись <marker>тим</marker> технологіям</example>
-            <example correction="">навчилися високим стандартам життя</example>
-            <example correction="">навчитись східним танцям</example>
-            <example correction="">навчилася бойовим мистецтвам</example>
-            <example correction="">Мир нехай навчається добру</example>
-        -->
+        <example correction="">навчитись <marker>тим технологіям</marker>.</example>
+        <example correction="">навчилися <marker>високим стандартам</marker> життя</example>
+        <example correction="">навчитись <marker>східним танцям</marker>.</example>
+        <example correction="">навчилася <marker>бойовим мистецтвам</marker>.</example>
+        <example correction="">Мир нехай навчається <marker>добру</marker>.</example>
+        <!-- TODO: 
+        <example correction="">навчаються <marker>професійному співу</marker> діти.</example>
+        <example correction="">уперто навчається <marker>спокійному подружньому коханню</marker>,</example>
+         -->
+        <example correction="">якій навчалися <marker>художній майстерності</marker> у цій школі</example>
+        <example>навчатися менеджменту.</example>
+        <example>вони навчалися далі, обираючи собі професію</example>
         <example>Куди піти навчатись ентузіастам із фотоапаратами.</example>
         <example>навчалися індійці.</example>
         <example>навчаються китайці.</example>
         <example>навчатися досі</example>
-        <example>навчилася нікому не вірити</example>
+        <example>навчилася нікому не вірити.</example>
         <example>Але довго навчатися йому не довелося.</example>
         <example>навчатися власним коштом.</example>
         <example>не маючи можливості навчатися самому.</example>
         <example>доведеться таки навчитися цим провокаціям протистояти.</example>
+        <example>там теж навчаються тисячі студентів, які потім...</example>
+        <example>навчитися самій робити хліб</example>
       </rule>
     </rulegroup>
 
@@ -297,7 +366,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <marker>
             <token postag_regexp="yes" postag="noun:inanim:.:.*">
               <exception postag_regexp="yes" postag="noun:inanim:[mfnp]:v_rod.*|.*(predic|pron).*"/>
-              <exception regexp="yes">гра|біографій|витрат|голосів|грошей|занять|заяв|інвестицій|локомотивів|мінус|місць|плюс|потреб|потужностей|рейсів|сімей|смертей|фірм|шлюбів|творів|.*господарств|експонатів|країн|країн-.*</exception>
+              <exception regexp="yes">класи|гра|біографій|витрат|голосів|грошей|занять|заяв|інвестицій|локомотивів|мінус|місць|плюс|потреб|потужностей|рейсів|сімей|смертей|фірм|шлюбів|творів|.*господарств|експонатів|країн|країн-.*</exception>
             </token>
           </marker>
         </pattern>
@@ -327,9 +396,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token regexp="yes" inflected="yes">відсоток|.*метр|секунда|мільйон|мільярд</token>
         </pattern>
         <message>Десяті, соті, тисячні тощо — жіночого роду</message>
+        <suggestion>дві</suggestion>
+        <!--
         <suggestion><match no="1" postag_regexp="yes" postag="(numr):m(:.*)" postag_replace="$1:f$2"/></suggestion>
-        <example correction="двох|дві"><marker>два</marker> десятих відсотки</example>
-        <example correction="двох|дві"><marker>два</marker> третіх метра</example>
+        -->
+        <example correction="дві"><marker>два</marker> десятих відсотки</example>
+        <example correction="дві"><marker>два</marker> третіх метра</example>
         <example>заради цих двох сотих треба дуже багато попрацювати</example>
         <example>не вистачило дві десятих секунди</example>
       </rule>
@@ -829,7 +901,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <suggestion><match no="2" postag_regexp="yes" postag="numr:p:v_naz.*"/> <match no="3"/> до <match no="4" postag_regexp="yes" postag="adj:f:v_rod.*"/></suggestion>
         <example correction="за десять третя|десять до третьої"><marker>без десяти третя</marker></example>
         <example correction="за двадцять хвилин третя|двадцять хвилин до третьої"><marker>без двадцяти хвилин третя</marker></example>
-        <example correction="за двоє хвилин сьома|двоє хвилин до сьомої"><marker>без двадцяти двох хвилин сьома</marker></example>
+        <example correction="за два хвилин сьома|за двоє хвилин сьома|за дві хвилин сьома|два хвилин до сьомої|двоє хвилин до сьомої|дві хвилин до сьомої"><marker>без двадцяти двох хвилин сьома</marker></example>
         <example>за десять хвилин третя</example>
       </rule>
       <rule>
@@ -983,6 +1055,58 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <!-- TODO: якщо робити це правило загальним фальшивих помилок більше ніж правильних позначень,
           тож поки що обмежимося лише двома більш-менш стабільними випадками
       -->
+      <antipattern>
+        <token regexp="yes">як|що|де|куди|хто</token>
+        <token>саме</token>
+      </antipattern>
+      <antipattern>
+        <unify>
+          <feature id="gender"/>
+          <feature id="case"/>
+
+          <token regexp="yes" inflected="yes">той|такий|цей|отой</token>
+          <token inflected="yes">самий</token>
+        </unify>
+      </antipattern>
+      <!-- can't unify over part же so need 1 more antipattern -->
+      <antipattern>
+        <token regexp="yes" inflected="yes">той|такий|цей|отой</token>
+        <token regexp="yes">же?</token>
+        <token inflected="yes">самий</token>
+      </antipattern>
+
+      <!-- comps -->
+      <rule>
+        <pattern>
+          <unify>
+            <feature id="gender"/>
+            <feature id="case"/>
+
+            <token inflected="yes">самий</token>
+            <token postag_regexp="yes" postag="adj.*:comps.*">
+              <exception regexp="yes">(що|як)най.*</exception>
+            </token>
+          </unify>
+        </pattern>
+        <message>Замість «самий» + прикметник найвищого ступеня треба вживати якнай-, щонай-</message>
+        <suggestion>як<match no="2"/></suggestion>
+        <suggestion>що<match no="2"/></suggestion>
+        <suggestion>щояк<match no="2"/></suggestion>
+        <example correction="Якнайкращий|Щонайкращий|Щоякнайкращий"><marker>Самий найкращий</marker>.</example>
+        <example correction="Якнайгірша|Щонайгірша|Щоякнайгірша"><marker>Сама найгірша</marker>.</example>
+        <!-- handled by other rules in this group -->
+        <example>самий перший</example>
+        <example>повторювати те саме щонайменше нудно</example>
+        <example>і, що саме найцікавіше,</example>
+        <example>і куди саме найоптимальніше їхати</example>
+        <example>вирішують, як саме найкраще заохотити</example>
+        <example>Не можу сказати, де саме найкраще сприймали</example>
+        <example>— на ту саму найчисельнішу фракцію</example>
+        <example>увімкніть радіо на той самий найтихіший рівень гучності</example>
+        <example>Йдеться про той самий найдешевший рослинний жир</example>
+      </rule>
+
+      <!-- compr -->
       <rule>
         <pattern>
           <unify>
@@ -990,57 +1114,74 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <feature id="case"/>
 
             <token inflected="yes">самий
-              <exception scope="previous" regexp="yes" inflected="yes">(який|такий|отой|той|цей|же?|чим|лише)</exception>
             </token>
-            <token postag_regexp="yes" postag="adj.*:(compr).*">
-              <exception postag_regexp="yes" postag="(verb).*"></exception>
+            <token postag_regexp="yes" postag="adj.*?:compc.*">
+              <exception postag_regexp="yes" postag="verb.*"></exception>
               <exception case_sensitive="yes" regexp="yes">[А-ЯІЇЄҐ].*</exception>
             </token>
           </unify>
         </pattern>
-        <!-- TODO: when we can bind comparative forms togher again
-            <message>Замість «самий» + прикметник треба вживати найвищу ступінь з <suggestion><match no="2" postag_regexp="yes"
-            postag="(adj.*:)comp[br](.*?)(:&amp;adjp.*)?" postag_replace="$1super$2"/></suggestion></message>
-        -->
         <message>Замість «самий» + прикметник треба вживати найвищий ступінь</message>
+        <suggestion>най<match no="2"/></suggestion>
+        <example correction="Найкращий"><marker>Самий кращий</marker>.</example>
+        <example correction="Найгірша"><marker>Сама гірша</marker>.</example>
         <example>Сама прийшла</example>
-        <example>Саме такий</example>
         <example>Саме кращий</example>
-        <!-- TODO: when we can bind comparative forms togher again
-            <example correction="Найкращий"><marker>Самий кращий</marker>.</example>
-            <example correction="Найгірша"><marker>Сама гірша</marker>.</example>
-        -->
-        <example correction=""><marker>Самий кращий</marker>.</example>
-        <example correction=""><marker>Сама гірша</marker>.</example>
+        <example>в ту саму світлу кімнату</example>
+        <example>Йдеться про той самий дешевший рослинний жир</example>
+        <example>і куди саме оптимальніше їхати</example>
+        <example>вирішують, як саме краще заохотити</example>
+        <example>Не можу сказати, де саме краще сприймали</example>
+        <example>ті ж самі вищі суди вирішать, що та чи інша справа</example>
+        <!-- handled by other rules in this group -->
+        <example>Самий найкращий</example>
+        <example>Самий добрий</example>
       </rule>
+
+      <!-- compb -->
       <rule>
+        <antipattern>
+          <token inflected="yes">вищий</token>
+          <token inflected="yes">навчальний</token>
+        </antipattern>
         <pattern>
-          <token>самий
-            <exception scope="previous" regexp="yes">(який|такий|отой|той|цей|же?|чим|лише)</exception>
-          </token>
-          <token postag_regexp="yes" postag="adj.*:v_(naz|zna).*:comp.*">
-            <exception postag_regexp="yes" postag="(verb).*"></exception>
-            <exception case_sensitive="yes" regexp="yes">[А-ЯІЇЄҐ].*</exception>
-          </token>
+          <unify>
+            <feature id="gender"/>
+            <feature id="case"/>
+
+            <token>самий
+            </token>
+            <token postag_regexp="yes" postag="adj.*?:v_(naz|zna).*?:compb.*">
+              <exception postag_regexp="yes" postag="verb.*"></exception>
+              <exception case_sensitive="yes" regexp="yes">[А-ЯІЇЄҐ].*</exception>
+              <exception postag_regexp="yes" postag="noun:anim:p:.*" regexp="yes" inflected="yes">хворий|учений|постраждалий</exception>
+            </token>
+          </unify>
         </pattern>
-        <!-- TODO: when we can bind comparative forms togher again
-            <message>Замість «самий» + прикметник треба вживати найвищу ступінь з най-: <suggestion><match no="2" postag_regexp="yes"
-            postag="(adj.*):comp[br].*" postag_replace="$1:super.*"/></suggestion></message>
-        -->
         <message>Замість «самий» + прикметник треба вживати найвищий ступінь</message>
+        <example correction=""><marker>Самий добрий</marker>.</example>
+        <example correction="">Він — <marker>самий сильний</marker>.</example>
+        <example correction="">Він — <marker>самий задоволений</marker>.</example>
+        <example correction="">це <marker>самий безвідповідальний</marker> документ.</example>
+        <example correction="">це <marker>самий креативний</marker> міністр.</example>
         <example>Самий цвіт</example>
         <example>Саме такий</example>
         <example>той самий страшний сон</example>
         <example>лише самих економічних санкцій</example>
-        <!-- TODO: when we can bind comparative forms togher again
-            <example correction="Найгарніший|Найдобріший|Найкращий|Найліпший|Щонайгарніший|Щонайдобріший|Щонайкращий|Щонайліпший|Якнайгарніший|Якнайдобріший|Якнайкращий|Якнайліпший"><marker>Самий кращий</marker>.</example>
-            <example correction="найсильніший|щонайсильніший|якнайсильніший">Він — <marker>самий сильний</marker>.</example>
-            <example correction="найзадоволеніший|щонайзадоволеніший|якнайзадоволеніший">Він — <marker>самий задоволений</marker>.</example>
-        -->
-        <example correction=""><marker>Самий кращий</marker>.</example>
-        <example correction="">Він — <marker>самий сильний</marker>.</example>
-        <example correction="">Він — <marker>самий задоволений</marker>.</example>
+        <example>і куди саме добре поїхати</example>
+        <example>вирішують, як саме  заохотити</example>
+        <example>де саме смачно поїсти</example>
+        <example>та й самі хворі</example>
+        <example>активність самих учених, які</example>
+        <example>у скільки обійдеться цей самий гарантований контроль</example>
+        <example>докласти такий же самий хороший підзаконний акт</example>
+        <example>самим вищим навчальним закладом</example>
+        <!-- handled by other rules in this group -->
+        <example>Самий найкращий</example>
+        <example>Самий кращий</example>
       </rule>
+
+      <!-- саме краще, що в нас є -->
       <rule>
         <pattern>
           <unify>
@@ -1049,73 +1190,65 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
             <marker>
               <token inflected="yes">самий
-                <exception scope="previous" regexp="yes" inflected="yes">(який|такий|отой|той|цей|же?|чим|лише)</exception>
               </token>
-              <token postag_regexp="yes" postag="adj.*:(comp).*">
-                <exception postag_regexp="yes" postag="(verb).*"></exception>
-                <exception regexp="yes">(дуже|мала)</exception>
+              <token postag_regexp="yes" postag="adj.*?:comp[bc].*">
+                <exception postag_regexp="yes" postag="verb.*"></exception>
+                <exception>дуже</exception>
+                <exception case_sensitive="yes" regexp="yes">[А-ЯІЇЄҐ].*</exception>
+                <exception postag_regexp="yes" postag="noun:anim:p:.*" regexp="yes" inflected="yes">хворий|учений|постраждалий</exception>
+              </token>
+            </marker>
+          </unify>
+          <token>,</token>
+          <token regexp="yes" inflected="yes">що|який</token>
+        </pattern>
+        <message>Замість «самий» + прикметник треба вживати найвищий ступінь</message>
+        <example correction=""><marker>Саме краще</marker>, що в нас є.</example>
+        <example correction=""><marker>Сама краща</marker>, яка в нас є.</example>
+        <example>суцільнозерновий хліб, посипаний насінням, такий самий малий.</example>
+        <example>і самий цвіт, що знайти його важко</example>
+        <example>Той самий учений, що описав</example>
+        <example>і самих хворих, які нібито не дотримувалися</example>
+        <example>ті ж самі вищі суди вирішать, що та чи інша справа</example>
+      </rule>
+
+      <!-- саме краще — дітям -->
+      <rule>
+        <pattern>
+          <unify>
+            <feature id="gender"/>
+            <feature id="case"/>
+
+            <marker>
+              <token inflected="yes">самий
+<!--
+                <exception scope="previous" regexp="yes" inflected="yes">який|лише</exception>
+-->
+              </token>
+              <token postag_regexp="yes" postag="adj.*?:comp[bc].*">
+                <exception postag_regexp="yes" postag="verb.*"></exception>
+                <exception>дуже</exception>
               </token>
             </marker>
           </unify>
           <token regexp="yes">[—–-]</token>
         </pattern>
         <message>Замість «самий» + прикметник треба вживати найвищий ступінь</message>
-        <!-- TODO: when we can bind comparative forms togher again
-            <message>Замість «самий» + прикметник треба вживати найвищу ступінь з най-: <suggestion><match no="2" postag_regexp="yes"
-            postag="(adj.*:)comp[br](.*?)(:&amp;adjp.*)?" postag_replace="$1super$2"/></suggestion></message>
-        -->
-        <example>Самий цвіт</example>
-        <example>Сама прийшла</example>
-        <example>Саме такий</example>
-        <example>Саме вони</example>
-        <example>представник саме романтичного націоналізму</example>
-        <!-- TODO: when we can bind comparative forms togher again
-            <example correction="Найгарніше|Найдобріше|Найкраще|Найліпше|Щонайгарніше|Щонайдобріше|Щонайкраще|Щонайліпше|Якнайгарніше|Якнайдобріше|Якнайкраще|Якнайліпше"><marker>Саме краще</marker> — ливарний цех.</example>
-        -->
         <example correction=""><marker>Саме краще</marker> — ливарний цех.</example>
+        <example>Самий цвіт —</example>
+        <example>Сама прийшла — сама пішла</example>
+        <example>Саме такий — зелений.</example>
+        <example>Саме вони — партизани, були початком.</example>
       </rule>
+
+      <!-- самий перший -->
       <rule>
         <pattern>
           <unify>
             <feature id="gender"/>
             <feature id="case"/>
 
-            <marker>
-              <token inflected="yes">самий
-                <exception scope="previous" regexp="yes" inflected="yes">(який|такий|отой|той|цей|же?|чим|лише)</exception>
-              </token>
-              <token postag_regexp="yes" postag="adj.*:(comp).*">
-                <exception postag_regexp="yes" postag="(verb).*"></exception>
-                <exception regexp="yes">(дуже|мала)</exception>
-                <exception case_sensitive="yes" regexp="yes">[А-ЯІЇЄҐ].*</exception>
-              </token>
-            </marker>
-          </unify>
-          <token>,</token>
-          <token regexp="yes">що|який</token>
-        </pattern>
-        <message>Замість «самий» + прикметник треба вживати найвищий ступінь</message>
-        <!-- TODO: when we can bind comparative forms togher again
-            <message>Замість «самий» + прикметник треба вживати найвищу ступінь з най-: <suggestion><match no="2" postag_regexp="yes"
-            postag="(adj.*:)comp[br](.*?)(:&amp;adjp.*)?" postag_replace="$1super$2"/></suggestion></message>
-        -->
-        <example>Самий цвіт</example>
-        <example>Сама прийшла до нього</example>
-        <example>Саме такий</example>
-        <example>Саме вони</example>
-        <example>представник саме романтичного націоналізму</example>
-        <!-- TODO: when we can bind comparative forms togher again
-            <example correction="Найгарніше|Найдобріше|Найкраще|Найліпше|Щонайгарніше|Щонайдобріше|Щонайкраще|Щонайліпше|Якнайгарніше|Якнайдобріше|Якнайкраще|Якнайліпше"><marker>Саме краще</marker>, що в нас є.</example>
-        -->
-        <example correction=""><marker>Саме краще</marker>, що в нас є.</example>
-      </rule>
-      <rule>
-        <pattern>
-          <unify>
-            <feature id="gender"/>
-            <feature id="case"/>
             <token inflected="yes">самий
-              <exception scope="previous" regexp="yes" inflected="yes">(той|же?|чим)</exception>
             </token>
             <token inflected="yes" regexp="yes">перший|найперший
               <exception case_sensitive="yes" regexp="yes">[А-ЯІЇЄҐ].*</exception>
@@ -1125,7 +1258,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <message>Замість «самий перший» треба вживати найвищий ступінь: <suggestion>найперший</suggestion></message>
         <example correction="Найперший"><marker>Самий перший</marker>.</example>
         <example>самі першими втікали</example>
-        <example>найперший</example>
         <example>Та сама Перша кінна армія</example>
         <example>На самому Першому Національному пояснили</example>
       </rule>

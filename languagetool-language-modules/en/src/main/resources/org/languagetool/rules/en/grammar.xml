@@ -4280,6 +4280,7 @@ USA
                 <token regexp="yes">dollars|minutes|hours|seconds|calories</token>
             </pattern>
             <message>Did you mean <suggestion>fewer <match no="2"/></suggestion>?</message>
+            <url>https://en.oxforddictionaries.com/grammar/countable-nouns</url>
             <example correction="fewer hours">There were <marker>less hours</marker> to devote to work that day.</example>
             <example>There were fewer dollars in the coffer that weekend.</example>
         </rule>
@@ -4287,9 +4288,11 @@ USA
         <rule id="FEWER_UNCOUNTABLE" name="fewer (less) uncountable">
             <pattern>
                 <token>fewer</token>
-                <token regexp="yes">accommodation|advice|access|baggage|bread|equipment|garbage|luggage|money|cattle|knowledge|sand|furniture|meat|food|news|pasta|progress|research|water|freedom|maturity|intelligence|travel|pollution|traffic</token>
+                <token regexp="yes">accommodation|advice|access|baggage|bread|equipment|garbage|luggage|money|cattle|knowledge|sand|furniture|meat|food|news|pasta|progress|research|water|freedom|maturity|intelligence|travel|pollution|traffic|information</token>
             </pattern>
             <message>Did you mean <suggestion>less <match no="2"/></suggestion>?</message>
+            <url>https://en.oxforddictionaries.com/grammar/countable-nouns</url>
+            <example correction="less information">He gave his enemies <marker>fewer information</marker> than he gave his friends.</example>
             <example correction="less advice">He gave his enemies <marker>fewer advice</marker> than he gave his friends.</example>
             <example>They made less progress towards their goal.</example>
         </rule>
@@ -6319,7 +6322,7 @@ USA
                 </marker>
                 <token><exception regexp="yes">['´`]</exception></token>
             </pattern>
-            <message>Consider using <suggestion>\1 \3</suggestion> or <suggestion>\1 of the \3</suggestion>.</message>
+            <message>Consider using <suggestion>\1 <match no="3" regexp_match="^sudden$" regexp_replace="of a sudden"/></suggestion> or <suggestion>\1 of the \3</suggestion>.</message>
             <url>http://www.myhappyenglish.com/free-english-lesson/2013/05/22/english-grammar-lesson-all-some-most-vs-all-of-some-of-most-of/</url>
             <!-- url>http://dictionary.cambridge.org/de/grammatik/britisch-grammatik/quantifiers/all</url -->
             <!-- https://jakubmarian.com/is-it-all-the-or-all-of-the-in-english/ -->
@@ -6330,6 +6333,7 @@ USA
             <example>All of the workers were given a pay-rise at the end of the year.</example>
             <example>The class quickly made the most of the teacher's absence.</example>
             <example>Make the most of apples!</example>
+            <example correction="all of a sudden|all of the sudden">Where did this confidence appear from <marker>all of sudden</marker>?</example>
         </rule>
         <!--
         <rule id="PLURAL_VBZ" name="Plural phrase with singular verb">
@@ -7177,7 +7181,7 @@ USA
                 <pattern>
                     <token inflected="yes" regexp="yes">afford|choose|deserve|pretend|str(iv|uggl)e|learn</token>
                     <marker>
-                        <token postag="VB"><exception postag="JJ"/><exception>reward</exception></token>
+                        <token postag="VB"><exception postag="JJR?" postag_regexp="yes"/><exception>reward</exception></token>
                     </marker>
                 </pattern>
                 <message>This verb is used with the infinitive: <suggestion>to <match no="2" postag="VB"/></suggestion></message>
@@ -7187,6 +7191,7 @@ USA
                 <example>He didn't deserve to lose his job.</example>
                 <example>...that gorillas are intelligent enough to learn sign language.</example>
                 <example>I choose uniform objects.</example>
+                <example>I failed him and he deserved better.</example>
             </rule>
             <rule>
                 <pattern>
@@ -7603,6 +7608,11 @@ USA
                 <token>do</token>
                 <token>it</token>
             </antipattern>
+            <antipattern>
+                <token inflected="yes">have</token>
+                <token>it</token>
+                <token postag_regexp="yes" postag="VBD|R[BP]|IN|JJR?"/>
+            </antipattern>
             <pattern>
                 <!-- 't': from "doesn't" etc -->
                 <token><exception regexp="yes">can|could|must|might|shall|does|will|ll|would|should|may|t|did|be|is|were|was|that|about|of|lest|whether|surrounding|had</exception><exception regexp="yes" inflected="yes">hear|feel|see|insist|call|claim|make|let</exception><exception postag="IN"/></token>
@@ -7637,6 +7647,7 @@ USA
             <example>How had it come to this?</example>
             <example>He could do it even better.</example>
             <example>The details of how to do it have been explained.</example>
+            <example>I can have it ready in thirty minutes.</example>
         </rule>
         <rulegroup id="DID_PAST" name="'did' with past tense verb">
             <rule>

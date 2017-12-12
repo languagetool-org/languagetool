@@ -27,14 +27,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <rule>
         <pattern>
           <token>більш</token>
-          <token postag_regexp="yes" postag="ad[jv]:.*compr.*">
+          <token postag_regexp="yes" postag="ad[jv]:.*compc.*">
             <exception>менш</exception>
           </token>
         </pattern>
         <message>Після «більш» не може стояти вища форма прикметника</message>
         <!-- TODO: when we can bind comparative forms togher again
             <suggestion><match no="2"/></suggestion>
-            <suggestion><match no="1"/> <match no="2" postag_regexp="yes" postag="(.*):compr(.*)" postag_replace="$1:compb$2"/></suggestion>
+            <suggestion><match no="1"/> <match no="2" postag_regexp="yes" postag="(.*):compc(.*)" postag_replace="$1:compb$2"/></suggestion>
             <example correction="Світліший|Більш світлий"><marker>Більш світліший</marker>.</example>
         -->
         <example correction=""><marker>Більш світліший</marker>.</example>
@@ -43,12 +43,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <rule>
         <pattern>
           <token>найбільш</token>
-          <token postag_regexp="yes" postag="ad[jv]:.*compr.*"/>
+          <token postag_regexp="yes" postag="ad[jv]:.*compc.*"/>
         </pattern>
         <message>Після «найбільш» не може стояти вища форма прикметника</message>
         <!-- TODO: when we can bind comparative forms togher again
-            <suggestion><match no="2" postag_regexp="yes" postag="(.*):compr(.*)" postag_replace="$1:super$2"/></suggestion>
-            <suggestion><match no="1"/> <match no="2" postag_regexp="yes" postag="(.*):compr(.*)" postag_replace="$1:compb$2"/></suggestion>
+            <suggestion><match no="2" postag_regexp="yes" postag="(.*):compc(.*)" postag_replace="$1:super$2"/></suggestion>
+            <suggestion><match no="1"/> <match no="2" postag_regexp="yes" postag="(.*):compc(.*)" postag_replace="$1:compb$2"/></suggestion>
             <example correction="найцікавіших|щонайцікавіших|якнайцікавіших|найбільш цікавих">Серед <marker>найбільш цікавіших</marker> відповідей.</example>
         -->
         <example correction="">Серед <marker>найбільш цікавіших</marker> відповідей.</example>
@@ -78,10 +78,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <exception inflected="yes">один</exception>
           </token>
         </pattern>
+<!--
+    we need to convert to v_zna:rinanim, but numr does not have rianim so we'll use v_naz as a hack for now
         <message>З числівником замість «більше» краще вживати «понад», або «більше ніж/як»: <suggestion>понад <match no="2" postag="numr:p:v_zna"/></suggestion></message>
         <suggestion>більш як <match no="2" postag="numr:p:v_zna"/></suggestion>
         <suggestion>більше ніж <match no="2" postag="numr:p:v_zna"/></suggestion>
+-->
+        <message>З числівником замість «більше» краще вживати «понад», або «більше ніж/як»: <suggestion>понад <match no="2" postag="numr:p:v_naz"/></suggestion></message>
+        <suggestion>більш як <match no="2" postag="numr:p:v_naz"/></suggestion>
+        <suggestion>більше ніж <match no="2" postag="numr:p:v_naz"/></suggestion>
         <example correction="понад сто|більш як сто|більше ніж сто"><marker>більше ста</marker>.</example>
+        <example correction="понад два|понад двоє|понад дві|більш як два|більш як двоє|більш як дві|більше ніж два|більше ніж двоє|більше ніж дві"><marker>більше двох</marker>.</example>
         <example>Більше одного</example>
         <example>цюпка не більше шести кроків вдовж</example>
       </rule>
@@ -128,7 +135,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <!--
           <rule id="COMPAR_PLUS_V_ROD">
           <pattern>
-          <token postag_regexp="yes" postag=".*v_naz.*compr.*">
+          <token postag_regexp="yes" postag=".*v_naz.*compc.*">
           <exception regexp="yes">більше|менше</exception>
           </token>
           <marker>
