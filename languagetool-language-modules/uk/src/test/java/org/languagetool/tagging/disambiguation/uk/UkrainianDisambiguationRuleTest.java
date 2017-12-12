@@ -246,6 +246,14 @@ public class UkrainianDisambiguationRuleTest extends DisambiguationRuleTest {
     TestTools.myAssert("Орися", 
         "/[null]SENT_START Орися/[Орися]noun:anim:f:v_naz:prop:fname",
         tokenizer, sentenceTokenizer, tagger, disambiguator);
+
+    TestTools.myAssert("Цікавим", 
+        "/[null]SENT_START Цікавим/[цікавий]adj:m:v_oru:compb|Цікавим/[цікавий]adj:n:v_oru:compb|Цікавим/[цікавий]adj:p:v_dav:compb",
+        tokenizer, sentenceTokenizer, tagger, disambiguator);
+
+    TestTools.myAssert("Вадим", 
+        "/[null]SENT_START Вадим/[Вадим]noun:anim:m:v_naz:prop:fname",
+        tokenizer, sentenceTokenizer, tagger, disambiguator);
   }
 
   @Test

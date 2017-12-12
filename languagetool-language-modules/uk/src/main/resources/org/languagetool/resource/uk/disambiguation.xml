@@ -1112,6 +1112,113 @@
     <example type="untouched">не води мене колами.</example>
   </rule>
 
+  <rule name="Дієслово «тис»" id="NOUN_VERB_TYS_1">
+    <pattern>
+      <marker>
+        <token>тис</token>
+      </marker>
+      <token postag_regexp="yes" postag="noun.*?v_dav.*|adj:f:v_zna.*" min="0"/>
+      <token regexp="yes">рук[уи]</token>
+    </pattern>
+    <disambig><match no="1" postag="verb.*" postag_regexp="yes"/></disambig>
+    <example type="ambiguous"
+        inputform="тис[тис/noun:inanim:m:v_naz:xp1,тис/noun:inanim:m:v_naz:xp2,тис/noun:inanim:m:v_zna:xp1,тис/noun:inanim:m:v_zna:xp2,тиснути/verb:imperf:past:m]"
+        outputform="тис[тиснути/verb:imperf:past:m]"
+        >Він довго <marker>тис</marker> мені руку
+    </example>
+    <example type="ambiguous"
+        inputform="тис[тис/noun:inanim:m:v_naz:xp1,тис/noun:inanim:m:v_naz:xp2,тис/noun:inanim:m:v_zna:xp1,тис/noun:inanim:m:v_zna:xp2,тиснути/verb:imperf:past:m]"
+        outputform="тис[тиснути/verb:imperf:past:m]"
+        >Він все ще <marker>тис</marker> полковницьку руку
+    </example>
+    <example type="untouched">50 тис грн.</example>
+    <example type="untouched">тис ягідний</example>
+  </rule>
+
+  <rule name="Дієслово «тис»" id="NOUN_VERB_TYS_2">
+    <pattern>
+      <token regexp="yes">довго|сильно|дуже|силою|щосили|різко|радо|навмисн[ое]</token>
+      <marker>
+        <token>тис</token>
+      </marker>
+    </pattern>
+    <disambig><match no="1" postag="verb.*" postag_regexp="yes"/></disambig>
+    <example type="ambiguous"
+        inputform="тис[тис/noun:inanim:m:v_naz:xp1,тис/noun:inanim:m:v_naz:xp2,тис/noun:inanim:m:v_zna:xp1,тис/noun:inanim:m:v_zna:xp2,тиснути/verb:imperf:past:m]"
+        outputform="тис[тиснути/verb:imperf:past:m]"
+        >Він довго <marker>тис</marker> Василю Васильовичу руки
+    </example>
+    <example type="untouched">50 тис грн.</example>
+    <example type="untouched">тис ягідний</example>
+  </rule>
+
+  <rule name="Іменник «тис»" id="NOUN_VERB_TYS_3">
+    <pattern>
+      <marker>
+        <token>тис</token>
+      </marker>
+      <token>ягідний</token>
+    </pattern>
+    <disambig><match no="1" postag="noun.*" postag_regexp="yes"/></disambig>
+    <example type="ambiguous"
+        inputform="тис[тис/noun:inanim:m:v_naz:xp1,тис/noun:inanim:m:v_naz:xp2,тис/noun:inanim:m:v_zna:xp1,тис/noun:inanim:m:v_zna:xp2,тиснути/verb:imperf:past:m]"
+        outputform="тис[тис/noun:inanim:m:v_naz:xp1,тис/noun:inanim:m:v_naz:xp2,тис/noun:inanim:m:v_zna:xp1,тис/noun:inanim:m:v_zna:xp2]"
+        >Зовні <marker>тис</marker> ягідний важко відрізнити від ялиці
+    </example>
+    <example type="untouched">50 тис грн кожному</example>
+    <example type="untouched">він тис йому руку</example>
+  </rule>
+<!--
+  <rule name="Іменник «тис» (неправильне - тисяча)" id="NOUN_VERB_TYS_6">
+    <pattern>
+      <token postag="number"/>
+      <marker>
+        <token>тис</token>
+      </marker>
+    </pattern>
+    <disambig><match no="1" postag="noun.*" postag_regexp="yes"/></disambig>
+    <example type="ambiguous"
+        inputform="тис[тис/noun:inanim:m:v_naz:xp1,тис/noun:inanim:m:v_naz:xp2,тис/noun:inanim:m:v_zna:xp1,тис/noun:inanim:m:v_zna:xp2,тиснути/verb:imperf:past:m]"
+        outputform="тис[тис/noun:inanim:m:v_naz:xp1,тис/noun:inanim:m:v_naz:xp2,тис/noun:inanim:m:v_zna:xp1,тис/noun:inanim:m:v_zna:xp2]"
+        >60 <marker>тис</marker> грн
+    </example>
+    <example type="untouched">довго тис руку директору</example>
+    <example type="untouched">тис, бук, ялиця</example>
+  </rule>
+-->
+  <rule name="Іменник «чаю»" id="NOUN_VERB_CHAYU">
+    <pattern>
+      <marker>
+        <token regexp="yes">ча[юї]
+          <exception scope="previous">не</exception>
+        </token>
+      </marker>
+    </pattern>
+    <disambig><match no="1" postag="noun.*" postag_regexp="yes"/></disambig>
+    <example type="ambiguous"
+        inputform="чаю[&lt;/S&gt;,чай/noun:inanim:m:v_dav,чай/noun:inanim:m:v_mis,чай/noun:inanim:m:v_rod,чаїти/verb:imperf:pres:s:1]"
+        outputform="чаю[&lt;/S&gt;,чай/noun:inanim:m:v_dav,чай/noun:inanim:m:v_mis,чай/noun:inanim:m:v_rod]"
+        >випити <marker>чаю</marker>
+    </example>
+    <example type="untouched">душі не чаю в доньці</example>
+  </rule>
+
+  <rule name="Прикметник «хворій»" id="ADJ_VERB_HVORIY">
+    <pattern>
+      <marker>
+        <token>хворій
+          <exception scope="previous">не</exception>
+        </token>
+      </marker>
+    </pattern>
+    <disambig><match no="1" postag="(noun|adj).*" postag_regexp="yes"/></disambig>
+    <example type="ambiguous"
+        inputform="хворій[&lt;/S&gt;,хворий/adj:f:v_dav:compb,хворий/adj:f:v_mis:compb,хворий/noun:anim:f:v_dav,хворий/noun:anim:f:v_mis,хворіти/verb:imperf:impr:s:2]"
+        outputform="хворій[&lt;/S&gt;,хворий/adj:f:v_dav:compb,хворий/adj:f:v_mis:compb,хворий/noun:anim:f:v_dav,хворий/noun:anim:f:v_mis]"
+        >тій <marker>хворій</marker>
+    </example>
+    <example type="untouched">Не хворій!</example>
+  </rule>
 
   <!-- TOOD: redo when dictionary updated
   <rule name="Числівник, як іменник годин 1" id="NUMR_AS_HOUR_NOUN1">

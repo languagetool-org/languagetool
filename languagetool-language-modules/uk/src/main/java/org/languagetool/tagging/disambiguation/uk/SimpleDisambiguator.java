@@ -43,19 +43,33 @@ class SimpleDisambiguator {
   public void removeRareForms(AnalyzedSentence input) {
     AnalyzedTokenReadings[] tokens = input.getTokensWithoutWhitespace();
     for (int i = 1; i < tokens.length; i++) {
+
+      String token = tokens[i].getToken();
+//      if( token == null )
+//        continue;
+
+      if( Character.isLowerCase(token.charAt(0)) ) {
+        token = token.toLowerCase();
+      }
+
+      TokenMatcher tokenMatcher = DISAMBIG_REMOVE_MAP.get(token);
+      if( tokenMatcher == null ) {
+        String lowerToken = token.toLowerCase();
+        tokenMatcher = DISAMBIG_REMOVE_MAP.get(lowerToken);
+      }
+
+      if( tokenMatcher == null )
+        continue;
+
       List<AnalyzedToken> analyzedTokens = tokens[i].getReadings();
       for (int j = analyzedTokens.size()-1; j>=0; j--) {
         AnalyzedToken analyzedToken = analyzedTokens.get(j);
-        
-        if( analyzedToken.getToken() == null )
-          continue;
-        
-        String token = analyzedToken.getToken().toLowerCase();
-        if( DISAMBIG_REMOVE_MAP.containsKey(token) ) {
-          TokenMatcher tokenMatcher = DISAMBIG_REMOVE_MAP.get(token);
-          if( tokenMatcher.matches(analyzedToken) ) {
-            tokens[i].removeReading(analyzedToken);
-          }
+
+//        if( analyzedToken.getToken() == null )
+//          continue;
+
+        if( tokenMatcher.matches(analyzedToken) ) {
+          tokens[i].removeReading(analyzedToken);
         }
       }
     }    

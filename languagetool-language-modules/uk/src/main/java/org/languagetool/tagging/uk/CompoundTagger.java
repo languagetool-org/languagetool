@@ -280,39 +280,44 @@ class CompoundTagger {
     if( YEAR_NUMBER.matcher(rightWord).matches() && ! leftWdList.isEmpty() && Character.isUpperCase(leftWord.charAt(0)) ) {
       List<AnalyzedToken> leftAnalyzedTokens = ukrainianTagger.asAnalyzedTokenListForTaggedWordsInternal(leftWord, leftWdList);
 
-      if( PosTagHelper.hasPosTagPart(leftAnalyzedTokens, ":prop")
-          || WORDS_WITH_YEAR.contains(leftWdList.iterator().next().getLemma()) ) {
-        List<AnalyzedToken> newAnalyzedTokens = new ArrayList<>();
+      List<AnalyzedToken> newAnalyzedTokens = new ArrayList<>();
 
-        for (AnalyzedToken analyzedToken : leftAnalyzedTokens) {
-          String posTag = analyzedToken.getPOSTag();
+      for (AnalyzedToken analyzedToken : leftAnalyzedTokens) {
+        if( ! PosTagHelper.hasPosTagPart(analyzedToken, ":prop")
+            && ! WORDS_WITH_YEAR.contains(analyzedToken.getLemma()) )
+          continue;
 
-          // Афіни-2014 - потрібне лише місто, не ім'я
-          if( posTag == null || posTag.contains(":anim") )
-            continue;
 
-          if( posTag.contains("v_kly") )
-            continue;
+        String posTag = analyzedToken.getPOSTag();
 
-          if( posTag.contains(":p:")
-                && ! Arrays.asList("гра", "вибори", "бюджет").contains(analyzedToken.getLemma())
-                && ! posTag.contains(":ns") )
-            continue;
+        // Афіни-2014 - потрібне лише місто, не ім'я
+        if( posTag == null || posTag.contains(":anim") )
+          continue;
 
-          // Євро-2014
-          if( "євро".equals(analyzedToken.getLemma()) && ! posTag.contains(":m:") )
-            continue;
+        if( posTag.contains("v_kly") )
+          continue;
 
-          String lemma = analyzedToken.getLemma();
-          if( ! posTag.contains(":prop") ) {
-            posTag += ":prop";
-            lemma = StringUtils.capitalize(lemma);
-          }
-          newAnalyzedTokens.add(new AnalyzedToken(word, posTag, lemma + "-" + rightWord));
+        if( posTag.contains(":p:")
+            && ! Arrays.asList("гра", "вибори", "бюджет").contains(analyzedToken.getLemma())
+            && ! posTag.contains(":ns")
+            && ! posTag.startsWith("verb") )    // відкидаємо: вибори - вибороти
+          continue;
+
+        // Євро-2014
+        if( "євро".equals(analyzedToken.getLemma()) && ! posTag.contains(":m:") )
+          continue;
+
+        String lemma = analyzedToken.getLemma();
+        if( ! posTag.contains(":prop") ) {
+          posTag += ":prop";
+          lemma = StringUtils.capitalize(lemma);
         }
+        newAnalyzedTokens.add(new AnalyzedToken(word, posTag, lemma + "-" + rightWord));
 
-        return newAnalyzedTokens;
       }
+
+      if( newAnalyzedTokens.size() > 0 )
+        return newAnalyzedTokens;
     }
 
     // по-болгарськи, по-болгарському
