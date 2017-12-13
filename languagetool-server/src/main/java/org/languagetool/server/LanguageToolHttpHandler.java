@@ -20,6 +20,7 @@ package org.languagetool.server;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
+import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -135,7 +136,7 @@ class LanguageToolHttpHandler implements HttpHandler {
         errorCode = HttpURLConnection.HTTP_ENTITY_TOO_LARGE;
         response = e.getMessage();
         logStacktrace = false;
-      } else if (e instanceof ErrorRateTooHighException || e.getCause() != null && e.getCause() instanceof ErrorRateTooHighException) {
+      } else if (e instanceof ErrorRateTooHighException || ExceptionUtils.getRootCause(e) instanceof ErrorRateTooHighException) {
         errorCode = HttpURLConnection.HTTP_BAD_REQUEST;
         response = e.getMessage();
         logStacktrace = false;
