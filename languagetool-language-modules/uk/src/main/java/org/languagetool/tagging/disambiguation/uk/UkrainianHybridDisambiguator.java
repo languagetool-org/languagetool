@@ -215,6 +215,6 @@ public class UkrainianHybridDisambiguator extends AbstractDisambiguator {
   }
   
   private static boolean isSpace(String str) {
-    return str != null && (str.equals(" ") || str.equals("\u00A0"));
+    return str != null && (str.equals(" ") || str.equals("\u00A0")|| str.equals("\u202F"));
   }
 }
