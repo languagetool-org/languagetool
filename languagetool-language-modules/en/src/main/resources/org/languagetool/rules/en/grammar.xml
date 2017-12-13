@@ -4285,7 +4285,8 @@ USA
             <example>There were fewer dollars in the coffer that weekend.</example>
         </rule>
         <!-- fewer &amp;uncountable::word=less \1::pivots=fewer,less::options=less,fewer -->
-        <rule id="FEWER_UNCOUNTABLE" name="fewer (less) uncountable">
+      <rulegroup id="FEWER_UNCOUNTABLE" name="fewer (less) uncountable">
+        <rule>
             <pattern>
                 <token>fewer</token>
                 <token regexp="yes">accommodation|advice|access|baggage|bread|equipment|garbage|luggage|money|cattle|knowledge|sand|furniture|meat|food|news|pasta|progress|research|water|freedom|maturity|intelligence|travel|pollution|traffic|information</token>
@@ -4296,6 +4297,18 @@ USA
             <example correction="less advice">He gave his enemies <marker>fewer advice</marker> than he gave his friends.</example>
             <example>They made less progress towards their goal.</example>
         </rule>
+        <rule><!-- XXX Some cases from the former rules may be skipped by this generalization. This avoids regressions -->
+            <pattern>
+                <token>fewer</token>
+                <token postag="NN:U"><exception negate_pos="yes" postag_regexp="yes" postag="NN:U|V.+"/></token><!-- XXX verbs accepted due to lack of disambiguation -->
+            </pattern>
+            <message>Did you mean <suggestion>less <match no="2"/></suggestion>?</message>
+            <url>https://en.oxforddictionaries.com/grammar/countable-nouns</url>
+            <example correction="less information">He gave his enemies <marker>fewer information</marker> than he gave his friends.</example>
+            <example correction="less advice">He gave his enemies <marker>fewer advice</marker> than he gave his friends.</example>
+            <example>They made less progress towards their goal.</example>
+        </rule>
+      </rulegroup>
         <!-- am loathe to::word=am loath to::pivots=loathe,loath::options=loathe,loath -->
         <rule id="AM_LOATHE_TO" name="am loathe (loath) to">
             <pattern>
@@ -14587,7 +14600,7 @@ USA
     <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
       <pattern>
           <token regexp="yes">less|more|of</token>
-          <token regexp="yes">interest|interests|interested</token>
+          <token inflected="yes">interest</token>
           <token>about</token>
       </pattern>
       <message>The usual collocation for word "interest" is "in" not "about." Revise: <suggestion>\1 \2 in</suggestion>.</message>
@@ -14601,6 +14614,79 @@ USA
       </pattern>
       <message>The usual collocation for word "vulnerable" is "to" not "from," as in "vulnerable to attack."  Revise: <suggestion>vulnerable to</suggestion>.</message>
       <example correction='vulnerable to'>We do want to differ from other solutions where you must redirect all your domain names to a service provider, leaving your server <marker>vulnerable from</marker> direct attacks and having you hassle with domain records all the time.</example>
+    </rule>
+    <rule id='IMITATION_FROM_OF' name='Collocation: imitation from/of'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <antipattern>
+          <token inflected="yes">imitation</token>
+          <token>of</token>
+      </antipattern>
+      <pattern>
+      <marker>
+          <token inflected="yes">imitate</token>
+          <token postag="DT"/>
+          <token skip='-1' postag_regexp="yes" postag="NN(:UN?|S)?"/>
+          <token>from</token>
+          <token postag_regexp="yes" postag="DT|PRP\$"/>
+          <token postag_regexp="yes" postag="NN(:UN?|S)?"/>
+          </marker>
+          <token postag="SENT_END"/>
+      </pattern>
+      <message>The usual collocation for word "imitate" is "of" not "from," as in "imitate the style of someone."  Revise: <suggestion>\1 \2 <match no='3' include_skipped='all'/> of \5 \6</suggestion>.</message>
+      <example correction='imitate every habit and behavior of their parents'>Children <marker>imitate every habit and behavior from their parents</marker>.</example>
+    </rule>
+    <rule id='OFFERED_IN_AT' name='Collocation: offered in/at'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token>offered</token>
+          <token>in</token>
+          <token inflected="yes" regexp="yes">college|university|school</token>
+      </pattern>
+      <message>The usual preposition for "offered" and "\3" is "at" not "in." Revise: <suggestion>offered at \3</suggestion>.</message>
+      <example correction='offered at universities'>In addition, if people are in favor of women practicing combat sports, it would be beneficial to have combat sport sessions in schools as well as optional courses <marker>offered in universities</marker>.</example>
+    </rule>
+    <rule id='PERSPECTIVES_ABOUT_ON' name='Collocation: perspectives about/on'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token>perspectives</token>
+          <token>about</token>
+      </pattern>
+      <message>The usual preposition for "perspectives" is "on" not "about." Revise: <suggestion>perspectives on</suggestion>.</message>
+      <example correction='perspectives on'>They have different <marker>perspectives about</marker> the topic.</example>
+    </rule>
+    <rule id='VARIETIES_IN_OF' name='Collocation: varieties in/of'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token>varieties</token>
+          <token>in</token>
+      </pattern>
+      <message>The usual preposition for "varieties" is "of" not "in." Revise: <suggestion>varieties of</suggestion>.</message>
+      <example correction='varieties of'>They should increase <marker>varieties in</marker> food.</example>
+    </rule>
+    <rule id='COVER_BY_IN' name='Collocation: cover by/in'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern case_sensitive="yes">
+    <!-- The Mountains are covered by snow.  -->
+          <token inflected="yes">cover</token>
+          <token>by</token>
+          <token regexp="yes">snow|leaves|dust</token>
+      </pattern>
+      <message>The usual verb for "cover" is "in" not "by." Revise: <suggestion>covered in \3</suggestion> or <suggestion>covered with \3</suggestion>.</message>
+      <url>https://english.stackexchange.com/questions/60805/covered-with-vs-covered-in-vs-covered-by</url>
+      <example correction='covered in snow|covered with snow'>The Mountains are <marker>covered by snow</marker>.</example>
+    </rule>
+    <rule id='LEAVE_TO_FOR' name='Collocation: leave to/for'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern case_sensitive="yes">
+          <token inflected="yes">leave</token>
+          <token>to</token>
+          <token regexp="yes">\p{Lu}\p{Ll}+</token>
+    <!--Capitalized word-->
+          <token regexp="yes">next|tomorrow|soon</token>
+      </pattern>
+      <message>The usual verb for "leave is "for" not "to". Revise: <suggestion>leaving for \3 \4</suggestion>.</message>
+      <url>http://www.really-learn-english.com/leaving-to-or-leaving-for.html</url>
+      <example correction='leaving for England soon'>They are <marker>leaving to England soon</marker>.</example>
     </rule>
   </rulegroup>
 

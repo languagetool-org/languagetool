@@ -20,9 +20,11 @@ package org.languagetool.server;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
+import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.languagetool.ErrorRateTooHighException;
 import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
@@ -134,7 +136,11 @@ class LanguageToolHttpHandler implements HttpHandler {
         errorCode = HttpURLConnection.HTTP_ENTITY_TOO_LARGE;
         response = e.getMessage();
         logStacktrace = false;
-      } else if (e instanceof AuthException ||  e.getCause() != null && e.getCause() instanceof AuthException) {
+      } else if (e instanceof ErrorRateTooHighException || ExceptionUtils.getRootCause(e) instanceof ErrorRateTooHighException) {
+        errorCode = HttpURLConnection.HTTP_BAD_REQUEST;
+        response = e.getMessage();
+        logStacktrace = false;
+      } else if (e instanceof AuthException || e.getCause() != null && e.getCause() instanceof AuthException) {
         errorCode = HttpURLConnection.HTTP_FORBIDDEN;
         response = e.getMessage();
       } else if (e instanceof IllegalArgumentException) {
