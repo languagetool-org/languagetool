@@ -14654,6 +14654,40 @@ USA
       <message>The usual preposition for "perspectives" is "on" not "about." Revise: <suggestion>perspectives on</suggestion>.</message>
       <example correction='perspectives on'>They have different <marker>perspectives about</marker> the topic.</example>
     </rule>
+    <rule id='VARIETIES_IN_OF' name='Collocation: varieties in/of'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token>varieties</token>
+          <token>in</token>
+      </pattern>
+      <message>The usual preposition for "varieties" is "of" not "in." Revise: <suggestion>varieties of</suggestion>.</message>
+      <example correction='varieties of'>They should increase <marker>varieties in</marker> food.</example>
+    </rule>
+    <rule id='COVER_BY_IN' name='Collocation: cover by/in'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern case_sensitive="yes">
+    <!-- The Mountains are covered by snow.  -->
+          <token inflected="yes">cover</token>
+          <token>by</token>
+          <token regexp="yes">snow|leaves|dust</token>
+      </pattern>
+      <message>The usual verb for "cover" is "in" not "by." Revise: <suggestion>covered in \3</suggestion> or <suggestion>covered with \3</suggestion>.</message>
+      <url>https://english.stackexchange.com/questions/60805/covered-with-vs-covered-in-vs-covered-by</url>
+      <example correction='covered in snow|covered with snow'>The Mountains are <marker>covered by snow</marker>.</example>
+    </rule>
+    <rule id='LEAVE_TO_FOR' name='Collocation: leave to/for'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern case_sensitive="yes">
+          <token inflected="yes">leave</token>
+          <token>to</token>
+          <token regexp="yes">\p{Lu}\p{Ll}+</token>
+    <!--Capitalized word-->
+          <token regexp="yes">next|tomorrow|soon</token>
+      </pattern>
+      <message>The usual verb for "leave is "for" not "to". Revise: <suggestion>leaving for \3 \4</suggestion>.</message>
+      <url>http://www.really-learn-english.com/leaving-to-or-leaving-for.html</url>
+      <example correction='leaving for England soon'>They are <marker>leaving to England soon</marker>.</example>
+    </rule>
   </rulegroup>
 
     <rule id='GOOD_IN_AT_GERUND' name='Collocation: good in/at'>
