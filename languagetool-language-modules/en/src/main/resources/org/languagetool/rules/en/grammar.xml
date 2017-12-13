@@ -14587,7 +14587,7 @@ USA
     <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
       <pattern>
           <token regexp="yes">less|more|of</token>
-          <token regexp="yes">interest|interests|interested</token>
+          <token inflected="yes">interest</token>
           <token>about</token>
       </pattern>
       <message>The usual collocation for word "interest" is "in" not "about." Revise: <suggestion>\1 \2 in</suggestion>.</message>
@@ -14601,6 +14601,45 @@ USA
       </pattern>
       <message>The usual collocation for word "vulnerable" is "to" not "from," as in "vulnerable to attack."  Revise: <suggestion>vulnerable to</suggestion>.</message>
       <example correction='vulnerable to'>We do want to differ from other solutions where you must redirect all your domain names to a service provider, leaving your server <marker>vulnerable from</marker> direct attacks and having you hassle with domain records all the time.</example>
+    </rule>
+    <rule id='IMITATION_FROM_OF' name='Collocation: imitation from/of'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <antipattern>
+          <token inflected="yes">imitation</token>
+          <token>of</token>
+      </antipattern>
+      <pattern>
+      <marker>
+          <token inflected="yes">imitate</token>
+          <token postag="DT"/>
+          <token skip='-1' postag_regexp="yes" postag="NN(:UN?|S)?"/>
+          <token>from</token>
+          <token postag_regexp="yes" postag="DT|PRP\$"/>
+          <token postag_regexp="yes" postag="NN(:UN?|S)?"/>
+          </marker>
+          <token postag="SENT_END"/>
+      </pattern>
+      <message>The usual collocation for word "imitate" is "of" not "from," as in "imitate the style of someone."  Revise: <suggestion>\1 \2 <match no='3' include_skipped='all'/> of \5 \6</suggestion>.</message>
+      <example correction='imitate every habit and behavior of their parents'>Children <marker>imitate every habit and behavior from their parents</marker>.</example>
+    </rule>
+    <rule id='OFFERED_IN_AT' name='Collocation: offered in/at'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token>offered</token>
+          <token>in</token>
+          <token inflected="yes" regexp="yes">college|university|school</token>
+      </pattern>
+      <message>The usual preposition for "offered" and "\3" is "at" not "in." Revise: <suggestion>offered at \3</suggestion>.</message>
+      <example correction='offered at universities'>In addition, if people are in favor of women practicing combat sports, it would be beneficial to have combat sport sessions in schools as well as optional courses <marker>offered in universities</marker>.</example>
+    </rule>
+    <rule id='PERSPECTIVES_ABOUT_ON' name='Collocation: perspectives about/on'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token>perspectives</token>
+          <token>about</token>
+      </pattern>
+      <message>The usual preposition for "perspectives" is "on" not "about." Revise: <suggestion>perspectives on</suggestion>.</message>
+      <example correction='perspectives on'>They have different <marker>perspectives about</marker> the topic.</example>
     </rule>
   </rulegroup>
 
