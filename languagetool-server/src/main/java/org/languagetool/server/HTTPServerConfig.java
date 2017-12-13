@@ -60,6 +60,7 @@ public class HTTPServerConfig {
   protected File rulesConfigFile = null;
   protected int cacheSize = 0;
   protected boolean warmUp = false;
+  protected float maxErrorsPerWordRate = 0;
 
   /**
    * Create a server configuration for the default port ({@link #DEFAULT_PORT}).
@@ -170,6 +171,7 @@ public class HTTPServerConfig {
         } else {
           throw new IllegalArgumentException("Invalid value for warmUp: '" + warmUpStr + "', use 'true' or 'false'");
         }
+        maxErrorsPerWordRate = Float.parseFloat(getOptionalProperty(props, "maxErrorsPerWordRate", "0"));
       }
     } catch (IOException e) {
       throw new RuntimeException("Could not load properties from '" + file + "'", e);
@@ -342,6 +344,17 @@ public class HTTPServerConfig {
   /** @since 3.7 */
   boolean getWarmUp() {
     return warmUp;
+  }
+
+  /**
+   * Maximum errors per word rate, checking will stop if the rate is higher.
+   * For example, with a rate of 0.33, the checking would stop if the user's
+   * text has so many errors that more than every 3rd word causes a rule match.
+   * Note that this may not apply for very short texts.
+   * @since 4.0
+   */
+  float getMaxErrorsPerWordRate() {
+    return maxErrorsPerWordRate;
   }
 
   /**

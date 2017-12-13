@@ -273,6 +273,7 @@ abstract class TextChecker {
    */
   private JLanguageTool getLanguageToolInstance(Language lang, Language motherTongue, QueryParams params) throws Exception {
     JLanguageTool lt = new JLanguageTool(lang, motherTongue, cache);
+    lt.setMaxErrorsPerWordRate(config.getMaxErrorsPerWordRate());
     if (config.getLanguageModelDir() != null) {
       lt.activateLanguageModelRules(config.getLanguageModelDir());
     }

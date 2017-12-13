@@ -82,6 +82,7 @@ public class JLanguageTool {
   public static final String MESSAGE_BUNDLE = "org.languagetool.MessagesBundle";
 
   private final ResultCache cache;
+  private float maxErrorsPerWordRate;
 
   /**
    * Returns the build date or {@code null} if not run from JAR.
@@ -245,6 +246,18 @@ public class JLanguageTool {
     this.cleanOverlappingMatches = cleanOverlappingMatches;
   }
 
+  /**
+   * Maximum errors per word rate, checking will stop with an exception if the rate is higher.
+   * For example, with a rate of 0.33, the checking would stop if the user's
+   * text has so many errors that more than every 3rd word causes a rule match.
+   * Note that this may not apply for very short texts.
+   * @since 4.0
+   */
+  @Experimental
+  public void setMaxErrorsPerWordRate(float maxErrorsPerWordRate) {
+    this.maxErrorsPerWordRate = maxErrorsPerWordRate;
+  }
+  
   /**
    * Gets the ResourceBundle (i18n strings) for the default language of the user's system.
    */
@@ -1032,8 +1045,10 @@ public class JLanguageTool {
     private List<RuleMatch> getOtherRuleMatches() {
       List<RuleMatch> ruleMatches = new ArrayList<>();
       int i = 0;
+      int wordCounter = 0;
       for (AnalyzedSentence analyzedSentence : analyzedSentences) {
         String sentence = sentences.get(i++);
+        wordCounter += analyzedSentence.getTokens().length;
         try {
           List<RuleMatch> sentenceMatches = null;
           InputSentence cacheKey = null;
@@ -1059,6 +1074,12 @@ public class JLanguageTool {
             }
           }
           ruleMatches.addAll(adaptedMatches);
+          float errorsPerWord = ruleMatches.size() / (float)wordCounter;
+          //System.out.println("errorPerWord " + errorsPerWord + " (matches: " + ruleMatches.size() + " / " + wordCounter + ")");   // de-DE: 0.3
+          if (maxErrorsPerWordRate > 0 && errorsPerWord > maxErrorsPerWordRate && wordCounter > 25) {
+            throw new ErrorRateTooHighException("Text checking was stopped due to too many errors (more than " + maxErrorsPerWordRate +
+                    " errors per word on average). Are you sure you have set the correct text language?");
+          }
           charCount += sentence.length();
           lineCount += countLineBreaks(sentence);
 
@@ -1076,6 +1097,8 @@ public class JLanguageTool {
               columnCount = sentence.length() - lineBreakPos;
             }
           }
+        } catch (ErrorRateTooHighException e) {
+          throw e;
         } catch (Exception e) {
           throw new RuntimeException("Could not check sentence (language: " + language + "): '"
                   + StringUtils.abbreviate(analyzedSentence.toTextString(), 200) + "'", e);

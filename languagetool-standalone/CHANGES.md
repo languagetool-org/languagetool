@@ -93,6 +93,11 @@
   * new property key `requestLimitInBytes`: similar to `requestLimit`, but this one limits
     the aggregated size of requests caused by an IP in the time span set 
     by `requestLimitPeriodInSeconds`
+  * New property key `maxErrorsPerWordRate`: set the maximum allowed errors per word, e.g.
+    `0.3` if the maximum is about one error per three words. More errors will stop the
+    check with an exception. This is useful so no processing time gets wasted for texts
+    with a huge amount of errors that are only caused by the wrong language being
+    selected (leading to most words being detected as spelling errors).
   * The JSON output now contains a `sentence` property with the text of the sentence
     the occurred in.
 
