@@ -55,6 +55,8 @@ public class WordListValidatorTest {
           "Dvořák/S",
           "Erdoğan/S",
           "Ångström",
+          "ångström",
+          "ångströms",
           "'Ndrangheta",
           "McDonald's",
           "µm",
