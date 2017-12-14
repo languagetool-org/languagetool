@@ -36,7 +36,7 @@ public abstract class NeuralNetworkRuleCreator {
 
   private static final String CONFUSION_SET_FILENAME = "neuralnetwork/confusion_sets.txt";
 
-  public static List<Rule> createRules(ResourceBundle messages, Language language, Word2VecModel word2vecModel) {
+  public static List<Rule> createRules(ResourceBundle messages, Language language, Word2VecModel word2vecModel) throws IOException {
     List<ScoredConfusionSet> confusionSets;
     try(InputStream confusionSetsStream = new FileInputStream(word2vecModel.getPath() + File.separator + CONFUSION_SET_FILENAME)) {
       confusionSets = ScoredConfusionSetLoader.loadConfusionSet(confusionSetsStream);

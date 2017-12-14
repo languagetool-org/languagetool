@@ -41,7 +41,7 @@ public class NeuralNetworkRule extends Rule {
 
   private final String id;
 
-  public NeuralNetworkRule(ResourceBundle messages, Language language, ScoredConfusionSet confusionSet, Word2VecModel word2VecModel) {
+  public NeuralNetworkRule(ResourceBundle messages, Language language, ScoredConfusionSet confusionSet, Word2VecModel word2VecModel) throws IOException {
     super(messages);
     super.setCategory(Categories.TYPOS.getCategory(messages));
 
@@ -61,7 +61,7 @@ public class NeuralNetworkRule extends Rule {
         classifier = new SingleLayerClassifier(word2VecModel.getEmbedding(), W1Stream, b1Stream);
       }
     } catch (FileNotFoundException e) {
-      throw new IllegalStateException("weights for confusion set " + confusionSet.toString() + " are missing");
+      throw new IOException("weights for confusion set " + confusionSet.toString() + " are missing", e);
     }
 
     this.id = createId(language);
