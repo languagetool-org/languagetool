@@ -18,21 +18,22 @@
  */
 package org.languagetool.language;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.*;
-
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.Language;
 import org.languagetool.Languages;
 import org.languagetool.chunking.Chunker;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.Rule;
+import org.languagetool.rules.neuralnetwork.Word2VecModel;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tokenizers.SentenceTokenizer;
 import org.languagetool.tokenizers.Tokenizer;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
 
 /**
  * Create a language by specifying the language's XML rule file.
@@ -205,6 +206,11 @@ public final class LanguageBuilder {
     @Override
     public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel) throws IOException {
       return baseLanguage.getRelevantLanguageModelRules(messages, languageModel);
+    }
+
+    @Override
+    public List<Rule> getRelevantWord2VecModelRules(ResourceBundle messages, Word2VecModel word2vecModel) throws IOException {
+      return baseLanguage.getRelevantWord2VecModelRules(messages, word2vecModel);
     }
 
     @Override

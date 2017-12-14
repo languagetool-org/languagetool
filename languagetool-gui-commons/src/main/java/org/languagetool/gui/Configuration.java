@@ -48,9 +48,11 @@ public class Configuration {
   private static final String DISABLED_RULES_KEY = "disabledRules";
   private static final String ENABLED_RULES_KEY = "enabledRules";
   private static final String DISABLED_CATEGORIES_KEY = "disabledCategories";
+  private static final String ENABLED_RULES_ONLY_KEY = "enabledRulesOnly";
   private static final String LANGUAGE_KEY = "language";
   private static final String MOTHER_TONGUE_KEY = "motherTongue";
   private static final String NGRAM_DIR_KEY = "ngramDir";
+  private static final String WORD2VEC_DIR_KEY = "word2vecDir";
   private static final String AUTO_DETECT_KEY = "autoDetect";
   private static final String TAGGER_SHOWS_DISAMBIG_LOG_KEY = "taggerShowsDisambigLog";
   private static final String SERVER_RUN_KEY = "serverMode";
@@ -73,9 +75,11 @@ public class Configuration {
   private Set<String> disabledRuleIds = new HashSet<>();
   private Set<String> enabledRuleIds = new HashSet<>();
   private Set<String> disabledCategoryNames = new HashSet<>();
+  private boolean enabledRulesOnly = false;
   private Language language;
   private Language motherTongue;
   private File ngramDirectory;
+  private File word2vecDirectory;
   private boolean runServer;
   private boolean autoDetect;
   private boolean taggerShowsDisambigLog;
@@ -133,6 +137,7 @@ public class Configuration {
     this.language = configuration.language;
     this.motherTongue = configuration.motherTongue;
     this.ngramDirectory = configuration.ngramDirectory;
+    this.word2vecDirectory = configuration.word2vecDirectory;
     this.runServer = configuration.runServer;
     this.autoDetect = configuration.autoDetect;
     this.taggerShowsDisambigLog = configuration.taggerShowsDisambigLog;
@@ -179,6 +184,10 @@ public class Configuration {
 
   public void setDisabledCategoryNames(Set<String> categoryNames) {
     disabledCategoryNames = categoryNames;
+  }
+
+  public boolean getEnabledRulesOnly() {
+    return enabledRulesOnly;
   }
 
   public Language getLanguage() {
@@ -377,6 +386,23 @@ public class Configuration {
   }
 
   /**
+   * Directory with ngram data or null.
+   * @since 3.0
+   */
+  @Nullable
+  public File getWord2VecDirectory() {
+    return word2vecDirectory;
+  }
+
+  /**
+   * Sets the directory with ngram data (may be null).
+   * @since 3.0
+   */
+  public void setWord2VecDirectory(File dir) {
+    this.word2vecDirectory = dir;
+  }
+
+  /**
    * @since 2.8
    */
   public Map<ITSIssueType, Color> getErrorColors() {
@@ -395,6 +421,7 @@ public class Configuration {
       disabledRuleIds.addAll(getListFromProperties(props, DISABLED_RULES_KEY + qualifier));
       enabledRuleIds.addAll(getListFromProperties(props, ENABLED_RULES_KEY + qualifier));
       disabledCategoryNames.addAll(getListFromProperties(props, DISABLED_CATEGORIES_KEY + qualifier));
+      enabledRulesOnly = "true".equals(props.get(ENABLED_RULES_ONLY_KEY));
 
       String languageStr = (String) props.get(LANGUAGE_KEY);
       if (languageStr != null) {
@@ -407,6 +434,10 @@ public class Configuration {
       String ngramDir = (String) props.get(NGRAM_DIR_KEY);
       if (ngramDir != null) {
         ngramDirectory = new File(ngramDir);
+      }
+      String word2vecDir = (String) props.get(WORD2VEC_DIR_KEY);
+      if (word2vecDir != null) {
+        word2vecDirectory = new File(word2vecDir);
       }
 
       autoDetect = "true".equals(props.get(AUTO_DETECT_KEY));
@@ -521,6 +552,9 @@ public class Configuration {
     }
     if (ngramDirectory != null) {
       props.setProperty(NGRAM_DIR_KEY, ngramDirectory.getAbsolutePath());
+    }
+    if (word2vecDirectory != null) {
+      props.setProperty(WORD2VEC_DIR_KEY, word2vecDirectory.getAbsolutePath());
     }
     props.setProperty(AUTO_DETECT_KEY, Boolean.toString(autoDetect));
     props.setProperty(TAGGER_SHOWS_DISAMBIG_LOG_KEY, Boolean.toString(taggerShowsDisambigLog));

@@ -26,6 +26,7 @@ import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.markup.AnnotatedText;
 import org.languagetool.markup.AnnotatedTextBuilder;
 import org.languagetool.rules.*;
+import org.languagetool.rules.neuralnetwork.Word2VecModel;
 import org.languagetool.rules.patterns.AbstractPatternRule;
 import org.languagetool.rules.patterns.FalseFriendRuleLoader;
 import org.languagetool.rules.patterns.PatternRule;
@@ -341,6 +342,20 @@ public class JLanguageTool {
     if (languageModel != null) {
       ResourceBundle messages = getMessageBundle(language);
       List<Rule> rules = language.getRelevantLanguageModelRules(messages, languageModel);
+      userRules.addAll(rules);
+    }
+  }
+
+  /**
+   * Activate rules that depend on a word2vec language model.
+   * @param indexDir directory with a subdirectories like 'en', each containing dictionary.txt and final_embeddings.txt
+   * @since 4.0
+   */
+  public void activateWord2VecModelRules(File indexDir) throws IOException {
+    Word2VecModel word2vecModel = language.getWord2VecModel(indexDir);
+    if (word2vecModel != null) {
+      ResourceBundle messages = getMessageBundle(language);
+      List<Rule> rules = language.getRelevantWord2VecModelRules(messages, word2vecModel);
       userRules.addAll(rules);
     }
   }
