@@ -121,52 +121,63 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
         continue;
       }
 
-      String originalTokenStr = tokenReadings.getToken();
       if (ignoreTaggedWords && isTagged(tokenReadings)) {
         continue;
       }
-      String tokenString = cleanup(originalTokenStr);
 
-      // try first with the original word, then with the all lower-case version
-      List<String> possibleReplacements = getWrongWords().get(originalTokenStr);
-      if (possibleReplacements == null) {
-        possibleReplacements = getWrongWords().get(tokenString);
+      List<RuleMatch> matchesForToken = findMatches(tokenReadings, sentence);
+      ruleMatches.addAll( matchesForToken );
+    }
+    
+    return toRuleMatchArray(ruleMatches);
+  }
+
+  protected List<RuleMatch> findMatches(AnalyzedTokenReadings tokenReadings, AnalyzedSentence sentence) {
+    List<RuleMatch> ruleMatches = new ArrayList<>();
+
+    String originalTokenStr = tokenReadings.getToken();
+    String tokenString = cleanup(originalTokenStr);
+
+    // try first with the original word, then with the all lower-case version
+    List<String> possibleReplacements = getWrongWords().get(originalTokenStr);
+    if (possibleReplacements == null) {
+      possibleReplacements = getWrongWords().get(tokenString);
+    }
+
+    if (possibleReplacements == null && checkLemmas) {
+      possibleReplacements = new ArrayList<>();
+
+      List<String> lemmas = new ArrayList<>();
+      for (AnalyzedToken analyzedToken : tokenReadings.getReadings()) {
+        String lemma = analyzedToken.getLemma();
+        if (lemma != null && getWrongWords().containsKey(lemma) && ! lemmas.contains(lemma) ) {
+          lemmas.add(cleanup(lemma));
+        }
       }
 
-      if (possibleReplacements == null && checkLemmas) {
-        possibleReplacements = new ArrayList<>();
-
-        List<String> lemmas = new ArrayList<>();
-        for (AnalyzedToken analyzedToken : tokenReadings.getReadings()) {
-          String lemma = analyzedToken.getLemma();
-          if (lemma != null && getWrongWords().containsKey(lemma) && ! lemmas.contains(lemma) ) {
-            lemmas.add(cleanup(lemma));
-          }
+      for (String lemma: lemmas) {
+        List<String> replacements = getWrongWords().get(lemma);
+        if (replacements != null) {
+          possibleReplacements.addAll(replacements);
         }
-
-        for (String lemma: lemmas) {
-          List<String> replacements = getWrongWords().get(lemma);
-          if (replacements != null) {
-            possibleReplacements.addAll(replacements);
-          }
-        }
-
-        possibleReplacements = possibleReplacements.stream().distinct().collect(Collectors.toList());
       }
 
-      if (possibleReplacements != null && possibleReplacements.size() > 0) {
-        List<String> replacements = new ArrayList<>();
-        replacements.addAll(possibleReplacements);
-        if (replacements.contains(originalTokenStr)) {
-          replacements.remove(originalTokenStr);
-        }
-        if (replacements.size() > 0) {
-          RuleMatch potentialRuleMatch = createRuleMatch(tokenReadings, replacements, sentence);
-          ruleMatches.add(potentialRuleMatch);
-        }
+      possibleReplacements = possibleReplacements.stream().distinct().collect(Collectors.toList());
+    }
+
+    if (possibleReplacements != null && possibleReplacements.size() > 0) {
+      List<String> replacements = new ArrayList<>();
+      replacements.addAll(possibleReplacements);
+      if (replacements.contains(originalTokenStr)) {
+        replacements.remove(originalTokenStr);
+      }
+      if (replacements.size() > 0) {
+        RuleMatch potentialRuleMatch = createRuleMatch(tokenReadings, replacements, sentence);
+        ruleMatches.add(potentialRuleMatch);
       }
     }
-    return toRuleMatchArray(ruleMatches);
+    
+    return ruleMatches;
   }
 
   /**
