@@ -83,7 +83,7 @@ public class Matrix {
     final int colsB = b[0].length;
 
     if (colsA != rowsB) {
-      throw new AssertionError("Matrix with " + colsA + " columns cannot be multiplied with matrix with " + colsB + " rows");
+      throw new ArithmeticException("Matrix with " + colsA + " columns cannot be multiplied with matrix with " + colsB + " rows");
     }
 
     float[][] c = new float[rowsA][colsB];
@@ -108,8 +108,8 @@ public class Matrix {
     final int rowsB = b.length;
     final int colsB = b[0].length;
 
-    if (rowsA != rowsB) throw new AssertionError();
-    if (colsA != colsB) throw new AssertionError();
+    if (rowsA != rowsB) throw new ArithmeticException("Matrix with " + rowsA + " rows cannot be added to a matrix with " + rowsB + " rows");
+    if (colsA != colsB) throw new ArithmeticException("Matrix with " + colsA + " columns cannot be added to a matrix with " + colsB + " columns");
 
     float[][] c = new float[rowsA][colsA];
 
