@@ -41,6 +41,8 @@ public class NeuralNetworkRule extends Rule {
 
   private final String id;
 
+  private static final boolean DEBUG = false;
+
   public NeuralNetworkRule(ResourceBundle messages, Language language, ScoredConfusionSet confusionSet, Word2VecModel word2VecModel) throws IOException {
     super(messages);
     super.setCategory(Categories.TYPOS.getCategory(messages));
@@ -140,7 +142,9 @@ public class NeuralNetworkRule extends Rule {
           if (!suggestion.isUnsure()) {
             ruleMatches.add(createRuleMatch(tokens[i], suggestion, y));
           } else {
-            System.out.println("unsure: " + getMessage(suggestion, y) + Arrays.toString(context));
+            if(DEBUG) {
+              System.out.println("unsure: " + getMessage(suggestion, y) + Arrays.toString(context));
+            }
           }
         }
       }
