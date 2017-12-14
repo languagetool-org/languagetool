@@ -10955,7 +10955,7 @@ USA
                 <pattern>
                     <token inflected="yes">be</token>
                     <token min="0" max="1" postag="RB"/>
-                    <token inflected="yes" postag="VBG" regexp="yes">doubt|believe|imagine|know|(dis)?like|love|hate|prefer|reali[zs]e|recogni[sz]e|remember|suppose|understand|w(ant|ish)|appear|hear|s(eem|mell|ound)|taste|agree|d(eny|isagree)|impress|mean|p(lease|romise)|satisfy|belong|con(cern|sist|tain)|de(pend|serve)|involve|matter|need|own|possess</token>
+                    <token inflected="yes" postag="VBG" regexp="yes">doubt|believe|imagine|know|(dis)?like|love|hate|prefer|reali[zs]e|recogni[sz]e|remember|suppose|understand|w(ant|ish)|appear|hear|s(eem|mell|ound)|taste|agree|d(eny|isagree)|impress|mean|please|satisfy|belong|con(cern|sist|tain)|de(pend|serve)|involve|matter|need|own|possess</token>
                 </pattern>
                 <message>The verb '\3' is normally not used in the progressive form. Try a simple form instead.</message>
                 <short>Grammatical problem: do not use the progressive</short>
@@ -10970,6 +10970,7 @@ USA
                 <example>I <marker>had been depending</marker> on having the test results by 17:00 today.</example>
                 <example>The Tigers <marker>have been deserving</marker> winners of the title.</example>
                 <example>I <marker>have been hearing</marker> good things about you.</example>
+                <example>This <marker>is promising</marker>!</example>
                 <example type="triggers_error">As you said many times, I <marker>am not understanding</marker>. Nor do I have tolerance, patience, or kindness.</example><!-- Adjective -->
                 <example type="triggers_error">I am very <marker>understanding</marker>, and I care very much.</example><!-- Adjective -->
                 <example type="triggers_error">The conflict is merely <marker>seeming</marker>.</example><!-- Adjective -->
@@ -11431,6 +11432,12 @@ USA
                 <token>use</token>
                 <token>to</token>
             </antipattern>
+            <antipattern>
+                <token regexp="yes" skip="2">which|that</token>
+                <token postag="NN.+" postag_regexp="yes"/>
+                <token>use</token>
+                <token>to</token>
+            </antipattern>
             <pattern>
                 <token><exception postag="MD"/></token>
                 <marker>
@@ -11442,6 +11449,7 @@ USA
             <message>Did you mean <suggestion>used</suggestion>?</message>
             <example>It can be used to save lives</example>
             <example>Tom didn't use to drink so much.</example>
+            <example>That is the term that futurists use to describe a potentially cataclysmic point.</example>
             <example correction="used">He <marker>use</marker> to believe this.</example>
             <example correction="used">Aethera <marker>use</marker> to use this.</example>
             <example>This could set a dangerous precedent that they would surely use to target other journalists.</example>
@@ -15875,7 +15883,7 @@ USA
                 </antipattern>
                 <antipattern>
                     <token>Also</token>
-                    <token>commemorated</token>
+                    <token postag="VBN"/>
                 </antipattern>
                 <antipattern>
                     <!-- typical headline, but may hide real errors... -->
@@ -15904,6 +15912,7 @@ USA
                 <example>Thus began the infamous "prison ships" system.</example>
                 <example>However fast you may walk, you can't catch up with him.</example>
                 <example>Also specify your gender.</example>
+                <example>Also known as UCB, ...</example>
                 <example>However you look at it, existing investors are likely to lose out.</example>
                 <example correction="Alas,"><marker>Alas</marker> James had finals and couldn’t attend.</example>
                 <example>Alas! Her heart belonged to another.</example>
@@ -21548,6 +21557,11 @@ USA
             <example type="correct">Carleton S. <marker>Coon</marker> was an American anthropologist (https://en.wikipedia.org/wiki/Carleton_S._Coon).</example>
         </rule>
         <rule id="NEEDS_FIXED" name="'Needs fixed' type construction">
+            <antipattern>
+                <token>of</token>
+                <token>needs</token>
+                <token postag='VBN'/>
+            </antipattern>
             <pattern>
                 <token regexp='yes'>(needs|wants|requires|needed|wanted|required)</token>
                 <marker>
@@ -21557,6 +21571,7 @@ USA
             <message>"\1 \2" is only accepted in certain dialects. For something more widely acceptable, try <suggestion><match no="2" regexp_match="ed$" regexp_replace="ing"/></suggestion> or <suggestion>to be \2</suggestion>.</message>
             <url>http://english.stackexchange.com/questions/5407/central-pennsylvanian-english-speakers-what-are-the-limitations-on-the-needs-w</url>
             <example correction='fixing|to be fixed'>My car needs <marker>fixed</marker>.</example>
+            <example>A set of needs described as essential</example>
         </rule>
         <rule id="AN_INVITE" name="an invite (invitation)">
             <pattern>
