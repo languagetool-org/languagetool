@@ -1,5 +1,5 @@
-/* LanguageTool, a natural language style checker 
- * Copyright (C) 2014 Daniel Naber (http://www.danielnaber.de)
+/* LanguageTool, a natural language style checker
+ * Copyright (C) 2017 Markus Brenneis
  * 
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
