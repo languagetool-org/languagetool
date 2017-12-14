@@ -62,8 +62,8 @@ public class JekavianSerbian extends Serbian {
 
   @Override
   public List<Rule> getRelevantRules(ResourceBundle messages) throws IOException {
-    List<Rule> rules = new ArrayList<>();
-    rules.addAll(super.getRelevantRules(messages));
+    List<Rule> rules = new ArrayList<>(getBasicRules(messages));
+    // Rules specific for Jekavian Serbian
     rules.add(new MorfologikJekavianSpellerRule(messages, this));
     rules.add(new SimpleGrammarJekavianReplaceRule(messages));
     rules.add(new SimpleStyleJekavianReplaceRule(messages));

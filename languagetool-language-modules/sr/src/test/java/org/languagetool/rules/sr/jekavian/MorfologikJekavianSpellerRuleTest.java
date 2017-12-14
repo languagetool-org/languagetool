@@ -44,6 +44,7 @@ public class MorfologikJekavianSpellerRuleTest {
   public void testMorfologikSpeller() throws IOException {
     // correct sentences
     assertEquals(0, rule.match(languageTool.getAnalyzedSentence("Тамо је лијеп цвијет.")).length);
+    assertEquals(0, rule.match(languageTool.getAnalyzedSentence("Дјечак и дјевојчица играју се заједно.")).length);
     // Punctuation
     assertEquals(0, rule.match(languageTool.getAnalyzedSentence(",")).length);
     // Roman numerals
