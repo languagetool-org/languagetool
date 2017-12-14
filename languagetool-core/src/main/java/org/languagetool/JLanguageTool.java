@@ -1077,8 +1077,8 @@ public class JLanguageTool {
           float errorsPerWord = ruleMatches.size() / (float)wordCounter;
           //System.out.println("errorPerWord " + errorsPerWord + " (matches: " + ruleMatches.size() + " / " + wordCounter + ")");   // de-DE: 0.3
           if (maxErrorsPerWordRate > 0 && errorsPerWord > maxErrorsPerWordRate && wordCounter > 25) {
-            throw new ErrorRateTooHighException("Text checking was stopped due to too many errors (more than " + maxErrorsPerWordRate +
-                    " errors per word on average). Are you sure you have set the correct text language? Language set: " + language.getName());
+            throw new ErrorRateTooHighException("Text checking was stopped due to too many errors (more than " + String.format("%.0f", maxErrorsPerWordRate*100) +
+                    "% of words seem to have an error). Are you sure you have set the correct text language? Language set: " + language.getName());
           }
           charCount += sentence.length();
           lineCount += countLineBreaks(sentence);

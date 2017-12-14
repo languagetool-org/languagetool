@@ -5412,18 +5412,18 @@ title="Easy editing stylesheet" ?>
       <example correction="certo dia">Tudo aconteceu <marker>um certo dia</marker> de manhã.</example>
     </rule>
 
-    <!-- VÍDEO CONFERÊNCIA videoconferência -->
     <rule id='VÍDEO_CONFERÊNCIA' name="Videoconferência">
+    <!-- Created by Marco A.G. Pinto, Portuguese rule -->
       <pattern>
           <token>vídeo</token>
-          <token>conferência</token>
+          <token regexp='yes'>conferências?</token>
       </pattern>
-      <message>Substitua por <suggestion>videoconferência</suggestion>.</message>
+      <message>Substitua por <suggestion>video\2</suggestion>.</message>
       <example correction="videoconferência">Vou realizar uma <marker>vídeo conferência</marker> no Skype.</example>
     </rule>
 
-    <!-- VISANDO A CONSEGUIR visando conseguir -->
     <rule id='VISANDO_A_CONSEGUIR' name="Visando conseguir">
+    <!-- Created by Marco A.G. Pinto, Portuguese rule -->
       <pattern>
           <token inflected='yes'>visar</token>
           <token>a</token>
@@ -5435,7 +5435,6 @@ title="Easy editing stylesheet" ?>
 
     <rule id='VOAR_A_JATO' name="Voar de jato">
     <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
-    <!-- Both "jacto" and "jato", for prereform and postreform -->
       <pattern>
           <token inflected='yes'>voar</token>
         <marker>
@@ -5447,8 +5446,8 @@ title="Easy editing stylesheet" ?>
       <example correction="de">Eles vão voar <marker>a</marker> jato.</example>
     </rule>
 
-    <!-- DE ORA AVANTE doravante -->
     <rule id='DE_ORA_AVANTE' name="Doravante">
+    <!-- Created by Marco A.G. Pinto, Portuguese rule -->
       <pattern>
           <token>de</token>
           <token>ora</token>
@@ -5558,8 +5557,8 @@ title="Easy editing stylesheet" ?>
     <!-- *************************** -->
     <!-- RULES TU/TI -> EU/MIM *END* -->
 
-    <!-- VOTOS BRANCOS votos em branco -->
     <rule id='VOTOS_BRANCOS' name="Votos em branco">
+    <!-- Created by Marco A.G. Pinto, Portuguese rule -->
       <pattern>
           <token regexp='yes'>votos?</token>
           <token>brancos</token>
@@ -5568,25 +5567,26 @@ title="Easy editing stylesheet" ?>
       <example correction="votos em branco">Houve muitos <marker>votos brancos</marker> na eleição.</example>
     </rule>
 
-    <!-- TIVER + A + INF-VERB estiver + a + inf-verb-->
     <rule id='TIVER_ESTIVER' name='Confusão ESTIVER - ESTIVER'>
+    <!-- Created by Marco A.G. Pinto, Portuguese rule -->
       <pattern>
         <marker>
+          <token regexp='yes'>caso|embora|quando|que|se</token>
           <token regexp='yes'>tiver.*</token>
-        </marker>
           <token>a</token>
           <token postag="VMN0000"/>
+        </marker>
       </pattern>
-      <message>Substitua por <suggestion><match no='1' regexp_match='(tiver)(.*)' regexp_replace='estiver$2'/></suggestion>.</message>
-      <example correction="estiver">Quando <marker>tiver</marker> a ver TV.</example>
-      <example correction="estiveres">Quando <marker>tiveres</marker> a ver TV.</example>
-      <example correction="estiverem">Quando <marker>tiverem</marker> a ver TV.</example>
-      <example correction="estivermos">Quando <marker>tivermos</marker> a ver TV.</example>
-      <example correction="estiveram">Quando <marker>tiveram</marker> a ver TV.</example>
+      <message>Substitua por <suggestion>\1 <match no='2' regexp_match='(tiver)(.*)' regexp_replace='estiver$2'/> \3 \4</suggestion>.</message>
+      <example correction="Quando estiver a ver"><marker>Quando tiver a ver</marker> TV.</example>
+      <example correction="Quando estiveres a ver"><marker>Quando tiveres a ver</marker> TV.</example>
+      <example correction="Quando estiverem a ver"><marker>Quando tiverem a ver</marker> TV.</example>
+      <example correction="Quando estivermos a ver"><marker>Quando tivermos a ver</marker> TV.</example>
+      <example correction="Quando estiveram a ver"><marker>Quando tiveram a ver</marker> TV.</example>
     </rule>
 
-    <!-- TRADUZIR EM > TRADUZIR PARA -->
     <rule id='TRADUZIR_EM' name="Traduzir para">
+    <!-- Created by Marco A.G. Pinto, Portuguese rule -->
       <pattern>
         <marker>
           <token inflected='yes'>traduzir</token>
