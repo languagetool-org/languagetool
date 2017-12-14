@@ -14671,7 +14671,7 @@ USA
           <token>by</token>
           <token regexp="yes">snow|leaves|dust</token>
       </pattern>
-      <message>The usual verb for "cover" is "in" not "by." Revise: <suggestion>covered in \3</suggestion> or <suggestion>covered with \3</suggestion>.</message>
+      <message>The usual preposition for "cover" is "in" not "by." Revise: <suggestion>covered in \3</suggestion> or <suggestion>covered with \3</suggestion>.</message>
       <url>https://english.stackexchange.com/questions/60805/covered-with-vs-covered-in-vs-covered-by</url>
       <example correction='covered in snow|covered with snow'>The Mountains are <marker>covered by snow</marker>.</example>
     </rule>
@@ -14684,9 +14684,31 @@ USA
     <!--Capitalized word-->
           <token regexp="yes">next|tomorrow|soon</token>
       </pattern>
-      <message>The usual verb for "leave is "for" not "to". Revise: <suggestion>leaving for \3 \4</suggestion>.</message>
+      <message>The usual preposition for "leave" is "for" not "to". Revise: <suggestion>leaving for \3 \4</suggestion>.</message>
       <url>http://www.really-learn-english.com/leaving-to-or-leaving-for.html</url>
       <example correction='leaving for England soon'>They are <marker>leaving to England soon</marker>.</example>
+    </rule>
+    <rule id='DO_HAVE_A_MEETING' name='Collocation: do/have a meeting'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token inflected='yes'>do</token>
+          <token>a</token>
+          <token>meeting</token>
+      </pattern>
+      <message>The usual verb for "a meeting" is "have" not "do." Revise: <suggestion><match no='1' postag='V.*'>have</match> a meeting</suggestion>.</message>
+      <example correction='have a meeting'>We decided to <marker>do a meeting</marker> the next day.</example>
+      <example correction='has a meeting'>Tom <marker>does a meeting</marker> the next day.</example>
+      <example correction='had a meeting'>We decided to <marker>did a meeting</marker> the next day.</example>
+    </rule>
+    <rule id='GROWLED_TO_AT' name='Collocation: growled to/at'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token regexp="yes">growled|spat|punched</token>
+          <token>to</token>
+          <token postag="PRP|PRP\$|DT" postag_regexp="yes"/>
+      </pattern>
+      <message>The usual preposition for "\1" is "at." Revise: <suggestion>\1 at \3</suggestion>.</message>
+      <example correction='growled at him'>Dr. Dre <marker>growled to him</marker> about the snow.</example>
     </rule>
   </rulegroup>
 
