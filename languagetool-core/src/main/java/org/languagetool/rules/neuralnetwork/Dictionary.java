@@ -45,7 +45,6 @@ public class Dictionary extends HashMap<String, Integer> {
     if (containsKey(key)) {
       return get(key);
     } else {
-      System.out.println(key + " unknown");
       return get("UNK");
     }
   }
