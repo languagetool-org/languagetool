@@ -136,9 +136,9 @@ class LanguageToolHttpHandler implements HttpHandler {
         errorCode = HttpURLConnection.HTTP_ENTITY_TOO_LARGE;
         response = e.getMessage();
         logStacktrace = false;
-      } else if (e instanceof ErrorRateTooHighException || ExceptionUtils.getRootCause(e) instanceof ErrorRateTooHighException) {
+      } else if (ExceptionUtils.getRootCause(e) instanceof ErrorRateTooHighException) {
         errorCode = HttpURLConnection.HTTP_BAD_REQUEST;
-        response = e.getMessage();
+        response = ExceptionUtils.getRootCause(e).getMessage();
         logStacktrace = false;
       } else if (e instanceof AuthException || e.getCause() != null && e.getCause() instanceof AuthException) {
         errorCode = HttpURLConnection.HTTP_FORBIDDEN;
