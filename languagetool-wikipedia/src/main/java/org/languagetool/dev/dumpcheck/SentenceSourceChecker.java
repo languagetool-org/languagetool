@@ -77,8 +77,10 @@ public class SentenceSourceChecker {
     String[] fileNames = commandLine.getOptionValues('f');
     File languageModelDir = commandLine.hasOption("languagemodel") ?
                             new File(commandLine.getOptionValue("languagemodel")) : null;
+    File word2vecModelDir = commandLine.hasOption("word2vecmodel") ?
+            new File(commandLine.getOptionValue("word2vecmodel")) : null;
     Pattern filter = commandLine.hasOption("filter") ? Pattern.compile(commandLine.getOptionValue("filter")) : null;
-    prg.run(propFile, disabledRuleIds, languageCode, Arrays.asList(fileNames), ruleIds, categoryIds, maxArticles, maxErrors, languageModelDir, filter);
+    prg.run(propFile, disabledRuleIds, languageCode, Arrays.asList(fileNames), ruleIds, categoryIds, maxArticles, maxErrors, languageModelDir, word2vecModelDir, filter);
   }
 
   private static void addDisabledRules(String languageCode, Set<String> disabledRuleIds, Properties disabledRules) {
@@ -142,12 +144,15 @@ public class SentenceSourceChecker {
   }
 
   private void run(File propFile, Set<String> disabledRules, String langCode, List<String> fileNames, String[] ruleIds,
-                   String[] additionalCategoryIds, int maxSentences, int maxErrors, File languageModelDir, Pattern filter) throws IOException {
+                   String[] additionalCategoryIds, int maxSentences, int maxErrors, File languageModelDir, File word2vecModelDir, Pattern filter) throws IOException {
     Language lang = Languages.getLanguageForShortCode(langCode);
     MultiThreadedJLanguageTool languageTool = new MultiThreadedJLanguageTool(lang);
     languageTool.setCleanOverlappingMatches(false);
     if (languageModelDir != null) {
       languageTool.activateLanguageModelRules(languageModelDir);
+    }
+    if (word2vecModelDir != null) {
+      languageTool.activateWord2VecModelRules(word2vecModelDir);
     }
     if (ruleIds != null) {
       enableOnlySpecifiedRules(ruleIds, languageTool);
