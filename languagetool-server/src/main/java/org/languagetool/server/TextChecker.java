@@ -99,7 +99,7 @@ abstract class TextChecker {
     } else {
       count++;
     }
-    print("Starting check: " + aText.getPlainText().length() + " chars, #" + count);
+    //print("Starting check: " + aText.getPlainText().length() + " chars, #" + count);
     String motherTongueParam = parameters.get("motherTongue");
     Language motherTongue = motherTongueParam != null ? Languages.getLanguageForShortCode(motherTongueParam) : null;
     boolean useEnabledOnly = "yes".equals(parameters.get("enabledOnly")) || "true".equals(parameters.get("enabledOnly"));
