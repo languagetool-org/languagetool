@@ -729,11 +729,11 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       }
       String ignoredWord = word.substring(0, end);
       String partialWord = word.substring(end);
-      boolean isAllLowerCasePartialWord = StringUtils.isAllLowerCase(partialWord);
+      boolean isCandidateForNonHyphenatedCompound = !StringUtils.isAllUpperCase(ignoredWord) && StringUtils.isAllLowerCase(partialWord);
       boolean needFugenS = ENDINGS_NEEDING_FUGENS.matcher(ignoredWord).matches();
-      if (isAllLowerCasePartialWord && !needFugenS && partialWord.length() > 1) {
+      if (isCandidateForNonHyphenatedCompound && !needFugenS && partialWord.length() > 1) {
         return !hunspellDict.misspelled(partialWord) || !hunspellDict.misspelled(StringUtils.capitalize(partialWord));
-      } else if (isAllLowerCasePartialWord && needFugenS && partialWord.length() > 2) {
+      } else if (isCandidateForNonHyphenatedCompound && needFugenS && partialWord.length() > 2) {
         partialWord = partialWord.startsWith("s") ? partialWord.substring(1) : partialWord;
         return !hunspellDict.misspelled(partialWord) || !hunspellDict.misspelled(StringUtils.capitalize(partialWord));
       }
