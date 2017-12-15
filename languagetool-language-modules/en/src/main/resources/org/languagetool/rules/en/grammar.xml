@@ -13635,7 +13635,7 @@ USA
             </antipattern>
             <pattern>
                  <token>accustomed</token>
-                 <token negate="yes">to<exception postag="PRP|PRP\$|CD" postag_regexp="yes"></exception></token>
+                 <token negate="yes">to<exception postag="PRP\$?|CD" postag_regexp="yes"></exception></token>
             </pattern>
             <message>Did you mean: <suggestion>accustomed to</suggestion>?</message>
             <short>Wrong preposition: accustomed to</short>
@@ -14096,7 +14096,7 @@ USA
           <token min="0" postag="RB"/>
           <token>with</token>
         </marker>
-          <token postag_regexp="yes" postag="DT|NNP|OPRP|PRP\$"/>
+          <token postag_regexp="yes" postag="DT|NNP|PRP\$?"/>
           <token>team</token>
       </pattern>
       <message>Use "for" with "play." You probably meant this: <suggestion>\1 <match no='2' include_skipped='all'/> for</suggestion>.</message>
@@ -14107,7 +14107,7 @@ USA
       <pattern>
           <token>opposite</token>
           <token>from</token>
-          <token postag_regexp="yes" postag="DT|NNP|OPRP|PRP\$"/>
+          <token postag_regexp="yes" postag="DT|NNP|PRP\$?"/>
       </pattern>
       <message>Use "to" with "opposite." You probably meant this: <suggestion>\1 to \3</suggestion>.</message>
       <example correction='opposite to ours'>Their house is <marker>opposite from ours</marker>.</example>
@@ -14119,7 +14119,7 @@ USA
           <token inflected="yes">marry</token>
           <token>with</token>
         </marker>
-          <token postag_regexp="yes" postag="DT|NNP|OPRP"/>
+          <token postag_regexp="yes" postag="DT|NNP|PRP"/>
       </pattern>
       <message>Use "to" with "marry." You probably meant this: <suggestion>\1 to</suggestion>.</message>
       <example correction='married to'>Angela was <marker>married with</marker> a rich man.</example>
@@ -14713,10 +14713,58 @@ USA
       <pattern>
           <token regexp="yes">growled|spat|punched</token>
           <token>to</token>
-          <token postag="PRP|PRP\$|DT" postag_regexp="yes"/>
+          <token postag="PRP\$?|DT" postag_regexp="yes"/>
       </pattern>
       <message>The usual preposition for "\1" is "at." Revise: <suggestion>\1 at \3</suggestion>.</message>
       <example correction='growled at him'>Dr. Dre <marker>growled to him</marker> about the snow.</example>
+    </rule>
+  </rulegroup>
+
+  <rulegroup id='DURING_OVER_THE_WEEKENDS' name='Collocation: during/over the weekends'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+    <rule>
+      <pattern>
+          <marker>
+          <token>during</token>
+          <token>the</token>
+          <token>weekend</token>
+          </marker>
+          <token>
+            <exception>of</exception></token>
+      </pattern>
+      <message>The usual preposition for "the weekend" is "on." Revise: <suggestion>on the weekend</suggestion> for American English, or <suggestion>at the weekend</suggestion> for British English.</message>
+      <url>http://learnersdictionary.com/qa/Over-the-weekend-on-the-weekend-at-the-weekend</url>
+      <example correction='on the weekend|at the weekend'>During the week, I go to school and I work in a pet shop <marker>during the weekend</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <marker>
+          <token>during</token>
+          <token>the</token>
+          <token>week</token>
+          <token>end</token>
+          </marker>
+          <token>
+            <exception>of</exception></token>
+      </pattern>
+      <message>The usual preposition for "the weekend" is "on." Revise: <suggestion>on the weekend</suggestion> for American English, or <suggestion>at the weekend</suggestion> for British English.</message>
+      <url>http://learnersdictionary.com/qa/Over-the-weekend-on-the-weekend-at-the-weekend</url>
+      <example correction='on the weekend|at the weekend'>During the week, I go to school and I work in a pet shop <marker>during the week end</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <marker>
+          <token>during</token>
+          <token min='0'>the</token>
+          <token>weekends</token>
+          </marker>
+          <token>
+            <exception>of</exception></token>
+      </pattern>
+      <message>The usual preposition for "weekends" is "on." Revise: <suggestion>on weekends</suggestion> for American English, or <suggestion>at the weekend</suggestion> for British English.</message>
+      <url>http://learnersdictionary.com/qa/Over-the-weekend-on-the-weekend-at-the-weekend</url>
+      <example correction='on weekends|at the weekend'>I only speak English on weekends because <marker>during weekends</marker> I work and some clients that only speak in English.</example>
+      <example correction='on weekends|at the weekend'>During the week, I go to school and I work in a pet shop <marker>during the weekends</marker>.</example>
     </rule>
   </rulegroup>
 
