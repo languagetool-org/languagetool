@@ -116,14 +116,16 @@ public final class PatternTestTools {
         for (PatternToken exception: pToken.getExceptionList()) {
           // Detect useless exception or missing skip="...". I.e. things like this:
           // <token postag="..."><exception scope="next">foo</exception</token>
-          if (exception.hasNextException() && pToken.getSkipNext() == 0) {
-            System.err.println("The " + lang + " rule: "
-                    + ruleId + "[" + ruleSubId + "]"
-                    + " (exception in token [" + i + "])"
-                    + " has no skip=\"...\" and yet contains scope=\"next\""
-                    + " so the exception never applies."
-                    + " Did you forget skip=\"...\"?");
-          }
+          
+          // We now allow scope="next" without skip="..."
+//          if (exception.hasNextException() && pToken.getSkipNext() == 0) {
+//            System.err.println("The " + lang + " rule: "
+//                    + ruleId + "[" + ruleSubId + "]"
+//                    + " (exception in token [" + i + "])"
+//                    + " has no skip=\"...\" and yet contains scope=\"next\""
+//                    + " so the exception never applies."
+//                    + " Did you forget skip=\"...\"?");
+//          }
 
           // Detect exception that can't possibly be matched.
           if ( !pToken.getString().isEmpty()
