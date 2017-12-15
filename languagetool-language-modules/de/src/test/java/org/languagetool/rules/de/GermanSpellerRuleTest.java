@@ -296,7 +296,8 @@ public class GermanSpellerRuleTest {
     assertFalse(ruleGermany.doIgnoreWord("Frauversteher"));             // compound formed from two valid words, but still incorrect
     assertFalse(ruleGermany.doIgnoreWord("Wodkasglas"));                // compound formed from two valid words, but still incorrect
     assertFalse(ruleGermany.doIgnoreWord("Author"));
-    assertFalse(ruleGermany.doIgnoreWord("SecondhandWare"));             // from spelling.txt formed compound
+    assertFalse(ruleGermany.doIgnoreWord("SecondhandWare"));            // from spelling.txt formed compound
+    assertFalse(ruleGermany.doIgnoreWord("MHDware"));                   // from spelling.txt formed compound
     MyGermanSpellerRule ruleSwiss = new MyGermanSpellerRule(TestTools.getMessages("de"), GERMAN_CH);
     assertTrue(ruleSwiss.doIgnoreWord("einPseudoWortFürLanguageToolTests"));
     assertFalse(ruleSwiss.doIgnoreWord("Ligafußball"));        // 'ß' never accepted for Swiss

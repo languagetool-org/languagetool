@@ -246,8 +246,8 @@ public class CaseRule extends Rule {
         regex("[A-ZÄÖÜ0-9]+[a-zäöüß0-9]-[a-zäöüß]+")
      ),
      Arrays.asList(
-       // "Das Aus für Italien kam unerwartet."
-       token("das"),
+       // "Das Aus für Italien kam unerwartet." / "Müller drängt auf Aus bei Pflichtmitgliedschaft"
+       regex("auf|das|vor"),
        csToken("Aus"),
        posRegex("^PRP:.+|VER:[1-3]:.+")
      ),
@@ -286,7 +286,11 @@ public class CaseRule extends Rule {
       csToken("Virtual"),
       csToken("Private"),
       csToken("Network")
-   )
+   ),
+    Arrays.asList( // "Er befürchtete Schlimmeres."
+      regex("Schlimm(er)?es"), 
+      pos(JLanguageTool.SENTENCE_END_TAGNAME)
+    )
   );
 
   private static PatternToken token(String token) {

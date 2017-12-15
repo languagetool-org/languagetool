@@ -32,16 +32,16 @@ import java.io.*;
 import java.util.*;
 
 public class NeuralNetworkRule extends Rule {
+  
+  private static final int CONTEXT_LENGTH = 5;
+  private static final boolean DEBUG = false;
+
   private final List<String> subjects;
   private final List<Optional<String>> descriptions;
-  private double minScore;
-
-  private static final int CONTEXT_LENGTH = 5;
-  protected Classifier classifier;
-
   private final String id;
 
-  private static final boolean DEBUG = false;
+  private double minScore;
+  private Classifier classifier;
 
   public NeuralNetworkRule(ResourceBundle messages, Language language, ScoredConfusionSet confusionSet, Word2VecModel word2VecModel) throws IOException {
     super(messages);
@@ -52,18 +52,18 @@ public class NeuralNetworkRule extends Rule {
     this.minScore = confusionSet.getScore();
 
     try {
-      final InputStream W1Stream = streamFor(word2VecModel.getPath(), "W_fc1.txt");
-      final InputStream b1Stream = streamFor(word2VecModel.getPath(), "b_fc1.txt");
+      InputStream W1Stream = streamFor(word2VecModel.getPath(), "W_fc1.txt");
+      InputStream b1Stream = streamFor(word2VecModel.getPath(), "b_fc1.txt");
       try {
-        final InputStream W2Stream = streamFor(word2VecModel.getPath(), "W_fc2.txt");
-        final InputStream b2Stream = streamFor(word2VecModel.getPath(), "b_fc2.txt");
-        System.out.println("deep rule for" + confusionSet.toString());
+        InputStream W2Stream = streamFor(word2VecModel.getPath(), "W_fc2.txt");
+        InputStream b2Stream = streamFor(word2VecModel.getPath(), "b_fc2.txt");
+        //System.out.println("deep rule for " + confusionSet.toString());
         classifier = new TwoLayerClassifier(word2VecModel.getEmbedding(), W1Stream, b1Stream, W2Stream, b2Stream);
       } catch (FileNotFoundException e) {
         classifier = new SingleLayerClassifier(word2VecModel.getEmbedding(), W1Stream, b1Stream);
       }
     } catch (FileNotFoundException e) {
-      throw new IOException("weights for confusion set " + confusionSet.toString() + " are missing", e);
+      throw new IOException("Weights for confusion set " + confusionSet.toString() + " are missing", e);
     }
 
     this.id = createId(language);
@@ -72,13 +72,10 @@ public class NeuralNetworkRule extends Rule {
   public NeuralNetworkRule(ResourceBundle messages, Language language, ScoredConfusionSet confusionSet, Classifier classifier) {
     super(messages);
     super.setCategory(Categories.TYPOS.getCategory(messages));
-
     this.subjects = confusionSet.getConfusionTokens();
     this.descriptions = confusionSet.getTokenDescriptions();
     this.minScore = confusionSet.getScore();
-
     this.classifier = classifier;
-
     this.id = createId(language);
   }
 
@@ -118,7 +115,7 @@ public class NeuralNetworkRule extends Rule {
   private Suggestion getSuggestion(float[] y) {
     String suggestion;
     boolean unsure;
-    if(y[0] > y[1]) {
+    if (y[0] > y[1]) {
       suggestion = getSubjects().get(0);
       unsure = !(y[0] > getMinScore() && y[1] < -getMinScore());
     } else {
@@ -132,17 +129,17 @@ public class NeuralNetworkRule extends Rule {
   public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
     List<RuleMatch> ruleMatches = new ArrayList<>();
     AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
-    for(int i = 1; i < tokens.length; i++) {
+    for (int i = 1; i < tokens.length; i++) {
       String token = tokens[i].getToken();
-      if(getSubjects().contains(token)) {
-        final String[] context = getContext(tokens, i);
-        final float[] y = classifier.getScores(context);
-        final Suggestion suggestion = getSuggestion(y);
-        if(!suggestion.matches(token)) {
+      if (getSubjects().contains(token)) {
+        String[] context = getContext(tokens, i);
+        float[] y = classifier.getScores(context);
+        Suggestion suggestion = getSuggestion(y);
+        if (!suggestion.matches(token)) {
           if (!suggestion.isUnsure()) {
             ruleMatches.add(createRuleMatch(tokens[i], suggestion, y));
           } else {
-            if(DEBUG) {
+            if (DEBUG) {
               System.out.println("unsure: " + getMessage(suggestion, y) + Arrays.toString(context));
             }
           }
@@ -155,10 +152,10 @@ public class NeuralNetworkRule extends Rule {
   @NotNull
   private String[] getContext(AnalyzedTokenReadings[] tokens, int center) {
     String[] context = new String[CONTEXT_LENGTH - 1];
-    for(int i = 0; i < CONTEXT_LENGTH/2; i++) {
+    for (int i = 0; i < CONTEXT_LENGTH/2; i++) {
       context[i] = safeGetToken(tokens, center - CONTEXT_LENGTH/2 + i);
     }
-    for(int i = 0; i < CONTEXT_LENGTH/2; i++) {
+    for (int i = 0; i < CONTEXT_LENGTH/2; i++) {
       context[CONTEXT_LENGTH/2 + i] = safeGetToken(tokens, center + 1 + i);
     }
     return context;
@@ -192,7 +189,7 @@ public class NeuralNetworkRule extends Rule {
     } else {
       msg = Tools.i18n(messages, "neural_network_suggest", subjects.get(suggestionIndex), subjects.get(wrongWordIndex));
     }
-    if(suggestion.isUnsure()) {
+    if (suggestion.isUnsure()) {
       msg = "(low certainty) " + msg;
     }
     return msg + " " + certaintiesToString(y);

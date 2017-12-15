@@ -12359,11 +12359,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token regexp="yes">gleiche.*</token>
                     </marker>
-                    <token regexp="yes" skip="-1">Tag|Nacht|Monat|Jahr.*|(Vor|Nach)?mittag|Abend<exception scope="next" regexp="yes">geb(urt|or).*</exception></token>
+                    <token regexp="yes" skip="-1">Tag|Nacht|Monat|Moment|Jahr.*|(Vor|Nach)?mittag|Abend|Sekunde|Augenblick<exception scope="next" regexp="yes">geb(urt|or).*</exception></token>
                     <token postag="SENT_END"/>
                 </pattern>
-                <message>Wenn man 'ein und dasselbe' sagen kann, sollte 'dasselbe' statt 'das gleiche' verwendet werden.</message>
-                <suggestion><match no="3" regexp_match="gleiche" regexp_replace="selbe"/></suggestion>
+                <message>Spricht man einer ganz bestimmten und einzigen Sache (hier: \4), sollte '\2 <suggestion><match no="3" regexp_match="gleiche" regexp_replace="selbe"/></suggestion>' statt '\2 \3' verwendet werden.</message>
                 <url>http://www.youtube.com/watch?v=hePMxBhJK3E</url>
                 <example correction="selben">Noch am <marker>gleichen</marker> Tag ist er gekommen.</example>
                 <example correction="selben">Noch am <marker>gleichen</marker> Nachmittag ist er gekommen.</example>
@@ -23826,11 +23825,12 @@ Andere Projekte</example>
                     <marker>
                         <token>dank</token>
                     </marker>
-                    <token postag="SENT_END"/>
+                    <token postag="SENT_END" regexp="yes">\W+</token>
                 </pattern>
                 <message>&subanfang;<suggestion>Dank</suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example correction="Dank">Vielen <marker>dank</marker>!</example>
+                <example>Schalke Zweiter <marker>dank</marker> Meier</example>
             </rule>
         </rulegroup>
         <rulegroup id="BETRUG_SUBST" name="'betrug (Betrug)'">
@@ -26108,6 +26108,7 @@ Andere Projekte</example>
                     <marker>
                         <token>acht</token>
                     </marker>
+                    <token min="0">zu</token>
                     <token inflected="yes">lassen</token>
                 </pattern>
                 <message>&inwend;'außer Acht lassen' wird <suggestion>Acht</suggestion> großgeschrieben.</message>
@@ -26115,6 +26116,7 @@ Andere Projekte</example>
                 <example correction="Acht">Das habt ihr außer <marker>acht</marker> gelassen.</example>
                 <example correction="Acht">Das wurde leider außer <marker>acht</marker> gelassen.</example>
                 <example correction="Acht">Das sollten wir außer <marker>acht</marker> lassen.</example>
+                <example correction="Acht">Das ist nicht außer <marker>acht</marker> zu lassen.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -26130,20 +26132,6 @@ Andere Projekte</example>
                 <example correction="Acht">Das lassen wir außer <marker>acht</marker>.</example>
                 <example correction="Acht">Lässt man Unwichtiges außer <marker>acht</marker>, fällt die Entscheidung leichter.</example>
             </rule>
-            <rule>
-                <pattern case_sensitive="yes">
-                    <token>außer</token>
-                    <marker>
-                        <token>acht</token>
-                    </marker>
-                    <token>zu</token>
-                    <token>lassen</token>
-                </pattern>
-                <message>&inwend;'außer Acht lassen' wird <suggestion>Acht</suggestion> großgeschrieben.</message>
-                <short>&prgk;.</short>
-                <example>Das habt ihr außer <marker>Acht</marker> gelassen.</example>
-                <example correction="Acht">Das ist nicht außer <marker>acht</marker> zu lassen.</example>
-            </rule>
         </rulegroup>
         <rule id="AUS_VERSEHEN" name="'aus versehen (Versehen)'">
             <pattern case_sensitive="yes">
@@ -26156,22 +26144,40 @@ Andere Projekte</example>
             <short>&prgk;.</short>
             <example correction="Versehen">Die SPD meuchelt aus <marker>versehen</marker> ihren Chef.</example>
         </rule>
-        <rule id="AUF_DEM_LAUFENDEN" name="'auf dem laufenden (Laufenden) halten'">
-            <pattern>
-                <token>auf</token>
-                <token>dem</token>
-                <marker>
-                    <token case_sensitive="yes">laufenden</token>
-                </marker>
-                <token><exception case_sensitive="yes" regexp="yes">[A-ZÖÄÜ].+</exception></token><!-- da wir nicht alle Nomen kennen lieber so -->
-            </pattern>
-            <message>&inwend;'auf dem Laufenden bleiben' wird <suggestion>Laufenden</suggestion> großgeschrieben.</message>
-            <example correction="Laufenden">Man muss immer auf dem <marker>laufenden</marker> bleiben.</example>
-            <example correction="Laufenden">Bitte halte mich auf dem <marker>laufenden</marker>.</example>
-            <example correction="Laufenden">Bitte versucht mich auf dem <marker>laufenden</marker> zu halten.</example>
-            <example correction="Laufenden">Wir werden dich auf dem <marker>laufenden</marker> halten.</example>
-            <example>Er stand auf dem <marker>laufenden</marker> Karussell.</example>
-        </rule>
+        <rulegroup id="AUF_DEM_LAUFENDEN" name="'auf dem laufenden (Laufenden) halten'">
+            <rule>
+                <pattern>
+                    <token>auf</token>
+                    <token>dem</token>
+                    <marker>
+                        <token case_sensitive="yes">laufenden</token>
+                    </marker>
+                    <token><exception case_sensitive="yes" regexp="yes">[A-ZÖÄÜ].+</exception></token><!-- da wir nicht alle Nomen kennen lieber so -->
+                </pattern>
+                <message>&inwend;'auf dem Laufenden bleiben/sein/halten' wird <suggestion>Laufenden</suggestion> großgeschrieben.</message>
+                <example correction="Laufenden">Man muss immer auf dem <marker>laufenden</marker> bleiben.</example>
+                <example correction="Laufenden">Bitte halte mich auf dem <marker>laufenden</marker>.</example>
+                <example correction="Laufenden">Bitte versucht, mich auf dem <marker>laufenden</marker> zu halten.</example>
+                <example correction="Laufenden">Wir werden dich auf dem <marker>laufenden</marker> halten.</example>
+                <example>Er stand auf dem <marker>laufenden</marker> Karussell.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>auf</token>
+                    <marker>
+                        <token>den</token>
+                    </marker>
+                    <token>laufenden</token>
+                    <token min="0">zu</token>
+                    <token inflected="yes" regexp="yes">bleiben|halten|sein|.</token>
+                </pattern>
+                <message>Meinten Sie die Wendung 'auf <suggestion>dem</suggestion> Laufenden bleiben/sein/halten'?</message>
+                <example correction="dem">Man muss immer auf <marker>den</marker> Laufenden bleiben.</example>
+                <example correction="dem">Bitte halte mich auf <marker>den</marker> Laufenden.</example>
+                <example correction="dem">Bitte versucht, mich auf <marker>den</marker> Laufenden zu halten.</example>
+                <example>Er sah auf <marker>den</marker> laufenden Fernseher.</example>
+            </rule>
+        </rulegroup>
         <rule id="AUFS_VERB" name="aufs + Verb (kleingeschrieben)">
             <pattern>
                 <token>aufs</token>
