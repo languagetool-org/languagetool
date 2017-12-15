@@ -26156,22 +26156,40 @@ Andere Projekte</example>
             <short>&prgk;.</short>
             <example correction="Versehen">Die SPD meuchelt aus <marker>versehen</marker> ihren Chef.</example>
         </rule>
-        <rule id="AUF_DEM_LAUFENDEN" name="'auf dem laufenden (Laufenden) halten'">
-            <pattern>
-                <token>auf</token>
-                <token>dem</token>
-                <marker>
-                    <token case_sensitive="yes">laufenden</token>
-                </marker>
-                <token><exception case_sensitive="yes" regexp="yes">[A-ZÖÄÜ].+</exception></token><!-- da wir nicht alle Nomen kennen lieber so -->
-            </pattern>
-            <message>&inwend;'auf dem Laufenden bleiben' wird <suggestion>Laufenden</suggestion> großgeschrieben.</message>
-            <example correction="Laufenden">Man muss immer auf dem <marker>laufenden</marker> bleiben.</example>
-            <example correction="Laufenden">Bitte halte mich auf dem <marker>laufenden</marker>.</example>
-            <example correction="Laufenden">Bitte versucht mich auf dem <marker>laufenden</marker> zu halten.</example>
-            <example correction="Laufenden">Wir werden dich auf dem <marker>laufenden</marker> halten.</example>
-            <example>Er stand auf dem <marker>laufenden</marker> Karussell.</example>
-        </rule>
+        <rulegroup id="AUF_DEM_LAUFENDEN" name="'auf dem laufenden (Laufenden) halten'">
+            <rule>
+                <pattern>
+                    <token>auf</token>
+                    <token>dem</token>
+                    <marker>
+                        <token case_sensitive="yes">laufenden</token>
+                    </marker>
+                    <token><exception case_sensitive="yes" regexp="yes">[A-ZÖÄÜ].+</exception></token><!-- da wir nicht alle Nomen kennen lieber so -->
+                </pattern>
+                <message>&inwend;'auf dem Laufenden bleiben/sein/halten' wird <suggestion>Laufenden</suggestion> großgeschrieben.</message>
+                <example correction="Laufenden">Man muss immer auf dem <marker>laufenden</marker> bleiben.</example>
+                <example correction="Laufenden">Bitte halte mich auf dem <marker>laufenden</marker>.</example>
+                <example correction="Laufenden">Bitte versucht, mich auf dem <marker>laufenden</marker> zu halten.</example>
+                <example correction="Laufenden">Wir werden dich auf dem <marker>laufenden</marker> halten.</example>
+                <example>Er stand auf dem <marker>laufenden</marker> Karussell.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>auf</token>
+                    <marker>
+                        <token>den</token>
+                    </marker>
+                    <token>laufenden</token>
+                    <token min="0">zu</token>
+                    <token inflected="yes" regexp="yes">bleiben|halten|sein|.</token>
+                </pattern>
+                <message>Meinten Sie die Wendung 'auf <suggestion>dem</suggestion> Laufenden bleiben/sein/halten'?</message>
+                <example correction="dem">Man muss immer auf <marker>den</marker> Laufenden bleiben.</example>
+                <example correction="dem">Bitte halte mich auf <marker>den</marker> Laufenden.</example>
+                <example correction="dem">Bitte versucht, mich auf <marker>den</marker> Laufenden zu halten.</example>
+                <example>Er sah auf <marker>den</marker> laufenden Fernseher.</example>
+            </rule>
+        </rulegroup>
         <rule id="AUFS_VERB" name="aufs + Verb (kleingeschrieben)">
             <pattern>
                 <token>aufs</token>
