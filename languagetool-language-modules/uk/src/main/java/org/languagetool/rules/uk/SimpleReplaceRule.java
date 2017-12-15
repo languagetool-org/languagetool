@@ -18,7 +18,12 @@
  */
 package org.languagetool.rules.uk;
 
-import org.apache.commons.lang3.ArrayUtils;
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
+import java.util.ResourceBundle;
+import java.util.regex.Pattern;
+
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
@@ -28,13 +33,6 @@ import org.languagetool.rules.RuleMatch;
 import org.languagetool.tagging.uk.IPOSTag;
 import org.languagetool.tagging.uk.PosTagHelper;
 import org.languagetool.tools.Tools;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.ResourceBundle;
-import java.util.regex.Pattern;
 
 /**
  * A rule that matches words which should not be used and suggests correct ones
