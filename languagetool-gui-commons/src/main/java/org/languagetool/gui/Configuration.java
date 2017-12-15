@@ -386,8 +386,8 @@ public class Configuration {
   }
 
   /**
-   * Directory with ngram data or null.
-   * @since 3.0
+   * Directory with word2vec data or null.
+   * @since 4.0
    */
   @Nullable
   public File getWord2VecDirectory() {
@@ -395,8 +395,8 @@ public class Configuration {
   }
 
   /**
-   * Sets the directory with ngram data (may be null).
-   * @since 3.0
+   * Sets the directory with word2vec data (may be null).
+   * @since 4.0
    */
   public void setWord2VecDirectory(File dir) {
     this.word2vecDirectory = dir;
