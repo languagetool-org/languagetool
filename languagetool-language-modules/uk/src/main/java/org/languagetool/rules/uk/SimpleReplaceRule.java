@@ -27,6 +27,7 @@ import org.languagetool.rules.AbstractSimpleReplaceRule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.tagging.uk.IPOSTag;
 import org.languagetool.tagging.uk.PosTagHelper;
+import org.languagetool.tools.Tools;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -111,12 +112,7 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
         RuleMatch match = new RuleMatch(this, sentence, tokenReadings.getStartPos(), tokenReadings.getStartPos()
             + tokenReadings.getToken().length(), msg, getShort());
 
-        try {
-          match.setUrl(new java.net.URL(url));
-        }
-        catch(java.net.MalformedURLException e) { // should never happen
-          throw new RuntimeException(e);
-        }
+        match.setUrl(Tools.getUrl(url));
 
         matches.add(match);
       }
