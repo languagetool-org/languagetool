@@ -308,10 +308,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">(terratrémol|ségol|pésol|trévol|cércol|bérbol|vérbol)s?|(térbol|grévol)(s|a|es)?|estéreos?|trémens|sémens|térbolament|séver|asséver</token>
+                    <token regexp="yes">(terratrémol|ségol|pésol|trévol|cércol|bérbol|vérbol|télex|trémolo)s?|(térbol|grévol)(s|a|es)?|estéreos?|trémens|sémens|térbolament|séver|asséver|(téni|vérbol)(a|es)</token>
                 </pattern>
                 <message>Useu accentuació general.</message>
-                <suggestion><match no="1" regexp_match="^(.+)é(.+)" regexp_replace="$1è$2"></match></suggestion>
+                <suggestion><match no="1" regexp_match="(?iu)(.+)é(.+)" regexp_replace="$1è$2"></match></suggestion>
                 <example correction="terratrèmol">El <marker>terratrémol</marker>.</example>
             </rule>
             <rule>
@@ -319,7 +319,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">(ex)?nóvi(os?|a|es)|superjós?</token>
                 </pattern>
                 <message>Useu accentuació general.</message>
-                <suggestion><match no="1" regexp_match="^(.*)ó(.*)" regexp_replace="$1ò$2"></match></suggestion>
+                <suggestion><match no="1" regexp_match="(?iu)(.*)ó(.*)" regexp_replace="$1ò$2"></match></suggestion>
                 <example correction="exnòvios">Els meus <marker>exnóvios</marker>.</example>
                 <example correction="superjòs">Els <marker>superjós</marker>.</example>
                 <example>El meu nòvio.</example>
@@ -360,10 +360,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">(terratrèmol|sègol|pèsol|trèvol|cèrcol|vèrbol|bèrbol)s?|(tèrbol|grèvol)(s|a|es)?|estèreos?|trèmens|sèmens|tèrbolament|sèver|assèver</token>
+                    <token regexp="yes">(terratrèmol|sègol|pèsol|trèvol|cèrcol|bèrbol|vèrbol|tèlex|trèmolo)s?|(tèrbol|grèvol)(s|a|es)?|estèreos?|trèmens|sèmens|tèrbolament|sèver|assèver|(tèni|vèrbol)(a|es)</token>
                 </pattern>
                 <message>Useu accentuació valenciana.</message>
-                <suggestion><match no="1" regexp_match="^(.+)è(.+)" regexp_replace="$1é$2"></match></suggestion>
+                <suggestion><match no="1" regexp_match="(?iu)(.+)è(.+)" regexp_replace="$1é$2"></match></suggestion>
                 <short>Accentuació valenciana</short>
                 <example correction="terratrémol">El <marker>terratrèmol</marker>.</example>
                 <example>El <marker>terratrémol</marker>.</example>
@@ -373,7 +373,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">(ex)?nòvi(os?|a|es)|superjòs?</token>
                 </pattern>
                 <message>Useu accentuació valenciana.</message>
-                <suggestion><match no="1" regexp_match="^(.*)ò(.*)" regexp_replace="$1ó$2"></match></suggestion>
+                <suggestion><match no="1" regexp_match="(?iu)(.*)ò(.*)" regexp_replace="$1ó$2"></match></suggestion>
                 <example correction="exnóvios">Els meus <marker>exnòvios</marker>.</example>
                 <example correction="superjó">El <marker>superjò</marker>.</example>
                 <example>El meu nóvio.</example>
@@ -42422,7 +42422,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>És de tipus MIME.</example>
         </rule>
     </category>
-    <category id="DNV_SECONDARY_FORM" name="Paraules admeses pedl DNV (AVL), però com a formes secundàries" type="style">
+    <category id="DNV_SECONDARY_FORM" name="Paraules admeses pel DNV (AVL), però com a formes secundàries" type="style">
         <rule id="MOSTRADOR" name="mostrador">
             <pattern>
                 <token regexp="yes">mostradors?</token>
@@ -42447,10 +42447,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="VORE" name="vore">
             <pattern>
-                <token inflected="yes">vore</token>
+                <token inflected="yes" regexp="yes">vore|revore|malvore</token>
             </pattern>
             <message>Forma col·loquial</message>
-            <suggestion><match no="1" postag="(VM.*)" postag_regexp="yes" postag_replace="$1">veure</match></suggestion>
+            <suggestion><match no="1" regexp_match="(?iu)(.*)vor(.*)" regexp_replace="$1veur$2"/></suggestion>
             <example correction="veuràs">Ho <marker>voràs</marker> bé</example>
         </rule>
         <rule id="PARPALL" name="parpall">
@@ -45564,7 +45564,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes" inflected="yes">ametlla|batlle|bitlla|butlla|guatlla|motlle|vetlla|vetllar|desvetllar</token>
+                    <token regexp="yes" inflected="yes">ametlla|batlle|bitlla|butlla|guatlla|(sobre|contra)?motlle|vetlla|vetllar|desvetllar|vetllada</token>
                 </pattern>
                 <message>Usem preferentment la forma amb -tl-.</message>
                 <suggestion><match no="1" regexp_match="(?iu)(.+)tll(.*)" regexp_replace="$1tl$2"></match></suggestion>
