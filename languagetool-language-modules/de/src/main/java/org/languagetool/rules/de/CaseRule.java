@@ -246,8 +246,8 @@ public class CaseRule extends Rule {
         regex("[A-ZÄÖÜ0-9]+[a-zäöüß0-9]-[a-zäöüß]+")
      ),
      Arrays.asList(
-       // "Das Aus für Italien kam unerwartet."
-       token("das"),
+       // "Das Aus für Italien kam unerwartet." / "Müller drängt auf Aus bei Pflichtmitgliedschaft"
+       regex("auf|das|vor"),
        csToken("Aus"),
        posRegex("^PRP:.+|VER:[1-3]:.+")
      ),
