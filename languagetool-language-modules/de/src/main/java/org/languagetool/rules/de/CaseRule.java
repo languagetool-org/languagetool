@@ -286,7 +286,11 @@ public class CaseRule extends Rule {
       csToken("Virtual"),
       csToken("Private"),
       csToken("Network")
-   )
+   ),
+    Arrays.asList( // "Er befürchtete Schlimmeres."
+      regex("Schlimm(er)?es"), 
+      pos(JLanguageTool.SENTENCE_END_TAGNAME)
+    )
   );
 
   private static PatternToken token(String token) {
