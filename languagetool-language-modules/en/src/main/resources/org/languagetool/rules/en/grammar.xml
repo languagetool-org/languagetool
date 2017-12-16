@@ -14766,6 +14766,46 @@ USA
       <example correction='on weekends|at the weekend'>I only speak English on weekends because <marker>during weekends</marker> I work and some clients that only speak in English.</example>
       <example correction='on weekends|at the weekend'>During the week, I go to school and I work in a pet shop <marker>during the weekends</marker>.</example>
     </rule>
+    <rule id='FAR_OF_FROM' name='Collocation: far of/from'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token>far</token>
+          <token>of</token>
+      </pattern>
+      <message>The usual preposition for "far" is "from." Revise: <suggestion>far from</suggestion>.</message>
+      <example correction='far from'>It is not very <marker>far of</marker> my job.</example>
+    </rule>
+    <rule id='NEAR_FROM_TO' name='Collocation: near from/to'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token>near</token>
+          <token>from</token>
+      </pattern>
+      <message>The usual preposition for "near" is "to." Revise: <suggestion>near to</suggestion>.</message>
+      <example correction='near to'>It is not very <marker>near from</marker> my job.</example>
+    </rule>
+    <rule id='BLIND_FOR_FROM' name='Collocation: blind for/from'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token>blind</token>
+          <token>for</token>
+          <token>the</token>
+          <token>
+            <exception regexp="yes">instant|moment|time</exception></token>
+      </pattern>
+      <message>The usual preposition for "blind" is "from" when followed by the cause of the blindness. Revise: <suggestion>\1 from \3 \4</suggestion>.</message>
+      <example correction='blind from the fury'><marker>blind for the fury</marker>.</example>
+    </rule>
+    <rule id='YELL_ON_AT' name='Collocation: yell on/at'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token inflected="yes">yell</token>
+          <token regexp='yes'>on|to</token>
+          <token regexp="yes">him|her|us|me|them</token>
+      </pattern>
+      <message>The usual preposition for "yell" is "at." Revise: <suggestion>\1 at \3</suggestion>.</message>
+      <example correction='yelled at him'>Lily <marker>yelled on him</marker>.</example>
+    </rule>
   </rulegroup>
 
     <rule id='GOOD_IN_AT_GERUND' name='Collocation: good in/at'>
