@@ -48,8 +48,8 @@ public class GermanStyleRepeatedWordRule  extends TextLevelRule {
     super.setCategory(Categories.STYLE.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Style);
     setDefaultOff();
-    addExamplePair(Example.wrong("Der alte Mann wohnte in einem <marker>großen</marker> Haus. Es stand in einem <marker>großen</marker> Garten."),
-        Example.fixed("Der alte Mann wohnte in einem <marker>großen</marker> Haus. Es stand in einem <marker>weitläufigen</marker> Garten."));
+//    addExamplePair(Example.wrong("Der alte Mann wohnte in einem <marker>großen</marker> Haus. Es stand in einem <marker>großen</marker> Garten."),
+//        Example.fixed("Der alte Mann wohnte in einem <marker>großen</marker> Haus. Es stand in einem <marker>weitläufigen</marker> Garten."));
   }
 
   @Override
