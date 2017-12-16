@@ -144,7 +144,7 @@ abstract class TextChecker {
         if (params.allowIncompleteResults && ExceptionUtils.getRootCause(e) instanceof ErrorRateTooHighException) {
           print(e.getMessage() + " - returning " + ruleMatchesSoFar.size() + " matches found so far");
           matches = new ArrayList<>(ruleMatchesSoFar);  // threads might still be running, so make a copy
-          incompleteResultReason = ExceptionUtils.getRootCause(e).getMessage();
+          incompleteResultReason = "Results are incomplete: " + ExceptionUtils.getRootCause(e).getMessage();
         } else if (e.getCause() != null && e.getCause() instanceof OutOfMemoryError) {
           throw (OutOfMemoryError)e.getCause();
         } else {
@@ -164,7 +164,7 @@ abstract class TextChecker {
         if (params.allowIncompleteResults) {
           print(message + " - returning " + ruleMatchesSoFar.size() + " matches found so far");
           matches = new ArrayList<>(ruleMatchesSoFar);  // threads might still be running, so make a copy
-          incompleteResultReason = "Text checking took longer than allowed maximum of " + 
+          incompleteResultReason = "Results are incomplete: text checking took longer than allowed maximum of " + 
                   String.format(Locale.ENGLISH, "%.2f", limits.getMaxCheckTimeMillis()/1000.0) + " seconds";
         } else {
           throw new RuntimeException(message, e);
