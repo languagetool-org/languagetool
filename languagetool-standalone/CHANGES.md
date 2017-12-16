@@ -10,6 +10,7 @@
   * updated en_GB spellchecker dictionary from https://github.com/marcoagpinto/aoo-mozilla-en-dict
   * updated en_US spellchecker dictionary
   * updated en_CA spellchecker dictionary
+  * updated en_AU spellchecker dictionary
 
 #### Galician
   * added and improved rules, including:
