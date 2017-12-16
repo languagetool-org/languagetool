@@ -24,6 +24,7 @@ import java.util.Optional;
 
 /**
  * Configuration for checking a text with {@link RemoteLanguageTool}.
+ * Use {@link CheckConfigurationBuilder} to create a configuration.
  * @since 3.4
  */
 public class CheckConfiguration {
