@@ -45,16 +45,16 @@ public class RuleMatchesAsJsonSerializer {
   private final JsonFactory factory = new JsonFactory();
   
   public String ruleMatchesToJson(List<RuleMatch> matches, String text, int contextSize, Language lang) {
-    return ruleMatchesToJson(matches, text, contextSize, lang, false);
+    return ruleMatchesToJson(matches, text, contextSize, lang, null);
   }
 
   /**
-   * @param incompleteResults use true to indicate that results are incomplete (e.g. due to a timeout) - a 'warnings'
-   *                          section will be added to the JSON
+   * @param incompleteResultsReason use a string that explains why results are incomplete (e.g. due to a timeout) -
+   *        a 'warnings' section will be added to the JSON. Use {@code null} if results are complete.
    * @since 3.7
    */
   @Experimental
-  public String ruleMatchesToJson(List<RuleMatch> matches, String text, int contextSize, Language lang, boolean incompleteResults) {
+  public String ruleMatchesToJson(List<RuleMatch> matches, String text, int contextSize, Language lang, String incompleteResultsReason) {
     ContextTools contextTools = new ContextTools();
     contextTools.setEscapeHtml(false);
     contextTools.setContextSize(contextSize);
@@ -65,7 +65,7 @@ public class RuleMatchesAsJsonSerializer {
       try (JsonGenerator g = factory.createGenerator(sw)) {
         g.writeStartObject();
         writeSoftwareSection(g);
-        writeWarningsSection(g, incompleteResults);
+        writeWarningsSection(g, incompleteResultsReason);
         writeLanguageSection(g, lang);
         writeMatchesSection(g, matches, text, contextTools);
         g.writeEndObject();
@@ -86,9 +86,14 @@ public class RuleMatchesAsJsonSerializer {
     g.writeEndObject();
   }
 
-  private void writeWarningsSection(JsonGenerator g, boolean incompleteResults) throws IOException {
+  private void writeWarningsSection(JsonGenerator g, String incompleteResultsReason) throws IOException {
     g.writeObjectFieldStart("warnings");
-    g.writeBooleanField("incompleteResults", incompleteResults);
+    if (incompleteResultsReason != null) {
+      g.writeBooleanField("incompleteResults", true);
+      g.writeStringField("incompleteResultsReason", incompleteResultsReason);
+    } else {
+      g.writeBooleanField("incompleteResults", false);
+    }
     g.writeEndObject();
   }
 
