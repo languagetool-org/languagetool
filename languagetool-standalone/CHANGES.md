@@ -5,16 +5,17 @@
 #### English
   * removed the category MISC and moved the rules to more specific categories
   * added WordCoherencyRule
+  * added approximately 70 collocation rules contributed by Nicholas Walker (Bokomaru)
   * added support for locale-specific spelling suggestions (locale-specific spelling_en-XY.txt files)
   * updated en_GB spellchecker dictionary from https://github.com/marcoagpinto/aoo-mozilla-en-dict
   * updated en_US spellchecker dictionary
   * updated en_CA spellchecker dictionary
 
-
 #### Galician
   * added and improved rules, including:
     - grammar: agreement rules added (only number and gender agreement)
-    - common normative errors: includes Castilianisms, Lusitanianisms, Hipergalicisms, archaisms and Anglicisms correction
+    - common normative errors: includes Castilianisms, Lusitanianisms, Hipergalicisms, archaisms and 
+      Anglicisms correction
     - style: barbarism, redundant expressions, and wordy expressions detection added
     - typography: spacing and number formatting improvements; chemical formulas; degree 
       signs; dashes; punctuation; international system standards; and mathematical symbol formatting
