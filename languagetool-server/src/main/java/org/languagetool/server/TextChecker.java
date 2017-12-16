@@ -19,6 +19,7 @@
 package org.languagetool.server;
 
 import com.sun.net.httpserver.HttpExchange;
+import org.apache.commons.lang.exception.ExceptionUtils;
 import org.jetbrains.annotations.NotNull;
 import org.languagetool.*;
 import org.languagetool.gui.Configuration;
@@ -44,7 +45,7 @@ import static org.languagetool.server.ServerTools.print;
 abstract class TextChecker {
 
   protected abstract void setHeaders(HttpExchange httpExchange);
-  protected abstract String getResponse(String text, Language lang, Language motherTongue, List<RuleMatch> matches, boolean incompleteResult);
+  protected abstract String getResponse(String text, Language lang, Language motherTongue, List<RuleMatch> matches, String incompleteResultReason);
   @NotNull
   protected abstract List<String> getPreferredVariants(Map<String, String> parameters);
   protected abstract Language getLanguage(String text, Map<String, String> parameters, List<String> preferredVariants);
@@ -132,7 +133,7 @@ abstract class TextChecker {
         return getRuleMatches(aText, lang, motherTongue, params, f -> ruleMatchesSoFar.add(f));
       }
     });
-    boolean incompleteResult = false;
+    String incompleteResultReason = null;
     List<RuleMatch> matches;
     if (limits.getMaxCheckTimeMillis() < 0) {
       matches = future.get();
@@ -140,7 +141,11 @@ abstract class TextChecker {
       try {
         matches = future.get(limits.getMaxCheckTimeMillis(), TimeUnit.MILLISECONDS);
       } catch (ExecutionException e) {
-        if (e.getCause() != null && e.getCause() instanceof OutOfMemoryError) {
+        if (params.allowIncompleteResults && ExceptionUtils.getRootCause(e) instanceof ErrorRateTooHighException) {
+          print(e.getMessage() + " - returning " + ruleMatchesSoFar.size() + " matches found so far");
+          matches = new ArrayList<>(ruleMatchesSoFar);  // threads might still be running, so make a copy
+          incompleteResultReason = "Results are incomplete: " + ExceptionUtils.getRootCause(e).getMessage();
+        } else if (e.getCause() != null && e.getCause() instanceof OutOfMemoryError) {
           throw (OutOfMemoryError)e.getCause();
         } else {
           throw e;
@@ -158,8 +163,9 @@ abstract class TextChecker {
                          ", " + aText.getPlainText().length() + " characters of text, system load: " + loadInfo + ")";
         if (params.allowIncompleteResults) {
           print(message + " - returning " + ruleMatchesSoFar.size() + " matches found so far");
-          matches = new ArrayList<>(ruleMatchesSoFar);  // threads might still be running it seems, so make a copy
-          incompleteResult = true;
+          matches = new ArrayList<>(ruleMatchesSoFar);  // threads might still be running, so make a copy
+          incompleteResultReason = "Results are incomplete: text checking took longer than allowed maximum of " + 
+                  String.format(Locale.ENGLISH, "%.2f", limits.getMaxCheckTimeMillis()/1000.0) + " seconds";
         } else {
           throw new RuntimeException(message, e);
         }
@@ -167,7 +173,7 @@ abstract class TextChecker {
     }
 
     setHeaders(httpExchange);
-    String response = getResponse(aText.getPlainText(), lang, motherTongue, matches, incompleteResult);
+    String response = getResponse(aText.getPlainText(), lang, motherTongue, matches, incompleteResultReason);
     String messageSent = "sent";
     String languageMessage = lang.getShortCodeWithCountryAndVariant();
     String referrer = httpExchange.getRequestHeaders().getFirst("Referer");

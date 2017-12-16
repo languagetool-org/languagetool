@@ -290,6 +290,9 @@ public class CaseRule extends Rule {
     Arrays.asList( // "Er befürchtete Schlimmeres."
       regex("Schlimm(er)?es"), 
       pos(JLanguageTool.SENTENCE_END_TAGNAME)
+    ),
+    Arrays.asList(
+      regex("Angehörige[nr]?")
     )
   );
 

@@ -5,13 +5,17 @@
 #### English
   * removed the category MISC and moved the rules to more specific categories
   * added WordCoherencyRule
+  * added approximately 70 collocation rules contributed by Nicholas Walker (Bokomaru)
   * added support for locale-specific spelling suggestions (locale-specific spelling_en-XY.txt files)
   * updated en_GB spellchecker dictionary from https://github.com/marcoagpinto/aoo-mozilla-en-dict
+  * updated en_US spellchecker dictionary
+  * updated en_CA spellchecker dictionary
 
 #### Galician
   * added and improved rules, including:
     - grammar: agreement rules added (only number and gender agreement)
-    - common normative errors: includes Castilianisms, Lusitanianisms, Hipergalicisms, archaisms and Anglicisms correction
+    - common normative errors: includes Castilianisms, Lusitanianisms, Hipergalicisms, archaisms and 
+      Anglicisms correction
     - style: barbarism, redundant expressions, and wordy expressions detection added
     - typography: spacing and number formatting improvements; chemical formulas; degree 
       signs; dashes; punctuation; international system standards; and mathematical symbol formatting
@@ -72,8 +76,18 @@
     penalty of about 30%.
   * Better support for Unicode codepoints greater than `0xFFFF`
 
+### word2vec
+  * word2vec word embeddings (cf. http://colah.github.io/posts/2014-07-NLP-RNNs-Representations/#word-embeddings)
+    are now supported as additional language model and currently available for
+    English, German, and Portuguese.
+  * Neural network based rules for confusion pair disambiguation using the
+    word2vec model are available for English, German, and Portuguese. The necessary
+    data must be downloaded separately, see https://forum.languagetool.org/t/neural-network-rules/2225.
+
 #### GUI (stand-alone version)
   * show line numbers in the text area
+  * a directory with word2vec language model for neural network rules can now be
+    specified in the configuration dialog, see https://forum.languagetool.org/t/neural-network-rules/2225
 
 #### Java API
   * A `RuleMatch` can now have a URL, too. The URL usually points to a page that

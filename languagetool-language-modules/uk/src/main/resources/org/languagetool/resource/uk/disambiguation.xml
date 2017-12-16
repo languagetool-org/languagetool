@@ -401,6 +401,36 @@
     <example type="untouched">Обдурила Петра Марка — не вийшла за нього.</example>
   </rule>
 
+  <rule name="«пані» з іменами та прізвищами" id="PANI_NAME_FEM">
+    <pattern>
+      <token inflected="yes" regexp="yes">пані|міс|місіс|фрау|сеньора|сеньйоріта|мадам|маде?муазель|добродійка</token>
+      <marker>
+        <token postag_regexp="yes" postag="noun:anim.*?[fl]name.*"/>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="noun:anim:f.*:[fl]name.*"/>
+    <example type="ambiguous" 
+        inputform="Порошенко[Порошенко/noun:anim:f:v_dav:nv:np:prop:lname,Порошенко/noun:anim:f:v_kly:nv:np:prop:lname,Порошенко/noun:anim:f:v_mis:nv:np:prop:lname,Порошенко/noun:anim:f:v_naz:nv:np:prop:lname,Порошенко/noun:anim:f:v_oru:nv:np:prop:lname,Порошенко/noun:anim:f:v_rod:nv:np:prop:lname,Порошенко/noun:anim:f:v_zna:nv:np:prop:lname,Порошенко/noun:anim:m:v_naz:prop:lname]" 
+        outputform="Порошенко[Порошенко/noun:anim:f:v_dav:nv:np:prop:lname,Порошенко/noun:anim:f:v_kly:nv:np:prop:lname,Порошенко/noun:anim:f:v_mis:nv:np:prop:lname,Порошенко/noun:anim:f:v_naz:nv:np:prop:lname,Порошенко/noun:anim:f:v_oru:nv:np:prop:lname,Порошенко/noun:anim:f:v_rod:nv:np:prop:lname,Порошенко/noun:anim:f:v_zna:nv:np:prop:lname]">Пані <marker>Порошенко</marker>.</example>
+    <example type="untouched">Петро Порошенко.</example>
+  </rule>
+
+  <rule name="«пан» з іменами та прізвищами" id="PAN_NAME_MASC">
+    <pattern>
+      <token inflected="yes" regexp="yes">пан|містер|гер|сеньйор|монсеньйор|добродій
+        <exception>пані</exception>
+      </token>
+      <marker>
+        <token postag_regexp="yes" postag="noun:anim.*?[fl]name.*"/>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="noun:anim:m.*:[fl]name.*"/>
+    <example type="ambiguous" 
+        inputform="Порошенко[Порошенко/noun:anim:f:v_dav:nv:np:prop:lname,Порошенко/noun:anim:f:v_kly:nv:np:prop:lname,Порошенко/noun:anim:f:v_mis:nv:np:prop:lname,Порошенко/noun:anim:f:v_naz:nv:np:prop:lname,Порошенко/noun:anim:f:v_oru:nv:np:prop:lname,Порошенко/noun:anim:f:v_rod:nv:np:prop:lname,Порошенко/noun:anim:f:v_zna:nv:np:prop:lname,Порошенко/noun:anim:m:v_naz:prop:lname]" 
+        outputform="Порошенко[Порошенко/noun:anim:m:v_naz:prop:lname]">Пан <marker>Порошенко</marker>.</example>
+    <example type="untouched">Разом з Порошенко.</example>
+  </rule>
+
   <rule name="Кот д'Івуар" id="DIS_KOT_D_IVUAR1">
     <pattern case_sensitive="yes">
       <marker>
