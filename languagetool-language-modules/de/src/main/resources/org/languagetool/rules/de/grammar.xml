@@ -30181,7 +30181,7 @@ Andere Projekte</example>
                     <token>,</token>
                 </antipattern>
                 <pattern>
-                    <token postag='ART:.+:.+:SIN:MAS' postag_regexp='yes'></token>
+                    <token postag='ART:.+:.+:SIN:MAS' postag_regexp='yes'><exception>eines</exception></token>
                     <token postag='SUB:.+:SIN:MAS' postag_regexp='yes'></token>
                     <token>,</token>
                     <marker>
@@ -30199,6 +30199,7 @@ Andere Projekte</example>
                 <example>Einen Krieg mit den Goten, die bereits sein Vorgänger entscheidend geschlagen hatte, konnte er relativ schnell zu Ende führen.</example>
                 <example>RISC ist eine Abkürzung aus dem IT-Bereich, die eine Bauart von Prozessoren bezeichnet.</example>
                 <example>Er zeigte ihn den Beamten, die sich wunderten, dass er gekommen war.</example>
+                <example>Das Amt eines Staatspräsidenten, das einige Landesverfassungen verankerten, wurde für beendet erklärt.</example>
             </rule>
         </rulegroup> 
     </category>
@@ -32281,7 +32282,7 @@ Andere Projekte</example>
             <rule>
                 <pattern>
                     <token postag="SENT_START"/>
-                    <token skip="-1">einerseits<exception scope="next">,</exception></token>
+                    <token skip="-1">einerseits<exception scope="next" regexp="yes">[,;]</exception></token>
                     <marker>
                         <token regexp="yes">andererseits|andr?erseits</token>
                     </marker>
