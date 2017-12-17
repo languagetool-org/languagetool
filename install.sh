@@ -102,7 +102,7 @@ display_help() {
     echo '   -d --depth <value>          Specifies the depth to clone when building LanguageTool yourself (default 1).'
     echo '   -p --package <package>      Specifies package to install when building (default all)'
     echo '   -o --override <OS>          Override automatic OS detection with <OS>'
-    echo '   -a --accept                 Accept the oracle license at http://java.com/license and agree to all downloading and installing prompts. Only do this if necessary.'
+    echo '   -a --accept                 Agree to all downloading and installing prompts.'
     echo '   -r --remove <all/partial>   Removes LanguageTool install. <all> uninstalls the dependencies that were auto-installed. (default partial)'
     echo
     echo 'Packages(only if -b is specified):'
@@ -241,8 +241,8 @@ uninstall_quiet () {
     if [ "$remove" = "all" ] || [ "$remove" = "ALL" ] || [ "$remove" = "a" ] || [ "$remove" = "A" ]; then
         detect_uninstall
         echo "This may take some time . . ."
-        sudo bash /etc/languagetool/uninstall.sh &>/dev/null
-        sudo rm /etc/languagetool/uninstall.sh # Find way to silence this
+        bash /etc/languagetool/uninstall.sh &>/dev/null
+        rm -f /etc/languagetool/uninstall.sh # Find way to silence this
     fi
     exit
 }
@@ -277,22 +277,8 @@ install_java() {
     echo "Installing java . . ."
 
     if [[ "$OSTYPE" == "linux-gnu" ]]; then
-        if ! [[ "$accept" == "YES" ]]; then
-            if (whiptail --title "Select Option" --yesno "Do you want to install webupd8team/java PPA to install java?" 10 60) then
-            	echo "Installing java"
-            else
-            	echo "Can not install java. You need to install java before running."
-                return
-            fi
-        fi
-        add-apt-repository ppa:webupd8team/java -y
-        apt update
-        if [[ "$accept" == "YES" ]]; then
-            echo "You have read and agreed to the Oracle java license at http://java.com/license"
-            echo debconf shared/accepted-oracle-license-v1-1 select true | debconf-set-selections
-        fi
-        apt install oracle-java8-installer -y
-        echo "apt remove oracle-java8-installer -y" >> /etc/languagetool/uninstall.sh # need to test
+        apt install default-jre default-jdk -y
+        echo "apt remove default-jre default-jdk -y" >> /etc/languagetool/uninstall.sh # need to test
     elif [[ "$OSTYPE" == "darwin"* ]]; then
         if ! [ -x "$(brew -v)" ]; then
                install_homebrew
