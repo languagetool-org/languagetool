@@ -296,18 +296,20 @@ public class MainTest extends AbstractSecurityTestCase {
   public void testEnglishStdInJsonOutput() throws Exception {
     System.setIn(new FileInputStream(enTestFile));
     String[] args = {"-l", "en", "--json", "-"};
-
     Main.main(args);
     String output = new String(this.out.toByteArray());
-    assertTrue("Got: " + output, output.contains("{\"software\":{\"name\":\"LanguageTool\",\"version\":\"4.0-SNAPSHOT\"," +
-            "\"buildDate\":null,\"apiVersion\":1,\"status\":\"\"},\"warnings\":{\"incompleteResults\":false}," +
-            "\"language\":{\"name\":\"English\",\"code\":\"en\"},\"matches\":[{\"message\":" +
-            "\"Use \\\"a\\\" instead of 'an' if the following word doesn't start with a vowel sound, e.g. 'a sentence', 'a university'\"," +
-            "\"shortMessage\":\"Wrong article\",\"replacements\":[{\"value\":\"a\"}],\"offset\":8,\"length\":2," +
-            "\"context\":{\"text\":\"This is an test.  This is a test of of language tool.  ...\"," +
-            "\"offset\":8,\"length\":2},\"sentence\":\"This is an test.\",\"rule\":{\"id\":\"EN_A_VS_AN\"," +
-            "\"description\":\"Use of 'a' vs. 'an'\",\"issueType\":\"misspelling\"," +
-            "\"category\":{\"id\":\"MISC\",\"name\":\"Miscellaneous\"}}},{\"message\":\"Possible typo: you repeated a word"));
+    assertTrue("Got: " + output, output.contains("\"matches\":[{\"message\":\"Use \\\"a\\\" instead of 'an'"));
+    assertTrue("Got: " + output, output.contains("\"shortMessage\":\"Wrong article\""));
+    assertTrue("Got: " + output, output.contains("\"replacements\":[{\"value\":\"a\"}]"));
+    assertTrue("Got: " + output, output.contains("\"offset\":8"));
+    assertTrue("Got: " + output, output.contains("\"length\":2"));
+    assertTrue("Got: " + output, output.contains("\"context\":{\"text\":\"This is an test.  This is a test of of language tool.  ...\""));
+    assertTrue("Got: " + output, output.contains("\"id\":\"EN_A_VS_AN\""));
+    assertTrue("Got: " + output, output.contains("\"description\":\"Use of"));
+    assertTrue("Got: " + output, output.contains("\"issueType\":\"misspelling\""));
+    assertTrue("Got: " + output, output.contains("\"category\":{\"id\":\"MISC\",\"name\":\"Miscellaneous\"}"));
+    assertTrue("Got: " + output, output.contains("\"message\":\"Possible typo: you repeated a word\""));
+    assertTrue("Got: " + output, output.contains("\"sentence\":\"This is an test.\""));
     assertTrue("Doesn't display Time", !output.contains("Time: "));
     assertTrue("Json start check",output.startsWith("{\"software\":{\"name\":\"LanguageTool\",\"version\":"));
     assertTrue("Json end check",output.endsWith("}]}"));
