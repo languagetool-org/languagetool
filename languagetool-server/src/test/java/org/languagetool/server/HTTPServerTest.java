@@ -178,8 +178,11 @@ public class HTTPServerTest {
       server.run();
       try {
         System.out.println("=== Testing timeout now, please ignore the following exception ===");
-        checkV2(new GermanyGerman(), "Einq Tesz miit fieln Fehlan, desshalb sehee laagnsam bee dr Rechtschriebpürfung");
-        fail("Check was expected to be stopped because it took too long");
+        long t = System.currentTimeMillis();
+        checkV2(new GermanyGerman(), "Einq Tesz miit fieln Fehlan, desshalb sehee laagnsam bee dr Rechtschriebpürfung. "+
+                                     "hir stet noc mer text mt nochh meh feheln. vielleict brucht es soagr nohc mehrr, damt es klapt");
+        fail("Check was expected to be stopped because it took too long (> 1ms), it took " +
+                (System.currentTimeMillis()-t + "ms when measured from client side"));
       } catch (IOException expected) {
         if (!expected.toString().contains(" 503 ")) {
           fail("Expected exception with error 503, got: " + expected);
