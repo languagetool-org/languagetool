@@ -10131,6 +10131,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="überdehnt">Sie hat sich hat den Fuß <marker>über dehnt</marker>.</example>
             <example>Jahrhunderte <marker>über schlief</marker> das Ungeheuer in seiner Höhle.</example>
         </rule>
+        <rule id="ZUHOEREN_ZU_HOEREN" name="sich freuen, das zuhören --> zu hören">
+            <pattern>
+                <token postag='VER.*' postag_regexp='yes'></token>
+                <token postag='PRO:REF:.*' postag_regexp='yes'></token>
+                <token min='0'>,</token>
+                <token regexp='yes'>(das|es)</token>
+                <token>zuhören</token>
+            </pattern>
+            <message>Der Infinitiv <suggestion>zu hören</suggestion> wird auseinandergeschrieben.</message>
+            <short>Meinten Sie "zu hören"?</short>
+            <example correction='zu hören'>Andreas freute sich das <marker>zuhören</marker>.</example>
+            <example>Andreas freute sich das zu hören.</example>
+            <example correction='zu hören'>Es ärgert mich, das <marker>zuhören</marker>.</example>
+            <example correction='zu hören'>Andreas freute sich es <marker>zuhören</marker>.</example>
+        </rule>
     </category>
 
     <!-- ====================================================================== -->
