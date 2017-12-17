@@ -323,13 +323,39 @@ install_homebrew() {
     if ! [[ "$accept" == "YES" ]]; then
         /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
     else
-        dialog=$( osascript \
-        -e 'tell application "System Events"' \
-        -e 'activate' \
-        -e 'set dialog_result to display dialog "Do you want to get homebrew to install packages necessary for languagetool?" with title "LanguageTool Installer" buttons {"Yes","No"} default button 1' \
-        -e 'end tell' \
-        -e 'get button returned of dialog_Result'
-        )
+        detect_screen
+        if ! [[ "$display" == "no" ]]; then
+            dialog=$(osascript \
+            -e 'on homebrew_dialog()' \
+            -e 'tell application "System Events"' \
+            -e 'activate' \
+            -e 'set dialog_result to display dialog "Do you want to get homebrew to install packages necessary for languagetool?" with title "LanguageTool Installer" buttons {"Yes","No","What is Homebrew?"} default button 1' \
+            -e 'end tell' \
+            -e 'set button to button returned of dialog_result' \
+            -e 'if the button is "What is Homebrew?" then' \
+            -e 'open location "https://brew.sh/#question"' \
+            -e 'activate' \
+            -e 'set dialog_result to display dialog "Do you want to get homebrew to install packages necessary for languagetool?" with title "LanguageTool Installer" buttons {"Yes","No"} default button 1' \
+            -e 'set button to button returned of dialog_result' \
+            -e 'end if' \
+            -e 'return button' \
+            -e 'end' \
+            -e 'homebrew_dialog()' \
+            -e 'tell application "System Events"' \
+            -e 'tell process "finder"' \
+            -e 'activate' \
+            -e 'keystroke tab using {command down}' \
+            -e 'end tell' \
+            -e 'end tell'
+            )
+        else
+            echo "No display detected"
+            read -p "Do you want to install homebrew? " -n 1 -r
+            echo    # (optional) move to a new line
+            if [[ $REPLY =~ ^[Yy]$ ]]; then
+                dialog="Yes"
+            fi
+        fi
         if [[ "$dialog" = "Yes" ]]; then
             /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
         else
@@ -363,6 +389,7 @@ detect_screen() {
         if ! [ "$command" ]; then
             command="commandline"
         fi
+        display='no'
     fi
 }
 
