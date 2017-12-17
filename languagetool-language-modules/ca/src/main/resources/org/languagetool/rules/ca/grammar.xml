@@ -33520,6 +33520,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category id="INCORRECT_WORDS_IN_CONTEXT" name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
             (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rule id="ESTANDARD" name="estandard/estàndard">
+            <pattern>
+                <token regexp="yes">estandards?</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>estàndard</suggestion>? 'Estandard' pot ser una variant de <suggestion>estendard</suggestion>suggestion> (bandera).</message>
+            <example correction="estàndard|estendard">És un procediment <marker>estandard</marker>.</example>
+        </rule>
         <rule id="DALTABAIXOS" name="daltabaixos/alts i baixos">
             <pattern>
                 <token>daltabaixos</token>
@@ -42397,6 +42404,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion>coloraines</suggestion>
             <example correction="coloraines">Tenia <marker>colorins</marker>.</example>
         </rule>
+        <rule id="ARRASTRONS" name="a arrastrons">
+            <pattern>
+                <token>a</token>
+                <token>arrastrons</token>
+            </pattern>
+            <message>Expressió només admesa per alguns diccionaris.</message>
+            <suggestion>a rossegons</suggestion>
+            <suggestion>arrossegant</suggestion>
+            <example correction="a rossegons|arrossegant">Anava <marker>a arrastrons</marker>.</example>
+        </rule>
         <rule id="APRECI" name="apreci">
             <pattern>
                 <token inflected="yes">apreci</token>
@@ -42423,6 +42440,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="DNV_SECONDARY_FORM" name="Paraules admeses pel DNV (AVL), però com a formes secundàries" type="style">
+        <rulegroup id="DEVERES" name="de deveres/de veres">
+            <rule>
+                <pattern>
+                    <token>de</token>
+                    <token>deveres</token>
+                </pattern>
+                <message>Forma secundària, no admesa en tots els diccionaris.</message>
+                <suggestion>de veres</suggestion>
+                <example correction="de veres">Ho va dir <marker>de deveres</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>deveres</token>
+                </pattern>
+                <message>Forma secundària, no admesa en tots els diccionaris.</message>
+                <suggestion>de veres</suggestion>
+                <example correction="de veres">Ho va dir <marker>deveres</marker></example>
+            </rule>
+        </rulegroup>
         <rule id="MOSTRADOR" name="mostrador">
             <pattern>
                 <token regexp="yes">mostradors?</token>
@@ -43043,7 +43079,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="FIDEUA" name="fideuà, mascletà / fideuada, mascletada">
             <rule>
                 <pattern>
-                    <token regexp="yes">mascletà|fideuà|mocadorà|espardenyà</token>
+                    <token regexp="yes">mascletà|fideuà|mocadorà|espardenyà|albà</token>
                 </pattern>
                 <message>Forma col·loquial.</message>
                 <suggestion><match no="1" regexp_match="(?iu)(.+)à" regexp_replace="$1ada"/></suggestion>
@@ -43052,7 +43088,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">mascletaes|fideuaes|mocadoraes|espardenyaes</token>
+                    <token regexp="yes">mascletaes|fideuaes|mocadoraes|espardenyaes|albaes</token>
                 </pattern>
                 <message>Forma col·loquial.</message>
                 <suggestion><match no="1" regexp_match="(?iu)(.+)aes" regexp_replace="$1ades"/></suggestion>

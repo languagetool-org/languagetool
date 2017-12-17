@@ -11,6 +11,7 @@
   * updated en_US spellchecker dictionary
   * updated en_CA spellchecker dictionary
 
+
 #### Galician
   * added and improved rules, including:
     - grammar: agreement rules added (only number and gender agreement)
