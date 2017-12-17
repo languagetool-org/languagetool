@@ -1787,7 +1787,7 @@ USA
         </rule>
         <rule id="DT_RESPONDS" name="the/a responds (response)">
             <pattern>
-                <token postag="DT"/>
+                <token postag="DT"><exception case_sensitive="yes">that</exception></token>
                 <marker>
                     <token>responds</token>
                 </marker>
@@ -1795,6 +1795,7 @@ USA
             <message>Did you mean <suggestion>response</suggestion>?</message>
             <short>Possible typo</short>
             <example correction="response">Thanks for the <marker>responds</marker>.</example>
+            <example>Is there an audience that <marker>responds</marker> more strongly?</example>
         </rule>
         <rule id="THINK_OFF" name="think/know off (of)">
             <pattern>
@@ -12658,7 +12659,10 @@ USA
         </rule>
         <rule id="NODT_DOZEN" name="Numeral (dozen, hundred, thousand, million) without a determiner or a number">
             <pattern>
-                <token regexp="yes">dozen|hundred|thousand|[bm]illion<exception scope="previous" postag_regexp="yes" postag="UNKNOWN|CD|W?DT|PRP\$|JJ"/><exception scope="previous" regexp="yes">[\$€£\p{Lu}]+\d+|per|s|of|few|several|'</exception></token>
+                <token regexp="yes">dozen|hundred|thousand|[bm]illion
+                    <exception scope="previous" postag_regexp="yes" postag="UNKNOWN|CD|W?DT|PRP\$|JJ"/>
+                    <exception scope="previous" regexp="yes">[\$€£\p{Lu}]+\d+|per|s|of|few|several|'|couple</exception>
+                </token>
             </pattern>
             <message>Use <suggestion>a <match no="1"/></suggestion> or use a number before '<match no="1"/>'.</message>
             <short>Grammatical problem: missing determiner</short>
@@ -12666,6 +12670,7 @@ USA
             <example>You need almost <marker>a hundred</marker> examples.</example>
             <example>The U.S. government gave USD250 million to UNITA between 1986 to 1991.</example>
             <example>It was selected as the first of Life magazine's 'hundred photos that changed the world'.</example>
+            <example>a couple dozen</example>
             <example>At a peak of 6 <!--note: non-breaking space --><marker>million</marker>.</example>
         </rule>
         <rule id="MUCH_COUNTABLE" name="'much' + countable noun, e.g. 'much (many) children'">
@@ -18742,7 +18747,7 @@ USA
                 </marker>
                 <token postag="NN(:UN?)?|NNP?S" postag_regexp="yes">
                     <exception postag="JJ"/>
-                    <exception regexp="yes">one|still|right|in</exception></token>
+                    <exception regexp="yes">one|still|right|in|kind</exception></token>
                 <token><exception>enough</exception></token>
             </pattern>
             <message>Did you mean <suggestion>your</suggestion>?</message>
@@ -18757,6 +18762,7 @@ USA
             <example> You're man enough to let her play, she's experimental and confident enough to do it.</example>
             <example correction="Your"><marker>You're</marker> optimization is a good example.</example>
             <example>You're Arthur Willis.</example>
+            <example>You're kind of amazed.</example>
             <example>You're in better shape than I am.</example>
         </rule>
         <rulegroup id="DEER_DEAR" name="deer/dear">
