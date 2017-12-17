@@ -20,6 +20,7 @@ package org.languagetool.server;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.jetbrains.annotations.Nullable;
+import org.languagetool.Experimental;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -63,6 +64,8 @@ public class HTTPServerConfig {
   protected int cacheSize = 0;
   protected boolean warmUp = false;
   protected float maxErrorsPerWordRate = 0;
+  protected String hiddenMatchesServer;
+  protected int hiddenMatchesServerTimeout;
 
   /**
    * Create a server configuration for the default port ({@link #DEFAULT_PORT}).
@@ -181,6 +184,8 @@ public class HTTPServerConfig {
           throw new IllegalArgumentException("Invalid value for warmUp: '" + warmUpStr + "', use 'true' or 'false'");
         }
         maxErrorsPerWordRate = Float.parseFloat(getOptionalProperty(props, "maxErrorsPerWordRate", "0"));
+        hiddenMatchesServer = getOptionalProperty(props, "hiddenMatchesServer", null);
+        hiddenMatchesServerTimeout = Integer.parseInt(getOptionalProperty(props, "hiddenMatchesServerTimeout", "1000"));
       }
     } catch (IOException e) {
       throw new RuntimeException("Could not load properties from '" + file + "'", e);
@@ -380,6 +385,25 @@ public class HTTPServerConfig {
    */
   float getMaxErrorsPerWordRate() {
     return maxErrorsPerWordRate;
+  }
+
+  /**
+   * URL of server that is queried to add additional (but hidden) matches to the result.
+   * @since 4.0
+   */
+  @Nullable
+  @Experimental
+  String getHiddenMatchesServer() {
+    return hiddenMatchesServer;
+  }
+
+  /**
+   * Timeout in milliseconds for querying {@link #getHiddenMatchesServer()}.
+   * @since 4.0
+   */
+  @Experimental
+  int getHiddenMatchesServerTimeout() {
+    return hiddenMatchesServerTimeout;
   }
 
   /**

@@ -45,7 +45,8 @@ import static org.languagetool.server.ServerTools.print;
 abstract class TextChecker {
 
   protected abstract void setHeaders(HttpExchange httpExchange);
-  protected abstract String getResponse(String text, Language lang, Language motherTongue, List<RuleMatch> matches, String incompleteResultReason);
+  protected abstract String getResponse(String text, Language lang, Language motherTongue, List<RuleMatch> matches,
+                                        List<RuleMatch> hiddenMatches, String incompleteResultReason);
   @NotNull
   protected abstract List<String> getPreferredVariants(Map<String, String> parameters);
   protected abstract Language getLanguage(String text, Map<String, String> parameters, List<String> preferredVariants);
@@ -123,6 +124,14 @@ abstract class TextChecker {
     QueryParams params = new QueryParams(enabledRules, disabledRules, enabledCategories, disabledCategories, useEnabledOnly, useQuerySettings, allowIncompleteResults);
 
     List<RuleMatch> ruleMatchesSoFar = Collections.synchronizedList(new ArrayList<>());
+    
+    Future<List<RemoteRuleMatch>> hiddenMatchesFuture = null;
+    ResultExtender resultExtender = null;
+    if (config.getHiddenMatchesServer() != null) {
+      resultExtender = new ResultExtender(config.getHiddenMatchesServer(), config.getHiddenMatchesServerTimeout());
+      hiddenMatchesFuture = resultExtender.getExtensionMatches(aText.getPlainText(), lang);
+    }
+
     Future<List<RuleMatch>> future = executorService.submit(new Callable<List<RuleMatch>>() {
       @Override
       public List<RuleMatch> call() throws Exception {
@@ -173,7 +182,19 @@ abstract class TextChecker {
     }
 
     setHeaders(httpExchange);
-    String response = getResponse(aText.getPlainText(), lang, motherTongue, matches, incompleteResultReason);
+    List<RuleMatch> hiddenMatches = new ArrayList<>();
+    if (resultExtender != null) {
+      try {
+        List<RemoteRuleMatch> tmpHiddenMatches = hiddenMatchesFuture.get(config.getHiddenMatchesServerTimeout(), TimeUnit.MILLISECONDS);
+        hiddenMatches = resultExtender.getFilteredExtensionMatches(matches, tmpHiddenMatches);
+      } catch (TimeoutException e) {
+        print("Warn: Failed to query hidden matches server at " + config.getHiddenMatchesServer() +
+              " due to timeout (" + config.getHiddenMatchesServerTimeout() + "ms): " + e.getMessage());
+      } catch (Exception e) {
+        print("Warn: Failed to query hidden matches server at " + config.getHiddenMatchesServer() + ": " + e.getMessage());
+      }
+    }
+    String response = getResponse(aText.getPlainText(), lang, motherTongue, matches, hiddenMatches, incompleteResultReason);
     String messageSent = "sent";
     String languageMessage = lang.getShortCodeWithCountryAndVariant();
     String referrer = httpExchange.getRequestHeaders().getFirst("Referer");
