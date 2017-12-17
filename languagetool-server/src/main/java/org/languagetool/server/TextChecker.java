@@ -127,7 +127,7 @@ abstract class TextChecker {
     
     Future<List<RemoteRuleMatch>> hiddenMatchesFuture = null;
     ResultExtender resultExtender = null;
-    if (config.getHiddenMatchesServer() != null) {
+    if (config.getHiddenMatchesServer() != null && config.getHiddenMatchesLanguages().contains(lang)) {
       resultExtender = new ResultExtender(config.getHiddenMatchesServer(), config.getHiddenMatchesServerTimeout());
       hiddenMatchesFuture = resultExtender.getExtensionMatches(aText.getPlainText(), lang);
     }

@@ -21,10 +21,14 @@ package org.languagetool.server;
 import org.apache.commons.lang3.ArrayUtils;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.Experimental;
+import org.languagetool.Language;
+import org.languagetool.Languages;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 /**
@@ -66,6 +70,7 @@ public class HTTPServerConfig {
   protected float maxErrorsPerWordRate = 0;
   protected String hiddenMatchesServer;
   protected int hiddenMatchesServerTimeout;
+  protected List<Language> hiddenMatchesLanguages = new ArrayList<>();
 
   /**
    * Create a server configuration for the default port ({@link #DEFAULT_PORT}).
@@ -186,6 +191,12 @@ public class HTTPServerConfig {
         maxErrorsPerWordRate = Float.parseFloat(getOptionalProperty(props, "maxErrorsPerWordRate", "0"));
         hiddenMatchesServer = getOptionalProperty(props, "hiddenMatchesServer", null);
         hiddenMatchesServerTimeout = Integer.parseInt(getOptionalProperty(props, "hiddenMatchesServerTimeout", "1000"));
+        String langCodes = getOptionalProperty(props, "hiddenMatchesLanguages", "");
+        for (String code : langCodes.split(",\\s*")) {
+          if (!code.isEmpty()) {
+            hiddenMatchesLanguages.add(Languages.getLanguageForShortCode(code));
+          }
+        }
       }
     } catch (IOException e) {
       throw new RuntimeException("Could not load properties from '" + file + "'", e);
@@ -404,6 +415,15 @@ public class HTTPServerConfig {
   @Experimental
   int getHiddenMatchesServerTimeout() {
     return hiddenMatchesServerTimeout;
+  }
+
+  /**
+   * Languages for which {@link #getHiddenMatchesServer()} will be queried.
+   * @since 4.0
+   */
+  @Experimental
+  List<Language> getHiddenMatchesLanguages() {
+    return hiddenMatchesLanguages;
   }
 
   /**
