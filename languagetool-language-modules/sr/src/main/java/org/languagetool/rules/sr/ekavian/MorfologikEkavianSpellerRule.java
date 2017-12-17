@@ -30,7 +30,7 @@ import java.util.ResourceBundle;
 /** @since 4.0 */
 public class MorfologikEkavianSpellerRule extends MorfologikSpellerRule {
 
-  public static final String RULE_ID = "MORFOLOGIK_RULE_SR_RS";
+  public static final String RULE_ID = "MORFOLOGIK_RULE_SR_EKAVIAN";
   private static final String BASE_DICTIONARY_PATH = "/sr/dictionary/ekavian/";
 
   public MorfologikEkavianSpellerRule(
@@ -55,12 +55,12 @@ public class MorfologikEkavianSpellerRule extends MorfologikSpellerRule {
   }
 
   @Override
-  // File with ignored words
   public String getSpellingFileName() {
     return BASE_DICTIONARY_PATH + "spelling.txt";
   }
 
   @Override
+  // File with ignored words
   public String getIgnoreFileName() {
     return BASE_DICTIONARY_PATH + "ignored.txt";
   }

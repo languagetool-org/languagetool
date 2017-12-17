@@ -19,7 +19,6 @@
 package org.languagetool.rules.sr.jekavian;
 
 import org.languagetool.Language;
-import org.languagetool.rules.Example;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
 
 import java.io.IOException;
@@ -27,9 +26,9 @@ import java.util.ResourceBundle;
 
 
 /** @since 4.0 */
-public class MorfologikJekavianSpellerRule extends MorfologikSpellerRule {
+public final class MorfologikJekavianSpellerRule extends MorfologikSpellerRule {
 
-  public static final String RULE_ID = "MORFOLOGIK_RULE_SR_HR";
+  public static final String RULE_ID = "MORFOLOGIK_RULE_SR_JEKAVIAN";
   private static final String BASE_DICTIONARY_PATH = "/sr/dictionary/јekavian/";
 
   public MorfologikJekavianSpellerRule(
@@ -37,10 +36,10 @@ public class MorfologikJekavianSpellerRule extends MorfologikSpellerRule {
           Language language) throws IOException {
 
     super(messages, language);
-    addExamplePair(
-            Example.wrong("Двије сам <marker>зивједзе</marker> видјела."),
+    /*addExamplePair(
+            Example.wrong("Двије сам <marker>зивдјезе</marker> видјела."),
             Example.fixed("Двије сам <marker>звијезде</marker> видјела.")
-    );
+    );*/
   }
 
   @Override
@@ -54,12 +53,12 @@ public class MorfologikJekavianSpellerRule extends MorfologikSpellerRule {
   }
 
   @Override
-  // File with ignored words
   public String getSpellingFileName() {
     return BASE_DICTIONARY_PATH + "spelling.txt";
   }
 
   @Override
+  // File with ignored words
   public String getIgnoreFileName() {
     return BASE_DICTIONARY_PATH + "ignored.txt";
   }
