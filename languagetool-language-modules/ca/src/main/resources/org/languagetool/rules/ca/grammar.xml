@@ -41425,7 +41425,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token inflected="yes">templat</token>
             </pattern>
-            <message>Paraula només admesa per alguns diccionaris en el sentit de 'ben plantat, atractiu'.</message>
+            <message>Paraula admesa només per alguns diccionaris en el sentit de 'ben plantat, atractiu'.</message>
             <suggestion><match no="1" postag="AQ.(.)(.)." postag_regexp="yes" postag_replace="VMP..$2$1.">temperar</match></suggestion>
             <suggestion>ben <match no="1" postag="AQ.(.)(.)." postag_regexp="yes" postag_replace="VMP..$2$1.">plantar</match></suggestion>
             <suggestion><match no="1" postag="(AQ.*)" postag_regexp="yes" postag_replace="$1">atractiu</match></suggestion>
@@ -42891,6 +42891,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="DNV_COLLOQUIAL" name="paraules col·loquials segons el DNV"  type="style">
+        <rulegroup id="MANYO" name="manyo">
+            <rule>
+                <pattern>
+                    <token>manyo</token>
+                </pattern>
+                <message>Paraula col·loquial</message>
+                <suggestion>aragonés</suggestion>
+                <suggestion>aragonès</suggestion>
+                <example correction="aragonés|aragonès">És <marker>manyo</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>manyos</token>
+                </pattern>
+                <message>Paraula col·loquial</message>
+                <suggestion>aragonesos</suggestion>
+                <example correction="aragonesos">Són <marker>manyos</marker>.</example>
+            </rule>
+        </rulegroup>
         <rule id="AGULLETES" name="*tenir agulletes">
             <pattern>
                 <token inflected="yes" skip="1">tenir</token>
