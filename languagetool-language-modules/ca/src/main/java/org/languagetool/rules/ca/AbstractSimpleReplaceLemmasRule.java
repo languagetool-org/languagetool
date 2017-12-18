@@ -107,7 +107,7 @@ public abstract class AbstractSimpleReplaceLemmasRule extends AbstractSimpleRepl
             } catch (IOException e) {
               throw new RuntimeException("Could not synthesize: " + replacementLemma + " with tag " + replacePOSTag, e);
             }   
-          } // add the suggestion without flexion
+          } // add the suggestion without inflection
           if (synthesized.length == 0 && replacementLemma.length()>1) {
             possibleReplacements.add(replacementLemma);
           } else {
