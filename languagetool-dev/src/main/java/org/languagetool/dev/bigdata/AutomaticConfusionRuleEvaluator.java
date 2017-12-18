@@ -51,6 +51,7 @@ class AutomaticConfusionRuleEvaluator {
 
   private final IndexSearcher searcher;
   private final Map<String, List<ConfusionSet>> knownSets;
+  private final Set<String> finishedPairs = new HashSet<>();
   
   private int ignored = 0;
 
@@ -95,6 +96,10 @@ class AutomaticConfusionRuleEvaluator {
   }
 
   private void runOnPair(ConfusionRuleEvaluator evaluator, String line, String part1, String part2) throws IOException {
+    if (finishedPairs.contains(part1 + "/" + part2) || finishedPairs.contains(part2 + "/" + part1)) {
+      System.out.println("Ignoring: " + part1 + "/" + part2 + ", finished before");
+      return;
+    }
     for (Map.Entry<String, List<ConfusionSet>> entry : knownSets.entrySet()) {
       if (entry.getKey().equals(part1)) {
         List<ConfusionSet> confusionSet = entry.getValue();
@@ -120,6 +125,7 @@ class AutomaticConfusionRuleEvaluator {
     } else {
       System.out.println("No good result found for " + part1 + "/" + part2);
     }
+    finishedPairs.add(part1 + "/" + part2);
   }
 
   private Map<Long, ConfusionRuleEvaluator.EvalResult> findBestFactor(Map<Long, ConfusionRuleEvaluator.EvalResult> results) {
