@@ -17,7 +17,7 @@
  * USA
  */
 
-package org.languagetool.dev;
+package org.languagetool.dev.archive;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -66,7 +66,7 @@ public final class POSTagLanguageModel {
   }
 
   private static void exitWithUsageMessage() {
-    System.out.println("Usage: java org.languagetool.dev.POSTagLanguageModel <language>");
+    System.out.println("Usage: java org.languagetool.dev.archive.POSTagLanguageModel <language>");
   }
 
   private static void runOnStdIn(final JLanguageTool lt) throws IOException {

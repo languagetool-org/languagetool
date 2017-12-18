@@ -44,6 +44,13 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <token postag="(P.|V.{3})[30].*" postag_regexp="yes"></token>
         </equivalence>
     </unification>
+    <rule id="FIX_DICTIONARY" name="fix some problems in dictionaries">
+        <!-- es pot eliminar quan s'arregle el diccionari -->
+        <pattern>
+            <token inflected="yes">ditar</token>
+        </pattern>
+        <disambig action="remove"><wd lemma="ditar"/></disambig>
+    </rule>
     <rulegroup id="FIX_SENTENCE_TOKENIZATION" name="fix problems with sentence tokenization">
         <rule>
             <pattern>
@@ -3860,6 +3867,24 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="remove" postag="NPMS.*"></disambig>
     </rule>
+    <rule id="IMPOST" name="impost (impondre)">
+        <pattern>
+            <token><exception inflected="yes">haver</exception></token>
+            <marker>
+                <token postag="NCMS000">impost</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="V.P.*"/>
+    </rule>
+    <rule id="DISPOST" name="dispost (dispondre)">
+        <pattern>
+            <token><exception inflected="yes">haver</exception></token>
+            <marker>
+                <token postag="AQ0MS0">dispost</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="V.P.*"/>
+    </rule>
     <rule id="tornes" name="tornés: verb o adjectiu">
         <pattern> <!-- exceptions? -->
             <marker>
@@ -6397,7 +6422,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <feature id="nombre"/>
                 <feature id="genere"/>
                 <marker>
-                    <token postag="NC.*" postag_regexp="yes"><exception postag="PX.*|A.*" postag_regexp="yes"/><exception regexp="yes">torna|massa|troba</exception></token>
+                    <token postag="NC.*" postag_regexp="yes"><exception postag="PX.*|A.|DN.*" postag_regexp="yes"/><exception regexp="yes">torna|massa|troba</exception></token>
                     <token postag="A.*" postag_regexp="yes" regexp="yes" inflected="yes">vessant|corrent|pendent|germà|partit</token>
                 </marker>
             </unify>

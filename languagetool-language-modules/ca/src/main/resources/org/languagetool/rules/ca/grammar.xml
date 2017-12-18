@@ -1380,6 +1380,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Trenta-dues"><marker>Trenta-dos</marker> xiquetes.</example>
                 <example correction="dues">amb <marker>dos</marker> maletes gegantines.</example>
                 <example correction="Dues"><marker>Dos</marker> empreses.</example>
+                <example correction="Dues"><marker>Dos</marker> germanes.</example>
                 <example>Trenta-dues xiquetes.</example>
             </rule>
             <rule>
@@ -33524,7 +33525,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token regexp="yes">estandards?</token>
             </pattern>
-            <message>¿Volíeu dir <suggestion>estàndard</suggestion>? 'Estandard' pot ser una variant de <suggestion>estendard</suggestion>suggestion> (bandera).</message>
+            <message>¿Volíeu dir <suggestion>estàndard</suggestion>? 'Estandard' pot ser una variant de <suggestion>estendard</suggestion> (bandera).</message>
             <example correction="estàndard|estendard">És un procediment <marker>estandard</marker>.</example>
         </rule>
         <rule id="DALTABAIXOS" name="daltabaixos/alts i baixos">
@@ -43008,7 +43009,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="vestits|vestits d'home">Els <marker>trages</marker>.</example>
             <example correction="vestit|vestit d'home">El <marker>trage</marker>.</example>
         </rule>
-        <rule id="ENSAIG" name="ensaig, ensajar (DNV)">
+        <!--<rule id="ENSAIG" name="ensaig, ensajar (DNV)">
             <pattern>
                 <token regexp="yes" inflected="yes">ensaig|ensajar</token>
             </pattern>
@@ -43017,7 +43018,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <url>http://www.avl.gva.es/lexicval/xhtml/dnv.xhtml?paraula=trage</url>
             <example correction="assajos">Els <marker>ensajos</marker>.</example>
             <example correction="assageu">Quan <marker>ensageu</marker>.</example>
-        </rule>
+        </rule>-->
         <!--<rule id="ACOLLONAR" name="acollonar/acollonir" >
             <pattern>
                 <token inflected="yes">acollonar</token>
@@ -43079,7 +43080,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="FIDEUA" name="fideuà, mascletà / fideuada, mascletada">
             <rule>
                 <pattern>
-                    <token regexp="yes">mascletà|fideuà|mocadorà|espardenyà|albà</token>
+                    <token regexp="yes">mascletà|fideuà|mocadorà|espardenyà|albà<exception postag="NP.*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Forma col·loquial.</message>
                 <suggestion><match no="1" regexp_match="(?iu)(.+)à" regexp_replace="$1ada"/></suggestion>
@@ -43094,6 +43095,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="1" regexp_match="(?iu)(.+)aes" regexp_replace="$1ades"/></suggestion>
                 <example correction="Fideuades"><marker>Fideuaes</marker></example>
                 <example correction="mascletades">Les <marker>mascletaes</marker></example>
+                <example>Bernat d'Albà</example>
             </rule>
         </rulegroup>
         <rule id="FARRAGOS" name="farragós">

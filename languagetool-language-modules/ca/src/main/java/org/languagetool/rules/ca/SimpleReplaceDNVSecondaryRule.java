@@ -31,37 +31,37 @@ import java.util.ResourceBundle;
  * alternative words. 
  * 
  * Catalan implementations. Loads the
- * relevant lemmas from <code>rules/ca/replace_dnv.txt</code>.
+ * relevant lemmas from <code>rules/ca/replace_dnv_secondary.txt</code>.
  * 
  * @author Jaume Ortolà
  */
-public class SimpleReplaceDNVRule extends AbstractSimpleReplaceLemmasRule {
-
-  public SimpleReplaceDNVRule(final ResourceBundle messages, Language language) throws IOException {
+public class SimpleReplaceDNVSecondaryRule extends AbstractSimpleReplaceLemmasRule {
+  
+  public SimpleReplaceDNVSecondaryRule(final ResourceBundle messages, Language language) throws IOException {
     super(messages, language);
     super.setCategory(Categories.REGIONALISMS.getCategory(messages));
     super.setLocQualityIssueType(ITSIssueType.Style);
-    wrongLemmas = load("/ca/replace_dnv.txt");
+    wrongLemmas = load("/ca/replace_dnv_secondary.txt");
   }  
 
   @Override
   public final String getId() {
-    return "CA_SIMPLE_REPLACE_DNV";
+    return "CA_SIMPLE_REPLACE_DNV_SECONDARY";
   }
 
  @Override
   public String getDescription() {
-    return "Detecta paraules admeses només per l'AVL i proposa suggeriments de canvi";
+    return "Recomana paraules o formes preferents.";
   }
 
   @Override
   public String getShort() {
-    return "Paraula admesa només pel DNV (AVL).";
+    return "Forma secundària";
   }
   
   @Override
   public String getMessage(String tokenStr,List<String> replacements) {
-	  return "Paraula admesa pel DNV (AVL), però no per altres diccionaris.";
+    return "Paraula o forma secundària.";
   }
   
 }

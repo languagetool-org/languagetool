@@ -2,6 +2,12 @@
 
 ## 4.0-SNAPSHOT (release planned for 2017-12-29)
 
+#### Catalan
+  * added and improved rules
+  * updated and renamed dictionary: ca-ES.dict (external dependency: catalan-pos-dict 1.6)
+  * added new dictionary for Valencian including most words from Diccionari Normatiu Valencià (AVL): 
+    ca-ES-valencia.dict (external dependency: catalan-pos-dict 1.6)
+
 #### English
   * removed the category MISC and moved the rules to more specific categories
   * added WordCoherencyRule
@@ -10,7 +16,6 @@
   * updated en_GB spellchecker dictionary from https://github.com/marcoagpinto/aoo-mozilla-en-dict
   * updated en_US spellchecker dictionary
   * updated en_CA spellchecker dictionary
-
 
 #### Galician
   * added and improved rules, including:

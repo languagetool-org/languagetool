@@ -16,7 +16,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.dev;
+package org.languagetool.dev.archive;
 
 import com.google.common.base.Strings;
 import com.google.common.xml.XmlEscapers;

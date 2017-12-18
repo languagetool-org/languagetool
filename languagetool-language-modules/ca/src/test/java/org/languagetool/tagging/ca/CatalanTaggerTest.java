@@ -33,7 +33,7 @@ public class CatalanTaggerTest {
 
   @Before
   public void setUp() {
-    tagger = new CatalanTagger();
+    tagger = new CatalanTagger(new Catalan());
     tokenizer = new WordTokenizer();
   }
 
