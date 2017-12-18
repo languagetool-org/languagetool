@@ -108,18 +108,17 @@ public class Catalan extends Language {
             new ComplexAdjectiveConcordanceRule(messages),
             new CatalanWrongWordInContextRule(messages),
             new ReflexiveVerbsRule(messages),
-            new SimpleReplaceVerbsRule(messages),
+            new SimpleReplaceVerbsRule(messages, this),
             new SimpleReplaceBalearicRule(messages),
             new SimpleReplaceRule(messages),
-            new SimpleReplaceDNVRule(messages),
-            new ReplaceOperationNamesRule(messages)
+            new ReplaceOperationNamesRule(messages, this)
     );
   }
 
   @Override
   public Tagger getTagger() {
     if (tagger == null) {
-      tagger = new CatalanTagger();
+      tagger = new CatalanTagger(this);
     }
     return tagger;
   }
@@ -127,7 +126,7 @@ public class Catalan extends Language {
   @Override
   public Synthesizer getSynthesizer() {
     if (synthesizer == null) {
-      synthesizer = new CatalanSynthesizer();
+      synthesizer = new CatalanSynthesizer(this);
     }
     return synthesizer;
   }

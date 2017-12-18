@@ -31,37 +31,37 @@ import java.util.ResourceBundle;
  * alternative words. 
  * 
  * Catalan implementations. Loads the
- * relevant lemmas from <code>rules/ca/replace_dnv.txt</code>.
+ * relevant lemmas from <code>rules/ca/replace_dnv_colloquial.txt</code>.
  * 
  * @author Jaume Ortolà
  */
-public class SimpleReplaceDNVRule extends AbstractSimpleReplaceLemmasRule {
-
-  public SimpleReplaceDNVRule(final ResourceBundle messages, Language language) throws IOException {
+public class SimpleReplaceDNVColloquialRule extends AbstractSimpleReplaceLemmasRule {
+  
+  public SimpleReplaceDNVColloquialRule(final ResourceBundle messages, Language language) throws IOException {
     super(messages, language);
-    super.setCategory(Categories.REGIONALISMS.getCategory(messages));
+    wrongLemmas = load("/ca/replace_dnv_colloquial.txt");
+    super.setCategory(Categories.COLLOQUIALISMS.getCategory(messages));
     super.setLocQualityIssueType(ITSIssueType.Style);
-    wrongLemmas = load("/ca/replace_dnv.txt");
   }  
 
   @Override
   public final String getId() {
-    return "CA_SIMPLE_REPLACE_DNV";
+    return "CA_SIMPLE_REPLACE_DNV_COLLOQUIAL";
   }
 
  @Override
   public String getDescription() {
-    return "Detecta paraules admeses només per l'AVL i proposa suggeriments de canvi";
+    return "Detecta paraules marcades com a col·loquials en el DNV.";
   }
 
   @Override
   public String getShort() {
-    return "Paraula admesa només pel DNV (AVL).";
+    return "Paraula o expressió col·loquial.";
   }
   
   @Override
   public String getMessage(String tokenStr,List<String> replacements) {
-	  return "Paraula admesa pel DNV (AVL), però no per altres diccionaris.";
+    return "Paraula o expressió col·loquial.";
   }
   
 }
