@@ -29,6 +29,8 @@ import org.languagetool.rules.sr.ekavian.SimpleStyleEkavianReplaceRule;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.sr.EkavianSynthesizer;
 import org.languagetool.tagging.Tagger;
+import org.languagetool.tagging.disambiguation.Disambiguator;
+import org.languagetool.tagging.disambiguation.sr.SerbianHybridDisambiguator;
 import org.languagetool.tagging.sr.EkavianTagger;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
@@ -54,6 +56,7 @@ public class Serbian extends Language {
   private SentenceTokenizer sentenceTokenizer;
   private Tagger tagger;
   private Synthesizer synthesizer;
+  private Disambiguator disambiguator;
 
   // Grammar rules distributed over multiple .XML files
   // We want to keep our rules small and tidy.
@@ -111,6 +114,14 @@ public class Serbian extends Language {
       synthesizer = new EkavianSynthesizer();
     }
     return synthesizer;
+  }
+
+  @Override
+  public Disambiguator getDisambiguator() {
+    if (disambiguator == null) {
+      disambiguator = new SerbianHybridDisambiguator();
+    }
+    return disambiguator;
   }
 
   @Override
