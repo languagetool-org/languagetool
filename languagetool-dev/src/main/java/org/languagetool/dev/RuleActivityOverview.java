@@ -39,7 +39,7 @@ import org.languagetool.tools.StringTools;
  * 
  * @author Daniel Naber
  */
-public final class RuleActivityOverview {
+final class RuleActivityOverview {
 
   private static final int PAST_DAYS = 365/2;
 
