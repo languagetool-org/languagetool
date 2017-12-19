@@ -28,8 +28,6 @@ import java.io.IOException;
  * Test for Serbian ekavian tagger
  *
  * @author Zoltán Csala
- *
- * @since 4.0
  */
 public class EkavianTaggerTest extends AbstractSerbianTaggerTest {
 
@@ -50,9 +48,7 @@ public class EkavianTaggerTest extends AbstractSerbianTaggerTest {
   }
 
   /**
-   * Special case for auxilliary verb "jesam" (I am)
-   *
-   * @throws IOException
+   * Special case for auxiliary verb "jesam" (I am)
    */
   @Test
   public void testTaggerJesam() throws IOException {

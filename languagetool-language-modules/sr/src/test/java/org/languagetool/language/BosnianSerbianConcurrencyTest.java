@@ -27,8 +27,6 @@ import org.languagetool.language.AbstractLanguageConcurrencyTest;
  * Test class
  *
  * @author Zoltán Csala
- *
- * @since 4.0
  */
 public class BosnianSerbianConcurrencyTest extends AbstractLanguageConcurrencyTest {
 

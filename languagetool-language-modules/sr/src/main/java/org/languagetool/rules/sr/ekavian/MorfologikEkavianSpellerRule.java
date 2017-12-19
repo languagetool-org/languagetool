@@ -31,12 +31,12 @@ import java.util.ResourceBundle;
 public class MorfologikEkavianSpellerRule extends MorfologikSpellerRule {
 
   public static final String RULE_ID = "MORFOLOGIK_RULE_SR_EKAVIAN";
+  
   private static final String BASE_DICTIONARY_PATH = "/sr/dictionary/ekavian/";
 
   public MorfologikEkavianSpellerRule(
           ResourceBundle messages,
           Language language) throws IOException {
-
     super(messages, language);
     addExamplePair(
             Example.wrong("Изгубила све сам <marker>бткие</marker>, ал' још водим рат."),

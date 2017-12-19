@@ -19,15 +19,11 @@
 package org.languagetool.language;
 
 import org.languagetool.Language;
-import org.languagetool.language.AbstractLanguageConcurrencyTest;
-import org.languagetool.language.Serbian;
 
 /**
  * Test class
  *
  * @author Zoltán Csala
- *
- * @since 4.0
  */
 public class SerbianConcurrencyTest extends AbstractLanguageConcurrencyTest {
 

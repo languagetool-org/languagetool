@@ -53,6 +53,7 @@ import java.util.ResourceBundle;
 public class Serbian extends Language {
 
   private static final Language SERBIA_SERBIAN = new SerbianSerbian();
+  
   private SentenceTokenizer sentenceTokenizer;
   private Tagger tagger;
   private Synthesizer synthesizer;
@@ -138,7 +139,7 @@ public class Serbian extends Language {
   }
 
 
-  // Rules common for all pronounciations of Serbian language
+  // Rules common for all pronunciations of Serbian language
   protected List<Rule> getBasicRules(ResourceBundle messages) {
     return Arrays.asList(
       new CommaWhitespaceRule(messages,

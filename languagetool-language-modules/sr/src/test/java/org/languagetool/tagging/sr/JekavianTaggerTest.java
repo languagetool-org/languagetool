@@ -18,12 +18,8 @@
  */
 package org.languagetool.tagging.sr;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.languagetool.TestTools;
-import org.languagetool.language.JekavianSerbian;
-import org.languagetool.language.Serbian;
-import org.languagetool.tokenizers.WordTokenizer;
 
 import java.io.IOException;
 
@@ -33,8 +29,6 @@ import static org.junit.Assert.*;
  * Test for Serbian jekavian tagger
  *
  * @author Zoltán Csala
- *
- * @since 4.0
  */
 public class JekavianTaggerTest extends AbstractSerbianTaggerTest {
 
@@ -43,9 +37,7 @@ public class JekavianTaggerTest extends AbstractSerbianTaggerTest {
   }
 
   /**
-   * Special case for auxilliary verb "jesam" (I am)
-   *
-   * @throws IOException
+   * Special case for auxiliary verb "jesam" (I am)
    */
   @Test
   public void testTaggerJesam() throws IOException {
@@ -56,8 +48,6 @@ public class JekavianTaggerTest extends AbstractSerbianTaggerTest {
 
   /**
    * Word that exists only in Јеkavian dictionary
-   *
-   * @throws IOException
    */
   @Test
   public void testTaggerSvijet() throws Exception {

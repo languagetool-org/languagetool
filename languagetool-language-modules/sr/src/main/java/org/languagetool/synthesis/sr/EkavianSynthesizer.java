@@ -28,10 +28,6 @@ public class EkavianSynthesizer extends SerbianSynthesizer {
 
   private static final String RESOURCE_FILENAME = DICTIONARY_PATH + "ekavian/serbian_synth.dict";
 
-  /**
-   * @param resourceFileName The dictionary file name.
-   * @param tagFileName      The name of a file containing all possible tags.
-   */
   public EkavianSynthesizer() {
     super(RESOURCE_FILENAME, TAGS_FILE_NAME);
   }
