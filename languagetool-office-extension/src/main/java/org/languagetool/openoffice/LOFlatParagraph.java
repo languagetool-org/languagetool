@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.jetbrains.annotations.Nullable;
+import org.languagetool.tools.Tools;
 
 import com.sun.star.frame.XDesktop;
 import com.sun.star.lang.XComponent;
@@ -137,8 +138,7 @@ public class LOFlatParagraph {
    * Prints Exception to default out  
    */
  private static void printException (Exception e) {
-    //  TODO: Print exceptions in log-file
-    System.out.println(e.getMessage());
+   Main.printToLogFile(Tools.getFullStackTrace(e));
   }
 
   /**

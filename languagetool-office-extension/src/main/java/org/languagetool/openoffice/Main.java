@@ -24,12 +24,15 @@ package org.languagetool.openoffice;
  * @author Marcin Miłkowski, Fred Kruse
  */
 import java.io.File;
+import java.io.FileWriter;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Set;
+import java.util.Date;
 
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
@@ -85,6 +88,9 @@ public class Main extends WeakBase implements XJobExecutor,
   // use a different name than the stand-alone version to avoid conflicts:
   private static final String CONFIG_FILE = ".languagetool-ooo.cfg";
 
+  // use a log-file for output of messages and debug information:
+  private static final String LOG_FILE = ".languagetool-ooo.log";
+
   private static final ResourceBundle MESSAGES = JLanguageTool.getMessageBundle();
 
   // LibreOffice (since 4.2.0) special tag for locale with variant 
@@ -128,8 +134,9 @@ public class Main extends WeakBase implements XJobExecutor,
   //   > 0 checks numParasToCheck before and after the processed paragraph
   
   private static final String END_OF_PARAGRAPH = "\n";  //  Paragraph Separator from gciterator.cxx: 0x2029
-  private static final boolean debugMode = false;
-  private int numParasToCheck = 5;
+  private static final boolean debugMode = false;   //  should be false except for testing
+  private static String logLineBreak;  //  LineBreak in Log-File (MS-Windows compatible)
+  private int numParasToCheck = 5;    // will be overwritten by config
   private List<String> allParas = null;     //  List of paragraphs (only readable by parallel thread)
   private List<RuleMatch> fullTextMatches;  //  List of paragraph matches (only readable by parallel thread)
   private List<RuleMatch> paragraphMatchesFirst;  //  List of paragraph matches (main thread)
@@ -146,6 +153,7 @@ public class Main extends WeakBase implements XJobExecutor,
   public Main(XComponentContext xCompContext) {
     changeContext(xCompContext);
     xEventListeners = new ArrayList<>();
+    initLogFile();
   }
 
   private void prepareConfig(Language lang) {
@@ -296,7 +304,7 @@ public class Main extends WeakBase implements XJobExecutor,
         if (propertyValue.Value instanceof int[]) {
           return (int[]) propertyValue.Value;
         } else {
-          System.err.println("Not of expected type int[]: " + propertyValue.Name + ": " + propertyValue.Value.getClass());
+          printToLogFile("Not of expected type int[]: " + propertyValue.Name + ": " + propertyValue.Value.getClass());
         }
       }
     }
@@ -515,7 +523,7 @@ public class Main extends WeakBase implements XJobExecutor,
         }
         else if (!textIsChecked) {                                  //  Check Full Text only if not already checked
           if(debugMode) {
-            System.out.println("check Text again");    
+            printToLogFile("check Text again");    
           }
           fullTextMatches = langTool.check(getDocAsString(numCurPara), true,
               JLanguageTool.ParagraphHandling.ONLYPARA);
@@ -828,7 +836,7 @@ public class Main extends WeakBase implements XJobExecutor,
         AboutDialogThread aboutThread = new AboutDialogThread(MESSAGES);
         aboutThread.start();
       } else {
-        System.err.println("Sorry, don't know what to do, sEvent = " + sEvent);
+        printToLogFile("Sorry, don't know what to do, sEvent = " + sEvent);
       }
     } catch (Throwable e) {
       showError(e);
@@ -878,7 +886,7 @@ public class Main extends WeakBase implements XJobExecutor,
     dt.start();
   }
 
-  private File getHomeDir() {
+  private static File getHomeDir() {
     String homeDir = System.getProperty("user.home");
     if (homeDir == null) {
       showError(new RuntimeException("Could not get home directory"));
@@ -1007,7 +1015,7 @@ public class Main extends WeakBase implements XJobExecutor,
    */
   private boolean resetAllParas(LOCursor loCursor) {
     if(debugMode) {
-      System.out.println("resetAllParas");    
+      printToLogFile("resetAllParas");    
     }
     allParas = loCursor.getAllTextParagraphs();
     if(allParas == null || allParas.size() < 1) {
@@ -1164,7 +1172,7 @@ public class Main extends WeakBase implements XJobExecutor,
       
       nParas -= divNum;
       if(debugMode) {
-        System.out.println("numLastFlPara[" + numThread +"]: " + numLastFlPara[numThread] + "; nParas: " + nParas);    
+        printToLogFile("numLastFlPara[" + numThread +"]: " + numLastFlPara[numThread] + "; nParas: " + nParas);    
       }
       numLastFlPara[numThread] = nParas;
       if (!chPara.equals(allParas.get(nParas))) {
@@ -1172,16 +1180,15 @@ public class Main extends WeakBase implements XJobExecutor,
           return returnOneParaCheck();
         } else {
           if(debugMode) {
-            System.out.println("allParas set: NParas: " + nParas + "; divNum: " + divNum);    
-            System.out.println("old: " + allParas.get(nParas));    
-            System.out.println("new: " + chPara);    
+            printToLogFile("allParas set: NParas: " + nParas + "; divNum: " + divNum + logLineBreak
+                        + "old: " + allParas.get(nParas) + logLineBreak + "new: " + chPara);    
           }
           allParas.set(nParas, chPara);
           return returnNParaCheck(nParas, numThread);
         }
       }
       if(debugMode) {
-        System.out.println("nParas from FlatParagraph: " + nParas);    
+        printToLogFile("nParas from FlatParagraph: " + nParas);    
       }
       return returnContinueCheck(isReset, nParas, numThread);
     } catch (Throwable t) {
@@ -1189,4 +1196,34 @@ public class Main extends WeakBase implements XJobExecutor,
       return returnOneParaCheck();
     }
   }
+
+  /**
+   * Initialize Logfile
+   */
+  private void initLogFile() {
+    try {
+      String path = getHomeDir()+ "/" + LOG_FILE;
+      Writer writer = new FileWriter(path);
+      logLineBreak = System.getProperty("line.separator");
+      Date date = new Date();
+      writer.write("LT Log from " + date.toString() + logLineBreak);
+      writer.close();
+    } catch (Throwable t) {
+      showError(t);
+    }
+  }
+
+  /**
+   * Initialize Logfile
+   */
+  static void printToLogFile(String str) {
+    try {
+      Writer writer = new FileWriter(getHomeDir()+ "/" + LOG_FILE, true);
+      writer.write(str + logLineBreak);
+      writer.close();
+    } catch (Throwable t) {
+      showError(t);
+    }
+  }
+
 }
