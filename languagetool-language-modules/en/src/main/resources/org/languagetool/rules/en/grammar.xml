@@ -4678,6 +4678,16 @@ USA
             <example correction="you">Have <marker>your</marker> ever come across an animal like this?</example>
             <example>Can I have <marker>your</marker> full name?</example>
         </rule>
+        <rulegroup id="EXITED_EXCITED" name="exited (excited)">
+            <rule>
+                <pattern>
+                    <marker><token>exited</token></marker>
+                    <token>about</token>
+                </pattern>
+                <message>Did you mean <suggestion>excited</suggestion> (=enthusiastic) instead of 'exited' (=gone away)?</message>
+                <example correction="excited">She is really <marker>exited</marker> about it.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="YOUR_YOU_RE" name="Your (You're)">
             <rule>
                 <pattern>
@@ -7811,6 +7821,12 @@ USA
                 <example correction="have often been seen">They <marker>have been seen often</marker> together.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token regexp="yes">could|should|can</token>
+                    <token regexp="yes">always|hardly|never|often|rarely|seldom|sometimes|usually</token>
+                    <token>have</token>
+                    <token>been</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token regexp="yes">always|hardly|never|often|rarely|seldom|sometimes|usually</token>
@@ -7822,6 +7838,7 @@ USA
                 <message>The adverb '\1' is usually put between '\2' and '\3'.</message>
                 <suggestion>\2 \1 \3</suggestion>
                 <example>They have <marker>often been seen</marker> together.</example>
+                <example>Those women should never have been hired.</example>
                 <example correction="have often been">They <marker>often have been</marker> seen together.</example>
                 <!--                 <example correction="have often been">She <marker>often</marker> has been late.</example> TODO -->
             </rule>
@@ -11357,6 +11374,20 @@ USA
             <example>This house is as big <marker>as</marker> mine.</example>
             <example>It is inappropriate to cite this document as other than work in progress.</example>
             <example>This strikes me as less than a satisfactory expression of appreciation.</example>
+        </rule>
+        <rule id="THE_SAME_AS" name="Comparison with 'the same ... as'">
+            <pattern>
+                <token>the</token>
+                <token skip="1">same</token>
+                <marker>
+                    <token regexp="yes">like|than</token>
+                </marker>
+            </pattern>
+            <message>Comparison is written 'the same ... <suggestion>as</suggestion>'.</message>
+            <url>https://www.merriam-webster.com/dictionary/same</url>
+            <short>Grammatical problem: use 'as'</short>
+            <example correction="as">This is not the same thing <marker>than</marker> his.</example>
+            <example  correction="as">Your idea is the same <marker>like</marker> his.</example>
         </rule>
         <rule id="EAGER_TO" name="Non-infinitive verb with 'eager to...'">
             <pattern>
