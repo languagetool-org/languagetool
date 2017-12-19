@@ -27,6 +27,6 @@ public class SerbianPatternRuleTest extends PatternRuleTest {
 
   @Test
   public void testRules() throws IOException {
-    //runGrammarRulesFromXmlTest();
+    runGrammarRulesFromXmlTest();
   }
 }
