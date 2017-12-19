@@ -10143,11 +10143,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <message>Der Infinitiv <suggestion>zu hören</suggestion> wird auseinandergeschrieben.</message>
             <short>Meinten Sie "zu hören"?</short>
-            <example correction='zu hören'>Andreas freute sich das <marker>zuhören</marker>.</example>
-            <example>Andreas freute sich das zu hören.</example>
+            <example correction='zu hören'>Andreas freute sich, das <marker>zuhören</marker>.</example>
+            <example>Andreas freute sich, das zu hören.</example>
             <example correction='zu hören'>Es ärgert mich, das <marker>zuhören</marker>.</example>
-            <example correction='zu hören'>Andreas freute sich es <marker>zuhören</marker>.</example>
-            <example>Er kann sich das zuhören sparen.</example>
+            <example correction='zu hören'>Andreas freute sich, es <marker>zuhören</marker>.</example>
+            <example>Er kann sich das Zuhören sparen.</example>
         </rule>
     </category>
 
@@ -29805,6 +29805,18 @@ Andere Projekte</example>
                 <example correction="diesem">Ich glaube <marker>diesen</marker> Eid.</example>
                 <example correction="seinem">Er vertraute <marker>seinen</marker> Freund nicht länger.</example>
                 <example correction="unserem">Wir misstrauen <marker>unseren</marker> Lehrer.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>mit</token>
+                    <marker><token>den</token></marker>
+                    <token postag="SUB:.+:SIN:.+" postag_regexp="yes"><exception  postag="SUB:.+:PLU:.+|.+:INF" postag_regexp="yes"></exception></token>
+                </pattern>
+                <message>Meinten Sie <suggestion>dem</suggestion>? (Alternativ prüfen Sie, ob 'mit' durch 'mir' ersetzt werden muss.)</message>
+                <example correction="dem">Mit <marker>den</marker> Rad zur Arbeit.</example>
+                <example>Runter <marker>mit den</marker> Spendierhosen!</example>
+                <example>Ich werde mit den Malerarbeiten heute fertig.</example>
+                <example>Mit den Lahmen lernt man hinken, mit den Säufern trinken.</example>
             </rule>
         </rulegroup>
         <rule id="AN_HERR" name="Präposition/Kasus – 'an/für Herr (Herrn)' etc.">
