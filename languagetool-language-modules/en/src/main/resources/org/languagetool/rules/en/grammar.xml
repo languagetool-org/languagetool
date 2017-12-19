@@ -11500,6 +11500,41 @@ USA
             <example>I can give you <marker>a more detailed</marker> description of what's necessary.</example>
             <example>It is no more a component.</example>
         </rule>
+        <rule id="ORDER_OF_WORDS_WITH_NOT" name="wrong order of words">
+            <antipattern>
+                <token skip="-1">why</token>
+                <token regexp="yes" case_sensitive="yes">can|haven?|shouldn?|couldn?|will|won|may|might</token>
+                <token regexp="yes" min="0">['´]</token>
+                <token regexp="yes">not|t</token>
+            </antipattern>
+            <antipattern>
+                <token>not</token>
+                <token>only</token>
+                <token regexp="yes" case_sensitive="yes">can|haven?|shouldn?|couldn?|will|won|may|might</token>
+                <token regexp="yes" min="0">['´]</token>
+                <token regexp="yes">not|t</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes" case_sensitive="yes">can|haven?|shouldn?|couldn?|will|won|may|might</token>
+                <token regexp="yes" min="0">['´]</token>
+                <token regexp="yes">not|t</token>
+                <token postag="PRP" skip="-1"></token>
+                <token>?</token>
+            </antipattern>
+            <pattern>
+                <token><exception postag="SENT_START"/></token>
+                <marker>
+                    <token regexp="yes" case_sensitive="yes">can|haven?|shouldn?|couldn?|will|won|may|might</token>
+                    <token regexp="yes" min="0">['´]</token>
+                    <token regexp="yes">not|t</token>
+                    <token postag="PRP" skip="-1"></token>
+                </marker>
+            </pattern>
+            <message>Please check the order of words and the punctuation of this sentence!</message>
+            <example correction="">She knows that <marker>can not you</marker> do it.</example>
+            <example correction="">She knows that <marker>can't you</marker> do it.</example>
+            <example>"If you're tired, why don't you go to sleep?"</example>
+        </rule>
         <!-- this works now, and accounts for subjunctive
              i.e., she recommended that he use his money... -->
         <rulegroup id="NON3PRS_VERB" name="Agreement error: Third person verb with a non-third person pronoun">
