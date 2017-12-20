@@ -2148,7 +2148,7 @@ USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">along(side)?|amid(st)?|among(st)?</token>
+                    <token regexp="yes">along(side)?|amid(st)?|among(st)?|during|despite|is</token>
                     <marker>
                         <token>it</token>
                         <token spacebefore="no" regexp="yes">['’]</token>
@@ -2161,6 +2161,21 @@ USA
                 <short>Possible typo</short>
                 <example>Above all it's important to note they're disgusting.</example>
                 <example correction="its">Alongside <marker>it's</marker> coast, there were boats.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>due</token>
+                    <token>to</token>
+                    <marker>
+                        <token>it</token>
+                        <token spacebefore="no" regexp="yes">['’]</token>
+                        <token>s</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion>its</suggestion> (possessive pronoun)?</message>
+                <url>https://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_Misc</url>
+                <short>Possible typo</short>
+                <example correction="its">Due to <marker>it's</marker> nature, a cat cannot fly.</example>
             </rule>
             <rule>
                 <pattern>
@@ -2611,6 +2626,14 @@ USA
                 <message>Did you mean <suggestion><match no="1"/> <match no="2"/> its <match no="6"/></suggestion>?</message>
                 <example correction="to take its apple">I wanted so badly <marker>to take it's apple</marker> and throw it through the window.</example>
             </rule>
+            <rule id="DOE_SNOT" name="doe snot (does not)">
+                <pattern>
+                    <token>doe</token>
+                    <token>snot</token>
+                </pattern>
+                <message>Did you mean <suggestion>\1s <match no="2" regexp_match="[sS]" regexp_replace=""/></suggestion>?</message>
+                <example correction="does not">This <marker>doe snot</marker> mean that I like you.</example>
+            </rule>
             <!-- it's .*/JJ .*/NNS|NN::word=its \1 \2::pivots=it's,its -->
             <rule id="ITS_JJ_NNSNN" name="its JJ NN (possessive)">
                 <antipattern case_sensitive="yes">
@@ -2890,6 +2913,15 @@ USA
             <short>Possible typo</short>
             <example correction="project manager">He's our new <marker>project manger</marker>.</example>
             <example>Jesus lies in the manger.</example>
+        </rule>
+        <rule id="SQUARED_SQUARE" name="squared (square)">
+            <pattern>
+                <marker><token>squared</token></marker>
+                <token regexp="yes">feet|(kilo)?met(er|re)s?|miles?|inch(es)?</token>
+            </pattern>
+            <message>Did you mean <suggestion><match no="1" regexp_match="d" regexp_replace=""/></suggestion>?</message>
+            <short>Possible typo</short>
+            <example correction="square">What is the definition of a <marker>squared</marker> mile?</example>
         </rule>
         <rulegroup id="MODAL_OF" name="could of (could have)">
             <rule>
@@ -4614,6 +4646,17 @@ USA
                 <example>Whom did you meet?</example>
                 <example>The hall was filled with students, many of whom were girls.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">(up)?on</token>
+                    <marker>
+                        <token>who</token>
+                    </marker>
+                    <token postag="PRP" regexp="yes">I|you|he|she|it|we|they</token>
+                </pattern>
+                <message>Did you mean <suggestion>\2m</suggestion> instead of 'who'.</message>
+                <example correction="whom">Depending on <marker>who</marker> you like more... </example>
+            </rule>
         </rulegroup>
         <!-- .*/VBG you're::word=\0 your::pivots=you're,your::options=you're,your -->
         <rule id="VBG_YOURE" name="VBG you're (your)">
@@ -5771,9 +5814,9 @@ USA
                 <token regexp="yes">what|it|who|she|he|there|that</token>
                 <token spacebefore="no" regexp="yes">['’]</token>
                 <token>s</token>
-                <token>is</token>
+                <token regexp="yes">is|was</token>
             </pattern>
-            <message>Did you mean <suggestion><match no="1"/> is</suggestion>?</message>
+            <message>Did you mean <suggestion><match no="1"/> \4</suggestion>?</message>
             <example correction="She is"><marker>She's is</marker> the best dancer on the west coast.</example>
             <example>She's the best dancer on the west coast.</example>
         </rule>
@@ -17750,6 +17793,15 @@ USA
             <short>Possible typo</short>
             <example correction="en masse">HP Already Shipping Linux <marker>in Masse</marker></example>
             <example>HP Already Shipping Linux En Masse</example>
+        </rule>
+        <rule id="EN_MASS" name="en mass (en masse)">
+            <pattern>
+                <token>en</token>
+                <token>mass</token>
+            </pattern>
+            <message>Did you mean <suggestion>en masse</suggestion>?</message>
+            <short>Possible typo</short>
+            <example correction="en masse">HP Already Shipping Linux <marker>en mass</marker></example>
         </rule>
         <rule id="FOR_SELL" name="for sell (for sale)">
             <pattern>
