@@ -10757,6 +10757,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="AUTOMATIC_TRANSLATION" name="Z2) Errors de traductor automàtic">
+
         <rule id="FER_LES_VEGADES_DE" name="*fer les vegades de/fer de">
             <pattern>
                 <token inflected="yes">fer</token>
@@ -12893,23 +12894,34 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Veles e vents han mos desigs complir</example>
             </rule>
         </rulegroup>
-        <rule id="BEN_BE" name="ben/bé">
-            <pattern>
-                <marker>
-                    <token>ben<exception postag="_possible_nompropi"></exception></token>
-                </marker>
-                <token postag="NC.*" postag_regexp="yes"><exception postag="AQ.*|V.P.*|_possible_nompropi|RG|.*LOC_ADV.*|PX.*|V.N.*" postag_regexp="yes"/><exception regexp="yes">\p{Lu}.+|veritat|passat|nen|infant</exception></token>
-            </pattern>
-            <message>Possible confusió.</message>
-            <suggestion>bé</suggestion>
-            <example correction="bé">Medi rural o <marker>ben</marker> medi urbà.</example>
-            <example>Cridaven ben fort.</example>
-            <example>No era ben bé això.</example>
-            <example>Era ben seu.</example>
-            <example>Era ben veritat.</example>
-            <example>Altrament ben estesa i coneguda.</example>
-            <example>Pot ben ser.</example>
-        </rule>
+        <rulegroup id="BEN_BE" name="ben/bé">
+            <rule>
+                 <pattern>
+                   <marker>
+                     <token>ben<exception postag="_possible_nompropi"></exception></token>
+                   </marker>
+                    <token postag="NC.*" postag_regexp="yes"><exception postag="AQ.*|V.P.*|_possible_nompropi|RG|.*LOC_ADV.*|PX.*|V.N.*" postag_regexp="yes"/><exception regexp="yes">\p{Lu}.+|veritat|passat|nen|infant</exception></token>
+                 </pattern>
+                <message>¿Volíeu dir <suggestion>bé</suggestion>?</message>
+                 <example correction="bé">Medi rural o <marker>ben</marker> medi urbà.</example>
+                 <example>Cridaven ben fort.</example>
+                 <example>No era ben bé això.</example>
+                 <example>Era ben seu.</example>
+                 <example>Era ben veritat.</example>
+                 <example>Altrament ben estesa i coneguda.</example>
+                 <example>Pot ben ser.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>si</token>
+                    <marker>
+                        <token>ben</token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>bé</suggestion>?</message>
+                <example correction="bé">Si <marker>ben</marker> poden anar errats.</example>
+            </rule>
+        </rulegroup>
         <rule id="MANER" name="maner/manera">
             <pattern>
                 <token regexp="yes">maner|maners</token>
