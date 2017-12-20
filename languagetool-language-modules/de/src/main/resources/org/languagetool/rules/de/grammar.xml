@@ -5357,7 +5357,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern>
                     <token>,</token>
                     <token>das</token>
-                    <token regexp="yes">dort|da|hier|all(ein|es)|gestern|heute|letztens</token>
+                    <token regexp="yes">dort|da|hier|alle(in|s)|gestern|heute|letztens|zu</token>
                 </antipattern>
                 <antipattern>
                     <token>,</token>
@@ -5374,7 +5374,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern>
                     <token>,</token>
                     <token skip="-1">das</token>
-                    <token postag="VER:EIZ.*" postag_regexp="yes"/>
+                    <token postag="VER:EIZ:.+" postag_regexp="yes"/>
                 </antipattern>
                 <pattern>
                     <token postag="SENT_START|PKT" postag_regexp="yes" skip="-1">
@@ -5390,16 +5390,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Meinten Sie <suggestion>dass</suggestion> (Subjunktion)?</message>
                 <url>http://www.duden.de/rechtschreibung/dass#bi-artikel-div-block_1</url>
+                <example correction="dass">Ich weiß, <marker>das</marker> ich nichts weiß.</example>
                 <example correction="dass">Er sagt, <marker>das</marker> er sie liebt.</example>
                 <example correction="dass">Er hat geschrieben, <marker>das</marker> er sie liebt.</example>
                 <example>Er sagt, <marker>dass</marker> er sie liebt.</example>
                 <example>Er sagt, <marker>das</marker> ihm gehörende Haus sei schön.</example>
                 <example>Er meint, <marker>das</marker> heißt nichts.</example>
                 <example>Er hat kein Stück geschrieben, <marker>das</marker> nicht erfolgreich wurde.</example>
-                <example>Er sagt, <marker>das</marker> sei in Ordnung</example>
+                <example>Er sagt, <marker>das</marker> sei in Ordnung.</example>
                 <example>Ich glaube, das hier gehört mir.</example>
                 <example>Ich konnte dich sehen, das allein macht mich froh.</example>
-                <example>Ich glaube, das mit uns hat einfach keinen Zweck.</example>
+                <example>Ich glaube, das mit uns hat einfach keinen Sinn.</example>
                 <example>Ich weigere mich, das von Tom abgegebene Geschmiere, das er seine Bearbeitung nennt, anzunehmen.</example>
             </rule>
             <rule>
@@ -5419,7 +5420,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <antipattern>
                     <token case_sensitive="yes">Das</token>
-                    <token regexp="yes">dort|da|hier|all(ein|es)|gestern|heute|letztens</token>
+                    <token regexp="yes">dort|da|hier|alle(in|s)|gestern|heute|letztens</token>
                 </antipattern>
                 <antipattern>
                     <token case_sensitive="yes">Das</token>
@@ -5448,6 +5449,35 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <url>http://www.duden.de/rechtschreibung/dass#bi-artikel-div-block_1</url>
                 <example correction="Dass"><marker>Das</marker> er sie liebt, sagt er.</example>
                 <example correction="Dass"><marker>Das</marker> er sie liebt, hat er geschrieben.</example>
+            </rule>
+           <rule>
+                <antipattern>
+                    <token>,</token>
+                    <token skip="-1">das</token>
+                    <token postag="VER:EIZ:.+" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <token postag="PRO:PER:.+:SIN:NEU" postag_regexp="yes"/>
+                    <token postag="VER:3:SIN:.+" postag_regexp="yes"/>
+                    <token>,</token>
+                    <marker>
+                        <token skip="-1">das
+                           <exception scope="next" regexp="yes">,|\.|:|\?|!|;|-|–|\)|\(|„|“|»|«|"|und|oder</exception>
+                        </token>
+                    </marker>
+                    <token postag="VER:.+" postag_regexp="yes"><exception scope="previous">zu</exception></token>
+                    <token postag="VER:(MOD|AUX):.+" postag_regexp="yes" min="0"/>
+                    <token postag="SENT_END"/>
+                </pattern>
+                <message>Meinten Sie <suggestion>dass</suggestion> (Subjunktion)?</message>
+                <url>http://www.duden.de/rechtschreibung/dass#bi-artikel-div-block_1</url>
+                <example correction="dass">Das heißt, <marker>das</marker> er nicht kommt.</example>
+                <example correction="dass">Das heißt, <marker>das</marker> alle drei Bilder das gleiche Seitenverhältnis haben müssen.</example>
+                <example>Es heißt, <marker>das</marker> ihm gehörende Haus sei schön.</example>
+                <example>Es heißt, <marker>das</marker> sei in Ordnung.</example>
+                <example>Es heißt, das hier gehöre mir.</example>
+                <example>Wie kann Maria es wagen, das gleiche Kleid wie ich zu besitzen!</example>
+                <example>Können Sie es einrichten, das Manuskript bis Freitag fertigzustellen?</example>
             </rule>
         </rulegroup>
         <rulegroup id="DASS_STATT_DAS_RELATIVPRONOMEN" name="dass/das">

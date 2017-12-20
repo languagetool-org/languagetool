@@ -665,6 +665,16 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </pattern>
         <disambig action="remove" postag="VER.*"/>
     </rule>
+        <rule name="Ich am Satzanfang" id="ICH_SENT_START">
+        <pattern case_sensitive="yes">
+            <token postag="SENT_START"/>
+            <marker>
+                <token>Ich</token>
+            </marker>
+            <token postag="VER:1:.+" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="remove" postag="SUB:.*:NEU"/>
+    </rule>
 
     <!-- ============================================================================================================== -->
     <!-- IGNORE SPELLING -->
