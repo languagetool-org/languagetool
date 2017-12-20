@@ -135,6 +135,8 @@ public class HTTPServerConfig {
         case WORD2VEC_MODEL_OPTION:
           setWord2VecModelDirectory(args[++i]);
           break;
+        default:
+          System.out.println("WARNING: unknown option: " + args[i]);
       }
     }
   }
