@@ -4221,10 +4221,10 @@ USA
         <!-- spinal chord::word=spinal cord::pivots=chord,cord::options=chord,cord -->
         <rule id="SPINAL_CHORD" name="spinal chord (cord)">
             <pattern>
-                <token>spinal</token>
-                <token>chord</token>
+                <token regexp="yes">spinal|vocal</token>
+                <token inflected="yes">chord</token>
             </pattern>
-            <message>Did you mean <suggestion>spinal cord</suggestion>?</message>
+            <message>Did you mean <suggestion>\1 <match no="2" regexp_match="[hH]" regexp_replace=""/></suggestion>?</message>
             <example correction="spinal cord">There was permanent injury to the <marker>spinal chord</marker>.</example>
         </rule>
         <!-- full compliment of::word=full complement of::pivots=compliment,complement::options=compliment,complement -->
@@ -6095,6 +6095,20 @@ USA
             <message>Did you mean <suggestion>heart</suggestion> (=muscular organ)?</message>
             <example correction="heart">She had a <marker>hart</marker> attack.</example>
         </rule>
+        <rulegroup id="IN_TO_INTO" name="in to (into)">
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes">divide|split</token>
+                    <marker>
+                        <token>in</token>
+                        <token>to</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion>into</suggestion> (or 'in two')?</message>
+                <example correction="into">It is split <marker>in to</marker> two sections.</example>
+                <example>The board split <marker>in two</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="CONFUSION_OF_RIDE_RID" name="to get ride (rid) if (of)">
             <rule>
                 <pattern>
@@ -6105,7 +6119,7 @@ USA
                     <token>of</token>
                 </pattern>
                 <message>Did you mean <suggestion>rid</suggestion> ('get rid of' = 'discard' or 'get free of')?</message>
-                <example correction="rid"> Let's get <marker>ride</marker> of that broken chair.</example>
+                <example correction="rid">Let's get <marker>ride</marker> of that broken chair.</example>
             </rule>
             <rule>
                 <pattern>
@@ -6116,7 +6130,7 @@ USA
                     </marker>
                 </pattern>
                 <message>Did you mean <suggestion>of</suggestion> ('get rid of' = 'discard' or 'get free of')?</message>
-                <example correction="of"> Let's get rid <marker>if</marker> that broken chair.</example>
+                <example correction="of">Let's get rid <marker>if</marker> that broken chair.</example>
             </rule>
         </rulegroup>
         <rule id="FOR_TIME_TO_TIME" name="for time to time (from time to time)">
