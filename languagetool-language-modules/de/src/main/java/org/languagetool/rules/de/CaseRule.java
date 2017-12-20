@@ -293,6 +293,11 @@ public class CaseRule extends Rule {
     ),
     Arrays.asList(
       regex("Angehörige[nr]?")
+    ),
+    Arrays.asList( // aus Alt wird neu
+      csToken("Alt"),
+      regex("mach|w[iu]rde?"),
+      csToken("Neu")
     )
   );
 
