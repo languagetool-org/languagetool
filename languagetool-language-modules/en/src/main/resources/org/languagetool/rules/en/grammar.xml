@@ -6052,17 +6052,30 @@ USA
             <message>Did you mean <suggestion>heart</suggestion> (=muscular organ)?</message>
             <example correction="heart">She had a <marker>hart</marker> attack.</example>
         </rule>
-        <rule id="CONFUSION_OF_RIDE_RID" name="to get ride (rid) of">
-            <pattern>
-                <token inflected="yes">get</token>
-                <marker>
-                    <token>ride</token>
-                </marker>
-                <token>of</token>
-            </pattern>
-            <message>Did you mean <suggestion>rid</suggestion> ('get rid of' = 'discard' or 'get free of')?</message>
-            <example correction="rid"> Let's get <marker>ride</marker> of that broken chair.</example>
-        </rule>
+        <rulegroup id="CONFUSION_OF_RIDE_RID" name="to get ride (rid) if (of)">
+            <rule>
+                <pattern>
+                    <token inflected="yes">get</token>
+                    <marker>
+                        <token>ride</token>
+                    </marker>
+                    <token>of</token>
+                </pattern>
+                <message>Did you mean <suggestion>rid</suggestion> ('get rid of' = 'discard' or 'get free of')?</message>
+                <example correction="rid"> Let's get <marker>ride</marker> of that broken chair.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">get</token>
+                    <token>rid</token>
+                    <marker>
+                        <token>if</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion>of</suggestion> ('get rid of' = 'discard' or 'get free of')?</message>
+                <example correction="of"> Let's get rid <marker>if</marker> that broken chair.</example>
+            </rule>
+        </rulegroup>
         <rule id="FOR_TIME_TO_TIME" name="for time to time (from time to time)">
             <pattern>
                 <token regexp="yes">form?</token>
@@ -6077,11 +6090,14 @@ USA
         </rule>
         <rule id="CONFUSION_OF_SAVE_SAFE_TO_IGNORE" name="save (safe) to ignore">
             <pattern>
-                <token>save</token>
-                <token>to</token>
-                <token>ignore</token>
+                <token inflected="yes" skip="2">be</token>
+                <marker>
+                     <token>save</token>
+                     <token>to</token>
+                     <token regexp="yes">assume|be|conclude|do|drink|go|ignore|presume|say|use</token>
+                </marker>
             </pattern>
-            <message>Did you mean <suggestion>safe to ignore</suggestion>?</message>
+            <message>Did you mean <suggestion>safe to \4</suggestion>?</message>
             <example correction="safe to ignore">It is <marker>save to ignore</marker> trivial code when writing unit tests.</example>
         </rule>
         <rule id="SAVE_SAFE" name="save (safe)">
