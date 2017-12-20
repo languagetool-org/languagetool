@@ -6543,7 +6543,7 @@ USA
         <rulegroup id="SINGULAR_VERB_AFTER_THESE_OR_THOSE" name="Singular verb after 'these' or 'those'">
             <rule>
                 <pattern>
-                    <token regexp='yes'>th[eo]se<exception scope="previous">of</exception></token>
+                    <token regexp='yes'>th[eo]se<exception scope="previous" regexp="yes">of|like</exception></token>
                     <token postag='VBZ'/>
                 </pattern>
                 <message>The verb '\2' is singular. Did you mean: <suggestion>This <match no="2"/></suggestion> or <suggestion><match no="1"/> <match no="2" postag="VBP"/></suggestion>?</message>
