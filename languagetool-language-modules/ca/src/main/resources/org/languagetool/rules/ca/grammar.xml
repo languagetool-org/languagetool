@@ -10757,6 +10757,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="AUTOMATIC_TRANSLATION" name="Z2) Errors de traductor automàtic">
+        <rule id="FER_LES_VEGADES_DE" name="*fer les vegades de/fer de">
+            <pattern>
+                <token inflected="yes">fer</token>
+                <token>les</token>
+                <token>vegades</token>
+                <token inflected="yes">de</token>
+            </pattern>
+            <message>Possible error de traducció automàtica.</message>
+            <suggestion>\1 \4</suggestion>
+            <suggestion><match no="1" postag_regexp="yes" postag="(V.*)" postag_replace="$1">actuar</match> en lloc \4</suggestion>
+            <suggestion><match no="1" postag_regexp="yes" postag="(V.*)" postag_replace="$1">actuar</match> en nom \4</suggestion>
+            <example correction="Feia d'|Actuava en lloc d'|Actuava en nom d'"><marker>Feia les vegades d'</marker>operador.</example>
+        </rule>
         <rulegroup id="MARXAR" name="marxar-se">
             <rule>
                 <pattern>
