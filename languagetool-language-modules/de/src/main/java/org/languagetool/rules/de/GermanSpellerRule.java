@@ -135,7 +135,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("[iI]nordnung", "ordnung", " Ordnung");
     putRepl("[wW]ienerschnitzel[ns]?", "[wW]ieners", "Wiener S");
     putRepl("[kK]oxial(e[nmrs]?)?", "x", "ax");
-    putRepl("[dD]urchnitt?lich(e[nmrs]?)?", "nitt?", "schnitt");
+    putRepl("[dD]urs?chnitt?lich(e[nmrs]?)?", "s?chnitt?", "chschnitt");
     putRepl("[oO]rganisativ(e[nmrs]?)?", "tiv", "torisch");
     put("[oO]r?ganisazion", "Organisation");
     put("[oO]rganisative", "Organisation");
