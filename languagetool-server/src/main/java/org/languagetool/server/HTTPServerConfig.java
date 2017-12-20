@@ -120,9 +120,13 @@ public class HTTPServerConfig {
           publicAccess = true;
           break;
         case "--allow-origin":
-          allowOriginUrl = args[++i];
-          if (allowOriginUrl.startsWith("--")) {
-            throw new IllegalArgumentException("Missing argument for '--allow-origin'");
+          try {
+            allowOriginUrl = args[++i];
+            if (allowOriginUrl.startsWith("--")) {
+              throw new IllegalArgumentException("Missing argument for '--allow-origin' (e.g. an URL or '*')");
+            }
+          } catch (ArrayIndexOutOfBoundsException e) {
+            throw new IllegalArgumentException("Missing argument for '--allow-origin' (e.g. an URL or '*')");
           }
           break;
         case LANGUAGE_MODEL_OPTION:
