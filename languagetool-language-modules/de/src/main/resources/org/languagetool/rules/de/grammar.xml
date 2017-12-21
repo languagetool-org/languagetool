@@ -110,6 +110,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Tippfehler -->
     <!-- ====================================================================== -->
     <category id="TYPOS" name="Mögliche Tippfehler">
+        <rule id="SAGT_UND_BESCHEID" name="sagt und (uns) Bescheid">
+            <pattern>
+                <token regexp='yes'>sag|gib|sagt|gebt|sagen|geben</token>
+                <marker>
+                    <token>und</token>
+                </marker>
+                <token min="0">doch</token>
+                <token min="0">bitte</token>
+                <token>Bescheid</token>
+            </pattern>
+            <message>Meinten Sie <suggestion>uns</suggestion>?</message>
+            <example correction='uns'>Sagt <marker>und</marker> doch bitte Bescheid, wenn sich etwas ändert.</example>
+            <example correction='uns'>Sagt <marker>und</marker> bitte Bescheid, wenn sich etwas ändert.</example>
+            <example correction='uns'>Sagt <marker>und</marker> Bescheid, wenn sich etwas ändert.</example>
+        </rule>
         <rule id="DE_KOMMA" name="de, (dem)">
             <antipattern>
                 <token>.</token>
