@@ -8435,6 +8435,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rulegroup id="MOEGLICHER_WEISE_ETC" name="'möglicher Weise (möglicherweise)' etc.">
             <rule>
+                <antipattern>
+                    <token>in</token>
+                    <token skip="3">für</token>
+                    <token regexp="yes">(charakteristisch|erklärlich|typisch|zulässig)er</token>
+                    <token>Weise</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token regexp="yes">(absurd|auffällig|bedauerlich|bedauernswert|begreiflich|beklagenswert|bemerkenswert|berechtigt|betrüblich|bevorzugt|bezeichnend|billig|blöd|charakteristisch|dankenswert|drollig|ehrlich|eigenartig|eigenmächtig|eigentümlich|entgegenkommend|enttäuschend|erfreulich|erklärlich|erstaunlich|evident|fair|fälschlich|fatal|folgend|frech|freundlich|gebührend|gemein|gerecht|gewöhnlich|gleich|glied|glücklich|gnädig|günstig|heimlich|heimtückisch|herkömmlich|ideal|idiotisch|inkonsequent|inkorrekt|interessant|ironisch|irreführend|irrig|irritierend|irrtümlich|klar|klassisch|kleck|klug|komisch|konsequent|kontingent|korrekt|kurios|laienhaft|legitim|leichtsinnig|liebenswürdig|listig|lobenswert|löblich|logisch|lustig|merkwürdig|missverständlich|möglich|naheliegend|naiv|natürlich|nett|normal|notwendig|originell|paradox|passend|pikant|plausibl|praktisch|realistisch|richtig|riskant|schlau|seltsam|sinnig|sinnvoll|solch|sonderbar|traditionell|tragisch|traurig|trickreich|trivial|typisch|unachtsam|unerklärlich|unerlaubt|unerwartet|ungeschickt|unglücklich|unnötig|unstrittig|unverdient|unvermeidlich|unverständlich|unvorsichtig|verboten|verdient|vernünftig|verständlich|widersinnig|wunderbar|wunderlich|zufällig|zulässig|zweckmäßig)er
@@ -8451,6 +8457,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="möglicherweise">Doch <marker>möglicher Weise</marker> ist die Gelbphase zu kurz eingestellt.</example>
                 <example correction="Möglicherweise"><marker>Möglicher Weise</marker> ist die Gelbphase zu kurz eingestellt.</example>
                 <example>Er hat sich in <marker>lustiger Weise</marker> vorgestellt.</example>
+                <example>Es kann in für jedes Element absolut typischer Weise nachgewiesen werden.</example>
             </rule>
         </rulegroup>
         <rule id="ZU_TEIL" name="'zu Teil (zuteil/zum Teil)'">
