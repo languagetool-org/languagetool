@@ -6115,6 +6115,16 @@ USA
             <short>Possible typo</short>
             <example correction="most of the time">It's true <marker>must of the time</marker>.</example>
         </rule>
+        <rule id="COMPLEMENT_COMPLIMENT" name="complement / compliment">
+            <pattern>
+                <marker><token inflected="yes">complement</token></marker>
+                <token>on</token>
+                <token postag="PRP$"/>
+            </pattern>
+            <message>Did you mean the verb 'compliment' (=say something nice)?</message>
+            <suggestion><match no="1" regexp_match="plem" regexp_replace="plim"/></suggestion>
+            <example correction="complimented">She was <marker>complemented</marker> on her beautiful eyes.</example>
+        </rule>
         <rule id="HART_HEART" name="confusion of hart/heart">
             <pattern>
                 <marker><token regexp="yes">hart|heard?</token></marker>
