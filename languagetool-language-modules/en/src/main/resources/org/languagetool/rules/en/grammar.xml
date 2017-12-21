@@ -1388,14 +1388,15 @@ USA
         <rulegroup id="NO_NOT" name="no (not)">
             <rule>
                 <pattern>
-                    <token regexp="yes">could|did|does|should</token>
+                    <token regexp="yes">could|did|does|should|would</token>
                     <marker><token>no</token></marker>
-                    <token postag="VB"></token>
+                    <token postag="VB"><exception postag="NN.*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Did you mean <suggestion>not</suggestion>?</message>
                 <short>Possible typo</short>
                 <example correction="not">She could <marker>no</marker> hear you.</example>
                 <example correction="not">She does <marker>no</marker> understand.</example>
+                <example correction="not">I would <marker>no</marker> do this.</example>
             </rule>
         </rulegroup>
         <rule id="ALLOT_OF" name="allot of (a lot of)">
@@ -11573,8 +11574,14 @@ USA
                 <example correction="than">The tagger will return more <marker>then</marker> one tag.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>more</token>
+                    <token>or</token>
+                    <token>less</token>
+                    <token regexp="yes">as</token>
+                </antipattern>
                 <pattern>
-                    <token postag="JJR"><exception postag="IN"/></token>
+                    <token postag="JJR"><exception postag="IN|NN" postag_regexp="yes"/></token>
                     <marker>
                         <token regexp="yes">(then|as)</token>
                     </marker>
@@ -11588,6 +11595,8 @@ USA
                 <example correction="than">This house is bigger <marker>then</marker> mine.</example>
                 <example>This house is bigger <marker>than</marker> mine.</example>
                 <example>This palace was used later as a prison.</example>
+                <example>The ozone layer then blocks most UVB.</example>
+                <example>It acts more or less as a replacement.</example>
             </rule>
         </rulegroup>
         <rule id="USE_TO_VERB" name="Missing past tense for 'used to...'">
