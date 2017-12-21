@@ -30,7 +30,6 @@ import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.languagemodel.LuceneLanguageModel;
 import org.languagetool.rules.*;
 import org.languagetool.rules.fr.*;
-import org.languagetool.rules.spelling.hunspell.HunspellNoSuggestionRule;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.FrenchSynthesizer;
 import org.languagetool.tagging.Tagger;
@@ -113,7 +112,10 @@ public class French extends Language implements AutoCloseable {
                     Arrays.asList("]", ")", "}"
                          /*"»", French dialog can contain multiple sentences. */
                          /*"’" used in "d’arm" and many other words */)),
-            new HunspellNoSuggestionRule(messages, this, Example.wrong("Le <marker>chein</marker> noir"), Example.fixed("Le <marker>chien</marker> noir")),
+            // very fast, but no suggestions:
+            //new HunspellNoSuggestionRule(messages, this, Example.wrong("Le <marker>chein</marker> noir"), Example.fixed("Le <marker>chien</marker> noir")),
+            // slower than HunspellNoSuggestionRule but with suggestions:
+            new FrenchCompoundAwareHunspellRule(messages, this),
             new UppercaseSentenceStartRule(messages, this),
             new MultipleWhitespaceRule(messages, this),
             new SentenceWhitespaceRule(messages),

@@ -17,6 +17,9 @@
   * updated en_US spellchecker dictionary
   * updated en_CA spellchecker dictionary
 
+#### French
+  * we now offer suggestions for spelling errors
+
 #### Galician
   * added and improved rules, including:
     - grammar: agreement rules added (only number and gender agreement)
