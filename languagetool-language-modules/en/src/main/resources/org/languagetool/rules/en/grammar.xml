@@ -2676,6 +2676,20 @@ USA
                 <message>Did you mean <suggestion>\2s</suggestion>?</message>
                 <example correction="Its"><marker>It's</marker> door is too small.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token postag="IN"/>
+                    <marker>
+                        <token>it</token>
+                        <token spacebefore="no" regexp="yes">['’]</token>
+                        <token>s</token>
+                    </marker>
+                    <token regexp="yes">\d+th</token>
+                </pattern>
+                <message>Did you mean <suggestion>its</suggestion> (possessive pronoun) instead of 'it's' (=it is)?</message>
+                <short>Possible typo</short>
+                <example correction="its">Kentucky State University formally installs Brown as <marker>it's</marker> 18th president</example>
+            </rule>
         </rulegroup>
         <rulegroup id="WED_WE_D" name="wed (we'd)">
             <rule>
