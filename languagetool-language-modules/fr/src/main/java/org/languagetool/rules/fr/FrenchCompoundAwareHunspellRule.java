@@ -21,6 +21,7 @@ package org.languagetool.rules.fr;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
+import org.languagetool.rules.Example;
 import org.languagetool.rules.spelling.hunspell.CompoundAwareHunspellRule;
 import org.languagetool.rules.spelling.morfologik.MorfologikMultiSpeller;
 import org.languagetool.tokenizers.CompoundWordTokenizer;
@@ -36,6 +37,8 @@ public class FrenchCompoundAwareHunspellRule extends CompoundAwareHunspellRule {
   
   public FrenchCompoundAwareHunspellRule(ResourceBundle messages, Language language) {
     super(messages, language, new NonSplittingTokenizer(), getSpeller(language));
+    addExamplePair(Example.wrong("Le <marker>chein</marker> noir"),
+                   Example.fixed("Le <marker>chien</marker> noir"));
   }
 
   @Override
