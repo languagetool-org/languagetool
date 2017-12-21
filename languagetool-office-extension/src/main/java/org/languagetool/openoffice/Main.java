@@ -25,7 +25,7 @@ package org.languagetool.openoffice;
  */
 import java.io.File;
 import java.io.FileWriter;
-import java.io.Writer;
+import java.io.BufferedWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -89,7 +89,7 @@ public class Main extends WeakBase implements XJobExecutor,
   private static final String CONFIG_FILE = ".languagetool-ooo.cfg";
 
   // use a log-file for output of messages and debug information:
-  private static final String LOG_FILE = ".languagetool-ooo.log";
+  private static final String LOG_FILE = "LanguageTool.log";
 
   private static final ResourceBundle MESSAGES = JLanguageTool.getMessageBundle();
 
@@ -116,23 +116,16 @@ public class Main extends WeakBase implements XJobExecutor,
   // Make another instance of JLanguageTool and assign it to langTool if true.
   private boolean recheck;
 
-  /**
-   * Sentence tokenization-related members.
-   */
-//  private String currentPara;
-//  private List<String> tokenizedSentences;
-//  private int position;
   private XComponentContext xContext;
   
   /**
    * Full text Check
+   * 
+   * numParasToCheck: Paragraphs to be checked for full text rules
+   * < 0 check full text (time intensive)
+   * == 0 check only one paragraph (works like LT Version <= 3.9)
+   * > 0 checks numParasToCheck before and after the processed paragraph
    */
-  
-  //  numParasToCheck: Paragraphs to be checked for full text rules
-  //  < 0 check full text (time intensive)
-  //  == 0 check only one paragraph (works like LT Version <= 3.9)
-  //   > 0 checks numParasToCheck before and after the processed paragraph
-  
   private static final String END_OF_PARAGRAPH = "\n";  //  Paragraph Separator from gciterator.cxx: 0x2029
   private static final boolean debugMode = false;   //  should be false except for testing
   private static String logLineBreak;  //  LineBreak in Log-File (MS-Windows compatible)
@@ -1181,7 +1174,8 @@ public class Main extends WeakBase implements XJobExecutor,
         } else {
           if(debugMode) {
             printToLogFile("allParas set: NParas: " + nParas + "; divNum: " + divNum + logLineBreak
-                        + "old: " + allParas.get(nParas) + logLineBreak + "new: " + chPara);    
+                        + "old: " + allParas.get(nParas) + logLineBreak + "new: " + chPara + logLineBreak 
+                        + "this.docID: " + this.docID);    
           }
           allParas.set(nParas, chPara);
           return returnNParaCheck(nParas, numThread);
@@ -1198,29 +1192,26 @@ public class Main extends WeakBase implements XJobExecutor,
   }
 
   /**
-   * Initialize Logfile
+   * Initialize log-file
    */
   private void initLogFile() {
-    try {
-      String path = getHomeDir()+ "/" + LOG_FILE;
-      Writer writer = new FileWriter(path);
+    String path = getHomeDir()+ "/" + LOG_FILE;
+    try (BufferedWriter bw = new BufferedWriter(new FileWriter(path))) {
       logLineBreak = System.getProperty("line.separator");
       Date date = new Date();
-      writer.write("LT Log from " + date.toString() + logLineBreak);
-      writer.close();
+      bw.write("LT Log from " + date.toString() + logLineBreak);
     } catch (Throwable t) {
       showError(t);
     }
   }
 
   /**
-   * Initialize Logfile
+   * write to log-file
    */
   static void printToLogFile(String str) {
-    try {
-      Writer writer = new FileWriter(getHomeDir()+ "/" + LOG_FILE, true);
-      writer.write(str + logLineBreak);
-      writer.close();
+    String path = getHomeDir()+ "/" + LOG_FILE;
+    try (BufferedWriter bw = new BufferedWriter(new FileWriter(path, true))) {
+      bw.write(str + logLineBreak);
     } catch (Throwable t) {
       showError(t);
     }
