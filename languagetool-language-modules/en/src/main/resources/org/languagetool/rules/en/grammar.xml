@@ -6286,20 +6286,43 @@ USA
             <example type="correct">... but thorium (<marker>Th</marker>) and the related ...</example>
             <example type="correct"><marker>Th</marker> is the chemical symbol for thorium.</example>
             <example type="correct">The chemical symbol for Thorium is <marker>Th</marker>.</example>
-<!-- False negative --><example type="correct"><marker>Th</marker> contaminated thorium caused a problem.</example>
+            <!-- False negative --><example type="correct"><marker>Th</marker> contaminated thorium caused a problem.</example>
             <example type="triggers_error">These elements (Al, Cd, <marker>Th</marker>) are ...</example>
             <example type="triggers_error"><marker>Th</marker> was found in the sample.</example>
             <example type="triggers_error"><marker>Th</marker> must not...</example>
             <example type="triggers_error"><marker>Th</marker> usually produces 220Ra and actinium as the principal decay products.</example>
-    </rule>
-
-
+        </rule>
+        <rule id="HAIRS" name="'hair' + singular verb">
+            <pattern case_sensitive="yes">
+                <token inflected="yes" regexp="yes">brush|comb|cut|dye|wash</token>
+                <token postag="PRP$"/>
+                <marker><token>hairs</token></marker>
+            </pattern>
+            <message>'Hair' is a mass noun: Use the singular, when you refer to someone's <suggestion><match no="3" regexp_match="s" regexp_replace=""/></suggestion> as an entity.</message>
+            <url>https://jakubmarian.com/hair-is-vs-hair-are-vs-hairs-are-in-english/</url>
+            <short>Possible typo</short>
+            <example correction="hair">She cut her <marker>hairs</marker> yesterday.</example>
+        </rule>
     </category>
 
     <!-- ====================================================================== -->
     <!-- Grammar -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammar" type="grammar">
+        <rule id="ASK_NO_PREPOSITION" name="ask + object (no preposition)">
+            <pattern case_sensitive="yes">
+                <token inflected="yes">ask</token>
+                <marker>
+                    <token>to</token>
+                    <token postag="PRP"/>
+                </marker>
+            </pattern>
+            <message>The verb 'to ask someone' does not require a preposition.</message>
+            <suggestion><match no="3"/></suggestion>
+            <url>https://en.oxforddictionaries.com/definition/ask</url>
+            <example correction="me">She asked <marker>to me</marker> whether I like cats.</example>
+            <example>She was asked <marker>to the</marker> party.</example>
+        </rule>
         <rule id="PLEASE_VBZ" name="please + 3rd person verb">
             <pattern>
                 <token>please</token>
@@ -6348,14 +6371,20 @@ USA
             <example correction="rely on">I <marker>rely</marker> my family to help me out.</example>
         </rule>
         <rule id="EXPLAIN_TO" name="Missing preposition: explain (to)">
-            <pattern>
+            <pattern case_sensitive="yes">
                 <token inflected="yes">explain</token>
-                <token regexp="yes">you|him|me|us</token>
+                <marker>
+                    <token postag="PRP"/>
+                </marker>
+                <token regexp="yes">how|th(e|at)|wh(at|ere|ich|y)</token>
             </pattern>
-            <message>Did you mean <suggestion>\1 to \2</suggestion>? (You explain something to somebody.)</message>
-            <url>http://dictionary.cambridge.org/grammar/british-grammar/common-verbs/explain</url>
-            <example correction="explained to him">I <marker>explained him</marker> the difference between right and wrong.</example>
-            <example correction="explain to you">I’ll <marker>explain you</marker> why I like it.</example>
+            <message>The verb 'to explain something to someone' requires a preposition.</message>
+            <suggestion>to <match no="2"/></suggestion>
+            <url>https://en.oxforddictionaries.com/definition/ask</url>
+            <short>Missing preposition</short>
+            <example correction="to me">She explained <marker>me</marker> the results in detail.</example>
+            <example correction="to you">Let me explain <marker>you</marker> why I like him.</example>
+            <example correction="to her">I explained <marker>her</marker> the difference between right and wrong.</example>
         </rule>
         <rule id="DEPEND_ON" name="depend on">
             <antipattern>
