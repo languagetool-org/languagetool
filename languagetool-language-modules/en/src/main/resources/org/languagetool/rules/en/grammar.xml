@@ -1385,6 +1385,19 @@ USA
                 <example>If you count to three, you'll see it's no emergency, you'll see I'm not the enemy.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="NO_NOT" name="no (not)">
+            <rule>
+                <pattern>
+                    <token regexp="yes">could|did|does|should</token>
+                    <marker><token>no</token></marker>
+                    <token postag="VB"></token>
+                </pattern>
+                <message>Did you mean <suggestion>not</suggestion>?</message>
+                <short>Possible typo</short>
+                <example correction="not">She could <marker>no</marker> hear you.</example>
+                <example correction="not">She does <marker>no</marker> understand.</example>
+            </rule>
+        </rulegroup>
         <rule id="ALLOT_OF" name="allot of (a lot of)">
             <pattern>
                 <token>allot</token>
@@ -6311,17 +6324,18 @@ USA
     <category id="GRAMMAR" name="Grammar" type="grammar">
         <rule id="ASK_NO_PREPOSITION" name="ask + object (no preposition)">
             <pattern case_sensitive="yes">
-                <token inflected="yes">ask</token>
+                <token inflected="yes" regexp="yes">ask|tell</token>
                 <marker>
                     <token>to</token>
                     <token postag="PRP"/>
                 </marker>
             </pattern>
-            <message>The verb 'to ask someone' does not require a preposition.</message>
+            <message>The verb 'to <match no="1" postag="VB"/> someone' does not require a preposition.</message>
             <suggestion><match no="3"/></suggestion>
             <url>https://en.oxforddictionaries.com/definition/ask</url>
             <example correction="me">She asked <marker>to me</marker> whether I like cats.</example>
             <example>She was asked <marker>to the</marker> party.</example>
+            <example correction="them">I have to tell <marker>to them</marker> the truth.</example>
         </rule>
         <rule id="PLEASE_VBZ" name="please + 3rd person verb">
             <pattern>
