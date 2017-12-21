@@ -11578,7 +11578,7 @@ USA
                     <token>more</token>
                     <token>or</token>
                     <token>less</token>
-                    <token regexp="yes">as</token>
+                    <token>as</token>
                 </antipattern>
                 <pattern>
                     <token postag="JJR"><exception postag="IN|NN" postag_regexp="yes"/></token>
@@ -16332,6 +16332,19 @@ USA
 <!-- False negative, but other rules find the capitalization problem. --><example>We're lost again! Aren't they <marker>english speaking</marker> people from our hotel? Ask them for directions.</example>
             </rule>
         </rulegroup>
+        <rule id="FACE_FIRST" name="Missing hyphen: face first (face-first)">
+            <pattern case_sensitive="yes">
+                <marker>
+                    <token>face</token>
+                    <token>first</token>
+                </marker>
+                <token>into</token>
+            </pattern>
+            <message>Did you mean the adverb <suggestion>\1-\2</suggestion>?</message>
+            <url>https://www.merriam-webster.com/dictionary/face-first</url>
+            <short>Missing hyphen</short>
+            <example correction="face-first">I crashed <marker>face first</marker> into the snow.</example>
+        </rule>
         <rulegroup id="DASH_RULE" name='Hyphen, n-dash and m-dash'>
             <!-- Created by Tiago F. Santos, 2017-01-23 -->
             <!-- Localised to English by Marco A.G.Pinto, 2017-04-02 -->
