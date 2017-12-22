@@ -110,6 +110,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Tippfehler -->
     <!-- ====================================================================== -->
     <category id="TYPOS" name="Mögliche Tippfehler">
+        <rule id="ZU_SCHRIEBEN_ETC" name="zu schrieben (schreiben) etc.">
+            <pattern>
+                <token>zu</token>
+                <marker>
+                    <token regexp='yes'>schrien|anstiegen|aufwiesen|beliehen|beschienen|beschrieen|beschrieben|bestiegen|betrieben|bewiesen|blieben|durchschienen|durchstiegen|entliehen|entschieden|entstiegen|erschienen|erwiesen|gediehen|liehen|mieden|priesen|rieben|schieden|schienen|schrieben|schrieen|schwiegen|spieen|stiegen|trieben|wiesen|hießen|sien|überschrieben|überstiegen|übertrieben|überwiesen|umschrieben|unterblieben|unterschieden|unterschrieben|untertrieben|unterwiesen|verblieben|verhießen|verliehen|vermieden|verrieben|verschrieen|verschrieben|verschwiegen|vertrieben|verwiesen|verziehen|zerrieben</token>
+                </marker>
+            </pattern>
+            <message>Meinten Sie <suggestion><match no="2" regexp_match="ie" regexp_replace="ei"/></suggestion>?</message>
+            <example correction='schreiben'>Versuch mal, zu <marker>schrieben</marker>.</example>
+            <example correction='beschreiben'>Versuch mal, das zu <marker>beschrieben</marker>.</example>
+        </rule>
         <rule id="SAGT_UND_BESCHEID" name="sagt und (uns) Bescheid">
             <pattern>
                 <token regexp='yes'>sag|g[ai]b|sagte?|gebt|sagt?en|g[ae]ben</token>
