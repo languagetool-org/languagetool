@@ -6119,7 +6119,6 @@ USA
             <pattern>
                 <marker><token inflected="yes">complement</token></marker>
                 <token>on</token>
-                <token postag="PRP$"/>
             </pattern>
             <message>Did you mean the verb 'compliment' (=say something nice)?</message>
             <suggestion><match no="1" regexp_match="plem" regexp_replace="plim"/></suggestion>
@@ -17004,10 +17003,21 @@ USA
                 </marker>
                 <token><exception>course</exception><exception>necessity</exception></token>
             </pattern>
-            <message>Did you mean <suggestion>most of</suggestion>?</message>
-            <example correction="most of">I do this <marker>must of</marker> the time.</example>
+            <message>Did you mean <suggestion>most of</suggestion> or <suggestion>must have</suggestion>?</message>
+            <short>Confused word</short>
+            <example correction="most of|must have">I do this <marker>must of</marker> the time.</example>
             <example>There must of course be a relationship between translating and making poems of your own.</example>
             <example>Policy on Zimbabwe must of necessity be subservient to this greater goal.</example>
+        </rule>
+        <rule id="COULD_OF" name="could of (have)">
+            <pattern>
+                <token regexp="yes">could|should|would</token>
+                <marker><token>of</token></marker>
+                <token><exception>course</exception></token>
+            </pattern>
+            <message>Did you mean <suggestion>have</suggestion>? ('\1 \2' is probably an incorrect use of the verb phrase '\1 have'; as contraction "\1've" sounds like "could of")</message>
+            <short>Confused word</short>
+            <example correction="have">I should <marker>of</marker> finished it by now.</example>
         </rule>
         <rulegroup id="PEACE_PIECE" name="peace (piece)">
             <rule>
@@ -18354,6 +18364,26 @@ USA
             <message>Did you mean <suggestion>coral</suggestion>?</message>
             <example correction="Coral"><marker>Corral</marker> reefs are diverse underwater ecosystems.</example>
             <example correction="coral">She likes <marker>corral</marker> lipsticks.</example>
+        </rule>
+        <rule id="CONFUSION_OF_ADDICTING_ADDICITVE" name="addicting (addictive)">
+            <pattern>
+                <marker>
+                    <token>addicting</token>
+                </marker>
+                <token regexp='yes'>behaviou?rs?|drugs?|games?|opiods?|painkillers?|substances?</token>
+            </pattern>
+            <message>Did you mean the adjective <suggestion>addictive</suggestion> instead of the verb form 'addiciting'?</message>
+            <example correction="addictive">Nicotine is the <marker>addicting</marker> drug in tobacco.</example>
+        </rule>
+        <rule id="DEEP_SEEDED" name="deep-seeded (deep-seated)">
+            <pattern>
+                <marker>
+                    <token>deep-seeded</token>
+                </marker>
+            </pattern>
+            <message>Did you mean <suggestion>deep-seated</suggestion>?</message>
+            <url>https://writingexplained.org/deep-seated-or-deep-seeded-difference</url>
+            <example correction="deep-seated">He has a <marker>deep-seeded</marker> infection.</example>
         </rule>
         <rule id="CALENDER" name="calender (calendar)">
             <pattern>
