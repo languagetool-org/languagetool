@@ -4970,6 +4970,14 @@ USA
             <message>Did you mean the American actor and film producer <suggestion>Harrison Ford</suggestion>?</message>
             <example correction="Harrison Ford"><marker>Harison Ford</marker> is famous for playing Indiana Jones.</example>
         </rule>
+        <rule id="SCHROEDINGER" name="Erwin Schroedinger (Schrödinger)">
+            <pattern case_sensitive="yes">
+                <token regexp="yes">Schroe?dinger</token>
+            </pattern>
+            <message>Did you refer to the Austrian physicist Erwin <suggestion>Schrödinger</suggestion> (1887–1961)?</message>
+            <url>https://en.wikipedia.org/wiki/Erwin_Schr%C3%B6dinger</url>
+            <example correction="Schrödinger">The <marker>Schrodinger</marker> equation is a mathematical formulation for studying quantum mechanics.</example>
+        </rule>
         <!-- Jimmy Hendrix::word=Jimi Hendrix::pivots=Jimmy,Jimi -->
         <rule id="JIMMY_HENDRIX" name="Jimmy (Jimi) Hendrix">
             <pattern case_sensitive="yes">
@@ -19672,8 +19680,8 @@ USA
                     <marker>
                     <token postag='VBP?' postag_regexp="yes">whore</token> 
                     </marker>
-                    <token postag='DT'></token> 
-                    <token min="0" postag='JJ'></token> 
+                    <token postag='DT'></token>
+                    <token min="0" postag='JJ'></token>
                     <token postag='NN(:UN|S)?' postag_regexp="yes"></token> 
                 </pattern>
                 <message>Did you mean <suggestion>wore</suggestion> (simple past of "to wear")?</message>
@@ -19717,6 +19725,48 @@ USA
             <example>Cover and refrigerate <marker>overnight</marker>.</example>
             <example>I prefer day over night.</example>
         </rule>
+        <rulegroup id="OVER_TIME" name="over time (overtime)">
+            <rule>
+                <pattern>
+                    <token regexp="yes">in(to)?|less|more|of|working</token>
+                    <marker>
+                        <token>over</token>
+                        <token>time</token> 
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion>overtime</suggestion> (=time someone works beyond normal working hours)?</message>
+                <example correction='overtime'>I worked two hours of <marker>over time</marker> last weel.</example>
+                <example>The gears had worn down over time.</example>
+                <example> Energy is the capacity to do work over time</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>to</token>
+                    <token>work</token>
+                    <marker>
+                        <token>over</token>
+                        <token>time</token> 
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion>overtime</suggestion> (=time someone works beyond normal working hours)?</message>
+                <example correction='overtime'>No child shall be permitted or required to work <marker>over time</marker>.</example>
+                <example> Energy is the capacity to do work over time</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">work</token>
+                    <marker>
+                        <token>over</token>
+                        <token>time</token> 
+                    </marker>
+                    <token>to</token>
+                </pattern>
+                <message>Did you mean <suggestion>overtime</suggestion> (=time someone works beyond normal working hours)?</message>
+                <example correction='overtime'>They worked <marker>over time</marker> to come up with a great idea.</example>
+                <example> Energy is the capacity to do work over time</example>
+                <example>Faulty meters stop working over time.</example>
+            </rule>
+        </rulegroup>
     </category>
 
     <!-- ====================================================================== -->
