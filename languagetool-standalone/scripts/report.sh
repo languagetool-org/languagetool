@@ -23,6 +23,8 @@ head -n 1 $TMPFILE >>$OUTFILE
 echo "To" >>$OUTFILE
 tail -n 1 $TMPFILE >>$OUTFILE
 echo "" >>$OUTFILE
+grep "Cache stats:" $TMPFILE | tail -n 1 >>$OUTFILE
+echo "" >>$OUTFILE
 
 TOTAL=`grep -c "Check done:" $TMPFILE`
 printf "Total text checks : %'d\n" $TOTAL >>$OUTFILE
