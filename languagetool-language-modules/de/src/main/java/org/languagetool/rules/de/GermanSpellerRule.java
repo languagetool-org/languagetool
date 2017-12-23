@@ -730,7 +730,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       }
       String ignoredWord = word.substring(0, end);
       String partialWord = word.substring(end);
-      boolean isCandidateForNonHyphenatedCompound = !StringUtils.isAllUpperCase(ignoredWord) && StringUtils.isAllLowerCase(partialWord);
+      boolean isCandidateForNonHyphenatedCompound = !StringUtils.isAllUpperCase(ignoredWord) && (StringUtils.isAllLowerCase(partialWord) || ignoredWord.endsWith("-"));
       boolean needFugenS = ENDINGS_NEEDING_FUGENS.matcher(ignoredWord).matches();
       if (isCandidateForNonHyphenatedCompound && !needFugenS && partialWord.length() > 1) {
         return !hunspellDict.misspelled(partialWord) || !hunspellDict.misspelled(StringUtils.capitalize(partialWord));
