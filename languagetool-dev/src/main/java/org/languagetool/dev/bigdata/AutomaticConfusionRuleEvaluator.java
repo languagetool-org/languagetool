@@ -47,7 +47,7 @@ class AutomaticConfusionRuleEvaluator {
   private static final int MAX_EXAMPLES = 1000;
   private static final int MIN_EXAMPLES = 50;
   private static final List<Long> EVAL_FACTORS = Arrays.asList(10L, 100L, 1_000L, 10_000L, 100_000L, 1_000_000L, 10_000_000L);
-  private static final float MIN_PRECISION = 0.99f;
+  private static final float MIN_PRECISION = 0.95f;
   private static final float MIN_RECALL = 0.1f;
   private static final String LUCENE_CONTENT_FIELD = "field";
 
@@ -68,7 +68,9 @@ class AutomaticConfusionRuleEvaluator {
     Language language = Languages.getLanguageForShortCode(LANGUAGE);
     LanguageModel lm = new LuceneLanguageModel(indexDir);
     ConfusionRuleEvaluator evaluator = new ConfusionRuleEvaluator(language, lm, CASE_SENSITIVE);
+    int lineCount = 0;
     for (String line : lines) {
+      lineCount++;
       if (line.contains("#")) {
         System.out.println("Ignoring: " + line);
         continue;
@@ -82,7 +84,7 @@ class AutomaticConfusionRuleEvaluator {
         for (String part : parts) {
           // compare pair-wise - maybe we should compare every item with every other item?
           if (i < parts.length) {
-            runOnPair(evaluator, line, removeComment(part), removeComment(parts[i]));
+            runOnPair(evaluator, line, lineCount, lines.size(), removeComment(part), removeComment(parts[i]));
           }
           i++;
         }
@@ -97,7 +99,7 @@ class AutomaticConfusionRuleEvaluator {
     return str.replaceFirst("\\|.*", "");
   }
 
-  private void runOnPair(ConfusionRuleEvaluator evaluator, String line, String part1, String part2) throws IOException {
+  private void runOnPair(ConfusionRuleEvaluator evaluator, String line, int lineCount, int totalLines, String part1, String part2) throws IOException {
     if (finishedPairs.contains(part1 + "/" + part2) || finishedPairs.contains(part2 + "/" + part1)) {
       System.out.println("Ignoring: " + part1 + "/" + part2 + ", finished before");
       return;
@@ -115,7 +117,7 @@ class AutomaticConfusionRuleEvaluator {
         }
       }
     }
-    System.out.println("Working on: " + line);
+    System.out.println("Working on: " + line + " (" + lineCount + " of " + totalLines + ")");
     try {
       File sentencesFile = writeExampleSentencesToTempFile(new String[]{part1, part2});
       List<String> input = Arrays.asList(sentencesFile.getAbsolutePath());
