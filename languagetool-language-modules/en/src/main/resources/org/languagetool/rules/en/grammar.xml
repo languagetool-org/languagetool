@@ -9628,7 +9628,7 @@ USA
                 </antipattern>
                 <pattern>
                     <token postag="SENT_START"/>
-                    <token postag="DT"><exception regexp="yes">th[eo]se</exception></token>
+                    <token postag="DT|PRP\$" postag_regexp="yes"><exception regexp="yes">th[eo]se</exception></token>
                     <token postag="NN|NN:.*" postag_regexp="yes"><exception postag="JJ|MD|NNS" postag_regexp="yes"/><exception regexp="yes">rest|latter|jury|committee|government|might|can</exception></token>
                     <marker>
                         <token postag="VBP?" postag_regexp="yes"><exception postag="VB[ZNDG]|JJ|MD" postag_regexp="yes"/></token>
@@ -9638,6 +9638,7 @@ USA
                 <message>Possible agreement error - use third-person verb forms for singular and mass nouns: <suggestion><match no="4" postag="VBZ"/></suggestion>.</message>
                 <short>Possible agreement error</short>
                 <example correction="is">The marketing <marker>are</marker> bad for you.</example>
+                <example correction="is">My mother <marker>are</marker> a doctor.</example>
                 <example>The city is an international transport hub and a popular tourist destination.</example>
                 <example>Those wanting are the Canines.</example>
                 <example>The rest are arriving later.</example>
@@ -9657,7 +9658,7 @@ USA
                 </antipattern>
                 <pattern>
                     <token postag="SENT_START"/>
-                    <token postag="DT"><exception regexp="yes">th[eo]se</exception></token>
+                    <token postag="DT|PRP\$" postag_regexp="yes"><exception regexp="yes">th[eo]se</exception></token>
                     <token postag="NN|NN:.*" postag_regexp="yes"><exception postag="JJ|MD|NNS" postag_regexp="yes"/><exception regexp="yes">rest|latter|jury|committee|government|might</exception></token>
                     <token skip="-1">,</token>
                     <token>,</token>
@@ -9669,13 +9670,14 @@ USA
                 <message>Possible agreement error - use third-person verb forms for singular and mass nouns: <suggestion><match no="6" postag="VBZ"/></suggestion>.</message>
                 <short>Possible agreement error</short>
                 <example correction="is">The marketing, for example, <marker>are</marker> bad for you.</example>
+                <example correction="is">My mother, for example, <marker>are</marker> a doctor.</example>
                 <example>The city is an international transport hub and a popular tourist destination.</example>
                 <example>Those wanting are the Canines.</example>
             </rule>
             <rule>
                 <pattern>
                     <token postag="SENT_START"/>
-                    <token postag="DT"><exception regexp="yes">th[eo]se</exception></token>
+                    <token postag="DT|PRP\$" postag_regexp="yes"><exception regexp="yes">th[eo]se</exception></token>
                     <token postag="NN|NN:.*" postag_regexp="yes"><exception postag="JJ|MD|NNS" postag_regexp="yes"/><exception regexp="yes">rest|latter|jury|committee|government|might|can</exception></token>
                     <marker>
                         <token postag="VBP?" postag_regexp="yes"><exception postag="VB[ZNDG]|JJ|MD" postag_regexp="yes"/></token>
@@ -9685,12 +9687,13 @@ USA
                 <message>Possible agreement error - use third-person verb forms for singular and mass nouns: <suggestion><match no="4" postag="VBZ"/></suggestion>.</message>
                 <short>Possible agreement error</short>
                 <example correction="eats">The dog <marker>eat</marker>.</example>
+                <example correction="eats">My dog <marker>eat</marker>.</example>
                 <example>The committee are all against it.</example>
             </rule>
             <rule>
                 <pattern>
                     <token postag="SENT_START"/>
-                    <token postag="DT"><exception regexp="yes">th[eo]se</exception></token>
+                    <token postag="DT|PRP\$" postag_regexp="yes"><exception regexp="yes">th[eo]se</exception></token>
                     <token postag="NN|NN:.*" postag_regexp="yes"><exception postag="JJ|MD|NNS" postag_regexp="yes"/><exception regexp="yes">rest|latter|jury|committee|government|might</exception></token>
                     <token skip="-1">,</token>
                     <token>,</token>
@@ -9702,6 +9705,7 @@ USA
                 <message>Possible agreement error - use third-person verb forms for singular and mass nouns: <suggestion><match no="6" postag="VBZ"/></suggestion>.</message>
                 <short>Possible agreement error</short>
                 <example correction="eats">The dog, whose owner likes you, <marker>eat</marker>.</example>
+                <example correction="eats">My dog, whose name is Joe, <marker>eat</marker>.</example>
                 <example>The committee are all against it.</example>
             </rule>
             <rule>
@@ -9745,7 +9749,7 @@ USA
                 </antipattern>
                 <pattern>
                     <token regexp="yes">wh(at|ich|o|ose|ere|en|ether)</token>
-                    <token postag="DT"><exception regexp="yes">th[eo]se</exception></token>
+                    <token postag="DT|PRP\$" postag_regexp="yes"><exception regexp="yes">th[eo]se</exception></token>
                     <token postag="NN|NN:.*" postag_regexp="yes"><exception postag="JJ|MD|NNS" postag_regexp="yes"/><exception regexp="yes">rest|latter|jury|committee|government|might|can</exception></token>
                     <marker>
                         <token postag="VBP?" postag_regexp="yes"><exception postag="VB[ZNDG]|JJ|MD" postag_regexp="yes"/></token>
@@ -9755,6 +9759,7 @@ USA
                 <message>Possible agreement error - use third-person verb forms for singular and mass nouns: <suggestion><match no="4" postag="VBZ"/></suggestion>.</message>
                 <short>Possible agreement error</short>
                 <example correction="is">She wants to know whether this room <marker>are</marker> big enough.</example>
+                <example correction="is">She wants to know whether your room <marker>are</marker> big enough.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -9783,7 +9788,7 @@ USA
             <rule>
                 <pattern>
                     <token regexp="yes">wh(at|ich|o|ose|ere|en|ether)</token>
-                    <token postag="DT"><exception regexp="yes">th[eo]se</exception></token>
+                    <token postag="DT|PRP\$" postag_regexp="yes"><exception regexp="yes">th[eo]se</exception></token>
                     <token postag="NN|NN:.*" postag_regexp="yes"><exception postag="JJ|MD|NNS" postag_regexp="yes"/><exception regexp="yes">rest|latter|jury|committee|government|might|can</exception></token>
                     <marker>
                         <token postag="VBP?" postag_regexp="yes"><exception postag="VB[ZNDG]|JJ|MD" postag_regexp="yes"/></token>
@@ -9797,7 +9802,7 @@ USA
             <rule>
                 <pattern>
                     <token regexp="yes">wh(at|ich|o|ose|ere|en|ether)</token>
-                    <token postag="DT"><exception regexp="yes">th[eo]se</exception></token>
+                    <token postag="DT|PRP\$" postag_regexp="yes"><exception regexp="yes">th[eo]se</exception></token>
                     <token postag="NN|NN:.*" postag_regexp="yes"><exception postag="JJ|MD|NNS" postag_regexp="yes"/><exception regexp="yes">rest|latter|jury|committee|government|might</exception></token>
                     <token skip="-1">,</token>
                     <token>,</token>
@@ -19738,7 +19743,7 @@ USA
                 <message>Did you mean <suggestion>overtime</suggestion> (=time someone works beyond normal working hours)?</message>
                 <example correction='overtime'>I worked two hours of <marker>over time</marker> last weel.</example>
                 <example>The gears had worn down over time.</example>
-                <example> Energy is the capacity to do work over time</example>
+                <example>Energy is the capacity to do work over time</example>
             </rule>
             <rule>
                 <pattern>
@@ -19751,7 +19756,7 @@ USA
                 </pattern>
                 <message>Did you mean <suggestion>overtime</suggestion> (=time someone works beyond normal working hours)?</message>
                 <example correction='overtime'>No child shall be permitted or required to work <marker>over time</marker>.</example>
-                <example> Energy is the capacity to do work over time</example>
+                <example>Energy is the capacity to do work over time</example>
             </rule>
             <rule>
                 <pattern>
@@ -19764,7 +19769,7 @@ USA
                 </pattern>
                 <message>Did you mean <suggestion>overtime</suggestion> (=time someone works beyond normal working hours)?</message>
                 <example correction='overtime'>They worked <marker>over time</marker> to come up with a great idea.</example>
-                <example> Energy is the capacity to do work over time</example>
+                <example>Energy is the capacity to do work over time</example>
                 <example>Faulty meters stop working over time.</example>
             </rule>
         </rulegroup>

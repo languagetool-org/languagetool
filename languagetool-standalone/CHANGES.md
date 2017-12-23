@@ -9,6 +9,7 @@
     ca-ES-valencia.dict (external dependency: catalan-pos-dict 1.6)
 
 #### English
+  * added and improved rules
   * removed the category MISC and moved the rules to more specific categories
   * added WordCoherencyRule
   * added approximately 70 collocation rules contributed by Nicholas Walker (Bokomaru)
