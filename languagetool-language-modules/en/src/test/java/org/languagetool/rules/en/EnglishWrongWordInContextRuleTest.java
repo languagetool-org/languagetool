@@ -65,6 +65,9 @@ public class EnglishWrongWordInContextRuleTest {
     // desert/dessert
     assertBad("They have some great deserts on this menu.");
     assertGood("They have some great desserts on this menu.");
+    // statute/statue
+    assertBad("They have some great marble statutes.");
+    assertGood("They have a great marble statue.");
   }
 
   private void assertGood(String sentence) throws IOException {
