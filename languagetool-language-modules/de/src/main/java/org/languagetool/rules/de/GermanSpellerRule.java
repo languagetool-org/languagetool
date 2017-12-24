@@ -686,7 +686,13 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     }
     boolean isCompound = nextWord != null && compoundTokenizer.tokenize(nextWord).size() > 1;
     if (isCompound) {
-      return !hunspellDict.misspelled(StringUtils.removeEnd(word, "-"));  // "Stil- und Grammatikprüfung" or "Stil-, Text- und Grammatikprüfung"
+      word = StringUtils.removeEnd(word, "-");
+      boolean isMisspelled = hunspellDict.misspelled(word);  // "Stil- und Grammatikprüfung" or "Stil-, Text- und Grammatikprüfung"
+      /*if (isMisspelled && word.endsWith("s") && ENDINGS_NEEDING_FUGENS.matcher(StringUtils.removeEnd(word, "s")).matches()) {
+        // Vertuschungs- und Bespitzelungsmaßnahmen: remove trailing "s" before checking "Vertuschungs" so that the spell checker finds it
+        isMisspelled = hunspellDict.misspelled(StringUtils.removeEnd(word, "s"));
+      }*/
+      return !isMisspelled;
     }
     return false;
   }
