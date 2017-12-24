@@ -2017,67 +2017,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <url>http://www.korrekturen.de/beliebte_fehler/email.shtml</url>
             <rule>
                 <pattern>
-                    <token regexp="yes" skip="-1" inflected="yes">schicke.*|sende.*|Internet.*|Web.*|.*\@.*</token>
-                    <marker>
-                        <token>Email</token>
-                    </marker>
+                    <token>Email</token>
                 </pattern>
                 <message>Meinten Sie <suggestion>E-Mail</suggestion> (elektronische Post) statt 'Email' (Schmelzüberzug)?</message>
                 <short>Möglicher Tippfehler</short>
                 <example correction="E-Mail">Er schickt mir eine <marker>Email</marker>.</example>
                 <example correction="E-Mail">Schicke mir eine <marker>Email</marker>.</example>
-                <example>Das ist <marker>Email</marker>.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token regexp="yes">die|eine|[mds]eine|ihre|unsere|eure</token>
-                    <marker>
-                        <token>Email</token>
-                    </marker>
-                </pattern>
-                <message>Meinten Sie <suggestion>E-Mail</suggestion> (elektronische Post) statt 'Email' (Schmelzüberzug)?</message>
-                <short>Möglicher Tippfehler</short>
-                <example correction="E-Mail">Er schickt mir eine <marker>Email</marker>.</example>
-                <example correction="E-Mail">Schicke mir eine <marker>Email</marker>.</example>
-                <example>Das ist <marker>Email</marker>.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <marker>
-                        <token skip="-1">Email</token>
-                    </marker>
-                    <token regexp="yes" inflected="yes">schicke.*|sende.*|Internet.*|Web.*|.*\@.*</token>
-                </pattern>
-                <message>Meinten Sie <suggestion>E-Mail</suggestion> (elektronische Post) statt 'Email' (Schmelzüberzug)?</message>
-                <short>Möglicher Tippfehler</short>
-                <example correction="E-Mail">Er hat mir eine <marker>Email</marker> geschickt.</example>
-                <example correction="E-Mail">Meine <marker>Email</marker> ist me@example.com.</example>
-                <example>Das ist <marker>Email</marker>.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token postag="SENT_START"/>
-                    <marker>
-                        <token>Email</token>
-                    </marker>
-                    <token>:</token>
-                </pattern>
-                <message>Meinten Sie <suggestion>E-Mail</suggestion> (elektronische Post) statt 'Email' (Schmelzüberzug)?</message>
-                <short>Möglicher Tippfehler</short>
-                <example correction="E-Mail"><marker>Email</marker>: test@example.com</example>
-                <example>Er schickt mir eine <marker>E-Mail</marker>.</example>
-                <example>Das ist <marker>Email</marker>.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token>per</token>
-                    <marker>
-                        <token>Email</token>
-                    </marker>
-                </pattern>
-                <message>Meinten Sie <suggestion>E-Mail</suggestion> (elektronische Post) statt 'Email' (Schmelzüberzug)?</message>
-                <short>Möglicher Tippfehler</short>
-                <example correction="E-Mail">Ich regle die Angelegenheit per <marker>Email</marker>.</example>
             </rule>
             <rule>
                 <regexp case_sensitive='yes'>\b(email|eMail|e-Mail|e-mail|E-mail)s?\b</regexp>
