@@ -16989,7 +16989,7 @@ USA
             <pattern>
                 <token><exception postag="VB.*" postag_regexp="yes"/></token>
                 <token postag="PRP"><exception postag="PRP$"/></token>
-                <token min="0" regexp="yes">has|have</token>
+                <token min="0" inflected="yes">have</token>
                 <marker><token>sad</token></marker>
             </pattern>
             <message>Did you mean <suggestion>said</suggestion>?</message>
@@ -16997,6 +16997,16 @@ USA
             <example correction="said">This is exactly what you have <marker>sad</marker> yesterday.</example>
             <example>Are you sad?</example>
             <example>He brought us sad news.</example>
+        </rule>
+        <rule id="MARRY_MERRY" name="marry (merry)">
+            <pattern>
+                <marker>
+                    <token>marry</token>
+                </marker>
+                <token regexp="yes">band|chase|Christmas|group|hell|X-?mas|ways?</token>
+            </pattern>
+            <message>Did you mean <suggestion><match no="1" regexp_match="a" regexp_replace="e"/></suggestion> (=jolly, festive)?</message>
+            <example correction="Merry"><marker>Marry</marker> Christmas!</example>
         </rule>
         <rule id="IN_ON_VACATION" name="in (on) vacation">
             <pattern>
