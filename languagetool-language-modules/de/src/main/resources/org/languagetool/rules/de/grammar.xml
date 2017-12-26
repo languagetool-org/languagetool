@@ -25922,11 +25922,11 @@ Andere Projekte</example>
             <pattern>
                 <token regexp="yes">des|im</token>
                 <marker>
-                    <token case_sensitive="yes">weiteren</token>
+                    <token case_sensitive="yes" regexp="yes">weiteren|öftere?n</token>
                 </marker>
                 <token postag="VER:.*" postag_regexp="yes"><exception postag="SUB:.*" postag_regexp="yes"/></token>
             </pattern>
-            <message>&inwend;'\1 Weiteren' wird <suggestion>Weiteren</suggestion> großgeschrieben.</message>
+            <message>&inwend;'\1 <match no="2" case_conversion="startupper"/>' wird <suggestion><match no="2" case_conversion="startupper"/></suggestion> großgeschrieben.</message>
             <short>&prgk;.</short>
             <example>Im <marker>Weiteren</marker> soll es genau darum gehen.</example>
             <example>Im <marker>weiteren</marker> Text soll es genau darum gehen.</example>
@@ -25935,6 +25935,7 @@ Andere Projekte</example>
             <example correction="Weiteren">Des <marker>weiteren</marker> sind alle Katzen blau.</example>
             <example correction="Weiteren">Und des <marker>weiteren</marker> waren alle Katzen blau.</example>
             <example correction="Weiteren">Und im <marker>weiteren</marker> soll es genau darum gehen.</example>
+            <example correction="Öfteren">Des <marker>öfteren</marker> besucht mich mein Sohn.</example>
         </rule>
         <rule id="DES_NACHTS" name="'des nachts (Nachts), eines nachts (Nachts)'">
             <pattern case_sensitive="yes">
@@ -26426,6 +26427,20 @@ Andere Projekte</example>
                 <message>&inwend;'zum Besten geben' schreibt man <suggestion>Besten</suggestion> groß.</message>
                 <short>&prgk;.</short>
                 <example correction="Besten">Da gibt er es wieder zum <marker>besten</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AM_BESTEN" name="am Besten (besten)">
+            <rule>
+                <pattern>
+                    <token>am</token>
+                    <marker>
+                        <token case_sensitive="yes">Besten</token>
+                    </marker>
+                </pattern>
+                <message>&inwend;'am besten' schreibt man <suggestion><match no="2" case_conversion="startlower"/></suggestion> klein.</message>
+                <url>https://www.korrekturen.de/beliebte_fehler/am-besten.shtml</url>
+                <short>&prgk;.</short>
+                <example correction="besten">Du gehst am <marker>Besten</marker> sofort!</example>
             </rule>
         </rulegroup>
         <rulegroup id="ZUM_NARREN_HALTEN" name="'zum narren (Narren) halten'">
