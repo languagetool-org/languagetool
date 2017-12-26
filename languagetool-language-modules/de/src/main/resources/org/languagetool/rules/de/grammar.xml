@@ -177,24 +177,38 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Die Taube und der Strauß sind beide Vögel; der eine kann fliegen, aber der andere nicht.</example>
             <example>Ich verlange nur, dass er mir meine lässt.</example>
         </rule>
-        <rule id="NIEMANDEN" name="niemanden (niemandem)">
-            <antipattern case_sensitive="yes">
-                <token skip="3">für</token>
-                <token regexp="yes">(?:j|ni)emanden</token>
-            </antipattern>
-            <pattern case_sensitive="yes">
-                <token postag="PRO:PER:.+|VER:[1-3]:.+" postag_regexp="yes"/>
-                <marker>
+        <rulegroup id="NIEMANDEN" name="niemanden (niemandem)">
+            <rule>
+                <antipattern case_sensitive="yes">
+                    <token skip="3">für</token>
                     <token regexp="yes">(?:j|ni)emanden</token>
-                </marker>
-                <token postag="SUB:(.+?)" postag_regexp="yes"></token>
-                <token><exception postag="VER:[1-3]:.+" postag_regexp="yes"/></token>
-            </pattern>
-            <message>Meinten Sie die Dativform <suggestion><match no="2" regexp_match="n$" regexp_replace="m"/></suggestion> statt der Akkusativform 'niemanden'?</message>
-            <example correction="niemandem">Er hat <marker>niemanden</marker> Bescheid gegeben.</example>
-            <example>Wenn ich niemanden Dummkopf nenne, ist das keine Beleidigung.</example>
-            <example>Er hat für nichts und niemanden Zeit.</example>
-        </rule>
+                </antipattern>
+                <pattern case_sensitive="yes">
+                    <token postag="PRO:PER:.+|VER:[1-3]:.+" postag_regexp="yes"/>
+                    <marker>
+                        <token regexp="yes">(?:j|ni)emanden</token>
+                    </marker>
+                    <token postag="SUB:(.+?)" postag_regexp="yes"></token>
+                    <token><exception postag="VER:[1-3]:.+" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Meinten Sie die Dativform <suggestion><match no="2" regexp_match="n$" regexp_replace="m"/></suggestion> statt der Akkusativform '\2'?</message>
+                <example correction="niemandem">Er hat <marker>niemanden</marker> Bescheid gegeben.</example>
+                <example>Wenn ich niemanden Dummkopf nenne, ist das keine Beleidigung.</example>
+                <example>Er hat für nichts und niemanden Zeit.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag="PRO:PER:.+|VER:[1-3]:.+" postag_regexp="yes"/>
+                    <marker>
+                        <token regexp="yes">(?:j|ni)emanden</token>
+                    </marker>
+                    <token postag="SUB:.+:PLU:.*" postag_regexp="yes"><exception  postag="SUB:.+:SIN:.+" postag_regexp="yes"></exception></token>
+                </pattern>
+                <message>Meinten Sie die Dativform <suggestion><match no="2" regexp_match="n$" regexp_replace="m"/></suggestion> statt der Akkusativform 'niemanden'?</message>
+                <example correction="niemandem">Er hat <marker>niemanden</marker> Hilfestellungen gegeben.</example>
+                <example correction="jemandem">Weil er <marker>jemanden</marker> Fahrräder verlieh, brauchte er einen Gewerbeschein.</example>
+            </rule>
+        </rulegroup>
         <rule id="DES_ES" name="des (es)">
             <pattern>
                 <token postag="VER:.+" postag_regexp="yes"></token>
