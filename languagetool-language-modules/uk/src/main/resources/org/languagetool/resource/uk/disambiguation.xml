@@ -1223,6 +1223,26 @@
     <example type="untouched">Не хворій!</example>
   </rule>
 
+  <rule name="Іменник чи присвійний прикметник 1" id="NOUN_OR_POSSESSIVE_ADJ_1">
+    <pattern>
+      <token postag_regexp="yes" postag="num.*"/>
+      <marker>
+        <and>
+          <token postag_regexp="yes" postag="noun:.*?:p:v_rod.*"/>
+          <token postag_regexp="yes" postag="adj:m:v_naz.*" regexp="yes">.*[ії]в</token>
+        </and>
+      </marker>
+    </pattern>
+    <disambig><match no="1" postag="noun.*" postag_regexp="yes"/></disambig>
+    <example type="ambiguous"
+        inputform="лікарів[лікар/noun:anim:p:v_rod,лікар/noun:anim:p:v_zna,лікарів/adj:m:v_kly,лікарів/adj:m:v_naz,лікарів/adj:m:v_zna:rinanim]"
+        outputform="лікарів[лікар/noun:anim:p:v_rod,лікар/noun:anim:p:v_zna]"
+        >1023 <marker>лікарів</marker>.
+    </example>
+    <example type="untouched">Лікарів підхід був простий.</example>
+  </rule>
+
+
   <!-- TOOD: redo when dictionary updated
   <rule name="Числівник, як іменник годин 1" id="NUMR_AS_HOUR_NOUN1">
     <pattern>
