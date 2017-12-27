@@ -15,9 +15,8 @@
   * added approximately 70 collocation rules contributed by Nicholas Walker (Bokomaru)
   * added support for locale-specific spelling suggestions (locale-specific spelling_en-XY.txt files)
   * updated en_GB spellchecker dictionary from https://github.com/marcoagpinto/aoo-mozilla-en-dict
-  * updated en_US spellchecker dictionary
-  * updated en_CA spellchecker dictionary
-
+  * updated en_US spellchecker dictionary from http://wordlist.aspell.net (Version 2017.08.24)
+  * updated en_CA spellchecker dictionary from http://wordlist.aspell.net (Version 2017.08.24)
 #### French
   * we now offer suggestions for spelling errors
 
@@ -64,8 +63,9 @@
     - [pt-MZ pre-AO] Dicionários Natura 14.08.2017
     
 #### Russian
-  * new false friends added (thanks to ZakShaker)
-  * added and improved some rules
+  * added and improved grammar and punctuation rules
+  * spelling dictionary update
+  * new Russian-English false friends added (thanks to ZakShaker)
 
 #### Serbian
   * initial support for Serbian by Zoltán Csala
