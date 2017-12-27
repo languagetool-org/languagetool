@@ -205,6 +205,7 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("Durschnittsbürgers", "Durchschnittsbürgers", rule, lt);
     assertFirstSuggestion("artz", "Arzt", rule, lt);
     assertFirstSuggestion("berücksichtung", "Berücksichtigung", rule, lt);
+    assertFirstSuggestion("okey", "okay", rule, lt);
   }
 
   @Test
