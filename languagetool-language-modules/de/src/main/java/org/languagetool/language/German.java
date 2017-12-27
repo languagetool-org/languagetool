@@ -275,6 +275,7 @@ public class German extends Language implements AutoCloseable {
       case "KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ": return -10;
       case "OLD_SPELLING_INTERNAL": return 10;
       case "CONFUSION_RULE": return -1;  // probably less specific than the rules from grammar.xml
+      case "ANS_OHNE_APOSTROPH": return 1;
     }
     return 0;
   }
