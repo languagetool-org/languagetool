@@ -136,7 +136,12 @@ public class HTTPServerConfig {
           setWord2VecModelDirectory(args[++i]);
           break;
         default:
-          System.out.println("WARNING: unknown option: " + args[i]);
+          if (args[i].contains("=")) {
+            System.out.println("WARNING: unknown option: " + args[i] +
+                    " - please note that parameters are given as '--arg param', i.e. without '=' between argument and parameter");
+          } else {
+            System.out.println("WARNING: unknown option: " + args[i]);
+          }
       }
     }
   }
