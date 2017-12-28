@@ -273,10 +273,10 @@ class NeuralNetworkRuleEvaluator {
     private int falsePositives = 0;
     private int falseNegatives = 0;
 
-    public EvalValues() {
+    EvalValues() {
     }
 
-    public EvalValues(int truePositives, int trueNegatives, int falsePositives, int falseNegatives) {
+    EvalValues(int truePositives, int trueNegatives, int falsePositives, int falseNegatives) {
       this.truePositives = truePositives;
       this.trueNegatives = trueNegatives;
       this.falsePositives = falsePositives;
@@ -307,10 +307,9 @@ class NeuralNetworkRuleEvaluator {
       float precision = (float) certaintyEvalValues.truePositives / (certaintyEvalValues.truePositives + certaintyEvalValues.falsePositives);
       float recall = (float) certaintyEvalValues.truePositives / (certaintyEvalValues.truePositives + certaintyEvalValues.falseNegatives);
       String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-      String summary = String.format(ENGLISH, "%s; %s; %4.2f # p=%.3f, r=%.3f, tp=%d, tn=%d, fp=%d, fn=%d, %d+%d, %s",
+      this.summary = String.format(ENGLISH, "%s; %s; %4.2f # p=%.3f, r=%.3f, tp=%d, tn=%d, fp=%d, fn=%d, %d+%d, %s",
               token1, token2, certainty, precision, recall, certaintyEvalValues.truePositives, certaintyEvalValues.trueNegatives,
               certaintyEvalValues.falsePositives, certaintyEvalValues.falseNegatives, allToken1Sentences.size(), allToken2Sentences.size(), date);
-      this.summary = summary;
       this.precision = precision;
       this.recall = recall;
     }
