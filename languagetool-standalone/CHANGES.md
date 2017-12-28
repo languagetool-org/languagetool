@@ -12,7 +12,7 @@
   * added and improved rules
   * removed the category `MISC` and moved the rules to more specific categories
   * added WordCoherencyRule, to detect cases where two different variants of a word
-    are used the same text (e.g. archaeology and archeology)
+    are used in the same text (e.g. archaeology and archeology)
   * added approximately 70 collocation rules contributed by Nicholas Walker (Bokomaru)
   * added support for locale-specific spelling suggestions (locale-specific spelling_en-XY.txt files)
   * updated en_GB spellchecker dictionary from https://github.com/marcoagpinto/aoo-mozilla-en-dict
