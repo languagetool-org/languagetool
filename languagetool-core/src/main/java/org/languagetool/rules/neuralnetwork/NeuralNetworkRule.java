@@ -192,7 +192,7 @@ public class NeuralNetworkRule extends Rule {
     if (suggestion.isUnsure()) {
       msg = "(low certainty) " + msg;
     }
-    return msg + " " + certaintiesToString(y);
+    return msg;
   }
 
   private String certaintiesToString(float[] y) {
