@@ -10,15 +10,17 @@
 
 #### English
   * added and improved rules
-  * removed the category MISC and moved the rules to more specific categories
-  * added WordCoherencyRule
+  * removed the category `MISC` and moved the rules to more specific categories
+  * added WordCoherencyRule, to detect cases where two different variants of a word
+    are used the same text (e.g. archaeology and archeology)
   * added approximately 70 collocation rules contributed by Nicholas Walker (Bokomaru)
   * added support for locale-specific spelling suggestions (locale-specific spelling_en-XY.txt files)
   * updated en_GB spellchecker dictionary from https://github.com/marcoagpinto/aoo-mozilla-en-dict
   * updated en_US spellchecker dictionary from http://wordlist.aspell.net (Version 2017.08.24)
   * updated en_CA spellchecker dictionary from http://wordlist.aspell.net (Version 2017.08.24)
+  
 #### French
-  * we now offer suggestions for spelling errors
+  * LT now offers suggestions for spelling errors
 
 #### Galician
   * added and improved rules, including:
@@ -55,7 +57,7 @@
 
 #### Portuguese
   * added and improved rules
-  * Libreoffice category rules moved to other categories
+  * LibreOffice category rules moved to other categories
   * disambiguation improvements
   * updated Hunspell dictionaries to:
     - [pt-PT pos-AO] Dicionários Portugueses Complementares 2.2
@@ -78,7 +80,7 @@
   * several new barbarism and grammar rules
 
 #### General
-  * Now runs with Java 9 (compilation with Maven still has issue with Java9)
+  * Now runs with Java 9 (compilation with Maven still has issues with Java9)
   * The spell checker tries harder to find suggestion for misspellings that have
     a Levenshtein distance of larger than 2. The maximum Levenshtein distance is now 3.
     This way you now get a suggestion for e.g. `algortherm` (algorithm) or `theromator` (thermometer).
@@ -88,7 +90,7 @@
 
 ### word2vec
   * word2vec word embeddings (cf. http://colah.github.io/posts/2014-07-NLP-RNNs-Representations/#word-embeddings)
-    are now supported as additional language model and currently available for
+    are now supported as additional language models and currently available for
     English, German, and Portuguese.
   * Neural network based rules for confusion pair disambiguation using the
     word2vec model are available for English, German, and Portuguese. The necessary
@@ -108,11 +110,11 @@
     (it used to have only position information and the caller was expected to find
     the error context and/or sentence position in the original text).
 
-#### LT server
+#### HTTP API / LT server
   * change in configuration: `requestLimit` and `requestLimitPeriodInSeconds` now both
     need to be set for the limit to work
   * new property key `timeoutRequestLimit`: similar to `requestLimit`, but this one limits 
-    not all requests but blocks once this many timeout have been caused by the IP in the
+    not all requests but blocks once this many timeouts have been caused by the IP in the
     time span set by `requestLimitPeriodInSeconds`
   * new property key `requestLimitInBytes`: similar to `requestLimit`, but this one limits
     the aggregated size of requests caused by an IP in the time span set 
@@ -123,7 +125,7 @@
     with a huge amount of errors that are only caused by the wrong language being
     selected (leading to most words being detected as spelling errors).
   * The JSON output now contains a `sentence` property with the text of the sentence
-    the occurred in.
+    the error occurred in.
 
 
 ## 3.9 (2017-09-26)
