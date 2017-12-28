@@ -130,6 +130,8 @@ abstract class Server {
     System.out.println("                 'requestLimitPeriodInSeconds' - time period to which requestLimit and timeoutRequestLimit applies (optional)");
     System.out.println("                 'languageModel' - a directory with '1grams', '2grams', '3grams' sub directories which contain a Lucene index");
     System.out.println("                  each with ngram occurrence counts; activates the confusion rule if supported (optional)");
+    System.out.println("                 'word2vecModel' - a directory with word2vec data (optional), see");
+    System.out.println("                  https://github.com/languagetool-org/languagetool/blob/master/languagetool-standalone/CHANGES.md#word2vec");
     System.out.println("                 'maxWorkQueueSize' - reject request if request queue gets larger than this (optional)");
     System.out.println("                 'rulesFile' - a file containing rules configuration, such as .langugagetool.cfg (optional)");
     System.out.println("                 'warmUp' - set to 'true' to warm up server at start, i.e. run a short check with all languages (optional)");
@@ -146,6 +148,8 @@ abstract class Server {
     System.out.println("  --languageModel  a directory with '1grams', '2grams', '3grams' sub directories (per language)");
     System.out.println("                         which contain a Lucene index (optional, overwrites 'languageModel'");
     System.out.println("                         parameter in properties files)");
+    System.out.println("  --word2vecModel  a directory with word2vec data (optional), see");
+    System.out.println("                   https://github.com/languagetool-org/languagetool/blob/master/languagetool-standalone/CHANGES.md#word2vec");
   }
 
   protected static void checkForNonRootUser() {
