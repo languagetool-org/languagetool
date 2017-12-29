@@ -25,7 +25,6 @@ import java.io.FileNotFoundException;
 public class Word2VecModel {
 
   private final Embedding embedding;
-
   private final File path;
 
   public Word2VecModel(String path) throws FileNotFoundException {

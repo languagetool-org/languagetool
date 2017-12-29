@@ -29,25 +29,25 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public abstract class NeuralNetworkRuleCreator {
-  private NeuralNetworkRuleCreator() {}
 
   private static final String CONFUSION_SET_FILENAME = "neuralnetwork/confusion_sets.txt";
+
+  private NeuralNetworkRuleCreator() {}
 
   public static List<Rule> createRules(ResourceBundle messages, Language language, Word2VecModel word2vecModel) throws IOException {
     List<ScoredConfusionSet> confusionSets;
     try(InputStream confusionSetsStream = new FileInputStream(word2vecModel.getPath() + File.separator + CONFUSION_SET_FILENAME)) {
       confusionSets = ScoredConfusionSetLoader.loadConfusionSet(confusionSetsStream);
     } catch (FileNotFoundException e) {
-      System.err.println("Warning: " + CONFUSION_SET_FILENAME + " not found for " + language.getShortCode() + ".");
+      System.err.println("Warning: " + CONFUSION_SET_FILENAME + " not found for " + language.getShortCode());
       return new ArrayList<>(0);
     }
-
     List<Rule> neuralNetworkRules = new ArrayList<>();
     for(ScoredConfusionSet confusionSet : confusionSets) {
       neuralNetworkRules.add(new NeuralNetworkRule(messages, language, confusionSet, word2vecModel));
     }
-
     return neuralNetworkRules;
   }
+
 }
 

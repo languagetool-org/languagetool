@@ -39,9 +39,9 @@ public class NeuralNetworkRule extends Rule {
   private final List<String> subjects;
   private final List<Optional<String>> descriptions;
   private final String id;
+  private final Classifier classifier;
 
   private double minScore;
-  private Classifier classifier;
 
   public NeuralNetworkRule(ResourceBundle messages, Language language, ScoredConfusionSet confusionSet, Word2VecModel word2VecModel) throws IOException {
     super(messages);
@@ -54,14 +54,16 @@ public class NeuralNetworkRule extends Rule {
     try {
       InputStream W1Stream = streamFor(word2VecModel.getPath(), "W_fc1.txt");
       InputStream b1Stream = streamFor(word2VecModel.getPath(), "b_fc1.txt");
+      Classifier tmpClassifier;
       try {
         InputStream W2Stream = streamFor(word2VecModel.getPath(), "W_fc2.txt");
         InputStream b2Stream = streamFor(word2VecModel.getPath(), "b_fc2.txt");
         //System.out.println("deep rule for " + confusionSet.toString());
-        classifier = new TwoLayerClassifier(word2VecModel.getEmbedding(), W1Stream, b1Stream, W2Stream, b2Stream);
+        tmpClassifier = new TwoLayerClassifier(word2VecModel.getEmbedding(), W1Stream, b1Stream, W2Stream, b2Stream);
       } catch (FileNotFoundException e) {
-        classifier = new SingleLayerClassifier(word2VecModel.getEmbedding(), W1Stream, b1Stream);
+        tmpClassifier = new SingleLayerClassifier(word2VecModel.getEmbedding(), W1Stream, b1Stream);
       }
+      classifier = tmpClassifier;
     } catch (FileNotFoundException e) {
       throw new IOException("Weights for confusion set " + confusionSet.toString() + " are missing", e);
     }
