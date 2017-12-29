@@ -987,6 +987,7 @@ public class CaseRule extends Rule {
         !isLanguage(i, tokens, token) &&
         !isProbablyCity(i, tokens, token) &&
         !GermanHelper.hasReadingOfType(analyzedToken, POSType.PROPER_NOUN) &&
+        !analyzedToken.isSentenceEnd() &&
         !isEllipsis(i, tokens) &&
         !isNumbering(i, tokens) &&
         !isNominalization(i, tokens, token, lowercaseReadings) &&
@@ -1147,7 +1148,7 @@ public class CaseRule extends Rule {
       if (!isPrecededByVerb && lowercaseReadings != null && prevToken != null) {
         if (prevToken.hasPartialPosTag("SUB:") && lowercaseReadings.matchesPosTagRegex("(ADJ|PA2):GEN:PLU:MAS:GRU:SOL.*")) {
           return nextReadings != null && !nextReadings.hasPartialPosTag("SUB:");
-        } else if (nextReadings != null && nextReadings.getReadingsLength() == 1 && prevToken.hasPosTagStartingWith("PRO:PER:NOM:") && nextReadings.hasPosTag("ADJ:PRD:GRU")) {
+        } else if (nextReadings.getReadingsLength() == 1 && prevToken.hasPosTagStartingWith("PRO:PER:NOM:") && nextReadings.hasPosTag("ADJ:PRD:GRU")) {
           // avoid false alarm "Weil er Unmündige sexuell missbraucht haben soll,..."
           return true;
         }
