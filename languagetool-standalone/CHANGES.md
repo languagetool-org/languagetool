@@ -1,5 +1,10 @@
 # LanguageTool Change Log
 
+## 4.1-SNAPSHOT (release planned for 2018-03-27)
+
+...
+
+
 ## 4.0 (2017-12-29)
 
 #### Catalan
