@@ -155,6 +155,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Wi-?Fi-Dire[ck]t", "Wi-Fi Direct");
     put("gans", "ganz");
     put("Pearl-Harbou?r", "Pearl Harbor");
+    put("[aA]utonomität", "Autonomie");
     put("[kK]ompatibelkeit", "Kompatibilität");
     put("[fF]r[uü]h?st[uü]c?k", "Frühstück");
     put("zucc?h?inis?", "Zucchini");
