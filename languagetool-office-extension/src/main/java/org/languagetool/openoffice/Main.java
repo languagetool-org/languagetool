@@ -106,7 +106,6 @@ public class Main extends WeakBase implements XJobExecutor,
   private Configuration config;
   private JLanguageTool langTool;
   private Language docLanguage;
-  private String docID = null;
 
   // Rules disabled using the config dialog box rather than Spelling dialog box
   // or the context menu.
@@ -126,20 +125,27 @@ public class Main extends WeakBase implements XJobExecutor,
    * == 0 check only one paragraph (works like LT Version <= 3.9)
    * > 0 checks numParasToCheck before and after the processed paragraph
    */
+  private static final int MAX_DOC = 5;  // Maximal number of parallel document analyzed
   private static final String END_OF_PARAGRAPH = "\n";  //  Paragraph Separator from gciterator.cxx: 0x2029
   private static final boolean debugMode = false;   //  should be false except for testing
   private static String logLineBreak;  //  LineBreak in Log-File (MS-Windows compatible)
   private int numParasToCheck = 5;    // will be overwritten by config
-  private List<String> allParas = null;     //  List of paragraphs (only readable by parallel thread)
-  private List<RuleMatch> fullTextMatches;  //  List of paragraph matches (only readable by parallel thread)
+  private List<List<String>> allParas = null;     //  List of paragraphs (only readable by parallel thread)
+  private List<List<RuleMatch>> fullTextMatches;  //  List of paragraph matches (only readable by parallel thread)
   private List<RuleMatch> paragraphMatchesFirst;  //  List of paragraph matches (main thread)
   private List<RuleMatch> paragraphMatchesSecond; //  List of paragraph matches (parallel thread)
+  private List<String> docIDs = null;             //  List of all docIDs of open documents
+  private List<LOCursor> loCursor;                //  Save Cursor for the single documents
+  private List<Integer> numLastVCPara;            //  Save position of ViewCursor for the single documents
+  private List<Integer> numLastFlPara;            //  Save position of FlatParagraph for the single documents
+  private String lastDocID = null;                //  docID of last checked document
   private boolean textIsChecked = false;   //  false: check full text again (ignored by parallel thread)
   private boolean doFullTextCheck = true;  //  true: run full text check (not single paragraphs) (unchanged by parallel thread)
-  private int divNum = 0;    //  difference between number of paragraphs from cursor and from flatParagraph (unchanged by parallel thread)
-  private int numLastVCPara[] = {0, 0};
-  private int numLastFlPara[] = {0, 0};
+  private int divNum;    //  difference between number of paragraphs from cursor and from flatParagraph (unchanged by parallel thread)
+  private int numLastVCPara1;  //  last paragraph for parallel thread (View Cursor)
+  private int numLastFlPara1;  //  last paragraph for parallel thread (FlatParagraph)
   private int lastParaPos[] =  {0, 0};
+  private int lastDocNum = 0;
 
   private boolean proofIsRunning = false;
 
@@ -286,7 +292,6 @@ public class Main extends WeakBase implements XJobExecutor,
       return paRes;
     } catch (Throwable t) {
       showError(t);
-      allParas = null;
       return paRes;
     }
   }
@@ -482,19 +487,23 @@ public class Main extends WeakBase implements XJobExecutor,
     boolean sameDocID = true;
     int numThread = 0;
     int numCurPara;
+    int numCurDoc;
     int paraPos;
     if (proofIsRunning) {
-      numThread = 1;          //  parallel Thread (right-click or dialog-box while background iteration is running
+      numThread = 1;          //  parallel Thread (right-click or dialog-box while background iteration is running)
     } else {
       proofIsRunning = true;  // main thread is running
     }
     try {
-      if (this.docID == null || !this.docID.equals(docID)) {
-        allParas = null;
+      if (lastDocID == null || !lastDocID.equals(docID)) {
+        numCurDoc = getNumDocID(docID);
+        lastDocID = docID;
         sameDocID = false;
+      } else {
+        numCurDoc = lastDocNum;
       }
-      numCurPara = getParaPos(paraText, numThread);
-      paraPos = getStartOfParagraph(numCurPara);
+      numCurPara = getParaPos(paraText, numThread, numCurDoc);
+      paraPos = getStartOfParagraph(numCurPara, numCurDoc);
       if (numThread > 0 || (numThread == 0 
           && (startPos == 0 || paraPos != lastParaPos[numThread] || !sameDocID))) {
         if (paraPos < 0) {                                          //  Position not found; check only Paragraph context
@@ -506,7 +515,7 @@ public class Main extends WeakBase implements XJobExecutor,
             paragraphMatchesSecond = paragraphMatches;
           }            
         } else if (numParasToCheck > 0 && !doFullTextCheck) {          //  Check numParasToCheck paragraphs while text is changed
-          paragraphMatches = langTool.check(getDocAsString(numCurPara), true,
+          paragraphMatches = langTool.check(getDocAsString(numCurPara, numCurDoc), true,
               JLanguageTool.ParagraphHandling.ONLYPARA);
           if (numThread == 0) {
             paragraphMatchesFirst = paragraphMatches;
@@ -518,12 +527,12 @@ public class Main extends WeakBase implements XJobExecutor,
           if(debugMode) {
             printToLogFile("check Text again");    
           }
-          fullTextMatches = langTool.check(getDocAsString(numCurPara), true,
-              JLanguageTool.ParagraphHandling.ONLYPARA);
+          fullTextMatches.set(numCurDoc, langTool.check(getDocAsString(numCurPara, numCurDoc), true,
+              JLanguageTool.ParagraphHandling.ONLYPARA));
           textIsChecked = true;   // mark Text as checked till next change; use saved fullTextMatches
         }
-        this.docID = docID;
         lastParaPos[numThread] = paraPos;
+        lastDocNum = numCurDoc;
         if (paraPos < 0 || (numParasToCheck > 0 && !doFullTextCheck)) {
           if (numThread == 0) {
             paragraphMatches = paragraphMatchesFirst;
@@ -541,7 +550,7 @@ public class Main extends WeakBase implements XJobExecutor,
         }
       }
       if ((paraPos < 0 || (numParasToCheck > 0 && !doFullTextCheck)) 
-            && paragraphMatches != null && !paragraphMatches.isEmpty() && docID.equals(this.docID)) {
+            && paragraphMatches != null && !paragraphMatches.isEmpty()) {
         List<SingleProofreadingError> errorList = new ArrayList<>();
         int textPos = paraPos;
         if (textPos < 0) textPos = 0;
@@ -562,11 +571,12 @@ public class Main extends WeakBase implements XJobExecutor,
           }
           return errorArray;
         }
-      } else if (doFullTextCheck && fullTextMatches != null && !fullTextMatches.isEmpty() && docID.equals(this.docID)) {
+      } else if (doFullTextCheck && fullTextMatches.get(numCurDoc) != null 
+          && !fullTextMatches.get(numCurDoc).isEmpty()) {
         List<SingleProofreadingError> errorList = new ArrayList<>();
         int textPos = paraPos;
         if (textPos < 0) textPos = 0;
-        for (RuleMatch myRuleMatch : fullTextMatches) {
+        for (RuleMatch myRuleMatch : fullTextMatches.get(numCurDoc)) {
           int startErrPos = myRuleMatch.getFromPos() - textPos;
           int endErrPos = myRuleMatch.getToPos() - textPos;
           if (startErrPos >= startPos && startErrPos <= endPos
@@ -1006,12 +1016,9 @@ public class Main extends WeakBase implements XJobExecutor,
   /**
    * Reset allParas
    */
-  private boolean resetAllParas(LOCursor loCursor) {
-    if(debugMode) {
-      printToLogFile("resetAllParas");    
-    }
-    allParas = loCursor.getAllTextParagraphs();
-    if(allParas == null || allParas.size() < 1) {
+  private boolean resetAllParas(LOCursor loCursor, int docNum) {
+    allParas.set(docNum, loCursor.getAllTextParagraphs());
+    if(allParas.get(docNum) == null || allParas.get(docNum).size() < 1) {
       return false;
     }
     textIsChecked = false;
@@ -1021,22 +1028,24 @@ public class Main extends WeakBase implements XJobExecutor,
   /**
    * Gives Back the full Text as String
    */
-  private String getDocAsString(int numCurPara) {
-    if (numCurPara < 0 || allParas == null || allParas.size() < numCurPara - 1) return "";
+  private String getDocAsString(int numCurPara, int docNum) {
+    if (numCurPara < 0 || allParas.get(docNum) == null || allParas.get(docNum).size() < numCurPara - 1) {
+      return "";
+    }
     int startPos;
     int endPos;
     if(numParasToCheck < 1 || doFullTextCheck) {
       startPos = 0;
-      endPos = allParas.size();
+      endPos = allParas.get(docNum).size();
     } else {
       startPos = numCurPara - numParasToCheck;
       if(startPos < 0) startPos = 0;
       endPos = numCurPara + numParasToCheck;
-      if(endPos > allParas.size()) endPos = allParas.size();
+      if(endPos > allParas.get(docNum).size()) endPos = allParas.get(docNum).size();
     }
-    String docText = allParas.get(startPos);
+    String docText = allParas.get(docNum).get(startPos);
     for (int i = startPos + 1; i < endPos; i++) {
-      docText += END_OF_PARAGRAPH + allParas.get(i);
+      docText += END_OF_PARAGRAPH + allParas.get(docNum).get(i);
     }
     return docText;
   }
@@ -1044,8 +1053,8 @@ public class Main extends WeakBase implements XJobExecutor,
   /**
    * Gives Back the StartPosition of Paragraph 
    */
-  private int getStartOfParagraph(int nPara) {
-    if (allParas != null && nPara >= 0 && nPara < allParas.size()) {
+  private int getStartOfParagraph(int nPara, int docNum) {
+    if (allParas.get(docNum) != null && nPara >= 0 && nPara < allParas.get(docNum).size()) {
       int startPos;
       if(numParasToCheck < 1 || doFullTextCheck) {
         startPos = 0;
@@ -1054,7 +1063,7 @@ public class Main extends WeakBase implements XJobExecutor,
         if(startPos < 0) startPos = 0;
       }
       int pos = 0;
-      for(int i = startPos; i < nPara; i++) pos += allParas.get(i).length() + 1;
+      for(int i = startPos; i < nPara; i++) pos += allParas.get(docNum).get(i).length() + 1;
       return pos;
     }
     return -1;
@@ -1064,23 +1073,23 @@ public class Main extends WeakBase implements XJobExecutor,
    * Heuristic try to find next position (dialog box or automatic iteration)
    * Is paragraph same, next not empty after or before   
    */
-  private int findNextParaPos(int startPara, String paraStr) {
-    if (allParas == null || allParas.size() < 1) {
+  private int findNextParaPos(int startPara, String paraStr, int docNum) {
+    if (allParas.get(docNum) == null || allParas.get(docNum).size() < 1) {
       return -1;
     }
-    if (startPara >= allParas.size() || startPara < 0) {
+    if (startPara >= allParas.get(docNum).size() || startPara < 0) {
       startPara = 0;
     }
     int i;
-    for (i = startPara + 1; i < allParas.size() && allParas.get(i).length() < 1; i++);
-    if (i < allParas.size() && paraStr.equals(allParas.get(i))) {
+    for (i = startPara + 1; i < allParas.get(docNum).size() && allParas.get(docNum).get(i).length() < 1; i++);
+    if (i < allParas.get(docNum).size() && paraStr.equals(allParas.get(docNum).get(i))) {
       return i;
     }
-    if (paraStr.equals(allParas.get(startPara))) {
+    if (paraStr.equals(allParas.get(docNum).get(startPara))) {
       return startPara;
     }
-    for (i = startPara - 1; i >= 0 && allParas.get(i).length() < 1; i--);
-    if (i >= 0 && paraStr.equals(allParas.get(i))) {
+    for (i = startPara - 1; i >= 0 && allParas.get(docNum).get(i).length() < 1; i--);
+    if (i >= 0 && paraStr.equals(allParas.get(docNum).get(i))) {
       return i;
     }
     return -1;
@@ -1090,7 +1099,7 @@ public class Main extends WeakBase implements XJobExecutor,
    * Search for Position of Paragraph
    * gives Back the Position in full text / -1 if Paragraph can not be found
    */
-  private int getParaPos(String chPara, int numThread) {
+  private int getParaPos(String chPara, int numThread, int docNum) {
     
     if(numParasToCheck == 0) {
       return returnOneParaCheck();  //  check only the processed paragraph
@@ -1098,52 +1107,85 @@ public class Main extends WeakBase implements XJobExecutor,
     
     try {
       LOFlatParagraph loFlaPa = null;
-      LOCursor loCursor = new LOCursor(xContext);
+      if(loCursor.get(docNum) == null) {
+        loCursor.set(docNum, new LOCursor(xContext));
+      }
       int nParas;
       boolean isReset = false;
 
-      if (allParas == null || allParas.size() < 1) {
+      if (allParas.get(docNum) == null || allParas.get(docNum).size() < 1) {
         if(numThread > 0) {              //  if numThread > 0: Thread may only read allParas
           return returnOneParaCheck();
         }
-        if(!resetAllParas(loCursor)) {
+        if(!resetAllParas(loCursor.get(docNum), docNum)) {
           return returnOneParaCheck();
+        }
+        if(debugMode) {
+          printToLogFile("+++ resetAllParas (allParas == null): allParas.size: " + allParas.get(docNum).size() 
+              + "; lastDocNum: " + lastDocNum + ", docNum: " + docNum + logLineBreak);        
         }
         isReset = true;
       }
   
       // Test if Size of allParas is correct; Reset if not
-      nParas = loCursor.getNumberOfAllTextParagraphs();
+      nParas = loCursor.get(docNum).getNumberOfAllTextParagraphs();
       if(nParas < 2) {
         return returnOneParaCheck();
-      } else if(allParas.size() != nParas) {
+      } else if(allParas.get(docNum).size() != nParas) {
         if(numThread > 0) {
           return returnOneParaCheck();
         }
-        if(!resetAllParas(loCursor)) {
+        if(debugMode) {
+          printToLogFile("*** resetAllParas: allParas.size: " + allParas.get(docNum).size() + ", nParas: " + nParas
+              + "; lastDocNum: " + lastDocNum + ", docNum: " + docNum + logLineBreak);    
+        }
+        if(!resetAllParas(loCursor.get(docNum), docNum)) {
           return returnOneParaCheck();
         }
         isReset = true;
       }
       
       // try to get next position from last ViewCursorPosition (proof per dialog box)
-      nParas = findNextParaPos(numLastVCPara[numThread], chPara);
+      int numLastPara;
+      if(numThread > 0) {
+        numLastPara = numLastVCPara1;
+      } else {
+        numLastPara = numLastVCPara.get(docNum);
+      }
+      nParas = findNextParaPos(numLastPara, chPara, docNum);
       if (nParas >= 0) {
-        numLastVCPara[numThread] = nParas;
+        if(numThread > 0) {
+          numLastVCPara1 = nParas;
+        } else {
+          numLastVCPara.set(docNum, nParas);
+        }
         return returnContinueCheck(isReset, nParas, numThread);
       }
   
       // try to get next position from last Position of FlatParagraph (automatic Iteration without Text change)
-      nParas = findNextParaPos(numLastFlPara[numThread], chPara);
+      if(numThread > 0) {
+        numLastPara = numLastFlPara1;
+      } else {
+        numLastPara = numLastFlPara.get(docNum);
+      }
+       nParas = findNextParaPos(numLastPara, chPara, docNum);
       if (nParas >= 0) {
-        numLastFlPara[numThread] = nParas;
+        if(numThread > 0) {
+          numLastFlPara1 = nParas;
+        } else {
+          numLastFlPara.set(docNum, nParas);
+        }
         return returnContinueCheck(isReset, nParas, numThread);
       }
   
       // try to get ViewCursor position (proof initiated by mouse click)
-      nParas = loCursor.getViewCursorParagraph();
-      if (nParas >= 0 && nParas < allParas.size() && chPara.equals(allParas.get(nParas))) {
-        numLastVCPara[numThread] = nParas;
+      nParas = loCursor.get(docNum).getViewCursorParagraph();
+      if (nParas >= 0 && nParas < allParas.get(docNum).size() && chPara.equals(allParas.get(docNum).get(nParas))) {
+        if(numThread > 0) {
+          numLastVCPara1 = nParas;
+        } else {
+          numLastVCPara.set(docNum, nParas);
+        }
         return returnContinueCheck(isReset, nParas, numThread);
       }
       
@@ -1152,10 +1194,16 @@ public class Main extends WeakBase implements XJobExecutor,
         loFlaPa = new LOFlatParagraph(xContext);
       }
       nParas = loFlaPa.getNumberOfAllFlatPara();
-      if(nParas < allParas.size()) {
+      
+      if(debugMode) {
+        printToLogFile("numLastFlPara[" + numThread +"]: " + numLastFlPara.get(docNum) + "; nParas: " + nParas
+            + "; lastDocNum: " + lastDocNum + ", docNum: " + docNum + logLineBreak);    
+      }
+
+      if(nParas < allParas.get(docNum).size()) {
         return returnOneParaCheck();   //  no automatic iteration
       }
-      divNum = nParas - allParas.size();
+      divNum = nParas - allParas.get(docNum).size();
 
       nParas = loFlaPa.getCurNumFlatParagraphs();
       
@@ -1164,20 +1212,21 @@ public class Main extends WeakBase implements XJobExecutor,
       }
       
       nParas -= divNum;
-      if(debugMode) {
-        printToLogFile("numLastFlPara[" + numThread +"]: " + numLastFlPara[numThread] + "; nParas: " + nParas);    
+      if(numThread > 0) {
+        numLastFlPara1 = nParas;
+      } else {
+        numLastFlPara.set(docNum, nParas);
       }
-      numLastFlPara[numThread] = nParas;
-      if (!chPara.equals(allParas.get(nParas))) {
+      if (!chPara.equals(allParas.get(docNum).get(nParas))) {
         if(isReset || numThread > 0) {
           return returnOneParaCheck();
         } else {
           if(debugMode) {
-            printToLogFile("allParas set: NParas: " + nParas + "; divNum: " + divNum + logLineBreak
-                        + "old: " + allParas.get(nParas) + logLineBreak + "new: " + chPara + logLineBreak 
-                        + "this.docID: " + this.docID);    
+            printToLogFile("!!! allParas set: NParas: " + nParas + "; divNum: " + divNum 
+                + "lastDocNum: " + lastDocNum + ", docNum: " + docNum  
+                + logLineBreak + "old: " + allParas.get(docNum).get(nParas) + logLineBreak + "new: " + chPara + logLineBreak);
           }
-          allParas.set(nParas, chPara);
+          allParas.get(docNum).set(nParas, chPara);
           return returnNParaCheck(nParas, numThread);
         }
       }
@@ -1189,6 +1238,41 @@ public class Main extends WeakBase implements XJobExecutor,
       showError(t);
       return returnOneParaCheck();
     }
+  }
+  
+  /*
+   * Get or Create a Number from docID
+   */
+  private int getNumDocID(String docID) {
+    if(docIDs == null) {
+      docIDs = new ArrayList<String>();
+      allParas = new ArrayList<List<String>>();
+      fullTextMatches = new ArrayList<List<RuleMatch>>();
+      loCursor = new ArrayList<LOCursor>();
+      numLastVCPara = new ArrayList<Integer>();
+      numLastFlPara = new ArrayList<Integer>();
+    }
+    int i;
+    for(i = 0; i < docIDs.size(); i++) {
+      if(docIDs.get(i).equals(docID)) {
+        return i;                           //  document exist
+      }
+    }
+    if(docIDs.size() >= MAX_DOC) {
+      docIDs.remove(0);
+      allParas.remove(0);
+      fullTextMatches.remove(0);
+      loCursor.remove(0);
+      numLastVCPara.remove(0);
+      numLastFlPara.remove(0);
+    }
+    docIDs.add(docID);
+    allParas.add(null);
+    fullTextMatches.add(null);
+    loCursor.add(null);
+    numLastVCPara.add(0);
+    numLastFlPara.add(0);
+    return docIDs.size() - 1;
   }
 
   /**
