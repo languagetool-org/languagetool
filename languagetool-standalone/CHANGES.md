@@ -1,12 +1,15 @@
 # LanguageTool Change Log
 
-## 4.0-SNAPSHOT (release planned for 2017-12-29)
+## 4.0 (2017-12-29)
 
 #### Catalan
   * added and improved rules
   * updated and renamed dictionary: ca-ES.dict (external dependency: catalan-pos-dict 1.6)
   * added new dictionary for Valencian including most words from Diccionari Normatiu Valencià (AVL): 
     ca-ES-valencia.dict (external dependency: catalan-pos-dict 1.6)
+
+#### Dutch
+  * added and improved rules
 
 #### English
   * added and improved rules
