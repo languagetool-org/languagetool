@@ -36637,7 +36637,7 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">rot(lackiert|geschminckt|kariert|gestreift|gefroren|glühend|geädert|unterlaufen|geweint)(e[nmrs]?)?|(gelb|blau|grün)(gestreift|kariert|(ge)?färbt?)(e[nmrs]?)?|schwarz(gerändert|gestreift|gekleidet|gelockt|(ge)?färbt?)(e[nmrs]?)?|weiß(gekleidet|(ge)?(färb|kalk|tünch|wasch)t?|gestreift|lackiert|gestrichen|gedeckt|glühend)(e[nmrs]?)?</token>
+                    <token regexp="yes">rot(lackiert|geschminkt|kariert|gestreift|gefroren|glühend|geädert|unterlaufen|geweint)(e[nmrs]?)?|(gelb|blau|grün)(gestreift|kariert|(ge)?färbt?)(e[nmrs]?)?|schwarz(gerändert|gestreift|gekleidet|gelockt|(ge)?färbt?)(e[nmrs]?)?|weiß(gekleidet|(ge)?(färb|kalk|tünch|wasch)t?|gestreift|lackiert|gestrichen|gedeckt|glühend)(e[nmrs]?)?</token>
                 </pattern>
                 <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" regexp_match="(.)(ot|elb|lau|rün|chwarz|eiß)(.*)" regexp_replace="$1$2 $3"/></suggestion> verwenden?</message>
                 <example correction="Rot lackierte"><marker>Rotlackierte</marker> Autos gefallen ihr ganz besonders.</example>
@@ -36872,15 +36872,39 @@ Andere Projekte</example>
                     <token>Hard</token>
                     <token>Disk</token>
                 </pattern>
-                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion>Harddisk</suggestion> verwenden?</message> 
+                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion>Harddisk</suggestion> verwenden?</message>
                 <url>http://www.duden.de/node/759268/revisions/1380631/view</url>
                 <example correction='Harddisk'>Ich habe mir letzte Woche eine neue <marker>Hard Disk</marker> gekauft.</example>
                 <example>Ihre Harddisk sollte defragmentiert werden.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token>Fast</token>
+                    <token>Food</token>
+                </pattern>
+                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion>Fastfood</suggestion> verwenden?</message>
+                <example correction='Fastfood'>Ich esse viel <marker>Fast Food</marker>.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">verloreng(eh(en?|s?t)|ing(en)?|egangen(e[nrs]?)?)</token>
+                </pattern>
+                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion>verloren <match no="1" regexp_match="verloren" regexp_replace=""/></suggestion> verwenden?</message>
+                <example correction='verloren gegangen'>Weil die Papiere <marker>verlorengegangen</marker> waren, konnte er die Uhr nicht mehr verkaufen.</example>
+                <example correction='verloren geht'>Wenn er <marker>verlorengeht</marker>, haben wir ein Problem.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">bekannt(gab(en)?|gibs?t|geben?|ge(geben|macht)(e[nrs]?)?|macht(e(st)?)?|machen)</token>
+                </pattern>
+                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion>bekannt <match no="1" regexp_match="bekannt" regexp_replace=""/></suggestion> verwenden?</message>
+                <example correction='bekannt gegeben'>Sie hat ihre Verlobung <marker>bekanntgegeben</marker>.</example>
+                <example correction='bekannt gab'>Als er es <marker>bekanntgab</marker>, achtete niemand darauf.</example>
+                <example correction='bekannt gemacht'>Sie hat ihre Verlobung <marker>bekanntgemacht</marker>.</example>
+                <example correction='bekannt machte'>Als er es <marker>bekanntmachte</marker>, achtete niemand darauf.</example>
+            </rule>
         </rulegroup>
-
         <rulegroup id="EMPFOHLENE_SCHREIBUNG_EIGENNAMEN" name="Empfohlene Schreibung von Eigennamen">
-
             <rule>
                 <pattern>
                     <token case_sensitive="yes" regexp="yes">Nicosia.*</token>
