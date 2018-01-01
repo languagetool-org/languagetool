@@ -29917,12 +29917,14 @@ Andere Projekte</example>
                 <pattern>
                     <token>mit</token>
                     <marker><token regexp="yes">d(ies)?en|jenen|s?einen|ihren</token></marker>
+                    <token postag="ADJ:.+:SIN:.+" postag_regexp="yes" min="0"/>
                     <token postag="SUB:.+:SIN:.+" postag_regexp="yes"><exception  postag="SUB:.+:PLU:.+|.+:INF" postag_regexp="yes"></exception></token>
                 </pattern>
                 <message>Meinten Sie <suggestion><match no="2" regexp_match="n$" regexp_replace="m"/></suggestion>? (Alternativ prüfen Sie, ob 'mit' durch 'mir' ersetzt werden muss.)</message>
                 <url>http://www.canoo.net/services/OnlineGrammar/Wort/Praeposition/Kasus/Dativ.html</url>
                 <example correction="dem">Mit <marker>den</marker> Rad zur Arbeit.</example>
                 <example>Runter mit <marker>den</marker> Spendierhosen!</example>
+                <example correction="Ihrem">Gut essen mit <marker>Ihren</marker> lieben Chef!</example>
                 <example>Ich werde mit <marker>den</marker> Malerarbeiten heute fertig.</example>
                 <example>Mit <marker>den</marker> Lahmen lernt man hinken, mit den Säufern trinken.</example>
             </rule>
@@ -29930,6 +29932,7 @@ Andere Projekte</example>
                 <pattern>
                     <token regexp="yes">bei|mitsamt|seit|von</token>
                     <marker><token regexp="yes">d(ies)?en|jenen|s?einen|ihren</token></marker>
+                    <token postag="ADJ:.+:SIN:.+" postag_regexp="yes" min="0"/>
                     <token postag="SUB:.+:SIN:MAS.*" postag_regexp="yes"><exception  postag="SUB:.+:PLU:.+|.+:INF" postag_regexp="yes"></exception></token>
                 </pattern>
                 <message>Meinten Sie <suggestion><match no="2" regexp_match="n$" regexp_replace="m"/></suggestion>?</message>
@@ -29937,6 +29940,7 @@ Andere Projekte</example>
                 <example correction="dem">Seit <marker>den</marker> Unfall ist er nicht mehr derselbe.</example>
                 <example correction="ihrem">Sie hat es von <marker>ihren</marker> Mann bekommen.</example>
                 <example correction="diesem">Bei <marker>diesen</marker> Film schlafe ich immer ein.</example>
+                <example correction="dem">Seit <marker>den</marker> schweren Unfall ist er nicht mehr derselbe.</example>
                 <example>Bei klarem Wetter kann man von hier aus den Berg Fuji sehen.</example>
             </rule>
         </rulegroup>
