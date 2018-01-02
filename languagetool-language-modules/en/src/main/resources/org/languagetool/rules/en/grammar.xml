@@ -21126,6 +21126,20 @@ USA
         <example correction="admitted">Springfield police arrest 'very dangerous, <marker>self-admitted</marker> gang member.'</example>
         </rule>
         <rule id="SOME_OF_THE" name="some of the (some)">
+            <antipattern>
+                <token>some</token>
+                <token>of</token>
+                <token skip="4">the</token>
+                <token postag="JJS"/>
+            </antipattern>
+            <antipattern>
+                <token>some</token>
+                <token>of</token>
+                <token>the</token>
+                <token/>
+                <token regexp="yes">['´]</token>
+                <token>s</token>
+            </antipattern>
             <pattern>
                 <token negate="yes">or</token>
                 <marker>
@@ -21133,7 +21147,7 @@ USA
                     <token>of</token>
                     <token>the</token>
                 </marker>
-                <token><exception postag="JJS"/><exception>most</exception></token>
+                <token><exception regexp="yes">mo(re|st)</exception></token>
             </pattern>
             <message>Consider using <suggestion>some</suggestion>.</message>
             <short>Redundant phrase</short>
@@ -21141,6 +21155,7 @@ USA
             <example>She is going to buy some parks.</example>
             <example>She is going all or some of the parks.</example>
             <example>He is putting out some of the most inspired music of his life.</example>
+            <example>They want to answer some of the universe’s deepest questions.</example>
         </rule>
         <rule id="TRY_AND" name="try and (try to)">
             <antipattern>
