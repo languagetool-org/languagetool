@@ -233,7 +233,42 @@ public class ConfigurationDialog implements ActionListener {
     buttonPanel.add(cancelButton, cons);
 
     JTabbedPane tabpane = new JTabbedPane();
+
     JPanel jPane = new JPanel();
+    jPane.setLayout(new GridBagLayout());
+    cons = new GridBagConstraints();
+    cons.insets = new Insets(4, 4, 4, 4);
+
+    cons.gridx = 0;
+    cons.gridy = 0;
+    cons.fill = GridBagConstraints.NONE;
+    cons.anchor = GridBagConstraints.NORTHWEST;
+    cons.gridy++;
+    cons.anchor = GridBagConstraints.WEST;
+    jPane.add(getMotherTonguePanel(cons), cons);
+
+    cons.gridy++;
+    cons.anchor = GridBagConstraints.WEST;
+    jPane.add(getNgramPanel(cons), cons);
+
+    cons.gridy++;
+    cons.anchor = GridBagConstraints.WEST;
+    jPane.add(getWord2VecPanel(cons), cons);
+
+    cons.gridy++;
+    cons.anchor = GridBagConstraints.WEST;
+    jPane.add(portPanel, cons);
+
+    cons.fill = GridBagConstraints.HORIZONTAL;
+    cons.anchor = GridBagConstraints.WEST;
+    for(JPanel extra : extraPanels) {
+      cons.gridy++;
+      jPane.add(extra, cons);
+    }
+
+    tabpane.addTab(messages.getString("guiGeneral"), jPane);
+
+    jPane = new JPanel();
     jPane.setLayout(new GridBagLayout());
     cons = new GridBagConstraints();
     cons.insets = new Insets(4, 4, 4, 4);
@@ -275,40 +310,6 @@ public class ConfigurationDialog implements ActionListener {
 
     tabpane.addTab(messages.getString("guiStyleRules"), jPane);
     
-    jPane = new JPanel();
-    jPane.setLayout(new GridBagLayout());
-    cons = new GridBagConstraints();
-    cons.insets = new Insets(4, 4, 4, 4);
-
-    cons.gridx = 0;
-    cons.gridy = 0;
-    cons.fill = GridBagConstraints.NONE;
-    cons.anchor = GridBagConstraints.NORTHWEST;
-    cons.gridy++;
-    cons.anchor = GridBagConstraints.WEST;
-    jPane.add(getMotherTonguePanel(cons), cons);
-
-    cons.gridy++;
-    cons.anchor = GridBagConstraints.WEST;
-    jPane.add(getNgramPanel(cons), cons);
-
-    cons.gridy++;
-    cons.anchor = GridBagConstraints.WEST;
-    jPane.add(getWord2VecPanel(cons), cons);
-
-    cons.gridy++;
-    cons.anchor = GridBagConstraints.WEST;
-    jPane.add(portPanel, cons);
-
-    cons.fill = GridBagConstraints.HORIZONTAL;
-    cons.anchor = GridBagConstraints.WEST;
-    for(JPanel extra : extraPanels) {
-      cons.gridy++;
-      jPane.add(extra, cons);
-    }
-
-    tabpane.addTab(messages.getString("guiGeneral"), jPane);
-
     Container contentPane = dialog.getContentPane();
     contentPane.setLayout(new GridBagLayout());
     cons = new GridBagConstraints();
