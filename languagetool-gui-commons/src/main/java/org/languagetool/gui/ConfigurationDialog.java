@@ -65,7 +65,7 @@ public class ConfigurationDialog implements ActionListener {
   private JDialog dialog;
   private JCheckBox serverCheckbox;
   private JTextField serverPortField;
-  private JTree configTree;
+  private JTree configTree[] = new JTree[2];
   private JCheckBox serverSettingsCheckbox;
   private final List<JPanel> extraPanels = new ArrayList<>();
 
@@ -90,28 +90,31 @@ public class ConfigurationDialog implements ActionListener {
     extraPanels.add(panel);
   }
 
-  private DefaultMutableTreeNode createTree(List<Rule> rules) {
+  private DefaultMutableTreeNode createTree(List<Rule> rules, boolean isStyle) {
     DefaultMutableTreeNode root = new DefaultMutableTreeNode("Rules");
     String lastRuleId = null;
     Map<String, DefaultMutableTreeNode> parents = new TreeMap<>();
     for (Rule rule : rules) {
-      if (!parents.containsKey(rule.getCategory().getName())) {
-        boolean enabled = true;
-        if (config.getDisabledCategoryNames() != null && config.getDisabledCategoryNames().contains(rule.getCategory().getName())) {
-          enabled = false;
+      if((isStyle && rule.getLocQualityIssueType().toString().equalsIgnoreCase("STYLE")) ||
+          (!isStyle && !rule.getLocQualityIssueType().toString().equalsIgnoreCase("STYLE"))) {
+        if (!parents.containsKey(rule.getCategory().getName())) {
+          boolean enabled = true;
+          if (config.getDisabledCategoryNames() != null && config.getDisabledCategoryNames().contains(rule.getCategory().getName())) {
+            enabled = false;
+          }
+          if(rule.getCategory().isDefaultOff()) {
+            enabled = false;
+          }
+          DefaultMutableTreeNode categoryNode = new CategoryNode(rule.getCategory(), enabled);
+          root.add(categoryNode);
+          parents.put(rule.getCategory().getName(), categoryNode);
         }
-        if(rule.getCategory().isDefaultOff()) {
-          enabled = false;
+        if (!rule.getId().equals(lastRuleId)) {
+          RuleNode ruleNode = new RuleNode(rule, getEnabledState(rule));
+          parents.get(rule.getCategory().getName()).add(ruleNode);
         }
-        DefaultMutableTreeNode categoryNode = new CategoryNode(rule.getCategory(), enabled);
-        root.add(categoryNode);
-        parents.put(rule.getCategory().getName(), categoryNode);
+        lastRuleId = rule.getId();
       }
-      if (!rule.getId().equals(lastRuleId)) {
-        RuleNode ruleNode = new RuleNode(rule, getEnabledState(rule));
-        parents.get(rule.getCategory().getName()).add(ruleNode);
-      }
-      lastRuleId = rule.getId();
     }
     return root;
   }
@@ -161,22 +164,43 @@ public class ConfigurationDialog implements ActionListener {
     cons.weighty = 1.0;
     cons.fill = GridBagConstraints.BOTH;
     Collections.sort(rules, new CategoryComparator());
-    DefaultMutableTreeNode rootNode = createTree(rules);
-    configTree = new JTree(getTreeModel(rootNode));
+    DefaultMutableTreeNode rootNode = createTree(rules, false);   //  grammar options
+    configTree[0] = new JTree(getTreeModel(rootNode));
 
     Language lang = config.getLanguage();
     if (lang == null) {
       lang = Languages.getLanguageForLocale(Locale.getDefault());
     }
-    configTree.applyComponentOrientation(ComponentOrientation.getOrientation(lang.getLocale()));
+    configTree[0].applyComponentOrientation(ComponentOrientation.getOrientation(lang.getLocale()));
 
-    configTree.setRootVisible(false);
-    configTree.setEditable(false);
-    configTree.setCellRenderer(new CheckBoxTreeCellRenderer());
-    TreeListener.install(configTree);
-    checkBoxPanel.add(configTree, cons);
-    configTree.addMouseListener(getMouseAdapter());
+    configTree[0].setRootVisible(false);
+    configTree[0].setEditable(false);
+    configTree[0].setCellRenderer(new CheckBoxTreeCellRenderer());
+    TreeListener.install(configTree[0]);
+    checkBoxPanel.add(configTree[0], cons);
+    configTree[0].addMouseListener(getMouseAdapter());
     
+    JPanel checkBoxPanel1 = new JPanel();
+    checkBoxPanel1.setLayout(new GridBagLayout());
+    cons = new GridBagConstraints();
+    cons.anchor = GridBagConstraints.NORTHWEST;
+    cons.gridx = 0;
+    cons.weightx = 1.0;
+    cons.weighty = 1.0;
+    cons.fill = GridBagConstraints.BOTH;
+    Collections.sort(rules, new CategoryComparator());
+    rootNode = createTree(rules, true);  //  Style options
+    configTree[1] = new JTree(getTreeModel(rootNode));
+    configTree[1].applyComponentOrientation(ComponentOrientation.getOrientation(lang.getLocale()));
+
+    configTree[1].setRootVisible(false);
+    configTree[1].setEditable(false);
+    configTree[1].setCellRenderer(new CheckBoxTreeCellRenderer());
+    TreeListener.install(configTree[1]);
+    checkBoxPanel1.add(configTree[1], cons);
+    configTree[1].addMouseListener(getMouseAdapter());
+    
+
     JPanel portPanel = new JPanel();
     portPanel.setLayout(new GridBagLayout());
     cons = new GridBagConstraints();
@@ -208,6 +232,83 @@ public class ConfigurationDialog implements ActionListener {
     buttonPanel.add(okButton, cons);
     buttonPanel.add(cancelButton, cons);
 
+    JTabbedPane tabpane = new JTabbedPane();
+    JPanel jPane = new JPanel();
+    jPane.setLayout(new GridBagLayout());
+    cons = new GridBagConstraints();
+    cons.insets = new Insets(4, 4, 4, 4);
+    cons.gridx = 0;
+    cons.gridy = 0;
+    cons.weightx = 10.0f;
+    cons.weighty = 10.0f;
+    cons.fill = GridBagConstraints.BOTH;
+    jPane.add(new JScrollPane(checkBoxPanel), cons);
+    cons.weightx = 0.0f;
+    cons.weighty = 0.0f;
+
+    cons.gridx = 0;
+    cons.gridy++;
+    cons.fill = GridBagConstraints.NONE;
+    cons.anchor = GridBagConstraints.LINE_END;
+    jPane.add(getTreeButtonPanel(0), cons);
+
+    tabpane.addTab(messages.getString("guiGrammarRules"), jPane);
+    
+    jPane = new JPanel();
+    jPane.setLayout(new GridBagLayout());
+    cons = new GridBagConstraints();
+    cons.insets = new Insets(4, 4, 4, 4);
+    cons.gridx = 0;
+    cons.gridy = 0;
+    cons.weightx = 10.0f;
+    cons.weighty = 10.0f;
+    cons.fill = GridBagConstraints.BOTH;
+    jPane.add(new JScrollPane(checkBoxPanel1), cons);
+    cons.weightx = 0.0f;
+    cons.weighty = 0.0f;
+
+    cons.gridx = 0;
+    cons.gridy++;
+    cons.fill = GridBagConstraints.NONE;
+    cons.anchor = GridBagConstraints.LINE_END;
+    jPane.add(getTreeButtonPanel(1), cons);
+
+    tabpane.addTab(messages.getString("guiStyleRules"), jPane);
+    
+    jPane = new JPanel();
+    jPane.setLayout(new GridBagLayout());
+    cons = new GridBagConstraints();
+    cons.insets = new Insets(4, 4, 4, 4);
+
+    cons.gridx = 0;
+    cons.gridy = 0;
+    cons.fill = GridBagConstraints.NONE;
+    cons.anchor = GridBagConstraints.NORTHWEST;
+    cons.gridy++;
+    cons.anchor = GridBagConstraints.WEST;
+    jPane.add(getMotherTonguePanel(cons), cons);
+
+    cons.gridy++;
+    cons.anchor = GridBagConstraints.WEST;
+    jPane.add(getNgramPanel(cons), cons);
+
+    cons.gridy++;
+    cons.anchor = GridBagConstraints.WEST;
+    jPane.add(getWord2VecPanel(cons), cons);
+
+    cons.gridy++;
+    cons.anchor = GridBagConstraints.WEST;
+    jPane.add(portPanel, cons);
+
+    cons.fill = GridBagConstraints.HORIZONTAL;
+    cons.anchor = GridBagConstraints.WEST;
+    for(JPanel extra : extraPanels) {
+      cons.gridy++;
+      jPane.add(extra, cons);
+    }
+
+    tabpane.addTab(messages.getString("guiGeneral"), jPane);
+
     Container contentPane = dialog.getContentPane();
     contentPane.setLayout(new GridBagLayout());
     cons = new GridBagConstraints();
@@ -217,46 +318,17 @@ public class ConfigurationDialog implements ActionListener {
     cons.weightx = 10.0f;
     cons.weighty = 10.0f;
     cons.fill = GridBagConstraints.BOTH;
-    contentPane.add(new JScrollPane(checkBoxPanel), cons);
+    cons.anchor = GridBagConstraints.NORTHWEST;
+    contentPane.add(tabpane, cons);
     cons.weightx = 0.0f;
     cons.weighty = 0.0f;
-
-    cons.gridx = 0;
     cons.gridy++;
     cons.fill = GridBagConstraints.NONE;
-    cons.anchor = GridBagConstraints.LINE_END;
-    contentPane.add(getTreeButtonPanel(), cons);
-    
-    cons.gridy++;
-    cons.anchor = GridBagConstraints.WEST;
-    contentPane.add(getMotherTonguePanel(cons), cons);
-
-    cons.gridy++;
-    cons.anchor = GridBagConstraints.WEST;
-    contentPane.add(getNgramPanel(cons), cons);
-
-    cons.gridy++;
-    cons.anchor = GridBagConstraints.WEST;
-    contentPane.add(getWord2VecPanel(cons), cons);
-
-    cons.gridy++;
-    cons.anchor = GridBagConstraints.WEST;
-    contentPane.add(portPanel, cons);
-
-    cons.fill = GridBagConstraints.HORIZONTAL;
-    cons.anchor = GridBagConstraints.WEST;
-    for(JPanel extra : extraPanels) {
-      cons.gridy++;
-      contentPane.add(extra, cons);
-    }
-
-    cons.fill = GridBagConstraints.NONE;
-    cons.gridy++;
     cons.anchor = GridBagConstraints.EAST;
     contentPane.add(buttonPanel, cons);
 
     dialog.pack();
-    dialog.setSize(500, 500);
+    dialog.setSize(520, 500);
     // center on screen:
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     Dimension frameSize = dialog.getSize();
@@ -544,7 +616,7 @@ public class ConfigurationDialog implements ActionListener {
   }
 
   @NotNull
-  private JPanel getTreeButtonPanel() {
+  private JPanel getTreeButtonPanel(int num) {
     GridBagConstraints cons;
     JPanel treeButtonPanel = new JPanel();
     cons = new GridBagConstraints();
@@ -556,12 +628,12 @@ public class ConfigurationDialog implements ActionListener {
 
       @Override
       public void actionPerformed(ActionEvent e) {
-        TreeNode root = (TreeNode) configTree.getModel().getRoot();
+        TreeNode root = (TreeNode) configTree[num].getModel().getRoot();
         TreePath parent = new TreePath(root);
         for (Enumeration cat = root.children(); cat.hasMoreElements();) {
           TreeNode n = (TreeNode) cat.nextElement();
           TreePath child = parent.pathByAddingChild(n);
-          configTree.expandPath(child);
+          configTree[num].expandPath(child);
         }
       }
     });
@@ -573,12 +645,12 @@ public class ConfigurationDialog implements ActionListener {
     collapseAllButton.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        TreeNode root = (TreeNode) configTree.getModel().getRoot();
+        TreeNode root = (TreeNode) configTree[num].getModel().getRoot();
         TreePath parent = new TreePath(root);
         for (Enumeration categ = root.children(); categ.hasMoreElements();) {
           TreeNode n = (TreeNode) categ.nextElement();
           TreePath child = parent.pathByAddingChild(n);
-          configTree.collapsePath(child);
+          configTree[num].collapsePath(child);
         }
       }
     });
