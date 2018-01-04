@@ -6,8 +6,8 @@ title="Easy editing stylesheet" ?>
 
     <!--
  Portuguese (Portugal - prereform + postreform) - Grammar and Typo Rules for LanguageTool.
- Copyright © 2012-2017 Marco A.G.Pinto (www.marcoagpinto.com)
- Copyright © 2016-2017 Tiago F. Santos (tiagofsantos81@sapo.pt)
+ Copyright © 2012-2018 Marco A.G.Pinto (www.marcoagpinto.com)
+ Copyright © 2016-2018 Tiago F. Santos (tiagofsantos81@sapo.pt)
 
  Thanks to Juan Martorell, Daniel Naber and Yakov Reztsov who mentored the project.
 
@@ -4039,7 +4039,20 @@ title="Easy editing stylesheet" ?>
       <message>Substitua por <suggestion>de</suggestion>.</message>
       <example correction="de">Vou comprar uma caixa <marker>com</marker> fósforos.</example>
     </rule>
-
+	
+    <rule id='CALIBRAR_RODAS' name="equilibrar rodas">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
+      <pattern>
+		  <marker>
+			<token inflected='yes'>calibrar</token>
+		  </marker>
+          <token regexp="yes">as?|uma</token>
+          <token regexp="yes">rodas?</token>
+      </pattern>
+      <message>Substitua por <suggestion><match no='1' postag='V.+' postag_regexp='yes'>equilibrar</match></suggestion>.</message>
+	  <example correction="equilibrar">A Ana vai <marker>calibrar</marker> as rodas do carro.</example>
+    </rule>	
+	
     <rule id='CAPTURAR_IMAGENS' name="Captar imagens">
     <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
