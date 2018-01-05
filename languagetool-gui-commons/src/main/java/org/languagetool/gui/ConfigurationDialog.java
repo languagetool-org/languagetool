@@ -97,8 +97,12 @@ public class ConfigurationDialog implements ActionListener {
     String lastRuleId = null;
     Map<String, DefaultMutableTreeNode> parents = new TreeMap<>();
     for (Rule rule : rules) {
-      if((isStyle && rule.getLocQualityIssueType().toString().equalsIgnoreCase("STYLE")) ||
-          (!isStyle && !rule.getLocQualityIssueType().toString().equalsIgnoreCase("STYLE"))) {
+      if((isStyle && (rule.getLocQualityIssueType().toString().equalsIgnoreCase("STYLE") 
+            || rule.getCategory().getId().toString().equals("STYLE")
+            || rule.getCategory().getId().toString().equals("TYPOGRAPHY"))) ||
+          (!isStyle && !rule.getLocQualityIssueType().toString().equalsIgnoreCase("STYLE")
+            && !rule.getCategory().getId().toString().equals("STYLE")
+            && !rule.getCategory().getId().toString().equals("TYPOGRAPHY"))) {
         if(rule.getId() == "STYLE_REPEATED_WORD_RULE") {
           repeatedWordRule = rule;
         } else if(rule.getId() == "TOO_LONG_SENTENCE") {
