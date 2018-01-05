@@ -516,13 +516,13 @@ public class Configuration {
       String styleRepeatString = (String) props.get(STYLE_REPEAT_KEY);
       if (styleRepeatString != null) {
         styleRepeatSentences = Integer.parseInt(styleRepeatString);
-        setValueToRule ("STYLE_REPEATED_WORD_RULE", styleRepeatSentences, lang);
+        setValueToRule("STYLE_REPEATED_WORD_RULE", styleRepeatSentences, lang);
       }
 
       String longSentenceString = (String) props.get(LONG_SENTENCES_KEY);
       if (longSentenceString != null) {
         longSentencesWords = Integer.parseInt(longSentenceString);
-        setValueToRule ("TOO_LONG_SENTENCE", longSentencesWords, lang);
+        setValueToRule("TOO_LONG_SENTENCE", longSentencesWords, lang);
       }
 
       String colorsString = (String) props.get(ERROR_COLORS_KEY);
@@ -669,11 +669,11 @@ public class Configuration {
     JLanguageTool langTool = new JLanguageTool(lang, motherTongue);
     List<Rule> allRules = langTool.getAllRules();
     for (Rule rule : allRules) {
-      if(rule.getId() == ruleID) {
+      if(Objects.equals(rule.getId(), ruleID)) {
         rule.setDefaultValue(value);
         break;
       }
     }
-
   }
+  
 }

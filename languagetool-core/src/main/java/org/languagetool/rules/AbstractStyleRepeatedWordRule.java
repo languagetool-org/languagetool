@@ -36,11 +36,12 @@ import org.languagetool.rules.TextLevelRule;
  * The isTokenToCheck method can be used to check only specific words (e.g. substantive, verbs and adjectives).
  * This rule detects no grammar error but a stylistic problem (default off)
  * @author Fred Kruse
+ * @since 4.1
  */
-
 public abstract class AbstractStyleRepeatedWordRule  extends TextLevelRule {
   
   private static final int MAX_TOKEN_TO_CHECK = 5;
+  
   private static int maxDistanceOfSentences = 1;
 
   public AbstractStyleRepeatedWordRule(ResourceBundle messages) {
@@ -63,17 +64,17 @@ public abstract class AbstractStyleRepeatedWordRule  extends TextLevelRule {
   /*
    * Message for repeated word in same sentence
    */
-  abstract protected String messageSameSentence();
+  protected abstract String messageSameSentence();
   
   /*
    * Message for repeated word in sentence before
    */
-  abstract protected String messageSentenceBefore();
+  protected abstract String messageSentenceBefore();
   
   /*
    * Message for repeated word in sentence after
    */
-  abstract protected String messageSentenceAfter();
+  protected abstract String messageSentenceAfter();
   
   /*
    * set maximal Distance of words in number of sentences
