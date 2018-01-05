@@ -298,6 +298,10 @@ public class CaseRule extends Rule {
       csToken("Alt"),
       regex("mach|w[iu]rde?"),
       csToken("Neu")
+    ),
+    Arrays.asList( // see GermanTagger.getSubstantivatedForms
+      pos("SUB:NOM:SIN:MAS:ADJ"),
+      posRegex("PRP:.+")
     )
   );
 

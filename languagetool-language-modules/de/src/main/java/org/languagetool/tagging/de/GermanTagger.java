@@ -18,6 +18,7 @@
  */
 package org.languagetool.tagging.de;
 
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
@@ -163,8 +164,11 @@ public class GermanTagger extends BaseTagger {
           if (compoundParts.size() <= 1) {//Could not find simple compound parts
             // Recognize alternative imperative forms (e.g., "Geh bitte!" in addition to "Gehe bitte!")
             List<AnalyzedToken> imperativeFormList = getImperativeForm(word, sentenceTokens, pos);
+            List<AnalyzedToken> substantivatedFormsList = getSubstantivatedForms(word, sentenceTokens, pos);
             if (imperativeFormList != null && imperativeFormList.size() > 0) {
               readings.addAll(imperativeFormList);
+            } else if (substantivatedFormsList != null && substantivatedFormsList.size() > 0) {
+              readings.addAll(substantivatedFormsList);
             } else {
               //Separate dash-linked words
               //Only check single word tokens and skip words containing numbers because it's unpredictable
@@ -242,7 +246,7 @@ public class GermanTagger extends BaseTagger {
     String previousWord = "";
     while (--idx > -1) {
       previousWord = sentenceTokens.get(idx);
-      if (previousWord.matches("\\s+")) {
+      if (StringUtils.isWhitespace(previousWord)) {
         continue;
       }
       break;
@@ -259,6 +263,38 @@ public class GermanTagger extends BaseTagger {
           return getAnalyzedTokens(Arrays.asList(tagged), word);
         }
         break;
+      }
+    }
+    return null;
+  }
+
+  /*
+   * Tag substantivated adjectives and participles, which are currently tagged not tagged correctly
+   * (e.g., "Verletzter" in "Ein Verletzter kam in Krankenhaus" needs to be tagged as "SUB:NOM:SIN:MAS") 
+   * @param word to be checked
+   */
+  private List<AnalyzedToken> getSubstantivatedForms(String word, List<String> sentenceTokens, int pos) {
+    if (word.endsWith("er")) {
+      int idx = sentenceTokens.indexOf(word);
+      // is followed by an uppercase word? If 'yes', the word is probably not substantivated
+      while (++idx < sentenceTokens.size()) {
+        String nextWord = sentenceTokens.get(idx);
+        if (StringUtils.isWhitespace(nextWord)) {
+          continue;
+        }
+        if (nextWord.length() > 0 && Character.isUpperCase(nextWord.charAt(0))) {
+          return null;
+        }
+        break;
+      }
+      String femaleForm = word.substring(0, word.length()-1);
+      List<TaggedWord> taggedFemaleForm = getWordTagger().tag(femaleForm);
+      boolean isSubstantivatedForm = taggedFemaleForm.stream().anyMatch(t -> t.getPosTag().equals("SUB:NOM:SIN:FEM:ADJ"));
+      if (isSubstantivatedForm) {
+        List<AnalyzedToken> list = new ArrayList<AnalyzedToken>();
+        list.add(new AnalyzedToken(word, "SUB:NOM:SIN:MAS:ADJ", word));
+        //list.add(new AnalyzedToken(word, "SUB:NOM:SIN:MAS", word));
+        return list;
       }
     }
     return null;
