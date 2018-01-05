@@ -163,6 +163,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Lexion", "Lexikon");
     put("[mM]otorisation", "Motorisierung");
     put("abgeschaffen", "abgeschafft");
+    put("Verschiden", "Verschieden");
     put("Anschovis", "Anchovis");
     put("Bravur", "Bravour");
     put("Grisli", "Grizzly");
