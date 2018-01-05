@@ -4,6 +4,10 @@
 
 LANG="de_DE.UTF-8"
 DATE=`date +"%Y-%m-%d"`
+if [ "$#" -eq 1 ]; then
+  DATE=$1
+fi
+
 # for testing:
 #DATE=2016-03-31
 INPFILE=/home/ubuntu/lt/log.txt
