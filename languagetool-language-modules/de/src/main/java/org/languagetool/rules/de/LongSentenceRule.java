@@ -66,6 +66,11 @@ public class LongSentenceRule extends org.languagetool.rules.LongSentenceRule {
     return "Dieser Satz ist sehr lang (mehr als " + maxWords + " Wörter).";
   }
 
+  @Override
+  public String getId() {
+    return "DE_TOO_LONG_SENTENCE_" + maxWords;
+  }
+
   private boolean isWordCount(String tokenText) {
     if (tokenText.length() > 0) {
       char firstChar = tokenText.charAt(0);
