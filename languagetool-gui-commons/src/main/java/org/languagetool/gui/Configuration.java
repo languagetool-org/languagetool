@@ -611,8 +611,14 @@ public class Configuration {
     props.setProperty(SERVER_RUN_KEY, Boolean.toString(runServer));
     props.setProperty(SERVER_PORT_KEY, Integer.toString(serverPort));
     props.setProperty(PARA_CHECK_KEY, Integer.toString(numParasToCheck));
-    props.setProperty(STYLE_REPEAT_KEY, Integer.toString(styleRepeatSentences));
-    props.setProperty(LONG_SENTENCES_KEY, Integer.toString(longSentencesWords));
+    if(styleRepeatSentences >= 0) {
+      props.setProperty(STYLE_REPEAT_KEY, Integer.toString(styleRepeatSentences));
+      setValueToRule ("STYLE_REPEATED_WORD_RULE", styleRepeatSentences, lang);
+    }
+    if(longSentencesWords >= 0) {
+      props.setProperty(LONG_SENTENCES_KEY, Integer.toString(longSentencesWords));
+      setValueToRule ("TOO_LONG_SENTENCE", longSentencesWords, lang);
+    }
     if (fontName != null) {
       props.setProperty(FONT_NAME_KEY, fontName);
     }
@@ -654,7 +660,13 @@ public class Configuration {
   }
   
   private void setValueToRule (String ruleID, int value, Language lang) {
-    JLanguageTool langTool = new JLanguageTool(lang, getMotherTongue());
+    if(lang == null) {
+      lang = language;
+      if(lang == null) {
+        return;
+      }
+    }
+    JLanguageTool langTool = new JLanguageTool(lang, motherTongue);
     List<Rule> allRules = langTool.getAllRules();
     for (Rule rule : allRules) {
       if(rule.getId() == ruleID) {
