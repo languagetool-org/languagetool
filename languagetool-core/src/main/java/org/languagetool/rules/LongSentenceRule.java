@@ -37,7 +37,7 @@ public class LongSentenceRule extends Rule {
   private static final Pattern NON_WORD_REGEX = Pattern.compile("[.?!…:;,~’'\"„“”»«‚‘›‹()\\[\\]\\-–—\\*×∗·\\+÷:\\/=]");
   private static final boolean DEFAULT_INACTIVE = false;
 
-  protected int maxWords;
+  protected static int maxWords= DEFAULT_MAX_WORDS;
 
   /**
    * @param defaultActive allows default granularity
@@ -49,7 +49,7 @@ public class LongSentenceRule extends Rule {
     if (maxSentenceLength <= 0) {
       throw new IllegalArgumentException("maxSentenceLength must be > 0: " + maxSentenceLength);
     }
-    maxWords = maxSentenceLength;
+//    maxWords isn't used since 4.1 (adjustment of maxWords by option panel)
     if (!defaultActive) {
       setDefaultOff();
     }
@@ -76,11 +76,33 @@ public class LongSentenceRule extends Rule {
     return MessageFormat.format(messages.getString("long_sentence_rule_desc"), maxWords);
   }
 
+  /**
+   * Don't override this ID to use adjustment of maxWords by option panel
+   * @since 4.1
+   */   
   @Override
   public String getId() {
-    return "TOO_LONG_SENTENCE_" + maxWords;
+    return "TOO_LONG_SENTENCE";
   }
 
+  /*
+   * set maximal Distance of words in number of sentences
+   * @since 4.1
+   */
+  @Override
+  public void setDefaultValue(int numWords) {
+    maxWords = numWords;
+  }
+  
+  /*
+   * get maximal Distance of words in number of sentences
+   * @since 4.1
+   */
+  @Override
+  public int getDefaultValue() {
+    return maxWords;
+  }
+  
   public String getMessage() {
 		return MessageFormat.format(messages.getString("long_sentence_rule_msg"), maxWords);
   }

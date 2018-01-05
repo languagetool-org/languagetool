@@ -68,6 +68,8 @@ public class ConfigurationDialog implements ActionListener {
   private JTree configTree[] = new JTree[2];
   private JCheckBox serverSettingsCheckbox;
   private final List<JPanel> extraPanels = new ArrayList<>();
+  private Rule repeatedWordRule = null;
+  private Rule longSentencesRule = null;
 
   public ConfigurationDialog(Frame owner, boolean insideOffice, Configuration config) {
     this.owner = owner;
@@ -97,23 +99,29 @@ public class ConfigurationDialog implements ActionListener {
     for (Rule rule : rules) {
       if((isStyle && rule.getLocQualityIssueType().toString().equalsIgnoreCase("STYLE")) ||
           (!isStyle && !rule.getLocQualityIssueType().toString().equalsIgnoreCase("STYLE"))) {
-        if (!parents.containsKey(rule.getCategory().getName())) {
-          boolean enabled = true;
-          if (config.getDisabledCategoryNames() != null && config.getDisabledCategoryNames().contains(rule.getCategory().getName())) {
-            enabled = false;
+        if(rule.getId() == "STYLE_REPEATED_WORD_RULE") {
+          repeatedWordRule = rule;
+        } else if(rule.getId() == "TOO_LONG_SENTENCE") {
+          longSentencesRule = rule;
+        } else {
+          if (!parents.containsKey(rule.getCategory().getName())) {
+            boolean enabled = true;
+            if (config.getDisabledCategoryNames() != null && config.getDisabledCategoryNames().contains(rule.getCategory().getName())) {
+              enabled = false;
+            }
+            if(rule.getCategory().isDefaultOff()) {
+              enabled = false;
+            }
+            DefaultMutableTreeNode categoryNode = new CategoryNode(rule.getCategory(), enabled);
+            root.add(categoryNode);
+            parents.put(rule.getCategory().getName(), categoryNode);
           }
-          if(rule.getCategory().isDefaultOff()) {
-            enabled = false;
+          if (!rule.getId().equals(lastRuleId)) {
+            RuleNode ruleNode = new RuleNode(rule, getEnabledState(rule));
+            parents.get(rule.getCategory().getName()).add(ruleNode);
           }
-          DefaultMutableTreeNode categoryNode = new CategoryNode(rule.getCategory(), enabled);
-          root.add(categoryNode);
-          parents.put(rule.getCategory().getName(), categoryNode);
+          lastRuleId = rule.getId();
         }
-        if (!rule.getId().equals(lastRuleId)) {
-          RuleNode ruleNode = new RuleNode(rule, getEnabledState(rule));
-          parents.get(rule.getCategory().getName()).add(ruleNode);
-        }
-        lastRuleId = rule.getId();
       }
     }
     return root;
@@ -307,6 +315,24 @@ public class ConfigurationDialog implements ActionListener {
     cons.fill = GridBagConstraints.NONE;
     cons.anchor = GridBagConstraints.LINE_END;
     jPane.add(getTreeButtonPanel(1), cons);
+    
+    if(longSentencesRule != null) {
+      cons.gridx = 0;
+      cons.gridy++;
+      cons.fill = GridBagConstraints.NONE;
+      cons.anchor = GridBagConstraints.WEST;
+      String msg = messages.getString("guiLongSentencesText");
+      jPane.add(getSpecialRuleValuePanel(longSentencesRule, msg, 5, 100), cons);
+    }
+
+    if(repeatedWordRule != null) {
+      cons.gridx = 0;
+      cons.gridy++;
+      cons.fill = GridBagConstraints.NONE;
+      cons.anchor = GridBagConstraints.WEST;
+      String msg = messages.getString("guiStyleRepeatedWordText");
+      jPane.add(getSpecialRuleValuePanel(repeatedWordRule, msg, 0, 5), cons);
+    }
 
     tabpane.addTab(messages.getString("guiStyleRules"), jPane);
     
@@ -827,4 +853,98 @@ public class ConfigurationDialog implements ActionListener {
 
   }
 
+/* Panel to set Values for special rules like LongSentenceRule
+ * cons = GridBagConstraints
+ * rule = the special rule (has to be set in createTree)
+ * msg = Message to display before value
+ * min = minimal value to set
+ * max = maximal value to set
+ * @since 4.1
+ */
+  private JPanel getSpecialRuleValuePanel(Rule rule, String msg, int min, int max) {
+    JPanel panel = new JPanel();
+    panel.setLayout(new GridBagLayout());
+    GridBagConstraints cons = new GridBagConstraints();
+    cons.gridx = 0;
+    cons.gridy = 0;
+    cons.weightx = 0.0f;
+    cons.fill = GridBagConstraints.NONE;
+    cons.anchor = GridBagConstraints.WEST;
+
+    JCheckBox ruleCheckbox = new JCheckBox(rule.getDescription());
+    ruleCheckbox.setSelected(getEnabledState(rule));
+    panel.add(ruleCheckbox, cons);
+
+    cons.insets = new Insets(0, 24, 0, 0);
+    cons.gridy++;
+    JLabel ruleLabel = new JLabel(msg);
+    ruleLabel.setEnabled(ruleCheckbox.isSelected());
+    panel.add(ruleLabel, cons);
+    
+    cons.gridx++;
+    int value;
+    if(rule.getId() == "STYLE_REPEATED_WORD_RULE" && config.getStyleRepeatSentences() >= 0) {
+      value = config.getStyleRepeatSentences();
+    } else if(rule.getId() == "TOO_LONG_SENTENCE" && config.getLongSentencesWords() >= 0) {
+      value = config.getLongSentencesWords();
+    } else {
+      value = rule.getDefaultValue();
+    }
+    JTextField ruleValueField = new JTextField(Integer.toString(value), 2);  // config.getServerPort()
+    ruleValueField.setEnabled(ruleCheckbox.isSelected());
+    ruleValueField.setMinimumSize(new Dimension(35, 25));  // without this the box is just a few pixels small, but why?
+    panel.add(ruleValueField, cons);
+    
+    ruleCheckbox.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(@SuppressWarnings("unused") ActionEvent e) {
+        ruleValueField.setEnabled(ruleCheckbox.isSelected());
+        ruleLabel.setEnabled(ruleCheckbox.isSelected());
+        if (ruleCheckbox.isSelected()) {
+          config.getEnabledRuleIds().add(rule.getId());
+          config.getDisabledRuleIds().remove(rule.getId());
+        } else {
+          config.getEnabledRuleIds().remove(rule.getId());
+          config.getDisabledRuleIds().add(rule.getId());
+        }
+      }
+    });
+
+    ruleValueField.getDocument().addDocumentListener(new DocumentListener() {
+      @Override
+      public void insertUpdate(DocumentEvent e) {
+        changedUpdate(e);
+      }
+
+      @Override
+      public void removeUpdate(DocumentEvent e) {
+        changedUpdate(e);
+      }
+
+      @Override
+      public void changedUpdate(DocumentEvent e) {
+        try {
+          int num = Integer.parseInt(ruleValueField.getText());
+          if (num < min) {
+            num = min;
+            ruleValueField.setForeground(Color.RED);
+          } else if (num > max) {
+            num = max;
+            ruleValueField.setForeground(Color.RED);
+          } else {
+            ruleValueField.setForeground(null);
+          }
+          if(rule.getId() == "STYLE_REPEATED_WORD_RULE") {
+            config.setStyleRepeatSentences(num);
+          } else if(rule.getId() == "TOO_LONG_SENTENCE") {
+            config.setLongSentencesWords(num);
+          }
+        } catch (Exception ex) {
+          ruleValueField.setForeground(Color.RED);
+        }
+      }
+    });
+    return panel;
+  }
+  
 }

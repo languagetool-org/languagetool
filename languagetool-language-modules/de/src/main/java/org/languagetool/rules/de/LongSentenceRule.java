@@ -33,13 +33,12 @@ import java.util.ResourceBundle;
  */
 public class LongSentenceRule extends org.languagetool.rules.LongSentenceRule {
 
-  private static final int DEFAULT_MAX_WORDS = 40;
   private static final boolean DEFAULT_INACTIVE = true;
 
   /**
    * @param defaultActive allows default granularity
    */
-  public LongSentenceRule(ResourceBundle messages, int maxSentenceLength, boolean defaultActive) {
+  public LongSentenceRule(ResourceBundle messages, boolean defaultActive) {
     super(messages);
     super.setCategory(Categories.STYLE.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Style);
@@ -48,32 +47,19 @@ public class LongSentenceRule extends org.languagetool.rules.LongSentenceRule {
     if (defaultActive) {
       setDefaultOn();
     }
-    maxWords = maxSentenceLength;
   }
 
   /**
-   * @param maxSentenceLength the maximum sentence length that does not yet trigger a match
-   */
-  public LongSentenceRule(ResourceBundle messages, int maxSentenceLength) {
-    this(messages, maxSentenceLength, DEFAULT_INACTIVE);
-  }
-
-  /**
-   * Creates a rule with the default maximum sentence length (40 words).
+   * Creates a rule with the default Off
    */
   public LongSentenceRule(ResourceBundle messages) {
-    this(messages, DEFAULT_MAX_WORDS, DEFAULT_INACTIVE);
+    this(messages, DEFAULT_INACTIVE);
     setDefaultOn();
   }
 
   @Override
-  public String getId() {
-    return "DE_TOO_LONG_SENTENCE_" + maxWords;
-  }
-
-  @Override
   public String getDescription() {
-    return "Sehr langer Satz (mehr als " + maxWords + " Wörter)";
+    return "Sehr langer Satz";
   }
 
   @Override

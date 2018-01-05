@@ -112,6 +112,21 @@ public abstract class Rule {
   }
 
   /**
+   * Overwrite this to set a default Integer value by option panel
+   * @since 4.1
+   */
+  public void setDefaultValue(int num) {
+  }
+
+  /**
+   * Overwrite this to get a default Integer value by option panel
+   * @since 4.1
+   */
+  public int getDefaultValue() {
+    return 0;
+  }
+
+  /**
    * To be called from {@link #match(AnalyzedSentence)} for rules that want
    * {@link #getAntiPatterns()} to be considered.
    * @since 3.1

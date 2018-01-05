@@ -24,6 +24,7 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
 import org.languagetool.rules.ITSIssueType;
+import org.languagetool.rules.Rule;
 
 import java.awt.*;
 import java.io.*;
@@ -58,6 +59,8 @@ public class Configuration {
   private static final String SERVER_RUN_KEY = "serverMode";
   private static final String SERVER_PORT_KEY = "serverPort";
   private static final String PARA_CHECK_KEY = "numberParagraphs";
+  private static final String STYLE_REPEAT_KEY = "distanceRepeatedWords";
+  private static final String LONG_SENTENCES_KEY = "numberWordsLongSentences";
   private static final String USE_GUI_KEY = "useGUIConfig";
   private static final String FONT_NAME_KEY = "font.name";
   private static final String FONT_STYLE_KEY = "font.style";
@@ -89,6 +92,8 @@ public class Configuration {
   private int fontSize = FONT_SIZE_INVALID;
   private int serverPort = DEFAULT_SERVER_PORT;
   private int numParasToCheck = DEFAULT_NUM_CHECK_PARAS;
+  private int styleRepeatSentences = -1;
+  private int longSentencesWords = -1;
   private String externalRuleDirectory;
   private String lookAndFeelName;
 
@@ -147,6 +152,8 @@ public class Configuration {
     this.fontSize = configuration.fontSize;
     this.serverPort = configuration.serverPort;
     this.numParasToCheck = configuration.numParasToCheck;
+    this.styleRepeatSentences = configuration.styleRepeatSentences;
+    this.longSentencesWords = configuration.longSentencesWords;
     this.lookAndFeelName = configuration.lookAndFeelName;
     this.externalRuleDirectory = configuration.externalRuleDirectory;
     this.disabledRuleIds.clear();
@@ -286,8 +293,38 @@ public class Configuration {
     this.numParasToCheck = numParas;
   }
 
+  /**
+   * get the maximal distance of two repeated words in number of sentences
+   * @since 4.1
+   */
+  public int getStyleRepeatSentences() {
+    return styleRepeatSentences;
+  }
 
-  
+  /**
+   * set the maximal distance of two repeated words in number of sentences
+   * @since 4.1
+   */
+  public void setStyleRepeatSentences(int numSentences) {
+    this.styleRepeatSentences = numSentences;
+  }
+
+  /**
+   * get the number of words a sentence is marked as too long
+   * @since 4.1
+   */
+  public int getLongSentencesWords() {
+    return longSentencesWords;
+  }
+
+  /**
+   * set the number of words a sentence is marked as too long
+   * @since 4.1
+   */
+  public void setLongSentencesWords(int numWords) {
+    this.longSentencesWords = numWords;
+  }
+
   /**
    * Returns the name of the GUI's editing textarea font.
    * @return the name of the font.
@@ -476,6 +513,18 @@ public class Configuration {
         numParasToCheck = Integer.parseInt(paraCheckString);
       }
 
+      String styleRepeatString = (String) props.get(STYLE_REPEAT_KEY);
+      if (styleRepeatString != null) {
+        styleRepeatSentences = Integer.parseInt(styleRepeatString);
+        setValueToRule ("STYLE_REPEATED_WORD_RULE", styleRepeatSentences, lang);
+      }
+
+      String longSentenceString = (String) props.get(LONG_SENTENCES_KEY);
+      if (longSentenceString != null) {
+        longSentencesWords = Integer.parseInt(longSentenceString);
+        setValueToRule ("TOO_LONG_SENTENCE", longSentencesWords, lang);
+      }
+
       String colorsString = (String) props.get(ERROR_COLORS_KEY);
       parseErrorColors(colorsString);
 
@@ -562,6 +611,8 @@ public class Configuration {
     props.setProperty(SERVER_RUN_KEY, Boolean.toString(runServer));
     props.setProperty(SERVER_PORT_KEY, Integer.toString(serverPort));
     props.setProperty(PARA_CHECK_KEY, Integer.toString(numParasToCheck));
+    props.setProperty(STYLE_REPEAT_KEY, Integer.toString(styleRepeatSentences));
+    props.setProperty(LONG_SENTENCES_KEY, Integer.toString(longSentencesWords));
     if (fontName != null) {
       props.setProperty(FONT_NAME_KEY, fontName);
     }
@@ -600,5 +651,17 @@ public class Configuration {
     } else {
       props.setProperty(key, String.join(DELIMITER,  list));
     }
+  }
+  
+  private void setValueToRule (String ruleID, int value, Language lang) {
+    JLanguageTool langTool = new JLanguageTool(lang, getMotherTongue());
+    List<Rule> allRules = langTool.getAllRules();
+    for (Rule rule : allRules) {
+      if(rule.getId() == ruleID) {
+        rule.setDefaultValue(value);
+        break;
+      }
+    }
+
   }
 }
