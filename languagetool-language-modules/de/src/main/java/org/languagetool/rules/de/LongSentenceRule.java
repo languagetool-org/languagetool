@@ -33,7 +33,7 @@ import java.util.ResourceBundle;
  */
 public class LongSentenceRule extends org.languagetool.rules.LongSentenceRule {
 
-  private static final boolean DEFAULT_INACTIVE = true;
+  private static final boolean DEFAULT_INACTIVE = false;
 
   /**
    * @param defaultActive allows default granularity
@@ -54,7 +54,6 @@ public class LongSentenceRule extends org.languagetool.rules.LongSentenceRule {
    */
   public LongSentenceRule(ResourceBundle messages) {
     this(messages, DEFAULT_INACTIVE);
-    setDefaultOn();
   }
 
   @Override
