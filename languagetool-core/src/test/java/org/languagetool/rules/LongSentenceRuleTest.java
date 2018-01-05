@@ -41,7 +41,8 @@ public class LongSentenceRuleTest {
             "a a a a a a a a a a a " +
             "rather that short text.", rule, languageTool);
     
-    LongSentenceRule shortRule = new LongSentenceRule(TestTools.getEnglishMessages(), 6);
+    LongSentenceRule shortRule = new LongSentenceRule(TestTools.getEnglishMessages());
+    shortRule.setDefaultValue(6);
     assertNoMatch("This is a rather short text.", shortRule, languageTool);
     assertMatch("This is also a rather short text.", shortRule, languageTool);
     assertNoMatch("These ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ don't count.", shortRule, languageTool);
