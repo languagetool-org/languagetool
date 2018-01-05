@@ -3690,7 +3690,7 @@
         
         <rule id="JJ_VBZ_NNS" name="Adjective + verb singular/plural noun => noun">
         <pattern>
-            <token postag="JJ"><exception scope="previous" regexp="yes">s?he|it</exception><exception postag="RB"/></token>
+            <token postag="JJ"><exception scope="previous" regexp="yes">s?he|it</exception><exception postag="RB"/><exception scope="previous" postag="JJ"/></token>
             <marker>
             <and>
             <token postag="VBZ"><exception regexp="yes">is|does</exception></token>
@@ -3702,6 +3702,7 @@
           <disambig postag="NNS"/>
           <example type="untouched">I enjoy running.</example>
           <example type="untouched">Hard work causes fitness and vice versa.</example>
+          <example type="untouched">This occurs when the core of a massive star exhausts its nuclear fuel.</example>
           <example type="ambiguous" inputform="forces[force/NNS,force/VBZ]" outputform="forces[force/NNS]">I like military <marker>forces</marker>.</example>
         </rule>
         
