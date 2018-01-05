@@ -5155,6 +5155,21 @@ title="Easy editing stylesheet" ?>
       <example correction="obrigado">O meu muito <marker>obrigada</marker> por tudo.</example>
     </rule>
 
+    <rule id='ORA_DE_REFEIÇÃO' name="Hora de refeição">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
+      <pattern>
+          <token regexp="yes">a|na|da</token>
+          <token min="0" regexp="yes">minha|tua|sua|nossa|vossa|curta|longa</token>
+		  <marker>
+			<token>ora</token>
+		  </marker>
+		  <token>de</token>
+		  <token>refeição</token>
+      </pattern>
+      <message>Substitua por <suggestion>hora</suggestion>.</message>
+      <example correction="hora">Está na minha <marker>ora</marker> de refeição.</example>
+    </rule>	
+	
     <!-- PALAVRAS-CHAVES palavras-chave -->
     <rule id='PALAVRAS-CHAVES' name="Palavras-chave">
       <pattern>
