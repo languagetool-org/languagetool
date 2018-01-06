@@ -18097,7 +18097,7 @@ though, and has since been slightly modified)-->
                     <token postag="D.*" postag_regexp="yes"/>
                     <token postag="N . s" postag_regexp="yes"/>
                     <!-- Not all combinations of tokens are actually possible -->
-                    <token regexp="yes">qui</token>
+                    <token regexp="yes">,|qui</token>
                     <token regexp="yes">lui</token>
                     <token regexp="yes">ne</token>
                     <token regexp="yes">[lmts]</token>
@@ -18112,6 +18112,7 @@ though, and has since been slightly modified)-->
                 <message>Le verbe « \10 » devrait être à la 3e personne du singulier.</message>
                 <example correction="">Mon enfant qui lui ne m’en <marker>veux</marker> pas.</example>
                 <example>Mon enfant qui lui ne m’en veut pas.</example>
+                <example correction="">Mon enfant, lui ne m’en <marker>veux</marker> pas.</example>
             </rule>
             <rule name="sujet pluriel + verbe singulier">
                 <pattern>
@@ -18204,8 +18205,8 @@ though, and has since been slightly modified)-->
                     <token postag="D.*" postag_regexp="yes"/>
                     <token postag="[NZ] . p" postag_regexp="yes"/>
                     <!-- Not all combinations of tokens are actually possible -->
-                    <token regexp="yes">[mnt]|ne|qui</token>
-                    <token regexp="yes">[’´'‛′‘]|[lmts]e?|[vn]ous|lui|leur|n</token>
+                    <token regexp="yes">,|[mnt]|ne|qui</token>
+                    <token regexp="yes">[’´'‛′‘]|[lmts]e?|[vn]ous|[ql]ui|leur|n</token>
                     <token regexp="yes">[’´'‛′‘]|l[ea]|[vn]ous|lui|leur|en|y</token>
                     <marker>
                         <token postag="V.*" postag_regexp="yes">
@@ -18217,6 +18218,7 @@ though, and has since been slightly modified)-->
                 <example correction="">Les enfants ne l’<marker>attend</marker> pas.</example>
                 <example>Les enfants ne l’attendent pas.</example>
                 <example correction="">Les enfants qui n’<marker>attende</marker> pas seront punis.</example>
+                <example correction="">Les enfants, qui lui <marker>a</marker> dit.</example>
             </rule>
             <rule name="sujet pluriel + 4 tokens + verbe singulier">
                 <pattern>
