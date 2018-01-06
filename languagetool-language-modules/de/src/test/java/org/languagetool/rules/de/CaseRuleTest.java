@@ -223,6 +223,9 @@ public class CaseRuleTest {
     assertBad("Das Blaue Auto.");
     //assertBad("Der Grüne Baum.");
     assertBad("Ein Einfacher Satz zum Testen.");
+    assertBad("Eine Einfache Frage zum Testen?");
+    assertBad("Er kam Früher als sonst.");
+    assertBad("Er rennt Schneller als ich.");
     assertBad("Das Winseln Stört.");
     assertBad("Sein verhalten war okay.");
     assertEquals(1, lt.check("Karten werden vom Auswahlstapel gezogen. Auch […] Der Auswahlstapel gehört zum Inhalt.").size());

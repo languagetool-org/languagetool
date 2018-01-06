@@ -275,6 +275,11 @@ public class GermanTagger extends BaseTagger {
    */
   private List<AnalyzedToken> getSubstantivatedForms(String word, List<String> sentenceTokens, int pos) {
     if (word.endsWith("er")) {
+      List<TaggedWord> lowerCaseTags = getWordTagger().tag(word.toLowerCase());
+      // do not add tag words whose lower case variant is an adverb (e.g, "Früher") to avoid false negatives for DE_CASE
+      if (lowerCaseTags.stream().anyMatch(t -> t.getPosTag().startsWith("ADV"))) {
+        return null;
+      }
       int idx = sentenceTokens.indexOf(word);
       // is followed by an uppercase word? If 'yes', the word is probably not substantivated
       while (++idx < sentenceTokens.size()) {
@@ -282,7 +287,7 @@ public class GermanTagger extends BaseTagger {
         if (StringUtils.isWhitespace(nextWord)) {
           continue;
         }
-        if (nextWord.length() > 0 && Character.isUpperCase(nextWord.charAt(0))) {
+        if (nextWord.length() > 0 && (Character.isUpperCase(nextWord.charAt(0)) || "als".equals(nextWord))) {
           return null;
         }
         break;

@@ -1167,7 +1167,7 @@ public class CaseRule extends Rule {
     for (AnalyzedToken reading : tokens[i].getReadings()) {
       String posTag = reading.getPOSTag();
       if ((posTag == null || posTag.contains("ADJ")) && !hasNounReading(nextReadings)) {
-        if(posTag == null && hasPartialTag(lowercaseReadings, "PRP:LOK", "PA2:PRD:GRU:VER", "PA1:PRD:GRU:VER")) {
+        if(posTag == null && hasPartialTag(lowercaseReadings, "PRP:LOK", "PA2:PRD:GRU:VER", "PA1:PRD:GRU:VER", "ADJ:PRD:KOM")) {
           // skip to avoid a false true for, e.g. "Die Zahl ging auf Über 1.000 zurück."/ "Dies gilt schon lange als Überholt."
           // but not for "Er versuchte, Neues zu wagen."
         } else {
