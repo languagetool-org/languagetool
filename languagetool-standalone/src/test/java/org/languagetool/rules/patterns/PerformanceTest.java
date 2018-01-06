@@ -35,16 +35,16 @@ final class PerformanceTest {
   private PerformanceTest() {
   }
 
-  private void run(JLanguageTool langTool, File textFile) throws IOException {
+  private void run(JLanguageTool lt, File textFile) throws IOException {
     String text = StringTools.readStream(new FileInputStream(textFile), "utf-8");
-    int sentenceCount = langTool.sentenceTokenize(text).size();
-    //langTool.activateLanguageModelRules(new File("/data/google-ngram-index/"));
-    System.out.println("Language: " +  langTool.getLanguage() +
+    int sentenceCount = lt.sentenceTokenize(text).size();
+    //lt.activateLanguageModelRules(new File("/data/google-ngram-index/"));
+    System.out.println("Language: " +  lt.getLanguage() +
                        ", Text length: " + text.length() + " chars, " + sentenceCount + " sentences");
 
     System.out.println("Warmup...");
     long startTime1 = System.currentTimeMillis();
-    langTool.check(text);
+    lt.check(text);
     long runTime1 = System.currentTimeMillis() - startTime1;
     float timePerSentence1 = (float)runTime1 / sentenceCount;
     System.out.printf("Check time on first run: " + runTime1 + "ms = %.1fms per sentence\n", timePerSentence1);
@@ -53,7 +53,7 @@ final class PerformanceTest {
     long totalTime = 0;
     for (int i = 0; i < RUNS; i++) {
       long startTime2 = System.currentTimeMillis();
-      langTool.check(text);
+      lt.check(text);
       long runTime2 = System.currentTimeMillis() - startTime2;
       float timePerSentence2 = (float)runTime2 / sentenceCount;
       System.out.printf("Check time after warmup: " + runTime2 + "ms = %.1fms per sentence\n", timePerSentence2);

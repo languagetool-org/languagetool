@@ -64,7 +64,7 @@ public abstract class SpellingCheckRule extends Rule {
   private Map<String,Set<String>> wordsToBeIgnoredDictionaryIgnoreCase = new HashMap<>();
   private final Set<String> wordsToBeIgnored = new HashSet<>();
   private final Set<String> wordsToBeProhibited = new HashSet<>();
-  private final CachingWordListLoader wordListLoader = new CachingWordListLoader();
+  protected final CachingWordListLoader wordListLoader = new CachingWordListLoader();
   
   private List<DisambiguationPatternRule> antiPatterns = new ArrayList<>();
   private boolean considerIgnoreWords = true;
@@ -184,6 +184,7 @@ public abstract class SpellingCheckRule extends Rule {
    * spell checking.
    * @return true if the dictionary converts case
    * @since 2.5
+   * @deprecated deprecated as there's no internal use in LT, complain and describe your use case if you need this (deprecated since 3.9)
    */
   public boolean isConvertsCase() {
     return convertsCase;
@@ -264,11 +265,7 @@ public abstract class SpellingCheckRule extends Rule {
    * @since 2.8
    */
   protected void filterSuggestions(List<String> suggestions) {
-    for (int i = 0; i < suggestions.size(); i++) {
-      if (isProhibited(suggestions.get(i))) {
-        suggestions.remove(i);
-      }
-    }
+    suggestions.removeIf(suggestion -> isProhibited(suggestion));
   }
 
   /**

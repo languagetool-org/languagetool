@@ -66,6 +66,10 @@ public class MorfologikAmericanSpellerRuleTest extends AbstractEnglishSpellerRul
     assertEquals(0, rule.match(langTool.getAnalyzedSentence(",")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("123454")).length);
 
+    // test words in language-specific spelling_en-US.txt
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("USTestWordToBeIgnored")).length);
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("NZTestWordToBeIgnored")).length);
+
     //incorrect sentences:
 
     RuleMatch[] matches1 = rule.match(langTool.getAnalyzedSentence("behaviour"));

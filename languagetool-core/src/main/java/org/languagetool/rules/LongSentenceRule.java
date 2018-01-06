@@ -34,10 +34,10 @@ import org.languagetool.AnalyzedTokenReadings;
 public class LongSentenceRule extends Rule {
 
   private static final int DEFAULT_MAX_WORDS = 40;
-  private static final Pattern NON_WORD_REGEX = Pattern.compile("[.?!:;,~’'\"„“»«‚‘›‹()\\[\\]-]");
+  private static final Pattern NON_WORD_REGEX = Pattern.compile("[.?!…:;,~’'\"„“”»«‚‘›‹()\\[\\]\\-–—\\*×∗·\\+÷:\\/=]");
   private static final boolean DEFAULT_INACTIVE = false;
 
-  private final int maxWords;
+  protected static int maxWords= DEFAULT_MAX_WORDS;
 
   /**
    * @param defaultActive allows default granularity
@@ -49,7 +49,7 @@ public class LongSentenceRule extends Rule {
     if (maxSentenceLength <= 0) {
       throw new IllegalArgumentException("maxSentenceLength must be > 0: " + maxSentenceLength);
     }
-    maxWords = maxSentenceLength;
+//    maxWords isn't used since 4.1 (adjustment of maxWords by option panel)
     if (!defaultActive) {
       setDefaultOff();
     }
@@ -76,31 +76,57 @@ public class LongSentenceRule extends Rule {
     return MessageFormat.format(messages.getString("long_sentence_rule_desc"), maxWords);
   }
 
+  /**
+   * Don't override this ID to use adjustment of maxWords by option panel
+   * @since 4.1
+   */   
   @Override
   public String getId() {
     return "TOO_LONG_SENTENCE";
+  }
+
+  /*
+   * set maximal Distance of words in number of sentences
+   * @since 4.1
+   */
+  @Override
+  public void setDefaultValue(int numWords) {
+    maxWords = numWords;
+  }
+  
+  /*
+   * get maximal Distance of words in number of sentences
+   * @since 4.1
+   */
+  @Override
+  public int getDefaultValue() {
+    return maxWords;
+  }
+  
+  public String getMessage() {
+		return MessageFormat.format(messages.getString("long_sentence_rule_msg"), maxWords);
   }
 
   @Override
   public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
     List<RuleMatch> ruleMatches = new ArrayList<>();
     AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
-    String msg = MessageFormat.format(messages.getString("long_sentence_rule_msg"), maxWords);
+    String msg = getMessage();
     int numWords = 0;
-    int pos = 0;
+    int pos = sentence.getText().length() - 1;   //  marks the whole sentence
     if (tokens.length < maxWords + 1) {   // just a short-circuit
       return toRuleMatchArray(ruleMatches);
     } else {
       for (AnalyzedTokenReadings aToken : tokens) {
         String token = aToken.getToken();
-        pos += token.length();  // won't match the whole offending sentence, but much of it
+//        pos += token.length();  // won't match the whole offending sentence, but much of it
         if (!aToken.isSentenceStart() && !aToken.isSentenceEnd() && !NON_WORD_REGEX.matcher(token).matches()) {
           numWords++;
         }
       }
     }
     if (numWords > maxWords) {
-      RuleMatch ruleMatch = new RuleMatch(this, 0, pos, msg);
+      RuleMatch ruleMatch = new RuleMatch(this, sentence, 0, pos, msg);
       ruleMatches.add(ruleMatch);
     }
     return toRuleMatchArray(ruleMatches);

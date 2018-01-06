@@ -214,8 +214,8 @@ public class VerbAgreementRule extends TextLevelRule {
         }
       }
       partialSentence = new AnalyzedSentence(Arrays.copyOfRange(tokens, idx, tokens.length));
-      ruleMatches.addAll(match(partialSentence, 0));
-      pos += partialSentence.getText().length();
+      ruleMatches.addAll(match(partialSentence, pos));
+      pos += sentence.getText().length();
     }
     return toRuleMatchArray(ruleMatches);
   }
@@ -309,7 +309,7 @@ public class VerbAgreementRule extends TextLevelRule {
     // "ich", "du", "er", and "wir" must have a matching verb
     
     if (posVer1Sin != -1 && posIch == -1 && !isQuotationMark(tokens[posVer1Sin-1])) { // 1st pers sg verb but no "ich"
-      ruleMatches.add(ruleMatchWrongVerb(tokens[posVer1Sin], pos));
+      ruleMatches.add(ruleMatchWrongVerb(tokens[posVer1Sin], pos, sentence));
     } else if (posIch > 0 && !isNear(posPossibleVer1Sin, posIch) // check whether verb next to "ich" is 1st pers sg
                && (tokens[posIch].getToken().equals("ich") || tokens[posIch].getStartPos() == 0) // ignore "lyrisches Ich" etc.
                && !isQuotationMark(tokens[posIch-1])) {
@@ -317,13 +317,13 @@ public class VerbAgreementRule extends TextLevelRule {
       BooleanAndFiniteVerb check = verbDoesMatchPersonAndNumber(tokens[posIch - 1], tokens[posIch + plus1], "1", "SIN", finiteVerb);
       if (!check.verbDoesMatchPersonAndNumber) {
         if (!nextButOneIsModal(tokens, posIch) && !"äußerst".equals(check.finiteVerb.getToken())) {
-          ruleMatches.add(ruleMatchWrongVerbSubject(tokens[posIch], check.finiteVerb, "1:SIN", pos));
+          ruleMatches.add(ruleMatchWrongVerbSubject(tokens[posIch], check.finiteVerb, "1:SIN", pos, sentence));
         }
       }
     }
     
     if (posVer2Sin != -1 && posDu == -1 && !isQuotationMark(tokens[posVer2Sin-1])) {
-      ruleMatches.add(ruleMatchWrongVerb(tokens[posVer2Sin], pos));
+      ruleMatches.add(ruleMatchWrongVerb(tokens[posVer2Sin], pos, sentence));
     } else if (posDu > 0 && !isNear(posPossibleVer2Sin, posDu) && !isQuotationMark(tokens[posDu-1])) {
       int plus1 = ((posDu + 1) == tokens.length) ? 0 : +1;
       BooleanAndFiniteVerb check = verbDoesMatchPersonAndNumber(tokens[posDu - 1], tokens[posDu + plus1], "2", "SIN", finiteVerb);
@@ -332,7 +332,7 @@ public class VerbAgreementRule extends TextLevelRule {
           !tokens[posDu+plus1].hasPartialPosTag("ADJ:") && // "dass du  billige Klamotten..."
           !tokens[posDu-1].hasPartialPosTag("VER:1:SIN:KJ2")) {
         if (!nextButOneIsModal(tokens, posDu)) {
-          ruleMatches.add(ruleMatchWrongVerbSubject(tokens[posDu], check.finiteVerb, "2:SIN", pos));
+          ruleMatches.add(ruleMatchWrongVerbSubject(tokens[posDu], check.finiteVerb, "2:SIN", pos, sentence));
         }
       }
     }
@@ -344,17 +344,17 @@ public class VerbAgreementRule extends TextLevelRule {
               && !nextButOneIsModal(tokens, posEr)
               && !"äußerst".equals(check.finiteVerb.getToken())
               && !"regen".equals(check.finiteVerb.getToken())) {  // "wo er regen Anteil nahm"
-        ruleMatches.add(ruleMatchWrongVerbSubject(tokens[posEr], check.finiteVerb, "3:SIN", pos));
+        ruleMatches.add(ruleMatchWrongVerbSubject(tokens[posEr], check.finiteVerb, "3:SIN", pos, sentence));
       }
     }
     
     if (posVer1Plu != -1 && posWir == -1 && !isQuotationMark(tokens[posVer1Plu-1])) {
-      ruleMatches.add(ruleMatchWrongVerb(tokens[posVer1Plu], pos));
+      ruleMatches.add(ruleMatchWrongVerb(tokens[posVer1Plu], pos, sentence));
     } else if (posWir > 0 && !isNear(posPossibleVer1Plu, posWir) && !isQuotationMark(tokens[posWir-1])) {
       int plus1 = ((posWir + 1) == tokens.length) ? 0 : +1;
       BooleanAndFiniteVerb check = verbDoesMatchPersonAndNumber(tokens[posWir - 1], tokens[posWir + plus1], "1", "PLU", finiteVerb);
       if (!check.verbDoesMatchPersonAndNumber && !nextButOneIsModal(tokens, posWir)) {
-        ruleMatches.add(ruleMatchWrongVerbSubject(tokens[posWir], check.finiteVerb, "1:PLU", pos));
+        ruleMatches.add(ruleMatchWrongVerbSubject(tokens[posWir], check.finiteVerb, "1:PLU", pos, sentence));
       }
     }
     
@@ -521,14 +521,14 @@ public class VerbAgreementRule extends TextLevelRule {
     return result;
   }
   
-  private RuleMatch ruleMatchWrongVerb(AnalyzedTokenReadings token, int pos) {
+  private RuleMatch ruleMatchWrongVerb(AnalyzedTokenReadings token, int pos, AnalyzedSentence sentence) {
     String msg = "Möglicherweise fehlende grammatische Übereinstimmung zwischen Subjekt und Prädikat (" +
       token.getToken() + ") bezüglich Person oder Numerus (Einzahl, Mehrzahl - Beispiel: " +
       "'Max bist' statt 'Max ist').";
-    return new RuleMatch(this, pos+token.getStartPos(), pos+token.getEndPos(), msg);
+    return new RuleMatch(this, sentence, pos+token.getStartPos(), pos+token.getEndPos(), msg);
   }
   
-  private RuleMatch ruleMatchWrongVerbSubject(AnalyzedTokenReadings subject, AnalyzedTokenReadings verb, String expectedVerbPOS, int pos) {
+  private RuleMatch ruleMatchWrongVerbSubject(AnalyzedTokenReadings subject, AnalyzedTokenReadings verb, String expectedVerbPOS, int pos, AnalyzedSentence sentence) {
     String msg = "Möglicherweise fehlende grammatische Übereinstimmung zwischen Subjekt (" + subject.getToken() +
       ") und Prädikat (" + verb.getToken() + ") bezüglich Person oder Numerus (Einzahl, Mehrzahl - Beispiel: " +
       "'ich sind' statt 'ich bin').";
@@ -539,7 +539,7 @@ public class VerbAgreementRule extends TextLevelRule {
     
     RuleMatch ruleMatch;
     if (subject.getStartPos() < verb.getStartPos()) {
-      ruleMatch = new RuleMatch(this, pos+subject.getStartPos(), pos+verb.getStartPos()+verb.getToken().length(), msg);
+      ruleMatch = new RuleMatch(this, sentence, pos+subject.getStartPos(), pos+verb.getStartPos()+verb.getToken().length(), msg);
       verbSuggestions.addAll(getVerbSuggestions(verb, expectedVerbPOS, false));
       for (String verbSuggestion : verbSuggestions) {
         suggestions.add(subject.getToken() + " " + verbSuggestion);
@@ -550,7 +550,7 @@ public class VerbAgreementRule extends TextLevelRule {
       }
       ruleMatch.setSuggestedReplacements(suggestions);
     } else {
-      ruleMatch = new RuleMatch(this, pos+verb.getStartPos(), pos+subject.getStartPos()+subject.getToken().length(), msg);
+      ruleMatch = new RuleMatch(this, sentence, pos+verb.getStartPos(), pos+subject.getStartPos()+subject.getToken().length(), msg);
       verbSuggestions.addAll(getVerbSuggestions(verb, expectedVerbPOS, Character.isUpperCase(verb.getToken().charAt(0))));
       for (String verbSuggestion : verbSuggestions) {
         suggestions.add(verbSuggestion + " " + subject.getToken());

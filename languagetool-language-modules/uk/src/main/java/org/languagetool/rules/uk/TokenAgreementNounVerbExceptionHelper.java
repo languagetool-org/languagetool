@@ -1,28 +1,25 @@
 package org.languagetool.rules.uk;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Scanner;
 import java.util.Set;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.JLanguageTool;
 import org.languagetool.rules.uk.LemmaHelper.Dir;
+import org.languagetool.tagging.uk.IPOSTag;
 import org.languagetool.tagging.uk.PosTagHelper;
 
 /**
  * @since 3.6
  */
 public final class TokenAgreementNounVerbExceptionHelper {
-  private static final Set<String> MASC_FEM_SET = loadSet("/uk/masc_fem.txt");
+  private static final Set<String> MASC_FEM_SET = extendSet(ExtraDictionaryLoader.loadSet("/uk/masc_fem.txt"), "екс-");
 
   private TokenAgreementNounVerbExceptionHelper() {
   }
@@ -200,8 +197,9 @@ public final class TokenAgreementNounVerbExceptionHelper {
 //          return true;
 //        }
         
-        if( PosTagHelper.hasPosTagPart(tokens[i-1], "numr") ) { 
-//            && ! LemmaHelper.hasLemma(tokens[i-1], "один") ) {
+        if( (PosTagHelper.hasPosTagPart(tokens[i-1], "numr")
+            && ! LemmaHelper.hasLemma(tokens[i-1], "один"))
+            || LemmaHelper.hasLemma(tokens[i-1], Arrays.asList("сотня", "тисяча", "десяток")) ) {
           logException();
           return true;
         }
@@ -270,7 +268,7 @@ public final class TokenAgreementNounVerbExceptionHelper {
         && PosTagHelper.hasPosTag(tokens[i-3], Pattern.compile("adj:.*"))
         && PosTagHelper.hasPosTagPart(tokens[i-4], "prep") ) {
 
-      Collection<String> prepGovernedCases = TokenAgreementAdjNounExceptionHelper.getPrepGovernedCases(tokens[i-4]);
+      Collection<String> prepGovernedCases = CaseGovernmentHelper.getCaseGovernments(tokens[i-4], IPOSTag.prep.name());
       if( TokenAgreementPrepNounRule.hasVidmPosTag(prepGovernedCases, tokens[i-2])
             && TokenAgreementPrepNounRule.hasVidmPosTag(prepGovernedCases, tokens[i-3]) ) {
         logException();
@@ -371,7 +369,7 @@ public final class TokenAgreementNounVerbExceptionHelper {
       if( PosTagHelper.hasPosTag(tokens[vPos-2], Pattern.compile("noun:inanim:.*"))
           && PosTagHelper.hasPosTagPart(tokens[vPos-3], "prep") ) {
 
-        Collection<String> prepGovernedCases = TokenAgreementAdjNounExceptionHelper.getPrepGovernedCases(tokens[vPos-3]);
+        Collection<String> prepGovernedCases = CaseGovernmentHelper.getCaseGovernments(tokens[vPos-3], IPOSTag.prep.name());
         if( TokenAgreementPrepNounRule.hasVidmPosTag(prepGovernedCases, tokens[vPos-2]) ) {
           logException();
           return true;
@@ -464,20 +462,10 @@ public final class TokenAgreementNounVerbExceptionHelper {
     }
   }
 
-  private static Set<String> loadSet(String path) {
-    Set<String> result = new HashSet<>();
-    try (InputStream is = JLanguageTool.getDataBroker().getFromResourceDirAsStream(path);
-         Scanner scanner = new Scanner(is, "UTF-8")) {
-      while (scanner.hasNextLine()) {
-        String line = scanner.nextLine();
-        result.add(line);
-        result.add("екс-" + line);
-      }
-      return result;
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
+  private static Set<String> extendSet(Set<String> loadSet, String string) {
+    Set<String> extraSet = loadSet.stream().map(line -> "екс-" + line).collect(Collectors.toSet());
+    loadSet.addAll(extraSet);
+    return loadSet;
   }
-
   
 }

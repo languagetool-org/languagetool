@@ -44,6 +44,8 @@ public class SpellingCheckRuleTest {
 
     assertThat(lt.check("This is anArtificialTestWordForLanguageTool.").size(), is(0));   // no error, as this word is in ignore.txt
     assertThat(lt.check("How an ab initio calculation works.").size(), is(0));   // As a multi-word entry in spelling.txt "ab initio" must be accepted
+    assertThat(lt.check("Test adjoint").size(), is(0));   // in spelling.txt
+    assertThat(lt.check("Test Adjoint").size(), is(0));   // in spelling.txt (lowercase)
 
     List<RuleMatch> matches2 = lt.check("This is a real typoh.");
     assertThat(matches2.size(), is(1));

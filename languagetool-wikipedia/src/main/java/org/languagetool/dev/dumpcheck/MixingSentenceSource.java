@@ -52,9 +52,11 @@ public class MixingSentenceSource extends SentenceSource {
         sources.add(new TatoebaSentenceSource(new FileInputStream(dumpFileName), language, filter));
       } else if (file.getName().endsWith(".txt")) {
         sources.add(new PlainTextSentenceSource(new FileInputStream(dumpFileName), language, filter));
+      } else if (file.getName().endsWith(".xz")) {
+        sources.add(new CommonCrawlSentenceSource(new FileInputStream(dumpFileName), language, filter));
       } else {
         throw new RuntimeException("Could not find a source handler for " + dumpFileName +
-                " - Wikipedia files must be named '*.xml', Tatoeba files must be named 'tatoeba-*'");
+                " - Wikipedia files must be named '*.xml', Tatoeba files must be named 'tatoeba-*', CommonCrawl files '*.xz', plain text files '*.txt'");
       }
     }
     return new MixingSentenceSource(sources, language);

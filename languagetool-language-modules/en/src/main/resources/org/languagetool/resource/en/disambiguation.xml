@@ -91,7 +91,7 @@
           </pattern>
           <disambig postag="RB"/>
           <example type="untouched"> He checked carefully, so that the mistakes were caught.</example>
-          <example type="ambiguous" inputform="so[so/CC,so/JJ,so/NN:U]" outputform="so[so/RB]">He checked <marker>so</marker> carefully.</example>
+          <example type="ambiguous" inputform="so[so/CC,so/JJ]" outputform="so[so/RB]">He checked <marker>so</marker> carefully.</example>
         </rule>
 
     <rule id="AULD_LANG_SYNE" name="Auld Lang Syne - title of a famous song">
@@ -593,10 +593,22 @@
                 <token postag="VBZ"/>
              </and>
              </marker>
+          <token postag_regexp="yes" postag="VB.+|SENT_END"/>
        </pattern>
        <disambig postag="NNS"/>
        <example type="untouched">One minute.</example>
+       <example type="untouched">Figure two <marker>shows</marker> the results.</example>
+       <example type="untouched">Although page 10 <marker>gives</marker> much information, it is incomplete.</example>
+       <example type="untouched">If the number 5 <marker>shows</marker> on the display, stop the test.</example>
+       <example type="untouched">Two and two <marker>makes</marker> four.</example>
+       <example type="untouched">The debt of £3,000,000 <marker>harms</marker> the company's financial future.</example>
+       <example type="untouched">If the growth rate we predicted in 2007 <marker>changes</marker> by more than two percent, ...</example>
+       <example type="untouched">Although I agree with most points on the agenda, number two <marker>presents</marker> a challenge.</example>
+       <example type="untouched">Most of these plants live in light places, but four <marker>lives</marker> in dark places.</example><!-- Incorrect grammar. -->
        <example type="ambiguous" inputform="minutes[minute/NNS,minute/VBZ]" outputform="minutes[minute/NNS]">It was twenty <marker>minutes</marker>.</example>
+       <example type="ambiguous" inputform="tests[test/NNS,test/VBZ]" outputform="tests[test/NNS]">These three <marker>tests</marker> show the problem.</example>
+       <example type="ambiguous" inputform="samples[sample/NNS,sample/VBZ]" outputform="samples[sample/NNS]">Five <marker>samples</marker> are sufficient.</example>
+       <example type="ambiguous" inputform="ships[ship/NNS,ship/VBZ]" outputform="ships[ship/NNS]">Those four <marker>ships</marker> were outstanding.</example>
     </rule>
     <rule id="NO_ONE" name="No one as personal pronoun">
       <pattern>
@@ -1145,11 +1157,11 @@
     <rule name="preposition + 'this' + verb 3sg/NNS -&gt; nns" id="IN_VBZ_NNS">
         <pattern>
             <token postag="IN"><exception regexp="yes">as|like</exception></token>
-            <token regexp="yes">this|these</token>
+            <token regexp="yes">th(is|ese)</token>
             <marker>
                 <and>
                     <token postag="NNS"/>
-                    <token postag="VBZ"><exception regexp="yes">means|works|shows|leads|takes|lies|goes|stems|gives|makes|does</exception></token>
+                    <token postag="VBZ"><exception regexp="yes">means|works|shows|leads|takes|lies|goes|stems|gives|ma(ke|tter)s|does</exception></token>
                 </and>
             </marker>
         </pattern>
@@ -1178,7 +1190,7 @@
         <token postag="CD"/>
       </pattern>
       <disambig action="replace"><wd pos="CC" lemma="times"/></disambig>
-      <example type="ambiguous" inputform="times[time/NNS]" outputform="times[times/CC]">4 <marker>times</marker> eleven equals 34.</example>
+      <example type="ambiguous" inputform="times[time/NNS,time/VBZ,times/CC]" outputform="times[times/CC]">4 <marker>times</marker> eleven equals 34.</example>
       <example type="untouched">These are hard times.</example>
     </rule>
     
@@ -1269,6 +1281,7 @@
     </rule>
     <rule name="t -&gt; contraction (not/RB)" id="T_NOT">
         <pattern>
+            <token regexp="yes">isn|aren|wasn|weren|don|doesn|didn|can|couldn|mayn|mightn|mustn|needn|oughtn|shan|shouldn|usedn|won|wouldn</token><!-- 'Be' and 'do' do not have the postag MD. The safe option is to use a list of verbs rather than changing the postags of 'do' and 'be'. -->
             <token regexp="yes">['’]</token>
             <marker>
                 <token>t</token>
@@ -1276,6 +1289,7 @@
         </pattern>
         <disambig action="add"><wd lemma="not" pos="RB">t</wd></disambig>
         <example type="untouched">I cannot do it.</example>
+        <example type="untouched">I work'<marker>t</marker> carefully.</example>
         <example type="ambiguous" inputform="t[t]" outputform="t[not/RB]">I can'<marker>t</marker> do it.</example>
     </rule>
     <rule name="haven't => verb only" id="HAVENT">
@@ -1588,12 +1602,13 @@
           <token inflected="yes">be<exception>being</exception></token>
           <marker>
             <and>
-              <token postag="VBG"/>
+              <token postag="VBG" regexp="yes">.+ing</token>
               <token postag="NN(:UN?)?" postag_regexp="yes"/>
             </and>            
           </marker>
         </pattern>
         <disambig postag="VBG"/>
+        <example type="untouched">He is brave.</example>
         <example type="untouched">It's emaciating.</example>
         <example type="ambiguous" inputform="going[go/VBG,going/NN:UN]" outputform="going[go/VBG]">It's <marker>going</marker> to be a killer feature!</example>                
     </rule>    
@@ -1663,13 +1678,16 @@
             <marker>
                 <and>
                   <token postag="VBZ"/>
-                  <token postag="NNS"/>                  
+                  <token postag="NNS"/>
+                  <token chunk="B-VP"/>
                 </and>
             </marker>
         </pattern>
         <disambig postag="VBZ"/>
         <example type="untouched">These may be to bring about political change.</example>
-        <example type="ambiguous" inputform="remains[remain/VBZ,remains/NNS]" outputform="remains[remain/VBZ]">A chance <marker>remains</marker>.</example>        
+        <example type="untouched">I want to determine the approximate time taken for each production <marker>steps</marker>.</example>
+        <example type="ambiguous" inputform="remains[remain/VBZ,remains/NNS]" outputform="remains[remain/VBZ]">A chance <marker>remains</marker>.</example>
+        <example type="ambiguous" inputform="walks[walk/NNS,walk/VBZ]" outputform="walks[walk/VBZ]">Each robot <marker>walks</marker> quickly.</example>
     </rule>        
             
     <rule name="SENT_START + the + nn/jj + verb sing => nn" id="SENT_START_the_NNJJ_VBZ">
@@ -2102,12 +2120,13 @@
     <rule name="VBN + VBN + NN -&gt; JJ" id="VBN_VBN_NN_JJ">
         <pattern>
             <marker>
-                <token postag="VBN"/>
+                <token postag="VBN"><exception>been</exception></token>
             </marker>
             <token postag="VBN"/>
-            <token postag_regexp="yes" postag="NN:.*|NNS|NN"/>
+            <token postag_regexp="yes" postag="NN:.*|NNS?"/>
         </pattern>
         <disambig postag="JJ"/>
+        <example type="untouched">He had been proven innocent.</example>
     </rule>
     <rule name="of + VBN + JJ -&gt; JJ" id="OF_VBN_JJ">
         <pattern>
@@ -2258,7 +2277,7 @@
         <rule>
             <pattern>
                 <token postag="EX"/>
-                <token regexp="yes">have|has</token>
+                <token regexp="yes">ha(ve|s)</token>
                 <token>been</token>
                 <marker>
                     <token postag="RB"><exception postag="CC"/></token>
@@ -2402,7 +2421,7 @@
                 <token postag="NN(:U?N)?" postag_regexp="yes"/>
                 </and>
             </marker>
-            <token><exception postag="NNS|NNPS" postag_regexp="yes"/></token>
+            <token><exception postag="NN(P)?S" postag_regexp="yes"/></token>
         </pattern>
         <disambig action="remove" postag="NNP?(:U?N)?|VB[DP]?"/>
         <example type="ambiguous" inputform="illustrated[illustrate/VBD,illustrate/VBN,illustrated/NN]"
@@ -2433,7 +2452,7 @@
             </marker>
         </pattern>
         <disambig action="filterall"/>
-        <example type="ambiguous" inputform="so[so/CC,so/JJ,so/NN:U]" outputform="so[so/JJ]">It also made him feel hate, sincere hate, for those <marker>so</marker> labeled.</example>
+        <example type="ambiguous" inputform="so[so/CC,so/JJ]" outputform="so[so/JJ]">It also made him feel hate, sincere hate, for those <marker>so</marker> labeled.</example>
     </rule>
     <rule name="JJ_NN -> JJ" id="JJ_NN_JJ">
         <pattern>
@@ -2784,7 +2803,7 @@
                     <token postag="WDT"><exception>that</exception></token>
                 </and>
             </marker>
-            <token postag_regexp="yes" postag="NN|NN:UN"/>
+            <token postag_regexp="yes" postag="NN(:UN)?"/>
         </pattern>
         <disambig postag="WDT"/>
         <example type="ambiguous" inputform="What[what/UH,what/WDT,what/WP]" outputform="What[what/WDT]"><marker>What</marker> kind of bread is this?</example>
@@ -2798,7 +2817,7 @@
                     <token postag="WDT"><exception>that</exception></token>
                 </and>
             </marker>
-            <token><exception postag_regexp="yes" postag="NN|NN:UN"/></token>
+            <token><exception postag_regexp="yes" postag="NN(:UN)?"/></token>
         </pattern>
         <disambig postag="WP"/>
         <example type="ambiguous" inputform="What[what/UH,what/WDT,what/WP]" outputform="What[what/WP]"><marker>What</marker> are you doing?</example>
@@ -2813,7 +2832,7 @@
                 </and>
             </marker>
             <token min="0" postag="JJ"/>
-            <token postag_regexp="yes" postag="NN|NN:UN"/>
+            <token postag_regexp="yes" postag="NN(:UN)?"/>
         </pattern>
         <disambig postag="DT"/>
         <example type="ambiguous" inputform="That[that/DT,that/RP,that/WDT,that/WP]" outputform="That[that/DT]"><marker>That</marker> kind of bread is stale.</example>
@@ -3088,7 +3107,7 @@
     <!-- &comparisons then 0END.0::filter=kill -->
     <rule id="COMPARISONS_THEN_0END0" name="comparisons then 0END0">
         <pattern>
-            <token regexp="yes">hotter|colder|lamer|less|lesser|more|greater|heavier|lighter|better|worse|smarter|dumber|cheaper|sexier|taller|shorter|faster|slower|older|younger|easier|harder|farther|closer|higher|lower|larger|smaller|sooner|later|weaker|stronger|louder|quieter|darker|brighter</token>
+            <token regexp="yes">hotter|colder|lamer|less(er)?|more|greater|heavier|lighter|better|worse|smarter|dumber|cheaper|sexier|taller|shorter|faster|slower|older|younger|easier|harder|farther|closer|higher|lower|larger|smaller|sooner|later|weaker|stronger|louder|quieter|darker|brighter</token>
             <token>then</token>
             <token postag="SENT_END"/>
         </pattern>
@@ -3155,15 +3174,16 @@
     <pattern>
       <marker>
         <and>
-        <token postag="NN:UN"><exception scope="previous" postag="NNS|NNPS" postag_regexp="yes"/><exception scope="previous" regexp="yes">wed|th[oe]se</exception></token> 
+        <token postag="NN:UN"><exception scope="previous" postag="NNP?S" postag_regexp="yes"/><exception scope="previous" regexp="yes">wed|th[oe]se</exception></token> 
         <token chunk="E-NP-singular"/>
         <token postag="VBP"/>
         </and>
         </marker>
-        <token><exception>.</exception></token>
+        <token><exception>.</exception><exception>that</exception></token>
     </pattern>
     <disambig postag="NN:UN"/>
       <example type="untouched">They disputed a claim.</example>
+      <example type="untouched">Many claim that the behavior is in the past.</example>
       <example type="untouched">Doubled consonants count as two consonants.</example>
       <example type="untouched">The Beatles play to nearly 60,000 fans at Shea Stadium.</example>
       <example type="untouched">Wed love to hear this!</example>
@@ -3172,6 +3192,7 @@
     <rule id="E_NP_VBP" name="noun/verb after a plural NP -> verb">
       <pattern>
         <token chunk="E-NP-plural"/>
+        <token min="0" max="1" postag="RB"/>
         <marker>
         <and>
           <token postag="VBP"><exception postag="VBD"/><exception postag="IN"/></token>
@@ -3182,6 +3203,7 @@
       <disambig postag="VBP"/>
       <example type="untouched">The application form</example>
       <example type="ambiguous" inputform="form[form/NN:UN,form/VB,form/VBP]" outputform="form[form/VBP]">The leaves <marker>form</marker> a rosette.</example>
+      <example type="ambiguous" inputform="fly[fly/JJ,fly/NN,fly/VB,fly/VBP]" outputform="fly[fly/VBP]">Mummy, but will pigs always <marker>fly</marker> when I can't see them?</example>
       <example type="untouched">So Rand fell into a severe depression.</example>
       <example type="untouched">...was assigned to duty in northern Virginia while the Army of the Potomac conducted the Peninsula.</example>
     </rule>
@@ -3242,12 +3264,15 @@
             <token postag="VBZ"/>
           </and>
           </marker>
+          <token min="0" max="1" postag="RB"/>
           <token postag="VBP?" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="VBP?"/></token>        
       </pattern>
       <disambig postag="NNS"/>
       <example type="untouched">They should pass the waters.</example>
       <example type="ambiguous" inputform="taxis[taxi/NNS,taxi/VBZ,taxis/NN]" outputform="taxis[taxi/NNS]">Would <marker>taxis</marker> be cheaper?</example>
       <example type="ambiguous" inputform="troops[troop/NNS,troop/VBZ]" outputform="troops[troop/NNS]">Confederate commanders would need it should <marker>troops</marker> pass that way in retreat.</example>
+      <example type="ambiguous" inputform="pigs[pig/NNS,pig/VBZ]" outputform="pigs[pig/NNS]">… but might <marker>pigs</marker> fly?</example>
+      <example type="ambiguous" inputform="pigs[pig/NNS,pig/VBZ]" outputform="pigs[pig/NNS]">Will <marker>pigs</marker> ever have wings?</example>
     </rule>
     
     
@@ -3665,7 +3690,7 @@
         
         <rule id="JJ_VBZ_NNS" name="Adjective + verb singular/plural noun => noun">
         <pattern>
-            <token postag="JJ"><exception scope="previous" regexp="yes">s?he|it</exception><exception postag="RB"/></token>
+            <token postag="JJ"><exception scope="previous" regexp="yes">s?he|it</exception><exception postag="RB"/><exception scope="previous" postag="JJ"/></token>
             <marker>
             <and>
             <token postag="VBZ"><exception regexp="yes">is|does</exception></token>
@@ -3677,6 +3702,7 @@
           <disambig postag="NNS"/>
           <example type="untouched">I enjoy running.</example>
           <example type="untouched">Hard work causes fitness and vice versa.</example>
+          <example type="untouched">This occurs when the core of a massive star exhausts its nuclear fuel.</example>
           <example type="ambiguous" inputform="forces[force/NNS,force/VBZ]" outputform="forces[force/NNS]">I like military <marker>forces</marker>.</example>
         </rule>
         
@@ -4304,5 +4330,19 @@ False negative. Make sure that there are no Hoopes or Loops in the rope. [The re
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
-
+    <rule name="Ignore spelling of Ho Chi Minh" id="IGNORE_SPELLING_OF_HO_CHI_MINH">
+        <pattern case_sensitive="yes">
+            <token>Ho</token>
+            <token>Chi</token>
+            <token>Minh</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="alter ego" id="ALTER_EGO">
+      <pattern>
+          <marker><token>alter</token></marker>
+          <token>ego</token>
+      </pattern>
+      <disambig postag="NN"/>
+    </rule>
 </rules>

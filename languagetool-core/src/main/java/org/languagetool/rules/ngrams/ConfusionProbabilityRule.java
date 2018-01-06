@@ -18,6 +18,10 @@
  */
 package org.languagetool.rules.ngrams;
 
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
@@ -32,6 +36,7 @@ import org.languagetool.tools.Tools;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * LanguageTool's homophone confusion check that uses ngram lookups
@@ -51,7 +56,21 @@ public abstract class ConfusionProbabilityRule extends Rule {
 
   private static final boolean DEBUG = false;
 
-  private final Map<String,List<ConfusionSet>> wordToSets;
+  // Speed up the server use case, where rules get initialized for every call:
+  private static final LoadingCache<String, Map<String, List<ConfusionSet>>> confSetCache = CacheBuilder.newBuilder()
+      .expireAfterWrite(10, TimeUnit.MINUTES)
+      .build(new CacheLoader<String, Map<String, List<ConfusionSet>>>() {
+        @Override
+        public Map<String, List<ConfusionSet>> load(@NotNull String fileInClassPath) throws IOException {
+          ConfusionSetLoader confusionSetLoader = new ConfusionSetLoader();
+          ResourceDataBroker dataBroker = JLanguageTool.getDataBroker();
+          try (InputStream confusionSetStream = dataBroker.getFromResourceDirAsStream(fileInClassPath)) {
+            return confusionSetLoader.loadConfusionSet(confusionSetStream);
+          }
+        }
+      });
+
+  private final Map<String,List<ConfusionSet>> wordToSets = new HashMap<>();
   private final LanguageModel lm;
   private final int grams;
   private final Language language;
@@ -64,13 +83,9 @@ public abstract class ConfusionProbabilityRule extends Rule {
     super(messages);
     setCategory(Categories.TYPOS.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.NonConformance);
-    ResourceDataBroker dataBroker = JLanguageTool.getDataBroker();
-    String path = "/" + language.getShortCode() + "/confusion_sets.txt";
-    try (InputStream confusionSetStream = dataBroker.getFromResourceDirAsStream(path)) {
-      ConfusionSetLoader confusionSetLoader = new ConfusionSetLoader();
-      this.wordToSets = confusionSetLoader.loadConfusionSet(confusionSetStream);
-    } catch (IOException e) {
-      throw new RuntimeException(e);
+    for (String filename : getFilenames()) {
+      String path = "/" + language.getShortCode() + "/" + filename;
+      this.wordToSets.putAll(confSetCache.getUnchecked(path));
     }
     this.lm = Objects.requireNonNull(languageModel);
     this.language = Objects.requireNonNull(language);
@@ -78,6 +93,11 @@ public abstract class ConfusionProbabilityRule extends Rule {
       throw new IllegalArgumentException("grams must be between 1 and 5: " + grams);
     }
     this.grams = grams;
+  }
+
+  @NotNull
+  protected List<String> getFilenames() {
+    return Arrays.asList("confusion_sets.txt");
   }
 
   @Override
@@ -108,7 +128,7 @@ public abstract class ConfusionProbabilityRule extends Rule {
             if (betterAlternative != null && !isException(text)) {
               ConfusionString stringFromText = getConfusionString(set, tokens.get(pos));
               String message = getMessage(stringFromText, betterAlternative);
-              RuleMatch match = new RuleMatch(this, googleToken.startPos, googleToken.endPos, message);
+              RuleMatch match = new RuleMatch(this, sentence, googleToken.startPos, googleToken.endPos, message);
               match.setSuggestedReplacement(betterAlternative.getString());
               matches.add(match);
             }

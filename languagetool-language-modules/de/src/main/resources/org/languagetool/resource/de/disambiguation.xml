@@ -6,7 +6,7 @@ German Disambiguation Rules for LanguageTool
 Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
 -->
   <!DOCTYPE rules [
-    <!ENTITY zal_adj "(?-i)(\d+-|(ein|zw(ei|an)|dreiß?|vier|fünf|sechs?|sieb|acht|neun)(zehn|zig)?)(jähr|bänd|seit|monat|täg)">
+    <!ENTITY zal_adj "(?-i)(\d+-|(ein|zw(ei|an)|dreiß?|vier|fünf|s(echs?|ieb(en)?)|acht|neun)(zehn|zig)?)(jähr|bänd|seit|monat|täg|köpf)">
 ]>
 
 <rules lang="de" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/resource/disambiguation.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
@@ -614,6 +614,67 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </pattern>
         <disambig action="add"><wd pos="ADJ:NOM:PLU:NEU:GRU:IND"/></disambig>
     </rule>
+    <rule name="60ern -> SUB" id="NUMBER_COMPOUND_NOUN_1">
+        <pattern>
+            <token regexp="yes">\d{2,4}ern</token>
+        </pattern>
+        <disambig action="add"><wd pos="SUB:AKK:PLU:FEM"/></disambig>
+    </rule>
+    <rule name="60ern -> SUB" id="NUMBER_COMPOUND_NOUN_2">
+        <pattern>
+            <token regexp="yes">\d{2,4}ern</token>
+        </pattern>
+        <disambig action="add"><wd pos="SUB:DAT:PLU:FEM"/></disambig>
+    </rule>
+    <rule name="60er -> SUB" id="NUMBER_COMPOUND_NOUN_3">
+        <pattern>
+            <token regexp="yes">\d{2,4}er</token>
+        </pattern>
+        <disambig action="add"><wd pos="SUB:NOM:PLU:FEM"/></disambig>
+    </rule>
+    <rule name="60er -> SUB" id="NUMBER_COMPOUND_NOUN_4">
+        <pattern>
+            <token regexp="yes">\d{2,4}er</token>
+        </pattern>
+        <disambig action="add"><wd pos="SUB:GEN:PLU:FEM"/></disambig>
+    </rule>
+    <!-- Treat "60er" in "in den 60er Jahren" as adjective -->
+    <rule name="60er -> ADJ" id="NUMBER_COMPOUND_ADJ_1">
+        <pattern>
+            <token regexp="yes">\d{2,4}er</token>
+        </pattern>
+        <disambig action="add"><wd pos="ADJ:DAT:PLU:NEU:GRU:DEF"/></disambig>
+    </rule>
+    <rule name="60er -> ADJ" id="NUMBER_COMPOUND_ADJ_2">
+        <pattern>
+            <token regexp="yes">\d{2,4}er</token>
+        </pattern>
+        <disambig action="add"><wd pos="ADJ:DAT:PLU:NEU:GRU:IND"/></disambig>
+    </rule>
+    <rule name="60er -> ADJ" id="NUMBER_COMPOUND_ADJ_3">
+        <pattern>
+            <token regexp="yes">\d{2,4}er</token>
+        </pattern>
+        <disambig action="add"><wd pos="ADJ:DAT:PLU:NEU:GRU:SOL"/></disambig>
+    </rule>
+    <rule name="lebenswerten (VER) -> lebenswerten ()" id="LEBENSWERTEN">
+        <pattern>
+            <marker>
+                <token regexp="yes">lebenswerten?</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="VER.*"/>
+    </rule>
+        <rule name="Ich am Satzanfang" id="ICH_SENT_START">
+        <pattern case_sensitive="yes">
+            <token postag="SENT_START"/>
+            <marker>
+                <token>Ich</token>
+            </marker>
+            <token postag="VER:1:.+" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="remove" postag="SUB:.*:NEU"/>
+    </rule>
 
     <!-- ============================================================================================================== -->
     <!-- IGNORE SPELLING -->
@@ -640,6 +701,15 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <token>Springs</token>
         </pattern>
         <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="die Grand Jury" id="GRAND_JURY">
+        <pattern case_sensitive="yes">
+            <token regexp="yes">[dD]ie</token>
+            <token>Grand</token>
+            <token>Jury</token>
+        </pattern>
+        <disambig action="immunize"/>
     </rule>
 
     <rule name="Mise en scène" id="MISE_EN_SCENE">
@@ -690,6 +760,16 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <pattern>
             <token>corps</token>
             <token>diplomatique</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="rien ne va plus" id="RIEN_NE_VA_PLUS">
+        <pattern>
+            <token>rien</token>
+            <token>ne</token>
+            <token>va</token>
+            <token>plus</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -823,6 +903,14 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <disambig action="immunize"/>
     </rule>
 
+    <rule name="Pulled Pork" id="PULLED_PORK">
+        <pattern case_sensitive="yes">
+            <token>Pulled</token>
+            <token>Pork</token>
+        </pattern>
+        <disambig action="immunize"/>
+    </rule>
+
     <rule name="Earl Grey" id="EARL_GREY">
         <pattern case_sensitive="yes">
             <token>Earl</token>
@@ -834,7 +922,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rule name="Sierra Madre" id="SIERRA_MADRE">
         <pattern case_sensitive="yes">
             <token>Sierra</token>
-            <token>Madre</token>
+            <token regexp="yes">Madre|Negra</token>
         </pattern>
         <disambig action="immunize"/>
     </rule>
@@ -842,7 +930,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rule name="Los Angeles" id="LOS_ANGELES">
         <pattern>
             <token>Los</token>
-            <token regexp="yes">Alamos|Angeles</token>
+            <token regexp="yes">A(lamo|ngele)s</token>
         </pattern>
         <disambig action="immunize"/>
     </rule>
@@ -888,6 +976,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
+
     <rule name="World Trade Center" id="WTC">
         <pattern case_sensitive="yes">
             <token>World</token>
@@ -896,10 +985,11 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
+
     <rule name="Social Media" id="SOCIAL_MEDIA">
         <pattern case_sensitive="yes">
             <token>Social</token>
-            <token>Media</token>
+            <token regexp="yes">Bot|Media</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -1025,6 +1115,22 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <disambig action="ignore_spelling"/>
     </rule>
 
+    <rule name="Visual Studio/Basic" id="VISUAL_STUDIO">
+        <pattern case_sensitive="yes">
+            <token>Visual</token>
+            <token regexp="yes">Studio|Basic</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="European Standardisation" id="EUROPEAN_STANDARDISATION">
+        <pattern case_sensitive="yes">
+            <token>European</token>
+            <token>Standardisation</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
     <rule name="Jungle World" id="JUNGLE_WORLD">
         <pattern>
             <token>Jungle</token>
@@ -1054,7 +1160,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rule name="Big Ben" id="BIG_BEN">
         <pattern>
             <token>Big</token>
-            <token regexp="yes">Ben|Data|Bang</token>
+            <token regexp="yes">B(en|ang|rother)|Data</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -1154,7 +1260,6 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <token>homo</token>
             <token>homini</token>
             <token>lupus</token>
-            <token min="0">est</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -1282,6 +1387,14 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <pattern>
             <token regexp="yes">cum|sine|ex</token>
             <token>tempore</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="pax/dominus vobiscum" id="VOBISCUM">
+        <pattern>
+            <token regexp="yes">pax|dominus</token>
+            <token>vobiscum</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -1612,7 +1725,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <!-- http://www.korrekturen.de/wortliste/fair_play.shtml -->
         <pattern case_sensitive="yes">
             <token>Fair</token>
-            <token>Play</token>
+            <token regexp="yes">Play|Trade</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -1700,6 +1813,14 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <disambig action="ignore_spelling"/>
     </rule>
 
+    <rule name="ceteris paribus" id="CETERIS_PARIBUS">
+        <pattern>
+            <token>ceteris</token>
+            <token>paribus</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
     <rule name="pacta" id="PACTA_SUNT_SERVANDA">
         <pattern>
             <token>pacta</token>
@@ -1720,7 +1841,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rule name="Grand Canyon" id="GRAND_CANYON">
         <pattern>
             <token>Grand</token>
-            <token regexp='yes'>Canyon|Prix|Slam|Hyatt</token>
+            <token regexp='yes'>Canyon|Jury|Slam|Hyatt|Prix|Cru|Marnier|Fleet|Lit</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -1760,7 +1881,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rule name="Potz Blitz" id="POTZ_BLITZ">
         <pattern>
             <token>potz</token>
-            <token regexp="yes">Blitz|Blut|Donner|Donnerwetter|Marter|Teufel</token>
+            <token regexp="yes">Blitz|Blut|Donner(wetter)?|Marter|Teufel</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -1807,8 +1928,8 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     </rule>
 
     <rule name="Fifth Avenue" id="FIFTH_AVENUE">
-        <pattern>
-            <token>Fifth</token>
+        <pattern case_sensitive="yes">
+            <token regexp="yes">Fifth|5th</token>
             <token>Avenue</token>
         </pattern>
         <disambig action="ignore_spelling"/>
@@ -1909,13 +2030,22 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
 
     <rule name="virtual" id="VIRTUAL_REALITY">
         <pattern>
-            <token>Virtual</token>
-            <token regexp="yes">Reality|Environments?</token>
+            <token case_sensitive="yes">Virtual</token>
+            <token regexp="yes">Reality|Environments?|Private</token>
+            <token min="0">Network</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
 
     <!-- Eigennamen -->
+    <rule name="Umberto Eco" id="UMBERTO_ECO">
+        <pattern>
+            <token>Umberto</token>
+            <token regexp="yes">Ecos?</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
     <rule name="François Hollande" id="FRANCOIS_HOLLANDE">
         <pattern>
             <token>François</token>
@@ -2153,7 +2283,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rule name="Google Maps" id="GOOGLE_MAPS">
         <pattern case_sensitive="yes">
             <token>Google</token>
-            <token regexp="yes">Maps|Drive|Docs</token>
+            <token regexp="yes">Maps|Drive|Docs|Wallet</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -2299,7 +2429,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
 
     <rule name="Moulin Rouge" id="MOULIN_ROUGE">
       <pattern case_sensitive="yes">
-        <token>Moulin</token>
+        <token regexp="yes">Baton|Moulin</token>
         <token>Rouge</token>
       </pattern>
       <disambig action="ignore_spelling"/>
@@ -2346,6 +2476,91 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
       <pattern case_sensitive="yes">
         <token>Royal</token>
         <token>Society</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Institute of Technology" id="MIT">
+      <pattern case_sensitive="yes">
+        <token>Institute</token>
+        <token>of</token>
+        <token>Technology</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="68ern" id="ZAHL_ERN">
+      <pattern case_sensitive="yes">
+        <token regexp="yes">\d{2,4}ern?</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Mont" id="MONT">
+      <pattern case_sensitive="yes">
+        <token>Mont</token>
+        <token regexp="yes">Blanc|Ventoux|Vully</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Primus" id="PIP">
+      <pattern>
+        <token>Primus</token>
+        <token>inter</token>
+        <token>Pares</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Prince" id="PRINCE">
+      <pattern case_sensitive="yes">
+        <token regexp="yes">Prince(ss)?</token>
+        <token>of</token>
+        <token>Wales</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Press" id="PRESS">
+      <pattern case_sensitive="yes">
+        <token>University</token>
+        <token>Press</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="ich stehe kopf" id="KOPFSTEHEN">
+      <pattern>
+        <token inflected="yes">stehen</token>
+        <token case_sensitive="yes">kopf</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Machu Picchu" id="MACHU_PICCHU">
+      <pattern case_sensitive="yes">
+        <token>Machu</token>
+        <token>Picchu</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="-köpfig" id="köpfig">
+      <pattern case_sensitive="yes">
+        <token regexp="yes">\d+-köpfige.?</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Bachelor/Master of Arts" id="OF_ARTS">
+      <pattern case_sensitive="yes">
+        <token>of</token>
+        <token regexp="yes">Arts|Business|Engineering|Laws|Science</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Low Carb" id="LOW_CARB">
+      <pattern case_sensitive="yes">
+        <token>Low</token>
+        <token>Carb</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Corporate" id="CORPORATE">
+      <pattern case_sensitive="yes">
+        <token>Corporate</token>
+        <token regexp="yes">Designs?|Identit(ies|y)</token>
       </pattern>
       <disambig action="ignore_spelling"/>
     </rule>

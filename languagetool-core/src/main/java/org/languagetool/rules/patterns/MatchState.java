@@ -250,7 +250,7 @@ public class MatchState {
             for (int i = 0; i < readingCount; i++) {
               String[] possibleWordForms = synthesizer.synthesize(
                   formattedToken.getAnalyzedToken(i), targetPosTag, true);
-              if (possibleWordForms != null) {
+              if (possibleWordForms != null && possibleWordForms.length > 0) {
                 wordForms.addAll(Arrays.asList(possibleWordForms));
               }
             }

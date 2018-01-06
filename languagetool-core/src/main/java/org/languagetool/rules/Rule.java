@@ -55,6 +55,8 @@ public abstract class Rule {
   private Category category;
   private URL url;
   private boolean defaultOff;
+  private boolean officeDefaultOn = false;
+  private boolean officeDefaultOff = false;
 
   public Rule() {
     this(null);
@@ -68,7 +70,7 @@ public abstract class Rule {
     if (messages != null) {
       setCategory(Categories.MISC.getCategory(messages));  // the default, sub classes may overwrite this
     } else {
-      setCategory(new Category(CategoryIds.MISC, "Misc"));
+      setCategory(new Category(CategoryIds.MISC, "Miscellaneous"));
     }
   }
 
@@ -107,6 +109,21 @@ public abstract class Rule {
    */
   public List<DisambiguationPatternRule> getAntiPatterns() {
     return Collections.emptyList();
+  }
+
+  /**
+   * Overwrite this to set a default Integer value by option panel
+   * @since 4.1
+   */
+  public void setDefaultValue(int num) {
+  }
+
+  /**
+   * Overwrite this to get a default Integer value by option panel
+   * @since 4.1
+   */
+  public int getDefaultValue() {
+    return 0;
   }
 
   /**
@@ -261,6 +278,40 @@ public abstract class Rule {
    */
   public final void setDefaultOn() {
     defaultOff = false;
+  }
+  
+  /**
+   * Checks whether the rule has been turned off by default for Office Extension by the rule author.
+   * @return True if the rule is turned off. Overrides the default for LO/OO.
+   * @since 4.0
+  */
+  public final boolean isOfficeDefaultOff() {
+    return officeDefaultOff;
+  }
+
+  /**
+   * Checks whether the rule has been turned on by default for Office Extension by the rule author.
+   * @return True if the rule is turned on. Overrides the default for LO/OO.
+   * @since 4.0
+   */
+  public final boolean isOfficeDefaultOn() {
+    return officeDefaultOn;
+  }
+
+  /**
+   * Turns the rule off for Office Extension by default.
+   * @since 4.0
+   */
+  public final void setOfficeDefaultOff() {
+    officeDefaultOff = true;
+  }
+
+  /**
+   * Turns the rule on for Office Extension by default.
+   * @since 4.0
+   */
+  public final void setOfficeDefaultOn() {
+    officeDefaultOn = true;
   }
   
   /**

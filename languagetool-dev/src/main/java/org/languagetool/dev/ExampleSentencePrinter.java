@@ -34,7 +34,7 @@ import java.util.List;
 final class ExampleSentencePrinter {
 
   private void run(Language lang) throws IOException {
-    File basePath = new File("/lt/git/languagetool/languagetool-language-modules");
+    File basePath = new File("/home/dnaber/lt/git/languagetool/languagetool-language-modules");
     if (!basePath.exists()) {
       throw new RuntimeException("basePath does not exist: " + basePath);
     }
@@ -46,7 +46,7 @@ final class ExampleSentencePrinter {
     System.out.println("</head>");
     System.out.println("<body>");
     int i = 1;
-    for (Rule rule : tool.getAllRules()) {
+    for (Rule rule : tool.getAllActiveRules()) {
       List<IncorrectExample> incorrectExamples = rule.getIncorrectExamples();
       if (incorrectExamples.size() > 0) {
         String example = incorrectExamples.get(0).getExample()

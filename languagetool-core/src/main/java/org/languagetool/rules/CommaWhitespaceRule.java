@@ -115,7 +115,7 @@ public class CommaWhitespaceRule extends Rule {
       if (msg != null) {
         int fromPos = tokens[i - 1].getStartPos();
         int toPos = tokens[i].getEndPos();
-        RuleMatch ruleMatch = new RuleMatch(this, fromPos, toPos, msg);
+        RuleMatch ruleMatch = new RuleMatch(this, sentence, fromPos, toPos, msg);
         ruleMatch.setSuggestedReplacement(suggestionText);
         ruleMatches.add(ruleMatch);
       }

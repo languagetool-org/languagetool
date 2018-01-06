@@ -47,11 +47,13 @@ public class UkrainianHybridDisambiguator extends AbstractDisambiguator {
   private static final Pattern INANIM_VKLY = Pattern.compile("noun:inanim:.:v_kly.*");
   private static final Pattern PLURAL_NAME = Pattern.compile("noun:anim:p:.*:fname.*");
 //  private static final Pattern PLURAL_LNAME_OR_PATR = Pattern.compile("noun:anim:p:.*:lname.*");
-  private static final String PLURAL_LNAME = "noun:anim:p:.*:(lname|patr).*";
+  private static final String PLURAL_LNAME = "noun:anim:p:.*:[lp]name.*";
   
   private final Disambiguator chunker = new MultiWordChunker("/uk/multiwords.txt", true);
   private final Disambiguator disambiguator = new XmlRuleDisambiguator(new Ukrainian());
+  private final SimpleDisambiguator simpleDisambiguator = new SimpleDisambiguator();
 
+  
   /**
    * Calls two disambiguator classes: (1) a chunker; (2) a rule-based disambiguator.
    */
@@ -65,20 +67,21 @@ public class UkrainianHybridDisambiguator extends AbstractDisambiguator {
   @Override
   public AnalyzedSentence preDisambiguate(AnalyzedSentence input) {
     retagInitials(input);
-    removeIanimVKly(input);
+    removeInanimVKly(input);
     removePluralForNames(input);
+    simpleDisambiguator.removeRareForms(input);
 
     return input;
   }
 
 
-  private void removeIanimVKly(AnalyzedSentence input) {
+  private void removeInanimVKly(AnalyzedSentence input) {
     AnalyzedTokenReadings[] tokens = input.getTokensWithoutWhitespace();
     for (int i = 1; i < tokens.length; i++) {
       List<AnalyzedToken> analyzedTokens = tokens[i].getReadings();
       
-      if( i < tokens.length -1 
-          && Arrays.asList(",", "!", "»").contains(tokens[i+1].getToken()) 
+      if( i < tokens.length -1
+          && Arrays.asList(",", "!", "»", "\u201C", "\u201D", "...").contains(tokens[i+1].getToken()) 
           && PosTagHelper.hasPosTag(tokens[i-1], "adj.*v_kly.*") )
         continue;
       
@@ -170,7 +173,7 @@ public class UkrainianHybridDisambiguator extends AbstractDisambiguator {
 
         int nextPos = i + 1 + spacedOffset;
         
-        // checking for :patr
+        // checking for :pname
         if( nextPos + 1 + spacedOffset < tokens.length
             && isInitial(tokens, nextPos)
             && (! spaced || isSpace(tokens[nextPos+1].getToken()) )
@@ -179,7 +182,7 @@ public class UkrainianHybridDisambiguator extends AbstractDisambiguator {
           int currPos = nextPos;
           nextPos += 1 + spacedOffset;
           
-          AnalyzedTokenReadings newReadings = getInitialReadings(tokens[currPos], tokens[nextPos], "patr");
+          AnalyzedTokenReadings newReadings = getInitialReadings(tokens[currPos], tokens[nextPos], "pname");
           tokens[currPos] = newReadings;
         }
         
@@ -212,6 +215,6 @@ public class UkrainianHybridDisambiguator extends AbstractDisambiguator {
   }
   
   private static boolean isSpace(String str) {
-    return str != null && (str.equals(" ") || str.equals("\u00A0"));
+    return str != null && (str.equals(" ") || str.equals("\u00A0")|| str.equals("\u202F"));
   }
 }

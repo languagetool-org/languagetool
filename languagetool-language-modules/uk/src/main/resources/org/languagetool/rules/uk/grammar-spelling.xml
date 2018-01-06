@@ -258,6 +258,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="напередодні|напе 1 редодні"><marker>напе1редодні</marker></example>
         <example>40х40х30</example>
       </rule>
+
       <rule>
         <antipattern>
           <token regexp="yes">[А-ЯІЇЄҐ].*</token>
@@ -283,7 +284,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <token regexp="yes">[$+-]?[0-9,-]*[0-9,][а-яіїєґ'][а-яіїєґ'-]*\.?
               <exception case_sensitive="yes">1С</exception>
               <exception regexp="yes">[0-9]+'</exception>
-              <exception case_sensitive="yes" regexp="yes">[+-]?[0-9,-]*[0-9][оo][СC]</exception>	<!-- both lat and cyr o and C -->
+              <exception case_sensitive="yes" regexp="yes">[+-]?[0-9,-]*[0-9][оo][СC]</exception>	<!-- both lat and cyr o and C, taken care by rule below -->
             </token>
           </marker>
         </pattern>
@@ -296,6 +297,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="1981 р.|1981-р.">З <marker>1981р.</marker></example>
         <example correction="1989 го|1989-го">15 лютого <marker>1989го</marker>.</example>
         <example correction="0,4-10 кВ|0,4-10-кВ">напруги <marker>0,4-10кВ</marker>.</example>
+        <!--TODO: for some reason antipattrn tiggers here when no space between тис. and ,
+        <example correction="6 те|6-те">5-те місце — $10 тис., <marker>6те</marker> місце — $6 тис..</example>
+        -->
         <example>Естафета 4х100 м.</example>
         <example>Грушевського, 9а</example>
         <example>Грушевського, буд. 9а</example>
@@ -332,6 +336,43 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="27°C">температура знизиться до <marker>27оC</marker>.</example>
       <example>20 ОС</example>
     </rule>
+
+    <rulegroup id="graty_vs_hraty" name="Грати/ґрати">
+      <rule>
+        <pattern>
+          <token postag_regexp="yes" postag="prep.*">
+            <exception postag_regexp="yes" postag="adv.*"/>
+            <exception>проти</exception>
+          </token>
+          <marker>
+            <token inflected="yes" postag_regexp="yes" postag="noun:inanim.*">грати</token>
+          </marker>
+        </pattern>
+        <message>Можливо замість дієслова «грати» тут має бути іменник «ґрати»?</message>
+        <suggestion><match no="2" regexp_match="г([а-яіїєґ]+)" regexp_replace="ґ$1"/></suggestion>
+        <example correction="ґрати">кинути за <marker>грати</marker>.</example>
+        <example correction="ґратами">сидіти за <marker>гратами</marker>.</example>
+        <example>щоб просто грати</example>
+        <example>щоб добре грати</example>
+      </rule>
+      <rule>
+        <pattern>
+          <unify>
+            <feature id="gender"/>
+            <feature id="case"/>
+
+            <token regexp="yes" inflected="yes">тюремний|залізний|дерев'яний|мічний|холодний</token>
+            <marker>
+              <token inflected="yes" postag_regexp="yes" postag="noun:inanim.*">грати</token>
+            </marker>
+          </unify>
+        </pattern>
+        <message>Можливо замість дієслова «грати» тут має бути іменник «ґрати»?</message>
+        <suggestion><match no="2" regexp_match="г([а-яіїєґ]+)" regexp_replace="ґ$1"/></suggestion>
+        <example correction="ґратами">за залізними <marker>гратами</marker>.</example>
+        <example>на такому рівні грати</example>
+      </rule>
+    </rulegroup>
 
     <rulegroup id="ABBREVIATIONS_WRONG_DOT" name="Скорочення - зайва крапка">
       <!-- TODO: c - секунда, c. - село/сторінка; м — метр, м. — місто; т - тонна, т. - точка -->
@@ -397,15 +438,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
     <rulegroup id="ABBREVIATIONS_MISSING_DOT" name="Скорочення - пропущена крапка">
       <rule>
+        <antipattern>
+          <token regexp="yes">коп|тис</token>
+          <token regexp="yes">[….!?]|\.\.\.</token>   <!-- dot may still happen separately - tokenizing all cases properly is hard -->
+        </antipattern>
         <pattern>
           <token regexp="yes">.*[0-9]</token>
           <marker>
-            <token>коп</token>
+            <token regexp="yes">коп|тис</token>
           </marker>
         </pattern>
         <message>Скорочення з відкиданням літер пишуться з крапкою: <suggestion><match no="2"/>.</suggestion></message>
         <example correction="коп.">зросла на 50—70 <marker>коп</marker>/л</example>
         <example correction="коп.">496 грн 75 <marker>коп</marker> за екземпляр</example>
+        <example correction="тис.">штраф у 150 <marker>тис</marker> гривень</example>
+        <example correction="тис.">штраф у 150 <marker>тис</marker></example>
+        <example correction="тис.">штраф у 150&#xA; <marker>тис</marker> гривень</example>
+        <example>це $400&#xA;   тис.», – розповідає Олег.</example>
+        <example>це 100 тис…</example>
+        <example>це 100 тис...</example>
       </rule>
     </rulegroup>
 
@@ -489,21 +540,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example>девальвація гривні</example>
       <example>На шиї він мав золоту гривну, на пальцях – золоті персні</example>
       <example>«гривна» — це давня нашийна прикраса.</example>
-    </rule>
-
-    <rule id="DASYSH" name="Дасиш, їсиш, відповісиш">
-      <pattern>
-        <marker>
-          <token regexp="yes">.*дасиш|.*їсиш|.+вісиш
-            <exception postag_regexp="yes" postag="[a-z].*"/>
-          </token>
-        </marker>
-      </pattern>
-      <message>Правильно: <suggestion><match no="1" regexp_match="(.*)ш" regexp_replace="$1"/></suggestion></message>
-      <example correction="віддаси"><marker>віддасиш</marker>.</example>
-      <example correction="їси"><marker>їсиш</marker>.</example>
-      <example correction="розповіси"><marker>розповісиш</marker>.</example>
-      <example>вивісиш</example>
     </rule>
 
 <!--
@@ -652,24 +688,48 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
 
-    <rulegroup id="ZAKINCHENNYA_CYFROVYH_CHYSLIVNYKIV" name="Закінчення цифрових числівників" default="off">
+
+    <rulegroup id="zakinchennya_cyfrovyh_chyslivnykiv" name="Закінчення цифрових числівників">
+      <url>https://r2u.org.ua/check/rules/zakinchennya_cyfrovyh_chyslivnykiv</url>
+<!-- Не є усталеним правилом, пишуть по-різному
       <rule>
         <pattern>
           <or>
-            <token regexp="yes">([0-9]*[02-9])?((1-ш|2-г|[456]-т|[789]-м)(ий|ого|ому|им|а|ої|ій|ою|е)|3-т(ій|ього|ьому|ім|я|ьої|ій|ю|ьою|є))</token>
-            <token regexp="yes">[0-9]*1[0-9]-Т(ий|ого|ому|им|а|ої|ій|ою|е)</token>
+            <token regexp="yes">([0-9]*[02-9])?((1-ш|2-г|[4560]-т|[78]-м)(ий|ого|ому|им|а|ої|ій|ою|е|і|их|ими))</token>
+            <token regexp="yes">([0-9]*1[0-9]-т)(ий|ого|ому|им|а|ої|ій|ою|е|і|их|ими)</token>
+            <token regexp="yes">([0-9]*[02-9])?3-т(ій|ього|ьому|ім|я|ьої|ій|ю|ьою|є|і|іх|іми)</token>
+            <token regexp="yes">([0-9]*[02-9])?((1-|2-|[4560]-|[78]-|[0-9]*1[0-9]-|[0-9]*[2-9]0-)(ий|ого|ому|им|ої|ій|ою|их|ими))</token>
+            <token regexp="yes">([0-9]*1[0-9]-т)(ий|ого|ому|им|ої|ій|ою|их|ими)</token>
+            <token regexp="yes">([0-9]*[02-9])?3-(ій|ь?ого|ьому|ім|ь?ої|ій|ь?ою|іх|іми)</token>
           </or>
         </pattern>
         <message>Потенційна помилка: зайві літери закінчення числівника.</message>
-        <url>https://r2u.org.ua/check/rules/ZAKINCHENNYA_CYFROVYH_CHYSLIVNYKIV</url>
+        <example correction=""><marker>1-ший</marker> поверх.</example>
         <example correction="">у <marker>2-гій</marker> Київський гімназії.</example>
         <example correction="">е базується <marker>173-тя</marker> десантна бригада</example>
-        <example correction="">між <marker>3-тім</marker> та 4-им валом</example>
-        <example correction="">між 3-ім та <marker>4-тим</marker> валом</example>
+        <example correction="">між <marker>3-тім</marker> та 4-м валом</example>
+        <example correction="">між 3-м та <marker>4-тим</marker> валом</example>
+        <example correction="">між 13-м та <marker>14-им</marker> валом</example>
         <example correction=""><marker>7-ма</marker> ракетка.</example>
         <example correction=""><marker>11-та</marker> ракетка.</example>
+        <example correction="">в <marker>70-тих</marker> роках</example>
+        <example correction="">на <marker>3-ьому</marker> поверсі</example>
         <example>разом із 17-ма тисячами</example>
         <example>11-а ракетка</example>
+        <example>в 70-х роках</example>
+        <example>на 12-му поверсі</example>
+        <example>1990-і</example>
+      </rule>
+-->
+      <rule>
+        <pattern>
+          <token regexp="yes" case_sensitive="yes">(X{1,3}(IX|IV|V?I{0,3})|X{0,3}(IX|I?V|V?I{1,3}))-[а-яіїє]{1,4}</token>
+        </pattern>
+        <message>Потенційна помилка: до римських цифр букви не дописуються</message>
+        <suggestion><match no="1" regexp_match="([IVX]+)-[а-яіїє]+" regexp_replace="$1"/></suggestion>
+        <example correction="III">починаючи з <marker>III-го</marker> кварталу.</example>
+        <example correction="IX">на <marker>IX-му</marker> з'їзді.</example>
+        <example>на IX з'їзді.</example>
       </rule>
     </rulegroup>
 
