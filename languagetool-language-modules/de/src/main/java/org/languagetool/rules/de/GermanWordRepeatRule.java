@@ -19,7 +19,6 @@
 package org.languagetool.rules.de;
 
 import java.util.ResourceBundle;
-import java.util.regex.Pattern;
 
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
@@ -34,8 +33,6 @@ import org.languagetool.rules.WordRepeatRule;
  * @author Daniel Naber
  */
 public class GermanWordRepeatRule extends WordRepeatRule {
-
-  private static final Pattern PREPOSITIONS = Pattern.compile("ab|an|auf|bei|durch|für|in|mit|nach|ohne|über|von|zu");
 
   public GermanWordRepeatRule(ResourceBundle messages, Language language) {
     super(messages, language);
@@ -68,11 +65,31 @@ public class GermanWordRepeatRule extends WordRepeatRule {
         tokens[position - 1].getToken().equals("sie") && tokens[position].getToken().equals("Sie")) {
       return true;
     }
+    // "Er will nur sein Leben leben."
+    if (position > 0 && tokens[position - 1].getToken().equals("Leben") && tokens[position].getToken().equals("leben")) {
+      return true;
+    }
+    if (position > 2 && tokens[position - 1].getToken().equals("sie") && tokens[position].getToken().equals("sie")) {
+      if (tokens[position - 2].hasPosTag("KON:UNT")) {
+        // "Sie tut das, damit sie sie nicht fortschickt"
+        return true;
+      }
+      if (tokens.length+1 > position) {
+        if (tokens[position - 2].matchesPosTagRegex("VER:3:.+") && tokens[position + 1].hasPosTag("ZUS")) {
+          // "Dann warfen sie sie weg."
+          return true;
+        }
+        if (tokens[position - 2].matchesPosTagRegex("VER:MOD:3:.+") && tokens[position + 1].hasPosTag("VER:INF:NON")) {
+          // "Dann konnte sie sie sehen."
+          return true;
+        }
+      }
+    }
     return false;
   }
 
   private boolean isPreposition(AnalyzedTokenReadings token) {
-    return PREPOSITIONS.matcher(token.getToken()).matches();
+    return token.hasPosTagStartingWith("PRP:");
   }
 
 }

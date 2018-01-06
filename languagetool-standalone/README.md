@@ -4,9 +4,9 @@
 Polish, Chinese, French, Russian, Italian, Dutch
 and [more languages](https://www.languagetool.org/languages/)**
 
-Version 3.9-SNAPSHOT, 2017-..-..  
-Copyright (C) 2005-2017 the LanguageTool community and Daniel Naber (www.danielnaber.de)  
-Homepage: https://www.languagetool.org
+Version 4.1-SNAPSHOT, 2018-xx-yy  
+Copyright (C) 2005-2018 the LanguageTool community and Daniel Naber (www.danielnaber.de)  
+https://www.languagetool.org
 
 
 ## Requirements
@@ -23,12 +23,12 @@ Homepage: https://www.languagetool.org
 
 To integrate LanguageTool into LibreOffice or OpenOffice.org, you can use two methods:
 
-1. Double-click `LanguageTool-3.8.oxt`. The extension should
+* Double-click `LanguageTool-4.0.oxt`. The extension should
    start installing. Follow the on-screen instructions.
 
-2. If the above method doesn't work, call `Tools > Extension
+* If the above method doesn't work, call `Tools > Extension
    Manager > Add...` in LibreOffice/OpenOffice.org and browse for the
-   `LanguageTool-3.8.oxt` file.
+   `LanguageTool-4.0.oxt` file.
 
 Close and restart LibreOffice/OpenOffice.org Writer. Remember to close
 the QuickStarter as well if you use it. Type text with
@@ -61,10 +61,6 @@ Please see https://www.languagetool.org/issues/ if you experience problems.
 
 To use the stand-alone version, double click on the `languagetool.jar` file
 or call `java -jar languagetool.jar` from the command line.
-
-When using Java 9, start LanguageTool using `java --add-modules java.xml.bind -jar languagetool.jar`.
-Without that parameter, you'd get an `java.lang.NoClassDefFoundError: javax/xml/bind/JAXBException`
-error.
 
 ### Command-line version
 

@@ -100,7 +100,7 @@ public class AvsAnRule extends Rule {
         }
         if (msg != null) {
           RuleMatch match = new RuleMatch(
-              this, tokens[prevTokenIndex].getStartPos(), tokens[prevTokenIndex].getEndPos(), msg, "Wrong article");
+              this, sentence, tokens[prevTokenIndex].getStartPos(), tokens[prevTokenIndex].getEndPos(), msg, "Wrong article");
           ruleMatches.add(match);
         }
       }

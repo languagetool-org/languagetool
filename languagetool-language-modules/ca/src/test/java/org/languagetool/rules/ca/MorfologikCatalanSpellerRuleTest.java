@@ -409,5 +409,10 @@ public class MorfologikCatalanSpellerRuleTest {
         matches = rule.match(langTool.getAnalyzedSentence("bél.lica")); 
         assertEquals("bèl·lica", matches[0].getSuggestedReplacements().get(0));
         
+        //majúscules
+        matches = rule.match(langTool.getAnalyzedSentence("De PH 4")); 
+        assertEquals("pH", matches[0].getSuggestedReplacements().get(0));
+        matches = rule.match(langTool.getAnalyzedSentence("De l'any 156 Ac a l'any 2000.")); 
+        assertEquals("aC", matches[0].getSuggestedReplacements().get(0)); 
     }
 }

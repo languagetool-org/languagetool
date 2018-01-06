@@ -95,8 +95,9 @@ public class HTTPServer extends Server {
       InetSocketAddress address = host != null ? new InetSocketAddress(host, port) : new InetSocketAddress(port);
       server = HttpServer.create(address, 0);
       RequestLimiter limiter = getRequestLimiterOrNull(config);
+      ErrorRequestLimiter errorLimiter = getErrorRequestLimiterOrNull(config);
       LinkedBlockingQueue<Runnable> workQueue = new LinkedBlockingQueue<>();
-      httpHandler = new LanguageToolHttpHandler(config, allowedIps, runInternally, limiter, workQueue);
+      httpHandler = new LanguageToolHttpHandler(config, allowedIps, runInternally, limiter, errorLimiter, workQueue);
       server.createContext("/", httpHandler);
       executorService = getExecutorService(workQueue, config);
       server.setExecutor(executorService);
@@ -119,7 +120,7 @@ public class HTTPServer extends Server {
   }
 
   public static void main(String[] args) {
-    if (args.length > 7 || usageRequested(args)) {
+    if (args.length > 9 || usageRequested(args)) {
       System.out.println("Usage: " + HTTPServer.class.getSimpleName() + " [--config propertyFile] [--port|-p port] [--public]");
       System.out.println("  --config FILE  a Java property file (one key=value entry per line) with values for:");
       printCommonConfigFileOptions();

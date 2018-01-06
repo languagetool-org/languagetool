@@ -45,7 +45,7 @@ public class MatchDatabaseTest {
     assertThat(database.getCheckDates().size(), is(0));
     FakeRule rule1 = new FakeRule(1);
     rule1.setCategory(new Category(new CategoryId("TEST_ID"), "My Category"));
-    RuleMatch ruleMatch = new RuleMatch(rule1, 5, 10, "my message");
+    RuleMatch ruleMatch = new RuleMatch(rule1, null, 5, 10, "my message");
     AtomFeedItem feedItem1 = new AtomFeedItem("//id1?diff=123", "title", "summary1", new Date(10000));
     WikipediaRuleMatch wikiRuleMatch1 = new WikipediaRuleMatch(language, ruleMatch, "my context", feedItem1);
     database.add(wikiRuleMatch1);
@@ -63,7 +63,7 @@ public class MatchDatabaseTest {
     assertNull(database.list().get(0).getFixDate());
     assertThat(database.getCheckDates().size(), is(0));
 
-    RuleMatch ruleMatch2 = new RuleMatch(new FakeRule(1), 9, 11, "my message");  // same ID, different character positions
+    RuleMatch ruleMatch2 = new RuleMatch(new FakeRule(1), null, 9, 11, "my message");  // same ID, different character positions
     AtomFeedItem feedItem2 = new AtomFeedItem("//id2?diff=124", "title", "summary2", new Date(9000000000L));
     WikipediaRuleMatch wikiRuleMatch2 = new WikipediaRuleMatch(language, ruleMatch2, "my context", feedItem2);
     int affected = database.markedFixed(wikiRuleMatch2);

@@ -31,6 +31,7 @@ import java.util.regex.Pattern;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.Language;
 import org.languagetool.rules.*;
 import org.languagetool.synthesis.ca.CatalanSynthesizer;
 
@@ -51,7 +52,7 @@ public class ReplaceOperationNamesRule extends AbstractSimpleReplaceRule {
     return wrongWords;
   }
   
-  private static final CatalanSynthesizer synth = new CatalanSynthesizer();
+  private CatalanSynthesizer synth;
   
   private static final Pattern PrevToken_POS = Pattern.compile("D[^R].*|PX.*|SPS00|SENT_START");
   private static final Pattern PrevToken_POS_Excep = Pattern.compile("RG_anteposat|N.*|CC|_PUNCT.*|_loc_unavegada|RN");
@@ -61,10 +62,11 @@ public class ReplaceOperationNamesRule extends AbstractSimpleReplaceRule {
   private static final Pattern DETERMINANT = Pattern.compile("D[^R].M.*");
   
 
-  public ReplaceOperationNamesRule(final ResourceBundle messages) throws IOException {
+  public ReplaceOperationNamesRule(final ResourceBundle messages, Language language) throws IOException {
     super(messages);
     super.setLocQualityIssueType(ITSIssueType.Style);
-    super.setCategory(new Category(new CategoryId("FORMES_SECUNDARIES"), "C8) Formes secundàries"));    
+    super.setCategory(new Category(new CategoryId("FORMES_SECUNDARIES"), "C8) Formes secundàries")); 
+    synth = (CatalanSynthesizer) language.getSynthesizer();
   }  
 
   @Override
@@ -165,7 +167,7 @@ public class ReplaceOperationNamesRule extends AbstractSimpleReplaceRule {
           }
         }
         if (possibleReplacements.size() > 0) {
-            RuleMatch potentialRuleMatch = createRuleMatch(tokens[i],possibleReplacements);
+            RuleMatch potentialRuleMatch = createRuleMatch(tokens[i],possibleReplacements, sentence);
             ruleMatches.add(potentialRuleMatch);
         }
       }

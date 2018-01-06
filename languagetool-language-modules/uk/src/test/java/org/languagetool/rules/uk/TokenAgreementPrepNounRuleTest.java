@@ -78,6 +78,18 @@ public class TokenAgreementPrepNounRuleTest {
     assertEmptyMatch("на дому");
     assertEmptyMatch("на біс");
 
+    assertEmptyMatch("згідно з документом");
+    assertEmptyMatch("Серед святкових товарів");
+    assertEmptyMatch("зовсім не святкові товари Серед святкових товарів");
+
+    assertEmptyMatch("при кому знайдено вогнепальну");
+    
+    assertEmptyMatch("славетних од цареві");
+    
+    //TODO: temporary until we have a better logic
+    assertEmptyMatch("при їх опублікуванні");
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("при їх опублікування")).length);
+
     assertEmptyMatch("окрім як українці");
     assertEmptyMatch("за двісті метрів");
     assertEmptyMatch("переходить у Фрідріх Штрассе");
@@ -115,6 +127,7 @@ public class TokenAgreementPrepNounRuleTest {
     // check match positions:
     assertEquals(1, matches.length);
     assertEquals(Arrays.asList("неба"), matches[0].getSuggestedReplacements());
+    assertTrue("Не містить «родовий»: " + matches[0].getMessage(), matches[0].getMessage().contains("родовий"));
 
     matches = rule.match(langTool.getAnalyzedSentence("не в останню чергу через    корупцією, міжрелігійну ворожнечу"));
     assertEquals(1, matches.length);
@@ -164,6 +177,9 @@ public class TokenAgreementPrepNounRuleTest {
 
     assertEmptyMatch("З одного боку на щастя сім’я Ющенків нарешті з’їжджає з державної дачі.");
 
+//    assertEmptyMatch("змінили з № 20 на 20-а");
+//    assertEmptyMatch("парні номери від 84-а до 104 включно");
+    
 
     assertEmptyMatch("спиралося на місячної давнини рішення");
     assertEmptyMatch("На середньої довжини шубу");
@@ -205,8 +221,8 @@ public class TokenAgreementPrepNounRuleTest {
     matches = rule.match(langTool.getAnalyzedSentence("— О пан Єзус, захисти їх!"));
     assertEquals(1, matches.length);
     
-    matches = rule.match(langTool.getAnalyzedSentence("На фото: З Голлівуду Яринка Шуст привезла дві золоті медалі"));
-    assertEquals(1, matches.length);
+//    matches = rule.match(langTool.getAnalyzedSentence("На фото: З Голлівуду Яринка Шуст привезла дві золоті медалі"));
+//    assertEquals(1, matches.length);
   }
 
   private void assertEmptyMatch(String text) throws IOException {
@@ -215,11 +231,14 @@ public class TokenAgreementPrepNounRuleTest {
   
   @Test
   public void testSpecialChars() throws IOException {
-    RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("по не́рвам, по мо\u00ADстам, по воротам"));
+    assertEmptyMatch("до їм поді\u00ADбних");
+
+    RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("о справедли\u00ADвости."));
+    assertEquals(1, matches.length);
+
+    matches = rule.match(langTool.getAnalyzedSentence("по не́рвам, по мо\u00ADстам, по воротам"));
     // check match positions:
     assertEquals(3, matches.length);
-
-    assertEmptyMatch("до їм поді\u00ADбних");
 
     assertEquals(3, matches[0].getFromPos());
     assertEquals(10, matches[0].getToPos());

@@ -25,9 +25,7 @@ import org.languagetool.Languages;
 import org.languagetool.rules.patterns.AbstractPatternRule;
 
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -36,7 +34,7 @@ public class RuleTest {
 
   @Test
   public void testJavaRules() throws IOException {
-    Set<String> ids = new HashSet<>();
+    Map<String,String> idsToClassName = new HashMap<>();
     Set<Class> ruleClasses = new HashSet<>();
     if (Languages.getWithDemoLanguage().size() <= 1) {
       System.err.println("***************************************************************************");
@@ -49,7 +47,7 @@ public class RuleTest {
       List<Rule> allRules = lt.getAllRules();
       for (Rule rule : allRules) {
         if (!(rule instanceof AbstractPatternRule)) {
-          assertIdUniqueness(ids, ruleClasses, language, rule);
+          assertIdUniqueness(idsToClassName, ruleClasses, language, rule);
           assertIdValidity(language, rule);
           assertTrue(rule.supportsLanguage(language));
           testExamples(rule, lt);
@@ -58,20 +56,21 @@ public class RuleTest {
     }
   }
 
-  private void assertIdUniqueness(Set<String> ids, Set<Class> ruleClasses, Language language, Rule rule) {
+  private void assertIdUniqueness(Map<String,String> ids, Set<Class> ruleClasses, Language language, Rule rule) {
     String ruleId = rule.getId();
-    if (ids.contains(ruleId) && !ruleClasses.contains(rule.getClass())) {
-      throw new RuntimeException("Rule id occurs more than once: '" + ruleId + "', language: " + language);
+    if (ids.containsKey(ruleId) && !ruleClasses.contains(rule.getClass())) {
+      throw new RuntimeException("Rule id occurs more than once: '" + ruleId + "', one of them " +
+              rule.getClass() + ", the other one " + ids.get(ruleId) + ", language: " + language);
     }
-    ids.add(ruleId);
+    ids.put(ruleId, rule.getClass().getName());
     ruleClasses.add(rule.getClass());
   }
 
   private void assertIdValidity(Language language, Rule rule) {
     String ruleId = rule.getId();
-    if (!ruleId.matches("^[A-Z_]+$")) {
+    if (!ruleId.matches("^[A-Z_][A-Z0-9_]+$")) {
       throw new RuntimeException("Invalid character in rule id: '" + ruleId + "', language: "
-              + language + ", only [A-Z_] are allowed");
+              + language + ", only [A-Z0-9_] are allowed and the first character must be in [A-Z_]");
     }
   }
 

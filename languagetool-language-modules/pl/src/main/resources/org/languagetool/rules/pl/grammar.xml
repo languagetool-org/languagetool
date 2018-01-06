@@ -2846,7 +2846,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 												<token><exception regexp="yes" scope="previous">[\.\?!…:,;–\-—„”]+|bądź|i</exception><match no="0"></match></token>
 										</marker>
 								</pattern>
-								<message>Prawdopodobnie brakuje przecinka. Powinno być: <suggestion>, \3</suggestion>.</message>
+								<message>Prawdopodobnie brakuje przecinka. Powinno być: <suggestion>, \2</suggestion>.</message>
 								<short>Błąd interpunkcyjny</short>
 								<example>Spytał, czy się dobrze czuję i czy mam lekarstwa.</example>
 								<example>Nie kupiłem gruszek ani jabłek.</example>
@@ -3556,7 +3556,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 										<phraseref idref="NIE_SPOJNIK_PRZECINKOWY_OLD"></phraseref>
 								</marker>
 						</pattern>
-						<message>Prawdopodobnie zbędny przecinek. Poprawnie: <suggestion><match no="2"></match> <match include_skipped="following" no="2"></match> <match no="5"></match></suggestion>.</message>
+						<message>Prawdopodobnie zbędny przecinek. Poprawnie: <suggestion><match no="2"></match> <match include_skipped="following" no="2"></match> <match no="4"></match></suggestion>.</message>
 						<example correction="Poza tym miałem"><marker>Poza tym, miałem</marker> rację.</example>
 						<example>Poza tym, jak już mówiłem, miałem rację.</example>
                         <example>Dla bezdomnych rodzin republikańskie władze Rosji, Ukrainy, Mołdawii przygotowały koce.</example>
@@ -15570,6 +15570,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rulegroup>
 		</category>
 		<category id="SPELLING" name="Błędy ortograficzne" type="misspelling">
+		<rule id="WIERZ_WIEZ" name="„wierz” (wież)">
+         <pattern>
+          <token postag='prep:gen.*|num:pl:gen.*:congr|(adj|pact):pl:gen.*' postag_regexp='yes'></token>
+          <marker>
+          <token>wierz</token>
+          </marker>
+         </pattern>
+         <message>Czy chodziło o <suggestion>wież</suggestion> (dopełniacz l.m. od „wieża”)?</message>
+         <short>Błąd ortograficzny</short>
+         <example correction='wież'>Chciałbym, abyśmy w tym wątku oprócz <marker>wierz</marker> powstających w Paryżu, dyskutowali także o ich symbolice.</example>
+         <example correction="wież">Oto pozostałości dwóch <marker>wierz</marker> u stóp wzgórza.</example>
+        </rule>
+    		<rule id="STUP_STOP" name="„stup” (stóp)">
+         <pattern>
+          <token>u</token>
+          <marker>
+          <token>stup</token>
+          </marker>
+         </pattern>
+         <message>Czy chodziło o <suggestion>stóp</suggestion> (od „stopa”)?</message>
+         <short>Prawdopodobny błąd ortograficzny</short>
+         <example correction='stóp'>Pozostałości dwóch wież u <marker>stup</marker> wzgórza.</example>
+         <example>Pozostałości dwóch wież u stóp wzgórza.</example>
+        </rule>
 		      <rule id="PUKI_CO_NA_RAZIE" name="„puki co” (na razie)">
            <pattern>
             <token>puki</token>
@@ -19811,6 +19835,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <example>On jest tłumaczem.</example>
           <example correction="tłumaczem">On jest <marker>tłomaczem</marker>.</example>          
         </rule>
+        <rule id="SKLADA_SKLADKA" name="„składa” (składka)">
+         <pattern>
+          <marker>
+          <token>składa</token>
+          </marker>
+          <token regexp='yes'>członkowska|początkowa|zaliczkowa|minimalna|ubezpieczeniowa|reasekuracyjna|oszczędnościowa|roczna|przeliczeniowa|kwartalna|miesięczna|rentowa|jednorazowa|zdrowotna|lokacyjna|chorobowa|dodatkowa|inwestycyjna</token>
+         </pattern>
+         <message>Czy chodziło o <suggestion>składka</suggestion>?</message>
+         <short>Prawdopodobna literówka</short>
+         <example correction='Składka'><marker>Składa</marker> członkowska powinna być wpłacona do 31 stycznia każdego roku.</example>         
+        </rule>
         <rule id="DOPOTY_DOPOTY" name="„dopóty, dopóty” (dopóty, dopóki)">
          <pattern>
           <token>dopóty</token>
@@ -23133,7 +23168,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 								<pattern>
 										<token>czele<exception regexp="yes" scope="previous">[nw]aszym|na|jej|ich|jego|której|których|którego</exception></token>
 								</pattern>
-								<message>Prawdopodobna literówka; powinno być: <suggestion>na \2</suggestion>.</message>
+								<message>Prawdopodobna literówka; powinno być: <suggestion>na \1</suggestion>.</message>
 								<short>Prawdopodobna literówka</short>
 								<example>On stanął na jego czele.</example>
 								<example correction="na czele">On stanął <marker>czele</marker>.</example>

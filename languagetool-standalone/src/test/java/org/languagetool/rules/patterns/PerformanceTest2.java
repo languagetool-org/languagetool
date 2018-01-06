@@ -53,10 +53,12 @@ final class PerformanceTest2 {
       int endIndex = Math.min(beginIndex + MAX_TEXT_LENGTH, text.length()-1);
       String subText = text.substring(beginIndex, endIndex);
       long startTime = System.currentTimeMillis();
-      MultiThreadedJLanguageTool langTool = new MultiThreadedJLanguageTool(language);
-      List<RuleMatch> matches = langTool.check(subText);
+      MultiThreadedJLanguageTool lt = new MultiThreadedJLanguageTool(language);
+      //lt.activateWord2VecModelRules(new File("/home/dnaber/lt/word2vec"));
+      List<RuleMatch> matches = lt.check(subText);
+      //System.out.println(matches);
       long runTime = System.currentTimeMillis() - startTime;
-      langTool.shutdown();
+      lt.shutdown();
       if (i >= SKIP) {
         totalTime += runTime;
         System.out.println("Time: " + runTime + "ms (" + matches.size() + " matches)");

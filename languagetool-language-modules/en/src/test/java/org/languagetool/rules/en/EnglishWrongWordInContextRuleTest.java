@@ -62,6 +62,12 @@ public class EnglishWrongWordInContextRuleTest {
     assertGood("Forgo the champagne treatment a bridal boutique often provides.");
     assertGood("He sat there holding his horse by the bridle.");
     assertBad("Each rider used his own bridal.");
+    // desert/dessert
+    assertBad("They have some great deserts on this menu.");
+    assertGood("They have some great desserts on this menu.");
+    // statute/statue
+    assertBad("They have some great marble statutes.");
+    assertGood("They have a great marble statue.");
   }
 
   private void assertGood(String sentence) throws IOException {

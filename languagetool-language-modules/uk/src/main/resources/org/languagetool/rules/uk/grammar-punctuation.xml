@@ -23,6 +23,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
 
   <category id="PUNCTUATION" name="Пунктуація">
+
     <rulegroup id="PLEASE_NO_COMMA" name="«будь ласка» виділяється комами">
       <rule>
         <pattern>
@@ -68,7 +69,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           </token>
           <token regexp="yes">мабуть|щоправда|о?крім того|втім</token>
         </pattern>
-        <message>Відсутня ліва кома: <suggestion>\1, \3</suggestion>.</message>
+        <message>Відсутня ліва кома: <suggestion>\1, \2</suggestion>.</message>
         <example>Мабуть, це водій.</example>
         <example>Це, мабуть, водій.</example>
         <example>Але це... мабуть, водій.</example>
@@ -144,7 +145,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token negate="yes" regexp="yes">[:,….!?"«“„\(\)\[\]/–—-]|ж</token>
         </pattern>
         <message>Відсутня кома після «отже»: <suggestion>\1,</suggestion></message>
-        <example correction="Отже,"><marker>Отже</marker> виникає природня реакція.</example>
+        <example correction="Отже,"><marker>Отже</marker> виникає природна реакція.</example>
         <example>Отже – усе законно.</example>
         <example>Отже ж, прикрість яка!</example>
       </rule>

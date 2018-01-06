@@ -24,6 +24,7 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
 import org.languagetool.rules.ITSIssueType;
+import org.languagetool.rules.Rule;
 
 import java.awt.*;
 import java.io.*;
@@ -39,6 +40,7 @@ import java.util.List;
 public class Configuration {
   
   static final int DEFAULT_SERVER_PORT = 8081;  // should be HTTPServerConfig.DEFAULT_PORT but we don't have that dependency
+  static final int DEFAULT_NUM_CHECK_PARAS = 5;  //  default number of parameters to be checked by TextLevelRules in LO/OO 
   static final int FONT_STYLE_INVALID = -1;
   static final int FONT_SIZE_INVALID = -1;
 
@@ -47,13 +49,18 @@ public class Configuration {
   private static final String DISABLED_RULES_KEY = "disabledRules";
   private static final String ENABLED_RULES_KEY = "enabledRules";
   private static final String DISABLED_CATEGORIES_KEY = "disabledCategories";
+  private static final String ENABLED_RULES_ONLY_KEY = "enabledRulesOnly";
   private static final String LANGUAGE_KEY = "language";
   private static final String MOTHER_TONGUE_KEY = "motherTongue";
   private static final String NGRAM_DIR_KEY = "ngramDir";
+  private static final String WORD2VEC_DIR_KEY = "word2vecDir";
   private static final String AUTO_DETECT_KEY = "autoDetect";
   private static final String TAGGER_SHOWS_DISAMBIG_LOG_KEY = "taggerShowsDisambigLog";
   private static final String SERVER_RUN_KEY = "serverMode";
   private static final String SERVER_PORT_KEY = "serverPort";
+  private static final String PARA_CHECK_KEY = "numberParagraphs";
+  private static final String STYLE_REPEAT_KEY = "distanceRepeatedWords";
+  private static final String LONG_SENTENCES_KEY = "numberWordsLongSentences";
   private static final String USE_GUI_KEY = "useGUIConfig";
   private static final String FONT_NAME_KEY = "font.name";
   private static final String FONT_STYLE_KEY = "font.style";
@@ -71,9 +78,11 @@ public class Configuration {
   private Set<String> disabledRuleIds = new HashSet<>();
   private Set<String> enabledRuleIds = new HashSet<>();
   private Set<String> disabledCategoryNames = new HashSet<>();
+  private boolean enabledRulesOnly = false;
   private Language language;
   private Language motherTongue;
   private File ngramDirectory;
+  private File word2vecDirectory;
   private boolean runServer;
   private boolean autoDetect;
   private boolean taggerShowsDisambigLog;
@@ -82,6 +91,9 @@ public class Configuration {
   private int fontStyle = FONT_STYLE_INVALID;
   private int fontSize = FONT_SIZE_INVALID;
   private int serverPort = DEFAULT_SERVER_PORT;
+  private int numParasToCheck = DEFAULT_NUM_CHECK_PARAS;
+  private int styleRepeatSentences = -1;
+  private int longSentencesWords = -1;
   private String externalRuleDirectory;
   private String lookAndFeelName;
 
@@ -99,8 +111,8 @@ public class Configuration {
   }
 
   public Configuration(File baseDir, String filename, Language lang) throws IOException {
-    if (!baseDir.isDirectory()) {
-      throw new IllegalArgumentException("Not a directory: " + baseDir);
+    if (baseDir == null || !baseDir.isDirectory()) {
+      throw new IllegalArgumentException("Cannot open file " + filename + " in directory " + baseDir);
     }
     configFile = new File(baseDir, filename);
     loadConfiguration(lang);
@@ -130,6 +142,7 @@ public class Configuration {
     this.language = configuration.language;
     this.motherTongue = configuration.motherTongue;
     this.ngramDirectory = configuration.ngramDirectory;
+    this.word2vecDirectory = configuration.word2vecDirectory;
     this.runServer = configuration.runServer;
     this.autoDetect = configuration.autoDetect;
     this.taggerShowsDisambigLog = configuration.taggerShowsDisambigLog;
@@ -138,6 +151,9 @@ public class Configuration {
     this.fontStyle = configuration.fontStyle;
     this.fontSize = configuration.fontSize;
     this.serverPort = configuration.serverPort;
+    this.numParasToCheck = configuration.numParasToCheck;
+    this.styleRepeatSentences = configuration.styleRepeatSentences;
+    this.longSentencesWords = configuration.longSentencesWords;
     this.lookAndFeelName = configuration.lookAndFeelName;
     this.externalRuleDirectory = configuration.externalRuleDirectory;
     this.disabledRuleIds.clear();
@@ -175,6 +191,10 @@ public class Configuration {
 
   public void setDisabledCategoryNames(Set<String> categoryNames) {
     disabledCategoryNames = categoryNames;
+  }
+
+  public boolean getEnabledRulesOnly() {
+    return enabledRulesOnly;
   }
 
   public Language getLanguage() {
@@ -255,6 +275,54 @@ public class Configuration {
 
   public void setExternalRuleDirectory(String path) {
     externalRuleDirectory = path;
+  }
+
+  /**
+   * get the number of paragraphs to be checked for TextLevelRules 
+   * @since 4.0
+   */
+  public int getNumParasToCheck() {
+    return numParasToCheck;
+  }
+
+  /**
+   * set the number of paragraphs to be checked for TextLevelRules 
+   * @since 4.0
+   */
+  public void setNumParasToCheck(int numParas) {
+    this.numParasToCheck = numParas;
+  }
+
+  /**
+   * get the maximal distance of two repeated words in number of sentences
+   * @since 4.1
+   */
+  public int getStyleRepeatSentences() {
+    return styleRepeatSentences;
+  }
+
+  /**
+   * set the maximal distance of two repeated words in number of sentences
+   * @since 4.1
+   */
+  public void setStyleRepeatSentences(int numSentences) {
+    this.styleRepeatSentences = numSentences;
+  }
+
+  /**
+   * get the number of words a sentence is marked as too long
+   * @since 4.1
+   */
+  public int getLongSentencesWords() {
+    return longSentencesWords;
+  }
+
+  /**
+   * set the number of words a sentence is marked as too long
+   * @since 4.1
+   */
+  public void setLongSentencesWords(int numWords) {
+    this.longSentencesWords = numWords;
   }
 
   /**
@@ -355,6 +423,23 @@ public class Configuration {
   }
 
   /**
+   * Directory with word2vec data or null.
+   * @since 4.0
+   */
+  @Nullable
+  public File getWord2VecDirectory() {
+    return word2vecDirectory;
+  }
+
+  /**
+   * Sets the directory with word2vec data (may be null).
+   * @since 4.0
+   */
+  public void setWord2VecDirectory(File dir) {
+    this.word2vecDirectory = dir;
+  }
+
+  /**
    * @since 2.8
    */
   public Map<ITSIssueType, Color> getErrorColors() {
@@ -373,6 +458,7 @@ public class Configuration {
       disabledRuleIds.addAll(getListFromProperties(props, DISABLED_RULES_KEY + qualifier));
       enabledRuleIds.addAll(getListFromProperties(props, ENABLED_RULES_KEY + qualifier));
       disabledCategoryNames.addAll(getListFromProperties(props, DISABLED_CATEGORIES_KEY + qualifier));
+      enabledRulesOnly = "true".equals(props.get(ENABLED_RULES_ONLY_KEY));
 
       String languageStr = (String) props.get(LANGUAGE_KEY);
       if (languageStr != null) {
@@ -385,6 +471,10 @@ public class Configuration {
       String ngramDir = (String) props.get(NGRAM_DIR_KEY);
       if (ngramDir != null) {
         ngramDirectory = new File(ngramDir);
+      }
+      String word2vecDir = (String) props.get(WORD2VEC_DIR_KEY);
+      if (word2vecDir != null) {
+        word2vecDirectory = new File(word2vecDir);
       }
 
       autoDetect = "true".equals(props.get(AUTO_DETECT_KEY));
@@ -416,6 +506,23 @@ public class Configuration {
       String extRules = (String) props.get(EXTERNAL_RULE_DIRECTORY);
       if (extRules != null) {
         externalRuleDirectory = extRules;
+      }
+
+      String paraCheckString = (String) props.get(PARA_CHECK_KEY);
+      if (paraCheckString != null) {
+        numParasToCheck = Integer.parseInt(paraCheckString);
+      }
+
+      String styleRepeatString = (String) props.get(STYLE_REPEAT_KEY);
+      if (styleRepeatString != null) {
+        styleRepeatSentences = Integer.parseInt(styleRepeatString);
+        setValueToRule("STYLE_REPEATED_WORD_RULE", styleRepeatSentences, lang);
+      }
+
+      String longSentenceString = (String) props.get(LONG_SENTENCES_KEY);
+      if (longSentenceString != null) {
+        longSentencesWords = Integer.parseInt(longSentenceString);
+        setValueToRule("TOO_LONG_SENTENCE", longSentencesWords, lang);
       }
 
       String colorsString = (String) props.get(ERROR_COLORS_KEY);
@@ -495,11 +602,23 @@ public class Configuration {
     if (ngramDirectory != null) {
       props.setProperty(NGRAM_DIR_KEY, ngramDirectory.getAbsolutePath());
     }
+    if (word2vecDirectory != null) {
+      props.setProperty(WORD2VEC_DIR_KEY, word2vecDirectory.getAbsolutePath());
+    }
     props.setProperty(AUTO_DETECT_KEY, Boolean.toString(autoDetect));
     props.setProperty(TAGGER_SHOWS_DISAMBIG_LOG_KEY, Boolean.toString(taggerShowsDisambigLog));
     props.setProperty(USE_GUI_KEY, Boolean.toString(guiConfig));
     props.setProperty(SERVER_RUN_KEY, Boolean.toString(runServer));
     props.setProperty(SERVER_PORT_KEY, Integer.toString(serverPort));
+    props.setProperty(PARA_CHECK_KEY, Integer.toString(numParasToCheck));
+    if(styleRepeatSentences >= 0) {
+      props.setProperty(STYLE_REPEAT_KEY, Integer.toString(styleRepeatSentences));
+      setValueToRule ("STYLE_REPEATED_WORD_RULE", styleRepeatSentences, lang);
+    }
+    if(longSentencesWords >= 0) {
+      props.setProperty(LONG_SENTENCES_KEY, Integer.toString(longSentencesWords));
+      setValueToRule ("TOO_LONG_SENTENCE", longSentencesWords, lang);
+    }
     if (fontName != null) {
       props.setProperty(FONT_NAME_KEY, fontName);
     }
@@ -539,4 +658,22 @@ public class Configuration {
       props.setProperty(key, String.join(DELIMITER,  list));
     }
   }
+  
+  private void setValueToRule (String ruleID, int value, Language lang) {
+    if(lang == null) {
+      lang = language;
+      if(lang == null) {
+        return;
+      }
+    }
+    JLanguageTool langTool = new JLanguageTool(lang, motherTongue);
+    List<Rule> allRules = langTool.getAllRules();
+    for (Rule rule : allRules) {
+      if(Objects.equals(rule.getId(), ruleID)) {
+        rule.setDefaultValue(value);
+        break;
+      }
+    }
+  }
+  
 }

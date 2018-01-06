@@ -47,6 +47,22 @@ public class VerbAgreementRuleTest {
   }
 
   @Test
+  public void testPositions() throws IOException {
+    RuleMatch[] match1 = rule.match(lt.analyzeText("Du erreichst ich unter 12345"));
+    assertThat(match1.length, is(1));
+    assertThat(match1[0].getFromPos(), is(3));
+    assertThat(match1[0].getToPos(), is(16));
+    RuleMatch[] match2 = rule.match(lt.analyzeText("Hallo Karl. Du erreichst ich unter 12345"));
+    assertThat(match2.length, is(1));
+    assertThat(match2[0].getFromPos(), is(12+3));
+    assertThat(match2[0].getToPos(), is(12+16));
+    RuleMatch[] match3 = rule.match(lt.analyzeText("Ihr könnt das Training abbrechen, weil es nichts bringen wird. Er geht los und sagt dabei: Werde ich machen."));
+    assertThat(match3.length, is(1));
+    assertThat(match3[0].getFromPos(), is(97));
+    assertThat(match3[0].getToPos(), is(107));
+  }
+  
+  @Test
   public void testWrongVerb() throws IOException {
     // correct sentences:
     assertGood("Du bist in dem Moment angekommen, als ich gegangen bin.");
@@ -82,6 +98,7 @@ public class VerbAgreementRuleTest {
     assertGood("Das sind Leute, die viel mehr als ich wissen.");
     assertGood("Das ist mir nicht klar, kannst ja mal beim Kunden nachfragen.");
     assertGood("So tes\u00ADtest Du das mit dem soft hyphen.");
+    assertGood("Viele Brunnen in Italiens Hauptstadt sind bereits abgeschaltet.");
     // incorrect sentences:
     assertBad("Als Borcarbid weißt es eine hohe Härte auf.");
     assertBad("Das greift auf Vorläuferinstitutionen bist auf die Zeit von 1234 zurück.");

@@ -18,12 +18,6 @@
  */
 package org.languagetool.language;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.ResourceBundle;
-
 import org.languagetool.Language;
 import org.languagetool.LanguageMaintainedState;
 import org.languagetool.chunking.Chunker;
@@ -32,6 +26,8 @@ import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.languagemodel.LuceneLanguageModel;
 import org.languagetool.rules.*;
 import org.languagetool.rules.en.*;
+import org.languagetool.rules.neuralnetwork.NeuralNetworkRuleCreator;
+import org.languagetool.rules.neuralnetwork.Word2VecModel;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.en.EnglishSynthesizer;
 import org.languagetool.tagging.Tagger;
@@ -42,6 +38,12 @@ import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
 import org.languagetool.tokenizers.WordTokenizer;
 import org.languagetool.tokenizers.en.EnglishWordTokenizer;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+import java.util.ResourceBundle;
 
 /**
  * Support for English - use the sub classes {@link BritishEnglish}, {@link AmericanEnglish},
@@ -149,6 +151,11 @@ public class English extends Language implements AutoCloseable {
   }
 
   @Override
+  public synchronized Word2VecModel getWord2VecModel(File indexDir) throws IOException {
+    return new Word2VecModel(indexDir + File.separator + getShortCode());
+  }
+
+  @Override
   public Contributor[] getMaintainers() {
     return new Contributor[] { new Contributor("Mike Unwalla"), Contributors.MARCIN_MILKOWSKI, Contributors.DANIEL_NABER };
   }
@@ -169,9 +176,19 @@ public class English extends Language implements AutoCloseable {
                 Example.wrong("This house is old. <marker>it</marker> was built in 1950."),
                 Example.fixed("This house is old. <marker>It</marker> was built in 1950.")),
         new MultipleWhitespaceRule(messages, this),
-        new LongSentenceRule(messages),
+        new LongSentenceRule(messages, 20, false),
+        new LongSentenceRule(messages, 25, false),
+        new LongSentenceRule(messages, 30, false),
+        new LongSentenceRule(messages, 35, false),
+        new LongSentenceRule(messages, 40, false),
+        new LongSentenceRule(messages, 45, false),
+        new LongSentenceRule(messages, 50, false),
+        new LongSentenceRule(messages, 60, false),
         new SentenceWhitespaceRule(messages),
         new OpenNMTRule(),
+        new WhiteSpaceBeforeParagraphEnd(messages),
+        new WhiteSpaceAtBeginOfParagraph(messages),
+        new EmptyLineRule(messages),
         // specific to English:
         new EnglishUnpairedBracketsRule(messages, this),
         new EnglishWordRepeatRule(messages, this),
@@ -180,7 +197,8 @@ public class English extends Language implements AutoCloseable {
         new CompoundRule(messages),
         new ContractionSpellingRule(messages),
         new EnglishWrongWordInContextRule(messages),
-        new EnglishDashRule()
+        new EnglishDashRule(),
+        new WordCoherencyRule(messages)
     );
   }
 
@@ -190,6 +208,11 @@ public class English extends Language implements AutoCloseable {
         new EnglishConfusionProbabilityRule(messages, languageModel, this),
         new EnglishNgramProbabilityRule(messages, languageModel, this)
     );
+  }
+
+  @Override
+  public List<Rule> getRelevantWord2VecModelRules(ResourceBundle messages, Word2VecModel word2vecModel) throws IOException {
+    return NeuralNetworkRuleCreator.createRules(messages, this, word2vecModel);
   }
 
   /**

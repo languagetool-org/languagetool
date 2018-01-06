@@ -44,7 +44,7 @@ public class PortugueseWordTokenizer extends WordTokenizer {
         + "\u2028\u2029\u202a\u202b\u202c\u202d\u202e\u202f"
         + "\u205F\u2060\u2061\u2062\u2063\u206A\u206b\u206c\u206d"
         + "\u206E\u206F\u3000\u3164\ufeff\uffa0\ufff9\ufffa\ufffb"
-        + "\u002A\u002B×∗·÷:="
+        + "\u002A\u002B×∗·÷:=≠≂≃≄≅≆≇≈≉≤≥≪≫∧∨∩∪∈∉∊∋∌∍"
         + ",.;()[]{}<>!?:/\\\"'«»„”“‘`’…¿¡\t\n\r";
 
   // Section copied from UkranianWordTokenizer.java for handling exceptions
@@ -73,6 +73,11 @@ public class PortugueseWordTokenizer extends WordTokenizer {
   // dates
   private static final Pattern DATE_PATTERN = Pattern.compile("([\\d]{2})\\.([\\d]{2})\\.([\\d]{4})|([\\d]{4})\\.([\\d]{2})\\.([\\d]{2})|([\\d]{4})-([\\d]{2})-([\\d]{2})", Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
   private static final String DATE_PATTERN_REPL = "$1" + NON_BREAKING_DOT_SUBST + "$2" + NON_BREAKING_DOT_SUBST + "$3";
+  // END of Section copied from UkranianWordTokenizer.java for handling exceptions
+
+  // dots in ordinals
+  private static final Pattern DOTTED_ORDINALS_PATTERN = Pattern.compile("([\\d])\\.([aoªº][sˢ]?)", Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+  private static final String DOTTED_ORDINALS_REPL = "$1" + NON_BREAKING_DOT_SUBST + "$2";
 
   public PortugueseWordTokenizer() {
   }
@@ -91,6 +96,7 @@ public class PortugueseWordTokenizer extends WordTokenizer {
     if( dotInsideSentence ){
       text = DATE_PATTERN.matcher(text).replaceAll(DATE_PATTERN_REPL);
       text = DOTTED_NUMBERS_PATTERN.matcher(text).replaceAll(DOTTED_NUMBERS_REPL);
+      text = DOTTED_ORDINALS_PATTERN.matcher(text).replaceAll(DOTTED_ORDINALS_REPL);
     }
 
     // 2 000 000

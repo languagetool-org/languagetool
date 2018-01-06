@@ -19,6 +19,7 @@
 package org.languagetool.rules;
 
 import org.languagetool.AnalyzedSentence;
+import org.languagetool.markup.AnnotatedText;
 
 import java.io.IOException;
 import java.util.List;
@@ -31,6 +32,16 @@ import java.util.ResourceBundle;
  */
 public abstract class TextLevelRule extends Rule {
 
+  /**
+   * @since 3.9
+   */
+  public RuleMatch[] match(List<AnalyzedSentence> sentences, AnnotatedText annotatedText) throws IOException {
+    return match(sentences);
+  }
+
+  /**
+   * @deprecated use {@link #match(List, AnnotatedText)} instead
+   */
   public abstract RuleMatch[] match(List<AnalyzedSentence> sentences) throws IOException;
 
   /**

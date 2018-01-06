@@ -230,6 +230,22 @@ RB => Règles Brutes
     </pattern>
     <disambig postag="A"/>
   </rule>
+  <rulegroup name="bien entendu" id="BIEN_ENTENDU">
+    <rule>
+      <pattern>
+        <token>bien</token>
+        <marker><token>entendu</token></marker>
+      </pattern>
+      <disambig postag="A"/>
+    </rule>
+    <rule>
+      <pattern>
+        <marker><token>bien</token></marker>
+        <token>entendu</token>
+      </pattern>
+      <disambig postag="A"/>
+    </rule>
+  </rulegroup>
   <rulegroup name="RP : Pronoms personnels objets" id="RP-PRO_PERS_OBJ">
     <rule name="nous">
       <pattern>
@@ -803,7 +819,7 @@ RB => Règles Brutes
     <pattern>
       <unify> <feature id="number"/> <feature id="gender"/>
         <token postag="D.*" postag_regexp="yes"><exception>même</exception></token>
-        <token postag="N.*|J.*" postag_regexp="yes"><exception regexp="yes">a|dans|envers|si|fut</exception></token>
+        <token postag="N.*|J.*|V ppa.*" postag_regexp="yes"><exception regexp="yes">a|dans|envers|si|fut</exception></token>
       </unify>
     </pattern>
     <disambig action="filterall"/>

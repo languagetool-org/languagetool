@@ -19,6 +19,7 @@
 package org.languagetool.rules.en;
 
 import org.jetbrains.annotations.Nullable;
+import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.Language;
 import org.languagetool.rules.Example;
@@ -38,17 +39,21 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     setCheckCompound(true);
     addExamplePair(Example.wrong("This <marker>sentenc</marker> contains a spelling mistake."),
                    Example.fixed("This <marker>sentence</marker> contains a spelling mistake."));
+    String languageSpecificIgnoreFile = getSpellingFileName().replace(".txt", "_"+language.getShortCodeWithCountryAndVariant()+".txt");
+    for (String ignoreWord : wordListLoader.loadWords(languageSpecificIgnoreFile)) {
+      addIgnoreWords(ignoreWord);
+    }
   }
 
   @Override
-  protected List<RuleMatch> getRuleMatches(String word, int startPos) throws IOException {
-    List<RuleMatch> ruleMatches = super.getRuleMatches(word, startPos);
+  protected List<RuleMatch> getRuleMatches(String word, int startPos, AnalyzedSentence sentence) throws IOException {
+    List<RuleMatch> ruleMatches = super.getRuleMatches(word, startPos, sentence);
     if (ruleMatches.size() > 0) {
       // so 'word' is misspelled: 
       IrregularForms forms = getIrregularFormsOrNull(word);
       if (forms != null) {
         RuleMatch oldMatch = ruleMatches.get(0);
-        RuleMatch newMatch = new RuleMatch(this, oldMatch.getFromPos(), oldMatch.getToPos(), 
+        RuleMatch newMatch = new RuleMatch(this, sentence, oldMatch.getFromPos(), oldMatch.getToPos(), 
                 "Possible spelling mistake. Did you mean <suggestion>" + forms.forms.get(0) +
                 "</suggestion>, the " + forms.formName + " form of the " + forms.posName +
                 " '" + forms.baseform + "'?");

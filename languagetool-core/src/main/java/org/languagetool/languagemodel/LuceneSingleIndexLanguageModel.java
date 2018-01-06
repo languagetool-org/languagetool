@@ -154,7 +154,12 @@ public class LuceneSingleIndexLanguageModel extends BaseLanguageModel {
       } else {
         long result = 0;
         for (ScoreDoc scoreDoc : docs.scoreDocs) {
-          result += Long.parseLong(luceneSearcher.reader.document(scoreDoc.doc).get("totalTokenCount"));
+          long tmp = Long.parseLong(luceneSearcher.reader.document(scoreDoc.doc).get("totalTokenCount"));
+          if (tmp > result) {
+            // due to the way FrequencyIndexCreator adds these totalTokenCount fields, we must not sum them,
+            // but take the largest one:
+            result = tmp;
+          }
         }
         return result;
       }

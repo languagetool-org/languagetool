@@ -65,6 +65,13 @@ public abstract class AbstractPatternRulePerformer {
       prevMatched = prevMatched || prevSkipNext > 0
           && prevElement != null
           && prevElement.isMatchedByScopeNextException(matchToken);
+      
+      // a workaround to allow exception with scope="next" without "skip" in previous token
+      // this allows to check for exception in the next token even if the current one is the last one in the sentence
+      prevMatched = prevMatched || prevSkipNext == 0
+          && tokenNo <= tokens.length-2
+          && matcher.isMatchedByScopeNextException(tokens[tokenNo+1].getAnalyzedToken(0));
+      
       if (prevMatched) {
         return false;
       }

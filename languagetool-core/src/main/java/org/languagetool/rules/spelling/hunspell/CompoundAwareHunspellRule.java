@@ -113,7 +113,7 @@ public abstract class CompoundAwareHunspellRule extends HunspellRule {
         // assume noun, so use uppercase:
         boolean doUpperCase = partCount > 0 && !StringTools.startsWithUppercase(part);
         List<String> suggestions = morfoSpeller.getSuggestions(doUpperCase ? StringTools.uppercaseFirstChar(part) : part);
-        if (suggestions.size() == 0) {
+        if (suggestions.isEmpty()) {
           suggestions = morfoSpeller.getSuggestions(doUpperCase ? StringTools.lowercaseFirstChar(part) : part);
         }
         for (String suggestion : suggestions) {

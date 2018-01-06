@@ -26,6 +26,7 @@ import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.markup.AnnotatedText;
 import org.languagetool.markup.AnnotatedTextBuilder;
 import org.languagetool.rules.*;
+import org.languagetool.rules.neuralnetwork.Word2VecModel;
 import org.languagetool.rules.patterns.AbstractPatternRule;
 import org.languagetool.rules.patterns.FalseFriendRuleLoader;
 import org.languagetool.rules.patterns.PatternRule;
@@ -64,7 +65,7 @@ import java.util.regex.Pattern;
 public class JLanguageTool {
 
   /** LanguageTool version as a string like {@code 2.3} or {@code 2.4-SNAPSHOT}. */
-  public static final String VERSION = "3.9-SNAPSHOT";
+  public static final String VERSION = "4.1-SNAPSHOT";
   /** LanguageTool build date and time like {@code 2013-10-17 16:10} or {@code null} if not run from JAR. */
   @Nullable public static final String BUILD_DATE = getBuildDate();
 
@@ -82,6 +83,7 @@ public class JLanguageTool {
   public static final String MESSAGE_BUNDLE = "org.languagetool.MessagesBundle";
 
   private final ResultCache cache;
+  private float maxErrorsPerWordRate;
 
   /**
    * Returns the build date or {@code null} if not run from JAR.
@@ -246,6 +248,18 @@ public class JLanguageTool {
   }
 
   /**
+   * Maximum errors per word rate, checking will stop with an exception if the rate is higher.
+   * For example, with a rate of 0.33, the checking would stop if the user's
+   * text has so many errors that more than every 3rd word causes a rule match.
+   * Note that this may not apply for very short texts.
+   * @since 4.0
+   */
+  @Experimental
+  public void setMaxErrorsPerWordRate(float maxErrorsPerWordRate) {
+    this.maxErrorsPerWordRate = maxErrorsPerWordRate;
+  }
+  
+  /**
    * Gets the ResourceBundle (i18n strings) for the default language of the user's system.
    */
   public static ResourceBundle getMessageBundle() {
@@ -328,6 +342,20 @@ public class JLanguageTool {
     if (languageModel != null) {
       ResourceBundle messages = getMessageBundle(language);
       List<Rule> rules = language.getRelevantLanguageModelRules(messages, languageModel);
+      userRules.addAll(rules);
+    }
+  }
+
+  /**
+   * Activate rules that depend on a word2vec language model.
+   * @param indexDir directory with a subdirectories like 'en', each containing dictionary.txt and final_embeddings.txt
+   * @since 4.0
+   */
+  public void activateWord2VecModelRules(File indexDir) throws IOException {
+    Word2VecModel word2vecModel = language.getWord2VecModel(indexDir);
+    if (word2vecModel != null) {
+      ResourceBundle messages = getMessageBundle(language);
+      List<Rule> rules = language.getRelevantWord2VecModelRules(messages, word2vecModel);
       userRules.addAll(rules);
     }
   }
@@ -503,6 +531,14 @@ public class JLanguageTool {
   }
   
   /**
+   * @since 3.9
+   */
+  @Experimental
+  public List<RuleMatch> check(AnnotatedText text, RuleMatchListener listener) throws IOException {
+    return check(text, true, ParagraphHandling.NORMAL, listener);
+  }
+  
+  /**
    * The main check method. Tokenizes the text into sentences and matches these
    * sentences against all currently active rules.
    * @param annotatedText The text to be checked, created with {@link AnnotatedTextBuilder}. 
@@ -668,9 +704,10 @@ public class JLanguageTool {
       fromPos = annotatedText.getOriginalTextPositionFor(fromPos);
       toPos = annotatedText.getOriginalTextPositionFor(toPos - 1) + 1;
     }
-    RuleMatch thisMatch = new RuleMatch(match.getRule(),
+    RuleMatch thisMatch = new RuleMatch(match.getRule(), match.getSentence(),
         fromPos, toPos, match.getMessage(), match.getShortMessage());
     thisMatch.setSuggestedReplacements(match.getSuggestedReplacements());
+    thisMatch.setUrl(match.getUrl());
     String sentencePartToError = sentence.substring(0, match.getFromPos());
     String sentencePartToEndOfError = sentence.substring(0, match.getToPos());
     int lastLineBreakPos = sentencePartToError.lastIndexOf('\n');
@@ -884,6 +921,29 @@ public class JLanguageTool {
   }
   
   /**
+   * Works like getAllActiveRules but overrides defaults by officeefaults
+   * @return a List of {@link Rule} objects
+   * @since 4.0
+   */
+  public List<Rule> getAllActiveOfficeRules() {
+    List<Rule> rules = new ArrayList<>();
+    List<Rule> rulesActive = new ArrayList<>();
+    rules.addAll(builtinRules);
+    rules.addAll(userRules);
+    for (Rule rule : rules) {
+      if (!ignoreRule(rule) && !rule.isOfficeDefaultOff()) {
+        rulesActive.add(rule);
+      } else if (rule.isOfficeDefaultOn()) {
+        rulesActive.add(rule);
+        enableRule(rule.getId());
+      } else if (!ignoreRule(rule) && rule.isOfficeDefaultOff()) {
+        disableRule(rule.getId());
+      }
+    }    
+    return rulesActive;
+  }
+  
+  /**
    * Get pattern rules by Id and SubId. This returns a list because rules that use {@code <or>...</or>}
    * are internally expanded into several rules.
    * @return a List of {@link Rule} objects
@@ -967,13 +1027,14 @@ public class JLanguageTool {
       List<RuleMatch> ruleMatches = new ArrayList<>();
       for (Rule rule : rules) {
         if (rule instanceof TextLevelRule && !ignoreRule(rule) && paraMode != ParagraphHandling.ONLYNONPARA) {
-          RuleMatch[] matches = ((TextLevelRule) rule).match(analyzedSentences);
+          RuleMatch[] matches = ((TextLevelRule) rule).match(analyzedSentences, annotatedText);
           List<RuleMatch> adaptedMatches = new ArrayList<>();
           for (RuleMatch match : matches) {
             LineColumnRange range = getLineColumnRange(match);
             int newFromPos = annotatedText.getOriginalTextPositionFor(match.getFromPos());
             int newToPos = annotatedText.getOriginalTextPositionFor(match.getToPos() - 1) + 1;
-            RuleMatch newMatch = new RuleMatch(match.getRule(), newFromPos, newToPos, match.getMessage(), match.getShortMessage());
+            RuleMatch newMatch = new RuleMatch(match.getRule(), match.getSentence(), newFromPos, newToPos, match.getMessage(), match.getShortMessage());
+            newMatch.setUrl(match.getUrl());
             newMatch.setLine(range.from.line);
             newMatch.setEndLine(range.to.line);
             if (match.getLine() == 0) {
@@ -999,8 +1060,10 @@ public class JLanguageTool {
     private List<RuleMatch> getOtherRuleMatches() {
       List<RuleMatch> ruleMatches = new ArrayList<>();
       int i = 0;
+      int wordCounter = 0;
       for (AnalyzedSentence analyzedSentence : analyzedSentences) {
         String sentence = sentences.get(i++);
+        wordCounter += analyzedSentence.getTokensWithoutWhitespace().length;
         try {
           List<RuleMatch> sentenceMatches = null;
           InputSentence cacheKey = null;
@@ -1026,6 +1089,12 @@ public class JLanguageTool {
             }
           }
           ruleMatches.addAll(adaptedMatches);
+          float errorsPerWord = ruleMatches.size() / (float)wordCounter;
+          //System.out.println("errorPerWord " + errorsPerWord + " (matches: " + ruleMatches.size() + " / " + wordCounter + ")");
+          if (maxErrorsPerWordRate > 0 && errorsPerWord > maxErrorsPerWordRate && wordCounter > 25) {
+            throw new ErrorRateTooHighException("Text checking was stopped due to too many errors (more than " + String.format("%.0f", maxErrorsPerWordRate*100) +
+                    "% of words seem to have an error). Are you sure you have set the correct text language? Language set: " + language.getName());
+          }
           charCount += sentence.length();
           lineCount += countLineBreaks(sentence);
 
@@ -1043,6 +1112,8 @@ public class JLanguageTool {
               columnCount = sentence.length() - lineBreakPos;
             }
           }
+        } catch (ErrorRateTooHighException e) {
+          throw e;
         } catch (Exception e) {
           throw new RuntimeException("Could not check sentence (language: " + language + "): '"
                   + StringUtils.abbreviate(analyzedSentence.toTextString(), 200) + "'", e);

@@ -142,7 +142,7 @@ public class NgramProbabilityRule extends Rule {
             Alternatives betterAlternatives = getBetterAlternatives(prevToken, token, next, googleToken, p, sentence);
             if (!betterAlternatives.alternativesConsidered || betterAlternatives.alternatives.size() > 0) {
               String message = "The phrase '" + ngram + "' rarely occurs in the reference corpus (" + p.getOccurrences() + " times)";
-              RuleMatch match = new RuleMatch(this, prevToken.startPos, next.endPos, message);
+              RuleMatch match = new RuleMatch(this, sentence, prevToken.startPos, next.endPos, message);
               List<String> suggestions = new ArrayList<>();
               for (Alternative betterAlternative : betterAlternatives.alternatives) {
                 suggestions.add(prevToken.token + " " + betterAlternative.token + " " + next.token);

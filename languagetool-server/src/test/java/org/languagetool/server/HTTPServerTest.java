@@ -38,6 +38,10 @@ import static org.junit.Assert.*;
 public class HTTPServerTest {
 
   private static final int MAX_LENGTH = 50_000;  // needs to be in sync with server conf!
+  
+  private static final String LOAD_TEST_URL = "http://localhost:<PORT>/v2/check";
+  //private static final String LOAD_TEST_URL = "https://api.languagetool.org/v2/check";
+  //private static final String LOAD_TEST_URL = "https://languagetool.org/api/v2/check";
 
   @Ignore("already gets tested by sub class HTTPServerLoadTest")
   @Test
@@ -48,6 +52,7 @@ public class HTTPServerTest {
       server.run();
       assertTrue(server.isRunning());
       runTestsV2();
+      runDataTests();
     } finally {
       server.stop();
       assertFalse(server.isRunning());
@@ -60,7 +65,7 @@ public class HTTPServerTest {
     German german = new German();
     String result1 = checkV2(german, "");
     assertTrue("Got " + result1 + ", expected " + emptyResultPattern, result1.matches(emptyResultPattern));
-    String result2 = checkV2(german, "Ein kleiner test");
+    String result2 = checkV2(german, "Ein kleiner Test");
     assertTrue("Got " + result2 + ", expected " + emptyResultPattern, result2.matches(emptyResultPattern));
     // one error:
     assertTrue(checkV2(german, "ein kleiner test.").contains("UPPERCASE_SENTENCE_START"));
@@ -150,6 +155,20 @@ public class HTTPServerTest {
     assertTrue("Result: " + result7, result7.contains("\"en-US\""));
   }
 
+  private void runDataTests() throws IOException {
+    English english = new English();
+    assertTrue(dataTextCheck(english, null,
+            "{\"text\": \"This is an test.\"}", "").contains("EN_A_VS_AN"));
+    assertTrue(dataTextCheck(english, null,
+            "{\"text\": \"This is an test.\", \"metaData\": {}}", "").contains("EN_A_VS_AN"));
+    assertTrue(dataTextCheck(english, null,
+            "{\"text\": \"This is an test.\", \"metaData\": {\"key\": \"val\"}}", "").contains("EN_A_VS_AN"));
+    assertTrue(dataTextCheck(english, null,
+            "{\"text\": \"This is an test.\", \"metaData\": {\"key\": \"val\", \"EmailToAddress\": \"My name <foo@bar.org>\"}}", "").contains("EN_A_VS_AN"));
+    assertFalse(dataTextCheck(english, null,
+            "{\"text\": \"This is a test.\"}", "").contains("EN_A_VS_AN"));
+  }
+
   @Test
   public void testTimeout() throws Exception {
     HTTPServerConfig config = new HTTPServerConfig(HTTPTools.getDefaultPort(), false);
@@ -159,8 +178,11 @@ public class HTTPServerTest {
       server.run();
       try {
         System.out.println("=== Testing timeout now, please ignore the following exception ===");
-        checkV2(new GermanyGerman(), "Einq Tesz miit fieln Fehlan, desshalb sehee laagnsam bee dr Rechtschriebpürfung");
-        fail("Check was expected to be stopped because it took too long");
+        long t = System.currentTimeMillis();
+        checkV2(new GermanyGerman(), "Einq Tesz miit fieln Fehlan, desshalb sehee laagnsam bee dr Rechtschriebpürfung. "+
+                                     "hir stet noc mer text mt nochh meh feheln. vielleict brucht es soagr nohc mehrr, damt es klapt");
+        fail("Check was expected to be stopped because it took too long (> 1ms), it took " +
+                (System.currentTimeMillis()-t + "ms when measured from client side"));
       } catch (IOException expected) {
         if (!expected.toString().contains(" 503 ")) {
           fail("Expected exception with error 503, got: " + expected);
@@ -248,20 +270,28 @@ public class HTTPServerTest {
   }
 
   protected String checkV1(Language lang, Language motherTongue, String text) throws IOException {
-    return check("/", lang, motherTongue, text, "");
+    return plainTextCheck("/", lang, motherTongue, text, "");
   }
 
   protected String checkV2(Language lang, Language motherTongue, String text) throws IOException {
-    return check("/v2/check", lang, motherTongue, text, "");
+    return plainTextCheck("/v2/check", lang, motherTongue, text, "");
   }
 
   private String checkV2(Language lang, String text, String parameters) throws IOException {
-    return check("/v2/check", lang, null, text, parameters);
+    return plainTextCheck("/v2/check", lang, null, text, parameters);
   }
 
-  private String check(String urlPrefix, Language lang, Language motherTongue, String text, String parameters) throws IOException {
+  private String plainTextCheck(String urlPrefix, Language lang, Language motherTongue, String text, String parameters) throws IOException {
+    return check("text", urlPrefix, lang, motherTongue, text, parameters);
+  }
+
+  private String dataTextCheck(Language lang, Language motherTongue, String jsonData, String parameters) throws IOException {
+    return check("data", "/v2/check", lang, motherTongue, jsonData, parameters);
+  }
+
+  private String check(String typeName, String urlPrefix, Language lang, Language motherTongue, String text, String parameters) throws IOException {
     String urlOptions = urlPrefix + "?language=" + (lang == null ? "auto" : lang.getShortCode());
-    urlOptions += "&disabledRules=HUNSPELL_RULE&text=" + URLEncoder.encode(text, "UTF-8"); // latin1 is not enough for languages like polish, romanian, etc
+    urlOptions += "&disabledRules=HUNSPELL_RULE&" + typeName + "=" + URLEncoder.encode(text, "UTF-8"); // latin1 is not enough for languages like polish, romanian, etc
     if (motherTongue != null) {
       urlOptions += "&motherTongue=" + motherTongue.getShortCode();
     }
@@ -293,9 +323,9 @@ public class HTTPServerTest {
   /**
    * Same as {@link #checkV1(Language, String)} but using HTTP POST method instead of GET
    */
-  protected String checkByPOST(Language lang, String text) throws IOException {
+  String checkByPOST(Language lang, String text) throws IOException {
     String postData = "language=" + lang.getShortCodeWithCountryAndVariant() + "&text=" + URLEncoder.encode(text, "UTF-8"); // latin1 is not enough for languages like Polish, Romanian, etc
-    URL url = new URL("http://localhost:" + HTTPTools.getDefaultPort() + "/v2/check");
+    URL url = new URL(LOAD_TEST_URL.replace("<PORT>", String.valueOf(HTTPTools.getDefaultPort())));
     try {
       return HTTPTools.checkAtUrlByPost(url, postData);
     } catch (IOException e) {

@@ -99,6 +99,19 @@ USA
             <example correction="Master’s theses"><marker>Master’s dissertations</marker> are not easy to write.</example>
             <example correction="master's thesis">Example sentence with no full stop: <marker>master's dissertation</marker></example>
         </rule>
+        <rule id="SI_UNITS_OF_MEASUREMENT_ADJECTIVES_BRE" name="1-litre/1-liter">
+            <pattern>
+                <token regexp="yes">([0-9]+-)(yotta|zetta|exa|peta|tera|giga|mega|kilo|hecto|deca|deci|centi|milli|micro|nano|pico|femto|atto|zepto|yocto)?(gramme|litre|metre)<exception postag="NNP"/></token>
+            </pattern>
+            <message>The word '<match no="1"/>' is an adjective (SI unit of measurement), but the spelling is not correct American English.</message>
+            <short>AmE/BrE: SI units (adjectives)</short>
+            <example type="incorrect">Use a <marker>6-millimetre</marker> bolt.</example>
+            <example type="correct">Use a <marker>6-millimeter</marker> bolt.</example>
+            <example type="correct">Do not find incorrect English: use a <marker>10-millimetres</marker> bolt.</example>
+            <example type="incorrect">Use a <marker>10-metre</marker> rope.</example>
+            <example type="incorrect">The 4.<marker>6-centigramme</marker> difference is not a problem.</example>
+            <example type="incorrect">Also find typgoraphic errors: a 5.7.<marker>8-femtogramme</marker> difference is not important.</example>
+       </rule>
     </category>
 
 </rules>

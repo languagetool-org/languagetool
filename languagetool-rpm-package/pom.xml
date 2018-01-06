@@ -1,0 +1,815 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+        <groupId>org.languagetool</groupId>
+        <artifactId>languagetool-parent</artifactId>
+        <version>4.1-SNAPSHOT</version>
+	</parent>
+
+    <artifactId>languagetool</artifactId>
+    <packaging>jar</packaging>
+    <name>${parent.project.camelcase} RPM</name>
+
+	<properties>
+		<parent.project.name>languagetool</parent.project.name>
+		<language.name>language</language.name>
+		<parent.project.camelcase>LanguageTool</parent.project.camelcase>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+	</properties>
+
+	<description> <!-- This description goes to RPM package -->
+		LanguageTool is a proofreading service for more than 20 languages.
+	</description>
+	<url>https://www.languagetool.org</url>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>com.google.code.maven-replacer-plugin</groupId>
+				<artifactId>replacer</artifactId>
+				<version>1.5.3</version>
+				<executions>
+					<execution>
+						<id>prepare-lt-conf-sample</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>replace</goal>
+						</goals>
+						<configuration>
+							<file>${project.basedir}/src/main/resources/templates/lt.conf.sample.template</file>
+							<outputFile>${project.build.directory}/lt.conf.sample</outputFile>
+							<regex>false</regex>
+							<replacements>
+								<replacement>
+									<token>$MVN_LT_HOME_PLACEHOLDER$</token>
+									<value>/usr/share/java/${parent.project.name}-${project.version}</value>
+								</replacement>
+							</replacements>
+						</configuration>
+					</execution>
+					<execution>
+						<id>prepare-lt-systemd-service</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>replace</goal>
+						</goals>
+						<configuration>
+							<file>${project.basedir}/src/main/resources/templates/${parent.project.name}.service.template</file>
+							<outputFile>${project.build.directory}/${parent.project.name}.service</outputFile>
+							<regex>false</regex>
+							<replacements>
+								<replacement>
+									<token>$MVN_LT_HOME_PLACEHOLDER$</token>
+									<value>/usr/share/java/${parent.project.name}-${project.version}</value>
+								</replacement>
+								<replacement>
+									<token>$MVN_LT_VERSION_PLACEHOLDER$</token>
+									<value>${project.version}</value>
+								</replacement>
+							</replacements>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>de.dentrassi.maven</groupId>
+				<artifactId>rpm</artifactId>
+				<version>0.10.0</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>rpm</goal>
+						</goals>
+						<configuration>
+							<attach>false</attach> <!-- don't attach RPM -->
+							<group>Application/Misc</group> <!-- set RPM group -->
+
+							<requires>
+								<require>java &gt;= 1.8.0</require>
+							</requires>
+
+							<signature>
+								<skip>true</skip>
+							</signature>
+
+							<rulesets>
+								<ruleset>
+									<id>default-ruleset</id>
+									<rules>
+										<rule>
+											<when>
+												<type>directory</type>
+											</when>
+											<mode>755</mode>
+											<user>ltuser</user>
+											<group>ltuser</group>
+										</rule>
+
+										<rule>
+											<when>
+												<type>file</type>
+											</when>
+											<mode>444</mode>
+											<user>ltuser</user>
+											<group>ltuser</group>
+										</rule>
+									</rules>
+								</ruleset>
+							</rulesets>
+							<entries>
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}</name>
+									<ruleset>default-ruleset</ruleset>
+									<directory>true</directory>
+								</entry>
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/libs/hunspell-native-libs.jar</name>
+									<file>../hunspell-native-libs/target/hunspell-native-libs-${project.version}.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/${parent.project.name}.jar</name>
+									<file>../${parent.project.name}-standalone/target/${parent.project.camelcase}-${project.version}/${parent.project.camelcase}-${project.version}/${parent.project.name}.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/${parent.project.name}-commandline.jar</name>
+									<file>../${parent.project.name}-commandline/target/${parent.project.name}-commandline-${project.version}.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/${parent.project.name}-core.jar</name>
+									<file>../${parent.project.name}-core/target/${parent.project.name}-core-${project.version}.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/${parent.project.name}-dev.jar</name>
+									<file>../${parent.project.name}-dev/target/${parent.project.name}-dev-${project.version}.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<!-- GUI commons -->
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/${parent.project.name}-gui-commons.jar</name>
+									<file>../${parent.project.name}-gui-commons/target/${parent.project.name}-gui-commons-${project.version}.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<!-- HTTP client -->
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/${parent.project.name}-http-client.jar</name>
+									<file>../${parent.project.name}-http-client/target/${parent.project.name}-http-client-${project.version}.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<!-- Language modules - one by one -->
+								<!-- All languages -->
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/${language.name}-all.jar</name>
+									<file>../${parent.project.name}-language-modules/all/target/${language.name}-all-${project.version}.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<!-- Asturian (ast) -->
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/${language.name}-ast.jar</name>
+									<file>../${parent.project.name}-language-modules/ast/target/${language.name}-ast-${project.version}.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<!-- be -->
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/${language.name}-be.jar</name>
+									<file>../${parent.project.name}-language-modules/be/target/${language.name}-be-${project.version}.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<!-- br -->
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/${language.name}-br.jar</name>
+									<file>../${parent.project.name}-language-modules/br/target/${language.name}-br-${project.version}.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<!-- ca -->
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/${language.name}-ca.jar</name>
+									<file>../${parent.project.name}-language-modules/ca/target/${language.name}-ca-${project.version}.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<!-- da -->
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/${language.name}-da.jar</name>
+									<file>../${parent.project.name}-language-modules/da/target/${language.name}-da-${project.version}.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<!-- German (de) -->
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/${language.name}-de.jar</name>
+									<file>../${parent.project.name}-language-modules/de/target/${language.name}-de-${project.version}.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<!-- Simple German (de-DE-x-simple-language) -->
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/${language.name}-de-DE-x-simple-language.jar</name>
+									<file>../${parent.project.name}-language-modules/de-DE-x-simple-language/target/${language.name}-de-DE-x-simple-language-${project.version}.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<!-- el -->
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/${language.name}-el.jar</name>
+									<file>../${parent.project.name}-language-modules/el/target/${language.name}-el-${project.version}.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<!-- English (en) -->
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/${language.name}-en.jar</name>
+									<file>../${parent.project.name}-language-modules/en/target/${language.name}-en-${project.version}.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<!-- Esperanto (eo) -->
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/${language.name}-eo.jar</name>
+									<file>../${parent.project.name}-language-modules/eo/target/${language.name}-eo-${project.version}.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<!-- Spanish (es) -->
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/${language.name}-es.jar</name>
+									<file>../${parent.project.name}-language-modules/es/target/${language.name}-es-${project.version}.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<!-- fa -->
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/${language.name}-fa.jar</name>
+									<file>../${parent.project.name}-language-modules/fa/target/${language.name}-fa-${project.version}.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<!-- French (fr) -->
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/${language.name}-fr.jar</name>
+									<file>../${parent.project.name}-language-modules/fr/target/${language.name}-fr-${project.version}.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<!-- gl -->
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/${language.name}-gl.jar</name>
+									<file>../${parent.project.name}-language-modules/gl/target/${language.name}-gl-${project.version}.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<!-- Icelandic (is) -->
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/${language.name}-is.jar</name>
+									<file>../${parent.project.name}-language-modules/is/target/${language.name}-is-${project.version}.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<!-- Italian (it) -->
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/${language.name}-it.jar</name>
+									<file>../${parent.project.name}-language-modules/it/target/${language.name}-it-${project.version}.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<!-- ja -->
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/${language.name}-ja.jar</name>
+									<file>../${parent.project.name}-language-modules/ja/target/${language.name}-ja-${project.version}.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<!-- km -->
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/${language.name}-km.jar</name>
+									<file>../${parent.project.name}-language-modules/km/target/${language.name}-km-${project.version}.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<!-- lt -->
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/${language.name}-lt.jar</name>
+									<file>../${parent.project.name}-language-modules/lt/target/${language.name}-lt-${project.version}.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<!-- ml -->
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/${language.name}-ml.jar</name>
+									<file>../${parent.project.name}-language-modules/ml/target/${language.name}-ml-${project.version}.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<!-- nl -->
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/${language.name}-nl.jar</name>
+									<file>../${parent.project.name}-language-modules/nl/target/${language.name}-nl-${project.version}.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<!-- Polish (pl) -->
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/${language.name}-pl.jar</name>
+									<file>../${parent.project.name}-language-modules/pl/target/${language.name}-pl-${project.version}.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<!-- Portuguese (pt) -->
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/${language.name}-pt.jar</name>
+									<file>../${parent.project.name}-language-modules/pt/target/${language.name}-pt-${project.version}.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<!-- Romanian (ro) -->
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/${language.name}-ro.jar</name>
+									<file>../${parent.project.name}-language-modules/ro/target/${language.name}-ro-${project.version}.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<!-- Russian (ru) -->
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/${language.name}-ru.jar</name>
+									<file>../${parent.project.name}-language-modules/ru/target/${language.name}-ru-${project.version}.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<!-- Slovakian (sk) -->
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/${language.name}-sk.jar</name>
+									<file>../${parent.project.name}-language-modules/sk/target/${language.name}-sk-${project.version}.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<!-- Slovenian (sl) -->
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/${language.name}-sl.jar</name>
+									<file>../${parent.project.name}-language-modules/sl/target/${language.name}-sl-${project.version}.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<!-- Serbian (sr) -->
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/${language.name}-sr.jar</name>
+									<file>../${parent.project.name}-language-modules/sr/target/${language.name}-sr-${project.version}.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<!-- sv -->
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/${language.name}-sv.jar</name>
+									<file>../${parent.project.name}-language-modules/sv/target/${language.name}-sv-${project.version}.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<!-- ta -->
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/${language.name}-ta.jar</name>
+									<file>../${parent.project.name}-language-modules/ta/target/${language.name}-ta-${project.version}.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<!-- tl -->
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/${language.name}-tl.jar</name>
+									<file>../${parent.project.name}-language-modules/tl/target/${language.name}-tl-${project.version}.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<!-- Ukrainian (uk) -->
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/${language.name}-uk.jar</name>
+									<file>../${parent.project.name}-language-modules/uk/target/${language.name}-uk-${project.version}.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<!-- zh -->
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/${language.name}-zh.jar</name>
+									<file>../${parent.project.name}-language-modules/zh/target/${language.name}-zh-${project.version}.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<!-- Office extension -->
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/${parent.project.name}-office-extension.jar</name>
+									<file>../${parent.project.name}-office-extension/target/${parent.project.name}-office-extension-${project.version}.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<!-- Office extension ZIP -->
+								<!-- <entry> <name>/usr/share/java/${parent.project.name}-${project.version}/${parent.project.camelcase}-${project.version}.zip</name> 
+									<file>../${parent.project.name}-office-extension/target/${parent.project.camelcase}-${project.version}.zip</file> 
+									<ruleset>default-ruleset</ruleset> </entry> -->
+								<!-- Server -->
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/${parent.project.name}-server.jar</name>
+									<file>../${parent.project.name}-server/target/${parent.project.name}-server-${project.version}.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<!-- TODO: Standalone -->
+								<!-- Tools -->
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/${parent.project.name}-tools-jar-with-dependencies.jar</name>
+									<file>../${parent.project.name}-tools/target/${parent.project.name}-tools-${project.version}-jar-with-dependencies.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/${parent.project.name}-tools.jar</name>
+									<file>../${parent.project.name}-tools/target/${parent.project.name}-tools-${project.version}.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<!-- Wikipedia -->
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/${parent.project.name}-wikipedia.jar</name>
+									<file>../${parent.project.name}-wikipedia/target/${parent.project.name}-wikipedia-${project.version}.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<!-- All Wikipedia's dependencies -->
+								<!-- The only reason they are listed here explicitly is to avoid 
+									packing main LT jars twice -->
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/libs/annotations.jar</name>
+									<file>../${parent.project.name}-standalone/target/${parent.project.camelcase}-${project.version}/${parent.project.camelcase}-${project.version}/libs/annotations.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/libs/berkeleylm.jar</name>
+									<file>../${parent.project.name}-standalone/target/${parent.project.camelcase}-${project.version}/${parent.project.camelcase}-${project.version}/libs/berkeleylm.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/libs/catalan-pos-dict.jar</name>
+									<file>../${parent.project.name}-standalone/target/${parent.project.camelcase}-${project.version}/${parent.project.camelcase}-${project.version}/libs/catalan-pos-dict.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/libs/cjftransform.jar</name>
+									<file>../${parent.project.name}-standalone/target/${parent.project.camelcase}-${project.version}/${parent.project.camelcase}-${project.version}/libs/cjftransform.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/libs/commons-cli.jar</name>
+									<file>../${parent.project.name}-standalone/target/${parent.project.camelcase}-${project.version}/${parent.project.camelcase}-${project.version}/libs/commons-cli.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/libs/standalone/commons-collections4.jar</name>
+									<file>../${parent.project.name}-standalone/target/${parent.project.camelcase}-${project.version}/${parent.project.camelcase}-${project.version}/libs/commons-collections4.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/libs/wiki/commons-collections.jar</name>
+									<file>../${parent.project.name}-wikipedia/target/${parent.project.camelcase}-wikipedia-${project.version}/${parent.project.camelcase}-wikipedia-${project.version}/libs/commons-collections.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/libs/wiki/commons-compress.jar</name>
+									<file>../${parent.project.name}-wikipedia/target/${parent.project.camelcase}-wikipedia-${project.version}/${parent.project.camelcase}-wikipedia-${project.version}/libs/commons-compress.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/libs/commons-io.jar</name>
+									<file>../${parent.project.name}-standalone/target/${parent.project.camelcase}-${project.version}/${parent.project.camelcase}-${project.version}/libs/commons-io.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/libs/wiki/commons-jxpath.jar</name>
+									<file>../${parent.project.name}-wikipedia/target/${parent.project.camelcase}-wikipedia-${project.version}/${parent.project.camelcase}-wikipedia-${project.version}/libs/commons-jxpath.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/libs/commons-lang3.jar</name>
+									<file>../${parent.project.name}-standalone/target/${parent.project.camelcase}-${project.version}/${parent.project.camelcase}-${project.version}/libs/commons-lang3.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/libs/commons-lang.jar</name>
+									<file>../${parent.project.name}-standalone/target/${parent.project.camelcase}-${project.version}/${parent.project.camelcase}-${project.version}/libs/commons-lang.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/libs/commons-logging.jar</name>
+									<file>../${parent.project.name}-standalone/target/${parent.project.camelcase}-${project.version}/${parent.project.camelcase}-${project.version}/libs/commons-logging.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/libs/wiki/diffutils.jar</name>
+									<file>../${parent.project.name}-wikipedia/target/${parent.project.camelcase}-wikipedia-${project.version}/${parent.project.camelcase}-wikipedia-${project.version}/libs/diffutils.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/libs/german-pos-dict.jar</name>
+									<file>../${parent.project.name}-standalone/target/${parent.project.camelcase}-${project.version}/${parent.project.camelcase}-${project.version}/libs/german-pos-dict.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/libs/guava.jar</name>
+									<file>../${parent.project.name}-standalone/target/${parent.project.camelcase}-${project.version}/${parent.project.camelcase}-${project.version}/libs/guava.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/libs/standalone/hamcrest-core.jar</name>
+									<file>../${parent.project.name}-standalone/target/${parent.project.camelcase}-${project.version}/${parent.project.camelcase}-${project.version}/libs/hamcrest-core.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/libs/hppc.jar</name>
+									<file>../${parent.project.name}-standalone/target/${parent.project.camelcase}-${project.version}/${parent.project.camelcase}-${project.version}/libs/hppc.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/libs/ictclas4j.jar</name>
+									<file>../${parent.project.name}-standalone/target/${parent.project.camelcase}-${project.version}/${parent.project.camelcase}-${project.version}/libs/ictclas4j.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/libs/icu4j.jar</name>
+									<file>../${parent.project.name}-standalone/target/${parent.project.camelcase}-${project.version}/${parent.project.camelcase}-${project.version}/libs/icu4j.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/libs/jackson-annotations.jar</name>
+									<file>../${parent.project.name}-standalone/target/${parent.project.camelcase}-${project.version}/${parent.project.camelcase}-${project.version}/libs/jackson-annotations.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/libs/jackson-core.jar</name>
+									<file>../${parent.project.name}-standalone/target/${parent.project.camelcase}-${project.version}/${parent.project.camelcase}-${project.version}/libs/jackson-core.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/libs/jackson-databind.jar</name>
+									<file>../${parent.project.name}-standalone/target/${parent.project.camelcase}-${project.version}/${parent.project.camelcase}-${project.version}/libs/jackson-databind.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/libs/wiki/jakarta-regexp.jar</name>
+									<file>../${parent.project.name}-wikipedia/target/${parent.project.camelcase}-wikipedia-${project.version}/${parent.project.camelcase}-wikipedia-${project.version}/libs/jakarta-regexp.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/libs/standalone/jcommander.jar</name>
+									<file>../${parent.project.name}-standalone/target/${parent.project.camelcase}-${project.version}/${parent.project.camelcase}-${project.version}/libs/jcommander.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/libs/jna.jar</name>
+									<file>../${parent.project.name}-standalone/target/${parent.project.camelcase}-${project.version}/${parent.project.camelcase}-${project.version}/libs/jna.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/libs/wiki/jopt-simple.jar</name>
+									<file>../${parent.project.name}-wikipedia/target/${parent.project.camelcase}-wikipedia-${project.version}/${parent.project.camelcase}-wikipedia-${project.version}/libs/jopt-simple.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/libs/jsonic.jar</name>
+									<file>../${parent.project.name}-standalone/target/${parent.project.camelcase}-${project.version}/${parent.project.camelcase}-${project.version}/libs/jsonic.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/libs/junit.jar</name>
+									<file>../${parent.project.name}-standalone/target/${parent.project.camelcase}-${project.version}/${parent.project.camelcase}-${project.version}/libs/junit.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/libs/jwordsplitter.jar</name>
+									<file>../${parent.project.name}-standalone/target/${parent.project.camelcase}-${project.version}/${parent.project.camelcase}-${project.version}/libs/jwordsplitter.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/libs/language-detector.jar</name>
+									<file>../${parent.project.name}-standalone/target/${parent.project.camelcase}-${project.version}/${parent.project.camelcase}-${project.version}/libs/language-detector.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/libs/wiki/log4j.jar</name>
+									<file>../${parent.project.name}-wikipedia/target/${parent.project.camelcase}-wikipedia-${project.version}/${parent.project.camelcase}-wikipedia-${project.version}/libs/log4j.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/libs/wiki/lucene-analyzers-common.jar</name>
+									<file>../${parent.project.name}-wikipedia/target/${parent.project.camelcase}-wikipedia-${project.version}/${parent.project.camelcase}-wikipedia-${project.version}/libs/lucene-analyzers-common.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/libs/lucene-backward-codecs.jar</name>
+									<file>../${parent.project.name}-standalone/target/${parent.project.camelcase}-${project.version}/${parent.project.camelcase}-${project.version}/libs/lucene-backward-codecs.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/libs/lucene-core.jar</name>
+									<file>../${parent.project.name}-standalone/target/${parent.project.camelcase}-${project.version}/${parent.project.camelcase}-${project.version}/libs/lucene-core.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/libs/lucene-gosen-ipadic.jar</name>
+									<file>../${parent.project.name}-standalone/target/${parent.project.camelcase}-${project.version}/${parent.project.camelcase}-${project.version}/libs/lucene-gosen-ipadic.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/libs/wiki/lucene-queries.jar</name>
+									<file>../${parent.project.name}-wikipedia/target/${parent.project.camelcase}-wikipedia-${project.version}/${parent.project.camelcase}-wikipedia-${project.version}/libs/lucene-queries.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/libs/wiki/lucene-sandbox.jar</name>
+									<file>../${parent.project.name}-wikipedia/target/${parent.project.camelcase}-wikipedia-${project.version}/${parent.project.camelcase}-wikipedia-${project.version}/libs/lucene-sandbox.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/libs/wiki/lucene-spatial.jar</name>
+									<file>../${parent.project.name}-wikipedia/target/${parent.project.camelcase}-wikipedia-${project.version}/${parent.project.camelcase}-wikipedia-${project.version}/libs/lucene-spatial.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/libs/morfologik-fsa-builders.jar</name>
+									<file>../${parent.project.name}-standalone/target/${parent.project.camelcase}-${project.version}/${parent.project.camelcase}-${project.version}/libs/morfologik-fsa-builders.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/libs/morfologik-fsa.jar</name>
+									<file>../${parent.project.name}-standalone/target/${parent.project.camelcase}-${project.version}/${parent.project.camelcase}-${project.version}/libs/morfologik-fsa.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/libs/morfologik-speller.jar</name>
+									<file>../${parent.project.name}-standalone/target/${parent.project.camelcase}-${project.version}/${parent.project.camelcase}-${project.version}/libs/morfologik-speller.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/libs/morfologik-stemming.jar</name>
+									<file>../${parent.project.name}-standalone/target/${parent.project.camelcase}-${project.version}/${parent.project.camelcase}-${project.version}/libs/morfologik-stemming.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/libs/standalone/morfologik-tools.jar</name>
+									<file>../${parent.project.name}-standalone/target/${parent.project.camelcase}-${project.version}/${parent.project.camelcase}-${project.version}/libs/morfologik-tools.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/libs/morfologik-ukrainian-lt.jar</name>
+									<file>../${parent.project.name}-standalone/target/${parent.project.camelcase}-${project.version}/${parent.project.camelcase}-${project.version}/libs/morfologik-ukrainian-lt.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/libs/morphology-el.jar</name>
+									<file>../${parent.project.name}-standalone/target/${parent.project.camelcase}-${project.version}/${parent.project.camelcase}-${project.version}/libs/morphology-el.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/libs/opennlp-chunk-models.jar</name>
+									<file>../${parent.project.name}-standalone/target/${parent.project.camelcase}-${project.version}/${parent.project.camelcase}-${project.version}/libs/opennlp-chunk-models.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/libs/opennlp-postag-models.jar</name>
+									<file>../${parent.project.name}-standalone/target/${parent.project.camelcase}-${project.version}/${parent.project.camelcase}-${project.version}/libs/opennlp-postag-models.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/libs/opennlp-tokenize-models.jar</name>
+									<file>../${parent.project.name}-standalone/target/${parent.project.camelcase}-${project.version}/${parent.project.camelcase}-${project.version}/libs/opennlp-tokenize-models.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/libs/opennlp-tools.jar</name>
+									<file>../${parent.project.name}-standalone/target/${parent.project.camelcase}-${project.version}/${parent.project.camelcase}-${project.version}/libs/opennlp-tools.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/libs/openregex.jar</name>
+									<file>../${parent.project.name}-standalone/target/${parent.project.camelcase}-${project.version}/${parent.project.camelcase}-${project.version}/libs/openregex.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/libs/wiki/ptk-common.jar</name>
+									<file>../${parent.project.name}-wikipedia/target/${parent.project.camelcase}-wikipedia-${project.version}/${parent.project.camelcase}-wikipedia-${project.version}/libs/ptk-common.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/libs/wiki/rats-runtime.jar</name>
+									<file>../${parent.project.name}-wikipedia/target/${parent.project.camelcase}-wikipedia-${project.version}/${parent.project.camelcase}-wikipedia-${project.version}/libs/rats-runtime.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/libs/segment.jar</name>
+									<file>../${parent.project.name}-standalone/target/${parent.project.camelcase}-${project.version}/${parent.project.camelcase}-${project.version}/libs/segment.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/libs/slf4j-api.jar</name>
+									<file>../${parent.project.name}-standalone/target/${parent.project.camelcase}-${project.version}/${parent.project.camelcase}-${project.version}/libs/slf4j-api.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/libs/standalone/slf4j-nop.jar</name>
+									<file>../${parent.project.name}-standalone/target/${parent.project.camelcase}-${project.version}/${parent.project.camelcase}-${project.version}/libs/slf4j-nop.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/libs/wiki/swc-engine.jar</name>
+									<file>../${parent.project.name}-wikipedia/target/${parent.project.camelcase}-wikipedia-${project.version}/${parent.project.camelcase}-wikipedia-${project.version}/libs/swc-engine.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/libs/wiki/swc-parser-lazy.jar</name>
+									<file>../${parent.project.name}-wikipedia/target/${parent.project.camelcase}-wikipedia-${project.version}/${parent.project.camelcase}-wikipedia-${project.version}/libs/swc-parser-lazy.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/libs/wiki/utils.jar</name>
+									<file>../${parent.project.name}-wikipedia/target/${parent.project.camelcase}-wikipedia-${project.version}/${parent.project.camelcase}-wikipedia-${project.version}/libs/utils.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/libs/wiki/xz.jar</name>
+									<file>../${parent.project.name}-wikipedia/target/${parent.project.camelcase}-wikipedia-${project.version}/${parent.project.camelcase}-wikipedia-${project.version}/libs/xz.jar</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<!-- Shell scripts and configuration files -->
+								<!-- Shell script to run LT server -->
+								<entry>
+									<name>/usr/share/java/${parent.project.name}-${project.version}/ltserver</name>
+									<file>src/main/resources/ltserver</file>
+									<ruleset>default-ruleset</ruleset>
+									<mode>0750</mode>
+								</entry>
+								<!-- Shell script for running LT command-line tool, GUI and other 
+									stuff -->
+								<entry>
+									<name>/usr/bin/ltshell</name>
+									<file>src/main/resources/ltshell</file>
+									<ruleset>default-ruleset</ruleset>
+									<mode>0755</mode>
+								</entry>
+								<!-- Links to LTshell - same idea as in BusyBox. Many commands are 
+									aliases to one executable -->
+								<entry>
+									<name>/usr/bin/ltcmd</name>
+									<linkTo>ltshell</linkTo>
+								</entry>
+								<entry>
+									<name>/usr/bin/ltgui</name>
+									<linkTo>ltshell</linkTo>
+								</entry>
+								<entry>
+									<name>/usr/bin/ltspldic</name>
+									<linkTo>ltshell</linkTo>
+								</entry>
+								<entry>
+									<name>/usr/bin/ltposdic</name>
+									<linkTo>ltshell</linkTo>
+								</entry>
+								<entry>
+									<name>/usr/bin/ltsyndic</name>
+									<linkTo>ltshell</linkTo>
+								</entry>
+                                <entry>
+                                    <name>/usr/bin/ltexpdic</name>
+                                    <linkTo>ltshell</linkTo>
+                                </entry>
+								<!-- Systemd file for systems supporting it -->
+								<entry>
+									<name>/usr/lib/systemd/system/${parent.project.name}.service</name>
+									<file>${project.build.directory}/${parent.project.name}.service</file>
+									<ruleset>default-ruleset</ruleset>
+								</entry>
+								<!-- Configuration directory -->
+								<entry>
+									<name>/etc/${parent.project.name}</name>
+									<ruleset>default-ruleset</ruleset>
+									<directory>true</directory>
+								</entry>
+								<entry>
+									<name>/etc/${parent.project.name}/lt.conf.sample</name>
+									<file>${project.build.directory}/lt.conf.sample</file> <!-- Replaced values -->
+									<ruleset>default-ruleset</ruleset>
+									<configuration>true</configuration>
+								</entry>
+								<entry>
+									<name>/etc/${parent.project.name}/server.properties.sample</name>
+									<file>src/main/resources/server.properties.sample</file>
+									<ruleset>default-ruleset</ruleset>
+									<configuration>true</configuration>
+								</entry>
+								<entry>
+									<name>/etc/${parent.project.name}/makekeystore.sh</name>
+									<file>src/main/resources/makekeystore.sh</file>
+									<ruleset>default-ruleset</ruleset>
+									<mode>0755</mode>
+								</entry>
+								<!-- Log directory -->
+								<entry>
+									<name>/var/log/${parent.project.name}</name>
+									<directory>true</directory>
+									<ruleset>default-ruleset</ruleset>
+									<mode>0755</mode>
+								</entry>
+								<!-- Run directory -->
+								<entry>
+									<name>/var/run/${parent.project.name}</name>
+									<directory>true</directory>
+									<ruleset>default-ruleset</ruleset>
+									<mode>0755</mode>
+								</entry>
+							</entries>
+							<beforeInstallation>
+								<script>
+									id ltuser >/dev/null 2>&amp;1
+									if [ $? -eq 1 ]; then
+									useradd ltuser \
+									-d
+									/usr/share/java/${parent.project.name}-${project.version} \
+									-c
+									"LanguageTool Technical User" -M -s /bin/false -U
+									fi
+								</script>
+							</beforeInstallation>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>

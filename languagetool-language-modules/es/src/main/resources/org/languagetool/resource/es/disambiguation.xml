@@ -209,6 +209,22 @@ Copyright (C) 2011 Juan Martorell
 
     <disambig action="filter" postag="D.*"/>
   </rule>
+
+
+  <!--sobre (no preposición, nombre)-->
+  <rule id="SOBRE" name="sobre (nombre)">
+    <pattern>
+      <token postag="D..MS." postag_regexp="yes"><exception inflected="yes">todo</exception><exception postag="R.*" postag_regexp="yes"/></token>
+      <marker>  
+         <token postag="NCMS000">sobre</token>
+      </marker>
+      <token><exception postag="D.*" postag_regexp="yes"/></token>
+    </pattern>
+
+    <disambig action="filter" postag="N.*"/>
+    <example type="untouched">Este sobre el otro.</example>
+  </rule>
+
   
   <!-- P_N Posesivo + nombre -->
   <rule id="PN" name="Pos + Nom ">

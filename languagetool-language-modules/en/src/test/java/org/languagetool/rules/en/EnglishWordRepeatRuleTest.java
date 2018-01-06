@@ -45,6 +45,14 @@ public class EnglishWordRepeatRuleTest {
     assertGood("It was said that that lady was an actress.");
     assertGood("Kurosawa's three consecutive movies after Seven Samurai had not managed to capture Japanese audiences in the way that that film had.");
     assertGood("The can can hold the water.");
+    assertGood("May May awake up?");
+    assertGood("May may awake up.");
+    assertBad("I may may awake up.");
+    assertBad("That is May May.");
+    assertGood("Will Will awake up?");
+    assertGood("Will will awake up.");
+    assertBad("I will will awake up.");
+    assertBad("That is Will Will.");
     assertBad("I will will hold the ladder.");
     assertBad("You can feel confident that that this administration will continue to support a free and open Internet.");
     assertBad("This is is a test.");
