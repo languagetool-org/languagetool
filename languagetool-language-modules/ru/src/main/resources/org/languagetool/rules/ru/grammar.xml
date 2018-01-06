@@ -2854,7 +2854,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern case_sensitive="yes">
                     <marker>
-                        <token negate="yes" regexp="yes">[\p{Punct}]|-|—|–|’|‘|…|ну|Ну|«<exception postag="SENT_START"></exception><exception postag="CONJ"></exception></token>
+                        <token negate="yes" regexp="yes">[\p{Punct}]|-|—|–|’|‘|…|ну|Ну|«<exception postag="SENT_START"></exception><exception postag_regexp="yes" postag="CONJ|ADJ:.*"></exception></token>
                         <token postag="PREP"></token>
                         <token inflected="yes">который</token>
                     </marker>
@@ -2871,7 +2871,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern case_sensitive="yes">
                     <marker>
-                        <token negate="yes" regexp="yes">[\p{Punct}]|-|—|–|’|‘|…|ну|Ну|«<exception postag="SENT_START"></exception><exception postag="PREP"></exception><exception postag="CONJ"></exception></token>
+                        <token negate="yes" regexp="yes">[\p{Punct}]|-|—|–|’|‘|…|ну|Ну|«<exception postag="SENT_START"></exception><exception postag="PREP"></exception><exception postag_regexp="yes" postag="CONJ|ADJ:.*"></exception></token>
                         <token inflected="yes">который</token>
                     </marker>
                 </pattern>
@@ -4577,7 +4577,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule>
  	    <pattern>
   		<token>?</token>
-  		<token>.<exception scope="next">.</exception></token>
+  		<token skip="1">.<exception scope="next">.</exception></token>
  	    </pattern>
  	    <message>Неправильное сочетание знаков препинания. Возможная замена:<suggestion>?</suggestion></message>
  	    <short>Неправильное сочетание знаков препинания</short>
