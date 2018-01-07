@@ -669,7 +669,7 @@ public class Configuration {
     JLanguageTool langTool = new JLanguageTool(lang, motherTongue);
     List<Rule> allRules = langTool.getAllRules();
     for (Rule rule : allRules) {
-      if(Objects.equals(rule.getId(), ruleID)) {
+      if(rule.getId().startsWith(ruleID)) {
         rule.setDefaultValue(value);
         break;
       }
