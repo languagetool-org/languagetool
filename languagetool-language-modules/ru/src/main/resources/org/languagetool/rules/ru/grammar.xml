@@ -2850,11 +2850,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
               <example correction="и в воздухе, и на небе, и в вагоне">Было грустно <marker>и в воздухе и на небе и в вагоне</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup default="off" id="PUNKT_KOTORIJ" name="Пунктуация перед союзами «который», ...">
+        <rulegroup default="on" id="PUNKT_KOTORIJ" name="Пунктуация перед союзами «который», ...">
             <rule>
-                <pattern case_sensitive="yes">
+                <antipattern>
+                    <token postag_regexp="yes" postag="NN:.*"></token> 
+                    <token regexp="yes">,|;</token>   
+                    <token postag_regexp="yes" postag="NN:.*:.*:.*:Nom"></token>
+                    <token postag="PREP"></token>
+                    <token inflected="yes">который</token> 
+                </antipattern> 
+                <pattern>
                     <marker>
-                        <token negate="yes" regexp="yes">[\p{Punct}]|-|—|–|’|‘|…|ну|Ну|«<exception postag="SENT_START"></exception><exception postag_regexp="yes" postag="CONJ|ADJ:.*"></exception></token>
+                        <token negate="yes" regexp="yes">[\p{Punct}]|-|—|–|’|‘|…|ну|большинство|меньшинство|часть|доля«<exception postag="SENT_START"></exception><exception postag_regexp="yes" postag="CONJ|ADJ:.*"></exception><exception>соответствии</exception></token>
                         <token postag="PREP"></token>
                         <token inflected="yes">который</token>
                     </marker>
@@ -2865,17 +2872,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Это тот город, в котором прошло детство.</example>
                 <example>Канада сотрудничает с США на разных уровнях и для которых является важнейшим торговым партнером.</example>
                 <example>Который час?</example>
+                <example>Поиск турбазы, отдых в которой запомнится надолго.</example>
+                <example>Трудовой договор — соглашение между работодателем и работником, в соответствии с которым работодатель обязуется предоставить работнику работу по обусловленной трудовой функции.</example>
                 <example correction="город, в котором">Это тот <marker>город в котором</marker> прошло детство.</example>
             </rule>
 <!--        
             <rule>
-                <pattern case_sensitive="yes">
+               <pattern case_sensitive="yes">
+                   <token><exception postag="PREP"></exception></token>
                     <marker>
-                        <token negate="yes" regexp="yes">[\p{Punct}]|-|—|–|’|‘|…|ну|Ну|«<exception postag="SENT_START"></exception><exception postag="PREP"></exception><exception postag_regexp="yes" postag="CONJ|ADJ:.*"></exception></token>
+                        <token negate="yes" regexp="yes">[\p{Punct}]|-|—|–|’|‘|…|ну|Ну|«<exception postag="SENT_START"></exception><exception postag="PREP"></exception><exception postag_regexp="yes" postag="NN:.*:.*:.*:(D|T)|CONJ|ADJ:.*"></exception></token>
                         <token inflected="yes">который</token>
                     </marker>
                 </pattern>
-                <message>Пропущена запятая:<suggestion>\1, \2</suggestion>.</message>
+                <message>Пропущена запятая:<suggestion>\2, \3</suggestion>.</message>
                 <url>https://dic.academic.ru/dic.nsf/ogegova/90842</url>
                 <short>Пропущена запятая.</short>
                 <example>Это тот город, в котором прошло детство.</example>
