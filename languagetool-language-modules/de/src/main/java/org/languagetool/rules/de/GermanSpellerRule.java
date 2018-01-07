@@ -689,7 +689,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     if (nextWord != null) {
       nextWord = StringUtils.removeEnd(nextWord, ".");
     }
-    boolean isCompound = nextWord != null && compoundTokenizer.tokenize(nextWord).size() > 1;
+    boolean isCompound = nextWord != null && (compoundTokenizer.tokenize(nextWord).size() > 1 || nextWord.indexOf("-") > 0);
     if (isCompound) {
       word = StringUtils.removeEnd(word, "-");
       boolean isMisspelled = hunspellDict.misspelled(word);  // "Stil- und Grammatikprüfung" or "Stil-, Text- und Grammatikprüfung"
