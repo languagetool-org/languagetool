@@ -2851,6 +2851,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup default="on" id="PUNKT_KOTORIJ" name="Пунктуация перед союзами «который», ...">
+        <!-- TODO: Need improve -->    
             <rule>
                 <antipattern>
                     <token postag_regexp="yes" postag="NN:.*"></token> 
@@ -2876,24 +2877,33 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Трудовой договор — соглашение между работодателем и работником, в соответствии с которым работодатель обязуется предоставить работнику работу по обусловленной трудовой функции.</example>
                 <example correction="город, в котором">Это тот <marker>город в котором</marker> прошло детство.</example>
             </rule>
-<!--        
+       
             <rule>
+             <antipattern>
+                    <token postag_regexp="yes" postag="NN:.*"></token> 
+                    <token regexp="yes">,|;</token>   
+                    <token postag_regexp="yes" postag="NN:.*:.*:.*:Nom"></token>
+                    <token inflected="yes">который</token>
+                    <token postag="VB:.*|PT:.*" postag_regexp="yes"></token> 
+               </antipattern> 
                <pattern case_sensitive="yes">
-                   <token><exception postag="PREP"></exception></token>
+                   <token><exception postag="PREP|ADJ:.*" postag_regexp="yes"></exception></token>
                     <marker>
-                        <token negate="yes" regexp="yes">[\p{Punct}]|-|—|–|’|‘|…|ну|Ну|«<exception postag="SENT_START"></exception><exception postag="PREP"></exception><exception postag_regexp="yes" postag="NN:.*:.*:.*:(D|T)|CONJ|ADJ:.*"></exception></token>
+                    <token negate="yes" regexp="yes">[\p{Punct}]|-|—|–|’|‘|…|ну|Ну|«<exception postag="SENT_START"></exception><exception postag="PREP"></exception><exception postag_regexp="yes" postag="NN:.*:.*:.*:(D|T)|CONJ|ADJ:.*"></exception></token>
                         <token inflected="yes">который</token>
                     </marker>
+                     <token postag="VB:.*|PT:.*" postag_regexp="yes"></token>
                 </pattern>
                 <message>Пропущена запятая:<suggestion>\2, \3</suggestion>.</message>
                 <url>https://dic.academic.ru/dic.nsf/ogegova/90842</url>
                 <short>Пропущена запятая.</short>
                 <example>Это тот город, в котором прошло детство.</example>
                 <example>Это те же ребята, которые играли в футбол.</example>
+                <example>Ребёнок, родители которого играли в футбол, будет футболистом.</example>
                 <example>Который час?</example>
                 <example correction="ребята, которые">Это те же <marker>ребята которые</marker> играли в хоккей.</example>
             </rule>
-            -->
+
          </rulegroup>
         
         <rulegroup id="da_and_da" name="Союзы «да» + «да»">
