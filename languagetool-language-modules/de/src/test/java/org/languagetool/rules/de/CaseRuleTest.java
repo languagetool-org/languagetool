@@ -120,6 +120,7 @@ public class CaseRuleTest {
     assertGood("Es kamen Tausende Gläubige.");
     assertGood("Das schließen Forscher aus den gefundenen Spuren.");
     assertGood("Wieder Verletzter bei Unfall");
+    assertGood("Eine Gruppe Aufständischer verwüstete die Bar.");
 
     //assertBad("Sie sind nicht Verständlich");
     assertBad("Sie Vertraute niemandem.");

@@ -298,6 +298,7 @@ public class GermanTagger extends BaseTagger {
       if (isSubstantivatedForm) {
         List<AnalyzedToken> list = new ArrayList<AnalyzedToken>();
         list.add(new AnalyzedToken(word, "SUB:NOM:SIN:MAS:ADJ", word));
+        list.add(new AnalyzedToken(word, "SUB:GEN:PLU:MAS:ADJ", word));
         //list.add(new AnalyzedToken(word, "SUB:NOM:SIN:MAS", word));
         return list;
       }

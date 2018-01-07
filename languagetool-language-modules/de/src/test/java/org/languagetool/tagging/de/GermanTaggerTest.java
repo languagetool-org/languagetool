@@ -132,6 +132,7 @@ public class GermanTaggerTest {
     AnalyzedTokenReadings aToken14 = tagger.lookup("Verletzter");
     assertTrue(aToken14.getReadings().get(0).getPOSTag().equals("SUB:NOM:SIN:MAS:ADJ"));
     assertEquals("Verletzter", aToken14.getReadings().get(0).getLemma());
+    assertTrue(aToken14.getReadings().get(1).getPOSTag().equals("SUB:GEN:PLU:MAS:ADJ"));
   }
 
   // make sure we use the version of the POS data that was extended with post spelling reform data
