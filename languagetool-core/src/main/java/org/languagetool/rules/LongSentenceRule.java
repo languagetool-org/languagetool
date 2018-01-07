@@ -77,7 +77,8 @@ public class LongSentenceRule extends Rule {
   }
 
   /**
-   * Don't override this ID to use adjustment of maxWords by option panel
+   * Override this ID by adding a language acronym (e.g. TOO_LONG_SENTENCE_DE)
+   * to use adjustment of maxWords by option panel
    * @since 4.1
    */   
   @Override

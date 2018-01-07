@@ -51,6 +51,11 @@ public abstract class AbstractStyleRepeatedWordRule  extends TextLevelRule {
     setDefaultOff();
   }
 
+  /**
+   * Override this ID by adding a language acronym (e.g. STYLE_REPEATED_WORD_RULE_DE)
+   * to use adjustment of maxWords by option panel
+   * @since 4.1
+   */   
   @Override
   public String getId() {
     return "STYLE_REPEATED_WORD_RULE";

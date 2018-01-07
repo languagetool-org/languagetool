@@ -41,6 +41,11 @@ public class GermanStyleRepeatedWordRule  extends AbstractStyleRepeatedWordRule 
   }
 
   @Override
+  public String getId() {
+    return "STYLE_REPEATED_WORD_RULE_DE";
+  }
+
+@Override
   public String getDescription() {
     return "Wiederholte Worte in aufeinanderfolgenden Sätzen";
   }
