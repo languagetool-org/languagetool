@@ -12147,287 +12147,445 @@ though, and has since been slightly modified)-->
     </rulegroup>
     <rulegroup id="ACCORD_NOM_VERBE" name="Accord">
       <rule name="l’ + nom + token + verbe 3e personne singulier">
-        <pattern>
-          <token postag="SENT_START|C coor| R rel .*" postag_regexp="yes">
-            <exception regexp="yes">et|ou|ni</exception>
-          </token>
-          <token>l</token>
-          <token regexp="yes">[’´'‛′‘]</token>
-          <token postag="N . s" postag_regexp="yes"/>
-          <token regexp="yes" min="0" max="1">[lmnt]e|la|les|leur|lui|en|y</token>
-          <marker>
-            <token postag="V.*" postag_regexp="yes">
-              <exception postag="V .* 3 s|V ppa . s|V.* ppr|[NJ].*" postag_regexp="yes"/>
-            </token>
-          </marker>
-        </pattern>
-        <message>Le verbe « \6 » devrait être à la 3e personne du singulier.</message>
-        <example correction="">L’enfant lui <marker>dis</marker> merci.</example>
-        <example>L’enfant lui dit merci.</example>
-        <example correction="">L’enfant <marker>dis</marker> merci.</example>
-        <example>L’enfant dit merci.</example>
-        <example>Le père et l’enfant lui disent merci.</example>
-        <example>Les parents de l’enfant lui disent merci.</example>
+          <pattern>
+              <token postag="SENT_START|C coor| R rel .*" postag_regexp="yes">
+                  <exception regexp="yes">et|ou|ni</exception>
+              </token>
+              <token>l</token>
+              <token regexp="yes">[’´'‛′‘]</token>
+              <token postag="N . s" postag_regexp="yes"/>
+              <token regexp="yes" min="0" max="1">[lmnt]e|la|les|leur|[ql]ui|en|y</token>
+              <marker>
+                  <token postag="V.*" postag_regexp="yes">
+                      <exception postag="V .* 3 s|V ppa . s|V.* ppr|[NJ].*" postag_regexp="yes"/>
+                  </token>
+              </marker>
+          </pattern>
+          <message>Le verbe « \6 » devrait être à la 3e personne du singulier.</message>
+          <example correction="">L’enfant lui <marker>dis</marker> merci.
+          </example>
+          <example>L’enfant lui dit merci.</example>
+          <example correction="">L’enfant <marker>dis</marker> merci.
+          </example>
+          <example>L’enfant dit merci.</example>
+          <example correction="">L’enfant qui <marker>dis</marker> merci est heureux.
+          </example>
+          <example>L'enfant qui dit merci est heureux</example>
+          <example>Le père et l’enfant lui disent merci.</example>
+          <example>Le père et l’enfant qui disent merci sont heureux.</example>
+          <example>Les parents de l’enfant lui disent merci.</example>
       </rule>
       <rule name="nom propre + token + verbe 3e personne singulier">
-        <pattern>
-          <token postag="SENT_START|C coor| R rel .*" postag_regexp="yes">
-            <exception regexp="yes">et|ou|ni</exception>
-          </token>
-          <token postag="Z . sp?" postag_regexp="yes" regexp="yes">(?-i)\p{Lu}.*</token>
-          <token regexp="yes" min="0" max="1">[lmnt]e|la|les|leur|lui|en|y</token>
-          <marker>
-            <token postag="V.*" postag_regexp="yes">
-              <exception postag="V .* 3 s|V ppa . s|V.* ppr|[NJ].*" postag_regexp="yes"/>
-              <exception regexp="yes">(?-i)\p{Lu}.*</exception>
-            </token>
-          </marker>
-        </pattern>
-        <message>Le verbe « \4 » devrait être à la 3e personne du singulier.</message>
-        <example correction="">Dominique <marker>peux</marker> venir.</example>
-        <example>Dominique peut venir.</example>
-        <example correction="">Dominique ne <marker>peux</marker> pas venir.</example>
-        <example>Antonio <marker>Banderas</marker> est un acteur espagnol.</example>
+          <pattern>
+              <token postag="SENT_START|C coor| R rel .*" postag_regexp="yes">
+                  <exception regexp="yes">et|ou|ni</exception>
+              </token>
+              <token postag="Z . sp?" postag_regexp="yes" regexp="yes">(?-i)\p{Lu}.*</token>
+              <token regexp="yes" min="0" max="1">[lmnt]e|la|les|leur|[ql]ui|en|y</token>
+              <marker>
+                  <token postag="V.*" postag_regexp="yes">
+                      <exception postag="V .* 3 s|V ppa . s|V.* ppr|[NJ].*" postag_regexp="yes"/>
+                      <exception regexp="yes">(?-i)\p{Lu}.*</exception>
+                  </token>
+              </marker>
+          </pattern>
+          <message>Le verbe « \4 » devrait être à la 3e personne du singulier.</message>
+          <example correction="">Dominique <marker>peux</marker> venir.</example>
+          <example>Dominique peut venir.</example>
+          <example correction="">Dominique ne <marker>peux</marker> pas venir.</example>
+          <example>Antonio <marker>Banderas</marker> est un acteur espagnol.</example>
+          <example correction="">Dominique qui <marker>sont</marker> un acteur espagnol.</example>
+      </rule>
+      <rule name="nom propre + 2 token + verbe 3e personne singulier">
+          <pattern>
+              <token postag="SENT_START|C coor| R rel .*" postag_regexp="yes">
+                  <exception regexp="yes">et|ou|ni</exception>
+              </token>
+              <token postag="Z . sp?" postag_regexp="yes" regexp="yes">(?-i)\p{Lu}.*</token>
+              <!-- Not all combinations of tokens are actually possible -->
+              <token regexp="yes">[lmnts]|[mnt]e|la|les?|[ql]ui|leur</token>
+              <token regexp="yes">[’´'‛′‘]|[mnt]e|la|les?|[vn]ous|en|y|[ql]ui|leur</token>
+              <marker>
+                  <token postag="V.*" postag_regexp="yes">
+                      <exception postag="V .* 3 s|V ppa . s|V.* ppr|[NJ].*" postag_regexp="yes"/>
+                      <exception regexp="yes">(?-i)\p{Lu}.*</exception>
+                  </token>
+              </marker>
+          </pattern>
+          <message>Le verbe « \4 » devrait être à la 3e personne du singulier.</message>
+          <example correction="">Dominique qui ne <marker>peux</marker> pas venir.</example>
+          <example correction="">Dominique lui qui <marker>sont</marker> si riche.</example>
+          <example>Dominique qui ne peut pas venir.</example>
+          <example>Dominique lui qui <marker>est</marker> si riche.</example>
       </rule>
       <rule name="sujet singulier + verbe 3e personne singulier">
-        <pattern>
-          <token postag="SENT_START|C coor|R rel .*" postag_regexp="yes">
-            <exception regexp="yes">et|ou|ni</exception>
-          </token>
-          <token postag="D.*" postag_regexp="yes">
-            <exception regexp="yes">quel|quelle</exception>
-          </token>
-          <token postag="N . s" postag_regexp="yes">
-            <exception regexp="yes">mot|verbe</exception>
-          </token>
-          <marker>
-            <token postag="V.*" postag_regexp="yes">
-              <exception postag="V .* 3 s|V ppa . s|V.* ppr|[NJ].*" postag_regexp="yes"/>
-              <exception>être</exception>
-            </token>
-          </marker>
-        </pattern>
-        <message>Le verbe « \4 » devrait être à la 3e personne du singulier.</message>
-        <example correction="">Mon enfant <marker>étaient</marker> parti.</example>
-        <example>Mon enfant joue en bas.</example>
-        <example>Le contexte troublé.</example>
-        <example>Ma mère étant malade n’est pas venue.</example>
-        <example>Un bruit sifflant de vapeur.</example>
-        <example>Un souffle ardent</example>
-        <example>Au diable toutes ces histoires</example>
-        <example>Le verbe aimer est facile à conjuguer.</example>
-        <example correction="">Comment se fait-il que le réveil <marker>ai</marker> sonné.</example>
-        <example>Comment se fait-il que le réveil <marker>ait</marker> sonné.</example>
-        <example>Les boissons et la nourriture étaient servis à volonté.</example>
-        <example>Quel âge ont vos enfants ?</example>
-        <example>Ni la Terre, ni son orbite ne sont parfaitement circulaires.</example>
-        <example>Un petit sourire.</example>
-        <example>Un seul <marker>être</marker> vous manque.</example>
-        <example correction="">La Corée <marker>peux</marker> gagner.</example>
-        <example>La Corée <marker>peut</marker> gagner.</example>
+          <pattern>
+              <token postag="SENT_START|C coor|R rel .*" postag_regexp="yes">
+                  <exception regexp="yes">et|ou|ni</exception>
+              </token>
+              <token postag="D.*" postag_regexp="yes">
+                  <exception regexp="yes">quel|quelle</exception>
+              </token>
+              <token postag="N . s" postag_regexp="yes">
+                  <exception regexp="yes">mot|verbe</exception>
+              </token>
+              <marker>
+                  <token postag="V.*" postag_regexp="yes">
+                      <exception postag="V .* 3 s|V ppa . s|V.* ppr|[NJ].*" postag_regexp="yes"/>
+                      <exception>être</exception>
+                  </token>
+              </marker>
+          </pattern>
+          <message>Le verbe « \4 » devrait être à la 3e personne du singulier.</message>
+          <example correction="">Mon enfant <marker>étaient</marker> parti.
+          </example>
+          <example>Mon enfant joue en bas.</example>
+          <example>Le contexte troublé.</example>
+          <example>Ma mère étant malade n’est pas venue.</example>
+          <example>Un bruit sifflant de vapeur.</example>
+          <example>Un souffle ardent</example>
+          <example>Au diable toutes ces histoires</example>
+          <example>Le verbe aimer est facile à conjuguer.</example>
+          <example correction="">Comment se fait-il que le réveil <marker>ai</marker> sonné.
+          </example>
+          <example>Comment se fait-il que le réveil <marker>ait</marker> sonné.
+          </example>
+          <example>Les boissons et la nourriture étaient servis à volonté.</example>
+          <example>Quel âge ont vos enfants ?</example>
+          <example>Ni la Terre, ni son orbite ne sont parfaitement circulaires.</example>
+          <example>Un petit sourire.</example>
+          <example>Un seul <marker>être</marker> vous manque.
+          </example>
+          <example correction="">La Corée <marker>peux</marker> gagner.
+          </example>
+          <example>La Corée <marker>peut</marker> gagner.
+          </example>
       </rule>
       <rule name="sujet singulier + 1 token + verbe 3e personne singulier">
-        <pattern>
-          <token postag="SENT_START|C coor|R rel .*" postag_regexp="yes">
-            <exception regexp="yes">et|ou|ni</exception>
-          </token>
-          <token postag="D.*" postag_regexp="yes"/>
-          <token postag="N . s" postag_regexp="yes"/>
-          <token regexp="yes">[lmnt]e|la|les|leur|lui|en|y</token>
-          <marker>
-            <token postag="V.*" postag_regexp="yes">
-              <exception negate_pos="yes" postag="V.*" postag_regexp="yes"/>
-              <exception postag="V .* 3 s|V.*ppr" postag_regexp="yes"/>
-            </token>
-          </marker>
-        </pattern>
-        <message>Le verbe « \5 » devrait être à la 3e personne du singulier.</message>
-        <example correction="">Mon enfant ne <marker>peux</marker> pas aller à l’école.</example>
-        <example>Mon enfant ne peut pas aller à l’école.</example>
-        <example>Ce matin nous avons froid.</example>
-        <example>Cette chaise en bois est lourde.</example>
-        <example correction="">La Corée ne <marker>peux</marker> pas gagner.</example>
-        <example>La Corée ne <marker>peut</marker> pas gagner.</example>
+          <pattern>
+              <token postag="SENT_START|C coor|R rel .*" postag_regexp="yes">
+                  <exception regexp="yes">et|ou|ni</exception>
+              </token>
+              <token postag="D.*" postag_regexp="yes"/>
+              <token postag="N . s" postag_regexp="yes"/>
+              <token regexp="yes">[lmnt]e|la|les|leur|lui|en|y</token>
+              <marker>
+                  <token postag="V.*" postag_regexp="yes">
+                      <exception negate_pos="yes" postag="V.*" postag_regexp="yes"/>
+                      <exception postag="V .* 3 s|V.*ppr" postag_regexp="yes"/>
+                  </token>
+              </marker>
+          </pattern>
+          <message>Le verbe « \5 » devrait être à la 3e personne du singulier.</message>
+          <example correction="">Mon enfant ne <marker>peux</marker> pas aller à l’école.
+          </example>
+          <example>Mon enfant ne peut pas aller à l’école.</example>
+          <example>Ce matin nous avons froid.</example>
+          <example>Cette chaise en bois est lourde.</example>
+          <example correction="">La Corée ne <marker>peux</marker> pas gagner.
+          </example>
+          <example>La Corée ne <marker>peut</marker> pas gagner.
+          </example>
       </rule>
       <rule name="sujet singulier + 2 tokens + verbe pluriel">
-        <pattern>
-          <token postag="SENT_START|C coor|R rel .*" postag_regexp="yes">
-            <exception regexp="yes">et|ou|ni</exception>
-          </token>
-          <token postag="D.*" postag_regexp="yes"/>
-          <token postag="N . s" postag_regexp="yes"/>
-          <!-- Not all combinations of tokens are actually possible -->
-          <token regexp="yes">[lmnts]|[mnt]e|la|les?|lui|leur</token>
-          <token regexp="yes">[’´'‛′‘]|[mnt]e|la|les?|[vn]ous|en|y|lui|leur</token>
-          <marker>
-            <token postag="V.*" postag_regexp="yes">
-              <exception postag="V .* 3 s|V.* ppr|N.*" postag_regexp="yes"/>
-            </token>
-          </marker>
-        </pattern>
-        <message>Le verbe « \6 » devrait être à la 3e personne du singulier.</message>
-        <example correction="">Mon enfant l’<marker>étudient</marker>.</example>
-        <example>Mon enfant l’étudie.</example>
-        <example>Le passé n’éclairant pas l’avenir.</example>
-        <example correction="">Comment se fait-il que le réveil n’<marker>ai</marker> pas sonné.</example>
-        <example>Comment se fait-il que le réveil n’ait pas sonné.</example>
-        <example>les employés et la direction n’aboutirent à aucun résultat.</example>
-        <example>Ce fut l’entreprise de marketing de la décennie.</example>
+          <pattern>
+              <token postag="SENT_START|C coor|R rel .*" postag_regexp="yes">
+                  <exception regexp="yes">et|ou|ni</exception>
+              </token>
+              <token postag="D.*" postag_regexp="yes"/>
+              <token postag="N . s" postag_regexp="yes"/>
+              <!-- Not all combinations of tokens are actually possible -->
+              <token regexp="yes">[lmnts]|[mnt]e|la|les?|[ql]ui|leur</token>
+              <token regexp="yes">[’´'‛′‘]|[mnt]e|la|les?|[vn]ous|en|y|[ql]ui|leur</token>
+              <marker>
+                  <token postag="V.*" postag_regexp="yes">
+                      <exception postag="V .* 3 s|V.* ppr|N.*" postag_regexp="yes"/>
+                  </token>
+              </marker>
+          </pattern>
+          <message>Le verbe « \6 » devrait être à la 3e personne du singulier.</message>
+          <example correction="">Mon enfant l’<marker>étudient</marker>.</example>
+          <example>Mon enfant l’étudie.</example>
+          <example>Le passé n’éclairant pas l’avenir.</example>
+          <example correction="">Comment se fait-il que le réveil n’<marker>ai</marker> pas sonné.</example>
+          <example>Comment se fait-il que le réveil n’ait pas sonné.</example>
+          <example>les employés et la direction n’aboutirent à aucun résultat.</example>
+          <example correction="">Mon enfant qui lui <marker>sont</marker> intelligent</example>
+          <example>Ce fut l’entreprise de marketing de la décennie.</example>
+          <example correction="">Mon enfant lui qui <marker>peux</marker> marcher</example>
       </rule>
       <rule name="sujet singulier + 3 tokens + verbe pluriel">
-        <pattern>
-          <token postag="SENT_START|C coor|R rel .*" postag_regexp="yes">
-            <exception regexp="yes">et|ou|ni</exception>
-          </token>
-          <token postag="D.*" postag_regexp="yes"/>
-          <token postag="N . s" postag_regexp="yes"/>
-          <!-- Not all combinations of tokens are actually possible -->
-          <token regexp="yes">[mnt]|ne</token>
-          <token regexp="yes">[’´'‛′‘]|[lmt]e?|[vn]ous|lui|leur</token>
-          <token regexp="yes">[’´'‛′‘]|l[ea]|[vn]ous|lui|leur|en|y</token>
-          <marker>
-            <token postag="V.*" postag_regexp="yes">
-              <exception postag="V .* 3 s|V .*ppr" postag_regexp="yes"/>
-            </token>
-          </marker>
-        </pattern>
-        <message>Le verbe « \7 » devrait être à la 3e personne du singulier.</message>
-        <example correction="">Mon enfant ne l’<marker>étudient</marker>.</example>
-        <example>Mon enfant ne l’<marker>étudie</marker>.</example>
+          <pattern>
+              <token postag="SENT_START|C coor|R rel .*" postag_regexp="yes">
+                  <exception regexp="yes">et|ou|ni</exception>
+              </token>
+              <token postag="D.*" postag_regexp="yes"/>
+              <token postag="N . s" postag_regexp="yes"/>
+              <!-- Not all combinations of tokens are actually possible -->
+              <token regexp="yes">[mnt]|ne|qui</token>
+              <token regexp="yes">[’´'‛′‘]|[lmnt]e?|[vn]ous|lui|leur</token>
+              <token regexp="yes">[’´'‛′‘]|l[ea]|[vn]ous|lui|leur|en|y</token>
+              <marker>
+                  <token postag="V.*" postag_regexp="yes">
+                      <exception postag="V .* 3 s|V .*ppr" postag_regexp="yes"/>
+                  </token>
+              </marker>
+          </pattern>
+          <message>Le verbe « \7 » devrait être à la 3e personne du singulier.</message>
+          <example correction="">Mon enfant ne l’<marker>étudient</marker>.</example>
+          <example>Mon enfant ne l’<marker>étudie</marker>.</example>
+          <example correction="">Mon enfant qui l’<marker>étudient</marker>.</example>
+          <example correction="">Comment se fait-il que le réveil qui n’<marker>ai</marker> pas sonné.</example>
       </rule>
       <rule name="sujet singulier + 4 tokens + verbe pluriel">
-        <pattern>
-          <token postag="SENT_START|C coor|R rel .*" postag_regexp="yes">
-            <exception regexp="yes">et|ou|ni</exception>
-          </token>
-          <token postag="D.*" postag_regexp="yes"/>
-          <token postag="N . s" postag_regexp="yes"/>
-          <!-- Not all combinations of tokens are actually possible -->
-          <token>ne</token>
-          <token regexp="yes">[lmt]</token>
-          <token regexp="yes">[’´'‛′‘]</token>
-          <token regexp="yes">en|y</token>
-          <marker>
-            <token postag="V.*" postag_regexp="yes">
-              <exception postag="V .* 3 s|V .*ppr" postag_regexp="yes"/>
-            </token>
-          </marker>
-        </pattern>
-        <message>Le verbe « \8 » devrait être à la 3e personne du singulier.</message>
-        <example correction="">Mon enfant ne m’en <marker>veux</marker> pas.</example>
-        <example>Mon enfant ne m’en veut pas.</example>
+          <pattern>
+              <token postag="SENT_START|C coor|R rel .*" postag_regexp="yes">
+                  <exception regexp="yes">et|ou|ni</exception>
+              </token>
+              <token postag="D.*" postag_regexp="yes"/>
+              <token postag="N . s" postag_regexp="yes"/>
+              <!-- Not all combinations of tokens are actually possible -->
+              <token regexp="yes">ne|qui</token>
+              <token regexp="yes">[lmt]|ne</token>
+              <token regexp="yes">[’´'‛′‘]|s|lui</token>
+              <token regexp="yes">en|y|[’´'‛′‘]</token>
+              <marker>
+                  <token postag="V.*" postag_regexp="yes">
+                      <exception postag="V .* 3 s|V .*ppr" postag_regexp="yes"/>
+                  </token>
+              </marker>
+          </pattern>
+          <message>Le verbe « \8 » devrait être à la 3e personne du singulier.</message>
+          <example correction="">Mon enfant ne m’en <marker>veux</marker> pas.</example>
+          <example correction="">Mon enfant qui ne lui en <marker>veux</marker> pas.</example>
+          <example>Mon enfant ne m’en veut pas.</example>
+          <example correction="">Mon enfant qui ne s'<marker>es</marker> pas réveillé.</example>
+      </rule>
+      <rule name="sujet singulier + 5 tokens + verbe pluriel">
+          <pattern>
+              <token postag="SENT_START|C coor|R rel .*" postag_regexp="yes">
+                  <exception regexp="yes">et|ou|ni</exception>
+              </token>
+              <token postag="D.*" postag_regexp="yes"/>
+              <token postag="N . s" postag_regexp="yes"/>
+              <!-- Not all combinations of tokens are actually possible -->
+              <token regexp="yes">qui</token>
+              <token regexp="yes">ne</token>
+              <token regexp="yes">[lmt]</token>
+              <token regexp="yes">[’´'‛′‘]</token>
+              <token regexp="yes">en</token>
+              <marker>
+                  <token postag="V.*" postag_regexp="yes">
+                      <exception postag="V .* 3 s|V .*ppr" postag_regexp="yes"/>
+                  </token>
+              </marker>
+          </pattern>
+          <message>Le verbe « \9 » devrait être à la 3e personne du singulier.</message>
+          <example correction="">Mon enfant qui ne m’en <marker>veux</marker> pas.</example>
+          <example>Mon enfant qui ne m’en veut pas.</example>
+      </rule>
+      <rule name="sujet singulier + 6 tokens + verbe pluriel">
+          <pattern>
+              <token postag="SENT_START|C coor|R rel .*" postag_regexp="yes">
+                  <exception regexp="yes">et|ou|ni</exception>
+              </token>
+              <token postag="D.*" postag_regexp="yes"/>
+              <token postag="N . s" postag_regexp="yes"/>
+              <!-- Not all combinations of tokens are actually possible -->
+              <token regexp="yes">,|qui</token>
+              <token regexp="yes">lui</token>
+              <token regexp="yes">ne</token>
+              <token regexp="yes">[lmts]</token>
+              <token regexp="yes">[’´'‛′‘]</token>
+              <token regexp="yes">en</token>
+              <marker>
+                  <token postag="V.*" postag_regexp="yes">
+                      <exception postag="V .* 3 s|V .*ppr" postag_regexp="yes"/>
+                  </token>
+              </marker>
+          </pattern>
+          <message>Le verbe « \10 » devrait être à la 3e personne du singulier.</message>
+          <example correction="">Mon enfant qui lui ne m’en <marker>veux</marker> pas.</example>
+          <example>Mon enfant qui lui ne m’en veut pas.</example>
+          <example correction="">Mon enfant, lui ne m’en <marker>veux</marker> pas.</example>
       </rule>
       <rule name="sujet pluriel + verbe singulier">
-        <pattern>
-          <token postag="SENT_START|C coor" postag_regexp="yes">
-            <exception regexp="yes">et|ou|ni|lequel</exception>
-          </token>
-          <token postag="D.*" postag_regexp="yes"><exception regexp="yes">du|des|quels|quelles</exception></token>
-          <token postag="[NZ] . p" postag_regexp="yes">
-            <exception negate_pos="yes" postag="N . p" postag_regexp="yes"/>
-          </token>
-          <marker>
-            <token postag="V.*" postag_regexp="yes">
-              <exception postag="V .* 3 p|V ppa . s?p|V.* ppr|[JN] . s?p" postag_regexp="yes"/>
-            </token>
-          </marker>
-        </pattern>
-        <message>Le verbe « \4 » devrait être à la 3e personne du pluriel.</message>
-        <example>Les enfants <marker>jouent</marker> en bas.</example>
-        <example>Les régions <marker>situées</marker> au sud sont chaudes.</example>
-        <example correction="">Les gens <marker>était</marker> partis.</example>
-        <example>Ces <marker>rues désertes</marker></example>
-        <example>Nos <marker>bagages étant</marker> enregistrés</example>
-        <example>Tout Paris est à la fête.</example>
-        <example>L’eau des lacs et des rivières est douce.</example>
-        <example>Lequel des élèves est sorti ?</example>
-        <example>Les quartiers conquis par l’armée.</example>
-        <example>Des petites <marker>zones</marker> favorables à la biodiversité.</example>
-        <example>Du tronc poussent les branches.</example>
-        <example>Quels changements attendre de la réalité augmentée ?</example>
+          <pattern>
+              <token postag="SENT_START|C coor" postag_regexp="yes">
+                  <exception regexp="yes">et|ou|ni|lequel</exception>
+              </token>
+              <token postag="D.*" postag_regexp="yes">
+                  <exception regexp="yes">du|des|quels|quelles</exception>
+              </token>
+              <token postag="[NZ] . p" postag_regexp="yes">
+                  <exception negate_pos="yes" postag="N . p" postag_regexp="yes"/>
+              </token>
+              <marker>
+                  <token postag="V.*" postag_regexp="yes">
+                      <exception postag="V .* 3 p|V ppa . s?p|V.* ppr|[JN] . s?p" postag_regexp="yes"/>
+                  </token>
+              </marker>
+          </pattern>
+          <message>Le verbe « \4 » devrait être à la 3e personne du pluriel.</message>
+          <example>Les enfants <marker>jouent</marker> en bas.
+          </example>
+          <example>Les régions <marker>situées</marker> au sud sont chaudes.
+          </example>
+          <example correction="">Les gens <marker>était</marker> partis.
+          </example>
+          <example>Ces
+              <marker>rues désertes</marker>
+          </example>
+          <example>Nos <marker>bagages étant</marker> enregistrés
+          </example>
+          <example>Tout Paris est à la fête.</example>
+          <example>L’eau des lacs et des rivières est douce.</example>
+          <example>Lequel des élèves est sorti ?</example>
+          <example>Les quartiers conquis par l’armée.</example>
+          <example>Des petites <marker>zones</marker> favorables à la biodiversité.
+          </example>
+          <example>Du tronc poussent les branches.</example>
+          <example>Quels changements attendre de la réalité augmentée ?</example>
       </rule>
       <rule name="sujet pluriel + 1 token + verbe singulier">
-        <pattern>
-          <token postag="SENT_START|C coor|R rel .*" postag_regexp="yes"/>
-          <token postag="D.*" postag_regexp="yes"/>
-          <token postag="[NZ] . p" postag_regexp="yes">
-            <exception postag="N . sp?" postag_regexp="yes"/>
-          </token>
-          <token regexp="yes">[lmnts]e|la|les|leur|lui|en|y</token>
-          <marker>
-            <token postag="V.*" postag_regexp="yes">
-              <exception postag="V .* 3 p|V ppa . s?p|V.* ppr|[NJ].*" postag_regexp="yes"/>
-            </token>
-          </marker>
-        </pattern>
-        <message>Le verbe « \5 » devrait être à la 3e personne du pluriel.</message>
-        <example correction="">Les enfants en <marker>manges</marker>.</example>
-        <example>Les enfants en mangent.</example>
-        <example>Mon fils ne passera pas.</example>
-        <example correction="">Les États-Unis se <marker>compose</marker> de 50 états.</example>
-        <example>Les États-Unis se composent de 50 états.</example>
+          <pattern>
+              <token postag="SENT_START|C coor|R rel .*" postag_regexp="yes"/>
+              <token postag="D.*" postag_regexp="yes"/>
+              <token postag="[NZ] . p" postag_regexp="yes">
+                  <exception postag="N . sp?" postag_regexp="yes"/>
+              </token>
+              <token regexp="yes">[lmnts]e|la|les|leur|[ql]ui|en|y</token>
+              <marker>
+                  <token postag="V.*" postag_regexp="yes">
+                      <exception postag="V .* 3 p|V ppa . s?p|V.* ppr|[NJ].*" postag_regexp="yes"/>
+                  </token>
+              </marker>
+          </pattern>
+          <message>Le verbe « \5 » devrait être à la 3e personne du pluriel.</message>
+          <example correction="">Les enfants en <marker>manges</marker>.</example>
+          <example>Les enfants en mangent.</example>
+          <example>Mon fils ne passera pas.</example>
+          <example correction="">Les États-Unis se <marker>compose</marker> de 50 états.</example>
+          <example correction="">Des cases qui <marker>prenne</marker> deux places.</example>
+          <example>Les États-Unis se composent de 50 états.</example>
       </rule>
       <rule name="sujet pluriel + 2 tokens + verbe singulier">
-        <pattern>
-          <token postag="SENT_START|C coor|R rel .*" postag_regexp="yes"/>
-          <token postag="D.*" postag_regexp="yes"/>
-          <token postag="[NZ] . p" postag_regexp="yes">
-            <exception postag="N . sp?" postag_regexp="yes"/>
-          </token>
-          <!-- Not all combinations of tokens are actually possible -->
-          <token regexp="yes">[lmnts]|[mnt]e|la|les?|lui|leur</token>
-          <token regexp="yes">[’´'‛′‘]|[mnt]e|la|les?|[vn]ous|en|y|lui|leur</token>
-          <marker>
-            <token postag="V.*" postag_regexp="yes">
-              <exception postag="V .* 3 p|V ppa . s?p|V.* ppr|J . s?p" postag_regexp="yes"/>
-            </token>
-          </marker>
-        </pattern>
-        <message>Le verbe « \6 » devrait être à la 3e personne du pluriel.</message>
-        <example correction="">Les camions n’<marker>arrive</marker> pas.</example>
-        <example>Les camions n’arrivent pas.</example>
-        <example>Les cuillères en bois commencent à moisir.</example>
-        <example>Ces choses nous les partageons.</example>
-        <example>Mon fils n’arrive pas à faire les additions.</example>
+          <pattern>
+              <token postag="SENT_START|C coor|R rel .*" postag_regexp="yes"/>
+              <token postag="D.*" postag_regexp="yes"/>
+              <token postag="[NZ] . p" postag_regexp="yes">
+                  <exception postag="N . sp?" postag_regexp="yes"/>
+              </token>
+              <!-- Not all combinations of tokens are actually possible -->
+              <token regexp="yes">[lmnts]|[mnt]e|la|les?|[ql]ui|leur</token>
+              <token regexp="yes">[’´'‛′‘]|[mnt]e|la|les?|[vn]ous|en|y|[ql]ui|leur</token>
+              <marker>
+                  <token postag="V.*" postag_regexp="yes">
+                      <exception postag="V .* 3 p|V ppa . s?p|V.* ppr|J . s?p" postag_regexp="yes"/>
+                  </token>
+              </marker>
+          </pattern>
+          <message>Le verbe « \6 » devrait être à la 3e personne du pluriel.</message>
+          <example correction="">Les camions n’<marker>arrive</marker> pas.
+          </example>
+          <example>Les camions n’arrivent pas.</example>
+          <example>Les cuillères en bois commencent à moisir.</example>
+          <example>Ces choses nous les partageons.</example>
+          <example>Mon fils n’arrive pas à faire les additions.</example>
+          <example correction="">Les enfants qui lui <marker>a</marker> dit.</example>
       </rule>
       <rule name="sujet pluriel + 3 tokens + verbe singulier">
-        <pattern>
-          <token postag="SENT_START|C coor|R rel .*" postag_regexp="yes"/>
-          <token postag="D.*" postag_regexp="yes"/>
-          <token postag="[NZ] . p" postag_regexp="yes"/>
-          <!-- Not all combinations of tokens are actually possible -->
-          <token regexp="yes">[mnt]|ne</token>
-          <token regexp="yes">[’´'‛′‘]|[lmts]e?|[vn]ous|lui|leur</token>
-          <token regexp="yes">[’´'‛′‘]|l[ea]|[vn]ous|lui|leur|en|y</token>
-          <marker>
-            <token postag="V.*" postag_regexp="yes">
-              <exception postag="V .* 3 p|V ppa . s?p|V.* ppr|J . s?p" postag_regexp="yes"/>
-            </token>
-          </marker>
-        </pattern>
-        <message>Le verbe « \7 » devrait être à la 3e personne du pluriel.</message>
-        <example correction="">Les enfants ne l’<marker>attend</marker> pas.</example>
-        <example>Les enfants ne l’attendent pas.</example>
+          <pattern>
+              <token postag="SENT_START|C coor|R rel .*" postag_regexp="yes"/>
+              <token postag="D.*" postag_regexp="yes"/>
+              <token postag="[NZ] . p" postag_regexp="yes"/>
+              <!-- Not all combinations of tokens are actually possible -->
+              <token regexp="yes">,|[mnt]|ne|qui</token>
+              <token regexp="yes">[’´'‛′‘]|[lmts]e?|[vn]ous|[ql]ui|leur|n</token>
+              <token regexp="yes">[’´'‛′‘]|l[ea]|[vn]ous|lui|leur|en|y</token>
+              <marker>
+                  <token postag="V.*" postag_regexp="yes">
+                      <exception postag="V .* 3 p|V ppa . s?p|V.* ppr|J . s?p" postag_regexp="yes"/>
+                  </token>
+              </marker>
+          </pattern>
+          <message>Le verbe « \7 » devrait être à la 3e personne du pluriel.</message>
+          <example correction="">Les enfants ne l’<marker>attend</marker> pas.</example>
+          <example>Les enfants ne l’attendent pas.</example>
+          <example correction="">Les enfants qui n’<marker>attende</marker> pas seront punis.</example>
+          <example correction="">Les enfants, qui lui <marker>a</marker> dit.</example>
       </rule>
       <rule name="sujet pluriel + 4 tokens + verbe singulier">
-        <pattern>
-          <token postag="SENT_START|C coor|R rel .*" postag_regexp="yes"/>
-          <token postag="D.*" postag_regexp="yes"/>
-          <token postag="[NZ] . p" postag_regexp="yes"/>
-          <!-- Not all combinations of tokens are actually possible -->
-          <token>ne</token>
-          <token regexp="yes">[lmt]</token>
-          <token regexp="yes">[’´'‛′‘]</token>
-          <token regexp="yes">en|y</token>
-          <marker>
-            <token postag="V.*" postag_regexp="yes">
-              <exception postag="V .* 3 p|V ppa . s?p|V.* ppr|J . s?p" postag_regexp="yes"/>
-            </token>
-          </marker>
-        </pattern>
-        <message>Le verbe « \8 » devrait être à la 3e personne du pluriel.</message>
-        <example correction="">Mes enfants ne m’en <marker>veux</marker> pas.</example>
-        <example>Mes enfants ne m’en veulent pas.</example>
+          <pattern>
+              <token postag="SENT_START|C coor|R rel .*" postag_regexp="yes"/>
+              <token postag="D.*" postag_regexp="yes"/>
+              <token postag="[NZ] . p" postag_regexp="yes"/>
+              <!-- Not all combinations of tokens are actually possible -->
+              <token regexp="yes">ne|qui</token>
+              <token regexp="yes">[lmtn]|ne</token>
+              <token regexp="yes">[’´'‛′‘]|[lmts]|lui</token>
+              <token regexp="yes">en|y|[’´'‛′‘]</token>
+              <marker>
+                  <token postag="V.*" postag_regexp="yes">
+                      <exception postag="V .* 3 p|V ppa . s?p|V.* ppr|J . s?p" postag_regexp="yes"/>
+                  </token>
+              </marker>
+          </pattern>
+          <message>Le verbe « \8 » devrait être à la 3e personne du pluriel.</message>
+          <example correction="">Mes enfants ne m’en <marker>veux</marker> pas.</example>
+          <example>Mes enfants ne m’en veulent pas.</example>
+          <example correction="">Mes enfants qui ne m’<marker>attende</marker> pas.</example>
+          <example correction="">Mes enfants ne m’en <marker>veux</marker> pas.</example>
+          <example correction="">Mes enfants qui ne lui en <marker>veux</marker> pas.</example>
+          <example>Mes enfants ne m’en veulent pas.</example>
+          <example correction="">Mes enfants qui ne s'<marker>est</marker> pas réveillé.</example>
+      </rule>
+      <rule name="sujet pluriel + 5 tokens + verbe singulier">
+          <pattern>
+              <token postag="SENT_START|C coor|R rel .*" postag_regexp="yes"/>
+              <token postag="D.*" postag_regexp="yes"/>
+              <token postag="[NZ] . p" postag_regexp="yes"/>
+              <!-- Not all combinations of tokens are actually possible -->
+              <token regexp="yes">qui</token>
+              <token regexp="yes">ne</token>
+              <token regexp="yes">[tms]</token>
+              <token regexp="yes">[’´'‛′‘]</token>
+              <token regexp="yes">en</token>
+              <marker>
+                  <token postag="V.*" postag_regexp="yes">
+                      <exception postag="V .* 3 p|V ppa . s?p|V.* ppr|J . s?p" postag_regexp="yes"/>
+                  </token>
+              </marker>
+          </pattern>
+          <message>Le verbe « \10 » devrait être à la 3e personne du pluriel.</message>
+          <example correction="">Mes enfants qui ne m’en <marker>veux</marker> pas.</example>
+          <example correction="">Mes enfants qui ne t’en <marker>veux</marker> pas.</example>
+          <example correction="">Mes enfants qui ne s’en <marker>veux</marker> pas.</example>
+          <example>Mes enfants qui ne m’en veulent pas.</example>
+      </rule>
+      <rule name="sujet pluriel + 6 tokens + verbe singulier">
+          <pattern>
+              <token postag="SENT_START|C coor|R rel .*" postag_regexp="yes"/>
+              <token postag="D.*" postag_regexp="yes"/>
+              <token postag="[NZ] . p" postag_regexp="yes"/>
+              <!-- Not all combinations of tokens are actually possible -->
+              <token regexp="yes">qui</token>
+              <token regexp="yes">eux</token>
+              <token regexp="yes">ne</token>
+              <token regexp="yes">[tms]</token>
+              <token regexp="yes">[’´'‛′‘]</token>
+              <token regexp="yes">en</token>
+              <marker>
+                  <token postag="V.*" postag_regexp="yes">
+                      <exception postag="V .* 3 p|V ppa . s?p|V.* ppr|J . s?p" postag_regexp="yes"/>
+                  </token>
+              </marker>
+          </pattern>
+          <message>Le verbe « \10 » devrait être à la 3e personne du pluriel.</message>
+          <example correction="">Mes enfants qui eux ne m’en <marker>veux</marker> pas.</example>
+          <example correction="">Mes enfants qui eux ne t’en <marker>veux</marker> pas.</example>
+          <example correction="">Mes enfants qui eux ne s’en <marker>veux</marker> pas.</example>
+          <example>Mes enfants qui eux ne m’en veulent pas.</example>
       </rule>
     </rulegroup>
     <rulegroup id="ACCORD_LA_PLUPART" name="Accord avec la plupart">
