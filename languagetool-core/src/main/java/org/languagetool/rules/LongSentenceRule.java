@@ -33,47 +33,30 @@ import org.languagetool.AnalyzedTokenReadings;
  */
 public class LongSentenceRule extends Rule {
 
-  private static final int DEFAULT_MAX_WORDS = 40;
+  private static final int DEFAULT_MAX_WORDS = 50;
   private static final Pattern NON_WORD_REGEX = Pattern.compile("[.?!…:;,~’'\"„“”»«‚‘›‹()\\[\\]\\-–—\\*×∗·\\+÷:\\/=]");
   private static final boolean DEFAULT_INACTIVE = false;
 
   protected static int maxWords = DEFAULT_MAX_WORDS;
-  protected static boolean firstSet = true;
 
   /**
    * @param defaultActive allows default granularity
    * @since 3.7
    */
-  public LongSentenceRule(ResourceBundle messages, int maxSentenceLength, boolean defaultActive) {
+  public LongSentenceRule(ResourceBundle messages, boolean defaultActive) {
     super(messages);
     super.setCategory(Categories.STYLE.getCategory(messages));
-    if (maxSentenceLength <= 0) {
-      throw new IllegalArgumentException("maxSentenceLength must be > 0: " + maxSentenceLength);
-    }
-    if (firstSet) {
-      if (!defaultActive) {             //  since 4.1 maxWords is only set once and only if defaultActive == true
-        setDefaultOff();                //  all changes after the first call of the rule are left to the option panel
-      } else {                          //  and to the configuration file
-        maxWords = maxSentenceLength;   //  so a special default value for an active rule can be defined but it can
-        firstSet = false;               //  be overridden by the user
-      }
+    if (!defaultActive) {
+        setDefaultOff();
     }
     setLocQualityIssueType(ITSIssueType.Style);
   }
 
   /**
-   * @param maxSentenceLength the maximum sentence length that does not yet trigger a match
-   * @since 2.4
-   */
-  public LongSentenceRule(ResourceBundle messages, int maxSentenceLength) {
-    this(messages, maxSentenceLength, DEFAULT_INACTIVE);
-  }
-
-  /**
-   * Creates a rule with the default maximum sentence length (40 words).
+   * Creates a rule with default inactive
    */
   public LongSentenceRule(ResourceBundle messages) {
-    this(messages, DEFAULT_MAX_WORDS, DEFAULT_INACTIVE);
+    this(messages, DEFAULT_INACTIVE);
   }
 
   @Override

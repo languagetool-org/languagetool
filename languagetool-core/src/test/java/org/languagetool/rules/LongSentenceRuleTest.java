@@ -39,6 +39,7 @@ public class LongSentenceRuleTest {
             "a a a a a a a a a a a " +
             "a a a a a a a a a a a " +
             "a a a a a a a a a a a " +
+            "a a a a a a a a a a a " +
             "rather that short text.", rule, languageTool);
     
     LongSentenceRule shortRule = new LongSentenceRule(TestTools.getEnglishMessages());
