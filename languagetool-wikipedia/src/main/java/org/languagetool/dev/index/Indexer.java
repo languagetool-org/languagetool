@@ -199,4 +199,7 @@ public class Indexer implements AutoCloseable {
     writer.close();
   }
 
+  public void commit() throws IOException {
+    writer.commit();
+  }
 }

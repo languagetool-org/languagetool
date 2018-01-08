@@ -30,6 +30,7 @@ import org.languagetool.Language;
 import org.languagetool.Languages;
 import org.languagetool.dev.index.Indexer;
 import org.xml.sax.helpers.DefaultHandler;
+import sun.misc.Signal;
 
 import java.io.File;
 import java.io.IOException;
@@ -50,6 +51,8 @@ public class SentenceSourceIndexer extends DefaultHandler implements AutoCloseab
   private final Indexer indexer;
   private final int maxSentences;
   
+  private boolean stopped = false;
+  
   private int sentenceCount = 0;
   
   SentenceSourceIndexer(Directory dir, Language language, int maxSentences, Analyzer analyzer) {
@@ -59,11 +62,21 @@ public class SentenceSourceIndexer extends DefaultHandler implements AutoCloseab
       this.indexer = new Indexer(dir, language, analyzer);
     }
     this.maxSentences = maxSentences;
+    Signal.handle(new Signal("HUP"), signal -> {
+      stopped = true;
+      System.out.println("----- Got SIGHUP, will commit and exit ----");
+      try {
+        indexer.commit();
+        System.out.println("----- commit done, will exit now ----");
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+      System.exit(1);
+    });
   }
 
   SentenceSourceIndexer(Directory dir, Language language, int maxSentences) {
-    this.indexer = new Indexer(dir, language);
-    this.maxSentences = maxSentences;
+    this(dir, language, maxSentences, null);
   }
 
   @Override
@@ -74,8 +87,11 @@ public class SentenceSourceIndexer extends DefaultHandler implements AutoCloseab
   private void run(List<String> dumpFileNames, Language language) throws IOException {
     MixingSentenceSource mixingSource = MixingSentenceSource.create(dumpFileNames, language);
     while (mixingSource.hasNext()) {
+      if (stopped) {
+        return;
+      }
       Sentence sentence = mixingSource.next();
-      if (sentenceCount % 1000 == 0) {
+      if (sentenceCount % 10000 == 0) {
         System.out.println("Indexing sentence #" + sentenceCount + " (" + mixingSource.getSourceDistribution() + "):");
         System.out.println("  [" +  sentence.getSource() + "] " + sentence);
       }
