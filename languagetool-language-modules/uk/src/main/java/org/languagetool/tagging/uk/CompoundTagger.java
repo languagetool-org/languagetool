@@ -49,7 +49,7 @@ class CompoundTagger {
   private static final Pattern EXTRA_TAGS = Pattern.compile(":bad");
   private static final Pattern EXTRA_TAGS_DROP = Pattern.compile(":(comp.|np|ns|slang|rare|xp[1-9]|&predic|&insert)");
   private static final Pattern NOUN_SING_V_ROD_REGEX = Pattern.compile("noun.*?:[mfn]:v_rod.*");
-  private static final Pattern NOUN_V_NAZ_REGEX = Pattern.compile("noun.*?:.:v_naz.*");
+//  private static final Pattern NOUN_V_NAZ_REGEX = Pattern.compile("noun.*?:.:v_naz.*");
   private static final Pattern SING_REGEX_F = Pattern.compile(":[mfn]:");
   private static final Pattern O_ADJ_PATTERN = Pattern.compile(".*(о|[чшщ]е)");
   private static final Pattern DASH_PREFIX_LAT_PATTERN = Pattern.compile("[a-zA-Z]{3,}");
@@ -325,6 +325,12 @@ class CompoundTagger {
     if( leftWord.equalsIgnoreCase("по") && rightWord.endsWith("ськи") ) {
       rightWord += "й";
     }
+    
+    // Пенсильванія-авеню
+
+    if( Character.isUpperCase(leftWord.charAt(0)) && LemmaHelper.CITY_AVENU.contains(rightWord) ) {
+      return cityAvenueMatch(word);
+    }
 
     List<TaggedWord> rightWdList = wordTagger.tag(rightWord);
     if( rightWdList.isEmpty() )
@@ -389,15 +395,6 @@ class CompoundTagger {
       return getNvPrefixNounMatch(word, rightAnalyzedTokens, leftWord);
     }
 
-    // Пенсильванія-авеню
-
-    if( Character.isUpperCase(leftWord.charAt(0)) && LemmaHelper.CITY_AVENU.contains(rightWord) ) {
-      if( leftWdList.isEmpty() )
-        return null;
-      
-      return cityAvenueMatch(word, leftAnalyzedTokens);
-    }
-
 
 
     // don't allow: Донець-кий, зовнішньо-економічний, мас-штаби
@@ -444,14 +441,15 @@ class CompoundTagger {
   
 
   @Nullable
-  private List<AnalyzedToken> cityAvenueMatch(String word, List<AnalyzedToken> leftAnalyzedTokens) {
-    List<AnalyzedToken> newAnalyzedTokens = new ArrayList<>(leftAnalyzedTokens.size());
+  private List<AnalyzedToken> cityAvenueMatch(String word) {
+    List<AnalyzedToken> newAnalyzedTokens = new ArrayList<>();
     
-    for (AnalyzedToken analyzedToken : leftAnalyzedTokens) {
-      String posTag = analyzedToken.getPOSTag();
-      if( NOUN_V_NAZ_REGEX.matcher(posTag).matches() ) {
-        newAnalyzedTokens.add(new AnalyzedToken(word, posTag.replaceFirst("v_naz", "nv"), word));
-      }
+    for(String vidm: PosTagHelper.VIDMINKY_MAP.keySet()) {
+      if( vidm.equals("v_kly") )
+        continue;
+
+      String posTag = "noun:inanim:f:" + vidm + ":nv";
+      newAnalyzedTokens.add(new AnalyzedToken(word, posTag, word));
     }
     
     return newAnalyzedTokens.isEmpty() ? null : newAnalyzedTokens;

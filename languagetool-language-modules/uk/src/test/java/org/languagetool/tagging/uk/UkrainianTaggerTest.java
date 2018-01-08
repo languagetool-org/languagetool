@@ -197,8 +197,9 @@ public class UkrainianTaggerTest {
     TestTools.myAssert("пів-України", "пів-України/[пів-України]noun:inanim:f:v_dav:prop|пів-України/[пів-України]noun:inanim:f:v_mis:prop|пів-України/[пів-України]noun:inanim:f:v_naz:prop"
         +"|пів-України/[пів-України]noun:inanim:f:v_oru:prop|пів-України/[пів-України]noun:inanim:f:v_rod:prop|пів-України/[пів-України]noun:inanim:f:v_zna:prop", tokenizer, tagger);
 
-    TestTools.myAssert("Пенсильванія-авеню", "Пенсильванія-авеню/[Пенсильванія-авеню]noun:inanim:f:nv:prop", tokenizer, tagger);
-
+    TestTools.myAssert("Пенсильванія-авеню", "Пенсильванія-авеню/[Пенсильванія-авеню]noun:inanim:f:v_dav:nv|Пенсильванія-авеню/[Пенсильванія-авеню]noun:inanim:f:v_mis:nv|Пенсильванія-авеню/[Пенсильванія-авеню]noun:inanim:f:v_naz:nv|Пенсильванія-авеню/[Пенсильванія-авеню]noun:inanim:f:v_oru:nv|Пенсильванія-авеню/[Пенсильванія-авеню]noun:inanim:f:v_rod:nv|Пенсильванія-авеню/[Пенсильванія-авеню]noun:inanim:f:v_zna:nv", tokenizer, tagger);
+    TestTools.myAssert("Уолл-стрит", "Уолл-стрит/[Уолл-стрит]noun:inanim:f:v_dav:nv|Уолл-стрит/[Уолл-стрит]noun:inanim:f:v_mis:nv|Уолл-стрит/[Уолл-стрит]noun:inanim:f:v_naz:nv|Уолл-стрит/[Уолл-стрит]noun:inanim:f:v_oru:nv|Уолл-стрит/[Уолл-стрит]noun:inanim:f:v_rod:nv|Уолл-стрит/[Уолл-стрит]noun:inanim:f:v_zna:nv", tokenizer, tagger);
+    
 
     // full tag match
     
