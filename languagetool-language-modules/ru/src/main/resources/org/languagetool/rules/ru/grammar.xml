@@ -7458,7 +7458,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 	            <marker>
 		            <!-- TODO should be a work chunk СONJ (similar to
 		                 однако, только) -->
-		            <!-- e.g. как папало is a ADV word chunk -->
+		            <!-- e.g. как попало is a ADV word chunk -->
 		            <token>чёрт</token>
 		            <token regexp="yes">возьми|побери</token>
 	            </marker>
@@ -7466,42 +7466,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 	        <!-- Что чёрт возьми происходит? -->
             <antipattern>
 	            <marker>
-		            <!-- TODO should be a work chunk ADV (similar to хорошо) -->
-		            <!-- e.g. как папало is a ADV word chunk -->
-		            <token>как</token>
-		            <token>следует</token>
+		            <!-- Try using ADV multiword chunk  (similar to хорошо) -->
+		            <!-- e.g. как следует, как попало, того и гляди, во что бы (то) ни стало is a ADV multiword chunk -->
+                            <token postag="&lt;/ADV&gt;"></token>
 	            </marker>
             </antipattern>
             <!-- Как следует попарился. -->
+            <!-- Мороженое того и гляди растает, давай уже съедим его. -->
+            <!-- Во что бы то ни стало заскочи посмотреть на нас. -->
+            <!-- Во что бы ни стало заскочи посмотреть на нас. --> 
             <antipattern>
 	            <marker>
 		            <!-- TODO should be a work chunk ADV (similar to хорошо) -->
-		            <!-- e.g. как папало is a ADV word chunk -->
+		            <!-- e.g. как попало is a ADV word chunk -->
 		            <token>будь</token>
 		            <token>здоров</token>
 	            </marker>
             </antipattern>
             <!-- Закладывает будь здоров! -->
-            <antipattern>
-	            <marker>
-		            <!-- TODO should be a work chunk ADV (similar to скоро) -->
-		            <!-- e.g. как папало is a ADV word chunk -->
-		            <token>того</token>
-		            <token>и</token>
-		            <token>гляди</token>
-	            </marker>
-            </antipattern>
-            <!-- Мороженое того и гляди растает, давай уже съедим его. -->
-            <antipattern>
-	            <marker>
-		            <!-- Во что бы то ни стало -->
-		            <!-- Во что бы ни стало -->
-		            <!-- TODO should be a work chunk ADV (similar to обязательно) -->
-		            <token>ни</token>
-		            <token>стало</token>
-	            </marker>
-            </antipattern>
-            <!-- Во что бы то ни стало заскочи посмотреть на нас. -->
             <antipattern>
 	            <marker>
 		            <!-- TODO пущай simialr пусть -->
@@ -7664,6 +7646,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Однако он был отвергнут.</example>
             <example>В этой области мы не знаем ничего, давайте создадим модель и поэкспериментируем.</example>
             <example>Думал собраться пойти купить выпить.</example>
+            <example>Он как следует попарился.</example>
             <example>Он смеялся радовался.</example> <!-- Incorrect example, but this error must detected with another rule. -->
             <example correction="будет строиться">Здесь <marker>будет строится</marker> всё больше жилья.</example>
         </rule>
