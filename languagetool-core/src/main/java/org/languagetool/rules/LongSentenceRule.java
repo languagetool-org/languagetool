@@ -37,7 +37,8 @@ public class LongSentenceRule extends Rule {
   private static final Pattern NON_WORD_REGEX = Pattern.compile("[.?!…:;,~’'\"„“”»«‚‘›‹()\\[\\]\\-–—\\*×∗·\\+÷:\\/=]");
   private static final boolean DEFAULT_INACTIVE = false;
 
-  protected static int maxWords= DEFAULT_MAX_WORDS;
+  protected static int maxWords = DEFAULT_MAX_WORDS;
+  protected static boolean firstset = true;
 
   /**
    * @param defaultActive allows default granularity
@@ -49,9 +50,13 @@ public class LongSentenceRule extends Rule {
     if (maxSentenceLength <= 0) {
       throw new IllegalArgumentException("maxSentenceLength must be > 0: " + maxSentenceLength);
     }
-//    maxWords isn't used since 4.1 (adjustment of maxWords by option panel)
-    if (!defaultActive) {
-      setDefaultOff();
+    if(firstset) {
+      if (!defaultActive) {
+        setDefaultOff();
+      } else {
+        maxWords = maxSentenceLength;
+        firstset = false;
+      }
     }
     setLocQualityIssueType(ITSIssueType.Style);
   }
