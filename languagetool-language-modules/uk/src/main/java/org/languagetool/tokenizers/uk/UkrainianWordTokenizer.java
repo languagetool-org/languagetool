@@ -51,7 +51,9 @@ public class UkrainianWordTokenizer implements Tokenizer {
   private static final char NON_BREAKING_SPACE_SUBST = '\uE002';
   private static final char NON_BREAKING_DOT_SUBST = '\uE003'; // some unused character to hide dot in date temporary for tokenizer run
   private static final char NON_BREAKING_COLON_SUBST = '\uE004';
-  
+
+  private static final Pattern WEIRD_APOSTROPH_PATTERN = Pattern.compile("([бвджзклмнпрстфхш])[\"\u201D\u201F]([єїюя])", Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+
   // decimal comma between digits
   private static final Pattern DECIMAL_COMMA_PATTERN = Pattern.compile("([\\d]),([\\d])", Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
   private static final String DECIMAL_COMMA_REPL = "$1" + DECIMAL_COMMA_SUBST + "$2";
@@ -272,6 +274,8 @@ public class UkrainianWordTokenizer implements Tokenizer {
         .replace('`', '\'')
         .replace('´',  '\'')
         .replace('\u2011', '-'); // we handle \u2013 in tagger so we can base our rule on it
+
+    text = WEIRD_APOSTROPH_PATTERN.matcher(text).replaceAll("$1'$2");
 
     return text;
   }
