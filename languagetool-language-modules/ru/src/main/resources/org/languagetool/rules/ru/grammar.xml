@@ -2850,7 +2850,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
               <example correction="и в воздухе, и на небе, и в вагоне">Было грустно <marker>и в воздухе и на небе и в вагоне</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup default="on" id="PUNKT_KOTORIJ" name="Пунктуация перед союзами «который», ...">
+        <rulegroup default="off" id="PUNKT_KOTORIJ" name="Пунктуация перед союзами «который», ...">
         <!-- TODO: Need improve -->    
             <rule>
                 <antipattern>
@@ -2862,7 +2862,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern> 
                 <pattern>
                     <marker>
-                        <token negate="yes" regexp="yes">[\p{Punct}]|-|—|–|’|‘|…|ну|большинство|меньшинство|часть|доля«<exception postag="SENT_START"></exception><exception postag_regexp="yes" postag="CONJ|ADJ:.*"></exception><exception>соответствии</exception></token>
+                        <token negate="yes" regexp="yes">[\p{Punct}]|[\p{Digit}]*|-|—|–|’|‘|…|ну|«|большинство|меньшинство|часть|доля<exception postag="SENT_START"></exception><exception postag_regexp="yes" postag="CONJ|ADJ:.*|Num:.*|NumC:.*"></exception><exception>соответствии</exception></token>
                         <token postag="PREP"></token>
                         <token inflected="yes">который</token>
                     </marker>
@@ -2874,6 +2874,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Канада сотрудничает с США на разных уровнях и для которых является важнейшим торговым партнером.</example>
                 <example>Который час?</example>
                 <example>Поиск турбазы, отдых в которой запомнится надолго.</example>
+                <example>Парламент состоит из 577 депутатов, 555 из которых представляют метрополию.</example>
                 <example>Трудовой договор — соглашение между работодателем и работником, в соответствии с которым работодатель обязуется предоставить работнику работу по обусловленной трудовой функции.</example>
                 <example correction="город, в котором">Это тот <marker>город в котором</marker> прошло детство.</example>
             </rule>
@@ -2887,9 +2888,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="VB:.*|PT:.*" postag_regexp="yes"></token> 
                </antipattern> 
                <pattern case_sensitive="yes">
-                   <token><exception postag="PREP|ADJ:.*" postag_regexp="yes"></exception></token>
+                   <token><exception postag="PREP|ADJ:.*" postag_regexp="yes"></exception><exception regexp="yes">соответствии|большинство|меньшинство|часть|доля</exception></token>
                     <marker>
-                    <token negate="yes" regexp="yes">[\p{Punct}]|-|—|–|’|‘|…|ну|Ну|«<exception postag="SENT_START"></exception><exception postag="PREP"></exception><exception postag_regexp="yes" postag="NN:.*:.*:.*:(D|T)|CONJ|ADJ:.*"></exception></token>
+                    <token negate="yes" regexp="yes">[\p{Punct}]|[\p{Digit}]*|-|—|–|’|‘|…|ну|Ну|«<exception postag="SENT_START"></exception><exception postag="PREP"></exception><exception postag_regexp="yes" postag="NN:.*:.*:.*:(D|T)|CONJ|ADJ:.*|Num:.*|NumC:.*"></exception></token>
                         <token inflected="yes">который</token>
                     </marker>
                      <token postag="VB:.*|PT:.*" postag_regexp="yes"></token>
@@ -2900,6 +2901,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Это тот город, в котором прошло детство.</example>
                 <example>Это те же ребята, которые играли в футбол.</example>
                 <example>Ребёнок, родители которого играли в футбол, будет футболистом.</example>
+                <example>Они совершили экскурсию в королевскую резиденцию — Букингемский дворец, часть помещений которого открыта для посетителей обычно один месяц в году.</example>
                 <example>Который час?</example>
                 <example correction="ребята, которые">Это те же <marker>ребята которые</marker> играли в хоккей.</example>
             </rule>
