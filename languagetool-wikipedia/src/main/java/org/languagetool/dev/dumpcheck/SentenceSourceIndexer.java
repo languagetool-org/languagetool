@@ -47,6 +47,8 @@ public class SentenceSourceIndexer extends DefaultHandler implements AutoCloseab
   public static final String MAX_DOC_COUNT_VALUE = "maxDocCountValue";
   public static final String MAX_DOC_COUNT_FIELD = "maxDocCount";
   public static final String MAX_DOC_COUNT_FIELD_VAL = "1";
+  
+  private static final boolean LC_ONLY = true;
 
   private final Indexer indexer;
   private final int maxSentences;
@@ -61,6 +63,7 @@ public class SentenceSourceIndexer extends DefaultHandler implements AutoCloseab
     } else {
       this.indexer = new Indexer(dir, language, analyzer);
     }
+    this.indexer.setLowercaseOnly(LC_ONLY);
     this.maxSentences = maxSentences;
     Signal.handle(new Signal("HUP"), signal -> {
       stopped = true;
