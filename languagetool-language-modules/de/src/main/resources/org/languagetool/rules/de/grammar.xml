@@ -374,17 +374,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Meinten Sie <suggestion>Finger</suggestion>?</message>
             <example correction="Finger">Sie hat ihn ganz schön um den <marker>Finder</marker> gewickelt.</example>
         </rule>
-        <rule id="SEIHE_UNTEN" name="seihe (siehe) unten">
-        <!-- 'Seihen' ist ein (nicht sehr häufiges) Verb -->
-            <pattern>
-                <marker>
-                    <token>seihe</token>
-                </marker>
-                <token regexp="yes">unten|oben|Kapitel|Folge|Abs(atz|chnitt)|Seite|nächste[ns]?|folgende[ns]?</token>
-            </pattern>
-            <message>Meinten Sie <suggestion>siehe</suggestion>?</message>
-            <example correction="Siehe">"<marker>Seihe</marker> unten", meinte er trocken, als der Stift vom Tisch rollte.</example>
-        </rule>
+        <rulegroup id="SEIHE_UNTEN" name="seihe (siehe) unten">
+            <rule>
+                <!-- 'Seihen' ist ein (nicht sehr häufiges) Verb -->
+                <pattern>
+                    <marker>
+                        <token regexp="yes">seihe|siege</token>
+                    </marker>
+                    <token regexp="yes">unten|oben|Kapitel|Folge|Abs(atz|chnitt)|Anhang|Seite|nächste[ns]?|folgende[ns]?</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>siehe</suggestion>?</message>
+                <example correction="Siehe">"<marker>Seihe</marker> unten", meinte er trocken, als der Stift vom Tisch rollte.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>(</token>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">seihe|siege</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie <suggestion>siehe</suggestion>?</message>
+                <example correction="siehe">Diese Aussage (<marker>siege</marker> Anhang) belastete sie schwer.</example>
+            </rule>
+        </rulegroup>
         <rule id="ANS_HERZ_GEWASCHEN" name="ans Herz gewaschen (gewachsen)">
             <pattern>
                 <token>ans</token>
