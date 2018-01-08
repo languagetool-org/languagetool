@@ -544,12 +544,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
 <!--
     <rule id="INVALID_APOSTROPHE" name="Нерекомендований символ апострофа">
-      <pattern>
-        <token regexp="yes">[а-яіїєґ'-]+[`ʼ’‘][єїюя].*</token>
-        <token regexp="yes">[а-яіїєґ'-]+[`‘"][єїюя].*</token>
-      </pattern>
-      <message>Правильно: <suggestion><match no="1" regexp_match="(.*)`(.*)" regexp_replace="$1'$2"/></suggestion></message>
-      <example correction="кар'єра"><marker>кар`єра</marker>.</example>
+      <regexp>[а-яіїєґ'-]*[бпвмфгґкхжчшр][`´‘”‟"][єїюя][а-яіїєґ'-]*</regexp>
+      <message>Правильно: <suggestion><match no="1" regexp_match="(.*[бпвмфгґкхжчшр])[`´‘”‟&quot;]([єїюя].*)" regexp_replace="$1'$2"/></suggestion></message>
+      <example correction="кар'єра"><marker>кар‘єра</marker>.</example>
     </rule>
 -->
 
