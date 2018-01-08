@@ -38,7 +38,7 @@ public class LongSentenceRule extends Rule {
   private static final boolean DEFAULT_INACTIVE = false;
 
   protected static int maxWords = DEFAULT_MAX_WORDS;
-  protected static boolean firstset = true;
+  protected static boolean firstSet = true;
 
   /**
    * @param defaultActive allows default granularity
@@ -50,12 +50,12 @@ public class LongSentenceRule extends Rule {
     if (maxSentenceLength <= 0) {
       throw new IllegalArgumentException("maxSentenceLength must be > 0: " + maxSentenceLength);
     }
-    if(firstset) {
-      if (!defaultActive) {
-        setDefaultOff();
-      } else {
-        maxWords = maxSentenceLength;
-        firstset = false;
+    if (firstSet) {
+      if (!defaultActive) {             //  since 4.1 maxWords is only set once and only if defaultActive == true
+        setDefaultOff();                //  all changes after the first call of the rule are left to the option panel
+      } else {                          //  and to the configuration file
+        maxWords = maxSentenceLength;   //  so a special default value for an active rule can be defined but it can
+        firstSet = false;               //  be overridden by the user
       }
     }
     setLocQualityIssueType(ITSIssueType.Style);
