@@ -36228,6 +36228,15 @@ Andere Projekte</example>
             <url>http://www.duden.de/sprachwissen/rechtschreibregeln/komma</url>
             <rule>
                 <antipattern>
+                    <token postag="SENT_START"/>
+                    <token>Sehr</token>
+                    <token regexp="yes">geehrter?</token>
+                </antipattern>                
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <token regexp="yes">Lieber?</token>
+                </antipattern>                
+                <antipattern>
                     <token skip="-1" postag="SENT_START">
                         <exception scope="next" postag="VER:.*" postag_regexp="yes"/>
                     </token>
@@ -36355,6 +36364,7 @@ Andere Projekte</example>
                 <example>Staaten wie Südkorea, Singapur und Brasilien signalisierten ihre Zustimmung.</example>
                 <example>Der Süßwassermangel, mit dem wir weltweit konfrontiert sein werden, rührt von großer Verschwendung her.</example>
                 <example>Was immer das in drei, fünf oder zehn Jahren bedeuten mag.</example>
+                <example>Sehr geehrte Frau Schmidt, zum 20. Jahrestag Ihrer Firma gratulieren wir Ihnen recht herzlich!</example>
             </rule>
         </rulegroup>
         <rulegroup id="KOMMA_VOR_INFINITIVGRUPPEN_OPT" name="Optional: Komma vor Infinitivgruppen" default="off">
