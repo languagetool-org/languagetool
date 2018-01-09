@@ -88,7 +88,15 @@ public class AgreementRule extends Rule {
       new PatternTokenBuilder().token("das").build(),
       new PatternTokenBuilder().token("Zufall").build()
     ),
+    Arrays.asList(
+      new PatternTokenBuilder().token("in").build(),
+      new PatternTokenBuilder().tokenRegex("dem|diesem").build(),
+      new PatternTokenBuilder().token("Fall").build(),
+      new PatternTokenBuilder().tokenRegex("(?i:hat(te)?)").build(),
+      new PatternTokenBuilder().token("das").build()
+    ),
     Arrays.asList( // "So hatte das Vorteile|Auswirkungen|Konsequenzen..."
+      new PatternTokenBuilder().tokenRegex("so|damit|dadurch").build(),
       new PatternTokenBuilder().tokenRegex("(?i:hat(te)?)").build(),
       new PatternTokenBuilder().token("das").build()
     ),

@@ -247,6 +247,8 @@ public class AgreementRuleTest {
     assertGood("Außerdem unterstützt mich Frau Müller beim abheften");
     assertBad("Der Zustand meiner Gehirns.");
     
+    assertBad("Sie hatte das kleinen Kaninchen.");
+    assertBad("Frau Müller hat das wichtigen Dokument gefunden.");
     assertBad("Ich gebe dir ein kleine Kaninchen.");
     assertBad("Ich gebe dir ein kleinen Kaninchen.");
     assertBad("Ich gebe dir ein kleinem Kaninchen.");
