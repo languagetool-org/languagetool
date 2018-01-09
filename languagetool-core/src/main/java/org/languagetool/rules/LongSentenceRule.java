@@ -34,20 +34,19 @@ import org.languagetool.AnalyzedTokenReadings;
 public class LongSentenceRule extends Rule {
 
   private static final int DEFAULT_MAX_WORDS = 50;
-  private static final Pattern NON_WORD_REGEX = Pattern.compile("[.?!…:;,~’'\"„“”»«‚‘›‹()\\[\\]\\-–—\\*×∗·\\+÷:\\/=]");
+  private static final Pattern NON_WORD_REGEX = Pattern.compile("[.?!…:;,~’'\"„“”»«‚‘›‹()\\[\\]\\-–—*×∗·+÷/=]");
   private static final boolean DEFAULT_INACTIVE = false;
 
   protected static int maxWords = DEFAULT_MAX_WORDS;
 
   /**
-   * @param defaultActive allows default granularity
    * @since 3.7
    */
   public LongSentenceRule(ResourceBundle messages, boolean defaultActive) {
     super(messages);
     super.setCategory(Categories.STYLE.getCategory(messages));
     if (!defaultActive) {
-        setDefaultOff();
+      setDefaultOff();
     }
     setLocQualityIssueType(ITSIssueType.Style);
   }
@@ -75,7 +74,8 @@ public class LongSentenceRule extends Rule {
   }
 
   /*
-   * set maximal Distance of words in number of sentences
+   * set maximal Distance of words in number of sentences - note that this sets a static value
+   * that affects all instances of this rule!
    * @since 4.1
    */
   @Override
