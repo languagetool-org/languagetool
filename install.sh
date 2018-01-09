@@ -26,7 +26,7 @@
 # SOFTWARE.
 
 # Options
-VERSION="2.2"
+VERSION="2.3"
 clone_depth="1"
 text="spellcheck.txt"
 
@@ -122,7 +122,7 @@ display_help() {
 
 install() {
     echo "Removing any old copy of LanguageTools Stable in this directory"
-    rm LanguageTool-stable.zip &>/dev/null # maybe switch with 2> /dev/null
+    rm LanguageTool-stable.zip # maybe switch with 2> /dev/null XXX here removals should be verbose
 
     detect_unzip
 
@@ -255,15 +255,18 @@ install_maven() {
         apt update -y
         apt install maven -y
         echo "apt remove maven -y" >> /etc/languagetool/uninstall.sh
-
-    elif [[ "$OSTYPE" == "darwin"* ]]; then
-        if ! [ -x "$(brew -v)" ]; then
-               install_homebrew
-        fi
-        brew update
-        brew install maven
-        echo "brew remove maven" >> /etc/languagetool/uninstall.sh
-
+    
+    # XXX This needs to be reviewed by someone with a MacOS
+    #     Uncomment after review
+    #
+    # elif [[ "$OSTYPE" == "darwin"* ]]; then
+    #    if ! [ -x "$(brew -v)" ]; then
+    #           install_homebrew
+    #    fi
+    #    brew update
+    #    brew install maven
+    #    echo "brew remove maven" >> /etc/languagetool/uninstall.sh
+    #
     else
             echo "Error: maven is not installed and operating system detection error"
             echo "   OS type not supported!"
@@ -418,12 +421,12 @@ postinstall_command () {
     fi
 }
 
-# Checks if file specified with commnd line option exists
+# Checks if file specified with command line option exists
 check_command_line () {
     if [ -e $file ]; then
         cmd="languagetool-commandline"
     else
-        echo "Error: spellcheck.txt does not exist, and no text is specified to check."
+        echo "Error: spellcheck.txt does not exist, and no text to be checked was specified."
         exit 1
     fi
 }
