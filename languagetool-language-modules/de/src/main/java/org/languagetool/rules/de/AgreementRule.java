@@ -393,10 +393,7 @@ public class AgreementRule extends Rule {
       //defaulting to the first reading
       //TODO: check for all readings
       String posToken = tokens[i].getAnalyzedToken(0).getPOSTag();
-      if (posToken != null && posToken.equals(JLanguageTool.SENTENCE_START_TAGNAME)) {
-        continue;
-      }
-      if (tokens[i].isImmunized()) {
+      if (JLanguageTool.SENTENCE_START_TAGNAME.equals(posToken) || tokens[i].isImmunized()) {
         continue;
       }
 
@@ -504,7 +501,7 @@ public class AgreementRule extends Rule {
   }
 
   private boolean isParticiple(AnalyzedTokenReadings tokensReadings) {
-    return tokensReadings.hasPartialPosTag("PA1") || tokensReadings.hasPartialPosTag("PA2");
+    return tokensReadings.hasPosTagStartingWith("PA");
   }
 
   private boolean isRelevantPronoun(AnalyzedTokenReadings[] tokens, int pos) {
@@ -554,6 +551,7 @@ public class AgreementRule extends Rule {
     }
     return false;
   }
+
   @Nullable
   private RuleMatch checkDetNounAgreement(AnalyzedTokenReadings token1,
       AnalyzedTokenReadings token2, AnalyzedSentence sentence) {
@@ -731,7 +729,7 @@ public class AgreementRule extends Rule {
 
   private boolean possessiveSpecialCase(AnalyzedTokenReadings aToken, AnalyzedToken tmpReading) {
     // would cause error misses as it contains 'ALG', e.g. in "Der Zustand meiner Gehirns."
-    return aToken.hasPartialPosTag("PRO:POS") && ("ich".equals(tmpReading.getLemma()) || "sich".equals(tmpReading.getLemma()));
+    return aToken.hasPartialPosTag("PRO:POS") && StringUtils.equalsAny(tmpReading.getLemma(), "ich", "sich");
   }
 
   private String makeString(GermanToken.Kasus casus, GermanToken.Numerus num, GermanToken.Genus gen,
