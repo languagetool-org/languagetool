@@ -89,7 +89,7 @@ public class Main extends WeakBase implements XJobExecutor,
   private static final String CONFIG_FILE = ".languagetool-ooo.cfg";
 
   // use a log-file for output of messages and debug information:
-  private static final String LOG_FILE = "LanguageTool.log";
+  private static final String LOG_FILE = ".LanguageTool.log";
 
   private static final ResourceBundle MESSAGES = JLanguageTool.getMessageBundle();
 
@@ -1283,7 +1283,7 @@ public class Main extends WeakBase implements XJobExecutor,
     String path = getHomeDir() + "/" + LOG_FILE;
     try (BufferedWriter bw = new BufferedWriter(new FileWriter(path))) {
       Date date = new Date();
-      bw.write("LT Log from " + date.toString() + logLineBreak);
+      bw.write("LT office integration log from " + date.toString() + logLineBreak);
     } catch (Throwable t) {
       showError(t);
     }
