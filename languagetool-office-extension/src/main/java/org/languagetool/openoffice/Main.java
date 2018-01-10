@@ -18,11 +18,6 @@
  */
 package org.languagetool.openoffice;
 
-/**
- * LibreOffice/OpenOffice integration.
- * 
- * @author Marcin Miłkowski, Fred Kruse
- */
 import java.io.File;
 import java.io.FileWriter;
 import java.io.BufferedWriter;
@@ -76,6 +71,11 @@ import com.sun.star.text.XTextViewCursorSupplier;
 import com.sun.star.uno.UnoRuntime;
 import com.sun.star.uno.XComponentContext;
 
+/**
+ * LibreOffice/OpenOffice integration.
+ *
+ * @author Marcin Miłkowski, Fred Kruse
+ */
 public class Main extends WeakBase implements XJobExecutor,
     XServiceDisplayName, XServiceInfo, XProofreader,
     XLinguServiceEventBroadcaster {
@@ -100,7 +100,20 @@ public class Main extends WeakBase implements XJobExecutor,
   private static final int MAX_SUGGESTIONS = 15;
   
   private static boolean testMode = false;
-  
+
+  /**
+   * Full text Check
+   *
+   * numParasToCheck: Paragraphs to be checked for full text rules
+   * < 0 check full text (time intensive)
+   * == 0 check only one paragraph (works like LT Version <= 3.9)
+   * > 0 checks numParasToCheck before and after the processed paragraph
+   */
+  private static final int MAX_DOC = 5;  // Maximal number of parallel document analyzed
+  private static final String END_OF_PARAGRAPH = "\n";  //  Paragraph Separator from gciterator.cxx: 0x2029
+  private static final boolean debugMode = false;   //  should be false except for testing
+  private static final String logLineBreak = System.getProperty("line.separator");  //  LineBreak in Log-File (MS-Windows compatible)
+
   private final List<XLinguServiceEventListener> xEventListeners;
 
   private Configuration config;
@@ -117,18 +130,6 @@ public class Main extends WeakBase implements XJobExecutor,
 
   private XComponentContext xContext;
   
-  /**
-   * Full text Check
-   * 
-   * numParasToCheck: Paragraphs to be checked for full text rules
-   * < 0 check full text (time intensive)
-   * == 0 check only one paragraph (works like LT Version <= 3.9)
-   * > 0 checks numParasToCheck before and after the processed paragraph
-   */
-  private static final int MAX_DOC = 5;  // Maximal number of parallel document analyzed
-  private static final String END_OF_PARAGRAPH = "\n";  //  Paragraph Separator from gciterator.cxx: 0x2029
-  private static final boolean debugMode = false;   //  should be false except for testing
-  private static String logLineBreak;  //  LineBreak in Log-File (MS-Windows compatible)
   private int numParasToCheck = 5;    // will be overwritten by config
   private List<List<String>> allParas = null;     //  List of paragraphs (only readable by parallel thread)
   private List<List<RuleMatch>> fullTextMatches;  //  List of paragraph matches (only readable by parallel thread)
@@ -463,10 +464,10 @@ public class Main extends WeakBase implements XJobExecutor,
         str = "";
       }
     }
-    public int getPosition() {
+    int getPosition() {
       return position;
     }
-    public String getSentence() {
+    String getSentence() {
       return str;
     }
   }
@@ -977,7 +978,7 @@ public class Main extends WeakBase implements XJobExecutor,
     }
   }
 
-  /**
+  /*
    * Full Text Check  (Workaround for XProofread interface)
    */
   
@@ -1281,7 +1282,6 @@ public class Main extends WeakBase implements XJobExecutor,
   private void initLogFile() {
     String path = getHomeDir()+ "/" + LOG_FILE;
     try (BufferedWriter bw = new BufferedWriter(new FileWriter(path))) {
-      logLineBreak = System.getProperty("line.separator");
       Date date = new Date();
       bw.write("LT Log from " + date.toString() + logLineBreak);
     } catch (Throwable t) {
