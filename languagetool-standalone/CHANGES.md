@@ -2,7 +2,10 @@
 
 ## 4.1-SNAPSHOT (release planned for 2018-03-27)
 
-...
+#### German
+  * added and improved rules
+  * New rule that checks coherent use of Du/du, Dich/dich etc. Assumes that the first
+    use has 'correct' capitalization and suggest the same capitalization for subsequent uses.
 
 
 ## 4.0 (2017-12-29)
