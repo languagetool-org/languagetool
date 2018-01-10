@@ -246,7 +246,9 @@ public class AgreementRuleTest {
     assertGood("Außerdem unterstützt mich Herr Müller beim abheften");
     assertGood("Außerdem unterstützt mich Frau Müller beim abheften");
     assertBad("Der Zustand meiner Gehirns.");
-    
+
+    assertBad("Lebensmittel sind da, um den menschliche Körper zu ernähren.");
+    assertBad("Geld ist da, um den menschliche Überleben sicherzustellen.");
     assertBad("Sie hatte das kleinen Kaninchen.");
     assertBad("Frau Müller hat das wichtigen Dokument gefunden.");
     assertBad("Ich gebe dir ein kleine Kaninchen.");
