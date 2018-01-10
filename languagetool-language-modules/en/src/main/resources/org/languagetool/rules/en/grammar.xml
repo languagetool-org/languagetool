@@ -15102,20 +15102,43 @@ USA
       <message>The usual way to express a judge's association with a courtroom is with the phrase  <suggestion>\1 on the bench</suggestion>.</message>
       <example correction='sits on the bench'>He is 67 year old and he <marker>sits on the court</marker> since 1998..</example>
     </rule>
-  </rulegroup>
-
-    <rule id='GOOD_IN_AT_GERUND' name='Collocation: good in/at'>
+    <rule id='FOLLOW_A_COURSE' name='Collocation: follow/take a course'>
     <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
       <pattern>
-          <token>good</token>
-          <token>in</token>
-          <token postag="VBG"/>
+          <token inflected="yes">follow</token>
+          <token postag_regexp="yes" postag="PRP\$|DT"/>
+          <token regexp="yes">courses|course</token>
       </pattern>
-      <message>The usual preposition for this expression is "at". Did you mean, <suggestion>\1 at \3</suggestion>?</message>
-      <url>http://www.kentlee7.com/writ/collocation.errors.typical.pdf</url>
-      <short>Collocation error</short>
-      <example correction='good at swimming'>He is <marker>good in swimming</marker>.</example>
+      <message>The usual verb for "courses" in a school is "take" or "attend" not "follow." Try it like this:  <suggestion>take \2 courses</suggestion>.</message>
+      <example correction='take their courses'>There is classes were students can <marker>follow their courses</marker>.</example>
     </rule>
+    <rule id='ON_IN_THE_AFTERNOON' name='Collocation: on/in the afternoon'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <marker>
+          <token>on</token>
+          <token>the</token>
+          <token regexp="yes">afternoon|evening</token>
+          </marker>
+          <token>
+            <exception regexp="yes">of|that|program|train|bus|coach|cruise</exception></token>
+      </pattern>
+      <message>The usual preposition for "\3" is 'in' not "on". Try it like this:  <suggestion>in \2 \3</suggestion>.</message>
+      <example correction='in the afternoon'>The meeting is <marker>on the afternoon</marker>.</example>
+    </rule>
+    <rule id='ARRIVAL_TO_THE_HOUSE' name='Collocation: arrival to/in the house'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token>arrival</token>
+          <token>to</token>
+          <token>the</token>
+          <token>
+            <exception regexp="yes">house|apartment|penthouse|boat</exception></token>
+      </pattern>
+      <message>The usual preposition for "\3 \4" is "in" not "to." Try it like this:  <suggestion>\1 in the \4</suggestion>.</message>
+      <example correction='arrival in the city'>Their <marker>arrival to the city</marker> will be at one o'clock.</example>
+    </rule>
+  </rulegroup>
 
   <rulegroup id='GOOD_IN_AT' name='Collocation: Good in/at'>
     <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
@@ -15218,6 +15241,16 @@ USA
       </pattern>
       <message>Use "good at" to mean "skilled" with school subjects. Try this: <suggestion>\1 at \3</suggestion>.</message>
       <example correction='good at math'>I'm <marker>good in math</marker>. I was good in running errands.</example>
+    </rule>
+    <rule id='GOOD_IN_AT_GERUND' name='Collocation: good in/at'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token>good</token>
+          <token>in</token>
+          <token postag="VBG"/>
+      </pattern>
+      <message>The usual preposition for this expression is "at". Did you mean, <suggestion>\1 at \3</suggestion>?</message>
+      <example correction='good at swimming'>He is <marker>good in swimming</marker>.</example>
     </rule>
   </rulegroup>
 
