@@ -1246,15 +1246,14 @@ public class Main extends WeakBase implements XJobExecutor,
    */
   private int getNumDocID(String docID) {
     if (docIDs == null) {
-      docIDs = new ArrayList<String>();
-      allParas = new ArrayList<List<String>>();
-      fullTextMatches = new ArrayList<List<RuleMatch>>();
-      loCursor = new ArrayList<LOCursor>();
-      numLastVCPara = new ArrayList<Integer>();
-      numLastFlPara = new ArrayList<Integer>();
+      docIDs = new ArrayList<>();
+      allParas = new ArrayList<>();
+      fullTextMatches = new ArrayList<>();
+      loCursor = new ArrayList<>();
+      numLastVCPara = new ArrayList<>();
+      numLastFlPara = new ArrayList<>();
     }
-    int i;
-    for (i = 0; i < docIDs.size(); i++) {
+    for (int i = 0; i < docIDs.size(); i++) {
       if (docIDs.get(i).equals(docID)) {
         return i;                           //  document exist
       }
