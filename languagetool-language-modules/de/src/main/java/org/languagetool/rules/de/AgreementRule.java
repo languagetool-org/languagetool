@@ -535,19 +535,8 @@ public class AgreementRule extends Rule {
       if(comma) {
         boolean prep = tokens[pos-1].hasPosTagStartingWith("PRP:");
         relPronoun = tokens[pos].hasAnyLemma(REL_PRONOUN_LEMMAS);
-        if (prep && isFinalClause(tokens, pos)) {
-          // avoid false negative for: Lebensmittel sind da, um den menschliche Körper zu ernähren.
-          return false;
-        }
         return prep && relPronoun || (tokens[pos-1].hasPosTag("KON:UNT") && (tokens[pos].hasLemma("jen") || tokens[pos].hasLemma("dies")));
       }
-    }
-    return false;
-  }
-
-  private boolean isFinalClause (AnalyzedTokenReadings[] tokens, int pos) {
-    if ("um".equals(tokens[pos-1].getToken()) && pos+3 < tokens.length) {
-      return "zu".equals(tokens[pos+3].getToken()) || tokens[pos+3].hasPosTagStartingWith("VER:EIZ:SFT");
     }
     return false;
   }

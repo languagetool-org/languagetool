@@ -665,7 +665,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </pattern>
         <disambig action="remove" postag="VER.*"/>
     </rule>
-        <rule name="Ich am Satzanfang" id="ICH_SENT_START">
+    <rule name="Ich am Satzanfang" id="ICH_SENT_START">
         <pattern case_sensitive="yes">
             <token postag="SENT_START"/>
             <marker>
@@ -675,6 +675,33 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </pattern>
         <disambig action="remove" postag="SUB:.*:NEU"/>
     </rule>
+    <rulegroup name="um...zu -> um (KON:INF)" id="UM_KON_INF">
+        <rule>
+            <pattern case_sensitive="yes">
+                <token>,</token>
+                <marker>
+                    <token skip="5">um</token>
+                </marker>
+                <token>zu</token>
+                <token postag="VER:INF:.+" postag_regexp="yes"/>
+                <token postag="PKT"/>
+            </pattern>
+            <disambig action="filter" postag="KON:INF"/>
+            <example type="ambiguous" inputform="um[um/ADV:TMP+MOD,um/KON:INF,um/KON:PRI,um/PRP:LOK+TMP+CAU:AKK,um/ZUS]" outputform="um[um/KON:INF]">Sie tat dies, <marker>um</marker> ihm zu helfen.</example>
+        </rule>
+        <rule>
+            <pattern case_sensitive="yes">
+                <token>,</token>
+                <marker>
+                    <token skip="5">um</token>
+                </marker>
+                <token postag="VER:EIZ:.+" postag_regexp="yes"/>
+                <token postag="PKT"/>
+            </pattern>
+            <disambig action="filter" postag="KON:INF"/>
+            <example type="ambiguous" inputform="um[um/ADV:TMP+MOD,um/KON:INF,um/KON:PRI,um/PRP:LOK+TMP+CAU:AKK,um/ZUS]" outputform="um[um/KON:INF]">Sie tat dies, <marker>um</marker> seine Freilassung sicherzustellen.</example>
+        </rule>
+    </rulegroup>
 
     <!-- ============================================================================================================== -->
     <!-- IGNORE SPELLING -->
