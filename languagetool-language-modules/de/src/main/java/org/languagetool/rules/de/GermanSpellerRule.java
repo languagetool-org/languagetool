@@ -76,6 +76,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("geupdate[dt]$", "upgedatet");
     put("rosane[mnrs]?$", w -> Arrays.asList("rosa", w.replaceFirst("^rosan", "rosafarben")));
     put("Erbung", w -> Arrays.asList("Vererbung", "Erbschaft"));
+    put("Energiesparung", w -> Arrays.asList("Energieeinsparung", "Energieersparnis"));
     putRepl("for?melar(en?)?", "for?me", "Formu");
     putRepl("näste[mnrs]?$", "^näs", "nächs");
     putRepl("Erdogans?$", "^Erdogan", "Erdoğan");
