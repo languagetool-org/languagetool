@@ -4266,63 +4266,14 @@
       <disambig action="replace"><wd pos="NNP"/><wd pos="NNP"/></disambig>
     </rule>
 
-    <rulegroup name="Ignore spelling of most NNP" id="IGNORE_SPELLING_OF_NNP"><!-- https://github.com/languagetool-org/languagetool/issues/568 -->
-<!--
-This rulegroup prevents incorrect spelling warnings for some proper nouns. Proper nouns such as 'Hoopes' must not be in spelling.txt, because that will prevent the spell checker from finding misspelled 'Hoops'. (Proper nouns such as 'Drupal' can be in spelling.txt, because it very unlikely to be a misspelled standard English word.)
-
-Two-word proper nouns could be in spelling.txt. But, also they should have the postag NNP, so give them the postag, as an alternative to only ignoring the spelling.
-
-For action="ignore_spelling", it is not possible to use example sentences that testrules validates. Test the rule with these sentences:
-
-Find. The hoopes are defective.
-Find. Hoopes, loops, and other types of coil are used in this test.
-Find. According to the ISO standard, 'Hoopes, coils, and other types of loop' are not permitted.
-Find. These coils, Hoopes, and other types of loops are satisfactory.
-Find. Get these items: 
-	* Hoopes
-	* Loops
-	* Coils.
-Find. Get these items: 1) Hoopes 2) Loops 3) Coils.
-Ignore spelling. "Ah! I'm dying," said Pierrette, falling to her knees.
-Ignore spelling. "Ah, this is my idiot son Takashi."
-Ignore spelling. You are to appear in the Los Angeles Courthouse promptly at ...
-Ignore spelling. "Does he live with a princess?" asked Gerda.
-Ignore spelling. Is the average Dalek dangerous?
-Ignore spelling. Visit these on your next vacation. Taj Mahal, Moulin Rouge, and Hong Kong.
-False positive. Hoopes, Loops, and Coils wrote the definitive book on this topic, and became the first people to...
-False positive. Zelda told me to tell you to go away.
-False positive. Geez is a Semitic language that was spoken in Ethiopia.
-False positive. Many authors, for example, Hoopes, Jones, and Smith, show that the...
-False positive. This rule finds Jérôme, because it is not an NNP.
-False negative. Make sure that there are no Hoopes or Loops in the rope. [The real problem is incorrect capitalization.]
--->
-
-      <rule name="NNP (mid and end sentence)" id="NNP_MID_END_SENTENCE">
-        <pattern case_sensitive="yes">
-          <token regexp="yes">[A-Za-z]+</token><!-- Alphabetic characters only. Refer to the 'Get these items' example. -->
-          <marker>
-            <token postag="NNP" regexp="yes">\p{Lu}\p{Ll}+</token><!-- Permit words with circumflex and other marks. Although the characters are not standard English, if the word has postag NNP, it is not a spelling error. A word that has a non-standard English character is not likely to be a misspelling of a standard English word. -->
-          </marker>
+    <rule name="NNP with trademark symbols" id="PROPER_NOUNS_WITH_TRADEMARK_SYMBOLS">
+        <pattern>
+            <token regexp="yes">([a-z]+)[™®]</token><!-- The case is not important. Some trade names have non-standard typography. Some start with a lower-case letter. NoDisambiguationEnglishPartialPosTagFilter is necessary to prevent LT ignoring typographic errors such as Yarhoo®. The rule causes false negatives with NNPs that are not legally permitted to use the ® symbol, but that is a relatively unlikely problem. (Nobody is likely to write Michael® unless they mean it.) -->
         </pattern>
+        <filter class="org.languagetool.rules.en.NoDisambiguationEnglishPartialPosTagFilter"
+                args="no:1 regexp:([a-zA-Z]+)[™®] postag_regexp:NNP"/><!-- The filter is case-sensitive -->
         <disambig action="ignore_spelling"/>
       </rule>
-      <rule name="NNP (2-word in any location)" id="NNP_TWO_WORD">
-        <pattern case_sensitive="yes">
-          <token postag="NNP" regexp="yes">\p{Lu}\p{Ll}+</token>
-          <token postag="NNP" regexp="yes">\p{Lu}\p{Ll}+</token>
-        </pattern>
-        <disambig action="ignore_spelling"/>
-      </rule>
-
-      <rule name="NNP with trademark symbols" id="PROPER_NOUNS_WITH_TRADEMARK_SYMBOLS">
-          <pattern>
-              <token regexp="yes">([a-z]+)[™®]</token><!-- The case is not important. Some trade names have non-standard typography. Some start with a lower-case letter. NoDisambiguationEnglishPartialPosTagFilter is necessary to prevent LT ignoring typographic errors such as Yarhoo®. The rule causes false negatives with NNPs that are not legally permitted to use the ® symbol, but that is a relatively unlikely problem. (Nobody is likely to write Michael® unless they mean it.) -->
-          </pattern>
-          <filter class="org.languagetool.rules.en.NoDisambiguationEnglishPartialPosTagFilter"
-                  args="no:1 regexp:([a-zA-Z]+)[™®] postag_regexp:NNP"/><!-- The filter is case-sensitive -->
-        <disambig action="ignore_spelling"/>
-      </rule>
-    </rulegroup>
 
     <rule name="Ignore spelling of superscripted units of measure" id="IGNORE_SPELLING_OF_SUPERSCRIPTED_UNITS"><!-- Refer to http://physics.nist.gov/cuu/Units/units.html -->
         <pattern case_sensitive="yes">
