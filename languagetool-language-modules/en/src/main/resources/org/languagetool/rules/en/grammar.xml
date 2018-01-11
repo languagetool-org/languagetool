@@ -15126,8 +15126,69 @@ USA
       <message>The usual preposition for "\3" is 'in' not "on". Try it like this:  <suggestion>in \2 \3</suggestion>.</message>
       <example correction='in the afternoon'>The meeting is <marker>on the afternoon</marker>.</example>
     </rule>
-    <rule id='ARRIVAL_TO_THE_HOUSE' name='Collocation: arrival to/in the house'>
+    <rule id='ACCUSE_FOR_OFF' name='Collocation: accuse for/of'>
     <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token inflected="yes">accuse</token>
+          <token>the</token>
+          <token/>
+          <token>for</token>
+      </pattern>
+      <message>The usual preposition for accusations is "of" not "for." Try it like this:  <suggestion>\1 the \3 of</suggestion>.</message>
+      <example correction='accused the man of'>She <marker>accused the man for</marker> stealing.</example>
+    </rule>
+  </rulegroup>
+
+  <rulegroup id='IN_ON_THE_TEAM' name='Collocation: in/on the team'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <url>http://www.kentlee7.com/writ/collocation.errors.typical.pdf</url>
+      <short>Collocation error</short>
+    <rule>
+      <pattern>
+          <token>in</token>
+          <token>the</token>
+          <token regexp="yes">men|women|school</token>
+          <token regexp="yes">'|‘|’|`</token>
+          <token>s</token>
+          <token>team</token>
+      </pattern>
+      <message>The usual preposition for team membership is "on" not "in". Try it like this:  <suggestion>on \2 \3's \6</suggestion>.</message>
+      <example correction="on the men's team"><marker>in the men's team</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>in</token>
+          <token>the</token>
+          <token regexp="yes">men|women|school</token>
+          <token regexp="yes">'|‘|’|`</token>
+          <token>s</token>
+          <token/>
+          <token>team</token>
+      </pattern>
+      <message>The usual preposition for team membership is "on" not "in". Try it like this:  <suggestion>on \2 \3's \6 \7</suggestion>.</message>
+      <example correction="on the men's basketball team"><marker>in the men's basketball team</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>in</token>
+          <token>the</token>
+          <token regexp="yes">men|women|school</token>
+          <token regexp="yes">'|‘|’|`</token>
+          <token>s</token>
+          <token/>
+          <token>ball</token>
+          <token>team</token>
+      </pattern>
+      <message>The usual preposition for team membership is "on" not "in". Try it like this:  <suggestion>on \2 \3's \6 \7 \8</suggestion>.</message>
+      <example correction="on the men's basket ball team"><marker>in the men's basket ball team</marker>.</example>
+    </rule>
+  </rulegroup>
+
+  <rulegroup id='ARRIVAL_TO_THE_HOUSE' name='Collocation: arrival to/in the house'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <url>http://www.kentlee7.com/writ/collocation.errors.typical.pdf</url>
+      <short>Collocation error</short>
+    <rule>
       <pattern>
           <token>arrival</token>
           <token>to</token>
@@ -15137,6 +15198,16 @@ USA
       </pattern>
       <message>The usual preposition for "\3 \4" is "in" not "to." Try it like this:  <suggestion>\1 in the \4</suggestion>.</message>
       <example correction='arrival in the city'>Their <marker>arrival to the city</marker> will be at one o'clock.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>arrival</token>
+          <token regexp='yes'>in|to</token>
+          <token>the</token>
+          <token regexp="yes">house|apartment|penthouse</token>
+      </pattern>
+      <message>The usual preposition for "\3 \4" is "at" not "to." Try it like this:  <suggestion>\1 at the \4</suggestion>.</message>
+      <example correction='arrival at the house'>At that time, their <marker>arrival to the house</marker> was a surprise.</example>
     </rule>
   </rulegroup>
 
