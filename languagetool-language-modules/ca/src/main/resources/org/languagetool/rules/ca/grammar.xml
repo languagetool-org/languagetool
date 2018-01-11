@@ -7578,49 +7578,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Algú pot pensar, doncs vaja, ¡quin descobriment!</example>
             <!-- Ja sé que tot això us sembla exagerat; doncs el que sentireu encara ho és més -->
         </rule>
-        <rulegroup id="NO_OBSTANT" name="no obstant/això no obstant">
-            <rule>
-                <pattern>
-                    <token>no</token>
-                    <token>obstant</token>
-                    <token>açò</token>
-                </pattern>
-                <message>Expressió inadequada (vg. DNV).</message>
-                <suggestion>no obstant això</suggestion>
-                <suggestion>això no obstant</suggestion>
-                <suggestion>tanmateix</suggestion>
-                <example correction="no obstant això|això no obstant|tanmateix"><marker>no obstant açò</marker>.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token>açò</token>
-                    <token>no</token>
-                    <token>obstant</token>
-                </pattern>
-                <message>Expressió inadequada (vg. DNV).</message>
-                <suggestion>això no obstant</suggestion>
-                <suggestion>no obstant això</suggestion>
-                <suggestion>tanmateix</suggestion>
-                <example correction="això no obstant|no obstant això|tanmateix"><marker>açò no obstant</marker>.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token><exception regexp="yes">això|açò</exception></token>
-                    <marker>
-                        <token>no</token>
-                        <token>obstant</token>
-                    </marker>
-                    <token postag="_PUNCT.*" postag_regexp="yes"/>
-                </pattern>
-                <message>Com a conjunció, és preferible usar una altra expressió. Correcte com a loc. prepositiva (=malgrat).</message>
-                <suggestion>això no obstant</suggestion>
-                <suggestion>no obstant això</suggestion>
-                <suggestion>tanmateix</suggestion>
-                <short>Expressió preferible</short>
-                <example correction="Això no obstant|No obstant això|Tanmateix"><marker>No obstant</marker>, vingué.</example>
-                <example>Això no obstant, vingué.</example>
-            </rule>
-        </rulegroup>
         <rule id="CONFORME_CONJUNCIO" name="*conforme (conjunció)">
             <pattern>
                 <token><exception postag="V.[SI].*|_GV_" postag_regexp="yes" inflected="yes" regexp="yes">ser|estar|anar|quedar|restar</exception></token>
@@ -10758,7 +10715,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="AUTOMATIC_TRANSLATION" name="Z2) Errors de traductor automàtic">
-
+        <rulegroup id="NO_OBSTANT_ACO" name="no obstant *açò/això">
+            <rule>
+                <pattern>
+                    <token>no</token>
+                    <token>obstant</token>
+                    <token>açò</token>
+                </pattern>
+                <message>Expressió inadequada (vg. DNV).</message>
+                <suggestion>no obstant això</suggestion>
+                <suggestion>això no obstant</suggestion>
+                <suggestion>tanmateix</suggestion>
+                <example correction="no obstant això|això no obstant|tanmateix"><marker>no obstant açò</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>açò</token>
+                    <token>no</token>
+                    <token>obstant</token>
+                </pattern>
+                <message>Expressió inadequada (vg. DNV).</message>
+                <suggestion>això no obstant</suggestion>
+                <suggestion>no obstant això</suggestion>
+                <suggestion>tanmateix</suggestion>
+                <example correction="això no obstant|no obstant això|tanmateix"><marker>açò no obstant</marker>.</example>
+            </rule>
+        </rulegroup>
         <rule id="FER_LES_VEGADES_DE" name="*fer les vegades de/fer de">
             <pattern>
                 <token inflected="yes">fer</token>
@@ -39032,6 +39014,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="PREFERABLE_EXPRESSIONS" name="C7) Expressions preferibles" default="on" type="style">
+        <rule id="EL_QUE_ES_EL_MATEIX" name="el que és el mateix/cosa equivalent">
+            <pattern>
+                <token regexp="yes">però|i|o</token>
+                <token min="0">,</token>
+                <marker>
+                    <token>el</token>
+                    <token>que</token>
+                    <token>és</token>
+                    <token>el</token>
+                    <token>mateix</token>
+                </marker>
+            </pattern>
+            <message>Val més fer servir una altra expressió.</message>
+            <suggestion>cosa que és el mateix</suggestion>
+            <suggestion>cosa equivalent</suggestion>
+            <suggestion>cosa que és equivalent</suggestion>
+            <example correction="cosa que és el mateix|cosa equivalent|cosa que és equivalent">Però <marker>el que és el mateix</marker>,</example>
+            <example correction="cosa que és el mateix|cosa equivalent|cosa que és equivalent">Però, <marker>el que és el mateix</marker>,</example>
+        </rule>
         <rule id="TOT_I_AIXI" name="tot i així">
             <pattern>
                 <token>tot</token>
@@ -40736,6 +40737,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="REDUNDANCIES" name="C8) Redundàncies" type="style">
+        <rule id="VOSTE" name="'vostè' redundant">
+            <pattern>
+                <token postag="VM.03..." postag_regexp="yes"></token>
+                <token regexp="yes">vost[èé]s?</token>
+            </pattern>
+            <message>El pronom \2 és innecessari.</message>
+            <suggestion>\1</suggestion>
+            <example correction="Tinguin"><marker>Tinguin vostès</marker> bon dia.</example>
+        </rule>
         <rule id="DES_ENCA" name="des de ... ençà">
             <pattern>
                 <token skip="5">des<exception scope="next" postag="_PUNCT.*" postag_regexp="yes"/></token>
@@ -41610,6 +41620,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="DNV_PRIMARY_FORM" name="Paraules admeses pel DNV (AVL), però no per altres diccionaris" type="style">
+        <rule id="NO_OBSTANT" name="no obstant/això no obstant">
+            <pattern>
+                <token><exception regexp="yes">això|açò</exception></token>
+                <marker>
+                    <token>no</token>
+                    <token>obstant</token>
+                </marker>
+                <token postag="_PUNCT.*" postag_regexp="yes"/>
+            </pattern>
+            <message>Com a conjunció, és preferible usar una altra expressió.</message>
+            <suggestion>això no obstant</suggestion>
+            <suggestion>no obstant això</suggestion>
+            <suggestion>tanmateix</suggestion>
+            <suggestion>malgrat això</suggestion>
+            <example correction="Això no obstant|No obstant això|Tanmateix|Malgrat això"><marker>No obstant</marker>, vingué.</example>
+            <example>Això no obstant, vingué.</example>
+            <example>No obstant les darreres precipitacions, encara hi ha secada.</example>
+        </rule>
         <rule id="CARA_DURA" name="cara dura">
             <pattern>
                 <token skip="1">cara</token>
