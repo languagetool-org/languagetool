@@ -15150,6 +15150,18 @@ USA
       <message>The usual preposition for accusations is "of" not "for." Try it like this:  <suggestion>\1 the \3 of</suggestion>.</message>
       <example correction='accused the man of'>She <marker>accused the man for</marker> stealing.</example>
     </rule>
+    <rule id='IN_ON_A_SECRET_MISSION' name='Collocation: in/on a secret mission'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token regexp="yes" inflected="yes">be|go</token>
+          <token>in</token>
+          <token>a</token>
+          <token>secret</token>
+          <token>mission</token>
+      </pattern>
+      <message>The usual preposition for "a secret mission" is "on" not "in". Try it like this:  <suggestion>\1 on \3 \4 \5</suggestion>.</message>
+      <example correction='is on a secret mission'>Bond <marker>is in a secret mission</marker>.</example>
+    </rule>
   </rulegroup>
 
   <rulegroup id='IN_ON_THE_TEAM' name='Collocation: in/on the team'>
@@ -15199,6 +15211,7 @@ USA
 
   <rulegroup id='ARRIVAL_TO_THE_HOUSE' name='Collocation: arrival to/in the house'>
     <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+    <!-- https://forum.languagetool.org/t/en-english-collocation-rules-to-contribute-to-lt/2318 -->
       <url>http://www.kentlee7.com/writ/collocation.errors.typical.pdf</url>
       <short>Collocation error</short>
     <rule>
@@ -15221,6 +15234,33 @@ USA
       </pattern>
       <message>The usual preposition for "\3 \4" is "at" not "to." Try it like this:  <suggestion>\1 at the \4</suggestion>.</message>
       <example correction='arrival at the house'>At that time, their <marker>arrival to the house</marker> was a surprise.</example>
+    </rule>
+  </rulegroup>
+
+  <rulegroup id='COME_IN_CAR' name='Collocation: come in/by car'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+    <!-- https://forum.languagetool.org/t/en-english-collocation-rules-to-contribute-to-lt/2318 -->
+      <url>http://www.kentlee7.com/writ/collocation.errors.typical.pdf</url>
+      <short>Collocation error</short>
+    <rule>
+      <pattern>
+          <token regexp="yes" inflected="yes">come|go</token>
+          <token>in</token>
+          <token regexp="yes">car|bus|train|taxi|metro|subway</token>
+      </pattern>
+      <message>The usual preposition for mode of transportation is "by" not "in". Try it like this:  <suggestion>\1 by \3</suggestion>.</message>
+      <example correction='comes by car'>She <marker>comes in car</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp="yes" inflected="yes">come|go</token>
+          <token>to</token>
+          <token/>
+          <token>in</token>
+          <token regexp="yes">car|bus|train|taxi|metro|subway</token>
+      </pattern>
+      <message>The usual preposition for mode of transportation is "by" not "in". Try it like this:  <suggestion>\1 \2 \3 by \5</suggestion>.</message>
+      <example correction='comes to work by car'>She <marker>comes to work in car</marker>.</example>
     </rule>
   </rulegroup>
 
