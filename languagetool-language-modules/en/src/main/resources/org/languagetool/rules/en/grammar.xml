@@ -42,6 +42,19 @@ USA
     <!-- Possible typo -->
     <!-- ====================================================================== -->
     <category id="TYPOS" name="Possible Typo" type="misspelling">
+        <rule id="APOS_RE" name="we'Re' (we're) etc">
+         <pattern>
+          <marker>
+          <token regexp="yes">you|we|they</token>
+          <token regexp="yes">['’]</token>
+          <token case_sensitive="yes" regexp="yes">Re|RE</token>
+          </marker>
+         </pattern>
+         <message>Did you mean <suggestion>\1\2re</suggestion>?</message>
+         <short>Possible typo</short>
+         <example correction='We&apos;re'><marker>We'Re</marker> looking forward to our meeting.</example>         
+         <example correction='We&apos;re'><marker>We'RE</marker> looking forward to our meeting.</example>         
+        </rule>
         <rule id="AS_FOLLOW_AS_FOLLOWS" name="'as follow' (as follows)">
          <pattern>
           <marker>
