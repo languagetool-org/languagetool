@@ -271,6 +271,9 @@ public class AgreementRuleTest {
     
     assertBad("Hier steht Ihre Text.");
     assertBad("Hier steht ihre Text.");
+    
+    assertBad("Ich weiß nicht mehr, was unser langweiligen Thema war.");
+    assertGood("Aber mein Wissen über die Antike ist ausbaufähig.");
 
     // TODO: not yet detected:
     //assertBad("Erst recht wir fleißiges Arbeiter.");

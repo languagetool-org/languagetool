@@ -342,7 +342,6 @@ public class AgreementRule extends Rule {
     "deren",
     "denen",
     "sich",
-    "unser",
     "aller",
     "man",
     "beide",
