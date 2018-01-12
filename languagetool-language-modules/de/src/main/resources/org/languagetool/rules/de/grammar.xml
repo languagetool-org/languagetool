@@ -10726,6 +10726,42 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
+                    <token regexp="yes">3[2-9]|[4-9][0-9]|[1-9][0-9][0-9]+</token>
+                    <token>.</token>
+                    <token regexp="yes">&monate;|&abgekMonate;</token>
+                </pattern>
+                <message>Tippfehler im Datum? Kein Monat hat mehr als 31 Tage.</message>
+                <example correction="">Es geschah am <marker>32. Januar</marker>.</example>
+                <example correction="">Es geschah am <marker>300. Januar</marker>.</example>
+                <example>Es geschah am <marker>31. Januar</marker>.</example>
+                <example>Es geschah am <marker>30. Januar</marker>.</example>
+                <example>Es geschah am <marker>20. Januar</marker>.</example>
+                <example>Es geschah am <marker>2. Januar</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">am|zum|den|dem|ab|bis|seit|vom|\(|:|,|-|–</token>
+                    <marker>
+                        <token regexp="yes">3[2-9]|[4-9][0-9]|[1-9][0-9][0-9]+</token>
+                    </marker>
+                    <token spacebefore="no">.</token>
+                    <token regexp="yes">0?[1-9]|10|11|12</token>
+                    <token spacebefore="no">.</token>
+                </pattern>
+                <message>Tippfehler im Datum? Kein Monat hat mehr als 31 Tage.</message>
+                <example correction="">Es geschah am <marker>32</marker>.01..</example>
+                <example correction="">Es geschah am <marker>32</marker>.1.</example>
+                <example correction="">Es geschah am <marker>32</marker>.1.2018.</example>
+                <example correction="">Es geschah am <marker>300</marker>.12.</example>
+                <example>Es geschah am <marker>31</marker>.1.</example>
+                <example>Es geschah am <marker>31</marker>.01.</example>
+                <example>Es geschah am <marker>31</marker>.01.2017</example>
+                <example>Es geschah am <marker>30</marker>.10.</example>
+                <example>Es geschah am <marker>2</marker>.10.</example>
+                <example>Es geschah am <marker>1</marker>.10.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token>31</token>
                     <token>.</token>
                     <token regexp="yes">0?4|0?6|0?9|11</token>
