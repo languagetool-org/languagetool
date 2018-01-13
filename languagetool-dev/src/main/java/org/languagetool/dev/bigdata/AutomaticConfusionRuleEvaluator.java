@@ -171,15 +171,18 @@ class AutomaticConfusionRuleEvaluator {
     TopDocs topDocs = searcher.search(new TermQuery(term), MAX_EXAMPLES);
     long t2 = System.currentTimeMillis();
     int count = 0;
+    Set<String> foundSentences = new HashSet<>();
     for (ScoreDoc scoreDoc : topDocs.scoreDocs) {
       String sentence = searcher.doc(scoreDoc.doc).get(LUCENE_CONTENT_FIELD);
       if (CASE_SENSITIVE) {
-        if (sentence.contains(word)) {
+        if (sentence.contains(word) && !foundSentences.contains(sentence)) {
           fw.write(sentence + "\n");
+          foundSentences.add(sentence);
           count++;
         }
-      } else {
+      } else if (!foundSentences.contains(sentence)) {
         fw.write(sentence + "\n");
+        foundSentences.add(sentence);
         count++;
       }
       if (count > MAX_EXAMPLES) {
