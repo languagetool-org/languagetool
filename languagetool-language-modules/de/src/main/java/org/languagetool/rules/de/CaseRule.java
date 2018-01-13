@@ -429,9 +429,9 @@ public class CaseRule extends Rule {
     "Angestellter",
     "Angestellte",
     "Angestellten",
-    "Bankangestellter",
-    "Bankangestellte",
-    "Bankangestellten",
+    "Armeeangehörige",
+    "Armeeangehörigen",
+    "Armeeangehöriger",
     "Liberaler",
     "Abriss",
     "Ahne",
@@ -456,7 +456,6 @@ public class CaseRule extends Rule {
     "Eindrücke",
     "Erwachsener",
     "Familienangehörige", // "Brüder und solche Familienangehörige, die..."
-    "Fachangestellter",
     "Flöße",
     "Folgendes",   // je nach Kontext groß (TODO)...
     "Fort",
