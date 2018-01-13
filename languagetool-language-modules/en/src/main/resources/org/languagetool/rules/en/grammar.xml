@@ -15162,6 +15162,36 @@ USA
       <message>The usual preposition for "a secret mission" is "on" not "in". Try it like this:  <suggestion>\1 on \3 \4 \5</suggestion>.</message>
       <example correction='is on a secret mission'>Bond <marker>is in a secret mission</marker>.</example>
     </rule>
+    <rule id='LAUGH_OF_AT' name='Collocation: laugh of/at'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token inflected="yes">laugh</token>
+          <token>of</token>
+          <token postag_regexp="yes" postag="PRP|NNP"/>
+      </pattern>
+      <message>The usual preposition for "laugh" is "at". Did you mean <suggestion>\1 at \3</suggestion>?</message>
+      <example correction='laughed at him'>I <marker>laughed of him</marker>.</example>
+    </rule>
+    <rule id='BRING_AT_TO' name='Collocation: bring at/to'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token inflected="yes">bring</token>
+          <token postag_regexp="yes" postag="PRP|NNP"/>
+          <token>at</token>
+      </pattern>
+      <message>The usual preposition for "bring" is "to". Did you mean <suggestion>\1 \2 to</suggestion>?</message>
+      <example correction='Bring Suzanne to'><marker>Bring Suzanne at</marker> the party.</example>
+    </rule>
+    <rule id='ON_FACT' name='Collocation: on/in fact'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token postag="SENT_START"/>
+          <token regexp="yes">on|at</token>
+          <token>fact</token>
+      </pattern>
+      <message>The usual preposition for "fact" is "in". Did you mean <suggestion>In fact</suggestion>?</message>
+      <example correction='In fact'><marker>On fact</marker>, the people are fed up of so many elections.</example>
+    </rule>
   </rulegroup>
 
   <rulegroup id='IN_ON_THE_TEAM' name='Collocation: in/on the team'>
