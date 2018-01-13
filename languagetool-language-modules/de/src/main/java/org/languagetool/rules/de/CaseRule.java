@@ -691,6 +691,7 @@ public class CaseRule extends Rule {
   }
   
   private static final Set<String> myExceptionPhrases = CaseRuleExceptions.getExceptions();
+  private static final Set<Pattern[]> exceptionPatterns = CaseRuleExceptions.getExceptionPatterns();
 
   private static final Set<String> substVerbenExceptions = new HashSet<>();
   static {
@@ -1205,12 +1206,11 @@ public class CaseRule extends Rule {
   }
 
   private boolean isExceptionPhrase(int i, AnalyzedTokenReadings[] tokens) {
-    for (String phrase : myExceptionPhrases) {
-      String[] parts = phrase.split(" ");
-      for (int j = 0; j < parts.length; j++) {
-        if (tokens[i].getToken().matches(parts[j])) {
+    for (Pattern[] patterns : exceptionPatterns) {
+      for (int j = 0; j < patterns.length; j++) {
+        if (patterns[j].matcher(tokens[i].getToken()).matches()) {
           int startIndex = i-j;
-          if (compareLists(tokens, startIndex, startIndex+parts.length-1, parts)) {
+          if (compareLists(tokens, startIndex, startIndex+patterns.length-1, patterns)) {
             return true;
           }
         }
@@ -1220,16 +1220,16 @@ public class CaseRule extends Rule {
   }
 
   // non-private for tests
-  boolean compareLists(AnalyzedTokenReadings[] tokens, int startIndex, int endIndex, String[] parts) {
+  boolean compareLists(AnalyzedTokenReadings[] tokens, int startIndex, int endIndex, Pattern[] patterns) {
     if (startIndex < 0) {
       return false;
     }
     int i = 0;
     for (int j = startIndex; j <= endIndex; j++) {
-      if (i >= parts.length || j >= tokens.length) {
+      if (i >= patterns.length || j >= tokens.length) {
         return false;
       }
-      if (!tokens[j].getToken().matches(parts[i])) {
+      if (!patterns[i].matcher(tokens[j].getToken()).matches()) {
         return false;
       }
       i++;
