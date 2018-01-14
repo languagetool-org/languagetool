@@ -15192,6 +15192,42 @@ USA
       <message>The usual preposition for "fact" is "in". Did you mean <suggestion>In fact</suggestion>?</message>
       <example correction='In fact'><marker>On fact</marker>, the people are fed up of so many elections.</example>
     </rule>
+    <rule id='BRING_PUN_ON_THE_AGENDA' name='Collocation: bring to/put on the agenda'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token regexp="yes">bring|brought</token>
+          <token>to</token>
+          <token>the</token>
+          <token>agenda</token>
+      </pattern>
+      <message>The usual verb + preposition for "agenda" is "put on". Did you mean <suggestion>put on the agenda</suggestion>?</message>
+      <example correction='put on the agenda'>We must <marker>bring to the agenda</marker> the people that are fed up of so many elections.</example>
+    </rule>
+    <rule id='IN_FRONT_OF' name='Collocation: in front of'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token>in</token>
+          <token>front</token>
+          <token postag="IN">
+            <exception>of</exception></token>
+      </pattern>
+      <message>The usual preposition for "in front" is "of". Did you mean <suggestion>in front of</suggestion>?</message>
+      <example correction='In front of'><marker>In front to</marker> so many decisions, the people are fed up.</example>
+    </rule>
+    <rule id='A_TRIP_IN_TO' name='Collocation: a trip in/to'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+        <marker>
+          <token>a</token>
+          <token regexp="yes">trip|journey</token>
+          <token>in</token>
+        </marker>
+          <token regexp="yes">[A-Z][a-z]+</token>
+          <token regexp="yes">[A-Z][a-z]+</token>
+      </pattern>
+      <message>The usual preposition for "a \2" with a named destination is "to". Did you mean <suggestion>a trip to</suggestion>?</message>
+      <example correction='a trip to'>John and Jenny week decided to go on <marker>a trip in</marker> New York.</example>
+    </rule>
   </rulegroup>
 
   <rulegroup id='IN_ON_THE_TEAM' name='Collocation: in/on the team'>
