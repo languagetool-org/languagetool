@@ -5155,6 +5155,26 @@ title="Easy editing stylesheet" ?>
       <example correction="obrigado">O meu muito <marker>obrigada</marker> por tudo.</example>
     </rule>
 
+  <rulegroup id='EU_NÓS_REMOVAL' name="Omitir pronome pessoal eu/nós" type='style'>
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
+    <rule>
+      <pattern>
+		<token>eu</token>
+		<token postag_regexp="yes" postag="V...1S.+"><exception negate_pos='yes' postag_regexp="yes" postag="V...1S.+"/></token>
+      </pattern>
+      <message>Para melhorar o estilo de escrita, pode omitir o pronome pessoal: <suggestion>\2</suggestion>.</message>
+      <example correction="quero">O que <marker>eu quero</marker> é casar.</example>
+    </rule>
+    <rule>
+      <pattern>
+		<token>nós</token>
+		<token postag_regexp="yes" postag="V...1P.+"><exception negate_pos='yes' postag_regexp="yes" postag="V...1P.+"/></token>
+      </pattern>
+      <message>Para melhorar o estilo de escrita, pode omitir o pronome pessoal: <suggestion>\2</suggestion>.</message>
+      <example correction="queremos">O que <marker>nós queremos</marker> é casar.</example>
+    </rule>
+  </rulegroup>			
+	
     <rule id='ORA_DE_REFEIÇÃO' name="Hora de refeição">
     <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
