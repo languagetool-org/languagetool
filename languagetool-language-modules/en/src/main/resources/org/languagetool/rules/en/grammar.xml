@@ -15214,8 +15214,28 @@ USA
       <message>The usual preposition for "in front" is "of". Did you mean <suggestion>in front of</suggestion>?</message>
       <example correction='In front of'><marker>In front to</marker> so many decisions, the people are fed up.</example>
     </rule>
-    <rule id='A_TRIP_IN_TO' name='Collocation: a trip in/to'>
+    <rule id='DEPARTURE_OF_FROM' name='Collocation: departure of/from'>
     <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+        <marker>
+          <token>departure</token>
+          <token>of</token>
+        </marker>
+          <token>New</token>
+          <token regexp="yes">York|Zealand|Hampshire|England|South|Brunswick</token>
+          <token>
+            <exception regexp="yes">resident|citizen|native</exception></token>
+      </pattern>
+      <message>The usual preposition for "departure" with a destination name is "from". Did you mean <suggestion>departure from</suggestion>?</message>
+      <example correction='departure from'>The stay is finally ended and they prepared their <marker>departure of</marker> New York.</example>
+    </rule>
+  </rulegroup>
+
+  <rulegroup id='A_TRIP_TO' name='Collocation: a trip to'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <url>http://www.kentlee7.com/writ/collocation.errors.typical.pdf</url>
+      <short>Collocation error</short>
+    <rule>
       <pattern>
         <marker>
           <token>a</token>
@@ -15227,6 +15247,32 @@ USA
       </pattern>
       <message>The usual preposition for "a \2" with a named destination is "to". Did you mean <suggestion>a trip to</suggestion>?</message>
       <example correction='a trip to'>John and Jenny week decided to go on <marker>a trip in</marker> New York.</example>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token>a</token>
+          <token regexp="yes">trip|journey</token>
+          <token>in</token>
+        </marker>
+          <token regexp="yes">[A-Z][a-z]+</token>
+          <token>
+            <exception regexp="yes">[A-Z][a-z]+</exception></token>
+      </pattern>
+      <message>The usual preposition for "a \2" with a named destination is "to". Did you mean <suggestion>a trip to</suggestion>?</message>
+      <example correction='a trip to'>John and Jenny week decided to go on <marker>a trip in</marker> York.</example>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token>a</token>
+          <token regexp="yes">trip|journey</token>
+          <token>in</token>
+        </marker>
+          <token regexp="yes">New-York|New-England</token>
+      </pattern>
+      <message>The usual preposition for "a \2" with a named destination is "to". Did you mean <suggestion>a trip to</suggestion>?</message>
+      <example correction='a trip to'>John and Jenny week decided to go on <marker>a trip in</marker> New-York.</example>
     </rule>
   </rulegroup>
 
