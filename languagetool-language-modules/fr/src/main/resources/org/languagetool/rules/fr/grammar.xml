@@ -1435,14 +1435,19 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token postag="SENT_START|M nonfin" postag_regexp="yes" skip="-1"><exception regexp="yes" scope="next">qu[ie]?</exception></token>
+          <token postag="SENT_START|M nonfin" postag_regexp="yes" skip="-1">
+			<exception regexp="yes" scope="next">qu[ie]?</exception>
+		</token>
           <token postag="V.*" postag_regexp="yes">
             <exception postag="[ZNRJ].*" postag_regexp="yes"/>
             <exception postag="V inf"/>
             <exception regexp="yes">puis|née?s?</exception>
           </token>
-          <marker><token>a</token></marker>
-          <token><exception regexp="yes">contrario|enclos|fortiori|posteriori|priori|capp?ella|côté</exception></token>
+          <marker><token>a
+			</token></marker>
+          <token>
+			<exception regexp="yes">contrario|enclos|fortiori|posteriori|priori|capp?ella|côté|.</exception>
+		</token>
         </pattern>
         <message>Voulez-vous écrire <suggestion>à</suggestion> ?</message>
         <example correction="à">Ils s’apprêtent <marker>a</marker> le dépasser.</example>
@@ -1453,6 +1458,7 @@ though, and has since been slightly modified)-->
         <example>Puis a jailli un jeune homme.</example>
         <example>Il chante <marker>a</marker> cappella.</example>
         <example>Il est né à Vitré.</example>
+        <example>Si b est VRAI, l'expression vaut FAUX, sinon elle vaut a.</example>
       </rule>
       <rule>
         <pattern>
@@ -9138,6 +9144,7 @@ though, and has since been slightly modified)-->
           <token postag="[NZ] m .*|R pers suj 3 m .*|R dem m .*" postag_regexp="yes">
             <exception>on</exception>
             <exception postag="[NZ] [fe] .*" postag_regexp="yes"/>
+			<exception scope="previous" regexp="yes">au|aux</exception>
           </token>
           <token postag="V.* 3 .*" postag_regexp="yes" regexp="yes" inflected="yes">demeurer|devenir|être|para[îi]tre|rester|sembler</token>
           <token min="0" max="2" postag="A"/>
@@ -9145,6 +9152,7 @@ though, and has since been slightly modified)-->
             <token postag="V.* ppa f .*|J f .*" postag_regexp="yes">
               <exception>même</exception>
               <exception postag="[JN] [me].*|V ppa [me].*" postag_regexp="yes"/>
+			  <exception>partie</exception>
             </token>
           </marker>
         </pattern>
@@ -9167,6 +9175,8 @@ though, and has since been slightly modified)-->
         <example>Ils sont très <marker>avares</marker>.</example>
         <example correction="">Ils restent <marker>dernières</marker>.</example>
         <example>Ils restent <marker>derniers</marker>.</example>
+        <example>Le département est <marker>partie</marker> constituante de cet ensemble topographique.</example>
+        <example>L'une dédiée au fret est <marker>longue</marker> de cinquante mètres.</example>
       </rule>
       <rule>
         <pattern>
@@ -9229,6 +9239,7 @@ though, and has since been slightly modified)-->
           </token>
           <token postag="[NZ] f .*|R pers suj 3 f .*|R dem f .*" postag_regexp="yes">
             <exception postag="[NZ] [me] .*" postag_regexp="yes"/>
+			<exception case_sensitive="yes">Psychose</exception>
           </token>
           <token postag="V.* 3 .*" postag_regexp="yes" regexp="yes" inflected="yes">demeurer|être|devenir|para[îi]tre|rester|sembler</token>
           <token min="0" max="2" postag="A"/>
@@ -9253,6 +9264,9 @@ though, and has since been slightly modified)-->
         <example>La sortie est droit devant.</example>
         <example correction="">Dans la cuisine, elles sont bien entendu <marker>placés</marker> en hauteur.</example>
         <example>Dans la cuisine, elles sont bien entendu <marker>placées</marker> en hauteur.</example>
+        <example>Produit avec un budget en effet très limité, Psychose est <marker>tourné</marker> avec l'équipe de télévision d'Alfred Hitchcock.</example>
+        <example correction="">Cette psychose est <marker>entretenu</marker> par les théories du complot.</example>
+        <example >Cette psychose est <marker>entretenue</marker> par les théories du complot.</example>
       </rule>
       <rule>
         <pattern>
