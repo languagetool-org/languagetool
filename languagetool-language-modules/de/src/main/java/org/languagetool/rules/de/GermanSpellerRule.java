@@ -163,6 +163,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("[mM]itag", "Mittag");
     put("Lexion", "Lexikon");
     put("[mM]otorisation", "Motorisierung");
+    put("[mM]enegment", "Management");
     put("abgeschaffen", "abgeschafft");
     put("Verschiden", "Verschieden");
     put("Anschovis", "Anchovis");
