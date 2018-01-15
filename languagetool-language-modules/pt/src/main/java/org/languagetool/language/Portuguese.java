@@ -239,6 +239,7 @@ public class Portuguese extends Language implements AutoCloseable {
       case "NO_VERB":                   return -52;
       case "CRASE_CONFUSION":           return -55;
       case "FINAL_STOPS":               return -75;
+      case "EU_NÓS_REMOVAL":            return -90;
       case "T-V_DISTINCTION":           return -100;
       case "T-V_DISTINCTION_ALL":       return -101;
       case "REPEATED_WORDS":            return -210;
