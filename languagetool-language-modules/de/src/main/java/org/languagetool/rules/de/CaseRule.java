@@ -688,8 +688,7 @@ public class CaseRule extends Rule {
     languages.add("Walisisch");
     languages.add("Weißrussisch");
   }
-  
-  private static final Set<String> myExceptionPhrases = CaseRuleExceptions.getExceptions();
+
   private static final Set<Pattern[]> exceptionPatterns = CaseRuleExceptions.getExceptionPatterns();
 
   private static final Set<String> substVerbenExceptions = new HashSet<>();
