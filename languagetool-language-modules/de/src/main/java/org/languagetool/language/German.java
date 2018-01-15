@@ -279,11 +279,11 @@ public class German extends Language implements AutoCloseable {
   @Override
   public int getPriorityForId(String id) {
     switch (id) {
-      case "KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ": return -10;
-      case "PUNKT_ENDE_ABSATZ": return -10;  // should never hide other errors, as chance for a false alarm is quite high
       case "OLD_SPELLING_INTERNAL": return 10;
-      case "CONFUSION_RULE": return -1;  // probably less specific than the rules from grammar.xml
       case "ANS_OHNE_APOSTROPH": return 1;
+      case "CONFUSION_RULE": return -1;  // probably less specific than the rules from grammar.xml
+      case "PUNKT_ENDE_ABSATZ": return -10;  // should never hide other errors, as chance for a false alarm is quite high
+      case "KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ": return -10;
     }
     return 0;
   }
