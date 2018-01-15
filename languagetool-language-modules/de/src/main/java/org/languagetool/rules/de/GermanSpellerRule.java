@@ -685,17 +685,18 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     return null;
   }
 
-  private boolean ignoreByHangingHyphen(List<String> words, int idx) {
+  private boolean ignoreByHangingHyphen(List<String> words, int idx) throws IOException {
     String word = words.get(idx);
     String nextWord = getWordAfterEnumerationOrNull(words, idx+1);
-    if (nextWord != null) {
-      nextWord = StringUtils.removeEnd(nextWord, ".");
-    }
+    nextWord = StringUtils.removeEnd(nextWord, ".");
+
     boolean isCompound = nextWord != null && (compoundTokenizer.tokenize(nextWord).size() > 1 || nextWord.indexOf("-") > 0);
     if (isCompound) {
       word = StringUtils.removeEnd(word, "-");
       boolean isMisspelled = hunspellDict.misspelled(word);  // "Stil- und Grammatikprüfung" or "Stil-, Text- und Grammatikprüfung"
-      if (isMisspelled && word.endsWith("s") && ENDINGS_NEEDING_FUGENS.matcher(StringUtils.removeEnd(word, "s")).matches()) {
+      if (isMisspelled && super.ignoreWord(word)) {
+        isMisspelled = false;
+      } else if (isMisspelled && word.endsWith("s") && ENDINGS_NEEDING_FUGENS.matcher(StringUtils.removeEnd(word, "s")).matches()) {
         // Vertuschungs- und Bespitzelungsmaßnahmen: remove trailing "s" before checking "Vertuschungs" so that the spell checker finds it
         isMisspelled = hunspellDict.misspelled(StringUtils.removeEnd(word, "s"));
       }
