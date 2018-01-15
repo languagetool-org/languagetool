@@ -15229,6 +15229,38 @@ USA
       <message>The usual preposition for "departure" with a destination name is "from". Did you mean <suggestion>departure from</suggestion>?</message>
       <example correction='departure from'>The stay is finally ended and they prepared their <marker>departure of</marker> New York.</example>
     </rule>
+    <rule id='LIVE_IN_ON_PLANET' name='Collocation: live in/on planet'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token inflected="yes">live</token>
+          <token>in</token>
+          <token min='0' postag="DT"/>
+          <token case_sensitive='yes' regexp="yes">[Pp]lanet|[Aa]steroid|[Mm]oon|Mercury|Venus|Earth|Mars|Jupiter|Saturn|Neptune|Uranus|Pluto</token>
+      </pattern>
+      <message>The usual preposition for \4 is "on". Did you mean <suggestion>\1 on <match no='3' include_skipped='all'/> \4</suggestion>?</message>
+      <example correction='live on the planet'>Not all creatures that <marker>live in the planet</marker> Earth use oxygen.</example>
+    </rule>
+    <rule id='COUNTLESS_OF' name='Collocation: countless of'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token>countless</token>
+          <token>of</token>
+          <token>
+            <exception>course</exception></token>
+      </pattern>
+      <message>Do not use "of" after "\1". Did you mean <suggestion>\1 \3</suggestion>?</message>
+      <example correction='countless occurrences'>There are <marker>countless of occurrences</marker>.</example>
+    </rule>
+    <rule id='FED_UP_OF_WITH' name='Collocation: fed up of/with'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token>fed</token>
+          <token>up</token>
+          <token>of</token>
+      </pattern>
+      <message>The usual preposition for "\1 \2" is "with". Did you mean <suggestion>\1 \2 with</suggestion>?</message>
+      <example correction='fed up with'>The people are <marker>fed up of</marker> so many pointless elections.</example>
+    </rule>
   </rulegroup>
 
   <rulegroup id='A_TRIP_TO' name='Collocation: a trip to'>
