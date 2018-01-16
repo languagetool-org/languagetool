@@ -15308,8 +15308,48 @@ USA
     </rule>
   </rulegroup>
 
+  <rulegroup id='LISTEN_TO_MOVIES' name='Collocation: listen to/watch movies'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+    <!-- https://forum.languagetool.org/t/en-english-collocation-rules-to-contribute-to-lt/2318 -->
+      <url>http://www.kentlee7.com/writ/collocation.errors.typical.pdf</url>
+      <short>Collocation error</short>
+    <rule>
+      <pattern>
+          <token inflected="yes">listen</token>
+          <token>to</token>
+          <token regexp="yes">movies|films</token>
+      </pattern>
+      <message>The usual verb for "\3" is "watch". Did you mean <suggestion>watch \3</suggestion>?</message>
+      <example correction='watch movies'>During my free time, I like <marker>listen to movies</marker> in cinema with my boyfriend and my friends.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token inflected="yes">listen</token>
+          <token min='0'>to</token>
+          <token min='0'>a</token>
+          <token regexp="yes">movie|film|series</token>
+      </pattern>
+      <message>The usual verb for "\3" is "watch". Did you mean <suggestion>watch a \4</suggestion>?</message>
+      <example correction='watch a movie'>During my free time, I like <marker>listen to movie</marker> with my boyfriend and my friends.</example>
+      <example correction='watch a movie'>During my free time, I like <marker>listen to a movie</marker> in cinema with my boyfriend and my friends.</example>
+      <example correction='watch a series'>During the week, I <marker>listen series</marker> or action movie in English because I want to improve myself with my sister.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token inflected="yes">listen</token>
+          <token min='0'>to</token>
+          <token min='0'>an</token>
+          <token regexp="yes">animated|anime|action</token>
+          <token regexp="yes">movie|film|series</token>
+      </pattern>
+      <message>The usual verb for "\3" is "watch". Did you mean <suggestion>watch an \4 \5</suggestion>?</message>
+      <example correction='watch an action movie'>During the week, I <marker>listen to action movie</marker> in English because I want to improve myself with my sister.</example>
+    </rule>
+  </rulegroup>
+
   <rulegroup id='IN_ON_THE_TEAM' name='Collocation: in/on the team'>
     <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+    <!-- https://forum.languagetool.org/t/en-english-collocation-rules-to-contribute-to-lt/2318 -->
       <url>http://www.kentlee7.com/writ/collocation.errors.typical.pdf</url>
       <short>Collocation error</short>
     <rule>
