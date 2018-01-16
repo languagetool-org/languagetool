@@ -266,6 +266,12 @@ public class GermanSpellerRuleTest {
     assertEquals(1, rule.match(lt.getAnalyzedSentence("Stil- und Grammatik gut")).length);
     assertEquals(1, rule.match(lt.getAnalyzedSentence("Flasch- und Grammatikprüfung gut")).length);
     //assertEquals(1, rule.match(langTool.getAnalyzedSentence("Haupt- und Neben")).length);  // hunspell accepts this :-(
+
+    // check acceptance of words in ignore.txt ending with "-*"
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Dual-Use-Güter")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Dual-Use- und Wirtschaftsgüter")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Test-Dual-Use")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("Dual-Use")).length);
   }
 
   @Test

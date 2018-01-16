@@ -27,10 +27,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -67,6 +69,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
           "Kollier|Kommunikee|Masurka|Negligee|Nessessär|Poulard|Varietee|Wandalismus|kalvinist).*");
   private static final Pattern GEOGRAPHICAL_PREFIXES = Pattern.compile("(nord|ost|süd|west).+");
 
+  private final Set<String> wordsToBeIgnoredInCompounds = new HashSet<>();
   private static final Map<Pattern, Function<String,List<String>>> ADDITIONAL_SUGGESTIONS = new HashMap<>();
   static{
     put("[aA]wa", w -> Arrays.asList("AWA", "ach was", "aber"));
@@ -270,6 +273,10 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       // hack: Swiss German doesn't use "ß" but always "ss" - replace this, otherwise
       // misspellings (from Swiss point-of-view) like "äußere" wouldn't be found:
       line = origLine.replace("ß", "ss");
+    } else if (origLine.endsWith("-*")) {
+      // words whose line ends with "-*" are only allowed in hyphenated compounds
+      wordsToBeIgnoredInCompounds.add(origLine.substring(0, origLine.length() - 2));
+      return;
     } else {
       line = origLine;
     }
@@ -694,7 +701,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     if (isCompound) {
       word = StringUtils.removeEnd(word, "-");
       boolean isMisspelled = hunspellDict.misspelled(word);  // "Stil- und Grammatikprüfung" or "Stil-, Text- und Grammatikprüfung"
-      if (isMisspelled && super.ignoreWord(word)) {
+      if (isMisspelled && (super.ignoreWord(word) || wordsToBeIgnoredInCompounds.contains(word))) {
         isMisspelled = false;
       } else if (isMisspelled && word.endsWith("s") && ENDINGS_NEEDING_FUGENS.matcher(StringUtils.removeEnd(word, "s")).matches()) {
         // Vertuschungs- und Bespitzelungsmaßnahmen: remove trailing "s" before checking "Vertuschungs" so that the spell checker finds it
@@ -760,19 +767,19 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     String stripFirst = word.substring(words[0].length()+1); // everything after the first "-"
     String stripLast  = word.substring(0, word.length()-words[words.length-1].length()-1); // everything up to the last "-"
 
-    if (super.ignoreWord(stripFirst)) { // e.g., "Senioren-Au-pair"
+    if (super.ignoreWord(stripFirst) || wordsToBeIgnoredInCompounds.contains(stripFirst)) { // e.g., "Senioren-Au-pair"
       hasIgnoredWord = true;
       if (!super.ignoreWord(words[0])) {
         toSpellCheck.add(words[0]);
       }
-    } else if (super.ignoreWord(stripLast)) { // e.g., "Au-pair-Agentur"
+    } else if (super.ignoreWord(stripLast) || wordsToBeIgnoredInCompounds.contains(stripLast)) { // e.g., "Au-pair-Agentur"
       hasIgnoredWord = true;
       if (!super.ignoreWord(words[words.length-1])){
         toSpellCheck.add(words[words.length-1]);
       }
     } else {
       for (String word1 : words) {
-        if (super.ignoreWord(word1)) {
+        if (super.ignoreWord(word1) || wordsToBeIgnoredInCompounds.contains(word1)) {
           hasIgnoredWord = true;
         } else {
           toSpellCheck.add(word1);
