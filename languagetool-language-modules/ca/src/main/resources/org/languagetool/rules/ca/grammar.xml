@@ -27487,24 +27487,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Està malament.</example>
             <example>Està mal fet.</example>
         </rule>
-        <rule id="PER_SI_AIXO_FOS_POC" name="Per si això fos poc">
-            <pattern>
-                <token>per</token>
-                <token>si</token>
-                <token>això</token>
-                <token regexp='yes'>fos|fóra</token>
-                <token>poc</token>
-            </pattern>
-            <message>Expressió incorrecta.</message>
-            <suggestion>per acabar-ho d'adobar</suggestion>
-            <suggestion>per si no n'hi hagués prou</suggestion>
-            <suggestion>per a postres</suggestion>
-            <suggestion>a sobre</suggestion>
-            <suggestion>damunt</suggestion>
-            <url>http://esadir.cat/entrades/fitxa/node/per_si_aixo_fos_poc</url>
-            <example correction="per acabar-ho d'adobar|per si no n'hi hagués prou|per a postres|a sobre|damunt"><marker>per si això fos poc</marker></example>
-            <example>per acabar-ho d'adobar</example>
-        </rule>
         <rule id="LA_CABRA_TIRA" name="la cabra tira al mont">
             <pattern>
                 <token>la</token>
@@ -29364,102 +29346,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="(aconseguir)|(apoderar-se de)|(fer seu)|(prendre)|(prendre possessió de)|(emparar-se de)|(controlar)|(arreplegar)|(adquirir)|(comprar)|(guanyar)|(atrapar)">Va <marker>fer-se amb</marker> el govern.</example>
                 <example>mai no podria fer-se amb aquella gent, mai no podria mirar-los</example>
                 <example>acabà, amb ell, la dinastia hethúmida</example>
-            </rule>
-        </rulegroup>
-        <rulegroup id="ACABAR_AMB" name="acabar amb">
-            <rule>
-                <pattern>
-                    <marker>
-                        <token skip="2" inflected="yes">acabar<exception scope="next" postag="_PUNCT.*" postag_regexp="yes"/></token>
-                        <token skip="4">amb<exception scope="next" regexp="yes" inflected="yes">mort|fi|final</exception></token>
-                    </marker>
-                    <token regexp="yes" inflected="yes">dinastia|regnat|discriminació|abús|frau|plaga|pesta|infecció|situació|vida|exempció|excepció|precarietat</token>
-                </pattern>
-                <message>Expressió incorrecta si vol dir <suggestion>(posar fi a)</suggestion>.</message>
-                <suggestion>(eliminar)</suggestion>
-                <suggestion>(destruir)</suggestion>
-                <suggestion>(desfer)</suggestion>
-                <suggestion>(acabar)</suggestion>
-                <suggestion>(fer acabar)</suggestion>
-                <suggestion>(fer cessar)</suggestion>
-                <suggestion>(exterminar)</suggestion>
-                <suggestion>(aniquilar)</suggestion>
-                <suggestion>(liquidar)</suggestion>
-                <short>Expressió incorrecta</short>
-                <example correction="(posar fi a)|(eliminar)|(destruir)|(desfer)|(acabar)|(fer acabar)|(fer cessar)|(exterminar)|(aniquilar)|(liquidar)">Cal <marker>acabar amb</marker> els abusos.</example>
-                <example correction="(posar fi a)|(eliminar)|(destruir)|(desfer)|(acabar)|(fer acabar)|(fer cessar)|(exterminar)|(aniquilar)|(liquidar)">estan <marker>acabant amb</marker> aquesta situació</example>
-                <example correction="(posar fi a)|(eliminar)|(destruir)|(desfer)|(acabar)|(fer acabar)|(fer cessar)|(exterminar)|(aniquilar)|(liquidar)">Amenaçar d'<marker>acabar amb</marker> la seua vida.</example>
-                <example>Acaba amb la fi del regnat d'Alexandre.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <marker>
-                        <token skip="2" inflected="yes">acabar<exception scope="next" postag="_PUNCT.*" postag_regexp="yes"/></token>
-                        <token>amb</token>
-                    </marker>
-                    <token regexp="yes" inflected="yes">això|açò|allò</token>
-                </pattern>
-                <message>Expressió incorrecta si vol dir <suggestion>(posar fi a)</suggestion>.</message>
-                <suggestion>(eliminar)</suggestion>
-                <suggestion>(destruir)</suggestion>
-                <suggestion>(desfer)</suggestion>
-                <suggestion>(acabar)</suggestion>
-                <suggestion>(fer acabar)</suggestion>
-                <suggestion>(fer cessar)</suggestion>
-                <suggestion>(exterminar)</suggestion>
-                <suggestion>(aniquilar)</suggestion>
-                <suggestion>(liquidar)</suggestion>
-                <short>Expressió incorrecta</short>
-                <example correction="(posar fi a)|(eliminar)|(destruir)|(desfer)|(acabar)|(fer acabar)|(fer cessar)|(exterminar)|(aniquilar)|(liquidar)">Cal <marker>acabar immediatament amb</marker> això.</example>
-                <example>Cal posar-hi fi.</example>
-                <!-- <example>la història no s'acaba encara amb això</example> -->
-            </rule>
-            <rule>
-                <pattern>
-                    <token regexp="yes" inflected="yes">prou|necessari|indispensable</token>
-                    <token skip="1">per</token>
-                    <marker>
-                        <token skip="2" inflected="yes">acabar<exception scope="next" postag="_PUNCT.*" postag_regexp="yes"/></token>
-                        <token>amb</token>
-                    </marker>
-                </pattern>
-                <message>Expressió incorrecta si vol dir: <suggestion>(posar fi a)</suggestion>.</message>
-                <suggestion>(eliminar)</suggestion>
-                <suggestion>(destruir)</suggestion>
-                <suggestion>(acabar)</suggestion>
-                <suggestion>(desfer)</suggestion>
-                <suggestion>(fer acabar)</suggestion>
-                <suggestion>(fer cessar)</suggestion>
-                <suggestion>(exterminar)</suggestion>
-                <suggestion>(aniquilar)</suggestion>
-                <suggestion>(liquidar)</suggestion>
-                <short>Expressió incorrecta</short>
-                <example correction="(posar fi a)|(eliminar)|(destruir)|(acabar)|(desfer)|(fer acabar)|(fer cessar)|(exterminar)|(aniquilar)|(liquidar)">És necessari per a <marker>acabar immediatament amb</marker> el problema.</example>
-                <example>Cal posar-hi fi.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token><exception inflected="yes" regexp="yes">portar|acostumar|fins|per</exception></token>
-                    <token>a</token>
-                    <marker>
-                        <token>acabar</token>
-                        <token>amb</token>
-                    </marker>
-                </pattern>
-                <message>Expressió incorrecta si vol dir: <suggestion>(posar fi a)</suggestion>.</message>
-                <suggestion>(eliminar)</suggestion>
-                <suggestion>(destruir)</suggestion>
-                <suggestion>(acabar)</suggestion>
-                <suggestion>(desfer)</suggestion>
-                <suggestion>(fer acabar)</suggestion>
-                <suggestion>(fer cessar)</suggestion>
-                <suggestion>(exterminar)</suggestion>
-                <suggestion>(aniquilar)</suggestion>
-                <suggestion>(liquidar)</suggestion>
-                <suggestion>(resoldre)</suggestion>
-                <short>Expressió incorrecta</short>
-                <example correction="(posar fi a)|(eliminar)|(destruir)|(acabar)|(desfer)|(fer acabar)|(fer cessar)|(exterminar)|(aniquilar)|(liquidar)|(resoldre)">Va contribuir a <marker>acabar amb</marker> el problema.</example>
-                <example>acostuma a acabar amb un fort plaer</example>
             </rule>
         </rulegroup>
         <rule id="FER_UN_LLEIG" name="fer un lleig">
@@ -39037,6 +38923,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token>per</token>
                 <token>si</token>
+                <token min="0" regexp="yes">això|açò</token>
                 <token regexp="yes">fos|fóra|fora</token>
                 <token>poc</token>
             </pattern>
@@ -41441,15 +41328,54 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion><match no="1" regexp_match="(?iu)(.+)(a|e)(s?)" regexp_replace="$1$3"/></suggestion>
             <example correction="bastants"><marker>bastantes</marker> dificultats</example>
         </rule>
-        <rule id="VULLGA" name="vullga">
-            <pattern>
-                <token regexp="yes">(mal)?vullg(a|ues|uem|ueu|uen)</token>
-            </pattern>
-            <message>Forma preferible.</message>
-            <suggestion><match no="1" regexp_match="(.*vul)l(g.+)" regexp_replace="$1$2"/></suggestion>
-            <url>http://www.ceice.gva.es/documents/161863132/163843714/Criteris+Ling%C3%BC%C3%ADstics_web.pdf#page=66</url>
-            <example correction="vulgues">Fes-ho com <marker>vullgues</marker>.</example>
-          </rule>
+        <rulegroup id="VULLGA" name="vullga">
+            <rule>
+                <pattern>
+                    <token regexp="yes">(mal)?vullg(a|ues|uem|ueu|uen)</token>
+                </pattern>
+                <message>Forma preferible.</message>
+                <suggestion><match no="1" regexp_match="(?iu)(.*vul)l(g.*)" regexp_replace="$1$2"/></suggestion>
+                <url>http://www.ceice.gva.es/documents/161863132/163843714/Criteris+Ling%C3%BC%C3%ADstics_web.pdf#page=66</url>
+                <example correction="vulgues">Fes-ho com <marker>vullgues</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">(mal)?vullc</token>
+                </pattern>
+                <message>Forma preferible.</message>
+                <suggestion><match no="1" regexp_match="(?iu)(.*vull)c" regexp_replace="$1"/></suggestion>
+                <url>http://www.ceice.gva.es/documents/161863132/163843714/Criteris+Ling%C3%BC%C3%ADstics_web.pdf#page=66</url>
+                <example correction="vull">No <marker>vullc</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="VM.....V" postag_regexp="yes" regexp="yes">.*igc</token>
+                </pattern>
+                <message>Forma preferible.</message>
+                <suggestion><match no="1" regexp_match="(?iu)(.*ig)c" regexp_replace="$1"/></suggestion>
+                <url>http://www.ceice.gva.es/documents/161863132/163843714/Criteris+Ling%C3%BC%C3%ADstics_web.pdf#page=50</url>
+                <example correction="afig">Quan ho <marker>afigc</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="VM.....V" postag_regexp="yes" regexp="yes">.*igga</token>
+                </pattern>
+                <message>Forma preferible.</message>
+                <suggestion><match no="1" regexp_match="(?iu)(.*i)gga" regexp_replace="$1ja"/></suggestion>
+                <url>http://www.ceice.gva.es/documents/161863132/163843714/Criteris+Ling%C3%BC%C3%ADstics_web.pdf#page=50</url>
+                <example correction="afija">Quan ho <marker>afigga</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="VM.....V" postag_regexp="yes" regexp="yes">.*iggu(es|en)</token>
+                </pattern>
+                <message>Forma preferible.</message>
+                <suggestion><match no="1" regexp_match="(?iu)(.*i)ggu(es|en)" regexp_replace="$1g$2"/></suggestion>
+                <url>http://www.ceice.gva.es/documents/161863132/163843714/Criteris+Ling%C3%BC%C3%ADstics_web.pdf#page=50</url>
+                <example correction="afiges">Quan ho <marker>afiggues</marker>.</example>
+                <example correction="afigen">Quan ho <marker>afigguen</marker>.</example>
+            </rule>
+        </rulegroup>
         <rule id="AHI" name="ahí">
             <pattern>
                 <token>ahí</token>
@@ -41634,6 +41560,102 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="DNV_PRIMARY_FORM" name="Paraules admeses pel DNV (AVL), però no per altres diccionaris" type="style">
+        <rulegroup id="ACABAR_AMB" name="acabar amb">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token skip="2" inflected="yes">acabar<exception scope="next" postag="_PUNCT.*" postag_regexp="yes"/></token>
+                        <token skip="4">amb<exception scope="next" regexp="yes" inflected="yes">mort|fi|final</exception></token>
+                    </marker>
+                    <token regexp="yes" inflected="yes">dinastia|regnat|discriminació|abús|frau|plaga|pesta|infecció|situació|vida|exempció|excepció|precarietat</token>
+                </pattern>
+                <message>Expressió incorrecta si vol dir <suggestion>(posar fi a)</suggestion>.</message>
+                <suggestion>(eliminar)</suggestion>
+                <suggestion>(destruir)</suggestion>
+                <suggestion>(desfer)</suggestion>
+                <suggestion>(acabar)</suggestion>
+                <suggestion>(fer acabar)</suggestion>
+                <suggestion>(fer cessar)</suggestion>
+                <suggestion>(exterminar)</suggestion>
+                <suggestion>(aniquilar)</suggestion>
+                <suggestion>(liquidar)</suggestion>
+                <short>Expressió incorrecta</short>
+                <example correction="(posar fi a)|(eliminar)|(destruir)|(desfer)|(acabar)|(fer acabar)|(fer cessar)|(exterminar)|(aniquilar)|(liquidar)">Cal <marker>acabar amb</marker> els abusos.</example>
+                <example correction="(posar fi a)|(eliminar)|(destruir)|(desfer)|(acabar)|(fer acabar)|(fer cessar)|(exterminar)|(aniquilar)|(liquidar)">estan <marker>acabant amb</marker> aquesta situació</example>
+                <example correction="(posar fi a)|(eliminar)|(destruir)|(desfer)|(acabar)|(fer acabar)|(fer cessar)|(exterminar)|(aniquilar)|(liquidar)">Amenaçar d'<marker>acabar amb</marker> la seua vida.</example>
+                <example>Acaba amb la fi del regnat d'Alexandre.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token skip="2" inflected="yes">acabar<exception scope="next" postag="_PUNCT.*" postag_regexp="yes"/></token>
+                        <token>amb</token>
+                    </marker>
+                    <token regexp="yes" inflected="yes">això|açò|allò</token>
+                </pattern>
+                <message>Expressió incorrecta si vol dir <suggestion>(posar fi a)</suggestion>.</message>
+                <suggestion>(eliminar)</suggestion>
+                <suggestion>(destruir)</suggestion>
+                <suggestion>(desfer)</suggestion>
+                <suggestion>(acabar)</suggestion>
+                <suggestion>(fer acabar)</suggestion>
+                <suggestion>(fer cessar)</suggestion>
+                <suggestion>(exterminar)</suggestion>
+                <suggestion>(aniquilar)</suggestion>
+                <suggestion>(liquidar)</suggestion>
+                <short>Expressió incorrecta</short>
+                <example correction="(posar fi a)|(eliminar)|(destruir)|(desfer)|(acabar)|(fer acabar)|(fer cessar)|(exterminar)|(aniquilar)|(liquidar)">Cal <marker>acabar immediatament amb</marker> això.</example>
+                <example>Cal posar-hi fi.</example>
+                <!-- <example>la història no s'acaba encara amb això</example> -->
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" inflected="yes">prou|necessari|indispensable</token>
+                    <token skip="1">per</token>
+                    <marker>
+                        <token skip="2" inflected="yes">acabar<exception scope="next" postag="_PUNCT.*" postag_regexp="yes"/></token>
+                        <token>amb</token>
+                    </marker>
+                </pattern>
+                <message>Expressió incorrecta si vol dir: <suggestion>(posar fi a)</suggestion>.</message>
+                <suggestion>(eliminar)</suggestion>
+                <suggestion>(destruir)</suggestion>
+                <suggestion>(acabar)</suggestion>
+                <suggestion>(desfer)</suggestion>
+                <suggestion>(fer acabar)</suggestion>
+                <suggestion>(fer cessar)</suggestion>
+                <suggestion>(exterminar)</suggestion>
+                <suggestion>(aniquilar)</suggestion>
+                <suggestion>(liquidar)</suggestion>
+                <short>Expressió incorrecta</short>
+                <example correction="(posar fi a)|(eliminar)|(destruir)|(acabar)|(desfer)|(fer acabar)|(fer cessar)|(exterminar)|(aniquilar)|(liquidar)">És necessari per a <marker>acabar immediatament amb</marker> el problema.</example>
+                <example>Cal posar-hi fi.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token><exception inflected="yes" regexp="yes">portar|acostumar|fins|per</exception></token>
+                    <token>a</token>
+                    <marker>
+                        <token>acabar</token>
+                        <token>amb</token>
+                    </marker>
+                </pattern>
+                <message>Expressió incorrecta si vol dir: <suggestion>(posar fi a)</suggestion>.</message>
+                <suggestion>(eliminar)</suggestion>
+                <suggestion>(destruir)</suggestion>
+                <suggestion>(acabar)</suggestion>
+                <suggestion>(desfer)</suggestion>
+                <suggestion>(fer acabar)</suggestion>
+                <suggestion>(fer cessar)</suggestion>
+                <suggestion>(exterminar)</suggestion>
+                <suggestion>(aniquilar)</suggestion>
+                <suggestion>(liquidar)</suggestion>
+                <suggestion>(resoldre)</suggestion>
+                <short>Expressió incorrecta</short>
+                <example correction="(posar fi a)|(eliminar)|(destruir)|(acabar)|(desfer)|(fer acabar)|(fer cessar)|(exterminar)|(aniquilar)|(liquidar)|(resoldre)">Va contribuir a <marker>acabar amb</marker> el problema.</example>
+                <example>acostuma a acabar amb un fort plaer</example>
+            </rule>
+        </rulegroup>
         <rule id="NO_OBSTANT" name="no obstant/això no obstant">
             <pattern>
                 <token><exception regexp="yes">això|açò</exception></token>
