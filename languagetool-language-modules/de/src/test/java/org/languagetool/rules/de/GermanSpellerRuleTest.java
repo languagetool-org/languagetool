@@ -209,6 +209,7 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("berücksichtung", "Berücksichtigung", rule, lt);
     assertFirstSuggestion("okey", "okay", rule, lt);
     assertFirstSuggestion("Energiesparung", "Energieeinsparung", rule, lt);
+    assertFirstSuggestion("Deluxe-Version", "De-luxe-Version", rule, lt);
   }
 
   @Test
