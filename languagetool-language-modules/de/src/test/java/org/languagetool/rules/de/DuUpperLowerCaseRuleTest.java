@@ -65,6 +65,9 @@ public class DuUpperLowerCaseRuleTest {
     assertErrors("Wie geht es Euch? Herr Meier, wie war Ihr Urlaub?", 0);
     assertErrors("Wie geht es euch? Herr Meier, wie war Ihr Urlaub?", 1);
     assertErrors("Wie geht es Euch? Herr Meier, wie war ihr Urlaub?", 1);
+    
+    assertErrors("\"Du sagtest, du würdest es schaffen!\"", 0);
+    assertErrors("Egal, was du tust: Du musst dein Bestes geben.", 0);
   }
 
   private void assertErrors(String input, int expectedMatches) throws IOException {
