@@ -592,11 +592,13 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       if (words.length > 1) {
         List<List<String>> suggestionLists = new ArrayList<>(words.length);
         int startAt = 0, stopAt = words.length;
-        if (super.ignoreWord(words[0] + "-" + words[1])) { // "Au-pair-Agentr"
+        String partialWord = words[0] + "-" + words[1];
+        if (super.ignoreWord(partialWord) || wordsToBeIgnoredInCompounds.contains(partialWord)) { // "Au-pair-Agentr"
           startAt = 2;
           suggestionLists.add(Collections.singletonList(words[0] + "-" + words[1]));
         }
-        if (super.ignoreWord(words[words.length-2] + "-" + words[words.length-1])) { // "Seniren-Au-pair"
+        partialWord = words[words.length-2] + "-" + words[words.length-1];
+        if (super.ignoreWord(partialWord) || wordsToBeIgnoredInCompounds.contains(partialWord)) { // "Seniren-Au-pair"
           stopAt = words.length-2;
         }
         for (int idx = startAt; idx < stopAt; idx++) {
@@ -608,7 +610,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
           }
         }
         if (stopAt < words.length-1) {
-          suggestionLists.add(Collections.singletonList(words[words.length-2] + "-" + words[words.length-1]));
+          suggestionLists.add(Collections.singletonList(partialWord));
         }
         if (suggestionLists.size() <= 3) {  // avoid OOM on words like "free-and-open-source-and-cross-platform"
           List<String> additionalSuggestions = suggestionLists.get(0);
