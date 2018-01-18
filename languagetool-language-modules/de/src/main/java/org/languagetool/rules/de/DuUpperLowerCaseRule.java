@@ -40,7 +40,9 @@ import java.util.*;
 public class DuUpperLowerCaseRule extends TextLevelRule {
 
   private static final Set<String> lowerWords = new HashSet<>(
-          Arrays.asList("du", "dir", "dich", "dein", "deine", "deines", "deins", "deiner", "deinen", "deinem")
+          Arrays.asList("du", "dir", "dich", "dein", "deine", "deines", "deins", "deiner", "deinen", "deinem",
+                        "euch", "euer", "eure", "euere", "euren", "eueren", "euern", "eurer", "euerer",
+                        "eurem", "euerem", "eures", "eueres")
   );
   
   public DuUpperLowerCaseRule(ResourceBundle messages) {
