@@ -3341,6 +3341,12 @@ title="Easy editing stylesheet" ?>
   <rulegroup id='IR_CONTRACTION_NOUN' name="Ir + na/no + nome">
     <!--      Created by Marco A.G.Pinto, 2017-07-XX      -->
       <antipattern>
+          <token skip='3'>ainda</token>
+          <token inflected='yes'>ir
+            <exception regexp='yes'>foi|fora|indo</exception></token>
+          <token regexp='yes'>n[ao]</token>
+      </antipattern>
+      <antipattern>
           <token inflected='yes'>ir
             <exception regexp='yes'>foi|fora|indo</exception></token>
           <token regexp='yes'>n[ao]</token>
@@ -3382,6 +3388,7 @@ title="Easy editing stylesheet" ?>
       <example>Quero viajar para fora no ano que vem.</example>
       <example>Já vou no último capítulo.</example>
       <example>A procissão ainda vai no adro.</example>
+      <example>Ainda 2018 vai no início...</example>
     </rule>
   </rulegroup>
 
@@ -13643,7 +13650,7 @@ o tomate'>
     <rule>
       <pattern>
           <token regexp='yes'>eu|tu|el[ea]s?|nós|vós|vocês?</token>
-          <token regexp='yes'>&adj_nomes_paronimos_a;|&adj_nomes_paronimos_a_2;</token>
+          <token regexp='yes'>(&adj_nomes_paronimos_a;|&adj_nomes_paronimos_a_2;)s?</token>
       </pattern>
       <message>Se pretende utilizar o verbo, não deve acentuar a palavra.</message>
         <suggestion>\1 <match no="2" regexp_match="[Áá]" regexp_replace="a"/></suggestion>
@@ -13652,7 +13659,7 @@ o tomate'>
     </rule>
     <rule>
       <pattern>
-          <token regexp='yes'>&adj_nomes_paronimos_a;|&adj_nomes_paronimos_a_2;</token>
+          <token regexp='yes'>(&adj_nomes_paronimos_a;|&adj_nomes_paronimos_a_2;)s?</token>
           <token regexp='yes' spacebefore='no'>&tracos_de_separacao;</token>
           <token postag_regexp='yes' postag='PP.+' spacebefore='no'/>
       </pattern>
@@ -13668,7 +13675,7 @@ o tomate'>
     <rule>
       <pattern>
           <token regexp='yes'>eu|tu|el[ea]s?|nós|vós|vocês?</token>
-          <token regexp='yes'>abundância|circunstância|distância|estância|extravagância|ganância|instância|jac?tância|manigância|pânria|substância</token>
+          <token regexp='yes'>(abundância|circunstância|distância|estância|extravagância|ganância|instância|jac?tância|manigância|pânria|substância)s?</token>
       </pattern>
       <message>Se pretende utilizar o verbo, não deve acentuar a palavra.</message>
         <suggestion>\1 <match no="2" regexp_match="[Ââ]" regexp_replace="a"/></suggestion>
@@ -13676,7 +13683,7 @@ o tomate'>
     </rule>
     <rule>
       <pattern>
-          <token regexp='yes'>abundância|circunstância|distância|estância|extravagância|ganância|instância|jac?tância|manigância|pânria|substância</token>
+          <token regexp='yes'>(abundância|circunstância|distância|estância|extravagância|ganância|instância|jac?tância|manigância|pânria|substância)s?</token>
           <token regexp='yes' spacebefore='no'>&tracos_de_separacao;</token>
           <token postag_regexp='yes' postag='PP.+' spacebefore='no'/>
       </pattern>
@@ -13686,13 +13693,37 @@ o tomate'>
     </rule>
   </rulegroup>
 
+  <rulegroup id='PARONYM_AHH_ADJ_NOUN_CONFUSION' name='Confusão: parónimo acentuado no lugar do verbo (ã)'>
+    <!-- Created by Tiago F. Santos, Portuguese rule, 2017-01-24 -->
+      <short>Nesta situação não se acentua a palavra.</short>
+    <rule>
+      <pattern>
+          <token regexp='yes'>eu|tu|el[ea]s?|nós|vós|vocês?</token>
+          <token regexp='yes'>espiãs?</token>
+      </pattern>
+      <message>Se pretende utilizar o verbo, não deve acentuar a palavra.</message>
+        <suggestion>\1 <match no="2" regexp_match="[Ãã]" regexp_replace="a"/></suggestion>
+      <example correction='Ela espia'><marker>Ela espiã</marker> quem a pode ajudar.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp='yes'>espiãs?</token>
+          <token regexp='yes' spacebefore='no'>&tracos_de_separacao;</token>
+          <token postag_regexp='yes' postag='PP.+' spacebefore='no'/>
+      </pattern>
+      <message>Se pretende utilizar o verbo, não deve acentuar a palavra.</message>
+        <suggestion><match no="1" regexp_match="[Ãã]" regexp_replace="a"/>-\3</suggestion>
+      <example correction='espia-se'>Isto <marker>espiã-se</marker> com uma lupa.</example>
+    </rule>
+  </rulegroup>
+
   <rulegroup id='PARONYM_E_ADJ_NOUN_CONFUSION' name='Confusão: parónimo acentuado no lugar do verbo (é)'>
     <!-- Created by Tiago F. Santos, Portuguese rule, 2017-01-24 -->
       <short>Nesta situação não se acentua a palavra.</short>
     <rule>
       <pattern>
           <token regexp='yes'>eu|tu|el[ea]s?|nós|vós|vocês?</token>
-          <token regexp='yes'>&adj_nomes_paronimos_e;</token>
+          <token regexp='yes'>(&adj_nomes_paronimos_e;)s?</token>
       </pattern>
       <message>Se pretende utilizar o verbo, não deve acentuar a palavra.</message>
         <suggestion>\1 <match no="2" regexp_match="[Éé]" regexp_replace="e"/></suggestion>
@@ -13700,7 +13731,7 @@ o tomate'>
     </rule>
     <rule>
       <pattern>
-          <token regexp='yes'>&adj_nomes_paronimos_e;</token>
+          <token regexp='yes'>(&adj_nomes_paronimos_e;)s?</token>
           <token regexp='yes' spacebefore='no'>&tracos_de_separacao;</token>
           <token postag_regexp='yes' postag='PP.+' spacebefore='no'/>
       </pattern>
@@ -13716,7 +13747,7 @@ o tomate'>
     <rule>
       <pattern>
           <token regexp='yes'>eu|tu|el[ea]s?|nós|vós|vocês?</token>
-          <token regexp='yes'>&adj_nomes_paronimos_eh;|&adj_nomes_paronimos_eh_2;</token>
+          <token regexp='yes'>(&adj_nomes_paronimos_eh;|&adj_nomes_paronimos_eh_2;)s?</token>
       </pattern>
       <message>Se pretende utilizar o verbo, não deve acentuar a palavra.</message>
         <suggestion>\1 <match no="2" regexp_match="[Êê]" regexp_replace="e"/></suggestion>
@@ -13724,7 +13755,7 @@ o tomate'>
     </rule>
     <rule>
       <pattern>
-          <token regexp='yes'>&adj_nomes_paronimos_eh;|&adj_nomes_paronimos_eh_2;</token>
+          <token regexp='yes'>(&adj_nomes_paronimos_eh;|&adj_nomes_paronimos_eh_2;)s?</token>
           <token regexp='yes' spacebefore='no'>&tracos_de_separacao;</token>
           <token postag_regexp='yes' postag='PP.+' spacebefore='no'/>
       </pattern>
@@ -13740,7 +13771,7 @@ o tomate'>
     <rule>
       <pattern>
           <token regexp='yes'>eu|tu|el[ea]s?|nós|vós|vocês?</token>
-          <token regexp='yes'>&adj_nomes_paronimos_i;|&adj_nomes_paronimos_i_2;</token>
+          <token regexp='yes'>(&adj_nomes_paronimos_i;|&adj_nomes_paronimos_i_2;)s?</token>
       </pattern>
       <message>Se pretende utilizar o verbo, não deve acentuar a palavra.</message>
         <suggestion>\1 <match no="2" regexp_match="[Íí]" regexp_replace="i"/></suggestion>
@@ -13748,7 +13779,7 @@ o tomate'>
     </rule>
     <rule>
       <pattern>
-          <token regexp='yes'>&adj_nomes_paronimos_i;|&adj_nomes_paronimos_i_2;</token>
+          <token regexp='yes'>(&adj_nomes_paronimos_i;|&adj_nomes_paronimos_i_2;)s?</token>
           <token regexp='yes' spacebefore='no'>&tracos_de_separacao;</token>
           <token postag_regexp='yes' postag='PP.+' spacebefore='no'/>
       </pattern>
@@ -13764,7 +13795,7 @@ o tomate'>
     <rule>
       <pattern>
           <token regexp='yes'>eu|tu|el[ea]s?|nós|vós|vocês?</token>
-          <token regexp='yes'>&adj_nomes_paronimos_o;</token>
+          <token regexp='yes'>(&adj_nomes_paronimos_o;)s?</token>
       </pattern>
       <message>Se pretende utilizar o verbo, não deve acentuar a palavra.</message>
         <suggestion>\1 <match no="2" regexp_match="[Óó]" regexp_replace="o"/></suggestion>
@@ -13772,7 +13803,7 @@ o tomate'>
     </rule>
     <rule>
       <pattern>
-          <token regexp='yes'>&adj_nomes_paronimos_o;</token>
+          <token regexp='yes'>(&adj_nomes_paronimos_o;)s?</token>
           <token regexp='yes' spacebefore='no'>&tracos_de_separacao;</token>
           <token postag_regexp='yes' postag='PP.+' spacebefore='no'/>
       </pattern>
@@ -13788,7 +13819,7 @@ o tomate'>
     <rule>
       <pattern>
           <token regexp='yes'>eu|tu|el[ea]s?|nós|vós|vocês?</token>
-          <token regexp='yes'>&adj_nomes_paronimos_u;</token>
+          <token regexp='yes'>(&adj_nomes_paronimos_u;)s?</token>
       </pattern>
       <message>Se pretende utilizar o verbo, não deve acentuar a palavra.</message>
         <suggestion>\1 <match no="2" regexp_match="[Úú]" regexp_replace="u"/></suggestion>
@@ -13805,7 +13836,7 @@ o tomate'>
     </rule>
     <rule>
       <pattern>
-          <token regexp='yes'>&adj_nomes_paronimos_u;</token>
+          <token regexp='yes'>(&adj_nomes_paronimos_u;)s?</token>
           <token regexp='yes' spacebefore='no'>&tracos_de_separacao;</token>
           <token postag_regexp='yes' postag='PP.+' spacebefore='no'/>
       </pattern>
@@ -19956,7 +19987,7 @@ TODO Write better examples
       <example correction='uma dívida'><marker>uma divida</marker>.</example>
       <example correction='umas dívidas'><marker>umas dividas</marker>.</example>
     </rule>
-    <rule id='PARONYM_MAGICA_613' name='Parónimo: divida'>
+    <rule id='PARONYM_MAGICA_613' name='Parónimo: magica'>
       <pattern>
           <token regexp='yes'>&art_detecao_paronimos;</token>
           <token min='0' postag='A.+' postag_regexp='yes'/>
@@ -19966,6 +19997,17 @@ TODO Write better examples
         <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> mágic<match no='3' regexp_match='.+?([ao]s?)$' regexp_replace='$1'/></suggestion>
       <example correction='uma mágica'><marker>uma magica</marker>.</example>
       <example correction='uns mágicos'><marker>uns magicos</marker>.</example>
+    </rule>
+    <rule id='PARONYM_ESPIA_614' name='Parónimo: espia'>
+      <pattern>
+          <token regexp='yes'>(?:(?:[mts]ua|minha|[nv]ossa)|(?:d|n|pel)?(?:outr)?a)s?|de|em|por|(alg|d|n)?(um(a|as))</token>
+          <token min='0' postag='A.+' postag_regexp='yes'/>
+          <token regexp='yes'>espias?</token>
+      </pattern>
+      <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
+        <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' regexp_match='[Aa]' regexp_replace='ã'/></suggestion>
+      <example correction='uma espiã'><marker>uma espia</marker>.</example>
+      <example correction='umas espiãs'><marker>umas espias</marker>.</example>
     </rule>
   </rulegroup>
 
