@@ -42555,6 +42555,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="DNV_SECONDARY_FORM" name="Paraules admeses pel DNV (AVL), però com a formes secundàries" type="style">
+        <rule id="CULT" name="cult">
+            <pattern>
+                <token regexp="yes">cults?</token>
+            </pattern>
+            <message>Forma secundària, no admesa en tots els diccionaris.</message>
+            <suggestion><match no="1" regexp_match="(?iu)cult(s?)" regexp_replace="culte$1"/></suggestion>
+            <example correction="cultes">Són molt <marker>cults</marker></example>
+            <example correction="culte">És molt <marker>cult</marker></example>
+        </rule>
         <rulegroup id="DEVERES" name="de deveres/de veres">
             <rule>
                 <pattern>
