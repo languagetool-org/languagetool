@@ -53,19 +53,33 @@ USA
             <short>Possible typo</short>
             <example correction="Hallo"><marker>Halo</marker> John!</example>
         </rule>
-        <rule id="APOS_RE" name="we'Re' (we're) etc">
-         <pattern>
-          <marker>
-          <token regexp="yes">you|we|they</token>
-          <token regexp="yes">['’]</token>
-          <token case_sensitive="yes" regexp="yes">Re|RE</token>
-          </marker>
-         </pattern>
-         <message>Did you mean <suggestion>\1\2re</suggestion>?</message>
-         <short>Possible typo</short>
-         <example correction='We&apos;re'><marker>We'Re</marker> looking forward to our meeting.</example>         
-         <example correction='We&apos;re'><marker>We'RE</marker> looking forward to our meeting.</example>         
-        </rule>
+        <rulegroup id="APOS_RE" name="we'Re' (we're) etc">
+          <rule>
+            <pattern>
+              <marker>
+                <token regexp="yes">you|we|they|who</token>
+                <token regexp="yes">['’]</token>
+                <token case_sensitive="yes" regexp="yes">Re|RE</token>
+              </marker>
+            </pattern>
+            <message>Did you mean <suggestion>\1\2re</suggestion>?</message>
+            <short>Possible typo</short>
+            <example correction='We&apos;re'><marker>We'Re</marker> looking forward to our meeting.</example>         
+            <example correction='We&apos;re'><marker>We'RE</marker> looking forward to our meeting.</example>         
+          </rule>
+          <rule>
+            <pattern>
+              <marker>
+                <token regexp="yes">isn|aren|wasn|weren|don|doesn|didn|can|couldn|mayn|mightn|mustn|needn|oughtn|shan|shouldn|usedn|won|wouldn</token>
+                <token regexp="yes">['’]</token>
+                <token case_sensitive="yes">T</token>
+              </marker>
+            </pattern>
+            <message>Did you mean <suggestion>\1\2t</suggestion>?</message>
+            <short>Possible typo</short>
+            <example correction='don&apos;t'>We <marker>don'T</marker> need this.</example>         
+          </rule>
+        </rulegroup>
         <rule id="AS_FOLLOW_AS_FOLLOWS" name="'as follow' (as follows)">
          <pattern>
           <marker>
