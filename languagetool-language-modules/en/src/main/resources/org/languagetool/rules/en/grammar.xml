@@ -42,6 +42,17 @@ USA
     <!-- Possible typo -->
     <!-- ====================================================================== -->
     <category id="TYPOS" name="Possible Typo" type="misspelling">
+        <rule id="HALO_HALLO" name="Halo (Hallo)">
+            <pattern>
+                <token postag="SENT_START"/>
+                <marker>
+                    <token>Halo</token>
+                </marker>
+            </pattern>
+            <message>Did you mean <suggestion>Hallo</suggestion>, the greeting? A halo is an optical phenomenon.</message>
+            <short>Possible typo</short>
+            <example correction="Hallo"><marker>Halo</marker> John!</example>
+        </rule>
         <rule id="APOS_RE" name="we'Re' (we're) etc">
          <pattern>
           <marker>
