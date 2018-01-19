@@ -15056,6 +15056,41 @@ USA
       <message>The usual collocations for "\1" are <suggestion>\1 about</suggestion> or <suggestion>\1 of</suggestion>.</message>
       <example correction='thinking about|thinking of'>I'm <marker>thinking in</marker> finish this text.</example>
     </rule>
+    <rule id='RESPONSIBLE_OF_FOR' name='Collocation: responsible of/for'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token regexp="yes">respons[ai]bles?</token>
+          <token>of</token>
+      </pattern>
+      <message>The usual collocations for "\1" is "\1 for". Did you mean <suggestion>\1 for</suggestion> or <suggestion>in charge of</suggestion>?</message>
+      <example correction='responsable for|in charge of'>I am <marker>responsable of</marker> marketing.</example>
+    </rule>
+    <rule id='WAIT_AFTER_FOR' name='Collocation: '>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+    <!--We were on shock when it happen. -->
+      <pattern>
+          <token inflected="yes">wait</token>
+          <token>after</token>
+          <token postag="PRP"/>
+      </pattern>
+      <message>The usual collocations for "\1" is "\1 on," meaning act as an attendant to someone, or "\1 for" meaning to remain patiently inactive. Did you mean <suggestion>\1 for \3</suggestion>.</message>
+      <example correction='waiting for her'>I am <marker>waiting after her</marker>.</example>
+    </rule>
+    <rule id='ON_IN_A_HOSPITAL_BED' name='Collocation: on/in a hospital bed'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+    <!--We were on shock when it happen. -->
+      <pattern>
+          <token inflected="yes">be</token>
+        <marker>
+          <token>on</token>
+          <token>a</token>
+          <token>hospital</token>
+          <token>bed</token>
+        </marker>
+      </pattern>
+      <message>The usual preposition with "\5" is "in". Did you mean <suggestion>in a hospital bed</suggestion>.</message>
+      <example correction='in a hospital bed'>The patient is <marker>on a hospital bed</marker> waiting for surgery.</example>
+    </rule>
   </rulegroup>
 
   <rulegroup id='DURING_OVER_THE_WEEKENDS' name='Collocation: during/over the weekends'>
