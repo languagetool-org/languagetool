@@ -14994,6 +14994,43 @@ USA
       <message>The usual preposition for "\1" is "at." Revise: <suggestion>\1 at \3</suggestion>.</message>
       <example correction='growled at him'>Dr. Dre <marker>growled to him</marker> about the snow.</example>
     </rule>
+    <rule id='TO_ON_A_TRIP' name='Collocation: to/on a trip'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token inflected="yes">go</token>
+          <token>to</token>
+          <token>a</token>
+          <token>trip</token>
+      </pattern>
+      <message>The usual collocation for "\2" and "a trip" is "\2 on a trip". Did you mean <suggestion>\1 on a trip</suggestion>?</message>
+      <example correction='went on a trip'>Yes, I <marker>went to a trip</marker>.</example>
+    </rule>
+    <rule id='IN_ON_A_TRIP' name='Collocation: in/on a trip'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+        <marker>
+          <token>in</token>
+          <token postag="PRP$"/>
+          <token regexp="yes">tr(?:ip|avel)s?</token>
+        </marker>
+          <token>,</token>
+      </pattern>
+      <message>The usual collocation for "\2 \3" is <suggestion>on \2 \3</suggestion> or <suggestion>during \2 \3</suggestion>.</message>
+      <example correction='on his trip|during his trip'>It was is <marker>in his trip</marker>, that he met her.</example>
+    </rule>
+    <rule id='THINK_IN_ABOUT' name='Collocation: think on/about'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+        <marker>
+          <token inflected='yes'>think</token>
+          <token regexp='yes'>[io]n</token>
+        </marker>
+          <token regexp="yes">finish|finishing</token>
+          <token postag="DT"/>
+      </pattern>
+      <message>The usual collocations for "\1" are <suggestion>\1 about</suggestion> or <suggestion>\1 of</suggestion>.</message>
+      <example correction='thinking about|thinking of'>I'm <marker>thinking in</marker> finish this text.</example>
+    </rule>
   </rulegroup>
 
   <rulegroup id='DURING_OVER_THE_WEEKENDS' name='Collocation: during/over the weekends'>
