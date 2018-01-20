@@ -39,6 +39,8 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import static java.util.Comparator.comparing;
+
 /**
  * Command line tool to list supported languages and their number of rules.
  * 
@@ -238,7 +240,7 @@ public final class RuleOverview {
 
   private List<Language> getSortedLanguages() {
     final List<Language> sortedLanguages = new ArrayList<>(Languages.get());
-    Collections.sort(sortedLanguages, (o1, o2) -> o1.getName().compareTo(o2.getName()));
+    sortedLanguages.sort(comparing(Language::getName));
     return sortedLanguages;
   }
 
