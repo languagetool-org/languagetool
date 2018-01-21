@@ -1655,6 +1655,20 @@
         <example type="ambiguous" inputform="dogs[dog/NNS,dog/VBZ]" outputform="dogs[dog/NNS]">The <marker>dogs</marker> barks loudly.</example>
         <example type="untouched">Anarcho-pacifism is a tendency that rejects violence.</example>
     </rule>
+    <rule name="each + verb/NN -&gt; NN" id="EACH_VB_NN">
+        <pattern>
+            <token postag="IN"/>
+            <token>each</token>
+            <marker>
+                <and>
+                    <token postag_regexp="yes" postag="VB[PZDN]?|MD"/>
+                    <token postag_regexp="yes" postag="NN.*"><exception negate_pos="yes" postag="VB[ZPDN]?|NNS?|NN:UN|NN:U|MD" postag_regexp="yes"/></token>
+                </and>
+            </marker>
+        </pattern>
+        <disambig action="filter" postag="NN.*"/>
+        <example type="ambiguous" inputform="window[window/NN,window/VB,window/VBP]" outputform="window[window/NN]">There are traceries around each <marker>window</marker> of old man Simon's house.</example>
+    </rule>
 
     <rule name="a/an/each + adj/nn + verb sing -&gt; NN" id="AN_JJ_VB_NN">    
         <pattern>
