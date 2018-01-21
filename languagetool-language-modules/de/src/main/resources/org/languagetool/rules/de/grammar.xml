@@ -9763,6 +9763,33 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="hocheffizientes">Er hat ein <marker>hoch effizientes</marker> Heilmittel entwickelt.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="SCHWERFAELLIG" name="schwer fällig (schwerfällig)">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token>schwer</token>
+                        <token inflected="yes" regexp="yes">fällig|flüssig|gängig|hörig|gewichtig|reich</token>
+                    </marker>
+                </pattern>
+                <message>Ergibt sich durch die Zusammensetzung von 'schwer' und '\2' eine neue, idiomatisierte Gesamtbedeutung, werden die Wörter zusammengeschrieben</message>
+                <suggestion>\1\2</suggestion>
+                <example correction="schwerhörige">Der <marker>schwer hörige</marker> Zeuge hat alles beobachtet.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="SCHWERFALLEN" name="schwer fallen (schwerfallen)">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token>schwer</token>
+                        <token inflected="yes" regexp="yes">fallen|tun</token>
+                    </marker>
+                </pattern>
+                <message>Die Verben 'schwerfallen' und '(sich) schwertun' (='Schwierigkeiten bereiten') werden zusammengeschrieben.</message>
+                <suggestion>\1\2</suggestion>
+                <example correction="schwergefallen">Der Verkauf ist ihm sehr <marker>schwer gefallen</marker>.</example>
+                <example correction="schwertust">Wenn du dich schon damit <marker>schwer tust</marker>, wirst du die Prüfung nicht schaffen.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="ANHAND" name="an hand (anhand)">
             <rule>
                 <pattern>
