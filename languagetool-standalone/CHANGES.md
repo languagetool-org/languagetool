@@ -2,6 +2,10 @@
 
 ## 4.1-SNAPSHOT (release planned for 2018-03-27)
 
+#### English
+  * added and improved rules
+  * added remaining collocation rules (~130) contributed by Nicholas Walker (Bokomaru)
+
 #### German
   * added and improved rules
   * New rule that checks coherent use of Du/du, Dich/dich etc. Assumes that the first
@@ -9,6 +13,8 @@
   * New line extension '-*' for 'ignore.txt': entries ending with '*-' are ignored only if 
     they are part of a hyphenated compound
 
+#### Portuguese
+  * added and improved rules
 
 ## 4.0 (2017-12-29)
 
