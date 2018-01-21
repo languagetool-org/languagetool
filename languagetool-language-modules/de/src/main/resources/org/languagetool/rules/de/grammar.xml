@@ -9734,6 +9734,35 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Schlafwandeln">Beim <marker>Schlaf wandeln</marker> verletzte sie sich.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="SCHIEFGEHEN" name="schief gehen (schiefgehen)">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>schief</token>
+                        <token inflected="yes" regexp="yes">gehen|laufen</token>
+                    </marker>
+                </pattern>
+                <message>Formen des Verbs 'schiefgehen' / 'schieflaufen' (in der Bedeutung 'misslingen') werden zusammengeschrieben.</message>
+                <suggestion>\1\2</suggestion>
+                <example correction="schiefgehen">Das wird schon <marker>schief gehen</marker>!</example>
+                <example correction="schiefgelaufen">Es ist alles <marker>schief gelaufen</marker>!</example>
+                <example correction="schiefgeht">Wenn das <marker>schief geht</marker>, haben wir ein Problem.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="HOCH_ADJ" name="'hoch + Adjektiv' zusammenschreiben">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token>hoch</token>
+                        <token inflected="yes" regexp="yes">effizient|empfindlich|erfreulich|explosiv|ge(achtet|schlossen|schlitzt|stochen)|giftig|heilig|komplex|leistungsfähig|modern|offiziell|politisch|profitabel|prozentig|sensibel</token>
+                    </marker>
+                </pattern>
+                <message>Wird ein Adjektiv durch 'hoch' verstärkt, wird zusammengeschrieben.</message>
+                <suggestion>\1\2</suggestion>
+                <example correction="hochexplosiv">Das Gemisch ist <marker>hoch explosiv</marker>!</example>
+                <example correction="hocheffizientes">Er hat ein <marker>hoch effizientes</marker> Heilmittel entwickelt.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="ANHAND" name="an hand (anhand)">
             <rule>
                 <pattern>
