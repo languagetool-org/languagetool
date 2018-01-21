@@ -15129,6 +15129,46 @@ USA
       <message>The usual preposition with "\3" is "in". Did you mean <suggestion>\1 in shock</suggestion>.</message>
       <example correction='were in shock'>We <marker>were on shock</marker> when it happen..</example>
     </rule>
+    <rule id='ENTER_IN' name='Collocation: enter in'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token inflected="yes">enter</token>
+          <token>in</token>
+          <token postag="DT"/>
+          <token>
+            <exception regexp="yes">space|book|file</exception></token>
+      </pattern>
+      <message>There isn't usually a preposition after "\1". Did you mean <suggestion>\1 \3 \4</suggestion>.</message>
+      <example correction='entering the room'>While he was <marker>entering in the room</marker>, he felt an uncomfortable feeling on his spine.</example>
+      <example>The record is <marker>entered in a book</marker>.</example>
+    </rule>
+    <rule id='GO_TO_HOME' name='Collocation: '>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <antipattern>
+          <token>home</token>
+          <token>base</token>
+      </antipattern>
+      <pattern>
+          <token inflected="yes">go</token>
+          <token>to</token>
+          <token regexp='yes'>home|upstairs|downstairs|downtown|inside|outside|here|there|back|away|near|close|abroad|overseas|everywhere|somewhere|nowhere|underground</token>
+      </pattern>
+      <message>There isn't usually a preposition before "\3". Did you mean <suggestion>\1 \3</suggestion>.</message>
+      <example correction='went home'>Suzie <marker>went to home</marker>.</example>
+      <example>Carry <marker>went to home base</marker>.</example>
+    </rule>
+    <rule id='CAME_IN_INTO' name='Collocation: came in/into'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token/>
+          <token>came</token>
+          <token>in</token>
+          <token>the</token>
+          <token regexp="yes">h(?:all|ouse)|living(?:room)?|kitchen|b(?:ed|ath)room|dining(?:room)?</token>
+      </pattern>
+      <message>The usual proposition after "\2" is "into" not "\3". The sentence "\1 \2 \3 \4 \5" is a colloquial expression for "\1 had an orgasm in the \5". Did you mean <suggestion>\1 \2 into \4 \5</suggestion>, meaning "\1 arrived"?</message>
+      <example correction='Judy came into the house'><marker>Judy came in the house</marker> after greeting her elders.</example>
+    </rule>
   </rulegroup>
 
   <rulegroup id='DURING_OVER_THE_WEEKENDS' name='Collocation: during/over the weekends'>
