@@ -44,13 +44,21 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <token postag="(P.|V.{3})[30].*" postag_regexp="yes"></token>
         </equivalence>
     </unification>
-    <rule id="FIX_DICTIONARY" name="fix some problems in dictionaries">
+    <rulegroup id="FIX_DICTIONARY" name="fix some problems in dictionaries">
         <!-- es pot eliminar quan s'arregle el diccionari -->
-        <pattern>
-            <token inflected="yes">ditar</token>
-        </pattern>
-        <disambig action="remove"><wd lemma="ditar"/></disambig>
-    </rule>
+        <rule>
+            <pattern>
+                <token inflected="yes">ditar</token>
+            </pattern>
+            <disambig action="remove"><wd lemma="ditar"/></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token>imprimí</token>
+            </pattern>
+            <disambig action="remove"><wd lemma="imprimar"/></disambig>
+        </rule>
+    </rulegroup>
     <rulegroup id="FIX_SENTENCE_TOKENIZATION" name="fix problems with sentence tokenization">
         <rule>
             <pattern>
