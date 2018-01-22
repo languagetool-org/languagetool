@@ -3643,6 +3643,17 @@ regexp case-insensitive maken : (?i)
 		<rulegroup id="TST_HOOFDLETTERS_OVERBODIG" name="Woorden die ook klein geschreven mogen worden.">
 			<rule>
 				<pattern>
+					<token/>
+					<marker>
+						<token case_sensitive="yes">Almachtige</token>
+					</marker>
+					<token><exception case_sensitive="yes" regexp="yes">God|Allah</exception></token>
+				</pattern>
+				<message>Dit woord heeft alleen hoofdletters als het woord gebruikt als naam van God of Allah: <suggestion><match no="2" case_conversion="alllower"/></suggestion></message>
+				<example correction="almachtige">Ik dank de <marker>Almachtige</marker> weer.</example>
+			</rule>
+			<rule>
+				<pattern>
 					<token case_sensitive="yes" regexp="yes">BTW|LED|CV|CD|DVD|TV|IC</token>
 				</pattern>
 				<message>Dit woord hoeft niet met hoofdletters: <suggestion><match no="1" case_conversion="alllower"/></suggestion></message>
