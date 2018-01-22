@@ -15421,10 +15421,48 @@ USA
       <message>The usual proposition after "\2" is "into" not "\3". The sentence "\1 \2 \3 \4 \5" is a colloquial expression for "\1 had an orgasm in the \5". Did you mean <suggestion>\1 \2 into \4 \5</suggestion>, meaning "\1 arrived"?</message>
       <example correction='Judy came into the house'><marker>Judy came in the house</marker> after greeting her elders.</example>
     </rule>
+    <rule id='ARRIVE_ON_AT_THE_BEACH' name='Collocation: arrive on/at the beach'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+        <marker>
+          <token inflected="yes">arrive</token>
+          <token>on</token>
+        </marker>
+          <token>
+            <exception regexp='yes'>time|schedule</exception></token>
+      </pattern>
+      <message>The usual proposition after "\1" is "at" not "\2". Did you mean <suggestion>\1 at</suggestion>.</message>
+      <example correction='arrived at'>When John <marker>arrived on</marker> the beach, he went for a swim.</example>
+    </rule>
+    <rule id='RETURN_AT_HOME' name='Collocation: return at home'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token inflected="yes">return</token>
+          <token>at</token>
+          <token>home</token>
+      </pattern>
+      <message>You do not need a preposition between "\1" and "\3". Did you mean <suggestion>\1 \3</suggestion>.</message>
+      <example correction='Return home'><marker>Return at home</marker> before midnight.</example>
+    </rule>
+    <rule id='BE_IN_UNDER_PRESSURE' name='Collocation: be in/under pressure'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token inflected="yes">be</token>
+          <token postag='VBG' min='0'/>
+        <marker>
+          <token>in</token>
+          <token>pressure</token>
+        </marker>
+      </pattern>
+      <message>The usual collocation for "\3" is "under" not "\2". Did you mean <suggestion>under pressure</suggestion>.</message>
+      <example correction='under pressure'>Kelly is <marker>in pressure</marker>.</example>
+    </rule>
   </rulegroup>
 
   <rulegroup id='DURING_OVER_THE_WEEKENDS' name='Collocation: during/over the weekends'>
     <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <url>http://www.kentlee7.com/writ/collocation.errors.typical.pdf</url>
+      <short>Collocation error</short>
     <rule>
       <pattern>
           <marker>
