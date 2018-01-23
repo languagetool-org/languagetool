@@ -4104,28 +4104,44 @@
 <!--Measures  -->
 <rule break="no">
 <beforebreak>\b[0-9]+(м|мм|см|дм|л|км|га|кг|т|г|мг)\.\s</beforebreak>
-<afterbreak></afterbreak>
+<afterbreak>\p{Ll}</afterbreak>
 </rule>
 <!-- other abbreviations  -->
 <rule break="no">
-<beforebreak>\b(англ|бульв|в|вв|г|га|гг|гл|гос|грн|д|дм|доп|долл|др|е|ед|ед|зам|Зам|и|им|инд|исп|Исп)\.\s</beforebreak>
+<beforebreak>\b(бульв|г|д|доп|др|е|зам|Зам|и|им|инд|исп|Исп)\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>    
+<rule break="no">
+<beforebreak>\b(англ|в|вв|га|гг|гл|гос|грн|дм|долл|е|ед)\.\s</beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\b(к|кап|кав|кв|кл|кол|комн|куб|л|лиц|лл|м|макс)\.\s</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>\b(к|кап|кав|кг|кв|кл|км|кол|комн|коп|куб|л|лиц|лл|м|макс|мг|мин|мл|млн|Млн|млрд|Млрд|мм)\.\s</beforebreak>
-<afterbreak></afterbreak>
+<beforebreak>\b(кг|км|коп|л|лл|м|мг|мин|мл|млн|Млн|млрд|Млрд|мм)\.\s</beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
 </rule>
 <rule break="no">
 <beforebreak>\b(н|наб|нач|неуд|нем|ном|о|обл|обр|общ|ок|ост|отл|п|пер|Пер|перераб|пл|пос|пр|пром|просп|Просп|проф|Проф)\.\s</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>\b(р|ред|Рис|руб|рус|Руб|с|сб|св|см|См|сов|соч|соц|спец|ср|ст|стр|т|тел|Тел|тех|тов|тт|туп|тыс|Тыс|трлн)\.\s</beforebreak>
+<beforebreak>\b(ред|Рис|рус|с|сб|св|См|сов|соч|соц|спец|ср|ст|стр|т|тел|Тел|тех|тов|тт|туп)\.\s</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>\b(уд|ул|уч|физ|х|хор|ч|чел|шт|экз|э)\.\s</beforebreak>
+<beforebreak>\b(р|руб|Руб|см|тыс|Тыс|трлн)\.\s</beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\b(уд|ул|уч|физ|х|хор|э)\.\s</beforebreak>
 <afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\b(ч|чел|шт|экз)\.\s</beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
 </rule>
 <rule break="no">
 <beforebreak>['"„“][\.!?…]['"”]\s</beforebreak>
