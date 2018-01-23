@@ -1371,6 +1371,39 @@ USA
             <short>Possible typo</short>
             <example correction="to the">The Hitchhiker's Guide <marker>tot he</marker> Galaxy</example>
         </rule>
+        <rulegroup id="TANK_YOU" name="tank (thank) you">
+            <rule>
+                <pattern>
+                    <marker><token>tank</token></marker>
+                    <token regexp="yes">you|him|her|God</token>
+                </pattern>
+                <message>Did you mean <suggestion>thank</suggestion>?</message>
+                <short>Possible typo</short>
+                <example correction="Thank"><marker>Tank</marker> you very much!</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker><token>tanks</token></marker>
+                    <token>to</token>
+                    <token regexp="yes">your?|hi[ms]|her|my|the</token>
+                </pattern>
+                <message>Did you mean <suggestion>thanks</suggestion>?</message>
+                <short>Possible typo</short>
+                <example correction="thanks">The case went poorly <marker>tanks</marker> to the lawyer's incompetence.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="FILED_WITH" name="filed (filled) with">
+            <rule>
+                <pattern>
+                    <marker><token>filed</token></marker>
+                    <token>with</token>
+                    <token regexp="yes">water|people|love|joy|smoke|hope|tears|sand|stories|hundreds|music|shoe|food|excitement|thousands|books|ice|pride|laughter|pictures|images|photos|blood|hate|children|fear|explosives|emotion|air|family|gratitude|flowers|anger|items|drama|garbage|rage|men|cash|hatred|sadness|dozens|gas|women|memories|students|pain|anxiety|mud|art|fluid|petrol|regret|debris|things|dread|energy|helium|players|uncertainty|happiness|toys|light|plastic|fans|examples|oil|wonder|activities|trash|fun|soil|life|school|grief|money|challenges|surprises|products|information|messages|references|tourists|concrete|confidence|passion|friends|goodies|violence|action|dust|optimism|questions|clothes|rubbish|tension|gold|photographs|gifts|moments</token>
+                </pattern>
+                <message>Did you mean <suggestion>filled</suggestion>?</message>
+                <short>Possible typo</short>
+                <example correction="filled">The gallery was <marker>filed</marker> with friends and family.</example>
+            </rule>
+        </rulegroup>
         <rule id="WITH_OUT" name="with out (without)">
             <pattern>
                 <token>with</token>
