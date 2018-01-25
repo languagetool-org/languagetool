@@ -15477,8 +15477,35 @@ USA
       <message>The usual collocation for "\1" is "of" not "\2". Did you mean <suggestion>\1 of</suggestion>.</message>
       <example correction='accused of'>He is <marker>accused for</marker> fraud.</example>
     </rule>
-    <rule id='IN_CHARGE_FOR' name='Collocation: in charge for/of'>
+    <rule id='ASHAMED_FROM' name='Collocation: ashamed from/of'>
     <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token>ashamed</token>
+          <token>from</token>
+      </pattern>
+      <message>The usual collocation for "\1" is "of" not "\2". Did you mean <suggestion>\1 of</suggestion>.</message>
+      <example correction='ashamed of'>After flunking in the exam, she felt <marker>ashamed from</marker> it.</example>
+    </rule>
+    <rule id='ARRIVE_AT_IN' name='Collocation: arrive at/in'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+        <marker>
+          <token inflected="yes">arrive</token>
+          <token>at</token>
+        </marker>
+          <token>the</token>
+          <token regexp="yes">village|town|city|country|state|province</token>
+      </pattern>
+      <message>The usual collocation for "\1" is "in" not "\2". Use "in" for geographical regions and "at" for a specific point. For a town, province, state, country or continent, use "in". For a restaurant, business, park or car, use "at". Did you mean <suggestion>\1 in</suggestion> or '\1 at'.</message>
+      <example correction='arrive in'>They will <marker>arrive at</marker> the city at 9:00 am.</example>
+    </rule>
+  </rulegroup>
+
+  <rulegroup id='IN_CHARGE_FOR' name='Collocation: in charge for/of/with'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <url>http://www.kentlee7.com/writ/collocation.errors.typical.pdf</url>
+      <short>Collocation error</short>
+    <rule>
       <pattern>
         <marker>
           <token>in</token>
@@ -15491,6 +15518,21 @@ USA
       </pattern>
       <message>The usual collocation for "in charge" is "of" not "for". Did you mean <suggestion>in charge of</suggestion>.</message>
       <example correction='in charge of'>Who is <marker>in charge for</marker> this shop?</example>
+    </rule>
+    <rule>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token>
+            <exception>in</exception></token>
+        <marker>
+          <token inflected="yes">charge</token>
+          <token>for</token>
+        </marker>
+          <token>
+            <exception regexp="yes">products|services</exception></token>
+      </pattern>
+      <message>The usual collocation for "\2" is "with" not "\3". Did you mean <suggestion>\2 with</suggestion>.</message>
+      <example correction='charge with'><marker>charge for</marker>.</example>
     </rule>
   </rulegroup>
 
