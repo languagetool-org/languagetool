@@ -7,7 +7,7 @@ title="Easy editing stylesheet" ?>
 Russian grammar and typo rules for LanguageTool.
 See resource/ru/russian_tags.txt for the meaning of the POS tags.
 
-Copyright © 2008-2017 Yakov Reztsov
+Copyright © 2008-2018 Yakov Reztsov
 http://www.languagetool.org
 
 This library is free software; you can redistribute it and/or
@@ -2346,13 +2346,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token postag="VB:Past:.*" postag_regexp="yes"  skip="2" >
                             <exception negate_pos="yes" postag="VB:Past:.*" postag_regexp="yes" />
                             <exception regexp="yes">Бил|МОК</exception>
-                            <exception scope="next" regexp="yes">;|:|[\p{Punct}]|-|[,]|–|—|не|и|или|--|чего</exception>
+                            <exception scope="next" regexp="yes">;|:|[\p{Punct}]|-|[,]|–|—|не|и|или|«|--|чего</exception>
                             <exception scope="next"  postag="INTERJECTION"></exception>
                         </token>
                         <token postag="VB:Past:.*" postag_regexp="yes">
                             <exception negate_pos="yes" postag="VB:Past:.*" postag_regexp="yes" />
                             <exception regexp="yes">Бил|МОК</exception>
-                            <exception scope="previous" regexp="yes">;|:|[\p{Punct}]|-|[,]|–|—|не|и|или</exception>
+                            <exception scope="previous" regexp="yes">;|:|[\p{Punct}]|-|[,]|–|—|«|не|и|или</exception>
                             <exception scope="previous" postag_regexp="yes" postag="PREP|INTERJECTION"></exception>
                         </token>
                     </unify>
@@ -2379,13 +2379,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                             <exception negate_pos="yes" postag="VB:(Real|IMP|Fut):.*:.*" postag_regexp="yes" />
                             <exception regexp="yes">Бил|МОК</exception>
                             <exception regexp="yes" inflected="yes">пойти|давать|идти|брать|воровать|быть|делать|сделать</exception>
-                            <exception scope="next" regexp="yes">;|:|[\p{Punct}]|-|[,]|–|—|не|и|или|--|чего</exception>
+                            <exception scope="next" regexp="yes">;|:|[\p{Punct}]|-|[,]|–|—|не|и|или|«|--|чего</exception>
                             <exception scope="next" postag_regexp="yes" postag="INTERJECTION|VB:INF:"></exception>
                         </token>
                         <token postag="VB:(Real|IMP|Fut):.*:.*" postag_regexp="yes">
                             <exception negate_pos="yes" postag="VB:(Real|IMP|Fut):.*:.*" postag_regexp="yes" />
                             <exception regexp="yes">Бил|МОК</exception>
-                            <exception scope="previous" regexp="yes">;|:|[\p{Punct}]|-|[,]|–|—|не|и|или</exception>
+                            <exception scope="previous" regexp="yes">;|:|[\p{Punct}]|-|[,]|–|—|«|не|и|или</exception>
                             <exception scope="previous" postag_regexp="yes" postag="PREP|INTERJECTION|VB:INF:"></exception>
                         </token>
                     </unify>
@@ -6304,7 +6304,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>  
-                        <token postag="ADJ:.*" postag_regexp="yes" regexp="yes">.*[аеёиоуэюя][н]([а-мо-я]{1,3})<exception  negate_pos="yes" postag="ADJ:.*" postag_regexp="yes"></exception></token>
+                        <token postag="ADJ:.*" postag_regexp="yes" regexp="yes">.*[аеёиоуэюя][н]([а-мо-я]{1,3})<exception  negate_pos="yes" postag="ADJ:.*" postag_regexp="yes"></exception><exception>женат</exception></token>
                     </marker>
                     <token  postag="PREP" skip="1" ></token>  
                     <token postag="NN:.*:.*:.*:P" postag_regexp="yes"></token>
@@ -6315,6 +6315,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Стеклянный, оловянный и деревянный – это исключения из правила.</example>
                 <example>Вводится единый для всех ведомств госбюджет, с едиными остатками.</example>
                 <example>Пётр I приказал заменить их чулки с зелёных на красные.</example>
+                <example>Он женат на стюардессе.</example>
                 <example>Ещё один остановочный пункт существовал на острове Змеиный близ дельты Дуная.</example>
                 <example>Объекты реализации единых по замыслу архитектурных проектов.</example>
                 <example correction="жаренная">Сегодня на ужин <marker>жареная</marker> на масле картошка.</example>
@@ -6597,7 +6598,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token><exception  postag="PREP"></exception><exception postag_regexp="yes" postag="VB:.*"></exception><exception>,</exception><exception  regexp="yes" inflected="yes">поставщик|заказчик|контрагент|покупатель|продавец|исполнитель|кредитор|заёмщик|заемщика|организация|денежный|([0-9]*)</exception></token>
                     <token><exception  regexp="yes" >([0-9]*)[0-9.]</exception></token> 
                 </pattern>
-                <message>Слово пишется слитно: <suggestion>\1\2</suggestion>.</message>
+                <message>Слово пишется слитно, так как выступает в роли наречия: <suggestion>\1\2</suggestion>.</message>
                 <short>Пишется слитно.</short>
                 <example>Деньги переведены <marker>на счёт</marker> в банке.</example>
                 <example>Деньги переведены <marker>на счёт</marker> 00000000000000.</example>
