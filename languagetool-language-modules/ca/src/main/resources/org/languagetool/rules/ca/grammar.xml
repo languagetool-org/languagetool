@@ -26804,22 +26804,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="El que fa referència a|El que es refereix a"><marker>Allò referent a</marker> l'alçada mitjana.</example>
             </rule>
         </rulegroup>
-        <rule id="OFERTA_OFEREIX" name="oferta/ofereix">
-            <pattern>
-                <token postag="&pronom_feble;|R.*|CS" postag_regexp="yes" ><exception postag="A.*|D..FS.|DA.CS.|PX.*" postag_regexp="yes"/></token>
-                <marker>
-                    <token>oferta</token>
-                </marker>
-                <token><exception postag="CC"/></token>
-            </pattern>
-            <message>Si és un verb, cal dir <suggestion>ofereix</suggestion>.</message>
-            <example correction="ofereix">Ningú no <marker>oferta</marker> res per ell.</example>
-            <example correction="ofereix">Ningú no ens <marker>oferta</marker> res.</example>
-            <example correction="ofereix">Si <marker>oferta</marker> res, digues que no.</example>
-            <example>A igual oferta</example>
-            <example>L'oferta és bona.</example>
-            <example>Quan oferta i demanda es conjuguen.</example>
-        </rule>
         <rule id="EN_EL_TOCANT_A" name="en el/allò tocant a">
             <pattern>
                 <token>en</token>
@@ -42555,6 +42539,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="DNV_SECONDARY_FORM" name="Paraules admeses pel DNV (AVL), però com a formes secundàries" type="style">
+        <rule id="OFERTAR_OFERIR" name="ofertar/oferir">
+             <pattern>
+                <token postag="&pronom_feble;|R.*|CS" postag_regexp="yes" ><exception postag="A.*|D..FS.|DA.CS.|PX.*" postag_regexp="yes"/></token>
+                <marker>
+                    <token>oferta</token>
+                </marker>
+                <token><exception postag="CC"/></token>
+            </pattern>
+            <message>Si és un verb, cal dir <suggestion>ofereix</suggestion>.</message>
+            <example correction="ofereix">Ningú no <marker>oferta</marker> res per ell.</example>
+            <example correction="ofereix">Ningú no ens <marker>oferta</marker> res.</example>
+            <example correction="ofereix">Si <marker>oferta</marker> res, digues que no.</example>
+            <example>A igual oferta</example>
+            <example>L'oferta és bona.</example>
+            <example>Quan oferta i demanda es conjuguen.</example>
+        </rule>
         <rule id="CULT" name="cult">
             <pattern>
                 <token regexp="yes">(in)?cults?</token>
