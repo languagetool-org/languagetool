@@ -12166,6 +12166,18 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </pattern>
             <disambig action="filter" postag="V.[^M].*"/>
         </rule>
+        <rule id="subj_imp" name="sent_start + subjuntiu/imperatiu">
+            <pattern>
+                <token postag="SENT_START|_PUNCT.*" postag_regexp="yes"/>
+                <marker>
+                    <and>
+                        <token postag="V.S.*" postag_regexp="yes"/>
+                        <token postag="V.M.*" postag_regexp="yes"/>
+                    </and>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="V.S.*"/>
+        </rule>
     </rulegroup>
     <rulegroup id="primera_tercera_persona" name="verb primera o tercera persona">
         <rule>
