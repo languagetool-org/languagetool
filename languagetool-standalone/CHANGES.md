@@ -5,7 +5,8 @@
 #### English
   * added and improved rules
   * added remaining collocation rules (~130) contributed by Nicholas Walker (Bokomaru)
-
+  * all-uppercase words are now also spellchecked
+  
 #### German
   * added and improved rules
   * New rule that checks coherent use of Du/du, Dich/dich etc. Assumes that the first
@@ -15,6 +16,7 @@
 
 #### Portuguese
   * added and improved rules
+
 
 ## 4.0 (2017-12-29)
 
