@@ -26500,6 +26500,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
+        <rule id="DE_PER_SI_MATEIX" name="de per si mateix / per si mateix">
+            <pattern>
+                <token>de</token>
+                <token>per</token>
+                <token>si</token>
+                <token regexp="yes">mateix|mateixos|mateixa|mateixes</token>
+            </pattern>
+            <message>Expressió incorrecta.</message>
+            <suggestion>\2 \3 \4</suggestion>
+            <example correction="per si mateixos">Ho són <marker>de per si mateixos</marker>.</example>
+        </rule>
         <rule id="FER_EXPLOSIONAR" name="explosionar">
             <pattern>
                 <token inflected="yes">fer</token>
