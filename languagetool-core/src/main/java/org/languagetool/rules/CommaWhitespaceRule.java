@@ -132,7 +132,7 @@ public class CommaWhitespaceRule extends Rule {
       char c = str.charAt(0);
       if (c =='\'' || c == '-' || c == '”'
           || c =='’' || c == '"' || c == '“'
-          || c == ',') {
+          || c == ','|| c == '»') {
         return true;
       }
     }
