@@ -1273,11 +1273,11 @@
             <marker>
                 <and>
                     <token postag="NN(:UN?)?" postag_regexp="yes"/>
-                    <token postag="VBP"/>
+                    <token postag="VB.?" postag_regexp="yes"/>
                 </and>
             </marker>
         </pattern>
-        <disambig postag="VBP"/>
+        <disambig action="filter" postag="VB.?"/>
     </rule>
     <rule name="t -&gt; contraction (not/RB)" id="T_NOT">
         <pattern>
@@ -3151,7 +3151,6 @@
     <disambig postag="VBD"/>
     <example type="untouched">Pigs know that.</example>
     <example type="untouched">Have you thought of any good plans?</example>
-    <example type="ambiguous" inputform="thought[think/VBD,think/VBN,thought/NN:UN]" outputform="thought[think/VBD]">We <marker>thought</marker> about that.</example>     
     </rule>    
     
     <!--  some more disambiguation -->
