@@ -12166,9 +12166,21 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </pattern>
             <disambig action="filter" postag="V.[^M].*"/>
         </rule>
-        <rule id="subj_imp" name="sent_start + subjuntiu/imperatiu">
+        <rule>
             <pattern>
-                <token postag="SENT_START|_PUNCT.*" postag_regexp="yes"/>
+                <token postag="SENT_START"/>
+                <marker>
+                    <and>
+                        <token postag="V.S.*" postag_regexp="yes"/>
+                        <token postag="V.M.*" postag_regexp="yes"/>
+                    </and>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="V.S.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">[;,\(]</token>
                 <marker>
                     <and>
                         <token postag="V.S.*" postag_regexp="yes"/>
