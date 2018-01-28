@@ -217,10 +217,14 @@ public class AgreementRuleTest {
     assertBad("Das Auto einer Mannes.", "eines Mannes");
     assertBad("Das Auto einen Mannes.", "einen Mann", "eines Mannes");
     
+    //assertBad("Das erwähnt Auto bog nach rechts ab.");    // TODO
+    assertGood("Das erlaubt Forschern, neue Versuche durchzuführen.");
+    assertGood("Dies ermöglicht Forschern, neue Versuche durchzuführen.");
     assertBad("Die erwähnt Konferenz ist am Samstag.");
     assertBad("Die erwähntes Konferenz ist am Samstag.");
     assertBad("Die erwähnten Konferenz ist am Samstag.");
     assertBad("Die erwähnter Konferenz ist am Samstag.");
+    assertBad("Die erwähntem Konferenz ist am Samstag.");
     
     assertBad("Des großer Mannes.");
 
