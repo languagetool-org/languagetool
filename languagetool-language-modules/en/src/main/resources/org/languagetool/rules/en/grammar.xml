@@ -9258,6 +9258,22 @@ USA
                 <example correction="Do"><marker>Does</marker> your parents live in England?</example>
                 <example correction="do">What <marker>does</marker> your parents know?</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token postag="W(RB|P)" postag_regexp="yes"/>
+                    <marker>
+                        <token regexp="yes">is|was</token>
+                    </marker>
+                    <token postag="DT|PRP\$" postag_regexp="yes"/>
+                    <token postag="NNS"><exception postag="NN|NN:.*" postag_regexp="yes"/><exception>media</exception></token>
+                    <token>?</token>
+                </pattern>
+                <message>You should probably use <suggestion>are</suggestion> or <suggestion>were</suggestion>.</message>
+                <short>Possible agreement error</short>
+                <example correction="are|were">Where <marker>is</marker> your dogs?</example>
+                <example correction="are|were">Where <marker>was</marker> the cars?</example>
+            </rule>
         </rulegroup>
         <rule id="A_HUNDREDS" name="a hundreds (hundred)">
             <pattern>
