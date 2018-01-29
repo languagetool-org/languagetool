@@ -15661,6 +15661,43 @@ USA
       <message>The usual collocation for "\1" is "of" not "\2". Did you mean <suggestion>\1 of</suggestion>.</message>
       <example correction='dying of'>The ferns are <marker>dying from</marker> too much watering.</example>
     </rule>
+    <rule id='DISAPPOINT_FROM' name='Collocation: disappoint from/with'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token inflected="yes">disappoint</token>
+          <token>from</token>
+      </pattern>
+      <message>The usual collocation for "\1" is "with"  or "in" or "by" or "at"  or "about" not "\2". Did you mean <suggestion>\1 with</suggestion> or <suggestion>\1 in</suggestion> or <suggestion>\1 by</suggestion> or <suggestion>\1 at</suggestion> or <suggestion>\1 about</suggestion>.</message>
+      <example correction='disappointed with|disappointed in|disappointed by|disappointed at|disappointed about'>She was <marker>disappointed from</marker> the surprise.</example>
+    </rule>
+    <rule id='DIVIDE_IN_INTO' name='Collocation: divide in/into'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+        <marker>
+          <token inflected="yes">divide</token>
+          <token postag="DT"/>
+          <token/>
+          <token>in</token>
+        </marker>
+          <token>
+            <exception>accordance</exception></token>
+      </pattern>
+      <message>The usual collocation for "\1" is "into" not "\4". Did you mean <suggestion>\1 \2 \3 into</suggestion>.</message>
+      <example correction='Divide the pizza into'><marker>Divide the pizza in</marker> four.</example>
+    </rule>
+    <rule id='DOUBT_FOR_IN' name='Collocation: doubt for/in/about'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+        <marker>
+          <token inflected="yes">doubt</token>
+          <token>for</token>
+        </marker>
+          <token>
+            <exception regexp="yes">ex[ae]mple</exception></token>
+      </pattern>
+      <message>The usual collocation for "\1" is "in" or "about" not "\3". Did you mean <suggestion>\1 in</suggestion> or <suggestion>\1 about</suggestion>.</message>
+      <example correction='doubt in|doubt about'>I <marker>doubt for</marker> that.</example>
+    </rule>
   </rulegroup>
 
   <rulegroup id='IN_CHARGE_FOR' name='Collocation: in charge for/of/with'>
