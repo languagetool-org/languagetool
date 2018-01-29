@@ -30068,19 +30068,25 @@ Andere Projekte</example>
                 <example correction="unserem">Wir misstrauen <marker>unseren</marker> Lehrer.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token regexp="yes" skip="5">vo[mn]</token>
+                    <token>aus</token>
+                </antipattern>
                 <pattern>
-                    <token>mit</token>
-                    <marker><token regexp="yes">d(ies)?en|jenen|s?einen|ihren</token></marker>
+                    <token postag="PRP:.+CAU:DAT" postag_regexp="yes"/>
+                    <marker><token regexp="yes">d(ies)?en|jenen|[dms]?einen|ihren</token></marker>
                     <token postag="ADJ:.+:SIN:.+" postag_regexp="yes" min="0"/>
                     <token postag="SUB:.+:SIN:.+" postag_regexp="yes"><exception  postag="SUB:.+:PLU:.+|.+:INF" postag_regexp="yes"></exception></token>
                 </pattern>
-                <message>Meinten Sie <suggestion><match no="2" regexp_match="n$" regexp_replace="m"/></suggestion>? (Alternativ prüfen Sie, ob 'mit' durch 'mir' ersetzt werden muss.)</message>
+                <message>Meinten Sie <suggestion><match no="2" regexp_match="n$" regexp_replace="m"/></suggestion>? (Alternativ prüfen Sie, ob '<match no="1" regexp_match="^mit$" regexp_replace="mit' durch 'mir"/>' ersetzt werden muss.)</message>
                 <url>http://www.canoo.net/services/OnlineGrammar/Wort/Praeposition/Kasus/Dativ.html</url>
                 <example correction="dem">Mit <marker>den</marker> Rad zur Arbeit.</example>
                 <example>Runter mit <marker>den</marker> Spendierhosen!</example>
+                <example correction="dem">Sie kamen aus <marker>den</marker> Wald.</example>
                 <example correction="Ihrem">Gut essen mit <marker>Ihren</marker> lieben Chef!</example>
                 <example>Ich werde mit <marker>den</marker> Malerarbeiten heute fertig.</example>
                 <example>Mit <marker>den</marker> Lahmen lernt man hinken, mit den Säufern trinken.</example>
+                <example>Bei klarem Wetter kann man von hier aus <marker>den</marker> Berg Fuji sehen.</example>
             </rule>
             <rule>
                 <pattern>
