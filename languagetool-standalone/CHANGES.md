@@ -18,6 +18,10 @@
 
 #### Portuguese
   * added and improved rules
+  
+#### Russian
+  * sentence segmentation improvements
+  * added and improved rules
 
 
 ## 4.0 (2017-12-29)
