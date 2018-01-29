@@ -5793,7 +5793,7 @@ title="Easy editing stylesheet" ?>
     </rule>
     <rule>
       <antipattern>
-          <token regexp='yes'>antes|apesar|capacidade|depois|expec?tativas?|facto|objec?tivo|possibilidade</token>
+          <token regexp='yes'>antes|apesar|capacidade|depois|expec?tativas?|facto|objec?tivo|possibilidade|risco</token>
           <token>de</token>
       </antipattern>
       <antipattern>
@@ -20322,6 +20322,11 @@ TODO Write better examples
       <example correction="concílio">santo <marker>concilio</marker></example>
     </rule>
     <rule>
+      <antipattern>
+          <token regexp='yes'>es[st]a</token>
+          <token regexp='yes'>continua</token>
+          <token>a</token>
+      </antipattern>
       <pattern>
           <token regexp='yes'>(?:a|à|análise|aprendizagem|aquela|camada|conec?tividade|coreia|corente|da|de|descarga|dessa|discursiva|É|em|era|essa|escala|espera|esta|está|estrutura|fase|foi|forma|inconstância|leitura|lida|linha|luta|mais|malha|maneira|marcha|massa|matriz|medida|melhoria|moldagem|na|natureza|necesariamente|nessa|numa|parte|pela|por|pública|queda|rajada|reciclagem|sai|saída|ser|série|superfície|tão|uma|vigilância)s?</token>
         <marker>
@@ -20331,6 +20336,7 @@ TODO Write better examples
       <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
         <suggestion>contínua<match no='2' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
       <example correction="contínua">natureza <marker>continua</marker></example>
+      <example>...esta continua a ser a realidade.</example>
     </rule>
     <rule>
       <pattern>
