@@ -247,7 +247,8 @@ public class German extends Language implements AutoCloseable {
   @Override
   public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel) throws IOException {
     return Arrays.asList(
-            new GermanConfusionProbabilityRule(messages, languageModel, this)
+            new GermanConfusionProbabilityRule(messages, languageModel, this),
+            new ProhibitedCompoundRule(messages, languageModel)
     );
   }
 
@@ -280,6 +281,7 @@ public class German extends Language implements AutoCloseable {
   public int getPriorityForId(String id) {
     switch (id) {
       case "OLD_SPELLING_INTERNAL": return 10;
+      case "DE_PROHIBITED_COMPOUNDS": return 1;  // a more detailed error message than from spell checker
       case "ANS_OHNE_APOSTROPH": return 1;
       case "CONFUSION_RULE": return -1;  // probably less specific than the rules from grammar.xml
       case "AKZENT_STATT_APOSTROPH": return -1;  // lower prio than PLURAL_APOSTROPH

@@ -13,6 +13,8 @@
     use has 'correct' capitalization and suggest the same capitalization for subsequent uses.
   * New line extension '-*' for 'ignore.txt': entries ending with '*-' are ignored only if 
     they are part of a hyphenated compound
+  * Added a new rule that tries to find compounds that are probably not correct, like
+    `Lehrzeile` instead of `Leerzeile`, requires ngram data (rule id `DE_PROHIBITED_COMPOUNDS`)
 
 #### Portuguese
   * added and improved rules
