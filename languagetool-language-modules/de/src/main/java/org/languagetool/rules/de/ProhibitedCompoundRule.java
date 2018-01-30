@@ -42,6 +42,8 @@ public class ProhibitedCompoundRule extends Rule {
           new Pair("leer", "leer: ohne Inhalt", "lehr", "Lehr-: bezogen auf Ausbildung und Wissen"),
           new Pair("Gewerbe", "Gewerbe: wirtschaftliche Tätigkeit", "Gewebe", "Gewebe: gewebter Stoff; Verbund ähnlicher Zellen"),
           new Pair("Schuh", "Schuh: Fußbekleidung", "Schul", "Schul-: auf die Schule bezogen"),
+          new Pair("klima", "Klima: langfristige Wetterzustände", "lima", "Lima: Hauptstadt von Peru"),
+          new Pair("weise", "Weise: Art, etwas zu tun", "waise", "Waise: Kind ohne Eltern"),
           new Pair("modell", "Modell: vereinfachtes Abbild der Wirklichkeit", "model", "Model: Fotomodell")
   );
   private static final List<Pair> pairs = new ArrayList<>();
@@ -89,7 +91,8 @@ public class ProhibitedCompoundRule extends Rule {
         }
         long wordCount = lm.getCount(word);
         long variantCount = lm.getCount(variant);
-        //System.out.println("word: " + word + " (" + wordCount + "), variant: " + variant + " (" + variantCount + "), pair: " + pair);
+        //float factor = variantCount / (float)Math.max(wordCount, 1);
+        //System.out.println("word: " + word + " (" + wordCount + "), variant: " + variant + " (" + variantCount + "), factor: " + factor + ", pair: " + pair);
         if (variantCount > 0 && wordCount == 0) {
           String msg = "Möglicher Tippfehler. " + pair.part1Desc + ", " + pair.part2Desc;
           RuleMatch match = new RuleMatch(this, sentence, readings.getStartPos(), readings.getEndPos(), msg);
