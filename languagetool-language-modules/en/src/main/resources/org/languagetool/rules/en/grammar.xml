@@ -15700,6 +15700,25 @@ USA
       <message>The usual collocation for "\1" is "in" or "about" not "\3". Did you mean <suggestion>\1 in</suggestion> or <suggestion>\1 about</suggestion>.</message>
       <example correction='doubt in|doubt about'>I <marker>doubt for</marker> that.</example>
     </rule>
+    <rule id='DRESS_WITH_IN' name='Collocation: dress with/in'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token postag_regexp="yes" postag="NN.*|PRP"/>
+          <token inflected="yes">dress</token>
+          <token>with</token>
+      </pattern>
+      <message>The usual collocation for "\2" is "in" not "\3". Did you mean <suggestion>\1 \2 in</suggestion>.</message>
+      <example correction='Jane dresses in'><marker>Jane dresses with</marker> a coverall.</example>
+    </rule>
+    <rule id='FULL_WITH_OF' name='Collocation: full with/of'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token>full</token>
+          <token>with</token>
+      </pattern>
+      <message>The usual collocation for "\1" is "of" not "\2". Did you mean <suggestion>\1 of</suggestion>.</message>
+      <example correction='full of'>The washing machine is <marker>full with</marker> dishes.</example>
+    </rule>
   </rulegroup>
 
   <rulegroup id='IN_CHARGE_FOR' name='Collocation: in charge for/of/with'>
@@ -16087,6 +16106,50 @@ USA
     </rule>
   </rulegroup>
 
+  <rulegroup id='EXCEPTION_OF_TO' name='Collocation: exception to/of'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+    <!-- https://forum.languagetool.org/t/en-english-collocation-rules-to-contribute-to-lt/2318 -->
+      <url>http://www.kentlee7.com/writ/collocation.errors.typical.pdf</url>
+      <short>Collocation error</short>
+    <rule>
+      <antipattern>
+          <token inflected="yes">exception</token>
+          <token>
+            <exception>to</exception></token>
+          <token postag="DT"/>
+          <token max="1" min="0" postag="JJ"/>
+          <token regexp="yes">rules?</token>
+      </antipattern>
+      <antipattern>
+          <token>with</token>
+          <token>the</token>
+          <token inflected="yes">exception</token>
+      </antipattern>
+      <pattern>
+        <marker>
+          <token inflected="yes">exception</token>
+          <token>of</token>
+        </marker>
+      </pattern>
+      <message>The usual collocation for "\1" in this context is "to" not "\2". Did you mean <suggestion>\1 to</suggestion>.</message>
+      <example correction='exception to'>This is an <marker>exception of</marker> the guidelines.</example>
+    </rule>
+    <rule>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+        <marker>
+          <token inflected="yes">make</token>
+          <token>an</token>
+          <token>exception</token>
+          <token>to</token>
+        </marker>
+          <token max="1" min="0" postag="JJ"/>
+          <token postag_regexp='yes' postag="NNS|PRP"/>
+      </pattern>
+      <message>The usual collocation for "\3" in this context is "for" not "\4". Did you mean <suggestion>\1 \2 \3 for</suggestion>.</message>
+      <example correction='make an exception for'>I'll <marker>make an exception to</marker> you.</example>
+    </rule>
+  </rulegroup>
     </category>
 
     <!-- ====================================================================== -->
