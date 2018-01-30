@@ -143,26 +143,42 @@ public class Indexer implements AutoCloseable {
   public void indexText(BufferedReader reader) throws IOException {
     String line;
     StringBuilder paragraph = new StringBuilder();
+    int i = 0;
+    int addCount = 0;
     while ((line = reader.readLine()) != null) {
       if (!(line.equals("")) && paragraph.length() + line.length() < Integer.MAX_VALUE) {
         paragraph.append(line).append("\n");
       } else {
         List<String> sentences = sentenceTokenizer.tokenize(paragraph.toString());
         for (String sentence : sentences) {
-          add(sentence.replaceAll(" \n"," "), null, null, -1);
+          if (sentence.trim().length() > 0) {
+            if (++addCount % 1000 == 0) {
+              System.out.println("(1) Adding item " + addCount);
+            }
+            add(sentence.replaceAll(" \n"," "), null, null, -1);
+          }
         }
         if (paragraph.length() + line.length() >= Integer.MAX_VALUE) {
-          List<String> last_sentences = sentenceTokenizer.tokenize(line);
-          for (String sentence : last_sentences) {
+          List<String> lastSentences = sentenceTokenizer.tokenize(line);
+          for (String sentence : lastSentences) {
+            if (++addCount % 1000 == 0) {
+              System.out.println("(2) Adding item " + addCount);
+            }
             add(sentence, null, null, -1);
           }
         }
         paragraph.setLength(0);
       }
+      if (++i % 10_000 == 0) {
+        System.out.println("Loading line " + i);
+      }
     }
     if (paragraph.length() > 0) {
       List<String> sentences = sentenceTokenizer.tokenize(paragraph.toString());
       for (String sentence : sentences) {
+        if (++addCount % 1000 == 0) {
+          System.out.println("(3) Adding item " + addCount);
+        }
         add(sentence, null, null, -1);
       }
     }
