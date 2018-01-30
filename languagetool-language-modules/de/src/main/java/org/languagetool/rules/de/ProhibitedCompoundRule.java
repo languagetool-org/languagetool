@@ -40,6 +40,8 @@ public class ProhibitedCompoundRule extends Rule {
           new Pair("abschluss", "Ende", "Abschuss", "Vorgang des Abschießens, z.B. mit einer Waffe"),
           new Pair("wieder", "wieder: erneut, wiederholt, nochmal (Wiederholung, Wiedervorlage, ...)", "wider", "wider: gegen, entgegen (Widerwille, Widerstand, Widerspruch, ...)"),
           new Pair("leer", "leer: ohne Inhalt", "lehr", "Lehr-: bezogen auf Ausbildung und Wissen"),
+          new Pair("Gewerbe", "Gewerbe: wirtschaftliche Tätigkeit", "Gewebe", "Gewebe: gewebter Stoff; Verbund ähnlicher Zellen"),
+          new Pair("Schuh", "Schuh: Fußbekleidung", "Schul", "Schul-: auf die Schule bezogen"),
           new Pair("modell", "Modell: vereinfachtes Abbild der Wirklichkeit", "model", "Model: Fotomodell")
   );
   private static final List<Pair> pairs = new ArrayList<>();
