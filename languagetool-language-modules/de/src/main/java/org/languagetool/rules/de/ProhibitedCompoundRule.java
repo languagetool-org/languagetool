@@ -48,7 +48,11 @@ public class ProhibitedCompoundRule extends Rule {
   static {
     for (Pair lcPair : lowercasePairs) {
       pairs.add(new Pair(lcPair.part1, lcPair.part1Desc, lcPair.part2, lcPair.part2Desc));
-      pairs.add(new Pair(StringTools.uppercaseFirstChar(lcPair.part1), lcPair.part1Desc, StringTools.uppercaseFirstChar(lcPair.part2), lcPair.part2Desc));
+      String ucPart1 = StringTools.uppercaseFirstChar(lcPair.part1);
+      String ucPart2 = StringTools.uppercaseFirstChar(lcPair.part2);
+      if (!lcPair.part1.equals(ucPart1) || !lcPair.part2.equals(ucPart2)) {
+        pairs.add(new Pair(ucPart1, lcPair.part1Desc, ucPart2, lcPair.part2Desc));
+      }
     }  
   }
   
@@ -73,8 +77,8 @@ public class ProhibitedCompoundRule extends Rule {
     List<RuleMatch> ruleMatches = new ArrayList<>();
     for (AnalyzedTokenReadings readings : sentence.getTokensWithoutWhitespace()) {
       String word = readings.getToken();
-      String variant = null;
       for (Pair pair : pairs) {
+        String variant = null;
         if (word.contains(pair.part1)) {
           variant = word.replaceFirst(pair.part1, pair.part2);
         } else if (word.contains(pair.part2)) {
@@ -85,7 +89,7 @@ public class ProhibitedCompoundRule extends Rule {
         }
         long wordCount = lm.getCount(word);
         long variantCount = lm.getCount(variant);
-        //System.out.println(". " + variant + ": " + variantCount +  ", " + word + ": " + wordCount);
+        //System.out.println("word: " + word + " (" + wordCount + "), variant: " + variant + " (" + variantCount + "), pair: " + pair);
         if (variantCount > 0 && wordCount == 0) {
           String msg = "Möglicher Tippfehler. " + pair.part1Desc + ", " + pair.part2Desc;
           RuleMatch match = new RuleMatch(this, sentence, readings.getStartPos(), readings.getEndPos(), msg);
@@ -108,6 +112,10 @@ public class ProhibitedCompoundRule extends Rule {
       this.part1Desc = part1Desc;
       this.part2 = part2;
       this.part2Desc = part2Desc;
+    }
+    @Override
+    public String toString() {
+      return part1 + "/" + part2;
     }
   }
   
