@@ -20,14 +20,17 @@ package org.languagetool.rules.de;
 
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.JLanguageTool;
+import org.languagetool.databroker.ResourceDataBroker;
 import org.languagetool.languagemodel.BaseLanguageModel;
 import org.languagetool.languagemodel.LanguageModel;
-import org.languagetool.rules.Rule;
-import org.languagetool.rules.RuleMatch;
-import org.languagetool.tools.StringTools;
+import org.languagetool.rules.*;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.*;
+
+import static org.languagetool.tools.StringTools.*;
 
 /**
  * Find compounds that might be morphologically correct but are still probably wrong, like 'Lehrzeile'.
@@ -37,27 +40,61 @@ public class ProhibitedCompoundRule extends Rule {
 
   private static final List<Pair> lowercasePairs = Arrays.asList(
           // NOTE: words here must be all-lowercase
+          // NOTE: no need to add words from confusion_sets.txt, they will be used automatically (if starting with uppercase char)
           new Pair("abschluss", "Ende", "Abschuss", "Vorgang des Abschießens, z.B. mit einer Waffe"),
-          new Pair("wieder", "wieder: erneut, wiederholt, nochmal (Wiederholung, Wiedervorlage, ...)", "wider", "wider: gegen, entgegen (Widerwille, Widerstand, Widerspruch, ...)"),
-          new Pair("leer", "leer: ohne Inhalt", "lehr", "Lehr-: bezogen auf Ausbildung und Wissen"),
-          new Pair("Gewerbe", "Gewerbe: wirtschaftliche Tätigkeit", "Gewebe", "Gewebe: gewebter Stoff; Verbund ähnlicher Zellen"),
-          new Pair("Schuh", "Schuh: Fußbekleidung", "Schul", "Schul-: auf die Schule bezogen"),
-          new Pair("klima", "Klima: langfristige Wetterzustände", "lima", "Lima: Hauptstadt von Peru"),
-          new Pair("weise", "Weise: Art, etwas zu tun", "waise", "Waise: Kind ohne Eltern"),
-          new Pair("modell", "Modell: vereinfachtes Abbild der Wirklichkeit", "model", "Model: Fotomodell")
+          new Pair("wieder", "erneut, wiederholt, nochmal (Wiederholung, Wiedervorlage, ...)", "wider", "gegen, entgegen (Widerwille, Widerstand, Widerspruch, ...)"),
+          new Pair("leer", "ohne Inhalt", "lehr", "bezogen auf Ausbildung und Wissen"),
+          new Pair("Gewerbe", "wirtschaftliche Tätigkeit", "Gewebe", "gewebter Stoff; Verbund ähnlicher Zellen"),
+          new Pair("Schuh", "Fußbekleidung", "Schul", "auf die Schule bezogen"),
+          new Pair("klima", "langfristige Wetterzustände", "lima", "Hauptstadt von Peru"),
+          new Pair("modell", "vereinfachtes Abbild der Wirklichkeit", "model", "Fotomodell")
   );
+  private static final List<String> ignoreWords = Arrays.asList("Die", "De");
   private static final List<Pair> pairs = new ArrayList<>();
   static {
+    addUpperCaseVariants();
+    addItemsFromConfusionSets();
+  }
+
+  private static void addUpperCaseVariants() {
     for (Pair lcPair : lowercasePairs) {
       pairs.add(new Pair(lcPair.part1, lcPair.part1Desc, lcPair.part2, lcPair.part2Desc));
-      String ucPart1 = StringTools.uppercaseFirstChar(lcPair.part1);
-      String ucPart2 = StringTools.uppercaseFirstChar(lcPair.part2);
+      String ucPart1 = uppercaseFirstChar(lcPair.part1);
+      String ucPart2 = uppercaseFirstChar(lcPair.part2);
       if (!lcPair.part1.equals(ucPart1) || !lcPair.part2.equals(ucPart2)) {
         pairs.add(new Pair(ucPart1, lcPair.part1Desc, ucPart2, lcPair.part2Desc));
       }
-    }  
+    }
   }
-  
+
+  private static void addItemsFromConfusionSets() {
+    try {
+      ResourceDataBroker dataBroker = JLanguageTool.getDataBroker();
+      try (InputStream confusionSetStream = dataBroker.getFromResourceDirAsStream("/de/confusion_sets.txt")) {
+        ConfusionSetLoader loader = new ConfusionSetLoader();
+        Map<String, List<ConfusionSet>> confusionSet = loader.loadConfusionSet(confusionSetStream);
+        for (Map.Entry<String, List<ConfusionSet>> entry : confusionSet.entrySet()) {
+          for (ConfusionSet set : entry.getValue()) {
+            boolean allUpper = set.getSet().stream().allMatch(k -> startsWithUppercase(k.getString()) && !ignoreWords.contains(k.getString()));
+            if (allUpper) {
+              Set<ConfusionString> cSet = set.getSet();
+              if (cSet.size() != 2) {
+                throw new RuntimeException("Got confusion set with != 2 items: " + cSet);
+              }
+              Iterator<ConfusionString> it = cSet.iterator();
+              ConfusionString part1 = it.next();
+              ConfusionString part2 = it.next();
+              pairs.add(new Pair(part1.getString(), part1.getDescription(), part2.getString(), part2.getDescription()));
+              pairs.add(new Pair(lowercaseFirstChar(part1.getString()), part1.getDescription(), lowercaseFirstChar(part2.getString()), part2.getDescription()));
+            }
+          }
+        }
+      }
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
   private final BaseLanguageModel lm;
 
   public ProhibitedCompoundRule(ResourceBundle messages, LanguageModel lm) {
@@ -94,7 +131,12 @@ public class ProhibitedCompoundRule extends Rule {
         //float factor = variantCount / (float)Math.max(wordCount, 1);
         //System.out.println("word: " + word + " (" + wordCount + "), variant: " + variant + " (" + variantCount + "), factor: " + factor + ", pair: " + pair);
         if (variantCount > 0 && wordCount == 0) {
-          String msg = "Möglicher Tippfehler. " + pair.part1Desc + ", " + pair.part2Desc;
+          String msg;
+          if (pair.part1Desc != null && pair.part2Desc != null) {
+            msg = "Möglicher Tippfehler. " + uppercaseFirstChar(pair.part1) + ": " + pair.part1Desc + ", " + uppercaseFirstChar(pair.part2) + ": " + pair.part2Desc;
+          } else {
+            msg = "Möglicher Tippfehler.";
+          }
           RuleMatch match = new RuleMatch(this, sentence, readings.getStartPos(), readings.getEndPos(), msg);
           match.setSuggestedReplacement(variant);
           ruleMatches.add(match);
