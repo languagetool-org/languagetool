@@ -40,12 +40,15 @@ public class ProhibitedCompoundRuleTest {
     Map<String,Integer> map = new HashMap<>();
     map.put("Leerzeile", 100);
     map.put("Wohnungsleerstand", 50);
+    map.put("Xliseihflehrstand", 50);
     ProhibitedCompoundRule rule = new ProhibitedCompoundRule(TestTools.getEnglishMessages(), new FakeLanguageModel(map));
     JLanguageTool lt = new JLanguageTool(new German());
     assertMatches("Eine Leerzeile einfügen.", 0, rule, lt);
     assertMatches("Eine Lehrzeile einfügen.", 1, rule, lt);
     assertMatches("Viel Wohnungsleerstand.", 0, rule, lt);
     assertMatches("Viel Wohnungslehrstand.", 1, rule, lt);
+    assertMatches("Viel Xliseihfleerstand.", 0, rule, lt);
+    assertMatches("Viel Xliseihflehrstand.", 0, rule, lt);  // no correct spelling, so not suggested
   }
 
   private void assertMatches(String input, int expecteMatches, ProhibitedCompoundRule rule, JLanguageTool lt) throws IOException {

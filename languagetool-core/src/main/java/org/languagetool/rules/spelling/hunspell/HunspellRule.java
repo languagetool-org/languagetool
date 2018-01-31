@@ -33,10 +33,7 @@ import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 
 import org.apache.commons.lang3.StringUtils;
-import org.languagetool.AnalyzedSentence;
-import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
+import org.languagetool.*;
 import org.languagetool.rules.Categories;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.spelling.SpellingCheckRule;
@@ -140,7 +137,18 @@ public class HunspellRule extends SpellingCheckRule {
     return toRuleMatchArray(ruleMatches);
   }
 
-  boolean isMisspelled(String word) {
+  /**
+   * @since public since 4.1
+   */
+  @Experimental
+  public boolean isMisspelled(String word) {
+    if (needsInit) {
+      try {
+        init();
+      } catch (IOException e) {
+        throw new RuntimeException(e);
+      }
+    }
     boolean isAlphabetic = true;
     if (word.length() == 1) { // hunspell dictionaries usually do not contain punctuation
       isAlphabetic = Character.isAlphabetic(word.charAt(0));

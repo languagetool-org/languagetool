@@ -22,6 +22,7 @@ import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.databroker.ResourceDataBroker;
+import org.languagetool.language.GermanyGerman;
 import org.languagetool.languagemodel.BaseLanguageModel;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.*;
@@ -38,6 +39,7 @@ import static org.languagetool.tools.StringTools.*;
  */
 public class ProhibitedCompoundRule extends Rule {
 
+  // have objects static for better performance (rule gets initialized for every check)
   private static final List<Pair> lowercasePairs = Arrays.asList(
           // NOTE: words here must be all-lowercase
           // NOTE: no need to add words from confusion_sets.txt, they will be used automatically (if starting with uppercase char)
@@ -49,6 +51,7 @@ public class ProhibitedCompoundRule extends Rule {
           new Pair("klima", "langfristige Wetterzustände", "lima", "Hauptstadt von Peru"),
           new Pair("modell", "vereinfachtes Abbild der Wirklichkeit", "model", "Fotomodell")
   );
+  private static final GermanSpellerRule spellerRule = new GermanSpellerRule(JLanguageTool.getMessageBundle(), new GermanyGerman());
   private static final List<String> ignoreWords = Arrays.asList("Die", "De");
   private static final List<Pair> pairs = new ArrayList<>();
   static {
@@ -99,6 +102,7 @@ public class ProhibitedCompoundRule extends Rule {
 
   public ProhibitedCompoundRule(ResourceBundle messages, LanguageModel lm) {
     this.lm = (BaseLanguageModel) Objects.requireNonNull(lm);
+    super.setCategory(Categories.TYPOS.getCategory(messages));
   }
 
   @Override
@@ -130,7 +134,7 @@ public class ProhibitedCompoundRule extends Rule {
         long variantCount = lm.getCount(variant);
         //float factor = variantCount / (float)Math.max(wordCount, 1);
         //System.out.println("word: " + word + " (" + wordCount + "), variant: " + variant + " (" + variantCount + "), factor: " + factor + ", pair: " + pair);
-        if (variantCount > 0 && wordCount == 0) {
+        if (variantCount > 0 && wordCount == 0 && !spellerRule.isMisspelled(variant)) {
           String msg;
           if (pair.part1Desc != null && pair.part2Desc != null) {
             msg = "Möglicher Tippfehler. " + uppercaseFirstChar(pair.part1) + ": " + pair.part1Desc + ", " + uppercaseFirstChar(pair.part2) + ": " + pair.part2Desc;
