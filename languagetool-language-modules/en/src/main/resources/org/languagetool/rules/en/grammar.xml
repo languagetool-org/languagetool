@@ -15719,6 +15719,47 @@ USA
       <message>The usual collocation for "\1" is "of" not "\2". Did you mean <suggestion>\1 of</suggestion>.</message>
       <example correction='full of'>The washing machine is <marker>full with</marker> dishes.</example>
     </rule>
+    <rule id='RID_FROM_OF' name='Collocation: rid from/of'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token inflected="yes">rid</token>
+          <token>from</token>
+      </pattern>
+      <message>The usual collocation for "\1" is "of" not "\2". Did you mean <suggestion>\1 of</suggestion>.</message>
+      <example correction='rid of'>He got <marker>rid from</marker> the clutter.</example>
+    </rule>
+    <rule id='GLAD_WITH_ABOUT' name='Collocation: glad with/about'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token>glad</token>
+          <token regexp="yes">with|from</token>
+      </pattern>
+      <message>The usual collocation for "\1" is "about" not "\2". Did you mean <suggestion>\1 about</suggestion>.</message>
+      <example correction='glad about'>He's <marker>glad with</marker> it.</example>
+    </rule>
+    <rule id='GUARD_FROM_AGAINST' name='Collocation: guard from/agains'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token inflected="yes" regexp='yes'>(?:safe)?guard</token>
+          <token>from</token>
+      </pattern>
+      <message>The usual collocation for "\1" is "against" not "\2". Did you mean <suggestion>\1 against</suggestion>.</message>
+      <example correction='guards against'>The dog <marker>guards from</marker> the thieves.</example>
+    </rule>
+    <rule id='GUILTY_FOR_OF' name='Collocation: guilty for/of'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+        <marker>
+          <token>guilty</token>
+          <token>for</token>
+        </marker>
+          <token>
+            <exception postag="VBG"/>
+            <exception>some</exception></token>
+      </pattern>
+      <message>The usual collocation for "\1" is "of" not "\2". Did you mean <suggestion>\1 of</suggestion>.</message>
+      <example correction='guilty of'>Mark is <marker>guilty for</marker> lazyness.</example>
+    </rule>
   </rulegroup>
 
   <rulegroup id='IN_CHARGE_FOR' name='Collocation: in charge for/of/with'>
@@ -15740,7 +15781,6 @@ USA
       <example correction='in charge of'>Who is <marker>in charge for</marker> this shop?</example>
     </rule>
     <rule>
-    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
       <pattern>
           <token>
             <exception regexp='yes' inflected='yes'>in|be</exception></token>
