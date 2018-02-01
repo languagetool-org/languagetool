@@ -3901,6 +3901,42 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="remove" postag="V.P.*"/>
     </rule>
+    <rulegroup id="AIGUA" name="aigua (aiguar?)">
+        <rule>
+            <pattern>
+                <token regexp="yes">m'|t'|s'|ens|us|vos|li|els|les|hi|n'</token>
+                <marker>
+                    <token postag="V.*" postag_regexp="yes">aigua</token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="V.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="N.*" postag_regexp="yes">aigua</token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="N.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">m'|t'|s'|ens|us|vos|li|els|l'|hi|n'</token>
+                <marker>
+                    <token postag="V.*" postag_regexp="yes">aigües</token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="V.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="N.*" postag_regexp="yes">aigües</token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="N.*"/>
+        </rule>
+    </rulegroup>
     <rule id="tornes" name="tornés: verb o adjectiu">
         <pattern> <!-- exceptions? -->
             <marker>
@@ -5387,7 +5423,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <pattern>
             <marker>
                 <and>
-                    <token postag="V.*" postag_regexp="yes" regexp="yes">escàs|poeta|poetes|sostre|mida|mides|formatges?|exempta|exemptes|tasca|tasques|membres?|metges?|escasses|sola|soles|suau|descontent|carro|així|mes|pas|espasa|aroma|sorra|nom|sols?|via|vies|arbres?|tres|des|dos|com|res|tal|millor|pitjor|nombres?|entorn|davall|només</token>
+                    <token postag="V.*" postag_regexp="yes" regexp="yes">humana|humanes|escàs|poeta|poetes|sostre|mida|mides|formatges?|exempta|exemptes|tasca|tasques|membres?|metges?|escasses|sola|soles|suau|descontent|carro|així|mes|pas|espasa|aroma|sorra|nom|sols?|via|vies|arbres?|tres|des|dos|com|res|tal|millor|pitjor|nombres?|entorn|davall|només</token>
                     <token postag="V.*" postag_regexp="yes" negate_pos="yes" />
                 </and>
             </marker>
@@ -10068,7 +10104,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <token postag="R.*|.*LOC_ADV.*" postag_regexp="yes" negate_pos="yes"><exception regexp="yes">["“«'‘-]</exception></token>
             <marker>
                 <and>
-                    <token postag="A.*|V.P.*" postag_regexp="yes"><exception postag="_GN_.*|RG.*" postag_regexp="yes" /><exception regexp="yes">\p{Lu}.*</exception><exception regexp="yes">[\p{Ll}·]+(e|[aei]sses|[ae]res|era)</exception></token>
+                    <token postag="A.*|V.P.*" postag_regexp="yes"><exception postag="_GN_.*|RG.*" postag_regexp="yes" /><exception regexp="yes">\p{Lu}.*</exception><exception regexp="yes">[\p{Ll}·]+(e|[aei]sses|[ae]res|era)|oferta|ofertes</exception></token>
                     <token postag="V.[SI].*" postag_regexp="yes"><exception postag="_GV_" /><exception regexp="yes">empesa|viu|desperta|nous|buida|buides|composta|compostes</exception></token>
                     <token postag="N.*" postag_regexp="yes"><exception postag="DN.*" postag_regexp="yes" /></token>
                 </and>
