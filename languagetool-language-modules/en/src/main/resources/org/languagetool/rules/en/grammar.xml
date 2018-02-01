@@ -14176,12 +14176,50 @@ USA
             <short>Redundant determiner</short>
             <example correction="a lonely|another lonely">It's <marker>an another lonely</marker> night.</example>
         </rule>
+        <rule id="FIRST_SERVED" name="first come, first serve(d)">
+            <pattern>
+                <token>first</token>
+                <token>come</token>
+                <token min="0">,</token>
+                <token>first</token>
+                <marker><token>serve</token></marker>
+            </pattern>
+            <message>Did you mean <suggestion>served</suggestion>?</message>
+            <url>https://www.merriam-webster.com/dictionary/first%20come,%20first%20served</url>
+            <example correction="served">First come, first <marker>serve</marker>.</example>
+        </rule>
+        <rule id="SHOE_IN" name="shoe-in (shoo)">
+            <pattern>
+                <marker><token>shoe-in</token></marker>
+            </pattern>
+            <message>Did you mean <suggestion>shoo-in</suggestion>.</message>
+            <short>Word confusion</short>
+            <example correction="shoo-in">He says some of his supporters thought he was a <marker>shoe-in</marker>.</example>
+        </rule>
+        <rule id="PROSTRATE_PROSTATE" name="prostrate (prostate)">
+            <pattern>
+                <marker><token>prostrate</token></marker>
+                <token inflected="yes" regexp="yes">cancer|enlargement|exam|gland</token>
+            </pattern>
+            <message>Did you mean <suggestion>prostate</suggestion>.</message>
+            <short>Word confusion</short>
+            <example correction="prostate">He was diagnosed with <marker>prostrate</marker> cancer.</example>
+        </rule>
+        <rule id="PEAK_PIQUE" name="peak (pique) interest">
+            <pattern>
+                <marker><token inflected="yes" skip="1">peak</token></marker>
+                <token>interest</token>
+            </pattern>
+            <message>Did you mean <suggestion><match no="1" regexp_match="peake?" regexp_replace="pique"/></suggestion>.</message>
+            <short>Word confusion</short>
+            <example correction="piqued">It <marker>peaked</marker> my interest.</example>
+        </rule>
         <rule id="KNOT_NOT" name="knot (not)">
             <pattern>
                 <token inflected="yes">do</token>
                 <marker><token>knot</token></marker>
                 <token>
-                  <exception regexp="yes">tie|tying</exception></token>
+                  <exception inflected="yes">tie</exception></token>
             </pattern>
             <message>Did you mean <suggestion>not</suggestion>.</message>
             <short>Word confusion</short>
