@@ -54,6 +54,7 @@ final class PerformanceTest2 {
       String subText = text.substring(beginIndex, endIndex);
       long startTime = System.currentTimeMillis();
       MultiThreadedJLanguageTool lt = new MultiThreadedJLanguageTool(language);
+      //lt.activateLanguageModelRules(new File("/home/dnaber/data/google-ngram-index"));
       //lt.activateWord2VecModelRules(new File("/home/dnaber/lt/word2vec"));
       List<RuleMatch> matches = lt.check(subText);
       //System.out.println(matches);
