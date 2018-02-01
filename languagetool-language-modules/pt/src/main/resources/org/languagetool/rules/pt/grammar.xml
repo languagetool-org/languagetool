@@ -860,7 +860,7 @@ title="Easy editing stylesheet" ?>
         <marker>
           <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.)[FC]S.+' postag_regexp='yes'>
             <exception postag='(?:D[ADIP].|N.|A..|Z.)[FC]P.+|C.|R.' postag_regexp='yes'/>
-            <exception regexp='yes'>.+[°′″]</exception></token>
+            <exception regexp='yes'>.+[°′″]|leva</exception></token>
           <token regexp='yes' min='0'>&adverbios_de_intensidade;</token><!-- XXX use POS after disambiguation improvements -->
           <token postag='(?:[NZ].|A..)[FC]P.+' postag_regexp='yes'>
             <exception postag='(?:[NZ].|A..)[FC]S.+|P[ID].[CFM].+|(C|R).+|SPS00.*' postag_regexp='yes'/></token>
@@ -915,7 +915,7 @@ title="Easy editing stylesheet" ?>
         <marker>
           <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.)[FC]P.+' postag_regexp='yes'>
             <exception postag='(?:D[ADIP].|N.|A..|Z.)[FC]S.+|(C|R).+|SPS00' postag_regexp='yes'/>
-            <exception regexp='yes'>.+[°′″]</exception></token>
+            <exception regexp='yes'>.+[°′″]|levas</exception></token>
           <token regexp='yes' min='0'>&adverbios_de_intensidade;</token><!-- XXX use POS after disambiguation improvements -->
           <token postag='(?:[NZ].|A..)[FC]S.+' postag_regexp='yes'>
             <exception postag='(?:[NZ].|A..)[FC]P.+|P[ID].[CFM].+|(C|R).+|SPS00.*' postag_regexp='yes'/></token>
@@ -5726,21 +5726,25 @@ title="Easy editing stylesheet" ?>
       <example correction="partir de aí">A <marker>partir daí</marker> deduzir o que fazer.</example>
     </rule>
 
-  <rulegroup id='O_FACTO_DA' name="Contração: O facto de + artigo">
+  <rulegroup id='O_FACTO_DA_ACÇÂO' name="Contração: expressão invariável com contração (p.ex. o facto da/de a)">
     <!-- Created by Marco A.G. Pinto, Portuguese rule -->
     <rule>
       <pattern>
-          <token>o</token>
-          <token>facto</token>
-          <token regexp='yes'>d[ao]s?</token>
+        <marker>
+          <token/>
+          <token regexp='yes'>antes|apesar|capacidade|depois|expec?tativas?|facto|objec?tivo|possibilidade|risco|intenção</token>
+          <token skip='-1' regexp='yes'>d[ao]s?</token>
+        </marker>
+          <token postag_regexp='yes' postag='V.+'/>
       </pattern>
-      <message>Substitua por <suggestion>o facto de <match no='3' regexp_match='d(.+)' regexp_replace='$1'/></suggestion>.</message>
+      <message>Substitua por <suggestion>\1 \2 de <match no='3' regexp_match='d(.+)' regexp_replace='$1'/></suggestion>.</message>
       <example correction="o facto de a">Ter em conta <marker>o facto da</marker> aluna não saber.</example>
 
       <example correction="o facto de as">Ter em conta <marker>o facto das</marker> alunas não saberem.</example>
 
       <example correction="o facto de o">Ter em conta <marker>o facto do</marker> aluno não saber.</example>
       <example correction="o facto de os">Ter em conta <marker>o facto dos</marker> alunos não saberem.</example>
+      <example>Esta é a intenção da senhora.</example>
     </rule>
   </rulegroup>
 
@@ -5793,8 +5797,9 @@ title="Easy editing stylesheet" ?>
     </rule>
     <rule>
       <antipattern>
-          <token regexp='yes'>antes|apesar|capacidade|depois|expec?tativas?|facto|objec?tivo|possibilidade|risco</token>
+          <token regexp='yes'>antes|apesar|capacidade|depois|expec?tativas?|facto|objec?tivo|possibilidade|risco|intenção</token>
           <token>de</token>
+          <token skip='-1' postag_regexp='yes' postag='V.+'/>
       </antipattern>
       <antipattern>
           <token regexp='yes'>aos?</token>
@@ -5936,15 +5941,23 @@ title="Easy editing stylesheet" ?>
     </rule>
     <rule id='CONTRACAO_DELA' name='De + ela'>
       <antipattern>
-          <token>o</token>
-          <token>facto</token>
+          <token regexp='yes'>antes|apesar|capacidade|depois|expec?tativas?|facto|objec?tivo|possibilidade|risco|intenção</token>
+          <token>de</token>
+          <token skip='-1' postag_regexp='yes' postag='V.+'/>
+      </antipattern>
+      <antipattern>
+          <token regexp='yes'>aos?</token>
+          <token regexp='yes'>pontos?</token>
           <token>de</token>
       </antipattern>
       <antipattern>
+          <token inflected='yes'>chamar</token>
           <token>de</token>
-          <token case_sensitive="yes" regexp='yes'>el[ae]s?</token>
-          <token min='0' max='2' regexp='yes'>me|te|se|nos|vos|lhes|não</token>
-          <token postag='V.N.+' postag_regexp='yes'/>
+      </antipattern>
+      <antipattern>
+          <token inflected='yes'>ser</token>
+          <token>tempo</token>
+          <token>de</token>
       </antipattern>
       <pattern>
           <token>de</token>
@@ -5958,8 +5971,22 @@ title="Easy editing stylesheet" ?>
     </rule>
     <rule id='CONTRACAO_DONDE' name='De + onde'>
       <antipattern>
-          <token>o</token>
-          <token>facto</token>
+          <token regexp='yes'>antes|apesar|capacidade|depois|expec?tativas?|facto|objec?tivo|possibilidade|risco|intenção</token>
+          <token>de</token>
+          <token skip='-1' postag_regexp='yes' postag='V.+'/>
+      </antipattern>
+      <antipattern>
+          <token regexp='yes'>aos?</token>
+          <token regexp='yes'>pontos?</token>
+          <token>de</token>
+      </antipattern>
+      <antipattern>
+          <token inflected='yes'>chamar</token>
+          <token>de</token>
+      </antipattern>
+      <antipattern>
+          <token inflected='yes'>ser</token>
+          <token>tempo</token>
           <token>de</token>
       </antipattern>
       <pattern>
@@ -5975,8 +6002,22 @@ title="Easy editing stylesheet" ?>
     </rule>
     <rule id='CONTRACAO_DACOLÁ' name='De + artigos'><!-- default='off' -->
       <antipattern>
-          <token>o</token>
-          <token>facto</token>
+          <token regexp='yes'>antes|apesar|capacidade|depois|expec?tativas?|facto|objec?tivo|possibilidade|risco|intenção</token>
+          <token>de</token>
+          <token skip='-1' postag_regexp='yes' postag='V.+'/>
+      </antipattern>
+      <antipattern>
+          <token regexp='yes'>aos?</token>
+          <token regexp='yes'>pontos?</token>
+          <token>de</token>
+      </antipattern>
+      <antipattern>
+          <token inflected='yes'>chamar</token>
+          <token>de</token>
+      </antipattern>
+      <antipattern>
+          <token inflected='yes'>ser</token>
+          <token>tempo</token>
           <token>de</token>
       </antipattern>
       <pattern>
@@ -6006,8 +6047,22 @@ title="Easy editing stylesheet" ?>
     </rule>
     <rule id='CONTRACAO_DA' name='De + artigos'> <!--default='off' -->
       <antipattern>
-          <token regexp='yes'>[dn]?o</token>
-          <token>facto</token>
+          <token regexp='yes'>antes|apesar|capacidade|depois|expec?tativas?|facto|objec?tivo|possibilidade|risco|intenção</token>
+          <token>de</token>
+          <token skip='-1' postag_regexp='yes' postag='V.+'/>
+      </antipattern>
+      <antipattern>
+          <token regexp='yes'>aos?</token>
+          <token regexp='yes'>pontos?</token>
+          <token>de</token>
+      </antipattern>
+      <antipattern>
+          <token inflected='yes'>chamar</token>
+          <token>de</token>
+      </antipattern>
+      <antipattern>
+          <token inflected='yes'>ser</token>
+          <token>tempo</token>
           <token>de</token>
       </antipattern>
       <pattern>
@@ -6027,8 +6082,22 @@ title="Easy editing stylesheet" ?>
     </rule>
     <rule id='CONTRACAO_DUM' name='De + um/uns'><!--default='off' -->
       <antipattern>
-          <token>o</token>
-          <token>facto</token>
+          <token regexp='yes'>antes|apesar|capacidade|depois|expec?tativas?|facto|objec?tivo|possibilidade|risco|intenção</token>
+          <token>de</token>
+          <token skip='-1' postag_regexp='yes' postag='V.+'/>
+      </antipattern>
+      <antipattern>
+          <token regexp='yes'>aos?</token>
+          <token regexp='yes'>pontos?</token>
+          <token>de</token>
+      </antipattern>
+      <antipattern>
+          <token inflected='yes'>chamar</token>
+          <token>de</token>
+      </antipattern>
+      <antipattern>
+          <token inflected='yes'>ser</token>
+          <token>tempo</token>
           <token>de</token>
       </antipattern>
       <pattern>
