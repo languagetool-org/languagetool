@@ -7755,16 +7755,6 @@ USA
                 <example>Revenue less expenses</example>
             </rule>
         </rulegroup>
-        <rule id="WORST_THAN" name="worst (worse) than">
-            <pattern>
-                <marker>
-                    <token>worst</token>
-                </marker>
-                <token>than</token>
-            </pattern>
-            <message>Did you mean <suggestion>worse</suggestion>?</message>
-            <example correction="worse">That's <marker>worst</marker> than before!</example>
-        </rule>
         <rulegroup id="DOES_YOU" name="does (do) I/you/we/they">
             <rule>
                 <pattern>
@@ -11352,6 +11342,31 @@ USA
             <example correction="much">This will be <marker>a much</marker> work.</example>
             <example>This will be <marker>much</marker> work.</example>
             <example>These concerns now seem a much bolder move.</example>
+        </rule>
+        <rule id="SUPERLATIVE_THAN" name="SUPERLATIVE + THAN, e.g. worst (worse) than">
+        <!-- Created by Tiago F. Santos, 2018-02-02 -->
+            <pattern>
+                <marker>
+                    <token postag='(?:JJ|RB)S?' postag_regexp='yes'>
+                      <exception postag='JJR|RBR' postag_regexp='yes'/></token>
+                </marker>
+                <token>than</token>
+            </pattern>
+            <message>Use <suggestion><match no='1' postag='(JJ|RB).?' postag_regexp='yes' postag_replace='$1R'/></suggestion> to make a comparison with this adjective.</message>
+            <example correction="iller|worse">That's <marker>worst</marker> than before!</example>
+        </rule>
+        <rule id="THE_WORSE_OF" name="THE + RELATIVE + OF, e.g. the worse (worst) of">
+        <!-- Created by Tiago F. Santos, 2018-02-02 -->
+            <pattern>
+                <token>the</token>
+                <marker>
+                    <token postag='(?:JJ|RB)R?' postag_regexp='yes'>
+                      <exception postag='JJS|RBS' postag_regexp='yes'/></token>
+                </marker>
+                <token>of</token>
+            </pattern>
+            <message>Use <suggestion><match no='2' postag='(JJ|RB).?' postag_regexp='yes' postag_replace='$1S'/></suggestion> if you mean to express an extreme with this adjective.</message>
+            <example correction="illest|worst">The <marker>worse</marker> of all is that he doesn't know what to do!</example>
         </rule>
         <rule id="MOST_SUPERLATIVE" name="No 'more' or 'most' before superlatives">
             <pattern>

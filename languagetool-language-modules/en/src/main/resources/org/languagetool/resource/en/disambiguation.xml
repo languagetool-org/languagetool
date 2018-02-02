@@ -1711,7 +1711,8 @@
         <marker>
         <and>
           <token postag="NNP?(:UN?)?" postag_regexp="yes"/>
-          <token postag="JJ"/>
+          <token postag="JJ">
+            <exception postag="JJR"/></token><!-- XXX exclude JJR to allow error detection -->
         </and>
         </marker>
         <token postag="VBZ"/>
@@ -1751,7 +1752,7 @@
         <marker>
         <and>
           <token postag="NN.*" postag_regexp="yes"/>
-          <token postag="JJ.*" postag_regexp="yes"/>
+          <token postag="JJS?" postag_regexp="yes"/><!-- XXX exclude JJR to allow error detection -->
         </and>
         </marker>
         <token postag="IN"><exception>while</exception></token>
