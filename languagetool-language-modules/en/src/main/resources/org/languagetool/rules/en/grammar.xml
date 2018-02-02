@@ -15809,6 +15809,42 @@ USA
       <message>The usual collocation for "\1" is "of" not "\2". Did you mean <suggestion>\1 of</suggestion>.</message>
       <example correction='guilty of'>Mark is <marker>guilty for</marker> lazyness.</example>
     </rule>
+    <rule id='INDEPENDENTLY_FROM_OF' name='Collocation: independently from/of'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+        <marker>
+          <token regexp="yes">independent(?:ly)?</token>
+          <token>from</token>
+        </marker>
+          <token>
+            <exception>now</exception></token>
+      </pattern>
+      <message>The usual collocation for "\1" is "of" not "\2". Did you mean <suggestion>\1 of</suggestion>.</message>
+      <example correction='Independently of'><marker>Independently from</marker> our relationship, you are not the best, nor most the brightest.</example>
+    </rule>
+    <rule id='INSIST_ON_GERUND' name='Collocation: insist on + gerund'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token inflected="yes">insist</token>
+          <token>to</token>
+          <token postag_regexp="yes" postag="VB|PRP\$"/>
+      </pattern>
+      <message>The usual collocation for "\1" is "on" not "\2". Did you mean <suggestion>\1 on <match no="3" postag="VBG"/></suggestion>?</message>
+      <example correction='insisted on attending'>She <marker>insisted to attend</marker> the conference.</example>
+    </rule>
+    <rule id='INTEREST_FOR_IN' name='Collocation: interest for/in'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+        <marker>
+          <token regexp="yes">interest(?:ed|s)?</token>
+          <token>for</token>
+        </marker>
+          <token>
+            <exception postag="VB"/></token>
+      </pattern>
+      <message>The usual collocation for "\1" is "in" not "\2". Did you mean <suggestion>\1 in</suggestion>.</message>
+      <example correction='interest in'>I have an <marker>interest for</marker> the sea.</example>
+    </rule>
   </rulegroup>
 
   <rulegroup id='IN_CHARGE_FOR' name='Collocation: in charge for/of/with'>
