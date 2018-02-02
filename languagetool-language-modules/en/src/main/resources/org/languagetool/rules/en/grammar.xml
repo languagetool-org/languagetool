@@ -15845,6 +15845,44 @@ USA
       <message>The usual collocation for "\1" is "in" not "\2". Did you mean <suggestion>\1 in</suggestion>.</message>
       <example correction='interest in'>I have an <marker>interest for</marker> the sea.</example>
     </rule>
+    <rule id='JEALOUS_FROM_OF' name='Collocation: jealous from/of'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+        <marker>
+          <token>jealous</token>
+          <token>from</token>
+        </marker>
+          <token>
+            <exception postag="VB"/></token>
+      </pattern>
+      <message>The usual collocation for "\1" is "of" not "\2". Did you mean <suggestion>\1 of</suggestion>.</message>
+      <example correction='jealous of'>Jane might be <marker>jealous from</marker> my car.</example>
+    </rule>
+    <rule id='PHOTO_WITH_HIS_CAT' name='Collocation: photo with/of + POSSESSIVE PRONOUN + NOUN'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token>
+            <exception inflected="yes">take</exception></token>
+        <marker>
+          <token inflected="yes">photo</token>
+          <token>with</token>
+          <token postag="PRP$"/>
+          <token/>
+        </marker>
+      </pattern>
+      <message>The usual collocation for "\2" is "of" not "\3". Did you mean <suggestion>\2 of \4 \5</suggestion>.</message>
+      <example correction='photo of his cat'>This is a <marker>photo with his cat</marker>.</example>
+    </rule>
+    <rule id='IN_THIS_MOMENT' name='Collocation: in/at this moment'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token>in</token>
+          <token regexp="yes">this|that</token>
+          <token>moment</token>
+      </pattern>
+      <message>The usual collocation for "\2 \3" is "at" not "\1". Did you mean <suggestion>At \2 \3</suggestion>.</message>
+      <example correction='At this moment'><marker>In this moment</marker> she woke up.</example>
+    </rule>
   </rulegroup>
 
   <rulegroup id='IN_CHARGE_FOR' name='Collocation: in charge for/of/with'>
