@@ -15797,6 +15797,15 @@ USA
     </rule>
     <rule id='GUILTY_FOR_OF' name='Collocation: guilty for/of'>
     <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <antipattern>
+          <token inflected='yes' regexp='yes'>plead?</token>
+          <token min='0'>of</token>
+          <token min='0'>not</token>
+          <token>guilty</token>
+          <token>for</token>
+          <token regexp='yes'>a|the</token>
+          <token regexp='yes'>defendants?</token>
+      </antipattern>
       <pattern>
         <marker>
           <token>guilty</token>
@@ -15808,6 +15817,7 @@ USA
       </pattern>
       <message>The usual collocation for "\1" is "of" not "\2". Did you mean <suggestion>\1 of</suggestion>.</message>
       <example correction='guilty of'>Mark is <marker>guilty for</marker> lazyness.</example>
+      <example>...the court enters a plea of not guilty for a defendant who refuses to enter a plea.</example>
     </rule>
     <rule id='INDEPENDENTLY_FROM_OF' name='Collocation: independently from/of'>
     <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
