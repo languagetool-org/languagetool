@@ -2555,7 +2555,7 @@ regexp case-insensitive maken : (?i)
 			<!-- 2014-08-22 TaalTik -->
 			<rule>
 				<pattern>
-					<token>ex</token>
+					<token regexp="yes">ex|ex-</token>
 					<token postag=".*ZNW.*" postag_regexp="yes"><exception regexp="yes">weinig|voto|voto's|nu|goed|voor|bijvoorbeeld|alles|bij|van|een|btw|artikel|heeft|post|ante|was</exception><exception postag_regexp="yes" postag=".*WKW.*|UNKNOWN"/></token>
 				</pattern>
 				<message>Bedoelt u: <suggestion>ex-<match no="2"/></suggestion>?</message>
@@ -2586,32 +2586,8 @@ regexp case-insensitive maken : (?i)
 				<example>Ik feliciteer de <marker>tienjarige</marker>.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="VANZELFSPREKEND" name="van zelfsprekend → vanzelfsprekend">
-			<!-- 2017-06-20 TaalTik -->
-			<rule>
-				<pattern>
-					<token>van</token>
-					<token regexp="yes">zelfsprekend.*</token>
-				</pattern>
-				<message>Dit moet vast zijn: <suggestion><match no="1"/><match no="2"/></suggestion></message>
-				<url/>
-				<example correction="vanzelfsprekend">Dat is <marker>van zelfsprekend</marker>.</example>
-				<example>Ik feliciteer je <marker>vanzelfsprekend</marker>.</example>
-			</rule>
-		</rulegroup>
-		<rulegroup id="KRIS_KRAS" name="kris kras → kriskras">
-			<!-- 2017-06-20 TaalTik -->
-			<rule>
-				<pattern>
-					<token>kris</token>
-					<token>kras</token>
-				</pattern>
-				<message>Dit moet vast zijn: <suggestion><match no="1"/><match no="2"/></suggestion></message>
-				<url/>
-				<example correction="kriskras">We gaan <marker>kris kras</marker> er doorheen.</example>
-				<example>We gaan<marker>kriskras</marker> er doorheen.</example>
-			</rule>
-		</rulegroup>
+
+
 		<rulegroup id="PEPER_EN_ZOUTSTEL" name="peper- en zoutstel → peper-en-zoutstel">
 			<!-- 2017-06-20 TaalTik -->
 			<rule>
@@ -2654,6 +2630,19 @@ regexp case-insensitive maken : (?i)
 			</rule>
 		</rulegroup>
 
+		<rulegroup id="N_PERSOONS" name="2 persoonsdinges → 2-persoonsdinges">
+			<!-- 2017-06-20 TaalTik -->
+			<rule>
+				<pattern>
+					<token regexp="yes">[0-9]{1,3}|een|twee|drie|vier|vijf|zes|zeven|acht|negen|tien|elf|twaalf</token>
+					<token regexp="yes">(persoons|deurs|bladig).*</token>
+				</pattern>
+				<message>Dit moet vast zijn: <suggestion>\1-\2</suggestion></message>
+				<url/>
+				<example correction="2-persoonsbed">Ik heb een <marker>2 persoonsbed</marker>.</example>
+				<example>Hij had een <marker>2-persoonsbed</marker>.</example>
+			</rule>
+		</rulegroup>
 		
 		<rulegroup id="GELE_TRUIDRAGER_a" name="gele truidrager → geletruidrager">
 			<rule>
@@ -16878,6 +16867,18 @@ regexp case-insensitive maken : (?i)
 		</rulegroup>
 		-->
 		
+		<rulegroup id="IN_DE_LAG" name="in de lag → in de lach">
+			<rule>
+				<pattern>
+					<token>in</token>	
+					<token>de</token>	
+					<token>lag</token>	
+				</pattern>
+				<message>U bedoelt vast <suggestion>in de lach</suggestion>.</message>
+				<example correction="in de lach">Ik schiet <marker>in de lag</marker> fout.</example>
+				<example>Hij schoot <marker>in de lach</marker> goed.</example>
+			</rule>
+		</rulegroup>
 		<rulegroup id="AD_RANDOM" name="ad random → at random">
 			<rule>
 				<pattern>
