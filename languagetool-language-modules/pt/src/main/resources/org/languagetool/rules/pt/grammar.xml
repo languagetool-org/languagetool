@@ -5732,8 +5732,9 @@ title="Easy editing stylesheet" ?>
       <pattern>
         <marker>
           <token/>
-          <token regexp='yes'>antes|apesar|capacidade|depois|expec?tativas?|facto|objec?tivo|possibilidade|risco|intenção</token>
-          <token skip='-1' regexp='yes'>d[ao]s?</token>
+          <token regexp='yes'>antes|apesar|capacidade|depois|expec?tativas?|facto|possibilidade|risco|intenção</token>
+          <token skip='-1' regexp='yes'>d[ao]s?
+            <exception scope='next' postag='_PUNCT' postag_regexp='yes'/></token>
         </marker>
           <token postag_regexp='yes' postag='V.+'/>
       </pattern>
@@ -5745,6 +5746,8 @@ title="Easy editing stylesheet" ?>
       <example correction="o facto de o">Ter em conta <marker>o facto do</marker> aluno não saber.</example>
       <example correction="o facto de os">Ter em conta <marker>o facto dos</marker> alunos não saberem.</example>
       <example>Esta é a intenção da senhora.</example>
+      <example>...Tancredo Neves, morto antes da posse, sendo substituído pelo seu vice...</example>
+      <example><marker>Muito antes da</marker> chegada de Cristóvão Colombo à América.</example>
     </rule>
   </rulegroup>
 
@@ -5798,7 +5801,8 @@ title="Easy editing stylesheet" ?>
     <rule>
       <antipattern>
           <token regexp='yes'>antes|apesar|capacidade|depois|expec?tativas?|facto|objec?tivo|possibilidade|risco|intenção</token>
-          <token skip='-1'>de</token>
+          <token skip='-1'>de
+            <exception scope='next' postag='_PUNCT' postag_regexp='yes'/></token>
           <token postag_regexp='yes' postag='V.+'/>
       </antipattern>
       <antipattern>
@@ -5829,6 +5833,7 @@ title="Easy editing stylesheet" ?>
       <example correction='do|dê o'><marker>de o</marker>.</example>
       <example correction='dos|dê os'><marker>de os</marker>.</example>
       <example>Muitos destes “senhores dos mares” correm sérios riscos de deixarem de o ser.</example>
+      <example>Apesar de a maioria dos estudos ter seu foco no período até o...</example>
     </rule>
     <!--<rule id='CONTRACAO_DUM' name='De + um/uns' default='off'>
       <antipattern>
@@ -5942,7 +5947,8 @@ title="Easy editing stylesheet" ?>
     <rule id='CONTRACAO_DELA' name='De + ela'>
       <antipattern>
           <token regexp='yes'>antes|apesar|capacidade|depois|expec?tativas?|facto|objec?tivo|possibilidade|risco|intenção</token>
-          <token skip='-1'>de</token>
+          <token skip='-1'>de
+            <exception scope='next' postag='_PUNCT' postag_regexp='yes'/></token>
           <token postag_regexp='yes' postag='V.+'/>
       </antipattern>
       <antipattern>
@@ -5978,7 +5984,8 @@ title="Easy editing stylesheet" ?>
     <rule id='CONTRACAO_DONDE' name='De + onde'>
       <antipattern>
           <token regexp='yes'>antes|apesar|capacidade|depois|expec?tativas?|facto|objec?tivo|possibilidade|risco|intenção</token>
-          <token skip='-1'>de</token>
+          <token skip='-1'>de
+            <exception scope='next' postag='_PUNCT' postag_regexp='yes'/></token>
           <token postag_regexp='yes' postag='V.+'/>
       </antipattern>
       <antipattern>
@@ -6009,7 +6016,8 @@ title="Easy editing stylesheet" ?>
     <rule id='CONTRACAO_DACOLÁ' name='De + artigos'><!-- default='off' -->
       <antipattern>
           <token regexp='yes'>antes|apesar|capacidade|depois|expec?tativas?|facto|objec?tivo|possibilidade|risco|intenção</token>
-          <token skip='-1'>de</token>
+          <token skip='-1'>de
+            <exception scope='next' postag='_PUNCT' postag_regexp='yes'/></token>
           <token postag_regexp='yes' postag='V.+'/>
       </antipattern>
       <antipattern>
@@ -6054,7 +6062,8 @@ title="Easy editing stylesheet" ?>
     <rule id='CONTRACAO_DA' name='De + artigos'> <!--default='off' -->
       <antipattern>
           <token regexp='yes'>antes|apesar|capacidade|depois|expec?tativas?|facto|objec?tivo|possibilidade|risco|intenção</token>
-          <token skip='-1'>de</token>
+          <token skip='-1'>de
+            <exception scope='next' postag='_PUNCT' postag_regexp='yes'/></token>
           <token postag_regexp='yes' postag='V.+'/>
       </antipattern>
       <antipattern>
@@ -6089,7 +6098,8 @@ title="Easy editing stylesheet" ?>
     <rule id='CONTRACAO_DUM' name='De + um/uns'><!--default='off' -->
       <antipattern>
           <token regexp='yes'>antes|apesar|capacidade|depois|expec?tativas?|facto|objec?tivo|possibilidade|risco|intenção</token>
-          <token skip='-1'>de</token>
+          <token skip='-1'>de
+            <exception scope='next' postag='_PUNCT' postag_regexp='yes'/></token>
           <token postag_regexp='yes' postag='V.+'/>
       </antipattern>
       <antipattern>
