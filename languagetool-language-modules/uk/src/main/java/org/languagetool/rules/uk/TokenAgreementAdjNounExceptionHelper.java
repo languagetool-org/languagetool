@@ -1,13 +1,10 @@
 package org.languagetool.rules.uk;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
@@ -16,11 +13,14 @@ import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.uk.InflectionHelper.Inflection;
 import org.languagetool.tagging.uk.IPOSTag;
 import org.languagetool.tagging.uk.PosTagHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @since 3.6
  */
 final class TokenAgreementAdjNounExceptionHelper {
+  private static Logger logger = LoggerFactory.getLogger(TokenAgreementAdjNounExceptionHelper.class);
   
   private static final Pattern NUMBER_V_NAZ = Pattern.compile("number|numr:p:v_naz|noun.*?:p:v_naz:&numr.*");
   // including latin 'a' and 'i' so the rules don't trip on them in Ukrainian sentences
@@ -851,17 +851,6 @@ final class TokenAgreementAdjNounExceptionHelper {
     return false;
   }
 
-  
-
-  private static void logException() {
-    if( TokenAgreementAdjNounRule.DEBUG ) {
-      StackTraceElement stackTraceElement = new Exception().getStackTrace()[1];
-      System.err.println("exception: " + stackTraceElement.getFileName() + ": " + stackTraceElement.getLineNumber());
-//      logger.debug("exception: " + stackTraceElement.getFileName() + ": " + stackTraceElement.getLineNumber());
-    }
-  }
-
-
 
   private static boolean genderMatches(List<InflectionHelper.Inflection> masterInflections, List<InflectionHelper.Inflection> slaveInflections, String masterCaseFilter, String slaveCaseFilter) {
     //      System.err.println("master " + masterInflections + " / " + slaveInflections);
@@ -925,6 +914,13 @@ final class TokenAgreementAdjNounExceptionHelper {
       }
     }
     return false;
+  }
+  
+  private static void logException() {
+    if( logger.isDebugEnabled() ) {
+      StackTraceElement stackTraceElement = Thread.currentThread().getStackTrace()[2];
+      logger.debug("exception: " /*+ stackTraceElement.getFileName()*/ + stackTraceElement.getLineNumber());
+    }
   }
 
 

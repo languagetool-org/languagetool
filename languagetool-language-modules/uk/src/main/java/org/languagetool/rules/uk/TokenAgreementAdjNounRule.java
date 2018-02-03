@@ -42,6 +42,8 @@ import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.uk.InflectionHelper.Inflection;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.tagging.uk.PosTagHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A rule that checks if adjective and following noun agree on gender and inflection
@@ -49,11 +51,10 @@ import org.languagetool.tagging.uk.PosTagHelper;
  * @author Andriy Rysin
  */
 public class TokenAgreementAdjNounRule extends Rule {
+  private static Logger logger = LoggerFactory.getLogger(TokenAgreementAdjNounRule.class);
   
   static final Pattern ADJ_INFLECTION_PATTERN = Pattern.compile(":([mfnp]):(v_...)(:r(in)?anim)?");
   static final Pattern NOUN_INFLECTION_PATTERN = Pattern.compile("(?::((?:[iu]n)?anim))?:([mfnps]):(v_...)");
-  static boolean DEBUG = Boolean.getBoolean("org.languagetool.rules.uk.TokenInflectionAgreementRule.debug");
-//  private static final Logger logger = LoggerFactory.getLogger(TokenInflectionAgreementRule.class);
 
   private static final String NO_VIDMINOK_SUBSTR = ":nv";
 
@@ -183,9 +184,7 @@ public class TokenAgreementAdjNounRule extends Rule {
         continue;
       }
 
-      if( DEBUG ) {
-        System.err.println(MessageFormat.format("=== Checking:\n\t{0}\n\t{1}", adjTokenReadings, slaveTokenReadings));
-      }
+      logger.debug("=== Checking:\n\t{}\n\t{}", adjTokenReadings, slaveTokenReadings);
 
       // perform the check
 
@@ -200,8 +199,8 @@ public class TokenAgreementAdjNounRule extends Rule {
           continue;
         }
 
-        if( DEBUG ) {
-          System.err.println(MessageFormat.format("=== Found:\n\t{0}\n\t",
+        if( logger.isDebugEnabled()) {
+          logger.debug(MessageFormat.format("=== Found:\n\t{0}\n\t",
             adjAnalyzedTokenReadings.getToken() + ": " + masterInflections + " // " + adjAnalyzedTokenReadings,
             slaveTokenReadings.get(0).getToken() + ": " + slaveInflections+ " // " + slaveTokenReadings));
         }
