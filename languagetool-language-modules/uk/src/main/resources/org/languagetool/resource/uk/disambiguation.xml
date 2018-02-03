@@ -1242,6 +1242,21 @@
     <example type="untouched">Лікарів підхід був простий.</example>
   </rule>
 
+  <rule name="Мирного атому" id="myrnoho_atomu">
+    <pattern>
+      <token regexp="yes">мирного|військового|воєнного|немирного</token>
+      <marker>
+        <token>атому</token>
+      </marker>
+    </pattern>
+    <disambig postag="noun:inanim:m:v_rod"/>
+    <example type="ambiguous"
+        inputform="атому[атом/noun:inanim:m:v_dav,атом/noun:inanim:m:v_mis]"
+        outputform="атому[атом/noun:inanim:m:v_rod]"
+            >мирного <marker>атому</marker>.</example>
+    <example type="untouched">по атому</example>
+  </rule>
+
 
   <!-- TOOD: redo when dictionary updated
   <rule name="Числівник, як іменник годин 1" id="NUMR_AS_HOUR_NOUN1">
