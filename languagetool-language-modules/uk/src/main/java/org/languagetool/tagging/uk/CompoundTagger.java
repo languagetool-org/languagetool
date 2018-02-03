@@ -263,7 +263,11 @@ class CompoundTagger {
       List<AnalyzedToken> newAnalyzedTokens = new ArrayList<>();
 
       // червоненька ВАЗ-2107
-      List<String> gens = Arrays.asList("ВАЗ", "ЗАЗ").contains(leftWord) ? Arrays.asList("m", "f") : Arrays.asList("m");
+      List<String> gens = Arrays.asList("ВАЗ", "ЗАЗ").contains(leftWord) 
+        ? Arrays.asList("m", "f") 
+        : Arrays.asList("УТ").contains(leftWord)
+          ? Arrays.asList("m", "n")
+          : Arrays.asList("m");
       for (String gen: gens) {
         for(String vidm: PosTagHelper.VIDMINKY_MAP.keySet()) {
           if( vidm.equals("v_kly") )
@@ -290,8 +294,9 @@ class CompoundTagger {
 
         String posTag = analyzedToken.getPOSTag();
 
+        // only noun - відкидаємо: вибори - вибороти
         // Афіни-2014 - потрібне лише місто, не ім'я
-        if( posTag == null || posTag.contains(":anim") )
+        if( posTag == null || ! posTag.startsWith("noun:inanim") )
           continue;
 
         if( posTag.contains("v_kly") )
@@ -299,8 +304,7 @@ class CompoundTagger {
 
         if( posTag.contains(":p:")
             && ! Arrays.asList("гра", "вибори", "бюджет").contains(analyzedToken.getLemma())
-            && ! posTag.contains(":ns")
-            && ! posTag.startsWith("verb") )    // відкидаємо: вибори - вибороти
+            && ! posTag.contains(":ns") )
           continue;
 
         // Євро-2014
@@ -333,8 +337,14 @@ class CompoundTagger {
     }
 
     List<TaggedWord> rightWdList = wordTagger.tag(rightWord);
-    if( rightWdList.isEmpty() )
-      return null;
+    if( rightWdList.isEmpty() ) {
+      if( Character.isUpperCase(rightWord.charAt(0)) ) {
+        rightWdList = wordTagger.tag(rightWord.toLowerCase());
+      }
+      
+      if( rightWdList.isEmpty() )
+        return null;
+    }
 
     List<AnalyzedToken> rightAnalyzedTokens = ukrainianTagger.asAnalyzedTokenListForTaggedWordsInternal(rightWord, rightWdList);
 
@@ -388,14 +398,11 @@ class CompoundTagger {
       }
     }
 
-
     // майстер-класу
     
     if( dashPrefixes.contains( leftWord ) || dashPrefixes.contains( leftWord.toLowerCase() ) || DASH_PREFIX_LAT_PATTERN.matcher(leftWord).matches() ) {
       return getNvPrefixNounMatch(word, rightAnalyzedTokens, leftWord);
     }
-
-
 
     // don't allow: Донець-кий, зовнішньо-економічний, мас-штаби
 
