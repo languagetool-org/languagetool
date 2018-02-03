@@ -120,6 +120,8 @@ class LanguageToolHttpHandler implements HttpHandler {
           throw new IllegalArgumentException("Missing arguments for LanguageTool API. Please see https://languagetool.org/http-api/swagger-ui/#/default");
         } else if (requestedUri.getRawPath().contains("/v2/")) {
           throw new IllegalArgumentException("You have '/v2/' in your path, but not at the root. Try an URL like 'http://server/v2/...' ");
+        } else if (requestedUri.getRawPath().equals("/favicon.ico")) {
+          sendError(httpExchange, HttpURLConnection.HTTP_NOT_FOUND, "Not found");
         } else {
           throw new IllegalArgumentException("Seems like you're using an old version of our API that's not supported anymore. Please see https://languagetool.org/http-api/migration.php");
         }
