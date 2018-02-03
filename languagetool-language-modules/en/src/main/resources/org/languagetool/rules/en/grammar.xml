@@ -15908,6 +15908,50 @@ USA
       <message>The usual collocation for "\2 \3" is "at" not "\1". Did you mean <suggestion>At \2 \3</suggestion>.</message>
       <example correction='At this moment'><marker>In this moment</marker> she woke up.</example>
     </rule>
+    <rule id='TIRED_ABOUT_OF' name='Collocation: tired about/of'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token>tired</token>
+          <token>about</token>
+      </pattern>
+      <message>The usual collocation for "\1" is "of" or "from" not "\2". Did you mean <suggestion>tired of</suggestion> or <suggestion>tired from</suggestion>.</message>
+      <example correction='tired of|tired from'><marker>tired about</marker>.</example>
+    </rule>
+    <rule id='ADVERTISEMENT_OF_FOR' name='Collocation: advertisement of/for'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token>advertisement</token>
+          <token>of</token>
+      </pattern>
+      <message>The usual collocation for "\1" is "for" not "\2". Did you mean <suggestion>advertisement for</suggestion>.</message>
+      <example correction='advertisement for'>Nice <marker>advertisement of</marker> your company.</example>
+    </rule>
+  </rulegroup>
+
+  <rulegroup id="DO_A_PARTY" name="Collocation: do/throw/have a party">
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <url>http://www.kentlee7.com/writ/collocation.errors.typical.pdf</url>
+      <short>Collocation error</short>
+    <rule>
+      <pattern>
+          <token>to</token>
+          <token regexp="yes">do|make</token>
+          <token>a</token>
+          <token>party</token>
+      </pattern>
+      <message>In English, the normal collocation for "party" is "have" or "throw".  Revise your sentence:  <suggestion>to throw a party</suggestion> or <suggestion>to have a party</suggestion>.</message>
+      <example correction='to throw a party|to have a party'>A new roommate has moved in, so we decided <marker>to do a party</marker> with all of us..</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token inflected="yes" regexp="yes">love|like</token>
+          <token regexp="yes">doing|making</token>
+          <token regexp="yes">the|a</token>
+          <token>party</token>
+      </pattern>
+      <message>In English, the normal collocation for "party" is "have" or "throw".  Revise your sentence:  <suggestion>\1 throwing a party</suggestion> or <suggestion>\1 partying</suggestion>.</message>
+      <example correction='like throwing a party|like partying'>I <marker>like making a party</marker>.</example>
+    </rule>
   </rulegroup>
 
   <rulegroup id='IN_CHARGE_FOR' name='Collocation: in charge for/of/with'>
@@ -16323,7 +16367,6 @@ USA
       <example correction='exception to'>This is an <marker>exception of</marker> the guidelines.</example>
     </rule>
     <rule>
-    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
       <pattern>
         <marker>
           <token inflected="yes">make</token>
