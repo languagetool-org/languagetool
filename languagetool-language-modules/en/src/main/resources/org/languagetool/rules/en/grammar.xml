@@ -11345,28 +11345,74 @@ USA
         </rule>
         <rule id="SUPERLATIVE_THAN" name="SUPERLATIVE + THAN, e.g. worst (worse) than">
         <!-- Created by Tiago F. Santos, 2018-02-02 -->
+            <antipattern>
+                <token skip='-1' regexp='yes'>more|less|rather|other</token>
+                <token skip='-1' postag='JJ|RB' postag_regexp='yes'/>
+               <token>than</token>
+            </antipattern>
+            <antipattern>
+               <token>as</token>
+                <token skip='-1'>well</token>
+               <token>than</token>
+            </antipattern>
+            <antipattern>
+                <token skip='-1' postag='JJR'/>
+                <token skip='1' postag_regexp='yes' postag='JJ|RB'/>
+               <token>than</token>
+            </antipattern>
             <pattern>
                 <marker>
                     <token postag='(?:JJ|RB)S?' postag_regexp='yes'>
+                      <exception regexp='yes'>more|less|rather|other</exception>
                       <exception postag='JJR|RBR' postag_regexp='yes'/></token>
                 </marker>
                 <token>than</token>
             </pattern>
             <message>Use <suggestion><match no='1' postag='(JJ|RB).?' postag_regexp='yes' postag_replace='$1R'/></suggestion> to make a comparison with this adjective.</message>
             <example correction="iller|worse">That's <marker>worst</marker> than before!</example>
+            <example>...rather than receiving goods being distributed "according...</example>
+            <example>The two traditions may have had more in common than initially appears.</example>
+            <example>...als with Asperger syndrome tend to perform better cognitively than those with autism, the extent of the overlap...</example>
+            <example>... with autism are about 25 times more likely to be autistic than the general population.</example>
+            <example>He is no more foolish than you are.</example>
+            <example>All animals are equal, but some animals are more equal than others</example>
+            <example>I would rather go out than stay at home.</example>
+            <example>I may as well go out than stay at home.</example>
+            <example>While no nation other than the Russian Federation (and previously the f...</example>
+            <example>No sooner had I gone out than it began to rain.</example>
         </rule>
-        <rule id="THE_WORSE_OF" name="THE + RELATIVE + OF, e.g. the worse (worst) of">
+        <rule id="THE_WORSE_OF" name="THE + RELATIVE + OF, e.g. the worse (worst) of" default='off'>
         <!-- Created by Tiago F. Santos, 2018-02-02 -->
+            <antipattern>
+                <token inflected='yes'>get</token>
+                <token>the</token>
+                <token>better</token>
+                <token>of</token>
+            </antipattern>
+            <antipattern>
+                <token>the</token>
+                <token postag='(?:JJ|RB)R' postag_regexp='yes'/>
+                <token skip='-1'>of</token>
+                <token>two</token>
+            </antipattern>
             <pattern>
                 <token>the</token>
                 <marker>
-                    <token postag='(?:JJ|RB)R?' postag_regexp='yes'>
+                    <token postag='(?:JJ|RB)R' postag_regexp='yes' regexp='yes'>\p{Ll}+
+                      <!--exception regexp='yes'>needs|best.*|\d+(st|nd|rd|th)<exception-->
                       <exception postag='JJS|RBS' postag_regexp='yes'/></token>
                 </marker>
                 <token>of</token>
             </pattern>
             <message>Use <suggestion><match no='2' postag='(JJ|RB).?' postag_regexp='yes' postag_replace='$1S'/></suggestion> if you mean to express an extreme with this adjective.</message>
             <example correction="illest|worst">The <marker>worse</marker> of all is that he doesn't know what to do!</example>
+            <example>The Wretched of the Earth.</example>
+            <example>No one could get the better of him in an argument.</example>
+            <example>...since ASCII suited the needs of only the USA and a few other countries.</example>
+            <example>We must go forward getting the better of all obstacles.</example>
+            <example>The meeting will be postponed till the 20th of this month.</example>
+            <example>After many years of conflict that lead to the weakening of all the insurgent parties,...</example>
+            <example>Mary is the cuter of the two.</example>
         </rule>
         <rule id="MOST_SUPERLATIVE" name="No 'more' or 'most' before superlatives">
             <pattern>
