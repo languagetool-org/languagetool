@@ -624,7 +624,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
             }
             additionalSuggestions = newList;
           }
-          return additionalSuggestions;
+          // avoid overly long lists of suggestions (we just take the first results, although we don't know whether they are better):
+          return additionalSuggestions.subList(0, Math.min(5, additionalSuggestions.size()));
         }
       }
     }
