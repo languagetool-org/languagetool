@@ -11343,7 +11343,7 @@ USA
             <example>This will be <marker>much</marker> work.</example>
             <example>These concerns now seem a much bolder move.</example>
         </rule>
-        <rule id="SUPERLATIVE_THAN" name="SUPERLATIVE + THAN, e.g. worst (worse) than">
+        <rule id="SUPERLATIVE_THAN" name="SUPERLATIVE + THAN, e.g. worst (worse) than"  default='off'><!-- reactivate again after regression tests -->
         <!-- Created by Tiago F. Santos, 2018-02-02 -->
             <antipattern>
                 <token skip='-1' regexp='yes'>more|less|rather|other</token>
@@ -11381,7 +11381,7 @@ USA
             <example>While no nation other than the Russian Federation (and previously the f...</example>
             <example>No sooner had I gone out than it began to rain.</example>
         </rule>
-        <rule id="THE_WORSE_OF" name="THE + RELATIVE + OF, e.g. the worse (worst) of" default='on'>
+        <rule id="THE_WORSE_OF" name="THE + RELATIVE + OF, e.g. the worse (worst) of" default='off'><!-- reactivate again after regression tests -->
         <!-- Created by Tiago F. Santos, 2018-02-02 -->
             <antipattern>
                 <token inflected='yes'>get</token>
@@ -15971,6 +15971,48 @@ USA
       </pattern>
       <message>The usual collocation for "\1" is "for" not "\2". Did you mean <suggestion>advertisement for</suggestion>.</message>
       <example correction='advertisement for'>Nice <marker>advertisement of</marker> your company.</example>
+    </rule>
+    <rule id='STOP_HIM_OF_FROM' name='Collocation: stop him of/from'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token inflected='yes'>stop</token>
+          <token regexp="yes">me|you|him|her|it|us|them</token>
+          <token>of</token>
+          <token>
+            <exception>course</exception></token>
+      </pattern>
+      <message>The usual collocation for "\1 \2" is "from" not "of". Did you mean <suggestion>stop \2 from \4</suggestion>.</message>
+      <example correction='stop us from achieving'>This <marker>stops us of achieving</marker> victory.</example>
+    </rule>
+    <rule id='IN_ON_AN_ALBUM' name='Collocation: in/on an album'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token>in</token>
+          <token postag="DT"/>
+          <token>album</token>
+      </pattern>
+      <message>The usual collocation for "\3" is "on" not "in" when album refers to a collection of recorded music. If by "album" you mean a collection of photos, "in an album" is correct. Did you mean <suggestion>on \2 \3</suggestion>.</message>
+      <example correction='on the album'>Listen to that <marker>in the album</marker>.</example>
+    </rule>
+    <rule id='CURE_AGAINST_FOR' name='Collocation: cure against/for'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token inflected='yes'>cure</token>
+          <token>against</token>
+      </pattern>
+      <message>The usual collocation for "\1" is "for" not "against". Did you mean <suggestion>\1 for</suggestion>.</message>
+      <example correction='cure for'>Researcher have found the <marker>cure against</marker> that type of cancer.</example>
+    </rule>
+    <rule id='TO_FOUND_FIND_A_CURE' name='Collocation: to found/find a cure'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token>to</token>
+          <token>found</token>
+          <token postag="DT"/>
+          <token regexp='yes'>cures?</token>
+      </pattern>
+      <message>The verb "to found" means "to establish," but "to find" means "to discover." Did you mean <suggestion>to find \3 \4</suggestion>.</message>
+      <example correction='to find a cure'>It took a while <marker>to found a cure</marker> for malaria.</example>
     </rule>
   </rulegroup>
 
