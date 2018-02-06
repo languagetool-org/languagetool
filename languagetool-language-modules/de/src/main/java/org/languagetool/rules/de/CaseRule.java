@@ -251,7 +251,7 @@ public class CaseRule extends Rule {
      ),
      Arrays.asList(
        // "Das Aus für Italien kam unerwartet." / "Müller drängt auf Aus bei Pflichtmitgliedschaft"
-       regex("auf|das|vor|an"),
+       regex("auf|das|vor|a[mn]"),
        csToken("Aus"),
        posRegex("^PRP:.+|VER:[1-3]:.+")
      ),
