@@ -22494,13 +22494,14 @@ Andere Projekte</example>
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[iI]m</token>
-                    <token>Laufe</token>
+                    <token regexp="yes">Laufe?</token>
                     <token>des</token>
                     <marker>
-                        <token>abends</token>
+                        <token regexp="yes">abends|(vor|nach)mittags</token>
                     </marker>
                 </pattern>
-                <message>&subanfang;<suggestion>Abends</suggestion>&subende;</message>
+                <message>&subanfang;<suggestion><match no="4" case_conversion="startupper"/></suggestion>&subende;</message>
+                <example correction="Vormittags">Ich rufe im Laufe des <marker>vormittags</marker> an.</example>
                 <example correction="Abends">Im Laufe des <marker>abends</marker> wurden wir immer ausgelassener.</example>
             </rule>
         </rulegroup>
