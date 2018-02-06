@@ -3974,6 +3974,18 @@ title="Easy editing stylesheet" ?>
       <example correction="abdicar de direitos">Por vezes é necessário <marker>abdicar direitos</marker>.</example>
     </rule>
 
+    <rule id='ADJETIVO_SEM_GRAU' name="Adjetivo sem grau">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
+      <pattern>
+		  <token>o</token>
+    	  <token>mais</token>
+		  <token regexp="yes">principal|prévio|semanal|mensal|anual</token>	  
+      </pattern>
+      <message>Este adjetivo não admite grau: <suggestion>\1 \3</suggestion>.</message>
+	  <suggestion>\1 \3</suggestion>
+      <example correction="o principal">Isto é <marker>o mais principal</marker> a ter em conta.</example>
+    </rule>
+	
     <rule id="ADJ_DE_VERB" name="Adj + Verbo">
     <!--      Created by Marco A.G.Pinto, Portuguese rule, 2017-10-04   -->
       <pattern>
