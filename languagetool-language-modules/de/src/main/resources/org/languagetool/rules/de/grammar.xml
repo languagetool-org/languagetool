@@ -337,7 +337,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token>et</token>
                 </marker>
-                <token regexp='yes' negate='yes'>al|cetera|l[ae]|les|des?|à|son|l</token>  <!-- Fehlalarme bei franz. Text vermeiden -->
+                <token regexp='yes' negate='yes'>al|cetera|l[ae]|les|des?|à|son|l|orbi</token>  <!-- Fehlalarme bei franz. Text vermeiden -->
             </pattern>
             <message>Meinten Sie <suggestion>er</suggestion>?</message>
             <example correction='Er'><marker>Et</marker> hat das aber so gesagt.</example>
@@ -8107,6 +8107,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>kann</token>
                 <token>außerdem</token>
             </antipattern>
+            <antipattern>
+                <token regexp="yes">(trotz|seit)dem</token>
+                <token></token>
+                <token postag="SENT_END"/>
+            </antipattern>
             <rule>
                 <pattern>
                     <marker>
@@ -8128,6 +8133,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example><marker>Nach dem</marker> Essen zwei Tabletten.</example>
                 <example>Er konnte trotzdem Anwalt werden.</example>
                 <example><marker>Nachdem</marker> Essen gegen Stuttgart verloren hatte, waren wir geknickt.</example>
+                <example> Im Schweizer Skiort Zermatt herrscht derzeit Hochbetrieb und trotzdem Stillstand.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -15008,6 +15014,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="RECHTS_ADV" name="'Rechts (rechts)'">
             <url>http://www.duden.de/rechtschreibung/rechts_rechtsseitig_rechterseits</url>
             <rule>
+                <antipattern case_sensitive="yes">
+                    <token>gegen</token>
+                    <token>Rechts</token>
+                    <token>“</token>
+                </antipattern>
                 <pattern case_sensitive="yes">
                     <token negate="yes">Blick</token>
                     <token regexp="yes" case_sensitive="no">gegen|halb|mit|nach</token>
@@ -15021,6 +15032,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="rechts">Ich kann nicht mit <marker>Rechts</marker> schreiben.</example>
                 <example>Nach <marker>Rechts-</marker> und Streitfragen geht es jetzt um etwas anderes.</example>
                 <example>Der Blick nach <marker>Rechts</marker> ist ein SPD-nahes Informationsportal.</example>
+                <example>Die „Offensive gegen Rechts“ und die „Radikalen Linken“ riefen zum Protest auf.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
