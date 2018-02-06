@@ -11343,10 +11343,10 @@ USA
             <example>This will be <marker>much</marker> work.</example>
             <example>These concerns now seem a much bolder move.</example>
         </rule>
-        <rule id="SUPERLATIVE_THAN" name="SUPERLATIVE + THAN, e.g. worst (worse) than"  default='off'><!-- reactivate again after regression tests -->
+        <rule id="SUPERLATIVE_THAN" name="SUPERLATIVE + THAN, e.g. worst (worse) than">
         <!-- Created by Tiago F. Santos, 2018-02-02 -->
             <antipattern>
-                <token skip='-1' regexp='yes'>more|less|rather|other</token>
+                <token skip='-1' regexp='yes'>more|less|rather|other|different</token>
                 <token skip='-1' postag='JJ|RB' postag_regexp='yes'/>
                <token>than</token>
             </antipattern>
@@ -11356,9 +11356,14 @@ USA
                <token>than</token>
             </antipattern>
             <antipattern>
-                <token skip='-1' postag='JJR'/>
-                <token skip='1' postag_regexp='yes' postag='JJ|RB'/>
+               <token>nothing</token>
+                <token skip='-1'>else</token>
                <token>than</token>
+            </antipattern>
+            <antipattern>
+                <token skip='-1' postag='JJR'/>
+                <token skip='-1' postag_regexp='yes' postag='JJ|RB'/>
+                <token>than</token>
             </antipattern>
             <pattern>
                 <marker>
@@ -11380,8 +11385,12 @@ USA
             <example>I may as well go out than stay at home.</example>
             <example>While no nation other than the Russian Federation (and previously the f...</example>
             <example>No sooner had I gone out than it began to rain.</example>
+            <example>Most scientific breakthroughs are nothing else than the discovery of the obvious.</example>
+            <example>...t his use of the term science carries a different meaning than that covered by the term "scientific method"...</example>
+            <example>...don't think that there is any better way to learn English than by living in America.</example>
+            <!--example>No sooner had I sat down and relaxed than the phone rang.</example> XXX this is missing a comma -->
         </rule>
-        <rule id="THE_WORSE_OF" name="THE + RELATIVE + OF, e.g. the worse (worst) of" default='off'><!-- reactivate again after regression tests -->
+        <rule id="THE_WORSE_OF" name="THE + RELATIVE + OF, e.g. the worse (worst) of">
         <!-- Created by Tiago F. Santos, 2018-02-02 -->
             <antipattern>
                 <token inflected='yes'>get</token>
@@ -11399,7 +11408,7 @@ USA
                 <token>the</token>
                 <marker>
                     <token postag='(?:JJ|RB)R' postag_regexp='yes' regexp='yes'>\p{Ll}+
-                      <!--exception regexp='yes'>needs|best.*|\d+(st|nd|rd|th)<exception-->
+                      <exception>layer<!--needs|best.*|\d+(st|nd|rd|th)--></exception>
                       <exception postag='JJS|RBS' postag_regexp='yes'/></token>
                 </marker>
                 <token>of</token>
@@ -11413,6 +11422,7 @@ USA
             <example>The meeting will be postponed till the 20th of this month.</example>
             <example>After many years of conflict that lead to the weakening of all the insurgent parties,...</example>
             <example>Mary is the cuter of the two.</example>
+            <example>The exact composition of the layer of wax is not only species-dependent.</example>
         </rule>
         <rule id="MOST_SUPERLATIVE" name="No 'more' or 'most' before superlatives">
             <pattern>
