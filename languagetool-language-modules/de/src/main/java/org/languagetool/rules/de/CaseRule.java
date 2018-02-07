@@ -109,7 +109,7 @@ public class CaseRule extends Rule {
     ),
     Arrays.asList(
       regex("Vereinigte[ns]?"),
-      regex("Staaten|Königreiche?s?")
+      regex("Staaten|Königreiche?s?|Bühnen")
     ),
     Arrays.asList(
       csToken("Den"),
