@@ -149,4 +149,9 @@ public class UkrainianTagger extends BaseTagger {
     return super.asAnalyzedTokenListForTaggedWords(word, taggedWords);
   }
   
+  // we need to expose this as some rules want to know if the word is in the dictionary
+  public WordTagger getWordTagger() {
+    return super.getWordTagger();
+  }
+  
 }
