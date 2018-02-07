@@ -1651,14 +1651,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example>La libro estis verkita fare de fama aŭtoro.</example>
       <example correction="">Ŝi ŝategas <marker>na</marker> ambaŭ.</example>
     </rule>
-    <rule id="NEOFIC_PRON" name="neoficialaj pronomoj">
+    <rule id="NEOFIC_SING_PRON" name="neoficialaj singularaj pronomoj">
       <pattern>
-        <token regexp="yes">ŝli|[rg]i|geli|iŝi|liŝi|ŝili</token>
+        <token regexp="yes">([gr]i|geli|liŝi|ŝili|ŝli)(?:n|aj?n?)?</token>
       </pattern>
-      <message>«\1» estas neoficiala pronomo, kaj do evitinda.</message>
-      <example correction=""><marker>Ŝli</marker> estas bela.</example>
+      <message>«\1» estas neoficiala pronomo. Preferu skribi <suggestion><match no="1" regexp_match=".*i(.*)" regexp_replace="ĝi$1"/></suggestion>, <suggestion><match no="1" regexp_match=".*i(.*)" regexp_replace="li$1"/></suggestion> aŭ <suggestion><match no="1" regexp_match=".*i(.*)" regexp_replace="ŝi$1"/></suggestion>.</message>
+      <example correction=""><marker>Ri</marker> estas bela.</example>
       <example>Li estas bela.</example>
-      <example>Ŝi estas bela.</example>
+      <example correction="">Mi amas <marker>ŝlin</marker>.</example>
+      <example>Mi amas ŝin.</example>
+    </rule>
+    <rule id="NEOFIC_PLUR_PRON" name="neoficialaj pluralaj pronomoj">
+      <pattern>
+        <token regexp="yes">iŝi(?:n|aj?n?)?</token>
+      </pattern>
+      «\1» estas neoficiala pronomo. Preferu skribi <suggestion><match no="1" regexp_match=".*i(.*)" regexp_replace="ili$1"/></suggestion>.
+      <example correction=""><marker>Iŝi</marker> estas miaj fratinoj.</example>
+      <example>Ili estas miaj fratinoj.</example>
+      <example correction="">Mi amis <marker>iŝin</marker>.</example>
+      <example>Mi amis ilin.</example>
     </rule>
     <rule id="NEOFIC_ESTIEL" name="neoficiala vorto estiel">
       <pattern>
