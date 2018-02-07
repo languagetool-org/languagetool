@@ -427,7 +427,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <pattern>
         <token regexp="yes">zh?amenh?o[vf](-?aj?n?)?<exception regexp="yes">Zamenhof(-?aj?n?)?</exception></token>
       </pattern>
-      <message>Ĉu vi intencis skribi <suggestion>Zamenhof</suggestion>, se temas pri L.L. Zamenhof, kiu kreis Esperaton?</message>
+      <message>Ĉu vi intencis skribi <suggestion>Zamenhof</suggestion>, se temas pri L. L. Zamenhof, kiu kreis Esperanton?</message>
       <url>https://eo.wikipedia.org/wiki/L._L._Zamenhof</url>
       <example correction="Zamenhof"><marker>Zamenof</marker> kreis Esperanton.</example>
     </rule>
@@ -867,7 +867,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <rulegroup id="ISTO" name="kirurgisto → kirurgo (ktp)">
       <rule>
         <pattern>
-          <token regexp="yes">(?:fi)?(?:ge)?(?:eks)?(?:ĉef)?(?:(?:infano?)psikolog|[kĥ]irurg|androlog|antropolog|ar[kĥ]eolog|astrolog|bakteriolog|biolog|birdolog|citolog|dermatolog|dialektolog|egiptolog|ekolog|embriolog|endokrinolog|entomolog|epidemiolog|esperantolog|etimolog|etnolog|farmakolog|filolog|fiziolog|frenolog|genealog|geolog|ginekolog|glaciolog|grafolog|hematolog|hidrolog|ideolog|imunolog|kancerolog|kardiolog|klimatolog|kosmobiolog|leksikolog|meteolog|meteorolog|mikrobiolog|mineralog|neŭrolog|oftalmolog|onkolog|ornitolog|paleontolog|politikolog|politolog|psi[kĥ]olog|radiolog|reŭmatolog|seksolog|sociolog|speleolog|te[kĥ]nolog|teolog|terminolog|toksolog|virusolog|zoolog)ist(?:estr)?(?:in)?(?:aĉ)?oj?n?</token>
+          <token regexp="yes">(?:fi)?(?:ge)?(?:eks)?(?:ĉef)?(?:(?:infano?)psikolog|[ĥk]irurg|androlog|antropolog|ar[ĥk]eolog|astrolog|bakteriolog|biolog|birdolog|citolog|dermatolog|dialektolog|egiptolog|ekolog|embriolog|endokrinolog|entomolog|epidemiolog|esperantolog|etimolog|etnolog|farmakolog|filolog|fiziolog|frenolog|genealog|geolog|ginekolog|glaciolog|grafolog|hematolog|hidrolog|ideolog|imunolog|kancerolog|kardiolog|klimatolog|kosmobiolog|leksikolog|meteolog|meteorolog|mikrobiolog|mineralog|neŭrolog|oftalmolog|onkolog|ornitolog|paleontolog|politikolog|politolog|psi[ĥk]olog|radiolog|reŭmatolog|seksolog|sociolog|speleolog|te[ĥk]nolog|teolog|terminolog|toksolog|virusolog|zoolog)ist(?:estr)?(?:in)?(?:aĉ)?oj?n?</token>
         </pattern>
         <message>Oni ne uzas la sufikson «-ist» en tiuj vortoj, kiuj jam montras personon. Oni devas skribi <suggestion><match no="1" regexp_match="ist" regexp_replace=""/></suggestion> aŭ <suggestion><match no="1" regexp_match="ist" regexp_replace="iist"/></suggestion> anstataŭ «\1».</message>
         <url>http://bertilow.com/pmeg/vortfarado/afiksoj/sufiksoj/ist.html#i-8e1</url>
@@ -994,13 +994,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <url>http://www.reta-vortaro.de/revo/art/nask.html#nask.morte0ita</url>
       <example correction="malvive naskita">Lia filo estis <marker>morte naskita</marker>.</example>
     </rule>
-    <rule>
+    <rule id="F-INO" name="f-ino (s-ino)">
       <pattern>
         <token>f-ino</token>
       </pattern>
       <message>Laŭ ReVo, la titolo «\1» estas evitinda. Uzu <suggestion>s-ino</suggestion>.</message>
       <url>http://www.reta-vortaro.de/revo/art/frauxl.html#frauxl.0ino</url>
       <example correction="s-ino">La opinio de <marker>f-ino</marker> estas tute erara.</example>
+    </rule>
+    <rule id="NEGRO" name="negro">
+      <pattern>
+        <token inflected="yes">negro</token>
+      </pattern>
+      <message>La vorto «\1» estas evitinda laŭ ReVo.</message>
+      <suggestion><match no="1" regexp_match="^.{4}" regexp_replace="nigrul"/></suggestion>
+      <url>http://www.reta-vortaro.de/revo/art/negr.html#negr.0o</url>
+      <example correction="nigrulo">En nia kvartalo loĝas nur unu <marker>negro</marker>.</example>
     </rule>
   </category>
   <category id="ARKAISMOJ" name="Arkaismoj">
@@ -4263,7 +4272,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </rulegroup>
     <rule id="INAJ_RADIKOJ" name="inaj radikoj">
       <pattern>
-        <token regexp="yes" inflected="yes">(?:alme|amazon|bajader|begin|dam|fem|femal|femin|furi|gejŝ|gun|hetajr|lesb|madon|matron|meger|meretric|muz|nimf|primadon|putin|subret)in[oa]</token>
+        <token regexp="yes" inflected="yes">(?:alme|amazon|bajader|begin|dam|fem|femal|femin|furi|gejŝ|gun|hetajr|lesb|madon|matriar[ĥk]|matron|meger|meretric|muz|nimf|primadon|putin|subret)in[oa]</token>
       </pattern>
       <message>Por ina radiko, oni ne aldonas la sufikson «in».</message>
       <suggestion><match no="1" regexp_match="in([oa]j?n?)$" regexp_replace="$1"/></suggestion>
