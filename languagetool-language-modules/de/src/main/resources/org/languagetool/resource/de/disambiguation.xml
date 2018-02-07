@@ -702,13 +702,22 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <example type="ambiguous" inputform="um[um/ADV:TMP+MOD,um/KON:INF,um/KON:PRI,um/PRP:LOK+TMP+CAU:AKK,um/ZUS]" outputform="um[um/KON:INF]">Sie tat dies, <marker>um</marker> seine Freilassung sicherzustellen.</example>
         </rule>
     </rulegroup>
-    <rule name="WORKAROU_GH_635" id="WORKAROUG_GH_635">
+    <rule name="WORKAROUND_GH_635" id="WORKAROUND_GH_635">
         <pattern case_sensitive="yes">
             <marker>
                 <token>-</token>
             </marker>
         </pattern>
         <disambig action="remove" postag=".+"/>
+    </rule>
+    <rule name="FIDEL" id="FIDEL">
+        <pattern case_sensitive="yes">
+            <marker>
+                <token>Fidel</token>
+            </marker>
+            <token regexp="yes">Castros?</token>
+        </pattern>
+        <disambig action="remove" postag=".+:FEM"/>
     </rule>
     <!-- ============================================================================================================== -->
     <!-- IGNORE SPELLING -->
