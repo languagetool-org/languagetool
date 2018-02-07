@@ -16053,6 +16053,50 @@ USA
       <message>The usual collocation for "\1" is "to" not "\3" with. Did you mean <suggestion>\1 \2 to \4 \5</suggestion>.</message>
       <example correction='brought them to the airport'>Friday came fast and the couple quitted their sweet house for took the bus who will <marker>brought them in the airport</marker>.</example>
     </rule>
+    <rule id="CURATOR_OF" name="curator on/of">
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token regexp='yes'>curators?</token>
+          <token>on</token>
+          <token>the</token>
+          <token/>
+      </pattern>
+      <message>The usual collocation for "curator" is "of" not "\2". Did you mean <suggestion>\1 of \3 \4</suggestion>.</message>
+      <example correction='curator of the exposition'>The man to whom you were speaking to was the <marker>curator on the exposition</marker>.</example>
+    </rule>
+    <rule id="CLOSER_FROM" name="closer from/to">
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token regexp="yes">closer|near</token>
+          <token>from</token>
+          <token/>
+      </pattern>
+      <message>The usual collocation for "\1" is "to" not "from". Did you mean simply <suggestion>\1 to</suggestion> or <suggestion>further from</suggestion>.</message>
+      <example correction='closer to|further from'>I moved in July to be <marker>closer from school</marker>.</example>
+    </rule>
+    <rule id="A_MY" name="article + possessive form">
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern case_sensitive="yes">
+          <token postag="DT">
+            <exception regexp="yes">neither|either|that|all|much</exception></token>
+          <token postag="PRP$">
+            <exception regexp="yes">My|Your|Our|His|Her|Their</exception></token>
+          <token/>
+      </pattern>
+      <message>A determiner cannot combine with a possessive pronoun.  Did you mean simply <suggestion>\2 \3</suggestion> or <suggestion>\1 \3</suggestion>.</message>
+      <example correction='Mine car|The car'><marker>The mine car</marker> is on the maintenance services.</example>
+    </rule>
+    <rule id="ENROLLED_IN_FOR" name="I enrolled international school">
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token postag="PRP"/>
+          <token>enrolled</token>
+          <token postag="IN">
+            <exception regexp='yes'>in|for</exception></token>
+      </pattern>
+      <message>The usual collocation for "\2" is "in" (a school) or "for" (a course). Did you mean <suggestion>\1 \2 in</suggestion> or <suggestion>\1 \2 for</suggestion>.</message>
+      <example correction='He enrolled in|He enrolled for'><marker>He enrolled at</marker> the college.</example>
+    </rule>
   </rulegroup>
 
   <rulegroup id="RETURN_IN_THE" name="return in/to">
