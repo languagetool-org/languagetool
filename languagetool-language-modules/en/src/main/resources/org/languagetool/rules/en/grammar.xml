@@ -11368,7 +11368,7 @@ USA
             <pattern>
                 <marker>
                     <token postag='(?:JJ|RB)S?' postag_regexp='yes'>
-                      <exception regexp='yes'>more|less|rather|other</exception>
+                      <exception regexp='yes'>more|less|rather|other(:wise)?|different</exception>
                       <exception postag='JJR|RBR' postag_regexp='yes'/></token>
                 </marker>
                 <token>than</token>
@@ -11389,6 +11389,7 @@ USA
             <example>...t his use of the term science carries a different meaning than that covered by the term "scientific method"...</example>
             <example>...don't think that there is any better way to learn English than by living in America.</example>
             <!--example>No sooner had I sat down and relaxed than the phone rang.</example> XXX this is missing a comma -->
+            <!--example>...to no-kin, to friends than to strangers, to those <marker>attractive than</marker> to those unattractive, to non-competitors th...</example> XXX doesn't account for skipped words (rather) -->
         </rule>
         <rule id="THE_WORSE_OF" name="THE + RELATIVE + OF, e.g. the worse (worst) of">
         <!-- Created by Tiago F. Santos, 2018-02-02 -->
@@ -16059,7 +16060,8 @@ USA
     <rule>
       <pattern>
         <marker>
-          <token inflected="yes">return</token>
+          <token inflected="yes">return
+            <exception>returner</exception></token>
           <token regexp="yes">in|at</token>
         </marker>
           <token>the</token>
@@ -16071,7 +16073,8 @@ USA
     <rule>
       <pattern>
         <marker>
-          <token inflected="yes">return</token>
+          <token inflected="yes">return
+            <exception>returner</exception></token>
           <token regexp="yes">in|at</token>
         </marker>
           <token postag="NNP">
