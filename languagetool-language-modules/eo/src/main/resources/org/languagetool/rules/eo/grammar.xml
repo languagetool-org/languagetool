@@ -535,7 +535,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <token inflected="yes">brasikrapo</token>
       </pattern>
       <message>«\1» estas evitinda. Preferu <suggestion>tigobrasiko</suggestion>.</message>
-      <example correction="tigobrasikon">Mi manĝis <marker>brasikrapon</marker>.</example>
+      <example correction="tigobrasiko">Tiu <marker>brasikrapo</marker> bongustas.</example>
     </rule>
     <rule id="DEFLANKIGXI" name="deflankiĝi">
       <pattern>
@@ -1336,10 +1336,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">ĥin([oa]|io|ujo)j?n?</token>
+          <token regexp="yes">ĥin([aeo]|io|lando|ujo)j?n?</token>
         </pattern>
         <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match="^." regexp_replace="ĉ"/></suggestion>.</message>
         <example correction="Ĉinujo">Mi loĝas en <marker>Ĥinujo</marker>.</example>
+        <example correction="ĉino">Ŝi estas <marker>ĥino</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">vask(io|o?lando|ujo|[aeo])j?n?</token>
+        </pattern>
+        <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match="^.." regexp_replace="eŭ"/></suggestion>.</message>
+        <example correction="Eŭskujo">Mia fratino nun loĝas en <marker>Vaskujo</marker>.</example>
+        <example correction="eŭskoj">Ili estas <marker>vaskoj</marker>.</example>
       </rule>
       <rule>
         <pattern>
@@ -1595,10 +1604,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
       <rule>
         <pattern>
-          <token inflected="yes">enradiki</token>
+          <token regexp="yes" inflected="yes">e[ln]radiki</token>
         </pattern>
         <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match="(.*)k(.*)" regexp_replace="$1kig$2"/></suggestion>.</message>
         <example correction="enradikigas">Mi <marker>enradikas</marker> la planton.</example>
+        <example correction="elradikigu">Oni <marker>elradiku</marker> la alkoholismon.</example>
       </rule>
       <rule>
         <pattern>
@@ -1620,6 +1630,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </pattern>
         <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*i(.*)" regexp_replace="scipov$1"/></suggestion>.</message>
         <example correction="scipovas">Mi ne <marker>povoscias</marker> la okcidentfrisan.</example>
+      </rule>
+      <rule id="HARLIGO" name="harligo">
+        <pattern>
+          <token inflected="yes">harligo</token>
+        </pattern>
+        <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*g(.*)" regexp_replace="harplektaĵ$1"/></suggestion>.</message>
+        <example correction="harplektaĵon">Ŝi iam havis malgrandan <marker>harligon</marker>.</example>
       </rule>
     </rulegroup>
   </category>
