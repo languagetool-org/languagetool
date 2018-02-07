@@ -4270,16 +4270,18 @@ USA
             <message>Did you mean <suggestion><match no="1" postag="VB.*">elude</match></suggestion>?</message>
             <example correction="elude">Her failure to <marker>allude</marker> the school bullies is evident.</example>
         </rule>
-        <rule id="COMPLAINT_COMPLIANT" name="fully complaint (compliant)">
+        <rule id="COMPLAINT_COMPLIANT" name="complaint (compliant) with">
             <pattern>
-                <token>fully</token>
+                <token regexp="yes" inflected="yes">be|not</token>
+                <token min="0" postag="RB"></token>
                 <marker>
                     <token>complaint</token>
                 </marker>
                 <token>with</token>
             </pattern>
-            <message>Did you mean <suggestion>compliant</suggestion>?</message>
+            <message>Did you mean <suggestion>compliant</suggestion> (= in agreement with rules, standards, or requirements)?</message>
             <example correction="compliant">If the rules are not fully <marker>complaint</marker> with the specification, post them here.</example>
+            <example correction="compliant">Any law that is enacted today must be <marker>complaint</marker> with the fundamental rights chapter of the Constitution.</example>
         </rule>
         <!-- baited breath::word=bated breath::pivots=baited,bated::options=baited,bated -->
         <rule id="BAITED_BREATH" name="baited (bated) breath">
@@ -4455,7 +4457,7 @@ USA
         <!-- am loathe to::word=am loath to::pivots=loathe,loath::options=loathe,loath -->
         <rule id="AM_LOATHE_TO" name="am loathe (loath) to">
             <pattern>
-                <token regexp="yes">a(?:m|re)|be|is|w(?:as|ere)</token>
+                <token inflected="yes">be</token>
                 <token>loathe</token>
                 <token>to</token>
             </pattern>
@@ -4506,7 +4508,7 @@ USA
         <!-- at the reigns::word=at the reins::pivots=reigns,reins::options=reigns,reins -->
         <rule id="AT_THE_REIGNS" name="at the reigns (reins)">
             <pattern>
-                <token regexp="yes">at|hand|held|hold|holding|holds</token>
+                <token regexp="yes">at|hand|held|holds?|holding</token>
                 <token>the</token>
                 <token>reigns</token>
             </pattern>
