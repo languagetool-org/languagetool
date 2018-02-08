@@ -1656,20 +1656,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <token regexp="yes">([gr]i|geli|liŝi|ŝili|ŝli)(?:n|aj?n?)?</token>
       </pattern>
       <message>«\1» estas neoficiala pronomo. Preferu skribi <suggestion><match no="1" regexp_match=".*i(.*)" regexp_replace="ĝi$1"/></suggestion>, <suggestion><match no="1" regexp_match=".*i(.*)" regexp_replace="li$1"/></suggestion> aŭ <suggestion><match no="1" regexp_match=".*i(.*)" regexp_replace="ŝi$1"/></suggestion>.</message>
-      <example correction=""><marker>Ri</marker> estas bela.</example>
-      <example>Li estas bela.</example>
-      <example correction="">Mi amas <marker>ŝlin</marker>.</example>
-      <example>Mi amas ŝin.</example>
+      <example correction="Ĝi|Li|Ŝi"><marker>Ri</marker> estas bela.</example>
+      <example correction="ĝin|lin|ŝin">Mi amas <marker>ŝlin</marker>.</example>
+      <example correction="ĝia|lia|ŝia">Mi estas <marker>gia</marker> edzino.</example>
     </rule>
     <rule id="NEOFIC_PLUR_PRON" name="neoficialaj pluralaj pronomoj">
       <pattern>
         <token regexp="yes">iŝi(?:n|aj?n?)?</token>
       </pattern>
       <message>«\1» estas neoficiala pronomo. Preferu skribi <suggestion><match no="1" regexp_match=".*i(.*)" regexp_replace="ili$1"/></suggestion>.</message>
-      <example correction=""><marker>Iŝi</marker> estas miaj fratinoj.</example>
-      <example>Ili estas miaj fratinoj.</example>
-      <example correction="">Mi amis <marker>iŝin</marker>.</example>
-      <example>Mi amis ilin.</example>
+      <example correction="Ili"><marker>Iŝi</marker> estas miaj fratinoj.</example>
+      <example correction="ilin">Mi amis <marker>iŝin</marker>.</example>
+      <example correction="Iliajn"><marker>Iŝiajn</marker> kukojn mi tre ŝatas.</example>
     </rule>
     <rule id="NEOFIC_ESTIEL" name="neoficiala vorto estiel">
       <pattern>
@@ -4216,9 +4214,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <marker><token regexp="yes">komplikaj?n?</token></marker>
           <token><exception regexp="yes">faktoroj?n?</exception></token>
         </pattern>
-        <message>La vorto «komplika» estas sufiĉe ofte misuzata. Ĝi pli-malpli signifas «malsimpliga». Ĉu vi tie intencis skribi <suggestion><match no="1" regexp_match="(.*a)" regexp_replace="malsimpla"/></suggestion>, aŭ <suggestion><match no="1" regexp_match="(.*a)" regexp_replace="facila"/></suggestion>?</message>
+        <message>La vorto «komplika» estas sufiĉe ofte misuzata. Ĝi pli-malpli signifas «malsimpliga». Ĉu vi tie intencis skribi <suggestion><match no="1" regexp_match="(.*a)" regexp_replace="malsimpla"/></suggestion>, aŭ <suggestion><match no="1" regexp_match="(.*a)" regexp_replace="malfacila"/></suggestion>?</message>
         <url>http://bertilow.com/pmeg/vortfarado/principoj/finajhoj/a.html#i-hc3</url>
-        <example correction="malsimplan|facilan">Li donis <marker>komplikan</marker> respondon.</example>
+        <example correction="malsimplan|malfacilan">Li donis <marker>komplikan</marker> respondon.</example>
       </rule>
       <rule>
         <pattern>
