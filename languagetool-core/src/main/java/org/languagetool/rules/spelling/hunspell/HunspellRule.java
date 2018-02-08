@@ -193,10 +193,7 @@ public class HunspellRule extends SpellingCheckRule {
       String token = sentenceTokens[i].getToken();
       if (sentenceTokens[i].isImmunized() || isUrl(token) || isEMail(token) || sentenceTokens[i].isIgnoredBySpeller() || isQuotedCompound(sentence, i, token)) {
         if (isQuotedCompound(sentence, i, token)) {
-          int lastPos = sb.length()-1;
-          char lastChar = sb.charAt(lastPos);
-          sb.deleteCharAt(lastPos);
-          sb.append(token).append(lastChar);
+          sb.append(" ").append(token.substring(1));
         }
         // replace URLs and immunized tokens with whitespace to ignore them for spell checking:
         else if (token.length() < 20) {
