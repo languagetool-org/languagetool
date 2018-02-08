@@ -581,6 +581,26 @@ title="Easy editing stylesheet" ?>
     <!-- XXX Default off to avoid alarm fatigue. Reactivate when there is a color code/custom highlight system working on LibreOffice -->
       <url>https://pt.wiktionary.org/wiki/Ap%C3%AAndice:Combina%C3%A7%C3%B5es_e_contra%C3%A7%C3%B5es_do_portugu%C3%AAs</url>
       <short>Utilize a contração.</short>
+      <antipattern>
+          <token regexp='yes'>antes|apesar|capacidade|depois|expec?tativas?|facto|objec?tivo|possibilidade|risco|intenção</token>
+          <token skip='-1'>de
+            <exception scope='next' postag='_PUNCT'/></token>
+          <token postag='VMN0000'/>
+      </antipattern>
+      <antipattern>
+          <token regexp='yes'>aos?</token>
+          <token regexp='yes'>pontos?</token>
+          <token>de</token>
+      </antipattern>
+      <antipattern>
+          <token inflected='yes'>chamar</token>
+          <token>de</token>
+      </antipattern>
+      <antipattern>
+          <token inflected='yes'>ser</token>
+          <token>tempo</token>
+          <token>de</token>
+      </antipattern>
     <rule id='CONTRACAO_DOUTREM' name='De + outro/outrem' default='off'>
       <pattern>
           <token>de</token>
