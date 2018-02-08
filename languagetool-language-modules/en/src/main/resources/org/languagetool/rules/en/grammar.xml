@@ -11382,7 +11382,7 @@ USA
             <pattern>
                 <marker>
                     <token postag='(?:JJ|RB)S?' postag_regexp='yes'>
-                      <exception regexp='yes'>more|less|rather|other(:wise)?|different</exception>
+                      <exception regexp='yes'>more|less|rather|other(?:wise)?|different</exception>
                       <exception postag='JJR|RBR' postag_regexp='yes'/></token>
                 </marker>
                 <token>than</token>
@@ -16110,6 +16110,52 @@ USA
       </pattern>
       <message>The usual collocation for "\2" is "in" (a school) or "for" (a course). Did you mean <suggestion>\1 \2 in</suggestion> or <suggestion>\1 \2 for</suggestion>.</message>
       <example correction='He enrolled in|He enrolled for'><marker>He enrolled at</marker> the college.</example>
+    </rule>
+    <rule id="STEPS_TO_DO" name="steps to do/take">
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token inflected="yes">step</token>
+          <token>to</token>
+          <token>do</token>
+      </pattern>
+      <message>The usual collocation for "\1" is "take". Did you mean <suggestion>\1 \2 take</suggestion>.</message>
+      <example correction='steps to take'>There are some <marker>steps to do</marker>.</example>
+    </rule>
+    <rule id="GOING_TO_VACATION" name="going on vacation">
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token inflected="yes">go</token>
+          <token>to</token>
+          <token regexp="yes">vacation|holiday</token>
+      </pattern>
+      <message>The usual collocation for "\3" is "on." Did you mean <suggestion>\1 on \3</suggestion>.</message>
+      <example correction='going on vacation'>She is <marker>going to vacation</marker>.</example>
+    </rule>
+    <rule id="IN_FACEBOOK" name="I came by plane">
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token>in</token>
+          <token regexp="yes">Facebook|Twitter|Pinterest|Wikipedia|Amazon|LinkedIn|Yahoo|Blogger</token>
+      </pattern>
+      <message>The usual collocation for "\2" is "on". Did you mean <suggestion>on \2</suggestion>.</message>
+      <example correction='on Wikipedia'>Check it <marker>in Wikipedia</marker>.</example>
+    </rule>
+    <rule id="WRITE_IN_MY_OWN_PAGE" name="Write on my page">
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token inflected="yes">write</token>
+          <token min='0' skip='1'>
+            <exception regexp='yes'>on|in</exception></token>
+          <token>in</token>
+          <token min='0' postag_regexp="yes" postag="PRP\$|DT"/>
+          <token min='0'>own</token>
+          <token regexp="yes">(?:page|blog|webpage|wall)s?</token>
+      </pattern>
+      <message>The usual collocation for "\1" is "on". Did you mean <suggestion>\1 <match no='2' include_skipped='all'/> on <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/> <match no='6' include_skipped='all'/></suggestion>.</message>
+      <example correction='written on page'>That is <marker>written in page</marker> 21.</example>
+      <example correction='written on my own page'>That is <marker>written in my own page</marker>.</example>
+      <example correction='Write that on my own page'><marker>Write that in my own page</marker>.</example>
+      <example correction='Write that piece on my own page'><marker>Write that piece in my own page</marker>.</example>
     </rule>
   </rulegroup>
 
