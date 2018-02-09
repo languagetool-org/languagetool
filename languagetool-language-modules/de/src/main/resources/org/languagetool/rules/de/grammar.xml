@@ -4894,6 +4894,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Scheiße">Das war echt <marker>Schieße</marker>.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="SCHEIDE_SCHNEIDE" name="Scheide (Schneide)">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token inflected="yes">Messer</token>
+                    <marker>
+                        <token inflected="yes">Scheide</token>
+                    </marker>
+                </pattern>
+                <message>&verw;Meinten Sie <suggestion>Schneide</suggestion>?</message>
+                <short>Mögliche Wortverwechslung</short>
+                <example correction="Schneide">Es stand auf des Messers <marker>Scheide</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="GEHANGEN_GEHAENGT" name="gehängt/gehangen">
             <!-- Vielleicht besser in Grammatik verschieben? -->
             <url>http://www.duden.de/rechtschreibung/haengen_verbinden_befestigen</url>
@@ -31363,6 +31376,12 @@ Andere Projekte</example>
                 <example correction="“!">Sie rief: „Ich möchte nichts essen<marker>.“!</marker></example>
             </rule>
             <rule>
+                <antipattern>
+                    <token postag="SUB:.+" postag_regexp="yes"></token>
+                    <token>„</token>
+                    <token/>
+                    <token>“</token>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">&anfzu;</token>
                     <token skip="3" inflected="yes" regexp="yes">&verbendirekterede;<exception scope="next" regexp="yes">,|:|\.|man</exception></token>
@@ -31372,15 +31391,19 @@ Andere Projekte</example>
                 <suggestion>\1, <match include_skipped="all" no="2"/>, \3</suggestion>
                 <url>http://www.canoo.net/services/GermanSpelling/Regeln/Interpunktion/Anfuehrungszeichen.html#Anchor-Begleitsatz-23240</url>
                 <example>Einer Zeitschrift, der Zeitschrift „News“, sagte er: „Es ist wahr.“</example>
+                <example>Die Firma „Bauhaus“ ruft Feuerwerkbatterien des Herstellers „Panic“ zurück.</example>
                 <example correction="“, behauptet er, „">„Die Fenster sind<marker>“ behauptet er „</marker>geschlossen.“</example>
 <!--            TODO    "Es regnet," sagte er.-->
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">&anfzu;</token>
-                    <token>,</token>
-                    <token skip="3" inflected="yes" regexp="yes">&verbendirekterede;<exception scope="next" regexp="yes">,|:|\.|man</exception></token>
-                    <token regexp="yes" spacebefore="yes">&anfauf;</token>
+                    <marker>
+                        <token regexp="yes">&anfzu;</token>
+                        <token>,</token>
+                        <token skip="3" inflected="yes" regexp="yes">&verbendirekterede;<exception scope="next" regexp="yes">,|:|\.|man</exception></token>
+                        <token regexp="yes" spacebefore="yes">&anfauf;</token>
+                    </marker>
+                    <token><exception>The</exception></token>
                 </pattern>
                 <message>Ein in ein Zitat eingebetteter Begleitsatz wird mit Kommas vom Zitat abgetrennt.</message>
                 <suggestion>\1, <match include_skipped="all" no="3"/>, \4</suggestion>
