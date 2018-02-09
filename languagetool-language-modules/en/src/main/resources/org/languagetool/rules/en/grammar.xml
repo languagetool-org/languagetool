@@ -16157,6 +16157,40 @@ USA
       <example correction='Write that on my own page'><marker>Write that in my own page</marker>.</example>
       <example correction='Write that piece on my own page'><marker>Write that piece in my own page</marker>.</example>
     </rule>
+    <rule id="COME_TO_PLANE" name="came to/by">
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token postag="PRP"/>
+          <token inflected="yes">come</token>
+          <token>to</token>
+          <token regexp="yes">plane|train|bus|car|metro|subway|airplane|bike|motorcycle</token>
+      </pattern>
+      <message>The usual collocation for "\2" is "by." Did you mean <suggestion>\1 \2 by \4</suggestion>.</message>
+      <example correction='I came by plane'><marker>I came to plane</marker>.</example>
+    </rule>
+    <rule id="THAT_I_WORK_FOR" name="work (for) is">
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token postag="DT"/>
+          <token regexp="yes">company|person|guy|man|firm</token>
+          <token regexp="yes">that|which|who</token>
+          <token postag="PRP"/>
+          <token inflected="yes">work</token>
+          <token inflected="yes">be</token>
+      </pattern>
+      <message>You are missing the word 'for' between "\5" and '\6'. Did you mean <suggestion>\1 \2 that \4 \5 for \6</suggestion>.</message>
+      <example correction='The company that I work for is'><marker>The company that I work is</marker> Cosme Inc...</example>
+    </rule>
+    <rule id="WAITING_MY_PATIENT" name="waiting (for) a patient">
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token inflected="yes">wait</token>
+          <token postag="PRP$|DT" postag_regexp='yes'/>
+          <token postag_regexp="yes" postag="NN.*"/>
+      </pattern>
+      <message>You are missing the word 'for' between "\1" and "\1 \2". Did you mean <suggestion>\1 for \2 \3</suggestion>.</message>
+      <example correction='waiting for her patient'>Anne is <marker>waiting her patient</marker>.</example>
+    </rule>
   </rulegroup>
 
   <rulegroup id="RETURN_IN_THE" name="return in/to">
