@@ -1029,7 +1029,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </rule>
     <rule id="F-INO" name="f-ino → s-ino">
       <pattern>
-        <token>f-ino</token>
+        <token inflected="yes">f-ino</token>
       </pattern>
       <message>Laŭ ReVo, la titolo «\1» estas evitinda. Uzu <suggestion>s-ino</suggestion>.</message>
       <url>http://www.reta-vortaro.de/revo/art/frauxl.html#frauxl.0ino</url>
@@ -1043,6 +1043,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <suggestion><match no="1" regexp_match="^.{4}" regexp_replace="nigrul"/></suggestion>
       <url>http://www.reta-vortaro.de/revo/art/negr.html#negr.0o</url>
       <example correction="nigrulo">En nia kvartalo loĝas nur unu <marker>negro</marker>.</example>
+    </rule>
+    <rule id="ROMAJ_CIFEROJ" name="Romaj ciferoj">
+      <pattern case_sensitive="yes">
+        <token regexp="yes">[IVXLCDM]+-a</token>
+      </pattern>
+      <message>Laŭ PMEG, la romaj ciferoj (I, II, III, IV, V…) estas evitindaj, ĉar ili ne estas tut-monde konataj.</message>
+      <url>http://bertilow.com/pmeg/skribo_elparolo/skribo/helposignoj.html#i-rl3</url>
+      <example correction="">Li naskiĝis en la <marker>XVII-a</marker> jarcento.</example>
     </rule>
   </category>
   <category id="ARKAISMOJ" name="Arkaismoj">
