@@ -61,16 +61,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="ĉu">Mi ne scias, <marker>se</marker> li venos.</example>
       </rule>
     </rulegroup>
-    <rule id="SERCXI" name="Serĉi (Ŝerci)">
+    <rule id="SERCXI" name="serĉi (ŝerci)">
       <pattern>
         <token inflected="yes">serĉi<exception scope="previous" regexp="yes">tie|ĉie</exception></token>
         <token>pri</token>
       </pattern>
       <message>Ĉu vi intencis <suggestion><match no="1" regexp_match=".*([aoiu]s?)" regexp_replace="ŝerc$1"/></suggestion> anstataŭ «\1»?</message>
       <example correction="ŝercu">Ne <marker>serĉu pri</marker> tio!</example>
-      <example>Mi ĉie serĉi pri tio.</example>
+      <example>Mi ĉie serĉis pri tio.</example>
     </rule>
-    <rulegroup id="REPORTISTO" name="Reportisto (Raportisto)">
+    <rulegroup id="REPORTISTO" name="reportisto (raportisto)">
       <rule>
         <pattern>
           <token inflected="yes">reportisto</token>
@@ -113,7 +113,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="ribeloj">La <marker>rebeloj</marker> venkis.</example>
       <example>Flavio Rebelo funkciigis la retpaĝaron Ĝangalo.</example>
     </rule>
-    <rulegroup id="DANKEMA" name="Dankema (Danka)">
+    <rulegroup id="DANKEMA" name="dankema (danka)">
       <rule>
         <pattern>
           <marker>
@@ -142,7 +142,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="dankaj">Se vi helpus min, ni estus tre <marker>dankemaj</marker>.</example>
       </rule>
     </rulegroup>
-    <rule id="LITERO_LETERO" name="Litero (Letero)">
+    <rule id="LITERO_LETERO" name="litero (letero)">
       <pattern>
         <token skip="2" inflected="yes" regexp="yes">.*(?:adres|send|redakt|leg|ricev)i</token>
         <marker>
@@ -165,7 +165,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <message>Laŭ la kunteksto, ŝajnas ke vi intencis diri <suggestion><match no="2" regexp_match="ec(oj?n?)$" regexp_replace="$1"/></suggestion> anstataŭ «\2».</message>
       <example correction="eblon">Mi havas <marker>eblecon</marker> ŝanĝi laboron.</example>
     </rule>
-    <rulegroup id="RAKETO_RAKEDO" name="rankedo anstataŭ raketo">
+    <rulegroup id="RAKETO_RAKEDO" name="rakedo anstataŭ raketo">
       <rule>
         <pattern>
           <token inflected="yes" regexp="yes" skip="-1">.*ludi|badminton[io]|.*tenis[io]|skvaŝ[io]|.*pilko</token>
@@ -1007,7 +1007,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </pattern>
       <message>Laŭ ReVo, la titolo «\1» estas evitinda. Uzu <suggestion>s-ino</suggestion>.</message>
       <url>http://www.reta-vortaro.de/revo/art/frauxl.html#frauxl.0ino</url>
-      <example correction="s-ino">La opinio de <marker>f-ino</marker> estas tute erara.</example>
+      <example correction="s-ino">La opinio de <marker>f-ino</marker> Rozo estas tute erara.</example>
     </rule>
     <rule id="NEGRO" name="negro → nigrulo">
       <pattern>
@@ -1785,6 +1785,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <message>«-ometr» estas neoficiala sufikso. Preferu skribi <suggestion><match no="1" regexp_match="metr" regexp_replace="mezuril"/></suggestion>.</message>
       <url>http://bertilow.com/pmeg/vortfarado/neoficialaj_afiksoj/sufiksoj/ometr.html</url>
       <example correction="altomezurilo">La <marker>altometro</marker> misfunkciis.</example>
+      <example correction="pluvomezurilon">Ŝi aĉetis malnovan <marker>pluvometron</marker>.</example>
     </rule>
     <rule id="NEOF_SUF_OTEK" name="libroteko → librokolekto (ktp.)">
       <pattern>
@@ -1794,14 +1795,41 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <url>http://bertilow.com/pmeg/vortfarado/neoficialaj_afiksoj/sufiksoj/otek.html</url>
       <example correction="filmokolekton">Mi ŝatas tiun <marker>filmotekon</marker>.</example>
     </rule>
-    <rule id="NEOF_SUF_OFON" name="Esperantofona → Esperantlingva (ktp.)">
+    <rule id="NEOF_SUF_ARI" name="duaria → duuma (ktp.)">
+      <antipattern>
+        <token>aria</token>
+      </antipattern>
       <pattern>
-        <token regexp="yes" inflected="yes">(?:angl|afrikans|alban|angl|arab|armen|baŝkir|bosn|breton|bulgar|ĉeĉen|ĉeĥ|ĉin|ĉuvaŝ|dan|ekstremadur|esperant|eston|eŭsk|finn|franc|fris|friul|galeg|german|grek|gronland|hebre|hindi|hispan|hungar|id|indonezi|inguŝ|irland|island|ital|japan|jid|kartvel|katalun|kimr|klingon|kore|kroat|latin|latv|litov|luksemburg|nederland|norveg|okcitan|oset|pers|pol|portugal|ruman|rus|serb|slovak|sloven|svahil|sved|taj|tatar|turk|udmurt|ukrain|urdu|vjetnam|volapuk)ofon[aeo]</token>
+        <token regexp="yes" inflected="yes">(?:(?:(?:du|tri|kvar|kvin|ses|sep|ok|naŭ)?dek)?(?:unu|du|tri|kvar|kvin|ses|sep|ok|naŭ)?|cent|n-)aria</token>
       </pattern>
-      <message>«-ofon» estas neoficiala sufikso, kaj tute superflua. Preferu skribi <suggestion><match no="1" regexp_match="ofon" regexp_replace="lingv"/></suggestion>.</message>
-      <url>http://bertilow.com/pmeg/vortfarado/neoficialaj_afiksoj/sufiksoj/ofon.html</url>
-      <example correction="Esperantlingva">Li estas ano de <marker>Esperantofona</marker> klubo.</example>
+      <message>«-ari» estas neoficiala sufikso. Preferu skribi <suggestion><match no="1" regexp_match="ari" regexp_replace="um"/></suggestion>.</message>
+      <url>http://bertilow.com/pmeg/vortfarado/neoficialaj_afiksoj/sufiksoj/ari.html</url>
+      <example correction="duuma">Maŝinkodo estas <marker>duaria</marker> misfunkciis.</example>
+      <example correction="dekumaj">La nombrovortoj de Esperanto estas <marker>dekariaj</marker>.</example>
+      <example correction="deksesuma">La <marker>deksesaria</marker> nombrosistemo utilas por komputiloj.</example>
+      <example correction="trideksesuman">Kelkaj protokoloj uzas <marker>trideksesarian</marker> nombrosistemon.</example>
+      <example correction="naŭdekuman">Ĉu oni uzas la <marker>naŭdekarian</marker> nombrosistemon?</example>
+      <example correction="n-uma">La <marker>n-aria</marker> pozicia nombrosistemo uzas n ciferojn.</example>
+      <example correction="centuman">Ĝi estas <marker>centarian</marker> termometra sistemo.</example>
+      <example>Ĝi estas bela aria kanto.</example>
     </rule>
+    <rulegroup id="NEOF_SUF_OFON" name="Esperantofona → Esperantlingva (ktp.)">
+      <url>http://bertilow.com/pmeg/vortfarado/neoficialaj_afiksoj/sufiksoj/ofon.html</url>
+      <rule>
+        <pattern>
+          <token regexp="yes" inflected="yes">(?:angl|afrikans|alban|angl|arab|armen|baŝkir|bosn|breton|bulgar|ĉeĉen|ĉeĥ|ĉin|ĉuvaŝ|dan|ekstremadur|esperant|eston|eŭsk|finn|franc|fris|friul|galeg|german|grek|gronland|hebre|hindi|hispan|hungar|id|indonezi|inguŝ|irland|island|ital|japan|jid|kartvel|katalun|kimr|klingon|kore|kroat|latin|latv|litov|luksemburg|nederland|norveg|okcitan|oset|pers|pol|portugal|ruman|rus|serb|slovak|sloven|svahil|sved|taj|tatar|turk|udmurt|ukrain|urdu|vjetnam|volapuk)ofon[ae]</token>
+        </pattern>
+        <message>«-ofon» estas neoficiala sufikso, kaj tute superflua. Preferu skribi <suggestion><match no="1" regexp_match="ofon" regexp_replace="lingv"/></suggestion>.</message>
+        <example correction="Esperantlingva">Li estas ano de <marker>Esperantofona</marker> klubo.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes" inflected="yes">(?:angl|afrikans|alban|angl|arab|armen|baŝkir|bosn|breton|bulgar|ĉeĉen|ĉeĥ|ĉin|ĉuvaŝ|dan|ekstremadur|esperant|eston|eŭsk|finn|franc|fris|friul|galeg|german|grek|gronland|hebre|hindi|hispan|hungar|id|indonezi|inguŝ|irland|island|ital|japan|jid|kartvel|katalun|kimr|klingon|kore|kroat|latin|latv|litov|luksemburg|nederland|norveg|okcitan|oset|pers|pol|portugal|ruman|rus|serb|slovak|sloven|svahil|sved|taj|tatar|turk|udmurt|ukrain|urdu|vjetnam|volapuk)ofon(?:in)?o</token>
+        </pattern>
+        <message>«-ofon» estas neoficiala sufikso, kaj tute superflua. Preferu skribi <suggestion><match no="1" regexp_match="ofon" regexp_replace="lingvan"/></suggestion>.</message>
+        <example correction="ĉeĉenlingvaninoj">Ili estas <marker>ĉeĉenofoninoj</marker>.</example>
+      </rule>
+    </rulegroup>
   </category>
   <category id="KAT_GRAMATIKO" name="Gramatiko">
     <rule id="CXI_FOJE" name="ĉi foje (ĉi-foje)">
