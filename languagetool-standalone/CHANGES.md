@@ -6,6 +6,10 @@
   * added and improved rules
   * added remaining collocation rules (~130) contributed by Nicholas Walker (Bokomaru)
   * all-uppercase words are now also spellchecked
+
+#### Esperanto
+  * added and improved rules
+  * Added many <url> to rules
   
 #### German
   * added and improved rules
