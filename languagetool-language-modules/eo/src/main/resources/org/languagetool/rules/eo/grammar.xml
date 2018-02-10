@@ -4,7 +4,7 @@
         title="Easy editing stylesheet" ?>
 <!--
 Esperanto Grammar and Typo Rules for LanguageTool
-Copyright (C) 2010-2014 Dominique Pellé <dominique.pelle@gmail.com>
+Copyright (C) 2010-2018 Dominique Pellé <dominique.pelle@gmail.com>
 Copyright (C) 2018 Robin van der Vliet <info@robinvandervliet.com>
 
 Ligiloj al PMEG (Plena Manlibro de Esperanta Gramatiko) kun permeso
@@ -1379,6 +1379,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token>malgranda</token>
         </pattern>
         <message>Laŭ ReVo, «\1 \2 \3 \4 \5» estas arkaismo. Uzu <suggestion>sen ajna</suggestion> aŭ <suggestion>sen ia ajn</suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/ia.html#ia.sen0ecxplejmalgranda</url>
         <example correction="Sen ajna|Sen ia ajn"><marker>Sen ia eĉ plej malgranda</marker> difekto.</example>
       </rule>
       <rule>
@@ -1386,8 +1387,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token inflected="yes">imaginaro</token>
         </pattern>
         <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*r(.*)" regexp_replace="kompleks$1"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/imagin.html#imagin.0o</url>
         <example correction="komplekso">Tiu valoro estas <marker>imaginaro</marker>.</example>
       </rule>
+      <!-- indico ne estas ĉiam arkaismo
       <rule>
         <pattern>
           <marker>
@@ -1398,19 +1401,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </pattern>
         <message>Laŭ ReVo, tiu uzo de «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*c(.*)" regexp_replace="indikaĵ$1"/></suggestion>.</message>
         <example correction="indikaĵoj">Estis neniuj <marker>indicoj</marker> de la krimo.</example>
-      </rule>
+      </rule> -->
       <rule>
         <pattern>
-          <token inflected="yes">irigaco</token>
+          <token inflected="yes" regexp="yes">irigac[oi]</token>
         </pattern>
         <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match="(.*c)(.*)" regexp_replace="$1i$2"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/irigac.html#irigac.0o</url>
         <example correction="irigacion">La plantoj bezonas <marker>irigacon</marker>.</example>
+        <example correction="irigacias">Li <marker>irigacas</marker> la kultivejojn.</example>
       </rule>
       <rule>
         <pattern>
           <token inflected="yes">centjaro</token>
         </pattern>
         <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*r(.*)" regexp_replace="jarcent$1"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/jar.html#jar.cent0o</url>
         <example correction="jarcentojn">Daŭris du <marker>centjarojn</marker>.</example>
       </rule>
       <rule>
@@ -1419,27 +1425,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token inflected="yes">kalorio</token>
         </pattern>
         <message>Laŭ ReVo, «\1 \2» estas arkaismo. Uzu <suggestion><match no="2" regexp_match=".*ri(.*)" regexp_replace="kilokalori$1"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/kalori.html#kalori.granda0o</url>
         <example correction="kilokalorioj">Tiom da <marker>grandaj kalorioj</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes">malgranda</token>
+          <token inflected="yes">kalorio</token>
+        </pattern>
+        <message>Laŭ ReVo, «\1 \2» estas arkaismo. Uzu <suggestion><match no="2" regexp_match=".*ri(.*)" regexp_replace="kalori$1"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/kalori.html#kalori.malgranda0o</url>
+        <example correction="kalorioj">Tiom da <marker>malgrandaj kalorioj</marker>.</example>
       </rule>
       <rule>
         <pattern>
           <token inflected="yes">karbolo</token>
         </pattern>
         <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*l(.*)" regexp_replace="fenol$1"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/karbol.html#karbol.0o</url>
         <example correction="Fenolo"><marker>Karbolo</marker> malodoras.</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token inflected="yes" regexp="yes">radio?karbono</token>
-        </pattern>
-        <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*(k.*)" regexp_replace="$1 14"/></suggestion>.</message>
-        <example correction="karbonon 14">Ili uzas <marker>radiokarbonon</marker>.</example>
       </rule>
       <rule>
         <pattern>
           <token inflected="yes">karito</token>
         </pattern>
         <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*t(.*)" regexp_replace="karitat$1"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/karit.html#karit.0o</url>
         <example correction="karitato">Li estas sen <marker>karito</marker>.</example>
       </rule>
       <rule>
@@ -1447,6 +1458,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token inflected="yes">kaseto</token>
         </pattern>
         <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*t(.*)" regexp_replace="kased$1"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/kaset.html#kaset.0o</url>
         <example correction="kasedon">Mi aĉetis <marker>kaseton</marker>.</example>
       </rule>
       <rule>
@@ -1454,6 +1466,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token inflected="yes">klukkluki</token>
         </pattern>
         <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*k(.*)" regexp_replace="gugl$1"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/kluk.html#kluk.kluk0i</url>
         <example correction="guglanta">Mi estas <marker>klukklukanta</marker>.</example>
       </rule>
       <rule>
@@ -1461,6 +1474,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token inflected="yes">komisiitaro</token>
         </pattern>
         <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*r(.*)" regexp_replace="komision$1"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/komisi.html#komisi.0itaro</url>
         <example correction="komisiono">La <marker>komisiitaro</marker> elektis lin.</example>
       </rule>
       <rule>
@@ -1468,6 +1482,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token inflected="yes">komisiulo</token>
         </pattern>
         <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*l(.*)" regexp_replace="komisiist$1"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/komisi.html#komisi.0ulo</url>
         <example correction="komisiisto">La <marker>komisiulo</marker> elektis lin.</example>
       </rule>
       <rule>
@@ -1475,6 +1490,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token inflected="yes">kompateco</token>
         </pattern>
         <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*c(.*)" regexp_replace="kompatem$1"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/kompat.html#kompat.0eco</url>
         <example correction="kompatemo">La <marker>kompateco</marker> de Dio.</example>
       </rule>
       <rule>
@@ -1482,6 +1498,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token inflected="yes" regexp="yes">komput[eo]ro</token>
         </pattern>
         <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*r(.*)" regexp_replace="komputil$1"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/komputor.html#komputor.0o</url>
         <example correction="komputilon">Mi aĉetis novan <marker>komputeron</marker>.</example>
       </rule>
       <rule>
@@ -1489,6 +1506,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token>enkomune</token>
         </pattern>
         <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion>entute</suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/komun.html#komun.en0e</url>
         <example correction="entute">Ni <marker>enkomune</marker> decidis.</example>
       </rule>
       <rule>
@@ -1496,6 +1514,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token inflected="yes">akvokonduko</token>
         </pattern>
         <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*k(.*)" regexp_replace="akvokondukil$1"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/konduk.html#konduk.akvo0o</url>
         <example correction="akvokondukilo">La <marker>akvokonduko</marker> de Romo.</example>
       </rule>
       <rule>
@@ -1503,6 +1522,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token inflected="yes">konfidencio</token>
         </pattern>
         <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match="(.*c)i(.*)" regexp_replace="$1$2"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/konfidenci.html#konfidenci.0o</url>
         <example correction="konfidencon">Li faris <marker>konfidencion</marker></example>
       </rule>
       <rule>
@@ -1510,6 +1530,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token inflected="yes">kontaktingo</token>
         </pattern>
         <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*g(.*)" regexp_replace="ampoling$1"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/kontak.html#kontak.0ingo</url>
         <example correction="ampolingo">La <marker>kontaktingo</marker> tro malgrandas.</example>
       </rule>
       <rule>
@@ -1517,6 +1538,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token inflected="yes">krampfo</token>
         </pattern>
         <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*f(.*)" regexp_replace="kramf$1"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/krampf.html#krampf.0o</url>
         <example correction="kramfon">Mi havas dolorigan <marker>krampfon</marker>.</example>
       </rule>
       <rule>
@@ -1524,6 +1546,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token inflected="yes">ksereso</token>
         </pattern>
         <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*s(.*)" regexp_replace="ŝere$1"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/kseres.html#kseres.0o</url>
         <example correction="ŝereon">Ĉu vi ŝatas <marker>ksereson</marker>?</example>
       </rule>
       <rule>
@@ -1531,6 +1554,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token inflected="yes">likvaĵo</token>
         </pattern>
         <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*ĵ(.*)" regexp_replace="likv$1"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/likv.html#likv.0ajxo</url>
         <example correction="likvon">Prenu tiun <marker>likvaĵon</marker>.</example>
       </rule>
       <rule>
@@ -1538,6 +1562,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token inflected="yes">literatoro</token>
         </pattern>
         <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*r(.*)" regexp_replace="literaturist$1"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/literator.html#literator.0o</url>
         <example correction="literaturistojn">Mi invitis <marker>literatorojn</marker>.</example>
       </rule>
       <rule>
@@ -1546,6 +1571,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token inflected="yes">literaturo</token>
         </pattern>
         <message>Laŭ ReVo, «\1 \2» estas arkaismo. Uzu <suggestion><match no="2" regexp_match=".*r(.*)" regexp_replace="beletr$1"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/litera.html#litera.bela0o</url>
         <example correction="beletron">Mi ŝatas <marker>belan literaturon</marker>.</example>
       </rule>
       <rule>
@@ -1553,6 +1579,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token inflected="yes">kontraŭlogaritmo</token>
         </pattern>
         <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*m(.*)" regexp_replace="eksponencial$1"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/logari.html#logari.kontraux0o</url>
         <example correction="eksponencialo">La funkcio estas <marker>kontraŭlogaritmo</marker>.</example>
       </rule>
       <rule>
@@ -1564,6 +1591,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token regexp="yes">en|dum|je</token>
         </pattern>
         <message>Laŭ ReVo, «\1 \2 \3» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*v(.*)" regexp_replace="okaz$1"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/lok.html#lok.havi0on</url>
         <example correction="okazas">La renkontiĝo <marker>havas lokon</marker> en Bretonio.</example>
       </rule>
       <rule>
@@ -1571,6 +1599,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token inflected="yes">plenmano</token>
         </pattern>
         <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*a(.*)" regexp_replace="manple$1"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/man.html#man.plen0o</url>
         <example correction="manplenon">Prenu <marker>plenmanon</marker> de sablo.</example>
       </rule>
       <rule>
@@ -1578,6 +1607,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token inflected="yes">kontraŭmendi</token>
         </pattern>
         <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*d(.*)" regexp_replace="malmend$1"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/mend.html#mend.kontraux0i</url>
         <example correction="malmendi">Ni bezonas <marker>kontraŭmendi</marker> ĉion.</example>
       </rule>
       <rule>
@@ -1585,6 +1615,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token inflected="yes">multiplikendo</token>
         </pattern>
         <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*d(.*)" regexp_replace="multiplikat$1"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/multip1.html#multip1.0o</url>
         <example correction="multiplikato">Tio estas la <marker>multiplikendo</marker>.</example>
       </rule>
       <rule>
@@ -1592,6 +1623,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token inflected="yes">nacionalismo</token>
         </pattern>
         <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*m(.*)" regexp_replace="naciism$1"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/nacion.html#nacion.0o</url>
         <example correction="naciismo">La <marker>nacionalismo</marker> estas forta en tiu lando.</example>
       </rule>
       <rule>
@@ -1599,6 +1631,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token inflected="yes">pafilkapo</token>
         </pattern>
         <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*p(.*)" regexp_replace="kolb$1"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/paf.html#paf.0ilkapo</url>
         <example correction="kolbo">La <marker>pafilkapo</marker> de fusilo.</example>
       </rule>
       <rule>
@@ -1606,6 +1639,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token inflected="yes">perpendiklo</token>
         </pattern>
         <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*l(.*)" regexp_replace="ortant$1"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/perpen.html#perpen.0o</url>
         <example correction="ortanto">Tiu rekto estas <marker>perpendiklo</marker>.</example>
       </rule>
       <rule>
@@ -1613,6 +1647,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token inflected="yes">poliedro</token>
         </pattern>
         <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*r(.*)" regexp_replace="pluredr$1"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/polied.html#polied.0o</url>
         <example correction="pluredro">Tio estas <marker>poliedro</marker>.</example>
       </rule>
       <rule>
@@ -1620,6 +1655,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token inflected="yes">proletario</token>
         </pattern>
         <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*ri(.*)" regexp_replace="prolet$1"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/prolet1.html#prolet1.0o</url>
         <example correction="proleto">Li estas <marker>proletario</marker>.</example>
       </rule>
       <rule>
@@ -1649,6 +1685,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token inflected="yes">povoscii</token>
         </pattern>
         <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*i(.*)" regexp_replace="scipov$1"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/sci.html#sci.povo0i0povi</url>
         <example correction="scipovas">Mi ne <marker>povoscias</marker> la okcidentfrisan.</example>
       </rule>
       <rule id="HARLIGO" name="harligo">
@@ -3842,7 +3879,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <pattern>
         <token postag="T ... pl . o" postag_regexp="yes"/>
       </pattern>
-      <message>Pluralo ne eblas kun tabelvorto «\1».</message>
+      <message>Normale tabelvortoj je O ne akceptas J-finaĵon.</message>
+      <url>http://bertilow.com/pmeg/gramatiko/oa-vortecaj_vortetoj/tabelvortoj_o.html#j-amn</url>
       <example correction="">Mi ŝatas <marker>tiojn</marker>.</example>
       <example>Mi ŝatas tion.</example>
     </rule>
