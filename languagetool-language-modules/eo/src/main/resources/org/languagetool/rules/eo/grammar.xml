@@ -1053,6 +1053,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="">Li naskiĝis en la <marker>XVII-a</marker> jarcento.</example>
       <example correction="">Li naskiĝis en la <marker>ⅩⅦ-a</marker> jarcento.</example>
     </rule>
+    <rule id="CI" name="ci (vi)">
+      <pattern>
+        <token regexp="yes">ci(?:n|aj?n?)?</token>
+      </pattern>
+      <message>Laŭ ReVo, la pronomo «\1» estas evitinda. Preferu skribi <suggestion><match no="1" regexp_match=".*i(.*)" regexp_replace="vi$1"/></suggestion>.</message>
+      <url>http://www.reta-vortaro.de/revo/art/ci.html#ci.0</url>
+      <example correction="vi">Kiel <marker>ci</marker> fartas?</example>
+      <example correction="Vi"><marker>Ci</marker> tute malpravas!</example>
+      <example correction="Viaj"><marker>Ciaj</marker> libroj aĉas!</example>
+    </rule>
   </category>
   <category id="ARKAISMOJ" name="Arkaismoj">
     <rulegroup id="ARKAISMO" name="arkaismo">
@@ -4294,7 +4304,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </rulegroup>
     <rule id="NOVA_ZELANDO" name="Nova-Zelando → Nov-Zelando">
       <pattern>
-        <token regexp="yes">Nova-?(?:Jork|Kaledoni|Orlean|Zeland)on?</token>
+        <token regexp="yes">Nov[ao]-?(Amsterdam|Angl(?:i|uj)|Brunsvik|Delhi|Gvine|Hampŝir|Holand|Jork|Jorki|Kaledoni|Meksik|Orlean|Skot(?:i|land|uj)|Zeland|Zeml|Ĵerzej)on?</token>
       </pattern>
       <message>Oni devas skribi <suggestion>Nov-Zelando</suggestion> aŭ <suggestion>Nova Zelando</suggestion>.</message>
       <url>http://bertilow.com/pmeg/vortfarado/principoj/antauelementoj.html#i-pce</url>
@@ -4311,19 +4321,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </rule>
     <rule id="AUXSTRALUJO" name="Aŭstralujo → Aŭstralio">
       <pattern>
-        <token regexp="yes">(?:alĝer|aŭstral|boliv|ĉil|fiĝ|gamb|hait|ĝibut|indonez|jordan|lib|liber|malajz|malav|mal|maŭritan|namib|nov-kaledon|polinez|reun|sir|sud-georg|tanzan|tuniz|zamb)ujo</token>
+        <token regexp="yes">(?:alĝer|aŭstral|boliv|ĉil|fiĝ|gamb|ĝibut|hait|indonez|jordan|lib|liber|mal|malajz|malav|maŭritan|namib|nov-kaledon|polinez|reun|sir|sud-georg|tanzan|tuniz|zamb)ujo</token>
       </pattern>
       <message>La lando «\1» ne havas finaĵon «-ujo», kaj do ne povas havi finaĵon «uj». Ĉu vi intencis skribi <suggestion><match no="1" regexp_match="(.*)uj(on?)$" regexp_replace="$1i$2"/></suggestion>?</message>
       <url>http://bertilow.com/pmeg/gramatiko/propraj_nomoj/landoj_popoloj_lingvoj.html#i-6zn</url>
       <example correction="Aŭstralio">Mi naskiĝis en <marker>Aŭstralujo</marker>.</example>
+      <example correction="Zambio">Mi translokiĝis al <marker>Zambujo</marker>.</example>
     </rule>
     <rule id="AUXSTRALIANO" name="Aŭstralo → Aŭstralianoj">
       <pattern>
-        <token regexp="yes">(?:aŭstral|boliv|ĉil|fiĝ|hait|ĝibut|indonez|lib|malajz|malav|maŭritan|namib|nov-kaledon|polinez|reun|sir|sud-georg|tanzan|zamb)oj?n?</token>
+        <token regexp="yes">(?:aŭstral|boliv|ĉil|fiĝ|ĝibut|hait|indonez|lib|malajz|malav|maŭritan|namib|nov-kaledon|polinez|reun|sir|sud-georg|tanzan|zamb)oj?n?</token>
       </pattern>
       <message>Ĉu vi intencis skribi <suggestion><match no="1" regexp_match="(.*)(oj?n?)$" regexp_replace="$1ian$2"/></suggestion>?</message>
       <url>http://bertilow.com/pmeg/gramatiko/propraj_nomoj/landoj_popoloj_lingvoj.html#i-6zn</url>
       <example correction="aŭstralianojn">Mi gastigis du <marker>aŭstralojn</marker>.</example>
+      <example correction="tanzaniano">Ŝi estas <marker>tanzano</marker>.</example>
     </rule>
     <rulegroup id="KOREKTA_SENERARA" name="korekta → senerara">
       <rule>
