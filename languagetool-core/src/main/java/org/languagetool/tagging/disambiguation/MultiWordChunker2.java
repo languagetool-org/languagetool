@@ -192,22 +192,26 @@ public class MultiWordChunker2 extends AbstractDisambiguator {
   }
 
   private boolean isMatching(AnalyzedTokenReadings[] inputTokens, int startingPosition, MultiWordEntry multiWordEntry) {
-    int j=1;
+    int j=1;  // we already matched the first token from multiword
     for(int i=1; j<multiWordEntry.tokens.size() && startingPosition+i<inputTokens.length; i++) {
   
       if( inputTokens[startingPosition+i].isWhitespace() ) {
         continue;
       }
       
-      if( ! multiWordEntry.tokens.get(j).equals(inputTokens[startingPosition+i].getToken()) )
+      if( ! matches(multiWordEntry.tokens.get(j), inputTokens[startingPosition+i]) )
        return false;
       
       ++j;
     }
     return j == multiWordEntry.tokens.size();
   }
+  
+  protected boolean matches(String matchText, AnalyzedTokenReadings inputTokens) {
+    return matchText.equals(inputTokens.getToken());
+  }
 
-  private AnalyzedTokenReadings prepareNewReading(String tokens, String tok, AnalyzedTokenReadings token, String tag) {
+  protected AnalyzedTokenReadings prepareNewReading(String tokens, String tok, AnalyzedTokenReadings token, String tag) {
     AnalyzedToken tokenStart = new AnalyzedToken(tok, tag, tokens);
     return setAndAnnotate(token, tokenStart);
   }
