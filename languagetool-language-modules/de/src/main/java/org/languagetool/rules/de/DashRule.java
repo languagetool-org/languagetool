@@ -55,12 +55,15 @@ public class DashRule extends Rule {
     String prevToken = null;
     for (int i = 0; i < tokens.length; i++) {
       String token = tokens[i].getToken();
-      if (prevToken != null && !prevToken.equals("-") && !prevToken.contains("--") 
-          && !prevToken.contains("–-")    // first char is some special kind of dash, found in Wikipedia
-          && prevToken.endsWith("-")) {
+      if (prevToken != null &&
+          prevToken.endsWith("-") &&
+          !prevToken.equals("-") &&
+          !prevToken.contains("--") &&
+          !prevToken.contains("–-")    // first char is some special kind of dash, found in Wikipedia
+          ) {
         char firstChar = token.charAt(0);
         if (Character.isUpperCase(firstChar)) {
-          if (StringUtils.isAllUpperCase(token) && StringUtils.isAllUpperCase(prevToken.replaceAll("-", ""))) {
+          if (StringUtils.isAllUpperCase(token) && StringUtils.isAllUpperCase(prevToken.substring(0, prevToken.length()-1))) {
             continue; // ignore "NORD- UND SÜDKOREA"
           }
           String msg = "Möglicherweise fehlt ein 'und' oder ein Komma, oder es wurde nach dem Wort " +
