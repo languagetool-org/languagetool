@@ -138,6 +138,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
       return Arrays.asList("for a");
     } else if ("te".equals(word)) {
       return Arrays.asList("the");
+    } else if ("todays".equals(word)) {
+      return Arrays.asList("today's");
     }
     return super.getAdditionalTopSuggestions(suggestions, word);
   }
