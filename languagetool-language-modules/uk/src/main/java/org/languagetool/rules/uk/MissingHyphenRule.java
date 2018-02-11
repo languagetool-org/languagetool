@@ -90,7 +90,7 @@ public class MissingHyphenRule extends Rule {
         String tokenToCheck = isCapitalized ? StringUtils.uncapitalize(hyphenedWord) : hyphenedWord;
         
         if ( wordTagger.tag(tokenToCheck).size() > 0 ) {
-          RuleMatch potentialRuleMatch = new RuleMatch(this, sentence, tokenReadings.getStartPos(), nextTokenReadings.getEndPos(), "Можливо пропущено дефіс?", getDescription());
+          RuleMatch potentialRuleMatch = new RuleMatch(this, sentence, tokenReadings.getStartPos(), nextTokenReadings.getEndPos(), "Можливо, пропущено дефіс?", getDescription());
           potentialRuleMatch.setSuggestedReplacement(hyphenedWord);
 
           ruleMatches.add(potentialRuleMatch);
