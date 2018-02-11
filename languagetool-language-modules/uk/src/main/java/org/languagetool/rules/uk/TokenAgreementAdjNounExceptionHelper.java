@@ -127,6 +127,14 @@ final class TokenAgreementAdjNounExceptionHelper {
       return true;
     }
 
+    // старший зміни
+    if( i > 1
+        && tokens[i].getToken().equals("зміни")
+        && LemmaHelper.hasLemma(tokens[i-1], "старший")) {
+      logException();
+      return true;
+    }
+
     // на повну людей розкрутили
     if( i > 1
         && tokens[i-1].getToken().equals("повну")
@@ -544,9 +552,9 @@ final class TokenAgreementAdjNounExceptionHelper {
       String adjToken = adjAnalyzedTokenReadings.getToken();
 
       // Ставши 2003-го прем’єром
-      if( adjToken.matches("([12][0-9])?[0-9][0-9][\u2014\u2013-](й|го|м|му|х)") 
-          || adjToken.matches("([12][0-9])?[0-9]0[\u2014\u2013-](ті|тих|их)") 
-          || adjToken.matches("[12][0-9][0-9][0-9][\u2014\u2013-][12][0-9][0-9][0-9][\u2014\u2013-](й|го|му|х)") ) {
+      if( adjToken.matches("([12][0-9])?[0-9][0-9][\u2014\u2013-](й|го|м|му)")
+          || adjToken.matches("([12][0-9])?[0-9]0[\u2014\u2013-](ті|тих|их|х)")
+          || adjToken.matches("([12][0-9])?[0-9][0-9][\u2014\u2013-]([12][0-9])?[0-9][0-9][\u2014\u2013-](й|го|м|му|ті|тих|их|х)") ) {
         logException();
         return true;
       }

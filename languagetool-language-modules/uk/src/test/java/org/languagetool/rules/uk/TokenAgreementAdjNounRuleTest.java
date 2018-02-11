@@ -197,6 +197,8 @@ public class TokenAgreementAdjNounRuleTest {
     // adj as noun
     assertEmptyMatch("надання болгарській статусу");
 
+    assertEmptyMatch("старший зміни");
+
     // pron
     assertEmptyMatch("одної шостої світу");
     assertEmptyMatch("Кожному наглядач кивав");
@@ -321,6 +323,8 @@ public class TokenAgreementAdjNounRuleTest {
     assertEmptyMatch("за часів «конфронтації» 2008–2009-го квота на них зросла");
     assertEmptyMatch("тільки за 1986–1988-й країна втратила близько 40 млрд крб");
     assertEmptyMatch("На початку двотисячних режисер зустрів двох людей");
+    assertEmptyMatch("корифеї американської поезії 1950-60-х Лоренс Ферлінгетті");
+    assertEmptyMatch("На зламі 80-90-их функціонери ...");
     
     assertEmptyMatch("щороку під Дев’яте травня");
     assertEmptyMatch("з четвертого по одинадцяте липня");

@@ -56,8 +56,6 @@ public class TokenAgreementAdjNounRule extends Rule {
   static final Pattern ADJ_INFLECTION_PATTERN = Pattern.compile(":([mfnp]):(v_...)(:r(in)?anim)?");
   static final Pattern NOUN_INFLECTION_PATTERN = Pattern.compile("(?::((?:[iu]n)?anim))?:([mfnps]):(v_...)");
 
-  private static final String NO_VIDMINOK_SUBSTR = ":nv";
-
   private final Ukrainian ukrainian = new Ukrainian();
 
   public TokenAgreementAdjNounRule(ResourceBundle messages) throws IOException {
@@ -107,14 +105,14 @@ public class TokenAgreementAdjNounRule extends Rule {
           continue;
 
         //TODO: nv still can be wrong if :np/:ns is present to it's not much gain for lots of work
-        if( PosTagHelper.hasPosTagPart(tokens[i], ":nv")
+        if( PosTagHelper.hasPosTagPart(tokens[i], PosTagHelper.NO_VIDMINOK_SUBSTR)
             //TODO: turn back on when we can handle pron
             || PosTagHelper.hasPosTagPart(tokens[i], "&pron")
             || PosTagHelper.hasPosTagPart(tokens[i], "<") )
           continue;
 
         if( ! PosTagHelper.hasPosTagPart(tokens[i+1], "noun:")
-            || PosTagHelper.hasPosTagPart(tokens[i+1], ":nv")
+            || PosTagHelper.hasPosTagPart(tokens[i+1], PosTagHelper.NO_VIDMINOK_SUBSTR)
             || PosTagHelper.hasPosTagPart(tokens[i+1], "&pron")
             || PosTagHelper.hasPosTagPart(tokens[i+1], "<") )
           continue;
@@ -162,7 +160,7 @@ public class TokenAgreementAdjNounRule extends Rule {
         }
 
         if( nounPosTag.startsWith("noun") 
-            && ! nounPosTag.contains(NO_VIDMINOK_SUBSTR) ) {
+            && ! nounPosTag.contains(PosTagHelper.NO_VIDMINOK_SUBSTR) ) {
 
           slaveTokenReadings.add(token);
         }
@@ -212,11 +210,11 @@ public class TokenAgreementAdjNounRule extends Rule {
         if( PosTagHelper.hasPosTagPart(adjTokenReadings, ":m:v_rod")
             && tokens[i].getToken().matches(".*[ую]")
             && PosTagHelper.hasPosTag(slaveTokenReadings, "noun.*:m:v_dav.*") ) {
-          msg += ". Можливо вжито невнормований родовий відмінок ч.р. з закінченням -у/-ю замість -а/-я (така тенденція є в сучасній мові)?";
+          msg += ". Можливо, вжито невнормований родовий відмінок ч.р. з закінченням -у/-ю замість -а/-я (така тенденція є в сучасній мові)?";
         }
         else if( adjAnalyzedTokenReadings.getToken().contains("-")
             && Pattern.compile(".*([23]-є|[02-9]-а|[0-9]-ма)").matcher(adjAnalyzedTokenReadings.getToken()).matches() ) {
-          msg += ". Можливо вжито зайве літерне нарощення після кількісного числівника?";
+          msg += ". Можливо, вжито зайве літерне нарощення після кількісного числівника?";
         }
 
         RuleMatch potentialRuleMatch = new RuleMatch(this, sentence, adjAnalyzedTokenReadings.getStartPos(), tokenReadings.getEndPos(), msg, getShort());

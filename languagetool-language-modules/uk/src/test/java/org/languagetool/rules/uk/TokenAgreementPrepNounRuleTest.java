@@ -83,6 +83,7 @@ public class TokenAgreementPrepNounRuleTest {
     assertEmptyMatch("зовсім не святкові товари Серед святкових товарів");
 
     assertEmptyMatch("при кому знайдено вогнепальну");
+    assertEmptyMatch("За його словами Україна – це країна...");
     
     assertEmptyMatch("славетних од цареві");
     
