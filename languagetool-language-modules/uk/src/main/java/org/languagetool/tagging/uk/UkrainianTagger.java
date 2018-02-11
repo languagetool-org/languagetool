@@ -28,6 +28,7 @@ import org.languagetool.AnalyzedToken;
 import org.languagetool.tagging.BaseTagger;
 import org.languagetool.tagging.TaggedWord;
 import org.languagetool.tagging.WordTagger;
+import org.languagetool.tools.StringTools;
 
 /** 
  * Ukrainian part-of-speech tagger.
@@ -79,6 +80,17 @@ public class UkrainianTagger extends BaseTagger {
     if ( word.indexOf('-') != -1 ) {
       List<AnalyzedToken> guessedCompoundTags = compoundTagger.guessCompoundTag(word);
       return guessedCompoundTags;
+    }
+        
+    return guessOtherTags(word);
+  }
+
+  private List<AnalyzedToken> guessOtherTags(String word) {
+    if( word.length() > 7
+        && StringTools.isCapitalizedWord(word)
+        && (word.endsWith("штрассе")
+        || word.endsWith("штрасе")) ) {
+      return PosTagHelper.generateTokensForNv(word, "f", ":prop");
     }
     
     return null;
