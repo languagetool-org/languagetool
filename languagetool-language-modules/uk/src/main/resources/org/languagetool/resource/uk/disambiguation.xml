@@ -328,6 +328,7 @@
         <token regexp="yes" postag_regexp="yes" postag="(noun|adj).*">[А-ЯІЇЄҐ][а-яіїєґ'-]+
           <exception scope="previous" postag="SENT_START"/>
           <exception scope="previous" regexp="yes">[«„“*\[\]:(—–-]</exception>
+          <exception scope="previous" regexp="yes">.*\.</exception>
           <exception regexp="yes">Як|Серед</exception>
         </token>
         <token postag_regexp="yes" postag="(verb|prep|adv).*"/>
@@ -346,7 +347,9 @@
     <example type="untouched">Читайте також: Менше законів.</example>
     <example type="untouched">Слово подяки Як побачать читачі</example>
     <example type="untouched">* Нехай роблять все</example>
+    <!--  ст. is hard we can't reliably split sentences so need exceptions when we fail to split -->
     <example type="untouched">східної Галичини XV-XVIII ст. Серед них – привілеї</example>
+    <example type="untouched">Взяти бодай XIII—XIX ст. Раніше п’єса була домінантою...</example>
   </rule>
 
   <!-- тимчасовий манівець для невідомих власних імен після прийменника, що збігаються з дієсловом -->
@@ -892,7 +895,7 @@
         </and>
       -->
     </pattern>
-    <disambig><match no="1" postag="prep.*" postag_regexp="yes"/></disambig>
+    <disambig><match no="1" postag="prep.*|&lt;.*" postag_regexp="yes"/></disambig>
     <example type="ambiguous"
         inputform="за[за/adv,за/prep]"
         outputform="за[за/prep]"
@@ -991,11 +994,12 @@
 
   <rule name="Як" id="JAK">
     <pattern>
-      <token negate="yes" regexp="yes">дикий|свійський|домашній</token>
+      <token negate="yes" inflected="yes" regexp="yes">дикий|свійський|домашній</token>
       <marker>
-        <token>як</token>
+        <token regexp="yes">як[ау]?
+          <exception scope="next" inflected="yes" regexp="yes">дикий|свійський|домашній</exception>
+        </token>
       </marker>
-      <token negate="yes" regexp="yes">дикий|свійський|домашній</token>
     </pattern>
     <disambig action="remove" postag="noun:anim:m:v_naz"/>
     <example type="ambiguous"
@@ -1256,6 +1260,58 @@
             >мирного <marker>атому</marker>.</example>
     <example type="untouched">по атому</example>
   </rule>
+
+  <rule name="Геологічна світа" id="svita_svitu">
+    <pattern>
+      <token postag="SENT_START" skip="-1"><exception scope="next" inflected="yes" regexp="yes">геолог.*|порода|родовище</exception></token>
+      <marker>
+        <token skip="-1" inflected="yes">світа
+          <exception scope="previous" regexp="yes">.*[цс]ьк(а|ої|ій|ою)</exception>
+          <exception scope="next" inflected="yes" regexp="yes">геолог.*|порода|родовище</exception>
+        </token>
+        <token postag="SENT_END"><exception scope="current" inflected="yes" regexp="yes">геолог.*|порода|родовище</exception></token>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="noun:inanim:f:.*"/>
+    <example type="ambiguous"
+        inputform="світу[світ/noun:inanim:m:v_dav,світ/noun:inanim:m:v_mis,світ/noun:inanim:m:v_rod,світа/noun:inanim:f:v_zna:np]"
+        outputform="світу[світ/noun:inanim:m:v_dav,світ/noun:inanim:m:v_mis,світ/noun:inanim:m:v_rod]"
+            >зі всього <marker>світу</marker>.</example>
+    <example type="untouched">Картамиська світа</example>
+    <example type="untouched">геологічна щільна світа</example>
+    <example type="untouched">Світа Ратаві — іракський нафтовий горизонт — на нафтових родовищах «Ратаві» в Іраку.</example>
+    <!--
+    <example type="untouched">світа в геології</example>
+    -->
+  </rule>
+
+  <rule name="Став: дієслово" id="stav_verb">
+    <pattern>
+      <marker>
+        <token>став
+          <exception scope="previous" regexp="yes" case_sensitive="yes">[А-ЯІЇЄҐ].*ий</exception>
+          <exception scope="previous" regexp="yes">на|у|в|над|через</exception>
+          <exception scope="previous" postag_regexp="yes" postag="verb.*"/>
+          <exception scope="next" postag_regexp="yes" postag="verb(?!.*?inf).*"/>
+        </token>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="noun:inanim:m:v_(naz|zna)"/>
+    <example type="ambiguous"
+        inputform="став[став/noun:inanim:m:v_naz,став/noun:inanim:m:v_zna,ставити/verb:imperf:impr:s:2,станути/verb:perf:past:m,стати/verb:perf:past:m]"
+        outputform="став[ставити/verb:imperf:impr:s:2,станути/verb:perf:past:m,стати/verb:perf:past:m]"
+            >він <marker>став</marker> найбагатшим.</example>
+    <example type="ambiguous"
+        inputform="став[став/noun:inanim:m:v_naz,став/noun:inanim:m:v_zna,ставити/verb:imperf:impr:s:2,станути/verb:perf:past:m,стати/verb:perf:past:m]"
+        outputform="став[ставити/verb:imperf:impr:s:2,станути/verb:perf:past:m,стати/verb:perf:past:m]"
+            >він <marker>став</marker> плювати в озеро.</example>
+    <example type="untouched">Тернопільський став</example>
+    <example type="untouched">немилосердно смердить став</example>
+    <example type="untouched">Окрім цього став замулювався</example>
+    <example type="untouched">чоловік подався на став</example>
+  </rule>
+
+
 
 
   <!-- TOOD: redo when dictionary updated

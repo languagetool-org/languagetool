@@ -150,7 +150,7 @@ public class TokenAgreementNounVerbRule extends Rule {
           continue;
         }
 
-        if( verbPosTag.startsWith("</") ) {
+        if( verbPosTag.startsWith("<") ) {
           verbTokenReadings.clear();
           break;
         }
