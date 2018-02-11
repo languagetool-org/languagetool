@@ -4362,7 +4362,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rulegroup id="ZU_ZUR" name="zu (zur)">
             <rule>
-                <pattern case_sensitive="yes">                    
+                <pattern case_sensitive="yes">
                     <marker>
                         <token>zu<exception scope="previous" postag="SUB:.+" postag_regexp="yes"/></token>
                     </marker>
@@ -4377,7 +4377,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Ich stehe zu Diensten.</example>
             </rule>
             <rule>
-                <pattern case_sensitive="yes">  
+                <pattern case_sensitive="yes">
                     <token inflected="yes" skip="1">gehen</token>               
                     <marker><token>zu</token></marker>
                     <token regexp="yes">Schule|Arbeit</token>
@@ -4386,7 +4386,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="zur">Er geht nicht <marker>zu</marker> Schule.</example>
             </rule>
             <rule>
-                <pattern case_sensitive="yes">  
+                <pattern case_sensitive="yes">
                     <marker><token>zu</token></marker>
                     <token regexp="yes">Schule|Arbeit</token>
                     <token inflected="yes">gehen</token>
@@ -10255,7 +10255,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token inflected="yes">gehen</token>
                 <token>über</token>
-            </antipattern>            
+            </antipattern>
             <antipattern>
                 <token>über</token>
                 <token inflected="yes">ausreichend</token>
@@ -13077,7 +13077,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="DRAUF" name="'drauf'">
             <rule> <!-- "drauf und dran" -->
-                <pattern>  
+                <pattern>
                     <token>drauf</token>
                     <token>und</token>
                     <token>dran</token>
@@ -13147,7 +13147,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="SUB:AKK:.*" postag_regexp="yes"></token>
                     <token>drauf</token>
                 </antipattern>
-                <antipattern><!-- TO DO: Auch umgangssprachlich, braucht aber anderer suggestion ("hinauf") --> 
+                <antipattern><!-- TO DO: Auch umgangssprachlich, braucht aber anderer suggestion ("hinauf") -->
                     <token inflected="yes" regexp="yes" skip="-1">springen|klettern</token>
                     <token>drauf</token>
                 </antipattern>
@@ -28611,11 +28611,11 @@ Andere Projekte</example>
                 <marker>
                     <token postag="SENT_START"/>
                     <token postag='SUB:NOM:SIN:(MAS|FEM|NEU)' postag_regexp='yes'>
-                        <exception postag_regexp="yes" postag="SUB:NOM:PLU:(MAS|FEM|NEU)|ADJ:PRD:GRU"/>
+                        <exception postag_regexp="yes" postag="SUB:NOM:PLU:(MAS|FEM|NEU)|ADJ:(PRD:GRU|NOM:PLU:...:GRU:SOL)"/>
                         <exception regexp="yes">Entweder|Bitte|Mal|Laut|Wein|Angst|Glück|Geld|Vorzugsweise|.+tag|Wasser</exception><!--TODO: alle unzählbaren Nomen-->
                         <exception regexp="yes">&sprachadj1;</exception>
                         <exception regexp="yes">&wochentage;</exception>
-                        <exception regexp="yes">Positiv|Negativ</exception>
+                        <!--exception regexp="yes">Positiv|Negativ</exception-->
                     </token>
                 </marker>
                 <token postag='VER:1:PLU:PRÄ.*' postag_regexp='yes'>
@@ -28639,6 +28639,7 @@ Andere Projekte</example>
             <example>Grüne gewinnen 5 Sitze im Landtag</example>
             <example>Hauptthema werden EU-Bürger sein, die dort leben.</example>
             <example>Reich werden in China</example>
+            <example>Junge bleiben bei Einkommen in der EU zurück.</example>
         </rule>
         <rule id="SENT_START_PLU_SIN" name="Nomen plural + Verb singular am Satzanfang">
             <antipattern>
@@ -36426,11 +36427,11 @@ Andere Projekte</example>
                     <token postag="SENT_START"/>
                     <token>Sehr</token>
                     <token regexp="yes">geehrter?</token>
-                </antipattern>                
+                </antipattern>
                 <antipattern>
                     <token postag="SENT_START"/>
                     <token regexp="yes">Lieber?</token>
-                </antipattern>                
+                </antipattern>
                 <antipattern>
                     <token skip="-1" postag="SENT_START">
                         <exception scope="next" postag="VER:.*" postag_regexp="yes"/>
