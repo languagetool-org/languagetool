@@ -21222,6 +21222,21 @@ TODO Write better examples
       <example correction='carpinteiro cerra'>O <marker>carpinteiro serra</marker>-te isso à medida.</example>
       <example>Formigueiro-da-serra</example>
     </rule>
+    <rule id='HOMONYM_CUMPRIMENTOS_COMPRIMENTOS' name='Homófona: cumprimentos - comprimentos'>
+      <pattern>
+          <token postag="SENT_START"/>
+          <token min='0' regexp='yes'>Apresento|Apresentamos|Com</token>
+          <token min='0'>Os</token>
+          <token min='0' regexp='yes'>meus|nossos</token>
+          <token min='0'>melhores</token>
+        <marker>
+          <token>Comprimentos</token>
+        </marker>
+          <token regexp="yes" postag='SENT_END'>,|\.|:|\!|;</token>
+      </pattern>
+      <message>'Comprimento' refere-se a uma dimensão ou tamanho. Nas fórmulas de despedidas escreve-se a palavra <suggestion>cumprimentos</suggestion> com 'u'.</message>
+      <example correction="cumprimentos">Com os melhores <marker>comprimentos</marker>,</example>
+    </rule>
   </rulegroup>
 
   <rulegroup id="VEM_BEM" name="Confusão: vem -> bem">
