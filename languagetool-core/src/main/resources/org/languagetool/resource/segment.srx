@@ -4903,6 +4903,7 @@
 <afterbreak>\p{Lu}\p{Ll}</afterbreak>
 </rule>
 </languagerule>
+
 <languagerule languagerulename="Ukrainian">
 <!-- Digit as a point number: 1. перший пункт -->
 <rule break="no">
@@ -5020,14 +5021,23 @@
 <afterbreak>[\s\u00A0\u202F]*\p{Ll}</afterbreak>
 </rule>
 <!-- break  -->
+<!-- часто зустрічається крапка+U+202F+пробіл, який srx чомусь не розбиває на речення -->
+<!-- але лишаємо ініціали: С.\u202F Шелухин -->
+<rule break="yes">
+<beforebreak>(?&lt;! [А-ЯІЇЄҐ])[.!?…]\u202F\s+</beforebreak>
+<afterbreak></afterbreak>
+</rule>
 <rule break="yes">
 <beforebreak>[\.!?…]['"\u00BB\u2019\u201D\u203A\u0002¹²³]*\s</beforebreak>
 <afterbreak></afterbreak>
 </rule>
+<!-- what was this for?
 <rule break="yes">
 <beforebreak>\u005D\u005D\s</beforebreak>
 <afterbreak></afterbreak>
 </rule>
+-->
+<!-- На питання «чи дарувати?» ствердно відповіли 38% -->
 <rule break="yes">
 <beforebreak>[\.!?…]['»"”\p{Pe}]*</beforebreak>
 <afterbreak>\p{Lu}[^\p{Lu}]</afterbreak>
@@ -5037,6 +5047,7 @@
 <afterbreak>\p{Lu}\p{Ll}</afterbreak>
 </rule>
 </languagerule>
+
 <languagerule languagerulename="Belarusian">
 <rule break="no">
 <beforebreak>\b\d+\.\s</beforebreak>
