@@ -20,6 +20,7 @@ package org.languagetool.rules.de;
 
 import java.util.*;
 
+import org.apache.commons.lang3.StringUtils;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.*;
@@ -59,6 +60,9 @@ public class DashRule extends Rule {
           && prevToken.endsWith("-")) {
         char firstChar = token.charAt(0);
         if (Character.isUpperCase(firstChar)) {
+          if (StringUtils.isAllUpperCase(token) && StringUtils.isAllUpperCase(prevToken.replaceAll("-", ""))) {
+            continue; // ignore "NORD- UND SÜDKOREA"
+          }
           String msg = "Möglicherweise fehlt ein 'und' oder ein Komma, oder es wurde nach dem Wort " +
             "ein überflüssiges Leerzeichen eingefügt. Eventuell haben Sie auch versehentlich einen Bindestrich statt eines Punktes eingefügt.";
           String shortMsg = "Fehlendes 'und' oder Komma oder überflüssiges Leerzeichen?";
