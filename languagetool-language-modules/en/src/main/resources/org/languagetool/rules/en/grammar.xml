@@ -16192,6 +16192,37 @@ USA
       <message>You are missing the word 'for' between "\1" and "\1 \2". Did you mean <suggestion>\1 for \2 \3</suggestion>.</message>
       <example correction='waiting for her patient'>Anne is <marker>waiting her patient</marker>.</example>
     </rule>
+    <rule id="TRAVELED_FOR" name="travel (for) X days">
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token postag="PRP"/>
+          <token regexp="yes">travell?ed</token>
+          <token postag="CD"/>
+          <token regexp="yes">(?:hour|day|week|month|year|session|semester|term|course)s?</token>
+      </pattern>
+      <message>You are missing the word "for" between "\2" and "\3". Did you mean <suggestion>\1 traveled for \3 \4</suggestion>.</message>
+      <example correction='I traveled for four days'><marker>I traveled four days</marker>.</example>
+    </rule>
+    <rule id="RESPECTFUL_AGAINST" name="Respectful against/toward">
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token regexp="yes">(?:dis)?respectful</token>
+          <token>against</token>
+      </pattern>
+      <message>The usual collocation for "\1" is 'toward' but never 'toward'. Did you mean <suggestion>\1 toward</suggestion>.</message>
+      <example correction='Respectful toward'><marker>Respectful against</marker>.</example>
+    </rule>
+    <rule id="DISAPPOINTED_OF" name="Disappointed with, at, or by">
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token>disappointed</token>
+          <token>of</token>
+      </pattern>
+      <message>The usual collocation for 'disappointed' is 'with', 'at', of 'by, but never "of". Did you mean <suggestion>\1 with</suggestion>.</message>
+        <suggestion>\1 at</suggestion>
+        <suggestion>\1 by</suggestion>
+      <example correction='disappointed with|disappointed at|disappointed by'>We could be <marker>disappointed of</marker> this announcement.</example>
+    </rule>
   </rulegroup>
 
   <rulegroup id="RETURN_IN_THE" name="return in/to">
