@@ -269,7 +269,7 @@ public class CaseRule extends Rule {
      Arrays.asList(
        // https://de.wikipedia.org/wiki/Neue_Mittelschule
        regex("Neue[nrs]?"),
-       new PatternTokenBuilder().tokenRegex("Mittelschule|Rathaus|Testament|Welt|Markt|Rundschau").matchInflectedForms().build()
+       new PatternTokenBuilder().tokenRegex("Mitte(lschule)?|Rathaus|Testament|Welt|Markt|Rundschau").matchInflectedForms().build()
      ),
      Arrays.asList( // "Das schließen Forscher aus ..."
        new PatternTokenBuilder().pos(JLanguageTool.SENTENCE_START_TAGNAME).build(),
