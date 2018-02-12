@@ -803,6 +803,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example>se lo apunto de manera inmediata</example>
     </rule>
 
+    <!-- ROMAN NUMERALS CHECKER : Comprobación de números romanos (adaptado de la versión catalana) -->
+    <rule id="ROMAN_NUMERALS_CHECK" name="comprueba números romanos">
+      <pattern case_sensitive="yes">
+        <marker>
+          <token regexp="yes" spacebefore="yes">[MCDXLVI]+
+            <exception regexp="yes">(?=.)M{0,4}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})</exception>
+            <exception postag="[RYANDV].*|.*LOC.*" postag_regexp="yes"/>
+            <exception regexp="yes">XML|DLL</exception>
+          </token>
+        </marker>
+      </pattern>
+      <message>Número romano incorrecto.</message>
+      <example correction="">El siglo <marker>XVIIII</marker> se conoce como el "Siglo de la Industrialización".</example>
+      <example>El rey Felipe II fue hijo del emperador Carlos V.</example>
+      <example>Bienvenido al XV Congreso de Matemáticas.</example>
+    </rule>
+
   </category>
 
   <category id="CAT1" name="Ortografía (concepto)" type="grammar">
