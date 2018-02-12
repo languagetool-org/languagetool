@@ -1170,6 +1170,67 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="світу">так, що <marker>світа</marker> білого не видно.</example>
     </rule>
 
+    <rulegroup id="govoryty_v_lyce" name="Говорити в лице">
+      <rule>
+        <pattern>
+          <token inflected="yes" regexp="yes">говорити|говорячи|говоривши|казати|сказати|кажучи|сказавши</token>
+          <token postag_regexp="yes" postag="(noun|adj).*" min="0" max="3" />
+        <!--
+          <token postag_regexp="yes" postag="noun:inanim:.*:v_zna.*" min="0"/>
+          <token postag_regexp="yes" postag="noun:anim:.*:v_dav.*|noun:.:v_dav:&amp;pron:pers.*" min="0"/>
+        -->
+          <marker>
+            <token regexp="yes">[ву]</token>
+            <token>лице</token>
+          </marker>
+        </pattern>
+        <message>Правильно: <suggestion>у вічі</suggestion></message>
+        <suggestion>в живі очі</suggestion>
+        <example correction="у вічі|в живі очі">він сказав це йому <marker>в лице</marker>.</example>
+        <example correction="у вічі|в живі очі">він сказав гірку правду директору <marker>в лице</marker>.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token regexp="yes">[ву]</token>
+            <token>лице</token>
+          </marker>
+          <token inflected="yes" regexp="yes">говорити|говорячи|говоривши|казати|сказати|кажучи|сказавши</token>
+          <token postag_regexp="yes" postag="(noun|adj).*" min="0" max="3" />
+        </pattern>
+        <message>Правильно: <suggestion>у вічі</suggestion></message>
+        <suggestion>в живі очі</suggestion>
+        <example correction="у вічі|в живі очі"><marker>в лице</marker> сказати все, що він думає.</example>
+      </rule>
+    </rulegroup>
+
+    <rule id="sobi_za_cil" name="Ставити собі за ціль">
+      <pattern>
+        <token>собі</token>
+        <marker>
+          <token>за</token>
+          <token>ціль</token>
+        </marker>
+      </pattern>
+      <message>Правильно: <suggestion>за мету</suggestion></message>
+      <example correction="за мету">ставивши собі <marker>за ціль</marker> узгодити...</example>
+    </rule>
+
+    <rule id="z_cillu" name="З ціллю">
+      <pattern>
+        <marker>
+          <token>з</token>
+          <token>ціллю</token>
+        </marker>
+        <token postag_regexp="yes" postag="noun:inanim:.:v_rod.*"/>
+      </pattern>
+      <message>Правильно: <suggestion>з метою</suggestion></message>
+      <suggestion>(для того) щоб</suggestion>
+      <example correction="з метою|(для того) щоб">створюється <marker>з ціллю</marker> прискорення...</example>
+      <example>зблизитися з ціллю</example>
+    </rule>
+
 <!--
     схоже, «відсутній» не має такого чіткого розділення
 
