@@ -2850,7 +2850,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
               <example correction="и в воздухе, и на небе, и в вагоне">Было грустно <marker>и в воздухе и на небе и в вагоне</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup default="off" id="PUNKT_KOTORIJ" name="Пунктуация перед союзами «который», ...">
+        <rulegroup default="on" id="PUNKT_KOTORIJ" name="Пунктуация перед союзами «который», ...">
         <!-- TODO: Need improve -->    
             <rule>
                 <antipattern>
@@ -2864,8 +2864,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token negate="yes" regexp="yes">[\p{Punct}]|[\p{Digit}]*|-|—|–|’|‘|…|ну|«|большинство|меньшинство|часть|доля<exception postag="SENT_START"></exception><exception postag_regexp="yes" postag="CONJ|ADJ:.*|Num:.*|NumC:.*"></exception><exception>соответствии</exception></token>
                         <token postag="PREP"></token>
-                        <token inflected="yes">который</token>
+                        <token inflected="yes" skip="-1">который</token>
                     </marker>
+                    <token postag="VB:.*|PT:.*" postag_regexp="yes"></token>
                 </pattern>
                 <message>Пропущена запятая:<suggestion>\1, \2 \3</suggestion>.</message>
                 <url>https://dic.academic.ru/dic.nsf/ogegova/90842</url>
@@ -2906,7 +2907,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="ребята, которые">Это те же <marker>ребята которые</marker> играли в хоккей.</example>
             </rule>
 
-         </rulegroup>
+        </rulegroup>
         
         <rulegroup id="da_and_da" name="Союзы «да» + «да»">
             <rule>  <!--  да=и   -->
