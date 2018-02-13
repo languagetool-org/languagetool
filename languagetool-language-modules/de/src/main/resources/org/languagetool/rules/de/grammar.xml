@@ -4658,6 +4658,33 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="sputen">Ich muss mich jetzt <marker>spurten</marker>!</example>
             <example correction="sputen">Ich muss mich jetzt aber <marker>spurten</marker>!</example>
         </rule>
+        <rulegroup id="ZUPASSKOMMEN" name="zu Pass kommen (zupasskomen)">
+            <url>http://www.canoo.net/inflection/zupassekommen:V:sein:New-Only:Adv+V</url>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token inflected="yes" skip="2">kommen</token>
+                    <marker>
+                        <token>zu</token>
+                        <token regexp="yes">[Pp]asse?</token>
+                    </marker>
+                </pattern>
+                <message>Wenn Sie 'zupasskommen' meinen, schreiben Sie <suggestion>zu<match no="3" case_conversion="startlower"/></suggestion> zusammen.</message>
+                <short>&getrennt;</short>
+                <example correction="zupass">Es kam ihm sehr <marker>zu Pass</marker>, dass sein Konkurrent zu spät kam.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token>zu</token>
+                        <token regexp="yes">[Pp]asse?</token>
+                    </marker>
+                    <token inflected="yes">kommen</token>
+                </pattern>
+                <message>Wenn Sie das Verb 'zupasskommen' meinen, schreiben Sie <suggestion>zu<match no="2" case_conversion="startlower"/>\3</suggestion> zusammen.</message>
+                <short>&getrennt;</short>
+                <example correction="zupassekam">Obwohl ihm das Angebot überaus <marker>zu Passe</marker> kam, lehnte er es dennoch ab.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="ZU_RECHT" name="zurecht/zu Recht">
             <url>http://www.duden.de/rechtschreibung/zurecht_</url>
             <rule>
