@@ -15519,6 +15519,17 @@ regexp case-insensitive maken : (?i)
 		
 	</category>
 	<category id="VASTE_UITDRUKKINGEN" name="Vaste uitdrukkingen">
+		<rulegroup id="NAAR_VERLOOP" name="naar verloop van / na verloop van">
+			<rule>
+				<pattern>
+					<token>naar</token>
+					<token>verloop</token>
+					<token>van</token>
+				</pattern>
+				<message>Dit moet zijn: <suggestion>na \2 \3</suggestion>.</message>
+				<example correction="na verloop van">Het is <marker>naar verloop van</marker> tijd goed.</example>
+			</rule>
+		</rulegroup>
 		<rulegroup id="AD_HOC_X" name="ad hoc in samenstelling">
 			<rule>
 				<!--
