@@ -10897,12 +10897,13 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <rule id="GRANS" name="grans de cereals...">
         <pattern>
             <marker>
-                <token postag="NC.*" postag_regexp="yes">grans</token>
+                <token postag="NC.*" postag_regexp="yes">grans<exception scope="previous" postag="NC.P.*" postag_regexp="yes"/></token>
             </marker>
             <token regexp="yes">de|d'</token>
             <token postag="NC.*" postag_regexp="yes"/>
         </pattern>
         <disambig action="filter" postag="N.*"/>
+        <example type="untouched">Són fragments grans de membrana.</example>
     </rule>
     <rulegroup id="DEU" name="no és numeral si no ha concordat...">
         <rule>

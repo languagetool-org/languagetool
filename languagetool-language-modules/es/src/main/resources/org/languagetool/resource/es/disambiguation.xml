@@ -250,4 +250,14 @@ Copyright (C) 2011 Juan Martorell
     <disambig action="add"><wd pos="_PUNCT"></wd></disambig>
   </rule>
   
+  <!-- ROMAN NUMERALS : Detección de números romanos (adaptado de la versión catalana) -->
+  <rule id="ROMAN_NUMERALS" name="números romanos">
+    <pattern case_sensitive="yes">
+      <marker>
+        <token regexp="yes">(?=.)M{0,4}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})</token>
+      </marker>
+    </pattern>
+    <disambig action="ignore_spelling"/>
+  </rule>
+  
 </rules>
