@@ -32,7 +32,7 @@ import java.util.concurrent.TimeUnit;
  * the JLanguageTool objects all use the same rules.</strong> For example, if you call {@code JLanguageTool.addRule()}
  * in different ways for the different instances that you use the same cache for, the cache will return invalid results.
  * Using a cache with bitext rules isn't supported either.
- * It is okay however, to use same same cache for {@link JLanguageTool} objects with different languages, as
+ * It is okay however, to use the same cache for {@link JLanguageTool} objects with different languages, as
  * cached results are not used for a different language.
  * @since 3.7
  */
