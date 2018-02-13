@@ -23302,6 +23302,26 @@ Andere Projekte</example>
                 <example correction="Rede">Davon ist noch keine <marker>rede</marker> gewesen.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="SCHULD_SEIN" name="'Schuld (schuld) sein'">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token inflected="yes">sein</token>
+                    <token min="0" max="4" postag="ADV.*|PRO:PER:NOM:(SIN|PLU):ALG.*" postag_regexp="yes"></token>
+                    <marker>
+                        <token>Schuld</token>
+                    </marker>
+                </pattern>
+                <message>&inwend;'schuld sein' (= verantwortlich sein) wird 'schuld' kleingeschrieben.</message>
+                <suggestion><match no="3" case_conversion="startlower"/></suggestion>
+                <short>&prgk;.</short>
+                <example correction="schuld">Er ist daran doch selbst <marker>Schuld</marker>!</example>
+                <example correction="schuld">Er ist doch selbst <marker>Schuld</marker>!</example>
+                <example correction="schuld">Er ist selbst <marker>Schuld</marker>!</example>
+                <example correction="schuld">Daran sind wir doch ganz allein <marker>Schuld</marker>!</example>
+                <example correction="schuld">Ich bin <marker>Schuld</marker>!</example>
+                <example>Das ist die <marker>Schuld</marker> von Tom.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="MEINE_SCHULD" name="'jemandes schuld (Schuld) etc.'">
             <rule>
                 <pattern case_sensitive="yes">
@@ -23376,7 +23396,7 @@ Andere Projekte</example>
                         <token>schuld</token>
                     </marker>
                     <token>von</token>
-                    <token regexp="yes">[dm]ir|sich|uns|euch</token>
+                    <token regexp="yes">[dm]ir|sich|uns|euch|ih[mr]</token>
                 </pattern>
                 <message>&subanfang;<suggestion>Schuld</suggestion>&subende;</message>
                 <example correction="Schuld">Ich weise alle <marker>schuld</marker> von mir.</example>
@@ -23387,7 +23407,7 @@ Andere Projekte</example>
                         <token>schuld</token>
                     </marker>
                     <token>auf</token>
-                    <token regexp="yes">[dms]ich|uns|euch</token>
+                    <token regexp="yes">[dms]ich|uns|euch|ihn|sie</token>
                 </pattern>
                 <message>&subanfang;<suggestion>Schuld</suggestion>&subende;</message>
                 <example correction="Schuld">Wir haben schwere <marker>schuld</marker> auf uns geladen.</example>
