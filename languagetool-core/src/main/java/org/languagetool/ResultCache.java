@@ -55,6 +55,9 @@ public class ResultCache {
    * @param expireAfter time to expire sentences from the cache after last read access 
    */
   public ResultCache(long maxSize, int expireAfter, TimeUnit timeUnit) {
+    if (maxSize < 0) {
+      throw new IllegalArgumentException("Result cache size must be >= 0: " + maxSize);
+    }
     matchesCache = CacheBuilder.newBuilder().maximumSize(maxSize/2).recordStats().expireAfterAccess(expireAfter, timeUnit).build();
     sentenceCache = CacheBuilder.newBuilder().maximumSize(maxSize/2).recordStats().expireAfterAccess(expireAfter, timeUnit).build();
   }
