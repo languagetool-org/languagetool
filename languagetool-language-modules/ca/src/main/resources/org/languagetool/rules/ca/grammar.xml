@@ -44244,11 +44244,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Construcció probablement incorrecta.</message>
                 <suggestion>\1 \2 quals</suggestion>
-                <short>Reviseu la construcció de relatiu</short>
                 <example correction="entre les quals">Unes obres <marker>entre les que</marker> hi havia les seves.</example>
                 <example correction="entre les quals">Unes obres <marker>entre les que</marker> no hi havia les seves.</example>
                 <example>Unes obres entre les quals hi havia les seves.</example>
                 <example>Unes cases entre les que hi havia a la zona.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>entre</token>
+                        <token regexp="yes">els|les</token>
+                        <token>que</token>
+                    </marker>
+                    <token min="0" max="3" inflected="yes" regexp="yes">caldre|es|haver|de|hi|en|anar</token>
+                    <token inflected="yes" regexp="yes">destacar|incloure|trobar</token>
+                </pattern>
+                <message>Construcció probablement incorrecta.</message>
+                <suggestion>\1 \2 quals</suggestion>
+                <example correction="entre les quals">, <marker>entre les que</marker> s'inclouen</example>
+                <example correction="entre els quals">, <marker>entre els que</marker> s'ha d'incloure</example>
+                <example correction="entre les quals">, <marker>entre les que</marker> cal destacar</example>
             </rule>
         </rulegroup>
         <rulegroup id="ALTRES_CONSTRUCCIONS_RELATIU" name="Altres construccions de relatiu">
