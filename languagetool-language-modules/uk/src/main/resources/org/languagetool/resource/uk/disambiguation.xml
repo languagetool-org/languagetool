@@ -1362,6 +1362,78 @@
   </rule>
 
 
+  <rule name="Рівня: не від «рівня»" id="rivnya_not_lemma_rivnya">
+    <pattern>
+      <marker>
+        <token inflected="yes">рівня
+          <exception scope="previous" postag_regexp="yes" postag=".*?:v_dav.*"/>
+          <!-- TODO: лише для «за рівню» -->
+          <exception scope="previous">за</exception>
+          <exception scope="next" postag_regexp="yes" postag=".*?:v_dav.*"/>
+        </token>
+      </marker>
+    </pattern>
+    <disambig action="remove"><wd lemma="рівня"/></disambig>
+    <example type="ambiguous"
+        inputform="рівня[рівень/noun:inanim:m:v_rod,рівня/noun:anim:f:v_naz:xp1,рівня/noun:anim:m:v_naz:xp1,рівня/noun:inanim:f:v_naz:xp2]"
+        outputform="рівня[рівень/noun:inanim:m:v_rod]"
+            >досягти такого <marker>рівня</marker>.</example>
+    <example type="untouched">і він не рівня брату</example>
+    <example type="untouched">тут він рівня всім боярам</example>
+    <example type="untouched">Не теперішнім рівня!</example>
+    <example type="untouched">вважатимуть за рівню.</example>
+    <!-- TODO:
+    touched = до європейського рівня їм ще далеко
+     <example type="untouched">Україна — рівня їм.</example>
+     <example type="untouched">— рівня хіба що захцянкам арабських шейхів.</example>
+    -->
+  </rule>
+
+  <rule name="Прав: іменник" id="prav_noun">
+    <pattern>
+      <marker>
+        <token>прав</token>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="verb.*"/>
+    <example type="ambiguous"
+        inputform="прав[право/noun:inanim:p:v_rod,прати/verb:imperf:past:m]"
+        outputform="прав[право/noun:inanim:p:v_rod]"
+            >щодо <marker>прав</marker> обвинувачених.</example>
+    <!--
+    <example type="untouched">він прав свої речі раз на тиждень</example>
+    -->
+  </rule>
+
+  <rule name="Верховна Рада 1" id="verkhovna_rada1">
+    <pattern>
+      <token inflected="yes" regexp="yes">верховний|центральний</token>
+      <marker>
+        <token inflected="yes">рада</token>
+      </marker>
+    </pattern>
+    <disambig action="filter"><match no="1">рада</match></disambig>
+    <example type="ambiguous"
+        inputform="Раду[Рада/noun:anim:f:v_zna:prop:fname:xp1,Рада/noun:inanim:f:v_zna:prop:xp2,рад/noun:inanim:m:v_dav,рад/noun:inanim:m:v_mis,рада/noun:inanim:f:v_zna,радий/adj:f:v_zna]"
+        outputform="Раду[рада/noun:inanim:f:v_zna]"
+            >у Верховну <marker>Раду</marker>.</example>
+    <example type="untouched">не міг дати собі ради.</example>
+  </rule>
+
+  <rule name="Верховна Рада 2" id="verkhovna_rada2">
+    <pattern>
+      <marker>
+        <token inflected="yes">рада</token>
+      </marker>
+      <token regexp="yes">безпеки|національної|ЄС|Європи|Євросоюзу|міністрів|керівників|суддів|[XVIХІ]+</token>
+    </pattern>
+    <disambig action="filter"><match no="1">рада</match></disambig>
+    <example type="ambiguous"
+        inputform="Раду[Рада/noun:anim:f:v_zna:prop:fname:xp1,Рада/noun:inanim:f:v_zna:prop:xp2,рад/noun:inanim:m:v_dav,рад/noun:inanim:m:v_mis,рада/noun:inanim:f:v_zna,радий/adj:f:v_zna]"
+        outputform="Раду[рада/noun:inanim:f:v_zna]"
+            >у <marker>Раду</marker> Міністрів.</example>
+    <example type="untouched">не міг дати собі ради.</example>
+  </rule>
 
 
   <!-- TOOD: redo when dictionary updated

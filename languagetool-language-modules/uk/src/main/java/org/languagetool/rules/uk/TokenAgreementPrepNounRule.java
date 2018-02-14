@@ -186,6 +186,13 @@ public class TokenAgreementPrepNounRule extends Rule {
       }
 
       Set<String> expectedCases = CaseGovernmentHelper.getCaseGovernments(prepTokenReadings, IPOSTag.prep.name());
+      
+      // we want to ignore «залежно» + noun, but we want to catch «незважаючи» без «на»
+//      if( expectedCases.isEmpty() ) {
+//        prepTokenReadings = null;
+//        continue;
+//      }
+      
       expectedCases.remove("v_inf"); // we don't care about rv_inf here
       posTagsToFind.addAll(expectedCases);
       

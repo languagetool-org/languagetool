@@ -86,7 +86,11 @@ public class TokenAgreementPrepNounRuleTest {
     assertEmptyMatch("За його словами Україна – це країна...");
     
     assertEmptyMatch("славетних од цареві");
-    
+
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("що, незважаючи стислі терміни візиту")).length);
+    //TODO:
+//    assertEmptyMatch("залежно що вважати перемогою");
+
     //TODO: temporary until we have a better logic
     assertEmptyMatch("при їх опублікуванні");
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("при їх опублікування")).length);
