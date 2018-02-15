@@ -122,7 +122,8 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
     return posTag != null
         && !JLanguageTool.PARAGRAPH_END_TAGNAME.equals(posTag)
         && !JLanguageTool.SENTENCE_END_TAGNAME.equals(posTag)
-        && !posTag.contains(IPOSTag.bad.getText());
+        && !posTag.contains(IPOSTag.bad.getText())
+        && !posTag.startsWith("<");
   }
 
   @Override
