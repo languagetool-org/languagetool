@@ -441,7 +441,7 @@ regexp case-insensitive maken : (?i)
 					<token regexp="yes">^\P{M}{20,29}$</token>
 				</pattern>
 				<message>Lange woorden kunnen een tekst lastig maken. Kan het niet eenvoudiger?</message>
-				<example type="incorrect"><marker>krokodillentranendal</marker>.</example>
+				<example type="incorrect">Ander woord voor <marker>beleggingsdekkingswaarde</marker>.</example>
 			</rule>
 		</rulegroup>
 		<rulegroup id="ERG_LANG_WOORD" name="Lang woord">
@@ -7176,8 +7176,7 @@ regexp case-insensitive maken : (?i)
 				</pattern>
 				<message>De tekst wordt vlotter als je deze herschrijft met <suggestion>ongeveer</suggestion>.</message>
 				<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
-				<example correction="ongeveer">A <marker>circa</marker> B.</example>
-				<example>A <marker>ongeveer</marker>.</example>
+				<example correction="ongeveer">De verwerkingstijd is <marker>circa</marker> 7 minuten.</example>
 			</rule>
 		</rulegroup>
 		<rulegroup id="CITYMARKETING" name="citymarketing">
@@ -11113,8 +11112,8 @@ regexp case-insensitive maken : (?i)
 					<token postag="WKW:AVW"><exception negate_pos="yes" postag="WKW:AVW"/></token>
 				</pattern>
 				<message>Als dit een typefout is, dan moet het vast <suggestion><match no="1" postag="WKW:TGW:INF" postag_regexp="yes"/></suggestion> zijn. Is het een aanvoegende wijs of een ander ouderwetse vorm, dan graag moderniseren.</message>
-				<example correction="mogen">A <marker>moge</marker> B.</example>
-				<example>A <marker>mogen</marker>.</example>
+				<example correction="mogen">Davy mag <marker>blijve</marker>.</example>
+				<example>Davy mag <marker>blijven</marker>.</example>
 			</rule>
 		</rulegroup>
 		<rulegroup id="MOGE" name="moge">
@@ -12725,7 +12724,7 @@ regexp case-insensitive maken : (?i)
 				</pattern>
 				<message>De tekst wordt vlotter als je deze herschrijft met <suggestion>en</suggestion> of <suggestion>of</suggestion>.</message>
 				<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
-				<example correction="en|of">A <marker>respectievelijk</marker> B.</example>
+				<example correction="en|of">Ze zijn <marker>respectievelijk</marker> 15 en 17 jaar oud.</example>
 				<example>A <marker>en</marker>.</example>
 			</rule>
 		</rulegroup>
@@ -13475,8 +13474,7 @@ regexp case-insensitive maken : (?i)
 				</pattern>
 				<message>De tekst wordt vlotter als je deze herschrijft met <suggestion>maar niet als</suggestion>.</message>
 				<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
-				<example correction="maar niet als">A <marker>tenzij</marker> B.</example>
-				<example>A <marker>maar niet als</marker>.</example>
+				<example correction="Maar niet als"><marker>Tenzij</marker> de arts anders voorschrijft.</example>
 			</rule>
 		</rulegroup>
 		<rulegroup id="TE_ONZENT" name="te onzent">
@@ -15494,6 +15492,8 @@ regexp case-insensitive maken : (?i)
 				<message>Woorden als '<match no="1"/>' kunnen een tekst vaag maken.</message>
 				<example type="incorrect">Deze zin is <marker>ergens</marker> wel vaag hoor!</example>
 				<example>Deze zin is <marker>wel duidelijk</marker>.</example>
+				<example type="incorrect"><marker>Misschien</marker> dat je daar iets mee kunt?</example>
+				<example type="incorrect">Hoe kom ik hier <marker>ooit</marker> doorheen?</example>
 			</rule>
 		</rulegroup>
 		
@@ -15509,6 +15509,7 @@ regexp case-insensitive maken : (?i)
 				<message>Is hier wellicht sprake van overdrijving?</message>
 				<example type="incorrect">Het is een <marker>gigantisch</marker> probleem.</example>
 				<example>Het is <marker>een</marker> probleem.</example>
+				<example type="incorrect">Super interessant voor mij dit boek!</example>
 			</rule>
 		</rulegroup>
 		
@@ -19676,7 +19677,6 @@ regexp case-insensitive maken : (?i)
 		<rulegroup id="WIJ_ZIJ_MIJ" name="Wij, zij, jij → we, ze, je, me">
 			<rule>
 				<!-- 2014-09-08 TaalTik
-				nieuw
 				advies wordt wel vaak vertoond, maar is ook vaak wel van toepassing.
 				-->
 				<pattern>
@@ -19686,6 +19686,7 @@ regexp case-insensitive maken : (?i)
 					<url>https://onzetaal.nl/taaladvies/advies/wij-we</url>
 					<short>Nadruk?</short>
 					<example correction="We"><marker>Wij</marker> vinden het fout.</example>
+					<example correction="We"><marker>Wij</marker> geven u een schatting van de kosten.</example>
 					<example><marker>We</marker> vinden het goed.</example>
 				</rule>
 			</rulegroup>
@@ -19714,7 +19715,9 @@ regexp case-insensitive maken : (?i)
 					</pattern>
 					<message>Zulke korte zinnen zijn zeldzaam, incompleet en ongebruikelijk in officiële tekst.</message>
 					<example type="incorrect"><marker>Hij doet.</marker></example>
-					<example>Hij kan het</example>
+					<example>Hij kan het.</example>
+					<example type="incorrect"><marker>Vergeet het.</marker></example>
+					<example type="incorrect"><marker>Geweldig artikel!</marker></example>
 				</rule>
 			</rulegroup>
 			
