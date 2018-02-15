@@ -170,6 +170,15 @@ public class GermanTagger extends BaseTagger {
             } else if (substantivatedFormsList != null && substantivatedFormsList.size() > 0) {
               readings.addAll(substantivatedFormsList);
             } else {
+              if (StringUtils.startsWithAny(word, "bitter", "dunkel", "erz", "extra", "früh",
+                "gemein", "grund", "hyper", "lau", "minder", "stock", "super", "tod", "ultra", "ur", "voll")) {
+                String lastPart = StringUtils.removePattern(word, "^(bitter|dunkel|erz|extra|früh|gemein|grund|hyper|lau|minder|stock|super|tod|ultra|ur|voll)");
+                String firstPart = StringUtils.removeEnd(word, lastPart);
+                List<TaggedWord> taggedWords = getWordTagger().tag(lastPart);
+                for (TaggedWord taggedWord : taggedWords) {
+                  readings.add(new AnalyzedToken(word, taggedWord.getPosTag(), firstPart+taggedWord.getLemma()));
+                }
+              }
               //Separate dash-linked words
               //Only check single word tokens and skip words containing numbers because it's unpredictable
               if (word.split(" ").length == 1 && !word.matches("[0-9].*")) {
