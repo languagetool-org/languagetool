@@ -171,12 +171,14 @@ public class GermanTagger extends BaseTagger {
               readings.addAll(substantivatedFormsList);
             } else {
               if (StringUtils.startsWithAny(word, "bitter", "dunkel", "erz", "extra", "früh",
-                "gemein", "grund", "hyper", "lau", "minder", "stock", "super", "tod", "ultra", "ur", "voll")) {
+                "gemein", "hyper", "lau", "minder", "stock", "super", "tod", "ultra", "ur")) {
                 String lastPart = StringUtils.removePattern(word, "^(bitter|dunkel|erz|extra|früh|gemein|grund|hyper|lau|minder|stock|super|tod|ultra|ur|voll)");
-                String firstPart = StringUtils.removeEnd(word, lastPart);
-                List<TaggedWord> taggedWords = getWordTagger().tag(lastPart);
-                for (TaggedWord taggedWord : taggedWords) {
-                  readings.add(new AnalyzedToken(word, taggedWord.getPosTag(), firstPart+taggedWord.getLemma()));
+                if (lastPart.length() > 1) {
+                  String firstPart = StringUtils.removeEnd(word, lastPart);
+                  List<TaggedWord> taggedWords = getWordTagger().tag(lastPart);
+                  for (TaggedWord taggedWord : taggedWords) {
+                    readings.add(new AnalyzedToken(word, taggedWord.getPosTag(), firstPart+taggedWord.getLemma()));
+                  }
                 }
               }
               //Separate dash-linked words
