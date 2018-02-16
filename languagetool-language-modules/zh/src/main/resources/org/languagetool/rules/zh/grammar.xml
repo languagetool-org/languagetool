@@ -29,6 +29,41 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 	<!-- 拼写： 词语错误 -->
 	<!-- ====================================================================== -->
 	<category id="CAT1" name="词语错误">
+		<rule id="ZH7" name="消毁\销毁">
+			<pattern>
+				<token>消</token>
+				<token>毁</token>
+			</pattern>
+			<message>您的意思是"销毁"吗？</message>
+			<example correction=''>我已经<marker>消毁</marker>了所有文件</example>
+			<example>我已经销毁了所有文件</example>
+		</rule>
+		<rule id="ZH8" name="弘亮\洪亮">
+			<pattern>
+				<token>弘</token>
+				<token>亮</token>
+			</pattern>
+			<message>您的意思是"洪亮"吗？</message>
+			<example correction=''>这婴儿哭声<marker>弘亮</marker></example>
+			<example>这婴儿哭声洪亮</example>
+		</rule>
+		<rule id="ZH9" name="定婚\订婚">
+			<pattern>
+				<token>定婚</token>
+			</pattern>
+			<message>您的意思是"订婚"吗？</message>
+			<example correction=''>我们<marker>定婚</marker>了</example>
+			<example>我们订婚了</example>
+		</rule>
+		<rule id="ZH11" name="彩\采">
+			<pattern>
+				<token regexp='yes'>神|文|风</token>
+				<token>彩</token>
+			</pattern>
+			<message>您的意思是"<match no="1"/>采"吗？</message>
+			<example correction=''>雨后的白莲另有一种<marker>风彩</marker></example>
+			<example>雨后的白莲另有一种风采</example>
+		</rule>
 		<rule id="BO1_BO2" name="搏/膊">
 			<pattern>
 				<marker>
@@ -8261,6 +8296,34 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 	<!-- 拼写： 成语错误 -->
 	<!-- ====================================================================== -->
 	<category id="CAT2" name="成语错误">
+		<rule id="ZH6" name="人情事故\人情世故">
+			<pattern>
+				<token>人情</token>
+				<token>事故</token>
+			</pattern>
+			<message>您的意思是"<match no="1"/>世故"吗？</message>
+			<example correction=''><marker>人情事故</marker></example>
+			<example>人情世故</example>
+		</rule>
+		<rule id="ZH10" name="彩\采">
+			<pattern>
+				<token regexp='yes'>无|没</token>
+				<token>精</token>
+				<token>打</token>
+				<token>彩</token>
+			</pattern>
+			<message>您的意思是"<match no="1"/><match no="2"/><match no="3"/>采"吗？</message>
+			<example correction=''>他一整天都<marker>无精打彩</marker>的</example>
+			<example>他一整天都无精打采的</example>
+		</rule>
+		<rule id="ZH12" name="彩\采">
+			<pattern>
+				<token>兴高彩烈</token>
+			</pattern>
+			<message>您的意思是"兴高采烈"吗？</message>
+			<example correction=''>人们<marker>兴高彩烈</marker>地庆祝元旦</example>
+			<example>人们兴高采烈地庆祝元旦</example>
+		</rule>
 		<rule id="XIANGFUXIANGCHENG" name="相辅相成">
 			<pattern>
 				<token>相辅</token>
@@ -14514,6 +14577,33 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 	<!-- 语法：实词的词法 -->
 	<!-- ====================================================================== -->
 	<category id="CAT3" name="词法-实词">
+		<rule id="ZH1" name="反应\反映">
+			<pattern>
+				<token>反应</token>
+				<token postag='u'>了</token>
+			</pattern>
+			<message>您的意思是"反映"吗？</message>
+			<example correction=''>这部小说<marker>反应了</marker>现实生活</example>
+			<example>这部小说反映了现实生活</example>
+		</rule>
+		<rule id="ZH2" name="必需\必须">
+			<pattern>
+				<token>必需</token>
+				<token postag='v'></token>
+			</pattern>
+			<message>"<match no="1"/>"后面不应接动词，您的意思是"必须"吗？</message>
+			<example correction=''>你<marker>必需吃饭</marker></example>
+			<example>你必须吃饭</example>
+		</rule>
+		<rule id="ZH4" name="法制\法治">
+			<pattern>
+				<token>法制</token>
+				<token regexp='yes'>社会|国家</token>
+			</pattern>
+			<message>您的意思是"法治<match no="2"/>"吗？</message>
+			<example correction=''><marker>法制社会</marker>和人治社会是相对而言的</example>
+			<example>法治社会和人治社会是相对而言的</example>
+		</rule>
 		<rulegroup id="wa1" name="词性误用">
 			<rule>
 				<pattern>
@@ -14652,6 +14742,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 	<!-- 语法：虚词的词法 -->
 	<!-- ====================================================================== -->
 	<category id="CAT4" name="词法-虚词">
+		<rule id="ZH5" name="成分赘余_原因+因为">
+			<pattern>
+				<token skip='-1'>原因</token>
+				<token>因为</token>
+			</pattern>
+			<message>成分赘余： “原因” “因为” 不一起使用，请删除“因为”</message>
+			<example correction=''>我没考好的<marker>原因是因为</marker>我没有仔细审题</example>
+			<example>我没考好的原因是我没有仔细审题</example>
+		</rule>
 		<rulegroup id="wb1" name="副词">
 			<rule>
 				<pattern>
@@ -16113,6 +16212,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 	<!-- 语法：句法 -->
 	<!-- ====================================================================== -->
 	<category id="CAT5" name="句法">
+		<rule id="ZH3" name="搭配不当_执行+责任">
+			<pattern>
+				<token postag='r'></token>
+				<token skip='-1'>执行</token>
+				<token regexp='yes'>义务|责任|职责|承诺|诺言</token>
+			</pattern>
+			<message>搭配错误： 应将 “执行” 改为 “履行”</message>
+			<example correction=''>让<marker>我们执行一个合格公民应尽的责任</marker></example>
+			<example>让我们履行一个合格公民应尽的责任</example>
+		</rule>
 		<rulegroup id="s2" name="成分赘余">
 			<rule>
 				<pattern>

@@ -2,6 +2,9 @@
 
 ## 4.1-SNAPSHOT (release planned for 2018-03-27)
 
+#### Chinese
+  * added some rules
+
 #### English
   * added and improved rules
   * added remaining collocation rules (~130) contributed by Nicholas Walker (Bokomaru)
