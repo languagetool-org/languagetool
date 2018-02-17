@@ -1948,10 +1948,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <message>Ĉu vi intencis skribi <suggestion>\2-a</suggestion>?</message>
       <example correction="8-a">Je la <marker>8</marker> horo.</example>
     </rule>
+    <rule id="JARCENTO" name="la 20 jarcento → la 20-a jarcento">
+      <pattern>
+        <token>la</token>
+        <marker><token regexp="yes">[0-9IVXⅠⅡⅢⅣⅤⅥⅦⅧⅨⅩⅪⅫ]{1,2}</token></marker>
+        <token>jarcento</token>
+      </pattern>
+      <message>Ĉu vi intencis skribi <suggestion>\2-a</suggestion>?</message>
+      <example correction="19-a">Li naskiĝis en la <marker>19</marker> jarcento.</example>
+    </rule>
     <rule id="JARO" name="en la 2015 jaro → en la 2015-a jaro">
       <pattern>
         <token>la</token>
-        <marker><token regexp="yes">[12]\d\d\d</token></marker>
+        <marker><token regexp="yes">[12]\d\d\d?</token></marker>
         <token>jaro</token>
       </pattern>
       <message>Ĉu vi intencis skribi <suggestion>\2-a</suggestion>?</message>
