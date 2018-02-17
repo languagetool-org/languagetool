@@ -1,6 +1,6 @@
-/* LanguageTool, a natural language style checker 
+/* LanguageTool, a natural language style checker
  * Copyright (C) 2007 Daniel Naber (http://www.danielnaber.de)
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -59,19 +59,51 @@ public class EsperantoTagger implements Tagger {
   private static final Pattern patternParticiple =
     Pattern.compile("((..+)([aio])(n?)t)([aoe])(j?)(n?)$");
   // Groups           11111111111111111  55555  66  77
-  //                   222  33333  44                 
- 
+  //                   222  33333  44
+
   private Set<String> setNonParticiple;
 
   // Pattern 'tabelvortoj'.
   private static final Pattern patternTabelvorto =
     Pattern.compile("^(i|ti|ki|ĉi|neni)(?:(?:([uoae])(j?)(n?))|(am|al|es|el|om))$");
   // Groups            111111111111111        222222  33  44    55555555555555
-  //                                          
+  //
 
   // Pattern of 'tabelvortoj' which are also tagged adverbs.
-  private static final Pattern patternTabelvortoAdverb = 
+  private static final Pattern patternTabelvortoAdverb =
     Pattern.compile("^(?:ti|i|ĉi|neni)(?:am|om|el|e)$");
+
+  // Transform a string such as "jxauxdo" into "ĵaŭdo".
+  //
+  // We only care about lower case, as this is always
+  // invoked on the lemma which has already been transformed
+  // into lower case.
+  private static String xSystemToUnicode(String s) {
+    String result = "";
+    int length = s.length();
+
+    for (int i = 0; i < length; i++){
+      char c1 = s.charAt(i);
+      char c2 = (i + 1 < length) ? s.charAt(i + 1) : ' ';
+
+      if (c2 == 'x') {
+
+        switch (c1) {
+          case 'c': result += 'ĉ'; ++i; break;
+          case 'g': result += 'ĝ'; ++i; break;
+          case 'h': result += 'ĥ'; ++i; break;
+          case 'j': result += 'ĵ'; ++i; break;
+          case 's': result += 'ŝ'; ++i; break;
+          case 'u': result += 'ŭ'; ++i; break;
+
+          default: result += c1; break;
+        }
+      } else {
+        result += c1;
+      }
+    }
+    return result;
+  }
 
   /**
    * Load list of words from UTF-8 file (one word per line).
@@ -145,7 +177,7 @@ public class EsperantoTagger implements Tagger {
       // Verb is not explicitly listed as transitive or intransitive.
       // Try to remove a prefix mal-, ek-, re-, mis- fi- or
       // suffix -ad, -aĉ, -et, -eg since those never alter
-      // transitivity.  Then look up verb again in case we find 
+      // transitivity.  Then look up verb again in case we find
       // a verb with a known transitivity.  For example, given a verb
       // "malŝategi", we will probe "malŝategi", "ŝategi" "ŝati"
       // and then finally find out that "ŝati" is transitive.
@@ -172,7 +204,7 @@ public class EsperantoTagger implements Tagger {
     lazyInit();
     Matcher matcher;
 
-    List<AnalyzedTokenReadings> tokenReadings = 
+    List<AnalyzedTokenReadings> tokenReadings =
       new ArrayList<>();
     for (String word : sentenceTokens) {
       List<AnalyzedToken> l = new ArrayList<>();
@@ -180,7 +212,9 @@ public class EsperantoTagger implements Tagger {
       // No Esperanto word is made of one letter only. This check avoids
       // spurious tagging as single letter words "A", "O", "E", etc.
       if (word.length() > 1) {
-        String lWord = word.toLowerCase();
+        // Lemma contains words in lower case, and with Unicode transcription (as opposed
+        // to x-system).
+        String lWord = xSystemToUnicode(word.toLowerCase());
         List<TaggedWord> manualTags = manualTagger.tag(lWord);
 
         if (manualTags.size() > 0) {
@@ -189,7 +223,7 @@ public class EsperantoTagger implements Tagger {
             l.add(new AnalyzedToken(word, manualTag.getPosTag(), manualTag.getLemma()));
           }
         } else {
-          // This is an open word, we need to look at the word ending 
+          // This is an open word, we need to look at the word ending
           // to determine its lemma and POS tag.  For verb, we also
           // need to look up the dictionary of known transitive and
           // intransitive verbs.
@@ -217,7 +251,7 @@ public class EsperantoTagger implements Tagger {
             }
             type = ((type2Group == null) ? type3Group : type2Group).toLowerCase();
 
-            l.add(new AnalyzedToken(word, "T " + 
+            l.add(new AnalyzedToken(word, "T " +
               accusative + plural + type1Group + " " + type, null));
 
             if ((matcher = patternTabelvortoAdverb.matcher(lWord)).find()) {

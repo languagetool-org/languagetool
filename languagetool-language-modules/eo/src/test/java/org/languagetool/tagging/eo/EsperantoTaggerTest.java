@@ -1,6 +1,6 @@
-/* LanguageTool, a natural language style checker 
+/* LanguageTool, a natural language style checker
  * Copyright (C) 2006 Daniel Naber (http://www.danielnaber.de)
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -26,7 +26,7 @@ import org.languagetool.tokenizers.WordTokenizer;
 import java.io.IOException;
 
 public class EsperantoTaggerTest {
-  
+
   private EsperantoTagger tagger;
   private WordTokenizer tokenizer;
 
@@ -44,5 +44,18 @@ public class EsperantoTaggerTest {
         "Mi/[mi]R nak np -- malsategas/[malsategi]V nt as", tokenizer, tagger);
     TestTools.myAssert("Li malŝategas sin",
         "Li/[li]R nak np -- malŝategas/[malŝategi]V tr as -- sin/[si]R akz np", tokenizer, tagger);
+
+    // An Esperanto Pangram (i.e. include all letters of Esperanto alphabet,
+    // to check that lemma gets transformed from x-systemo into Unicode.
+    TestTools.myAssert("Sxajnas ke sagaca monahxo lauxtvocxe rifuzadis pregxi sur herbajxo",
+        "Sxajnas/[ŝajni]V nt as -- " +
+        "ke/[ke]_ -- " +
+        "sagaca/[sagaca]A nak np -- " +
+        "monahxo/[monaĥo]O nak np -- " +
+        "lauxtvocxe/[laŭtvoĉe]E nak -- " +
+        "rifuzadis/[rifuzadi]V tr is -- " +
+        "pregxi/[preĝi]V nt i -- " +
+        "sur/[sur]P kak -- " +
+        "herbajxo/[herbaĵo]O nak np", tokenizer, tagger);
   }
 }
