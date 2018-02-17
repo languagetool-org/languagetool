@@ -1778,6 +1778,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <token regexp="yes">([gr]i|geli|liŝi|ŝili|ŝli)(?:n|aj?n?)?</token>
       </pattern>
       <message>«\1» estas neoficiala pronomo. Preferu skribi <suggestion><match no="1" regexp_match=".*i(.*)" regexp_replace="ĝi$1"/></suggestion>, <suggestion><match no="1" regexp_match=".*i(.*)" regexp_replace="li$1"/></suggestion> aŭ <suggestion><match no="1" regexp_match=".*i(.*)" regexp_replace="ŝi$1"/></suggestion>.</message>
+      <url>https://eo.wikipedia.org/wiki/Riismo</url>
       <example correction="Ĝi|Li|Ŝi"><marker>Ri</marker> estas bela.</example>
       <example correction="ĝin|lin|ŝin">Mi amas <marker>ŝlin</marker>.</example>
       <example correction="ĝia|lia|ŝia">Mi estas <marker>gia</marker> edzino.</example>
@@ -1871,6 +1872,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <message>«\1» estas neoficiala kaj malmulte konata vorto por la vorto <suggestion>sep</suggestion>.</message>
       <url>http://bertilow.com/pmeg/gramatiko/neoficialaj_vortetoj.html#i-356</url>
       <example correction="sep">Ŝi havis <marker>sepen</marker> infanojn.</example>
+    </rule>
+    <rule id="NEOF_SUF_ICX" name="katiĉo → virkato (ktp.)">
+      <pattern>
+        <!-- The exception to the rule takes into account the few regular words that
+             end in -iĉo without being the sufix -iĉ-. I hope I did not forget any. -->
+        <token regexp="yes" inflected="yes">.*iĉo<exception inflected="yes" regexp="yes">.*(?:[knpr]|ded|fel|fet|kond|post|sandv|suf|superst)iĉo</exception></token>
+      </pattern>
+      <message>«-iĉ» estas neoficiala sufikso. Konsideru uzo de la prefikson kun «vir-» se taŭgas,</message>
+      <url>http://bertilow.com/pmeg/vortfarado/neoficialaj_afiksoj/sufiksoj/ich.html</url>
+      <example correction="">Mi havas du <marker>fratiĉojn</marker>.</example>
+      <example correction="">Mi havas du <marker>fraticxojn</marker>.</example>
+      <example>Li rakontis la kondiĉojn de sia malfeliĉon dum mi manĝis sandviĉojn.</example>
     </rule>
     <rule id="NEOF_SUF_OZ" name="ventoza → venta (ktp.)">
       <pattern>
