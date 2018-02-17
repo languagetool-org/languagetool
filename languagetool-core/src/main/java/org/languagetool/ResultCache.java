@@ -89,4 +89,14 @@ public class ResultCache {
   public void put(SimpleInputSentence key, AnalyzedSentence aSentence) {
     sentenceCache.put(key, aSentence);
   }
+
+  /** @since 4.1 */
+  protected Cache<InputSentence, List<RuleMatch>> getMatchesCache() {
+    return matchesCache;
+  }
+
+  /** @since 4.1 */
+  protected Cache<SimpleInputSentence, AnalyzedSentence> getSentenceCache() {
+    return sentenceCache;
+  }
 }
