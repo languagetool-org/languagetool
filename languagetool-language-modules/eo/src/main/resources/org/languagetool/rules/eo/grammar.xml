@@ -4149,6 +4149,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
 
+    <rule id="MAJ_FESTOJ" name="Nomoj de festoj estas skribitaj majuskle">
+      <pattern case_sensitive="yes">
+        <token regexp="yes">advento|epifanio|kristnasko|pentekosto|pasko</token>
+      </pattern>
+      <message>Nomoj de festoj (Kristnasko, Pasko, Pentekosto, k.a.) estas plej ofte traktataj kiel normalaj propraj nomoj.</message>
+      <suggestion><match no="1" case_conversion="startupper"/></suggestion>
+      <url>http://bertilow.com/pmeg/gramatiko/propraj_nomoj/majuskloj.html#i-4mk</url>
+      <example correction="Kristnasko">vi ricevis donacon por <marker>kristnasko</marker>?</example>
+    </rule>
+
+    <rule id="MIN_SEMAJNTAGOJ" name="Semajntagoj estas skribitaj minuskle">
+      <pattern case_sensitive="yes">
+        <token postag="SENT_START" negate_pos="yes"/>
+        <marker><token regexp="yes">(?:Lundo|Mardo|Merkredo|Ĵaŭdo|Vendredo|Sabato|Dimanĉo)n?</token></marker>
+      </pattern>
+      <message>La nomoj de la semajntagoj (lundo, mardo, merkredo k.t.p.) ne estas propraj nomoj, kaj estas tial skribataj minuskle.</message>
+      <suggestion><match no="2" case_conversion="startlower"/></suggestion>
+      <url>http://bertilow.com/pmeg/gramatiko/propraj_nomoj/majuskloj.html#i-smr</url>
+      <example correction="lundo">Hodiaŭ estas <marker>Lundo</marker>.</example>
+      <example correction="lundon">Mi alvenos <marker>Lundon</marker>.</example>
+      <example>Lundon ni nin vidos.</example>
+    </rule>
+
     <rulegroup id="APOS" name="apostrofo">
       <rule>
         <pattern>
