@@ -45,8 +45,8 @@ public class EsperantoTaggerTest {
     TestTools.myAssert("Li malŝategas sin",
         "Li/[li]R nak np -- malŝategas/[malŝategi]V tr as -- sin/[si]R akz np", tokenizer, tagger);
 
-    // An Esperanto Pangram (i.e. include all letters of Esperanto alphabet,
-    // to check that lemma gets transformed from x-systemo into Unicode.
+    // An Esperanto Pangram i.e. it includes all letters of the Esperanto
+    // alphabet to check that lemma gets transformed from x-system into Unicode.
     TestTools.myAssert("Sxajnas ke sagaca monahxo lauxtvocxe rifuzadis pregxi sur herbajxo",
         "Sxajnas/[ŝajni]V nt as -- " +
         "ke/[ke]_ -- " +
