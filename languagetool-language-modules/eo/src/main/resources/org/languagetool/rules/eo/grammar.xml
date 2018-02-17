@@ -62,7 +62,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </rulegroup>
     <rule id="SERCXI" name="serĉi (ŝerci)">
       <pattern>
-        <token inflected="yes">serĉi<exception scope="previous" regexp="yes">tie|ĉie</exception></token>
+        <token inflected="yes">serĉi<exception scope="previous" regexp="yes">tie|ĉie|chie</exception></token>
         <token>pri</token>
       </pattern>
       <message>Ĉu vi intencis <suggestion><match no="1" regexp_match=".*([aoiu]s?)" regexp_replace="ŝerc$1"/></suggestion> anstataŭ «\1»?</message>
@@ -1950,7 +1950,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <rule id="HORO" name="je la 8 jaro → je la 8-a jaro">
       <pattern>
         <token>la</token>
-        <marker><token regexp="yes">[1-9]|1\d|2[0-3]|unu|du|tri|kvar|kvin|ses|sep|ok|naŭ|naux|dek|dekunu|dekdu</token></marker>
+        <marker><token regexp="yes">[1-9]|1\d|2[0-3]|unu|du|tri|kvar|kvin|ses|sep|ok|naŭ|naux?|dek|dekunu|dekdu</token></marker>
         <token>horo</token>
       </pattern>
       <message>Ĉu vi intencis skribi <suggestion>\2-a</suggestion>?</message>
@@ -2127,6 +2127,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <url>http://bertilow.com/pmeg/gramatiko/oa-vortecaj_vortetoj/ambau.html</url>
       <example correction="">Ambaŭ <marker>teamo</marker> perdis.</example>
       <example correction="">Ambaux <marker>teamo</marker> perdis.</example>
+      <example correction="">Ambau <marker>teamo</marker> perdis.</example>
       <example>Mi amas ambaŭ patron kaj patrinon.</example>
     </rule>
     <rulegroup id="AMBAUX_LA" name="ambaŭ + la">
@@ -2608,7 +2609,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
               <exception regexp="yes">aĝa|longa|larga|alta|distanca</exception>
             </token>
           </marker>
-          <token negate="yes" regexp="yes">kaj|aŭ|aux|.*on?</token>
+          <token negate="yes" regexp="yes">kaj|aŭ|aux?|.*on?</token>
         </pattern>
         <message>Ne kongrua pluralo inter «\1» kaj «\2».</message>
         <example correction="">Mi ŝatas <marker>hundojn grandan</marker>.</example>
@@ -2671,7 +2672,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </rulegroup>
     <rule id="UNU_EL" name="unu el mia amiko → unu el miaj amikoj">
       <pattern>
-        <token regexp="yes">unu|(?:du|tri|kvar|kvin|ses|sep|ok|naŭ|naux)(?:dek|cent)?|dek|mil|(?:(?:mal)?mult|kelk)(e[tg])?aj|iujn?|mil|milionoj?n?|miliardoj?n?</token>
+        <token regexp="yes">unu|(?:du|tri|kvar|kvin|ses|sep|ok|naŭ|naux?)(?:dek|cent)?|dek|mil|(?:(?:mal)?mult|kelk)(e[tg])?aj|iujn?|mil|milionoj?n?|miliardoj?n?</token>
         <token>el</token>
         <marker><token regexp="yes">[mcvlŝ]ia|ilia|tiu</token></marker>
         <token><exception regexp="yes">(?:.*aro|.*opo|speco|nombro|listo|familio)?</exception></token>
@@ -2953,6 +2954,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <message>Prepozicio «\1» devas stari antaŭ tio, al kio ĝi rilatas.</message>
         <example correction="">Mi scipovas Esperanton <marker>ankaŭ</marker>.</example>
         <example correction="">Mi scipovas Esperanton <marker>ankaux</marker>.</example>
+        <example correction="">Mi scipovas Esperanton <marker>ankau</marker>.</example>
         <example>Mi scipovas ankaŭ Esperanton.</example>
       </rule>
     </rulegroup>
@@ -3095,7 +3097,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <pattern>
         <marker>
           <token>la</token>
-          <token regexp="yes">(?:baron|doktor|duk|emir|fraŭl|frauxl|graf|princ|profesor|reĝ|regx|samidean|sinjor)(?:in)?o</token>
+          <token regexp="yes">(?:baron|doktor|duk|emir|fraŭl|fraux?l|graf|princ|profesor|reĝ|reg[hx]|samidean|sinjor)(?:in)?o</token>
         </marker>
         <token regexp="yes">(?-i)[A-ZĈĜĴĤŜ].*</token>
       </pattern>
@@ -3396,7 +3398,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </rulegroup>
     <rule id="DU_DEK" name="du dek → dudek, ktp">
       <pattern>
-        <token regexp="yes">unu|du|tri|kvar|kvin|ses|sep|ok|naŭ|naux</token>
+        <token regexp="yes">unu|du|tri|kvar|kvin|ses|sep|ok|naŭ|naux?</token>
         <token regexp="yes">dek|cent</token>
       </pattern>
       <message>«\1 \2» ne eblas, ĉu vi intencis <suggestion>\1\2</suggestion>.</message>
@@ -3407,21 +3409,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <url>http://bertilow.com/pmeg/gramatiko/nombroj/vortetoj/formoj.html#i-k81</url>
       <rule>
         <pattern>
-          <token regexp="yes">(unu|du|tri|kvar|kvin|ses|sep|ok|naŭ|naux|cent|mil)*(?:dek|cent|mil)(?:unu|du|tri|kvar|kvin|ses|sep|ok|naŭ|naux)</token>
+          <token regexp="yes">(unu|du|tri|kvar|kvin|ses|sep|ok|naŭ|naux?|cent|mil)*(?:dek|cent|mil)(?:unu|du|tri|kvar|kvin|ses|sep|ok|naŭ|naux?)</token>
         </pattern>
         <message>«\1» ne eblas, ĉu vi intencis <suggestion><match no="1" regexp_match="(unu|du|tri|kvar|kvin|ses|sep|ok|naŭ)$" regexp_replace=" $1"/></suggestion>?</message>
         <example correction="dudek ok">Mi baldaŭ havos <marker>dudekok</marker> jarojn.</example>
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">(unu|du|tri|kvar|kvin|ses|sep|ok|naŭ|naux|cent|mil)*(?:cent|mil)(?:du|tri|kvar|kvin|ses|sep|ok|naŭ|naux)?dek</token>
+          <token regexp="yes">(unu|du|tri|kvar|kvin|ses|sep|ok|naŭ|naux?|cent|mil)*(?:cent|mil)(?:du|tri|kvar|kvin|ses|sep|ok|naŭ|naux?)?dek</token>
         </pattern>
         <message>«\1» ne eblas, ĉu vi intencis <suggestion><match no="1" regexp_match="((du|tri|kvar|kvin|ses|sep|ok|naŭ)dek)$" regexp_replace=" $1"/></suggestion>?</message>
         <example correction="cent dudek">Tio daŭros <marker>centdudek</marker> jaroj.</example>
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">(unu|du|tri|kvar|kvin|ses|sep|ok|naŭ|naux|dek|cent|mil)*mil(?:unu|du|tri|kvar|kvin|ses|sep|ok|naŭ|naux|cent)*<exception>mil</exception></token>
+          <token regexp="yes">(unu|du|tri|kvar|kvin|ses|sep|ok|naŭ|naux?|dek|cent|mil)*mil(?:unu|du|tri|kvar|kvin|ses|sep|ok|naŭ|naux?|cent)*<exception>mil</exception></token>
         </pattern>
         <message>Oni ne kunligas la vorton «mil».</message>
         <example correction="">Li naskiĝis en la jaro <marker>dumil</marker>.</example>
@@ -3562,7 +3564,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <rulegroup id="ESTONTECO" name="estonteco">
       <rule>
         <pattern>
-          <token regexp="yes" skip="1">morgaŭ|morgaux|venont.*</token>
+          <token regexp="yes" skip="1">morgaŭ|morgaux?|venont.*</token>
           <marker>
             <token postag="V .*[ai]s" postag_regexp="yes">
               <exception regexp="yes">(?:antaŭĝoj|plan|intenc|esper|dezir|vol)(?:e[gt])?as</exception>
@@ -3580,7 +3582,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
               <exception regexp="yes">(?:antaŭĝoj|plan|intenc|esper|dezir|vol)(?:e[gt])?as</exception>
             </token>
           </marker>
-          <token regexp="yes">morgaŭ|morgaux|venont.*</token>
+          <token regexp="yes">morgaŭ|morgaux?|venont.*</token>
         </pattern>
         <message>Ĉu vi intencis <suggestion><match no="1" regexp_match="[ai]s$" regexp_replace="os"/></suggestion>?</message>
         <example correction="foriros">Mi <marker>foriras</marker> morgaŭ.</example>
@@ -3928,7 +3930,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </rulegroup>
     <rule id="P_P" name="prepozicio + prepozicio">
       <pattern>
-        <token regexp="yes">al|je|(?:mal)?gra(?:ŭ|ux)</token>
+        <token regexp="yes" inflected="yes">al|je|(?:mal)?graŭ</token>
         <token postag="P .*" postag_regexp="yes">
           <exception inflected="yes">ĉirkaŭ</exception>
         </token>
@@ -4022,7 +4024,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </rulegroup>
     <rule id="X_SISTEMO" name="x-sistemo → Unikodo">
       <pattern>
-        <token regexp="yes">[\-a-zĉĝĥĵŝŭ&amp;&amp;[^qy]]*(?:[cghjs]x|u[xw])[\-a-zĉĝĥĵŝŭ&amp;&amp;[^qy]]*(?:[ui]|[aiou]s|[oa]j?n?|en?|aŭ|au[xw])|[sg]xin|cxar|ec[xw]|nau[xw]dek|nau[xw]cent|(?:adi|almen|amb|(?:anta(?:ŭ|u[xw]))?hier|apen|anstat|ank|ankor|ant|bald|ĉirk|hodi|kaj|malant|morg|pl|postmorg|kontr|kvaz|malgr|mi|gr|[ln])?au[xw]</token>
+        <token regexp="yes">[\-a-zĉĝĥĵŝŭ&amp;&amp;[^qy]]*(?:[cghjs]x|u[xw])[\-a-zĉĝĥĵŝŭ&amp;&amp;[^qy]]*(?:[ui]|[aiou]s|[oa]j?n?|en?|aŭ|au[xw])|[sg]xin|cxar|ec[xwh]|nau[xw]dek|nau[xw]?cent|(?:adi|almen|amb|(?:anta(?:ŭ|u[xw]?))?hier|apen|anstat|ank|ankor|ant|bald|ĉirk|hodi|kaj|malant|morg|pl|postmorg|kontr|kvaz|malgr|mi|gr|[ln])?au[xw]</token>
       </pattern>
       <message>La vorto «\1» ŝajnas skribita per la x-sistemo. Preferu uzi Unikodon. La kontrolilo pli bone funkcios kun Unikoda teksto.</message>
       <url>https://eo.wikipedia.org/wiki/X-sistemo</url>
@@ -4171,14 +4173,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <rule id="MIN_SEMAJNTAGOJ" name="Semajntagoj estas skribitaj minuskle">
       <pattern case_sensitive="yes">
         <token postag="SENT_START" negate_pos="yes"/>
-        <marker><token regexp="yes">(?:Lundo|Mardo|Merkredo|Ĵaŭdo|J[xX]auxdo|Vendredo|Sabato|Dimanĉo|Dimancxo)n?</token></marker>
+        <marker><token regexp="yes">(?:Lundo|Mardo|Merkredo|Ĵaŭdo|J[xXh]aux?do|Vendredo|Sabato|Dimanĉo|Dimanc[hx]?o)n?</token></marker>
       </pattern>
       <message>La nomoj de la semajntagoj (lundo, mardo, merkredo k.t.p.) ne estas propraj nomoj, kaj estas tial skribataj minuskle.</message>
       <suggestion><match no="2" case_conversion="startlower"/></suggestion>
       <url>http://bertilow.com/pmeg/gramatiko/propraj_nomoj/majuskloj.html#i-smr</url>
-      <example correction="lundo">Hodiaŭ estas <marker>Lundo</marker>.</example>
-      <example correction="lundon">Mi alvenos <marker>Lundon</marker>.</example>
-      <example>Lundon ni nin vidos.</example>
+      <example correction="dimanĉo">Hodiaŭ estas <marker>Dimanĉo</marker>.</example>
+      <example correction="dimancxo">Hodiaŭ estas <marker>Dimancxo</marker>.</example>
+      <example correction="dimancho">Hodiaŭ estas <marker>Dimancho</marker>.</example>
+      <example correction="dimanĉon">Mi alvenos <marker>Dimanĉon</marker>.</example>
+      <example>Dimanĉon ni nin vidos.</example>
     </rule>
 
     <rulegroup id="APOS" name="apostrofo">
@@ -4460,11 +4464,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <rulegroup id="DATO_TAGO" name="kongruo de dato kaj tago">
       <rule>
         <pattern>
-          <token regexp="yes">lundon?|lun|mardon?|mar|merkredon?|mer|ĵaŭdon?|jxauxdon?|ĵaŭ|vendredon?|ven|sabaton?|sab|dimanĉon?|dimancxon?|dim</token>
+          <token regexp="yes">lundon?|lun|mardon?|mar|merkredon?|mer|ĵaŭdon?|j[hx]?aux?don?|ĵaŭ|vendredon?|ven|sabaton?|sab|dimanĉon?|dimanc[hx]?on?|dim</token>
           <token>la</token>
           <token regexp="yes">([012]?\d|3[01]|dek|dudek|tridek(-unu)?|(dek-?|dudek-?)?(unu|du|tri|kvar|kvin|ses|sep|ok|naŭ|naux))-?an</token>
           <token>de</token>
-          <token regexp="yes">januaro|jan|februaro|feb|marto|mar|aprilo|apr|majo|maj|junio|jun|julio|jul|aŭgusto|auxgusto|aŭg|septembro|sep|oktobro|okt|novembro|nov|decembro|dec</token>
+          <token regexp="yes">januaro|jan|februaro|feb|marto|mar|aprilo|apr|majo|maj|junio|jun|julio|jul|aŭgusto|aux?gusto|aŭg|septembro|sep|oktobro|okt|novembro|nov|decembro|dec</token>
           <token regexp="yes">[12]\d\d\d</token>
         </pattern>
         <filter class="org.languagetool.rules.eo.DateCheckFilter" args="year:\6 month:\5 day:\3 weekDay:\1"/>
