@@ -35,8 +35,8 @@ public class WordCoherencyRule extends AbstractWordCoherencyRule {
 
   public WordCoherencyRule(ResourceBundle messages) throws IOException {
     super(messages);
-    //addExamplePair(Example.wrong("Die Delfine gehören zu den Zahnwalen. <marker>Delphine</marker> sind in allen Meeren verbreitet."),
-    //               Example.fixed("Die Delfine gehören zu den Zahnwalen. <marker>Delfine</marker> sind in allen Meeren verbreitet."));
+    addExamplePair(Example.wrong("We raden af om in één tekst zowel <marker>hivtest</marker> als <marker>hiv-test</marker> te schrijven."),
+                   Example.fixed("We raden af om in één tekst zowel <marker>hivtest</marker> als <marker>hivtest</marker> te schrijven."));
   }
 
   @Override
