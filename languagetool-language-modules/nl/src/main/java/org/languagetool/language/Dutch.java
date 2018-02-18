@@ -26,10 +26,7 @@ import java.util.ResourceBundle;
 import org.languagetool.Language;
 import org.languagetool.LanguageMaintainedState;
 import org.languagetool.rules.*;
-import org.languagetool.rules.nl.CompoundRule;
-import org.languagetool.rules.nl.DutchWrongWordInContextRule;
-import org.languagetool.rules.nl.MorfologikDutchSpellerRule;
-import org.languagetool.rules.nl.SimpleReplaceRule;
+import org.languagetool.rules.nl.*;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.nl.DutchSynthesizer;
 import org.languagetool.tagging.Tagger;
@@ -130,6 +127,7 @@ public class Dutch extends Language {
             new MultipleWhitespaceRule(messages, this),
             new CompoundRule(messages),
             new DutchWrongWordInContextRule(messages),
+            new WordCoherencyRule(messages),
             new SimpleReplaceRule(messages)
     );
   }
