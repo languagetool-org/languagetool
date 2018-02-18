@@ -33435,6 +33435,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category id="INCORRECT_WORDS_IN_CONTEXT" name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
             (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rule id="BAMBA_VAMBA" name="bamba/vamba">
+            <antipattern>
+                <marker>
+                    <token inflected="yes">coca</token>
+                    <token inflected="yes">bamba</token>
+                </marker>
+            </antipattern>
+            <pattern>
+                <token inflected="yes">bamba</token>
+            </pattern>
+            <message>En el sentit de sabatilla d'esport cal escriure <suggestion><match no="1" postag="(NC.*)" postag_regexp="yes" postag_replace="$1">vamba</match></suggestion>.</message>
+            <example correction="vambes">No he portat les <marker>bambes</marker>.</example>
+            <example>coca bamba i pastissets</example>
+        </rule>
         <rule id="ESTANDARD" name="estandard/estàndard">
             <pattern>
                 <token regexp="yes">estandards?</token>
