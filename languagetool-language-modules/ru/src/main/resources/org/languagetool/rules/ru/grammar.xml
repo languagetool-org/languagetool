@@ -2890,11 +2890,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
              <antipattern>
                     <token postag_regexp="yes" postag="NN:.*"></token> 
-                    <token regexp="yes" skip="-1">,|;</token>   
+                    <token regexp="yes" skip="-1">,|;|и</token>   
                     <token postag_regexp="yes" postag="NN:.*:.*:.*:Nom"></token>
                     <token inflected="yes">который</token>
                     <token postag="VB:.*|PT:.*" postag_regexp="yes"></token> 
-               </antipattern> 
+               </antipattern>
+                <antipattern>
+                    <token postag_regexp="yes" postag="NN:.*" skip="1"></token>   
+                    <token postag_regexp="yes" postag="NN:.*"></token>
+                    <token inflected="yes">который</token>
+                    <token postag="VB:.*|PT:.*" postag_regexp="yes"></token> 
+               </antipattern>  
                <pattern case_sensitive="yes">
                    <token><exception postag="PREP|ADJ:.*" postag_regexp="yes"></exception><exception regexp="yes">соответствии|большинство|меньшинство|часть|доля</exception></token>
                     <marker>
@@ -2915,6 +2921,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Ребёнок, родители которого играли в футбол, будет футболистом.</example>
                 <example>Они совершили экскурсию в королевскую резиденцию — Букингемский дворец, часть помещений которого открыта для посетителей обычно один месяц в году.</example>
                 <example>Который час?</example>
+                <example>На территории распространения которого расположен город.</example>
                 <example>Бухта Золотой Рог, на обоих берегах которой располагается Владивосток, является удобным местом.</example>
                 <example correction="ребята, которые">Это те же <marker>ребята которые</marker> играли в хоккей.</example>
             </rule>
