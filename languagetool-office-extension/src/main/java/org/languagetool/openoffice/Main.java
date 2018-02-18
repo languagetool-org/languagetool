@@ -78,7 +78,7 @@ import com.sun.star.uno.XComponentContext;
  */
 public class Main extends WeakBase implements XJobExecutor,
     XServiceDisplayName, XServiceInfo, XProofreader,
-    XLinguServiceEventBroadcaster {
+    XLinguServiceEventBroadcaster, XEventListener {
 
   // Service name required by the OOo API && our own name.
   private static final String[] SERVICE_NAMES = {
@@ -109,7 +109,6 @@ public class Main extends WeakBase implements XJobExecutor,
    * == 0 check only one paragraph (works like LT Version <= 3.9)
    * > 0 checks numParasToCheck before and after the processed paragraph
    */
-  private static final int MAX_DOC = 5;  // Maximal number of parallel document analyzed
   private static final String END_OF_PARAGRAPH = "\n";  //  Paragraph Separator from gciterator.cxx: 0x2029
   private static final boolean debugMode = false;   //  should be false except for testing
   private static final String logLineBreak = System.getProperty("line.separator");  //  LineBreak in Log-File (MS-Windows compatible)
@@ -136,6 +135,7 @@ public class Main extends WeakBase implements XJobExecutor,
   private List<RuleMatch> paragraphMatchesFirst;  //  List of paragraph matches (main thread)
   private List<RuleMatch> paragraphMatchesSecond; //  List of paragraph matches (parallel thread)
   private List<String> docIDs = null;             //  List of all docIDs of open documents
+  private List<XComponent> xComponents = null;    //  List of all XComponents of open documents
   private List<LOCursor> loCursor;                //  Save Cursor for the single documents
   private List<Integer> numLastVCPara;            //  Save position of ViewCursor for the single documents
   private List<Integer> numLastFlPara;            //  Save position of FlatParagraph for the single documents
@@ -1241,11 +1241,12 @@ public class Main extends WeakBase implements XJobExecutor,
     }
   }
   
-  /*
+  /**
    * Get or Create a Number from docID
    */
   private int getNumDocID(String docID) {
     if (docIDs == null) {
+      xComponents = new ArrayList<>();
       docIDs = new ArrayList<>();
       allParas = new ArrayList<>();
       fullTextMatches = new ArrayList<>();
@@ -1258,14 +1259,10 @@ public class Main extends WeakBase implements XJobExecutor,
         return i;                           //  document exist
       }
     }
-    if (docIDs.size() >= MAX_DOC) {
-      docIDs.remove(0);
-      allParas.remove(0);
-      fullTextMatches.remove(0);
-      loCursor.remove(0);
-      numLastVCPara.remove(0);
-      numLastFlPara.remove(0);
-    }
+    //  Add new document
+    XComponent xComponent = getXComponent();
+    xComponent.addEventListener(this);
+    xComponents.add(xComponent);
     docIDs.add(docID);
     allParas.add(null);
     fullTextMatches.add(null);
@@ -1275,6 +1272,41 @@ public class Main extends WeakBase implements XJobExecutor,
     return docIDs.size() - 1;
   }
 
+  /**
+   * Delete a document number and all internal space
+   */
+  private int removeNumDocID(XComponent xComponent) {
+    int i;
+    for (i = 0; i < xComponents.size() && !xComponents.get(i).equals(xComponent); i++);
+    if (i == xComponents.size()) {
+      return -1;
+    } else {
+      xComponents.remove(i);
+      docIDs.remove(i);
+      allParas.remove(i);
+      fullTextMatches.remove(i);
+      loCursor.remove(i);
+      numLastVCPara.remove(i);
+      numLastFlPara.remove(i);
+      return i;
+    }
+  }
+
+  /**
+   * remove internal stored text if document disposes
+   */
+  @Override
+  public void disposing(EventObject source) {
+    XComponent xComponent = UnoRuntime.queryInterface(XComponent.class, source.Source);
+    int docNum = removeNumDocID(xComponent);
+    if(docNum < 0) {
+      printToLogFile("Error: Disposed document not found");
+    } else if (debugMode) {
+      printToLogFile("Document " + docNum + " deleted");
+    }
+    xComponent.removeEventListener(this);
+  }
+    
   /**
    * Initialize log-file
    */
