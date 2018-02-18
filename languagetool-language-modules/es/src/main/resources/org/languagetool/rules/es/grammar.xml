@@ -52,6 +52,52 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <token postag="(P.|V.{3})[30].*" postag_regexp="yes"/>
         </equivalence>
     </unification>
+    <category id="CASING" name="Mayúsculas y minúsculas" type="typographical">
+        <rule id="MIN_MESES" name="Meses en minúscula">
+            <pattern case_sensitive="yes">
+                <token negate_pos="yes" postag="SENT_START"/>
+                <marker>
+                    <token regexp="yes">Enero|Febrero|Marzo|Abril|Mayo|Junio|Julio|Agosto|Septiembre|Octubre|Noviembre|Diciembre</token>
+                </marker>
+            </pattern>
+            <message>Los meses del año se escriben en minúsculas: <suggestion><match case_conversion="alllower" no="2"/></suggestion>.</message>
+            <url>http://www.rae.es/consultas/mayuscula-o-minuscula-en-los-meses-los-dias-de-la-semana-y-las-estaciones-del-ano</url>
+            <example correction="julio" type="incorrect">En <marker>Julio</marker> hace mucho calor.</example>
+            <example type="correct">El pasado <marker>diciembre</marker> estuve en Andorra.</example>
+        </rule>
+        <rule id="MIN_DIAS_SEMANA" name="Días de las semana en minúscula">
+            <antipattern>
+                <token regexp="yes">Lunes|Martes|Miércoles|Jueves|Viernes|Sábado|Domingo</token>
+                <token regexp="yes">de(l)*</token>
+                <token regexp="yes">[A-ZÁÉÍÓÚÑ].+</token>
+            </antipattern>
+            <pattern case_sensitive="yes">
+                <token negate_pos="yes" postag="SENT_START"/>
+                <marker>
+                    <token regexp="yes">Lunes|Martes|Miércoles|Jueves|Viernes|Sábado|Domingo</token>
+                </marker>
+                <token negate="yes">Santo</token>
+            </pattern>
+            <message>Los días de la semana se escriben en minúsculas: <suggestion><match case_conversion="alllower" no="2"/></suggestion>.</message>
+            <url>http://www.rae.es/consultas/mayuscula-o-minuscula-en-los-meses-los-dias-de-la-semana-y-las-estaciones-del-ano</url>
+            <example correction="lunes" type="incorrect">Todos los <marker>Lunes</marker> son tristes.</example>
+            <example type="correct">Los <marker>martes</marker> juego un partido de tenis.</example>
+            <example type="correct">Este <marker>Viernes</marker> de Dolores estaremos fuera.</example>
+            <example type="correct">El <marker>Jueves</marker> Santo habrá procesión.</example>
+        </rule>
+        <rule id="MIN_ESTACIONES" name="Estaciones del año en minúscula">
+            <pattern case_sensitive="yes">
+                <token negate_pos="yes" postag="SENT_START"/>
+                <marker>
+                    <token regexp="yes">Primavera|Verano|Otoño|Invierno</token>
+                </marker>
+            </pattern>
+            <message>Las estaciones del año se escriben en minúsculas: <suggestion><match case_conversion="alllower" no="2"/></suggestion>.</message>
+            <url>http://www.rae.es/consultas/mayuscula-o-minuscula-en-los-meses-los-dias-de-la-semana-y-las-estaciones-del-ano</url>
+            <example correction="verano" type="incorrect">Este <marker>Verano</marker> me voy de vacaciones.</example>
+            <example type="correct">Ha sido el <marker>invierno</marker> más frío que recuerdo.</example>
+        </rule>
+    </category>
     <category id="TYPOS" name="Ortografía (tipográficos)" type="misspelling">
         <rule id="USO_HUSO" name="uso/huso horario">
             <pattern>
