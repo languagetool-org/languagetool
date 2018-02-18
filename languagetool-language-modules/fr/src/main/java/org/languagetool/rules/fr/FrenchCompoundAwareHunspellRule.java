@@ -30,7 +30,7 @@ import java.io.*;
 import java.util.*;
 
 /**
- * A French spell checke that uses hunspell for checking but Morfologik for suggestions (for performance reasons).
+ * A French spell checker that uses hunspell for checking but Morfologik for suggestions (for performance reasons).
  * @since 4.0
  */
 public class FrenchCompoundAwareHunspellRule extends CompoundAwareHunspellRule {
