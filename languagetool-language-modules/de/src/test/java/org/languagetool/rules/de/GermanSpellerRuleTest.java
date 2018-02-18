@@ -96,11 +96,11 @@ public class GermanSpellerRuleTest {
   public void testGetAdditionalTopSuggestions() throws Exception {
     GermanSpellerRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
     JLanguageTool lt = new JLanguageTool(GERMAN_DE);
-    assertThat(rule.match(lt.getAnalyzedSentence("konservierungsstoffe"))[0].getSuggestedReplacements().toString(), is("[Konservierungsstoffe]"));
     assertThat(rule.match(lt.getAnalyzedSentence("konservierungsstoffstatistik"))[0].getSuggestedReplacements().toString(), is("[Konservierungsstoffstatistik]"));
     assertThat(rule.match(lt.getAnalyzedSentence("konservierungsstoffsasdsasda"))[0].getSuggestedReplacements().size(), is(0));
     assertThat(rule.match(lt.getAnalyzedSentence("Ventrolateral")).length, is(0));
     assertThat(rule.match(lt.getAnalyzedSentence("Majonäse."))[0].getSuggestedReplacements().toString(), is("[Mayonnaise.]"));
+    assertFirstSuggestion("konservierungsstoffe", "Konservierungsstoffe", rule, lt);
     assertFirstSuggestion("Ist Ventrolateral", "ventrolateral", rule, lt);
     assertFirstSuggestion("denkte", "dachte", rule, lt);
     assertFirstSuggestion("schwimmte", "schwamm", rule, lt);
