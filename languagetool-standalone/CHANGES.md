@@ -17,6 +17,9 @@
   * added and improved rules
   * Added many <url> to rules
   
+#### French
+  * improved suggestion for spelling mistakes (#912)
+
 #### German
   * added and improved rules
   * New rule that checks coherent use of Du/du, Dich/dich etc. Assumes that the first
