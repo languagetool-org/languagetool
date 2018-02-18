@@ -4242,6 +4242,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example>Dimanĉon ni nin vidos.</example>
     </rule>
 
+    <rule id="MAJ_LANDOJ" name="Landoj estas skribitaj majuskle">
+      <pattern case_sensitive="yes">
+        <!-- See https://eo.wikipedia.org/wiki/Vikipedio:Landonomoj_kun_flageto for a list of countries.
+
+             Be careful not to list country names which are identical to words which are 
+             synonymous to words that are not proper names such as "grenado", "kubo",
+             "malto" (etc) to avoid false positives.
+        -->
+        <token regexp="yes">(afgan|alban|angl|armen|aŭstral|aŭstr|belg|bosn|brit|bulgar|ĉeĥ|ĉin|dan|egipt|eston|etiop|franc|german|grek|hispan|hungar|ital|japan|kartvel|kazaĥ|kirgiz|kroat|latv|litov|moldav|mongol|norveg|portugal|makedon|ruman|rus|serb|slovak|sloven|somal|sved|svis|taĝik|turk|turkmen|ukrain|uzbek|vjetnam|ĉeĥoslovak|jugoslav)(io|ujo)|alĝerio|andoro|angolo|argentino|azerbajĝano|bahamoj|bangladeŝo|barato|barbado|barejno|belarusio|belizo|benino|birmo|bocvano|bolivio|brazilo|brunejo|burkino|burundo|butano|ĉado|mjanmao|ĉilio|danlando|dominiko|domingo|ekvadoro|eritreo|fiĝioj?|filipinoj|finn?lando|gabono|gambio|ganao|ĝibutio|greklando|gujano|gvatemalo|gvineo|haitio|hercegovino|honduro|indonezio|irako|irano|irlando|islando|israelo|jamajko|jemeno|jordanio|kamboĝo|kameruno|kanado|kataro|kenjo|kipro|kiribato|kolombio|komoroj|kostariko|kuracao|kuvajto|laoso|lesoto|libano|liberio|libio|liĥtenŝtejno|suomio|luksemburgi?o|madagaskaro|malajzio|malavio|maldivoj|malio|maroko|maŭricio|meksiki?o|monako|montenegro|mozambiko|namibio|nauro|nederlando|nepalo|niĝeri?o|nikaragvo|omano|pakistano|palaŭo|panamo|paragvajo|peruo|pollando|ruando|salomonoj|salvadoro|samoo|sejŝeloj|senegalo|singapuro|sirio|srilanko|sudano|surinamo|svazilando|svislando|tajlando|tajvano|tanzanio|togolando|togo|tongo|tunizio|tuvalo|ugando|urugvajo|usono|vanuatuo|vatikanurbo|vatikano|venezuelo|zambio|zimbabvo|alando|angvilo|arubo|bermudo?|buvetinsulo|ferooj|ĝibraltaro|groe?nlando|gvernsejo|gvadelupo|gvamo|honkongo|ĵersejo|kokosinsuloj|kristnaskinsulo|kukinsuloj|majoto|makao|mankso|manksinsulo|martiniko|mordvio|moncerato|niuo|norfolkinsulo|reunio|tokelao|trinidado|tobago|palestino|bohemio|rodezio|serbio|sovetunio|sovetio|antarkti?o</token>
+      </pattern>
+      <message>Landonomojn oni ĉiam skribas kun komenca majusklo, ĉar ili estas veraj propraj nomoj.</message>
+      <suggestion><match no="1" case_conversion="startupper"/></suggestion>
+      <url>http://bertilow.com/pmeg/gramatiko/propraj_nomoj/majuskloj.html#i-j9t</url>
+      <example correction="Nederlando">Mi loĝas en <marker>nederlando</marker>.</example>
+      <example>En Nederlando estas nederlandanoj.</example>
+    </rule>
+
     <rulegroup id="APOS" name="apostrofo">
       <rule>
         <pattern>
