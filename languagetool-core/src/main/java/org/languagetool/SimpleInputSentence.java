@@ -35,6 +35,11 @@ class SimpleInputSentence {
     this.lang = Objects.requireNonNull(lang);
   }
 
+  /** @since 4.1 */
+  public String getText() {
+    return text;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (o == null) return false;
