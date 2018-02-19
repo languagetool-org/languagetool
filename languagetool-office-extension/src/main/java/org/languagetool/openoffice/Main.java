@@ -1260,9 +1260,13 @@ public class Main extends WeakBase implements XJobExecutor,
       }
     }
     //  Add new document
-    XComponent xComponent = getXComponent();
-    xComponent.addEventListener(this);
-    xComponents.add(xComponent);
+    if (!testMode) {
+      XComponent xComponent = getXComponent();
+      xComponent.addEventListener(this);
+      xComponents.add(xComponent);
+    } else {
+      xComponents.add(null);  // in testMode xContext == null and no xComponent
+    }
     docIDs.add(docID);
     allParas.add(null);
     fullTextMatches.add(null);
