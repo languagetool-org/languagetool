@@ -303,6 +303,11 @@ public class AgreementRule extends Rule {
       new PatternTokenBuilder().csToken("zum").build(),
       new PatternTokenBuilder().csToken("einen").build(),
       new PatternTokenBuilder().posRegex("ADJ:.+").build()
+    ),
+    Arrays.asList(
+      new PatternTokenBuilder().token("auf").build(),
+      new PatternTokenBuilder().csToken("die").build(),
+      new PatternTokenBuilder().csToken("Lauer").build()
     )
   );
 
