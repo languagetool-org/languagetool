@@ -62,7 +62,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </rulegroup>
     <rule id="SERCXI" name="serĉi (ŝerci)">
       <pattern>
-        <token inflected="yes">serĉi<exception scope="previous" regexp="yes">tie|ĉie|chie</exception></token>
+        <token inflected="yes">serĉi<exception scope="previous" regexp="yes" inflected="yes">tie|ĉie</exception></token>
         <token>pri</token>
       </pattern>
       <message>Ĉu vi intencis <suggestion><match no="1" regexp_match=".*([aoiu]s?)" regexp_replace="ŝerc$1"/></suggestion> anstataŭ «\1»?</message>
@@ -144,7 +144,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <pattern>
         <token skip="2" inflected="yes" regexp="yes">.*(?:adres|send|redakt|leg|ricev)i</token>
         <marker>
-          <token regexp="yes">literoj?n?<exception scope="previous" regexp="yes">(?:(?:mal)?(?:grand|et)aj?n)|(?:ĉin|japan)aj?n?</exception></token>
+          <token inflected="yes">litero<exception scope="previous" regexp="yes" inflected="yes">(?:mal)?(?:grand|et)a|(?:ĉin|japan)a</exception></token>
         </marker>
         <token><exception regexp="yes">\p{L}</exception></token>
       </pattern>
@@ -203,7 +203,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <marker>
             <token inflected="yes">akĉento</token>
           </marker>
-          <token regexp="yes">sur|en|troviĝas|falas</token>
+          <token regexp="yes" inflected="yes">sur|en|troviĝi|fali</token>
         </pattern>
         <message>Laŭ la kunteksto, ŝajnas, ke vi intencis diri <suggestion><match no="1" regexp_match="ĉ" regexp_replace="c"/></suggestion>.</message>
         <example correction="akcento">La <marker>akĉento</marker> en tiu vorto estas sur la lasta silabo.</example>
@@ -634,7 +634,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token inflected="yes">lerni</token>
         </marker>
         <token regexp="yes">la|.*aj?n</token>
-        <token regexp="yes">(?:novaĵ|ver)oj?n</token>
+        <token regexp="yes" inflected="yes">(?:novaĵ|ver)o</token>
       </pattern>
       <message>Tiu uzo de «\1» evitindas. Ŝajnas laŭ la kunteksto, ke vi intencis diri <suggestion><match no="1" regexp_match=".*n(.*)" regexp_replace="eksci$1"/></suggestion>.</message>
       <example correction="eksciis">Mi ĵus <marker>lernis</marker> la novaĵon.</example>
@@ -864,7 +864,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
       <rule>
         <pattern>
-          <token>ŝi<exception scope="previous" regexp="yes">kun|kaj</exception></token>
+          <token inflected="yes">ŝi<exception scope="previous" regexp="yes">kun|kaj</exception></token>
           <marker><token inflected="yes" regexp="yes">geedziniĝi|(?:ge)?edziĝi</token></marker>
         </pattern>
         <message>Laŭ la kunteksto, ĉu vi eble intencis skribi <suggestion><match no="2" regexp_match=".*(ĝ|gx)" regexp_replace="edzini$1"/></suggestion>?</message>
@@ -900,7 +900,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <rulegroup id="ISTO" name="kirurgisto → kirurgo (ktp)">
       <rule>
         <pattern>
-          <token regexp="yes">(?:fi)?(?:ge)?(?:eks)?(?:ĉef)?(?:(?:infano?)psikolog|[ĥk]irurg|androlog|antropolog|ar[ĥk]eolog|astrolog|bakteriolog|biolog|birdolog|citolog|dermatolog|dialektolog|egiptolog|ekolog|embriolog|endokrinolog|entomolog|epidemiolog|esperantolog|etimolog|etnolog|farmakolog|filolog|fiziolog|frenolog|genealog|geolog|ginekolog|glaciolog|grafolog|hematolog|hidrolog|ideolog|imunolog|kancerolog|kardiolog|klimatolog|kosmobiolog|leksikolog|meteolog|meteorolog|mikrobiolog|mineralog|neŭrolog|oftalmolog|onkolog|ornitolog|paleontolog|politikolog|politolog|psi[ĥk]olog|radiolog|reŭmatolog|seksolog|sociolog|speleolog|te[ĥk]nolog|teolog|terminolog|toksolog|virusolog|zoolog)ist(?:estr)?(?:in)?(?:aĉ)?oj?n?</token>
+          <token regexp="yes" inflected="yes">(?:fi)?(?:ge)?(?:eks)?(?:ĉef)?(?:(?:infano?)psikolog|[ĥk]irurg|androlog|antropolog|ar[ĥk]eolog|astrolog|bakteriolog|biolog|birdolog|citolog|dermatolog|dialektolog|egiptolog|ekolog|embriolog|endokrinolog|entomolog|epidemiolog|esperantolog|etimolog|etnolog|farmakolog|filolog|fiziolog|frenolog|genealog|geolog|ginekolog|glaciolog|grafolog|hematolog|hidrolog|ideolog|imunolog|kancerolog|kardiolog|klimatolog|kosmobiolog|leksikolog|meteolog|meteorolog|mikrobiolog|mineralog|neŭrolog|oftalmolog|onkolog|ornitolog|paleontolog|politikolog|politolog|psi[ĥk]olog|radiolog|reŭmatolog|seksolog|sociolog|speleolog|te[ĥk]nolog|teolog|terminolog|toksolog|virusolog|zoolog)ist(?:estr)?(?:in)?(?:aĉ)?o</token>
         </pattern>
         <message>Oni ne uzas la sufikson «-ist» en tiuj vortoj, kiuj jam montras personon. Oni devas skribi <suggestion><match no="1" regexp_match="ist" regexp_replace=""/></suggestion> aŭ <suggestion><match no="1" regexp_match="ist" regexp_replace="iist"/></suggestion> anstataŭ «\1».</message>
         <url>http://bertilow.com/pmeg/vortfarado/afiksoj/sufiksoj/ist.html#i-8e1</url>
@@ -909,7 +909,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">(?:fi)?(?:ge)?(?:eks)?(?:ĉef)?(?:aktor|astrolog|astronom|barbir|diplomat|doktor|episkop|general|geograf|gimnast|kelner|kurator|mim|profesor|redaktor|serĝent|ŝofor|student|soldat|teolog)ist(?:estr)?(?:in)?(?:aĉ)?oj?n?</token>
+          <token regexp="yes" inflected="yes">(?:fi)?(?:ge)?(?:eks)?(?:ĉef)?(?:aktor|astrolog|astronom|barbir|diplomat|doktor|episkop|general|geograf|gimnast|kelner|kurator|mim|profesor|redaktor|serĝent|ŝofor|student|soldat|teolog)ist(?:estr)?(?:in)?(?:aĉ)?o</token>
         </pattern>
         <message>Oni ne uzas la sufikson «-ist» en tiuj vortoj, kiuj jam montras personon. Oni devas skribi <suggestion><match no="1" regexp_match="ist" regexp_replace=""/></suggestion> anstataŭ «\1».</message>
         <url>http://bertilow.com/pmeg/vortfarado/afiksoj/sufiksoj/ist.html#i-8e1</url>
@@ -1443,7 +1443,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">ĥin(aĵ|ec|i|ism|land|uj)?([ao]j?|e)n?</token>
+          <token regexp="yes">(?:ĥin|h[hx]in)(?:aĵ|aj[hx]|ec|i|ism|land|uj)?(?:[ao]j?|e)n?</token>
         </pattern>
         <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match="^." regexp_replace="ĉ"/></suggestion>.</message>
         <url>http://www.reta-vortaro.de/revo/art/hxin.html#hxin.0o</url>
@@ -1452,7 +1452,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">vask(aĵ|ec|i|in|ism|o?land|uj)?([ao]j?|e)n?</token>
+          <token regexp="yes">vask(aĵ|aj[hx]|ec|i|in|ism|o?land|uj)?([ao]j?|e)n?</token>
         </pattern>
         <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match="^.." regexp_replace="eŭ"/></suggestion>.</message>
         <url>http://www.reta-vortaro.de/revo/art/vask.html#vask.0o</url>
@@ -1463,7 +1463,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <pattern>
           <token>sen</token>
           <token>ia</token>
-          <token>eĉ</token>
+          <token inflected="yes">eĉ</token>
           <token>plej</token>
           <token>malgranda</token>
         </pattern>
@@ -1993,7 +1993,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
   <category id="KAT_GRAMATIKO" name="Gramatiko">
     <rule id="CXI_FOJE" name="ĉi foje (ĉi-foje)">
       <pattern>
-        <token>ĉi<exception scope="previous" postag="T ... .. [ĉt].*" postag_regexp="yes"/></token>
+        <token inflected="yes">ĉi<exception scope="previous" postag="T ... .. [ĉt].*" postag_regexp="yes"/></token>
         <token postag="E .*" postag_regexp="yes">
           <exception postag="T ... .. [ĉt].*" postag_regexp="yes"/>
         </token>
@@ -2053,7 +2053,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </rulegroup>
     <rule id="CXI_O" name="ĉi-libro (ĉi libro)">
       <pattern>
-        <token regexp="yes">ĉi-.*oj?n?</token>
+        <token regexp="yes" inflected="yes">ĉi-.*o</token>
       </pattern>
       <message>Ĉu vi intencis skribi <suggestion><match no="1" regexp_match="(..)-(.*o)(j?n?)" regexp_replace="$1 $2$3"/></suggestion> aŭ <suggestion><match no="1" regexp_match="(..)-(.*o)(j?n?)" regexp_replace="$1 tiu$3 $2$3"/></suggestion>?</message>
       <url>http://bertilow.com/pmeg/gramatiko/e-vortecaj_vortetoj/lokaj/chi.html#i-gsf</url>
@@ -2063,14 +2063,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <url>http://bertilow.com/pmeg/gramatiko/e-vortecaj_vortetoj/lokaj/chi.html</url>
       <rule>
         <pattern>
-          <token regexp="yes">ĉi-ti(?:(?:[aeou]j?n?)|el|am|es|om)</token>
+          <token regexp="yes">(?:ĉ|cx)i-ti(?:(?:[aeou]j?n?)|el|am|es|om)</token>
         </pattern>
         <message>Ĉu vi intencis skribi <suggestion><match no="1" regexp_match="-" regexp_replace=" "/></suggestion> sen streketo?</message>
         <example correction="ĉi tiun">Mi deziras <marker>ĉi-tiun</marker>.</example>
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">ti(?:(?:[aeou]j?n?)|el|am|es|om)-ĉi</token>
+          <token regexp="yes">ti(?:(?:[aeou]j?n?)|el|am|es|om)-(?:ĉ|cx)i</token>
         </pattern>
         <message>Ĉu vi intencis skribi <suggestion><match no="1" regexp_match="-" regexp_replace=" "/></suggestion> sen streketo?</message>
         <example correction="tiun ĉi">Mi deziras <marker>tiun-ĉi</marker>.</example>
@@ -2128,7 +2128,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </rule>
     <rule id="MULTA_DA" name="multa da → multe da / multa">
       <pattern>
-        <token regexp="yes">(?:ne)?(?:mal)?(?:mult|kelk|sufiĉ)(?:e[gt])?aj?n?</token>
+        <token regexp="yes" inflected="yes">(?:ne)?(?:mal)?(?:mult|kelk|sufiĉ)(?:e[gt])?a</token>
         <token>da</token>
       </pattern>
       <message>Kiam oni anstataŭigas kvantan E-vorton per kvanta A-vorto, tiam «da» malaperas.</message>
@@ -2562,7 +2562,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <pattern>
           <token skip="3" postag="SENT_START|K" postag_regexp="yes"/>
           <token postag="R nak p." postag_regexp="yes"/>
-          <token>ĉiuj</token>
+          <token regexp="yes">ĉiuj|c[hx]iuj</token>
           <token skip="1" postag="V nt .*" postag_regexp="yes">
             <exception scope="next" negate_pos="yes" postag="E.*|[ROA] nak np.*|T nak pl . [ua]|SENT_END" postag_regexp="yes"/>
           </token>
@@ -2731,7 +2731,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <pattern>
         <token regexp="yes">unu|(?:du|tri|kvar|kvin|ses|sep|ok|naŭ|naux?)(?:dek|cent)?|dek|mil|(?:(?:mal)?mult|kelk)(e[tg])?aj|iujn?|mil|milionoj?n?|miliardoj?n?</token>
         <token>el</token>
-        <marker><token regexp="yes">[mcvlŝ]ia|ilia|tiu</token></marker>
+        <marker><token regexp="yes">[mcvlŝ]ia|s[hx]ia|ilia|tiu</token></marker>
         <token><exception regexp="yes">(?:.*aro|.*opo|speco|nombro|listo|familio)?</exception></token>
       </pattern>
       <message>Ĉu vi intencis uzi pluralon?</message>
@@ -2744,7 +2744,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <pattern>
         <marker>
           <token>la</token>
-          <token regexp="yes">(?:[mcvlŝĝn]|il)iaj?n?</token>
+          <token regexp="yes" inflected="yes">(?:[mcvlŝĝn]|il)ia</token>
         </marker>
         <token postag="[OA] .*" postag_regexp="yes"/>
       </pattern>
@@ -2825,7 +2825,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <pattern>
         <token negate_pos="yes" postag_regexp="yes" postag="[AOET] .*"/>
         <marker>
-          <token>ĉi</token>
+          <token inflected="yes">ĉi</token>
         </marker>
         <token negate_pos="yes" postag_regexp="yes" postag="[AOET] .*|SENT_END"/>
       </pattern>
@@ -2944,7 +2944,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <pattern>
         <token>la</token>
         <marker>
-          <token regexp="yes">(?:urbo|ŝtato|lando)n?</token>
+          <token regexp="yes">(?:urbo|ŝtato|s[hx]tato|lando)n?</token>
           <token>de</token>
           <token regexp="yes">(?-i)[A-ZĈĜĴĤŜ].*</token>
         </marker>
@@ -3063,7 +3063,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <rule id="JXUS" name="ĵus devas stari antaŭ pasinteco">
       <pattern>
         <marker>
-          <token>ĵus</token>
+          <token inflected="yes">ĵus</token>
         </marker>
         <token negate="yes" regexp="yes">.*is|.*in?t[aoe]j?n?</token>
         <token negate="yes" regexp="yes">.*is|.*in?t[aoe]j?n?</token>
@@ -3099,7 +3099,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </rule>
     <rule id="DUM_V" name="pri + I-verbo">
       <pattern>
-        <token regexp="yes">dum|ĝis</token>
+        <token regexp="yes" inflected="yes">dum|ĝis</token>
         <token postag="V .. i" postag_regexp="yes"/>
       </pattern>
       <message>Anstataŭ «dum + I-verbo», aŭ «ĝis + I-verbo», oni uzas dum aŭ ĝis antaŭ plena subfrazo (dum kaj ĝis estas ne nur rolvortetoj, sed ankaŭ frazenkondukiloj).</message>
@@ -3141,7 +3141,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </rule>
     <rule id="POVATE" name="*povate*, *devote*, ktp.">
       <pattern>
-        <token regexp="yes">(?:ne|mal)?(?:pov|dev|kuraĝ)([aio]t|[ei]nd|ebl)[ae]j?n?</token>
+        <token regexp="yes" inflected="yes">(?:ne|mal)?(?:pov|dev|kuraĝ)([aio]t|[ei]nd|ebl)[ae]</token>
       </pattern>
       <message>Iuj verboj ĉiam havas samsubjektan I-verbon kiel objekton, ekz. «povi, devi kaj kuraĝi». Tiajn verbojn oni do praktike neniam pasivigas, kaj pasivaj participoj de tiaj verboj estas do praktike tute neuzataj. Oni ankaŭ ne uzas la sufiksojn EBL, IND kaj END ĉe tiaj verboj, ĉar tiuj sufiksoj ĉiam donas pasivan signifon.</message>
       <url>http://bertilow.com/pmeg/gramatiko/pasivo/pasivigeblaj_frazoj.html#i-lep</url>
@@ -3650,7 +3650,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <rule>
         <pattern>
           <token postag="SENT_START"/>
-          <token regexp="yes">ĉu|ki[eo]n?|ki[au]j?n?|ki(?:el|[ao]m)</token>
+          <token regexp="yes">ĉu|c[hx]u|ki[eo]n?|ki[au]j?n?|ki(?:el|[ao]m)</token>
           <marker>
             <token postag="V .*u" postag_regexp="yes" skip="-1">
               <exception scope="next" negate_pos="yes" postag="E.*|SENT_END" postag_regexp="yes"/>
@@ -3664,7 +3664,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <rule>
         <pattern>
           <token postag="SENT_START"/>
-          <token regexp="yes">ĉu|ki[eo]|ki[au]j?|ki(?:el|[ao]m)</token>
+          <token regexp="yes">ĉu|c[hx]u|ki[eo]|ki[au]j?|ki(?:el|[ao]m)</token>
           <marker>
             <token postag="V tr u" skip="-1"/>
           </marker>
@@ -3854,7 +3854,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <token inflected="yes">demandi</token>
           </marker>
           <token>al</token>
-          <token regexp="yes">la|ĉ?iuj|.*aj?</token>
+          <token regexp="yes">la|(?:ĉ|c[hx])?iuj|.*aj?</token>
           <token/>
           <token regexp="yes">(?:akv|aliĝ|almoz|atent|inform|help|klarig|kompat|koment|kompren|konsil|mon|pardon|permes|pac|pan|protekton|rifuĝej|subten|vin)oj?n|ke</token>
         </pattern>
@@ -4099,7 +4099,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token>pro</token>
           <token>tio</token>
           <token>,</token>
-          <token>ĉar</token>
+          <token inflected="yes">ĉar</token>
         </pattern>
         <message>Oni ne uzas «pro tio, ĉar». Uzu <suggestion>pro tio, ke</suggestion>.</message>
         <example correction="pro tio, ke">La infano ploras <marker>pro tio, ĉar</marker> li volas manĝi.</example>
@@ -4108,7 +4108,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <pattern>
           <token>pro</token>
           <token>tio</token>
-          <token>ĉar</token>
+          <token inflected="yes">ĉar</token>
         </pattern>
         <message>Oni ne uzas «pro tio ĉar». Uzu <suggestion>pro tio, ke</suggestion>.</message>
         <example correction="pro tio, ke">La infano ploras <marker>pro tio ĉar</marker> li volas manĝi.</example>
@@ -4186,7 +4186,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">(?-i)(?:adamitiko|akadono|alevato|ĉenglio|fanagalo|gestuno|ĥotono|intergloso|interlinguo|interlingv[ae]o|interpreso|laadano|latino|lingvafrankao|loglano|loglio|loĵbano|neo-?(latino|romano)|nov-?latino|novialo|papiamento|sanskrito|solresolo|tokipono|tokpisino|urduo|uropio|voksigido|volapuko)n?</token>
+          <token regexp="yes">(?-i)(?:adamitiko|akadono|alevato|ĉenglio|c[hx]englio|fanagalo|gestuno|ĥotono|h[hx]otono|intergloso|interlinguo|interlingv[ae]o|interpreso|laadano|latino|lingvafrankao|loglano|loglio|loĵbano|loj[hx]bano|neo-?(latino|romano)|nov-?latino|novialo|papiamento|sanskrito|solresolo|tokipono|tokpisino|urduo|uropio|voksigido|volapuko)n?</token>
         </pattern>
         <message>Ŝajnas, ke «\1» temas pri propra nomo de lingvo, ĝi tiam bezonas komencan majusklon. Ĉu vi intencis skribi <suggestion><match no="1" case_conversion="startupper"/></suggestion>?</message>
         <example correction="Volapukon">Mi lernas <marker>volapukon</marker>.</example>
@@ -4209,7 +4209,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <rule>
         <pattern>
           <token>la</token>
-          <token regexp="yes">(?-i)(?:Adamitiko|Akadono|Alevato|Ĉenglio|Fanagalo|Interlingv[ae]o|Interlinguo|Interpreso|Intergloso|Gestono|Ĥotono|Latino|Lingvafrankao|Loĵbano|Loglano|Loglio|Neo-?(latino|romano)|Nov-?latino|Novialo|Papiamento|Sanskrito|Solresolo|Tokipono|Tokpisino|Urduo|Uropio|Volapuko|Voksigido)n?</token>
+          <token regexp="yes">(?-i)(?:Adamitiko|Akadono|Alevato|Ĉenglio|C[hx]englio|Fanagalo|Interlingv[ae]o|Interlinguo|Interpreso|Intergloso|Gestono|Ĥotono|H[hx]otono|Latino|Lingvafrankao|Loĵbano|Loj[hx]bano|Loglano|Loglio|Neo-?(latino|romano)|Nov-?latino|Novialo|Papiamento|Sanskrito|Solresolo|Tokipono|Tokpisino|Urduo|Uropio|Volapuko|Voksigido)n?</token>
         </pattern>
         <message>Ŝajnas, ke <suggestion>\2</suggestion> temas pri propra nomo de lingvo. Oni ne metas «la» antaŭ o-vortaj lingvonomoj.</message>
         <url>http://bertilow.com/pmeg/gramatiko/propraj_nomoj/landoj_popoloj_lingvoj.html#i-r76</url>
@@ -4282,7 +4282,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">(ki|ti|i|ĉi|neni)'</token>
+          <token regexp="yes">(ki|ti|i|ĉi|c[hx]i|neni)'</token>
         </pattern>
         <message>La tabelvortoj je O finiĝas per «o», sed tiuj o-vokaloj ne estas veraj O-finaĵoj, kaj oni ne povas ilin anstataŭigi per apostrofoj. Uzu <suggestion><match no="1" regexp_match=".$" regexp_replace="o"/></suggestion>.</message>
         <url>http://bertilow.com/pmeg/gramatiko/apostrofo/normala_uzo.html#i-a19</url>
@@ -4340,7 +4340,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
     <rule id="RICXA_DA" name="riĉa da → riĉa de">
       <pattern>
-        <token regexp="yes">(?:mal)?(?:plen|riĉ|abund)(?:e[gt])?aj?n?</token>
+        <token regexp="yes" inflected="yes">(?:mal)?(?:plen|riĉ|abund)(?:e[gt])?a</token>
         <marker><token>da</token></marker>
       </pattern>
       <message>Kun la vortoj plena, riĉa, abunda «da» ne estas uzebla, ĉar ili ne indikas mezuron. Uzu <suggestion>de</suggestion>.</message>
@@ -4362,7 +4362,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
     <rule id="VITRERO" name="vitrero → vitropeco">
       <pattern>
-        <token regexp="yes">(?:drato?|fumo?|lakto?|sekureco?)?vitr(?:aĵ)?er(?:e[tg]|aĉ)?oj?n?|sukereroj?n?</token>
+        <token regexp="yes" inflected="yes">(?:drato?|fumo?|lakto?|sekureco?)?vitr(?:aĵ)?er(?:e[tg]|aĉ)?o|sukerero</token>
       </pattern>
       <message>Ero ne estas identa al peco aŭ parto, kaj estas granda diferenco inter ekzemple ĉenero kaj ĉenpeco. Tial uzu <suggestion><match no="1" regexp_match="(.*)er" regexp_replace="$1opec"/></suggestion>.</message>
       <url>http://www.esperanto.mv.ru/Seppik/lec19.html#141</url>
@@ -4383,7 +4383,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <url>http://www.esperanto.mv.ru/Seppik/lec10.html#70</url>
       <rule>
         <pattern>
-          <token regexp="yes">[mvclŝn]i|ili|\p{Lu}.*</token>
+          <token regexp="yes">[mvclŝn]i|s[hx]i|ili|\p{Lu}.*</token>
           <marker><token regexp="yes">(?:ek|mal|sen)?(?:lav|komb|raz|vest)iĝ(?:[auio]s|u)</token></marker>
         </pattern>
         <message>Oni ne povas diri «mi laviĝis, kombiĝis, raziĝis, vestiĝis», ĉar tiuj agoj ne okazas aŭtomate, per si mem, kaj la homo ne restas pasiva ĉe tio; oni devas diri: mi lavis min, kombis min, razis min, vestis min.</message>
@@ -4395,7 +4395,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">[mvclŝn]i|ili|oni|\p{Lu}.*</token>
+          <token regexp="yes">[mvclŝn]i|s[hx]i|ili|oni|\p{Lu}.*</token>
           <token postag="E.*|_" postag_regexp="yes"/>
           <marker><token regexp="yes">(?:ek|mal|sen)?(?:lav|komb|raz|vest)iĝ(?:[auio]s|u)</token></marker>
         </pattern>
@@ -4405,7 +4405,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">[mvclŝn]i|ili|oni|\p{Lu}.*</token>
+          <token regexp="yes">[mvclŝn]i|s[hx]i|ili|oni|\p{Lu}.*</token>
           <token postag="E.*|_" postag_regexp="yes"/>
           <token postag="E.*|_" postag_regexp="yes"/>
           <marker><token regexp="yes">(?:ek|mal|sen)?(?:lav|komb|raz|vest)iĝ(?:[auio]s|u)</token></marker>
