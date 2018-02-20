@@ -3636,6 +3636,33 @@ regexp case-insensitive maken : (?i)
 			</rule>
 		</rulegroup>
 	</category>
+    <category id="OPTIONAL_FORMS" name="niet-noodzakelijke correcte spellingvarianten">
+        <rulegroup id="OPTIONAL_HYPHEN" name="optioneel koppelteken">
+           <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">-<exception regexp="yes">a-[aeiu]|e-[eiu]|i-[eij]|o-[eiou]|u-[iu]</exception></token>
+                    </marker>
+                </pattern>
+                <message>Ook als dit een correcte spelling is, is het koppelteken alleen aan te raden als het woord anders slecht leest".</message>
+                <example type="incorrect">De <marker>oven-deur</marker> staat open.</example>
+            </rule>
+        </rulegroup>
+    </category>
+    <category id="UNUSUAL_WORDS" name="woorden met een gebruikelijker alternatief">
+        <rulegroup id="ONGEBRUIKELIJK" name="gebruikelijker woorden voorstellen">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>rijwiel</token>
+                    </marker>
+                </pattern>
+                <message>Een gebruikelijker woord voor 'rijwiel' is <suggestion>fiets</suggestion>.</message>
+                <example correction="fiets">Ik vind <marker>rijwiel</marker> ongebruikelijk.</example>
+                <example>Het gebruikelijke woord is <marker>fiets</marker>.</example>
+            </rule>
+        </rulegroup>
+    </category>
 	<category id="CASING" name="Hoofdletters">
         <rulegroup id="NIEUW_ZEELAND" name="nieuw zeelander / Nieuw-Zeelander">
             <!-- 2014-08-21 TaalTik regel komt vaak op, maar terecht, vooral bij afkortingen met een onterechte hoofdletter. -->
