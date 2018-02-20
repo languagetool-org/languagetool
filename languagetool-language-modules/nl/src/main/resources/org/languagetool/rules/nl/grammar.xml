@@ -3637,7 +3637,20 @@ regexp case-insensitive maken : (?i)
 		</rulegroup>
 	</category>
 	<category id="CASING" name="Hoofdletters">
-		
+        <rulegroup id="NIEUW_ZEELAND" name="nieuw zeelander / Nieuw-Zeelander">
+            <!-- 2014-08-21 TaalTik regel komt vaak op, maar terecht, vooral bij afkortingen met een onterechte hoofdletter. -->
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>nieuw</token>
+                        <token regexp="yes">zeeland.*</token>
+                    </marker>
+                </pattern>
+                <message>U bedoelt vast: <suggestion>Nieuw-<match no="2" case_conversion="firstupper"/></suggestion>.</message>
+                <example correction="Nieuw-Zeelander">Mijn neef is een<marker>nieuw zeelander</marker>.</example>
+                <example>Mijn neef is een<marker>Nieuw-Zeelander</marker>.</example>
+            </rule>
+        </rulegroup>
 		<rulegroup id="TST_HOOFDLETTERS_OVERBODIG" name="Woorden die ook klein geschreven mogen worden.">
 			<rule>
 				<pattern>
