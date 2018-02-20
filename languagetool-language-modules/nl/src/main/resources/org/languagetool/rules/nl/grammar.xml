@@ -16903,7 +16903,18 @@ regexp case-insensitive maken : (?i)
 		</rule>
 		</rulegroup>
 		-->
-		
+
+		<rulegroup id="ontwarbaar" name="ontwarbaar → onontwarbaar">
+			<rule>
+				<pattern>
+					<token regexp="yes" negate="yes">niet|nauwelijks|moeilijk|lastig</token>
+					<token>ont(warbaar|warbare)</token>
+				</pattern>
+				<message>Wanneer u bedoelt dat het lastig is, dan bedoelt u<suggestion>onontwarbaar</suggestion>.</message>
+				<example correction="onontwarbaar">Het is een <marker>ontwarbare</marker> kluwen.</example>
+				<example>Het is een <marker>onontwarbare</marker> kluwen.</example>
+			</rule>
+		</rulegroup>
 		<rulegroup id="IN_DE_LAG" name="in de lag → in de lach">
 			<rule>
 				<pattern>
