@@ -20208,6 +20208,17 @@ regexp case-insensitive maken : (?i)
         <rulegroup id="LOSSE_LETTERS" name="losse letters verbeteren">
             <rule>
                 <pattern>
+                    <marker>
+                        <token case_sensitive="yes">a</token>
+                    </marker>
+                    <token regexp="yes">[0-9]+|eur|f|fl|€</token>
+                </pattern>
+                <message>Bij een bedrag is het <suggestion>à</suggestion>.</message>
+                <example correction="à">Het is te koop <marker>a</marker> 50 euro.</example>
+                <example>Het was te koop <marker>à</marker> 10 gulden.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token regexp="yes">.*[aiouy]$</token>
                     <token case_sensitive="yes">s</token>
                 </pattern>
