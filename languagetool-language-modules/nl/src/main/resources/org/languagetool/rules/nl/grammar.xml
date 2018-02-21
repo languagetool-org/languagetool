@@ -3639,9 +3639,10 @@ regexp case-insensitive maken : (?i)
     <category id="OPTIONAL_FORMS" name="niet-noodzakelijke correcte spellingvarianten">
         <rulegroup id="OPTIONAL_HYPHEN" name="optioneel koppelteken">
            <rule>
+               <antipattern regexp="yes">(hiv|btw|lcd|dvd|cd)-.*</antipattern>
                 <pattern>
                     <marker>
-                        <token regexp="yes">-</token>
+                        <token regexp="yes">.*[a-z]-[a-z].*<exception regexp="yes">.*(a-[aeiu]|e-[eiu]|i-[eij]|o-[eiou]|u-[iu]).*</exception></token>
                     </marker>
                 </pattern>
                 <message>Ook als dit een correcte spelling is, is het koppelteken alleen aan te raden als het woord anders slecht leest".</message>
