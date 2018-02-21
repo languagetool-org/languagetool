@@ -217,10 +217,14 @@ public class AgreementRuleTest {
     assertBad("Das Auto einer Mannes.", "eines Mannes");
     assertBad("Das Auto einen Mannes.", "einen Mann", "eines Mannes");
     
+    //assertBad("Das erwähnt Auto bog nach rechts ab.");    // TODO
+    assertGood("Das erlaubt Forschern, neue Versuche durchzuführen.");
+    assertGood("Dies ermöglicht Forschern, neue Versuche durchzuführen.");
     assertBad("Die erwähnt Konferenz ist am Samstag.");
     assertBad("Die erwähntes Konferenz ist am Samstag.");
     assertBad("Die erwähnten Konferenz ist am Samstag.");
     assertBad("Die erwähnter Konferenz ist am Samstag.");
+    assertBad("Die erwähntem Konferenz ist am Samstag.");
     
     assertBad("Des großer Mannes.");
 
@@ -246,7 +250,11 @@ public class AgreementRuleTest {
     assertGood("Außerdem unterstützt mich Herr Müller beim abheften");
     assertGood("Außerdem unterstützt mich Frau Müller beim abheften");
     assertBad("Der Zustand meiner Gehirns.");
-    
+
+    assertBad("Lebensmittel sind da, um den menschliche Körper zu ernähren.");
+    assertBad("Geld ist da, um den menschliche Überleben sicherzustellen.");
+    assertBad("Sie hatte das kleinen Kaninchen.");
+    assertBad("Frau Müller hat das wichtigen Dokument gefunden.");
     assertBad("Ich gebe dir ein kleine Kaninchen.");
     assertBad("Ich gebe dir ein kleinen Kaninchen.");
     assertBad("Ich gebe dir ein kleinem Kaninchen.");
@@ -267,6 +275,9 @@ public class AgreementRuleTest {
     
     assertBad("Hier steht Ihre Text.");
     assertBad("Hier steht ihre Text.");
+    
+    assertBad("Ich weiß nicht mehr, was unser langweiligen Thema war.");
+    assertGood("Aber mein Wissen über die Antike ist ausbaufähig.");
 
     // TODO: not yet detected:
     //assertBad("Erst recht wir fleißiges Arbeiter.");

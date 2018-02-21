@@ -27,10 +27,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -63,19 +65,22 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   
   // some exceptions for changes to the spelling in 2017 - just a workaround so we don't have to touch the binary dict:
   private static final Pattern PREVENT_SUGGESTION = Pattern.compile(
-          ".*(?i:Majonäse|Bravur|Anschovis|Belkanto|Campagne|Frotté|Grisli|Jokei|Joga|Kalvinismus|Kanossa|Kargo|Ketschup|" +
+          ".*(?i:Majonäse|Bravur|Anschovis|Belkanto|Campagne|Frotté|Grisli|Jockei|Joga|Kalvinismus|Kanossa|Kargo|Ketschup|" +
           "Kollier|Kommunikee|Masurka|Negligee|Nessessär|Poulard|Varietee|Wandalismus|kalvinist).*");
   private static final Pattern GEOGRAPHICAL_PREFIXES = Pattern.compile("(nord|ost|süd|west).+");
 
+  private final Set<String> wordsToBeIgnoredInCompounds = new HashSet<>();
   private static final Map<Pattern, Function<String,List<String>>> ADDITIONAL_SUGGESTIONS = new HashMap<>();
   static{
     put("[aA]wa", w -> Arrays.asList("AWA", "ach was", "aber"));
     put("[aA]lsallerersten?s", w -> Arrays.asList(w.replaceFirst("lsallerersten?s", "ls allererstes"), w.replaceFirst("lsallerersten?s", "ls Allererstes")));
-    putRepl("(an|auf|ein)gehangen(e[mnrs]?)?$", "hangen", "hängt");
+    putRepl("(an|auf|ein|zu)gehangen(e[mnrs]?)?$", "hangen", "hängt");
     putRepl("[oO]key", "ey$", "ay");
     put("geupdate[dt]$", "upgedatet");
+    put("[pP]roblemhaft(e[nmrs]?)?", w -> Arrays.asList(w.replaceFirst("haft", "behaftet"), w.replaceFirst("haft", "atisch")));
     put("rosane[mnrs]?$", w -> Arrays.asList("rosa", w.replaceFirst("^rosan", "rosafarben")));
     put("Erbung", w -> Arrays.asList("Vererbung", "Erbschaft"));
+    put("Energiesparung", w -> Arrays.asList("Energieeinsparung", "Energieersparnis"));
     putRepl("for?melar(en?)?", "for?me", "Formu");
     putRepl("näste[mnrs]?$", "^näs", "nächs");
     putRepl("Erdogans?$", "^Erdogan", "Erdoğan");
@@ -149,6 +154,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("[sS]ommerverien?", "[sS]ommerverien?", "Sommerferien");
     putRepl("[rR]ecourcen?", "[rR]ec", "Ress");
     putRepl("[fF]amm?ill?i?arisch(e[mnrs]?)?", "amm?ill?i?arisch", "amiliär");
+    putRepl("Sim-Karten?", "^Sim", "SIM");
     put("berücksichtung", "Berücksichtigung");
     put("artzt?", "Arzt");
     put("[tT]h?elepath?ie", "Telepathie");
@@ -162,6 +168,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("[mM]itag", "Mittag");
     put("Lexion", "Lexikon");
     put("[mM]otorisation", "Motorisierung");
+    put("[mM]enegment", "Management");
     put("abgeschaffen", "abgeschafft");
     put("Verschiden", "Verschieden");
     put("Anschovis", "Anchovis");
@@ -268,6 +275,10 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       // hack: Swiss German doesn't use "ß" but always "ss" - replace this, otherwise
       // misspellings (from Swiss point-of-view) like "äußere" wouldn't be found:
       line = origLine.replace("ß", "ss");
+    } else if (origLine.endsWith("-*")) {
+      // words whose line ends with "-*" are only allowed in hyphenated compounds
+      wordsToBeIgnoredInCompounds.add(origLine.substring(0, origLine.length() - 2));
+      return;
     } else {
       line = origLine;
     }
@@ -583,11 +594,13 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       if (words.length > 1) {
         List<List<String>> suggestionLists = new ArrayList<>(words.length);
         int startAt = 0, stopAt = words.length;
-        if (super.ignoreWord(words[0] + "-" + words[1])) { // "Au-pair-Agentr"
+        String partialWord = words[0] + "-" + words[1];
+        if (super.ignoreWord(partialWord) || wordsToBeIgnoredInCompounds.contains(partialWord)) { // "Au-pair-Agentr"
           startAt = 2;
           suggestionLists.add(Collections.singletonList(words[0] + "-" + words[1]));
         }
-        if (super.ignoreWord(words[words.length-2] + "-" + words[words.length-1])) { // "Seniren-Au-pair"
+        partialWord = words[words.length-2] + "-" + words[words.length-1];
+        if (super.ignoreWord(partialWord) || wordsToBeIgnoredInCompounds.contains(partialWord)) { // "Seniren-Au-pair"
           stopAt = words.length-2;
         }
         for (int idx = startAt; idx < stopAt; idx++) {
@@ -599,7 +612,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
           }
         }
         if (stopAt < words.length-1) {
-          suggestionLists.add(Collections.singletonList(words[words.length-2] + "-" + words[words.length-1]));
+          suggestionLists.add(Collections.singletonList(partialWord));
         }
         if (suggestionLists.size() <= 3) {  // avoid OOM on words like "free-and-open-source-and-cross-platform"
           List<String> additionalSuggestions = suggestionLists.get(0);
@@ -613,7 +626,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
             }
             additionalSuggestions = newList;
           }
-          return additionalSuggestions;
+          // avoid overly long lists of suggestions (we just take the first results, although we don't know whether they are better):
+          return additionalSuggestions.subList(0, Math.min(5, additionalSuggestions.size()));
         }
       }
     }
@@ -683,17 +697,18 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     return null;
   }
 
-  private boolean ignoreByHangingHyphen(List<String> words, int idx) {
+  private boolean ignoreByHangingHyphen(List<String> words, int idx) throws IOException {
     String word = words.get(idx);
     String nextWord = getWordAfterEnumerationOrNull(words, idx+1);
-    if (nextWord != null) {
-      nextWord = StringUtils.removeEnd(nextWord, ".");
-    }
-    boolean isCompound = nextWord != null && compoundTokenizer.tokenize(nextWord).size() > 1;
+    nextWord = StringUtils.removeEnd(nextWord, ".");
+
+    boolean isCompound = nextWord != null && (compoundTokenizer.tokenize(nextWord).size() > 1 || nextWord.indexOf("-") > 0);
     if (isCompound) {
       word = StringUtils.removeEnd(word, "-");
       boolean isMisspelled = hunspellDict.misspelled(word);  // "Stil- und Grammatikprüfung" or "Stil-, Text- und Grammatikprüfung"
-      if (isMisspelled && word.endsWith("s") && ENDINGS_NEEDING_FUGENS.matcher(StringUtils.removeEnd(word, "s")).matches()) {
+      if (isMisspelled && (super.ignoreWord(word) || wordsToBeIgnoredInCompounds.contains(word))) {
+        isMisspelled = false;
+      } else if (isMisspelled && word.endsWith("s") && ENDINGS_NEEDING_FUGENS.matcher(StringUtils.removeEnd(word, "s")).matches()) {
         // Vertuschungs- und Bespitzelungsmaßnahmen: remove trailing "s" before checking "Vertuschungs" so that the spell checker finds it
         isMisspelled = hunspellDict.misspelled(StringUtils.removeEnd(word, "s"));
       }
@@ -757,19 +772,19 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     String stripFirst = word.substring(words[0].length()+1); // everything after the first "-"
     String stripLast  = word.substring(0, word.length()-words[words.length-1].length()-1); // everything up to the last "-"
 
-    if (super.ignoreWord(stripFirst)) { // e.g., "Senioren-Au-pair"
+    if (super.ignoreWord(stripFirst) || wordsToBeIgnoredInCompounds.contains(stripFirst)) { // e.g., "Senioren-Au-pair"
       hasIgnoredWord = true;
       if (!super.ignoreWord(words[0])) {
         toSpellCheck.add(words[0]);
       }
-    } else if (super.ignoreWord(stripLast)) { // e.g., "Au-pair-Agentur"
+    } else if (super.ignoreWord(stripLast) || wordsToBeIgnoredInCompounds.contains(stripLast)) { // e.g., "Au-pair-Agentur"
       hasIgnoredWord = true;
       if (!super.ignoreWord(words[words.length-1])){
         toSpellCheck.add(words[words.length-1]);
       }
     } else {
       for (String word1 : words) {
-        if (super.ignoreWord(word1)) {
+        if (super.ignoreWord(word1) || wordsToBeIgnoredInCompounds.contains(word1)) {
           hasIgnoredWord = true;
         } else {
           toSpellCheck.add(word1);

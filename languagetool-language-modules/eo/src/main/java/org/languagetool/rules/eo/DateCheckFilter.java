@@ -66,6 +66,8 @@ public class DateCheckFilter extends AbstractDateCheckFilter {
     if (day.equals("sepa"))  n += 7;
     if (day.equals("oka"))   n += 8;
     if (day.equals("naŭa"))  n += 9;
+    if (day.equals("nauxa")) n += 9;
+    if (day.equals("naua"))  n += 9;
     return n;
   }
 

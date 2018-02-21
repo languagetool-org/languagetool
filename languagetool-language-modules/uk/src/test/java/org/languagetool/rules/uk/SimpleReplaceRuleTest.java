@@ -68,6 +68,14 @@ public class SimpleReplaceRuleTest {
   }
   
   @Test
+  public void testRulePartOfMultiword() throws IOException {
+    SimpleReplaceRule rule = new SimpleReplaceRule(TestTools.getEnglishMessages());
+
+    RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("на думку проводжаючих"));
+    assertEquals(1, matches.length);
+  }
+
+  @Test
   public void testRuleByTag() throws IOException {
     SimpleReplaceRule rule = new SimpleReplaceRule(TestTools.getEnglishMessages());
 

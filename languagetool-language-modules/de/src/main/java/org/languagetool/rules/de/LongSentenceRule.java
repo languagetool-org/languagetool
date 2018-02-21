@@ -68,7 +68,7 @@ public class LongSentenceRule extends org.languagetool.rules.LongSentenceRule {
 
   @Override
   public String getId() {
-    return "DE_TOO_LONG_SENTENCE_" + maxWords;
+    return "TOO_LONG_SENTENCE_DE";
   }
 
   private boolean isWordCount(String tokenText) {

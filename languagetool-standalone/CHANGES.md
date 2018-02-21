@@ -2,7 +2,43 @@
 
 ## 4.1-SNAPSHOT (release planned for 2018-03-27)
 
-...
+#### Chinese
+  * added some rules
+
+#### English
+  * added and improved rules
+  * added remaining collocation rules (~130) contributed by Nicholas Walker (Bokomaru)
+  * all-uppercase words are now also spellchecked
+
+#### Esperanto
+  * words written with x-sistemo now get proper POS tag so grammar mistakes can now
+    be found in: ambaux virino (->ambaux virinoj), mi farigxis maljunan (-> mi
+    farigxis maljuna), etc.
+  * added and improved rules
+  * Added many <url> to rules
+  
+#### French
+  * improved suggestion for spelling mistakes (#912)
+
+#### German
+  * added and improved rules
+  * New rule that checks coherent use of Du/du, Dich/dich etc. Assumes that the first
+    use has 'correct' capitalization and suggest the same capitalization for subsequent uses.
+  * New line extension '-*' for 'ignore.txt': entries ending with '*-' are ignored only if 
+    they are part of a hyphenated compound
+  * Added a new rule that tries to find compounds that are probably not correct, like
+    `Lehrzeile` instead of `Leerzeile`, requires ngram data (rule id `DE_PROHIBITED_COMPOUNDS`)
+
+#### Portuguese
+  * added and improved rules
+  
+#### Russian
+  * sentence segmentation improvements
+  * added and improved rules
+  
+#### Java API
+  * Constructors that take a `ResultCache` have been removed from `MultiThreadedJLanguageTool`
+    as using them caused incorrect results. (https://github.com/languagetool-org/languagetool/issues/897)
 
 
 ## 4.0 (2017-12-29)

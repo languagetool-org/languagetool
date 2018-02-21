@@ -120,6 +120,9 @@ public class UkrainianWordTokenizerTest {
 
     testList = w.tokenize("стін\u00AD\nку");
     assertEquals(Arrays.asList("стін\u00AD\nку"), testList);
+
+    testList = w.tokenize("п\"яний");
+    assertEquals(Arrays.asList("п'яний"), testList);
   }
 
   @Test

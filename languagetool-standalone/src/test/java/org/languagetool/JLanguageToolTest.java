@@ -213,15 +213,19 @@ public class JLanguageToolTest {
   @Test
   public void testMatchPositionsWithCache() throws IOException {
     ResultCache cache = new ResultCache(1000);
-    JLanguageTool ltEnglish = new JLanguageTool(english, null, cache);
-    List<RuleMatch> matches1 = ltEnglish.check("A test. This is an test.");
+    JLanguageTool lt = new JLanguageTool(english, null, cache);
+    List<RuleMatch> matches1 = lt.check("A test. This is an test.");
     assertThat(matches1.size(), is(1));
     assertThat(matches1.get(0).getFromPos(), is(16));
     assertThat(matches1.get(0).getToPos(), is(18));
-    List<RuleMatch> matches2 = ltEnglish.check("Another test. This is an test.");
+    List<RuleMatch> matches2 = lt.check("Another test. This is an test.");
     assertThat(matches2.size(), is(1));
     assertThat(matches2.get(0).getFromPos(), is(16+6));  // position up-to-date despite result from cache
     assertThat(matches2.get(0).getToPos(), is(18+6));
+    lt.disableRule("EN_A_VS_AN");
+    assertThat(lt.check("Another test. This is an test.").size(), is(0));
+    lt.enableRule("EN_A_VS_AN");
+    assertThat(lt.check("Another test. This is an test.").size(), is(1));  // still correct even though cache is activated
   }
 
   @Test

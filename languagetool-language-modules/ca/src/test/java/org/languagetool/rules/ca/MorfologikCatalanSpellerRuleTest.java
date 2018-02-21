@@ -228,7 +228,8 @@ public class MorfologikCatalanSpellerRuleTest {
         
         matches = rule.match(langTool.getAnalyzedSentence("col·laborÀ"));
         assertEquals(1, matches.length);
-        assertEquals("col·laborà", matches[0].getSuggestedReplacements().get(0));
+        assertEquals("col·labora", matches[0].getSuggestedReplacements().get(0));
+        assertEquals("col·laborà", matches[0].getSuggestedReplacements().get(1));
         
         matches = rule.match(langTool.getAnalyzedSentence("después"));
         assertEquals(1, matches.length);

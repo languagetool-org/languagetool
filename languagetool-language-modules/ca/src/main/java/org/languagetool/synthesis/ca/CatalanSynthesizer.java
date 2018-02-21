@@ -68,9 +68,9 @@ public class CatalanSynthesizer extends BaseSynthesizer {
   /** Patterns verb **/
   private static final Pattern pVerb = Pattern.compile("V.*[CVBXYZ0123456]");
 
-  public CatalanSynthesizer(Language language) {
-    super("/ca/" + language.getShortCodeWithCountryAndVariant() + "_synth.dict", 
-        "/ca/" + language.getShortCodeWithCountryAndVariant() + "_tags.txt");
+  public CatalanSynthesizer() {
+    super("/ca/ca-ES-valencia_synth.dict", 
+        "/ca/ca-ES-valencia_tags.txt");
   }
 
   @Override

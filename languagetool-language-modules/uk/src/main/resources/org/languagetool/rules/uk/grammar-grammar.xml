@@ -121,7 +121,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token regexp="yes">чим|як|скільки|тільки|наскільки</token>
           <token inflected="yes" regexp="yes">з?могти</token>
         </antipattern>
-        <!-- TODO: можливо треба додати «мала» у словник, як noun? -->
+        <!-- TODO: можливо, треба додати «мала» у словник, як noun? -->
         <antipattern>
           <token>мала</token>
           <!-- TODO: for some reason fails "Та мала виявилася неговіркою."
@@ -341,6 +341,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <message>Навчати чого</message>
         <example correction="">Мене навчили <marker>головному</marker> — бачити кінцеву мету</example>
         <example correction="">навчити дітей <marker>елементарному</marker> й прищепити любов</example>
+        <example correction="">навчити дітей <marker>тому</marker>, що любов...</example>
         <example>а він навчив її,</example>
       </rule>
 
@@ -523,7 +524,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <pattern>
           <token regexp="yes">[12][0-9]{3},[12][0-9]{3}</token>
         </pattern>
-        <message>Можливо пропущений пробіл між роками?</message>
+        <message>Можливо, пропущений пробіл між роками?</message>
         <example correction=""><marker>1975,2002</marker></example>
         <example>33,22</example>
       </rule>
@@ -866,6 +867,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>півтори доби</example>
         <example>півтора кухля</example>
         <example>півтори сотні</example> <!-- ingore this mistake here, it'll be caght by rule above -->
+        <example>роки півтора тому</example>
       </rule>
     </rulegroup>
 
@@ -1387,6 +1389,107 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>На самому Першому Національному пояснили</example>
       </rule>
     </rulegroup>
+
+    <rulegroup id="kraschiy_vs_naikraschiy" name="Кращий і найкращий">
+      <antipattern>
+        <token inflected="yes">кращий</token>
+        <token min="0">,</token>
+        <token regexp="yes">за|від|ніж|як</token>
+      </antipattern>
+
+      <rule>
+        <antipattern>
+          <token>чи</token>
+          <token>не</token>
+          <token>краще</token>
+        </antipattern>
+        <pattern>
+          <token regexp="yes">далеко|чи</token>
+          <token>не</token>
+          <marker>
+            <token inflected="yes">кращий</token>
+          </marker>
+        </pattern>
+        <message>Коли мається на увазі найвищий ступінь порівняння, слід вживати <suggestion>найкращий</suggestion>?</message>
+        <example correction="найкращий">Кіно — чи не <marker>кращий</marker> інструмент</example>
+        <example correction="найкращий">... була далеко не <marker>кращим</marker> способом...</example>
+        <example>був не кращий, ніж сталінський</example>
+        <example>Гітлерівський режим нічим не кращий сталінського</example>
+        <example>Він — не кращий і не гірший</example>
+        <example>на мою думку, далеко не кращий за них.</example>
+        <example>І чи не краще було б зробити інакше.</example>
+        <example>Виявився чи не кращим, ніж цього року.</example>
+      </rule>
+
+      <rule>
+        <antipattern>
+          <token>кращий</token>
+          <token>і</token>
+          <token>не</token>
+          <token>гірший</token>
+        </antipattern>
+        <pattern>
+          <token regexp="yes">[—–-]|це|зараз</token>
+          <token>не</token>
+          <marker>
+            <token>кращий</token>
+          </marker>
+        </pattern>
+        <message>Коли мається на увазі найвищий ступінь порівняння, слід вживати <suggestion>найкращий</suggestion>?</message>
+        <example correction="найкращий">блокування — не <marker>кращий</marker> варіант</example>
+        <example correction="найкращий">Зараз не <marker>кращий</marker> період для прийняття важливих рішень.</example>
+        <example>Він — не кращий і не гірший</example>
+        <!-- TODO:
+        <example>— Та й у мене — не кращий, — зітхнула Явдоха.</example>
+        <example> емоції, як відомо, не кращий порадник</example>
+        -->
+      </rule>
+
+      <rule>
+        <antipattern>
+          <token inflected="yes">кращий</token>
+          <token>і</token>
+          <token>не</token>
+          <token inflected="yes">гірший</token>
+        </antipattern>
+        <pattern>
+          <token>був</token>
+          <token>не</token>
+          <marker>
+            <token inflected="yes">кращий</token>
+          </marker>
+        </pattern>
+        <message>Коли мається на увазі найвищий ступінь порівняння, слід вживати <suggestion>найкращий</suggestion>?</message>
+        <example correction="найкращий">Це був не <marker>кращий</marker> матч Роналдо</example>
+        <example>був не кращий, ніж сталінський</example>
+        <example>був не кращим і не гіршим</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token>не</token>
+          <marker>
+            <token inflected="yes">кращий</token>
+          </marker>
+          <token inflected="yes" regexp="yes">час|період|вихід|спосіб</token>
+        </pattern>
+        <message>Коли мається на увазі найвищий ступінь порівняння, слід вживати <suggestion>найкращий</suggestion>?</message>
+        <example correction="найкращий">Зараз не <marker>кращий</marker> час починати справу.</example>
+      </rule>
+
+    </rulegroup>
+
+
+    <rule id="vyscha_mira_pokarannya" name="Вища міра покарання">
+      <pattern>
+        <token inflected="yes">вищий</token>
+        <token inflected="yes">міра</token>
+        <token>покарання</token>
+      </pattern>
+      <message>Краще: <suggestion>найвища міра покарання</suggestion>, <suggestion>найвища кара</suggestion></message>
+      <example correction="найвища міра покарання|найвища кара">і присудили <marker>вищу міру покарання</marker>.</example>
+    </rule>
+
 
     <rulegroup id="BIL_MASC" name="Біль - ч.р.">
       <rule>

@@ -119,6 +119,10 @@ public class GenericUnpairedBracketsRule extends TextLevelRule {
     if (i >= 2 && tokens[i-2].getToken().equals(":") && tokens[i-1].getToken().equals("-") && tokens[i].getToken().equals(")")) {
       return false;
     }
+    // Smiley ":-("
+    if (i >= 2 && tokens[i-2].getToken().equals(":") && tokens[i-1].getToken().equals("-") && tokens[i].getToken().equals("(")) {
+      return false;
+    }
     // Smiley ";-)"
     return !(i >= 2 && tokens[i - 2].getToken().equals(";") && tokens[i - 1].getToken().equals("-") && tokens[i].getToken().equals(")"));
   }

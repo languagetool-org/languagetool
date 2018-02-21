@@ -103,9 +103,9 @@ public class ConfigurationDialog implements ActionListener {
           (!isStyle && !rule.getLocQualityIssueType().toString().equalsIgnoreCase("STYLE")
             && !rule.getCategory().getId().toString().equals("STYLE")
             && !rule.getCategory().getId().toString().equals("TYPOGRAPHY"))) {
-        if(rule.getId() == "STYLE_REPEATED_WORD_RULE") {
+        if(rule.getId().startsWith("STYLE_REPEATED_WORD_RULE")) {
           repeatedWordRule = rule;
-        } else if(rule.getId() == "TOO_LONG_SENTENCE") {
+        } else if(rule.getId().startsWith("TOO_LONG_SENTENCE")) {
           longSentencesRule = rule;
         } else {
           if (!parents.containsKey(rule.getCategory().getName())) {
@@ -887,9 +887,9 @@ public class ConfigurationDialog implements ActionListener {
     
     cons.gridx++;
     int value;
-    if(rule.getId() == "STYLE_REPEATED_WORD_RULE" && config.getStyleRepeatSentences() >= 0) {
+    if(rule.getId().startsWith("STYLE_REPEATED_WORD_RULE") && config.getStyleRepeatSentences() >= 0) {
       value = config.getStyleRepeatSentences();
-    } else if(rule.getId() == "TOO_LONG_SENTENCE" && config.getLongSentencesWords() >= 0) {
+    } else if(rule.getId().startsWith("TOO_LONG_SENTENCE") && config.getLongSentencesWords() >= 0) {
       value = config.getLongSentencesWords();
     } else {
       value = rule.getDefaultValue();
@@ -938,9 +938,9 @@ public class ConfigurationDialog implements ActionListener {
           } else {
             ruleValueField.setForeground(null);
           }
-          if(rule.getId() == "STYLE_REPEATED_WORD_RULE") {
+          if(rule.getId().startsWith("STYLE_REPEATED_WORD_RULE")) {
             config.setStyleRepeatSentences(num);
-          } else if(rule.getId() == "TOO_LONG_SENTENCE") {
+          } else if(rule.getId().startsWith("TOO_LONG_SENTENCE")) {
             config.setLongSentencesWords(num);
           }
         } catch (Exception ex) {

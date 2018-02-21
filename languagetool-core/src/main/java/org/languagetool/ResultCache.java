@@ -32,7 +32,7 @@ import java.util.concurrent.TimeUnit;
  * the JLanguageTool objects all use the same rules.</strong> For example, if you call {@code JLanguageTool.addRule()}
  * in different ways for the different instances that you use the same cache for, the cache will return invalid results.
  * Using a cache with bitext rules isn't supported either.
- * It is okay however, to use same same cache for {@link JLanguageTool} objects with different languages, as
+ * It is okay however, to use the same cache for {@link JLanguageTool} objects with different languages, as
  * cached results are not used for a different language.
  * @since 3.7
  */
@@ -55,6 +55,9 @@ public class ResultCache {
    * @param expireAfter time to expire sentences from the cache after last read access 
    */
   public ResultCache(long maxSize, int expireAfter, TimeUnit timeUnit) {
+    if (maxSize < 0) {
+      throw new IllegalArgumentException("Result cache size must be >= 0: " + maxSize);
+    }
     matchesCache = CacheBuilder.newBuilder().maximumSize(maxSize/2).recordStats().expireAfterAccess(expireAfter, timeUnit).build();
     sentenceCache = CacheBuilder.newBuilder().maximumSize(maxSize/2).recordStats().expireAfterAccess(expireAfter, timeUnit).build();
   }
@@ -85,5 +88,15 @@ public class ResultCache {
 
   public void put(SimpleInputSentence key, AnalyzedSentence aSentence) {
     sentenceCache.put(key, aSentence);
+  }
+
+  /** @since 4.1 */
+  protected Cache<InputSentence, List<RuleMatch>> getMatchesCache() {
+    return matchesCache;
+  }
+
+  /** @since 4.1 */
+  protected Cache<SimpleInputSentence, AnalyzedSentence> getSentenceCache() {
+    return sentenceCache;
   }
 }

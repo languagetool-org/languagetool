@@ -44,6 +44,7 @@ public class DashRuleTest {
     assertGood("Die große Diäten- oder Gehaltserhöhung kam dann doch.", lt);
     assertGood("Erst so - Karl-Heinz dann blah.", lt);
     assertGood("Erst so -- Karl-Heinz aber...", lt);
+    assertGood("NORD- UND SÜDKOREA", lt);
     
     // incorrect sentences:
     assertBad("Die große Diäten- Erhöhung kam dann doch.", lt);

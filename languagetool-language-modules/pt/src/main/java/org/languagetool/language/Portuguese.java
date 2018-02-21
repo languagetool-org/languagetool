@@ -143,14 +143,7 @@ public class Portuguese extends Language implements AutoCloseable {
                     Arrays.asList("[", "(", "{", "\"", "“" /*, "«", "'", "‘" */),
                     Arrays.asList("]", ")", "}", "\"", "”" /*, "»", "'", "’" */)),
             new HunspellRule(messages, this),
-            new LongSentenceRule(messages, 20, false),
-            new LongSentenceRule(messages, 25, false),
-            new LongSentenceRule(messages, 30, false),
-            new LongSentenceRule(messages, 35, false),
-            new LongSentenceRule(messages, 40, false),
-            new LongSentenceRule(messages, 45, false),
-            new LongSentenceRule(messages, 50, true),
-            new LongSentenceRule(messages, 60, false),
+            new LongSentenceRule(messages, true),
             new UppercaseSentenceStartRule(messages, this,
                 Example.wrong("Esta casa é velha. <marker>foi</marker> construida em 1950."),
                 Example.fixed("Esta casa é velha. <marker>Foi</marker> construida em 1950.")),
@@ -246,19 +239,13 @@ public class Portuguese extends Language implements AutoCloseable {
       case "NO_VERB":                   return -52;
       case "CRASE_CONFUSION":           return -55;
       case "FINAL_STOPS":               return -75;
+      case "EU_NÓS_REMOVAL":            return -90;
       case "T-V_DISTINCTION":           return -100;
       case "T-V_DISTINCTION_ALL":       return -101;
       case "REPEATED_WORDS":            return -210;
       case "REPEATED_WORDS_3X":         return -211;
       case "PT_WIKIPEDIA_COMMON_ERRORS":   return -500;
-      case "TOO_LONG_SENTENCE_20":      return -997;
-      case "TOO_LONG_SENTENCE_25":      return -998;
-      case "TOO_LONG_SENTENCE_30":      return -999;
-      case "TOO_LONG_SENTENCE_35":      return -1000;
-      case "TOO_LONG_SENTENCE_40":      return -1001;
-      case "TOO_LONG_SENTENCE_45":      return -1002;
-      case "TOO_LONG_SENTENCE_50":      return -1003;
-      case "TOO_LONG_SENTENCE_60":      return -1004;
+      case "TOO_LONG_SENTENCE":         return -997;
       case "CACOPHONY":                 return -2000;
     }
     return 0;

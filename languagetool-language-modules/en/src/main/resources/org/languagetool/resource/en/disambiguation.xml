@@ -1017,10 +1017,13 @@
             <marker>
                 <token>mine</token>
             </marker>
+            <token>
+              <exception postag_regexp="yes" postag="NN|NN:UN?"/></token>
         </pattern>
         <disambig postag="NN"/>
         <example type="untouched">It's mine!</example>
         <example type="ambiguous" inputform="mine[mine/NN,mine/PRP$,mine/VB,mine/VBP]" outputform="mine[mine/NN]">It's my <marker>mine</marker>!</example>
+        <example type="untouched">The <marker>mine</marker> car is on the maintenance service!</example>
     </rule>
     <rule name="be + mine (verb/pron) -&gt; mine (pron)" id="BE_MINE">
         <pattern>
@@ -1273,18 +1276,18 @@
             <marker>
                 <and>
                     <token postag="NN(:UN?)?" postag_regexp="yes"/>
-                    <token postag="VBP"/>
+                    <token postag="VB.?" postag_regexp="yes"/>
                 </and>
             </marker>
         </pattern>
-        <disambig postag="VBP"/>
+        <disambig action="filter" postag="VB.?"/>
     </rule>
     <rule name="t -&gt; contraction (not/RB)" id="T_NOT">
         <pattern>
             <token regexp="yes">isn|aren|wasn|weren|don|doesn|didn|can|couldn|mayn|mightn|mustn|needn|oughtn|shan|shouldn|usedn|won|wouldn</token><!-- 'Be' and 'do' do not have the postag MD. The safe option is to use a list of verbs rather than changing the postags of 'do' and 'be'. -->
             <token regexp="yes">['’]</token>
             <marker>
-                <token>t</token>
+                <token case_sensitive="yes">t</token>
             </marker>
         </pattern>
         <disambig action="add"><wd lemma="not" pos="RB">t</wd></disambig>
@@ -1307,7 +1310,7 @@
     		<token regexp="yes">they|we|what|who|you</token>
     		<token regexp="yes">['’]</token>
     		<marker>
-    			<token spacebefore="no">re</token>
+    			<token spacebefore="no" case_sensitive="yes">re</token>
     		</marker>
     	</pattern>
     	<disambig action="replace"><wd lemma="be" pos="VBP">re</wd></disambig>
@@ -1655,6 +1658,20 @@
         <example type="ambiguous" inputform="dogs[dog/NNS,dog/VBZ]" outputform="dogs[dog/NNS]">The <marker>dogs</marker> barks loudly.</example>
         <example type="untouched">Anarcho-pacifism is a tendency that rejects violence.</example>
     </rule>
+    <rule name="each + verb/NN -&gt; NN" id="EACH_VB_NN">
+        <pattern>
+            <token postag="IN"/>
+            <token>each</token>
+            <marker>
+                <and>
+                    <token postag_regexp="yes" postag="VB[PZDN]?|MD"/>
+                    <token postag_regexp="yes" postag="NN.*"><exception negate_pos="yes" postag="VB[ZPDN]?|NNS?|NN:UN|NN:U|MD" postag_regexp="yes"/></token>
+                </and>
+            </marker>
+        </pattern>
+        <disambig action="filter" postag="NN.*"/>
+        <example type="ambiguous" inputform="window[window/NN,window/VB,window/VBP]" outputform="window[window/NN]">There are traceries around each <marker>window</marker> of old man Simon's house.</example>
+    </rule>
 
     <rule name="a/an/each + adj/nn + verb sing -&gt; NN" id="AN_JJ_VB_NN">    
         <pattern>
@@ -1697,7 +1714,8 @@
         <marker>
         <and>
           <token postag="NNP?(:UN?)?" postag_regexp="yes"/>
-          <token postag="JJ"/>
+          <token postag="JJ">
+            <exception postag="JJR"/></token><!-- XXX exclude JJR to allow error detection -->
         </and>
         </marker>
         <token postag="VBZ"/>
@@ -1726,9 +1744,9 @@
         <example type="untouched">No one trusts him any more.</example>
         <example type="untouched">The public demands answers.</example>
         <example type="untouched">The Atlantic harbors petroleum and gas fields.</example>
-        <example type="untouched">Panovsky's notion of the dialectic makes history follow a predetermined course.</example>
         <example type="ambiguous" inputform="dogs[dog/NNS,dog/VBZ]" outputform="dogs[dog/NNS]">Today, the black <marker>dogs</marker> barks loudly.</example>
         <example type="ambiguous" inputform="will[will/MD,will/NN:UN]" outputform="will[will/NN:UN]">Undoubtedly, the general <marker>will</marker> is an important notion in Rousseau.</example>
+        <example type="ambiguous" inputform="course[course/NN:UN,course/VB,course/VBP]" outputform="course[course/NN:UN]">Panovsky's notion of the dialectic makes history follow a predetermined <marker>course</marker>.</example>
     </rule>
     
     <rule name="determiner + adj/noun + preposition => noun" id="DT_JJNN_IN_NN">
@@ -1737,7 +1755,7 @@
         <marker>
         <and>
           <token postag="NN.*" postag_regexp="yes"/>
-          <token postag="JJ.*" postag_regexp="yes"/>
+          <token postag="JJS?" postag_regexp="yes"/><!-- XXX exclude JJR to allow error detection -->
         </and>
         </marker>
         <token postag="IN"><exception>while</exception></token>
@@ -3137,7 +3155,6 @@
     <disambig postag="VBD"/>
     <example type="untouched">Pigs know that.</example>
     <example type="untouched">Have you thought of any good plans?</example>
-    <example type="ambiguous" inputform="thought[think/VBD,think/VBN,thought/NN:UN]" outputform="thought[think/VBD]">We <marker>thought</marker> about that.</example>     
     </rule>    
     
     <!--  some more disambiguation -->
@@ -4266,63 +4283,14 @@
       <disambig action="replace"><wd pos="NNP"/><wd pos="NNP"/></disambig>
     </rule>
 
-    <rulegroup name="Ignore spelling of most NNP" id="IGNORE_SPELLING_OF_NNP"><!-- https://github.com/languagetool-org/languagetool/issues/568 -->
-<!--
-This rulegroup prevents incorrect spelling warnings for some proper nouns. Proper nouns such as 'Hoopes' must not be in spelling.txt, because that will prevent the spell checker from finding misspelled 'Hoops'. (Proper nouns such as 'Drupal' can be in spelling.txt, because it very unlikely to be a misspelled standard English word.)
-
-Two-word proper nouns could be in spelling.txt. But, also they should have the postag NNP, so give them the postag, as an alternative to only ignoring the spelling.
-
-For action="ignore_spelling", it is not possible to use example sentences that testrules validates. Test the rule with these sentences:
-
-Find. The hoopes are defective.
-Find. Hoopes, loops, and other types of coil are used in this test.
-Find. According to the ISO standard, 'Hoopes, coils, and other types of loop' are not permitted.
-Find. These coils, Hoopes, and other types of loops are satisfactory.
-Find. Get these items: 
-	* Hoopes
-	* Loops
-	* Coils.
-Find. Get these items: 1) Hoopes 2) Loops 3) Coils.
-Ignore spelling. "Ah! I'm dying," said Pierrette, falling to her knees.
-Ignore spelling. "Ah, this is my idiot son Takashi."
-Ignore spelling. You are to appear in the Los Angeles Courthouse promptly at ...
-Ignore spelling. "Does he live with a princess?" asked Gerda.
-Ignore spelling. Is the average Dalek dangerous?
-Ignore spelling. Visit these on your next vacation. Taj Mahal, Moulin Rouge, and Hong Kong.
-False positive. Hoopes, Loops, and Coils wrote the definitive book on this topic, and became the first people to...
-False positive. Zelda told me to tell you to go away.
-False positive. Geez is a Semitic language that was spoken in Ethiopia.
-False positive. Many authors, for example, Hoopes, Jones, and Smith, show that the...
-False positive. This rule finds Jérôme, because it is not an NNP.
-False negative. Make sure that there are no Hoopes or Loops in the rope. [The real problem is incorrect capitalization.]
--->
-
-      <rule name="NNP (mid and end sentence)" id="NNP_MID_END_SENTENCE">
-        <pattern case_sensitive="yes">
-          <token regexp="yes">[A-Za-z]+</token><!-- Alphabetic characters only. Refer to the 'Get these items' example. -->
-          <marker>
-            <token postag="NNP" regexp="yes">\p{Lu}\p{Ll}+</token><!-- Permit words with circumflex and other marks. Although the characters are not standard English, if the word has postag NNP, it is not a spelling error. A word that has a non-standard English character is not likely to be a misspelling of a standard English word. -->
-          </marker>
+    <rule name="NNP with trademark symbols" id="PROPER_NOUNS_WITH_TRADEMARK_SYMBOLS">
+        <pattern>
+            <token regexp="yes">([a-z]+)[™®]</token><!-- The case is not important. Some trade names have non-standard typography. Some start with a lower-case letter. NoDisambiguationEnglishPartialPosTagFilter is necessary to prevent LT ignoring typographic errors such as Yarhoo®. The rule causes false negatives with NNPs that are not legally permitted to use the ® symbol, but that is a relatively unlikely problem. (Nobody is likely to write Michael® unless they mean it.) -->
         </pattern>
+        <filter class="org.languagetool.rules.en.NoDisambiguationEnglishPartialPosTagFilter"
+                args="no:1 regexp:([a-zA-Z]+)[™®] postag_regexp:NNP"/><!-- The filter is case-sensitive -->
         <disambig action="ignore_spelling"/>
       </rule>
-      <rule name="NNP (2-word in any location)" id="NNP_TWO_WORD">
-        <pattern case_sensitive="yes">
-          <token postag="NNP" regexp="yes">\p{Lu}\p{Ll}+</token>
-          <token postag="NNP" regexp="yes">\p{Lu}\p{Ll}+</token>
-        </pattern>
-        <disambig action="ignore_spelling"/>
-      </rule>
-
-      <rule name="NNP with trademark symbols" id="PROPER_NOUNS_WITH_TRADEMARK_SYMBOLS">
-          <pattern>
-              <token regexp="yes">([a-z]+)[™®]</token><!-- The case is not important. Some trade names have non-standard typography. Some start with a lower-case letter. NoDisambiguationEnglishPartialPosTagFilter is necessary to prevent LT ignoring typographic errors such as Yarhoo®. The rule causes false negatives with NNPs that are not legally permitted to use the ® symbol, but that is a relatively unlikely problem. (Nobody is likely to write Michael® unless they mean it.) -->
-          </pattern>
-          <filter class="org.languagetool.rules.en.NoDisambiguationEnglishPartialPosTagFilter"
-                  args="no:1 regexp:([a-zA-Z]+)[™®] postag_regexp:NNP"/><!-- The filter is case-sensitive -->
-        <disambig action="ignore_spelling"/>
-      </rule>
-    </rulegroup>
 
     <rule name="Ignore spelling of superscripted units of measure" id="IGNORE_SPELLING_OF_SUPERSCRIPTED_UNITS"><!-- Refer to http://physics.nist.gov/cuu/Units/units.html -->
         <pattern case_sensitive="yes">

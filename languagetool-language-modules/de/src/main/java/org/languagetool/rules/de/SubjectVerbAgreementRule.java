@@ -84,6 +84,12 @@ public class SubjectVerbAgreementRule extends Rule {
       new PatternTokenBuilder().pos("ZAL").build(),
       new PatternTokenBuilder().tokenRegex("Tage|Monate|Jahre").build(),
       new PatternTokenBuilder().posRegex("VER:3:SIN:.*").build()
+    ),
+    Arrays.asList(
+      new PatternTokenBuilder().pos(JLanguageTool.SENTENCE_START_TAGNAME).build(),
+      new PatternTokenBuilder().pos("PRP:CAU:GEN").setSkip(4).build(),
+      new PatternTokenBuilder().csToken("und").setSkip(4).build(),
+      new PatternTokenBuilder().tokenRegex("ist|war").build()
     )
   );
 

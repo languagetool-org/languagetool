@@ -56,6 +56,8 @@ public class Indexer implements AutoCloseable {
   private final IndexWriter writer;
   private final SentenceTokenizer sentenceTokenizer;
 
+  private boolean lowercaseOnly;
+
   public Indexer(Directory dir, Language language) {
     this(dir, language, getAnalyzer(language));
   }
@@ -71,6 +73,13 @@ public class Indexer implements AutoCloseable {
     }
   }
 
+  /**
+   * Set to true to index only a lowercase field (makes index smaller).
+   */
+  public void setLowercaseOnly(boolean lowercaseOnly) {
+    this.lowercaseOnly = lowercaseOnly;
+  }
+  
   public static void main(String[] args) throws IOException {
     ensureCorrectUsageOrExit(args);
     run(args[0], args[1], args[2]);
@@ -134,26 +143,42 @@ public class Indexer implements AutoCloseable {
   public void indexText(BufferedReader reader) throws IOException {
     String line;
     StringBuilder paragraph = new StringBuilder();
+    int i = 0;
+    int addCount = 0;
     while ((line = reader.readLine()) != null) {
       if (!(line.equals("")) && paragraph.length() + line.length() < Integer.MAX_VALUE) {
         paragraph.append(line).append("\n");
       } else {
         List<String> sentences = sentenceTokenizer.tokenize(paragraph.toString());
         for (String sentence : sentences) {
-          add(sentence.replaceAll(" \n"," "), null, null, -1);
+          if (sentence.trim().length() > 0) {
+            if (++addCount % 1000 == 0) {
+              System.out.println("(1) Adding item " + addCount);
+            }
+            add(sentence.replaceAll(" \n"," "), null, null, -1);
+          }
         }
         if (paragraph.length() + line.length() >= Integer.MAX_VALUE) {
-          List<String> last_sentences = sentenceTokenizer.tokenize(line);
-          for (String sentence : last_sentences) {
+          List<String> lastSentences = sentenceTokenizer.tokenize(line);
+          for (String sentence : lastSentences) {
+            if (++addCount % 1000 == 0) {
+              System.out.println("(2) Adding item " + addCount);
+            }
             add(sentence, null, null, -1);
           }
         }
         paragraph.setLength(0);
       }
+      if (++i % 10_000 == 0) {
+        System.out.println("Loading line " + i);
+      }
     }
     if (paragraph.length() > 0) {
       List<String> sentences = sentenceTokenizer.tokenize(paragraph.toString());
       for (String sentence : sentences) {
+        if (++addCount % 1000 == 0) {
+          System.out.println("(3) Adding item " + addCount);
+        }
         add(sentence, null, null, -1);
       }
     }
@@ -169,7 +194,9 @@ public class Indexer implements AutoCloseable {
     type.setStored(true);
     type.setIndexOptions(IndexOptions.DOCS_AND_FREQS_AND_POSITIONS_AND_OFFSETS);
     type.setTokenized(true);
-    doc.add(new Field(FIELD_NAME, sentence, type));
+    if (!lowercaseOnly) {
+      doc.add(new Field(FIELD_NAME, sentence, type));
+    }
     doc.add(new Field(FIELD_NAME_LOWERCASE, sentence, type));
     if (docCount != -1) {
       FieldType countType = new FieldType();
@@ -199,4 +226,7 @@ public class Indexer implements AutoCloseable {
     writer.close();
   }
 
+  public void commit() throws IOException {
+    writer.commit();
+  }
 }

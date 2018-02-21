@@ -63,6 +63,10 @@ public class CaseRule extends Rule {
   // also see case_rule_exception.txt:
   private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
     Arrays.asList(
+      // see https://www.duden.de/suchen/dudenonline/u-f%C3%B6rmig
+      regex("[A-Z]-förmig(e|en|es|em|er|es)?")
+    ),
+    Arrays.asList(
       // see http://www.lektorenverband.de/die-deutsche-rechtschreibung-was-ist-neu/
       // and http://www.rechtschreibrat.com/DOX/rfdr_Woerterverzeichnis_2017.pdf
       regex("Goldenen?"),
@@ -105,7 +109,7 @@ public class CaseRule extends Rule {
     ),
     Arrays.asList(
       regex("Vereinigte[ns]?"),
-      regex("Staaten|Königreiche?s?")
+      regex("Staaten|Königreiche?s?|Bühnen")
     ),
     Arrays.asList(
       csToken("Den"),
@@ -247,7 +251,7 @@ public class CaseRule extends Rule {
      ),
      Arrays.asList(
        // "Das Aus für Italien kam unerwartet." / "Müller drängt auf Aus bei Pflichtmitgliedschaft"
-       regex("auf|das|vor"),
+       regex("auf|das|vor|a[mn]"),
        csToken("Aus"),
        posRegex("^PRP:.+|VER:[1-3]:.+")
      ),
@@ -265,7 +269,7 @@ public class CaseRule extends Rule {
      Arrays.asList(
        // https://de.wikipedia.org/wiki/Neue_Mittelschule
        regex("Neue[nrs]?"),
-       new PatternTokenBuilder().tokenRegex("Mittelschule|Rathaus|Testament|Welt|Markt|Rundschau").matchInflectedForms().build()
+       new PatternTokenBuilder().tokenRegex("Mitte(lschule)?|Rathaus|Testament|Welt|Markt|Rundschau").matchInflectedForms().build()
      ),
      Arrays.asList( // "Das schließen Forscher aus ..."
        new PatternTokenBuilder().pos(JLanguageTool.SENTENCE_START_TAGNAME).build(),
@@ -429,9 +433,9 @@ public class CaseRule extends Rule {
     "Angestellter",
     "Angestellte",
     "Angestellten",
-    "Bankangestellter",
-    "Bankangestellte",
-    "Bankangestellten",
+    "Armeeangehörige",
+    "Armeeangehörigen",
+    "Armeeangehöriger",
     "Liberaler",
     "Abriss",
     "Ahne",
@@ -688,8 +692,8 @@ public class CaseRule extends Rule {
     languages.add("Walisisch");
     languages.add("Weißrussisch");
   }
-  
-  private static final Set<String> myExceptionPhrases = CaseRuleExceptions.getExceptions();
+
+  private static final Set<Pattern[]> exceptionPatterns = CaseRuleExceptions.getExceptionPatterns();
 
   private static final Set<String> substVerbenExceptions = new HashSet<>();
   static {
@@ -1167,7 +1171,7 @@ public class CaseRule extends Rule {
     for (AnalyzedToken reading : tokens[i].getReadings()) {
       String posTag = reading.getPOSTag();
       if ((posTag == null || posTag.contains("ADJ")) && !hasNounReading(nextReadings)) {
-        if(posTag == null && hasPartialTag(lowercaseReadings, "PRP:LOK", "PA2:PRD:GRU:VER", "PA1:PRD:GRU:VER")) {
+        if(posTag == null && hasPartialTag(lowercaseReadings, "PRP:LOK", "PA2:PRD:GRU:VER", "PA1:PRD:GRU:VER", "ADJ:PRD:KOM")) {
           // skip to avoid a false true for, e.g. "Die Zahl ging auf Über 1.000 zurück."/ "Dies gilt schon lange als Überholt."
           // but not for "Er versuchte, Neues zu wagen."
         } else {
@@ -1204,12 +1208,11 @@ public class CaseRule extends Rule {
   }
 
   private boolean isExceptionPhrase(int i, AnalyzedTokenReadings[] tokens) {
-    for (String phrase : myExceptionPhrases) {
-      String[] parts = phrase.split(" ");
-      for (int j = 0; j < parts.length; j++) {
-        if (tokens[i].getToken().matches(parts[j])) {
+    for (Pattern[] patterns : exceptionPatterns) {
+      for (int j = 0; j < patterns.length; j++) {
+        if (patterns[j].matcher(tokens[i].getToken()).matches()) {
           int startIndex = i-j;
-          if (compareLists(tokens, startIndex, startIndex+parts.length-1, parts)) {
+          if (compareLists(tokens, startIndex, startIndex+patterns.length-1, patterns)) {
             return true;
           }
         }
@@ -1219,16 +1222,16 @@ public class CaseRule extends Rule {
   }
 
   // non-private for tests
-  boolean compareLists(AnalyzedTokenReadings[] tokens, int startIndex, int endIndex, String[] parts) {
+  boolean compareLists(AnalyzedTokenReadings[] tokens, int startIndex, int endIndex, Pattern[] patterns) {
     if (startIndex < 0) {
       return false;
     }
     int i = 0;
     for (int j = startIndex; j <= endIndex; j++) {
-      if (i >= parts.length || j >= tokens.length) {
+      if (i >= patterns.length || j >= tokens.length) {
         return false;
       }
-      if (!tokens[j].getToken().matches(parts[i])) {
+      if (!patterns[i].matcher(tokens[j].getToken()).matches()) {
         return false;
       }
       i++;

@@ -96,11 +96,11 @@ public class GermanSpellerRuleTest {
   public void testGetAdditionalTopSuggestions() throws Exception {
     GermanSpellerRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
     JLanguageTool lt = new JLanguageTool(GERMAN_DE);
-    assertThat(rule.match(lt.getAnalyzedSentence("konservierungsstoffe"))[0].getSuggestedReplacements().toString(), is("[Konservierungsstoffe]"));
     assertThat(rule.match(lt.getAnalyzedSentence("konservierungsstoffstatistik"))[0].getSuggestedReplacements().toString(), is("[Konservierungsstoffstatistik]"));
     assertThat(rule.match(lt.getAnalyzedSentence("konservierungsstoffsasdsasda"))[0].getSuggestedReplacements().size(), is(0));
     assertThat(rule.match(lt.getAnalyzedSentence("Ventrolateral")).length, is(0));
     assertThat(rule.match(lt.getAnalyzedSentence("Majonäse."))[0].getSuggestedReplacements().toString(), is("[Mayonnaise.]"));
+    assertFirstSuggestion("konservierungsstoffe", "Konservierungsstoffe", rule, lt);
     assertFirstSuggestion("Ist Ventrolateral", "ventrolateral", rule, lt);
     assertFirstSuggestion("denkte", "dachte", rule, lt);
     assertFirstSuggestion("schwimmte", "schwamm", rule, lt);
@@ -208,6 +208,10 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("artz", "Arzt", rule, lt);
     assertFirstSuggestion("berücksichtung", "Berücksichtigung", rule, lt);
     assertFirstSuggestion("okey", "okay", rule, lt);
+    assertFirstSuggestion("Energiesparung", "Energieeinsparung", rule, lt);
+    assertFirstSuggestion("Deluxe-Version", "De-luxe-Version", rule, lt);
+    assertFirstSuggestion("De-luxe-Champagnr", "De-luxe-Champagner", rule, lt);
+    assertFirstSuggestion("problemhafte", "problembehaftete", rule, lt);
   }
 
   @Test
@@ -250,6 +254,7 @@ public class GermanSpellerRuleTest {
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Stil-, Text- und Grammatikprüfung")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Stil-, Text- oder Grammatikprüfung")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Miet- und Zinseinkünfte")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("SPD- und CDU-Abgeordnete")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Haupt- und Nebensatz")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Vertuschungs- und Bespitzelungsmaßnahmen")).length); // remove "s" from "Vertuschungs" before spell check
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Au-pair-Agentur")).length); // compound with ignored word from spelling.txt
@@ -258,11 +263,18 @@ public class GermanSpellerRuleTest {
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Des World Wide Webs")).length); // expanded multi-word entry from spelling.txt
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Der westperuanische Ferienort.")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("„Pumpe“-Nachfolge")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("ÖVP- und FPÖ-Chefverhandler")).length); // first part is from spelling.txt
 
     assertEquals(1, rule.match(lt.getAnalyzedSentence("Miet und Zinseinkünfte")).length);
     assertEquals(1, rule.match(lt.getAnalyzedSentence("Stil- und Grammatik gut")).length);
     assertEquals(1, rule.match(lt.getAnalyzedSentence("Flasch- und Grammatikprüfung gut")).length);
     //assertEquals(1, rule.match(langTool.getAnalyzedSentence("Haupt- und Neben")).length);  // hunspell accepts this :-(
+
+    // check acceptance of words in ignore.txt ending with "-*"
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Dual-Use-Güter")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Dual-Use- und Wirtschaftsgüter")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Test-Dual-Use")).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("Dual-Use")).length);
   }
 
   @Test

@@ -170,6 +170,17 @@ public class GermanTagger extends BaseTagger {
             } else if (substantivatedFormsList != null && substantivatedFormsList.size() > 0) {
               readings.addAll(substantivatedFormsList);
             } else {
+              if (StringUtils.startsWithAny(word, "bitter", "dunkel", "erz", "extra", "früh",
+                "gemein", "hyper", "lau", "minder", "stock", "super", "tod", "ultra", "ur")) {
+                String lastPart = StringUtils.removePattern(word, "^(bitter|dunkel|erz|extra|früh|gemein|grund|hyper|lau|minder|stock|super|tod|ultra|ur|voll)");
+                if (lastPart.length() > 1) {
+                  String firstPart = StringUtils.removeEnd(word, lastPart);
+                  List<TaggedWord> taggedWords = getWordTagger().tag(lastPart);
+                  for (TaggedWord taggedWord : taggedWords) {
+                    readings.add(new AnalyzedToken(word, taggedWord.getPosTag(), firstPart+taggedWord.getLemma()));
+                  }
+                }
+              }
               //Separate dash-linked words
               //Only check single word tokens and skip words containing numbers because it's unpredictable
               if (word.split(" ").length == 1 && !word.matches("[0-9].*")) {
@@ -275,6 +286,11 @@ public class GermanTagger extends BaseTagger {
    */
   private List<AnalyzedToken> getSubstantivatedForms(String word, List<String> sentenceTokens, int pos) {
     if (word.endsWith("er")) {
+      List<TaggedWord> lowerCaseTags = getWordTagger().tag(word.toLowerCase());
+      // do not add tag words whose lower case variant is an adverb (e.g, "Früher") to avoid false negatives for DE_CASE
+      if (lowerCaseTags.stream().anyMatch(t -> t.getPosTag().startsWith("ADV"))) {
+        return null;
+      }
       int idx = sentenceTokens.indexOf(word);
       // is followed by an uppercase word? If 'yes', the word is probably not substantivated
       while (++idx < sentenceTokens.size()) {
@@ -282,7 +298,7 @@ public class GermanTagger extends BaseTagger {
         if (StringUtils.isWhitespace(nextWord)) {
           continue;
         }
-        if (nextWord.length() > 0 && Character.isUpperCase(nextWord.charAt(0))) {
+        if (nextWord.length() > 0 && (Character.isUpperCase(nextWord.charAt(0)) || "als".equals(nextWord))) {
           return null;
         }
         break;
@@ -293,6 +309,7 @@ public class GermanTagger extends BaseTagger {
       if (isSubstantivatedForm) {
         List<AnalyzedToken> list = new ArrayList<AnalyzedToken>();
         list.add(new AnalyzedToken(word, "SUB:NOM:SIN:MAS:ADJ", word));
+        list.add(new AnalyzedToken(word, "SUB:GEN:PLU:MAS:ADJ", word));
         //list.add(new AnalyzedToken(word, "SUB:NOM:SIN:MAS", word));
         return list;
       }

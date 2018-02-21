@@ -658,18 +658,18 @@ public class Configuration {
       props.setProperty(key, String.join(DELIMITER,  list));
     }
   }
-  
-  private void setValueToRule (String ruleID, int value, Language lang) {
-    if(lang == null) {
+
+  private void setValueToRule(String ruleID, int value, Language lang) {
+    if (lang == null) {
       lang = language;
-      if(lang == null) {
+      if (lang == null) {
         return;
       }
     }
     JLanguageTool langTool = new JLanguageTool(lang, motherTongue);
     List<Rule> allRules = langTool.getAllRules();
     for (Rule rule : allRules) {
-      if(Objects.equals(rule.getId(), ruleID)) {
+      if (rule.getId().startsWith(ruleID)) {
         rule.setDefaultValue(value);
         break;
       }

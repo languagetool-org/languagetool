@@ -52,6 +52,7 @@ import org.languagetool.tools.ContextTools;
  * index that runs the query on that index and prints all matches.
  * Will transparently handle rules that are not supported, i.e. run on the candidate matches
  * up to a limit.
+ * See {@link Indexer} for how to create the index.
  * 
  * @author Tao Lin
  * @author Daniel Naber

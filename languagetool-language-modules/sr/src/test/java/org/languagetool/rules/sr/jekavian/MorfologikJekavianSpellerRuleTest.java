@@ -50,4 +50,9 @@ public class MorfologikJekavianSpellerRuleTest {
     // Roman numerals
     assertEquals(0, rule.match(languageTool.getAnalyzedSentence("III")).length);
   }
+  
+  @Test
+  public void testSpellingCheck() throws IOException {
+    assertEquals(1, rule.match(languageTool.getAnalyzedSentence("Misspelled.")).length);
+  }
 }

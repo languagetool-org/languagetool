@@ -1435,14 +1435,19 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token postag="SENT_START" skip="-1"><exception regexp="yes" scope="next">qu[ie]?</exception></token>
+          <token postag="SENT_START|M nonfin" postag_regexp="yes" skip="-1">
+			<exception regexp="yes" scope="next">qu[ie]?</exception>
+		</token>
           <token postag="V.*" postag_regexp="yes">
             <exception postag="[ZNRJ].*" postag_regexp="yes"/>
             <exception postag="V inf"/>
             <exception regexp="yes">puis|née?s?</exception>
           </token>
-          <marker><token>a</token></marker>
-          <token><exception regexp="yes">contrario|enclos|fortiori|posteriori|priori|capp?ella|côté</exception></token>
+          <marker><token>a
+			</token></marker>
+          <token>
+			<exception regexp="yes">contrario|enclos|fortiori|posteriori|priori|capp?ella|côté|.</exception>
+		</token>
         </pattern>
         <message>Voulez-vous écrire <suggestion>à</suggestion> ?</message>
         <example correction="à">Ils s’apprêtent <marker>a</marker> le dépasser.</example>
@@ -1453,6 +1458,7 @@ though, and has since been slightly modified)-->
         <example>Puis a jailli un jeune homme.</example>
         <example>Il chante <marker>a</marker> cappella.</example>
         <example>Il est né à Vitré.</example>
+        <example>Si b est VRAI, l'expression vaut FAUX, sinon elle vaut a.</example>
       </rule>
       <rule>
         <pattern>
@@ -8187,6 +8193,11 @@ though, and has since been slightly modified)-->
           <token>imprimantes</token>
           <token>laser</token>
         </antipattern>
+        <antipattern>
+          <!-- See http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=2685 -->
+          <token regexp="yes">lundis|mardis|mercredis|jeudis|vendredis|samedis|dimanches</token>
+          <token regexp="yes">matin|soir</token>
+        </antipattern>
         <pattern>
           <token negate="yes" regexp="yes">des?</token>
           <marker>
@@ -8246,6 +8257,8 @@ though, and has since been slightly modified)-->
         <example>Des événements différents ayant lieu en même temps.</example>
         <example>Les tortues luth.</example>
         <example>Les imprimantes laser.</example>
+        <example>Tous les lundis matin.</example>
+        <example>Tous les lundis soir.</example>
       </rule>
     </rulegroup>
     <rulegroup id="ACCORD_GENRE" name="Accord en genre">
@@ -9132,12 +9145,13 @@ though, and has since been slightly modified)-->
     <rulegroup id="ETRE_VPPA_OU_ADJ" name="être + participe passé">
       <rule>
         <pattern>
-          <token postag="SENT_START" skip="-1">
+          <token postag="SENT_START|M nonfin" postag_regexp="yes" skip="-1">
             <exception scope="next" postag="[NRZ].* [fe] .*" postag_regexp="yes"/>
           </token>
           <token postag="[NZ] m .*|R pers suj 3 m .*|R dem m .*" postag_regexp="yes">
             <exception>on</exception>
             <exception postag="[NZ] [fe] .*" postag_regexp="yes"/>
+			<exception scope="previous" regexp="yes">au|aux</exception>
           </token>
           <token postag="V.* 3 .*" postag_regexp="yes" regexp="yes" inflected="yes">demeurer|devenir|être|para[îi]tre|rester|sembler</token>
           <token min="0" max="2" postag="A"/>
@@ -9145,12 +9159,13 @@ though, and has since been slightly modified)-->
             <token postag="V.* ppa f .*|J f .*" postag_regexp="yes">
               <exception>même</exception>
               <exception postag="[JN] [me].*|V ppa [me].*" postag_regexp="yes"/>
+			  <exception>partie</exception>
             </token>
           </marker>
         </pattern>
         <message>Le mot féminin « \5 » n’est pas accordé en genre avec le mot masculin « \2 ».</message>
-        <example correction="">Un orage est <marker>annoncée</marker>.</example>
-        <example>Un orage est <marker>annoncé</marker>.</example>
+        <example correction="">Ce soir, un orage est <marker>annoncée</marker>.</example>
+        <example>Ce soir, un orage est <marker>annoncé</marker>.</example>
         <example correction="">Un orage semble <marker>annoncée</marker>.</example>
         <example>Un orage semble <marker>annoncé</marker>.</example>
         <example correction="">Antoine est <marker>mariée</marker>.</example>
@@ -9167,10 +9182,12 @@ though, and has since been slightly modified)-->
         <example>Ils sont très <marker>avares</marker>.</example>
         <example correction="">Ils restent <marker>dernières</marker>.</example>
         <example>Ils restent <marker>derniers</marker>.</example>
+        <example>Le département est <marker>partie</marker> constituante de cet ensemble topographique.</example>
+        <example>L'une dédiée au fret est <marker>longue</marker> de cinquante mètres.</example>
       </rule>
       <rule>
         <pattern>
-          <token postag="SENT_START" skip="-1">
+          <token postag="SENT_START|M nonfin" postag_regexp="yes" skip="-1">
             <exception scope="next" postag="[NRZ].* [fe] .*" postag_regexp="yes"/>
           </token>
           <token postag="[NZ] m .*|R pers suj 3 m .*|R dem m .*" postag_regexp="yes">
@@ -9187,14 +9204,14 @@ though, and has since been slightly modified)-->
           </marker>
         </pattern>
         <message>Le mot féminin « \5 » n’est pas accordé en genre avec le mot masculin « \2 ».</message>
-        <example correction="">Un orage a été <marker>annoncée</marker>.</example>
-        <example>Un orage a été <marker>annoncé</marker>.</example>
+        <example correction="">Pourtant, un orage a été <marker>annoncée</marker>.</example>
+        <example>Pourtant, un orage a été <marker>annoncé</marker>.</example>
         <example correction="">Les camions ont été <marker>inventées</marker>.</example>
         <example>Les camions ont été inventés.</example>
       </rule>
       <rule>
         <pattern>
-          <token postag="SENT_START" skip="-1">
+          <token postag="SENT_START|M nonfin" postag_regexp="yes" skip="-1">
             <exception scope="next" postag="[NRZ].* [fe] .*" postag_regexp="yes"/>
           </token>
           <token postag="[NZ] m .*|R pers suj 3 m .*|R dem m .*" postag_regexp="yes">
@@ -9214,8 +9231,8 @@ though, and has since been slightly modified)-->
         <message>Le mot féminin « \7 » n’est pas accordé en genre avec le mot masculin « \2 ».</message>
         <example correction="">Antoine n’est pas <marker>mariée</marker>.</example>
         <example>Antoine n’est pas <marker>marié</marker>.</example>
-        <example correction="">Antoine n’est pas très <marker>fatiguée</marker>.</example>
-        <example>Antoine n’est pas très fatigué.</example>
+        <example correction="">Ce soir, Antoine n’est pas très <marker>fatiguée</marker>.</example>
+        <example>Ce soir, Antoine n’est pas très fatigué.</example>
         <example>Mon oncle n’est pas <marker>avare</marker> de son argent.</example>
       </rule>
       <rule>
@@ -9224,11 +9241,12 @@ though, and has since been slightly modified)-->
           <token>devant</token>
         </antipattern>
         <pattern>
-          <token postag="SENT_START" skip="-1">
+          <token postag="SENT_START|M nonfin" postag_regexp="yes" skip="-1">
             <exception scope="next" postag="[NRZ].* [me] .*|V inf" postag_regexp="yes"/>
           </token>
           <token postag="[NZ] f .*|R pers suj 3 f .*|R dem f .*" postag_regexp="yes">
             <exception postag="[NZ] [me] .*" postag_regexp="yes"/>
+			<exception case_sensitive="yes">Psychose</exception>
           </token>
           <token postag="V.* 3 .*" postag_regexp="yes" regexp="yes" inflected="yes">demeurer|être|devenir|para[îi]tre|rester|sembler</token>
           <token min="0" max="2" postag="A"/>
@@ -9251,11 +9269,15 @@ though, and has since been slightly modified)-->
         <example>Cette voiture était suffisamment bon marché.</example>
         <example>Cette caméra est dernier cri.</example>
         <example>La sortie est droit devant.</example>
-        <example>Elles sont bien entendu placées en hauteur.</example>
+        <example correction="">Dans la cuisine, elles sont bien entendu <marker>placés</marker> en hauteur.</example>
+        <example>Dans la cuisine, elles sont bien entendu <marker>placées</marker> en hauteur.</example>
+        <example>Produit avec un budget en effet très limité, Psychose est <marker>tourné</marker> avec l'équipe de télévision d'Alfred Hitchcock.</example>
+        <example correction="">Cette psychose est <marker>entretenu</marker> par les théories du complot.</example>
+        <example >Cette psychose est <marker>entretenue</marker> par les théories du complot.</example>
       </rule>
       <rule>
         <pattern>
-          <token postag="SENT_START" skip="-1">
+          <token postag="SENT_START|M nonfin" postag_regexp="yes" skip="-1">
             <exception scope="next" postag="[NRZ].* [me] .*|V inf" postag_regexp="yes"/>
           </token>
           <token postag="[NZ] f .*|R pers suj 3 f .*|R dem f .*" postag_regexp="yes">
@@ -9272,8 +9294,8 @@ though, and has since been slightly modified)-->
           </marker>
         </pattern>
         <message>Le mot masculin « \6 » n’est pas accordé en genre avec le mot féminin « \2 ».</message>
-        <example correction="">Une averse avait été <marker>annoncé</marker>.</example>
-        <example>Une averse avait été <marker>annoncée</marker>.</example>
+        <example correction="">Hier, une averse avait été <marker>annoncé</marker>.</example>
+        <example>Hier, une averse avait été <marker>annoncée</marker>.</example>
         <example correction="">Martine aurait été <marker>content</marker>.</example>
         <example>Martine aurait été <marker>contente</marker>.</example>
         <example correction="">Martine aurait été très <marker>content</marker>.</example>
@@ -9284,7 +9306,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token postag="SENT_START" skip="-1">
+          <token postag="SENT_START|M nonfin" postag_regexp="yes" skip="-1">
             <exception scope="next" postag="[NRZ].* [me] .*|V inf" postag_regexp="yes"/>
           </token>
           <token postag="[NZ] f .*|R pers suj 3 f .*|R dem f .*" postag_regexp="yes">
@@ -9301,8 +9323,8 @@ though, and has since been slightly modified)-->
           </marker>
         </pattern>
         <message>Le mot masculin « \7 » n’est pas accordé en genre avec le mot féminin « \2 ».</message>
-        <example correction="">Martine n’est pas <marker>marié</marker>.</example>
-        <example>Martine n’est pas mariée.</example>
+        <example correction="">D'après ce qu'il m'a dit, Martine n’est pas <marker>marié</marker>.</example>
+        <example>D'après ce qu'il m'a dit, Martine n’est pas mariée.</example>
         <example correction="">Martine ne semble pas <marker>marié</marker>.</example>
         <example>Martine ne semble pas mariée.</example>
         <example correction="">Martine n’est pas très <marker>joli</marker>.</example>
@@ -9310,7 +9332,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token postag="SENT_START" skip="-1">
+          <token postag="SENT_START|M nonfin" postag_regexp="yes" skip="-1">
             <exception scope="next" postag="[NR].*p" postag_regexp="yes"/>
             <exception scope="next">et</exception>
           </token>
@@ -9334,8 +9356,8 @@ though, and has since been slightly modified)-->
         <example correction="">Martine était <marker>ennuyeuses</marker>.</example>
         <example>Martine était ennuyeuse.</example>
         <example>Lui et son équipage furent perdus en mer.</example>
-        <example correction="">Tu étais <marker>jeunes</marker>.</example>
-        <example>Tu étais jeune.</example>
+        <example correction="">Sur la photo, tu étais <marker>jeunes</marker>.</example>
+        <example>Sur la photo, tu étais jeune.</example>
         <example correction="">Celle-là est <marker>folles</marker>.</example>
         <example>Celle-là est folle.</example>
         <example>Il est casse-couilles.</example>
@@ -9346,7 +9368,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token postag="SENT_START" skip="-1">
+          <token postag="SENT_START|M nonfin" postag_regexp="yes" skip="-1">
             <exception scope="next" postag="[NR].*p" postag_regexp="yes"/>
             <exception scope="next">et</exception>
           </token>
@@ -9364,8 +9386,8 @@ though, and has since been slightly modified)-->
           </marker>
         </pattern>
         <message>Le mot pluriel « \6 » n’est pas accordé en nombre avec le mot singulier « \2 ».</message>
-        <example correction="">Un orage avait été <marker>annoncés</marker>.</example>
-        <example>Un orage avait été annoncé.</example>
+        <example correction="">Hier, un orage avait été <marker>annoncés</marker>.</example>
+        <example>Hier, un orage avait été annoncé.</example>
         <example correction="">Tu avais été <marker>dénoncés</marker>.</example>
         <example>Tu avais été dénoncé.</example>
         <example correction="">Tu avais été immédiatement <marker>dénoncés</marker>.</example>
@@ -9391,7 +9413,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token postag="SENT_START" skip="-1">
+          <token postag="SENT_START|M nonfin" postag_regexp="yes" skip="-1">
             <exception scope="next" postag="[NR].*p" postag_regexp="yes"/>
             <exception scope="next">et</exception>
           </token>
@@ -9410,8 +9432,8 @@ though, and has since been slightly modified)-->
           </marker>
         </pattern>
         <message>Le mot pluriel « \7 » n’est pas accordé en nombre avec le mot singulier « \2 ».</message>
-        <example correction="">Elle ne sera pas <marker>contentes</marker>.</example>
-        <example>Elle ne sera pas contente.</example>
+        <example correction="">Si tu n'es pas là, elle ne sera pas <marker>contentes</marker>.</example>
+        <example>Si tu n'es pas là, elle ne sera pas contente.</example>
         <example correction="">Martine n’était guère <marker>ennuyeuses</marker>.</example>
         <example>Martine n’était guère ennuyeuse.</example>
         <example>Elle est casse-couilles.</example>
@@ -9426,7 +9448,7 @@ though, and has since been slightly modified)-->
           <token>jais</token>
         </antipattern>
         <pattern>
-          <token postag="SENT_START" skip="-1">
+          <token postag="SENT_START|M nonfin" postag_regexp="yes" skip="-1">
             <exception scope="next" postag="[NR].*sp?|V inf" postag_regexp="yes"/>
           </token>
           <token postag="N . p|R pers suj [13].* p|R dem.* p" postag_regexp="yes">
@@ -9449,8 +9471,8 @@ though, and has since been slightly modified)-->
         <example>Vous êtes <marker>certain</marker>.</example>
         <example>Le vernis à ongles est inutile.</example>
         <example>Courir les magasins est devenu une corvée.</example>
-        <example correction="">Nous étions <marker>fatigué</marker>.</example>
-        <example>Nous étions <marker>fatigués</marker>.</example>
+        <example correction="">Ce jour-là, nous étions <marker>fatigué</marker>.</example>
+        <example>Ce jour-là, nous étions <marker>fatigués</marker>.</example>
         <example>Ils sont même allés faire la guerre.</example>
         <example correction="">Celles-là sont <marker>folle</marker>.</example>
         <example>Celles-là sont folles.</example>
@@ -9466,7 +9488,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token postag="SENT_START" skip="-1">
+          <token postag="SENT_START|M nonfin" postag_regexp="yes" skip="-1">
             <exception scope="next" postag="[NR].*sp?" postag_regexp="yes"/>
           </token>
           <token postag="[NZ] . p|R pers suj [13].* p|R dem.* p" postag_regexp="yes">
@@ -9483,8 +9505,8 @@ though, and has since been slightly modified)-->
           </marker>
         </pattern>
         <message>Le mot singulier « \6 » n’est pas accordé en nombre avec le mot pluriel « \2 ».</message>
-        <example correction="">Des orages avaient été <marker>annoncé</marker>.</example>
-        <example>Des orages avaient été annoncés.</example>
+        <example correction="">Hier soir, des orages avaient été <marker>annoncé</marker>.</example>
+        <example>Hier soir, des orages avaient été annoncés.</example>
         <example correction="">Ils avaient été <marker>dénoncé</marker>.</example>
         <example>Ils avaient été dénoncés.</example>
         <example correction="">Nous aurions été <marker>dénoncé</marker>.</example>
@@ -9497,7 +9519,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token postag="SENT_START" skip="-1">
+          <token postag="SENT_START|M nonfin" postag_regexp="yes" skip="-1">
             <exception scope="next" postag="[NR].*sp?|V inf" postag_regexp="yes"/>
           </token>
           <token postag="[NZ] . p|R pers suj [13].* p|R dem.* p" postag_regexp="yes">
@@ -9515,8 +9537,8 @@ though, and has since been slightly modified)-->
           </marker>
         </pattern>
         <message>Le mot singulier « \7 » n’est pas accordé en nombre avec le mot pluriel « \2 ».</message>
-        <example correction="">Elles ne sont pas <marker>absente</marker>.</example>
-        <example>Elles ne sont pas absentes.</example>
+        <example correction="">Aujourd'hui, elles ne sont pas <marker>absente</marker>.</example>
+        <example>Aujourd'hui, elles ne sont pas absentes.</example>
         <example>Les mathématiques ne sont pas juste de la mémorisation de formules.</example>
         <example correction="">Nous n’étions pas trop <marker>fatigué</marker>.</example>
         <example>Nous n’étions pas trop fatigués.</example>
@@ -9799,7 +9821,7 @@ though, and has since been slightly modified)-->
     <rulegroup id="AVOIR_L_AIR_VPPA_OU_ADJ" name="avoir l’air + participe passé">
       <rule>
         <pattern>
-          <token postag="SENT_START" skip="-1">
+          <token postag="SENT_START|M nonfin" postag_regexp="yes" skip="-1">
             <exception scope="next" postag="[NRZ].* [fe] .*" postag_regexp="yes"/>
           </token>
           <token postag="[NZ] m .*|R pers suj 3 m .*|R dem m .*" postag_regexp="yes">
@@ -9821,15 +9843,16 @@ though, and has since been slightly modified)-->
         <message>Le mot féminin « \8 » n’est pas accordé en genre avec le mot masculin « \2 ».</message>
         <example correction="">Le ciel avait l’air <marker>dégagée</marker>.</example>
         <example>Le ciel avait l’air <marker>dégagé</marker>.</example>
-        <example correction="">Il a l’air <marker>fatiguée</marker>.</example>
-        <example correction="">Il a l’air très <marker>fatiguée</marker>.</example>
-        <example>Il a l’air <marker>fatigué</marker>.</example>
+        <example correction="">Ce soir, il a l’air <marker>fatiguée</marker>.</example>
+        <example>Ce soir, il a l’air <marker>fatigué</marker>.</example>
+        <example correction="">Ce soir, il a l’air très <marker>fatiguée</marker>.</example>
+        <example>Ce soir, il a l’air très<marker>fatigué</marker>.</example>
         <example>Elle a l’air <marker>fatiguée</marker>.</example>
         <example>On a l’air <marker>fatiguée</marker>.</example>
       </rule>
       <rule>
         <pattern>
-          <token postag="SENT_START" skip="-1">
+          <token postag="SENT_START|M nonfin" postag_regexp="yes" skip="-1">
             <exception scope="next" postag="[NRZ].* [fe] .*" postag_regexp="yes"/>
           </token>
           <token postag="[NZ] m .*|R pers suj 3 m .*|R dem m .*" postag_regexp="yes">
@@ -9852,8 +9875,8 @@ though, and has since been slightly modified)-->
           </marker>
         </pattern>
         <message>Le mot féminin « \11 » n’est pas accordé en genre avec le mot masculin « \2 ».</message>
-        <example correction="">Le ciel n’avait pas l’air <marker>dégagée</marker>.</example>
-        <example>Le ciel n’avait pas l’air <marker>dégagé</marker>.</example>
+        <example correction="">Durant la promenade, le ciel n’avait pas l’air <marker>dégagée</marker>.</example>
+        <example>Durant la promenade, le ciel n’avait pas l’air <marker>dégagé</marker>.</example>
         <example correction="">Il n’a plus l’air <marker>fatiguée</marker>.</example>
         <example correction="">Il n’a plus l’air très <marker>fatiguée</marker>.</example>
         <example correction="">Il n‘a plus l’air très <marker>fatiguée</marker>.</example>
@@ -9863,7 +9886,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token postag="SENT_START" skip="-1">
+          <token postag="SENT_START|M nonfin" postag_regexp="yes" skip="-1">
             <exception scope="next" postag="[NRZ].* [me] .*|V inf" postag_regexp="yes"/>
           </token>
           <token postag="[NZ] f .*|R pers suj 3 f .*|R dem f .*" postag_regexp="yes">
@@ -9884,10 +9907,12 @@ though, and has since been slightly modified)-->
         <message>Le mot masculin « \8 » n’est pas accordé en genre avec le mot féminin « \2 ».</message>
         <example correction="">Martine a l’air <marker>fatigué</marker>.</example>
         <example>Martine a l’air <marker>fatiguée</marker>.</example>
+        <example correction="">Ce soir, Martine a l’air <marker>fatigué</marker>.</example>
+        <example>Ce soir, Martine a l’air <marker>fatiguée</marker>.</example>
       </rule>
       <rule>
         <pattern>
-          <token postag="SENT_START" skip="-1">
+          <token postag="SENT_START|M nonfin" postag_regexp="yes" skip="-1">
             <exception scope="next" postag="[NRZ].* [me] .*|V inf" postag_regexp="yes"/>
           </token>
           <token postag="[NZ] f .*|R pers suj 3 f .*|R dem f .*" postag_regexp="yes">
@@ -9910,10 +9935,12 @@ though, and has since been slightly modified)-->
         <message>Le mot masculin « \11 » n’est pas accordé en genre avec le mot féminin « \2 ».</message>
         <example correction="">Martine n’avait pas l’air <marker>fatigué</marker>.</example>
         <example>Martine n’avait pas l’air <marker>fatiguée</marker>.</example>
+        <example correction="">Hier soir, Martine n’avait pas l’air <marker>fatigué</marker>.</example>
+        <example>Hier soir, Martine n’avait pas l’air <marker>fatiguée</marker>.</example>
       </rule>
       <rule>
         <pattern>
-          <token postag="SENT_START" skip="-1">
+          <token postag="SENT_START|M nonfin" postag_regexp="yes" skip="-1">
             <exception scope="next" postag="[NR].*p" postag_regexp="yes"/>
             <exception scope="next">et</exception>
           </token>
@@ -9935,6 +9962,8 @@ though, and has since been slightly modified)-->
         <message>Le mot pluriel « \8 » n’est pas accordé en nombre avec le mot singulier « \2 ».</message>
         <example correction="">Elle a l’air <marker>contentes</marker>.</example>
         <example>Elle a l’air <marker>contente</marker>.</example>
+        <example correction="">Ce soir, elle a l’air <marker>contentes</marker>.</example>
+        <example>Ce soir, elle a l’air <marker>contente</marker>.</example>
       </rule>
       <rule>
         <pattern>
@@ -9957,7 +9986,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token postag="SENT_START" skip="-1">
+          <token postag="SENT_START|M nonfin" postag_regexp="yes" skip="-1">
             <exception scope="next" postag="[NR].*p" postag_regexp="yes"/>
             <exception scope="next">et</exception>
           </token>
@@ -9985,10 +10014,12 @@ though, and has since been slightly modified)-->
         <example correction="">Elle n’a pas l’air très <marker>contentes</marker>.</example>
         <example correction="">Elle n’a pas toujours l’air <marker>contentes</marker>.</example>
         <example>Elle n’a pas l’air <marker>contente</marker>.</example>
+        <example correction="">Ce soir, elle n’a pas l’air <marker>contentes</marker>.</example>
+        <example>Ce soir, elle n’a pas l’air <marker>contente</marker>.</example>
       </rule>
       <rule>
         <pattern>
-          <token postag="SENT_START" skip="-1">
+          <token postag="SENT_START|M nonfin" postag_regexp="yes" skip="-1">
             <exception scope="next" postag="[NR].*sp?|V inf" postag_regexp="yes"/>
           </token>
           <token postag="N . p|R pers suj [13].* p|R dem.* p" postag_regexp="yes">
@@ -10012,7 +10043,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token postag="SENT_START" skip="-1">
+          <token postag="SENT_START|M nonfin" postag_regexp="yes" skip="-1">
             <exception scope="next" postag="[NR].*sp?|V inf" postag_regexp="yes"/>
           </token>
           <token postag="[NZ] . p|R pers suj [13].* p|R dem.* p" postag_regexp="yes">
@@ -10040,6 +10071,8 @@ though, and has since been slightly modified)-->
         <example correction="">Elles n’ont pas encore l’air <marker>fatiguée</marker>.</example>
         <example correction="">Elles n’ont pas encore l’air très <marker>fatiguée</marker>.</example>
         <example>Elles n’ont pas l’air <marker>fatiguées</marker>.</example>
+        <example correction="">Ce soir, elles n’ont pas l’air <marker>fatiguée</marker>.</example>
+        <example>Ce soir, elles n’ont pas l’air <marker>fatiguées</marker>.</example>
       </rule>
       <rule>
         <pattern>
@@ -10167,7 +10200,7 @@ though, and has since been slightly modified)-->
     <rulegroup id="PEUT_ETRE_VPPA_OU_ADJ" name="peut être + participe passé">
       <rule>
         <pattern>
-          <token postag="SENT_START" skip="-1">
+          <token postag="SENT_START|M nonfin" postag_regexp="yes" skip="-1">
             <exception scope="next" postag="[NRZ].* [fe] .*" postag_regexp="yes"/>
           </token>
           <token postag="[NZ] m .*|R pers suj 3 m .*" postag_regexp="yes"/>
@@ -10179,6 +10212,8 @@ though, and has since been slightly modified)-->
         <example correction="">Un orage peut être <marker>observée</marker>.</example>
         <example correction="">Un orage peut être <marker>observées</marker>.</example>
         <example>Un orage peut être observé.</example>
+        <example correction="">De cet abri, un orage peut être <marker>observée</marker>.</example>
+        <example>De cet abri, un orage peut être observé.</example>
         <example correction="">Il peut être <marker>observée</marker>.</example>
         <example>Il peut être <marker>observé</marker>.</example>
         <example>La peine de mort devrait être abolie.</example>
@@ -10188,7 +10223,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token postag="SENT_START" skip="-1">
+          <token postag="SENT_START|M nonfin" postag_regexp="yes" skip="-1">
             <exception scope="next" postag="[NRZ].* [fe] .*" postag_regexp="yes"/>
           </token>
           <token postag="[NZ] m .*|R pers suj 3 m .*" postag_regexp="yes"/>
@@ -10201,6 +10236,8 @@ though, and has since been slightly modified)-->
         <example correction="">Un orage semble avoir été <marker>observée</marker>.</example>
         <example correction="">Un orage semble avoir été <marker>observées</marker>.</example>
         <example>Un orage semble avoir été observé.</example>
+        <example correction="">Selon la rumeur, un orage semble avoir été <marker>observée</marker>.</example>
+        <example>Selon la rumeur, un orage semble avoir été observé.</example>
         <example correction="">Il semble avoir été <marker>observée</marker>.</example>
         <example>Il semble avoir été <marker>observé</marker>.</example>
         <example correction="">Antoine semble avoir été <marker>observée</marker>.</example>
@@ -10209,7 +10246,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token postag="SENT_START" skip="-1">
+          <token postag="SENT_START|M nonfin" postag_regexp="yes" skip="-1">
             <exception scope="next" postag="[NR].* [me] .*" postag_regexp="yes"/>
           </token>
           <token postag="[NZ] f .*|R pers suj 3 f .*" postag_regexp="yes">
@@ -10222,13 +10259,15 @@ though, and has since been slightly modified)-->
         <message>Le mot masculin « \5 » n’est pas accordé en genre avec le mot féminin « \2 ».</message>
         <example correction="">Une corrélation peut être <marker>observé</marker>.</example>
         <example>Une corrélation peut être <marker>observée</marker>.</example>
+        <example correction="">Avec un peu d'attention, une corrélation peut être <marker>observé</marker>.</example>
+        <example>Avec un peu d'attention, une corrélation peut être <marker>observée</marker>.</example>
         <example correction="">Martine peut être <marker>amusant</marker>.</example>
         <example>Martine peut être <marker>amusante</marker>.</example>
         <example>Les composants électroniques peuvent être nettoyés.</example>
       </rule>
       <rule>
         <pattern>
-          <token postag="SENT_START" skip="-1">
+          <token postag="SENT_START|M nonfin" postag_regexp="yes" skip="-1">
             <exception scope="next" postag="[NR].* [me] .*" postag_regexp="yes"/>
           </token>
           <token postag="[NZ] f .*|R pers suj 3 f .*" postag_regexp="yes">
@@ -10242,10 +10281,12 @@ though, and has since been slightly modified)-->
         <message>Le mot masculin « \6 » n’est pas accordé en genre avec le mot féminin « \2 ».</message>
         <example correction="">Une corrélation semble avoir été <marker>observé</marker>.</example>
         <example>Une corrélation semble avoir été <marker>observée</marker>.</example>
+        <example correction="">Une corrélation semble avoir été <marker>observé</marker>.</example>
+        <example>Une corrélation semble avoir été <marker>observée</marker>.</example>
       </rule>
       <rule>
         <pattern>
-          <token postag="SENT_START" skip="-1">
+          <token postag="SENT_START|M nonfin" postag_regexp="yes" skip="-1">
             <exception scope="next" postag="[NR].*p" postag_regexp="yes"/>
             <exception scope="next">et</exception>
           </token>
@@ -10257,6 +10298,8 @@ though, and has since been slightly modified)-->
         <message>Le mot pluriel « \5 » n’est pas accordé en nombre avec le mot singulier « \2 ».</message>
         <example correction="">Un orage peut être <marker>observés</marker>.</example>
         <example>Un orage peut être <marker>observé</marker>.</example>
+        <example correction="">D'ici, un orage peut être <marker>observés</marker>.</example>
+        <example>D'ici, un orage peut être <marker>observé</marker>.</example>
         <example correction="">Elle peut être <marker>observées</marker>.</example>
         <example>Elle peut être <marker>observée</marker>.</example>
         <example correction="">Martine peut être <marker>ennuyeuses</marker>.</example>
@@ -10267,7 +10310,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token postag="SENT_START" skip="-1">
+          <token postag="SENT_START|M nonfin" postag_regexp="yes" skip="-1">
             <exception scope="next" postag="[NR].*p" postag_regexp="yes"/>
             <exception scope="next">et</exception>
           </token>
@@ -10285,11 +10328,13 @@ though, and has since been slightly modified)-->
         <example correction="">Martine peut avoir été <marker>observées</marker>.</example>
         <example>Martine peut avoir été <marker>observée</marker>.</example>
         <example correction="">Celui-là doit avoir été <marker>changés</marker>.</example>
-        <example>Celui-là doit avoir été changé.</example>
+        <example>Celui-là doit avoir été <marker>changé</marker>.</example>
+        <example correction="">D'après le rapport, celui-là doit avoir été <marker>changés</marker>.</example>
+        <example>D'après le rapport, celui-là doit avoir été <marker>changé</marker>.</example>
       </rule>
       <rule>
         <pattern>
-          <token postag="SENT_START" skip="-1">
+          <token postag="SENT_START|M nonfin" postag_regexp="yes" skip="-1">
             <exception scope="next" postag="[NR].*sp?" postag_regexp="yes"/>
           </token>
           <token postag="N . p|R pers suj .* p|R dem . p" postag_regexp="yes">
@@ -10303,6 +10348,8 @@ though, and has since been slightly modified)-->
         <message>Le mot singulier « \5 » n’est pas accordé en nombre avec le mot pluriel « \2 ».</message>
         <example correction="">Des orages peuvent être <marker>observé</marker>.</example>
         <example>Des orages peuvent être <marker>observés</marker>.</example>
+        <example correction="">Ce soir, des orages peuvent être <marker>observé</marker>.</example>
+        <example>Ce soir, des orages peuvent être <marker>observés</marker>.</example>
         <example correction="">Elles peuvent être <marker>observée</marker>.</example>
         <example>Elles peuvent être <marker>observées</marker>.</example>
         <example>Vous pouvez être <marker>triste</marker>.</example>
@@ -10311,7 +10358,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token postag="SENT_START" skip="-1">
+          <token postag="SENT_START|M nonfin" postag_regexp="yes" skip="-1">
             <exception scope="next" postag="[NR].*sp?" postag_regexp="yes"/>
           </token>
           <token postag="N . p|R pers suj .* p|R dem . p" postag_regexp="yes">
@@ -10328,8 +10375,8 @@ though, and has since been slightly modified)-->
         <example>Des orages peuvent avoir été <marker>observés</marker>.</example>
         <example correction="">Elles peuvent avoir été <marker>observée</marker>.</example>
         <example>Elles peuvent avoir été <marker>observées</marker>.</example>
-        <example correction="">Celles-là doivent avoir été <marker>choisie</marker>.</example>
-        <example>Celles-là doivent avoir été choisies.</example>
+        <example correction="">Parce qu'elles sont mises à part, celles-là doivent avoir été <marker>choisie</marker>.</example>
+        <example>Parce qu'elles sont mises à part, celles-là doivent avoir été choisies.</example>
       </rule>
     </rulegroup>
     <rule id="AUX_ETRE_VCONJ" name="Auxiliaire suivi d’un verbe conjugué">
@@ -11362,7 +11409,9 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token postag="SENT_START" skip="-1"><exception regexp="yes" scope="next">du?|des?|en</exception></token>
+          <token postag="SENT_START|M nonfin" postag_regexp="yes" skip="-1">
+			<exception regexp="yes" scope="next">du?|des?|en</exception>
+		  </token>
           <token postag="[NR].* p" postag_regexp="yes">
             <exception regexp="yes">[mt]oi|[nvt]ous|eux</exception>
             <exception postag="[NZ].* sp?" postag_regexp="yes"/>
@@ -11388,8 +11437,12 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token postag="SENT_START" skip="-1"><exception regexp="yes" scope="next">d|du|des?|en</exception></token>
-          <token postag="[NR].* p" postag_regexp="yes"><exception regexp="yes">[mt]oi|[nv]ous|eux</exception></token>
+          <token postag="SENT_START|M nonfin" postag_regexp="yes" skip="-1">
+			<exception regexp="yes" scope="next">d|du|des?|en</exception>
+		  </token>
+          <token postag="[NR].* p" postag_regexp="yes">
+			<exception regexp="yes">[mt]oi|[nv]ous|eux</exception>
+		  </token>
           <token>qui</token>
           <token postag="R pers obj.*" postag_regexp="yes"/>
           <marker>
@@ -11405,8 +11458,9 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token postag="SENT_START" skip="-1"><exception regexp="yes" scope="next">d|du|des?|en|et</exception></token>
-          <token postag="[NR].* s" postag_regexp="yes">
+          <token postag="SENT_START|M nonfin" postag_regexp="yes" skip="-1">
+			<exception regexp="yes" scope="next">d|du|des?|en|et</exception></token>
+	          <token postag="[NR].* s" postag_regexp="yes">
             <exception regexp="yes">[mt]oi|[nv]ous|eux</exception>
             <exception postag="[NJ].* s?p" postag_regexp="yes"/>
           </token>
@@ -11428,8 +11482,12 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token postag="SENT_START" skip="-1"><exception regexp="yes" scope="next">d|du|des?|en</exception></token>
-          <token postag="[NR].* s" postag_regexp="yes"><exception regexp="yes">[mt]oi|[nv]ous|eux</exception></token>
+          <token postag="SENT_START|M nonfin" postag_regexp="yes" skip="-1">
+			<exception regexp="yes" scope="next">d|du|des?|en</exception>
+		  </token>
+          <token postag="[NR].* s" postag_regexp="yes">
+			<exception regexp="yes">[mt]oi|[nv]ous|eux</exception>
+		  </token>
           <token>qui</token>
           <token postag="R pers obj.*" postag_regexp="yes">
             <exception postag="R pers suj.*" postag_regexp="yes"/>

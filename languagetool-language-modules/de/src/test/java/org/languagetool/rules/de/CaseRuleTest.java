@@ -18,16 +18,19 @@
  */
 package org.languagetool.rules.de;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
+import java.io.IOException;
+import java.util.regex.Pattern;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.GermanyGerman;
-
-import java.io.IOException;
-
-import static org.junit.Assert.*;
 
 public class CaseRuleTest {
 
@@ -120,6 +123,7 @@ public class CaseRuleTest {
     assertGood("Es kamen Tausende Gläubige.");
     assertGood("Das schließen Forscher aus den gefundenen Spuren.");
     assertGood("Wieder Verletzter bei Unfall");
+    assertGood("Eine Gruppe Aufständischer verwüstete die Bar.");
 
     //assertBad("Sie sind nicht Verständlich");
     assertBad("Sie Vertraute niemandem.");
@@ -154,7 +158,7 @@ public class CaseRuleTest {
     assertGood("Schon Le Monde schrieb das.");
     // unknown word:
     assertGood("In Blubberdorf macht man das so.");
-    // Exception definied in case_rule_exceptions.txt:
+    // Exception defined in case_rule_exceptions.txt:
     assertGood("Der Thriller spielt zur Zeit des Zweiten Weltkriegs");
 
     assertGood("Anders als physikalische Konstanten werden mathematische Konstanten unabhängig von jedem physikalischen Maß definiert.");
@@ -223,6 +227,9 @@ public class CaseRuleTest {
     assertBad("Das Blaue Auto.");
     //assertBad("Der Grüne Baum.");
     assertBad("Ein Einfacher Satz zum Testen.");
+    assertBad("Eine Einfache Frage zum Testen?");
+    assertBad("Er kam Früher als sonst.");
+    assertBad("Er rennt Schneller als ich.");
     assertBad("Das Winseln Stört.");
     assertBad("Sein verhalten war okay.");
     assertEquals(1, lt.check("Karten werden vom Auswahlstapel gezogen. Auch […] Der Auswahlstapel gehört zum Inhalt.").size());
@@ -351,13 +358,13 @@ public class CaseRuleTest {
   @Test
   public void testCompareLists() throws IOException {
     AnalyzedSentence sentence1 = lt.getAnalyzedSentence("Hier ein Test");
-    assertTrue(rule.compareLists(sentence1.getTokensWithoutWhitespace(), 0, 2, new String[]{"", "Hier", "ein"}));
-    assertTrue(rule.compareLists(sentence1.getTokensWithoutWhitespace(), 1, 2, new String[]{"Hier", "ein"}));
-    assertTrue(rule.compareLists(sentence1.getTokensWithoutWhitespace(), 0, 3, new String[]{"", "Hier", "ein", "Test"}));
-    assertFalse(rule.compareLists(sentence1.getTokensWithoutWhitespace(), 0, 4, new String[]{"", "Hier", "ein", "Test"}));
+    assertTrue(rule.compareLists(sentence1.getTokensWithoutWhitespace(), 0, 2, new Pattern[]{Pattern.compile(""), Pattern.compile("Hier"), Pattern.compile("ein")}));
+    assertTrue(rule.compareLists(sentence1.getTokensWithoutWhitespace(), 1, 2, new Pattern[]{Pattern.compile("Hier"), Pattern.compile("ein")}));
+    assertTrue(rule.compareLists(sentence1.getTokensWithoutWhitespace(), 0, 3, new Pattern[]{Pattern.compile(""), Pattern.compile("Hier"), Pattern.compile("ein"), Pattern.compile("Test")}));
+    assertFalse(rule.compareLists(sentence1.getTokensWithoutWhitespace(), 0, 4, new Pattern[]{Pattern.compile(""), Pattern.compile("Hier"), Pattern.compile("ein"), Pattern.compile("Test")}));
 
     AnalyzedSentence sentence2 = lt.getAnalyzedSentence("das Heilige Römische Reich");
-    assertTrue(rule.compareLists(sentence2.getTokensWithoutWhitespace(), 0, 4, new String[]{"", "das", "Heilige", "Römische", "Reich"}));
-    assertFalse(rule.compareLists(sentence2.getTokensWithoutWhitespace(), 8, 11, new String[]{"", "das", "Heilige", "Römische", "Reich"}));
+    assertTrue(rule.compareLists(sentence2.getTokensWithoutWhitespace(), 0, 4, new Pattern[]{Pattern.compile(""), Pattern.compile("das"), Pattern.compile("Heilige"), Pattern.compile("Römische"), Pattern.compile("Reich")}));
+    assertFalse(rule.compareLists(sentence2.getTokensWithoutWhitespace(), 8, 11, new Pattern[]{Pattern.compile(""), Pattern.compile("das"), Pattern.compile("Heilige"), Pattern.compile("Römische"), Pattern.compile("Reich")}));
   }
 }

@@ -37,7 +37,12 @@ public class GermanStyleRepeatedWordRule  extends AbstractStyleRepeatedWordRule 
     super(messages);
     super.setCategory(Categories.STYLE.getCategory(messages));
 //    addExamplePair(Example.wrong("Der alte Mann wohnte in einem <marker>großen</marker> Haus. Es stand in einem <marker>großen</marker> Garten."),
-//        Example.fixed("Der alte Mann wohnte in einem <marker>großen</marker> Haus. Es stand in einem <marker>weitläufigen</marker> Garten."));
+//                   Example.fixed("Der alte Mann wohnte in einem <marker>großen</marker> Haus. Es stand in einem <marker>weitläufigen</marker> Garten."));
+  }
+
+  @Override
+  public String getId() {
+    return "STYLE_REPEATED_WORD_RULE_DE";
   }
 
   @Override
@@ -49,10 +54,12 @@ public class GermanStyleRepeatedWordRule  extends AbstractStyleRepeatedWordRule 
   protected String messageSameSentence() {
     return "Stilproblem: Das Wort wird bereits im selben Satz verwendet!";
   }
+  
   @Override
   protected String messageSentenceBefore() {
     return "Stilproblem: Das Wort wird bereits in einem vorhergehenden Satz verwendet!";
   }
+  
   @Override
   protected String messageSentenceAfter() {
     return "Stilproblem: Das Wort wird bereits in einem nachfolgenden Satz verwendet!";
@@ -62,21 +69,21 @@ public class GermanStyleRepeatedWordRule  extends AbstractStyleRepeatedWordRule 
    * Only substantive, names, verbs and adjectives are checked
    */
   protected boolean isTokenToCheck(AnalyzedTokenReadings token) {
-    return (token.matchesPosTagRegex("(SUB|EIG|VER|ADJ):.*") && !token.matchesPosTagRegex("ART:.*|ADV:.*|VER:(AUX|MOD):.*"));
+    return token.matchesPosTagRegex("(SUB|EIG|VER|ADJ):.*") && !token.matchesPosTagRegex("ART:.*|ADV:.*|VER:(AUX|MOD):.*");
   }
 
   /*
    * Pairs of substantive are excluded like "Arm in Arm", "Seite an Seite", etc.
    */
   protected boolean isTokenPair(AnalyzedTokenReadings[] tokens, int n, boolean before) {
-    if(before) {
-      if (tokens[n-2].matchesPosTagRegex("SUB:.*") && tokens[n-1].matchesPosTagRegex("PRP:.*") 
-          && tokens[n].matchesPosTagRegex("SUB:.*")) {
+    if (before) {
+      if (tokens[n-2].matchesPosTagRegex("SUB:.*") && tokens[n-1].matchesPosTagRegex("PRP:.*")
+              && tokens[n].matchesPosTagRegex("SUB:.*")) {
         return true;
       }
     } else {
-      if (tokens[n].matchesPosTagRegex("SUB:.*") && tokens[n+1].matchesPosTagRegex("PRP:.*") 
-          && tokens[n+2].matchesPosTagRegex("SUB:.*")) {
+      if (tokens[n].matchesPosTagRegex("SUB:.*") && tokens[n+1].matchesPosTagRegex("PRP:.*")
+              && tokens[n+2].matchesPosTagRegex("SUB:.*")) {
         return true;
       }
     }

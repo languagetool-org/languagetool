@@ -59,8 +59,9 @@ public class CaseGovernmentHelper {
     for(AnalyzedToken token: analyzedTokenReadings.getReadings()) {
       if( token.getPOSTag() != null 
           && (token.getPOSTag().startsWith(startPosTag) 
-              || (startPosTag == "prep" && token.getPOSTag().equals("</prep>")) ) 
+              || (startPosTag == "prep" && token.getPOSTag().equals("<prep>")) ) 
           && CASE_GOVERNMENT_MAP.containsKey(token.getLemma()) ) {
+
         Set<String> rvList = CASE_GOVERNMENT_MAP.get(token.getLemma());
         list.addAll(rvList);
         

@@ -24,6 +24,7 @@ import java.io.*;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 /**
  * @since 3.0
@@ -37,6 +38,19 @@ final class CaseRuleExceptions {
 
   public static Set<String> getExceptions() {
     return exceptions;
+  }
+
+  public static Set<Pattern[]> getExceptionPatterns() {
+    HashSet<Pattern[]> exceptionPatterns = new HashSet<>(250);
+    for (String phrase : exceptions) {
+      String[] parts = phrase.split(" ");
+      Pattern[] patterns = new Pattern[parts.length];
+      for (int j = 0; j < parts.length; j++) {
+        patterns[j] = Pattern.compile(parts[j]);
+      }
+      exceptionPatterns.add(patterns);
+    }
+    return exceptionPatterns;
   }
 
   private static Set<String> loadExceptions(String path) {

@@ -82,7 +82,7 @@ public class SimpleReplaceSoftRule extends AbstractSimpleReplaceRule {
     if( repl.contexts.size() > 0 ) {
       return "«" + tokenStr + "» вживається лише в таких контекстах: " 
           + StringUtils.join(repl.contexts, ", ")
-          + ", можливо ви мали на увазі: " + replaceText + "?";
+          + ", можливо, ви мали на увазі: " + replaceText + "?";
     }
 
     return tokenStr + " — нерекомендоване слово, кращий варіант: "

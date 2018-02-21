@@ -30,6 +30,8 @@ import java.util.ArrayList;
 //import java.util.Collections;
 import java.util.List;
 
+import static java.util.Comparator.comparing;
+
 /**
  * Count "simple" rules, i.e. those that use only 'regex', 'case_sensitive'
  * and 'skip="-1"' attributes.
@@ -38,7 +40,7 @@ public class SimpleRuleCounter {
 
     private void run(List<Language> languages) {
         List<Language> sortedLanguages = new ArrayList<>(languages);
-        sortedLanguages.sort((l1, l2) -> l1.getName().compareTo(l2.getName()));
+        sortedLanguages.sort(comparing(Language::getName));
         for (Language language : sortedLanguages) {
             if (language.isVariant()) {
                 continue;

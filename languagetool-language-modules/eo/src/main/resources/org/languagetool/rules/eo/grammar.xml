@@ -4,7 +4,8 @@
         title="Easy editing stylesheet" ?>
 <!--
 Esperanto Grammar and Typo Rules for LanguageTool
-Copyright (C) 2010-2014 Dominique Pellé <dominique.pelle@gmail.com>
+Copyright (C) 2010-2018 Dominique Pellé <dominique.pelle@gmail.com>
+Copyright (C) 2018 Robin van der Vliet <info@robinvandervliet.com>
 
 Ligiloj al PMEG (Plena Manlibro de Esperanta Gramatiko) kun permeso
 de ĝia verkisto Bertilo Wennergren.
@@ -36,6 +37,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </rule>
 
     <rulegroup id="SE_CXU" name="se (ĉu)">
+      <url>http://bertilow.com/pmeg/gramatiko/subfrazoj/demandaj.html#i-e23</url>
       <rule>
         <pattern>
           <token inflected="yes">scii</token>
@@ -44,7 +46,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           </marker>
         </pattern>
         <message>Laŭ la kunteksto ŝajnas, ke vi intencis skribi <suggestion>ĉu</suggestion>.</message>
-        <url>http://bertilow.com/pmeg/gramatiko/subfrazoj/demandaj.html#i-e23</url>
         <example correction="ĉu">Mi ne scias <marker>se</marker> li venos.</example>
       </rule>
       <rule>
@@ -56,20 +57,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           </marker>
         </pattern>
         <message>Laŭ la kunteksto ŝajnas, ke vi intencis skribi <suggestion>ĉu</suggestion>.</message>
-        <url>http://bertilow.com/pmeg/gramatiko/subfrazoj/demandaj.html#i-e23</url>
         <example correction="ĉu">Mi ne scias, <marker>se</marker> li venos.</example>
       </rule>
     </rulegroup>
-    <rule id="SERCXI" name="Serĉi (Ŝerci)">
+    <rule id="SERCXI" name="serĉi (ŝerci)">
       <pattern>
-        <token inflected="yes">serĉi<exception scope="previous" regexp="yes">tie|ĉie</exception></token>
+        <token inflected="yes">serĉi<exception scope="previous" regexp="yes" inflected="yes">tie|ĉie</exception></token>
         <token>pri</token>
       </pattern>
       <message>Ĉu vi intencis <suggestion><match no="1" regexp_match=".*([aoiu]s?)" regexp_replace="ŝerc$1"/></suggestion> anstataŭ «\1»?</message>
       <example correction="ŝercu">Ne <marker>serĉu pri</marker> tio!</example>
-      <example>Mi ĉie serĉi pri tio.</example>
+      <example>Mi ĉie serĉis pri tio.</example>
     </rule>
-    <rulegroup id="REPORTISTO" name="Reportisto (Raportisto)">
+    <rulegroup id="REPORTISTO" name="reportisto (raportisto)">
       <rule>
         <pattern>
           <token inflected="yes">reportisto</token>
@@ -112,7 +112,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="ribeloj">La <marker>rebeloj</marker> venkis.</example>
       <example>Flavio Rebelo funkciigis la retpaĝaron Ĝangalo.</example>
     </rule>
-    <rulegroup id="DANKEMA" name="Dankema (Danka)">
+    <rulegroup id="DANKEMA" name="dankema (danka)">
+      <url>http://www.reta-vortaro.de/revo/art/dank.html</url>
       <rule>
         <pattern>
           <marker>
@@ -122,7 +123,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token regexp="yes">helpo|servo</token>
         </pattern>
         <message>Laŭ la kunteksto ŝajnas, ke vi intencis skribi <suggestion><match no="1" regexp_match="(.*)em(.*)" regexp_replace="$1$2"/></suggestion>. Teorie «dankema» estas uzata por konstanta inklino al dankado, ne por provizora helpo.</message>
-        <url>http://www.reta-vortaro.de/revo/art/dank.html</url>
         <example correction="dankaj">Ili estas tre <marker>dankemaj</marker> pro via helpo.</example>
         <example>Mi estas tre danka pro via helpo.</example>
         <example>Mi estas dankema al miaj infanoj.</example>
@@ -136,16 +136,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           </marker>
         </pattern>
         <message>Laŭ la kunteksto ŝajnas, ke vi intencis skribi <suggestion><match no="2" regexp_match="(.*)em(.*)" regexp_replace="$1$2"/></suggestion>. Teorie «dankema» estas uzata por konstanta inklino al dankado, ne por provizora helpo.</message>
-        <url>http://www.reta-vortaro.de/revo/art/dank.html</url>
         <example correction="dankaj">Se vi helpus min, ni estus <marker>dankemaj</marker>.</example>
         <example correction="dankaj">Se vi helpus min, ni estus tre <marker>dankemaj</marker>.</example>
       </rule>
     </rulegroup>
-    <rule id="LITERO_LETERO" name="Litero (Letero)">
+    <rule id="LITERO_LETERO" name="litero (letero)">
       <pattern>
         <token skip="2" inflected="yes" regexp="yes">.*(?:adres|send|redakt|leg|ricev)i</token>
         <marker>
-          <token regexp="yes">literoj?n?<exception scope="previous" regexp="yes">(?:(?:mal)?(?:grand|et)aj?n)|(?:ĉin|japan)aj?n?</exception></token>
+          <token inflected="yes">litero<exception scope="previous" regexp="yes" inflected="yes">(?:mal)?(?:grand|et)a|(?:ĉin|japan)a</exception></token>
         </marker>
         <token><exception regexp="yes">\p{L}</exception></token>
       </pattern>
@@ -164,7 +163,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <message>Laŭ la kunteksto, ŝajnas ke vi intencis diri <suggestion><match no="2" regexp_match="ec(oj?n?)$" regexp_replace="$1"/></suggestion> anstataŭ «\2».</message>
       <example correction="eblon">Mi havas <marker>eblecon</marker> ŝanĝi laboron.</example>
     </rule>
-    <rulegroup id="RAKETO_RAKEDO" name="rankedo anstataŭ raketo">
+    <rulegroup id="RAKETO_RAKEDO" name="rakedo anstataŭ raketo">
       <rule>
         <pattern>
           <token inflected="yes" regexp="yes" skip="-1">.*ludi|badminton[io]|.*tenis[io]|skvaŝ[io]|.*pilko</token>
@@ -189,7 +188,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <rulegroup id="AKCENTO_AKCXENTO" name="ankcento kaj akĉento">
       <rule>
         <pattern>
-          <token inflected="yes" regexp="yes" skip="1">angla|araba|bela|bretona|ĉarma|diversa|loka|fremda|fremdlanda|franca|germana|hebrea|hinda|hispana|irlanda|itala|japana|nederlanda|pola|portugala|rusa|skota|usona|[lmnŝv]ian|terura|havi|[mvlŝn]ia</token>
+          <token inflected="yes" regexp="yes" skip="1">[lmnŝv]ian|[mvlŝn]ia|afrikansa|albana|angla|araba|armena|baŝkira|bela|bosna|bretona|bulgara|ĉarma|ĉeĉena|ĉeĥa|ĉina|ĉuvaŝa|dana|diversa|ekstremadura|estona|eŭska|finna|franca|fremda|fremdlanda|frisa|friula|galega|germana|greka|gronlanda|hebrea|hinda|hindia|hispana|hungara|indonezia|inguŝa|irlanda|islanda|itala|japana|jida|kartvela|kataluna|kimra|korea|kroata|latina|latva|litova|loka|luksemburga|nederlanda|norvega|okcitana|oseta|persa|pola|portugala|rumana|rusa|serba|skota|slovaka|slovena|svahila|sveda|taja|tatara|terura|turka|udmurta|ukraina|urdua|usona|vjetnama</token>
           <marker>
             <token inflected="yes">akcento</token>
           </marker>
@@ -204,7 +203,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <marker>
             <token inflected="yes">akĉento</token>
           </marker>
-          <token regexp="yes">sur|en|troviĝas|falas</token>
+          <token regexp="yes" inflected="yes">sur|en|troviĝi|fali</token>
         </pattern>
         <message>Laŭ la kunteksto, ŝajnas, ke vi intencis diri <suggestion><match no="1" regexp_match="ĉ" regexp_replace="c"/></suggestion>.</message>
         <example correction="akcento">La <marker>akĉento</marker> en tiu vorto estas sur la lasta silabo.</example>
@@ -265,7 +264,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token regexp="yes" inflected="yes">aer[ao]|akvo|oceano|planedo|fiŝo|besto|naturo|tero|grundo|maro|.*mond[ao]|grava|problemo|homaro|malsan(?:ig)?[aoi]|radioaktiv.*|[ĥk]emi[ao]|atmosfero|urb[oa]</token>
         </pattern>
         <message>Laŭ la kunteksto, ŝajnas, ke vi intencis diri <suggestion><match no="1" regexp_match="ci" regexp_replace=""/></suggestion>.</message>
-        <example correction="Aerpoluo"><marker>Aerpolucio</marker> en la urboj malsanigas la homojn.</example>
+        <example correction="aerpoluo">Danĝera <marker>aerpolucio</marker> en la urboj malsanigas la homojn.</example>
       </rule>
     </rulegroup>
     <rule id="MATRO" name="matro → patrino">
@@ -315,6 +314,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <message>La vorto «\1» ŝajnas esti eraro pro influo de nacia lingvo. Ĉu vi intencis skribi <suggestion><match no="1" regexp_match="ion" regexp_replace="i"/></suggestion>?</message>
       <example correction="versio">La nova <marker>versiono</marker> tre bonas.</example>
     </rule>
+    <rule id="NACIONO" name="naciono → nacio">
+      <pattern>
+        <token inflected="yes" regexp="yes">nacion[oae]</token>
+      </pattern>
+      <message>La vorto «\1» ŝajnas esti eraro pro influo de nacia lingvo. Ĉu vi intencis skribi <suggestion><match no="1" regexp_match="ion" regexp_replace="i"/></suggestion>?</message>
+      <example correction="nacio">La interesoj de la <marker>naciono</marker> ofte kontraŭas tiujn de la individuoj.</example>
+    </rule>
     <rule id="MAGIKA" name="magika → magia">
       <pattern>
         <token inflected="yes" regexp="yes">magik[aoe]</token>
@@ -341,7 +347,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <token inflected="yes">enloĝanto</token>
       </pattern>
       <message>La vorto «\1» ŝajnas esti eraro pro influo de nacia lingvo. Ĉu vi intencis skribi <suggestion><match no="1" regexp_match="..(.*)" regexp_replace="$1"/></suggestion>?</message>
-      <example correction="loĝantoj">La <marker>enloĝantoj</marker>.</example>
+      <url>https://eo.wikipedia.org/wiki/Vikipedio:Oftaj_gramatikaj_eraroj</url>
+      <example correction="loĝantoj">La <marker>enloĝantoj</marker> de Argentino belas.</example>
     </rule>
     <rulegroup id="ADULTO_ADOLTO" name="adulto kaj adolto">
       <rule>
@@ -360,7 +367,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <marker>
             <token inflected="yes">adulto</token>
           </marker>
-          <token regexp="yes" skip="1">,|kaj|aŭ</token>
+          <token inflected="yes" regexp="yes" skip="1">,|kaj|aŭ</token>
           <token regexp="yes" inflected="yes">(?:ge)?(?:infan|junul|beb|knab|fil)(?:in)?o</token>
         </pattern>
         <message>Ĉu vi intencis skribi <suggestion><match no="1" regexp_match="u" regexp_replace="o"/></suggestion>?</message>
@@ -369,7 +376,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <rule>
         <pattern>
           <token regexp="yes" inflected="yes">(?:ge)?(?:infan|junul|beb|knab|fil)(?:in)?o</token>
-          <token regexp="yes">,|kaj|aŭ</token>
+          <token inflected="yes" regexp="yes">,|kaj|aŭ</token>
           <marker>
             <token inflected="yes">adulto</token>
           </marker>
@@ -404,7 +411,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>Li estas plastika kirurgo.</example>
       </rule>
     </rulegroup>
-    <rule id="FINNLANDO" name="finlando → finnlando">
+    <rule id="FINNLANDO" name="Finlando → Finnlando">
       <pattern><token regexp="yes">finland(?:an|uj)?[oa]j?n?</token></pattern>
       <message>Ĉu vi intencis skribi <suggestion><match no="1" regexp_match="^(..)" regexp_replace="$1n"/></suggestion>?</message>
       <example correction="finnlandanoj">Post la rusia revolucio de 1905 la <marker>finlandanoj</marker> sukcesis havigi al si pliajn rajtojn.</example>
@@ -424,16 +431,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
   <category id="KAT_MISLITERUMAJ_PROPRAJ_NOMOJ" name="Misliterumaj propraj nomoj">
     <rule id="ZAMENHOF" name="Zamenof → Zamenhof">
       <pattern>
-        <token regexp="yes">zh?amenh?o[vf](-?aj?n?)?<exception regexp="yes">Zamenhof(-?aj?n?)?</exception></token>
+        <token regexp="yes">zh?amm?h?enn?h?o[vf]f?(-?aj?n?)?<exception regexp="yes">Zamenhof(-?aj?n?)?</exception></token>
       </pattern>
-      <message>Ĉu vi intencis skribi <suggestion>Zamenhof</suggestion>, se temas pri L.L. Zamenhof, kiu kreis Esperaton?</message>
+      <message>Ĉu vi intencis skribi <suggestion>Zamenhof</suggestion>, se temas pri L. L. Zamenhof, kiu kreis Esperanton?</message>
       <url>https://eo.wikipedia.org/wiki/L._L._Zamenhof</url>
       <example correction="Zamenhof"><marker>Zamenof</marker> kreis Esperanton.</example>
     </rule>
     <rule id="FLAVIO_REBELO" name="Flavio Ribelo → Flavio Rebelo">
       <pattern>
         <token>Flavio</token>
-        <token>Ribelo</token>
+        <token regexp="yes">Ribb?ell?o</token>
       </pattern>
       <message>Ĉu vi intencis skribi <suggestion>\1 Rebelo</suggestion>, se temas pri la Esperantisto, kiu kreis Ĝangalon?</message>
       <url>https://eo.wikipedia.org/wiki/Flavio_Rebelo</url>
@@ -441,17 +448,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </rule>
     <rule id="BERTILO_WENNERGREN" name="Bertilow Wennergren → Bertilo Wennergren">
       <antipattern>
-        <token>Bertilo</token>
+        <token regexp="yes">Bertilo?</token>
         <token>Wennergren</token>
       </antipattern>
       <pattern>
-        <token regexp="yes">Bertilow?</token>
-        <token regexp="yes">Wenn?er?grenn?</token>
+        <token regexp="yes">Bertt?h?ill?ow?</token>
+        <token regexp="yes">Wh?eh?nn?eh?r?gh?rh?enn?</token>
       </pattern>
       <message>Ĉu vi intencis skribi <suggestion>Bertilo Wennergren</suggestion>, se temas pri la verkisto de PMEG?</message>
       <url>https://eo.wikipedia.org/wiki/Bertilo_Wennergren</url>
       <example correction="Bertilo Wennergren"><marker>Bertilow Wennergren</marker> estas sveda esperantisto.</example>
       <example correction="Bertilo Wennergren"><marker>Bertilo Wenergren</marker> estas sveda esperantisto.</example>
+      <example>Bertilo Wennergren aŭ Bertil Wennergren estas ambaŭ ĝustaj.</example>
     </rule>
   </category>
   <category id="KAT_EVITINDAJXOJ" name="Evitindaĵoj">
@@ -467,7 +475,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <rule id="NE_ANKORAUX" name="ne ankoraŭ (ankoraŭ ne)">
       <pattern>
         <token>ne</token>
-        <token>ankoraŭ</token>
+        <token inflected="yes">ankoraŭ</token>
       </pattern>
       <message>Preferu <suggestion>ankoraŭ ne</suggestion> anstataŭ «\1 \2».</message>
       <example correction="ankoraŭ ne">Mi <marker>ne ankoraŭ</marker> vidis lin.</example>
@@ -493,7 +501,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </marker>
         <token/>
       </pattern>
-      <message>Laŭ Revo, «\1 \2 \3 \4» estas evitinda. Preferu la pli simetrian <suggestion>kaj</suggestion> anstataŭ «al».</message>
+      <message>Laŭ ReVo, «\1 \2 \3 \4» estas evitinda. Preferu la pli simetrian <suggestion>kaj</suggestion> anstataŭ «al».</message>
       <url>http://www.reta-vortaro.de/revo/art/adici.html#adici.0i</url>
       <example correction="kaj">Mi adicias 2 <marker>al</marker> 2.</example>
     </rule>
@@ -509,7 +517,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <pattern>
         <token inflected="yes">biliono</token>
       </pattern>
-      <message>Laŭ Revo, «\1» estas evitinda, ĉar diversaj vortaroj difinas ĝin malsame. Preferu <suggestion>miliardo</suggestion> aŭ <suggestion>mil miliardoj</suggestion> laŭ tio, kion vi intencas.</message>
+      <message>Laŭ ReVo, «\1» estas evitinda, ĉar diversaj vortaroj difinas ĝin malsame. Preferu <suggestion>miliardo</suggestion> aŭ <suggestion>mil miliardoj</suggestion> laŭ tio, kion vi intencas.</message>
       <url>http://www.reta-vortaro.de/revo/art/bilion.html#bilion.0o</url>
       <example correction="Miliardo|Mil miliardoj"><marker>Biliono</marker> da steloj</example>
     </rule>
@@ -522,14 +530,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="">Du <marker>biliardoj</marker>.</example>
       <example>Du <marker>bilionoj</marker>.</example>
     </rule>
-    <rule id="BRASIKRAPO" name="brasikrapo">
+    <rule id="OPAKIGXI" name="opakiĝi">
+      <pattern>
+        <token inflected="yes">opakiĝi</token>
+      </pattern>
+      <message>Laŭ ReVo, «\1» estas evitinda. Preferu <suggestion><match no="1" regexp_match="^.{4}" regexp_replace=""/> netravidebla</suggestion> aŭ <suggestion><match no="1" regexp_match="^.{4}" regexp_replace=""/> maldiafana</suggestion>.</message>
+      <url>http://www.reta-vortaro.de/revo/art/opak.html#opak.0a</url>
+      <example correction="iĝis netravidebla|iĝis maldiafana">Ĝi <marker>opakiĝis</marker>.</example>
+    </rule>
+    <rule id="OPAKA" name="opaka">
+      <pattern>
+        <token inflected="yes">opaka</token>
+      </pattern>
+      <message>Laŭ ReVo, «\1» estas evitinda. Preferu <suggestion><match no="1" regexp_match="^.{4}" regexp_replace="netravidebl"/></suggestion> aŭ <suggestion><match no="1" regexp_match="^.{4}" regexp_replace="maldiafan"/></suggestion> aŭ <suggestion><match no="1" regexp_match="^.{4}" regexp_replace="lumbar"/></suggestion>.</message>
+      <url>http://www.reta-vortaro.de/revo/art/opak.html#opak.0a</url>
+      <example correction="netravideblaj|maldiafanaj|lumbaraj">La fenestroj estas <marker>opakaj</marker>.</example>
+    </rule>
+    <rule id="BRASIKRAPO" name="brasikrapo → tigobrasiko">
       <pattern>
         <token inflected="yes">brasikrapo</token>
       </pattern>
       <message>«\1» estas evitinda. Preferu <suggestion>tigobrasiko</suggestion>.</message>
-      <example correction="tigobrasiko">Mi manĝis <marker>brasikrapon</marker>.</example>
+      <url>http://www.reta-vortaro.de/revo/art/brasik.html#brasik.0rapo</url>
+      <example correction="tigobrasiko">Tiu <marker>brasikrapo</marker> bongustas.</example>
     </rule>
-    <rule id="DEFLANKIGXI" name="deflankiĝi">
+    <rule id="DEFLANKIGXI" name="deflankiĝi → forflankiĝi">
       <pattern>
         <token inflected="yes">deflankiĝi</token>
       </pattern>
@@ -537,7 +562,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <url>http://www.reta-vortaro.de/revo/art/flank.html#flank.de0igxi</url>
       <example correction="forflankiĝi">Mi devis <marker>deflankiĝi</marker>.</example>
     </rule>
-    <rule id="CIFERO_DE" name="cifero de (nombro de)">
+    <rule id="CIFERO_DE" name="cifero de → nombro de">
       <pattern>
         <marker>
           <token regexp="yes">ciferon?</token>
@@ -555,7 +580,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <token skip="4">de</token>
         <token regexp="yes">tagoj|semajnoj|monatoj|jaroj|jacentoj</token>
       </pattern>
-      <message>Tiu uzo de «\1» estas mallogika kaj evitinda laŭ Revo en tiu kunteksto.</message>
+      <message>Tiu uzo de «\1» estas mallogika kaj evitinda laŭ ReVo en tiu kunteksto.</message>
       <url>http://www.reta-vortaro.de/revo/art/dat.html#dat.0igxi</url>
       <example correction="">La teksto <marker>datiĝas</marker> de ok jaroj.</example>
       <example>La teksto aperis antaŭ ok jaroj.</example>
@@ -565,7 +590,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <token inflected="yes">sendifina</token>
         <token inflected="yes">modo</token>
       </pattern>
-      <message>«\1 \2» evitinda laŭ Revo. Uzu <suggestion>infinitivo</suggestion>.</message>
+      <message>«\1 \2» evitinda laŭ ReVo. Uzu <suggestion>infinitivo</suggestion>.</message>
       <url>http://www.reta-vortaro.de/revo/art/difin.html#difin.sen0amodo</url>
       <example correction="infinitivo"><marker>sendifina modo</marker>.</example>
     </rule>
@@ -577,7 +602,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <token regexp="yes">utf.*|latin\d+|ASCII|big.*|CP-?\d+|windows.*|ISO.*|UCS.*|IBM.*|EBCDIC.*|ECMA.*|ANSI.*|8859.*</token>
       </pattern>
       <message>Ne uzu «kodigo» tiusence. Uzu <suggestion>kodoprezento</suggestion>.</message>
-      <example correction="kodoprezento">Dosiero en la <marker>kodigo</marker> utf-8.</example>
+      <example correction="kodoprezento">Dosiero en la <marker>kodigo</marker> UTF-8.</example>
     </rule>
     <rule id="BLANKKOLUMULO" name="blankkolumulo">
       <pattern>
@@ -591,7 +616,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <pattern>
         <token inflected="yes">videokonferenco</token>
       </pattern>
-      <message>Laŭ Revo, «\1» estas evitinda, uzu <suggestion>videkunveno</suggestion> aŭ <suggestion>telekunveno</suggestion>.</message>
+      <message>Laŭ ReVo, «\1» estas evitinda, uzu <suggestion>videkunveno</suggestion> aŭ <suggestion>telekunveno</suggestion>.</message>
       <url>http://www.reta-vortaro.de/revo/art/konfer.html#konfer.video0o</url>
       <example correction="videkunveno|telekunveno">Mi invitas vin al la <marker>videokonferenco</marker>.</example>
     </rule>
@@ -599,7 +624,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <pattern>
         <token inflected="yes">laŭtlegi</token>
       </pattern>
-      <message>Laŭ Revo, «\1» estas evitinda, uzu <suggestion><match no="1" regexp_match=".*g(.*)" regexp_replace="voĉleg$1"/></suggestion> aŭ <suggestion>laŭte <match no="1" regexp_match=".*g(.*)" regexp_replace="voĉleg$1"/></suggestion>.</message>
+      <message>Laŭ ReVo, «\1» estas evitinda, uzu <suggestion><match no="1" regexp_match=".*g(.*)" regexp_replace="voĉleg$1"/></suggestion> aŭ <suggestion>laŭte <match no="1" regexp_match=".*g(.*)" regexp_replace="voĉleg$1"/></suggestion>.</message>
       <url>http://www.reta-vortaro.de/revo/art/leg.html#leg.lauxt0i</url>
       <example correction="voĉlegis|laŭte voĉlegis">Li <marker>laŭtlegis</marker> sian mesaĝon.</example>
     </rule>
@@ -609,7 +634,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token inflected="yes">lerni</token>
         </marker>
         <token regexp="yes">la|.*aj?n</token>
-        <token regexp="yes">(?:novaĵ|ver)oj?n</token>
+        <token regexp="yes" inflected="yes">(?:novaĵ|ver)o</token>
       </pattern>
       <message>Tiu uzo de «\1» evitindas. Ŝajnas laŭ la kunteksto, ke vi intencis diri <suggestion><match no="1" regexp_match=".*n(.*)" regexp_replace="eksci$1"/></suggestion>.</message>
       <example correction="eksciis">Mi ĵus <marker>lernis</marker> la novaĵon.</example>
@@ -652,50 +677,50 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="mutan naturon">Li pentris <marker>naturon mortan</marker>.</example>
       </rule>
     </rulegroup>
-    <rule id="STUMPNAZA" name="stumpnaza (kuspnaza)">
+    <rule id="STUMPNAZA" name="stumpnaza → kuspnaza">
       <pattern>
         <token inflected="yes">stumpnaza</token>
       </pattern>
-      <message>Laŭ Revo, «\1» estas evitinda. Uzu <suggestion><match no="1" regexp_match=".*naza(.*)" regexp_replace="kuspnaza$1"/></suggestion>.</message>
+      <message>Laŭ ReVo, «\1» estas evitinda. Uzu <suggestion><match no="1" regexp_match=".*naza(.*)" regexp_replace="kuspnaza$1"/></suggestion>.</message>
       <url>http://www.reta-vortaro.de/revo/art/naz.html#naz.stump0a</url>
       <example correction="kuspnaza">Sokrato estis <marker>stumpnaza</marker>.</example>
     </rule>
-    <rule id="PUBLIKA" name="publika (ŝtata)">
+    <rule id="PUBLIKA" name="publika → ŝtata">
       <pattern>
         <marker>
           <token regexp="yes">publikaj?n?</token>
         </marker>
-        <token regexp="yes">(funkciul|aŭtoritato|prunt|pruntad|sekret|televid)oj?n?</token>
+        <token regexp="yes" inflected="yes">(?:funkciul|aŭtoritato|prunt|pruntad|sekret|televid)o</token>
       </pattern>
-      <message>Laŭ Revo, tiu uzo de «\1» estas evitinda. Ĉu vi intencis <suggestion><match no="1" regexp_match=".*a(.*)" regexp_replace="ŝtata$1"/></suggestion>, <match no="1" regexp_match=".*a(.*)" regexp_replace="nacia$1"/> aŭ <match no="1" regexp_match=".*a(.*)" regexp_replace="regna$1"/>?</message>
+      <message>Laŭ ReVo, tiu uzo de «\1» estas evitinda. Ĉu vi intencis <suggestion><match no="1" regexp_match=".*a(.*)" regexp_replace="ŝtata$1"/></suggestion>, <match no="1" regexp_match=".*a(.*)" regexp_replace="nacia$1"/> aŭ <match no="1" regexp_match=".*a(.*)" regexp_replace="regna$1"/>?</message>
       <url>http://www.reta-vortaro.de/revo/art/publik.html#publik.0a</url>
       <example correction="Ŝtata"><marker>Publika</marker> televido aĉas.</example>
     </rule>
-    <rule id="ALTA_TAJDO" name="alta tajdo (altmaro)">
+    <rule id="ALTA_TAJDO" name="alta tajdo → altmaro">
       <pattern>
         <token regexp="yes">(?:mal)?altaj?n?</token>
         <token regexp="yes">tajd(?:e[gt])?on?</token>
       </pattern>
-      <message>Laŭ Revo, «\1 \2» estas evitinda. Uzu <suggestion><match no="1" regexp_match="(.*)a(.*)" regexp_replace="$1maro$2"/></suggestion>.</message>
+      <message>Laŭ ReVo, «\1 \2» estas evitinda. Uzu <suggestion><match no="1" regexp_match="(.*)a(.*)" regexp_replace="$1maro$2"/></suggestion>.</message>
       <url>http://www.reta-vortaro.de/revo/art/tajd.html#tajd.alta0o</url>
       <example correction="altmaro">Estas nun <marker>alta tajdo</marker>.</example>
     </rule>
-    <rule id="TOMOGRAFO" name="tomografo (tomografiilo)">
+    <rule id="TOMOGRAFO" name="tomografo → tomografiilo">
       <pattern>
         <token inflected="yes">tomografo</token>
       </pattern>
-      <message>Laŭ Revo, «\1» estas evitinda. Uzu <suggestion><match no="1" regexp_match=".*o(.*)" regexp_replace="tomografiilo$1"/></suggestion>.</message>
-      <url>http://www.reta-vortaro.de/revo/art/tomograf.html#lng_</url>
+      <message>Laŭ ReVo, «\1» estas evitinda. Uzu <suggestion><match no="1" regexp_match=".*o(.*)" regexp_replace="tomografiilo$1"/></suggestion>.</message>
+      <url>http://www.reta-vortaro.de/revo/art/tomograf.html#tomograf.0o</url>
       <example correction="tomografiilo">Komputila <marker>tomografo</marker></example>
     </rule>
-    <rulegroup id="UNIKA" name="unika (ununura)">
+    <rulegroup id="UNIKA" name="unika → ununura">
       <url>http://www.reta-vortaro.de/revo/art/unik.html#unik.0a</url>
       <rule>
         <pattern>
           <marker><token regexp="yes">unikaj?n?</token></marker>
           <token regexp="yes">(?:ge)?(?:fil|id|infan|beb)(?:et)?(?:in)?oj?n?</token>
         </pattern>
-        <message>Laŭ Revo, «\1» estas evitinda en tiu kunteksto. Uzu <suggestion><match no="1" regexp_match=".*a(.*)" regexp_replace="ununura"/></suggestion>.</message>
+        <message>Laŭ ReVo, «\1» estas evitinda en tiu kunteksto. Uzu <suggestion><match no="1" regexp_match=".*a(.*)" regexp_replace="ununura"/></suggestion>.</message>
         <example correction="Ununura"><marker>Unika</marker> filo.</example>
       </rule>
       <rule>
@@ -703,77 +728,93 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token regexp="yes">(?:ge)?(?:fil|id|infan|beb)(?:et)?(?:in)?oj?n?</token>
           <marker><token regexp="yes">unikaj?n?</token></marker>
         </pattern>
-        <message>Laŭ Revo, «\2» estas evitinda en tiu kunteksto. Uzu <suggestion><match no="2" regexp_match=".*a(.*)" regexp_replace="ununura"/></suggestion>.</message>
+        <message>Laŭ ReVo, «\2» estas evitinda en tiu kunteksto. Uzu <suggestion><match no="2" regexp_match=".*a(.*)" regexp_replace="ununura"/></suggestion>.</message>
         <example correction="ununura">Filino <marker>unika</marker>.</example>
       </rule>
     </rulegroup>
-    <rule id="POCENTO" name="pocento (elcento)">
+    <rule id="POCENTO" name="pocento → elcento">
       <pattern>
         <token inflected="yes">pocento</token>
       </pattern>
-      <message>Laŭ Revo, «\1» estas evitinda. Uzu <suggestion><match no="1" regexp_match=".*o(.*)" regexp_replace="elcento$1"/></suggestion>.</message>
+      <message>Laŭ ReVo, «\1» estas evitinda. Uzu <suggestion><match no="1" regexp_match=".*o(.*)" regexp_replace="elcento$1"/></suggestion>.</message>
       <url>http://www.reta-vortaro.de/revo/art/cent.html#cent.po0o</url>
       <example correction="elcentoj">Du <marker>pocentoj</marker> de la loĝantaro</example>
     </rule>
-    <rule id="KONTINUA_KURENTO" name="kontinua kurento (konstanta kurento)">
+    <rule id="KONTINUA_KURENTO" name="kontinua kurento → konstanta kurento">
       <pattern>
         <token inflected="yes">kontinua</token>
         <token inflected="yes">kurento</token>
       </pattern>
-      <message>Laŭ Revo, «\1 \2» estas evitinda. Uzu <suggestion><match no="2" regexp_match=".*o(.*)" regexp_replace="konstanta$1 kurento$1"/></suggestion>.</message>
+      <message>Laŭ ReVo, «\1 \2» estas evitinda. Uzu <suggestion><match no="2" regexp_match=".*o(.*)" regexp_replace="konstanta$1 kurento$1"/></suggestion>.</message>
       <url>http://www.reta-vortaro.de/revo/art/kurent.html#kurent.kontinua0o</url>
       <example correction="konstanta kurento">Pasas <marker>kontinua kurento</marker></example>
     </rule>
-    <rule id="CIKLOMETRIA_FUNKCIO" name="ciklometria funkcio (inversa trigonometria funkcio)">
+    <rule id="CIKLOMETRIA_FUNKCIO" name="ciklometria funkcio → inversa trigonometria funkcio">
       <pattern>
         <token inflected="yes">ciklometria</token>
         <token inflected="yes">funkcio</token>
       </pattern>
-      <message>Laŭ Revo, «\1 \2» estas evitinda. Uzu <suggestion><match no="1" regexp_match=".*ri(.*)" regexp_replace="invers$1 trigonometri$1"/> \2</suggestion>.</message>
+      <message>Laŭ ReVo, «\1 \2» estas evitinda. Uzu <suggestion><match no="1" regexp_match=".*ri(.*)" regexp_replace="invers$1 trigonometri$1"/> \2</suggestion>.</message>
       <url>http://www.reta-vortaro.de/revo/art/funkci.html#funkci.ciklometria0o</url>
       <example correction="inversan trigonometrian funkcion">Ni kalkulas la <marker>ciklometrian funkcion</marker></example>
     </rule>
-    <rule id="KOMUNONA" name="komunona (kunmezurebla)">
+    <rule id="KOMUNONA" name="komunona → kunmezurebla">
       <pattern>
         <token inflected="yes" regexp="yes">(ne)?komunona</token>
       </pattern>
-      <message>Laŭ Revo, «\1» estas evitinda. Uzu <suggestion><match no="1" regexp_match="(ne)?.*n(.*)" regexp_replace="$1kunmezurebl$2"/></suggestion>.</message>
+      <message>Laŭ ReVo, «\1» estas evitinda. Uzu <suggestion><match no="1" regexp_match="(ne)?.*n(.*)" regexp_replace="$1kunmezurebl$2"/></suggestion>.</message>
       <url>http://www.reta-vortaro.de/revo/art/komun.html#komun.0ona</url>
       <example correction="nekunmezurebla">Diagonalo de kvadrato estas <marker>nekomunona</marker>.</example>
     </rule>
-    <rule id="SURREALISMO" name="surrealismo (superrealismo)">
+    <rule id="SURREALISMO" name="surrealismo → superrealismo">
       <pattern>
         <token inflected="yes" regexp="yes">surrealism[oa]</token>
       </pattern>
-      <message>Laŭ Revo, «\1» estas evitinda. Uzu <suggestion><match no="1" regexp_match=".*m(.*)" regexp_replace="superrealism$1"/></suggestion>.</message>
+      <message>Laŭ ReVo, «\1» estas evitinda. Uzu <suggestion><match no="1" regexp_match=".*m(.*)" regexp_replace="superrealism$1"/></suggestion>.</message>
       <url>http://www.reta-vortaro.de/revo/art/real.html#real.sur0ismo</url>
       <example correction="superrealismo">La <marker>surrealismo</marker> de tiu artisto.</example>
     </rule>
-    <rule id="PITSBURGO" name="Pitsburgo (Picburgo)">
+    <rule id="PITSBURGO" name="Pitsburgo → Picburgo">
       <pattern case_sensitive="yes">
         <token regexp="yes" inflected="yes">Pitsburg[ao]</token>
       </pattern>
-      <message>Kvankam « \1 » estas en PIV, onu devus uzi <suggestion><match no="1" regexp_match="^...." regexp_replace="Pic"/></suggestion> laŭ PMEG.</message>
+      <message>Kvankam «\1» estas en PIV, onu devus uzi <suggestion><match no="1" regexp_match="^...." regexp_replace="Pic"/></suggestion> laŭ PMEG.</message>
       <url>http://bertilow.com/pmeg/skribo_elparolo/elparolo/bazaj_reguloj.html#i-96j</url>
-      <example correction="Picburgo">Mi laboris en <marker>Pitsburgo</marker>.</example>
+      <example correction="Picburgo">Mi studis en <marker>Pitsburgo</marker>.</example>
     </rule>
-    <rule id="POTSDAMO" name="Postsdamo (Pocdamo)">
+    <rule id="POTSDAMO" name="Potsdamo → Pocdamo">
       <pattern case_sensitive="yes">
         <token regexp="yes" inflected="yes">Potsdam[ao]</token>
       </pattern>
-      <message>Kvankam « \1 » estas en PIV, onu devus uzi <suggestion><match no="1" regexp_match="^...." regexp_replace="Poc"/></suggestion> laŭ PMEG.</message>
+      <message>Kvankam «\1» estas en PIV, onu devus uzi <suggestion><match no="1" regexp_match="^...." regexp_replace="Poc"/></suggestion> laŭ PMEG.</message>
       <url>http://bertilow.com/pmeg/skribo_elparolo/elparolo/bazaj_reguloj.html#i-96j</url>
       <example correction="Pocdamo">Mi laboris en <marker>Potsdamo</marker>.</example>
     </rule>
-    <rule id="GUATEMALO" name="Gŭatemalo (Gvatemalo)">
+    <rule id="GUATEMALO" name="Gŭatemalo → Gvatemalo">
       <pattern case_sensitive="yes">
         <token regexp="yes" inflected="yes">Gŭatemal[ao]</token>
       </pattern>
       <message>Laŭ PMEG, «\1» estas evitinda. Uzu <suggestion><match no="1" regexp_match="^.." regexp_replace="Gv"/></suggestion>.</message>
       <url>http://bertilow.com/pmeg/skribo_elparolo/elparolo/bazaj_reguloj.html#i-m1t</url>
-      <example correction="Gvatemalo">Le loĝas en <marker>Gŭatemalo</marker>.</example>
+      <example correction="Gvatemalo">Ŝi loĝas en <marker>Gŭatemalo</marker>.</example>
     </rule>
-    <rule id="UATO" name="ŭato (vato)">
+    <rule id="TIELMANIERE" name="tielmaniere → tiumaniere">
+      <pattern>
+        <token>tielmaniere</token>
+      </pattern>
+      <message>Laŭ PMEG, «\1» estas eraro. Uzu <suggestion>tiumaniere</suggestion>.</message>
+      <url>http://bertilow.com/pmeg/vortfarado/principoj/frazetvortigo.html#i-o8c</url>
+      <example correction="tiumaniere">Mi ne ŝatas ŝin <marker>tielmaniere</marker>.</example>
+    </rule>
+    <rule id="TSETSEO" name="tsetseo → ceceo">
+      <pattern case_sensitive="yes">
+        <token regexp="yes" inflected="yes">tsetse[ao]</token>
+      </pattern>
+      <message>Laŭ ReVo, PIV kaj PMEG, la vorto  «\1» estas misskribo, onu devus uzi <suggestion><match no="1" regexp_match="^....." regexp_replace="cec"/></suggestion>.</message>
+      <url>http://bertilow.com/pmeg/skribo_elparolo/elparolo/bazaj_reguloj.html#i-96j</url>
+      <example correction="ceceojn">Mi ne ŝatas <marker>tsetseojn</marker>.</example>
+    </rule>
+    <rule id="UATO" name="ŭato → vato">
       <pattern>
         <token inflected="yes">ŭato</token>
       </pattern>
@@ -781,7 +822,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <url>http://bertilow.com/pmeg/skribo_elparolo/elparolo/bazaj_reguloj.html#i-m1t</url>
       <example correction="Vaton">10 <marker>Ŭaton</marker>.</example>
     </rule>
-    <rule id="UESTO" name="ŭesto (okcidento)">
+    <rule id="UESTO" name="ŭesto → okcidento">
       <pattern>
         <token regexp="yes" inflected="yes">ŭest[ao]</token>
       </pattern>
@@ -789,50 +830,58 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <url>http://bertilow.com/pmeg/skribo_elparolo/elparolo/bazaj_reguloj.html#i-m1t</url>
       <example correction="okcidenta">La <marker>ŭesta</marker> parto de la urbo.</example>
     </rule>
-    <rule id="DIGITA" name="diĝita (cifereca)">
+    <rule id="DIGITA" name="diĝita → cifereca">
       <pattern>
         <token inflected="yes">diĝita</token>
       </pattern>
-      <message>Laŭ Revo kaj PIV, la vorto «\1» estas evitinda. Uzu <suggestion><match no="1" regexp_match="^....." regexp_replace="ciferec"/></suggestion>.</message>
+      <message>Laŭ ReVo kaj PIV, la vorto «\1» estas evitinda. Uzu <suggestion><match no="1" regexp_match="^....." regexp_replace="ciferec"/></suggestion>.</message>
       <url>http://www.reta-vortaro.de/revo/art/digxit.html#digxit.0a</url>
       <example correction="ciferecan">Mi aĉetis <marker>diĝitan</marker> fotilon.</example>
     </rule>
-    <rulegroup id="GEEDZIGXI" name="gedziĝi, edziniĝi, edziĝi">
+    <rulegroup id="GEEDZIGXI" name="geedziĝi, edziniĝi, edziĝi">
       <rule>
         <pattern>
           <token regexp="yes">ili|ni|paroj?</token>
-          <marker><token inflected="yes" regexp="yes">edz(?:in)?iĝi</token></marker>
+          <marker><token inflected="yes" regexp="yes">geedziniĝi|edz(?:in)?iĝi</token></marker>
         </pattern>
-        <message>Laŭ la kunteksto, ĉu vi eble intencis skribi <suggestion><match no="2" regexp_match="^(...)(in)?(iĝ.*)" regexp_replace="ge$1$3"/></suggestion>?</message>
+        <message>Laŭ la kunteksto, ĉu vi eble intencis skribi <suggestion><match no="2" regexp_match=".*(ĝ|gx)" regexp_replace="geedzi$1"/></suggestion>?</message>
         <example correction="geedziĝis">Kiam ili <marker>edziĝis</marker>?</example>
         <example correction="geedziĝis">Kiam ili <marker>edziniĝis</marker>?</example>
+        <example correction="geedziĝis">Kiam ili <marker>geedziniĝis</marker>?</example>
         <example>Tiuj, kiuj edziĝas, feliĉas.</example>
       </rule>
       <rule>
         <pattern>
           <token regexp="yes">ili|ni|paroj?</token>
-          <token regexp="yes">ne|neniam|baldaŭ|ja|ĵus</token>
-          <marker><token inflected="yes" regexp="yes">edz(?:in)?iĝi</token></marker>
+          <token regexp="yes" inflected="yes">ne|neniam|baldaŭ|ja|ĵus</token>
+          <marker><token inflected="yes" regexp="yes">geedziniĝi|edz(?:in)?iĝi</token></marker>
         </pattern>
-        <message>Laŭ la kunteksto, ĉu vi eble intencis skribi <suggestion><match no="3" regexp_match="^(...)(in)?(iĝ.*)" regexp_replace="ge$1$3"/></suggestion>?</message>
+        <message>Laŭ la kunteksto, ĉu vi eble intencis skribi <suggestion><match no="3" regexp_match=".*(ĝ|gx)" regexp_replace="geedzi$1"/></suggestion>?</message>
         <example correction="geedziĝis">Ili ĵus <marker>edziĝis</marker>?</example>
+        <example correction="geedziĝis">Ili ĵus <marker>edziniĝis</marker>?</example>
+        <example correction="geedziĝis">Ili ĵus <marker>geedziniĝis</marker>?</example>
+        <example correction="geedzigxis">Ili jxus <marker>edzigxis</marker>?</example>
       </rule>
       <rule>
         <pattern>
-          <token>ŝi<exception scope="previous" regexp="yes">kun|kaj</exception></token>
-          <marker><token inflected="yes" regexp="yes">(?:ge)?edziĝi</token></marker>
+          <token inflected="yes">ŝi<exception scope="previous" regexp="yes">kun|kaj</exception></token>
+          <marker><token inflected="yes" regexp="yes">geedziniĝi|(?:ge)?edziĝi</token></marker>
         </pattern>
-        <message>Laŭ la kunteksto, ĉu vi eble intencis skribi <suggestion><match no="2" regexp_match="(ge)?(.*)(ĝ.*)" regexp_replace="$2ni$3"/></suggestion>?</message>
+        <message>Laŭ la kunteksto, ĉu vi eble intencis skribi <suggestion><match no="2" regexp_match=".*(ĝ|gx)" regexp_replace="edzini$1"/></suggestion>?</message>
         <example correction="edziniĝis">Ŝi <marker>edziĝis</marker> kun li.</example>
+        <example correction="edziniĝis">Ŝi <marker>geedziĝis</marker> kun li.</example>
+        <example correction="edziniĝis">Ŝi <marker>geedziniĝis</marker> kun li.</example>
         <example>Li kun ŝi <marker>edziĝis</marker>.</example>
       </rule>
       <rule>
         <pattern>
           <token>li<exception scope="previous">kun</exception></token>
-          <marker><token inflected="yes" regexp="yes">(?:ge)?edziniĝi</token></marker>
+          <marker><token inflected="yes" regexp="yes">geedz(?:in)?iĝi|edziniĝi</token></marker>
         </pattern>
-        <message>Laŭ la kunteksto, ĉu vi eble intencis skribi <suggestion><match no="2" regexp_match="(ge)?(.*)in(.*)" regexp_replace="$2$3"/></suggestion>?</message>
+        <message>Laŭ la kunteksto, ĉu vi eble intencis skribi <suggestion><match no="2" regexp_match=".*(ĝ|gx)" regexp_replace="edzi$1"/></suggestion>?</message>
         <example correction="edziĝis">Li <marker>edziniĝis</marker> kun ŝi.</example>
+        <example correction="edziĝis">Li <marker>geedziĝis</marker> kun ŝi.</example>
+        <example correction="edziĝis">Li <marker>geedziniĝis</marker> kun ŝi.</example>
         <example>Ŝi kun li <marker>edziniĝis</marker>.</example>
       </rule>
     </rulegroup>
@@ -851,7 +900,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <rulegroup id="ISTO" name="kirurgisto → kirurgo (ktp)">
       <rule>
         <pattern>
-          <token regexp="yes">(?:fi)?(?:ge)?(?:eks)?(?:ĉef)?(?:ar[kĥ]eolog|antropolog|birdolog|egiptolog|ekolog|esperantolog|etnolog|filolog|fiziolog|ideolog|leksikolog|geolog|ginekolog|kancerolog|[kĥ]irurg|onkolog|ornitolog|(?:infano?)psikolog|seksolog|sociolog|te[ĥk]nolog)ist(?:estr)?(?:in)?(?:aĉ)?oj?n?</token>
+          <token regexp="yes" inflected="yes">(?:fi)?(?:ge)?(?:eks)?(?:ĉef)?(?:(?:infano?)psikolog|[ĥk]irurg|androlog|antropolog|ar[ĥk]eolog|astrolog|bakteriolog|biolog|birdolog|citolog|dermatolog|dialektolog|egiptolog|ekolog|embriolog|endokrinolog|entomolog|epidemiolog|esperantolog|etimolog|etnolog|farmakolog|filolog|fiziolog|frenolog|genealog|geolog|ginekolog|glaciolog|grafolog|hematolog|hidrolog|ideolog|imunolog|kancerolog|kardiolog|klimatolog|kosmobiolog|leksikolog|meteolog|meteorolog|mikrobiolog|mineralog|neŭrolog|oftalmolog|onkolog|ornitolog|paleontolog|politikolog|politolog|psi[ĥk]olog|radiolog|reŭmatolog|seksolog|sociolog|speleolog|te[ĥk]nolog|teolog|terminolog|toksolog|virusolog|zoolog)ist(?:estr)?(?:in)?(?:aĉ)?o</token>
         </pattern>
         <message>Oni ne uzas la sufikson «-ist» en tiuj vortoj, kiuj jam montras personon. Oni devas skribi <suggestion><match no="1" regexp_match="ist" regexp_replace=""/></suggestion> aŭ <suggestion><match no="1" regexp_match="ist" regexp_replace="iist"/></suggestion> anstataŭ «\1».</message>
         <url>http://bertilow.com/pmeg/vortfarado/afiksoj/sufiksoj/ist.html#i-8e1</url>
@@ -860,7 +909,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">(?:fi)?(?:ge)?(?:eks)?(?:ĉef)?(?:aktor|astrolog|astronom|barbir|diplomat|doktor|episkop|general|geograf|gimnast|kelner|kurator|mim|profesor|redaktor|serĝent|ŝofor|student|soldat|teolog)ist(?:estr)?(?:in)?(?:aĉ)?oj?n?</token>
+          <token regexp="yes" inflected="yes">(?:fi)?(?:ge)?(?:eks)?(?:ĉef)?(?:aktor|astrolog|astronom|barbir|diplomat|doktor|episkop|general|geograf|gimnast|kelner|kurator|mim|profesor|redaktor|serĝent|ŝofor|student|soldat|teolog)ist(?:estr)?(?:in)?(?:aĉ)?o</token>
         </pattern>
         <message>Oni ne uzas la sufikson «-ist» en tiuj vortoj, kiuj jam montras personon. Oni devas skribi <suggestion><match no="1" regexp_match="ist" regexp_replace=""/></suggestion> anstataŭ «\1».</message>
         <url>http://bertilow.com/pmeg/vortfarado/afiksoj/sufiksoj/ist.html#i-8e1</url>
@@ -891,7 +940,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
       <rule>
         <pattern>
-          <token inflected="yes" regexp="yes">(argil|branĉ|bot|buf|.*ĉemiz|ĉifon|fenestr|fingr|galoĉ|grund|har|haŭt|herb|kamp|lip|okul|poŝtuk|man|mantel|mur|naztuk|.*pantalon|neĝ|pajl|rigard|ran|sabl|ŝose|ŝton|ŝtrump|ŝu|ter|tolaĵ|tol|vang|vest|veturej|vitr)(e[gjt])?o</token>
+          <token inflected="yes" regexp="yes">(argil|branĉ|bot|buf|.*ĉemiz|ĉifon|fenestr|fingr|galoĉ|grund|har|haŭt|herb|kamp|lip|okul|poŝtuk|man|mantel|mur|naztuk|.*pantalon|neĝ|pajl|rigard|ran|sabl|ŝose|ŝton|ŝtrump|ŝu|tolaĵ|tol|vang|vest|veturej|vitr)(e[gjt])?o</token>
           <token min="0" max="1" postag="E .*" postag_regexp="yes"/>
           <marker><token inflected="yes" regexp="yes">humid(e[tg])?a</token></marker>
         </pattern>
@@ -915,68 +964,139 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>La aero estas humida.</example>
       </rule>
     </rulegroup>
-    <rule id="INTERNLANDO" name="internlando">
+    <rule id="PERFORI" name="perfori → tratrui">
       <pattern>
-        <token inflected="yes">internlando</token>
+        <token inflected="yes">perfori</token>
       </pattern>
-      <message>La vorto «\1» estas arkaismo kaj evitinda laŭ Revo.</message>
-      <suggestion><match no="1" regexp_match="^.........." regexp_replace="landintern"/></suggestion>
-      <url>http://www.reta-vortaro.de/revo/art/land.html#land.intern0o</url>
-      <example correction="landinterno">La <marker>internlando</marker>.</example>
+      <message>La vorto «\1» estas evitinda laŭ ReVo.</message>
+      <suggestion><match no="1" regexp_match="^.{6}" regexp_replace="tratru"/></suggestion>
+      <url>http://www.reta-vortaro.de/revo/art/perfor.html#perfor.0i</url>
+      <example correction="tratruis">Li <marker>perforis</marker> la muron.</example>
     </rule>
-    <rule id="HUMANITARA" name="humanitara">
+    <rule id="SEMINORMO" name="seminormo → duonnormo">
+      <pattern>
+        <token inflected="yes">seminormo</token>
+      </pattern>
+      <message>La vorto «\1» estas evitinda laŭ ReVo.</message>
+      <suggestion><match no="1" regexp_match="^.{8}" regexp_replace="duonnorm"/></suggestion>
+      <url>http://www.reta-vortaro.de/revo/art/semino.html#semino.0o</url>
+      <example correction="duonnormo">f(x) estas <marker>seminormo</marker>.</example>
+    </rule>
+    <rule id="HUMANITARA" name="humanitara → homhelpa">
       <pattern>
         <token inflected="yes">humanitara</token>
       </pattern>
-      <message>La vorto «\1» estas evitinda laŭ Revo.</message>
+      <message>La vorto «\1» estas evitinda laŭ ReVo.</message>
       <suggestion><match no="1" regexp_match="^.{9}" regexp_replace="homhelp"/></suggestion>
       <url>http://www.reta-vortaro.de/revo/art/humanitar.html#humanitar.0a</url>
-      <example correction="homhelpaj">La <marker>humanitaraj</marker> organizaĵoj.</example>
+      <example correction="homhelpaj">La aŭtoritatoj kaj <marker>humanitaraj</marker> organizaĵoj nun timas, ke infektaj malsanoj disvastiĝos.</example>
     </rule>
-    <rule id="LEGUMENO" name="legumeno">
+    <rule id="LEGUMENO" name="legumeno → guŝo">
       <pattern>
         <token inflected="yes">legumeno</token>
       </pattern>
-      <message>La vorto «\1» estas evitinda laŭ Revo.</message>
+      <message>La vorto «\1» estas evitinda laŭ ReVo.</message>
       <suggestion><match no="1" regexp_match="^.{7}" regexp_replace="guŝ"/></suggestion>
-      <url>http://www.reta-vortaro.de/revo/art/legume.html</url>
-      <example correction="guŝo">La <marker>legumeno</marker>.</example>
+      <url>http://www.reta-vortaro.de/revo/art/legume.html#legume.0o</url>
+      <example correction="guŝoj">Nekuiritaj <marker>legumenoj</marker> povas kaŭzi gravajn digestajn problemojn.</example>
     </rule>
-    <rule id="LIMETO" name="limeto">
+    <rule id="LIMETO" name="limeto → limedo">
       <pattern>
         <token inflected="yes">limeto</token>
       </pattern>
-      <message>La vorto «\1» estas evitinda laŭ Revo.</message>
+      <message>La vorto «\1» estas evitinda laŭ ReVo.</message>
       <suggestion><match no="1" regexp_match="^.{5}" regexp_replace="limed"/></suggestion>
-      <url>http://www.reta-vortaro.de/revo/art/limet.html</url>
-      <example correction="limedoj">La <marker>limetoj</marker>.</example>
+      <url>http://www.reta-vortaro.de/revo/art/limet.html#limet.0o</url>
+      <example correction="limedojn">Ŝi ŝatas manĝi <marker>limetojn</marker>.</example>
     </rule>
-    <rule id="FOLIOLO" name="foliolo">
+    <rule id="FOLIOLO" name="foliolo → foliero">
       <pattern>
         <token inflected="yes">foliolo</token>
       </pattern>
-      <message>La vorto «\1» estas evitinda laŭ Revo.</message>
+      <message>La vorto «\1» estas evitinda laŭ ReVo.</message>
       <suggestion><match no="1" regexp_match="^.{6}" regexp_replace="folier"/></suggestion>
       <url>http://www.reta-vortaro.de/revo/art/foliol.html#foliol.0o</url>
-      <example correction="foliero">La <marker>foliolo</marker>.</example>
+      <example correction="folieroj">Folio konsistas el pluraj <marker>folioloj</marker>.</example>
+    </rule>
+    <rule id="NINGXO" name="ninĝo, ninĵao → ninĵo">
+      <pattern>
+        <token inflected="yes" regexp="yes">ninĝo|ninĵao</token>
+      </pattern>
+      <message>La vorto «\1» estas evitinda laŭ ReVo. Uzu <suggestion><match no="1" regexp_match=".*o(j?n?)$" regexp_replace="ninĵo$1"/></suggestion>.</message>
+      <url>http://www.reta-vortaro.de/revo/art/ningx.html#ningx.0o</url>
+      <example correction="ninĵo">Li estis <marker>ninĝo</marker>.</example>
+      <example correction="ninĵo">Li estis <marker>ninĵao</marker>.</example>
+    </rule>
+    <rule id="SXINOBO" name="ŝinobo → ninĵo">
+      <pattern>
+        <token inflected="yes">ŝinobo</token>
+      </pattern>
+      <message>La vorto «\1» estas evitinda laŭ ReVo. Uzu <suggestion><match no="1" regexp_match=".*o(j?n?)$" regexp_replace="ninĵo$1"/></suggestion>.</message>
+      <url>http://www.reta-vortaro.de/revo/art/sxinob.html#sxinob.0o</url>
+      <example correction="ninĵo">Li estis <marker>ŝinobo</marker>.</example>
+      <example correction="ninĵojn">Li vidis <marker>sxinobojn</marker>.</example>
+    </rule>
+    <rule id="MERDO" name="merdo → fekaĵo">
+      <pattern>
+        <token inflected="yes">merdo</token>
+      </pattern>
+      <message>La vorto «\1» estas evitinda laŭ ReVo. Uzu <suggestion><match no="1" regexp_match=".*o(j?n?)$" regexp_replace="fekaĵo$1"/></suggestion>.</message>
+      <url>http://www.reta-vortaro.de/revo/art/merd.html#merd.0o</url>
+      <example correction="fekaĵo">Mi marŝis en <marker>merdo</marker>.</example>
     </rule>
     <rule id="APARATO" name="aparato">
       <pattern>
-        <token inflected="yes" regexp="yes">digesta|endokrina|kardiovaskula|nerva|reprodukta|tegumenta|spira</token>
+        <token inflected="yes" regexp="yes">digesta|ekzokrina|endokrina|genera|imuna|kardiovaskula|nerva|reprodukta|spira|tegumenta</token>
         <marker><token inflected="yes">aparato</token></marker>
       </pattern>
-      <message>La vorto «\2» estas evitinda laŭ Revo en tiu kunteksto. Uzu <suggestion><match no="2" regexp_match="^.{6}" regexp_replace="sistem"/></suggestion> aŭ <suggestion><match no="2" regexp_match="^.{6}" regexp_replace="organar"/></suggestion>.</message>
-      <url>http://www.reta-vortaro.de/revo/art/aparat.html#lng_</url>
+      <message>La vorto «\2» estas evitinda laŭ ReVo en tiu kunteksto. Uzu <suggestion><match no="2" regexp_match="^.{6}" regexp_replace="sistem"/></suggestion> aŭ <suggestion><match no="2" regexp_match="^.{6}" regexp_replace="organar"/></suggestion>.</message>
+      <url>http://www.reta-vortaro.de/revo/art/aparat.html#aparat.0o</url>
       <example correction="sistemo|organaro">La digesta <marker>aparato</marker> inflamiĝis.</example>
     </rule>
-    <rule id="MORTE_NASKITA" name="morte naskita">
+    <rule id="MORTE_NASKITA" name="morte naskita → malvive naskita">
       <pattern>
         <token>morte</token>
         <token inflected="yes">naskita</token>
       </pattern>
-      <message>Laŭ Revo, «\1 \2» estas evitinda. Uzu <suggestion>malvive \2</suggestion>.</message>
+      <message>Laŭ ReVo, «\1 \2» estas evitinda. Uzu <suggestion>malvive \2</suggestion>.</message>
       <url>http://www.reta-vortaro.de/revo/art/nask.html#nask.morte0ita</url>
       <example correction="malvive naskita">Lia filo estis <marker>morte naskita</marker>.</example>
+    </rule>
+    <rule id="F-INO" name="f-ino → s-ino">
+      <pattern>
+        <token inflected="yes">f-ino</token>
+      </pattern>
+      <message>Laŭ ReVo, la titolo «\1» estas evitinda. Uzu <suggestion>s-ino</suggestion>.</message>
+      <url>http://www.reta-vortaro.de/revo/art/frauxl.html#frauxl.0ino</url>
+      <example correction="s-ino">La opinio de <marker>f-ino</marker> Rozo estas tute erara.</example>
+    </rule>
+    <rule id="NEGRO" name="negro → nigrulo">
+      <pattern>
+        <token inflected="yes">negro</token>
+      </pattern>
+      <message>La vorto «\1» estas evitinda laŭ ReVo.</message>
+      <suggestion><match no="1" regexp_match="^.{4}" regexp_replace="nigrul"/></suggestion>
+      <url>http://www.reta-vortaro.de/revo/art/negr.html#negr.0o</url>
+      <example correction="nigrulo">En nia kvartalo loĝas nur unu <marker>negro</marker>.</example>
+    </rule>
+    <rule id="ROMAJ_CIFEROJ" name="Romaj ciferoj">
+      <pattern case_sensitive="yes">
+        <token regexp="yes">[IVXLCDMⅠⅡⅢⅣⅤⅥⅦⅧⅨⅩⅪⅫⅬⅭⅮⅯ]+-a</token>
+      </pattern>
+      <message>Laŭ PMEG, la romaj ciferoj (I, II, III, IV, V…) estas evitindaj, ĉar ili ne estas tut-monde konataj.</message>
+      <url>http://bertilow.com/pmeg/skribo_elparolo/skribo/helposignoj.html#i-rl3</url>
+      <example correction="">Li naskiĝis en la <marker>XVII-a</marker> jarcento.</example>
+      <example correction="">Li naskiĝis en la <marker>ⅩⅦ-a</marker> jarcento.</example>
+    </rule>
+    <rule id="CI" name="ci → vi">
+      <pattern>
+        <token regexp="yes">ci(?:n|aj?n?)?</token>
+      </pattern>
+      <message>Laŭ ReVo, la pronomo «\1» estas evitinda. Preferu skribi <suggestion><match no="1" regexp_match=".*i(.*)" regexp_replace="vi$1"/></suggestion>.</message>
+      <url>http://www.reta-vortaro.de/revo/art/ci.html#ci.0</url>
+      <example correction="vi">Kiel <marker>ci</marker> fartas?</example>
+      <example correction="Vi"><marker>Ci</marker> tute malpravas!</example>
+      <example correction="Viaj"><marker>Ciaj</marker> libroj aĉas!</example>
     </rule>
   </category>
   <category id="ARKAISMOJ" name="Arkaismoj">
@@ -986,6 +1106,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token inflected="yes">atompezo</token>
         </pattern>
         <message>Laŭ PIV-2005, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match="pez" regexp_replace="mas"/></suggestion>.</message>
+        <url>http://vortaro.net/#atompezo</url>
         <example correction="atommason">Ĉiu izotopo havas malsaman <marker>atompezon</marker>.</example>
       </rule>
       <rule>
@@ -993,6 +1114,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token inflected="yes">abatiso</token>
         </pattern>
         <message>Laŭ PIV-2005, «\1» estas arkaismo. Konsideru uzi <suggestion><match no="1" regexp_match="(abatis)(.*)" regexp_replace="arbobaraĵ$2"/></suggestion>.</message>
+        <url>http://vortaro.net/#abatiso</url>
         <example correction="arbobaraĵon">Ili faris <marker>abatison</marker>.</example>
       </rule>
       <rule>
@@ -1000,148 +1122,174 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token inflected="yes">fibero</token>
         </pattern>
         <message>Laŭ PIV-2005, «\1» estas arkaismo. Konsideru uzi <suggestion><match no="1" regexp_match="(.*)(r.*)" regexp_replace="ondat$2"/></suggestion>.</message>
+        <url>http://vortaro.net/#fibero</url>
         <example correction="ondatroj">Jen <marker>fiberoj</marker>.</example>
       </rule>
       <rule>
         <pattern>
           <token inflected="yes">abaĵuro</token>
         </pattern>
-        <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*o(.*)" regexp_replace="lumŝirmilo$1"/></suggestion>.</message>
+        <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*o(.*)" regexp_replace="lumŝirmilo$1"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/abajxur.html#abajxur.0o</url>
         <example correction="lumŝirmilon">Mi aĉetis <marker>abaĵuron</marker>.</example>
       </rule>
       <rule>
         <pattern>
           <token inflected="yes">multepeza</token>
         </pattern>
-        <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match="multe(.*)" regexp_replace="$1"/></suggestion>.</message>
+        <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match="multe(.*)" regexp_replace="$1"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/pez.html#pez.multe0a</url>
         <example correction="peza">Estas <marker>multepeza</marker> valizo.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes">ĥolesterino</token>
+        </pattern>
+        <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*o(j?n?)$" regexp_replace="ĥolesterolo$1"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/hxolesterin.html#hxolesterin.0o</url>
+        <example correction="ĥolesterolo">Troo da <marker>ĥolesterino</marker> en la sango povas kaŭzi malsanojn.</example>
       </rule>
       <rule>
         <pattern>
           <token inflected="yes">aeroplano</token>
         </pattern>
-        <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*o(.*)" regexp_replace="avio$1"/></suggestion>.</message>
+        <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*o(.*)" regexp_replace="avio$1"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/aeropl.html#aeropl.0o</url>
         <example correction="avioj">Pasas <marker>aeroplanoj</marker>.</example>
       </rule>
       <rule>
         <pattern>
           <token inflected="yes">aideso</token>
         </pattern>
-        <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*o(.*)" regexp_replace="aidoso$1"/></suggestion>.</message>
+        <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*o(.*)" regexp_replace="aidoso$1"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/aides.html#aides.0o</url>
         <example correction="aidoso">La viruso de <marker>aideso</marker></example>
       </rule>
       <rule>
         <pattern>
           <token inflected="yes">alikvanto</token>
         </pattern>
-        <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*o(.*)" regexp_replace="nedivizoro$1"/></suggestion>.</message>
+        <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*o(.*)" regexp_replace="nedivizoro$1"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/alikva.html#alikva.0o</url>
         <example correction="nedivizoro">Du estas <marker>alikvanto</marker></example>
       </rule>
       <rule>
         <pattern>
           <token inflected="yes" regexp="yes">ama[ĉĵ]i</token>
         </pattern>
-        <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*[ĉĵ](.*)" regexp_replace="amor$1"/></suggestion>.</message>
+        <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*[ĉĵ](.*)" regexp_replace="amor$1"/></suggestion>.</message>
         <example correction="amori">Ili ŝatas <marker>amaĵi</marker></example>
       </rule>
       <rule>
         <pattern>
           <token inflected="yes">pliami</token>
         </pattern>
-        <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match="pliam(.*)" regexp_replace="prefer$1"/></suggestion>.</message>
+        <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match="pliam(.*)" regexp_replace="prefer$1"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/am.html#am.pli0i</url>
         <example correction="preferas">Li <marker>pliamas</marker> vojaĝi aviadile.</example>
       </rule>
       <rule>
         <pattern>
           <token inflected="yes" regexp="yes">amovendist(?:in)?o</token>
         </pattern>
-        <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*t(in)?(.*)" regexp_replace="amorist$1$2"/></suggestion>.</message>
+        <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*t(in)?(.*)" regexp_replace="amorist$1$2"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/am.html#am.0ovendisto</url>
         <example correction="amoristino">Ŝi estas <marker>amovendistino</marker>.</example>
       </rule>
       <rule>
         <pattern>
           <token inflected="yes">ardejo</token>
         </pattern>
-        <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match="^....." regexp_replace="fokus"/></suggestion>, <suggestion><match no="1" regexp_match="^....." regexp_replace="centr"/></suggestion>, <suggestion><match no="1" regexp_match="^....." regexp_replace="kern"/></suggestion> aŭ <suggestion><match no="1" regexp_match="^....." regexp_replace="brulej"/></suggestion>.</message>
+        <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match="^....." regexp_replace="fokus"/></suggestion>, <suggestion><match no="1" regexp_match="^....." regexp_replace="centr"/></suggestion>, <suggestion><match no="1" regexp_match="^....." regexp_replace="kern"/></suggestion> aŭ <suggestion><match no="1" regexp_match="^....." regexp_replace="brulej"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/ard.html#ard.0ejo</url>
         <example correction="Fokuso|Centro|Kerno|Brulejo"><marker>Ardejo</marker></example>
       </rule>
       <rule>
         <pattern>
           <token inflected="yes" regexp="yes">armo|detruilo</token>
         </pattern>
-        <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*o(.*)" regexp_replace="armilo$1"/></suggestion>.</message>
+        <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*o(.*)" regexp_replace="armilo$1"/></suggestion>.</message>
         <example correction="armilojn">Li vendas <marker>armojn</marker>.</example>
       </rule>
       <rule>
         <pattern>
           <token inflected="yes">Baltiko</token>
         </pattern>
-        <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*o(.*)" regexp_replace="Balta$1 Maro$1"/></suggestion>.</message>
+        <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*o(.*)" regexp_replace="Balta$1 Maro$1"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/baltik.html#baltik.0o</url>
         <example correction="Balta Maro">Mi vojaĝas al la <marker>Baltiko</marker></example>
       </rule>
       <rule>
         <pattern>
           <token inflected="yes">refaldoborderi</token>
         </pattern>
-        <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*r(.*)" regexp_replace="orl$1"/></suggestion>.</message>
+        <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*r(.*)" regexp_replace="orl$1"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/border.html#border.refaldo0i</url>
         <example correction="orlas">Ŝi <marker>refaldoborderas</marker></example>
       </rule>
       <rule>
         <pattern>
           <token inflected="yes" regexp="yes">(?:mal)?dekstrano</token>
         </pattern>
-        <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match="dekstran" regexp_replace="dekstrul"/></suggestion>.</message>
+        <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match="dekstran" regexp_replace="dekstrul"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/dekstr.html#dekstr.0ano</url>
         <example correction="dekstrulo">Li estas <marker>dekstrano</marker></example>
       </rule>
       <rule>
         <pattern>
           <token inflected="yes">delegato</token>
         </pattern>
-        <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match="(.*)at(.*)" regexp_replace="$1it$2"/></suggestion>.</message>
+        <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match="(.*)at(.*)" regexp_replace="$1it$2"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/deleg.html#deleg.0ato</url>
         <example correction="delegito">Li estas <marker>delegato</marker></example>
       </rule>
       <rule>
         <pattern>
           <token inflected="yes">detalaĵo</token>
         </pattern>
-        <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*ĵ(.*)" regexp_replace="detal$1"/></suggestion>.</message>
+        <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*ĵ(.*)" regexp_replace="detal$1"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/detal.html#detal.0ajxo</url>
         <example correction="detalo">Tio estas <marker>detalaĵo</marker></example>
       </rule>
       <rule>
         <pattern>
           <token inflected="yes">diakilono</token>
         </pattern>
-        <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match="^........" regexp_replace="diakil"/></suggestion>.</message>
+        <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match="^........" regexp_replace="diakil"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/diakilon.html#diakilon.0o</url>
         <example correction="diakilon">Mi faris <marker>diakilonon</marker></example>
       </rule>
       <rule>
         <pattern>
           <token inflected="yes">diletantismo</token>
         </pattern>
-        <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*m(.*)" regexp_replace="diletantec$1"/></suggestion>.</message>
+        <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*m(.*)" regexp_replace="diletantec$1"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/dileta.html#dileta.0ismo</url>
         <example correction="diletantecon">Li ŝatas <marker>diletantismon</marker></example>
       </rule>
       <rule>
         <pattern>
           <token inflected="yes">diluvio</token>
         </pattern>
-        <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*vi(.*)" regexp_replace="plejstocen$1"/></suggestion>.</message>
+        <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*vi(.*)" regexp_replace="plejstocen$1"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/diluvi.html#diluvi.0o</url>
         <example correction="plejstoceno">Li legas pri <marker>diluvio</marker></example>
       </rule>
       <rule>
         <pattern>
           <token inflected="yes">aldoniteco</token>
         </pattern>
-        <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*c(.*)" regexp_replace="sindon$1"/></suggestion>.</message>
+        <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*c(.*)" regexp_replace="sindon$1"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/don.html#don.al0iteco</url>
         <example correction="sindono">La <marker>aldoniteco</marker> de la loĝantaro</example>
       </rule>
-      <!-- Not sure whether this is really an archaism: Revo is unclear there
+      <!-- Not sure whether this is really an archaism: ReVo is unclear there
       <rule>
         <pattern>
           <token inflected="yes">eksponenta</token>
           <token inflected="yes">funkcio</token>
         </pattern>
-        <message>Laŭ Revo, «\1 \2» estas arkaismo. Uzu <suggestion><match no="2" regexp_match=".*i(.*)" regexp_replace="eksponencial$1"/></suggestion>.</message>
+        <message>Laŭ ReVo, «\1 \2» estas arkaismo. Uzu <suggestion><match no="2" regexp_match=".*i(.*)" regexp_replace="eksponencial$1"/></suggestion>.</message>
         <example correction="krom">Tio estas <marker>eksponenta funkcio</marker></example>
         <example>Tio estas <marker>eksponencialo</marker></example>
       </rule>
@@ -1153,7 +1301,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           </marker>
           <token regexp="yes">[mcvlŝn]i|ili|oni</token>
         </pattern>
-        <message>Laŭ Revo, tiu uzo de «\1» estas arkaismo. Uzu <suggestion>krom</suggestion>.</message>
+        <message>Laŭ ReVo, tiu uzo de «\1» estas arkaismo. Uzu <suggestion>krom</suggestion>.</message>
         <example correction="krom">Ĉiuj <marker>ekster</marker> mi sciis pri tio.</example>
       </rule>
       <rule>
@@ -1161,7 +1309,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token inflected="yes">elektra</token>
           <token inflected="yes">fluo</token>
         </pattern>
-        <message>Laŭ Revo, tiu uzo «\1 \2» estas arkaismo. Uzu <suggestion><match no="2" regexp_match=".*u(.*)" regexp_replace="kurent$1"/></suggestion>.</message>
+        <message>Laŭ ReVo, tiu uzo «\1 \2» estas arkaismo. Uzu <suggestion><match no="2" regexp_match=".*u(.*)" regexp_replace="kurent$1"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/elektr.html#elektr.0afluo</url>
         <example correction="kurenton">Mi mezuras la <marker>elektran fluon</marker>.</example>
       </rule>
       <rule>
@@ -1169,49 +1318,53 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token>el</token>
           <token>de</token>
         </pattern>
-        <message>Laŭ Revo, «\1 \2» estas arkaismo. Uzu <suggestion>de</suggestion>.</message>
+        <message>Laŭ ReVo, «\1 \2» estas arkaismo. Uzu <suggestion>de</suggestion>.</message>
         <example correction="de">Li eliras <marker>el de</marker> la lito.</example>
       </rule>
       <rule>
         <pattern>
           <token inflected="yes">esprimaĵo</token>
         </pattern>
-        <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*ĵ(.*)" regexp_replace="esprim$1"/></suggestion>.</message>
+        <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*ĵ(.*)" regexp_replace="esprim$1"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/esprim.html#esprim.0ajxo</url>
         <example correction="esprimo">Stranga <marker>esprimaĵo</marker>.</example>
       </rule>
       <rule>
         <pattern>
           <token inflected="yes" regexp="yes">alesti|apudesti</token>
         </pattern>
-        <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*t(.*)" regexp_replace="ĉeest$1"/></suggestion>.</message>
+        <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*t(.*)" regexp_replace="ĉeest$1"/></suggestion>.</message>
         <example correction="ĉeestis">Li <marker>apudestis</marker>.</example>
       </rule>
       <rule>
         <pattern>
           <token inflected="yes">motorfiakro</token>
         </pattern>
-        <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*r(.*)" regexp_replace="taksi$1"/></suggestion>.</message>
+        <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*r(.*)" regexp_replace="taksi$1"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/fiakr.html#fiakr.motor0o</url>
         <example correction="taksion">Ĉu vi bezonas <marker>motorfiakron</marker>?</example>
       </rule>
       <rule>
         <pattern>
-          <token inflected="yes" regexp="yes">(?:brul|fajr)o?estingisto</token>
+          <token inflected="yes" regexp="yes">(?:brul|fajr)o?estingist(?:in)?o</token>
         </pattern>
-        <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*t(.*)" regexp_replace="fajrobrigadist$1"/></suggestion> aŭ <suggestion><match no="1" regexp_match=".*t(.*)" regexp_replace="fajrobrigadan$1"/></suggestion>.</message>
+        <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*t(in)?(.*)" regexp_replace="fajrobrigadist$1$2"/></suggestion> aŭ <suggestion><match no="1" regexp_match=".*t(in)?(.*)" regexp_replace="fajrobrigadan$1$2"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/esting.html#esting.brul0isto</url>
         <example correction="fajrobrigadisto|fajrobrigadano">Li volas fariĝi <marker>fajroestingisto</marker>.</example>
       </rule>
       <rule>
         <pattern>
           <token inflected="yes">floraĵo</token>
         </pattern>
-        <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*ĵ(.*)" regexp_replace="flor$1"/></suggestion> aŭ <suggestion><match no="1" regexp_match=".*ĵ(.*)" regexp_replace="florar$1"/></suggestion>.</message>
+        <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*ĵ(.*)" regexp_replace="flor$1"/></suggestion> aŭ <suggestion><match no="1" regexp_match=".*ĵ(.*)" regexp_replace="florar$1"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/flor.html#flor.0ajxo</url>
         <example correction="florojn|florarojn">Li aĉetis <marker>floraĵojn</marker>.</example>
       </rule>
       <rule>
         <pattern>
           <token inflected="yes" regexp="yes">flugpendi|fluggliti</token>
         </pattern>
-        <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*[dt](.*)" regexp_replace="ŝveb$1"/></suggestion>.</message>
+        <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*[dt](.*)" regexp_replace="ŝveb$1"/></suggestion>.</message>
         <example correction="ŝvebas">Nuboj <marker>flugpendas</marker>.</example>
       </rule>
       <rule>
@@ -1219,14 +1372,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token inflected="yes">fotografa</token>
           <token inflected="yes">aparato</token>
         </pattern>
-        <message>Laŭ Revo, «\1 \2» estas arkaismo. Uzu <suggestion><match no="2" regexp_match=".*t(.*)" regexp_replace="fotil$1"/></suggestion>.</message>
+        <message>Laŭ ReVo, «\1 \2» estas arkaismo. Uzu <suggestion><match no="2" regexp_match=".*t(.*)" regexp_replace="fotil$1"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/fotogr.html#fotogr.0aaparato</url>
         <example correction="fotilon">Mi aĉetis <marker>fotografan aparaton</marker>.</example>
       </rule>
       <rule>
         <pattern>
           <token inflected="yes">fruntaĵo</token>
         </pattern>
-        <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*ĵ(.*)" regexp_replace="fronton$1"/></suggestion>.</message>
+        <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*ĵ(.*)" regexp_replace="fronton$1"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/frunt.html#frunt.0ajxo</url>
         <example correction="frontono">Mi atendis sur la <marker>fruntaĵo</marker>.</example>
       </rule>
       <rule>
@@ -1234,7 +1389,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token inflected="yes">cirkla</token>
           <token inflected="yes">funkcio</token>
         </pattern>
-        <message>Laŭ Revo, «\1 \2» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*l(.*)" regexp_replace="trigonometri$1 funkcio"/></suggestion>.</message>
+        <message>Laŭ ReVo, «\1 \2» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*l(.*)" regexp_replace="trigonometri$1 funkcio"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/funkci.html#funkci.cirkla0o</url>
         <example correction="trigonometria funkcio">Tio estas <marker>cirkla funkcio</marker>.</example>
       </rule>
       <rule>
@@ -1242,81 +1398,102 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token inflected="yes">sterlinga</token>
           <token inflected="yes">funto</token>
         </pattern>
-        <message>Laŭ Revo, «\1 \2» estas arkaismo. Uzu <suggestion>sterling\2</suggestion>.</message>
-        <example correction="sterlingfuntoj">Kostas mil <marker>sterlingaj funtoj</marker>.</example>
+        <message>Laŭ ReVo, «\1 \2» estas arkaismo. Uzu <suggestion><match no="2" regexp_match="^.{4}" regexp_replace="pund"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/funt.html#funt.sterlinga0o</url>
+        <example correction="pundoj">Kostas mil <marker>sterlingaj funtoj</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes">sterlingfunto</token>
+        </pattern>
+        <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match="^.{12}" regexp_replace="pund"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/funt.html#funt.sterlinga0o</url>
+        <example correction="pundoj">Kostas mil <marker>sterlingfuntoj</marker>.</example>
       </rule>
       <rule>
         <pattern>
           <token inflected="yes">ĝazbando</token>
         </pattern>
-        <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match="^." regexp_replace="ĵ"/></suggestion>.</message>
+        <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match="^." regexp_replace="ĵ"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/gxazba.html#gxazba.0o</url>
         <example correction="ĵazbandon">Mi ŝatas tiun <marker>ĝazbandon</marker>.</example>
       </rule>
       <rule>
         <pattern>
           <token inflected="yes">ĝentilhomo</token>
         </pattern>
-        <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*m(.*)" regexp_replace="ĝentleman$1"/></suggestion>.</message>
+        <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*m(.*)" regexp_replace="ĝentleman$1"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/gxenti.html#gxenti.0homo</url>
         <example correction="ĝentlemano">Li estas <marker>ĝentilhomo</marker>.</example>
       </rule>
       <rule>
         <pattern>
           <token inflected="yes">heksagono</token>
         </pattern>
-        <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*n(.*)" regexp_replace="seslater$1"/></suggestion>.</message>
+        <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*n(.*)" regexp_replace="seslater$1"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/heksagon.html#heksagon.0o</url>
         <example correction="seslatero">Jen <marker>heksagono</marker>.</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token inflected="yes">hermeta</token>
-        </pattern>
-        <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*t(.*)" regexp_replace="hermetik$1"/></suggestion>.</message>
-        <example correction="hermetika">Tiu brakhorloĝo estas <marker>hermeta</marker>.</example>
       </rule>
       <rule>
         <pattern>
           <token inflected="yes">hidroaeroplano</token>
         </pattern>
-        <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*n(.*)" regexp_replace="hidroplan$1"/></suggestion>.</message>
+        <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*n(.*)" regexp_replace="hidroplan$1"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/hidroa.html#hidroa.0o</url>
         <example correction="hidroplano">Alvenas la <marker>hidroaeroplano</marker>.</example>
       </rule>
       <rule>
         <pattern>
           <token inflected="yes">hinĝo</token>
         </pattern>
-        <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*ĝ(.*)" regexp_replace="pordhok$1"/></suggestion>.</message>
+        <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*ĝ(.*)" regexp_replace="pordhok$1"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/hingx.html#hingx.0o</url>
         <example correction="pordhoko">La <marker>hinĝo</marker> rompiĝis.</example>
       </rule>
       <rule>
         <pattern>
           <token>pohore</token>
         </pattern>
-        <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion>hore</suggestion>.</message>
+        <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion>hore</suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/hor.html#hor.po0e</url>
         <example correction="hore">Por tiu laboro, mi petas 10 stelojn <marker>pohore</marker>.</example>
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">ĥin([oa]|io|ujo)j?n?</token>
+          <token regexp="yes">(?:ĥin|h[hx]in)(?:aĵ|aj[hx]|ec|i|ism|land|uj)?(?:[ao]j?|e)n?</token>
         </pattern>
-        <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match="^." regexp_replace="ĉ"/></suggestion>.</message>
+        <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match="^." regexp_replace="ĉ"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/hxin.html#hxin.0o</url>
         <example correction="Ĉinujo">Mi loĝas en <marker>Ĥinujo</marker>.</example>
+        <example correction="ĉino">Ŝi estas <marker>ĥino</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">vask(aĵ|aj[hx]|ec|i|in|ism|o?land|uj)?([ao]j?|e)n?</token>
+        </pattern>
+        <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match="^.." regexp_replace="eŭ"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/vask.html#vask.0o</url>
+        <example correction="Eŭskujo">Mia fratino nun loĝas en <marker>Vaskujo</marker>.</example>
+        <example correction="eŭskoj">Ili estas <marker>vaskoj</marker>.</example>
       </rule>
       <rule>
         <pattern>
           <token>sen</token>
           <token>ia</token>
-          <token>eĉ</token>
+          <token inflected="yes">eĉ</token>
           <token>plej</token>
           <token>malgranda</token>
         </pattern>
-        <message>Laŭ Revo, «\1 \2 \3 \4 \5» estas arkaismo. Uzu <suggestion>sen ajna</suggestion> aŭ <suggestion>sen ia ajn</suggestion>.</message>
+        <message>Laŭ ReVo, «\1 \2 \3 \4 \5» estas arkaismo. Uzu <suggestion>sen ajna</suggestion> aŭ <suggestion>sen ia ajn</suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/ia.html#ia.sen0ecxplejmalgranda</url>
         <example correction="Sen ajna|Sen ia ajn"><marker>Sen ia eĉ plej malgranda</marker> difekto.</example>
       </rule>
       <rule>
         <pattern>
           <token inflected="yes">imaginaro</token>
         </pattern>
-        <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*r(.*)" regexp_replace="kompleks$1"/></suggestion>.</message>
+        <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*r(.*)" regexp_replace="kompleks$1"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/imagin.html#imagin.0o</url>
         <example correction="komplekso">Tiu valoro estas <marker>imaginaro</marker>.</example>
       </rule>
       <rule>
@@ -1327,21 +1504,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token skip="1">de</token>
           <token inflected="yes" regexp="yes">krimo|murdo|ŝtelo</token>
         </pattern>
-        <message>Laŭ Revo, tiu uzo de «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*c(.*)" regexp_replace="indikaĵ$1"/></suggestion>.</message>
+        <message>Laŭ ReVo, «\1» estas arkaismo en tiu kunteksto. Uzu <suggestion><match no="1" regexp_match=".*c(.*)" regexp_replace="indikaĵ$1"/></suggestion>.</message>
         <example correction="indikaĵoj">Estis neniuj <marker>indicoj</marker> de la krimo.</example>
       </rule>
       <rule>
         <pattern>
-          <token inflected="yes">irigaco</token>
+          <token inflected="yes" regexp="yes">irigac[oi]</token>
         </pattern>
-        <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match="(.*c)(.*)" regexp_replace="$1i$2"/></suggestion>.</message>
+        <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match="(.*c)(.*)" regexp_replace="$1i$2"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/irigac.html#irigac.0o</url>
         <example correction="irigacion">La plantoj bezonas <marker>irigacon</marker>.</example>
+        <example correction="irigacias">Li <marker>irigacas</marker> la kultivejojn.</example>
       </rule>
       <rule>
         <pattern>
           <token inflected="yes">centjaro</token>
         </pattern>
-        <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*r(.*)" regexp_replace="jarcent$1"/></suggestion>.</message>
+        <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*r(.*)" regexp_replace="jarcent$1"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/jar.html#jar.cent0o</url>
         <example correction="jarcentojn">Daŭris du <marker>centjarojn</marker>.</example>
       </rule>
       <rule>
@@ -1349,126 +1529,153 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token inflected="yes">granda</token>
           <token inflected="yes">kalorio</token>
         </pattern>
-        <message>Laŭ Revo, «\1 \2» estas arkaismo. Uzu <suggestion><match no="2" regexp_match=".*ri(.*)" regexp_replace="kilokalori$1"/></suggestion>.</message>
+        <message>Laŭ ReVo, «\1 \2» estas arkaismo. Uzu <suggestion><match no="2" regexp_match=".*ri(.*)" regexp_replace="kilokalori$1"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/kalori.html#kalori.granda0o</url>
         <example correction="kilokalorioj">Tiom da <marker>grandaj kalorioj</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes">malgranda</token>
+          <token inflected="yes">kalorio</token>
+        </pattern>
+        <message>Laŭ ReVo, «\1 \2» estas arkaismo. Uzu <suggestion><match no="2" regexp_match=".*ri(.*)" regexp_replace="kalori$1"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/kalori.html#kalori.malgranda0o</url>
+        <example correction="kalorioj">Tiom da <marker>malgrandaj kalorioj</marker>.</example>
       </rule>
       <rule>
         <pattern>
           <token inflected="yes">karbolo</token>
         </pattern>
-        <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*l(.*)" regexp_replace="fenol$1"/></suggestion>.</message>
+        <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*l(.*)" regexp_replace="fenol$1"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/karbol.html#karbol.0o</url>
         <example correction="Fenolo"><marker>Karbolo</marker> malodoras.</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token inflected="yes" regexp="yes">radio?karbono</token>
-        </pattern>
-        <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*(k.*)" regexp_replace="$1 14"/></suggestion>.</message>
-        <example correction="karbonon 14">Ili uzas <marker>radiokarbonon</marker>.</example>
       </rule>
       <rule>
         <pattern>
           <token inflected="yes">karito</token>
         </pattern>
-        <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*t(.*)" regexp_replace="karitat$1"/></suggestion>.</message>
+        <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*t(.*)" regexp_replace="karitat$1"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/karit.html#karit.0o</url>
         <example correction="karitato">Li estas sen <marker>karito</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes">kapeldinero</token>
+        </pattern>
+        <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*o(j?n?$)$" regexp_replace="akceptisto$1"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/kapeldiner.html#kapeldiner.0o</url>
+        <example correction="akceptistoj">Stariĝis du <marker>kapeldineroj</marker> ĉe la pordo.</example>
       </rule>
       <rule>
         <pattern>
           <token inflected="yes">kaseto</token>
         </pattern>
-        <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*t(.*)" regexp_replace="kased$1"/></suggestion>.</message>
+        <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*t(.*)" regexp_replace="kased$1"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/kaset.html#kaset.0o</url>
         <example correction="kasedon">Mi aĉetis <marker>kaseton</marker>.</example>
       </rule>
       <rule>
         <pattern>
           <token inflected="yes">klukkluki</token>
         </pattern>
-        <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*k(.*)" regexp_replace="gugl$1"/></suggestion>.</message>
+        <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*k(.*)" regexp_replace="gugl$1"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/kluk.html#kluk.kluk0i</url>
         <example correction="guglanta">Mi estas <marker>klukklukanta</marker>.</example>
       </rule>
       <rule>
         <pattern>
           <token inflected="yes">komisiitaro</token>
         </pattern>
-        <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*r(.*)" regexp_replace="komision$1"/></suggestion>.</message>
+        <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*r(.*)" regexp_replace="komision$1"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/komisi.html#komisi.0itaro</url>
         <example correction="komisiono">La <marker>komisiitaro</marker> elektis lin.</example>
       </rule>
       <rule>
         <pattern>
           <token inflected="yes">komisiulo</token>
         </pattern>
-        <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*l(.*)" regexp_replace="komisiist$1"/></suggestion>.</message>
+        <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*l(.*)" regexp_replace="komisiist$1"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/komisi.html#komisi.0ulo</url>
         <example correction="komisiisto">La <marker>komisiulo</marker> elektis lin.</example>
       </rule>
       <rule>
         <pattern>
           <token inflected="yes">kompateco</token>
         </pattern>
-        <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*c(.*)" regexp_replace="kompatem$1"/></suggestion>.</message>
+        <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*c(.*)" regexp_replace="kompatem$1"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/kompat.html#kompat.0eco</url>
         <example correction="kompatemo">La <marker>kompateco</marker> de Dio.</example>
       </rule>
       <rule>
         <pattern>
           <token inflected="yes" regexp="yes">komput[eo]ro</token>
         </pattern>
-        <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*r(.*)" regexp_replace="komputil$1"/></suggestion>.</message>
+        <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*r(.*)" regexp_replace="komputil$1"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/komputor.html#komputor.0o</url>
         <example correction="komputilon">Mi aĉetis novan <marker>komputeron</marker>.</example>
       </rule>
       <rule>
         <pattern>
           <token>enkomune</token>
         </pattern>
-        <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion>entute</suggestion>.</message>
+        <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion>entute</suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/komun.html#komun.en0e</url>
         <example correction="entute">Ni <marker>enkomune</marker> decidis.</example>
       </rule>
       <rule>
         <pattern>
           <token inflected="yes">akvokonduko</token>
         </pattern>
-        <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*k(.*)" regexp_replace="akvokondukil$1"/></suggestion>.</message>
+        <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*k(.*)" regexp_replace="akvokondukil$1"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/konduk.html#konduk.akvo0o</url>
         <example correction="akvokondukilo">La <marker>akvokonduko</marker> de Romo.</example>
       </rule>
       <rule>
         <pattern>
           <token inflected="yes">konfidencio</token>
         </pattern>
-        <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match="(.*c)i(.*)" regexp_replace="$1$2"/></suggestion>.</message>
+        <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match="(.*c)i(.*)" regexp_replace="$1$2"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/konfidenci.html#konfidenci.0o</url>
         <example correction="konfidencon">Li faris <marker>konfidencion</marker></example>
       </rule>
       <rule>
         <pattern>
           <token inflected="yes">kontaktingo</token>
         </pattern>
-        <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*g(.*)" regexp_replace="ampoling$1"/></suggestion>.</message>
+        <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*g(.*)" regexp_replace="ampoling$1"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/kontak.html#kontak.0ingo</url>
         <example correction="ampolingo">La <marker>kontaktingo</marker> tro malgrandas.</example>
       </rule>
       <rule>
         <pattern>
           <token inflected="yes">krampfo</token>
         </pattern>
-        <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*f(.*)" regexp_replace="kramf$1"/></suggestion>.</message>
+        <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*f(.*)" regexp_replace="kramf$1"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/krampf.html#krampf.0o</url>
         <example correction="kramfon">Mi havas dolorigan <marker>krampfon</marker>.</example>
       </rule>
       <rule>
         <pattern>
           <token inflected="yes">ksereso</token>
         </pattern>
-        <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*s(.*)" regexp_replace="ŝere$1"/></suggestion>.</message>
-        <example correction="ŝereon">Ĉu vi ŝatas <marker>ksereson</marker> ?</example>
+        <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*s(.*)" regexp_replace="ŝere$1"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/kseres.html#kseres.0o</url>
+        <example correction="ŝereon">Ĉu vi ŝatas <marker>ksereson</marker>?</example>
       </rule>
       <rule>
         <pattern>
           <token inflected="yes">likvaĵo</token>
         </pattern>
-        <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*ĵ(.*)" regexp_replace="likv$1"/></suggestion>.</message>
+        <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*ĵ(.*)" regexp_replace="likv$1"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/likv.html#likv.0ajxo</url>
         <example correction="likvon">Prenu tiun <marker>likvaĵon</marker>.</example>
       </rule>
       <rule>
         <pattern>
           <token inflected="yes">literatoro</token>
         </pattern>
-        <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*r(.*)" regexp_replace="literaturist$1"/></suggestion>.</message>
+        <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*r(.*)" regexp_replace="literaturist$1"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/literator.html#literator.0o</url>
         <example correction="literaturistojn">Mi invitis <marker>literatorojn</marker>.</example>
       </rule>
       <rule>
@@ -1476,14 +1683,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token inflected="yes">bela</token>
           <token inflected="yes">literaturo</token>
         </pattern>
-        <message>Laŭ Revo, «\1 \2» estas arkaismo. Uzu <suggestion><match no="2" regexp_match=".*r(.*)" regexp_replace="beletr$1"/></suggestion>.</message>
+        <message>Laŭ ReVo, «\1 \2» estas arkaismo. Uzu <suggestion><match no="2" regexp_match=".*r(.*)" regexp_replace="beletr$1"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/litera.html#litera.bela0o</url>
         <example correction="beletron">Mi ŝatas <marker>belan literaturon</marker>.</example>
       </rule>
       <rule>
         <pattern>
           <token inflected="yes">kontraŭlogaritmo</token>
         </pattern>
-        <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*m(.*)" regexp_replace="eksponencial$1"/></suggestion>.</message>
+        <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*m(.*)" regexp_replace="eksponencial$1"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/logari.html#logari.kontraux0o</url>
         <example correction="eksponencialo">La funkcio estas <marker>kontraŭlogaritmo</marker>.</example>
       </rule>
       <rule>
@@ -1494,94 +1703,144 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           </marker>
           <token regexp="yes">en|dum|je</token>
         </pattern>
-        <message>Laŭ Revo, «\1 \2 \3» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*v(.*)" regexp_replace="okaz$1"/></suggestion>.</message>
+        <message>Laŭ ReVo, «\1 \2 \3» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*v(.*)" regexp_replace="okaz$1"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/lok.html#lok.havi0on</url>
         <example correction="okazas">La renkontiĝo <marker>havas lokon</marker> en Bretonio.</example>
       </rule>
       <rule>
         <pattern>
           <token inflected="yes">plenmano</token>
         </pattern>
-        <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*a(.*)" regexp_replace="manple$1"/></suggestion>.</message>
+        <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*a(.*)" regexp_replace="manple$1"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/man.html#man.plen0o</url>
         <example correction="manplenon">Prenu <marker>plenmanon</marker> de sablo.</example>
       </rule>
       <rule>
         <pattern>
           <token inflected="yes">kontraŭmendi</token>
         </pattern>
-        <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*d(.*)" regexp_replace="malmend$1"/></suggestion>.</message>
+        <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*d(.*)" regexp_replace="malmend$1"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/mend.html#mend.kontraux0i</url>
         <example correction="malmendi">Ni bezonas <marker>kontraŭmendi</marker> ĉion.</example>
       </rule>
       <rule>
         <pattern>
           <token inflected="yes">multiplikendo</token>
         </pattern>
-        <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*d(.*)" regexp_replace="multiplikat$1"/></suggestion>.</message>
+        <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*d(.*)" regexp_replace="multiplikat$1"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/multip1.html#multip1.0o</url>
         <example correction="multiplikato">Tio estas la <marker>multiplikendo</marker>.</example>
       </rule>
       <rule>
         <pattern>
           <token inflected="yes">nacionalismo</token>
         </pattern>
-        <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*m(.*)" regexp_replace="naciism$1"/></suggestion>.</message>
+        <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*m(.*)" regexp_replace="naciism$1"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/nacion.html#nacion.0o</url>
         <example correction="naciismo">La <marker>nacionalismo</marker> estas forta en tiu lando.</example>
       </rule>
       <rule>
         <pattern>
           <token inflected="yes">pafilkapo</token>
         </pattern>
-        <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*p(.*)" regexp_replace="kolb$1"/></suggestion>.</message>
+        <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*p(.*)" regexp_replace="kolb$1"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/paf.html#paf.0ilkapo</url>
         <example correction="kolbo">La <marker>pafilkapo</marker> de fusilo.</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token inflected="yes">patriarĥo</token>
-        </pattern>
-        <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*ĥ(.*)" regexp_replace="patriark$1"/></suggestion>.</message>
-        <example correction="patriarko">La <marker>patriarĥo</marker> de Romo.</example>
       </rule>
       <rule>
         <pattern>
           <token inflected="yes">perpendiklo</token>
         </pattern>
-        <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*l(.*)" regexp_replace="ortant$1"/></suggestion>.</message>
+        <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*l(.*)" regexp_replace="ortant$1"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/perpen.html#perpen.0o</url>
         <example correction="ortanto">Tiu rekto estas <marker>perpendiklo</marker>.</example>
       </rule>
       <rule>
         <pattern>
           <token inflected="yes">poliedro</token>
         </pattern>
-        <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*r(.*)" regexp_replace="pluredr$1"/></suggestion>.</message>
+        <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*r(.*)" regexp_replace="pluredr$1"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/polied.html#polied.0o</url>
         <example correction="pluredro">Tio estas <marker>poliedro</marker>.</example>
       </rule>
       <rule>
         <pattern>
           <token inflected="yes">proletario</token>
         </pattern>
-        <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*ri(.*)" regexp_replace="prolet$1"/></suggestion>.</message>
+        <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*ri(.*)" regexp_replace="prolet$1"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/prolet1.html#prolet1.0o</url>
         <example correction="proleto">Li estas <marker>proletario</marker>.</example>
       </rule>
       <rule>
         <pattern>
           <token inflected="yes">enradiki</token>
         </pattern>
-        <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match="(.*)k(.*)" regexp_replace="$1kig$2"/></suggestion>.</message>
+        <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match="(.*)k(.*)" regexp_replace="$1kig$2"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/radik.html#radik.en0i</url>
         <example correction="enradikigas">Mi <marker>enradikas</marker> la planton.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes">elradiki</token>
+        </pattern>
+        <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match="(.*)k(.*)" regexp_replace="$1kig$2"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/radik.html#radik.el0i</url>
+        <example correction="elradikigu">Oni <marker>elradiku</marker> la alkoholismon.</example>
       </rule>
       <rule>
         <pattern>
           <token inflected="yes">radiofotografio</token>
         </pattern>
-        <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*i(.*)" regexp_replace="radiografi$1"/></suggestion>.</message>
+        <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*i(.*)" regexp_replace="radiografi$1"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/radiofotografi.html#radiofotografi.0o</url>
         <example correction="radiografiojn">Mi devas fari <marker>radiofotografiojn</marker>.</example>
       </rule>
       <rule>
         <pattern>
-          <token inflected="yes">memregeco</token>
+          <token inflected="yes">povoscii</token>
         </pattern>
-        <message>Laŭ Revo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*c(.*)" regexp_replace="memregad$1"/></suggestion>.</message>
-        <example correction="memregado">La <marker>memregeco</marker> de la popolo.</example>
+        <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*i(.*)" regexp_replace="scipov$1"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/sci.html#sci.povo0i0povi</url>
+        <example correction="scipovas">Mi ne <marker>povoscias</marker> la okcidentfrisan.</example>
+      </rule>
+      <rule id="HARLIGO" name="harligo">
+        <pattern>
+          <token inflected="yes">harligo</token>
+        </pattern>
+        <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*g(.*)" regexp_replace="harplektaĵ$1"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/har.html#har.0ligo</url>
+        <example correction="harplektaĵon">Ŝi iam havis malgrandan <marker>harligon</marker>.</example>
+      </rule>
+      <rule id="INTERNLANDO" name="internlando → landinterno">
+        <pattern>
+          <token inflected="yes">internlando</token>
+        </pattern>
+        <message>La vorto «\1» estas arkaismo kaj evitinda laŭ ReVo.</message>
+        <suggestion><match no="1" regexp_match="^.........." regexp_replace="landintern"/></suggestion>
+        <url>http://www.reta-vortaro.de/revo/art/land.html#land.intern0o</url>
+        <example correction="landinterno">En la <marker>internlando</marker> okazis malmulte.</example>
+      </rule>
+      <rule id="SPEKTATORO" name="spektatoro → spektanto">
+        <pattern>
+          <token inflected="yes" regexp="yes">spektator(?:in)?o</token>
+        </pattern>
+        <message>La vorto «\1» estas arkaismo kaj evitinda laŭ ReVo.</message>
+        <suggestion><match no="1" regexp_match=".*o(j?n?)$" regexp_replace="spektanto$1"/></suggestion>
+        <url>http://www.reta-vortaro.de/revo/art/spektator.html#spektator.0o</url>
+        <example correction="spektantoj">Multaj <marker>spektatoroj</marker> venis.</example>
       </rule>
     </rulegroup>
+    <rule id="SERAJLO" name="serajlo">
+      <pattern>
+        <token inflected="yes">serajlo</token>
+      </pattern>
+      <message>La vorto «\1» estas arkaismo laŭ ReVo.</message>
+      <suggestion><match no="1" regexp_match=".*o(j?n?)$" regexp_replace="haremo$1"/></suggestion>
+      <suggestion><match no="1" regexp_match=".*o(j?n?)$" regexp_replace="palaco$1"/></suggestion>
+      <url>http://www.reta-vortaro.de/revo/art/serajl.html#serajl.0o</url>
+      <example correction="haremon|palacon">Li havis <marker>serajlon</marker>.</example>
+    </rule>
+
   </category>
   <category id="KAT_NE_OFICIALAJ_VORTOJ" name="Ne oficialaj vortoj">
     <rule id="NEOFIC_PREP" name="neoficialaj rolvortetoj">
@@ -1589,16 +1848,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <token regexp="yes">na|far|cis|fri</token>
       </pattern>
       <message>«\1» estas neoficiala rolvorteto, kaj do evitinda.</message>
+      <url>http://bertilow.com/pmeg/gramatiko/neoficialaj_vortetoj.html</url>
       <example correction="">La libro estis verkita <marker>far</marker> fama aŭtoro.</example>
       <example>La libro estis verkita fare de fama aŭtoro.</example>
+      <example correction="">Ŝi ŝategas <marker>na</marker> ambaŭ.</example>
     </rule>
-    <rule id="NEOFIC_PRON" name="neoficialaj pronomoj">
+    <rule id="NEOFIC_SING_PRON" name="neoficialaj singularaj pronomoj">
       <pattern>
-        <token regexp="yes">ŝli|[rg]i|geli|iŝi|liŝi|ŝili</token>
+        <token regexp="yes">([gr]i|geli|liŝi|ŝili|ŝli)(?:n|aj?n?)?</token>
       </pattern>
-      <message>«\1» estas neoficiala pronomo, kaj do evitinda.</message>
-      <example correction=""><marker>Ŝli</marker> estas bela.</example>
-      <example>Ŝi estas bela.</example>
+      <message>«\1» estas neoficiala pronomo. Preferu skribi <suggestion><match no="1" regexp_match=".*i(.*)" regexp_replace="ĝi$1"/></suggestion>, <suggestion><match no="1" regexp_match=".*i(.*)" regexp_replace="li$1"/></suggestion> aŭ <suggestion><match no="1" regexp_match=".*i(.*)" regexp_replace="ŝi$1"/></suggestion>.</message>
+      <url>https://eo.wikipedia.org/wiki/Riismo</url>
+      <example correction="Ĝi|Li|Ŝi"><marker>Ri</marker> estas bela.</example>
+      <example correction="ĝin|lin|ŝin">Mi amas <marker>ŝlin</marker>.</example>
+      <example correction="ĝia|lia|ŝia">Mi estas <marker>gia</marker> edzino.</example>
+    </rule>
+    <rule id="NEOFIC_PLUR_PRON" name="neoficialaj pluralaj pronomoj">
+      <pattern>
+        <token regexp="yes">iŝi(?:n|aj?n?)?</token>
+      </pattern>
+      <message>«\1» estas neoficiala pronomo. Preferu skribi <suggestion><match no="1" regexp_match=".*i(.*)" regexp_replace="ili$1"/></suggestion>.</message>
+      <example correction="Ili"><marker>Iŝi</marker> estas miaj fratinoj.</example>
+      <example correction="ilin">Mi amis <marker>iŝin</marker>.</example>
+      <example correction="Iliajn"><marker>Iŝiajn</marker> kukojn mi tre ŝatas.</example>
     </rule>
     <rule id="NEOFIC_ESTIEL" name="neoficiala vorto estiel">
       <pattern>
@@ -1610,7 +1882,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </rule>
     <rule id="NEOFIC_KAUX" name="neoficiala vorto kaŭ">
       <pattern>
-        <token>kaŭ</token>
+        <token inflected="yes">kaŭ</token>
       </pattern>
       <message>«\1» estas neoficiala vorto. Konsideru uzi <suggestion>kaj/aŭ</suggestion>.</message>
       <url>http://bertilow.com/pmeg/gramatiko/neoficialaj_vortetoj.html#i-356</url>
@@ -1620,13 +1892,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <pattern>
         <token>men</token>
       </pattern>
-      <message>«\1» estas neoficiala kaj malmulte konata vorto. Ĉu vi intencis diri <suggestion>malpli</suggestion> ?</message>
+      <message>«\1» estas neoficiala kaj malmulte konata vorto. Ĉu vi intencis diri <suggestion>malpli</suggestion>?</message>
       <url>http://bertilow.com/pmeg/gramatiko/neoficialaj_vortetoj.html#i-356</url>
       <example correction="Malpli"><marker>Men</marker> vinon, mi petas.</example>
     </rule>
     <rule id="NEOFIC_GRAUX" name="neoficiala vorto graŭ">
       <pattern>
-        <token>graŭ</token>
+        <token inflected="yes">graŭ</token>
       </pattern>
       <message>«\1» estas neoficiala kaj malmulte konata vorto. Uzu <suggestion>dank’ al</suggestion>.</message>
       <url>http://bertilow.com/pmeg/gramatiko/neoficialaj_vortetoj.html#i-356</url>
@@ -1681,6 +1953,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <url>http://bertilow.com/pmeg/gramatiko/neoficialaj_vortetoj.html#i-356</url>
       <example correction="sep">Ŝi havis <marker>sepen</marker> infanojn.</example>
     </rule>
+    <rule id="NEOF_SUF_ICX" name="katiĉo → virkato (ktp.)">
+      <pattern>
+        <!-- The exception to the rule takes into account the few regular words that
+             end in -iĉo without being the sufix -iĉ-. I hope I did not forget any. -->
+        <token regexp="yes" inflected="yes">.*iĉo<exception inflected="yes" regexp="yes">.*(?:[knpr]|akron|ded|fel|fet|kond|kr|past|post|sandv|suf|superst)iĉo</exception></token>
+      </pattern>
+      <message>«-iĉ» estas neoficiala sufikso. Konsideru uzi la adjektivon «vira» aŭ la prefikson «vir-» se taŭgas.</message>
+      <url>http://bertilow.com/pmeg/vortfarado/neoficialaj_afiksoj/sufiksoj/ich.html</url>
+      <example correction="">Mi havas tri <marker>katiĉojn</marker>.</example>
+      <example correction="">Mi amas tiun <marker>esperantisticxon</marker>.</example>
+      <example>Li rakontis la kondiĉojn de sia malfeliĉo dum mi manĝis sandviĉojn.</example>
+    </rule>
     <rule id="NEOF_SUF_OZ" name="ventoza → venta (ktp.)">
       <pattern>
         <token regexp="yes" inflected="yes">(?:dolor|energi|humur|ole|neĝ|nub|pluv|rok|vent|ŝton)oza</token>
@@ -1696,6 +1980,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <message>«-ometr» estas neoficiala sufikso. Preferu skribi <suggestion><match no="1" regexp_match="metr" regexp_replace="mezuril"/></suggestion>.</message>
       <url>http://bertilow.com/pmeg/vortfarado/neoficialaj_afiksoj/sufiksoj/ometr.html</url>
       <example correction="altomezurilo">La <marker>altometro</marker> misfunkciis.</example>
+      <example correction="pluvomezurilon">Ŝi aĉetis malnovan <marker>pluvometron</marker>.</example>
     </rule>
     <rule id="NEOF_SUF_OTEK" name="libroteko → librokolekto (ktp.)">
       <pattern>
@@ -1705,19 +1990,46 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <url>http://bertilow.com/pmeg/vortfarado/neoficialaj_afiksoj/sufiksoj/otek.html</url>
       <example correction="filmokolekton">Mi ŝatas tiun <marker>filmotekon</marker>.</example>
     </rule>
-    <rule id="NEOF_SUF_OFON" name="Esperantofona → Esperantlingva (ktp.)">
+    <rule id="NEOF_SUF_ARI" name="duaria → duuma (ktp.)">
+      <antipattern>
+        <token>aria</token>
+      </antipattern>
       <pattern>
-        <token regexp="yes" inflected="yes">(?:angl|arab|breton|esperant|german|hispan|ital|japan|franc|rus)ofon[aeo]</token>
+        <token regexp="yes" inflected="yes">(?:(?:(?:du|tri|kvar|kvin|ses|sep|ok|naŭ)?dek)?(?:unu|du|tri|kvar|kvin|ses|sep|ok|naŭ)?|cent|n-)aria</token>
       </pattern>
-      <message>«-ofon» estas neoficiala sufikso, kaj tute superflua. Preferu skribi <suggestion><match no="1" regexp_match="ofon" regexp_replace="lingv"/></suggestion>.</message>
-      <url>http://bertilow.com/pmeg/vortfarado/neoficialaj_afiksoj/sufiksoj/ofon.html</url>
-      <example correction="Esperantlingva">Li estas ano de <marker>Esperantofona</marker> klubo.</example>
+      <message>«-ari» estas neoficiala sufikso. Preferu skribi <suggestion><match no="1" regexp_match="ari" regexp_replace="um"/></suggestion>.</message>
+      <url>http://bertilow.com/pmeg/vortfarado/neoficialaj_afiksoj/sufiksoj/ari.html</url>
+      <example correction="duuma">Maŝinkodo estas <marker>duaria</marker> misfunkciis.</example>
+      <example correction="dekumaj">La nombrovortoj de Esperanto estas <marker>dekariaj</marker>.</example>
+      <example correction="deksesuma">La <marker>deksesaria</marker> nombrosistemo utilas por komputiloj.</example>
+      <example correction="trideksesuman">Kelkaj protokoloj uzas <marker>trideksesarian</marker> nombrosistemon.</example>
+      <example correction="naŭdekuman">Ĉu oni uzas la <marker>naŭdekarian</marker> nombrosistemon?</example>
+      <example correction="n-uma">La <marker>n-aria</marker> pozicia nombrosistemo uzas n ciferojn.</example>
+      <example correction="centuma">Ĝi estas <marker>centaria</marker> termometra sistemo.</example>
+      <example>Ĝi estas bela aria kanto.</example>
     </rule>
+    <rulegroup id="NEOF_SUF_OFON" name="Esperantofona → Esperantlingva (ktp.)">
+      <url>http://bertilow.com/pmeg/vortfarado/neoficialaj_afiksoj/sufiksoj/ofon.html</url>
+      <rule>
+        <pattern>
+          <token regexp="yes" inflected="yes">(?:angl|afrikans|alban|angl|arab|armen|baŝkir|bosn|breton|bulgar|ĉeĉen|ĉeĥ|ĉin|ĉuvaŝ|dan|ekstremadur|esperant|eston|eŭsk|finn|franc|fris|friul|galeg|german|grek|gronland|hebre|hindi|hispan|hungar|id|indonezi|inguŝ|irland|island|ital|japan|jid|kartvel|katalun|kimr|klingon|kore|kroat|latin|latv|litov|luksemburg|nederland|norveg|okcitan|oset|pers|pol|portugal|ruman|rus|serb|slovak|sloven|svahil|sved|taj|tatar|turk|udmurt|ukrain|urdu|vjetnam|volapuk)ofon[ae]</token>
+        </pattern>
+        <message>«-ofon» estas neoficiala sufikso, kaj tute superflua. Preferu skribi <suggestion><match no="1" regexp_match="ofon" regexp_replace="lingv"/></suggestion>.</message>
+        <example correction="Esperantlingva">Li estas ano de <marker>Esperantofona</marker> klubo.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes" inflected="yes">(?:angl|afrikans|alban|angl|arab|armen|baŝkir|bosn|breton|bulgar|ĉeĉen|ĉeĥ|ĉin|ĉuvaŝ|dan|ekstremadur|esperant|eston|eŭsk|finn|franc|fris|friul|galeg|german|grek|gronland|hebre|hindi|hispan|hungar|id|indonezi|inguŝ|irland|island|ital|japan|jid|kartvel|katalun|kimr|klingon|kore|kroat|latin|latv|litov|luksemburg|nederland|norveg|okcitan|oset|pers|pol|portugal|ruman|rus|serb|slovak|sloven|svahil|sved|taj|tatar|turk|udmurt|ukrain|urdu|vjetnam|volapuk)ofon(?:in)?o</token>
+        </pattern>
+        <message>«-ofon» estas neoficiala sufikso, kaj tute superflua. Preferu skribi <suggestion><match no="1" regexp_match="ofon" regexp_replace="lingvan"/></suggestion>.</message>
+        <example correction="ĉeĉenlingvaninoj">Ili estas <marker>ĉeĉenofoninoj</marker>.</example>
+      </rule>
+    </rulegroup>
   </category>
   <category id="KAT_GRAMATIKO" name="Gramatiko">
     <rule id="CXI_FOJE" name="ĉi foje (ĉi-foje)">
       <pattern>
-        <token>ĉi<exception scope="previous" postag="T ... .. [ĉt].*" postag_regexp="yes"/></token>
+        <token inflected="yes">ĉi<exception scope="previous" postag="T ... .. [ĉt].*" postag_regexp="yes"/></token>
         <token postag="E .*" postag_regexp="yes">
           <exception postag="T ... .. [ĉt].*" postag_regexp="yes"/>
         </token>
@@ -1731,16 +2043,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <rule id="HORO" name="je la 8 jaro → je la 8-a jaro">
       <pattern>
         <token>la</token>
-        <marker><token regexp="yes">[1-9]|1\d|2[0-3]|unu|du|tri|kvar|kvin|ses|sep|ok|naŭ|dek|dekunu|dekdu</token></marker>
+        <marker><token regexp="yes">[1-9]|1\d|2[0-3]|unu|du|tri|kvar|kvin|ses|sep|ok|naŭ|naux?|dek|dekunu|dekdu</token></marker>
         <token>horo</token>
       </pattern>
       <message>Ĉu vi intencis skribi <suggestion>\2-a</suggestion>?</message>
       <example correction="8-a">Je la <marker>8</marker> horo.</example>
     </rule>
+    <rule id="JARCENTO" name="la 20 jarcento → la 20-a jarcento">
+      <pattern>
+        <token>la</token>
+        <marker><token regexp="yes">[0-9IVXⅠⅡⅢⅣⅤⅥⅦⅧⅨⅩⅪⅫ]{1,2}</token></marker>
+        <token>jarcento</token>
+      </pattern>
+      <message>Ĉu vi intencis skribi <suggestion>\2-a</suggestion>?</message>
+      <example correction="19-a">Li naskiĝis en la <marker>19</marker> jarcento.</example>
+    </rule>
     <rule id="JARO" name="en la 2015 jaro → en la 2015-a jaro">
       <pattern>
         <token>la</token>
-        <marker><token regexp="yes">[12]\d\d\d</token></marker>
+        <marker><token regexp="yes">[12]\d\d\d?</token></marker>
         <token>jaro</token>
       </pattern>
       <message>Ĉu vi intencis skribi <suggestion>\2-a</suggestion>?</message>
@@ -1768,7 +2089,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </rulegroup>
     <rule id="CXI_O" name="ĉi-libro (ĉi libro)">
       <pattern>
-        <token regexp="yes">ĉi-.*oj?n?</token>
+        <token regexp="yes" inflected="yes">ĉi-.*o</token>
       </pattern>
       <message>Ĉu vi intencis skribi <suggestion><match no="1" regexp_match="(..)-(.*o)(j?n?)" regexp_replace="$1 $2$3"/></suggestion> aŭ <suggestion><match no="1" regexp_match="(..)-(.*o)(j?n?)" regexp_replace="$1 tiu$3 $2$3"/></suggestion>?</message>
       <url>http://bertilow.com/pmeg/gramatiko/e-vortecaj_vortetoj/lokaj/chi.html#i-gsf</url>
@@ -1778,14 +2099,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <url>http://bertilow.com/pmeg/gramatiko/e-vortecaj_vortetoj/lokaj/chi.html</url>
       <rule>
         <pattern>
-          <token regexp="yes">ĉi-ti(?:(?:[aeou]j?n?)|el|am|es|om)</token>
+          <token regexp="yes">(?:ĉ|cx)i-ti(?:(?:[aeou]j?n?)|el|am|es|om)</token>
         </pattern>
         <message>Ĉu vi intencis skribi <suggestion><match no="1" regexp_match="-" regexp_replace=" "/></suggestion> sen streketo?</message>
         <example correction="ĉi tiun">Mi deziras <marker>ĉi-tiun</marker>.</example>
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">ti(?:(?:[aeou]j?n?)|el|am|es|om)-ĉi</token>
+          <token regexp="yes">ti(?:(?:[aeou]j?n?)|el|am|es|om)-(?:ĉ|cx)i</token>
         </pattern>
         <message>Ĉu vi intencis skribi <suggestion><match no="1" regexp_match="-" regexp_replace=" "/></suggestion> sen streketo?</message>
         <example correction="tiun ĉi">Mi deziras <marker>tiun-ĉi</marker>.</example>
@@ -1843,7 +2164,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </rule>
     <rule id="MULTA_DA" name="multa da → multe da / multa">
       <pattern>
-        <token regexp="yes">(?:ne)?(?:mal)?(?:mult|kelk|sufiĉ)(?:e[gt])?aj?n?</token>
+        <token regexp="yes" inflected="yes">(?:ne)?(?:mal)?(?:mult|kelk|sufiĉ)(?:e[gt])?a</token>
         <token>da</token>
       </pattern>
       <message>Kiam oni anstataŭigas kvantan E-vorton per kvanta A-vorto, tiam «da» malaperas.</message>
@@ -1891,22 +2212,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </rule>
     <rule id="AMBAUX_SING" name="ambaŭ + sing">
       <pattern>
-        <marker>
-          <token>ambaŭ</token>
-          <token postag="[ROAT] ... np" postag_regexp="yes"/>
-        </marker>
+        <token inflected="yes">ambaŭ</token>
+        <marker><token postag="[ROAT] ... np" postag_regexp="yes"/></marker>
         <token negate="yes">kaj</token>
       </pattern>
       <message>La vorto «\1» postulas pluralon.</message>
       <url>http://bertilow.com/pmeg/gramatiko/oa-vortecaj_vortetoj/ambau.html</url>
-      <example correction=""><marker>Ambaŭ teamo</marker> perdis.</example>
-      <example>Ambaŭ teamoj perdis.</example>
+      <example correction="">Ambaŭ <marker>teamo</marker> perdis.</example>
+      <example correction="">Ambaux <marker>teamo</marker> perdis.</example>
+      <example correction="">Ambau <marker>teamo</marker> perdis.</example>
       <example>Mi amas ambaŭ patron kaj patrinon.</example>
     </rule>
     <rulegroup id="AMBAUX_LA" name="ambaŭ + la">
       <rule>
         <pattern>
-          <token>ambaŭ</token>
+          <token inflected="yes">ambaŭ</token>
           <token>la</token>
         </pattern>
         <message>Ne devas esti «\2» post «\1», ĉar «\1» estas jam difinilo.</message>
@@ -1917,7 +2237,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <rule>
         <pattern>
           <token>la</token>
-          <token>ambaŭ</token>
+          <token inflected="yes">ambaŭ</token>
         </pattern>
         <message>Ne devas esti «\1» antaŭ «\2», ĉar «\2» estas jam difinilo.</message>
         <url>http://bertilow.com/pmeg/gramatiko/oa-vortecaj_vortetoj/ambau.html</url>
@@ -2050,7 +2370,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token postag="R nak.*" postag_regexp="yes">
             <exception scope="previous" postag="P .*" postag_regexp="yes"/>
           </token>
-          <token inflected="yes" regexp="yes">(?:ek)?(?:fulm|frost|hajl|neĝ|pluv|tondr|tem|tagiĝ|vent|ŝtorm)(?:ad)?(?:et|eg)?i</token>
+          <token inflected="yes" regexp="yes">(?:ek)?(?:frost|fulm|hajl|mateniĝ|neĝ|noktiĝ|pluv|ŝtorm|tagiĝ|tem|tondr|vent|vesperiĝ)(?:ad)?(?:et|eg)?i</token>
         </pattern>
         <message>La verbo «\2» estas sensubjekta verbo, do ne uzu «\1». Skribu <suggestion>\2</suggestion>.</message>
         <url>http://bertilow.com/pmeg/gramatiko/verboj_frazroloj/sensubjektaj.html</url>
@@ -2063,7 +2383,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <exception scope="previous" postag="P .*" postag_regexp="yes"/>
           </token>
           <token postag="E .*" postag_regexp="yes"/>
-          <token inflected="yes" regexp="yes">(?:ek)?(?:fulm|fros|hajl|neĝ|pluv|tondr|tem|tagiĝ|vent|ŝtorm)(?:et|eg)?i</token>
+          <token inflected="yes" regexp="yes">(?:ek)?(?:frost|fulm|hajl|mateniĝ|neĝ|noktiĝ|pluv|ŝtorm|tagiĝ|tem|tondr|vent|vesperiĝ)(?:et|eg)?i</token>
         </pattern>
         <message>La verbo «\3» estas sensubjekta verbo, do ne uzu «\1». Skribu <suggestion>\2 \3</suggestion>.</message>
         <url>http://bertilow.com/pmeg/gramatiko/verboj_frazroloj/sensubjektaj.html</url>
@@ -2109,7 +2429,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example>Mi volas esti la instruisto.</example>
       <example>Vi povas kontroli ĉu Esperanto funkcias.</example>
       <example>Mi dankas Barbara.</example>
-      <example>Kiun rolon laŭ vi havis la teamo ?</example>
+      <example>Kiun rolon laŭ vi havis la teamo?</example>
       <example>Tion oni nomas religio.</example>
       <example>Tie loĝas mia amiko.</example>
       <example>Kie loĝas la homo?</example>
@@ -2128,7 +2448,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <rule>
         <pattern>
           <token postag="SENT_START"/>
-          <token min="0" max="1" regexp="yes">sed|ĉar|tamen|kaj|aŭ|nek|neniam|ĉiam</token>
+          <token min="0" max="1" regexp="yes" inflected="yes">sed|ĉar|tamen|kaj|aŭ|nek|neniam|ĉiam</token>
           <token postag="V tr [ui]" postag_regexp="yes"/>
           <marker><token postag="[ROA] nak.*|T nak .. . [ou]" postag_regexp="yes"/></marker>
         </pattern>
@@ -2140,10 +2460,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <rule>
         <pattern>
           <token postag="SENT_START"/>
-          <token min="0" max="1" regexp="yes">sed|ĉar|tamen|kaj|aŭ|nek|neniam|ĉiam</token>
+          <token min="0" max="1" regexp="yes" inflected="yes">sed|ĉar|tamen|kaj|aŭ|nek|neniam|ĉiam</token>
           <token postag="V tr [ui]" postag_regexp="yes"/>
           <or>
-            <token regexp="yes">la|ambaŭ</token>
+            <token regexp="yes" inflected="yes">la|ambaŭ</token>
             <token min="1" max="2" postag="N"/>
           </or>
           <marker><token postag="[OA] nak.*" postag_regexp="yes"/></marker>
@@ -2169,7 +2489,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           </token>
         </marker>
         <token postag="V t[rn] .*" postag_regexp="yes"/>
-        <token regexp="yes">[.:;?!]|sed|ĉar|tamen|kaj|aŭ|nek</token>
+        <token regexp="yes" inflected="yes">[.:;?!]|sed|ĉar|tamen|kaj|aŭ|nek</token>
       </pattern>
       <message>Ĉu vi forgesis akuzativon antaŭ transitiva verbo «\3»?</message>
       <example correction="">Mi <marker>vi</marker> vidas.</example>
@@ -2278,7 +2598,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <pattern>
           <token skip="3" postag="SENT_START|K" postag_regexp="yes"/>
           <token postag="R nak p." postag_regexp="yes"/>
-          <token>ĉiuj</token>
+          <token regexp="yes">ĉiuj|c[hx]iuj</token>
           <token skip="1" postag="V nt .*" postag_regexp="yes">
             <exception scope="next" negate_pos="yes" postag="E.*|[ROA] nak np.*|T nak pl . [ua]|SENT_END" postag_regexp="yes"/>
           </token>
@@ -2382,7 +2702,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
               <exception regexp="yes">aĝa|longa|larga|alta|distanca</exception>
             </token>
           </marker>
-          <token negate="yes" regexp="yes">kaj|aŭ|.*on?</token>
+          <token negate="yes" regexp="yes">kaj|aŭ|aux?|.*on?</token>
         </pattern>
         <message>Ne kongrua pluralo inter «\1» kaj «\2».</message>
         <example correction="">Mi ŝatas <marker>hundojn grandan</marker>.</example>
@@ -2400,7 +2720,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </token>
             <token postag="O ... np" postag_regexp="yes"/>
           </marker>
-          <token negate="yes" regexp="yes">kaj|aŭ</token>
+          <token negate="yes" regexp="yes" inflected="yes">kaj|aŭ</token>
         </pattern>
         <message>Ne kongrua pluralo inter «\1» kaj «\2».</message>
         <example correction="">Mi ŝatas <marker>grandajn hundon</marker>.</example>
@@ -2445,9 +2765,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </rulegroup>
     <rule id="UNU_EL" name="unu el mia amiko → unu el miaj amikoj">
       <pattern>
-        <token regexp="yes">unu|(?:du|tri|kvar|kvin|ses|sep|ok|naŭ)(?:dek|cent)?|dek|mil|(?:(?:mal)?mult|kelk)(e[tg])?aj|iujn?|mil|milionoj?n?|miliardoj?n?</token>
+        <token regexp="yes">unu|(?:du|tri|kvar|kvin|ses|sep|ok|naŭ|naux?)(?:dek|cent)?|dek|mil|(?:(?:mal)?mult|kelk)(e[tg])?aj|iujn?|mil|milionoj?n?|miliardoj?n?</token>
         <token>el</token>
-        <marker><token regexp="yes">[mcvlŝ]ia|ilia|tiu</token></marker>
+        <marker><token regexp="yes">[mcvlŝ]ia|s[hx]ia|ilia|tiu</token></marker>
         <token><exception regexp="yes">(?:.*aro|.*opo|speco|nombro|listo|familio)?</exception></token>
       </pattern>
       <message>Ĉu vi intencis uzi pluralon?</message>
@@ -2460,7 +2780,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <pattern>
         <marker>
           <token>la</token>
-          <token regexp="yes">(?:[mcvlŝĝn]|il)iaj?n?</token>
+          <token regexp="yes" inflected="yes">(?:[mcvlŝĝn]|il)ia</token>
         </marker>
         <token postag="[OA] .*" postag_regexp="yes"/>
       </pattern>
@@ -2518,7 +2838,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <rule>
         <pattern>
           <token postag_regexp="yes" postag="SENT_START|K"/>
-          <token skip="-1">ĉu<exception scope="next">aŭ</exception></token>
+          <token skip="-1" inflected="yes">ĉu<exception scope="next" inflected="yes">aŭ</exception></token>
           <marker>
             <token postag="SENT_END">
               <exception>?</exception>
@@ -2541,7 +2861,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <pattern>
         <token negate_pos="yes" postag_regexp="yes" postag="[AOET] .*"/>
         <marker>
-          <token>ĉi</token>
+          <token inflected="yes">ĉi</token>
         </marker>
         <token negate_pos="yes" postag_regexp="yes" postag="[AOET] .*|SENT_END"/>
       </pattern>
@@ -2560,7 +2880,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token postag="V .*[^u]" postag_regexp="yes"/>
         </marker>
       </pattern>
-      <message>Oni preskaŭ ĉiam uzas u-verbon kun ke-frazo, kiam la verbo de ĉeffrazo estas «\1». Ĉu vi intencis skribi <suggestion><match no="3" regexp_match="([aiou]s|i)$" regexp_replace="u"/></suggestion>?</message>
+      <message>Oni preskaŭ ĉiam uzas u-verbon kun ke-frazo, kiam la verbo de ĉeffrazo estas «\1». Ĉu vi intencis skribi <suggestion><match no="3" regexp_match="([aiou]s|i)$" regexp_replace="u"/></suggestion>?</message>
       <url>http://bertilow.com/pmeg/gramatiko/verboj/vola.html#i-zd8</url>
       <example correction="iru">Mi volas, ke vi tien <marker>iras</marker>.</example>
       <example>Ĉu vi volas nei ke ili ekzistas?</example>
@@ -2639,8 +2959,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token regexp="yes">kion?</token>
         </pattern>
         <message>Ĉu vi intencis <suggestion>\2 \3, <match no="5" regexp_match="kio(n?)" regexp_replace="kiu$1"/></suggestion>?</message>
-        <example type="incorrect">La <marker>aŭto kion</marker> mi volas</example>
-        <example>La <marker>aŭto, kiun</marker> mi volas</example>
+        <example type="incorrect">La <marker>aŭto kion</marker> mi volas.</example>
+        <example>La <marker>aŭto, kiun</marker> mi volas.</example>
       </rule>
       <rule>
         <pattern mark_from="1">
@@ -2651,8 +2971,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token regexp="yes">kion?</token>
         </pattern>
         <message>Ĉu vi intencis <suggestion>\2 \3\4 <match no="4" regexp_match="kio(n?)" regexp_replace="kiu$1"/></suggestion>?</message>
-        <example type="incorrect">La <marker>aŭto, kion</marker> mi volas</example>
-        <example>La <marker>aŭto, kiun</marker> mi volas</example>
+        <example type="incorrect">La <marker>aŭto, kion</marker> mi volas.</example>
+        <example>La <marker>aŭto, kiun</marker> mi volas.</example>
       </rule>
     </rulegroup>
     -->
@@ -2660,7 +2980,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <pattern>
         <token>la</token>
         <marker>
-          <token regexp="yes">(?:urbo|ŝtato|lando)n?</token>
+          <token regexp="yes">(?:urbo|ŝtato|s[hx]tato|lando)n?</token>
           <token>de</token>
           <token regexp="yes">(?-i)[A-ZĈĜĴĤŜ].*</token>
         </marker>
@@ -2708,23 +3028,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <rule>
         <pattern>
           <and>
-            <token regexp="yes">ankaŭ|eĉ|tre|nur|jam|ĵus|nek|kaj|aŭ|sed|plus|minus</token>
+            <token regexp="yes" inflected="yes">ankaŭ|eĉ|tre|nur|jam|ĵus|nek|kaj|aŭ|sed|plus|minus</token>
             <token postag="SENT_END"/>
           </and>
         </pattern>
         <message>Vorto «\1» devas stari antaŭ tio, al kio ĝi rilatas.</message>
+        <example correction="">Mi scipovas Esperanton <marker>ankaŭ</marker></example>
         <example correction="">Mi scipovas Esperanton <marker>ankaŭ</marker></example>
         <example>Mi scipovas ankaŭ Esperanton</example>
       </rule>
       <rule>
         <pattern>
           <marker>
-            <token regexp="yes">ankaŭ|eĉ|tre|nur|jam|ĵus|nek|kaj|aŭ|sed|plus|minus</token>
+            <token regexp="yes" inflected="yes">ankaŭ|eĉ|tre|nur|jam|ĵus|nek|kaj|aŭ|sed|plus|minus</token>
           </marker>
           <token regexp="yes" postag="SENT_END">[.;!?»")]</token>
         </pattern>
         <message>Prepozicio «\1» devas stari antaŭ tio, al kio ĝi rilatas.</message>
         <example correction="">Mi scipovas Esperanton <marker>ankaŭ</marker>.</example>
+        <example correction="">Mi scipovas Esperanton <marker>ankaux</marker>.</example>
+        <example correction="">Mi scipovas Esperanton <marker>ankau</marker>.</example>
         <example>Mi scipovas ankaŭ Esperanton.</example>
       </rule>
     </rulegroup>
@@ -2776,7 +3099,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <rule id="JXUS" name="ĵus devas stari antaŭ pasinteco">
       <pattern>
         <marker>
-          <token>ĵus</token>
+          <token inflected="yes">ĵus</token>
         </marker>
         <token negate="yes" regexp="yes">.*is|.*in?t[aoe]j?n?</token>
         <token negate="yes" regexp="yes">.*is|.*in?t[aoe]j?n?</token>
@@ -2790,7 +3113,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </rule>
     <rule id="ANTAUX_V" name="antaŭ + verbo">
       <pattern>
-        <token>antaŭ</token>
+        <token inflected="yes">antaŭ</token>
         <token postag="V .*" postag_regexp="yes"/>
       </pattern>
       <message>Inter «\1» kaj verbo «\2», oni devas meti «ol».</message>
@@ -2798,6 +3121,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <url>http://bertilow.com/pmeg/gramatiko/i-verboj/kun_rolvortetoj.html#i-8ik</url>
       <example correction="antaŭ ol naĝi">Ne manĝu <marker>antaŭ naĝi</marker>.</example>
       <example correction="antaŭ ol pluvos">Ni alvenos <marker>antaŭ pluvos</marker>.</example>
+      <example correction="antaux ol pluvos">Ni alvenos <marker>antaux pluvos</marker>.</example>
     </rule>
     <rule id="PRI_V" name="pri + I-verbo">
       <pattern>
@@ -2811,7 +3135,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </rule>
     <rule id="DUM_V" name="pri + I-verbo">
       <pattern>
-        <token regexp="yes">dum|ĝis</token>
+        <token regexp="yes" inflected="yes">dum|ĝis</token>
         <token postag="V .. i" postag_regexp="yes"/>
       </pattern>
       <message>Anstataŭ «dum + I-verbo», aŭ «ĝis + I-verbo», oni uzas dum aŭ ĝis antaŭ plena subfrazo (dum kaj ĝis estas ne nur rolvortetoj, sed ankaŭ frazenkondukiloj).</message>
@@ -2831,7 +3155,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </rule>
     <rule id="MALGRAUX_V" name="malgraŭ + verbo">
       <pattern>
-        <token>malgraŭ</token>
+        <token inflected="yes">malgraŭ</token>
         <token postag="V .*" postag_regexp="yes"/>
       </pattern>
       <message>Anstataŭ «\1 \2», oni uzas participon kun e-finaĵo, aŭ «kvankam», aŭ «\1 tio, ke + plenan subfrazon».</message>
@@ -2853,7 +3177,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </rule>
     <rule id="POVATE" name="*povate*, *devote*, ktp.">
       <pattern>
-        <token regexp="yes">(?:ne|mal)?(?:pov|dev|kuraĝ)([aio]t|[ei]nd|ebl)[ae]j?n?</token>
+        <token regexp="yes" inflected="yes">(?:ne|mal)?(?:pov|dev|kuraĝ)([aio]t|[ei]nd|ebl)[ae]</token>
       </pattern>
       <message>Iuj verboj ĉiam havas samsubjektan I-verbon kiel objekton, ekz. «povi, devi kaj kuraĝi». Tiajn verbojn oni do praktike neniam pasivigas, kaj pasivaj participoj de tiaj verboj estas do praktike tute neuzataj. Oni ankaŭ ne uzas la sufiksojn EBL, IND kaj END ĉe tiaj verboj, ĉar tiuj sufiksoj ĉiam donas pasivan signifon.</message>
       <url>http://bertilow.com/pmeg/gramatiko/pasivo/pasivigeblaj_frazoj.html#i-lep</url>
@@ -2866,14 +3190,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <pattern>
         <marker>
           <token>la</token>
-          <token regexp="yes">(?:fraŭl|doktor|sinjor|s-r|profesor|baron)(?:in)?o</token>
+          <token regexp="yes">(?:baron|doktor|duk|emir|fraŭl|fraux?l|graf|princ|profesor|reĝ|reg[hx]|samidean|sinjor)(?:in)?o</token>
         </marker>
         <token regexp="yes">(?-i)[A-ZĈĜĴĤŜ].*</token>
       </pattern>
       <message>Oni ne uzas «\1» antaŭ titolo sekvita de propra nomo, uzu <suggestion>\2</suggestion>.</message>
       <url>http://bertilow.com/pmeg/gramatiko/difiniloj/la/propraj_nomoj.html#i-22j</url>
-      <example correction="Doktoro"><marker>La doktoro</marker> Zamenhof kreis Esperanton.</example>
-      <example>Doktoro Zamenhof kreis Esperanton.</example>
+      <example correction="doktoro">Esperanto estis kreita de <marker>la doktoro</marker> Zamenhof.</example>
+      <example>Esperanto estis kreita de doktoro Zamenhof.</example>
     </rule>
     <rulegroup id="DA_MEMSTARA" name="memstara prepozcio da">
       <rule>
@@ -2916,7 +3240,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <marker>
             <token regexp="yes">da|de</token>
           </marker>
-          <token regexp="yes">[.:;?!]|kaj|aŭ|ĉar|tamen</token>
+          <token regexp="yes" inflected="yes">[.:;?!]|kaj|aŭ|ĉar|tamen</token>
         </pattern>
         <message>Prepozicio «\1» bezonas postan esprimon.</message>
         <example correction="">Mi havas multe <marker>da</marker>.</example>
@@ -3167,7 +3491,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </rulegroup>
     <rule id="DU_DEK" name="du dek → dudek, ktp">
       <pattern>
-        <token regexp="yes">unu|du|tri|kvar|kvin|ses|sep|ok|naŭ</token>
+        <token regexp="yes">unu|du|tri|kvar|kvin|ses|sep|ok|naŭ|naux?</token>
         <token regexp="yes">dek|cent</token>
       </pattern>
       <message>«\1 \2» ne eblas, ĉu vi intencis <suggestion>\1\2</suggestion>.</message>
@@ -3175,28 +3499,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="dudek">Mi havas <marker>du dek</marker> stelojn.</example>
     </rule>
     <rulegroup id="DEKDU" name="dekdu → dek du, ktp">
+      <url>http://bertilow.com/pmeg/gramatiko/nombroj/vortetoj/formoj.html#i-k81</url>
       <rule>
         <pattern>
-          <token regexp="yes">(unu|du|tri|kvar|kvin|ses|sep|ok|naŭ|cent|mil)*(?:dek|cent|mil)(?:unu|du|tri|kvar|kvin|ses|sep|ok|naŭ)</token>
+          <token regexp="yes">(unu|du|tri|kvar|kvin|ses|sep|ok|naŭ|naux?|cent|mil)*(?:dek|cent|mil)(?:unu|du|tri|kvar|kvin|ses|sep|ok|naŭ|naux?)</token>
         </pattern>
         <message>«\1» ne eblas, ĉu vi intencis <suggestion><match no="1" regexp_match="(unu|du|tri|kvar|kvin|ses|sep|ok|naŭ)$" regexp_replace=" $1"/></suggestion>?</message>
-        <url>http://bertilow.com/pmeg/gramatiko/nombroj/vortetoj/formoj.html#i-k81</url>
         <example correction="dudek ok">Mi baldaŭ havos <marker>dudekok</marker> jarojn.</example>
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">(unu|du|tri|kvar|kvin|ses|sep|ok|naŭ|cent|mil)*(?:cent|mil)(?:du|tri|kvar|kvin|ses|sep|ok|naŭ)?dek</token>
+          <token regexp="yes">(unu|du|tri|kvar|kvin|ses|sep|ok|naŭ|naux?|cent|mil)*(?:cent|mil)(?:du|tri|kvar|kvin|ses|sep|ok|naŭ|naux?)?dek</token>
         </pattern>
         <message>«\1» ne eblas, ĉu vi intencis <suggestion><match no="1" regexp_match="((du|tri|kvar|kvin|ses|sep|ok|naŭ)dek)$" regexp_replace=" $1"/></suggestion>?</message>
-        <url>http://bertilow.com/pmeg/gramatiko/nombroj/vortetoj/formoj.html#i-k81</url>
         <example correction="cent dudek">Tio daŭros <marker>centdudek</marker> jaroj.</example>
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">(unu|du|tri|kvar|kvin|ses|sep|ok|naŭ|dek|cent|mil)*mil(?:unu|du|tri|kvar|kvin|ses|sep|ok|naŭ|cent)*<exception>mil</exception></token>
+          <token regexp="yes">(unu|du|tri|kvar|kvin|ses|sep|ok|naŭ|naux?|dek|cent|mil)*mil(?:unu|du|tri|kvar|kvin|ses|sep|ok|naŭ|naux?|cent)*<exception>mil</exception></token>
         </pattern>
         <message>Oni ne kunligas la vorton «mil».</message>
-        <url>http://bertilow.com/pmeg/gramatiko/nombroj/vortetoj/formoj.html#i-k81</url>
         <example correction="">Li naskiĝis en la jaro <marker>dumil</marker>.</example>
         <example>Li naskiĝis en la jaro <marker>du mil</marker>.</example>
       </rule>
@@ -3212,7 +3534,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <message>Difinilo «\2» ne povas esti kun tabelvorto «\1». Ĉu vi intencis <suggestion>\1</suggestion>?</message>
       <url>http://bertilow.com/pmeg/gramatiko/difiniloj/la/bazaj_reguloj.html#i-bgj</url>
       <example correction="ĉiujn">Mi lernis <marker>ĉiujn la</marker> vortojn.</example>
-      <example>Le retejo donas al ĉiuj la eblon lerni Esperanton.</example>
+      <example>La retejo donas al ĉiuj la eblon lerni Esperanton.</example>
     </rule>
     <rule id="MI_PLACXAS" name="mi plaĉas (al mi plaĉas)">
       <pattern>
@@ -3325,7 +3647,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </rule>
     <rule id="ANSTATAUX_OL" name="anstataŭ + ol (anstataŭ)">
       <pattern>
-        <token>anstataŭ</token>
+        <token inflected="yes">anstataŭ</token>
         <token>ol</token>
       </pattern>
       <message>Uzu <suggestion>\1</suggestion> (sen «ol»).</message>
@@ -3335,7 +3657,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <rulegroup id="ESTONTECO" name="estonteco">
       <rule>
         <pattern>
-          <token regexp="yes" skip="1">morgaŭ|venont.*</token>
+          <token regexp="yes" skip="1">morgaŭ|morgaux?|venont.*</token>
           <marker>
             <token postag="V .*[ai]s" postag_regexp="yes">
               <exception regexp="yes">(?:antaŭĝoj|plan|intenc|esper|dezir|vol)(?:e[gt])?as</exception>
@@ -3353,7 +3675,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
               <exception regexp="yes">(?:antaŭĝoj|plan|intenc|esper|dezir|vol)(?:e[gt])?as</exception>
             </token>
           </marker>
-          <token regexp="yes">morgaŭ|venont.*</token>
+          <token regexp="yes">morgaŭ|morgaux?|venont.*</token>
         </pattern>
         <message>Ĉu vi intencis <suggestion><match no="1" regexp_match="[ai]s$" regexp_replace="os"/></suggestion>?</message>
         <example correction="foriros">Mi <marker>foriras</marker> morgaŭ.</example>
@@ -3364,7 +3686,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <rule>
         <pattern>
           <token postag="SENT_START"/>
-          <token regexp="yes">ĉu|ki[eo]n?|ki[au]j?n?|ki(?:el|[ao]m)</token>
+          <token regexp="yes">ĉu|c[hx]u|ki[eo]n?|ki[au]j?n?|ki(?:el|[ao]m)</token>
           <marker>
             <token postag="V .*u" postag_regexp="yes" skip="-1">
               <exception scope="next" negate_pos="yes" postag="E.*|SENT_END" postag_regexp="yes"/>
@@ -3378,7 +3700,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <rule>
         <pattern>
           <token postag="SENT_START"/>
-          <token regexp="yes">ĉu|ki[eo]|ki[au]j?|ki(?:el|[ao]m)</token>
+          <token regexp="yes">ĉu|c[hx]u|ki[eo]|ki[au]j?|ki(?:el|[ao]m)</token>
           <marker>
             <token postag="V tr u" skip="-1"/>
           </marker>
@@ -3454,7 +3776,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <pattern>
           <token postag="SENT_START"/>
           <token/>
-          <token regexp="yes">kaj|aŭ</token>
+          <token regexp="yes" inflected="yes">kaj|aŭ</token>
           <marker>
             <token regexp="yes">siaj?</token>
           </marker>
@@ -3471,7 +3793,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <pattern>
           <token postag="SENT_START"/>
           <token/>
-          <token regexp="yes">kaj|aŭ</token>
+          <token regexp="yes" inflected="yes">kaj|aŭ</token>
           <marker>
             <token regexp="yes">siaj?</token>
           </marker>
@@ -3568,7 +3890,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <token inflected="yes">demandi</token>
           </marker>
           <token>al</token>
-          <token regexp="yes">la|ĉ?iuj|.*aj?</token>
+          <token regexp="yes">la|(?:ĉ|c[hx])?iuj|.*aj?</token>
           <token/>
           <token regexp="yes">(?:akv|aliĝ|almoz|atent|inform|help|klarig|kompat|koment|kompren|konsil|mon|pardon|permes|pac|pan|protekton|rifuĝej|subten|vin)oj?n|ke</token>
         </pattern>
@@ -3618,13 +3940,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
     <rulegroup id="TIAL_KIAL" name="tial, kial (ĉar)">
+      <url>http://bertilow.com/pmeg/gramatiko/subfrazoj/rilataj/aliaj_ki-vortoj.html#i-sll</url>
       <rule>
         <pattern>
           <token>tial</token>
           <token>kial</token>
         </pattern>
         <message>Oni ne uzas «\1, \2». Konsideru uzi <suggestion>pro la sama kaŭzo, kial</suggestion>, <suggestion>pro la sama kaŭzo, pro kio</suggestion> aŭ <suggestion>ĉar</suggestion>.</message>
-        <url>http://bertilow.com/pmeg/gramatiko/subfrazoj/rilataj/aliaj_ki-vortoj.html#i-sll</url>
         <example correction="pro la sama kaŭzo, kial|pro la sama kaŭzo, pro kio|ĉar">Ili foriris <marker>tial kial</marker> mi foriris.</example>
       </rule>
       <rule>
@@ -3634,7 +3956,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token>kial</token>
         </pattern>
         <message>Oni ne uzas «\1, \2». Konsideru uzi <suggestion>pro la sama kaŭzo, kial</suggestion>, <suggestion>pro la sama kaŭzo, pro kio</suggestion> aŭ <suggestion>ĉar</suggestion>.</message>
-        <url>http://bertilow.com/pmeg/gramatiko/subfrazoj/rilataj/aliaj_ki-vortoj.html#i-sll</url>
         <example correction="pro la sama kaŭzo, kial|pro la sama kaŭzo, pro kio|ĉar">Ili foriris <marker>tial, kial</marker> mi foriris.</example>
         <example>Ili foriris pro la sama kaŭzo, kial mi foriris.</example>
       </rule>
@@ -3702,9 +4023,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </rulegroup>
     <rule id="P_P" name="prepozicio + prepozicio">
       <pattern>
-        <token regexp="yes">al|je|(?:mal)?graŭ</token>
+        <token regexp="yes" inflected="yes">al|je|(?:mal)?graŭ</token>
         <token postag="P .*" postag_regexp="yes">
-          <exception>ĉirkaŭ</exception>
+          <exception inflected="yes">ĉirkaŭ</exception>
         </token>
       </pattern>
       <message>Kontrolu, ĉu la du sinsekvaj prepozicioj ĝustas.</message>
@@ -3725,7 +4046,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <pattern>
         <token postag="T ... pl . o" postag_regexp="yes"/>
       </pattern>
-      <message>Pluralo ne eblas kun tabelvorto «\1».</message>
+      <message>Normale tabelvortoj je O ne akceptas J-finaĵon.</message>
+      <url>http://bertilow.com/pmeg/gramatiko/oa-vortecaj_vortetoj/tabelvortoj_o.html#j-amn</url>
       <example correction="">Mi ŝatas <marker>tiojn</marker>.</example>
       <example>Mi ŝatas tion.</example>
     </rule>
@@ -3757,14 +4079,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example>Ankaŭ mi venos.</example>
     </rule>
     <rulegroup id="KONCERNE_N" name="koncerne + akuzativo">
+      <url>http://bertilow.com/pmeg/gramatiko/rolmontriloj/rolvortetoj/rolvortajhoj.html#i-o9b</url>
       <rule>
         <pattern>
-          <token regexp="yes">escepte|(?:mal)?dekstre|fronte|inkluzive|kaŭze|koncerne|(?:mal)?proksime|responde|rilate|spite</token>
+          <token regexp="yes" inflected="yes">escepte|(?:mal)?dekstre|fronte|inkluzive|kaŭze|koncerne|(?:mal)?proksime|responde|rilate|spite</token>
           <marker><token postag_regexp="yes" postag="[OART] nak.*"/></marker>
         </pattern>
         <message>Rolvortaĵoj, kiuj devenas de objekta ago, povas konsisti el E-vorto + N-finaĵo. Oni uzas N-finaĵon, kiu tiam anstataŭas «de» aŭ «al». Ĉu vi intencis skribi <suggestion><match no="2" regexp_match="$" regexp_replace="n"/></suggestion>?</message>
 
-        <url>http://bertilow.com/pmeg/gramatiko/rolmontriloj/rolvortetoj/rolvortajhoj.html#i-o9b</url>
         <example correction="ilin">Inkluzive <marker>ili</marker></example>
         <example correction="tiun">Escepte <marker>tiu</marker> homo</example>
         <example>Escepte tiun homon</example>
@@ -3772,32 +4094,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">escepte|(?:mal)?dekstre|fronte|inkluzive|kaŭze|koncerne|(?:mal)?proksime|responde|rilate|spite</token>
-          <token regexp="yes">la|ambaŭ</token>
+          <token regexp="yes" inflected="yes">escepte|(?:mal)?dekstre|fronte|inkluzive|kaŭze|koncerne|(?:mal)?proksime|responde|rilate|spite</token>
+          <token regexp="yes" inflected="yes">la|ambaŭ</token>
           <marker><token postag="[OART] nak.*" postag_regexp="yes"/></marker>
         </pattern>
         <message>Rolvortaĵoj, kiuj devenas de objekta ago, povas konsisti el E-vorto + N-finaĵo. Oni uzas N-finaĵon, kiu tiam anstataŭas «de» aŭ «al». Ĉu vi intencis skribi <suggestion><match no="3" regexp_match="$" regexp_replace="n"/></suggestion>?</message>
 
-        <url>http://bertilow.com/pmeg/gramatiko/rolmontriloj/rolvortetoj/rolvortajhoj.html#i-o9b</url>
         <example correction="riskojn">Koncerne la <marker>riskoj</marker></example>
         <example correction="studentojn">Inkluzive la <marker>studentoj</marker></example>
         <example>Inkluzive de la studentoj</example>
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">escepte|(?:mal)?dekstre|fronte|inkluzive|kaŭze|koncerne|(?:mal)?proksime|responde|rilate|spite</token>
+          <token regexp="yes" inflected="yes">escepte|(?:mal)?dekstre|fronte|inkluzive|kaŭze|koncerne|(?:mal)?proksime|responde|rilate|spite</token>
           <token postag="N"/>
           <marker><token postag="[OAT] nak.*" postag_regexp="yes"/></marker>
         </pattern>
         <message>Rolvortaĵoj, kiuj devenas de objekta ago, povas konsisti el E-vorto + N-finaĵo. Oni uzas N-finaĵon, kiu tiam anstataŭas «de» aŭ «al». Ĉu vi intencis skribi <suggestion><match no="3" regexp_match="$" regexp_replace="n"/></suggestion>?</message>
 
-        <url>http://bertilow.com/pmeg/gramatiko/rolmontriloj/rolvortetoj/rolvortajhoj.html#i-o9b</url>
         <example correction="studentojn">Escepte tri <marker>studentoj</marker></example>
       </rule>
     </rulegroup>
     <rule id="X_SISTEMO" name="x-sistemo → Unikodo">
       <pattern>
-        <token regexp="yes">[\-a-zĉĝĥĵŝŭ&amp;&amp;[^qy]]*(?:[cghjs]x|u[xw])[\-a-zĉĝĥĵŝŭ&amp;&amp;[^qy]]*(?:[ui]|[aiou]s|[oa]j?n?|en?|aŭ|au[xw])|[sg]xin|cxar|ec[xw]|nau[xw]dek|nau[xw]cent|(?:adi|almen|amb|(?:anta(?:ŭ|u[xw]))?hier|apen|anstat|ank|ankor|ant|bald|ĉirk|hodi|kaj|malant|morg|pl|postmorg|kontr|kvaz|malgr|mi|gr|[ln])?au[xw]</token>
+        <token regexp="yes">[\-a-zĉĝĥĵŝŭ&amp;&amp;[^qy]]*(?:[cghjs]x|u[xw])[\-a-zĉĝĥĵŝŭ&amp;&amp;[^qy]]*(?:[ui]|[aiou]s|[oa]j?n?|en?|aŭ|au[xw])|[sg]xin|cxar|ec[xwh]|nau[xw]dek|nau[xw]?cent|(?:adi|almen|amb|(?:anta(?:ŭ|u[xw]?))?hier|apen|anstat|ank|ankor|ant|bald|ĉirk|hodi|kaj|malant|morg|pl|postmorg|kontr|kvaz|malgr|mi|gr|[ln])?au[xw]</token>
       </pattern>
       <message>La vorto «\1» ŝajnas skribita per la x-sistemo. Preferu uzi Unikodon. La kontrolilo pli bone funkcios kun Unikoda teksto.</message>
       <url>https://eo.wikipedia.org/wiki/X-sistemo</url>
@@ -3809,36 +4129,35 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example><marker>Ankaŭ</marker>.</example>
     </rule>
     <rulegroup id="PRO_TIO_CXAR" name="pro tio, ĉar → pro tio, ke">
+      <url>http://bertilow.com/pmeg/pmeg140/gramatiko/subfrazoj/char.html#i-mij</url>
       <rule>
         <pattern>
           <token>pro</token>
           <token>tio</token>
           <token>,</token>
-          <token>ĉar</token>
+          <token inflected="yes">ĉar</token>
         </pattern>
         <message>Oni ne uzas «pro tio, ĉar». Uzu <suggestion>pro tio, ke</suggestion>.</message>
-        <url>http://bertilow.com/pmeg/pmeg140/gramatiko/subfrazoj/char.html#i-mij</url>
         <example correction="pro tio, ke">La infano ploras <marker>pro tio, ĉar</marker> li volas manĝi.</example>
       </rule>
       <rule>
         <pattern>
           <token>pro</token>
           <token>tio</token>
-          <token>ĉar</token>
+          <token inflected="yes">ĉar</token>
         </pattern>
         <message>Oni ne uzas «pro tio ĉar». Uzu <suggestion>pro tio, ke</suggestion>.</message>
-        <url>http://bertilow.com/pmeg/pmeg140/gramatiko/subfrazoj/char.html#i-mij</url>
         <example correction="pro tio, ke">La infano ploras <marker>pro tio ĉar</marker> li volas manĝi.</example>
       </rule>
     </rulegroup>
     <rulegroup id="DUM_KIAM" name="dum kiam → dum">
+      <url>http://bertilow.com/pmeg/gramatiko/subfrazoj/aliaj.html#i-n3d</url>
       <rule>
         <pattern>
           <token>dum</token>
           <token>kiam</token>
         </pattern>
         <message>Oni de uzas «dum kiam». Uzi <suggestion>dum</suggestion>.</message>
-        <url>http://bertilow.com/pmeg/gramatiko/subfrazoj/aliaj.html#i-n3d</url>
         <example correction="dum">Tio okazas <marker>dum kiam</marker> mi estas hejme.</example>
       </rule>
       <rule>
@@ -3848,7 +4167,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token>ke</token>
         </pattern>
         <message>Oni de uzas «dum tio ke». Uzi <suggestion>dum</suggestion>.</message>
-        <url>http://bertilow.com/pmeg/gramatiko/subfrazoj/aliaj.html#i-n3d</url>
         <example correction="dum">Tio okazas <marker>dum tio ke</marker> mi estas hejme.</example>
       </rule>
       <rule>
@@ -3859,11 +4177,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token>ke</token>
         </pattern>
         <message>Oni de uzas «dum tio, ke». Uzi <suggestion>dum</suggestion>.</message>
-        <url>http://bertilow.com/pmeg/gramatiko/subfrazoj/aliaj.html#i-n3d</url>
         <example correction="dum">Tio okazas <marker>dum tio, ke</marker> mi estas hejme.</example>
       </rule>
     </rulegroup>
     <rulegroup id="TUTA_LA" name="tuta la → la tuta">
+      <url>http://bertilow.com/pmeg/gramatiko/difiniloj/la/bazaj_reguloj.html</url>
       <rule>
         <pattern>
           <marker>
@@ -3873,7 +4191,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token postag="O nak np"/>
         </pattern>
         <message>Ne diru «\1 \2» sed <suggestion>\2 \1</suggestion>.</message>
-        <url>http://bertilow.com/pmeg/gramatiko/difiniloj/la/bazaj_reguloj.html</url>
         <example correction="la tuta">Li ronkis dum <marker>tuta la</marker> nokto.</example>
       </rule>
       <rule>
@@ -3885,12 +4202,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token postag="O akz np"/>
         </pattern>
         <message>Ne diru «\1 \2» sed <suggestion>\2 \1</suggestion>.</message>
-        <url>http://bertilow.com/pmeg/gramatiko/difiniloj/la/bazaj_reguloj.html</url>
         <example correction="la tutan">Li ronkis <marker>tutan la</marker> nokton.</example>
       </rule>
     </rulegroup>
 
     <rulegroup id="PROPRA_NOMO_LINGVO" name="Propra nomo de lingvo (esperanto → Esperanto)">
+      <url>http://bertilow.com/pmeg/gramatiko/propraj_nomoj/majuskloj.html#i-j9t</url>
       <rule>
         <pattern>
           <token inflected="yes" regexp="yes" skip="1">.*(?:legi|skribi|paroli|scipovi|lerni|studi|instrui|verki|lingvo|kurso|leciono|libro)</token>
@@ -3899,17 +4216,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           </marker>
         </pattern>
         <message>Laŭ la kunteksto, ŝajnas, ke «\2» temas pri propra nomo de lingvo, ĝi tiam bezonas komencan majusklon. Ĉu vi intencis skribi <suggestion><match no="2" case_conversion="startupper"/></suggestion>?</message>
-        <url>http://bertilow.com/pmeg/gramatiko/propraj_nomoj/majuskloj.html#i-j9t</url>
         <example correction="Esperanton">Mi lernas <marker>esperanton</marker>.</example>
         <example correction="Esperanto">Tio estas kurso de <marker>esperanto</marker>.</example>
         <example>Iu, kiu esperas, estas esperanto.</example>
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">(?-i)(?:adamitiko|akadono|alevato|ĉenglio|fanagalo|interlingv[ae]o|interlinguo|interpreso|intergloso|gestono|ĥotono|latino|lingvafrankao|loĵbano|loglano|loglio|neo-?(latino|romano)|nov-?latino|novialo|papiamento|sanskrito|solresolo|tokipono|tokpisino|urduo|uropio|volapuko|voksigido)n?</token>
+          <token regexp="yes">(?-i)(?:adamitiko|akadono|alevato|ĉenglio|c[hx]englio|fanagalo|gestuno|ĥotono|h[hx]otono|intergloso|interlinguo|interlingv[ae]o|interpreso|laadano|latino|lingvafrankao|loglano|loglio|loĵbano|loj[hx]bano|neo-?(latino|romano)|nov-?latino|novialo|papiamento|sanskrito|solresolo|tokipono|tokpisino|urduo|uropio|voksigido|volapuko)n?</token>
         </pattern>
         <message>Ŝajnas, ke «\1» temas pri propra nomo de lingvo, ĝi tiam bezonas komencan majusklon. Ĉu vi intencis skribi <suggestion><match no="1" case_conversion="startupper"/></suggestion>?</message>
-        <url>http://bertilow.com/pmeg/gramatiko/propraj_nomoj/majuskloj.html#i-j9t</url>
         <example correction="Volapukon">Mi lernas <marker>volapukon</marker>.</example>
       </rule>
     </rulegroup>
@@ -3930,13 +4245,55 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <rule>
         <pattern>
           <token>la</token>
-          <token regexp="yes">(?-i)(?:Adamitiko|Akadono|Alevato|Ĉenglio|Fanagalo|Interlingv[ae]o|Interlinguo|Interpreso|Intergloso|Gestono|Ĥotono|Latino|Lingvafrankao|Loĵbano|Loglano|Loglio|Neo-?(latino|romano)|Nov-?latino|Novialo|Papiamento|Sanskrito|Solresolo|Tokipono|Tokpisino|Urduo|Uropio|Volapuko|Voksigido)n?</token>
+          <token regexp="yes">(?-i)(?:Adamitiko|Akadono|Alevato|Ĉenglio|C[hx]englio|Fanagalo|Interlingv[ae]o|Interlinguo|Interpreso|Intergloso|Gestono|Ĥotono|H[hx]otono|Latino|Lingvafrankao|Loĵbano|Loj[hx]bano|Loglano|Loglio|Neo-?(latino|romano)|Nov-?latino|Novialo|Papiamento|Sanskrito|Solresolo|Tokipono|Tokpisino|Urduo|Uropio|Volapuko|Voksigido)n?</token>
         </pattern>
         <message>Ŝajnas, ke <suggestion>\2</suggestion> temas pri propra nomo de lingvo. Oni ne metas «la» antaŭ o-vortaj lingvonomoj.</message>
         <url>http://bertilow.com/pmeg/gramatiko/propraj_nomoj/landoj_popoloj_lingvoj.html#i-r76</url>
         <example correction="Volapukon">Mi lernas <marker>la Volapukon</marker>.</example>
       </rule>
     </rulegroup>
+
+    <rule id="MAJ_FESTOJ" name="Nomoj de festoj estas skribitaj majuskle">
+      <pattern case_sensitive="yes">
+        <token regexp="yes">advento|epifanio|kristnasko|pentekosto|pasko</token>
+      </pattern>
+      <message>Nomoj de festoj (Kristnasko, Pasko, Pentekosto, k.a.) estas plej ofte traktataj kiel normalaj propraj nomoj.</message>
+      <suggestion><match no="1" case_conversion="startupper"/></suggestion>
+      <url>http://bertilow.com/pmeg/gramatiko/propraj_nomoj/majuskloj.html#i-4mk</url>
+      <example correction="Kristnasko">vi ricevis donacon por <marker>kristnasko</marker>?</example>
+    </rule>
+
+    <rule id="MIN_SEMAJNTAGOJ" name="Semajntagoj estas skribitaj minuskle">
+      <pattern case_sensitive="yes">
+        <token postag="SENT_START" negate_pos="yes"/>
+        <marker><token regexp="yes">(?:Lundo|Mardo|Merkredo|Ĵaŭdo|J[xXh]aux?do|Vendredo|Sabato|Dimanĉo|Dimanc[hx]?o)n?</token></marker>
+      </pattern>
+      <message>La nomoj de la semajntagoj (lundo, mardo, merkredo k.t.p.) ne estas propraj nomoj, kaj estas tial skribataj minuskle.</message>
+      <suggestion><match no="2" case_conversion="startlower"/></suggestion>
+      <url>http://bertilow.com/pmeg/gramatiko/propraj_nomoj/majuskloj.html#i-smr</url>
+      <example correction="dimanĉo">Hodiaŭ estas <marker>Dimanĉo</marker>.</example>
+      <example correction="dimancxo">Hodiaŭ estas <marker>Dimancxo</marker>.</example>
+      <example correction="dimancho">Hodiaŭ estas <marker>Dimancho</marker>.</example>
+      <example correction="dimanĉon">Mi alvenos <marker>Dimanĉon</marker>.</example>
+      <example>Dimanĉon ni nin vidos.</example>
+    </rule>
+
+    <rule id="MAJ_LANDOJ" name="Landoj estas skribitaj majuskle">
+      <pattern case_sensitive="yes">
+        <!-- See https://eo.wikipedia.org/wiki/Vikipedio:Landonomoj_kun_flageto for a list of countries.
+
+             Be careful not to list country names which are identical to words which are 
+             synonymous to words that are not proper names such as "grenado", "kubo",
+             "malto" (etc) to avoid false positives.
+        -->
+        <token regexp="yes">(afgan|alban|angl|armen|aŭstral|aŭstr|belg|bosn|brit|bulgar|ĉeĥ|ĉin|dan|egipt|eston|etiop|franc|german|grek|hispan|hungar|ital|japan|kartvel|kazaĥ|kirgiz|kore|kroat|latv|litov|moldav|mongol|norveg|portugal|makedon|ruman|rus|serb|slovak|sloven|somal|sved|svis|taĝik|turk|turkmen|ukrain|uzbek|vjetnam|ĉeĥoslovak|jugoslav)(io|ujo)|alĝerio|andoro|angolo|argentino|azerbajĝano|bahamoj|bangladeŝo|barato|barbado|barejno|belarusio|belizo|benino|birmo|bocvano|bolivio|brazilo|brunejo|burkino|burundo|butano|ĉado|mjanmao|ĉilio|danlando|dominiko|domingo|ekvadoro|eritreo|fiĝioj?|filipinoj|finn?lando|gabono|gambio|ganao|ĝibutio|greklando|gujano|gvatemalo|gvineo|haitio|hercegovino|honduro|indonezio|irako|irano|irlando|islando|israelo|jamajko|jemeno|jordanio|kamboĝo|kameruno|kanado|kataro|kenjo|kipro|kiribato|kolombio|komoroj|koreo|kostariko|kuracao|kuvajto|laoso|lesoto|libano|liberio|libio|liĥtenŝtejno|suomio|luksemburgi?o|madagaskaro|malajzio|malavio|maldivoj|malio|maroko|maŭricio|meksiki?o|monako|montenegro|mozambiko|namibio|nauro|nederlando|nepalo|niĝeri?o|nikaragvo|omano|pakistano|palaŭo|panamo|paragvajo|peruo|pollando|ruando|salomonoj|salvadoro|samoo|sejŝeloj|senegalo|singapuro|sirio|srilanko|sudano|surinamo|svazilando|svislando|tajlando|tajvano|tanzanio|togolando|togo|tongo|tunizio|tuvalo|ugando|urugvajo|usono|vanuatuo|vatikanurbo|vatikano|venezuelo|zambio|zimbabvo|alando|angvilo|arubo|bermudo?|buvetinsulo|ferooj|ĝibraltaro|groe?nlando|gvernsejo|gvadelupo|gvamo|honkongo|ĵersejo|kokosinsuloj|kristnaskinsulo|kukinsuloj|majoto|makao|mankso|manksinsulo|martiniko|mordvio|moncerato|niuo|norfolkinsulo|reunio|tokelao|trinidado|tobago|palestino|bohemio|rodezio|serbio|sovetunio|sovetio|antarkti?o</token>
+      </pattern>
+      <message>Landonomojn oni ĉiam skribas kun komenca majusklo, ĉar ili estas veraj propraj nomoj.</message>
+      <suggestion><match no="1" case_conversion="startupper"/></suggestion>
+      <url>http://bertilow.com/pmeg/gramatiko/propraj_nomoj/majuskloj.html#i-j9t</url>
+      <example correction="Nederlando">Mi loĝas en <marker>nederlando</marker>.</example>
+      <example>En Nederlando estas nederlandanoj.</example>
+    </rule>
 
     <rulegroup id="APOS" name="apostrofo">
       <rule>
@@ -3961,7 +4318,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">(ki|ti|i|ĉi|neni)'</token>
+          <token regexp="yes">(ki|ti|i|ĉi|c[hx]i|neni)'</token>
         </pattern>
         <message>La tabelvortoj je O finiĝas per «o», sed tiuj o-vokaloj ne estas veraj O-finaĵoj, kaj oni ne povas ilin anstataŭigi per apostrofoj. Uzu <suggestion><match no="1" regexp_match=".$" regexp_replace="o"/></suggestion>.</message>
         <url>http://bertilow.com/pmeg/gramatiko/apostrofo/normala_uzo.html#i-a19</url>
@@ -4019,7 +4376,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
     <rule id="RICXA_DA" name="riĉa da → riĉa de">
       <pattern>
-        <token regexp="yes">(?:mal)?(?:plen|riĉ|abund)(?:e[gt])?aj?n?</token>
+        <token regexp="yes" inflected="yes">(?:mal)?(?:plen|riĉ|abund)(?:e[gt])?a</token>
         <marker><token>da</token></marker>
       </pattern>
       <message>Kun la vortoj plena, riĉa, abunda «da» ne estas uzebla, ĉar ili ne indikas mezuron. Uzu <suggestion>de</suggestion>.</message>
@@ -4027,9 +4384,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="de">La ĉambro estas plena <marker>da</marker> homoj.</example>
     </rule>
 
+    <rule id="PLUA_PLIA" name="plua → plia">
+      <pattern>
+        <marker><token inflected="yes">plua</token></marker>
+        <token regexp="yes" inflected="yes">informo|kvanto</token>
+      </pattern>
+      <message>Por paroli pri io aldona, oni uzas <suggestion><match no="1" regexp_match="u" regexp_replace="i"/></suggestion>. «Plua» signifas «daŭranta plu», kaj estas malofta en tiu kunteksto.</message>
+      <url>https://eo.wikipedia.org/wiki/Vikipedio:Oftaj_gramatikaj_eraroj</url>
+      <example correction="pliaj">Kontaktu min por <marker>pluaj</marker> informoj.</example>
+      <example correction="pliajn">Mi deziras <marker>pluajn</marker> informojn.</example>
+      <example>Per sia plua esplorado, ŝi sukcesis.</example>
+    </rule>
+
     <rule id="VITRERO" name="vitrero → vitropeco">
       <pattern>
-        <token regexp="yes">(?:drato?|fumo?|lakto?|sekureco?)?vitr(?:aĵ)?er(?:e[tg]|aĉ)?oj?n?|sukereroj?n?</token>
+        <token regexp="yes" inflected="yes">(?:drato?|fumo?|lakto?|sekureco?)?vitr(?:aĵ)?er(?:e[tg]|aĉ)?o|sukerero</token>
       </pattern>
       <message>Ero ne estas identa al peco aŭ parto, kaj estas granda diferenco inter ekzemple ĉenero kaj ĉenpeco. Tial uzu <suggestion><match no="1" regexp_match="(.*)er" regexp_replace="$1opec"/></suggestion>.</message>
       <url>http://www.esperanto.mv.ru/Seppik/lec19.html#141</url>
@@ -4047,13 +4416,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </rule>
 
     <rulegroup id="RAZIGXI" name="mi raziĝis → mi razis min">
+      <url>http://www.esperanto.mv.ru/Seppik/lec10.html#70</url>
       <rule>
         <pattern>
-          <token regexp="yes">[mvclŝn]i|ili|\p{Lu}.*</token>
+          <token regexp="yes">[mvclŝn]i|s[hx]i|ili|\p{Lu}.*</token>
           <marker><token regexp="yes">(?:ek|mal|sen)?(?:lav|komb|raz|vest)iĝ(?:[auio]s|u)</token></marker>
         </pattern>
         <message>Oni ne povas diri «mi laviĝis, kombiĝis, raziĝis, vestiĝis», ĉar tiuj agoj ne okazas aŭtomate, per si mem, kaj la homo ne restas pasiva ĉe tio; oni devas diri: mi lavis min, kombis min, razis min, vestis min.</message>
-        <url>http://www.esperanto.mv.ru/Seppik/lec10.html#70</url>
         <example correction="">Mi <marker>laviĝis</marker> ĉi-matene.</example>
         <example>Mi lavis min ĉi-matene.</example>
         <example correction="">Ĉu Mary <marker>laviĝis</marker>?</example>
@@ -4062,31 +4431,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">[mvclŝn]i|ili|oni|\p{Lu}.*</token>
+          <token regexp="yes">[mvclŝn]i|s[hx]i|ili|oni|\p{Lu}.*</token>
           <token postag="E.*|_" postag_regexp="yes"/>
           <marker><token regexp="yes">(?:ek|mal|sen)?(?:lav|komb|raz|vest)iĝ(?:[auio]s|u)</token></marker>
         </pattern>
         <message>Oni ne povas diri «mi laviĝis, kombiĝis, raziĝis, vestiĝis», ĉar tiuj agoj ne okazas aŭtomate, per si mem, kaj la homo ne restas pasiva ĉe tio; oni devas diri: mi lavis min, kombis min, razis min, vestis min.</message>
-        <url>http://www.esperanto.mv.ru/Seppik/lec10.html#70</url>
         <example correction="">Mi ĵus <marker>laviĝis</marker> ĉi-matene.</example>
         <example>Mi ĵus lavis min ĉi-matene.</example>
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">[mvclŝn]i|ili|oni|\p{Lu}.*</token>
+          <token regexp="yes">[mvclŝn]i|s[hx]i|ili|oni|\p{Lu}.*</token>
           <token postag="E.*|_" postag_regexp="yes"/>
           <token postag="E.*|_" postag_regexp="yes"/>
           <marker><token regexp="yes">(?:ek|mal|sen)?(?:lav|komb|raz|vest)iĝ(?:[auio]s|u)</token></marker>
         </pattern>
         <message>Oni ne povas diri «mi laviĝis, kombiĝis, raziĝis, vestiĝis», ĉar tiuj agoj ne okazas aŭtomate, per si mem, kaj la homo ne restas pasiva ĉe tio; oni devas diri: mi lavis min, kombis min, razis min, vestis min.</message>
-        <url>http://www.esperanto.mv.ru/Seppik/lec10.html#70</url>
         <example correction="">Mi ankoraŭ ne <marker>laviĝis</marker> ĉi-matene.</example>
         <example>Mi ankoraŭ ne lavis min ĉi-matene.</example>
       </rule>
     </rulegroup>
     <rule id="NOVA_ZELANDO" name="Nova-Zelando → Nov-Zelando">
       <pattern>
-        <token regexp="yes">Nova-?(?:Jork|Kaledoni|Orlean|Zeland)on?</token>
+        <token regexp="yes">Nov[ao]-?(Amsterdam|Angl(?:i|uj)|Brunsvik|Delhi|Gvine|Hampŝir|Holand|Jork|Jorki|Kaledoni|Meksik|Orlean|Skot(?:i|land|uj)|Zeland|Zeml|Ĵerzej)on?</token>
       </pattern>
       <message>Oni devas skribi <suggestion>Nov-Zelando</suggestion> aŭ <suggestion>Nova Zelando</suggestion>.</message>
       <url>http://bertilow.com/pmeg/vortfarado/principoj/antauelementoj.html#i-pce</url>
@@ -4094,7 +4461,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </rule>
     <rule id="FRANCANO" name="Francano → Franco">
       <pattern>
-        <token regexp="yes">(?:afgan|alban|angl|armen|aŭstr|belg|belorus|brit|bulgar|ĉeĥ|ĉin|dan|egipt|eston|etiop|franc|german|grek|hispan|hungar|japan|ital|kartvel|kirgiz|kroat|latv|litov|makedon|moldav|mongol|nord-kore|norveg|portugal|ruman|rus|serb|slovak|sloven|somal|sud-kore|sved|turk|turkmen|ukrain|uzbek|vjetnam)an(?:in)?oj?n?</token>
+        <token regexp="yes" inflected="yes">(?:afgan|alban|andaluz|angl|arab|armen|aŭstr|baŝkir|belarus|belg|belorus|bosn|brit|bulgar|ĉeĉen|ĉeĥ|ĉeĥoslovakĉin|ĉuvaŝ|dan|egipt|eston|etiop|eŭsk|finn|flandr|franc|fris|german|grek|hind|hispan|hungar|inguŝ|ital|japan|jugoslav|kartvel|katalun|kazaĥ|kirgiz|kore|kroat|latv|litov|makedon|moldav|mongol|nord-kore|norveg|pol|portugal|ruman|rus|saks|serb|skot|slovak|sloven|somal|sud-kore|svazi|sved|svis|taj|tatar|taĝik|turk|turkmen|udmurt|ukrain|uzbek|valon|vjetnam)an(?:in)?o</token>
       </pattern>
       <message>Oni ne aldonas la finaĵon «-an» al popoloj de lando kun finaĵo «-uj». Ĉu vi anstataŭ intencis skribi <suggestion><match no="1" regexp_match="(.*)an((in)?oj?n?)$" regexp_replace="$1$2"/></suggestion>?</message>
       <url>http://bertilow.com/pmeg/gramatiko/propraj_nomoj/landoj_popoloj_lingvoj.html#i-hze</url>
@@ -4103,28 +4470,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </rule>
     <rule id="AUXSTRALUJO" name="Aŭstralujo → Aŭstralio">
       <pattern>
-        <token regexp="yes">(?:alĝer|aŭstral|boliv|ĉil|fiĝ|gamb|hait|ĝibut|indonez|jordan|lib|liber|malajz|malav|mal|maŭritan|namib|nov-kaledon|polinez|reun|sir|sud-georg|tanzan|tuniz|zamb)ujo</token>
+        <token regexp="yes" inflected="yes">(?:alĝer|aŭstral|boliv|ĉil|fiĝ|gamb|ĝibut|hait|indonez|jordan|lib|liber|mal|malajz|malav|maŭritan|namib|nov-kaledon|polinez|reun|sir|sud-georg|tanzan|tuniz|zamb)ujo</token>
       </pattern>
       <message>La lando «\1» ne havas finaĵon «-ujo», kaj do ne povas havi finaĵon «uj». Ĉu vi intencis skribi <suggestion><match no="1" regexp_match="(.*)uj(on?)$" regexp_replace="$1i$2"/></suggestion>?</message>
       <url>http://bertilow.com/pmeg/gramatiko/propraj_nomoj/landoj_popoloj_lingvoj.html#i-6zn</url>
       <example correction="Aŭstralio">Mi naskiĝis en <marker>Aŭstralujo</marker>.</example>
+      <example correction="Zambio">Mi translokiĝis al <marker>Zambujo</marker>.</example>
     </rule>
     <rule id="AUXSTRALIANO" name="Aŭstralo → Aŭstralianoj">
       <pattern>
-        <token regexp="yes">(?:aŭstral|boliv|ĉil|fiĝ|hait|ĝibut|indonez|lib|malajz|malav|maŭritan|namib|nov-kaledon|polinez|reun|sir|sud-georg|tanzan|zamb)oj?n?</token>
+        <token regexp="yes" inflected="yes">(?:aŭstral|boliv|ĉil|fiĝ|ĝibut|hait|indonez|lib|malajz|malav|maŭritan|namib|nov-kaledon|polinez|reun|sir|sud-georg|tanzan|zamb)o</token>
       </pattern>
       <message>Ĉu vi intencis skribi <suggestion><match no="1" regexp_match="(.*)(oj?n?)$" regexp_replace="$1ian$2"/></suggestion>?</message>
       <url>http://bertilow.com/pmeg/gramatiko/propraj_nomoj/landoj_popoloj_lingvoj.html#i-6zn</url>
       <example correction="aŭstralianojn">Mi gastigis du <marker>aŭstralojn</marker>.</example>
+      <example correction="tanzaniano">Ŝi estas <marker>tanzano</marker>.</example>
     </rule>
     <rulegroup id="KOREKTA_SENERARA" name="korekta → senerara">
+      <url>http://bertilow.com/pmeg/vortfarado/principoj/finajhoj/a.html#i-hc3</url>
       <rule>
         <pattern>
           <marker><token regexp="yes">korektaj?n?</token></marker>
           <token><exception regexp="yes">(edukad|princip|program)oj?n?</exception></token>
         </pattern>
         <message>Ĝusta uzo de la vorto «korekta» estas sufiĉe malofta. Ĝi signifas «senerariga». Ĉu vi tie intencis skribi <suggestion><match no="1" regexp_match="(.*a)" regexp_replace="senerara"/></suggestion>, aŭ <suggestion><match no="1" regexp_match="(.*a)" regexp_replace="ĝusta"/></suggestion> laŭ la kunteksto?</message>
-        <url>http://bertilow.com/pmeg/vortfarado/principoj/finajhoj/a.html#i-hc3</url>
         <example correction="senerara|ĝusta">La teksto estas <marker>korekta</marker>.</example>
         <example correction="seneraran|ĝustan">Li donis <marker>korektan</marker> respondon.</example>
         <example correction="senerara|ĝusta">Via prononco estas tute <marker>korekta</marker>.</example>
@@ -4134,26 +4503,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token regexp="yes">(ne|mal)korektaj?n?</token>
         </pattern>
         <message>La vorto «\1» estas preskaŭ ĉiam misuzata. Ĉu vi tie intencis skribi <suggestion><match no="1" regexp_match="(.*a)" regexp_replace="erara"/></suggestion>, aŭ <suggestion><match no="1" regexp_match="(ne|mal)(.*a)" regexp_replace="$1ĝusta"/></suggestion> laŭ la kunteksto?</message>
-        <url>http://bertilow.com/pmeg/vortfarado/principoj/finajhoj/a.html#i-hc3</url>
         <example correction="eraran|malĝustan">Li donis <marker>malkorektan</marker> respondon.</example>
       </rule>
     </rulegroup>
     <rulegroup id="KOMPLIKA_MALSIMPLA" name="komplika → malsimpla">
+      <url>http://bertilow.com/pmeg/vortfarado/principoj/finajhoj/a.html#i-hc3</url>
       <rule>
         <pattern>
           <marker><token regexp="yes">komplikaj?n?</token></marker>
           <token><exception regexp="yes">faktoroj?n?</exception></token>
         </pattern>
-        <message>La vorto «komplika» estas sufiĉe ofte misuzata. Ĝi pli-malpli signifas «malsimpliga». Ĉu vi tie intencis skribi <suggestion><match no="1" regexp_match="(.*a)" regexp_replace="malsimpla"/></suggestion>, aŭ <suggestion><match no="1" regexp_match="(.*a)" regexp_replace="facila"/></suggestion>?</message>
-        <url>http://bertilow.com/pmeg/vortfarado/principoj/finajhoj/a.html#i-hc3</url>
-        <example correction="malsimplan|facilan">Li donis <marker>komplikan</marker> respondon.</example>
+        <message>La vorto «komplika» estas sufiĉe ofte misuzata. Ĝi pli-malpli signifas «malsimpliga». Ĉu vi tie intencis skribi <suggestion><match no="1" regexp_match="(.*a)" regexp_replace="malsimpla"/></suggestion>, aŭ <suggestion><match no="1" regexp_match="(.*a)" regexp_replace="malfacila"/></suggestion>?</message>
+        <example correction="malsimplan|malfacilan">Li donis <marker>komplikan</marker> respondon.</example>
       </rule>
       <rule>
         <pattern>
           <token regexp="yes">(ne|mal)komplikaj?n?</token>
         </pattern>
         <message>La vorto «\1» estas preskaŭ ĉiam misuzata. Ĉu vi tie intencis skribi <suggestion><match no="1" regexp_match="(.*a)" regexp_replace="simpla"/></suggestion>, aŭ <suggestion><match no="1" regexp_match="(.*a)" regexp_replace="facila"/></suggestion>?</message>
-        <url>http://bertilow.com/pmeg/vortfarado/principoj/finajhoj/a.html#i-hc3</url>
         <example correction="simplan|facilan">Li donis <marker>malkomplikan</marker> respondon.</example>
       </rule>
     </rulegroup>
@@ -4190,7 +4557,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </rulegroup>
     <rule id="MALALMENAUX" name="malalmenaŭ">
       <pattern>
-        <token>malalmenaŭ</token>
+        <token inflected="yes">malalmenaŭ</token>
       </pattern>
       <message>«Almenaŭ = minimume», sed oni tamen neniam uzas «malalmenaŭ» por <suggestion>maksimume</suggestion>.</message>
       <url>http://bertilow.com/pmeg/gramatiko/e-vortecaj_vortetoj/ceteraj/almenau.html</url>
@@ -4207,18 +4574,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <rulegroup id="DATO_TAGO" name="kongruo de dato kaj tago">
       <rule>
         <pattern>
-          <token regexp="yes">lundon?|lun|mardon?|mar|merkredon?|mer|ĵaŭdon?|ĵaŭ|vendredon?|ven|sabaton?|sab|dimanĉon?|dim</token>
+          <token regexp="yes">lundon?|lun|mardon?|mar|merkredon?|mer|ĵaŭdon?|j[hx]?aux?don?|ĵaŭ|vendredon?|ven|sabaton?|sab|dimanĉon?|dimanc[hx]?on?|dim</token>
           <token>la</token>
-          <token regexp="yes">([012]?\d|3[01]|dek|dudek|tridek(-unu)?|(dek-?|dudek-?)?(unu|du|tri|kvar|kvin|ses|sep|ok|naŭ))-?an</token>
+          <token regexp="yes">([012]?\d|3[01]|dek|dudek|tridek(-unu)?|(dek-?|dudek-?)?(unu|du|tri|kvar|kvin|ses|sep|ok|naŭ|naux))-?an</token>
           <token>de</token>
-          <token regexp="yes">januaro|jan|februaro|feb|marto|mar|aprilo|apr|majo|maj|junio|jun|julio|jul|aŭgusto|aŭg|septembro|sep|oktobro|okt|novembro|nov|decembro|dec</token>
+          <token regexp="yes">januaro|jan|februaro|feb|marto|mar|aprilo|apr|majo|maj|junio|jun|julio|jul|aŭgusto|aux?gusto|aŭg|septembro|sep|oktobro|okt|novembro|nov|decembro|dec</token>
           <token regexp="yes">[12]\d\d\d</token>
         </pattern>
         <filter class="org.languagetool.rules.eo.DateCheckFilter" args="year:\6 month:\5 day:\3 weekDay:\1"/>
         <message>La tago de la dato «\1 \2 \3 \4 \5 \6» ne estas <match no="1" case_conversion="alllower" regexp_match="n$" regexp_replace=""/>, sed {realDay}.</message>
         <url>http://bertilow.com/pmeg/gramatiko/nombroj/datoj.html</url>
         <example correction=""><marker>Vendredon la 28-an de Aŭgusto 2014</marker>.</example>
-        <example>Jaŭdon la 28-an de Aŭgusto 2014.</example>
+        <example>Ĵaŭdon la 28-an de Aŭgusto 2014.</example>
         <example correction=""><marker>Sabaton la duan de Oktobro 2014</marker>.</example>
         <example>Ĵaŭdon la duan de Oktobro 2014.</example>
         <example correction=""><marker>Sabaton la dudek-duan de Oktobro 2014</marker>.</example>
@@ -4227,11 +4594,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </rulegroup>
     <rule id="INAJ_RADIKOJ" name="inaj radikoj">
       <pattern>
-        <token regexp="yes" inflected="yes">(?:dam|matron|primadon|femal|furi|amazon|nimf|meger|putin|meretric|gejŝ|madon|muz|hetajr|subret|alme)in[oa]</token>
+        <token regexp="yes" inflected="yes">(?:alme|amazon|bajader|begin|dam|femal|femin|furi|gejŝ|gun|hetajr|lesb|madon|matriar[ĥk]|matron|meger|meretric|muz|nimf|primadon|putin|subret)in[oa]</token>
       </pattern>
       <message>Por ina radiko, oni ne aldonas la sufikson «in».</message>
       <suggestion><match no="1" regexp_match="in([oa]j?n?)$" regexp_replace="$1"/></suggestion>
       <url>http://bertilow.com/pmeg/gramatiko/o-vortoj/seksa_signifo.html#i-jam</url>
+      <example correction="amazonoj">Oni pensas, ke ŝi devenas de <marker>amazoninoj</marker>.</example>
       <example correction="muzo">Ŝi estas mia <marker>muzino</marker>.</example>
     </rule>
     <rulegroup id="URL" name="Neĝustaj URL-oj">
@@ -4260,14 +4628,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
       <rule>
         <regexp type="exact">\b(?:mailto|news)://?[a-z]\S+\b</regexp>
-        <message>La protokolo de URL mailto: aŭ news: ne devus esti sekvita de du oblikjvoj «//».</message>
+        <message>La protokolo de URL mailto: aŭ news: ne devus esti sekvita de du oblikvoj «//».</message>
         <example correction="">Vidu <marker>mailto://john.doe.com</marker>.</example>
         <example>Vidu <marker>mailto:john.doe.com</marker>.</example>
       </rule>
       <rule>
         <regexp type="exact">\b(?:https?|ftps?|telnet|file):\S*([\\{}|^`]|%(?![0-9a-f]{2}))\S*</regexp>
         <message>La URL enhavas neĝustan signon «\1» laŭ RFC 1738. Oni povas anstataŭigi specialajn signojn per % kun 2 deksesumaj nombroj.</message>
-        <url>http://www.ietf.org/rfc/rfc1738.txt</url>
+        <url>https://www.ietf.org/rfc/rfc1738.txt</url>
         <example correction="">Vidu <marker>http://foobar.com/%foo.html</marker></example>
         <example>Vidu <marker>http://foobar.com/%20foo.html</marker></example>
         <example correction="">Vidu <marker>http://foobar.com/^foo.html</marker></example>

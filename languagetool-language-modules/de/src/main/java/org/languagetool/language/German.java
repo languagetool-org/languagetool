@@ -189,7 +189,8 @@ public class German extends Language implements AutoCloseable {
             new EmptyLineRule(messages),
             new GermanStyleRepeatedWordRule(messages),
             new CompoundCoherencyRule(messages),
-            new LongSentenceRule(messages)
+            new LongSentenceRule(messages),
+            new DuUpperLowerCaseRule(messages)
     );
   }
 
@@ -246,7 +247,8 @@ public class German extends Language implements AutoCloseable {
   @Override
   public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel) throws IOException {
     return Arrays.asList(
-            new GermanConfusionProbabilityRule(messages, languageModel, this)
+            new GermanConfusionProbabilityRule(messages, languageModel, this),
+            new ProhibitedCompoundRule(messages, languageModel)
     );
   }
 
@@ -278,10 +280,13 @@ public class German extends Language implements AutoCloseable {
   @Override
   public int getPriorityForId(String id) {
     switch (id) {
-      case "KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ": return -10;
       case "OLD_SPELLING_INTERNAL": return 10;
-      case "CONFUSION_RULE": return -1;  // probably less specific than the rules from grammar.xml
+      case "DE_PROHIBITED_COMPOUNDS": return 1;  // a more detailed error message than from spell checker
       case "ANS_OHNE_APOSTROPH": return 1;
+      case "CONFUSION_RULE": return -1;  // probably less specific than the rules from grammar.xml
+      case "AKZENT_STATT_APOSTROPH": return -1;  // lower prio than PLURAL_APOSTROPH
+      case "PUNKT_ENDE_ABSATZ": return -10;  // should never hide other errors, as chance for a false alarm is quite high
+      case "KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ": return -10;
     }
     return 0;
   }

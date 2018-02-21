@@ -22,7 +22,23 @@ Copyright (C) 2008-2017 Ruud Baars, TaalTik
 		</pattern>
 		<disambig action="ignore_spelling"/>  
 	</rule>
-	
+
+	<!-- tijden -->
+	<rule name="ignore tijd" id="SPELLER_TIMES">
+		<pattern>
+			<token regexp="yes">[0-9]{1,2}[hu][0-9]{2}</token>
+		</pattern>
+		<disambig action="ignore_spelling"/>
+	</rule>
+
+    <!-- BN'ers zonder apostrof worden in een regel behandeld -->
+    <rule name="ignore tijd" id="SPELLER_ER">
+        <pattern>
+            <token regexp="yes" case_sensitive="yes">[A-Z]{2,5}(er|ers|ertje|ertjes)</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
 	<!-- alle 'woorden' zonder letters -->
 	<rule name="ignore 0-1 etc" id="SPELLER_NONWORDS">
 		<pattern>
@@ -205,7 +221,7 @@ Copyright (C) 2008-2017 Ruud Baars, TaalTik
 	
 	<!-- 
 	verklaar tot znw enkelvoud, het 
-	vooral nuttig voor al die samenstellingen die niet in de taggin dictionary staan
+	vooral nuttig voor al die samenstellingen die niet in de tagging dictionary staan
 	-->
 	
 	<rule name="guess NN1h" id="NN1h_1">

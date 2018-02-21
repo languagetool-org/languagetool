@@ -18,11 +18,6 @@
  */
 package org.languagetool.openoffice;
 
-/**
- * LibreOffice/OpenOffice integration.
- * 
- * @author Marcin Miłkowski, Fred Kruse
- */
 import java.io.File;
 import java.io.FileWriter;
 import java.io.BufferedWriter;
@@ -76,9 +71,14 @@ import com.sun.star.text.XTextViewCursorSupplier;
 import com.sun.star.uno.UnoRuntime;
 import com.sun.star.uno.XComponentContext;
 
+/**
+ * LibreOffice/OpenOffice integration.
+ *
+ * @author Marcin Miłkowski, Fred Kruse
+ */
 public class Main extends WeakBase implements XJobExecutor,
     XServiceDisplayName, XServiceInfo, XProofreader,
-    XLinguServiceEventBroadcaster {
+    XLinguServiceEventBroadcaster, XEventListener {
 
   // Service name required by the OOo API && our own name.
   private static final String[] SERVICE_NAMES = {
@@ -89,7 +89,7 @@ public class Main extends WeakBase implements XJobExecutor,
   private static final String CONFIG_FILE = ".languagetool-ooo.cfg";
 
   // use a log-file for output of messages and debug information:
-  private static final String LOG_FILE = "LanguageTool.log";
+  private static final String LOG_FILE = ".LanguageTool.log";
 
   private static final ResourceBundle MESSAGES = JLanguageTool.getMessageBundle();
 
@@ -100,7 +100,19 @@ public class Main extends WeakBase implements XJobExecutor,
   private static final int MAX_SUGGESTIONS = 15;
   
   private static boolean testMode = false;
-  
+
+  /**
+   * Full text Check
+   *
+   * numParasToCheck: Paragraphs to be checked for full text rules
+   * < 0 check full text (time intensive)
+   * == 0 check only one paragraph (works like LT Version <= 3.9)
+   * > 0 checks numParasToCheck before and after the processed paragraph
+   */
+  private static final String END_OF_PARAGRAPH = "\n";  //  Paragraph Separator from gciterator.cxx: 0x2029
+  private static final boolean debugMode = false;   //  should be false except for testing
+  private static final String logLineBreak = System.getProperty("line.separator");  //  LineBreak in Log-File (MS-Windows compatible)
+
   private final List<XLinguServiceEventListener> xEventListeners;
 
   private Configuration config;
@@ -117,24 +129,13 @@ public class Main extends WeakBase implements XJobExecutor,
 
   private XComponentContext xContext;
   
-  /**
-   * Full text Check
-   * 
-   * numParasToCheck: Paragraphs to be checked for full text rules
-   * < 0 check full text (time intensive)
-   * == 0 check only one paragraph (works like LT Version <= 3.9)
-   * > 0 checks numParasToCheck before and after the processed paragraph
-   */
-  private static final int MAX_DOC = 5;  // Maximal number of parallel document analyzed
-  private static final String END_OF_PARAGRAPH = "\n";  //  Paragraph Separator from gciterator.cxx: 0x2029
-  private static final boolean debugMode = false;   //  should be false except for testing
-  private static String logLineBreak;  //  LineBreak in Log-File (MS-Windows compatible)
   private int numParasToCheck = 5;    // will be overwritten by config
   private List<List<String>> allParas = null;     //  List of paragraphs (only readable by parallel thread)
   private List<List<RuleMatch>> fullTextMatches;  //  List of paragraph matches (only readable by parallel thread)
   private List<RuleMatch> paragraphMatchesFirst;  //  List of paragraph matches (main thread)
   private List<RuleMatch> paragraphMatchesSecond; //  List of paragraph matches (parallel thread)
   private List<String> docIDs = null;             //  List of all docIDs of open documents
+  private List<XComponent> xComponents = null;    //  List of all XComponents of open documents
   private List<LOCursor> loCursor;                //  Save Cursor for the single documents
   private List<Integer> numLastVCPara;            //  Save position of ViewCursor for the single documents
   private List<Integer> numLastFlPara;            //  Save position of FlatParagraph for the single documents
@@ -463,10 +464,10 @@ public class Main extends WeakBase implements XJobExecutor,
         str = "";
       }
     }
-    public int getPosition() {
+    int getPosition() {
       return position;
     }
-    public String getSentence() {
+    String getSentence() {
       return str;
     }
   }
@@ -524,7 +525,7 @@ public class Main extends WeakBase implements XJobExecutor,
           }            
         }
         else if (!textIsChecked) {                                  //  Check Full Text only if not already checked
-          if(debugMode) {
+          if (debugMode) {
             printToLogFile("check Text again");    
           }
           fullTextMatches.set(numCurDoc, langTool.check(getDocAsString(numCurPara, numCurDoc), true,
@@ -566,7 +567,7 @@ public class Main extends WeakBase implements XJobExecutor,
         if (!errorList.isEmpty()) {
           SingleProofreadingError[] errorArray = errorList.toArray(new SingleProofreadingError[errorList.size()]);
           Arrays.sort(errorArray, new ErrorPositionComparator());
-          if(numThread == 0) {
+          if (numThread == 0) {
             proofIsRunning = false;
           }
           return errorArray;
@@ -588,7 +589,7 @@ public class Main extends WeakBase implements XJobExecutor,
         if (!errorList.isEmpty()) {
           SingleProofreadingError[] errorArray = errorList.toArray(new SingleProofreadingError[errorList.size()]);
           Arrays.sort(errorArray, new ErrorPositionComparator());
-          if(numThread == 0) {
+          if (numThread == 0) {
             proofIsRunning = false;
           }
           return errorArray;
@@ -597,7 +598,7 @@ public class Main extends WeakBase implements XJobExecutor,
     } catch (Throwable t) {
       showError(t);
     }
-    if(numThread == 0) {
+    if (numThread == 0) {
       proofIsRunning = false;
     }
     return null;
@@ -977,7 +978,7 @@ public class Main extends WeakBase implements XJobExecutor,
     }
   }
 
-  /**
+  /*
    * Full Text Check  (Workaround for XProofread interface)
    */
   
@@ -988,37 +989,37 @@ public class Main extends WeakBase implements XJobExecutor,
     doFullTextCheck = false;   // paragraph position can not be found
     return -1;
   }
-  
+
   private int returnContinueCheck(boolean isReset, int numCurPara, int numThread) {
-    if(numParasToCheck > 0) {
+    if (numParasToCheck > 0) {
       doFullTextCheck = false;
     } else {
       doFullTextCheck = true;
     }
-    if(isReset && numThread == 0) {
+    if (isReset && numThread == 0) {
       textIsChecked = false;
     }
     return numCurPara;
   }
-  
+
   private int returnNParaCheck(int numCurPara, int numThread) {
-    if(numParasToCheck > 0) {
+    if (numParasToCheck > 0) {
       doFullTextCheck = false;
     } else {
       doFullTextCheck = true;
     }
-    if(numThread == 0) {
+    if (numThread == 0) {
       textIsChecked = false;
     }
     return numCurPara;
   }
-  
+
   /**
    * Reset allParas
    */
   private boolean resetAllParas(LOCursor loCursor, int docNum) {
     allParas.set(docNum, loCursor.getAllTextParagraphs());
-    if(allParas.get(docNum) == null || allParas.get(docNum).size() < 1) {
+    if (allParas.get(docNum) == null || allParas.get(docNum).size() < 1) {
       return false;
     }
     textIsChecked = false;
@@ -1034,14 +1035,14 @@ public class Main extends WeakBase implements XJobExecutor,
     }
     int startPos;
     int endPos;
-    if(numParasToCheck < 1 || doFullTextCheck) {
+    if (numParasToCheck < 1 || doFullTextCheck) {
       startPos = 0;
       endPos = allParas.get(docNum).size();
     } else {
       startPos = numCurPara - numParasToCheck;
-      if(startPos < 0) startPos = 0;
+      if (startPos < 0) startPos = 0;
       endPos = numCurPara + numParasToCheck;
-      if(endPos > allParas.get(docNum).size()) endPos = allParas.get(docNum).size();
+      if (endPos > allParas.get(docNum).size()) endPos = allParas.get(docNum).size();
     }
     String docText = allParas.get(docNum).get(startPos);
     for (int i = startPos + 1; i < endPos; i++) {
@@ -1049,21 +1050,21 @@ public class Main extends WeakBase implements XJobExecutor,
     }
     return docText;
   }
-  
+
   /**
-   * Gives Back the StartPosition of Paragraph 
+   * Gives Back the StartPosition of Paragraph
    */
   private int getStartOfParagraph(int nPara, int docNum) {
     if (allParas.get(docNum) != null && nPara >= 0 && nPara < allParas.get(docNum).size()) {
       int startPos;
-      if(numParasToCheck < 1 || doFullTextCheck) {
+      if (numParasToCheck < 1 || doFullTextCheck) {
         startPos = 0;
       } else {
         startPos = nPara - numParasToCheck;
-        if(startPos < 0) startPos = 0;
+        if (startPos < 0) startPos = 0;
       }
       int pos = 0;
-      for(int i = startPos; i < nPara; i++) pos += allParas.get(docNum).get(i).length() + 1;
+      for (int i = startPos; i < nPara; i++) pos += allParas.get(docNum).get(i).length() + 1;
       return pos;
     }
     return -1;
@@ -1081,14 +1082,14 @@ public class Main extends WeakBase implements XJobExecutor,
       startPara = 0;
     }
     int i;
-    for (i = startPara + 1; i < allParas.get(docNum).size() && allParas.get(docNum).get(i).length() < 1; i++);
+    for (i = startPara + 1; i < allParas.get(docNum).size() && allParas.get(docNum).get(i).length() < 1; i++) ;
     if (i < allParas.get(docNum).size() && paraStr.equals(allParas.get(docNum).get(i))) {
       return i;
     }
     if (paraStr.equals(allParas.get(docNum).get(startPara))) {
       return startPara;
     }
-    for (i = startPara - 1; i >= 0 && allParas.get(docNum).get(i).length() < 1; i--);
+    for (i = startPara - 1; i >= 0 && allParas.get(docNum).get(i).length() < 1; i--) ;
     if (i >= 0 && paraStr.equals(allParas.get(docNum).get(i))) {
       return i;
     }
@@ -1100,138 +1101,138 @@ public class Main extends WeakBase implements XJobExecutor,
    * gives Back the Position in full text / -1 if Paragraph can not be found
    */
   private int getParaPos(String chPara, int numThread, int docNum) {
-    
-    if(numParasToCheck == 0) {
+
+    if (numParasToCheck == 0) {
       return returnOneParaCheck();  //  check only the processed paragraph
     }
-    
+
     try {
       LOFlatParagraph loFlaPa = null;
-      if(loCursor.get(docNum) == null) {
+      if (loCursor.get(docNum) == null) {
         loCursor.set(docNum, new LOCursor(xContext));
       }
       int nParas;
       boolean isReset = false;
 
       if (allParas.get(docNum) == null || allParas.get(docNum).size() < 1) {
-        if(numThread > 0) {              //  if numThread > 0: Thread may only read allParas
+        if (numThread > 0) {              //  if numThread > 0: Thread may only read allParas
           return returnOneParaCheck();
         }
-        if(!resetAllParas(loCursor.get(docNum), docNum)) {
+        if (!resetAllParas(loCursor.get(docNum), docNum)) {
           return returnOneParaCheck();
         }
-        if(debugMode) {
-          printToLogFile("+++ resetAllParas (allParas == null): allParas.size: " + allParas.get(docNum).size() 
-              + "; lastDocNum: " + lastDocNum + ", docNum: " + docNum + logLineBreak);        
+        if (debugMode) {
+          printToLogFile("+++ resetAllParas (allParas == null): allParas.size: " + allParas.get(docNum).size()
+                  + "; lastDocNum: " + lastDocNum + ", docNum: " + docNum + logLineBreak);
         }
         isReset = true;
       }
-  
+
       // Test if Size of allParas is correct; Reset if not
       nParas = loCursor.get(docNum).getNumberOfAllTextParagraphs();
-      if(nParas < 2) {
+      if (nParas < 2) {
         return returnOneParaCheck();
-      } else if(allParas.get(docNum).size() != nParas) {
-        if(numThread > 0) {
+      } else if (allParas.get(docNum).size() != nParas) {
+        if (numThread > 0) {
           return returnOneParaCheck();
         }
-        if(debugMode) {
+        if (debugMode) {
           printToLogFile("*** resetAllParas: allParas.size: " + allParas.get(docNum).size() + ", nParas: " + nParas
-              + "; lastDocNum: " + lastDocNum + ", docNum: " + docNum + logLineBreak);    
+                  + "; lastDocNum: " + lastDocNum + ", docNum: " + docNum + logLineBreak);
         }
-        if(!resetAllParas(loCursor.get(docNum), docNum)) {
+        if (!resetAllParas(loCursor.get(docNum), docNum)) {
           return returnOneParaCheck();
         }
         isReset = true;
       }
-      
+
       // try to get next position from last ViewCursorPosition (proof per dialog box)
       int numLastPara;
-      if(numThread > 0) {
+      if (numThread > 0) {
         numLastPara = numLastVCPara1;
       } else {
         numLastPara = numLastVCPara.get(docNum);
       }
       nParas = findNextParaPos(numLastPara, chPara, docNum);
       if (nParas >= 0) {
-        if(numThread > 0) {
+        if (numThread > 0) {
           numLastVCPara1 = nParas;
         } else {
           numLastVCPara.set(docNum, nParas);
         }
         return returnContinueCheck(isReset, nParas, numThread);
       }
-  
+
       // try to get next position from last Position of FlatParagraph (automatic Iteration without Text change)
-      if(numThread > 0) {
+      if (numThread > 0) {
         numLastPara = numLastFlPara1;
       } else {
         numLastPara = numLastFlPara.get(docNum);
       }
-       nParas = findNextParaPos(numLastPara, chPara, docNum);
+      nParas = findNextParaPos(numLastPara, chPara, docNum);
       if (nParas >= 0) {
-        if(numThread > 0) {
+        if (numThread > 0) {
           numLastFlPara1 = nParas;
         } else {
           numLastFlPara.set(docNum, nParas);
         }
         return returnContinueCheck(isReset, nParas, numThread);
       }
-  
+
       // try to get ViewCursor position (proof initiated by mouse click)
       nParas = loCursor.get(docNum).getViewCursorParagraph();
       if (nParas >= 0 && nParas < allParas.get(docNum).size() && chPara.equals(allParas.get(docNum).get(nParas))) {
-        if(numThread > 0) {
+        if (numThread > 0) {
           numLastVCPara1 = nParas;
         } else {
           numLastVCPara.set(docNum, nParas);
         }
         return returnContinueCheck(isReset, nParas, numThread);
       }
-      
+
       //  try to get paragraph position from automatic iteration
-      if(loFlaPa == null) {
+      if (loFlaPa == null) {
         loFlaPa = new LOFlatParagraph(xContext);
       }
       nParas = loFlaPa.getNumberOfAllFlatPara();
-      
-      if(debugMode) {
-        printToLogFile("numLastFlPara[" + numThread +"]: " + numLastFlPara.get(docNum) + "; nParas: " + nParas
-            + "; lastDocNum: " + lastDocNum + ", docNum: " + docNum + logLineBreak);    
+
+      if (debugMode) {
+        printToLogFile("numLastFlPara[" + numThread + "]: " + numLastFlPara.get(docNum) + "; nParas: " + nParas
+                + "; lastDocNum: " + lastDocNum + ", docNum: " + docNum + logLineBreak);
       }
 
-      if(nParas < allParas.get(docNum).size()) {
+      if (nParas < allParas.get(docNum).size()) {
         return returnOneParaCheck();   //  no automatic iteration
       }
       divNum = nParas - allParas.get(docNum).size();
 
       nParas = loFlaPa.getCurNumFlatParagraphs();
-      
-      if(nParas < divNum) {
+
+      if (nParas < divNum) {
         return returnOneParaCheck(); //  Proof footnote etc.
       }
-      
+
       nParas -= divNum;
-      if(numThread > 0) {
+      if (numThread > 0) {
         numLastFlPara1 = nParas;
       } else {
         numLastFlPara.set(docNum, nParas);
       }
       if (!chPara.equals(allParas.get(docNum).get(nParas))) {
-        if(isReset || numThread > 0) {
+        if (isReset || numThread > 0) {
           return returnOneParaCheck();
         } else {
-          if(debugMode) {
-            printToLogFile("!!! allParas set: NParas: " + nParas + "; divNum: " + divNum 
-                + "lastDocNum: " + lastDocNum + ", docNum: " + docNum  
-                + logLineBreak + "old: " + allParas.get(docNum).get(nParas) + logLineBreak + "new: " + chPara + logLineBreak);
+          if (debugMode) {
+            printToLogFile("!!! allParas set: NParas: " + nParas + "; divNum: " + divNum
+                    + "lastDocNum: " + lastDocNum + ", docNum: " + docNum
+                    + logLineBreak + "old: " + allParas.get(docNum).get(nParas) + logLineBreak + "new: " + chPara + logLineBreak);
           }
           allParas.get(docNum).set(nParas, chPara);
           return returnNParaCheck(nParas, numThread);
         }
       }
-      if(debugMode) {
-        printToLogFile("nParas from FlatParagraph: " + nParas);    
+      if (debugMode) {
+        printToLogFile("nParas from FlatParagraph: " + nParas);
       }
       return returnContinueCheck(isReset, nParas, numThread);
     } catch (Throwable t) {
@@ -1240,31 +1241,31 @@ public class Main extends WeakBase implements XJobExecutor,
     }
   }
   
-  /*
+  /**
    * Get or Create a Number from docID
    */
   private int getNumDocID(String docID) {
-    if(docIDs == null) {
-      docIDs = new ArrayList<String>();
-      allParas = new ArrayList<List<String>>();
-      fullTextMatches = new ArrayList<List<RuleMatch>>();
-      loCursor = new ArrayList<LOCursor>();
-      numLastVCPara = new ArrayList<Integer>();
-      numLastFlPara = new ArrayList<Integer>();
+    if (docIDs == null) {
+      xComponents = new ArrayList<>();
+      docIDs = new ArrayList<>();
+      allParas = new ArrayList<>();
+      fullTextMatches = new ArrayList<>();
+      loCursor = new ArrayList<>();
+      numLastVCPara = new ArrayList<>();
+      numLastFlPara = new ArrayList<>();
     }
-    int i;
-    for(i = 0; i < docIDs.size(); i++) {
-      if(docIDs.get(i).equals(docID)) {
+    for (int i = 0; i < docIDs.size(); i++) {
+      if (docIDs.get(i).equals(docID)) {
         return i;                           //  document exist
       }
     }
-    if(docIDs.size() >= MAX_DOC) {
-      docIDs.remove(0);
-      allParas.remove(0);
-      fullTextMatches.remove(0);
-      loCursor.remove(0);
-      numLastVCPara.remove(0);
-      numLastFlPara.remove(0);
+    //  Add new document
+    if (!testMode) {
+      XComponent xComponent = getXComponent();
+      xComponent.addEventListener(this);
+      xComponents.add(xComponent);
+    } else {
+      xComponents.add(null);  // in testMode xContext == null and no xComponent
     }
     docIDs.add(docID);
     allParas.add(null);
@@ -1276,14 +1277,48 @@ public class Main extends WeakBase implements XJobExecutor,
   }
 
   /**
+   * Delete a document number and all internal space
+   */
+  private int removeNumDocID(XComponent xComponent) {
+    int i;
+    for (i = 0; i < xComponents.size() && !xComponents.get(i).equals(xComponent); i++);
+    if (i == xComponents.size()) {
+      return -1;
+    } else {
+      xComponents.remove(i);
+      docIDs.remove(i);
+      allParas.remove(i);
+      fullTextMatches.remove(i);
+      loCursor.remove(i);
+      numLastVCPara.remove(i);
+      numLastFlPara.remove(i);
+      return i;
+    }
+  }
+
+  /**
+   * remove internal stored text if document disposes
+   */
+  @Override
+  public void disposing(EventObject source) {
+    XComponent xComponent = UnoRuntime.queryInterface(XComponent.class, source.Source);
+    int docNum = removeNumDocID(xComponent);
+    if(docNum < 0) {
+      printToLogFile("Error: Disposed document not found");
+    } else if (debugMode) {
+      printToLogFile("Document " + docNum + " deleted");
+    }
+    xComponent.removeEventListener(this);
+  }
+    
+  /**
    * Initialize log-file
    */
   private void initLogFile() {
-    String path = getHomeDir()+ "/" + LOG_FILE;
+    String path = getHomeDir() + "/" + LOG_FILE;
     try (BufferedWriter bw = new BufferedWriter(new FileWriter(path))) {
-      logLineBreak = System.getProperty("line.separator");
       Date date = new Date();
-      bw.write("LT Log from " + date.toString() + logLineBreak);
+      bw.write("LT office integration log from " + date.toString() + logLineBreak);
     } catch (Throwable t) {
       showError(t);
     }
@@ -1293,7 +1328,7 @@ public class Main extends WeakBase implements XJobExecutor,
    * write to log-file
    */
   static void printToLogFile(String str) {
-    String path = getHomeDir()+ "/" + LOG_FILE;
+    String path = getHomeDir() + "/" + LOG_FILE;
     try (BufferedWriter bw = new BufferedWriter(new FileWriter(path, true))) {
       bw.write(str + logLineBreak);
     } catch (Throwable t) {

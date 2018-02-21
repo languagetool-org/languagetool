@@ -18,7 +18,39 @@ for issues to get started.
 
 For more technical details, see [our wiki](http://wiki.languagetool.org).
 
-#### How to build from source
+#### Scripted installation and building
+To install or build using a script, simply type:
+```
+curl -L https://git.io/vNqdP | sudo bash <options>
+sudo bash install.sh <options>
+```
+
+```
+Usage: install.sh <option> <package>
+Options:
+   -h --help                   Show help
+   -b --build                  Builds packages from the bleeding edge development copy of LanguageTool
+   -c --command <command>      Specifies post-installation command to run (default gui when screen is detected)
+   -q --quiet                  Shut up LanguageTool installer! Only tell me important stuff!
+   -t --text <file>            Specifies what text to be spellchecked by LanguageTool command line (default spellcheck.txt)
+   -d --depth <value>          Specifies the depth to clone when building LanguageTool yourself (default 1).
+   -p --package <package>      Specifies package to install when building (default all)
+   -o --override <OS>          Override automatic OS detection with <OS>
+   -a --accept                 Accept the oracle license at http://java.com/license. Only run this if you have seen the license and agree to its terms!
+   -r --remove <all/partial>   Removes LanguageTool install. <all> uninstalls the dependencies that were auto-installed. (default partial)
+
+Packages(only if -b is specified):
+   standalone                  Installs standalone package
+   wikipedia                   Installs Wikipedia package
+   office-extension            Installs the LibreOffice/OpenOffice extension package
+
+Commands:
+   GUI                         Runs GUI version of LanguageTool
+   commandline                 Runs command line version of LanguageTool
+   server                      Runs server version of LanguageTool
+```
+
+#### Alternate way to build from source
 
 Before start: you will need to clone from GitHub and install Java 8 and Apache Maven.
 

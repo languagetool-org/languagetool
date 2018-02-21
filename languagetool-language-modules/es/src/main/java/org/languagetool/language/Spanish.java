@@ -23,8 +23,7 @@ import org.languagetool.LanguageMaintainedState;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.languagemodel.LuceneLanguageModel;
 import org.languagetool.rules.*;
-import org.languagetool.rules.es.MorfologikSpanishSpellerRule;
-import org.languagetool.rules.es.SpanishConfusionProbabilityRule;
+import org.languagetool.rules.es.*;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.es.SpanishSynthesizer;
 import org.languagetool.tagging.Tagger;
@@ -128,7 +127,8 @@ public class Spanish extends Language implements AutoCloseable{
             new MorfologikSpanishSpellerRule(messages, this),
             new UppercaseSentenceStartRule(messages, this),
             new WordRepeatRule(messages, this),
-            new MultipleWhitespaceRule(messages, this)
+            new MultipleWhitespaceRule(messages, this),
+            new SpanishWikipediaRule(messages)
     );
   }
 
