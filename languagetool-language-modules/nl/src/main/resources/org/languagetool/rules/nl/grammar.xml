@@ -20205,7 +20205,37 @@ regexp case-insensitive maken : (?i)
 		</rulegroup>
 		-->
 
-		<rulegroup id="ontwarbaar" name="ontwarbaar → onontwarbaar">
+        <rulegroup id="LOSSE_LETTERS" name="losse letters verbeteren">
+            <rule>
+                <pattern>
+                    <token regexp="yes">.*[aiouy]$</token>
+                    <token case_sensitive="yes">s</token>
+                </pattern>
+                <message>Bent u een apostrof vergeten? <suggestion>\1's</suggestion>.</message>
+                <example correction="auto's">De <marker>auto s</marker> reden weg.</example>
+                <example>De <marker>baby's</marker> maakten lawaai.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" negate="yes">[0-9]*</token>
+                    <marker>
+                        <token case_sensitive="yes">m</token>
+                    </marker>
+                </pattern>
+                <message>Bent u een apostrof vergeten? <suggestion>'m</suggestion>.</message>
+                <example correction="'m">Het is <marker>m</marker> toch.</example>
+                <example>Het is een <marker>'m</marker> niet.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes">n</token>
+                </pattern>
+                <message>Bent u een apostrof vergeten? <suggestion>'n</suggestion>.</message>
+                <example correction="'n">Het is <marker>n</marker> vreemd verschijnsel.</example>
+                <example>Het is een <marker>'n</marker> correctie.</example>
+            </rule>
+        </rulegroup>
+		<rulegroup id="ONTWARBAAR" name="ontwarbaar → onontwarbaar">
 			<rule>
 				<pattern>
 					<token regexp="yes" negate="yes">niet|nauwelijks|moeilijk|lastig</token>
