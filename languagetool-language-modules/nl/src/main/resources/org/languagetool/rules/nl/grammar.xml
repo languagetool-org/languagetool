@@ -20207,6 +20207,17 @@ regexp case-insensitive maken : (?i)
 
         <rulegroup id="LOSSE_LETTERS" name="losse letters verbeteren">
             <rule>
+                <antipattern case_sensitive="yes"><token>B</token><token>en</token><token>W</token></antipattern>
+                <pattern>
+                    <token>b</token>
+                    <token regexp="yes">&amp;|en</token>
+                    <token>w</token>
+                </pattern>
+                <message>Burgemeester en wethouders schrijf je als <suggestion>B en W</suggestion>.</message>
+                <example correction="à">Het is te koop <marker>a</marker> 50 euro.</example>
+                <example>Het was te koop <marker>à</marker> 10 gulden.</example>
+            </rule>
+            <rule>
                 <pattern>
                     <marker>
                         <token case_sensitive="yes">a</token>
@@ -20248,11 +20259,25 @@ regexp case-insensitive maken : (?i)
             </rule>
             <rule>
                 <pattern>
-                    <token case_sensitive="yes">n</token>
+                    <token negate="yes" case_sensitive="yes">z</token>
+                    <marker>
+                        <token case_sensitive="yes">n</token>
+                    </marker>
                 </pattern>
                 <message>Bent u een apostrof vergeten? <suggestion>'n</suggestion>.</message>
                 <example correction="'n">Het is <marker>n</marker> vreemd verschijnsel.</example>
                 <example>Het is een <marker>'n</marker> correctie.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" negate="yes">[0-9]*</token>
+                    <marker>
+                        <token case_sensitive="yes">m</token>
+                    </marker>
+                </pattern>
+                <message>Bent u een apostrof vergeten? <suggestion>'m</suggestion>, of beter nog <suggestion>hem</suggestion>.</message>
+                <example correction="'m|hem">Het is <marker>m</marker> toch.</example>
+                <example>Het is <marker>hem</marker> niet.</example>
             </rule>
         </rulegroup>
 		<rulegroup id="ONTWARBAAR" name="ontwarbaar → onontwarbaar">
