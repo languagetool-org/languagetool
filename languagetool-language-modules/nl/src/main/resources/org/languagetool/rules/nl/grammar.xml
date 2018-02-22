@@ -20227,6 +20227,16 @@ regexp case-insensitive maken : (?i)
             </rule>
             <rule>
                 <pattern>
+                    <marker>
+                        <token regexp="yes">f|fl</token>
+                    </marker>
+                    <token regexp="yes">[0-9].*</token>
+                </pattern>
+                <message>Voor de gulden was er een apart symbool: <suggestion>ƒ</suggestion>.</message>
+                <example correction="ƒ">Het is <marker>fl</marker> 50.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token regexp="yes">.*[aiouy]$</token>
                     <token case_sensitive="yes">s</token>
                 </pattern>
