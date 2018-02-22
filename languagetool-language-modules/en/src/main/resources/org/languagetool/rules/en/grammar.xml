@@ -43,35 +43,51 @@ USA
     <category id="GRAMMAR" name="Grammar" type="grammar">
 
         <rulegroup id="AGREEMENT_SENT_START" name="Possible agreement error: plural noun + singular verb">
-            <rule>
-                <pattern>
-                    <or>
-                        <token postag="SENT_START"/>
-                        <token regexp="yes">what|which|who|whose|where|when|whether|how</token>
-                    </or>
-                    <token postag="DT"/>
-                    <token postag="NNS"><exception postag="NN|NN:.*" postag_regexp="yes"/></token>
-                    <marker>
-                        <token postag="VBZ"><exception>is</exception></token>
-                    </marker>
-                </pattern>
-                <message>You should probably use <suggestion><match no="4" postag="VBP"/></suggestion>.</message>
-                <example correction="bark">The dogs <marker>barks</marker> loudly.</example>
-                <example correction="bark">He asked whether the dogs <marker>barks</marker> loudly.</example>
-            </rule>
+            <!--<rule>-->
+                <!--<pattern>-->
+                    <!--<or>-->
+                        <!--<token postag="SENT_START"/>-->
+                        <!--<token regexp="yes">what|which|who|whose|where|when|whether|how</token>-->
+                    <!--</or>-->
+                    <!--<token postag="DT"/>-->
+                    <!--<token postag="NNS"><exception postag="NN|NN:.*" postag_regexp="yes"/></token>-->
+                    <!--<marker>-->
+                        <!--<token postag="VBZ"><exception>is</exception></token>-->
+                    <!--</marker>-->
+                <!--</pattern>-->
+                <!--<message>You should probably use <suggestion><match no="4" postag="VBP"/></suggestion>.</message>-->
+                <!--<example correction="bark">The dogs <marker>barks</marker> loudly.</example>-->
+                <!--<example correction="bark">He asked whether the dogs <marker>barks</marker> loudly.</example>-->
+            <!--</rule>-->
             <rule>
                 <pattern>
                     <marker>
                         <or>
                             <token>is</token>
                             <token>are</token>
+                            <token>re</token>
+                            <token>ar</token>
+                            <token>oo</token>
                         </or>
                     </marker>
                 </pattern>
                 <message>You should probably use <suggestion><match no="1" postag="VB"/></suggestion>.</message>
                 <example correction="be">This <marker>is</marker>.</example>
-                <example>This be.</example>
+                <!--<example>This be.</example>-->
             </rule>
+            <!--<rule>-->
+                <!--<pattern>-->
+                    <!--<marker>-->
+                        <!--<or>-->
+                            <!--<token>is</token>-->
+                            <!--<token>are</token>-->
+                        <!--</or>-->
+                    <!--</marker>-->
+                <!--</pattern>-->
+                <!--<message>You should probably use <suggestion>be</suggestion>.</message>-->
+                <!--<example correction="be">This <marker>is</marker>.</example>-->
+                <!--<example>This be.</example>-->
+            <!--</rule>-->
         </rulegroup>
     </category>
 </rules>
