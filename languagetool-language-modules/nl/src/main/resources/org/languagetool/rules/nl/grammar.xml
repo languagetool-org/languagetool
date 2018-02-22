@@ -20214,8 +20214,9 @@ regexp case-insensitive maken : (?i)
                     <token>w</token>
                 </pattern>
                 <message>Burgemeester en wethouders schrijf je als <suggestion>B en W</suggestion>.</message>
-                <example correction="à">Het is te koop <marker>a</marker> 50 euro.</example>
-                <example>Het was te koop <marker>à</marker> 10 gulden.</example>
+                <example correction="B en W">De zaak ligt voor bij <marker>b en w</marker>.</example>
+                <example correction="B en W">De zaak ligt voor bij <marker>b&w</marker>.</example>
+
             </rule>
             <rule>
                 <pattern>
@@ -20278,6 +20279,14 @@ regexp case-insensitive maken : (?i)
                 <message>Bent u een apostrof vergeten? <suggestion>'m</suggestion>, of beter nog <suggestion>hem</suggestion>.</message>
                 <example correction="'m|hem">Het is <marker>m</marker> toch.</example>
                 <example>Het is <marker>hem</marker> niet.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes">r</token>
+                </pattern>
+                <message>Bent u een apostrof vergeten? <suggestion>'r</suggestion>, of beter nog <suggestion>haar</suggestion>.</message>
+                <example correction="'r|haar">Het is <marker>r</marker> toch.</example>
+                <example>Het is <marker>haar</marker> niet.</example>
             </rule>
         </rulegroup>
 		<rulegroup id="ONTWARBAAR" name="ontwarbaar → onontwarbaar">
