@@ -25079,7 +25079,21 @@ regexp case-insensitive maken : (?i)
 				</rule>
 			</rulegroup>
 
-			<rulegroup id="GEDACHTESTREEPJE" name="- → —">
+        <rulegroup id="SPATIE_LEESTEKEN" name="spatie voor leesteken schrappen">
+            <rule>
+                <pattern>
+                    <token/>
+                    <token spacebefore="yes" regexp="yes">[!?;,:]</token>
+                </pattern>
+                <message>Voor een uitroepteken hoort geen spatie<suggestion>\1\2</suggestion></message>
+                <short>!</short>
+                <example correction="fout!">Dit is <marker>fout !</marker></example>
+                <example correction="fout?">Is dit <marker>fout ?</marker></example>
+                <example correction="fout,">Dit is <marker>fout ,</marker> toch?</example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup id="GEDACHTESTREEPJE" name="- → —">
 				<rule>
 					<!-- TaalTik 2014-09-18 -->
 					<pattern>
