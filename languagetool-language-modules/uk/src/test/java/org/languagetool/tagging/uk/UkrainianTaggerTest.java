@@ -239,6 +239,7 @@ public class UkrainianTaggerTest {
 
     // numr-numr
     TestTools.myAssert("одним-двома", "одним-двома/[один-два]numr:p:v_oru", tokenizer, tagger);
+    TestTools.myAssert("одного-другого", "одного-другого/[одного-другий]adj:m:v_rod:&numr|одного-другого/[одного-другий]adj:m:v_zna:ranim:&numr|одного-другого/[одного-другий]adj:n:v_rod:&numr", tokenizer, tagger);
     //TODO: бере іменник п’ята
 //    TestTools.myAssert("п'яти-шести", "п'яти-шести/[п'ять-шість]numr:v_dav|п'яти-шести/[п'ять-шість]numr:v_mis|п'яти-шести/[п'ять-шість]numr:v_rod", tokenizer, tagger);
     TestTools.myAssert("п'яти-шести", "п'яти-шести/[п'ята-шість]noun:inanim:f:v_rod|п'яти-шести/[п'ята-шість]noun:inanim:p:v_rod|п'яти-шести/[п'ять-шість]numr:p:v_dav|п'яти-шести/[п'ять-шість]numr:p:v_mis|п'яти-шести/[п'ять-шість]numr:p:v_rod", tokenizer, tagger);
@@ -419,6 +420,8 @@ public class UkrainianTaggerTest {
     TestTools.myAssert("чи-то", "чи-то/[null]null", tokenizer, tagger);
 //    TestTools.myAssert("як-то", "як-то/[як-то]conj:subord:bad", tokenizer, tagger);
 
+    TestTools.myAssert("все-транс", "все-транс/[null]null", tokenizer, tagger);
+    TestTools.myAssert("транс-все", "транс-все/[null]null", tokenizer, tagger);
     assertNotTagged("спа-салоне");
 
     
