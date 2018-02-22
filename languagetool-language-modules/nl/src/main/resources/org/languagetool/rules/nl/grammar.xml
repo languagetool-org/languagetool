@@ -18810,12 +18810,20 @@ regexp case-insensitive maken : (?i)
 				<pattern>
 					<token regexp="yes">vreselijk|enorm|^(mega|ultra|super|giga).*</token>
 				</pattern>
-				<message>Is hier wellicht sprake van overdrijving?</message>
+				<message>Is dit niet overdreven?</message>
 				<example type="incorrect">Het is een <marker>gigantisch</marker> probleem.</example>
 				<example>Het is <marker>een</marker> probleem.</example>
 				<example type="incorrect"><marker>Super</marker> interessant voor mij dit boek!</example>
 				<example type="incorrect">Ook in andere kerken was de schade <marker>enorm</marker>.</example>
 			</rule>
+            <rule>
+                <pattern>
+                    <token>heel</token>
+                    <token postag_regexp="BNW.*/">
+                </pattern>
+                <message>Is dit niet overdreven?</message>
+                <example correction="dikke">Het is een <marker>heel dikke</marker> man.</example>
+            </rule>
 		</rulegroup>
 		
 	</category>
