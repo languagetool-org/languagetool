@@ -35,7 +35,7 @@ import org.languagetool.rules.patterns.PatternToken;
 import org.languagetool.rules.patterns.PatternTokenBuilder;
 
 /**
- * Old to new spelling data loaded form CSV.
+ * Old to new spelling data loaded from CSV.
  * @since 4.0
  */
 class PreferredWordData {
@@ -46,7 +46,7 @@ class PreferredWordData {
     String filePath = "/nl/preferredwords.csv";
     try (InputStream inputStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(filePath);
          Scanner scanner = new Scanner(inputStream, "utf-8")) {
-      Language german = Languages.getLanguageForShortCode("nl");
+      Language dutch = Languages.getLanguageForShortCode("nl");
       String message = "For this word exists a preferred alternative.";
       String shortMessage = "Better word suggestion";
       while (scanner.hasNextLine()) {
@@ -60,8 +60,8 @@ class PreferredWordData {
         }
         String oldSpelling = parts[0];
         String newSpelling = parts[1];
-        List<PatternToken> patternTokens = getTokens(oldSpelling, german);
-        PatternRule rule = new PatternRule("NL_PREFERRED_WORD_RULE_INTERNAL", german, patternTokens, ruleDesc, message, shortMessage);
+        List<PatternToken> patternTokens = getTokens(oldSpelling, dutch);
+        PatternRule rule = new PatternRule("NL_PREFERRED_WORD_RULE_INTERNAL", dutch, patternTokens, ruleDesc, message, shortMessage);
         spellingRules.add(new PreferredWordRuleWithSuggestion(rule, oldSpelling, newSpelling));
       }
     } catch (IOException e) {
