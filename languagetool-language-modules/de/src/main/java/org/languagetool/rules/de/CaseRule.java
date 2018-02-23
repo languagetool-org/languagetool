@@ -169,7 +169,7 @@ public class CaseRule extends Rule {
         csToken("das"),
         posRegex("VER:.*"),
         posRegex("VER:AUX:.*"),
-        pos("PKT")
+        posRegex("PKT|KON:NEB")
     ),
     Arrays.asList(
         // um ihren eigenen Glauben an das Gute, Wahre und Schöne zu stärken.
