@@ -128,7 +128,8 @@ public class Dutch extends Language {
             new CompoundRule(messages),
             new DutchWrongWordInContextRule(messages),
             new WordCoherencyRule(messages),
-            new SimpleReplaceRule(messages)
+            new SimpleReplaceRule(messages),
+            new PreferredWordRule(messages)
     );
   }
 }
