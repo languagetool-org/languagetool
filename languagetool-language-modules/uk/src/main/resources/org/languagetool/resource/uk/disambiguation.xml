@@ -1435,6 +1435,21 @@
     <example type="untouched">не міг дати собі ради.</example>
   </rule>
 
+  <rule name="Накладний платіж" id="nakladnyi_platizh">
+    <pattern>
+      <marker>
+        <token inflected="yes">накладний</token>
+      </marker>
+      <token inflected="yes" regexp="yes">плата|платіж</token>
+    </pattern>
+    <disambig action="filter" postag="adj.*?:xp2.*"></disambig>
+    <example type="ambiguous"
+        inputform="накладним[накладна/noun:inanim:p:v_dav,накладний/adj:m:v_oru:compb:bad:xp2,накладний/adj:m:v_oru:xp1,накладний/adj:n:v_oru:compb:bad:xp2,накладний/adj:n:v_oru:xp1,накладний/adj:p:v_dav:compb:bad:xp2,накладний/adj:p:v_dav:xp1]"
+        outputform="накладним[накладний/adj:m:v_oru:compb:bad:xp2,накладний/adj:n:v_oru:compb:bad:xp2,накладний/adj:p:v_dav:compb:bad:xp2]"
+            >йде <marker>накладним</marker> платежем</example>
+    <example type="untouched">накладні нігті</example>
+  </rule>
+
 
   <!-- TOOD: redo when dictionary updated
   <rule name="Числівник, як іменник годин 1" id="NUMR_AS_HOUR_NOUN1">

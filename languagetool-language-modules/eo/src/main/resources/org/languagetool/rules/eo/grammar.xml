@@ -1143,6 +1143,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
       <rule>
         <pattern>
+          <token inflected="yes">ĥolesterino</token>
+        </pattern>
+        <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*o(j?n?)$" regexp_replace="ĥolesterolo$1"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/hxolesterin.html#hxolesterin.0o</url>
+        <example correction="ĥolesterolo">Troo da <marker>ĥolesterino</marker> en la sango povas kaŭzi malsanojn.</example>
+      </rule>
+      <rule>
+        <pattern>
           <token inflected="yes">aeroplano</token>
         </pattern>
         <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*o(.*)" regexp_replace="avio$1"/></suggestion>.</message>
@@ -1552,6 +1560,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
       <rule>
         <pattern>
+          <token inflected="yes">kapeldinero</token>
+        </pattern>
+        <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*o(j?n?$)$" regexp_replace="akceptisto$1"/></suggestion>.</message>
+        <url>http://www.reta-vortaro.de/revo/art/kapeldiner.html#kapeldiner.0o</url>
+        <example correction="akceptistoj">Stariĝis du <marker>kapeldineroj</marker> ĉe la pordo.</example>
+      </rule>
+      <rule>
+        <pattern>
           <token inflected="yes">kaseto</token>
         </pattern>
         <message>Laŭ ReVo, «\1» estas arkaismo. Uzu <suggestion><match no="1" regexp_match=".*t(.*)" regexp_replace="kased$1"/></suggestion>.</message>
@@ -1809,11 +1825,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token inflected="yes" regexp="yes">spektator(?:in)?o</token>
         </pattern>
         <message>La vorto «\1» estas arkaismo kaj evitinda laŭ ReVo.</message>
-        <suggestion><match no="1" regexp_match="(.*)(oj?n?)$" regexp_replace="spektant$2"/></suggestion>
+        <suggestion><match no="1" regexp_match=".*o(j?n?)$" regexp_replace="spektanto$1"/></suggestion>
         <url>http://www.reta-vortaro.de/revo/art/spektator.html#spektator.0o</url>
         <example correction="spektantoj">Multaj <marker>spektatoroj</marker> venis.</example>
       </rule>
     </rulegroup>
+    <rule id="SERAJLO" name="serajlo">
+      <pattern>
+        <token inflected="yes">serajlo</token>
+      </pattern>
+      <message>La vorto «\1» estas arkaismo laŭ ReVo.</message>
+      <suggestion><match no="1" regexp_match=".*o(j?n?)$" regexp_replace="haremo$1"/></suggestion>
+      <suggestion><match no="1" regexp_match=".*o(j?n?)$" regexp_replace="palaco$1"/></suggestion>
+      <url>http://www.reta-vortaro.de/revo/art/serajl.html#serajl.0o</url>
+      <example correction="haremon|palacon">Li havis <marker>serajlon</marker>.</example>
+    </rule>
+
   </category>
   <category id="KAT_NE_OFICIALAJ_VORTOJ" name="Ne oficialaj vortoj">
     <rule id="NEOFIC_PREP" name="neoficialaj rolvortetoj">
@@ -1930,13 +1957,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <pattern>
         <!-- The exception to the rule takes into account the few regular words that
              end in -iĉo without being the sufix -iĉ-. I hope I did not forget any. -->
-        <token regexp="yes" inflected="yes">.*iĉo<exception inflected="yes" regexp="yes">.*(?:[knpr]|ded|fel|fet|kond|post|sandv|suf|superst)iĉo</exception></token>
+        <token regexp="yes" inflected="yes">.*iĉo<exception inflected="yes" regexp="yes">.*(?:[knpr]|akron|Av|ded|fel|fet|Grenv|kond|kr|platd|past|post|sandv|suf|superst)iĉo</exception></token>
       </pattern>
-      <message>«-iĉ» estas neoficiala sufikso. Konsideru uzi la prefikson «vir-» se taŭgas,</message>
+      <message>«-iĉ» estas neoficiala sufikso. Konsideru uzi la adjektivon «vira» aŭ la prefikson «vir-» se taŭgas.</message>
       <url>http://bertilow.com/pmeg/vortfarado/neoficialaj_afiksoj/sufiksoj/ich.html</url>
-      <example correction="">Mi havas du <marker>fratiĉojn</marker>.</example>
-      <example correction="">Mi havas du <marker>fraticxojn</marker>.</example>
-      <example>Li rakontis la kondiĉojn de sia malfeliĉon dum mi manĝis sandviĉojn.</example>
+      <example correction="">Mi havas tri <marker>katiĉojn</marker>.</example>
+      <example correction="">Mi amas tiun <marker>esperantisticxon</marker>.</example>
+      <example>Li rakontis la kondiĉojn de sia malfeliĉo dum mi manĝis sandviĉojn.</example>
     </rule>
     <rule id="NEOF_SUF_OZ" name="ventoza → venta (ktp.)">
       <pattern>
@@ -4259,7 +4286,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
              synonymous to words that are not proper names such as "grenado", "kubo",
              "malto" (etc) to avoid false positives.
         -->
-        <token regexp="yes">(afgan|alban|angl|armen|aŭstral|aŭstr|belg|bosn|brit|bulgar|ĉeĥ|ĉin|dan|egipt|eston|etiop|franc|german|grek|hispan|hungar|ital|japan|kartvel|kazaĥ|kirgiz|kore|kroat|latv|litov|moldav|mongol|norveg|portugal|makedon|ruman|rus|serb|slovak|sloven|somal|sved|svis|taĝik|turk|turkmen|ukrain|uzbek|vjetnam|ĉeĥoslovak|jugoslav)(io|ujo)|alĝerio|andoro|angolo|argentino|azerbajĝano|bahamoj|bangladeŝo|barato|barbado|barejno|belarusio|belizo|benino|birmo|bocvano|bolivio|brazilo|brunejo|burkino|burundo|butano|ĉado|mjanmao|ĉilio|danlando|dominiko|domingo|ekvadoro|eritreo|fiĝioj?|filipinoj|finn?lando|gabono|gambio|ganao|ĝibutio|greklando|gujano|gvatemalo|gvineo|haitio|hercegovino|honduro|indonezio|irako|irano|irlando|islando|israelo|jamajko|jemeno|jordanio|kamboĝo|kameruno|kanado|kataro|kenjo|kipro|kiribato|kolombio|komoroj|koreo|kostariko|kuracao|kuvajto|laoso|lesoto|libano|liberio|libio|liĥtenŝtejno|suomio|luksemburgi?o|madagaskaro|malajzio|malavio|maldivoj|malio|maroko|maŭricio|meksiki?o|monako|montenegro|mozambiko|namibio|nauro|nederlando|nepalo|niĝeri?o|nikaragvo|omano|pakistano|palaŭo|panamo|paragvajo|peruo|pollando|ruando|salomonoj|salvadoro|samoo|sejŝeloj|senegalo|singapuro|sirio|srilanko|sudano|surinamo|svazilando|svislando|tajlando|tajvano|tanzanio|togolando|togo|tongo|tunizio|tuvalo|ugando|urugvajo|usono|vanuatuo|vatikanurbo|vatikano|venezuelo|zambio|zimbabvo|alando|angvilo|arubo|bermudo?|buvetinsulo|ferooj|ĝibraltaro|groe?nlando|gvernsejo|gvadelupo|gvamo|honkongo|ĵersejo|kokosinsuloj|kristnaskinsulo|kukinsuloj|majoto|makao|mankso|manksinsulo|martiniko|mordvio|moncerato|niuo|norfolkinsulo|reunio|tokelao|trinidado|tobago|palestino|bohemio|rodezio|serbio|sovetunio|sovetio|antarkti?o</token>
+        <token regexp="yes">(afgan|alban|angl|armen|aŭstral|aŭstr|belg|bel[ao]rus|bosn|brit|bulgar|ĉeĥ|ĉin|dan|egipt|eston|etiop|franc|german|grek|hind|hispan|hungar|ital|japan|kartvel|kazaĥ|kirgiz|kore|kroat|latv|litov|moldav|mongol|norveg|portugal|makedon|ruman|rus|serb|slovak|sloven|somal|sved|svis|taĝik|turk|turkmen|ukrain|uzbek|vjetnam|ĉeĥoslovak|jugoslav)(io|ujo)|alĝerio|andoro|angolo|argentino|azerbajĝano|bahamoj|bangladeŝo|barato|barbado|barejno|belarusio|belizo|benino|birmo|bocvano|bolivio|brazilo|brunejo|burkino|burundo|butano|ĉado|mjanmao|ĉilio|danlando|dominiko|domingo|ekvadoro|eritreo|fiĝioj?|filipinoj|finn?lando|gabono|gambio|ganao|ĝibutio|greklando|gujano|gvatemalo|gvineo|haitio|hercegovino|honduro|indonezio|irako|irano|irlando|islando|israelo|jamajko|jemeno|jordanio|kamboĝo|kameruno|kanado|kataro|kenjo|kipro|kiribato|kolombio|komoroj|koreo|kosovo|kostariko|kuracao|kuvajto|laoso|lesoto|libano|liberio|libio|liĥtenŝtejno|suomio|luksemburgi?o|madagaskaro|malajzio|malavio|maldivoj|malio|maroko|maŭricio|maŭritanio|meksiki?o|mikronesio|monako|montenegro|mozambiko|namibio|nauro|nederlando|nepalo|niĝeri?o|nikaragvo|omano|pakistano|palaŭo|panamo|paragvajo|peruo|pollando|ruando|salomonoj|salvadoro|samoo|sejŝeloj|senegalo|singapuro|sirio|skotlando|srilanko|sudano|surinamo|svazilando|svislando|tajlando|tajvano|tanzanio|togolando|togo|tongo|tunizio|tuvalo|ugando|urugvajo|usono|vanuatuo|vatikanurbo|vatikano|venezuelo|zambio|zimbabvo|alando|angvilo|arubo|bermudo?|buvetinsulo|ferooj|ĝibraltaro|groe?nlando|gvernsejo|gvadelupo|gvamo|honkongo|ĵersejo|kokosinsuloj|kristnaskinsulo|kukinsuloj|majoto|makao|mankso|manksinsulo|martiniko|mordvio|moncerato|niuo|norfolkinsulo|reunio|tokelao|trinidado|tobago|palestino|bohemio|rodezio|sanmarino|serbio|sovetunio|sovetio|antarkti?o</token>
       </pattern>
       <message>Landonomojn oni ĉiam skribas kun komenca majusklo, ĉar ili estas veraj propraj nomoj.</message>
       <suggestion><match no="1" case_conversion="startupper"/></suggestion>

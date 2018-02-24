@@ -120,15 +120,16 @@ public class Dutch extends Language {
             new CommaWhitespaceRule(messages),
             new DoublePunctuationRule(messages),
             new GenericUnpairedBracketsRule(messages,
-                    Arrays.asList("[", "(", "{", "“", "‹", "“", "„"),
-                    Arrays.asList("]", ")", "}", "”", "›", "”", "”")),
+                    Arrays.asList("[", "(", "{", "“", "‹", "“", "„", "\""),
+                    Arrays.asList("]", ")", "}", "”", "›", "”", "”", "\"")),
             new UppercaseSentenceStartRule(messages, this),
             new MorfologikDutchSpellerRule(messages, this),
             new MultipleWhitespaceRule(messages, this),
             new CompoundRule(messages),
             new DutchWrongWordInContextRule(messages),
             new WordCoherencyRule(messages),
-            new SimpleReplaceRule(messages)
+            new SimpleReplaceRule(messages),
+            new PreferredWordRule(messages)
     );
   }
 }

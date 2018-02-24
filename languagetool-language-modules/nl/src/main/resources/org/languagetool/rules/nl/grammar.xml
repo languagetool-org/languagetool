@@ -3636,8 +3636,35 @@ regexp case-insensitive maken : (?i)
 			</rule>
 		</rulegroup>
 	</category>
+    <!--category id="OPTIONAL_FORMS" name="niet-noodzakelijke correcte spellingvarianten">
+        <rulegroup id="OPTIONAL_HYPHEN" name="optioneel koppelteken">
+           <rule>
+               <antipattern><token regexp="yes">(hiv|btw|lcd|dvd|cd|tv)-.*</token></antipattern>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">.*[a-z]-[a-z].*<exception regexp="yes">.*(a-[aeiu]|e-[eiu]|i-[eij]|o-[eiou]|u-[iu]).*</exception></token>
+                    </marker>
+                </pattern>
+                <message>Ook als dit een correcte spelling is, is het koppelteken alleen aan te raden als het woord anders slecht leest".</message>
+                <example type="incorrect">De <marker>oven-deur</marker> staat open.</example>
+            </rule>
+        </rulegroup>
+    </category-->
 	<category id="CASING" name="Hoofdletters">
-		
+        <rulegroup id="NIEUW_ZEELAND" name="nieuw zeelander / Nieuw-Zeelander">
+            <!-- 2014-08-21 TaalTik regel komt vaak op, maar terecht, vooral bij afkortingen met een onterechte hoofdletter. -->
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>nieuw</token>
+                        <token regexp="yes">zeeland.*</token>
+                    </marker>
+                </pattern>
+                <message>U bedoelt vast: <suggestion>Nieuw-<match no="2" case_conversion="startupper"/></suggestion>.</message>
+                <example correction="Nieuw-Zeelander">Mijn neef is een <marker>nieuw zeelander</marker>.</example>
+                <example>Mijn neef is een <marker>Nieuw-Zeelander</marker>.</example>
+            </rule>
+        </rulegroup>
 		<rulegroup id="TST_HOOFDLETTERS_OVERBODIG" name="Woorden die ook klein geschreven mogen worden.">
 			<rule>
 				<pattern>
@@ -4013,6 +4040,34 @@ regexp case-insensitive maken : (?i)
 		</rulegroup>
 	</category>
 	<category id="COLLOQUIALISMS" name="Informeel">
+        <rulegroup id="EFFE" name="effe / even">
+            <rule>
+                <pattern>
+                    <token>effe</token>
+                </pattern>
+                <message>Dit is spreektaal. Beter is <suggestion>even</suggestion>.</message>
+                <example correction="even">Ik heb er <marker>effe</marker> tijd aan besteed.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="EEN_BOEL" name="een boel / veel">
+            <rule>
+                <pattern>
+                    <token>een</token>
+                    <token regexp="yes">heleboel|boel</token>
+                </pattern>
+                <message>Dit is spreektaal. Beter is <suggestion>veel</suggestion>.</message>
+                <example correction="veel">Ik heb er <marker>een heleboel</marker> tijd aan besteed.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="NIKS" name="niks / niets">
+            <rule>
+                <pattern>
+                    <token>niks</token>
+                </pattern>
+                <message>Dit is spreektaal. Beter is <suggestion>niets</suggestion>.</message>
+                <example correction="niets">Ik heb er <marker>niks</marker> aan.</example>
+            </rule>
+        </rulegroup>
 		<rulegroup id="GEEN_EEN" name="geen een">
 			<!-- 2014-08-23 TaalTik -->
 			<rule>
@@ -15509,12 +15564,20 @@ regexp case-insensitive maken : (?i)
 				<pattern>
 					<token regexp="yes">vreselijk|enorm|^(mega|ultra|super|giga).*</token>
 				</pattern>
-				<message>Is hier wellicht sprake van overdrijving?</message>
+				<message>Is dit niet overdreven?</message>
 				<example type="incorrect">Het is een <marker>gigantisch</marker> probleem.</example>
 				<example>Het is <marker>een</marker> probleem.</example>
 				<example type="incorrect"><marker>Super</marker> interessant voor mij dit boek!</example>
 				<example type="incorrect">Ook in andere kerken was de schade <marker>enorm</marker>.</example>
 			</rule>
+            <rule>
+                <pattern>
+                    <token>heel</token>
+                    <token postag_regexp="yes" postag="BNW.*"/>
+                </pattern>
+                <message>Is dit niet overdreven? Is <suggestion>\2</suggestion> niet voldoende?</message>
+                <example correction="dikke">Het is een <marker>heel dikke</marker> man.</example>
+            </rule>
 		</rulegroup>
 		
 	</category>
@@ -15596,10 +15659,6 @@ regexp case-insensitive maken : (?i)
 		
 		<rulegroup id="M" name="'m">
 			<rule>
-				<!--
-				2014-08-22 TaalTik
-				regel werkt goed
-				-->
 				<pattern>
 					<token regexp="yes">'|‘</token>
 					<token>m</token>
@@ -16903,7 +16962,121 @@ regexp case-insensitive maken : (?i)
 		</rule>
 		</rulegroup>
 		-->
-		
+
+        <rulegroup id="LOSSE_LETTERS" name="losse letters verbeteren">
+            <rule>
+                <antipattern case_sensitive="yes"><token>B</token><token>en</token><token>W</token></antipattern>
+                <pattern>
+                    <token>b</token>
+                    <token regexp="yes">&amp;|en</token>
+                    <token>w</token>
+                </pattern>
+                <message>Burgemeester en wethouders schrijf je als <suggestion>B en W</suggestion>.</message>
+                <example correction="B en W">De zaak ligt voor bij <marker>b en w</marker>.</example>
+                <example correction="B en W">De zaak ligt voor bij <marker>b &amp; w</marker>.</example>
+
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes">a</token>
+                    </marker>
+                    <token regexp="yes">[0-9]+|eur|f|fl|€</token>
+                </pattern>
+                <message>Bij een bedrag is het <suggestion>à</suggestion>.</message>
+                <example correction="à">Het is te koop <marker>a</marker> 50 euro.</example>
+                <example>Het was te koop <marker>à</marker> 10 gulden.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">f|fl</token>
+                    </marker>
+                    <token regexp="yes">[0-9].*</token>
+                </pattern>
+                <message>Voor de gulden was er een apart symbool: <suggestion>ƒ</suggestion>.</message>
+                <example correction="ƒ">Het is <marker>fl</marker> 50.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">.*[aiouy]$</token>
+                    <token case_sensitive="yes">s</token>
+                </pattern>
+                <message>Bent u een apostrof vergeten? <suggestion>\1's</suggestion>.</message>
+                <example correction="auto's">De <marker>auto s</marker> reden weg.</example>
+                <example>De <marker>baby's</marker> maakten lawaai.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" negate="yes">[0-9]*</token>
+                    <marker>
+                        <token case_sensitive="yes">m</token>
+                    </marker>
+                </pattern>
+                <message>Bent u een apostrof vergeten? Of beter nog, schrijf <suggestion>hem</suggestion>.</message>
+                <example correction="hem">Het is <marker>m</marker> toch.</example>
+                <example>Het is <marker>hem</marker> niet.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes">z</token>
+                    <token case_sensitive="yes">n</token>
+                </pattern>
+                <message>Bent u een apostrof vergeten? <suggestion>z'n</suggestion>.</message>
+                <example correction="z'n">Het is <marker>z n</marker> fout.</example>
+                <example>Het is <marker>z'n</marker> correctie.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token negate="yes" case_sensitive="yes">z</token>
+                    <marker>
+                        <token case_sensitive="yes">n</token>
+                    </marker>
+                </pattern>
+                <message>Bent u een apostrof vergeten? Of beter nog, schrijf <suggestion>een</suggestion>.</message>
+                <example correction="een">Het is <marker>n</marker> vreemd verschijnsel.</example>
+                <example>Het is een <marker>een</marker> correctie.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" negate="yes">[0-9]*</token>
+                    <marker>
+                        <token case_sensitive="yes">m</token>
+                    </marker>
+                </pattern>
+                <message>Bent u een apostrof vergeten? Of beter nog, schrijf <suggestion>hem</suggestion>.</message>
+                <example correction="hem">Het is <marker>m</marker> toch.</example>
+                <example>Het is <marker>hem</marker> niet.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes">r</token>
+                </pattern>
+                <message>Bent u een apostrof vergeten? Of beter nog, schrijf <suggestion>haar</suggestion>.</message>
+                <example correction="haar">Het is <marker>r</marker> toch.</example>
+                <example>Het is <marker>haar</marker> niet.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes">x</token>
+                </pattern>
+                <message>Bij een wiskundige vermenigvuldiging gebruik je een <suggestion>×</suggestion>, in een programmeertaal een <suggestion>*</suggestion>, bij afmetingen is <suggestion>bij</suggestion> mogelijk.</message>
+                <example correction="×|*|bij" >50 <marker>x</marker> 5 is 250.</example>
+            </rule>
+        </rulegroup>
+		<rulegroup id="ONTWARBAAR" name="ontwarbaar → onontwarbaar">
+			<rule>
+				<pattern>
+					<token regexp="yes" negate="yes">niet|nauwelijks|moeilijk|lastig</token>
+					<marker>
+						<token regexp="yes">ont(warbaar|warbare)</token>
+					</marker>
+				</pattern>
+				<message>Wanneer u bedoelt dat het lastig is, dan bedoelt u<suggestion>onontwarbaar</suggestion>.</message>
+				<example correction="onontwarbaar">Het is een <marker>ontwarbare</marker> kluwen.</example>
+				<example>Het is een <marker>onontwarbare</marker> kluwen.</example>
+			</rule>
+		</rulegroup>
 		<rulegroup id="IN_DE_LAG" name="in de lag → in de lach">
 			<rule>
 				<pattern>
@@ -21640,7 +21813,22 @@ regexp case-insensitive maken : (?i)
 					<example>"Dat is vreemd", zegt hij.</example>
 				</rule>
 			</rulegroup>
-			<rulegroup id="GEDACHTESTREEPJE" name="- → —">
+
+        <rulegroup id="SPATIE_LEESTEKEN" name="spatie voor leesteken schrappen">
+            <rule>
+                <pattern>
+                    <token/>
+                    <token spacebefore="yes" regexp="yes">[!?;,:]</token>
+                </pattern>
+                <message>Voor een uitroepteken hoort geen spatie<suggestion>\1\2</suggestion></message>
+                <short>!</short>
+                <example correction="fout!">Dit is <marker>fout !</marker></example>
+                <example correction="fout?">Is dit <marker>fout ?</marker></example>
+                <example correction="fout,">Dit is <marker>fout ,</marker> toch?</example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup id="GEDACHTESTREEPJE" name="- → —">
 				<rule>
 					<!-- TaalTik 2014-09-18 -->
 					<pattern>

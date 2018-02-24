@@ -2886,7 +2886,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="город, в котором">Это тот <marker>город в котором</marker> прошло детство.</example>      
             </rule>
         </rulegroup>
-        <rulegroup default="off" id="PUNKT_KOTORIJ" name="Пунктуация перед союзами «который», ...">     
+        <rulegroup default="on" id="PUNKT_KOTORIJ" name="Пунктуация перед союзами «который», ...">     
             <rule>
              <antipattern>
                     <token postag_regexp="yes" postag="NN:.*"></token> 
@@ -2908,7 +2908,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                       <feature id="gender"/>
                       <feature id="number"/>
                         <token negate="yes" regexp="yes">[\p{Punct}]|[\p{Digit}]*|-|—|–|’|‘|…|ну|Ну|«<exception postag="SENT_START"></exception><exception postag="PREP"></exception><exception postag_regexp="yes" postag="NN:.*:.*:.*:(D|T)|CONJ|ADJ:.*|Num:.*|NumC:.*"></exception></token>
-                          <token inflected="yes">который</token>
+                          <token inflected="yes">который<exception regexp="yes">которых|которого|которой</exception></token>
                     </unify>
                     </marker>
                      <token postag="VB:.*|PT:.*" postag_regexp="yes"></token>
