@@ -37,7 +37,7 @@ USA
 ]>
 
 <rules lang="en" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-
+    
     <!-- ====================================================================== -->
     <!-- Possible typo -->
     <!-- ====================================================================== -->
@@ -64,8 +64,8 @@ USA
             </pattern>
             <message>Did you mean <suggestion>\1\2re</suggestion>?</message>
             <short>Possible typo</short>
-            <example correction='We&apos;re'><marker>We'Re</marker> looking forward to our meeting.</example>
-            <example correction='We&apos;re'><marker>We'RE</marker> looking forward to our meeting.</example>
+            <example correction='We&apos;re'><marker>We'Re</marker> looking forward to our meeting.</example>         
+            <example correction='We&apos;re'><marker>We'RE</marker> looking forward to our meeting.</example>         
           </rule>
           <rule>
             <pattern>
@@ -77,7 +77,7 @@ USA
             </pattern>
             <message>Did you mean <suggestion>\1\2t</suggestion>?</message>
             <short>Possible typo</short>
-            <example correction='don&apos;t'>We <marker>don'T</marker> need this.</example>
+            <example correction='don&apos;t'>We <marker>don'T</marker> need this.</example>         
           </rule>
         </rulegroup>
         <rule id="AS_FOLLOW_AS_FOLLOWS" name="'as follow' (as follows)">
@@ -90,7 +90,7 @@ USA
          </pattern>
          <message>Did you mean <suggestion>as follows</suggestion>?</message>
          <short>Possible typo</short>
-         <example correction='as follows'>We can elaborate this distinction <marker>as follow</marker>.</example>
+         <example correction='as follows'>We can elaborate this distinction <marker>as follow</marker>.</example>         
         </rule>
         <rule id="BY_PASSIVE_PARTICIPLE_BE" name="'by' + passive participle (be)">
          <pattern>
@@ -690,7 +690,7 @@ USA
                     <token>.</token>
                     <token>al</token>
                     <token>.</token>
-                </marker>
+                </marker>              
             </pattern>
             <message>Misplaced dot: <suggestion>\1 \3\4</suggestion></message>
             <short>Possible typo</short>
@@ -1281,7 +1281,7 @@ USA
             <example correction="two weeks' time">"he'll be sailing around the world in <marker>two week's time</marker>.</example>
             <example>It was ready in a week's time.</example>
         </rule>
-        <rulegroup id="CD_APOSTROPHE_S" name="Spurious apostrophe in plural forms">
+        <rulegroup id="CD_APOSTROPHE_S" name="Spurious apostrophe in plural forms">        
         <rule>
         <antipattern>
           <token postag="CD"/>
@@ -1319,8 +1319,8 @@ USA
         <rule>
         <antipattern>
         <marker>
-        <token>s</token>
-        </marker>
+        <token>s</token>        
+        </marker>        
         <token postag="RB"/>
         <token postag="VBG"/>
         </antipattern>
@@ -1355,7 +1355,7 @@ USA
          <message>Incorrect plural form; it does not need any apostrophe. Did you mean <suggestion><match no="2"/>s</suggestion>?</message>
          <url>http://www.onlinegrammar.com.au/apostrophes-2/</url>
          <short>Spurious apostrophe</short>
-         <example correction="CDs">I have many <marker>CD's</marker>.</example>
+         <example correction="CDs">I have many <marker>CD's</marker>.</example>        
          <example>And several days ago, we all went to this gorgeous ranch where some millionaire's going to build a golf course.</example>
          <example>Any technology that deals in meta-meta-models is going to be a hard sell, no matter how many analyst's reports have been written.</example>
          <example>Some guy's probably making money on this.</example>
@@ -7218,7 +7218,7 @@ USA
             <message>Did you mean <suggestion>am I</suggestion>?</message>
             <example correction="am I">Whom <marker>am</marker> talking with?</example>
         </rule>
-        <rulegroup id="SHOULD_BE_DO" name="should be do (done)">
+        <rulegroup id="SHOULD_BE_DO" name="should be do (done)"> 
             <rule>
                 <pattern>
                     <token>should</token>
@@ -10187,10 +10187,10 @@ USA
                 <example correction="much|little">She has <marker>many</marker> money.</example>
             </rule>
         </rulegroup>
-        <!--
+        <!-- 
     "an information" is used in the legal US jargon, deleting
 
-    longer list but not checked thoroughly:
+    longer list but not checked thoroughly: 
     http://www.geocities.com/Athens/Olympus/7583/ncntlist.html
     -->
         <rulegroup id="A_UNCOUNTABLE" name="Articles: a + uncountable noun">
@@ -11802,7 +11802,7 @@ USA
                         <token regexp="yes">(then|as)</token>
                     </marker>
                     <token negate_pos="yes" postag="DT"><exception regexp="yes">follows|if|early|much|though|to</exception></token>
-                    <!-- the below condition fixed a false alarm -
+                    <!-- the below condition fixed a false alarm - 
                          'these cheeses just get firmer as water evaporates' -->
                     <token><exception postag="VB.*" postag_regexp="yes"/></token>
                 </pattern>
@@ -12878,10 +12878,10 @@ USA
           <antipattern case_sensitive="yes">
           <marker>
               <token regexp="yes">\d+<exception regexp="yes">[01]</exception></token>
-              <token postag="NNP"/>
+              <token postag="NNP"/>            
               <token regexp="yes">Ave(nue)?|Street|Terrace|Square|St|Circle|Drive</token>
-           </marker>
-          </antipattern>
+           </marker>            
+          </antipattern>    
           <antipattern>
             <token regexp="yes">\d+0</token>
             <token>decade</token>
@@ -12891,7 +12891,7 @@ USA
             <token>to</token>
             <token regexp="yes">\d+</token>
             <token>vote</token>
-          </antipattern>
+          </antipattern>      
          <antipattern>
             <token regexp="yes">s?he|you|I|we|they|it</token>
             <token inflected="yes">be</token>
@@ -12951,7 +12951,7 @@ USA
             </antipattern>
             <antipattern> <!-- another mistake -->
             <marker>
-            <token postag="CD"/>
+            <token postag="CD"/>            
             <token postag="NNP"/>
             </marker>
             <token regexp="yes">&apos;</token>
@@ -13033,7 +13033,7 @@ USA
             <example>The price of rice rose by three percent.</example>
             <example>The MOS Technology 6502 processor is an 8-bit microprocessor.</example>
             <example>Figure 1 shows a MOS 6502 processor in a DIP-40 plastic package.</example>
-        </rule>
+        </rule>        
         <rule id="INCORRECT_POSSESSIVE_FORM_AFTER_A_NUMBER" name="Incorrect possessive form after a number">
         <antipattern> <!-- separate rule: CD_WEEK -->
                <token postag="CD"><exception regexp="yes">one|1</exception></token>
@@ -13071,7 +13071,7 @@ USA
          </pattern>
          <message>Incorrect singular possessive form after the number (\1). Did you mean <suggestion><match no="2"/>s</suggestion> or <suggestion><match no="2"/>s'</suggestion>?</message>
          <short>Agreement error</short>
-         <example correction="days|days'">At the time, Guider was working just two <marker>day's</marker> drive from Narooma, in a Canberra suburb.</example>
+         <example correction="days|days'">At the time, Guider was working just two <marker>day's</marker> drive from Narooma, in a Canberra suburb.</example>         
          <example>1933 World's Fair</example>
          <example>He is puzzled as to why three women's names were there.</example>
          <example>A total of 387 schools, 7 teacher's houses, and several vocational buildings had been built.</example>
@@ -13343,7 +13343,7 @@ USA
             </rule>
             <rule>
                 <antipattern>
-                    <token>who</token>
+                    <token>who</token> 
                     <token postag="VB.*" postag_regexp="yes" skip="1"/>
                     <token regexp="yes">no(thing|body|where)</token>
                     <token postag="VB.*" postag_regexp="yes" skip="1"/>
@@ -13464,7 +13464,7 @@ USA
         <rulegroup id="SENTENCE_FRAGMENT" name="Sentence is a fragment">
             <url>http://www.chompchomp.com/rules/fragrules.htm</url>
             <!--rule R0.1A Single word list, likely to start a fragment -->
-            <!-- Note:
+            <!-- Note: 
                 I took this list of likely fragment indicators directly from the following link http://www.chompchomp.com/rules/fragrules.htm
                 -->
             <rule>
@@ -13522,8 +13522,8 @@ USA
                 <example>After we had dinner, we went to the cinema.</example>
                 <example type="triggers_error"><marker>Whichever</marker> college he wants to go to is fine with me.</example>
             </rule>
-            <!-- Note:
-                The following are too useful not to be declared as phrases, unfortunately I want to make progress and I can't find a decent tutorial on 'phrases' and 'unify'
+            <!-- Note: 
+                The following are too useful not to be declared as phrases, unfortunately I want to make progress and I can't find a decent tutorial on 'phrases' and 'unify' 
                 -->
             <!--rule R0.1B Phrase 'Even [list]', likely to start a fragment -->
             <!-- Note:
@@ -14012,9 +14012,9 @@ USA
                 </marker>
                 <token><exception regexp="yes">law|effect|creation</exception></token>
             </pattern>
-            <message>The verb '\1 \2' is not standard English, except in the context of the law ("The bill was signed into law"). Write
-            <suggestion>\1 in to</suggestion>. For websites and computers, other options are
-            <suggestion><match no="1" postag_regexp="yes" postag="(VB.*)" postag_replace="$1">log</match> in to</suggestion> or
+            <message>The verb '\1 \2' is not standard English, except in the context of the law ("The bill was signed into law"). Write 
+            <suggestion>\1 in to</suggestion>. For websites and computers, other options are 
+            <suggestion><match no="1" postag_regexp="yes" postag="(VB.*)" postag_replace="$1">log</match> in to</suggestion> or 
             <suggestion><match no="1" postag_regexp="yes" postag="(VB.*)" postag_replace="$1">log</match> on to</suggestion>.</message>
             <short>Wrong preposition</short>
             <example correction="sign in to|log in to|log on to">When you <marker>sign into</marker> your e-mail account...</example>
@@ -14078,7 +14078,7 @@ USA
             <example correction="accustomed to">He is <marker>accustomed of</marker> playing football now.</example>
             <example>He is <marker>accustomed to</marker> playing football now.</example>
             <example>The trials in the Sahara accustomed both the athletes and the manager to high temperatures.</example>
-            <example>Players should be accustomed by now to the difficulty of ...</example>
+            <example>Players should be accustomed by now to the difficulty of ...</example> 
             <example>... to much of the legislation to which we have become accustomed in modern times.</example>
             <example>He had been accustomed in the previous five years to dealing with players on ...</example>
         </rule>
@@ -16783,7 +16783,7 @@ USA
          <message>When specifying a month and year, the comma is unnecessary: <suggestion><match no="1"/> <match no="3"/></suggestion>.</message>
          <url>http://www.thepunctuationguide.com/comma.html#dates</url>
          <short>Spurious comma</short>
-         <example correction="October 1958">The store closed its doors for good in <marker>October, 1958</marker>.</example>
+         <example correction="October 1958">The store closed its doors for good in <marker>October, 1958</marker>.</example> 
         </rule>
         <rule id="MISSING_COMMA_BETWEEN_DAY_AND_YEAR" name="Missing comma between day of month and year">
             <pattern>
@@ -20053,7 +20053,7 @@ USA
             <antipattern>
               <token>there</token>
               <token regexp="yes">was|is</token>
-              <token postag="DT"></token>
+              <token postag="DT"></token>              
               <token postag="NN|NN:.*" postag_regexp="yes"/>
               <marker>
                   <token>there</token>
@@ -20074,14 +20074,14 @@ USA
               <marker>
                   <token>there</token>
                   <token>where</token>
-              </marker>
+              </marker>              
             </antipattern>
-            <antipattern>
+            <antipattern>              
               <token regexp="yes">out|over|in|up</token>
               <marker>
                   <token>there</token>
                   <token>where</token>
-              </marker>
+              </marker>              
             </antipattern>
             <antipattern>
               <token inflected="yes" regexp="yes">be|head|hold</token>
@@ -21249,11 +21249,11 @@ USA
             <rule>
                 <pattern>
                     <marker>
-                    <token postag='VBP?' postag_regexp="yes">whore</token>
+                    <token postag='VBP?' postag_regexp="yes">whore</token> 
                     </marker>
                     <token postag='DT'></token>
                     <token min="0" postag='JJ'></token>
-                    <token postag='NN(:UN|S)?' postag_regexp="yes"></token>
+                    <token postag='NN(:UN|S)?' postag_regexp="yes"></token> 
                 </pattern>
                 <message>Did you mean <suggestion>wore</suggestion> (simple past of "to wear")?</message>
                 <example correction='wore'>Last Sunday I <marker>whore</marker> a beautiful dress.</example>
@@ -21302,7 +21302,7 @@ USA
                     <token regexp="yes">in(to)?|less|more|of|working</token>
                     <marker>
                         <token>over</token>
-                        <token>time</token>
+                        <token>time</token> 
                     </marker>
                 </pattern>
                 <message>Did you mean <suggestion>overtime</suggestion> (=time someone works beyond normal working hours)?</message>
@@ -21316,7 +21316,7 @@ USA
                     <token>work</token>
                     <marker>
                         <token>over</token>
-                        <token>time</token>
+                        <token>time</token> 
                     </marker>
                 </pattern>
                 <message>Did you mean <suggestion>overtime</suggestion> (=time someone works beyond normal working hours)?</message>
@@ -21328,7 +21328,7 @@ USA
                     <token inflected="yes">work</token>
                     <marker>
                         <token>over</token>
-                        <token>time</token>
+                        <token>time</token> 
                     </marker>
                     <token>to</token>
                 </pattern>
@@ -21421,7 +21421,7 @@ USA
        </pattern>
        <message>When specifying a month and year, 'of' is unnecessary: <suggestion><match no="1"/> <match no="3"/></suggestion>.</message>
        <short>Nonstandard date</short>
-       <example correction='February 1995'><marker>February of 1995</marker></example>
+       <example correction='February 1995'><marker>February of 1995</marker></example>       
     </rule>
       <rule id="THE_QUESTION_WH" name="the question what (the question of what)">
       <pattern>
@@ -21725,7 +21725,7 @@ USA
      <message>This phrase is redundant. Consider writing <suggestion>an <match no="3"/></suggestion>.</message>
      <url>https://www.amherst.edu/news/communications/styleguide</url>
      <short>Redundant phrase</short>
-     <example correction='an alumnus'>As the wife of <marker>a former alumnus</marker> of UCLA, I am appalled at recent events that have occurred and seemingly encouraged by the administration.</example>
+     <example correction='an alumnus'>As the wife of <marker>a former alumnus</marker> of UCLA, I am appalled at recent events that have occurred and seemingly encouraged by the administration.</example>    
     </rule>
     <rule>
      <pattern>
@@ -21738,7 +21738,7 @@ USA
      <message>This phrase is redundant. Consider writing <suggestion><match no="3"/></suggestion>.</message>
      <url>https://www.amherst.edu/news/communications/styleguide</url>
      <short>Redundant phrase</short>
-     <example correction='alumnus'>The <marker>former alumnus</marker> adviser of Alpha Lambda Chapter was elected as congressman-at- large in Ohio.</example>
+     <example correction='alumnus'>The <marker>former alumnus</marker> adviser of Alpha Lambda Chapter was elected as congressman-at- large in Ohio.</example>     
     </rule>
     </rulegroup>
         <rulegroup id="SWORN_AFFIDAVIT" name="sworn affidavit (affidavit)">
@@ -21751,7 +21751,7 @@ USA
          <message>This phrase is redundant. Consider using <suggestion>an <match no="3"/></suggestion></message>
          <url>http://wordinfo.info/unit/4246/page:21</url>
          <short>Redundant phrase</short>
-         <example correction='An affidavit'><marker>A sworn affidavit</marker> is a written statement made by someone under oath to tell the truth about something.</example>
+         <example correction='An affidavit'><marker>A sworn affidavit</marker> is a written statement made by someone under oath to tell the truth about something.</example>         
         </rule>
         <rule>
          <pattern>
@@ -21764,7 +21764,7 @@ USA
          <message>This phrase is redundant. Consider using <suggestion><match no="3"/></suggestion></message>
          <url>http://wordinfo.info/unit/4246/page:21</url>
          <short>Redundant phrase</short>
-         <example correction='affidavit'>His <marker>sworn affidavit</marker> was deposited in the post office mailbox.</example>
+         <example correction='affidavit'>His <marker>sworn affidavit</marker> was deposited in the post office mailbox.</example>         
         </rule>
         </rulegroup>
         <rule id="DIRECTLY_ANTITHETICAL" name="directly antithetical (antithetical)">
@@ -22157,7 +22157,7 @@ USA
         <url>http://www.dailywritingtips.com/adequate-is-adequate/</url>
         <short>Redundant phrase</short>
         <example correction="adequate">The Allen test is not <marker>adequate enough</marker> for the screening of hand circulation.</example>
-        </rule>
+        </rule>      
         <rule default="off" id="ARE_ABLE_TO" name="are able to (can)">
             <pattern>
                 <token>are</token>
@@ -22270,7 +22270,7 @@ USA
          </pattern>
          <message>This phrase may be redundant. Consider writing <suggestion><match no="2"/></suggestion>.</message>
          <short>Redundant phrase</short>
-         <example correction='bivouac'>In <marker>temporary bivouac</marker> areas (1 to 3 days), the straddle trench latrine is used unless more permanent facilities are provided for the unit.</example>
+         <example correction='bivouac'>In <marker>temporary bivouac</marker> areas (1 to 3 days), the straddle trench latrine is used unless more permanent facilities are provided for the unit.</example>         
         </rule>
         <rule id="BIVOUAC_CAMP_BIVOUAC" name="bivouac camp (bivouac)">
          <pattern>
@@ -22428,7 +22428,7 @@ USA
          </pattern>
          <message>This phrase is redundant. Consider writing <suggestion><match no="1"/> of</suggestion>.</message>
          <short>Redundant phrase</short>
-         <example correction='circumstances of'>Based upon this discussion, the OIG expanded the scope of its investigation to analyze the <marker>circumstances surrounding</marker> the settlement rejected by Judge Rakoff.</example>
+         <example correction='circumstances of'>Based upon this discussion, the OIG expanded the scope of its investigation to analyze the <marker>circumstances surrounding</marker> the settlement rejected by Judge Rakoff.</example>         
         </rule>
         <rulegroup id="CLOSE_SCRUTINY" name="close scrutiny/proximity (scrutiny/proximity)">
         <rule>
@@ -22442,7 +22442,7 @@ USA
         <short>Redundant phrase</short>
         <example correction="close to">The majority of Jannali's enterprises are located <marker>within close proximity to</marker> the suburb's railway station.</example>
         </rule>
-        <rule>
+        <rule>            
             <pattern>
                 <token>close</token>
                 <token regexp="yes">scrutiny|proximity</token>
@@ -24084,7 +24084,7 @@ USA
                 <message>The date \3 (YYYY-MM-DD) is not a {day}, but a {realDay}.</message>
                 <example correction="">IGD Convention 2014 - <marker>Monday, 2014-10-31</marker></example>
                 <example>IGD Convention 2014 - <marker>Friday, 2014-10-31</marker></example>
-            </rule>
+            </rule>             
         </rulegroup>
         <rulegroup id="INVALID_DATE" name="Invalid date, like 'February 31, 2014'">
             <rule>
@@ -24115,32 +24115,32 @@ USA
             </rule>
             <rule>
                     <pattern>
-                      <token regexp="yes">&months;</token>
-                       <token regexp="yes">\d\d?</token>
+                      <token regexp="yes">&months;</token>                        
+                       <token regexp="yes">\d\d?</token>                        
                        <token regexp="yes">[–\-]</token>
-                       <token regexp="yes">\d\d?</token>
+                       <token regexp="yes">\d\d?</token>                        
                     </pattern>
                     <filter class="org.languagetool.rules.DateRangeChecker"
                             args="x:\2 y:\4"/>
                     <message>The starting day (\2) happens later than the final day (\4).</message>
                     <short>Wrong date</short>
                     <example>January 10 – 17, 2016</example>
-                    <example correction=""><marker>January 10 – 1</marker>, 2016.</example>
+                    <example correction=""><marker>January 10 – 1</marker>, 2016.</example>                    
              </rule>
              <rule>
                     <pattern>
-                      <token regexp="yes">&months;</token>
+                      <token regexp="yes">&months;</token>                        
                       <token>,</token>
-                       <token regexp="yes">\d\d?</token>
+                       <token regexp="yes">\d\d?</token>                        
                        <token regexp="yes">[–\-]</token>
-                       <token regexp="yes">\d\d?</token>
+                       <token regexp="yes">\d\d?</token>                        
                     </pattern>
                     <filter class="org.languagetool.rules.DateRangeChecker"
                             args="x:\3 y:\5"/>
                     <message>The starting day (\3) happens later than the final day (\5).</message>
                     <short>Wrong date</short>
                     <example>January 10 – 17, 2016</example>
-                    <example correction=""><marker>January, 10 – 1</marker>, 2016.</example>
+                    <example correction=""><marker>January, 10 – 1</marker>, 2016.</example>                    
              </rule>
         </rulegroup>
         <rulegroup id="ORDINAL_NUMBER_SUFFIX" name="wrong suffix of ordinal number">
@@ -26090,17 +26090,17 @@ USA
     <rule id="R_SYMBOL" name="(R) instead of ®">
 		<antipattern case_sensitive="yes">
 		    <marker>
-		    <token>(</token>
+		    <token>(</token>        
         <token>R</token>
-        <token skip="-1">)</token>
+        <token skip="-1">)</token>        
         </marker>
         <token regexp="yes">[\p{Lu}^R]<exception scope="previous" negate="yes">(</exception></token>
         <token skip="-1">)</token>
 		</antipattern>
 		<antipattern case_sensitive="yes">
-		    <token>(</token>
+		    <token>(</token>        
         <token regexp="yes">[\p{Lu}^R]</token>
-        <token skip="-1">)</token>
+        <token skip="-1">)</token>        
         <marker>
         <token>R<exception scope="previous" negate="yes">(</exception></token>
         <token skip="-1">)</token>
@@ -26121,19 +26121,19 @@ USA
     </rule>
     <rule id="COPYRIGHT" name="(c) instead of ©" type="typographical">
     <antipattern>
-        <token>(</token>
+        <token>(</token>        
         <token>a</token>
-        <token skip="-1">)</token>
+        <token skip="-1">)</token>        
         <token>b<exception scope="previous" negate="yes">(</exception></token>
         <token skip="-1">)</token>
-        <marker>
+        <marker>        
         <token>c<exception scope="previous" negate="yes">(</exception></token>
         <token>)</token>
         </marker>
-		</antipattern>
+		</antipattern>    
       <pattern>
       <marker>
-        <token>(</token>
+        <token>(</token>        
         <token>c</token>
         <token>)</token>
         </marker>
@@ -26287,7 +26287,7 @@ USA
                 <example correction="shouldn't|shouldn’t">You <marker>shouldn;t</marker> do it!</example>
                 <example correction="couldn't|couldn’t">I <marker>couldn t</marker> do it!</example>
             </rule>
-        </rulegroup>
+        </rulegroup>   
         <rule id="APOSTROPHE_IN_DATES" name="Apostrophe in dates">
             <pattern>
                 <token spacebefore="yes" regexp='yes'>(:?[1-2]\d)?\d0<exception regexp='yes'>2[1-9]\d0</exception></token>
@@ -26318,9 +26318,9 @@ USA
             <pattern>
                 <token regexp="yes">actions?</token>
             </pattern>
-            <message>In EU texts, the word 'action' is used countably with a meaning akin to
-            '<suggestion><match no="1" postag_regexp="yes" postag="NN(S)|NN:UN" postag_replace="NN$1">scheme</match></suggestion>',
-            '<suggestion><match no="1" postag_regexp="yes" postag="(NNS|NN:UN)" postag_replace="$1">measure</match></suggestion>' or
+            <message>In EU texts, the word 'action' is used countably with a meaning akin to 
+            '<suggestion><match no="1" postag_regexp="yes" postag="NN(S)|NN:UN" postag_replace="NN$1">scheme</match></suggestion>', 
+            '<suggestion><match no="1" postag_regexp="yes" postag="(NNS|NN:UN)" postag_replace="$1">measure</match></suggestion>' or 
             '<suggestion><match no="1" postag_regexp="yes" postag="(NNS|NN:UN)" postag_replace="$1">project</match></suggestion>'. Where 'action' is used countably with this meaning, use one of those words.</message>
             <url>http://euenglish.webs.com/</url>
             <short>EU English: action</short>
@@ -26502,11 +26502,11 @@ USA
                 <pattern>
                     <token inflected="yes">articulate</token>
                 </pattern>
-                <message>The verb 'articulate' normally means 'to put something into words' (e.g. 'he tried to articulate his fears'). Used intransitively, it means 'to speak' or 'to enunciate'. In EU texts, on the other hand, 'articulate' is commonly used to mean
-                <suggestion><match no="1" postag="VB.*">coordinate</match></suggestion>,
-                <suggestion><match no="1" postag="VB.*">link</match> together</suggestion>,
-                <suggestion><match no="1" postag="VB.*">connect</match></suggestion>,
-                <suggestion><match no="1" postag="VB.*">organise</match></suggestion>,
+                <message>The verb 'articulate' normally means 'to put something into words' (e.g. 'he tried to articulate his fears'). Used intransitively, it means 'to speak' or 'to enunciate'. In EU texts, on the other hand, 'articulate' is commonly used to mean 
+                <suggestion><match no="1" postag="VB.*">coordinate</match></suggestion>, 
+                <suggestion><match no="1" postag="VB.*">link</match> together</suggestion>, 
+                <suggestion><match no="1" postag="VB.*">connect</match></suggestion>, 
+                <suggestion><match no="1" postag="VB.*">organise</match></suggestion>, 
                 <suggestion><match no="1" postag="VB.*">structure</match></suggestion>.</message>
                 <url>http://euenglish.webs.com/</url>
                 <short>EU English: articulate/articulation</short>
@@ -26521,9 +26521,9 @@ USA
                 <pattern>
                     <token inflected="yes">articulation</token>
                 </pattern>
-                <message>'Articulation' is 'the act or process of speaking or expressing in words'; it is also a synonym for a joint (principally in anatomy, botany and mechanics) and, by extension, the 'state of being jointed together'. Alternatives:
-                <suggestion><match no="1" postag_regexp="yes" postag="NNS|NN:UN" postag_replace="NN:U">coordination</match></suggestion>,
-                <suggestion><match no="1" postag_regexp="yes" postag="NN(S)|NN:UN" postag_replace="NN$1">link</match></suggestion>,
+                <message>'Articulation' is 'the act or process of speaking or expressing in words'; it is also a synonym for a joint (principally in anatomy, botany and mechanics) and, by extension, the 'state of being jointed together'. Alternatives: 
+                <suggestion><match no="1" postag_regexp="yes" postag="NNS|NN:UN" postag_replace="NN:U">coordination</match></suggestion>, 
+                <suggestion><match no="1" postag_regexp="yes" postag="NN(S)|NN:UN" postag_replace="NN$1">link</match></suggestion>, 
                 <suggestion><match no="1" postag_regexp="yes" postag="NN(S|:UN)" postag_replace="NN$1">structure</match></suggestion>.</message>
                 <url>http://euenglish.webs.com/</url>
                 <short>EU English: articulate/articulation</short>
@@ -26568,11 +26568,11 @@ USA
                     </marker>
                     <token postag_regexp="yes" postag="NN.*" regexp="yes" inflected="yes">aid|compensation|contract|licence</token>
                 </pattern>
-                <message>If you attribute something to someone, you are saying that he is thought to have made it/produced it. You can also attribute something to a cause ('The EIB attributes this relative underperformance… to the financial crisis'). You cannot, however, attribute aid, compensation, contracts or licences. Alternatives:
-                <suggestion><match no="1" postag="V.*">allocate</match></suggestion>,
-                <suggestion><match no="1" postag="V.*">grant</match></suggestion>,
-                <suggestion><match no="1" postag="V.*">give</match></suggestion>,
-                <suggestion><match no="1" postag="V.*">award</match></suggestion>,
+                <message>If you attribute something to someone, you are saying that he is thought to have made it/produced it. You can also attribute something to a cause ('The EIB attributes this relative underperformance… to the financial crisis'). You cannot, however, attribute aid, compensation, contracts or licences. Alternatives: 
+                <suggestion><match no="1" postag="V.*">allocate</match></suggestion>, 
+                <suggestion><match no="1" postag="V.*">grant</match></suggestion>, 
+                <suggestion><match no="1" postag="V.*">give</match></suggestion>, 
+                <suggestion><match no="1" postag="V.*">award</match></suggestion>, 
                 <suggestion><match no="1" postag="V.*">assign</match></suggestion>.</message>
                 <url>http://euenglish.webs.com/</url>
                 <short>EU English: attribute to</short>
@@ -26592,11 +26592,11 @@ USA
                         <token postag_regexp="yes" postag="VB.*" inflected="yes">attribute</token>
                     </marker>
                 </pattern>
-                <message>If you attribute something to someone, you are saying that he is thought to have made it/produced it. You can also attribute something to a cause ('The EIB attributes this relative underperformance… to the financial crisis'). You cannot, however, attribute aid, compensation, contracts or licences. Alternatives:
-                <suggestion><match no="2" postag="V.*">allocate</match></suggestion>,
-                <suggestion><match no="2" postag="V.*">grant</match></suggestion>,
-                <suggestion><match no="2" postag="V.*">give</match></suggestion>,
-                <suggestion><match no="2" postag="V.*">award</match></suggestion>,
+                <message>If you attribute something to someone, you are saying that he is thought to have made it/produced it. You can also attribute something to a cause ('The EIB attributes this relative underperformance… to the financial crisis'). You cannot, however, attribute aid, compensation, contracts or licences. Alternatives: 
+                <suggestion><match no="2" postag="V.*">allocate</match></suggestion>, 
+                <suggestion><match no="2" postag="V.*">grant</match></suggestion>, 
+                <suggestion><match no="2" postag="V.*">give</match></suggestion>, 
+                <suggestion><match no="2" postag="V.*">award</match></suggestion>, 
                 <suggestion><match no="2" postag="V.*">assign</match></suggestion>.</message>
                 <url>http://euenglish.webs.com/</url>
                 <short>EU English: attribute to</short>
@@ -26624,10 +26624,10 @@ USA
             <pattern>
                 <token inflected="yes">badge</token>
             </pattern>
-            <message>Although the use of the word 'badge' to mean '<suggestion>service pass</suggestion>' seems to have gained currency in the English speaking world, it can still not be used to describe a lunch card or the little tag you use to clock in and out at work. Generally speaking it must be something attached to or worn on your outer clothing. There is also no verb 'to badge' in this context. Alternatives:
-            <suggestion>tag</suggestion> for the clocking-in device, and
-            <suggestion>clock in</suggestion> or
-            <suggestion>clock out</suggestion> for the verb. In the school example, the object is actually a
+            <message>Although the use of the word 'badge' to mean '<suggestion>service pass</suggestion>' seems to have gained currency in the English speaking world, it can still not be used to describe a lunch card or the little tag you use to clock in and out at work. Generally speaking it must be something attached to or worn on your outer clothing. There is also no verb 'to badge' in this context. Alternatives: 
+            <suggestion>tag</suggestion> for the clocking-in device, and 
+            <suggestion>clock in</suggestion> or 
+            <suggestion>clock out</suggestion> for the verb. In the school example, the object is actually a 
             <suggestion>lunch card</suggestion>.</message>
             <url>http://euenglish.webs.com/</url>
             <short>EU English: badge (badge, to badge)</short>
@@ -26696,15 +26696,15 @@ USA
                 <token>budget</token>
                 <token regexp="yes">lines?</token>
             </pattern>
-            <message>'Budget line' is used so often that it has begun to sound right. However, it does not exist in English in the sense in which it is used in the EU institutions. Furthermore, there is no consensus as to what 'budget line' actually refers to (some say 'budget heading' and some 'budget item'). The dictionary definition of 'budget line' is 'the alternative combinations of two different goods that can be purchased with a given income and given prices of the two goods'. Alternatives:
-            <suggestion>budget <match no="2" postag_regexp="yes" postag="(NNS|NN:UN)" postag_replace="$1">heading</match></suggestion>,
-            <suggestion>budget <match no="2" postag_regexp="yes" postag="NN(S)|NN:UN" postag_replace="NN$1">item</match></suggestion>,
+            <message>'Budget line' is used so often that it has begun to sound right. However, it does not exist in English in the sense in which it is used in the EU institutions. Furthermore, there is no consensus as to what 'budget line' actually refers to (some say 'budget heading' and some 'budget item'). The dictionary definition of 'budget line' is 'the alternative combinations of two different goods that can be purchased with a given income and given prices of the two goods'. Alternatives: 
+            <suggestion>budget <match no="2" postag_regexp="yes" postag="(NNS|NN:UN)" postag_replace="$1">heading</match></suggestion>, 
+            <suggestion>budget <match no="2" postag_regexp="yes" postag="NN(S)|NN:UN" postag_replace="NN$1">item</match></suggestion>, 
             <suggestion>budget <match no="2" postag_regexp="yes" postag="(NNS|NN:UN)" postag_replace="$1">title</match></suggestion>.</message>
             <url>http://euenglish.webs.com/</url>
             <short>EU English: budget line</short>
             <example type="incorrect" correction="budget heading|budget item|budget title">These are DG and Culture (DG EAC) for <marker>budget line</marker> 15, …</example>
             <example>These are DG and Culture (DG EAC) for <marker>budget item</marker> 15, …</example>
-            <example type="incorrect" correction="Budget headings|Budget items|Budget titles"><marker>Budget lines</marker>:</example>
+            <example type="incorrect" correction="Budget headings|Budget items|Budget titles"><marker>Budget lines</marker>:</example> 
             <example>Use these <marker>budget headings</marker>:</example>
         </rule>
         <rule id="EUPUB_CABINET" name="cabinet">
@@ -26715,7 +26715,7 @@ USA
             <pattern>
                 <token regexp="yes">cabinets?</token>
             </pattern>
-            <message>'Cabinet' (usually pronounced 'cabinay' by English-speaking EU officials and 'cabinet' by others) is the term used at the Commission (and informally at the Court of Auditors) to refer to the private office of a Commissioner (or Member). Other than denoting a piece of furniture, the term is most commonly used in Britain to refer to 'the senior ministers of the British Government'. The 'British cabinet' is therefore 'the principal executive group of British government' and not the private office of the British member of the Commission or Court or the staff thereof. Alternatives:
+            <message>'Cabinet' (usually pronounced 'cabinay' by English-speaking EU officials and 'cabinet' by others) is the term used at the Commission (and informally at the Court of Auditors) to refer to the private office of a Commissioner (or Member). Other than denoting a piece of furniture, the term is most commonly used in Britain to refer to 'the senior ministers of the British Government'. The 'British cabinet' is therefore 'the principal executive group of British government' and not the private office of the British member of the Commission or Court or the staff thereof. Alternatives: 
             <suggestion>private office</suggestion>, <suggestion>office</suggestion>.</message><!-- Cannot make postag replacement give the correct result. -->
             <url>http://euenglish.webs.com/</url>
             <short>EU English: cabinet</short>
@@ -26740,7 +26740,7 @@ USA
             <pattern>
                 <token inflected="yes">citizen</token>
             </pattern>
-            <message>'Citizen' has become something of a buzzword that EU authors like to include in their texts, presumably to emphasize the concept of 'European citizenship', as introduced under the Maastricht treaty. Actually, this word is decidedly less common in English than in some other languages and, in native texts, it is nearly always used to mean 'a legally recognized subject or national of a state or commonwealth'. The emphasis is very much on nationality, so, for example, if we say that 'steps have been taken to help citizens get back to work', we imply that non-citizens are not expected to benefit. Use 'citizen' only if you really mean 'citizen' and particularly if you wish to exclude non-citizens. Otherwise, use <suggestion>the public</suggestion>, <suggestion>people</suggestion>,
+            <message>'Citizen' has become something of a buzzword that EU authors like to include in their texts, presumably to emphasize the concept of 'European citizenship', as introduced under the Maastricht treaty. Actually, this word is decidedly less common in English than in some other languages and, in native texts, it is nearly always used to mean 'a legally recognized subject or national of a state or commonwealth'. The emphasis is very much on nationality, so, for example, if we say that 'steps have been taken to help citizens get back to work', we imply that non-citizens are not expected to benefit. Use 'citizen' only if you really mean 'citizen' and particularly if you wish to exclude non-citizens. Otherwise, use <suggestion>the public</suggestion>, <suggestion>people</suggestion>, 
             <suggestion><match no="1" postag_regexp="yes" postag="NN(S)?" postag_replace="NN$1">taxpayer</match></suggestion>.</message>
             <url>http://euenglish.webs.com/</url>
             <short>EU English: citizen</short>
@@ -26793,8 +26793,8 @@ USA
             <pattern>
                 <token inflected="yes">complete</token>
             </pattern>
-            <message>To 'complete' means to finish, end or terminate. It therefore implies that whatever is being completed was somehow incomplete. In EU texts, however, this word is often used to mean that something extra has been added to supplement something that, in itself, was actually complete beforehand. Alternatives:
-            <suggestion><match no="1" postag_regexp="yes" postag="(VB.*)" postag_replace="$1">supplement</match></suggestion>,
+            <message>To 'complete' means to finish, end or terminate. It therefore implies that whatever is being completed was somehow incomplete. In EU texts, however, this word is often used to mean that something extra has been added to supplement something that, in itself, was actually complete beforehand. Alternatives: 
+            <suggestion><match no="1" postag_regexp="yes" postag="(VB.*)" postag_replace="$1">supplement</match></suggestion>, 
             <suggestion><match no="1" postag_regexp="yes" postag="(VB.*)" postag_replace="$1">add</match> to</suggestion>.</message>
             <url>http://euenglish.webs.com/</url>
             <short>EU English: complete)</short>
@@ -26845,9 +26845,9 @@ USA
             <pattern>
                 <token postag_regexp="yes" postag="NN:UN|NNS" inflected="yes">conference</token>
             </pattern>
-            <message>In-house terminology uses 'conference' to refer to a simple talk or lecture, where one speaker comes to impart his knowledge on a given subject. In English, a conference is 'a high-level meeting for consultation or exchange of information or discussion with a number of speakers, often lasting several days', like the Kyoto conference, or in the legal context, a one-to-one meeting between a barrister and his client. Alternatives:
-            <suggestion><match no="1" postag_regexp="yes" postag="(NNS|NN:UN)" postag_replace="$1">talk</match></suggestion>,
-            <suggestion><match no="1" postag_regexp="yes" postag="NN(S)|NN:UN" postag_replace="NN$1">lecture</match></suggestion>,
+            <message>In-house terminology uses 'conference' to refer to a simple talk or lecture, where one speaker comes to impart his knowledge on a given subject. In English, a conference is 'a high-level meeting for consultation or exchange of information or discussion with a number of speakers, often lasting several days', like the Kyoto conference, or in the legal context, a one-to-one meeting between a barrister and his client. Alternatives: 
+            <suggestion><match no="1" postag_regexp="yes" postag="(NNS|NN:UN)" postag_replace="$1">talk</match></suggestion>, 
+            <suggestion><match no="1" postag_regexp="yes" postag="NN(S)|NN:UN" postag_replace="NN$1">lecture</match></suggestion>, 
             <suggestion><match no="1" postag_regexp="yes" postag="(NNS|NN:UN)" postag_replace="$1">presentation</match></suggestion>.</message>
             <url>http://euenglish.webs.com/</url>
             <short>EU English: conference</short>
@@ -26903,11 +26903,11 @@ USA
                 <pattern>
                     <token postag_regexp="yes" postag="VB.*" inflected="yes">control</token>
                 </pattern>
-                <message>To control does not usually mean 'to audit' 'check' or 'verify' and 'a control' is not normally 'a check' or 'an inspection'. Its most common meaning is 'to exercise authoritative or dominating influence over; direct'. Thus, if we say that 'the Commission controlled project X in the Member States', we do not mean that the Commission audited it, but that the Commission ran it. Used as a noun, we do not 'carry out' or 'perform' controls. Controls are more likely to be systems that are in place (passport controls, for example). Hence, we can say that the Court checked to see if the key controls were working, but not that it carried out controls. Furthermore, when talking about systems, the best term will often be 'safeguard'. Alternatives:
-                <suggestion><match no="1" postag_regexp="yes" postag="(VB.*)" postag_replace="$1">audit</match></suggestion>,
-                <suggestion><match no="1" postag_regexp="yes" postag="(VB.*)" postag_replace="$1">check</match></suggestion>,
-                <suggestion><match no="1" postag_regexp="yes" postag="(VB.*)" postag_replace="$1">verify</match></suggestion>,
-                <suggestion><match no="1" postag_regexp="yes" postag="(VB.*)" postag_replace="$1">inspect</match></suggestion>, inspection,
+                <message>To control does not usually mean 'to audit' 'check' or 'verify' and 'a control' is not normally 'a check' or 'an inspection'. Its most common meaning is 'to exercise authoritative or dominating influence over; direct'. Thus, if we say that 'the Commission controlled project X in the Member States', we do not mean that the Commission audited it, but that the Commission ran it. Used as a noun, we do not 'carry out' or 'perform' controls. Controls are more likely to be systems that are in place (passport controls, for example). Hence, we can say that the Court checked to see if the key controls were working, but not that it carried out controls. Furthermore, when talking about systems, the best term will often be 'safeguard'. Alternatives: 
+                <suggestion><match no="1" postag_regexp="yes" postag="(VB.*)" postag_replace="$1">audit</match></suggestion>, 
+                <suggestion><match no="1" postag_regexp="yes" postag="(VB.*)" postag_replace="$1">check</match></suggestion>, 
+                <suggestion><match no="1" postag_regexp="yes" postag="(VB.*)" postag_replace="$1">verify</match></suggestion>, 
+                <suggestion><match no="1" postag_regexp="yes" postag="(VB.*)" postag_replace="$1">inspect</match></suggestion>, inspection, 
                 <suggestion><match no="1" postag_regexp="yes" postag="(VB.*)" postag_replace="$1">safeguard</match></suggestion>.
                 </message>
                 <url>http://euenglish.webs.com/</url>
@@ -26923,11 +26923,11 @@ USA
                 <pattern>
                     <token postag_regexp="yes" postag="NN.*" inflected="yes">control</token>
                 </pattern>
-                <message>To control does not usually mean 'to audit' 'check' or 'verify' and 'a control' is not normally 'a check' or 'an inspection'. Its most common meaning is 'to exercise authoritative or dominating influence over; direct'. Thus, if we say that 'the Commission controlled project X in the Member States', we do not mean that the Commission audited it, but that the Commission ran it. Used as a noun, we do not 'carry out' or 'perform' controls. Controls are more likely to be systems that are in place (passport controls, for example). Hence, we can say that the Court checked to see if the key controls were working, but not that it carried out controls. Furthermore, when talking about systems, the best term will often be 'safeguard'. Alternatives:
-                <suggestion><match no="1" postag_regexp="yes" postag="NN(S)|NN:UN" postag_replace="NN$1">audit</match></suggestion>,
-                <suggestion><match no="1" postag_regexp="yes" postag="(NNS|NN:UN)" postag_replace="$1">check</match></suggestion>,
-                verify, inspect,
-                <suggestion><match no="1" postag_regexp="yes" postag="(NNS|NN:UN)" postag_replace="$1">inspection</match></suggestion>,
+                <message>To control does not usually mean 'to audit' 'check' or 'verify' and 'a control' is not normally 'a check' or 'an inspection'. Its most common meaning is 'to exercise authoritative or dominating influence over; direct'. Thus, if we say that 'the Commission controlled project X in the Member States', we do not mean that the Commission audited it, but that the Commission ran it. Used as a noun, we do not 'carry out' or 'perform' controls. Controls are more likely to be systems that are in place (passport controls, for example). Hence, we can say that the Court checked to see if the key controls were working, but not that it carried out controls. Furthermore, when talking about systems, the best term will often be 'safeguard'. Alternatives: 
+                <suggestion><match no="1" postag_regexp="yes" postag="NN(S)|NN:UN" postag_replace="NN$1">audit</match></suggestion>, 
+                <suggestion><match no="1" postag_regexp="yes" postag="(NNS|NN:UN)" postag_replace="$1">check</match></suggestion>, 
+                verify, inspect, 
+                <suggestion><match no="1" postag_regexp="yes" postag="(NNS|NN:UN)" postag_replace="$1">inspection</match></suggestion>, 
                 <suggestion><match no="1" postag_regexp="yes" postag="NN(S)|NN:UN" postag_replace="NN$1">safeguard</match></suggestion>.
                 </message>
                 <url>http://euenglish.webs.com/</url>
@@ -26943,10 +26943,10 @@ USA
                 <pattern case_sensitive="yes">
                     <token regexp="yes">dean|deans|Deans<exception postag="NNP"/></token>
                 </pattern>
-                <message>In British and Irish usage, a 'dean' is either a relatively senior priest or the head of a university faculty. At the Court of Auditors, on the other hand, it is the name given to the doyen or chair of the institution's audit chambers. 'Dean' is now the official title at the Court, but, in our dealings with the outside world, we should not be surprised if people think that we have our own in-house clergy. Alternatives:
-                <suggestion><match no="1" postag_regexp="yes" postag="(NN|NNS)" postag_replace="$1">chair</match></suggestion>,
-                <suggestion><match no="1" postag_regexp="yes" postag="(NN|NNS)" postag_replace="$1">chairwoman</match></suggestion>,
-                <suggestion><match no="1" postag_regexp="yes" postag="NN|NN(S)" postag_replace="NN$1(:UN)?">chairman</match></suggestion>,
+                <message>In British and Irish usage, a 'dean' is either a relatively senior priest or the head of a university faculty. At the Court of Auditors, on the other hand, it is the name given to the doyen or chair of the institution's audit chambers. 'Dean' is now the official title at the Court, but, in our dealings with the outside world, we should not be surprised if people think that we have our own in-house clergy. Alternatives: 
+                <suggestion><match no="1" postag_regexp="yes" postag="(NN|NNS)" postag_replace="$1">chair</match></suggestion>, 
+                <suggestion><match no="1" postag_regexp="yes" postag="(NN|NNS)" postag_replace="$1">chairwoman</match></suggestion>, 
+                <suggestion><match no="1" postag_regexp="yes" postag="NN|NN(S)" postag_replace="NN$1(:UN)?">chairman</match></suggestion>, 
                 <suggestion><match no="1" postag_regexp="yes" postag="(NN|NNS)" postag_replace="$1">chairperson</match></suggestion>,
                 <suggestion><match no="1" postag_regexp="yes" postag="(NN|NNS)" postag_replace="$1">doyen</match></suggestion>.</message>
                 <url>http://euenglish.webs.com/</url>
@@ -26961,9 +26961,9 @@ USA
                 <pattern case_sensitive="yes">
                     <token>Dean</token>
                 </pattern>
-                <message>In British and Irish usage, a 'dean' is either a relatively senior priest or the head of a university faculty. At the Court of Auditors, on the other hand, it is the name given to the doyen or chair of the institution's audit chambers. 'Dean' is now the official title at the Court, but, in our dealings with the outside world, we should not be surprised if people think that we have our own in-house clergy. Alternatives: <suggestion>Chair</suggestion>,
-                <suggestion>Chairwoman</suggestion>,
-                <suggestion>Chairman</suggestion>,
+                <message>In British and Irish usage, a 'dean' is either a relatively senior priest or the head of a university faculty. At the Court of Auditors, on the other hand, it is the name given to the doyen or chair of the institution's audit chambers. 'Dean' is now the official title at the Court, but, in our dealings with the outside world, we should not be surprised if people think that we have our own in-house clergy. Alternatives: <suggestion>Chair</suggestion>, 
+                <suggestion>Chairwoman</suggestion>, 
+                <suggestion>Chairman</suggestion>, 
                 <suggestion>Chairperson</suggestion>,
                 <suggestion>Doyen</suggestion>.</message>
                 <url>http://euenglish.webs.com/</url>
@@ -27004,11 +27004,11 @@ USA
             <pattern>
                 <token inflected="yes">deepen</token>
             </pattern>
-            <message>'Deepen' is a difficult word to use figuratively. In addition to its literal meaning (e.g. deepen a well), it can also be used to mean 'to increase', 'improve' or 'boost'. However, it cannot be used indiscriminately in this way and, in this meaning, can actually only be associated with a few abstract terms like 'knowledge' or 'understanding'. Alternatives:
-            <suggestion><match no="1" postag="VB.*">improve</match></suggestion>,
-            <suggestion><match no="1" postag="VB.*">increase</match></suggestion>,
-            <suggestion><match no="1" postag="VB.*">bolster</match></suggestion>,
-            <suggestion><match no="1" postag="VB.*">boost</match></suggestion>,
+            <message>'Deepen' is a difficult word to use figuratively. In addition to its literal meaning (e.g. deepen a well), it can also be used to mean 'to increase', 'improve' or 'boost'. However, it cannot be used indiscriminately in this way and, in this meaning, can actually only be associated with a few abstract terms like 'knowledge' or 'understanding'. Alternatives: 
+            <suggestion><match no="1" postag="VB.*">improve</match></suggestion>, 
+            <suggestion><match no="1" postag="VB.*">increase</match></suggestion>, 
+            <suggestion><match no="1" postag="VB.*">bolster</match></suggestion>, 
+            <suggestion><match no="1" postag="VB.*">boost</match></suggestion>, 
             <suggestion><match no="1" postag="VB.*">develop</match></suggestion>.</message>
             <url>http://euenglish.webs.com/</url>
             <short>EU English: deepen</short>
@@ -27023,12 +27023,12 @@ USA
                 <pattern>
                     <token inflected="yes">define</token>
                 </pattern>
-                <message>In English, 'define' means 'to state the precise meaning of' (for example 'we have already defined the meaning of control'). It does not mean
-                '<suggestion><match no="1" postag="VB.*">establish</match></suggestion>',
-                '<suggestion><match no="1" postag="VB.*">set</match> out</suggestion>',
-                '<suggestion><match no="1" postag="VB.*">lay</match> down</suggestion>' or
-                '<suggestion><match no="1" postag="VB.*">illustrate</match></suggestion>'. Other alternatives:
-                <suggestion><match no="1" postag="VB.*">draft</match></suggestion>, establishment, drafting,
+                <message>In English, 'define' means 'to state the precise meaning of' (for example 'we have already defined the meaning of control'). It does not mean 
+                '<suggestion><match no="1" postag="VB.*">establish</match></suggestion>', 
+                '<suggestion><match no="1" postag="VB.*">set</match> out</suggestion>', 
+                '<suggestion><match no="1" postag="VB.*">lay</match> down</suggestion>' or 
+                '<suggestion><match no="1" postag="VB.*">illustrate</match></suggestion>'. Other alternatives: 
+                <suggestion><match no="1" postag="VB.*">draft</match></suggestion>, establishment, drafting, 
                 <suggestion><match no="1" postag="VB.*">design</match></suggestion>.</message>
                 <url>http://euenglish.webs.com/</url>
                 <short>EU English: define/definition</short>
@@ -27043,10 +27043,10 @@ USA
                 <pattern>
                     <token inflected="yes">definition</token>
                 </pattern>
-                <message>In English, 'define' means 'to state the precise meaning of' (for example 'we have already defined the meaning of control'). It does not mean 'establish', 'set out', 'lay down' or 'illustrate'. Alternatives:
-                <suggestion><match no="1" postag_regexp="yes" postag="NN(S)|NN:UN" postag_replace="NN$1">draft</match></suggestion>,
-                <suggestion><match no="1" postag_regexp="yes" postag="(NNS|NN:UN)" postag_replace="NN:UN">establishment</match></suggestion>,
-                <suggestion><match no="1" postag_regexp="yes" postag="(NNS|NN:UN)" postag_replace="NN:U">drafting</match></suggestion>,
+                <message>In English, 'define' means 'to state the precise meaning of' (for example 'we have already defined the meaning of control'). It does not mean 'establish', 'set out', 'lay down' or 'illustrate'. Alternatives: 
+                <suggestion><match no="1" postag_regexp="yes" postag="NN(S)|NN:UN" postag_replace="NN$1">draft</match></suggestion>, 
+                <suggestion><match no="1" postag_regexp="yes" postag="(NNS|NN:UN)" postag_replace="NN:UN">establishment</match></suggestion>, 
+                <suggestion><match no="1" postag_regexp="yes" postag="(NNS|NN:UN)" postag_replace="NN:U">drafting</match></suggestion>, 
                 <suggestion><match no="1" postag_regexp="yes" postag="(NNS|NN:UN)" postag_replace="$1">design</match></suggestion>.</message>
                 <url>http://euenglish.webs.com/</url>
                 <short>EU English: define/definition</short>
@@ -27061,9 +27061,9 @@ USA
             <pattern>
                 <token postag_regexp="yes" postag="NN.*" inflected="yes">delay</token>
             </pattern>
-            <message>'Delay' is often used in the EU to mean 'deadline' or 'time limit'. In English, on the other hand, 'delay' always refers to something being late or taking longer than is necessary. You cannot, therefore comply with (or 'respect') a delay. Alternatives:
-            <suggestion>time <match no="1" postag_regexp="yes" postag="NN(S)|NN:UN" postag_replace="NN$1">limit</match></suggestion>,
-            <suggestion><match no="1" postag_regexp="yes" postag="NN(S)|NN:UN" postag_replace="NN$1">deadline</match></suggestion>,
+            <message>'Delay' is often used in the EU to mean 'deadline' or 'time limit'. In English, on the other hand, 'delay' always refers to something being late or taking longer than is necessary. You cannot, therefore comply with (or 'respect') a delay. Alternatives: 
+            <suggestion>time <match no="1" postag_regexp="yes" postag="NN(S)|NN:UN" postag_replace="NN$1">limit</match></suggestion>, 
+            <suggestion><match no="1" postag_regexp="yes" postag="NN(S)|NN:UN" postag_replace="NN$1">deadline</match></suggestion>, 
             <suggestion>time allowed</suggestion>.</message>
             <url>http://euenglish.webs.com/</url>
             <short>EU English: delay</short>
@@ -27099,7 +27099,7 @@ USA
                     <token>dispose</token>
                     <token>of</token>
                 </pattern>
-                <message>The most common meaning of 'dispose of' is 'to get rid of' or 'to throw away'; it never means 'to have', 'to possess' or 'to have in one's possession'. Alternatives:
+                <message>The most common meaning of 'dispose of' is 'to get rid of' or 'to throw away'; it never means 'to have', 'to possess' or 'to have in one's possession'. Alternatives: 
                 <suggestion>have</suggestion>, <suggestion>possess</suggestion>, xyz is/are not available to [the Commission].</message>
                 <url>http://euenglish.webs.com/</url>
                 <short>EU English: dispose (of)</short>
@@ -27111,8 +27111,8 @@ USA
                     <token regexp="yes">dispose[sd]|disposing</token>
                     <token>of</token>
                 </pattern>
-                <message>The most common meaning of 'dispose of' is 'to get rid of' or 'to throw away'; it never means 'to have', 'to possess' or 'to have in one's possession'. Alternatives:
-                <suggestion><match no="1" postag="VB.*">have</match></suggestion>,
+                <message>The most common meaning of 'dispose of' is 'to get rid of' or 'to throw away'; it never means 'to have', 'to possess' or 'to have in one's possession'. Alternatives: 
+                <suggestion><match no="1" postag="VB.*">have</match></suggestion>, 
                 <suggestion><match no="1" postag="VB.*">possess</match></suggestion>, xyz is/are not available to [the Commission].</message>
                 <url>http://euenglish.webs.com/</url>
                 <short>EU English: dispose (of)</short>
@@ -27138,8 +27138,8 @@ USA
                 </marker>
             <token><exception>not</exception><exception postag="PRP"/><exception>something</exception></token><!-- Exception 'something' prevents the Maven error. Refer to http://www.mail-archive.com/languagetool-devel@lists.sourceforge.net/msg05797.html. Not a problem, because 'do something' is better than 'perform something'. -->
             </pattern>
-            <message>'To do' is a rather weak word: 'to perform' and 'to carry out' are often better. Using them also avoids the all too common confusion between 'to do' and 'to make'. Alternatives: <suggestion><match no="1" postag="VB.*">perform</match></suggestion>,
-            <suggestion><match no="1" postag="VB.*">carry</match> out</suggestion>,
+            <message>'To do' is a rather weak word: 'to perform' and 'to carry out' are often better. Using them also avoids the all too common confusion between 'to do' and 'to make'. Alternatives: <suggestion><match no="1" postag="VB.*">perform</match></suggestion>, 
+            <suggestion><match no="1" postag="VB.*">carry</match> out</suggestion>, 
             <suggestion><match no="1" postag="VB.*">undertake</match></suggestion>.</message>
             <url>http://euenglish.webs.com/</url>
             <short>EU English: do</short>
@@ -27163,12 +27163,12 @@ USA
             <pattern>
                 <token inflected="yes">dossier</token>
             </pattern>
-            <message>A 'dossier' is a file. However, it is not a particularly common word and not one that readers will necessarily fully understand or even know how to pronounce. In EU texts, in addition to being overused, it is also employed metaphorically, where there is no actual file, to mean 'subject', 'issue' or 'question'. If you mean file, use
-            '<suggestion><match no="1" postag_regexp="yes" postag="NN(S)?" postag_replace="NN$1">file</match></suggestion>', otherwise
-            <suggestion><match no="1" postag_regexp="yes" postag="NN(S)?" postag_replace="NN$1(:UN)?">question</match></suggestion>,
-            <suggestion><match no="1" postag_regexp="yes" postag="NN(S)?" postag_replace="NN$1(:UN)?">issue</match></suggestion>,
-            <suggestion><match no="1" postag_regexp="yes" postag="NN(S)?" postag_replace="NN$1(:UN)?">matter</match></suggestion>,
-            <suggestion><match no="1" postag_regexp="yes" postag="NN(S)?" postag_replace="NN$1(:UN)?">subject</match></suggestion> or even
+            <message>A 'dossier' is a file. However, it is not a particularly common word and not one that readers will necessarily fully understand or even know how to pronounce. In EU texts, in addition to being overused, it is also employed metaphorically, where there is no actual file, to mean 'subject', 'issue' or 'question'. If you mean file, use 
+            '<suggestion><match no="1" postag_regexp="yes" postag="NN(S)?" postag_replace="NN$1">file</match></suggestion>', otherwise 
+            <suggestion><match no="1" postag_regexp="yes" postag="NN(S)?" postag_replace="NN$1(:UN)?">question</match></suggestion>, 
+            <suggestion><match no="1" postag_regexp="yes" postag="NN(S)?" postag_replace="NN$1(:UN)?">issue</match></suggestion>, 
+            <suggestion><match no="1" postag_regexp="yes" postag="NN(S)?" postag_replace="NN$1(:UN)?">matter</match></suggestion>, 
+            <suggestion><match no="1" postag_regexp="yes" postag="NN(S)?" postag_replace="NN$1(:UN)?">subject</match></suggestion> or even 
             <suggestion><match no="1" postag_regexp="yes" postag="NN(S)?" postag_replace="NN$1(:UN)?">procedure</match></suggestion>.</message>
             <url>http://euenglish.webs.com/</url>
             <short>EU English: dossier</short>
@@ -27182,9 +27182,9 @@ USA
             <pattern>
                 <token inflected="yes">elaborate</token>
             </pattern>
-            <message>To elaborate means 'to work out carefully or minutely' or 'to develop to perfection'. It does not mean to write something up. It is possible to elaborate a strategy, but not a document. Alternatives:
-            <suggestion><match no="1" postag="VB.*">draft</match></suggestion>,
-            <suggestion><match no="1" postag="VB.*">draw</match> up</suggestion>,
+            <message>To elaborate means 'to work out carefully or minutely' or 'to develop to perfection'. It does not mean to write something up. It is possible to elaborate a strategy, but not a document. Alternatives: 
+            <suggestion><match no="1" postag="VB.*">draft</match></suggestion>, 
+            <suggestion><match no="1" postag="VB.*">draw</match> up</suggestion>, 
             <suggestion><match no="1" postag="VB.*">prepare</match></suggestion>.</message>
             <url>http://euenglish.webs.com/</url>
             <short>EU English: elaborate</short>
@@ -27206,9 +27206,9 @@ USA
             <pattern>
                 <token postag_regexp="yes" postag="NN.*" inflected="yes">enterprise</token>
             </pattern>
-            <message>If you look up 'enterprise' on google images, you get pages and pages of space ships, a few aircraft carriers, a car rental firm and the odd reference to IT architecture. On the other hand, if you look up 'company', you get pages and pages of, well, companies. Alternatives:
-            <suggestion><match no="1" postag_regexp="yes" postag="(NNS|NN:UN)" postag_replace="$1">business</match></suggestion>,
-            <suggestion><match no="1" postag_regexp="yes" postag="(NNS|NN:UN)" postag_replace="$1">company</match></suggestion> and, in some cases,
+            <message>If you look up 'enterprise' on google images, you get pages and pages of space ships, a few aircraft carriers, a car rental firm and the odd reference to IT architecture. On the other hand, if you look up 'company', you get pages and pages of, well, companies. Alternatives: 
+            <suggestion><match no="1" postag_regexp="yes" postag="(NNS|NN:UN)" postag_replace="$1">business</match></suggestion>, 
+            <suggestion><match no="1" postag_regexp="yes" postag="(NNS|NN:UN)" postag_replace="$1">company</match></suggestion> and, in some cases, 
             <suggestion><match no="1" postag_regexp="yes" postag="NN(S)|NN:UN" postag_replace="NN$1">firm</match></suggestion>.</message>
             <url>http://euenglish.webs.com/</url>
             <short>EU English: enterprise</short>
@@ -27221,10 +27221,10 @@ USA
             <pattern>
                 <token inflected="yes">establish<exception postag="JJ"/></token>
             </pattern>
-            <message>'Establish' is often used in the EU to mean to 'draw up' or 'draft'. In English, it actually means to 'set up', 'found' or 'secure'. You can establish a company or criteria, but not a report. Alternatives:
-            <suggestion><match no="1" postag="VB.*">draw</match> up</suggestion>,
-            <suggestion><match no="1" postag="VB.*">draft</match></suggestion>,
-            <suggestion><match no="1" postag="VB.*">produce</match></suggestion>,
+            <message>'Establish' is often used in the EU to mean to 'draw up' or 'draft'. In English, it actually means to 'set up', 'found' or 'secure'. You can establish a company or criteria, but not a report. Alternatives: 
+            <suggestion><match no="1" postag="VB.*">draw</match> up</suggestion>, 
+            <suggestion><match no="1" postag="VB.*">draft</match></suggestion>, 
+            <suggestion><match no="1" postag="VB.*">produce</match></suggestion>, 
             <suggestion><match no="1" postag="VB.*">prepare</match></suggestion>.</message>
             <url>http://euenglish.webs.com/</url>
             <short>EU English: establish</short>
@@ -27250,11 +27250,11 @@ USA
             <pattern>
                 <token inflected="yes">evolution</token>
             </pattern>
-            <message>The word 'evolution' is both heavily overused and misused in our texts. Above all, it does not sit very well with the adjective 'negative' and a 'negative evolution' is something of an oxymoron. Alternatives:
-            <suggestion><match no="1" postag_regexp="yes" postag="NN(S|:U)" postag_replace="NN$1(N)?">development</match></suggestion>,
-            <suggestion><match no="1" postag_regexp="yes" postag="NN(S)|NN:U" postag_replace="NN($1)">trend</match></suggestion>,
-            <suggestion><match no="1" postag_regexp="yes" postag="NN(S|:U)" postag_replace="NN$1(N)?">change</match></suggestion>,
-            <suggestion><match no="1" postag_regexp="yes" postag="NN(S)|NN:U" postag_replace="NN($1)">downturn</match></suggestion>,
+            <message>The word 'evolution' is both heavily overused and misused in our texts. Above all, it does not sit very well with the adjective 'negative' and a 'negative evolution' is something of an oxymoron. Alternatives: 
+            <suggestion><match no="1" postag_regexp="yes" postag="NN(S|:U)" postag_replace="NN$1(N)?">development</match></suggestion>, 
+            <suggestion><match no="1" postag_regexp="yes" postag="NN(S)|NN:U" postag_replace="NN($1)">trend</match></suggestion>, 
+            <suggestion><match no="1" postag_regexp="yes" postag="NN(S|:U)" postag_replace="NN$1(N)?">change</match></suggestion>, 
+            <suggestion><match no="1" postag_regexp="yes" postag="NN(S)|NN:U" postag_replace="NN($1)">downturn</match></suggestion>, 
             <suggestion><match no="1" postag_regexp="yes" postag="NN(S)|NN:U" postag_replace="NN($1)">upturn</match></suggestion>.</message>
             <url>http://euenglish.webs.com/</url>
             <short>EU English: evolution</short>
@@ -27299,10 +27299,10 @@ USA
                 <pattern>
                     <token inflected="yes">externalise</token>
                 </pattern>
-                <message>Although 'externalisation' has become something of a buzzword in the UK public administration, it is a recent acquisition and has not yet reached the dictionaries or even Wikipedia, so readers may be unclear as to exactly what it means. Alternatives:
-                <suggestion><match no="1" postag="VB.*">outsource</match></suggestion>,
-                outsourcing,
-                <suggestion><match no="1" postag="VB.*">contract</match> out</suggestion>,
+                <message>Although 'externalisation' has become something of a buzzword in the UK public administration, it is a recent acquisition and has not yet reached the dictionaries or even Wikipedia, so readers may be unclear as to exactly what it means. Alternatives: 
+                <suggestion><match no="1" postag="VB.*">outsource</match></suggestion>, 
+                outsourcing, 
+                <suggestion><match no="1" postag="VB.*">contract</match> out</suggestion>, 
                 <suggestion><match no="1" postag="VB.*">send</match> out</suggestion>.</message>
                 <url>http://euenglish.webs.com/</url>
                 <short>EU English: externalise (externalisation)</short>
@@ -27324,10 +27324,10 @@ USA
             <pattern>
                 <token inflected="yes">fiche</token>
             </pattern>
-            <message>Fiche is a useful word, but it is French. Its only use in English is to indicate the (somewhat outdated) microfiche. Alternatives:
-            <suggestion><match no="1" postag="NN.*">sheet</match></suggestion>,
-            <suggestion><match no="1" postag="NN.*">document</match></suggestion>,
-            <suggestion><match no="1" postag_regexp="yes" postag="NN(S)?" postag_replace="NN$1(:UN)?">record</match></suggestion>,
+            <message>Fiche is a useful word, but it is French. Its only use in English is to indicate the (somewhat outdated) microfiche. Alternatives: 
+            <suggestion><match no="1" postag="NN.*">sheet</match></suggestion>, 
+            <suggestion><match no="1" postag="NN.*">document</match></suggestion>, 
+            <suggestion><match no="1" postag_regexp="yes" postag="NN(S)?" postag_replace="NN$1(:UN)?">record</match></suggestion>, 
             <suggestion><match no="1" postag_regexp="yes" postag="NN(S)?" postag_replace="NN$1(:UN)?">entry</match></suggestion>.</message>
             <url>http://euenglish.webs.com/</url>
             <short>EU English: fiche</short>
@@ -27340,8 +27340,8 @@ USA
                 <token>financial</token>
                 <token postag_regexp="yes" postag="NN.*" inflected="yes">envelope</token>
             </pattern>
-            <message>This curious term is used to mean something like: 'the total budget available for something'. This term is often defended tooth and nail by people who should really know better simply because it is believed to be in one of the sacred texts. Alternatives:
-            <suggestion><match no="2" postag_regexp="yes" postag="(NN|NNS)" postag_replace="$1">budget</match></suggestion>,
+            <message>This curious term is used to mean something like: 'the total budget available for something'. This term is often defended tooth and nail by people who should really know better simply because it is believed to be in one of the sacred texts. Alternatives: 
+            <suggestion><match no="2" postag_regexp="yes" postag="(NN|NNS)" postag_replace="$1">budget</match></suggestion>, 
             <suggestion>financial <match no="2" postag_regexp="yes" postag="NN|NN(S)" postag_replace="NN$1(:UN)?">allocation</match></suggestion>.</message>
             <url>http://euenglish.webs.com/</url>
             <short>EU English: financial envelope</short>
@@ -27355,9 +27355,9 @@ USA
             <pattern>
                 <token postag_regexp="yes" postag="VB.*" inflected="yes">fix</token>
             </pattern>
-            <message>The main meanings of 'fix' are to repair and to attach. It can also, be used informally to mean 'establish' or 'set' if you are talking about a date, a time or a price. It should be avoided elsewhere in this meaning. Alternatives:
-            <suggestion><match no="1" postag="VB.*">establish</match></suggestion>,
-            <suggestion><match no="1" postag="VB.*">set</match></suggestion>,
+            <message>The main meanings of 'fix' are to repair and to attach. It can also, be used informally to mean 'establish' or 'set' if you are talking about a date, a time or a price. It should be avoided elsewhere in this meaning. Alternatives: 
+            <suggestion><match no="1" postag="VB.*">establish</match></suggestion>, 
+            <suggestion><match no="1" postag="VB.*">set</match></suggestion>, 
             <suggestion><match no="1" postag="VB.*">set</match> out</suggestion>.</message>
             <url>http://euenglish.webs.com/</url>
             <short>EU English: fix</short>
@@ -27396,14 +27396,14 @@ USA
             <pattern>
                 <token inflected="yes">foresee</token>
             </pattern>
-            <message>People find it inexplicably difficult to use this word properly, so maybe the safest policy is to avoid it. Its basic meaning in English is 'to see something in advance' and therefore to 'predict' or 'expect'. Alternatives:
-            <suggestion><match no="1" postag="VB.*">envisage</match></suggestion>,
-            <suggestion><match no="1" postag="VB.*">plan</match></suggestion>,
-            <suggestion><match no="1" postag="VB.*">lay</match> down in</suggestion>,
-            <suggestion><match no="1" postag="VB.*">set</match> out in</suggestion>,
-            <suggestion><match no="1" postag="VB.*">provide</match> for</suggestion>,
-            <suggestion><match no="1" postag="VB.*">contemplate</match></suggestion>,
-            <suggestion><match no="1" postag="VB.*">expect</match></suggestion>,
+            <message>People find it inexplicably difficult to use this word properly, so maybe the safest policy is to avoid it. Its basic meaning in English is 'to see something in advance' and therefore to 'predict' or 'expect'. Alternatives: 
+            <suggestion><match no="1" postag="VB.*">envisage</match></suggestion>, 
+            <suggestion><match no="1" postag="VB.*">plan</match></suggestion>, 
+            <suggestion><match no="1" postag="VB.*">lay</match> down in</suggestion>, 
+            <suggestion><match no="1" postag="VB.*">set</match> out in</suggestion>, 
+            <suggestion><match no="1" postag="VB.*">provide</match> for</suggestion>, 
+            <suggestion><match no="1" postag="VB.*">contemplate</match></suggestion>, 
+            <suggestion><match no="1" postag="VB.*">expect</match></suggestion>, 
             <suggestion><match no="1" postag="VB.*">predict</match></suggestion>.</message>
             <url>http://euenglish.webs.com/</url>
             <short>EU English: foresee</short>
@@ -27415,10 +27415,10 @@ USA
             <pattern>
                 <token inflected="yes">formulate</token>
             </pattern>
-            <message>Formulate is heavily over-used in our documents; it means 'to put into or express in systematic terms', 'to express in (or to express as if in) a formula' or 'to devise'. In our work, it is often overused with a meaning akin to 'draw up' or 'prepare'. Alternatives:
-            <suggestion><match no="1" postag="VB.*">draft</match></suggestion>,
-            <suggestion><match no="1" postag="VB.*">draw</match> up</suggestion>,
-            <suggestion><match no="1" postag="VB.*">produce</match></suggestion>,
+            <message>Formulate is heavily over-used in our documents; it means 'to put into or express in systematic terms', 'to express in (or to express as if in) a formula' or 'to devise'. In our work, it is often overused with a meaning akin to 'draw up' or 'prepare'. Alternatives: 
+            <suggestion><match no="1" postag="VB.*">draft</match></suggestion>, 
+            <suggestion><match no="1" postag="VB.*">draw</match> up</suggestion>, 
+            <suggestion><match no="1" postag="VB.*">produce</match></suggestion>, 
             <suggestion><match no="1" postag="VB.*">prepare</match></suggestion>.</message>
             <url>http://euenglish.webs.com/</url>
             <short>EU English: formulate</short>
@@ -27468,12 +27468,12 @@ USA
                 <token>hierarchical</token>
                 <token postag_regexp="yes" postag="NN.*" inflected="yes">superior</token>
             </pattern>
-            <message>In English, this term is used almost exclusively in the ecclesiastical context, and even 'hierarchy' and 'hierarchical' may be seen as difficult words by many readers. Alternatives:
-            <suggestion><match no="2" postag="NNS?">manager</match></suggestion>,
-            <suggestion>line <match no="2" postag="NNS?">manager</match></suggestion>,
-            <suggestion><match no="2" postag="NNS?">boss</match></suggestion>,
-            <suggestion>immediate <match no="2" postag="NNS?">superior</match></suggestion>,
-            <suggestion><match no="2" postag_regexp="yes" postag="NN(S)|NN" postag_replace="NN$1(:UN)?">head</match> of <match no="2" postag="NNS?">unit</match></suggestion>,
+            <message>In English, this term is used almost exclusively in the ecclesiastical context, and even 'hierarchy' and 'hierarchical' may be seen as difficult words by many readers. Alternatives: 
+            <suggestion><match no="2" postag="NNS?">manager</match></suggestion>, 
+            <suggestion>line <match no="2" postag="NNS?">manager</match></suggestion>, 
+            <suggestion><match no="2" postag="NNS?">boss</match></suggestion>, 
+            <suggestion>immediate <match no="2" postag="NNS?">superior</match></suggestion>, 
+            <suggestion><match no="2" postag_regexp="yes" postag="NN(S)|NN" postag_replace="NN$1(:UN)?">head</match> of <match no="2" postag="NNS?">unit</match></suggestion>, 
             <suggestion><match no="2" postag="NNS?">director</match></suggestion>.</message>
             <url>http://euenglish.webs.com/</url>
             <short>EU English: hierarchical superior</short>
@@ -27545,9 +27545,9 @@ USA
                     </marker>
                     <token><exception regexp="yes">an?|the|all|each</exception></token><!-- Not all determiners, thus not DT -->
                 </pattern>
-                <message>'To inform' requires a direct object (inform the public/us/them etc.) and cannot be used without one except in passive sentences ('we were informed of something', for example). In some cases you can add the relevant object ('a number of Member States informed the Commission…'), otherwise, Alternatives:
-                <suggestion><match no="1" postag="VB.*">announce</match></suggestion>,
-                <suggestion><match no="1" postag="VB.*">declare</match></suggestion>,
+                <message>'To inform' requires a direct object (inform the public/us/them etc.) and cannot be used without one except in passive sentences ('we were informed of something', for example). In some cases you can add the relevant object ('a number of Member States informed the Commission…'), otherwise, Alternatives: 
+                <suggestion><match no="1" postag="VB.*">announce</match></suggestion>, 
+                <suggestion><match no="1" postag="VB.*">declare</match></suggestion>, 
                 <suggestion><match no="1" postag="VB.*">state</match></suggestion>.</message>
                 <url>http://euenglish.webs.com/</url>
                 <short>EU English: inform (to)</short>
@@ -27594,8 +27594,8 @@ USA
             <pattern>
                 <token postag_regexp="yes" postag="NN.*" inflected="yes">instance</token>
             </pattern>
-            <message>In EU texts, the word instance is often used to mean a decision-making body or authority. This meaning does not exist in English. Alternatives:
-            <suggestion><match no="1" postag_regexp="yes" postag="NN(S)?" postag_replace="NN$1(:UN)?">authority</match></suggestion>,
+            <message>In EU texts, the word instance is often used to mean a decision-making body or authority. This meaning does not exist in English. Alternatives: 
+            <suggestion><match no="1" postag_regexp="yes" postag="NN(S)?" postag_replace="NN$1(:UN)?">authority</match></suggestion>, 
             <suggestion><match no="1" postag_regexp="yes" postag="NN(S)?" postag_replace="NN$1(:UN)?">body</match></suggestion>.</message>
             <url>http://euenglish.webs.com/</url>
             <short>EU English: instance</short>
@@ -27608,8 +27608,8 @@ USA
             <pattern>
                 <token inflected="yes">intervention</token>
             </pattern>
-            <message>In international relations, the normal meaning of 'intervention' is 'interference by a state in another's affairs'. In EU parlance, it is just the term normally used to designate EU-funded operations in the member countries and elsewhere. In normal English usage, 'intervention' is often uncountable, leading to unwanted grammatical problems. Alternatives:
-            <suggestion><match no="1" postag_regexp="yes" postag="NN(S|:UN)" postag_replace="NN$1">activity</match></suggestion>,
+            <message>In international relations, the normal meaning of 'intervention' is 'interference by a state in another's affairs'. In EU parlance, it is just the term normally used to designate EU-funded operations in the member countries and elsewhere. In normal English usage, 'intervention' is often uncountable, leading to unwanted grammatical problems. Alternatives: 
+            <suggestion><match no="1" postag_regexp="yes" postag="NN(S|:UN)" postag_replace="NN$1">activity</match></suggestion>, 
             <suggestion><match no="1" postag_regexp="yes" postag="NN(S|:UN)" postag_replace="NN$1">project</match></suggestion>, EU-funded activity.</message>
             <url>http://euenglish.webs.com/</url>
             <short>EU English: intervention</short>
@@ -27622,8 +27622,8 @@ USA
             <pattern>
                 <token inflected="yes">introduce</token>
             </pattern>
-            <message>Introduce normally means to 'present someone' or 'bring something in', whereas it is often used in our work to mean to 'submit' (as in submit an application or a report). Alternatives:
-            <suggestion><match no="1" postag="VB.*">submit</match></suggestion>,
+            <message>Introduce normally means to 'present someone' or 'bring something in', whereas it is often used in our work to mean to 'submit' (as in submit an application or a report). Alternatives: 
+            <suggestion><match no="1" postag="VB.*">submit</match></suggestion>, 
             <suggestion><match no="1" postag="VB.*">put</match></suggestion>/
             <suggestion><match no="1" postag="VB.*">send</match></suggestion> (an application/request/demand) in.</message>
             <url>http://euenglish.webs.com/</url>
@@ -27639,8 +27639,8 @@ USA
             <pattern>
                 <token inflected="yes">jury</token>
             </pattern>
-            <message>A 'jury' is 'a group of, usually twelve, people sworn to deliver a true verdict according to the evidence upon a case presented in a court of law'. The term is also sometimes used in talent shows. In English, it is never used in the context of recruitment. Alternatives:
-            <suggestion>selection <match no="1" postag="NNS?">board</match></suggestion>,
+            <message>A 'jury' is 'a group of, usually twelve, people sworn to deliver a true verdict according to the evidence upon a case presented in a court of law'. The term is also sometimes used in talent shows. In English, it is never used in the context of recruitment. Alternatives: 
+            <suggestion>selection <match no="1" postag="NNS?">board</match></suggestion>, 
             <suggestion>selection <match no="1" postag="NNS?">panel</match></suggestion>.</message>
             <url>http://euenglish.webs.com/</url>
             <short>EU English: jury</short>
@@ -27652,9 +27652,9 @@ USA
                 <pattern>
                     <token inflected="yes">justify</token>
                 </pattern>
-                <message>In English, to justify means 'to demonstrate or prove to be just, right, or valid' or 'to show to be reasonable'. In EU texts, we often find it used just to mean 'to explain' or 'provide evidence for'. Alternatives:
-                <suggestion><match no="1" postag="VB.*">substantiate</match></suggestion>,
-                <suggestion><match no="1" postag="VB.*">provide</match> evidence for</suggestion>,
+                <message>In English, to justify means 'to demonstrate or prove to be just, right, or valid' or 'to show to be reasonable'. In EU texts, we often find it used just to mean 'to explain' or 'provide evidence for'. Alternatives: 
+                <suggestion><match no="1" postag="VB.*">substantiate</match></suggestion>, 
+                <suggestion><match no="1" postag="VB.*">provide</match> evidence for</suggestion>, 
                 <suggestion><match no="1" postag="VB.*">explain</match></suggestion>.</message>
                 <url>http://euenglish.webs.com/</url>
                 <short>EU English: justify</short>
@@ -27666,10 +27666,10 @@ USA
                 <pattern>
                     <token inflected="yes">justification</token>
                 </pattern>
-                <message>In English, 'justification' is 'the act of justifying' or 'something that justifies'. In EU texts, we often find it used just to mean 'to explain' or 'provide evidence for'. Alternatives:
+                <message>In English, 'justification' is 'the act of justifying' or 'something that justifies'. In EU texts, we often find it used just to mean 'to explain' or 'provide evidence for'. Alternatives: 
                 <suggestion>evidence</suggestion>, <!-- Not used in the plural. -->
-                <suggestion>supporting <match no="1" postag_regexp="yes" postag="NN(S)|NN:UN" postag_replace="NN$1">document</match></suggestion>,
-                <suggestion><match no="1" postag="NN.*">proof</match></suggestion>,
+                <suggestion>supporting <match no="1" postag_regexp="yes" postag="NN(S)|NN:UN" postag_replace="NN$1">document</match></suggestion>, 
+                <suggestion><match no="1" postag="NN.*">proof</match></suggestion>, 
                 <suggestion><match no="1" postag="NN.*">explanation</match></suggestion>.</message>
                 <url>http://euenglish.webs.com/</url>
                 <short>EU English: justification</short>
@@ -27683,9 +27683,9 @@ USA
             <pattern>
                 <token inflected="yes">legislator</token>
             </pattern>
-            <message>In EU English, a 'legislator' is a body, or, in the case of the EU, two bodies together ('the European legislator' = the Council and the Parliament). In regular English, a legislator is a person. Therefore, the word 'legislator' should be used to refer to a single MEP, not, for example, to the whole Parliament. Alternatives:
-            <suggestion><match no="1" postag="NN.*">legislature</match></suggestion>(= 'a body of persons having the power to legislate'),
-            <suggestion>legislative <match no="1" postag_regexp="yes" postag="NN(S)?" postag_replace="NN$1(:UN)?">body</match></suggestion>,
+            <message>In EU English, a 'legislator' is a body, or, in the case of the EU, two bodies together ('the European legislator' = the Council and the Parliament). In regular English, a legislator is a person. Therefore, the word 'legislator' should be used to refer to a single MEP, not, for example, to the whole Parliament. Alternatives: 
+            <suggestion><match no="1" postag="NN.*">legislature</match></suggestion>(= 'a body of persons having the power to legislate'), 
+            <suggestion>legislative <match no="1" postag_regexp="yes" postag="NN(S)?" postag_replace="NN$1(:UN)?">body</match></suggestion>, 
             <suggestion>the Council and Parliament</suggestion>.</message>
             <url>http://euenglish.webs.com/</url>
             <short>EU English: legislator</short>
@@ -27699,12 +27699,12 @@ USA
             <pattern>
                 <token inflected="yes">mission</token>
             </pattern>
-            <message>'Mission' has a number of meanings, none of which corresponds to the way it is most commonly used in EU texts. Generally speaking, missions, in English, are performed by secret agents, astronauts or diplomats. Otherwise they can be the places where priests, nuns, diplomats etc. work abroad (often in developing countries). While it would be difficult to do without the word internally, we should bear in mind that it is likely to be misconstrued by outsiders. Alternatives:
+            <message>'Mission' has a number of meanings, none of which corresponds to the way it is most commonly used in EU texts. Generally speaking, missions, in English, are performed by secret agents, astronauts or diplomats. Otherwise they can be the places where priests, nuns, diplomats etc. work abroad (often in developing countries). While it would be difficult to do without the word internally, we should bear in mind that it is likely to be misconstrued by outsiders. Alternatives: 
             <suggestion><match no="1" postag_regexp="yes" postag="NN(S)|NN:UN" postag_replace="NN$1">audit</match></suggestion>/
-            <suggestion><match no="1" postag_regexp="yes" postag="NN(S)|NN:UN" postag_replace="NN$1">visit</match></suggestion> (at the Court of Auditors), sometimes
-            <suggestion>official <match no="1" postag_regexp="yes" postag="NN(S)|NN:UN" postag_replace="NN$1">trip</match></suggestion>,
-            <suggestion>official business</suggestion> or just
-            <suggestion>business</suggestion> or
+            <suggestion><match no="1" postag_regexp="yes" postag="NN(S)|NN:UN" postag_replace="NN$1">visit</match></suggestion> (at the Court of Auditors), sometimes 
+            <suggestion>official <match no="1" postag_regexp="yes" postag="NN(S)|NN:UN" postag_replace="NN$1">trip</match></suggestion>, 
+            <suggestion>official business</suggestion> or just 
+            <suggestion>business</suggestion> or 
             <suggestion>work</suggestion>.</message>
             <url>http://euenglish.webs.com/</url>
             <short>EU English: mission</short>
@@ -27718,9 +27718,9 @@ USA
             <pattern>
                 <token inflected="yes">modality</token>
             </pattern>
-            <message>'Modality' is one of those words which people (a) swear is correct and (b) say they have to use because the Commission does so (the example below is a case in point). The trouble is that it is not English – at least not in the meaning applied in our texts. EUR Lex contains over two thousand cases in which it is used to mean 'procedure', but this does not make it mean 'procedure'. In English, it is a rare and quite specialised word (only 50 or so hits in the British National Corpus), whose main meanings relate to grammar, philosophy, medicine and physiology. Alternatives:
-            <suggestion><match no="1" postag="NN.*">procedure</match></suggestion>,
-            <suggestion><match no="1" postag="NN.*">method</match></suggestion>,
+            <message>'Modality' is one of those words which people (a) swear is correct and (b) say they have to use because the Commission does so (the example below is a case in point). The trouble is that it is not English – at least not in the meaning applied in our texts. EUR Lex contains over two thousand cases in which it is used to mean 'procedure', but this does not make it mean 'procedure'. In English, it is a rare and quite specialised word (only 50 or so hits in the British National Corpus), whose main meanings relate to grammar, philosophy, medicine and physiology. Alternatives: 
+            <suggestion><match no="1" postag="NN.*">procedure</match></suggestion>, 
+            <suggestion><match no="1" postag="NN.*">method</match></suggestion>, 
             <suggestion><match no="1" postag_regexp="yes" postag="NN(S)|NN:UN" postag_replace="NN$1">mode</match></suggestion>.</message>
             <url>http://euenglish.webs.com/</url>
             <short>EU English: modality</short>
@@ -27733,8 +27733,8 @@ USA
                 <pattern>
                     <token inflected="yes">modify</token>
                 </pattern>
-                <message>Modify is fine. It is just over-used. So when referring to changes to legislation, prefer
-                <suggestion><match no="1" postag="VB.*">amend</match></suggestion>. In other contexts, the word
+                <message>Modify is fine. It is just over-used. So when referring to changes to legislation, prefer 
+                <suggestion><match no="1" postag="VB.*">amend</match></suggestion>. In other contexts, the word 
                 <suggestion><match no="1" postag="VB.*">change</match></suggestion> is a more common alternative.</message>
                 <url>http://euenglish.webs.com/</url>
                 <short>EU English: modify</short>
@@ -27746,8 +27746,8 @@ USA
                 <pattern>
                     <token inflected="yes">modification</token>
                 </pattern>
-                <message>Modification is fine. It is just over-used. So when referring to changes to legislation, prefer
-                <suggestion><match no="1" postag="NN.*">amendment</match></suggestion>. In other contexts, the word
+                <message>Modification is fine. It is just over-used. So when referring to changes to legislation, prefer 
+                <suggestion><match no="1" postag="NN.*">amendment</match></suggestion>. In other contexts, the word 
                 <suggestion><match no="1" postag="NN.*">change</match></suggestion> is a more common alternative.</message>
                 <url>http://euenglish.webs.com/</url>
                 <short>EU English: modification</short>
@@ -27760,9 +27760,9 @@ USA
             <pattern>
                 <token inflected="yes">modulation</token>
             </pattern>
-            <message>In English, 'modulation' is only normally used in the fields of music and grammar and with regard to wave frequencies. In EU documents, it is used to mean reduction and, in the jargon of the common agricultural policy, refers specifically to a 'system of progressive reduction of direct payments allowing a transfer of funds from Pillar 1… to Pillar 2'. Alternatives:
-            <suggestion><match no="1" postag="NN.*">adjustment</match></suggestion>,
-            <suggestion><match no="1" postag="NN.*">reduction</match></suggestion>,
+            <message>In English, 'modulation' is only normally used in the fields of music and grammar and with regard to wave frequencies. In EU documents, it is used to mean reduction and, in the jargon of the common agricultural policy, refers specifically to a 'system of progressive reduction of direct payments allowing a transfer of funds from Pillar 1… to Pillar 2'. Alternatives: 
+            <suggestion><match no="1" postag="NN.*">adjustment</match></suggestion>, 
+            <suggestion><match no="1" postag="NN.*">reduction</match></suggestion>, 
             <suggestion><match no="1" postag="NN.*">increase</match></suggestion>. With reference to the common agricultural policy, if you use 'modulation', it must be explained.</message>
             <url>http://euenglish.webs.com/</url>
             <short>EU English: modulation</short>
@@ -27777,8 +27777,8 @@ USA
                     <token postag_regexp="yes" postag="NN.*" inflected="yes">name</token>
                 </marker>
             </pattern>
-            <message>In EU texts, the word 'name' is often used to refer exclusively to a person's surname, so we are asked to supply someone's 'name and first name'. In English, a person's 'name' is his/her whole name. The 'first name' should come first and the 'last name' last. Documents and forms in English should unambiguously specify which name is which, e.g. by using the neutral terms
-            <suggestion>given <match no="2"/></suggestion> and
+            <message>In EU texts, the word 'name' is often used to refer exclusively to a person's surname, so we are asked to supply someone's 'name and first name'. In English, a person's 'name' is his/her whole name. The 'first name' should come first and the 'last name' last. Documents and forms in English should unambiguously specify which name is which, e.g. by using the neutral terms 
+            <suggestion>given <match no="2"/></suggestion> and 
             <suggestion>family <match no="2"/></suggestion>. In running text (as opposed to forms or tables), the normal order should be retained.</message>
             <url>http://euenglish.webs.com/</url>
             <short>EU English: name</short>
@@ -27803,8 +27803,8 @@ USA
             <pattern>
                 <token postag_regexp="yes" postag="NN.*" inflected="yes">note</token>
             </pattern>
-            <message>In our administration, the word 'note' (dictionary definition = 'a brief letter, usually of an informal nature') seems to have invaded the semantic fields of both 'memo' ('a written communication, as in a business office') and 'letter' (many of our 'notes' are anything but brief, and none of them are informal). Alternatives:
-            <suggestion><match no="1" postag_regexp="yes" postag="NN(S)|NN:UN" postag_replace="NN$1">memo</match></suggestion>,
+            <message>In our administration, the word 'note' (dictionary definition = 'a brief letter, usually of an informal nature') seems to have invaded the semantic fields of both 'memo' ('a written communication, as in a business office') and 'letter' (many of our 'notes' are anything but brief, and none of them are informal). Alternatives: 
+            <suggestion><match no="1" postag_regexp="yes" postag="NN(S)|NN:UN" postag_replace="NN$1">memo</match></suggestion>, 
             <suggestion><match no="1" postag_regexp="yes" postag="NN(S)|NN:UN" postag_replace="NN$1">letter</match></suggestion>.</message>
             <url>http://euenglish.webs.com/</url>
             <short>EU English: note</short>
@@ -27818,7 +27818,7 @@ USA
                 <token inflected="yes">notify</token>
                 <token>to</token>
             </pattern>
-            <message>We normally notify somebody of something, we do not usually notify something to someone. If you notify something to someone, you report it, formally, usually to some sort of authority. If you notify somebody of something, you inform them of it. Alternatives:
+            <message>We normally notify somebody of something, we do not usually notify something to someone. If you notify something to someone, you report it, formally, usually to some sort of authority. If you notify somebody of something, you inform them of it. Alternatives: 
             <suggestion><match no="1" postag="VB.*">send</match></suggestion>, provide… with, inform or notify somebody of something, report something to somebody.</message>
             <url>http://euenglish.webs.com/</url>
             <short>EU English: notify to</short>
@@ -27890,8 +27890,8 @@ USA
             <pattern>
                 <token inflected="yes">perspective</token>
             </pattern>
-            <message>The word 'perspective' is often used correctly in EU texts to mean 'point of view' (e.g. 'from a research perspective'). However, it is also used incorrectly to mean 'expectation for the future' (as in 'financial perspectives'). Alternatives:
-            <suggestion>outlook</suggestion>,
+            <message>The word 'perspective' is often used correctly in EU texts to mean 'point of view' (e.g. 'from a research perspective'). However, it is also used incorrectly to mean 'expectation for the future' (as in 'financial perspectives'). Alternatives: 
+            <suggestion>outlook</suggestion>, 
             <suggestion><match no="1" postag="NN.*">prospect</match></suggestion> (usually in the plural).</message>
             <url>http://euenglish.webs.com/</url>
             <short>EU English: perspective</short>
@@ -27999,9 +27999,9 @@ USA
                     <token>reflection</token>
                     <token regexp="yes">group|forum</token>
                 </pattern>
-                <message>In English, reflection is an internal process that takes place within the individual (e.g. 'I have reflected long and hard on this problem.') and does not necessarily involve any discussion. Alternatives:
-                <suggestion>discussion</suggestion>,
-                <suggestion>think tank</suggestion>,
+                <message>In English, reflection is an internal process that takes place within the individual (e.g. 'I have reflected long and hard on this problem.') and does not necessarily involve any discussion. Alternatives: 
+                <suggestion>discussion</suggestion>, 
+                <suggestion>think tank</suggestion>, 
                 <suggestion>forum</suggestion>.</message>
                 <url>http://euenglish.webs.com/</url>
                 <short>EU English: reflection group/reflection forum</short>
@@ -28015,9 +28015,9 @@ USA
                     <token>reflection</token>
                     <token regexp="yes">groups|forums|fora</token>
                 </pattern>
-                <message>In English, reflection is an internal process that takes place within the individual (e.g. 'I have reflected long and hard on this problem.') and does not necessarily involve any discussion. Alternatives:
-                <suggestion>discussions</suggestion>,
-                <suggestion>think tanks</suggestion>,
+                <message>In English, reflection is an internal process that takes place within the individual (e.g. 'I have reflected long and hard on this problem.') and does not necessarily involve any discussion. Alternatives: 
+                <suggestion>discussions</suggestion>, 
+                <suggestion>think tanks</suggestion>, 
                 <suggestion>forums</suggestion>.</message>
                 <url>http://euenglish.webs.com/</url>
                 <short>EU English: reflection group/reflection forum</short>
@@ -28031,12 +28031,12 @@ USA
             <pattern>
                 <token inflected="yes">reinforce</token>
             </pattern>
-            <message>Normally, the verb 'reinforce' is most commonly used in the engineering or military contexts, but it is often misused in EU texts to mean 'improve' or 'increase'. Alternatives:
-            <suggestion><match no="1" postag="VB.*">improve</match></suggestion>,
-            <suggestion><match no="1" postag="VB.*">bolster</match></suggestion>,
-            <suggestion><match no="1" postag="VB.*">consolidate</match></suggestion>,
-            <suggestion><match no="1" postag="VB.*">increase</match></suggestion>, or, if negative,
-            <suggestion><match no="1" postag="VB.*">worsen</match></suggestion>,
+            <message>Normally, the verb 'reinforce' is most commonly used in the engineering or military contexts, but it is often misused in EU texts to mean 'improve' or 'increase'. Alternatives: 
+            <suggestion><match no="1" postag="VB.*">improve</match></suggestion>, 
+            <suggestion><match no="1" postag="VB.*">bolster</match></suggestion>, 
+            <suggestion><match no="1" postag="VB.*">consolidate</match></suggestion>, 
+            <suggestion><match no="1" postag="VB.*">increase</match></suggestion>, or, if negative, 
+            <suggestion><match no="1" postag="VB.*">worsen</match></suggestion>, 
             <suggestion><match no="1" postag="VB.*">exacerbate</match></suggestion>.</message>
             <url>http://euenglish.webs.com/</url>
             <short>EU English: reinforce</short>
@@ -28066,8 +28066,8 @@ USA
                 <pattern>
                     <token postag_regexp="yes" postag="VB.*" inflected="yes">respect</token>
                 </pattern>
-                <message>The most common meaning of the verb 'to respect' is 'to show deferential regard for'. It can also mean 'to avoid violation of' (rules, for example), but with this meaning it is over-used in EU texts and often in a grammatically awkward manner. Alternatives:
-                <suggestion><match no="1" postag="VB.*">comply</match> with</suggestion>,
+                <message>The most common meaning of the verb 'to respect' is 'to show deferential regard for'. It can also mean 'to avoid violation of' (rules, for example), but with this meaning it is over-used in EU texts and often in a grammatically awkward manner. Alternatives: 
+                <suggestion><match no="1" postag="VB.*">comply</match> with</suggestion>, 
                 <suggestion><match no="1" postag="VB.*">adhere</match> to</suggestion>, meet (a deadline), compliance with.</message>
                 <url>http://euenglish.webs.com/</url>
                 <short>EU English: respect (to respect/respect)</short>
@@ -28104,10 +28104,10 @@ USA
             <pattern>
                 <token inflected="yes">retain</token>
             </pattern>
-            <message>Retain means 'keep', unless you are talking about lawyers, in which case it means 'hire'. In EU texts, it is often used to mean 'adopt' or 'choose'. Alternatives:
-            <suggestion><match no="1" postag="VB.*">select</match></suggestion>,
-            <suggestion><match no="1" postag="VB.*">choose</match></suggestion>,
-            <suggestion><match no="1" postag="VB.*">adopt</match></suggestion>,
+            <message>Retain means 'keep', unless you are talking about lawyers, in which case it means 'hire'. In EU texts, it is often used to mean 'adopt' or 'choose'. Alternatives: 
+            <suggestion><match no="1" postag="VB.*">select</match></suggestion>, 
+            <suggestion><match no="1" postag="VB.*">choose</match></suggestion>, 
+            <suggestion><match no="1" postag="VB.*">adopt</match></suggestion>, 
             <suggestion><match no="1" postag="VB.*">accept</match></suggestion>.</message>
             <url>http://euenglish.webs.com/</url>
             <short>EU English: retain</short>
@@ -28120,9 +28120,9 @@ USA
                 <pattern>
                     <token inflected="yes">semester</token>
                 </pattern>
-                <message>In English, 'semester' refers to a term in an academic institution where the academic year is divided into two terms. This is rare in the UK and Ireland, where the academic year is usually divided into three terms. 'Semester' is rarely used for periods of six months in other contexts. Alternatives:
-                <suggestion>half</suggestion>,
-                <suggestion>six months</suggestion>,
+                <message>In English, 'semester' refers to a term in an academic institution where the academic year is divided into two terms. This is rare in the UK and Ireland, where the academic year is usually divided into three terms. 'Semester' is rarely used for periods of six months in other contexts. Alternatives: 
+                <suggestion>half</suggestion>, 
+                <suggestion>six months</suggestion>, 
                 <suggestion>six-month <match no="1" postag="NN.*">period</match></suggestion>.</message>
                 <url>http://euenglish.webs.com/</url>
                 <short>EU English: semester</short>
@@ -28135,9 +28135,9 @@ USA
                 <pattern>
                     <token inflected="yes">trimester</token>
                 </pattern>
-                <message>In English, 'trimester' is used in medicine to refer to any of the three periods of approximately three months into which pregnancy is divided. It is rarely used to refer to three-month periods in other contexts. Alternatives:
-                <suggestion>quarter</suggestion>,
-                <suggestion>three months</suggestion>,
+                <message>In English, 'trimester' is used in medicine to refer to any of the three periods of approximately three months into which pregnancy is divided. It is rarely used to refer to three-month periods in other contexts. Alternatives: 
+                <suggestion>quarter</suggestion>, 
+                <suggestion>three months</suggestion>, 
                 <suggestion>three-month <match no="1" postag="NN.*">period</match></suggestion>.</message>
                 <url>http://euenglish.webs.com/</url>
                 <short>EU English: trimester</short>
@@ -28208,9 +28208,9 @@ USA
                 <pattern>
                     <token regexp="yes">suppress(es)?</token><!-- Only a subset, to prevent the suggestions 'canceled' and 'canceling'. Refer to 'RE: Inflected matched tokens: suggest only 1 of 2 possibilities' (http://www.mail-archive.com/languagetool-devel@lists.sourceforge.net/msg05792.html). -->
                 </pattern>
-                <message>'Suppress' is a bit like 'incite' in that it is often related to violence. It is also often combined with the adverbs 'savagely' or forcibly'. Indeed, the first definition of suppress in the Oxford online dictionary is 'forcibly put an end to'. You can suppress a revolt or an uprising, but you cannot suppress a bus stop. Alternatives:
-                <suggestion><match no="1" postag="VB.*">abolish</match></suggestion>,
-                <suggestion><match no="1" postag="VB.*">cancel</match></suggestion>,
+                <message>'Suppress' is a bit like 'incite' in that it is often related to violence. It is also often combined with the adverbs 'savagely' or forcibly'. Indeed, the first definition of suppress in the Oxford online dictionary is 'forcibly put an end to'. You can suppress a revolt or an uprising, but you cannot suppress a bus stop. Alternatives: 
+                <suggestion><match no="1" postag="VB.*">abolish</match></suggestion>, 
+                <suggestion><match no="1" postag="VB.*">cancel</match></suggestion>, 
                 <suggestion><match no="1" postag="VB.*">withdraw</match></suggestion>.</message>
                 <url>http://euenglish.webs.com/</url>
                 <short>EU English: suppress</short>
@@ -28222,10 +28222,10 @@ USA
                 <pattern>
                     <token>suppressed</token>
                 </pattern>
-                <message>'Suppress' is a bit like 'incite' in that it is often related to violence. It is also often combined with the adverbs 'savagely' or forcibly'. Indeed, the first definition of suppress in the Oxford online dictionary is 'forcibly put an end to'. You can suppress a revolt or an uprising, but you cannot suppress a bus stop. Alternatives:
-                <suggestion>abolished</suggestion>,
-                <suggestion>cancelled</suggestion>,
-                <suggestion>withdrew</suggestion>,
+                <message>'Suppress' is a bit like 'incite' in that it is often related to violence. It is also often combined with the adverbs 'savagely' or forcibly'. Indeed, the first definition of suppress in the Oxford online dictionary is 'forcibly put an end to'. You can suppress a revolt or an uprising, but you cannot suppress a bus stop. Alternatives: 
+                <suggestion>abolished</suggestion>, 
+                <suggestion>cancelled</suggestion>, 
+                <suggestion>withdrew</suggestion>, 
                 <suggestion>withdrawn</suggestion>.</message>
                 <url>http://euenglish.webs.com/</url>
                 <short>EU English: suppress</short>
@@ -28238,9 +28238,9 @@ USA
                 <pattern>
                     <token>suppressing</token>
                 </pattern>
-                <message>'Suppress' is a bit like 'incite' in that it is often related to violence. It is also often combined with the adverbs 'savagely' or forcibly'. Indeed, the first definition of suppress in the Oxford online dictionary is 'forcibly put an end to'. You can suppress a revolt or an uprising, but you cannot suppress a bus stop. Alternatives:
-                <suggestion>abolishing</suggestion>,
-                <suggestion>cancelling</suggestion>,
+                <message>'Suppress' is a bit like 'incite' in that it is often related to violence. It is also often combined with the adverbs 'savagely' or forcibly'. Indeed, the first definition of suppress in the Oxford online dictionary is 'forcibly put an end to'. You can suppress a revolt or an uprising, but you cannot suppress a bus stop. Alternatives: 
+                <suggestion>abolishing</suggestion>, 
+                <suggestion>cancelling</suggestion>, 
                 <suggestion>withdrawing</suggestion>.</message>
                 <url>http://euenglish.webs.com/</url>
                 <short>EU English: suppress</short>
@@ -28263,9 +28263,9 @@ USA
                 <token>third</token>
                 <token inflected="yes">country</token>
             </pattern>
-            <message>The USA is one country, Canada is another, and Ireland is a third. The USA could sign an agreement with Canada to exclude a third country (e.g. Ireland) from their territorial waters (for fishing, for example). In EU texts, however, this term is widely used to mean 'countries outside the European Union', and sometimes 'countries outside whatever grouping of countries we are talking about'. Use:
+            <message>The USA is one country, Canada is another, and Ireland is a third. The USA could sign an agreement with Canada to exclude a third country (e.g. Ireland) from their territorial waters (for fishing, for example). In EU texts, however, this term is widely used to mean 'countries outside the European Union', and sometimes 'countries outside whatever grouping of countries we are talking about'. Use: 
             <suggestion>non-member <match no="2"/></suggestion> (or state), <!-- TO DO: Make the postag replacements give correct results with 'state' -->
-            <suggestion>non-Schengen <match no="2"/></suggestion> (or state),
+            <suggestion>non-Schengen <match no="2"/></suggestion> (or state), 
             <suggestion><match no="2"/> outside the EU</suggestion>/EEA etc.</message>
             <url>http://euenglish.webs.com/</url>
             <short>EU English: third country</short>
@@ -28302,8 +28302,8 @@ USA
             <pattern>
                 <token regexp="yes" inflected="yes">transmit|retransmit</token>
             </pattern>
-            <message>'Transmit' normally refers to radio or television, data, and, possibly, the sadly defunct, Morse code. When sending something by letter, email or fax, we normally say 'send'. If we are sending something on that has been sent to us, we say 'forward' or 'send on' rather than 'retransmit'. Alternatives:
-            <suggestion><match no="1" postag="VB.*">send</match></suggestion>,
+            <message>'Transmit' normally refers to radio or television, data, and, possibly, the sadly defunct, Morse code. When sending something by letter, email or fax, we normally say 'send'. If we are sending something on that has been sent to us, we say 'forward' or 'send on' rather than 'retransmit'. Alternatives: 
+            <suggestion><match no="1" postag="VB.*">send</match></suggestion>, 
             <suggestion><match no="1" postag="VB.*">forward</match></suggestion>.</message>
             <url>http://euenglish.webs.com/</url>
             <short>EU English: transmit</short>
@@ -28362,8 +28362,8 @@ USA
             <pattern>
                 <token postag="NNS">travels</token>
             </pattern>
-            <message>Trip is countable, travel is not, at least not in its normal meaning of 'the action of travelling'. Alternatives:
-            <suggestion>trips</suggestion>,
+            <message>Trip is countable, travel is not, at least not in its normal meaning of 'the action of travelling'. Alternatives: 
+            <suggestion>trips</suggestion>, 
             <suggestion>travel</suggestion> (singular).</message>
             <url>http://euenglish.webs.com/</url>
             <short>EU English: travel</short>
