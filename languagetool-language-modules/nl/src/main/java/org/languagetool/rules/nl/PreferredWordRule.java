@@ -37,7 +37,7 @@ import org.languagetool.rules.RuleMatch;
  */
 public class PreferredWordRule extends Rule {
 
-  private static final String DESC = "Recommends a word that should be preferred over the marked one.";
+  private static final String DESC = "Suggereert een gebruikelijker woord.";
 
   private static final PreferredWordData data = new PreferredWordData(DESC);
 
@@ -68,7 +68,7 @@ public class PreferredWordRule extends Rule {
         RuleMatch match = matches[0];
         String matchedText = sentence.getText().substring(match.getFromPos(), match.getToPos());
         //String textFromMatch = sentence.getText().substring(match.getFromPos());
-        String suggestion = matchedText.replace(ruleWithSuggestion.oldSpelling, ruleWithSuggestion.newSpelling);
+        String suggestion = matchedText.replace(ruleWithSuggestion.oldWord, ruleWithSuggestion.newWord);
         if (!suggestion.equals(matchedText)) {
           match.setSuggestedReplacement(suggestion);
           ruleMatches.addAll(Arrays.asList(matches));

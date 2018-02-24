@@ -28,13 +28,13 @@ import java.util.Objects;
 class PreferredWordRuleWithSuggestion {
 
   Rule rule;
-  String oldSpelling;
-  String newSpelling;
+  String oldWord;
+  String newWord;
 
-  PreferredWordRuleWithSuggestion(Rule rule, String oldSpelling, String newSpelling) {
+  PreferredWordRuleWithSuggestion(Rule rule, String oldWord, String newWord) {
     this.rule = Objects.requireNonNull(rule);
-    this.oldSpelling = Objects.requireNonNull(oldSpelling);
-    this.newSpelling = Objects.requireNonNull(newSpelling);
+    this.oldWord = Objects.requireNonNull(oldWord);
+    this.newWord = Objects.requireNonNull(newWord);
   }
 
 }
