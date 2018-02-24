@@ -44,8 +44,8 @@ public class PreferredWordRule extends Rule {
   public PreferredWordRule(ResourceBundle messages) throws IOException {
     super.setCategory(Categories.STYLE.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Style);
-    addExamplePair(Example.wrong("Example sentence containing <marker>rijwiel</marker>"),
-                   Example.fixed("Example sentence containing <marker>fiets</marker>"));
+    addExamplePair(Example.wrong("Hij vindt <marker>rijwiel</marker> een ouderwets woord."),
+                   Example.fixed("En ik vind <marker>fiets</marker> ook beter."));
   }
 
   @Override
