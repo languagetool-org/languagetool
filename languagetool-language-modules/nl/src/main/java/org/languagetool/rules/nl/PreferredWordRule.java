@@ -33,7 +33,7 @@ import org.languagetool.rules.RuleMatch;
 
 /**
  * Finds words for which a better variant exists.
- * @since 4.0
+ * @since 4.1
  */
 public class PreferredWordRule extends Rule {
 
@@ -42,10 +42,10 @@ public class PreferredWordRule extends Rule {
   private static final PreferredWordData data = new PreferredWordData(DESC);
 
   public PreferredWordRule(ResourceBundle messages) throws IOException {
-    super.setCategory(Categories.TYPOS.getCategory(messages));
-    setLocQualityIssueType(ITSIssueType.Misspelling);
-    addExamplePair(Example.wrong("<marker>rijwiel</marker>"),
-                   Example.fixed("<marker>fiets</marker>"));
+    super.setCategory(Categories.STYLE.getCategory(messages));
+    setLocQualityIssueType(ITSIssueType.Style);
+    addExamplePair(Example.wrong("Example sentence containing <marker>rijwiel</marker>"),
+                   Example.fixed("Example sentence containing <marker>fiets</marker>"));
   }
 
   @Override

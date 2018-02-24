@@ -5,6 +5,9 @@
 #### Chinese
   * added some rules
 
+#### Dutch
+  * added new Java rule 'NL_PREFERRED_WORD_RULE' that suggests preferred words (e.g., 'fiets' for 'rijwiel')
+
 #### English
   * added and improved rules
   * added remaining collocation rules (~130) contributed by Nicholas Walker (Bokomaru)
