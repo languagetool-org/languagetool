@@ -32,7 +32,7 @@ Contributions and ideas from:
 ================================
 SPECIAL NOTICE:
 Every rule is within a rule group; this makes the structure a stricter tree; this is for easier processing programmatically.
-This is also useful for most multi word rules, because of 'inversion'of the sentence.
+This is also useful for most multi word rules, because of 'inversion' of the sentence.
 ================================
 -->
 <!--
@@ -60,6 +60,8 @@ regexp case-insensitive maken : (?i)
 <!ENTITY abbrevWeekdays "ma|di|wo|do|za|zo">
 <!ENTITY months "januari|februari|maart|april|mei|juni|juli|augustus|september|oktober|november|december">
 <!ENTITY abbrevMonths "jan|feb|(maa|mar|mrt)|apr|jun|jul|aug|sep|oct|nov|dec">
+<!-- definieer macro voor gespelde afkortingen als cd -->
+<!ENTITY gespeld "abc|adv|aed|apk|b2b|bh|bhv|bso|btw|bv|cao|cd|cfk|ckv|cv|dc|dj|dtp|dvd|fte|gft|ggo|ggz|gm|gmo|gps|gsm|hbo|hd|hiv|hr|hrm|hst|ic|ivf|kmo|lcd|lp|lpg|lsd|mbo|mdf|mkb|mms|msn|mt|ngo|nv|ob|ov|ozb|p2p|pc|pcb|pdf|pk|pps|pr|pvc|roc|rvs|sms|tbc|tbs|tl|tv|uv|vbo|vj|vmbo|vsbo|vwo|wc|wo|xtc|zzp">
 ]>
 <rules xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" lang="nl" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
 	<!--
@@ -2874,21 +2876,7 @@ regexp case-insensitive maken : (?i)
 				<example>Hij is <marker>aio</marker>.</example>
 			</rule>
 		</rulegroup>
-		<!--
-		<rulegroup id="MV_APO_S_MV" name="Meervoud met 's">
-		<rule>
-		<pattern case_sensitive="yes">
-		<marker>
-		<token regexp="yes" postag="ZNW:MRV:DE_">.*[bcdefghjklmnpqrstvwxz]('|‘)s<exception regexp="yes">(?iu)(McDonald|there|that|what|it|let|dj|pc|cd|wc|dvd|bh|fte|tv|gsm|bv|cv|pcb|dc|cfk|pk|roc|ic|lp)('|‘)s</exception></token>
-		</marker>
-		</pattern>
-		<message>Alleen na een sterke eindklank en woorden die letter voor letter worden uitgesproken wordt het meervoud met 's geschreven.<suggestion><match no="1" regexp_match="(.*)[’']s" regexp_replace="$1s"/></suggestion>.</message>
-		<url>http://educatie-en-school.infonu.nl/taal/28508-het-gebruik-van-de-apostrof-in-het-nederlands.html</url>
-		<short>' of niet</short>
-		<example correction="scènes">Hij deed het goed in bepaalde <marker>scène's</marker>.</example>
-		</rule>
-		</rulegroup>
-		-->
+
 		<rulegroup id="BEGINNEN_WW" name="beginnen lopen → beginnen te lopen">
 			<!-- 2014-08-22 TaalTik -->
 			<rule>
@@ -3639,8 +3627,8 @@ regexp case-insensitive maken : (?i)
     <category id="OPTIONAL_FORMS" name="niet-noodzakelijke correcte spellingvarianten">
         <rulegroup id="OPTIONAL_HYPHEN" name="optioneel koppelteken">
            <rule>
-               <antipattern><token regexp="yes">([0-9]|vsbo|vj|vbo|tbc|nv|pvc|pps|p2p|b2b|ob|ngo|msn|mt|mms|mdf|lpg|lp|lsd|ic|hrm|hst|gmo|gm|ggo|ckv|bso|bhv|bv|apk|aed|hd|abc|adv|ggz|kmo|wo|dtp|mkb|gps|mbo|gft|cao|ozb|dj|ivf|cv|rvs|ov|bh|pc|pdf|pr|hr|sms|tbs|tl|uv|vmbo|hbo|vwo|wc|xtc|zzp|hiv|btw|lcd|dvd|cd|tv|gsm|ex|bijna|niet|non|e|x|oud)-.*</token></antipattern>
-               <antipattern><token regexp="yes">.*-([0-9]|vsbo|vj|vbo|tbc|nv|pvc|pps|p2p|b2b|ob|ngo|msn|mt|mms|mdf|lpg|lp|lsd|ic|hrm|hst|gmo|gm|ggo|ckv|bso|bhv|bv|apk|aed|hd|abc|adv|ggz|kmo|wo|dtp|mkb|gps|mbo|gft|cao|ozb|ivf|dj|cv|rvs|ov|bh|pc|pdf|pr|hr|sms|tbs|tl|uv|vmbo|hbo|vwo|wc|xtc|zzp|hiv|btw|lcd|dvd|cd|tv|gsm)</token></antipattern>
+               <antipattern><token regexp="yes">([0-9]|&gespeld;|ex|bijna|niet|non|e|x|oud)-.*</token></antipattern>
+               <antipattern><token regexp="yes">.*-([0-9]|&gespeld;)</token></antipattern>
                <antipattern><token regexp="yes">(noord|zuid|oost|west)-.*</token></antipattern>
                <antipattern><token regexp="yes">.*[0-9](km|mm|cc)-.*</token></antipattern>
                <antipattern><token regexp="yes">[+%]-.*</token></antipattern>
@@ -3921,7 +3909,6 @@ regexp case-insensitive maken : (?i)
                <antipattern><token>een-tweetje</token></antipattern>
                <antipattern><token>eigenaar-bewoner</token></antipattern>
                <antipattern><token>eigenaar-directeur</token></antipattern>
-               <antipattern><token>eindtoets-dvd</token></antipattern>
                <antipattern><token>end-of-lifebeslissing</token></antipattern>
                <antipattern><token>esc-toets</token></antipattern>
                <antipattern><token>etnisch-cultureel</token></antipattern>
