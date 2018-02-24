@@ -641,7 +641,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
     for (Match m : suggestionMatchesOutMsg) {
       rule.addSuggestionMatchOutMsg(m);
     }
-    suggestionMatchesOutMsg.clear(); // the cause of an error
+    suggestionMatchesOutMsg.clear();
     if (category == null) {
       throw new RuntimeException("Cannot activate rule '" + id + "', it is outside of a <category>...</category>");
     }
