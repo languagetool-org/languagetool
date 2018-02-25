@@ -174,7 +174,7 @@ public class ConfigurationDialog implements ActionListener {
     cons.gridx = 0;
     cons.weightx = 1.0;
     cons.weighty = 1.0;
-    cons.fill = GridBagConstraints.BOTH;
+    cons.fill = GridBagConstraints.HORIZONTAL;
     Collections.sort(rules, new CategoryComparator());
     DefaultMutableTreeNode rootNode = createTree(rules, false);   //  grammar options
     configTree[0] = new JTree(getTreeModel(rootNode));
@@ -199,7 +199,7 @@ public class ConfigurationDialog implements ActionListener {
     cons.gridx = 0;
     cons.weightx = 1.0;
     cons.weighty = 1.0;
-    cons.fill = GridBagConstraints.BOTH;
+    cons.fill = GridBagConstraints.HORIZONTAL;
     Collections.sort(rules, new CategoryComparator());
     rootNode = createTree(rules, true);  //  Style options
     configTree[1] = new JTree(getTreeModel(rootNode));
