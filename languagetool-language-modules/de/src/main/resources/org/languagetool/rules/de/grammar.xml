@@ -13919,6 +13919,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Zeit">Und wenn schon – die <marker>zeit</marker> ist ein unzuverlässiges Kriterium.</example>
             <example>Die <marker>zeit</marker> seines Lebens immer wieder vorkommenden Vorwürfe haben sich nicht erhärtet.</example>
         </rule>
+        <rule id="FOLGENDES" name="folgendes (Folgendes)">
+            <antipattern>
+                <token skip="4">folgendes</token>
+                <token postag_regexp="yes" postag="SUB:.+|UNKNOWN"/>
+            </antipattern>
+            <pattern case_sensitive="yes">
+                <token postag_regexp="yes" postag="VER:[1-3]:.+"/>
+                <token postag_regexp="yes" postag="PRO:.+" min="0"/>
+                <marker>
+                    <token>folgendes</token>
+                </marker>
+            </pattern>
+            <message>&subanfang;<suggestion><match no="3" case_conversion="startupper"/></suggestion>&subende;</message>
+            <example correction="Folgendes">Er teilte ihr <marker>folgendes</marker> mit: ...</example>
+            <example>Sie verschrieb ihm folgendes Medikament: viel Schlaf und Erholung!</example>
+            <example>Die Wahlen brachten folgendes offizielles Ergebnis:..</example>
+        </rule>
         <rule id="DIE_SCHWERE" name="die schwere (Schwere)">
             <pattern case_sensitive="yes">
                 <marker>
