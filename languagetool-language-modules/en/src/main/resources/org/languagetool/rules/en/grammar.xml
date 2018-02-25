@@ -6287,6 +6287,33 @@ USA
             <message>Did you mean <suggestion>safe to \4</suggestion>?</message>
             <example correction="safe to ignore">It is <marker>save to ignore</marker> trivial code when writing unit tests.</example>
         </rule>
+        <rulegroup id="TOME_TIME" name="tome (time)">
+            <rule>
+                <pattern>
+                    <token inflected='yes' regexp='yes' skip="1">have|spare|take|all<exception scope="next">another</exception></token>
+                    <marker>
+                        <token>tome</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion>time</suggestion>?</message>
+                <short>Commonly confused word</short>
+                <example correction='time'>I have no <marker>tome</marker>.</example>
+                <example correction='time'>This will take some <marker>tome</marker>.</example>
+                <example>Now I have another tome to add to the stack.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected='yes' regexp='yes'>be|find</token>
+                    <marker>
+                        <token>tome</token>
+                    </marker>
+                    <token>to</token>
+                </pattern>
+                <message>Did you mean <suggestion>time</suggestion>?</message>
+                <short>Commonly confused word</short>
+                <example correction='time'>I found <marker>tome</marker> to read.</example>
+            </rule>
+        </rulegroup>
         <rule id="SAVE_SAFE" name="save (safe)">
             <antipattern>
                 <token>such</token>
