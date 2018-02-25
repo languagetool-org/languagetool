@@ -14009,6 +14009,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Bestes">Wir müssen immer unser <marker>bestes</marker> geben.</example>
             <example correction="Beste">Das <marker>beste</marker> kommt zum Schluss.</example>
         </rule>
+        <rule id="DAS_BESTE_SEIN" name="'das beste (Beste) sein'">
+            <pattern>
+                <token inflected="yes">sein</token>
+                <token postag="ADJ:PRD:GRU" min="0"/>
+                <token>das</token>
+                <marker>
+                   <token case_sensitive="yes">beste</token>
+                </marker>
+                <token>,</token>
+                <token>wenn</token>
+            </pattern>
+            <message><suggestion><match no="4" case_conversion="startupper"/></suggestion> wird in diesem Zusammenhang großgeschrieben.</message>
+            <short>&prgk;.</short>
+            <example correction="Beste">Es ist das <marker>beste</marker>, wenn du jetzt gehst.</example>
+        </rule>
         <rule id="IN_DER_MACHT_STEHENDE" name="Großschreibung von 'Stehende' in 'alles in jemandes Macht Stehende'">
             <pattern>
                 <token>in</token>
@@ -23934,6 +23949,20 @@ Andere Projekte</example>
         </rulegroup>
         <rulegroup id="ANGST_UND_BANGE" name="'Angst/angst und Bange/bange'">
             <url>http://www.canoo.net/services/GermanSpelling/Regeln/Gross-klein/Denominalisierung.html#Anchor-Die-49575</url>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag="PRO:PER:DAT:.+"  postag_regexp="yes"/>
+                    <token inflected="yes" regexp="yes">sein|werden</token>
+                    <marker>
+                        <token>Angst</token>
+                    </marker>
+                    <token postag="PKT"/>
+                </pattern>
+                <message>&inwend;<suggestion><match no="3" case_conversion="alllower"/></suggestion> werden/sein wird 'angst' kleingeschrieben.</message>
+                <short>&prgk;.</short>
+                <example correction="angst">Mir wurde <marker>Angst</marker>.</example>
+                <example>So sind <marker>Angst</marker>, Terror und Unterdrückung die Mittel der Diktatur.</example>
+            </rule>
             <rule>
                 <pattern case_sensitive="yes">
                     <token inflected="yes" regexp="yes" skip="1">sein|werden</token>
