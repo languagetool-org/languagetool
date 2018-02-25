@@ -4508,6 +4508,34 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Na ja"><marker>Naja</marker>, ich weiß nicht.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="SCHIESSEN_SCHLIESSEN" name="schießen/schließen">
+            <short>Mögliche Wortverwechslung</short>
+            <rule>
+                <antipattern>
+                    <token postag="PRP:.+" postag_regexp="yes"/>
+                    <token postag="ART:.+" postag_regexp="yes" skip="1"/>
+                    <token inflected="yes" regexp="yes">Akte|Fenster|Tür</token>
+                    <token inflected="yes">schießen</token>
+                </antipattern>
+                <pattern>
+                    <token inflected="yes" regexp="yes">Akte|Fenster|Frieden|Lücke|Pforte|Tür|Vertrag</token>
+                    <token min="0">nicht</token>
+                    <marker><token inflected="yes" regexp="yes">(ab)?schießen</token></marker>
+                </pattern>
+                <message>Meinten Sie <suggestion><match no="3" regexp_match="sch" regexp_replace="schl"/></suggestion>?</message>
+                <example correction="geschlossen">Hast du die Fenster <marker>geschossen</marker>?</example>
+                <example correction="abgeschlossen">Weil er die Tür nicht <marker>abgeschossen</marker> hat, konnten Einbrecher leicht ins Haus.</example>
+                <example>Er hat mehrmals durch die geschlossene Tür <marker>geschossen</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker><token inflected="yes" skip="1">schießen</token></marker>
+                    <token inflected="yes" regexp="yes">Akte|Fenster|Frieden|Kleid|Lücke|Pforte|Tür|Vertrag</token>
+                </pattern>
+                <message>Meinten Sie <suggestion><match no="1" regexp_match="sch" regexp_replace="schl"/></suggestion>?</message>
+                <example correction="schloss">Er <marker>schoss</marker> die Tür und setzte sich an den Tisch.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="WAISE_WEISE" name="Waise/Weise/Wiese">
             <url>http://www.duden.de/rechtschreibung/Weise_Methode_Melodie_Lied</url>
             <rule>
