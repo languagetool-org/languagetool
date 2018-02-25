@@ -33435,6 +33435,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category id="INCORRECT_WORDS_IN_CONTEXT" name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
             (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rule id="MALEIT" name="maleit/maleït">
+            <pattern>
+                <token regexp="yes">maleits?</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(?iu)maleit(s?)" regexp_replace="maleït$1"/></suggestion>? "Maleit" (sense dièresi) és correcte en el sentit de "rabiós".</message>
+            <example correction="maleïts">Estaven <marker>maleits</marker>.</example>
+        </rule>
         <rule id="BAMBA_VAMBA" name="bamba/vamba">
             <antipattern>
                 <marker>
