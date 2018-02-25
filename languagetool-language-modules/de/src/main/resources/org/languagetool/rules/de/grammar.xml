@@ -4536,6 +4536,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="schloss">Er <marker>schoss</marker> die Tür und setzte sich an den Tisch.</example>
             </rule>
         </rulegroup>
+        <rule id="HINTERS_ICH" name="hinters ich/hinter sich">
+            <pattern case_sensitive="yes">
+                <token regexp="yes">ans|fürs|unters|hinters|ins|vors</token>
+                <token regexp="yes">s?ich</token>
+            </pattern>
+            <message>&verw;Meinten Sie <suggestion><match no="1" regexp_match="s" regexp_replace=""/> sich</suggestion> oder <suggestion><match no="1"/> Ich</suggestion>?</message>
+            <short>Mögliche Wortverwechslung</short>
+            <example correction="hinter sich|hinters Ich">Er ließ das alles <marker>hinters ich</marker>.</example>
+            <example correction="an sich|ans Ich">Das ist <marker>ans sich</marker> eine gute Sache.</example>
+        </rule>
         <rulegroup id="WAISE_WEISE" name="Waise/Weise/Wiese">
             <url>http://www.duden.de/rechtschreibung/Weise_Methode_Melodie_Lied</url>
             <rule>
