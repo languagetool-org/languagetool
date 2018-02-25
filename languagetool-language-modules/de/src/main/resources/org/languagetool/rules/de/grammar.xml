@@ -8558,7 +8558,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <pattern>
                     <marker>
-                        <token regexp="yes">(absurd|auffällig|bedauerlich|bedauernswert|begreiflich|beklagenswert|bemerkenswert|berechtigt|betrüblich|bevorzugt|bezeichnend|billig|blöd|charakteristisch|dankenswert|drollig|ehrlich|eigenartig|eigenmächtig|eigentümlich|entgegenkommend|enttäuschend|erfreulich|erklärlich|erstaunlich|evident|fair|fälschlich|fatal|folgend|frech|freundlich|gebührend|gemein|gerecht|gewöhnlich|gleich|glied|glücklich|gnädig|günstig|heimlich|heimtückisch|herkömmlich|ideal|idiotisch|inkonsequent|inkorrekt|interessant|ironisch|irreführend|irrig|irritierend|irrtümlich|klar|klassisch|kleck|klug|komisch|konsequent|kontingent|korrekt|kurios|laienhaft|legitim|leichtsinnig|liebenswürdig|listig|lobenswert|löblich|logisch|lustig|merkwürdig|missverständlich|möglich|naheliegend|naiv|natürlich|nett|normal|notwendig|originell|paradox|passend|pikant|plausibl|praktisch|realistisch|richtig|riskant|schlau|seltsam|sinnig|sinnvoll|solch|sonderbar|traditionell|tragisch|traurig|trickreich|trivial|typisch|unachtsam|unerklärlich|unerlaubt|unerwartet|ungeschickt|unglücklich|unnötig|unstrittig|unverdient|unvermeidlich|unverständlich|unvorsichtig|verboten|verdient|vernünftig|verständlich|widersinnig|wunderbar|wunderlich|zufällig|zulässig|zweckmäßig)er
+                        <token regexp="yes">(absurd|auffällig|bedauerlich|bedauernswert|begreiflich|beklagenswert|bemerkenswert|berechtigt|betrüblich|bevorzugt|bezeichnend|billig|blöd|charakteristisch|dankenswert|drollig|ehrlich|eigenartig|eigenmächtig|eigentümlich|entgegenkommend|enttäuschend|erfreulich|erklärlich|erklärter|erstaunlich|evident|fair|fälschlich|fatal|folgend|frech|freundlich|gebührend|gemein|gerecht|gewöhnlich|gleich|glied|glücklich|gnädig|günstig|heimlich|heimtückisch|herkömmlich|ideal|idiotisch|inkonsequent|inkorrekt|interessant|ironisch|irreführend|irrig|irritierend|irrtümlich|klar|klassisch|kleck|klug|komisch|konsequent|kontingent|korrekt|kurios|laienhaft|legitim|leichtsinnig|liebenswürdig|listig|lobenswert|löblich|logisch|lustig|merkwürdig|missverständlich|möglich|naheliegend|naiv|natürlich|nett|normal|notwendig|originell|paradox|passend|pikant|plausibl|praktisch|realistisch|richtig|riskant|schlau|seltsam|sinnig|sinnvoll|solch|sonderbar|traditionell|tragisch|traurig|trickreich|trivial|typisch|unachtsam|unerklärlich|unerlaubt|unerwartet|ungeschickt|unglücklich|unnötig|unstrittig|unverdient|unvermeidlich|unverständlich|unvorsichtig|verboten|verdient|vernünftig|verständlich|widersinnig|wunderbar|wunderlich|zufällig|zulässig|zweckmäßig)er
                             <exception scope="previous">in</exception>
                         </token>
                         <token>Weise</token>
@@ -35176,6 +35176,7 @@ Andere Projekte</example>
                     <token>nachdem</token>
                 </antipattern>
                 <antipattern>
+                    <token>,</token>
                     <token regexp="yes">anstatt|ohne|so(ndern)?|außer|nicht</token>
                     <token>dass</token>
                 </antipattern>
@@ -35187,7 +35188,7 @@ Andere Projekte</example>
                     <token>,</token>
                     <token>vor</token>
                     <token>allem</token>
-                    <token>wenn</token>
+                    <token regexp="yes">we(nn|il)</token>
                 </antipattern>
                 <antipattern>
                     <token>,</token>
@@ -35205,10 +35206,6 @@ Andere Projekte</example>
                     <token regexp="yes">aber|gerade|sondern|auch|vermutlich</token>
                     <token regexp="yes" min="0">aber|gerade|sondern|auch|vermutlich</token>
                     <token>weil</token>
-                </antipattern>
-                <antipattern>
-                    <token>des</token>
-                    <token>Falls</token>
                 </antipattern>
                 <antipattern>
                     <token postag="SENT_START"/>
@@ -35241,7 +35238,7 @@ Andere Projekte</example>
                         <exception postag="SENT_START"/>
                         <exception regexp="yes">,|;|:|\.|\?|!|-|–|\)|\(|„|“|»|«|"|und|oder</exception>
                     </token>
-                    <token regexp="yes">weil|ob(gleich|wohl)?|so(dass|bald)|dass|indem|wenn|falls|sofern|nachdem</token>
+                    <token regexp="yes" case_sensitive="yes">weil|ob(gleich|wohl)?|so(dass|bald)|dass|indem|wenn|falls|sofern|nachdem</token>
                     </marker>
                     <token>
                         <exception regexp="yes">,|;|:|\.|\?|!|-|–|\)|\(|und|oder</exception>
@@ -35326,7 +35323,7 @@ Andere Projekte</example>
                         <exception  inflected="yes" regexp="yes">bleiben|lassen|versuchen|bemühen</exception>
                         <exception regexp="yes" scope="next">,|;|:|-|–|—|\.|\)|\(|„|“|»|«|"|und|oder</exception>
                        </token>
-                    <token regexp="yes" skip="-1">da|als|wie|bis|wer|wo(hin)?|dann|damit|während|aber|bevor|was|solange|seitdem<exception regexp="yes" scope="next">,|;|:|-|–|—|\.|\)|\(|„|“|»|«|"|und|oder</exception></token>
+                    <token regexp="yes" skip="-1" case_sensitive="yes">da|als|wie|bis|wer|wo(hin)?|dann|damit|während|aber|bevor|was|solange|seitdem<exception regexp="yes" scope="next">,|;|:|-|–|—|\.|\)|\(|„|“|»|«|"|und|oder</exception></token>
                     </marker>
                     <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*|VER:IMP:.*" postag_regexp="yes">
                         <exception postag="VER:INF:.*|PA[12]:.*|SUB:.*|EIG:.*|PR[OP]:.*|AD[JV]:.*|ART:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
