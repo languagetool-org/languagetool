@@ -26500,6 +26500,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
+        <rule id="DEIXAR_A_DEURE" name="*deixar/quedar a deure">
+            <pattern>
+                <token inflected="yes">deixar</token>
+                <token>a</token>
+                <token>deure</token>
+            </pattern>
+            <message>Expressió incorrecta.</message>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">quedar</match> \2 \3</suggestion>
+            <example correction="Quedàrem a deure"><marker>Deixàrem a deure</marker> alguna cosa.</example>
+        </rule>
         <rule id="DE_PER_SI_MATEIX" name="de per si mateix / per si mateix">
             <pattern>
                 <token>de</token>
