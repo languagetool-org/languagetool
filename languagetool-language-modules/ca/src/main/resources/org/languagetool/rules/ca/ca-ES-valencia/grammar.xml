@@ -30,5 +30,22 @@
             <example correction="pianista">El <marker>pianiste</marker>.</example>
             <example>M'han contat un xiste.</example>
         </rule>
+        <rule id="COLOREJAR" name="colorejar">
+            <pattern>
+                <token inflected="yes">colorejar</token>
+            </pattern>
+            <message>Paraula admesa només en alguns diccionaris, i només com a verb intransitiu.</message>
+            <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">acolorir</match></suggestion>
+            <example correction="Acoloreix"><marker>Coloreja</marker> el dibuix.</example>
+        </rule>
+        <rule id="LLARGARIA" name="llargaria/llargària">
+            <pattern>
+                <token regexp="yes">llargari(a|es)</token>
+            </pattern>
+            <message>Si és nom, porta accent.</message>
+            <suggestion><match no="1" regexp_match="(?iu)llargari(a|es)" regexp_replace="llargàri$1"/></suggestion>
+            <example correction="llargàries">Les <marker>llargaries</marker>.</example>
+        </rule>
+
     </category>
 </rules>
