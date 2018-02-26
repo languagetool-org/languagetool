@@ -20626,7 +20626,7 @@ regexp case-insensitive maken : (?i)
 				<rule>
 					<pattern>
 						<token postag="SENT_START"/>
-						<token><exception regexp="yes">§|"|©|[a-zA-Z0-9]</exception></token>
+						<token><exception regexp="yes">[^A-Z].*</exception></token>
 						<token postag="SENT_END" regexp="yes">\?|\!|\.</token>
 					</pattern>
 					<message>Zulke korte zinnen zijn niet fout, maar wel ongebruikelijk in officiële tekst.</message>
@@ -22678,6 +22678,20 @@ regexp case-insensitive maken : (?i)
 					<example>Zie je je fout?</example>
 				</rule>
 			</rulegroup>
+        <!--
+        <rulegroup id="PARA_NR_NO_SPACE" name="Paragraafnummer aan tekst vastgeplakt">
+            <rule>
+                <pattern>
+                    <token regexp="yes">[0-9]{1,4}</token>
+                    <token spacebefore="no">.</token>
+                    <token spacebefore="no" regexp="yes">[A-Za-z].*</token>
+                </pattern>
+                <message>Het is gebruikelijk om een spatie achter het paragraafnummer ze zetten:<suggestion>\1\2 \3</suggestion></message>
+                <example correction="15. Alinea"><marker>15.Alinea</marker> 6 begint hier.</example>
+                <example>Spatie nodig?</example>
+            </rule>
+        </rulegroup>
+-->
 			<rulegroup id="PNT_PNT_PNT" name="...">
 				<!-- 2014-08-21 TaalTik -->
 				<rule>
