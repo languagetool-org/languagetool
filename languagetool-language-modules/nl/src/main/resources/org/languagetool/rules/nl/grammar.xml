@@ -18096,272 +18096,269 @@ regexp case-insensitive maken : (?i)
 		</rulegroup>
 		
 	</category>
-	<category id="BUNGELEND" name="Bungelend">
-		
-		<rulegroup id="ONTKEN_2" name="dubbele ontkenning">
-			<rule>
-				<!-- 2014-08-20 TaalTik
-				regel werkt best goed, maar niet altijd, daarom tekst wat algemener gemaakt.
-				nimmer toegevoegd
-				exception met scope toegevoegd (n.a.v. voorbeeld in wiki)
-				TODO: regel controleren op verbeterde werking
-				-->
-				<pattern>
-					<token regexp="yes" skip="5">nimmer|niet|nooit|geen|nergens|niet-.+<exception scope="next" regexp="yes">;|,|en|of</exception></token>
-					<token regexp="yes">nimmer|niet|nooit|geen|nergens|niet-.+</token>
-				</pattern>
-				<message>Meerdere ontkenningen maken de tekst moeilijker te begrijpen.</message>
-				<example type="incorrect">Ik doe <marker>nooit geen</marker> jas aan.</example>
-				<example>Ik doe <marker>altijd</marker> een jas aan.</example>
-				<example type="incorrect">Gebruik <marker>geen enkele post niet</marker> missen!</example>
-			</rule>
-		</rulegroup>
-		
-		<rulegroup id="IETS_DAT" name="Iets dat → iets wat">
-			<rule>
-				<!--
-				2014-09-04 TalTik
-				regel toegevoegd
-				-->
-				<pattern>
-					<token>iets</token>
-					<token>dat</token>
-				</pattern>
-				<message>Sommige mensen vinden <suggestion>iets wat</suggestion> toch wat netter.</message>
-				<url>https://onzetaal.nl/taaladvies/advies/iets-wat-iets-dat</url>
-				<example correction="iets wat">Het is <marker>iets dat</marker> fout is.</example>
-				<example>Het is <marker>iets wat</marker> goed is.</example>
-			</rule>
-		</rulegroup>
-		
-		<rulegroup id="VERLUID" name="verluid">
-			<rule>
-				<!--
-				2014-08-23 TaalTik
-				regel werkt goed
-				-->
-				<pattern>
-					<token>naar</token>
-					<marker>
-						<token>verluid</token>
-					</marker>
-					<token negate="yes">wordt</token>
-				</pattern>
-				<message>Beter is naar <suggestion>verluidt</suggestion>. Overigens wordt het gebruik van deze vultekst afgeraden.</message>
-				<url>https://onzetaal.nl/taaladvies/advies/naar-verluid-naar-verluidt</url>
-				<example correction="verluidt">Naar <marker>verluid</marker> is dit fout.</example>
-				<example>Naar <marker>verluidt</marker> is dit beter.</example>
-			</rule>
-		</rulegroup>
-		
-		<rulegroup id="VERVANG_VOOR" name="Vervangen voor → vervangen door">
-			<rule>
-				<!-- 2014-09-04 TaalTik nieuwe regel vanuit OT wiki -->
-				<pattern>
-					<token inflected="yes" skip="3">vervangen<exception regexp="yes">vervangende|vervangend</exception></token>
-					<marker>
-						<token>voor</token>
-					</marker>
-				</pattern>
-				<message>Juist is: vervangen <suggestion>door</suggestion>.</message>
-				<url>https://onzetaal.nl/taaladvies/advies/vervangen-door-voor</url>
-				
-				<example correction="door">Hij verving de kachel <marker>voor</marker> een houtbrander.</example>
-				<example>Hij vervangt de kachel <marker>door</marker> een brander.</example>
-			</rule>
-			<rule>
-				<pattern>
-					<marker>
-						<token skip="3">voor</token>
-					</marker>
-					<token inflected="yes">vervangen<exception regexp="yes">vervangende|vervangend</exception></token>
-				</pattern>
-				<message>Juist is: vervangen <suggestion>door</suggestion>.</message>
-				<url>https://onzetaal.nl/taaladvies/advies/vervangen-door-voor</url>
-				
-				<example correction="door">Als ik kachel <marker>voor</marker> een houtbrander vervang.</example>
-				<example>Als ik kachel <marker>door</marker> een houtbrander vervang.</example>
-			</rule>
-		</rulegroup>
-		
-		
-		
-		<!-- TODO regel werkt niet goed, helemaal aanpassen
-		<rule id="nr737" name="kost duur">
-		<pattern>
-		<token skip="10">kost</token>
-		<token>duur</token>
-		</pattern>
-		<message>U bedoelt <suggestion>is duur</suggestion> of <suggestion>kost veel</suggestion>.</message>
-		<short>Is duur, kost veel</short>
-		<example type="incorrect">Die auto <marker>kost duur</marker>.</example>
-		<example>Die auto <marker>kost veel</marker>.</example>
-		</rule>
-		-->
-		<!--
-		<rule id="nr738" name="duur kost">
-		2014-08-19 TODO Regel aanpassen, te veel false positives
-		<pattern>
-		<token skip="4">duur</token>
-		<token>kost</token>
-		</pattern>
-		<message>U bedoelt <suggestion>is duur</suggestion> of <suggestion>kost veel</suggestion>.</message>
-		<short>Is duur, kost veel</short>
-		<example type="incorrect">Weet je niet hoe <marker>duur die auto wel niet kost</marker>?</example>
-		<example>Weet je niet hoe <marker>duur die auto wel niet is</marker>?</example>
-		</rule>
-		-->
-		
-		<rulegroup id="KAN_KUN" name="kan vs kun">
-			<rule>
-				<!-- 2014-08-20 TaalTik -->
-				<pattern>
-					<token negate="yes" regexp="yes">ik|hij|zij|het</token>
-					<marker>
-						<token>kan</token>
-					</marker>
-					<token regexp="yes">je|jij</token>
-				</pattern>
-				<message>Velen vinden dat <suggestion>kun</suggestion> netter is. Kan mag echter ook.</message>
-				<url>http://taaladvies.net/taal/advies/vraag/442/je_kan_kunt/</url>
-				<example><marker>Kun</marker> je het even doen voor mij?.</example>
-				<example correction="Kun"><marker>Kan</marker> je het even doen voor mij?</example>
-			</rule>
-			
-			<rule>
-				<!-- 2014-08-22 TaalTik -->
-				<pattern>
-					<token><exception regexp="yes">ik|hij|zij|het</exception><exception postag_regexp="yes" postag="UNKNOWN|ENM.*|NN1.*"/></token>
-					<marker>
-						<token>kan</token>
-					</marker>
-					<token>u</token>
-				</pattern>
-				<message>Velen vinden dat <suggestion>kunt</suggestion> netter is. Kan mag echter ook.</message>
-				<url>http://taaladvies.net/taal/advies/vraag/442/je_kan_kunt/</url>
-				<example correction="Kunt"><marker>Kan</marker> u het even doen voor mij?</example>
-				<example><marker>Kunt</marker> u het even doen voor mij?.</example>
-			</rule>
-			
-			<rule>
-				<!-- 2014-08-21 TaalTik -->
-				<pattern>
-					<token regexp="yes">je|u</token>
-					<marker>
-						<token>kan</token>
-					</marker>
-					<token><exception postag="WKW:TGW:INF"/></token>
-				</pattern>
-				<message>Velen vinden dat <suggestion>kunt</suggestion> netter is. Kan mag echter ook.</message>
-				<example>U <marker>kunt</marker> dat toch wel even doen voor mij?.</example>
-				<example correction="kunt">U <marker>kan</marker> dat toch wel even doen voor mij?</example>
-			</rule>
-		</rulegroup>
-		
-		<rulegroup id="ZAL_ZUL" name="zal of zul">
-			<rule>
-				<!-- 2014-08-21 TaalTik -->
-				<pattern>
-					<token><exception>ik</exception></token>
-					<marker>
-						<token>zal</token>
-					</marker>
-					<token regexp="yes">je|jij</token>
-				</pattern>
-				<message>Velen zien <suggestion>zul <match no="3"/></suggestion> nog als beter.</message>
-				<url>https://onzetaal.nl/taaladvies/advies/je-kunt-je-kan</url>
-				<example><marker>Zul</marker> je het even doen voor mij?.</example>
-				<example correction="Zul je"><marker>Zal</marker> je het even doen voor mij?</example>
-			</rule>
-			
-			<rule>
-				<!-- 2014-08-22 TaalTik -->
-				<pattern>
-					<token negate="yes" regexp="yes">hij|ik|zij|het|dit</token>
-					<marker>
-						<token>zal</token>
-						<token>u</token>
-					</marker>
-				</pattern>
-				<message>Velen zien <suggestion>zult u</suggestion> nog als beter.</message>
-				<url>https://onzetaal.nl/taaladvies/advies/je-kunt-je-kan</url>
-				<example><marker>Zult u</marker> het even doen voor mij?.</example>
-				<example correction="Zult u"><marker>Zal u</marker> het even doen voor mij?</example>
-			</rule>
-			
-			<rule>
-				<!--
-				2014-08-22 TaalTik
-				regel werkt goed
-				tekst aangepast aan advies
-				url toegevoegd
-				-->
-				<pattern>
-					<token regexp="yes">je|u</token>
-					<token>zal</token>
-				</pattern>
-				<message>Velen zien <suggestion><match no="1"/> zult</suggestion> nog als beter.</message>
-				<url>https://onzetaal.nl/taaladvies/advies/je-kunt-je-kan</url>
-				<example><marker>U zult</marker> dat toch wel even doen voor mij?.</example>
-				<example correction="U zult"><marker>U zal</marker> dat toch wel even doen voor mij?</example>
-			</rule>
-		</rulegroup>
-		<!--
-		2014-08-23 TaalTik
-		regel uitgezet vanwege advies: https://onzetaal.nl/taaladvies/advies/dicteewoorden-met-een-f
-		<rule id="nr746" name="driedubbel">
-		
-		<pattern>
-		<token regexp="yes">(drie|vier)dubbel</token>
-		</pattern>
-		<message>Juist is <suggestion><match no="1" regexp_match="dubbel" regexp_replace=""></match> keer zo</suggestion> of <suggestion><match no="1" regexp_match="dubbel" regexp_replace=""></match>voudig</suggestion></message>
-		<short>keer zo</short>
-		<example>Dit is <marker>drie keer</marker> zo fout.</example>
-		<example type="incorrect">Dit is <marker>driedubbel</marker> verkeerd.</example>
-		</rule>
-		-->
-		
-		<rulegroup id="WERKZAAMHEID" name="/">
-			<rule>
-				<!-- 2014-08-26 TaalTik
-				nieuwe regel uit OWN-it-register
-				TODO: uitzonderingen toevoegen
-				-->
-				<pattern>
-					<token regexp="yes">.{3,}werkzaamheid<exception>zelfwerkzaamheid</exception></token>
-				</pattern>
-				<message>Dit is een ongebruikelijk enkelvoud. Probeer een ander woord, zoals <suggestion>bezigheid</suggestion></message>
-				<short>werkzaamheid</short>
-				<example correction="bezigheid">De <marker>basiswerkzaamheid</marker> is ongelijk.</example>
-				<example>De <marker>basisactiviteit</marker> is ongelijk.</example>
-			</rule>
-		</rulegroup>
-		
-		<rulegroup id="DEELTEKEN" name="/">
-			<rule>
-				<!-- 2014-08-20 TaalTik
-				regel geeft veel te veel meldingen
-				daarom aangepast dat alleen melding wordt gegeven bij langere termen en een spacebefore
-				TODO: nieuwe werking controleren
-				-->
-				<pattern>
-					<token><exception regexp="yes">[./]</exception></token>
-					<marker>
-						<token regexp="yes">.{3,}</token>
-						<token spacebefore="no">/</token>
-						<token regexp="yes">.{3,}</token>
-					</marker>
-				</pattern>
-				<message>Vermijd de / buiten berekeningen of eenheden. Gebruik <suggestion><match no="2"/>-<match no="4"/></suggestion> voor gelijkwaardige begrippen, <suggestion><match no="2"/> of <match no="4"/></suggestion>, <suggestion><match no="2"/>- of <match no="4"/></suggestion>, <suggestion><match no="2"/> en <match no="4"/></suggestion>, of <suggestion><match no="2"/>- en <match no="4"/></suggestion>, <suggestion><match no="2"/> per <match no="4"/></suggestion> voor verhoudingen of <suggestion><match no="2"/>, <match no="4"/></suggestion>.</message>
-				
-				<example correction="man-vrouwverhouding|man of vrouwverhouding|man- of vrouwverhouding|man en vrouwverhouding|man- en vrouwverhouding|man per vrouwverhouding|man, vrouwverhouding">De <marker>man/vrouwverhouding</marker> is ongelijk.</example>
-				<example>De <marker>man-vrouwverhouding</marker> is ongelijk.</example>
-			</rule>
-		</rulegroup>
-		
-	</category>
 	<category id="OVERIG" name="Diverse regels">
-	
+
+        <rulegroup id="ONTKEN_2" name="dubbele ontkenning">
+            <rule>
+                <!-- 2014-08-20 TaalTik
+                regel werkt best goed, maar niet altijd, daarom tekst wat algemener gemaakt.
+                nimmer toegevoegd
+                exception met scope toegevoegd (n.a.v. voorbeeld in wiki)
+                TODO: regel controleren op verbeterde werking
+                -->
+                <pattern>
+                    <token regexp="yes" skip="5">nimmer|niet|nooit|geen|nergens|niet-.+<exception scope="next" regexp="yes">;|,|en|of</exception></token>
+                    <token regexp="yes">nimmer|niet|nooit|geen|nergens|niet-.+</token>
+                </pattern>
+                <message>Meerdere ontkenningen maken de tekst moeilijker te begrijpen.</message>
+                <example type="incorrect">Ik doe <marker>nooit geen</marker> jas aan.</example>
+                <example>Ik doe <marker>altijd</marker> een jas aan.</example>
+                <example type="incorrect">Gebruik <marker>geen enkele post niet</marker> missen!</example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup id="IETS_DAT" name="Iets dat → iets wat">
+            <rule>
+                <!--
+                2014-09-04 TalTik
+                regel toegevoegd
+                -->
+                <pattern>
+                    <token>iets</token>
+                    <token>dat</token>
+                </pattern>
+                <message>Sommige mensen vinden <suggestion>iets wat</suggestion> toch wat netter.</message>
+                <url>https://onzetaal.nl/taaladvies/advies/iets-wat-iets-dat</url>
+                <example correction="iets wat">Het is <marker>iets dat</marker> fout is.</example>
+                <example>Het is <marker>iets wat</marker> goed is.</example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup id="VERLUID" name="verluid">
+            <rule>
+                <!--
+                2014-08-23 TaalTik
+                regel werkt goed
+                -->
+                <pattern>
+                    <token>naar</token>
+                    <marker>
+                        <token>verluid</token>
+                    </marker>
+                    <token negate="yes">wordt</token>
+                </pattern>
+                <message>Beter is naar <suggestion>verluidt</suggestion>. Overigens wordt het gebruik van deze vultekst afgeraden.</message>
+                <url>https://onzetaal.nl/taaladvies/advies/naar-verluid-naar-verluidt</url>
+                <example correction="verluidt">Naar <marker>verluid</marker> is dit fout.</example>
+                <example>Naar <marker>verluidt</marker> is dit beter.</example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup id="VERVANG_VOOR" name="Vervangen voor → vervangen door">
+            <rule>
+                <!-- 2014-09-04 TaalTik nieuwe regel vanuit OT wiki -->
+                <pattern>
+                    <token inflected="yes" skip="3">vervangen<exception regexp="yes">vervangende|vervangend</exception></token>
+                    <marker>
+                        <token>voor</token>
+                    </marker>
+                </pattern>
+                <message>Juist is: vervangen <suggestion>door</suggestion>.</message>
+                <url>https://onzetaal.nl/taaladvies/advies/vervangen-door-voor</url>
+
+                <example correction="door">Hij verving de kachel <marker>voor</marker> een houtbrander.</example>
+                <example>Hij vervangt de kachel <marker>door</marker> een brander.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token skip="3">voor</token>
+                    </marker>
+                    <token inflected="yes">vervangen<exception regexp="yes">vervangende|vervangend</exception></token>
+                </pattern>
+                <message>Juist is: vervangen <suggestion>door</suggestion>.</message>
+                <url>https://onzetaal.nl/taaladvies/advies/vervangen-door-voor</url>
+
+                <example correction="door">Als ik kachel <marker>voor</marker> een houtbrander vervang.</example>
+                <example>Als ik kachel <marker>door</marker> een houtbrander vervang.</example>
+            </rule>
+        </rulegroup>
+
+
+
+        <!-- TODO regel werkt niet goed, helemaal aanpassen
+        <rule id="nr737" name="kost duur">
+        <pattern>
+        <token skip="10">kost</token>
+        <token>duur</token>
+        </pattern>
+        <message>U bedoelt <suggestion>is duur</suggestion> of <suggestion>kost veel</suggestion>.</message>
+        <short>Is duur, kost veel</short>
+        <example type="incorrect">Die auto <marker>kost duur</marker>.</example>
+        <example>Die auto <marker>kost veel</marker>.</example>
+        </rule>
+        -->
+        <!--
+        <rule id="nr738" name="duur kost">
+        2014-08-19 TODO Regel aanpassen, te veel false positives
+        <pattern>
+        <token skip="4">duur</token>
+        <token>kost</token>
+        </pattern>
+        <message>U bedoelt <suggestion>is duur</suggestion> of <suggestion>kost veel</suggestion>.</message>
+        <short>Is duur, kost veel</short>
+        <example type="incorrect">Weet je niet hoe <marker>duur die auto wel niet kost</marker>?</example>
+        <example>Weet je niet hoe <marker>duur die auto wel niet is</marker>?</example>
+        </rule>
+        -->
+
+        <rulegroup id="KAN_KUN" name="kan vs kun">
+            <rule>
+                <!-- 2014-08-20 TaalTik -->
+                <pattern>
+                    <token negate="yes" regexp="yes">ik|hij|zij|het</token>
+                    <marker>
+                        <token>kan</token>
+                    </marker>
+                    <token regexp="yes">je|jij</token>
+                </pattern>
+                <message>Velen vinden dat <suggestion>kun</suggestion> netter is. Kan mag echter ook.</message>
+                <url>http://taaladvies.net/taal/advies/vraag/442/je_kan_kunt/</url>
+                <example><marker>Kun</marker> je het even doen voor mij?.</example>
+                <example correction="Kun"><marker>Kan</marker> je het even doen voor mij?</example>
+            </rule>
+
+            <rule>
+                <!-- 2014-08-22 TaalTik -->
+                <pattern>
+                    <token><exception regexp="yes">ik|hij|zij|het</exception><exception postag_regexp="yes" postag="UNKNOWN|ENM.*|NN1.*"/></token>
+                    <marker>
+                        <token>kan</token>
+                    </marker>
+                    <token>u</token>
+                </pattern>
+                <message>Velen vinden dat <suggestion>kunt</suggestion> netter is. Kan mag echter ook.</message>
+                <url>http://taaladvies.net/taal/advies/vraag/442/je_kan_kunt/</url>
+                <example correction="Kunt"><marker>Kan</marker> u het even doen voor mij?</example>
+                <example><marker>Kunt</marker> u het even doen voor mij?.</example>
+            </rule>
+
+            <rule>
+                <!-- 2014-08-21 TaalTik -->
+                <pattern>
+                    <token regexp="yes">je|u</token>
+                    <marker>
+                        <token>kan</token>
+                    </marker>
+                    <token><exception postag="WKW:TGW:INF"/></token>
+                </pattern>
+                <message>Velen vinden dat <suggestion>kunt</suggestion> netter is. Kan mag echter ook.</message>
+                <example>U <marker>kunt</marker> dat toch wel even doen voor mij?.</example>
+                <example correction="kunt">U <marker>kan</marker> dat toch wel even doen voor mij?</example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup id="ZAL_ZUL" name="zal of zul">
+            <rule>
+                <!-- 2014-08-21 TaalTik -->
+                <pattern>
+                    <token><exception>ik</exception></token>
+                    <marker>
+                        <token>zal</token>
+                    </marker>
+                    <token regexp="yes">je|jij</token>
+                </pattern>
+                <message>Velen zien <suggestion>zul <match no="3"/></suggestion> nog als beter.</message>
+                <url>https://onzetaal.nl/taaladvies/advies/je-kunt-je-kan</url>
+                <example><marker>Zul</marker> je het even doen voor mij?.</example>
+                <example correction="Zul je"><marker>Zal</marker> je het even doen voor mij?</example>
+            </rule>
+
+            <rule>
+                <!-- 2014-08-22 TaalTik -->
+                <pattern>
+                    <token negate="yes" regexp="yes">hij|ik|zij|het|dit</token>
+                    <marker>
+                        <token>zal</token>
+                        <token>u</token>
+                    </marker>
+                </pattern>
+                <message>Velen zien <suggestion>zult u</suggestion> nog als beter.</message>
+                <url>https://onzetaal.nl/taaladvies/advies/je-kunt-je-kan</url>
+                <example><marker>Zult u</marker> het even doen voor mij?.</example>
+                <example correction="Zult u"><marker>Zal u</marker> het even doen voor mij?</example>
+            </rule>
+
+            <rule>
+                <!--
+                2014-08-22 TaalTik
+                regel werkt goed
+                tekst aangepast aan advies
+                url toegevoegd
+                -->
+                <pattern>
+                    <token regexp="yes">je|u</token>
+                    <token>zal</token>
+                </pattern>
+                <message>Velen zien <suggestion><match no="1"/> zult</suggestion> nog als beter.</message>
+                <url>https://onzetaal.nl/taaladvies/advies/je-kunt-je-kan</url>
+                <example><marker>U zult</marker> dat toch wel even doen voor mij?.</example>
+                <example correction="U zult"><marker>U zal</marker> dat toch wel even doen voor mij?</example>
+            </rule>
+        </rulegroup>
+        <!--
+        2014-08-23 TaalTik
+        regel uitgezet vanwege advies: https://onzetaal.nl/taaladvies/advies/dicteewoorden-met-een-f
+        <rule id="nr746" name="driedubbel">
+
+        <pattern>
+        <token regexp="yes">(drie|vier)dubbel</token>
+        </pattern>
+        <message>Juist is <suggestion><match no="1" regexp_match="dubbel" regexp_replace=""></match> keer zo</suggestion> of <suggestion><match no="1" regexp_match="dubbel" regexp_replace=""></match>voudig</suggestion></message>
+        <short>keer zo</short>
+        <example>Dit is <marker>drie keer</marker> zo fout.</example>
+        <example type="incorrect">Dit is <marker>driedubbel</marker> verkeerd.</example>
+        </rule>
+        -->
+
+        <rulegroup id="WERKZAAMHEID" name="/">
+            <rule>
+                <!-- 2014-08-26 TaalTik
+                nieuwe regel uit OWN-it-register
+                TODO: uitzonderingen toevoegen
+                -->
+                <pattern>
+                    <token regexp="yes">.{3,}werkzaamheid<exception>zelfwerkzaamheid</exception></token>
+                </pattern>
+                <message>Dit is een ongebruikelijk enkelvoud. Probeer een ander woord, zoals <suggestion>bezigheid</suggestion></message>
+                <short>werkzaamheid</short>
+                <example correction="bezigheid">De <marker>basiswerkzaamheid</marker> is ongelijk.</example>
+                <example>De <marker>basisactiviteit</marker> is ongelijk.</example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup id="DEELTEKEN" name="/">
+            <rule>
+                <!-- 2014-08-20 TaalTik
+                regel geeft veel te veel meldingen
+                daarom aangepast dat alleen melding wordt gegeven bij langere termen en een spacebefore
+                TODO: nieuwe werking controleren
+                -->
+                <pattern>
+                    <token><exception regexp="yes">[./]</exception></token>
+                    <marker>
+                        <token regexp="yes">.{3,}</token>
+                        <token spacebefore="no">/</token>
+                        <token regexp="yes">.{3,}</token>
+                    </marker>
+                </pattern>
+                <message>Vermijd de / buiten berekeningen of eenheden. Gebruik <suggestion><match no="2"/>-<match no="4"/></suggestion> voor gelijkwaardige begrippen, <suggestion><match no="2"/> of <match no="4"/></suggestion>, <suggestion><match no="2"/>- of <match no="4"/></suggestion>, <suggestion><match no="2"/> en <match no="4"/></suggestion>, of <suggestion><match no="2"/>- en <match no="4"/></suggestion>, <suggestion><match no="2"/> per <match no="4"/></suggestion> voor verhoudingen of <suggestion><match no="2"/>, <match no="4"/></suggestion>.</message>
+
+                <example correction="man-vrouwverhouding|man of vrouwverhouding|man- of vrouwverhouding|man en vrouwverhouding|man- en vrouwverhouding|man per vrouwverhouding|man, vrouwverhouding">De <marker>man/vrouwverhouding</marker> is ongelijk.</example>
+                <example>De <marker>man-vrouwverhouding</marker> is ongelijk.</example>
+            </rule>
+        </rulegroup>
+
 		<rulegroup id="UW_BEIDER_BELANG" name="u beider belang">
 			<rule>
 				<pattern>
