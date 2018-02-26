@@ -1306,9 +1306,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>als</suggestion>
                 <suggestion>a</suggestion>
                 <example correction="als|a">Va morir <marker>al</marker> 84 anys.</example>
-                <example>dos o tres homes</example>
-                <example>dos o tres mascles</example>
-                <example>són dos, les bengales i les rodes</example>
             </rule>
             <!-- concordança nombre: dos dit(s)-->
             <rule>
@@ -1453,6 +1450,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Ells dos i cinquanta persones més</example>
                 <example>són dos, les bengales i les rodes</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token><exception>ells</exception></token>
+                    <marker>
+                        <token>dos</token>
+                    </marker>
+                    <token regexp="yes">i|o|ni</token>
+                    <token>més</token>
+                    <token postag="_GN_FP|NCFP.*" postag_regexp="yes"><exception postag="_GN_MP|NC[MC].*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Error de concordança.</message>
+                <suggestion>dues</suggestion>
+                <example correction="dues"><marker>dos</marker> o més coses</example>
+                <example>dos o més homes</example>
+                <example>dos o més mascles</example>
+                <example>Ells dos i cinquanta persones més</example>
+                <example>són dos, les bengales i les rodes</example>
+            </rule>
+
         </rulegroup>
         <rulegroup id="CONCORDANCES_NUMERALS_DOS" name="Usa sempre 'dos', mai 'dues'" default="off">
             <rule>
