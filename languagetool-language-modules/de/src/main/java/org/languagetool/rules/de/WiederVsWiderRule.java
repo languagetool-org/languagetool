@@ -59,8 +59,7 @@ public class WiederVsWiderRule extends Rule {
     boolean foundWider = false;
     for (int i = 0; i < tokens.length; i++) {
       String token = tokens[i].getToken();
-      if (token.equalsIgnoreCase("spiegelt") || token.equalsIgnoreCase("spiegeln") || token.equalsIgnoreCase("spiegelte")
-              || token.equalsIgnoreCase("spiegelten") || token.equalsIgnoreCase("spiegelst")) {
+      if (tokens[i].hasLemma("spiegeln")) {
         foundSpiegelt = true;
       } else if (token.equalsIgnoreCase("wieder") && foundSpiegelt) {
         foundWieder = true;
