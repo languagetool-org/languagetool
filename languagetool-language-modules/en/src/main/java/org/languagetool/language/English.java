@@ -182,6 +182,7 @@ public class English extends Language implements AutoCloseable {
         new WhiteSpaceBeforeParagraphEnd(messages),
         new WhiteSpaceAtBeginOfParagraph(messages),
         new EmptyLineRule(messages),
+        new ParagraphRepeatBeginningRule(messages),
         // specific to English:
         new EnglishUnpairedBracketsRule(messages, this),
         new EnglishWordRepeatRule(messages, this),
