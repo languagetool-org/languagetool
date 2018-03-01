@@ -35,7 +35,7 @@ public class LongSentenceRule extends Rule {
 
   private static final int DEFAULT_MAX_WORDS = 50;
   private static final Pattern NON_WORD_REGEX = Pattern.compile("[.?!…:;,~’'\"„“”»«‚‘›‹()\\[\\]\\-–—*×∗·+÷/=]");
-  private static final boolean DEFAULT_INACTIVE = false;
+  private static final boolean DEFAULT_ACTIVATION = false;
 
   protected static int maxWords = DEFAULT_MAX_WORDS;
 
@@ -55,7 +55,7 @@ public class LongSentenceRule extends Rule {
    * Creates a rule with default inactive
    */
   public LongSentenceRule(ResourceBundle messages) {
-    this(messages, DEFAULT_INACTIVE);
+    this(messages, DEFAULT_ACTIVATION);
   }
 
   @Override
