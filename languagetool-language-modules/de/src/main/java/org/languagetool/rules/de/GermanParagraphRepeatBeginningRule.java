@@ -29,13 +29,14 @@ import org.languagetool.rules.ParagraphRepeatBeginningRule;
  * If the first word is an article it checks if the first two words are identical
  * 
  * @author Fred Kruse
+ * @since 4.1
  */
 public class GermanParagraphRepeatBeginningRule extends ParagraphRepeatBeginningRule {
 
   public GermanParagraphRepeatBeginningRule(ResourceBundle messages) {
     super(messages);
     addExamplePair(Example.wrong("<marker>Der Hund</marker> spazierte über die Straße.\n<marker>Der Hund</marker> ignorierte den Verkehr."),
-        Example.fixed("<marker>Der Hund</marker> spazierte über die Straße.\n<marker>Der Vogel</marker> ignorierte den Verkehr."));
+                   Example.fixed("<marker>Der Hund</marker> spazierte über die Straße.\n<marker>Der Vogel</marker> ignorierte den Verkehr."));
   }
 
   @Override

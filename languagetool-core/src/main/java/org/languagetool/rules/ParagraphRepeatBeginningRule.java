@@ -25,16 +25,13 @@ import java.util.ResourceBundle;
 
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.rules.Categories;
-import org.languagetool.rules.ITSIssueType;
-import org.languagetool.rules.RuleMatch;
-import org.languagetool.rules.TextLevelRule;
 
 /**
  * Check if to paragraphs begin with the same word.
  * If the first word is an article it checks if the first two words are identical
  * 
  * @author Fred Kruse
+ * @since 4.1
  */
 public class ParagraphRepeatBeginningRule extends TextLevelRule {
 
