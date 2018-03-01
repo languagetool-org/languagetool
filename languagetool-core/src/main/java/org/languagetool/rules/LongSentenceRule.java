@@ -93,7 +93,7 @@ public class LongSentenceRule extends Rule {
   }
   
   public String getMessage() {
-		return MessageFormat.format(messages.getString("long_sentence_rule_msg"), maxWords);
+		return MessageFormat.format(messages.getString("long_sentence_rule_msg2"), maxWords);
   }
 
   @Override
@@ -101,22 +101,25 @@ public class LongSentenceRule extends Rule {
     List<RuleMatch> ruleMatches = new ArrayList<>();
     AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
     String msg = getMessage();
-    int numWords = 0;
-    int pos = sentence.getText().length() - 1;   //  marks the whole sentence
     if (tokens.length < maxWords + 1) {   // just a short-circuit
       return toRuleMatchArray(ruleMatches);
     } else {
+      int numWords = 0;
+      int startPos = 0;
+      int prevStartPos;
       for (AnalyzedTokenReadings aToken : tokens) {
         String token = aToken.getToken();
-//        pos += token.length();  // won't match the whole offending sentence, but much of it
         if (!aToken.isSentenceStart() && !aToken.isSentenceEnd() && !NON_WORD_REGEX.matcher(token).matches()) {
           numWords++;
+          prevStartPos = startPos;
+          startPos = aToken.getStartPos();
+          if (numWords > maxWords) {
+            RuleMatch ruleMatch = new RuleMatch(this, sentence, prevStartPos, aToken.getEndPos(), msg);
+            ruleMatches.add(ruleMatch);
+            break;
+          }
         }
       }
-    }
-    if (numWords > maxWords) {
-      RuleMatch ruleMatch = new RuleMatch(this, sentence, 0, pos, msg);
-      ruleMatches.add(ruleMatch);
     }
     return toRuleMatchArray(ruleMatches);
   }
