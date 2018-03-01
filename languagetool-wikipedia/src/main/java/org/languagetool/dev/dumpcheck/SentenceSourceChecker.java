@@ -167,7 +167,7 @@ public class SentenceSourceChecker {
     System.out.println("Working on: " + StringUtils.join(fileNames, ", "));
     System.out.println("Sentence limit: " + (maxSentences > 0 ? maxSentences : "no limit"));
     System.out.println("Error limit: " + (maxErrors > 0 ? maxErrors : "no limit"));
-    System.out.println("Version: " + JLanguageTool.VERSION + " (" + JLanguageTool.BUILD_DATE + ")");
+    //System.out.println("Version: " + JLanguageTool.VERSION + " (" + JLanguageTool.BUILD_DATE + ")");
 
     ResultHandler resultHandler = null;
     int ruleMatchCount = 0;
