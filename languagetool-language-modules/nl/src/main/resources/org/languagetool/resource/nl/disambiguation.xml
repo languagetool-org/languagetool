@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
 Disambiguation Rules for LanguageTool
-Copyright (C) 2008-2017 Ruud Baars, TaalTik
+Copyright (C) 2008-2018 Ruud Baars, TaalTik
 -->
 <rules lang="nl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		 xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/resource/disambiguation.xsd">
@@ -32,7 +32,7 @@ Copyright (C) 2008-2017 Ruud Baars, TaalTik
 	</rule>
 
     <!-- BN'ers zonder apostrof worden in een regel behandeld -->
-    <rule name="ignore tijd" id="SPELLER_ER">
+    <rule name="ignore noun-abbrevs" id="SPELLER_ER">
         <pattern>
             <token regexp="yes" case_sensitive="yes">[A-Z]{2,5}'(er|ers|ertje|ertjes)</token>
         </pattern>
@@ -82,7 +82,7 @@ Copyright (C) 2008-2017 Ruud Baars, TaalTik
 		<disambig action="ignore_spelling"/>  
 	</rule>  
 	
-	<!-- straten etc -->
+	<!-- uitzondering eigennaam etc -->
 	<rule name="ignore parts of proper names" id="SPELLER_NEDERLANDSCHE">
 		<pattern>
 			<marker>
@@ -168,7 +168,7 @@ Copyright (C) 2008-2017 Ruud Baars, TaalTik
 		<disambig action="ignore_spelling"/>  
 	</rule>
 	
-	<!-- Tel Aviv-->
+	<!-- New York-->
 	<rule name="New York etc." id="SPELLER_NEW_X">
 		<pattern case_sensitive="yes">
 			<token>New</token>
@@ -187,17 +187,17 @@ Copyright (C) 2008-2017 Ruud Baars, TaalTik
 		<pattern>
 			<token regexp="yes">[0-9]*</token>
 		</pattern>
-		<disambig action="add"><wd pos="NM"/></disambig>
+		<disambig action="add"><wd pos="GET"/></disambig>
 	</rule>
 
 	<rule name="GUESS_number" id="NUMBERS_RANKING">
 		<pattern>
 			<token regexp="yes">[0-9]{1,}(e|de|ste)</token>
 		</pattern>
-		<disambig action="add"><wd pos="NMr"/></disambig>
+		<disambig action="add"><wd pos="GET:RNG"/></disambig>
 	</rule>
 
-    <!-- GUESSING TAGS BY FORM ONLY ======================================== -->
+    <!-- TODO GUESSING TAGS BY FORM ONLY ======================================== -->
 
     <rule name="GUESS_01" id="GUESS_01">
         <pattern>
