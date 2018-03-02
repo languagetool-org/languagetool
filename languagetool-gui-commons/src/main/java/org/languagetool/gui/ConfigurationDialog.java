@@ -17,7 +17,6 @@
  * USA
  */
 package org.languagetool.gui;
-
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -26,7 +25,6 @@ import org.languagetool.Language;
 import org.languagetool.Languages;
 import org.languagetool.languagemodel.LuceneLanguageModel;
 import org.languagetool.rules.Rule;
-
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -42,7 +40,6 @@ import java.io.File;
 import java.net.URL;
 import java.util.*;
 import java.util.List;
-
 /**
  * Dialog that offers the available rules so they can be turned on/off
  * individually.
@@ -55,13 +52,11 @@ public class ConfigurationDialog implements ActionListener {
   private static final String ACTION_COMMAND_OK = "OK";
   private static final String ACTION_COMMAND_CANCEL = "CANCEL";
   private static final int MAX_PORT = 65536;
-
   private final ResourceBundle messages;
   private final Configuration original;
   private final Configuration config;
   private final Frame owner;
   private final boolean insideOffice;
-
   private JDialog dialog;
   private JCheckBox serverCheckbox;
   private JTextField serverPortField;
@@ -186,14 +181,12 @@ public class ConfigurationDialog implements ActionListener {
       lang = Languages.getLanguageForLocale(Locale.getDefault());
     }
     configTree[0].applyComponentOrientation(ComponentOrientation.getOrientation(lang.getLocale()));
-
     configTree[0].setRootVisible(false);
     configTree[0].setEditable(false);
     configTree[0].setCellRenderer(new CheckBoxTreeCellRenderer());
     TreeListener.install(configTree[0]);
     checkBoxPanel.add(configTree[0], cons);
     configTree[0].addMouseListener(getMouseAdapter());
-
     JPanel checkBoxPanel1 = new JPanel();
     checkBoxPanel1.setLayout(new GridBagLayout());
     cons = new GridBagConstraints();
@@ -230,7 +223,6 @@ public class ConfigurationDialog implements ActionListener {
     else {
       createOfficeElements(cons, portPanel);
     }
-
     JPanel buttonPanel = new JPanel();
     buttonPanel.setLayout(new GridBagLayout());
     JButton okButton = new JButton(Tools.getLabel(messages.getString("guiOKButton")));
@@ -245,14 +237,11 @@ public class ConfigurationDialog implements ActionListener {
     cons.insets = new Insets(0, 4, 0, 0);
     buttonPanel.add(okButton, cons);
     buttonPanel.add(cancelButton, cons);
-
     JTabbedPane tabpane = new JTabbedPane();
-
     JPanel jPane = new JPanel();
     jPane.setLayout(new GridBagLayout());
     cons = new GridBagConstraints();
     cons.insets = new Insets(4, 4, 4, 4);
-
     cons.gridx = 0;
     cons.gridy = 0;
     cons.fill = GridBagConstraints.NONE;
@@ -260,19 +249,15 @@ public class ConfigurationDialog implements ActionListener {
     cons.gridy++;
     cons.anchor = GridBagConstraints.WEST;
     jPane.add(getMotherTonguePanel(cons), cons);
-
     cons.gridy++;
     cons.anchor = GridBagConstraints.WEST;
     jPane.add(getNgramPanel(cons), cons);
-
     cons.gridy++;
     cons.anchor = GridBagConstraints.WEST;
     jPane.add(getWord2VecPanel(cons), cons);
-
     cons.gridy++;
     cons.anchor = GridBagConstraints.WEST;
     jPane.add(portPanel, cons);
-
     cons.fill = GridBagConstraints.HORIZONTAL;
     cons.anchor = GridBagConstraints.WEST;
     for(JPanel extra : extraPanels) {
