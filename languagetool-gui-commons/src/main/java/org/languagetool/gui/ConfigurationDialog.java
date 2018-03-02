@@ -99,12 +99,10 @@ public class ConfigurationDialog implements ActionListener {
     String lastRuleId = null;
     Map<String, DefaultMutableTreeNode> parents = new TreeMap<>();
     for (Rule rule : rules) {
-      if ((isStyle && (rule.getLocQualityIssueType().toString().equalsIgnoreCase("STYLE")
-          || rule.getCategory().getId().toString().equals("STYLE")
-          || rule.getCategory().getId().toString().equals("TYPOGRAPHY")))
-          || (!isStyle && !rule.getLocQualityIssueType().toString().equalsIgnoreCase("STYLE")
-              && !rule.getCategory().getId().toString().equals("STYLE")
-              && !rule.getCategory().getId().toString().equals("TYPOGRAPHY"))) {
+      if ((isStyle && (rule.getLocQualityIssueType().toString().equalsIgnoreCase("STYLE") || rule.getCategory().getId()
+          .toString().equals("STYLE") || rule.getCategory().getId().toString().equals("TYPOGRAPHY"))) || (!isStyle
+              && !rule.getLocQualityIssueType().toString().equalsIgnoreCase("STYLE") && !rule.getCategory().getId()
+                  .toString().equals("STYLE") && !rule.getCategory().getId().toString().equals("TYPOGRAPHY"))) {
         if (rule.getId().startsWith("STYLE_REPEATED_WORD_RULE")) {
           repeatedWordRule = rule;
         } else if (rule.getId().startsWith("TOO_LONG_SENTENCE")) {
@@ -112,8 +110,8 @@ public class ConfigurationDialog implements ActionListener {
         } else {
           if (!parents.containsKey(rule.getCategory().getName())) {
             boolean enabled = true;
-            if (config.getDisabledCategoryNames() != null
-                && config.getDisabledCategoryNames().contains(rule.getCategory().getName())) {
+            if (config.getDisabledCategoryNames() != null && config.getDisabledCategoryNames().contains(rule
+                .getCategory().getName())) {
               enabled = false;
             }
             if (rule.getCategory().isDefaultOff()) {
@@ -142,8 +140,8 @@ public class ConfigurationDialog implements ActionListener {
     if (config.getDisabledCategoryNames().contains(rule.getCategory().getName())) {
       ret = false;
     }
-    if ((rule.isDefaultOff() || rule.getCategory().isDefaultOff())
-        && !config.getEnabledRuleIds().contains(rule.getId())) {
+    if ((rule.isDefaultOff() || rule.getCategory().isDefaultOff()) && !config.getEnabledRuleIds().contains(rule
+        .getId())) {
       ret = false;
     }
     if (rule.isDefaultOff() && rule.getCategory().isDefaultOff() && config.getEnabledRuleIds().contains(rule.getId())) {
@@ -645,7 +643,7 @@ public class ConfigurationDialog implements ActionListener {
         if (isCheckBoxClicked == false && lastTree != null) {
           lastTree.setState();
         }
-        isCheckBoxClicked = false;    //set the checkbox flag to again false 
+        isCheckBoxClicked = false; // set the checkbox flag to again false
         if (e.isPopupTrigger()) {
           handlePopupEvent(e);
         }
@@ -767,8 +765,8 @@ public class ConfigurationDialog implements ActionListener {
       public void actionPerformed(ActionEvent e) {
         if (Desktop.isDesktopSupported()) {
           try {
-            Desktop.getDesktop()
-                .browse(new URL("http://wiki.languagetool.org/finding-errors-using-n-gram-data").toURI());
+            Desktop.getDesktop().browse(new URL("http://wiki.languagetool.org/finding-errors-using-n-gram-data")
+                .toURI());
           } catch (Exception ex) {
             Tools.showError(ex);
           }
@@ -800,8 +798,8 @@ public class ConfigurationDialog implements ActionListener {
         // not the best UI, but this way user can turn off word2vec
         // feature without another checkbox
         config.setWord2VecDirectory(null);
-        word2vecDirButton
-            .setText(StringUtils.abbreviate(messages.getString("guiWord2VecDirSelect"), maxDirDisplayLength));
+        word2vecDirButton.setText(StringUtils.abbreviate(messages.getString("guiWord2VecDirSelect"),
+            maxDirDisplayLength));
       }
     });
     panel.add(word2vecDirButton, cons);
