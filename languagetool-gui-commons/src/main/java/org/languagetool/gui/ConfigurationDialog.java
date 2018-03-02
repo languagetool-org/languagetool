@@ -34,7 +34,6 @@ import javax.swing.event.TreeModelEvent;
 import javax.swing.event.TreeModelListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 import java.awt.*;
@@ -62,13 +61,12 @@ public class ConfigurationDialog implements ActionListener {
   private final Configuration config;
   private final Frame owner;
   private final boolean insideOffice;
-  private static boolean isCheckBoxClicked, state;
-  private static TreePath lastPath;
-  private static JTree lastTree;
+  private static boolean isCheckBoxClicked;
+  public static LTJTree lastTree;
   private JDialog dialog;
   private JCheckBox serverCheckbox;
   private JTextField serverPortField;
-  private JTree configTree[] = new JTree[2];
+  private LTJTree configTree[] = new LTJTree[2];
   private JCheckBox serverSettingsCheckbox;
   private final List<JPanel> extraPanels = new ArrayList<>();
   private Rule repeatedWordRule = null;
@@ -88,7 +86,8 @@ public class ConfigurationDialog implements ActionListener {
    * If the panel implements {@see SavablePanel}, this dialog will call
    * {@link SavablePanel#save} after the user clicks OK.
    * 
-   * @param panel the JPanel to be added to this dialog
+   * @param panel
+   *          the JPanel to be added to this dialog
    * @since 3.4
    */
   void addExtraPanel(JPanel panel) {
@@ -100,23 +99,24 @@ public class ConfigurationDialog implements ActionListener {
     String lastRuleId = null;
     Map<String, DefaultMutableTreeNode> parents = new TreeMap<>();
     for (Rule rule : rules) {
-      if((isStyle && (rule.getLocQualityIssueType().toString().equalsIgnoreCase("STYLE") 
-            || rule.getCategory().getId().toString().equals("STYLE")
-            || rule.getCategory().getId().toString().equals("TYPOGRAPHY"))) ||
-          (!isStyle && !rule.getLocQualityIssueType().toString().equalsIgnoreCase("STYLE")
-            && !rule.getCategory().getId().toString().equals("STYLE")
-            && !rule.getCategory().getId().toString().equals("TYPOGRAPHY"))) {
-        if(rule.getId().startsWith("STYLE_REPEATED_WORD_RULE")) {
+      if ((isStyle && (rule.getLocQualityIssueType().toString().equalsIgnoreCase("STYLE")
+          || rule.getCategory().getId().toString().equals("STYLE")
+          || rule.getCategory().getId().toString().equals("TYPOGRAPHY")))
+          || (!isStyle && !rule.getLocQualityIssueType().toString().equalsIgnoreCase("STYLE")
+              && !rule.getCategory().getId().toString().equals("STYLE")
+              && !rule.getCategory().getId().toString().equals("TYPOGRAPHY"))) {
+        if (rule.getId().startsWith("STYLE_REPEATED_WORD_RULE")) {
           repeatedWordRule = rule;
-        } else if(rule.getId().startsWith("TOO_LONG_SENTENCE")) {
+        } else if (rule.getId().startsWith("TOO_LONG_SENTENCE")) {
           longSentencesRule = rule;
         } else {
           if (!parents.containsKey(rule.getCategory().getName())) {
             boolean enabled = true;
-            if (config.getDisabledCategoryNames() != null && config.getDisabledCategoryNames().contains(rule.getCategory().getName())) {
+            if (config.getDisabledCategoryNames() != null
+                && config.getDisabledCategoryNames().contains(rule.getCategory().getName())) {
               enabled = false;
             }
-            if(rule.getCategory().isDefaultOff()) {
+            if (rule.getCategory().isDefaultOff()) {
               enabled = false;
             }
             DefaultMutableTreeNode categoryNode = new CategoryNode(rule.getCategory(), enabled);
@@ -142,11 +142,11 @@ public class ConfigurationDialog implements ActionListener {
     if (config.getDisabledCategoryNames().contains(rule.getCategory().getName())) {
       ret = false;
     }
-    if ((rule.isDefaultOff() || rule.getCategory().isDefaultOff()) && !config.getEnabledRuleIds().contains(rule.getId())) {
+    if ((rule.isDefaultOff() || rule.getCategory().isDefaultOff())
+        && !config.getEnabledRuleIds().contains(rule.getId())) {
       ret = false;
     }
-    if (rule.isDefaultOff() && rule.getCategory().isDefaultOff()
-            && config.getEnabledRuleIds().contains(rule.getId())) {
+    if (rule.isDefaultOff() && rule.getCategory().isDefaultOff() && config.getEnabledRuleIds().contains(rule.getId())) {
       config.getDisabledCategoryNames().remove(rule.getCategory().getName());
     }
     return ret;
@@ -167,8 +167,7 @@ public class ConfigurationDialog implements ActionListener {
       }
     };
     JRootPane rootPane = dialog.getRootPane();
-    rootPane.registerKeyboardAction(actionListener, stroke,
-        JComponent.WHEN_IN_FOCUSED_WINDOW);
+    rootPane.registerKeyboardAction(actionListener, stroke, JComponent.WHEN_IN_FOCUSED_WINDOW);
 
     JPanel checkBoxPanel = new JPanel();
     checkBoxPanel.setLayout(new GridBagLayout());
@@ -179,37 +178,9 @@ public class ConfigurationDialog implements ActionListener {
     cons.weighty = 1.0;
     cons.fill = GridBagConstraints.HORIZONTAL;
     Collections.sort(rules, new CategoryComparator());
-    DefaultMutableTreeNode rootNode = createTree(rules, false);   //  grammar options
-    configTree[0] = new JTree(getTreeModel(rootNode)){
-		/**
-		 *
-		 */
-		private static final long serialVersionUID = 1L;
-
-		public void setState() {
-			setExpandedState(lastPath, state);
-		}
-
-		public void expandPath(TreePath path) {
-			// Only expand if not leaf!
-			TreeModel model = getModel();
-			lastTree = this;
-			state = true;
-			if (path != null && model != null && !model.isLeaf(path.getLastPathComponent())) {
-				lastPath = path;
-			} else {
-				lastPath = null;
-			}
-		}
-
-		public void collapsePath(TreePath path) {
-			state = false;
-			lastPath = path;
-			lastTree = this;
-
-		}
-	};
-
+    DefaultMutableTreeNode rootNode = createTree(rules, false); // grammar
+    // options
+    configTree[0] = new LTJTree(getTreeModel(rootNode));
     Language lang = config.getLanguage();
     if (lang == null) {
       lang = Languages.getLanguageForLocale(Locale.getDefault());
@@ -222,7 +193,7 @@ public class ConfigurationDialog implements ActionListener {
     TreeListener.install(configTree[0]);
     checkBoxPanel.add(configTree[0], cons);
     configTree[0].addMouseListener(getMouseAdapter());
-    
+
     JPanel checkBoxPanel1 = new JPanel();
     checkBoxPanel1.setLayout(new GridBagLayout());
     cons = new GridBagConstraints();
@@ -232,36 +203,9 @@ public class ConfigurationDialog implements ActionListener {
     cons.weighty = 1.0;
     cons.fill = GridBagConstraints.HORIZONTAL;
     Collections.sort(rules, new CategoryComparator());
-    rootNode = createTree(rules, true);  //  Style options
-    configTree[1] = new JTree(getTreeModel(rootNode)){
-		/**
-		 *
-		 */
-		private static final long serialVersionUID = 1L;
+    rootNode = createTree(rules, true); // Style options
+    configTree[1] = new LTJTree(getTreeModel(rootNode));
 
-		public void setState() {
-			setExpandedState(lastPath, state);
-		}
-
-		public void expandPath(TreePath path) {
-			// Only expand if not leaf!
-			TreeModel model = getModel();
-			lastTree = this;
-			state = true;
-			if (path != null && model != null && !model.isLeaf(path.getLastPathComponent())) {
-				lastPath = path;
-			} else {
-				lastPath = null;
-			}
-		}
-
-		public void collapsePath(TreePath path) {
-			state = false;
-			lastPath = path;
-			lastTree = this;
-
-		}
-	};
     configTree[1].applyComponentOrientation(ComponentOrientation.getOrientation(lang.getLocale()));
 
     configTree[1].setRootVisible(false);
@@ -270,7 +214,6 @@ public class ConfigurationDialog implements ActionListener {
     TreeListener.install(configTree[1]);
     checkBoxPanel1.add(configTree[1], cons);
     configTree[1].addMouseListener(getMouseAdapter());
-    
 
     JPanel portPanel = new JPanel();
     portPanel.setLayout(new GridBagLayout());
@@ -283,8 +226,7 @@ public class ConfigurationDialog implements ActionListener {
     cons.weightx = 0.0f;
     if (!insideOffice) {
       createNonOfficeElements(cons, portPanel);
-    }
-    else {
+    } else {
       createOfficeElements(cons, portPanel);
     }
 
@@ -332,7 +274,7 @@ public class ConfigurationDialog implements ActionListener {
 
     cons.fill = GridBagConstraints.HORIZONTAL;
     cons.anchor = GridBagConstraints.WEST;
-    for(JPanel extra : extraPanels) {
+    for (JPanel extra : extraPanels) {
       cons.gridy++;
       jPane.add(extra, cons);
     }
@@ -359,7 +301,7 @@ public class ConfigurationDialog implements ActionListener {
     jPane.add(getTreeButtonPanel(0), cons);
 
     tabpane.addTab(messages.getString("guiGrammarRules"), jPane);
-    
+
     jPane = new JPanel();
     jPane.setLayout(new GridBagLayout());
     cons = new GridBagConstraints();
@@ -378,8 +320,8 @@ public class ConfigurationDialog implements ActionListener {
     cons.fill = GridBagConstraints.NONE;
     cons.anchor = GridBagConstraints.LINE_END;
     jPane.add(getTreeButtonPanel(1), cons);
-    
-    if(longSentencesRule != null) {
+
+    if (longSentencesRule != null) {
       cons.gridx = 0;
       cons.gridy++;
       cons.fill = GridBagConstraints.NONE;
@@ -388,7 +330,7 @@ public class ConfigurationDialog implements ActionListener {
       jPane.add(getSpecialRuleValuePanel(longSentencesRule, msg, 5, 100), cons);
     }
 
-    if(repeatedWordRule != null) {
+    if (repeatedWordRule != null) {
       cons.gridx = 0;
       cons.gridy++;
       cons.fill = GridBagConstraints.NONE;
@@ -398,7 +340,7 @@ public class ConfigurationDialog implements ActionListener {
     }
 
     tabpane.addTab(messages.getString("guiStyleRules"), jPane);
-    
+
     Container contentPane = dialog.getContentPane();
     contentPane.setLayout(new GridBagLayout());
     cons = new GridBagConstraints();
@@ -422,11 +364,10 @@ public class ConfigurationDialog implements ActionListener {
     // center on screen:
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     Dimension frameSize = dialog.getSize();
-    dialog.setLocation(screenSize.width / 2 - frameSize.width / 2,
-        screenSize.height / 2 - frameSize.height / 2);
+    dialog.setLocation(screenSize.width / 2 - frameSize.width / 2, screenSize.height / 2 - frameSize.height / 2);
     dialog.setLocationByPlatform(true);
-    for(JPanel extra : this.extraPanels) {
-      if(extra instanceof SavablePanel) {
+    for (JPanel extra : this.extraPanels) {
+      if (extra instanceof SavablePanel) {
         ((SavablePanel) extra).componentShowing();
       }
     }
@@ -455,7 +396,11 @@ public class ConfigurationDialog implements ActionListener {
     serverPortField = new JTextField(Integer.toString(config.getServerPort()));
     serverPortField.setEnabled(serverCheckbox.isSelected());
     serverSettingsCheckbox = new JCheckBox(Tools.getLabel(messages.getString("useGUIConfig")));
-    serverPortField.setMinimumSize(new Dimension(100, 25));  // without this the box is just a few pixels small, but why?
+    serverPortField.setMinimumSize(new Dimension(100, 25)); // without this
+    // the box is
+    // just a few
+    // pixels small,
+    // but why?
     cons.gridx = 1;
     portPanel.add(serverPortField, cons);
     serverPortField.getDocument().addDocumentListener(new DocumentListener() {
@@ -499,7 +444,7 @@ public class ConfigurationDialog implements ActionListener {
     });
     portPanel.add(serverSettingsCheckbox, cons);
   }
-  
+
   private void createOfficeElements(GridBagConstraints cons, JPanel portPanel) {
     int numParaCheck = config.getNumParasToCheck();
     JRadioButton[] radioButtons = new JRadioButton[3];
@@ -509,7 +454,7 @@ public class ConfigurationDialog implements ActionListener {
 
     radioButtons[1] = new JRadioButton(Tools.getLabel(messages.getString("guiCheckFullText")));
     radioButtons[1].setActionCommand("FullTextCheck");
-    
+
     radioButtons[2] = new JRadioButton(Tools.getLabel(messages.getString("guiCheckNumParagraphs")));
     radioButtons[2].setActionCommand("NParagraphCheck");
     radioButtons[2].setSelected(true);
@@ -517,17 +462,17 @@ public class ConfigurationDialog implements ActionListener {
     JTextField numParaField = new JTextField(Integer.toString(5), 2);
     numParaField.setEnabled(radioButtons[2].isSelected());
     numParaField.setMinimumSize(new Dimension(30, 25));
-    
+
     for (int i = 0; i < 3; i++) {
       numParaGroup.add(radioButtons[i]);
     }
-    
+
     if (numParaCheck == 0) {
       radioButtons[0].setSelected(true);
       numParaField.setEnabled(false);
     } else if (numParaCheck < 0) {
       radioButtons[1].setSelected(true);
-      numParaField.setEnabled(false);    
+      numParaField.setEnabled(false);
     } else {
       radioButtons[2].setSelected(true);
       numParaField.setText(Integer.toString(numParaCheck));
@@ -540,26 +485,28 @@ public class ConfigurationDialog implements ActionListener {
         config.setNumParasToCheck(0);
       }
     });
-    
+
     radioButtons[1].addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
         numParaField.setEnabled(false);
         config.setNumParasToCheck(-1);
       }
     });
-    
+
     radioButtons[2].addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
         int numParaCheck = Integer.parseInt(numParaField.getText());
-        if (numParaCheck < 1) numParaCheck = 1;
-        else if (numParaCheck > 99) numParaCheck = 99;
+        if (numParaCheck < 1)
+          numParaCheck = 1;
+        else if (numParaCheck > 99)
+          numParaCheck = 99;
         config.setNumParasToCheck(numParaCheck);
         numParaField.setForeground(Color.BLACK);
         numParaField.setText(Integer.toString(numParaCheck));
         numParaField.setEnabled(true);
       }
     });
-    
+
     numParaField.getDocument().addDocumentListener(new DocumentListener() {
 
       @Override
@@ -588,11 +535,10 @@ public class ConfigurationDialog implements ActionListener {
       }
     });
 
-
-    
     for (int i = 0; i < 3; i++) {
       portPanel.add(radioButtons[i], cons);
-      if (i < 2) cons.gridy++;
+      if (i < 2)
+        cons.gridy++;
     }
     cons.gridx = 1;
     portPanel.add(numParaField, cons);
@@ -627,7 +573,7 @@ public class ConfigurationDialog implements ActionListener {
         }
         if (node instanceof CategoryNode) {
           CategoryNode o = (CategoryNode) node;
-		  isCheckBoxClicked = true;
+          isCheckBoxClicked = true;
           if (o.isEnabled()) {
             config.getDisabledCategoryNames().remove(o.getCategory().getName());
           } else {
@@ -635,12 +581,18 @@ public class ConfigurationDialog implements ActionListener {
           }
         }
       }
+
       @Override
-      public void treeNodesInserted(TreeModelEvent e) {}
+      public void treeNodesInserted(TreeModelEvent e) {
+      }
+
       @Override
-      public void treeNodesRemoved(TreeModelEvent e) {}
+      public void treeNodesRemoved(TreeModelEvent e) {
+      }
+
       @Override
-      public void treeStructureChanged(TreeModelEvent e) {}
+      public void treeStructureChanged(TreeModelEvent e) {
+      }
     });
     return treeModel;
   }
@@ -648,71 +600,64 @@ public class ConfigurationDialog implements ActionListener {
   @NotNull
   private MouseAdapter getMouseAdapter() {
     return new MouseAdapter() {
-        private void handlePopupEvent(MouseEvent e) {
-          JTree tree = (JTree) e.getSource();
-          TreePath path = tree.getPathForLocation(e.getX(), e.getY());
-          if (path == null) {
-            return;
-          }
-          DefaultMutableTreeNode node
-                  = (DefaultMutableTreeNode) path.getLastPathComponent();
-          TreePath[] paths = tree.getSelectionPaths();
-          boolean isSelected = false;
-          if (paths != null) {
-            for (TreePath selectionPath : paths) {
-              if (selectionPath.equals(path)) {
-                isSelected = true;
-              }
+      private void handlePopupEvent(MouseEvent e) {
+        JTree tree = (JTree) e.getSource();
+        TreePath path = tree.getPathForLocation(e.getX(), e.getY());
+        if (path == null) {
+          return;
+        }
+        DefaultMutableTreeNode node = (DefaultMutableTreeNode) path.getLastPathComponent();
+        TreePath[] paths = tree.getSelectionPaths();
+        boolean isSelected = false;
+        if (paths != null) {
+          for (TreePath selectionPath : paths) {
+            if (selectionPath.equals(path)) {
+              isSelected = true;
             }
           }
-          if (!isSelected) {
-            tree.setSelectionPath(path);
-          }
-          if (node.isLeaf()) {
-            JPopupMenu popup = new JPopupMenu();
-            JMenuItem aboutRuleMenuItem = new JMenuItem(messages.getString("guiAboutRuleMenu"));
-            aboutRuleMenuItem.addActionListener(new ActionListener() {
-              @Override
-              public void actionPerformed(ActionEvent actionEvent) {
-                RuleNode node = (RuleNode) tree.getSelectionPath().getLastPathComponent();
-                Rule rule = node.getRule();
-                Language lang = config.getLanguage();
-                if(lang == null) {
-                  lang = Languages.getLanguageForLocale(Locale.getDefault());
-                }
-                Tools.showRuleInfoDialog(tree, messages.getString("guiAboutRuleTitle"),
-                        rule.getDescription(), rule, messages,
-                        lang.getShortCodeWithCountryAndVariant());
+        }
+        if (!isSelected) {
+          tree.setSelectionPath(path);
+        }
+        if (node.isLeaf()) {
+          JPopupMenu popup = new JPopupMenu();
+          JMenuItem aboutRuleMenuItem = new JMenuItem(messages.getString("guiAboutRuleMenu"));
+          aboutRuleMenuItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+              RuleNode node = (RuleNode) tree.getSelectionPath().getLastPathComponent();
+              Rule rule = node.getRule();
+              Language lang = config.getLanguage();
+              if (lang == null) {
+                lang = Languages.getLanguageForLocale(Locale.getDefault());
               }
-            });
-            popup.add(aboutRuleMenuItem);
-            popup.show(tree, e.getX(), e.getY());
-          }
+              Tools.showRuleInfoDialog(tree, messages.getString("guiAboutRuleTitle"), rule.getDescription(), rule,
+                  messages, lang.getShortCodeWithCountryAndVariant());
+            }
+          });
+          popup.add(aboutRuleMenuItem);
+          popup.show(tree, e.getX(), e.getY());
         }
-  
-        @Override
-        public void mousePressed(MouseEvent e) {
-          if (isCheckBoxClicked == false && lastPath != null && lastTree != null) {
-				try {
-					lastTree.getClass().getMethod("setState").invoke(lastTree, null);
-			        } catch (Exception e1) {
-			  e1.printStackTrace();
-			}
-		  }
-		  lastPath = null;
-		  isCheckBoxClicked = false;
-          if (e.isPopupTrigger()) {
-            handlePopupEvent(e);
-          }
+      }
+
+      @Override
+      public void mousePressed(MouseEvent e) {
+        if (isCheckBoxClicked == false && lastTree != null) {
+          lastTree.setState();
         }
-  
-        @Override
-        public void mouseReleased(MouseEvent e) {
-          if (e.isPopupTrigger()) {
-            handlePopupEvent(e);
-          }
+        isCheckBoxClicked = false;    //set the checkbox flag to again false 
+        if (e.isPopupTrigger()) {
+          handlePopupEvent(e);
         }
-      };
+      }
+
+      @Override
+      public void mouseReleased(MouseEvent e) {
+        if (e.isPopupTrigger()) {
+          handlePopupEvent(e);
+        }
+      }
+    };
   }
 
   @NotNull
@@ -788,7 +733,8 @@ public class ConfigurationDialog implements ActionListener {
     panel.add(new JLabel(messages.getString("guiNgramDir")), cons);
     File dir = config.getNgramDirectory();
     int maxDirDisplayLength = 45;
-    String buttonText = dir != null ? StringUtils.abbreviate(dir.getAbsolutePath(), maxDirDisplayLength) : messages.getString("guiNgramDirSelect");
+    String buttonText = dir != null ? StringUtils.abbreviate(dir.getAbsolutePath(), maxDirDisplayLength)
+        : messages.getString("guiNgramDirSelect");
     JButton ngramDirButton = new JButton(buttonText);
     ngramDirButton.addActionListener(new ActionListener() {
       @Override
@@ -796,7 +742,8 @@ public class ConfigurationDialog implements ActionListener {
         File newDir = Tools.openDirectoryDialog(owner, dir);
         if (newDir != null) {
           try {
-            if (config.getLanguage() != null) {  // may happen in office context
+            if (config.getLanguage() != null) { // may happen in
+              // office context
               File checkDir = new File(newDir, config.getLanguage().getShortCode());
               LuceneLanguageModel.validateDirectory(checkDir);
             }
@@ -806,7 +753,8 @@ public class ConfigurationDialog implements ActionListener {
             Tools.showErrorMessage(ex);
           }
         } else {
-          // not the best UI, but this way user can turn off ngram feature without another checkbox
+          // not the best UI, but this way user can turn off ngram
+          // feature without another checkbox
           config.setNgramDirectory(null);
           ngramDirButton.setText(StringUtils.abbreviate(messages.getString("guiNgramDirSelect"), maxDirDisplayLength));
         }
@@ -819,7 +767,8 @@ public class ConfigurationDialog implements ActionListener {
       public void actionPerformed(ActionEvent e) {
         if (Desktop.isDesktopSupported()) {
           try {
-            Desktop.getDesktop().browse(new URL("http://wiki.languagetool.org/finding-errors-using-n-gram-data").toURI());
+            Desktop.getDesktop()
+                .browse(new URL("http://wiki.languagetool.org/finding-errors-using-n-gram-data").toURI());
           } catch (Exception ex) {
             Tools.showError(ex);
           }
@@ -835,7 +784,8 @@ public class ConfigurationDialog implements ActionListener {
     panel.add(new JLabel(messages.getString("guiWord2VecDir")), cons);
     File dir = config.getWord2VecDirectory();
     int maxDirDisplayLength = 45;
-    String buttonText = dir != null ? StringUtils.abbreviate(dir.getAbsolutePath(), maxDirDisplayLength) : messages.getString("guiWord2VecDirSelect");
+    String buttonText = dir != null ? StringUtils.abbreviate(dir.getAbsolutePath(), maxDirDisplayLength)
+        : messages.getString("guiWord2VecDirSelect");
     JButton word2vecDirButton = new JButton(buttonText);
     word2vecDirButton.addActionListener(e -> {
       File newDir = Tools.openDirectoryDialog(owner, dir);
@@ -847,9 +797,11 @@ public class ConfigurationDialog implements ActionListener {
           Tools.showErrorMessage(ex);
         }
       } else {
-        // not the best UI, but this way user can turn off word2vec feature without another checkbox
+        // not the best UI, but this way user can turn off word2vec
+        // feature without another checkbox
         config.setWord2VecDirectory(null);
-        word2vecDirButton.setText(StringUtils.abbreviate(messages.getString("guiWord2VecDirSelect"), maxDirDisplayLength));
+        word2vecDirButton
+            .setText(StringUtils.abbreviate(messages.getString("guiWord2VecDirSelect"), maxDirDisplayLength));
       }
     });
     panel.add(word2vecDirButton, cons);
@@ -871,7 +823,7 @@ public class ConfigurationDialog implements ActionListener {
     List<String> motherTongues = new ArrayList<>();
     motherTongues.add(NO_MOTHER_TONGUE);
     for (Language lang : Languages.get()) {
-     motherTongues.add(lang.getTranslatedName(messages));
+      motherTongues.add(lang.getTranslatedName(messages));
     }
     return motherTongues.toArray(new String[motherTongues.size()]);
   }
@@ -882,8 +834,8 @@ public class ConfigurationDialog implements ActionListener {
       if (original != null) {
         original.restoreState(config);
       }
-      for(JPanel extra : extraPanels) {
-        if(extra instanceof SavablePanel) {
+      for (JPanel extra : extraPanels) {
+        if (extra instanceof SavablePanel) {
           ((SavablePanel) extra).save();
         }
       }
@@ -896,8 +848,11 @@ public class ConfigurationDialog implements ActionListener {
   /**
    * Get the Language object for the given localized language name.
    * 
-   * @param languageName e.g. <code>English</code> or <code>German</code> (case is significant)
-   * @return a Language object or <code>null</code> if the language could not be found
+   * @param languageName
+   *          e.g. <code>English</code> or <code>German</code> (case is
+   *          significant)
+   * @return a Language object or <code>null</code> if the language could not be
+   *         found
    */
   @Nullable
   private Language getLanguageForLocalizedName(String languageName) {
@@ -926,14 +881,14 @@ public class ConfigurationDialog implements ActionListener {
 
   }
 
-/* Panel to set Values for special rules like LongSentenceRule
- * cons = GridBagConstraints
- * rule = the special rule (has to be set in createTree)
- * msg = Message to display before value
- * min = minimal value to set
- * max = maximal value to set
- * @since 4.1
- */
+  /*
+   * Panel to set Values for special rules like LongSentenceRule cons =
+   * GridBagConstraints rule = the special rule (has to be set in createTree)
+   * msg = Message to display before value min = minimal value to set max =
+   * maximal value to set
+   * 
+   * @since 4.1
+   */
   private JPanel getSpecialRuleValuePanel(Rule rule, String msg, int min, int max) {
     JPanel panel = new JPanel();
     panel.setLayout(new GridBagLayout());
@@ -953,21 +908,25 @@ public class ConfigurationDialog implements ActionListener {
     JLabel ruleLabel = new JLabel(msg);
     ruleLabel.setEnabled(ruleCheckbox.isSelected());
     panel.add(ruleLabel, cons);
-    
+
     cons.gridx++;
     int value;
-    if(rule.getId().startsWith("STYLE_REPEATED_WORD_RULE") && config.getStyleRepeatSentences() >= 0) {
+    if (rule.getId().startsWith("STYLE_REPEATED_WORD_RULE") && config.getStyleRepeatSentences() >= 0) {
       value = config.getStyleRepeatSentences();
-    } else if(rule.getId().startsWith("TOO_LONG_SENTENCE") && config.getLongSentencesWords() >= 0) {
+    } else if (rule.getId().startsWith("TOO_LONG_SENTENCE") && config.getLongSentencesWords() >= 0) {
       value = config.getLongSentencesWords();
     } else {
       value = rule.getDefaultValue();
     }
-    JTextField ruleValueField = new JTextField(Integer.toString(value), 2);  // config.getServerPort()
+    JTextField ruleValueField = new JTextField(Integer.toString(value), 2); // config.getServerPort()
     ruleValueField.setEnabled(ruleCheckbox.isSelected());
-    ruleValueField.setMinimumSize(new Dimension(35, 25));  // without this the box is just a few pixels small, but why?
+    ruleValueField.setMinimumSize(new Dimension(35, 25)); // without this
+    // the box is
+    // just a few
+    // pixels small,
+    // but why?
     panel.add(ruleValueField, cons);
-    
+
     ruleCheckbox.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(@SuppressWarnings("unused") ActionEvent e) {
@@ -1007,9 +966,9 @@ public class ConfigurationDialog implements ActionListener {
           } else {
             ruleValueField.setForeground(null);
           }
-          if(rule.getId().startsWith("STYLE_REPEATED_WORD_RULE")) {
+          if (rule.getId().startsWith("STYLE_REPEATED_WORD_RULE")) {
             config.setStyleRepeatSentences(num);
-          } else if(rule.getId().startsWith("TOO_LONG_SENTENCE")) {
+          } else if (rule.getId().startsWith("TOO_LONG_SENTENCE")) {
             config.setLongSentencesWords(num);
           }
         } catch (Exception ex) {
@@ -1019,5 +978,5 @@ public class ConfigurationDialog implements ActionListener {
     });
     return panel;
   }
-  
+
 }
