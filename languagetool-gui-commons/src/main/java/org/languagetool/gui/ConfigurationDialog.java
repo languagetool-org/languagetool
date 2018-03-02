@@ -1,6 +1,6 @@
-/* LanguageTool, a natural language style checker 
+/* LanguageTool, a natural language style checker
  * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -46,7 +46,7 @@ import java.util.List;
 /**
  * Dialog that offers the available rules so they can be turned on/off
  * individually.
- * 
+ *
  * @author Daniel Naber
  */
 public class ConfigurationDialog implements ActionListener {
@@ -82,12 +82,11 @@ public class ConfigurationDialog implements ActionListener {
 
   /**
    * Add extra JPanel to this dialog.
-   * 
+   * <p>
    * If the panel implements {@see SavablePanel}, this dialog will call
    * {@link SavablePanel#save} after the user clicks OK.
-   * 
-   * @param panel
-   *          the JPanel to be added to this dialog
+   *
+   * @param panel the JPanel to be added to this dialog
    * @since 3.4
    */
   void addExtraPanel(JPanel panel) {
@@ -100,9 +99,9 @@ public class ConfigurationDialog implements ActionListener {
     Map<String, DefaultMutableTreeNode> parents = new TreeMap<>();
     for (Rule rule : rules) {
       if ((isStyle && (rule.getLocQualityIssueType().toString().equalsIgnoreCase("STYLE") || rule.getCategory().getId()
-          .toString().equals("STYLE") || rule.getCategory().getId().toString().equals("TYPOGRAPHY"))) || (!isStyle
+              .toString().equals("STYLE") || rule.getCategory().getId().toString().equals("TYPOGRAPHY"))) || (!isStyle
               && !rule.getLocQualityIssueType().toString().equalsIgnoreCase("STYLE") && !rule.getCategory().getId()
-                  .toString().equals("STYLE") && !rule.getCategory().getId().toString().equals("TYPOGRAPHY"))) {
+              .toString().equals("STYLE") && !rule.getCategory().getId().toString().equals("TYPOGRAPHY"))) {
         if (rule.getId().startsWith("STYLE_REPEATED_WORD_RULE")) {
           repeatedWordRule = rule;
         } else if (rule.getId().startsWith("TOO_LONG_SENTENCE")) {
@@ -111,7 +110,7 @@ public class ConfigurationDialog implements ActionListener {
           if (!parents.containsKey(rule.getCategory().getName())) {
             boolean enabled = true;
             if (config.getDisabledCategoryNames() != null && config.getDisabledCategoryNames().contains(rule
-                .getCategory().getName())) {
+                    .getCategory().getName())) {
               enabled = false;
             }
             if (rule.getCategory().isDefaultOff()) {
@@ -141,7 +140,7 @@ public class ConfigurationDialog implements ActionListener {
       ret = false;
     }
     if ((rule.isDefaultOff() || rule.getCategory().isDefaultOff()) && !config.getEnabledRuleIds().contains(rule
-        .getId())) {
+            .getId())) {
       ret = false;
     }
     if (rule.isDefaultOff() && rule.getCategory().isDefaultOff() && config.getEnabledRuleIds().contains(rule.getId())) {
@@ -630,7 +629,7 @@ public class ConfigurationDialog implements ActionListener {
                 lang = Languages.getLanguageForLocale(Locale.getDefault());
               }
               Tools.showRuleInfoDialog(tree, messages.getString("guiAboutRuleTitle"), rule.getDescription(), rule,
-                  messages, lang.getShortCodeWithCountryAndVariant());
+                      messages, lang.getShortCodeWithCountryAndVariant());
             }
           });
           popup.add(aboutRuleMenuItem);
@@ -673,7 +672,7 @@ public class ConfigurationDialog implements ActionListener {
       public void actionPerformed(ActionEvent e) {
         TreeNode root = (TreeNode) configTree[num].getModel().getRoot();
         TreePath parent = new TreePath(root);
-        for (Enumeration cat = root.children(); cat.hasMoreElements();) {
+        for (Enumeration cat = root.children(); cat.hasMoreElements(); ) {
           TreeNode n = (TreeNode) cat.nextElement();
           TreePath child = parent.pathByAddingChild(n);
           configTree[num].expandPath(child);
@@ -690,7 +689,7 @@ public class ConfigurationDialog implements ActionListener {
       public void actionPerformed(ActionEvent e) {
         TreeNode root = (TreeNode) configTree[num].getModel().getRoot();
         TreePath parent = new TreePath(root);
-        for (Enumeration categ = root.children(); categ.hasMoreElements();) {
+        for (Enumeration categ = root.children(); categ.hasMoreElements(); ) {
           TreeNode n = (TreeNode) categ.nextElement();
           TreePath child = parent.pathByAddingChild(n);
           configTree[num].collapsePath(child);
@@ -732,7 +731,7 @@ public class ConfigurationDialog implements ActionListener {
     File dir = config.getNgramDirectory();
     int maxDirDisplayLength = 45;
     String buttonText = dir != null ? StringUtils.abbreviate(dir.getAbsolutePath(), maxDirDisplayLength)
-        : messages.getString("guiNgramDirSelect");
+            : messages.getString("guiNgramDirSelect");
     JButton ngramDirButton = new JButton(buttonText);
     ngramDirButton.addActionListener(new ActionListener() {
       @Override
@@ -766,7 +765,7 @@ public class ConfigurationDialog implements ActionListener {
         if (Desktop.isDesktopSupported()) {
           try {
             Desktop.getDesktop().browse(new URL("http://wiki.languagetool.org/finding-errors-using-n-gram-data")
-                .toURI());
+                    .toURI());
           } catch (Exception ex) {
             Tools.showError(ex);
           }
@@ -783,7 +782,7 @@ public class ConfigurationDialog implements ActionListener {
     File dir = config.getWord2VecDirectory();
     int maxDirDisplayLength = 45;
     String buttonText = dir != null ? StringUtils.abbreviate(dir.getAbsolutePath(), maxDirDisplayLength)
-        : messages.getString("guiWord2VecDirSelect");
+            : messages.getString("guiWord2VecDirSelect");
     JButton word2vecDirButton = new JButton(buttonText);
     word2vecDirButton.addActionListener(e -> {
       File newDir = Tools.openDirectoryDialog(owner, dir);
@@ -799,7 +798,7 @@ public class ConfigurationDialog implements ActionListener {
         // feature without another checkbox
         config.setWord2VecDirectory(null);
         word2vecDirButton.setText(StringUtils.abbreviate(messages.getString("guiWord2VecDirSelect"),
-            maxDirDisplayLength));
+                maxDirDisplayLength));
       }
     });
     panel.add(word2vecDirButton, cons);
@@ -845,12 +844,11 @@ public class ConfigurationDialog implements ActionListener {
 
   /**
    * Get the Language object for the given localized language name.
-   * 
-   * @param languageName
-   *          e.g. <code>English</code> or <code>German</code> (case is
-   *          significant)
+   *
+   * @param languageName e.g. <code>English</code> or <code>German</code> (case is
+   *                     significant)
    * @return a Language object or <code>null</code> if the language could not be
-   *         found
+   * found
    */
   @Nullable
   private Language getLanguageForLocalizedName(String languageName) {
@@ -884,7 +882,7 @@ public class ConfigurationDialog implements ActionListener {
    * GridBagConstraints rule = the special rule (has to be set in createTree)
    * msg = Message to display before value min = minimal value to set max =
    * maximal value to set
-   * 
+   *
    * @since 4.1
    */
   private JPanel getSpecialRuleValuePanel(Rule rule, String msg, int min, int max) {
