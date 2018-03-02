@@ -34,6 +34,7 @@ import javax.swing.event.TreeModelEvent;
 import javax.swing.event.TreeModelListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 import java.awt.*;
@@ -61,7 +62,9 @@ public class ConfigurationDialog implements ActionListener {
   private final Configuration config;
   private final Frame owner;
   private final boolean insideOffice;
-
+  private static boolean isCheckBoxClicked, state;
+  private static TreePath lastPath;
+  private static JTree lastTree;
   private JDialog dialog;
   private JCheckBox serverCheckbox;
   private JTextField serverPortField;
@@ -177,7 +180,35 @@ public class ConfigurationDialog implements ActionListener {
     cons.fill = GridBagConstraints.HORIZONTAL;
     Collections.sort(rules, new CategoryComparator());
     DefaultMutableTreeNode rootNode = createTree(rules, false);   //  grammar options
-    configTree[0] = new JTree(getTreeModel(rootNode));
+    configTree[0] = new JTree(getTreeModel(rootNode)){
+		/**
+		 *
+		 */
+		private static final long serialVersionUID = 1L;
+
+		public void setState() {
+			setExpandedState(lastPath, state);
+		}
+
+		public void expandPath(TreePath path) {
+			// Only expand if not leaf!
+			TreeModel model = getModel();
+			lastTree = this;
+			state = true;
+			if (path != null && model != null && !model.isLeaf(path.getLastPathComponent())) {
+				lastPath = path;
+			} else {
+				lastPath = null;
+			}
+		}
+
+		public void collapsePath(TreePath path) {
+			state = false;
+			lastPath = path;
+			lastTree = this;
+
+		}
+	};
 
     Language lang = config.getLanguage();
     if (lang == null) {
@@ -202,7 +233,35 @@ public class ConfigurationDialog implements ActionListener {
     cons.fill = GridBagConstraints.HORIZONTAL;
     Collections.sort(rules, new CategoryComparator());
     rootNode = createTree(rules, true);  //  Style options
-    configTree[1] = new JTree(getTreeModel(rootNode));
+    configTree[1] = new JTree(getTreeModel(rootNode)){
+		/**
+		 *
+		 */
+		private static final long serialVersionUID = 1L;
+
+		public void setState() {
+			setExpandedState(lastPath, state);
+		}
+
+		public void expandPath(TreePath path) {
+			// Only expand if not leaf!
+			TreeModel model = getModel();
+			lastTree = this;
+			state = true;
+			if (path != null && model != null && !model.isLeaf(path.getLastPathComponent())) {
+				lastPath = path;
+			} else {
+				lastPath = null;
+			}
+		}
+
+		public void collapsePath(TreePath path) {
+			state = false;
+			lastPath = path;
+			lastTree = this;
+
+		}
+	};
     configTree[1].applyComponentOrientation(ComponentOrientation.getOrientation(lang.getLocale()));
 
     configTree[1].setRootVisible(false);
@@ -568,6 +627,7 @@ public class ConfigurationDialog implements ActionListener {
         }
         if (node instanceof CategoryNode) {
           CategoryNode o = (CategoryNode) node;
+		  isCheckBoxClicked = true;
           if (o.isEnabled()) {
             config.getDisabledCategoryNames().remove(o.getCategory().getName());
           } else {
@@ -632,6 +692,15 @@ public class ConfigurationDialog implements ActionListener {
   
         @Override
         public void mousePressed(MouseEvent e) {
+          if (isCheckBoxClicked == false && lastPath != null && lastTree != null) {
+				try {
+					lastTree.getClass().getMethod("setState").invoke(lastTree, null);
+			        } catch (Exception e1) {
+			  e1.printStackTrace();
+			}
+		  }
+		  lastPath = null;
+		  isCheckBoxClicked = false;
           if (e.isPopupTrigger()) {
             handlePopupEvent(e);
           }
