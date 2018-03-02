@@ -36,6 +36,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.languagetool.server.ServerTools.print;
 
@@ -66,14 +67,16 @@ abstract class TextChecker {
   private final Map<String,Integer> languageCheckCounts = new HashMap<>(); 
   private final boolean internalServer;
   private Queue<Runnable> workQueue;
+  private AtomicInteger handleCount;
   private final LanguageIdentifier identifier;
   private final ExecutorService executorService;
   private final ResultCache cache;
 
-  TextChecker(HTTPServerConfig config, boolean internalServer, Queue<Runnable> workQueue) {
+  TextChecker(HTTPServerConfig config, boolean internalServer, Queue<Runnable> workQueue, AtomicInteger handleCount) {
     this.config = config;
     this.internalServer = internalServer;
     this.workQueue = workQueue;
+    this.handleCount = handleCount;
     this.identifier = new LanguageIdentifier();
     this.executorService = Executors.newCachedThreadPool();
     this.cache = config.getCacheSize() > 0 ? new ResultCache(config.getCacheSize()) : null;
@@ -216,7 +219,7 @@ abstract class TextChecker {
     print("Check done: " + aText.getPlainText().length() + " chars, " + languageMessage + ", #" + count + ", " + referrer + ", "
             + matches.size() + " matches, "
             + (System.currentTimeMillis() - timeStart) + "ms, agent:" + agent
-            + ", " + messageSent + ", q:" + (workQueue != null ? workQueue.size() : "?"));
+            + ", " + messageSent + ", q:" + (workQueue != null ? workQueue.size() : "?") + ", h:" + handleCount.get());
   }
 
   private UserLimits getUserLimits(Map<String, String> params) {

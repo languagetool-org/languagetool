@@ -35,6 +35,7 @@ import java.net.*;
 import java.util.*;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeoutException;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.languagetool.server.ServerTools.print;
 
@@ -49,6 +50,7 @@ class LanguageToolHttpHandler implements HttpHandler {
   private final TextChecker textCheckerV2;
   private final HTTPServerConfig config;
   private final Set<String> ownIps;
+  private final AtomicInteger handleCount = new AtomicInteger();
   
   LanguageToolHttpHandler(HTTPServerConfig config, Set<String> allowedIps, boolean internal, RequestLimiter requestLimiter, ErrorRequestLimiter errorLimiter, LinkedBlockingQueue<Runnable> workQueue) {
     this.config = config;
@@ -61,7 +63,7 @@ class LanguageToolHttpHandler implements HttpHandler {
     } else {
       this.ownIps = new HashSet<>();
     }
-    this.textCheckerV2 = new V2TextChecker(config, internal, workQueue);
+    this.textCheckerV2 = new V2TextChecker(config, internal, workQueue, handleCount);
   }
 
   /** @since 2.6 */
@@ -73,6 +75,7 @@ class LanguageToolHttpHandler implements HttpHandler {
     String remoteAddress = null;
     Map<String, String> parameters = new HashMap<>();
     try {
+      handleCount.incrementAndGet();
       URI requestedUri = httpExchange.getRequestURI();
       String origAddress = httpExchange.getRemoteAddress().getAddress().getHostAddress();
       String realAddressOrNull = getRealRemoteAddressOrNull(httpExchange);
@@ -162,6 +165,7 @@ class LanguageToolHttpHandler implements HttpHandler {
       sendError(httpExchange, errorCode, "Error: " + response);
     } finally {
       httpExchange.close();
+      handleCount.decrementAndGet();
     }
   }
 
