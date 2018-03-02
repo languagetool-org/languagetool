@@ -9054,7 +9054,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rule id="INWIEFERN" name="'in wie fern (inwiefern)' etc.">
-            <regexp>(in) (wie|so) (fern|weit)</regexp>
+            <regexp>\b(in) (wie|so) (fern|weit)\b</regexp>
             <message>&getrennt;: Meinten Sie <suggestion><match no="1"/><match no="2"/><match no="3"/></suggestion>?</message>
             <url>http://www.korrekturen.de/beliebte_fehler/in-wie-weit.shtml</url>
             <example correction="Inwiefern"><marker>In wie fern</marker> das auch für uns gilt, muss noch geklärt werden.</example>
@@ -9157,7 +9157,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>zu</token>
             </antipattern>
             <antipattern>
-                <token skip="2" regexp="yes">liegt|liegen|lag</token>
+                <token skip="2" inflected="yes">liegen</token>
                 <token>nahe</token>
                 <token>zu</token>
             </antipattern>
@@ -9289,7 +9289,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <!-- Exceptions - don't match 'hört auf zu atmen' etc. -->
-                    <token regexp="yes" negate="yes">hör(e|n|st|t|te|ten|tet|test)</token>
+                    <token inflected="yes" negate="yes">hören</token>
                     <!-- <token postag="ADV:.*" postag_regexp="yes" negate_pos="yes"/> -->
                     <marker>
                         <token>auf</token>
@@ -9305,7 +9305,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <!-- Exceptions - don't match 'fängst an zu beten' etc. -->
-                    <token regexp="yes" negate="yes">fing(st|t|et|en)?|fäng(st|t)|fang(e|t|en)?</token>
+                    <token regexp="yes" negate="yes" inflected="yes">fangen</token>
                     <marker>
                         <token>an</token>
                         <token>zu</token>
