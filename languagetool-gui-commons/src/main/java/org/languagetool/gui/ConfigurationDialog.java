@@ -70,7 +70,9 @@ public class ConfigurationDialog implements ActionListener {
   private final List<JPanel> extraPanels = new ArrayList<>();
   private Rule repeatedWordRule = null;
   private Rule longSentencesRule = null;
-
+  private static boolean isCheckBoxClicked;
+  public static LTJTree lastTree;
+  
   public ConfigurationDialog(Frame owner, boolean insideOffice, Configuration config) {
     this.owner = owner;
     this.insideOffice = insideOffice;
@@ -177,7 +179,7 @@ public class ConfigurationDialog implements ActionListener {
     cons.fill = GridBagConstraints.HORIZONTAL;
     Collections.sort(rules, new CategoryComparator());
     DefaultMutableTreeNode rootNode = createTree(rules, false);   //  grammar options
-    configTree[0] = new JTree(getTreeModel(rootNode));
+    configTree[0] = new LTJTree(getTreeModel(rootNode));
 
     Language lang = config.getLanguage();
     if (lang == null) {
@@ -202,7 +204,7 @@ public class ConfigurationDialog implements ActionListener {
     cons.fill = GridBagConstraints.HORIZONTAL;
     Collections.sort(rules, new CategoryComparator());
     rootNode = createTree(rules, true);  //  Style options
-    configTree[1] = new JTree(getTreeModel(rootNode));
+    configTree[1] = new LTJTree(getTreeModel(rootNode));
     configTree[1].applyComponentOrientation(ComponentOrientation.getOrientation(lang.getLocale()));
 
     configTree[1].setRootVisible(false);
@@ -567,6 +569,7 @@ public class ConfigurationDialog implements ActionListener {
           }
         }
         if (node instanceof CategoryNode) {
+          isCheckBoxClicked=true;
           CategoryNode o = (CategoryNode) node;
           if (o.isEnabled()) {
             config.getDisabledCategoryNames().remove(o.getCategory().getName());
@@ -632,6 +635,10 @@ public class ConfigurationDialog implements ActionListener {
   
         @Override
         public void mousePressed(MouseEvent e) {
+          if (isCheckBoxClicked == false && lastTree != null) {
+          lastTree.setState();
+          }
+          isCheckBoxClicked = false; // set the checkbox flag to again false
           if (e.isPopupTrigger()) {
             handlePopupEvent(e);
           }
