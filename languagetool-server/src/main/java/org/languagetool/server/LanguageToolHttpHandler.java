@@ -74,8 +74,8 @@ class LanguageToolHttpHandler implements HttpHandler {
     long startTime = System.currentTimeMillis();
     String remoteAddress = null;
     Map<String, String> parameters = new HashMap<>();
+    int reqId = reqCounter.incrementRequestCount();
     try {
-      int reqId = reqCounter.incrementRequestCount();
       URI requestedUri = httpExchange.getRequestURI();
       String origAddress = httpExchange.getRemoteAddress().getAddress().getHostAddress();
       String realAddressOrNull = getRealRemoteAddressOrNull(httpExchange);
@@ -167,7 +167,7 @@ class LanguageToolHttpHandler implements HttpHandler {
       sendError(httpExchange, errorCode, "Error: " + response);
     } finally {
       httpExchange.close();
-      reqCounter.decrementHandleCount(reqCounter.getRequestCount());
+      reqCounter.decrementHandleCount(reqId);
       ServerTools.print("Total check time: " + (System.currentTimeMillis() - startTime) + "ms, r:" + reqCounter.getRequestCount());
     }
   }
