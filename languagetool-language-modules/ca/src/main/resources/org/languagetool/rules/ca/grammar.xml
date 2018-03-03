@@ -17280,9 +17280,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Si és nom, cal accentuar.</message>
                 <suggestion>diferència</suggestion>
-                <short>Cal accentuar</short>
                 <example correction="diferència">Salvada la <marker>diferencia</marker> de temps entre els uns i els altres.</example>
                 <example>Això no la diferencia de les altres.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>la</token>
+                    <marker>
+                        <token>diferencia</token>
+                    </marker>
+                    <token>amb</token>
+                </pattern>
+                <message>Si és nom, cal accentuar.</message>
+                <suggestion>diferència</suggestion>
+                <example correction="diferència">La <marker>diferencia</marker> amb la mida de la partició.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <marker>
+                        <token>diferencia</token>
+                    </marker>
+                    <token regexp="yes">amb|entre</token>
+                </pattern>
+                <message>Si és nom, cal accentuar.</message>
+                <suggestion>diferència</suggestion>
+                <example correction="Diferència"><marker>Diferencia</marker> amb la mida de la partició.</example>
             </rule>
             <rule>
                 <antipattern>
