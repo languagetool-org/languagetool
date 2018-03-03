@@ -68,15 +68,17 @@ abstract class TextChecker {
   private final boolean internalServer;
   private Queue<Runnable> workQueue;
   private AtomicInteger handleCount;
+  private AtomicInteger reqCount;
   private final LanguageIdentifier identifier;
   private final ExecutorService executorService;
   private final ResultCache cache;
 
-  TextChecker(HTTPServerConfig config, boolean internalServer, Queue<Runnable> workQueue, AtomicInteger handleCount) {
+  TextChecker(HTTPServerConfig config, boolean internalServer, Queue<Runnable> workQueue, AtomicInteger handleCount, AtomicInteger reqCount) {
     this.config = config;
     this.internalServer = internalServer;
     this.workQueue = workQueue;
     this.handleCount = handleCount;
+    this.reqCount = reqCount;
     this.identifier = new LanguageIdentifier();
     this.executorService = Executors.newCachedThreadPool();
     this.cache = config.getCacheSize() > 0 ? new ResultCache(config.getCacheSize()) : null;
@@ -173,7 +175,7 @@ abstract class TextChecker {
                          " milliseconds (cancelled: " + cancelled +
                          ", language: " + lang.getShortCodeWithCountryAndVariant() + ", #" + count +
                          ", " + aText.getPlainText().length() + " characters of text" +
-                         ", h: " + handleCount.get() + ", system load: " + loadInfo + ")";
+                         ", h: " + handleCount.get() + ", r: " + reqCount.get() + ", system load: " + loadInfo + ")";
         if (params.allowIncompleteResults) {
           print(message + " - returning " + ruleMatchesSoFar.size() + " matches found so far");
           matches = new ArrayList<>(ruleMatchesSoFar);  // threads might still be running, so make a copy
@@ -220,7 +222,7 @@ abstract class TextChecker {
     print("Check done: " + aText.getPlainText().length() + " chars, " + languageMessage + ", #" + count + ", " + referrer + ", "
             + matches.size() + " matches, "
             + (System.currentTimeMillis() - timeStart) + "ms, agent:" + agent
-            + ", " + messageSent + ", q:" + (workQueue != null ? workQueue.size() : "?") + ", h:" + handleCount.get());
+            + ", " + messageSent + ", q:" + (workQueue != null ? workQueue.size() : "?") + ", h:" + handleCount.get() + ", r:" + reqCount.get());
   }
 
   private UserLimits getUserLimits(Map<String, String> params) {

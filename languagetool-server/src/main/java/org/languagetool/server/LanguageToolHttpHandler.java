@@ -50,6 +50,7 @@ class LanguageToolHttpHandler implements HttpHandler {
   private final TextChecker textCheckerV2;
   private final HTTPServerConfig config;
   private final Set<String> ownIps;
+  private final AtomicInteger reqCount = new AtomicInteger();
   private final AtomicInteger handleCount = new AtomicInteger();
   
   LanguageToolHttpHandler(HTTPServerConfig config, Set<String> allowedIps, boolean internal, RequestLimiter requestLimiter, ErrorRequestLimiter errorLimiter, LinkedBlockingQueue<Runnable> workQueue) {
@@ -63,7 +64,7 @@ class LanguageToolHttpHandler implements HttpHandler {
     } else {
       this.ownIps = new HashSet<>();
     }
-    this.textCheckerV2 = new V2TextChecker(config, internal, workQueue, handleCount);
+    this.textCheckerV2 = new V2TextChecker(config, internal, workQueue, handleCount, reqCount);
   }
 
   /** @since 2.6 */
@@ -72,10 +73,12 @@ class LanguageToolHttpHandler implements HttpHandler {
 
   @Override
   public void handle(HttpExchange httpExchange) throws IOException {
+    long startTime = System.currentTimeMillis();
     String remoteAddress = null;
     Map<String, String> parameters = new HashMap<>();
     try {
       handleCount.incrementAndGet();
+      reqCount.incrementAndGet();
       URI requestedUri = httpExchange.getRequestURI();
       String origAddress = httpExchange.getRemoteAddress().getAddress().getHostAddress();
       String realAddressOrNull = getRealRemoteAddressOrNull(httpExchange);
@@ -91,7 +94,7 @@ class LanguageToolHttpHandler implements HttpHandler {
           String errorMessage = "Error: Access from " + remoteAddress + " denied: " + e.getMessage();
           sendError(httpExchange, HttpURLConnection.HTTP_FORBIDDEN, errorMessage);
           print(errorMessage + " - useragent: " + parameters.get("useragent") +
-                  " - HTTP UserAgent: " + getHttpUserAgent(httpExchange));
+                  " - HTTP UserAgent: " + getHttpUserAgent(httpExchange) + ", r:" + reqCount.get());
           return;
         }
       }
@@ -103,12 +106,13 @@ class LanguageToolHttpHandler implements HttpHandler {
                 " per " + errorRequestLimiter.getRequestLimitPeriodInSeconds() + " seconds";
         sendError(httpExchange, HttpURLConnection.HTTP_FORBIDDEN, errorMessage);
         print(errorMessage + " - useragent: " + parameters.get("useragent") +
-                " - HTTP UserAgent: " + getHttpUserAgent(httpExchange));
+                " - HTTP UserAgent: " + getHttpUserAgent(httpExchange) + ", r:" + reqCount.get());
         return;
       }
       if (config.getMaxWorkQueueSize() != 0 && workQueue.size() > config.getMaxWorkQueueSize()) {
         String response = "Error: There are currently too many parallel requests. Please try again later.";
-        print(response + " Queue size: " + workQueue.size() + ", maximum size: " + config.getMaxWorkQueueSize() + ", handlers:" + handleCount.get());
+        print(response + " Queue size: " + workQueue.size() + ", maximum size: " + config.getMaxWorkQueueSize() +
+                ", handlers:" + handleCount.get() + ", r:" + reqCount.get());
         sendError(httpExchange, HttpURLConnection.HTTP_UNAVAILABLE, "Error: " + response);
         return;
       }
@@ -166,6 +170,7 @@ class LanguageToolHttpHandler implements HttpHandler {
     } finally {
       httpExchange.close();
       handleCount.decrementAndGet();
+      ServerTools.print("Total check time: " + (System.currentTimeMillis() - startTime) + "ms, r:" + reqCount.get());
     }
   }
 
@@ -191,6 +196,8 @@ class LanguageToolHttpHandler implements HttpHandler {
     message += "User agent param: " + params.get("useragent") + ", ";
     message += "Referrer: " + getHttpReferrer(httpExchange) + ", ";
     message += "language: " + params.get("language") + ", ";
+    message += "h: " + handleCount.get() + ", ";
+    message += "r: " + reqCount.get() + ", ";
     String text = params.get("text");
     if (text != null) {
       message += "text length: " + text.length() + ", ";
