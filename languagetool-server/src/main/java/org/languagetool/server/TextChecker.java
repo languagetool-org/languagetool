@@ -172,7 +172,8 @@ abstract class TextChecker {
         String message = "Text checking took longer than allowed maximum of " + limits.getMaxCheckTimeMillis() +
                          " milliseconds (cancelled: " + cancelled +
                          ", language: " + lang.getShortCodeWithCountryAndVariant() + ", #" + count +
-                         ", " + aText.getPlainText().length() + " characters of text, system load: " + loadInfo + ")";
+                         ", " + aText.getPlainText().length() + " characters of text" +
+                         ", h: " + handleCount.get() + ", system load: " + loadInfo + ")";
         if (params.allowIncompleteResults) {
           print(message + " - returning " + ruleMatchesSoFar.size() + " matches found so far");
           matches = new ArrayList<>(ruleMatchesSoFar);  // threads might still be running, so make a copy

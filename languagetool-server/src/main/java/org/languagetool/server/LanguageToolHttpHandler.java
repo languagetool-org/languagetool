@@ -108,7 +108,7 @@ class LanguageToolHttpHandler implements HttpHandler {
       }
       if (config.getMaxWorkQueueSize() != 0 && workQueue.size() > config.getMaxWorkQueueSize()) {
         String response = "Error: There are currently too many parallel requests. Please try again later.";
-        print(response + " Queue size: " + workQueue.size() + ", maximum size: " + config.getMaxWorkQueueSize());
+        print(response + " Queue size: " + workQueue.size() + ", maximum size: " + config.getMaxWorkQueueSize() + ", handlers:" + handleCount.get());
         sendError(httpExchange, HttpURLConnection.HTTP_UNAVAILABLE, "Error: " + response);
         return;
       }
