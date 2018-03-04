@@ -9305,7 +9305,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <!-- Exceptions - don't match 'fängst an zu beten' etc. -->
-                    <token regexp="yes" negate="yes" inflected="yes">fangen</token>
+                    <token negate="yes" inflected="yes">fangen</token>
                     <marker>
                         <token>an</token>
                         <token>zu</token>
@@ -9839,6 +9839,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Formen des Verbs 'maßregeln' ('gemaßregelt') werden zusammengeschrieben.</message>
                 <suggestion>\1\2</suggestion>
                 <example correction="maßregelte">Ich <marker>maß regelte</marker> sie sofort.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="MASSHALTEN" name="maß halten (maßhalten)">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>maß</token>
+                    <token inflected="yes">halten</token>
+                </pattern>
+                <message>Formen des Verbs 'maßhalten' werden entwender zusammengeschrieben oder Maß wird großgeschrieben.</message>
+                <suggestion>\1\2</suggestion>
+                <example correction="maßhalten">Ich muss <marker>maß halten</marker>.</example>
+                <example >Ich muss <marker>Maß halten</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="SCHLAFWANDELN" name="schlaf (wandeln)">
