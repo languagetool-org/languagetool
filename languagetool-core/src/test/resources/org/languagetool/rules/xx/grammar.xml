@@ -271,6 +271,36 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>a small <marker>test</marker></example>
             <example correction="">a small <marker>toast</marker></example>
         </rule>
+        <rulegroup id="ISSUE_373_TESTS" name="Rîles di saye">
+            <rule id="ISSUE_373_TEST_01" name="xnel vola -> vo nel la">
+                <regexp>[Xx][Nn](' el|el|i l') ((ri?|)vo?(la|ci|cial|chal))(-t i|-t ele|) nén</regexp>
+                <message>Test 01: <suggestion>vo <match no="1"
+                                                        regexp_match="[Xx].* (ri?|)vo?(la|ci|cial|chal)(-t i|-t ele|) nén"
+                                                        regexp_replace="nel $1$2$3 nén"/></suggestion>.</message>
+                <example correction="foo nel la-t i nén"><marker>xnel vola-t i nén</marker> co.</example>
+            </rule>
+            <rule id="ISSUE_373_TEST_02" name="xnel vola -> vo nel la">
+                <regexp>[Xx][Nn](' el|el|i l') ((ri?|)vo?(la|ci|cial|chal))(-t i|-t ele|) nén</regexp>
+
+                <message>Test 02: </message>
+                <suggestion>vo <match no="1"
+                                      regexp_match="[Xx].* (ri?|)vo?(la|ci|cial|chal)(-t i|-t ele|) nén"
+                                      regexp_replace="nel $1$2$3 nén"/></suggestion>
+                <example correction="foo nel la-t i nén"><marker>xnel vola-t i nén</marker> co.</example>
+            </rule>
+            <rule id="ISSUE_373_TEST_03" name="znel vola -> vo nel la">
+                <pattern>
+                    <token regexp="yes">znel</token>
+                    <token regexp="yes">(ri?|)vo?(la|ci|cial|chal)</token>
+                </pattern>
+                <message>Test 03: <suggestion>vo <match no="1" case_conversion="startlower"
+                                                        regexp_match="[zZ](nel)"
+                                                        regexp_replace="$1"></match> <match no="2"
+                                                                                            regexp_match="(ri?|)vo?(la|ci|cial|chal)"
+                                                                                            regexp_replace="$1$2"></match></suggestion>?</message>
+                <example correction="vo nel rila"><marker>znel rvola</marker>-t i nén co.</example>
+            </rule>
+        </rulegroup>
     </category>
 
     <category id="OTHER" name="otherCategory" type="addition">
