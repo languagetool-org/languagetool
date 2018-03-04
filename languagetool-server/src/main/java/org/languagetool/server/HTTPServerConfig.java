@@ -447,12 +447,12 @@ public class HTTPServerConfig {
   }
 
   /**
-   * @throws IllegalConfigurationException if property is not set 
+   * @throws IllegalArgumentException if property is not set
    */
   protected String getProperty(Properties props, String propertyName, File config) {
     String propertyValue = (String)props.get(propertyName);
     if (propertyValue == null || propertyValue.trim().isEmpty()) {
-      throw new IllegalConfigurationException("Property '" + propertyName + "' must be set in " + config);
+      throw new IllegalArgumentException("Property '" + propertyName + "' must be set in " + config);
     }
     return propertyValue;
   }

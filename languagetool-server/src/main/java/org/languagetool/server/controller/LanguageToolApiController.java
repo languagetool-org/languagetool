@@ -18,7 +18,7 @@ public interface LanguageToolApiController {
     @GetMapping(path = "/languages")
     ResponseEntity<List<LanguageDTO>> languages();
 
-    @PostMapping(path = "/check", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    @PostMapping(path = "/check", /*TODO: remove?*/ consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     ResponseEntity<CheckResultDTO> check(
             @RequestParam("text") String text,
             @RequestParam("language") String language,

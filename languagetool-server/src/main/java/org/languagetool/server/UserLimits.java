@@ -39,7 +39,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * @since 4.0
  */
-class UserLimits {
+public class UserLimits {
 
   private int maxTextLength;
   private long maxCheckTimeMillis;
@@ -127,17 +127,17 @@ class UserLimits {
     }
   }
 
-  private UserLimits(int maxTextLength, long maxCheckTimeMillis, Long premiumUid) {
+  public UserLimits(int maxTextLength, long maxCheckTimeMillis, Long premiumUid) {
     this.maxTextLength = maxTextLength;
     this.maxCheckTimeMillis = maxCheckTimeMillis;
     this.premiumUid = premiumUid;
   }
 
-  int getMaxTextLength() {
+  public int getMaxTextLength() {
     return maxTextLength;
   }
 
-  long getMaxCheckTimeMillis() {
+  public long getMaxCheckTimeMillis() {
     return maxCheckTimeMillis;
   }
 

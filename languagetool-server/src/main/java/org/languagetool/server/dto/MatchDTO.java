@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.ToString;
 
+import java.util.List;
+
 @ToString
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -22,7 +24,7 @@ public class MatchDTO {
     public Integer length;
 
     @JsonProperty
-    public ReplacementDTO[] replacements;
+    public List<ReplacementDTO> replacements;
 
     @JsonProperty
     public ContextDTO context;
@@ -31,5 +33,5 @@ public class MatchDTO {
     public String sentence;
 
     @JsonProperty
-    public RuleDTO[] rule;
+    public RuleDTO rule;
 }

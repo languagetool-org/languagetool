@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.ToString;
 
+import java.util.List;
+
 @ToString
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -19,11 +21,13 @@ public class RuleDTO {
     public String description;
 
     @JsonProperty
-    public UrlDTO[] urls;
+    public List<UrlDTO> urls;
 
     @JsonProperty
     public String issueType;
 
     @JsonProperty
+    @JsonInclude(JsonInclude.Include.ALWAYS)
     public CategoryDTO category;
 }
+

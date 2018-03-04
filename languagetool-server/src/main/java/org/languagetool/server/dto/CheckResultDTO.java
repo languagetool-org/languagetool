@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.ToString;
 
+import java.util.List;
+
 @ToString
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -16,5 +18,5 @@ public class CheckResultDTO {
     public LanguageDTO language;
 
     @JsonProperty
-    public MatchDTO[] matches;
+    public List<MatchDTO> matches;
 }

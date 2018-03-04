@@ -35,10 +35,9 @@ public class LanguageToolApiControllerImpl implements LanguageToolApiController 
     }
 
     @Override
-    public ResponseEntity<CheckResultDTO> check(
-            String text, String language, String motherTongue, String preferredVariants, String enabledRules, String disabledRules,
-            String enabledCategories, String disabledCategories, boolean enabledOnly)
-    {
+    public ResponseEntity<CheckResultDTO> check(String text, String language, String motherTongue, String preferredVariants,
+                                                String enabledRules, String disabledRules, String enabledCategories,
+                                                String disabledCategories, boolean enabledOnly) {
         log.info("POST /check request: " +
                         "text='{}', " +
                         "language='{}', " +
@@ -59,7 +58,40 @@ public class LanguageToolApiControllerImpl implements LanguageToolApiController 
                 disabledCategories,
                 enabledOnly
         );
-        return new ResponseEntity<>(HttpStatus.OK);
+        ResponseEntity<CheckResultDTO> response;
+        try {
+            CheckResultDTO checkResultDTO = languageToolApiService.check(text, language, motherTongue, preferredVariants, enabledRules,
+                    disabledRules, enabledCategories, disabledCategories, enabledOnly);
+
+            response = new ResponseEntity<>(checkResultDTO, HttpStatus.OK);
+        }
+        catch (Exception e) {
+            response = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        log.info("POST /check request: " +
+                        "text='{}', " +
+                        "language='{}', " +
+                        "motherTongue='{}', " +
+                        "preferredVariants='{}', " +
+                        "enabledRules='{}', " +
+                        "disabledRules='{}', " +
+                        "enabledCategories='{}', " +
+                        "disabledCategories='{}', " +
+                        "enabledOnly='{}', " +
+                        "response='{}'",
+                text,
+                language,
+                motherTongue,
+                preferredVariants,
+                enabledRules,
+                disabledRules,
+                enabledCategories,
+                disabledCategories,
+                enabledOnly,
+                response
+        );
+        return response;
     }
 
 

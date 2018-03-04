@@ -129,9 +129,9 @@ import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.rules.Rule;
-import org.languagetool.server.HTTPServer;
+//import org.languagetool.server.HTTPServer;
 import org.languagetool.server.HTTPServerConfig;
-import org.languagetool.server.PortBindingException;
+//import org.languagetool.server.PortBindingException;
 import org.languagetool.tools.JnaTools;
 import org.languagetool.tools.StringTools;
 
@@ -171,7 +171,7 @@ public final class Main {
   private JTextPane resultArea;
   private LanguageComboBox languageBox;
   private CheckboxMenuItem enableHttpServerItem;
-  private HTTPServer httpServer;
+//  private HTTPServer httpServer;
 
   private TrayIcon trayIcon;
   private boolean closeHidesToTray;
@@ -745,7 +745,8 @@ public final class Main {
     ActionListener rmbListener = new TrayActionRMBListener();
     // Enable or disable embedded HTTP server:
     enableHttpServerItem = new CheckboxMenuItem(Tools.getLabel(messages.getString("tray_menu_enable_server")));
-    enableHttpServerItem.setState(httpServer != null && httpServer.isRunning());
+//    enableHttpServerItem.setState(httpServer != null && httpServer.isRunning());
+    enableHttpServerItem.setState(false);
     enableHttpServerItem.addItemListener(new TrayActionItemListener());
     popup.add(enableHttpServerItem);
     // Check clipboard text:
@@ -846,7 +847,7 @@ public final class Main {
   private void setTrayIcon() {
     if (trayIcon != null) {
       SystemTray tray = SystemTray.getSystemTray();
-      boolean httpServerRunning = httpServer != null && httpServer.isRunning();
+      boolean httpServerRunning = false; //httpServer != null && httpServer.isRunning();
       boolean smallTray = tray.getTrayIconSize().height <= 16;
       String iconPath;
       if (httpServerRunning) {
@@ -904,30 +905,30 @@ public final class Main {
   private boolean maybeStartServer() {
     Configuration config = ltSupport.getConfig();
     if (config.getRunServer()) {
-      try {
-        HTTPServerConfig serverConfig = new HTTPServerConfig(config.getServerPort(), false);
-        httpServer = new HTTPServer(serverConfig, true);
-        httpServer.run();
-        if (enableHttpServerItem != null) {
-          enableHttpServerItem.setState(httpServer.isRunning());
-          setTrayIcon();
-        }
-      } catch (PortBindingException e) {
-        JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-      }
+//      try {
+//        HTTPServerConfig serverConfig = new HTTPServerConfig(config.getServerPort(), false);
+//        httpServer = new HTTPServer(serverConfig, true);
+//        httpServer.run();
+//        if (enableHttpServerItem != null) {
+//          enableHttpServerItem.setState(httpServer.isRunning());
+//          setTrayIcon();
+//        }
+//      } catch (PortBindingException e) {
+//        JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+//      }
     }
-    return httpServer != null && httpServer.isRunning();
+    return false;// httpServer != null && httpServer.isRunning();
   }
 
   private void stopServer() {
-    if (httpServer != null) {
-      httpServer.stop();
-      if (enableHttpServerItem != null) {
-        enableHttpServerItem.setState(httpServer.isRunning());
-        setTrayIcon();
-      }
-      httpServer = null;
-    }
+//    if (httpServer != null) {
+//      httpServer.stop();
+//      if (enableHttpServerItem != null) {
+//        enableHttpServerItem.setState(httpServer.isRunning());
+//        setTrayIcon();
+//      }
+//      httpServer = null;
+//    }
   }
 
   private void checkTextAndDisplayResults() {
