@@ -5,6 +5,9 @@
 #### Chinese
   * added some rules
 
+#### Dutch
+  * added new Java rule 'NL_PREFERRED_WORD_RULE' that suggests preferred words (e.g., 'fiets' for 'rijwiel')
+
 #### English
   * added and improved rules
   * added remaining collocation rules (~130) contributed by Nicholas Walker (Bokomaru)
@@ -149,6 +152,7 @@
   * show line numbers in the text area
   * a directory with word2vec language model for neural network rules can now be
     specified in the configuration dialog, see https://forum.languagetool.org/t/neural-network-rules/2225
+  * Stop disposition of vertical scroll when expanding the checkbox.
 
 #### Java API
   * A `RuleMatch` can now have a URL, too. The URL usually points to a page that

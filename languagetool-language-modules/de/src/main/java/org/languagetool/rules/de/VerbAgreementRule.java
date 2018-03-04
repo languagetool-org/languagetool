@@ -393,10 +393,7 @@ public class VerbAgreementRule extends TextLevelRule {
     }
     for (AnalyzedToken analyzedToken : tokenReadings) {
       String postag = analyzedToken.getPOSTag();
-      if (postag == null) {
-        continue;
-      }
-      if (postag.contains("_END")) { // ignore SENT_END and PARA_END
+      if (postag == null || postag.endsWith("_END")) { // ignore SENT_END and PARA_END
         continue;
       }
       if (!postag.contains(":" + person + ":" + number)) {
@@ -415,7 +412,7 @@ public class VerbAgreementRule extends TextLevelRule {
         || !token.hasPartialPosTag("VER")
         || token.hasPartialPosTag("PA2")
         || token.hasPartialPosTag("PRO:")
-        || token.hasPartialPosTag("ZAL")
+        || token.hasPosTag("ZAL")
         || "einst".equals(token.getToken())) {
       return false;
     }

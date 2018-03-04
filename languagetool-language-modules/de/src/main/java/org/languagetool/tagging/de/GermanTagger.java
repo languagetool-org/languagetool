@@ -199,7 +199,7 @@ public class GermanTagger extends BaseTagger {
                 List<TaggedWord> linkedTaggerTokens = addStem(getWordTagger().tag(word), wordStem); //Try to analyze the last part found
 
                 //Some words that are linked with a dash ('-') will be written in uppercase, even adjectives
-                if (wordOrig.contains("-") && linkedTaggerTokens.size() == 0) {
+                if (wordOrig.contains("-") && linkedTaggerTokens.isEmpty()) {
                   if (matchesUppercaseAdjective(word)) {
                     word = StringTools.lowercaseFirstChar(word);
                     linkedTaggerTokens = getWordTagger().tag(word);

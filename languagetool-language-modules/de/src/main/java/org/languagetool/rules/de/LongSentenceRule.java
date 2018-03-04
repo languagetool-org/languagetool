@@ -33,7 +33,7 @@ import java.util.ResourceBundle;
  */
 public class LongSentenceRule extends org.languagetool.rules.LongSentenceRule {
 
-  private static final boolean DEFAULT_INACTIVE = false;
+  private static final boolean DEFAULT_ACTIVATION = false;
 
   /**
    * @param defaultActive allows default granularity
@@ -43,7 +43,7 @@ public class LongSentenceRule extends org.languagetool.rules.LongSentenceRule {
     super.setCategory(Categories.STYLE.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Style);
     addExamplePair(Example.wrong("<marker>Dies ist ein Bandwurmsatz, der immer weiter geht, obwohl das kein guter Stil ist, den man eigentlich berücksichtigen sollte, obwohl es auch andere Meinungen gibt, die aber in der Minderzahl sind, weil die meisten Autoren sich doch an die Stilvorgaben halten, wenn auch nicht alle, was aber letztendlich wiederum eine Sache des Geschmacks ist</marker>."),
-            Example.fixed("<marker>Dies ist ein kurzer Satz.</marker>"));
+                   Example.fixed("<marker>Dies ist ein kurzer Satz.</marker>"));
     if (defaultActive) {
       setDefaultOn();
     }
@@ -53,7 +53,7 @@ public class LongSentenceRule extends org.languagetool.rules.LongSentenceRule {
    * Creates a rule with the default Off
    */
   public LongSentenceRule(ResourceBundle messages) {
-    this(messages, DEFAULT_INACTIVE);
+    this(messages, DEFAULT_ACTIVATION);
   }
 
   @Override

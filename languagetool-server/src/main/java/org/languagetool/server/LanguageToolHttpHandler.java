@@ -49,6 +49,7 @@ class LanguageToolHttpHandler implements HttpHandler {
   private final TextChecker textCheckerV2;
   private final HTTPServerConfig config;
   private final Set<String> ownIps;
+  private final RequestCounter reqCounter = new RequestCounter();
   
   LanguageToolHttpHandler(HTTPServerConfig config, Set<String> allowedIps, boolean internal, RequestLimiter requestLimiter, ErrorRequestLimiter errorLimiter, LinkedBlockingQueue<Runnable> workQueue) {
     this.config = config;
@@ -61,7 +62,7 @@ class LanguageToolHttpHandler implements HttpHandler {
     } else {
       this.ownIps = new HashSet<>();
     }
-    this.textCheckerV2 = new V2TextChecker(config, internal, workQueue);
+    this.textCheckerV2 = new V2TextChecker(config, internal, workQueue, reqCounter);
   }
 
   /** @since 2.6 */
@@ -70,13 +71,16 @@ class LanguageToolHttpHandler implements HttpHandler {
 
   @Override
   public void handle(HttpExchange httpExchange) throws IOException {
+    long startTime = System.currentTimeMillis();
     String remoteAddress = null;
     Map<String, String> parameters = new HashMap<>();
+    int reqId = reqCounter.incrementRequestCount();
     try {
       URI requestedUri = httpExchange.getRequestURI();
       String origAddress = httpExchange.getRemoteAddress().getAddress().getHostAddress();
       String realAddressOrNull = getRealRemoteAddressOrNull(httpExchange);
       remoteAddress = realAddressOrNull != null ? realAddressOrNull : origAddress;
+      reqCounter.incrementHandleCount(remoteAddress, reqId);
       // According to the Javadoc, "Closing an exchange without consuming all of the request body is
       // not an error but may make the underlying TCP connection unusable for following exchanges.",
       // so we consume the request now, even before checking for request limits:
@@ -88,7 +92,7 @@ class LanguageToolHttpHandler implements HttpHandler {
           String errorMessage = "Error: Access from " + remoteAddress + " denied: " + e.getMessage();
           sendError(httpExchange, HttpURLConnection.HTTP_FORBIDDEN, errorMessage);
           print(errorMessage + " - useragent: " + parameters.get("useragent") +
-                  " - HTTP UserAgent: " + getHttpUserAgent(httpExchange));
+                  " - HTTP UserAgent: " + getHttpUserAgent(httpExchange) + ", r:" + reqCounter.getRequestCount());
           return;
         }
       }
@@ -100,12 +104,13 @@ class LanguageToolHttpHandler implements HttpHandler {
                 " per " + errorRequestLimiter.getRequestLimitPeriodInSeconds() + " seconds";
         sendError(httpExchange, HttpURLConnection.HTTP_FORBIDDEN, errorMessage);
         print(errorMessage + " - useragent: " + parameters.get("useragent") +
-                " - HTTP UserAgent: " + getHttpUserAgent(httpExchange));
+                " - HTTP UserAgent: " + getHttpUserAgent(httpExchange) + ", r:" + reqCounter.getRequestCount());
         return;
       }
       if (config.getMaxWorkQueueSize() != 0 && workQueue.size() > config.getMaxWorkQueueSize()) {
         String response = "Error: There are currently too many parallel requests. Please try again later.";
-        print(response + " Queue size: " + workQueue.size() + ", maximum size: " + config.getMaxWorkQueueSize());
+        print(response + " Queue size: " + workQueue.size() + ", maximum size: " + config.getMaxWorkQueueSize() +
+                ", handlers:" + reqCounter.getHandleCount() + ", r:" + reqCounter.getRequestCount());
         sendError(httpExchange, HttpURLConnection.HTTP_UNAVAILABLE, "Error: " + response);
         return;
       }
@@ -162,6 +167,8 @@ class LanguageToolHttpHandler implements HttpHandler {
       sendError(httpExchange, errorCode, "Error: " + response);
     } finally {
       httpExchange.close();
+      reqCounter.decrementHandleCount(reqId);
+      ServerTools.print("Total check time: " + (System.currentTimeMillis() - startTime) + "ms, r:" + reqCounter.getRequestCount());
     }
   }
 
@@ -187,6 +194,8 @@ class LanguageToolHttpHandler implements HttpHandler {
     message += "User agent param: " + params.get("useragent") + ", ";
     message += "Referrer: " + getHttpReferrer(httpExchange) + ", ";
     message += "language: " + params.get("language") + ", ";
+    message += "h: " + reqCounter.getHandleCount() + ", ";
+    message += "r: " + reqCounter.getRequestCount() + ", ";
     String text = params.get("text");
     if (text != null) {
       message += "text length: " + text.length() + ", ";

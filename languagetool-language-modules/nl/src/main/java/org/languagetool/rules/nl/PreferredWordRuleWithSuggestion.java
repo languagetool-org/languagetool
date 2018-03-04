@@ -23,7 +23,7 @@ import org.languagetool.rules.Rule;
 import java.util.Objects;
 
 /**
- * @since 4.0
+ * @since 4.1
  */
 class PreferredWordRuleWithSuggestion {
 

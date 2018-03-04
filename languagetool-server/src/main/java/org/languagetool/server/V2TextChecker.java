@@ -27,6 +27,7 @@ import org.languagetool.tools.StringTools;
 import org.languagetool.tools.RuleMatchesAsJsonSerializer;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.languagetool.server.ServerTools.setCommonHeaders;
 
@@ -38,8 +39,8 @@ class V2TextChecker extends TextChecker {
 
   private static final String JSON_CONTENT_TYPE = "application/json";
 
-  V2TextChecker(HTTPServerConfig config, boolean internalServer, Queue<Runnable> workQueue) {
-    super(config, internalServer, workQueue);
+  V2TextChecker(HTTPServerConfig config, boolean internalServer, Queue<Runnable> workQueue, RequestCounter reqCounter) {
+    super(config, internalServer, workQueue, reqCounter);
   }
 
   @Override

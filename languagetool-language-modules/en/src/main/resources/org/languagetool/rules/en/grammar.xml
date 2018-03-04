@@ -895,7 +895,10 @@ USA
                     <token>form</token>
                 </antipattern>
                 <pattern>
-                    <token postag="NN.*" postag_regexp="yes"><exception postag="JJ"/></token>
+                    <token postag="NN.*" postag_regexp="yes">
+                        <exception postag="JJ"/>
+                        <exception>life</exception>
+                    </token>
                     <marker>
                         <token postag="NN:UN">form</token>
                     </marker>
@@ -910,6 +913,7 @@ USA
                 <example>The leaves form a rosette at the base of the plant.</example>
                 <example>In full form the theorem was given in 1825.</example>
                 <example>These results of Cauchy's still form the core of complex function theory.</example>
+                <example>They are a separate life form that renders us invisible.</example>
             </rule>
         </rulegroup>
         <rule id="THERE_EXITS" name="there exits (there exists)">
@@ -3071,7 +3075,7 @@ USA
         </rule>
         <rule id="ONES" name="ones (one's)" type="typographical">
             <pattern>
-                <token><exception postag="JJ.*|DT" postag_regexp="yes"/></token>
+                <token><exception postag="JJ.*|DT|WP" postag_regexp="yes"/></token>
                 <marker>
                     <token>ones</token>
                 </marker>
@@ -3082,6 +3086,7 @@ USA
             <example>The common ones clashing with the noble ones</example>
             <example correction="one's">One should always wash <marker>ones</marker> feet in the morning.</example>
             <example>These were the ones Keith sought out.</example>
+            <example>They could predict which islands would become vulnerable with warming, and which ones might become better habitats.</example>
         </rule>
         <rulegroup id="POSSESSIVE_APOSTROPHE" name="Possessive apostrophe error" type="typographical">
             <rule>
@@ -6287,6 +6292,33 @@ USA
             <message>Did you mean <suggestion>safe to \4</suggestion>?</message>
             <example correction="safe to ignore">It is <marker>save to ignore</marker> trivial code when writing unit tests.</example>
         </rule>
+        <rulegroup id="TOME_TIME" name="tome (time)">
+            <rule>
+                <pattern>
+                    <token inflected='yes' regexp='yes' skip="1">have|spare|take|all<exception scope="next">another</exception></token>
+                    <marker>
+                        <token>tome</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion>time</suggestion>?</message>
+                <short>Commonly confused word</short>
+                <example correction='time'>I have no <marker>tome</marker>.</example>
+                <example correction='time'>This will take some <marker>tome</marker>.</example>
+                <example>Now I have another tome to add to the stack.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected='yes' regexp='yes'>be|find</token>
+                    <marker>
+                        <token>tome</token>
+                    </marker>
+                    <token>to</token>
+                </pattern>
+                <message>Did you mean <suggestion>time</suggestion>?</message>
+                <short>Commonly confused word</short>
+                <example correction='time'>I found <marker>tome</marker> to read.</example>
+            </rule>
+        </rulegroup>
         <rule id="SAVE_SAFE" name="save (safe)">
             <antipattern>
                 <token>such</token>

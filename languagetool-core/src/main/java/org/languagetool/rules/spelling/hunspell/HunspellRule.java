@@ -54,6 +54,7 @@ public class HunspellRule extends SpellingCheckRule {
   protected Hunspell.Dictionary hunspellDict = null;
 
   private static final String NON_ALPHABETIC = "[^\\p{L}]";
+  protected static final String FILE_EXTENSION = ".dic";
 
   private static final String[] WHITESPACE_ARRAY = new String[20];
   static {
@@ -235,7 +236,7 @@ public class HunspellRule extends SpellingCheckRule {
         + language.getShortCode()
         + "/hunspell/"
         + langCountry
-        + ".dic";
+        + FILE_EXTENSION;
     String wordChars = "";
     // set dictionary only if there are dictionary files:
     if (JLanguageTool.getDataBroker().resourceExists(shortDicPath)) {
@@ -272,9 +273,9 @@ public class HunspellRule extends SpellingCheckRule {
     String dictionaryPath;
     //in the webstart, java EE or OSGi bundle version, we need to copy the files outside the jar
     //to the local temporary directory
-    if ("jar".equals(dictURL.getProtocol()) || "vfs".equals(dictURL.getProtocol()) || "bundle".equals(dictURL.getProtocol()) || "bundleresource".equals(dictURL.getProtocol())) {
+    if (StringUtils.equalsAny(dictURL.getProtocol(), "jar", "vfs", "bundle", "bundleresource")) {
       File tempDir = new File(System.getProperty("java.io.tmpdir"));
-      File tempDicFile = new File(tempDir, dicName + ".dic");
+      File tempDicFile = new File(tempDir, dicName + FILE_EXTENSION);
       JLanguageTool.addTemporaryFile(tempDicFile);
       try (InputStream dicStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(originalPath)) {
         fileCopy(dicStream, tempDicFile);
@@ -286,7 +287,7 @@ public class HunspellRule extends SpellingCheckRule {
       }
       dictionaryPath = tempDir.getAbsolutePath() + "/" + dicName;
     } else {
-      int suffixLength = ".dic".length();
+      int suffixLength = FILE_EXTENSION.length();
       try {
         dictionaryPath = new File(dictURL.toURI()).getAbsolutePath();
         dictionaryPath = dictionaryPath.substring(0, dictionaryPath.length() - suffixLength);
