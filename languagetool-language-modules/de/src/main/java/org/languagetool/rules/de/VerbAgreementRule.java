@@ -272,7 +272,7 @@ public class VerbAgreementRule extends TextLevelRule {
       }
       
       if (tokens[i].hasPartialPosTag("VER")
-          && (Character.isLowerCase(tokens[i].getToken().charAt(0)) || i == 1) ) {
+          && (Character.isLowerCase(tokens[i].getToken().charAt(0)) || i == 1 || "„".equals(tokens[i-1].getToken())) ) {
         if (hasUnambiguouslyPersonAndNumber(tokens[i], "1", "SIN")
             && !(strToken.equals("bin") && (BIN_IGNORE.contains(tokens[i-1].getToken())
                   || (tokens.length != i + 1 && tokens[i+1].getToken().startsWith("Laden")) ))) {
