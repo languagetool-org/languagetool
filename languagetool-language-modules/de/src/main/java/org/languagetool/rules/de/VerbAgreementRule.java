@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Set;
 
+import org.apache.commons.lang3.StringUtils;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
@@ -272,7 +273,7 @@ public class VerbAgreementRule extends TextLevelRule {
       }
       
       if (tokens[i].hasPartialPosTag("VER")
-          && (Character.isLowerCase(tokens[i].getToken().charAt(0)) || i == 1 || "„".equals(tokens[i-1].getToken())) ) {
+          && (Character.isLowerCase(tokens[i].getToken().charAt(0)) || i == 1 || StringUtils.equalsAny(tokens[i-1].getToken(), "„", "\"")) ) {
         if (hasUnambiguouslyPersonAndNumber(tokens[i], "1", "SIN")
             && !(strToken.equals("bin") && (BIN_IGNORE.contains(tokens[i-1].getToken())
                   || (tokens.length != i + 1 && tokens[i+1].getToken().startsWith("Laden")) ))) {
