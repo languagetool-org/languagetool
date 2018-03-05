@@ -1,6 +1,7 @@
 package org.languagetool.rules;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
@@ -13,6 +14,8 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
+
+@Ignore
 public class Issue373Test {
 
   private static final String GRAMMAR_FILE_NAME = "/xx/grammar.xml";
@@ -32,7 +35,7 @@ public class Issue373Test {
 
   @Test
   public void testIssueSuggestionInside() throws Exception {
-    String wrongString = "Xnel vola nén";
+    String wrongString = "Xnel vola nén Xnel vola nén";
     String correctString = "Vo nel la nén";
     testString(wrongString, correctString, ISSUE_373_TEST_SUGGESTION_INSIDE);
   }
@@ -59,9 +62,31 @@ public class Issue373Test {
   }
 
 
-  private void testString(String wrongString, String correctString, String ruleName) throws IOException {
-    System.out.println(String.format("testing rule: '%s'", ruleName));
-    Rule issueRule = getRuleById(ruleName, RULES);
+  @Test
+  public void testDeWalkaround() throws Exception {
+    String wrongString = "Das habe ich von vorne herein geahnt.";
+    String correctString = "Das habe ich von vorneherein geahnt.";
+    testString(wrongString, correctString, "DE_WALKAROUND");
+  }
+
+  @Test
+  public void test62() throws Exception {
+    String wrongString = "Du solltest die 62-Bit-Version installieren";
+    String correctString = "Du solltest die 32-Bit-Version installieren";
+    testString(wrongString, correctString, "BIT_62");
+  }
+
+
+  @Test
+  public void testIssue1() throws Exception {
+    String wrongString = "She lived several years in south America.";
+    String correctString = "She lived several years in South America.";
+    testString(wrongString, correctString, "ISSUE_373_TEST_ISSUE_1");
+  }
+
+  private void testString(String wrongString, String correctString, String ruleId) throws IOException {
+    System.out.println(String.format("testing rule: '%s'", ruleId));
+    Rule issueRule = getRuleById(ruleId, RULES);
 
     AnalyzedSentence analyzedSentence = langTool.getAnalyzedSentence(wrongString);
     RuleMatch[] matches = issueRule.match(analyzedSentence);
