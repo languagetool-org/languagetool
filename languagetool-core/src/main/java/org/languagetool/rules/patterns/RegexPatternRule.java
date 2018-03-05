@@ -60,11 +60,18 @@ class RegexPatternRule extends AbstractPatternRule implements RuleMatcher {
     int startPos = 0;
     List<RuleMatch> matches = new ArrayList<>();
     while (matcher.find(startPos)) {
-      String msg = replaceBackRefs(matcher, message);
       boolean sentenceStart = matcher.start(0) == 0;
-      List<String> suggestions = extractSuggestions(matcher, msg);
+
+
       List<String> matchSuggestions = getMatchSuggestions(sentence, matcher);
+
+      String msg = replaceBackRefs(matcher, message);// strange behavior
+
+      List<String> suggestionsInMessage = extractSuggestions(matcher, msg);
+      List<String> suggestionsOutMessage = extractSuggestions(matcher, getSuggestionsOutMsg());
+
       msg = replaceMatchElements(msg, matchSuggestions);
+
       int markStart = matcher.start(markGroup);
       int markEnd = matcher.end(markGroup);
       RuleMatch ruleMatch = new RuleMatch(this, sentenceObj, markStart, markEnd, msg, null, sentenceStart, null);
@@ -72,9 +79,8 @@ class RegexPatternRule extends AbstractPatternRule implements RuleMatcher {
       if (matchSuggestions.size() > 0) {
         allSuggestions.addAll(matchSuggestions);
       } else {
-        allSuggestions.addAll(suggestions);
-        List<String> extendedSuggestions = extractSuggestions(matcher, getSuggestionsOutMsg());
-        allSuggestions.addAll(extendedSuggestions);
+        allSuggestions.addAll(suggestionsInMessage);
+        allSuggestions.addAll(suggestionsOutMessage);
       }
       ruleMatch.setSuggestedReplacements(allSuggestions);
       matches.add(ruleMatch);
@@ -87,7 +93,7 @@ class RegexPatternRule extends AbstractPatternRule implements RuleMatcher {
   private List<String> getMatchSuggestions(String sentence, Matcher matcher) {
     List<String> matchSuggestions = new ArrayList<>();
     for (Match match : getSuggestionMatches()) {
-      String errorText = sentence.substring(matcher.start(), matcher.end());
+      String errorText = sentence.substring(matcher.start(), matcher.end()); // the text captured by regexp clause
       String regexReplace = match.getRegexReplace();
       if (regexReplace != null) {
         String suggestion = match.getRegexMatch().matcher(errorText).replaceFirst(regexReplace);
@@ -131,7 +137,7 @@ class RegexPatternRule extends AbstractPatternRule implements RuleMatcher {
     return result;
   }
 
-  private String replaceBackRefs(Matcher matcher, String msg) {
+  private String replaceBackRefs(Matcher matcher, String msg) { // TODO deal with match no change in suggestion
     String replacedMsg = msg;
     for (int i = 0; i <= matcher.groupCount(); i++) {
       String replacement = matcher.group(i);
