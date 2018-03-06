@@ -217,12 +217,39 @@ regexp case-insensitive maken : (?i)
 		<rulegroup id="ALLEEN_BE" name="Alleen gebruikelijk in België">
 			<rule>
 				<pattern>
+					<token inflected="yes">vuilkar</token>
+				</pattern>
+				<message>Standaardtaal in België is 'vuilniskar'. In het hele taalgebied is het 'vuilniswagen' of 'vuilnisauto'</message>
+				<url>http://taaladvies.net/taal/advies/vraag/1657</url>
+				<example type="incorrect">Het ging direct in de <marker>vuilkar</marker>.</example>
+                <example>Het ging direct in de <marker>vuilnisauto</marker>.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token inflected="yes">vuilbak</token>
+				</pattern>
+				<message>Standaardtaal is 'vuilnisbak'.</message>
+				<url>http://taaladvies.net/taal/advies/vraag/1369</url>
+				<example type="incorrect">Het ging direct in de <marker>vuilbak</marker>.</example>
+                <example>Het ging direct in de <marker>vuilnisbak</marker>.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token inflected="yes">vuilzak</token>
+				</pattern>
+				<message>Standaardtaal is 'vuilniszak'.</message>
+				<url>http://taaladvies.net/taal/advies/vraag/1369</url>
+				<example type="incorrect">Het ging direct in de <marker>vuilzak</marker>.</example>
+                <example>Het ging direct in de <marker>vuilniszak</marker>.</example>
+			</rule>
+			<rule>
+				<pattern>
 					<token regexp='yes'>.{5,}kost</token>
 				</pattern>
 				<message>Standaardtaal is <suggestion>\1en</suggestion>.</message>
 				<url>http://taaladvies.net/taal/advies/vraag/474/</url>
 				<example correction='verbouwingskosten'>Ik maalde niet om de <marker>verbouwingskost</marker>.</example>
-				<example>IK maal niet om de verbouwingskosten.</example>
+				<example>Ik maal niet om de verbouwingskosten.</example>
 			</rule>
 			<rule>
 				<pattern>
@@ -409,6 +436,13 @@ regexp case-insensitive maken : (?i)
 				<message>Dit is alleen gebruikelijk in Nederland</message>
 				<example type="incorrect">Ik haalde het geld uit de <marker>flappentap</marker>.</example>
 				<example>Ik haal het geld uit de <marker>geldautomaat</marker>.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token inflected="yes">kliko</token>
+				</pattern>
+				<message>In België is dit woord onbekend; gebruik liever 'vuilnisbak'.</message>
+				<example type="incorrect">Ik gooide het in de <marker>kliko</marker>.</example>
 			</rule>
 			<rule>
 				<pattern>
