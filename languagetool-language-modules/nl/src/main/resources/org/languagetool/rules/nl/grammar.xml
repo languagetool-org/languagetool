@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<!-- <?xml version="1.0" encoding="utf-8"?> -->
 <?xml-stylesheet type="text/xsl" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/print.xsl" title="Pretty print" ?>
 <?xml-stylesheet type="text/css" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.css" title="Easy editing stylesheet" ?>
 <!--
@@ -4586,10 +4586,6 @@ regexp case-insensitive maken : (?i)
 		</rulegroup>
 		<rulegroup id="BISDOM" name="geen Bisdom maar bisdom">
 			<rule>
-				<!--
-				2014-08-23 TaalTik
-				regel werkt prima
-				-->
 				<pattern case_sensitive="yes">
 					<token><exception postag="SENT_START"/></token>
 					<marker>
@@ -5756,6 +5752,20 @@ regexp case-insensitive maken : (?i)
 		</rulegroup>
 	</category>
 	<category id="OUDERWETS" name="Ouderwets">
+		<rulegroup id="BIJ_MIDDEL_VAN" name="Bij middel van → door middel van">
+			<!-- 2014-09-08 TaalTik -->
+			<rule>
+				<pattern>
+					<token>bij</token>
+                    <token>middel</token>
+                    <token>van</token>
+				</pattern>
+				<message>Moderner is <suggestion>door middel van</suggestion> of gewoon <suggestion>door</suggestion>.</message>
+				<url>https:www.taaladvies.net/vraag/120</url>
+				<short>Ouderwets</short>
+				<example correction="door middel van|door">Hij bereikt het doel <marker>bij middel van</marker> agressie.</example>
+			</rule>
+		</rulegroup>
 		<rulegroup id="WELKE" name="Welke → die">
 			<!-- 2014-09-08 TaalTik -->
 			<rule>
