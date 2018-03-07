@@ -217,6 +217,16 @@ regexp case-insensitive maken : (?i)
 		<rulegroup id="ALLEEN_BE" name="Alleen gebruikelijk in België">
 			<rule>
 				<pattern>
+                    <token>in</token>
+                    <token>functie</token>
+                    <token>van</token>
+				</pattern>
+                <message>Deze woordgroep is niet bekend in elke betekenis bekend in het hele taalgebied.</message>
+				<url>http://taaladvies.net/taal/advies/vraag/296</url>
+				<example type="incorrect">We gaan <marker>in functie van</marker> het weer verder.</example>
+			</rule>            
+			<rule>
+				<pattern>
                     <token>farde</token>
 				</pattern>
                 <message>Standaardtaal in het hele taalgebied is <suggestion>map</suggestion>.</message>
@@ -18275,6 +18285,16 @@ regexp case-insensitive maken : (?i)
 	</category>
 	<category id="OVERIG" name="Diverse regels">
 
+        <rulegroup id="AANHEF" name="Geachte mijnheer → Geachte heer">
+            <rule>
+                <pattern>
+                    <token>geachte</token>
+                    <token regexp="yes">mijnheer|meneer|mevrouw</token>
+                </pattern>
+                <message>Als aanhef is <suggestion>geachte heer</suggestion> beter.</message>
+                <example correction="Geachte heer"><marker>Geachte mijnheer</marker>, ik begin deze brief.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="ONTKEN_2" name="dubbele ontkenning">
             <rule>
                 <!-- 2014-08-20 TaalTik
