@@ -34184,20 +34184,43 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="comunicats|informes">Els <marker>parts</marker> d'accident.</example>
             </rule>
         </rulegroup>
-        <rule id="VELAR_VETLLAR" name="velar/vetllar">
-            <pattern>
-                <marker>
-                    <token postag="(V.*)" postag_regexp="yes" inflected="yes">velar<exception postag="_GN_.*" postag_regexp="yes"/></token>
-                </marker>
-                <token min="0" max="4" postag="RG|.*LOC.*" postag_regexp="yes"/>
-                <token inflected="yes">per</token>
-            </pattern>
-            <message>¿Volíeu dir <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">vetllar</match></suggestion>? 'Velar' és correcte en altres sentits.</message>
-            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">vetlar</match></suggestion>
-            <example correction="vetllar|vetlar">Volen <marker>velar</marker> sempre per la seguretat.</example>
-            <example correction="vetllessin|vetlessin">que <marker>velessin</marker> pel bon funcionament.</example>
-            <example>Una vela per superfície</example>
-        </rule>
+        <rulegroup id="VELAR_VETLLAR" name="velar/vetllar">
+            <rule>
+                <pattern>
+                    <marker>
+                         <token postag="(V.*)" postag_regexp="yes" inflected="yes">velar<exception postag="_GN_.*" postag_regexp="yes"/></token>
+                    </marker>
+                    <token min="0" max="4" postag="RG|.*LOC.*" postag_regexp="yes"/>
+                    <token inflected="yes">per</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">vetllar</match></suggestion>? 'Velar' és correcte en altres sentits.</message>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">vetlar</match></suggestion>
+                <example correction="vetllar|vetlar">Volen <marker>velar</marker> sempre per la seguretat.</example>
+                <example correction="vetllessin|vetlessin">que <marker>velessin</marker> pel bon funcionament.</example>
+                <example correction="vetllat|vetlat">Sempre han <marker>velat</marker> per nosaltres.</example>
+                <example>Una vela per superfície</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <marker>
+                        <token regexp="yes">velad(a|es)</token>
+                        <token postag="NC.*" postag_regexp="yes"/>
+                    </marker>
+                </antipattern>
+                <pattern>
+                    <token postag="D..F.." postag_regexp="yes"/>
+                    <marker>
+                        <token regexp="yes">velad(a|es)</token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="2" regexp_match="(?iu)velad(.*)" regexp_replace="vetllad$1"/></suggestion>?</message>
+                <suggestion><match no="2" regexp_match="(?iu)velad(.*)" regexp_replace="vetlad$1"/></suggestion>
+                <example correction="vetllada|vetlada">La <marker>velada</marker> fou fantàstica.</example>
+                <example correction="vetllada|vetlada">Eixa <marker>velada</marker> fou fantàstica.</example>
+                <example>La velada amenaça.</example>
+                <example>L'amenaça velada</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="ARXIU_ARXIVAMENT" name="arxiu/arxivament">
             <rule>
                 <pattern>
