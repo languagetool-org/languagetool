@@ -39,7 +39,7 @@ import java.util.regex.Pattern;
 class RegexPatternRule extends AbstractPatternRule implements RuleMatcher {
 
   private static final Pattern suggestionPattern = Pattern.compile("<suggestion>(.*?)</suggestion>");  // TODO: this needs to be cleaned up, there should be no need to parse this?
-  private static final Pattern matchPattern = Pattern.compile("\\\\\\d+");
+  private static final Pattern matchPattern = Pattern.compile("\\\\\\d");
 
   // in suggestions tokens are numbered from 1, anywhere else tokens are numbered from 0
   // see: http://wiki.languagetool.org/development-overview#toc17
@@ -150,66 +150,6 @@ class RegexPatternRule extends AbstractPatternRule implements RuleMatcher {
     processedMessage.append(message.substring(startOfProcessingPart));
 
     return processedMessage.toString();
-  }
-
-  @NotNull
-  private List<String> getMatchSuggestions(String sentence, Matcher matcher) {
-    List<String> matchSuggestions = new ArrayList<>();
-    for (Match currentProcessingMatch : getSuggestionMatches()) {
-      String errorText = sentence.substring(matcher.start(), matcher.end()); // the text captured by regexp clause
-      String regexReplace = currentProcessingMatch.getRegexReplace();
-      if (regexReplace != null) {
-        String suggestion = currentProcessingMatch.getRegexMatch().matcher(errorText).replaceFirst(regexReplace);
-        suggestion = CaseConversionHelper.convertCase(currentProcessingMatch.getCaseConversionType(), suggestion, errorText, getLanguage());
-        matchSuggestions.add(suggestion);
-      }
-    }
-    return matchSuggestions;
-  }
-
-  private String replaceMatchElements(String msg, List<String> suggestions) {
-    Matcher sMatcher = suggestionPattern.matcher(msg);
-    StringBuffer sb = new StringBuffer();
-    int i = 0;
-    try {
-      while (sMatcher.find()) {
-        if (i < suggestions.size()) {
-          sMatcher.appendReplacement(sb, "<suggestion>" + suggestions.get(i++).replace("$", "\\$") + "</suggestion>");
-        }
-      }
-    } catch (Exception e) {
-      throw new RuntimeException("Exception running regex of rule " + getFullId() + " with matcher " + sMatcher + " on: '" + msg + "'", e);
-    }
-    sMatcher.appendTail(sb);
-    return sb.toString();
-  }
-
-  private List<String> extractSuggestions(Matcher matcher, String msg) {
-    Matcher sMatcher = suggestionPattern.matcher(msg);
-    int startPos = 0;
-    List<String> result = new ArrayList<>();
-    while (sMatcher.find(startPos)) {
-      String suggestion = sMatcher.group(1);
-      if (matcher.start() == 0) {
-        result.add(replaceBackRefs(matcher, StringTools.uppercaseFirstChar(suggestion)));
-      } else {
-        result.add(replaceBackRefs(matcher, suggestion));
-      }
-      startPos = sMatcher.end();
-    }
-    return result;
-  }
-
-  private String replaceBackRefs(Matcher matcher, String msg) { // TODO deal with match no change in suggestion
-    String replacedMsg = msg;
-    for (int i = 0; i <= matcher.groupCount(); i++) {
-      String replacement = matcher.group(i);
-      if (replacement != null) {
-        replacedMsg = replacedMsg.replace("\\" + i, replacement);
-      }
-    }
-    replacedMsg = replacedMsg.replaceAll("\\\\[0-9]", "");   // optional matches need to be replaced by empty string
-    return replacedMsg;
   }
 
   @Override
