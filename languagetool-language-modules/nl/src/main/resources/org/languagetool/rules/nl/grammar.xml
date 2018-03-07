@@ -217,6 +217,30 @@ regexp case-insensitive maken : (?i)
 		<rulegroup id="ALLEEN_BE" name="Alleen gebruikelijk in België">
 			<rule>
 				<pattern>
+					<token regexp="yes">editoriaal|editorialen</token>
+				</pattern>
+				<message>Beter voro het ehel taalgebied is: 'hoofdartikel'.</message>
+				<url>http://taaladvies.net/taal/advies/vraag/237</url>
+				<example type="incorrect">We wachten op het <marker>editoriaal</marker>.</example>
+			</rule>            
+			<rule>
+				<pattern>
+					<token inflected="yes">drukkingsmiddel</token>
+				</pattern>
+				<message>Standaardtaal in het hele taalgebied zijn 'pressiemiddel' en 'drukmiddel' standaard.</message>
+				<url>http://taaladvies.net/taal/advies/vraag/229</url>
+				<example type="incorrect">We wachten op het <marker>drukkingsmiddel</marker>.</example>
+			</rule>            
+			<rule>
+				<pattern>
+					<token inflected="yes">drukkingsgroep</token>
+				</pattern>
+				<message>Standaardtaal in het hele taalgebied zijn 'pressiegroep', 'belangengroep' en 'lobby' standaard.</message>
+				<url>http://taaladvies.net/taal/advies/vraag/228</url>
+				<example type="incorrect">We wachten op de <marker>drukkingsgroep</marker>.</example>
+			</rule>
+			<rule>
+				<pattern>
 					<token inflected="yes">depannage</token>
 				</pattern>
 				<message>Standaardtaal in België is 'pechverhelping'. In Nederland is 'pechhulp' standaard.</message>
@@ -3728,6 +3752,19 @@ regexp case-insensitive maken : (?i)
 		</rulegroup>
 	</category>
     <category id="OPTIONAL_FORMS" name="niet-noodzakelijke correcte spellingvarianten">
+        <rulegroup id="ACCENTS" name= "optionele accenten">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>één</token>
+                    </marker>
+                    <token>van</token>
+                    <token>de</token>
+                </pattern>
+                <message>De accenten zijn hier overbodig: <suggestion>een</suggestion>.</message>
+                <example correction="een">Hij is <marker>één</marker> van de vreemden.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="OPTIONAL_HYPHEN" name="optioneel koppelteken">
            <rule>
                <antipattern><token regexp="yes">([0-9]|&gespeld;|ex|bijna|niet|non|e|x|oud)-.*</token></antipattern>
