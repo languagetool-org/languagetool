@@ -18284,7 +18284,17 @@ regexp case-insensitive maken : (?i)
 
 	</category>
 	<category id="OVERIG" name="Diverse regels">
-
+        <rulegroup id="GEEN_DE_MINSTE" name="Geen de minste → niet de minste">
+            <rule>
+                <pattern>
+                    <token>geen</token>
+                    <token>de</token>
+                    <token>minste</token>
+                </pattern>
+                <message>Standaardtaal is <suggestion>niet de minste</suggestion>.</message>
+                <example correction="niet de minste">Hij is <marker>geen de minste</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="AANHEF" name="Geachte mijnheer → Geachte heer">
             <rule>
                 <pattern>
