@@ -35,7 +35,7 @@ public class Issue373Test {
 
   @Test
   public void testIssueSuggestionInside() throws Exception {
-    String wrongString = "Xnel vola nén Xnel vola nén";
+    String wrongString = "Xnel vola nén";
     String correctString = "Vo nel la nén";
     testString(wrongString, correctString, ISSUE_373_TEST_SUGGESTION_INSIDE);
   }
