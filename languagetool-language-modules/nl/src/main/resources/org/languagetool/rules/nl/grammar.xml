@@ -217,6 +217,15 @@ regexp case-insensitive maken : (?i)
 		<rulegroup id="ALLEEN_BE" name="Alleen gebruikelijk in België">
 			<rule>
 				<pattern>
+                    <token inflected="yes">geleid</token>
+                    <token regexp="yes">.*(bezoek|wandeling|tocht)</token>
+				</pattern>
+                <message>Standaardtaal voor het hele taalgebied is gebruikelijk: 'rondleiding', '~ met gids'.</message>
+				<url>http://taaladvies.net/taal/advies/vraag/321</url>
+				<example type="incorrect">We doen een <marker>geleid bezoek</marker>.</example>
+			</rule>            
+			<rule>
+				<pattern>
                     <token>in</token>
                     <token>functie</token>
                     <token>van</token>
