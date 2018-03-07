@@ -217,6 +217,18 @@ regexp case-insensitive maken : (?i)
 		<rulegroup id="ALLEEN_BE" name="Alleen gebruikelijk in België">
 			<rule>
 				<pattern>
+                    <marker>
+                        <token>in</token>
+                    </marker>
+                    <token>hoofde</token>
+                    <token>van</token>
+				</pattern>
+                <message>Standaardtaal in het hele taalgebied is <suggestion>uit</suggestion>.</message>
+				<url>http://taaladvies.net/taal/advies/vraag/391</url>
+				<example correction="uit">Het is <marker>in</marker> hoofde van de functie.</example>
+			</rule>            
+			<rule>
+				<pattern>
                     <token inflected="yes">heirkracht</token>
 				</pattern>
                 <message>Standaardtaal in het hele taalgebied is 'overmacht'.</message>
