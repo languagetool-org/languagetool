@@ -217,6 +217,14 @@ regexp case-insensitive maken : (?i)
 		<rulegroup id="ALLEEN_BE" name="Alleen gebruikelijk in België">
 			<rule>
 				<pattern>
+                    <token inflected="yes">gelijkaardig</token>
+				</pattern>
+                <message>Standaardtaal voor het hele taalgebied is 'soortgelijk', 'gelijksoortig' of 'dergelijk'.</message>
+				<url>http://taaladvies.net/taal/advies/vraag/324</url>
+				<example type="incorrect">Deze fout is <marker>gelijkaardig</marker>.</example>
+			</rule>            
+			<rule>
+				<pattern>
                     <token inflected="yes">geleid</token>
                     <token regexp="yes">.*(bezoek|wandeling|tocht)</token>
 				</pattern>
@@ -2540,6 +2548,17 @@ regexp case-insensitive maken : (?i)
 				<message>Als u het over de afmeting hebt, dan is het: <suggestion>grootte</suggestion></message>
 				<example correction="Grootte"><marker>De grote van</marker> het terrein was omvangrijk.</example>
 				<example><marker>De grootte van</marker> het terrein was omvangrijk.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token>op</token>
+					<token>ware</token>
+                    <marker>
+                        <token>grote</token>
+                    </marker>
+				</pattern>
+				<message>Als u het over de afmeting hebt, dan is het: <suggestion>grootte</suggestion></message>
+				<example correction="grootte">Het mode was op ware <marker>grote</marker>.</example>
 			</rule>
 		</rulegroup>
 		<rulegroup id="_2E_KAMER" name="tweede-kamerstuk → Tweede Kamerstuk">
@@ -18293,6 +18312,17 @@ regexp case-insensitive maken : (?i)
 
 	</category>
 	<category id="OVERIG" name="Diverse regels">
+        
+        <rulegroup id="VTD_GEWORDEN" name="Gebruikt geworden → gebruikt">
+            <rule>
+                <pattern>
+                    <token postag_regexp="yes" postag="WKW:VTD:(INV|ONV)"/>
+                    <token>geworden</token>
+                </pattern>
+                <message>Beter is: <suggestion>\1</suggestion>.</message>
+                <example correction="gestopt">Hij is <marker>gestopt geworden</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="GEEN_DE_MINSTE" name="Geen de minste → niet de minste">
             <rule>
                 <pattern>
