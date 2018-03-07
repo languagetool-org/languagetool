@@ -197,6 +197,8 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("Pearl-Harbour", "Pearl Harbor", rule, lt);
     assertFirstSuggestion("Autonomität", "Autonomie", rule, lt);
     assertFirstSuggestion("Kompatibelkeit", "Kompatibilität", rule, lt);
+    assertFirstSuggestion("Sensibelkeit", "Sensibilität", rule, lt);
+    assertFirstSuggestion("Flexibelkeit", "Flexibilität", rule, lt);
     assertFirstSuggestion("WiFi-Direkt", "Wi-Fi Direct", rule, lt);
     assertFirstSuggestion("Wi-Fi-Direct", "Wi-Fi Direct", rule, lt);
     assertFirstSuggestion("hofen", "hoffen", rule, lt);

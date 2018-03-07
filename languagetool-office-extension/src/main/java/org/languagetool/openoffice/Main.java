@@ -145,6 +145,7 @@ public class Main extends WeakBase implements XJobExecutor,
   private int divNum;    //  difference between number of paragraphs from cursor and from flatParagraph (unchanged by parallel thread)
   private int numLastVCPara1;  //  last paragraph for parallel thread (View Cursor)
   private int numLastFlPara1;  //  last paragraph for parallel thread (FlatParagraph)
+  private XComponent goneContext = null;   // save component of closed document
   private int lastParaPos[] =  {0, 0};
   private int lastDocNum = 0;
 
@@ -497,12 +498,10 @@ public class Main extends WeakBase implements XJobExecutor,
     }
     try {
       if (lastDocID == null || !lastDocID.equals(docID)) {
-        numCurDoc = getNumDocID(docID);
         lastDocID = docID;
         sameDocID = false;
-      } else {
-        numCurDoc = lastDocNum;
       }
+      numCurDoc = getNumDocID(docID);
       numCurPara = getParaPos(paraText, numThread, numCurDoc);
       paraPos = getStartOfParagraph(numCurPara, numCurDoc);
       if (numThread > 0 || (numThread == 0 
@@ -1254,6 +1253,15 @@ public class Main extends WeakBase implements XJobExecutor,
       numLastVCPara = new ArrayList<>();
       numLastFlPara = new ArrayList<>();
     }
+    if (goneContext != null ) {                   // a document was closed
+      int docNum = removeNumDocID(goneContext);   // the saved information may only be removed after 
+      if(docNum < 0) {                            // the end of check before the new one begins
+        printToLogFile("Error: Disposed document not found");
+      } else if (debugMode) {
+        printToLogFile("Document " + docNum + " deleted");
+      }
+      goneContext = null;
+    }
     for (int i = 0; i < docIDs.size(); i++) {
       if (docIDs.get(i).equals(docID)) {
         return i;                           //  document exist
@@ -1301,14 +1309,11 @@ public class Main extends WeakBase implements XJobExecutor,
    */
   @Override
   public void disposing(EventObject source) {
-    XComponent xComponent = UnoRuntime.queryInterface(XComponent.class, source.Source);
-    int docNum = removeNumDocID(xComponent);
-    if(docNum < 0) {
-      printToLogFile("Error: Disposed document not found");
-    } else if (debugMode) {
-      printToLogFile("Document " + docNum + " deleted");
-    }
-    xComponent.removeEventListener(this);
+    //  the data of document will be removed by next call of getNumDocID
+    //  to finish checking thread without crashing
+    goneContext = UnoRuntime.queryInterface(XComponent.class, source.Source);
+    lastDocID = null;
+    goneContext.removeEventListener(this); 
   }
     
   /**

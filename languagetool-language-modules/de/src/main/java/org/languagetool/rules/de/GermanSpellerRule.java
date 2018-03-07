@@ -162,7 +162,6 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("gans", "ganz");
     put("Pearl-Harbou?r", "Pearl Harbor");
     put("[aA]utonomität", "Autonomie");
-    put("[kK]ompatibelkeit", "Kompatibilität");
     put("[fF]r[uü]h?st[uü]c?k", "Frühstück");
     put("zucc?h?inis?", "Zucchini");
     put("[mM]itag", "Mittag");
@@ -387,6 +386,11 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return Arrays.asList("jetzt", "geht's");
     } else if ("Trons".equals(word)) {
       return Collections.singletonList("Trance");
+    } else if (word.endsWith("ibelkeit")) {
+      suggestion = word.replaceFirst("elkeit$", "ilität");
+      if (!hunspellDict.misspelled(suggestion)) {
+        return Collections.singletonList(suggestion);
+      }
     } else if (word.endsWith("standart")) {
       suggestion = word.replaceFirst("standart$", "standard");
       if (!hunspellDict.misspelled(suggestion)) {

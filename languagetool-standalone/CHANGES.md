@@ -96,7 +96,7 @@
   * New rule that checks coherency of hyphen usage in compounds, e.g. it complains
     when "Ärzteverband" and "Ärzte-Verband" are both used in the same text. While both
     spellings are correct, it's probably a good idea to stick to one spelling.
-  * improved POS tagging of hyphenated compounds (e.g., "CO2-arm" is recgonized as a variant of "arm")
+  * improved POS tagging of hyphenated compounds (e.g., "CO2-arm" is recognized as a variant of "arm")
 
 #### Polish
   * added rules
