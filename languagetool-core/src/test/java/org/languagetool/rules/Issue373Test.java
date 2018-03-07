@@ -76,12 +76,18 @@ public class Issue373Test {
     testString(wrongString, correctString, "BIT_62");
   }
 
-
   @Test
   public void testIssue1() throws Exception {
     String wrongString = "She lived several years in south America.";
     String correctString = "She lived several years in South America.";
     testString(wrongString, correctString, "ISSUE_373_TEST_ISSUE_1");
+  }
+
+  @Test
+  public void testFrprt() throws Exception {
+    String wrongString = "This is foo bar";
+    String correctString = "This is foo bar";
+    testString(wrongString, correctString, "FromRegexpPatternRuleTest");
   }
 
   private void testString(String wrongString, String correctString, String ruleId) throws IOException {
