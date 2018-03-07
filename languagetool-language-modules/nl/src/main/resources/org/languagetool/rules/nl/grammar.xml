@@ -217,6 +217,22 @@ regexp case-insensitive maken : (?i)
 		<rulegroup id="ALLEEN_BE" name="Alleen gebruikelijk in België">
 			<rule>
 				<pattern>
+					<token inflected="yes">depannage</token>
+				</pattern>
+				<message>Standaardtaal in België is 'pechverhelping'. In Nederland is 'pechhulp' standaard.</message>
+				<url>http://taaladvies.net/taal/advies/vraag/201</url>
+				<example type="incorrect">We wachten op de <marker>depannage</marker>.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token inflected="yes">catalogeren</token>
+				</pattern>
+				<message>Standaardtaal in hele taalgebied is het 'catalogiseren'.</message>
+				<url>http://taaladvies.net/taal/advies/vraag/161</url>
+				<example type="incorrect">We moeten de regels nog <marker>catalogeren</marker>.</example>
+			</rule>
+			<rule>
+				<pattern>
 					<token inflected="yes">bouwwerf</token>
 				</pattern>
 				<message>Standaardtaal in hele taalgebied is het 'bouwplaats' of 'bouwterrein'.</message>
@@ -473,6 +489,14 @@ regexp case-insensitive maken : (?i)
 			</rule>
 		</rulegroup>
 		<rulegroup id="ALLEEN_NL" name="Alleen bekend in Nederland">
+			<rule>
+				<pattern>
+					<token inflected="yes">pechhulp</token>
+				</pattern>
+				<message>Standaardtaal in België is 'pechverhelping'.</message>
+				<url>http://taaladvies.net/taal/advies/vraag/201</url>
+				<example type="incorrect">We wachten op de <marker>pechhulp</marker>.</example>
+			</rule>
 			<rule>
 				<pattern>
 					<token regexp="yes">bijstandsuitkering|beunhaas|bof|flappentap|gevarentoeslag|hartstikke|hotemetoot|kippig|koopgoot|lakspuiter|opgeprikt|opportunist|publiekswissel|rijstrook|schrobbering|spacewagon|tent|verstandskies|vouwfiets</token>
@@ -17780,29 +17804,22 @@ regexp case-insensitive maken : (?i)
 		</rulegroup>
 	</category>
 	<category id="CONFUSED_WORDS" name="Woordverwarring">
-		<!--
-		<rulegroup id="BREI_BRIJ" name="brei , brij">
-		<rule>
-		<pattern>
-		<token>brei</token>
-		</pattern>
-		<message>Brei is van het werkwoord 'breien', een prutje is een <suggestion>brij</suggestion>.</message>
-		<url>https://onzetaal.nl/taaladvies/advies/brij-brei</url>
-		<short>Brei of brij</short>
-		<example correction="brij">Hij at de <marker>brei</marker> op.</example>
-		</rule>
-		<rule>
-		<pattern>
-		<token>brij</token>
-		</pattern>
-		<message>Een 'brij' is een prutje, van breien is de ik-vorm <suggestion>brei</suggestion>.</message>
-		<url>https://onzetaal.nl/taaladvies/advies/brij-brei</url>
-		<short>Brei of brij</short>
-		<example correction="brei">Ik <marker>brij</marker> een sok.</example>
-		</rule>
-		</rulegroup>
-		-->
 
+		<rulegroup id="BREI_BRIJ" name="brei , brij">
+            <rule>
+                <pattern>
+                    <token regexp="yes">de|hete</token>
+                    <marker>
+                        <token>brei</token>
+                    </marker>
+                </pattern>
+                <message>Een prutje is een <suggestion>brij</suggestion>.</message>
+                <url>https://onzetaal.nl/taaladvies/advies/brij-brei</url>
+                <short>Brei of brij</short>
+                <example correction="brij">Hij at de <marker>brei</marker> op.</example>
+            </rule>
+        </rulegroup>
+        
         <rulegroup id="LOSSE_LETTERS" name="losse letters verbeteren">
             <rule>
                 <antipattern case_sensitive="yes"><token>B</token><token>en</token><token>W</token></antipattern>
