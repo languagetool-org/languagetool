@@ -221,7 +221,7 @@ regexp case-insensitive maken : (?i)
 				</pattern>
                 <message>In Nederland kent men dit woord niet; 'muntje' of 'penning' is bekend in het hele taalgebied.</message>
 				<url>http://taaladvies.net/taal/advies/vraag/443</url>
-				<example type="incorrect">Het is een <marker>jeton</marker>.</example>
+ 				<example type="incorrect">Het is een <marker>jeton</marker>.</example> 
 			</rule>            
 			<rule>
 				<pattern>
@@ -18365,6 +18365,20 @@ regexp case-insensitive maken : (?i)
 
 	</category>
 	<category id="OVERIG" name="Diverse regels">
+        <rulegroup id="ALS_IK_JIJ_WAS" name="Als ik jij was → als ik jou was">
+            <rule>
+                <pattern>
+                    <token>als</token>
+                    <token>ik</token>
+                    <marker>
+                        <token>jij</token>
+                    </marker>
+                    <token>was</token>
+                </pattern>
+                <message>Juist is: <suggestion>jou</suggestion>.</message>
+                <example correction="jou">Als ik <marker>jij</marker> was, zou ik het corrigeren.</example>
+            </rule>
+        </rulegroup>         
         <rulegroup id="IN_EN_EXPORT" name="in- en export → im- en export">
             <rule>
                 <pattern>
