@@ -14396,6 +14396,31 @@ USA
                 <example type="triggers_error">He accuses the public health lobby of being just <marker>as big as</marker> big business.</example>
             </rule>
         </rulegroup>
+        <rule id="ACCORDING_TO" name="according to">
+            <antipattern>
+                <token>according</token>
+                <token postag="DT"/>
+            </antipattern>
+            <antipattern>
+                <token>according</token>
+                <token>as</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token>according</token>
+                    <token negate="yes">to</token>
+                </marker>
+            </pattern>
+            <message>Did you mean: <suggestion>according to</suggestion>? according to: (as stated/in the opinion of)</message>
+            <short>Wrong preposition: according to</short>
+            <example correction="According to"><marker>According about</marker> a recent survey, most smokers suffer from cancer.</example>
+            <example correction="according to">He was acquitted, because he was innocent <marker>according in</marker> the Jury.</example>
+            <example><marker>According to</marker> a recent survey, most smokers suffer from cancer.</example>
+            <example>He was acquitted, because he was innocent <marker>according to</marker> the Jury.</example>
+            <example>We breathe life into this prized democratic value by <marker>according the</marker> Chief Justice due process of law.</example>
+            <example>'<marker>According as</marker>' is a conjuction (Merriam-Webster's Collegiate Dictionary, 10th edition).</example>
+            <example>'<marker>Accord with</marker>' is a verb, but it is not usually used in the progressive.</example>
+        </rule>
     </category>
 
     <!-- ====================================================================== -->
