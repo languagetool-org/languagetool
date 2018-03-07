@@ -18356,7 +18356,17 @@ regexp case-insensitive maken : (?i)
 
 	</category>
 	<category id="OVERIG" name="Diverse regels">
-        
+        <rulegroup id="IN_EN_EXPORT" name="in- en export → im- en export">
+            <rule>
+                <pattern>
+                    <token regexp="yes">in|in-</token>
+                    <token regexp="yes">en|of</token>
+                    <token>export</token>
+                </pattern>
+                <message>Juist is: <suggestion>im- \2 \3</suggestion>.</message>
+                <example correction="im- en export">Hij werkt in de <marker>in- en export</marker>.</example>
+            </rule>
+        </rulegroup>        
         <rulegroup id="VTD_GEWORDEN" name="Gebruikt geworden → gebruikt">
             <rule>
                 <pattern>
