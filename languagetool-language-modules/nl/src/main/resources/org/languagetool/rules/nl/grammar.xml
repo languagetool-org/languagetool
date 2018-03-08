@@ -3292,7 +3292,7 @@ regexp case-insensitive maken : (?i)
 			</rule>
 		</rulegroup>
 
-		<rulegroup id="DES_DE" name="des de / des te">
+		<rulegroup id="DES_DE" name="des de → des te">
 			<rule>
 				<pattern>
 					<token case_sensitive="yes">des</token>
@@ -4786,7 +4786,7 @@ regexp case-insensitive maken : (?i)
         </rulegroup>
     </category>
 	<category id="CASING" name="Hoofdletters">
-        <rulegroup id="NIEUW_ZEELAND" name="nieuw zeelander / Nieuw-Zeelander">
+        <rulegroup id="NIEUW_ZEELAND" name="nieuw zeelander → Nieuw-Zeelander">
             <!-- 2014-08-21 TaalTik regel komt vaak op, maar terecht, vooral bij afkortingen met een onterechte hoofdletter. -->
             <rule>
                 <pattern>
@@ -5171,7 +5171,16 @@ regexp case-insensitive maken : (?i)
 		</rulegroup>
 	</category>
 	<category id="COLLOQUIALISMS" name="Informeel">
-        <rulegroup id="EFFE" name="effe / even">
+        <rulegroup id="OVERNIEUW" name="overnieuw → opnieuw">
+            <rule>
+                <pattern>
+                    <token>overnieuw</token>
+                </pattern>
+                <message>Dit is spreektaal. Beter is <suggestion>opnieuw</suggestion> of <suggestion>over</suggestion>.</message>
+                <example correction="opnieuw|over">Ik doe het <marker>overnieuw</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="EFFE" name="effe → even">
             <rule>
                 <pattern>
                     <token>effe</token>
@@ -5180,7 +5189,7 @@ regexp case-insensitive maken : (?i)
                 <example correction="even">Ik heb er <marker>effe</marker> tijd aan besteed.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="EEN_BOEL" name="een boel / veel">
+        <rulegroup id="EEN_BOEL" name="een boel → veel">
             <rule>
                 <pattern>
                     <token>een</token>
@@ -5190,7 +5199,7 @@ regexp case-insensitive maken : (?i)
                 <example correction="veel">Ik heb er <marker>een heleboel</marker> tijd aan besteed.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="NIKS" name="niks / niets">
+        <rulegroup id="NIKS" name="niks → niets">
             <rule>
                 <pattern>
                     <token>niks</token>
@@ -15944,7 +15953,7 @@ regexp case-insensitive maken : (?i)
 		<example>A <marker>zien; tijdelijk de functie hebben van</marker>.</example>
 		</rule>
 		-->
-		<rulegroup id="AL_WEER" name="al weer / alweer">
+		<rulegroup id="AL_WEER" name="al weer → alweer">
 			<rule>
 				<pattern>
 					<token>al</token>
@@ -16469,7 +16478,7 @@ regexp case-insensitive maken : (?i)
 		</rulegroup>
 		-->
 		
-		<rulegroup id="WEIDE_WERELD" name="weide wereld / wijde wereld">
+		<rulegroup id="WEIDE_WERELD" name="weide wereld → wijde wereld">
 			<rule>
 				<pattern>
 					<token>weide</token>
@@ -16767,7 +16776,7 @@ regexp case-insensitive maken : (?i)
 		
 	</category>
 	<category id="VASTE_UITDRUKKINGEN" name="Vaste uitdrukkingen">
-		<rulegroup id="NAAR_VERLOOP" name="naar verloop van / na verloop van">
+		<rulegroup id="NAAR_VERLOOP" name="naar verloop van → na verloop van">
 			<rule>
 				<pattern>
 					<token>naar</token>
@@ -17323,7 +17332,7 @@ regexp case-insensitive maken : (?i)
 		</rule>
 		-->
 		
-		<rulegroup id="KOSTE" name="koste / kostte / kosten">
+		<rulegroup id="KOSTE" name="koste → kostte → kosten">
 			<rule>
 				<!-- 2014-08-22 TaalTik -->
 				<antipattern><token>ten</token><token>koste</token></antipattern>
@@ -17490,7 +17499,7 @@ regexp case-insensitive maken : (?i)
 			</rule>
 		</rulegroup>
 		
-		<rulegroup id="GENE" name="gene / geen">
+		<rulegroup id="GENE" name="gene → geen">
 			<rule>
 				<antipattern><token>gene</token><token>zijde</token></antipattern>
 				<antipattern><token>deze</token><token>of</token><token>gene</token></antipattern>
@@ -18819,11 +18828,6 @@ regexp case-insensitive maken : (?i)
 
         <rulegroup id="DEELTEKEN" name="/">
             <rule>
-                <!-- 2014-08-20 TaalTik
-                regel geeft veel te veel meldingen
-                daarom aangepast dat alleen melding wordt gegeven bij langere termen en een spacebefore
-                TODO: nieuwe werking controleren
-                -->
                 <pattern>
                     <token><exception regexp="yes">[./]</exception></token>
                     <marker>
