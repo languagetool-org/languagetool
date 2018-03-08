@@ -24,7 +24,10 @@ import java.util.List;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.tools.Tools;
 
+import com.sun.star.beans.UnknownPropertyException;
+import com.sun.star.beans.XPropertySet;
 import com.sun.star.frame.XDesktop;
+import com.sun.star.lang.WrappedTargetException;
 import com.sun.star.lang.XComponent;
 import com.sun.star.lang.XMultiComponentFactory;
 import com.sun.star.text.TextMarkupType;
@@ -238,5 +241,65 @@ public class LOFlatParagraph {
       return -1;             // Return -1 as method failed
     }
   }
+
+  /** 
+   * Returns positions of properties by name 
+   */
+  private int[] getPropertyValues(String propName, XFlatParagraph xFlatPara) {
+    if (xFlatPara == null) {
+      return  new int[]{};
+    }
+    XPropertySet paraProps = (XPropertySet) UnoRuntime.queryInterface(XPropertySet.class, xFlatPara);
+    if (paraProps == null) {
+      Main.printToLogFile("XPropertySet == null");
+      return  new int[]{};
+    }
+    Object propertyValue;
+    try {
+      propertyValue = paraProps.getPropertyValue(propName);
+      if (propertyValue instanceof int[]) {
+        return (int[]) propertyValue;
+      } else {
+        Main.printToLogFile("Not of expected type int[]: " + propertyValue + ": " + propertyValue);
+      }
+    } catch (UnknownPropertyException e) {
+      printException(e);
+    } catch (WrappedTargetException e) {
+      printException(e);
+    }
+    return new int[]{};
+  }
+  
+  /** 
+   * Returns the absolute positions of all footnotes (and endnotes) of the text
+   */
+  public List<int[]> getFootnotePositions() {
+    List<int[]> paraPositions = new ArrayList<int[]>();
+    try {
+      if(xFlatParaIter == null || xFlatPara == null) {
+        return paraPositions;
+      }
+
+      XFlatParagraph tmpFlatPara = xFlatPara;
+      XFlatParagraph lastFlatPara = xFlatPara;
+
+      while (tmpFlatPara != null) {
+        lastFlatPara = tmpFlatPara;
+        tmpFlatPara = xFlatParaIter.getParaBefore(tmpFlatPara);
+      }
+      tmpFlatPara = lastFlatPara;
+      while (tmpFlatPara != null) {
+        int[] footnotePositions = getPropertyValues("FootnotePositions", tmpFlatPara);
+        paraPositions.add(footnotePositions);
+        tmpFlatPara = xFlatParaIter.getParaAfter(tmpFlatPara);
+      }
+      return paraPositions;
+    } catch (Exception e) {
+      printException(e);        // all Exceptions thrown by UnoRuntime.queryInterface are caught
+      return paraPositions;     // Return empty list as method failed
+    }
+  }
+
+
   
 }
