@@ -18702,6 +18702,19 @@ regexp case-insensitive maken : (?i)
 
 	</category>
 	<category id="OVERIG" name="Diverse regels">
+        <rulegroup id="TEVERGEEFSE" name="tevergeefse → vergeefse">
+            <rule>
+                <pattern>
+                    <marker>
+                    <token>tevergeefse</token>
+                    </marker>
+                    <token postag_regexp="yes" postag="ZNW.*"/>
+                </pattern>
+                <message>Tevergeefse mag niet meteen voor een zelfstandig naamwoord; gebruik: <suggestion>vergeefse</suggestion>.</message>
+                <url>http://taaladvies.net/taal/advies/vraag/790</url>
+                <example correction="vergeefse">Ik deed een <marker>tevergeefse</marker> poging.</example>
+            </rule>
+        </rulegroup>         
         <rulegroup id="PROF_DR" name="Plaatsingsbureau → arbeidsbureau">
             <rule>
                 <pattern>
