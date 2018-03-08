@@ -26695,7 +26695,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token>segons</token>
                     <token regexp="yes">allò|l'</token>
-                    <token postag="V.P.*" postag_regexp="yes" inflected="yes" regexp="yes">indicar|establir|assenyalar|afirmar</token>
+                    <token postag="V.P.*" postag_regexp="yes" inflected="yes" regexp="yes">indicar|establir|assenyalar|afirmar|exposar</token>
                     <token>en</token>
                 </pattern>
                 <message>Expressió incorrecta.</message>
@@ -26719,11 +26719,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
+                    <token>per</token>
+                    <token min="0">tot</token>
+                    <marker>
+                        <token regexp="yes">allò|l'</token>
+                        <token postag="V.P.*" postag_regexp="yes" inflected="yes" regexp="yes">indicar|establir|assenyalar|afirmar|exposar</token>
+                    </marker>
+                </pattern>
+                <message>Expressió incorrecta.</message>
+                <suggestion>el que s'ha \4</suggestion>
+                <suggestion>el que ha estat \4</suggestion>
+                <example correction="el que s'ha exposat|el que ha estat exposat">Per tot <marker>l'exposat</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token>d'</token>
                     <token>acord</token>
                     <token regexp="yes">a|amb</token>
                     <token regexp="yes">allò|l'</token>
-                    <token postag="V.P.*" postag_regexp="yes" inflected="yes" regexp="yes">indicar|establir</token>
+                    <token postag="V.P.*" postag_regexp="yes" inflected="yes" regexp="yes">indicar|establir|exposar</token>
                     <token>en</token>
                 </pattern>
                 <message>Expressió incorrecta.</message>
