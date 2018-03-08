@@ -245,6 +245,12 @@ regexp case-insensitive maken : (?i)
 	</category>
 	<category id="BE_NL" name="Verschil België en Nederland">
 		<rulegroup id="ALLEEN_BE" name="Alleen gebruikelijk in België">
+            <rule>
+                <regexp>(zich|hem|ons|hen|haar).*(situeren|situeer|situeerde|situeerden|gesitueerd)|(situeren|situeer|situeerde|situeerden|gesitueerd).*(zich|hem|ons|hen|haar)</regexp>
+                <message>Bij situeren hoort geen zich.</message>
+                <example type="incorrect">Hij kan <marker>zich niet situeren</marker> in de toekomst.</example>
+            </rule>
+            
 			<rule>
 				<pattern>
                     <token inflected="yes">schoonbroer</token>
