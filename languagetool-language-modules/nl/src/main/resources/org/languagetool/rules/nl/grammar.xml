@@ -181,6 +181,11 @@ regexp case-insensitive maken : (?i)
 
 	<category id="HINTS_CAT" name="Geen fout, maar er is een gerelateerd advies" default ="on">
 		<rulegroup id="HINTS" name="Taaladvies over woord of woordgroep">
+			<rule><pattern><token>in</token><token>het</token><token>continent</token></pattern>
+                <message>Hier is een taaladvies over.</message>
+                <url>http://taaladvies.net/taal/advies/vraag/626</url>
+                <example type="incorrect">Taaladvies over <marker>in het continent</marker>.</example> 
+			</rule>
 			<rule><pattern><token>onthaal</token></pattern>
                 <message>Hier is een taaladvies over.</message>
                 <url>http://taaladvies.net/taal/advies/vraag/619</url>
@@ -13097,6 +13102,18 @@ regexp case-insensitive maken : (?i)
 				<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
 				<example correction="kiezen">A <marker>opteren</marker> voor B.</example>
 				<example>A <marker>kiezen</marker> voor.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="ZO_OPTIMAAL_MOGELIJK" name="zo optimaal mogelijk">
+			<rule>
+				<pattern>
+					<token>zo</token>
+					<token>optimaal</token>
+					<token>mogelijk</token>
+				</pattern>
+                <message>Optimaal is al zo goed mogelijk: <suggestion>optimaal</suggestion> of <suggestion>zo goed mogelijk</suggestion>.</message>
+				<url>http://taaladvies.net/taal/advies/vraag/631</url>
+				<example correction="optimaal|zo goed mogelijk">Deze regel is <marker>zo optimaal mogelijk</marker> gemaakt.</example>
 			</rule>
 		</rulegroup>
 		<rulegroup id="OPTIMAAL" name="optimaal">
