@@ -18,6 +18,7 @@
  */
 package org.languagetool;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.languagetool.language.*;
 import org.languagetool.markup.AnnotatedText;
@@ -25,11 +26,15 @@ import org.languagetool.markup.AnnotatedTextBuilder;
 import org.languagetool.rules.CategoryId;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.TextLevelRule;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
@@ -246,6 +251,93 @@ public class JLanguageToolTest {
     assertThat(cache.hitCount(), is(8L));
     assertThat(ltWithCache.check("Ein Delphin. Noch ein Delphin.").size(), is(0));   // try again - no state is kept
     assertThat(cache.hitCount(), is(12L));
+  }
+
+  private class IgnoreInterval {
+    int left, right;
+
+    IgnoreInterval(int left, int right) {
+      this.left = left;
+      this.right = right;
+    }
+
+    boolean contains(int position) {
+      return left <= position & position <= right;
+    }
+  }
+
+  private List<IgnoreInterval> calculateIgnoreIntervals(String message, boolean ignoreQuotes,
+                                                        boolean ignoreBrackets) {
+    String ignorePattern = "(<.+>[^<]+</.+>)";
+    if (ignoreQuotes)
+      ignorePattern += "|('[^']+')|(\"[^\"]\")";
+    if (ignoreBrackets)
+      ignorePattern += "|(\\([^)]+\\))";
+    Matcher ignoreMat = Pattern.compile(ignorePattern).matcher(message);
+
+    List<IgnoreInterval> ignoreIntervals = new ArrayList<>();
+    if (ignoreMat.find()) {
+      for (int i = 0; i < ignoreMat.groupCount(); i++) {
+        ignoreIntervals.add(new IgnoreInterval(ignoreMat.start(i), ignoreMat.end(i)));
+      }
+    }
+    return ignoreIntervals;
+  }
+
+  private String getRuleMessage(Rule rule, JLanguageTool languageTool) throws Exception {
+    Pattern p = Pattern.compile("<.+>([^<]+)</.+>");
+    String example = rule.getIncorrectExamples().get(0).getExample();
+    example = p.matcher(example).replaceAll("$1");
+    List<AnalyzedSentence> sentences = languageTool.analyzeText(example);
+
+    RuleMatch[] matches;
+    if (rule instanceof TextLevelRule)
+      matches = ((TextLevelRule) rule).match(sentences);
+    else
+      matches = rule.match(sentences.get(0));
+
+    if (matches.length == 0)
+      return null;
+    return matches[0].getMessage();
+  }
+
+  @Test
+  @Ignore
+  public void testRuleMessages() throws Exception {
+    JLanguageTool langTool = new JLanguageTool(english);
+    String[] rulesDisabled = {"EN_QUOTES", "UPPERCASE_SENTENCE_START", "WHITESPACE_RULE",
+            "EN_UNPAIRED_BRACKETS", "DASH_RULE", "COMMA_PARENTHESIS_WHITESPACE"};
+    langTool.disableRules(Arrays.asList(rulesDisabled));
+    int matchesCounter = 0;
+
+    List<Rule> rules = langTool.getAllRules();
+    for (Rule rule : rules) {
+      if (rule.getIncorrectExamples().size() == 0)
+        continue;
+      String message = getRuleMessage(rule, langTool);
+      if (message == null)
+        continue;
+      List<RuleMatch> allMatches = langTool.check(message);
+
+      // Ignore errors inside <>..</>, '..', "..", (..)
+      List<IgnoreInterval> ignoreIntervals = calculateIgnoreIntervals(message, true, true);
+      matches:
+      for (RuleMatch ruleMatch : allMatches) {
+        if (ruleMatch.getRule().getId().equals(rule.getId()))
+          continue;
+        for (IgnoreInterval interval : ignoreIntervals) {
+          if (interval.contains(ruleMatch.getFromPos()) ||
+                  interval.contains(ruleMatch.getToPos()))
+            continue matches;
+        }
+        System.out.println(String.format("Rule: %s\nMessage: %s\nMatch:\n%s: %s",
+                rule.getId(), message, ruleMatch.getRule().getId(), ruleMatch.getMessage()));
+        System.out.println("-------");
+        matchesCounter++;
+      }
+    }
+    System.out.println("Total matches:" + matchesCounter);
+    assertThat(matchesCounter, is(0));
   }
 
 }
