@@ -87,7 +87,6 @@ regexp case-insensitive maken : (?i)
 	</category>
 	-->
 	<category id="SEMANTICS" name="Aandachtspunten in de betekenis en consistentie." >
-		
 		<rulegroup id="DATE_WEEKDAY" name="Dag komt niet overeen met datum">
 			<rule>
 				<pattern>
@@ -179,40 +178,16 @@ regexp case-insensitive maken : (?i)
 			</rule>
 		</rulegroup>
 	</category>
-	
-	<!--
-	<category id="GROEN" name="Groene spelling - verplicht voor overheid en onderwijs" default ="on">
+
+	<category id="HINTS_CAT" name="Geen fout, maar er is een gerelateerd advies" default ="on">
+		<rulegroup id="HINTS" name="Taaladvies over woord of woordgroep">
+			<rule><pattern><token inflected="yes" regexp="yes">materiaal|materieel</token></pattern>
+            <message>Hier is een taaladvies over.</message>
+			<url>http://taaladvies.net/taal/advies/vraag/523</url>
+			<example type="incorrect">Taaladvies over <marker>materiaal</marker>.</example> 
+			</rule>
+        </rulegroup>
 	</category>
-	-->
-	<!--
-	<category id="WITTE_SPELLING" name="Witte spelling - geaccepteerd buiten overheid en onderwijs" default ="on">
-	<rulegroup id="RESTAURANTS" name="italiaan => Italiaan">
-	<rule>
-	<pattern>
-	<token case_sensitive="yes" regexp="yes" >italiaan|turk|griek</token>
-	</pattern>
-	<message>In de witte spelling horen de namen van restaurants ook een hoofdletter te krijgen: <suggestion><match no="1" case_conversion="startupper"/></suggestion>.</message>
-	<url>https://web.archive.org/web/20150327025155/https://onzetaal.nl/taaladvies/advies/chinezen-bij-de-chinees</url>
-	<short>Hoofdletter</short>
-	<example correction="Italiaan">Hij at bij de <marker>italiaan</marker>.</example>
-	</rule>
-	
-	<rule>
-	<pattern >
-	<token><exception>ik</exception></token>
-	<marker>
-	<token case_sensitive="yes" >chinees</token>
-	</marker>
-	</pattern>
-	<message>In de witte spelling horen de namen van restaurants net als de taal een hoofdletter te krijgen: <suggestion><match no="1" case_conversion="startupper"/></suggestion>.</message>
-	<url>https://web.archive.org/web/20150327025155/https://onzetaal.nl/taaladvies/advies/chinezen-bij-de-chinees</url>
-	<short>Hoofdletter</short>
-	<example correction="De">Hij at bij de <marker>chinees</marker>.</example>
-	<example>Ik <marker>chinees</marker> bij de Chinees.</example>
-	</rule>
-	</rulegroup>
-	</category>
-	-->
 	<category id="BE_NL" name="Verschil België en Nederland">
 		<rulegroup id="ALLEEN_BE" name="Alleen gebruikelijk in België">
 			<rule>
