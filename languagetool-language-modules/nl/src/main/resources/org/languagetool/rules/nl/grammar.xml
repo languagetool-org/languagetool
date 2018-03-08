@@ -259,7 +259,20 @@ regexp case-insensitive maken : (?i)
                 <regexp>(zich|hem|ons|hen|haar).*(situeren|situeer|situeerde|situeerden|gesitueerd)|(situeren|situeer|situeerde|situeerden|gesitueerd).*(zich|hem|ons|hen|haar)</regexp>
                 <message>Bij situeren hoort geen zich.</message>
                 <example type="incorrect">Hij kan <marker>zich niet situeren</marker> in de toekomst.</example>
-            </rule>
+            </rule>          
+			<rule>
+				<pattern>
+                    <marker>
+                        <token skip="3">tegen</token>
+                    </marker>
+                    <token>snelheid</token>
+				</pattern>
+                <message>Standaardtaal is: <suggestion>met</suggestion>.</message>
+				<url>http://taaladvies.net/taal/advies/vraag/780</url>
+                <example correction="met">Hij reed <marker>tegen</marker> een constante snelheid.</example> 
+                <example correction="met">Hij reed <marker>tegen</marker> een veel lagere snelheid .</example> 
+                <example correction="met">Die liet ze <marker>tegen</marker> een snelheid van 40 kilometer per uur tegen een betonblok botsen.</example>
+			</rule>              
 			<rule>
 				<pattern>
                     <marker>
