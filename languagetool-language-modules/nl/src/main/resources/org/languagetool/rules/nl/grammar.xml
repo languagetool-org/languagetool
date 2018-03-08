@@ -227,6 +227,14 @@ regexp case-insensitive maken : (?i)
 		<rulegroup id="ALLEEN_BE" name="Alleen gebruikelijk in België">
 			<rule>
 				<pattern>
+                    <token>plattekaas</token>
+				</pattern>
+                <message>Dit is ongebruikelijk in Nederland. Standaardtaal in heel het taalgebied is <suggestion>kwark</suggestion>.</message>
+				<url>http://taaladvies.net/taal/advies/vraag/662</url>
+ 				<example correction="kwark">Het is <marker>plattekaas</marker>.</example> 
+			</rule>                
+			<rule>
+				<pattern>
                     <token regexp="yes">piloot....*</token>
 				</pattern>
                 <message>Dit is ongebruikelijk in Nederland. Standaardtaal in heel het taalgebied is 'proef~', 'model~' of 'test~'.</message>
@@ -18531,6 +18539,20 @@ regexp case-insensitive maken : (?i)
 
 	</category>
 	<category id="OVERIG" name="Diverse regels">
+        
+        <rulegroup id="PROF_DR" name="Plaatsingsbureau → arbeidsbureau">
+            <rule>
+                <pattern>
+                    <token>prof</token>
+                    <token spacebefore="no">.</token>
+                    <token spacebefore="no">dr</token>
+                    <token spacebefore="no">.</token>
+                </pattern>
+                <message>Hier hoort een spatie tussen: <suggestion>\1\2 \3\4</suggestion>.</message>
+                <url>http://taaladvies.net/taal/advies/vraag/678</url>
+                <example correction="prof. dr.">Ik zie <marker>prof.dr.</marker> Hajema.</example>
+            </rule>
+        </rulegroup>         
         <rulegroup id="PLAATSINGSBUREAU" name="Plaatsingsbureau → arbeidsbureau">
             <rule>
                 <pattern>
