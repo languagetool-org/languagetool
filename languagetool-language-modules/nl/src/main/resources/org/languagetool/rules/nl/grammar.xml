@@ -207,6 +207,14 @@ regexp case-insensitive maken : (?i)
 		<rulegroup id="ALLEEN_BE" name="Alleen gebruikelijk in België">
 			<rule>
 				<pattern>
+                    <token inflected="yes">navorser</token>
+				</pattern>
+                <message>Dit is geen Standaardtaal; 'onderzoeker' is gebruikelijk in het hele taalgebied.</message>
+				<url>http://taaladvies.net/taal/advies/vraag/571</url>
+ 				<example type="incorrect">Het is een <marker>navorser</marker>.</example> 
+			</rule>              
+			<rule>
+				<pattern>
                     <token inflected="yes">milicien</token>
 				</pattern>
                 <message>In Nederland kent men dit woord niet; 'dienstplichtige' is bekend in het hele taalgebied.</message>
@@ -18410,6 +18418,18 @@ regexp case-insensitive maken : (?i)
 
 	</category>
 	<category id="OVERIG" name="Diverse regels">
+        <rulegroup id="NIET_DAN_NADAT" name="Niet dan nadat → pas nadat">
+            <rule>
+                <pattern>
+                    <token>niet</token>
+                    <token>dan</token>
+                    <token>nadat</token>
+                </pattern>
+                <message>Onnodig formeel en ouderwets. Gebruik: <suggestion>pas nadat</suggestion>.</message>
+                <url>http://taaladvies.net/taal/advies/vraag/577</url>
+                <example correction="pas nadat">Hij sloot de vergadering maar <marker>niet dan nadat</marker> de rondvraag plaatsvond.</example>
+            </rule>
+        </rulegroup>         
         <rulegroup id="ALS_IK_JIJ_WAS" name="Als ik jij was → als ik jou was">
             <rule>
                 <pattern>
