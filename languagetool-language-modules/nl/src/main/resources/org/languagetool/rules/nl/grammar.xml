@@ -182,10 +182,20 @@ regexp case-insensitive maken : (?i)
 	<category id="HINTS_CAT" name="Geen fout, maar er is een gerelateerd advies" default ="on">
 		<rulegroup id="HINTS" name="Taaladvies over woord of woordgroep">
 			<rule><pattern><token inflected="yes" regexp="yes">materiaal|materieel</token></pattern>
-            <message>Hier is een taaladvies over.</message>
-			<url>http://taaladvies.net/taal/advies/vraag/523</url>
-			<example type="incorrect">Taaladvies over <marker>materiaal</marker>.</example> 
+                <message>Hier is een taaladvies over.</message>
+                <url>http://taaladvies.net/taal/advies/vraag/523</url>
+                <example type="incorrect">Taaladvies over <marker>materiaal</marker>.</example> 
 			</rule>
+			<rule><pattern><token>mekaar</token></pattern>
+                <message>Hier is een taaladvies over.</message>
+                <url>http://taaladvies.net/taal/advies/vraag/530</url>
+                <example type="incorrect">Taaladvies over <marker>mekaar</marker>.</example> 
+			</rule>            
+			<rule><pattern><token>hoogachtend</token></pattern>
+                <message>Hier is een taaladvies over.</message>
+                <url>http://taaladvies.net/taal/advies/vraag/539</url>
+                <example type="incorrect">Taaladvies over <marker>hoogachtend</marker>.</example> 
+			</rule>            
         </rulegroup>
 	</category>
 	<category id="BE_NL" name="Verschil België en Nederland">
@@ -16591,9 +16601,8 @@ regexp case-insensitive maken : (?i)
 		
 		<rulegroup id="VAAG" name="vage taal">
 			<rule>
-				<!-- TODO: weer op 'off'zetten na testen -->
 				<pattern>
-					<token regexp="yes">dingen|alles|ergens|ooit|wellicht|misschien</token>
+					<token regexp="yes">dingen|alles|ergens|ooit|wellicht|misschien|men</token>
 				</pattern>
 				<message>Woorden als '<match no="1"/>' kunnen een tekst vaag maken.</message>
 				<example type="incorrect">Deze zin is <marker>ergens</marker> wel vaag hoor!</example>
@@ -18434,7 +18443,17 @@ regexp case-insensitive maken : (?i)
                 <example correction="niet de minste">Hij is <marker>geen de minste</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="AANHEF" name="Geachte mijnheer → Geachte heer">
+        <rulegroup id="AANHEF1" name="Mijne heren → Geachte heer">
+            <rule>
+                <pattern>
+                    <token>mijne</token>
+                    <token>heren</token>
+                </pattern>
+                <message>Moderner en beter is <suggestion>geachte heer</suggestion>.</message>
+                <example correction="Geachte heer"><marker>Mijne heren</marker>, ik begin deze brief.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AANHEF2" name="Geachte mijnheer → Geachte heer">
             <rule>
                 <pattern>
                     <token>geachte</token>
