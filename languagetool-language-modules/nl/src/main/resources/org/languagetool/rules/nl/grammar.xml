@@ -217,6 +217,14 @@ regexp case-insensitive maken : (?i)
 		<rulegroup id="ALLEEN_BE" name="Alleen gebruikelijk in België">
 			<rule>
 				<pattern>
+                    <token regexp="yes">(kinesist|kinesitherapeut)(e|en){0,1}</token>
+				</pattern>
+                <message>In Nederland kent men dit woord niet; 'fysiotherapeut' is bekend in Nederland.</message>
+				<url>http://taaladvies.net/taal/advies/vraag/457</url>
+ 				<example type="incorrect">Het is een <marker>kinesist</marker>.</example> 
+			</rule>            
+			<rule>
+				<pattern>
                     <token inflected="yes">jobstudent</token>
 				</pattern>
                 <message>In Nederland kent men dit woord niet; 'werkstudent' is bekend in het hele taalgebied.</message>
