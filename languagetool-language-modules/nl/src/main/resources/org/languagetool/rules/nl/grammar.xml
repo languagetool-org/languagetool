@@ -181,7 +181,12 @@ regexp case-insensitive maken : (?i)
 
 	<category id="HINTS_CAT" name="Geen fout, maar er is een gerelateerd advies" default ="on">
 		<rulegroup id="HINTS" name="Taaladvies over woord of woordgroep">
-			<rule><pattern><token inflected="yes">quasi</token></pattern>
+			<rule><pattern><token>randstad</token></pattern>
+                <message>Hier is een taaladvies over.</message>
+                <url>http://taaladvies.net/taal/advies/vraag/692</url>
+                <example type="incorrect">Taaladvies over <marker>randstad</marker>.</example> 
+			</rule>
+            <rule><pattern><token inflected="yes">quasi</token></pattern>
                 <message>Hier is een taaladvies over.</message>
                 <url>http://taaladvies.net/taal/advies/vraag/689</url>
                 <example type="incorrect">Taaladvies over <marker>quasi</marker>.</example> 
@@ -240,6 +245,22 @@ regexp case-insensitive maken : (?i)
 	</category>
 	<category id="BE_NL" name="Verschil België en Nederland">
 		<rulegroup id="ALLEEN_BE" name="Alleen gebruikelijk in België">
+			<rule>
+				<pattern>
+                    <token inflected="yes">rondpunt</token>
+				</pattern>
+                <message>Dit is ongebruikelijk in Nederland. In het hele taalgebied is het een <suggestion>rotonde</suggestion>..</message>
+				<url>http://taaladvies.net/taal/advies/vraag/721</url>
+ 				<example correction="rotonde">We rijden over een <marker>rondpunt</marker>.</example> 
+			</rule>              
+			<rule>
+				<pattern>
+                    <token inflected="yes">ronddragen</token>
+				</pattern>
+                <message>In de betekenis 'bezorgen' is dit ongebruikelijk in Nederland. In het hele taalgebied kun je 'rondbrengen'.</message>
+				<url>http://taaladvies.net/taal/advies/vraag/719</url>
+ 				<example type="incorrect">Wanner we brieven <marker>ronddragen</marker>.</example> 
+			</rule>                
 			<rule>
 				<pattern>
                     <token inflected="yes">prognostikeren</token>
