@@ -13826,7 +13826,7 @@ USA
             <pattern>
                 <marker>
                     <token inflected="yes">exception</token>
-                    <token><exception>to</exception></token>
+                    <token postag="IN"><exception>to</exception></token>
                 </marker>
                 <token postag="DT"/>
                 <token postag="JJ" min="0" max="1"/>
@@ -13840,6 +13840,7 @@ USA
             <example>Graphite and graphene are <marker>exceptions to</marker> these general rules.</example>
             <example>... but we make an <marker>exception for</marker> the people who cannot...</example>
             <example>We make <marker>exceptions under</marker> some circumstances.</example>
+            <example>Graphite and graphene are <marker>exceptions that</marker> these general rules do not account for.</example>
         </rule>
         <rule id="REGARDING_TO" name="Regarding to (regard to/regarding)">
             <pattern>
@@ -13940,13 +13941,13 @@ USA
                <marker>
                <token inflected="yes">beware</token><!-- Inflection is probably not necessary. In modern English, usually only imperative and infinitive is used.-->
                <token>as</token>
-               <token>well</token>
+               <token regexp="yes">well(-.+)?</token>
               </marker>
             </antipattern>
             <pattern>
                <marker>
                <token inflected="yes">beware</token>
-               <token postag="RP"><exception>of</exception></token>
+               <token postag="IN"><exception>of</exception></token>
               </marker>
             </pattern>
             <message>Did you mean: <suggestion>beware of</suggestion>?</message>
@@ -13957,7 +13958,8 @@ USA
             <example><marker>Beware</marker>! This dog is not friendly.</example>
             <example>... but <marker>beware</marker> the ever-shrinking attention span of the general public.</example>
             <example>It's '<marker>buyer beware</marker>' at Vienna's overpriced hotels, but this little charmer is a bargain.</example>
-            <example>Mac users now need to <marker>beware</marker> as well-the most recent of Apple's three major security patches this year ...</example>
+            <example>Mac users now need to <marker>beware</marker> as well-the most recent of Apple's three major security patches this year ...</example><!-- Bad style to use a hyphen, but 'as' is correct. -->
+            <example>Writers need to <marker>beware</marker> as well-written sentences are not always easy to write.</example>
         </rule>
         <rulegroup id="THE_BEST_WAY" name="missing article before 'BE + ADJECTIVE + way'">
             <rule>
@@ -14103,7 +14105,7 @@ USA
             </antipattern>
             <pattern>
                  <token>accustomed</token>
-                 <token negate="yes">to<exception postag="PRP\$?|CD" postag_regexp="yes"></exception></token>
+                 <token postag="IN"><exception>to</exception><exception postag="PRP\$?|CD" postag_regexp="yes"></exception></token>
             </pattern>
             <message>Did you mean: <suggestion>accustomed to</suggestion>?</message>
             <short>Wrong preposition: accustomed to</short>
@@ -14113,6 +14115,7 @@ USA
             <example>Players should be accustomed by now to the difficulty of ...</example> 
             <example>... to much of the legislation to which we have become accustomed in modern times.</example>
             <example>He had been accustomed in the previous five years to dealing with players on ...</example>
+            <example>The servants took their <marker>accustomed</marker> places behind the chairs...</example>
         </rule>
         <rule id="INSPIRED_WITH" name="inspired with (by)">
             <pattern>
