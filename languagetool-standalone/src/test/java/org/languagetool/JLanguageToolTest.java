@@ -342,6 +342,8 @@ public class JLanguageToolTest {
         }
         System.out.println(String.format("Rule: %s\nMessage: %s\nMatch:\n%s: %s",
                 rule.getId(), message, ruleMatch.getRule().getId(), ruleMatch.getMessage()));
+        System.out.println(String.format("Error in [%d,%d]: \"%s\"", ruleMatch.getFromPos(),
+                ruleMatch.getToPos(), message.substring(ruleMatch.getFromPos(), ruleMatch.getToPos())));
         System.out.println("-------");
         matchesCounter++;
       }
