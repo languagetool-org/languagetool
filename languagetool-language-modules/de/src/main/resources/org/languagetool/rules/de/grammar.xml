@@ -7479,7 +7479,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag_regexp="yes" postag=".*:DAT:.*" skip="-1"/>
                 <marker>
                     <token regexp="yes" case_sensitive="yes">gut|wohl</token>
-                    <token regexp="yes">tu[ne]|getan|tuend</token>
+                    <token inflected="yes">tun</token>
                 </marker>
             </pattern>
             <message>Meinten Sie <suggestion>\2\3</suggestion> (eine Form des unregelmäßigen Verbs '\2tun' mit der Bedeutung 'helfen')?</message>
@@ -9665,6 +9665,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>zufriedenzugeben</suggestion>
                 <short>&getrennt;.</short>
                 <example correction="zufriedenzugeben">Statt sich <marker>zufrieden zu geben</marker>, forderte er mehr.</example>
+           </rule>
+        </rulegroup>
+        <rulegroup id="GUTHEISSEN" name="gut heißen (gutheißen)">
+            <url>http://www.canoo.net/services/GermanSpelling/Regeln/Getrennt-zusammen/Verb.html?MenuId=SpellingRules020#Anchor-Verben-33869</url>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token>gut</token>
+                        <token inflected="yes">heißen</token>
+                    </marker>
+                </pattern>
+                <message>Falls Sie eine Form des Verbs 'gutheißen' (=als richtig erachten) meinten, muss vermutlich das Leerzeichen entfernt werden.</message>
+                <suggestion>\1\2</suggestion>
+                <short>&getrennt;.</short>
+                <example correction="gutheißen">Wie konnte er das nur <marker>gut heißen</marker>?</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>gut</token>
+                    <token>zu</token>
+                    <token>heißen</token>
+                </pattern>
+                <message>Falls Sie eine Form des Verbs 'gutheißen' (=als richtig erachten) meinten, muss vermutlich das Leerzeichen entfernt werden.</message>
+                <suggestion>gutzuheißen</suggestion>
+                <short>&getrennt;.</short>
+                <example correction="gutzuheißen">Statt es <marker>gut zu heißen</marker>, muss man es kritisieren.</example>
            </rule>
         </rulegroup>
         <rulegroup id="ZUSAMMENGESETZTE_VERBEN" name="auf halten (aufhalten)">
