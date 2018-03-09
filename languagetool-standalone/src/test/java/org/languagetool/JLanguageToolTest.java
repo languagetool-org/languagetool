@@ -304,7 +304,7 @@ public class JLanguageToolTest {
 
   @Test
   @Ignore
-  public void testRuleMessages() throws Exception {
+  public void testRuleMessagesForSpellingErrors() throws Exception {
     JLanguageTool langTool = new JLanguageTool(english);
     //JLanguageTool langTool = new JLanguageTool(new GermanyGerman());
     //JLanguageTool langTool = new JLanguageTool(new Russian());
