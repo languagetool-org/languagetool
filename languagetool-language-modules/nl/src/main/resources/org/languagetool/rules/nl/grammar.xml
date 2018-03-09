@@ -23000,10 +23000,11 @@ regexp case-insensitive maken : (?i)
 				<rule>
 					<!-- TaalTik, 2014-10-02, nieuw -->
 					<pattern>
-						<token regexp="yes">liquidatie.{3,}</token>
+                        <token regexp="yes">liquidatie.{3,}<exception>liquidatiebonus</exception></token>
 					</pattern>
 					<message>Mogelijk bedoelt u: <suggestion><match no="1" regexp_match="liquidatie" regexp_replace="liquiditeits"/></suggestion> (iets met betalen).</message>
 					<example correction="liquiditeitsprobleem">Hij heeft een <marker>liquidatieprobleem</marker>.</example>
+                    <example correction="liquiditeitsreserve">We verwachten in de komende weken nog verduidelijking over de <marker>liquidatiereserve</marker> uit boekjaar 2012.</example>
 				</rule>
 			</rulegroup>
 			
@@ -23146,6 +23147,7 @@ regexp case-insensitive maken : (?i)
 					</pattern>
 					<message>U bedoelt vast: op de <suggestion>keper</suggestion> beschouwd (nauwkeurig bekeken).</message>
 					<example correction="keper">Op de <marker>keeper</marker> beschouwd was het fout.</example>
+                    <example correction="keper">Op de <marker>keeper</marker> beschouwd, welke "toegevoegde waarde" hebben deze jaartallen?</example>
 				</rule>
 			</rulegroup>
 			<rulegroup id="WENDT_OF_KEERT" name="Went of keert → wendt of keert">
@@ -23177,7 +23179,6 @@ regexp case-insensitive maken : (?i)
 				</rule>
 			</rulegroup>
 			<rulegroup id="EEN_SOORT_VAN_JAMMER" name="Een soort van jammer → jammer">
-				<!-- TaalTik, 2014-10-02, nieuw -->
 				<rule>
 					<pattern>
 						<marker>
@@ -23189,6 +23190,10 @@ regexp case-insensitive maken : (?i)
 					</pattern>
 					<message>Netter is: <suggestion>\4</suggestion>.</message>
 					<example correction="jammer">Het is <marker>een soort van jammer</marker> dat het vaak voorkomt.</example>
+                    <example correction="artistiek">Ik word niet overvallen door <marker>een soort van artistiek</marker> kunnen</example>
+                    <example correction="cultureel">Die moet alsof het <marker>een soort van cultureel</marker> erfgoed betrof, door de tijd heen intact gehouden worden en beschermd.</example>
+                    <example correction="Neoliberaal"><marker>Een soort van neoliberaal</marker> manifest.</example>
+                    <example correction="rustig">Ik word daar op één of andere manier <marker>een soort van rustig</marker> van.</example>
 				</rule>
 			</rulegroup>
 			<rulegroup id="HEUR_HAAR" name="Heur haar =&gt; haar haar">
@@ -23202,7 +23207,9 @@ regexp case-insensitive maken : (?i)
 					<message>Altijd beter is: <suggestion>haar</suggestion>, ook in 'haar haar'.</message>
 					<url>https://onzetaal.nl/taaladvies/advies/heur-haar</url>
 					<example correction="haar">De kapper deed <marker>heur</marker> haar.</example>
-				</rule>
+                    <example correction="haar">Maar laten zij na den oorlog voorgoed met <marker>heur</marker> slavenhandelaars afrekenen.</example>
+                    <example correction="haar">'t scheen dat de zon <marker>heur</marker> laaiende gloed spuwde uit duizend vuurmonden.</example>
+                </rule>
 			</rulegroup>
 		</category>
 	<category id="REPETITIONS" name="Herhaling van woorden of woordgroepen.">
