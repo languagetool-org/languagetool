@@ -274,6 +274,15 @@ regexp case-insensitive maken : (?i)
             </rule>          
 			<rule>
 				<pattern>
+                    <token>van</token>
+                    <token>zodra</token>
+				</pattern>
+                <message>Standaardtaal in het hele taalgebied is: <suggestion>\2</suggestion>.</message>
+				<url>http://taaladvies.net/taal/advies/vraag/832</url>
+                <example correction="zodra">Hij gaat <marker>van zodra</marker> het af is.</example>
+			</rule>              
+			<rule>
+				<pattern>
                     <token>tweede</token>
                     <token postag="BNW:OVR:VRB"/>
 				</pattern>
@@ -2191,7 +2200,7 @@ regexp case-insensitive maken : (?i)
 		<rulegroup id="VOORVOEGSEL" name="mega, giga etc.">
 			<rule>
                 <pattern>
-                    <token regexp="yes">giga|mega|nano</token>
+                    <token regexp="yes">mini|ultra|giga|mega|nano</token>
                     <token/>
                 </pattern>
                 <message>\1 is meestal een voorvoegsel, dus de kans is groot dat het <suggestion>\1\2</suggestion> of <suggestion>\1-\2</suggestion> moet zijn.</message>
