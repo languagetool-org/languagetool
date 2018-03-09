@@ -299,14 +299,14 @@ public class JLanguageToolTest {
     if (matches.length == 0) {
       return null;
     }
-    return matches[0].getMessage();
+    return matches[0].getMessage().replace("<suggestion>", "").replace("</suggestion>", "");
   }
 
   @Test
   @Ignore
   public void testRuleMessages() throws Exception {
     JLanguageTool langTool = new JLanguageTool(english);
-    //JLanguageTool langTool = new JLanguageTool(new German());
+    //JLanguageTool langTool = new JLanguageTool(new GermanyGerman());
     //JLanguageTool langTool = new JLanguageTool(new Russian());
     String[] rulesDisabled = {
             // en:
