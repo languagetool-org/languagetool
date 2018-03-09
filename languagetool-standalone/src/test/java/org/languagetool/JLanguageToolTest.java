@@ -306,8 +306,15 @@ public class JLanguageToolTest {
   @Ignore
   public void testRuleMessages() throws Exception {
     JLanguageTool langTool = new JLanguageTool(english);
-    String[] rulesDisabled = {"EN_QUOTES", "UPPERCASE_SENTENCE_START", "WHITESPACE_RULE",
-            "EN_UNPAIRED_BRACKETS", "DASH_RULE", "COMMA_PARENTHESIS_WHITESPACE"};
+    //JLanguageTool langTool = new JLanguageTool(new German());
+    String[] rulesDisabled = {
+            // en:
+            "EN_QUOTES", "UPPERCASE_SENTENCE_START", "WHITESPACE_RULE",
+            "EN_UNPAIRED_BRACKETS", "DASH_RULE", "COMMA_PARENTHESIS_WHITESPACE",
+            // de:
+            "TYPOGRAFISCHE_ANFUEHRUNGSZEICHEN", "GROESSER_KLEINER_ANFUEHRUNG",
+            "ABKUERZUNG_LEERZEICHEN"
+    };
     langTool.disableRules(Arrays.asList(rulesDisabled));
     int matchesCounter = 0;
 
