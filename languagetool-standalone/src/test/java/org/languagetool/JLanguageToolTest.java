@@ -307,6 +307,7 @@ public class JLanguageToolTest {
   public void testRuleMessages() throws Exception {
     JLanguageTool langTool = new JLanguageTool(english);
     //JLanguageTool langTool = new JLanguageTool(new German());
+    //JLanguageTool langTool = new JLanguageTool(new Russian());
     String[] rulesDisabled = {
             // en:
             "EN_QUOTES", "UPPERCASE_SENTENCE_START", "WHITESPACE_RULE",
