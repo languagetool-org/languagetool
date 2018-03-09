@@ -181,6 +181,11 @@ regexp case-insensitive maken : (?i)
 
 	<category id="HINTS_CAT" name="Geen fout, maar er is een gerelateerd advies" default ="on">
 		<rulegroup id="HINTS" name="Taaladvies over woord of woordgroep">
+			<rule><pattern><token inflected="yes">uitwijden</token></pattern>
+                <message>Hier is een taaladvies over.</message>
+                <url>http://taaladvies.net/taal/advies/vraag/824</url>
+                <example type="incorrect">Taaladvies over <marker>uitwijden</marker>.</example> 
+			</rule>
 			<rule><pattern><token regexp="yes">tirade|retirade</token></pattern>
                 <message>Hier is een taaladvies over.</message>
                 <url>http://taaladvies.net/taal/advies/vraag/795</url>
@@ -258,6 +263,20 @@ regexp case-insensitive maken : (?i)
 			</rule>            
         </rulegroup>
 	</category>
+	<category id="SPACES" name="Spatiegebruik">
+        <!-- samenstellingen die vaak los worden geschreven staan in compounds.txt -->
+		<rulegroup id="VOORVOEGSEL" name="mega, giga etc.">
+			<rule>
+                <pattern>
+                    <token regexp="yes">giga|mega|nano</token>
+                    <token/>
+                </pattern>
+                <message>\1 is meestal een voorvoegsel, dus de kans is groot dat het <suggestion>\1\2</suggestion> of <suggestion>\1-\2</suggestion> moet zijn.</message>
+                <example correction="megagroot|mega-groot">Het bestand is <marker>mega groot</marker>.</example> 
+			</rule>            
+        </rulegroup>
+    </category>
+    
 	<category id="BE_NL" name="Verschil België en Nederland">
 		<rulegroup id="ALLEEN_BE" name="Alleen gebruikelijk in België">
             <rule>
@@ -23376,11 +23395,6 @@ regexp case-insensitive maken : (?i)
 				</rule>
 			</rulegroup>
 			<rulegroup id="_2_LEESTEKENS" name="Twee maal zelfde leesteken">
-				<!-- 2014-08-20 TaalTik
-				regel gaf veel hits op dubbele aanhalingtekens, terwijl dat in een andere regel zit.
-				idem voor dubbele komma, daar een nieuwe regel voor gemaakt.
-				TODO: controleren
-				-->
 				<rule>
 					<pattern>
 						<token regexp="yes">!|\?|,|;|:</token>
