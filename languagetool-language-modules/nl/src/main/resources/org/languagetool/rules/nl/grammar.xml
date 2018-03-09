@@ -267,6 +267,15 @@ regexp case-insensitive maken : (?i)
             </rule>          
 			<rule>
 				<pattern>
+                    <token>tweede</token>
+                    <token postag="GET:RNG"/>
+				</pattern>
+                <message>Standaardtaal in het hele taalgebied is: <suggestion>op een na \2</suggestion>.</message>
+				<url>http://taaladvies.net/taal/advies/vraag/816</url>
+                <example correction="een na dikste">Hij is de <marker>tweede dikste</marker> van de groep.</example>
+			</rule>              
+			<rule>
+				<pattern>
                     <marker>
                         <token skip="3">tegen</token>
                     </marker>
@@ -18715,6 +18724,17 @@ regexp case-insensitive maken : (?i)
 
 	</category>
 	<category id="OVERIG" name="Diverse regels">
+        <rulegroup id="ONGELDIG" name="ongeldige woordgroepen">
+            <rule>
+                <antipattern><token>zij</token><token>aan</token><token>zij</token></antipattern>
+                <pattern>
+                    <token regexp="yes">in|op|aan|met|door</token>
+                    <token regexp="yes">ik|jij|je|hij|wij|we|zij|ze</token>
+                </pattern>
+                <message>Hier is iets mis, want dit is een vreemde of foute reeks woorden.</message>
+                <example type="incorrect">Ik gaf het <marker>aan hij</marker>.</example>
+            </rule>
+        </rulegroup>         
         <rulegroup id="TEVERGEEFSE" name="tevergeefse → vergeefse">
             <rule>
                 <pattern>
