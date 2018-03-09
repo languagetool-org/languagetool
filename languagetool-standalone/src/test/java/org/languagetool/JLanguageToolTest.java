@@ -266,15 +266,15 @@ public class JLanguageToolTest {
     }
   }
 
-  private List<IgnoreInterval> calculateIgnoreIntervals(String message, boolean ignoreQuotes,
-                                                        boolean ignoreBrackets) {
+  private List<IgnoreInterval> calculateIgnoreIntervals(String message, boolean ignoreQuotes, boolean ignoreBrackets) {
     String ignorePattern = "(<.+>[^<]+</.+>)";
-    if (ignoreQuotes)
+    if (ignoreQuotes) {
       ignorePattern += "|('[^']+')|(\"[^\"]\")";
-    if (ignoreBrackets)
+    }
+    if (ignoreBrackets) {
       ignorePattern += "|(\\([^)]+\\))";
+    }
     Matcher ignoreMat = Pattern.compile(ignorePattern).matcher(message);
-
     List<IgnoreInterval> ignoreIntervals = new ArrayList<>();
     if (ignoreMat.find()) {
       for (int i = 0; i < ignoreMat.groupCount(); i++) {
@@ -291,13 +291,14 @@ public class JLanguageToolTest {
     List<AnalyzedSentence> sentences = languageTool.analyzeText(example);
 
     RuleMatch[] matches;
-    if (rule instanceof TextLevelRule)
+    if (rule instanceof TextLevelRule) {
       matches = ((TextLevelRule) rule).match(sentences);
-    else
+    } else {
       matches = rule.match(sentences.get(0));
-
-    if (matches.length == 0)
+    }
+    if (matches.length == 0) {
       return null;
+    }
     return matches[0].getMessage();
   }
 
@@ -312,23 +313,25 @@ public class JLanguageToolTest {
 
     List<Rule> rules = langTool.getAllRules();
     for (Rule rule : rules) {
-      if (rule.getIncorrectExamples().size() == 0)
+      if (rule.getIncorrectExamples().size() == 0) {
         continue;
+      }
       String message = getRuleMessage(rule, langTool);
-      if (message == null)
+      if (message == null) {
         continue;
+      }
       List<RuleMatch> allMatches = langTool.check(message);
-
       // Ignore errors inside <>..</>, '..', "..", (..)
       List<IgnoreInterval> ignoreIntervals = calculateIgnoreIntervals(message, true, true);
       matches:
       for (RuleMatch ruleMatch : allMatches) {
-        if (ruleMatch.getRule().getId().equals(rule.getId()))
+        if (ruleMatch.getRule().getId().equals(rule.getId())) {
           continue;
+        }
         for (IgnoreInterval interval : ignoreIntervals) {
-          if (interval.contains(ruleMatch.getFromPos()) ||
-                  interval.contains(ruleMatch.getToPos()))
+          if (interval.contains(ruleMatch.getFromPos()) || interval.contains(ruleMatch.getToPos())) {
             continue matches;
+          }
         }
         System.out.println(String.format("Rule: %s\nMessage: %s\nMatch:\n%s: %s",
                 rule.getId(), message, ruleMatch.getRule().getId(), ruleMatch.getMessage()));
