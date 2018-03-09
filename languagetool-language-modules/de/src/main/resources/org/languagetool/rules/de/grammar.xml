@@ -542,6 +542,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Sie <marker>berief sich</marker> auf das Grundgesetz.</example>
             <example>Dabei beriefen sie sich auf das Grundgesetz.</example>
         </rule>
+        <rule id="LIEGEN_LEGEN" name="liegen (legen)">
+            <pattern>
+                <marker><token regexp="yes">liegs?t|lag(st)?|liege</token></marker>
+                <token postag="PRO:REF:AKK:SIN:ALG.*" postag_regexp="yes"></token>
+            </pattern>
+            <message>Prüfen Sie, ob hier eine Form von 'legen' stehen sollte.</message>
+            <example correction="">Ich <marker>liege</marker> mich aufs Bett.</example>
+            <example>Sie liegen sich in den Armen.</example>
+        </rule>
         <rulegroup id="UEBERLASEN_UEBERLASSEN" name="'sich selbst überlasen (überlassen)' u.ä.">
             <rule>
                 <pattern>
