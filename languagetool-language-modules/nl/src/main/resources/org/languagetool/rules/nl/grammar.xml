@@ -263,19 +263,7 @@ regexp case-insensitive maken : (?i)
 			</rule>            
         </rulegroup>
 	</category>
-	<category id="SPACES" name="Spatiegebruik">
-        <!-- samenstellingen die vaak los worden geschreven staan in compounds.txt -->
-		<rulegroup id="VOORVOEGSEL" name="mega, giga etc.">
-			<rule>
-                <pattern>
-                    <token regexp="yes">giga|mega|nano</token>
-                    <token/>
-                </pattern>
-                <message>\1 is meestal een voorvoegsel, dus de kans is groot dat het <suggestion>\1\2</suggestion> of <suggestion>\1-\2</suggestion> moet zijn.</message>
-                <example correction="megagroot|mega-groot">Het bestand is <marker>mega groot</marker>.</example> 
-			</rule>            
-        </rulegroup>
-    </category>
+
     
 	<category id="BE_NL" name="Verschil België en Nederland">
 		<rulegroup id="ALLEEN_BE" name="Alleen gebruikelijk in België">
@@ -2199,7 +2187,17 @@ regexp case-insensitive maken : (?i)
 		</rulegroup>
 	</category>
 	<category id="COMPOUNDING" name="Aaneen of los">
-
+        <!-- samenstellingen die vaak los worden geschreven staan in compounds.txt -->
+		<rulegroup id="VOORVOEGSEL" name="mega, giga etc.">
+			<rule>
+                <pattern>
+                    <token regexp="yes">giga|mega|nano</token>
+                    <token/>
+                </pattern>
+                <message>\1 is meestal een voorvoegsel, dus de kans is groot dat het <suggestion>\1\2</suggestion> of <suggestion>\1-\2</suggestion> moet zijn.</message>
+                <example correction="megagroot|mega-groot">Het bestand is <marker>mega groot</marker>.</example> 
+			</rule>            
+        </rulegroup>
 		<rulegroup id="DE_WEGGAAT" name="De weggaat = de weg gaat">
 			<rule>
 				<pattern>
