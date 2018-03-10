@@ -511,9 +511,6 @@ public class XMLRuleHandler extends DefaultHandler {
   @Nullable
   protected List<Match> addLegacyMatches(List <Match> existingSugMatches, String messageStr,
       boolean inMessage) {
-//    if (existingSugMatches == null || existingSugMatches.isEmpty()) {
-//      return new ArrayList<>();
-//    }
     List<Match> sugMatch = new ArrayList<>();
     int pos = 0;
     int ind = 0;
