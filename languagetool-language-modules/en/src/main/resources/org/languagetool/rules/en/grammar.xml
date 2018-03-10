@@ -12877,6 +12877,42 @@ USA
                 <example>There are <marker>food</marker> and waterborne diseases, bacterial and protozoal diarrhea, ...</example>
             </rule>
         </rulegroup>
+        <rulegroup id="THERE_WAS_MANY" name="Possible agreement error 'there was' + plural noun"><!-- modified copy of THERE_S_MANY -->
+            <rule>
+                <pattern>
+                    <token>there</token>
+                    <token>was</token>
+                    <token postag="NNP?S" postag_regexp="yes">
+                        <exception postag="NN:.*|NNP?|JJ.*|DT|RB" postag_regexp="yes"/>
+                        <exception>lots</exception>
+                    </token>
+                </pattern>
+                <message>Did you mean <suggestion>\1 were \3</suggestion>?</message>
+                <short>Possible agreement error</short>
+                <example correction="there were updates">For more than one year <marker>there was updates</marker> daily.</example>
+                <example correction="There were discussions"><marker>There was discussions</marker> about the money that I owe.</example>
+                <example correction="There were grounds"><marker>There was grounds</marker> for his dismissal.</example>
+                <example correction="There were communications"><marker>There was communications</marker> department handling the affair.</example>
+                <example>For more than one year <marker>there were updates</marker> to the software.</example>
+                <example>For more than one year <marker>there was updates</marker> every day.</example><!-- False negative. Disambiguator rule VBZNNS_DT_NN removes NNS from 'updates'. -->
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">t?here<exception scope="previous" postag="IN"/></token>
+                    <token>was</token>
+                    <token postag="CD|DT|JJ.*" postag_regexp="yes"><exception postag="NN:.*|NNP?" postag_regexp="yes"/></token>
+                    <token postag="NNP?S" postag_regexp="yes"><exception postag="NN:.*|NNP?|DT" postag_regexp="yes"/><exception scope="next" postag="NN.*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Did you mean <suggestion>\1 were \3 \4</suggestion>?</message>
+                <short>Possible agreement error</short>
+                <example correction="there were no updates">For almost one year <marker>there was no updates</marker> to the software.</example>
+                <example correction="There were some discussions"><marker>There was some discussions</marker> about the money that I owe.</example>
+                <example correction="There were no grounds"><marker>There was no grounds</marker> for his dismissal.</example>
+                <example>For almost one year <marker>there were no updates</marker> to the software.</example>
+                <example>There was no <marker>communications department</marker> handling the affair.</example>
+                <example>To prove that <marker>there was no theatrics</marker> involved, he sent a picture.</example>
+            </rule>
+        </rulegroup>
         <rule id="A_LOT_OF_NN" name="Possible agreement error: 'a lot/bunch/couple of' + singular countable noun">
             <pattern>
                 <marker>
@@ -13826,7 +13862,7 @@ USA
             <pattern>
                 <marker>
                     <token inflected="yes">exception</token>
-                    <token><exception>to</exception></token>
+                    <token postag="IN"><exception>to</exception></token>
                 </marker>
                 <token postag="DT"/>
                 <token postag="JJ" min="0" max="1"/>
@@ -13840,6 +13876,7 @@ USA
             <example>Graphite and graphene are <marker>exceptions to</marker> these general rules.</example>
             <example>... but we make an <marker>exception for</marker> the people who cannot...</example>
             <example>We make <marker>exceptions under</marker> some circumstances.</example>
+            <example>Graphite and graphene are <marker>exceptions that</marker> these general rules do not account for.</example>
         </rule>
         <rule id="REGARDING_TO" name="Regarding to (regard to/regarding)">
             <pattern>
@@ -13940,13 +13977,13 @@ USA
                <marker>
                <token inflected="yes">beware</token><!-- Inflection is probably not necessary. In modern English, usually only imperative and infinitive is used.-->
                <token>as</token>
-               <token>well</token>
+               <token regexp="yes">well(-.+)?</token>
               </marker>
             </antipattern>
             <pattern>
                <marker>
                <token inflected="yes">beware</token>
-               <token postag="RP"><exception>of</exception></token>
+               <token postag="IN"><exception>of</exception></token>
               </marker>
             </pattern>
             <message>Did you mean: <suggestion>beware of</suggestion>?</message>
@@ -13957,7 +13994,8 @@ USA
             <example><marker>Beware</marker>! This dog is not friendly.</example>
             <example>... but <marker>beware</marker> the ever-shrinking attention span of the general public.</example>
             <example>It's '<marker>buyer beware</marker>' at Vienna's overpriced hotels, but this little charmer is a bargain.</example>
-            <example>Mac users now need to <marker>beware</marker> as well-the most recent of Apple's three major security patches this year ...</example>
+            <example>Mac users now need to <marker>beware</marker> as well-the most recent of Apple's three major security patches this year ...</example><!-- Bad style to use a hyphen, but 'as' is correct. -->
+            <example>Writers need to <marker>beware</marker> as well-written sentences are not always easy to write.</example>
         </rule>
         <rulegroup id="THE_BEST_WAY" name="missing article before 'BE + ADJECTIVE + way'">
             <rule>
@@ -14103,7 +14141,7 @@ USA
             </antipattern>
             <pattern>
                  <token>accustomed</token>
-                 <token negate="yes">to<exception postag="PRP\$?|CD" postag_regexp="yes"></exception></token>
+                 <token postag="IN"><exception>to</exception><exception postag="PRP\$?|CD" postag_regexp="yes"></exception></token>
             </pattern>
             <message>Did you mean: <suggestion>accustomed to</suggestion>?</message>
             <short>Wrong preposition: accustomed to</short>
@@ -14113,6 +14151,7 @@ USA
             <example>Players should be accustomed by now to the difficulty of ...</example> 
             <example>... to much of the legislation to which we have become accustomed in modern times.</example>
             <example>He had been accustomed in the previous five years to dealing with players on ...</example>
+            <example>The servants took their <marker>accustomed</marker> places behind the chairs...</example>
         </rule>
         <rule id="INSPIRED_WITH" name="inspired with (by)">
             <pattern>
@@ -14396,6 +14435,33 @@ USA
                 <example type="triggers_error">He accuses the public health lobby of being just <marker>as big as</marker> big business.</example>
             </rule>
         </rulegroup>
+        <rule id="ACCORDING_TO" name="according to">
+            <antipattern>
+                <token>according</token>
+                <token postag="DT"/>
+            </antipattern>
+            <antipattern>
+                <token>according</token>
+                <token>as</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token>according</token>
+                    <token postag="IN"><exception>to</exception></token>
+                </marker>
+            </pattern>
+            <message>Did you mean: <suggestion>according to</suggestion>? according to: (as stated/in the opinion of)</message>
+            <short>Wrong preposition: according to</short>
+            <example correction="According to"><marker>According about</marker> a recent survey, most smokers suffer from cancer.</example>
+            <example correction="according to">He was acquitted, because he was innocent <marker>according in</marker> the Jury.</example>
+            <example><marker>According to</marker> a recent survey, most smokers suffer from cancer.</example>
+            <example>He was acquitted, because he was innocent <marker>according to</marker> the Jury.</example>
+            <example>We breathe life into this prized democratic value by <marker>according the</marker> Chief Justice due process of law.</example>
+            <example>'<marker>According as</marker>' is a conjuction (Merriam-Webster's Collegiate Dictionary, 10th edition).</example>
+            <example>'<marker>Accord with</marker>' is a verb, but it is not usually used in the progressive.</example>
+            <example>His system had eleven grades, arranged <marker>according "to</marker> the degree to which they are infected ..."</example>
+            <example>The manager was <marker>according</marker> him the greatest of privileges.</example>
+        </rule>
     </category>
 
     <!-- ====================================================================== -->
@@ -26340,7 +26406,7 @@ USA
     <!-- ====================================================================== -->
     <!-- Misused terms in EU publications, Gardner, version 25 May 2016 -->
     <!-- ====================================================================== -->
-    <category id="MISUSED_TERMS_EU_PUBLICATIONS" name="Misused terms in EU publications (Gardner)" type="terminology" default="off">
+    <category id="MISUSED_TERMS_EU_PUBLICATIONS" name="Misused terms in EU publications (Gardner)" type="style" default="off">
         <rule id="EUPUB_ACTION" name="action">
             <antipattern>
                 <token chunk="B-VP"/>

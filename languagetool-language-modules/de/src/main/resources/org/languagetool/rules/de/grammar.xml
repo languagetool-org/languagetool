@@ -542,6 +542,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Sie <marker>berief sich</marker> auf das Grundgesetz.</example>
             <example>Dabei beriefen sie sich auf das Grundgesetz.</example>
         </rule>
+        <rule id="LIEGEN_LEGEN" name="liegen (legen)">
+            <pattern>
+                <marker><token regexp="yes">liegs?t|lag(st)?|liege</token></marker>
+                <token postag="PRO:REF:AKK:SIN:ALG.*" postag_regexp="yes"></token>
+            </pattern>
+            <message>Prüfen Sie, ob hier eine Form von 'legen' stehen sollte.</message>
+            <example correction="">Ich <marker>liege</marker> mich aufs Bett.</example>
+            <example>Sie liegen sich in den Armen.</example>
+        </rule>
         <rulegroup id="UEBERLASEN_UEBERLASSEN" name="'sich selbst überlasen (überlassen)' u.ä.">
             <rule>
                 <pattern>
@@ -950,7 +959,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token negate="yes" regexp="yes">bloc|gros|passant|masse|vogue|suite|.*[ÁáÀàÇçÉéÈèÍíÌìÓóÒòÚúÙù].*</token>
                 </pattern>
-                <message>Möglicher Tippfehler: Meinten Sie evt. <suggestion>eng</suggestion> oder <suggestion>in</suggestion>?</message>
+                <message>Möglicher Tippfehler: Meinten Sie evtl. <suggestion>eng</suggestion> oder <suggestion>in</suggestion>?</message>
                 <short>Möglicher Tippfehler</short>
                 <example>Das ist <marker>en</marker> vogue jetzt.</example>
                 <example>Das haben wir <marker>en</marker> passant erledigt.</example>
@@ -2459,13 +2468,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>Regeln</token>
                     </marker>
                 </pattern>
-                <message>Meinten Sie evt. die Redewendung <suggestion>in der Regel</suggestion>?</message>
+                <message>Meinten Sie evtl. die Redewendung <suggestion>in der Regel</suggestion>?</message>
                 <example>Eine Situation, <marker>in der Regeln</marker> wichtig werden.</example>
                 <example correction="in der Regel">Wir machen das <marker>in der Regeln</marker> folgendermaßen.</example>
             </rule>
             <rule>
                 <regexp case_sensitive='yes'>in aller Regeln\b</regexp>
-                <message>Meinten Sie evt. die Redewendung <suggestion>in aller Regel</suggestion>?</message>
+                <message>Meinten Sie evtl. die Redewendung <suggestion>in aller Regel</suggestion>?</message>
                 <example correction="in aller Regel">Wir machen das <marker>in aller Regeln</marker> folgendermaßen.</example>
             </rule>
         </rulegroup>
@@ -6389,14 +6398,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>Sony</token>
                     <token regexp="yes">Eri[ck]ss?on<exception>Ericsson</exception></token>
                 </pattern>
-                <message>Meinten Sie das schwedische Joint Venture <suggestion>Sony Ericsson</suggestion>? Dieses Joint Venture gibt es seit 2012 nicht mehr, evt. möchten Sie deshalb <suggestion>Sony</suggestion> verwenden.</message>
+                <message>Meinten Sie das schwedische Joint Venture <suggestion>Sony Ericsson</suggestion>? Dieses Joint Venture gibt es seit 2012 nicht mehr, evtl. möchten Sie deshalb <suggestion>Sony</suggestion> verwenden.</message>
                 <url>https://de.wikipedia.org/wiki/Sony_Ericsson</url>
                 <example correction="Sony Ericsson|Sony">Mein Handy ist von <marker>Sony Ericson</marker>.</example>
                 <example correction="Sony Ericsson|Sony">Mein Handy ist von <marker>Sony Eriksson</marker>.</example>
             </rule>
             <rule>
                 <regexp>Sony-Eri[ck]ss?on</regexp>
-                <message>Meinten Sie das schwedische Joint Venture <suggestion>Sony Ericsson</suggestion>? Dieses Joint Venture gibt es seit 2012 nicht mehr, evt. möchten Sie deshalb <suggestion>Sony</suggestion> verwenden.</message>
+                <message>Meinten Sie das schwedische Joint Venture <suggestion>Sony Ericsson</suggestion>? Dieses Joint Venture gibt es seit 2012 nicht mehr, evtl. möchten Sie deshalb <suggestion>Sony</suggestion> verwenden.</message>
                 <url>https://de.wikipedia.org/wiki/Sony_Ericsson</url>
                 <example correction="Sony Ericsson|Sony">Mein Handy ist von <marker>Sony-Ericsson</marker>.</example>
                 <example correction="Sony Ericsson|Sony">Mein Handy ist von <marker>Sony-Eriksson</marker>.</example>
@@ -6505,7 +6514,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>von</token>
                 <token regexp="yes">Brauns?</token>
             </pattern>
-            <message>Meinten Sie evt. den deutsch-amerikanischen Ingenieur <suggestion>Wernher</suggestion> Freiherr von Braun (1912–1977), bekannt als Vater der Raketentechnologie?</message>
+            <message>Meinten Sie evtl. den deutsch-amerikanischen Ingenieur <suggestion>Wernher</suggestion> Freiherr von Braun (1912–1977), bekannt als Vater der Raketentechnologie?</message>
             <url>https://de.wikipedia.org/wiki/Wernher_von_Braun</url>
             <short>&eigenname;</short>
             <example correction="Wernher"><marker>Werner</marker> von Braun hat die Rakete erfunden.</example>
@@ -6617,14 +6626,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="ABRAHAM_LINCOLN" name="'Abraham Linken (Lincoln)'">
             <!-- phonetische Schreibweise -->
             <regexp case_sensitive='yes'>Abraham Linken</regexp>
-            <message>Meinten Sie evt. den US-Präsidenten <suggestion>Abraham Lincoln</suggestion>?</message>
+            <message>Meinten Sie evtl. den US-Präsidenten <suggestion>Abraham Lincoln</suggestion>?</message>
             <url>https://de.wikipedia.org/wiki/Abraham_Lincoln</url>
             <short>&eigenname;</short>
             <example correction="Abraham Lincoln"><marker>Abraham Linken</marker> fiel einem Attentat zum Opfer.</example>
         </rule>
         <rule id="MAX_BROD" name="'Max Brot (Brod)'">
             <regexp case_sensitive='yes'>Max Brot\b</regexp>
-            <message>Meinten Sie evt. <suggestion>Max Brod</suggestion>, den Freund und Nachlassverwalter Franz Kafkas?</message>
+            <message>Meinten Sie evtl. <suggestion>Max Brod</suggestion>, den Freund und Nachlassverwalter Franz Kafkas?</message>
             <url>https://de.wikipedia.org/wiki/Max_Brod</url>
             <short>&eigenname;</short>
             <example><marker>Max Brod</marker> war mit Kafka befreundet.</example>
@@ -6635,12 +6644,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>&eigenname;</short>
             <rule>
                 <regexp case_sensitive='yes'>Jane Austin</regexp>
-                <message>Meinten Sie evt. <suggestion>Jane Austen</suggestion>, die britische Schriftstellerin?</message>
+                <message>Meinten Sie evtl. <suggestion>Jane Austen</suggestion>, die britische Schriftstellerin?</message>
                 <example correction="Jane Austen"><marker>Jane Austin</marker> war eine britische Schriftstellerin.</example>
             </rule>
             <rule>
                 <regexp case_sensitive='yes'>J[eo]?an Austen</regexp>
-                <message>Meinten Sie evt. <suggestion>Jane Austen</suggestion>, die britische Schriftstellerin?</message>
+                <message>Meinten Sie evtl. <suggestion>Jane Austen</suggestion>, die britische Schriftstellerin?</message>
                 <example correction="Jane Austen"><marker>Jan Austen</marker> war eine britische Schriftstellerin.</example>
                 <example correction="Jane Austen"><marker>Jean Austen</marker> war eine britische Schriftstellerin.</example>
             </rule>
@@ -7315,7 +7324,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>sicher</token>
                 <token>gestellt</token>
             </pattern>
-            <message><suggestion>sichergestellt</suggestion> im Sinne von "beschlagnahmt" oder "garantiert" wird zusammengeschreiben.</message>
+            <message><suggestion>sichergestellt</suggestion> im Sinne von "beschlagnahmt" oder "garantiert" wird zusammengeschrieben.</message>
             <example correction='sichergestellt'>Angenehme Wärme wird durch die Gasheizung <marker>sicher gestellt</marker>.</example>
         </rule>
         <rule id="DRUMHERUM_REDEN" name="drumherum reden (drum herumreden)">
@@ -7480,7 +7489,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag_regexp="yes" postag=".*:DAT:.*" skip="-1"/>
                 <marker>
                     <token regexp="yes" case_sensitive="yes">gut|wohl</token>
-                    <token regexp="yes">tu[ne]|getan|tuend</token>
+                    <token inflected="yes">tun</token>
                 </marker>
             </pattern>
             <message>Meinten Sie <suggestion>\2\3</suggestion> (eine Form des unregelmäßigen Verbs '\2tun' mit der Bedeutung 'helfen')?</message>
@@ -8064,7 +8073,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="UEBER_FLUESSIG" name="'über flüssig (überflüssig)'">
             <rule>
                 <regexp case_sensitive='yes'>(über) (flüssig)</regexp>
-                <message>&getrennt;: Meinten Sie evt. das Adjektiv <suggestion>\1\2</suggestion> im Sinne von <suggestion>nicht notwendig</suggestion>, <suggestion>nutzlos</suggestion>?</message>
+                <message>&getrennt;: Meinten Sie evtl. das Adjektiv <suggestion>\1\2</suggestion> im Sinne von <suggestion>nicht notwendig</suggestion>, <suggestion>nutzlos</suggestion>?</message>
                 <url>http://www.duden.de/rechtschreibung/ueberfluessig</url>
                 <short>&getrennt;.</short>
                 <example>Das ist total <marker>überflüssig</marker>.</example>
@@ -8105,7 +8114,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>eben</token>
                     <token>so</token>
                 </marker>
-                <!-- Jan: TODO: evt. verallgemeinern -->
+                <!-- Jan: TODO: evtl. verallgemeinern -->
                 <token regexp="yes">(gern|gut|lang|oft|schnell|sehr|viel|wenig|wichtig).*|wie</token>
             </pattern>
             <message>&getrennt;: Meinten Sie <suggestion>ebenso</suggestion> (= <suggestion>genauso</suggestion>, gleichermaßen, in der gleichen Weise)?</message>
@@ -8546,7 +8555,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="ADJ:.+:SUP.*" postag_regexp="yes"/>
                 </marker>
             </pattern>
-            <message>&getrennt;: Meinten Sie evt. <suggestion>\2\3</suggestion>?</message>
+            <message>&getrennt;: Meinten Sie evtl. <suggestion>\2\3</suggestion>?</message>
             <url>http://www.duden.de/rechtschreibung/zweitbeste</url>
             <short>&getrennt;.</short>
             <example>Wir waren die <marker>Zweitbesten</marker>.</example>
@@ -8597,7 +8606,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </marker>
                 <token negate_pos="yes" postag="ZAL" regexp="yes" negate="yes">[0-9]+</token>
             </pattern>
-            <message>Meinten Sie evt. <suggestion>zum Teil</suggestion> oder <suggestion>zuteil</suggestion>?</message>
+            <message>Meinten Sie evtl. <suggestion>zum Teil</suggestion> oder <suggestion>zuteil</suggestion>?</message>
             <example correction="zum Teil|zuteil">Diese Fehler werden <marker>zu Teil</marker> bereits erkannt.</example>
             <example correction="zum Teil|zuteil">Mir wurde eine große Ehre <marker>zu teil</marker>.</example>
             <example>Das offene Ende, das später den Übergang <marker>zu Teil</marker> zwei bildete, war eher scherzweise gedacht.</example>
@@ -8776,37 +8785,37 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rule id="EINST_WEILEN" name="'einst weilen (einstweilen)'">
             <regexp>\beinst weilen\b</regexp>
-            <message>Meinten Sie evt. <suggestion>einstweilen</suggestion> (vorerst)?</message>
+            <message>Meinten Sie evtl. <suggestion>einstweilen</suggestion> (vorerst)?</message>
             <example correction="einstweilen">Lasst uns das <marker>einst weilen</marker> verschieben.</example>
         </rule>
         <rule id="MITTLER_WEILE" name="'mittler Weile (mittlerweile)'">
             <regexp>\bmittler weile\b</regexp>
-            <message>Meinten Sie evt. <suggestion>mittlerweile</suggestion>?</message>
+            <message>Meinten Sie evtl. <suggestion>mittlerweile</suggestion>?</message>
             <example correction="mittlerweile">Das sollte <marker>mittler Weile</marker> klappen.</example>
         </rule>
         <rule id="UEBER_QUELLEND" name="'über quellend (überquellend)'">
             <regexp case_sensitive='yes'>(über) (quellend(e[rns]?)?)</regexp>
-            <message>&getrennt;: Meinten Sie evt. <suggestion>\1\2</suggestion>?</message>
+            <message>&getrennt;: Meinten Sie evtl. <suggestion>\1\2</suggestion>?</message>
             <example correction="überquellenden">Die <marker>über quellenden</marker> Mülleimer.</example>
         </rule>
         <rule id="HILF_REICH" name="'hilf reich (hilfreich)'">
             <regexp>\b(hilf) (reich(e[rmns]?)?)\b</regexp>
-            <message>&getrennt;: Meinten Sie evt. das Adjektiv <suggestion>\1\2</suggestion>?</message>
+            <message>&getrennt;: Meinten Sie evtl. das Adjektiv <suggestion>\1\2</suggestion>?</message>
             <example correction="hilfreichen">Die <marker>hilf reichen</marker> Worte.</example>
         </rule>
         <rule id="BEI_GESTEUERT" name="'bei gesteuert (beigesteuert)'">
             <regexp case_sensitive='yes'>(bei) (gesteuert)</regexp>
-            <message>&getrennt;: Meinten Sie evt. <suggestion>\1\2</suggestion>?</message>
+            <message>&getrennt;: Meinten Sie evtl. <suggestion>\1\2</suggestion>?</message>
             <example correction="beigesteuert">Wir haben zum Gartenfest einen Kuchen <marker>bei gesteuert</marker>.</example>
         </rule>
         <rule id="ZWEIFEL_LOS" name="'zweifel los (zweifellos)'">
             <regexp case_sensitive='yes'>(zweifel) (los)</regexp>
-            <message>&getrennt;: Meinten Sie evt. <suggestion>\1\2</suggestion>?</message>
+            <message>&getrennt;: Meinten Sie evtl. <suggestion>\1\2</suggestion>?</message>
             <example correction="zweifellos">Das hat <marker>zweifel los</marker> gut geklappt.</example>
         </rule>
         <rule id="OBDACH_LOS" name="'obdachlos'">
             <regexp case_sensitive='yes'>(Obdach) (los(e|er|en)?)</regexp>
-            <message>&getrennt;: Meinten Sie evt. <suggestion>\1\2</suggestion>?</message>
+            <message>&getrennt;: Meinten Sie evtl. <suggestion>\1\2</suggestion>?</message>
             <example>Tausende wurden <marker>obdachlos</marker> in jener Nacht.</example>
             <example correction="Obdachlos">Tausende wurden <marker>Obdach los</marker>.</example>
         </rule>
@@ -8818,7 +8827,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">kennen|gründen|mitteln|lassen|fassen|sehen|gaunern|morden|sch(reck|leich|ein)en|heischen|greifen</token>
                 </marker>
             </pattern>
-            <message>&getrennt;: Meinten Sie evt. <suggestion>\2\3</suggestion>?</message>
+            <message>&getrennt;: Meinten Sie evtl. <suggestion>\2\3</suggestion>?</message>
             <example correction="erfassen">Aufgabe war es, die Daten zu <marker>er fassen</marker>.</example>
         </rule>
         <rule id="ZU_ZUMUTEN" name="'zu zu... (zuzu...)'">
@@ -9668,6 +9677,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="zufriedenzugeben">Statt sich <marker>zufrieden zu geben</marker>, forderte er mehr.</example>
            </rule>
         </rulegroup>
+        <rulegroup id="GUTHEISSEN" name="gut heißen (gutheißen)">
+            <url>http://www.canoo.net/services/GermanSpelling/Regeln/Getrennt-zusammen/Verb.html?MenuId=SpellingRules020#Anchor-Verben-33869</url>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token>gut</token>
+                        <token inflected="yes">heißen</token>
+                    </marker>
+                </pattern>
+                <message>Falls Sie eine Form des Verbs 'gutheißen' (=als richtig erachten) meinten, muss vermutlich das Leerzeichen entfernt werden.</message>
+                <suggestion>\1\2</suggestion>
+                <short>&getrennt;.</short>
+                <example correction="gutheißen">Wie konnte er das nur <marker>gut heißen</marker>?</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>gut</token>
+                    <token>zu</token>
+                    <token>heißen</token>
+                </pattern>
+                <message>Falls Sie eine Form des Verbs 'gutheißen' (=als richtig erachten) meinten, muss vermutlich das Leerzeichen entfernt werden.</message>
+                <suggestion>gutzuheißen</suggestion>
+                <short>&getrennt;.</short>
+                <example correction="gutzuheißen">Statt es <marker>gut zu heißen</marker>, muss man es kritisieren.</example>
+           </rule>
+        </rulegroup>
         <rulegroup id="ZUSAMMENGESETZTE_VERBEN" name="auf halten (aufhalten)">
               <url>http://www.abzv.de/rechtschreibung/regeln/7/1/18/117/Verbindungen_aus_Partikel___Verb.html</url>
               <rule>
@@ -9848,7 +9883,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>maß</token>
                     <token inflected="yes">halten</token>
                 </pattern>
-                <message>Formen des Verbs 'maßhalten' werden entwender zusammengeschrieben oder Maß wird großgeschrieben.</message>
+                <message>Formen des Verbs 'maßhalten' werden entweder zusammengeschrieben oder Maß wird großgeschrieben.</message>
                 <suggestion>\1\2</suggestion>
                 <example correction="maßhalten">Ich muss <marker>maß halten</marker>.</example>
                 <example >Ich muss <marker>Maß halten</marker>.</example>
@@ -10746,7 +10781,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker><token regexp="yes">\d+</token></marker>
                     <token><exception regexp="yes">und|oder|bzw.</exception></token>
                 </pattern>
-                <message>Für reelle Zahlen existieren in der Regel zwei unterschiediche Lösungen.</message>
+                <message>Für reelle Zahlen existieren in der Regel zwei unterschiedliche Lösungen.</message>
                 <suggestion>&#0177;\5</suggestion>
                 <example correction="&#0177;3">Die Wurzel aus 9 ist <marker>3</marker>.</example>
             </rule>
@@ -14221,7 +14256,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token case_sensitive="yes">Ewig</token>
                     </marker>
                 </pattern>
-                <message>&inwend;'auf <suggestion><match no="2" case_conversion="startlower"/></suggestion>' (=für immer) wird 'ewig' kleinggeschrieben.</message>
+                <message>&inwend;'auf <suggestion><match no="2" case_conversion="startlower"/></suggestion>' (=für immer) wird 'ewig' kleingeschrieben.</message>
                 <example correction="ewig">Er wird nicht auf <marker>Ewig</marker> hier bleiben.</example>
             </rule>
             <rule>
@@ -14233,7 +14268,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>und</token>
                     <token>dünn</token>
                 </pattern>
-                <message>&inwend;'durch <suggestion><match no="2" case_conversion="startlower"/></suggestion> und dünn' werden 'dick' und 'dünn' kleinggeschrieben.</message>
+                <message>&inwend;'durch <suggestion><match no="2" case_conversion="startlower"/></suggestion> und dünn' werden 'dick' und 'dünn' kleingeschrieben.</message>
                 <example correction="dick">Sie gehen durch <marker>Dick</marker> und dünn.</example>
             </rule>
             <rule>
@@ -14245,7 +14280,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>oder</token>
                     <token>lang</token>
                 </pattern>
-                <message>&inwend;'über <suggestion><match no="2" case_conversion="startlower"/></suggestion> oder lang' werden 'kurz' und 'lang' kleinggeschrieben.</message>
+                <message>&inwend;'über <suggestion><match no="2" case_conversion="startlower"/></suggestion> oder lang' werden 'kurz' und 'lang' kleingeschrieben.</message>
                 <example correction="kurz">Über <marker>Kurz</marker> oder lang wird er verlieren.</example>
             </rule>
             <rule>
@@ -20643,7 +20678,7 @@ Andere Projekte</example>
                     <token regexp="yes">verlangen|bitten|nachfragen?|an(frage|raten)|wiedersehen|betreiben|probe</token>
                 </marker>
             </pattern>
-            <message>Das substantvierte Verb <suggestion><match no="2" case_conversion="startupper"/></suggestion> muss großgeschrieben werden.</message>
+            <message>Das substantivierte Verb <suggestion><match no="2" case_conversion="startupper"/></suggestion> muss großgeschrieben werden.</message>
             <url>https://www.korrekturen.de/regelwerk/gross-_und_kleinschreibung2-2.shtml</url>
             <short>&prgk;.</short>
             <example correction="Verlangen">Auf <marker>verlangen</marker> des Staatsanwalts wurde die Verhandlung unterbrochen.</example>
@@ -28169,7 +28204,7 @@ Andere Projekte</example>
                     <token>auf</token>
                     <token>weiß</token>
                 </pattern>
-                <message>inwend;<suggestion><match no="1" case_conversion="startlower"/> auf weiß</suggestion> werden die Farbadjektive kleingeschrieben.</message>
+                <message>&inwend;<suggestion><match no="1" case_conversion="startlower"/> auf weiß</suggestion> werden die Farbadjektive kleingeschrieben.</message>
                 <short>&prgk;.</short>
                 <example correction="schwarz auf weiß">Es steht hier <marker>Schwarz auf Weiß</marker>.</example>
                 <example><marker>Schwarz auf weiß</marker> steht es hier.</example>
@@ -28293,7 +28328,7 @@ Andere Projekte</example>
                     <token min="0">zu</token>
                     <token inflected="yes">machen</token>
                 </pattern>
-                <message>In der Wendung 'sich etwas <suggestion><match no="1" case_conversion="startlower"/></suggestion> machen' (=beherrschen) handelt es sich bei 'untertan' um ein Adjektiv, das kleingeschreiben werden muss.</message>
+                <message>In der Wendung 'sich etwas <suggestion><match no="1" case_conversion="startlower"/></suggestion> machen' (=beherrschen) handelt es sich bei 'untertan' um ein Adjektiv, das kleingeschrieben werden muss.</message>
                 <short>&prgk;.</short>
                 <example correction="untertan">Der Mensch hat sich die Erde <marker>Untertan</marker> gemacht.</example>
             </rule>
@@ -29044,7 +29079,7 @@ Andere Projekte</example>
         </rulegroup>
         <rulegroup id="KEIN_PLURAL_WAEHRUNG" name="Kein Plural bei Geldbeträgen, z.B. 'fünf Euros (Euro)'">
             <url>https://de.wiktionary.org/wiki/Euro</url>
-            <!-- TODO andere Währungen, evt. allgemeiner für Einheiten: 'Ich bin 6 Fuß (nicht: Füße) groß' etc. -->
+            <!-- TODO andere Währungen, evtl. allgemeiner für Einheiten: 'Ich bin 6 Fuß (nicht: Füße) groß' etc. -->
             <rule>
                 <pattern>
                     <token regexp="yes">[0-9]{1,6}</token>
@@ -29428,7 +29463,7 @@ Andere Projekte</example>
                     </marker>
                     <token><exception regexp="yes">\W</exception></token>
                 </pattern>
-                <message>Prüfen Sie, ob hier die die korrekte Verbform verwendet wird.</message>
+                <message>Prüfen Sie, ob hier die korrekte Verbform verwendet wird.</message>
                 <suggestion>\2e</suggestion>
                 <example correction="gehe">Ich <marker>geh</marker> jetzt.</example>
                 <example>Wenn ich dank ihres sechsten Sinns gewinne, ist das gut.</example>
@@ -29453,7 +29488,7 @@ Andere Projekte</example>
                     </marker>
                     <token><exception regexp="yes">\W</exception></token>
                 </pattern>
-                <message>Prüfen Sie, ob hier die die korrekte Verbform verwendet wird.</message>
+                <message>Prüfen Sie, ob hier die korrekte Verbform verwendet wird.</message>
                 <suggestion>\2t</suggestion>
                 <example correction="geht">Er <marker>geh</marker> jetzt.</example>
                 <example>Sie wusste es dank ihres sechsten Sinns.</example>
@@ -37402,8 +37437,8 @@ Andere Projekte</example>
                     <token case_sensitive="yes">San</token>
                     <token case_sensitive="yes" regexp="yes">Franzisko.*</token>
                 </pattern>
-                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion>San <match no="2" regexp_match="Franzisko(.*)" regexp_replace="Franzisco$1"/></suggestion> verwenden?</message>
-                <example correction="San Franzisco"><marker>San Franzisko</marker></example>
+                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion>San <match no="2" regexp_match="Franzisko(.*)" regexp_replace="Francisco$1"/></suggestion> verwenden?</message>
+                <example correction="San Francisco"><marker>San Franzisko</marker></example>
             </rule>
             <rule>
                 <pattern>

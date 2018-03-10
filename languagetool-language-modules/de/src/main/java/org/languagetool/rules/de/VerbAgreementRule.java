@@ -273,7 +273,7 @@ public class VerbAgreementRule extends TextLevelRule {
       }
       
       if (tokens[i].hasPartialPosTag("VER")
-          && (Character.isLowerCase(tokens[i].getToken().charAt(0)) || i == 1 || StringUtils.equalsAny(tokens[i-1].getToken(), "„", "\"")) ) {
+          && (Character.isLowerCase(tokens[i].getToken().charAt(0)) || i == 1 || isQuotationMark(tokens[i-1])) ) {
         if (hasUnambiguouslyPersonAndNumber(tokens[i], "1", "SIN")
             && !(strToken.equals("bin") && (BIN_IGNORE.contains(tokens[i-1].getToken())
                   || (tokens.length != i + 1 && tokens[i+1].getToken().startsWith("Laden")) ))) {
@@ -325,13 +325,13 @@ public class VerbAgreementRule extends TextLevelRule {
     
     if (posVer2Sin != -1 && posDu == -1 && !isQuotationMark(tokens[posVer2Sin-1])) {
       ruleMatches.add(ruleMatchWrongVerb(tokens[posVer2Sin], pos, sentence));
-    } else if (posDu > 0 && !isNear(posPossibleVer2Sin, posDu) && !isQuotationMark(tokens[posDu-1])) {
+    } else if (posDu > 0 && !isNear(posPossibleVer2Sin, posDu) && (!isQuotationMark(tokens[posDu-1]) || posDu < 3)) {
       int plus1 = ((posDu + 1) == tokens.length) ? 0 : +1;
       BooleanAndFiniteVerb check = verbDoesMatchPersonAndNumber(tokens[posDu - 1], tokens[posDu + plus1], "2", "SIN", finiteVerb);
       if (!check.verbDoesMatchPersonAndNumber &&
-          !tokens[posDu+plus1].hasPartialPosTag("VER:1:SIN:KJ2") && // "Wenn ich du wäre"
-          !tokens[posDu+plus1].hasPartialPosTag("ADJ:") && // "dass du  billige Klamotten..."
-          !tokens[posDu-1].hasPartialPosTag("VER:1:SIN:KJ2")) {
+          !tokens[posDu+plus1].hasPosTagStartingWith("VER:1:SIN:KJ2") && // "Wenn ich du wäre"
+          !(tokens[posDu+plus1].hasPosTagStartingWith("ADJ:") && !tokens[posDu+plus1].hasPosTag("ADJ:PRD:GRU"))&& // "dass du  billige Klamotten..."
+          !tokens[posDu-1].hasPosTagStartingWith("VER:1:SIN:KJ2")) {
         if (!nextButOneIsModal(tokens, posDu)) {
           ruleMatches.add(ruleMatchWrongVerbSubject(tokens[posDu], check.finiteVerb, "2:SIN", pos, sentence));
         }

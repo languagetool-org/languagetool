@@ -109,6 +109,8 @@ public class VerbAgreementRuleTest {
     assertBad("Solltest ihr das machen?", "Subjekt und Prädikat (Solltest)");
     assertBad("Weiter befindest sich im Osten die Gemeinde Dorf.");
     assertBad("Ich geht jetzt nach Hause, weil ich schon zu spät bin.");
+    assertBad("„Du muss gehen.“");
+    assertBad("Du weiß es doch.");
   }
 
   @Test
