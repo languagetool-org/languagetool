@@ -3433,22 +3433,58 @@ regexp case-insensitive maken : (?i)
 		<rulegroup id="AFKO_PUNT" name="dr → dr.">
 			<!-- 2014-08-22 TaalTik -->
 			<rule>
-				<antipattern><token regexp="yes" case_sensitive="yes">ING|Max|WW|BW|MAX|NL</token></antipattern>
-				<antipattern><token>no</token><token postag="UNKNOWN"/></antipattern> <!-- buitenlandse kreten -->
-				<antipattern><token>no</token><token regexp="yes">nonsens|nonsense|time</token></antipattern>
+				<antipattern><token regexp="yes" case_sensitive="yes">ING|Max|WW|BW|MAX|NL|DIV|DS|dS|FAM|FA|IR|MLD|MR</token></antipattern>
 				<antipattern><token regexp="yes">geen|het</token><token>ov</token></antipattern>
 				<antipattern><token>de</token><token>MR</token></antipattern>
+                <antipattern><token regexp="yes">art|no</token><token regexp="yes" negate="yes">[0-9]*</token></antipattern> <!-- tegen art house , no nonsense etc -->
+                <antipattern><token regexp="yes">[0-9]*</token><token>art</token></antipattern> <!-- tegen centiare -->
+                <antipattern><token regexp="yes">een|de</token><token>div</token></antipattern> <!-- tegen html-klets -->
 				<pattern>
 					<marker>
-						<token regexp="yes">aanw|afb|afd|alg|art|bc|bez|bijv|blz|bw|ca|dhr|div|dr|dra|drs|ds|enz|etc|excl|fa|fam|fig|fr|geb|get|incl|ing|ir|jhr|jkvr|jl|jr|lic|max|mi|mld|mln|mr|nl|no|nr|nrs|ong|onov|ov|pag|plm|plv|resp|vgl|vnl|vnw|voorz|ww|zgn</token>
+						<token regexp="yes">aanw|afb|afd|art|bez|bijv|blz|bw|ca|dhr|div|dr|drs|ds|enz|etc|excl|fa|fam|fig|fr|geb|incl|ing|ir|jhr|jkvr|jl|jr|max|mld|mln|mr|nl|no|nr|nrs|ong|onov|pag|plm|plv|resp|vgl|vnl|vnw|voorz|zgn</token>
 					</marker>
 					<token negate="yes">.</token>
 				</pattern>
-				<message>Vergeet de punt niet als het een afkorting is: <suggestion>\1.</suggestion> Of schrijf het voluit.</message>
-				<short>punt</short>
-				<example correction="Dr."><marker>Dr</marker> Janssen is fout.</example>
-				<example><marker>Dr.</marker> Janssen is goed.</example>
-			</rule>
+                <message>Vergeet de punt niet als het een afkorting is: <suggestion>\1.</suggestion> Of schrijf het voluit.</message>
+                <short>punt</short>
+                <example correction="afb.">Het was een enorm domein van 6 hectaren omgeven door een 8 meter hoge dikke muur, (<marker>afb</marker> 1).</example>
+                <example correction="art.">Wanneer we <marker>art</marker> 20 bestellen, gaat het mis.</example>                 
+                <example correction="bijv.">Ik heb nu <marker>bijv</marker> een goede tent van oorspronkelijk 450 euro op de kop getikt bij de kampeermarkt.</example>
+                <example correction="blz.">Paperback in zeer goede staat, met achterin 5 <marker>blz</marker> met schetsen.</example>
+                <example correction="Ca."><marker>Ca</marker> 1 jaar geleden ben ik begonnen met deze blog.</example>
+                <example correction="dhr.">Die vrouw bleek de dochter te zijn van de <marker>dhr</marker> en mevr. Jansen.</example>
+				<example correction="div.">Ik wil graag met één connect softwarepakket met <marker>div</marker> providers werken in binnen en buitenland.</example>
+				<example correction="dr.">Prof. <marker>dr</marker> Maurits Berger is winnaar van de hoofddoekprijs 2011.</example>
+				<example correction="drs.">Larmuseau en <marker>drs</marker> Marc Gabriëls.</example>
+				<example correction="enz.">Bij gebruik van een tent mogen de versieringen (vuurwerk, kaarsen <marker>enz</marker>) geen risico opleveren.</example>
+				<example correction="etc.">Wel vrees ik dat ieder nationalisme kiemen van racisme <marker>etc</marker> in zich houdt.</example>
+				<example correction="excl.">Bieden vanaf €89,- (<marker>excl</marker> eventuele verzendkosten).</example>
+				<example correction="fam.">Eerst en vooral, een vruchtbaar nieuwjaar voor u en uw <marker>fam</marker> in 2009.</example>
+				<example correction="fig.">De geconcentreerde bebouwing laat ook een herstructurering toe (<marker>fig</marker> 6).</example>         
+				<example correction="fr.">Het plafond van 18.000 fr. wordt ook van kracht voor alle gezinnen met een inkomen tot 540.000 <marker>fr</marker> (de lage inkomens).</example>
+                <example correction="geb.">Clement Hollman <marker>geb</marker> september 1856 ovl 3 maanden oud op 26 dec.</example>
+				<example correction="incl.">Langs het strand gefietst en bij Benno gegeten voor €8,60 <marker>incl</marker> 2 glazen bier.</example>
+				<example correction="ing.">Ik heb het 1e jaar industrieel <marker>ing</marker> in Leuven gevolgd.</example>
+				<example correction="ir.">Ze is burgerlijk <marker>ir</marker> van opleiding.</example>
+				<example correction="jl.">En vrijdag <marker>jl</marker> moest ik overwerken.</example>
+				<example correction="jr.">Ze zijn 2 <marker>jr</marker> oud.</example>
+				<example correction="Jr.">Wat Timo <marker>Jr</marker> zegt, dat vind ik eigenlijk ook.</example>
+				<example correction="max.">Anders is een afstand van <marker>max</marker> 20 km per dag wel genoeg.</example>
+				<example correction="mld.">Anderzijds is het beperkt tot een maximum bedrag van 2,5 <marker>mld</marker> aan jaarlijkse intrestlasten per gewest.</example>
+				<example correction="mln.">De orderportefeuille steeg naar EUR 1.841 <marker>mln</marker> eind '10.</example>
+				<example correction="Mr."><marker>Mr</marker> Rouget zegt daarop dat er eten te kort is.</example>
+				<example correction="nl.">De spieren die verantwoordelijk zijn om het onderbeen naar buiten te draaien, zijn <marker>nl</marker> relatief klein.</example>
+				<example correction="no.">Dat prent <marker>no</marker> 3 niet zichtbaar is, het zij zo, maar de uitleg van de prent zou noodzakelijk zijn.</example>
+                <example correction="nr.">Perspectieven, jaargang 68 <marker>nr</marker> 3, mei 2007.</example>
+                <example correction="nrs.">De amendementen <marker>nrs</marker> 3 en 4 bij artikel 2 van het wetsontwerp werden goedgekeurd.</example>
+                <example correction="ong.">Kenmerken: <marker>ong</marker> 1m50 hoog, vos met lichtere manen en staart.</example>
+				<example correction="pag.">Op <marker>pag</marker> 24 van deze installatiehandleiding zie je het deurslotschema.</example>
+                <example correction="plm.">Ik heb nu een Mercedes dakkoffer uit <marker>plm</marker> 2002.</example>
+                <example correction="resp.">Ze zitten in een raster en de sporen liggen op <marker>resp</marker> 10 en 15 cm van de "publiekszijde".</example>
+                <example correction="vgl.">Wanneer de lucht verwarmt, zet de lucht uit (<marker>vgl</marker> ballon).</example>
+                <example correction="vnl.">Zoals al snel duidelijk wordt is mails lezen de grootste verdienste, gevolgd door <marker>vnl</marker> aanmeldingen.</example>
+                <example correction="zgn.">Door juist inzaaien van deze <marker>zgn</marker> vette kruidachtigen weer een kans om te bloeien en zich te vermeerderen.</example>
+            </rule>
 		</rulegroup>
 		<rulegroup id="A_I_O" name="a.i.o. → aio">
 			<!-- 2014-08-19 TaalTik -->
@@ -22806,12 +22842,13 @@ regexp case-insensitive maken : (?i)
 			
 			<rulegroup id="VLUCHTHAVEN" name="vluchthaven → luchthaven">
 				<rule>
-					<!-- TaalTik, 2014-10-03, nieuw -->
 					<pattern>
 						<token>vluchthaven</token>
 					</pattern>
-					<message>Mogelijk verwarring: Bedoelde u <suggestion>luchthaven</suggestion> (een veilig adres.) i.p.v. 'luchthaven' (vliegveld.).</message>
+					<message>Mogelijk verwarring: Bedoelde u <suggestion>luchthaven</suggestion> (vliegveld.) i.p.v een veilig adres?</message>
 					<example correction="luchthaven">Op de <marker>vluchthaven</marker> stond het vliegtuig klaar.</example>
+					<example correction="luchthaven">Kan u geen <marker>vluchthaven</marker> bereiken?</example>
+					<example correction="luchthaven">Een <marker>vluchthaven</marker> is aangeduid met verkeersbord F98.</example>
 				</rule>
 			</rulegroup>
 			
@@ -22835,7 +22872,7 @@ regexp case-insensitive maken : (?i)
 						<token>cirkel</token>
 					</pattern>
 					<message>U bedoelt vast: <suggestion>vicieuze cirkel</suggestion> (kring zonder uitweg).</message>
-					<example correction="vicieuze cirkel">De <marker>visuele cirkel</marker> begint.</example>
+					<example correction="vicieuze cirkel">Haar thema is 'Natuur': fascinatie voor de <marker>visuele cirkel</marker> in de natuur.</example>                    
 				</rule>
 			</rulegroup>
 			
@@ -22862,6 +22899,9 @@ regexp case-insensitive maken : (?i)
 					</pattern>
 					<message>U bedoelt vast: <suggestion>\1 parket</suggestion> (situatie).</message>
 					<example correction="lastig parket">Hij zat in een <marker>lastig pakket</marker>.</example>
+                    <example correction="lastig parket">Ze brengen de Triade in een zeer <marker>lastig pakket</marker>.</example>
+                    <example correction="lastig parket">Ik heb daarna zeker kunnen concluderen dat een boer in een <marker>lastig pakket</marker> zit.</example>
+                    
 				</rule>
 			</rulegroup>
 			
@@ -22965,11 +23005,13 @@ regexp case-insensitive maken : (?i)
 				<rule>
 					<!-- TaalTik, 2014-10-02, nieuw -->
 					<pattern>
-						<token>episch</token>
-						<token>centrum</token>
+						<token case_sensitive="yes">episch</token>
+						<token case_sensitive="yes">centrum</token>
 					</pattern>
 					<message>U bedoelt vast: <suggestion>epicentrum</suggestion>, het hart van de aardbeving.</message>
 					<example correction="epicentrum">Het <marker>episch centrum</marker> lag vijf km uit de kust.</example>
+                    <example correction="epicentrum">Het <marker>episch centrum</marker> van de beving lag in Oroszlány, ongeveer 70 km van Boedapest.</example>
+                    
 				</rule>
 			</rulegroup>
 			
@@ -22998,13 +23040,13 @@ regexp case-insensitive maken : (?i)
 			
 			<rulegroup id="LIQUIDATIEPROBLEEM" name="Liquidatieprobleem → liquiditeitsprobleem">
 				<rule>
-					<!-- TaalTik, 2014-10-02, nieuw -->
 					<pattern>
-                        <token regexp="yes">liquidatie.{3,}<exception>liquidatiebonus</exception></token>
+                        <token regexp="yes">liquidatie.{3,}<exception regexp="yes">liquidatie(bonus|boni|belasting|golf|tarief|termijn|vergoeding|waarde)</exception></token>
 					</pattern>
 					<message>Mogelijk bedoelt u: <suggestion><match no="1" regexp_match="liquidatie" regexp_replace="liquiditeits"/></suggestion> (iets met betalen).</message>
 					<example correction="liquiditeitsprobleem">Hij heeft een <marker>liquidatieprobleem</marker>.</example>
                     <example correction="liquiditeitsreserve">We verwachten in de komende weken nog verduidelijking over de <marker>liquidatiereserve</marker> uit boekjaar 2012.</example>
+                    <example correction="liquiditeitscoëfficiënt">De maximum brutojaarwedde bedraagt 59 000 euro, gezien de huidige <marker>liquidatiecoëfficiënt</marker> ( x 1,4002 – juli 2007).</example>
 				</rule>
 			</rulegroup>
 			
@@ -23052,7 +23094,7 @@ regexp case-insensitive maken : (?i)
 						<token regexp="yes">vol|half</token>
 						<token>pensioen</token>
 					</pattern>
-					<message>Waarschijnlijk bedoelt u: <suggestion>\1 pension</suggestion> (eten bij het hotel).</message>
+					<message>Mischien bedoelt u: <suggestion>\1 pension</suggestion> (eten bij het hotel).</message>
 					<example correction="vol pension">We boekten <marker>vol pensioen</marker>.</example>
 				</rule>
 			</rulegroup>
@@ -23082,19 +23124,33 @@ regexp case-insensitive maken : (?i)
 					</pattern>
 					<message>U bedoelt vast: <suggestion>sowieso</suggestion> (<suggestion>hoe dan ook</suggestion>).</message>
 					<example correction="sowieso|hoe dan ook">Ik kom <marker>so ie zo</marker> niet uit.</example>
-					<example>Ik kom <marker>sowieso</marker> uit.</example>
+					<example correction="Sowieso|Hoe dan ook"><marker>Zo ie zo</marker> gaat ze mee, en worden ze binnen 2 jaar wereldkampioen.</example>
+					<example correction="Sowieso|Hoe dan ook"><marker>Zo wie zo</marker> was er veel kerstsfeer om en langs de Moezel.</example>
+					<example correction="sowieso|hoe dan ook">Bruno was <marker>zo wie zo</marker> al van plan om bij de thuiskomst nieuwe banden te plaatsen.</example>
+					<example correction="sowieso|hoe dan ook">De app is <marker>so wie so</marker> niet meer toegankelijk als u gedurende drie minuten niets doet.</example>
+                    <example correction="sowieso|hoe dan ook">En het gaat <marker>zo wie zo</marker> al niet al te schitterend dus.</example>
+					<example correction="sowieso|hoe dan ook">Anders kost het je je <marker>zo ie zo</marker> de baarmoeder.</example>
+					<example correction="sowieso|hoe dan ook">Ja die streek is <marker>zo wie zo</marker>, voor mij toch, onbetaalbaar.</example>
 				</rule>
 			</rulegroup>
 			
 			<rulegroup id="PUBERTIJD" name="Pubertijd → puberteit">
 				<rule>
-					<!-- TaalTik, 2014-10-02, nieuw -->
 					<pattern>
 						<token regexp="yes">.*pubertijd.*</token>
 					</pattern>
 					<message>Meestal wordt <suggestion><match no="1" regexp_match="pubertijd" regexp_replace="puberteit"/></suggestion> bedoeld (de toestand van puber zijn).</message>
 					<example correction="puberteit">Ik kom de <marker>pubertijd</marker> niet uit.</example>
 					<example>Ik kom de <marker>puberteit</marker> uit.</example>
+					<example correction="puberteit">Het is inderdaad moeilijk als ze in de <marker>pubertijd</marker> zitten.</example>
+					<example correction="puberteit">Tijdens de <marker>pubertijd</marker> valt de ouderlijke controle grotendeels weg.</example>
+					<example correction="puberteit">Het is belangrijk te weten dat een kinderwens een natuurlijk verschijnsel is vanaf de <marker>pubertijd</marker>.</example>
+					<example correction="puberteit">Medisch gezien is een operatie perfect te verantwoorden zodra de <marker>pubertijd</marker> voltooid is.</example>
+					<example correction="puberteit">De astma verdween in de <marker>pubertijd</marker>.</example>
+					<example correction="puberteit">Vooral reuen kunnen tijdens de <marker>pubertijd</marker> koppig zijn als ze macht willen.</example>
+					<example correction="puberteit">En zijn op het actiefst tijdens de <marker>pubertijd</marker>.</example>
+					<example correction="puberteit">Niet abnormaal natuurlijk tijdens deze <marker>pubertijd</marker>.</example>
+					<example correction="puberteit">De <marker>pubertijd</marker> is een van die levensfasen waarin astmaklachten vaak verminderen.</example>
 				</rule>
 			</rulegroup>
 			
@@ -23126,12 +23182,15 @@ regexp case-insensitive maken : (?i)
 			<rulegroup id="ONTROEREND_GOED" name="Ontroerend goed → onroerend goed">
 				<!-- TaalTik, 2014-10-02, nieuw -->
 				<rule>
+                    <antipattern case_sensitive="yes"><token>Ontroerend</token><token>Goed</token></antipattern> <!-- Gents toneelgezelschap -->
 					<pattern>
 						<token>ontroerend</token>
 						<token>goed</token>
 					</pattern>
 					<message>U bedoelt vast: <suggestion>onroerend goed</suggestion> (gebouwen).</message>
 					<example correction="onroerend goed">Het <marker>ontroerend goed</marker> is onbetaalbaar.</example>
+                    <example correction="onroerend goed">Een “getopte” boom kan zelfs de <marker>ontroerend goed</marker> waarde naar beneden brengen.</example> <!-- spatiefout ook! -->
+                    <example correction="onroerend goed">Mulder voelde zich bij Anderlecht <marker>ontroerend goed</marker> in zijn vel.</example> <!-- false positive -->
 				</rule>
 			</rulegroup>
 			<rulegroup id="OP_DE_KEEPER_BESCHOUWD" name="Op de keeper beschouwd → op de keper beschouwd">
@@ -23146,8 +23205,10 @@ regexp case-insensitive maken : (?i)
 						<token regexp="yes">beschouw.*</token>
 					</pattern>
 					<message>U bedoelt vast: op de <suggestion>keper</suggestion> beschouwd (nauwkeurig bekeken).</message>
-					<example correction="keper">Op de <marker>keeper</marker> beschouwd was het fout.</example>
                     <example correction="keper">Op de <marker>keeper</marker> beschouwd, welke "toegevoegde waarde" hebben deze jaartallen?</example>
+					<example correction="keper">Ze worden daarin bijgestaan door de pers - op de <marker>keeper</marker> beschouwd is dat een vorm van sociale tewerkstelling.</example>
+					<example correction="keper">Op de <marker>keeper</marker> beschouwd is er amper verschil tussen die twee.</example>
+					<example correction="keper">Hij twijfelde nog of hij het had gezien, terwijl hij op de <marker>keeper</marker> beschouwd natuurlijk niets had gezien.</example>                    
 				</rule>
 			</rulegroup>
 			<rulegroup id="WENDT_OF_KEERT" name="Went of keert → wendt of keert">
@@ -23162,7 +23223,8 @@ regexp case-insensitive maken : (?i)
 					</pattern>
 					<message>U bedoelt vast: <suggestion>wendt</suggestion> of keert.</message>
 					<url>https://onzetaal.nl/taaladvies/advies/wendt-of-keert-went-of-keert</url>
-					<example correction="wendt">Hoe je het ook <marker>went</marker> of keert: het is fout.</example>
+					<example correction="wendt">Hoe je het <marker>went</marker> of keert, geld is nu eenmaal waar we ons huis van betalen.</example>
+					<example correction="wendt">Want hoe je het ook <marker>went</marker> of keert, Kaya is intussen natuurlijk al 12.5 jaar!</example>                    
 				</rule>
 			</rulegroup>
 			<rulegroup id="INVALIDE_TOILET" name="Invalide toilet → invalidentoilet">
@@ -23176,6 +23238,7 @@ regexp case-insensitive maken : (?i)
 					</pattern>
 					<message>U bedoelt vast: <suggestion>\1n\2</suggestion>.</message>
 					<example correction="invalidentoilet">Het <marker>invalide toilet</marker> was net schoongemaakt.</example>
+                    <example correction="mindervalidentoilet">Omdat wij met iedereen wensen rekening te houden, hebben wij vanaf nu een <marker>mindervalide toilet</marker>.</example>
 				</rule>
 			</rulegroup>
 			<rulegroup id="EEN_SOORT_VAN_JAMMER" name="Een soort van jammer → jammer">
@@ -23209,6 +23272,9 @@ regexp case-insensitive maken : (?i)
 					<example correction="haar">De kapper deed <marker>heur</marker> haar.</example>
                     <example correction="haar">Maar laten zij na den oorlog voorgoed met <marker>heur</marker> slavenhandelaars afrekenen.</example>
                     <example correction="haar">'t scheen dat de zon <marker>heur</marker> laaiende gloed spuwde uit duizend vuurmonden.</example>
+                    <example correction="haar">Maar grootmoeder op <marker>heur</marker> lage stoeltje bij haar snorkend spinnewiel</example>
+                    <example correction="Haar"><marker>Heur</marker> gevoel is sterker dan haar wil.</example>
+
                 </rule>
 			</rulegroup>
 		</category>
