@@ -41,8 +41,9 @@ class RegexPatternRule extends AbstractPatternRule implements RuleMatcher {
   private static final Pattern suggestionPattern = Pattern.compile("<suggestion>(.*?)</suggestion>");  // TODO: this needs to be cleaned up, there should be no need to parse this?
   private static final Pattern matchPattern = Pattern.compile("\\\\\\d");
 
-  // in suggestions tokens are numbered from 1, anywhere else tokens are numbered from 0
+  // in suggestions tokens are numbered from 1, anywhere else tokens are numbered from 0.
   // see: http://wiki.languagetool.org/development-overview#toc17
+  // But most of the rules tend to use 1 to refer the first capturing group, so keeping that behavior as default
   public static final int MATCHES_IN_SUGGESTIONS_NUMBERED_FROM = 0;
 
 
@@ -76,8 +77,6 @@ class RegexPatternRule extends AbstractPatternRule implements RuleMatcher {
     int startPos = 0;
 
     while (patternMatcher.find(startPos)) {
-      boolean sentenceStart = patternMatcher.start(0) == 0;
-
       int markStart = patternMatcher.start(markGroup);
       int markEnd = patternMatcher.end(markGroup);
 
@@ -85,7 +84,8 @@ class RegexPatternRule extends AbstractPatternRule implements RuleMatcher {
       String processedSuggestionsOutMsg = processMessage(patternMatcher, suggestionsOutMsg, backReferencesInSuggestionsOutMsg,
               suggestionsInSuggestionsOutMsg, suggestionMatchesOutMsg);
 
-      RuleMatch ruleMatch = new RuleMatch(this, sentenceObj, markStart, markEnd, processedMessage, null, sentenceStart, processedSuggestionsOutMsg);
+      boolean startsWithUpperCase = patternMatcher.start() == 0 && Character.isUpperCase(sentenceObj.getText().charAt(patternMatcher.start()));
+      RuleMatch ruleMatch = new RuleMatch(this, sentenceObj, markStart, markEnd, processedMessage, null, startsWithUpperCase, processedSuggestionsOutMsg);
       matches.add(ruleMatch);
 
       startPos = patternMatcher.end();
@@ -132,25 +132,14 @@ class RegexPatternRule extends AbstractPatternRule implements RuleMatcher {
       int inXMLMatchReferenceNo = Integer.parseInt(message.substring(reference.getLeft(), reference.getRight()).split("\\\\")[1]);
       int actualMatchReferenceNo = inXMLMatchReferenceNo - (insideSuggestion ? MATCHES_IN_SUGGESTIONS_NUMBERED_FROM : 0);
 
-      Match currentProcessingMatch = null;
-      try {
-        currentProcessingMatch = matches.get(i);
-      }
-      catch (IndexOutOfBoundsException e){
-        System.out.println(this.getId());
-      }
-      String matchReferenceStringValue = "";
-      try{
-        matchReferenceStringValue = matcher.group(actualMatchReferenceNo);
-      } catch (IndexOutOfBoundsException e){
-        System.out.println(this.getId());
-      }
+      String matchReferenceStringValue = matcher.group(actualMatchReferenceNo);
       if (matchReferenceStringValue == null){
         matchReferenceStringValue = "";
       }
 
-      String suggestion;
+      Match currentProcessingMatch = matches.get(i);
       String regexReplace = currentProcessingMatch.getRegexReplace();
+      String suggestion;
       if (regexReplace != null) {
         suggestion = currentProcessingMatch.getRegexMatch().matcher(matchReferenceStringValue).replaceFirst(regexReplace);
         suggestion = CaseConversionHelper.convertCase(currentProcessingMatch.getCaseConversionType(), suggestion, matchReferenceStringValue, getLanguage());
