@@ -108,9 +108,8 @@ class RegexPatternRule extends AbstractPatternRule implements RuleMatcher {
                                 List<Pair<Integer, Integer>> suggestions, List<Match> matches) {
 
     int closestSuggestionPosition = -1;
-    boolean allSuggestionsPassed = true;
+    boolean allSuggestionsPassed = suggestions.isEmpty();
     if (!suggestions.isEmpty()) {
-      allSuggestionsPassed = false;
       closestSuggestionPosition = 0;
     }
 
