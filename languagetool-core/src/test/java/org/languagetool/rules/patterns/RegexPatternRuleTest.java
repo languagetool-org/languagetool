@@ -18,7 +18,6 @@
  */
 package org.languagetool.rules.patterns;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
@@ -31,7 +30,6 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
 
 @SuppressWarnings("MagicNumber")
-@Ignore
 public class RegexPatternRuleTest {
   
   @Test
