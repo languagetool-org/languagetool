@@ -3677,7 +3677,7 @@
           <pattern>
             <marker>
             <and>
-            <token postag="NNS"/>
+            <token postag="NNS"><exception scope="previous" regexp="yes">is|was</exception></token><!-- Exception: do not disambiguate incorrect grammar. -->
             <token postag="VBZ"/>
             </and>
             </marker>
@@ -3687,6 +3687,9 @@
           <disambig postag="VBZ"/>
           <example type="untouched">This is work.</example>
           <example type="untouched">It has an advantage compared to objects that make something.</example>
+          <example type="untouched">For more than one year there was <marker>updates</marker> every day.</example><!-- Refer to grammar THERE_WAS_MANY. -->
+          <example type="untouched">... and there was <marker>weeds</marker> all round the grave.</example>
+          <example type="untouched">Is <marker>marks</marker> all over the window your idea of cleaning?</example>
           <example type="ambiguous" inputform="causes[cause/NNS,cause/VBZ]" outputform="causes[cause/VBZ]">Hard work <marker>causes</marker> an event.</example>
         </rule>
         
