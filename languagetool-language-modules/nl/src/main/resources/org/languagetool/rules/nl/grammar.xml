@@ -3420,7 +3420,8 @@ regexp case-insensitive maken : (?i)
 			<rule>
 				<pattern case_sensitive="yes">
 					<marker>
-						<token spacebefore="yes" regexp="yes">(mm|cm|km|mg|kg|h|kW|mW)</token>
+						<token spacebefore="yes" regexp="yes">(mm|cm|km|mg|kg|kW|mW)</token>
+                        <!-- TODO h voor uur (geeft te veel false positives -->
 						<token spacebefore="no">.</token>
 					</marker>
 					<token><exception postag="SENT_END"/></token>
@@ -3428,7 +3429,10 @@ regexp case-insensitive maken : (?i)
 				<message>Dit is geen afkorting maar een eenheid: <suggestion><match no="1"/></suggestion></message>
 				<url>http://taaladvies.net/taal/advies/vraag/170</url>
 				<example correction="mm">Het is 15 <marker>mm.</marker> dik.</example>
-			</rule>
+				<example correction="cm">Kinderwagens met ten minste twee afmetingen van meer dan 80 <marker>cm.</marker> worden in T-treinen niet aangenomen.</example>
+				<example correction="kg">Daarbij voegt jnen voor de opbrengst 0.250 <marker>kg.</marker> zetmeel.</example>
+				<example correction="km">220 <marker>km.</marker> in 7 uur 07 min. 31 sec.</example>
+ 			</rule>
 		</rulegroup>
 		<rulegroup id="AFKO_PUNT" name="dr → dr.">
 			<!-- 2014-08-22 TaalTik -->
@@ -3542,12 +3546,21 @@ regexp case-insensitive maken : (?i)
 			<!-- 2014-08-20 TaalTik uitzondering cellulitis, godvrucht, Honolulu, aardkloot, stefanus toegevoegd -->
 			<rule>
 				<pattern>
-					<token regexp="yes">.*(godv|kont|anus|lul|kut|kloot|klote|druiloor|zakkenwasser|shit|.*verdom.*).*<exception regexp="yes">.*(aardkloot|honolulu|godvrucht|cellul|kontich|ontwik|tetanus|ijkont|gshitte|drukontl|kontakt|manus|llul[ao]).*|bullshit</exception><exception regexp="yes" case_sensitive="yes">[A-Z].*anus</exception></token>
+					<token regexp="yes">.*(godv|kont|anus|lul|kut|kloot|klote|druiloor|zakkenwasser|shit|.*verdom.*).*<exception regexp="yes">.*(aardkloot|honolulu|godvrucht|cellul|kontich|ontwik|tetanus|ijkont|gshitte|drukontl|kontakt|manus|llul[ao]).*|bullshit</exception><exception regexp="yes" case_sensitive="yes">[A-Z].*anus|Matsushita|kontinent.*|kontrole.*|netwerkontwerp|Kuta|Lulu|Akuta|Lula|Konta|Talula|Kutiman|Orkutel|kontant.*|Kinoshita</exception></token>
 				</pattern>
 				<message>Dit taalgebruik kan als ongepast, grof of beledigend worden ervaren.</message>
 				<short>ongepast</short>
 				<example type="incorrect">Ik vind hem een <marker>klootzak</marker>.</example>
-				<example>Ik heb een <marker>hekel aan</marker> hem.</example>
+                <example type="incorrect"><marker>Kontneuken</marker> niet en zal het ook nooit worden.</example>
+                <example type="incorrect"><marker>Kutkruiden</marker> biedt drie verschillende melanges, te koop voor €12,50 per 4 stoombeurten.</example>
+                <example type="incorrect"><marker>Lulligheid</marker> is Nissinens handelsmerk, en dat tot in de kleinste details.</example>
+                <example type="incorrect"><marker>Godverdomme</marker> wat een bende, niks dan ma-juscule smurrie, chemisch spul dat giftig stonk.</example>
+                <example type="incorrect"><marker>Godverdomse</marker> dagen is een product van wat het aanklaagt.</example>
+                <example type="incorrect"><marker>Potverdomme</marker>, het is de “672” weer, mompelde Faan toen hij zag dat het inderdaad zijn eerstgetekende was.</example>
+                <example type="incorrect"><marker>Godvergodver</marker>, eigenlijk haat ik die bloggen, typt ge een bericht in dan verdwijnt alles omdat uw fotooke ocharme 4 kilobijtekes te groot is.</example>
+                <example type="incorrect"><marker>Klootjesvolk</marker> zijn we… dat we dat allemaal zomaar slikken.</example>
+                <example type="incorrect"><marker>Bommerskonten</marker> me gat, kapellen lijkt me eerder het geval.</example>
+                <example type="incorrect"><marker>Klotebelastingen</marker> zijn het!</example>
 			</rule>
 		</rulegroup>
 	</category>
