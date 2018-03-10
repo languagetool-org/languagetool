@@ -307,6 +307,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
         inRegex = false;
         break;
       case RULE:
+        suggestionMatchesOutMsg = addLegacyMatches(suggestionMatchesOutMsg, suggestionsOutMsg.toString(), false);
         if (relaxedMode && id == null) {
           id = "";
         }
@@ -426,6 +427,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
         exampleCorrection = new StringBuilder();
         break;
       case MESSAGE:
+        suggestionMatches = addLegacyMatches(suggestionMatches, message.toString(), true);
         inMessage = false;
         break;
       case SUGGESTION:
@@ -630,10 +632,6 @@ public class PatternRuleHandler extends XMLRuleHandler {
       rule.setSubId("1");
     }
     caseSensitive = false;
-
-    suggestionMatches = addLegacyMatches(suggestionMatches, message.toString(), true);
-    suggestionMatchesOutMsg = addLegacyMatches(suggestionMatchesOutMsg, suggestionsOutMsg.toString(), false);
-
     for (Match m : suggestionMatches) {
       rule.addSuggestionMatch(m);
     }
@@ -704,48 +702,5 @@ public class PatternRuleHandler extends XMLRuleHandler {
       regex.append(s);
     }
   }
-
-  /**
-   * Adds Match objects for all references to tokens
-   * (including '\1' and the like).
-   */
-  protected List<Match> addLegacyMatches(List <Match> existingSugMatches, String messageStr,
-                                         boolean inMessage) {
-    try {
-      List<Match> sugMatch = new ArrayList<>();
-      int pos = 0;
-      int ind = 0;
-      int matchCounter = 0;
-      while (pos != -1) {
-        pos = messageStr.indexOf('\\', ind);
-        if (pos != -1 && messageStr.length() > pos && Character.isDigit(messageStr.charAt(pos + 1))) {
-          if (pos == 0 || messageStr.charAt(pos - 1) != '\u0001') {
-            Match mWorker = new Match(null, null, false, null,
-                    null, Match.CaseConversion.NONE, false, false, Match.IncludeRange.NONE);
-            mWorker.setInMessageOnly(true);
-            sugMatch.add(mWorker);
-          } else if (messageStr.charAt(pos - 1) == '\u0001') { // real suggestion marker
-            sugMatch.add(existingSugMatches.get(matchCounter));
-            if (inMessage) {
-              message.deleteCharAt(pos - 1 - matchCounter);
-            } else {
-              suggestionsOutMsg.deleteCharAt(pos - 1 - matchCounter);
-            }
-            matchCounter++;
-          }
-        }
-        ind = pos + 1;
-      }
-
-      if (sugMatch.isEmpty()) {
-        return existingSugMatches;
-      }
-      return sugMatch;
-    } catch (Exception e){
-      System.out.println(this.id);
-      throw new RuntimeException(e);
-    }
-  }
-
 
 }
