@@ -84,12 +84,18 @@ public class Issue373Test {
   }
 
   @Test
-  public void testFrprt() throws Exception {
-    String wrongString = "This is foo bar";
-    String correctString = "This is foo bar";
-    testString(wrongString, correctString, "FromRegexpPatternRuleTest");
+  public void testFr() throws Exception {
+    String wrongString = "Une glaciaire de camping";
+    String correctString = "Une glacière de camping";
+    testString(wrongString, correctString, "fr");
   }
 
+  @Test
+  public void testOrds() throws Exception {
+    String wrongString = "a*b";
+    String correctString = "a×b";
+    testString(wrongString, correctString, "gl");
+  }
   private void testString(String wrongString, String correctString, String ruleId) throws IOException {
     System.out.println(String.format("testing rule: '%s'", ruleId));
     Rule issueRule = getRuleById(ruleId, RULES);
