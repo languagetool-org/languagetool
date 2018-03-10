@@ -3505,18 +3505,35 @@ regexp case-insensitive maken : (?i)
 		</rulegroup>
 
 		<rulegroup id="BEGINNEN_WW" name="beginnen lopen → beginnen te lopen">
-			<!-- 2014-08-22 TaalTik -->
+            <!-- TODO: suggesties zijn fout bij samengestelde werkwoorden ! -->
 			<rule>
 				<pattern>
 					<token negate="yes" regexp="yes">om|te</token>
 					<marker>
 						<token>beginnen</token>
-						<token postag="WKW:TGW:INF"><exception regexp="yes">zijn|velen</exception></token>
+						<token postag="WKW:TGW:INF"><exception regexp="yes">zijn|velen|(aan|door|mee|bij|in|op).*</exception></token>
 					</marker>
 				</pattern>
-				<message>Juist is <suggestion><match no="2"/> te <match no="3"/></suggestion>.</message>
+                <message>Beter is <suggestion>\2 te \3</suggestion>.</message>
 				<url>http://taaladvies.net/taal/advies/vraag/84/beginnen_infinitief/</url>
-				<example correction="beginnen te werken">Ik zal <marker>beginnen werken</marker>.</example>
+                <example correction="beginnen te besnuffelen">Stilaan zijn ze elkaar <marker>beginnen besnuffelen</marker> en eten ze uit elkaars voerbakje.</example>
+                <example correction="beginnen te besparen">Dat betekent dat je na 12 500 kilometer je installatie terugverdiend hebt en kan <marker>beginnen besparen</marker>.</example>
+                <example correction="beginnen te bestellen">Nu kan je <marker>beginnen bestellen</marker> in de webwinkel.</example>
+                <example correction="beginnen te bestuderen">Dit jaar zullen we ook andere domeinen <marker>beginnen bestuderen</marker>.</example>
+                <example correction="beginnen te besturen">De politici zouden weer moeten <marker>beginnen besturen</marker> en zich bezighouden met belangrijke zaken.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token negate="yes" regexp="yes">om|te</token>
+					<marker>
+						<token>beginnen</token>
+						<token postag="WKW:TGW:INF" regexp="yes">(aan|door|mee|bij|in|op).*</token>
+					</marker>
+				</pattern>
+				<message>Dit is onjuist taalgebruik. Herformuleer.</message>
+				<url>http://taaladvies.net/taal/advies/vraag/84/beginnen_infinitief/</url>
+                <example type="incorrect">Mijn eigen belangstelling zorgde dat ik als eerste dit thema ben <marker>beginnen aanboren</marker>.</example>
+                
 			</rule>
 		</rulegroup>
 	</category>
