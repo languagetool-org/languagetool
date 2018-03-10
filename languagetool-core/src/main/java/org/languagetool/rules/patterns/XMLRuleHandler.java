@@ -519,7 +519,7 @@ public class XMLRuleHandler extends DefaultHandler {
     int ind = 0;
     int matchCounter = 0;
     while (pos != -1) {
-      pos = messageStr.indexOf('\\', ind + 1);
+      pos = messageStr.indexOf('\\', ind);
       if (pos != -1 && messageStr.length() > pos && Character.isDigit(messageStr.charAt(pos + 1))) {
         if (pos == 0 || messageStr.charAt(pos - 1) != '\u0001') {
           Match mWorker = new Match(null, null, false, null,
@@ -536,7 +536,7 @@ public class XMLRuleHandler extends DefaultHandler {
           matchCounter++;
         }
       }
-      ind = pos;
+      ind = pos + 1;
     }
 
     if (sugMatch.isEmpty()) {

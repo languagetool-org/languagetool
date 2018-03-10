@@ -4404,7 +4404,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token inflected="yes" skip="1">gehen</token>               
+                    <token inflected="yes" skip="1">gehen</token>
                     <marker><token>zu</token></marker>
                     <token regexp="yes">Schule|Arbeit</token>
                 </pattern>
@@ -6368,7 +6368,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <regexp>i-p[ao]ds?</regexp>
-                <message>Mit i beginnende Produktnamen von Apple wie <suggestion><match no="1" case_conversion="startlower" regexp_match="^[iI]\-[pP]" regexp_replace="iP"/></suggestion> oder 'iPhone' werden in der Regel zusammen, mit kleinem i und großem P geschrieben.</message>
+                <message>Mit i beginnende Produktnamen von Apple wie <suggestion><match no="0" case_conversion="startlower"
+                                                                                        regexp_match="^[iI]\-[pP]" regexp_replace="iP"/></suggestion> oder 'iPhone' werden in der Regel zusammen, mit kleinem i und großem P geschrieben.</message>
                 <short>Möglicherweise falsch geschriebene Produktbezeichnung.</short>
                 <example correction="iPad">Ich habe jetzt ein <marker>i-Pad</marker>.</example>
                 <example correction="iPod">Ich habe jetzt einen <marker>i-Pod</marker>.</example>
@@ -12168,7 +12169,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="TROMMELREVOLVER" name="Verdoppelung bei Komposita: 'Trommelrevolver (Revolver)' etc.">
             <rule>
                 <regexp>Trommelrevolver[ns]?</regexp>
-                <message>Redundantes Kompositum: Ein Revolver (von engl. 'to revolve' [drehen]) zeichnet sich gerade dadurch aus, dass er im Unterschied zur Pistole über eine drehbare Trommel als Munitionskammer verfügt. Ersetzen durch <suggestion><match no="1" regexp_replace="R" regexp_match="^Trommelr"/></suggestion>?</message>
+                <message>Redundantes Kompositum: Ein Revolver (von engl. 'to revolve' [drehen]) zeichnet sich gerade dadurch aus, dass er
+                    im Unterschied zur Pistole über eine drehbare Trommel als Munitionskammer verfügt. Ersetzen durch <suggestion><match no="0" regexp_replace="R" regexp_match="^Trommelr"/></suggestion>?</message>
                 <url>https://de.wiktionary.org/wiki/Revolver</url>
                 <short>Redundantes Kompositum</short>
                 <example correction="Revolver">Sie richtete einen kleinkalibrigen <marker>Trommelrevolver</marker> auf mich.</example>
@@ -12176,7 +12178,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <regexp>Gratisgeschenk(s|en?)?</regexp>
-                <message>Redundantes Kompositum: Ein Geschenk ist immer gratis. Ersetzen durch <suggestion><match no="1" regexp_replace="G" regexp_match="^Gratisg"/></suggestion>?</message>
+                <message>Redundantes Kompositum: Ein Geschenk ist immer gratis. Ersetzen durch <suggestion><match no="0"
+                                                                                                                  regexp_replace="G" regexp_match="^Gratisg"/></suggestion>?</message>
                 <url>https://de.wiktionary.org/wiki/Geschenk</url>
                 <short>Redundantes Kompositum</short>
                 <example correction="Geschenk">Ein <marker>Gratisgeschenk</marker> für Sie, Herr Schreiber!</example>
@@ -12184,21 +12187,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <regexp>Internetblogs?</regexp>
-                <message>Redundantes Kompositum: Das Wort 'Blog' ist eine Verkürzung aus engl. 'web log' [svw. Web-Tagebuch]). Ersetzen durch <suggestion><match no="1" regexp_replace="B" regexp_match="^Internetb"/></suggestion>?</message>
+                <message>Redundantes Kompositum: Das Wort 'Blog' ist eine Verkürzung aus engl. 'web log' [svw. Web-Tagebuch]). Ersetzen durch <suggestion><match no="0" regexp_replace="B" regexp_match="^Internetb"/></suggestion>?</message>
                 <url>https://de.wiktionary.org/wiki/Blog</url>
                 <short>Redundantes Kompositum</short>
                 <example correction="Blog">Ich habe mich in meinem <marker>Internetblog</marker> darüber ausgelassen.</example>
             </rule>
             <rule>
                 <regexp>Altveteran(en)?</regexp>
-                <message>Redundantes Kompositum: Das Wort 'Veteran' kommt von lat. 'vetus' [alt, altgedient]). Ersetzen durch <suggestion><match no="1" regexp_replace="V" regexp_match="^Altv"/></suggestion>?</message>
+                <message>Redundantes Kompositum: Das Wort 'Veteran' kommt von lat. 'vetus' [alt, altgedient]). Ersetzen durch <suggestion><match no="0" regexp_replace="V" regexp_match="^Altv"/></suggestion>?</message>
                 <url>https://de.wiktionary.org/wiki/Veteran</url>
                 <short>Redundantes Kompositum</short>
                 <example correction="Veteran">Swen B., ein <marker>Altveteran</marker> der Duisburger Punk-Szene.</example>
             </rule>
             <rule>
                 <regexp>Fußpedal(s|en?)?</regexp>
-                <message>Redundantes Kompositum: Ein Pedal (von lat. 'pedalis' [zum Fuß gehörig]) ist ein Fußhebel. Ersetzen durch <suggestion><match no="1" regexp_replace="P" regexp_match="^Fußp"/></suggestion>?</message>
+                <message>Redundantes Kompositum: Ein Pedal (von lat. 'pedalis' [zum Fuß gehörig]) ist ein Fußhebel. Ersetzen durch <suggestion><match no="0" regexp_replace="P" regexp_match="^Fußp"/></suggestion>?</message>
                 <url>https://de.wiktionary.org/wiki/Pedal</url>
                 <short>Redundantes Kompositum</short>
                 <example correction="Pedal">Sie trat auf das <marker>Fußpedal</marker>.</example>
@@ -12206,38 +12209,38 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <regexp>Glasvitrinen?</regexp>
-                <message>Redundantes Kompositum: Eine Vitrine (von lat. 'vitrum' [Glas]) ist ein gläserner Schrank. Ersetzen durch <suggestion><match no="1" regexp_replace="V" regexp_match="^Glasv"/></suggestion>?</message>
+                <message>Redundantes Kompositum: Eine Vitrine (von lat. 'vitrum' [Glas]) ist ein gläserner Schrank. Ersetzen durch <suggestion><match no="0" regexp_replace="V" regexp_match="^Glasv"/></suggestion>?</message>
                 <url>https://de.wiktionary.org/wiki/Vitrine</url>
                 <short>Redundantes Kompositum</short>
                 <example correction="Vitrine">Was für eine schöne <marker>Glasvitrine</marker>!</example>
             </rule>
             <rule>
                 <regexp>Vogelvolieren?</regexp>
-                <message>Redundantes Kompositum: Eine Voliere (von lat. 'volāre' [fliegen]) ist ein großer Vogelkäfig. Ersetzen durch <suggestion><match no="1" regexp_replace="V" regexp_match="^Vogelv"/></suggestion>?</message>
+                <message>Redundantes Kompositum: Eine Voliere (von lat. 'volāre' [fliegen]) ist ein großer Vogelkäfig. Ersetzen durch <suggestion><match no="0" regexp_replace="V" regexp_match="^Vogelv"/></suggestion>?</message>
                 <url>https://de.wiktionary.org/wiki/Voliere</url>
                 <short>Redundantes Kompositum</short>
                 <example correction="Voliere">Was für eine riesige <marker>Vogelvoliere</marker>!</example>
             </rule>
             <rule>
                 <regexp>Zukunftsprognosen?</regexp>
-                <message>Redundantes Kompositum: Eine Prognose ist eine Vorhersage zukünftiger Ereignisse. Ersetzen durch <suggestion><match no="1" regexp_replace="P" regexp_match="^Zukunftsp"/></suggestion>?</message>
+                <message>Redundantes Kompositum: Eine Prognose ist eine Vorhersage zukünftiger Ereignisse. Ersetzen durch <suggestion><match no="0" regexp_replace="P" regexp_match="^Zukunftsp"/></suggestion>?</message>
                 <url>https://de.wiktionary.org/wiki/Prognose</url>
                 <short>Redundantes Kompositum</short>
                 <example correction="Prognose">Was für eine bizarre <marker>Zukunftsprognose</marker>!</example>
             </rule>
             <rule>
                 <regexp>Assekuranzversicherung(en)?</regexp>
-                <message>Redundantes Kompositum: <suggestion><match no="1" regexp_replace="V" regexp_match="^Assekuranzv"/></suggestion> ist ein anderes Wort für <suggestion>Assekuranz</suggestion>.</message>
+                <message>Redundantes Kompositum: <suggestion><match no="0" regexp_replace="V" regexp_match="^Assekuranzv"/></suggestion> ist ein anderes Wort für <suggestion>Assekuranz</suggestion>.</message>
                 <url>https://de.wiktionary.org/wiki/Assekuranz</url>
                 <short>Redundantes Kompositum</short>
-                <example correction="Versicherung">Die <marker>Assekuranzversicherung</marker> wollte nicht zahlen.</example>
+                <example correction="Versicherung|Assekuranz">Die <marker>Assekuranzversicherung</marker> wollte nicht zahlen.</example>
             </rule>
             <rule>
                 <regexp>Haarfrisur(en)?</regexp>
-                <message>Redundantes Kompositum: <suggestion><match no="1" regexp_replace="F" regexp_match="^Haarf"/></suggestion> ist ein anderes Wort für <suggestion>Haarschnitt</suggestion> bzw. (veraltend) 'Haartracht'.</message>
+                <message>Redundantes Kompositum: <suggestion><match no="0" regexp_replace="F" regexp_match="^Haarf"/></suggestion> ist ein anderes Wort für <suggestion>Haarschnitt</suggestion> bzw. (veraltend) 'Haartracht'.</message>
                 <url>https://de.wiktionary.org/wiki/Frisur</url>
                 <short>Redundantes Kompositum</short>
-                <example correction="Frisuren">Die <marker>Haarfrisuren</marker> der Stars waren das Hauptthema.</example>
+                <example correction="Frisuren|Haarschnitt">Die <marker>Haarfrisuren</marker> der Stars waren das Hauptthema.</example>
             </rule>
             <rule>
                 <regexp>Gesichtsmimik</regexp>
@@ -12248,7 +12251,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <regexp>Gesichtsvisier(s|en?)?</regexp>
-                <message>Redundantes Kompositum: Ein Visier ist laut Wörterbuch eine Vorrichtung (z. B. an einem Helm), die dem Schutz des Gesichts dient. Ersetzen durch <suggestion><match no="1" regexp_replace="V" regexp_match="^Gesichtsv"/></suggestion>?</message>
+                <message>Redundantes Kompositum: Ein Visier ist laut Wörterbuch eine Vorrichtung (z. B. an einem Helm), die dem Schutz des Gesichts dient. Ersetzen durch <suggestion><match no="0" regexp_replace="V" regexp_match="^Gesichtsv"/></suggestion>?</message>
                 <url>https://de.wiktionary.org/wiki/Visier</url>
                 <short>Redundantes Kompositum</short>
                 <example correction="Visiere">Sie hatten die <marker>Gesichtsvisiere</marker> heruntergeklappt.</example>
@@ -12256,7 +12259,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <regexp>Eieromelett(s|e(n|s)?)?</regexp>
-                <message>Redundantes Kompositum: Ein(e) Omelett(e) ist laut Wörterbuch ein Eierkuchen. Ersetzen durch <suggestion><match no="1" regexp_replace="O" regexp_match="^Eiero"/></suggestion>?</message>
+                <message>Redundantes Kompositum: Ein(e) Omelett(e) ist laut Wörterbuch ein Eierkuchen. Ersetzen durch <suggestion><match no="0" regexp_replace="O" regexp_match="^Eiero"/></suggestion>?</message>
                 <url>https://de.wiktionary.org/wiki/Omelett</url>
                 <short>Redundantes Kompositum</short>
                 <example correction="Omelette">Wer hatte die <marker>Eieromelette</marker> bestellt?</example>
@@ -12265,7 +12268,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <regexp>Baumalleen?</regexp>
-                <message>Redundantes Kompositum: Eine Allee ist laut Wörterbuch eine von Bäumen gesäumte Straße. Ersetzen durch <suggestion><match no="1" regexp_replace="A" regexp_match="^Bauma"/></suggestion>?</message>
+                <message>Redundantes Kompositum: Eine Allee ist laut Wörterbuch eine von Bäumen gesäumte Straße. Ersetzen durch <suggestion><match no="0" regexp_replace="A" regexp_match="^Bauma"/></suggestion>?</message>
                 <url>https://de.wiktionary.org/wiki/Allee</url>
                 <short>Redundantes Kompositum</short>
                 <example correction="Allee">Diese <marker>Baumallee</marker> ist wirklich herrlich!</example>
@@ -30732,7 +30735,7 @@ Andere Projekte</example>
                 <example>Sie identifizierten ein Bauteil, das dort hergestellt wurde.</example>
                 <example>Das Amt eines Staatspräsidenten, das einige Landesverfassungen verankerten, wurde für beendet erklärt.</example>
             </rule>
-        </rulegroup> 
+        </rulegroup>
     </category>
 
     <!-- ====================================================================== -->
@@ -30848,7 +30851,7 @@ Andere Projekte</example>
         </rule>
         <rule id="SCHMERZEN_ZUFUEHREN" name="'jmd. Schmerzen zuführen (zufügen)'">
             <regexp case_sensitive='yes'>(Schmerz(en)?|Leid) (zu(ge|zu)?führ(en?|s?t))</regexp>
-            <message>Meinten Sie die Redewendung <suggestion>\1 <match no="2" regexp_match="führ" regexp_replace="füg"/></suggestion>?</message>
+            <message>Meinten Sie die Redewendung <suggestion>\1 <match no="3" regexp_match="führ" regexp_replace="füg"/></suggestion>?</message>
             <url>http://www.duden.de/rechtschreibung/zufuegen</url>
             <short>Möglicherweise falsch verwendete Redewendung</short>
             <example correction="Schmerz zugefügt">Ich habe ihm großen <marker>Schmerz zugeführt</marker>.</example>
@@ -31223,7 +31226,7 @@ Andere Projekte</example>
             <url>http://www.duden.de/rechtschreibung/_jaehrig</url>
             <rule>
                 <regexp>(\d+jährige[rsnm]?)</regexp>
-                <message>Die Kombination Zahl und 'jährig' wird mit Bindestrich geschrieben: <suggestion><match no="1" regexp_match="([Jj])ährig" regexp_replace="-$1ährig"/></suggestion></message>
+                <message>Die Kombination Zahl und 'jährig' wird mit Bindestrich geschrieben: <suggestion><match no="0" regexp_match="([Jj])ährig" regexp_replace="-$1ährig"/></suggestion></message>
                 <short>Fehlender Bindestrich</short>
                 <example correction="46-jährige">Der <marker>46jährige</marker> Diplom-Kaufmann</example>
                 <example correction="46-jähriger">Ein <marker>46jähriger</marker> Diplom-Kaufmann</example>
@@ -31240,12 +31243,12 @@ Andere Projekte</example>
             <url>http://www.duden.de/rechtschreibung/_prozentig</url>
             <rule>
                 <regexp>(\d+-%ig(e|es|er|en|em)?)</regexp>
-                <message>Eine Zahl und "prozentig" wird <suggestion><match no="1" regexp_match="(\d+)-%ig" regexp_replace="$1%ig" /></suggestion> geschrieben.</message>
+                <message>Eine Zahl und "prozentig" wird <suggestion><match no="0" regexp_match="(\d+)-%ig" regexp_replace="$1%ig" /></suggestion> geschrieben.</message>
                 <example correction="20%ige">Eine <marker>20-%ige</marker> Lösung.</example>
             </rule>
             <rule>
                 <regexp>(\d+%-ig(e|es|er|en|em)?)</regexp>
-                <message>Eine Zahl und "prozentig" wird <suggestion><match no="1" regexp_match="(\d+)%-ig" regexp_replace="$1%ig" /></suggestion> geschrieben.</message>
+                <message>Eine Zahl und "prozentig" wird <suggestion><match no="0" regexp_match="(\d+)%-ig" regexp_replace="$1%ig" /></suggestion> geschrieben.</message>
                 <example correction="20%ige">Eine <marker>20%-ige</marker> Lösung.</example>
             </rule>
             <rule>
@@ -34972,7 +34975,7 @@ Andere Projekte</example>
         <rulegroup id="KOMMA_DASS" name="Unter der Bedingung das (, dass)">
             <rule>
                 <regexp case_sensitive="yes">\b(l(iegt|ag) daran|[Uu]nter der bedingung|[uU]ngeachtet dessen|hat(te)? zur Folge),? das\b</regexp>
-                <message>Meinten Sie <suggestion><match no="1" regexp_match=",? das$" regexp_replace=", dass"/></suggestion>?</message>
+                <message>Meinten Sie <suggestion><match no="0" regexp_match=",? das$" regexp_replace=", dass"/></suggestion>?</message>
                 <!-- example correction="davon überzeugt, dass">Er war <marker>davon überzeugt das</marker> er gewonnen hatte.</example-->
                 <!-- example correction="davon überzeugt, dass">Er war <marker>davon überzeugt, das</marker> er gewonnen hatte.</example-->
                 <example>Er hat sie davon überzeugt, das Haus zu kaufen.</example>
@@ -35329,7 +35332,7 @@ Andere Projekte</example>
                 <example>Er tut das, erst recht wenn er betrunken ist.</example>
                 <example>Einen Tag nachdem der Staat Israel ausgerufen worden war, griffen arabische Armeen an.</example>
                 <example>Sechs Wochen nachdem die Organisation der Dorfversammlung ihren Plan erläutert hatte, begann das Experiment.</example>
-                <example>Man wurde bestraft, zum Beispiel weil man zu laut gesungen hatte.</example> 
+                <example>Man wurde bestraft, zum Beispiel weil man zu laut gesungen hatte.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -37113,7 +37116,7 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <regexp>neu(bekehrt|bearbeitet|geschaffen|eröffnet)e?[nmrs]?</regexp>
-                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" regexp_match="(.)eu(.*)" regexp_replace="$1eu $2"/></suggestion> verwenden?</message>
+                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="0" regexp_match="(.)eu(.*)" regexp_replace="$1eu $2"/></suggestion> verwenden?</message>
                 <example correction="neu eröffnete">Ich habe mir das <marker>neueröffnete</marker> Museum angeschaut.</example>
             </rule>
         </rulegroup>
@@ -37184,13 +37187,13 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <regexp>\bso (dass|genannte[mnrs]?)\b</regexp>
-                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" regexp_match="(.)o (dass|genannte[mnrs]?)" regexp_replace="$1o$2"/></suggestion> verwenden?</message>
+                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="0" regexp_match="(.)o (dass|genannte[mnrs]?)" regexp_replace="$1o$2"/></suggestion> verwenden?</message>
                 <example correction="sodass">Sie stellte sich in den Eingang, <marker>so dass</marker> kein Weg an ihr vorbei führte.</example>
                 <example correction="sogenannte">Die <marker>so genannte</marker> Gerichtsverhandlung empfand er als blanker Hohn.</example>
             </rule>
             <rule>
                 <regexp>\bviel (verheiß|sag|versprech)end\w*\b</regexp>
-                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" regexp_match="(.)iel (.*)" regexp_replace="$1iel$2"/></suggestion> verwenden?</message>
+                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="0" regexp_match="(.)iel (.*)" regexp_replace="$1iel$2"/></suggestion> verwenden?</message>
                 <example correction="vielsagenden">Sie warf ihm einen <marker>viel sagenden</marker> Blick zu.</example>
             </rule>
             <rule>
@@ -37204,7 +37207,7 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <regexp>\becht (silbern|golden)\w*\b</regexp>
-                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" regexp_match="(.)cht (.*)" regexp_replace="$1cht$2"/></suggestion> verwenden?</message>
+                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="0" regexp_match="(.)cht (.*)" regexp_replace="$1cht$2"/></suggestion> verwenden?</message>
                 <example correction="echtgoldene">Er trug eine <marker>echt goldene</marker> Uhr.</example>
             </rule>
             <rule>
@@ -37265,7 +37268,7 @@ Andere Projekte</example>
                     <token>zu</token>
                     <token>Lande</token>
                 </pattern>
-                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" case_conversion="preserve">hierzulande</match></suggestion> verwenden?</message> 
+                <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" case_conversion="preserve">hierzulande</match></suggestion> verwenden?</message>
                 <url>http://www.duden.de/rechtschreibung/hierzulande</url>
                 <example correction='Hierzulande'><marker>Hier zu Lande</marker> isst man gerne Kartoffeln mit Fleisch.</example>
                 <example correction='hierzulande'>Bier gehört <marker>hier zu Lande</marker> zu den Grundnahrungsmitteln.</example>

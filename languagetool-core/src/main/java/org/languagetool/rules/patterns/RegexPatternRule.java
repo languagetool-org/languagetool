@@ -132,13 +132,19 @@ class RegexPatternRule extends AbstractPatternRule implements RuleMatcher {
       int inXMLMatchReferenceNo = Integer.parseInt(message.substring(reference.getLeft(), reference.getRight()).split("\\\\")[1]);
       int actualMatchReferenceNo = inXMLMatchReferenceNo - (insideSuggestion ? MATCHES_IN_SUGGESTIONS_NUMBERED_FROM : 0);
 
-      Match currentProcessingMatch = matches.get(i);
+      Match currentProcessingMatch = null;
+      try {
+        currentProcessingMatch = matches.get(i);
+      }
+      catch (IndexOutOfBoundsException e){
+        System.out.println(this.getId());
+      }
       String matchReferenceStringValue = "";
-//      try{
+      try{
         matchReferenceStringValue = matcher.group(actualMatchReferenceNo);
-//      } catch (IndexOutOfBoundsException e){
-//        System.out.println(this.getId());
-//      }
+      } catch (IndexOutOfBoundsException e){
+        System.out.println(this.getId());
+      }
       if (matchReferenceStringValue == null){
         matchReferenceStringValue = "";
       }
