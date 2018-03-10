@@ -214,6 +214,8 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("Deluxe-Version", "De-luxe-Version", rule, lt);
     assertFirstSuggestion("De-luxe-Champagnr", "De-luxe-Champagner", rule, lt);
     assertFirstSuggestion("problemhafte", "problembehaftete", rule, lt);
+    assertFirstSuggestion("solltes", "solltest", rule, lt);
+    assertFirstSuggestion("Kilimanjaro", "Kilimandscharo", rule, lt);
   }
 
   @Test
