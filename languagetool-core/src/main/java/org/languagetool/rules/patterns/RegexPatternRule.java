@@ -55,7 +55,7 @@ class RegexPatternRule extends AbstractPatternRule implements RuleMatcher {
     this.message = message;
     this.pattern = regex;
     this.suggestionsOutMsg = suggestionsOutMsg;
-    this.markGroup = regexpMark;
+    markGroup = regexpMark;
   }
 
   public Pattern getPattern() {

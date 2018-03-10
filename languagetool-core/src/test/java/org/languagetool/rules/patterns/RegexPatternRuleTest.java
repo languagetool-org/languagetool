@@ -25,8 +25,6 @@ import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.regex.Pattern;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
