@@ -136,12 +136,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <regexp>(fo.) (bar)</regexp>
             <message>msg: <suggestion>a suggestion \1</suggestion></message>
             <suggestion>another suggestion \2</suggestion>
+            <example correction="a suggestion fou|another suggestion bar"><marker>fou bar</marker></example>
         </rule>
         <rule id="REGEX_PATTERN_RULE_DEMO_MARK_1" name="see: RegexpPatternRuleTest">
             <regexp mark="1">(fo.) (bar)</regexp>
             <message>msg: <suggestion>a suggestion \1</suggestion></message>
             <suggestion>another suggestion \2</suggestion>
-            <example></example>
+            <example correction="a suggestion fou|another suggestion bar">This is <marker>fou</marker> bar</example>
         </rule>
         <rule id="DEMO_RULE" name="Find 'foo bar'">
             <!-- a trivial demo rule that matches "foo" followed by "bar" -->
@@ -282,7 +283,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>a small <marker>test</marker></example>
             <example correction="">a small <marker>toast</marker></example>
         </rule>
-        <rulegroup name="REGEXP_SUGGESTIONS_INSIDE_OUTSIDE_MESSAGE" id="">
+        <rulegroup id="REGEXP_SUGGESTIONS_INSIDE_OUTSIDE_MESSAGE" name="regexp suggestions when inside and outside the message testing">
             <rule id="REGEXP_MATCH_SUGGESTIONS_INSIDE" name="xnel vola -> vo nel la">
                 <regexp>[Xx][Nn](' el|el|i l') ((ri?|)vo?(la|ci|cial|chal))(-t i|-t ele|) nén</regexp>
                 <message>Test 01: <suggestion>vo <match no="0"
@@ -299,7 +300,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                                       regexp_replace="nel $1$2$3 nén"/></suggestion>
                 <example correction="vo nel la-t i nén"><marker>xnel vola-t i nén</marker> co.</example>
             </rule>
-            <rule id="PATTERN REGEXP_MATCH_SUGGESTIONS_INSIDE" name="znel vola -> vo nel la">
+            <rule id="PATTERN_REGEXP_MATCH_SUGGESTIONS_INSIDE" name="znel vola -> vo nel la">
                 <pattern>
                     <token regexp="yes">znel</token>
                     <token regexp="yes">(ri?|)vo?(la|ci|cial|chal)</token>
