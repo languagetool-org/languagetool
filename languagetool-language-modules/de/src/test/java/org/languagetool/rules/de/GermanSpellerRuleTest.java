@@ -216,6 +216,7 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("problemhafte", "problembehaftete", rule, lt);
     assertFirstSuggestion("solltes", "solltest", rule, lt);
     assertFirstSuggestion("Kilimanjaro", "Kilimandscharo", rule, lt);
+    assertFirstSuggestion("voraussichtige", "voraussichtliche", rule, lt);
   }
 
   @Test
