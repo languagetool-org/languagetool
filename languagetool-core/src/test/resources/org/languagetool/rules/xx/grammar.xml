@@ -132,6 +132,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="baz">This is foo <marker>bar</marker>.</example>
             <example correction="baz">This is fou <marker>bar</marker>.</example>
         </rule>
+        <rule id="REGEX_PATTERN_RULE_DEMO_MARK_0" name="see: RegexpPatternRuleTest">
+            <regexp>(fo.) (bar)</regexp>
+            <message>msg: <suggestion>a suggestion \1</suggestion></message>
+            <suggestion>another suggestion \2</suggestion>
+        </rule>
+        <rule id="REGEX_PATTERN_RULE_DEMO_MARK_1" name="see: RegexpPatternRuleTest">
+            <regexp mark="1">(fo.) (bar)</regexp>
+            <message>msg: <suggestion>a suggestion \1</suggestion></message>
+            <suggestion>another suggestion \2</suggestion>
+            <example></example>
+        </rule>
         <rule id="DEMO_RULE" name="Find 'foo bar'">
             <!-- a trivial demo rule that matches "foo" followed by "bar" -->
             <pattern case_sensitive="no">
@@ -194,7 +205,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction=""><marker>fake1</marker></example>
                 <example>fake2</example>
             </rule>
-        </rulegroup>        
+        </rulegroup>
         <rulegroup id="OR_GROUPS" name="OR groups">
             <rule>
                 <pattern>
@@ -835,5 +846,5 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="">Some <marker>foobar</marker></example>
         </rule>
     </category>
-    
+
 </rules>
