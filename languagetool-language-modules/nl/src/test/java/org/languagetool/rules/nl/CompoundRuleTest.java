@@ -37,8 +37,8 @@ public class CompoundRuleTest extends AbstractCompoundRuleTest {
   @Test
   public void testRule() throws IOException {
     // correct sentences:
-	check(0, "Dit is een zee-egel.");
-	check(0, "Zee-egel is een woord.");
+    check(0, "Dit is een zee-egel.");
+    check(0, "Zee-egel is een woord.");
     // incorrect sentences:
     check(1, "Dit is een zee egel.");
     check(1, "Zee egel is een woord.");
