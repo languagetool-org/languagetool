@@ -44,8 +44,7 @@ class RegexPatternRule extends AbstractPatternRule implements RuleMatcher {
   // in suggestions tokens are numbered from 1, anywhere else tokens are numbered from 0.
   // see: http://wiki.languagetool.org/development-overview#toc17
   // But most of the rules tend to use 1 to refer the first capturing group, so keeping that behavior as default
-  public static final int MATCHES_IN_SUGGESTIONS_NUMBERED_FROM = 0;
-
+  private static final int MATCHES_IN_SUGGESTIONS_NUMBERED_FROM = 0;
 
   private final Pattern pattern;
   private final int markGroup;
@@ -132,7 +131,7 @@ class RegexPatternRule extends AbstractPatternRule implements RuleMatcher {
       int actualMatchReferenceNo = inXMLMatchReferenceNo - (insideSuggestion ? MATCHES_IN_SUGGESTIONS_NUMBERED_FROM : 0);
 
       String matchReferenceStringValue = matcher.group(actualMatchReferenceNo);
-      if (matchReferenceStringValue == null){
+      if (matchReferenceStringValue == null) {
         matchReferenceStringValue = "";
       }
 
