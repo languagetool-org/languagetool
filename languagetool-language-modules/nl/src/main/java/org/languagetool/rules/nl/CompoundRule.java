@@ -37,6 +37,7 @@ public class CompoundRule extends AbstractCompoundRule {
             "Dit woord hoort waarschijnlijk aaneengeschreven.",
             "Deze uitdrukking hoort mogelijk aan elkaar, eventueel met een koppelteken.",
             "Koppeltekenprobleem");
+    super.sentenceStartsWithUpperCase = true;
   }
 
   @Override
