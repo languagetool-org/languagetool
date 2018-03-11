@@ -244,7 +244,8 @@ public class GermanSpellerRuleTest {
 
   private void assertFirstSuggestion(String input, String expected, GermanSpellerRule rule, JLanguageTool lt) throws IOException {
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(input));
-    assertThat(matches[0].getSuggestedReplacements().get(0), is(expected));
+    assertThat("Matches: " + matches.length + ", Suggestions of first match: " +
+            matches[0].getSuggestedReplacements(), matches[0].getSuggestedReplacements().get(0), is(expected));
   }
 
   @Test
