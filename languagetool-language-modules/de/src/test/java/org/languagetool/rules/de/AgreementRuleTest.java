@@ -200,6 +200,7 @@ public class AgreementRuleTest {
     assertGood("Er sagt, dass das Rache bedeutet.");
     assertGood("Wenn das Kühe sind, bin ich ein Elefant.");
     assertGood("Karl sagte, dass sie niemandem Bescheid gegeben habe.");
+    assertGood("Es blieb nur dieser eine Satz.");
 
     // incorrect sentences:
     assertBad("Meiner Chef raucht.");
