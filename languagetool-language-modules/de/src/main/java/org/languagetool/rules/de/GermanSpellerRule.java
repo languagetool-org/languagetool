@@ -158,6 +158,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("Sim-Karten?", "^Sim", "SIM");
     put("solltes", "solltest");
     put("geklabt", "geklappt");
+    put("tuhen", "tun");
+    put("ccm", "cm³");
     put("Kilimand?jaro", "Kilimandscharo");
     put("berücksichtung", "Berücksichtigung");
     put("artzt?", "Arzt");
