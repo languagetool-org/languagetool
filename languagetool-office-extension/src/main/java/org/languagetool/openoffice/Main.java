@@ -401,16 +401,22 @@ public class Main extends WeakBase implements XJobExecutor,
     if (footnotePos.length == 0) {
       annotations.addText(text);
     } else {
+      boolean hasFootnote = false;
       int lastPos = startPosition;
       for (int i = 0; i < footnotePos.length && footnotePos[i] - startPosition < text.length(); i++) {
-        if (footnotePos[i] > lastPos) {
-          annotations.addText(text.substring(lastPos - startPosition, footnotePos[i] - startPosition));
+        if (footnotePos[i] >= startPosition) {
+          if (footnotePos[i] > lastPos) {
+            annotations.addText(text.substring(lastPos - startPosition, footnotePos[i] - startPosition));
+          }
+          annotations.addMarkup(ZERO_WIDTH_SPACE);
+          lastPos = footnotePos[i] + 1;
+          hasFootnote = true;
         }
-        annotations.addMarkup(ZERO_WIDTH_SPACE);
-        lastPos = footnotePos[i] + 1;
       }
-      if (lastPos < text.length()) {
+      if (hasFootnote && lastPos < text.length()) {
         annotations.addText(text.substring(lastPos - startPosition));
+      } else if (!hasFootnote) {
+        annotations.addText(text);
       }
     }
     return annotations.build();
