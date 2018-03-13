@@ -31592,16 +31592,13 @@ Andere Projekte</example>
                 <example correction="“!">Sie rief: „Ich möchte nichts essen<marker>.“!</marker></example>
             </rule>
             <rule>
-                <antipattern>
-                    <token postag="SUB:.+" postag_regexp="yes"></token>
-                    <token>„</token>
-                    <token/>
-                    <token>“</token>
-                </antipattern>
                 <pattern>
-                    <token regexp="yes">&anfzu;</token>
-                    <token skip="3" inflected="yes" regexp="yes">&verbendirekterede;<exception scope="next" regexp="yes">,|:|\.|man</exception></token>
-                    <token regexp="yes" spacebefore="yes">&anfauf;</token>
+                    <marker>
+                        <token regexp="yes">&anfzu;</token>
+                        <token skip="3" inflected="yes" regexp="yes">&verbendirekterede;<exception scope="next" regexp="yes">,|:|\.|man</exception></token>
+                        <token regexp="yes" spacebefore="yes" skip="-1">&anfauf;</token>
+                    </marker>
+                    <token postag="VER:.+" postag_regexp="yes"/>
                 </pattern>
                 <message>Ein in ein Zitat eingebetteter Begleitsatz wird mit Kommas vom Zitat abgetrennt.</message>
                 <suggestion>\1, <match include_skipped="all" no="2"/>, \3</suggestion>
@@ -31609,6 +31606,7 @@ Andere Projekte</example>
                 <example>Einer Zeitschrift, der Zeitschrift „News“, sagte er: „Es ist wahr.“</example>
                 <example>Die Firma „Bauhaus“ ruft Feuerwerkbatterien des Herstellers „Panic“ zurück.</example>
                 <example correction="“, behauptet er, „">„Die Fenster sind<marker>“ behauptet er „</marker>geschlossen.“</example>
+                <example>"Ich lebe noch", sagte er der "Rheinischen Post".</example>
 <!--            TODO    "Es regnet," sagte er.-->
             </rule>
             <rule>
