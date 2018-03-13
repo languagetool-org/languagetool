@@ -42,6 +42,38 @@ USA
     <!-- Possible typo -->
     <!-- ====================================================================== -->
     <category id="TYPOS" name="Possible Typo" type="misspelling">
+       <rulegroup id="IN_LAWS" name="brother-in-laws (brothers-in-law)">
+           <rule>
+               <pattern>
+                   <marker>
+                       <token regexp="yes">(brother|daughter|father|mother|relative|sister|son)s-in-laws</token>
+                   </marker>
+                </pattern>
+                <message>Did you mean <suggestion><match no="1" regexp_match="s$" regexp_replace=""/></suggestion>?</message>
+                <short>Possible typo</short>
+                <example correction="brothers-in-law">How many <marker>brothers-in-laws</marker> do you have?</example>
+            </rule>
+            <rule>
+               <pattern>
+                   <marker>
+                       <token regexp="yes">(brother|daughter|father|mother|relative|sister|son)-in-laws</token>
+                   </marker>
+                </pattern>
+                <message>Did you mean <suggestion><match no="1" regexp_match="-in-laws$" regexp_replace="s-in-law"/></suggestion>?</message>
+                <short>Possible typo</short>
+                <example correction="brothers-in-law">How many <marker>brother-in-laws</marker> do you have?</example>
+            </rule>
+        </rulegroup>
+        <rule id="TRUE_TO_WORD" name="true to her words (word)">
+            <pattern>
+                <token>true</token>
+                <token>to</token>
+                <token postag="PRP$"></token>
+                <marker><token>words</token></marker>
+            </pattern>
+            <message>Did you mean <suggestion>word</suggestion>?</message>
+            <example correction="word">She is true to her <marker>words</marker>.</example>
+        </rule>
         <rule id="HALO_HALLO" name="Halo (Hallo)">
             <pattern>
                 <token postag="SENT_START"/>
@@ -6344,6 +6376,17 @@ USA
             <example>Their jobs are as safe as houses.</example>
             <example>Let's save the environment!</example>
         </rule>
+        <rule id="ELDER_OLDER" name="to be elder (older) than">
+            <pattern case_sensitive="yes">
+                <token inflected="yes">be</token>
+                <marker>
+                    <token>elder</token>
+                </marker>
+                <token>than</token>
+            </pattern>
+            <message>Did you mean <suggestion>older</suggestion>?</message>
+            <example correction="older">She is <marker>elder</marker> than her brother.</example>
+        </rule>
         <rule id="MASTERS" name="masters (master’s) degree/dissertation/thesis">
             <pattern>
                 <marker>
@@ -6457,6 +6500,42 @@ USA
     <!-- Grammar -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammar" type="grammar">
+        <rule id="LET_OBJECT" name="Let + object">
+            <pattern case_sensitive="yes">
+                <token postag= "SENT_START"></token>
+                <token>Let</token>
+                <marker>
+                    <token regexp="yes">I|he|she|we|they</token>
+                </marker>
+            </pattern>
+            <message>Please check whether an object form is required here.</message>
+            <suggestion>me</suggestion>
+            <suggestion>him</suggestion>
+            <suggestion>her</suggestion>
+            <suggestion>us</suggestion>
+            <suggestion>them</suggestion>
+            <example correction="me|him|her|us|them">Let <marker>she</marker> do it!</example>
+        </rule>
+        <rule id="THAN_I" name="be bigger than me (I)">
+            <pattern case_sensitive="yes">
+                <token inflected="yes">be</token>
+                <token postag="JJR"></token>
+                <token>than</token>
+                <marker>
+                    <token regexp="yes">me|him|her|us|them</token>
+                </marker>
+                <token regexp="yes">by|at|in|[.!?]</token>
+            </pattern>
+            <message>In formal / written English, it is recommended that you use a subject pronoun.</message>
+            <suggestion>I</suggestion>
+            <suggestion>he</suggestion>
+            <suggestion>she</suggestion>
+            <suggestion>we</suggestion>
+            <suggestion>they</suggestion>
+            <url>http://learnersdictionary.com/qa/better-than-I-or-better-than-me</url>
+            <example correction="I|he|she|we|they">She is wiser than <marker>me</marker>!</example>
+            <example>She is prettier than her younger sister.</example>
+        </rule>
         <rule id="ASK_NO_PREPOSITION" name="ask + object (no preposition)">
             <pattern case_sensitive="yes">
                 <token inflected="yes" regexp="yes">ask|tell</token>
