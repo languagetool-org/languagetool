@@ -71,8 +71,9 @@ USA
                 <token postag="PRP$"></token>
                 <marker><token>words</token></marker>
             </pattern>
-            <message>Did you mean <suggestion>word</suggestion>?</message>
-            <example correction="word">She is true to her <marker>words</marker>.</example>
+            <message>Did you mean the idiom 'true to one's <suggestion>word</suggestion>' (=keep one's promise)?</message>
+            <url>https://www.merriam-webster.com/dictionary/true%20to%20word</url>
+            <example correction="word">She was true to her <marker>words</marker>.</example>
         </rule>
         <rule id="HALO_HALLO" name="Halo (Hallo)">
             <pattern>
@@ -6515,26 +6516,6 @@ USA
             <suggestion>us</suggestion>
             <suggestion>them</suggestion>
             <example correction="me|him|her|us|them">Let <marker>she</marker> do it!</example>
-        </rule>
-        <rule id="THAN_I" name="be bigger than me (I)">
-            <pattern case_sensitive="yes">
-                <token inflected="yes">be</token>
-                <token postag="JJR"></token>
-                <token>than</token>
-                <marker>
-                    <token regexp="yes">me|him|her|us|them</token>
-                </marker>
-                <token regexp="yes">by|at|in|[.!?]</token>
-            </pattern>
-            <message>In formal / written English, it is recommended that you use a subject pronoun.</message>
-            <suggestion>I</suggestion>
-            <suggestion>he</suggestion>
-            <suggestion>she</suggestion>
-            <suggestion>we</suggestion>
-            <suggestion>they</suggestion>
-            <url>http://learnersdictionary.com/qa/better-than-I-or-better-than-me</url>
-            <example correction="I|he|she|we|they">She is wiser than <marker>me</marker>!</example>
-            <example>She is prettier than her younger sister.</example>
         </rule>
         <rule id="ASK_NO_PREPOSITION" name="ask + object (no preposition)">
             <pattern case_sensitive="yes">
@@ -23734,6 +23715,26 @@ USA
     <!-- Style -->
     <!-- ====================================================================== -->
     <category id="STYLE" name="Style" type="style">
+        <rule id="THAN_I" name="be bigger than me (I)">
+            <pattern case_sensitive="yes">
+                <token inflected="yes">be</token>
+                <token postag="JJR"></token>
+                <token>than</token>
+                <marker>
+                    <token regexp="yes">me|him|her|us|them</token>
+                </marker>
+                <token regexp="yes">by|at|in|[.!?]</token>
+            </pattern>
+            <message>In formal / written English, it is recommended that you use a subject pronoun.</message>
+            <suggestion>I</suggestion>
+            <suggestion>he</suggestion>
+            <suggestion>she</suggestion>
+            <suggestion>we</suggestion>
+            <suggestion>they</suggestion>
+            <url>http://learnersdictionary.com/qa/better-than-I-or-better-than-me</url>
+            <example correction="I|he|she|we|they">She is wiser than <marker>me</marker>!</example>
+            <example>She is prettier than her younger sister.</example>
+        </rule>
         <rule id="MOST_EVERYONE" name="most (almost) every">
             <pattern>
                 <token regexp="yes">most(ly)?</token>
