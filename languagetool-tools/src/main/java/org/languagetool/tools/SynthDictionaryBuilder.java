@@ -58,7 +58,9 @@ final class SynthDictionaryBuilder extends DictionaryBuilder {
   }
   
   File build(File plainTextDictFile, File infoFile) throws Exception {
-    File tempFile = File.createTempFile(SynthDictionaryBuilder.class.getSimpleName(), ".txt");
+    String outputFilename = this.getOutputFilename();
+    File outputDirectory = new File(outputFilename.substring(0, outputFilename.lastIndexOf("/")));
+    File tempFile = File.createTempFile(SynthDictionaryBuilder.class.getSimpleName(), ".txt", outputDirectory);
     File reversedFile = null;
     try {
       Set<String> itemsToBeIgnored = getIgnoreItems(new File(infoFile.getParent(), "filter-archaic.txt"));
