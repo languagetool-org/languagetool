@@ -20,9 +20,11 @@ package org.languagetool.language;
 
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.Rule;
+import org.languagetool.rules.LongSentenceRule;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -51,10 +53,14 @@ public class SimpleGerman extends GermanyGerman {
   }
 
   @Override
-  public List<Rule> getRelevantRules(ResourceBundle messages) {
-    return Collections.emptyList();
+  public List<Rule> getRelevantRules(ResourceBundle messages) throws IOException {
+    List<Rule> rules = new ArrayList<>();
+    LongSentenceRule lengthRule = new LongSentenceRule(messages, true);
+    lengthRule.setDefaultValue(12);
+    rules.add(lengthRule);
+    return rules;
   }
-
+  
   @Override
   public synchronized LanguageModel getLanguageModel(File indexDir) throws IOException {
     return null;

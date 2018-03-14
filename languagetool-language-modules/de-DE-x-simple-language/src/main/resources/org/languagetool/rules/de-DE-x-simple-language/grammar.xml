@@ -330,33 +330,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="">Erhöhung um einige <marker>%</marker></example>
             </rule>
         </rulegroup>
-
-        <rulegroup id="SATZ" name="Leichte Sprache: Satz">
-            <rule>
-                <pattern>
-                    <token><exception scope="previous" regexp="yes">.*</exception></token>
-                    <token />
-                    <token />
-                    <token />
-                    <token />
-                    <token />
-                    <token />
-                    <token />
-                    <token />
-                    <token />
-                    <token />
-                    <token />
-                    <token />
-                    <marker>
-                        <token skip="-1"/>
-                        <token postag="SENT_END"/>
-                    </marker>
-                </pattern>
-                <message>Langer Satz gefunden: Dieser Satz hat mehr als 12 Wörter.</message>
-                <example>Das hier ist ein kurzer Satz.</example>
-                <example correction="">Das hier ist kein kurzer Satz, sondern eher was längeres mal <marker>zum Testen.</marker></example>
-            </rule>
-        </rulegroup>
+        
         <rule id="FRAGEN" name="Leichte Sprache: Verzicht auf Fragesätze" default="off">
             <pattern>
                 <token postag="SENT_END">?</token>
