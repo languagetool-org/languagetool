@@ -407,26 +407,16 @@ USA
                 <example correction="What"><marker>How</marker> is it like to live in New York?</example>
             </rule>
         </rulegroup>
-        <rulegroup id="CONFUSION_OF_THEN_THAN" name="then (than)">
-            <rule>
-                <pattern>
-                    <token>more</token>
-                    <token postag="JJ" skip="-1"><exception scope="next" regexp="yes">,|than|–|;|:</exception></token>
-                    <marker><token>then</token></marker>
-                    <token><exception postag_regexp="yes" postag="CC|SENT_END"/></token>
-                </pattern>
-                <message>Did you mean <suggestion>than</suggestion>?</message>
-                <example correction="than">It may be more expensive on some file systems <marker>then</marker> others.</example>
-		    </rule>
-		    <rule>
-                <pattern>
-                    <token>more</token>
-                    <marker><token>then</token></marker>
-                </pattern>
-                <message>Did you mean <suggestion>than</suggestion>?</message>
-                <example correction="than">She knows more <marker>then</marker> her colleagues.</example>
-		    </rule>
-		</rluegroup>
+        <rule id="CONFUSION_OF_THEN_THAN" name="then (than)">
+            <pattern>
+                <token>more</token>
+                <token postag="JJ" skip="-1"><exception scope="next" regexp="yes">,|than|–|;|:</exception></token>
+                <marker><token>then</token></marker>
+                <token><exception postag_regexp="yes" postag="CC|SENT_END"/></token>
+            </pattern>
+            <message>Did you mean <suggestion>than</suggestion>?</message>
+            <example correction="than">It may be more expensive on some file systems <marker>then</marker> others.</example>
+		</rule>
         <rule id="CONFUSION_OF_THESES_THESE" name="theses (these)">
             <pattern>
                 <marker><token>theses</token></marker>
@@ -18724,18 +18714,6 @@ USA
             <example correction="on vacation">He is probably <marker>in vacation</marker> right now.</example>
             <example correction="on vacation">I'm <marker>at vacation</marker> at the seaside.</example>
             <example>Where did you go for vacation?</example>
-        </rule>
-        <rule id="IN_ON_WEEKDAY" name="in (on) weekdays">
-            <pattern>
-                <token postag="SENT_START"/>
-                <marker><token>In</token></marker>
-                <token regexp="yes">&weekdays;</token>
-                <token regexp="yes">,|afternoon|morning|night</token>
-                <token><exception regexp="yes">['´`’]</token>
-            </pattern>
-            <message>Did you mean <suggestion>On</suggestion>?</message>
-            <example correction="On"><marker>In</marker> Friday afternoon, the President announced the embargo.</example>
-            <example>In Friday night's press briefing, police said they had adequate reason to take the child.</example>
         </rule>
         <rule id="CONFUSION_DURING_FOR" name="during (for)">
             <pattern>
