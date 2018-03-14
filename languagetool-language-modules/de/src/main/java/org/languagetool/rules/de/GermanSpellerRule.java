@@ -67,7 +67,6 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private static final Pattern PREVENT_SUGGESTION = Pattern.compile(
           ".*(?i:Majonäse|Bravur|Anschovis|Belkanto|Campagne|Frotté|Grisli|Jockei|Joga|Kalvinismus|Kanossa|Kargo|Ketschup|" +
           "Kollier|Kommunikee|Masurka|Negligee|Nessessär|Poulard|Varietee|Wandalismus|kalvinist).*");
-  private static final Pattern GEOGRAPHICAL_PREFIXES = Pattern.compile("(nord|ost|süd|west).+");
 
   private final Set<String> wordsToBeIgnoredInCompounds = new HashSet<>();
   private static final Map<Pattern, Function<String,List<String>>> ADDITIONAL_SUGGESTIONS = new HashMap<>();
@@ -742,8 +741,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
 
   // check whether a <code>word<code> is a valid compound (e.g., "Feynmandiagramm" or "Feynman-Diagramm")
   // that contains an ignored word from spelling.txt (e.g., "Feynman")
-  private boolean ignoreCompoundWithIgnoredWord(String word) throws IOException{
-    if (!StringTools.startsWithUppercase(word) && !GEOGRAPHICAL_PREFIXES.matcher(word).matches()) {
+  private boolean ignoreCompoundWithIgnoredWord(String word) throws IOException {
+    if (!StringTools.startsWithUppercase(word) && !StringUtils.startsWithAny(word, "nord", "west", "ost", "süd", "α-", "β-", "ɣ-")) {
       // otherwise stuff like "rumfangreichen" gets accepted
       return false;
     }
