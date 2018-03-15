@@ -33,7 +33,6 @@ import org.languagetool.Languages;
 public class PreferredWordRuleTest {
   
   @Test
-  @Ignore("don't run, as preferredwords.csv has been emptied")
   public void test() throws IOException {
     Language dutch = Languages.getLanguageForShortCode("nl");
     PreferredWordRule rule = new PreferredWordRule(JLanguageTool.getMessageBundle());
