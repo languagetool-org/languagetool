@@ -110,6 +110,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
+                    <token regexp="yes">\p{L}</token>
+                    <token spacebefore="no">.</token>
+                    <token regexp="yes">\p{L}</token>
+                    <token spacebefore="no">.</token>
+                </pattern>
+                <message>Abkürzung gefunden. Verzichten Sie auf Abkürzungen.</message>
+                <example correction="">Der Tiger ist <marker>z. B.</marker> ein Tier.</example>
+                <example correction="">Er ist krank, <marker>d. h.</marker> er kann nicht kommen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">hebr|hg|hl|Hg|hist|hochd|hochspr|Hptst|Hr|hrsg|Allg|ill|inkl|incl|Ind|Inf|Ing|ital|Tr|jap|Jb|Jg|Jhd?|Jhdts?|jmd|jmdm|jmdn|jmds|jur|Kap|kart|kath|kaufm|Kfm|kgl|Kl|Konj|königl|Krs|Kr|Kto</token>
+                    <token spacebefore="no">.</token>
+                </pattern>
+                <message>Abkürzung gefunden. Verzichten Sie auf Abkürzungen.</message>
+                <example correction="">Das ist <marker>Hr.</marker> Meier.</example>
+                <example>Das ist Herr <marker>Meier</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token postag_regexp="yes" postag="ABK:.*"><exception regexp="yes">\p{L}</exception></token>
                 </pattern>
                 <message>Abkürzung gefunden. Verzichten Sie auf Abkürzungen.</message>
@@ -206,6 +226,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Angeblich sind sie bereit.</example>
                 <example correction="">Man <marker>sei</marker> bereit.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token postag_regexp="yes" postag="VER:(MOD|AUX):.*:KJ2"></token>
+                </pattern>
+                <message>Konjunktiv gefunden. Vermeiden Sie den Konjunktiv.</message>
+                <example>Morgen regnet es vielleicht.</example>
+                <example correction="">Morgen <marker>könnte</marker> es regnen.</example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup id="QUERVERWEIS" name="Leichte Sprache: Querverweise">
+            <rule>
+                <pattern>
+                    <token>siehe</token>
+                </pattern>
+                <message>Querverweis gefunden. Vermeiden Sie Querverweise.</message>
+                <example>In Heft 3 steht mehr dazu.</example>
+                <example correction="">Es gibt viele Informationen dazu (<marker>siehe</marker> Heft 3).</example>
+            </rule>
         </rulegroup>
 
         <rule id="ROEMISCHE_ZAHL" name="Leichte Sprache: Römischen Zahl">
@@ -267,14 +306,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
 
-        <rule id="ZAHLWOERTER" name="Leichte Sprache: Zahlwörter">
-            <pattern>
-                <token postag="ZAL"/>
-            </pattern>
-            <message>Zahlwort gefunden. Fragen Sie die Prüfer und Prüferinnen: Wie sollen Sie Zahlen schreiben? Meistens sind Ziffern leichter als Worte.</message>
-            <example>Es waren 7 Leute da.</example>
-            <example correction="">Es waren <marker>sieben</marker> Leute da.</example>
-        </rule>
+        <rulegroup id="ZAHLWOERTER" name="Leichte Sprache: Zahlwörter">
+            <rule>
+                <pattern>
+                    <token postag="ZAL"/>
+                </pattern>
+                <message>Zahlwort gefunden. Fragen Sie die Prüfer und Prüferinnen: Wie sollen Sie Zahlen schreiben? Meistens sind Ziffern leichter als Worte.</message>
+                <example>Es waren 7 Leute da.</example>
+                <example correction="">Es waren <marker>sieben</marker> Leute da.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">(ein|zwei|zwan|dreiß?|vier|fünf|sechs?|sieb|acht|neun).*(zehn|zig|hundert|tausend)((und)?(eins?|zwei|zwan|dreiß?|vier|fünf|sechs|sieben|acht|neun)(.*zehn|.*zig)?)?|Zwei|Drei|Vier|Fünf|Sechs|Sieben|Acht|Neun</token>
+                </pattern>
+                <message>Zahlwort gefunden. Fragen Sie die Prüfer und Prüferinnen: Wie sollen Sie Zahlen schreiben? Meistens sind Ziffern leichter als Worte.</message>
+                <example>Es sind 200 Leute da.</example>
+                <example correction="">Es sind <marker>zweihundert</marker> Leute da.</example>
+            </rule>
+        </rulegroup>
 
         <rulegroup id="DATUM" name="Leichte Sprache: Datum">
             <rule>
