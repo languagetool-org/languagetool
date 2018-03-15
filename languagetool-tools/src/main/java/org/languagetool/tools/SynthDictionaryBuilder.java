@@ -69,6 +69,7 @@ final class SynthDictionaryBuilder extends DictionaryBuilder {
       writePosTagsToFile(plainTextDictFile, getTagFile(tempFile));
       return buildDict(reversedFile);
     } finally {
+      outputDirectory.delete();
       tempFile.delete();
       if (reversedFile != null) {
         reversedFile.delete();
