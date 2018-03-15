@@ -59,7 +59,7 @@ final class SynthDictionaryBuilder extends DictionaryBuilder {
   
   File build(File plainTextDictFile, File infoFile) throws Exception {
     String outputFilename = this.getOutputFilename();
-    File outputDirectory = new File(outputFilename.substring(0, outputFilename.lastIndexOf("/")));
+    File outputDirectory = new File(outputFilename).getParentFile();
     File tempFile = File.createTempFile(SynthDictionaryBuilder.class.getSimpleName(), ".txt", outputDirectory);
     File reversedFile = null;
     try {
