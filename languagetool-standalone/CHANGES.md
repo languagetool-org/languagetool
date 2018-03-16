@@ -38,7 +38,7 @@
 
 #### Portuguese
   * added and improved rules
-  qgit
+
 #### Russian
   * sentence segmentation improvements
   * added and improved rules
