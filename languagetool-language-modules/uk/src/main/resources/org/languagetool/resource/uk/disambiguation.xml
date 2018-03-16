@@ -95,6 +95,22 @@
     <example type="untouched">На тому метру.</example>
   </rule>
 
+  <rule name="коли - не іменник" id="KOLY_NOT_NOUN">
+    <pattern>
+      <marker>
+        <token>коли
+          <exception scope="previous" inflected="yes" regexp="yes">випити|випивши|випитий|дерев'яний</exception>
+        </token>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="noun:.*"/>
+    <example type="ambiguous"
+        inputform="коли[кола/noun:inanim:f:v_rod,кола/noun:inanim:p:v_naz,кола/noun:inanim:p:v_zna,коли/adv:&amp;pron:int:rel,коли/conj:subord,коли/part,кіл/noun:inanim:p:v_naz,кіл/noun:inanim:p:v_zna]"
+        outputform="коли[коли/adv:&amp;pron:int:rel,коли/conj:subord,коли/part]">запитали <marker>коли</marker> він їде.</example>
+    <example type="untouched">дерев'яні коли.</example>
+    <example type="untouched">від випитої коли.</example>
+  </rule>
+
   <rule name="Округи (іменник - не прийменник)" id="OKRUGY">
     <pattern>
       <token>округи</token>
@@ -1414,7 +1430,7 @@
     </pattern>
     <disambig action="filter"><match no="1">рада</match></disambig>
     <example type="ambiguous"
-        inputform="Раду[Рада/noun:anim:f:v_zna:prop:fname:xp1,Рада/noun:inanim:f:v_zna:prop:xp2,рад/noun:inanim:m:v_dav,рад/noun:inanim:m:v_mis,рада/noun:inanim:f:v_zna,радий/adj:f:v_zna]"
+        inputform="Раду[Рада/noun:anim:f:v_zna:prop:fname,рад/noun:inanim:m:v_dav,рад/noun:inanim:m:v_mis,рада/noun:inanim:f:v_zna,радий/adj:f:v_zna]"
         outputform="Раду[рада/noun:inanim:f:v_zna]"
             >у Верховну <marker>Раду</marker>.</example>
     <example type="untouched">не міг дати собі ради.</example>
@@ -1429,10 +1445,40 @@
     </pattern>
     <disambig action="filter"><match no="1">рада</match></disambig>
     <example type="ambiguous"
-        inputform="Раду[Рада/noun:anim:f:v_zna:prop:fname:xp1,Рада/noun:inanim:f:v_zna:prop:xp2,рад/noun:inanim:m:v_dav,рад/noun:inanim:m:v_mis,рада/noun:inanim:f:v_zna,радий/adj:f:v_zna]"
+        inputform="Раду[Рада/noun:anim:f:v_zna:prop:fname,рад/noun:inanim:m:v_dav,рад/noun:inanim:m:v_mis,рада/noun:inanim:f:v_zna,радий/adj:f:v_zna]"
         outputform="Раду[рада/noun:inanim:f:v_zna]"
             >у <marker>Раду</marker> Міністрів.</example>
     <example type="untouched">не міг дати собі ради.</example>
+  </rule>
+
+  <rule name="ч. - чайна" id="ch_chaina">
+    <pattern>
+      <marker>
+        <token>ч.</token>
+      </marker>
+      <token regexp="yes">л\.?|ложк.*</token>
+    </pattern>
+    <disambig action="filter" postag="adj.*"></disambig>
+    <example type="ambiguous"
+        inputform="ч.[ч./adj:f:v_dav:nv:abbr,ч./adj:f:v_mis:nv:abbr,ч./adj:f:v_naz:nv:abbr,ч./adj:f:v_oru:nv:abbr,ч./adj:f:v_rod:nv:abbr,ч./adj:f:v_zna:nv:abbr,ч./adj:p:v_dav:nv:abbr,ч./adj:p:v_mis:nv:abbr,ч./adj:p:v_naz:nv:abbr,ч./adj:p:v_oru:nv:abbr,ч./adj:p:v_rod:nv:abbr,ч./adj:p:v_zna:nv:abbr,ч./noun:inanim:f:v_dav:nv:abbr,ч./noun:inanim:f:v_mis:nv:abbr,ч./noun:inanim:f:v_naz:nv:abbr,ч./noun:inanim:f:v_oru:nv:abbr,ч./noun:inanim:f:v_rod:nv:abbr,ч./noun:inanim:f:v_zna:nv:abbr,ч./noun:inanim:p:v_dav:nv:abbr,ч./noun:inanim:p:v_mis:nv:abbr,ч./noun:inanim:p:v_naz:nv:abbr,ч./noun:inanim:p:v_oru:nv:abbr,ч./noun:inanim:p:v_rod:nv:abbr,ч./noun:inanim:p:v_zna:nv:abbr]"
+        outputform="ч.[ч./adj:f:v_dav:nv:abbr,ч./adj:f:v_mis:nv:abbr,ч./adj:f:v_naz:nv:abbr,ч./adj:f:v_oru:nv:abbr,ч./adj:f:v_rod:nv:abbr,ч./adj:f:v_zna:nv:abbr,ч./adj:p:v_dav:nv:abbr,ч./adj:p:v_mis:nv:abbr,ч./adj:p:v_naz:nv:abbr,ч./adj:p:v_oru:nv:abbr,ч./adj:p:v_rod:nv:abbr,ч./adj:p:v_zna:nv:abbr]"
+            >по 3 <marker>ч.</marker> л.</example>
+    <example type="untouched">т. 2 ч. 1</example>
+  </rule>
+
+  <rule name="ч. - частина" id="ch_chastyna">
+    <pattern>
+      <marker>
+        <token>ч.</token>
+      </marker>
+      <token postag="number"/>
+    </pattern>
+    <disambig action="filter" postag="noun:inanim:f.*"></disambig>
+    <example type="ambiguous"
+        inputform="ч.[ч./adj:f:v_dav:nv:abbr,ч./adj:f:v_mis:nv:abbr,ч./adj:f:v_naz:nv:abbr,ч./adj:f:v_oru:nv:abbr,ч./adj:f:v_rod:nv:abbr,ч./adj:f:v_zna:nv:abbr,ч./adj:p:v_dav:nv:abbr,ч./adj:p:v_mis:nv:abbr,ч./adj:p:v_naz:nv:abbr,ч./adj:p:v_oru:nv:abbr,ч./adj:p:v_rod:nv:abbr,ч./adj:p:v_zna:nv:abbr,ч./noun:inanim:f:v_dav:nv:abbr,ч./noun:inanim:f:v_mis:nv:abbr,ч./noun:inanim:f:v_naz:nv:abbr,ч./noun:inanim:f:v_oru:nv:abbr,ч./noun:inanim:f:v_rod:nv:abbr,ч./noun:inanim:f:v_zna:nv:abbr,ч./noun:inanim:p:v_dav:nv:abbr,ч./noun:inanim:p:v_mis:nv:abbr,ч./noun:inanim:p:v_naz:nv:abbr,ч./noun:inanim:p:v_oru:nv:abbr,ч./noun:inanim:p:v_rod:nv:abbr,ч./noun:inanim:p:v_zna:nv:abbr]"
+        outputform="ч.[ч./noun:inanim:f:v_dav:nv:abbr,ч./noun:inanim:f:v_mis:nv:abbr,ч./noun:inanim:f:v_naz:nv:abbr,ч./noun:inanim:f:v_oru:nv:abbr,ч./noun:inanim:f:v_rod:nv:abbr,ч./noun:inanim:f:v_zna:nv:abbr]"
+            >ст. 3 <marker>ч.</marker> 7 проголошує</example>
+    <example type="untouched">2 ч. л.</example>
   </rule>
 
   <rule name="Накладний платіж" id="nakladnyi_platizh">
