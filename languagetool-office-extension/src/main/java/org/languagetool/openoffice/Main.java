@@ -655,7 +655,7 @@ public class Main extends WeakBase implements XJobExecutor,
     if (lastChar == '.' && (ruleMatch.getToPos() + startIndex) == sentencesLength) {
       int i;
       for (i = 0; i < numSuggestions && i < MAX_SUGGESTIONS 
-    		  && allSuggestions[i].charAt(allSuggestions[i].length()-1) == '.'; i++);
+    		  && allSuggestions[i].length() > 0 && allSuggestions[i].charAt(allSuggestions[i].length()-1) == '.'; i++);
       if (i < numSuggestions && i < MAX_SUGGESTIONS) {
     	numSuggestions = 0;
     	allSuggestions = new String[0];
