@@ -199,8 +199,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token postag_regexp="yes" postag="SUB:.*"/>
                     <marker>
-                        <token postag_regexp="yes" postag="PRO:POS:GEN:.*" skip="-1"/>
-                        <token postag_regexp="yes" postag="SUB:GEN:.*"/>
+                        <token postag_regexp="yes" postag="PRO:POS:GEN:.+" skip="-1"/>
+                        <token postag_regexp="yes" postag="SUB:GEN:.+"/>
                     </marker>
                 </pattern>
                 <message>Genitiv gefunden. Vermeiden Sie den Genitiv.</message>
@@ -213,7 +213,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="INDIREKTE_REDE" name="Leichte Sprache: Indirekte Rede">
             <rule>
                 <pattern>
-                    <token regexp="yes" inflected="yes" skip="-1">(sagen|antworten|entgegnen|berichten|meinen|glauben|schreiben|denken|fragen)</token>
+                    <token regexp="yes" inflected="yes" skip="-1">(sagen|antworten|entgegnen|berichten|meinen|glauben|schreiben|denken|fragen|schreib?en|bitten)</token>
                     <token>,</token>
                     <token negate_pos="yes" postag_regexp="yes" postag="VER:.*"/>
                 </pattern>
@@ -314,6 +314,92 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Prozentzahl gefunden. Vermeiden Sie Prozentzahlen.</message>
                 <example>14 Prozent</example>
                 <example correction=""><marker>14 %</marker></example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup id="VON_BIS" name="'von' mit Bis-Strich">
+            <url>https://de.wikipedia.org/wiki/Halbgeviertstrich#Bis-Strich</url>
+            <rule>
+                <pattern>
+                    <token>von</token>
+                    <marker>
+                        <token>a-z</token>
+                    </marker>
+                    <token negate="yes">bis</token>
+                </pattern>
+                <message>Schreiben Sie 'bis' bei vorangehendem 'von' aus: <suggestion>A bis Z</suggestion>.</message>
+                <short>Bitte schreiben Sie 'bis' bei vorhergehendem 'von' aus.</short>
+                <example><marker>Pilze von A bis Z</marker>.</example>
+                <example>Die Buchstaben <marker>A–Z</marker>.</example>
+                <example correction="A bis Z">Pilze von <marker>A-Z</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>von</token>
+                    <marker>
+                        <token>a</token>
+                        <token regexp="yes">\-|–</token>
+                        <token>z</token>
+                    </marker>
+                    <token negate="yes">bis</token>
+                </pattern>
+                <message>Schreiben Sie 'bis' bei vorhergehendem 'von' aus: <suggestion>\2 bis \4</suggestion>.</message>
+                <short>Bitte schreiben Sie 'bis' bei vorhergehendem 'von' aus.</short>
+                <example><marker>Pilze von A bis Z</marker>.</example>
+                <example>Die Buchstaben <marker>A–Z</marker>.</example>
+                <example correction="A bis Z">Pilze von <marker>A - Z</marker>.</example>
+                <example correction="A bis Z">Pilze von <marker>A – Z</marker>.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token regexp="yes">[vV]o[nm]</token>
+                        <token regexp="yes">([0-9]{1,5})(\-|–)([0-9]{1,5})</token>
+                    </marker>
+                </pattern>
+                <message>Bitte schreiben Sie 'bis' bei vorhergehendem 'von' aus: <suggestion><match no="1"/> <match no="2" regexp_match="([0-9]{1,5})(\-|–)([0-9]{1,5})" regexp_replace="$1 bis $3"/></suggestion>.</message>
+                <short>Bitte schreiben Sie 'bis' bei vorhergehendem 'von' aus.</short>
+                <example><marker>9–10</marker> Stunden lang.</example>
+                <example>Temperaturen von <marker>9–10</marker> Grad.</example>
+                <example>Höchsttemperaturen von <marker>9–10</marker> Grad.</example>
+                <example>Ein Gewicht von <marker>90–100</marker> Tonnen.</example>
+                <example>Eine Breite von <marker>90–100</marker> Zentimetern.</example>
+                <example correction="Von 9 bis 10"><marker>Von 9–10</marker> Uhr.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token regexp="yes">[vV]o[nm]</token>
+                        <token regexp="yes">[0-9]{1,5}</token>
+                        <token regexp="yes">\-|–</token>
+                        <token regexp="yes">[0-9]{1,5}</token>
+                    </marker>
+                </pattern>
+                <message>Bitte schreiben Sie 'bis' bei vorhergehendem 'von' aus: <suggestion>\1 \2 bis \4</suggestion>.</message>
+                <short>Bitte schreiben Sie 'bis' bei vorhergehendem 'von' aus.</short>
+                <example><marker>9–10</marker> Stunden lang.</example>
+                <example>Temperaturen von <marker>9–10</marker> Grad.</example>
+                <example correction="Von 9 bis 10"><marker>Von 9 – 10</marker> Uhr.</example>
+            </rule>
+            <rule>
+                <regexp case_sensitive='yes'>([vV]o[nm]) (Band|Blatt|Seite|Zeile) (([0-9]{1,5})(\-|–)([0-9]{1,5}))</regexp>
+                <message>Bitte schreiben Sie 'bis' bei vorhergehendem 'von' aus: <suggestion><match no="1"/> <match no="2"/> <match no="3" regexp_match="([0-9]{1,5})(\-|–)([0-9]{1,5})" regexp_replace="$1 bis $3"/></suggestion>.</message>
+                <short>Bitte schreiben Sie 'bis' bei vorhergehendem 'von' aus.</short>
+                <example correction="Von Zeile 7 bis 11"><marker>Von Zeile 7-11</marker> wird geprüft, ob die Zahl eine Primzahl ist.</example>
+                <example correction="Von Zeile 7 bis 11"><marker>Von Zeile 7–11</marker> wird geprüft, ob die Zahl eine Primzahl ist.</example>
+            </rule>
+            <rule>
+                <regexp case_sensitive='yes'>([vV]o[nm]) (Band|Bänden?|Blatt|Blättern?|Seiten?|Zeilen?) ([0-9]{1,5}) (\-|–) ([0-9]{1,5})</regexp>
+                <message>Bitte schreiben Sie 'bis' bei vorhergehendem 'von' aus: <suggestion>\1 \2 \3 bis \5</suggestion>.</message>
+                <short>Bitte schreiben Sie 'bis' bei vorhergehendem 'von' aus.</short>
+                <example correction="Von Zeile 7 bis 11"><marker>Von Zeile 7 - 11</marker> wird geprüft, ob die Zahl eine Primzahl ist.</example>
+                <example correction="Von Zeile 7 bis 11"><marker>Von Zeile 7 – 11</marker> wird geprüft, ob die Zahl eine Primzahl ist.</example>
+            </rule>
+            <rule>
+                <regexp>(vo[nm]) ([0-9]{1,5})\.(\-|–)([0-9]{1,5})\.</regexp>
+                <message>Bitte schreiben Sie 'bis' bei vorhergehendem 'von' aus: <suggestion>\1 \2. bis \4.</suggestion>.</message>
+                <example><marker>Vom 9. bis 10.</marker> April.</example>
+                <example correction="Vom 7. bis 10."><marker>Vom 7.-10.</marker> März.</example>
             </rule>
         </rulegroup>
 
