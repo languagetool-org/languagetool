@@ -28,7 +28,7 @@
   * added and improved rules
   * New rule that checks coherent use of Du/du, Dich/dich etc. Assumes that the first
     use has 'correct' capitalization and suggest the same capitalization for subsequent uses.
-  * New line extension `-*` for `ignore.txt`: entries ending with `*-` are ignored only if
+  * New line extension `-*` for `ignore.txt`: entries ending with `-*` are ignored only if
     they are part of a hyphenated compound (e.g, `Fair-Trade-*` allows `Fair-Trade-Kakao`)
   * Added a new rule that tries to find compounds that are probably not correct, like
     `Lehrzeile` instead of `Leerzeile`, requires ngram data (rule id `DE_PROHIBITED_COMPOUNDS`)
@@ -38,7 +38,7 @@
 
 #### Portuguese
   * added and improved rules
-  
+  qgit
 #### Russian
   * sentence segmentation improvements
   * added and improved rules
