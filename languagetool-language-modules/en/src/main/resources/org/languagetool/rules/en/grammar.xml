@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/print.xsl" ?>
 <?xml-stylesheet type="text/css" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.css"
         title="Easy editing stylesheet" ?>
@@ -43,6 +43,15 @@ USA
     <!-- ====================================================================== -->
     <category id="TYPOS" name="Possible Typo" type="misspelling">
        <rulegroup id="IN_LAWS" name="brother-in-laws (brothers-in-law)">
+	   <rule id="YESTERDAY_AGO_LAST_PAST_SIMPLE" name="Yesterday, ago, last + Past Simple">
+ 		<pattern>
+  			<token postag='VBN'><exception regexp='yes'>last|ago|yesterday</exception></token>
+		</pattern>
+ 		<message>We want to prevent a user to use past participle with the Key-Words "Yesterday, ago or last"</message>
+ 		<short>You may want to use past simple instead of past participle</short>
+		<example correction=''>I have <marker>visited</marker> Athens last year.</example>
+ 		<example>I visited Athens last year.</example>
+	   </rule>
            <rule>
                <pattern>
                    <marker>
