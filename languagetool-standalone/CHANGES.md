@@ -6,7 +6,8 @@
   * added some rules
 
 #### Dutch
-  * added new Java rule 'NL_PREFERRED_WORD_RULE' that suggests preferred words (e.g., 'fiets' for 'rijwiel')
+  * added and improved rules
+  * added new Java rule `NL_PREFERRED_WORD_RULE` that suggests preferred words (e.g., 'fiets' for 'rijwiel')
 
 #### English
   * added and improved rules
@@ -27,8 +28,8 @@
   * added and improved rules
   * New rule that checks coherent use of Du/du, Dich/dich etc. Assumes that the first
     use has 'correct' capitalization and suggest the same capitalization for subsequent uses.
-  * New line extension '-*' for 'ignore.txt': entries ending with '*-' are ignored only if 
-    they are part of a hyphenated compound
+  * New line extension `-*` for `ignore.txt`: entries ending with `*-` are ignored only if
+    they are part of a hyphenated compound (e.g, `Fair-Trade-*` allows `Fair-Trade-Kakao`)
   * Added a new rule that tries to find compounds that are probably not correct, like
     `Lehrzeile` instead of `Leerzeile`, requires ngram data (rule id `DE_PROHIBITED_COMPOUNDS`)
 
