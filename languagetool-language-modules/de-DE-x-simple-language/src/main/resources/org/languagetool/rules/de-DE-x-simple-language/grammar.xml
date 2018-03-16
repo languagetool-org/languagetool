@@ -481,6 +481,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Erhöhung um einige Prozent</example>
                 <example correction="">Erhöhung um einige <marker>%</marker></example>
             </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">.+er</token>
+                    <token spacebefore="no">/</token>
+                    <token spacebefore="no" regexp="yes">-?in(nen)?</token>
+                </pattern>
+                <message>Sonderzeichen gefunden. Vermeiden Sie Sonderzeichen.</message>
+                <suggestion>\1 oder \1<match no="3" regexp_match="-" regexp_replace=""/></suggestion>
+                <suggestion>\1 und \1<match no="3" regexp_match="-" regexp_replace=""/></suggestion>
+                <example correction="Lehrer oder Lehrerinnen|Lehrer und Lehrerinnen">Hier arbeiten viele <marker>Lehrer/-innen</marker></example>
+                <example correction="Bürgermeister oder Bürgermeisterin|Bürgermeister und Bürgermeisterin">Sie wählen heute eine(n) neue(n) <marker>Bürgermeister/in</marker></example>
+            </rule>
         </rulegroup>
         
         <rule id="FRAGEN" name="Leichte Sprache: Verzicht auf Fragesätze" default="off">
