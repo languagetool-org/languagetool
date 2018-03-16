@@ -213,7 +213,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="INDIREKTE_REDE" name="Leichte Sprache: Indirekte Rede">
             <rule>
                 <pattern>
-                    <token regexp="yes" inflected="yes" skip="-1">(sagen|antworten|entgegnen|berichten|meinen|glauben|schreiben|denken|fragen|schreib?en|bitten)</token>
+                    <token regexp="yes" inflected="yes" skip="-1">(sagen|antworten|entgegnen|berichten|meinen|glauben|denken|fragen|schreib?en|bitten)</token>
                     <token>,</token>
                     <token negate_pos="yes" postag_regexp="yes" postag="VER:.*"/>
                 </pattern>
@@ -444,6 +444,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Datumsangabe gefunden. Fragen Sie die Prüfer und Prüferinnen: Wie sollen Sie ein Datum schreiben?</message>
                 <example>Am 31. Januar 2011 geht es los.</example>
                 <example correction="">Am <marker>31.01.2011</marker> geht es los.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">(0|1|2|3)?\p{N}</token>
+                    <token spacebefore="no">.</token>
+                    <token spacebefore="no" regexp="yes">(0|1)?\p{N}</token>
+                    <token spacebefore="no">.</token>
+                    <marker><token spacebefore="no" regexp="yes">\p{N}{2}</token></marker>
+                </pattern>
+                <message>Datumsangabe gefunden. Schreiben Sie die Jahreszahl aus. Fragen Sie die Prüfer und Prüferinnen: Wie sollen Sie ein Datum schreiben?</message>
+                <suggestion>20\5</suggestion>
+                <example>Am 31.01.2020 geht es los.</example>
+                <example correction="2020">Am 31.01.<marker>20</marker> geht es los.</example>
             </rule>
             <rule>
                 <pattern>
