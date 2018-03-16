@@ -52,16 +52,6 @@ public class PunctuationMarkAtParagraphEnd extends TextLevelRule {
     return messages.getString("punctuation_mark_paragraph_end_desc");
   }
   
-  private static boolean isPunctuationMark (AnalyzedTokenReadings tk) {
-    String token = tk.getToken();
-    for(int i = 0; i < PUNCTUATION_MARKS.length; i++) {
-      if(token.equals(PUNCTUATION_MARKS[i])) {
-        return true;
-      }
-    }
-    return false;
-  }
-
   private static boolean isQuotationMark (AnalyzedTokenReadings tk) {
     String token = tk.getToken();
     for(int i = 0; i < QUOTATION_MARKS.length; i++) {
@@ -108,6 +98,9 @@ public class PunctuationMarkAtParagraphEnd extends TextLevelRule {
         if(isParaBreak(tokens[i]) || (n == sentences.size() - 1 && i == tokens.length - 1)) {
           // paragraphs containing less than two sentences (e.g. headlines, listings) are excluded from rule
           if (n - lastPara > 1 && isFirstWord) {
+            if (n == sentences.size() - 1 && i == tokens.length - 1) {
+              i++;
+            }
             for (i--; i > 0 && isWhitespace(tokens[i]); i--);
             if (i > 0 && (isWord(tokens[i]) 
                 || (i < tokens.length - 1 && isQuotationMark(tokens[i]) && isWord(tokens[i + 1])))) { 
