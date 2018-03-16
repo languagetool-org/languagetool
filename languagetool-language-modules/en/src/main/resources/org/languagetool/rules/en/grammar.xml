@@ -12984,6 +12984,14 @@ USA
             </rule>
         </rulegroup>
         <rule id="A_LOT_OF_NN" name="Possible agreement error: 'a lot/bunch/couple of' + singular countable noun">
+            <antipattern>
+                <token inflected="yes">do</token>
+                <token>a</token>
+                <token regexp="yes">lot|bunch</token>
+                <token>of</token>
+                <token postag="NNP?" postag_regexp="yes"></token>
+                <token postag="VBG"/>
+            </antipattern>
             <pattern>
                 <marker>
                     <token>a</token>
@@ -12997,6 +13005,7 @@ USA
             <short>Grammatical problem</short>
             <example correction="a lot of cars">I have <marker>a lot of car</marker>.</example>
             <example>I have <marker>a lot of wine</marker>.</example>
+            <example>I did <marker>a lot of rat</marker> killing.</example>
         </rule>
         <rule id="LOTS_OF_NN" name="Possible agreement error: 'lots/plenty of' + singular countable noun">
             <pattern>
