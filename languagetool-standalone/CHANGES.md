@@ -41,7 +41,13 @@
 #### Russian
   * sentence segmentation improvements
   * added and improved rules
-  
+
+#### Ukrainian
+  * dictionary update (~5K new lemmas)
+  * compound word tagging improvements
+  * many new disambiguation rules
+  * several new barbarism and grammar rules
+
 #### Java API
   * Constructors that take a `ResultCache` have been removed from `MultiThreadedJLanguageTool`
     as using them caused incorrect results. (https://github.com/languagetool-org/languagetool/issues/897)
