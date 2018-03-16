@@ -57,7 +57,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="">Sie erwiesen ihm <marker>Bärendienste</marker>.</example>
             <example correction="">Dafür gibt es keine <marker>Eselsbrücken</marker>.</example>
         </rule>
-        
+
+        <rule id="SCHWIERIGE_WOERTER" name="Leichte Sprache: schwierige Wörter">
+            <pattern>
+                <token inflected='yes' regexp='yes'>anti.+|asy.+|diffizil|kontra.+|ge(nehmigen|statten)|rhy.+</token>
+            </pattern>
+            <message>Verwenden Sie keine schwierigen Begriffe. Vermeiden Sie Metaphern und bildhafte Sprache.</message>
+            <short>Schwierige Wörter vermeiden</short>
+            <example>Sie hat es ihm erlaubt.</example>
+            <example correction="">Sie hat es ihm <marker>gestattet</marker>.</example>
+            <example correction="">Eine <marker>asymmetrische</marker> Anordnung.</example>
+        </rule>
+
         <rule id="FUSSNOTE" name="Leichte Sprache: Fußnote">
             <pattern>
                 <token regexp='yes'>.*[¹²³]</token>
@@ -121,7 +132,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">hebr|hg|hl|Hg|hist|hochd|hochspr|Hptst|Hr|hrsg|Allg|ill|inkl|incl|Ind|Inf|Ing|ital|Tr|jap|Jb|Jg|Jhd?|Jhdts?|jmd|jmdm|jmdn|jmds|jur|Kap|kart|kath|kaufm|Kfm|kgl|Kl|Konj|königl|Krs|Kr|Kto</token>
+                    <token regexp="yes">Tel|Temp|trans|Tsd|übertr|übl|ff|überarb|ugs|univ|unveränd|urspr|usw|vgl|Vol|vollst|vorm|etc|Vp|Vs|vs|wesentl|wg|Hd|Ztr|zus|Zus|zzt|zz|zzgl|Zz|Zt|Min|Bzgl|bzgl|bezügl|Frhr|ggfs|insb|autom|MwSt|hebr|hg|hl|Hg|hist|hochd|hochspr|Hptst|Hr|hrsg|Allg|ill|inkl|incl|Ind|Inf|Ing|ital|Tr|jap|Jb|Jg|Jhd?|Jhdts?|jmd|jmdm|jmdn|jmds|jur|Kap|kart|kath|kaufm|Kfm|kgl|Kl|Konj|königl|Krs|Kr|Kto</token>
                     <token spacebefore="no">.</token>
                 </pattern>
                 <message>Abkürzung gefunden. Verzichten Sie auf Abkürzungen.</message>
@@ -154,7 +165,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token inflected="yes" postag_regexp="yes" postag="VER:AUX:.*"><exception>,</exception>werden</token>
                 </pattern>
                 <message>In diesem Satz haben Sie das Passiv verwendet. Benutzen Sie aktive Wörter.</message>
-                <example>Sie feuerten den Manager.</example>
+                <example>Sie hat den Manager entlassen.</example>
                 <example correction="">Als der Manager <marker>gefeuert wurde</marker>.</example>
             </rule>
             <!--

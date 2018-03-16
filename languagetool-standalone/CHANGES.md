@@ -32,6 +32,9 @@
   * Added a new rule that tries to find compounds that are probably not correct, like
     `Lehrzeile` instead of `Leerzeile`, requires ngram data (rule id `DE_PROHIBITED_COMPOUNDS`)
 
+#### German (simple)
+  * added and improved rules
+
 #### Portuguese
   * added and improved rules
   
