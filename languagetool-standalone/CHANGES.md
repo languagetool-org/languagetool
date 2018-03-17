@@ -42,6 +42,7 @@
 #### Russian
   * sentence segmentation improvements
   * added and improved rules
+  * upgraded the tagging and synthesizer dictionaries with extended POS tags from AOT.ru rev.269
 
 #### Ukrainian
   * dictionary update (~5K new lemmas)
