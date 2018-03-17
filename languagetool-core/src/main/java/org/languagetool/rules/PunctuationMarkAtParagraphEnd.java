@@ -34,7 +34,7 @@ import org.languagetool.AnalyzedTokenReadings;
 public class PunctuationMarkAtParagraphEnd extends TextLevelRule {
   
   private final static String PUNCTUATION_MARKS[] = {".", "!", "?", ":", ",", ";"};
-  private final static String QUOTATION_MARKS[] = {"„", "»", "«", "\"", "”", "″", "’", "‚", "‘", "›", "‹", "′"};
+  private final static String QUOTATION_MARKS[] = {"„", "»", "«", "\"", "”", "″", "’", "‚", "‘", "›", "‹", "′", "'"};
 
   public PunctuationMarkAtParagraphEnd(ResourceBundle messages) {
     super(messages);

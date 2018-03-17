@@ -39,6 +39,7 @@ public class PunctuationMarkAtParagraphEndTest {
     assertEquals(0, lt.check("This is a test sentence.").size());
     assertEquals(0, lt.check("This is a test headline").size());
     assertEquals(1, lt.check("This is a test sentence. And this is a second test sentence").size());
+    assertEquals(1, lt.check("\"This is a test sentence. And this is a second test sentence").size());
     assertEquals(0, lt.check("This is a test sentence. And this is a second test sentence.").size());
     assertEquals(1, 
         lt.check("This is a test sentence.\nAnd this is a second test sentence. Here is a quotation mark missing").size());
