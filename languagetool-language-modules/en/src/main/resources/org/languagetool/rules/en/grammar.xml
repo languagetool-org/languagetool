@@ -75,6 +75,34 @@ USA
             <url>https://www.merriam-webster.com/dictionary/true%20to%20word</url>
             <example correction="word">She was true to her <marker>words</marker>.</example>
         </rule>
+        <rule id="DEGREE_CHANGE" name="360 (180) degree change">
+            <pattern>
+                <marker><token regexp="yes">360(-degree)?</token></marker>
+                <token inflected="yes" min="0">degree</token>
+                <token regexp="yes">change|turn</token>
+            </pattern>
+            <message>Did you mean <suggestion><match no="1" regexp_match="360" regexp_replace="180"/></suggestion>? (360 degrees leads to the starting point)</message>
+            <example correction="180">She made a <marker>360</marker> degree change in her life.</example>
+            <example correction="180-degree">She made a <marker>360-degree</marker> change in her life.</example>
+        </rule>
+        <rule id="TOW_THE_LINE" name="tow (toe) the line">
+            <pattern>
+                <marker><token>tow</token></marker>
+                <token>the</token>
+                <token>line</token>
+            </pattern>
+            <message>Did you mean <suggestion>toe</suggestion>?</message>
+            <example correction="toe">We'll <marker>tow</marker> the line.</example>
+        </rule>
+        <rule id="RACK_BRAIN" name="wrack (rack) one's brain about">
+            <pattern>
+                <marker><token inflected="yes">wrack</token></marker>
+                <token></token>
+                <token>brain</token>
+            </pattern>
+            <message>Did you mean <suggestion><match no="1" regexp_match="w" regexp_replace=""/></suggestion>?</message>
+            <example correction="racked">He <marker>wracked</marker> his brain about it.</example>
+        </rule>
         <rule id="HALO_HALLO" name="Halo (Hallo)">
             <pattern>
                 <token postag="SENT_START"/>
@@ -12195,6 +12223,16 @@ USA
             </pattern>
             <message>Did you mean <suggestion>\1 to \2</suggestion>?</message>
             <example correction="ought to say">We <marker>ought say</marker> the truth.</example>
+        </rule>
+        <rule id="NOTHING_SUCH_AS" name="to be nothing such as (to be no such thing as)">
+            <pattern>
+                <token inflected="yes">be</token>
+                <token>nothing</token>
+                <token>such</token>
+                <token>as</token>
+            </pattern>
+            <message>Did you mean <suggestion>\1 no such thing as</suggestion>?</message>
+            <example correction="is no such thing as">There <marker>is nothing such as</marker> as a free lunch.</example>
         </rule>
         <rulegroup id="HE_VERB_AGR" name="Agreement error: Non-third person/past tense verb with 'he/she/it' or a pronoun">
             <short>Agreement error</short>
