@@ -6301,6 +6301,14 @@ USA
             <message>Did you mean <suggestion>heart</suggestion> (=muscular organ)?</message>
             <example correction="heart">She had a <marker>hart</marker> attack.</example>
         </rule>
+        <rule id="HART_HARD" name="confusion of hart/hard">
+            <pattern>
+                <marker><token>hart</token></marker>
+                <token inflected="yes" regexp="yes">copy|evidence|disk|drive|rock|time|work</token>
+            </pattern>
+            <message>Did you mean <suggestion>hard</suggestion>?</message>
+            <example correction="hard">She had a <marker>hart</marker> time there.</example>
+        </rule>
         <rulegroup id="IN_TO_INTO" name="in to (into)">
             <rule>
                 <pattern>
@@ -6332,7 +6340,7 @@ USA
                     <token inflected="yes">get</token>
                     <token>rid</token>
                     <marker>
-                        <token>if</token>
+                        <token regexp="yes">if|off</token>
                     </marker>
                 </pattern>
                 <message>Did you mean <suggestion>of</suggestion> ('get rid of' = 'discard' or 'get free of')?</message>
@@ -6379,7 +6387,7 @@ USA
             </rule>
             <rule>
                 <pattern>
-                    <token inflected='yes' regexp='yes'>be|find</token>
+                    <token inflected='yes' regexp='yes'>be|find|have|need</token>
                     <marker>
                         <token>tome</token>
                     </marker>
