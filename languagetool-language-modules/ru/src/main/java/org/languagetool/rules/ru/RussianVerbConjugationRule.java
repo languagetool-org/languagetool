@@ -37,8 +37,8 @@ import java.util.regex.Pattern;
 public class RussianVerbConjugationRule extends Rule {
 
     private static final Pattern PRONOUN = Pattern.compile("PNN:(.*):Nom:(.*)");
-    private static final Pattern FUT_REAL_VERB = Pattern.compile("VB:(Fut|Real):(.*):(.*)");
-    private static final Pattern PAST_VERB = Pattern.compile("VB:Past:(.*)");
+    private static final Pattern FUT_REAL_VERB = Pattern.compile("VB:(Fut|Real):(.*):(.*):(.*):(.*)");
+    private static final Pattern PAST_VERB = Pattern.compile("VB:Past:(.*):(.*):(.*)");
 
     public RussianVerbConjugationRule(ResourceBundle messages) {
         super(messages);
@@ -73,14 +73,14 @@ public class RussianVerbConjugationRule extends Rule {
                     if(nextPosTag != null && !nextPosTag.isEmpty()) {
                         Matcher verbMatcher = FUT_REAL_VERB.matcher(nextPosTag);
                         if (verbMatcher.find()) {
-                            Pair<String, String> verbPair = new ImmutablePair<>(verbMatcher.group(2), verbMatcher.group(3));
+                            Pair<String, String> verbPair = new ImmutablePair<>(verbMatcher.group(4), verbMatcher.group(5));
                             if (isConjugationInPresentOrFutureWrong(pronounPair, verbPair)) {
                                 addRuleMatch(ruleMatches, currentReading, nextReading, sentence);
                             }
                         } else {
                             verbMatcher = PAST_VERB.matcher(nextPosTag);
                             if (verbMatcher.find()) {
-                                if (isConjugationInPastWrong(pronounMatcher.group(1), verbMatcher.group(1))) {
+                                if (isConjugationInPastWrong(pronounMatcher.group(1), verbMatcher.group(3))) {
                                     addRuleMatch(ruleMatches, currentReading, nextReading, sentence);
                                 }
                             }
