@@ -6895,6 +6895,48 @@ USA
             <example>You kids must be hungry.</example>
             <example>You guys wait here.</example>
         </rule>
+        <rule id='COLLECTIVE_NOUN_VERB_AGREEMENT_VBP' name='COLLECTIVE_NOUN_VERB_AGREEMENT_VBP'>
+ 		 <pattern>
+  		  <token postag='NN'><exception postag='^(?!.*NN(?!(S|P))).*$' postag_regexp='yes'></exception><exception regexp='yes'>(\w*s\b|kind|lot|majority|pair)</exception></token>
+  		  <token>of</token>
+  		  <token postag='NNS'><exception postag='^(?!.*(NNS|VBZ)).*$' postag_regexp='yes'></exception><exception>people</exception></token>
+  		  <marker>
+  		   <token postag='VBP'></token>
+ 		  </marker>
+ 		 </pattern>
+ 		 <message>Possible agreement error: use <suggestion><match no='4' postag='VBZ'/></suggestion></message>
+         <short>Possible agreement error</short>
+         <example correction='is'>A fleet of ships <marker>are</marker> spotted.</example>
+		</rule>
+        <rule id='COLLECTIVE_NOUN_VERB_AGREEMENT_VBD' name='a fleet of ships have (has)'>
+         <pattern>
+           <token postag='NN'><exception postag='^(?!.*NN(?!(S|P))).*$' postag_regexp='yes'></exception><exception regexp='yes'>(\w*s\b|kind|lot|majority|pair)</exception></token>
+           <token>of</token>
+           <token postag='NNS'><exception postag='^(?!.*(NNS|VBZ)).*$' postag_regexp='yes'></exception><exception>people</exception></token>
+           <marker>
+             <token regexp='yes'>(were|have)</token>
+           </marker>
+          </pattern>
+          <message>Possible agreement error: use <suggestion><match no='4' postag='VBZ'/></suggestion></message>
+          <short>Possible agreement error</short>
+          <example correction="has">A fleet of ships <marker>have</marker> been spotted.</example>
+        </rule>
+       <!-- <rule id='COLLECTIVE_NOUN_VERB_AGREEMENT' name='a fleet of ships are (is)'>
+         <pattern>
+          <token postag='NN'><exception postag='^(?!.*NN(?!(S|P))).*$' postag_regexp='yes'></exception><exception regexp='yes'>(\w*s\b|kind|lot|majority|pair)</exception></token>
+  		  <token>of</token>
+  		  <token postag='NNS'><exception postag='^(?!.*(NNS|VBZ)).*$' postag_regexp='yes'></exception><exception>people</exception></token>
+          <marker>
+           <or>
+            <token regexp='yes'>(were|have)</token>
+           	<token postag='VBP'></token>
+           </or>
+          </marker>
+         </pattern>
+         <message>Possible agreement error: use <suggestion><match no='4' postag='VBZ'/></suggestion></message>
+         <short>Possible agreement error</short>
+         <example correction='is'>A fleet of ships <marker>are</marker> spotted.</example>
+        </rule> -->
         <rulegroup id="SINGULAR_VERB_AFTER_THESE_OR_THOSE" name="Singular verb after 'these' or 'those'">
             <rule>
                 <pattern>
