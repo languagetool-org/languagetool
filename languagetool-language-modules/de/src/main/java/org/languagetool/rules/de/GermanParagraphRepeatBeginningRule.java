@@ -21,7 +21,6 @@ package org.languagetool.rules.de;
 import java.util.ResourceBundle;
 
 import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.rules.Example;
 import org.languagetool.rules.ParagraphRepeatBeginningRule;
 
 /**
@@ -35,8 +34,6 @@ public class GermanParagraphRepeatBeginningRule extends ParagraphRepeatBeginning
 
   public GermanParagraphRepeatBeginningRule(ResourceBundle messages) {
     super(messages);
-//    addExamplePair(Example.wrong("<marker>Der Hund</marker> spazierte über die Straße.\n<marker>Der Hund</marker> ignorierte den Verkehr."),
-//                   Example.fixed("<marker>Der Hund</marker> spazierte über die Straße.\n<marker>Der Vogel</marker> ignorierte den Verkehr."));
   }
 
   @Override
