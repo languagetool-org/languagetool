@@ -5,6 +5,10 @@
 #### Chinese
   * added some rules
 
+#### Dutch
+  * added and improved rules
+  * added new Java rule `NL_PREFERRED_WORD_RULE` that suggests preferred words (e.g., 'fiets' for 'rijwiel')
+
 #### English
   * added and improved rules
   * added remaining collocation rules (~130) contributed by Nicholas Walker (Bokomaru)
@@ -24,18 +28,28 @@
   * added and improved rules
   * New rule that checks coherent use of Du/du, Dich/dich etc. Assumes that the first
     use has 'correct' capitalization and suggest the same capitalization for subsequent uses.
-  * New line extension '-*' for 'ignore.txt': entries ending with '*-' are ignored only if 
-    they are part of a hyphenated compound
+  * New line extension `-*` for `ignore.txt`: entries ending with `-*` are ignored only if
+    they are part of a hyphenated compound (e.g, `Fair-Trade-*` allows `Fair-Trade-Kakao`)
   * Added a new rule that tries to find compounds that are probably not correct, like
     `Lehrzeile` instead of `Leerzeile`, requires ngram data (rule id `DE_PROHIBITED_COMPOUNDS`)
 
+#### German (simple)
+  * added and improved rules
+
 #### Portuguese
   * added and improved rules
-  
+
 #### Russian
   * sentence segmentation improvements
   * added and improved rules
-  
+  * upgraded the tagging and synthesizer dictionaries with extended POS tags from AOT.ru rev.269
+
+#### Ukrainian
+  * dictionary update (~5K new lemmas)
+  * compound word tagging improvements
+  * many new disambiguation rules
+  * several new barbarism and grammar rules
+
 #### Java API
   * Constructors that take a `ResultCache` have been removed from `MultiThreadedJLanguageTool`
     as using them caused incorrect results. (https://github.com/languagetool-org/languagetool/issues/897)
@@ -93,7 +107,7 @@
   * New rule that checks coherency of hyphen usage in compounds, e.g. it complains
     when "Ärzteverband" and "Ärzte-Verband" are both used in the same text. While both
     spellings are correct, it's probably a good idea to stick to one spelling.
-  * improved POS tagging of hyphenated compounds (e.g., "CO2-arm" is recgonized as a variant of "arm")
+  * improved POS tagging of hyphenated compounds (e.g., "CO2-arm" is recognized as a variant of "arm")
 
 #### Polish
   * added rules
@@ -149,6 +163,7 @@
   * show line numbers in the text area
   * a directory with word2vec language model for neural network rules can now be
     specified in the configuration dialog, see https://forum.languagetool.org/t/neural-network-rules/2225
+  * Stop disposition of vertical scroll when expanding the checkbox.
 
 #### Java API
   * A `RuleMatch` can now have a URL, too. The URL usually points to a page that

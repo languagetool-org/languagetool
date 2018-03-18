@@ -197,6 +197,8 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("Pearl-Harbour", "Pearl Harbor", rule, lt);
     assertFirstSuggestion("Autonomität", "Autonomie", rule, lt);
     assertFirstSuggestion("Kompatibelkeit", "Kompatibilität", rule, lt);
+    assertFirstSuggestion("Sensibelkeit", "Sensibilität", rule, lt);
+    assertFirstSuggestion("Flexibelkeit", "Flexibilität", rule, lt);
     assertFirstSuggestion("WiFi-Direkt", "Wi-Fi Direct", rule, lt);
     assertFirstSuggestion("Wi-Fi-Direct", "Wi-Fi Direct", rule, lt);
     assertFirstSuggestion("hofen", "hoffen", rule, lt);
@@ -212,6 +214,9 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("Deluxe-Version", "De-luxe-Version", rule, lt);
     assertFirstSuggestion("De-luxe-Champagnr", "De-luxe-Champagner", rule, lt);
     assertFirstSuggestion("problemhafte", "problembehaftete", rule, lt);
+    assertFirstSuggestion("solltes", "solltest", rule, lt);
+    assertFirstSuggestion("Kilimanjaro", "Kilimandscharo", rule, lt);
+    assertFirstSuggestion("voraussichtige", "voraussichtliche", rule, lt);
   }
 
   @Test
@@ -239,7 +244,8 @@ public class GermanSpellerRuleTest {
 
   private void assertFirstSuggestion(String input, String expected, GermanSpellerRule rule, JLanguageTool lt) throws IOException {
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(input));
-    assertThat(matches[0].getSuggestedReplacements().get(0), is(expected));
+    assertThat("Matches: " + matches.length + ", Suggestions of first match: " +
+            matches[0].getSuggestedReplacements(), matches[0].getSuggestedReplacements().get(0), is(expected));
   }
 
   @Test
@@ -264,6 +270,8 @@ public class GermanSpellerRuleTest {
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Der westperuanische Ferienort.")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("„Pumpe“-Nachfolge")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("ÖVP- und FPÖ-Chefverhandler")).length); // first part is from spelling.txt
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("α-Strahlung")).length); // compound with ignored word from spelling.txt
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Primär-α-Mischkristallen")).length); // compound with ignored word from spelling.txt
 
     assertEquals(1, rule.match(lt.getAnalyzedSentence("Miet und Zinseinkünfte")).length);
     assertEquals(1, rule.match(lt.getAnalyzedSentence("Stil- und Grammatik gut")).length);

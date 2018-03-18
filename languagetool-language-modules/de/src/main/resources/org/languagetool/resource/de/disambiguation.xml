@@ -719,6 +719,14 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </pattern>
         <disambig action="remove" postag=".+:FEM"/>
     </rule>
+    <rule id="HOCHDRAMATISCH" name="kein Verb: hochdramatisch">
+        <pattern case_sensitive="yes">
+            <marker>
+                <token regexp="yes">hochdramatischen?</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="VER:.+"/>
+    </rule>
     <!-- ============================================================================================================== -->
     <!-- IGNORE SPELLING -->
 
@@ -1120,7 +1128,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rule name="Le Havre/Le Mans" id="LE_HAVRE">
         <pattern>
             <token>Le</token>
-            <token regexp='yes'>Havre|Mans|Monde|Pens?</token>
+            <token regexp='yes'>Havre|Mans|Monde|Pens?|Corbusiers?</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -1790,7 +1798,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rule name="El Niño" id="EL_NINO">
         <pattern>
             <token>El</token>
-            <token regexp="yes">Niño|Salvador</token>
+            <token regexp="yes">Niño|Salvador|Paso</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>

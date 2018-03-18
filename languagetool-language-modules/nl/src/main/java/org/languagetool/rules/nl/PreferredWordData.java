@@ -36,7 +36,7 @@ import org.languagetool.rules.patterns.PatternTokenBuilder;
 
 /**
  * Less to more common words loaded from CSV.
- * @since 4.0
+ * @since 4.1
  */
 class PreferredWordData {
 

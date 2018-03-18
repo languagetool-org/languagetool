@@ -164,13 +164,11 @@ public abstract class BaseTagger implements Tagger {
     }
     //tag lowercase word with startuppercase word tags:
     if (tagLowercaseWithUppercase) {
-      if (lowerTaggerTokens.isEmpty() && taggerTokens.isEmpty()) {
-        if (isLowercase) {
-          List<AnalyzedToken> upperTaggerTokens = asAnalyzedTokenListForTaggedWords(word,
-              getWordTagger().tag(StringTools.uppercaseFirstChar(word)));
-          if (!upperTaggerTokens.isEmpty()) {
-            addTokens(upperTaggerTokens, result);
-          }
+      if (lowerTaggerTokens.isEmpty() && taggerTokens.isEmpty() && isLowercase) {
+        List<AnalyzedToken> upperTaggerTokens = asAnalyzedTokenListForTaggedWords(word,
+            getWordTagger().tag(StringTools.uppercaseFirstChar(word)));
+        if (!upperTaggerTokens.isEmpty()) {
+          addTokens(upperTaggerTokens, result);
         }
       }
     }

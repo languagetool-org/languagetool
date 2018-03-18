@@ -344,6 +344,7 @@ public class CaseRule extends Rule {
     sentenceStartExceptions.add("(");
     sentenceStartExceptions.add("\"");
     sentenceStartExceptions.add("'");
+    sentenceStartExceptions.add("‘");
     sentenceStartExceptions.add("„");
     sentenceStartExceptions.add("«");
     sentenceStartExceptions.add("»");

@@ -49,7 +49,8 @@ public class ProhibitedCompoundRule extends Rule {
           new Pair("Gewerbe", "wirtschaftliche Tätigkeit", "Gewebe", "gewebter Stoff; Verbund ähnlicher Zellen"),
           new Pair("Schuh", "Fußbekleidung", "Schul", "auf die Schule bezogen"),
           new Pair("klima", "langfristige Wetterzustände", "lima", "Hauptstadt von Peru"),
-          new Pair("modell", "vereinfachtes Abbild der Wirklichkeit", "model", "Fotomodell")
+          new Pair("modell", "vereinfachtes Abbild der Wirklichkeit", "model", "Fotomodell"),
+          new Pair("spitze", "spitzes Ende eines Gegenstandes", "spritze", "medizinisches Instrument zur Injektion")
   );
   private static final GermanSpellerRule spellerRule = new GermanSpellerRule(JLanguageTool.getMessageBundle(), new GermanyGerman());
   private static final List<String> ignoreWords = Arrays.asList("Die", "De");

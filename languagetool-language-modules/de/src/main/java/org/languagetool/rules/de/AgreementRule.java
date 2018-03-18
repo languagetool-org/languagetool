@@ -308,6 +308,11 @@ public class AgreementRule extends Rule {
       new PatternTokenBuilder().token("auf").build(),
       new PatternTokenBuilder().csToken("die").build(),
       new PatternTokenBuilder().csToken("Lauer").build()
+    ),
+    Arrays.asList(
+      new PatternTokenBuilder().token("dieser").build(),
+      new PatternTokenBuilder().csToken("eine").build(),
+      new PatternTokenBuilder().pos("SUB:NOM:SIN:MAS").build()
     )
   );
 

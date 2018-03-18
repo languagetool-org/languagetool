@@ -99,6 +99,7 @@ public class VerbAgreementRuleTest {
     assertGood("Das ist mir nicht klar, kannst ja mal beim Kunden nachfragen.");
     assertGood("So tes\u00ADtest Du das mit dem soft hyphen.");
     assertGood("Viele Brunnen in Italiens Hauptstadt sind bereits abgeschaltet.");
+    assertGood("„Werde ich tun!“");
     // incorrect sentences:
     assertBad("Als Borcarbid weißt es eine hohe Härte auf.");
     assertBad("Das greift auf Vorläuferinstitutionen bist auf die Zeit von 1234 zurück.");
@@ -108,6 +109,8 @@ public class VerbAgreementRuleTest {
     assertBad("Solltest ihr das machen?", "Subjekt und Prädikat (Solltest)");
     assertBad("Weiter befindest sich im Osten die Gemeinde Dorf.");
     assertBad("Ich geht jetzt nach Hause, weil ich schon zu spät bin.");
+    assertBad("„Du muss gehen.“");
+    assertBad("Du weiß es doch.");
   }
 
   @Test

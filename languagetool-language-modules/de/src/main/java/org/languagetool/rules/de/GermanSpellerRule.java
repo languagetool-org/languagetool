@@ -67,7 +67,6 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private static final Pattern PREVENT_SUGGESTION = Pattern.compile(
           ".*(?i:Majonäse|Bravur|Anschovis|Belkanto|Campagne|Frotté|Grisli|Jockei|Joga|Kalvinismus|Kanossa|Kargo|Ketschup|" +
           "Kollier|Kommunikee|Masurka|Negligee|Nessessär|Poulard|Varietee|Wandalismus|kalvinist).*");
-  private static final Pattern GEOGRAPHICAL_PREFIXES = Pattern.compile("(nord|ost|süd|west).+");
 
   private final Set<String> wordsToBeIgnoredInCompounds = new HashSet<>();
   private static final Map<Pattern, Function<String,List<String>>> ADDITIONAL_SUGGESTIONS = new HashMap<>();
@@ -127,6 +126,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("[kK]onflikation(en)?", "[kK]onfli", "Kompli");
     putRepl("[mM]itanader", "ana", "einan");
     putRepl("[qQ]ualitäts?bewußt(e[mnrs]?)?", "ts?bewußt", "tsbewusst");
+    putRepl("[vV]oraussichtig(e[nmrs]?)?", "sichtig", "sichtlich");
     putRepl("[gG]leichrechtig(e[nmrs]?)?", "rechtig", "berechtigt");
     putRepl("[uU]nnützlich(e[nmrs]?)?", "nützlich", "nütz");
     putRepl("[rR]eligiösisch(e[nmrs]?)?", "isch", "");
@@ -155,6 +155,11 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("[rR]ecourcen?", "[rR]ec", "Ress");
     putRepl("[fF]amm?ill?i?arisch(e[mnrs]?)?", "amm?ill?i?arisch", "amiliär");
     putRepl("Sim-Karten?", "^Sim", "SIM");
+    put("solltes", "solltest");
+    put("geklabt", "geklappt");
+    put("tuhen", "tun");
+    put("ccm", "cm³");
+    put("Kilimand?jaro", "Kilimandscharo");
     put("berücksichtung", "Berücksichtigung");
     put("artzt?", "Arzt");
     put("[tT]h?elepath?ie", "Telepathie");
@@ -162,7 +167,6 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("gans", "ganz");
     put("Pearl-Harbou?r", "Pearl Harbor");
     put("[aA]utonomität", "Autonomie");
-    put("[kK]ompatibelkeit", "Kompatibilität");
     put("[fF]r[uü]h?st[uü]c?k", "Frühstück");
     put("zucc?h?inis?", "Zucchini");
     put("[mM]itag", "Mittag");
@@ -387,6 +391,11 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return Arrays.asList("jetzt", "geht's");
     } else if ("Trons".equals(word)) {
       return Collections.singletonList("Trance");
+    } else if (word.endsWith("ibelkeit")) {
+      suggestion = word.replaceFirst("elkeit$", "ilität");
+      if (!hunspellDict.misspelled(suggestion)) {
+        return Collections.singletonList(suggestion);
+      }
     } else if (word.endsWith("standart")) {
       suggestion = word.replaceFirst("standart$", "standard");
       if (!hunspellDict.misspelled(suggestion)) {
@@ -732,8 +741,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
 
   // check whether a <code>word<code> is a valid compound (e.g., "Feynmandiagramm" or "Feynman-Diagramm")
   // that contains an ignored word from spelling.txt (e.g., "Feynman")
-  private boolean ignoreCompoundWithIgnoredWord(String word) throws IOException{
-    if (!StringTools.startsWithUppercase(word) && !GEOGRAPHICAL_PREFIXES.matcher(word).matches()) {
+  private boolean ignoreCompoundWithIgnoredWord(String word) throws IOException {
+    if (!StringTools.startsWithUppercase(word) && !StringUtils.startsWithAny(word, "nord", "west", "ost", "süd", "α-", "β-", "ɣ-")) {
       // otherwise stuff like "rumfangreichen" gets accepted
       return false;
     }

@@ -21,24 +21,21 @@ package org.languagetool.rules.patterns;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
+import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
-import java.util.regex.Pattern;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
 
 @SuppressWarnings("MagicNumber")
 public class RegexPatternRuleTest {
-  
+
   @Test
   public void testMatch() throws IOException {
-    RegexPatternRule rule = new RegexPatternRule("ID", "desc",
-            "msg: <suggestion>a suggestion \\1</suggestion>",
-            "<suggestion>another suggestion \\2</suggestion>", TestTools.getDemoLanguage(),
-            Pattern.compile("(fo.) (bar)"), 0);
     JLanguageTool lt = new JLanguageTool(TestTools.getDemoLanguage());
+    Rule rule = lt.getPatternRulesByIdAndSubId("REGEX_PATTERN_RULE_DEMO_MARK_0", "1").get(0);
 
     RuleMatch[] matches1 = rule.match(lt.getAnalyzedSentence("This is a test"));
     assertThat(matches1.length, is(0));
@@ -64,11 +61,8 @@ public class RegexPatternRuleTest {
  
   @Test
   public void testMatchWithMark() throws IOException {
-    RegexPatternRule rule = new RegexPatternRule("ID", "desc",
-            "msg: <suggestion>a suggestion \\1</suggestion>",
-            "<suggestion>another suggestion \\2</suggestion>", TestTools.getDemoLanguage(),
-            Pattern.compile("(fo.) (bar)"), 1);
     JLanguageTool lt = new JLanguageTool(TestTools.getDemoLanguage());
+    Rule rule = lt.getPatternRulesByIdAndSubId("REGEX_PATTERN_RULE_DEMO_MARK_1", "1").get(0);
 
     RuleMatch[] matches2 = rule.match(lt.getAnalyzedSentence("This is foo bar"));
     assertThat(matches2.length, is(1));
