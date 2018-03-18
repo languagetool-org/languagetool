@@ -36,8 +36,6 @@ public class GermanStyleRepeatedWordRule  extends AbstractStyleRepeatedWordRule 
   public GermanStyleRepeatedWordRule(ResourceBundle messages) {
     super(messages);
     super.setCategory(Categories.STYLE.getCategory(messages));
-//    addExamplePair(Example.wrong("Der alte Mann wohnte in einem <marker>großen</marker> Haus. Es stand in einem <marker>großen</marker> Garten."),
-//                   Example.fixed("Der alte Mann wohnte in einem <marker>großen</marker> Haus. Es stand in einem <marker>weitläufigen</marker> Garten."));
   }
 
   @Override
