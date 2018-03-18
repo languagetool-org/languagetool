@@ -52,14 +52,21 @@ public class PunctuationMarkAtParagraphEnd extends TextLevelRule {
     return messages.getString("punctuation_mark_paragraph_end_desc");
   }
   
-  private static boolean isQuotationMark (AnalyzedTokenReadings tk) {
-    String token = tk.getToken();
-    for(int i = 0; i < QUOTATION_MARKS.length; i++) {
-      if(token.equals(QUOTATION_MARKS[i])) {
+  private static boolean stringEqualsAny (String token, String[] any) {
+     for(int i = 0; i < any.length; i++) {
+      if(token.equals(any[i])) {
         return true;
       }
     }
     return false;
+  }
+
+  private static boolean isQuotationMark (AnalyzedTokenReadings tk) {
+    return stringEqualsAny(tk.getToken(), QUOTATION_MARKS);
+  }
+
+  private static boolean isPunctuationMark (AnalyzedTokenReadings tk) {
+    return stringEqualsAny(tk.getToken(), PUNCTUATION_MARKS);
   }
 
   private static boolean isWord (AnalyzedTokenReadings tk) {
@@ -88,7 +95,8 @@ public class PunctuationMarkAtParagraphEnd extends TextLevelRule {
         int i = 1;
         for (; i < tokens.length && isWhitespace(tokens[i]); i++);
         if (i < tokens.length) {
-          isFirstWord = isWord(tokens[i]) || (tokens.length > i + 1 && isQuotationMark(tokens[i]) && isWord(tokens[i + 1]));
+          isFirstWord = tokens.length > i + 2 && ((isWord(tokens[i]) && !isPunctuationMark(tokens[i + 1]))
+              || (isQuotationMark(tokens[i]) && isWord(tokens[i + 1]) && !isPunctuationMark(tokens[i + 2])));
         } else {
           isFirstWord = false;
         }
