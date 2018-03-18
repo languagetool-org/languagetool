@@ -20616,6 +20616,24 @@ Andere Projekte</example>
                 <example correction="Ganze">Wir gingen heute aufs <marker>ganze</marker>.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="DAS_GANZE" name="das ganze (Ganze)">
+            <rule>
+                <pattern>
+                    <token>das</token>
+                    <token min="0">große</token>
+                    <marker>
+                        <token case_sensitive="yes">ganze</token>
+                    </marker>
+                    <token postag="VER:AUX:3:SIN:.+|ADJ:PRD:KOM|PRP:LOK:DAT" postag_regexp="yes"></token>
+                </pattern>
+                <message>Vermutlich wird <suggestion>Ganze</suggestion> hier großgeschrieben.</message>
+                <short>&prgk;.</short>
+                <url>https://www.duden.de/sprachwissen/sprachratgeber/Das-Ganze</url>
+                <example correction="Ganze">Das <marker>ganze</marker> ist mehr als die Summe seiner Teile</example>
+                <example correction="Ganze">Bitte stelle das <marker>ganze</marker> ausführlicher dar.</example>
+                <example correction="Ganze">Man muss das große <marker>ganze</marker> im Blick haben.</example>
+            </rule>
+        </rulegroup>
         <rule id="MIT_SICH_IM_REINEN_SEIN" name="mit sich im reinen (Reinen) sein">
             <pattern>
                 <token>mit</token>
