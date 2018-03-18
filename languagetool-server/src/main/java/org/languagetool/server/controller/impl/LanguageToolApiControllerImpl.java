@@ -28,8 +28,14 @@ public class LanguageToolApiControllerImpl implements LanguageToolApiController 
     @Override
     public ResponseEntity<List<LanguageDTO>> languages() {
         log.info("GET /languages request");
-        List<LanguageDTO> languages = languageToolApiService.languages();
-        ResponseEntity<List<LanguageDTO>> response = new ResponseEntity<>(languages, HttpStatus.OK);
+        ResponseEntity<List<LanguageDTO>> response;
+        try {
+            List<LanguageDTO> languages = languageToolApiService.languages();
+            response = new ResponseEntity<>(languages, HttpStatus.OK);
+        } catch (Error e) {
+            log.error("Error!", e);
+            response = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
         log.info("GET /languages response: '{}'", response);
         return response;
     }
@@ -66,6 +72,7 @@ public class LanguageToolApiControllerImpl implements LanguageToolApiController 
             response = new ResponseEntity<>(checkResultDTO, HttpStatus.OK);
         }
         catch (Exception e) {
+            log.error("Error!", e);
             response = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
