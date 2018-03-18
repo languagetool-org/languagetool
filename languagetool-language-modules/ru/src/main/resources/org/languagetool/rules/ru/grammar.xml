@@ -89,6 +89,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </equivalence>
     </unification>
     
+    <unification feature="animacy">
+        <equivalence type="Anim">
+            <token postag=".*:(Anim|Inanimanim|Name|Patr|Fam)(:.*)*" postag_regexp="yes"/>
+        </equivalence>
+        <equivalence type="Inanim">
+            <token postag=".*:(Inanim|Inanimanim)(:.*)*" postag_regexp="yes"/>
+        </equivalence>
+    </unification>
+    
     <unification feature="person">
         <equivalence type="P1">
             <token postag=".*:P1" postag_regexp="yes"></token>
@@ -119,6 +128,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </equivalence>
     </unification>
     
+    <unification feature="transitivity">
+        <equivalence type="TRANS">
+            <token postag=".*:TRANS(:.*)*" postag_regexp="yes"/>
+        </equivalence>
+        <equivalence type="INTR">
+            <token postag=".*:INTR(:.*)*" postag_regexp="yes"/>
+        </equivalence>
+    </unification>
+    
+    <unification feature="aspect">
+        <equivalence type="PFV">
+            <token postag=".*:(PFV|2PFV)(:.*)*" postag_regexp="yes"/>
+        </equivalence>
+        <equivalence type="IMPFV">
+            <token postag=".*:(IMPFV|2PFV)(:.*)*" postag_regexp="yes"/>
+        </equivalence>
+    </unification>
        
     <category id="LOGIC" name="Логические ошибки">
           <rulegroup id="INVALID_DATE" name="Неверная дата, например «31 февраля 2014»">
