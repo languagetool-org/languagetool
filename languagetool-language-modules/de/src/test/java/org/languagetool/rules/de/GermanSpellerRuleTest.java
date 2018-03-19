@@ -204,6 +204,7 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("hofen", "hoffen", rule, lt);
     assertFirstSuggestion("frustuck", "Frühstück", rule, lt);
     assertFirstSuggestion("recourcen", "Ressourcen", rule, lt);
+    assertFirstSuggestion("familiärische", "familiäre", rule, lt);
     assertFirstSuggestion("familliarisches", "familiäres", rule, lt);
     assertFirstSuggestion("sommerverie", "Sommerferien", rule, lt);
     assertFirstSuggestion("thelepatie", "Telepathie", rule, lt);
