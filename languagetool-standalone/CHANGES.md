@@ -2,6 +2,9 @@
 
 ## 4.1-SNAPSHOT (release planned for 2018-03-27)
 
+#### Catalan
+  * added and improved rules
+
 #### Chinese
   * added some rules
 
