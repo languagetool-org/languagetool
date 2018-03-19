@@ -44,6 +44,7 @@ public class ProhibitedCompoundRule extends Rule {
           // NOTE: words here must be all-lowercase
           // NOTE: no need to add words from confusion_sets.txt, they will be used automatically (if starting with uppercase char)
           new Pair("abschluss", "Ende", "Abschuss", "Vorgang des Abschießens, z.B. mit einer Waffe"),
+          new Pair("brache", "verlassenes Grundstück", "branche", "Wirtschaftszweig"),
           new Pair("wieder", "erneut, wiederholt, nochmal (Wiederholung, Wiedervorlage, ...)", "wider", "gegen, entgegen (Widerwille, Widerstand, Widerspruch, ...)"),
           new Pair("leer", "ohne Inhalt", "lehr", "bezogen auf Ausbildung und Wissen"),
           new Pair("Gewerbe", "wirtschaftliche Tätigkeit", "Gewebe", "gewebter Stoff; Verbund ähnlicher Zellen"),
