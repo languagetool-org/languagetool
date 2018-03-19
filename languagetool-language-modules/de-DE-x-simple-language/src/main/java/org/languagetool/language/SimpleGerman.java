@@ -71,4 +71,12 @@ public class SimpleGerman extends GermanyGerman {
     return Collections.emptyList();
   }
 
+  @Override
+  public int getPriorityForId(String id) {
+    switch (id) {
+      case LongSentenceRule.RULE_ID: return 10;
+    }
+    return super.getPriorityForId(id);
+  }
+
 }
