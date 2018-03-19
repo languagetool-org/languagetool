@@ -155,6 +155,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("[rR]ecourcen?", "[rR]ec", "Ress");
     putRepl("[fF]amm?ill?i?[aä]risch(e[mnrs]?)?", "amm?ill?i?[aä]risch", "amiliär");
     putRepl("Sim-Karten?", "^Sim", "SIM");
+    putRepl("[aA]leine", "l", "ll");
+    put("chouch", "Couch");
+    put("eh?rgeit?z", "Ehrgeiz");
     put("solltes", "solltest");
     put("geklabt", "geklappt");
     put("tuhen", "tun");
