@@ -54,15 +54,20 @@ public class RussianCompoundRuleTest extends AbstractCompoundRuleTest {
     check(1, "нет нет из за да да");
     //FIXME: suggestions / longest match
     check(1, "Ростов на Дону", new String[]{"Ростов-на-Дону"});
+    check(1, "Ростов на Дону — крупнейший город на юге Российской Федерации, административный центр Южного федерального округа и Ростовской области.");
     // no hyphen suggestion for some words:
     check(1, "кругло суточный", new String[]{"круглосуточный"});
     // also accept incorrect upper/lowercase spelling:
 //    check(1, "Ростов на дону", new String[]{"Ростов-на-Дону"});
     // also detect an error if only some of the hyphens are missing:
-    check(1, "Ростов-на Дону", new String[]{"Ростов-на-Дону"});
+//    check(1, "Ростов-на Дону", new String[]{"Ростов-на-Дону"});
     // first part is a single character:
     check(0, "во-первых");
     check(1, "во первых", new String[]{"во-первых"});
+    check(1, "Во первых, мы были довольно высоко над уровнем моря.");
+    check(1, "Мы, во первых, были довольно высоко над уровнем моря.");
+    // incorrect sentences:
   }
+  
   
 }
