@@ -171,7 +171,8 @@ public class VerbAgreementRule extends TextLevelRule {
   
   private static final Set<String> CONJUNCTIONS = new HashSet<>(Arrays.asList(
     "weil",
-    "obwohl"/*,
+    "obwohl",
+    "dass"/*,
     "damit",
     "wenn"*/
   ));
