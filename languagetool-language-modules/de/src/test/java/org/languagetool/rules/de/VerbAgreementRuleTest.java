@@ -131,7 +131,7 @@ public class VerbAgreementRuleTest {
     assertGood("Der Vorfall, bei dem er einen Teil seines Vermögens verloren hat, ist lange vorbei.");
     assertGood("Diese Lösung wurde in der 64'er beschrieben, kam jedoch nie.");
     assertGood("Die Theorie, mit der ich arbeiten konnte.");
-//     assertGood("Die Zeitschrift film-dienst."); TODO
+//    assertGood("Die Zeitschrift film-dienst.");
     assertGood("Du bist nett.");
     assertGood("Du kannst heute leider nicht kommen.");
     assertGood("Du lebst.");
@@ -182,7 +182,7 @@ public class VerbAgreementRuleTest {
     assertGood("Wyrjtjbst du?"); // make sure that "UNKNOWN" is handled correctly
     assertGood("Wenn ich du wäre, würde ich das nicht machen.");
 //     assertGood("Angenommen, du wärst ich."); TODO
-//     assertGood("Ich denke, dass das Haus, in das er gehen will, heute Morgen gestrichen worden ist."); TODO
+    assertGood("Ich denke, dass das Haus, in das er gehen will, heute Morgen gestrichen worden ist.");
     // incorrect sentences:
     assertBad("Auch morgen leben du.");
     assertBad("Du weiß noch, dass du das gestern gesagt hast.");
@@ -206,7 +206,7 @@ public class VerbAgreementRuleTest {
     assertBad("Ich leben.", "Ich lebe", "Ich lebte", "Wir leben", "Sie leben");
     assertBad("Lebe du?");
     assertBad("Lebe du?", "Lebest du", "Lebst du", "Lebtest du", "Lebe ich", "Lebe er", "Lebe sie", "Lebe es");
-//     assertBad("Leben du?"); // TODO "Leben" not tagged as verb
+    assertBad("Leben du?"); // TODO "Leben" not tagged as verb
     assertBad("Nett bist ich nicht.", 2);
     assertBad("Nett bist ich nicht.", 2, "bin ich", "sei ich", "war ich", "wäre ich", "bist du");
     assertBad("Nett sind du.");
