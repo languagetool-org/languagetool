@@ -67,9 +67,9 @@ class UserLimits {
         throw new RuntimeException("You specified a 'token' parameter but this server doesn't accept tokens");
       }
       Algorithm algorithm = Algorithm.HMAC256(secretKey);
-      JWT.require(algorithm).build().verify(token);
       DecodedJWT decodedToken;
       try {
+        JWT.require(algorithm).build().verify(token);
         decodedToken = JWT.decode(token);
       } catch (JWTDecodeException e) {
         throw new AuthException("Could not decode token '" + token + "'", e);
