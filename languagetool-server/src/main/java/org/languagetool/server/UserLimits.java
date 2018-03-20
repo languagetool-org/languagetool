@@ -20,6 +20,7 @@ package org.languagetool.server;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.google.common.cache.CacheBuilder;
@@ -67,7 +68,12 @@ class UserLimits {
       }
       Algorithm algorithm = Algorithm.HMAC256(secretKey);
       JWT.require(algorithm).build().verify(token);
-      DecodedJWT decodedToken = JWT.decode(token);
+      DecodedJWT decodedToken;
+      try {
+        decodedToken = JWT.decode(token);
+      } catch (JWTDecodeException e) {
+        throw new RuntimeException("Could not decode token '" + token + "'", e);
+      }
       Claim maxTextLengthClaim = decodedToken.getClaim("maxTextLength");
       Claim premiumClaim = decodedToken.getClaim("premium");
       boolean hasPremium = !premiumClaim.isNull() && premiumClaim.asBoolean();
