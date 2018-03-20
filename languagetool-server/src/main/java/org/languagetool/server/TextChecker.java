@@ -228,15 +228,7 @@ abstract class TextChecker {
   private UserLimits getUserLimits(Map<String, String> params) {
     String token = params.get("token");
     if (token != null) {
-      try {
-        return UserLimits.getLimitsFromToken(config, token);
-      } catch (TokenNotSupportedException e) {
-        if (config.getIgnoreSecretTokenKey()) {
-          return UserLimits.getDefaultLimits(config);
-        } else {
-          throw new RuntimeException("You specified a 'token' parameter but this server doesn't accept tokens");
-        }
-      }
+      return UserLimits.getLimitsFromToken(config, token);
     } else if (params.get("username") != null && params.get("password") != null) {
       return UserLimits.getLimitsFromUserAccount(config, params.get("username"), params.get("password"));
     } else {

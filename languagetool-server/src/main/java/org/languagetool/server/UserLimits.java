@@ -64,7 +64,7 @@ class UserLimits {
     try {
       String secretKey = config.getSecretTokenKey();
       if (secretKey == null) {
-        throw new TokenNotSupportedException();
+        throw new RuntimeException("You specified a 'token' parameter but this server doesn't accept tokens");
       }
       Algorithm algorithm = Algorithm.HMAC256(secretKey);
       JWT.require(algorithm).build().verify(token);

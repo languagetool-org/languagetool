@@ -53,7 +53,6 @@ public class HTTPServerConfig {
   protected int maxTextLength = Integer.MAX_VALUE;
   protected int maxTextHardLength = Integer.MAX_VALUE;
   protected String secretTokenKey = null;
-  protected boolean ignoreSecretTokenKey = false;
   protected long maxCheckTimeMillis = -1;
   protected int maxCheckThreads = 10;
   protected Mode mode;
@@ -155,10 +154,6 @@ public class HTTPServerConfig {
         maxTextLength = Integer.parseInt(getOptionalProperty(props, "maxTextLength", Integer.toString(Integer.MAX_VALUE)));
         maxTextHardLength = Integer.parseInt(getOptionalProperty(props, "maxTextHardLength", Integer.toString(Integer.MAX_VALUE)));
         secretTokenKey = getOptionalProperty(props, "secretTokenKey", null);
-        ignoreSecretTokenKey = Boolean.valueOf(getOptionalProperty(props, "ignoreSecretTokenKey", "false"));
-        if (secretTokenKey != null && ignoreSecretTokenKey) {
-          throw new IllegalArgumentException("You cannot set both secretTokenKey and ignoreSecretTokenKey. Set ignoreSecretTokenKey to false or don't set secretTokenKey.");
-        }
         maxCheckTimeMillis = Long.parseLong(getOptionalProperty(props, "maxCheckTimeMillis", "-1"));
         requestLimit = Integer.parseInt(getOptionalProperty(props, "requestLimit", "0"));
         requestLimitInBytes = Integer.parseInt(getOptionalProperty(props, "requestLimitInBytes", "0"));
@@ -295,15 +290,6 @@ public class HTTPServerConfig {
   @Nullable
   String getSecretTokenKey() {
     return secretTokenKey;
-  }
-
-  /**
-   * If this is set to false and no secret token is configured, the server will reply with an error 
-   * to requests that have a 'token' parameter. Otherwise it will ignore the token. 
-   * @since 4.1
-   */
-  boolean getIgnoreSecretTokenKey() {
-    return ignoreSecretTokenKey;
   }
 
   /**
