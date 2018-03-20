@@ -72,7 +72,7 @@ class UserLimits {
       try {
         decodedToken = JWT.decode(token);
       } catch (JWTDecodeException e) {
-        throw new RuntimeException("Could not decode token '" + token + "'", e);
+        throw new AuthException("Could not decode token '" + token + "'", e);
       }
       Claim maxTextLengthClaim = decodedToken.getClaim("maxTextLength");
       Claim premiumClaim = decodedToken.getClaim("premium");
