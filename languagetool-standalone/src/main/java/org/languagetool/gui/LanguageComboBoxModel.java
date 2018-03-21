@@ -34,6 +34,8 @@ import org.languagetool.Languages;
  */
 class LanguageComboBoxModel extends DefaultComboBoxModel<LanguageAdapter> {
 
+  protected static LanguageComboBoxModel languageComboBoxModel;
+
   private LanguageComboBoxModel() {
     super();
   }
@@ -44,7 +46,7 @@ class LanguageComboBoxModel extends DefaultComboBoxModel<LanguageAdapter> {
 
     LanguageComparator comparator = new LanguageComparator(messages, extLangSuffix);
     LanguageComboBoxModel model = new LanguageComboBoxModel();
-
+    languageComboBoxModel=model;
     if (first != null) {
       //e.g. an option like "System Default"
       model.addElement(first);

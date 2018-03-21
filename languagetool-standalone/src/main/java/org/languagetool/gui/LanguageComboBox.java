@@ -44,6 +44,7 @@ class LanguageComboBox extends JComboBox<LanguageAdapter> {
     if(withFlag) {
       combo.setRenderer(new LanguageComboBoxRenderer(messages, extLangSuffix));
     }
+    combo.addMouseListener(new RightClickListener());
     return combo;
   }  
 
