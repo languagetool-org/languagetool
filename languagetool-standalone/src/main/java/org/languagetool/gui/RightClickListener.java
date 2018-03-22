@@ -24,12 +24,16 @@ import java.awt.event.MouseEvent;
 class RightClickListener extends MouseAdapter {
   public void mousePressed(MouseEvent e) {
     if (e.isPopupTrigger())
+    {
       doPop(e);
+    }
   }
 
   public void mouseReleased(MouseEvent e) {
     if (e.isPopupTrigger())
+    {
       doPop(e);
+    }
   }
 
   private void doPop(MouseEvent e) {
