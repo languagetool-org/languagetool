@@ -23,6 +23,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
 import javax.swing.DefaultComboBoxModel;
+
+import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
 
@@ -46,7 +48,8 @@ class LanguageComboBoxModel extends DefaultComboBoxModel<LanguageAdapter> {
 
     LanguageComparator comparator = new LanguageComparator(messages, extLangSuffix);
     LanguageComboBoxModel model = new LanguageComboBoxModel();
-    languageComboBoxModel = model;
+    setLanguageComboBoxModel(model);
+    
     if (first != null) {
       //e.g. an option like "System Default"
       model.addElement(first);
@@ -56,7 +59,7 @@ class LanguageComboBoxModel extends DefaultComboBoxModel<LanguageAdapter> {
       ArrayList<Language> ext = new ArrayList<>(external);
       Collections.sort(ext, comparator);
       for (Language l : ext) {
-        model.addElement(new LanguageAdapter(l));
+    	model.addElement(new LanguageAdapter(l));
       }
     }
     // the original list is unmodifiable
@@ -64,9 +67,26 @@ class LanguageComboBoxModel extends DefaultComboBoxModel<LanguageAdapter> {
     Collections.sort(internal, comparator);
     for (Language l : internal) {
       if (includeHidden || !l.isHiddenFromGui()) {
-        model.addElement(new LanguageAdapter(l));
+    	  String removeOptionText=null;
+    	  String warningMsg=null;
+    	  ResourceBundle resourceBundleTools=JLanguageTool.getMessageBundle(l);
+    	  try{
+    		  removeOptionText=resourceBundleTools.getString("guiRemoveOptionText");
+    		  warningMsg=resourceBundleTools.getString("guiRemoveWarningMsg");
+    	  	  System.out.println(l+"\t\t\t"+ removeOptionText+"\t\t\t"+warningMsg);
+      }
+    	  catch(Exception ex)
+    	  {
+    		  System.out.println(ex);
+    	  }
+    	  model.addElement(new LanguageAdapter(l));
       }
     }
     return model;
   }
+ 
+  public static void setLanguageComboBoxModel(LanguageComboBoxModel languageComboBoxModel) {
+	LanguageComboBoxModel.languageComboBoxModel = languageComboBoxModel;
+}
+  
 }
