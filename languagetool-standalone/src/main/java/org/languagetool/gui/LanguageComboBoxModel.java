@@ -46,7 +46,7 @@ class LanguageComboBoxModel extends DefaultComboBoxModel<LanguageAdapter> {
 
     LanguageComparator comparator = new LanguageComparator(messages, extLangSuffix);
     LanguageComboBoxModel model = new LanguageComboBoxModel();
-    languageComboBoxModel = model
+    languageComboBoxModel = model;
     if (first != null) {
       //e.g. an option like "System Default"
       model.addElement(first);
