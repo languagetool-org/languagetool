@@ -184,8 +184,8 @@ public class HTTPServerTest {
         fail("Check was expected to be stopped because it took too long (> 1ms), it took " +
                 (System.currentTimeMillis()-t + "ms when measured from client side"));
       } catch (IOException expected) {
-        if (!expected.toString().contains(" 503 ")) {
-          fail("Expected exception with error 503, got: " + expected);
+        if (!expected.toString().contains(" 500 ")) {
+          fail("Expected exception with error 500, got: " + expected);
         }
       }
     } finally {

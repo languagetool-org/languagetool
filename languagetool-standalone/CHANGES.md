@@ -53,6 +53,9 @@
   * many new disambiguation rules
   * several new barbarism and grammar rules
 
+#### HTTP API / LT server
+  * The server now returns HTTP error code 500 in case of a timeout (it used to return 503)
+
 #### Java API
   * Constructors that take a `ResultCache` have been removed from `MultiThreadedJLanguageTool`
     as using them caused incorrect results. (https://github.com/languagetool-org/languagetool/issues/897)
