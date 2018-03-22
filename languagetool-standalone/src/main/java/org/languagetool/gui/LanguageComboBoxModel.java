@@ -42,9 +42,7 @@ class LanguageComboBoxModel extends DefaultComboBoxModel<LanguageAdapter> {
     super();
   }
 
-  static LanguageComboBoxModel create(ResourceBundle messages,
-                                      String extLangSuffix, boolean includeHidden,
-                                      List<Language> external, LanguageAdapter first) {
+  static LanguageComboBoxModel create(ResourceBundle messages, String extLangSuffix, boolean includeHidden, List<Language> external, LanguageAdapter first) {
 
     LanguageComparator comparator = new LanguageComparator(messages, extLangSuffix);
     LanguageComboBoxModel model = new LanguageComboBoxModel();
