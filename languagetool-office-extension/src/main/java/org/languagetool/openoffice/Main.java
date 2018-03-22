@@ -905,7 +905,7 @@ public class Main extends WeakBase implements XJobExecutor,
       throw new RuntimeException(e);
     }
     String msg = "An error has occurred in LanguageTool "
-        + JLanguageTool.VERSION + ":\n" + e + "\nStacktrace:\n";
+        + JLanguageTool.VERSION + " (" + JLanguageTool.BUILD_DATE + "):\n" + e + "\nStacktrace:\n";
     msg += Tools.getFullStackTrace(e);
     String metaInfo = "OS: " + System.getProperty("os.name") + " on "
         + System.getProperty("os.arch") + ", Java version "
