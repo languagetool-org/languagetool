@@ -1,6 +1,6 @@
-/* LanguageTool, a natural language style checker 
+/* LanguageTool, a natural language style checker
  * Copyright (C) 2016 Daniel Naber (http://www.danielnaber.de)
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -23,6 +23,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
 import javax.swing.DefaultComboBoxModel;
+
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
@@ -42,13 +43,13 @@ class LanguageComboBoxModel extends DefaultComboBoxModel<LanguageAdapter> {
   }
 
   static LanguageComboBoxModel create(ResourceBundle messages,
-          String extLangSuffix, boolean includeHidden,
-          List<Language> external, LanguageAdapter first) {
+                                      String extLangSuffix, boolean includeHidden,
+                                      List<Language> external, LanguageAdapter first) {
 
     LanguageComparator comparator = new LanguageComparator(messages, extLangSuffix);
     LanguageComboBoxModel model = new LanguageComboBoxModel();
     setLanguageComboBoxModel(model);
-    
+
     if (first != null) {
       //e.g. an option like "System Default"
       model.addElement(first);
@@ -66,14 +67,14 @@ class LanguageComboBoxModel extends DefaultComboBoxModel<LanguageAdapter> {
     Collections.sort(internal, comparator);
     for (Language l : internal) {
       if (includeHidden || !l.isHiddenFromGui()) {
-    	  model.addElement(new LanguageAdapter(l));
+        model.addElement(new LanguageAdapter(l));
       }
     }
     return model;
   }
- 
+
   public static void setLanguageComboBoxModel(LanguageComboBoxModel languageComboBoxModel) {
-	LanguageComboBoxModel.languageComboBoxModel = languageComboBoxModel;
-}
-  
+    LanguageComboBoxModel.languageComboBoxModel = languageComboBoxModel;
+  }
+
 }
