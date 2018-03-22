@@ -58,7 +58,7 @@ class LanguageComboBoxModel extends DefaultComboBoxModel<LanguageAdapter> {
       ArrayList<Language> ext = new ArrayList<>(external);
       Collections.sort(ext, comparator);
       for (Language l : ext) {
-    	 model.addElement(new LanguageAdapter(l));
+        model.addElement(new LanguageAdapter(l));
       }
     }
     // the original list is unmodifiable
