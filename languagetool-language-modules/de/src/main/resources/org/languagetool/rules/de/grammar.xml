@@ -15046,6 +15046,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>So hasste ich <marker>Besuche</marker> bei meinen Großeltern.</example>
             </rule>
         </rulegroup>
+        <rule id="SUBSTANTIVIERUNG_NACH_DURCH" name="Substantivierung nach 'durch'">
+            <pattern>
+                <token>durch<exception scope="previous" regexp="yes">Nacht|Tag|Morgen|Abend</exception></token>
+                <marker>
+                    <token postag="VER:INF:.+" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöüß]+
+                        <exception inflected="yes" regexp="yes">einen|sein|sieben</exception>
+                        <exception postag="ADJ:.+" postag_regexp="yes"></exception>
+                    </token>
+                </marker>
+            </pattern>
+            <message>Falls es sich bei <suggestion><match no="2" case_conversion="startupper"/></suggestion></message>
+            <short>&prgk;.</short>
+            <example correction="Einsetzen">Wir berechnen die Werte durch <marker>einsetzen</marker>.</example>
+        </rule>
         <rulegroup id="IM_AUS" name="im aus (Aus)">
             <rule>
                 <pattern>
