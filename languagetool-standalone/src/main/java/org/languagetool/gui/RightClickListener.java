@@ -22,20 +22,20 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 class RightClickListener extends MouseAdapter {
-	public void mousePressed(MouseEvent e) {
-		if (e.isPopupTrigger()) {
-			doPop(e);
-		}
-	}
+  public void mousePressed(MouseEvent e) {
+    if (e.isPopupTrigger()) {
+      doPop(e);
+    }
+  }
 
-	public void mouseReleased(MouseEvent e) {
-		if (e.isPopupTrigger()) {
-			doPop(e);
-		}
-	}
+  public void mouseReleased(MouseEvent e) {
+    if (e.isPopupTrigger()) {
+      doPop(e);
+    }
+  }
 
-	private void doPop(MouseEvent e) {
-		PopUpRemoveLanguage menu = new PopUpRemoveLanguage();
-		menu.show(e.getComponent(), e.getX(), e.getY());
-	}
+  private void doPop(MouseEvent e) {
+    PopUpRemoveLanguage menu = new PopUpRemoveLanguage();
+    menu.show(e.getComponent(), e.getX(), e.getY());
+  }
 }
