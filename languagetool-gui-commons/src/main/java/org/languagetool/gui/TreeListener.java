@@ -19,13 +19,18 @@
 package org.languagetool.gui;
 
 import java.awt.Dimension;
+import java.awt.MouseInfo;
+import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.JCheckBox;
 import javax.swing.JTree;
+import javax.swing.event.TreeExpansionEvent;
+import javax.swing.event.TreeWillExpandListener;
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.ExpandVetoException;
 import javax.swing.tree.TreePath;
 
 /**
@@ -33,16 +38,17 @@ import javax.swing.tree.TreePath;
  * @author Panagiotis Minos
  * @since 2.6
  */
-class TreeListener implements KeyListener, MouseListener {
+class TreeListener implements KeyListener, MouseListener, TreeWillExpandListener {
 
   static void install(JTree tree) {
     TreeListener listener = new TreeListener(tree);
     tree.addMouseListener(listener);
     tree.addKeyListener(listener);
+    tree.addTreeWillExpandListener(listener);
   }
 
   private static final Dimension checkBoxDimension = new JCheckBox().getPreferredSize();
-  
+
   private final JTree tree;
 
   private TreeListener(JTree tree) {
@@ -145,5 +151,26 @@ class TreeListener implements KeyListener, MouseListener {
 
   private boolean isValidNode(Object c) {
     return ((c instanceof CategoryNode) || (c instanceof RuleNode));
+  }
+
+  @Override
+  public void treeWillExpand(TreeExpansionEvent e) throws ExpandVetoException {
+    Point cursorPosition = MouseInfo.getPointerInfo().getLocation();
+    Point treePosition = tree.getLocationOnScreen();
+    double x = cursorPosition.getX() - treePosition.getX();
+    double y = cursorPosition.getY() - treePosition.getY();
+    TreePath path = tree.getPathForLocation((int) x, (int) y);
+    if ((path != null) && (path.getPathCount() > 0)) {
+      if (isValidNode(path.getLastPathComponent())) {
+        if (isOverCheckBox((int) x, (int) y, path)) {
+          throw new ExpandVetoException(e);
+        }
+      }
+    }
+  }
+
+  @Override
+  public void treeWillCollapse(TreeExpansionEvent e) throws ExpandVetoException {
+    treeWillExpand(e);
   }
 }
