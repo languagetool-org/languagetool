@@ -31,11 +31,13 @@ import javax.swing.filechooser.FileFilter;
 import java.awt.*;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Set;
+import org.apache.commons.lang3.SystemUtils;
 
 /**
  * GUI-related tools.
@@ -220,16 +222,49 @@ public final class Tools {
       @Override
       public void hyperlinkUpdate(HyperlinkEvent e) {
         if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
-          if (Desktop.isDesktopSupported()) {
-            try {
-              Desktop.getDesktop().browse(e.getURL().toURI());
-            } catch (Exception ex) {
-              Tools.showError(ex);
-            }
-          }
+          Tools.openURL(e.getURL());
         }
       }
     });
+  }
+
+  /**
+   * Launches the default browser to display a URL.
+   * 
+   * @param url the URL to be displayed
+   * @since 4.1
+   */
+  static void openURL(String url) {
+    try {
+      openURL(new URL(url));
+    } catch (MalformedURLException ex) {
+      Tools.showError(ex);
+    }
+  }
+
+  /**
+   * Launches the default browser to display a URL.
+   * 
+   * @param url the URL to be displayed
+   * @since 4.1
+   */
+  static void openURL(URL url) {
+    if (Desktop.isDesktopSupported() 
+        && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
+      try {
+        Desktop.getDesktop().browse(url.toURI());
+      } catch (Exception ex) {
+        Tools.showError(ex);
+      }
+    } else if(SystemUtils.IS_OS_LINUX) {
+      //handle the case where Desktop.browse() is not supported, e.g. kubuntu
+      //without libgnome
+      try {
+        Runtime.getRuntime().exec(new String[] { "xdg-open", url.toString() });
+      } catch (Exception ex) {
+        Tools.showError(ex);
+      }
+    }
   }
 
   static void showRuleInfoDialog(Component parent, String title, String message, Rule rule, ResourceBundle messages, String lang) {

@@ -748,13 +748,7 @@ public class ConfigurationDialog implements ActionListener {
     helpButton.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        if (Desktop.isDesktopSupported()) {
-          try {
-            Desktop.getDesktop().browse(new URL("http://wiki.languagetool.org/finding-errors-using-n-gram-data").toURI());
-          } catch (Exception ex) {
-            Tools.showError(ex);
-          }
-        }
+        Tools.openURL("http://wiki.languagetool.org/finding-errors-using-n-gram-data");
       }
     });
     panel.add(helpButton, cons);
@@ -786,13 +780,7 @@ public class ConfigurationDialog implements ActionListener {
     panel.add(word2vecDirButton, cons);
     JButton helpButton = new JButton(messages.getString("guiWord2VecHelp"));
     helpButton.addActionListener(e -> {
-      if (Desktop.isDesktopSupported()) {
-        try {
-          Desktop.getDesktop().browse(new URL("https://github.com/gulp21/languagetool-neural-network").toURI());
-        } catch (Exception ex) {
-          Tools.showError(ex);
-        }
-      }
+      Tools.openURL("https://github.com/gulp21/languagetool-neural-network");
     });
     panel.add(helpButton, cons);
     return panel;
