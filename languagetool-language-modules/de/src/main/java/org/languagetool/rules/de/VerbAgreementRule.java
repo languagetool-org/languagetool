@@ -66,7 +66,7 @@ public class VerbAgreementRule extends TextLevelRule {
       new PatternTokenBuilder().tokenRegex(".*").build(),
       new PatternTokenBuilder().tokenRegex("mehr|weniger").build(),
       new PatternTokenBuilder().token("als").build(),
-      new PatternTokenBuilder().tokenRegex("ich|du|er|sie|es").build()
+      new PatternTokenBuilder().tokenRegex("ich|du|e[rs]|sie").build()
     ),
     Arrays.asList(
       new PatternTokenBuilder().token("wenn").build(),
@@ -75,8 +75,8 @@ public class VerbAgreementRule extends TextLevelRule {
     ),
     Arrays.asList(
       new PatternTokenBuilder().token("das").build(),
-      new PatternTokenBuilder().token("Du").build(),
-      new PatternTokenBuilder().tokenRegex("anbieten|anbot").build()
+      new PatternTokenBuilder().csToken("Du").build(),
+      new PatternTokenBuilder().token("anbieten").matchInflectedForms().build()
     ),
     Arrays.asList(
       new PatternTokenBuilder().token(",").build(),
@@ -413,7 +413,7 @@ public class VerbAgreementRule extends TextLevelRule {
         || "einst".equals(token.getToken())) {
       return false;
     }
-    return token.hasPartialPosTag(":1:") || token.hasPartialPosTag(":2:") || token.hasPartialPosTag(":3:");
+    return token.hasAnyPartialPosTag(":1:", ":2:", ":3:");
   }
   
   /**
@@ -422,10 +422,8 @@ public class VerbAgreementRule extends TextLevelRule {
    */
   private BooleanAndFiniteVerb verbDoesMatchPersonAndNumber(AnalyzedTokenReadings token1, AnalyzedTokenReadings token2,
                                                String person, String number, AnalyzedTokenReadings finiteVerb) {
-    String token1Str = token1.getToken();
-    String token2Str = token2.getToken();
-    if (token1Str.equals(",") || token1Str.equals("und") || token1Str.equals("sowie") ||
-        token2Str.equals(",") || token2Str.equals("und") || token2Str.equals("sowie")) {
+    if (StringUtils.equalsAny(token1.getToken(), ",", "und","sowie") ||
+    		StringUtils.equalsAny(token2.getToken(), ",", "und","sowie")) {
       return new BooleanAndFiniteVerb(true, finiteVerb);
     }
    
