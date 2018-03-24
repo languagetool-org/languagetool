@@ -207,7 +207,7 @@ public class VerbAgreementRuleTest {
     assertBad("Ich leben.", "Ich lebe", "Ich lebte", "Wir leben", "Sie leben");
     assertBad("Lebe du?");
     assertBad("Lebe du?", "Lebest du", "Lebst du", "Lebtest du", "Lebe ich", "Lebe er", "Lebe sie", "Lebe es");
-    assertBad("Leben du?"); // TODO "Leben" not tagged as verb
+    assertBad("Leben du?");
     assertBad("Nett bist ich nicht.", 2);
     assertBad("Nett bist ich nicht.", 2, "bin ich", "sei ich", "war ich", "wäre ich", "bist du");
     assertBad("Nett sind du.");
@@ -250,7 +250,7 @@ public class VerbAgreementRuleTest {
     if (expectedSuggestions.length > 0) {
       RuleMatch match = matches[0];
       // When two errors are reported by the rule (so TODO above), it might happen that the first match does not have the suggestions, but the second one
-      if(matches.length > 1 && match.getSuggestedReplacements().size()==0) {
+      if(matches.length > 1 && match.getSuggestedReplacements().isEmpty()) {
         match = matches[1];
       }
       List<String> suggestions = match.getSuggestedReplacements();
