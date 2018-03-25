@@ -200,6 +200,12 @@ public class UkrainianTaggerTest {
   }
 
   @Test
+  public void testDynamicTaggingXShaped() throws IOException {
+    TestTools.myAssert("Ш-подібному", "Ш-подібному/[Ш-подібний]adj:m:v_dav:compb|Ш-подібному/[Ш-подібний]adj:m:v_mis:compb|Ш-подібному/[Ш-подібний]adj:n:v_dav:compb|Ш-подібному/[Ш-подібний]adj:n:v_mis:compb", tokenizer, tagger);
+    TestTools.myAssert("S-подібної", "S-подібної/[S-подібний]adj:f:v_rod:compb", tokenizer, tagger);
+  }
+  
+  @Test
   public void testDynamicTaggingPrefixes() throws IOException {
     TestTools.myAssert("VIP–будинок", "VIP–будинок/[VIP-будинок]noun:inanim:m:v_naz|VIP–будинок/[VIP-будинок]noun:inanim:m:v_zna", tokenizer, tagger);
     TestTools.myAssert("PR-департаменту", "PR-департаменту/[PR-департамент]noun:inanim:m:v_dav|PR-департаменту/[PR-департамент]noun:inanim:m:v_mis|PR-департаменту/[PR-департамент]noun:inanim:m:v_rod", tokenizer, tagger);
