@@ -241,6 +241,13 @@ public class WordTokenizer implements Tokenizer {
       boolean executed = false;
       String matchedStr = input.substring(matcher.start() + 1, matcher.end());
       count++;
+
+      if(matcher.start()-1>=0){
+    	  if(input.charAt(matcher.start()-1)!=' ' && input.charAt(matcher.start()-1)!= ','){
+    		  continue;
+    	  }
+      }
+      
       // Token Is Not At End
       if (matcher.end() != input.length()) {
         if (input.charAt(matcher.end()) == ',' || input.charAt(matcher.end()) == ' ') {
