@@ -114,5 +114,81 @@ public class WordTokenizerTest {
     List<String> tokens = wordTokenizer.tokenize(text);
     return String.join("|", tokens);
   }
-  
+
+
+  @Test
+  public void testValidWordTokenize() {
+    String input1  = "12.3.a";
+    String input2  = " 12.3.a";
+    String input3  = " 12.3.a ";
+    String input4  = "12.3.a.";
+    String input5  = " 12.3.a.";
+    String input6  = " 12.3.a. ";
+    String input7  = "12.3.a, 17.7.4";
+    String input8  = "12.3.a, 17.7.4 ";
+    String input9  = "12.3.a, 17.7.4.";
+    String input10 = "12.3.a, 17.7.4. ";
+    String input11 = "12.3.a, 17.7.4 .";
+    String input12 = " 12.3.a, 17.7.4 ";
+    String input13 = " 12.3.a, 17.7.4.";
+    String input14 = " 12.3.a, 17.7.4. ";
+    String input15 = "12.3.a, 17.7.4.T";
+    String input16 = "12.3.a ,17.7.4";
+    String input17 = "12.3.a ,17.7.4.";
+    String input18 = "12.3.a , 17.7.4";
+    String input19 = " 12.3.a, 17.7.4";
+    String input20 = "12.3.a , 17.7.4";
+    String input21 = "12.3.4,15.6.7, 24.5.6 .";
+    String input22 = "12.3.4,15.6.7, 24.5.6.";
+    String input23 = "12.3.4,15.6.7, 24.5.6";
+    String input24 = "12.3.4, 15.6.7, 24.5.6.";
+    assertEquals(1, wordTokenizer.tokenize(input1).size());
+    assertEquals(2, wordTokenizer.tokenize(input2).size());
+    assertEquals(3, wordTokenizer.tokenize(input3).size());
+    assertEquals(2, wordTokenizer.tokenize(input4).size());
+    assertEquals(3, wordTokenizer.tokenize(input5).size());
+    assertEquals(4, wordTokenizer.tokenize(input6).size());
+    assertEquals(4, wordTokenizer.tokenize(input7).size());
+    assertEquals(5, wordTokenizer.tokenize(input8).size());
+    assertEquals(5, wordTokenizer.tokenize(input9).size());
+    assertEquals(6, wordTokenizer.tokenize(input10).size());
+    assertEquals(6, wordTokenizer.tokenize(input11).size());
+    assertEquals(6, wordTokenizer.tokenize(input12).size());
+    assertEquals(6, wordTokenizer.tokenize(input13).size());
+    assertEquals(7, wordTokenizer.tokenize(input14).size());
+    assertEquals(6, wordTokenizer.tokenize(input15).size());
+    assertEquals(4, wordTokenizer.tokenize(input16).size());
+    assertEquals(5, wordTokenizer.tokenize(input17).size());
+    assertEquals(5, wordTokenizer.tokenize(input18).size());
+    assertEquals(5, wordTokenizer.tokenize(input19).size());
+    assertEquals(5, wordTokenizer.tokenize(input20).size());
+    assertEquals(8, wordTokenizer.tokenize(input21).size());
+    assertEquals(7, wordTokenizer.tokenize(input22).size());
+    assertEquals(6, wordTokenizer.tokenize(input23).size());
+    assertEquals(8, wordTokenizer.tokenize(input24).size());
+    assertEquals("[12.3.a]", wordTokenizer.tokenize(input1).toString());
+    assertEquals("[ , 12.3.a]", wordTokenizer.tokenize(input2).toString());
+    assertEquals("[ , 12.3.a,  ]", wordTokenizer.tokenize(input3).toString());
+    assertEquals("[12.3.a, .]", wordTokenizer.tokenize(input4).toString());
+    assertEquals("[ , 12.3.a, .]", wordTokenizer.tokenize(input5).toString());
+    assertEquals("[ , 12.3.a, .,  ]", wordTokenizer.tokenize(input6).toString());
+    assertEquals("[12.3.a, ,,  , 17.7.4]", wordTokenizer.tokenize(input7).toString());
+    assertEquals("[12.3.a, ,,  , 17.7.4,  ]", wordTokenizer.tokenize(input8).toString());
+    assertEquals("[12.3.a, ,,  , 17.7.4, .]", wordTokenizer.tokenize(input9).toString());
+    assertEquals("[12.3.a, ,,  , 17.7.4, .,  ]", wordTokenizer.tokenize(input10).toString());
+    assertEquals("[12.3.a, ,,  , 17.7.4,  , .]", wordTokenizer.tokenize(input11).toString());
+    assertEquals("[ , 12.3.a, ,,  , 17.7.4,  ]", wordTokenizer.tokenize(input12).toString());
+    assertEquals("[ , 12.3.a, ,,  , 17.7.4, .]", wordTokenizer.tokenize(input13).toString());
+    assertEquals("[ , 12.3.a, ,,  , 17.7.4, .,  ]", wordTokenizer.tokenize(input14).toString());
+    assertEquals("[12.3.a, ,,  , 17.7.4, ., T]", wordTokenizer.tokenize(input15).toString());
+    assertEquals("[12.3.a,  , ,, 17.7.4]", wordTokenizer.tokenize(input16).toString());
+    assertEquals("[12.3.a,  , ,, 17.7.4, .]", wordTokenizer.tokenize(input17).toString());
+    assertEquals("[12.3.a,  , ,,  , 17.7.4]", wordTokenizer.tokenize(input18).toString());
+    assertEquals("[ , 12.3.a, ,,  , 17.7.4]", wordTokenizer.tokenize(input19).toString());
+    assertEquals("[12.3.a,  , ,,  , 17.7.4]", wordTokenizer.tokenize(input20).toString());
+    assertEquals("[12.3.4, ,, 15.6.7, ,,  , 24.5.6,  , .]", wordTokenizer.tokenize(input21).toString());
+    assertEquals("[12.3.4, ,, 15.6.7, ,,  , 24.5.6, .]", wordTokenizer.tokenize(input22).toString());
+    assertEquals("[12.3.4, ,, 15.6.7, ,,  , 24.5.6]", wordTokenizer.tokenize(input23).toString());
+    assertEquals("[12.3.4, ,,  , 15.6.7, ,,  , 24.5.6, .]", wordTokenizer.tokenize(input24).toString());
+  }  
 }

@@ -42,6 +42,7 @@ public class WordTokenizer implements Tokenizer {
   private static final List<String> PROTOCOLS = Collections.unmodifiableList(Arrays.asList("http", "https", "ftp"));
   private static final Pattern URL_CHARS = Pattern.compile("[a-zA-Z0-9/%$-_.+!*'(),\\?]+");
   private static final Pattern E_MAIL = Pattern.compile("(?<!:)\\b[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))\\b");
+  private static final Pattern ONE_WORD_TWO_DOT_PATTERN = Pattern.compile("[ ,]?[0-9a-zA-Z]+[\\.][0-9a-zA-Z]+[\\.][0-9a-zA-Z]+");
 
   private static final String TOKENIZING_CHARACTERS = "\u0020\u00A0\u115f" +
       "\u1160\u1680"
@@ -92,7 +93,7 @@ public class WordTokenizer implements Tokenizer {
     while (st.hasMoreElements()) {
       l.add(st.nextToken());
     }
-    return joinEMailsAndUrls(l);
+    return joinValidWord(joinEMailsAndUrls(l),text);
   }
 
   /**
@@ -216,6 +217,108 @@ public class WordTokenizer implements Tokenizer {
       }
     }
     return false;
+  }
+  /** This function is designed to handle words like 12.3.a .   
+   * 
+   * @param tokens
+   * @param input
+   * @return
+   */
+  protected List<String> joinValidWord(List<String> tokens, String input) {
+    
+    int count = 0;
+    Matcher matcher = ONE_WORD_TWO_DOT_PATTERN.matcher(input);
+    int noOfMatch = 0;
+    while (matcher.find())
+      noOfMatch++;
+ 
+    if(noOfMatch==0){
+      return tokens;
+    }
+    matcher = ONE_WORD_TWO_DOT_PATTERN.matcher(input);
+    
+    while (matcher.find()) {
+      boolean executed = false;
+      String matchedStr = input.substring(matcher.start() + 1, matcher.end());
+      count++;
+
+      if(matcher.start()-1>=0){
+    	  if(input.charAt(matcher.start()-1)!=' ' && input.charAt(matcher.start()-1)!= ','){
+    		  continue;
+    	  }
+      }
+      
+      // Token Is Not At End
+      if (matcher.end() != input.length()) {
+        if (input.charAt(matcher.end()) == ',' || input.charAt(matcher.end()) == ' ') {
+
+          if (matcher.start() == 0 && input.charAt(0)!=' ' && input.charAt(0)!=',') {
+            matchedStr = input.substring(matcher.start(), matcher.end());
+          }
+
+          int index = getStartIndex(tokens, matchedStr);
+          // Break The String
+          if (index != -1) {
+
+            List<String> tokenList = tokens.subList(index, index + 5);
+            String newToken = String.join("", tokenList);
+            List<String> frontList = tokens.subList(0, index);
+            frontList.add(newToken);
+            List<String> backList = tokens.subList(index + 6, tokens.size());
+            frontList.addAll(backList);
+            tokens = frontList;
+            executed = true;
+          }
+
+        }
+      }
+
+      if (count == noOfMatch && executed == true)
+        continue;
+      
+      // Last Token Case
+      if (matcher.end() == input.length()) {
+        List<String> combine = tokens.subList(tokens.size() - 5, tokens.size());
+        tokens = tokens.subList(0, tokens.size() - 5);
+        String str = String.join("", combine);
+        tokens.add(str);
+      } else if (matcher.end() == (input.length() - 1)) {
+        List<String> combine = tokens.subList(tokens.size() - 6, tokens.size() - 1);
+        String lastToken = tokens.get(tokens.size() - 1);
+        tokens = tokens.subList(0, tokens.size() - 6);
+        String str = String.join("", combine);
+        tokens.add(str);
+        tokens.add(lastToken);
+
+      } else if (matcher.end() == (input.length() - 2)) {
+        List<String> combine = tokens.subList(tokens.size() - 7, tokens.size() - 2);
+        String lastToken = tokens.get(tokens.size() - 2);
+        String lastToken1 = tokens.get(tokens.size() - 1);
+        tokens = tokens.subList(0, tokens.size() - 7);
+        String str = String.join("", combine);
+        tokens.add(str);
+        tokens.add(lastToken);
+        tokens.add(lastToken1);
+      }
+    }
+    return tokens;
+  }
+
+  /***
+   *  This function returns the first index in from the list for a string 'token'
+   * @param tokens
+   * @param token
+   * @return
+   */
+  static int getStartIndex(List<String> tokens, String token) {
+    for (int i = 0; i < tokens.size() - 6; i++) {
+      List<String> tokenList = tokens.subList(i, i + 5);
+      if (String.join("", tokenList).equals(token)
+          && (tokens.get(i + 5).equals(" ") || tokens.get(i + 5).equals(","))) {
+        return i;
+      }
+    }
+    return -1;
   }
 
 }
