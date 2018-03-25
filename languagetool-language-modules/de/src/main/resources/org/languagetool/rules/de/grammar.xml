@@ -4483,6 +4483,37 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="links">Schaue erst nach <marker>link und rechts</marker>, bevor du die Straße überquerst.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="BREIT_BEREIT" name="b(e)reit">
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes">erklären|zeigen</token>
+                    <token postag="PRO:REF:AKK:.+" postag_regexp="yes"></token>
+                    <token min="0">nicht</token>
+                    <marker><token>breit</token></marker>
+                </pattern>
+                <message>Prüfen Sie, ob hier <suggestion>bereit</suggestion> stehen sollte?</message>
+                <example correction="bereit">Ich erkläre mich <marker>breit</marker>, ihm zu helfen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token><exception>und</exception></token>
+                    <marker><token>breit</token></marker>
+                    <token inflected="yes" regexp="yes">erklären|zeigen</token>
+                </pattern>
+                <message>Prüfen Sie, ob hier <suggestion>bereit</suggestion> stehen sollte?</message>
+                <example correction="bereit">Wenn du dich dazu <marker>breit</marker> erklärst, werde ich es dir danken.</example>
+                <example>Bevor ich es dir lang und <marker>breit</marker> erkläre, zeige ich es dir einfach.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">lang|weit</token>
+                    <token>und</token>
+                    <marker><token>bereit</token></marker>
+                </pattern>
+                <message>Prüfen Sie, ob hier <suggestion>breit</suggestion> stehen sollte?</message>
+                <example correction="breit">Weit und <marker>bereit</marker> war niemand zu sehen.</example>
+            </rule>
+        </rulegroup>
         <rule id="PASSIONIERTE_PASSIERTE" name="passionierte/passierte">
             <pattern>
                 <marker>
@@ -7370,17 +7401,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Fuß fassen">Er konnte dort schnell <marker>Fußfassen</marker>.</example>
             <example>Erst mit dem Fußfassen der Dänen auf der Goldküste...</example>
         </rule>
-        <rule id="BEREIT_STEHEN" name="bereit stehen (bereitstehen)">
-            <pattern>
-                <token postag="SENT_START" negate_pos="yes"/>
-                <marker>
-                    <token>bereit</token>
-                    <token inflected="yes">stehen</token>
-                </marker>
-            </pattern>
-            <message>Das Verb <suggestion>\2\3</suggestion> wird zusammengeschrieben.</message>
-            <example correction="bereitstanden">Ein Schrank, in dem Bücher <marker>bereit standen</marker>.</example>
-        </rule>
         <rule id="HIER_BEI" name="hier bei (hierbei)">
             <pattern>
                 <marker>
@@ -9861,6 +9881,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>&getrennt;.</short>
                 <example correction="unterzugehen">Er hat nicht vor <marker>unter zu gehen</marker>.</example>
                 <example>Zu allem Übel fing es an zu schneien.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>bereit</token>
+                    <token inflected="yes" regexp="yes">halten|li?egen|ste(h|ll)en</token>
+                </pattern>
+                <message>Falls Sie eine Form des Verbs '\1<match no="2" postag="VER:INF:.*" postag_regexp="yes"/>' meinten, wird diese zusammengeschrieben.</message>
+                <suggestion>\1\2</suggestion>
+                <short>&getrennt;.</short>
+                <example correction="bereitstellen">Ich werde alle Unterlagen <marker>bereit stellen</marker>.</example>
+                <example correction="bereitstehst">Es ist wichtig, dass du ab 5 Uhr <marker>bereit stehst</marker>.</example>
+                <example correction="bereitstanden">Ein Schrank, in dem Bücher <marker>bereit standen</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>bereit</token>
+                    <token>zu</token>
+                    <token regexp="yes">halten|li?egen|ste(h|ll)en</token>
+                </pattern>
+                <message>Falls Sie eine Form des Verbs '\1\3' meinten, wird diese zusammengeschrieben.</message>
+                <suggestion>\1\2\3</suggestion>
+                <short>&getrennt;.</short>
+                <example correction="bereitzustellen">Es ist wicht, alle Unterlagen <marker>bereit zu stellen</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="MASSREGELN" name="maß regeln (maßregeln)">
