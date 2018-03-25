@@ -30730,6 +30730,18 @@ Andere Projekte</example>
                 <example correction="im">Zwölf Feuerwehren waren <marker>in</marker> Einsatz.</example>
                 <example correction="im">Er war nicht <marker>in</marker> Begriff fortzugehen.</example>
             </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token>in</token>
+                    </marker>
+                    <token regexp="yes">Begriffe?|Einsatz|Haus|Garten|Park|.*zimmer</token>
+                    <token inflected="yes">sein</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>im</suggestion>?</message>
+                <example correction="im">Wenn er <marker>in</marker> Einsatz ist, kann er dich nicht zurückrufen.</example>
+                <example correction="im">Stimmt es, dass du <marker>in</marker> Begriff warst fortzugehen.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="ORDER_OF_WORDS" name="falsche Wortreihenfolge">
             <rule>
