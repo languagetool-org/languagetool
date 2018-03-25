@@ -30718,15 +30718,17 @@ Andere Projekte</example>
         </rulegroup>
         <rulegroup id="IN_IM" name="in (im) Einsatz">
             <rule>
-                <pattern>
+                <pattern case_sensitive="yes">
                     <token inflected="yes">sein</token>
+                    <token min="0">nicht</token>
                     <marker>
                         <token>in</token>
                     </marker>
-                    <token regexp="yes">Einsatz|Haus|Garten|Park|.*zimmer</token>
+                    <token regexp="yes">Begriffe?|Einsatz|Haus|Garten|Park|.*zimmer</token>
                 </pattern>
                 <message>Meinten Sie <suggestion>im</suggestion>?</message>
                 <example correction="im">Zwölf Feuerwehren waren <marker>in</marker> Einsatz.</example>
+                <example correction="im">Er war nicht <marker>in</marker> Begriff fortzugehen.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ORDER_OF_WORDS" name="falsche Wortreihenfolge">
