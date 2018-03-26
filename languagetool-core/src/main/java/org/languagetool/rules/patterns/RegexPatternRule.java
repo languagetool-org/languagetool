@@ -46,6 +46,8 @@ class RegexPatternRule extends AbstractPatternRule implements RuleMatcher {
   // see: http://wiki.languagetool.org/development-overview#toc17
   // But most of the rules tend to use 1 to refer the first capturing group, so keeping that behavior as default
   private static final int MATCHES_IN_SUGGESTIONS_NUMBERED_FROM = 0;
+  private static final String UNEXPECTED_REFERENCE_TO_CAPTURING_GROUP_MESSAGE = "Unexpected reference to capturing group in rule with id %s.";
+  private static final String UNEXPECTED_EXCEPTION_WHEN_PROCESSING_REGEXP_MESSAGE = "Unexpected exception when processing regexp in rule with id %s.";
 
   private final Pattern pattern;
   private final int markGroup;
@@ -91,9 +93,9 @@ class RegexPatternRule extends AbstractPatternRule implements RuleMatcher {
 
         startPos = patternMatcher.end();
       } catch (IndexOutOfBoundsException e){
-        throw new RuntimeException("Unexpected reference to capturing group.\n" + Arrays.toString(e.getStackTrace()));
+        throw new RuntimeException(String.format(UNEXPECTED_REFERENCE_TO_CAPTURING_GROUP_MESSAGE, this.getFullId()), e);
       } catch (Exception e) {
-        throw new RuntimeException("Unexpected exception when processing regexp.\n" + Arrays.toString(e.getStackTrace()));
+        throw new RuntimeException(String.format(UNEXPECTED_EXCEPTION_WHEN_PROCESSING_REGEXP_MESSAGE, this.getFullId()), e);
       }
     }
     return matches.toArray(new RuleMatch[matches.size()]);
