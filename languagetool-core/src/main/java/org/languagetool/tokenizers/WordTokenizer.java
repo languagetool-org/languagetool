@@ -270,7 +270,7 @@ public class WordTokenizer implements Tokenizer {
         }
       }
 
-      if (count == noOfMatch && executed == true)
+      if (count == noOfMatch && executed)
         continue;
       
       // Last Token Case
