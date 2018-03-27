@@ -28,7 +28,7 @@
   * improved suggestion for spelling mistakes (#912)
 
 #### Galician
-  * added and improved rules
+  * added a couple of rules
 
 #### German
   * added and improved rules
