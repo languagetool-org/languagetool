@@ -27,6 +27,9 @@
 #### French
   * improved suggestion for spelling mistakes (#912)
 
+#### Galician
+  * added and improved rules
+
 #### German
   * added and improved rules
   * New rule that checks coherent use of Du/du, Dich/dich etc. Assumes that the first
