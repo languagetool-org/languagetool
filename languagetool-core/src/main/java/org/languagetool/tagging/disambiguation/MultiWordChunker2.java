@@ -35,8 +35,9 @@ import java.util.*;
 /**
  * Multiword tagger-chunker.
  * Note: currently does not support:
- * <li> overlapping tagging (first matching multiword entry wins)
- *
+ * <ul>
+ *  <li> overlapping tagging (first matching multiword entry wins)
+ * </ul>
  * @author Andriy Rysin
  */
 public class MultiWordChunker2 extends AbstractDisambiguator {
