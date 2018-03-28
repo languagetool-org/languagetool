@@ -5906,7 +5906,7 @@ regexp case-insensitive maken : (?i)
                 <pattern case_sensitive="yes">
                     <token regexp="yes">baai|bocht|golf|hoogland|hoogvlakte|laagland|kanaal|nauw|meer|plateau|straat|zee|vallei|bekken</token>
                     <token>van</token>
-                    <token regexp="yes">Aden|Ajaccio|Akaba|Anadyr|Aqaba|Argolis|Bengalen|Biskaje|Boergas|Bone|Californië|Egina|Gabès|Genua|Guinee|Kiparissia|Korinthe|Martaban|Messenië|Mexico|Napels|Oman|Patras|Petalia|Riga|Rijeka|Sidra|Strimonas|Suez|Tarente|Thailand|Thessaloniki|Tolo|Tomini|Tonkin|Triëst|Venetië|Volos|Kotor|Mont-Saint-Michel|Sint-Michiel|Gdansk|Helgoland|Auvergne|Bolivia|Brazilië|Dekan|Guyana|Iran|Katanga|Nieuw-Castilië|Oud-Castilië|Toeran|Turan|Bristol|Malta|Otranto|Sicilië|Calais|Kales|Genève|Lugano|Maracaibo|Ohrid|Shkodër|Tiberias|Lotharingen|Corsica|Gibraltar|Hormuz|Messina|Taiwan|Azov|Halmahera|Marmara|Ochotsk|Fergana|Parijs</token>
+                    <token regexp="yes">Aden|Ajaccio|Akaba|Anadyr|Aqaba|Argolis|Bengalen|Biskaje|Boergas|Bone|Californië|Egina|Gabès|Genua|Guinee|Kiparissia|Korinthe|Martaban|Messenië|Mexico|Napels|Oman|Patras|Petalia|Riga|Rijeka|Sidra|Strimonas|Suez|Tarente|Thailand|Thessaloniki|Tolo|Tomini|Tonkin|Triëst|Venetië|Volos|Kotor|Mont-Saint-Michel|Sint-Michiel|Gdansk|Helgoland|Auvergne|Bolivia|Brazilië|Dekan|Guyana|Iran|Katanga|Nieuw-Castilië|Oud-Castilië|Toeran|Turan|Bristol|Malta|Otranto|Sicilië|Calais|Kales|Genève|Lugano|Maracaibo|Ohrid|Shkodër|Tiberias|Lotharingen|Corsica|Gibraltar|Hormuz|Messina|Taiwan|Azov|Halmahera|Marmara|Ochotsk|Fergana|Parijs|Bonifacio</token>
                 </pattern>
                 <message>Is het niet <suggestion><match no="1" case_conversion="startupper"/> <match no="2"/> <match no="3"/></suggestion>?</message>
                 <short>Hoofdletter?</short>
@@ -5934,6 +5934,8 @@ regexp case-insensitive maken : (?i)
                 <example correction="Meer van Tiberias">De verschijning van Jezus aan het <marker>meer van Tiberias</marker>.</example>
                 <example correction="Golf van Oman">Uit de <marker>golf van Oman</marker> vertrekt een schip.</example>
             </rule>
+
+
         </rulegroup>
         <!--
         <rulegroup id="GEO_HL_a" name="Hoofdletter in 2 deel bij geografie">
@@ -6057,18 +6059,19 @@ regexp case-insensitive maken : (?i)
                         <token regexp="yes">(r|R)ivier.*</token>
                     </marker>
                 </pattern>
-                <message>Wanneer u hier naar de geografische plaats verwijst, dan is <suggestion><match no="1" case_conversion="startupper"/> <match no="2" case_conversion="startupper"/></suggestion> correct.</message>
+                <message>Wanneer u hier naar de geografische plaats verwijst, dan is <suggestion><match no="2" case_conversion="startupper"/> <match no="3" case_conversion="startupper"/></suggestion> correct.</message>
                 <short>Hoofdletters?</short>
-                <example correction="De Gele">Lekker baden in de <marker>gele rivier</marker>.</example>
+                <example correction="Gele Rivier">Lekker baden in de <marker>gele rivier</marker>.</example>
                 <example>Lekker baden in de <marker>Gele Rivier</marker>.</example>
-                <example correction="De Gele">Of de <marker>gele rivier</marker>.</example>
+                <example correction="Gele Rivier">Of de <marker>gele rivier</marker>.</example>
             </rule>
         </rulegroup>
+		
         <rulegroup id="MIDDELL_ZEE" name="Koppelteken hoort niet in Middellandse-Zee">
             <!-- 2014-08-23 TaalTik -->
             <rule>
                 <pattern>
-                    <token regexp="yes">(dode|caraïbische|caribische|arabische|andamanse|middellandse|adriatische|Egeïsche|Gele|Ierse|Ionische|Japanse|Kaspische|Keltische|Ligurische|Molukse|Noorse|Oost[-]Chinese|Oost[-]Siberische|Rode|Tyrreense|Witte|Zuid[-]Chinese|Zwarte)[-]zee.*</token>
+                    <token regexp="yes">(arbische|dode|caraïbische|caribische|arabische|andamanse|middellandse|adriatische|Egeïsche|Gele|Ierse|Ionische|Japanse|Kaspische|Keltische|Ligurische|Molukse|Noorse|Oost[-]Chinese|Oost[-]Siberische|Rode|Tyrreense|Witte|Zuid[-]Chinese|Zwarte)[-]zee.*</token>
                 </pattern>
                 <message>Juist is: <suggestion><match no="1" regexp_match="[-]" regexp_replace=" "/></suggestion>.</message>
                 <url>https://onzetaal.nl/taaladvies/advies/tweede-kamerlid-tweede-kamer-lid-tweede-kamerlid</url>
