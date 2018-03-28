@@ -179,7 +179,6 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 		<disambig action="ignore_spelling"/>  
 	</rule>
 
-
 	<!-- TODO GUESSING TAGS for extremely flexible words ======================================== -->
 
 	<!-- GETALLEN -->
@@ -205,66 +204,232 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
         </pattern>
         <disambig action="add"><wd pos="ZNW:EKV:VRK:HET"/></disambig>
     </rule>
+    
     <rule name="GUESS_02" id="GUESS_02">
+        <pattern>
+            <token postag="UNKNOWN" regexp="yes">.*[^nil]jes</token>
+        </pattern>
+        <disambig action="add"><wd pos="ZNW:MRV:VRK:DE_"/></disambig>
+    </rule>
+    
+    <rule name="GUESS_03" id="GUESS_03">
         <pattern>
             <token postag="UNKNOWN" regexp="yes">.*ije</token>
         </pattern>
         <disambig action="add"><wd pos="BNW:STL:VRB"/></disambig>
+    </rule>    
+
+    <rule name="GUESS_ZNW_MRV_DE_" id="GUESS_ZNW_MRV_DE_">
+        <pattern>
+            <token><exception>iets</exception></token>
+            <marker>
+                <token postag="UNKNOWN" regexp="yes">.....*[aiou]['`‘’]s</token>
+            </marker>
+        </pattern>
+        <disambig action="add"><wd pos="ZNW:MRV:DE_"/></disambig>
+    </rule>    
+    
+    <rule name="GUESS_BNW_STL_ONV" id="GUESS_BNW_STL_ONV">
+        <pattern>
+            <token postag="UNKNOWN" regexp="yes">.....*(mig|arig|erig|atig|baar|ifiek|oelig|undig|matig|breed|ichtig|cifiek|tendig|voelig|vormig|kundig|pelijk|lichtig|htelijk|ecifiek|stendig|evoelig|eerbaar|ndelijk|lachtig|rachtig|plichtig|chtelijk|pecifiek|estendig|gevoelig|elateerd|endelijk|egericht|echtelijk|specifiek|bestendig|relateerd|iendelijk)</token>
+        </pattern>
+        <disambig action="add"><wd pos="BNW:STL:ONV"/></disambig>
+    </rule>    
+    
+    <rule name="GUESS_WKW_TGW_3EP" id="GUESS_WKW_TGW_3EP">
+        <pattern>
+            <token postag="UNKNOWN" regexp="yes">.....*(ngt|jft|idt|oit|emt|omt|ijft|aagt|aait|ingt|oeit|kelt|ijdt|deert|seert|reert|teert|leert|ieert|ceert|iseert|iceert|liseert|aliseert)</token>
+        </pattern>
+        <disambig action="add"><wd pos="WKW:TGW:3EP"/></disambig>
+    </rule>    
+    
+    <rule name="GUESS_BNW_STL_IET" id="GUESS_BNW_STL_IET">
+        <pattern>
+            <token postag="UNKNOWN" regexp="yes">(gds|mds|migs|tigs|digs|ligs|nigs|vols|igds|ruks|ects|erigs|vrijs|rmigs|stigs|htigs|rdigs|vends|gends|dends|fieks|eerds|pends|ndigs|lends|eligs|lligs|ruins|urigs|tiefs|arigs|wusts|atigs|ieels|ischs|reeds|tends|siefs|edigs|lauws|chtigs|ardigs|gbaars|evends|udends|ondens|ifieks|erends|kbaars|rbaars|sbaars|pbaars|endigs|mbaars|oeligs|nbaars|tbaars|ormigs|bruins|eurigs|undigs|atiefs|ewusts|matigs|seerds|teerds|oneels|breeds|alends|ctiefs|zwarts|blauws|ichtigs|aardigs|erichts|oudends|bondens|cifieks|elbaars|erbaars|tendigs|voeligs|telijks|vormigs|leurigs|kundigs|erlijks|bewusts|ateerds|ioneels|achtigs|palends|lichtigs|gerichts|ebondens|ecifieks|nkelijks|stendigs|evoeligs|kleurigs|eerbaars|lateerds|htelijks|epalends|lachtigs|tioneels|rachtigs|plichtigs|sgerichts|gebondens|pecifieks|estendigs|gevoeligs|elateerds|chtelijks|ankelijks|endelijks|egerichts)$</token>
+        </pattern>
+        <disambig action="add"><wd pos="BNW:STL:IET"/></disambig>
+    </rule>    
+    
+    <rule name="GUESS_BNW_STL_VRB" id="GUESS_BNW_STL_VRB">
+        <pattern>
+            <token postag="UNKNOWN" regexp="yes">.....*(ijkse|bare|ische|gerichte)</token>
+        </pattern>
+        <disambig action="add"><wd pos="BNW:STL:VRB"/></disambig>
+    </rule>    
+    
+    
+    <rule name="GUESS_ZNW_EKV" id="GUESS_ZNW_EKV">
+        <pattern>
+            <token postag="UNKNOWN" regexp="yes">.....*(rcus|ttie|alon|cijn|enue|ingo|ircus|oeket|depot|pttie|riool|gamma|braan|atern|salon|zadel|icijn|smens|tenue|bingo|ssoort|circus|boeket|lsoort|esoort|ffiche|sfiche|sdraad|opttie|ooppas|nkraam|rkomen|elabel|mbraan|katern|zikant|weblog|dicijn|tsoort|efiche|slabel|ncircus|scircus|srisico|ubsidie|cluster|sfilter|lhandel|shandel|nhandel|ensoort|affiche|gsfiche|sopttie|behoren|skoppel|looppas|npoeder|khandel|iesoort|efilter|oncours|elschap|erisico|embraan|uzikant|ilderij|edicijn|blogger|nfilter|erkomen|encircus|nwebsite|gsrisico|subsidie|genschap|scluster|derschap|enhandel|oenschap|ewebsite|ngsfiche|gsfilter|gsopttie|ebehoren|sporteur|iefilter|eelement|concours|zelschap|ierisico|membraan|muzikant|ersonage|hilderij|molecule|nvoetbal|medicijn|molecuul|derkomen|enwebsite|carrousel|ngsrisico|svereiste|gswebsite|igenschap|ioenschap|gentschap|esubsidie|ssubsidie|ngsfilter|ngsopttie|oebehoren|nsporteur|ezelschap|evereiste|tierisico|personage|childerij|nsubsidie|seelement|nderkomen)</token>
+        </pattern>
+        <disambig action="add"><wd pos="ZNW:EKV"/></disambig>
+    </rule>    
+    
+    <rule name="GUESS_WKW_VLT_1EP" id="GUESS_WKW_VLT_1EP">
+        <pattern>
+            <token postag="UNKNOWN" regexp="yes">.....*(htte|chtte)</token>
+        </pattern>
+        <disambig action="add"><wd pos="WKW:VLT:1EP"/></disambig>
+    </rule>    
+    
+    <rule name="GUESS_BNW_VGR_ONV" id="GUESS_BNW_VGR_ONV">
+        <pattern>
+            <token postag="UNKNOWN" regexp="yes">.....*(dser|ëler|miger|scher|naler|beler|irder|iëler|neler|ialer|euzer|rmiger|eriger|eliger|vender|uriger|ischer|abeler|ariger|oneler|breder|airder|elozer|euriger|undiger|tischer|mischer|atiever|ioneler|nischer|rischer|tairder|gischer|ormiger|dbaarder|sbaarder|kbaarder|nbaarder|tbaarder|gbaarder|leuriger|kundiger|erlijker|stischer|atischer|hnischer|ogischer|vormiger|elbaarder|istischer|chnischer|logischer)</token>
+        </pattern>
+        <disambig action="add"><wd pos="BNW:VGR:ONV"/></disambig>
+    </rule>    
+    
+    <rule name="GUESS_ZNW_EKV_DE_" id="GUESS_ZNW_EKV_DE_">
+        <pattern>
+            <token postag="UNKNOWN" regexp="yes">.....*(mance|snaar|pluim|naald|oesem|chelp|klank|etaak|eugde|mixer|gskost|idatie|rmance|tkaart|tlijst|loesem|nkleur|schelp|boring|elijst|korrel|etoren|edrift|edrang|rlijst|ietaak|lijder|naming|ekleur|llijst|eactor|ouille|reugde|strend|impact|lkamer|sterfte|gswinst|ngskost|gskaart|dplaats|demping|otering|lidatie|ormance|nwissel|schacht|gskring|lukking|gsplaat|eversie|truimte|escheid|hending|rsector|bloesem|planeet|esectie|inkomst|ielijst|epoging|egenoot|ewinkel|ecyclus|iedrift|iedrang|efolder|voucher|nvriend|epartij|antenne|jongere|drijver|nbalans|nzoeker|ematrix|enaming|lruimte|culator|reactor|rouille|vreugde|eopbouw|nliefde|gsstrijd|ngswinst|ingskost|gsplaats|nrubriek|ngskaart|gsvlucht|ommeling|ezitting|karavaan|formance|npositie|gskracht|ngskring|slukking|ngsplaat|lmethode|gsklacht|tperiode|genlijst|bescheid|voorkeur|chending|recensie|ardiging|piramide|gshoogte|detector|afmeting|everkoop|tielijst|iekracht|iepoging|iecyclus|tiedrift|tieproef|edivisie|tiedrang|iepartij|iestatus|tcultuur|kleuring|rpositie|ioriteit|emmering|iekennis|benaming|bewerker|rsteuner|nkorting|xtractie|eputatie|lculator|gssector|trouille|nvleugel|rwijzing|gestalte|lculatie|vastheid|maakster|nkalender|sequentie|gskwestie|gsmethode|ngsstrijd|gsvariant|ingswinst|ngsplaats|ingskaart|stekening|svolgorde|hommeling|ilijkheid|tificatie|rformance|enpositie|splitsing|nverkoper|ngskracht|islukking|ingsplaat|inaliteit|tcontrole|ropdracht|svoorkeur|schending|aardiging|ntechniek|ngshoogte|fabricage|nkwekerij|npolitiek|paragraaf|tiekracht|tieruimte|tiepoging|tiecyclus|atielijst|ietermijn|iepartner|eplanning|nworkshop|tafdeling|tiestatus|eafspraak|tiecursus|eopdracht|voortgang|rioriteit|lemmering|iecultuur|stichting|erdieping|ersteuner|opzichter|reputatie|alculator|schatting|erziening|concessie|ngssector|reparatie|sculptuur|perceptie|atrouille|ntraditie|typologie|etekening|ttraining|evrijheid|ebeleving|cialiteit|nkampioen|speeltuin|schijning|alculatie|nfokkerij)</token>
+        </pattern>
+        <disambig action="add"><wd pos="ZNW:EKV:DE_"/></disambig>
+    </rule>    
+    
+    <rule name="GUESS_ZNW_EKV_HET" id="GUESS_ZNW_EKV_HET">
+        <pattern>
+            <token postag="UNKNOWN" regexp="yes">.....*(awaai|lawaai|rnemen|zwaard|schaak|eschip|inarie|perikel|sobject|erivaat|ebegrip|ebewijs|plement|ornemen|gsbeeld|perceel|ngedrag|eadvies|evolume|leffect|kristal|minarie|easpect|gsbedrag|sperikel|derivaat|ebericht|ekenmerk|etraject|pplement|oornemen|ntraject|symptoom|ngsbeeld|tproject|gsmotief|rantsoen|stramien|gsbegrip|lproject|eproject|engedrag|iegedrag|ieadvies|ietarief|iebegrip|ieorgaan|nverlies|uiteinde|ieverbod|rproject|natelier|nproject|nrooster|everkeer|ecircuit|eartikel|eklimaat|evenster|ndiploma|estation|dsaspect|splafond|gsaspect|knelpunt|econgres|nontwerp|tartikel|eoverleg|iebezoek|eweekend|eminarie|sargument|ngsbedrag|gsontwerp|gsperikel|gsritueel|gskrediet|gsvenster|ngsysteem|nkarakter|edocument|upplement|gsbestand|gsstation|ingsbeeld|nprobleem|tprobleem|ngsbegrip|ertrouwen|ieproduct|evoordeel|tiegedrag|ieterrein|tieadvies|iebericht|eprotocol|tietarief|ietraject|evoorstel|iebestand|tiegebouw|navontuur|ieproject|ieverhaal|escenario|enproject|enrooster|nspectrum|ieartikel|sinterval|narsenaal|attribuut|lprobleem|erproject|sfenomeen|gesteente|ngsaspect|ieverband|ekarakter|ntijdperk|seminarie|ieoverleg).</token>
+        </pattern>
+        <disambig action="add"><wd pos="ZNW:EKV:HET"/></disambig>
+    </rule>    
+    
+    <rule name="GUESS_WKW_VLT_INF" id="GUESS_WKW_VLT_INF">
+        <pattern>
+            <token postag="UNKNOWN" regexp="yes">.....*(htten|chtten)</token>
+        </pattern>
+        <disambig action="add"><wd pos="WKW:VLT:INF"/></disambig>
+    </rule>    
+    
+    <rule name="GUESS_BNW_VGR_VRB" id="GUESS_BNW_VGR_VRB">
+        <pattern>
+            <token postag="UNKNOWN" regexp="yes">.....*(ijere|dsere|ëlere|uzere|gdere|uwere|mdere|migere|tigere|digere|ligere|rijere|belere|lozere|irdere|iëlere|nelere|ialere|redere|iekere|euzere|ralere|rmigere|stigere|htigere|rdigere|erigere|ndigere|gendere|lendere|eligere|kendere|vendere|vrijere|urigere|ischere|abelere|tievere|arigere|onelere|bredere|rendere|airdere|rijkere|atigere|chtigere|ardigere|baardere|elijkere|eurigere|undigere|tischere|mischere|atievere|ionelere|nischere|rischere|tairdere|gischere|ormigere|ctievere|aardigere|dbaardere|delijkere|kelijkere|rbaardere|sbaardere|kbaardere|lbaardere|nbaardere|tbaardere|telijkere|gbaardere|leurigere|kundigere|stischere|atischere|hnischere|ogischere|achtigere|vormigere)</token>
+        </pattern>
+        <disambig action="add"><wd pos="BNW:VGR:VRB"/></disambig>
+    </rule>    
+    
+    <rule name="GUESS_BNW_OVR_ONV" id="GUESS_BNW_OVR_ONV">
+        <pattern>
+            <token postag="UNKNOWN" regexp="yes">.....*(uinst|ruinst|wustst|atigst|fiekst|fischt|atischt|ewustst|matigst|ifiekst|orischt|bewustst|cifiekst|torischt|htelijkst|ecifiekst|listischt)</token>
+        </pattern>
+        <disambig action="add"><wd pos="BNW:OVR:ONV"/></disambig>
+    </rule>    
+    
+    <rule name="GUESS_GET" id="GUESS_GET">
+        <pattern>
+            <token postag="UNKNOWN" regexp="yes">.....*(jftig|gentig|eertig|ijftig|zestig|ndertig|egentig|veertig|vijftig|negentig|nveertig|nvijftig|entwintig)</token>
+        </pattern>
+        <disambig action="add"><wd pos="GET"/></disambig>
+    </rule>    
+    
+    <rule name="GUESS_BNW_VGR_IET" id="GUESS_BNW_VGR_IET">
+        <pattern>
+            <token postag="UNKNOWN" regexp="yes">.....*(dsers|ëlers|migers|schers|belers|irders|iëlers|nelers|ialers|euzers|rmigers|denders|erigers|eligers|venders|urigers|ischers|abelers|arigers|onelers|breders|airders|eurigers|undigers|tischers|mischers|atievers|ionelers|nischers|rischers|tairders|gischers|ormigers|dbaarders|sbaarders|kbaarders|nbaarders|tbaarders|gbaarders|leurigers|kundigers|stischers|atischers|hnischers|ogischers|vormigers)</token>
+        </pattern>
+        <disambig action="add"><wd pos="BNW:VGR:IET"/></disambig>
+    </rule>    
+    
+    <rule name="GUESS_WKW_ODW_ONV" id="GUESS_WKW_ODW_ONV">
+        <pattern>
+            <token postag="UNKNOWN" regexp="yes">.....*(ërend|ietend|iërend|icerend|liserend|aliserend)</token>
+        </pattern>
+        <disambig action="add"><wd pos="WKW:ODW:ONV"/></disambig>
+    </rule>    
+    
+    <rule name="GUESS_WKW_TGW_INF" id="GUESS_WKW_TGW_INF">
+        <pattern>
+            <token postag="UNKNOWN" regexp="yes">.....*(ceren|iceren|liseren|aliseren)</token>
+        </pattern>
+        <disambig action="add"><wd pos="WKW:TGW:INF"/></disambig>
+    </rule>    
+    
+    <rule name="GUESS_BNW_OVR_VRB" id="GUESS_BNW_OVR_VRB">
+        <pattern>
+            <token postag="UNKNOWN" regexp="yes">......*(uinste|ruinste|wustste|atigste|fiekste|fischte|atischte|ewustste|matigste|ifiekste|orischte|bewustste|cifiekste|torischte)</token>
+        </pattern>
+        <disambig action="add"><wd pos="BNW:OVR:VRB"/></disambig>
+    </rule>    
+    
+    <rule name="GUESS_WKW_ODW_VRB" id="GUESS_WKW_ODW_VRB">
+        <pattern>
+            <token postag="UNKNOWN" regexp="yes">.....*(ërende|iërende|icerende|liserende)</token>
+        </pattern>
+        <disambig action="add"><wd pos="WKW:ODW:VRB"/></disambig>
+    </rule>    
+    
+    <rule name="GUESS_BNW_STL_INV" id="GUESS_BNW_STL_INV">
+        <pattern>
+            <token postag="UNKNOWN" regexp="yes">.....*(sgebonden|egebonden)</token>
+        </pattern>
+        <disambig action="add"><wd pos="BNW:STL:INV"/></disambig>
+    </rule>    
+    
+    <!-- REAL DISAMBIGUATION -->
+    
+    <rule id="DE_X_VOOR" name="DE_X_VOOR">
+        <!-- can only noun, but not the forms using 'het' -->
+        <pattern>
+            <token>de</token>
+            <marker>
+                <token/>
+            </marker>
+            <token>voor</token>
+        </pattern>
+        <disambig><match no="1" postag="ZNW:EKV:DE_|ZNW:EKV|ZNW:MRV:DE_|ZNW:VRK:MRV:DE_" postag_regexp="yes"/></disambig>
     </rule>
 
-    <!-- TODO GUESSING TAGS BY SURROUNDING WORDS ======================================== -->
+    <rule id="IET_OF_NIET" name="IET_OF_NIET">
+        <pattern>
+			<token negate="yes" skip="1">iets</token>
+            <marker>
+				<and>
+					<token postag="BNW:STL:IET"/>
+					<token postag="BNW:STL:ONV"/>
+				</and>
+            </marker>
+        </pattern>
+		<disambig postag="BNW:STL:ONV" />
+    </rule>
 
+	<rule id="ONV_OF_VRB_1" name="ONV_OF_VRB_1">
+        <pattern>
+			<token regexp="yes">geen|een</token>
+            <marker>
+				<and>
+					<token postag="BNW:STL:VRB"/>
+					<token postag="BNW:STL:ONV"/>
+				</and>
+            </marker>
+			<token postag_regexp="yes" postag="ZNW:.*:HET"/>
+        </pattern>
+		<disambig action="remove"><wd  pos="BNW:STL:VRB" /></disambig>
+    </rule>
 
-	<!-- COMMON EXCEPTIONS -->
-	<rule name="niet_meer" id="NIET_MEER">
-		<pattern><token>niet</token><token>meer</token></pattern>
-		<disambig action="immunize"/>
-	</rule>
+	<rule id="ONV_OF_VRB_2" name="ONV_OF_VRB_2">
+        <pattern>
+			<token regexp="yes">het|dat|dit</token>
+            <marker>
+				<and>
+					<token postag="BNW:STL:VRB"/>
+					<token postag="BNW:STL:ONV"/>
+				</and>
+            </marker>
+			<token postag_regexp="yes" postag="ZNW:.*:HET"/>
+        </pattern>
+		<disambig action="remove"><wd  pos="BNW:STL:ONV" /></disambig>
+    </rule>
 
-	<!-- REAL DISAMBIGUATION ====== TODO ============================================================= -->
+	<rule id="ONV_OF_VRB_3" name="ONV_OF_VRB_3">
+        <pattern>
+			<token regexp="yes">de|die|deze|een</token>
+            <marker>
+				<and>
+					<token postag="BNW:STL:VRB"/>
+					<token postag="BNW:STL:ONV"/>
+				</and>
+            </marker>
+			<token postag_regexp="yes" postag="ZNW:.*:DE_"/>
+        </pattern>
+		<disambig action="remove"><wd  pos="BNW:STL:ONV" /></disambig>
+    </rule>
 
-
-	
-	<!-- IMMUNIZING SOME WIKIPEDIA CONSTRUCTIONS THAT GENERATE ERRORS IN WIKICHECK -->
-	<!--
-	TODO: if not errors reported: delete after march 2018
-	<rule name="x=quote" id="Wikipedia_1">
-		<pattern>
-			<token regexp="yes">image|name|width</token>
-			<token>=</token>
-			<token>"</token>
-			<token></token>      
-		</pattern>
-		<disambig action="immunize"/>
-	</rule>
-	<rule name="[[" id="Wikipedia_3">
-		<pattern>
-			<token>[</token>
-			<token>[</token>
-		</pattern>
-		<disambig action="immunize"/>
-	</rule>
-	<rule name="]]" id="Wikipedia_4">
-		<pattern>
-			<token>]</token>
-			<token>]</token>
-		</pattern>
-		<disambig action="immunize"/>
-	</rule>
-	<rule name="==" id="Wikipedia_5">
-		<pattern>
-			<token>=</token>
-			<token>=</token>
-		</pattern>
-		<disambig action="immunize"/>
-	</rule>
-	<rule name="= Heading =" id="Wikipedia_6">
-		<pattern>
-			<token>=</token>
-			<token>Heading</token>
-			<token>=</token>
-		</pattern>
-		<disambig action="immunize"/>
-	</rule>
-	-->
 </rules>
