@@ -30951,20 +30951,7 @@ Andere Projekte</example>
             <url>http://www.spiegel.de/kultur/zwiebelfisch/zwiebelfisch-abc-insofern-als-insofern-dass-a-340036.html</url>
             <rule>
                 <pattern>
-                    <token>insofern</token>
-                    <token>,</token>
-                    <marker>
-                        <token>als</token>
-                        <token>dass</token>
-                    </marker>
-                </pattern>
-                <message>'Insofern' steht gewöhnlich mit der Konjunktion <suggestion>als</suggestion>.</message>
-                <short>Möglicherweise falsch verwendete Redewendung</short>
-                <example correction="als">Das gilt insofern, <marker>als dass</marker> obige Bedingungen erfüllt sind.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token skip="2">insofern</token>
+                    <token skip="2" regexp="yes">insofern|insoweit</token>
                     <token>,</token>
                     <marker>
                         <token>als</token>
@@ -30975,6 +30962,30 @@ Andere Projekte</example>
                 <short>Möglicherweise falsch verwendete Redewendung</short>
                 <example correction="als">Das trifft insofern zu, <marker>als dass</marker> obige Bedingungen erfüllt sind.</example>
                 <example correction="als">Das ist insofern eine Schweinerei, <marker>als dass</marker> sie uns getäuscht haben.</example>
+                <example correction="als">Das gilt insofern, <marker>als dass</marker> obige Bedingungen erfüllt sind.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token>ist</token>
+                    <token regexp="yes">insoweit|insofern</token>
+                    <token>,</token>
+                    <token>dass</token>
+                </antipattern>
+                <pattern>
+                    <token skip="2" regexp='yes'>insofern|insoweit</token>
+                    <token>,</token>
+                    <marker>
+                    <token regexp='yes'>dass|weil</token>
+                    </marker>
+                </pattern>
+                <message>Auf das Wort "<match no="1"/>" steht gewöhnlich mit der Konjunktion <suggestion>als</suggestion>.</message>
+                <example correction='als'>Der Vorschlag ist insofern gut, <marker>dass</marker> er keinem schadet.</example>
+                <example correction='als'>Der Film ist insoweit erfolgreich, <marker>dass</marker> er über seine Laufzeit keine Langeweile aufkommen lässt.</example>
+                <example correction="als">DSL-Netze sind mit den klassischen TV-Kabelnetzen insoweit vergleichbar, <marker>weil</marker> auch sie nur Geschlossenen Benutzergruppen (GBG) gegen Entgelt zugängig sind.</example>
+                <example>Es war insofern komisch, als der Angesprochene kein einziges Wort zu verstehen schien.</example>
+                <example>Die Telefonistin war insoweit unprofessionell, als sie jede Beschwerde persönlich nahm und pampig reagierte.</example>
+                <example correction="als">Aber die dieser Methode folgenden Gelehrten hatten jedenfalls insofern Recht, <marker>dass</marker> sich die Vielzahl der überlieferten Rechtsmittel daraus erklärt, dass sie in verschiedenen Entwicklungsstufen geschaffen wurden.</example>
+                <example>Von Interesse ist insoweit, dass nach Paragraf 125 weiterhin die namentliche Bezeichnung von Arbeitnehmern zulässig ist.</example>
             </rule>
         </rulegroup>
         <rule id="ZEIT_VERRENNT" name="'die Zeit verrennt (verrinnt)'">
