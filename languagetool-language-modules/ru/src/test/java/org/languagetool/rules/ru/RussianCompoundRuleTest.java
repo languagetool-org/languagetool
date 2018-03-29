@@ -64,7 +64,9 @@ public class RussianCompoundRuleTest extends AbstractCompoundRuleTest {
     // first part is a single character:
     check(0, "во-первых");
     check(1, "во первых", new String[]{"во-первых"});
-//    check(1, "Во первых, мы были довольно высоко над уровнем моря.");
+    check(1, "Лос Анджелес", new String[]{"Лос-Анджелес"});
+    check(1, "Ведь сейчас в Лос Анджелесе");
+    check(1, "Во первых, мы были довольно высоко над уровнем моря.");
     check(1, "Мы, во первых, были довольно высоко над уровнем моря.");
     // incorrect sentences:
   }

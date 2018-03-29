@@ -46,7 +46,7 @@ public class RussianCompoundRule extends AbstractCompoundRule {
             "Эти слова могут быть написаны через дефис или слитно.");
     addExamplePair(Example.wrong("Собрание состоится в <marker>конференц зале</marker>."),
                    Example.fixed("Собрание состоится в <marker>конференц-зале</marker>."));
-//   super.sentenceStartsWithUpperCase = true;
+   super.sentenceStartsWithUpperCase = true;
   }
 
   
