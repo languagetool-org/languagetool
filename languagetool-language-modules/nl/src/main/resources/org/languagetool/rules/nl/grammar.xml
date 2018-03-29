@@ -22287,7 +22287,18 @@ tuinkussens;Tuinkussens
         </rulegroup>
     </category>
     <category id="OVERIG" name="Diverse regels">
-		
+        <rulegroup id="FOUTE_VORM" name="Bijvoeglijk naamwoord met n te veel">
+            <rule>
+                <pattern>
+					<marker>
+						<token postag_regexp="yes" postag="BNW:...:MRV:DE_" />
+					</marker>
+					<token postag_regexp="yes" postag="ZNW.*"/>
+                </pattern>
+				<message>Juist is de vorm zonder -n : <suggestion><match no="1" regexp_match="n$" regexp_replace=""/></suggestion>.</message>
+                <example correction="dikke">Ik zie de <marker>dikken</marker> man.</example>
+            </rule>
+        </rulegroup>  
         <rulegroup id="VOORWAARDEN" name="op deze voorwaarden">
             <rule>
 				<antipattern><token regexp="yes">op|onder|tegen</token><token>deze</token><token>voorwaarden</token></antipattern>
@@ -26712,5 +26723,5 @@ tuinkussens;Tuinkussens
             </rule>
         </rulegroup>
 	</category>
-	
+
 </rules>
