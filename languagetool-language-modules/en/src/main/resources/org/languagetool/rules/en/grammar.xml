@@ -6291,6 +6291,7 @@ USA
             </pattern>
             <message>Did you mean the verb 'compliment' (=say something nice)?</message>
             <suggestion><match no="1" regexp_match="plem" regexp_replace="plim"/></suggestion>
+            <short>Possible typo</short>
             <example correction="complimented">She was <marker>complemented</marker> on her beautiful eyes.</example>
         </rule>
         <rule id="HART_HEART" name="confusion of hart/heart">
@@ -6299,7 +6300,17 @@ USA
                 <token regexp="yes">diseases?|attacks?|failures?|surger(y|ies)|problems?|conditions?|transplants?|muscles?|beats?|valves?|rhythm</token>
             </pattern>
             <message>Did you mean <suggestion>heart</suggestion> (=muscular organ)?</message>
+            <short>Possible typo</short>
             <example correction="heart">She had a <marker>hart</marker> attack.</example>
+        </rule>
+        <rule id="CONTRACT_CONTACT" name="confusion of contract/contact">
+            <pattern>
+                <token>please</token>
+                <marker><token>contract</token></marker>
+            </pattern>
+            <message>Did you mean <suggestion>contact</suggestion> (=muscular organ)?</message>
+            <short>Possible typo</short>
+            <example correction="contact">Please <marker>contract</marker> me as soon as possible.</example>
         </rule>
         <rule id="HART_HARD" name="confusion of hart/hard">
             <pattern>
@@ -6307,6 +6318,7 @@ USA
                 <token inflected="yes" regexp="yes">copy|evidence|disk|drive|rock|time|work</token>
             </pattern>
             <message>Did you mean <suggestion>hard</suggestion>?</message>
+            <short>Possible typo</short>
             <example correction="hard">She had a <marker>hart</marker> time there.</example>
         </rule>
         <rulegroup id="IN_TO_INTO" name="in to (into)">
@@ -6319,6 +6331,7 @@ USA
                     </marker>
                 </pattern>
                 <message>Did you mean <suggestion>into</suggestion> (or 'in two')?</message>
+                <short>Possible typo</short>
                 <example correction="into">It is split <marker>in to</marker> two sections.</example>
                 <example>The board split <marker>in two</marker>.</example>
             </rule>
@@ -6333,6 +6346,7 @@ USA
                     <token>of</token>
                 </pattern>
                 <message>Did you mean <suggestion>rid</suggestion> ('get rid of' = 'discard' or 'get free of')?</message>
+                <short>Possible typo</short>
                 <example correction="rid">Let's get <marker>ride</marker> of that broken chair.</example>
             </rule>
             <rule>
@@ -6344,6 +6358,7 @@ USA
                     </marker>
                 </pattern>
                 <message>Did you mean <suggestion>of</suggestion> ('get rid of' = 'discard' or 'get free of')?</message>
+                <short>Possible typo</short>
                 <example correction="of">Let's get rid <marker>if</marker> that broken chair.</example>
             </rule>
         </rulegroup>
@@ -6624,6 +6639,17 @@ USA
             <url>https://www.merriam-webster.com/dictionary/rely</url>
             <short>Missing preposition</short>
             <example correction="rely on">I <marker>rely</marker> my family to help me out.</example>
+        </rule>
+        <rule id="ALLOW_TO_DO" name="Missing preposition: allow (to) do">
+            <pattern>
+                <token inflected="yes">allow</token>
+                <token min="0" postag="PRP"><exception>one</exception></token>
+                <marker><token postag="VBP?" postag_regexp="yes"><exception postag="JJ.*|NN.*|CC|IN" postag_regexp="yes"/></token></marker>
+            </pattern>
+            <message>Please check whether 'to' is missing here (to allow to do something).</message>
+            <suggestion>to \3</suggestion>
+            <short>Missing preposition</short>
+            <example correction="to do">He allowed me <marker>do</marker> it on my own.</example>
         </rule>
         <rule id="EXPLAIN_TO" name="Missing preposition: explain (to)">
             <pattern case_sensitive="yes">
