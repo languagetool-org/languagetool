@@ -159,6 +159,11 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("[aA]leine", "l", "ll");
     putRepl("Kaput", "t", "tt");
     putRepl("[fF]estell(s?t|en?)", "est", "estst");
+    put("Getrixe", "Getrickse");
+    put("Ausage", "Aussage");
+    put("gelessen", "gelesen");
+    put("Kanst", "Kannst");
+    put("Unwohlbefinden", "Unwohlsein");
     put("leiwagen", "Leihwagen");
     put("krahn", "Kran");
     put("[hH]ifi", "Hi-Fi");
@@ -402,6 +407,11 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return Collections.singletonList("Trance");
     } else if (word.endsWith("ibelkeit")) {
       suggestion = word.replaceFirst("elkeit$", "ilität");
+      if (!hunspellDict.misspelled(suggestion)) {
+        return Collections.singletonList(suggestion);
+      }
+    } else if (word.endsWith("aquise")) {
+      suggestion = word.replaceFirst("aquise$", "akquise");
       if (!hunspellDict.misspelled(suggestion)) {
         return Collections.singletonList(suggestion);
       }
