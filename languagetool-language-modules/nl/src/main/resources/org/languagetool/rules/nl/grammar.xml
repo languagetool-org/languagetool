@@ -20678,14 +20678,16 @@ tuinkussens;Tuinkussens
         <rulegroup id="OVERDRIJVING" name="mogelijke overdrijving">
             <rule>
                 <pattern>
-                    <token regexp="yes">vreselijk|enorm|^(mega|ultra|super|giga).*</token>
+                    <token regexp="yes">enorm|vreselijk|^(giga|mega|super|ultra).*<exception regexp="yes">^(giga|mega)(-annum|ampère|becquerel|bit|byte|calorie|candela|coulomb|farad|gram|gray|henry|hertz|joule|katal|kelvin|liter|lumen|lux|meter|mol|newton|ohm|parsec|pascal|seconde|siemens|sievert|tesla|volt|voltampère|watt|wattuur|weber)</exception></token>
                 </pattern>
                 <message>Is dit niet overdreven?</message>
                 <example type="incorrect">Dat is <marker>enorm</marker>.</example>
-                <example type="incorrect"><marker>Super</marker> ding ^^.</example>
+                <example type="incorrect"><marker>Super</marker> ding.</example>
                 <example type="incorrect">Ze is <marker>superslim</marker>.</example>
                 <example type="incorrect">Het is <marker>vreselijk</marker>.</example>
                 <example type="incorrect">Het is <marker>gigantisch</marker>!</example>
+                <example>Het apparaat heeft een opslagcapaciteit van maar 1 <marker>megabyte</marker>.</example>
+                <example>Ze gebruiken ongeveer 10 <marker>gigawattuur</marker> aan stroom per maand.</example>
             </rule>
             <rule>
                 <pattern>
