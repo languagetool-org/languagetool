@@ -4519,7 +4519,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token>passionierte</token>
                 </marker>
-                <token regexp="yes">(?:Toma|Früch)ten?</token>
+                <token regexp="yes" case_sensitive="yes">(?:Toma|Früch)ten?</token>
             </pattern>
             <message>&verw;Meinten Sie <suggestion>passierte</suggestion> (ohne grobe Teile) statt passionierte (leidenschaftlich)?</message>
             <url>http://www.duden.de/rechtschreibung/passioniert</url>
@@ -4528,12 +4528,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="OSTEN_OSTERN" name="frohe Osten / Ostern">
             <pattern>
-                <token regexp="yes">frohe|fröhliche|gesegnete</token>
+                <token regexp="yes">frohe|fröhliche|gesegnete|schöne|vor|zu</token>
                 <marker>
-                    <token>Osten</token>
+                    <token case_sensitive="yes">Osten</token>
                 </marker>
             </pattern>
-            <message>&verw;Meinten Sie <suggestion>Ostern</suggestion>?</message>
+            <message>&verw;Meinten Sie <suggestion>Ostern</suggestion> (christliches Fest) im Gegensatz zu 'Osten' (Himmelsrichtung)?</message>
             <short>Mögliche Wortverwechslung</short>
             <example correction="Ostern">Er wünschte ihnen frohe <marker>Osten</marker>.</example>
         </rule>
@@ -4542,7 +4542,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token inflected="yes">konisch</token>
                 </marker>
-                <token regexp="yes" inflected="yes">Ding|Effekt|Ein(fall|lage)|Episode|Figur|Frisur|Ge(dicht|danke|fühl|räusch|schichte)|He(iliger|ld)|Hut|Kauz|Kerl|Kontrast|Moment|Name|Nummer|Oper|Roman|Sache|Seite|Situation|Szene|Typ|Verzweiflung|Vogel|Wirkung|Zufall|Zug</token>
+                <token regexp="yes" inflected="yes" case_sensitive="yes">Ding|Effekt|Ein(fall|lage)|Episode|Figur|Frisur|Ge(dicht|danke|fühl|räusch|schichte)|He(iliger|ld)|Hut|Kauz|Kerl|Kontrast|Moment|Name|Nummer|Oper|Roman|Sache|Seite|Situation|Szene|Typ|Verzweiflung|Vogel|Wirkung|Zufall|Zug</token>
             </pattern>
             <message>&verw;Meinten Sie <suggestion><match no="1" regexp_match="kon" regexp_replace="kom"/></suggestion> (lustig, seltsam) statt konisch (kegelförmig, spitz zulaufend)?</message>
             <short>Mögliche Wortverwechslung</short>
@@ -4584,12 +4584,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token inflected="yes" regexp="yes">Akte|Fenster|Frieden|Lücke|Pforte|.*Tür|Vertrag</token>
                     <token min="0">nicht</token>
-                    <marker><token inflected="yes" regexp="yes">(ab)?schießen</token></marker>
+                    <marker><token inflected="yes" regexp="yes">(ab|ver)?schießen</token></marker>
                 </pattern>
                 <message>Meinten Sie <suggestion><match no="3" regexp_match="sch" regexp_replace="schl"/></suggestion>?</message>
                 <example correction="geschlossen">Hast du die Fenster <marker>geschossen</marker>?</example>
                 <example correction="abgeschlossen">Weil er die Tür nicht <marker>abgeschossen</marker> hat, konnten Einbrecher leicht ins Haus.</example>
                 <example>Er hat mehrmals durch die geschlossene Tür <marker>geschossen</marker>.</example>
+                <example correction="verschlossen">War die Tür <marker>verschossen</marker>?</example>
             </rule>
             <rule>
                 <pattern>
