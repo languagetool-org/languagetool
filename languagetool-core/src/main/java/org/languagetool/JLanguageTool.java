@@ -108,6 +108,13 @@ public class JLanguageTool {
       throw new RuntimeException("Could not get build date from JAR", e);
     }
   }
+
+  /**
+   * @since 4.2
+   */
+  public static boolean isPremiumVersion() {
+    return false;
+  }
   
   private static ResourceDataBroker dataBroker = new DefaultResourceDataBroker();
 

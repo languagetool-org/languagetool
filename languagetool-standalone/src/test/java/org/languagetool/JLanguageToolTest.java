@@ -59,6 +59,11 @@ public class JLanguageToolTest {
   }
 
   @Test
+  public void testIsPremium() throws Exception {
+    assertFalse(JLanguageTool.isPremiumVersion());
+  }
+
+  @Test
   public void testEnableRulesCategories() throws Exception {
     JLanguageTool lt = new JLanguageTool(new Demo());
     List<String> ruleIds = getActiveRuleIds(lt);
