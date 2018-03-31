@@ -194,4 +194,8 @@ public final class MorfologikPolishSpellerRule extends MorfologikSpellerRule {
       }
       return prunedSuggestions;
     }
+
+    protected boolean ignoreWord(String word) throws IOException {
+      return super.ignoreWord(word) || isSurrogatePairCombination(word);
+    }
 }

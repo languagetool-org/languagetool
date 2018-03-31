@@ -234,4 +234,22 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     this.compoundRegex = Pattern.compile(compoundRegex);
   }
 
+  /**
+   * Checks whether a given String consists only of surrogate pairs.
+   * @param word to be checked
+   * @since 4.2
+   */
+  protected boolean isSurrogatePairCombination (String word) {
+    if (word.length() > 1 && word.length() % 2 == 0 && word.codePointCount(0, word.length()) != word.length()) {
+      // some symbols such as emojis (😂) have a string length that equals 2
+      boolean isSurrogatePairCombination = true;
+      for (int i = 0; i < word.length() && isSurrogatePairCombination; i += 2) {
+        isSurrogatePairCombination &= Character.isSurrogatePair(word.charAt(i), word.charAt(i + 1));
+      }
+      if (isSurrogatePairCombination) {
+        return isSurrogatePairCombination;
+      }
+    }
+    return false;
+  }
 }
