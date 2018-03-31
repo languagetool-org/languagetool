@@ -930,12 +930,9 @@ public class CaseRule extends Rule {
   //                          ^^^^^^^
   private boolean isPrevProbablyRelativePronoun(AnalyzedTokenReadings[] tokens, int i) {
     if (i >= 3) {
-      AnalyzedTokenReadings prev1 = tokens[i-1];
-      AnalyzedTokenReadings prev2 = tokens[i-2];
-      AnalyzedTokenReadings prev3 = tokens[i-3];
-      if (prev1.getToken().equals("das") &&
-          prev2.getToken().equals(",") &&
-          prev3.matchesPosTagRegex("SUB:...:SIN:NEU")) {
+      if (tokens[i-1].getToken().equals("das") &&
+          tokens[i-2].getToken().equals(",") &&
+          tokens[i-3].matchesPosTagRegex("SUB:...:SIN:NEU")) {
         return true;
       }
     }
