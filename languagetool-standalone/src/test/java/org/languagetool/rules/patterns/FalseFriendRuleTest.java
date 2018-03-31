@@ -37,75 +37,75 @@ public class FalseFriendRuleTest {
 
   @Test
   public void testHintsForGermanSpeakers() throws IOException, ParserConfigurationException, SAXException {
-    JLanguageTool langTool = new JLanguageTool(new English(), new German());
-    List<RuleMatch> matches = assertErrors(1, "We will berate you.", langTool);
+    JLanguageTool lt = new JLanguageTool(new English(), new German());
+    List<RuleMatch> matches = assertErrors(1, "We will berate you.", lt);
     assertEquals(matches.get(0).getSuggestedReplacements().toString(), "[provide advice, give advice]");
-    assertErrors(0, "We will give you advice.", langTool);
-    assertErrors(1, "I go to high school in Foocity.", langTool);
-    List<RuleMatch> matches2 = assertErrors(1, "The chef", langTool);
+    assertErrors(0, "We will give you advice.", lt);
+    assertErrors(1, "I go to high school in Foocity.", lt);
+    List<RuleMatch> matches2 = assertErrors(1, "The chef", lt);
     assertEquals("[boss, chief]", matches2.get(0).getSuggestedReplacements().toString());
   }
 
   @Test
   public void testHintsForGermanSpeakersWithVariant() throws IOException, ParserConfigurationException, SAXException {
-    JLanguageTool langTool = new JLanguageTool(new BritishEnglish(), new SwissGerman());
-    List<RuleMatch> matches = assertErrors(1, "We will berate you.", langTool);
+    JLanguageTool lt = new JLanguageTool(new BritishEnglish(), new SwissGerman());
+    List<RuleMatch> matches = assertErrors(1, "We will berate you.", lt);
     assertEquals(matches.get(0).getSuggestedReplacements().toString(), "[provide advice, give advice]");
-    assertErrors(0, "We will give you advice.", langTool);
-    assertErrors(1, "I go to high school in Berlin.", langTool);
-    List<RuleMatch> matches2 = assertErrors(1, "The chef", langTool);
+    assertErrors(0, "We will give you advice.", lt);
+    assertErrors(1, "I go to high school in Berlin.", lt);
+    List<RuleMatch> matches2 = assertErrors(1, "The chef", lt);
     assertEquals("[boss, chief]", matches2.get(0).getSuggestedReplacements().toString());
   }
 
   @Test
   public void testHintsForDemoLanguage() throws IOException, ParserConfigurationException, SAXException {
-    JLanguageTool langTool1 = new JLanguageTool(new BritishEnglish(), new German());
-    langTool1.disableRule(MorfologikBritishSpellerRule.RULE_ID);
-    List<RuleMatch> matches1 = assertErrors(1, "And forDemoOnly.", langTool1);
+    JLanguageTool lt1 = new JLanguageTool(new BritishEnglish(), new German());
+    lt1.disableRule(MorfologikBritishSpellerRule.RULE_ID);
+    List<RuleMatch> matches1 = assertErrors(1, "And forDemoOnly.", lt1);
     assertEquals("DEMO_ENTRY", matches1.get(0).getRule().getId());
 
-    JLanguageTool langTool2 = new JLanguageTool(new English(), new German());
-    langTool2.disableRule(MorfologikBritishSpellerRule.RULE_ID);
-    List<RuleMatch> matches2 = assertErrors(1, "And forDemoOnly.", langTool2);
+    JLanguageTool lt2 = new JLanguageTool(new English(), new German());
+    lt2.disableRule(MorfologikBritishSpellerRule.RULE_ID);
+    List<RuleMatch> matches2 = assertErrors(1, "And forDemoOnly.", lt2);
     assertEquals("DEMO_ENTRY", matches2.get(0).getRule().getId());
 
-    JLanguageTool langTool3 = new JLanguageTool(new AmericanEnglish(), new German());
-    langTool3.disableRule(MorfologikAmericanSpellerRule.RULE_ID);
-    assertErrors(0, "And forDemoOnly.", langTool3);
+    JLanguageTool lt3 = new JLanguageTool(new AmericanEnglish(), new German());
+    lt3.disableRule(MorfologikAmericanSpellerRule.RULE_ID);
+    assertErrors(0, "And forDemoOnly.", lt3);
   }
 
   @Test
   public void testHintsForEnglishSpeakers() throws IOException, ParserConfigurationException, SAXException {
-    JLanguageTool langTool = new JLanguageTool(new German(), new English());
-    assertErrors(1, "Man sollte ihn nicht so beraten.", langTool);
-    assertErrors(0, "Man sollte ihn nicht so beschimpfen.", langTool);
-    assertErrors(1, "Ich gehe in Blubbstadt zur Hochschule.", langTool);
+    JLanguageTool lt = new JLanguageTool(new German(), new English());
+    assertErrors(1, "Man sollte ihn nicht so beraten.", lt);
+    assertErrors(0, "Man sollte ihn nicht so beschimpfen.", lt);
+    assertErrors(1, "Ich gehe in Blubbstadt zur Hochschule.", lt);
   }
 
   @Test
   public void testHintsForPolishSpeakers() throws IOException, ParserConfigurationException, SAXException {
-    JLanguageTool langTool = new JLanguageTool(new English() {
+    JLanguageTool lt = new JLanguageTool(new English() {
       @Override
       protected synchronized List<AbstractPatternRule> getPatternRules() {
         return Collections.emptyList();
       }
     }, new Polish());
-    assertErrors(1, "This is an absurd.", langTool);
-    assertErrors(0, "This is absurdity.", langTool);
-    assertSuggestions(0, "This is absurdity.", langTool);
-    assertErrors(1, "I have to speak to my advocate.", langTool);
-    assertSuggestions(3, "My brother is politic.", langTool);
+    assertErrors(1, "This is an absurd.", lt);
+    assertErrors(0, "This is absurdity.", lt);
+    assertSuggestions(0, "This is absurdity.", lt);
+    assertErrors(1, "I have to speak to my advocate.", lt);
+    assertSuggestions(3, "My brother is politic.", lt);
   }
   
-  private List<RuleMatch> assertErrors(int errorCount, String s, JLanguageTool langTool) throws IOException {
-    List<RuleMatch> matches = langTool.check(s);
+  private List<RuleMatch> assertErrors(int errorCount, String s, JLanguageTool lt) throws IOException {
+    List<RuleMatch> matches = lt.check(s);
     //System.err.println(matches);
     assertEquals("Matches found: " + matches, errorCount, matches.size());
     return matches;
   }
   
-  private void assertSuggestions(int suggestionCount, String text, JLanguageTool langTool) throws IOException {
-    List<RuleMatch> matches = langTool.check(text);
+  private void assertSuggestions(int suggestionCount, String text, JLanguageTool lt) throws IOException {
+    List<RuleMatch> matches = lt.check(text);
     int suggestionsFound = 0;
     for (RuleMatch match : matches) {
       int pos = 0;
