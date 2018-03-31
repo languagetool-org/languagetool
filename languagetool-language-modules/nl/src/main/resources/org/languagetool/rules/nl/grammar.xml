@@ -1661,7 +1661,7 @@ regexp case-insensitive maken : (?i)
     
             <rule>
                 <antipattern case_sensitive="yes"><token>Anne</token><token>Frank</token></antipattern>
-                <pattern><token>anne</token><token>frank</token></pattern>
+                <pattern><token regexp="yes">ann?(a|e)</token><token>frank</token></pattern>
                 <message>U bedoelt vast <suggestion>Anne Frank</suggestion>.</message>
                 <example correction="Anne Frank">Kent u <marker>anne frank</marker>?</example>
             </rule>    
@@ -1675,7 +1675,7 @@ regexp case-insensitive maken : (?i)
     
             <rule>
                 <antipattern case_sensitive="yes"><token>Ayatollah</token><token>Khomeini</token></antipattern>
-                <pattern><token regexp="yes">a[yi]atoll(ah|a)</token><token regexp="yes">(kh|k)omeini</token></pattern>
+                <pattern><token regexp="yes">a[ijy]atoll(a|ah)</token><token regexp="yes">(k|kh)omeini</token></pattern>
                 <message>U bedoelt vast <suggestion>Ayatollah Khomeini</suggestion>.</message>
                 <example correction="Ayatollah Khomeini">Kent u <marker>ayatollah khomeini</marker>?</example>
             </rule>    
