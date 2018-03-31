@@ -38,12 +38,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
         <rule id="PRAETERITUM" name="Leichte Sprache: Perfekt vs. Präteritum">
             <pattern>
-                <token postag='VER:.*PRT.*' postag_regexp='yes'/>
+                <token postag='VER:.*PRT.*' postag_regexp='yes'><exception postag='VER:(MOD|AUX):.+' postag_regexp='yes'/></token> 
             </pattern>
             <message>Vermeiden Sie die 1. Vergangenheit (Präteritum). Schreiben Sie in der 2. Vergangenheit. Verwenden Sie das Perfekt.</message>
             <short>1. Vergangenheit vermeiden</short>
             <example correction="">Ich <marker>ging</marker> einkaufen.</example>
             <example>Ich bin einkaufen gegangen.</example>
+            <example>Er sollte gestern kommen.</example>
         </rule>
 
         <rule id="METAPHERN" name="Leichte Sprache: Metaphern">
