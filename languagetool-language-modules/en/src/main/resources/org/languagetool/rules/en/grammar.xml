@@ -16420,12 +16420,17 @@ USA
     </rule>
     <rule id="IN_FACEBOOK" name="I came by plane">
     <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
-      <pattern>
+      <antipattern>
           <token>in</token>
           <token regexp="yes">Facebook|Twitter|Pinterest|Wikipedia|Amazon|LinkedIn|Yahoo|Blogger</token>
           <token regexp="yes">['’`´‘]</token>
           <token>s</token>
-      </pattern>
+      </antipattern>
+      <antipattern>
+          <token>in</token>
+          <token>Amazon</token>
+          <token regexp="yes">deforestation|forests?|jungle|regions?|rainforests?|river</token>
+      </antipattern>
       <pattern>
           <token>in</token>
           <token regexp="yes">Facebook|Twitter|Pinterest|Wikipedia|Amazon|LinkedIn|Yahoo|Blogger</token>
