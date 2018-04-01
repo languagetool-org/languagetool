@@ -228,6 +228,7 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("liqide", "liquide", rule, lt);
     assertFirstSuggestion("gelessen", "gelesen", rule, lt);
     assertFirstSuggestion("Getrixe", "Getrickse", rule, lt);
+    assertFirstSuggestion("Naricht", "Nachricht", rule, lt);
     assertFirstSuggestion("konektschen", "Connection", rule, lt);
     assertFirstSuggestion("Neukundenaquise", "Neukundenakquise", rule, lt);
     assertFirstSuggestion("Gehorsamkeitsverweigerung", "Gehorsamsverweigerung", rule, lt);
