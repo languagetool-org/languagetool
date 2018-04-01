@@ -192,7 +192,7 @@ public class HunspellRule extends SpellingCheckRule {
     AnalyzedTokenReadings[] sentenceTokens = getSentenceWithImmunization(sentence).getTokens();
     for (int i = 1; i < sentenceTokens.length; i++) {
       String token = sentenceTokens[i].getToken();
-      if (sentenceTokens[i].isImmunized() || isUrl(token) || isEMail(token) || sentenceTokens[i].isIgnoredBySpeller() || isQuotedCompound(sentence, i, token)) {
+      if (sentenceTokens[i].isImmunized() || sentenceTokens[i].isIgnoredBySpeller() || isUrl(token) || isEMail(token) || isQuotedCompound(sentence, i, token)) {
         if (isQuotedCompound(sentence, i, token)) {
           sb.append(" ").append(token.substring(1));
         }
@@ -226,11 +226,9 @@ public class HunspellRule extends SpellingCheckRule {
   @Override
   protected void init() throws IOException {
     super.init();
-    String langCountry;
+    String langCountry = language.getShortCode();
     if (language.getCountries().length > 0) {
-      langCountry = language.getShortCode() + "_" + language.getCountries()[0];
-    } else {
-      langCountry = language.getShortCode();
+      langCountry += "_" + language.getCountries()[0];
     }
     String shortDicPath = "/"
         + language.getShortCode()
@@ -245,7 +243,7 @@ public class HunspellRule extends SpellingCheckRule {
         hunspellDict = null;
       } else {
         hunspellDict = Hunspell.getInstance().getDictionary(path);
-        if (!"".equals(hunspellDict.getWordChars())) {
+        if (!hunspellDict.getWordChars().isEmpty()) {
           wordChars = "(?![" + hunspellDict.getWordChars().replace("-", "\\-") + "])";
         }
         addIgnoreWords();
@@ -282,7 +280,10 @@ public class HunspellRule extends SpellingCheckRule {
       }
       File tempAffFile = new File(tempDir, dicName + ".aff");
       JLanguageTool.addTemporaryFile(tempAffFile);
-      try (InputStream affStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(originalPath.replaceFirst(".dic$", ".aff"))) {
+      if (originalPath.endsWith(FILE_EXTENSION)) {
+        originalPath = originalPath.substring(0, originalPath.length() - FILE_EXTENSION.length()) + ".aff";
+      }
+      try (InputStream affStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(originalPath)) {
         fileCopy(affStream, tempAffFile);
       }
       dictionaryPath = tempDir.getAbsolutePath() + "/" + dicName;
