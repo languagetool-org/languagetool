@@ -35,7 +35,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.regex.Pattern;
 
 /**
  * German part-of-speech tagger, requires data file in <code>de/german.dict</code> in the classpath.
@@ -46,8 +45,6 @@ import java.util.regex.Pattern;
  */
 public class GermanTagger extends BaseTagger {
 
-  private static final Pattern IMPERATIVE_PATTERN = Pattern.compile("[iI](ch|hr)|[eE][rs]|[Ss]ie");
-  
   private final ManualTagger removalTagger;
 
   private GermanCompoundTokenizer compoundTokenizer;
@@ -262,7 +259,7 @@ public class GermanTagger extends BaseTagger {
       }
       break;
     }
-    if (!(pos == 0 && sentenceTokens.size() > 1) && !IMPERATIVE_PATTERN.matcher(previousWord).matches()) {
+    if (!(pos == 0 && sentenceTokens.size() > 1) && !StringUtils.equalsAnyIgnoreCase(previousWord, "ich", "er", "es", "sie")) {
       return null;
     }
     String w = pos == 0 ? word.toLowerCase() : word;

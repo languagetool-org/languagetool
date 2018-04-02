@@ -59,8 +59,6 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
 
   public static final String RULE_ID = "GERMAN_SPELLER_RULE";
 
-  // according to http://www.spiegel.de/kultur/zwiebelfisch/zwiebelfisch-der-gebrauch-des-fugen-s-im-ueberblick-a-293195.html
-  private static final Pattern ENDINGS_NEEDING_FUGENS = Pattern.compile(".*(tum|ling|ion|tät|keit|schaft|sicht|ung|en)");
   private static final int MAX_EDIT_DISTANCE = 2;
   
   // some exceptions for changes to the spelling in 2017 - just a workaround so we don't have to touch the binary dict:
@@ -739,13 +737,18 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       boolean isMisspelled = hunspellDict.misspelled(word);  // "Stil- und Grammatikprüfung" or "Stil-, Text- und Grammatikprüfung"
       if (isMisspelled && (super.ignoreWord(word) || wordsToBeIgnoredInCompounds.contains(word))) {
         isMisspelled = false;
-      } else if (isMisspelled && word.endsWith("s") && ENDINGS_NEEDING_FUGENS.matcher(StringUtils.removeEnd(word, "s")).matches()) {
+      } else if (isMisspelled && word.endsWith("s") && isNeedingFugenS(StringUtils.removeEnd(word, "s"))) {
         // Vertuschungs- und Bespitzelungsmaßnahmen: remove trailing "s" before checking "Vertuschungs" so that the spell checker finds it
         isMisspelled = hunspellDict.misspelled(StringUtils.removeEnd(word, "s"));
       }
       return !isMisspelled;
     }
     return false;
+  }
+
+  private boolean isNeedingFugenS (String word) {
+	// according to http://www.spiegel.de/kultur/zwiebelfisch/zwiebelfisch-der-gebrauch-des-fugen-s-im-ueberblick-a-293195.html
+    return StringUtils.endsWithAny(word, "tum", "ling", "ion", "tät", "keit", "schaft", "sicht", "ung", "en");
   }
 
   // for "Stil- und Grammatikprüfung", get "Grammatikprüfung" when at position of "Stil-"
@@ -787,7 +790,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       String ignoredWord = word.substring(0, end);
       String partialWord = word.substring(end);
       boolean isCandidateForNonHyphenatedCompound = !StringUtils.isAllUpperCase(ignoredWord) && (StringUtils.isAllLowerCase(partialWord) || ignoredWord.endsWith("-"));
-      boolean needFugenS = ENDINGS_NEEDING_FUGENS.matcher(ignoredWord).matches();
+      boolean needFugenS = isNeedingFugenS(ignoredWord);
       if (isCandidateForNonHyphenatedCompound && !needFugenS && partialWord.length() > 1) {
         return !hunspellDict.misspelled(partialWord) || !hunspellDict.misspelled(StringUtils.capitalize(partialWord));
       } else if (isCandidateForNonHyphenatedCompound && needFugenS && partialWord.length() > 2) {
