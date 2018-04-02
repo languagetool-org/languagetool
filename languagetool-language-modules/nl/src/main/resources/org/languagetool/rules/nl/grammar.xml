@@ -2227,13 +2227,6 @@ regexp case-insensitive maken : (?i)
             </rule>    
     
             <rule>
-                <antipattern case_sensitive="yes"><token>Joseph</token><token>Luns</token></antipattern>
-                <pattern><token regexp="yes">jose(ph|f)</token><token>luns</token></pattern>
-                <message>U bedoelt vast <suggestion>Joseph Luns</suggestion>.</message>
-                <example correction="Joseph Luns">Kent u <marker>joseph luns</marker>?</example>
-            </rule>    
-    
-            <rule>
                 <antipattern case_sensitive="yes"><token>Jozef</token><token>Stalin</token></antipattern>
                 <pattern><token regexp="yes">joze(f|ph)</token><token>stalin</token></pattern>
                 <message>U bedoelt vast <suggestion>Jozef Stalin</suggestion>.</message>
@@ -2364,13 +2357,6 @@ regexp case-insensitive maken : (?i)
                 <pattern><token>mark</token><token>twain</token></pattern>
                 <message>U bedoelt vast <suggestion>Mark Twain</suggestion>.</message>
                 <example correction="Mark Twain">Kent u <marker>mark twain</marker>?</example>
-            </rule>    
-    
-            <rule>
-                <antipattern case_sensitive="yes"><token>Marten</token><token>Toonder</token></antipattern>
-                <pattern><token>marten</token><token>toonder</token></pattern>
-                <message>U bedoelt vast <suggestion>Marten Toonder</suggestion>.</message>
-                <example correction="Marten Toonder">Kent u <marker>marten toonder</marker>?</example>
             </rule>    
     
             <rule>
@@ -3726,22 +3712,29 @@ regexp case-insensitive maken : (?i)
                 <example correction="Mark Zuckerberg">We zijn niet allemaal <marker>Marc Zuckerberg</marker>.</example>
                 <example correction="Mark Zuckerberg">Wellicht past hierbij ook de oproep van <marker>Marc Zuckerberg</marker>.</example>
             </rule>
+			<!-- DUTCH NAME CONFUSION -->
             <rule>
-                <antipattern>
-                    <token>Mark</token>
-                    <token>Rutte</token>
-                </antipattern>
-                <pattern>
-                    <token regexp="yes">Mar[kc]</token>
-                    <token regexp="yes">Rutte|Rutten</token>
-                </pattern>
+				<antipattern><token>Mark</token><token>Rutte</token></antipattern>
+                <pattern><token regexp="yes">Mar[kc]</token><token regexp="yes">Rutte|Rutten</token></pattern>
                 <message>Schrijf <suggestion>Mark Rutte</suggestion> als het gaat om de politicus.</message>
                 <url>https://nl.wikipedia.org/wiki/Mark_Rutte</url>
                 <example correction="Mark Rutte">Kent u <marker>Marc Rutten</marker>?</example>
-                <example>Kent u Mark Rutte?</example>
                 <example correction="Mark Rutte"><marker>Marc Rutte</marker> is hier geweest.</example>
                 <example correction="Mark Rutte">Ook onze minister-president heeft contact genomen met Nederlands premier <marker>Marc Rutte</marker>.</example>
             </rule>
+            <rule>
+                <antipattern case_sensitive="yes"><token>Joseph</token><token>Luns</token></antipattern>
+                <pattern><token regexp="yes">jose(ph|f)</token><token>luns</token></pattern>
+                <message>U bedoelt vast <suggestion>Joseph Luns</suggestion>.</message>
+                <example correction="Joseph Luns">Kent u <marker>joseph luns</marker>?</example>
+            </rule>    
+            <rule>
+                <antipattern case_sensitive="yes"><token>Marten</token><token>Toonder</token></antipattern>
+                <pattern><token>marten</token><token>toonder</token></pattern>
+                <message>U bedoelt vast <suggestion>Marten Toonder</suggestion>.</message>
+                <example correction="Marten Toonder">Kent u <marker>marten toonder</marker>?</example>
+            </rule>    
+			
         </rulegroup>
     </category>
     <category id="COMPOUNDING" name="Aaneen of los">
