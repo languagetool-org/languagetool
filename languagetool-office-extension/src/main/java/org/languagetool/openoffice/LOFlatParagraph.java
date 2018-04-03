@@ -24,10 +24,8 @@ import java.util.List;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.tools.Tools;
 
-import com.sun.star.beans.UnknownPropertyException;
 import com.sun.star.beans.XPropertySet;
 import com.sun.star.frame.XDesktop;
-import com.sun.star.lang.WrappedTargetException;
 import com.sun.star.lang.XComponent;
 import com.sun.star.lang.XMultiComponentFactory;
 import com.sun.star.text.TextMarkupType;
@@ -48,7 +46,7 @@ public class LOFlatParagraph {
   private XFlatParagraphIterator xFlatParaIter = null;
   private XFlatParagraph xFlatPara = null;
   
-  LOFlatParagraph(XComponentContext xContext) throws Exception {
+  LOFlatParagraph(XComponentContext xContext) {
     xFlatParaIter = getXFlatParagraphIterator(xContext);
     xFlatPara = getFlatParagraph(xFlatParaIter);
   }
@@ -58,7 +56,7 @@ public class LOFlatParagraph {
    * Returns null if it fails
    */
   @Nullable
-  private static XDesktop getCurrentDesktop(XComponentContext xContext) throws Exception {
+  private static XDesktop getCurrentDesktop(XComponentContext xContext) {
     try {
       if (xContext == null) {
         return null;
@@ -73,8 +71,8 @@ public class LOFlatParagraph {
         return null;
       }
       return UnoRuntime.queryInterface(XDesktop.class, desktop);
-    } catch (Exception e) {
-      printException(e);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
+    } catch (Throwable t) {
+      printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
       return null;           // Return null as method failed
     }
   }
@@ -84,15 +82,15 @@ public class LOFlatParagraph {
    * Returns null if it fails
    */
   @Nullable
-  private static XComponent getCurrentComponent(XComponentContext xContext) throws Exception {
+  private static XComponent getCurrentComponent(XComponentContext xContext) {
     try {
       XDesktop xdesktop = getCurrentDesktop(xContext);
       if(xdesktop == null) {
         return null;
       }
       else return xdesktop.getCurrentComponent();
-    } catch (Exception e) {
-      printException(e);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
+    } catch (Throwable t) {
+      printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
       return null;           // Return null as method failed
     }
   }
@@ -102,7 +100,7 @@ public class LOFlatParagraph {
    * Returns null if it fails
    */
   @Nullable
-  private static XFlatParagraphIterator getXFlatParagraphIterator (XComponentContext xContext) throws Exception {
+  private static XFlatParagraphIterator getXFlatParagraphIterator (XComponentContext xContext) {
     try {
       XComponent xCurrentComponent = getCurrentComponent(xContext);
       if(xCurrentComponent == null) {
@@ -114,8 +112,8 @@ public class LOFlatParagraph {
         return null;
       }
       return xFlatParaItPro.getFlatParagraphIterator(TextMarkupType.PROOFREADING, true);
-    } catch (Exception e) {
-      printException(e);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
+    } catch (Throwable t) {
+      printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
       return null;           // Return null as method failed
     }
   }
@@ -125,14 +123,14 @@ public class LOFlatParagraph {
    * Returns null if it fails
    */
   @Nullable
-  private static XFlatParagraph getFlatParagraph(XFlatParagraphIterator xFlatParaIter) throws Exception {
+  private static XFlatParagraph getFlatParagraph(XFlatParagraphIterator xFlatParaIter) {
     try {
     if(xFlatParaIter == null) {
       return null;
     }
     return xFlatParaIter.getLastPara();
-    } catch (Exception e) {
-      printException(e);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
+    } catch (Throwable t) {
+      printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
       return null;           // Return null as method failed
     }
   }
@@ -140,15 +138,15 @@ public class LOFlatParagraph {
   /** 
    * Prints Exception to default out  
    */
- private static void printException (Exception e) {
-   Main.printToLogFile(Tools.getFullStackTrace(e));
+ private static void printException (Throwable t) {
+   Main.printToLogFile(Tools.getFullStackTrace(t));
   }
 
   /**
    * is true if FlatParagraph is from Automatic Iteration
    * else is false and at failure
    */
-  public boolean isFlatParaFromIter() throws Exception {
+  public boolean isFlatParaFromIter() {
     try {
     if(xFlatParaIter == null || xFlatPara == null) {
       return false;
@@ -158,8 +156,8 @@ public class LOFlatParagraph {
       return true;
     }
     return false;
-    } catch (Exception e) {
-      printException(e);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
+    } catch (Throwable t) {
+      printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
       return false;          // Return false as method failed
     }
   }
@@ -168,7 +166,7 @@ public class LOFlatParagraph {
    * Returns Current Paragraph Number from FlatParagaph
    * Returns -1 if it fails
    */
-  public int getCurNumFlatParagraphs() throws Exception {
+  public int getCurNumFlatParagraphs() {
     try {
       if(xFlatParaIter == null || xFlatPara == null) {
         return -1;
@@ -180,8 +178,8 @@ public class LOFlatParagraph {
         pos++;
       }
       return pos;
-    } catch (Exception e) {
-      printException(e);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
+    } catch (Throwable t) {
+      printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
       return -1;           // Return -1 as method failed
     }
   }
@@ -191,7 +189,7 @@ public class LOFlatParagraph {
    * Returns null if it fails
    */
   @Nullable
-  public List<String> getAllFlatParagraphs() throws Exception {
+  public List<String> getAllFlatParagraphs() {
     try {
       List<String> allParas = new ArrayList<>();
       if(xFlatParaIter == null || xFlatPara == null) {
@@ -208,8 +206,8 @@ public class LOFlatParagraph {
         tmpFlatPara = xFlatParaIter.getParaAfter(tmpFlatPara);
       }
       return allParas;
-    } catch (Exception e) {
-      printException(e);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
+    } catch (Throwable t) {
+      printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
       return null;           // Return null as method failed
     }
   }
@@ -218,7 +216,7 @@ public class LOFlatParagraph {
    * Returns Number of all FlatParagraphs of Document
    * Returns negative value if it fails
    */
-  public int getNumberOfAllFlatPara() throws Exception {
+  public int getNumberOfAllFlatPara() {
     try {
       if(xFlatParaIter == null || xFlatPara == null) {
         return -1;
@@ -236,8 +234,8 @@ public class LOFlatParagraph {
         num++;
       }
       return num;
-    } catch (Exception e) {
-      printException(e);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
+    } catch (Throwable t) {
+      printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
       return -1;             // Return -1 as method failed
     }
   }
@@ -262,10 +260,8 @@ public class LOFlatParagraph {
       } else {
         Main.printToLogFile("Not of expected type int[]: " + propertyValue + ": " + propertyValue);
       }
-    } catch (UnknownPropertyException e) {
-      printException(e);
-    } catch (WrappedTargetException e) {
-      printException(e);
+    } catch (Throwable t) {
+      printException(t);
     }
     return new int[]{};
   }
@@ -294,8 +290,8 @@ public class LOFlatParagraph {
         tmpFlatPara = xFlatParaIter.getParaAfter(tmpFlatPara);
       }
       return paraPositions;
-    } catch (Exception e) {
-      printException(e);        // all Exceptions thrown by UnoRuntime.queryInterface are caught
+    } catch (Throwable t) {
+      printException(t);        // all Exceptions thrown by UnoRuntime.queryInterface are caught
       return paraPositions;     // Return empty list as method failed
     }
   }

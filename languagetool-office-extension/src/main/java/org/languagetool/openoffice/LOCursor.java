@@ -74,8 +74,8 @@ class LOCursor {
         return null;
       }
       return UnoRuntime.queryInterface(XDesktop.class, desktop);
-    } catch (Exception e) {
-      printException(e);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
+    } catch (Throwable t) {
+      printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
       return null;           // Return null as method failed
     }
   }
@@ -92,8 +92,8 @@ class LOCursor {
         return null;
       }
       else return xdesktop.getCurrentComponent();
-    } catch (Exception e) {
-      printException(e);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
+    } catch (Throwable t) {
+      printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
       return null;           // Return null as method failed
     }
   }
@@ -110,8 +110,8 @@ class LOCursor {
         return null;
       }
       else return UnoRuntime.queryInterface(XTextDocument.class, curcomp);
-    } catch (Exception e) {
-      printException(e);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
+    } catch (Throwable t) {
+      printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
       return null;           // Return null as method failed
     }
   }
@@ -132,8 +132,8 @@ class LOCursor {
         return null;
       }
       else return xText.createTextCursor();
-    } catch (Exception e) {
-      printException(e);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
+    } catch (Throwable t) {
+      printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
       return null;           // Return null as method failed
     }
   }
@@ -150,8 +150,8 @@ class LOCursor {
         return null;
       }
       return UnoRuntime.queryInterface(XParagraphCursor.class, xcursor);
-    } catch (Exception e) {
-      printException(e);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
+    } catch (Throwable t) {
+      printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
       return null;           // Return null as method failed
     }
 }
@@ -185,8 +185,8 @@ class LOCursor {
         return null;
       }
       return xViewCursorSupplier.getViewCursor();
-    } catch (Exception e) {
-      printException(e);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
+    } catch (Throwable t) {
+      printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
       return null;           // Return null as method failed
     }
   }
@@ -194,8 +194,8 @@ class LOCursor {
   /** 
    * Prints Exception to default out  
    */
-  private static void printException (Throwable e) {
-    Main.printToLogFile(Tools.getFullStackTrace(e));
+  private static void printException (Throwable t) {
+    Main.printToLogFile(Tools.getFullStackTrace(t));
   }
 
   /** 
@@ -211,8 +211,8 @@ class LOCursor {
       int npara = 1;
       while (xPCursor.gotoNextParagraph(false)) npara++;
       return npara;
-    } catch (Exception e) {
-      printException(e);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
+    } catch (Throwable t) {
+      printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
       return 0;              // Return 0 as method failed
     }
   }
@@ -238,8 +238,8 @@ class LOCursor {
         allParas.add(xPCursor.getString());
       }
       return allParas;
-    } catch (Exception e) {
-      printException(e);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
+    } catch (Throwable t) {
+      printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
       return null;           // Return null as method failed
     }
   }
@@ -269,8 +269,8 @@ class LOCursor {
       int pos = 0;
       while (xParagraphCursor.gotoPreviousParagraph(false)) pos++;
       return pos;
-    } catch (Exception e) {
-      printException(e);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
+    } catch (Throwable t) {
+      printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
       return -5;             // Return negative value as method failed
     }
   }
