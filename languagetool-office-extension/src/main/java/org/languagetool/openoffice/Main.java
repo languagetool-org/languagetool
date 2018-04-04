@@ -110,10 +110,12 @@ public class Main extends WeakBase implements XJobExecutor,
    * > 0 checks numParasToCheck before and after the processed paragraph
    */
   private static final String END_OF_PARAGRAPH = "\n";  //  Paragraph Separator from gciterator.cxx: 0x2029
+  private static final String MANUAL_LINEBREAK = "\r";  //  to distinguish from paragraph separator
   private static final String ZERO_WIDTH_SPACE = "\u200B";  // Used to mark footnotes
-  private static final boolean debugMode = false;   //  should be false except for testing
   private static final String logLineBreak = System.getProperty("line.separator");  //  LineBreak in Log-File (MS-Windows compatible)
 
+  private static final boolean debugMode = true;   //  should be false except for testing
+  
   private final List<XLinguServiceEventListener> xEventListeners;
 
   private Configuration config;
@@ -535,7 +537,7 @@ public class Main extends WeakBase implements XJobExecutor,
       if (numThread > 0 || (numThread == 0 
           && (startPos == 0 || paraPos != lastParaPos[numThread] || !sameDocID))) {
         if (paraPos < 0) {                                          //  Position not found; check only Paragraph context
-          paragraphMatches = langTool.check(paraText, true,
+          paragraphMatches = langTool.check(fixLinebreak(paraText), true,
               JLanguageTool.ParagraphHandling.ONLYPARA);
           if (numThread == 0) {
             paragraphMatchesFirst = paragraphMatches;
@@ -629,6 +631,10 @@ public class Main extends WeakBase implements XJobExecutor,
       proofIsRunning = false;
     }
     return null;
+  }
+  
+  private static String fixLinebreak (String text) {
+    return text.replaceAll(END_OF_PARAGRAPH, MANUAL_LINEBREAK);
   }
 
   /**
@@ -1086,9 +1092,9 @@ public class Main extends WeakBase implements XJobExecutor,
       endPos = numCurPara + numParasToCheck;
       if (endPos > allParas.get(docNum).size()) endPos = allParas.get(docNum).size();
     }
-    String docText = allParas.get(docNum).get(startPos);
+    String docText = fixLinebreak(allParas.get(docNum).get(startPos));
     for (int i = startPos + 1; i < endPos; i++) {
-      docText += END_OF_PARAGRAPH + allParas.get(docNum).get(i);
+      docText += END_OF_PARAGRAPH + fixLinebreak(allParas.get(docNum).get(i));
     }
     return docText;
   }
