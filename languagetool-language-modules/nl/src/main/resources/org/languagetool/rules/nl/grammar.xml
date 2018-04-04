@@ -18729,20 +18729,18 @@ tuinkussens;Tuinkussens
                 <example type="incorrect">De eerste vis werd reeds <marker>teruggemeld</marker> begin 2015.</example>
             </rule>
         </rulegroup>
-        <!--
-        <rule id="TER_ZAKE" name="ter zake">
-        <pattern>
-        <token>ter</token><token>zake</token>
-        </pattern>
-        <message>
-        De tekst wordt vlotter als je deze herschrijft met <suggestion>over</suggestion>.
-        </message>
-        <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
-        <example correction="over">QQ <marker>ter zake</marker> QQQ.</example>
-        <example>QQ <marker>over</marker>.</example>
-        </rule>
-        -->
-        <rulegroup id="TER_ZAKE_KUNDIG" name="ter zake kundig">
+        <rulegroup id="TER_ZAKE" name="ter zake">
+			<rule>
+				<antipattern><token>ter</token><token>zake</token><token>kundig</token></antipattern>
+                <antipattern><token>ter</token><token>zake</token><token>van</token></antipattern>
+				<pattern>
+					<token>ter</token><token>zake</token>
+				</pattern>
+				<message>De tekst wordt vlotter als je deze herschrijft met <suggestion>over</suggestion>.</message>
+				<url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
+				<example correction="over">QQ <marker>ter zake</marker> QQQ.</example>
+				<example>QQ <marker>over</marker>.</example>
+			</rule>
             <rule>
                 <pattern>
                     <token>ter</token><token>zake</token><token>kundig</token>
@@ -18751,8 +18749,6 @@ tuinkussens;Tuinkussens
                 <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
                 <example correction="deskundig">Vanwege Jaap, die altijd provocerend maar <marker>ter zake kundig</marker> aanwezig was.</example>
             </rule>
-        </rulegroup>
-        <rulegroup id="TER_ZAKE_VAN" name="ter zake van">
             <rule>
                 <pattern>
                     <token>ter</token><token>zake</token><token>van</token>
@@ -20411,16 +20407,7 @@ tuinkussens;Tuinkussens
                 <example type="incorrect">Tuurlijk, hij was de enige in zijn muziekgenre, en tuurlijk, ‘je weet maar nooit’ is altijd een terechte gedachte, maar uiteindelijk vormen die twee argumenten niet meer dan een zielloos <marker>zwaktebod</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="TERZAKE" name="terzake">
-            <rule>
-                <pattern case_sensitive="yes">
-                    <token>terzake</token>
-                </pattern>
-                <message>Beter is:<suggestion>ter zake</suggestion>. Het is bovendien wat ouderwets.</message>
-                <url>http://taaladvies.net/taal/advies/vraag/786/terzake_ter_zake/</url>
-                <example correction="ter zake">Kom meteen <marker>terzake</marker>.</example>
-            </rule>
-        </rulegroup>
+
     </category>
     <category id="TYPOS" name="Spellingcontrole">
         <!--
