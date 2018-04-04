@@ -109,12 +109,12 @@ public class Main extends WeakBase implements XJobExecutor,
    * == 0 check only one paragraph (works like LT Version <= 3.9)
    * > 0 checks numParasToCheck before and after the processed paragraph
    */
-  private static final String END_OF_PARAGRAPH = "\n";  //  Paragraph Separator from gciterator.cxx: 0x2029
+  private static final String END_OF_PARAGRAPH = "\n";  //  Paragraph Separator like in standalone GUI
   private static final String MANUAL_LINEBREAK = "\r";  //  to distinguish from paragraph separator
   private static final String ZERO_WIDTH_SPACE = "\u200B";  // Used to mark footnotes
   private static final String logLineBreak = System.getProperty("line.separator");  //  LineBreak in Log-File (MS-Windows compatible)
 
-  private static final boolean debugMode = true;   //  should be false except for testing
+  private static final boolean debugMode = false;   //  should be false except for testing
   
   private final List<XLinguServiceEventListener> xEventListeners;
 
@@ -633,6 +633,9 @@ public class Main extends WeakBase implements XJobExecutor,
     return null;
   }
   
+  /**
+   * Change manual linebreak to distinguish from end of paragraph
+   */
   private static String fixLinebreak (String text) {
     return text.replaceAll(END_OF_PARAGRAPH, MANUAL_LINEBREAK);
   }
