@@ -400,6 +400,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return Collections.singletonList("Wi-Fi");
     } else if ("genomen".equals(word)) {
       return Collections.singletonList("genommen");
+    } else if ("Preis-Leistungsverhältnis".equals(word)) {
+      return Collections.singletonList("Preis-Leistungs-Verhältnis");
     } else if ("ausversehen".equals(word)) {
       return Collections.singletonList("aus Versehen");
     } else if ("getz".equals(word)) {
