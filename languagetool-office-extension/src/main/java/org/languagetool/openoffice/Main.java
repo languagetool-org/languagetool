@@ -132,7 +132,9 @@ public class Main extends WeakBase implements XJobExecutor,
 
   private XComponentContext xContext;
 
-  private int numParasToCheck = 5;    // will be overwritten by config
+  private int numParasToCheck = 5;        // will be overwritten by config
+  private boolean doResetCheck = true;    // will be overwritten by config
+
   private List<List<String>> allParas = null;     //  List of paragraphs (only readable by parallel thread)
   private List<List<RuleMatch>> fullTextMatches;  //  List of paragraph matches (only readable by parallel thread)
   private List<RuleMatch> paragraphMatchesFirst;  //  List of paragraph matches (main thread)
@@ -164,6 +166,7 @@ public class Main extends WeakBase implements XJobExecutor,
     try {
       config = new Configuration(getHomeDir(), CONFIG_FILE, lang);
       numParasToCheck = config.getNumParasToCheck();
+      doResetCheck = config.isResetCheck();
       disabledRules = config.getDisabledRuleIds();
       if (disabledRules == null) {
         disabledRules = new HashSet<>();
@@ -713,6 +716,7 @@ public class Main extends WeakBase implements XJobExecutor,
     ConfigThread configThread = new ConfigThread(lang, config, this);
     configThread.start();
     numParasToCheck = config.getNumParasToCheck();
+    doResetCheck = config.isResetCheck();
   }
 
   /**
@@ -804,10 +808,9 @@ public class Main extends WeakBase implements XJobExecutor,
   }
 
   /**
-   * Inform listener (grammar checking iterator) that options have changed and
-   * the doc should be rechecked.
+   * Inform listener that the doc should be rechecked.
    */
-  public final void resetDocument() {
+  public final boolean resetCheck() {
     if (!xEventListeners.isEmpty()) {
       for (XLinguServiceEventListener xEvLis : xEventListeners) {
         if (xEvLis != null) {
@@ -816,8 +819,19 @@ public class Main extends WeakBase implements XJobExecutor,
           xEvLis.processLinguServiceEvent(xEvent);
         }
       }
-      recheck = true;
       textIsChecked = false;
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * Inform listener (grammar checking iterator) that options have changed and
+   * the doc should be rechecked.
+   */
+  public final void resetDocument() {
+    if (resetCheck()) {
+      recheck = true;
       disabledRules = config.getDisabledRuleIds();
       if (disabledRules == null) {
         disabledRules = new HashSet<>();
@@ -1198,6 +1212,9 @@ public class Main extends WeakBase implements XJobExecutor,
         if (!resetAllParas(loCursor.get(docNum), loFlaPa, docNum)) {
           return returnOneParaCheck();
         }
+        if(doResetCheck) {
+          resetCheck();
+        }
         isReset = true;
       }
 
@@ -1283,6 +1300,9 @@ public class Main extends WeakBase implements XJobExecutor,
                     + logLineBreak + "old: " + allParas.get(docNum).get(nParas) + logLineBreak + "new: " + chPara + logLineBreak);
           }
           allParas.get(docNum).set(nParas, chPara);
+          if(doResetCheck) {
+            resetCheck();
+          }
           return returnNParaCheck(nParas, numThread);
         }
       }

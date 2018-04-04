@@ -537,6 +537,22 @@ public class ConfigurationDialog implements ActionListener {
     }
     cons.gridx = 1;
     portPanel.add(numParaField, cons);
+    
+    JCheckBox resetCheckbox = new JCheckBox(Tools.getLabel(messages.getString("guiDoResetCheck")));
+    resetCheckbox.setSelected(config.isResetCheck());
+    resetCheckbox.addItemListener(new ItemListener() {
+      @Override
+      public void itemStateChanged(ItemEvent e) {
+        config.setDoResetCheck(resetCheckbox.isSelected());
+      }
+    });
+    cons.gridx = 0;
+    JLabel dummyLabel = new JLabel(" ");
+    cons.gridy++;
+    portPanel.add(dummyLabel, cons);
+    cons.gridy++;
+    portPanel.add(resetCheckbox, cons);
+    
   }
 
   @NotNull

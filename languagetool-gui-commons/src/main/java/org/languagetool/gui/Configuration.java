@@ -59,6 +59,7 @@ public class Configuration {
   private static final String SERVER_RUN_KEY = "serverMode";
   private static final String SERVER_PORT_KEY = "serverPort";
   private static final String PARA_CHECK_KEY = "numberParagraphs";
+  private static final String RESET_CHECK_KEY = "doResetCheck";
   private static final String STYLE_REPEAT_KEY = "distanceRepeatedWords";
   private static final String LONG_SENTENCES_KEY = "numberWordsLongSentences";
   private static final String USE_GUI_KEY = "useGUIConfig";
@@ -92,6 +93,7 @@ public class Configuration {
   private int fontSize = FONT_SIZE_INVALID;
   private int serverPort = DEFAULT_SERVER_PORT;
   private int numParasToCheck = DEFAULT_NUM_CHECK_PARAS;
+  private boolean doResetCheck = true;
   private int styleRepeatSentences = -1;
   private int longSentencesWords = -1;
   private String externalRuleDirectory;
@@ -152,6 +154,7 @@ public class Configuration {
     this.fontSize = configuration.fontSize;
     this.serverPort = configuration.serverPort;
     this.numParasToCheck = configuration.numParasToCheck;
+    this.doResetCheck = configuration.doResetCheck;
     this.styleRepeatSentences = configuration.styleRepeatSentences;
     this.longSentencesWords = configuration.longSentencesWords;
     this.lookAndFeelName = configuration.lookAndFeelName;
@@ -292,7 +295,23 @@ public class Configuration {
   public void setNumParasToCheck(int numParas) {
     this.numParasToCheck = numParas;
   }
+  
+  /**
+   * will all paragraphs check after every change of text?
+   * @since 4.2
+   */
+  public boolean isResetCheck() {
+    return doResetCheck;
+  }
 
+  /**
+   * set all paragraphs to be checked after every change of text
+   * @since 4.2
+   */
+  public void setDoResetCheck(boolean resetCheck) {
+    this.doResetCheck = resetCheck;
+  }
+  
   /**
    * get the maximal distance of two repeated words in number of sentences
    * @since 4.1
@@ -512,7 +531,12 @@ public class Configuration {
       if (paraCheckString != null) {
         numParasToCheck = Integer.parseInt(paraCheckString);
       }
-
+      
+      String resetCheckString = (String) props.get(RESET_CHECK_KEY);
+      if (resetCheckString != null) {
+        doResetCheck = Boolean.parseBoolean(resetCheckString);
+      }
+      
       String styleRepeatString = (String) props.get(STYLE_REPEAT_KEY);
       if (styleRepeatString != null) {
         styleRepeatSentences = Integer.parseInt(styleRepeatString);
@@ -611,6 +635,7 @@ public class Configuration {
     props.setProperty(SERVER_RUN_KEY, Boolean.toString(runServer));
     props.setProperty(SERVER_PORT_KEY, Integer.toString(serverPort));
     props.setProperty(PARA_CHECK_KEY, Integer.toString(numParasToCheck));
+    props.setProperty(RESET_CHECK_KEY, Boolean.toString(doResetCheck));
     if(styleRepeatSentences >= 0) {
       props.setProperty(STYLE_REPEAT_KEY, Integer.toString(styleRepeatSentences));
       setValueToRule ("STYLE_REPEATED_WORD_RULE", styleRepeatSentences, lang);
