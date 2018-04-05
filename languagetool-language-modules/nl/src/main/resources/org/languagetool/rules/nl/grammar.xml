@@ -23733,6 +23733,18 @@ tuinkussens;Tuinkussens
                 <example>Het is een <marker>huis-tuin-en-keuken-gesprek</marker>.</example>
                 <example correction="huis-tuin-en-keukenrouter|huis-tuin-en-keuken-router">Standaard zit er een 4 poorts switch in een <marker>huis tuin en keuken router</marker>.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>huis-tuin-en-keuken</token>
+                        <token postag_regexp="yes" postag=".*ZNW.*"><exception regexp="yes">bij|een|weer</exception></token>
+                    </marker>
+                </pattern>
+                <message>U bedoelt vast: <suggestion>\1\2</suggestion></message>
+                <url>http://woordenlijst.org/#/?q=huis-tuin-en-keukengebruik</url>
+                <example correction="huis-tuin-en-keukengesprek|huis-tuin-en-keuken-gesprek">Dit is een <marker>huis-tuin-en-keuken gesprek</marker>.</example>
+                <example>Het is een <marker>huis-tuin-en-keukengesprek</marker>.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="AAN-EN-UIT-RELATIE" name="aan en uit relatie → aan-en-uit-relatie">
             <rule>
