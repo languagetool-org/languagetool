@@ -70,7 +70,7 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule2 {
 
   @Override
   public String getSuggestion() {
-    return " might be wrong. Did you mean: ";
+    return " zou fout kunnen zijn. Misschien bedoelt u: ";
   }
 
   @Override
