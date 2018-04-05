@@ -6211,17 +6211,10 @@ regexp case-insensitive maken : (?i)
         <rulegroup id="ACCENTS" name= "optionele accenten">
             <rule>
                 <pattern>
-                    <marker>
-                        <token>één</token>
-                    </marker>
-                    <token>van</token>
-                    <token>de</token>
+					<token regexp="yes">.*[áéíóú].*<exception regexp="yes">.*(café|éminence|tracé|comité|mémoire|appliqué|arrivé|associé|attaché|employé|barré|cliché|beauté|defilé|blasé|bouclé|canapé|carré|cloqué|communiqué|comprimé|confrérie|congé|consommé|conté|privé|coupé|craquelé|crémant|cultivé|decafeïné|decolleté|demasqué|deputé|djahé|djembé|doré|doublé|procedé|débouché|dégénéré|déjà|délégué|ecarté|evacué|exposé|fiancé|frivolité|glacé|habitué|introducé|invité|soufflé|saté|lamé|macramé|laqué|logé|marqué|masqué|maté|moiré|mopé|ménière|nouveauté|negligé|oké|maché|paté|passé|piqué|plissé|pointillé|preparé|prostitué|protegé|présence|psyché|quarté|rassé|refugié|resumé|rosé|régence|réussite|santé|spécialité|taboulé|taugé|tempé|tiercé|tjabé|tragédienne|variété|velouté|vidé|wengé|élégance|résistance|plié|karité|vélocipède|olé|azobé|éclat|éloge|étang|sémillon|cité|peigné|rapé|chiné|lancé|époque|décharge).*</exception></token>
                 </pattern>
-                <message>De accenten zijn hier overbodig: <suggestion>een</suggestion>.</message>
-                <example correction="een">Hij is <marker>één</marker> van de vreemden.</example>
-                <example correction="een">Door <marker>één</marker> van de piloten?</example>
-                <example correction="een">Ik raapte <marker>één</marker> van de scherven op.</example>
-                <example correction="een">Berings is <marker>één</marker> van de medaillekandidaten.</example>
+				<message>Gebruik geen nadruktekens als het niet noodzakelijk is. Het staat lelijk.</message>
+                <example type="incorrect">Hij is <marker>één</marker> van de vreemden.</example>
             </rule>
         </rulegroup>
         <!-- uitgeschakeld vanwege te veel false positives; moet heel ander 
