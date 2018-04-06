@@ -111,7 +111,7 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
         if (parts.length != 2) {
           throw new IOException("Format error in file "
                   + JLanguageTool.getDataBroker().getFromRulesDirAsUrl(getFileName())
-                  + ", line: " + line);
+                  + ". Expected exactly 1 '=' character. Line: " + line);
         }
 
         String[] wrongForms = parts[0].split("\\|"); // multiple incorrect forms
