@@ -28603,6 +28603,20 @@ Andere Projekte</example>
             <example correction="">Wo <marker>sind Eigenleistung</marker> am besten möglich?</example>
         </rule>
         -->
+        <rule id="ZUM_FEM_NOMEN" name="zum + fem. Nomen">
+            <pattern>
+                <marker>
+                    <token>zum</token>
+                </marker>
+                <token postag='ADJ.*' postag_regexp="yes" min="0"/>
+                <token postag='SUB:.*:SIN:FEM' postag_regexp='yes'>
+                    <exception negate_pos="yes" postag="SUB:.*:SIN:FEM" postag_regexp='yes'/>
+                </token>
+            </pattern>
+            <message>Meinten Sie <suggestion>zur</suggestion>?</message>
+            <example correction='zur'>Wann kommst Du <marker>zum</marker> Prüfung?</example>
+            <example correction='zur'>Wann kommst Du <marker>zum</marker> nächsten Prüfung?</example>
+        </rule>
         <rule id="IN_DER_PLU" name="in der + Plural-Nomen + sein">
             <pattern>
                 <token>in</token>
