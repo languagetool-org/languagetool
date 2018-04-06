@@ -21168,6 +21168,25 @@ tuinkussens;Tuinkussens
     </category>
     <category id="WOORDGROEPEN" name="Woordgroepen">
         
+        <rulegroup id="NET_NIET" name="net-niet generatie">
+            <rule>
+                <pattern>
+                    <token>net-niet</token>
+                    <token postag ="ZNW.*" postag_regexp="yes"/>
+                </pattern>
+                <message>U bedoelt mogelijk: <suggestion>\1\2</suggestion>.</message>
+                <example correction="net-nietgeneratie">QQ <marker>net-niet generatie</marker> QQQ.</example>
+            </rule>
+            <rule>
+                <pattern>
+					<token>net</token>
+					<token>niet</token>
+                    <token postag ="ZNW.*"  postag_regexp="yes"/>
+                </pattern>
+                <message>U bedoelt mogelijk: <suggestion>\1-\2\3</suggestion>.</message>
+                <example correction="net-nietgeneratie">QQ <marker>net niet generatie</marker> QQQ.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="DRIE_STERREN_X" name="driesterren geheel / driesterrengeheel">
             <rule>
                 <pattern>
