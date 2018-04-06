@@ -21168,6 +21168,17 @@ tuinkussens;Tuinkussens
     </category>
     <category id="WOORDGROEPEN" name="Woordgroepen">
         
+        <rulegroup id="MET_ZONDER_X" name="met zonder jas / zonder jas">
+            <rule>
+				<antipattern><token>met</token><token>zonder</token><token regexp="yes">meer|uitzondering|enige</token></antipattern>
+                <pattern>
+					<token>met</token>
+					<token>zonder</token>
+                </pattern>
+                <message>Beter is: <suggestion>\2</suggestion>.</message>
+                <example correction="zonder">QQ <marker>met zonder</marker> QQQ.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="LANGE_TERMIJN_X" name="lange termijn geheugen">
             <rule>
                 <pattern>
