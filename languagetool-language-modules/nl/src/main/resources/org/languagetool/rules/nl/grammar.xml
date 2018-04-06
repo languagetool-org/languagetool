@@ -21168,6 +21168,25 @@ tuinkussens;Tuinkussens
     </category>
     <category id="WOORDGROEPEN" name="Woordgroepen">
         
+        <rulegroup id="LANGE_TERMIJN_X" name="lange termijn geheugen">
+            <rule>
+                <pattern>
+					<token regexp="yes">lange|korte</token>
+					<token>termijn</token>
+                    <token postag ="ZNW.*"  postag_regexp="yes"/>
+                </pattern>
+                <message>U bedoelt mogelijk: <suggestion>\1\2\3</suggestion>.</message>
+                <example correction="langetermijngeheugen">QQ <marker>lange termijn geheugen</marker> QQQ.</example>
+            </rule>
+            <rule>
+                <pattern>
+					<token regexp="yes">lange|korte</token>
+					<token regexp="yes">afstands(loper|lopers)</token>
+                </pattern>
+                <message>U bedoelt mogelijk: <suggestion>\1\2</suggestion>.</message>
+                <example correction="langeafstandsloper">QQ <marker>lange afstandsloper</marker> QQQ.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="NET_NIET" name="net-niet generatie">
             <rule>
                 <pattern>
