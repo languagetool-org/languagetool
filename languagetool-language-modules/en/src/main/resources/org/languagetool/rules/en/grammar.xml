@@ -705,18 +705,61 @@ USA
             <example>This is the Carmen up to <marker>Data</marker>.</example>
             <example correction="date">The software is not up to <marker>data</marker>.</example>
         </rule>
-        <rule id="COLD_COULD" name="he cold do (he could do)">
-            <pattern>
-                <token postag='PRP'/>
-                <marker>
-                    <token>cold</token>
-                </marker>
-                <token postag='VB'/>
-            </pattern>
-            <message>Did you mean <suggestion>could</suggestion>?</message>
-            <short>Probable typo</short>
-            <example correction="could">This is all he <marker>cold</marker> do.</example>
-        </rule>
+        <rulegroup id="COLD_COULD" name="he cold do (he could do)">
+            <rule>
+                <pattern>
+                    <token postag='PRP'/>
+                    <marker>
+                        <token>cold</token>
+                    </marker>
+                    <token postag='VB'/>
+                </pattern>
+                <message>Did you mean <suggestion>could</suggestion>?</message>
+                <short>Probable typo</short>
+                <example correction="could">This is all he <marker>cold</marker> do.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag='PRP$'/>
+                    <token postag='NNS?' postag_regexp="yes"/>
+                    <marker>
+                        <token>cold</token>
+                    </marker>
+                    <token postag='VB'/>
+                </pattern>
+                <message>Did you mean <suggestion>could</suggestion>?</message>
+                <short>Probable typo</short>
+                <example correction="could">This is all my father <marker>cold</marker> do.</example>
+                <example correction="could">This is all my parents <marker>cold</marker> do.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/> 
+                    <marker>
+                        <token>Cold</token>
+                    </marker>
+                    <token postag='PRP'/>
+                    <token postag='VBP?' postag_regexp="yes"/>
+                </pattern>
+                <message>Did you mean <suggestion>Could</suggestion>?</message>
+                <short>Probable typo</short>
+                <example correction="Could"><marker>Cold</marker> you hear him?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/> 
+                    <marker>
+                        <token>Cold</token>
+                    </marker>
+                    <token postag='PRP$'/>
+                    <token postag='NNS?' postag_regexp="yes"/>
+                    <token postag='VBP?' postag_regexp="yes"/>
+                </pattern>
+                <message>Did you mean <suggestion>Could</suggestion>?</message>
+                <short>Probable typo</short>
+                <example correction="Could"><marker>Cold</marker> her father hear him?</example>
+            </rule>
+        </rulegroup>
         <rule id="FEEL_TREE_TO" name="feel tree (free) to">
             <pattern>
                 <token>feel</token>
