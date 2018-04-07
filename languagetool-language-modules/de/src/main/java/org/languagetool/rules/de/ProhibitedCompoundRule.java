@@ -51,6 +51,8 @@ public class ProhibitedCompoundRule extends Rule {
           new Pair("Schuh", "Fußbekleidung", "Schul", "auf die Schule bezogen"),
           new Pair("klima", "langfristige Wetterzustände", "lima", "Hauptstadt von Peru"),
           new Pair("modell", "vereinfachtes Abbild der Wirklichkeit", "model", "Fotomodell"),
+          new Pair("treppen", "Folge von Stufen (Mehrzahl)", "truppen", "Armee oder Teil einer Armee (Mehrzahl)"),
+          new Pair("häufigkeit", "Anzahl von Ereignissen", "häutigkeit", "z.B. in Dunkelhäutigkeit"),
           new Pair("spitze", "spitzes Ende eines Gegenstandes", "spritze", "medizinisches Instrument zur Injektion")
   );
   private static final GermanSpellerRule spellerRule = new GermanSpellerRule(JLanguageTool.getMessageBundle(), new GermanyGerman());
