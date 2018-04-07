@@ -193,6 +193,7 @@ public class CaseRuleTest {
     assertBad("Er ist begeistert Von der Fülle.");
     assertBad("Er wohnt Über einer Garage.");
     assertBad("„Weißer Rauch“ Über Athen");
+    assertBad("Die Anderen 90 Prozent waren krank.");
 
     assertGood("Man sagt, Liebe mache blind.");
     assertGood("Die Deutschen sind sehr listig.");

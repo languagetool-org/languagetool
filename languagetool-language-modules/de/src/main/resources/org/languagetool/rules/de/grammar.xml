@@ -36416,7 +36416,6 @@ Andere Projekte</example>
                     <token>das</token>
                 </antipattern>
                 <pattern>
-                    <marker>
                     <token skip="-1" postag="SUB:.*SIN.*NEU.*|PRO:.*IND.*SIN.*(ALG|NEU).*" postag_regexp="yes">
                         <exception scope="previous" regexp="yes">weil|ob(wohl|gleich)?|da(mit|ss)?|indem|wenn|falls|während|bevor|nachdem|seitdem|so(bald|dass|fern|lange)|was|als|wie|bis|wer|wo(hin|mit)?</exception>
                         <exception postag="ADV.*|KON.*|PRO:PER.*|VER.*" postag_regexp="yes"/>
@@ -36432,15 +36431,15 @@ Andere Projekte</example>
                         <exception scope="next" regexp="yes">,|;|:|-|–|—|\)|\(|„|“|»|«|"|und|oder</exception>
                     </token>
                     <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes">
-                        <exception postag="VER:INF:.*|PA[12]:.*|SUB:.*|EIG:.*|PR[OP]:.*|AD[JV]:.*|ART:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
+                        <exception postag="VER:INF:.*|PA[12]:.*|SUB:.*|EIG:.*|PR[OP]:.*|AD[JV]:.*|ART:.*|NEG:.*|ABK:.*|ZUS|ZAL|VER:MOD:INF" postag_regexp="yes"/>
                     </token>
-                    </marker>
                 </pattern>
                 <message>Sollten Sie hier ein Komma vor '\2' einfügen (Relativsatz)?</message>
                 <suggestion><match no="1" include_skipped="all"/>, \2 <match no="3" include_skipped="all"/> \4</suggestion>
                 <example correction="Tier, das vor dem Auto hockt">Das <marker>Tier das vor dem Auto hockt</marker>, hat schwarze Haare.</example>
                 <example>Das <marker>Tier, das vor dem Auto hockt</marker>, hat schwarze Haare.</example>
                 <example correction="Tier an der Leine, das ich auf diese Entfernung nicht erkennen kann">Die Frau hält ein <marker>Tier an der Leine das ich auf diese Entfernung nicht erkennen kann</marker>.</example>
+                <example>Die übrigen 90 Prozent hätten das niemals bezahlen können.</example>
             </rule>
             <rule>
                 <antipattern>
