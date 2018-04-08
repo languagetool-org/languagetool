@@ -110,6 +110,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Tippfehler -->
     <!-- ====================================================================== -->
     <category id="TYPOS" name="Mögliche Tippfehler">
+        <rule id="BEAMTER" name="der Beamte(r)">
+            <pattern>
+                <token regexp="yes">de[rn]</token>
+                <marker>
+                    <token regexp='yes'>\w*beamter</token>
+                </marker>
+            </pattern>
+            <message>Meinten Sie <suggestion><match no="2" regexp_match="er$" regexp_replace="e"/></suggestion> oder <suggestion><match no="2" regexp_match="er$" regexp_replace="en"/></suggestion>?</message>
+            <example correction='Schalterbeamte|Schalterbeamten'>Der <marker>Schalterbeamter</marker> war sehr unhöflich.</example>
+            <example correction='Beamte|Beamten'>Sehen Sie den <marker>Beamter</marker> dort?</example>
+        </rule>
         <rule id="ZU_SCHRIEBEN_ETC" name="zu schrieben (schreiben) etc.">
             <pattern>
                 <token>zu</token>
