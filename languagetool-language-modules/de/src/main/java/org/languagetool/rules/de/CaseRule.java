@@ -80,7 +80,7 @@ public class CaseRule extends Rule {
     Arrays.asList(
       // see http://www.rechtschreibrat.com/DOX/rfdr_Woerterverzeichnis_2017.pdf
       regex("Große[nr]?"),
-      regex("Strafkammer|Latinums?")
+      regex("Strafkammer|Latinums?|Rat")
     ),
     Arrays.asList(
       // see http://www.rechtschreibrat.com/DOX/rfdr_Woerterverzeichnis_2017.pdf
@@ -168,6 +168,14 @@ public class CaseRule extends Rule {
         // Er fragte,ob das gelingen wird.
         csToken("das"),
         posRegex("VER:.*"),
+        posRegex("VER:AUX:.*"),
+        posRegex("PKT|KON:NEB")
+    ),
+    Arrays.asList(
+        // Er fragte, ob das gelingen oder scheitern wird.
+        csToken("das"),
+        posRegex("VER:.*"),
+        new PatternTokenBuilder().pos("KON:NEB").setSkip(5).build(),
         posRegex("VER:AUX:.*"),
         posRegex("PKT|KON:NEB")
     ),
@@ -1168,7 +1176,7 @@ public class CaseRule extends Rule {
     // ignore "die Ausgewählten" but not "die Ausgewählten Leute":
     for (AnalyzedToken reading : tokens[i].getReadings()) {
       String posTag = reading.getPOSTag();
-      if ((posTag == null || posTag.contains("ADJ")) && !hasNounReading(nextReadings) && !isNumber(nextReadings != null ? nextReadings.getToken() : "")) {
+      if ((posTag == null || posTag.contains("ADJ")) && !hasNounReading(nextReadings) && !StringUtils.isNumeric(nextReadings != null ? nextReadings.getToken() : "")) {
         if(posTag == null && hasPartialTag(lowercaseReadings, "PRP:LOK", "PA2:PRD:GRU:VER", "PA1:PRD:GRU:VER", "ADJ:PRD:KOM")) {
           // skip to avoid a false true for, e.g. "Die Zahl ging auf Über 1.000 zurück."/ "Dies gilt schon lange als Überholt."
           // but not for "Er versuchte, Neues zu wagen."
