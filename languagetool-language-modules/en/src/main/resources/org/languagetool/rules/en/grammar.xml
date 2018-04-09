@@ -12780,6 +12780,26 @@ USA
             <short>Grammatical problem: remove 'of'</short>
             <example correction="Because we"><marker>Because of we</marker> didn't want a big train, but we want a fast train.</example>
         </rule>
+        <rule id="PAYED" name="payed (paid)">
+            <antipattern>
+                <token>payed</token>
+                <token>up</token>
+            </antipattern>
+            <antipattern>
+                <token skip="10">payed</token>
+                <token inflected="yes" regexp="yes">deck|line|rope</token>
+            </antipattern>
+            <pattern>
+                <token>payed</token>
+            </pattern>
+            <message>Only in a nautical context 'payed' is an acceptable past tense form of 'pay'. Please check!</message>
+            <suggestion>paid</suggestion>
+            <url>https://writingexplained.org/payed-or-paid-difference</url>
+            <short>Probable usage error.</short>
+            <example correction="paid">She <marker>payed</marker> her debts.</example>
+            <example>Have you <marker>payed</marker> the deck?</example>
+            <example>He <marker>payed</marker> the deck with tar.</example>
+        </rule>
         <rule id="BOTH_AS_WELL_AS" name="both... as well as (and)">
             <pattern>
                 <token skip="-1">both<exception scope="next">and</exception></token>
