@@ -4537,6 +4537,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Mögliche Wortverwechslung</short>
             <example correction="passierte">Man nehme drei <marker>passionierte</marker> Tomaten.</example>
         </rule>
+        <rule id="DRUCKEN_DRUCKSEN" name="druck(s)en">
+            <pattern>
+                <marker><token inflected="yes" skip="2">drucken</token></marker>
+                <token>herum</token>
+            </pattern>
+            <message>Meinten Sie <suggestion><match no="1" regexp_match="ck" regexp_replace="cks"/></suggestion>?</message>
+            <short>Mögliche Wortverwechslung</short>
+            <example correction="druckste">Er <marker>druckte</marker> nur so herum.</example>
+        </rule>
         <rule id="OSTEN_OSTERN" name="frohe Osten / Ostern">
             <pattern>
                 <token regexp="yes">frohe|fröhliche|gesegnete|schöne|vor|zu</token>
