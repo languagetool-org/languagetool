@@ -64,7 +64,7 @@ public class GermanStyleRepeatedWordRule  extends AbstractStyleRepeatedWordRule 
   }
 
   /*
-   * Only substantive, names, verbs and adjectives are checked
+   * Is a unknown word (has only letters and no PosTag) 
    */
   private static boolean isUnknownWord(AnalyzedTokenReadings token) {
     return token.isPosTagUnknown() && token.getToken().length() > 2 && token.getToken().matches("^[A-Za-zÄÖÜäöüß]+$");
