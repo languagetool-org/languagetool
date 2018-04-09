@@ -128,39 +128,61 @@ public abstract class AbstractStyleRepeatedWordRule  extends TextLevelRule {
   }
   
   /* 
+   *  true if token is part of composite word in sentence
+   *  override for languages like German which contents composed words
+   */
+  protected boolean isPartOfWord(String testTokenText, String tokenText) {
+    return false;
+  }
+
+  /* 
+   *  true if String equals Lemma of token
+   */
+  private boolean isLemmaOfToken(String testBase, AnalyzedTokenReadings token) {
+    List<AnalyzedToken> readings = token.getReadings();
+    if (readings.size() > 0) {
+      String base = readings.get(0).getLemma();
+      if (base != null) {
+        if(testBase.equals(base)) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  
+  /* 
    *  true if token is found in sentence
    */
   private boolean isTokenInSentence(AnalyzedTokenReadings testToken, AnalyzedTokenReadings[] tokens, int notCheck) {
-    if (testToken != null && tokens != null) {
-      List<AnalyzedToken> readings = testToken.getReadings();
-      if (readings.size() < 1) {
-        return false;
-      }
-      String testBase = readings.get(0).getLemma();
-      if (testBase == null) {
-        return false;
-      }
-      for (int i = 0; i < tokens.length; i++) {
-        if (i != notCheck && isTokenToCheck(tokens[i])) {
-          readings = tokens[i].getReadings();
-          if (readings.size() > 0) {
-            String base = readings.get(0).getLemma();
-            if (base != null) {
-              if(testBase.equals(base)) {
-                if(notCheck >= 0) {
-                  if(notCheck == i - 2) {
-                    return !isTokenPair(tokens, i, true);
-                  } else if(notCheck == i + 2) {
-                    return !isTokenPair(tokens, i, false);
-                  } else if((notCheck == i + 1 || notCheck == i - 1) 
-                      && testToken.getToken().equals(tokens[i].getToken())) {
-                    return false;
-                  }
-                }
-                return true;
-              }
+    if (testToken == null || tokens == null) {
+      return false;
+    }
+    boolean hasLemma = true;
+    List<AnalyzedToken> readings = testToken.getReadings();
+    if (readings.size() < 1) {
+      hasLemma = false;
+    }
+    String testBase = readings.get(0).getLemma();
+    if (testBase == null) {
+      hasLemma = false;
+    }
+    for (int i = 0; i < tokens.length; i++) {
+      if (i != notCheck && isTokenToCheck(tokens[i])) {
+        if((hasLemma && isLemmaOfToken(testBase, tokens[i])) 
+            || isPartOfWord(testToken.getToken(), tokens[i].getToken())) {
+          if(notCheck >= 0) {
+            if(notCheck == i - 2) {
+              return !isTokenPair(tokens, i, true);
+            } else if(notCheck == i + 2) {
+              return !isTokenPair(tokens, i, false);
+            } else if((notCheck == i + 1 || notCheck == i - 1) 
+                && testToken.getToken().equals(tokens[i].getToken())) {
+              return false;
             }
           }
+          return true;
         }
       }
     }

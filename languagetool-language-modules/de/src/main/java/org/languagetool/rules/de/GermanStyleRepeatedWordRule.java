@@ -66,8 +66,17 @@ public class GermanStyleRepeatedWordRule  extends AbstractStyleRepeatedWordRule 
   /*
    * Only substantive, names, verbs and adjectives are checked
    */
+  private static boolean isUnknownWord(AnalyzedTokenReadings token) {
+    return token.isPosTagUnknown() && token.getToken().length() > 2 && token.getToken().matches("^[A-Za-zÄÖÜäöüß]+$");
+  }
+
+  /*
+   * Only substantive, names, verbs and adjectives are checked
+   */
   protected boolean isTokenToCheck(AnalyzedTokenReadings token) {
-    return token.matchesPosTagRegex("(SUB|EIG|VER|ADJ):.*") && !token.matchesPosTagRegex("ART:.*|ADV:.*|VER:(AUX|MOD):.*");
+    return (token.matchesPosTagRegex("(SUB|EIG|VER|ADJ):.*") 
+        && !token.matchesPosTagRegex("ART:.*|ADV:.*|VER:(AUX|MOD):.*"))
+        || isUnknownWord(token);
   }
 
   /*
@@ -88,4 +97,12 @@ public class GermanStyleRepeatedWordRule  extends AbstractStyleRepeatedWordRule 
     return false;
   }
   
+  protected boolean isPartOfWord(String testTokenText, String tokenText) {
+    if(testTokenText.startsWith(tokenText) || testTokenText.endsWith(tokenText) 
+        || tokenText.startsWith(testTokenText) || tokenText.endsWith(testTokenText)) {
+            return true;
+    }
+    return false;
+  }
+
 }
