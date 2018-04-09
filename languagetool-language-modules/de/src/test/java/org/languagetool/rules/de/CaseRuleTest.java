@@ -127,6 +127,8 @@ public class CaseRuleTest {
     assertGood("Wieder Verletzter bei Unfall");
     assertGood("Eine Gruppe Aufständischer verwüstete die Bar.");
     assertGood("‚Dieser Satz.‘ Hier kommt der nächste Satz.");
+    assertGood("Dabei werden im Wesentlichen zwei Prinzipien verwendet:");
+    assertGood("Er fragte, ob das gelingen oder scheitern wird.");
 
     //assertBad("Sie sind nicht Verständlich");
     assertBad("Sie Vertraute niemandem.");
@@ -182,8 +184,6 @@ public class CaseRuleTest {
     assertGood("Die ersten Gespanne erreichen Köln.");
     assertGood("Er beschrieb den Angeklagten wie einen Schuldigen");
     assertGood("Er beschrieb den Angeklagten wie einen Schuldigen.");
-    assertGood("Dabei werden im Wesentlichen zwei Prinzipien verwendet:");
-    assertGood("Er fragte, ob das gelingen oder scheitern wird.");
 
     assertGood("Das ist das Dümmste, was ich je gesagt habe.");
     assertBad("Das ist das Dümmste Kind.");
