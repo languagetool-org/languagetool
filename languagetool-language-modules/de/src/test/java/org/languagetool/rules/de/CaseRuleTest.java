@@ -182,7 +182,7 @@ public class CaseRuleTest {
     assertGood("Die ersten Gespanne erreichen Köln.");
     assertGood("Er beschrieb den Angeklagten wie einen Schuldigen");
     assertGood("Er beschrieb den Angeklagten wie einen Schuldigen.");
-    assertGood("Dabei werden im Wesenlichen zwei Prinzipien verwendet:");
+    assertGood("Dabei werden im Wesentlichen zwei Prinzipien verwendet:");
     assertGood("Er fragte, ob das gelingen oder scheitern wird.");
 
     assertGood("Das ist das Dümmste, was ich je gesagt habe.");
