@@ -21077,6 +21077,18 @@ tuinkussens;Tuinkussens
                 <example correction="Ik vind"><marker>Ik vindt</marker> het onvolwassen gedrag.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="BEPAALD_JE" name="voltooid deelwoord / 3e persoon">
+            <rule>
+                <pattern>
+					<marker>
+						<token postag="WKW:VTD:ONV" regexp="yes">.*[^kfsp]d</token>
+					</marker>
+					<token regexp="yes">hij|je|zij|ze</token>
+                </pattern>
+                <message>U bedoelt vast <suggestion><match no="1" postag="WKW.*" postag_regexp="yes" postag_replace="WKW:TGW:3EP"/></suggestion></message>
+                <example correction="bepaalt">Het <marker>bepaald</marker> je beeld.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="ZICH_INBEELD" name="zich inbeeld → zich inbeeldt">
             <rule>
                 <pattern>
