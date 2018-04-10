@@ -22388,6 +22388,22 @@ tuinkussens;Tuinkussens
                 <message>Beter is <suggestion>mijns inziens</suggestion>, maar het kan beter en moderner: <suggestion>volgens mij</suggestion>.</message>
                 <example correction="Mijns inziens|Volgens mij"><marker>Mijn inziens</marker> is het fout.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token>pro-forma</token>
+					<token postag_regexp="yes" postag="ZNW.*"/>
+                </pattern>
+                <message>U bedoelt vast <suggestion>\1\2</suggestion>.</message>
+                <example correction="pro-formazaak">Het was maar een <marker>pro-forma zaak</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>pro-forma</token>
+					<token><exception  postag_regexp="yes" postag="ZNW.*"/></token>
+                </pattern>
+                <message>U bedoelt vast <suggestion>pro forma</suggestion>.</message>
+                <example correction="pro forma">Het was maar <marker>pro-forma.</marker></example>
+            </rule>
         </rulegroup>     
         <rulegroup id="VANDAAG_AAN_DE_DAG" name="vandaag aan de dag → vandaag de dag">
             <rule>
@@ -26791,5 +26807,4 @@ tuinkussens;Tuinkussens
             </rule>
         </rulegroup>
 	</category>
-
 </rules>
