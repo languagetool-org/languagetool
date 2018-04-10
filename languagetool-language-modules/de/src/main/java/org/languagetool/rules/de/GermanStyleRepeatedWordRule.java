@@ -75,7 +75,7 @@ public class GermanStyleRepeatedWordRule  extends AbstractStyleRepeatedWordRule 
    */
   protected boolean isTokenToCheck(AnalyzedTokenReadings token) {
     return (token.matchesPosTagRegex("(SUB|EIG|VER|ADJ):.*") 
-        && !token.matchesPosTagRegex("ART:.*|ADV:.*|VER:(AUX|MOD):.*"))
+        && !token.matchesPosTagRegex("(PRO|ART|ADV|VER:(AUX|MOD)):.*"))
         || isUnknownWord(token);
   }
 
@@ -98,9 +98,12 @@ public class GermanStyleRepeatedWordRule  extends AbstractStyleRepeatedWordRule 
   }
   
   protected boolean isPartOfWord(String testTokenText, String tokenText) {
-    if(testTokenText.startsWith(tokenText) || testTokenText.endsWith(tokenText) 
-        || tokenText.startsWith(testTokenText) || tokenText.endsWith(testTokenText)) {
-            return true;
+    if((testTokenText.startsWith(tokenText) || testTokenText.endsWith(tokenText) 
+        || tokenText.startsWith(testTokenText) || tokenText.endsWith(testTokenText)) 
+        && (testTokenText.length() == tokenText.length() || testTokenText.length() < tokenText.length() - 3
+        || testTokenText.length() > tokenText.length() + 3)
+        || testTokenText.equals(tokenText + "s") || tokenText.equals(testTokenText + "s")) {
+      return true;
     }
     return false;
   }
