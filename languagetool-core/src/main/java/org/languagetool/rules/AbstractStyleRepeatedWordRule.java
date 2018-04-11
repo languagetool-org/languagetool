@@ -136,41 +136,22 @@ public abstract class AbstractStyleRepeatedWordRule  extends TextLevelRule {
   }
 
   /* 
-   *  true if String equals Lemma of token
-   */
-  private boolean isLemmaOfToken(String testBase, AnalyzedTokenReadings token) {
-    List<AnalyzedToken> readings = token.getReadings();
-    if (readings.size() > 0) {
-      String base = readings.get(0).getLemma();
-      if (base != null) {
-        if(testBase.equals(base)) {
-          return true;
-        }
-      }
-    }
-    return false;
-  }
-
-  
-  /* 
    *  true if token is found in sentence
    */
   private boolean isTokenInSentence(AnalyzedTokenReadings testToken, AnalyzedTokenReadings[] tokens, int notCheck) {
     if (testToken == null || tokens == null) {
       return false;
     }
-    boolean hasLemma = true;
     List<AnalyzedToken> readings = testToken.getReadings();
-    if (readings.size() < 1) {
-      hasLemma = false;
-    }
-    String testBase = readings.get(0).getLemma();
-    if (testBase == null) {
-      hasLemma = false;
+    List<String> lemmas = new ArrayList<String>();
+    for (int i = 0; i < readings.size(); i++) {
+      if (readings.get(i).getLemma() != null) {
+        lemmas.add(readings.get(i).getLemma());
+      }
     }
     for (int i = 0; i < tokens.length; i++) {
       if (i != notCheck && isTokenToCheck(tokens[i])) {
-        if((hasLemma && isLemmaOfToken(testBase, tokens[i])) 
+        if((!lemmas.isEmpty() && tokens[i].hasAnyLemma(lemmas.toArray(new String[lemmas.size()]))) 
             || isPartOfWord(testToken.getToken(), tokens[i].getToken())) {
           if(notCheck >= 0) {
             if(notCheck == i - 2) {
