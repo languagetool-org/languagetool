@@ -1120,7 +1120,7 @@ public class Main extends WeakBase implements XJobExecutor,
    * Gives Back the StartPosition of Paragraph
    */
   private int getStartOfParagraph(int nPara, int docNum) {
-    if (allParas.get(docNum) != null && nPara >= 0 && nPara < allParas.get(docNum).size()) {
+    if (docNum >= 0 && allParas.get(docNum) != null && nPara >= 0 && nPara < allParas.get(docNum).size()) {
       int startPos;
       if (numParasToCheck < 1 || doFullTextCheck) {
         startPos = 0;
@@ -1167,7 +1167,7 @@ public class Main extends WeakBase implements XJobExecutor,
    */
   private int getParaPos(String chPara, int numThread, int docNum) {
 
-    if (numParasToCheck == 0) {
+    if (numParasToCheck == 0 || docNum < 0) {
       return returnOneParaCheck();  //  check only the processed paragraph
     }
 
@@ -1318,6 +1318,7 @@ public class Main extends WeakBase implements XJobExecutor,
 
   /**
    * Get or Create a Number from docID
+   * Return -1 if failed
    */
   private int getNumDocID(String docID) {
     if (docIDs == null) {
@@ -1346,6 +1347,10 @@ public class Main extends WeakBase implements XJobExecutor,
     //  Add new document
     if (!testMode) {
       XComponent xComponent = getXComponent();
+      if (xComponent == null) {
+        printToLogFile("Error: Document (ID: " + docID + ") has no XComponent -> Analyse only single paragraphs");
+        return -1;
+      }
       xComponent.addEventListener(this);
       xComponents.add(xComponent);
     } else {
