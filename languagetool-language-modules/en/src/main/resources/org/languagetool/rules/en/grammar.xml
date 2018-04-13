@@ -18526,6 +18526,31 @@ USA
                 <example correction="their own">They completed the huge project on <marker>they're own</marker>.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="DESERT_DESSERT" name="desert / dessert">
+            <rule>
+                <pattern>
+                    <token skip="2" inflected="yes">get</token>
+                    <token>just</token>
+                    <marker><token>desserts</token></marker>
+                </pattern>
+                <message>Did you mean <suggestion>deserts</suggestion> (just deserts = punishment)? (The spelling 'just desserts' is non-standard.)</message>
+                <url>https://en.wiktionary.org/wiki/just_deserts</url>
+                <short>Possible typo</short>
+                <example correction="deserts">The criminal will get his just <marker>desserts</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="PRECEDENT_PRECEDENCE" name="precedent / predence">
+            <rule>
+                <pattern>
+                    <token skip="1" regexp="yes">sets?|without</token>
+                    <marker><token inflected="yes">precedence</token></marker>
+                </pattern>
+                <message>Did you mean <suggestion><match no="2" regexp_match="dence" regexp_replace="dent"/></suggestion>?</message>
+                <url>https://www.merriam-webster.com/words-at-play/usage-of-precedent-vs-precedence</url>
+                <short>Possible typo</short>
+                <example correction="precedent">Allow us to set a <marker>precedence</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="LOG_IN" name="login (log in)">
             <url>http://grammarist.com/spelling/log-in-login/</url>
             <rule>
