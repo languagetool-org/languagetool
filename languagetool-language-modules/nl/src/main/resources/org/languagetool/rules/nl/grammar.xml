@@ -21880,7 +21880,34 @@ tuinkussens;Tuinkussens
             </rule>
             
         </rulegroup>
-        <rulegroup id="BREI_BRIJ" name="brei , brij">
+		
+        <rulegroup id="LEIDT_TWIJFEL" name="twijfel leiden/lijden">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token  skip="5" inflected="yes">leiden</token>
+                    </marker>
+                    <token>twijfel</token>
+                </pattern>
+                <message>Iets 'lijdt' geen twijfel.</message>
+				<url>https://onzetaal.nl/taaladvies/ei-ij-twijfelgevallen</url>
+                <example type="incorrect">Dit <marker>leidt</marker> geen twijfel.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token skip="5">twijfel</token>
+                    <marker>
+                        <token inflected="yes">leiden</token>
+                    </marker>
+                </pattern>
+                <message>Iets 'lijdt' geen twijfel.</message>
+				<url>https://onzetaal.nl/taaladvies/ei-ij-twijfelgevallen</url>
+                <example type="incorrect">Dit kan geen twijfel <marker>leiden</marker>.</example>
+            </rule>
+        </rulegroup>
+		
+
+		<rulegroup id="BREI_BRIJ" name="brei , brij">
             <rule>
                 <!-- TODO: meer gevallen? -->
                 <pattern>
@@ -22390,7 +22417,7 @@ tuinkussens;Tuinkussens
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">pro-forma|anti-.*|aan-uit|breedspectrum|zero-tolerance|licht-donker|oog-hand|deur-tot-deur|wildwest</token>
+                    <token regexp="yes">pro-forma|anti-.*|aan-uit|breedspectrum|zero-tolerance|licht-donker|oog-hand|deur-tot-deur|wildwest|start-stop|hoog-laag|bruto-netto|kip-ei|dag-nacht|ad-interim|warmte-koude|lumpsum</token>
 					<token postag_regexp="yes" postag="ZNW.*"/>
                 </pattern>
                 <message>U bedoelt vast <suggestion>\1\2</suggestion>.</message>
@@ -22755,6 +22782,7 @@ tuinkussens;Tuinkussens
         <rulegroup id="DEELTEKEN" name="/">
             <rule>
                 <!-- TODO: individuele gevallen zoeken; het is anders een wel heel algemene melding -->
+				<antipattern><token>en</token><token>/</token><token>of</token></antipattern>
                 <pattern>
                     <token><exception regexp="yes">[./]</exception></token>
                     <marker>
