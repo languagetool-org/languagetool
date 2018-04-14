@@ -11129,6 +11129,12 @@ USA
         <rulegroup id="ALLOW_TO" name="'allow' + 'to' + infinitive">
             <url>http://www.ef.com/english-resources/english-grammar/gerund-equals-infinitive/</url>
             <rule>
+                <antipattern>
+                    <token inflected="yes">give</token>
+                    <token>cause</token>
+                    <token>to</token>
+                    <token postag="VBP"><exception postag="NNS"/></token>
+                </antipattern>
                 <pattern>
                     <token inflected="yes" regexp="yes" postag_regexp="yes" postag="VB.*">allow|advise|authorize|cause|challenge|convince|encourage|force|hire|inform|instruct|invite|order|permit|persuade|remind|require|teach|tell|train|urge<exception postag="VBN"/><exception scope="previous" postag="PRP\$|JJ|VBN" postag_regexp="yes"/></token>
                     <marker>
