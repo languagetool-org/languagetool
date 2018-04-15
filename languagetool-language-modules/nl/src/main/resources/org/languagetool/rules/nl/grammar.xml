@@ -20431,6 +20431,15 @@ tuinkussens;Tuinkussens
         </rule>
         </rulegroup>
         -->
+        <rulegroup id="X-EN" name="voor-en → voor- en">
+            <rule>
+                <pattern>
+                    <token regexp="yes">.*-(en|of)</token>
+                </pattern>
+                <message>Achter het teken dat de splitsing aangeeft hoort een spatie: <suggestion><match no="1" regexp_match="(.*)-(en|of)" regexp_replace="$1- $2"/></suggestion>.</message>
+                <example correction="voor- en">In <marker>voor-en</marker> tegenspoed.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="WEIDE_WERELD" name="weide wereld → wijde wereld">
             <rule>
                 <pattern>
@@ -22376,6 +22385,17 @@ tuinkussens;Tuinkussens
         </rulegroup>
     </category>
     <category id="OVERIG" name="Diverse regels">
+        <rulegroup id="ACHTER_OP" name="Achterop of achter op">
+            <rule>
+                <pattern>
+					<token regexp="yes" skip="2">(achter|boven|midden|onder)(in|op)</token>
+					<token postag_regexp="yes" postag="ZNW.*"/>
+                </pattern>
+				<message>Hier moet vast een spatie in: <suggestion><match no="1" regexp_match="(.*)(op|in)$" regexp_replace="$1 $2"/></suggestion>.</message>
+				<url>https://onzetaal.nl/taaladvies/achterin-achter-in</url>
+                <example type="incorrect">Het bestek ligt <marker>achterin</marker> de lade.</example>
+            </rule>
+        </rulegroup>  
         <rulegroup id="BNW-VRIJ" name="Bijvoeglijk naamwoord met -vrij">
             <rule>
                 <pattern>
@@ -22433,7 +22453,7 @@ tuinkussens;Tuinkussens
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">pro-forma|anti-.*|aan-uit|breedspectrum|zero-tolerance|licht-donker|oog-hand|deur-tot-deur|wildwest|start-stop|hoog-laag|bruto-netto|kip-ei|dag-nacht|ad-interim|warmte-koude|lumpsum</token>
+                    <token regexp="yes">pro-forma|anti-.*|aan-uit|breedspectrum|zero-tolerance|licht-donker|oog-hand|deur-tot-deur|wildwest|start-stop|hoog-laag|bruto-netto|kip-ei|dag-nacht|ad-interim|warmte-koude|lumpsum|zij-aan-zij</token>
 					<token postag_regexp="yes" postag="ZNW.*"/>
                 </pattern>
                 <message>U bedoelt vast <suggestion>\1\2</suggestion>.</message>
