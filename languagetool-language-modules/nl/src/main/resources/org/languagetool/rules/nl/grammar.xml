@@ -22388,12 +22388,12 @@ tuinkussens;Tuinkussens
         <rulegroup id="ACHTER_OP" name="Achterop of achter op">
             <rule>
                 <pattern>
-					<token regexp="yes" skip="2">(achter|boven|midden|onder)(in|op)</token>
+					<marker><token regexp="yes" skip="2">(achter|boven|midden|onder)(in|op)</token></marker>
 					<token postag_regexp="yes" postag="ZNW.*"/>
                 </pattern>
 				<message>Hier moet vast een spatie in: <suggestion><match no="1" regexp_match="(.*)(op|in)$" regexp_replace="$1 $2"/></suggestion>.</message>
 				<url>https://onzetaal.nl/taaladvies/achterin-achter-in</url>
-                <example type="incorrect">Het bestek ligt <marker>achterin</marker> de lade.</example>
+                <example correction="achter in">Het bestek ligt <marker>achterin</marker> de lade.</example>
             </rule>
         </rulegroup>  
         <rulegroup id="BNW-VRIJ" name="Bijvoeglijk naamwoord met -vrij">
