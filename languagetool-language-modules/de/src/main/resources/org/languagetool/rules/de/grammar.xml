@@ -14235,6 +14235,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction='Rang'>Er ist Chef der Staatskanzlei im <marker>rang</marker> eines Staatssekretärs.</example>
             <example correction='Rang'>Philosophen von <marker>rang</marker> passieren solche Fehler fast nie.</example>
         </rule>
+        <rulegroup id="FREUND" name="freund (Freund)">
+            <rule>
+                <pattern>
+                    <token regexp="yes">([mds]?ein|unser|euer|ihr|d(ies)?)(en)?|der</token>
+                    <marker>
+                        <token case_sensitive='yes'>freund</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie das Substantiv <suggestion>Freund</suggestion> (=Gefährte) statt des Adjektivs 'freund'?</message>
+                <short>&prgk;.</short>
+                <example correction='Freund'>Er ist mein <marker>freund</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">([mds]?ein|unser|eue?r|ihr|d(ies)?)en?</token>
+                    <marker>
+                        <token case_sensitive='yes' regexp="yes">freunden?</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie das Substantiv <suggestion><match no="2" case_conversion="startupper"/></suggestion> (=Gefährte) statt des Verbs 'freunden'?</message>
+                <short>&prgk;.</short>
+                <example correction='Freunde'>Seine <marker>freunde</marker> sind schon da.</example>
+            </rule>
+        </rulegroup>
         <rule id="SEIT_BEGINN" name="'seit beginn (seit Beginn)'">
             <pattern>
                 <token regexp='yes'>seit|vo[nr]|mit|nach|zu</token>
