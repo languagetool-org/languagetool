@@ -26545,6 +26545,51 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
+        <rulegroup id="VENIR_AVALL" name="venir-se avall">
+             <rule>
+                <pattern>
+                    <token regexp="yes">es|se</token>
+                    <token inflected="yes">venir</token>
+                    <token>avall</token>
+                </pattern>
+                <message>Possible castellanisme</message>
+                <suggestion>s'<match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">ensorrar</match></suggestion>
+                <suggestion>s'<match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">ensulsiar</match></suggestion>
+                <suggestion><match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">caure</match> a terra</suggestion>
+                <suggestion>s'<match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">esfondrar</match></suggestion>
+                <example correction="s'ensorra|s'ensulsia|cau a terra|s'esfondra">Tota la xarxa <marker>es ve avall</marker>.</example>
+             </rule>
+             <rule>
+                <pattern>
+                    <token>se</token>
+                    <token>'n</token>
+                    <token inflected="yes">venir</token>
+                    <token>avall</token>
+                </pattern>
+                <message>Possible castellanisme</message>
+                <suggestion>s'<match no="3" postag="(V.*)" postag_regexp="yes" postag_replace="$1">ensorrar</match></suggestion>
+                <suggestion>s'<match no="3" postag="(V.*)" postag_regexp="yes" postag_replace="$1">ensulsiar</match></suggestion>
+                <suggestion><match no="3" postag="(V.*)" postag_regexp="yes" postag_replace="$1">caure</match> a terra</suggestion>
+                <suggestion>s'<match no="3" postag="(V.*)" postag_regexp="yes" postag_replace="$1">esfondrar</match></suggestion>
+                <example correction="s'ensorra|s'ensulsia|cau a terra|s'esfondra">Tota la xarxa <marker>se'n ve avall</marker>.</example>
+             </rule>
+             <rule>
+                <pattern>
+                    <token inflected="yes">es</token>
+                    <token min="0" inflected="yes">en</token>
+                    <token min="0" inflected="yes" regexp="yes">anar|haver</token>
+                    <token inflected="yes">venir</token>
+                    <token>avall</token>
+                </pattern>
+                <message>Possible castellanisme</message>
+                <suggestion>(ensorrar-se)</suggestion>
+                <suggestion>(ensulsiar-se)</suggestion>
+                <suggestion>(caure a terra)</suggestion>
+                <suggestion>(esfondrar-se)</suggestion>
+                <example correction="(ensorrar-se)|(ensulsiar-se)|(caure a terra)|(esfondrar-se)">Tota la xarxa <marker>se'n va venir avall</marker>.</example>
+                <example correction="(ensorrar-se)|(ensulsiar-se)|(caure a terra)|(esfondrar-se)">Tota la xarxa <marker>s'ha vingut avall</marker>.</example>
+             </rule>
+        </rulegroup>
         <rule id="DEIXAR_A_DEURE" name="*deixar/quedar a deure">
             <pattern>
                 <token inflected="yes">deixar</token>
