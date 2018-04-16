@@ -14727,6 +14727,37 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="null">Die Reihe konvergiert gegen <marker>Null</marker>.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="ZAHLWOERTER" name="Großschreibung von Zahlwörtern">
+            <rule>
+                <pattern>
+                    <token inflected="yes">bekommen</token>
+                    <token>eine</token>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">eins|zwei|drei|vier|fünf|sechs</token>
+                    </marker>
+                    <token postag="PRP:.+|PKT" postag_regexp="yes"/>
+                </pattern>
+                <message>Wenn es sich hierbei um eine (Schul-)Note handelt, wird das Zahlwort großgeschrieben.</message>
+                <suggestion><match no="3" case_conversion="startupper"/></suggestion>
+                <short>&prgk;.</short>
+                <example correction="Drei">Sie bekam eine <marker>drei</marker> in Physik.</example>
+                <example>Sie bekame eine drei Jahre alte Puppe geschenkt.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">einer?</token>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">eins|zwei|drei|vier|fünf|sechs</token>
+                    </marker>
+                    <token inflected="yes" regexp="yes">bekommen|in</token>
+                </pattern>
+                <message>Wenn es sich hierbei um eine (Schul-)Note handelt, wird das Zahlwort großgeschrieben.</message>
+                <suggestion><match no="2" case_conversion="startupper"/></suggestion>
+                <short>&prgk;.</short>
+                <example correction="Drei">Sie hatte eine <marker>drei</marker> bekommen.</example>
+                <example correction="Drei">Mit einer <marker>drei</marker> in Physik war sie sehr zufrieden.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="FOLGE_LEISTEN" name="leiste ... folge (Folge)">
             <rule>
                 <pattern>
