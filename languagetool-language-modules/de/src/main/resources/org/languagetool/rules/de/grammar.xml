@@ -37766,6 +37766,52 @@ Andere Projekte</example>
                 <example correction="Posemuckel"><marker>Posemukel</marker></example>
             </rule>
         </rulegroup>
+        <rulegroup id="EMPFOHLENE_GROSS_KLEINSCHREIBUNG" name="Empfohlene Groß-/Kleinschreibung">
+            <url>http://www.duden.de/hilfe/rechtschreibung</url>
+            <rule>
+                <antipattern>
+                    <token regexp="yes">das|ein|kein|sein|dieses|welchem|zu|als|(ebenso)?viel|mehr|weniger|gleiches</token>
+                    <token postag="(ADJ|PA1):.*" postag_regexp="yes" min="0"/>
+                    <token case_sensitive="yes">Recht</token>
+                </antipattern>
+                <pattern>
+                    <token skip="-1" inflected="yes" regexp="yes">haben|geben
+                        <exception scope="next" regexp="yes">,|:|;|-|–|—|\)|\(</exception>
+                    </token>
+                    <marker>
+                    <token case_sensitive="yes">Recht</token>
+                    </marker>
+                </pattern>
+                <message>Der Duden empfiehlt für das Wort "Recht" im Zusammenhang mit "recht haben" oder "recht geben" klein zu schreiben </message>
+                <suggestion><match no="2" case_conversion ="alllower"/></suggestion>
+                <example correction="recht">Er gab ihm <marker>Recht</marker>.</example>
+                <example correction="recht">Sie hatte wirklich <marker>Recht</marker>.</example>
+                <example >Er hatte kein <marker>Recht</marker> so etwas zu sagen.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token regexp="yes">das|ein|kein|sein|dieses|welchem|zu|als|(ebenso)?viel|mehr|weniger|gleiches</token>
+                    <token postag="(ADJ|PA1):.*" postag_regexp="yes" min="0"/>
+                    <token case_sensitive="yes">Recht</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <token case_sensitive="yes">Recht</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                    <token case_sensitive="yes">Recht</token>
+                    </marker>
+                    <token inflected="yes" regexp="yes">haben|geben</token>
+                </pattern>
+                <message>Der Duden empfiehlt für das Wort "Recht" im Zusammenhang mit "recht haben" oder "recht geben" klein zu schreiben </message>
+                <suggestion><match no="1" case_conversion ="alllower"/></suggestion>
+                <example correction="recht">Er musste ihm <marker>Recht</marker> geben.</example>
+                <example correction="recht">Sie wollte unbedingt <marker>Recht</marker> haben.</example>
+                <example>Er wusste, dass er das <marker>Recht</marker> hatte so etwas zu verlangen.</example>
+                <example><marker>Recht</marker> hatte sie.</example>
+            </rule>
+        </rulegroup>
     </category>
 </rules>
 
