@@ -1408,6 +1408,7 @@ public class Main extends WeakBase implements XJobExecutor,
     if (null != parent_directory) {
       parent_directory.mkdirs();
     }
+    return path;
   }
 
 
