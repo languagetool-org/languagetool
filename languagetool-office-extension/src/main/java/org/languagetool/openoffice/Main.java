@@ -1397,12 +1397,25 @@ public class Main extends WeakBase implements XJobExecutor,
     goneContext.removeEventListener(this); 
   }
 
+
+  private static String getLogPath() {
+    String xdgDataHome = System.getenv().get("XDG_DATA_HOME");
+    String logHome = xdgDataHome != null ? xdgDataHome + "/LanguageTool" : getHomeDir().toString();
+    String path = logHome + "/" + LOG_FILE;
+
+    // Create LanguageTool's log dir if necessary
+    final File parent_directory = new File(path).getParentFile();
+    if (null != parent_directory) {
+      parent_directory.mkdirs();
+    }
+  }
+
+
   /**
    * Initialize log-file
    */
   private void initLogFile() {
-    String path = getHomeDir() + "/" + LOG_FILE;
-    try (BufferedWriter bw = new BufferedWriter(new FileWriter(path))) {
+    try (BufferedWriter bw = new BufferedWriter(new FileWriter(getLogPath()))) {
       Date date = new Date();
       bw.write("LT office integration log from " + date.toString() + logLineBreak);
     } catch (Throwable t) {
@@ -1414,8 +1427,7 @@ public class Main extends WeakBase implements XJobExecutor,
    * write to log-file
    */
   static void printToLogFile(String str) {
-    String path = getHomeDir() + "/" + LOG_FILE;
-    try (BufferedWriter bw = new BufferedWriter(new FileWriter(path, true))) {
+    try (BufferedWriter bw = new BufferedWriter(new FileWriter(getLogPath(), true))) {
       bw.write(str + logLineBreak);
     } catch (Throwable t) {
       showError(t);
