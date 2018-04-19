@@ -287,7 +287,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <marker>
             <token>у</token>
           </marker>
-          <token regexp="yes">[уеіаоиeuioa].*</token>
+          <token regexp="yes">[уеіаоиeuioa].*
+            <exception regexp="yes">[XIV-]+</exception>
+          </token>
         </pattern>
         <message>Перед нейотованими голосними варто писати в: <suggestion>в</suggestion></message>
         <url>http://vlada.kiev.ua/pravopys/pravXXI/11.html</url>
@@ -297,6 +299,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="в">Сталося це <marker>у</marker> іншій хаті.</example>
         <example>Сталося це у їхній хаті.</example>
         <example>У одного з студентів аркуш паперу.</example>
+        <example>Київська Русь у IX-XIII століттях.</example>
       </rule>
       <rule>
         <pattern>
@@ -1022,10 +1025,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <marker>
             <token inflected="yes">воєнний</token>
           </marker>
-          <token inflected="yes" regexp="yes">звання|лікар|присяга|справа|стан|трибунал|училище|форма|частина</token>
+          <token inflected="yes" regexp="yes">звання|лікар|присяга|справа|трибунал|училище|форма|частина</token>
         </pattern>
         <message>Правильно: <suggestion>військовий</suggestion></message>
         <example correction="військовий">Пішов до <marker>воєнного</marker> училища.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">воєнний</token>
+          </marker>
+          <token inflected="yes">стан</token>
+        </pattern>
+        <message>Цей стан характеризується наданням особливої влади військовому командуванню і не завжди пов'язаний з війною. Тому правильно буде <suggestion>військовий</suggestion> стан.</message>
+        <example correction="військовий">Наслідки <marker>воєнного</marker> стану.</example>
       </rule>
 
       <rule>
