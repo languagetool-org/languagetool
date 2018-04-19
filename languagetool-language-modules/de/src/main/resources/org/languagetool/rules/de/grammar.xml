@@ -7327,6 +7327,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Zusammen-/Getrenntschreibung">
+        <rule id="LANGUAGE_TOOL" name="Language Tool (LanguageTool)">
+            <pattern case_sensitive="yes">
+                <token>Language</token>
+                <token regexp="yes">Tools?</token>
+            </pattern>
+            <message>Meinten Sie <suggestion>\1\2</suggestion>, die Software zur Textprüfung?</message>
+            <example correction="LanguageTool">Sie testet <marker>Language Tool</marker>.</example>
+        </rule>
         <rule id="EIWEISS_REICH" name="Eiweiß reich (eiweißreich)">
             <pattern>
                 <token>Eiweiß</token>
