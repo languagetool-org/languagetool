@@ -73,13 +73,14 @@ public class AvsAnRule extends Rule {
     List<RuleMatch> ruleMatches = new ArrayList<>();
     AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
     int prevTokenIndex = 0;
+    boolean isSentenceStart;
+    boolean equalsA;
+    boolean equalsAn;
     for (int i = 1; i < tokens.length; i++) {  // ignoring token 0, i.e., SENT_START
       AnalyzedTokenReadings token = tokens[i];
       String prevTokenStr = prevTokenIndex > 0 ? tokens[prevTokenIndex].getToken() : null;
 
-      boolean isSentenceStart = prevTokenIndex == 1;
-      boolean equalsA;
-      boolean equalsAn;
+      isSentenceStart = prevTokenIndex == 1;
 
       if (!isSentenceStart) {
         equalsA = "a".equals(prevTokenStr);
