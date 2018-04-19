@@ -1402,11 +1402,9 @@ public class Main extends WeakBase implements XJobExecutor,
     String xdgDataHome = System.getenv().get("XDG_DATA_HOME");
     String logHome = xdgDataHome != null ? xdgDataHome + "/LanguageTool" : getHomeDir().toString();
     String path = logHome + "/" + LOG_FILE;
-
-    // Create LanguageTool's log dir if necessary
-    final File parent_directory = new File(path).getParentFile();
-    if (null != parent_directory) {
-      parent_directory.mkdirs();
+    File parentDir = new File(path).getParentFile();
+    if (parentDir != null) {
+      parentDir.mkdirs();
     }
     return path;
   }
