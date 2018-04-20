@@ -36863,6 +36863,15 @@ Andere Projekte</example>
                 <example>Der Vergleich des Wahlprogramms mit dem von vor vier Jahren zeigt, dass die Erzählung von einer runderneuerten Partei übertrieben ist.</example>
                 <example correction="Buch, in dem zu lesen war">Das <marker>Buch in dem zu lesen war</marker>, dass viele Dänen stricken, war ein Fake.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token postag="(SUB|EIG|VER):.+" postag_regexp="yes"></token>
+                    <token inflected="yes">welch</token>
+                </pattern>
+                <message>Prüfen Sie, ib hier ein Komma eingefügt werden müsste.</message>
+                <suggestion>\1, \2</suggestion>
+                <example correction="Satz, welchen">Mit diesem <marker>Satz welchen</marker> ich gleich beweisen werden, wurde Fermat sehr berühmt.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="FEHLERHAFTES_KOMMA_ALLG" name="Fehlerhaftes Komma">
             <url>http://www.duden.de/sprachwissen/rechtschreibregeln/komma</url>
