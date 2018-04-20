@@ -28710,6 +28710,21 @@ Andere Projekte</example>
             <example correction="">Wo <marker>sind Eigenleistung</marker> am besten möglich?</example>
         </rule>
         -->
+        <rule id="SEHR_GEEHRTER_NAME" name="Sehr geehrter (Name) -> Herr/Frau (Name)">
+            <antipattern>
+                <token regexp="yes">Herr|Frau|Damen|Kunde|Anwender|Fahrgast|Fahrgäste|Nutzer</token>
+            </antipattern>
+            <pattern>
+                <token>Sehr</token>
+                <token regexp="yes">geehrter?</token>
+                <marker><token regexp="yes">\p{L}+</token></marker>
+            </pattern>
+            <message>Fehlt evtl. eine Anrede wie <suggestion>Herr \3</suggestion> oder <suggestion>Frau \3</suggestion>?</message>
+            <example correction='Herr Müller|Frau Müller'>Sehr geehrter <marker>Müller</marker>, wie geht es Ihnen?</example>
+            <example correction='Herr Döring|Frau Döring'>Sehr geehrte <marker>Döring</marker>, wie geht es Ihnen?</example>
+            <example>Sehr geehrter</example><!-- input during typing -->
+            <example>Sehr geehrter </example><!-- input during typing -->
+        </rule>
         <rule id="ZUM_FEM_NOMEN" name="zum + fem. Nomen">
             <pattern>
                 <marker>
