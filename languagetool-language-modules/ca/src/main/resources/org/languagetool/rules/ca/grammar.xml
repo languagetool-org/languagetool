@@ -33294,17 +33294,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction=""><marker>No teníeu per què fer</marker>-ho.</example>
             <example>No havíeu pas de fer-ho.</example>
         </rule>
-        <rule id="EN_RELACIO_A" name="en relació a">
-            <pattern>
-                <token>en</token>
-                <token>relació</token>
-                <token>a</token>
-            </pattern>
-            <message>¿Volíeu dir <suggestion>amb relació a</suggestion>?</message>
-            <suggestion>en relació amb</suggestion>
-            <example correction="amb relació a|en relació amb"><marker>en relació a</marker></example>
-            <example>amb relació a</example>
-        </rule>
         <rulegroup id="EN_COMPARACIO_AMB" name="en comparació amb">
             <rule>
                 <pattern>
@@ -41717,6 +41706,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="DNV_PRIMARY_FORM" name="Paraules admeses pel DNV (AVL), però no per altres diccionaris" type="style">
+        <rulegroup id="EN_RELACIO_A" name="en relació a">
+            <url>http://esadir.cat/entrades/fitxa/node/amb_relacio_a</url>
+            <rule>
+                <pattern>
+                    <token>en</token>
+                    <token>relació</token>
+                    <token>a</token>
+                    <token regexp="yes">ls?</token>
+                </pattern>
+                <message>Val més fer servir una altra expressió.</message>
+                <suggestion>amb relació a\4</suggestion>
+                <suggestion>en relació amb e\4</suggestion>
+                <example correction="Amb relació als|En relació amb els"><marker>En relació als</marker> teus dubtes.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>en</token>
+                    <token>relació</token>
+                    <token>a</token>
+                </pattern>
+                <message>Val més fer servir una altra expressió.</message>
+                <suggestion>amb relació a</suggestion>
+                <suggestion>en relació amb</suggestion>
+                <example correction="Amb relació a|En relació amb"><marker>En relació a</marker> la qüestió.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="ACABAR_AMB" name="acabar amb">
             <rule>
                 <pattern>
