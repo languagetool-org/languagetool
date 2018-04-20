@@ -1,6 +1,6 @@
 #!/bin/bash
 
-DATADIR=/home/languagetool/languagetool.org/languagetool-website/www/regression-tests
+DATADIR=/home/languagetool/languagetool.org/languagetool-website-2018/public/regression-tests
 sleep $[ ( $RANDOM % 5 )  + 1 ]s
 
 # Note: we first access the server and ignore it, as HTTPS has quite some (non-deterministic?) overhead.
