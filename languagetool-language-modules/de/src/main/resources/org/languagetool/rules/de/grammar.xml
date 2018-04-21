@@ -17952,7 +17952,7 @@ Andere Projekte</example>
                     <marker>
                         <token regexp="yes">&neusubklein;</token>
                     </marker>
-                    <token regexp="yes">d(ies)?er|[mds]?einer|ihrer|unserer|eurer</token>
+                    <token regexp="yes">d(ies)?e[mnr]|[mds]?einer|ihrer|unserer|eurer</token>
                     <token postag="SUB:GEN:SIN:FEM"/>
                 </pattern>
                 <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
@@ -17963,7 +17963,7 @@ Andere Projekte</example>
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[dD]as</token>
-                    <token postag="ADJ:NOM:SIN:NEU:.*" postag_regexp="yes"/>
+                    <token postag="ADJ:NOM:SIN:NEU:.+" postag_regexp="yes"/>
                     <marker>
                         <token regexp="yes">&neusubklein;</token>
                     </marker>
@@ -18065,8 +18065,6 @@ Andere Projekte</example>
         </rulegroup>
         <rule id="AUF_DIE_SCHLICHE" name="'auf die schliche (Schliche) kommen'">
             <pattern case_sensitive="yes">
-                <token postag="PRO:PER:DAT:.+" postag_regexp="yes"/>
-                <token regexp="yes" min="0">nicht|nie(mals)?</token>
                 <token>auf</token>
                 <token>die</token>
                 <marker>
@@ -18075,7 +18073,7 @@ Andere Projekte</example>
             </pattern>
             <message>&inwend;'jmdm. auf die Schliche kommen' wird <suggestion>Schliche</suggestion> großgeschrieben.</message>
             <short>&prgk;.</short>
-            <!-- TODO: <example correction="Schliche">Ihm ist wohl jemand auf die <marker>schliche</marker> gekommen.</example> -->
+            <example correction="Schliche">Ihm ist wohl jemand auf die <marker>schliche</marker> gekommen.</example>
             <example correction="Schliche">Die Polizei kam ihnen auf die <marker>schliche</marker>.</example>
             <example correction="Schliche">Die kommen uns niemals auf die <marker>schliche</marker>!</example>
         </rule>
@@ -18115,6 +18113,32 @@ Andere Projekte</example>
             <short>&prgk;.</short>
             <example correction="Nachsehen">Sie protestierten, weil sie wieder das <marker>nachsehen</marker> hatten.</example>
         </rule>
+        <rulegroup id="EIN_EINSEHEN_HABEN" name="'ein einsehen (Einsehen) haben'">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">k?ein</token>
+                    <marker>
+                        <token skip="2">einsehen</token>
+                    </marker>
+                    <token inflected="yes">haben</token>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example correction="Einsehen">Sie protestierten, weil er kein <marker>einsehen</marker> für sie hatten.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token inflected="yes">haben</token>
+                    <token regexp="yes">k?ein</token>
+                    <marker>
+                        <token>einsehen</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="3" case_conversion="startupper"/></suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example correction="Einsehen">Er hatte ein <marker>einsehen</marker> mit ihnen.</example>
+            </rule>
+        </rulegroup>
         <rule id="DEN_KUERZEREN_ZIEHEN" name="'den kürzeren (Kürzeren) ziehen'">
             <pattern case_sensitive="yes">
                 <token regexp="yes">[dD]en</token>
@@ -18411,7 +18435,7 @@ Andere Projekte</example>
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[iI]n</token>
-                    <token regexp="yes">diesem|[dD]einem|eurem|meinem|[iI]hrem</token>
+                    <token regexp="yes">d(ies)?em|[dD]einem|[eE]urem|meinem|[iI]hrem</token>
                     <marker>
                         <token>sinne</token>
                     </marker>
@@ -18424,7 +18448,7 @@ Andere Projekte</example>
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[iI]m</token>
-                    <token regexp="yes">(eng|weit)(er)?en</token>
+                    <token regexp="yes">(eng|weit)(er|est)?en</token>
                     <marker>
                         <token>sinne</token>
                     </marker>
@@ -18439,22 +18463,11 @@ Andere Projekte</example>
                     <marker>
                         <token>sinne</token>
                     </marker>
-                    <token regexp="yes">vernebel[nt]</token>
+                    <token regexp="yes">vernebel[nt]|schw[ia]nden</token>
                 </pattern>
                 <message><suggestion>Sinne</suggestion> wird in dieser Wendung großgeschrieben.</message>
                 <short>&prgk;.</short>
                 <example correction="Sinne">Das hat mir die <marker>sinne</marker> vernebelt.</example>
-            </rule>
-            <rule>
-                <pattern case_sensitive="yes">
-                    <token regexp="yes">[dD]ie</token>
-                    <marker>
-                        <token>sinne</token>
-                    </marker>
-                    <token regexp="yes">schw[ia]nden</token>
-                </pattern>
-                <message><suggestion>Sinne</suggestion> wird in dieser Wendung großgeschrieben.</message>
-                <short>&prgk;.</short>
                 <example correction="Sinne">Das war so furchtbar, dass mir die <marker>sinne</marker> schwanden.</example>
             </rule>
             <rule>
