@@ -130,6 +130,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("[uU]nnützlich(e[nmrs]?)?", "nützlich", "nütz");
     putRepl("[rR]eligiösisch(e[nmrs]?)?", "isch", "");
     putRepl("[fF]olklorisch(e[nmrs]?)?", "isch", "istisch");
+    putRepl("[eE]infühlsvoll(e[nmrs]?)?", "voll", "am");
     putRepl("todesbedroh(end|lich)(e[nmrs]?)?", "todes", "lebens");
     putRepl("^[uU]nabsichtig(e[nmrs]?)?", "ig", "lich");
     putRepl("([eE]r|[bB]e|unter)?hälst", "hälst", "hältst");
@@ -140,6 +141,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("[aA]ss?ecoires?", "[aA]ss?ec", "Access");
     putRepl("[aA]ufwechse?lungsreich(er|st)?(e[nmrs]?)?", "ufwechse?lung", "bwechslung");
     putRepl("[iI]nordnung", "ordnung", " Ordnung");
+    putRepl("[iI]mmoment", "moment", " Moment");
     putRepl("[wW]ienerschnitzel[ns]?", "[wW]ieners", "Wiener S");
     putRepl("[kK]oxial(e[nmrs]?)?", "x", "ax");
     putRepl("[dD]urs?chnitt?lich(e[nmrs]?)?", "s?chnitt?", "chschnitt");
@@ -172,9 +174,16 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("eh?rgeit?z", "Ehrgeiz");
     put("solltes", "solltest");
     put("geklabt", "geklappt");
+    put("angefangt", "angefangen");
+    put("beinhält", "beinhaltet");
+    put("bescheit", "Bescheid");
+    put("Revisionierung", "Revision");
+    put("[eE]infühlvermögen", "Einfühlungsvermögen");
+    put("[sS]peziellisierung", "Spezialisierung");
     put("tuhen", "tun");
     put("ccm", "cm³");
     put("Kilimand?jaro", "Kilimandscharo");
+    put("[hH]erausfordung", "Herausforderung");
     put("berücksichtung", "Berücksichtigung");
     put("artzt?", "Arzt");
     put("[tT]h?elepath?ie", "Telepathie");

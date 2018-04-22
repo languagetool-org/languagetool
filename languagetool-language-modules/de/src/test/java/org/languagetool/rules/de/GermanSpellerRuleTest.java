@@ -169,6 +169,7 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("konflikationen", "Komplikationen", rule, lt);
     assertFirstSuggestion("unswar", "und zwar", rule, lt);
     assertFirstSuggestion("fomelare", "Formulare", rule, lt);
+    assertFirstSuggestion("immoment", "im Moment", rule, lt);
     assertFirstSuggestion("inordnung", "in Ordnung", rule, lt);
     assertFirstSuggestion("inbälde", "in Bälde", rule, lt);
     assertFirstSuggestion("unaufbesichtigt", "unbeaufsichtigt", rule, lt);
@@ -187,6 +188,7 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("Heileit", "Highlight", rule, lt);
     assertFirstSuggestion("todesbedrohende", "lebensbedrohende", rule, lt);
     assertFirstSuggestion("todesbedrohliches", "lebensbedrohliches", rule, lt);
+    assertFirstSuggestion("einfühlsvoller", "einfühlsamer", rule, lt);
     assertFirstSuggestion("folklorisch", "folkloristisch", rule, lt);
     assertFirstSuggestion("Religiösischen", "Religiösen", rule, lt);
     assertFirstSuggestion("reschaschiert", "recherchiert", rule, lt);
