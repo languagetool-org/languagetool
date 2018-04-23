@@ -161,6 +161,10 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("Kaput", "t", "tt");
     putRepl("[fF]estell(s?t|en?)", "est", "estst");
     put("[kK]onn?ekt?schen", "Connection");
+    put("E-Maul", "E-Mail");
+    put("E-Mauls", "E-Mails");
+    put("E-Mal", "E-Mail");
+    put("E-Mals", "E-Mails");
     put("Naricht", "Nachricht");
     put("Getrixe", "Getrickse");
     put("Ausage", "Aussage");
