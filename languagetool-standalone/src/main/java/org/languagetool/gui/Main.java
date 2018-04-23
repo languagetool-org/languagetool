@@ -906,6 +906,7 @@ public final class Main {
     if (config.getRunServer()) {
       try {
         HTTPServerConfig serverConfig = new HTTPServerConfig(config.getServerPort(), false);
+        serverConfig.setAllowOriginUrl("*");    // needed for Firefox so this server can be used from the add-on
         httpServer = new HTTPServer(serverConfig, true);
         httpServer.run();
         if (enableHttpServerItem != null) {

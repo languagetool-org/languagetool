@@ -254,6 +254,13 @@ public class HTTPServerConfig {
   }
 
   /**
+   * @since 4.2
+   */
+  public void setAllowOriginUrl(String allowOriginUrl) {
+    this.allowOriginUrl = allowOriginUrl;
+  }
+
+  /**
    * @param len the maximum text length allowed (in number of characters), texts that are longer
    *            will cause an exception when being checked, unless the user can provide
    *            a JWT 'token' parameter with a 'maxTextLength' claim          
