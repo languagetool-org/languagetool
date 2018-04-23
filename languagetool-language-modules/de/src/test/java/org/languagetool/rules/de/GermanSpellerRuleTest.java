@@ -219,6 +219,7 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("problemhafte", "problembehaftete", rule, lt);
     assertFirstSuggestion("solltes", "solltest", rule, lt);
     assertFirstSuggestion("Kilimanjaro", "Kilimandscharo", rule, lt);
+    assertFirstSuggestion("unzerbrechbare", "unzerbrechliche", rule, lt);
     assertFirstSuggestion("voraussichtige", "voraussichtliche", rule, lt);
     assertFirstSuggestion("Aleine", "Alleine", rule, lt);
     assertFirstSuggestion("abenzu", "ab und zu", rule, lt);
