@@ -1718,7 +1718,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Möglicher Tippfehler</short>
             <rule>
                 <pattern>
-                    <token regexp="yes">[mds]eine|ihre|unsere|eure</token>
+                    <token regexp="yes">[mds]?eine|ihre|unsere|eure</token>
                     <marker>
                         <token>eigne</token>
                     </marker>
@@ -1726,6 +1726,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Meinten Sie <suggestion>eigene</suggestion>?</message>
                 <example correction="eigene">Seine <marker>eigne</marker> Frau hat ihn ermordet.</example>
+                <example correction="eigene">Hast du eine <marker>eigne</marker> Meinung?</example>
             </rule>
             <rule>
                 <pattern>
@@ -1742,7 +1743,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token postag_regexp="yes" postag="ZAL.*"/>
+                    <token postag="ZAL"/>
                     <marker>
                         <token>eignen</token>
                     </marker>
@@ -1773,11 +1774,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token skip="-1">sich</token>
                     <marker>
-                        <token>bewehrt</token>
+                        <token regexp="yes">bewehr(en|t)</token>
                     </marker>
                 </pattern>
-                <message>Meinten Sie <suggestion>bewährt</suggestion>? (sich bewähren = gut funktionieren, sich bewehren = sich bewaffnen)</message>
+                <message>Meinten Sie <suggestion><match no="2" regexp_match="bewe" regexp_replace="bewä"/></suggestion>? (sich bewähren = gut funktionieren, sich bewehren = sich bewaffnen)</message>
                 <example correction="bewährt">Diese Idee hat sich <marker>bewehrt</marker>.</example>
+                <example correction="bewähren">Wenn sich diese Ideen <marker>bewehren</marker>, wäre das ein großer Erfolg.</example>
             </rule>
             <rule>
                 <pattern>
@@ -1795,12 +1797,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>sich</token>
                     <token skip="-1">nicht</token>
                     <marker>
-                        <token>bewehrt</token>
+                        <token regexp="yes">bewehr(en|t)</token>
                     </marker>
                 </pattern>
-                <message>Meinten Sie <suggestion>bewährt</suggestion>? (sich bewähren = gut funktionieren, sich bewehren = sich bewaffnen)</message>
+                <message>Meinten Sie <suggestion><match no="3" regexp_match="bewe" regexp_replace="bewä"/></suggestion>? (sich bewähren = gut funktionieren, sich bewehren = sich bewaffnen)</message>
                 <example correction="bewährt">Diese Idee hat sich nicht <marker>bewehrt</marker>.</example>
                 <example>Diese Idee hat sich <marker>bewährt</marker>.</example>
+                <example correction="bewähren">Wenn diese Ideen sich nicht <marker>bewehren</marker>, verliere ich meinen Job.</example>
             </rule>
         </rulegroup>
         <rule id="SICH_WAEHREN" name="'sich währen (wehren)'">
@@ -1990,26 +1993,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>für</token>
                     <token regexp="yes" case_sensitive="no">[dm]ich|sie|ihn|euch</token>
                     <marker>
-                        <token>gebettet</token>
-                    </marker>
-                </pattern>
-                <message>Meinten Sie <suggestion>gebetet</suggestion>?</message>
-                <example correction="gebetet">Ich habe heute morgen für Sie <marker>gebettet</marker>.</example>
-                <example>Er wurde nicht auf Rosen <marker>gebettet</marker>.</example>
-                <example>Ich habe für dich <marker>gebetet</marker>.</example>
-            </rule>
-            <rule>
-                <pattern case_sensitive="yes">
-                    <token>für</token>
-                    <token regexp="yes" case_sensitive="no">[dm]ich|sie|ihn|euch</token>
-                    <marker>
-                        <token regexp="yes">bette[nt]?</token>
+                        <token inflected="yes">betten</token>
                     </marker>
                 </pattern>
                 <message>Meinten Sie <suggestion><match no="3" regexp_match="bette" regexp_replace="bete"/></suggestion>?</message>
                 <example correction="beten">Ich werde morgen für Sie <marker>betten</marker>.</example>
+                <example correction="gebetet">Ich habe für ihn <marker>gebettet</marker>.</example>
                 <example>Er wurde nicht auf Rosen <marker>gebettet</marker>.</example>
                 <example>Ich werde für dich <marker>beten</marker>!</example>
+                <example correction="gebetet">Ich habe heute morgen für Sie <marker>gebettet</marker>.</example>
+                <example>Er wurde nicht auf Rosen <marker>gebettet</marker>.</example>
+                <example>Ich habe für dich <marker>gebetet</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="MIT_MIR" name="'mit (mir)'">
@@ -2029,7 +2023,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">gefällt|gefallen|gefiel</token>
+                    <token inflected="yes">gefallen</token>
                     <marker>
                         <token>mit</token>
                     </marker>
@@ -2145,7 +2139,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="ZWEIT" name="'zweit (zweite)' etc.">
             <rule>
                 <pattern>
-                    <token regexp="yes">in|aus|zu|zur</token>
+                    <token regexp="yes">in|aus|zur?</token>
                     <token>der</token>
                     <marker>
                         <token>Zweit</token>
@@ -2205,7 +2199,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="CHAMPAGNE_VS_CHAMPAGNER" name="'Champagne (Champagner)'">
             <rule>
                 <pattern>
-                    <token regexp="yes">Glas|Glases|Gläsern?|Gläschens?|Flaschen?|Fläschchens?|trinken?|trinks?t|trank(st|en)?</token>
+                    <token inflected="yes" regexp="yes">Glas|Gläschen|Flasche|Fläschchen|trinken</token>
                     <marker>
                         <token>Champagne</token>
                     </marker>
