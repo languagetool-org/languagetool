@@ -134,7 +134,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="SAGT_UND_BESCHEID" name="sagt und (uns) Bescheid">
             <pattern>
-                <token regexp='yes'>sag|g[ai]b|sagte?|gebt|sagt?en|g[ae]ben</token>
+                <token regexp='yes' inflected="yes">sagen|geben</token>
                 <marker>
                     <token>und</token>
                 </marker>
@@ -6720,6 +6720,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>&eigenname;</short>
             <example><marker>Max Brod</marker> war mit Kafka befreundet.</example>
             <example correction="Max Brod"><marker>Max Brot</marker> war ein Freund von Kafka.</example>
+        </rule>
+        <rule id="REIT_IM_WINKL" name="'Reit im Winkel (Winkl)'">
+            <pattern case_sensitive="yes">
+                <token>Reit</token>
+                <token>im</token>
+                <marker>
+                    <token>Winkel</token>
+                </marker>
+            </pattern>
+            <message>Meinten Sie die oberbayerische Gemeinde Reit im <suggestion>Winkl</suggestion>?</message>
+            <url>https://de.wikipedia.org/wiki/Reit_im_Winkl</url>
+            <short>&eigenname;</short>
+            <example correction="Winkl">Er wohnt in Reit im <marker>Winkel</marker>.</example>
         </rule>
         <rulegroup id="JANE_AUSTEN" name="'Jane Austin (Austen)'">
             <url>https://de.wikipedia.org/wiki/Jane_Austen</url>

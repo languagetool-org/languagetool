@@ -727,6 +727,16 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </pattern>
         <disambig action="remove" postag="VER:.+"/>
     </rule>
+    <rule id="RIW" name="Reit im Winkel">
+        <pattern case_sensitive="yes">
+            <marker>
+                <token>Reit</token>
+            </marker>
+            <token>im</token>
+            <token>Winkl</token>
+        </pattern>
+        <disambig action="remove" postag="VER:.+"/>
+    </rule>
     <!-- ============================================================================================================== -->
     <!-- IGNORE SPELLING -->
 
@@ -2687,6 +2697,14 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
       <pattern case_sensitive="yes">
         <token spacebefore="no" regexp="yes">['´’]</token>
         <token spacebefore="no" regexp="yes">sche[rmns]?</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Reit im Winkl" id="REIT_IM_WINKL">
+      <pattern case_sensitive="yes">
+        <token>Reit</token>
+        <token>im</token>
+        <token>Winkl</token>
       </pattern>
       <disambig action="ignore_spelling"/>
     </rule>
