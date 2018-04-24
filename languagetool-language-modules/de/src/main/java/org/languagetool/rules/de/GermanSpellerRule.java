@@ -92,6 +92,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("[sS]chee?selonge?", "Chaiselongue");
     put("Re[kc]amiere", "Récamière");
     put("legen[td]lich", "lediglich");
+    put("einundhalb", "eineinhalb");
     put("[mM]illion(en)?mal", w -> Collections.singletonList(StringTools.uppercaseFirstChar(w.replaceFirst("mal", " Mal"))));
     put("desweitere[nm]", "des Weiteren");
     putRepl("einzigste[mnrs]?", "einzigst", "einzig");
