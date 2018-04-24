@@ -8395,19 +8395,36 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Man konnte traurig oder fröhlich werden, <marker>je nach dem</marker> Zustand.</example>
             <example correction="je nachdem">Man konnte traurig oder fröhlich werden, <marker>je nach dem</marker>.</example>
         </rule>
-        <rule id="DA_MIT_VS_DAMIT" name="'Da mit (damit) er ...'">
-            <pattern case_sensitive="yes">
-                <token postag="SENT_START"/>
-                <marker>
-                    <token>Da</token>
-                    <token>mit</token>
-                </marker>
-                <token regexp="yes">e[rs]|sie|ich|d(er|ie|as|u)</token>
-            </pattern>
-            <message>Meinten Sie <suggestion>\2\3</suggestion>? Die Konjunktion 'damit' wird zusammengeschrieben.</message>
-            <short>&getrennt;.</short>
-            <example correction="Damit"><marker>Da mit</marker> er nicht umfällt, binden wir den Baum fest.</example>
-        </rule>
+        <rulegroup id="DA_MIT_VS_DAMIT" name="'Da mit (Damit) ...'">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag="SENT_START"/>
+                    <marker>
+                        <token>Da</token>
+                        <token>mit</token>
+                    </marker>
+                    <token regexp="yes">e[rs]|sie|ich|d(er|ie|as|u)</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>\2\3</suggestion>? Die Konjunktion 'damit' wird zusammengeschrieben.</message>
+                <short>&getrennt;.</short>
+                <example correction="Damit"><marker>Da mit</marker> er nicht umfällt, binden wir den Baum fest.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag="SENT_START"/>
+                    <marker>
+                        <token>Da</token>
+                        <token>mit</token>
+                    </marker>
+                    <token inflected="yes">können</token>
+                    <token postag="PRO:PER:NOM:.*" postag_regexp="yes"></token>
+                </pattern>
+                <message>Meinten Sie <suggestion>Damit</suggestion>? Die Konjunktion 'damit' wird zusammengeschrieben.</message>
+                <short>&getrennt;.</short>
+                <example correction="Damit"><marker>Da mit</marker> können wir das Problem lösen.</example>
+                <example correction="Damit"><marker>Da mit</marker> kannst du den Fleck aufwischen.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="SO_BALD_VS_SOBALD" name="'sobald (so bald) wie möglich' etc.">
             <url>http://www.duden.de/rechtschreibung/sobald</url>
             <rule>
