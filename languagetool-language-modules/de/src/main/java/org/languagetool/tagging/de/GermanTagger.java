@@ -180,7 +180,7 @@ public class GermanTagger extends BaseTagger {
               }
               //Separate dash-linked words
               //Only check single word tokens and skip words containing numbers because it's unpredictable
-              if (word.split(" ").length == 1 && !word.matches("[0-9].*")) {
+              if (word.split(" ").length == 1 && !Character.isDigit(word.charAt(0))) {
                 String wordOrig = word;
                 word = sanitizeWord(word);
                 String wordStem = wordOrig.substring(0, wordOrig.length() - word.length());
