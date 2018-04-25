@@ -103,7 +103,7 @@ public class HunspellRule extends SpellingCheckRule {
     int len = sentence.getTokens()[1].getStartPos();
     for (int i = 0; i < tokens.length; i++) {
       String word = tokens[i];
-      if (ignoreWord(Arrays.asList(tokens), i) || ignoreWord(word)) {
+      if ((ignoreWord(Arrays.asList(tokens), i) || ignoreWord(word)) && !isProhibited(removeTrailingDot(word))) {
         len += word.length() + 1;
         continue;
       }
