@@ -8403,24 +8403,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>Da</token>
                         <token>mit</token>
                     </marker>
-                    <token regexp="yes">e[rs]|sie|ich|d(er|ie|as|u)</token>
+                    <token postag="PRO:PER:NOM:.+|ART:DEF:NOM:.+|VER:(MOD:|AUX:)?[1-3]:.+" postag_regexp="yes"/>
                 </pattern>
                 <message>Meinten Sie <suggestion>\2\3</suggestion>? Die Konjunktion 'damit' wird zusammengeschrieben.</message>
                 <short>&getrennt;.</short>
                 <example correction="Damit"><marker>Da mit</marker> er nicht umfällt, binden wir den Baum fest.</example>
-            </rule>
-            <rule>
-                <pattern case_sensitive="yes">
-                    <token postag="SENT_START"/>
-                    <marker>
-                        <token>Da</token>
-                        <token>mit</token>
-                    </marker>
-                    <token inflected="yes">können</token>
-                    <token postag="PRO:PER:NOM:.*" postag_regexp="yes"></token>
-                </pattern>
-                <message>Meinten Sie <suggestion>Damit</suggestion>? Die Konjunktion 'damit' wird zusammengeschrieben.</message>
-                <short>&getrennt;.</short>
                 <example correction="Damit"><marker>Da mit</marker> können wir das Problem lösen.</example>
                 <example correction="Damit"><marker>Da mit</marker> kannst du den Fleck aufwischen.</example>
             </rule>
@@ -8470,7 +8457,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>So</token>
                         <token>bald</token>
                     </marker>
-                    <token regexp="yes">e[rs]|sie|ich|d(er|ie|as|u)</token>
+                    <token postag="PRO:PER:NOM:.+|ART:DEF:NOM:.+" postag_regexp="yes"/>
                 </pattern>
                 <message>&getrennt;: Ist hier die Konjunktion <suggestion>sobald</suggestion> gemeint?</message>
                 <short>&getrennt;.</short>
@@ -8484,7 +8471,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>so</token>
                         <token>bald</token>
                     </marker>
-                    <token regexp="yes">e[rs]|sie|ich|d(er|ie|as|u)</token>
+                    <token postag="PRO:PER:NOM:.+|ART:DEF:NOM:.+" postag_regexp="yes"/>
                 </pattern>
                 <message>&getrennt;: Ist hier die Konjunktion <suggestion>sobald</suggestion> gemeint?</message>
                 <short>&getrennt;.</short>
