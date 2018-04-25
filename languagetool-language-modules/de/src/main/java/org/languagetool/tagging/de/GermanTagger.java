@@ -278,7 +278,7 @@ public class GermanTagger extends BaseTagger {
 
   /*
    * Tag substantivated adjectives and participles, which are currently tagged not tagged correctly
-   * (e.g., "Verletzter" in "Ein Verletzter kam in Krankenhaus" needs to be tagged as "SUB:NOM:SIN:MAS") 
+   * (e.g., "Verletzter" in "Ein Verletzter kam ins Krankenhaus" needs to be tagged as "SUB:NOM:SIN:MAS")
    * @param word to be checked
    */
   private List<AnalyzedToken> getSubstantivatedForms(String word, List<String> sentenceTokens, int pos) {
