@@ -4056,7 +4056,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">(ajup|bull|cull|escup|muny|esmuny|gruny|a?bat)([ei]sc|[ei]squ|e?ixc|e?ixqu|e?ix)([ieoa]?)([ns]?)</token>
                 </pattern>
                 <message>Aquest verb no és incoatiu.</message>
-                <suggestion><match no="1" regexp_match="(ajup|bull|cull|escup|muny|esmuny|gruny|abat)([ei]sc|[ei]squ|e?ixc|e?ixqu|e?ix)([ieoa]?)([ns]?)" regexp_replace="$1$3$4"/></suggestion>
+                <suggestion><match no="1" regexp_match="(?iu)(ajup|bull|cull|escup|muny|esmuny|gruny|abat)([ei]sc|[ei]squ|e?ixc|e?ixqu|e?ix)([ieoa]?)([ns]?)" regexp_replace="$1$3$4"/></suggestion>
                 <example correction="gruny"><marker>grunyeix</marker></example>
                 <example correction="ajupin"><marker>ajupesquin</marker></example>
                 <example correction="ajupen"><marker>ajupixquen</marker></example>
@@ -4068,13 +4068,61 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">(ad|e|o|trans|re)m[ei]t([ei]sc|[ei]squ|e?ixc|e?ixqu|e?ix)([ieoa]?)([ns]?)</token>
                 </pattern>
                 <message>Aquest verb no és incoatiu.</message>
-                <suggestion><match no="1" regexp_match="(ad|e|o|trans|re)m[ei]t([ei]sc|[ei]squ|e?ixc|e?ixqu|e?ix)([ieoa]?)([ns]?)" regexp_replace="$1met$3$4"/></suggestion>
+                <suggestion><match no="1" regexp_match="(?iu)(ad|e|o|trans|re)m[ei]t([ei]sc|[ei]squ|e?ixc|e?ixqu|e?ix)([ieoa]?)([ns]?)" regexp_replace="$1met$3$4"/></suggestion>
                 <example correction="admetin"><marker>admiteixin</marker></example>
                 <example correction="emet"><marker>emitisc</marker></example>
                 <example correction="ometi"><marker>omiteixi</marker></example>
                 <example correction="remetin"><marker>remetesquin</marker></example>
                 <example correction="admeten"><marker>admiteixquen</marker></example>
                 <example>ometin</example>
+            </rule>
+            <rule> <!-- percebre --> 
+                <pattern>
+                    <token regexp="yes">perc[ei]b([ei]sc|[ei]i?xes|e?ix)</token>
+                </pattern>
+                <message>Aquest verb no és incoatiu.</message>
+                <suggestion><match no="1" regexp_match="(?iu)perc[ei]b([ei]sc|[ei]i?xe|e?ix)(s?)" regexp_replace="percep$2"/></suggestion>
+                <example correction="perceps"><marker>percibixes</marker></example>
+                <example correction="perceps"><marker>percebeixes</marker></example>
+                <example correction="percep"><marker>percibix</marker></example>
+                <example>percep</example>
+            </rule>
+            <rule> <!-- percebre --> 
+                <pattern>
+                    <token regexp="yes">perc[ei]b([ei]sc|[ei]squ|e?ixc|e?ixqu|e?ix)(o|an|in|a|i|en)</token>
+                </pattern>
+                <message>Aquest verb no és incoatiu.</message>
+                <suggestion><match no="1" regexp_match="(?iu)perc[ei]b([ei]squ|e?i[xs]c|e?ixqu|e?ix)(o|an|in|a|i|en)" regexp_replace="perceb$2"/></suggestion>
+                <example correction="perceben"><marker>percibixen</marker></example>
+                <example correction="percebo"><marker>percibeixo</marker></example>
+                <example correction="perceba"><marker>percebisca</marker></example>
+                <example correction="percebin"><marker>percebeixin</marker></example>
+                <example correction="percebi"><marker>percebixqui</marker></example>
+                <example>rebin</example>
+            </rule>
+            <rule> <!-- rebre --> 
+                <pattern>
+                    <token regexp="yes">rec[ei]b([ei]sc|[ei]i?xes|e?ix)</token>
+                </pattern>
+                <message>Aquest verb no és incoatiu.</message>
+                <suggestion><match no="1" regexp_match="(?iu)rec[ei]b([ei]sc|[ei]i?xe|e?ix)(s?)" regexp_replace="rep$2"/></suggestion>
+                <example correction="reps"><marker>recibixes</marker></example>
+                <example correction="reps"><marker>recebeixes</marker></example>
+                <example correction="rep"><marker>recibix</marker></example>
+                <example>percep</example>
+            </rule>
+            <rule> <!-- rebre --> 
+                <pattern>
+                    <token regexp="yes">rec[ei]b([ei]sc|[ei]squ|e?ixc|e?ixqu|e?ix)(o|an|in|a|i|en)</token>
+                </pattern>
+                <message>Aquest verb no és incoatiu.</message>
+                <suggestion><match no="1" regexp_match="(?iu)rec[ei]b([ei]squ|e?i[xs]c|e?ixqu|e?ix)(o|an|in|a|i|en)" regexp_replace="reb$2"/></suggestion>
+                <example correction="reben"><marker>recibixen</marker></example>
+                <example correction="rebo"><marker>recibeixo</marker></example>
+                <example correction="reba"><marker>recebisca</marker></example>
+                <example correction="rebin"><marker>recebeixin</marker></example>
+                <example correction="rebin"><marker>recebixquin</marker></example>
+                <example>rebin</example>
             </rule>
         </rulegroup>
         <rulegroup id="CONCORDANCES_CALDRE" name="concordança del verb caldre">
