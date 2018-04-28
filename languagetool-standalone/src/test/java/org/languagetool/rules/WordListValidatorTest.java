@@ -66,6 +66,7 @@ public class WordListValidatorTest {
           "C&A",
           "P&O",
           "S&P",
+          "ČSSR",
           "V&D"
   ));
 
