@@ -48,12 +48,6 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <!-- es pot eliminar quan s'arregle el diccionari -->
         <rule>
             <pattern>
-                <token inflected="yes">ditar</token>
-            </pattern>
-            <disambig action="remove"><wd lemma="ditar"/></disambig>
-        </rule>
-        <rule>
-            <pattern>
                 <token>imprimí</token>
             </pattern>
             <disambig action="remove"><wd lemma="imprimar"/></disambig>
@@ -2505,6 +2499,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <token postag="[NA].*" postag_regexp="yes"/>
         </pattern>
         <disambig action="remove" postag="P.*"/>
+    </rule>
+    <rule id="donat_cas" name="cas (masc sg)">
+        <pattern>
+            <token postag="V.P..SM." postag_regexp="yes"></token>
+            <marker>
+                <token postag="NCMS000">cas</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
     </rule>
     <rule id="el_doble" name="el doble (no verb)">
         <pattern>
