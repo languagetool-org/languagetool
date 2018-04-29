@@ -6346,6 +6346,15 @@ USA
             <short>Possible typo</short>
             <example correction="heart">She had a <marker>hart</marker> attack.</example>
         </rule>
+        <rule id="CONFUSION_OF_FOND_FUND" name="confusion of fond/fund">
+            <pattern>
+                <token regexp="yes">executor|exchange-traded|growth|hedge|index|vulture</token>
+                <marker><token regexp="yes">f[io]nds?</token></marker>
+            </pattern>
+            <message>Did you mean <suggestion><match no="2" regexp_match="o" regexp_replace="u"/></suggestion>?</message>
+            <short>Possible typo</short>
+            <example correction="fund">A vulture <marker>fond</marker> is a...</example>
+        </rule>
         <rule id="CONTRACT_CONTACT" name="confusion of contract/contact">
             <pattern>
                 <token>please</token>
@@ -25025,7 +25034,7 @@ USA
         <!-- be advised – (omit) -->
         <rule id="BE_ADVISED" name="be advised">
             <pattern>
-                <token postag="V.*" postag_regexp="yes" inflected="yes">be</token>
+                <token postag="VB.?" postag_regexp="yes" inflected="yes">be</token>
                 <token>advised</token>
             </pattern>
             <message>Remove wordy "\1 \2"</message>
@@ -25037,6 +25046,21 @@ USA
         <!-- because of the fact that – because, since -->
         <!-- by reason of – because -->
         <!-- due to the fact that – because, since -->
+        <!-- be advised – (omit) -->
+        <rule id="DUE_TO_THE_FACT" name="wordy phrase: due to the fact">
+            <pattern>
+                <token>due</token>
+                <token>to</token>
+                <token>the</token>
+                <token>fact</token>
+                <token>that</token>
+            </pattern>
+            <message>Remove wordy "\1 \2 \3 \4 \5"</message>
+            <suggestion>because</suggestion>
+            <url>https://brians.wsu.edu/2016/05/25/due-to-the-fact-that/</url>
+            <short>Wordy phrase</short>
+            <example correction="because">The experiment was halted <marker>due to the fact that</marker> funding was withdrawn.</example>
+        </rule>
         <!-- in light of the fact that – because -->
         <!-- owing to the fact that – because, since -->
         <!-- reason ... is because – because -->
