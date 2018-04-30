@@ -5033,6 +5033,18 @@ USA
             <message>Did you mean <suggestion>their <match no="4"/> <match no="5"/></suggestion>?</message>
             <example correction="their oddest hypothesis">It was <marker>they're oddest hypothesis</marker> yet.</example>
         </rule>
+        <rule id="WRB_THERE_THEY_RE" name="'wherever there (they are) going'">
+            <pattern>
+                <token postag="WRB"></token>
+                <marker>
+                    <token>there</token>
+                </marker>
+                <token postag="VBG"></token>
+            </pattern>
+            <message>Did you mean <suggestion>they are</suggestion>?</message>
+            <short>Possible typo</short>
+            <example correction="they are">Wherever <marker>there</marker> going, I will follow them.</example>
+        </rule>
         <!-- .*/VBZ .*/IN|DT they're .*/NNP|NN|NNS::word=\0 \1 their \3::pivots=they're,their::options=they're,their -->
         <rule id="VBZ_IN_THEYRE_NN" name="VBZ IN they're (their) NN">
             <pattern>
@@ -8104,6 +8116,20 @@ USA
             <example correction="grow">Does your memory usage <marker>grows</marker> during processing?</example>
             <example correction="grow">Does memory usage <marker>grows</marker> during processing?</example>
         </rule>
+        <rule id="WHAT_VBZ" name="3rd person verb (base verb) after what/who">
+            <pattern>
+                <token postag="SENT_START"></token>
+                <token regexp="yes">Wh(at|o)</token>
+                <marker>
+                    <token postag="VBP?" postag_regexp="yes"><exception postag="VBZ"/></token>
+                </marker>
+                <token postag="IN"/>
+            </pattern>
+            <message>Did you mean <suggestion><match no="3" postag="VBZ"/></suggestion>?</message>
+            <short>Possible typo</short>
+            <example correction="wants">Who <marker>want</marker> to go to the mall?</example>
+            <example correction="happens">What <marker>happen</marker> in Vegas, stays in Vegas.</example>
+        </rule>
         <rule id="IT_VBZ" name="'it' + non-3rd person verb">
             <antipattern>
                 <token postag_regexp="yes" postag="VBP?"/>
@@ -8251,7 +8277,7 @@ USA
                     <token postag="SENT_END"/>
                 </antipattern>
                 <pattern>
-                    <token><exception postag="VB.*|MD" postag_regexp="yes"/></token>
+                    <token><exception postag="VB.?|MD" postag_regexp="yes"/></token>
                     <marker>
                         <token regexp="yes">always|hardly|never|rarely|seldom</token>
                     </marker>
@@ -14838,13 +14864,13 @@ USA
         <rule id="SINKING_HIP" name="a sinking (s)hip">
             <pattern case_sensitive="yes">
                 <token>sinking</token>
-                <marker><token>hip</token></marker>
+                <marker><token regexp="yes">[hs]ip</token></marker>
             </pattern>
             <message>Did you mean <suggestion>ship</suggestion>?</message>
             <short>Possible typo</short>
             <example correction="ship">The idiom 'like rats fleeing a sinking <marker>hip</marker> is used in reference to people abandoning an enterprise once it seems likely to fail.</example>
         </rule>
-  <rulegroup id="COLLOCATION_ERRORS_BOKOMARU" name="Common colocation errors">
+  <rulegroup id="COLLOCATION_ERRORS_BOKOMARU" name="Common collocation errors">
     <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
     <!-- https://forum.languagetool.org/t/en-english-collocation-rules-to-contribute-to-lt/2318 -->
       <url>http://www.kentlee7.com/writ/collocation.errors.typical.pdf</url>
@@ -21066,6 +21092,22 @@ USA
             <example>You're kind of amazed.</example>
             <example>You're in better shape than I am.</example>
         </rule>
+        <rule id="IN_YOU_RE_NN" name="you're (your)">
+            <pattern>
+                <token postag="IN"><exception>like</exception><exception>while</exception></token>
+                <marker>
+                    <token inflected="no">you</token>
+                    <token spacebefore="no" regexp="yes">['’]</token>
+                    <token>re</token>
+                </marker>
+                <token postag="NN.*" postag_regexp="yes"></token>
+                <token postag="SENT_END"/>
+            </pattern>
+            <message>Did you mean <suggestion>your</suggestion>?</message>
+            <short>Possible typo</short>
+            <example correction="your">There are a number of things you can do to reduce the risk to <marker>you’re</marker> pet.</example>
+            <example>You should read a lot of books while you're young.</example>
+        </rule>
         <rulegroup id="DEER_DEAR" name="deer/dear">
             <rule>
                 <antipattern case_sensitive="yes">
@@ -21329,6 +21371,18 @@ USA
             <message>Did you mean <suggestion>economical</suggestion> (=affordable, cheap)?</message>
             <short>Commonly confused word</short>
             <example correction="economical">This is a very <marker>economic</marker> car.</example>
+        </rule>
+        <rule id="VERSE" name="'written in verses (verse)'">
+            <pattern>
+                <token inflected="yes">write</token>
+                <token>in</token>
+                <marker>
+                    <token>verses</token>
+                </marker>
+            </pattern>
+            <message>Did you mean <suggestion>verse</suggestion>?</message>
+            <short>Possible typo</short>
+            <example correction="verse">The tale was written in <marker>verses</marker>.</example>
         </rule>
         <rulegroup id="IN_PRINCIPAL" name="principal (principle)">
             <url>http://blog.oxforddictionaries.com/2011/08/principle-or-principal/</url>
