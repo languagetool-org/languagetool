@@ -716,7 +716,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private String baseForThirdPersonSingularVerb(String word) throws IOException {
     List<AnalyzedTokenReadings> readings = tagger.tag(Collections.singletonList(word));
     for (AnalyzedTokenReadings reading : readings) {
-      if (reading.hasPartialPosTag("VER:3:SIN:")) {
+      if (reading.hasPosTagStartingWith("VER:3:SIN:")) {
         return reading.getReadings().get(0).getLemma();
       }
     }

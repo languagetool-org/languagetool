@@ -372,7 +372,7 @@ public abstract class SpellingCheckRule extends Rule {
     if (word.length() < 4) {
       return 0;
     }
-    Optional<String> match = null;
+    Optional<String> match = Optional.empty();
     if(caseSensitive) {
       Set<String> subset = wordsToBeIgnoredDictionary.get(word.substring(0, 1));
       if (subset != null) {
@@ -385,7 +385,7 @@ public abstract class SpellingCheckRule extends Rule {
         match = subset.stream().filter(s -> lowerCaseWord.startsWith(s)).max(STRING_LENGTH_COMPARATOR);
       }
     }
-    return match != null && match.isPresent() ? match.get().length() : 0;
+    return match.isPresent() ? match.get().length() : 0;
   }
 
 }
