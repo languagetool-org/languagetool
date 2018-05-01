@@ -78,6 +78,13 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("rosane[mnrs]?$", w -> Arrays.asList("rosa", w.replaceFirst("^rosan", "rosafarben")));
     put("Erbung", w -> Arrays.asList("Vererbung", "Erbschaft"));
     put("Energiesparung", w -> Arrays.asList("Energieeinsparung", "Energieersparnis"));
+    put("Abbrechung", "Abbruch");
+    put("Abbrechungen", w -> Arrays.asList("Abbrüche", "Abbrüchen"));
+    put("Urteilung", w -> Arrays.asList("Urteil", "Verurteilung"));
+    put("vorr?auss?etzlich", w -> Arrays.asList("voraussichtlich", "vorausgesetzt"));
+    put("nichtmals", w -> Arrays.asList("nicht mal", "nicht einmal"));
+    put("eingepeilt", "angepeilt");
+    put("Hijab", "Hidschāb");
     putRepl("for?melar(en?)?", "for?me", "Formu");
     putRepl("näste[mnrs]?$", "^näs", "nächs");
     putRepl("Erdogans?$", "^Erdogan", "Erdoğan");
@@ -130,6 +137,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("[gG]leichrechtig(e[nmrs]?)?", "rechtig", "berechtigt");
     putRepl("[uU]nnützlich(e[nmrs]?)?", "nützlich", "nütz");
     putRepl("[uU]nzerbrechbar(e[nmrs]?)?", "bar", "lich");
+    putRepl("tableten?", "tablet", "Tablett");
+    putRepl("unverantwortungsvoll(e[nmrs]?)?", "unverantwortungsvoll", "verantwortungslos");
     putRepl("[rR]eligiösisch(e[nmrs]?)?", "isch", "");
     putRepl("[fF]olklorisch(e[nmrs]?)?", "isch", "istisch");
     putRepl("[eE]infühlsvoll(e[nmrs]?)?", "voll", "am");
