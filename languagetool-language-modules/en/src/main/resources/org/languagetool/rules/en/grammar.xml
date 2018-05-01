@@ -8129,6 +8129,12 @@ USA
             <example correction="grow">Does memory usage <marker>grows</marker> during processing?</example>
         </rule>
         <rule id="WHAT_VBZ" name="3rd person verb (base verb) after what/who">
+            <antipattern>
+                <token postag="SENT_START"></token>
+                <token>What</token>
+                <token postag="NN.*" postag_regexp="yes"></token>
+                <token regexp="yes">for|of</token>
+            </antipattern>
             <pattern>
                 <token postag="SENT_START"></token>
                 <token regexp="yes">Wh(at|o)</token>
@@ -8141,6 +8147,7 @@ USA
             <short>Possible typo</short>
             <example correction="wants">Who <marker>want</marker> to go to the mall?</example>
             <example correction="happens">What <marker>happen</marker> in Vegas, stays in Vegas.</example>
+            <example>What make of computer do you use?</example>
         </rule>
         <rule id="IT_VBZ" name="'it' + non-3rd person verb">
             <antipattern>
