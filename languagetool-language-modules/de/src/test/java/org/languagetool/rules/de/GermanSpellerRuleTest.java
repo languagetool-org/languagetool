@@ -90,6 +90,11 @@ public class GermanSpellerRuleTest {
     assertTrue(rule.isProhibited("Standart-Test"));
     assertTrue(rule.isProhibited("Weihnachtfreier"));
     assertFalse(rule.isProhibited("Standard-Test"));
+    assertTrue(rule.isProhibited("Abstellgreis"));
+    assertTrue(rule.isProhibited("Abstellgreise"));
+    assertTrue(rule.isProhibited("Abstellgreisen"));
+    assertTrue(rule.isProhibited("Landstreckenflüge"));
+    assertTrue(rule.isProhibited("Landstreckenflügen"));
   }
 
   @Test

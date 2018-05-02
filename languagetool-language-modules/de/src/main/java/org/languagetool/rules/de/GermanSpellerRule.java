@@ -67,6 +67,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
           "Kollier|Kommunikee|Masurka|Negligee|Nessessär|Poulard|Varietee|Wandalismus|kalvinist).*");
 
   private final Set<String> wordsToBeIgnoredInCompounds = new HashSet<>();
+  private final Set<String> wordStartsToBeProhibited    = new HashSet<>();
   private static final Map<Pattern, Function<String,List<String>>> ADDITIONAL_SUGGESTIONS = new HashMap<>();
   static{
     put("[aA]wa", w -> Arrays.asList("AWA", "ach was", "aber"));
@@ -308,7 +309,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
 
   @Override
   protected boolean isProhibited(String word) {
-    return word.startsWith("Standart-") || super.isProhibited(word);
+    return super.isProhibited(word) || wordStartsToBeProhibited.stream().anyMatch(w -> word.startsWith(w));
   }
 
   @Override
@@ -891,4 +892,13 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     }
     return false;
   }
+
+  protected void addProhibitedWords(List<String> words) {
+    if(words.size() == 1 && words.get(0).endsWith(".*")) {
+      wordStartsToBeProhibited.add(words.get(0).substring(0, words.get(0).length()-2));
+    } else {
+      super.addProhibitedWords(words);
+    }
+  }
+
 }

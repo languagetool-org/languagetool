@@ -218,7 +218,7 @@ public abstract class SpellingCheckRule extends Rule {
     }
     updateIgnoredWordDictionary();
     for (String prohibitedWord : wordListLoader.loadWords(getProhibitFileName())) {
-      wordsToBeProhibited.addAll(expandLine(prohibitedWord));
+      addProhibitedWords(expandLine(prohibitedWord));
     }
   }
 
@@ -290,6 +290,14 @@ public abstract class SpellingCheckRule extends Rule {
     } else {
       wordsToBeIgnored.add(line);
     }
+  }
+
+  /**
+   * @param list of words to be prohibited.
+   * @since 4.2
+   */
+  protected void addProhibitedWords(List<String> words) {
+    wordsToBeProhibited.addAll(words);
   }
 
   /**
