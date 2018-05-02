@@ -19,6 +19,7 @@
 package org.languagetool.tokenizers.de;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -42,10 +43,10 @@ public class GermanCompoundTokenizer implements Tokenizer {
     wordSplitter = new GermanWordSplitter(false);
     // add exceptions here so we don't need to update JWordSplitter for every exception we find:  
     wordSplitter.addException("Maskerade", Collections.singletonList("Maskerade"));
-    wordSplitter.addException("Sportshorts", Collections.singletonList("Sport, shorts")); 
-    wordSplitter.addException("Bermudashorts", Collections.singletonList("Bermuda, shorts"));
-    wordSplitter.addException("Laufshorts", Collections.singletonList("Lauf, shorts"));
-    wordSplitter.addException("Badeshorts", Collections.singletonList("Bade, shorts"));
+    wordSplitter.addException("Sportshorts", Arrays.asList("Sport", "shorts")); 
+    wordSplitter.addException("Bermudashorts", Arrays.asList("Bermuda", "shorts"));
+    wordSplitter.addException("Laufshorts", Arrays.asList("Lauf", "shorts"));
+    wordSplitter.addException("Badeshorts", Arrays.asList("Bade", "shorts"));
     wordSplitter.setStrictMode(strictMode);
     wordSplitter.setMinimumWordLength(3);
   }
