@@ -85,7 +85,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY unitats_temps "segon|minut|hora|dia|setmana|mes|(tri|quadri|se)mestre|any|lustre|dècada|decenni|segle|mil·lenni|mil·lenari">
     <!ENTITY verbs_no_apostrofen "halar|ioditzar|iotitzar|iodurar|iodar">
     <!ENTITY verbs_no_intrans_consonant "perjudicar|concernir|cansar|sorprendre"> <!--|preocupar|molestar-->
-    <!ENTITY verbs_no_intrans_vocal "informar|afectar|assessorar|emprenyar|empipar|espantar|apassionar|atr[ae]ure|ajudar|acusar|obligar">
+    <!ENTITY verbs_no_intrans_vocal "informar|afectar|assessorar|emprenyar|empipar|espantar|apassionar|atr[ae]ure|ajudar|acusar">
     <!ENTITY verbs_TE_INFUSIO "produir|prendre|servir|preparar|voler|beure|consumir|importar|vendre|exportar|llançar">
     <!ENTITY verbs_colloquials "digue|vulgue|estigue|sigue|tingue|sàpigue|dugue">
     <!ENTITY verbs_balears_ES "adès|avès|exprès|ingrès|procès|profès|progrès|regrès|reingrès|revès|travès">
@@ -4475,7 +4475,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token>li</token>
-                    <token inflected="yes" regexp="yes">&verbs_no_intrans_vocal;</token>
+                    <token inflected="yes" regexp="yes">&verbs_no_intrans_vocal;|obligar</token>
                 </pattern>
                 <message>Aquest verb és transitiu. Potser cal canviar el pronom.</message>
                 <suggestion>l'<match no="3"></match></suggestion>
@@ -4484,6 +4484,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="l'apassiona">Això no <marker>li apassiona</marker></example>
                 <example correction="l'atreien">No <marker>li atreien</marker> gaire les novetats</example>
                 <example correction="l'informarem">Entri i <marker>li informarem</marker> de tot.</example>
+                <example correction="L'obligà"><marker>Li obligà</marker> a fer-ho.</example>
                 <example>No l'empipes</example>
             </rule>
             <rule>
@@ -4492,7 +4493,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>li</token>
                         <token postag="V.[^MNGP].*" postag_regexp="yes" inflected="yes" regexp="yes">haver|anar<exception regexp="yes">v.+</exception></token>
-                        <token postag="V.[NPG].*" postag_regexp="yes" inflected="yes" regexp="yes">&verbs_no_intrans_consonant;|&verbs_no_intrans_vocal;</token>
+                        <token postag="V.[NPG].*" postag_regexp="yes" inflected="yes" regexp="yes">&verbs_no_intrans_consonant;|&verbs_no_intrans_vocal;|obligar</token>
                     </marker>
                 </pattern>
                 <message>Aquest verb és transitiu. Potser cal canviar el pronom.</message>
@@ -4507,7 +4508,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>li</token>
                         <token postag="V.[^MNGP].*" postag_regexp="yes" inflected="yes" regexp="yes">anar|fer<exception regexp="yes">a.+</exception></token>
-                        <token postag="V.[NPG].*" postag_regexp="yes" inflected="yes" regexp="yes">&verbs_no_intrans_consonant;|&verbs_no_intrans_vocal;</token>
+                        <token postag="V.[NPG].*" postag_regexp="yes" inflected="yes" regexp="yes">&verbs_no_intrans_consonant;|&verbs_no_intrans_vocal;|obligar</token>
                     </marker>
                 </pattern>
                 <message>Aquest verb és transitiu. Potser cal canviar el pronom.</message>
@@ -4520,7 +4521,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token postag="V.[NG].*" postag_regexp="yes" inflected="yes" regexp="yes">&verbs_no_intrans_consonant;|&verbs_no_intrans_vocal;</token>
+                    <token postag="V.[NG].*" postag_regexp="yes" inflected="yes" regexp="yes">&verbs_no_intrans_consonant;|&verbs_no_intrans_vocal;|obligar</token>
                     <token>-li</token>
                 </pattern>
                 <message>Aquest verb és transitiu. Potser cal canviar el pronom.</message>
