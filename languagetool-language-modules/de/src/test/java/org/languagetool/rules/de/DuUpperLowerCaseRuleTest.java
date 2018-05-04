@@ -18,24 +18,24 @@
  */
 package org.languagetool.rules.de;
 
-import org.junit.Test;
-import org.languagetool.AnalyzedSentence;
-import org.languagetool.JLanguageTool;
-import org.languagetool.TestTools;
-import org.languagetool.language.German;
-import org.languagetool.rules.RuleMatch;
+import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertThat;
 
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 
-import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.*;
+import org.junit.Test;
+import org.languagetool.AnalyzedSentence;
+import org.languagetool.JLanguageTool;
+import org.languagetool.TestTools;
+import org.languagetool.language.GermanyGerman;
+import org.languagetool.rules.RuleMatch;
 
 public class DuUpperLowerCaseRuleTest {
 
   private final DuUpperLowerCaseRule rule = new DuUpperLowerCaseRule(TestTools.getEnglishMessages());
-  private final JLanguageTool lt = new JLanguageTool(new German());
+  private final JLanguageTool lt = new JLanguageTool(new GermanyGerman());
 
   @Test
   public void testRule() throws IOException {

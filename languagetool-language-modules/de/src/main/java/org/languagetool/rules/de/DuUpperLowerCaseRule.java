@@ -75,7 +75,7 @@ public class DuUpperLowerCaseRule extends TextLevelRule {
     for (AnalyzedSentence sentence : sentences) {
       AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
       for (int i = 0; i < tokens.length; i++) {
-        if (i > 0 && (tokens[i-1].isSentenceStart() || tokens[i-1].getToken().matches("[\"„:]"))) {
+        if (i > 0 && (tokens[i-1].isSentenceStart() || StringUtils.equalsAny(tokens[i-1].getToken(), "\"","„", ":"))) {
           continue;
         }
         AnalyzedTokenReadings token = tokens[i];

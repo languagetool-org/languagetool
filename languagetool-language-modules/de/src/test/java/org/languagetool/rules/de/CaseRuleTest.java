@@ -23,7 +23,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.regex.Pattern;
 
 import org.junit.Before;
@@ -32,7 +31,6 @@ import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.GermanyGerman;
-import org.languagetool.rules.RuleMatch;
 
 public class CaseRuleTest {
 
