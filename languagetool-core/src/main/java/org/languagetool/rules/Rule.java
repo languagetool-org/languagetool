@@ -157,7 +157,7 @@ public abstract class Rule {
       rules.add(new DisambiguationPatternRule("INTERNAL_ANTIPATTERN", "(no description)", language,
               patternTokens, null, null, DisambiguationPatternRule.DisambiguatorAction.IMMUNIZE));
     }
-    return Collections.unmodifiableList(rules);
+    return rules;
   }
   
   /**
