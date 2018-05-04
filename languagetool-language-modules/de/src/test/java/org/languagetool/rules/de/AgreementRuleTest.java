@@ -202,6 +202,8 @@ public class AgreementRuleTest {
     assertGood("Karl sagte, dass sie niemandem Bescheid gegeben habe.");
     assertGood("Es blieb nur dieser eine Satz.");
     assertGood("Oder ist das Mathematikern vorbehalten?");
+    assertGood("Wenn hier einer Fragen stellt, dann ich.");
+    assertGood("Wenn einer Katzen mag, dann meine Schwester.");
 
     // incorrect sentences:
     assertBad("Meiner Chef raucht.");

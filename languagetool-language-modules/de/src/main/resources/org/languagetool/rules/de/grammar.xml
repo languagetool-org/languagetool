@@ -14946,6 +14946,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">[0-9]+</token>
                 <token>.</token>
             </antipattern>
+            <antipattern case_sensitive="yes">
+                <token regexp="yes">ans|fürs|übers|unters|hinters|durchs|ins|vors</token>
+                <token regexp="yes">[a-z]+</token>
+                <token>Jahrhundert</token>
+            </antipattern>
             <pattern>
                 <token regexp="yes">ans|fürs|übers|unters|hinters|durchs|ins|vors</token>
                 <marker>
@@ -14961,6 +14966,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Sie konnten ungehindert ins <marker>reiche</marker> Babylon einziehen.</example>
             <example>Man kann die Nutzung des Geländes bis ins <marker>spätere</marker> 4. Jahrhundert belegen</example>
             <example>Dreimal müssen sie von einem Boot ins nächste steigen.</example>
+            <example>Es dauerte bis ins neunzehnte Jahrhundert.</example>
         </rule>
         <rule id="AM_KLEINES_NOMEN" name="am/beim/... + kleingeschriebenes Nomen">
             <pattern case_sensitive="yes">
@@ -17968,13 +17974,14 @@ Andere Projekte</example>
                     <marker>
                         <token regexp="yes">&neusubklein;</token>
                     </marker>
-                    <token regexp="yes">d(ies)?e[mnr]|[mds]?einer|ihrer|unserer|eurer</token>
-                    <token postag="SUB:GEN:SIN:FEM"/>
+                    <token regexp="yes">d(ies)?e[mnr]|[mds]?einer|ihrer|unserer|eurer|von</token>
+                    <token postag="SUB:GEN:SIN:FEM|EIG:.+" postag_regexp="yes"/>
                 </pattern>
                 <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example correction="Alter">Das <marker>alter</marker> dieser Person ist nicht bekannt.</example>
                 <example>Das <marker>Alter</marker> der Person ist mir nicht bekannt.</example>
+                <example correction="Alter">Das <marker>alter</marker> von Sandra ist nicht bekannt.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -33311,7 +33318,11 @@ Andere Projekte</example>
         </rulegroup>
         <rulegroup id="SUBJUNKTION_KOMMA" name="Fehlendes Komma bei Subjunktion">
             <rule>
-                <!-- TODO At the moment, we simply check whether there's no comma at all. This simplifies the rule (because we do not have to take care of cases where words like ohne, sondern, meist, dadurch etc. procede the conjunction), but we fail to detect many mistakes -->
+                <!-- Wenn eine beiordnende Konjunktion wie und, oder Satzglieder oder Teile von Satzgliedern mit Nebensätzen verbindet, so steht zwischen den Bestandteilen einer solchen Reihung kein Komma.-->  
+                <antipattern case_sensitive="yes">
+                    <token regexp="yes">oder|und</token>
+                    <token regexp="yes">dass|weil|obwohl|obgleich|sodass|wenn</token>
+                </antipattern>
                 <pattern case_sensitive="yes">
                     <token postag="SENT_START" skip="-1">
                         <exception scope="next" regexp="yes">,|–|\-|;|\:|&anfauf;|…|[0-9]+|\?|\!|&gt;|\=|&klamauf;</exception>
@@ -33339,6 +33350,11 @@ Andere Projekte</example>
                 <example>Er ist in der freien Reichsstadt <marker>Weil</marker> geboren.</example>
                 <example>Ich komme <marker>wenn</marker> möglich früher.</example>
                 <example>Falls nötig und <marker>wenn</marker> möglich wird er beendet.</example>
+                <example>Außerordentlich bedauert hat er diesen Vorfall und dass das hier geschehen konnte.</example>
+                <example>Bei großer Dürre oder wenn der Föhn weht, ist das Rauchen hier streng verboten.</example>
+                <example>Wenn der Föhn weht oder bei großer Dürre ist das Rauchen hier streng verboten.</example>
+                <example>Das Rauchen ist hier streng verboten bei großer Dürre oder wenn der Föhn weht.</example>
+                <example>Das Rauchen ist hier streng verboten, wenn der Föhn weht oder bei großer Dürre.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">

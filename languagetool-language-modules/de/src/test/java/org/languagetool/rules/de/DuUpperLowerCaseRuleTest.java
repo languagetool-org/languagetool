@@ -68,6 +68,7 @@ public class DuUpperLowerCaseRuleTest {
     
     assertErrors("\"Du sagtest, du würdest es schaffen!\"", 0);
     assertErrors("Egal, was du tust: Du musst dein Bestes geben.", 0);
+    assertErrors("Was auch immer du tust: ICH UND DU KÖNNEN ES SCHAFFEN.", 0);
   }
 
   private void assertErrors(String input, int expectedMatches) throws IOException {

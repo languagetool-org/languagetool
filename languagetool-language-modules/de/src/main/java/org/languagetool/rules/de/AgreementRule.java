@@ -318,6 +318,14 @@ public class AgreementRule extends Rule {
       new PatternTokenBuilder().token("das").build(),
       new PatternTokenBuilder().posRegex("SUB:DAT:.+").build(),
       new PatternTokenBuilder().token("vorbehalten").build()
+    ),
+    Arrays.asList(
+      new PatternTokenBuilder().token("wenn").setSkip(1).build(),
+      new PatternTokenBuilder().csToken("einer").setSkip(1).build(),
+      new PatternTokenBuilder().posRegex("SUB:AKK:.+").build(),
+      new PatternTokenBuilder().posRegex("VER:(MOD:)?3:SIN:.+").build(),
+      new PatternTokenBuilder().csToken(",").build(),
+      new PatternTokenBuilder().csToken("dann").build()
     )
   );
 
