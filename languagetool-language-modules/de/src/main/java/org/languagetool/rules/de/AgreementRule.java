@@ -321,7 +321,7 @@ public class AgreementRule extends Rule {
     ),
     Arrays.asList(
       new PatternTokenBuilder().token("wenn").setSkip(1).build(),
-      new PatternTokenBuilder().csToken("einer").setSkip(1).build(),
+      new PatternTokenBuilder().csToken("einer").build(),
       new PatternTokenBuilder().posRegex("SUB:AKK:.+").build(),
       new PatternTokenBuilder().posRegex("VER:(MOD:)?3:SIN:.+").build(),
       new PatternTokenBuilder().csToken(",").build(),
