@@ -19,6 +19,7 @@
 
 package org.languagetool.tokenizers.zh;
 
+import com.hankcs.hanlp.HanLP;
 import com.hankcs.hanlp.dictionary.CoreDictionary;
 import com.hankcs.hanlp.dictionary.CustomDictionary;
 import com.hankcs.hanlp.seg.common.Term;
@@ -28,6 +29,7 @@ import org.junit.Test;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * The test of ChineseWordTokenizer.
@@ -41,28 +43,28 @@ public class SChineseWordTokenizerTest {
     @Test
     public void testWordTokenize() {
         List<String> tokens = wordTokenizer.tokenize("今天，刘志军案的关键人物,山西女商人丁书苗在市二中院出庭受审。");
-        assertEquals(16, tokens.size());
-        assertEquals("[今天/t, ，/w, 刘志军/nr, 案/ng, 的/uj, 关键/n, 人物/n, ,/w, 山西女/nrj, 商人/n, 丁书苗/nr, 在/p, 市二中院/nt, 出庭/v, 受审/v, 。/w]",
+        assertEquals(17, tokens.size());
+        assertEquals("[今天/t, ，/w, 刘志军/nr, 案/ng, 的/ude1, 关键人物/nz, ,/w, 山西/ns, 女/b, 商人/nnt, 丁书苗/nr, 在/p, 市二中/n, 院/n, 出庭/vi, 受审/vi, 。/w]",
                 tokens.toString());
 
         List<String> tokens2 = wordTokenizer.tokenize("“咕咚，”一台联想ThinkPad T系列电脑从关羽的宿舍飞了下来。");
         assertEquals(19, tokens2.size());
-        assertEquals("[“/w, 咕咚/o, ，/w, ”/w, 一台/ns, 联想/nz, ThinkPad/nx,  /w, T/nx, 系列/q, 电脑/n, 从/p, 关羽/nr, 的/uj, 宿舍/n, 飞/v, 了/ul, 下来/v, 。/w]",
+        assertEquals("[“/w, 咕咚/o, ，/w, ”/w, 一台/ns, 联想/vi, ThinkPad/nx,  /w, T/nx, 系列/n, 电脑/n, 从/p, 关羽/nr, 的/ude1, 宿舍/n, 飞/vi, 了/ule, 下来/vf, 。/w]",
                 tokens2.toString());
 
         List<String> token3 = wordTokenizer.tokenize("总统普京与特朗普通电话讨论太空探索技术公司");
-        assertEquals(8, token3.size());
-        assertEquals("[总统/n, 普京/nrf, 与/p, 特朗普/nrf, 通/v, 电话/n, 讨论/v, 太空探索技术公司/nt]",
+        assertEquals(7, token3.size());
+        assertEquals("[总统/nnt, 普京/nrf, 与/cc, 特朗普/nrf, 通电话/vi, 讨论/v, 太空探索技术公司/nt]",
                 token3.toString());
 
         List<String> token4 = wordTokenizer.tokenize("克里斯蒂娜·克罗尔说：不，我不是虎妈。我全家都热爱音乐，我也鼓励他们这么做。");
-        assertEquals(21, token4.size());
-        assertEquals("[克里斯蒂娜·克罗尔/nrf, 说/v, ：/w, 不/d, ，/w, 我/r, 不是/c, 虎妈/nz, 。/w, 我/r, 全家/n, 都热/nr, 爱音乐/nz, ，/w, 我/r, 也/d, 鼓励/v, 他们/r, 这么/r, 做/v, 。/w]",
+        assertEquals(22, token4.size());
+        assertEquals("[克里斯蒂娜·克罗尔/nrf, 说/v, ：/w, 不/d, ，/w, 我/rr, 不是/c, 虎妈/nz, 。/w, 我/rr, 全家/n, 都/d, 热爱/v, 音乐/n, ，/w, 我/rr, 也/d, 鼓励/v, 他们/rr, 这么/rz, 做/v, 。/w]",
                 token4.toString());
 
         List<String> token5 = wordTokenizer.tokenize("商品和服务");
         assertEquals(3, token5.size());
-        assertEquals("[商品/n, 和/c, 服务/vn]",
+        assertEquals("[商品/n, 和/cc, 服务/vn]",
                 token5.toString());
     }
 
@@ -77,4 +79,8 @@ public class SChineseWordTokenizerTest {
 
     }
 
+    @Test
+    public void testWord() {
+        assertTrue(CustomDictionary.contains("鲯鳅"));
+    }
 }
