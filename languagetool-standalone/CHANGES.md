@@ -1,5 +1,12 @@
 # LanguageTool Change Log
 
+## 4.2-SNAPSHOT (release planned for 2018-06-26)
+
+#### German
+  * updated jwordsplitter to 4.4 to prevent excessively long processing times for
+    artificial long compounds
+
+
 ## 4.1 (2018-03-27)
 
 #### Catalan

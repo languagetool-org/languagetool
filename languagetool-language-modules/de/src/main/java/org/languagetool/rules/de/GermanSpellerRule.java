@@ -37,6 +37,7 @@ import java.util.function.Function;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import de.danielnaber.jwordsplitter.InputTooLongException;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
@@ -289,7 +290,12 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
 
   @Override
   public List<String> getCandidates(String word) {
-    List<List<String>> partList = splitter.getAllSplits(word);
+    List<List<String>> partList;
+    try {
+      partList = splitter.getAllSplits(word);
+    } catch (InputTooLongException e) {
+      partList = new ArrayList<>();
+    }
     List<String> candidates = new ArrayList<>();
     for (List<String> parts : partList) {
       candidates.addAll(super.getCandidates(parts));

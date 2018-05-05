@@ -24,6 +24,7 @@ import java.util.Collections;
 import java.util.List;
 
 import de.danielnaber.jwordsplitter.GermanWordSplitter;
+import de.danielnaber.jwordsplitter.InputTooLongException;
 import org.languagetool.tokenizers.Tokenizer;
 
 /**
@@ -53,7 +54,11 @@ public class GermanCompoundTokenizer implements Tokenizer {
 
   @Override
   public List<String> tokenize(String word) {
-    return wordSplitter.splitWord(word);
+    try {
+      return wordSplitter.splitWord(word);
+    } catch (InputTooLongException e) {
+      return Collections.singletonList(word);
+    }
   }
 
   public static void main(String[] args) throws IOException {
