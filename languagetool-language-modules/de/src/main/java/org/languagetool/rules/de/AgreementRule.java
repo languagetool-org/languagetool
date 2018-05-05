@@ -78,8 +78,8 @@ public class AgreementRule extends Rule {
 
   private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
     Arrays.asList(  // "Dies erlaubt Forschern, ..."
-      new PatternTokenBuilder().posRegex("PRO:DEM:.*").build(),
-      new PatternTokenBuilder().posRegex("PA2:.*").build(),
+      new PatternTokenBuilder().posRegex("PRO:DEM:.+").build(),
+      new PatternTokenBuilder().posRegex("PA2:.+").build(),
       new PatternTokenBuilder().posRegex("SUB:.*:PLU.*").build()
     ),
     Arrays.asList(  // "Wir bereinigen das nächsten Dienstag."
@@ -89,13 +89,13 @@ public class AgreementRule extends Rule {
       new PatternTokenBuilder().tokenRegex("Montag|D(ien|onner)stag|Mittwoch|Freitag|S(ams|onn)tag|Woche|Monat|Jahr").build()
     ),
     Arrays.asList(
-      new PatternTokenBuilder().tokenRegex("(?i:ist|war)").build(),
       new PatternTokenBuilder().token("das").build(),
-      new PatternTokenBuilder().token("Zufall").build()
+      new PatternTokenBuilder().tokenRegex("Zufall|Sinn|Spaß").build(),
+      new PatternTokenBuilder().token("?").build()
     ),
     Arrays.asList(
       new PatternTokenBuilder().token("in").build(),
-      new PatternTokenBuilder().tokenRegex("dem|diesem").build(),
+      new PatternTokenBuilder().tokenRegex("d(ies)?em").build(),
       new PatternTokenBuilder().token("Fall").build(),
       new PatternTokenBuilder().tokenRegex("(?i:hat(te)?)").build(),
       new PatternTokenBuilder().token("das").build()
@@ -116,7 +116,7 @@ public class AgreementRule extends Rule {
       new PatternTokenBuilder().posRegex("ADJ:AKK:.*").build()  // "Ein für viele wichtiges Anliegen."
     ),
     Arrays.asList(
-      new PatternTokenBuilder().csToken("machen").matchInflectedForms().build(),
+      new PatternTokenBuilder().tokenRegex("machen|jagen").matchInflectedForms().build(),
       new PatternTokenBuilder().token("einem").build(),
       new PatternTokenBuilder().token("Angst").build()  // "Dinge, die/ Etwas, das einem Angst macht"
     ),
@@ -184,7 +184,7 @@ public class AgreementRule extends Rule {
       new PatternTokenBuilder().tokenRegex("Besitz|Mut").build()
     ),
     Arrays.asList(
-      new PatternTokenBuilder().tokenRegex("d(ie|en)|[md]einen?").build(),
+      new PatternTokenBuilder().tokenRegex("d(ie|e[nr])|[md]eine[nr]?").build(),
       new PatternTokenBuilder().token("Top").build(),
       new PatternTokenBuilder().tokenRegex("\\d+").build()
     ),
@@ -319,13 +319,25 @@ public class AgreementRule extends Rule {
       new PatternTokenBuilder().posRegex("SUB:DAT:.+").build(),
       new PatternTokenBuilder().token("vorbehalten").build()
     ),
-    Arrays.asList(
+    Arrays.asList( // Wenn hier einer Geld hat, dann ich.
       new PatternTokenBuilder().token("wenn").setSkip(1).build(),
       new PatternTokenBuilder().csToken("einer").build(),
       new PatternTokenBuilder().posRegex("SUB:AKK:.+").build(),
       new PatternTokenBuilder().posRegex("VER:(MOD:)?3:SIN:.+").build(),
-      new PatternTokenBuilder().csToken(",").build(),
-      new PatternTokenBuilder().csToken("dann").build()
+      new PatternTokenBuilder().csToken(",").build()
+    ),
+    Arrays.asList( // Es ist nicht eines jeden Bestimmung
+      new PatternTokenBuilder().tokenRegex("eine[rs]").build(),
+      new PatternTokenBuilder().tokenRegex("jed(wed)?en").build()
+    ),
+    Arrays.asList( // Ich vertraue auf die Meinen.
+      new PatternTokenBuilder().token("die").build(),
+      new PatternTokenBuilder().tokenRegex("[MDS]einen").build()
+    ),
+    Arrays.asList( // Sie ist über die Maßen schön.
+      new PatternTokenBuilder().csToken("über").build(),
+      new PatternTokenBuilder().csToken("die").build(),
+      new PatternTokenBuilder().csToken("Maßen").build()
     )
   );
 
