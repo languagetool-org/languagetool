@@ -9497,6 +9497,27 @@ USA
                  <example correction='believe'>Both of them <marker>believes</marker> in God.</example>
                  <example>Both of them <marker>believed</marker> in God.</example>
             </rule>
+            <rule>
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <token/>
+                    <token regexp="yes">is|was</token>
+                    <token regexp="yes">an?|one|the</token>
+                </antipattern>
+                <pattern case_sensitive="yes">
+                    <token postag="SENT_START"/>
+                    <token postag="NNS">
+                        <exception postag="VB.|NN(:UN?|PS?)?|PRP\$" postag_regexp="yes"/>
+                        <exception regexp="yes">Maths|Sports|Windows|Billiards|.+ics|measles</exception>
+                    </token>
+                    <marker><token regexp="yes">is|was</token></marker>
+                 </pattern>
+                 <message>You should probably use: <suggestion>are</suggestion> or <suggestion>were</suggestion>.</message>
+                 <short>Possible agreement error</short>
+                 <example correction="are|were">Cars <marker>is</marker> useful.</example>
+                 <example>Gambling is forbidden</example>
+                 <example>Windows is a type of computer operating system.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="AGREEMENT_QUESTION" name="agreement error: auxiliary verb (do/have) and subject in questions">
             <rule>
