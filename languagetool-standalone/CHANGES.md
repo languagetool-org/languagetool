@@ -2,9 +2,26 @@
 
 ## 4.2-SNAPSHOT (release planned for 2018-06-26)
 
+#### Catalan
+  * added and improved rules
+
+#### Dutch
+  * added and improved rules
+
+#### English
+  * added and improved rules
+
 #### German
+  * added and improved rules
   * updated jwordsplitter to 4.4 to prevent excessively long processing times for
     artificial long compounds
+
+#### Portuguese
+  * added and improved rules
+
+#### Ukrainian
+  * added and improved rules
+
 
 
 ## 4.1 (2018-03-27)
