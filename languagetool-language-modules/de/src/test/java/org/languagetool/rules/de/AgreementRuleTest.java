@@ -207,6 +207,10 @@ public class AgreementRuleTest {
     assertGood("Ergibt das Sinn?");
     assertGood("Sie ist über die Maßen schön.");
     assertGood("Ich vertraue ganz auf die Meinen.");
+    assertGood("Was nützt einem Gesundheit, wenn man sonst ein Idiot ist?");
+    assertGood("Auch das hatte sein Gutes.");
+    assertGood("Auch wenn es sein Gutes hatte, war es doch traurig.");
+    assertGood("Er wollte doch nur jemandem Gutes tun.");
 
     // incorrect sentences:
     assertBad("Meiner Chef raucht.");

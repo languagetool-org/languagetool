@@ -333,6 +333,21 @@ public class AgreementRule extends Rule {
       new PatternTokenBuilder().csToken("über").build(),
       new PatternTokenBuilder().csToken("die").build(),
       new PatternTokenBuilder().csToken("Maßen").build()
+    ),
+    Arrays.asList( // Was nützt einem Gesundheit, wenn man sonst ein Idiot ist?
+      new PatternTokenBuilder().token("was").build(),
+      new PatternTokenBuilder().csToken("nützen").matchInflectedForms().build(),
+      new PatternTokenBuilder().csToken("einem").build(),
+      new PatternTokenBuilder().posRegex("SUB:NOM:.+").build()
+    ),
+    Arrays.asList( // Auch das hat sein Gutes.
+      new PatternTokenBuilder().csToken("haben").matchInflectedForms().build(),
+      new PatternTokenBuilder().csToken("sein").build(),
+      new PatternTokenBuilder().csToken("Gutes").build()
+    ),
+    Arrays.asList( // Auch wenn es sein Gutes hatte.
+      new PatternTokenBuilder().csToken("Gutes").build(),
+      new PatternTokenBuilder().tokenRegex("haben|tun").matchInflectedForms().build()
     )
   );
 
