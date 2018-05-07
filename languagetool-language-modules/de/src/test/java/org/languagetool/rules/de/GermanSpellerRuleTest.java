@@ -241,6 +241,9 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("konektschen", "Connection", rule, lt);
     assertFirstSuggestion("Neukundenaquise", "Neukundenakquise", rule, lt);
     assertFirstSuggestion("Gehorsamkeitsverweigerung", "Gehorsamsverweigerung", rule, lt);
+    assertFirstSuggestion("leinensamens", "Leinsamens", rule, lt);
+    assertFirstSuggestion("Oldheimer", "Oldtimer", rule, lt);
+    assertFirstSuggestion("verhing", "verhängte", rule, lt);
   }
 
   @Test

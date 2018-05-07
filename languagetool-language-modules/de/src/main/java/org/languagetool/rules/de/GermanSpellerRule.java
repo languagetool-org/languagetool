@@ -96,6 +96,10 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("[aA]ufjedenfall", "jedenfall$", " jeden Fall");
     putRepl("^funk?z[ou]nier.+", "funk?z[ou]nier", "funktionier");
     putRepl("[wW]öruber", "öru", "orü");
+    putRepl("[lL]einensamens?", "[lL]einen", "Lein");
+    putRepl("Oldheimer[ns]?", "he", "t");
+    put("verhing", "verhängte");
+    put("verhingen", "verhängten");
     put("Bequemheit", "Bequemlichkeit");
     put("[mM]issionarie?sie?rung", "Missionierung");
     put("[sS]chee?selonge?", "Chaiselongue");
