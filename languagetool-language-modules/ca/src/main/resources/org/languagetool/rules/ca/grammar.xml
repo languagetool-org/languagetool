@@ -17403,14 +17403,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>substancia</token>
                     </marker>
                 </antipattern>
+                <antipattern>
+                    <marker>
+                        <token postag="&pronom_feble;" postag_regexp="yes"/>
+                        <token regexp="yes">contrari(a|es)</token>
+                    </marker>
+                </antipattern>
                 <pattern>
-                    <token regexp="yes">(circumstanci|instanci|pagin|substanci)(a|es)</token>
+                    <token regexp="yes">(circumstanci|instanci|pagin|substanci|contrari)(a|es)</token>
                 </pattern>
                 <message>Si és nom, cal accentuar. Correcte si és del verb "<match no="1" case_conversion="alllower" regexp_match="(?iu)(.*)(a|es)" regexp_replace="$1ar"/>".</message>
-                <suggestion><match no="1" regexp_match="(?iu)(.*)a(nci|gin)(a|es)" regexp_replace="$1à$2$3"/></suggestion>
+                <suggestion><match no="1" regexp_match="(?iu)(.*)a(nci|gin|ri)(a|es)" regexp_replace="$1à$2$3"/></suggestion>
                 <example correction="Instància">Jutjat de Primera <marker>Instancia</marker>.</example>
                 <example correction="Pàgina"><marker>Pagina</marker> 34.</example>
                 <example>Això no se substancia en res.</example>
+                <example>Si el contraries, s'enfadarà</example>
             </rule>
             <rule>
                 <antipattern>
