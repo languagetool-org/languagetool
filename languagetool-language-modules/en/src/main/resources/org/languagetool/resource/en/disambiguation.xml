@@ -904,6 +904,15 @@
     	<example type="untouched">One are of land.</example>
     	<example type="ambiguous" inputform="Are[are/NN,be/VBP]" outputform="Are[be/VBP]"><marker>Are</marker> people happy?</example>
     </rule>
+    <rule name="Does...?" id="SENT_START_DOES">
+        <pattern>
+            <token postag="SENT_START"/>
+            <marker><token case_sensitive="yes">Does</token></marker>
+        </pattern>
+        <disambig postag="VBZ"/>
+        <example type="untouched">One are of land.</example>
+        <example type="ambiguous" inputform="Does[do/VBZ,doe/NNS]" outputform="Does[do/VBZ]"><marker>Does</marker> he like me?</example>
+    </rule>
     <rule name="NNS|EX + are (noun/verb) -&gt; are (verb)" id="NNS_ARE">
         <pattern>
             <token postag_regexp="yes" postag="EX|NNS|WP"/>
@@ -921,7 +930,7 @@
                 <token postag="NNS"/>
                 </and>
             </marker>
-            <token regexp="yes">were|are</token>
+            <token regexp="yes">weren?|aren?|couldn?|might|may|shouldn?|haven?|don?|wouldn?</token>
         </pattern>
         <disambig postag="NNS"/>
         <example type="ambiguous" inputform="forces[force/NNS,force/VBZ]"
