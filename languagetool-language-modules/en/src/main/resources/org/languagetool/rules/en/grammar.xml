@@ -8145,6 +8145,18 @@ USA
             <example correction="grow">Does your memory usage <marker>grows</marker> during processing?</example>
             <example correction="grow">Does memory usage <marker>grows</marker> during processing?</example>
         </rule>
+        <rule id="SENT_START_DOE" name="Doe (Does)">
+            <pattern>
+                <token postag="SENT_START"/>
+                <marker>
+                    <token case_sensitive="yes">Doe</token>
+                </marker>
+            </pattern>
+            <message>Did you mean <suggestion>Does</suggestion> or <suggestion>Do</suggestion>?</message>
+            <short>Possible typo</short>
+            <example correction="Does|Do"><marker>Doe</marker> he like me?</example>
+            <example correction="Does|Do"><marker>Doe</marker> you like my hair?</example>
+        </rule>
         <rule id="WHAT_VBZ" name="3rd person verb (base verb) after what/who">
             <antipattern>
                 <token postag="SENT_START"></token>
