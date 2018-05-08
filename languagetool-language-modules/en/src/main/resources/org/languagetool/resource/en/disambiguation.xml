@@ -41,6 +41,14 @@
           <example type="ambiguous" inputform="hoopes[Hoopes/NNP]" outputform="hoopes[hoopes]">These <marker>hoopes</marker> are large.</example>
         </rule>
 
+        <rule name="remove NNP: lowercase month names and day names" id="REMOVE_NNP_FOR_LOWERCASE_MONTHS_DAYS"><!-- Cannot use removed.txt to remove the POS -->
+          <pattern case_sensitive="yes">
+            <token regexp="yes">january|february|april|june|july|september|october|november|december|monday|tuesday|wednesday|thursday|friday|saturday</token>
+          </pattern>
+          <disambig action="remove"><wd pos="NNP"/></disambig>
+          <example type="ambiguous" inputform="january[January/NNP]" outputform="january[january]"><marker>january</marker> is a cold month in England.</example>
+        </rule>
+
     <rule id="CD" name="Tag numbers">
       <pattern>
         <token regexp="yes">\d+</token>
