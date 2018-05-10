@@ -34,8 +34,8 @@ import static org.junit.Assert.assertNotNull;
 
 public class RussianDashRuleTest {
 
-  JLanguageTool langTool;
-  Rule rule;
+  private JLanguageTool langTool;
+  private Rule rule;
 
   @Before
   public void setUp() throws Exception {
