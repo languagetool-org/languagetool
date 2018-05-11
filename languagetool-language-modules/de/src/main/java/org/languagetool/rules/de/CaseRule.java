@@ -314,6 +314,10 @@ public class CaseRule extends Rule {
     Arrays.asList( // see GermanTagger.getSubstantivatedForms
       pos("SUB:NOM:SIN:MAS:ADJ"),
       posRegex("PRP:.+")
+    ),
+    Arrays.asList( // Einen Tag nach Bekanntwerden des Skandals
+      pos("ZUS"),
+      csToken("Bekanntwerden")
     )
   );
 

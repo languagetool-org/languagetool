@@ -127,6 +127,7 @@ public class CaseRuleTest {
     assertGood("‚Dieser Satz.‘ Hier kommt der nächste Satz.");
     assertGood("Dabei werden im Wesentlichen zwei Prinzipien verwendet:");
     assertGood("Er fragte, ob das gelingen oder scheitern wird.");
+    assertGood("Einen Tag nach Bekanntwerden des Skandals");
 
     //assertBad("Sie sind nicht Verständlich");
     assertBad("Sie Vertraute niemandem.");
