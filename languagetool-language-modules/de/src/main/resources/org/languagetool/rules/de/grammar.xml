@@ -20029,6 +20029,19 @@ Andere Projekte</example>
                 <short>&prgk;.</short>
                 <example correction="Abends">Eines <marker>abends</marker> trafen sie auf zwei Räuber.</example>
             </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag="SENT_START" />
+                    <token>Guten</token>
+                    <marker>
+                        <token>morgen</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang; <suggestion>Morgen</suggestion> &subende;</message>
+                <short>&prgk;.</short>
+                <example correction="Morgen">Guten <marker>morgen</marker>, wie geht es dir?</example>
+                <example type="correct">Wenn die Guten morgen schon ausverkauft sind, dann kaufen wir lieber keine Äpfel.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="FADEN_SUBST" name="'am seidenen faden (Faden)' etc.">
             <rule>
