@@ -43,7 +43,7 @@ public class WordListValidatorTest {
           "Śśōżúï" +
           "·" +   // for Catalan
           "./-]+" + 
-          "|[khmcdµ]?m[²³]|°[CFK]"
+          "|[khmcdµ]?m[²³]|°[CFR]"
   );
 
   // Words that are valid but with special characters so that we don't want to
