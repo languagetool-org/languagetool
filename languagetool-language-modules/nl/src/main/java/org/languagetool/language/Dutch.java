@@ -133,4 +133,12 @@ public class Dutch extends Language {
             new PreferredWordRule(messages)
     );
   }
+
+  @Override
+  public int getPriorityForId(String id) {
+    switch (id) {
+      case LongSentenceRule.RULE_ID: return -1;
+    }
+    return 0;
+  }
 }
