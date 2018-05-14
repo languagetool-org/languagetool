@@ -45786,6 +45786,114 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
     </category>
+    <category id="CRITERIS_UNIVERSITATS_VALENCIANES" name="Criteris de les universitats valencianes" default="off" type="locale-violation">
+        <rulegroup id="NUMERALS_GENERALS" name="numerals valencians: huit, dèsset, díhuit, dènou">
+            <url>https://sl.ua.es/es/assessorament/documentos/criteris-linguistics.pdf#page=27</url>
+            <rule>
+                <pattern>
+                    <token regexp="yes" postag_regexp="yes" postag="[ADN].*" inflected="yes">huit.+-huit.*</token>
+                </pattern>
+                <message>Usem preferentment la forma <suggestion><match no="1" regexp_match="(?iu)huit(.*)-huit(.*)" regexp_replace="vuit$1-vuit$2"></match></suggestion>.</message>
+                <example correction="Vuitanta-vuit"><marker>Huitanta-huit</marker> coses</example>
+                <example correction="vuitanta-vuitena">En la <marker>huitanta-huitena</marker> posició.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" postag_regexp="yes" postag="[ADVN].*" inflected="yes">huit.*</token>
+                </pattern>
+                <message>Usem preferentment la forma <suggestion><match no="1" regexp_match="(?iu)h(.*)" regexp_replace="v$1"></match></suggestion>.</message>
+                <example correction="Vuit-centes"><marker>Huit-centes</marker> coses</example>
+                <example correction="vuitanta-tres">De <marker>huitanta-tres</marker> maneres</example>
+                <example correction="vuitanta-quatrena">En la <marker>huitanta-quatrena</marker> posició.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" postag_regexp="yes" postag="[ADN].*" inflected="yes">.+-huit.*</token>
+                </pattern>
+                <message>Usem preferentment la forma <suggestion><match no="1" regexp_match="(?iu)(.*)-huit(.*)" regexp_replace="$1-vuit$2"></match></suggestion>.</message>
+                <example correction="Cinquanta-vuit"><marker>Cinquanta-huit</marker> coses</example>
+                <example correction="trenta-vuitena">En la <marker>trenta-huitena</marker> posició.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" postag_regexp="yes" postag="[ADN].*" inflected="yes">d[ií]huit.+</token>
+                </pattern>
+                <message>Usem preferentment la forma <suggestion><match no="1" regexp_match="(?iu)d[ií]h(.*)" regexp_replace="div$1"></match></suggestion>.</message>
+                <example correction="divuitena">En la <marker>dihuitena</marker> posició.</example>
+                <example correction="divuit">En la posició <marker>díhuit</marker>.</example>
+                <example correction="divuits">Han eixit tres <marker>díhuits</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" postag_regexp="yes" postag="[ADN].*" inflected="yes">desset.+</token>
+                </pattern>
+                <message>Usem preferentment la forma <suggestion><match no="1" regexp_match="(?iu)desset(.*)" regexp_replace="disset$1"></match></suggestion>.</message>
+                <example correction="dissetena">En la <marker>dessetena</marker> posició.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">d[èe](sset|nou)s?</token>
+                </pattern>
+                <message>Usem preferentment la forma <suggestion><match no="1" regexp_match="(?iu)d[èe](.*)" regexp_replace="di$1"></match></suggestion>.</message>
+                <example correction="dissets">Han eixit tres <marker>dèssets</marker>.</example>
+                <example correction="dinous">Han eixit tres <marker>denous</marker>.</example>
+                <example correction="dinou">Han eixit un <marker>dènou</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AVUI" name="Preferència: avui">
+            <url>https://sl.ua.es/es/assessorament/documentos/criteris-linguistics.pdf#page=31</url>
+            <rule>
+                <pattern>
+                    <token>de</token>
+                    <token>hui</token>
+                </pattern>
+                <message>Usem preferentment la forma <suggestion>d'avui</suggestion>.</message>
+                <example correction="d'avui">És el diari <marker>de hui</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>hui</token>
+                </pattern>
+                <message>Usem preferentment la forma <suggestion>avui</suggestion>.</message>
+                <example correction="Avui"><marker>Hui</marker> és un gran dia.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="PREFERENCIES_LEXIC_UNIVERSITATS" name="Preferències: servei, defensar, aprendre...">
+            <url>https://sl.ua.es/es/assessorament/documentos/criteris-linguistics.pdf#page=31</url>
+            <rule>
+                <pattern>
+                    <token inflected="yes">servici</token>
+                </pattern>
+                <message>Forma preferida.</message>
+                <suggestion><match no="1" postag="(N.*)" postag_regexp="yes" postag_replace="$1">servei</match></suggestion>
+                <example correction="serveis">Els <marker>servicis</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">juí</token>
+                </pattern>
+                <message>Forma preferida.</message>
+                <suggestion><match no="1" postag="(N.*)" postag_regexp="yes" postag_replace="$1">judici</match></suggestion>
+                <example correction="judicis">Els <marker>juís</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">perjuí</token>
+                </pattern>
+                <message>Forma preferida.</message>
+                <suggestion><match no="1" postag="(N.*)" postag_regexp="yes" postag_replace="$1">perjudici</match></suggestion>
+                <example correction="perjudici">En <marker>perjuí</marker> nostre.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">defendre</token>
+                </pattern>
+                <message>Forma preferida.</message>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">defensar</match></suggestion>
+                <example correction="defensar">No el va <marker>defendre</marker> nostre.</example>
+            </rule>
+        </rulegroup>
+    </category>
     <category id="CRITERIS_ADMINISTRACIO_VALENCIANA" name="Criteris de l'Administració Valenciana" default="off" type="locale-violation">
         <rule id="EVITA_AQUEIX_EIXE" name="Evita els demostratius 'aqueix/eixe'">
             <pattern>
@@ -46066,7 +46174,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>El contraent.</example>
             <example>La part contraent.</example>
         </rule>
-        <rulegroup id="LEXIC_VAL" name="Preferències lèxiques valencianes: hui, vetlar, traure, arrancar, cementeri, redó, xarrar...">
+        <rulegroup id="HUI" name="Preferència: hui">
+            <url>http://www.ceice.gva.es/documents/161863132/163843714/Criteris+Ling%C3%BC%C3%ADstics_web.pdf#page=88</url>
+            <rule>
+                <pattern>
+                    <token>d'</token>
+                    <token>avui</token>
+                </pattern>
+                <message>Usem preferentment la forma <suggestion>de hui</suggestion>.</message>
+                <url>http://www.ceice.gva.es/documents/161863132/163843714/Criteris+Ling%C3%BC%C3%ADstics_web.pdf#page=70</url>
+                <example correction="de hui">És el diari <marker>d'avui</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>avui</token>
+                </pattern>
+                <message>Usem preferentment la forma <suggestion>hui</suggestion>.</message>
+                <url>http://www.ceice.gva.es/documents/161863132/163843714/Criteris+Ling%C3%BC%C3%ADstics_web.pdf#page=70</url>
+                <example correction="Hui"><marker>Avui</marker> és un gran dia.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="LEXIC_VAL" name="Preferències lèxiques valencianes: vetlar, traure, arrancar, cementeri, redó, xarrar...">
             <url>http://www.ceice.gva.es/documents/161863132/163843714/Criteris+Ling%C3%BC%C3%ADstics_web.pdf#page=88</url>
             <rule>
                 <pattern>
