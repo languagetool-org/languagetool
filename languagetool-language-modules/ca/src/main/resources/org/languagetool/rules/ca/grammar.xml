@@ -39924,22 +39924,57 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="A l'efecte"><marker>Als efectes</marker> de permetre-ho.</example>
             <example>Es deu als efectes de la radiació</example>
         </rule>
-        <rule id="DON" name="don/senyor/en">
-            <pattern>
-                <marker>
-                    <token>don</token>
-                </marker>
-                <token regexp="yes">\p{Lu}.*<exception regexp="yes">(?-i)Joan|Quixot</exception></token>
-            </pattern>
-            <message>Val més usar una altra expressió.</message>
-            <suggestion>en</suggestion>
-            <suggestion>senyor</suggestion>
-            <suggestion>el senyor</suggestion>
-            <suggestion>sr.</suggestion>
-            <short>Expressió preferible</short>
-            <example correction="En|Senyor|El senyor|Sr."><marker>Don</marker> Jaume</example>
-            <example>Don Quixot i Don Joan</example>
-        </rule>
+        <rulegroup id="DON" name="don/senyor/en">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>don</token>
+                    </marker>
+                    <token regexp="yes">\p{Lu}.*<exception regexp="yes">(?-i)Joan|Quixot</exception></token>
+                </pattern>
+                <message>Val més usar una altra expressió.</message>
+                <suggestion>en</suggestion>
+                <suggestion>senyor</suggestion>
+                <suggestion>el senyor</suggestion>
+                <suggestion>sr.</suggestion>
+                <example correction="En|Senyor|El senyor|Sr."><marker>Don</marker> Jaume</example>
+                <example>Don Quixot i Don Joan</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">Sr|Dr</token>
+                        <token>.</token>
+                        <token>D</token>
+                        <token>.</token>
+                    </marker>
+                    <token regexp="yes">\p{Lu}.*</token>
+                </pattern>
+                <message>Expressió incorrecta</message>
+                <suggestion>\1.</suggestion>
+                <example correction="Sr."><marker>Sr. D.</marker> Joan Ivars</example>
+                <example correction="Dr."><marker>Dr. D.</marker> Joan Ivars</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <marker>
+                        <token regexp="yes">\p{Lu}.*</token>
+                        <token case_sensitive="yes">D</token>
+                    </marker>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes">D</token>
+                        <token>.</token>
+                    </marker>
+                    <token regexp="yes">\p{Lu}.*</token>
+                </pattern>
+                <message>Expressió incorrecta</message>
+                <suggestion>Sr.</suggestion>
+                <example correction="Sr."><marker>D.</marker> Joan Ivars</example>
+                <example>John D. Rockefeller</example>
+            </rule>
+        </rulegroup>
         <rule id="LA_GRAN_PANTALLA" name="la gran pantalla/la pantalla gran">
             <pattern>
                 <token>la</token>
@@ -43753,6 +43788,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="se">Això <marker>es</marker> celebra.</example>
             <example>Ell es substituït per un altre.</example> <!-- another error: es/és -->
             <example>es sabem</example> <!-- another error: es/ens -->
+        </rule>
+        <rule id="EXIGEIX_TENIR_VENIR" name="Exigeix infinitius venir i tenir" default="off">
+            <pattern>
+                <token regexp="yes">[tv]indres?</token>
+            </pattern>
+            <message>Variant informal.</message>
+            <suggestion><match no="1" regexp_match="(?iu)([tv])indre" regexp_replace="$1enir" /></suggestion>
+            <example correction="venir">No heu de <marker>vindre</marker> tard.</example>
         </rule>
         <rule id="EVITA_INFINITIUS_INDRE" name="Evita infinitius i noms en -vindre, -tindre" default="on">
             <pattern>
