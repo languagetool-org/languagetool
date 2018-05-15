@@ -24,6 +24,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import com.hankcs.hanlp.algorithm.ahocorasick.trie.Token;
 import org.languagetool.Language;
 import org.languagetool.UserConfig;
 import org.languagetool.languagemodel.LanguageModel;
@@ -35,7 +36,9 @@ import org.languagetool.rules.zh.ChineseConfusionProbabilityRule;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.zh.SChineseTagger;
 import org.languagetool.tokenizers.SentenceTokenizer;
+import org.languagetool.tokenizers.Tokenizer;
 import org.languagetool.tokenizers.zh.SChineseSentenceTokenizer;
+import org.languagetool.tokenizers.zh.SChineseWordTokenizer;
 
 
 public class Chinese extends Language implements AutoCloseable {
@@ -43,6 +46,7 @@ public class Chinese extends Language implements AutoCloseable {
   private final static Language SIMPLIFIED_CHINESE = new SimplifiedChinese();
 
   private Tagger tagger;
+  private Tokenizer wordTokenizer;
   private SentenceTokenizer sentenceTokenizer;
   private LuceneLanguageModel languageModel;
 
@@ -88,6 +92,14 @@ public class Chinese extends Language implements AutoCloseable {
       tagger = new SChineseTagger();
     }
     return tagger;
+  }
+
+  @Override
+  public Tokenizer getWordTokenizer() {
+    if (wordTokenizer == null) {
+      wordTokenizer = new SChineseWordTokenizer();
+    }
+    return wordTokenizer;
   }
 
   @Override

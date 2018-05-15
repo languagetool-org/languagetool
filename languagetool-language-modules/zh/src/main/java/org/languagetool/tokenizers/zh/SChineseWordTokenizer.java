@@ -19,6 +19,7 @@
 package org.languagetool.tokenizers.zh;
 
 
+import com.hankcs.hanlp.seg.CRF.CRFSegment;
 import org.languagetool.tokenizers.Tokenizer;
 
 import com.hankcs.hanlp.seg.Segment;
@@ -35,11 +36,11 @@ import java.util.List;
  */
 public class SChineseWordTokenizer implements Tokenizer {
 
-    private Segment shortestSegment = new ViterbiSegment().enableCustomDictionaryForcing(true).enableNameRecognize(true).enableAllNamedEntityRecognize(true);
+    private Segment crfSegment = new CRFSegment().enableCustomDictionary(false).enableOrganizationRecognize(true).enableCustomDictionary(true);
 
     @Override
     public List<String> tokenize(String text) {
-        List<Term> termList = shortestSegment.seg(text);
+        List<Term> termList = crfSegment.seg(text);
         List<String> termStringList = new ArrayList<>();
         for (Term term: termList) {
             termStringList.add(term.toString());
@@ -49,7 +50,7 @@ public class SChineseWordTokenizer implements Tokenizer {
 
     /** Return the *Term* type tokens */
     public List<Term> tokenizeBackup(String text) {
-        return shortestSegment.seg(text);
+        return crfSegment.seg(text);
     }
 
 
