@@ -32,18 +32,26 @@ import org.languagetool.rules.MultipleWhitespaceRule;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.zh.ChineseConfusionProbabilityRule;
 import org.languagetool.tagging.Tagger;
-import org.languagetool.tagging.zh.ChineseTagger;
+import org.languagetool.tagging.zh.SChineseTagger;
 import org.languagetool.tokenizers.SentenceTokenizer;
-import org.languagetool.tokenizers.Tokenizer;
-import org.languagetool.tokenizers.zh.ChineseSentenceTokenizer;
-import org.languagetool.tokenizers.zh.ChineseWordTokenizer;
+import org.languagetool.tokenizers.zh.SChineseSentenceTokenizer;
+
 
 public class Chinese extends Language implements AutoCloseable {
 
+  private final static Language SIMPLIFIED_CHINESE = new SimplifiedChinese();
+
   private Tagger tagger;
-  private Tokenizer wordTokenizer;
   private SentenceTokenizer sentenceTokenizer;
   private LuceneLanguageModel languageModel;
+
+  public Chinese() {
+  }
+
+  @Override
+  public Language getDefaultLanguageVariant() {
+    return SIMPLIFIED_CHINESE;
+  }
 
   @Override
   public String getShortCode() {
@@ -57,12 +65,12 @@ public class Chinese extends Language implements AutoCloseable {
 
   @Override
   public String[] getCountries() {
-    return new String[] { "CN" };
+    return new String[]{};
   }
 
   @Override
   public Contributor[] getMaintainers() {
-    return new Contributor[] { new Contributor("Tao Lin") };
+    return new Contributor[] { new Contributor("Ze Dang") };
   }
 
   @Override
@@ -76,23 +84,15 @@ public class Chinese extends Language implements AutoCloseable {
   @Override
   public Tagger getTagger() {
     if (tagger == null) {
-      tagger = new ChineseTagger();
+      tagger = new SChineseTagger();
     }
     return tagger;
   }
 
   @Override
-  public Tokenizer getWordTokenizer() {
-    if (wordTokenizer == null) {
-      wordTokenizer = new ChineseWordTokenizer();
-    }
-    return wordTokenizer;
-  }
-
-  @Override
   public SentenceTokenizer getSentenceTokenizer() {
     if (sentenceTokenizer == null) {
-      sentenceTokenizer = new ChineseSentenceTokenizer();
+      sentenceTokenizer = new SChineseSentenceTokenizer();
     }
     return sentenceTokenizer;
   }
