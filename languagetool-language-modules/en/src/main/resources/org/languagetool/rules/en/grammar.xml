@@ -6080,7 +6080,7 @@ USA
         <!-- it's is::word=it is::filter=none -->
         <rule id="ITS_IS" name="its is (it is)">
             <pattern>
-                <token regexp="yes">what|it|who|she|he|there|that</token>
+                <token regexp="yes">what|it|who|she|he|there|that|w?here</token>
                 <token spacebefore="no" regexp="yes">['’]</token>
                 <token>s</token>
                 <token regexp="yes">is|was</token>
@@ -6092,13 +6092,14 @@ USA
         <!-- we're are::word=We are::filter=none -->
         <rule id="WERE_ARE" name="were are (we are)">
             <pattern>
-                <token regexp="yes">we|they|who</token>
+                <token regexp="yes">we|they|who|you</token>
                 <token spacebefore="no" regexp="yes">['’]</token>
                 <token>re</token>
                 <token>are</token>
             </pattern>
             <message>Did you mean <suggestion><match no="1"/> are</suggestion>?</message>
             <example correction="We are"><marker>We're are</marker> the favorites to win the championship.</example>
+            <example correction="You are"><marker>You're are</marker> my best friend.</example>
         </rule>
         <!-- I'm am::word=I am::filter=none -->
         <rule id="IM_AM" name="Im am (I am)">
