@@ -39955,10 +39955,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Sr."><marker>Sr. D.</marker> Joan Ivars</example>
                 <example correction="Dr."><marker>Dr. D.</marker> Joan Ivars</example>
             </rule>
-            <rule>
+            <rule id="DON_D" name="Revisa l'abreviatura Don/D." default="off">
                 <antipattern>
                     <marker>
                         <token regexp="yes">\p{Lu}.*</token>
+                        <token case_sensitive="yes">D</token>
+                    </marker>
+                </antipattern>
+                <antipattern>
+                    <marker>
+                        <token regexp="yes">[A-Z]</token>
+                        <token>.</token>
                         <token case_sensitive="yes">D</token>
                     </marker>
                 </antipattern>
@@ -39967,12 +39974,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token case_sensitive="yes">D</token>
                         <token>.</token>
                     </marker>
-                    <token regexp="yes">\p{Lu}.*</token>
+                    <token regexp="yes">\p{Lu}.*|[A-Z]</token>
                 </pattern>
-                <message>Expressió incorrecta</message>
-                <suggestion>Sr.</suggestion>
+                <message>Incorrecte si equival a <suggestion>Sr.</suggestion></message>
                 <example correction="Sr."><marker>D.</marker> Joan Ivars</example>
                 <example>John D. Rockefeller</example>
+                <exmaple> D.O. Ribera del Duero.</exmaple>
+                <example>J. D. Rockefeller</example>
+                <!--<example>D. Westermann</example> No es pot resoldre-->
             </rule>
         </rulegroup>
         <rule id="LA_GRAN_PANTALLA" name="la gran pantalla/la pantalla gran">
