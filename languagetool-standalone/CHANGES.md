@@ -14,7 +14,7 @@
 #### German
   * added and improved rules
   * updated jwordsplitter to 4.4 to prevent excessively long processing times for
-    artificial long compounds
+    artificially long compounds
   * `prohibit.txt`: lines ending with ".*" will prohibit all words starting with
     the previous string
 
