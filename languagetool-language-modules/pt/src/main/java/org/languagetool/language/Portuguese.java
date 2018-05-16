@@ -247,7 +247,7 @@ public class Portuguese extends Language implements AutoCloseable {
       case "REPEATED_WORDS":            return -210;
       case "REPEATED_WORDS_3X":         return -211;
       case "PT_WIKIPEDIA_COMMON_ERRORS":   return -500;
-      case "TOO_LONG_SENTENCE":         return -997;
+      case LongSentenceRule.RULE_ID:    return -997;
       case "CACOPHONY":                 return -2000;
     }
     return 0;
