@@ -5,6 +5,9 @@
 #### Catalan
   * added and improved rules
 
+#### Breton
+  * Made many messages shorter
+
 #### Dutch
   * added and improved rules
 
