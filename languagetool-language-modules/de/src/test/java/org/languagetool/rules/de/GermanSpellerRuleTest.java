@@ -137,6 +137,7 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("Aufjedenfall", "Auf jeden Fall", rule, lt);
     assertFirstSuggestion("funkzunierende", "funktionierende", rule, lt);
     assertFirstSuggestion("funkzuniert", "funktioniert", rule, lt);
+    assertFirstSuggestion("Mayonese", "Mayonnaise", rule, lt);
     assertFirstSuggestion("Majonäse", "Mayonnaise", rule, lt);
     assertFirstSuggestion("Salatmajonäse", "Salatmayonnaise", rule, lt);
     assertFirstSuggestion("Physiklaborants", "Physiklaboranten", rule, lt);

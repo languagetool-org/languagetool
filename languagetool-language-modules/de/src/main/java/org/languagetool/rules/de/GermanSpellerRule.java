@@ -76,6 +76,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("(an|auf|ein|zu)gehangen(e[mnrs]?)?$", "hangen", "hängt");
     putRepl("[oO]key", "ey$", "ay");
     put("geupdate[dt]$", "upgedatet");
+    put("gefaked", "gefakt");
     put("[pP]roblemhaft(e[nmrs]?)?", w -> Arrays.asList(w.replaceFirst("haft", "behaftet"), w.replaceFirst("haft", "atisch")));
     put("rosane[mnrs]?$", w -> Arrays.asList("rosa", w.replaceFirst("^rosan", "rosafarben")));
     put("Erbung", w -> Arrays.asList("Vererbung", "Erbschaft"));
@@ -494,8 +495,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       if (!hunspellDict.misspelled(suggestion)) {
         return Collections.singletonList(suggestion);
       }
-    } else if (word.matches(".*[mM]ajonäse.*")) {
-      suggestion = word.replaceFirst("ajonäse", "ayonnaise");
+    } else if (word.matches(".*[mM]a[jy]onn?[äe]se.*")) {
+      suggestion = word.replaceFirst("a[jy]onn?[äe]se", "ayonnaise");
       if (!hunspellDict.misspelled(suggestion)) {
         return Collections.singletonList(suggestion);
       }
