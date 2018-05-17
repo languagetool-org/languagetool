@@ -18,4 +18,11 @@ public class SimplifiedChinese extends Chinese {
     return  new String[]{"CN"};
   }
 
+  @Override
+  public Tokenizer getWordTokenizer() {
+    if (wordTokenizer == null) {
+      wordTokenizer = new SChineseWordTokenizer();
+    }
+    return wordTokenizer;
+  }
 }

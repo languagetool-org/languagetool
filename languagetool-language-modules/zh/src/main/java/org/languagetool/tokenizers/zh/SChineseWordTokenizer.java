@@ -19,13 +19,12 @@
 package org.languagetool.tokenizers.zh;
 
 
-import com.hankcs.hanlp.seg.CRF.CRFSegment;
-import org.languagetool.tokenizers.Tokenizer;
-
+import com.hankcs.hanlp.model.perceptron.PerceptronLexicalAnalyzer;
 import com.hankcs.hanlp.seg.Segment;
 import com.hankcs.hanlp.seg.common.Term;
-import com.hankcs.hanlp.seg.Viterbi.ViterbiSegment;
+import org.languagetool.tokenizers.Tokenizer;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,22 +35,29 @@ import java.util.List;
  */
 public class SChineseWordTokenizer implements Tokenizer {
 
-    private Segment crfSegment = new CRFSegment().enableCustomDictionary(false).enableOrganizationRecognize(true).enableCustomDictionary(true);
-
-    @Override
-    public List<String> tokenize(String text) {
-        List<Term> termList = crfSegment.seg(text);
-        List<String> termStringList = new ArrayList<>();
-        for (Term term: termList) {
-            termStringList.add(term.toString());
-        }
-        return termStringList;
+  Segment seg;
+    
+  public SChineseWordTokenizer() {
+    try {
+      seg = new PerceptronLexicalAnalyzer();
+    } catch (IOException e) {
+        
     }
-
-    /** Return the *Term* type tokens */
-    public List<Term> tokenizeBackup(String text) {
-        return crfSegment.seg(text);
+  }
+  @Override
+  public List<String> tokenize(String text) {
+    List<Term> termList = seg.seg(text);
+    List<String> termStringList = new ArrayList<>();
+    for (Term term: termList) {
+      termStringList.add(term.toString());
     }
+    return termStringList;
+  }
+
+  /** Return the *Term* type tokens */
+  public List<Term> tokenizeBackup(String text) {
+    return seg.seg(text);
+  }
 
 
 }

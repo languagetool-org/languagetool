@@ -22,23 +22,8 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 -->
-<rules lang="zh-CN" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd"
+<rules lang="zh" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-
-	<!-- ====================================================================== -->
-	<!-- 拼写： 词语错误 -->
-	<!-- ====================================================================== -->
-
-	<!-- ====================================================================== -->
-	<!-- 拼写： 成语错误 -->
-	<!-- ====================================================================== -->
-	<!-- ====================================================================== -->
-	<!-- 语法：实词的词法 -->
-	<!-- ====================================================================== -->
-
-	<!-- ====================================================================== -->
-	<!-- 语法：虚词的词法 -->
-	<!-- ====================================================================== -->
 
 	<!-- ====================================================================== -->
 	<!-- 语法：句法 -->
@@ -47,10 +32,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 		<rule id="NOT_EXIST_NO" name="不存在有/没有" type="style">
 			<pattern>
 				<marker>
-					<token>不存在</token>
+					<token>不</token>
+					<token>存在</token>
 					<token regexp="yes">(有|任何)?</token>
 				</marker>
-				<token postag_regexp="yes" postag="n|v"></token>
+				<token postag_regexp="yes" postag='vn|n|v'></token>
 			</pattern>
 			<message>“<match no="1"/><match no="2"/><match no="3"/>”为欧化中文，您可以使用<suggestion>没有</suggestion>。</message>
 			<example correction="没有">医生<marker>不存在有</marker>误解病人的病历。</example>
