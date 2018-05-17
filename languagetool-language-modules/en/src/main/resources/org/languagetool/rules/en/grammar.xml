@@ -16712,11 +16712,51 @@ USA
         <suggestion>\1 at</suggestion>
         <suggestion>\1 by</suggestion>
       <example correction='disappointed with|disappointed at|disappointed by'>We could be <marker>disappointed of</marker> this announcement.</example>
+    </rule>    <rule id="ACCOUNTS_FOR" name="The use of symbolism is an important writing technique that accounts a crucial contribution on the novel.">
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+        <marker>
+          <token regexp="yes">that|which</token>
+          <token inflected="yes">account</token>
+        </marker>
+          <token regexp="yes">an?</token>
+          <token/>
+      </pattern>
+      <message>You seem to be missing a word. Usually the verb "account" is followed by "for". Did you mean <suggestion>\1 \2 for</suggestion>.</message>
+      <example correction='That accounts for'><marker>That accounts</marker> a rise in price.</example>
+    </rule>
+    <rule id="ON_THE_NOVEL" name="contribution on/to">
+    <!-- Created by Nicholas Walker (Bokomaru), 2018-05-16 -->
+      <pattern>
+        <marker>
+          <token inflected="yes">contribution</token>
+          <token>on</token>
+        </marker>
+          <token>
+            <exception>time</exception></token>
+      </pattern>
+      <message>The usual preposition for "contribution" is "to". Did you mean <suggestion>\1 to</suggestion>.</message>
+      <example correction='contribution to'>The use of symbolism is an important writing technique that accounts a crucial <marker>contribution on</marker> the novel.</example>
+      <example correction='contribution to'>Make a code <marker>contribution on</marker> LanguageTool.</example>
+    </rule>
+    <rule id="ARRIVED_IN" name="Arrived (in the) dowtown">
+    <!-- Created by Nicholas Walker (Bokomaru), 2018-05-16 -->
+      <pattern>
+        <marker>
+          <token inflected="yes">arrive</token>
+          <token>in</token>
+          <token>the</token>
+          <token>downtown</token>
+        </marker>
+          <token>.</token>
+      </pattern>
+      <message>Did you mean simply <suggestion>\1 \4</suggestion>? You do not need the word 'in' here.</message>
+      <example correction='Arrive downtown'><marker>Arrive in the downtown</marker>.</example>
     </rule>
   </rulegroup>
 
   <rulegroup id="RETURN_IN_THE" name="return in/to">
-    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+    <!-- Created by Nicholas Walker (Bokomaru), 2018-11-14 -->
     <rule>
       <pattern>
         <marker>
