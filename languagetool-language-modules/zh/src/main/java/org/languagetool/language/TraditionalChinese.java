@@ -17,12 +17,12 @@ public class TraditionalChinese extends Chinese{
     return new String[]{"TW"};
   }
 
-  @Override
-  public Tokenizer getWordTokenizer() {
-    if (wordTokenizer == null) {
-      wordTokenizer = new TChinsesWordTokenizer();
-    }
-    return wordTokenizer;
-  }
+//  @Override
+//  public Tokenizer getWordTokenizer() {
+//    if (wordTokenizer == null) {
+//      wordTokenizer = new TChinsesWordTokenizer();
+//    }
+//    return wordTokenizer;
+//  }
 
 }
