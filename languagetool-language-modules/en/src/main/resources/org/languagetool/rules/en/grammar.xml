@@ -16753,10 +16753,44 @@ USA
       <message>Did you mean simply <suggestion>\1 \4</suggestion>? You do not need the word 'in' here.</message>
       <example correction='Arrive downtown'><marker>Arrive in the downtown</marker>.</example>
     </rule>
+    <rule id="MENTION_ABOUT" name="consider (about)">
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token inflected="yes" regexp="yes">discuss|consider|mention</token>
+          <token>about</token>
+          <token/>
+      </pattern>
+      <message>Did you mean simply <suggestion>\1 \3</suggestion>? You do not need the word "about" here.</message>
+      <example correction='consider this'>Please, <marker>consider about this</marker>.</example>
+    </rule>
+    <rule id="ASSOCIATES_TO" name="associates to/with">
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token regexp="yes">associate[sd]?</token>
+          <token postag="PRP$?" postag_regexp='yes'/>
+          <token/>
+          <token>to</token>
+      </pattern>
+      <message>Did you mean <suggestion>\1 \2 \3 with</suggestion>? The usual preposition for the word 'associate' is 'with' not 'to'.</message>
+      <short>Extra preposition</short>
+      <example correction='associates her layoff with'>She <marker>associates her layoff to</marker> your arrival.</example>
+    </rule>
+    <rule id="NAMED_IT_AS" name="named it (as)">
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <token>named</token>
+          <token postag="PRP$?" postag_regexp='yes'/>
+          <token>as</token>
+          <token/>
+      </pattern>
+      <message>Did you mean simply <suggestion>named \2 \4</suggestion>? You do not need the word 'as' here.</message>
+      <short>Extra preposition</short>
+      <example correction="named it Gilead">They <marker>named it as Gilead</marker>.</example>
+    </rule>
   </rulegroup>
 
   <rulegroup id="RETURN_IN_THE" name="return in/to">
-    <!-- Created by Nicholas Walker (Bokomaru), 2018-11-14 -->
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
     <rule>
       <pattern>
         <marker>
