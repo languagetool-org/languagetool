@@ -16,7 +16,6 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-
 package org.languagetool;
 
 import java.util.ArrayList;
@@ -30,7 +29,7 @@ import java.util.List;
  */
 public class ConfigValues {
 
-  private List<ValuePair> values;
+  private final List<ValuePair> values;
 
   private class ValuePair {
     String ruleId;
@@ -65,42 +64,19 @@ public class ConfigValues {
   }
   
   /**
-   * Get all configuration values as String
-   * @since 4.2
-   */
-  public String getAsString() {
-    String txt = "";
-    for (ValuePair v : values) {
-      txt += v.ruleId + ": " + v.value +"\n";
-    }
-    return txt; 
-  }
-  
-  /**
    * Get a list of ValuePairs
    * @since 4.2
    */
-  public List<ValuePair> getValuePairs() {
+  private List<ValuePair> getValuePairs() {
     return values; 
   }
   
   /**
-   * Inserts a list of ValuePairs
-   * note: overrides the existing list
+   * Inserts the List of ConfigValues, overriding the existing list.
    * @since 4.2
    */
-  public void insertList(List<ValuePair> v) {
-    values = new ArrayList<>();
-    values.addAll(v);
-  }
-  
-  /**
-   * Inserts the List of ConfigValues
-   * note: overrides the existing list
-   * @since 4.2
-   */
-  public void insertList(ConfigValues v) {
-    values = new ArrayList<>();
+  void insertList(ConfigValues v) {
+    values.clear();
     values.addAll(v.getValuePairs());
   }
   
@@ -109,7 +85,7 @@ public class ConfigValues {
    * returns -1, if the rule-ID wasn't found
    * @since 4.2
    */
-  public int getValueById(String id) {
+  int getValueById(String id) {
     for (ValuePair v : values) {
       if (id.startsWith(v.ruleId)) {
         return v.value;
