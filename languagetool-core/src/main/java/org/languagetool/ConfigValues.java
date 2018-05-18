@@ -29,37 +29,39 @@ import java.util.List;
  * @author Fred Kruse
  */
 public class ConfigValues {
+
+  private List<ValuePair> values;
+
   private class ValuePair {
-    String ruleID;
+    String ruleId;
     int value;
     
-    ValuePair(String ID, int v) {
-      ruleID = ID;
+    ValuePair(String id, int v) {
+      ruleId = id;
       value = v;
     }
   }
-  private List<ValuePair> values;
   
   /**
    * create a List with 0 entries
    * @since 4.2
    */
   public ConfigValues() {
-    values = new ArrayList<ValuePair>();
+    values = new ArrayList<>();
   }
   
   /**
    * add a pair of rule-ID and value
    * @since 4.2
    */
-  public void addValue(String ruleID, int value) {
+  public void addValue(String ruleId, int value) {
     for (ValuePair v : values) {
-      if(ruleID.equals(v.ruleID)) {
+      if (ruleId.equals(v.ruleId)) {
         v.value = value;
         return;
       }
     }
-    values.add( new ValuePair(ruleID, value) ); 
+    values.add( new ValuePair(ruleId, value) ); 
   }
   
   /**
@@ -69,7 +71,7 @@ public class ConfigValues {
   public String getAsString() {
     String txt = "";
     for (ValuePair v : values) {
-      txt += v.ruleID + ": " + v.value +"\n";
+      txt += v.ruleId + ": " + v.value +"\n";
     }
     return txt; 
   }
@@ -88,8 +90,8 @@ public class ConfigValues {
    * @since 4.2
    */
   public void insertList(List<ValuePair> v) {
-    values = new ArrayList<ValuePair>();
-    values.addAll( v ); 
+    values = new ArrayList<>();
+    values.addAll(v);
   }
   
   /**
@@ -98,8 +100,8 @@ public class ConfigValues {
    * @since 4.2
    */
   public void insertList(ConfigValues v) {
-    values = new ArrayList<ValuePair>();
-    values.addAll( v.getValuePairs() ); 
+    values = new ArrayList<>();
+    values.addAll(v.getValuePairs());
   }
   
   /**
@@ -107,9 +109,9 @@ public class ConfigValues {
    * returns -1, if the rule-ID wasn't found
    * @since 4.2
    */
-  public int getValueByID (String ID) {
+  public int getValueById(String id) {
     for (ValuePair v : values) {
-      if(ID.startsWith(v.ruleID)) {
+      if (id.startsWith(v.ruleId)) {
         return v.value;
       }
     }

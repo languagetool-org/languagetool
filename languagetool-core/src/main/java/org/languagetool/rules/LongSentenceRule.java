@@ -92,7 +92,7 @@ public class LongSentenceRule extends Rule {
   public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
     List<RuleMatch> ruleMatches = new ArrayList<>();
     AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
-    if(configValue >= 0) {
+    if (configValue >= 0) {
       maxWords = configValue;
     }
     String msg = getMessage();

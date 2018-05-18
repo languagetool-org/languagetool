@@ -107,7 +107,7 @@ public abstract class AbstractStyleRepeatedWordRule  extends TextLevelRule {
    */
   private static boolean hasBreakToken(AnalyzedTokenReadings[] tokens) {
     for(int i = 0; i < tokens.length && i < MAX_TOKEN_TO_CHECK; i++) {
-      if(tokens[i].getToken().equals("-") || tokens[i].getToken().equals("—") || tokens[i].getToken().equals("–")) {
+      if (tokens[i].getToken().equals("-") || tokens[i].getToken().equals("—") || tokens[i].getToken().equals("–")) {
         return true;
       }
     }
@@ -142,14 +142,14 @@ public abstract class AbstractStyleRepeatedWordRule  extends TextLevelRule {
     }
     for (int i = 0; i < tokens.length; i++) {
       if (i != notCheck && isTokenToCheck(tokens[i])) {
-        if((!lemmas.isEmpty() && tokens[i].hasAnyLemma(lemmas.toArray(new String[lemmas.size()]))) 
+        if ((!lemmas.isEmpty() && tokens[i].hasAnyLemma(lemmas.toArray(new String[lemmas.size()]))) 
             || isPartOfWord(testToken.getToken(), tokens[i].getToken())) {
-          if(notCheck >= 0) {
-            if(notCheck == i - 2) {
+          if (notCheck >= 0) {
+            if (notCheck == i - 2) {
               return !isTokenPair(tokens, i, true);
-            } else if(notCheck == i + 2) {
+            } else if (notCheck == i + 2) {
               return !isTokenPair(tokens, i, false);
-            } else if((notCheck == i + 1 || notCheck == i - 1) 
+            } else if ((notCheck == i + 1 || notCheck == i - 1) 
                 && testToken.getToken().equals(tokens[i].getToken())) {
               return false;
             }
@@ -165,7 +165,7 @@ public abstract class AbstractStyleRepeatedWordRule  extends TextLevelRule {
   public RuleMatch[] match(List<AnalyzedSentence> sentences) throws IOException {
     List<RuleMatch> ruleMatches = new ArrayList<>();
     List<AnalyzedTokenReadings[]> tokenList = new ArrayList<>();
-    if(configValue >= 0) {
+    if (configValue >= 0) {
       maxDistanceOfSentences = configValue;
     }
     int pos = 0;
@@ -173,19 +173,19 @@ public abstract class AbstractStyleRepeatedWordRule  extends TextLevelRule {
       tokenList.add(sentences.get(n).getTokensWithoutWhitespace());
     }
     for (int n = 0; n < sentences.size(); n++) {
-      if(n + maxDistanceOfSentences < sentences.size()) {
+      if (n + maxDistanceOfSentences < sentences.size()) {
         tokenList.add(sentences.get(n + maxDistanceOfSentences).getTokensWithoutWhitespace());
       }
-      if(tokenList.size() > 2 * maxDistanceOfSentences + 1) {
+      if (tokenList.size() > 2 * maxDistanceOfSentences + 1) {
         tokenList.remove(0);
       }
       int nTok = maxDistanceOfSentences;
-      if(n < maxDistanceOfSentences) {
+      if (n < maxDistanceOfSentences) {
         nTok = n;
-      } else if(n >= sentences.size() - maxDistanceOfSentences) {
+      } else if (n >= sentences.size() - maxDistanceOfSentences) {
         nTok = tokenList.size() - (sentences.size() - n);
       }
-      if(!hasBreakToken(tokenList.get(nTok))) {
+      if (!hasBreakToken(tokenList.get(nTok))) {
         for (int i = 0; i < tokenList.get(nTok).length; i++) {
           AnalyzedTokenReadings token = tokenList.get(nTok)[i];
           if (isTokenToCheck(token)) {

@@ -48,6 +48,8 @@ public abstract class Rule {
 
   protected final ResourceBundle messages;
 
+  protected int configValue = -1;
+
   private List<CorrectExample> correctExamples = new ArrayList<>();
   private List<IncorrectExample> incorrectExamples = new ArrayList<>();
   private List<ErrorTriggeringExample> errorTriggeringExamples = new ArrayList<>();
@@ -57,7 +59,6 @@ public abstract class Rule {
   private boolean defaultOff;
   private boolean officeDefaultOn = false;
   private boolean officeDefaultOff = false;
-  protected int configValue = -1;
 
   public Rule() {
     this(null);

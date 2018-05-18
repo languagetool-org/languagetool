@@ -1178,8 +1178,8 @@ public class JLanguageTool {
   public void setConfigValues(ConfigValues v) {
     configValues.insertList(v);
     for (Rule r : builtinRules) {
-      int value = configValues.getValueByID(r.getId());
-      if( value >= 0) {
+      int value = configValues.getValueById(r.getId());
+      if (value >= 0) {
         r.setDefaultValue(value);
       }
     }
