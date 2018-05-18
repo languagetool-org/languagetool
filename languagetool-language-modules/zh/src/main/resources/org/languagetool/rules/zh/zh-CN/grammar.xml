@@ -36,6 +36,159 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
 
+
+    <!-- ====================================================================== -->
+    <!-- 语法：实词的词法 -->
+    <!-- ====================================================================== -->
+    <category id="CN_CAT3" name="词法-实词">
+        <rule id="ZH1" name="反应\反映">
+            <pattern>
+                <token>反应</token>
+                <token postag='u'>了</token>
+            </pattern>
+            <message>您的意思是"反映"吗？</message>
+            <example correction=''>这部小说<marker>反应了</marker>现实生活</example>
+            <example>这部小说反映了现实生活</example>
+        </rule>
+        <rule id="ZH2" name="必需\必须">
+            <pattern>
+                <marker>
+                    <token>必</token>
+                    <token>需</token>
+                </marker>
+                <token postag='v'></token>
+            </pattern>
+            <message>"<match no="1"/><match no="2"/>"后面不应接动词，您的意思是"<suggestion>必须</suggestion>"吗？</message>
+            <example correction='必须'>你<marker>必需</marker>吃饭</example>
+            <example>你必须吃饭</example>
+        </rule>
+        <rule id="ZH4" name="法制\法治">
+            <pattern>
+                <token>法制</token>
+                <token regexp='yes'>社会|国家</token>
+            </pattern>
+            <message>您的意思是"法治<match no="2"/>"吗？</message>
+            <example correction=''><marker>法制社会</marker>和人治社会是相对而言的</example>
+            <example>法治社会和人治社会是相对而言的</example>
+        </rule>
+        <rulegroup id="wa1" name="词性误用">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>寓意</token>
+                    </marker>
+                    <token regexp="yes">着|了</token>
+                </pattern>
+                <message>
+                    ‘寓意’是名词，误用作动词。您可以使用:
+                    <suggestion>寄寓</suggestion>
+                    。
+                </message>
+                <short>名词的误用</short>
+                <example correction="寄寓">
+                    这个图案
+                    <marker>寓意</marker>
+                    着幸福、长寿。
+                </example>
+                <example>这个故事有很深的寓意。</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="wa2" name="时间词、处所词、方位词的运用">
+            <rule>
+                <pattern>
+                    <token postag="n"></token>
+                    <marker>
+                        <token>的</token>
+                    </marker>
+                    <token regexp="yes">前|后|左|右|上|下|中|间|旁</token>
+                    <token>
+                        <exception postag="n|ng|f|v" postag_regexp="yes"></exception>
+                    </token>
+                </pattern>
+                <message>
+                    单纯方位词与名词结合不加“的”,您的意思是否是：
+                    <suggestion>\1\3 或 \1以\3 或 \1的\3边</suggestion>
+                </message>
+                <example correction="门前 或 门以前 或 门的前边">
+                    那只狗躺在门<marker>的</marker>前。
+                </example>
+                <example>一只狗躺在门前。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">以|之</token>
+                    </marker>
+                    <token regexp="yes">左边|右边|左面|右面|左方|右方|左上方|左下方|右上方|右下方|左侧|右侧</token>
+                </pattern>
+                <message>
+                    “左”、“右”前不能加“以”、“之”,应改为：
+                    <suggestion>的</suggestion>
+                    \2
+                </message>
+                <example correction="的">门<marker>之</marker>左侧</example>
+                <example>门的左侧</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="t">
+                        <exception regexp="yes">.*年|.*月|.*日|.*时|.*分|.*秒|.*点
+                        </exception>
+                    </token>
+                    <marker>
+                        <token>左右</token>
+                    </marker>
+                </pattern>
+                <message>
+                    “左右”不能用在时间名词后，您的意思是否是：\1
+                    <suggestion>前后</suggestion>
+                </message>
+                <example correction="前后">春节<marker>左右</marker></example>
+                <example>天亮前后</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="v" regexp="yes">坐|站|跑|飞|.*落|飘|走|跳|打|摔|扔|丢|爬|画|做|死
+                    </token>
+                    <marker>
+                        <token postag="p" skip="-1">在</token>
+                        <token postag="n"></token>
+                    </marker>
+                    <token>
+                        <exception postag="f|j|u" postag_regexp="yes"></exception>
+                    </token>
+                </pattern>
+                <message>
+                    名词后要加
+                    <suggestion>方位词</suggestion>
+                </message>
+                <example correction="方位词">我坐<marker>在台子</marker>。</example>
+                <example>我坐在台子上。</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="wa3" name="能愿动词的运用">
+            <rule>
+                <pattern>
+                    <token regexp="yes" postag="p">把|被</token>
+                    <token skip="-1">
+                        <exception postag="v"></exception>
+                    </token>
+                    <token regexp="yes" postag="v">能|能够|会|可|可能|可以|得以|愿意|乐意|情愿|肯|要|愿|想要|要想|敢|敢于|乐于|应|应该|应当|得|该|当|须得|犯得着|犯不着|理当|值得|便于|难于|难以|易于
+                    </token>
+                </pattern>
+                <message>
+                    能愿动词不能成为‘把’字句、‘被’字句的谓语动词。应该是:
+                    <suggestion>\3\1……\2</suggestion>
+                    。
+                </message>
+                <short>能愿动作位置错误</short>
+                <example correction="应该把……这">你今天<marker>把这本书应该</marker>看完。</example>
+                <example>你能把这本书看完吗？</example>
+            </rule>
+        </rulegroup>
+    </category>
+
+
     <!-- ====================================================================== -->
     <!-- 语法：虚词的词法 -->
     <!-- ====================================================================== -->
@@ -519,7 +672,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token postag="m" regexp="yes">
                         .*[^些批组套群种类股堆片段大多少数几期量分若干份那这号吨米列].*
-                        <exception regexp="yes">系列|若干|.*部分|.*部份|那.*|这.*|.*少.*|.*多.*|.*大.*|.*号线
+                        <exception regexp="yes">系列|.*部分|.*部份|那.*|这.*|.*少.*|.*多.*|.*大.*|.*号线
                         </exception>
                         <exception>-</exception>
                         <exception>.</exception>
