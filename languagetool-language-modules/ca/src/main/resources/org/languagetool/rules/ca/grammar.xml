@@ -5627,7 +5627,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token inflected="yes" skip="3" postag="V.[^M].*" postag_regexp="yes">donar<exception scope="next" postag="SPS00"/></token>
                     </marker>
-                    <token regexp="yes" inflected="yes">salt|bot|tombarella|passejada|petó|bes|besada|pessic|abraçada|goig|gir|pel·lícula|batxillerat|concert|recital|impressió|xiulit</token>
+                    <token regexp="yes" inflected="yes">salt|bot|tombarella|passejada|petó|bes|besada|pessic|abraçada|goig|gir|pel·lícula|batxillerat|concert|recital|impressió|xiulit|crit</token>
                 </pattern>
                 <message>Val més usar el verb "fer".</message>
                 <suggestion><match no="1" postag="(V.[^M].*)." postag_regexp="yes" postag_replace="$1.">fer</match></suggestion>
@@ -5642,7 +5642,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token inflected="yes" skip="3" postag="V.M.*" postag_regexp="yes">donar<exception postag="V.[^M].*" postag_regexp="yes"/><exception scope="next" postag="SPS00"/></token>
                     </marker>
-                    <token regexp="yes" inflected="yes">salt|bot|tombarella|passejada|petó|bes|besada|pessic|abraçada|goig|gir|pel·lícula|batxillerat|concert|recital|impressió|xiulit</token>
+                    <token regexp="yes" inflected="yes">salt|bot|tombarella|passejada|petó|bes|besada|pessic|abraçada|goig|gir|pel·lícula|batxillerat|concert|recital|impressió|xiulit|crit</token>
                 </pattern>
                 <message>Val més usar el verb "fer".</message>
                 <suggestion><match no="1" postag="(V.M.*)." postag_regexp="yes" postag_replace="$1.">fer</match></suggestion>
@@ -28362,13 +28362,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <message>Expressió incorrecta.</message>
             <suggestion><match no="1"/> molt nerviós</suggestion>
-            <suggestion><match no="1"/> els nervis de punta</suggestion>
+            <suggestion><match no="1" postag="(V.[SI].*)" postag_regexp="yes" postag_replace="$1">fer</match> posar els nervis de punta</suggestion>
             <suggestion><match no="1" postag="(V.[SI].*)" postag_regexp="yes" postag_replace="$1">fer</match> posar malalt</suggestion>
             <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">crispar</match></suggestion>
             <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">sulfurar</match></suggestion>
             <suggestion><match no="1"/> histèric</suggestion>
-            <example correction="posava molt nerviós|posava els nervis de punta|feia posar malalt|crispava|sulfurava|posava histèric">Em <marker>posava dels nervis</marker>.</example>
-            <example correction="posa molt nerviós|posa els nervis de punta|fa posar malalt|crispa|sulfura|posa histèric">Em <marker>posa dels nervis</marker>.</example>
+            <example correction="posava molt nerviós|feia posar els nervis de punta|feia posar malalt|crispava|sulfurava|posava histèric">Em <marker>posava dels nervis</marker>.</example>
+            <example correction="posa molt nerviós|fa posar els nervis de punta|fa posar malalt|crispa|sulfura|posa histèric">Em <marker>posa dels nervis</marker>.</example>
             <example>Em posava molt nerviós.</example>
         </rule>
         <rule id="AMPLE_DE_BANDA" name="*ample/amplada de banda">
@@ -34803,7 +34803,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token inflected="yes">de</token>
                     <token min="0" postag="DA.*" postag_regexp="yes"/>
-                    <token inflected="yes" regexp="yes">lord|comerç|diputat|representant|expansió|màquina|aigua|ionització|bombolla|càrrega|gas|reverberació|indústria|navegació|propietat|compensació|aire|vapor|apel·lació|Castella|combustió|comú</token>
+                    <token inflected="yes" regexp="yes">lord|comerç|diputat|representant|expansió|màquina|aigua|ionització|bombolla|càrrega|gas|reverberació|indústria|navegació|propietat|compensació|aire|vapor|apel·lació|Castella|combustió|comú|cria|cultiu|conreu</token>
                 </pattern>
                 <message>Paraula incorrecta en aquest context.</message>
                 <suggestion><match no="1" postag="NC.(.*)" postag_regexp="yes" postag_replace="NCF$1">cambra</match></suggestion>
@@ -34832,7 +34832,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token inflected="yes" regexp="yes">música|obra|pintor</token>
+                    <token inflected="yes" regexp="yes">música|obra|pintor|cor|orquestra|ajudant|conjunt|grup|cobla</token>
                     <token>de</token>
                     <marker>
                         <token inflected="yes">càmera</token>
