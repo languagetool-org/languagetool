@@ -37,9 +37,1039 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </category>
 
     <!-- ====================================================================== -->
+    <!-- 语法：虚词的词法 -->
+    <!-- ====================================================================== -->
+    <category id="CN_CAT4" name="词法-虚词">
+        <rule id="ZH5" name="成分赘余_原因+因为">
+            <pattern>
+                <token skip='-1'>原因</token>
+                <token>因为</token>
+            </pattern>
+            <message>成分赘余： “原因” “因为” 不一起使用，请删除“因为”</message>
+            <example correction=''>我没考好的<marker>原因是因为</marker>我没有仔细审题</example>
+            <example>我没考好的原因是我没有仔细审题</example>
+        </rule>
+        <rulegroup id="wb1" name="副词">
+            <rule>
+                <pattern>
+                    <token regexp="yes">很|非常|十分|相当</token>
+                    <token regexp="yes">当作|姓|成为|等于</token>
+                </pattern>
+                <message>多数关系副词不能受程度副词修饰。</message>
+                <short>动词语法错误</short>
+                <example correction="">
+                    他
+                    <marker>很成为</marker>
+                    领导。
+                </example>
+                <example>他一定姓王。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="d">比较</token>
+                    <token postag="a" regexp="yes">不.*</token>
+                </pattern>
+                <message>‘比较’后面不能跟否定副词‘不’。</message>
+                <short>‘比较’的用法</short>
+                <example correction="">这部电影<marker>比较不好</marker>。</example>
+                <example>他为人还是比较好。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="d" skip="4">至少</token>
+                    <token postag="f">以上</token>
+                </pattern>
+                <message>“至少”“以上”不同时使用，应删去其中一个。</message>
+                <short>副词的语法错误</short>
+                <example correction="">
+                    我们这个团队
+                    <marker>至少是由30以上</marker>
+                    个人组成的。
+                </example>
+                <example>我们这个团队至少是由30个人组成的。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="d">起码</token>
+                    <token postag="d">至少</token>
+                </pattern>
+                <message>“起码”“至少”不同时使用，应删去其中一个。</message>
+                <short>副词的语法错误</short>
+                <example correction="">
+                    我们这个团队
+                    <marker>起码至少</marker>
+                    是由30个人组成的。
+                </example>
+                <example>我们这个团队至少是由30个人组成的。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="d">至少</token>
+                    <token postag="d">起码</token>
+                </pattern>
+                <message>“至少”“起码”不同时使用，应删去其中一个。</message>
+                <short>副词的语法错误</short>
+                <example correction="">
+                    我们这个团队
+                    <marker>至少起码</marker>
+                    是由30个人组成的。
+                </example>
+                <example>我们这个团队至少是由30个人组成的。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token skip="6" regexp="yes">超过|高于|高过</token>
+                    <token regexp="yes">以上|之上</token>
+                </pattern>
+                <message>“\1”和“\2”用词重复，您可以保留其中一个</message>
+                <example correction="">
+                    我的红包
+                    <marker>超过一千以上</marker>
+                    。
+                </example>
+                <example>我的红包超过一千。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="d" skip="5">大约</token>
+                    <token postag="m">多</token>
+                </pattern>
+                <message>“大约”“多”不同时使用，应删去其中一个</message>
+                <short>副词的语法错误</short>
+                <example correction="">
+                    <marker>大约二十多</marker>
+                    年前吧。
+                </example>
+                <example>大约过了十天。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="a" skip="5">平均</token>
+                    <token postag="r" skip="5" regexp="yes">每.*</token>
+                    <token postag="d">都</token>
+                </pattern>
+                <message>“平均”“都”不同时使用，应删去其中一个</message>
+                <short>副词的语法错误</short>
+                <example correction=""><marker>平均每个小破孩都</marker>吃了5个汉堡包。</example>
+                <example>平均每个小朋友吃个5个包子。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="v" skip="5">平均</token>
+                    <token postag="m" skip="5" regexp="yes">一.*</token>
+                    <token postag="d">都</token>
+                </pattern>
+                <message>“平均”“都”不同时使用，应删去其中一个</message>
+                <short>副词的语法错误</short>
+                <example correction="">
+                    <marker>平均一个小破孩都</marker>
+                    吃了5个汉堡包
+                </example>
+                <example>平均一个小朋友吃个5个包子。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="r|n" postag_regexp="yes"></token>
+                    <marker>
+                        <token postag="v|ad" postag_regexp="yes">平均</token>
+                        <token postag="d">都</token>
+                    </marker>
+                </pattern>
+                <message>“平均”“都”不同时使用，应删去其中一个。</message>
+                <short>副词的语法错误</short>
+                <example correction="">
+                    5科成绩
+                    <marker>平均都</marker>
+                    在80以上。
+                </example>
+                <example>跑车的速度平均在200km/h。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token skip="-1" regexp="yes">低过|低于</token>
+                    <marker>
+                        <token regexp="yes">以下|之下</token>
+                    </marker>
+                </pattern>
+                <message>“\1”和“\2”属于用词重复，您可以保留其中一个</message>
+                <example correction="">
+                    我的红包低于一千
+                    <marker>以下</marker>
+                    。
+                </example>
+                <example>我的红包低于一千。</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="wb2" name="介词">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="n.*|r" postag_regexp="yes"></token>
+                        <token postag="p">对于</token>
+                        <token postag="n.*|r" postag_regexp="yes"></token>
+                    </marker>
+                    <token postag="v"></token>
+                </pattern>
+                <message>
+                    “对于” 没有 “对” 的表“朝”、“向”意义用法，请改用“
+                    <suggestion>对</suggestion>
+                    ”表示。
+                </message>
+                <short>介词的误用</short>
+                <example correction="对">
+                    课室中
+                    <marker>小明对于老师</marker>
+                    说：
+                </example>
+                <example>我对你表示万分感谢。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <!--<token postag="n.*|r" postag_regexp="yes"/> -->
+                    <token negate="yes" regexp="yes">对于|对|的</token>
+                    <token postag="n.*|r" postag_regexp="yes" skip="1"></token>
+                    <marker>
+                        <token regexp="yes">来说|而言|说来</token>
+                    </marker>
+                </pattern>
+                <message>固定搭配： “\3” 应与 “对” 或 “对于” 搭配使用：对于...\3。</message>
+                <short>介词的误用</short>
+                <example correction="">
+                    这件事在我
+                    <marker>来说</marker>
+                    是好事。
+                </example>
+                <example>这件事对于我来说是好事。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START" negate_pos="yes"></token>
+                    <marker>
+                        <token postag="p">关于</token>
+                    </marker>
+                </pattern>
+                <message>
+                    “关于”组成的介词短语必需位于句首，或请改用
+                    <suggestion>对于</suggestion>
+                    代替。
+                </message>
+                <short>介词的误用</short>
+                <example correction="对于">
+                    我们小组
+                    <marker>关于</marker>
+                    这个问题商讨了很久。
+                </example>
+                <example>关于这个问题我们小组商讨了很多次。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="p">由</token>
+                    <token postag="r|n.*" postag_regexp="yes" skip="2"></token>
+                    <token postag="v">为首</token>
+                </pattern>
+                <message>
+                    固定搭配： “为首” 应与 “以” 搭配使用：
+                    <suggestion>以...为首</suggestion>
+                    。
+                </message>
+                <short>介词的误用</short>
+                <example correction="以...为首"><marker>由这些人为首</marker>的坏蛋们应接受法律的惩罚。</example>
+                <example>以他们为首的战士们英勇地牺牲了。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="p">本着</token>
+                    <token postag="p">以</token>
+                </pattern>
+                <message>成分累赘： “本着” “以” 不一起使用，请删除其中一个</message>
+                <short>介词的误用</short>
+                <example correction="">
+                    公司
+                    <marker>本着以</marker>
+                    务实的态度赢得了客户的信任。
+                </example>
+                <example>我校本着好学上进的良好校风，获得了优等院校的称号。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="p" skip="2">被</token>
+                    <token postag="v">
+                        当选
+                        <exception postag="v" scope="previous"></exception>
+                    </token>
+                </pattern>
+                <message>
+                    搭配错误： “被” “当选” 不一起使用，请改为：
+                    <suggestion>被...选</suggestion>
+                    。
+                </message>
+                <short>介词的误用</short>
+                <example correction="被...选">
+                    小白
+                    <marker>被大家当选</marker>
+                    为新班长。
+                </example>
+                <example>我被选为小学生代表参加比赛。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="p" skip="2">给</token>
+                    <token postag="u">所</token>
+                </pattern>
+                <message>搭配错误： “给” “所” 不一起使用，请去掉 “所” ，或改为 “被...所” 句式。</message>
+                <short>介词的误用</short>
+                <example correction="">
+                    那本书还没
+                    <marker>给我自己所</marker>
+                    看到过。
+                </example>
+                <example>当时候我还没给你知道这件事。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="p" skip="-1">把</token>
+                    </marker>
+                    <token postag="n">范围</token>
+                    <token postag="f">内</token>
+                    <token postag="v"></token>
+                </pattern>
+                <message>
+                    搭配错误： 应将 “把” 改为 “
+                    <suggestion>在</suggestion>
+                    ”：在...范围内
+                </message>
+                <short>介词的误用</short>
+                <example correction="在">我们准备<marker>把</marker>方圆600米范围内种植树木。</example>
+                <example>领导把那个范围内的树木都铲平了。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="v">来自</token>
+                    <token postag="p">于</token>
+                </pattern>
+                <message>
+                    成分累赘： “来自” “于” 不一起使用，请删除 “于”：
+                    <suggestion>来自</suggestion>
+                    。
+                </message>
+                <short>介词的误用</short>
+                <example correction="来自">
+                    我们都
+                    <marker>来自于</marker>
+                    中国。
+                </example>
+                <example>这些事故的原因都来自醉酒驾驶。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="p">把</token>
+                    <token postag="n.*|r" postag_regexp="yes"></token>
+                    <token postag="v.*" postag_regexp="yes">
+                        <exception>试</exception>
+                    </token>
+                    <token>过</token>
+                </pattern>
+                <message> “把” 字句谓语动词后不能接 “过” 。</message>
+                <short>介词的误用</short>
+                <example correction="">
+                    我
+                    <marker>把苹果吃过</marker>
+                    了。
+                </example>
+                <example>我把它杀了。</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="wb3" name="连词" default="on">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="c">或者</token>
+                    </marker>
+                    <token skip="-1"></token>
+                    <token postag="w">？</token>
+                </pattern>
+                <message>
+                    表示选择的疑问句中不能使用 “或者” ，请改用：
+                    <suggestion>还是</suggestion>
+                    。
+                </message>
+                <short>介词的误用</short>
+                <example correction="还是">
+                    我是吃我的面包
+                    <marker>或者</marker>
+                    你的汉堡包？
+                </example>
+                <example>你是看书还是吃饭？</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="wb4" name="助词">
+            <rule>
+                <pattern>
+                    <token postag="v">
+                        <exception regexp="yes">剩下|允许|接受|遭受|所谓|看到|拥有|提供</exception>
+                    </token>
+                    <marker>
+                        <token postag="u">的</token>
+                    </marker>
+                    <token postag="d">
+                        <exception regexp="yes">最|不|比较|较|大约|也|就|都</exception>
+                    </token>
+                    <token postag_regexp="yes" postag="a|d"></token>
+                </pattern>
+                <message>
+                    1.动词被副词修饰时，助词应该用‘得’;2.省略宾语时，助词应该用‘的’;可能造成歧义。您的意思是不是：
+                    <suggestion>\1得\3\4</suggestion>
+                </message>
+                <short>‘得’的用法</short>
+                <example correction="跑得很快">
+                    他跑
+                    <marker>的</marker>
+                    很快。
+                </example>
+                <example>剩下的很多都没人要。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag_regexp="yes" postag="a|d"></token>
+                    <marker>
+                        <token postag="u" skip="-1">的</token>
+                    </marker>
+                    <token postag="v|vd" postag_regexp="yes">
+                        <exception regexp="yes">是|有</exception>
+                    </token>
+                </pattern>
+                <message>
+                    动词的修饰一般为‘形容词（副词）+地+动词’。您的意思是否是：\1
+                    <suggestion>地</suggestion>
+                    \3
+                </message>
+                <short>‘地’的用法</short>
+                <example correction="地">
+                    水渐渐
+                    <marker>的</marker>
+                    涨起来。
+                </example>
+                <example>人慢慢地走过来了。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag_regexp="yes" postag="a|d"></token>
+                    <marker>
+                        <token postag="u">的</token>
+                    </marker>
+                    <token postag="a"></token>
+                    <token postag="w"></token>
+                </pattern>
+                <message>
+                    形容词的修饰一般为‘形容词（副词）+地+形容词’。您的意思是否是：
+                    <suggestion>\1地\3</suggestion>
+                </message>
+                <short>‘地’的用法</short>
+                <example correction="渐渐地亮">太阳渐渐<marker>的</marker>亮。</example>
+                <example>人们的生活节奏特别地快。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="nr|ns" postag_regexp="yes"></token>
+                    <marker>
+                        <token>等等</token>
+                    </marker>
+                </pattern>
+                <message>
+                    “等等”不能与专有名词搭配，您可以使用“
+                    <suggestion>等</suggestion>
+                    ”与之搭配。
+                </message>
+                <example correction="等">小明，小红<marker>等等</marker>。</example>
+                <example>小明，小红等</example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup id="wa5" name="数量词的运用">
+            <rule>
+                <pattern>
+                    <token>二三</token>
+                </pattern>
+                <message>
+                    应该为：
+                    <suggestion>两</suggestion>
+                    三。
+                </message>
+                <short>数量词的运用</short>
+                <example correction="两"><marker>二三</marker>天</example>
+                <example>两三个</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" skip="-1" postag="v">降低|减少|削减|削价|降价|下调|调低|减|降|削|扣除|扣
+                    </token>
+                    <token postag="q">倍</token>
+                </pattern>
+                <message>数量词的减少不能与‘倍’搭配。</message>
+                <short>搭配不当</short>
+                <example correction="">
+                    大米的价格
+                    <marker>降低了一倍</marker>
+                    。
+                </example>
+                <example>中国将调低大宗商品的消费税。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="m" regexp="yes">
+                        .*[^些批组套群种类股堆片段大多少数几期量分若干份那这号吨米列].*
+                        <exception regexp="yes">系列|若干|.*部分|.*部份|那.*|这.*|.*少.*|.*多.*|.*大.*|.*号线
+                        </exception>
+                        <exception>-</exception>
+                        <exception>.</exception>
+                    </token>
+                    <token postag="q" skip="5" regexp="yes">
+                        .*[^些批组套群种类股堆片段大多少数几期量分若干份那这号吨米列].*
+                        <exception regexp="yes">系列|若干|.*部分|.*部份|那.*|这.*|.*少.*|.*多.*|.*大.*|.*号线
+                        </exception>
+                        <exception>-</exception>
+                        <exception>.</exception>
+                        <exception postag="q" scope="next"></exception>
+                    </token>
+                    <marker>
+                        <token postag="n" regexp="yes">
+                            书籍|岁月|莘莘学子|人群|车辆
+                            <exception postag="v|p" postag_regexp="yes" scope="previous"></exception>
+                        </token>
+                    </marker>
+                    <token postag="n.*|vn|q" postag_regexp="yes" negate_pos="yes"></token>
+                </pattern>
+                <message> “\3” 不能与具体数字或精确量词一同使用。02</message>
+                <short>数量词的运用</short>
+                <example correction="">
+                    图书馆藏有数十万本
+                    <marker>书籍</marker>
+                    。
+                </example>
+                <example>图书馆藏有数十万本书。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="m" regexp="yes">.*[^些头个阵点-]</token>
+                    <token postag="n">
+                        <exception regexp="yes">书籍|岁月|莘莘学子|人群|车辆|人|头马|楼</exception>
+                    </token>
+                </pattern>
+                <message>数词与名词之间一般应存在量词，可能缺少量词。</message>
+                <short>数量词的运用</short>
+                <example correction="">
+                    我需要
+                    <marker>一书</marker>
+                    。
+                </example>
+                <example>我需要一点点水。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="v" skip="1">
+                        <exception postag="n" scope="next"></exception>
+                    </token>
+                    <marker>
+                        <token postag="m">二</token>
+                        <token postag="q" regexp="yes">[^维号重顷合斗石钱两]</token>
+                    </marker>
+                    <token postag="n.*|vn" postag_regexp="yes">
+                        <exception regexp="yes">革命.*|.*大战|进化|.*大会|.*函数|方</exception>
+                    </token>
+                </pattern>
+                <message>
+                    若非古汉语，则量词“二”可能使用错误，您的意思是否是：
+                    <suggestion>两\3</suggestion>
+                    ？
+                </message>
+                <short>数量词的运用</short>
+                <example correction="两部">
+                    我和她去看了
+                    <marker>二部</marker>
+                    电影。
+                </example>
+                <example>火柴人很享受做二维设计的感觉。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="v"></token>
+                    <token postag="n.*|vn" postag_regexp="yes"></token>
+                    <marker>
+                        <token postag="m">二</token>
+                        <token postag="q" regexp="yes">[^维号重顷合斗石钱两]</token>
+                    </marker>
+                </pattern>
+                <message>
+                    若非古汉语，则量词“二”可能使用错误，您的意思是否是：
+                    <suggestion>两\4</suggestion>
+                    ？
+                </message>
+                <short>数量词的运用</short>
+                <example correction="两座">
+                    学校有教学楼
+                    <marker>二座</marker>
+                    。
+                </example>
+                <example>我们特意定制法律两条。</example>
+            </rule>
+            <rule>
+                <regexp mark="1">(俩)([组|个|只|头|条])</regexp>
+                <message>
+                    “俩”不与量词搭配使用，应删去量词：
+                    <suggestion>两</suggestion>\2。
+                </message>
+                <short>数量词的运用</short>
+                <example correction="两"><marker>俩</marker>个人都在一条船上。</example>
+                <example>俩人在一块工作。</example>
+            </rule>
+            <rule>
+                <regexp mark="1">(仨)([组|个|只|头|条])</regexp>
+                <message>
+                    “仨”不与量词搭配使用，应删去量词：
+                    <suggestion>三</suggestion>
+                    \2。
+                </message>
+                <short>数量词的运用</short>
+                <example correction="三"><marker>仨</marker>组人都在一条船上。</example>
+                <example>仨人在一块工作。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="m"></token>
+                    <marker>
+                        <token postag="q">头</token>
+                    </marker>
+                    <token postag="n" regexp="yes">
+                        .*马.*
+                        <exception>河马</exception>
+                    </token>
+                </pattern>
+                <message>
+                    量词“头”不能修饰“\3”，应使用
+                    <suggestion>匹</suggestion>
+                    。
+                </message>
+                <short>量词搭配错误</short>
+                <example correction="匹">三<marker>头</marker>白马</example>
+                <example>三头牛</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="m"></token>
+                    <token postag="q">颗</token>
+                    <token postag="n.*" postag_regexp="yes" regexp="yes" negate="yes">子弹|心|肿瘤|脑袋|种子|瓜子|沙子
+                    </token>
+                </pattern>
+                <message>量词“颗”不能修饰“\3”。</message>
+                <short>量词搭配错误</short>
+                <example correction="">
+                    房间里
+                    <marker>一颗人</marker>
+                    。
+                </example>
+                <example>头上一颗脑袋。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes" skip="-1">条|支</token>
+                    </marker>
+                    <token regexp="yes" postag="n">.*鸡|鸭|鹅|.*鸟|.*蝶</token>
+                    <token>
+                        <exception postag="n.*|b|a|j" postag_regexp="yes"></exception>
+                    </token>
+                </pattern>
+                <message>
+                    ‘\2’不能用‘\1’修饰，您可以使用‘
+                    <suggestion>只</suggestion>
+                    ’来与之搭配。
+                </message>
+                <short>量词的误用</short>
+                <example correction="只">河边有三<marker>条</marker>鹅。</example>
+                <example>周扒皮在夜里偷了3只鸡。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes" skip="-1">条|支</token>
+                    </marker>
+                    <token>的</token>
+                    <token regexp="yes" postag="n">.*鸡|鸭|鹅|.*鸟|.*蝶</token>
+                    <token>
+                        <exception postag="n.*|b|a|j" postag_regexp="yes"></exception>
+                    </token>
+                </pattern>
+                <message>
+                    ‘\3’不能用‘\1’修饰，您可以使用‘
+                    <suggestion>只</suggestion>
+                    ’来与之搭配。
+                </message>
+                <short>量词的误用</short>
+                <example correction="只">
+                    河边有三
+                    <marker>条</marker>
+                    白色的鹅。
+                </example>
+                <example>周扒皮在夜里偷了3只肥硕的鸡。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="m|r" postag_regexp="yes"></token>
+                        <token postag="q">张</token>
+                        <token postag="n" negate="yes" regexp="yes" skip="1">
+                            .*纸|.*票|.*券|.*网|图|地图|奖状|.*证|证书|证照|执照|名片|图.*|照片|相片|影像|海报|封面|标签|表|表格|.*卡|.*牌|卡片|专辑|唱片|单曲|大碟|光碟|光盘|CD|DVD|VCD|BD|.*带|旗帜|.*画|.*板|单据|票据|.*单|.*皮|皮子|纸.*|.*床|.*桌|桌子|椅子|.*椅|凳子|.*凳|台子|.*台|沙发|茶几|.*嘴|.*脸|.*弓|榻榻|.*犁|.*锹
+                            <exception scope="next">在</exception>
+                            <exception postag="n.*|vn|q|m" postag_regexp="yes"
+                                       scope="next"></exception>
+                        </token>
+                    </marker>
+                    <token postag="n.*|vn|q|m" postag_regexp="yes" negate_pos="yes">
+                        <exception postag="n.*|vn|q|m" postag_regexp="yes"></exception>
+                    </token>
+                </pattern>
+                <message> “张” 不能与 “\3” 搭配，请更换量词。</message>
+                <short></short>
+                <example correction="">这里有<marker>一张人</marker>。</example>
+                <example>一张面额80元的钞票。</example>
+                <example>建議選一張主體在黃金分割線上的油画。</example>
+                <example>一张皮</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="m|r" postag_regexp="yes"></token>
+                    <marker>
+                        <token postag="q">门</token>
+                    </marker>
+                    <token postag="n">
+                        <exception regexp="yes">.*大炮|.*功课|.*技术|.*亲事|.*亲戚|.*火炮|.*机炮|.*高射炮|.*工艺|.*学说|.*专业|.*课程|.*学科|.*语言|.*艺术|.*学问|.*行业
+                        </exception>
+                    </token>
+                    <token>
+                        <exception postag="n|ng" postag_regexp="yes"></exception>
+                    </token>
+                </pattern>
+                <message>“门”不能与“\3”搭配，请更换量词。</message>
+                <example correction="">这是一<marker>门</marker>笔记。</example>
+                <example>这是一门技术活。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="r|m" postag_regexp="yes"></token>
+                    <marker>
+                        <token postag="u|q" postag_regexp="yes">所</token>
+                    </marker>
+                    <token postag="n" regexp="yes" skip="1">
+                        .*城堡|.*教室|.*宿舍|.*建筑|.*卧室
+                        <exception postag="n|ng" postag_regexp="yes" scope="next"></exception>
+                    </token>
+                </pattern>
+                <message>“所”不能与“\3”搭配，请更换量词。</message>
+                <example correction="">
+                    这
+                    <marker>所</marker>
+                    教室又大又明亮。
+                </example>
+                <example>这间教室又大又明亮。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="m|r" postag_regexp="yes"></token>
+                    <marker>
+                        <token postag="q">台</token>
+                    </marker>
+                    <token postag="n" regexp="yes">汽车|飞机|房子|手枪</token>
+                    <token>
+                        <exception postag="n.*" postag_regexp="yes"></exception>
+                    </token>
+                </pattern>
+                <message>&quot;台&quot;不能与“\3”搭配,请换量词。</message>
+                <example correction="">
+                    这<marker>台</marker>汽车很不错
+                </example>
+                <example>这辆汽车很不错</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="m|r" postag_regexp="yes"></token>
+                    <marker>
+                        <token postag="q">间</token>
+                    </marker>
+                    <token postag="n">
+                        <exception regexp="yes">卧室|客厅|门面|屋子|茅屋|.*房|教室|店铺|仓库|超市|网吧|酒店|药店
+                        </exception>
+                    </token>
+                </pattern>
+                <message>&quot;间&quot;不能与“\3”搭配，请换量词</message>
+                <example correction="">我家有一<marker>间</marker>学校。</example>
+                <example>我家有一间卧室</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="m|r" postag_regexp="yes"></token>
+                    <marker>
+                        <token postag="q">匹</token>
+                    </marker>
+                    <token postag="n">
+                        <exception regexp="yes">.*马|.*布|.*狼</exception>
+                    </token>
+                    <token>
+                        <exception postag="n|ng" postag_regexp="yes"></exception>
+                    </token>
+                </pattern>
+                <message>“匹”不能与“\3”搭配，请更换量词。</message>
+                <example correction="">这是一<marker>匹</marker>狮子。</example>
+                <example>这是一只狮子。</example>
+            </rule>
+            <rule>
+                <regexp mark="1">(个)(.*?)([牛|驴|骡|豹子|豹])</regexp>
+                <message>
+                    “个”不能与“\3”搭配，可改为：
+                    <suggestion>头</suggestion>
+                    \2\3
+                </message>
+                <short>个_搭配不当</short>
+                <example correction="头">我喜欢这<marker>个</marker>豹子。</example>
+                <example>我喜欢这头豹子。</example>
+            </rule>
+            <rule>
+                <regexp mark="1">([这个|那个])([马|.*狼])</regexp>
+                <message>
+                    “个”不能与“\2”搭配，可改为：
+                    <suggestion>匹</suggestion>
+                    \2
+                </message>
+                <short>个_搭配不当</short>
+                <example correction="匹">我喜欢这<marker>个</marker>马。
+                </example>
+                <example>我喜欢这匹马。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <or>
+                            <token postag="q">个</token>
+                            <token postag_regexp="yes" postag="m|mq|r" regexp="yes">.*?个</token>
+                        </or>
+                    </marker>
+                    <token postag="n" regexp="yes">.*草|.*树</token>
+                    <token>
+                        <exception postag="n"></exception>
+                    </token>
+                </pattern>
+                <message>
+                    “个”不能与“\3”搭配，可改为：\1
+                    <suggestion>棵</suggestion>
+                    \3
+                </message>
+                <short>个_搭配不当</short>
+                <example correction="棵">这有<marker>一个</marker>树。</example>
+                <example>这有一棵树。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <or>
+                            <token postag="q">个</token>
+                            <token postag_regexp="yes" postag="m|mq|r" regexp="yes">.*?个</token>
+                        </or>
+                    </marker>
+                    <token postag="n" regexp="yes">.*笔|箭|香烟|曲子|歌|歌曲</token>
+                    <token>
+                        <exception regexp="yes">妓|姬</exception>
+                    </token>
+                </pattern>
+                <message>
+                    “个”不能与“\3”搭配，可改为：\1
+                    <suggestion>支</suggestion>
+                    \3
+                </message>
+                <short>个_搭配不当</short>
+                <example correction="支">我喜欢<marker>这个</marker>曲子。</example>
+                <example>我喜欢这支曲子。</example>
+            </rule>
+            <rule>
+                <regexp mark="2">(.*?)(个)(腿|.*鱼|床单|.*河.*|直线|曲线|双曲线|抛物线|.*街|新闻|命|人命)</regexp>
+                <message>
+                    “个”不能与“\3”搭配，可改为：
+                    <suggestion>条</suggestion>
+                </message>
+                <short>个_搭配不当</short>
+                <example correction="条">这有好多<marker>个</marker>鱼。</example>
+                <example>这有好多条鱼。</example>
+            </rule>
+            <rule>
+                <regexp mark="2">(.*?)(个)(.*纸|地图|.*床|.*桌|桌子|脸|嘴|.*弓)</regexp>
+                <message>
+                    “个”不能与“\3”搭配，可改为：\1
+                    <suggestion>张</suggestion>
+                    \3
+                </message>
+                <short>个_搭配不当</short>
+                <example correction="张">我喜欢这<marker>个</marker>桌子。</example>
+                <example>我喜欢这张桌子。</example>
+            </rule>
+            <rule>
+                <regexp mark="2">(.*?)(个)(.*花|.*云)</regexp>
+                <message>
+                    “个”不能与“\3”搭配，可改为：\1
+                    <suggestion>朵</suggestion>
+                    \3
+                </message>
+                <short>个_搭配不当</short>
+                <example correction="朵">我喜欢这<marker>个</marker>玫瑰花。</example>
+                <example>我喜欢这朵玫瑰花。</example>
+            </rule>
+            <rule>
+                <regexp mark="2">(.*?)(个)(饭|报纸|情意)</regexp>
+                <message>
+                    “个”不能与“\3”搭配，可改为：\1
+                    <suggestion>份</suggestion>
+                    \3
+                </message>
+                <short>个_搭配不当</short>
+                <example correction="份">请给我一<marker>个</marker>饭。</example>
+                <example>给我一份报纸</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="m|r" postag_regexp="yes"></token>
+                    <marker>
+                        <token postag="q">个</token>
+                    </marker>
+                    <token postag="n" regexp="yes">.*刀</token>
+                </pattern>
+                <message>
+                    “个”不能与“\3”搭配，可改为：\1
+                    <suggestion>把</suggestion>
+                    \3
+                </message>
+                <short>个_搭配不当</short>
+                <example correction="把">我有30<marker>个</marker>刀。</example>
+                <example>这把刀挺不错的呢。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag_regexp="yes" postag="q|r" regexp="yes">(.*?)(个)</token>
+                    </marker>
+                    <token postag="n" regexp="yes">.*字典|影片|电影</token>
+                    <token>
+                        <exception postag="n|ng" postag_regexp="yes"></exception>
+                    </token>
+                </pattern>
+                <message>“个”不能与“\3”搭配，可改为：<suggestion>部</suggestion>\3</message>
+                <short>个_搭配不当</short>
+                <example correction="部">我喜欢<marker>这个</marker>电影。</example>
+                <example>我喜欢这部电影。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="m|r" postag_regexp="yes"></token>
+                    <marker>
+                        <token postag="q">个</token>
+                    </marker>
+                    <token postag="n" regexp="yes">戏|话剧|电脑|电视机|收音机|洗衣机</token>
+                    <token>
+                        <exception postag="n|ng" postag_regexp="yes"></exception>
+                    </token>
+                </pattern>
+                <message>
+                    “个”不能与“\3”搭配，可改为：\1
+                    <suggestion>台</suggestion>
+                    \3
+                </message>
+                <short>个_搭配不当</short>
+                <example correction="台">
+                    我喜欢这
+                    <marker>个</marker>
+                    电视机。
+                </example>
+                <example>我喜欢这台电视机。</example>
+            </rule>
+            <rule>
+                <regexp mark="2">(.*?)(个)(.*山|高楼|水库|灯塔|.*桥)</regexp>
+                <message>
+                    “个”不能与“\3”搭配，可改为：\1
+                    <suggestion>座</suggestion>
+                    \3
+                </message>
+                <short>个_搭配不当</short>
+                <example correction="座">我喜欢这<marker>个</marker>山。</example>
+                <example>我喜欢这座山。</example>
+            </rule>
+            <rule>
+                <regexp mark="2">(.*?)(个)(衬衫|衣服|事|大事|小事|家具|行李)</regexp>
+                <message>
+                    “个”不能与“\3”搭配，可改为：\1
+                    <suggestion>件</suggestion>
+                    \3
+                </message>
+                <short>个_搭配不当</short>
+                <example correction="件">我喜欢这<marker>个</marker>衣服。</example>
+                <example>我喜欢这件衣服。</example>
+            </rule>
+            <rule>
+                <regexp mark="2">(.*?)(个)(书|笔记本|日记.*|名册|纪念册)</regexp>
+                <message>
+                    “个”不能与“\3”搭配，可改为：\1
+                    <suggestion>本</suggestion>
+                    \3
+                </message>
+                <short>个_搭配不当</short>
+                <example correction="本">我喜欢这<marker>个</marker>书。</example>
+                <example>我喜欢这本书。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="m|r" postag_regexp="yes"></token>
+                    <marker>
+                        <token postag="q">片</token>
+                    </marker>
+                    <token postag="n">镜子</token>
+                </pattern>
+                <message>
+                    “片”不能与“\3”搭配，可改为：\1
+                    <suggestion>面</suggestion>
+                    \3
+                </message>
+                <short>片_搭配不当</short>
+                <example correction="面">这是一<marker>片</marker>镜子。</example>
+                <example>这是一面镜子。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="m|r" postag_regexp="yes"></token>
+                    <marker>
+                        <token postag="q">片</token>
+                    </marker>
+                    <token postag="n" regexp="yes">文章|论文|故事|作文|议论文|记叙文|八股文|报告|内容|报导|翻译|.*小说|散文|古文|文言文
+                    </token>
+                </pattern>
+                <message>
+                    “片”不能与“\3”搭配，可改为：\1
+                    <suggestion>篇</suggestion>
+                    \3
+                </message>
+                <short>片_搭配不当</short>
+                <example correction="篇">这是一<marker>片</marker>文章。</example>
+                <example>这是一篇文章。</example>
+            </rule>
+            <rule>
+                <regexp mark="2">(.*?)(栋)([^.*房|.*房子|.*屋|大厦])</regexp>
+                <message>“\2”不能与“\3”搭配，请更换量词。</message>
+                <example correction="">这是一<marker>栋</marker>山。</example>
+                <example>这是一栋房子。</example>
+            </rule>
+        </rulegroup>
+    </category>
+
+
+    <!-- ====================================================================== -->
     <!-- 语法：句法 -->
     <!-- ====================================================================== -->
-    <category id="CAT5" name="句法">
+    <category id="CN_CAT5" name="句法">
         <rule id="ZH3" name="搭配不当_执行+责任">
             <pattern>
                 <token postag='r'></token>
