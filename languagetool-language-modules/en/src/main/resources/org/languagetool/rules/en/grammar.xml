@@ -16712,7 +16712,8 @@ USA
         <suggestion>\1 at</suggestion>
         <suggestion>\1 by</suggestion>
       <example correction='disappointed with|disappointed at|disappointed by'>We could be <marker>disappointed of</marker> this announcement.</example>
-    </rule>    <rule id="ACCOUNTS_FOR" name="The use of symbolism is an important writing technique that accounts a crucial contribution on the novel.">
+    </rule>
+    <rule id="ACCOUNTS_FOR" name="account (for)">
     <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
       <pattern>
         <marker>
@@ -16724,6 +16725,7 @@ USA
       </pattern>
       <message>You seem to be missing a word. Usually the verb "account" is followed by "for". Did you mean <suggestion>\1 \2 for</suggestion>.</message>
       <example correction='That accounts for'><marker>That accounts</marker> a rise in price.</example>
+      <example correction='that accounts for'>The use of symbolism is an important writing technique <marker>that accounts</marker> a crucial contribution on the novel.</example>
     </rule>
     <rule id="ON_THE_NOVEL" name="contribution on/to">
     <!-- Created by Nicholas Walker (Bokomaru), 2018-05-16 -->
@@ -16739,7 +16741,7 @@ USA
       <example correction='contribution to'>The use of symbolism is an important writing technique that accounts a crucial <marker>contribution on</marker> the novel.</example>
       <example correction='contribution to'>Make a code <marker>contribution on</marker> LanguageTool.</example>
     </rule>
-    <rule id="ARRIVED_IN" name="Arrived (in the) dowtown">
+    <rule id="ARRIVED_IN" name="Collocation: arrived (in the) dowtown">
     <!-- Created by Nicholas Walker (Bokomaru), 2018-05-16 -->
       <pattern>
         <marker>
@@ -16753,7 +16755,7 @@ USA
       <message>Did you mean simply <suggestion>\1 \4</suggestion>? You do not need the word 'in' here.</message>
       <example correction='Arrive downtown'><marker>Arrive in the downtown</marker>.</example>
     </rule>
-    <rule id="MENTION_ABOUT" name="consider (about)">
+    <rule id="MENTION_ABOUT" name="Collocation: consider (about)">
     <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
       <pattern>
           <token inflected="yes" regexp="yes">discuss|consider|mention</token>
@@ -16763,7 +16765,7 @@ USA
       <message>Did you mean simply <suggestion>\1 \3</suggestion>? You do not need the word "about" here.</message>
       <example correction='consider this'>Please, <marker>consider about this</marker>.</example>
     </rule>
-    <rule id="ASSOCIATES_TO" name="associates to/with">
+    <rule id="ASSOCIATES_TO" name="Collocation: associates to/with">
     <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
       <pattern>
           <token regexp="yes">associate[sd]?</token>
@@ -16787,9 +16789,59 @@ USA
       <short>Extra preposition</short>
       <example correction="named it Gilead">They <marker>named it as Gilead</marker>.</example>
     </rule>
+    <rule id="LOT_OF" name="Collocation: lot (of)">
+    <!-- Created by Nicholas Walker (Bokomaru), 2018-05-16 -->
+      <pattern>
+          <token regexp='yes'>a|the</token>
+          <token regexp='yes'>lots?</token>
+          <token>
+            <exception>of</exception></token>
+      </pattern>
+      <message>If you mean a great quantity, use <suggestion>\1 \2 of \3</suggestion>?</message>
+      <short>Missing preposition</short>
+      <example correction="A lot of people"><marker>A lot people</marker> were late.</example>
+    </rule>
+    <rule id="INTERESTED_BY" name="Collocation: interested by/in">
+    <!-- Created by Nicholas Walker (Bokomaru), 2018-05-16 -->
+      <pattern>
+          <token regexp="yes">interest(?:ed)?</token>
+          <token>by</token>
+      </pattern>
+      <message>In English, people don't say "\1 by'. They say, "\1 in'.  Did you mean <suggestion>\1 in</suggestion>?</message>
+      <example correction="interested in">I am not <marker>interested by</marker> this job.</example>
+    </rule>
+    <rule id="AT_THE_JOB" name="Collocation: at/on the job">
+    <!-- Created by Nicholas Walker (Bokomaru), 2018-05-16 -->
+      <pattern>
+          <token>at</token>
+          <token>the</token>
+          <token>job</token>
+      </pattern>
+      <message>In English, people don't say "\1 \2 \3". They say, 'on \2 \3' or 'at work'.  Did you mean <suggestion>on the job</suggestion> or <suggestion>at work</suggestion>?</message>
+      <example correction="on the job|at work">He does personal stuff <marker>at the job</marker>.</example>
+    </rule>
+    <rule id="ANALYSIS_ABOUT" name="Collocation: analysis about/of">
+    <!-- Created by Nicholas Walker (Bokomaru), 2018-05-16 -->
+      <pattern>
+          <token>analysis</token>
+          <token>about</token>
+      </pattern>
+      <message>In English, people don't say 'analysis about'. They say, 'analysis of'.  Did you mean <suggestion>analysis of</suggestion>?</message>
+      <example correction="analysis of">Read the <marker>analysis about</marker> the results.</example>
+    </rule>
+    <rule id="IT_IS_SURE" name="Collocation: it is sure/certain">
+    <!-- Created by Nicholas Walker (Bokomaru), 2018-05-16 -->
+      <pattern>
+          <token>it</token>
+          <token>is</token>
+          <token>sure</token>
+      </pattern>
+      <message>In English, people don't say 'it is sure'. They say, 'it is certain that'.  Did you mean <suggestion>it is certain</suggestion>?</message>
+      <example correction="It is certain"><marker>It is sure</marker> that my English will improve.</example>
+    </rule>
   </rulegroup>
 
-  <rulegroup id="RETURN_IN_THE" name="return in/to">
+  <rulegroup id="RETURN_IN_THE" name="Collocation: return in/to">
     <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
     <rule>
       <pattern>
