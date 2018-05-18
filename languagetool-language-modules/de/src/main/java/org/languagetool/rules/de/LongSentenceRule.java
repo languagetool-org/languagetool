@@ -90,6 +90,9 @@ public class LongSentenceRule extends org.languagetool.rules.LongSentenceRule {
     List<RuleMatch> ruleMatches = new ArrayList<>();
     AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
     String msg = getMessage();
+    if(configValue >= 0) {
+      maxWords = configValue;
+    }
     if (tokens.length < maxWords + 1) {   // just a short-circuit
       return toRuleMatchArray(ruleMatches);
     }

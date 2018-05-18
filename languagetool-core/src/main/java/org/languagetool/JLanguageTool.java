@@ -131,6 +131,7 @@ public class JLanguageTool {
   private boolean listUnknownWords;
   private Set<String> unknownWords;
   private boolean cleanOverlappingMatches;
+  private ConfigValues configValues = new ConfigValues();
 
   /**
    * Constants for correct paragraph-rule handling.
@@ -1172,6 +1173,16 @@ public class JLanguageTool {
       }
     }
   
+  }
+  
+  public void setConfigValues(ConfigValues v) {
+    configValues.insertList(v);
+    for (Rule r : builtinRules) {
+      int value = configValues.getValueByID(r.getId());
+      if( value >= 0) {
+        r.setDefaultValue(value);
+      }
+    }
   }
 
 }

@@ -351,6 +351,7 @@ public class Main extends WeakBase implements XJobExecutor,
           langTool.enableRule(ruleName);
         }
       }
+      langTool.setConfigValues(config.getConfigValues());
       try {
         SentenceFromPara sfp = new SentenceFromPara(paraText, paRes.nStartOfSentencePosition);
         String sentence = sfp.getSentence();

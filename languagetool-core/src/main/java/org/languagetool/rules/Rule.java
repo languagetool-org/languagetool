@@ -57,6 +57,7 @@ public abstract class Rule {
   private boolean defaultOff;
   private boolean officeDefaultOn = false;
   private boolean officeDefaultOff = false;
+  protected int configValue = -1;
 
   public Rule() {
     this(null);
@@ -112,10 +113,11 @@ public abstract class Rule {
   }
 
   /**
-   * Overwrite this to set a default Integer value by option panel
+   * Set a default Integer value by option panel
    * @since 4.1
    */
   public void setDefaultValue(int num) {
+    configValue = num;
   }
 
   /**

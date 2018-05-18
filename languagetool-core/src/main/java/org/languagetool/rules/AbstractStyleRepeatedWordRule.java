@@ -42,7 +42,7 @@ public abstract class AbstractStyleRepeatedWordRule  extends TextLevelRule {
   
   private static final int MAX_TOKEN_TO_CHECK = 5;
   
-  private static int maxDistanceOfSentences = 1;
+  protected int maxDistanceOfSentences = 1;
 
   public AbstractStyleRepeatedWordRule(ResourceBundle messages) {
     super(messages);
@@ -80,15 +80,6 @@ public abstract class AbstractStyleRepeatedWordRule  extends TextLevelRule {
    * Message for repeated word in sentence after
    */
   protected abstract String messageSentenceAfter();
-  
-  /*
-   * set maximal Distance of words in number of sentences
-   * @since 4.1
-   */
-  @Override
-  public void setDefaultValue(int numSentences) {
-    maxDistanceOfSentences = numSentences;
-  }
   
   /*
    * get maximal Distance of words in number of sentences
@@ -174,6 +165,9 @@ public abstract class AbstractStyleRepeatedWordRule  extends TextLevelRule {
   public RuleMatch[] match(List<AnalyzedSentence> sentences) throws IOException {
     List<RuleMatch> ruleMatches = new ArrayList<>();
     List<AnalyzedTokenReadings[]> tokenList = new ArrayList<>();
+    if(configValue >= 0) {
+      maxDistanceOfSentences = configValue;
+    }
     int pos = 0;
     for (int n = 0; n < maxDistanceOfSentences && n < sentences.size(); n++) {
       tokenList.add(sentences.get(n).getTokensWithoutWhitespace());

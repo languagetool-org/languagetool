@@ -20,11 +20,11 @@ package org.languagetool.gui;
 
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nullable;
+import org.languagetool.ConfigValues;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
 import org.languagetool.rules.ITSIssueType;
-import org.languagetool.rules.Rule;
 
 import java.awt.*;
 import java.io.*;
@@ -98,6 +98,7 @@ public class Configuration {
   private int longSentencesWords = -1;
   private String externalRuleDirectory;
   private String lookAndFeelName;
+  private ConfigValues configValues = new ConfigValues();
 
   /**
    * Uses the configuration file from the default location.
@@ -537,16 +538,16 @@ public class Configuration {
         doResetCheck = Boolean.parseBoolean(resetCheckString);
       }
       
-      String styleRepeatString = (String) props.get(STYLE_REPEAT_KEY);
+      String styleRepeatString = (String) props.get(STYLE_REPEAT_KEY + qualifier);
       if (styleRepeatString != null) {
         styleRepeatSentences = Integer.parseInt(styleRepeatString);
-        setValueToRule("STYLE_REPEATED_WORD_RULE", styleRepeatSentences, lang);
+        configValues.addValue("STYLE_REPEATED_WORD_RULE", styleRepeatSentences);
       }
 
-      String longSentenceString = (String) props.get(LONG_SENTENCES_KEY);
+      String longSentenceString = (String) props.get(LONG_SENTENCES_KEY + qualifier);
       if (longSentenceString != null) {
         longSentencesWords = Integer.parseInt(longSentenceString);
-        setValueToRule("TOO_LONG_SENTENCE", longSentencesWords, lang);
+        configValues.addValue("TOO_LONG_SENTENCE", longSentencesWords);
       }
 
       String colorsString = (String) props.get(ERROR_COLORS_KEY);
@@ -637,12 +638,12 @@ public class Configuration {
     props.setProperty(PARA_CHECK_KEY, Integer.toString(numParasToCheck));
     props.setProperty(RESET_CHECK_KEY, Boolean.toString(doResetCheck));
     if(styleRepeatSentences >= 0) {
-      props.setProperty(STYLE_REPEAT_KEY, Integer.toString(styleRepeatSentences));
-      setValueToRule ("STYLE_REPEATED_WORD_RULE", styleRepeatSentences, lang);
+      props.setProperty(STYLE_REPEAT_KEY + qualifier, Integer.toString(styleRepeatSentences));
+      configValues.addValue("STYLE_REPEATED_WORD_RULE", styleRepeatSentences);
     }
     if(longSentencesWords >= 0) {
-      props.setProperty(LONG_SENTENCES_KEY, Integer.toString(longSentencesWords));
-      setValueToRule ("TOO_LONG_SENTENCE", longSentencesWords, lang);
+      props.setProperty(LONG_SENTENCES_KEY + qualifier, Integer.toString(longSentencesWords));
+      configValues.addValue("TOO_LONG_SENTENCE", longSentencesWords);
     }
     if (fontName != null) {
       props.setProperty(FONT_NAME_KEY, fontName);
@@ -683,7 +684,16 @@ public class Configuration {
       props.setProperty(key, String.join(DELIMITER,  list));
     }
   }
-
+  
+  /**
+   * Returns all configuration values
+   * @since 4.2
+   */
+  public ConfigValues getConfigValues() {
+    return configValues;
+  }
+  
+/*
   private void setValueToRule(String ruleID, int value, Language lang) {
     if (lang == null) {
       lang = language;
@@ -700,5 +710,5 @@ public class Configuration {
       }
     }
   }
-  
+*/
 }
