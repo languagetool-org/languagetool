@@ -20,8 +20,8 @@ package org.languagetool.tokenizers.zh;
 
 
 import com.hankcs.hanlp.model.perceptron.PerceptronLexicalAnalyzer;
-import com.hankcs.hanlp.seg.Segment;
 import com.hankcs.hanlp.seg.common.Term;
+
 import org.languagetool.tokenizers.Tokenizer;
 
 import java.io.IOException;
@@ -35,15 +35,19 @@ import java.util.List;
  */
 public class SChineseWordTokenizer implements Tokenizer {
 
-  Segment seg;
-    
+  private PerceptronLexicalAnalyzer seg;
+
   public SChineseWordTokenizer() {
+
     try {
       seg = new PerceptronLexicalAnalyzer();
+      seg.enableCustomDictionary(true);
+      seg.enableNameRecognize(true);
     } catch (IOException e) {
-        
+      System.out.println(e.getMessage());
     }
   }
+
   @Override
   public List<String> tokenize(String text) {
     List<Term> termList = seg.seg(text);
@@ -53,11 +57,4 @@ public class SChineseWordTokenizer implements Tokenizer {
     }
     return termStringList;
   }
-
-  /** Return the *Term* type tokens */
-  public List<Term> tokenizeBackup(String text) {
-    return seg.seg(text);
-  }
-
-
 }
