@@ -694,22 +694,4 @@ public class Configuration {
     return configValues;
   }
   
-/*
-  private void setValueToRule(String ruleID, int value, Language lang) {
-    if (lang == null) {
-      lang = language;
-      if (lang == null) {
-        return;
-      }
-    }
-    JLanguageTool langTool = new JLanguageTool(lang, motherTongue);
-    List<Rule> allRules = langTool.getAllRules();
-    for (Rule rule : allRules) {
-      if (rule.getId().startsWith(ruleID)) {
-        rule.setDefaultValue(value);
-        break;
-      }
-    }
-  }
-*/
 }
