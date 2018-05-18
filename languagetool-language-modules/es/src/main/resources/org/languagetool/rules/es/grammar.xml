@@ -692,6 +692,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="aún">Pensaba <marker>aun</marker> lo mismo.</example>
                 <example>No me importaría aun si ella no viene.</example>
             </rule>
+            <rule id="CUAL_SIN_ACENTO" name="el *cuál/el cual">
+                <pattern>
+                    <token postag="DA.*|SP.DA" postag_regexp="yes"></token>
+                    <marker>
+                        <token regexp="yes">cuál|cuáles</token>
+                    </marker>
+                </pattern>
+                <message>No se acentúa.</message>
+                <suggestion><match no="2" regexp_match="cuál(.*)" regexp_replace="cual$1"/></suggestion>
+                <example correction="cual">El país del <marker>cuál</marker> vengo.</example>
+                <example correction="cuales">Documentos a los <marker>cuáles</marker> ha tenido acceso.</example>
+                <example correction="cual">Lo <marker>cuál</marker> es muy importante.</example>
+                <example>¿Cuál es la respuesta correcta?</example>
+            </rule>
         </rulegroup>
         <rule id="A_PUNTO_DE" name="*apunto de/a punto de">
             <pattern>
