@@ -185,13 +185,13 @@ public class Configuration {
     return disabledCategoryNames;
   }
 
-  public void setDisabledRuleIds(Set<String> ruleIDs) {
-    disabledRuleIds = ruleIDs;
-    enabledRuleIds.removeAll(ruleIDs);
+  public void setDisabledRuleIds(Set<String> ruleIds) {
+    disabledRuleIds = ruleIds;
+    enabledRuleIds.removeAll(ruleIds);
   }
 
-  public void setEnabledRuleIds(Set<String> ruleIDs) {
-    enabledRuleIds = ruleIDs;
+  public void setEnabledRuleIds(Set<String> ruleIds) {
+    enabledRuleIds = ruleIds;
   }
 
   public void setDisabledCategoryNames(Set<String> categoryNames) {
