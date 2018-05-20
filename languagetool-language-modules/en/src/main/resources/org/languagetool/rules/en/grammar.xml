@@ -6547,6 +6547,19 @@ USA
             <example>These musicians are <marker>masters</marker> of their art.</example>
             <example>My <marker>masters</marker> was a difficult degree.</example>
         </rule>
+        <rulegroup name="too (two) o'clock" id="TOO_TWO">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker><token regexp="yes">too?</token></marker>
+                    <token>o</token>
+                    <token regexp="yes">['´]</token>
+                    <token>clock</token>
+                </pattern>
+                <message>Did you mean <suggestion>two</suggestion>?</message>
+                <short>Possible typo</short>
+                <example correction="two">They meet at <marker>too</marker> o'clock.</example>
+            </rule>
+        </rulegroup>
         <rule id="TOO_CARDINAL_NUMBER" name="too CARDINAL NUMBER">
             <antipattern>
                 <token>too</token>
