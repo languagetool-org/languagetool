@@ -133,7 +133,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">Tel|Temp|trans|Tsd|übertr|übl|ff|überarb|ugs|univ|unveränd|urspr|usw|vgl|Vol|vollst|vorm|etc|Vp|Vs|vs|wesentl|wg|Hd|Ztr|zus|Zus|zzt|zz|zzgl|Zz|Zt|Min|Bzgl|bzgl|bezügl|Frhr|ggfs|insb|autom|MwSt|hebr|hg|hl|Hg|hist|hochd|hochspr|Hptst|Hr|hrsg|Allg|ill|inkl|incl|Ind|Inf|Ing|ital|Tr|jap|Jb|Jg|Jhd?|Jhdts?|jmd|jmdm|jmdn|jmds|jur|Kap|kart|kath|kaufm|Kfm|kgl|Kl|Konj|königl|Krs|Kr|Kto</token>
+                    <token regexp="yes">Tel|Temp|trans|Tsd|übertr|übl|ff|überarb|ugs|univ|unveränd|urspr|usw|vgl|Vol|vollst|vorm|etc|Vp|Vs|vs|wesentl|wg|Hd|Ztr|zus|Zus|zzt?|zzgl|Zz|Zt|Min|Bzgl|bzgl|bezügl|Frhr|ggfs|insb|autom|MwSt|hebr|hg|hl|Hg|hist|hochd|hochspr|Hptst|Hr|hrsg|Allg|ill|inkl|incl|Ind|Inf|Ing|ital|Tr|jap|Jb|Jg|Jhd?|Jhdts?|jmdm?|jmdn|jmds|jur|Kap|kart|kath|kaufm|Kfm|kgl|Kl|Konj|königl|Krs|Kr|Kto|bzw</token>
                     <token spacebefore="no">.</token>
                 </pattern>
                 <message>Abkürzung gefunden. Verzichten Sie auf Abkürzungen.</message>
@@ -216,7 +216,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="INDIREKTE_REDE" name="Leichte Sprache: Indirekte Rede">
             <rule>
                 <pattern>
-                    <token regexp="yes" inflected="yes" skip="-1">(sagen|antworten|entgegnen|berichten|meinen|glauben|denken|fragen|schreib?en|bitten)</token>
+                    <token regexp="yes" inflected="yes" skip="-1">(sagen|antworten|entgegnen|beschließen|berichten|meinen|glauben|denken|fragen|schreib?en|bitten|rufen|erzählen)</token>
                     <token>,</token>
                     <token negate_pos="yes" postag_regexp="yes" postag="VER:.*"/>
                 </pattern>
@@ -225,7 +225,35 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="">Er <marker>sagte, er</marker> sei 30 Jahre alt.</example>
             </rule>
         </rulegroup>
-
+        <rulegroup id="ZWEI_INFORMATIONSEINHEITEN_PRO_SATZ" name="Leichte Sprache: eine Informationseinheit pro Satz">
+            <rule>
+                <antipattern>
+                    <token postag="SENT_START" skip="2"/>
+                    <token>und</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="VER:MOD:[1-3]:.+" postag_regexp="yes" skip="-1"/>
+                    <token postag="VER:INF:.+" postag_regexp="yes"/>
+                    <token>.</token>
+                </antipattern>
+                <pattern>
+                    <token postag="VER.*:[1-3]:.*" postag_regexp="yes" skip="-1"/>
+                    <marker>
+                        <token/>
+                        <token>und</token>
+                        <token skip="-1"/>
+                    </marker>
+                    <token postag="VER.*:[1-3]:.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Jeder Satz sollte nur eine Informationseinheit enthalten. Können Sie diesen Satz in zwei Sätze aufteilen?</message>
+                <suggestion>\2. <match no="4" case_conversion="startupper"/></suggestion>
+                <example>Wir essen gerne Milchreis mit Zucker und Zimt.</example>
+                <example correction="Tina. Tina">Tim liebt <marker>Tina und Tina</marker> liebt Tim.</example>
+                <example><marker>Max und Moritz</marker> heißen die beiden Hauptfiguren.</example>
+                <example>Er hat Eier und Milch bei einem Bauer gekauft.</example>
+                <example>Er sollte Schrauben und Muttern trennen.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="KONJUNKTIV" name="Leichte Sprache: Konjunktiv">
             <rule>
                 <pattern>
