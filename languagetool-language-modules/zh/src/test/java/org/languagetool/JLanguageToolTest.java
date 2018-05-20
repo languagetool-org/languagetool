@@ -19,7 +19,7 @@ public class JLanguageToolTest {
    */
   @Test
   public void demoCodeForHomepage() throws IOException {
-    String[] text = {"他消毁了文件.", "他们定婚了。","常年累月"};
+    String[] text = {"戎边的战士们真的很辛苦。.", "他们定婚了。","常年累月"};
     for (String t : text) {
 //      System.out.println(languageTool1.analyzeText(t));
       List<RuleMatch> matches = languageTool1.check(t);
