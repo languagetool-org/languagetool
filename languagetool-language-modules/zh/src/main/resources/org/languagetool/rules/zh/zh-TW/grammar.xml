@@ -67,10 +67,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">(神|文|風)彩</token>
                 </marker>
             </pattern>
-            <message>您的意思是\1
-                <suggestion>采</suggestion>嗎?
+            <message>
+                您的意思是"<suggestion><match no="1" regexp_match="([神文風])(彩)" regexp_replace="$1采"/></suggestion>"嗎?
             </message>
-            <example correction="采">雨後的白蓮另有一種<marker>風彩</marker></example>
+            <example correction="風采">雨後的白蓮另有一種<marker>風彩</marker></example>
         </rule>
         <rule id="maibo" name="脈搏">
             <pattern>
@@ -89,10 +89,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">(暄)(嘩|鬧|囂|嚷|擾|笑|雜|噪)</token>
                 </marker>
             </pattern>
-            <message>您的意思是
-                <suggestion>喧</suggestion>\2嗎?
+            <message>
+                您的意思是"<suggestion><match no="1" regexp_match="(暄)([嘩鬧囂嚷擾笑雜噪])" regexp_replace="喧$2"/></suggestion>"嗎?
             </message>
-            <example correction="喧">我屏息靜氣，努力在<marker>暄囂</marker>的塵世之中尋覓一種純凈、和諧之音。</example>
+            <example correction="喧囂">我屏息靜氣，努力在<marker>暄囂</marker>的塵世之中尋覓一種純凈、和諧之音。</example>
         </rule>
         <rule id="yuyu" name="漁/魚">
             <pattern>
@@ -100,10 +100,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">魚(業|翁|村|船|民|歌|奪|利|色|火)</token>
                 </marker>
             </pattern>
-            <message>您的意思是
-                <suggestion>漁</suggestion>\1嗎?
+            <message>
+                您的意思是"<suggestion><match no="1" regexp_match="(魚)([業翁村船民歌奪利色火])" regexp_replace="漁$2"/></suggestion>"嗎?
             </message>
-            <example correction="漁">這個村子的<marker>魚業</marker>很發達。</example>
+            <example correction="漁業">這個村子的<marker>魚業</marker>很發達。</example>
         </rule>
         <rule id="zangkuan" name="贓款">
             <pattern>
@@ -122,10 +122,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">剛(筆|板|鞭|材|管|筋|琴|絲|鐵|紙|水)</token>
                 </marker>
             </pattern>
-            <message>您的意思是
-                <suggestion>鋼</suggestion>\1嗎?
+            <message>
+                您的意思是<suggestion><match no="1" regexp_match="(剛)([筆板鞭材管筋琴絲鐵紙水])" regexp_replace="鋼$2"/></suggestion>\1嗎?
             </message>
-            <example correction="鋼">這支<marker>剛筆</marker>寫起來很順手。</example>
+            <example correction="鋼筆">這支<marker>剛筆</marker>寫起來很順手。</example>
         </rule>
         <rule id="dagai" name="大概">
             <pattern>
@@ -144,10 +144,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">(戎|戊)(邊)</token>
                 </marker>
             </pattern>
-            <message>您的意思是
-                <suggestion>戍</suggestion>\2嗎?
+            <message>
+                您的意思是"<suggestion><match no="1" regexp_match="([戎戊])(邊)" regexp_replace="戍$2"/></suggestion>"嗎?
             </message>
-            <example correction="戍"><marker>戎邊</marker>的戰士們真的很辛苦。</example>
+            <example correction="戍邊"><marker>戎邊</marker>的戰士們真的很辛苦。</example>
         </rule>
         <rule id="xiuqi" name="修葺">
             <pattern>
@@ -182,14 +182,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </message>
             <example correction="戰慄">襄王聞之，顏色變作，身體<marker>戰粟</marker>。</example>
         </rule>
-
     </category>
 
 
     <!-- ====================================================================== -->
     <!-- 拼寫： 成語錯誤 -->
     <!-- ====================================================================== -->
-    <category id="TW_CAT2" name="成語錯誤">
+    <category name="成語錯誤" id="TW_CAT2">
         <rule name="人情世故" id="renqingshigu">
             <regexp>人情事故</regexp>
             <message>您的意思是"<suggestion>人情世故</suggestion>"嗎？</message>
