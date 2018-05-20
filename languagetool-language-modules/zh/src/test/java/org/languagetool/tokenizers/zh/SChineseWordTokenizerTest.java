@@ -19,11 +19,17 @@
 
 package org.languagetool.tokenizers.zh;
 
+import com.hankcs.hanlp.model.perceptron.PerceptronLexicalAnalyzer;
+import com.hankcs.hanlp.seg.common.Term;
 import org.junit.Test;
 
+import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
-import static org.junit.Assert.assertEquals;
+import static junit.framework.TestCase.assertEquals;
+
 
 /**
  * The test of ChineseWordTokenizer.
@@ -33,19 +39,6 @@ import static org.junit.Assert.assertEquals;
 public class SChineseWordTokenizerTest {
 
   private SChineseWordTokenizer wordTokenizer = new SChineseWordTokenizer();
-
-  @Test
-  public void wordTokenizerDemo() {
-    String[] sentences = {
-            "今天，刘志军案的关键人物,山西女商人丁书苗在市二中院出庭受审。",
-            "“咕咚，”一台联想ThinkPad T系列电脑从关羽的宿舍飞了下来。",
-            "馬英九回應連勝文“丐幫說”：稱黨內同志談話應謹慎",
-            "我是乖"};
-    for (String s : sentences) {
-      System.out.println(wordTokenizer.tokenize(s));
-    }
-  }
-
 
   @Test
   public void testWordTokenize() {
@@ -79,4 +72,9 @@ public class SChineseWordTokenizerTest {
             token.toString());
   }
 
+  @Test
+  public void demoWordTokenizer() {
+    String s = "大家得好老师";
+    System.out.println(wordTokenizer.tokenize(s));
+  }
 }
