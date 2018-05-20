@@ -348,6 +348,11 @@ public class AgreementRule extends Rule {
     Arrays.asList( // Auch wenn es sein Gutes hatte.
       new PatternTokenBuilder().csToken("Gutes").build(),
       new PatternTokenBuilder().tokenRegex("haben|tun").matchInflectedForms().build()
+    ),
+    Arrays.asList(
+      new PatternTokenBuilder().csToken("dieser").build(),
+      new PatternTokenBuilder().csToken("einen").build(),
+      new PatternTokenBuilder().posRegex("SUB:DAT:SIN:FEM").build()
     )
   );
 
