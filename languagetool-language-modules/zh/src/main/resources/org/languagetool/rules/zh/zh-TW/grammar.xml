@@ -23,6 +23,169 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 <rules lang="zh-TW" xsi:noNamespaceSchemaLocation="../../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
+
+    <!-- ====================================================================== -->
+    <!-- 拼寫： 詞語錯誤 -->
+    <!-- ====================================================================== -->
+    <category name="詞語錯誤" id="TW_CAT1">
+        <rule id="xiaohui" name="銷毀">
+            <pattern>
+                <marker>
+                    <token>消毀</token>
+                </marker>
+            </pattern>
+            <message>您的意思是
+                <suggestion>銷毀</suggestion>嗎?
+            </message>
+            <example correction="銷毀">我已經<marker>消毀</marker>了所有文件</example>
+        </rule>
+        <rule id="hongliang" name="洪亮">
+            <pattern>
+                <marker>
+                    <token>弘亮</token>
+                </marker>
+            </pattern>
+            <message>您的意思是
+                <suggestion>洪亮</suggestion>嗎?
+            </message>
+            <example correction="洪亮">這嬰兒哭聲<marker>弘亮</marker></example>
+        </rule>
+        <rule id="dinghun" name="訂婚">
+            <pattern>
+                <marker>
+                    <token>定婚</token>
+                </marker>
+            </pattern>
+            <message>您的意思是
+                <suggestion>訂婚</suggestion>嗎?
+            </message>
+            <example correction="訂婚">我們<marker>定婚</marker>了</example>
+        </rule>
+        <rule id="fengcai" name="風采">
+            <pattern>
+                <marker>
+                    <token regexp="yes">(神|文|風)彩</token>
+                </marker>
+            </pattern>
+            <message>您的意思是\1
+                <suggestion>采</suggestion>嗎?
+            </message>
+            <example correction="采">雨後的白蓮另有一種<marker>風彩</marker></example>
+        </rule>
+        <rule id="maibo" name="脈搏">
+            <pattern>
+                <marker>
+                    <token>脈膊</token>
+                </marker>
+            </pattern>
+            <message>您的意思是
+                <suggestion>脈搏</suggestion>嗎?
+            </message>
+            <example correction="脈搏"><marker>脈膊</marker>跳得平穩。</example>
+        </rule>
+        <rule id="xuan" name="喧囂">
+            <pattern>
+                <marker>
+                    <token regexp="yes">(暄)(嘩|鬧|囂|嚷|擾|笑|雜|噪)</token>
+                </marker>
+            </pattern>
+            <message>您的意思是
+                <suggestion>喧</suggestion>\2嗎?
+            </message>
+            <example correction="喧">我屏息靜氣，努力在<marker>暄囂</marker>的塵世之中尋覓一種純凈、和諧之音。</example>
+        </rule>
+        <rule id="yuyu" name="漁/魚">
+            <pattern>
+                <marker>
+                    <token regexp="yes">魚(業|翁|村|船|民|歌|奪|利|色|火)</token>
+                </marker>
+            </pattern>
+            <message>您的意思是
+                <suggestion>漁</suggestion>\1嗎?
+            </message>
+            <example correction="漁">這個村子的<marker>魚業</marker>很發達。</example>
+        </rule>
+        <rule id="zangkuan" name="贓款">
+            <pattern>
+                <marker>
+                    <token>臟款</token>
+                </marker>
+            </pattern>
+            <message>您的意思是
+                <suggestion>贓款</suggestion>嗎?
+            </message>
+            <example correction="贓款">經過警察的努力，<marker>臟款</marker>終於被追回來了。</example>
+        </rule>
+        <rule id="gang" name="鋼筆">
+            <pattern>
+                <marker>
+                    <token regexp="yes">剛(筆|板|鞭|材|管|筋|琴|絲|鐵|紙|水)</token>
+                </marker>
+            </pattern>
+            <message>您的意思是
+                <suggestion>鋼</suggestion>\1嗎?
+            </message>
+            <example correction="鋼">這支<marker>剛筆</marker>寫起來很順手。</example>
+        </rule>
+        <rule id="dagai" name="大概">
+            <pattern>
+                <marker>
+                    <token>太概</token>
+                </marker>
+            </pattern>
+            <message>您的意思是
+                <suggestion>大概</suggestion>嗎?
+            </message>
+            <example correction="大概">這車<marker>太概</marker>需要1000萬。</example>
+        </rule>
+        <rule id="shu1" name="戍邊">
+            <pattern>
+                <marker>
+                    <token regexp="yes">(戎|戊)(邊)</token>
+                </marker>
+            </pattern>
+            <message>您的意思是
+                <suggestion>戍</suggestion>\2嗎?
+            </message>
+            <example correction="戍"><marker>戎邊</marker>的戰士們真的很辛苦。</example>
+        </rule>
+        <rule id="xiuqi" name="修葺">
+            <pattern>
+                <marker>
+                    <token>修茸</token>
+                </marker>
+            </pattern>
+            <message>您的意思是
+                <suggestion>修葺</suggestion>嗎?
+            </message>
+            <example correction="修葺">這房子急需<marker>修茸</marker>一下。</example>
+        </rule>
+        <rule id="manshan" name="蹣跚">
+            <pattern>
+                <marker>
+                    <token>蹣姍</token>
+                </marker>
+            </pattern>
+            <message>您的意思是
+                <suggestion>蹣跚</suggestion>嗎?
+            </message>
+            <example correction="蹣跚">他<marker>蹣姍</marker>的走了過來。</example>
+        </rule>
+        <rule id="zhanli" name="戰慄">
+            <pattern>
+                <marker>
+                    <token>戰粟</token>
+                </marker>
+            </pattern>
+            <message>您的意思是
+                <suggestion>戰慄</suggestion>嗎?
+            </message>
+            <example correction="戰慄">襄王聞之，顏色變作，身體<marker>戰粟</marker>。</example>
+        </rule>
+
+    </category>
+
+
     <!-- ====================================================================== -->
     <!-- 拼寫： 成語錯誤 -->
     <!-- ====================================================================== -->
