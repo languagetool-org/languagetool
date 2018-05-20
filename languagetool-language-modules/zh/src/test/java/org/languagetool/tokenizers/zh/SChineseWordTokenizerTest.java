@@ -41,127 +41,6 @@ public class SChineseWordTokenizerTest {
   private SChineseWordTokenizer wordTokenizer = new SChineseWordTokenizer();
 
   @Test
-  public void test() throws IOException{
-    String content = readHealer();
-    List<String> lengthNotEqual = new ArrayList<>();
-    List<String> segNotEqual = new ArrayList<>();
-    String[] groups = content.split("\r\n=====\r\n");
-
-    String xml = "";
-    for (String group : groups) {
-      String groupId = null;
-      String groupName = null;
-      String[] terms = group.split("\r\n");
-
-      String aGroupRule = "";
-      for (int i = 0; i < terms.length; i++) {
-        String[] sentences = terms[i].split(" ");
-        String firstItem = sentences[0];
-        String secondItem = sentences[1];
-        if (i == 0) {
-          groupId = firstItem;
-          groupName = secondItem;
-          aGroupRule += makeGroupLabel(groupId, groupName);
-          continue;
-        } else if (firstItem.length() != secondItem.length()) {
-//          String info = firstItem + " " + secondItem + " " + groupId;
-//          lengthNotEqual.add(info);
-          continue;
-        } else if (!isSameSegment(firstItem, secondItem)) {
-//          String info = firstItem + " " + secondItem + " " + groupId;
-//          segNotEqual.add(info);
-          continue;
-        } else {
-          String rule = makeRuleLabel(firstItem, secondItem);
-          aGroupRule += rule;
-        }
-      }
-      aGroupRule += "</rulegroup>\n";
-      xml += aGroupRule;
-    }
-    System.out.println(xml);
-  }
-
-  public String makeRuleLabel(String wrong, String gold) throws IOException{
-    PerceptronLexicalAnalyzer analyzer = new PerceptronLexicalAnalyzer();
-    analyzer.enableNameRecognize(true);
-    analyzer.enableCustomDictionary(true);
-
-    String token = "";
-    String suggestion = "";
-    int offSef = 0;
-    List<Term> wrongList = analyzer.seg(wrong);
-    List<Term> goldList  = analyzer.seg(gold);
-
-    for (int i = 0; i < goldList.size(); i++) {
-      String wtoken = wrongList.get(i).word;
-      String gtoken = goldList.get(i).word;
-      if (!wtoken.equals(gtoken)) {
-        token = wtoken;
-        suggestion = gtoken;
-        offSef = goldList.get(i).offset;
-      }
-    }
-
-    wrong = wrong.replace(token, "<marker>"+token+"</marker>");
-    String pattern = "<pattern>\n<marker>\n<token>" + token + "</token>\n</marker>\n</pattern>\n";
-    String message = "<message>\n您的意思是\""  + suggestion + "\"吗？\n</message>\n";
-    String exam_wrong = "<example correction=\"\">" + wrong + "</example>\n";
-    String exam_gold = "<example>" + gold + "</example>\n";
-    String rule = "<rule>\n" + pattern + message + exam_wrong + exam_gold + "</rule>\n";
-    return rule;
-  }
-
-  @Test
-  public void testMakerule() throws IOException {
-    String wrong = "新同事跟大家相处得非常融恰。";
-    String gold =  "新同事跟大家相处得非常融洽。";
-    String rule = makeRuleLabel(wrong, gold);
-    System.out.println(rule);
-  }
-
-  public boolean isSameSegment(String s1, String s2) throws IOException{
-    PerceptronLexicalAnalyzer analyzer = new PerceptronLexicalAnalyzer();
-    analyzer.enableNameRecognize(true);
-    analyzer.enableCustomDictionary(true);
-    List<Term> termList1 = analyzer.seg(s1);
-    List<Term> termList2 = analyzer.seg(s2);
-
-    if (termList1.size() == termList2.size()) {
-      return true;
-    }
-    return false;
-  }
-
-  public String makeGroupLabel(String groupId, String groupName) {
-    return "<rulegroup id=\"" + groupId + "\" name=\"" + groupName + "\">\n";
-  }
-
-
-  private String readHealer() throws IOException {
-    String path = "G:\\languagetool\\languagetool-language-modules\\zh\\src\\1.txt";
-    String content = "";
-
-    FileInputStream file = new FileInputStream(path);
-    InputStreamReader reader = new InputStreamReader(file, "GBK");
-    BufferedReader br = new BufferedReader(reader);
-    String line = null;
-    while ((line = br.readLine()) != null) {
-      content += line;
-      content += "\r\n";
-    }
-    return content;
-  }
-
-  @Test
-  public void testSeg() throws IOException {
-    String s1 = "账篷是必须带的。";
-    String s2 = "帐篷是必须带的。";
-    PerceptronLexicalAnalyzer analyzer = new PerceptronLexicalAnalyzer();
-    System.out.println(analyzer.seg(s1) + "\n" + analyzer.seg(s2));
-  }
-
-  @Test
   public void testWordTokenize() {
     List<String> tokens = wordTokenizer.tokenize("今天，刘志军案的关键人物,山西女商人丁书苗在市二中院出庭受审。");
     assertEquals(16, tokens.size());
@@ -193,4 +72,9 @@ public class SChineseWordTokenizerTest {
             token.toString());
   }
 
+  @Test
+  public void demoWordTokenizer() {
+    String s = "大家得好老师";
+    System.out.println(wordTokenizer.tokenize(s));
+  }
 }

@@ -29,6 +29,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 	<!-- 语法：句法 -->
 	<!-- ====================================================================== -->
 	<category id="CAT5" name="句法">
+		<rule id="DE" name="地、的">
+			<pattern>
+				<token postag_regexp="yes" postag="a|z|n|r"/>
+				<marker>
+					<token postag="u">地</token>
+				</marker>
+				<token postag="n"/>
+			</pattern>
+			<message>您的意思是"<suggestion>的</suggestion>"吗？</message>
+			<example correction="的">美麗<marker>地</marker>女孩。</example>
+			<example correction="的">大家<marker>地</marker>老師。</example>
+		</rule>
 		<rule id="NOT_EXIST_NO" name="不存在有/没有" type="style">
 			<pattern>
 				<marker>
@@ -36,7 +48,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 					<token>存在</token>
 					<token regexp="yes">(有|任何)?</token>
 				</marker>
-				<token postag_regexp="yes" postag='vn|n|v'></token>
+				<token postag_regexp="yes" postag='vn|n|v'/>
 			</pattern>
 			<message>“<match no="1"/><match no="2"/><match no="3"/>”为欧化中文，您可以使用<suggestion>没有</suggestion>。</message>
 			<example correction="没有">医生<marker>不存在有</marker>误解病人的病历。</example>

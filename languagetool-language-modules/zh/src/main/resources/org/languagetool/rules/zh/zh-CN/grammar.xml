@@ -33,7 +33,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"<suggestion><match no="1" regexp_match="(洽)([面接融似])" regexp_replace="恰$2"></match></suggestion>"吗？
+                    您的意思是"<suggestion><match no="1" regexp_match="(洽)([面接融似])" regexp_replace="恰$2"/></suggestion>"吗？
                 </message>
                 <example correction="恰似"><marker>洽似</marker>一江春水向东流。</example>
                 <example>恰似一江春水向东流。</example>
@@ -5479,7 +5479,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>必</token>
                     <token>需</token>
                 </marker>
-                <token postag='v'></token>
+                <token postag='v'/>
             </pattern>
             <message>"<match no="1"/><match no="2"/>"后面不应接动词，您的意思是"<suggestion>必须</suggestion>"吗？</message>
             <example correction='必须'>你<marker>必需</marker>吃饭</example>
@@ -5745,7 +5745,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token postag="r|n" postag_regexp="yes"></token>
+                    <token postag="r|n" postag_regexp="yes"/>
                     <marker>
                         <token postag="v|ad" postag_regexp="yes">平均</token>
                         <token postag="d">都</token>
@@ -5780,11 +5780,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>
-                        <token postag="n.*|r" postag_regexp="yes"></token>
+                        <token postag="n.*|r" postag_regexp="yes"/>
                         <token postag="p">对于</token>
-                        <token postag="n.*|r" postag_regexp="yes"></token>
+                        <token postag="n.*|r" postag_regexp="yes"/>
                     </marker>
-                    <token postag="v"></token>
+                    <token postag="v"/>
                 </pattern>
                 <message>
                     “对于” 没有 “对” 的表“朝”、“向”意义用法，请改用“
@@ -5803,7 +5803,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <!--<token postag="n.*|r" postag_regexp="yes"/> -->
                     <token negate="yes" regexp="yes">对于|对|的</token>
-                    <token postag="n.*|r" postag_regexp="yes" skip="1"></token>
+                    <token postag="n.*|r" postag_regexp="yes" skip="1"/>
                     <marker>
                         <token regexp="yes">来说|而言|说来</token>
                     </marker>
@@ -5819,7 +5819,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token postag="SENT_START" negate_pos="yes"></token>
+                    <token postag="SENT_START" negate_pos="yes"/>
                     <marker>
                         <token postag="p">关于</token>
                     </marker>
@@ -5840,7 +5840,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token postag="p">由</token>
-                    <token postag="r|n.*" postag_regexp="yes" skip="2"></token>
+                    <token postag="r|n.*" postag_regexp="yes" skip="2"/>
                     <token postag="v">为首</token>
                 </pattern>
                 <message>
@@ -5871,7 +5871,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="p" skip="2">被</token>
                     <token postag="v">
                         当选
-                        <exception postag="v" scope="previous"></exception>
+                        <exception postag="v" scope="previous"/>
                     </token>
                 </pattern>
                 <message>
@@ -5908,7 +5908,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token postag="n">范围</token>
                     <token postag="f">内</token>
-                    <token postag="v"></token>
+                    <token postag="v"/>
                 </pattern>
                 <message>
                     搭配错误： 应将 “把” 改为 “
@@ -5940,7 +5940,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token postag="p">把</token>
-                    <token postag="n.*|r" postag_regexp="yes"></token>
+                    <token postag="n.*|r" postag_regexp="yes"/>
                     <token postag="v.*" postag_regexp="yes">
                         <exception>试</exception>
                     </token>
@@ -5962,7 +5962,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token postag="c">或者</token>
                     </marker>
-                    <token skip="-1"></token>
+                    <token skip="-1"/>
                     <token postag="w">？</token>
                 </pattern>
                 <message>
@@ -5991,7 +5991,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="d">
                         <exception regexp="yes">最|不|比较|较|大约|也|就|都</exception>
                     </token>
-                    <token postag_regexp="yes" postag="a|d"></token>
+                    <token postag_regexp="yes" postag="a|d"/>
                 </pattern>
                 <message>
                     1.动词被副词修饰时，助词应该用‘得’;2.省略宾语时，助词应该用‘的’;可能造成歧义。您的意思是不是：
@@ -6007,7 +6007,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token postag_regexp="yes" postag="a|d"></token>
+                    <token postag_regexp="yes" postag="a|d"/>
                     <marker>
                         <token postag="u" skip="-1">的</token>
                     </marker>
@@ -6030,12 +6030,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token postag_regexp="yes" postag="a|d"></token>
+                    <token postag_regexp="yes" postag="a|d"/>
                     <marker>
                         <token postag="u">的</token>
                     </marker>
-                    <token postag="a"></token>
-                    <token postag="w"></token>
+                    <token postag="a"/>
+                    <token postag="w"/>
                 </pattern>
                 <message>
                     形容词的修饰一般为‘形容词（副词）+地+形容词’。您的意思是否是：
@@ -6047,7 +6047,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token postag="nr|ns" postag_regexp="yes"></token>
+                    <token postag="nr|ns" postag_regexp="yes"/>
                     <marker>
                         <token>等等</token>
                     </marker>
@@ -6106,15 +6106,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         </exception>
                         <exception>-</exception>
                         <exception>.</exception>
-                        <exception postag="q" scope="next"></exception>
+                        <exception postag="q" scope="next"/>
                     </token>
                     <marker>
                         <token postag="n" regexp="yes">
                             书籍|岁月|莘莘学子|人群|车辆
-                            <exception postag="v|p" postag_regexp="yes" scope="previous"></exception>
+                            <exception postag="v|p" postag_regexp="yes" scope="previous"/>
                         </token>
                     </marker>
-                    <token postag="n.*|vn|q" postag_regexp="yes" negate_pos="yes"></token>
+                    <token postag="n.*|vn|q" postag_regexp="yes" negate_pos="yes"/>
                 </pattern>
                 <message> “\3” 不能与具体数字或精确量词一同使用。02</message>
                 <short>数量词的运用</short>
@@ -6144,7 +6144,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token postag="v" skip="1">
-                        <exception postag="n" scope="next"></exception>
+                        <exception postag="n" scope="next"/>
                     </token>
                     <marker>
                         <token postag="m">二</token>
@@ -6169,8 +6169,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token postag="v"></token>
-                    <token postag="n.*|vn" postag_regexp="yes"></token>
+                    <token postag="v"/>
+                    <token postag="n.*|vn" postag_regexp="yes"/>
                     <marker>
                         <token postag="m">二</token>
                         <token postag="q" regexp="yes">[^维号重顷合斗石钱两]</token>
@@ -6212,7 +6212,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token postag="m"></token>
+                    <token postag="m"/>
                     <marker>
                         <token postag="q">头</token>
                     </marker>
@@ -6232,7 +6232,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token postag="m"></token>
+                    <token postag="m"/>
                     <token postag="q">颗</token>
                     <token postag="n.*" postag_regexp="yes" regexp="yes" negate="yes">子弹|心|肿瘤|脑袋|种子|瓜子|沙子
                     </token>
@@ -6253,7 +6253,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token regexp="yes" postag="n">.*鸡|鸭|鹅|.*鸟|.*蝶</token>
                     <token>
-                        <exception postag="n.*|b|a|j" postag_regexp="yes"></exception>
+                        <exception postag="n.*|b|a|j" postag_regexp="yes"/>
                     </token>
                 </pattern>
                 <message>
@@ -6273,7 +6273,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>的</token>
                     <token regexp="yes" postag="n">.*鸡|鸭|鹅|.*鸟|.*蝶</token>
                     <token>
-                        <exception postag="n.*|b|a|j" postag_regexp="yes"></exception>
+                        <exception postag="n.*|b|a|j" postag_regexp="yes"/>
                     </token>
                 </pattern>
                 <message>
@@ -6292,21 +6292,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>
-                        <token postag="m|r" postag_regexp="yes"></token>
+                        <token postag="m|r" postag_regexp="yes"/>
                         <token postag="q">张</token>
                         <token postag="n" negate="yes" regexp="yes" skip="1">
                             .*纸|.*票|.*券|.*网|图|地图|奖状|.*证|证书|证照|执照|名片|图.*|照片|相片|影像|海报|封面|标签|表|表格|.*卡|.*牌|卡片|专辑|唱片|单曲|大碟|光碟|光盘|CD|DVD|VCD|BD|.*带|旗帜|.*画|.*板|单据|票据|.*单|.*皮|皮子|纸.*|.*床|.*桌|桌子|椅子|.*椅|凳子|.*凳|台子|.*台|沙发|茶几|.*嘴|.*脸|.*弓|榻榻|.*犁|.*锹
                             <exception scope="next">在</exception>
                             <exception postag="n.*|vn|q|m" postag_regexp="yes"
-                                       scope="next"></exception>
+                                       scope="next"/>
                         </token>
                     </marker>
                     <token postag="n.*|vn|q|m" postag_regexp="yes" negate_pos="yes">
-                        <exception postag="n.*|vn|q|m" postag_regexp="yes"></exception>
+                        <exception postag="n.*|vn|q|m" postag_regexp="yes"/>
                     </token>
                 </pattern>
                 <message> “张” 不能与 “\3” 搭配，请更换量词。</message>
-                <short></short>
                 <example correction="">这里有<marker>一张人</marker>。</example>
                 <example>一张面额80元的钞票。</example>
                 <example>建議選一張主體在黃金分割線上的油画。</example>
@@ -6314,7 +6313,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token postag="m|r" postag_regexp="yes"></token>
+                    <token postag="m|r" postag_regexp="yes"/>
                     <marker>
                         <token postag="q">门</token>
                     </marker>
@@ -6323,7 +6322,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         </exception>
                     </token>
                     <token>
-                        <exception postag="n|ng" postag_regexp="yes"></exception>
+                        <exception postag="n|ng" postag_regexp="yes"/>
                     </token>
                 </pattern>
                 <message>“门”不能与“\3”搭配，请更换量词。</message>
@@ -6332,13 +6331,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token postag="r|m" postag_regexp="yes"></token>
+                    <token postag="r|m" postag_regexp="yes"/>
                     <marker>
                         <token postag="u|q" postag_regexp="yes">所</token>
                     </marker>
                     <token postag="n" regexp="yes" skip="1">
                         .*城堡|.*教室|.*宿舍|.*建筑|.*卧室
-                        <exception postag="n|ng" postag_regexp="yes" scope="next"></exception>
+                        <exception postag="n|ng" postag_regexp="yes" scope="next"/>
                     </token>
                 </pattern>
                 <message>“所”不能与“\3”搭配，请更换量词。</message>
@@ -6351,13 +6350,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token postag="m|r" postag_regexp="yes"></token>
+                    <token postag="m|r" postag_regexp="yes"/>
                     <marker>
                         <token postag="q">台</token>
                     </marker>
                     <token postag="n" regexp="yes">汽车|飞机|房子|手枪</token>
                     <token>
-                        <exception postag="n.*" postag_regexp="yes"></exception>
+                        <exception postag="n.*" postag_regexp="yes"/>
                     </token>
                 </pattern>
                 <message>&quot;台&quot;不能与“\3”搭配,请换量词。</message>
@@ -6368,7 +6367,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token postag="m|r" postag_regexp="yes"></token>
+                    <token postag="m|r" postag_regexp="yes"/>
                     <marker>
                         <token postag="q">间</token>
                     </marker>
@@ -6383,7 +6382,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token postag="m|r" postag_regexp="yes"></token>
+                    <token postag="m|r" postag_regexp="yes"/>
                     <marker>
                         <token postag="q">匹</token>
                     </marker>
@@ -6391,7 +6390,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <exception regexp="yes">.*马|.*布|.*狼</exception>
                     </token>
                     <token>
-                        <exception postag="n|ng" postag_regexp="yes"></exception>
+                        <exception postag="n|ng" postag_regexp="yes"/>
                     </token>
                 </pattern>
                 <message>“匹”不能与“\3”搭配，请更换量词。</message>
@@ -6431,7 +6430,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token postag="n" regexp="yes">.*草|.*树</token>
                     <token>
-                        <exception postag="n"></exception>
+                        <exception postag="n"/>
                     </token>
                 </pattern>
                 <message>
@@ -6510,7 +6509,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token postag="m|r" postag_regexp="yes"></token>
+                    <token postag="m|r" postag_regexp="yes"/>
                     <marker>
                         <token postag="q">个</token>
                     </marker>
@@ -6532,7 +6531,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token postag="n" regexp="yes">.*字典|影片|电影</token>
                     <token>
-                        <exception postag="n|ng" postag_regexp="yes"></exception>
+                        <exception postag="n|ng" postag_regexp="yes"/>
                     </token>
                 </pattern>
                 <message>“个”不能与“\3”搭配，可改为：<suggestion>部</suggestion>\3</message>
@@ -6542,13 +6541,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token postag="m|r" postag_regexp="yes"></token>
+                    <token postag="m|r" postag_regexp="yes"/>
                     <marker>
                         <token postag="q">个</token>
                     </marker>
                     <token postag="n" regexp="yes">戏|话剧|电脑|电视机|收音机|洗衣机</token>
                     <token>
-                        <exception postag="n|ng" postag_regexp="yes"></exception>
+                        <exception postag="n|ng" postag_regexp="yes"/>
                     </token>
                 </pattern>
                 <message>
@@ -6599,7 +6598,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token postag="m|r" postag_regexp="yes"></token>
+                    <token postag="m|r" postag_regexp="yes"/>
                     <marker>
                         <token postag="q">片</token>
                     </marker>
@@ -6616,7 +6615,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token postag="m|r" postag_regexp="yes"></token>
+                    <token postag="m|r" postag_regexp="yes"/>
                     <marker>
                         <token postag="q">片</token>
                     </marker>
@@ -6648,7 +6647,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category name="句法" id="CN_CAT5" >
         <rule id="ZH3" name="搭配不当_执行+责任">
             <pattern>
-                <token postag='r'></token>
+                <token postag='r'/>
                 <token skip='-1'>执行</token>
                 <token regexp='yes'>义务|责任|职责|承诺|诺言</token>
             </pattern>
@@ -6714,10 +6713,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token skip="-1">
                             渡过
-                            <exception scope="next" postag="n|ns" postag_regexp="yes"></exception>
+                            <exception scope="next" postag="n|ns" postag_regexp="yes"/>
                         </token>
                     </marker>
-                    <token postag="t"></token>
+                    <token postag="t"/>
                 </pattern>
                 <message>
                     ‘渡过’不应该来修饰时间，你可以使用‘
@@ -7289,7 +7288,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                             <exception postag="v|p" postag_regexp="yes" scope="previous"></exception>
                         </token>
                     </marker>
-                    <token postag="n.*|vn|q" postag_regexp="yes" negate_pos="yes"></token>
+                    <token postag="n.*|vn|q" postag_regexp="yes" negate_pos="yes"/>
                 </pattern>
                 <message>数量词修饰并列短语，可能产生歧义</message>
                 <short>语法错误</short>
@@ -7303,7 +7302,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="SHI_ADHECTIVE_ERROR" name="'是'+形容词">
             <pattern>
                 <token>是</token>
-                <token postag='a|an' postag_regexp='yes'></token>
+                <token postag='a|an' postag_regexp='yes'/>
             </pattern>
             <message>您不可用“是”来表达个形容词。大部分人都平常用“很”来代替“是”。您是不是想表达<suggestion>很<match no="2"/></suggestion>？</message>
             <example correction="很漂亮">你<marker>是漂亮</marker>。</example>
