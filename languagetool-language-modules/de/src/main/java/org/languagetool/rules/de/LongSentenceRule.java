@@ -89,13 +89,13 @@ public class LongSentenceRule extends org.languagetool.rules.LongSentenceRule {
   public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
     List<RuleMatch> ruleMatches = new ArrayList<>();
     AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
-    String msg = getMessage();
     if (configValue >= 0) {
       maxWords = configValue;
     }
     if (tokens.length < maxWords + 1) {   // just a short-circuit
       return toRuleMatchArray(ruleMatches);
     }
+    String msg = getMessage();
     int i = 0;
     List<Integer> fromPos = new ArrayList<>();
     List<Integer> toPos = new ArrayList<>();
