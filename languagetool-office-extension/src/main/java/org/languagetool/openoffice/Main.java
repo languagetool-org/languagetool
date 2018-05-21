@@ -1080,11 +1080,13 @@ public class Main extends WeakBase implements XJobExecutor,
     if (divN >= 0) {
       for (int i = 0; i < allParas.get(docNum).size(); i++) {
         for (int pos : footnotes.get(i + divN)) {
-          String paraText = allParas.get(docNum).get(i).substring(0, pos) + ZERO_WIDTH_SPACE;
-          if (pos < allParas.get(docNum).get(i).length() - 1) {
-            paraText += allParas.get(docNum).get(i).substring(pos + 1);
+          if(pos <= allParas.get(docNum).get(i).length()) {
+            String paraText = allParas.get(docNum).get(i).substring(0, pos) + ZERO_WIDTH_SPACE;
+            if (pos < allParas.get(docNum).get(i).length() - 1) {
+              paraText += allParas.get(docNum).get(i).substring(pos + 1);
+            }
+            allParas.get(docNum).set(i, paraText);
           }
-          allParas.get(docNum).set(i, paraText);
         }
       }
     }
