@@ -19,42 +19,25 @@
 package org.languagetool.tokenizers.zh;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-import org.ictclas4j.segment.SegTag;
-import org.languagetool.JLanguageTool;
-import org.languagetool.databroker.ResourceDataBroker;
+import com.hankcs.hanlp.model.perceptron.PerceptronLexicalAnalyzer;
+import com.hankcs.hanlp.seg.common.Term;
+
 import org.languagetool.tokenizers.Tokenizer;
 
-import cn.com.cjf.CJFBeanFactory;
-import cn.com.cjf.ChineseJF;
 
 public class ChineseWordTokenizer implements Tokenizer {
 
-  private SegTag seg;
-  private ChineseJF chinesdJF;
+  private PerceptronLexicalAnalyzer seg;
 
   private void init() {
-    if (chinesdJF == null) {
-      chinesdJF = CJFBeanFactory.getChineseJF();
-    }
     if (seg == null) {
-      ResourceDataBroker dataBroker = JLanguageTool.getDataBroker();
-      try (InputStream coreDictIn = dataBroker.getFromResourceDirAsStream("/zh/coreDict.dct");
-           InputStream bigramDictIn = dataBroker.getFromResourceDirAsStream("/zh/BigramDict.dct");
-           InputStream personTaggerDctIn = dataBroker.getFromResourceDirAsStream("/zh/nr.dct");
-           InputStream personTaggerCtxIn = dataBroker.getFromResourceDirAsStream("/zh/nr.ctx");
-           InputStream transPersonTaggerDctIn = dataBroker.getFromResourceDirAsStream("/zh/tr.dct");
-           InputStream transPersonTaggerCtxIn = dataBroker.getFromResourceDirAsStream("/zh/tr.ctx");
-           InputStream placeTaggerDctIn = dataBroker.getFromResourceDirAsStream("/zh/ns.dct");
-           InputStream placeTaggerCtxIn = dataBroker.getFromResourceDirAsStream("/zh/ns.ctx");
-           InputStream lexTaggerCtxIn = dataBroker.getFromResourceDirAsStream("/zh/lexical.ctx")) {
-        seg = new SegTag(1, coreDictIn, bigramDictIn, personTaggerDctIn, personTaggerCtxIn,
-                transPersonTaggerDctIn, transPersonTaggerCtxIn, placeTaggerDctIn, placeTaggerCtxIn,
-                lexTaggerCtxIn);
+      try {
+        seg = new PerceptronLexicalAnalyzer();
+        seg.enableCustomDictionary(true);
+        seg.enableNameRecognize(true);
       } catch (IOException e) {
         throw new RuntimeException(e);
       }
@@ -64,21 +47,11 @@ public class ChineseWordTokenizer implements Tokenizer {
   @Override
   public List<String> tokenize(String text) {
     init();
-    String result;
-    try {
-      result = seg.split(chinesdJF.chineseFan2Jan(text)).getFinalResult();
-      // a hacky workaround for http://sourceforge.net/p/languagetool/bugs/186/ and
-      // http://code.google.com/p/ictclas4j/issues/detail?id=14 which otherwise causes a StringIndexOutOfBoundsException
-      // TODO: fix the original cause
-      result = result.replace("始##始年/t", "年/t");
-    } catch (Exception e) {
-      // Occasionally, the Chinese tokenization/segment component throws NullPointerException or
-      // ArrayIndexOutOfBoundsException, due to some internal bugs of ictclas4j. The reasons of the
-      // bugs and how to resolve them are unknown now. In this case, we can just bypass the sentence
-      // and return a empty List.
-      return new ArrayList<>();
+    List<Term> termList = seg.seg(text);
+    List<String> result = new ArrayList<>();
+    for (Term term: termList) {
+      result.add(term.toString());
     }
-    String[] list = result.split(" ");
-    return Arrays.asList(list);
+    return result;
   }
 }

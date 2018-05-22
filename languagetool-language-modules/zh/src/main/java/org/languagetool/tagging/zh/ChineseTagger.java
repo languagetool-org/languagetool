@@ -54,10 +54,10 @@ public class ChineseTagger implements Tagger {
 
   private AnalyzedToken asAnalyzedToken(String word) {
     if (!word.contains("/")) {
-      return new AnalyzedToken(" ", null, null);
+      return createToken(word, null);
     }
     String[] parts = word.split("/");
-    return new AnalyzedToken(parts[0], parts[1], null);
+    return createToken(parts[0], parts[1]);
   }
 
 }

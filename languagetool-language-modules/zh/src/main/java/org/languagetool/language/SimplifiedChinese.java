@@ -1,12 +1,6 @@
 package org.languagetool.language;
 
-import org.languagetool.tokenizers.Tokenizer;
-import org.languagetool.tokenizers.zh.SChineseWordTokenizer;
-
-
 public class SimplifiedChinese extends Chinese {
-
-  private Tokenizer wordTokenizer;
 
   @Override
   public String getName() {
@@ -18,11 +12,4 @@ public class SimplifiedChinese extends Chinese {
     return  new String[]{"CN"};
   }
 
-  @Override
-  public Tokenizer getWordTokenizer() {
-    if (wordTokenizer == null) {
-      wordTokenizer = new SChineseWordTokenizer();
-    }
-    return wordTokenizer;
-  }
 }

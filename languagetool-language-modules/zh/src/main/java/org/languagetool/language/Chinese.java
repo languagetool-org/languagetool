@@ -32,9 +32,12 @@ import org.languagetool.rules.MultipleWhitespaceRule;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.zh.ChineseConfusionProbabilityRule;
 import org.languagetool.tagging.Tagger;
+import org.languagetool.tagging.zh.ChineseTagger;
 import org.languagetool.tagging.zh.SChineseTagger;
 import org.languagetool.tokenizers.SentenceTokenizer;
 import org.languagetool.tokenizers.Tokenizer;
+import org.languagetool.tokenizers.zh.ChineseSentenceTokenizer;
+import org.languagetool.tokenizers.zh.ChineseWordTokenizer;
 import org.languagetool.tokenizers.zh.SChineseSentenceTokenizer;
 import org.languagetool.tokenizers.zh.SChineseWordTokenizer;
 
@@ -87,7 +90,7 @@ public class Chinese extends Language implements AutoCloseable {
   @Override
   public Tagger getTagger() {
     if (tagger == null) {
-      tagger = new SChineseTagger();
+      tagger = new ChineseTagger();
     }
     return tagger;
   }
@@ -95,7 +98,7 @@ public class Chinese extends Language implements AutoCloseable {
   @Override
   public Tokenizer getWordTokenizer() {
     if (wordTokenizer == null) {
-      wordTokenizer = new SChineseWordTokenizer();
+      wordTokenizer = new ChineseWordTokenizer();
     }
     return wordTokenizer;
   }
@@ -103,7 +106,7 @@ public class Chinese extends Language implements AutoCloseable {
   @Override
   public SentenceTokenizer getSentenceTokenizer() {
     if (sentenceTokenizer == null) {
-      sentenceTokenizer = new SChineseSentenceTokenizer();
+      sentenceTokenizer = new ChineseSentenceTokenizer();
     }
     return sentenceTokenizer;
   }
