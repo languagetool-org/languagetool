@@ -14657,14 +14657,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern case_sensitive="yes">
                     <token>zu</token>
                     <marker><token>Essen</token></marker>
-                    <token inflected="yes" regexp="yes">bekommen|bringen|geben|haben</token>
+                    <token inflected="yes" regexp="yes">bekommen|bringen|geben|haben|holen</token>
                 </pattern>
                 <message>In der Wendung 'zu <suggestion><match no="2" case_conversion="startlower"/></suggestion> bekommen / geben / haben' wird 'essen' kleingeschrieben.</message>
                 <example correction="essen">Er hat ihr nichts zu <marker>Essen</marker> gegeben.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token inflected="yes" regexp="yes" skip="2">bekommen|bringen|geben|haben</token>
+                    <token inflected="yes" regexp="yes" skip="2">bekommen|bringen|geben|haben|holen</token>
                     <token>zu</token>
                     <marker><token>Essen</token></marker>
                 </pattern>
@@ -14676,6 +14676,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="AUS_ZUM_TROTZ" name="'zum Trotz' / 'aus Trotz'">
             <pattern>
                 <token regexp='yes'>zum|aus</token>
+                <token min="0">lauter</token>
                 <marker>
                     <token case_sensitive='yes'>trotz</token>
                 </marker>
@@ -15230,7 +15231,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <antipattern>
                     <token postag="SENT_START"/>
-                    <token postag="VER:1.*" postag_regexp="yes"/>
+                    <token postag="VER:1.+" postag_regexp="yes"/>
                     <token>ich</token>
                 </antipattern>
                 <pattern case_sensitive="yes">
