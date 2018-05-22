@@ -293,7 +293,7 @@ public abstract class SpellingCheckRule extends Rule {
   }
 
   /**
-   * @param list of words to be prohibited.
+   * @param words list of words to be prohibited.
    * @since 4.2
    */
   protected void addProhibitedWords(List<String> words) {
