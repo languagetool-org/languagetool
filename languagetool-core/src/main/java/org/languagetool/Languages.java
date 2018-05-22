@@ -135,7 +135,7 @@ public final class Languages {
 
   /**
    * Get the Language object for the given language code.
-   * @param langCode e.g. <code>en</code> or <code>es-US</code>
+   * @param langCode e.g. <code>en</code> or <code>en-US</code>
    * @throws IllegalArgumentException if the language is not supported or if the language code is invalid
    * @since 3.6
    */

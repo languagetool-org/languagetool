@@ -39,7 +39,7 @@ public class LongSentenceRule extends Rule {
   private static final Pattern NON_WORD_REGEX = Pattern.compile("[.?!…:;,~’'\"„“”»«‚‘›‹()\\[\\]\\-–—*×∗·+÷/=]");
   private static final boolean DEFAULT_ACTIVATION = false;
 
-  protected static int maxWords = DEFAULT_MAX_WORDS;
+  protected int maxWords = DEFAULT_MAX_WORDS;
 
   /**
    * @since 3.7
@@ -76,16 +76,6 @@ public class LongSentenceRule extends Rule {
   }
 
   /*
-   * set maximal Distance of words in number of sentences - note that this sets a static value
-   * that affects all instances of this rule!
-   * @since 4.1
-   */
-  @Override
-  public void setDefaultValue(int numWords) {
-    maxWords = numWords;
-  }
-  
-  /*
    * get maximal Distance of words in number of sentences
    * @since 4.1
    */
@@ -102,6 +92,9 @@ public class LongSentenceRule extends Rule {
   public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
     List<RuleMatch> ruleMatches = new ArrayList<>();
     AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
+    if (configValue >= 0) {
+      maxWords = configValue;
+    }
     String msg = getMessage();
     if (tokens.length < maxWords + 1) {   // just a short-circuit
       return toRuleMatchArray(ruleMatches);

@@ -41,6 +41,14 @@
           <example type="ambiguous" inputform="hoopes[Hoopes/NNP]" outputform="hoopes[hoopes]">These <marker>hoopes</marker> are large.</example>
         </rule>
 
+        <rule name="remove NNP: lowercase month names and day names" id="REMOVE_NNP_FOR_LOWERCASE_MONTHS_DAYS"><!-- Cannot use removed.txt to remove the POS -->
+          <pattern case_sensitive="yes">
+            <token regexp="yes">january|february|april|june|july|september|october|november|december|monday|tuesday|wednesday|thursday|friday|saturday</token>
+          </pattern>
+          <disambig action="remove"><wd pos="NNP"/></disambig>
+          <example type="ambiguous" inputform="january[January/NNP]" outputform="january[january]"><marker>january</marker> is a cold month in England.</example>
+        </rule>
+
     <rule id="CD" name="Tag numbers">
       <pattern>
         <token regexp="yes">\d+</token>
@@ -904,6 +912,15 @@
     	<example type="untouched">One are of land.</example>
     	<example type="ambiguous" inputform="Are[are/NN,be/VBP]" outputform="Are[be/VBP]"><marker>Are</marker> people happy?</example>
     </rule>
+    <rule name="Does...?" id="SENT_START_DOES">
+        <pattern>
+            <token postag="SENT_START"/>
+            <marker><token case_sensitive="yes">Does</token></marker>
+        </pattern>
+        <disambig postag="VBZ"/>
+        <example type="untouched">One are of land.</example>
+        <example type="ambiguous" inputform="Does[do/VBZ,doe/NNS]" outputform="Does[do/VBZ]"><marker>Does</marker> he like me?</example>
+    </rule>
     <rule name="NNS|EX + are (noun/verb) -&gt; are (verb)" id="NNS_ARE">
         <pattern>
             <token postag_regexp="yes" postag="EX|NNS|WP"/>
@@ -921,7 +938,7 @@
                 <token postag="NNS"/>
                 </and>
             </marker>
-            <token regexp="yes">were|are</token>
+            <token regexp="yes">weren?|aren?|couldn?|might|may|shouldn?|haven?|don?|wouldn?</token>
         </pattern>
         <disambig postag="NNS"/>
         <example type="ambiguous" inputform="forces[force/NNS,force/VBZ]"
@@ -3728,7 +3745,7 @@
         
         <rule id="DT_VBZNNS_NNS" name="Plural determiners + noun plur/vb sg => noun plur">
           <pattern>
-            <token regexp="yes">both|some|fewer|many|[tw]hose|these|most</token>
+            <token regexp="yes">both|some|fewer|many|whose|th[eo]se|most</token>
             <marker>            
             <and>
               <token postag="VBZ"><exception regexp="yes">is|does</exception></token>

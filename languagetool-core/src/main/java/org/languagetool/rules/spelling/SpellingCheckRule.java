@@ -218,7 +218,7 @@ public abstract class SpellingCheckRule extends Rule {
     }
     updateIgnoredWordDictionary();
     for (String prohibitedWord : wordListLoader.loadWords(getProhibitFileName())) {
-      wordsToBeProhibited.addAll(expandLine(prohibitedWord));
+      addProhibitedWords(expandLine(prohibitedWord));
     }
   }
 
@@ -290,6 +290,14 @@ public abstract class SpellingCheckRule extends Rule {
     } else {
       wordsToBeIgnored.add(line);
     }
+  }
+
+  /**
+   * @param list of words to be prohibited.
+   * @since 4.2
+   */
+  protected void addProhibitedWords(List<String> words) {
+    wordsToBeProhibited.addAll(words);
   }
 
   /**
@@ -372,7 +380,7 @@ public abstract class SpellingCheckRule extends Rule {
     if (word.length() < 4) {
       return 0;
     }
-    Optional<String> match = null;
+    Optional<String> match = Optional.empty();
     if(caseSensitive) {
       Set<String> subset = wordsToBeIgnoredDictionary.get(word.substring(0, 1));
       if (subset != null) {
@@ -385,7 +393,7 @@ public abstract class SpellingCheckRule extends Rule {
         match = subset.stream().filter(s -> lowerCaseWord.startsWith(s)).max(STRING_LENGTH_COMPARATOR);
       }
     }
-    return match != null && match.isPresent() ? match.get().length() : 0;
+    return match.isPresent() ? match.get().length() : 0;
   }
 
 }

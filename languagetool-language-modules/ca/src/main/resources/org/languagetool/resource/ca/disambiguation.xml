@@ -10,7 +10,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <!ENTITY exceptions_TE "aigua|arròs|cacau|cacauet|caf[èé]|cautxú|cervesa|cítric|coca-cola|cotó|espècies|farigola|fruita|infusió|llet|malta?|melmelada|mill|oli|ordi|pastes|pastís|pastisset|poliol|quina|raïm|sucre|tabac|torrada|xocolat[ae]">
     <!ENTITY femeni_inusual "amor|ardor|candor|clamor|color|dolor|error|estridor|estupor|fervor|fragor|fulgor|furor|honor|horror|humor|rigor|rubor|rumor|sabor|sopor|temor|terror|valor|vigor">
     <!ENTITY masculi_inusual "policia|justícia|part[123]">
-    <!ENTITY nom_o_verb "crani|imperi|consum|forma|revenja|col·loqui|poeta|dejuni|escultura|escola|vaticini|queixa|tinta|plaga|cometa2|cursa|país|domini|equilibri|termini|cap|dosi|tema|barri|sonda|porta|resta|ment|capa|demanda|esperança|manca|marca|marxa|mida|mostra|obra|ou|orquestra|profeta|programa|terra|meta|veu|copa">
+    <!ENTITY nom_o_verb "crani|imperi|consum|forma|revenja|col·loqui|poeta|dejuni|escultura|escola|vaticini|queixa|tinta|plaga|cometa2|cursa|país|domini|equilibri|termini|cap|dosi|tema|barri|sonda|porta|resta|ment|capa|demanda|esperança|manca|marca|marxa|mida|mostra|obra|ou|orquestra|profeta|programa|terra|meta|veu|copa|extermini">
     <!ENTITY nom_seguitde_nompropi "copa|casa|abat|informe|senyor|estàndard|tipus|adreça|imperi|profeta|balneari|projecte|corrent|estany|cometa2|mont|pare|premi|cas|cursa|concurs|quadre|taula|novel·la|obra|riu|estil|programa|orquestra|escola|registre|finca|sonda|rosa|tema">
     <!ENTITY unitats_temps "molt|poc|temps|temporada|jornada|estona|mil·lisegon|segon|minut|hora|dia|jorn|setmana|mes|any|lustre|dècada|decenni|segle|mil·lenni">
     <!ENTITY verbs_TE_INFUSIO "produir|prendre|servir|preparar|voler|beure|consumir|importar|vendre|exportar|llançar">
@@ -46,12 +46,6 @@ Copyright (C) 2012 Jaume Ortolà i Font
     </unification>
     <rulegroup id="FIX_DICTIONARY" name="fix some problems in dictionaries">
         <!-- es pot eliminar quan s'arregle el diccionari -->
-        <rule>
-            <pattern>
-                <token inflected="yes">ditar</token>
-            </pattern>
-            <disambig action="remove"><wd lemma="ditar"/></disambig>
-        </rule>
         <rule>
             <pattern>
                 <token>imprimí</token>
@@ -1961,7 +1955,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <pattern>
                 <token postag="SENT_START"/>
                 <marker>
-                    <token postag="NP.*" postag_regexp="yes" skip="3"><exception postag="A.*|RG|CC|DD.*" postag_regexp="yes"/><exception scope="next" postag="V.P.*|SPS00|D[AI].*" postag_regexp="yes"/><exception scope="next" postag="P.*" postag_regexp="yes" regexp="yes">['-].+</exception></token>
+                    <token postag="NP.*" postag_regexp="yes" skip="3"><exception postag="RG|CC|DD.*" postag_regexp="yes"/><exception scope="next" postag="V.P.*|SPS00|D[AI].*|C.*" postag_regexp="yes"/><exception scope="next" postag="P.*" postag_regexp="yes" regexp="yes">['-].+</exception></token>
                 </marker>
                 <token postag="V.[MSI].3.*" postag_regexp="yes"/>
             </pattern>
@@ -2505,6 +2499,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <token postag="[NA].*" postag_regexp="yes"/>
         </pattern>
         <disambig action="remove" postag="P.*"/>
+    </rule>
+    <rule id="donat_cas" name="cas (masc sg)">
+        <pattern>
+            <token postag="V.P..SM." postag_regexp="yes"></token>
+            <marker>
+                <token postag="NCMS000">cas</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
     </rule>
     <rule id="el_doble" name="el doble (no verb)">
         <pattern>
@@ -10417,7 +10420,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <!-- les persones som consumidores -->
             <marker>
                 <and>
-                    <token postag="V.[^GN].*" postag_regexp="yes"></token>
+                    <token postag="V.[^GNP].*" postag_regexp="yes"></token>
                     <!-- inclòs el gerundi?? -->
                     <token postag="A.*" postag_regexp="yes"></token>
                 </and>

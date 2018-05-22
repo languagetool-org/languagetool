@@ -23,7 +23,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.regex.Pattern;
 
 import org.junit.Before;
@@ -32,7 +31,6 @@ import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.GermanyGerman;
-import org.languagetool.rules.RuleMatch;
 
 public class CaseRuleTest {
 
@@ -129,6 +127,7 @@ public class CaseRuleTest {
     assertGood("‚Dieser Satz.‘ Hier kommt der nächste Satz.");
     assertGood("Dabei werden im Wesentlichen zwei Prinzipien verwendet:");
     assertGood("Er fragte, ob das gelingen oder scheitern wird.");
+    assertGood("Einen Tag nach Bekanntwerden des Skandals");
 
     //assertBad("Sie sind nicht Verständlich");
     assertBad("Sie Vertraute niemandem.");
@@ -184,6 +183,7 @@ public class CaseRuleTest {
     assertGood("Die ersten Gespanne erreichen Köln.");
     assertGood("Er beschrieb den Angeklagten wie einen Schuldigen");
     assertGood("Er beschrieb den Angeklagten wie einen Schuldigen.");
+    assertGood("Es dauerte bis ins neunzehnte Jahrhundert");
 
     assertGood("Das ist das Dümmste, was ich je gesagt habe.");
     assertBad("Das ist das Dümmste Kind.");

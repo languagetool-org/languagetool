@@ -215,6 +215,7 @@ public final class Tools {
         langTool.enableRule(ruleName);
       }
     }
+    langTool.setConfigValues(config.getConfigValues());
   }
   
   static void addHyperlinkListener(JTextPane pane) {

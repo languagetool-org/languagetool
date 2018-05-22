@@ -43,7 +43,7 @@ public class WordListValidatorTest {
           "Śśōżúï" +
           "·" +   // for Catalan
           "./-]+" + 
-          "|[khmcdµ]?m[²³]"
+          "|[khmcdµ]?m[²³]|°[CFR]"
   );
 
   // Words that are valid but with special characters so that we don't want to
@@ -66,6 +66,7 @@ public class WordListValidatorTest {
           "C&A",
           "P&O",
           "S&P",
+          "ČSSR",
           "V&D"
   ));
 

@@ -59,14 +59,17 @@ public class RussianVerbConjugationRule extends Rule {
         List<RuleMatch> ruleMatches = new ArrayList<>();
         AnalyzedTokenReadings[] tokenReadings = sentence.getTokensWithoutWhitespace();
         for (int i = 1; i < tokenReadings.length - 1; i++) {
+	    AnalyzedTokenReadings previousReading = tokenReadings[i-1];	
             AnalyzedTokenReadings currentReading = tokenReadings[i];
             AnalyzedTokenReadings nextReading = tokenReadings[i + 1];
+	    AnalyzedToken previousLemmaTok = previousReading.getReadings().get(0);
             AnalyzedToken currentLemmaTok = currentReading.getReadings().get(0);
-            String currentToken = currentLemmaTok.getToken();
+            String previousToken = previousLemmaTok.getToken();
+	    String currentToken = currentLemmaTok.getToken();
             String currentPosTag = currentLemmaTok.getPOSTag();
             if (currentToken != null && currentPosTag != null && !currentToken.isEmpty() && !currentPosTag.isEmpty()) {
                 Matcher pronounMatcher = PRONOUN.matcher(currentPosTag);
-                if (pronounMatcher.find()) {
+                if ((pronounMatcher.find()) && !(previousToken.equals("и")))  {
                     Pair<String, String> pronounPair = new ImmutablePair<>(pronounMatcher.group(1), pronounMatcher.group(2));
                     AnalyzedToken nextLemmaTok = nextReading.getReadings().get(0);
                     String nextPosTag = nextLemmaTok.getPOSTag();

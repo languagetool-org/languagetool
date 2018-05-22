@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules.de;
 
+import org.apache.commons.lang3.StringUtils;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.Categories;
@@ -74,7 +75,7 @@ public class DuUpperLowerCaseRule extends TextLevelRule {
     for (AnalyzedSentence sentence : sentences) {
       AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
       for (int i = 0; i < tokens.length; i++) {
-        if (i > 0 && (tokens[i-1].isSentenceStart() || tokens[i-1].getToken().matches("[\"„:]"))) {
+        if (i > 0 && (tokens[i-1].isSentenceStart() || StringUtils.equalsAny(tokens[i-1].getToken(), "\"","„", ":"))) {
           continue;
         }
         AnalyzedTokenReadings token = tokens[i];
@@ -98,7 +99,7 @@ public class DuUpperLowerCaseRule extends TextLevelRule {
                 msg = "Vorher wurde bereits '" + firstUse + "' großgeschrieben. " +
                         "Aus Gründen der Einheitlichkeit '" + replacement + "' hier auch großschreiben?";
               }
-            } else if (!firstUseIsUpper && StringTools.startsWithUppercase(word)) {
+            } else if (!firstUseIsUpper && StringTools.startsWithUppercase(word) && !StringUtils.isAllUpperCase(word)) {
               replacement = StringTools.lowercaseFirstChar(word);
               msg = "Vorher wurde bereits '" + firstUse + "' kleingeschrieben. " +
                       "Aus Gründen der Einheitlichkeit '" + replacement + "' hier auch kleinschreiben?";

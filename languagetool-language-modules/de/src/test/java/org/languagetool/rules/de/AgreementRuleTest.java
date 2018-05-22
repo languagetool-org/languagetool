@@ -97,6 +97,7 @@ public class AgreementRuleTest {
     assertGood("Er nahm allen Mut zusammen und ging los.");
     assertGood("Sie kann einem Angst einjagen.");
     assertGood("Damit sollten zum einen neue Energien gefördert werden, zum anderen der Sozialbereich.");
+    assertGood("Nichts ist mit dieser einen Nacht zu vergleichen.");
 
     assertGood("Das Dach von meinem Auto.");
     assertGood("Das Dach von meinen Autos.");
@@ -201,6 +202,16 @@ public class AgreementRuleTest {
     assertGood("Wenn das Kühe sind, bin ich ein Elefant.");
     assertGood("Karl sagte, dass sie niemandem Bescheid gegeben habe.");
     assertGood("Es blieb nur dieser eine Satz.");
+    assertGood("Oder ist das Mathematikern vorbehalten?");
+    assertGood("Wenn hier einer Fragen stellt, dann ich.");
+    assertGood("Wenn einer Katzen mag, dann meine Schwester.");
+    assertGood("Ergibt das Sinn?");
+    assertGood("Sie ist über die Maßen schön.");
+    assertGood("Ich vertraue ganz auf die Meinen.");
+    assertGood("Was nützt einem Gesundheit, wenn man sonst ein Idiot ist?");
+    assertGood("Auch das hatte sein Gutes.");
+    assertGood("Auch wenn es sein Gutes hatte, war es doch traurig.");
+    assertGood("Er wollte doch nur jemandem Gutes tun.");
 
     // incorrect sentences:
     assertBad("Meiner Chef raucht.");

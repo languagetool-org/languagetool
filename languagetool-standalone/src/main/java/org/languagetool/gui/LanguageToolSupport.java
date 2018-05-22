@@ -222,6 +222,8 @@ class LanguageToolSupport {
       languageTool.enableRule(ruleName);
       update = true;
     }
+    
+    languageTool.setConfigValues(config.getConfigValues());
 
     if (update) {
       //FIXME

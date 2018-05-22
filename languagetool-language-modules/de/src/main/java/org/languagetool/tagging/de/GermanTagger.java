@@ -180,7 +180,7 @@ public class GermanTagger extends BaseTagger {
               }
               //Separate dash-linked words
               //Only check single word tokens and skip words containing numbers because it's unpredictable
-              if (word.split(" ").length == 1 && !word.matches("[0-9].*")) {
+              if (word.split(" ").length == 1 && !Character.isDigit(word.charAt(0))) {
                 String wordOrig = word;
                 word = sanitizeWord(word);
                 String wordStem = wordOrig.substring(0, wordOrig.length() - word.length());
@@ -278,7 +278,7 @@ public class GermanTagger extends BaseTagger {
 
   /*
    * Tag substantivated adjectives and participles, which are currently tagged not tagged correctly
-   * (e.g., "Verletzter" in "Ein Verletzter kam in Krankenhaus" needs to be tagged as "SUB:NOM:SIN:MAS") 
+   * (e.g., "Verletzter" in "Ein Verletzter kam ins Krankenhaus" needs to be tagged as "SUB:NOM:SIN:MAS")
    * @param word to be checked
    */
   private List<AnalyzedToken> getSubstantivatedForms(String word, List<String> sentenceTokens, int pos) {

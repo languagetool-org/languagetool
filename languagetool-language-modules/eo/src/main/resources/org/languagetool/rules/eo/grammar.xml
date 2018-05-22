@@ -775,7 +775,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="superrealismo">La <marker>surrealismo</marker> de tiu artisto.</example>
     </rule>
     <rule id="PITSBURGO" name="Pitsburgo → Picburgo">
-      <pattern case_sensitive="yes">
+      <pattern>
         <token regexp="yes" inflected="yes">Pitsburg[ao]</token>
       </pattern>
       <message>Kvankam «\1» estas en PIV, onu devus uzi <suggestion><match no="1" regexp_match="^...." regexp_replace="Pic"/></suggestion> laŭ PMEG.</message>
@@ -783,7 +783,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="Picburgo">Mi studis en <marker>Pitsburgo</marker>.</example>
     </rule>
     <rule id="POTSDAMO" name="Potsdamo → Pocdamo">
-      <pattern case_sensitive="yes">
+      <pattern>
         <token regexp="yes" inflected="yes">Potsdam[ao]</token>
       </pattern>
       <message>Kvankam «\1» estas en PIV, onu devus uzi <suggestion><match no="1" regexp_match="^...." regexp_replace="Poc"/></suggestion> laŭ PMEG.</message>
@@ -791,7 +791,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="Pocdamo">Mi laboris en <marker>Potsdamo</marker>.</example>
     </rule>
     <rule id="GUATEMALO" name="Gŭatemalo → Gvatemalo">
-      <pattern case_sensitive="yes">
+      <pattern>
         <token regexp="yes" inflected="yes">Gŭatemal[ao]</token>
       </pattern>
       <message>Laŭ PMEG, «\1» estas evitinda. Uzu <suggestion><match no="1" regexp_match="^.." regexp_replace="Gv"/></suggestion>.</message>
@@ -829,6 +829,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <message>Laŭ PMEG, «\1» estas evitinda. Uzu <suggestion><match no="1" regexp_match="^...." regexp_replace="okcident"/></suggestion>.</message>
       <url>http://bertilow.com/pmeg/skribo_elparolo/elparolo/bazaj_reguloj.html#i-m1t</url>
       <example correction="okcidenta">La <marker>ŭesta</marker> parto de la urbo.</example>
+    </rule>
+    <rule id="HODIE" name="hodie → hodiaŭ (ktp.)">
+      <pattern>
+        <token regexp="yes">almene|anke|ankore|apene|anstate|balde|ĉirke|hiere|hodie|kontre|kvaze|malante|malgre|morge|preske</token>
+      </pattern>
+      <message>Laŭ PMEG, nur en poezio oni povas trovi tian formon.</message>
+      <suggestion><match no="1" regexp_match=".$" regexp_replace="aŭ"/></suggestion>
+      <url>http://bertilow.com/pmeg/gramatiko/superrigardo/vortospecoj.html#i-m3h</url>
+      <example correction="hodiaŭ">Li alvenas <marker>hodie</marker>.</example>
+    </rule>
+    <rule id="TERMOBOTELO" name="termobotelo → varmbotelo">
+      <pattern>
+        <token regexp="yes" inflected="yes">termo?(?:banejo|botelo|fonto)</token>
+      </pattern>
+      <message>Laŭ PMEG, «termo» estas eksprefikso en kelkaj vortoj kun la signifo «varmo». Uzu kunmetaĵon kun «varm-».</message>
+      <suggestion><match no="1" regexp_match="^termo?" regexp_replace="varm"/></suggestion>
+      <url>http://bertilow.com/pmeg/vortfarado/neoficialaj_afiksoj/prefiksoj/termo.html#i-685</url>
+      <example correction="varmbotelon">Mi aĉetis <marker>termobotelon</marker>.</example>
+      <example correction="varmbotelon">Mi aĉetis <marker>termbotelon</marker>.</example>
+      <example>Kie estas la <marker>termometro</marker>?</example>
     </rule>
     <rule id="DIGITA" name="diĝita → cifereca">
       <pattern>

@@ -275,7 +275,7 @@ public class SubjectVerbAgreementRule extends Rule {
       String token = tokens[i].getToken();
       if (tokens[i].hasPartialPosTag("SUB:")) {
         AnalyzedTokenReadings lookup = tagger.lookup(token.toLowerCase());
-        if (lookup != null && lookup.hasPartialPosTag("VER:INF:")) {
+        if (lookup != null && lookup.hasPosTagStartingWith("VER:INF:")) {
           infinitives++;
         } else {
           return false;

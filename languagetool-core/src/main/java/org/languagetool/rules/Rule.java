@@ -48,6 +48,8 @@ public abstract class Rule {
 
   protected final ResourceBundle messages;
 
+  protected int configValue = -1;
+
   private List<CorrectExample> correctExamples = new ArrayList<>();
   private List<IncorrectExample> incorrectExamples = new ArrayList<>();
   private List<ErrorTriggeringExample> errorTriggeringExamples = new ArrayList<>();
@@ -112,10 +114,11 @@ public abstract class Rule {
   }
 
   /**
-   * Overwrite this to set a default Integer value by option panel
+   * Set a default Integer value by option panel
    * @since 4.1
    */
   public void setDefaultValue(int num) {
+    configValue = num;
   }
 
   /**
@@ -157,7 +160,7 @@ public abstract class Rule {
       rules.add(new DisambiguationPatternRule("INTERNAL_ANTIPATTERN", "(no description)", language,
               patternTokens, null, null, DisambiguationPatternRule.DisambiguatorAction.IMMUNIZE));
     }
-    return Collections.unmodifiableList(rules);
+    return rules;
   }
   
   /**

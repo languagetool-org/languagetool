@@ -20,11 +20,12 @@ package org.languagetool.gui;
 
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nullable;
+import org.languagetool.ConfigValues;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
 import org.languagetool.rules.ITSIssueType;
-import org.languagetool.rules.Rule;
+import org.languagetool.rules.LongSentenceRule;
 
 import java.awt.*;
 import java.io.*;
@@ -74,6 +75,7 @@ public class Configuration {
 
   private final Map<String, String> configForOtherLanguages = new HashMap<>();
   private final Map<ITSIssueType, Color> errorColors = new HashMap<>();
+  private final ConfigValues configValues = new ConfigValues();
 
   private File configFile;
   private Set<String> disabledRuleIds = new HashSet<>();
@@ -183,13 +185,13 @@ public class Configuration {
     return disabledCategoryNames;
   }
 
-  public void setDisabledRuleIds(Set<String> ruleIDs) {
-    disabledRuleIds = ruleIDs;
-    enabledRuleIds.removeAll(ruleIDs);
+  public void setDisabledRuleIds(Set<String> ruleIds) {
+    disabledRuleIds = ruleIds;
+    enabledRuleIds.removeAll(ruleIds);
   }
 
-  public void setEnabledRuleIds(Set<String> ruleIDs) {
-    enabledRuleIds = ruleIDs;
+  public void setEnabledRuleIds(Set<String> ruleIds) {
+    enabledRuleIds = ruleIds;
   }
 
   public void setDisabledCategoryNames(Set<String> categoryNames) {
@@ -537,16 +539,16 @@ public class Configuration {
         doResetCheck = Boolean.parseBoolean(resetCheckString);
       }
       
-      String styleRepeatString = (String) props.get(STYLE_REPEAT_KEY);
+      String styleRepeatString = (String) props.get(STYLE_REPEAT_KEY + qualifier);
       if (styleRepeatString != null) {
         styleRepeatSentences = Integer.parseInt(styleRepeatString);
-        setValueToRule("STYLE_REPEATED_WORD_RULE", styleRepeatSentences, lang);
+        configValues.addValue("STYLE_REPEATED_WORD_RULE", styleRepeatSentences);
       }
 
-      String longSentenceString = (String) props.get(LONG_SENTENCES_KEY);
+      String longSentenceString = (String) props.get(LONG_SENTENCES_KEY + qualifier);
       if (longSentenceString != null) {
         longSentencesWords = Integer.parseInt(longSentenceString);
-        setValueToRule("TOO_LONG_SENTENCE", longSentencesWords, lang);
+        configValues.addValue(LongSentenceRule.RULE_ID, longSentencesWords);
       }
 
       String colorsString = (String) props.get(ERROR_COLORS_KEY);
@@ -637,12 +639,12 @@ public class Configuration {
     props.setProperty(PARA_CHECK_KEY, Integer.toString(numParasToCheck));
     props.setProperty(RESET_CHECK_KEY, Boolean.toString(doResetCheck));
     if(styleRepeatSentences >= 0) {
-      props.setProperty(STYLE_REPEAT_KEY, Integer.toString(styleRepeatSentences));
-      setValueToRule ("STYLE_REPEATED_WORD_RULE", styleRepeatSentences, lang);
+      props.setProperty(STYLE_REPEAT_KEY + qualifier, Integer.toString(styleRepeatSentences));
+      configValues.addValue("STYLE_REPEATED_WORD_RULE", styleRepeatSentences);
     }
     if(longSentencesWords >= 0) {
-      props.setProperty(LONG_SENTENCES_KEY, Integer.toString(longSentencesWords));
-      setValueToRule ("TOO_LONG_SENTENCE", longSentencesWords, lang);
+      props.setProperty(LONG_SENTENCES_KEY + qualifier, Integer.toString(longSentencesWords));
+      configValues.addValue("TOO_LONG_SENTENCE", longSentencesWords);
     }
     if (fontName != null) {
       props.setProperty(FONT_NAME_KEY, fontName);
@@ -683,22 +685,13 @@ public class Configuration {
       props.setProperty(key, String.join(DELIMITER,  list));
     }
   }
-
-  private void setValueToRule(String ruleID, int value, Language lang) {
-    if (lang == null) {
-      lang = language;
-      if (lang == null) {
-        return;
-      }
-    }
-    JLanguageTool langTool = new JLanguageTool(lang, motherTongue);
-    List<Rule> allRules = langTool.getAllRules();
-    for (Rule rule : allRules) {
-      if (rule.getId().startsWith(ruleID)) {
-        rule.setDefaultValue(value);
-        break;
-      }
-    }
+  
+  /**
+   * Returns all configuration values
+   * @since 4.2
+   */
+  public ConfigValues getConfigValues() {
+    return configValues;
   }
   
 }

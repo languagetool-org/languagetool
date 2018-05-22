@@ -1,5 +1,34 @@
 # LanguageTool Change Log
 
+## 4.2-SNAPSHOT (release planned for 2018-06-26)
+
+#### Catalan
+  * added and improved rules
+
+#### Breton
+  * Made many messages shorter
+
+#### Dutch
+  * added and improved rules
+
+#### English
+  * added and improved rules
+
+#### German
+  * added and improved rules
+  * updated jwordsplitter to 4.4 to prevent excessively long processing times for
+    artificially long compounds
+  * `prohibit.txt`: lines ending with ".*" will prohibit all words starting with
+    the previous string
+
+#### Portuguese
+  * added and improved rules
+
+#### Ukrainian
+  * added and improved rules
+
+
+
 ## 4.1 (2018-03-27)
 
 #### Catalan

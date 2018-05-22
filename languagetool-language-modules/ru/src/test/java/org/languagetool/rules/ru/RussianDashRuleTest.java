@@ -16,13 +16,13 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.rules.en;
+package org.languagetool.rules.ru;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
-import org.languagetool.language.AmericanEnglish;
+import org.languagetool.language.Russian;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 
@@ -32,27 +32,26 @@ import java.util.Arrays;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-public class EnglishDashRuleTest {
+public class RussianDashRuleTest {
 
   private JLanguageTool langTool;
   private Rule rule;
 
   @Before
   public void setUp() throws Exception {
-    Language lang = new AmericanEnglish();
+    Language lang = new Russian();
     langTool = new JLanguageTool(lang);
-    rule = new EnglishDashRule();
+    rule = new RussianDashRule();
   }
 
   @Test
   public void testRule() throws IOException {
     // correct sentences:
-    check(0, "This is my T-shirt.");
-    check(0, "This is water-proof.");
+    check(0, "Он вышел из-за забора.");
+    check(0, "Ростов-на-Дону.");
     // incorrect sentences:
-    check(1, "T – shirt", new String[]{"T-shirt"});
-    check(1, "three–way street", new String[]{"three-way"});
-    check(1, "surface — to — surface", new String[]{"surface-to-surface"});
+    check(1, "из—за", new String[]{"из-за"});
+    check(1, "Ростов — на — Дону", new String[]{"Ростов-на-Дону"});
   }
 
   private void check(int expectedErrors, String text) throws IOException {

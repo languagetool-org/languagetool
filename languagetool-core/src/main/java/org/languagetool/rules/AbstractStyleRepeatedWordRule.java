@@ -42,7 +42,7 @@ public abstract class AbstractStyleRepeatedWordRule  extends TextLevelRule {
   
   private static final int MAX_TOKEN_TO_CHECK = 5;
   
-  private static int maxDistanceOfSentences = 1;
+  protected int maxDistanceOfSentences = 1;
 
   public AbstractStyleRepeatedWordRule(ResourceBundle messages) {
     super(messages);
@@ -82,15 +82,6 @@ public abstract class AbstractStyleRepeatedWordRule  extends TextLevelRule {
   protected abstract String messageSentenceAfter();
   
   /*
-   * set maximal Distance of words in number of sentences
-   * @since 4.1
-   */
-  @Override
-  public void setDefaultValue(int numSentences) {
-    maxDistanceOfSentences = numSentences;
-  }
-  
-  /*
    * get maximal Distance of words in number of sentences
    * @since 4.1
    */
@@ -116,7 +107,7 @@ public abstract class AbstractStyleRepeatedWordRule  extends TextLevelRule {
    */
   private static boolean hasBreakToken(AnalyzedTokenReadings[] tokens) {
     for(int i = 0; i < tokens.length && i < MAX_TOKEN_TO_CHECK; i++) {
-      if(tokens[i].getToken().equals("-") || tokens[i].getToken().equals("—") || tokens[i].getToken().equals("–")) {
+      if (tokens[i].getToken().equals("-") || tokens[i].getToken().equals("—") || tokens[i].getToken().equals("–")) {
         return true;
       }
     }
@@ -151,14 +142,14 @@ public abstract class AbstractStyleRepeatedWordRule  extends TextLevelRule {
     }
     for (int i = 0; i < tokens.length; i++) {
       if (i != notCheck && isTokenToCheck(tokens[i])) {
-        if((!lemmas.isEmpty() && tokens[i].hasAnyLemma(lemmas.toArray(new String[lemmas.size()]))) 
+        if ((!lemmas.isEmpty() && tokens[i].hasAnyLemma(lemmas.toArray(new String[lemmas.size()]))) 
             || isPartOfWord(testToken.getToken(), tokens[i].getToken())) {
-          if(notCheck >= 0) {
-            if(notCheck == i - 2) {
+          if (notCheck >= 0) {
+            if (notCheck == i - 2) {
               return !isTokenPair(tokens, i, true);
-            } else if(notCheck == i + 2) {
+            } else if (notCheck == i + 2) {
               return !isTokenPair(tokens, i, false);
-            } else if((notCheck == i + 1 || notCheck == i - 1) 
+            } else if ((notCheck == i + 1 || notCheck == i - 1) 
                 && testToken.getToken().equals(tokens[i].getToken())) {
               return false;
             }
@@ -174,24 +165,27 @@ public abstract class AbstractStyleRepeatedWordRule  extends TextLevelRule {
   public RuleMatch[] match(List<AnalyzedSentence> sentences) throws IOException {
     List<RuleMatch> ruleMatches = new ArrayList<>();
     List<AnalyzedTokenReadings[]> tokenList = new ArrayList<>();
+    if (configValue >= 0) {
+      maxDistanceOfSentences = configValue;
+    }
     int pos = 0;
     for (int n = 0; n < maxDistanceOfSentences && n < sentences.size(); n++) {
       tokenList.add(sentences.get(n).getTokensWithoutWhitespace());
     }
     for (int n = 0; n < sentences.size(); n++) {
-      if(n + maxDistanceOfSentences < sentences.size()) {
+      if (n + maxDistanceOfSentences < sentences.size()) {
         tokenList.add(sentences.get(n + maxDistanceOfSentences).getTokensWithoutWhitespace());
       }
-      if(tokenList.size() > 2 * maxDistanceOfSentences + 1) {
+      if (tokenList.size() > 2 * maxDistanceOfSentences + 1) {
         tokenList.remove(0);
       }
       int nTok = maxDistanceOfSentences;
-      if(n < maxDistanceOfSentences) {
+      if (n < maxDistanceOfSentences) {
         nTok = n;
-      } else if(n >= sentences.size() - maxDistanceOfSentences) {
+      } else if (n >= sentences.size() - maxDistanceOfSentences) {
         nTok = tokenList.size() - (sentences.size() - n);
       }
-      if(!hasBreakToken(tokenList.get(nTok))) {
+      if (!hasBreakToken(tokenList.get(nTok))) {
         for (int i = 0; i < tokenList.get(nTok).length; i++) {
           AnalyzedTokenReadings token = tokenList.get(nTok)[i];
           if (isTokenToCheck(token)) {

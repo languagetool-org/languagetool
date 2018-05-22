@@ -153,6 +153,7 @@ abstract class TextChecker {
       try {
         matches = future.get(limits.getMaxCheckTimeMillis(), TimeUnit.MILLISECONDS);
       } catch (ExecutionException e) {
+        future.cancel(true);
         if (params.allowIncompleteResults && ExceptionUtils.getRootCause(e) instanceof ErrorRateTooHighException) {
           print(e.getMessage() + " - returning " + ruleMatchesSoFar.size() + " matches found so far");
           matches = new ArrayList<>(ruleMatchesSoFar);  // threads might still be running, so make a copy
@@ -192,6 +193,7 @@ abstract class TextChecker {
         List<RemoteRuleMatch> tmpHiddenMatches = hiddenMatchesFuture.get(config.getHiddenMatchesServerTimeout(), TimeUnit.MILLISECONDS);
         hiddenMatches = resultExtender.getFilteredExtensionMatches(matches, tmpHiddenMatches);
       } catch (TimeoutException e) {
+        hiddenMatchesFuture.cancel(true);
         print("Warn: Failed to query hidden matches server at " + config.getHiddenMatchesServer() +
               " due to timeout (" + config.getHiddenMatchesServerTimeout() + "ms): " + e.getMessage());
       } catch (Exception e) {

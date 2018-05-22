@@ -20,7 +20,7 @@ package org.languagetool.rules.de;
 
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.language.German;
+import org.languagetool.language.GermanyGerman;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.RuleFilter;
 import org.languagetool.tagging.Tagger;
@@ -42,7 +42,7 @@ public class UppercaseNounReadingFilter extends RuleFilter {
   private final Tagger tagger;
   
   public UppercaseNounReadingFilter() {
-    tagger = new German().getTagger();
+    tagger = new GermanyGerman().getTagger();
   }
 
   @Nullable
