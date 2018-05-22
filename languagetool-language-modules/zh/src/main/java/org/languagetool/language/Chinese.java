@@ -33,14 +33,10 @@ import org.languagetool.rules.Rule;
 import org.languagetool.rules.zh.ChineseConfusionProbabilityRule;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.zh.ChineseTagger;
-import org.languagetool.tagging.zh.SChineseTagger;
 import org.languagetool.tokenizers.SentenceTokenizer;
 import org.languagetool.tokenizers.Tokenizer;
 import org.languagetool.tokenizers.zh.ChineseSentenceTokenizer;
 import org.languagetool.tokenizers.zh.ChineseWordTokenizer;
-import org.languagetool.tokenizers.zh.SChineseSentenceTokenizer;
-import org.languagetool.tokenizers.zh.SChineseWordTokenizer;
-
 
 public class Chinese extends Language implements AutoCloseable {
 
@@ -50,9 +46,6 @@ public class Chinese extends Language implements AutoCloseable {
   private Tokenizer wordTokenizer;
   private SentenceTokenizer sentenceTokenizer;
   private LuceneLanguageModel languageModel;
-
-  public Chinese() {
-  }
 
   @Override
   public Language getDefaultLanguageVariant() {
@@ -76,7 +69,7 @@ public class Chinese extends Language implements AutoCloseable {
 
   @Override
   public Contributor[] getMaintainers() {
-    return new Contributor[] { new Contributor("Ze Dang") };
+    return new Contributor[] { new Contributor("Tao Lin"), new Contributor("Ze Dang") };
   }
 
   @Override
