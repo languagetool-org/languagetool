@@ -14652,6 +14652,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Die Essen gehen auf mich!</example>
             <example>Diese beiden Essen gehen auf mich!</example>
         </rule>
+        <rulegroup id="ZU_ESSEN" name="zu Essen (essen) geben / haben / bekommen">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>zu</token>
+                    <marker><token>Essen</token></marker>
+                    <token inflected="yes" regexp="yes">bekommen|geben|haben</token>
+                </pattern>
+                <message>In der Wendung 'zu <suggestion><match no="2" case_conversion="startlower"/></suggestion> bekommen / geben / haben' wird 'essen' kleingeschrieben.</message>
+                <example correction="essen">Er hat ihr nichts zu <marker>Essen</marker> gegeben.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token inflected="yes" regexp="yes" skip="2">bekommen|geben|haben</token>
+                    <token>zu</token>
+                    <marker><token>Essen</token></marker>
+                </pattern>
+                <message>In der Wendung 'zu <suggestion><match no="3" case_conversion="startlower"/></suggestion> bekommen / geben / haben' wird 'essen' kleingeschrieben.</message>
+                <example correction="essen">Was gab es zu <marker>Essen</marker>?</example>
+                <example correction="essen">Sie bekam von ihm <marker>Essen</marker> und zu trinken</example>
+            </rule>
+        </rulegroup>
         <rule id="AUS_ZUM_TROTZ" name="'zum Trotz' / 'aus Trotz'">
             <pattern>
                 <token regexp='yes'>zum|aus</token>
