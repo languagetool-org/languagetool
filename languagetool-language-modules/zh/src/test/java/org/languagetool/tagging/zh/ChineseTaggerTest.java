@@ -33,24 +33,19 @@ import java.io.IOException;
  * @author Xiaohui Wu
  * @author Jiamin Zheng
  * @author Zihao Li
+ * @author Ze Dang
  */
 public class ChineseTaggerTest {
 
-  private ChineseTagger tagger;
-  private ChineseWordTokenizer tokenizer;
-
-  @Before
-  public void setUp() {
-    tagger = new ChineseTagger();
-    tokenizer = new ChineseWordTokenizer();
-  }
+  private ChineseTagger tagger = new ChineseTagger();
+  private ChineseWordTokenizer tokenizer = new ChineseWordTokenizer();
 
   @Test
   public void testTagger() throws IOException {
 
     TestTools.myAssert(
             "主任强调指出错误的地方。",
-            "主任/[null]n -- 强调/[null]vd -- 指出/[null]v -- 错误/[null]a -- 的/[null]u -- 地方/[null]n -- 。/[null]w",
+            "主任/[null]n -- 强调指出/[null]v -- 错误/[null]a -- 的/[null]u -- 地方/[null]n -- 。/[null]w",
             tokenizer, tagger);
 
     TestTools.myAssert(
@@ -60,32 +55,13 @@ public class ChineseTaggerTest {
 
     TestTools.myAssert(
             "“鲯鳅”的研究结果有什么奥妙？",
-            "“/[null]w -- 鲯/[null]x -- 鳅/[null]x -- ”/[null]w -- 的/[null]u -- 研究/[null]vn -- 结果/[null]n -- 有/[null]v -- 什么/[null]r -- 奥妙/[null]an -- ？/[null]w",
+            "“/[null]w -- 鲯鳅/[null]n -- ”/[null]w -- 的/[null]u -- 研究/[null]vn -- 结果/[null]d -- 有/[null]v -- 什么/[null]r -- 奥妙/[null]an -- ？/[null]w",
             tokenizer, tagger);
 
     TestTools.myAssert(
-            "我们的女组长真是尺竿头更进一步。",
-            "我们/[null]r -- 的/[null]u -- 女/[null]b -- 组长/[null]n -- 真/[null]d -- 是/[null]v -- 尺/[null]ng -- 竿/[null]ng -- 头/[null]n -- 更进一步/[null]l -- 。/[null]w",
+            "我们的女组长真是百尺竿头更进一步。",
+            "我们/[null]r -- 的/[null]u -- 女/[null]b -- 组长/[null]n -- 真是/[null]d -- 百尺竿头更进一步/[null]l -- 。/[null]w",
             tokenizer, tagger);
 
-    TestTools.myAssert(
-            "国务院，非国家工作人员不能随便进去的地方。",
-            "国务院/[null]nt -- ，/[null]w -- 非/[null]h -- 国家/[null]n -- 工作/[null]vn -- 人员/[null]n -- 不能/[null]v -- 随便/[null]ad -- 进去/[null]v -- 的/[null]u -- 地方/[null]n -- 。/[null]w",
-            tokenizer, tagger);
-
-    TestTools.myAssert(
-            "“哇……”珠海北师大操场上的师生大吃一惊！",
-            "“/[null]w -- 哇/[null]y -- …/[null]w -- …/[null]w -- ”/[null]w -- 珠海/[null]ns -- 北师大/[null]j -- 操场/[null]n -- 上/[null]f -- 的/[null]u -- 师生/[null]n -- 大吃一惊/[null]i -- ！/[null]w",
-            tokenizer, tagger);
-
-    TestTools.myAssert(
-            "在炎热的暑假里，我和其他同学们参加了姜老师的一个项目。",
-            "在/[null]p -- 炎热/[null]a -- 的/[null]u -- 暑假/[null]t -- 里/[null]f -- ，/[null]w -- 我/[null]r -- 和/[null]c -- 其他/[null]r -- 同学/[null]n -- 们/[null]k -- 参加/[null]v -- 了/[null]u -- 姜/[null]n -- 老师/[null]n -- 的/[null]u -- 一个/[null]m -- 项目/[null]n -- 。/[null]w",
-            tokenizer, tagger);
-
-    TestTools.myAssert(
-            "“咕咚，”一台联想ThinkPad T系列电脑从关羽的宿舍飞了下来。",
-            "“/[null]w -- 咕咚/[null]o -- ，/[null]w -- ”/[null]w -- 一/[null]m -- 台/[null]q -- 联想/[null]nz -- ThinkPad/[null]nx -- T/[null]nx -- 系列/[null]q -- 电脑/[null]n -- 从/[null]p -- 关羽/[null]nr -- 的/[null]u -- 宿舍/[null]n -- 飞/[null]v -- 了/[null]u -- 下来/[null]v -- 。/[null]w",
-            tokenizer, tagger);
   }
 }
