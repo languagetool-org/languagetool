@@ -16811,18 +16811,19 @@ USA
       <short>Extra preposition</short>
       <example correction="named it Gilead">They <marker>named it as Gilead</marker>.</example>
     </rule>
-    <rule id="LOT_OF" name="Collocation: lot (of)" default="off">
+    <rule id="LOT_OF" name="Collocation: lot (of)" default="on">
     <!-- Created by Nicholas Walker (Bokomaru), 2018-05-16 -->
       <pattern>
           <token regexp='yes'>a|the</token>
           <token regexp='yes'>lots?</token>
-          <token>
-            <exception>of</exception>
-          </token>
+          <token postag_regexp='yes' postag='NN(:UN?|P?S)'>
+            <exception>of</exception></token>
       </pattern>
       <message>If you mean a great quantity, use <suggestion>\1 \2 of \3</suggestion>?</message>
       <short>Missing preposition</short>
       <example correction="A lot of people"><marker>A lot people</marker> were late.</example>
+      <example>...my credit card and ran up a lot of charges." It's a lot harder to get them to buy into "Someone stole my magic s...</example>
+      <example>We walked a lot.</example>
     </rule>
     <rule id="INTERESTED_BY" name="Collocation: interested by/in">
     <!-- Created by Nicholas Walker (Bokomaru), 2018-05-16 -->
@@ -16861,6 +16862,40 @@ USA
       </pattern>
       <message>In English, people don't say 'it is sure'. They say, 'it is certain that'.  Did you mean <suggestion>it is certain</suggestion>?</message>
       <example correction="It is certain"><marker>It is sure</marker> that my English will improve.</example>
+    </rule>
+    <rule id="SPEND_IT_FOR" name="Collocation: spend it for/on">
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-05-16 -->
+      <pattern>
+          <token inflected='yes'>spend</token>
+          <token>it</token>
+          <token>for</token>
+      </pattern>
+      <message>The usual prepositions that follow 'spend it' are either "on" or 'in'. Did you mean <suggestion>spend it on</suggestion>?</message>
+      <example correction="spend it on">I <marker>spend it for</marker> my essence.</example>
+    </rule>
+    <rule id="BY_EXAMPLE" name="Translation errors: by/for example">
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-05-16 -->
+      <pattern>
+          <token postag="SENT_START"/>
+          <token regexp="yes">by|par</token>
+          <token regexp="yes">ex[ae]mple</token>
+      </pattern>
+      <message>The best translation for the introductory phrase "\1 \2" is 'for example'. Did you mean <suggestion>For example</suggestion>?</message>
+      <example correction="For example"><marker>By example</marker>, poor spelling makes pattern matching more difficult.</example>
+    </rule>
+    <rule id="GESTURE_OF_GREETING" name="Translation error: a gesture of greeting">
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-05-16 -->
+      <pattern>
+          <token regexp='yes'>ma[dk]e</token>
+          <token min='0'>me</token>
+          <token min='0'>a</token>
+          <token regexp='yes'>gestures?</token>
+          <token>of</token>
+          <token>greeting</token>
+      </pattern>
+      <message>This is awkward. Did you mean <suggestion>waved at me</suggestion>?</message>
+      <short>Translation error</short>
+      <example correction="waved at me">She <marker>made me a gesture of greeting</marker>.</example>
     </rule>
   </rulegroup>
 
