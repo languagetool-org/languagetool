@@ -251,6 +251,7 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("gesundliches", "gesundheitliches", rule, lt);
     assertFirstSuggestion("eckelt", "ekelt", rule, lt);
     assertFirstSuggestion("geherte", "geehrte", rule, lt);
+    assertFirstSuggestion("Kattermesser", "Cuttermesser", rule, lt);
   }
 
   @Test

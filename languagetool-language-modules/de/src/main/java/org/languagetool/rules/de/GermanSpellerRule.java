@@ -106,7 +106,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("eckel(e|t(en?)?|st)?", "^eck", "ek");
     putRepl("entt?euscht(e[mnrs]?)?", "entt?eusch", "enttäusch");
     putRepl("Phählen?", "^Ph", "Pf");
-    putRepl("Kattermesser[ns]", "Ka", "Cu");
+    putRepl("Kattermesser[ns]?", "Ka", "Cu");
     putRepl("gehert(e[mnrs]?)?", "he", "eh"); // "geherte" -> "geehrte"
     put("misverständniss", "Missverständnis");
     put("warheit", "Wahrheit");
