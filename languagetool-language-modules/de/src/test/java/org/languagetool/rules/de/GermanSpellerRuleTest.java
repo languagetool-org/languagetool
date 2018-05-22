@@ -246,6 +246,11 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("Oldheimer", "Oldtimer", rule, lt);
     assertFirstSuggestion("verhing", "verhängte", rule, lt);
     assertFirstSuggestion("vorallendingen", "vor allen Dingen", rule, lt);
+    assertFirstSuggestion("unternehmenslüstige", "unternehmungslustige", rule, lt);
+    assertFirstSuggestion("proffesionaler", "professioneller", rule, lt);
+    assertFirstSuggestion("gesundliches", "gesundheitliches", rule, lt);
+    assertFirstSuggestion("eckelt", "ekelt", rule, lt);
+    assertFirstSuggestion("geherte", "geehrte", rule, lt);
   }
 
   @Test

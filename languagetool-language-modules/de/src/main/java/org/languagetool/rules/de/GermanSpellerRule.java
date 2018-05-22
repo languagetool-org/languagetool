@@ -100,6 +100,18 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("[wW]öruber", "öru", "orü");
     putRepl("[lL]einensamens?", "[lL]einen", "Lein");
     putRepl("Oldheimer[ns]?", "he", "t");
+    putRepl("unternehmensl[uü]stig(e[mnrs]?)?", "mensl[uü]st", "mungslust"); // "unternehmenslüstig" -> "unternehmungslustig"
+    putRepl("proff?ess?ional(e[mnrs]?)?", "ff?ess?ional", "fessionell");
+    putRepl("gesundlich(e[mnrs]?)?", "lich", "heitlich");
+    putRepl("eckel(e|t(en?)?|st)?", "^eck", "ek");
+    putRepl("entt?euscht(e[mnrs]?)?", "entt?eusch", "enttäusch");
+    putRepl("Phählen?", "^Ph", "Pf");
+    putRepl("Kattermesser[ns]", "Ka", "Cu");
+    putRepl("gehert(e[mnrs]?)?", "he", "eh"); // "geherte" -> "geehrte"
+    put("misverständniss", "Missverständnis");
+    put("warheit", "Wahrheit");
+    put("unerkennlich", "unkenntlich");
+    put("rückg[äe]nglich", "rückgängig");
     put("verhing", "verhängte");
     put("verhingen", "verhängten");
     put("Bequemheit", "Bequemlichkeit");
