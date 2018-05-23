@@ -39,7 +39,7 @@ public class LongSentenceRule extends Rule {
   private static final Pattern NON_WORD_REGEX = Pattern.compile("[.?!…:;,~’'\"„“”»«‚‘›‹()\\[\\]\\-–—*×∗·+÷/=]");
   private static final boolean DEFAULT_ACTIVATION = false;
 
-  protected static int maxWords = DEFAULT_MAX_WORDS;
+  protected int maxWords = DEFAULT_MAX_WORDS;
 
   /**
    * @since 3.7
