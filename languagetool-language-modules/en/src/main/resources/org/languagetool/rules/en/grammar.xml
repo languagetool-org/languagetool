@@ -16935,6 +16935,41 @@ USA
       <message>This is a collocation error. You do not need a preposition after "\1'. Remove it: <suggestion>\1</suggestion>.</message>
       <example correction="Ask"><marker>Ask to</marker> all the employees.</example>
     </rule>
+    <rule id='AT_IN_THE_KITCHEN' name='Collocation: at/in the room'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2018-05-16 -->
+      <pattern>
+          <token>
+            <exception inflected="yes" regexp='yes'>look|shoot</exception></token>
+        <marker>
+          <token>at</token>
+          <token>the</token>
+          <token regexp="yes">living(room)?|kitchen|bedroom|dining|room|bathroom|attic|ballroom|cellar|hall|library|office|pantry|toilet</token>
+        </marker>
+      </pattern>
+      <message>This is a collocation error. Use "in" for rooms. Revise: <suggestion>in \3 \4</suggestion>.</message>
+      <example correction="in the kitchen">The plant is <marker>at the kitchen</marker>.</example>
+    </rule>
+    <rule id='INVOICE_OF_FOR' name='Collocation: invoice of/for'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2018-05-16 -->
+      <pattern>
+          <token postag_regexp="yes" postag="DT|VB[ZPDGN]"/>
+          <token regexp='yes'>invoices?</token>
+          <token>of</token>
+      </pattern>
+      <message>The usual prepositions to use after "\1 \2" is "for" not "of". Did you mean <suggestion>\1 \2 for</suggestion>?</message>
+      <example correction="an invoice for">We booked for 8 tickets but we only received <marker>an invoice of</marker> 7 tickets.</example>
+      <example correction="issued invoices for">The supplier has not yet <marker>issued invoices of</marker> Ms Tuyen to us.</example>
+    </rule>
+    <rule id='IN_CHARGE_OF_FROM' name='Collocation: in charge of/for'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2018-05-16 -->
+      <pattern>
+          <token>in</token>
+          <token>exchange</token>
+          <token>of</token>
+      </pattern>
+      <message>The usual prepositions to use after "\1 \2" is "for" not "of". Did you mean <suggestion>\1 \2 for</suggestion>?</message>
+      <example correction="in exchange for">Wood <marker>in exchange of</marker> metal.</example>
+    </rule>
   </rulegroup>
 
   <rulegroup id="RETURN_IN_THE" name="Collocation: return in/to">
