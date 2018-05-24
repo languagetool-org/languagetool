@@ -14921,34 +14921,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Bis nach Schweich als <marker>drittes</marker> und viertes Gleis entlang der bestehenden Moselstrecke.</example>
             <example type="triggers_error">Der Borgward Hansa 1500, der 1949 als erstes nach dem Krieg neu konstruiertes deutsches Auto eingeführt worden war.</example>
         </rule>
-        <rulegroup id="ANS_ARTIKEL" name="ans/fürs/... + Artikel">
-            <rule>
-                <pattern>
-                    <marker>
-                        <token regexp="yes">ans|fürs|über[ms]|unter[ms]|hinter[ms]|durchs|ins|vor[ms]|beim|zum</token>
-                        <token postag="ART:(IND|DEF):.+|PRO:(POS|DEM):.+" postag_regexp="yes"><exception regexp="yes">einen?</exception></token>
-                    </marker>
-                </pattern>
-                <message>Prüfen Sie, ob hier die Folge von '\1' und '\2' korrekt ist.</message>
-                <suggestion><match no="1" regexp_match="[ms]$" regexp_replace=""/> \2</suggestion>
-                <example correction="in mein">Ab <marker>ins mein</marker> Büro!</example>
-                <example>Er hat zwei Brüder: <marker>beim einen</marker> habe ich Schulden, dem anderen schulde ich Geld.</example>
-                <example>Ins eine Ohr hinein und durchs andere heraus!</example>
-                <example correction="Zu dem"><marker>Zum dem</marker> Bild möchte ich mich nicht äußern.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <marker>
-                        <token regexp="yes">[ai]m</token>
-                        <token postag="ART:(IND|DEF):.+|PRO:(POS|DEM):.+" postag_regexp="yes"><exception>einen</exception></token>
-                    </marker>
-                </pattern>
-                <message>Prüfen Sie, ob hier die Folge von '\1' und '\2' korrekt ist.</message>
-                <suggestion><match no="1" regexp_match="m$" regexp_replace="n"/> \2</suggestion>
-                <example correction="in meinem">Die Tasche liegt <marker>im meinem</marker> Auto.</example>
-                <example correction="An dem"><marker>Am dem</marker> Bild steht ein Hinweisschild.</example>
-            </rule>
-        </rulegroup>
         <rule id="ANS_KLEINES_NOMEN" name="ans/fürs/... + kleingeschriebenes Nomen">
             <antipattern>
                 <token regexp="yes">ans|fürs|übers|unters|hinters|durchs|ins|vors</token>
@@ -28790,6 +28762,34 @@ Andere Projekte</example>
             <example correction="">Wo <marker>sind Eigenleistung</marker> am besten möglich?</example>
         </rule>
         -->
+        <rulegroup id="ANS_ARTIKEL" name="ans/fürs/... + Artikel">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">ans|fürs|über[ms]|unter[ms]|hinter[ms]|durchs|ins|vor[ms]|beim|zum</token>
+                        <token postag="ART:(IND|DEF):.+|PRO:(POS|DEM):.+" postag_regexp="yes"><exception regexp="yes">einen?</exception></token>
+                    </marker>
+                </pattern>
+                <message>Prüfen Sie, ob hier die Folge von '\1' und '\2' korrekt ist.</message>
+                <suggestion><match no="1" regexp_match="[ms]$" regexp_replace=""/> \2</suggestion>
+                <example correction="in mein">Ab <marker>ins mein</marker> Büro!</example>
+                <example>Er hat zwei Brüder: <marker>beim einen</marker> habe ich Schulden, dem anderen schulde ich Geld.</example>
+                <example>Ins eine Ohr hinein und durchs andere heraus!</example>
+                <example correction="Zu dem"><marker>Zum dem</marker> Bild möchte ich mich nicht äußern.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">[ai]m</token>
+                        <token postag="ART:(IND|DEF):.+|PRO:(POS|DEM):.+" postag_regexp="yes"><exception>einen</exception></token>
+                    </marker>
+                </pattern>
+                <message>Prüfen Sie, ob hier die Folge von '\1' und '\2' korrekt ist.</message>
+                <suggestion><match no="1" regexp_match="m$" regexp_replace="n"/> \2</suggestion>
+                <example correction="in meinem">Die Tasche liegt <marker>im meinem</marker> Auto.</example>
+                <example correction="An dem"><marker>Am dem</marker> Bild steht ein Hinweisschild.</example>
+            </rule>
+        </rulegroup>
         <rule id="SEHR_GEEHRTER_NAME" name="Sehr geehrter (Name) -> Herr/Frau (Name)">
             <antipattern>
                 <token regexp="yes">Herr|Frau|Damen|Kunde|Anwender|Fahrgast|Fahrgäste|Nutzer</token>
