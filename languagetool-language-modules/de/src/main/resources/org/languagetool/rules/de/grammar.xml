@@ -15773,6 +15773,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Auf <marker>Ehre</marker> und Gewissen: Ich war es nicht, das war schon so.</example>
                 <example correction="Ehre">Auf <marker>ehre</marker> und Gewissen: Ich war es nicht, das war schon so, als ich kam.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">dir|ih[mr]|mir|jemandem|wem|dem</token>
+                    <token case_sensitive="yes">zu</token>
+                    <marker>
+                        <token case_sensitive="yes">ehren</token>
+                    </marker>
+                </pattern>
+                <message>subanfang;<suggestion>Ehren</suggestion>subende;</message>
+                <short>prgk;.</short>
+                <example correction="Ehren">Ihm zu <marker>ehren</marker> feierte man ein großes Fest.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="WETTE_SUBST" name="'um die wette (Wette) laufen' etc.">
             <url>https://de.wiktionary.org/wiki/Wette</url>
