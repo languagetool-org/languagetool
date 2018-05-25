@@ -16950,7 +16950,7 @@ USA
         <marker>
           <token>at</token>
           <token>the</token>
-          <token regexp="yes">living(room)?|kitchen|bedroom|dining|room|bathroom|attic|ballroom|cellar|hall|library|office|pantry|toilet</token>
+          <token regexp="yes">living(room)?|kitchen|bedroom|dining|room|bathroom|attic|ballroom|cellar|hall|pantry|toilet</token><!--|library|office-->
         </marker>
       </pattern>
       <message>This is a collocation error. Use "in" for rooms. Revise: <suggestion>in \3 \4</suggestion>.</message>
@@ -16972,10 +16972,49 @@ USA
       <pattern>
           <token>in</token>
           <token>exchange</token>
-          <token>of</token>
+          <token regexp='yes'>of|from</token>
       </pattern>
       <message>The usual prepositions to use after "\1 \2" is "for" not "of". Did you mean <suggestion>\1 \2 for</suggestion>?</message>
       <example correction="in exchange for">Wood <marker>in exchange of</marker> metal.</example>
+    </rule>
+    <rule id='FILL_OF_WITH' name='Collocation: fill of/with'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2018-05-16 -->
+      <pattern>
+          <token inflected="yes">fill</token>
+          <token postag="DT"/>
+          <token/>
+          <token>of</token>
+      </pattern>
+      <message>The usual prepositions to use after "\1" is 'with' not "\2" Did you mean <suggestion>\1 \2 \3 with</suggestion>?</message>
+      <example correction="Fill the page with"><marker>Fill the page of</marker> numbers.</example>
+    </rule>
+    <rule id='LOCATED_ON_AT' name='Collocation: '>
+    <!-- Created by Nicholas Walker (Bokomaru), 2018-05-16 -->
+      <pattern>
+          <token regexp='yes' inflected='yes'>locate|live|resident|sell|buy|go|turn</token>
+          <token regexp='yes'>in|on</token>
+          <token postag="CD"/>
+          <token regexp="yes" skip='2'>[A-Z\-][a-z\-]*</token>
+          <token regexp="yes">Street|Road|Blvd|Boulevard|Avenue|Ave|St|Rd</token>
+      </pattern>
+      <message>The usual preposition for an exact address is "at" not "on". Did you mean <suggestion>located at \3 <match no="4" include_skipped='all' case_conversion="startupper"/> <match no="5" include_skipped='all' case_conversion="startupper"/></suggestion>?</message>
+      <example correction='located at 11056 Main Street'>The company's name is Denver Inc. and its <marker>located on 11056 Main street</marker>.</example>
+      <example correction='located at 11056 Great Suffolk St'>The company's name is Denver Inc. and its <marker>located in 11056 Great Suffolk St</marker>.</example>
+      <example correction='located at 11056 Henri-Bourassa Street'>The company's name is Denver Inc. and its <marker>located on 11056 Henri-Bourassa street</marker>.</example>
+    </rule>
+    <rule id='ON_IN_THE_MIDDLE' name='Collocation: on/in the middle'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2018-05-16 -->
+      <pattern>
+        <marker>
+          <token>on</token>
+          <token>the</token>
+          <token regexp="yes">sewers|sewer|hole|pit|middle|center</token>
+        </marker>
+          <token>
+            <exception postag_regexp="yes" postag="NN(:UN?|S)?"/></token>
+      </pattern>
+      <message>The usual prepositions to use when surrounded is "in" not "on". Did you mean <suggestion>in \2 \3</suggestion>?</message>
+      <example correction='in the middle'>The button is <marker>on the middle</marker> of the screen.</example>
     </rule>
   </rulegroup>
 
