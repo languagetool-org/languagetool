@@ -33472,6 +33472,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="INCORRECT_ORDER" name="Ordenació incorrecta" type="style">
+        <rule id="DENTS_UNGLES" name="ordre preferible: amb dents i ungles">
+            <pattern>
+                <token>amb</token>
+                <token>ungles</token>
+                <token>i</token>
+                <token>dents</token>
+            </pattern>
+            <message>Ordre no habitual.</message>
+            <suggestion>amb dents i ungles</suggestion>
+            <example correction="amb dents i ungles">Es va defensar <marker>amb ungles i dents</marker>.</example>
+        </rule>
         <rule id="A_DRET_I_A_TORT" name="a dret i a tort">
             <pattern>
                 <token>a</token>
@@ -39304,7 +39315,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token skip="2" inflected="yes">creuar<exception postag="_reflexiu"/></token>
                     </marker>
-                    <token regexp="yes" inflected="yes">lìnia|meta|carrer|frontera|avinguda|riu|llac|estany|carretera|autopista|autovia|llindar</token>
+                    <token regexp="yes" inflected="yes">línia|meta|carrer|frontera|avinguda|riu|llac|estany|carretera|autopista|autovia|llindar|porta|entrada|portal</token>
                 </pattern>
                 <message>Paraula preferible.</message>
                 <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">travessar</match></suggestion>
