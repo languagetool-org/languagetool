@@ -7,6 +7,7 @@
 
 #### Breton
   * Made many messages shorter
+  * updated FSA spelling dictionary from An Drouizig Breton Spellchecker 0.15
 
 #### Dutch
   * added and improved rules
