@@ -14673,6 +14673,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="essen">Sie bekam von ihm zu <marker>Essen</marker> und zu trinken</example>
             </rule>
         </rulegroup>
+        <rulegroup id="ZU_SCHERZEN" name="zu scherzen (Scherzen) aufgelegt">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>zu</token>
+                    <marker><token regexp="yes">scherzen|streichen</token></marker>
+                    <token>aufgelegt</token>
+                </pattern>
+                <message>In der Wendung 'zu <suggestion><match no="2" case_conversion="startupper"/></suggestion> aufgelegt' wird '\2' großgeschrieben.</message>
+                <example correction="Scherzen">Sie war zu <marker>scherzen</marker> aufgelegt.</example>
+            </rule>
+        </rulegroup>
         <rule id="AUS_ZUM_TROTZ" name="'zum Trotz' / 'aus Trotz'">
             <pattern>
                 <token regexp='yes'>zum|aus</token>
@@ -15752,7 +15763,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>ehren</token>
                     </marker>
-                    <token regexp="yes">von|de[sr]|(&meindein;)e[rs]</token>
+                    <token regexp="yes">von|d(ies)?e[sr]|(&meindein;)e[rs]</token>
                 </pattern>
                 <message>&subanfang;<suggestion>Ehren</suggestion>&subende;</message>
                 <short>&prgk;.</short>
@@ -16116,7 +16127,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="STROEME_SUBST" name="'in strömen (Strömen)'">
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes" skip="2">regnete?|goss|gießt|floss(en)?|fließt|kamen|kommen</token>
+                    <token regexp="yes" skip="2">regnete?|goss|gießt|fl[öo]ss(en)?|fließt|k[aä]men|kommen</token>
                     <token>in</token>
                     <marker>
                         <token>strömen</token>
@@ -24248,6 +24259,17 @@ Andere Projekte</example>
                 <short>&prgk;.</short>
                 <example correction="Lachen">Können vor <marker>lachen</marker>.</example>
                 <example correction="Schmerzen">Sie können vor <marker>schmerzen</marker> kaum gehen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>gut</token>
+                    <marker>
+                        <token case_sensitive="yes">Lachen</token>
+                    </marker>
+                </pattern>
+                <message>inwend;'gut <suggestion><match no="2" case_conversion="startlower"/></suggestion> haben' wird 'lachen' kleingeschrieben.</message>
+                <short>prgk;.</short>
+                <example correction="lachen">Sie hat gut <marker>Lachen</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ANGST_SUBST" name="'angst (Angst)'">
