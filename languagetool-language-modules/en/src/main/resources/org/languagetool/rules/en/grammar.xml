@@ -20097,7 +20097,7 @@ USA
             </rule>
             <rule>
                 <pattern>
-                    <token postag_regexp="yes" postag="JJ|VBN"/>
+                    <token postag_regexp="yes" postag="CC|JJ|VBN"><exception regexp="yes">close|near|pertinent</exception></token>
                     <token>to</token>
                     <marker>
                         <token>here</token>
@@ -20109,6 +20109,21 @@ USA
                 <example correction="hear">Glad to <marker>here</marker> that!</example>
                 <example correction="hear">She was surprised to <marker>here</marker> that!</example>
                 <example>I live pretty close to here.</example>
+                <example>There are people who live close to here that won't even come.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag_regexp="yes" postag="CC|JJ|VB."><exception regexp="yes">close|near|pertinent</exception></token>
+                    <token>to</token>
+                    <marker>
+                        <token>here</token>
+                    </marker>
+                    <token>from</token>
+                    <token postag="PRP"/>
+                </pattern>
+                <message>Did you mean <suggestion>hear</suggestion>?</message>
+                <short>Possible typo</short>
+                <example correction="hear">I hope to <marker>here</marker> from you soon.</example>
             </rule>
             <rule>
                 <pattern>
@@ -20146,7 +20161,7 @@ USA
                     <token postag="SENT_START"/>
                     <token>hear</token>
                 </marker>
-                <token>is</token>
+                <token inflected="yes">be</token>
             </pattern>
             <message>Did you mean <suggestion>here</suggestion>?</message>
             <short>Possible typo</short>
