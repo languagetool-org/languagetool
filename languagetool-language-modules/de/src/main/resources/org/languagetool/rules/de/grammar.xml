@@ -7371,6 +7371,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message><suggestion>\1\2</suggestion> wird zusammengeschrieben.</message>
             <example correction='auseinandergesetzt'>Ich habe mich damit schon länger <marker>auseinander gesetzt</marker>.</example>
         </rule>
+        <rule id="STATT_DESSEN" name="statt dessen (stattdessen)">
+            <pattern>
+                <token>statt<exception scope="previous">,</exception></token>
+                <token>dessen</token>
+            </pattern>
+            <message>Im Sinne von 'ersatzweise' wird <suggestion>\1\2</suggestion> zusammengeschrieben.</message>
+            <example correction='stattdessen'>Ich habe keine Lust auf Kino. Wollen wir <marker>statt dessen</marker> ins Theater?</example>
+        </rule>
         <rule id="IN_ZWISCHEN" name="in zwischen (inzwischen)">
             <pattern>
                 <token>in</token>
@@ -17391,6 +17399,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>&prgk;.</short>
                 <example correction="Klappe">Wir schlagen zwei Fliegen mit einer <marker>klappe</marker>.</example>
             </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>frisst</token>
+                    <token>der</token>
+                    <token>Teufel</token>
+                    <marker>
+                        <token regexp="yes">fliegen?|[lL]iegen?</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion>Fliegen</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example correction="Fliegen">In der Not frisst der Teufel <marker>fliegen</marker>.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="STINKT_NACH" name="'es stinkt nach kotze (Kotze)' etc.">
             <rule>
@@ -17398,7 +17419,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes" inflected="yes" skip="1">[sS]tinken|[rR]iechen|[sS]chmecken</token>
                     <token regexp="yes">nach|wie</token>
                     <marker>
-                        <token regexp="yes">pisse|kacke|scheiße|kotze</token>
+                        <token regexp="yes">pisse|kacke|scheiße|kotze|fischen?</token>
                     </marker>
                 </pattern>
                 <message>&subanfang;<suggestion><match no="3" case_conversion="startupper"/></suggestion>&subende;</message>
