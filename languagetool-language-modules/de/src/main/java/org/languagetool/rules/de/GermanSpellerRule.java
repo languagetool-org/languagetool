@@ -148,6 +148,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("[wWkKdD]an$", "n$", "nn");
     putRepl("geh?neh?m[ie]gung(en)?", "geh?neh?m[ie]gung", "Genehmigung");
     putRepl("Korrigierung(en)?", "igierung", "ektur");
+    putRepl("[kK]orregierung(en)?", "[kK]orregierung", "Korrektur");
     putRepl("[nN]ocheimal", "eimal", " einmal");
     putRepl("[aA]benzu", "enzu", " und zu");
     putRepl("[kK]onflikation(en)?", "[kK]onfli", "Kompli");
@@ -188,6 +189,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("[rR]ecourcen?", "[rR]ec", "Ress");
     putRepl("[fF]amm?ill?i?[aä]risch(e[mnrs]?)?", "amm?ill?i?[aä]risch", "amiliär");
     putRepl("Sim-Karten?", "^Sim", "SIM");
+    putRepl("Spax-Schrauben?", "^Spax", "SPAX");
     putRepl("[aA]leine", "l", "ll");
     putRepl("Kaput", "t", "tt");
     putRepl("[fF]estell(s?t|en?)", "est", "estst");
