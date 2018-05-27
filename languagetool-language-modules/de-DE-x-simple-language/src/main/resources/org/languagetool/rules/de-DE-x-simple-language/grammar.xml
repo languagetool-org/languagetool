@@ -299,6 +299,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <pattern>
                     <token postag="VER:PA2:.+|VER.*:[1-3]:.*" postag_regexp="yes"/>
+                    <token min="0">,</token>
                     <marker>
                         <token regexp="yes">und|oder</token>
                     </marker>
@@ -310,6 +311,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="">Die Milch hat er beim Bauern gekauft <marker>und</marker> die Wurst beim Metzger.</example>
                 <example correction="">Es ist besser, wenn du Käse isst <marker>und</marker> Oskar Milch trinkt.</example>
                 <example correction="">Er fragte, ob er aus Kanada stammt <marker>oder</marker> ob er dort länger gelebt hat.</example>
+                <example correction="">Er hat entweder Eier gesammelt, <marker>oder</marker> er hat Milch gekauft.</example>
             </rule>
             <rule>
                 <pattern>
@@ -325,23 +327,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token skip="-1">weder</token>
                     <marker><token skip="-1">noch</token></marker>
-                    <token postag="VER.*:[1-3]:.*" postag_regexp="yes" skip="-1"/>
+                    <token postag="VER.*" postag_regexp="yes"/>
                 </pattern>
                 <message>Jeder Satz sollte nur eine Aussage enthalten. Können Sie diesen Satz in zwei Sätze aufteilen?</message>
                 <example correction="">Weder habe ich dich gesehen <marker>noch</marker> habe ich dich gehört.</example>
                 <example>Ich habe dich nicht gesehen. Ich habe dich auch nicht gehört.</example>
+                <example correction="">Er hat weder Eier gesammelt <marker>noch</marker> Milch gekauft.</example>
             </rule>
             <rule>
                 <pattern>
                     <token>nicht</token>
                     <token skip="-1">nur</token>
                     <marker>
-                       <token>sondern</token>
+                       <token skip="4">sondern</token>
                        <token>auch</token>
                     </marker>
                 </pattern>
                 <message>Jeder Satz sollte nur eine Aussage enthalten. Können Sie diesen Satz in zwei Sätze aufteilen?</message>
                 <example correction="">Er hat nicht nur Hunde, <marker>sondern auch</marker> Katzen.</example>
+                <example correction="">Er isst nicht nur Eier, <marker>sondern er trinkt auch</marker> Milch.</example>
                 <example>Er hat Hunde. Er hat auch Katzen.</example>
             </rule>
         </rulegroup>
