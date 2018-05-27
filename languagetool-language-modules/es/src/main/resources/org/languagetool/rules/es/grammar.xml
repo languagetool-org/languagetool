@@ -847,6 +847,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="condición sine qua non">Para aprobar, la <marker>condición sin ecuánime</marker> es obtener un 5.</example>
             <example>Es condición sine qua non tener permiso para entrar en el local.</example>
         </rule>
+        <rule id="CONFUSION_AL_LA" name="confusión al/la">
+            <pattern>
+                <marker>
+                    <token>al</token>
+                </marker>
+                <token postag="NCF.*" postag_regexp="yes"><exception postag="NCM.*|SPS00|C." postag_regexp="yes"/><exception regexp="yes">habla|agua|águila|arma|alba|haya</exception></token>
+            </pattern>
+            <message>Posible error de concordancia.</message>
+            <suggestion>la</suggestion>
+            <example correction="la">El presidente de <marker>al</marker> República italiana.</example>
+            <example>Al final</example>
+            <example>Estamos al habla.</example>
+            <example>Cayó al agua.</example>
+        </rule>
     </category>
     <category id="GRAMMAR" name="Gramática" type="grammar">
         <rule id="PREPOSICION_VERBO" name="Combinación imposible: preposición + verbo conjugado">
