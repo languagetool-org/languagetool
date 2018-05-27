@@ -7379,6 +7379,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Im Sinne von 'ersatzweise' wird <suggestion>\1\2</suggestion> zusammengeschrieben.</message>
             <example correction='stattdessen'>Ich habe keine Lust auf Kino. Wollen wir <marker>statt dessen</marker> ins Theater?</example>
         </rule>
+        <rule id="ZU_DEM_ZUDEM" name="Zu dem (Zudem)">
+            <pattern case_sensitive="yes">
+                <marker>
+                    <token>Zu</token>
+                    <token>dem</token>
+                </marker>
+                <token postag="VER:.*[1-3]:.*" postag_regexp="yes"/>
+            </pattern>
+            <message>Meinten Sie <suggestion>\1\2</suggestion> im Sinne von 'darüber hinaus'?</message>
+            <example correction="Zudem"><marker>Zu dem</marker> bedauere ich dies.</example>
+            <example>Ich ging zu dem Laden.</example>
+        </rule>
         <rule id="IN_ZWISCHEN" name="in zwischen (inzwischen)">
             <pattern>
                 <token>in</token>
