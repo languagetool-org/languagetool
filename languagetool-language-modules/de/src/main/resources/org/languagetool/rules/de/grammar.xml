@@ -14167,6 +14167,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>&prgk;.</short>
             <example correction="Schwere">Festgestellt wurde eine besondere <marker>schwere</marker> der Schuld.</example>
         </rule>
+        <rule id="STELLT_FEST" name="stellen Fest (fest)">
+            <pattern case_sensitive="yes">
+                <token inflected="yes" skip="1">stellen</token>
+                <marker>
+                    <token>Fest</token>
+                </marker>
+            </pattern>
+            <message>Meinten Sie <suggestion><match no="2" case_conversion="startlower"/></suggestion> (feststellen)?</message>
+            <short>prgk;.</short>
+            <example correction="fest">Später stellte man <marker>Fest</marker>, dass er krank war.</example>
+        </rule>
         <rule id="DAS_KLEINES_SUBST_ADJEKTIV" name="kleingeschriebenes substantiviertes Adjektiv am Satzanfang">
             <pattern>
                 <token postag="SENT_START"/>
