@@ -4118,10 +4118,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Запятая не нужна:<suggestion>\1 \2 \4</suggestion>.</message>
                 <short>Запятая не нужна.</short>
+                <example>Как сделать так, чтобы выходные длились дольше.</example>
                 <example>Работа была сделана не так чтобы полностью.</example>
                 <example correction="не так чтобы">Работа была сделана <marker>не так, чтобы</marker> полностью.</example>
             </rule>
-            
+            <rule>
+                <pattern>
+                    <token negate="yes" regexp="yes">не|,</token>
+                    <token>так</token>
+                    <token>чтобы</token>
+                </pattern>
+                <message>Нужна запятая:<suggestion>\1 \2, \3</suggestion>.</message>
+                <short>Нужна запятая.</short>
+                <example>Как сделать так, чтобы выходные длились дольше.</example>
+                <example correction="сделать так, чтобы">Как <marker>сделать так чтобы</marker> выходные длились дольше.</example>
+            </rule>
         </rulegroup>
         <rulegroup default="on" id="I_TO_I_SE" name="Цельные выражения: «ни рыба ни мясо», ...">
             <!-- Запятая не ставится в цельных выражениях:
