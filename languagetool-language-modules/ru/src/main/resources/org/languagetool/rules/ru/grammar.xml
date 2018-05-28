@@ -2928,7 +2928,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="VB:.*|PT:.*" postag_regexp="yes"></token> 
                </antipattern>  
                <pattern case_sensitive="yes">
-                   <token><exception postag="PREP|ADJ:.*" postag_regexp="yes"></exception><exception regexp="yes">соответствии|большинство|меньшинство|часть|доля</exception></token>
+                   <or>
+                     <token><exception postag="PREP|ADJ:.*" postag_regexp="yes"></exception><exception regexp="yes">соответствии|большинство|меньшинство|часть|доля</exception></token>
+                     <token case_sensitive="no" regexp="yes">это|эта|эти|этот|тот</token>
+                   </or>
                     <marker>
                     <unify negate="no">
                       <feature id="gender"/>
@@ -2950,6 +2953,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>На территории распространения которого расположен город.</example>
                 <example>Бухта Золотой Рог, на обоих берегах которой располагается Владивосток, является удобным местом.</example>
                 <example correction="ребята, которые">Это те же <marker>ребята которые</marker> играли в хоккей.</example>
+                <example correction="программа, которая">Chess — это <marker>программа которая</marker> играла в шахматы.</example>
             </rule>
 
         </rulegroup>
