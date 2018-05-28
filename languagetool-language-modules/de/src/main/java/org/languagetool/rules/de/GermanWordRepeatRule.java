@@ -74,7 +74,7 @@ public class GermanWordRepeatRule extends WordRepeatRule {
         // "Sie tut das, damit sie sie nicht fortschickt"
         return true;
       }
-      if (tokens.length+1 > position) {
+      if (tokens.length-1 > position) {
         if (tokens[position - 2].matchesPosTagRegex("VER:3:.+") && tokens[position + 1].hasPosTag("ZUS")) {
           // "Dann warfen sie sie weg."
           return true;
