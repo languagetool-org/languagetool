@@ -71,6 +71,10 @@ public class HTTPServerConfig {
   protected String hiddenMatchesServer;
   protected int hiddenMatchesServerTimeout;
   protected List<Language> hiddenMatchesLanguages = new ArrayList<>();
+  protected String dbDriver = null;
+  protected String dbUrl = null;
+  protected String dbUsername = null;
+  protected String dbPassword = null;
 
   /**
    * Create a server configuration for the default port ({@link #DEFAULT_PORT}).
@@ -208,6 +212,10 @@ public class HTTPServerConfig {
             hiddenMatchesLanguages.add(Languages.getLanguageForShortCode(code));
           }
         }
+        dbDriver = getOptionalProperty(props, "dbDriver", null);
+        dbUrl = getOptionalProperty(props, "dbUrl", null);
+        dbUsername = getOptionalProperty(props, "dbUsername", null);
+        dbPassword = getOptionalProperty(props, "dbPassword", null);
       }
     } catch (IOException e) {
       throw new RuntimeException("Could not load properties from '" + file + "'", e);
@@ -395,9 +403,20 @@ public class HTTPServerConfig {
     return maxWorkQueueSize;
   }
 
-  /** @since 3.7 */
+  /**
+   * Cache size (in number of sentences).
+   * @since 3.7
+   */
   int getCacheSize() {
     return cacheSize;
+  }
+
+  /** 
+   * Set cache size (in number of sentences).
+   * @since 4.2
+   */
+  void setCacheSize(int sentenceCacheSize) {
+    this.cacheSize = sentenceCacheSize;
   }
 
   /** @since 3.7 */
@@ -453,6 +472,78 @@ public class HTTPServerConfig {
     return rulesConfigFile;
   }
 
+  /**
+   * @return the database driver name like {@code org.mariadb.jdbc.Driver}, or {@code null}
+   * @since 4.2
+   */
+  @Nullable
+  @Experimental
+  String getDatabaseDriver() {
+    return dbDriver;
+  }
+  
+  /**
+   * @since 4.2
+   */
+  @Experimental
+  void setDatabaseDriver(String dbDriver) {
+    this.dbDriver = dbDriver;
+  }
+
+  /**
+   * @return the database url like {@code jdbc:mysql://localhost:3306/languagetool}, or {@code null}
+   * @since 4.2
+   */
+  @Nullable
+  @Experimental
+  String getDatabaseUrl() {
+    return dbUrl;
+  }
+
+  /**
+   * @since 4.2
+   */
+  @Experimental
+  void setDatabaseUrl(String dbUrl) {
+    this.dbUrl = dbUrl;
+  }
+  
+  /**
+   * @return the database username, or {@code null}
+   * @since 4.2
+   */
+  @Nullable
+  @Experimental
+  String getDatabaseUsername() {
+    return dbUsername;
+  }
+
+  /**
+   * @since 4.2
+   */
+  @Experimental
+  void setDatabaseUsername(String dbUsername) {
+    this.dbUsername = dbUsername;
+  }
+  
+  /**
+   * @return the database password matching {@link #getDatabaseUsername()}, or {@code null}
+   * @since 4.2
+   */
+  @Nullable
+  @Experimental
+  String getDatabasePassword() {
+    return dbPassword;
+  }
+
+  /**
+   * @since 4.2
+   */
+  @Experimental
+  void setDatabasePassword(String dbPassword) {
+    this.dbPassword = dbPassword;
+  }
+  
   /**
    * @throws IllegalConfigurationException if property is not set 
    */

@@ -85,14 +85,16 @@ abstract class TextChecker {
     executorService.shutdownNow();
   }
   
-  void checkText(AnnotatedText aText, HttpExchange httpExchange, Map<String, String> parameters, ErrorRequestLimiter errorRequestLimiter, String remoteAddress) throws Exception {
+  void checkText(AnnotatedText aText, HttpExchange httpExchange, Map<String, String> parameters, ErrorRequestLimiter errorRequestLimiter,
+                 String remoteAddress) throws Exception {
     checkParams(parameters);
     long timeStart = System.currentTimeMillis();
-    UserLimits limits = getUserLimits(parameters);
+    UserLimits limits = ServerTools.getUserLimits(parameters, config);
     if (aText.getPlainText().length() > limits.getMaxTextLength()) {
       throw new TextTooLongException("Your text exceeds the limit of " + limits.getMaxTextLength() +
               " characters (it's " + aText.getPlainText().length() + " characters). Please submit a shorter text.");
     }
+    UserConfig userConfig = new UserConfig(limits.getPremiumUid() != null ? getUserDictWords(limits.getPremiumUid()) : Collections.emptyList());
     //print("Check start: " + text.length() + " chars, " + langParam);
     boolean autoDetectLanguage = getLanguageAutoDetect(parameters);
     List<String> preferredVariants = getPreferredVariants(parameters);
@@ -141,7 +143,7 @@ abstract class TextChecker {
         /*if (Math.random() < 0.1) {
           throw new OutOfMemoryError();
         }*/
-        return getRuleMatches(aText, lang, motherTongue, params, f -> ruleMatchesSoFar.add(f));
+        return getRuleMatches(aText, lang, motherTongue, params, userConfig, f -> ruleMatchesSoFar.add(f));
       }
     });
     String incompleteResultReason = null;
@@ -226,15 +228,9 @@ abstract class TextChecker {
             + ", r:" + reqCounter.getRequestCount());
   }
 
-  private UserLimits getUserLimits(Map<String, String> params) {
-    String token = params.get("token");
-    if (token != null) {
-      return UserLimits.getLimitsFromToken(config, token);
-    } else if (params.get("username") != null && params.get("password") != null) {
-      return UserLimits.getLimitsFromUserAccount(config, params.get("username"), params.get("password"));
-    } else {
-      return UserLimits.getDefaultLimits(config);
-    }
+  private List<String> getUserDictWords(Long userId) throws IOException {
+    DatabaseAccess db = DatabaseAccess.getInstance();
+    return db.getUserDictWords(userId);
   }
 
   protected void checkParams(Map<String, String> parameters) {
@@ -244,12 +240,12 @@ abstract class TextChecker {
   }
 
   private List<RuleMatch> getRuleMatches(AnnotatedText aText, Language lang,
-                                         Language motherTongue, QueryParams params, RuleMatchListener listener) throws Exception {
+                                         Language motherTongue, QueryParams params, UserConfig userConfig, RuleMatchListener listener) throws Exception {
     if (cache != null && cache.requestCount() > 0 && cache.requestCount() % CACHE_STATS_PRINT == 0) {
       String hitPercentage = String.format(Locale.ENGLISH, "%.2f", cache.hitRate() * 100.0f);
       print("Cache stats: " + hitPercentage + "% hit rate");
     }
-    JLanguageTool lt = getLanguageToolInstance(lang, motherTongue, params);
+    JLanguageTool lt = getLanguageToolInstance(lang, motherTongue, params, userConfig);
     return lt.check(aText, listener);
   }
 
@@ -305,8 +301,8 @@ abstract class TextChecker {
    * @param lang the language to be used
    * @param motherTongue the user's mother tongue or {@code null}
    */
-  private JLanguageTool getLanguageToolInstance(Language lang, Language motherTongue, QueryParams params) throws Exception {
-    JLanguageTool lt = new JLanguageTool(lang, motherTongue, cache);
+  private JLanguageTool getLanguageToolInstance(Language lang, Language motherTongue, QueryParams params, UserConfig userConfig) throws Exception {
+    JLanguageTool lt = new JLanguageTool(lang, motherTongue, cache, userConfig);
     lt.setMaxErrorsPerWordRate(config.getMaxErrorsPerWordRate());
     if (config.getLanguageModelDir() != null) {
       lt.activateLanguageModelRules(config.getLanguageModelDir());

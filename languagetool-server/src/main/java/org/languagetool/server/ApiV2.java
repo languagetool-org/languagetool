@@ -23,6 +23,7 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.net.httpserver.HttpExchange;
+import org.jetbrains.annotations.NotNull;
 import org.languagetool.Language;
 import org.languagetool.Languages;
 import org.languagetool.markup.AnnotatedText;
@@ -32,6 +33,8 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.net.HttpURLConnection;
 import java.util.*;
+
+import static org.languagetool.server.ServerTools.print;
 
 /**
  * Handle requests to {@code /v2/} of the HTTP API. 
@@ -51,11 +54,15 @@ class ApiV2 {
     this.allowOriginUrl = allowOriginUrl;
   }
 
-  void handleRequest(String path, HttpExchange httpExchange, Map<String, String> parameters, ErrorRequestLimiter errorRequestLimiter, String remoteAddress) throws Exception {
+  void handleRequest(String path, HttpExchange httpExchange, Map<String, String> parameters, ErrorRequestLimiter errorRequestLimiter, String remoteAddress, HTTPServerConfig config) throws Exception {
     if (path.equals("languages")) {
       handleLanguagesRequest(httpExchange);
     } else if (path.equals("check")) {
       handleCheckRequest(httpExchange, parameters, errorRequestLimiter, remoteAddress);
+    } else if (path.equals("words/add")) {
+      handleWordAddRequest(httpExchange, parameters, config);
+    } else if (path.equals("words/delete")) {
+      handleWordDeleteRequest(httpExchange, parameters, config);
     } else if (path.equals("log")) {
       handleLogRequest(httpExchange, parameters);
     } else {
@@ -82,6 +89,49 @@ class ApiV2 {
       throw new RuntimeException("Missing 'text' or 'data' parameter");
     }
     textChecker.checkText(aText, httpExchange, parameters, errorRequestLimiter, remoteAddress);
+  }
+
+  private void handleWordAddRequest(HttpExchange httpExchange, Map<String, String> parameters, HTTPServerConfig config) throws Exception {
+    ensurePostMethod(httpExchange, "/words/add");
+    UserLimits limits = getUserLimits(parameters, config);
+    DatabaseAccess db = DatabaseAccess.getInstance();
+    boolean added = db.addWord(parameters.get("word"), limits.getPremiumUid());
+    writeResponse("added", added, httpExchange);
+  }
+
+  private void handleWordDeleteRequest(HttpExchange httpExchange, Map<String, String> parameters, HTTPServerConfig config) throws Exception {
+    ensurePostMethod(httpExchange, "/words/delete");
+    UserLimits limits = getUserLimits(parameters, config);
+    DatabaseAccess db = DatabaseAccess.getInstance();
+    boolean deleted = db.deleteWord(parameters.get("word"), limits.getPremiumUid());
+    writeResponse("deleted", deleted, httpExchange);
+  }
+
+  private void ensurePostMethod(HttpExchange httpExchange, String url) {
+    if (!httpExchange.getRequestMethod().equalsIgnoreCase("post")) {
+      throw new IllegalArgumentException(url + " needs to be called with POST");
+    }
+  }
+
+  @NotNull
+  private UserLimits getUserLimits(Map<String, String> parameters, HTTPServerConfig config) {
+    UserLimits limits = ServerTools.getUserLimits(parameters, config);
+    if (limits.getPremiumUid() == null) {
+      throw new IllegalStateException("This end point needs a user id");
+    }
+    return limits;
+  }
+
+  private void writeResponse(String fieldName, boolean added, HttpExchange httpExchange) throws IOException {
+    StringWriter sw = new StringWriter();
+    try (JsonGenerator g = factory.createGenerator(sw)) {
+      g.writeStartObject();
+      g.writeBooleanField(fieldName, added);
+      g.writeEndObject();
+    }
+    String response = sw.toString();
+    httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, response.getBytes(ENCODING).length);
+    httpExchange.getResponseBody().write(response.getBytes(ENCODING));
   }
 
   private void handleLogRequest(HttpExchange httpExchange, Map<String, String> parameters) throws IOException {

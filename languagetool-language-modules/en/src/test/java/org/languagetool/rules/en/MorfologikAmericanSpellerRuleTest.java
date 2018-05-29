@@ -23,11 +23,13 @@ import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.TestTools;
+import org.languagetool.UserConfig;
 import org.languagetool.language.AmericanEnglish;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -52,6 +54,16 @@ public class MorfologikAmericanSpellerRuleTest extends AbstractEnglishSpellerRul
     Language language = new AmericanEnglish();
     Rule rule = new MorfologikAmericanSpellerRule(TestTools.getMessages("en"), language);
     super.testNonVariantSpecificSuggestions(rule, language);
+  }
+
+  @Test
+  public void testUserDict() throws IOException {
+    Language language = new AmericanEnglish();
+    UserConfig userConfig = new UserConfig(Arrays.asList("mytestword", "mytesttwo"));
+    Rule rule = new MorfologikAmericanSpellerRule(TestTools.getMessages("en"), language, userConfig);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("mytestword")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("mytesttwo")).length);
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("mytestthree")).length);
   }
 
   @Test

@@ -101,7 +101,7 @@ public class MultiThreadedJLanguageToolTest {
       }
 
       @Override
-      public List<Rule> getRelevantRules(ResourceBundle messages) {
+      public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig) {
         // less rules than processors (depending on the machine), should at least not crash
         return Arrays.asList(
                 new UppercaseSentenceStartRule(messages, this),

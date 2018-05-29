@@ -19,6 +19,7 @@
 package org.languagetool.rules.spelling.hunspell;
 
 import org.languagetool.Language;
+import org.languagetool.UserConfig;
 import org.languagetool.rules.spelling.morfologik.MorfologikMultiSpeller;
 import org.languagetool.tokenizers.CompoundWordTokenizer;
 import org.languagetool.tools.StringTools;
@@ -40,8 +41,8 @@ public abstract class CompoundAwareHunspellRule extends HunspellRule {
 
   protected abstract void filterForLanguage(List<String> suggestions);
 
-  public CompoundAwareHunspellRule(ResourceBundle messages, Language language, CompoundWordTokenizer compoundSplitter, MorfologikMultiSpeller morfoSpeller) {
-    super(messages, language);
+  public CompoundAwareHunspellRule(ResourceBundle messages, Language language, CompoundWordTokenizer compoundSplitter, MorfologikMultiSpeller morfoSpeller, UserConfig userConfig) {
+    super(messages, language, userConfig);
     this.compoundSplitter = compoundSplitter;
     this.morfoSpeller = morfoSpeller;
   }

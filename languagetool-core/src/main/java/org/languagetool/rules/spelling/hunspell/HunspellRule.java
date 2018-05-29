@@ -64,8 +64,8 @@ public class HunspellRule extends SpellingCheckRule {
   }
   protected Pattern nonWordPattern;
 
-  public HunspellRule(ResourceBundle messages, Language language) {
-    super(messages, language);
+  public HunspellRule(ResourceBundle messages, Language language, UserConfig userConfig) {
+    super(messages, language, userConfig);
     super.setCategory(Categories.TYPOS.getCategory(messages));
   }
 

@@ -171,7 +171,7 @@ public abstract class Rule {
   public boolean supportsLanguage(Language language) {
     try {
       List<Class<? extends Rule>> relevantRuleClasses = new ArrayList<>();
-      List<Rule> relevantRules = language.getRelevantRules(JLanguageTool.getMessageBundle());
+      List<Rule> relevantRules = language.getRelevantRules(JLanguageTool.getMessageBundle(), null);
       for (Rule relevantRule : relevantRules) {
         relevantRuleClasses.add(relevantRule.getClass());
       }

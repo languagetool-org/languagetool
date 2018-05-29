@@ -35,7 +35,7 @@ public class MorfologikSouthAfricanSpellerRuleTest extends AbstractEnglishSpelle
   @Test
   public void testSuggestions() throws IOException {
     Language language = new SouthAfricanEnglish();
-    Rule rule = new MorfologikSouthAfricanSpellerRule(TestTools.getMessages("en"), language);
+    Rule rule = new MorfologikSouthAfricanSpellerRule(TestTools.getMessages("en"), language, null);
     super.testNonVariantSpecificSuggestions(rule, language);
   }
 
@@ -43,7 +43,7 @@ public class MorfologikSouthAfricanSpellerRuleTest extends AbstractEnglishSpelle
   public void testMorfologikSpeller() throws IOException {
     SouthAfricanEnglish language = new SouthAfricanEnglish();
     MorfologikSouthAfricanSpellerRule rule =
-            new MorfologikSouthAfricanSpellerRule (TestTools.getMessages("en"), language);
+            new MorfologikSouthAfricanSpellerRule (TestTools.getMessages("en"), language, null);
 
     JLanguageTool langTool = new JLanguageTool(language);
 

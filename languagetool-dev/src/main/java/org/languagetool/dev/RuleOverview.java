@@ -280,7 +280,7 @@ public final class RuleOverview {
   }
 
   private SpellcheckSupport spellcheckSupport(Language lang) throws IOException {
-    for (Rule rule : lang.getRelevantRules(JLanguageTool.getMessageBundle())) {
+    for (Rule rule : lang.getRelevantRules(JLanguageTool.getMessageBundle(), null)) {
       if (rule.isDictionaryBasedSpellingRule()) {
         if (rule instanceof HunspellNoSuggestionRule) {
           return SpellcheckSupport.NoSuggestion;

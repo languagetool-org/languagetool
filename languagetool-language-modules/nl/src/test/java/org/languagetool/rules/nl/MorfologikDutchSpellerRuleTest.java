@@ -32,7 +32,7 @@ public class MorfologikDutchSpellerRuleTest {
   @Test
   public void testSpeller() throws IOException {
     Dutch language = new Dutch();
-    MorfologikDutchSpellerRule rule = new MorfologikDutchSpellerRule(TestTools.getEnglishMessages(), language);
+    MorfologikDutchSpellerRule rule = new MorfologikDutchSpellerRule(TestTools.getEnglishMessages(), language, null);
     JLanguageTool langTool = new JLanguageTool(language);
 
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Amsterdam")).length);

@@ -73,7 +73,7 @@ public class FakeLanguage extends Language {
   }
 
   @Override
-  public List<Rule> getRelevantRules(ResourceBundle messages) {
+  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig) {
     return Collections.emptyList();
   }
 }

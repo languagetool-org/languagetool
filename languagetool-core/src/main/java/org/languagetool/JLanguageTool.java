@@ -83,6 +83,7 @@ public class JLanguageTool {
   public static final String MESSAGE_BUNDLE = "org.languagetool.MessagesBundle";
 
   private final ResultCache cache;
+  private final UserConfig userConfig;
   private float maxErrorsPerWordRate;
 
   /**
@@ -178,7 +179,7 @@ public class JLanguageTool {
   /**
    * Create a JLanguageTool and setup the built-in rules for the
    * given language and false friend rules for the text language / mother tongue pair.
-   * 
+   *
    * @param language the language of the text to be checked
    * @param motherTongue the user's mother tongue, used for false friend rules, or <code>null</code>.
    *          The mother tongue may also be used as a source language for checking bilingual texts.
@@ -188,10 +189,26 @@ public class JLanguageTool {
    */
   @Experimental
   public JLanguageTool(Language language, Language motherTongue, ResultCache cache) {
+    this(language, motherTongue, cache, null);
+  }
+
+  /**
+   * Create a JLanguageTool and setup the built-in rules for the
+   * given language and false friend rules for the text language / mother tongue pair.
+   * 
+   * @param language the language of the text to be checked
+   * @param motherTongue the user's mother tongue, used for false friend rules, or <code>null</code>.
+   *          The mother tongue may also be used as a source language for checking bilingual texts.
+   * @param cache a cache to speed up checking if the same sentences get checked more than once,
+   *              e.g. when LT is running as a server and texts are re-checked due to changes
+   * @since 4.2
+   */
+  @Experimental
+  public JLanguageTool(Language language, Language motherTongue, ResultCache cache, UserConfig userConfig) {
     this.language = Objects.requireNonNull(language, "language cannot be null");
     this.motherTongue = motherTongue;
     ResourceBundle messages = ResourceBundleTools.getMessageBundle(language);
-    builtinRules = getAllBuiltinRules(language, messages);
+    builtinRules = getAllBuiltinRules(language, messages, userConfig);
     this.cleanOverlappingMatches = true;
     try {
       activateDefaultPatternRules();
@@ -200,6 +217,7 @@ public class JLanguageTool {
       throw new RuntimeException("Could not activate rules", e);
     }
     this.cache = cache;
+    this.userConfig = userConfig;
   }
   
   /**
@@ -282,9 +300,9 @@ public class JLanguageTool {
     return ResourceBundleTools.getMessageBundle(lang);
   }
   
-  private List<Rule> getAllBuiltinRules(Language language, ResourceBundle messages) {
+  private List<Rule> getAllBuiltinRules(Language language, ResourceBundle messages, UserConfig userConfig) {
     try {
-      return language.getRelevantRules(messages);
+      return language.getRelevantRules(messages, userConfig);
     } catch (IOException e) {
       throw new RuntimeException("Could not get rules of language " + language, e);
     }
@@ -1078,7 +1096,7 @@ public class JLanguageTool {
           if (cache != null) {
             cacheKey = new InputSentence(analyzedSentence.getText(), language, motherTongue,
                     disabledRules, disabledRuleCategories,
-                    enabledRules, enabledRuleCategories);
+                    enabledRules, enabledRuleCategories, userConfig);
             sentenceMatches = cache.getIfPresent(cacheKey);
           }
           if (sentenceMatches == null) {

@@ -43,7 +43,7 @@ public class MorfologikGermanyGermanSpellerRuleTest {
   @Test
   public void testMorfologikSpeller() throws IOException {
     MorfologikGermanyGermanSpellerRule rule =
-          new MorfologikGermanyGermanSpellerRule(TestTools.getMessages("en"), new German());
+          new MorfologikGermanyGermanSpellerRule(TestTools.getMessages("en"), new German(), null);
     JLanguageTool lt = new JLanguageTool(new German());
 
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Hier stimmt jedes Wort!")).length);

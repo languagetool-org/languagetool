@@ -28,6 +28,14 @@
 #### Ukrainian
   * added and improved rules
 
+#### HTTP API / LT server
+  * BETA: New optional configuration settings `dbDriver`, `dbUrl`, `dbUsername`,
+    `dbPassword` to allow user-specific dictionaries
+    
+#### Java API
+  * The parameters of the `*SpellerRule` classes (e.g. `MorfologikRussianSpellerRule`)
+    have changed
+
 
 
 ## 4.1 (2018-03-27)

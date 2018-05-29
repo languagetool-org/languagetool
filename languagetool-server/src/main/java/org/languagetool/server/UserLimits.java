@@ -59,8 +59,11 @@ class UserLimits {
     return new UserLimits(config.maxTextLength, config.maxCheckTimeMillis, null);
   }
   
-  static UserLimits getLimitsFromToken(HTTPServerConfig config, String token) {
-    Objects.requireNonNull(token);
+  /**
+   * Get limits from the JWT key itself, no database access needed.
+   */
+  static UserLimits getLimitsFromToken(HTTPServerConfig config, String jwtToken) {
+    Objects.requireNonNull(jwtToken);
     try {
       String secretKey = config.getSecretTokenKey();
       if (secretKey == null) {
@@ -69,10 +72,10 @@ class UserLimits {
       Algorithm algorithm = Algorithm.HMAC256(secretKey);
       DecodedJWT decodedToken;
       try {
-        JWT.require(algorithm).build().verify(token);
-        decodedToken = JWT.decode(token);
+        JWT.require(algorithm).build().verify(jwtToken);
+        decodedToken = JWT.decode(jwtToken);
       } catch (JWTDecodeException e) {
-        throw new AuthException("Could not decode token '" + token + "'", e);
+        throw new AuthException("Could not decode token '" + jwtToken + "'", e);
       }
       Claim maxTextLengthClaim = decodedToken.getClaim("maxTextLength");
       Claim premiumClaim = decodedToken.getClaim("premium");
@@ -86,6 +89,16 @@ class UserLimits {
     } catch (UnsupportedEncodingException e) {
       throw new RuntimeException(e);
     }
+  }
+
+  /**
+   * Get limits from the api key itself, database access is needed.
+   */
+  public static UserLimits getLimitsByApiKey(HTTPServerConfig config, String username, String apikey) {
+    DatabaseAccess db = DatabaseAccess.getInstance();
+    Long id = db.getUserId(username, apikey);
+    // TODO: should database actually have customer-specific limits?
+    return new UserLimits(config.maxTextLength, config.maxCheckTimeMillis, id);
   }
 
   /**
@@ -154,10 +167,10 @@ class UserLimits {
 
   @Override
   public String toString() {
-    return "maxTextLength=" + maxTextLength +
+    return "premiumUid=" + premiumUid + ", maxTextLength=" + maxTextLength +
             ", maxCheckTimeMillis=" + maxCheckTimeMillis;
   }
-  
+
   static class Account {
 
     private String username;

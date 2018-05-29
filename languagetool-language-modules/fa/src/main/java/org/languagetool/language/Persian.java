@@ -19,6 +19,7 @@
 package org.languagetool.language;
 
 import org.languagetool.Language;
+import org.languagetool.UserConfig;
 import org.languagetool.rules.*;
 import org.languagetool.rules.fa.*;
 import org.languagetool.tokenizers.PersianWordTokenizer;
@@ -81,7 +82,7 @@ public class Persian extends Language {
   }
 
   @Override
-  public List<Rule> getRelevantRules(ResourceBundle messages) throws IOException {
+  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig) throws IOException {
     return Arrays.asList(
         new CommaWhitespaceRule(messages),
         new DoublePunctuationRule(messages),

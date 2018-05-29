@@ -34,7 +34,7 @@ public class MorfologikUkrainianSpellerRuleTest {
 
   @Test
   public void testMorfologikSpeller() throws IOException {
-    MorfologikUkrainianSpellerRule rule = new MorfologikUkrainianSpellerRule (TestTools.getMessages("uk"), new Ukrainian());
+    MorfologikUkrainianSpellerRule rule = new MorfologikUkrainianSpellerRule (TestTools.getMessages("uk"), new Ukrainian(), null);
 
     JLanguageTool langTool = new JLanguageTool(new Ukrainian());
 
@@ -134,7 +134,7 @@ public class MorfologikUkrainianSpellerRuleTest {
 
   @Test
   public void testProhibitedSuggestions() throws IOException {
-    MorfologikUkrainianSpellerRule rule = new MorfologikUkrainianSpellerRule (TestTools.getMessages("uk"), new Ukrainian());
+    MorfologikUkrainianSpellerRule rule = new MorfologikUkrainianSpellerRule (TestTools.getMessages("uk"), new Ukrainian(), null);
     JLanguageTool langTool = new JLanguageTool(new Ukrainian());
     
     RuleMatch[] match = rule.match(langTool.getAnalyzedSentence("онлайннавчання"));

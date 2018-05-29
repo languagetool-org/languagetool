@@ -118,7 +118,7 @@ class LanguageToolHttpHandler implements HttpHandler {
         if (requestedUri.getRawPath().startsWith("/v2/")) {
           ApiV2 apiV2 = new ApiV2(textCheckerV2, config.getAllowOriginUrl());
           String pathWithoutVersion = requestedUri.getRawPath().substring("/v2/".length());
-          apiV2.handleRequest(pathWithoutVersion, httpExchange, parameters, errorRequestLimiter, remoteAddress);
+          apiV2.handleRequest(pathWithoutVersion, httpExchange, parameters, errorRequestLimiter, remoteAddress, config);
         } else if (requestedUri.getRawPath().endsWith("/Languages")) {
           throw new IllegalArgumentException("You're using an old version of our API that's not supported anymore. Please see https://languagetool.org/http-api/migration.php");
         } else if (requestedUri.getRawPath().equals("/")) {

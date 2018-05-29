@@ -21,6 +21,7 @@ package org.languagetool.rules.pl;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
+import org.languagetool.UserConfig;
 import org.languagetool.rules.*;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
 
@@ -85,8 +86,8 @@ public final class MorfologikPolishSpellerRule extends MorfologikSpellerRule {
     }
 
   public MorfologikPolishSpellerRule(ResourceBundle messages,
-                                     Language language) throws IOException {
-    super(messages, language);
+                                     Language language, UserConfig userConfig) throws IOException {
+    super(messages, language, userConfig);
     setCategory(Categories.TYPOS.getCategory(messages));
     addExamplePair(Example.wrong("To jest zdanie z <marker>bledem</marker>"),
                    Example.fixed("To jest zdanie z <marker>błędem</marker>."));

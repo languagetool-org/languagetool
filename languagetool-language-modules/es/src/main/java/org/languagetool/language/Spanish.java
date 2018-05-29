@@ -20,6 +20,7 @@ package org.languagetool.language;
 
 import org.languagetool.Language;
 import org.languagetool.LanguageMaintainedState;
+import org.languagetool.UserConfig;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.languagemodel.LuceneLanguageModel;
 import org.languagetool.rules.*;
@@ -117,14 +118,14 @@ public class Spanish extends Language implements AutoCloseable{
   }
 
   @Override
-  public List<Rule> getRelevantRules(ResourceBundle messages) throws IOException {
+  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig) throws IOException {
     return Arrays.asList(
             new CommaWhitespaceRule(messages),
             new DoublePunctuationRule(messages),
             new GenericUnpairedBracketsRule(messages,
                     Arrays.asList("[", "(", "{", "“", "«", "»", "¿", "¡"),
                     Arrays.asList("]", ")", "}", "”", "»", "«", "?", "!")),
-            new MorfologikSpanishSpellerRule(messages, this),
+            new MorfologikSpanishSpellerRule(messages, this, userConfig),
             new UppercaseSentenceStartRule(messages, this),
             new WordRepeatRule(messages, this),
             new MultipleWhitespaceRule(messages, this),

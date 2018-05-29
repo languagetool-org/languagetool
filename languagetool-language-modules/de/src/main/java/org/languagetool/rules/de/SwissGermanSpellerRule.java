@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules.de;
 
+import org.languagetool.UserConfig;
 import org.languagetool.language.German;
 import org.languagetool.rules.spelling.CachingWordListLoader;
 
@@ -32,7 +33,14 @@ public class SwissGermanSpellerRule extends GermanSpellerRule {
   private final CachingWordListLoader wordListLoader = new CachingWordListLoader();
   
   public SwissGermanSpellerRule(ResourceBundle messages, German language) {
-    super(messages, language);
+    this(messages, language, null);
+  }
+
+  /**
+   * @since 4.2
+   */
+  public SwissGermanSpellerRule(ResourceBundle messages, German language, UserConfig userConfig) {
+    super(messages, language, userConfig);
   }
 
   @Override

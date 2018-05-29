@@ -33,7 +33,7 @@ public class MorfologikAsturianSpellerRuleTest {
   @Test
   public void testMorfologikSpeller() throws IOException {
     Asturian language = new Asturian();
-    MorfologikAsturianSpellerRule rule = new MorfologikAsturianSpellerRule(TestTools.getMessages("en"), language);
+    MorfologikAsturianSpellerRule rule = new MorfologikAsturianSpellerRule(TestTools.getMessages("en"), language, null);
     JLanguageTool langTool = new JLanguageTool(language);
 
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("¿Festeyate colos correutores gramaticales?")).length);

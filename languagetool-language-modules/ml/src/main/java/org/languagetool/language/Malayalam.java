@@ -19,6 +19,7 @@
 package org.languagetool.language;
 
 import org.languagetool.Language;
+import org.languagetool.UserConfig;
 import org.languagetool.rules.*;
 import org.languagetool.rules.ml.MorfologikMalayalamSpellerRule;
 import org.languagetool.tagging.Tagger;
@@ -88,12 +89,12 @@ public class Malayalam extends Language {
   }
 
   @Override
-  public List<Rule> getRelevantRules(ResourceBundle messages) throws IOException {
+  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig) throws IOException {
     return Arrays.asList(
             new CommaWhitespaceRule(messages),
             new DoublePunctuationRule(messages),
             new GenericUnpairedBracketsRule(messages),
-            new MorfologikMalayalamSpellerRule(messages, this),
+            new MorfologikMalayalamSpellerRule(messages, this, null),
             new UppercaseSentenceStartRule(messages, this),
             new WordRepeatRule(messages, this),
             new MultipleWhitespaceRule(messages, this)

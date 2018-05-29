@@ -25,6 +25,7 @@ import java.util.ResourceBundle;
 
 import org.languagetool.Language;
 import org.languagetool.LanguageMaintainedState;
+import org.languagetool.UserConfig;
 import org.languagetool.rules.*;
 import org.languagetool.rules.el.MorfologikGreekSpellerRule;
 import org.languagetool.rules.el.NumeralStressRule;
@@ -73,7 +74,7 @@ public class Greek extends Language {
   }
 
   @Override
-  public List<Rule> getRelevantRules(ResourceBundle messages) throws IOException {
+  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig) throws IOException {
     return Arrays.asList(
             new CommaWhitespaceRule(messages, 
                     Example.wrong("Το κόμμα χωρίζει προτάσεις<marker> ,</marker> όρους προτάσεων και φράσεις."),
@@ -83,7 +84,7 @@ public class Greek extends Language {
                     Arrays.asList("[", "(", "{", "“", "\"", "«"),
                     Arrays.asList("]", ")", "}", "”", "\"", "»")),
             new LongSentenceRule(messages),
-            new MorfologikGreekSpellerRule(messages, this),
+            new MorfologikGreekSpellerRule(messages, this, null),
             new UppercaseSentenceStartRule(messages, this,
                     Example.wrong("Η τελεία είναι σημείο στίξης. <marker>δείχνει</marker> το τέλος μίας πρότασης."),
                     Example.fixed("Η τελεία είναι σημείο στίξης. <marker>Δείχνει</marker> το τέλος μίας πρότασης.")),

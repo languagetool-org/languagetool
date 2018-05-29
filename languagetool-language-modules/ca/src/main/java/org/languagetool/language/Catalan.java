@@ -25,6 +25,7 @@ import java.util.ResourceBundle;
 
 import org.languagetool.Language;
 import org.languagetool.LanguageMaintainedState;
+import org.languagetool.UserConfig;
 import org.languagetool.rules.*;
 import org.languagetool.rules.ca.AccentuationCheckRule;
 import org.languagetool.rules.ca.CatalanUnpairedBracketsRule;
@@ -87,7 +88,7 @@ public class Catalan extends Language {
   }
 
   @Override
-  public List<Rule> getRelevantRules(ResourceBundle messages) throws IOException {
+  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig) throws IOException {
     return Arrays.asList(
             new CommaWhitespaceRule(messages, 
             		Example.wrong("A parer seu<marker> ,</marker> no era veritat."),
@@ -101,7 +102,7 @@ public class Catalan extends Language {
             new LongSentenceRule(messages),
             // specific to Catalan:
             new CatalanWordRepeatRule(messages, this),
-            new MorfologikCatalanSpellerRule(messages, this),
+            new MorfologikCatalanSpellerRule(messages, this, userConfig),
             new CatalanUnpairedQuestionMarksRule(messages, this),
             new CatalanUnpairedExclamationMarksRule(messages, this),
             new AccentuationCheckRule(messages),

@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import org.languagetool.Language;
+import org.languagetool.UserConfig;
 import org.languagetool.language.rules.ast.MorfologikAsturianSpellerRule;
 import org.languagetool.rules.*;
 import org.languagetool.tagging.Tagger;
@@ -61,12 +62,12 @@ public class Asturian extends Language {
   }
 
   @Override
-  public List<Rule> getRelevantRules(ResourceBundle messages) throws IOException {
+  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig) throws IOException {
     return Arrays.asList(
             new CommaWhitespaceRule(messages),
             new DoublePunctuationRule(messages),
             new GenericUnpairedBracketsRule(messages),
-            new MorfologikAsturianSpellerRule(messages, this),
+            new MorfologikAsturianSpellerRule(messages, this, userConfig),
             new UppercaseSentenceStartRule(messages, this),
             new MultipleWhitespaceRule(messages, this)
     );

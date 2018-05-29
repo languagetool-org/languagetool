@@ -21,6 +21,7 @@ package org.languagetool.language;
 import org.jetbrains.annotations.NotNull;
 import org.languagetool.Language;
 import org.languagetool.LanguageMaintainedState;
+import org.languagetool.UserConfig;
 import org.languagetool.chunking.Chunker;
 import org.languagetool.chunking.GermanChunker;
 import org.languagetool.languagemodel.LanguageModel;
@@ -155,7 +156,7 @@ public class German extends Language implements AutoCloseable {
   }
 
   @Override
-  public List<Rule> getRelevantRules(ResourceBundle messages) throws IOException {
+  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig) throws IOException {
     return Arrays.asList(
             new CommaWhitespaceRule(messages,
                     Example.wrong("Die Partei<marker> ,</marker> die die letzte Wahl gewann."),

@@ -19,6 +19,7 @@
 package org.languagetool.language;
 
 import org.languagetool.Language;
+import org.languagetool.UserConfig;
 import org.languagetool.language.tagging.TamilTagger;
 import org.languagetool.rules.*;
 import org.languagetool.tagging.Tagger;
@@ -71,7 +72,7 @@ public class Tamil extends Language {
   }
 
   @Override
-  public List<Rule> getRelevantRules(ResourceBundle messages) {
+  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig) {
     return Arrays.asList(
         new CommaWhitespaceRule(messages),
         new DoublePunctuationRule(messages),

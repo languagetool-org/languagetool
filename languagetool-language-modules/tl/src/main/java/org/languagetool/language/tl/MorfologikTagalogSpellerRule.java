@@ -19,6 +19,7 @@
 package org.languagetool.language.tl;
 
 import org.languagetool.Language;
+import org.languagetool.UserConfig;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
 
 import java.io.IOException;
@@ -29,8 +30,8 @@ import java.util.ResourceBundle;
  */
 public class MorfologikTagalogSpellerRule extends MorfologikSpellerRule {
 
-  public MorfologikTagalogSpellerRule(ResourceBundle messages, Language language) throws IOException {
-    super(messages, language);
+  public MorfologikTagalogSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig) throws IOException {
+    super(messages, language, userConfig);
   }
 
   @Override
