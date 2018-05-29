@@ -220,6 +220,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="jemandem">Weil er <marker>jemanden</marker> Fahrräder verlieh, brauchte er einen Gewerbeschein.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="IM_UM" name="im (um)">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token>im</token>
+                    </marker>
+                    <token regexp="yes">(&meindein;|k?ein|d(ies)?)e[mrs]?</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>um</suggestion>?</message>
+                <example correction="um">Es handelt sich <marker>im</marker> eine gute Idee.</example>
+            </rule>
+        </rulegroup>
         <rule id="DES_ES" name="des (es)">
             <pattern>
                 <token postag="VER:.+" postag_regexp="yes"></token>
@@ -321,7 +333,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="WO_BIS" name="Wo bis (bist) du?">
             <rule>
                 <pattern>
-                    <token regexp="yes">wo(durch|her|mit|raus|von)?</token>
+                    <token regexp="yes">wo(durch|her|mit|raus|von|zu)?</token>
                     <marker>
                         <token>bis</token>
                     </marker>
@@ -332,7 +344,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">wo(her)?</token>
+                    <token regexp="yes">wo(her|raus)?</token>
                     <token>du</token>
                     <marker>
                         <token>bis</token>
@@ -579,7 +591,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">[dms]einem|ihrem|unserem|eurem</token>
+                    <token regexp="yes">[dms]einem|ihrem|unserem|eurem|dem</token>
                     <token>Schicksal</token>
                     <marker>
                         <token regexp="yes">überl(asen|ies)</token>
@@ -603,7 +615,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token>die</token>
                     <token>Entscheidung</token>
                     <marker>
                         <token regexp="yes">überl(asen|ies)</token>
@@ -615,7 +626,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token>das</token>
                     <token>Feld</token>
                     <marker>
                         <token regexp="yes">überl(asen|ies)</token>
@@ -627,7 +637,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token>dem</token>
                     <token>Zufall</token>
                     <marker>
                         <token regexp="yes">überl(asen|ies)</token>
@@ -639,7 +648,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token>zur</token>
                     <token>Nutzung</token>
                     <marker>
                         <token regexp="yes">überl(asen|ies)</token>
@@ -897,7 +905,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Möglicher Tippfehler</short>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token skip="1" regexp="yes">Aktion(en)?|Befehle?n?|Anwendung(en)?</token>
+                    <token skip="1" regexp="yes" inflected="yes">Aktion|Befehl|Anwendung</token>
                     <marker>
                         <token inflected="yes">aufführen</token>
                     </marker>
@@ -910,7 +918,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token skip="2">Aufführen</token>
                     </marker>
-                    <token regexp="yes">Aktion(en)?|Befehle?n?|Anwendung(en)?</token>
+                    <token regexp="yes" inflected="yes">Aktion|Befehl|Anwendung</token>
                 </pattern>
                 <message>Meinten Sie <suggestion><match case_conversion="startupper" no="1" regexp_match="Auf" regexp_replace="Aus"/></suggestion>?</message>
                 <example correction="Ausführen">Das <marker>Aufführen</marker> großer Anwendungen benötigt viel Arbeitsspeicher.</example>
