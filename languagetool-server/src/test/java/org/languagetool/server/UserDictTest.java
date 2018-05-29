@@ -56,8 +56,7 @@ public class UserDictTest {
         runTests(enUS, "This is Mysurname.", "This is Mxsurname.", "Mysurname", "MORFOLOGIK_RULE_EN_US");
         runTests(enUS, "Mysurname is my name.", "Mxsurname is my name.", "Mysurname", "MORFOLOGIK_RULE_EN_US");
         Language deDE = Languages.getLanguageForShortCode("de-DE");
-        //TODO: issue with '.'???
-        //runTests(deDE, "Das ist Meinname.", "Das ist Mxinname.", "Meinname", "GERMAN_SPELLER_RULE");
+        runTests(deDE, "Das ist Meinname.", "Das ist Mxinname.", "Meinname", "GERMAN_SPELLER_RULE");
         runTests(deDE, "Meinname steht hier.", "Mxinname steht hier.", "Meinname", "GERMAN_SPELLER_RULE");
         try {
           addWord("multi word", USERNAME1, API_KEY1);
@@ -81,7 +80,7 @@ public class UserDictTest {
     assertRuleMatch(1, input, lang, errorRuleId, null, null);  // anonymous user
     assertRuleMatch(0, input, lang, errorRuleId, USERNAME1, API_KEY1);
     String json = assertRuleMatch(1, inputWithTypo, lang, errorRuleId, USERNAME1, API_KEY1);
-    assertTrue("Missing suggestion '" + name + "': " + json, json.contains("\"" + name + "\""));
+    assertTrue("Missing suggestion '" + name + "': " + json, json.contains("\"" + name + "\"") || json.contains("\"" + name + ".\""));
     deleteWord(name, USERNAME1, API_KEY1);
     assertRuleMatch(1, input, lang, errorRuleId, USERNAME1, API_KEY1);
     assertRuleMatch(1, input, lang, errorRuleId, USERNAME2, API_KEY2);
