@@ -39,6 +39,9 @@ final class HTTPTools {
   private HTTPTools() {
   }
 
+  /**
+   * Get default port, but considering property {@code lt.default.port}.
+   */
   public static int getDefaultPort() {
     String defaultPort = System.getProperty("lt.default.port");
     return defaultPort != null ? Integer.parseInt(defaultPort) : HTTPServerConfig.DEFAULT_PORT;
