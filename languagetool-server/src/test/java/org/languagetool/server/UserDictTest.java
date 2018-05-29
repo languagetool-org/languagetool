@@ -58,9 +58,10 @@ public class UserDictTest {
         Language deDE = Languages.getLanguageForShortCode("de-DE");
         runTests(deDE, "Das ist Meinname.", "Das ist Mxinname.", "Meinname", "GERMAN_SPELLER_RULE");
         runTests(deDE, "Meinname steht hier.", "Mxinname steht hier.", "Meinname", "GERMAN_SPELLER_RULE");
+        runTests(deDE, "Hier steht Schöckl.", "Das ist Schückl.", "Schöckl", "GERMAN_SPELLER_RULE");
         try {
           addWord("multi word", USERNAME1, API_KEY1);
-          fail("Should not be able to insert muti words");
+          fail("Should not be able to insert multi words");
         } catch (IOException ignore) {}
       } finally {
         server.stop();
