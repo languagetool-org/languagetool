@@ -22,6 +22,9 @@
   * `prohibit.txt`: lines ending with ".*" will prohibit all words starting with
     the previous string
 
+#### Greek
+  * added rules
+
 #### Portuguese
   * added and improved rules
 
