@@ -55,7 +55,6 @@ public class RuleMatchesAsJsonSerializer {
    *        a 'warnings' section will be added to the JSON. Use {@code null} if results are complete.
    * @since 3.7
    */
-  @Experimental
   public String ruleMatchesToJson(List<RuleMatch> matches, List<RuleMatch> hiddenMatches, String text, int contextSize,
                                   Language lang, String incompleteResultsReason) {
     ContextTools contextTools = new ContextTools();

@@ -187,7 +187,6 @@ public class JLanguageTool {
    *              e.g. when LT is running as a server and texts are re-checked due to changes
    * @since 3.7
    */
-  @Experimental
   public JLanguageTool(Language language, Language motherTongue, ResultCache cache) {
     this(language, motherTongue, cache, null);
   }
@@ -544,7 +543,6 @@ public class JLanguageTool {
    * @return a List of {@link RuleMatch} objects
    * @since 3.7
    */
-  @Experimental
   public List<RuleMatch> check(String text, RuleMatchListener listener) throws IOException {
     return check(text, true, ParagraphHandling.NORMAL, listener);
   }
@@ -556,7 +554,6 @@ public class JLanguageTool {
   /**
    * @since 3.7
    */
-  @Experimental
   public List<RuleMatch> check(String text, boolean tokenizeText, ParagraphHandling paraMode, RuleMatchListener listener) throws IOException {
     return check(new AnnotatedTextBuilder().addText(text).build(), tokenizeText, paraMode, listener);
   }
@@ -574,7 +571,6 @@ public class JLanguageTool {
   /**
    * @since 3.9
    */
-  @Experimental
   public List<RuleMatch> check(AnnotatedText text, RuleMatchListener listener) throws IOException {
     return check(text, true, ParagraphHandling.NORMAL, listener);
   }
@@ -601,7 +597,6 @@ public class JLanguageTool {
    * sentences against all currently active rules.
    * @since 3.7
    */
-  @Experimental
   public List<RuleMatch> check(AnnotatedText annotatedText, boolean tokenizeText, ParagraphHandling paraMode, RuleMatchListener listener) throws IOException {
     List<String> sentences;
     if (tokenizeText) { 
@@ -670,7 +665,6 @@ public class JLanguageTool {
   /**
    * @since 3.7
    */
-  @Experimental
   protected List<RuleMatch> performCheck(List<AnalyzedSentence> analyzedSentences, List<String> sentences,
                                          List<Rule> allRules, ParagraphHandling paraMode, AnnotatedText annotatedText, RuleMatchListener listener) throws IOException {
     Callable<List<RuleMatch>> matcher = new TextCheckCallable(allRules, sentences, analyzedSentences, paraMode, annotatedText, 0, 0, 1, listener);

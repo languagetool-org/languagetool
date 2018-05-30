@@ -37,14 +37,12 @@ class GoogleToken {
   final String token;
   final int startPos;
   final int endPos;
-  @Experimental
   final Set<AnalyzedToken> posTags;
 
   GoogleToken(String token, int startPos, int endPos) {
     this(token, startPos, endPos, Collections.emptySet());
   }
 
-  @Experimental
   GoogleToken(String token, int startPos, int endPos, Set<AnalyzedToken> posTags) {
     this.token = "’".equals(token) ? "'" : token;  // Google seems to have indexed the apostrophe always like this
     this.startPos = startPos;
@@ -52,7 +50,6 @@ class GoogleToken {
     this.posTags = posTags;
   }
 
-  @Experimental
   Set<AnalyzedToken> getPosTags() {
     return posTags;
   }
@@ -86,7 +83,6 @@ class GoogleToken {
 
   // Tokenization in google ngram corpus is different from LT tokenization (e.g. {@code you ' re} -> {@code you 're}),
   // so we use getTokenizer() and simple ignore the LT tokens. Also adds POS tags from original sentence if trivially possible.
-  @Experimental
   static List<GoogleToken> getGoogleTokens(AnalyzedSentence sentence, boolean addStartToken, Tokenizer wordTokenizer) {
     List<GoogleToken> result = new ArrayList<>();
     if (addStartToken) {

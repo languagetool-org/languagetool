@@ -27,7 +27,6 @@ import java.util.Set;
  * For internal use only. Used as a key for caching check results.
  * @since 3.7
  */
-@Experimental
 class InputSentence {
 
   private final String text;

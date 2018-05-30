@@ -24,7 +24,6 @@ import java.util.Objects;
  * For internal use only. Used as a key for caching analysis results.
  * @since 3.7
  */
-@Experimental
 class SimpleInputSentence {
 
   private final String text;
