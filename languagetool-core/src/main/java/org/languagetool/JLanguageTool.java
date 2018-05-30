@@ -173,7 +173,7 @@ public class JLanguageTool {
    * @param language the language of the text to be checked
    */
   public JLanguageTool(Language language) {
-    this(language, null, null);
+    this(language, null, null, null);
   }
 
   /**
@@ -192,6 +192,21 @@ public class JLanguageTool {
     this(language, motherTongue, cache, null);
   }
 
+  /**
+   * Create a JLanguageTool and setup the built-in rules for the
+   * given language and false friend rules for the text language / mother tongue pair.
+   * 
+   * @param language the language of the text to be checked
+   * @param cache a cache to speed up checking if the same sentences get checked more than once,
+   *              e.g. when LT is running as a server and texts are re-checked due to changes. Use
+   *              {@code null} to deactivate the cache.
+   * @since 4.2
+   */
+  @Experimental
+  public JLanguageTool(Language language, ResultCache cache, UserConfig userConfig) {
+    this(language, null, cache, userConfig);
+  }
+  
   /**
    * Create a JLanguageTool and setup the built-in rules for the
    * given language and false friend rules for the text language / mother tongue pair.
