@@ -39,7 +39,7 @@ public class UserDictTest {
   
   @Test
   public void testHTTPServer() throws Exception {
-    HTTPServerConfig config = new HTTPServerConfig();
+    HTTPServerConfig config = new HTTPServerConfig(HTTPTools.getDefaultPort());
     config.setDatabaseDriver("org.hsqldb.jdbcDriver");
     config.setDatabaseUrl("jdbc:hsqldb:mem:testdb");
     config.setDatabaseUsername("");

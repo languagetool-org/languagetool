@@ -42,7 +42,7 @@ public class LargeUserDictTest {
   @Test
   @Ignore("requires real database and modifies it")
   public void testHTTPServer() throws Exception {
-    HTTPServerConfig config = new HTTPServerConfig();
+    HTTPServerConfig config = new HTTPServerConfig(HTTPTools.getDefaultPort());
     config.setDatabaseDriver("org.mariadb.jdbc.Driver");
     config.setDatabaseUrl("jdbc:mysql://localhost:3306/languagetoolpremium");
     config.setDatabaseUsername("root");
