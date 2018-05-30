@@ -2960,7 +2960,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="GDE_COMMA" name="Запятая перед союзом «где»">
             <pattern>
                 <marker>
-                    <token negate="yes">,</token>
+                    <token negate="yes">,<exception postag="SENT_START"/><exception postag="PARTICLE"/></token>
                     <token skip="1">где</token>
                 </marker>
                 <or>
@@ -2972,6 +2972,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Пропущена запятая.</short>
             <example correction="изображений, где">Одно из тех <marker>изображений где</marker> глаза специально нарисованы.</example>
             <example>Одно из тех изображений, где глаза специально нарисованы.</example>
+            <example>Где это?</example>
+            <example>А где мой чай?</example>
         </rule>
         <rulegroup id="da_and_da" name="Союзы «да» + «да»">
             <rule>  <!--  да=и   -->
