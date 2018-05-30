@@ -112,12 +112,12 @@ public class UserDictTest {
 
   private String addWord(String word, String username, String apiKey) throws IOException {
     URL url = new URL("http://localhost:" + HTTPTools.getDefaultPort() + "/v2/words/add");
-    return HTTPTools.checkAtUrlByPost(url, "word=" + word + "&username=" + username + "&apikey=" + apiKey);  // needs access to https://languagetoolplus.com/token
+    return HTTPTools.checkAtUrlByPost(url, "word=" + word + "&username=" + username + "&apikey=" + apiKey);
   }  
   
   private void deleteWord(String word, String username, String apiKey) throws IOException {
     URL url = new URL("http://localhost:" + HTTPTools.getDefaultPort() + "/v2/words/delete");
-    HTTPTools.checkAtUrlByPost(url, "word=" + word + "&username=" + username + "&apikey=" + apiKey);  // needs access to https://languagetoolplus.com/token
+    HTTPTools.checkAtUrlByPost(url, "word=" + word + "&username=" + username + "&apikey=" + apiKey);
   }
   
 }
