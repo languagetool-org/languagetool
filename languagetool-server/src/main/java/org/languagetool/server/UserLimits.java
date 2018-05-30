@@ -97,8 +97,7 @@ class UserLimits {
   public static UserLimits getLimitsByApiKey(HTTPServerConfig config, String username, String apikey) {
     DatabaseAccess db = DatabaseAccess.getInstance();
     Long id = db.getUserId(username, apikey);
-    // TODO: should database actually have customer-specific limits?
-    return new UserLimits(config.maxTextLength, config.maxCheckTimeMillis, id);
+    return new UserLimits(config.maxTextLengthWithApiKey, config.maxCheckTimeWithApiKeyMillis, id);
   }
 
   /**

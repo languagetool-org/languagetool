@@ -52,8 +52,10 @@ public class HTTPServerConfig {
   protected String allowOriginUrl = null;
   protected int maxTextLength = Integer.MAX_VALUE;
   protected int maxTextHardLength = Integer.MAX_VALUE;
+  protected int maxTextLengthWithApiKey = Integer.MAX_VALUE;
   protected String secretTokenKey = null;
   protected long maxCheckTimeMillis = -1;
+  protected long maxCheckTimeWithApiKeyMillis = -1;
   protected int maxCheckThreads = 10;
   protected Mode mode;
   protected File languageModelDir = null;
@@ -156,9 +158,11 @@ public class HTTPServerConfig {
       try (FileInputStream fis = new FileInputStream(file)) {
         props.load(fis);
         maxTextLength = Integer.parseInt(getOptionalProperty(props, "maxTextLength", Integer.toString(Integer.MAX_VALUE)));
+        maxTextLengthWithApiKey = Integer.parseInt(getOptionalProperty(props, "maxTextLengthWithApiKey", Integer.toString(Integer.MAX_VALUE)));
         maxTextHardLength = Integer.parseInt(getOptionalProperty(props, "maxTextHardLength", Integer.toString(Integer.MAX_VALUE)));
         secretTokenKey = getOptionalProperty(props, "secretTokenKey", null);
         maxCheckTimeMillis = Long.parseLong(getOptionalProperty(props, "maxCheckTimeMillis", "-1"));
+        maxCheckTimeWithApiKeyMillis = Long.parseLong(getOptionalProperty(props, "maxCheckTimeWithApiKeyMillis", "-1"));
         requestLimit = Integer.parseInt(getOptionalProperty(props, "requestLimit", "0"));
         requestLimitInBytes = Integer.parseInt(getOptionalProperty(props, "requestLimitInBytes", "0"));
         timeoutRequestLimit = Integer.parseInt(getOptionalProperty(props, "timeoutRequestLimit", "0"));
@@ -291,6 +295,15 @@ public class HTTPServerConfig {
   }
 
   /**
+   * Maximum text length for users that can identify themselves with an API key.
+   * @since 4.2
+   */
+  @Experimental
+  int getMaxTextLengthWithApiKey() {
+    return maxTextLengthWithApiKey;
+  }
+
+  /**
    * Limit for maximum text length - text cannot be longer than this, even if user has valid secret token.
    * @since 3.9
    */
@@ -344,6 +357,12 @@ public class HTTPServerConfig {
   /** @since 2.6 */
   long getMaxCheckTimeMillis() {
     return maxCheckTimeMillis;
+  }
+
+  /** @since 4.2 */
+  @Experimental
+  long getMaxCheckTimeWithApiKeyMillis() {
+    return maxCheckTimeWithApiKeyMillis;
   }
 
   /**
