@@ -23372,17 +23372,6 @@ Andere Projekte</example>
                 <example>Von wegen!</example>
                 <example>Urteil wegen Wiederbetätigung</example>
             </rule>
-            <rule>
-                <pattern>
-                    <token>auf</token>
-                    <marker><token regexp="yes">(halb|gütlich|friedlich)e[nrs]?</token></marker>
-                    <token>Weg</token>
-                </pattern>
-                <message>Meinten Sie die Wendung 'auf <suggestion><match no="2" postag="ADJ:DAT:SIN:MAS:GRU:SOL"/></suggestion> Weg'?</message>
-                <example correction="halbem">Treffen wir uns auf <marker>halben</marker> Weg.</example>
-                <example correction="gütlichem">Einigen wir uns auf <marker>gütliche</marker> Weg.</example>
-                <example correction="friedlichem">Schlichten wir den Streit auf <marker>friedlicher</marker> Weg.</example>
-            </rule>
         </rulegroup>
         <rulegroup id="AUF_SCHRITT_UND_TRITT" name="'auf Schritt und Tritt'">
             <rule>
@@ -27305,7 +27294,7 @@ Andere Projekte</example>
                 <short>&prgk;.</short>
                 <example>Ich habe eine <marker>Frage</marker> dazu.</example>
                 <example>Ich habe keine <marker>Frage</marker> dazu.</example>
-                <example correction="Fragen">Ich habe eine <marker>frage</marker> dazu.</example>
+                <example correction="Frage">Ich habe eine <marker>frage</marker> dazu.</example>
                 <example correction="Fragen">Ich habe keine <marker>fragen</marker> dazu.</example>
             </rule>
             <rule>
@@ -28021,7 +28010,7 @@ Andere Projekte</example>
                 </pattern>
                 <message>&subanfang;<suggestion>Allgemeinen</suggestion>&subende;</message>
                 <short>&prgk;.</short>
-                <example correction="Allgemeinen">Daneben stellen Geschwister im <marker>allgemeine</marker> auch ein „Problem“ dar.</example>
+                <example correction="Allgemeinen">Daneben stellen Geschwister im <marker>allgemeinen</marker> auch ein „Problem“ dar.</example>
                 <example correction="Allgemeinen">Im <marker>allgemeinen</marker> stimme ich dir zu.</example>
                 <example>Im <marker>allgemeinen</marker> europäischen Sprachgebrauch ist das anders.</example>
                 <example>Im <marker>allgemeinen</marker> Sprachgebrauch ist das anders.</example>
@@ -28762,6 +28751,17 @@ Andere Projekte</example>
             <example correction="">Wo <marker>sind Eigenleistung</marker> am besten möglich?</example>
         </rule>
         -->
+        <rule>
+            <pattern>
+                <token>auf</token>
+                <marker><token regexp="yes">(halb|gütlich|friedlich)e[nrs]?</token></marker>
+                <token>Weg</token>
+            </pattern>
+            <message>Meinten Sie die Wendung 'auf <suggestion><match no="2" postag="ADJ:DAT:SIN:MAS:GRU:SOL"/></suggestion> Weg'?</message>
+            <example correction="halbem">Treffen wir uns auf <marker>halben</marker> Weg.</example>
+            <example correction="gütlichem">Einigen wir uns auf <marker>gütliche</marker> Weg.</example>
+            <example correction="friedlichem">Schlichten wir den Streit auf <marker>friedlicher</marker> Weg.</example>
+        </rule>
         <rulegroup id="ANS_ARTIKEL" name="ans/fürs/... + Artikel">
             <rule>
                 <pattern>
