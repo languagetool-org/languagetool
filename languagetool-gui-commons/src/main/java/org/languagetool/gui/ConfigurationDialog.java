@@ -274,6 +274,8 @@ public class ConfigurationDialog implements ActionListener {
     cons.fill = GridBagConstraints.HORIZONTAL;
     cons.anchor = GridBagConstraints.WEST;
     for(JPanel extra : extraPanels) {
+      //in case it wasn't in a containment hierarchy when user changed L&F
+      SwingUtilities.updateComponentTreeUI(extra);
       cons.gridy++;
       jPane.add(extra, cons);
     }
