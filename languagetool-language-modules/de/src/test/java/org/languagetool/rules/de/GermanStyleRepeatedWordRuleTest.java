@@ -19,6 +19,7 @@
 package org.languagetool.rules.de;
 
 import org.junit.Test;
+import org.languagetool.ConfigValues;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.German;
@@ -46,7 +47,8 @@ public class GermanStyleRepeatedWordRuleTest {
     for (Rule rule : lt.getAllRules()) {
       lt.disableRule(rule.getId());
     }
-    GermanStyleRepeatedWordRule rule = new GermanStyleRepeatedWordRule(TestTools.getMessages(new German().getShortCode()));
+    GermanStyleRepeatedWordRule rule = new GermanStyleRepeatedWordRule(TestTools.getMessages(new German().getShortCode()),
+        new ConfigValues());
     lt.addRule(rule);
     lt.enableRule(rule.getId());
   }

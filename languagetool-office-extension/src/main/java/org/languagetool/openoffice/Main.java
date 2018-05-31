@@ -42,6 +42,7 @@ import org.jetbrains.annotations.Nullable;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
+import org.languagetool.UserConfig;
 import org.languagetool.gui.AboutDialog;
 import org.languagetool.gui.Configuration;
 import org.languagetool.markup.AnnotatedText;
@@ -351,7 +352,7 @@ public class Main extends WeakBase implements XJobExecutor,
           langTool.enableRule(ruleName);
         }
       }
-      langTool.setConfigValues(config.getConfigValues());
+//      langTool.setConfigValues(config.getConfigValues());
       try {
         SentenceFromPara sfp = new SentenceFromPara(paraText, paRes.nStartOfSentencePosition);
         String sentence = sfp.getSentence();
@@ -450,7 +451,8 @@ public class Main extends WeakBase implements XJobExecutor,
     try {
       prepareConfig(docLanguage);
       // not using MultiThreadedJLanguageTool here fixes "osl::Thread::Create failed", see https://bugs.documentfoundation.org/show_bug.cgi?id=90740:
-      langTool = new JLanguageTool(docLanguage, config.getMotherTongue());
+      langTool = new JLanguageTool(docLanguage, config.getMotherTongue(), null, 
+          new UserConfig(config.getConfigValues()));
       File ngramDirectory = config.getNgramDirectory();
       if (ngramDirectory != null) {
         File ngramLangDir = new File(config.getNgramDirectory(), docLanguage.getShortCode());

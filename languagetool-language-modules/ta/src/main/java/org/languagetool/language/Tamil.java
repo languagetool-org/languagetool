@@ -77,7 +77,7 @@ public class Tamil extends Language {
         new CommaWhitespaceRule(messages),
         new DoublePunctuationRule(messages),
         new MultipleWhitespaceRule(messages, this),
-        new LongSentenceRule(messages),
+        new LongSentenceRule(messages, userConfig.getConfigValues()),
         new SentenceWhitespaceRule(messages)
     );
   }

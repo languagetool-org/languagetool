@@ -120,6 +120,6 @@ public class MultiThreadedJLanguageToolTest {
 
   @Test(expected = IllegalArgumentException.class)
   public void testIllegalThreadPoolSize2() throws IOException {
-    new MultiThreadedJLanguageTool(new Demo(), null, 0);
+    new MultiThreadedJLanguageTool(new Demo(), null, 0, null);
   }
 }

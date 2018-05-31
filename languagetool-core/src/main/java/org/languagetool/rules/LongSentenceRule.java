@@ -27,6 +27,7 @@ import java.util.regex.Pattern;
 
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.ConfigValues;
 
 /**
  * A rule that warns on long sentences. Note that this rule is off by default.
@@ -42,22 +43,39 @@ public class LongSentenceRule extends Rule {
   protected int maxWords = DEFAULT_MAX_WORDS;
 
   /**
-   * @since 3.7
+   * @since 4.2
    */
-  public LongSentenceRule(ResourceBundle messages, boolean defaultActive) {
+  public LongSentenceRule(ResourceBundle messages, ConfigValues configValues, int defaultWords, boolean defaultActive) {
     super(messages);
     super.setCategory(Categories.STYLE.getCategory(messages));
     if (!defaultActive) {
       setDefaultOff();
+    }
+    if(defaultWords > 0) {
+      this.maxWords = defaultWords;
+    }
+    int confWords = configValues.getValueById(getId());
+    if(confWords > 0) {
+      this.maxWords = confWords;
     }
     setLocQualityIssueType(ITSIssueType.Style);
   }
 
   /**
    * Creates a rule with default inactive
+   * @since 4.2
    */
-  public LongSentenceRule(ResourceBundle messages) {
-    this(messages, DEFAULT_ACTIVATION);
+  public LongSentenceRule(ResourceBundle messages, ConfigValues configValues, int defaultWords) {
+    this(messages, configValues, defaultWords, DEFAULT_ACTIVATION);
+  }
+
+
+  /**
+   * Creates a rule with default values can be overwritten by configuration settings
+   * @since 4.2
+   */
+  public LongSentenceRule(ResourceBundle messages, ConfigValues configValues) {
+    this(messages, configValues, -1, DEFAULT_ACTIVATION);
   }
 
   @Override
@@ -83,7 +101,7 @@ public class LongSentenceRule extends Rule {
   public int getDefaultValue() {
     return maxWords;
   }
-  
+
   public String getMessage() {
 		return MessageFormat.format(messages.getString("long_sentence_rule_msg2"), maxWords);
   }
@@ -92,9 +110,6 @@ public class LongSentenceRule extends Rule {
   public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
     List<RuleMatch> ruleMatches = new ArrayList<>();
     AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
-    if (configValue >= 0) {
-      maxWords = configValue;
-    }
     String msg = getMessage();
     if (tokens.length < maxWords + 1) {   // just a short-circuit
       return toRuleMatchArray(ruleMatches);

@@ -18,6 +18,7 @@
  */
 package org.languagetool;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -29,15 +30,38 @@ import java.util.Objects;
 public class UserConfig {
 
   private final List<String> userSpecificSpellerWords;
+  private final ConfigValues configValues = new ConfigValues();
+
+  public UserConfig() {
+    userSpecificSpellerWords = new ArrayList<String>();
+  }
 
   public UserConfig(List<String> userSpecificSpellerWords) {
     this.userSpecificSpellerWords = Objects.requireNonNull(userSpecificSpellerWords);
+  }
+
+  public UserConfig(ConfigValues configValues) {
+    this.configValues.insertList(Objects.requireNonNull(configValues));
+    userSpecificSpellerWords = new ArrayList<String>();
+  }
+
+  public UserConfig(List<String> userSpecificSpellerWords, ConfigValues configValues) {
+    this.userSpecificSpellerWords = Objects.requireNonNull(userSpecificSpellerWords);
+    this.configValues.insertList(Objects.requireNonNull(configValues));
   }
 
   public List<String> getAcceptedWords() {
     return userSpecificSpellerWords;
   }
 
+  public ConfigValues getConfigValues() {
+    return configValues;
+  }
+  
+  public void insertConfigValues(ConfigValues configValues) {
+    this.configValues.insertList(configValues);
+  }
+  
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
@@ -50,4 +74,5 @@ public class UserConfig {
   public int hashCode() {
     return userSpecificSpellerWords.hashCode();
   }
+  
 }

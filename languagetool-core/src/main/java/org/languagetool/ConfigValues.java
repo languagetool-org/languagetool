@@ -75,7 +75,7 @@ public class ConfigValues {
    * Inserts the List of ConfigValues, overriding the existing list.
    * @since 4.2
    */
-  void insertList(ConfigValues v) {
+  public void insertList(ConfigValues v) {
     values.clear();
     values.addAll(v.getValuePairs());
   }
@@ -85,7 +85,7 @@ public class ConfigValues {
    * returns -1, if the rule-ID wasn't found
    * @since 4.2
    */
-  int getValueById(String id) {
+  public int getValueById(String id) {
     for (ValuePair v : values) {
       if (id.startsWith(v.ruleId)) {
         return v.value;

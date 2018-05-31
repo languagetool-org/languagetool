@@ -132,7 +132,6 @@ public class JLanguageTool {
   private boolean listUnknownWords;
   private Set<String> unknownWords;
   private boolean cleanOverlappingMatches;
-  private ConfigValues configValues = new ConfigValues();
 
   /**
    * Constants for correct paragraph-rule handling.
@@ -221,8 +220,13 @@ public class JLanguageTool {
   public JLanguageTool(Language language, Language motherTongue, ResultCache cache, UserConfig userConfig) {
     this.language = Objects.requireNonNull(language, "language cannot be null");
     this.motherTongue = motherTongue;
+    if(userConfig == null) {
+      this.userConfig = new UserConfig();
+    } else {
+      this.userConfig = userConfig;
+    }
     ResourceBundle messages = ResourceBundleTools.getMessageBundle(language);
-    builtinRules = getAllBuiltinRules(language, messages, userConfig);
+    builtinRules = getAllBuiltinRules(language, messages, this.userConfig);
     this.cleanOverlappingMatches = true;
     try {
       activateDefaultPatternRules();
@@ -231,7 +235,6 @@ public class JLanguageTool {
       throw new RuntimeException("Could not activate rules", e);
     }
     this.cache = cache;
-    this.userConfig = userConfig;
   }
   
   /**
@@ -1203,13 +1206,7 @@ public class JLanguageTool {
   }
   
   public void setConfigValues(ConfigValues v) {
-    configValues.insertList(v);
-    for (Rule r : builtinRules) {
-      int value = configValues.getValueById(r.getId());
-      if (value >= 0) {
-        r.setDefaultValue(value);
-      }
-    }
+    userConfig.insertConfigValues(v);
   }
 
 }
