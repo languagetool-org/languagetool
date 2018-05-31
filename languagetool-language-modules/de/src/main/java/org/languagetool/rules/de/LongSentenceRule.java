@@ -20,7 +20,7 @@ package org.languagetool.rules.de;
 
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.ConfigValues;
+import org.languagetool.UserConfig;
 import org.languagetool.rules.*;
 
 import java.io.IOException;
@@ -39,8 +39,8 @@ public class LongSentenceRule extends org.languagetool.rules.LongSentenceRule {
   /**
    * @param defaultActive allows default granularity
    */
-  public LongSentenceRule(ResourceBundle messages, ConfigValues configValues, int defaultWords, boolean defaultActive) {
-    super(messages, configValues, defaultWords);
+  public LongSentenceRule(ResourceBundle messages, UserConfig userConfig, int defaultWords, boolean defaultActive) {
+    super(messages, userConfig, defaultWords);
     super.setCategory(Categories.STYLE.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Style);
     addExamplePair(Example.wrong("<marker>Dies ist ein Bandwurmsatz, der immer weiter geht, obwohl das kein guter Stil ist, den man eigentlich berücksichtigen sollte, obwohl es auch andere Meinungen gibt, die aber in der Minderzahl sind, weil die meisten Autoren sich doch an die Stilvorgaben halten, wenn auch nicht alle, was aber letztendlich wiederum eine Sache des Geschmacks ist</marker>."),
@@ -54,8 +54,8 @@ public class LongSentenceRule extends org.languagetool.rules.LongSentenceRule {
    * Creates a rule with default inactive
    * @since 4.2
    */
-  public LongSentenceRule(ResourceBundle messages, ConfigValues configValues, int defaultWords) {
-    this(messages, configValues, defaultWords, DEFAULT_ACTIVATION);
+  public LongSentenceRule(ResourceBundle messages, UserConfig userConfig, int defaultWords) {
+    this(messages, userConfig, defaultWords, DEFAULT_ACTIVATION);
   }
 
 
@@ -63,8 +63,8 @@ public class LongSentenceRule extends org.languagetool.rules.LongSentenceRule {
    * Creates a rule with default values can be overwritten by configuration settings
    * @since 4.2
    */
-  public LongSentenceRule(ResourceBundle messages, ConfigValues configValues) {
-    this(messages, configValues, -1, DEFAULT_ACTIVATION);
+  public LongSentenceRule(ResourceBundle messages, UserConfig userConfig) {
+    this(messages, userConfig, -1, DEFAULT_ACTIVATION);
   }
 
   @Override

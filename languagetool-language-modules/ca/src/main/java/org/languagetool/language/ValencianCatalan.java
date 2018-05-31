@@ -78,7 +78,7 @@ public class ValencianCatalan extends Catalan {
                 Example.wrong("Preus de venda al públic. <marker>han</marker> pujat molt."),
                 Example.fixed("Preus de venda al públic. <marker>Han</marker> pujat molt.")),
             new MultipleWhitespaceRule(messages, this),
-            new LongSentenceRule(messages, userConfig.getConfigValues()),
+            new LongSentenceRule(messages, userConfig),
             // specific to Catalan:
             new CatalanWordRepeatRule(messages, this),
             new MorfologikCatalanSpellerRule(messages, this, userConfig),

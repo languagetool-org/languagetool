@@ -130,7 +130,7 @@ public class Dutch extends Language {
             new DutchWrongWordInContextRule(messages),
             new WordCoherencyRule(messages),
             new SimpleReplaceRule(messages),
-            new LongSentenceRule(messages, userConfig.getConfigValues(), -1, true),
+            new LongSentenceRule(messages, userConfig, -1, true),
             new PreferredWordRule(messages)
     );
   }

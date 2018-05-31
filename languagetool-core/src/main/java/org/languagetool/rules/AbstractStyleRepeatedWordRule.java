@@ -26,7 +26,7 @@ import java.util.ResourceBundle;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.ConfigValues;
+import org.languagetool.UserConfig;
 import org.languagetool.rules.Categories;
 import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.RuleMatch;
@@ -45,14 +45,16 @@ public abstract class AbstractStyleRepeatedWordRule  extends TextLevelRule {
   
   protected int maxDistanceOfSentences = 1;
 
-  public AbstractStyleRepeatedWordRule(ResourceBundle messages, ConfigValues configValues) {
+  public AbstractStyleRepeatedWordRule(ResourceBundle messages, UserConfig userConfig) {
     super(messages);
     super.setCategory(Categories.STYLE.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Style);
     setDefaultOff();
-    int confDistance = configValues.getValueById(getId());
-    if(confDistance >= 0) {
-      this.maxDistanceOfSentences = confDistance;
+    if (userConfig != null) {
+      int confDistance = userConfig.getConfigValueByID(getId());
+      if(confDistance >= 0) {
+        this.maxDistanceOfSentences = confDistance;
+      }
     }
 
   }

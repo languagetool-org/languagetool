@@ -62,6 +62,10 @@ public class UserConfig {
     this.configValues.insertList(configValues);
   }
   
+  public int getConfigValueByID(String id) {
+    return configValues.getValueById(id);
+  }
+  
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;

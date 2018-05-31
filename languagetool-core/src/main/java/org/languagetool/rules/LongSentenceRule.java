@@ -27,7 +27,7 @@ import java.util.regex.Pattern;
 
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.ConfigValues;
+import org.languagetool.UserConfig;
 
 /**
  * A rule that warns on long sentences. Note that this rule is off by default.
@@ -45,7 +45,7 @@ public class LongSentenceRule extends Rule {
   /**
    * @since 4.2
    */
-  public LongSentenceRule(ResourceBundle messages, ConfigValues configValues, int defaultWords, boolean defaultActive) {
+  public LongSentenceRule(ResourceBundle messages, UserConfig userConfig, int defaultWords, boolean defaultActive) {
     super(messages);
     super.setCategory(Categories.STYLE.getCategory(messages));
     if (!defaultActive) {
@@ -54,9 +54,11 @@ public class LongSentenceRule extends Rule {
     if(defaultWords > 0) {
       this.maxWords = defaultWords;
     }
-    int confWords = configValues.getValueById(getId());
-    if(confWords > 0) {
-      this.maxWords = confWords;
+    if (userConfig != null) {
+      int confWords = userConfig.getConfigValueByID(getId());
+      if(confWords > 0) {
+        this.maxWords = confWords;
+      }
     }
     setLocQualityIssueType(ITSIssueType.Style);
   }
@@ -65,8 +67,8 @@ public class LongSentenceRule extends Rule {
    * Creates a rule with default inactive
    * @since 4.2
    */
-  public LongSentenceRule(ResourceBundle messages, ConfigValues configValues, int defaultWords) {
-    this(messages, configValues, defaultWords, DEFAULT_ACTIVATION);
+  public LongSentenceRule(ResourceBundle messages, UserConfig userConfig, int defaultWords) {
+    this(messages, userConfig, defaultWords, DEFAULT_ACTIVATION);
   }
 
 
@@ -74,8 +76,8 @@ public class LongSentenceRule extends Rule {
    * Creates a rule with default values can be overwritten by configuration settings
    * @since 4.2
    */
-  public LongSentenceRule(ResourceBundle messages, ConfigValues configValues) {
-    this(messages, configValues, -1, DEFAULT_ACTIVATION);
+  public LongSentenceRule(ResourceBundle messages, UserConfig userConfig) {
+    this(messages, userConfig, -1, DEFAULT_ACTIVATION);
   }
 
   @Override

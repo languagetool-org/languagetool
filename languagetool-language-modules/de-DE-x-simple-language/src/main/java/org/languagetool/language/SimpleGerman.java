@@ -56,7 +56,7 @@ public class SimpleGerman extends GermanyGerman {
   @Override
   public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig) throws IOException {
     List<Rule> rules = new ArrayList<>();
-    LongSentenceRule lengthRule = new LongSentenceRule(messages, userConfig.getConfigValues(), 12, true);
+    LongSentenceRule lengthRule = new LongSentenceRule(messages, userConfig, 12, true);
     rules.add(lengthRule);
     return rules;
   }
