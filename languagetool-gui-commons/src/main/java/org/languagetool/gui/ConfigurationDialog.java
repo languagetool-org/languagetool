@@ -253,6 +253,8 @@ public class ConfigurationDialog implements ActionListener {
 
     cons.gridx = 0;
     cons.gridy = 0;
+    cons.weightx = 10.0f;
+    cons.weighty = 0.0f;
     cons.fill = GridBagConstraints.NONE;
     cons.anchor = GridBagConstraints.NORTHWEST;
     cons.gridy++;
@@ -280,6 +282,10 @@ public class ConfigurationDialog implements ActionListener {
       jPane.add(extra, cons);
     }
 
+    cons.gridy++;
+    cons.fill = GridBagConstraints.BOTH;
+    cons.weighty = 1.0f;
+    jPane.add(new JPanel(), cons);
     tabpane.addTab(messages.getString("guiGeneral"), jPane);
 
     jPane = new JPanel();
