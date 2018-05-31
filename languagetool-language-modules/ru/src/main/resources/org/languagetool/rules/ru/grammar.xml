@@ -2960,8 +2960,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="GDE_COMMA" name="Запятая перед союзом «где»">
             <pattern>
                 <marker>
-                    <token negate="yes">,<exception postag="SENT_START"/><exception postag="PARTICLE"/></token>
-                    <token skip="1">где</token>
+                    <token negate="yes">,<exception postag="SENT_START"/><exception postag="PARTICLE"/><exception>"</exception><exception>«</exception></token>
+                    <token case_sensitive="yes" skip="1">где</token>
                 </marker>
                 <or>
                 <token postag="NN:.*:.*:.*:Nom" postag_regexp="yes"></token>
