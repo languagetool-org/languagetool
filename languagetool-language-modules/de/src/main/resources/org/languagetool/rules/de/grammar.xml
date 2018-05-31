@@ -23571,7 +23571,7 @@ Andere Projekte</example>
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes" skip="1">[mM]it</token>
-                    <token regexp="yes">schnellen|großen|schweren|entschlossenen|bedächtigen|hastigen|eiligen</token>
+                    <token regexp="yes" postag="(ADJ|PA[12]):AKK:SIN:MAS:GRU:DEF.*" postag_regexp="yes">[a-zäöüß]+</token>
                     <marker>
                         <token>schritten</token>
                     </marker>
@@ -23579,6 +23579,7 @@ Andere Projekte</example>
                 <message>&subanfang;<suggestion>Schritten</suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example correction="Schritten">Er entfernte sich mit schnellen <marker>schritten</marker>.</example>
+                <example correction="Schritten">Sie entfernte sich mit wiegenden <marker>schritten</marker>.</example>
             </rule>
         </rulegroup>
         <rule id="IM_SCHNITT" name="'im schnitt (Schnitt)'">
