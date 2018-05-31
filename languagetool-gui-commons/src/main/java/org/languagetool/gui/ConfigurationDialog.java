@@ -359,7 +359,6 @@ public class ConfigurationDialog implements ActionListener {
     contentPane.add(buttonPanel, cons);
 
     dialog.pack();
-    dialog.setSize(520, 500);
     // center on screen:
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     Dimension frameSize = dialog.getSize();
