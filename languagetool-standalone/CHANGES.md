@@ -14,6 +14,9 @@
 
 #### English
   * added and improved rules
+  * updated en_GB spellchecker dictionary from https://github.com/marcoagpinto/aoo-mozilla-en-dict  (Version 2018-06-01)
+  * updated en_US spellchecker dictionary from http://wordlist.aspell.net (Version 2018.04.16)
+  * updated en_CA spellchecker dictionary from http://wordlist.aspell.net (Version 2018.04.16)
 
 #### German
   * added and improved rules
@@ -30,6 +33,10 @@
 
 #### Portuguese
   * added and improved rules
+  
+#### Russian
+  * added and improved grammar and punctuation rules
+  * small spelling dictionary update
 
 #### Ukrainian
   * added and improved rules
