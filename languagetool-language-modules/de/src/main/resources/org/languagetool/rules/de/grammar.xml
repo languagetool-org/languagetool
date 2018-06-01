@@ -15720,15 +15720,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="EHE_SUBST" name="'die ehe (Ehe) versprechen' etc.">
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">[dD]ie</token>
+                    <token regexp="yes">[dD]ie|(&meindein;)e</token>
                     <marker>
                         <token>ehe</token>
                     </marker>
-                    <token inflected="yes" postag="VER:.+" postag_regexp="yes" regexp="yes">versprechen|brechen|zerbrechen</token>
+                    <token inflected="yes" postag="VER:.+" postag_regexp="yes" regexp="yes">eingehen|versprechen|brechen|zerbrechen|zerstören</token>
                 </pattern>
                 <message>&subanfang;<suggestion>Ehe</suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example correction="Ehe">Er hat die <marker>ehe</marker> gebrochen.</example>
+                <example correction="Ehe">Sie hat meine <marker>ehe</marker> zerstört.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -16301,11 +16302,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>widerstand</token>
                     </marker>
-                    <token inflected="yes">leisten</token>
+                    <token inflected="yes" regexp="yes">leisten|brechen</token>
                 </pattern>
                 <message>&subanfang;<suggestion>Widerstand</suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example correction="Widerstand">Er hat keinen <marker>widerstand</marker> geleistet.</example>
+                <example correction="Widerstand">Er hat ihren <marker>widerstand</marker> gebrochen.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -16313,7 +16315,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>widerstand</token>
                     </marker>
                     <token>zu</token>
-                    <token>leisten</token>
+                    <token regexp="yes">brechen|leisten</token>
                 </pattern>
                 <message>&subanfang;<suggestion>Widerstand</suggestion>&subende;</message>
                 <short>&prgk;.</short>
@@ -16321,7 +16323,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token inflected="yes" skip="2">leisten</token>
+                    <token inflected="yes" regexp="yes" skip="2">brechen|leisten</token>
                     <marker>
                         <token>widerstand</token>
                     </marker>
@@ -16334,7 +16336,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[gG]egen</token>
-                    <token regexp="yes">meinen|deinen|seinen|unseren|euren|ihren|de(ssen|ren|n)</token>
+                    <token regexp="yes">meinen|deinen|seinen|unseren|euren|ihren|de(sse|re)?n</token>
                     <marker>
                         <token>widerstand</token>
                     </marker>
