@@ -63,11 +63,12 @@
         <marker>
           <token regexp="yes">\d?(1st|2nd|3rd|\dth)</token>
         </marker>
-        <token postag_regexp="yes" postag="NN(:UN?)?"/>
+        <token postag_regexp="yes" postag="NN(:UN?)?|JJS"/>
         </pattern>
         <disambig postag="JJ"/>
         <example type="ambiguous" inputform="22nd[22nd]" outputform="22nd[22nd/JJ]">This is the <marker>22nd</marker> place.</example>
         <example type="ambiguous" inputform="99th[99th]" outputform="99th[99th/JJ]">The <marker>99th</marker> conflict occurred yesterday.</example>
+        <example type="ambiguous" inputform="41st[41st]" outputform="41st[41st/JJ]">>...an area of , making it the 42nd most populous and <marker>41st</marker> largest nation in the world.</example>
         <example type="untouched">1nd place</example>
         <example type="untouched">1 dollar</example>
         <example type="untouched">The <marker>22nd</marker> is a good day for me.</example>
