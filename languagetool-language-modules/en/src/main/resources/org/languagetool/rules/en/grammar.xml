@@ -17016,6 +17016,46 @@ USA
       <message>The usual prepositions to use when surrounded is "in" not "on". Did you mean <suggestion>in \2 \3</suggestion>?</message>
       <example correction='in the middle'>The button is <marker>on the middle</marker> of the screen.</example>
     </rule>
+    <rule id='ON_IN_THE_CORNER' name='Collocation: on/in the corner'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2018-05-16 -->
+      <pattern>
+          <token regexp='yes'>at|on</token>
+          <token>the</token>
+          <token regexp="yes">top|bottom</token>
+          <token regexp="yes">right|left</token>
+          <token>corner</token>
+      </pattern>
+      <message>The usual prepositions to use with a corner "in" not "on". Did you mean <suggestion>in \2 \3 \4 corner</suggestion>?</message>
+      <example correction='in the top left corner'>The button is <marker>on the top left corner</marker> of the screen.</example>
+    </rule>
+    <rule id='SIMILAR_LIKE_AS_SOMETHING' name='Collocation: similar/like as/to'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2018-05-16 -->
+      <pattern>
+        <marker>
+          <token>similar</token>
+          <token>as</token>
+          <token regexp="yes">an?</token>
+          <token/>
+        </marker>
+          <token>
+            <exception inflected="yes">be</exception></token>
+      </pattern>
+      <message>The usual prepositions to use with "similar" is "to" not "as". Did you mean <suggestion>\1 to \3 \4</suggestion>?</message>
+<suggestion>like \3 \4</suggestion>
+      <example correction='similar to a church|like a church'>the roof will be <marker>similar as a church</marker>.</example>
+    </rule>
+    <rule id='KIND_WITH_TO' name='Collocation: kind with/to'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2018-05-16 -->
+      <pattern>
+        <marker>
+          <token>kind</token>
+          <token>with</token>
+        </marker>
+          <token postag_regexp="yes" postag="NN[PS]|PRP\$?"/>
+      </pattern>
+      <message>The usual preposition to use with "\1" is "to." Did you mean <suggestion>\1 to</suggestion>?</message>
+      <example correction='kind to'>All the people he met were very <marker>kind with</marker> him.</example>
+    </rule>
   </rulegroup>
 
   <rulegroup id="RETURN_IN_THE" name="Collocation: return in/to">
