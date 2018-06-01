@@ -28692,6 +28692,16 @@ Andere Projekte</example>
     <!-- Grammatik -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammatik">
+        <rule id="SIND_IST" name="sind (ist) x Jahre her">
+            <pattern>
+                <marker><token regexp="yes">sind|waren</token></marker>
+                <token regexp="yes">[2-9]+|zwei|drei|vier|fünf|sechs|sieben|acht|neun|zehn|elf|zwölf</token>
+                <token></token>
+                <token>her</token>
+            </pattern>
+            <message>Hier sollte die Singularform <suggestion>ist</suggestion> oder <suggestion>war</suggestion> stehen.</message>
+            <example correction="ist|war">Es <marker>sind</marker> zwei Jahre her.</example>
+        </rule>
         <!-- TODO: testen!!
         <rulegroup id="DIE_DER" name="'der/die' (Genitiv Plural für Substantive)">
           <rule>
