@@ -24948,7 +24948,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="…">Ara mateix<marker>...</marker></example>
             <example>Ara mateix…</example>
         </rule>
-        <rulegroup id="GUIONET_GUIO" name="Exigeix guió llarg" default="off">
+        <rulegroup id="GUIO_LLARG" name="Exigeix guió llarg" default="off">
             <!--  no s'accepta ni guionet ni guió mitjà ni guió de xifra -->
             <rule>
                 <pattern>
@@ -24957,7 +24957,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token spacebefore="no" regexp="yes">[^-\d].*</token>
                 </pattern>
-                <message>Cal substituir el guionet per guió.</message>
+                <message>Cal substituir el guionet per guió llarg.</message>
                 <suggestion>—</suggestion>
                 <short>Error tipogràfic</short>
                 <example correction="—">Vine <marker>-</marker>digué.</example>
@@ -24975,7 +24975,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token spacebefore="yes"/>
                 </pattern>
-                <message>Cal substituir el guionet per guió.</message>
+                <message>Cal substituir el guionet per guió llarg.</message>
                 <suggestion>—</suggestion>
                 <short>Error tipogràfic</short>
                 <example correction="—">digué<marker>-</marker> vine.</example>
@@ -24990,7 +24990,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token regexp="yes">;|,|\.</token>
                 </pattern>
-                <message>Cal substituir el guionet per guió.</message>
+                <message>Cal substituir el guionet per guió llarg.</message>
                 <suggestion>—</suggestion>
                 <short>Error tipogràfic</short>
                 <example correction="—">digué<marker>-</marker>, vine.</example>
@@ -25001,7 +25001,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">[–‒-]</token>
                     <token regexp="yes">[–‒-]</token>
                 </pattern>
-                <message>Cal substituir el guionet per guió.</message>
+                <message>Cal substituir el guionet per guió llarg.</message>
                 <suggestion>—</suggestion>
                 <short>Error tipogràfic</short>
                 <example correction="—"><marker>--</marker></example>
@@ -25012,13 +25012,85 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="SENT_START"/>
                     <token regexp="yes">[–‒-]</token>
                 </pattern>
-                <message>Cal substituir el guionet per guió.</message>
+                <message>Cal substituir el guionet per guió llarg.</message>
                 <suggestion>—</suggestion>
                 <short>Error tipogràfic</short>
                 <example correction="—"><marker>-</marker> Primer punt de l'ordre del dia.</example>
                 <example>— Primer punt de l'ordre del dia.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="GUIO_MITJA" name="Exigeix guió mitjà" default="off">
+            <!--  no s'accepta ni guionet ni guió mitjà ni guió de xifra -->
+            <rule>
+                <pattern>
+                    <marker>
+                        <token spacebefore="yes" regexp="yes">[—‒-]</token>
+                    </marker>
+                    <token spacebefore="no" regexp="yes">[^-\d].*</token>
+                </pattern>
+                <message>Cal substituir el guionet per guió mitjà.</message>
+                <suggestion>–</suggestion>
+                <short>Error tipogràfic</short>
+                <example correction="–">Vine <marker>-</marker>digué.</example>
+                <example correction="–">Vine <marker>‒</marker>digué.</example>
+                <example correction="–">Vine <marker>—</marker>digué.</example>
+                <example>Vine –digué.</example>
+                <example>Va ser els anys 1950–1954.</example>
+                <example>Té un nivell mitjà-alt.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">.*[^\-\d]</token>
+                    <marker>
+                        <token spacebefore="no" regexp="yes">[—‒-]</token>
+                    </marker>
+                    <token spacebefore="yes"/>
+                </pattern>
+                <message>Cal substituir el guionet per guió mitjà.</message>
+                <suggestion>–</suggestion>
+                <short>Error tipogràfic</short>
+                <example correction="–">digué<marker>-</marker> vine.</example>
+                <example>digué– vine</example>
+                <example>Té un nivell mitjà-alt.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">.*[^\-\d]</token>
+                    <marker>
+                        <token spacebefore="no" regexp="yes">[—‒-]</token>
+                    </marker>
+                    <token regexp="yes">;|,|\.</token>
+                </pattern>
+                <message>Cal substituir el guionet per guió mitjà.</message>
+                <suggestion>–</suggestion>
+                <short>Error tipogràfic</short>
+                <example correction="–">digué<marker>-</marker>, vine.</example>
+                <example>digué–, vine</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">[—‒-]</token>
+                    <token regexp="yes">[—‒-]</token>
+                </pattern>
+                <message>Cal substituir el guionet per guió mitjà.</message>
+                <suggestion>–</suggestion>
+                <short>Error tipogràfic</short>
+                <example correction="–"><marker>--</marker></example>
+                <example>–</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token regexp="yes">[—‒-]</token>
+                </pattern>
+                <message>Cal substituir el guionet per guió mitjà.</message>
+                <suggestion>–</suggestion>
+                <short>Error tipogràfic</short>
+                <example correction="–"><marker>-</marker> Primer punt de l'ordre del dia.</example>
+                <example>– Primer punt de l'ordre del dia.</example>
+            </rule>
+        </rulegroup>
+
         <rule id="GUIO_ESPAI" name="Guió i espai en enumeracions" default="off">
             <pattern>
                 <token postag="SENT_START"/>
@@ -25026,7 +25098,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token spacebefore="no"/>
             </pattern>
             <message>En enumeracions cal posar un espai després del guió.</message>
-            <suggestion>— \3</suggestion>
+            <suggestion>\2 \3</suggestion>
             <short>Error tipogràfic</short>
             <example correction="— Influència"><marker>—Influència</marker> artística.</example>
             <example><marker>—</marker></example>
@@ -25038,7 +25110,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token spacebefore="yes"/>
             </pattern>
             <message>En diàlegs no es posa un espai després del guió.</message>
-            <suggestion>—\3</suggestion>
+            <suggestion>\2\3</suggestion>
             <short>Error tipogràfic</short>
             <example correction="—Vine"><marker>— Vine</marker>, corre!</example>
             <example>—Vine</example>
