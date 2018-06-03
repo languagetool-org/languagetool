@@ -25115,6 +25115,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="—Vine"><marker>— Vine</marker>, corre!</example>
             <example>—Vine</example>
         </rule>
+        <rulegroup id="COMETES_RECTES" name="Exigeix cometes rectes" default="off">
+            <rule> 
+                <pattern>
+                   <token regexp="yes">[“”]</token>
+                </pattern>
+                <message>Useu cometes rectes.</message>
+                <suggestion>"</suggestion>
+                <example correction="&quot;">És de <marker>“</marker>gran qualitat".</example>
+                <example correction="&quot;">És de "gran qualitat<marker>”</marker>.</example>
+                <example>"gran qualitat"</example>
+            </rule>
+            <rule> 
+                <pattern>
+                   <token regexp="yes">[‘’]</token>
+                </pattern>
+                <message>Useu cometes rectes.</message>
+                <suggestion>'</suggestion>
+                <example correction="'">És de <marker>‘</marker>gran qualitat".</example>
+                <example correction="'">És de "gran qualitat<marker>’</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="COMETES_TIPOGRAFIQUES" name="Exigeix cometes tipogràfiques" default="off">
             <!-- COMETES DOBLES -->
             <!-- <rule> davant i darrere
