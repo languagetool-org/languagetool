@@ -6110,6 +6110,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="DETERMINANTS" name="Determinants" type="grammar">
+        <rule id="ALTRE_UN_ALTRE" name="altre/un altre">
+            <pattern>
+                <token postag="SENT_START"></token>
+                <token regexp="yes">altre|altra</token>
+            </pattern>
+            <message>Probablement cal dir <suggestion><match no="2" postag=".*([MF])S.*" postag_regexp="yes" postag_replace="DI0$1S0">un</match> <match no="2" case_conversion ="startlower"/></suggestion>.</message>
+            <example correction="Un altre"><marker>Altre</marker> dels motius.</example>
+            <example correction="Una altra"><marker>Altra</marker> de les raons.</example>
+        </rule>
         <rulegroup id="ARTICLE_EN_PAISOS" name="països que solen dur article">
             <rule>
                 <pattern case_sensitive="yes">
@@ -18704,7 +18713,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token>d'</token>
-                    <token regexp="yes">h?[ui][aeoiàèéóòu].*<exception regexp="yes">ió|ions|ionitza.+|h?uix.+|Iowa|Uialfàs|&mots_HAC_ASPIRADA;|&mots_HAC_ASPIRADA2;|(?-i)IU|(?-i)Iu|&sigles_apostrofen;</exception></token>
+                    <token regexp="yes">h?[ui][aeoiàèéóòu].*<exception regexp="yes">ió|ions|ionitza.+|h?uix.+|Iowa|Uialfàs|&mots_HAC_ASPIRADA;|&mots_HAC_ASPIRADA2;|(?-i)IU|(?-i)Iu|&sigles_apostrofen;|Huez</exception></token>
                 </pattern>
                 <message>No s'apostrofa.</message>
                 <suggestion>de <match no="2"></match></suggestion>
@@ -18719,6 +18728,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Fou expulsat d'IU.</example>
                 <example>Això és d'Iu.</example>
                 <example>exempt d'IAE.</example>
+                <example>l’Alpe d’Huez</example>
             </rule>
             <rule>
                 <pattern>
