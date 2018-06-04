@@ -37,6 +37,7 @@ public class RussianDashRule extends AbstractDashRule {
 
   public RussianDashRule() throws IOException {
     super(dashRules);
+     setDefaultOff(); // Slows down start up. See GitHub issue #1016.
   }
 
   @Override
