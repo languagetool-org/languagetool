@@ -7781,11 +7781,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Ich habe den <marker>Plan mäßig</marker> durchgeführt.</example>
         </rule>
         <rule id="GEZWUNGENER_MASSEN" name="gezwungener maßen (gezwungenermaßen)">
-            <regexp>gezwungener maßen</regexp>
-            <message>Das Adverb <suggestion>gezwungenermaßen</suggestion> wird zusammengeschrieben.</message>
+            <pattern>
+                <token regexp="yes">gezwungener|gewisser|folgender|bekannter</token>
+                <token>maßen</token>
+            </pattern>
+            <message>Das Adverb <suggestion>\1<match no="2" case_conversion="startlower"/></suggestion> wird zusammengeschrieben.</message>
             <url>http://www.duden.de/rechtschreibung/gezwungenermaszen</url>
             <short>&getrennt;</short>
             <example correction="gezwungenermaßen">Ich muss <marker>gezwungener maßen</marker> in Java programmieren.</example>
+            <example correction="Bekanntermaßen"><marker>Bekannter Maßen</marker> sind viele einfach depressiv.</example>
         </rule>
         <rule id="INNE_HABEN" name="inne haben (innehaben)">
             <pattern>
@@ -9663,11 +9667,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Alle nasenlang"><marker>Alle Nasenlang</marker> landen verquere Sprüche im Postfach.</example>
             </rule>
         </rulegroup>
-        <rule id="BEKANNTER_MASSEN" name="bekannter Maßen (bekanntermaßen)">
-            <regexp>bekannter Maßen</regexp>
-            <message><suggestion>bekanntermaßen</suggestion> im Sinne von 'bekanntlich' wird zusammengeschrieben.</message>
-            <example correction="Bekanntermaßen"><marker>Bekannter Maßen</marker> sind viele einfach depressiv.</example>
-        </rule>
         <rulegroup id="SCHWARZSEHEN" name="schwarz sehen (schwarzsehen)">
             <url>http://www.duden.de/sprachwissen/sprachratgeber/verben-mit-dem-bestandteil-schwarz</url>
             <rule>
@@ -17545,6 +17544,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>&subanfang;<suggestion><match no="5" case_conversion="startupper"/></suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example correction="Scheiße">Damit reitest du dich bloß weiter in die <marker>scheiße</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="WOHL_ODER_UEBEL" name="Wohl oder Übel (wohl oder übel)">
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes">wohl</token>
+                    <token>oder</token>
+                    <marker>
+                        <token case_sensitive="yes">Übel</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie 'wohl oder <suggestion><match no="3" case_conversion="startlower"/></suggestion>' (= notgedrungen)?</message>
+                <short>&prgk;.</short>
+                <example correction="übel">Er musste wohl oder <marker>Übel</marker> gehen.</example>
             </rule>
         </rulegroup>
         <rulegroup id="IN_DER_KLEMME" name="'in der klemme (Klemme) stecken' etc.">
