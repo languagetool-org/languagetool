@@ -7782,7 +7782,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="GEZWUNGENER_MASSEN" name="gezwungener maßen (gezwungenermaßen)">
             <pattern>
-                <token regexp="yes">gezwungener|gewisser|folgender|bekannter</token>
+                <token regexp="yes">gezwungener|gewisser|folgender|bekannter|bewusster|gezwungener</token>
                 <token>maßen</token>
             </pattern>
             <message>Das Adverb <suggestion>\1<match no="2" case_conversion="startlower"/></suggestion> wird zusammengeschrieben.</message>
@@ -18525,7 +18525,7 @@ Andere Projekte</example>
             <rule>
                 <pattern>
                     <token>das</token>
-                    <token>kleinere</token>
+                    <token regexp="yes">kleinere|größere</token>
                     <marker>
                         <token case_sensitive="yes">übel</token>
                     </marker>
@@ -18562,7 +18562,7 @@ Andere Projekte</example>
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[iI]n</token>
-                    <token regexp="yes">d(ies)?em|[dD]einem|[eE]urem|meinem|[iI]hrem</token>
+                    <token regexp="yes">d(ies)?em|[dDs]einem|[eE]urem|meinem|[iI]hrem</token>
                     <marker>
                         <token>sinne</token>
                     </marker>
@@ -18575,7 +18575,7 @@ Andere Projekte</example>
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[iI]m</token>
-                    <token regexp="yes">(eng|weit)(er|est)?en</token>
+                    <token regexp="yes">(eng|weit)(er|e?st)?en</token>
                     <marker>
                         <token>sinne</token>
                     </marker>
@@ -18590,7 +18590,7 @@ Andere Projekte</example>
                     <marker>
                         <token>sinne</token>
                     </marker>
-                    <token regexp="yes">vernebel[nt]|schw[ia]nden</token>
+                    <token regexp="yes" inflected="yes">schwinden|vernebeln</token>
                 </pattern>
                 <message><suggestion>Sinne</suggestion> wird in dieser Wendung großgeschrieben.</message>
                 <short>&prgk;.</short>
@@ -18599,7 +18599,7 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes" skip="1">[sS]chw[ia]nden</token>
+                    <token regexp="yes" inflected="yes" skip="1">schwinden|vernebeln</token>
                     <token>die</token>
                     <marker>
                         <token>sinne</token>
