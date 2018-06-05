@@ -45,11 +45,11 @@ import static org.languagetool.server.ServerTools.print;
 abstract class TextChecker {
 
   protected abstract void setHeaders(HttpExchange httpExchange);
-  protected abstract String getResponse(String text, Language lang, Language motherTongue, List<RuleMatch> matches,
+  protected abstract String getResponse(String text, DetectedLanguage lang, Language motherTongue, List<RuleMatch> matches,
                                         List<RuleMatch> hiddenMatches, String incompleteResultReason);
   @NotNull
   protected abstract List<String> getPreferredVariants(Map<String, String> parameters);
-  protected abstract Language getLanguage(String text, Map<String, String> parameters, List<String> preferredVariants);
+  protected abstract DetectedLanguage getLanguage(String text, Map<String, String> parameters, List<String> preferredVariants);
   protected abstract boolean getLanguageAutoDetect(Map<String, String> parameters);
   @NotNull
   protected abstract List<String> getEnabledRuleIds(Map<String, String> parameters);
@@ -98,7 +98,8 @@ abstract class TextChecker {
     //print("Check start: " + text.length() + " chars, " + langParam);
     boolean autoDetectLanguage = getLanguageAutoDetect(parameters);
     List<String> preferredVariants = getPreferredVariants(parameters);
-    Language lang = getLanguage(aText.getPlainText(), parameters, preferredVariants);
+    DetectedLanguage detLang = getLanguage(aText.getPlainText(), parameters, preferredVariants);
+    Language lang = detLang.getGivenLanguage();
     Integer count = languageCheckCounts.get(lang.getShortCodeWithCountryAndVariant());
     if (count == null) {
       count = 1;
@@ -201,7 +202,7 @@ abstract class TextChecker {
         print("Warn: Failed to query hidden matches server at " + config.getHiddenMatchesServer() + ": " + e.getMessage());
       }
     }
-    String response = getResponse(aText.getPlainText(), lang, motherTongue, matches, hiddenMatches, incompleteResultReason);
+    String response = getResponse(aText.getPlainText(), detLang, motherTongue, matches, hiddenMatches, incompleteResultReason);
     String messageSent = "sent";
     String languageMessage = lang.getShortCodeWithCountryAndVariant();
     String referrer = httpExchange.getRequestHeaders().getFirst("Referer");

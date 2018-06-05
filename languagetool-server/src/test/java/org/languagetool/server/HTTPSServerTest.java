@@ -108,13 +108,23 @@ public class HTTPSServerTest {
         fail("Expected exception with error 413, got: " + expected);
       }
     }
+
+    String json = check("de", "This is an English text, but we specify German anyway");
+    assertTrue("Got: " + json, json.contains("\"German\""));
+    assertTrue("Got: " + json, json.contains("\"de\""));
+    assertTrue("Got: " + json, json.contains("\"English (US)\""));
+    assertTrue("Got: " + json, json.contains("\"en-US\""));
   }
 
-  private String check(Language lang, String text) throws IOException {
-    String urlOptions = "/v2/check?language=" + lang.getShortCode();
+  private String check(String langCode, String text) throws IOException {
+    String urlOptions = "/v2/check?language=" + langCode;
     urlOptions += "&disabledRules=HUNSPELL_RULE&text=" + URLEncoder.encode(text, "UTF-8"); // latin1 is not enough for languages like polish, romanian, etc
     URL url = new URL("https://localhost:" + HTTPTools.getDefaultPort() + urlOptions);
     return HTTPTools.checkAtUrl(url);
+  }
+
+  private String check(Language lang, String text) throws IOException {
+    return check(lang.getShortCode(), text);
   }
   
   private String encode(String text) throws UnsupportedEncodingException {

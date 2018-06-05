@@ -42,6 +42,10 @@
   * added and improved rules
 
 #### HTTP API / LT server
+  * The JSON contains a new section `detectedLanguage` (under `language`) that
+    contains information about the automatically detected language. This way
+    clients can suggest switching to that language, e.g. in cases where the
+    user had selected the wrong language.
   * BETA: New optional configuration settings `dbDriver`, `dbUrl`, `dbUsername`,
     `dbPassword` to allow user-specific dictionaries
     
