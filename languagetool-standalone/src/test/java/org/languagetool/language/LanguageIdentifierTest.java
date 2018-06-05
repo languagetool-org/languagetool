@@ -80,7 +80,10 @@ public class LanguageIdentifierTest {
 
   private void langAssert(String expectedLangCode, String text) {
     Language expectedLang = expectedLangCode != null ? Languages.getLanguageForShortCode(expectedLangCode) : null;
+    //long start = System.currentTimeMillis();
     Language detectedLang = identifier.detectLanguage(text);
+    //long end = System.currentTimeMillis();
+    //System.out.println("-> " + (end-start) + "ms");
     if (!Objects.equals(expectedLang, detectedLang)) {
       fail("Got '" + detectedLang + "', expected '" + expectedLangCode + "' for '" + text + "'");
     }
