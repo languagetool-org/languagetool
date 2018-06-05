@@ -243,13 +243,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <antipattern>
                     <token postag="VER:MOD:[1-3]:.+" postag_regexp="yes" skip="-1"/>
+                    <token regexp="yes" skip="-1">und|oder</token>
                     <token postag="VER:INF:.+" postag_regexp="yes"/>
                     <token>.</token>
                 </antipattern>
                 <pattern>
                     <token postag="VER.*:[1-3]:.*" postag_regexp="yes" skip="-1"/>
-                    <token/>
-                    <token min="0">,</token>
                     <marker>
                         <token regexp="yes">und|oder</token>
                     </marker>
@@ -263,6 +262,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Er hat Eier und Milch bei einem Bauer gekauft.</example>
                 <example>Er sollte Schrauben und Muttern trennen.</example>
                 <example>Ist er groß oder klein?</example>
+                <example correction="">Ihr macht das jetzt fertig <marker>und</marker> ich gehe.</example>
+                <example correction="">Ich mache das jetzt fertig <marker>und</marker> ihr könnt gehen.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -355,6 +356,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <!-- Für SFT gibt es zu viele falsche Positive. -->
                     <token postag_regexp="yes" postag=".*:KJ(1|2):NON">
                         <exception postag_regexp="yes" postag="VER:INF:.*"/>
+                        <exception postag="VER:1:SIN:PRÄ:NON"/>
                         <!-- Gleiche Verbform VER:2:PLU:KJ1:NON und VER:3:SIN:PRÄ:NON. Die 2:PLU ist vermutlich sehr viel seltener, daher wird eine Ausnahme hinzugefügt. -->
                         <exception postag_regexp="yes" postag="VER:2:PLU:KJ1:.*"/>
                     </token>
@@ -362,6 +364,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Konjunktiv gefunden. Vermeiden Sie den Konjunktiv.</message>
                 <example>Angeblich sind sie bereit.</example>
                 <example correction="">Man <marker>sei</marker> bereit.</example>
+                <example>Ich schlafe nicht mehr.</example>
             </rule>
             <rule>
                 <pattern>
