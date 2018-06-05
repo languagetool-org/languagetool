@@ -20,6 +20,7 @@ package org.languagetool.openoffice;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.awt.Color;
 import java.io.BufferedWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -685,15 +686,30 @@ public class Main extends WeakBase implements XJobExecutor,
     aError.nErrorStart = ruleMatch.getFromPos() + startIndex;
     aError.nErrorLength = ruleMatch.getToPos() - ruleMatch.getFromPos();
     aError.aRuleIdentifier = ruleMatch.getRule().getId();
-    // LibreOffice since version 3.5 supports an URL that provides more
-    // information about the error,
-    // older version will simply ignore the property:
-    if (ruleMatch.getRule().getUrl() != null) {
-      aError.aProperties = new PropertyValue[] { new PropertyValue(
-          "FullCommentURL", -1, ruleMatch.getRule().getUrl().toString(),
-          PropertyState.DIRECT_VALUE) };
+    // LibreOffice since version 3.5 supports an URL that provides more information about the error,
+    // LibreOffice since version 6.2 supports the change of underline color (key: "LineColor", value: int (RGB))
+    // LibreOffice since version 6.2 supports the change of underline style (key: "LineType", value: short (DASHED = 5))
+    // older version will simply ignore the properties
+    Color underlineColor = config.getUnderlineColor(ruleMatch.getRule().getCategory().getName());
+    if(underlineColor != Color.blue) {
+      int ucolor = underlineColor.getRGB() & 0xFFFFFF;
+      if (ruleMatch.getRule().getUrl() != null) {
+        aError.aProperties = new PropertyValue[] { new PropertyValue(
+            "FullCommentURL", -1, ruleMatch.getRule().getUrl().toString(),
+            PropertyState.DIRECT_VALUE),
+            new PropertyValue("LineColor", -1, ucolor, PropertyState.DIRECT_VALUE) };
+      } else {
+        aError.aProperties = new PropertyValue[] {
+            new PropertyValue("LineColor", -1, ucolor, PropertyState.DIRECT_VALUE) };
+      }
     } else {
-      aError.aProperties = new PropertyValue[0];
+      if (ruleMatch.getRule().getUrl() != null) {
+        aError.aProperties = new PropertyValue[] { new PropertyValue(
+            "FullCommentURL", -1, ruleMatch.getRule().getUrl().toString(),
+            PropertyState.DIRECT_VALUE) };
+      } else {
+        aError.aProperties = new PropertyValue[0];
+      }
     }
     return aError;
   }

@@ -69,12 +69,14 @@ public class Configuration {
   private static final String FONT_SIZE_KEY = "font.size";
   private static final String LF_NAME_KEY = "lookAndFeelName";
   private static final String ERROR_COLORS_KEY = "errorColors";
+  private static final String UNDERLINE_COLORS_KEY = "underlineColors";
 
   private static final String DELIMITER = ",";
   private static final String EXTERNAL_RULE_DIRECTORY = "extRulesDirectory";
 
   private final Map<String, String> configForOtherLanguages = new HashMap<>();
   private final Map<ITSIssueType, Color> errorColors = new HashMap<>();
+  private final Map<String, Color> underlineColors = new HashMap<>();
   private final ConfigValues configValues = new ConfigValues();
 
   private File configFile;
@@ -170,6 +172,10 @@ public class Configuration {
     this.configForOtherLanguages.clear();
     for (String key : configuration.configForOtherLanguages.keySet()) {
       this.configForOtherLanguages.put(key, configuration.configForOtherLanguages.get(key));
+    }
+    this.underlineColors.clear();
+    for (Map.Entry<String, Color> entry : configuration.underlineColors.entrySet()) {
+      this.underlineColors.put(entry.getKey(), entry.getValue());
     }
   }
 
@@ -467,6 +473,40 @@ public class Configuration {
     return errorColors;
   }
 
+  /**
+   * @since 4.2
+   */
+  public Map<String, Color> getUnderlineColors() {
+    return underlineColors;
+  }
+
+  /**
+   * @since 4.2
+   * Get the color to underline a rule match by the Name of its category
+   */
+  public Color getUnderlineColor(String category) {
+    if(underlineColors.containsKey(category)) {
+      return underlineColors.get(category);
+    }
+    return Color.blue;
+  }
+
+  /**
+   * @since 4.2
+   * Set the color to underline a rule match for its category
+   */
+  public void setUnderlineColor(String category, Color col) {
+    underlineColors.put(category, col);
+  }
+
+  /**
+   * @since 4.2
+   * Set the color back to default (removes category from map)
+   */
+  public void setDefaultUnderlineColor(String category) {
+    underlineColors.remove(category);
+  }
+
   private void loadConfiguration(Language lang) throws IOException {
 
     String qualifier = getQualifier(lang);
@@ -554,6 +594,9 @@ public class Configuration {
       String colorsString = (String) props.get(ERROR_COLORS_KEY);
       parseErrorColors(colorsString);
 
+      String underlineColorsString = (String) props.get(UNDERLINE_COLORS_KEY);
+      parseUnderlineColors(underlineColorsString);
+
       //store config for other languages
       loadConfigForOtherLanguages(lang, props);
 
@@ -573,6 +616,19 @@ public class Configuration {
         ITSIssueType type = ITSIssueType.getIssueType(typeAndColor[0]);
         String hexColor = typeAndColor[1];
         errorColors.put(type, Color.decode(hexColor));
+      }
+    }
+  }
+
+  private void parseUnderlineColors(String colorsString) {
+    if (StringUtils.isNotEmpty(colorsString)) {
+      String[] typeToColorList = colorsString.split(",\\s*");
+      for (String typeToColor : typeToColorList) {
+        String[] typeAndColor = typeToColor.split(":");
+        if (typeAndColor.length != 2) {
+          throw new RuntimeException("Could not parse type and color, colon expected: '" + typeToColor + "'");
+        }
+        underlineColors.put(typeAndColor[0], Color.decode(typeAndColor[1]));
       }
     }
   }
@@ -668,6 +724,14 @@ public class Configuration {
       sb.append(entry.getKey()).append(":").append("#").append(rgb).append(", ");
     }
     props.setProperty(ERROR_COLORS_KEY, sb.toString());
+
+    StringBuilder sbUC = new StringBuilder();
+    for (Map.Entry<String, Color> entry : underlineColors.entrySet()) {
+      String rgb = Integer.toHexString(entry.getValue().getRGB());
+      rgb = rgb.substring(2, rgb.length());
+      sbUC.append(entry.getKey()).append(":").append("#").append(rgb).append(", ");
+    }
+    props.setProperty(UNDERLINE_COLORS_KEY, sbUC.toString());
 
     for (String key : configForOtherLanguages.keySet()) {
       props.setProperty(key, configForOtherLanguages.get(key));
