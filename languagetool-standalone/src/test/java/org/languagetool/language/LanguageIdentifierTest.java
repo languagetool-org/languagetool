@@ -68,6 +68,20 @@ public class LanguageIdentifierTest {
   }
 
   @Test
+  public void testShortAndLongText() {
+    LanguageIdentifier id10 = new LanguageIdentifier(10);
+    langAssert(null, "Das ist so ein Text, mit dem man testen kann", id10);  // too short when max length is applied
+    langAssert(null, "012345678", id10);
+    langAssert(null, "0123456789", id10);
+    langAssert(null, "0123456789A", id10);
+    langAssert(null, "0123456789AB", id10);
+    langAssert(null, "0123456789ABC", id10);
+
+    LanguageIdentifier id20 = new LanguageIdentifier(20);
+    langAssert("de", "Das ist so ein Text, mit dem man testen kann", id20);
+  }
+  
+  @Test
   public void testKnownLimitations() {
     // not activated because it impairs detection of Spanish, so ast and gl may be mis-detected:
     langAssert("es", "L'Iberorrománicu o Iberromance ye un subgrupu de llingües romances que posiblemente ...");  // ast
@@ -79,9 +93,13 @@ public class LanguageIdentifierTest {
   }
 
   private void langAssert(String expectedLangCode, String text) {
+    langAssert(expectedLangCode, text, identifier);
+  }
+  
+  private void langAssert(String expectedLangCode, String text, LanguageIdentifier id) {
     Language expectedLang = expectedLangCode != null ? Languages.getLanguageForShortCode(expectedLangCode) : null;
     //long start = System.currentTimeMillis();
-    Language detectedLang = identifier.detectLanguage(text);
+    Language detectedLang = id.detectLanguage(text);
     //long end = System.currentTimeMillis();
     //System.out.println("-> " + (end-start) + "ms");
     if (!Objects.equals(expectedLang, detectedLang)) {

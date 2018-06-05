@@ -48,6 +48,8 @@
 #### Java API
   * The parameters of the `*SpellerRule` classes (e.g. `MorfologikRussianSpellerRule`)
     have changed
+  * `LanguageIdentifier` will now only consider the first 1000 characters when
+    identifying the language of a text. This improves performance for long texts. 
 
 
 

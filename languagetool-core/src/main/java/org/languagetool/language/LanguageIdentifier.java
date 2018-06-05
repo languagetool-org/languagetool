@@ -43,6 +43,7 @@ import java.util.List;
  * Identify the language of a text. Note that some languages might never be
  * detected because they are close to another language. Language variants like
  * en-US or en-GB are not detected, the result will be {@code en} for those.
+ * By default, only the first 1000 characters of a text are considered.
  * @since 2.9
  */
 public class LanguageIdentifier {
@@ -58,8 +59,20 @@ public class LanguageIdentifier {
 
   private final LanguageDetector languageDetector;
   private final TextObjectFactory textObjectFactory;
+  private final int maxLength;
 
   public LanguageIdentifier() {
+    this(1000);
+  }
+
+  /**
+   * @param maxLength the maximum number of characters that will be considered - can help
+   *                  with performance. Don't use values below 100, as this would decrease
+   *                  accuracy.
+   * @throws IllegalArgumentException if {@code maxLength} is < 10
+   * @since 4.2
+   */
+  public LanguageIdentifier(int maxLength) {
     try {
       List<LanguageProfile> profiles = loadProfiles(getLanguageCodes());
       languageDetector = LanguageDetectorBuilder.create(NgramExtractors.standard())
@@ -70,6 +83,10 @@ public class LanguageIdentifier {
     } catch (IOException e) {
       throw new RuntimeException("Could not set up language identifier", e);
     }
+    if (maxLength < 10) {
+      throw new IllegalArgumentException("maxLength must be >= 10 (but values > 100 are recommended): " + maxLength);
+    }
+    this.maxLength = maxLength;
   }
 
   private static List<String> getLanguageCodes() {
@@ -122,7 +139,8 @@ public class LanguageIdentifier {
    */
   @Nullable
   private String detectLanguageCode(String text) {
-    TextObject textObject = textObjectFactory.forText(text);
+    String shortText = text.length() > maxLength ? text.substring(0, maxLength) : text;
+    TextObject textObject = textObjectFactory.forText(shortText);
     Optional<LdLocale> lang = languageDetector.detect(textObject);
     // comment in for debugging:
     //System.out.println(languageDetector.getProbabilities(textObject));
