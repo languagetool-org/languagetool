@@ -54,6 +54,7 @@ public class ProhibitedCompoundRule extends Rule {
           new Pair("treppen", "Folge von Stufen (Mehrzahl)", "truppen", "Armee oder Teil einer Armee (Mehrzahl)"),
           new Pair("häufigkeit", "Anzahl von Ereignissen", "häutigkeit", "z.B. in Dunkelhäutigkeit"),
           new Pair("hin", "in Richtung", "hirn", "Gehirn, Denkapparat"),
+          new Pair("verklärung", "Beschönigung, Darstellung in einem besseren Licht", "erklärung", "Darstellung, Erläuterung"),
           new Pair("spitze", "spitzes Ende eines Gegenstandes", "spritze", "medizinisches Instrument zur Injektion")
   );
   private static final GermanSpellerRule spellerRule = new GermanSpellerRule(JLanguageTool.getMessageBundle(), new GermanyGerman(), null);
@@ -132,13 +133,14 @@ public class ProhibitedCompoundRule extends Rule {
         } else if (word.contains(pair.part2)) {
           variant = word.replaceFirst(pair.part2, pair.part1);
         }
+        //System.out.println(word + " <> " + variant);
         if (variant == null) {
           continue;
         }
         long wordCount = lm.getCount(word);
         long variantCount = lm.getCount(variant);
-        //float factor = variantCount / (float)Math.max(wordCount, 1);
-        //System.out.println("word: " + word + " (" + wordCount + "), variant: " + variant + " (" + variantCount + "), factor: " + factor + ", pair: " + pair);
+        float factor = variantCount / (float)Math.max(wordCount, 1);
+        System.out.println("word: " + word + " (" + wordCount + "), variant: " + variant + " (" + variantCount + "), factor: " + factor + ", pair: " + pair);
         if (variantCount > 0 && wordCount == 0 && !spellerRule.isMisspelled(variant)) {
           String msg;
           if (pair.part1Desc != null && pair.part2Desc != null) {
