@@ -26,6 +26,7 @@ import org.languagetool.language.GermanyGerman;
 import org.languagetool.languagemodel.BaseLanguageModel;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.*;
+import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -43,12 +44,12 @@ public class ProhibitedCompoundRule extends Rule {
   private static final List<Pair> lowercasePairs = Arrays.asList(
           // NOTE: words here must be all-lowercase
           // NOTE: no need to add words from confusion_sets.txt, they will be used automatically (if starting with uppercase char)
-          new Pair("abschluss", "Ende", "Abschuss", "Vorgang des Abschießens, z.B. mit einer Waffe"),
+          new Pair("abschluss", "Ende", "abschuss", "Vorgang des Abschießens, z.B. mit einer Waffe"),
           new Pair("brache", "verlassenes Grundstück", "branche", "Wirtschaftszweig"),
           new Pair("wieder", "erneut, wiederholt, nochmal (Wiederholung, Wiedervorlage, ...)", "wider", "gegen, entgegen (Widerwille, Widerstand, Widerspruch, ...)"),
           new Pair("leer", "ohne Inhalt", "lehr", "bezogen auf Ausbildung und Wissen"),
-          new Pair("Gewerbe", "wirtschaftliche Tätigkeit", "Gewebe", "gewebter Stoff; Verbund ähnlicher Zellen"),
-          new Pair("Schuh", "Fußbekleidung", "Schul", "auf die Schule bezogen"),
+          new Pair("gewerbe", "wirtschaftliche Tätigkeit", "gewebe", "gewebter Stoff; Verbund ähnlicher Zellen"),
+          new Pair("schuh", "Fußbekleidung", "schul", "auf die Schule bezogen"),
           new Pair("klima", "langfristige Wetterzustände", "lima", "Hauptstadt von Peru"),
           new Pair("modell", "vereinfachtes Abbild der Wirklichkeit", "model", "Fotomodell"),
           new Pair("treppen", "Folge von Stufen (Mehrzahl)", "truppen", "Armee oder Teil einer Armee (Mehrzahl)"),
@@ -67,6 +68,12 @@ public class ProhibitedCompoundRule extends Rule {
 
   private static void addUpperCaseVariants() {
     for (Pair lcPair : lowercasePairs) {
+      if (StringTools.startsWithUppercase(lcPair.part1)) {
+        throw new IllegalArgumentException("Use all-lowercase word in " + ProhibitedCompoundRule.class + ": " + lcPair.part1);
+      }
+      if (StringTools.startsWithUppercase(lcPair.part2)) {
+        throw new IllegalArgumentException("Use all-lowercase word in " + ProhibitedCompoundRule.class + ": " + lcPair.part2);
+      }
       pairs.add(new Pair(lcPair.part1, lcPair.part1Desc, lcPair.part2, lcPair.part2Desc));
       String ucPart1 = uppercaseFirstChar(lcPair.part1);
       String ucPart2 = uppercaseFirstChar(lcPair.part2);
