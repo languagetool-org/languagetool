@@ -146,8 +146,8 @@ public class ProhibitedCompoundRule extends Rule {
         }
         long wordCount = lm.getCount(word);
         long variantCount = lm.getCount(variant);
-        float factor = variantCount / (float)Math.max(wordCount, 1);
-        System.out.println("word: " + word + " (" + wordCount + "), variant: " + variant + " (" + variantCount + "), factor: " + factor + ", pair: " + pair);
+        //float factor = variantCount / (float)Math.max(wordCount, 1);
+        //System.out.println("word: " + word + " (" + wordCount + "), variant: " + variant + " (" + variantCount + "), factor: " + factor + ", pair: " + pair);
         if (variantCount > 0 && wordCount == 0 && !spellerRule.isMisspelled(variant)) {
           String msg;
           if (pair.part1Desc != null && pair.part2Desc != null) {
