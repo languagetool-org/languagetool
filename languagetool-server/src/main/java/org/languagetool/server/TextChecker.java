@@ -157,7 +157,7 @@ abstract class TextChecker {
       } catch (ExecutionException e) {
         future.cancel(true);
         if (params.allowIncompleteResults && ExceptionUtils.getRootCause(e) instanceof ErrorRateTooHighException) {
-          print(e.getMessage() + " - returning " + ruleMatchesSoFar.size() + " matches found so far");
+          print(e.getMessage() + " - returning " + ruleMatchesSoFar.size() + " matches found so far. Detected language: " + detLang);
           matches = new ArrayList<>(ruleMatchesSoFar);  // threads might still be running, so make a copy
           incompleteResultReason = "Results are incomplete: " + ExceptionUtils.getRootCause(e).getMessage();
         } else if (e.getCause() != null && e.getCause() instanceof OutOfMemoryError) {

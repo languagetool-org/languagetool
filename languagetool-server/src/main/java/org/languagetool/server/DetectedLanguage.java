@@ -42,4 +42,9 @@ public class DetectedLanguage {
   public Language getDetectedLanguage() {
     return detectedLanguage;
   }
+
+  @Override
+  public String toString() {
+    return detectedLanguage.getShortCodeWithCountryAndVariant();
+  }
 }
