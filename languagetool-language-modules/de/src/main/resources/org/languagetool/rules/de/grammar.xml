@@ -13585,7 +13585,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>-frauen</token>
             </antipattern>
             <pattern>
-                <token regexp="yes">(.*kauf|See|Feuerwehr|Gewährs|Edel|Vertrauens|Ombuds)männern?</token>
+                <token regexp="yes">(.*kauf|See|Feuerwehr|Gewährs|Edel|Vertrauens|Ombuds|Wach|Geschäfts)männern?</token>
             </pattern>
             <message>Evtl. passt der geschlechtsneutrale Begriff <suggestion><match no="1" regexp_match="männer(n)?" regexp_replace="leute$1"/></suggestion> besser.</message>
             <example correction="Feuerwehrleute">Es waren viele <marker>Feuerwehrmänner</marker> im Einsatz.</example>
@@ -13815,7 +13815,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">(Herz|Freund)liche|Liebe|Viele</token>
+                    <token regexp="yes">(Herz|Freund)liche|Liebe|Viele|Beste</token>
                     <marker>
                         <token>grüße</token>
                     </marker>
@@ -17550,16 +17550,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="WOHL_ODER_UEBEL" name="Wohl oder Übel (wohl oder übel)">
             <rule>
-                <pattern>
-                    <token case_sensitive="yes">wohl</token>
+                <pattern case_sensitive="yes">
+                    <token>wohl</token>
                     <token>oder</token>
                     <marker>
-                        <token case_sensitive="yes">Übel</token>
+                        <token regexp="yes">Übel|übe</token>
                     </marker>
                 </pattern>
-                <message>Meinten Sie 'wohl oder <suggestion><match no="3" case_conversion="startlower"/></suggestion>' (= notgedrungen)?</message>
+                <message>Meinten Sie 'wohl oder <suggestion><match no="3" regexp_match=".+" regexp_replace="übel" case_conversion="startlower"/></suggestion>' (= notgedrungen)?</message>
                 <short>&prgk;.</short>
                 <example correction="übel">Er musste wohl oder <marker>Übel</marker> gehen.</example>
+                <example correction="übel">Er musste wohl oder <marker>übe</marker> gehen.</example>
             </rule>
         </rulegroup>
         <rulegroup id="IN_DER_KLEMME" name="'in der klemme (Klemme) stecken' etc.">
@@ -17813,7 +17814,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">ist|war</token>
+                    <token regexp="yes">ist|sei|war|wäre</token>
                     <token regexp="yes">ein|der</token>
                     <token postag="ADJ:NOM:SIN:MAS.*" postag_regexp="yes"/>
                     <marker>
@@ -17833,7 +17834,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>gut</token>
                 </antipattern>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">ist|war</token>
+                    <token regexp="yes">ist|sei|war|wäre</token>
                     <token regexp="yes">ein|das</token>
                     <marker>
                         <token regexp="yes">&neusubklein;</token>
@@ -17846,7 +17847,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">ist|war</token>
+                    <token regexp="yes">ist|sei|war|wäre</token>
                     <token regexp="yes">ein|das</token>
                     <token postag="ADJ:NOM:SIN:NEU.*" postag_regexp="yes"/>
                     <marker>
@@ -17857,6 +17858,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>&subanfang;<suggestion><match no="4" case_conversion="startupper"/></suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example correction="Ende">Das war ein blödes <marker>ende</marker>.</example>
+                <example correction="Ende">Das wäre ein blödes <marker>ende</marker>.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
