@@ -83,18 +83,21 @@ class ResultExtender {
         HttpURLConnection huc = (HttpURLConnection) url.openConnection();
         HttpURLConnection.setFollowRedirects(false);
         huc.setConnectTimeout(connectTimeoutMillis);
+        huc.setReadTimeout(connectTimeoutMillis*5);
         huc.setRequestMethod("POST");
         huc.setDoOutput(true);
-        huc.connect();
-        try (DataOutputStream wr = new DataOutputStream(huc.getOutputStream())) {
-          String urlParameters = "language=" + lang.getShortCodeWithCountryAndVariant() + "&text=" + plainText;
-          byte[] postData = urlParameters.getBytes(StandardCharsets.UTF_8);
-          wr.write(postData);
+        try {
+          huc.connect();
+          try (DataOutputStream wr = new DataOutputStream(huc.getOutputStream())) {
+            String urlParameters = "language=" + lang.getShortCodeWithCountryAndVariant() + "&text=" + plainText;
+            byte[] postData = urlParameters.getBytes(StandardCharsets.UTF_8);
+            wr.write(postData);
+          }
+          InputStream input = huc.getInputStream();
+          return parseJson(input);
+        } finally {
+          huc.disconnect();
         }
-        InputStream input = huc.getInputStream();
-        List<RemoteRuleMatch> remoteRuleMatches = parseJson(input);
-        huc.disconnect();
-        return remoteRuleMatches;
       });
   }
 
