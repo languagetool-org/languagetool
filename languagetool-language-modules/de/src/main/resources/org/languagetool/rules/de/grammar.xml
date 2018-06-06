@@ -16681,11 +16681,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>beweise</token>
                     </marker>
-                    <token inflected="yes" regexp="yes">vorlegen|erbringen|führen</token>
+                    <token inflected="yes" regexp="yes">vorlegen|erbringen|führen|fälschen</token>
                 </pattern>
                 <message>&subanfang;<suggestion><match no="1" case_conversion="startupper"/></suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example correction="Beweise">Ich werde euch <marker>beweise</marker> vorlegen.</example>
+                <example correction="Beweise">Sie haben <marker>beweise</marker> gefälscht.</example>
             </rule>
         </rulegroup>
         <rulegroup id="UNIFORM_SUBST" name="'in uniform (Uniform)' etc.">
@@ -16738,11 +16739,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>knoten</token>
                     </marker>
-                    <token inflected="yes" regexp="yes">knüpfen|binden</token>
+                    <token inflected="yes" regexp="yes">knüpfen|binden|lösen</token>
                 </pattern>
                 <message>&subanfang;<suggestion><match no="1" case_conversion="startupper"/></suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example correction="Knoten">Ich werde <marker>knoten</marker> knüpfen.</example>
+                <example correction="Knoten">Wer hat den <marker>knoten</marker> gelöst?</example>
             </rule>
         </rulegroup>
         <rulegroup id="FISCHE_SUBST" name="'fische (Fische) fangen' etc.">
@@ -16764,7 +16766,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>arbeiten</token>
                     </marker>
-                    <token inflected="yes" regexp="yes">verrichten|korrigieren|schreiben</token>
+                    <token inflected="yes" regexp="yes">verrichten|korrigieren|schreiben|beenden|abbrechen</token>
                 </pattern>
                 <message>&subanfang;<suggestion><match no="1" case_conversion="startupper"/></suggestion>&subende;</message>
                 <short>&prgk;.</short>
@@ -19259,23 +19261,12 @@ Andere Projekte</example>
                     <marker>
                         <token>wogen</token>
                     </marker>
+                    <token min="0">zu</token>
                     <token inflected="yes">glätten</token>
                 </pattern>
                 <message>&subanfang;<suggestion>Wogen</suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example correction="Wogen">Ich wollte nur die <marker>wogen</marker> glätten.</example>
-            </rule>
-            <rule>
-                <pattern case_sensitive="yes">
-                    <token regexp="yes">[dD]ie</token>
-                    <marker>
-                        <token>wogen</token>
-                    </marker>
-                    <token>zu</token>
-                    <token>glätten</token>
-                </pattern>
-                <message>&subanfang;<suggestion>Wogen</suggestion>&subende;</message>
-                <short>&prgk;.</short>
                 <example correction="Wogen">Es ist nicht einfach, die <marker>wogen</marker> zu glätten.</example>
             </rule>
             <rule>
@@ -19406,7 +19397,7 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes" skip="1">kommen|kamen</token>
+                    <token inflected="yes" skip="1">kommen</token>
                     <token>die</token>
                     <marker>
                         <token>tränen</token>
@@ -19423,7 +19414,7 @@ Andere Projekte</example>
                     <marker>
                         <token>tränen</token>
                     </marker>
-                    <token regexp="yes">(ge)?kommen|kamen</token>
+                    <token inflected="yes">kommen</token>
                 </pattern>
                 <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
                 <short>&prgk;.</short>
@@ -19435,7 +19426,7 @@ Andere Projekte</example>
         <rulegroup id="RUNDE_SUBST" name="'über die runden (Runden) kommen' etc.">
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">[msdD]?eine|ihre|einige</token>
+                    <token regexp="yes">[msdD]?eine|ihre|einige|zwei|drei|vier</token>
                     <marker>
                         <token regexp="yes">runden?</token>
                     </marker>
@@ -28258,7 +28249,7 @@ Andere Projekte</example>
         <rulegroup id="TONARTEN" name="Groß-/Kleinschreibung bei Tonarten: 'A-Moll (a-Moll)/c-Dur (C-Dur)' etc.">
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">(As|Es|B|F|C|G|D|A|E|H|Fis|Cis|Gis|Dis|Ais)\-Moll</token>
+                    <token regexp="yes">(As?|Es?|B|F|C|G|D|H|Fis|Cis|Gis|Dis|Ais)\-Moll</token>
                 </pattern>
                 <message>Bei Molltonarten wird der Buchstabe zur Bezeichnung der Tonart kleingeschrieben: <suggestion><match case_conversion="startlower" no="1"/></suggestion>.</message>
                 <url>http://www.canoo.net/services/Controller?dispatch=spelling&amp;input=Moll</url>
