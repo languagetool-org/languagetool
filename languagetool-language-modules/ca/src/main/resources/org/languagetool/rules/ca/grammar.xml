@@ -11616,6 +11616,37 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="CONFUSIONS" name="Z1) Confusions" type="grammar">
+        <rule id="SERE" name="serè/seré">
+            <antipattern>
+                <marker>
+                    <token regexp="yes">temps|oratge|caràcter|dia</token>
+                    <token>serè</token>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token postag="V.[^P].*|_GV_|SPS00|DA0MS0" postag_regexp="yes"/>
+                    <token min="0" max="3" postag="RG|.*LOC_ADV.*" postag_regexp="yes"/>
+                    <token>serè</token>
+                </marker>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token>serè<exception postag="_possible_nompropi|_GN_MS" postag_regexp="yes"/></token>
+                </marker>
+                <token postag="RG" min="0"><exception postag="CS|P[RT].*" postag_regexp="yes"/></token>
+                <token postag="AQ.*|V.P.*|D[^N].*" postag_regexp="yes"/>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>seré</suggestion> (del v. ser)?</message>
+            <example correction="seré">No <marker>serè</marker> gaire prolix.</example>
+            <example correction="seré">No <marker>serè</marker> l'únic.</example>
+            <example correction="seré">I <marker>serè</marker> molt clar.</example>
+            <example correction="Seré"><marker>Serè</marker> aquell iaio que ho sap tot.</example>
+            <example>Amb un to tan serè com el del president.</example>
+            <example>Feia un temps serè aquell dia</example>
+            <example>s'entén per dia serè aquell en el qual</example>
+            <example>Estava molt serè aquell dia</example>
+        </rule>
         <rulegroup id="BASTISSIM" name="bastíssim/vastísim">
             <rule>
                 <pattern>
@@ -19914,7 +19945,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="DIACRITICS_NO_IEC" name="Z) Accents diacrítics eliminats per l'IEC" type="grammar">
-                <rulegroup id="FEU" name="feu/féu">
+        <rulegroup id="FEU" name="feu/féu">
             <!-- Cal estudiar "que el feu". Mirar que no hi hagi cap verb ni pronom de 2P abans. "que el feu famós"... -->
             <antipattern>
                 <marker>
@@ -20820,37 +20851,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Se li «sentia» tot.</example>
             </rule>
         </rulegroup>
-        <rule id="SERE" name="serè/seré">
-            <antipattern>
-                <marker>
-                    <token regexp="yes">temps|oratge|caràcter|dia</token>
-                    <token>serè</token>
-                </marker>
-            </antipattern>
-            <antipattern>
-                <marker>
-                    <token postag="V.[^P].*|_GV_|SPS00|DA0MS0" postag_regexp="yes"/>
-                    <token min="0" max="3" postag="RG|.*LOC_ADV.*" postag_regexp="yes"/>
-                    <token>serè</token>
-                </marker>
-            </antipattern>
-            <pattern>
-                <marker>
-                    <token>serè<exception postag="_possible_nompropi|_GN_MS" postag_regexp="yes"/></token>
-                </marker>
-                <token postag="RG" min="0"><exception postag="CS|P[RT].*" postag_regexp="yes"/></token>
-                <token postag="AQ.*|V.P.*|D[^N].*" postag_regexp="yes"/>
-            </pattern>
-            <message>¿Volíeu dir <suggestion>seré</suggestion> (del v. ser)?</message>
-            <example correction="seré">No <marker>serè</marker> gaire prolix.</example>
-            <example correction="seré">No <marker>serè</marker> l'únic.</example>
-            <example correction="seré">I <marker>serè</marker> molt clar.</example>
-            <example correction="Seré"><marker>Serè</marker> aquell iaio que ho sap tot.</example>
-            <example>Amb un to tan serè com el del president.</example>
-            <example>Feia un temps serè aquell dia</example>
-            <example>s'entén per dia serè aquell en el qual</example>
-            <example>Estava molt serè aquell dia</example>
-        </rule>
         <rulegroup id="US" name="us/ús">
             <rule>
                 <pattern>
