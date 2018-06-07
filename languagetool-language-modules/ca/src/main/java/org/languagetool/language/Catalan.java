@@ -32,6 +32,7 @@ import org.languagetool.rules.ca.CatalanUnpairedBracketsRule;
 import org.languagetool.rules.ca.CatalanUnpairedExclamationMarksRule;
 import org.languagetool.rules.ca.CatalanUnpairedQuestionMarksRule;
 import org.languagetool.rules.ca.CatalanWordRepeatRule;
+import org.languagetool.rules.ca.CatalanWrongWordInContextDiacriticsRule;
 import org.languagetool.rules.ca.CatalanWrongWordInContextRule;
 import org.languagetool.rules.ca.ComplexAdjectiveConcordanceRule;
 import org.languagetool.rules.ca.MorfologikCatalanSpellerRule;
@@ -40,6 +41,8 @@ import org.languagetool.rules.ca.ReplaceOperationNamesRule;
 import org.languagetool.rules.ca.SimpleReplaceRule;
 import org.languagetool.rules.ca.SimpleReplaceBalearicRule;
 import org.languagetool.rules.ca.SimpleReplaceDNVRule;
+import org.languagetool.rules.ca.SimpleReplaceDiacriticsIEC;
+import org.languagetool.rules.ca.SimpleReplaceDiacriticsTraditional;
 import org.languagetool.rules.ca.SimpleReplaceVerbsRule;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.ca.CatalanSynthesizer;
@@ -108,12 +111,15 @@ public class Catalan extends Language {
             new AccentuationCheckRule(messages),
             new ComplexAdjectiveConcordanceRule(messages),
             new CatalanWrongWordInContextRule(messages),
+            new CatalanWrongWordInContextDiacriticsRule(messages),
             new ReflexiveVerbsRule(messages),
             new SimpleReplaceVerbsRule(messages, this),
             new SimpleReplaceBalearicRule(messages),
             new SimpleReplaceRule(messages),
             new ReplaceOperationNamesRule(messages, this),
-            new SimpleReplaceDNVRule(messages, this) // can be removed here after updating dictionaries
+            new SimpleReplaceDNVRule(messages, this), // can be removed here after updating dictionaries
+            new SimpleReplaceDiacriticsIEC(messages),
+            new SimpleReplaceDiacriticsTraditional(messages)
     );
   }
 
