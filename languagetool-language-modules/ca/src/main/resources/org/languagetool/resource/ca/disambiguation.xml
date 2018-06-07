@@ -832,6 +832,46 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="remove" postag="V.M.*"></disambig>
         </rule>
     </rulegroup>
+    <rulegroup id="nom_vocals" name="el nom de les vocals">
+        <rule>
+            <pattern>
+                <token>la</token>
+                <marker>
+                    <token regexp="yes">a|e|i|o|u</token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="N.*" />
+        </rule>
+        <rule>
+            <pattern>
+                <token>l'</token>
+                <token>una</token>
+                <marker>
+                    <token>a</token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="SPS00" />
+        </rule>
+        <rule>
+            <pattern>
+                <token>una<exception postag=".*LOC.*" postag_regexp="yes"/></token>
+                <marker>
+                    <token postag="NC.*" postag_regexp="yes" regexp="yes">a|e|u</token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="N.*" />
+        </rule>
+    </rulegroup>
+    <rule id="noNom" name="no nom">
+        <!--  paraules comunes que no solen ser noms gairebé mai (es,...) -->
+        <pattern>
+            <and>
+                <token postag="N.*" postag_regexp="yes" regexp="yes">creix|ros|se|es|de|i|o|a|he|ha|hem|més|en|per|ni|no|menys|fas|com</token>
+                <token postag="N.*" postag_regexp="yes" negate_pos="yes" />
+            </and>
+        </pattern>
+        <disambig action="remove" postag="N.*"/>
+    </rule>
     <rulegroup id="LOCUCIONS" name="locucions adverbials, preposicionals, conjuntives">
         <!-- locucions concretes-->
         <rule id="duna_banda" name="d'una banda (locució conj.)">
@@ -2435,36 +2475,6 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="filter" postag="SPS00|.*LOC_ADV.*" />
         </rule>
     </rulegroup>
-    <rulegroup id="nom_vocals" name="el nom de les vocals">
-        <rule>
-            <pattern>
-                <token>la</token>
-                <marker>
-                    <token regexp="yes">a|e|i|o|u</token>
-                </marker>
-            </pattern>
-            <disambig action="filter" postag="N.*" />
-        </rule>
-        <rule>
-            <pattern>
-                <token>l'</token>
-                <token>una</token>
-                <marker>
-                    <token>a</token>
-                </marker>
-            </pattern>
-            <disambig action="filter" postag="SPS00" />
-        </rule>
-        <rule>
-            <pattern>
-                <token>una<exception postag=".*LOC.*" postag_regexp="yes"/></token>
-                <marker>
-                    <token postag="NC.*" postag_regexp="yes" regexp="yes">a|e|u</token>
-                </marker>
-            </pattern>
-            <disambig action="filter" postag="N.*" />
-        </rule>
-    </rulegroup>
     <rule id="ara_no_conjuncio" name="ara (adverbi no conjunció)"> <!-- ¿És necessari en algun cas? -->
         <pattern>
             <marker>
@@ -2531,18 +2541,6 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="remove" postag="V.*"/>
     </rule>
-    <rule id="noNom" name="no nom">
-        <!--  paraules comunes que no solen ser noms gairebé mai (es,...) -->
-        <pattern>
-            <and>
-                <token postag="N.*" postag_regexp="yes" regexp="yes">creix|ros|se|es|de|i|o|a|he|ha|hem|més|en|per|ni|no|menys|fas</token>
-                <token postag="N.*" postag_regexp="yes" negate_pos="yes" />
-            </and>
-        </pattern>
-        <disambig>
-            <match no="1" postag_regexp="yes" postag="[^N].*"></match>
-        </disambig>
-    </rule>
     <rulegroup id="notes_musicals" name="notes musicals (nom)">
         <rule>
             <pattern>
@@ -2562,6 +2560,67 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </pattern>
             <disambig action="filter" postag="N.*"/>
             <example type="untouched">És <marker>la</marker> major concentració mundial de cotxes.</example>
+        </rule>
+    </rulegroup>
+    <rulegroup id="molt_noparticipi" name="molt no participi">
+        <rule>
+            <pattern>
+                <token>hi</token>
+                <token inflected="yes">haver</token>
+                <marker>
+                    <token inflected="yes">molt</token>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="V.P.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token>hi</token>
+                <token inflected="yes">haver</token>
+                <token inflected="yes">haver</token>
+                <marker>
+                    <token inflected="yes">molt</token>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="V.P.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token>hi</token>
+                <token inflected="yes">anar</token>
+                <token inflected="yes">haver</token>
+                <marker>
+                    <token inflected="yes">molt</token>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="V.P.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token inflected="yes">ser</token>
+                <marker>
+                    <token inflected="yes">molt</token>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="V.P.*"/>
+        </rule>
+        <rule> <!-- si encara no s'ha eliminat el participi -->
+            <pattern>
+                <token inflected="yes">haver</token>
+                <marker>
+                    <and>
+                        <token postag="V.P.*" postag_regexp="yes" inflected="yes">moldre</token>
+                        <token inflected="yes">molt</token>
+                    </and>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="[DP].*"/>
+        </rule>
+        <rule> 
+            <pattern>
+                <token inflected="yes">molt</token>
+            </pattern>
+            <disambig action="remove" postag="V.P.*"/>
         </rule>
     </rulegroup>
     <rule id="fer_nVerbConjug" name="no sol ser verb conjugar: fer">
