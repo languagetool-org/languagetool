@@ -19,7 +19,9 @@
 package org.languagetool;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -30,7 +32,7 @@ import java.util.Objects;
 public class UserConfig {
 
   private final List<String> userSpecificSpellerWords;
-  private final ConfigValues configValues = new ConfigValues();
+  private final Map<String, Integer> configurableRuleValues = new HashMap<>();
 
   public UserConfig() {
     userSpecificSpellerWords = new ArrayList<String>();
@@ -40,30 +42,39 @@ public class UserConfig {
     this.userSpecificSpellerWords = Objects.requireNonNull(userSpecificSpellerWords);
   }
 
-  public UserConfig(ConfigValues configValues) {
-    this.configValues.insertList(Objects.requireNonNull(configValues));
+  public UserConfig(Map<String, Integer> ruleValues) {
+    for (Map.Entry<String, Integer> entry : ruleValues.entrySet()) {
+      this.configurableRuleValues.put(entry.getKey(), entry.getValue());
+    }
     userSpecificSpellerWords = new ArrayList<String>();
   }
 
-  public UserConfig(List<String> userSpecificSpellerWords, ConfigValues configValues) {
+  public UserConfig(List<String> userSpecificSpellerWords, Map<String, Integer> ruleValues) {
     this.userSpecificSpellerWords = Objects.requireNonNull(userSpecificSpellerWords);
-    this.configValues.insertList(Objects.requireNonNull(configValues));
+    for (Map.Entry<String, Integer> entry : ruleValues.entrySet()) {
+      this.configurableRuleValues.put(entry.getKey(), entry.getValue());
+    }
   }
 
   public List<String> getAcceptedWords() {
     return userSpecificSpellerWords;
   }
 
-  public ConfigValues getConfigValues() {
-    return configValues;
+  public Map<String, Integer> getConfigValues() {
+    return configurableRuleValues;
   }
   
-  public void insertConfigValues(ConfigValues configValues) {
-    this.configValues.insertList(configValues);
+  public void insertConfigValues(Map<String, Integer>  ruleValues) {
+    for (Map.Entry<String, Integer> entry : ruleValues.entrySet()) {
+      this.configurableRuleValues.put(entry.getKey(), entry.getValue());
+    }
   }
   
-  public int getConfigValueByID(String id) {
-    return configValues.getValueById(id);
+  public int getConfigValueByID(String ruleID) {
+    if(configurableRuleValues.containsKey(ruleID)) {
+      return configurableRuleValues.get(ruleID);
+    }
+    return -1;
   }
   
   @Override

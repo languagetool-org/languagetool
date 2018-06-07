@@ -104,6 +104,37 @@ public class LongSentenceRule extends Rule {
     return maxWords;
   }
 
+  /**
+   * @since 4.2
+   */
+  @Override
+  public boolean hasConfigurableValue() {
+    return true;
+  }
+
+  /**
+   * @since 4.2
+   */
+  @Override
+  public int getMinConfigurableValue() {
+    return 5;
+  }
+
+  /**
+   * @since 4.2
+   */
+  @Override
+  public int getMaxConfigurableValue() {
+    return 100;
+  }
+
+  /**
+   * @since 4.2
+   */
+  public String getConfigureText() {
+    return messages.getString("guiLongSentencesText");
+  }
+
   public String getMessage() {
 		return MessageFormat.format(messages.getString("long_sentence_rule_msg2"), maxWords);
   }

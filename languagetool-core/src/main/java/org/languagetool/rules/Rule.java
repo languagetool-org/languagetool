@@ -113,11 +113,43 @@ public abstract class Rule {
   }
 
   /**
+   * Overwrite this to return true, if a value may be configured by option panel
+   * @since 4.2
+   */
+  public boolean hasConfigurableValue() {
+    return false;
+  }
+
+  /**
    * Overwrite this to get a default Integer value by option panel
    * @since 4.1
    */
   public int getDefaultValue() {
     return 0;
+  }
+
+  /**
+   * Overwrite this to define the minimum of a configurable value
+   * @since 4.2
+   */
+  public int getMinConfigurableValue() {
+    return 0;
+  }
+
+  /**
+   * Overwrite this to define the maximum of a configurable value
+   * @since 4.2
+   */
+  public int getMaxConfigurableValue() {
+    return 100;
+  }
+
+  /**
+   * Overwrite this to define the Text in the option panel for the configurable value
+   * @since 4.2
+   */
+  public String getConfigureText() {
+    return "";
   }
 
   /**

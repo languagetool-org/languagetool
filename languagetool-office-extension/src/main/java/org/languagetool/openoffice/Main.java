@@ -453,7 +453,7 @@ public class Main extends WeakBase implements XJobExecutor,
       prepareConfig(docLanguage);
       // not using MultiThreadedJLanguageTool here fixes "osl::Thread::Create failed", see https://bugs.documentfoundation.org/show_bug.cgi?id=90740:
       langTool = new JLanguageTool(docLanguage, config.getMotherTongue(), null, 
-          new UserConfig(config.getConfigValues()));
+          new UserConfig(config.getConfigurableValues()));
       File ngramDirectory = config.getNgramDirectory();
       if (ngramDirectory != null) {
         File ngramLangDir = new File(config.getNgramDirectory(), docLanguage.getShortCode());

@@ -98,6 +98,37 @@ public abstract class AbstractStyleRepeatedWordRule  extends TextLevelRule {
     return maxDistanceOfSentences;
   }
   
+  /**
+   * @since 4.2
+   */
+  @Override
+  public boolean hasConfigurableValue() {
+    return true;
+  }
+
+  /**
+   * @since 4.2
+   */
+  @Override
+  public int getMinConfigurableValue() {
+    return 0;
+  }
+
+  /**
+   * @since 4.2
+   */
+  @Override
+  public int getMaxConfigurableValue() {
+    return 5;
+  }
+
+  /**
+   * @since 4.2
+   */
+  public String getConfigureText() {
+    return messages.getString("guiStyleRepeatedWordText");
+  }
+
   /*
    * Check only special words (e.g substantive, verbs, adjectives)
    * (German example: return (token.matchesPosTagRegex("(SUB|EIG|VER|ADJ):.*") 

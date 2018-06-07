@@ -53,7 +53,7 @@ class ConfigThread extends Thread {
   public void run() {
     try {
       JLanguageTool langTool = new JLanguageTool(docLanguage, config.getMotherTongue()
-          , null, new UserConfig(config.getConfigValues()));
+          , null, new UserConfig(config.getConfigurableValues()));
       List<Rule> allRules = langTool.getAllRules();
       for (Rule rule : allRules) {
         if(rule.isOfficeDefaultOn()) rule.setDefaultOn();

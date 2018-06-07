@@ -155,7 +155,7 @@ class LanguageToolSupport {
   
     Language language = languageTool.getLanguage();
     languageTool = new MultiThreadedJLanguageTool(language, config.getMotherTongue(), 
-        new UserConfig(config.getConfigValues()));
+        new UserConfig(config.getConfigurableValues()));
 
     Set<String> disabledRules = config.getDisabledRuleIds();
     if (disabledRules == null) {
@@ -250,7 +250,7 @@ class LanguageToolSupport {
       //  languageTool.shutdownWhenDone();
       //}
       languageTool = new MultiThreadedJLanguageTool(language, config.getMotherTongue(), 
-          new UserConfig(config.getConfigValues()));
+          new UserConfig(config.getConfigurableValues()));
       languageTool.setCleanOverlappingMatches(false);
       Tools.configureFromRules(languageTool, config);
       activateLanguageModelRules(language);

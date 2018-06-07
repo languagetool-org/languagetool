@@ -1205,7 +1205,7 @@ public class JLanguageTool {
   
   }
   
-  public void setConfigValues(ConfigValues v) {
+  public void setConfigValues(Map<String, Integer> v) {
     userConfig.insertConfigValues(v);
   }
 
