@@ -6113,11 +6113,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="ALTRE_UN_ALTRE" name="altre/un altre">
             <pattern>
                 <token postag="SENT_START"></token>
-                <token regexp="yes">altre|altra</token>
+                <marker>
+                    <token regexp="yes">altre|altra</token>
+                </marker>
+                <token><exception regexp="yes">cop|colp|vegada|volta|pic</exception></token>
             </pattern>
-            <message>Probablement cal dir <suggestion><match no="2" postag=".*([MF])S.*" postag_regexp="yes" postag_replace="DI0$1S0">un</match> <match no="2" case_conversion ="startlower"/></suggestion>.</message>
+            <message>Probablement cal dir <suggestion><match no="2" postag=".*([MF])S.*" postag_regexp="yes" postag_replace="DI0$1S0" case_conversion ="startupper">un</match> <match no="2" case_conversion ="startlower"/></suggestion>.</message>
             <example correction="Un altre"><marker>Altre</marker> dels motius.</example>
             <example correction="Una altra"><marker>Altra</marker> de les raons.</example>
+            <example>Altra vegada tu.</example>
         </rule>
         <rulegroup id="ARTICLE_EN_PAISOS" name="països que solen dur article">
             <rule>
