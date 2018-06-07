@@ -2604,6 +2604,16 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </pattern>
             <disambig action="remove" postag="V.P.*"/>
         </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token inflected="yes">molt</token>
+                </marker>
+                <token>ben</token>
+                <token postag="V.P.*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="remove" postag="V.P.*"/>
+        </rule>
         <rule> <!-- si encara no s'ha eliminat el participi -->
             <pattern>
                 <token inflected="yes">haver</token>
@@ -2614,11 +2624,11 @@ Copyright (C) 2012 Jaume Ortolà i Font
                     </and>
                 </marker>
             </pattern>
-            <disambig action="remove" postag="[DP].*"/>
+            <disambig action="remove" postag="[DPR].*"/>
         </rule>
         <rule> 
             <pattern>
-                <token inflected="yes">molt</token>
+                <token postag="[DPR].*" postag_regexp="yes" inflected="yes">molt</token>
             </pattern>
             <disambig action="remove" postag="V.P.*"/>
         </rule>
