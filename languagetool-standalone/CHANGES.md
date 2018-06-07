@@ -4,6 +4,7 @@
 
 #### Catalan
   * added and improved rules
+  * rules and updated dictionary for new diacritics rules (IEC 2017)
 
 #### Breton
   * Made many messages shorter
