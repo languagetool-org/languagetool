@@ -37,6 +37,7 @@ import org.languagetool.rules.ca.CatalanUnpairedBracketsRule;
 import org.languagetool.rules.ca.CatalanUnpairedExclamationMarksRule;
 import org.languagetool.rules.ca.CatalanUnpairedQuestionMarksRule;
 import org.languagetool.rules.ca.CatalanWordRepeatRule;
+import org.languagetool.rules.ca.CatalanWrongWordInContextDiacriticsRule;
 import org.languagetool.rules.ca.CatalanWrongWordInContextRule;
 import org.languagetool.rules.ca.ComplexAdjectiveConcordanceRule;
 import org.languagetool.rules.ca.MorfologikCatalanSpellerRule;
@@ -46,6 +47,8 @@ import org.languagetool.rules.ca.SimpleReplaceBalearicRule;
 import org.languagetool.rules.ca.SimpleReplaceDNVColloquialRule;
 import org.languagetool.rules.ca.SimpleReplaceDNVRule;
 import org.languagetool.rules.ca.SimpleReplaceDNVSecondaryRule;
+import org.languagetool.rules.ca.SimpleReplaceDiacriticsIEC;
+import org.languagetool.rules.ca.SimpleReplaceDiacriticsTraditional;
 import org.languagetool.rules.ca.SimpleReplaceRule;
 import org.languagetool.rules.ca.SimpleReplaceVerbsRule;
 
@@ -87,6 +90,7 @@ public class ValencianCatalan extends Catalan {
             new AccentuationCheckRule(messages),
             new ComplexAdjectiveConcordanceRule(messages),
             new CatalanWrongWordInContextRule(messages),
+            new CatalanWrongWordInContextDiacriticsRule(messages),
             new ReflexiveVerbsRule(messages),
             new SimpleReplaceVerbsRule(messages, this),
             new SimpleReplaceBalearicRule(messages),
@@ -95,7 +99,9 @@ public class ValencianCatalan extends Catalan {
             // Valencian DNV
             new SimpleReplaceDNVRule(messages, this),
             new SimpleReplaceDNVColloquialRule(messages, this),
-            new SimpleReplaceDNVSecondaryRule(messages, this)
+            new SimpleReplaceDNVSecondaryRule(messages, this),
+            new SimpleReplaceDiacriticsIEC(messages),
+            new SimpleReplaceDiacriticsTraditional(messages)
     );
   }
 

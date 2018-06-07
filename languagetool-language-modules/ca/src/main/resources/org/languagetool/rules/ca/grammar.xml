@@ -91,7 +91,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY verbs_balears_ES "adès|avès|exprès|ingrès|procès|profès|progrès|regrès|reingrès|revès|travès">
     <!ENTITY vocabulari_menjar "xocolata|xocolate|allioli|aliment|all|amanida|arròs|bolet|carn|carxofa|cep|coriandre|fava|fetge|foie|formatge|gamba|j[ou]livert|llamàntol|llobregant|lluç|macarró|magret|mandonguilla|mango|menjar|mongeta|p[éè]sol|pa|pastís|porc|r[eo]nyó|safrà|tofu|verdura|vi|ànec">
     <!ENTITY pronom_feble "P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00">
+    <!ENTITY os_animal "caverna|bru|grizzly|polar|hibern.*">
+    <!ENTITY os_anatomia "moll|medul·la">
+    <!ENTITY mora_fruit "silvestre|fruit.*|baia|pastís|melmelada|esbarzer.*|sarsa|sarsaparrella|arbust|punxa|menja.* pagament|administra.*">
+    <!ENTITY mora_retard "pagament|administra.*">
+    <!ENTITY bota_recipient "sardina|congreny.*|bodega|doga|cèrcol|diàmetre|barril|vaixell|vi|racó|celler|nas|oli|ferment.*|envell.+">
+    <!ENTITY bota_calçat "peu|calça.*|calce.*|muntar|enllustr.*|roba|pantaló|mitjó">
 ]>
+
 <rules lang="ca" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
     <unification feature="nombre">
         <equivalence type="S">
@@ -19944,7 +19951,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
     </category>
-    <category id="DIACRITICS_NO_IEC" name="Z) Accents diacrítics eliminats per l'IEC" type="grammar">
+    <category id="DIACRITICS_TRADITIONAL" name="Z) Accents diacrítics tradicionals" type="misspelling" default="on">
         <rulegroup id="FEU" name="feu/féu">
             <!-- Cal estudiar "que el feu". Mirar que no hi hagi cap verb ni pronom de 2P abans. "que el feu famós"... -->
             <antipattern>
@@ -20816,7 +20823,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
     </category>
-    <category id="DIACRITICS" name="Z) Accents diacrítics" type="grammar">
+    <category id="DIACRITICS" name="Z) Accents diacrítics comuns" type="misspelling">
         <rulegroup id="SE" name="se/sé">
             <antipattern>
                 <marker>
