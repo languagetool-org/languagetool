@@ -20837,6 +20837,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="soc">Aquest <marker>sóc</marker> jo no el tallo.</example>
             </rule>
         </rulegroup>
+        <rule id="MOLT" name="molt/mòlt">
+            <pattern>
+                <token postag="V.P.*" postag_regexp="yes" regexp="yes">molt|molta|molts|moltes</token>
+            </pattern>
+            <message>Si és del verb moldre, falta l'accent.</message>
+            <suggestion><match no="1" regexp_match="(?i)mo(.*)" regexp_replace="mò$1"/></suggestion>
+            <example correction="mòlt">L'has <marker>molt</marker></example>
+            <example>Hi ha molta gana</example>
+            <example>L’havia molt ben acollit</example>
+            <example>En una sèrie hi pot haver molts capítols.</example>
+            <example>En una sèrie hi pot haver hagut molts capítols.</example>
+        </rule>
     </category>
     <category id="DIACRITICS" name="Z) Accents diacrítics comuns" type="misspelling">
         <rulegroup id="SE" name="se/sé">
@@ -22776,18 +22788,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Es prima la lleialtat.</example>
             </rule>
         </rulegroup>
-        <rule id="MOLT" name="molt/mòlt">
-            <pattern>
-                <token postag="V.P.*" postag_regexp="yes" regexp="yes">molt|molta|molts|moltes</token>
-            </pattern>
-            <message>Si és del verb moldre, falta l'accent.</message>
-            <suggestion><match no="1" regexp_match="(?i)mo(.*)" regexp_replace="mò$1"/></suggestion>
-            <example correction="mòlt">L'has <marker>molt</marker></example>
-            <example>Hi ha molta gana</example>
-            <example>L’havia molt ben acollit</example>
-            <example>En una sèrie hi pot haver molts capítols.</example>
-            <example>En una sèrie hi pot haver hagut molts capítols.</example>
-        </rule>
     </category>
     <category id="PRONOMS_FEBLES" name="Pronoms febles" type="grammar">
         <rulegroup id="PRONOMS_FEBLES_DUPLICATS" name="pronoms febles duplicats">
