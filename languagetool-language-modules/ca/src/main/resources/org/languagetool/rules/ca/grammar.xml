@@ -20479,6 +20479,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="dóna">La portalada que <marker>dona</marker> al carrer.</example>
                 <example>el vot lliure dels diputats dóna una imatge de divisiór.</example>
                 <example>una dona gran que seia en una taula.</example>
+                <example>Va ser la primera dona cosmonauta.</example>
             </rule>
             <rule>
                 <pattern>
@@ -20525,6 +20526,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>La dona amb al qual vaig parlar.</example>
                 <example>et dona nobis pacem</example>
                 <example>D'elegir-la Dona de l'Any.</example>
+                <example>La dona ferida era una turista brasilera.</example>
                 <!--  De tu dona jo sempre m'he queixat -->
             </rule>
             <rule>
@@ -20712,18 +20714,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rule id="DONA_COMPTE" name="dona/dóna compte">
+            <antipattern>
+                <marker>
+                    <token postag="D[^D].FS." postag_regexp="yes"/>
+                    <token>dona</token>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token postag="D..FP." postag_regexp="yes"/>
+                    <token>dones</token>
+                </marker>
+            </antipattern>
             <pattern>
-                <token><exception postag="D.*|_GN.*" postag_regexp="yes"/></token>
                 <marker>
                     <token regexp="yes">dona|dones</token>
                 </marker>
-                <token regexp="yes">compte|ajuda|valor|lloc|inici|accés</token>
+                <token regexp="yes">compte|ajuda|valor|lloc|inici|accés|fruit</token>
                 <!-- són nom i verb-->
             </pattern>
             <message>S'accentua quan és del verb "donar".</message>
-            <suggestion><match no="2" regexp_match=".+(a|es)" regexp_replace="dón$1"></match></suggestion>
+            <suggestion><match no="1" regexp_match="(?i).+(a|es)" regexp_replace="dón$1"></match></suggestion>
             <example correction="dóna">Ell <marker>dona</marker> compte al banquer.</example>
             <example correction="dóna">I en <marker>dona</marker> compte al jutge.</example>
+            <example correction="dóna">Aquesta <marker>dona</marker> fruit.</example>
             <example>Donar a les dones accés al crèdit.</example>
         </rule>
         <rulegroup id="SOC" name="soc/sóc">
@@ -22771,6 +22785,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="mòlt">L'has <marker>molt</marker></example>
             <example>Hi ha molta gana</example>
             <example>L’havia molt ben acollit</example>
+            <example>En una sèrie hi pot haver molts capítols.</example>
+            <example>En una sèrie hi pot haver hagut molts capítols.</example>
         </rule>
     </category>
     <category id="PRONOMS_FEBLES" name="Pronoms febles" type="grammar">
@@ -40124,12 +40140,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token case_sensitive="yes">D</token>
                         <token>.</token>
                     </marker>
-                    <token regexp="yes">\p{Lu}.*|[A-Z]</token>
+                    <token regexp="yes">\p{Lu}.+</token>
                 </pattern>
                 <message>Incorrecte si equival a <suggestion>Sr.</suggestion></message>
                 <example correction="Sr."><marker>D.</marker> Joan Ivars</example>
                 <example>John D. Rockefeller</example>
-                <exmaple> D.O. Ribera del Duero.</exmaple>
+                <example>D.O. Ribera del Duero.</example>
                 <example>J. D. Rockefeller</example>
                 <!--<example>D. Westermann</example> No es pot resoldre-->
             </rule>
