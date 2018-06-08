@@ -14364,6 +14364,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>&prgk;.</short>
             <example correction='Beginn'>Die Software steht seit <marker>beginn</marker> unter dieser Lizenz.</example>
         </rule>
+        <rule id="DEFEKT" name="'kein defekt (kein Defekt)'">
+            <pattern>
+                <token regexp='yes'>de[nr]|k?ein(en)?</token>
+                <marker>
+                    <token case_sensitive='yes'>defekt</token>
+                </marker>
+            </pattern>
+            <message><suggestion>Defekt</suggestion> scheint hier ein Nomen zu sein und muss daher großgeschrieben werden.</message>
+            <short>&prgk;.</short>
+            <example correction='Defekt'>Hier liegt kein <marker>defekt</marker> vor.</example>
+            <example correction='Defekt'>Den <marker>defekt</marker> habe ich behoben.</example>
+        </rule>
         <rule id="NOMEN_KLEIN" name="der/die/das + Adjektiv + kleingeschriebenes Nomen" default="off">
             <pattern>
                 <token regexp="yes">d(er|ie|as)</token>
