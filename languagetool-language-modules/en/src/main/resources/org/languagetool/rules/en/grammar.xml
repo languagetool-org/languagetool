@@ -17056,6 +17056,56 @@ USA
       <message>The usual preposition to use with "\1" is "to." Did you mean <suggestion>\1 to</suggestion>?</message>
       <example correction='kind to'>All the people he met were very <marker>kind with</marker> him.</example>
     </rule>
+    <rule id='COME_IN_TO' name='Collocation: come in/into'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2018-05-16 -->
+      <pattern>
+        <marker>
+          <token inflected="yes">come</token>
+          <token>in</token>
+        </marker>
+          <token postag="PRP$"/>
+          <token min="0" postag="JJ"/>
+      </pattern>
+      <message>The words "come in" and "come to" have different meanings. "Come in \3 office" means "have an orgasm in \3 office." "Come to" or "Come into" means "enter." Did you mean <suggestion>come to</suggestion> or <suggestion>come into</suggestion>?</message>
+      <example correction='come to|come into'>Finally, the boss called us all to <marker>come in</marker> her giant office for a meeting.</example>
+    </rule>
+    <rule id='MOTIVATION_IN_TO' name='Collocation: motivation in/to'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2018-05-16 -->
+      <pattern>
+          <token>motivation</token>
+          <token>in</token>
+          <token>study</token>
+      </pattern>
+      <message>Do not use "motivation in \3." Use a "to" + infinitive form instead. Did you mean <suggestion>motivation to \3</suggestion>?</message>
+      <example correction='motivation to study'>It is very important for them because <marker>motivation in study</marker> is the best ways for them to get good mark and high spirit in study process.</example>
+    </rule>
+    <rule id='IN_ON_THE_RIGHT_HAND_SIDE' name='Collocation: in/on the right hand side'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2018-05-16 -->
+      <pattern>
+          <token regexp='yes'>at|in</token>
+          <token>the</token>
+          <token regexp="yes">right|left</token>
+          <token min="0">hand</token>
+          <token>side</token>
+      </pattern>
+      <message>The usual prepositions to use when in contact with the side is "on" not "in". Did you mean <suggestion>on \2 <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> \5</suggestion>?</message>
+      <example correction='on the left hand side'>The button is <marker>in the left hand side</marker> of the screen.</example>
+    </rule>
+    <rule id='IN_AT_THE_TOP' name='Collocation: in/at the top'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2018-05-16 -->
+      <pattern>
+        <marker>
+          <token regexp='yes'>in|on</token>
+          <token>the</token>
+          <token regexp="yes">top|bottom</token>
+        </marker>
+          <token>of</token>
+          <token>the</token>
+          <token>screen</token>
+      </pattern>
+      <message>The usual prepositions to use with bottom or top is "at" not "in". Did you mean <suggestion>at \2 \3</suggestion>?</message>
+      <example correction='at the top'>The button is <marker>in the top</marker> of the screen.</example>
+    </rule>
   </rulegroup>
 
   <rulegroup id="RETURN_IN_THE" name="Collocation: return in/to">
