@@ -17106,6 +17106,52 @@ USA
       <message>The usual prepositions to use with bottom or top is "at" not "in". Did you mean <suggestion>at \2 \3</suggestion>?</message>
       <example correction='at the top'>The button is <marker>in the top</marker> of the screen.</example>
     </rule>
+    <rule id='LUNCH_TO_FOR' name='Collocation: lunch to/for'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2018-05-16 -->
+      <pattern>
+          <token postag_regexp="yes" postag="JJ|DT"/>
+          <token regexp="yes">breakfast|lunch|dinner|supper|snack|meal|feast</token>
+          <token>to</token>
+          <token postag_regexp="yes"  postag="PRP$|DT"/>
+          <token postag_regexp="yes" postag="NN(:UN?|S)?"/>
+      </pattern>
+      <message>The usual prepositions to use when you do something for the benefit of another person is "for". Did you mean <suggestion>\1 \2 for \4 \5</suggestion>?</message>
+      <example correction='The lunch for the guests'><marker>The lunch to the guests</marker> is ready.</example>
+    </rule>
+    <rule id="DIFFICULT_TO_ME" name="Collocation: difficult to/for">
+    <!-- Created by Nicholas Walker (Bokomaru), 2018-05-16 -->
+      <pattern>
+          <token>difficult</token>
+          <token>to</token>
+          <token postag="PRP"/>
+      </pattern>
+      <message>The usual preposition to follow "difficult" is 'for" when followed by a pronoun. "Difficult" and "to" only appear together when "to" forms part of an infinitive structure.  Did you mean <suggestion>\1 for \3</suggestion>?</message>
+      <example correction="difficult for me">Studying grammar is <marker>difficult to me</marker>.</example>
+    </rule>
+    <rule id="DIVERSITY_OF" name="Collocation: a diversity of colours OR diverse colours"><!-- XXX analyse if logic is good -->
+    <!-- Created by Nicholas Walker (Bokomaru), 2018-05-16 -->
+      <pattern>
+          <token postag="DT"/>
+        <marker>
+          <token regexp="yes">diversity|diversitie</token>
+          <token postag_regexp="yes" postag="NN(S|:UN)">
+            <exception postag_regexp="yes" postag="NN(:U)?|PRP\$"/></token>
+        </marker>
+      </pattern>
+      <message>You are missing the word "of" between "\2" and "\3". Did you mean <suggestion>\2 of \3</suggestion> or <suggestion>diverse \3</suggestion>.</message>
+      <example correction='diversity of nature|diverse nature'>The <marker>diversity nature</marker> of this work is appealing to many.</example>
+    </rule>
+    <rule id="WAITING_MY_PATIENT_FINISH" name="Collocation: waiting (to) finish">
+    <!-- Created by Nicholas Walker (Bokomaru), 2018-05-16 -->
+      <pattern>
+          <token inflected="yes">wait</token>
+          <token postag="PRP$"/>
+          <token postag_regexp="yes" postag="NN.*"/>
+          <token postag="VB"/>
+      </pattern>
+      <message>You are missing the word "to" before the infinitive form "\4". Did you mean <suggestion>\1 \2 \3 to \4</suggestion>.</message>
+      <example correction='waiting my patient to finish'>I am <marker>waiting my patient finish</marker> the sample collection.</example>
+    </rule>
   </rulegroup>
 
   <rulegroup id="RETURN_IN_THE" name="Collocation: return in/to">
