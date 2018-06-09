@@ -52,6 +52,7 @@ public class SimpleReplaceDiacriticsTraditional extends AbstractSimpleReplaceRul
     super.setCategory(new Category(new CategoryId("DIACRITICS_TRADITIONAL"), "Z) Accents diacrítics tradicionals"));
     super.setLocQualityIssueType(ITSIssueType.Misspelling);
     super.setDefaultOn();
+    this.setCheckLemmas(false);
   }  
 
   @Override

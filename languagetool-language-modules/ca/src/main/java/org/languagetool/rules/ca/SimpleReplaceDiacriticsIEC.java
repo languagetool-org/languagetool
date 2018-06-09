@@ -52,6 +52,7 @@ public class SimpleReplaceDiacriticsIEC extends AbstractSimpleReplaceRule {
     super.setCategory(new Category(new CategoryId("DIACRITICS_IEC"), "Z) Accents diacrítics segons l'IEC"));
     super.setLocQualityIssueType(ITSIssueType.Misspelling);
     super.setDefaultOff();
+    this.setCheckLemmas(false);
   }  
 
   @Override
