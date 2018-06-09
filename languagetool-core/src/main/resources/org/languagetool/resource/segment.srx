@@ -4639,7 +4639,7 @@
 </rule>
 <!-- English abbreviations - but these work globally for all languages -->
 <rule break="no">
-<beforebreak>\b(Mr|Mrs|No|pp|St|no|Sr|Jr|Bros|etc|vs|esp|[Ff]ig|Jan|Feb|Mar|Apr|Jun|Jul|Aug|Sept?|Oct|Okt|Nov|Dec|PhD|al|cf|Inc|Ms|Gen|Sen|Prof|Corp|Co|Ltd)\.\s</beforebreak>
+<beforebreak>\b(Mrs?|No|pp|St|no|Sr|Jr|Bros|etc|vs|esp|[Ff]ig|Jan|Feb|Mar|Apr|Jun|Jul|Aug|Sept?|Oct|Okt|Nov|Dec|PhD|al|cf|Inc|Ms|Gen|Sen|Prof|Corp|Co|Ltd)\.\s</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <!-- Latin abbreviations - but these work globally for all languages -->
@@ -4653,7 +4653,7 @@
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>\b(cts|ct|Ca|ca|chem|chin|Chr|cresc|dat|Dat|desgl|ders|dgl|Di|Dipl|Dir|Do|Doz|durchg|durchges|Dr|dt|ebd|Ed|eigtl|Engl|engl|Erg|al|etc|etw|ev|evtl|Evtl|exkl|Expl|Exz)\.\s</beforebreak>
+<beforebreak>\b(cts?|Ca|ca|chem|chin|Chr|cresc|dat|Dat|desgl|ders|dgl|Di|Dipl|Dir|Do|Doz|durchg|durchges|Dr|dt|ebd|Ed|eigtl|Engl|engl|Erg|al|etc|etw|ev|evtl|Evtl|exkl|Expl|Exz)\.\s</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
@@ -4669,7 +4669,7 @@
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>\b(Part|Perf|Pers|Pfd|Pl|Plur|pl|Plusq|Pos|pp|Präp|Präs|Prät|Prov|Prof|rd|reg|resp|Rhld|rit|Sa|südl|Br|sel|sen|Sept|Sing|sign|So|sog|Sp|Std?|stacc|Str|stud|Subst|sva|svw|sZ)\.\s</beforebreak>
+<beforebreak>\b(Part|Per[fs]|Pfd|Pl|Plur|pl|Plusq|Pos|pp|Prä[ps]|Prät|Pro[vf]|rd|reg|resp|Rhld|rit|Sa|südl|Br|se[ln]|Sept|Sing|sign|So|sog|Sp|Std?|stacc|Str|stud|Subst|sva|svw|sZ)\.\s</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
@@ -4688,6 +4688,11 @@
 <rule break="yes">
 <beforebreak>\s\p{L}[\.!?…]\s</beforebreak>
 <afterbreak>\p{Lu}\p{Ll}</afterbreak>
+</rule>
+<!-- z.B. 2 sentences: “Liebst du mich?” “Ja!” -->
+<rule break="yes">
+<beforebreak>[\.!?][”“]</beforebreak>
+<afterbreak>[“„]</afterbreak>
 </rule>
 </languagerule>
 <languagerule languagerulename="Danish">
@@ -4801,7 +4806,7 @@
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>\b(h|hat|hd|hebr|henh|hensobj|herald|hhv|hist|hj|holl|hovedbet|hr|hty|højtid|haandarb|haandv|i|if|iflg|ifm|ift|iht|imp|incl|indb|indik|inf|ing|Inkl|inkl|insp|instr|interj|intk|intr|iron|isl|ital|jan|jarg|jernb|jf|jnr|jr|jul|jun|jur|jy|jæg|jærnb|jød)\.\s</beforebreak>
+<beforebreak>\b(hat|hd?|hebr|henh|hensobj|herald|hhv|hist|hj|holl|hovedbet|hr|hty|højtid|haandarb|haandv|if?|iflg|ifm|ift|iht|imp|incl|indb|indik|inf|ing|Inkl|inkl|insp|instr|interj|intk|intr|iron|isl|ital|jan|jarg|jernb|jf|jnr|jr|jul|jun|jur|jy|jæg|jærnb|jød)\.\s</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
@@ -4825,7 +4830,7 @@
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>\b(v|var|varem|vbs|vedk|vedl|vedr|vejl|verb|vet|vha|vol|vs|vsa|vulg|væv|zool|æ|æda|ænht|ænyd|æstet|ø|økon|å|årg|årh)\.\s</beforebreak>
+<beforebreak>\b(vs?|var|varem|vbs|vedk|vedl|vedr|vejl|verb|vet|vha|vol|vsa|vulg|væv|zool|æ|æda|ænht|ænyd|æstet|ø|økon|å|årg|årh)\.\s</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <!-- Danish abbreviations - These can appear at the end of sentence, so watch out for the next letter: it shouldn't be uppercase. -->
