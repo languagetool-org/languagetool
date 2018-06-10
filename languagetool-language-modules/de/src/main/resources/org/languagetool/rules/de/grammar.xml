@@ -29480,23 +29480,6 @@ Andere Projekte</example>
                 <example correction="dem">Wir haben ab <marker>den</marker> 15. Februar geöffnet.</example>
                 <example >Wir haben uns für <marker>den</marker> 15. Februar verabredet.</example>
             </rule>
-            <rule>
-                <antipattern>
-                    <token>ab</token>
-                    <token>und</token>
-                    <token>zu</token>
-                </antipattern>
-                <pattern>
-                    <token>zu</token>
-                    <marker>
-                        <token regexp="yes">einen?</token>
-                    </marker>
-                </pattern>
-                <message>Sollte hier die Dativform <suggestion>einem</suggestion> oder <suggestion>einer</suggestion> stehen?</message>
-                <example correction="einem|einer">Sie ging zu <marker>einen</marker> Arzt.</example>
-                <example correction="einem|einer">Sie ging zu <marker>eine</marker> eine Ärztin.</example>
-                <example>Sie sah ab und zu eine Katze.</example>
-            </rule>
         </rulegroup>
         <rule id="WIDER_BESSEREN_WISSENS" name="'wider besseren Wissens (wider besseres Wissen)'">
             <!-- TODO: allgemeines Pattern -->
@@ -30063,6 +30046,24 @@ Andere Projekte</example>
                 <example>Butter bei die Fische!</example>
                 <example>Das ist mit das Dümmste, was ich je gehört habe.</example>
                 <example>Er hatte sich 1924 mit Die Bronzezeit am Jenissei habilitiert.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token>ab</token>
+                    <token>und</token>
+                    <token>zu</token>
+                </antipattern>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">bei|mitsamt|nebst|samt|von|zu</token>
+                    <marker>
+                        <token>einen</token>
+                    </marker>
+                </pattern>
+                <message>Die Präposition '\1' erfordert in der Regel den Dativ: <suggestion>einem</suggestion></message>
+                <example correction="einem">Sie ging zu <marker>einen</marker> Arzt.</example>
+                <example correction="einem">Er änderte die Meinung von <marker>einen</marker> Moment auf den anderen.</example>
+                <example>Sie sah ab und zu eine Katze.</example>
+                <example>Sie sagte zu, eine Lösung zu finden.</example>
             </rule>
         </rulegroup>
         <rulegroup id="PRAEP_AKK" name="Präposition mit Akkusativ (ohne, für etc.)">
