@@ -30050,17 +30050,18 @@ Andere Projekte</example>
             <rule>
                 <antipattern>
                     <token>ab</token>
-                    <token>und</token>
-                    <token>zu</token>
+                    <token case_sensitive="yes">und</token>
+                    <token case_sensitive="yes">zu</token>
                 </antipattern>
-                <pattern case_sensitive="yes">
-                    <token regexp="yes">bei|mitsamt|nebst|samt|von|zu</token>
+                <pattern>
+                    <token regexp="yes">bei|nebst|mit(samt)?|von|zu</token>
                     <marker>
-                        <token>einen</token>
+                        <token case_sensitive="yes">einen</token>
                     </marker>
                 </pattern>
                 <message>Die Präposition '\1' erfordert in der Regel den Dativ: <suggestion>einem</suggestion></message>
                 <example correction="einem">Sie ging zu <marker>einen</marker> Arzt.</example>
+                <example correction="einem">Mit <marker>einen</marker> anderen Arzt spreche ich nicht.</example>
                 <example correction="einem">Er änderte die Meinung von <marker>einen</marker> Moment auf den anderen.</example>
                 <example>Sie sah ab und zu einen Mann.</example>
                 <example>Sie sagte zu, eine Lösung zu finden.</example>
