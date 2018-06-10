@@ -82,13 +82,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
         <rule id="VERNEINUNG" name="Leichte Sprache: Verneinungen">
             <pattern>
-                <token>nicht</token>
+                <marker><token>nicht</token></marker>
                 <token/>
                 <token/>
             </pattern>
             <message>Wenn möglich, keine Verneinungen benutzen.</message>
             <short>Verneinungen vermeiden.</short>
-            <example correction="">Peter will <marker>nicht länger bleiben</marker>.</example>
+            <example correction="">Peter will <marker>nicht</marker> länger bleiben.</example>
             <example>Peter will gehen.</example>
         </rule>
         
@@ -337,12 +337,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token>nicht</token>
-                    <token skip="-1">nur</token>
+                    <token skip="-1">nicht</token>
                     <marker>
                        <token skip="4">sondern</token>
                     </marker>
-                    <token>auch</token>
                 </pattern>
                 <message>Jeder Satz sollte nur eine Aussage enthalten. Können Sie diesen Satz in zwei Sätze aufteilen?</message>
                 <example correction="">Er hat nicht nur Hunde, <marker>sondern</marker> auch Katzen.</example>
