@@ -421,7 +421,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <pattern>
           <token regexp="yes">[0-9,-]+|кв\.|куб\.</token>
           <marker>
-            <token case_sensitive="yes">м</token>
+            <token case_sensitive="yes" regexp="yes">([смкд]|мк)?м</token>
             <token negate_pos="yes" postag="SENT_END">.</token>
           </marker>
           <token case_sensitive="yes" negate="yes" regexp="yes">[А-ЯІЇЄҐ].*</token>
@@ -731,7 +731,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>1990-і</example>
       </rule>
 -->
-      <rule>
+      <rule id="ROMAN_DIGITS_SUFFIX" name="Закінчення для римських чисел">
         <pattern>
           <token regexp="yes" case_sensitive="yes">(X{1,3}(IX|IV|V?I{0,3})|X{0,3}(IX|I?V|V?I{1,3}))-[а-яіїє]{1,4}</token>
         </pattern>
@@ -742,6 +742,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>на IX з'їзді.</example>
       </rule>
     </rulegroup>
+
+    <rule id="IHOR_VOCATIVE" name="Кличний для «Ігор»">
+      <pattern>
+        <token case_sensitive="yes">Ігоре</token>
+      </pattern>
+      <message>Правильно: <suggestion>Ігорю</suggestion></message>
+      <url>http://www.bbc.co.uk/blogs/ukrainian/ponomariv</url>
+      <example correction="Ігорю">Агов, <marker>Ігоре</marker>!</example>
+    </rule>
 
 <!-- 
     з пробілом: ДСТУ 3582-97 (1997) http://www.stu.cn.ua/media/files/pdf/DSTU_3582-97.pdf
