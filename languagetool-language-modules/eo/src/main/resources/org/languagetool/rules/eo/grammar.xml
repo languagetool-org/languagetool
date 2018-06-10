@@ -2119,10 +2119,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <url>http://bertilow.com/pmeg/gramatiko/e-vortecaj_vortetoj/lokaj/chi.html</url>
       <rule>
         <pattern>
-          <token regexp="yes">(?:ĉ|cx)i-ti(?:(?:[aeou]j?n?)|el|am|es|om)</token>
+          <token regexp="yes">(?:ĉ|cx)i-?ti(?:(?:[aeou]j?n?)|el|am|es|om|eaj?n?)</token>
         </pattern>
-        <message>Ĉu vi intencis skribi <suggestion><match no="1" regexp_match="-" regexp_replace=" "/></suggestion> sen streketo?</message>
+        <message>Ĉu vi intencis skribi <suggestion><match no="1" regexp_match="(?iu)(ĉi|cxi)-?" regexp_replace="$1 "/></suggestion> sen streketo?</message>
+        <example correction="Ĉi tiu"><marker>Ĉi-tiu</marker> aŭto.</example>
+        <example correction="Ĉi tiu"><marker>Ĉitiu</marker> aŭto.</example>
         <example correction="ĉi tiun">Mi deziras <marker>ĉi-tiun</marker>.</example>
+        <example correction="ĉi tiun">Mi deziras <marker>ĉitiun</marker>.</example>
+        <example correction="ĉi tiean">Mi ŝatas la <marker>ĉi-tiean</marker> veteron.</example>
       </rule>
       <rule>
         <pattern>
