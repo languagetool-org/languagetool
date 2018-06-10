@@ -127,6 +127,10 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("[iI]nbälde", "nb", "n B");
     putRepl("[lL]etztenendes", "ene", "en E");
     putRepl("[nN]achwievor", "wievor", " wie vor");
+    putRepl("[zZ]umbeispiel", "beispiel", " Beispiel");
+    putRepl("[gG]ottseidank", "[gG]ottseidank", "Gott sei Dank");
+    putRepl("[gG]rundauf", "[gG]rundauf", "Grund auf");
+    putRepl("[aA]nsichtnach", "[aA]nsicht", "Ansicht ");
     putRepl("[uU]nswar", "swar", "d zwar");
     putRepl("[wW]aschte(s?t)?", "aschte", "usch");
     putRepl("[wW]aschten", "ascht", "usch");
