@@ -9438,7 +9438,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <exception>zeit</exception>
                     </token>
                     <token>zu</token>
-                    <token postag=".*VER:.*INF.*" postag_regexp="yes"><exception regexp="yes">einigen|agieren|sieben|weiten|sein|unter.+en|ermöglichen|berichten|beeinflussen|erreichen</exception></token>
+                    <token postag=".*VER:.*INF.*" postag_regexp="yes"><exception regexp="yes">ein(ig)en|agieren|sieben|weiten|sein|unter.+en|ermöglichen|berichten|beeinflussen|erreichen</exception></token>
                 </pattern>
                 <message>&getrennt;: Meinten Sie <suggestion><match no="1"/><match no="2"/><match no="3"/></suggestion>?</message>
                 <example>Die Überweisung ist direkt vom eigenen Konto <marker>aus zu tätigen</marker>.</example>
@@ -26554,6 +26554,20 @@ Andere Projekte</example>
                 <example correction="Bitte">Ich habe eine <marker>bitte</marker> an euch.</example>
             </rule>
         </rulegroup>
+                <rulegroup id="KLIPP_UND_KLAR" name="'Klipp (klipp) und klar'">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes">Klipp</token>
+                    </marker>
+                    <token case_sensitive="yes">und</token>
+                    <token>klar</token>
+                </pattern>
+                <message>&inwend;'<match no="1" case_conversion="startlower"/> und klar' wird <suggestion><match no="1" case_conversion="startlower"/></suggestion> kleingeschrieben.</message>
+                <short>&prgk;.</short>
+                <example correction="klipp">Er hat es <marker>Klipp</marker> und klar gesagt.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="EINEN_GEFALLEN" name="'einen gefallen (Gefallen) tun'">
             <rule>
                 <pattern case_sensitive="yes">
@@ -29464,6 +29478,23 @@ Andere Projekte</example>
                 <example correction="dem">Seit <marker>den</marker> 13. Jahrhundert existiert diese Tradition.</example>
                 <example correction="dem">Wir haben ab <marker>den</marker> 15. Februar geöffnet.</example>
                 <example >Wir haben uns für <marker>den</marker> 15. Februar verabredet.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token>ab</token>
+                    <token>und</token>
+                    <token>zu</token>
+                </antipattern>
+                <pattern>
+                    <token>zu</token>
+                    <marker>
+                        <token regexp="yes">einen?</token>
+                    </marker>
+                </pattern>
+                <message>Sollte hier die Dativform <suggestion>einem</suggestion> oder <suggestion>einer</suggestion> stehen?</message>
+                <example correction="einem|einer">Sie ging zu <marker>einen</marker> Arzt.</example>
+                <example correction="einem|einer">Sie ging zu <marker>eine</marker> eine Ärztin.</example>
+                <example>Sie sah ab und zu eine Katze.</example>
             </rule>
         </rulegroup>
         <rule id="WIDER_BESSEREN_WISSENS" name="'wider besseren Wissens (wider besseres Wissen)'">
