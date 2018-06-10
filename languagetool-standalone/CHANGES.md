@@ -47,6 +47,8 @@
     contains information about the automatically detected language. This way
     clients can suggest switching to that language, e.g. in cases where the
     user had selected the wrong language.
+  * Speed up false friend rule loading using a cache (can save about 20ms per 
+    request - only if mother tongue is set, has no effect otherwise)
   * BETA: New optional configuration settings `dbDriver`, `dbUrl`, `dbUsername`,
     `dbPassword` to allow user-specific dictionaries
     
