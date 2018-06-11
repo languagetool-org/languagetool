@@ -593,9 +593,7 @@ public class Main extends WeakBase implements XJobExecutor,
         if (textPos < 0) textPos = 0;
         for (RuleMatch myRuleMatch : paragraphMatches) {
           int startErrPos = myRuleMatch.getFromPos() - textPos;
-          int endErrPos = myRuleMatch.getToPos() - textPos;
-          if (startErrPos >= startPos && startErrPos <= endPos
-              && endErrPos >= startPos && endErrPos <= endPos) {
+          if (startErrPos >= startPos && startErrPos <= endPos) {
             errorList.add(createOOoError(myRuleMatch, -textPos, myRuleMatch.getToPos() - textPos,
                                           paraText.charAt(myRuleMatch.getToPos()-textPos-1)));
           }
@@ -615,9 +613,7 @@ public class Main extends WeakBase implements XJobExecutor,
         if (textPos < 0) textPos = 0;
         for (RuleMatch myRuleMatch : fullTextMatches.get(numCurDoc)) {
           int startErrPos = myRuleMatch.getFromPos() - textPos;
-          int endErrPos = myRuleMatch.getToPos() - textPos;
-          if (startErrPos >= startPos && startErrPos <= endPos
-              && endErrPos >= startPos && endErrPos <= endPos) {
+          if (startErrPos >= startPos && startErrPos <= endPos) {
             errorList.add(createOOoError(myRuleMatch, -textPos, myRuleMatch.getToPos() - textPos, 
                                           paraText.charAt(myRuleMatch.getToPos()-textPos-1)));
           }
