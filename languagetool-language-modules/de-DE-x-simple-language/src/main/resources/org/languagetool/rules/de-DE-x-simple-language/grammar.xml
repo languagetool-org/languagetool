@@ -339,13 +339,36 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token skip="-1">nicht</token>
                     <marker>
-                       <token skip="4">sondern</token>
+                       <token>sondern</token>
                     </marker>
                 </pattern>
                 <message>Jeder Satz sollte nur eine Aussage enthalten. Können Sie diesen Satz in zwei Sätze aufteilen?</message>
                 <example correction="">Er hat nicht nur Hunde, <marker>sondern</marker> auch Katzen.</example>
                 <example correction="">Er isst nicht nur Eier, <marker>sondern</marker> er trinkt auch Milch.</example>
                 <example>Er hat Hunde. Er hat auch Katzen.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token regexp="yes" skip="2">aber|denn|sondern</token>
+                    <token>.</token>
+                </antipattern>
+                <pattern>
+                    <token>,</token>
+                    <marker>
+                       <token regexp="yes">aber|denn|sondern</token>
+                    </marker>
+                </pattern>
+                <message>Jeder Satz sollte nur eine Aussage enthalten. Können Sie diesen Satz in zwei Sätze aufteilen?</message>
+                <example correction="">Ich trinke keinen Kaffee, <marker>sondern</marker> esse lieber ein Eis.</example>
+                <example>Er hat Hunde. Er hat auch Katzen.</example>
+                <example correction="">Der Mann ist schon 80, <marker>aber</marker> er läuft noch flink.</example>
+                <example correction="">Das Kino hat schon begonnen, <marker>aber</marker> das ist egal.</example>
+                <example correction="">Ich will ihm helfen, <marker>aber</marker> weiß nicht genug.</example>
+                <example correction="">Er schreibt ein Buch, liest es vor, <marker>aber</marker> keiner hört zu.</example>
+                <example correction="">Wir gehen zu Fuß, <marker>denn</marker> der Bus ist schon abgefahren.</example>
+                <example correction="">Ich kündige heute, <marker>denn</marker> morgen ist es zu spät.</example>
+                <example correction="">Er will kündigen, <marker>denn</marker> der Job gefällt ihm nicht.</example>
+                <example correction="">Ich mache heute den Abwasch, <marker>denn</marker> morgen hab ich Dienst.</example>
             </rule>
         </rulegroup>
         <rulegroup id="KONJUNKTIV" name="Leichte Sprache: Konjunktiv">
