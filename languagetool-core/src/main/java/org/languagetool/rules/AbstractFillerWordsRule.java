@@ -135,7 +135,7 @@ public abstract class AbstractFillerWordsRule extends TextLevelRule {
     return messages.getString("filler_words_rule_msg");
   }
   
-  public boolean isException(String token, AnalyzedTokenReadings[] tokens) {
+  public boolean isException(AnalyzedTokenReadings[] tokens, int num) {
     return false;
   }
   
@@ -151,12 +151,13 @@ public abstract class AbstractFillerWordsRule extends TextLevelRule {
     AnalyzedTokenReadings lastToken = null;
     for(AnalyzedSentence sentence : sentences) {
       AnalyzedTokenReadings[] tokens = sentence.getTokens();
-      for(AnalyzedTokenReadings token : tokens) {
+      for(int n = 0; n < tokens.length; n++) {
+        AnalyzedTokenReadings token = tokens[n];
         String sToken = token.getToken();
         if(!token.isWhitespace() && !token.isSentenceStart() 
             && !token.isSentenceEnd() && !NON_WORD_REGEX.matcher(sToken).matches()) {
           wordCount++;
-          if(isFillerWord(sToken) && !isException(sToken, tokens)) {
+          if(isFillerWord(sToken) && !isException(tokens, n)) {
             startPos.add(token.getStartPos() + pos);
             endPos.add(token.getEndPos() + pos);
           }

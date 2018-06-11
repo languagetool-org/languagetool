@@ -1,6 +1,6 @@
-/* LanguageTool, a natural language style checker
- * Copyright (C) 2011 Michael Bryant
- *
+/* LanguageTool, a natural language style checker 
+ * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
+ * 
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -32,6 +32,7 @@ import org.languagetool.rules.Category.Location;
 
 /**
  * A rule that warns on long paragraphs. Note that this rule is off by default.
+ * @since 4.2
  */
 public class LongParagraphRule extends TextLevelRule {
 
@@ -43,9 +44,6 @@ public class LongParagraphRule extends TextLevelRule {
 
   protected int maxWords = DEFAULT_MAX_WORDS;
 
-  /**
-   * @since 4.2
-   */
   public LongParagraphRule(ResourceBundle messages, UserConfig userConfig, int defaultWords, boolean defaultActive) {
     super(messages);
     super.setCategory(new Category(new CategoryId("CREATIV_WRITING"), 
@@ -65,19 +63,10 @@ public class LongParagraphRule extends TextLevelRule {
     setLocQualityIssueType(ITSIssueType.Style);
   }
 
-  /**
-   * Creates a rule with default inactive
-   * @since 4.2
-   */
   public LongParagraphRule(ResourceBundle messages, UserConfig userConfig, int defaultWords) {
     this(messages, userConfig, defaultWords, DEFAULT_ACTIVATION);
   }
 
-
-  /**
-   * Creates a rule with default values can be overwritten by configuration settings
-   * @since 4.2
-   */
   public LongParagraphRule(ResourceBundle messages, UserConfig userConfig) {
     this(messages, userConfig, -1, DEFAULT_ACTIVATION);
   }
@@ -87,54 +76,32 @@ public class LongParagraphRule extends TextLevelRule {
     return MessageFormat.format(messages.getString("long_paragraph_rule_desc"), maxWords);
   }
 
-  /**
-   * Override this ID by adding a language acronym (e.g. TOO_LONG_SENTENCE_DE)
-   * to use adjustment of maxWords by option panel
-   * @since 4.1
-   */   
   @Override
   public String getId() {
     return RULE_ID;
   }
 
-  /*
-   * get maximal Distance of words in number of sentences
-   * @since 4.1
-   */
   @Override
   public int getDefaultValue() {
     return maxWords;
   }
 
-  /**
-   * @since 4.2
-   */
   @Override
   public boolean hasConfigurableValue() {
     return true;
   }
 
-  /**
-   * @since 4.2
-   */
   @Override
   public int getMinConfigurableValue() {
     return 5;
   }
 
-  /**
-   * @since 4.2
-   */
   @Override
   public int getMaxConfigurableValue() {
     return 200;
   }
 
-  /**
-   * @since 4.2
-   */
   public String getConfigureText() {
-//    return messages.getString("guiLongParagraphText");
     return messages.getString("guiLongParagraphsText");
   }
 
