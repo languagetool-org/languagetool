@@ -19,13 +19,10 @@
 package org.languagetool.rules;
 
 import java.io.IOException;
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
-
-import javax.swing.JOptionPane;
 
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
