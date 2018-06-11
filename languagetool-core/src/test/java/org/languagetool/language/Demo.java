@@ -24,6 +24,7 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 import org.languagetool.Language;
+import org.languagetool.UserConfig;
 import org.languagetool.chunking.Chunker;
 import org.languagetool.chunking.xx.DemoChunker;
 import org.languagetool.rules.Rule;
@@ -96,7 +97,7 @@ public class Demo extends Language {
   }
 
   @Override
-  public List<Rule> getRelevantRules(ResourceBundle messages) {
+  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig) {
     return Collections.emptyList();
   }
 

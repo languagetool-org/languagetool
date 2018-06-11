@@ -42,6 +42,7 @@ public class MorfologikSpeller {
   // See https://github.com/morfologik/morfologik-stemming/issues/69 for confirmation that
   // Dictionary is thread-safe:
   private static final LoadingCache<String, Dictionary> dictCache = CacheBuilder.newBuilder()
+      //.maximumSize(0)
       .expireAfterWrite(10, TimeUnit.MINUTES)
       .build(new CacheLoader<String, Dictionary>() {
         @Override

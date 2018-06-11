@@ -40,11 +40,7 @@ import java.util.stream.Collectors;
 import de.danielnaber.jwordsplitter.InputTooLongException;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nullable;
-import org.languagetool.AnalyzedSentence;
-import org.languagetool.AnalyzedToken;
-import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
+import org.languagetool.*;
 import org.languagetool.language.German;
 import org.languagetool.rules.Example;
 import org.languagetool.rules.spelling.hunspell.CompoundAwareHunspellRule;
@@ -131,6 +127,10 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("[iI]nbälde", "nb", "n B");
     putRepl("[lL]etztenendes", "ene", "en E");
     putRepl("[nN]achwievor", "wievor", " wie vor");
+    putRepl("[zZ]umbeispiel", "beispiel", " Beispiel");
+    putRepl("[gG]ottseidank", "[gG]ottseidank", "Gott sei Dank");
+    putRepl("[gG]rundauf", "[gG]rundauf", "Grund auf");
+    putRepl("[aA]nsichtnach", "[aA]nsicht", "Ansicht ");
     putRepl("[uU]nswar", "swar", "d zwar");
     putRepl("[wW]aschte(s?t)?", "aschte", "usch");
     putRepl("[wW]aschten", "ascht", "usch");
@@ -288,7 +288,14 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private final Tagger tagger;
 
   public GermanSpellerRule(ResourceBundle messages, German language) {
-    super(messages, language, language.getNonStrictCompoundSplitter(), getSpeller(language));
+    this(messages, language, null);
+  }
+
+  /**
+   * @since 4.2
+   */
+  public GermanSpellerRule(ResourceBundle messages, German language, UserConfig userConfig) {
+    super(messages, language, language.getNonStrictCompoundSplitter(), getSpeller(language, userConfig), userConfig);
     addExamplePair(Example.wrong("LanguageTool kann mehr als eine <marker>nromale</marker> Rechtschreibprüfung."),
                    Example.fixed("LanguageTool kann mehr als eine <marker>normale</marker> Rechtschreibprüfung."));
     compoundTokenizer = language.getStrictCompoundTokenizer();
@@ -375,11 +382,12 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       // To avoid losing the "." of "word" if it is at the end of a sentence.
       suggestions.replaceAll(s -> s.endsWith(".") ? s : s + ".");
     }
+    suggestions = suggestions.stream().filter(k -> !k.equals(word)).collect(Collectors.toList());
     return suggestions;
   }
 
   @Nullable
-  private static MorfologikMultiSpeller getSpeller(Language language) {
+  private static MorfologikMultiSpeller getSpeller(Language language, UserConfig userConfig) {
     if (!language.getShortCode().equals(Locale.GERMAN.getLanguage())) {
       throw new RuntimeException("Language is not a variant of German: " + language);
     }
@@ -390,7 +398,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
         String path = "/de/hunspell/spelling.txt";
         try (InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(path);
              BufferedReader br = new BufferedReader(new InputStreamReader(stream, "utf-8"))) {
-          return new MorfologikMultiSpeller(morfoFile, new ExpandingReader(br), path, MAX_EDIT_DISTANCE);
+          return new MorfologikMultiSpeller(morfoFile, new ExpandingReader(br), path, userConfig != null ? userConfig.getAcceptedWords(): Collections.emptyList(), MAX_EDIT_DISTANCE);
         }
       } else {
         return null;

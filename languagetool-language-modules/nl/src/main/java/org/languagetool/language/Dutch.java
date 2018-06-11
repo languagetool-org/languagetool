@@ -25,6 +25,7 @@ import java.util.ResourceBundle;
 
 import org.languagetool.Language;
 import org.languagetool.LanguageMaintainedState;
+import org.languagetool.UserConfig;
 import org.languagetool.rules.*;
 import org.languagetool.rules.nl.*;
 import org.languagetool.synthesis.Synthesizer;
@@ -115,7 +116,7 @@ public class Dutch extends Language {
   }
 
   @Override
-  public List<Rule> getRelevantRules(ResourceBundle messages) throws IOException {
+  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig) throws IOException {
     return Arrays.asList(
             new CommaWhitespaceRule(messages),
             new DoublePunctuationRule(messages),
@@ -123,13 +124,13 @@ public class Dutch extends Language {
                     Arrays.asList("[", "(", "{", "“", "‹", "“", "„", "\""),
                     Arrays.asList("]", ")", "}", "”", "›", "”", "”", "\"")),
             new UppercaseSentenceStartRule(messages, this),
-            new MorfologikDutchSpellerRule(messages, this),
+            new MorfologikDutchSpellerRule(messages, this, userConfig),
             new MultipleWhitespaceRule(messages, this),
             new CompoundRule(messages),
             new DutchWrongWordInContextRule(messages),
             new WordCoherencyRule(messages),
             new SimpleReplaceRule(messages),
-            new LongSentenceRule(messages, true),
+            new LongSentenceRule(messages, userConfig, -1, true),
             new PreferredWordRule(messages)
     );
   }

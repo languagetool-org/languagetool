@@ -84,11 +84,15 @@ public class CatalanTagger extends BaseTagger {
       // This hack allows all rules and dictionary entries to work with
       // typewriter apostrophe
       boolean containsTypewriterApostrophe = false;
+      boolean containsTypographicApostrophe = false;
       if (word.length() > 1) {
         if (word.contains("'")) {
           containsTypewriterApostrophe = true;
         }
-        word = word.replace("’", "'");
+        if (word.contains("’")) {
+          containsTypographicApostrophe = true;
+          word = word.replace("’", "'");
+        }
       }
       final List<AnalyzedToken> l = new ArrayList<>();
       final String lowerWord = word.toLowerCase(conversionLocale);
@@ -118,6 +122,11 @@ public class CatalanTagger extends BaseTagger {
       if (containsTypewriterApostrophe) {
         List<ChunkTag> listChunkTags = new ArrayList<>();
         listChunkTags.add(new ChunkTag("containsTypewriterApostrophe"));
+        atr.setChunkTags(listChunkTags);
+      }
+      if (containsTypographicApostrophe) {
+        List<ChunkTag> listChunkTags = new ArrayList<>();
+        listChunkTags.add(new ChunkTag("containsTypographicApostrophe"));
         atr.setChunkTags(listChunkTags);
       }
 

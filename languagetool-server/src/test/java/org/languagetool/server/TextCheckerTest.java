@@ -50,7 +50,7 @@ public class TextCheckerTest {
     Map<String, String> params = new HashMap<>();
     params.put("text", "not used");
     params.put("language", "en");
-    HTTPServerConfig config1 = new HTTPServerConfig();
+    HTTPServerConfig config1 = new HTTPServerConfig(HTTPTools.getDefaultPort());
     config1.setMaxTextLength(10);
     TextChecker checker = new V2TextChecker(config1, false, null, new RequestCounter());
     try {

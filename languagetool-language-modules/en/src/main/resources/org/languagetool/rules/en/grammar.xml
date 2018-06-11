@@ -17016,6 +17016,142 @@ USA
       <message>The usual prepositions to use when surrounded is "in" not "on". Did you mean <suggestion>in \2 \3</suggestion>?</message>
       <example correction='in the middle'>The button is <marker>on the middle</marker> of the screen.</example>
     </rule>
+    <rule id='ON_IN_THE_CORNER' name='Collocation: on/in the corner'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2018-05-16 -->
+      <pattern>
+          <token regexp='yes'>at|on</token>
+          <token>the</token>
+          <token regexp="yes">top|bottom</token>
+          <token regexp="yes">right|left</token>
+          <token>corner</token>
+      </pattern>
+      <message>The usual prepositions to use with a corner "in" not "on". Did you mean <suggestion>in \2 \3 \4 corner</suggestion>?</message>
+      <example correction='in the top left corner'>The button is <marker>on the top left corner</marker> of the screen.</example>
+    </rule>
+    <rule id='SIMILAR_LIKE_AS_SOMETHING' name='Collocation: similar/like as/to'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2018-05-16 -->
+      <pattern>
+        <marker>
+          <token>similar</token>
+          <token>as</token>
+          <token regexp="yes">an?</token>
+          <token/>
+        </marker>
+          <token>
+            <exception inflected="yes">be</exception></token>
+      </pattern>
+      <message>The usual prepositions to use with "similar" is "to" not "as". Did you mean <suggestion>\1 to \3 \4</suggestion>?</message>
+<suggestion>like \3 \4</suggestion>
+      <example correction='similar to a church|like a church'>the roof will be <marker>similar as a church</marker>.</example>
+    </rule>
+    <rule id='KIND_WITH_TO' name='Collocation: kind with/to'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2018-05-16 -->
+      <pattern>
+        <marker>
+          <token>kind</token>
+          <token>with</token>
+        </marker>
+          <token postag_regexp="yes" postag="NN[PS]|PRP\$?"/>
+      </pattern>
+      <message>The usual preposition to use with "\1" is "to." Did you mean <suggestion>\1 to</suggestion>?</message>
+      <example correction='kind to'>All the people he met were very <marker>kind with</marker> him.</example>
+    </rule>
+    <rule id='COME_IN_TO' name='Collocation: come in/into'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2018-05-16 -->
+      <pattern>
+        <marker>
+          <token inflected="yes">come</token>
+          <token>in</token>
+        </marker>
+          <token postag="PRP$"/>
+          <token min="0" postag="JJ"/>
+      </pattern>
+      <message>The words "come in" and "come to" have different meanings. "Come in \3 office" means "have an orgasm in \3 office." "Come to" or "Come into" means "enter." Did you mean <suggestion>come to</suggestion> or <suggestion>come into</suggestion>?</message>
+      <example correction='come to|come into'>Finally, the boss called us all to <marker>come in</marker> her giant office for a meeting.</example>
+    </rule>
+    <rule id='MOTIVATION_IN_TO' name='Collocation: motivation in/to'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2018-05-16 -->
+      <pattern>
+          <token>motivation</token>
+          <token>in</token>
+          <token>study</token>
+      </pattern>
+      <message>Do not use "motivation in \3." Use a "to" + infinitive form instead. Did you mean <suggestion>motivation to \3</suggestion>?</message>
+      <example correction='motivation to study'>It is very important for them because <marker>motivation in study</marker> is the best ways for them to get good mark and high spirit in study process.</example>
+    </rule>
+    <rule id='IN_ON_THE_RIGHT_HAND_SIDE' name='Collocation: in/on the right hand side'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2018-05-16 -->
+      <pattern>
+          <token regexp='yes'>at|in</token>
+          <token>the</token>
+          <token regexp="yes">right|left</token>
+          <token min="0">hand</token>
+          <token>side</token>
+      </pattern>
+      <message>The usual prepositions to use when in contact with the side is "on" not "in". Did you mean <suggestion>on \2 <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> \5</suggestion>?</message>
+      <example correction='on the left hand side'>The button is <marker>in the left hand side</marker> of the screen.</example>
+    </rule>
+    <rule id='IN_AT_THE_TOP' name='Collocation: in/at the top'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2018-05-16 -->
+      <pattern>
+        <marker>
+          <token regexp='yes'>in|on</token>
+          <token>the</token>
+          <token regexp="yes">top|bottom</token>
+        </marker>
+          <token>of</token>
+          <token>the</token>
+          <token>screen</token>
+      </pattern>
+      <message>The usual prepositions to use with bottom or top is "at" not "in". Did you mean <suggestion>at \2 \3</suggestion>?</message>
+      <example correction='at the top'>The button is <marker>in the top</marker> of the screen.</example>
+    </rule>
+    <rule id='LUNCH_TO_FOR' name='Collocation: lunch to/for'>
+    <!-- Created by Nicholas Walker (Bokomaru), 2018-05-16 -->
+      <pattern>
+          <token postag_regexp="yes" postag="JJ|DT"/>
+          <token regexp="yes">breakfast|lunch|dinner|supper|snack|meal|feast</token>
+          <token>to</token>
+          <token postag_regexp="yes"  postag="PRP$|DT"/>
+          <token postag_regexp="yes" postag="NN(:UN?|S)?"/>
+      </pattern>
+      <message>The usual prepositions to use when you do something for the benefit of another person is "for". Did you mean <suggestion>\1 \2 for \4 \5</suggestion>?</message>
+      <example correction='The lunch for the guests'><marker>The lunch to the guests</marker> is ready.</example>
+    </rule>
+    <rule id="DIFFICULT_TO_ME" name="Collocation: difficult to/for">
+    <!-- Created by Nicholas Walker (Bokomaru), 2018-05-16 -->
+      <pattern>
+          <token>difficult</token>
+          <token>to</token>
+          <token postag="PRP"/>
+      </pattern>
+      <message>The usual preposition to follow "difficult" is 'for" when followed by a pronoun. "Difficult" and "to" only appear together when "to" forms part of an infinitive structure.  Did you mean <suggestion>\1 for \3</suggestion>?</message>
+      <example correction="difficult for me">Studying grammar is <marker>difficult to me</marker>.</example>
+    </rule>
+    <rule id="DIVERSITY_OF" name="Collocation: a diversity of colours OR diverse colours"><!-- XXX analyse if logic is good -->
+    <!-- Created by Nicholas Walker (Bokomaru), 2018-05-16 -->
+      <pattern>
+          <token postag="DT"/>
+        <marker>
+          <token regexp="yes">diversity|diversitie</token>
+          <token postag_regexp="yes" postag="NN(S|:UN)">
+            <exception postag_regexp="yes" postag="NN(:U)?|PRP\$"/></token>
+        </marker>
+      </pattern>
+      <message>You are missing the word "of" between "\2" and "\3". Did you mean <suggestion>\2 of \3</suggestion> or <suggestion>diverse \3</suggestion>.</message>
+      <example correction='diversity of nature|diverse nature'>The <marker>diversity nature</marker> of this work is appealing to many.</example>
+    </rule>
+    <rule id="WAITING_MY_PATIENT_FINISH" name="Collocation: waiting (to) finish">
+    <!-- Created by Nicholas Walker (Bokomaru), 2018-05-16 -->
+      <pattern>
+          <token inflected="yes">wait</token>
+          <token postag="PRP$"/>
+          <token postag_regexp="yes" postag="NN.*"/>
+          <token postag="VB"/>
+      </pattern>
+      <message>You are missing the word "to" before the infinitive form "\4". Did you mean <suggestion>\1 \2 \3 to \4</suggestion>.</message>
+      <example correction='waiting my patient to finish'>I am <marker>waiting my patient finish</marker> the sample collection.</example>
+    </rule>
   </rulegroup>
 
   <rulegroup id="RETURN_IN_THE" name="Collocation: return in/to">
@@ -22760,7 +22896,7 @@ USA
         <rule id="SEND_AN_EMAIL" name="send an email to (email)">
             <pattern>
                 <token>send</token>
-                <token regexp="yes">an|a</token>
+                <token regexp="yes">an?</token>
                 <token>email</token>
                 <token>to</token>
             </pattern>
@@ -22772,7 +22908,7 @@ USA
         <rule id="SENT_AN_EMAIL" name="sent an email to (email)">
             <pattern>
                 <token>sent</token>
-                <token regexp="yes">an|a</token>
+                <token regexp="yes">an?</token>
                 <token>email</token>
                 <token>to</token>
             </pattern>
@@ -22825,21 +22961,51 @@ USA
             <rule>
                 <pattern>
                     <token>ATM</token>
-                    <token>machine</token>
+                    <token regexp="yes">machines?</token>
                 </pattern>
-                <message>This phrase is redundant ('M' stands for 'machine'). Consider using <suggestion>\1</suggestion>.</message>
+                <message>This phrase is redundant ('M' stands for 'machine'). Use simply <suggestion>\1<match no="2" regexp_match="(?i)(machine)" regexp_replace=""/></suggestion>.</message>
                 <short>Redundant phrase</short>
                 <example correction="ATM"><marker>ATM Machine</marker> Comparison Guide</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token>ATM</token>
-                    <token>machines</token>
-                </pattern>
-                <message>This phrase is redundant ('M' stands for 'machine'). Use simply <suggestion>\1s</suggestion>.</message>
-                <short>Redundant phrase</short>
                 <example correction="ATMs">In the Netherlands, criminals are stealing money from <marker>ATM machines</marker> by blowing them up.</example>
                 <example>ATMs are quite common in the Netherlands,</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="HIV_VIRUS" name="HIV virus (HIV)">
+            <rule>
+                <pattern>
+                    <token>HIV</token>
+                    <token>virus</token>
+                </pattern>
+                <message>This phrase is redundant ('V' stands for 'virus'). Use simply <suggestion>\1</suggestion>.</message>
+                <url>https://www.poz.com/blog/hiv-virus-is-redunda</url>
+                <short>Redundant phrase</short>
+                <example correction="HIV">The <marker>HIV virus</marker> continues to spread.</example>
+            </rule>
+        </rulegroup>
+		<rulegroup id="PIN_NUMBER" name="PIN number / ISBN number (PIN / ISBN)">
+            <rule>
+                <pattern>
+                    <token regexp="yes">IS[BS]N|PIN</token>
+                    <token regexp="yes">numbers?</token>
+                </pattern>
+                <message>This phrase is redundant ('N' stands for 'number'). Consider using <suggestion>\1<match no="2" regexp_match="(?i)(number)" regexp_replace=""/></suggestion>.</message>
+                <short>Redundant phrase</short>
+                <example correction="PIN">Please input your <marker>PIN number</marker> to access.</example>
+                <example correction="PINs">You can create multiple <marker>PIN numbers</marker> to enhance the security.</example>
+                <example correction="ISBN">Could you let me know the <marker>ISBN number</marker> of the book?</example>
+                <example correction="ISBNs"><marker>ISBN numbers</marker> are assigned to text-based monographic publications.</example>
+            </rule>
+        </rulegroup>
+		<rulegroup id="LCD_DISPLAY" name="LCD display (LCD)">
+            <rule>
+                <pattern>
+                    <token>LCD</token>
+                    <token regexp="yes">displays?</token>
+                </pattern>
+                <message>This phrase is redundant ('D' stands for 'display'). Consider using <suggestion>\1<match no="2" regexp_match="(?i)(display)" regexp_replace=""/></suggestion>.</message>
+                <short>Redundant phrase</short>
+                <example correction="LCD">The result is printed on this <marker>LCD display</marker>.</example>
+                <example correction="LCDs"><marker>LCD displays</marker> have sources of light behind the screens.</example>
             </rule>
         </rulegroup>
         <rule id="ABSOLUTELY_ESSENTIAL" name="absolutely essential/necessary (essential/necessary)">

@@ -24,6 +24,7 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
 import org.languagetool.MultiThreadedJLanguageTool;
+import org.languagetool.UserConfig;
 import org.languagetool.language.LanguageIdentifier;
 import org.languagetool.rules.*;
 
@@ -152,6 +153,10 @@ class LanguageToolSupport {
 
     boolean update = false;
   
+    Language language = languageTool.getLanguage();
+    languageTool = new MultiThreadedJLanguageTool(language, config.getMotherTongue(), 
+        new UserConfig(config.getConfigurableValues()));
+
     Set<String> disabledRules = config.getDisabledRuleIds();
     if (disabledRules == null) {
       disabledRules = Collections.emptySet();
@@ -223,7 +228,7 @@ class LanguageToolSupport {
       update = true;
     }
     
-    languageTool.setConfigValues(config.getConfigValues());
+//    languageTool.setConfigValues(config.getConfigValues());
 
     if (update) {
       //FIXME
@@ -244,7 +249,8 @@ class LanguageToolSupport {
       //if (languageTool != null) {
       //  languageTool.shutdownWhenDone();
       //}
-      languageTool = new MultiThreadedJLanguageTool(language, config.getMotherTongue());
+      languageTool = new MultiThreadedJLanguageTool(language, config.getMotherTongue(), 
+          new UserConfig(config.getConfigurableValues()));
       languageTool.setCleanOverlappingMatches(false);
       Tools.configureFromRules(languageTool, config);
       activateLanguageModelRules(language);
@@ -839,9 +845,10 @@ class LanguageToolSupport {
       try {
         if (span.start < span.end) { //to avoid the BadLocationException
           ITSIssueType issueType = span.rule.getLocQualityIssueType();
+          Color ulColor = config.getUnderlineColor(span.rule.getCategory().getName());
           Color colorForIssueType = getConfig().getErrorColors().get(issueType);
           Color bgColor = colorForIssueType != null ? colorForIssueType : null;
-          Color underlineColor = ITSIssueType.Misspelling == span.rule.getLocQualityIssueType() ? Color.red : Color.blue;
+          Color underlineColor = ITSIssueType.Misspelling == span.rule.getLocQualityIssueType() ? Color.red : ulColor;
           HighlightPainter painter = new HighlightPainter(bgColor, underlineColor);
           h.addHighlight(span.start, span.end, painter);
         }

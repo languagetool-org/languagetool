@@ -24,6 +24,7 @@ import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
 import org.languagetool.Language;
+import org.languagetool.UserConfig;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
 
 public final class MorfologikBretonSpellerRule extends MorfologikSpellerRule {
@@ -33,8 +34,8 @@ public final class MorfologikBretonSpellerRule extends MorfologikSpellerRule {
   private static final Pattern BRETON_TOKENIZING_CHARS = Pattern.compile("-");
 
   public MorfologikBretonSpellerRule(ResourceBundle messages,
-                                     Language language) throws IOException {
-    super(messages, language);
+                                     Language language, UserConfig userConfig) throws IOException {
+    super(messages, language, userConfig);
     this.setIgnoreTaggedWords();
   }
 

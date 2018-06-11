@@ -101,7 +101,7 @@ public class MultiThreadedJLanguageToolTest {
       }
 
       @Override
-      public List<Rule> getRelevantRules(ResourceBundle messages) {
+      public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig) {
         // less rules than processors (depending on the machine), should at least not crash
         return Arrays.asList(
                 new UppercaseSentenceStartRule(messages, this),
@@ -120,6 +120,6 @@ public class MultiThreadedJLanguageToolTest {
 
   @Test(expected = IllegalArgumentException.class)
   public void testIllegalThreadPoolSize2() throws IOException {
-    new MultiThreadedJLanguageTool(new Demo(), null, 0);
+    new MultiThreadedJLanguageTool(new Demo(), null, 0, null);
   }
 }

@@ -4204,6 +4204,20 @@ title="Easy editing stylesheet" ?>
       <example correction='de modo geral'>Devemos ver isto <marker>de um modo geral</marker>.</example>
     </rule>
 
+    <rule id='ESTAR_BOM_NA_VIDA' name="Estar bem na vida">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
+      <pattern>
+		<token inflected='yes'>estar</token>
+        <marker>
+          <token regexp="yes">bom|bons|boas?</token>
+        </marker>
+        <token>na</token>
+        <token>vida</token>
+      </pattern>
+      <message>Substitua por <suggestion>bem</suggestion>.</message>
+      <example correction="bem">O Rui está <marker>bom</marker> na vida.</example>
+    </rule>	
+	
     <rule id='CRIAM' name="Queriam + Infinitivo">
     <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
@@ -4231,7 +4245,7 @@ title="Easy editing stylesheet" ?>
     <rule id='DE_PRESSA' name="Confusão: de pressa - depressa">
     <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
-          <token postag_regexp="yes" postag="(?:N..|A...)S.+"/>
+          <token postag_regexp="yes" postag="(?:N..|A...)S.+|RG"/>
         <marker>
           <token>de</token>
           <token regexp='yes'>pressa|vagar</token>

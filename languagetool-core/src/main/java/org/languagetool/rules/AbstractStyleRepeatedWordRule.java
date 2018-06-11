@@ -26,6 +26,7 @@ import java.util.ResourceBundle;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.UserConfig;
 import org.languagetool.rules.Categories;
 import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.RuleMatch;
@@ -44,11 +45,18 @@ public abstract class AbstractStyleRepeatedWordRule  extends TextLevelRule {
   
   protected int maxDistanceOfSentences = 1;
 
-  public AbstractStyleRepeatedWordRule(ResourceBundle messages) {
+  public AbstractStyleRepeatedWordRule(ResourceBundle messages, UserConfig userConfig) {
     super(messages);
     super.setCategory(Categories.STYLE.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Style);
     setDefaultOff();
+    if (userConfig != null) {
+      int confDistance = userConfig.getConfigValueByID(getId());
+      if(confDistance >= 0) {
+        this.maxDistanceOfSentences = confDistance;
+      }
+    }
+
   }
 
   /**
@@ -90,6 +98,37 @@ public abstract class AbstractStyleRepeatedWordRule  extends TextLevelRule {
     return maxDistanceOfSentences;
   }
   
+  /**
+   * @since 4.2
+   */
+  @Override
+  public boolean hasConfigurableValue() {
+    return true;
+  }
+
+  /**
+   * @since 4.2
+   */
+  @Override
+  public int getMinConfigurableValue() {
+    return 0;
+  }
+
+  /**
+   * @since 4.2
+   */
+  @Override
+  public int getMaxConfigurableValue() {
+    return 5;
+  }
+
+  /**
+   * @since 4.2
+   */
+  public String getConfigureText() {
+    return messages.getString("guiStyleRepeatedWordText");
+  }
+
   /*
    * Check only special words (e.g substantive, verbs, adjectives)
    * (German example: return (token.matchesPosTagRegex("(SUB|EIG|VER|ADJ):.*") 
@@ -165,9 +204,6 @@ public abstract class AbstractStyleRepeatedWordRule  extends TextLevelRule {
   public RuleMatch[] match(List<AnalyzedSentence> sentences) throws IOException {
     List<RuleMatch> ruleMatches = new ArrayList<>();
     List<AnalyzedTokenReadings[]> tokenList = new ArrayList<>();
-    if (configValue >= 0) {
-      maxDistanceOfSentences = configValue;
-    }
     int pos = 0;
     for (int n = 0; n < maxDistanceOfSentences && n < sentences.size(); n++) {
       tokenList.add(sentences.get(n).getTokensWithoutWhitespace());

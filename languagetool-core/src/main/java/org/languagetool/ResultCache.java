@@ -36,7 +36,6 @@ import java.util.concurrent.TimeUnit;
  * cached results are not used for a different language.
  * @since 3.7
  */
-@Experimental
 public class ResultCache {
 
   private final Cache<InputSentence, List<RuleMatch>> matchesCache;

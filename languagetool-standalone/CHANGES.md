@@ -4,6 +4,7 @@
 
 #### Catalan
   * added and improved rules
+  * rules and updated dictionary for new diacritics rules (IEC 2017)
 
 #### Breton
   * Made many messages shorter
@@ -14,6 +15,9 @@
 
 #### English
   * added and improved rules
+  * updated en_GB spellchecker dictionary from https://github.com/marcoagpinto/aoo-mozilla-en-dict  (Version 2018-06-01)
+  * updated en_US spellchecker dictionary from http://wordlist.aspell.net (Version 2018.04.16)
+  * updated en_CA spellchecker dictionary from http://wordlist.aspell.net (Version 2018.04.16)
 
 #### German
   * added and improved rules
@@ -22,11 +26,37 @@
   * `prohibit.txt`: lines ending with ".*" will prohibit all words starting with
     the previous string
 
+#### German (simple)
+  * added and improved rules
+
+#### Greek
+  * added rules
+
 #### Portuguese
   * added and improved rules
+  
+#### Russian
+  * added and improved grammar and punctuation rules
+  * small spelling dictionary update
 
 #### Ukrainian
   * added and improved rules
+
+#### HTTP API / LT server
+  * The JSON contains a new section `detectedLanguage` (under `language`) that
+    contains information about the automatically detected language. This way
+    clients can suggest switching to that language, e.g. in cases where the
+    user had selected the wrong language.
+  * Speed up false friend rule loading using a cache (can save about 20ms per 
+    request - only if mother tongue is set, has no effect otherwise)
+  * BETA: New optional configuration settings `dbDriver`, `dbUrl`, `dbUsername`,
+    `dbPassword` to allow user-specific dictionaries
+    
+#### Java API
+  * The parameters of the `*SpellerRule` classes (e.g. `MorfologikRussianSpellerRule`)
+    have changed
+  * `LanguageIdentifier` will now only consider the first 1000 characters when
+    identifying the language of a text. This improves performance for long texts. 
 
 
 

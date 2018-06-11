@@ -36,7 +36,7 @@ public class MorfologikJekavianSpellerRuleTest {
 
   @Before
   public void setUp() throws Exception {
-    rule = new MorfologikJekavianSpellerRule(TestTools.getMessages("sr"), new JekavianSerbian());
+    rule = new MorfologikJekavianSpellerRule(TestTools.getMessages("sr"), new JekavianSerbian(), null);
     languageTool = new JLanguageTool(new JekavianSerbian());
   }
 

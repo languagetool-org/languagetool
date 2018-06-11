@@ -382,6 +382,36 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Сдайте тетради на проверку!</example>
             </rule>          
         </rulegroup>
+        <rulegroup id="v_ruchnuju" name="Логические ошибки «в ручную/вручную»">
+            <!--
+            <rule> 
+                <pattern>
+                    <token>вручную</token>
+                    <token postag="N(N|NN|NF):.*:.*:V|PNN:.*" postag_regexp="yes"></token>
+                </pattern>
+                 
+                <message>Имелось в виду: <suggestion>в ручную \2</suggestion>?</message>
+                <short>Логическая ошибка.</short>
+                <example correction="В ручную кладь"><marker>Вручную кладь</marker> можно сдать сумку.</example>
+                <example>В ручную кладь можно сдать сумку.</example>
+                <example>И двери открыть вручную.</example>
+            </rule> 
+            -->
+               <rule> 
+                <pattern>
+                    <token postag="VB.*" postag_regexp="yes"></token>
+                    <token>в</token>
+                    <token>ручную</token>
+                    <token>.</token>
+                </pattern>
+                 
+                <message>Имелось в виду: <suggestion>\1 \2\3\4</suggestion>?</message>
+                <short>Логическая ошибка.</short>
+                <example correction="открыть вручную.">И двери <marker>открыть в ручную.</marker></example>
+                <example>В ручную кладь можно сдать сумку.</example>
+                <example>И двери открыть вручную.</example>
+            </rule>                 
+        </rulegroup>
         <rulegroup id="INFORMATIVNIJ_INFORMACIONNIJ" name="Логические ошибки «информативный/информационный»">
             <rule>
                 <pattern>
@@ -2928,7 +2958,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="VB:.*|PT:.*" postag_regexp="yes"></token> 
                </antipattern>  
                <pattern case_sensitive="yes">
-                   <token><exception postag="PREP|ADJ:.*" postag_regexp="yes"></exception><exception regexp="yes">соответствии|большинство|меньшинство|часть|доля</exception></token>
+                   <or>
+                     <token><exception postag="PREP|ADJ:.*" postag_regexp="yes"></exception><exception regexp="yes">соответствии|большинство|меньшинство|часть|доля</exception></token>
+                     <token case_sensitive="no" regexp="yes">это|эта|эти|этот|тот</token>
+                   </or>
                     <marker>
                     <unify negate="no">
                       <feature id="gender"/>
@@ -2950,10 +2983,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>На территории распространения которого расположен город.</example>
                 <example>Бухта Золотой Рог, на обоих берегах которой располагается Владивосток, является удобным местом.</example>
                 <example correction="ребята, которые">Это те же <marker>ребята которые</marker> играли в хоккей.</example>
+                <example correction="программа, которая">Chess — это <marker>программа которая</marker> играла в шахматы.</example>
             </rule>
 
         </rulegroup>
-        
+        <rule id="GDE_COMMA" name="Запятая перед союзом «где»">
+            <pattern>
+                <marker>
+                    <token negate="yes">,<exception postag="SENT_START"/><exception postag="PARTICLE"/><exception>"</exception><exception>«</exception></token>
+                    <token case_sensitive="yes" skip="1">где</token>
+                </marker>
+                <or>
+                <token postag="NN:.*:.*:.*:Nom" postag_regexp="yes"></token>
+                <token regexp="yes">это|эта|эти|этот|тот</token>
+                </or>
+            </pattern>
+            <message>Пропущена запятая перед союзом: <suggestion>\1, \2</suggestion></message>
+            <short>Пропущена запятая.</short>
+            <example correction="изображений, где">Одно из тех <marker>изображений где</marker> глаза специально нарисованы.</example>
+            <example>Одно из тех изображений, где глаза специально нарисованы.</example>
+            <example>Где это?</example>
+            <example>А где мой чай?</example>
+        </rule>
         <rulegroup id="da_and_da" name="Союзы «да» + «да»">
             <rule>  <!--  да=и   -->
                 <pattern>
@@ -4099,10 +4150,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Запятая не нужна:<suggestion>\1 \2 \4</suggestion>.</message>
                 <short>Запятая не нужна.</short>
+                <example>Как сделать так, чтобы выходные длились дольше.</example>
                 <example>Работа была сделана не так чтобы полностью.</example>
                 <example correction="не так чтобы">Работа была сделана <marker>не так, чтобы</marker> полностью.</example>
             </rule>
-            
+            <rule>
+                <pattern>
+                    <token negate="yes" regexp="yes">не|,</token>
+                    <token>так</token>
+                    <token>чтобы</token>
+                </pattern>
+                <message>Нужна запятая:<suggestion>\1 \2, \3</suggestion>.</message>
+                <short>Нужна запятая.</short>
+                <example>Как сделать так, чтобы выходные длились дольше.</example>
+                <example correction="сделать так, чтобы">Как <marker>сделать так чтобы</marker> выходные длились дольше.</example>
+            </rule>
         </rulegroup>
         <rulegroup default="on" id="I_TO_I_SE" name="Цельные выражения: «ни рыба ни мясо», ...">
             <!-- Запятая не ставится в цельных выражениях:
@@ -4953,7 +5015,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="grammar_Duplication_by_the_pronoun_of_the_noun-subject" name="Грамматические ошибки. Дублирование местоимением существительного-подлежащего»">
             <pattern>
                 <token postag="NN:.*:.*:.*:Nom" postag_regexp="yes"><exception  postag="NN:.*" postag_regexp="yes" negate_pos="yes" ></exception></token>
-                <token><exception  postag="VB:.*|UNKNOWN|DPT.*|PT:.*|ADJ:Short:.*" postag_regexp="yes" /></token>
+                <token><exception  postag="VB:.*|UNKNOWN|DPT.*|PT:.*|PT_Short:.*|ADJ:Short:.*" postag_regexp="yes" /></token>
                 <token>,</token>
                 <token postag="PNN:.*:Nom:P3" postag_regexp="yes"><exception  postag="PNN:.*:Nom:P3" postag_regexp="yes"  negate_pos="yes"></exception></token>
                 <token postag="VB:.*" postag_regexp="yes"><exception  postag="VB:.*" postag_regexp="yes"  negate_pos="yes"></exception></token>
@@ -7768,7 +7830,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule default="on" id="Verb_and_PT" name="Глагол и причастие">
             <pattern>
                 <token>получится</token>
-                <token postag="PT:.*" postag_regexp="yes"><exception postag="ADJ:.*" postag_regexp="yes"></exception></token>
+                <token postag="PT:.*|PT_Short:.*" postag_regexp="yes"><exception postag="ADJ:.*" postag_regexp="yes"></exception></token>
             </pattern>
   
         <message>Глагол и причастие подряд. Вероятно, опечатка: <suggestion><match no="1"></match> <match no="2" postag="PT:.*" postag_regexp="yes" postag_replace="VB:INF:.*"></match></suggestion></message>
@@ -9314,7 +9376,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes" >опубликовано|напечатано|обнародовано|издано</token>
                     <token>воспоминание</token>
                 </pattern>
-                <message>Требуется множественное число: <suggestion><match no="1" postag="PT:(.*):.*" postag_regexp="yes" postag_replace="PT:$1:PL" /> воспоминания</suggestion>.</message>
+                <message>Требуется множественное число: <suggestion><match no="1" postag="PT_Short:(.*):.*" postag_regexp="yes" postag_replace="PT_Short:$1:PL" /> воспоминания</suggestion>.</message>
                 <short>Требуется множественное число.</short>
 
                 <example correction="опубликованы воспоминания">В книге <marker>опубликовано воспоминание</marker> известного политика.</example>
@@ -10006,7 +10068,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>   
                 <pattern>
                         <token>Майами</token>                   
-                        <token postag="VB:Past:.*:.*:Neut|VB:Past:.*:.*:Fem|PT:Past:.*:Neut|PT:Past:.*:Fem|PT_Short:Real:.*:Neut|PT_Short:Real:.*:Fem" postag_regexp="yes"/>
+                        <token postag="VB:Past:.*:.*:Neut|VB:Past:.*:.*:Fem|PT:Past:.*:Neut|PT:Past:.*:Fem|PT_Short:.*:.*:Neut|PT_Short:.*:.*:Fem" postag_regexp="yes"/>
                 </pattern>
                 <message>Род несклоняемых существительных, обозначающих географические названия, определяется по роду существительного – родового понятия</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%A0%D0%BE%D0%B4_%28%D0%BB%D0%B8%D0%BD%D0%B3%D0%B2%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%29</url>
@@ -10018,7 +10080,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>   
                 <pattern>
                         <token>Палермо</token>   
-                        <token postag="VB:Past:.*:.*:Neut|VB:Past:.*:.*:Fem|PT:Past:.*:Neut|PT:Past:.*:Fem|PT_Short:Real:.*:Neut|PT_Short:Real:.*:Fem" postag_regexp="yes"/>
+                        <token postag="VB:Past:.*:.*:Neut|VB:Past:.*:.*:Fem|PT:Past:.*:Neut|PT:Past:.*:Fem|PT_Short:.*:.*:Neut|PT_Short:.*:.*:Fem" postag_regexp="yes"/>
                 </pattern>
                 <message>Род несклоняемых существительных, обозначающих географические названия, определяется по роду существительного – родового понятия</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%A0%D0%BE%D0%B4_%28%D0%BB%D0%B8%D0%BD%D0%B3%D0%B2%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%29</url>
@@ -10030,7 +10092,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>   
                 <pattern>
                         <token>Хуанхэ</token>                 
-                        <token postag="ADJ:Short:Neut|VB:Past:.*:.*:Neut|VB:Past:.*:.*:Masc|PT:Past:.*:Neut|PT:Past:.*:Masc|PT_Short:Real:.*:Neut|PT_Short:Real:.*:Masc" postag_regexp="yes"/>
+                        <token postag="ADJ:Short:Neut|VB:Past:.*:.*:Neut|VB:Past:.*:.*:Masc|PT:Past:.*:Neut|PT:Past:.*:Masc|PT_Short:.*:.*:Neut|PT_Short:.*:.*:Masc" postag_regexp="yes"/>
                 </pattern>
                 <message>Род несклоняемых существительных, обозначающих географические названия, определяется по роду существительного – родового понятия</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%A0%D0%BE%D0%B4_%28%D0%BB%D0%B8%D0%BD%D0%B3%D0%B2%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%29</url>
@@ -10042,7 +10104,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>   
                 <pattern>
                         <token>Янцзы</token>                     
-                        <token postag="VB:Past:.*:.*:Neut|VB:Past:.*:.*:Masc|PT:Past:.*:Neut|PT:Past:.*:Masc|PT_Short:Real:.*:Neut|PT_Short:Real:.*:Masc" postag_regexp="yes"/>
+                        <token postag="VB:Past:.*:.*:Neut|VB:Past:.*:.*:Masc|PT:Past:.*:Neut|PT:Past:.*:Masc|PT_Short:.*:.*:Neut|PT_Short:.*:.*:Masc" postag_regexp="yes"/>
                 </pattern>
                 <message>Род несклоняемых существительных, обозначающих географические названия, определяется по роду существительного – родового понятия</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%A0%D0%BE%D0%B4_%28%D0%BB%D0%B8%D0%BD%D0%B3%D0%B2%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%29</url>
@@ -10251,10 +10313,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="Postrojenije_slovosochetanij_skazuem_sing" name="Употребление числа сказуемого: ед. ч."> 
             <rule>   
                 <pattern>
-                        <token postag="PT:Past:.*:PL|PT:Past:.*:Neut|PT:Past:.*:Masc" postag_regexp="yes"/>
+                        <token postag="PT_Short:Past:.*:PL|PT_Short:Past:.*:Neut|PT_Short:Past:.*:Masc" postag_regexp="yes"/>
                         <token regexp="yes">тысяча|сотня</token>
                 </pattern>
-                <message>При словах «тысяча», «сотня», «миллион», «миллиард» сказуемое обычно стоит в ед. ч. и согласуется в роде</message>
+                <message>При словах «тысяча», «сотня», «миллион», «миллиард» сказуемое обычно стоит в ед. ч. и согласуется по роду</message>
                 <short>Ошибка в согласовании</short>
                 <example correction=""><marker>Получены тысяча</marker> книг для библиотеки.</example>
                 <example correction=""><marker>Напечатано сотня</marker> экземпляров.</example>
@@ -10264,10 +10326,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
  
             <rule>   
                 <pattern>
-                        <token postag="PT:Past:.*:PL|PT:Past:.*:Neut|PT:Past:.*:Fem" postag_regexp="yes"/>
+                        <token postag="PT_Short:Past:.*:PL|PT_Short:Past:.*:Neut|PT_Short:Past:.*:Fem" postag_regexp="yes"/>
                         <token regexp="yes">миллион|миллиард</token>
                 </pattern>
-                <message>При словах «тысяча», «сотня», «миллион», «миллиард» сказуемое обычно стоит в ед. ч. и согласуется в роде</message>
+                <message>При словах «тысяча», «сотня», «миллион», «миллиард» сказуемое обычно стоит в ед. ч. и согласуется по роду</message>
                 <short>Ошибка в согласовании</short>
                 <example correction="">На благотворительность <marker>выделено миллион</marker> рублей.</example>                
                 <example correction="">На благоустройство города <marker>выделено миллиард</marker> рублей.</example>

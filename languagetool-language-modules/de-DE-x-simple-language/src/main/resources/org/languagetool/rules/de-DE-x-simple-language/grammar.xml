@@ -49,7 +49,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
         <rule id="METAPHERN" name="Leichte Sprache: Metaphern">
             <pattern>
-                <token inflected='yes' regexp='yes'>Bärendienst|Kurschatten|Mauerblümchen|Erdbeermund|Gänsehaut|Pustekuchen|Gardinenpredigt|Orangenhaut|Gipfeltreffen|Honigkuchenpferd|Rabeneltern|Stimmungskanone|Hausdrache|Gaumenschmeichler|Glückspilz|Baumkrone|Sternstunde|Warteschlange|Menschenschlange|Strohfeuer|Wüstenschiff|Zahlenfriedhof|Kaderschmiede|Zwickmühle|Augenweide|Augenschmaus|Hexenkessel|Hosenstall|Stubentiger|Couchsurfer|Lampenfieber|Rohrkrepierer|Hanswurst|Goldmarie|Sternstunden|Helikoptereltern|Schwarzmalerei|Augenwischerei|Eselsbrücke|Kredithai|Torschlusspanik|Dreikäsehoch|Hanswurst</token>
+                <token inflected='yes' regexp='yes'>Wiegenfest|Nahverkehr|Fernverkehr|Lichtbild|Bärendienst|Kurschatten|Mauerblümchen|Erdbeermund|Gänsehaut|Pustekuchen|Gardinenpredigt|Orangenhaut|Gipfeltreffen|Honigkuchenpferd|Rabeneltern|Stimmungskanone|Hausdrache|Gaumenschmeichler|Glückspilz|Baumkrone|Sternstunde|Warteschlange|Menschenschlange|Strohfeuer|Wüstenschiff|Zahlenfriedhof|Kaderschmiede|Zwickmühle|Augenweide|Augenschmaus|Hexenkessel|Hosenstall|Stubentiger|Couchsurfer|Lampenfieber|Rohrkrepierer|Hanswurst|Goldmarie|Sternstunden|Helikoptereltern|Schwarzmalerei|Augenwischerei|Eselsbrücke|Kredithai|Torschlusspanik|Dreikäsehoch|Hanswurst</token>
             </pattern>
             <message>Verwenden Sie keine schwierigen Begriffe. Vermeiden Sie Metaphern und bildhafte Sprache.</message>
             <short>Metaphern vermeiden</short>
@@ -61,7 +61,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
         <rule id="SCHWIERIGE_WOERTER" name="Leichte Sprache: schwierige Wörter">
             <pattern>
-                <token inflected='yes' regexp='yes'>abnor+|ambi.+|anti.+|asy.+|auth.+|diffizil|ge(nehmigen|statten)|hy.+|kontra.+|mono.+|neo.+|omni.+|ortho.+|poly.+|prä.+|pseudo.+|retro.+|rhy.+|semi.+|sy[mn].+|zy.+|.+ismus|.+phobien?|.+nym</token>
+                <token inflected='yes' regexp='yes'>abnor+|ambi.+|anti.+|asy.+|auth.+|diffizil|ge(nehmigen|statten)|hemi.+|hy.+|kontra.+|mono.+|neo.+|omni.+|ortho.+|poly.+|prä.+|pseudo.+|retro.+|rhy.+|semi.+|sy[mn].+|theo.*|zy.+|.+ismus|.+phobien?|.+nym</token>
             </pattern>
             <message>Verwenden Sie keine schwierigen Begriffe. Vermeiden Sie schwierige Wörter und Fremdwörter.</message>
             <short>Schwierige Wörter vermeiden</short>
@@ -82,13 +82,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
         <rule id="VERNEINUNG" name="Leichte Sprache: Verneinungen">
             <pattern>
-                <token>nicht</token>
+                <marker><token>nicht</token></marker>
                 <token/>
                 <token/>
             </pattern>
             <message>Wenn möglich, keine Verneinungen benutzen.</message>
             <short>Verneinungen vermeiden.</short>
-            <example correction="">Peter will <marker>nicht länger bleiben</marker>.</example>
+            <example correction="">Peter will <marker>nicht</marker> länger bleiben.</example>
             <example>Peter will gehen.</example>
         </rule>
         
@@ -225,7 +225,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="">Er <marker>sagte, er</marker> sei 30 Jahre alt.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="ZWEI_INFORMATIONSEINHEITEN_PRO_SATZ" name="Leichte Sprache: eine Informationseinheit pro Satz">
+        <rulegroup id="ZWEI_INFORMATIONSEINHEITEN_PRO_SATZ" name="Leichte Sprache: eine Aussage pro Satz">
             <rule>
                 <antipattern>
                     <token postag="SENT_START" skip="2"/>
@@ -243,26 +243,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <antipattern>
                     <token postag="VER:MOD:[1-3]:.+" postag_regexp="yes" skip="-1"/>
+                    <token regexp="yes" skip="-1">und|oder</token>
                     <token postag="VER:INF:.+" postag_regexp="yes"/>
                     <token>.</token>
                 </antipattern>
                 <pattern>
                     <token postag="VER.*:[1-3]:.*" postag_regexp="yes" skip="-1"/>
                     <marker>
-                        <token/>
                         <token regexp="yes">und|oder</token>
-                        <token skip="-1"/>
                     </marker>
+                    <token skip="-1"/>
                     <token postag="VER.*:[1-3]:.*" postag_regexp="yes"/>
                 </pattern>
                 <message>Jeder Satz sollte nur eine Aussage enthalten. Können Sie diesen Satz in zwei Sätze aufteilen?</message>
-                <suggestion>\2. <match no="4" case_conversion="startupper"/></suggestion>
                 <example>Wir essen gerne Milchreis mit Zucker und Zimt.</example>
-                <example correction="Tina. Tina">Tim liebt <marker>Tina und Tina</marker> liebt Tim.</example>
+                <example correction="">Tim liebt Tina <marker>und</marker> Tina liebt Tim.</example>
                 <example><marker>Max und Moritz</marker> heißen die beiden Hauptfiguren.</example>
-                <example>Er hat Eier und Milch bei einem Bauer gekauft.</example>
+                <example>Er hat Eier und Milch bei einem Bauern gekauft.</example>
                 <example>Er sollte Schrauben und Muttern trennen.</example>
                 <example>Ist er groß oder klein?</example>
+                <example correction="">Ihr macht das jetzt fertig <marker>und</marker> ich gehe.</example>
+                <example correction="">Ich mache das jetzt fertig <marker>und</marker> ihr könnt gehen.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -285,7 +286,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Jeder Satz sollte nur eine Aussage enthalten. Können Sie diesen Satz in zwei Sätze aufteilen?</message>
                 <example correction="">Ich glaubte ihm <marker>und</marker> folgte ihm auf sein Zimmer.</example>
                 <example correction="">Sie spielen am Abend Schach <marker>und</marker> tanzen bis Mitternacht Polka.</example>
-                <example correction="">Ich sah etwas <marker>oder</marker> glaubte etwas zu sehen.</example>
+                <example correction="">Ich sah etwas <marker>oder</marker> glaubte, etwas zu sehen.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -336,16 +337,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token>nicht</token>
-                    <token skip="-1">nur</token>
+                    <token skip="-1">nicht</token>
                     <marker>
                        <token skip="4">sondern</token>
-                       <token>auch</token>
                     </marker>
                 </pattern>
                 <message>Jeder Satz sollte nur eine Aussage enthalten. Können Sie diesen Satz in zwei Sätze aufteilen?</message>
-                <example correction="">Er hat nicht nur Hunde, <marker>sondern auch</marker> Katzen.</example>
-                <example correction="">Er isst nicht nur Eier, <marker>sondern er trinkt auch</marker> Milch.</example>
+                <example correction="">Er hat nicht nur Hunde, <marker>sondern</marker> auch Katzen.</example>
+                <example correction="">Er isst nicht nur Eier, <marker>sondern</marker> er trinkt auch Milch.</example>
                 <example>Er hat Hunde. Er hat auch Katzen.</example>
             </rule>
         </rulegroup>
@@ -355,6 +354,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <!-- Für SFT gibt es zu viele falsche Positive. -->
                     <token postag_regexp="yes" postag=".*:KJ(1|2):NON">
                         <exception postag_regexp="yes" postag="VER:INF:.*"/>
+                        <exception postag="VER:1:SIN:PRÄ:NON"/>
                         <!-- Gleiche Verbform VER:2:PLU:KJ1:NON und VER:3:SIN:PRÄ:NON. Die 2:PLU ist vermutlich sehr viel seltener, daher wird eine Ausnahme hinzugefügt. -->
                         <exception postag_regexp="yes" postag="VER:2:PLU:KJ1:.*"/>
                     </token>
@@ -362,6 +362,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Konjunktiv gefunden. Vermeiden Sie den Konjunktiv.</message>
                 <example>Angeblich sind sie bereit.</example>
                 <example correction="">Man <marker>sei</marker> bereit.</example>
+                <example>Ich schlafe nicht mehr.</example>
             </rule>
             <rule>
                 <pattern>

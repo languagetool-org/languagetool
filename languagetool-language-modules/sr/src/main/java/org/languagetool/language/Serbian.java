@@ -21,6 +21,7 @@ package org.languagetool.language;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.LanguageMaintainedState;
+import org.languagetool.UserConfig;
 import org.languagetool.databroker.ResourceDataBroker;
 import org.languagetool.rules.*;
 import org.languagetool.rules.sr.ekavian.MorfologikEkavianSpellerRule;
@@ -159,10 +160,10 @@ public class Serbian extends Language {
   }
 
   @Override
-  public List<Rule> getRelevantRules(ResourceBundle messages)
+  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig)
           throws IOException {
     List<Rule> rules = new ArrayList<>(getBasicRules(messages));
-    rules.add(new MorfologikEkavianSpellerRule(messages, this));
+    rules.add(new MorfologikEkavianSpellerRule(messages, this, null));
     rules.add(new SimpleGrammarEkavianReplaceRule(messages));
     rules.add(new SimpleStyleEkavianReplaceRule(messages));
     return rules;

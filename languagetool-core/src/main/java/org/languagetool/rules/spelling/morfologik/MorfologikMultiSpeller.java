@@ -28,7 +28,9 @@ import morfologik.stemming.Dictionary;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.languagetool.Experimental;
 import org.languagetool.JLanguageTool;
+import org.languagetool.UserConfig;
 
 import java.io.*;
 import java.util.*;
@@ -42,6 +44,7 @@ import java.util.concurrent.TimeUnit;
 public class MorfologikMultiSpeller {
 
   private static final LoadingCache<BufferedReaderWithSource, List<byte[]>> dictCache = CacheBuilder.newBuilder()
+          //.maximumSize(0)
           .expireAfterWrite(10, TimeUnit.MINUTES)
           .build(new CacheLoader<BufferedReaderWithSource, List<byte[]>>() {
             @Override
@@ -54,15 +57,21 @@ public class MorfologikMultiSpeller {
   private final List<MorfologikSpeller> spellers;
   private final boolean convertsCase;
 
+  public MorfologikMultiSpeller(String binaryDictPath, String plainTextPath, int maxEditDistance) throws IOException {
+    this(binaryDictPath, plainTextPath, null, maxEditDistance);
+  }
+  
   /**
    * @param binaryDictPath path in classpath to a {@code .dict} binary Morfologik file
    * @param plainTextPath path in classpath to a plain text {@code .txt} file (like spelling.txt)
    * @param maxEditDistance maximum edit distance for accepting suggestions
+   * @since 4.2
    */
-  public MorfologikMultiSpeller(String binaryDictPath, String plainTextPath, int maxEditDistance) throws IOException {
+  @Experimental
+  public MorfologikMultiSpeller(String binaryDictPath, String plainTextPath, UserConfig userConfig, int maxEditDistance) throws IOException {
     this(binaryDictPath,
          new BufferedReader(new InputStreamReader(JLanguageTool.getDataBroker().getFromResourceDirAsStream(plainTextPath), "utf-8")),
-         plainTextPath, maxEditDistance);
+         plainTextPath, userConfig != null ? userConfig.getAcceptedWords(): Collections.emptyList(), maxEditDistance);
     if (!plainTextPath.endsWith(".txt")) {
       throw new RuntimeException("Unsupported dictionary, plain text file needs to have suffix .txt: " + plainTextPath);
     }
@@ -74,9 +83,14 @@ public class MorfologikMultiSpeller {
    * @param maxEditDistance maximum edit distance for accepting suggestions
    * @since 3.0
    */
-  public MorfologikMultiSpeller(String binaryDictPath, BufferedReader plainTextReader, String plainTextReaderPath, int maxEditDistance) throws IOException {
+  public MorfologikMultiSpeller(String binaryDictPath, BufferedReader plainTextReader, String plainTextReaderPath, List<String> userWords, int maxEditDistance) throws IOException {
     MorfologikSpeller speller = getBinaryDict(binaryDictPath, maxEditDistance);
     List<MorfologikSpeller> spellers = new ArrayList<>();
+    MorfologikSpeller userDictSpeller = getUserDictSpellerOrNull(userWords, binaryDictPath, maxEditDistance);
+    if (userDictSpeller != null) {
+      // add this first, as otherwise suggestions from user's won dictionary might drown in the mass of other suggestions
+      spellers.add(userDictSpeller);
+    }
     spellers.add(speller);
     convertsCase = speller.convertsCase();
     MorfologikSpeller plainTextSpeller = getPlainTextDictSpellerOrNull(plainTextReader, plainTextReaderPath, binaryDictPath, maxEditDistance);
@@ -84,6 +98,18 @@ public class MorfologikMultiSpeller {
       spellers.add(plainTextSpeller);
     }
     this.spellers = Collections.unmodifiableList(spellers);
+  }
+
+  private MorfologikSpeller getUserDictSpellerOrNull(List<String> userWords, String dictPath, int maxEditDistance) throws IOException {
+    if (userWords.isEmpty()) {
+      return null;
+    }
+    List<byte[]> byteLines = new ArrayList<>();
+    for (String line : userWords) {
+      byteLines.add(line.getBytes("utf-8"));
+    }
+    Dictionary dictionary = getDictionary(byteLines, dictPath, dictPath.replace(".dict", ".info"), false);
+    return new MorfologikSpeller(dictionary, maxEditDistance);
   }
 
   private MorfologikSpeller getBinaryDict(String binaryDictPath, int maxEditDistance) throws IOException {
@@ -100,7 +126,7 @@ public class MorfologikMultiSpeller {
     if (lines.isEmpty()) {
       return null;
     }
-    Dictionary dictionary = getDictionary(lines, dictPath);
+    Dictionary dictionary = getDictionary(lines, plainTextReaderPath, dictPath.replace(".dict", ".info"), true);
     return new MorfologikSpeller(dictionary, maxEditDistance);
   }
 
@@ -115,9 +141,10 @@ public class MorfologikMultiSpeller {
     return lines;
   }
 
-  private Dictionary getDictionary(List<byte[]> lines, String dictPath) throws IOException {
-    Dictionary dictFromCache = dicPathToDict.get(dictPath);
-    if (dictFromCache != null) {
+  private Dictionary getDictionary(List<byte[]> lines, String dictPath, String infoPath, boolean allowCache) throws IOException {
+    String cacheKey = dictPath + "|" + infoPath;
+    Dictionary dictFromCache = dicPathToDict.get(cacheKey);
+    if (allowCache && dictFromCache != null) {
       return dictFromCache;
     } else {
       // Creating the dictionary at runtime can easily take 50ms for spelling.txt files
@@ -128,9 +155,8 @@ public class MorfologikMultiSpeller {
       FSA fsa = FSABuilder.build(linesCopy);
       ByteArrayOutputStream fsaOutStream = new CFSA2Serializer().serialize(fsa, new ByteArrayOutputStream());
       ByteArrayInputStream fsaInStream = new ByteArrayInputStream(fsaOutStream.toByteArray());
-      String infoFile = dictPath.replace(".dict", ".info");
-      Dictionary dict = Dictionary.read(fsaInStream, JLanguageTool.getDataBroker().getFromResourceDirAsStream(infoFile));
-      dicPathToDict.put(dictPath, dict);
+      Dictionary dict = Dictionary.read(fsaInStream, JLanguageTool.getDataBroker().getFromResourceDirAsStream(infoPath));
+      dicPathToDict.put(cacheKey, dict);
       return dict;
     }
   }

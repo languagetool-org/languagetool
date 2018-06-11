@@ -21,6 +21,7 @@ package org.languagetool.rules.de;
 import java.util.ResourceBundle;
 
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.UserConfig;
 import org.languagetool.rules.AbstractStyleRepeatedWordRule;
 import org.languagetool.rules.Categories;
 
@@ -33,8 +34,8 @@ import org.languagetool.rules.Categories;
 
 public class GermanStyleRepeatedWordRule  extends AbstractStyleRepeatedWordRule {
   
-  public GermanStyleRepeatedWordRule(ResourceBundle messages) {
-    super(messages);
+  public GermanStyleRepeatedWordRule(ResourceBundle messages, UserConfig userConfig) {
+    super(messages, userConfig);
     super.setCategory(Categories.STYLE.getCategory(messages));
   }
 

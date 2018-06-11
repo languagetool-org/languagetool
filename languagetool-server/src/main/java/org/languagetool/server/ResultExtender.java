@@ -78,24 +78,30 @@ class ResultExtender {
   }
 
   @NotNull
-  Future<List<RemoteRuleMatch>> getExtensionMatches(String plainText, Language lang) throws IOException, XMLStreamException {
-    return executor.submit(() -> {
-        HttpURLConnection huc = (HttpURLConnection) url.openConnection();
-        HttpURLConnection.setFollowRedirects(false);
-        huc.setConnectTimeout(connectTimeoutMillis);
-        huc.setRequestMethod("POST");
-        huc.setDoOutput(true);
-        huc.connect();
-        try (DataOutputStream wr = new DataOutputStream(huc.getOutputStream())) {
-          String urlParameters = "language=" + lang.getShortCodeWithCountryAndVariant() + "&text=" + plainText;
-          byte[] postData = urlParameters.getBytes(StandardCharsets.UTF_8);
-          wr.write(postData);
-        }
-        InputStream input = huc.getInputStream();
-        List<RemoteRuleMatch> remoteRuleMatches = parseJson(input);
-        huc.disconnect();
-        return remoteRuleMatches;
-      });
+  Future<List<RemoteRuleMatch>> getExtensionMatchesFuture(String plainText, Language lang) throws IOException, XMLStreamException {
+    return executor.submit(() -> getExtensionMatches(plainText, lang));
+  }  
+  
+  @NotNull
+  List<RemoteRuleMatch> getExtensionMatches(String plainText, Language lang) throws IOException, XMLStreamException {
+    HttpURLConnection huc = (HttpURLConnection) url.openConnection();
+    HttpURLConnection.setFollowRedirects(false);
+    huc.setConnectTimeout(connectTimeoutMillis);
+    huc.setReadTimeout(connectTimeoutMillis*2);
+    huc.setRequestMethod("POST");
+    huc.setDoOutput(true);
+    try {
+      huc.connect();
+      try (DataOutputStream wr = new DataOutputStream(huc.getOutputStream())) {
+        String urlParameters = "language=" + lang.getShortCodeWithCountryAndVariant() + "&text=" + plainText;
+        byte[] postData = urlParameters.getBytes(StandardCharsets.UTF_8);
+        wr.write(postData);
+      }
+      InputStream input = huc.getInputStream();
+      return parseJson(input);
+    } finally {
+      huc.disconnect();
+    }
   }
 
   @NotNull

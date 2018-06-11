@@ -494,8 +494,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token regexp="yes">[12][0-9]{3},[12][0-9]{3}</token>
           <token regexp="yes">рр\.</token>
         </antipattern>
+        <antipattern>
+          <token regexp="yes">.*,5</token> <!-- ,5 - виняток: 4,5 роки може читатися як «чотири з половиною роки» -->
+        </antipattern>
         <pattern>
-          <token regexp="yes">.*,[1-46-9]+</token> <!-- ,5 - виняток: 4,5 роки може читатися як «чотири з половиною роки» -->
+          <token regexp="yes">.*,[1-9]+</token>
           <marker>
             <token postag_regexp="yes" postag="noun.*?:.:.*">
               <exception postag_regexp="yes" postag="noun.*?:[mfn]:v_rod.*|.*pron.*|adv.*"/>
@@ -507,6 +510,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <message>Після десяткового дробу іменник має стояти в родовому відмінку однини: <suggestion><match no="2" postag_regexp="yes" postag="(.*):.:v_...(.*)" postag_replace="$1:[mnf]:v_rod$2"/></suggestion></message>
         <example correction="кілограма">2,4 <marker>кілограми</marker></example>
         <example correction="мільйона">2,4 <marker>мільйони</marker></example>
+        <example correction="мільйона">2,54 <marker>мільйони</marker></example>
         <example>або у 2,2 <marker>раз</marker>.</example> <!-- handled by rule below -->
         <example>або у 2,2 <marker>рази</marker>.</example> <!-- handled by rule below -->
         <example>33,77 тонни</example>
@@ -568,7 +572,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <rulegroup id="CONSISTENCY_NOUN_NUMERIC_WHOLE" name="Узгодженість числа іменників з цілими числівниками">
       <rule>
         <pattern>
-          <token regexp="yes">два|дві|три|чотири|.*[2-9]?[234]</token>
+          <token regexp="yes">два|дві|три|чотири|.*(?&lt;!1)[234]</token>
           <token>з</token>
           <token regexp="yes">половиною|третиною|чвертю</token>
           <token postag_regexp="yes" postag="adj.*" min="0"/>
@@ -589,6 +593,43 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
       <rule>
         <antipattern>
+          <token regexp="yes">від|до|протягом|[ув]продовж|близько|після|для|більше|менше</token>
+          <token postag_regexp="yes" postag="adj.*?:p:v_rod.*" min="0"/>
+          <token regexp="yes">.*[234],5</token>
+        </antipattern>
+        <antipattern>
+          <token regexp="yes">.*[234],5</token>
+          <token regexp="yes">тис|коп</token>
+        </antipattern>
+        <pattern>
+          <token regexp="yes">.*(?&lt;!1)[234],5</token>
+          <token postag_regexp="yes" postag="adj.*" min="0"/>
+          <marker>
+            <token postag_regexp="yes" postag="noun.*?:p:v_rod.*">
+              <exception postag_regexp="yes" postag="noun.*?:(p:v_naz|[mfn]:v_rod).*"/>
+            </token>
+          </marker>
+        </pattern>
+        <message>Після числівника, що закінчується на 2-4 і потім «,5», іменник має стояти в називному відмінку множини (якщо вимовляємо «з половиною»), або в родовом відмінку однини (якщо вимовляємо «і п'ять десятих»)</message>
+        <suggestion><match no="3" postag="noun.*?:p:v_naz.*" postag_regexp="yes"/></suggestion>
+        <suggestion><match no="3" postag="noun.*?:[mfn]:v_rod.*" postag_regexp="yes"/></suggestion>
+        <url>http://mova.kreschatic.kiev.ua/228.htm</url>
+        <example correction="мільйони|мільйона">2,5 <marker>мільйонів</marker></example>
+        <example correction="тижні|тижня">2,5 <marker>тижнів</marker></example>
+        <example correction="ночі">2,5 <marker>ночей</marker></example>
+        <example>14,5 років</example>
+        <example>отримало 12,4 тисяч</example>
+        <example>від 2,5 до 4,5 років</example>
+        <example>протягом останніх 3,5 років</example>
+        <!-- TODO: розібратися чи тут 2 == двоє
+        <example>2,5 постраждалих</example>
+        -->
+        <!-- handled by another rule -->
+        <example>3,5 тис</example>
+      </rule>
+
+      <rule>
+        <antipattern>
           <token regexp="yes">соті|десяті|.*[234]</token>
           <token case_sensitive="yes" postag_regexp="yes" postag="noun.*?:m:v_rod.*" regexp="yes">[А-ЯІЇЄҐ].*</token>
         </antipattern>
@@ -602,7 +643,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token regexp="yes">рівня|ступеня|вище|нижче</token>
         </antipattern>
         <pattern>
-          <token postag_regexp="yes" postag=".*num.*" regexp="yes">два|дві|обидва|обидві|три|чотири|[^,]*[2-9]?[234]
+          <token postag_regexp="yes" postag=".*num.*" regexp="yes">два|дві|обидва|обидві|три|чотири|[^,]*(?&lt;!1)[234]
             <exception postag_regexp="yes" postag="date|time"/>
             <exception scope="previous" regexp="yes">[:/.№]|статт[яі]|пункті?|частин[аи]|[а-яіїєґ]+\.|\.</exception> <!-- ст.,ч.,п. тощо -->
           </token>
@@ -626,6 +667,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="тижні">24 <marker>тижня</marker></example>
         <example correction="автомобілі">обидва <marker>автомобіля</marker></example>
         <example correction="автомобілі">обидва синіх <marker>автомобіля</marker></example>
+        <example correction="двори">дитину 3 <marker>двора</marker> спровадила</example>
         <example>о 12-14 дня</example>
         <example>1-2 рівня</example>
         <example>5-7 ступеня</example>
@@ -688,13 +730,66 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>п'ять з половиною <marker>разів</marker></example>
         <example>тримали п'ять бейсбольних біт</example>
       </rule>
+
+<!-- generates mostly FP
+      <rule>
+        <antipattern>
+          <token regexp="yes">[0-9]*</token>
+          <token regexp="yes">року|роки|р\.|&months;|&abbrevMonths;</token>
+        </antipattern>
+        <pattern>
+          <token regexp="yes">[0-9 ]*[5-90]|[0-9 ]+11</token>
+          <token postag_regexp="yes" postag="adj.*" min="0"/>
+          <marker>
+            <token postag_regexp="yes" postag="noun:(in)?anim:(.:v_naz|[mfn]:v_rod).*">
+              <exception postag_regexp="yes" postag="noun:(in)anim:p:v_rod.*"/>
+            </token>
+          </marker>
+        </pattern>
+        <message>Після числівника, що закінчується на 5-9 або 0, іменник має стояти в родовому відмінку множини</message>
+        <suggestion><match no="3" postag="noun:(in)?anim:p:v_rod.*" postag_regexp="yes"/></suggestion>
+        <example correction="градусів">5 <marker>градуси</marker></example>
+        <example correction="градусів">5 <marker>градуса</marker></example>
+        <example correction="ночей">10 <marker>ніч</marker></example>
+        <example correction="ночей">10 <marker>ночі</marker></example>
+        <example>1995 року</example>
+        <example>1995 р.</example>
+        <example>5 липня</example>
+      </rule>
+-->
+      <rule>
+        <antipattern>
+          <token regexp="yes">тис|тон</token>
+        </antipattern>
+        <pattern>
+          <token regexp="yes">([0-9 ]*[5-90]|[0-9 ]*1[1-4]),5</token>
+          <token postag_regexp="yes" postag="adj.*" min="0"/>
+          <marker>
+            <token postag_regexp="yes" postag="noun:(in)?anim:.:v_naz.*">
+              <exception postag_regexp="yes" postag="noun:(in)?anim:(p:v_rod|[mfn]:v_rod).*"/>
+            </token>
+          </marker>
+        </pattern>
+        <message>Після числівника, що закінчується на 5-9 і потім «,5», іменник має стояти в родовому відмінку множини (якщо вимовляємо «з половиною»), або в родовом відмінку однини (якщо вимовляємо «і п'ять десятих»)</message>
+        <suggestion><match no="3" postag="noun:(in)?anim:p:v_rod.*" postag_regexp="yes"/></suggestion>
+        <suggestion><match no="3" postag="noun:(in)?anim:[mfn]:v_rod.*" postag_regexp="yes"/></suggestion>
+        <example correction="градусів|градуса">5,5 <marker>градуси</marker></example>
+        <example correction="градусів|градуса">13,5 <marker>градуси</marker></example>
+        <example correction="ночей|ночі">10,5 <marker>ніч</marker></example>
+        <example>0,5 курки</example>
+        <example>зібрано 6,5 куб. м сміття</example>
+        <!-- handled by another rule -->
+        <example>19,5 тис гривень</example>
+        <example>18,5 тон сміття</example>
+      </rule>
+
       <rule>
         <antipattern>
           <token inflected="yes">бейсбольний</token>
           <token inflected="yes">біта</token>
         </antipattern>
         <pattern>
-          <token regexp="yes" inflected="yes">п'ять|шість|сім|вісім|дев'ять|нуль|десять|двадцять|тридцять|сорок|.*десят|дев'яносто|сотня|сто|двісті|триста|чотириста|п'ятьсот|шістьсот|сімсот|вісімсот|дев'ятсот|тисяча|мільйон|мільярд|([0-9 ]*[05-9]|[0-9 ]+11)
+          <token regexp="yes" inflected="yes">п'ять|шість|сім|вісім|дев'ять|нуль|десять|двадцять|тридцять|сорок|.*десят|дев'яносто|сотня|сто|двісті|триста|чотириста|п'ятьсот|шістьсот|сімсот|вісімсот|дев'ятсот|тисяча|мільйон|мільярд|([0-9 ]*[05-9]|[0-9 ]*1[1-4])
             <exception postag_regexp="yes" postag=".*:v_oru.*"/>
             <exception scope="previous" regexp="yes">[:./№]</exception>
             <exception regexp="yes">(1[0-9]{3}|20[0-2][0-9])</exception>
@@ -709,7 +804,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <exception regexp="yes">раз|чоловік|тис|куб|як|абзац|клас|канал|номер|плюс|поверх|пункт</exception>
                 </token>
             -->
-            <token postag_regexp="yes" postag="noun:(in)?anim:m:v_naz.*" regexp="yes">(нано|мікро|мілі|дека|кіло|мега|гіга|тера|пета)?(герц|байт|біт|бар|бер|ват|вольт|солдат|децибел|рентген|моль|мікрон|грам|аршин|лат|карат)
+            <token postag_regexp="yes" postag="noun:(in)?anim:m:v_(naz|rod).*" inflected="yes" regexp="yes">(нано|мікро|мілі|дека|кіло|мега|гіга|тера|пета)?(герц|байт|біт|бар|бер|ват|вольт|солдат|децибел|рентген|моль|мікрон|грам|аршин|лат|карат)
               <exception case_sensitive="yes">ВАТ</exception>
             </token>
           </marker>
@@ -724,6 +819,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="солдатів">дві сотні <marker>солдат</marker></example>
         <example correction="солдатів">дві сотні хоробрих <marker>солдат</marker></example>
         <example correction="солдатів">п'ять <marker>солдат</marker></example>
+        <example correction="мікронів">13 <marker>мікрон</marker></example>
+        <example correction="мікронів">13 <marker>мікрона</marker></example>
         <example>п'ять <marker>раз</marker></example>
         <example>хвилин за 10 спікер увійшов</example>
         <example>до 16 вхід заборонено</example>
@@ -745,6 +842,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>комендантом сотні став Віталій</example>
         <example>ці мільйони слід шукати там</example>
         <example>тримали 75 бейсбольних біт</example>
+        <!-- handled by another rule -->
+        <example>19 тис гривень</example>
       </rule>
 
       <rule>

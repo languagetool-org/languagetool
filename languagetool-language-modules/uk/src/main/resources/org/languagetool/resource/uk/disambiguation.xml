@@ -1510,6 +1510,21 @@
     <example type="untouched">накладні нігті</example>
   </rule>
 
+  <rule name="число + коп - копійок (не поліціянт)" id="num_kop">
+    <pattern>
+      <token regexp="yes">[0-9, –-]+</token>
+      <marker>
+        <token>коп</token>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="noun:anim:m:v_naz:slang"></disambig>
+    <example type="ambiguous"
+        inputform="коп[&lt;/S&gt;,коп/noun:anim:m:v_naz:slang]"
+        outputform="коп[&lt;/S&gt;]"
+            >ціною в 12,5 <marker>коп</marker></example>
+    <example type="untouched">солідний коп</example>
+  </rule>
+
 
   <!-- TOOD: redo when dictionary updated
   <rule name="Числівник, як іменник годин 1" id="NUMR_AS_HOUR_NOUN1">

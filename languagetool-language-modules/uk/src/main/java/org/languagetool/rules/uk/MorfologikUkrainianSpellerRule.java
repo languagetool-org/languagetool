@@ -25,10 +25,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
-import org.languagetool.AnalyzedToken;
-import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
+import org.languagetool.*;
 import org.languagetool.rules.spelling.morfologik.MorfologikMultiSpeller;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
 import org.languagetool.tagging.uk.IPOSTag;
@@ -43,8 +40,8 @@ public final class MorfologikUkrainianSpellerRule extends MorfologikSpellerRule 
 
 
   public MorfologikUkrainianSpellerRule(ResourceBundle messages,
-                                        Language language) throws IOException {
-    super(messages, language);
+                                        Language language, UserConfig userConfig) throws IOException {
+    super(messages, language, userConfig);
 //    setCheckCompound(true);
   }
 

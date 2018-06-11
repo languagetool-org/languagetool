@@ -22,6 +22,7 @@ import java.util.List;
 
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
+import org.languagetool.UserConfig;
 import org.languagetool.gui.Configuration;
 import org.languagetool.gui.ConfigurationDialog;
 import org.languagetool.rules.Rule;
@@ -51,7 +52,8 @@ class ConfigThread extends Thread {
   @Override
   public void run() {
     try {
-      JLanguageTool langTool = new JLanguageTool(docLanguage, config.getMotherTongue());
+      JLanguageTool langTool = new JLanguageTool(docLanguage, config.getMotherTongue()
+          , null, new UserConfig(config.getConfigurableValues()));
       List<Rule> allRules = langTool.getAllRules();
       for (Rule rule : allRules) {
         if(rule.isOfficeDefaultOn()) rule.setDefaultOn();

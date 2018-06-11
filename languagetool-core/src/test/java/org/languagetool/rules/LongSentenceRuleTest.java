@@ -21,6 +21,7 @@ package org.languagetool.rules;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
+import org.languagetool.UserConfig;
 
 import java.io.IOException;
 
@@ -33,7 +34,7 @@ public class LongSentenceRuleTest {
   public void testMatch() throws Exception {
     JLanguageTool lt = new JLanguageTool(TestTools.getDemoLanguage());
     
-    LongSentenceRule rule = new LongSentenceRule(TestTools.getEnglishMessages());
+    LongSentenceRule rule = new LongSentenceRule(TestTools.getEnglishMessages(), new UserConfig());
     assertNoMatch(" is a rather short text.", rule, lt);
     assertMatch("Now this is not " +
             "a a a a a a a a a a a " +
@@ -42,8 +43,8 @@ public class LongSentenceRuleTest {
             "a a a a a a a a a a a " +
             "rather that short text.", 111, 121, rule, lt);
     
-    LongSentenceRule shortRule = new LongSentenceRule(TestTools.getEnglishMessages());
-    shortRule.setDefaultValue(6);
+    LongSentenceRule shortRule = new LongSentenceRule(TestTools.getEnglishMessages(), new UserConfig(), 6);
+//    shortRule.setDefaultValue(6);
     assertNoMatch("This is a rather short text.", shortRule, lt);
     assertMatch("This is also a rather short text.", 22, 32, shortRule, lt);
     assertNoMatch("These ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ don't count.", shortRule, lt);

@@ -20,7 +20,6 @@ package org.languagetool.gui;
 
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nullable;
-import org.languagetool.ConfigValues;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
@@ -61,21 +60,22 @@ public class Configuration {
   private static final String SERVER_PORT_KEY = "serverPort";
   private static final String PARA_CHECK_KEY = "numberParagraphs";
   private static final String RESET_CHECK_KEY = "doResetCheck";
-  private static final String STYLE_REPEAT_KEY = "distanceRepeatedWords";
-  private static final String LONG_SENTENCES_KEY = "numberWordsLongSentences";
   private static final String USE_GUI_KEY = "useGUIConfig";
   private static final String FONT_NAME_KEY = "font.name";
   private static final String FONT_STYLE_KEY = "font.style";
   private static final String FONT_SIZE_KEY = "font.size";
   private static final String LF_NAME_KEY = "lookAndFeelName";
   private static final String ERROR_COLORS_KEY = "errorColors";
+  private static final String UNDERLINE_COLORS_KEY = "underlineColors";
+  private static final String CONFIGURABLE_RULE_VALUES_KEY = "configurableRuleValues";
 
   private static final String DELIMITER = ",";
   private static final String EXTERNAL_RULE_DIRECTORY = "extRulesDirectory";
 
   private final Map<String, String> configForOtherLanguages = new HashMap<>();
   private final Map<ITSIssueType, Color> errorColors = new HashMap<>();
-  private final ConfigValues configValues = new ConfigValues();
+  private final Map<String, Color> underlineColors = new HashMap<>();
+  private final Map<String, Integer> configurableRuleValues = new HashMap<>();
 
   private File configFile;
   private Set<String> disabledRuleIds = new HashSet<>();
@@ -96,8 +96,6 @@ public class Configuration {
   private int serverPort = DEFAULT_SERVER_PORT;
   private int numParasToCheck = DEFAULT_NUM_CHECK_PARAS;
   private boolean doResetCheck = true;
-  private int styleRepeatSentences = -1;
-  private int longSentencesWords = -1;
   private String externalRuleDirectory;
   private String lookAndFeelName;
 
@@ -157,8 +155,6 @@ public class Configuration {
     this.serverPort = configuration.serverPort;
     this.numParasToCheck = configuration.numParasToCheck;
     this.doResetCheck = configuration.doResetCheck;
-    this.styleRepeatSentences = configuration.styleRepeatSentences;
-    this.longSentencesWords = configuration.longSentencesWords;
     this.lookAndFeelName = configuration.lookAndFeelName;
     this.externalRuleDirectory = configuration.externalRuleDirectory;
     this.disabledRuleIds.clear();
@@ -170,6 +166,14 @@ public class Configuration {
     this.configForOtherLanguages.clear();
     for (String key : configuration.configForOtherLanguages.keySet()) {
       this.configForOtherLanguages.put(key, configuration.configForOtherLanguages.get(key));
+    }
+    this.underlineColors.clear();
+    for (Map.Entry<String, Color> entry : configuration.underlineColors.entrySet()) {
+      this.underlineColors.put(entry.getKey(), entry.getValue());
+    }
+    this.configurableRuleValues.clear();
+    for (Map.Entry<String, Integer> entry : configuration.configurableRuleValues.entrySet()) {
+      this.configurableRuleValues.put(entry.getKey(), entry.getValue());
     }
   }
 
@@ -315,38 +319,6 @@ public class Configuration {
   }
   
   /**
-   * get the maximal distance of two repeated words in number of sentences
-   * @since 4.1
-   */
-  public int getStyleRepeatSentences() {
-    return styleRepeatSentences;
-  }
-
-  /**
-   * set the maximal distance of two repeated words in number of sentences
-   * @since 4.1
-   */
-  public void setStyleRepeatSentences(int numSentences) {
-    this.styleRepeatSentences = numSentences;
-  }
-
-  /**
-   * get the number of words a sentence is marked as too long
-   * @since 4.1
-   */
-  public int getLongSentencesWords() {
-    return longSentencesWords;
-  }
-
-  /**
-   * set the number of words a sentence is marked as too long
-   * @since 4.1
-   */
-  public void setLongSentencesWords(int numWords) {
-    this.longSentencesWords = numWords;
-  }
-
-  /**
    * Returns the name of the GUI's editing textarea font.
    * @return the name of the font.
    * @since 2.6
@@ -467,6 +439,68 @@ public class Configuration {
     return errorColors;
   }
 
+  /**
+   * @since 4.2
+   */
+  public Map<String, Color> getUnderlineColors() {
+    return underlineColors;
+  }
+
+  /**
+   * @since 4.2
+   * Get the color to underline a rule match by the Name of its category
+   */
+  public Color getUnderlineColor(String category) {
+    if(underlineColors.containsKey(category)) {
+      return underlineColors.get(category);
+    }
+    return Color.blue;
+  }
+
+  /**
+   * @since 4.2
+   * Set the color to underline a rule match for its category
+   */
+  public void setUnderlineColor(String category, Color col) {
+    underlineColors.put(category, col);
+  }
+
+  /**
+   * @since 4.2
+   * Set the color back to default (removes category from map)
+   */
+  public void setDefaultUnderlineColor(String category) {
+    underlineColors.remove(category);
+  }
+
+  /**
+   * returns all configured values
+   * @since 4.2
+   */
+  public Map<String, Integer> getConfigurableValues() {
+    return configurableRuleValues;
+  }
+
+  /**
+   * @since 4.2
+   * Get the configurable value of a rule by ruleID
+   * returns -1 if no value is set by configuration
+   */
+  public int getConfigurableValue(String ruleID) {
+    if(configurableRuleValues.containsKey(ruleID)) {
+      return configurableRuleValues.get(ruleID);
+    }
+    return -1;
+  }
+
+  /**
+   * @since 4.2
+   * Set the value for a rule with ruleID
+   */
+  public void setConfigurableValue(String ruleID, int value) {
+    configurableRuleValues.put(ruleID, value);
+  }
+
   private void loadConfiguration(Language lang) throws IOException {
 
     String qualifier = getQualifier(lang);
@@ -539,20 +573,14 @@ public class Configuration {
         doResetCheck = Boolean.parseBoolean(resetCheckString);
       }
       
-      String styleRepeatString = (String) props.get(STYLE_REPEAT_KEY + qualifier);
-      if (styleRepeatString != null) {
-        styleRepeatSentences = Integer.parseInt(styleRepeatString);
-        configValues.addValue("STYLE_REPEATED_WORD_RULE", styleRepeatSentences);
-      }
-
-      String longSentenceString = (String) props.get(LONG_SENTENCES_KEY + qualifier);
-      if (longSentenceString != null) {
-        longSentencesWords = Integer.parseInt(longSentenceString);
-        configValues.addValue(LongSentenceRule.RULE_ID, longSentencesWords);
-      }
+      String rulesValuesString = (String) props.get(CONFIGURABLE_RULE_VALUES_KEY);
+      parseConfigurableRuleValues(rulesValuesString);
 
       String colorsString = (String) props.get(ERROR_COLORS_KEY);
       parseErrorColors(colorsString);
+
+      String underlineColorsString = (String) props.get(UNDERLINE_COLORS_KEY);
+      parseUnderlineColors(underlineColorsString);
 
       //store config for other languages
       loadConfigForOtherLanguages(lang, props);
@@ -573,6 +601,32 @@ public class Configuration {
         ITSIssueType type = ITSIssueType.getIssueType(typeAndColor[0]);
         String hexColor = typeAndColor[1];
         errorColors.put(type, Color.decode(hexColor));
+      }
+    }
+  }
+
+  private void parseUnderlineColors(String colorsString) {
+    if (StringUtils.isNotEmpty(colorsString)) {
+      String[] typeToColorList = colorsString.split(",\\s*");
+      for (String typeToColor : typeToColorList) {
+        String[] typeAndColor = typeToColor.split(":");
+        if (typeAndColor.length != 2) {
+          throw new RuntimeException("Could not parse type and color, colon expected: '" + typeToColor + "'");
+        }
+        underlineColors.put(typeAndColor[0], Color.decode(typeAndColor[1]));
+      }
+    }
+  }
+
+  private void parseConfigurableRuleValues(String rulesValueString) {
+    if (StringUtils.isNotEmpty(rulesValueString)) {
+      String[] ruleToValueList = rulesValueString.split(",\\s*");
+      for (String ruleToValue : ruleToValueList) {
+        String[] ruleAndValue = ruleToValue.split(":");
+        if (ruleAndValue.length != 2) {
+          throw new RuntimeException("Could not parse rule and value, colon expected: '" + ruleToValue + "'");
+        }
+        configurableRuleValues.put(ruleAndValue[0], Integer.parseInt(ruleAndValue[1]));
       }
     }
   }
@@ -638,14 +692,6 @@ public class Configuration {
     props.setProperty(SERVER_PORT_KEY, Integer.toString(serverPort));
     props.setProperty(PARA_CHECK_KEY, Integer.toString(numParasToCheck));
     props.setProperty(RESET_CHECK_KEY, Boolean.toString(doResetCheck));
-    if(styleRepeatSentences >= 0) {
-      props.setProperty(STYLE_REPEAT_KEY + qualifier, Integer.toString(styleRepeatSentences));
-      configValues.addValue("STYLE_REPEATED_WORD_RULE", styleRepeatSentences);
-    }
-    if(longSentencesWords >= 0) {
-      props.setProperty(LONG_SENTENCES_KEY + qualifier, Integer.toString(longSentencesWords));
-      configValues.addValue("TOO_LONG_SENTENCE", longSentencesWords);
-    }
     if (fontName != null) {
       props.setProperty(FONT_NAME_KEY, fontName);
     }
@@ -661,6 +707,12 @@ public class Configuration {
     if (externalRuleDirectory != null) {
       props.setProperty(EXTERNAL_RULE_DIRECTORY, externalRuleDirectory);
     }
+    StringBuilder sbRV = new StringBuilder();
+    for (Map.Entry<String, Integer> entry : configurableRuleValues.entrySet()) {
+      sbRV.append(entry.getKey()).append(":").append(Integer.toString(entry.getValue())).append(", ");
+    }
+    props.setProperty(CONFIGURABLE_RULE_VALUES_KEY, sbRV.toString());
+
     StringBuilder sb = new StringBuilder();
     for (Map.Entry<ITSIssueType, Color> entry : errorColors.entrySet()) {
       String rgb = Integer.toHexString(entry.getValue().getRGB());
@@ -668,6 +720,14 @@ public class Configuration {
       sb.append(entry.getKey()).append(":").append("#").append(rgb).append(", ");
     }
     props.setProperty(ERROR_COLORS_KEY, sb.toString());
+
+    StringBuilder sbUC = new StringBuilder();
+    for (Map.Entry<String, Color> entry : underlineColors.entrySet()) {
+      String rgb = Integer.toHexString(entry.getValue().getRGB());
+      rgb = rgb.substring(2, rgb.length());
+      sbUC.append(entry.getKey()).append(":").append("#").append(rgb).append(", ");
+    }
+    props.setProperty(UNDERLINE_COLORS_KEY, sbUC.toString());
 
     for (String key : configForOtherLanguages.keySet()) {
       props.setProperty(key, configForOtherLanguages.get(key));
@@ -684,14 +744,6 @@ public class Configuration {
     } else {
       props.setProperty(key, String.join(DELIMITER,  list));
     }
-  }
-  
-  /**
-   * Returns all configuration values
-   * @since 4.2
-   */
-  public ConfigValues getConfigValues() {
-    return configValues;
   }
   
 }

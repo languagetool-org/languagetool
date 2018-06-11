@@ -20,6 +20,7 @@ package org.languagetool.openoffice;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.awt.Color;
 import java.io.BufferedWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -42,6 +43,7 @@ import org.jetbrains.annotations.Nullable;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
+import org.languagetool.UserConfig;
 import org.languagetool.gui.AboutDialog;
 import org.languagetool.gui.Configuration;
 import org.languagetool.markup.AnnotatedText;
@@ -351,7 +353,7 @@ public class Main extends WeakBase implements XJobExecutor,
           langTool.enableRule(ruleName);
         }
       }
-      langTool.setConfigValues(config.getConfigValues());
+//      langTool.setConfigValues(config.getConfigValues());
       try {
         SentenceFromPara sfp = new SentenceFromPara(paraText, paRes.nStartOfSentencePosition);
         String sentence = sfp.getSentence();
@@ -450,7 +452,8 @@ public class Main extends WeakBase implements XJobExecutor,
     try {
       prepareConfig(docLanguage);
       // not using MultiThreadedJLanguageTool here fixes "osl::Thread::Create failed", see https://bugs.documentfoundation.org/show_bug.cgi?id=90740:
-      langTool = new JLanguageTool(docLanguage, config.getMotherTongue());
+      langTool = new JLanguageTool(docLanguage, config.getMotherTongue(), null, 
+          new UserConfig(config.getConfigurableValues()));
       File ngramDirectory = config.getNgramDirectory();
       if (ngramDirectory != null) {
         File ngramLangDir = new File(config.getNgramDirectory(), docLanguage.getShortCode());
@@ -590,9 +593,7 @@ public class Main extends WeakBase implements XJobExecutor,
         if (textPos < 0) textPos = 0;
         for (RuleMatch myRuleMatch : paragraphMatches) {
           int startErrPos = myRuleMatch.getFromPos() - textPos;
-          int endErrPos = myRuleMatch.getToPos() - textPos;
-          if (startErrPos >= startPos && startErrPos <= endPos
-              && endErrPos >= startPos && endErrPos <= endPos) {
+          if (startErrPos >= startPos && startErrPos <= endPos) {
             errorList.add(createOOoError(myRuleMatch, -textPos, myRuleMatch.getToPos() - textPos,
                                           paraText.charAt(myRuleMatch.getToPos()-textPos-1)));
           }
@@ -612,9 +613,7 @@ public class Main extends WeakBase implements XJobExecutor,
         if (textPos < 0) textPos = 0;
         for (RuleMatch myRuleMatch : fullTextMatches.get(numCurDoc)) {
           int startErrPos = myRuleMatch.getFromPos() - textPos;
-          int endErrPos = myRuleMatch.getToPos() - textPos;
-          if (startErrPos >= startPos && startErrPos <= endPos
-              && endErrPos >= startPos && endErrPos <= endPos) {
+          if (startErrPos >= startPos && startErrPos <= endPos) {
             errorList.add(createOOoError(myRuleMatch, -textPos, myRuleMatch.getToPos() - textPos, 
                                           paraText.charAt(myRuleMatch.getToPos()-textPos-1)));
           }
@@ -683,15 +682,30 @@ public class Main extends WeakBase implements XJobExecutor,
     aError.nErrorStart = ruleMatch.getFromPos() + startIndex;
     aError.nErrorLength = ruleMatch.getToPos() - ruleMatch.getFromPos();
     aError.aRuleIdentifier = ruleMatch.getRule().getId();
-    // LibreOffice since version 3.5 supports an URL that provides more
-    // information about the error,
-    // older version will simply ignore the property:
-    if (ruleMatch.getRule().getUrl() != null) {
-      aError.aProperties = new PropertyValue[] { new PropertyValue(
-          "FullCommentURL", -1, ruleMatch.getRule().getUrl().toString(),
-          PropertyState.DIRECT_VALUE) };
+    // LibreOffice since version 3.5 supports an URL that provides more information about the error,
+    // LibreOffice since version 6.2 supports the change of underline color (key: "LineColor", value: int (RGB))
+    // LibreOffice since version 6.2 supports the change of underline style (key: "LineType", value: short (DASHED = 5))
+    // older version will simply ignore the properties
+    Color underlineColor = config.getUnderlineColor(ruleMatch.getRule().getCategory().getName());
+    if(underlineColor != Color.blue) {
+      int ucolor = underlineColor.getRGB() & 0xFFFFFF;
+      if (ruleMatch.getRule().getUrl() != null) {
+        aError.aProperties = new PropertyValue[] { new PropertyValue(
+            "FullCommentURL", -1, ruleMatch.getRule().getUrl().toString(),
+            PropertyState.DIRECT_VALUE),
+            new PropertyValue("LineColor", -1, ucolor, PropertyState.DIRECT_VALUE) };
+      } else {
+        aError.aProperties = new PropertyValue[] {
+            new PropertyValue("LineColor", -1, ucolor, PropertyState.DIRECT_VALUE) };
+      }
     } else {
-      aError.aProperties = new PropertyValue[0];
+      if (ruleMatch.getRule().getUrl() != null) {
+        aError.aProperties = new PropertyValue[] { new PropertyValue(
+            "FullCommentURL", -1, ruleMatch.getRule().getUrl().toString(),
+            PropertyState.DIRECT_VALUE) };
+      } else {
+        aError.aProperties = new PropertyValue[0];
+      }
     }
     return aError;
   }

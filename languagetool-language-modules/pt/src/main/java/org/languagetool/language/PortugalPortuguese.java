@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import org.languagetool.UserConfig;
 import org.languagetool.rules.*;
 import org.languagetool.rules.pt.PostReformPortugueseCompoundRule;
 import org.languagetool.rules.pt.PostReformPortugueseDashRule;
@@ -42,9 +43,9 @@ public class PortugalPortuguese extends Portuguese {
   }
 
   @Override
-  public List<Rule> getRelevantRules(ResourceBundle messages) throws IOException {
+  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig) throws IOException {
     List<Rule> rules = new ArrayList<>();
-    rules.addAll(super.getRelevantRules(messages));
+    rules.addAll(super.getRelevantRules(messages, userConfig));
     rules.add(new PostReformPortugueseCompoundRule(messages));
     rules.add(new PostReformPortugueseDashRule());
     rules.add(new PortugalPortugueseReplaceRule(messages));

@@ -21,6 +21,7 @@ package org.languagetool.language;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.Language;
 import org.languagetool.Languages;
+import org.languagetool.UserConfig;
 import org.languagetool.chunking.Chunker;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.Rule;
@@ -107,7 +108,7 @@ public final class LanguageBuilder {
         }
 
         @Override
-        public List<Rule> getRelevantRules(ResourceBundle messages) {
+        public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig) {
           return Collections.emptyList();
         }
 
@@ -178,8 +179,8 @@ public final class LanguageBuilder {
     }
 
     @Override
-    public List<Rule> getRelevantRules(ResourceBundle messages) throws IOException {
-      return baseLanguage.getRelevantRules(messages);
+    public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig) throws IOException {
+      return baseLanguage.getRelevantRules(messages, null);
     }
 
     @Nullable @Override
