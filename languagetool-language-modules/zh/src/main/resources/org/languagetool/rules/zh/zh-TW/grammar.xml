@@ -30,16 +30,3744 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- 拼寫： 詞語錯誤 -->
     <!-- ====================================================================== -->
     <category name="詞語錯誤" id="TW_CAT1">
-        <rule id="xiaohui" name="銷毀">
+        <rulegroup id="QIA1_QIA2" name="恰/洽">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">(洽)(面|接|融|似)</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion><match no="1" regexp_match="(洽)([面接融似])" regexp_replace="恰$2"/></suggestion>"嗎？
+                </message>
+                <example correction="恰似"><marker>洽似</marker>一江春水向東流。</example>
+                <example>恰似一江春水向東流。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="d">恰</token>
+                    </marker>
+                    <token regexp="yes">(談|商|辦|購)</token>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>洽</suggestion>"嗎？
+                </message>
+                <example correction="洽">今天要到國際會議中心，<marker>恰</marker>談一筆戶外廣告的生意。</example>
+                <example>今天要到國際會議中心，洽談一筆戶外廣告的生意。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">(面|接|融)(恰)</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion><match no="1" regexp_match="([面接融])(恰)" regexp_replace="$1洽"/></suggestion>"嗎？
+                </message>
+                <example correction="融洽">新同事跟大家相處得非常<marker>融恰</marker>。</example>
+                <example>新同事跟大家相處得非常融洽。</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="SHA1_SHA2_SHA3" name="沙/紗/砂">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>砂啞</token>
+                    </marker>
+                </pattern>
+                <message>您的意思是"<suggestion>沙啞</suggestion>"嗎？
+                </message>
+                <example correction="沙啞">他操着<marker>砂啞</marker>的嗓音唱了一首歌。</example>
+                <example>他操着沙啞的嗓音唱了一首歌。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>沙窗</token>
+                    </marker>
+                </pattern>
+                <message>您的意思是"<suggestion>紗窗</suggestion>"嗎？</message>
+                <example correction="紗窗">這個<marker>沙窗</marker>很漂亮。</example>
+                <example>這個紗窗很漂亮。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>沙輪</token>
+                    </marker>
+                </pattern>
+                <message>您的意思是"<suggestion>砂輪</suggestion>"嗎？</message>
+                <example correction="砂輪">這裏還要拿<marker>沙輪</marker>打磨一下。</example>
+                <example>這裏還要拿砂輪打磨一下。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>朱沙</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>硃砂</suggestion>"嗎？
+                </message>
+                <example correction="硃砂">丹爐好養<marker>朱沙</marker>，洞門長掩青霞。</example>
+                <example>丹爐好養硃砂，洞門長掩青霞。</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="TIE1_TIE2" name="貼/帖">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">(帖)(心|息|現|補|板|邊|身|着)</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"
+                    <suggestion><match no="1" regexp_match="(帖)([心息現補板邊身着])" regexp_replace="貼$2"/></suggestion>"嗎？
+                </message>
+                <example correction="貼心">中秋節寄來的禮物很<marker>帖心</marker>。</example>
+                <example>中秋節寄來的禮物很貼心。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">(張|粘|補|津|倒|緊)(帖)</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"
+                    <suggestion><match no="1" regexp_match="([張粘補津倒緊])(帖)" regexp_replace="$1貼"/></suggestion>"嗎？
+                </message>
+                <example correction="張貼">工作人員忙着在會場外<marker>張帖</marker>海報。</example>
+                <example>工作人員忙着在會場外張貼海報。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">(碑|畫|請|回|服|妥|喜)(貼)</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"
+                    <suggestion><match no="1" regexp_match="([碑畫請回服妥喜])(貼)" regexp_replace="$1帖"/></suggestion>
+                    "嗎？
+                </message>
+                <example correction="碑帖">山坡上矗立着很多北魏時代的<marker>碑貼</marker>。</example>
+                <example>山坡上矗立着很多北魏時代的碑帖。</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="WEI_MEI" name="味/昧">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">(昧)(道|精|感)</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"
+                    <suggestion><match no="1" regexp_match="(昧)([道精感])" regexp_replace="味$2"/></suggestion>
+                    "嗎？
+                </message>
+                <example correction="味道">我想念你的笑，想念你的<marker>昧道</marker>。</example>
+                <example>我想念你的笑，想念你的味道。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">(氣|興|趣|意|韻|體|滋|尋)(昧)</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"
+                    <suggestion><match no="1" regexp_match="([氣興趣意韻體滋尋])(昧)" regexp_replace="$1味"/></suggestion>
+                    "嗎？
+                </message>
+                <example correction="韻味">這是一本很有中國文化<marker>韻昧</marker>的書。</example>
+                <example>這是一本很有中國文化韻味的書。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">(蒙|曖|冒)(味)</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"
+                    <suggestion><match no="1" regexp_match="([蒙曖冒])(味)" regexp_replace="$1昧"/></suggestion>
+                    "嗎？
+                </message>
+                <example correction="曖昧">他們倆之間的關係一直很<marker>曖味</marker>。</example>
+                <example>他們倆之間的關係一直很曖昧。</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="XIANG1_XIANG2" name="詳/祥">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">(祥)(細|盡|談|情|實|略)</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion><match no="1" regexp_match="(祥)([細盡談情實略])" regexp_replace="詳$2"/></suggestion>"嗎？
+                </message>
+                <example correction="詳細">我們能<marker>祥細</marker>地談談嗎？</example>
+                <example>我們能詳細地談談嗎？</example>
+                <example correction="詳情">你的跟我說說當時的<marker>祥情</marker>嗎？</example>
+                <example>你能跟我說說當時的詳情嗎？</example>
+                <example correction="詳實">這是一部關於二戰的內容<marker>祥實</marker>的文字紀錄。</example>
+                <example>這是一部關於二戰的內容詳實的文字紀錄。</example>
+                <example correction="詳略">這本書內容充實，<marker>祥略</marker>得當。</example>
+                <example>這本書內容充實，詳略得當。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">(周|安)(祥)</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion><match no="1" regexp_match="([周安])(祥)" regexp_replace="$1詳"/></suggestion>"嗎？
+                </message>
+                <example correction="周詳">新計劃已經審慎<marker>周祥</marker>，隨時可以準備實驗。</example>
+                <example>新計劃已經審慎周詳，隨時可以準備實驗。</example>
+                <example correction="安詳">老奶奶看起來很<marker>安祥</marker>。</example>
+                <example>老奶奶看起來很安詳。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">(詳)(和|瑞|雲|麟)</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion><match no="1" regexp_match="(詳)([和瑞雲麟])" regexp_replace="祥$2"/></suggestion>"嗎？
+                </message>
+                <example correction="祥和">這個古樸的村莊仍然安靜<marker>詳和</marker>。</example>
+                <example>這個古樸的村莊仍然安靜祥和。</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="XIAO1_XIAO22" name="宵/霄">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">霄(夜|禁)</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"
+                    <suggestion><match no="1" regexp_match="(霄)([夜禁])" regexp_replace="宵$2"/></suggestion>
+                    "嗎？
+                </message>
+                <example correction="宵禁">戰時一般都要實行<marker>霄禁</marker>。</example>
+                <example>戰時一般都要實行宵禁。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">(夜|春|通|元)霄</token>
+                    </marker>
+                </pattern>
+                <message>您的意思是"
+                    <suggestion><match no="1" regexp_match="([夜春通元])(霄)" regexp_replace="$1宵"/></suggestion>
+                    "嗎？</message>
+                <example correction="夜宵">然而，這頓<marker>夜霄</marker>吃得並不開心。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>宵漢</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>霄漢</suggestion>"嗎？
+                </message>
+                <example correction="霄漢"><marker>宵漢</marker>幾多同學伴？可憐頭角盡卿材！</example>
+                <example>霄漢幾多同學伴？可憐頭角盡卿材！</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">(雲|九|重|凌)宵</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"
+                    <suggestion><match no="1" regexp_match="([雲九重凌])宵" regexp_replace="$1霄"/></suggestion>"嗎？
+                </message>
+                <example correction="重霄">層巒聳翠，上出<marker>重宵</marker>；飛閣流丹，下臨無地。</example>
+                <example>層巒聳翠，上出重霄；飛閣流丹，下臨無地。</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="XING1_XING2" name="形/型">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">型(狀|體|容|態|跡|勢|象)</token>
+                    </marker>
+                </pattern>
+                <message>您的意思是"
+                    <suggestion><match no="1" regexp_match="(型)([狀體容態跡勢象])" regexp_replace="形$2"/></suggestion>"嗎？
+                </message>
+                <example correction="形狀">這個東西的<marker>型狀</marker>好奇怪呀。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">(條|方|圓|球|地|情|現|無)型</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"
+                    <suggestion><match no="1" regexp_match="([條方圓球地情現無])(型)" regexp_replace="$1形"/></suggestion>
+                    "嗎？
+                </message>
+                <example correction="情形">這個營長向我敘說了當時的<marker>情型</marker>。</example>
+                <example>這個營長向我敘說了當時的情形。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>形號</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>型號</suggestion>"嗎？
+                </message>
+                <example correction="型號">這輛車是什麼<marker>形號</marker>的？</example>
+                <example>這輛車是什麼型號的？</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">(類|新|砂|模|造)形</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"
+                    <suggestion><match no="1" regexp_match="([類新砂模造])(形)" regexp_replace="$1型"/></suggestion>"嗎？
+                </message>
+                <example correction="造型">設計師給她設計了一個新<marker>造形</marker>。</example>
+                <example>設計師給她設計了一個新造型。</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="YIA1_YI2" name="譯/繹">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">(繹)(著|制|音|本|筆|電|稿|碼|名|文|注)</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"
+                    <suggestion><match no="1" regexp_match="(繹)([著|制|音|本|筆|電|稿|碼|名|文|注])" regexp_replace="譯$2"/></suggestion>"嗎？
+                </message>
+                <example correction="譯文">這篇<marker>繹文</marker>是難得的寶貴的資料。</example>
+                <example>這篇譯文是難得的寶貴的資料。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>翻繹</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>翻譯</suggestion>"嗎？
+                </message>
+                <example correction="翻譯">這篇文章好難<marker>翻繹</marker>。</example>
+                <example>這篇文章好難翻譯。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>演譯</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>演繹</suggestion>"嗎？
+                </message>
+                <example correction="演繹">以上是李宇春<marker>演譯</marker>的一首《Zombie》。</example>
+                <example>以上是李宇春演繹的一首《Zombie》。</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="YING1_YING2" name="瑩/螢">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>晶螢</token>
+                    </marker>
+                </pattern>
+                <message>您的意思是"<suggestion>晶瑩</suggestion>"嗎？</message>
+                <example correction="晶瑩">她看着他，眼裏噙着<marker>晶螢</marker>的淚珠。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>螢澈</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>瑩澈</suggestion>"嗎？
+                </message>
+                <example correction="瑩澈">反省是—面<marker>螢澈</marker>的鏡子。</example>
+                <example>反省是—面瑩澈的鏡子。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>瑩火蟲</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>螢火蟲</suggestion>"嗎？
+                </message>
+                <example correction="螢火蟲">漫山遍野都是<marker>瑩火蟲</marker>的亮光。</example>
+                <example>漫山遍野都是螢火蟲的亮光。</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="ZHOU1_ZHOU2" name="州/洲">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>洲縣</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>州縣</suggestion>"嗎？
+                </message>
+                <example correction="州縣"><marker>洲縣</marker>是中國古代的行政區。</example>
+                <example>州縣是中國古代的行政區。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>洲郡</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>州郡</suggestion>"嗎？
+                </message>
+                <example correction="州郡"><marker>洲郡</marker>是中國古代的行政區。</example>
+                <example>州郡是中國古代的行政區。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">(杭|蘇)洲</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"
+                    <suggestion><match no="1" regexp_match="([蘇杭])(洲)" regexp_replace="$1州"/></suggestion>"嗎？
+                </message>
+                <example correction="蘇州"><marker>蘇洲</marker>的園林真的很美。</example>
+                <example>蘇州的園林真的很美。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>州際</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>洲際</suggestion>"嗎？
+                </message>
+                <example correction="洲際">這是最新研發的<marker>州際</marker>導彈。</example>
+                <example>這是最新研發的洲際導彈。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">(歐|亞)州</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"
+                    <suggestion><match no="1" regexp_match="([歐亞])(州)" regexp_replace="$1洲"/></suggestion>"嗎？
+                </message>
+                <example correction="歐洲">中國在<marker>歐州</marker>很有地位。</example>
+                <example>中國在歐洲很有地位。</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="ZHANG1_ZHANG2" name="賬/帳">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>賬篷</token>
+                    </marker>
+                </pattern>
+                <message>您的意思是"<suggestion>帳篷</suggestion>"嗎？</message>
+                <example correction="帳篷">這個<marker>賬篷</marker>多少錢？</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>欠帳</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>欠賬</suggestion>"嗎？
+                </message>
+                <example correction="欠賬"><marker>欠帳</marker>還錢，天經地義。</example>
+                <example>欠賬還錢，天經地義。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>蚊賬</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>蚊帳</suggestion>"嗎？
+                </message>
+                <example correction="蚊帳"><marker>蚊賬</marker>是最環保的防蚊利器。</example>
+                <example>蚊帳是最環保的防蚊利器。</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="ZAO1_ZAO2_ZAO3" name="躁/噪/燥">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>燥動</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>躁動</suggestion>"嗎？
+                </message>
+                <example correction="躁動">這消息一宣佈，下面的遊行者都開始<marker>燥動</marker>起來。</example>
+                <example>這消息一宣佈，下面的遊行者都開始躁動起來。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>急燥</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>急躁</suggestion>"嗎？
+                </message>
+                <example correction="急躁">他<marker>急燥</marker>的性格真讓人受不了。</example>
+                <example>他急躁的性格真讓人受不了。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>躁聲</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>噪聲</suggestion>"嗎？
+                </message>
+                <example correction="噪聲">住在公路旁邊的<marker>躁聲</marker>會很大。</example>
+                <example>住在公路旁邊的噪聲會很大。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>噪熱</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>燥熱</suggestion>"嗎？
+                </message>
+                <example correction="燥熱">今天的天氣真讓人<marker>噪熱</marker>。</example>
+                <example>今天的天氣真讓人燥熱。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>枯噪</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>枯燥</suggestion>"嗎？
+                </message>
+                <example correction="枯燥">學習真的一點都不<marker>枯噪</marker>。</example>
+                <example>學習真的一點都不枯燥。</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="LIAN1_LIAN2_JIAN3" name="練/煉/揀">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>煉習</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>練習</suggestion>"嗎？
+                </message>
+                <example correction="練習">她指導實習護士<marker>煉習</marker>注射。</example>
+                <example>她指導實習護士練習注射。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>幹揀</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>幹練</suggestion>"嗎？
+                </message>
+                <example correction="幹練">斯坦德萊是個英明<marker>幹揀</marker>的老傢伙。</example>
+                <example>斯坦德萊是個英明幹練的老傢伙。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>練獄</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>煉獄</suggestion>"嗎？
+                </message>
+                <example correction="煉獄">漂亮的女人是眼睛的天堂、靈魂的地獄、錢包的<marker>練獄</marker>。</example>
+                <example>漂亮的女人是眼睛的天堂、靈魂的地獄、錢包的煉獄。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>冶練</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>冶煉</suggestion>"嗎？
+                </message>
+                <example correction="冶煉">將溶液倒入容器中進行<marker>冶練</marker>。</example>
+                <example>將溶液倒入容器中進行冶煉。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>挑練</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>挑揀</suggestion>"嗎？
+                </message>
+                <example correction="挑揀">我從來不是愛<marker>挑練</marker>的人。</example>
+                <example>我從來不是愛挑揀的人。</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="LIANG1_LIANG2" name="樑/粱">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>橋粱</token>
+                    </marker>
+                </pattern>
+                <message>您的意思是"<suggestion>橋樑</suggestion>"嗎？</message>
+                <example correction="橋樑"><marker>橋粱</marker>往往是兵家爭奪之地。</example>
+                <example>橋樑往往是兵家爭奪之地。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>樑肉</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>粱肉</suggestion>"嗎？
+                </message>
+                <example correction="粱肉"><marker>樑肉</marker>是指美食佳餚。</example>
+                <example>粱肉是指美食佳餚。</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="FU_LV" name="覆/履">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>履沒</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>覆沒</suggestion>"嗎？
+                </message>
+                <example correction="覆沒">此次戰役中，日軍全軍<marker>履沒</marker>。</example>
+                <example>此次戰役中，日軍全軍覆沒。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>顛履</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>顛覆</suggestion>"嗎？
+                </message>
+                <example correction="顛覆">他因<marker>顛履</marker>國家政權而被處死。</example>
+                <example>他因顛覆國家政權而被處死。</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="MAN1_MAN2_MAN3" name="慢/漫/曼">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>漫待</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>慢待</suggestion>"嗎？
+                </message>
+                <example correction="慢待">不要<marker>漫待</marker>了這位先生。</example>
+                <example>不要慢待了這位先生。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>慢長</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>漫長</suggestion>"嗎？
+                </message>
+                <example correction="漫長">那是一個<marker>慢長</marker>的夜晚。</example>
+                <example>那是一個漫長的夜晚。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>彌曼</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>瀰漫</suggestion>"嗎？
+                </message>
+                <example correction="瀰漫">空氣中<marker>彌曼</marker>着硝煙的味道。</example>
+                <example>空氣中瀰漫着硝煙的味道。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>漫妙</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>曼妙</suggestion>"嗎？
+                </message>
+                <example correction="曼妙">窗外傳來<marker>漫妙</marker>的歌聲。</example>
+                <example>窗外傳來曼妙的歌聲。</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="MIAO1_MIAO2" name="渺/緲">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>緲茫</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>渺茫</suggestion>"嗎？
+                </message>
+                <example correction="渺茫">倖存者生還的希望<marker>緲茫</marker>。</example>
+                <example>倖存者生還的希望渺茫。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>飄緲</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>飄渺</suggestion>"嗎？
+                </message>
+                <example correction="飄渺">問人天何事，最<marker>飄緲</marker>，最銷沉？</example>
+                <example>問人天何事，最飄渺，最銷沉？</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="MU1_MU2_MU3_MU4" name="暮/幕/慕/募">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>幕靄</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>暮靄</suggestion>"嗎？
+                </message>
+                <example correction="暮靄"><marker>幕靄</marker>沈沈楚天闊。</example>
+                <example>暮靄沈沈楚天闊。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>募府</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>幕府</suggestion>"嗎？
+                </message>
+                <example correction="幕府"><marker>募府</marker>是古時日本一種權力曾一度凌駕於天皇之上的中央政府機構。</example>
+                <example>幕府是古時日本一種權力曾一度凌駕於天皇之上的中央政府機構。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>夜暮</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>夜幕</suggestion>"嗎？
+                </message>
+                <example correction="夜幕"><marker>夜暮</marker>徐徐降臨。</example>
+                <example>夜幕徐徐降臨。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>幕名</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>慕名</suggestion>"嗎？
+                </message>
+                <example correction="慕名">我是<marker>幕名</marker>而來的。</example>
+                <example>我是慕名而來的。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>仰幕</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>仰慕</suggestion>"嗎？
+                </message>
+                <example correction="仰慕">我已經<marker>仰幕</marker>你很久了。</example>
+                <example>我已經仰慕你很久了。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>幕集</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>募集</suggestion>"嗎？
+                </message>
+                <example correction="募集">同學們在爲災區人民<marker>幕集</marker>捐款。</example>
+                <example>同學們在爲災區人民募集捐款。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>招幕</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>招募</suggestion>"嗎？
+                </message>
+                <example correction="招募">2012年倫敦奧運會主辦方正在<marker>招幕</marker>志願者。</example>
+                <example>2012年倫敦奧運會主辦方正在招募志願者。</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="MI1_MI2" name="迷/謎">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>迷語</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>謎語</suggestion>"嗎？
+                </message>
+                <example correction="謎語">每一個<marker>迷語</marker>都是有答案的。</example>
+                <example>每一個謎語都是有答案的。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>燈迷</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>燈謎</suggestion>"嗎？
+                </message>
+                <example correction="燈謎">在中國，元宵節有猜<marker>燈迷</marker>的習俗。</example>
+                <example>在中國，元宵節有猜燈謎的習俗。</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="NAO1_NAO2" name="惱/惱">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>腦火</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>惱火</suggestion>"嗎？
+                </message>
+                <example correction="惱火">小王的失誤使領導非常<marker>腦火</marker>。</example>
+                <example>小王的失誤使領導非常惱火。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>懊腦</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>懊惱</suggestion>"嗎？
+                </message>
+                <example correction="懊惱"><marker>懊腦</marker>掌握着時間的銼刀，蠶食着內心每個角落。</example>
+                <example>懊惱掌握着時間的銼刀，蠶食着內心每個角落。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>惱袋</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>腦袋</suggestion>"嗎？
+                </message>
+                <example correction="腦袋">你的<marker>惱袋</marker>被門夾住啦。</example>
+                <example>你的腦袋被門夾住啦。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>人惱</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>人腦</suggestion>"嗎？
+                </message>
+                <example correction="人腦">目前爲止，<marker>人惱</marker>還是醫學界正在探索的領域。</example>
+                <example>目前爲止，人腦還是醫學界正在探索的領域。</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="PENG1_PENG2" name="篷/蓬">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>帳蓬</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>帳篷</suggestion>"嗎？
+                </message>
+                <example correction="帳篷"><marker>帳蓬</marker>是戶外露營的必備物品。</example>
+                <example>帳篷是戶外露營的必備物品。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>篷門</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>蓬門</suggestion>"嗎？
+                </message>
+                <example correction="蓬門">花徑不曾緣客掃，<marker>篷門</marker>今始爲君開。</example>
+                <example>花徑不曾緣客掃，蓬門今始爲君開。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>蓮篷</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>蓮蓬</suggestion>"嗎？
+                </message>
+                <example correction="蓮蓬"><marker>蓮篷</marker>只是荷花的花心，嬌小嫩黃，藏於美麗繁榮花瓣之中。</example>
+                <example>蓮蓬只是荷花的花心，嬌小嫩黃，藏於美麗繁榮花瓣之中。</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="HUA1_HAU2" name="猾/滑">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>猾稽</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>滑稽</suggestion>"嗎？
+                </message>
+                <example correction="滑稽">這個丑角的表演非常<marker>猾稽</marker>。</example>
+                <example>這個丑角的表演非常滑稽。</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="JI1_JI2" name="藉/籍">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>慰籍</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>慰藉</suggestion>"嗎？
+                </message>
+                <example correction="慰藉">除了漫漫遊蕩和不染利祿，你說還有什麼足以<marker>慰籍</marker>靈魂？</example>
+                <example>除了漫漫遊蕩和不染利祿，你說還有什麼足以慰藉靈魂？</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>典藉</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>典籍</suggestion>"嗎？
+                </message>
+                <example correction="典籍">西藏不斷加強對宗教<marker>典藉</marker>的收集、整理、出版和研究工作。</example>
+                <example>西藏不斷加強對宗教典籍的收集、整理、出版和研究工作。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>藉貫</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>籍貫</suggestion>"嗎？
+                </message>
+                <example correction="籍貫">在中國人填寫的表格中，有一項是<marker>藉貫</marker>，你知道是什麼意思嗎？</example>
+                <example>在中國人填寫的表格中，有一項是籍貫，你知道是什麼意思嗎？</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="JING1_JING2" name="竟/競">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>畢競</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>畢竟</suggestion>"嗎？
+                </message>
+                <example correction="畢竟">不要責備他，他<marker>畢競</marker>是個新手。</example>
+                <example>不要責備他，他畢竟是個新手。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>競</token>
+                    </marker>
+                    <token postag="v|ng|c|p" regexp="yes" postag_regexp="yes">至|日|而
+                    </token>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>竟</suggestion>"嗎？
+                </message>
+                <example correction="竟">吾不相信事情<marker>競</marker>至如此糟糕。</example>
+                <example>吾不相信事情竟至如此糟糕。</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="JI11_JI2" name="既/即">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>即定</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>既定</suggestion>"嗎？
+                </message>
+                <example correction="既定">我們的部隊撤回到<marker>即定</marker>陣地。</example>
+                <example>我們的部隊撤回到既定陣地。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="p|v" regexp="yes" postag_regexp="yes">在|立</token>
+                    <marker>
+                        <token>既</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>即</suggestion>"嗎？
+                </message>
+                <example correction="即">大選在<marker>既</marker>，主要政黨間的論戰愈演愈烈。</example>
+                <example>大選在即，主要政黨間的論戰愈演愈烈。</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="JU1_JU2" name="具/俱">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>傢俱</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>傢具</suggestion>"嗎？
+                </message>
+                <example correction="傢具">他無法贖回典當的<marker>傢俱</marker>。</example>
+                <example>他無法贖回典當的傢具。</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="JUN1_JUN2_JUN3_JUN4" name="俊/峻/竣/駿">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>才峻</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>才俊</suggestion>"嗎？
+                </message>
+                <example correction="才俊">渴求各方<marker>才峻</marker>加入我們的行列，共同打造學校的未來。</example>
+                <example>渴求各方纔俊加入我們的行列，共同打造學校的未來。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">(俊|竣|駿)(拔|筆|刻|直|峭)</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"
+                    <suggestion><match no="1" regexp_match="([俊竣駿])([拔筆刻直峭])" regexp_replace="峻$2"/></suggestion>"嗎？
+                </message>
+                <example correction="峻峭">避免走近或停留在<marker>竣峭</marker>山坡附近。</example>
+                <example>避免走近或停留在峻峭山坡附近。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>俊工</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>竣工</suggestion>"嗎？
+                </message>
+                <example correction="竣工">這幢房子是5個月前<marker>俊工</marker>的。</example>
+                <example>這幢房子是5個月前竣工的。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>竣馬</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>駿馬</suggestion>"嗎？
+                </message>
+                <example correction="駿馬">那是一匹<marker>竣馬</marker>。</example>
+                <example>那是一匹駿馬。</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="LAN1_LAN2_LAN3" name="藍/蘭/籃">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>籃本</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>藍本</suggestion>"嗎？
+                </message>
+                <example correction="藍本">她把她一家人的經歷作爲她小說的<marker>籃本</marker>。</example>
+                <example>美國的教育制度原以英國和德國爲藍本。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>藍筐</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>籃筐</suggestion>"嗎？
+                </message>
+                <example correction="籃筐">球場的兩端各有一個<marker>藍筐</marker>。</example>
+                <example>球場的兩端各有一個籃筐。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>竹藍</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>竹籃</suggestion>"嗎？
+                </message>
+                <example correction="竹籃">這隻<marker>竹藍</marker>是我自己編的。</example>
+                <example>這隻竹籃是我自己編的。</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="DIE1_DIE2_DIE3_DIE4" name="碟/諜/牒/喋">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>間碟</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>間諜</suggestion>"嗎？
+                </message>
+                <example correction="間諜"><marker>間碟</marker></example>
+                <example>間諜</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="FAN1_FAN2" name="番/翻">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>翻瓜</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>番瓜</suggestion>"嗎？
+                </message>
+                <example correction="番瓜"><marker>翻瓜</marker>是不是在那個市場可以買到？</example>
+                <example>番瓜是不是在那個市場可以買到？</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>番</token>
+                    </marker>
+                    <token regexp="yes" postag="ng|n|v" postag_regexp="yes">案|跟斗|譯</token>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>翻</suggestion>"嗎？
+                </message>
+                <example correction="翻">孩子們在牀上<marker>番</marker>跟斗。</example>
+                <example>孩子們在牀上翻跟斗。</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="FU1_FU2" name="副/幅">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>副員</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>幅員</suggestion>"嗎？
+                </message>
+                <example correction="幅員">疆域有廣狹及四至,所以稱疆域<marker>副員</marker>。</example>
+                <example>疆域有廣狹及四至,所以稱疆域幅員。</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="GAN1_GAN2_GAN3" name="杆/竿/幹">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>幹菌</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>桿菌</suggestion>"嗎？
+                </message>
+                <example correction="桿菌">這是一種新發現的<marker>幹菌</marker>。</example>
+                <example>這是一種新發現的桿菌。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>杆糧</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>乾糧</suggestion>"嗎？
+                </message>
+                <example correction="乾糧">戰士們的<marker>杆糧</marker>都吃完了。</example>
+                <example>戰士們的乾糧都吃完了。</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="HU1_HU2" name="胡/糊">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>糊鬧</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>胡鬧</suggestion>"嗎？
+                </message>
+                <example correction="胡鬧">這簡直是<marker>糊鬧</marker>！</example>
+                <example>這簡直是胡鬧！</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="ZHEN1_ZHEN2" name="震/振">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>振怒</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>震怒</suggestion>"嗎？
+                </message>
+                <example correction="震怒">他大爲<marker>振怒</marker>。</example>
+                <example>他大爲震怒。</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="ZUO1_ZUO2" name="坐/座">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>坐位</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>座位</suggestion>"嗎？
+                </message>
+                <example correction="座位">這就是您的<marker>坐位</marker>。</example>
+                <example>這就是您的座位。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>座標</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>坐標</suggestion>"嗎？
+                </message>
+                <example correction="坐標">他的<marker>座標</marker>是多少？</example>
+                <example>他的坐標是多少？</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="ZUN1_ZUN2" name="尊/遵">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>遵重</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>尊重</suggestion>"嗎？
+                </message>
+                <example correction="尊重">你是我最<marker>遵重</marker>的人.</example>
+                <example>你是我最尊重的人.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>尊守</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>遵守</suggestion>"嗎？
+                </message>
+                <example correction="遵守">你怎麼能不<marker>尊守</marker>交通規則？</example>
+                <example>你怎麼能不遵守交通規則？</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="ZUO11_ZUO2" name="做/作">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>作</token>
+                    </marker>
+                    <token postag="n|v" regexp="yes" postag_regexp="yes">官|戲|生意|功課|文章|買賣|鬼臉</token>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>做</suggestion>"嗎？
+                </message>
+                <example correction="做">我來此地是<marker>作</marker>生意的。</example>
+                <example>我來此地是做生意的。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>做品</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>作品</suggestion>"嗎？
+                </message>
+                <example correction="作品">他的<marker>做品</marker>很受歡迎。</example>
+                <example>他的作品很受歡迎。</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="BAN1_BAN2" name="絆/拌">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>拌腳石</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>絆腳石</suggestion>"嗎？
+                </message>
+                <example correction="絆腳石">你願意做一個<marker>拌腳石</marker>嗎？</example>
+                <example>你願意做一個絆腳石嗎？</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>羈拌</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>羈絆</suggestion>"嗎？
+                </message>
+                <example correction="羈絆">他們被家俗的習慣所<marker>羈拌</marker>。</example>
+                <example>他們被家俗的習慣所羈絆。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>攪絆</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>攪拌</suggestion>"嗎？
+                </message>
+                <example correction="攪拌">快把布丁<marker>攪絆</marker>一下。</example>
+                <example>快把布丁攪拌一下。</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="BAO11_BAO2" name="暴/曝">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>曝君</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>暴君</suggestion>"嗎？
+                </message>
+                <example correction="暴君">夏桀是中國歷史上第一位<marker>曝君</marker>。</example>
+                <example>夏桀是中國歷史上第一位暴君。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>暴光</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>曝光</suggestion>"嗎？
+                </message>
+                <example correction="曝光">膠捲不小心<marker>暴光</marker>了。</example>
+                <example>膠捲不小心曝光了。</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="CAI1_CAI2" name="採/彩">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>彩訪</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>採訪</suggestion>"嗎？
+                </message>
+                <example correction="採訪">校長上午接受了記者的<marker>彩訪</marker>。</example>
+                <example>校長上午接受了記者的採訪。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>採虹</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>彩虹</suggestion>"嗎？
+                </message>
+                <example correction="彩虹">雨後的天邊出現一道<marker>採虹</marker>。</example>
+                <example>雨後的天邊出現一道彩虹。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>精采</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>精彩</suggestion>"嗎？
+                </message>
+                <example correction="精彩">這場球賽踢得很<marker>精采</marker>。</example>
+                <example>這場球賽踢得很精彩。</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="CHI1_CHI2" name="馳/弛">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>疾弛</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>疾馳</suggestion>"嗎？
+                </message>
+                <example correction="疾馳">汽車在公路上<marker>疾弛</marker>。</example>
+                <example>汽車在公路上疾馳。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>鬆馳</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>鬆弛</suggestion>"嗎？
+                </message>
+                <example correction="鬆弛">微笑能化緊張爲<marker>鬆馳</marker>。</example>
+                <example>微笑能化緊張爲鬆弛。</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="BAO111_BAO2" name="薄/簙">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>簙餅</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>薄餅</suggestion>"嗎？
+                </message>
+                <example correction="薄餅">這家店以做<marker>簙餅</marker>好吃而聞名。</example>
+                <example>這家店以做薄餅好吃而聞名。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>刻簙</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>刻薄</suggestion>"嗎？
+                </message>
+                <example correction="刻薄">你爲何對我這樣<marker>刻簙</marker>？</example>
+                <example>你爲何對我這樣刻薄？</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="BAN1_BAN2_BAN3" name="板/扳/版">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>甲版</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>甲板</suggestion>"嗎？
+                </message>
+                <example correction="甲板">海浪拍在<marker>甲版</marker>上。</example>
+                <example>海浪拍在甲板上。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>板權</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>版權</suggestion>"嗎？
+                </message>
+                <example correction="版權">他擁有這本書的<marker>板權</marker>。</example>
+                <example>他擁有這本書的版權。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>板手</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>扳手</suggestion>"嗎？
+                </message>
+                <example correction="扳手">請把<marker>板手</marker>遞給我。</example>
+                <example>請把扳手遞給我。</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="BIAN1_BIAN2_BIAN3_BAN4" name="辯/辨/辮/瓣">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>辨護</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>辯護</suggestion>"嗎？
+                </message>
+                <example correction="辯護">被告拒絕律師爲自己<marker>辨護</marker>。</example>
+                <example>被告拒絕律師爲自己辯護。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>辨子</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>辮子</suggestion>"嗎？
+                </message>
+                <example correction="辮子">清朝男人都留着<marker>辨子</marker>。</example>
+                <example>清朝男人都留着辮子。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>花辮</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>花瓣</suggestion>"嗎？
+                </message>
+                <example correction="花瓣">粉色的花蕊被包裹在<marker>花辮</marker>中。</example>
+                <example>粉色的花蕊被包裹在花瓣中。</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="DI1_DI2_DI3" name="詆/抵/砥">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>抵毀</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>詆譭</suggestion>"嗎？
+                </message>
+                <example correction="詆譭">他的個人聲望受到<marker>抵毀</marker>。</example>
+                <example>他的個人聲望受到詆譭。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>詆達</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>抵達</suggestion>"嗎？
+                </message>
+                <example correction="抵達">順着這條小溪便可<marker>詆達</marker>小河村。</example>
+                <example>順着這條小溪便可抵達小河村。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>抵礪</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>砥礪</suggestion>"嗎？
+                </message>
+                <example correction="砥礪"><marker>抵礪</marker>革命意志。</example>
+                <example>砥礪革命意志。</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="SHA1_SHA2" name="霎/剎">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>霎車</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>剎車</suggestion>"嗎？
+                </message>
+                <example correction="剎車">這是<marker>霎車</marker>的痕跡嗎？</example>
+                <example>這是剎車的痕跡嗎？</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="SHI1_SHI2" name="是/試">
+            <rule>
+                <pattern>
+                    <token postag="n.*|r" postag_regexp="yes"/>
+                    <marker>
+                        <token postag="v">試</token>
+                    </marker>
+                    <token postag="n.*|r" postag_regexp="yes"/>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>是</suggestion>"嗎？
+                </message>
+                <example correction="是">我<marker>試</marker>中國人。</example>
+                <example>我是中國人。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="n.*|r" postag_regexp="yes" />
+                    <marker>
+                        <token postag="v">試</token>
+                    </marker>
+                    <token skip="1" />
+                    <token postag="u">的</token>
+                    <token postag="n.*|r" postag_regexp="yes" />
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>是</suggestion>"嗎？
+                </message>
+                <example correction="是">我<marker>試</marker>可愛的中國人。</example>
+                <example>我是可愛的中國人。</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="TU1_TU2" name="突/凸">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>凸然</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>突然</suggestion>"嗎？
+                </message>
+                <example correction="突然">這事情發生的太<marker>凸然</marker>了。</example>
+                <example>這事情發生的太突然了。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>凸變</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>突變</suggestion>"嗎？
+                </message>
+                <example correction="突變">它的<marker>凸變</marker>讓我很害怕。</example>
+                <example>它的突變讓我很害怕。</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="TUO1_TUO2" name="拖/託">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>拖運</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>託運</suggestion>"嗎？
+                </message>
+                <example correction="託運">我要<marker>拖運</marker>包裹。</example>
+                <example>我要託運包裹。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="r" />
+                    <marker>
+                        <token postag="v">拖</token>
+                    </marker>
+                    <token postag="r" />
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>託</suggestion>"嗎？
+                </message>
+                <example correction="託">我<marker>拖</marker>他買東西。</example>
+                <example>我託他買東西。</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="TA1_TA2_TA3" name="塌/蹋/踏">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>坍踏</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>坍塌</suggestion>"嗎？
+                </message>
+                <example correction="坍塌">大樓<marker>坍踏</marker>了。</example>
+                <example>大樓坍塌了。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>踏陷</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>塌陷</suggestion>"嗎？
+                </message>
+                <example correction="塌陷">地板<marker>踏陷</marker>了。</example>
+                <example>地板塌陷了。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>踏方</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>塌方</suggestion>"嗎？
+                </message>
+                <example correction="塌方">前面<marker>踏方</marker>了。</example>
+                <example>前面塌方了。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>倒踏</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>倒塌</suggestion>"嗎？
+                </message>
+                <example correction="倒塌">大樓<marker>倒踏</marker>了。</example>
+                <example>大樓倒塌了。</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="XIAO1_XIAO2" name="肖/孝">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>孝像</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>肖像</suggestion>"嗎？
+                </message>
+                <example correction="肖像">他把<marker>孝像</marker>刊在那份雜誌上了。</example>
+                <example>他把肖像刊在那份雜誌上了。</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="XIAO1_XIAO2_1" name="嘯/囂">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>囂叫</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>嘯叫</suggestion>"嗎？
+                </message>
+                <example correction="嘯叫">調音臺通道上的均衡器是控制<marker>囂叫</marker>最好的方法。</example>
+                <example>調音臺通道上的均衡器是控制嘯叫最好的方法。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>呼囂</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>呼嘯</suggestion>"嗎？
+                </message>
+                <example correction="呼嘯">風<marker>呼囂</marker>着穿過房間。</example>
+                <example>風呼嘯着穿過房間。</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="XIANG1_XIANG2_XIANG3" name="象/像/相">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>攝象機</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>攝像機</suggestion>"嗎？
+                </message>
+                <example correction="攝像機">他強打精神對<marker>攝象機</marker>苦笑了一下。</example>
+                <example>他強打景色對攝像機苦笑了一下。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>佛象</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>佛像</suggestion>"嗎？
+                </message>
+                <example correction="佛像">這尊<marker>佛象</marker>有多少年的歷史了？</example>
+                <example>這尊佛像有多少年的歷史了？</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>好象</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>好像</suggestion>"嗎？
+                </message>
+                <example correction="好像">這隻手錶<marker>好象</marker>不是您的。</example>
+                <example>這隻手錶好像不是您的。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>像機</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>相機</suggestion>"嗎？
+                </message>
+                <example correction="相機">您的<marker>像機</marker>是多少錢買的？</example>
+                <example>您的相機是多少錢買的？</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="XIE1_XIE2" name="泄/瀉">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>瀉流</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>泄流</suggestion>"嗎？
+                </message>
+                <example correction="泄流">三門峽水庫正在<marker>瀉流</marker>、排沙。</example>
+                <example>三門峽水庫正在泄流、排沙。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>瀉密</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>泄密</suggestion>"嗎？
+                </message>
+                <example correction="泄密">你猜是誰<marker>瀉密</marker>的。</example>
+                <example>你猜是誰泄密的。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>泄藥</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>瀉藥</suggestion>"嗎？
+                </message>
+                <example correction="瀉藥">誰給我下的<marker>泄藥</marker>？</example>
+                <example>誰給我下的瀉藥？</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>腹泄</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>腹瀉</suggestion>"嗎？
+                </message>
+                <example correction="腹瀉">我現在有點<marker>腹泄</marker>。</example>
+                <example>我現在有點腹瀉。</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="XUN1_XUN2" name="循/徇">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>徇環</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>循環</suggestion>"嗎？
+                </message>
+                <example correction="循環">沿着這條路一直<marker>徇環</marker>下去。</example>
+                <example>沿着這條路一直循環下去。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>徇轉</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>循轉</suggestion>"嗎？
+                </message>
+                <example correction="循轉">你就這樣<marker>徇轉</marker>就對了。</example>
+                <example>你就這樣循轉就對了。</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="YU1_YU2" name="與/於">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>參於</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>參與</suggestion>"嗎？
+                </message>
+                <example correction="參與">老實交代你有<marker>參於</marker>這件販毒行動嗎？</example>
+                <example>老實交代你有參與這件販毒行動嗎？</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="YI11_YI2" name="意/義">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>義料</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>意料</suggestion>"嗎？
+                </message>
+                <example correction="意料">這可真是在<marker>義料</marker>之外啊。</example>
+                <example>這可真是在意料之外啊。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>義識</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>意識</suggestion>"嗎？
+                </message>
+                <example correction="意識">他現在<marker>義識</marker>已經模糊了。</example>
+                <example>他現在意識已經模糊了。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>意子</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>義子</suggestion>"嗎？
+                </message>
+                <example correction="義子">他是我的<marker>意子</marker>。</example>
+                <example>他是我的義子。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>狹意</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>狹義</suggestion>"嗎？
+                </message>
+                <example correction="狹義"><marker>狹意</marker>的來說，化學普查需要分析。</example>
+                <example>狹義的來說，化學普查需要分析。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>疑意</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>異議</suggestion>"嗎？
+                </message>
+                <example correction="異議">大家還有什麼<marker>疑意</marker>嗎？</example>
+                <example>大家還有什麼異議嗎？</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="YING1_TING2" name="應/映">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>響映</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>響應</suggestion>"嗎？
+                </message>
+                <example correction="響應">千百萬人<marker>響映</marker>救災而慷慨解囊。</example>
+                <example>千百萬人響應救災而慷慨解囊。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>應照</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>映照</suggestion>"嗎？
+                </message>
+                <example correction="映照">天空因夕陽<marker>應照</marker>而發出紅光。</example>
+                <example>天空因夕陽映照而發出紅光。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>公應</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>公映</suggestion>"嗎？
+                </message>
+                <example correction="公映">變形金剛今日<marker>公應</marker>。</example>
+                <example>變形金剛今日公映。</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="ZHI1_ZHI2" name="治/制">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>制療</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>治療</suggestion>"嗎？
+                </message>
+                <example correction="治療">我希望你去醫院<marker>制療</marker>。</example>
+                <example>我希望你去醫院治療。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>治作</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>製作</suggestion>"嗎？
+                </message>
+                <example correction="製作">這件物品是你<marker>治作</marker>的嗎？</example>
+                <example>這件物品是你製作的嗎？</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>克治</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>剋制</suggestion>"嗎？
+                </message>
+                <example correction="剋制">你要學會<marker>克治</marker>自己。</example>
+                <example>你要學會剋制自己。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>控治</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>控制</suggestion>"嗎？
+                </message>
+                <example correction="控制">你不能<marker>控治</marker>它。</example>
+                <example>你不能控制它。</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="JUE1_JUE2_JUE3_JUE4" name="抉/決/訣/絕">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>抉鬥</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>決鬥</suggestion>"嗎？
+                </message>
+                <example correction="決鬥">張三和李四約定在北師大<marker>抉鬥</marker>。</example>
+                <example>張三和李四約定在北師大決鬥。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>對訣</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>對決</suggestion>"嗎？
+                </message>
+                <example correction="對決">我一定不能錯過這場巔峯<marker>對訣</marker>。</example>
+                <example>我一定不能錯過這場巔峯對決。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>口決</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>口訣</suggestion>"嗎？
+                </message>
+                <example correction="口訣">記住這<marker>口決</marker>。</example>
+                <example>記住這口訣。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>決竅</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>訣竅</suggestion>"嗎？
+                </message>
+                <example correction="訣竅">打醬油是有<marker>決竅</marker>的。</example>
+                <example>打醬油是有訣竅的。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>訣擇</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>抉擇</suggestion>"嗎？
+                </message>
+                <example correction="抉擇">他需要作出<marker>訣擇</marker>。</example>
+                <example>他需要作出抉擇。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>決無僅有</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>絕無僅有</suggestion>"嗎？
+                </message>
+                <example correction="絕無僅有">這件寶物世上<marker>決無僅有</marker>。</example>
+                <example>這件寶物世上絕無僅有。</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="ZHAN1_ZHAN2_ZHAN3" name="沾/粘/黏">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>粘染</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>沾染</suggestion>"嗎？
+                </message>
+                <example correction="沾染">千萬不要<marker>粘染</marker>惡習。</example>
+                <example>千萬不要沾染惡習。</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="JIE1_JIE2" name="截/節">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>節止</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>截止</suggestion>"嗎？
+                </message>
+                <example correction="截止"><marker>節止</marker>日期是三月二號。</example>
+                <example>截止日期是三月二號。</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="LIAN1_LIAN2" name="連/聯">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>聯續</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>連續</suggestion>"嗎？
+                </message>
+                <example correction="連續">編寫必須<marker>聯續</marker>。</example>
+                <example>編寫必須連續。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>連防</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>聯防</suggestion>"嗎？
+                </message>
+                <example correction="聯防">他們採用<marker>連防</marker>的防守方式。</example>
+                <example>他們採用聯防的防守方式。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>連合</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>聯合</suggestion>"嗎？
+                </message>
+                <example correction="聯合">中美兩國19日在華盛頓發表<marker>連合</marker>聲明。</example>
+                <example>中美兩國19日在華盛頓發表聯合聲明。</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="RONG1_RONG2_RONG3" name="溶/熔/融">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>溶資</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>融資</suggestion>"嗎？
+                </message>
+                <example correction="融資">有前景的企業都必須去銀行<marker>溶資</marker>。</example>
+                <example>有前景的企業都必須去銀行融資。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>交溶</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>交融</suggestion>"嗎？
+                </message>
+                <example correction="交融">水火<marker>交溶</marker>寓意着和諧。</example>
+                <example>水火交融寓意着和諧。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>消熔</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>消融</suggestion>"嗎？
+                </message>
+                <example correction="消融">在這雨雪<marker>消熔</marker>的季節。</example>
+                <example>在這雨雪消融的季節。</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="JIAN1_JIAN2" name="揀/撿">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>撿菜</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>揀菜</suggestion>"嗎？
+                </message>
+                <example correction="揀菜">媽媽去菜市場<marker>撿菜</marker>。</example>
+                <example>媽媽去菜市場揀菜。</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="JIAO1_JIAO2" name="繳/交">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>交槍</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>繳槍</suggestion>"嗎？
+                </message>
+                <example correction="繳槍">敵人已經<marker>交槍</marker>投降。</example>
+                <example>敵人已經繳槍投降。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>奉交</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>奉繳</suggestion>"嗎？
+                </message>
+                <example correction="奉繳">請<marker>奉交</marker>你的東西。</example>
+                <example>請奉繳你的東西。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>繳叉</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>交叉</suggestion>"嗎？
+                </message>
+                <example correction="交叉">這兩條路是沒有<marker>繳叉</marker>的。</example>
+                <example>這兩條路是沒有交叉的。</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="JI1_JI2_JI3" name="記/紀/計">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>記年</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>紀年</suggestion>"嗎？
+                </message>
+                <example correction="紀年">新<marker>記年</marker>新希望。</example>
+                <example>新紀年新希望。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>計載</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>記載</suggestion>"嗎？
+                </message>
+                <example correction="記載"><marker>計載</marker>着我的回憶。</example>
+                <example>記載着我的回憶。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>紀憶</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>記憶</suggestion>"嗎？
+                </message>
+                <example correction="記憶">我的<marker>紀憶</marker>定格在昨天。</example>
+                <example>我的記憶定格在昨天。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>紀得</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>記得</suggestion>"嗎？
+                </message>
+                <example correction="記得">我<marker>紀得</marker>你來過。</example>
+                <example>我記得你來過。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>日紀</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>日記</suggestion>"嗎？
+                </message>
+                <example correction="日記">不準看他人的<marker>日紀</marker>。</example>
+                <example>不準看他人的日記。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>記劃</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>計劃</suggestion>"嗎？
+                </message>
+                <example correction="計劃">這是我的<marker>記劃</marker>。</example>
+                <example>這是我的計劃。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>記較</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>計較</suggestion>"嗎？
+                </message>
+                <example correction="計較">別跟我<marker>記較</marker>。</example>
+                <example>別跟我計較。</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="HUN1_HUN2" name="混/渾">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>混厚</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>渾厚</suggestion>"嗎？
+                </message>
+                <example correction="渾厚">他的聲音很<marker>混厚</marker>。</example>
+                <example>他的聲音很渾厚。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>渾雜</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>混雜</suggestion>"嗎？
+                </message>
+                <example correction="混雜"><marker>渾雜</marker>的軍隊必敗。</example>
+                <example>混雜的軍隊必敗。</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="ZHE_CHAI" name="折/拆">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>折除</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>拆除</suggestion>"嗎？
+                </message>
+                <example correction="拆除">那棟新建的大樓因違章而被<marker>折除</marker>。</example>
+                <example>那棟新建的大樓因違章而被拆除。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>曲拆</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>曲折</suggestion>"嗎？
+                </message>
+                <example correction="曲折">這條山路真不好走，不但<marker>曲拆</marker>，而且還十分陡峭。</example>
+                <example>這條山路真不好走，不但曲折，而且還十分陡峭。</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="YUAN_NU" name="怨/怒">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>恩怒</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>恩怨</suggestion>"嗎？
+                </message>
+                <example correction="恩怨">這是我們之間的<marker>恩怒</marker>。</example>
+                <example>這是我們之間的恩怨。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>怒恨</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>怨恨</suggestion>"嗎？
+                </message>
+                <example correction="怨恨">怎樣才能消除他們之間的<marker>怒恨</marker>呢？</example>
+                <example>怎樣才能消除他們之間的怨恨呢？</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>怨視</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>怒視</suggestion>"嗎？
+                </message>
+                <example correction="怒視">他兩眼通紅，<marker>怨視</marker>着我。</example>
+                <example>他兩眼通紅，怒視着我。</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="YAN_YING" name="贗/膺">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>膺品</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>贗品</suggestion>"嗎？
+                </message>
+                <example correction="贗品">這是一個高仿真的<marker>膺品</marker>。</example>
+                <example>這是一個高仿真的贗品。</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="JI_YI" name="己/已">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>已方</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>己方</suggestion>"嗎？
+                </message>
+                <example correction="己方">這項協議已被視爲公會背叛<marker>已方</marker>，投向資方。</example>
+                <example>這項協議已被視爲公會背叛己方，投向資方。</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="XIANG_SHANG" name="響/晌">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>晌聲</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>響聲</suggestion>"嗎？
+                </message>
+                <example correction="響聲">忽有<marker>晌聲</marker>自東北來。</example>
+                <example>忽有響聲自東北來。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>音晌</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>音響</suggestion>"嗎？
+                </message>
+                <example correction="音響">他家的<marker>音晌</marker>質量很好。</example>
+                <example>他家的音響質量很好。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>響午</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>晌午</suggestion>"嗎？
+                </message>
+                <example correction="晌午">還未到<marker>響午</marker>，睡的迷迷糊糊的他便被一聲清脆的鐘響驚醒了過來。</example>
+                <example>還未到晌午，睡的迷迷糊糊的他便被一聲清脆的鐘響驚醒了過來。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="m">半</token>
+                    <marker>
+                        <token>響</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>晌</suggestion>"嗎？
+                </message>
+                <example correction="晌">他們在那兒坐了半<marker>響</marker></example>
+                <example>他們在那兒坐了半晌。</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="YAO_TA" name="杳/沓">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>沓渺</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>杳渺</suggestion>"嗎？
+                </message>
+                <example correction="杳渺">在<marker>沓渺</marker>無際的宇宙之中，是否真的只有我們地球纔有智慧生命？</example>
+                <example>在杳渺無際的宇宙之中，是否真的只有我們地球纔有智慧生命？</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>杳雜</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>沓雜</suggestion>"嗎？
+                </message>
+                <example correction="沓雜">士兵們四處散開，滿山遍野響着<marker>杳雜</marker>的腳步。</example>
+                <example>士兵們四處散開，滿山遍野響着沓雜的腳步。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>拖拉疲杳</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>拖拉疲沓</suggestion>"嗎？
+                </message>
+                <example correction="拖拉疲沓">這個孩子性格<marker>拖拉疲杳</marker>。</example>
+                <example>這個孩子性格拖拉疲沓。</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="XIN_XING" name="辛/幸">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>幸苦</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>辛苦</suggestion>"嗎？
+                </message>
+                <example correction="辛苦">俗話說，走路不知道騎馬的<marker>幸苦</marker>。</example>
+                <example>俗話說，走路不知道騎馬的辛苦。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>辛福</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>幸福</suggestion>"嗎？
+                </message>
+                <example correction="幸福">夫妻之間恩愛才能製造<marker>辛福</marker>。</example>
+                <example>夫妻之間恩愛才能製造幸福。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>辛存者</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>倖存者</suggestion>"嗎？
+                </message>
+                <example correction="倖存者">他是這次地震中唯一的<marker>辛存者</marker>。</example>
+                <example>他是這次地震中唯一的倖存者。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>辛虧</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>幸虧</suggestion>"嗎？
+                </message>
+                <example correction="幸虧"><marker>辛虧</marker>在這次考試前我有好好複習。</example>
+                <example>幸虧在這次考試前我有好好複習。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>寵辛</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>寵幸</suggestion>"嗎？
+                </message>
+                <example correction="寵幸">這是何等的<marker>寵辛</marker>啊。</example>
+                <example>這是何等的寵幸啊。</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="TU_SHI" name="土/士">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>故士</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>故土</suggestion>"嗎？
+                </message>
+                <example correction="故土">故鄉、<marker>故士</marker>、家園這些詞變得越來越美麗，越來越文學，但實際上的故鄉已經難以尋覓了。</example>
+                <example>故鄉、故土、家園這些詞變得越來越美麗，越來越文學，但實際上的故鄉已經難以尋覓了。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>不恤土卒</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>不恤士卒</suggestion>"嗎？
+                </message>
+                <example correction="不恤士卒">冠軍侯善於治軍卻留下了<marker>不恤土卒</marker>的惡名。</example>
+                <example>冠軍侯善於治軍卻留下了不恤士卒的惡名。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>護土</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>護士</suggestion>"嗎？
+                </message>
+                <example correction="護士">她被稱爲本醫院最貼心的<marker>護土</marker>。</example>
+                <example>她被稱爲本醫院最貼心的護士。</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="WU_NIAO" name="烏/鳥">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>烏瞰圖</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>鳥瞰圖</suggestion>"嗎？
+                </message>
+                <example correction="鳥瞰圖">這是蘇州的<marker>烏瞰圖</marker>。</example>
+                <example>這是蘇州的鳥瞰圖。</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="XIU_TI" name="休/體">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>體息</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>休息</suggestion>"嗎？
+                </message>
+                <example correction="休息">運沙船靠岸<marker>體息</marker>。</example>
+                <example>運沙船靠岸休息。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>休驗</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>體驗</suggestion>"嗎？
+                </message>
+                <example correction="體驗"><marker>休驗</marker>到的東西使得我們感到真實。</example>
+                <example>體驗到的東西使得我們感到真實。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>身休</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>身體</suggestion>"嗎？
+                </message>
+                <example correction="身體">這種錯誤的吃法有害<marker>身休</marker>。</example>
+                <example>這種錯誤的吃法有害身體。</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="TU_XI" name="徒/徙">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>賭徙</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>賭徒</suggestion>"嗎？
+                </message>
+                <example correction="賭徒"><marker>賭徙</marker>心理，不是僅僅存在於賭徒中，可以說每個人都或多或少擁有這樣的心理。</example>
+                <example>賭徒心理，不是僅僅存在於賭徒中，可以說每個人都或多或少擁有這樣的心理。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>徒邊</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>徙邊</suggestion>"嗎？
+                </message>
+                <example correction="徙邊"><marker>徒邊</marker>是古時的一種刑罰。</example>
+                <example>徙邊是古時的一種刑罰。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>遷徒</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>遷徙</suggestion>"嗎？
+                </message>
+                <example correction="遷徙">日前，綿竹市西南鎮檀木村出現了大規模的蟾蜍<marker>遷徒</marker>。</example>
+                <example>日前，綿竹市西南鎮檀木村出現了大規模的蟾蜍遷徙。</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="TING_YAN" name="廷/延">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>延杖</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>廷杖</suggestion>"嗎？
+                </message>
+                <example correction="廷杖">始於漢明帝，此後各代均有<marker>延杖</marker>大臣之事，明後期尤甚，杖死者亦不少。</example>
+                <example>始於漢明帝，此後各代均有廷杖大臣之事，明後期尤甚，杖死者亦不少。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>朝延</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>朝廷</suggestion>"嗎？
+                </message>
+                <example correction="朝廷">最明顯的一點就是忠於國變成忠於<marker>朝延</marker>。</example>
+                <example>最明顯的一點就是忠於國變成忠於朝廷。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>廷遲</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>延遲</suggestion>"嗎？
+                </message>
+                <example correction="延遲">這班車的發車時間<marker>廷遲</marker>了。</example>
+                <example>這班車的發車時間延遲了。</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="SHAN_ZHAN" name="贍_瞻">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>瞻養</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>贍養</suggestion>"嗎？
+                </message>
+                <example correction="贍養"><marker>瞻養</marker>老人是每個人應盡的職責。</example>
+                <example>贍養老人是每個人應盡的職責。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>贍仰</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>瞻仰</suggestion>"嗎？
+                </message>
+                <example correction="瞻仰">澳門中學生來到中山陵，<marker>贍仰</marker>我國偉大的革命先行者孫中山先生陵墓。</example>
+                <example>澳門中學生來到中山陵，瞻仰我國偉大的革命先行者孫中山先生陵墓。</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="CHONG_SUI" name="崇/祟">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>祟敬</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>崇敬</suggestion>"嗎？
+                </message>
+                <example correction="崇敬">他們對你父親深表<marker>祟敬</marker>。</example>
+                <example>他們對你父親深表崇敬。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>尊祟</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>尊崇</suggestion>"嗎？
+                </message>
+                <example correction="尊崇">價值的<marker>尊祟</marker>和生活實踐的矛盾，導致了魯迅早期悲劇性自我的存在。</example>
+                <example>價值的尊崇和生活實踐的矛盾，導致了魯迅早期悲劇性自我的存在。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>作崇</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>作祟</suggestion>"嗎？
+                </message>
+                <example correction="作祟">失業和貧乏的幽靈一直在對他們<marker>作崇</marker>是不能否認的。</example>
+                <example>失業和貧乏的幽靈一直在對他們作祟是不能否認的。</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="SHU1_SHU2" name="暑/署">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>署假</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>暑假</suggestion>"嗎？
+                </message>
+                <example correction="暑假">他很期待這個<marker>署假</marker>。</example>
+                <example>他很期待這個暑假。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>暑名</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>署名</suggestion>"嗎？
+                </message>
+                <example correction="署名">必須按照作者或者許可人指定的方式對作品進行<marker>暑名</marker>。</example>
+                <example>必須按照作者或者許可人指定的方式對作品進行署名。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>籤暑</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>簽署</suggestion>"嗎？
+                </message>
+                <example correction="簽署">是他<marker>籤暑</marker>的這份文件。</example>
+                <example>是他簽署的這份文件。</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="SHI_SHUAI" name="師/帥">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>帥資</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>師資</suggestion>"嗎？
+                </message>
+                <example correction="師資">這間學校<marker>帥資</marker>強大。</example>
+                <example>這間學校師資強大。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>工程帥</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>工程師</suggestion>"嗎？
+                </message>
+                <example correction="工程師">他是一名<marker>工程帥</marker>。</example>
+                <example>他是一名工程師。</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="JUAN_QUAN" name="卷_券">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>券子</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>卷子</suggestion>"嗎？
+                </message>
+                <example correction="卷子">這是你的<marker>券子</marker>嗎？</example>
+                <example>這是你的卷子嗎？</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>試券</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>試卷</suggestion>"嗎？
+                </message>
+                <example correction="試卷">這是你的<marker>試券</marker>嗎？</example>
+                <example>這是你的試卷嗎？</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="QING_JING" name="晴_睛">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>睛朗</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>晴朗</suggestion>"嗎？
+                </message>
+                <example correction="晴朗">今天的天氣很<marker>睛朗</marker>。</example>
+                <example>今天的天氣很晴朗。</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="MING_WU" name="鳴/嗚">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>雞嗚</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>雞鳴</suggestion>"嗎？
+                </message>
+                <example correction="雞鳴"><marker>雞嗚</marker>了，天亮了。</example>
+                <example>雞鳴了，天亮了。</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="MI_QIN" name="泌/沁">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>沁尿</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>泌尿</suggestion>"嗎？
+                </message>
+                <example correction="泌尿">糖尿病是不是<marker>沁尿</marker>系統的疾病？</example>
+                <example>糖尿病是不是泌尿系統的疾病？</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>泌人</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>沁人</suggestion>"嗎？
+                </message>
+                <example correction="沁人">這聲音太<marker>泌人</marker>心脾了。</example>
+                <example>這聲音太沁人心脾了。</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="MU_MI" name="幕/冪">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>冪後</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>幕後</suggestion>"嗎？
+                </message>
+                <example correction="幕後">原來你纔是<marker>冪後</marker>黑手。</example>
+                <example>原來你纔是幕後黑手。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>夜冪</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>夜幕</suggestion>"嗎？
+                </message>
+                <example correction="夜幕"><marker>夜冪</marker>慢慢降臨了。</example>
+                <example>夜幕慢慢降臨了。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>次</token>
+                    <marker>
+                        <token>幕</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>冪</suggestion>"嗎？
+                </message>
+                <example correction="冪">8等於2的三次<marker>幕</marker>。</example>
+                <example>8等於2的三次冪。</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="WEI_MO" name="未/末">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>末來</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>未來</suggestion>"嗎？
+                </message>
+                <example correction="未來">如果有<marker>末來</marker>，我要去遠方旅行。</example>
+                <example>如果有未來，我要去遠方旅行。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>從末</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>從未</suggestion>"嗎？
+                </message>
+                <example correction="從未">我<marker>從末</marker>去過那裏。</example>
+                <example>我從未去過那裏。</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="LING_LENG" name="泠/冷">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>泠天</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>冷天</suggestion>"嗎？
+                </message>
+                <example correction="冷天"><marker>泠天</marker>要多穿衣服。</example>
+                <example>冷天要多穿衣服。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>好泠</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>好冷</suggestion>"嗎？
+                </message>
+                <example correction="好冷">我<marker>好泠</marker>啊。</example>
+                <example>我好冷啊。</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="LING_JIN" name="令/今">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>命今</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>命令</suggestion>"嗎？
+                </message>
+                <example correction="命令">我<marker>命今</marker>你馬上去做作業。</example>
+                <example>我命令你馬上去做作業。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>令生</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>今生</suggestion>"嗎？
+                </message>
+                <example correction="今生">我<marker>令生</marker>都忘不了這件事。</example>
+                <example>我今生都忘不了這件事。</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="ZHI_JIU" name="炙/灸">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>炙烤</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>灸烤</suggestion>"嗎？
+                </message>
+                <example correction="灸烤">太陽<marker>炙烤</marker>着大地。</example>
+                <example>太陽灸烤着大地。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>針炙</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>鍼灸</suggestion>"嗎？
+                </message>
+                <example correction="鍼灸"><marker>針炙</marker>是世界醫療史上的一大奇蹟。</example>
+                <example>鍼灸是世界醫療史上的一大奇蹟。</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="LIAO1_LIAO2" name="廖/寥">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>廖寂</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>寥寂</suggestion>"嗎？
+                </message>
+                <example correction="寥寂">以這<marker>廖寂</marker>的天空爲背景，書寫華麗的篇章。</example>
+                <example>以這寥寂的天空爲背景，書寫華麗的篇章。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>寂廖</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>寂寥</suggestion>"嗎？
+                </message>
+                <example correction="寂寥">以這<marker>寂廖</marker>的天空爲背景，書寫華麗的篇章。</example>
+                <example>以這寂寥的天空爲背景，書寫華麗的篇章。</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="HENG_XIANG" name="亨/享">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>萬事享通</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>萬事亨通</suggestion>"嗎？
+                </message>
+                <example correction="萬事亨通">祝您在新的一年裏<marker>萬事享通</marker>。</example>
+                <example>祝您在新的一年裏萬事亨通。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>亨樂</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>享樂</suggestion>"嗎？
+                </message>
+                <example correction="享樂">酒吧是人們相聚飲酒<marker>亨樂</marker>的地方。</example>
+                <example>酒吧是人們相聚飲酒享樂的地方。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>分亨</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>分享</suggestion>"嗎？
+                </message>
+                <example correction="分享">你應該把這個資源<marker>分亨</marker>給大家。</example>
+                <example>你應該把這個資源分享給大家。</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="SA_JIU" name="灑/酒">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>酒脫</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>灑脫</suggestion>"嗎？
+                </message>
+                <example correction="灑脫">您爲什麼能夠如此<marker>酒脫</marker>呢？</example>
+                <example>您爲什麼能夠如此灑脫呢？</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>瀟酒</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>瀟灑</suggestion>"嗎？
+                </message>
+                <example correction="瀟灑">我很<marker>瀟酒</marker>地離開了。</example>
+                <example>我很瀟灑地離開了。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>啤灑</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>啤酒</suggestion>"嗎？
+                </message>
+                <example correction="啤酒">喝<marker>啤灑</marker>容易長胖。</example>
+                <example>喝啤酒容易長胖。</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="HUAN_YOU" name="幻/幼">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>幼境</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>幻境</suggestion>"嗎？
+                </message>
+                <example correction="幻境">這肯定是<marker>幼境</marker>。</example>
+                <example>這肯定是幻境。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>幼覺</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>幻覺</suggestion>"嗎？
+                </message>
+                <example correction="幻覺">這肯定是<marker>幼覺</marker>。</example>
+                <example>這肯定是幻覺。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>夢幼</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>夢幻</suggestion>"嗎？
+                </message>
+                <example correction="夢幻">這裏的<marker>夢幼</marker>般的風景深深地吸引了我的眼球。</example>
+                <example>這裏的夢幻般的風景深深地吸引了我的眼球。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>幻稚</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>幼稚</suggestion>"嗎？
+                </message>
+                <example correction="幼稚">你能不要這樣<marker>幻稚</marker>嗎？</example>
+                <example>你能不要這樣幼稚嗎？</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="HOU1_HOU2" name="侯/候">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>時侯</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>時候</suggestion>"嗎？
+                </message>
+                <example correction="時候">您來的真是<marker>時侯</marker>。</example>
+                <example>您來的真是時候。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>伺侯</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>伺候</suggestion>"嗎？
+                </message>
+                <example correction="伺候">這個日子過的真滋潤，好吃好喝<marker>伺侯</marker>着。</example>
+                <example>這個日子過的真滋潤，好吃好喝伺候着。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>候爵</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>侯爵</suggestion>"嗎？
+                </message>
+                <example correction="侯爵">這是清末的一個<marker>候爵</marker>的墳墓。</example>
+                <example>這是清末的一個侯爵的墳墓。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>諸候</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>諸侯</suggestion>"嗎？
+                </message>
+                <example correction="諸侯">這是個<marker>諸候</marker>並起的年代。</example>
+                <example>這是個諸侯並起的年代。</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AI_ZHONG_SHUAI" name="哀/衷/衰">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>衰悼</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>哀悼</suggestion>"嗎？
+                </message>
+                <example correction="哀悼">我們在清明節的時候都要去<marker>衰悼</marker>爲祖國犧牲的烈士們。</example>
+                <example>我們在清明節的時候都要去哀悼爲祖國犧牲的烈士們。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>衷鳴</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>哀鳴</suggestion>"嗎？
+                </message>
+                <example correction="哀鳴">聽到小明的<marker>衷鳴</marker>，我們不由得心寒。</example>
+                <example>聽到小明得哀鳴，我們不由得心寒。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>默衰</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>默哀</suggestion>"嗎？
+                </message>
+                <example correction="默哀">現在，我們爲我們的犧牲的烈士們<marker>默衰</marker>五分鐘。</example>
+                <example>現在，我們爲我們的犧牲的烈士們默哀五分鐘。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>默衷</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>默哀</suggestion>"嗎？
+                </message>
+                <example correction="默哀">現在，我們爲我們的犧牲的烈士們<marker>默衷</marker>五分鐘。</example>
+                <example>現在，我們爲我們的犧牲的烈士們默哀五分鐘。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>由衰</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>由衷</suggestion>"嗎？
+                </message>
+                <example correction="由衷">我<marker>由衰</marker>的感謝我們父母。</example>
+                <example>我由衷的感謝我們父母。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">(哀|衷)老</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>衰老</suggestion>"嗎？
+                </message>
+                <example correction="衰老">婆婆，一天天的<marker>哀老</marker>了。</example>
+                <example>婆婆，一天天的衰老了。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>衷敗</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>衰敗</suggestion>"嗎？
+                </message>
+                <example correction="衰敗">清朝，一天天得<marker>衷敗</marker>着。</example>
+                <example>清朝，一天天得衰敗着。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>盛衷</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>盛衰</suggestion>"嗎？
+                </message>
+                <example correction="盛衰"><marker>盛衷</marker>無常</example>
+                <example>盛衰無常</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="BA_BO" name="拔/撥">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>撥尖</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>拔尖</suggestion>"嗎？
+                </message>
+                <example correction="拔尖">小明在班上很<marker>撥尖</marker>。</example>
+                <example>小明在班上很拔尖。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>挺撥</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>挺拔</suggestion>"嗎？
+                </message>
+                <example correction="挺拔">看我<marker>挺撥</marker>的胸部。</example>
+                <example>看我挺拔的胸部。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>海撥</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>海拔</suggestion>"嗎？
+                </message>
+                <example correction="海拔">這兒<marker>海撥</marker>5000米。</example>
+                <example>這兒海拔5000米。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>拔給</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>撥給</suggestion>"嗎？
+                </message>
+                <example correction="撥給">中央政府<marker>拔給</marker>了當地政府1000萬。</example>
+                <example>中央政府撥給了當地政府1000萬。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>拔下</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>撥下</suggestion>"嗎？
+                </message>
+                <example correction="撥下">哪裏不懂？等下老師回來給你點<marker>拔下</marker>。</example>
+                <example>哪裏不懂？等下老師回來給你點撥下。</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="CHANG_BI" name="敞/敝">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>敝開</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>敞開</suggestion>"嗎？
+                </message>
+                <example correction="敞開">你要<marker>敝開</marker>心胸。</example>
+                <example>你要敞開心胸。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>寬敝</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>寬敞</suggestion>"嗎？
+                </message>
+                <example correction="寬敞">好一個<marker>寬敝</marker>的房間啊。</example>
+                <example>好一個寬敞的房間啊。</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="CHA_TU" name="茶/荼">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>荼杯</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>茶杯</suggestion>"嗎？
+                </message>
+                <example correction="茶杯">我今天買了一個<marker>荼杯</marker>。</example>
+                <example>我今天買了一個茶杯。</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="CI_LA" name="刺/剌">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>諷剌</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>諷刺</suggestion>"嗎？
+                </message>
+                <example correction="諷刺">這篇文章<marker>諷剌</marker>了中國現狀。</example>
+                <example>這篇文章諷刺了中國現狀。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>潑刺</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>潑剌</suggestion>"嗎？
+                </message>
+                <example correction="潑剌">好一個<marker>潑刺</marker>的女子！</example>
+                <example>好一個潑剌的女子！</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="CONG_WU" name="匆/勿">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">(勿)(忙|促|猝)</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是“
+                    <suggestion><match no="1" regexp_match="(勿)([忙促猝])" regexp_replace="匆$2"/></suggestion>
+                    ”嗎？
+                </message>
+                <example correction="匆忙">我<marker>勿忙</marker>的去了廁所。</example>
+                <example>我匆忙地去了廁所。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="d">勿</token>
+                    <token postag="l">勿</token>
+                </pattern>
+                <message>
+                    您的意思是“
+                    <suggestion>匆匆</suggestion>
+                    ”嗎？
+                </message>
+                <short>詞語錯誤</short>
+                <example correction="匆匆">來也<marker>勿勿</marker>，去也沖沖。</example>
+                <example>來也匆匆，去也沖沖</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>請匆</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是請“
+                    <suggestion>請勿</suggestion>
+                    ”嗎？
+                </message>
+                <short>詞語錯誤</short>
+                <example correction="請勿"><marker>請匆</marker>在教室吃東西。</example>
+                <example>請勿在教室吃東西。</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="DAI_FA" name="代/伐">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>代樹</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>伐樹</suggestion>"嗎？
+                </message>
+                <example correction="伐樹">這裏禁止<marker>代樹</marker>。</example>
+                <example>這裏禁止伐樹。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>代木</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>伐木</suggestion>"嗎？
+                </message>
+                <example correction="伐木">這裏禁止<marker>代木</marker>。</example>
+                <example>這裏禁止伐木。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>徵代</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>征伐</suggestion>"嗎？
+                </message>
+                <example correction="征伐">秦國在開春後就要開始<marker>徵代</marker>齊國。</example>
+                <example>秦國在開春後就要開始征伐齊國。</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="DIAO_DAO" name="叼/叨">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>叼咕</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>叨咕</suggestion>"嗎？
+                </message>
+                <example correction="叨咕">您能別再<marker>叼咕</marker>了嗎？</example>
+                <example>您能別在叨咕了嗎？</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>嘮叼</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是"<suggestion>嘮叨</suggestion>"嗎？
+                </message>
+                <example correction="嘮叨">其實，父母的<marker>嘮叼</marker>也是一種幸福。</example>
+                <example>其實，父母的嘮叨也是一種幸福。</example>
+            </rule>
+        </rulegroup>
+        <rule id="xiaohui" name="銷燬">
             <pattern>
                 <marker>
                     <token>消毀</token>
                 </marker>
             </pattern>
             <message>您的意思是
-                <suggestion>銷毀</suggestion>嗎?
+                <suggestion>銷燬</suggestion>嗎?
             </message>
-            <example correction="銷毀">我已經<marker>消毀</marker>了所有文件</example>
+            <example correction="銷燬">我已經<marker>消毀</marker>了所有文件</example>
         </rule>
         <rule id="hongliang" name="洪亮">
             <pattern>
@@ -88,13 +3816,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="xuan" name="喧囂">
             <pattern>
                 <marker>
-                    <token regexp="yes">(暄)(嘩|鬧|囂|嚷|擾|笑|雜|噪)</token>
+                    <token regexp="yes">(暄)(譁|鬧|囂|嚷|擾|笑|雜|噪)</token>
                 </marker>
             </pattern>
             <message>
-                您的意思是"<suggestion><match no="1" regexp_match="(暄)([嘩鬧囂嚷擾笑雜噪])" regexp_replace="喧$2"/></suggestion>"嗎?
+                您的意思是"<suggestion><match no="1" regexp_match="(暄)([譁鬧囂嚷擾笑雜噪])" regexp_replace="喧$2"/></suggestion>"嗎?
             </message>
-            <example correction="喧囂">我屏息靜氣，努力在<marker>暄囂</marker>的塵世之中尋覓一種純凈、和諧之音。</example>
+            <example correction="喧囂">我屏息靜氣，努力在<marker>暄囂</marker>的塵世之中尋覓一種純淨、和諧之音。</example>
         </rule>
         <rule id="yuyu" name="漁/魚">
             <pattern>
@@ -110,13 +3838,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="zangkuan" name="贓款">
             <pattern>
                 <marker>
-                    <token>臟款</token>
+                    <token>髒款</token>
                 </marker>
             </pattern>
             <message>您的意思是
                 <suggestion>贓款</suggestion>嗎?
             </message>
-            <example correction="贓款">經過警察的努力，<marker>臟款</marker>終於被追回來了。</example>
+            <example correction="贓款">經過警察的努力，<marker>髒款</marker>終於被追回來了。</example>
         </rule>
         <rule id="gang" name="鋼筆">
             <pattern>
@@ -140,7 +3868,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </message>
             <example correction="大概">這車<marker>太概</marker>需要1000萬。</example>
         </rule>
-        <rule id="shu1" name="戍邊">
+        <rule id="shurong" name="戍邊">
             <pattern>
                 <marker>
                     <token regexp="yes">(戎|戊)(邊)</token>
