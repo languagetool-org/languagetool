@@ -162,6 +162,12 @@ public class TokenAgreementAdjNounRuleTest {
     // false v_rod with -а
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("федерального округа")).length);
 
+    // ne- together
+    matches = rule.match(langTool.getAnalyzedSentence("пропонує незламані ураганами сучасності"));
+    assertEquals(1, matches.length);
+    assertTrue("Missing message for «не» пишеться окремо", matches[0].getMessage().contains("писати окремо"));
+     
+
     // false :nv
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("затверджений народним віче")).length);
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("На великому родинному віче")).length);
