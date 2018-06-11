@@ -22,10 +22,7 @@ package org.languagetool.rules.spelling.morfologik;
 import ml.dmlc.xgboost4j.java.*;
 import org.apache.commons.lang3.tuple.Pair;
 import org.jetbrains.annotations.Nullable;
-import org.languagetool.AnalyzedSentence;
-import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
+import org.languagetool.*;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.Categories;
 import org.languagetool.rules.ITSIssueType;
@@ -50,6 +47,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
   private boolean ignoreTaggedWords = false;
   private boolean checkCompound = false;
   private Pattern compoundRegex = Pattern.compile("-");
+  private final UserConfig userConfig;
 
   private static final String XGBOOST_MODEL_BASE_PATH = "org/languagetool/resource/speller_rule/models/";
   private static final String DEFAULT_PATH_TO_NGRAMS = "/home/ec2-user/ngram"; //TODO
@@ -64,7 +62,12 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
   public abstract String getId();
 
   public MorfologikSpellerRule(ResourceBundle messages, Language language) throws IOException {
-    super(messages, language);
+    this(messages, language, null);
+  }
+
+  public MorfologikSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig) throws IOException {
+    super(messages, language, userConfig);
+    this.userConfig = userConfig;
     super.setCategory(Categories.TYPOS.getCategory(messages));
     this.conversionLocale = conversionLocale != null ? conversionLocale : Locale.getDefault();
     init();
@@ -147,9 +150,9 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
       plainTextDict = getSpellingFileName();
     }
     if (plainTextDict != null) {
-      speller1 = new MorfologikMultiSpeller(binaryDict, plainTextDict, 1);
-      speller2 = new MorfologikMultiSpeller(binaryDict, plainTextDict, 2);
-      speller3 = new MorfologikMultiSpeller(binaryDict, plainTextDict, 3);
+      speller1 = new MorfologikMultiSpeller(binaryDict, plainTextDict, userConfig, 1);
+      speller2 = new MorfologikMultiSpeller(binaryDict, plainTextDict, userConfig, 2);
+      speller3 = new MorfologikMultiSpeller(binaryDict, plainTextDict, userConfig, 3);
       setConvertsCase(speller1.convertsCase());
     } else {
       throw new RuntimeException("Could not find ignore spell file in path: " + getSpellingFileName());
