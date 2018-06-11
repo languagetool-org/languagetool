@@ -2,9 +2,11 @@
 <?xml-stylesheet type="text/xsl" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/print.xsl" ?>
 <?xml-stylesheet type="text/css" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.css" title="Easy editing stylesheet" ?>
 <!-- Chinese Grammar and Typo Rules for LanguageTool
-Copyright (C) 2018-2019 Ze Dang
+Copyright (C) 2011-2012 Tao Lin
 
-Contributors: Ze Dang
+Contributors: Tao Lin, Fangjie Wang, Wenting Cheng, Xiang Yao,
+Tong Wang, Jiawen Mo, Jiarong Li, Weijie Huang, Yixin Zhou, Xinmin Chen,
+Xiaofei Liu, Debiao Luo
 
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
@@ -24,7 +26,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
        xsi:noNamespaceSchemaLocation="../../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
-    <category name="undone" id="UNDONE">
+    <!-- ====================================================================== -->
+    <!-- 拼写： 词语错误 -->
+    <!-- ====================================================================== -->
+    <category name="词语错误" id="CN_CAT1">
         <rulegroup id="QIA1_QIA2" name="恰/洽">
             <rule>
                 <pattern>
@@ -41,23 +46,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>
-                        <token>恰谈</token>
+                        <token postag="d">恰</token>
                     </marker>
+                    <token regexp="yes">(谈|商|办|购)</token>
                 </pattern>
                 <message>
-                    您的意思是"<suggestion>洽谈</suggestion>"吗？
+                    您的意思是"<suggestion>洽</suggestion>"吗？
                 </message>
-                <example correction="洽谈">今天要到国际会议中心，<marker>恰谈</marker>一笔户外广告的生意。</example>
+                <example correction="洽">今天要到国际会议中心，<marker>恰</marker>谈一笔户外广告的生意。</example>
                 <example>今天要到国际会议中心，洽谈一笔户外广告的生意。</example>
             </rule>
             <rule>
                 <pattern>
                     <marker>
-                        <token>融恰</token>
+                        <token regexp="yes">(面|接|融)(恰)</token>
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"<suggestion>融洽</suggestion>"吗？
+                    您的意思是"<suggestion><match no="1" regexp_match="([面接融])(恰)" regexp_replace="$1洽"/></suggestion>"吗？
                 </message>
                 <example correction="融洽">新同事跟大家相处得非常<marker>融恰</marker>。</example>
                 <example>新同事跟大家相处得非常融洽。</example>
@@ -70,10 +76,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>砂哑</token>
                     </marker>
                 </pattern>
-                <message>
-                    您的意思是"沙哑"吗？
+                <message>您的意思是"<suggestion>沙哑</suggestion>"吗？
                 </message>
-                <example correction="">他操着<marker>砂哑</marker>的嗓音唱了一首歌。</example>
+                <example correction="沙哑">他操着<marker>砂哑</marker>的嗓音唱了一首歌。</example>
                 <example>他操着沙哑的嗓音唱了一首歌。</example>
             </rule>
             <rule>
@@ -82,10 +87,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>沙窗</token>
                     </marker>
                 </pattern>
-                <message>
-                    您的意思是"纱窗"吗？
-                </message>
-                <example correction="">这个<marker>沙窗</marker>很漂亮。</example>
+                <message>您的意思是"<suggestion>纱窗</suggestion>"吗？</message>
+                <example correction="纱窗">这个<marker>沙窗</marker>很漂亮。</example>
                 <example>这个纱窗很漂亮。</example>
             </rule>
             <rule>
@@ -94,10 +97,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>沙轮</token>
                     </marker>
                 </pattern>
-                <message>
-                    您的意思是"砂轮"吗？
-                </message>
-                <example correction="">这里还要拿<marker>沙轮</marker>打磨一下。</example>
+                <message>您的意思是"<suggestion>砂轮</suggestion>"吗？</message>
+                <example correction="砂轮">这里还要拿<marker>沙轮</marker>打磨一下。</example>
                 <example>这里还要拿砂轮打磨一下。</example>
             </rule>
             <rule>
@@ -107,9 +108,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"朱砂"吗？
+                    您的意思是"<suggestion>朱砂</suggestion>"吗？
                 </message>
-                <example correction="">丹炉好养<marker>朱沙</marker>，洞门长掩青霞。</example>
+                <example correction="朱砂">丹炉好养<marker>朱沙</marker>，洞门长掩青霞。</example>
                 <example>丹炉好养朱砂，洞门长掩青霞。</example>
             </rule>
         </rulegroup>
@@ -117,37 +118,41 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>
-                        <token>帖心</token>
+                        <token regexp="yes">(帖)(心|息|现|补|板|边|身|着)</token>
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"贴心"吗？
+                    您的意思是"
+                    <suggestion><match no="1" regexp_match="(帖)([心息现补板边身着])" regexp_replace="贴$2"/></suggestion>"吗？
                 </message>
-                <example correction="">中秋节寄来的礼物很<marker>帖心</marker>。</example>
+                <example correction="贴心">中秋节寄来的礼物很<marker>帖心</marker>。</example>
                 <example>中秋节寄来的礼物很贴心。</example>
             </rule>
             <rule>
                 <pattern>
                     <marker>
-                        <token>张帖</token>
+                        <token regexp="yes">(张|粘|补|津|倒|紧)(帖)</token>
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"张贴"吗？
+                    您的意思是"
+                    <suggestion><match no="1" regexp_match="([张粘补津倒紧])(帖)" regexp_replace="$1贴"/></suggestion>"吗？
                 </message>
-                <example correction="">工作人员忙着在会场外<marker>张帖</marker>海报。</example>
+                <example correction="张贴">工作人员忙着在会场外<marker>张帖</marker>海报。</example>
                 <example>工作人员忙着在会场外张贴海报。</example>
             </rule>
             <rule>
                 <pattern>
                     <marker>
-                        <token>碑贴</token>
+                        <token regexp="yes">(碑|画|请|回|服|妥|喜)(贴)</token>
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"碑帖"吗？
+                    您的意思是"
+                    <suggestion><match no="1" regexp_match="([碑画请回服妥喜])(贴)" regexp_replace="$1帖"/></suggestion>
+                    "吗？
                 </message>
-                <example correction="">山坡上矗立着很多北魏时代的<marker>碑贴</marker>。</example>
+                <example correction="碑帖">山坡上矗立着很多北魏时代的<marker>碑贴</marker>。</example>
                 <example>山坡上矗立着很多北魏时代的碑帖。</example>
             </rule>
         </rulegroup>
@@ -155,37 +160,43 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>
-                        <token>昧道</token>
+                        <token regexp="yes">(昧)(道|精|感)</token>
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"味道"吗？
+                    您的意思是"
+                    <suggestion><match no="1" regexp_match="(昧)([道精感])" regexp_replace="味$2"/></suggestion>
+                    "吗？
                 </message>
-                <example correction="">我想念你的笑，想念你的<marker>昧道</marker>。</example>
+                <example correction="味道">我想念你的笑，想念你的<marker>昧道</marker>。</example>
                 <example>我想念你的笑，想念你的味道。</example>
             </rule>
             <rule>
                 <pattern>
                     <marker>
-                        <token>韵昧</token>
+                        <token regexp="yes">(气|兴|趣|意|韵|体|滋|寻)(昧)</token>
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"韵味"吗？
+                    您的意思是"
+                    <suggestion><match no="1" regexp_match="([气兴趣意韵体滋寻])(昧)" regexp_replace="$1味"/></suggestion>
+                    "吗？
                 </message>
-                <example correction="">这是一本很有中国文化<marker>韵昧</marker>的书。</example>
+                <example correction="韵味">这是一本很有中国文化<marker>韵昧</marker>的书。</example>
                 <example>这是一本很有中国文化韵味的书。</example>
             </rule>
             <rule>
                 <pattern>
                     <marker>
-                        <token>暧味</token>
+                        <token regexp="yes">(蒙|暧|冒)(味)</token>
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"暧昧"吗？
+                    您的意思是"
+                    <suggestion><match no="1" regexp_match="([蒙暧冒])(味)" regexp_replace="$1昧"/></suggestion>
+                    "吗？
                 </message>
-                <example correction="">他们俩之间的关系一直很<marker>暧味</marker>。</example>
+                <example correction="暧昧">他们俩之间的关系一直很<marker>暧味</marker>。</example>
                 <example>他们俩之间的关系一直很暧昧。</example>
             </rule>
         </rulegroup>
@@ -243,9 +254,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"宵\1"吗？
+                    您的意思是"
+                    <suggestion><match no="1" regexp_match="(霄)([夜禁])" regexp_replace="宵$2"/></suggestion>
+                    "吗？
                 </message>
-                <example correction="">战时一般都要实行<marker>霄禁</marker>。</example>
+                <example correction="宵禁">战时一般都要实行<marker>霄禁</marker>。</example>
                 <example>战时一般都要实行宵禁。</example>
             </rule>
             <rule>
@@ -254,8 +267,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token regexp="yes">(夜|春|通|元)霄</token>
                     </marker>
                 </pattern>
-                <message>您的意思是"\1宵"吗？</message>
-                <example correction="">然而，这顿<marker>夜霄</marker>吃得并不开心。</example>
+                <message>您的意思是"
+                    <suggestion><match no="1" regexp_match="([夜春通元])(霄)" regexp_replace="$1宵"/></suggestion>
+                    "吗？</message>
+                <example correction="夜宵">然而，这顿<marker>夜霄</marker>吃得并不开心。</example>
             </rule>
             <rule>
                 <pattern>
@@ -264,9 +279,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"霄汉"吗？
+                    您的意思是"<suggestion>霄汉</suggestion>"吗？
                 </message>
-                <example correction=""><marker>宵汉</marker>几多同学伴？可怜头角尽卿材！</example>
+                <example correction="霄汉"><marker>宵汉</marker>几多同学伴？可怜头角尽卿材！</example>
                 <example>霄汉几多同学伴？可怜头角尽卿材！</example>
             </rule>
             <rule>
@@ -276,9 +291,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"\1霄"吗？
+                    您的意思是"
+                    <suggestion><match no="1" regexp_match="([云九重凌])宵" regexp_replace="$1霄"/></suggestion>"吗？
                 </message>
-                <example correction="">层峦耸翠，上出<marker>重宵</marker>；飞阁流丹，下临无地。</example>
+                <example correction="重霄">层峦耸翠，上出<marker>重宵</marker>；飞阁流丹，下临无地。</example>
                 <example>层峦耸翠，上出重霄；飞阁流丹，下临无地。</example>
             </rule>
         </rulegroup>
@@ -289,8 +305,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token regexp="yes">型(状|体|容|态|迹|势|象)</token>
                     </marker>
                 </pattern>
-                <message>您的意思是"形\1"吗？</message>
-                <example correction="">这个东西的<marker>型状</marker>好奇怪呀。</example>
+                <message>您的意思是"
+                    <suggestion><match no="1" regexp_match="(型)([状体容态迹势象])" regexp_replace="形$2"/></suggestion>"吗？
+                </message>
+                <example correction="形状">这个东西的<marker>型状</marker>好奇怪呀。</example>
             </rule>
             <rule>
                 <pattern>
@@ -299,9 +317,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"\1形"吗？
+                    您的意思是"
+                    <suggestion><match no="1" regexp_match="([条方圆球地情现无])(型)" regexp_replace="$1形"/></suggestion>
+                    "吗？
                 </message>
-                <example correction="">这个营长向我叙说了当时的<marker>情型</marker>。</example>
+                <example correction="情形">这个营长向我叙说了当时的<marker>情型</marker>。</example>
                 <example>这个营长向我叙说了当时的情形。</example>
             </rule>
             <rule>
@@ -311,9 +331,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"型号"吗？
+                    您的意思是"<suggestion>型号</suggestion>"吗？
                 </message>
-                <example correction="">这辆车是什么<marker>形号</marker>的？</example>
+                <example correction="型号">这辆车是什么<marker>形号</marker>的？</example>
                 <example>这辆车是什么型号的？</example>
             </rule>
             <rule>
@@ -323,9 +343,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"\1型"吗？
+                    您的意思是"
+                    <suggestion><match no="1" regexp_match="([类新砂模造])(形)" regexp_replace="$1型"/></suggestion>"吗？
                 </message>
-                <example correction="">设计师给她设计了一个新<marker>造形</marker>。</example>
+                <example correction="造型">设计师给她设计了一个新<marker>造形</marker>。</example>
                 <example>设计师给她设计了一个新造型。</example>
             </rule>
         </rulegroup>
@@ -333,13 +354,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>
-                        <token>绎文</token>
+                        <token regexp="yes">(绎)(著|制|音|本|笔|电|稿|码|名|文|注)</token>
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"译文"吗？
+                    您的意思是"
+                    <suggestion><match no="1" regexp_match="(绎)([著|制|音|本|笔|电|稿|码|名|文|注])" regexp_replace="译$2"/></suggestion>"吗？
                 </message>
-                <example correction="">这篇<marker>绎文</marker>是难得的宝贵的资料。</example>
+                <example correction="译文">这篇<marker>绎文</marker>是难得的宝贵的资料。</example>
                 <example>这篇译文是难得的宝贵的资料。</example>
             </rule>
             <rule>
@@ -349,9 +371,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"翻译"吗？
+                    您的意思是"<suggestion>翻译</suggestion>"吗？
                 </message>
-                <example correction="">这篇文章好难<marker>翻绎</marker>。</example>
+                <example correction="翻译">这篇文章好难<marker>翻绎</marker>。</example>
                 <example>这篇文章好难翻译。</example>
             </rule>
             <rule>
@@ -361,9 +383,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"演绎"吗？
+                    您的意思是"<suggestion>演绎</suggestion>"吗？
                 </message>
-                <example correction="">以上是李宇春<marker>演译</marker>的一首《Zombie》。</example>
+                <example correction="演绎">以上是李宇春<marker>演译</marker>的一首《Zombie》。</example>
                 <example>以上是李宇春演绎的一首《Zombie》。</example>
             </rule>
         </rulegroup>
@@ -374,8 +396,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>晶萤</token>
                     </marker>
                 </pattern>
-                <message>您的意思是"晶莹"吗？</message>
-                <example correction="">她看着他，眼里噙着<marker>晶萤</marker>的泪珠。</example>
+                <message>您的意思是"<suggestion>晶莹</suggestion>"吗？</message>
+                <example correction="晶莹">她看着他，眼里噙着<marker>晶萤</marker>的泪珠。</example>
             </rule>
             <rule>
                 <pattern>
@@ -384,9 +406,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"莹澈"吗？
+                    您的意思是"<suggestion>莹澈</suggestion>"吗？
                 </message>
-                <example correction="">反省是—面<marker>萤澈</marker>的镜子。</example>
+                <example correction="莹澈">反省是—面<marker>萤澈</marker>的镜子。</example>
                 <example>反省是—面莹澈的镜子。</example>
             </rule>
             <rule>
@@ -396,9 +418,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"萤火虫"吗？
+                    您的意思是"<suggestion>萤火虫</suggestion>"吗？
                 </message>
-                <example correction="">漫山遍野都是<marker>莹火虫</marker>的亮光。</example>
+                <example correction="萤火虫">漫山遍野都是<marker>莹火虫</marker>的亮光。</example>
                 <example>漫山遍野都是萤火虫的亮光。</example>
             </rule>
         </rulegroup>
@@ -410,9 +432,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"州县"吗？
+                    您的意思是"<suggestion>州县</suggestion>"吗？
                 </message>
-                <example correction=""><marker>洲县</marker>是中国古代的行政区。</example>
+                <example correction="州县"><marker>洲县</marker>是中国古代的行政区。</example>
                 <example>州县是中国古代的行政区。</example>
             </rule>
             <rule>
@@ -422,34 +444,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"州郡"吗？
+                    您的意思是"<suggestion>州郡</suggestion>"吗？
                 </message>
-                <example correction=""><marker>洲郡</marker>是中国古代的行政区。</example>
+                <example correction="州郡"><marker>洲郡</marker>是中国古代的行政区。</example>
                 <example>州郡是中国古代的行政区。</example>
             </rule>
             <rule>
                 <pattern>
                     <marker>
-                        <token>苏洲</token>
+                        <token regexp="yes">(杭|苏)洲</token>
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"苏州"吗？
+                    您的意思是"
+                    <suggestion><match no="1" regexp_match="([苏杭])(洲)" regexp_replace="$1州"/></suggestion>"吗？
                 </message>
-                <example correction=""><marker>苏洲</marker>的园林真的很美。</example>
+                <example correction="苏州"><marker>苏洲</marker>的园林真的很美。</example>
                 <example>苏州的园林真的很美。</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <marker>
-                        <token>杭洲</token>
-                    </marker>
-                </pattern>
-                <message>
-                    您的意思是"杭州"吗？
-                </message>
-                <example correction=""><marker>杭洲</marker>西湖甲天下。</example>
-                <example>杭州西湖甲天下。</example>
             </rule>
             <rule>
                 <pattern>
@@ -458,34 +469,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"洲际"吗？
+                    您的意思是"<suggestion>洲际</suggestion>"吗？
                 </message>
-                <example correction="">这是最新研发的<marker>州际</marker>导弹。</example>
+                <example correction="洲际">这是最新研发的<marker>州际</marker>导弹。</example>
                 <example>这是最新研发的洲际导弹。</example>
             </rule>
             <rule>
                 <pattern>
                     <marker>
-                        <token>欧州</token>
+                        <token regexp="yes">(欧|亚)州</token>
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"欧洲"吗？
+                    您的意思是"
+                    <suggestion><match no="1" regexp_match="([欧亚])(州)" regexp_replace="$1洲"/></suggestion>"吗？
                 </message>
-                <example correction="">中国在<marker>欧州</marker>很有地位。</example>
+                <example correction="欧洲">中国在<marker>欧州</marker>很有地位。</example>
                 <example>中国在欧洲很有地位。</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <marker>
-                        <token>亚州</token>
-                    </marker>
-                </pattern>
-                <message>
-                    您的意思是"亚洲"吗？
-                </message>
-                <example correction="">中国在<marker>亚州</marker>。</example>
-                <example>中国在亚洲。</example>
             </rule>
         </rulegroup>
         <rulegroup id="ZHANG1_ZHANG2" name="账/帐">
@@ -495,20 +495,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>账篷</token>
                     </marker>
                 </pattern>
-                <message>您的意思是"帐篷"吗？</message>
-                <example correction="">这个<marker>账篷</marker>多少钱？</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <marker>
-                        <token>帐</token>
-                    </marker>
-                </pattern>
-                <message>
-                    您的意思是"账"吗？
-                </message>
-                <example correction="">这是你的<marker>帐</marker>号么？</example>
-                <example>这是你的账号么？</example>
+                <message>您的意思是"<suggestion>帐篷</suggestion>"吗？</message>
+                <example correction="帐篷">这个<marker>账篷</marker>多少钱？</example>
             </rule>
             <rule>
                 <pattern>
@@ -517,9 +505,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"欠账"吗？
+                    您的意思是"<suggestion>欠账</suggestion>"吗？
                 </message>
-                <example correction=""><marker>欠帐</marker>还钱，天经地义。</example>
+                <example correction="欠账"><marker>欠帐</marker>还钱，天经地义。</example>
                 <example>欠账还钱，天经地义。</example>
             </rule>
             <rule>
@@ -529,9 +517,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"蚊帐"吗？
+                    您的意思是"<suggestion>蚊帐</suggestion>"吗？
                 </message>
-                <example correction=""><marker>蚊账</marker>是最环保的防蚊利器。</example>
+                <example correction="蚊帐"><marker>蚊账</marker>是最环保的防蚊利器。</example>
                 <example>蚊帐是最环保的防蚊利器。</example>
             </rule>
         </rulegroup>
@@ -543,9 +531,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"躁动"吗？
+                    您的意思是"<suggestion>躁动</suggestion>"吗？
                 </message>
-                <example correction="">这消息一宣布，下面的游行者都开始<marker>燥动</marker>起来。</example>
+                <example correction="躁动">这消息一宣布，下面的游行者都开始<marker>燥动</marker>起来。</example>
                 <example>这消息一宣布，下面的游行者都开始躁动起来。</example>
             </rule>
             <rule>
@@ -555,9 +543,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"急躁"吗？
+                    您的意思是"<suggestion>急躁</suggestion>"吗？
                 </message>
-                <example correction="">他<marker>急燥</marker>的性格真让人受不了。</example>
+                <example correction="急躁">他<marker>急燥</marker>的性格真让人受不了。</example>
                 <example>他急躁的性格真让人受不了。</example>
             </rule>
             <rule>
@@ -567,9 +555,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"噪声"吗？
+                    您的意思是"<suggestion>噪声</suggestion>"吗？
                 </message>
-                <example correction="">住在公路旁边的<marker>躁声</marker>会很大。</example>
+                <example correction="噪声">住在公路旁边的<marker>躁声</marker>会很大。</example>
                 <example>住在公路旁边的噪声会很大。</example>
             </rule>
             <rule>
@@ -579,9 +567,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"燥热"吗？
+                    您的意思是"<suggestion>燥热</suggestion>"吗？
                 </message>
-                <example correction="">今天的天气真让人<marker>噪热</marker>。</example>
+                <example correction="燥热">今天的天气真让人<marker>噪热</marker>。</example>
                 <example>今天的天气真让人燥热。</example>
             </rule>
             <rule>
@@ -591,9 +579,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"枯燥"吗？
+                    您的意思是"<suggestion>枯燥</suggestion>"吗？
                 </message>
-                <example correction="">学习真的一点都不<marker>枯噪</marker>。</example>
+                <example correction="枯燥">学习真的一点都不<marker>枯噪</marker>。</example>
                 <example>学习真的一点都不枯燥。</example>
             </rule>
         </rulegroup>
@@ -605,9 +593,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"练习"吗？
+                    您的意思是"<suggestion>练习</suggestion>"吗？
                 </message>
-                <example correction="">她指导实习护士<marker>炼习</marker>注射。</example>
+                <example correction="练习">她指导实习护士<marker>炼习</marker>注射。</example>
                 <example>她指导实习护士练习注射。</example>
             </rule>
             <rule>
@@ -617,9 +605,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"干练"吗？
+                    您的意思是"<suggestion>干练</suggestion>"吗？
                 </message>
-                <example correction="">斯坦德莱是个英明<marker>干拣</marker>的老家伙。</example>
+                <example correction="干练">斯坦德莱是个英明<marker>干拣</marker>的老家伙。</example>
                 <example>斯坦德莱是个英明干练的老家伙。</example>
             </rule>
             <rule>
@@ -629,9 +617,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"炼狱"吗？
+                    您的意思是"<suggestion>炼狱</suggestion>"吗？
                 </message>
-                <example correction="">漂亮的女人是眼睛的天堂、灵魂的地狱、钱包的<marker>练狱</marker>。</example>
+                <example correction="炼狱">漂亮的女人是眼睛的天堂、灵魂的地狱、钱包的<marker>练狱</marker>。</example>
                 <example>漂亮的女人是眼睛的天堂、灵魂的地狱、钱包的炼狱。</example>
             </rule>
             <rule>
@@ -641,9 +629,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"冶炼"吗？
+                    您的意思是"<suggestion>冶炼</suggestion>"吗？
                 </message>
-                <example correction="">将溶液倒入容器中进行<marker>冶练</marker>。</example>
+                <example correction="冶炼">将溶液倒入容器中进行<marker>冶练</marker>。</example>
                 <example>将溶液倒入容器中进行冶炼。</example>
             </rule>
             <rule>
@@ -653,9 +641,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"挑拣"吗？
+                    您的意思是"<suggestion>挑拣</suggestion>"吗？
                 </message>
-                <example correction="">我从来不是爱<marker>挑练</marker>的人。</example>
+                <example correction="挑拣">我从来不是爱<marker>挑练</marker>的人。</example>
                 <example>我从来不是爱挑拣的人。</example>
             </rule>
         </rulegroup>
@@ -663,14 +651,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>
-                        <token>桥梁</token>
+                        <token>桥粱</token>
                     </marker>
                 </pattern>
-                <message>
-                    您的意思是"桥粱"吗？
-                </message>
-                <example correction=""><marker>桥梁</marker>往往是兵家争夺之地。</example>
-                <example>桥粱往往是兵家争夺之地。</example>
+                <message>您的意思是"<suggestion>桥梁</suggestion>"吗？</message>
+                <example correction="桥梁"><marker>桥粱</marker>往往是兵家争夺之地。</example>
+                <example>桥梁往往是兵家争夺之地。</example>
             </rule>
             <rule>
                 <pattern>
@@ -679,9 +665,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"粱肉"吗？
+                    您的意思是"<suggestion>粱肉</suggestion>"吗？
                 </message>
-                <example correction=""><marker>梁肉</marker>是指美食佳肴。</example>
+                <example correction="粱肉"><marker>梁肉</marker>是指美食佳肴。</example>
                 <example>粱肉是指美食佳肴。</example>
             </rule>
         </rulegroup>
@@ -693,9 +679,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"覆没"吗？
+                    您的意思是"<suggestion>覆没</suggestion>"吗？
                 </message>
-                <example correction="">此次战役中，日军全军<marker>履没</marker>。</example>
+                <example correction="覆没">此次战役中，日军全军<marker>履没</marker>。</example>
                 <example>此次战役中，日军全军覆没。</example>
             </rule>
             <rule>
@@ -705,22 +691,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"颠覆"吗？
+                    您的意思是"<suggestion>颠覆</suggestion>"吗？
                 </message>
-                <example correction="">他因<marker>颠履</marker>国家政权而被处死。</example>
+                <example correction="颠覆">他因<marker>颠履</marker>国家政权而被处死。</example>
                 <example>他因颠覆国家政权而被处死。</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <marker>
-                        <token>新CEO覆任</token>
-                    </marker>
-                </pattern>
-                <message>
-                    您的意思是"新CEO履任"吗？
-                </message>
-                <example correction="">微软中国<marker>新CEO覆任</marker>。</example>
-                <example>微软中国新CEO履任。</example>
             </rule>
         </rulegroup>
         <rulegroup id="MAN1_MAN2_MAN3" name="慢/漫/曼">
@@ -731,22 +705,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"慢待"吗？
+                    您的意思是"<suggestion>慢待</suggestion>"吗？
                 </message>
-                <example correction="">不要<marker>漫待</marker>了这位先生。</example>
+                <example correction="慢待">不要<marker>漫待</marker>了这位先生。</example>
                 <example>不要慢待了这位先生。</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <marker>
-                        <token>漫漫</token>
-                    </marker>
-                </pattern>
-                <message>
-                    您的意思是"慢慢"吗？
-                </message>
-                <example correction="">太阳<marker>漫漫</marker>地落山了。</example>
-                <example>太阳慢慢地落山了。</example>
             </rule>
             <rule>
                 <pattern>
@@ -755,9 +717,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"漫长"吗？
+                    您的意思是"<suggestion>漫长</suggestion>"吗？
                 </message>
-                <example correction="">那是一个<marker>慢长</marker>的夜晚。</example>
+                <example correction="漫长">那是一个<marker>慢长</marker>的夜晚。</example>
                 <example>那是一个漫长的夜晚。</example>
             </rule>
             <rule>
@@ -767,9 +729,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"弥漫"吗？
+                    您的意思是"<suggestion>弥漫</suggestion>"吗？
                 </message>
-                <example correction="">空气中<marker>弥曼</marker>着硝烟的味道。</example>
+                <example correction="弥漫">空气中<marker>弥曼</marker>着硝烟的味道。</example>
                 <example>空气中弥漫着硝烟的味道。</example>
             </rule>
             <rule>
@@ -779,24 +741,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"曼妙"吗？
+                    您的意思是"<suggestion>曼妙</suggestion>"吗？
                 </message>
-                <example correction="">窗外传来<marker>漫妙</marker>的歌声。</example>
+                <example correction="曼妙">窗外传来<marker>漫妙</marker>的歌声。</example>
                 <example>窗外传来曼妙的歌声。</example>
-            </rule>
-        </rulegroup>
-        <rulegroup id="MIAN1_MIAN2" name="绵/棉">
-            <rule>
-                <pattern>
-                    <marker>
-                        <token>棉薄之力</token>
-                    </marker>
-                </pattern>
-                <message>
-                    您的意思是"绵薄之力"吗？
-                </message>
-                <example correction="">愿尽<marker>棉薄之力</marker>。</example>
-                <example>愿尽绵薄之力。</example>
             </rule>
         </rulegroup>
         <rulegroup id="MIAO1_MIAO2" name="渺/缈">
@@ -807,9 +755,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"渺茫"吗？
+                    您的意思是"<suggestion>渺茫</suggestion>"吗？
                 </message>
-                <example correction="">幸存者生还的希望<marker>缈茫</marker>。</example>
+                <example correction="渺茫">幸存者生还的希望<marker>缈茫</marker>。</example>
                 <example>幸存者生还的希望渺茫。</example>
             </rule>
             <rule>
@@ -819,9 +767,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"飘渺"吗？
+                    您的意思是"<suggestion>飘渺</suggestion>"吗？
                 </message>
-                <example correction="">问人天何事，最<marker>飘缈</marker>，最销沉？</example>
+                <example correction="飘渺">问人天何事，最<marker>飘缈</marker>，最销沉？</example>
                 <example>问人天何事，最飘渺，最销沉？</example>
             </rule>
         </rulegroup>
@@ -833,22 +781,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"暮霭"吗？
+                    您的意思是"<suggestion>暮霭</suggestion>"吗？
                 </message>
-                <example correction=""><marker>幕霭</marker>沈沈楚天阔。</example>
+                <example correction="暮霭"><marker>幕霭</marker>沈沈楚天阔。</example>
                 <example>暮霭沈沈楚天阔。</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <marker>
-                        <token>东风</token>
-                    </marker>
-                </pattern>
-                <message>
-                    您的意思是"暮东风"吗？
-                </message>
-                <example correction="">日幕<marker>东风</marker>怨啼鸟，落花犹似堕楼人。</example>
-                <example>日暮东风怨啼鸟，落花犹似堕楼人。</example>
             </rule>
             <rule>
                 <pattern>
@@ -857,9 +793,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"幕府"吗？
+                    您的意思是"<suggestion>幕府</suggestion>"吗？
                 </message>
-                <example correction=""><marker>募府</marker>是古时日本一种权力曾一度凌驾于天皇之上的中央政府机构。</example>
+                <example correction="幕府"><marker>募府</marker>是古时日本一种权力曾一度凌驾于天皇之上的中央政府机构。</example>
                 <example>幕府是古时日本一种权力曾一度凌驾于天皇之上的中央政府机构。</example>
             </rule>
             <rule>
@@ -869,9 +805,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"夜幕"吗？
+                    您的意思是"<suggestion>夜幕</suggestion>"吗？
                 </message>
-                <example correction=""><marker>夜暮</marker>徐徐降临。</example>
+                <example correction="夜幕"><marker>夜暮</marker>徐徐降临。</example>
                 <example>夜幕徐徐降临。</example>
             </rule>
             <rule>
@@ -881,9 +817,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"慕名"吗？
+                    您的意思是"<suggestion>慕名</suggestion>"吗？
                 </message>
-                <example correction="">我是<marker>幕名</marker>而来的。</example>
+                <example correction="慕名">我是<marker>幕名</marker>而来的。</example>
                 <example>我是慕名而来的。</example>
             </rule>
             <rule>
@@ -893,9 +829,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"仰慕"吗？
+                    您的意思是"<suggestion>仰慕</suggestion>"吗？
                 </message>
-                <example correction="">我已经<marker>仰幕</marker>你很久了。</example>
+                <example correction="仰慕">我已经<marker>仰幕</marker>你很久了。</example>
                 <example>我已经仰慕你很久了。</example>
             </rule>
             <rule>
@@ -905,9 +841,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"募集"吗？
+                    您的意思是"<suggestion>募集</suggestion>"吗？
                 </message>
-                <example correction="">同学们在为灾区人民<marker>幕集</marker>捐款。</example>
+                <example correction="募集">同学们在为灾区人民<marker>幕集</marker>捐款。</example>
                 <example>同学们在为灾区人民募集捐款。</example>
             </rule>
             <rule>
@@ -917,9 +853,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"招募"吗？
+                    您的意思是"<suggestion>招募</suggestion>"吗？
                 </message>
-                <example correction="">2012年伦敦奥运会主办方正在<marker>招幕</marker>志愿者。</example>
+                <example correction="招募">2012年伦敦奥运会主办方正在<marker>招幕</marker>志愿者。</example>
                 <example>2012年伦敦奥运会主办方正在招募志愿者。</example>
             </rule>
         </rulegroup>
@@ -927,25 +863,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>
-                        <token>人</token>
-                    </marker>
-                </pattern>
-                <message>
-                    您的意思是"迷人"吗？
-                </message>
-                <example correction="">世界杯期间的慕尼黑，球谜<marker>人</marker>潮涌动。</example>
-                <example>世界杯期间的慕尼黑，球迷人潮涌动。</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <marker>
                         <token>迷语</token>
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"谜语"吗？
+                    您的意思是"<suggestion>谜语</suggestion>"吗？
                 </message>
-                <example correction="">每一个<marker>迷语</marker>都是有答案的。</example>
+                <example correction="谜语">每一个<marker>迷语</marker>都是有答案的。</example>
                 <example>每一个谜语都是有答案的。</example>
             </rule>
             <rule>
@@ -955,9 +879,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"灯谜"吗？
+                    您的意思是"<suggestion>灯谜</suggestion>"吗？
                 </message>
-                <example correction="">在中国，元宵节有猜<marker>灯迷</marker>的习俗。</example>
+                <example correction="灯谜">在中国，元宵节有猜<marker>灯迷</marker>的习俗。</example>
                 <example>在中国，元宵节有猜灯谜的习俗。</example>
             </rule>
         </rulegroup>
@@ -969,9 +893,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"恼火"吗？
+                    您的意思是"<suggestion>恼火</suggestion>"吗？
                 </message>
-                <example correction="">小王的失误使领导非常<marker>脑火</marker>。</example>
+                <example correction="恼火">小王的失误使领导非常<marker>脑火</marker>。</example>
                 <example>小王的失误使领导非常恼火。</example>
             </rule>
             <rule>
@@ -981,9 +905,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"懊恼"吗？
+                    您的意思是"<suggestion>懊恼</suggestion>"吗？
                 </message>
-                <example correction=""><marker>懊脑</marker>掌握着时间的锉刀，蚕食着内心每个角落。</example>
+                <example correction="懊恼"><marker>懊脑</marker>掌握着时间的锉刀，蚕食着内心每个角落。</example>
                 <example>懊恼掌握着时间的锉刀，蚕食着内心每个角落。</example>
             </rule>
             <rule>
@@ -993,9 +917,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"脑袋"吗？
+                    您的意思是"<suggestion>脑袋</suggestion>"吗？
                 </message>
-                <example correction="">你的<marker>恼袋</marker>被门夹住啦。</example>
+                <example correction="脑袋">你的<marker>恼袋</marker>被门夹住啦。</example>
                 <example>你的脑袋被门夹住啦。</example>
             </rule>
             <rule>
@@ -1005,9 +929,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"人脑"吗？
+                    您的意思是"<suggestion>人脑</suggestion>"吗？
                 </message>
-                <example correction="">目前为止，<marker>人恼</marker>还是医学界正在探索的领域。</example>
+                <example correction="人脑">目前为止，<marker>人恼</marker>还是医学界正在探索的领域。</example>
                 <example>目前为止，人脑还是医学界正在探索的领域。</example>
             </rule>
         </rulegroup>
@@ -1019,9 +943,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"帐篷"吗？
+                    您的意思是"<suggestion>帐篷</suggestion>"吗？
                 </message>
-                <example correction=""><marker>帐蓬</marker>是户外露营的必备物品。</example>
+                <example correction="帐篷"><marker>帐蓬</marker>是户外露营的必备物品。</example>
                 <example>帐篷是户外露营的必备物品。</example>
             </rule>
             <rule>
@@ -1031,9 +955,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"蓬门"吗？
+                    您的意思是"<suggestion>蓬门</suggestion>"吗？
                 </message>
-                <example correction="">花径不曾缘客扫，<marker>篷门</marker>今始为君开。</example>
+                <example correction="蓬门">花径不曾缘客扫，<marker>篷门</marker>今始为君开。</example>
                 <example>花径不曾缘客扫，蓬门今始为君开。</example>
             </rule>
             <rule>
@@ -1043,9 +967,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"莲蓬"吗？
+                    您的意思是"<suggestion>莲蓬</suggestion>"吗？
                 </message>
-                <example correction=""><marker>莲篷</marker>只是荷花的花心，娇小嫩黄，藏于美丽繁荣花瓣之中。</example>
+                <example correction="莲蓬"><marker>莲篷</marker>只是荷花的花心，娇小嫩黄，藏于美丽繁荣花瓣之中。</example>
                 <example>莲蓬只是荷花的花心，娇小嫩黄，藏于美丽繁荣花瓣之中。</example>
             </rule>
         </rulegroup>
@@ -1057,9 +981,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"滑稽"吗？
+                    您的意思是"<suggestion>滑稽</suggestion>"吗？
                 </message>
-                <example correction="">这个丑角的表演非常<marker>猾稽</marker>。</example>
+                <example correction="滑稽">这个丑角的表演非常<marker>猾稽</marker>。</example>
                 <example>这个丑角的表演非常滑稽。</example>
             </rule>
         </rulegroup>
@@ -1071,9 +995,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"慰藉"吗？
+                    您的意思是"<suggestion>慰藉</suggestion>"吗？
                 </message>
-                <example correction="">除了漫漫游荡和不染利禄，你说还有什么足以<marker>慰籍</marker>灵魂？</example>
+                <example correction="慰藉">除了漫漫游荡和不染利禄，你说还有什么足以<marker>慰籍</marker>灵魂？</example>
                 <example>除了漫漫游荡和不染利禄，你说还有什么足以慰藉灵魂？</example>
             </rule>
             <rule>
@@ -1083,9 +1007,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"典籍"吗？
+                    您的意思是"<suggestion>典籍</suggestion>"吗？
                 </message>
-                <example correction="">西藏不断加强对宗教<marker>典藉</marker>的收集、整理、出版和研究工作。</example>
+                <example correction="典籍">西藏不断加强对宗教<marker>典藉</marker>的收集、整理、出版和研究工作。</example>
                 <example>西藏不断加强对宗教典籍的收集、整理、出版和研究工作。</example>
             </rule>
             <rule>
@@ -1095,9 +1019,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"籍贯"吗？
+                    您的意思是"<suggestion>籍贯</suggestion>"吗？
                 </message>
-                <example correction="">在中国人填写的表格中，有一项是<marker>藉贯</marker>，你知道是什么意思吗？</example>
+                <example correction="籍贯">在中国人填写的表格中，有一项是<marker>藉贯</marker>，你知道是什么意思吗？</example>
                 <example>在中国人填写的表格中，有一项是籍贯，你知道是什么意思吗？</example>
             </rule>
         </rulegroup>
@@ -1109,9 +1033,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"毕竟"吗？
+                    您的意思是"<suggestion>毕竟</suggestion>"吗？
                 </message>
-                <example correction="">不要责备他，他<marker>毕竞</marker>是个新手。</example>
+                <example correction="毕竟">不要责备他，他<marker>毕竞</marker>是个新手。</example>
                 <example>不要责备他，他毕竟是个新手。</example>
             </rule>
             <rule>
@@ -1119,11 +1043,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>竞</token>
                     </marker>
+                    <token postag="v|ng|c|p" regexp="yes" postag_regexp="yes">至|日|而
+                    </token>
                 </pattern>
                 <message>
-                    您的意思是"竟"吗？
+                    您的意思是"<suggestion>竟</suggestion>"吗？
                 </message>
-                <example correction="">吾不相信事情<marker>竞</marker>至如此糟糕。</example>
+                <example correction="竟">吾不相信事情<marker>竞</marker>至如此糟糕。</example>
                 <example>吾不相信事情竟至如此糟糕。</example>
             </rule>
         </rulegroup>
@@ -1135,21 +1061,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"既定"吗？
+                    您的意思是"<suggestion>既定</suggestion>"吗？
                 </message>
-                <example correction="">我们的部队撤回到<marker>即定</marker>阵地。</example>
+                <example correction="既定">我们的部队撤回到<marker>即定</marker>阵地。</example>
                 <example>我们的部队撤回到既定阵地。</example>
             </rule>
             <rule>
                 <pattern>
+                    <token postag="p|v" regexp="yes" postag_regexp="yes">在|立</token>
                     <marker>
                         <token>既</token>
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"即"吗？
+                    您的意思是"<suggestion>即</suggestion>"吗？
                 </message>
-                <example correction="">大选在<marker>既</marker>，主要政党间的论战愈演愈烈。</example>
+                <example correction="即">大选在<marker>既</marker>，主要政党间的论战愈演愈烈。</example>
                 <example>大选在即，主要政党间的论战愈演愈烈。</example>
             </rule>
         </rulegroup>
@@ -1161,9 +1088,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"家具"吗？
+                    您的意思是"<suggestion>家具</suggestion>"吗？
                 </message>
-                <example correction="">他无法赎回典当的<marker>家俱</marker>。</example>
+                <example correction="家具">他无法赎回典当的<marker>家俱</marker>。</example>
                 <example>他无法赎回典当的家具。</example>
             </rule>
         </rulegroup>
@@ -1175,21 +1102,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"才俊"吗？
+                    您的意思是"<suggestion>才俊</suggestion>"吗？
                 </message>
-                <example correction="">渴求各方<marker>才峻</marker>加入我们的行列，共同打造学校的未来。</example>
+                <example correction="才俊">渴求各方<marker>才峻</marker>加入我们的行列，共同打造学校的未来。</example>
                 <example>渴求各方才俊加入我们的行列，共同打造学校的未来。</example>
             </rule>
             <rule>
                 <pattern>
                     <marker>
-                        <token>竣峭</token>
+                        <token regexp="yes">(俊|竣|骏)(拔|笔|刻|直|峭)</token>
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"峻峭"吗？
+                    您的意思是"
+                    <suggestion><match no="1" regexp_match="([俊竣骏])([拔笔刻直峭])" regexp_replace="峻$2"/></suggestion>"吗？
                 </message>
-                <example correction="">避免走近或停留在<marker>竣峭</marker>山坡附近。</example>
+                <example correction="峻峭">避免走近或停留在<marker>竣峭</marker>山坡附近。</example>
                 <example>避免走近或停留在峻峭山坡附近。</example>
             </rule>
             <rule>
@@ -1199,9 +1127,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"竣工"吗？
+                    您的意思是"<suggestion>竣工</suggestion>"吗？
                 </message>
-                <example correction="">这幢房子是5个月前<marker>俊工</marker>的。</example>
+                <example correction="竣工">这幢房子是5个月前<marker>俊工</marker>的。</example>
                 <example>这幢房子是5个月前竣工的。</example>
             </rule>
             <rule>
@@ -1211,9 +1139,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"骏马"吗？
+                    您的意思是"<suggestion>骏马</suggestion>"吗？
                 </message>
-                <example correction="">那是一匹<marker>竣马</marker>。</example>
+                <example correction="骏马">那是一匹<marker>竣马</marker>。</example>
                 <example>那是一匹骏马。</example>
             </rule>
         </rulegroup>
@@ -1225,9 +1153,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"蓝本"吗？
+                    您的意思是"<suggestion>蓝本</suggestion>"吗？
                 </message>
-                <example correction="">她把她一家人的经历作为她小说的<marker>篮本</marker>。</example>
+                <example correction="蓝本">她把她一家人的经历作为她小说的<marker>篮本</marker>。</example>
                 <example>美国的教育制度原以英国和德国为蓝本。</example>
             </rule>
             <rule>
@@ -1237,9 +1165,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"篮筐"吗？
+                    您的意思是"<suggestion>篮筐</suggestion>"吗？
                 </message>
-                <example correction="">球场的两端各有一个<marker>蓝筐</marker>。</example>
+                <example correction="篮筐">球场的两端各有一个<marker>蓝筐</marker>。</example>
                 <example>球场的两端各有一个篮筐。</example>
             </rule>
             <rule>
@@ -1249,24 +1177,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"竹篮"吗？
+                    您的意思是"<suggestion>竹篮</suggestion>"吗？
                 </message>
-                <example correction="">这只<marker>竹蓝</marker>是我自己编的。</example>
+                <example correction="竹篮">这只<marker>竹蓝</marker>是我自己编的。</example>
                 <example>这只竹篮是我自己编的。</example>
-            </rule>
-        </rulegroup>
-        <rulegroup id="REN1_REN2" name="人/仁">
-            <rule>
-                <pattern>
-                    <marker>
-                        <token>是</token>
-                    </marker>
-                </pattern>
-                <message>
-                    您的意思是"参是"吗？
-                </message>
-                <example correction="">仁参<marker>是</marker>好东西。</example>
-                <example>人参是好东西。</example>
             </rule>
         </rulegroup>
         <rulegroup id="DIE1_DIE2_DIE3_DIE4" name="碟/谍/牒/喋">
@@ -1277,22 +1191,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"间谍"吗？
+                    您的意思是"<suggestion>间谍</suggestion>"吗？
                 </message>
-                <example correction=""><marker>间碟</marker></example>
+                <example correction="间谍"><marker>间碟</marker></example>
                 <example>间谍</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <marker>
-                        <token>部碟</token>
-                    </marker>
-                </pattern>
-                <message>
-                    您的意思是"部谍"吗？
-                </message>
-                <example correction="">他曾经在成都警备司令<marker>部碟</marker>查队长唐毅手下当差。</example>
-                <example>他曾经在成都警备司令部谍查队长唐毅手下当差。</example>
             </rule>
         </rulegroup>
         <rulegroup id="FAN1_FAN2" name="番/翻">
@@ -1303,9 +1205,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"番瓜"吗？
+                    您的意思是"<suggestion>番瓜</suggestion>"吗？
                 </message>
-                <example correction=""><marker>翻瓜</marker>是不是在那个市场可以买到？</example>
+                <example correction="番瓜"><marker>翻瓜</marker>是不是在那个市场可以买到？</example>
                 <example>番瓜是不是在那个市场可以买到？</example>
             </rule>
             <rule>
@@ -1313,11 +1215,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>番</token>
                     </marker>
+                    <token regexp="yes" postag="ng|n|v" postag_regexp="yes">案|跟斗|译</token>
                 </pattern>
                 <message>
-                    您的意思是"翻"吗？
+                    您的意思是"<suggestion>翻</suggestion>"吗？
                 </message>
-                <example correction="">孩子们在床上<marker>番</marker>跟斗。</example>
+                <example correction="翻">孩子们在床上<marker>番</marker>跟斗。</example>
                 <example>孩子们在床上翻跟斗。</example>
             </rule>
         </rulegroup>
@@ -1329,9 +1232,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"幅员"吗？
+                    您的意思是"<suggestion>幅员</suggestion>"吗？
                 </message>
-                <example correction="">疆域有广狭及四至,所以称疆域<marker>副员</marker>。</example>
+                <example correction="幅员">疆域有广狭及四至,所以称疆域<marker>副员</marker>。</example>
                 <example>疆域有广狭及四至,所以称疆域幅员。</example>
             </rule>
         </rulegroup>
@@ -1343,9 +1246,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"杆菌"吗？
+                    您的意思是"<suggestion>杆菌</suggestion>"吗？
                 </message>
-                <example correction="">这是一种新发现的<marker>干菌</marker>。</example>
+                <example correction="杆菌">这是一种新发现的<marker>干菌</marker>。</example>
                 <example>这是一种新发现的杆菌。</example>
             </rule>
             <rule>
@@ -1355,9 +1258,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"干粮"吗？
+                    您的意思是"<suggestion>干粮</suggestion>"吗？
                 </message>
-                <example correction="">战士们的<marker>杆粮</marker>都吃完了。</example>
+                <example correction="干粮">战士们的<marker>杆粮</marker>都吃完了。</example>
                 <example>战士们的干粮都吃完了。</example>
             </rule>
         </rulegroup>
@@ -1369,9 +1272,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"胡闹"吗？
+                    您的意思是"<suggestion>胡闹</suggestion>"吗？
                 </message>
-                <example correction="">这简直是<marker>糊闹</marker>！</example>
+                <example correction="胡闹">这简直是<marker>糊闹</marker>！</example>
                 <example>这简直是胡闹！</example>
             </rule>
         </rulegroup>
@@ -1383,9 +1286,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"震怒"吗？
+                    您的意思是"<suggestion>震怒</suggestion>"吗？
                 </message>
-                <example correction="">他大为<marker>振怒</marker>。</example>
+                <example correction="震怒">他大为<marker>振怒</marker>。</example>
                 <example>他大为震怒。</example>
             </rule>
         </rulegroup>
@@ -1397,9 +1300,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"座位"吗？
+                    您的意思是"<suggestion>座位</suggestion>"吗？
                 </message>
-                <example correction="">这就是您的<marker>坐位</marker>。</example>
+                <example correction="座位">这就是您的<marker>坐位</marker>。</example>
                 <example>这就是您的座位。</example>
             </rule>
             <rule>
@@ -1409,9 +1312,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"坐标"吗？
+                    您的意思是"<suggestion>坐标</suggestion>"吗？
                 </message>
-                <example correction="">他的<marker>座标</marker>是多少？</example>
+                <example correction="坐标">他的<marker>座标</marker>是多少？</example>
                 <example>他的坐标是多少？</example>
             </rule>
         </rulegroup>
@@ -1423,9 +1326,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"尊重"吗？
+                    您的意思是"<suggestion>尊重</suggestion>"吗？
                 </message>
-                <example correction="">你是我最<marker>遵重</marker>的人.</example>
+                <example correction="尊重">你是我最<marker>遵重</marker>的人.</example>
                 <example>你是我最尊重的人.</example>
             </rule>
             <rule>
@@ -1435,9 +1338,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"遵守"吗？
+                    您的意思是"<suggestion>遵守</suggestion>"吗？
                 </message>
-                <example correction="">你怎么能不<marker>尊守</marker>交通规则？</example>
+                <example correction="遵守">你怎么能不<marker>尊守</marker>交通规则？</example>
                 <example>你怎么能不遵守交通规则？</example>
             </rule>
         </rulegroup>
@@ -1447,11 +1350,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>作</token>
                     </marker>
+                    <token postag="n|v" regexp="yes" postag_regexp="yes">官|戏|生意|功课|文章|买卖|鬼脸</token>
                 </pattern>
                 <message>
-                    您的意思是"做"吗？
+                    您的意思是"<suggestion>做</suggestion>"吗？
                 </message>
-                <example correction="">我来此地是<marker>作</marker>生意的。</example>
+                <example correction="做">我来此地是<marker>作</marker>生意的。</example>
                 <example>我来此地是做生意的。</example>
             </rule>
             <rule>
@@ -1461,9 +1365,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"作品"吗？
+                    您的意思是"<suggestion>作品</suggestion>"吗？
                 </message>
-                <example correction="">他的<marker>做品</marker>很受欢迎。</example>
+                <example correction="作品">他的<marker>做品</marker>很受欢迎。</example>
                 <example>他的作品很受欢迎。</example>
             </rule>
         </rulegroup>
@@ -1475,9 +1379,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"绊脚石"吗？
+                    您的意思是"<suggestion>绊脚石</suggestion>"吗？
                 </message>
-                <example correction="">你愿意做一个<marker>拌脚石</marker>吗？</example>
+                <example correction="绊脚石">你愿意做一个<marker>拌脚石</marker>吗？</example>
                 <example>你愿意做一个绊脚石吗？</example>
             </rule>
             <rule>
@@ -1487,9 +1391,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"羁绊"吗？
+                    您的意思是"<suggestion>羁绊</suggestion>"吗？
                 </message>
-                <example correction="">他们被家俗的习惯所<marker>羁拌</marker>。</example>
+                <example correction="羁绊">他们被家俗的习惯所<marker>羁拌</marker>。</example>
                 <example>他们被家俗的习惯所羁绊。</example>
             </rule>
             <rule>
@@ -1499,9 +1403,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"搅拌"吗？
+                    您的意思是"<suggestion>搅拌</suggestion>"吗？
                 </message>
-                <example correction="">快把布丁<marker>搅绊</marker>一下。</example>
+                <example correction="搅拌">快把布丁<marker>搅绊</marker>一下。</example>
                 <example>快把布丁搅拌一下。</example>
             </rule>
         </rulegroup>
@@ -1513,22 +1417,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"暴君"吗？
+                    您的意思是"<suggestion>暴君</suggestion>"吗？
                 </message>
-                <example correction="">夏桀是中国历史上第一位<marker>曝君</marker>。</example>
+                <example correction="暴君">夏桀是中国历史上第一位<marker>曝君</marker>。</example>
                 <example>夏桀是中国历史上第一位暴君。</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <marker>
-                        <token>曝乱镇</token>
-                    </marker>
-                </pattern>
-                <message>
-                    您的意思是"暴乱镇"吗？
-                </message>
-                <example correction="">警方把<marker>曝乱镇</marker>压下去了。</example>
-                <example>警方把暴乱镇压下去了。</example>
             </rule>
             <rule>
                 <pattern>
@@ -1537,9 +1429,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"曝光"吗？
+                    您的意思是"<suggestion>曝光</suggestion>"吗？
                 </message>
-                <example correction="">胶卷不小心<marker>暴光</marker>了。</example>
+                <example correction="曝光">胶卷不小心<marker>暴光</marker>了。</example>
                 <example>胶卷不小心曝光了。</example>
             </rule>
         </rulegroup>
@@ -1551,9 +1443,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"采访"吗？
+                    您的意思是"<suggestion>采访</suggestion>"吗？
                 </message>
-                <example correction="">校长上午接受了记者的<marker>彩访</marker>。</example>
+                <example correction="采访">校长上午接受了记者的<marker>彩访</marker>。</example>
                 <example>校长上午接受了记者的采访。</example>
             </rule>
             <rule>
@@ -1563,9 +1455,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"彩虹"吗？
+                    您的意思是"<suggestion>彩虹</suggestion>"吗？
                 </message>
-                <example correction="">雨后的天边出现一道<marker>采虹</marker>。</example>
+                <example correction="彩虹">雨后的天边出现一道<marker>采虹</marker>。</example>
                 <example>雨后的天边出现一道彩虹。</example>
             </rule>
             <rule>
@@ -1575,9 +1467,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"精彩"吗？
+                    您的意思是"<suggestion>精彩</suggestion>"吗？
                 </message>
-                <example correction="">这场球赛踢得很<marker>精采</marker>。</example>
+                <example correction="精彩">这场球赛踢得很<marker>精采</marker>。</example>
                 <example>这场球赛踢得很精彩。</example>
             </rule>
         </rulegroup>
@@ -1589,9 +1481,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"疾驰"吗？
+                    您的意思是"<suggestion>疾驰</suggestion>"吗？
                 </message>
-                <example correction="">汽车在公路上<marker>疾弛</marker>。</example>
+                <example correction="疾驰">汽车在公路上<marker>疾弛</marker>。</example>
                 <example>汽车在公路上疾驰。</example>
             </rule>
             <rule>
@@ -1601,9 +1493,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"松弛"吗？
+                    您的意思是"<suggestion>松弛</suggestion>"吗？
                 </message>
-                <example correction="">微笑能化紧张为<marker>松驰</marker>。</example>
+                <example correction="松弛">微笑能化紧张为<marker>松驰</marker>。</example>
                 <example>微笑能化紧张为松弛。</example>
             </rule>
         </rulegroup>
@@ -1615,9 +1507,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"薄饼"吗？
+                    您的意思是"<suggestion>薄饼</suggestion>"吗？
                 </message>
-                <example correction="">这家店以做<marker>簙饼</marker>好吃而闻名。</example>
+                <example correction="薄饼">这家店以做<marker>簙饼</marker>好吃而闻名。</example>
                 <example>这家店以做薄饼好吃而闻名。</example>
             </rule>
             <rule>
@@ -1627,9 +1519,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"刻薄"吗？
+                    您的意思是"<suggestion>刻薄</suggestion>"吗？
                 </message>
-                <example correction="">你为何对我这样<marker>刻簙</marker>？</example>
+                <example correction="刻薄">你为何对我这样<marker>刻簙</marker>？</example>
                 <example>你为何对我这样刻薄？</example>
             </rule>
         </rulegroup>
@@ -1641,9 +1533,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"甲板"吗？
+                    您的意思是"<suggestion>甲板</suggestion>"吗？
                 </message>
-                <example correction="">海浪拍在<marker>甲版</marker>上。</example>
+                <example correction="甲板">海浪拍在<marker>甲版</marker>上。</example>
                 <example>海浪拍在甲板上。</example>
             </rule>
             <rule>
@@ -1653,9 +1545,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"版权"吗？
+                    您的意思是"<suggestion>版权</suggestion>"吗？
                 </message>
-                <example correction="">他拥有这本书的<marker>板权</marker>。</example>
+                <example correction="版权">他拥有这本书的<marker>板权</marker>。</example>
                 <example>他拥有这本书的版权。</example>
             </rule>
             <rule>
@@ -1665,9 +1557,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"扳手"吗？
+                    您的意思是"<suggestion>扳手</suggestion>"吗？
                 </message>
-                <example correction="">请把<marker>板手</marker>递给我。</example>
+                <example correction="扳手">请把<marker>板手</marker>递给我。</example>
                 <example>请把扳手递给我。</example>
             </rule>
         </rulegroup>
@@ -1679,9 +1571,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"辩护"吗？
+                    您的意思是"<suggestion>辩护</suggestion>"吗？
                 </message>
-                <example correction="">被告拒绝律师为自己<marker>辨护</marker>。</example>
+                <example correction="辩护">被告拒绝律师为自己<marker>辨护</marker>。</example>
                 <example>被告拒绝律师为自己辩护。</example>
             </rule>
             <rule>
@@ -1691,9 +1583,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"辫子"吗？
+                    您的意思是"<suggestion>辫子</suggestion>"吗？
                 </message>
-                <example correction="">清朝男人都留着<marker>辨子</marker>。</example>
+                <example correction="辫子">清朝男人都留着<marker>辨子</marker>。</example>
                 <example>清朝男人都留着辫子。</example>
             </rule>
             <rule>
@@ -1703,9 +1595,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"花瓣"吗？
+                    您的意思是"<suggestion>花瓣</suggestion>"吗？
                 </message>
-                <example correction="">粉色的花蕊被包裹在<marker>花辫</marker>中。</example>
+                <example correction="花瓣">粉色的花蕊被包裹在<marker>花辫</marker>中。</example>
                 <example>粉色的花蕊被包裹在花瓣中。</example>
             </rule>
         </rulegroup>
@@ -1717,9 +1609,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"诋毁"吗？
+                    您的意思是"<suggestion>诋毁</suggestion>"吗？
                 </message>
-                <example correction="">他的个人声望受到<marker>抵毁</marker>。</example>
+                <example correction="诋毁">他的个人声望受到<marker>抵毁</marker>。</example>
                 <example>他的个人声望受到诋毁。</example>
             </rule>
             <rule>
@@ -1729,9 +1621,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"抵达"吗？
+                    您的意思是"<suggestion>抵达</suggestion>"吗？
                 </message>
-                <example correction="">顺着这条小溪便可<marker>诋达</marker>小河村。</example>
+                <example correction="抵达">顺着这条小溪便可<marker>诋达</marker>小河村。</example>
                 <example>顺着这条小溪便可抵达小河村。</example>
             </rule>
             <rule>
@@ -1741,9 +1633,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"砥砺"吗？
+                    您的意思是"<suggestion>砥砺</suggestion>"吗？
                 </message>
-                <example correction=""><marker>抵砺</marker>革命意志。</example>
+                <example correction="砥砺"><marker>抵砺</marker>革命意志。</example>
                 <example>砥砺革命意志。</example>
             </rule>
         </rulegroup>
@@ -1755,35 +1647,41 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"刹车"吗？
+                    您的意思是"<suggestion>刹车</suggestion>"吗？
                 </message>
-                <example correction="">这是<marker>霎车</marker>的痕迹吗？</example>
+                <example correction="刹车">这是<marker>霎车</marker>的痕迹吗？</example>
                 <example>这是刹车的痕迹吗？</example>
             </rule>
         </rulegroup>
         <rulegroup id="SHI1_SHI2" name="是/试">
             <rule>
                 <pattern>
+                    <token postag="n.*|r" postag_regexp="yes"/>
                     <marker>
-                        <token>试</token>
+                        <token postag="v">试</token>
                     </marker>
+                    <token postag="n.*|r" postag_regexp="yes"/>
                 </pattern>
                 <message>
-                    您的意思是"是"吗？
+                    您的意思是"<suggestion>是</suggestion>"吗？
                 </message>
-                <example correction="">我<marker>试</marker>中国人。</example>
+                <example correction="是">我<marker>试</marker>中国人。</example>
                 <example>我是中国人。</example>
             </rule>
             <rule>
                 <pattern>
+                    <token postag="n.*|r" postag_regexp="yes" />
                     <marker>
-                        <token>试</token>
+                        <token postag="v">试</token>
                     </marker>
+                    <token skip="1" />
+                    <token postag="u">的</token>
+                    <token postag="n.*|r" postag_regexp="yes" />
                 </pattern>
                 <message>
-                    您的意思是"是"吗？
+                    您的意思是"<suggestion>是</suggestion>"吗？
                 </message>
-                <example correction="">我<marker>试</marker>可爱的中国人。</example>
+                <example correction="是">我<marker>试</marker>可爱的中国人。</example>
                 <example>我是可爱的中国人。</example>
             </rule>
         </rulegroup>
@@ -1795,9 +1693,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"突然"吗？
+                    您的意思是"<suggestion>突然</suggestion>"吗？
                 </message>
-                <example correction="">这事情发生的太<marker>凸然</marker>了。</example>
+                <example correction="突然">这事情发生的太<marker>凸然</marker>了。</example>
                 <example>这事情发生的太突然了。</example>
             </rule>
             <rule>
@@ -1807,9 +1705,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"突变"吗？
+                    您的意思是"<suggestion>突变</suggestion>"吗？
                 </message>
-                <example correction="">它的<marker>凸变</marker>让我很害怕。</example>
+                <example correction="突变">它的<marker>凸变</marker>让我很害怕。</example>
                 <example>它的突变让我很害怕。</example>
             </rule>
         </rulegroup>
@@ -1821,21 +1719,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"托运"吗？
+                    您的意思是"<suggestion>托运</suggestion>"吗？
                 </message>
-                <example correction="">我要<marker>拖运</marker>包裹。</example>
+                <example correction="托运">我要<marker>拖运</marker>包裹。</example>
                 <example>我要托运包裹。</example>
             </rule>
             <rule>
                 <pattern>
+                    <token postag="r" />
                     <marker>
-                        <token>拖</token>
+                        <token postag="v">拖</token>
                     </marker>
+                    <token postag="r" />
                 </pattern>
                 <message>
-                    您的意思是"托"吗？
+                    您的意思是"<suggestion>托</suggestion>"吗？
                 </message>
-                <example correction="">我<marker>拖</marker>他买东西。</example>
+                <example correction="托">我<marker>拖</marker>他买东西。</example>
                 <example>我托他买东西。</example>
             </rule>
         </rulegroup>
@@ -1847,9 +1747,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"坍塌"吗？
+                    您的意思是"<suggestion>坍塌</suggestion>"吗？
                 </message>
-                <example correction="">大楼<marker>坍踏</marker>了。</example>
+                <example correction="坍塌">大楼<marker>坍踏</marker>了。</example>
                 <example>大楼坍塌了。</example>
             </rule>
             <rule>
@@ -1859,9 +1759,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"塌陷"吗？
+                    您的意思是"<suggestion>塌陷</suggestion>"吗？
                 </message>
-                <example correction="">地板<marker>踏陷</marker>了。</example>
+                <example correction="塌陷">地板<marker>踏陷</marker>了。</example>
                 <example>地板塌陷了。</example>
             </rule>
             <rule>
@@ -1871,9 +1771,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"塌方"吗？
+                    您的意思是"<suggestion>塌方</suggestion>"吗？
                 </message>
-                <example correction="">前面<marker>踏方</marker>了。</example>
+                <example correction="塌方">前面<marker>踏方</marker>了。</example>
                 <example>前面塌方了。</example>
             </rule>
             <rule>
@@ -1883,9 +1783,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"倒塌"吗？
+                    您的意思是"<suggestion>倒塌</suggestion>"吗？
                 </message>
-                <example correction="">大楼<marker>倒踏</marker>了。</example>
+                <example correction="倒塌">大楼<marker>倒踏</marker>了。</example>
                 <example>大楼倒塌了。</example>
             </rule>
         </rulegroup>
@@ -1897,9 +1797,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"肖像"吗？
+                    您的意思是"<suggestion>肖像</suggestion>"吗？
                 </message>
-                <example correction="">他把<marker>孝像</marker>刊在那份杂志上了。</example>
+                <example correction="肖像">他把<marker>孝像</marker>刊在那份杂志上了。</example>
                 <example>他把肖像刊在那份杂志上了。</example>
             </rule>
         </rulegroup>
@@ -1911,9 +1811,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"啸叫"吗？
+                    您的意思是"<suggestion>啸叫</suggestion>"吗？
                 </message>
-                <example correction="">调音台通道上的均衡器是控制<marker>嚣叫</marker>最好的方法。</example>
+                <example correction="啸叫">调音台通道上的均衡器是控制<marker>嚣叫</marker>最好的方法。</example>
                 <example>调音台通道上的均衡器是控制啸叫最好的方法。</example>
             </rule>
             <rule>
@@ -1923,9 +1823,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"呼啸"吗？
+                    您的意思是"<suggestion>呼啸</suggestion>"吗？
                 </message>
-                <example correction="">风<marker>呼嚣</marker>着穿过房间。</example>
+                <example correction="呼啸">风<marker>呼嚣</marker>着穿过房间。</example>
                 <example>风呼啸着穿过房间。</example>
             </rule>
         </rulegroup>
@@ -1937,9 +1837,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"摄像机"吗？
+                    您的意思是"<suggestion>摄像机</suggestion>"吗？
                 </message>
-                <example correction="">他强打精神对<marker>摄象机</marker>苦笑了一下。</example>
+                <example correction="摄像机">他强打精神对<marker>摄象机</marker>苦笑了一下。</example>
                 <example>他强打景色对摄像机苦笑了一下。</example>
             </rule>
             <rule>
@@ -1949,9 +1849,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"佛像"吗？
+                    您的意思是"<suggestion>佛像</suggestion>"吗？
                 </message>
-                <example correction="">这尊<marker>佛象</marker>有多少年的历史了？</example>
+                <example correction="佛像">这尊<marker>佛象</marker>有多少年的历史了？</example>
                 <example>这尊佛像有多少年的历史了？</example>
             </rule>
             <rule>
@@ -1961,9 +1861,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"好像"吗？
+                    您的意思是"<suggestion>好像</suggestion>"吗？
                 </message>
-                <example correction="">这只手表<marker>好象</marker>不是您的。</example>
+                <example correction="好像">这只手表<marker>好象</marker>不是您的。</example>
                 <example>这只手表好像不是您的。</example>
             </rule>
             <rule>
@@ -1973,9 +1873,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"相机"吗？
+                    您的意思是"<suggestion>相机</suggestion>"吗？
                 </message>
-                <example correction="">您的<marker>像机</marker>是多少钱买的？</example>
+                <example correction="相机">您的<marker>像机</marker>是多少钱买的？</example>
                 <example>您的相机是多少钱买的？</example>
             </rule>
         </rulegroup>
@@ -1987,9 +1887,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"泄流"吗？
+                    您的意思是"<suggestion>泄流</suggestion>"吗？
                 </message>
-                <example correction="">三门峡水库正在<marker>泻流</marker>、排沙。</example>
+                <example correction="泄流">三门峡水库正在<marker>泻流</marker>、排沙。</example>
                 <example>三门峡水库正在泄流、排沙。</example>
             </rule>
             <rule>
@@ -1999,9 +1899,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"泄密"吗？
+                    您的意思是"<suggestion>泄密</suggestion>"吗？
                 </message>
-                <example correction="">你猜是谁<marker>泻密</marker>的。</example>
+                <example correction="泄密">你猜是谁<marker>泻密</marker>的。</example>
                 <example>你猜是谁泄密的。</example>
             </rule>
             <rule>
@@ -2011,9 +1911,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"泻药"吗？
+                    您的意思是"<suggestion>泻药</suggestion>"吗？
                 </message>
-                <example correction="">谁给我下的<marker>泄药</marker>？</example>
+                <example correction="泻药">谁给我下的<marker>泄药</marker>？</example>
                 <example>谁给我下的泻药？</example>
             </rule>
             <rule>
@@ -2023,9 +1923,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"腹泻"吗？
+                    您的意思是"<suggestion>腹泻</suggestion>"吗？
                 </message>
-                <example correction="">我现在有点<marker>腹泄</marker>。</example>
+                <example correction="腹泻">我现在有点<marker>腹泄</marker>。</example>
                 <example>我现在有点腹泻。</example>
             </rule>
         </rulegroup>
@@ -2037,9 +1937,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"循环"吗？
+                    您的意思是"<suggestion>循环</suggestion>"吗？
                 </message>
-                <example correction="">沿着这条路一直<marker>徇环</marker>下去。</example>
+                <example correction="循环">沿着这条路一直<marker>徇环</marker>下去。</example>
                 <example>沿着这条路一直循环下去。</example>
             </rule>
             <rule>
@@ -2049,9 +1949,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"循转"吗？
+                    您的意思是"<suggestion>循转</suggestion>"吗？
                 </message>
-                <example correction="">你就这样<marker>徇转</marker>就对了。</example>
+                <example correction="循转">你就这样<marker>徇转</marker>就对了。</example>
                 <example>你就这样循转就对了。</example>
             </rule>
         </rulegroup>
@@ -2063,22 +1963,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"参与"吗？
+                    您的意思是"<suggestion>参与</suggestion>"吗？
                 </message>
-                <example correction="">老实交代你有<marker>参于</marker>这件贩毒行动吗？</example>
+                <example correction="参与">老实交代你有<marker>参于</marker>这件贩毒行动吗？</example>
                 <example>老实交代你有参与这件贩毒行动吗？</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <marker>
-                        <token>与</token>
-                    </marker>
-                </pattern>
-                <message>
-                    您的意思是"介于"吗？
-                </message>
-                <example correction="">这条小溪介<marker>与</marker>两个城市之间。</example>
-                <example>这条小溪介于两个城市之间。</example>
             </rule>
         </rulegroup>
         <rulegroup id="YI11_YI2" name="意/义">
@@ -2089,9 +1977,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"意料"吗？
+                    您的意思是"<suggestion>意料</suggestion>"吗？
                 </message>
-                <example correction="">这可真是在<marker>义料</marker>之外啊。</example>
+                <example correction="意料">这可真是在<marker>义料</marker>之外啊。</example>
                 <example>这可真是在意料之外啊。</example>
             </rule>
             <rule>
@@ -2101,9 +1989,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"意识"吗？
+                    您的意思是"<suggestion>意识</suggestion>"吗？
                 </message>
-                <example correction="">他现在<marker>义识</marker>已经模糊了。</example>
+                <example correction="意识">他现在<marker>义识</marker>已经模糊了。</example>
                 <example>他现在意识已经模糊了。</example>
             </rule>
             <rule>
@@ -2113,9 +2001,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"义子"吗？
+                    您的意思是"<suggestion>义子</suggestion>"吗？
                 </message>
-                <example correction="">他是我的<marker>意子</marker>。</example>
+                <example correction="义子">他是我的<marker>意子</marker>。</example>
                 <example>他是我的义子。</example>
             </rule>
             <rule>
@@ -2125,9 +2013,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"狭义"吗？
+                    您的意思是"<suggestion>狭义</suggestion>"吗？
                 </message>
-                <example correction=""><marker>狭意</marker>的来说，化学普查需要分析。</example>
+                <example correction="狭义"><marker>狭意</marker>的来说，化学普查需要分析。</example>
                 <example>狭义的来说，化学普查需要分析。</example>
             </rule>
             <rule>
@@ -2137,9 +2025,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"异议"吗？
+                    您的意思是"<suggestion>异议</suggestion>"吗？
                 </message>
-                <example correction="">大家还有什么<marker>疑意</marker>吗？</example>
+                <example correction="异议">大家还有什么<marker>疑意</marker>吗？</example>
                 <example>大家还有什么异议吗？</example>
             </rule>
         </rulegroup>
@@ -2151,9 +2039,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"响应"吗？
+                    您的意思是"<suggestion>响应</suggestion>"吗？
                 </message>
-                <example correction="">千百万人<marker>响映</marker>救灾而慷慨解囊。</example>
+                <example correction="响应">千百万人<marker>响映</marker>救灾而慷慨解囊。</example>
                 <example>千百万人响应救灾而慷慨解囊。</example>
             </rule>
             <rule>
@@ -2163,9 +2051,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"映照"吗？
+                    您的意思是"<suggestion>映照</suggestion>"吗？
                 </message>
-                <example correction="">天空因夕阳<marker>应照</marker>而发出红光。</example>
+                <example correction="映照">天空因夕阳<marker>应照</marker>而发出红光。</example>
                 <example>天空因夕阳映照而发出红光。</example>
             </rule>
             <rule>
@@ -2175,9 +2063,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"公映"吗？
+                    您的意思是"<suggestion>公映</suggestion>"吗？
                 </message>
-                <example correction="">变形金刚今日<marker>公应</marker>。</example>
+                <example correction="公映">变形金刚今日<marker>公应</marker>。</example>
                 <example>变形金刚今日公映。</example>
             </rule>
         </rulegroup>
@@ -2189,9 +2077,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"治疗"吗？
+                    您的意思是"<suggestion>治疗</suggestion>"吗？
                 </message>
-                <example correction="">我希望你去医院<marker>制疗</marker>。</example>
+                <example correction="治疗">我希望你去医院<marker>制疗</marker>。</example>
                 <example>我希望你去医院治疗。</example>
             </rule>
             <rule>
@@ -2201,9 +2089,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"制作"吗？
+                    您的意思是"<suggestion>制作</suggestion>"吗？
                 </message>
-                <example correction="">这件物品是你<marker>治作</marker>的吗？</example>
+                <example correction="制作">这件物品是你<marker>治作</marker>的吗？</example>
                 <example>这件物品是你制作的吗？</example>
             </rule>
             <rule>
@@ -2213,9 +2101,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"克制"吗？
+                    您的意思是"<suggestion>克制</suggestion>"吗？
                 </message>
-                <example correction="">你要学会<marker>克治</marker>自己。</example>
+                <example correction="克制">你要学会<marker>克治</marker>自己。</example>
                 <example>你要学会克制自己。</example>
             </rule>
             <rule>
@@ -2225,9 +2113,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"控制"吗？
+                    您的意思是"<suggestion>控制</suggestion>"吗？
                 </message>
-                <example correction="">你不能<marker>控治</marker>它。</example>
+                <example correction="控制">你不能<marker>控治</marker>它。</example>
                 <example>你不能控制它。</example>
             </rule>
         </rulegroup>
@@ -2239,9 +2127,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"决斗"吗？
+                    您的意思是"<suggestion>决斗</suggestion>"吗？
                 </message>
-                <example correction="">张三和李四约定在北师大<marker>抉斗</marker>。</example>
+                <example correction="决斗">张三和李四约定在北师大<marker>抉斗</marker>。</example>
                 <example>张三和李四约定在北师大决斗。</example>
             </rule>
             <rule>
@@ -2251,9 +2139,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"对决"吗？
+                    您的意思是"<suggestion>对决</suggestion>"吗？
                 </message>
-                <example correction="">我一定不能错过这场巅峰<marker>对诀</marker>。</example>
+                <example correction="对决">我一定不能错过这场巅峰<marker>对诀</marker>。</example>
                 <example>我一定不能错过这场巅峰对决。</example>
             </rule>
             <rule>
@@ -2263,9 +2151,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"口诀"吗？
+                    您的意思是"<suggestion>口诀</suggestion>"吗？
                 </message>
-                <example correction="">记住这<marker>口决</marker>。</example>
+                <example correction="口诀">记住这<marker>口决</marker>。</example>
                 <example>记住这口诀。</example>
             </rule>
             <rule>
@@ -2275,9 +2163,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"诀窍"吗？
+                    您的意思是"<suggestion>诀窍</suggestion>"吗？
                 </message>
-                <example correction="">打酱油是有<marker>决窍</marker>的。</example>
+                <example correction="诀窍">打酱油是有<marker>决窍</marker>的。</example>
                 <example>打酱油是有诀窍的。</example>
             </rule>
             <rule>
@@ -2287,9 +2175,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"抉择"吗？
+                    您的意思是"<suggestion>抉择</suggestion>"吗？
                 </message>
-                <example correction="">他需要作出<marker>诀择</marker>。</example>
+                <example correction="抉择">他需要作出<marker>诀择</marker>。</example>
                 <example>他需要作出抉择。</example>
             </rule>
             <rule>
@@ -2299,9 +2187,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"绝无仅有"吗？
+                    您的意思是"<suggestion>绝无仅有</suggestion>"吗？
                 </message>
-                <example correction="">这件宝物世上<marker>决无仅有</marker>。</example>
+                <example correction="绝无仅有">这件宝物世上<marker>决无仅有</marker>。</example>
                 <example>这件宝物世上绝无仅有。</example>
             </rule>
         </rulegroup>
@@ -2313,9 +2201,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"沾染"吗？
+                    您的意思是"<suggestion>沾染</suggestion>"吗？
                 </message>
-                <example correction="">千万不要<marker>粘染</marker>恶习。</example>
+                <example correction="沾染">千万不要<marker>粘染</marker>恶习。</example>
                 <example>千万不要沾染恶习。</example>
             </rule>
         </rulegroup>
@@ -2327,9 +2215,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"截止"吗？
+                    您的意思是"<suggestion>截止</suggestion>"吗？
                 </message>
-                <example correction=""><marker>节止</marker>日期是三月二号。</example>
+                <example correction="截止"><marker>节止</marker>日期是三月二号。</example>
                 <example>截止日期是三月二号。</example>
             </rule>
         </rulegroup>
@@ -2341,9 +2229,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"连续"吗？
+                    您的意思是"<suggestion>连续</suggestion>"吗？
                 </message>
-                <example correction="">编写必须<marker>联续</marker>。</example>
+                <example correction="连续">编写必须<marker>联续</marker>。</example>
                 <example>编写必须连续。</example>
             </rule>
             <rule>
@@ -2353,9 +2241,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"联防"吗？
+                    您的意思是"<suggestion>联防</suggestion>"吗？
                 </message>
-                <example correction="">他们采用<marker>连防</marker>的防守方式。</example>
+                <example correction="联防">他们采用<marker>连防</marker>的防守方式。</example>
                 <example>他们采用联防的防守方式。</example>
             </rule>
             <rule>
@@ -2365,9 +2253,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"联合"吗？
+                    您的意思是"<suggestion>联合</suggestion>"吗？
                 </message>
-                <example correction="">中美两国19日在华盛顿发表<marker>连合</marker>声明。</example>
+                <example correction="联合">中美两国19日在华盛顿发表<marker>连合</marker>声明。</example>
                 <example>中美两国19日在华盛顿发表联合声明。</example>
             </rule>
         </rulegroup>
@@ -2379,9 +2267,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"融资"吗？
+                    您的意思是"<suggestion>融资</suggestion>"吗？
                 </message>
-                <example correction="">有前景的企业都必须去银行<marker>溶资</marker>。</example>
+                <example correction="融资">有前景的企业都必须去银行<marker>溶资</marker>。</example>
                 <example>有前景的企业都必须去银行融资。</example>
             </rule>
             <rule>
@@ -2391,9 +2279,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"交融"吗？
+                    您的意思是"<suggestion>交融</suggestion>"吗？
                 </message>
-                <example correction="">水火<marker>交溶</marker>寓意着和谐。</example>
+                <example correction="交融">水火<marker>交溶</marker>寓意着和谐。</example>
                 <example>水火交融寓意着和谐。</example>
             </rule>
             <rule>
@@ -2403,9 +2291,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"消融"吗？
+                    您的意思是"<suggestion>消融</suggestion>"吗？
                 </message>
-                <example correction="">在这雨雪<marker>消熔</marker>的季节。</example>
+                <example correction="消融">在这雨雪<marker>消熔</marker>的季节。</example>
                 <example>在这雨雪消融的季节。</example>
             </rule>
         </rulegroup>
@@ -2417,9 +2305,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"拣菜"吗？
+                    您的意思是"<suggestion>拣菜</suggestion>"吗？
                 </message>
-                <example correction="">妈妈去菜市场<marker>捡菜</marker>。</example>
+                <example correction="拣菜">妈妈去菜市场<marker>捡菜</marker>。</example>
                 <example>妈妈去菜市场拣菜。</example>
             </rule>
         </rulegroup>
@@ -2431,9 +2319,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"缴枪"吗？
+                    您的意思是"<suggestion>缴枪</suggestion>"吗？
                 </message>
-                <example correction="">敌人已经<marker>交枪</marker>投降。</example>
+                <example correction="缴枪">敌人已经<marker>交枪</marker>投降。</example>
                 <example>敌人已经缴枪投降。</example>
             </rule>
             <rule>
@@ -2443,9 +2331,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"奉缴"吗？
+                    您的意思是"<suggestion>奉缴</suggestion>"吗？
                 </message>
-                <example correction="">请<marker>奉交</marker>你的东西。</example>
+                <example correction="奉缴">请<marker>奉交</marker>你的东西。</example>
                 <example>请奉缴你的东西。</example>
             </rule>
             <rule>
@@ -2455,22 +2343,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"交叉"吗？
+                    您的意思是"<suggestion>交叉</suggestion>"吗？
                 </message>
-                <example correction="">这两条路是没有<marker>缴叉</marker>的。</example>
+                <example correction="交叉">这两条路是没有<marker>缴叉</marker>的。</example>
                 <example>这两条路是没有交叉的。</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <marker>
-                        <token>好友</token>
-                    </marker>
-                </pattern>
-                <message>
-                    您的意思是"交好友"吗？
-                </message>
-                <example correction="">他俩是知缴<marker>好友</marker>。</example>
-                <example>他俩是知交好友。</example>
             </rule>
         </rulegroup>
         <rulegroup id="JI1_JI2_JI3" name="记/纪/计">
@@ -2481,9 +2357,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"纪年"吗？
+                    您的意思是"<suggestion>纪年</suggestion>"吗？
                 </message>
-                <example correction="">新<marker>记年</marker>新希望。</example>
+                <example correction="纪年">新<marker>记年</marker>新希望。</example>
                 <example>新纪年新希望。</example>
             </rule>
             <rule>
@@ -2493,9 +2369,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"记载"吗？
+                    您的意思是"<suggestion>记载</suggestion>"吗？
                 </message>
-                <example correction=""><marker>计载</marker>着我的回忆。</example>
+                <example correction="记载"><marker>计载</marker>着我的回忆。</example>
                 <example>记载着我的回忆。</example>
             </rule>
             <rule>
@@ -2505,9 +2381,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"记忆"吗？
+                    您的意思是"<suggestion>记忆</suggestion>"吗？
                 </message>
-                <example correction="">我的<marker>纪忆</marker>定格在昨天。</example>
+                <example correction="记忆">我的<marker>纪忆</marker>定格在昨天。</example>
                 <example>我的记忆定格在昨天。</example>
             </rule>
             <rule>
@@ -2517,9 +2393,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"记得"吗？
+                    您的意思是"<suggestion>记得</suggestion>"吗？
                 </message>
-                <example correction="">我<marker>纪得</marker>你来过。</example>
+                <example correction="记得">我<marker>纪得</marker>你来过。</example>
                 <example>我记得你来过。</example>
             </rule>
             <rule>
@@ -2529,9 +2405,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"日记"吗？
+                    您的意思是"<suggestion>日记</suggestion>"吗？
                 </message>
-                <example correction="">不准看他人的<marker>日纪</marker>。</example>
+                <example correction="日记">不准看他人的<marker>日纪</marker>。</example>
                 <example>不准看他人的日记。</example>
             </rule>
             <rule>
@@ -2541,9 +2417,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"计划"吗？
+                    您的意思是"<suggestion>计划</suggestion>"吗？
                 </message>
-                <example correction="">这是我的<marker>记划</marker>。</example>
+                <example correction="计划">这是我的<marker>记划</marker>。</example>
                 <example>这是我的计划。</example>
             </rule>
             <rule>
@@ -2553,9 +2429,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"计较"吗？
+                    您的意思是"<suggestion>计较</suggestion>"吗？
                 </message>
-                <example correction="">别跟我<marker>记较</marker>。</example>
+                <example correction="计较">别跟我<marker>记较</marker>。</example>
                 <example>别跟我计较。</example>
             </rule>
         </rulegroup>
@@ -2567,9 +2443,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"浑厚"吗？
+                    您的意思是"<suggestion>浑厚</suggestion>"吗？
                 </message>
-                <example correction="">他的声音很<marker>混厚</marker>。</example>
+                <example correction="浑厚">他的声音很<marker>混厚</marker>。</example>
                 <example>他的声音很浑厚。</example>
             </rule>
             <rule>
@@ -2579,9 +2455,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"混杂"吗？
+                    您的意思是"<suggestion>混杂</suggestion>"吗？
                 </message>
-                <example correction=""><marker>浑杂</marker>的军队必败。</example>
+                <example correction="混杂"><marker>浑杂</marker>的军队必败。</example>
                 <example>混杂的军队必败。</example>
             </rule>
         </rulegroup>
@@ -2593,22 +2469,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"拆除"吗？
+                    您的意思是"<suggestion>拆除</suggestion>"吗？
                 </message>
-                <example correction="">那栋新建的大楼因违章而被<marker>折除</marker>。</example>
+                <example correction="拆除">那栋新建的大楼因违章而被<marker>折除</marker>。</example>
                 <example>那栋新建的大楼因违章而被拆除。</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <marker>
-                        <token>折自焚</token>
-                    </marker>
-                </pattern>
-                <message>
-                    您的意思是"拆自焚"吗？
-                </message>
-                <example correction="">湖南株洲农民为抗强<marker>折自焚</marker>重伤。</example>
-                <example>湖南株洲农民为抗强拆自焚重伤。</example>
             </rule>
             <rule>
                 <pattern>
@@ -2617,9 +2481,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"曲折"吗？
+                    您的意思是"<suggestion>曲折</suggestion>"吗？
                 </message>
-                <example correction="">这条山路真不好走，不但<marker>曲拆</marker>，而且还十分陡峭。</example>
+                <example correction="曲折">这条山路真不好走，不但<marker>曲拆</marker>，而且还十分陡峭。</example>
                 <example>这条山路真不好走，不但曲折，而且还十分陡峭。</example>
             </rule>
         </rulegroup>
@@ -2631,9 +2495,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"恩怨"吗？
+                    您的意思是"<suggestion>恩怨</suggestion>"吗？
                 </message>
-                <example correction="">这是我们之间的<marker>恩怒</marker>。</example>
+                <example correction="恩怨">这是我们之间的<marker>恩怒</marker>。</example>
                 <example>这是我们之间的恩怨。</example>
             </rule>
             <rule>
@@ -2643,9 +2507,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"怨恨"吗？
+                    您的意思是"<suggestion>怨恨</suggestion>"吗？
                 </message>
-                <example correction="">怎样才能消除他们之间的<marker>怒恨</marker>呢？</example>
+                <example correction="怨恨">怎样才能消除他们之间的<marker>怒恨</marker>呢？</example>
                 <example>怎样才能消除他们之间的怨恨呢？</example>
             </rule>
             <rule>
@@ -2655,9 +2519,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"怒视"吗？
+                    您的意思是"<suggestion>怒视</suggestion>"吗？
                 </message>
-                <example correction="">他两眼通红，<marker>怨视</marker>着我。</example>
+                <example correction="怒视">他两眼通红，<marker>怨视</marker>着我。</example>
                 <example>他两眼通红，怒视着我。</example>
             </rule>
         </rulegroup>
@@ -2669,9 +2533,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"赝品"吗？
+                    您的意思是"<suggestion>赝品</suggestion>"吗？
                 </message>
-                <example correction="">这是一个高仿真的<marker>膺品</marker>。</example>
+                <example correction="赝品">这是一个高仿真的<marker>膺品</marker>。</example>
                 <example>这是一个高仿真的赝品。</example>
             </rule>
         </rulegroup>
@@ -2679,25 +2543,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>
-                        <token>己</token>
-                    </marker>
-                </pattern>
-                <message>
-                    您的意思是"已"吗？
-                </message>
-                <example correction="">仇人<marker>己</marker>去，我该怎么办？</example>
-                <example>仇人已去，我该怎么办？</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <marker>
                         <token>已方</token>
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"己方"吗？
+                    您的意思是"<suggestion>己方</suggestion>"吗？
                 </message>
-                <example correction="">这项协议已被视为公会背叛<marker>已方</marker>，投向资方。</example>
+                <example correction="己方">这项协议已被视为公会背叛<marker>已方</marker>，投向资方。</example>
                 <example>这项协议已被视为公会背叛己方，投向资方。</example>
             </rule>
         </rulegroup>
@@ -2709,9 +2561,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"响声"吗？
+                    您的意思是"<suggestion>响声</suggestion>"吗？
                 </message>
-                <example correction="">忽有<marker>晌声</marker>自东北来。</example>
+                <example correction="响声">忽有<marker>晌声</marker>自东北来。</example>
                 <example>忽有响声自东北来。</example>
             </rule>
             <rule>
@@ -2721,9 +2573,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"音响"吗？
+                    您的意思是"<suggestion>音响</suggestion>"吗？
                 </message>
-                <example correction="">他家的<marker>音晌</marker>质量很好。</example>
+                <example correction="音响">他家的<marker>音晌</marker>质量很好。</example>
                 <example>他家的音响质量很好。</example>
             </rule>
             <rule>
@@ -2733,22 +2585,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"晌午"吗？
+                    您的意思是"<suggestion>晌午</suggestion>"吗？
                 </message>
-                <example correction="">还未到<marker>响午</marker>，睡的迷迷糊糊的他便被一声清脆的钟响惊醒了过来。</example>
+                <example correction="晌午">还未到<marker>响午</marker>，睡的迷迷糊糊的他便被一声清脆的钟响惊醒了过来。</example>
                 <example>还未到晌午，睡的迷迷糊糊的他便被一声清脆的钟响惊醒了过来。</example>
             </rule>
             <rule>
                 <pattern>
+                    <token postag="m">半</token>
                     <marker>
                         <token>响</token>
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"半晌"吗？
+                    您的意思是"<suggestion>晌</suggestion>"吗？
                 </message>
-                <example correction="">送猪货车爆胎，北京五环桥上捉猪半<marker>响</marker>拥堵。</example>
-                <example>送猪货车爆胎，北京五环桥上捉猪半晌拥堵。</example>
+                <example correction="晌">他们在那儿坐了半<marker>响</marker></example>
+                <example>他们在那儿坐了半晌。</example>
             </rule>
         </rulegroup>
         <rulegroup id="YAO_TA" name="杳/沓">
@@ -2759,9 +2612,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"杳渺"吗？
+                    您的意思是"<suggestion>杳渺</suggestion>"吗？
                 </message>
-                <example correction="">在<marker>沓渺</marker>无际的宇宙之中，是否真的只有我们地球才有智慧生命？</example>
+                <example correction="杳渺">在<marker>沓渺</marker>无际的宇宙之中，是否真的只有我们地球才有智慧生命？</example>
                 <example>在杳渺无际的宇宙之中，是否真的只有我们地球才有智慧生命？</example>
             </rule>
             <rule>
@@ -2771,9 +2624,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"沓杂"吗？
+                    您的意思是"<suggestion>沓杂</suggestion>"吗？
                 </message>
-                <example correction="">士兵们四处散开，满山遍野响着<marker>杳杂</marker>的脚步。</example>
+                <example correction="沓杂">士兵们四处散开，满山遍野响着<marker>杳杂</marker>的脚步。</example>
                 <example>士兵们四处散开，满山遍野响着沓杂的脚步。</example>
             </rule>
             <rule>
@@ -2783,9 +2636,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"拖拉疲沓"吗？
+                    您的意思是"<suggestion>拖拉疲沓</suggestion>"吗？
                 </message>
-                <example correction="">这个孩子性格<marker>拖拉疲杳</marker>。</example>
+                <example correction="拖拉疲沓">这个孩子性格<marker>拖拉疲杳</marker>。</example>
                 <example>这个孩子性格拖拉疲沓。</example>
             </rule>
         </rulegroup>
@@ -2797,9 +2650,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"辛苦"吗？
+                    您的意思是"<suggestion>辛苦</suggestion>"吗？
                 </message>
-                <example correction="">俗话说，走路不知道骑马的<marker>幸苦</marker>。</example>
+                <example correction="辛苦">俗话说，走路不知道骑马的<marker>幸苦</marker>。</example>
                 <example>俗话说，走路不知道骑马的辛苦。</example>
             </rule>
             <rule>
@@ -2809,9 +2662,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"幸福"吗？
+                    您的意思是"<suggestion>幸福</suggestion>"吗？
                 </message>
-                <example correction="">夫妻之间恩爱才能制造<marker>辛福</marker>。</example>
+                <example correction="幸福">夫妻之间恩爱才能制造<marker>辛福</marker>。</example>
                 <example>夫妻之间恩爱才能制造幸福。</example>
             </rule>
             <rule>
@@ -2821,9 +2674,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"幸存者"吗？
+                    您的意思是"<suggestion>幸存者</suggestion>"吗？
                 </message>
-                <example correction="">他是这次地震中唯一的<marker>辛存者</marker>。</example>
+                <example correction="幸存者">他是这次地震中唯一的<marker>辛存者</marker>。</example>
                 <example>他是这次地震中唯一的幸存者。</example>
             </rule>
             <rule>
@@ -2833,9 +2686,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"幸亏"吗？
+                    您的意思是"<suggestion>幸亏</suggestion>"吗？
                 </message>
-                <example correction=""><marker>辛亏</marker>在这次考试前我有好好复习。</example>
+                <example correction="幸亏"><marker>辛亏</marker>在这次考试前我有好好复习。</example>
                 <example>幸亏在这次考试前我有好好复习。</example>
             </rule>
             <rule>
@@ -2845,9 +2698,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"宠幸"吗？
+                    您的意思是"<suggestion>宠幸</suggestion>"吗？
                 </message>
-                <example correction="">这是何等的<marker>宠辛</marker>啊。</example>
+                <example correction="宠幸">这是何等的<marker>宠辛</marker>啊。</example>
                 <example>这是何等的宠幸啊。</example>
             </rule>
         </rulegroup>
@@ -2859,9 +2712,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"故土"吗？
+                    您的意思是"<suggestion>故土</suggestion>"吗？
                 </message>
-                <example correction="">故乡、<marker>故士</marker>、家园这些词变得越来越美丽，越来越文学，但实际上的故乡已经难以寻觅了。</example>
+                <example correction="故土">故乡、<marker>故士</marker>、家园这些词变得越来越美丽，越来越文学，但实际上的故乡已经难以寻觅了。</example>
                 <example>故乡、故土、家园这些词变得越来越美丽，越来越文学，但实际上的故乡已经难以寻觅了。</example>
             </rule>
             <rule>
@@ -2871,9 +2724,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"不恤士卒"吗？
+                    您的意思是"<suggestion>不恤士卒</suggestion>"吗？
                 </message>
-                <example correction="">冠军侯善于治军却留下了<marker>不恤土卒</marker>的恶名。</example>
+                <example correction="不恤士卒">冠军侯善于治军却留下了<marker>不恤土卒</marker>的恶名。</example>
                 <example>冠军侯善于治军却留下了不恤士卒的恶名。</example>
             </rule>
             <rule>
@@ -2883,9 +2736,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"护士"吗？
+                    您的意思是"<suggestion>护士</suggestion>"吗？
                 </message>
-                <example correction="">她被称为本医院最贴心的<marker>护土</marker>。</example>
+                <example correction="护士">她被称为本医院最贴心的<marker>护土</marker>。</example>
                 <example>她被称为本医院最贴心的护士。</example>
             </rule>
         </rulegroup>
@@ -2897,9 +2750,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"鸟瞰图"吗？
+                    您的意思是"<suggestion>鸟瞰图</suggestion>"吗？
                 </message>
-                <example correction="">这是苏州的<marker>乌瞰图</marker>。</example>
+                <example correction="鸟瞰图">这是苏州的<marker>乌瞰图</marker>。</example>
                 <example>这是苏州的鸟瞰图。</example>
             </rule>
         </rulegroup>
@@ -2911,9 +2764,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"休息"吗？
+                    您的意思是"<suggestion>休息</suggestion>"吗？
                 </message>
-                <example correction="">运沙船靠岸<marker>体息</marker>。</example>
+                <example correction="休息">运沙船靠岸<marker>体息</marker>。</example>
                 <example>运沙船靠岸休息。</example>
             </rule>
             <rule>
@@ -2923,9 +2776,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"体验"吗？
+                    您的意思是"<suggestion>体验</suggestion>"吗？
                 </message>
-                <example correction=""><marker>休验</marker>到的东西使得我们感到真实。</example>
+                <example correction="体验"><marker>休验</marker>到的东西使得我们感到真实。</example>
                 <example>体验到的东西使得我们感到真实。</example>
             </rule>
             <rule>
@@ -2935,9 +2788,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"身体"吗？
+                    您的意思是"<suggestion>身体</suggestion>"吗？
                 </message>
-                <example correction="">这种错误的吃法有害<marker>身休</marker>。</example>
+                <example correction="身体">这种错误的吃法有害<marker>身休</marker>。</example>
                 <example>这种错误的吃法有害身体。</example>
             </rule>
         </rulegroup>
@@ -2949,9 +2802,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"赌徒"吗？
+                    您的意思是"<suggestion>赌徒</suggestion>"吗？
                 </message>
-                <example correction=""><marker>赌徙</marker>心理，不是仅仅存在于赌徒中，可以说每个人都或多或少拥有这样的心理。</example>
+                <example correction="赌徒"><marker>赌徙</marker>心理，不是仅仅存在于赌徒中，可以说每个人都或多或少拥有这样的心理。</example>
                 <example>赌徒心理，不是仅仅存在于赌徒中，可以说每个人都或多或少拥有这样的心理。</example>
             </rule>
             <rule>
@@ -2961,9 +2814,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"徙边"吗？
+                    您的意思是"<suggestion>徙边</suggestion>"吗？
                 </message>
-                <example correction=""><marker>徒边</marker>是古时的一种刑罚。</example>
+                <example correction="徙边"><marker>徒边</marker>是古时的一种刑罚。</example>
                 <example>徙边是古时的一种刑罚。</example>
             </rule>
             <rule>
@@ -2973,9 +2826,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"迁徙"吗？
+                    您的意思是"<suggestion>迁徙</suggestion>"吗？
                 </message>
-                <example correction="">日前，绵竹市西南镇檀木村出现了大规模的蟾蜍<marker>迁徒</marker>。</example>
+                <example correction="迁徙">日前，绵竹市西南镇檀木村出现了大规模的蟾蜍<marker>迁徒</marker>。</example>
                 <example>日前，绵竹市西南镇檀木村出现了大规模的蟾蜍迁徙。</example>
             </rule>
         </rulegroup>
@@ -2987,9 +2840,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"廷杖"吗？
+                    您的意思是"<suggestion>廷杖</suggestion>"吗？
                 </message>
-                <example correction="">始于汉明帝，此后各代均有<marker>延杖</marker>大臣之事，明后期尤甚，杖死者亦不少。</example>
+                <example correction="廷杖">始于汉明帝，此后各代均有<marker>延杖</marker>大臣之事，明后期尤甚，杖死者亦不少。</example>
                 <example>始于汉明帝，此后各代均有廷杖大臣之事，明后期尤甚，杖死者亦不少。</example>
             </rule>
             <rule>
@@ -2999,9 +2852,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"朝廷"吗？
+                    您的意思是"<suggestion>朝廷</suggestion>"吗？
                 </message>
-                <example correction="">最明显的一点就是忠于国变成忠于<marker>朝延</marker>。</example>
+                <example correction="朝廷">最明显的一点就是忠于国变成忠于<marker>朝延</marker>。</example>
                 <example>最明显的一点就是忠于国变成忠于朝廷。</example>
             </rule>
             <rule>
@@ -3011,9 +2864,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"延迟"吗？
+                    您的意思是"<suggestion>延迟</suggestion>"吗？
                 </message>
-                <example correction="">这班车的发车时间<marker>廷迟</marker>了。</example>
+                <example correction="延迟">这班车的发车时间<marker>廷迟</marker>了。</example>
                 <example>这班车的发车时间延迟了。</example>
             </rule>
         </rulegroup>
@@ -3025,9 +2878,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"赡养"吗？
+                    您的意思是"<suggestion>赡养</suggestion>"吗？
                 </message>
-                <example correction=""><marker>瞻养</marker>老人是每个人应尽的职责。</example>
+                <example correction="赡养"><marker>瞻养</marker>老人是每个人应尽的职责。</example>
                 <example>赡养老人是每个人应尽的职责。</example>
             </rule>
             <rule>
@@ -3037,9 +2890,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"瞻仰"吗？
+                    您的意思是"<suggestion>瞻仰</suggestion>"吗？
                 </message>
-                <example correction="">澳门中学生来到中山陵，<marker>赡仰</marker>我国伟大的革命先行者孙中山先生陵墓。</example>
+                <example correction="瞻仰">澳门中学生来到中山陵，<marker>赡仰</marker>我国伟大的革命先行者孙中山先生陵墓。</example>
                 <example>澳门中学生来到中山陵，瞻仰我国伟大的革命先行者孙中山先生陵墓。</example>
             </rule>
         </rulegroup>
@@ -3051,9 +2904,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"崇敬"吗？
+                    您的意思是"<suggestion>崇敬</suggestion>"吗？
                 </message>
-                <example correction="">他们对你父亲深表<marker>祟敬</marker>。</example>
+                <example correction="崇敬">他们对你父亲深表<marker>祟敬</marker>。</example>
                 <example>他们对你父亲深表崇敬。</example>
             </rule>
             <rule>
@@ -3063,9 +2916,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"尊崇"吗？
+                    您的意思是"<suggestion>尊崇</suggestion>"吗？
                 </message>
-                <example correction="">价值的<marker>尊祟</marker>和生活实践的矛盾，导致了鲁迅早期悲剧性自我的存在。</example>
+                <example correction="尊崇">价值的<marker>尊祟</marker>和生活实践的矛盾，导致了鲁迅早期悲剧性自我的存在。</example>
                 <example>价值的尊崇和生活实践的矛盾，导致了鲁迅早期悲剧性自我的存在。</example>
             </rule>
             <rule>
@@ -3075,9 +2928,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"作祟"吗？
+                    您的意思是"<suggestion>作祟</suggestion>"吗？
                 </message>
-                <example correction="">失业和贫乏的幽灵一直在对他们<marker>作崇</marker>是不能否认的。</example>
+                <example correction="作祟">失业和贫乏的幽灵一直在对他们<marker>作崇</marker>是不能否认的。</example>
                 <example>失业和贫乏的幽灵一直在对他们作祟是不能否认的。</example>
             </rule>
         </rulegroup>
@@ -3089,9 +2942,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"暑假"吗？
+                    您的意思是"<suggestion>暑假</suggestion>"吗？
                 </message>
-                <example correction="">他很期待这个<marker>署假</marker>。</example>
+                <example correction="暑假">他很期待这个<marker>署假</marker>。</example>
                 <example>他很期待这个暑假。</example>
             </rule>
             <rule>
@@ -3101,9 +2954,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"署名"吗？
+                    您的意思是"<suggestion>署名</suggestion>"吗？
                 </message>
-                <example correction="">必须按照作者或者许可人指定的方式对作品进行<marker>暑名</marker>。</example>
+                <example correction="署名">必须按照作者或者许可人指定的方式对作品进行<marker>暑名</marker>。</example>
                 <example>必须按照作者或者许可人指定的方式对作品进行署名。</example>
             </rule>
             <rule>
@@ -3113,9 +2966,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"签署"吗？
+                    您的意思是"<suggestion>签署</suggestion>"吗？
                 </message>
-                <example correction="">是他<marker>签暑</marker>的这份文件。</example>
+                <example correction="签署">是他<marker>签暑</marker>的这份文件。</example>
                 <example>是他签署的这份文件。</example>
             </rule>
         </rulegroup>
@@ -3127,9 +2980,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"师资"吗？
+                    您的意思是"<suggestion>师资</suggestion>"吗？
                 </message>
-                <example correction="">这间学校<marker>帅资</marker>强大。</example>
+                <example correction="师资">这间学校<marker>帅资</marker>强大。</example>
                 <example>这间学校师资强大。</example>
             </rule>
             <rule>
@@ -3139,9 +2992,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"工程师"吗？
+                    您的意思是"<suggestion>工程师</suggestion>"吗？
                 </message>
-                <example correction="">他是一名<marker>工程帅</marker>。</example>
+                <example correction="工程师">他是一名<marker>工程帅</marker>。</example>
                 <example>他是一名工程师。</example>
             </rule>
         </rulegroup>
@@ -3153,9 +3006,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"卷子"吗？
+                    您的意思是"<suggestion>卷子</suggestion>"吗？
                 </message>
-                <example correction="">这是你的<marker>券子</marker>吗？</example>
+                <example correction="卷子">这是你的<marker>券子</marker>吗？</example>
                 <example>这是你的卷子吗？</example>
             </rule>
             <rule>
@@ -3165,9 +3018,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"试卷"吗？
+                    您的意思是"<suggestion>试卷</suggestion>"吗？
                 </message>
-                <example correction="">这是你的<marker>试券</marker>吗？</example>
+                <example correction="试卷">这是你的<marker>试券</marker>吗？</example>
                 <example>这是你的试卷吗？</example>
             </rule>
         </rulegroup>
@@ -3179,9 +3032,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"晴朗"吗？
+                    您的意思是"<suggestion>晴朗</suggestion>"吗？
                 </message>
-                <example correction="">今天的天气很<marker>睛朗</marker>。</example>
+                <example correction="晴朗">今天的天气很<marker>睛朗</marker>。</example>
                 <example>今天的天气很晴朗。</example>
             </rule>
         </rulegroup>
@@ -3189,25 +3042,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>
-                        <token>呜</token>
-                    </marker>
-                </pattern>
-                <message>
-                    您的意思是"鸣"吗？
-                </message>
-                <example correction="">清晨，鸟儿在树枝上<marker>呜</marker>唱着动人的旋律。</example>
-                <example>清晨，鸟儿在树枝上鸣唱着动人的旋律。</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <marker>
                         <token>鸡呜</token>
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"鸡鸣"吗？
+                    您的意思是"<suggestion>鸡鸣</suggestion>"吗？
                 </message>
-                <example correction=""><marker>鸡呜</marker>了，天亮了。</example>
+                <example correction="鸡鸣"><marker>鸡呜</marker>了，天亮了。</example>
                 <example>鸡鸣了，天亮了。</example>
             </rule>
         </rulegroup>
@@ -3219,9 +3060,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"泌尿"吗？
+                    您的意思是"<suggestion>泌尿</suggestion>"吗？
                 </message>
-                <example correction="">糖尿病是不是<marker>沁尿</marker>系统的疾病？</example>
+                <example correction="泌尿">糖尿病是不是<marker>沁尿</marker>系统的疾病？</example>
                 <example>糖尿病是不是泌尿系统的疾病？</example>
             </rule>
             <rule>
@@ -3231,9 +3072,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"沁人"吗？
+                    您的意思是"<suggestion>沁人</suggestion>"吗？
                 </message>
-                <example correction="">这声音太<marker>泌人</marker>心脾了。</example>
+                <example correction="沁人">这声音太<marker>泌人</marker>心脾了。</example>
                 <example>这声音太沁人心脾了。</example>
             </rule>
         </rulegroup>
@@ -3245,9 +3086,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"幕后"吗？
+                    您的意思是"<suggestion>幕后</suggestion>"吗？
                 </message>
-                <example correction="">原来你才是<marker>幂后</marker>黑手。</example>
+                <example correction="幕后">原来你才是<marker>幂后</marker>黑手。</example>
                 <example>原来你才是幕后黑手。</example>
             </rule>
             <rule>
@@ -3257,21 +3098,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"夜幕"吗？
+                    您的意思是"<suggestion>夜幕</suggestion>"吗？
                 </message>
-                <example correction=""><marker>夜幂</marker>慢慢降临了。</example>
+                <example correction="夜幕"><marker>夜幂</marker>慢慢降临了。</example>
                 <example>夜幕慢慢降临了。</example>
             </rule>
             <rule>
                 <pattern>
+                    <token>次</token>
                     <marker>
                         <token>幕</token>
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"幂"吗？
+                    您的意思是"<suggestion>幂</suggestion>"吗？
                 </message>
-                <example correction="">8等于2的三次<marker>幕</marker>。</example>
+                <example correction="幂">8等于2的三次<marker>幕</marker>。</example>
                 <example>8等于2的三次幂。</example>
             </rule>
         </rulegroup>
@@ -3283,9 +3125,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"未来"吗？
+                    您的意思是"<suggestion>未来</suggestion>"吗？
                 </message>
-                <example correction="">如果有<marker>末来</marker>，我要去远方旅行。</example>
+                <example correction="未来">如果有<marker>末来</marker>，我要去远方旅行。</example>
                 <example>如果有未来，我要去远方旅行。</example>
             </rule>
             <rule>
@@ -3295,9 +3137,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"从未"吗？
+                    您的意思是"<suggestion>从未</suggestion>"吗？
                 </message>
-                <example correction="">我<marker>从末</marker>去过那里。</example>
+                <example correction="从未">我<marker>从末</marker>去过那里。</example>
                 <example>我从未去过那里。</example>
             </rule>
         </rulegroup>
@@ -3309,9 +3151,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"冷天"吗？
+                    您的意思是"<suggestion>冷天</suggestion>"吗？
                 </message>
-                <example correction=""><marker>泠天</marker>要多穿衣服。</example>
+                <example correction="冷天"><marker>泠天</marker>要多穿衣服。</example>
                 <example>冷天要多穿衣服。</example>
             </rule>
             <rule>
@@ -3321,9 +3163,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"好冷"吗？
+                    您的意思是"<suggestion>好冷</suggestion>"吗？
                 </message>
-                <example correction="">我<marker>好泠</marker>啊。</example>
+                <example correction="好冷">我<marker>好泠</marker>啊。</example>
                 <example>我好冷啊。</example>
             </rule>
         </rulegroup>
@@ -3335,9 +3177,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"命令"吗？
+                    您的意思是"<suggestion>命令</suggestion>"吗？
                 </message>
-                <example correction="">我<marker>命今</marker>你马上去做作业。</example>
+                <example correction="命令">我<marker>命今</marker>你马上去做作业。</example>
                 <example>我命令你马上去做作业。</example>
             </rule>
             <rule>
@@ -3347,9 +3189,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"今生"吗？
+                    您的意思是"<suggestion>今生</suggestion>"吗？
                 </message>
-                <example correction="">我<marker>令生</marker>都忘不了这件事。</example>
+                <example correction="今生">我<marker>令生</marker>都忘不了这件事。</example>
                 <example>我今生都忘不了这件事。</example>
             </rule>
         </rulegroup>
@@ -3361,9 +3203,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"灸烤"吗？
+                    您的意思是"<suggestion>灸烤</suggestion>"吗？
                 </message>
-                <example correction="">太阳<marker>炙烤</marker>着大地。</example>
+                <example correction="灸烤">太阳<marker>炙烤</marker>着大地。</example>
                 <example>太阳灸烤着大地。</example>
             </rule>
             <rule>
@@ -3373,9 +3215,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"针灸"吗？
+                    您的意思是"<suggestion>针灸</suggestion>"吗？
                 </message>
-                <example correction=""><marker>针炙</marker>是世界医疗史上的一大奇迹。</example>
+                <example correction="针灸"><marker>针炙</marker>是世界医疗史上的一大奇迹。</example>
                 <example>针灸是世界医疗史上的一大奇迹。</example>
             </rule>
         </rulegroup>
@@ -3387,9 +3229,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"寥寂"吗？
+                    您的意思是"<suggestion>寥寂</suggestion>"吗？
                 </message>
-                <example correction="">以这<marker>廖寂</marker>的天空为背景，书写华丽的篇章。</example>
+                <example correction="寥寂">以这<marker>廖寂</marker>的天空为背景，书写华丽的篇章。</example>
                 <example>以这寥寂的天空为背景，书写华丽的篇章。</example>
             </rule>
             <rule>
@@ -3399,9 +3241,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"寂寥"吗？
+                    您的意思是"<suggestion>寂寥</suggestion>"吗？
                 </message>
-                <example correction="">以这<marker>寂廖</marker>的天空为背景，书写华丽的篇章。</example>
+                <example correction="寂寥">以这<marker>寂廖</marker>的天空为背景，书写华丽的篇章。</example>
                 <example>以这寂寥的天空为背景，书写华丽的篇章。</example>
             </rule>
         </rulegroup>
@@ -3413,9 +3255,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"万事亨通"吗？
+                    您的意思是"<suggestion>万事亨通</suggestion>"吗？
                 </message>
-                <example correction="">祝您在新的一年里<marker>万事享通</marker>。</example>
+                <example correction="万事亨通">祝您在新的一年里<marker>万事享通</marker>。</example>
                 <example>祝您在新的一年里万事亨通。</example>
             </rule>
             <rule>
@@ -3425,9 +3267,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"享乐"吗？
+                    您的意思是"<suggestion>享乐</suggestion>"吗？
                 </message>
-                <example correction="">酒吧是人们相聚饮酒<marker>亨乐</marker>的地方。</example>
+                <example correction="享乐">酒吧是人们相聚饮酒<marker>亨乐</marker>的地方。</example>
                 <example>酒吧是人们相聚饮酒享乐的地方。</example>
             </rule>
             <rule>
@@ -3437,9 +3279,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"分享"吗？
+                    您的意思是"<suggestion>分享</suggestion>"吗？
                 </message>
-                <example correction="">你应该把这个资源<marker>分亨</marker>给大家。</example>
+                <example correction="分享">你应该把这个资源<marker>分亨</marker>给大家。</example>
                 <example>你应该把这个资源分享给大家。</example>
             </rule>
         </rulegroup>
@@ -3451,9 +3293,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"洒脱"吗？
+                    您的意思是"<suggestion>洒脱</suggestion>"吗？
                 </message>
-                <example correction="">您为什么能够如此<marker>酒脱</marker>呢？</example>
+                <example correction="洒脱">您为什么能够如此<marker>酒脱</marker>呢？</example>
                 <example>您为什么能够如此洒脱呢？</example>
             </rule>
             <rule>
@@ -3463,9 +3305,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"潇洒"吗？
+                    您的意思是"<suggestion>潇洒</suggestion>"吗？
                 </message>
-                <example correction="">我很<marker>潇酒</marker>地离开了。</example>
+                <example correction="潇洒">我很<marker>潇酒</marker>地离开了。</example>
                 <example>我很潇洒地离开了。</example>
             </rule>
             <rule>
@@ -3475,9 +3317,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"啤酒"吗？
+                    您的意思是"<suggestion>啤酒</suggestion>"吗？
                 </message>
-                <example correction="">喝<marker>啤洒</marker>容易长胖。</example>
+                <example correction="啤酒">喝<marker>啤洒</marker>容易长胖。</example>
                 <example>喝啤酒容易长胖。</example>
             </rule>
         </rulegroup>
@@ -3489,9 +3331,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"幻境"吗？
+                    您的意思是"<suggestion>幻境</suggestion>"吗？
                 </message>
-                <example correction="">这肯定是<marker>幼境</marker>。</example>
+                <example correction="幻境">这肯定是<marker>幼境</marker>。</example>
                 <example>这肯定是幻境。</example>
             </rule>
             <rule>
@@ -3501,9 +3343,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"幻觉"吗？
+                    您的意思是"<suggestion>幻觉</suggestion>"吗？
                 </message>
-                <example correction="">这肯定是<marker>幼觉</marker>。</example>
+                <example correction="幻觉">这肯定是<marker>幼觉</marker>。</example>
                 <example>这肯定是幻觉。</example>
             </rule>
             <rule>
@@ -3513,9 +3355,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"梦幻"吗？
+                    您的意思是"<suggestion>梦幻</suggestion>"吗？
                 </message>
-                <example correction="">这里的<marker>梦幼</marker>般的风景深深地吸引了我的眼球。</example>
+                <example correction="梦幻">这里的<marker>梦幼</marker>般的风景深深地吸引了我的眼球。</example>
                 <example>这里的梦幻般的风景深深地吸引了我的眼球。</example>
             </rule>
             <rule>
@@ -3525,9 +3367,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"幼稚"吗？
+                    您的意思是"<suggestion>幼稚</suggestion>"吗？
                 </message>
-                <example correction="">你能不要这样<marker>幻稚</marker>吗？</example>
+                <example correction="幼稚">你能不要这样<marker>幻稚</marker>吗？</example>
                 <example>你能不要这样幼稚吗？</example>
             </rule>
         </rulegroup>
@@ -3539,9 +3381,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"时候"吗？
+                    您的意思是"<suggestion>时候</suggestion>"吗？
                 </message>
-                <example correction="">您来的真是<marker>时侯</marker>。</example>
+                <example correction="时候">您来的真是<marker>时侯</marker>。</example>
                 <example>您来的真是时候。</example>
             </rule>
             <rule>
@@ -3551,9 +3393,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"伺候"吗？
+                    您的意思是"<suggestion>伺候</suggestion>"吗？
                 </message>
-                <example correction="">这个日子过的真滋润，好吃好喝<marker>伺侯</marker>着。</example>
+                <example correction="伺候">这个日子过的真滋润，好吃好喝<marker>伺侯</marker>着。</example>
                 <example>这个日子过的真滋润，好吃好喝伺候着。</example>
             </rule>
             <rule>
@@ -3563,9 +3405,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"侯爵"吗？
+                    您的意思是"<suggestion>侯爵</suggestion>"吗？
                 </message>
-                <example correction="">这是清末的一个<marker>候爵</marker>的坟墓。</example>
+                <example correction="侯爵">这是清末的一个<marker>候爵</marker>的坟墓。</example>
                 <example>这是清末的一个侯爵的坟墓。</example>
             </rule>
             <rule>
@@ -3575,9 +3417,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"诸侯"吗？
+                    您的意思是"<suggestion>诸侯</suggestion>"吗？
                 </message>
-                <example correction="">这是个<marker>诸候</marker>并起的年代。</example>
+                <example correction="诸侯">这是个<marker>诸候</marker>并起的年代。</example>
                 <example>这是个诸侯并起的年代。</example>
             </rule>
         </rulegroup>
@@ -3589,9 +3431,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"哀悼"吗？
+                    您的意思是"<suggestion>哀悼</suggestion>"吗？
                 </message>
-                <example correction="">我们在清明节的时候都要去<marker>衰悼</marker>为祖国牺牲的烈士们。</example>
+                <example correction="哀悼">我们在清明节的时候都要去<marker>衰悼</marker>为祖国牺牲的烈士们。</example>
                 <example>我们在清明节的时候都要去哀悼为祖国牺牲的烈士们。</example>
             </rule>
             <rule>
@@ -3601,9 +3443,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"哀鸣"吗？
+                    您的意思是"<suggestion>哀鸣</suggestion>"吗？
                 </message>
-                <example correction="">听到小明的<marker>衷鸣</marker>，我们不由得心寒。</example>
+                <example correction="哀鸣">听到小明的<marker>衷鸣</marker>，我们不由得心寒。</example>
                 <example>听到小明得哀鸣，我们不由得心寒。</example>
             </rule>
             <rule>
@@ -3613,9 +3455,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"默哀"吗？
+                    您的意思是"<suggestion>默哀</suggestion>"吗？
                 </message>
-                <example correction="">现在，我们为我们的牺牲的烈士们<marker>默衰</marker>五分钟。</example>
+                <example correction="默哀">现在，我们为我们的牺牲的烈士们<marker>默衰</marker>五分钟。</example>
                 <example>现在，我们为我们的牺牲的烈士们默哀五分钟。</example>
             </rule>
             <rule>
@@ -3625,9 +3467,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"默哀"吗？
+                    您的意思是"<suggestion>默哀</suggestion>"吗？
                 </message>
-                <example correction="">现在，我们为我们的牺牲的烈士们<marker>默衷</marker>五分钟。</example>
+                <example correction="默哀">现在，我们为我们的牺牲的烈士们<marker>默衷</marker>五分钟。</example>
                 <example>现在，我们为我们的牺牲的烈士们默哀五分钟。</example>
             </rule>
             <rule>
@@ -3637,34 +3479,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"由衷"吗？
+                    您的意思是"<suggestion>由衷</suggestion>"吗？
                 </message>
-                <example correction="">我<marker>由衰</marker>的感谢我们父母。</example>
+                <example correction="由衷">我<marker>由衰</marker>的感谢我们父母。</example>
                 <example>我由衷的感谢我们父母。</example>
             </rule>
             <rule>
                 <pattern>
                     <marker>
-                        <token>哀老</token>
+                        <token regexp="yes">(哀|衷)老</token>
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"衰老"吗？
+                    您的意思是"<suggestion>衰老</suggestion>"吗？
                 </message>
-                <example correction="">婆婆，一天天的<marker>哀老</marker>了。</example>
+                <example correction="衰老">婆婆，一天天的<marker>哀老</marker>了。</example>
                 <example>婆婆，一天天的衰老了。</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <marker>
-                        <token>衷老</token>
-                    </marker>
-                </pattern>
-                <message>
-                    您的意思是"衰老"吗？
-                </message>
-                <example correction="">爷爷，一天天的<marker>衷老</marker>了。</example>
-                <example>爷爷，一天天的衰老了。</example>
             </rule>
             <rule>
                 <pattern>
@@ -3673,9 +3503,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"衰败"吗？
+                    您的意思是"<suggestion>衰败</suggestion>"吗？
                 </message>
-                <example correction="">清朝，一天天得<marker>衷败</marker>着。</example>
+                <example correction="衰败">清朝，一天天得<marker>衷败</marker>着。</example>
                 <example>清朝，一天天得衰败着。</example>
             </rule>
             <rule>
@@ -3685,9 +3515,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"盛衰"吗？
+                    您的意思是"<suggestion>盛衰</suggestion>"吗？
                 </message>
-                <example correction=""><marker>盛衷</marker>无常</example>
+                <example correction="盛衰"><marker>盛衷</marker>无常</example>
                 <example>盛衰无常</example>
             </rule>
         </rulegroup>
@@ -3699,9 +3529,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"拔尖"吗？
+                    您的意思是"<suggestion>拔尖</suggestion>"吗？
                 </message>
-                <example correction="">小明在班上很<marker>拨尖</marker>。</example>
+                <example correction="拔尖">小明在班上很<marker>拨尖</marker>。</example>
                 <example>小明在班上很拔尖。</example>
             </rule>
             <rule>
@@ -3711,9 +3541,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"挺拔"吗？
+                    您的意思是"<suggestion>挺拔</suggestion>"吗？
                 </message>
-                <example correction="">看我<marker>挺拨</marker>的胸部。</example>
+                <example correction="挺拔">看我<marker>挺拨</marker>的胸部。</example>
                 <example>看我挺拔的胸部。</example>
             </rule>
             <rule>
@@ -3723,9 +3553,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"海拔"吗？
+                    您的意思是"<suggestion>海拔</suggestion>"吗？
                 </message>
-                <example correction="">这儿<marker>海拨</marker>5000米。</example>
+                <example correction="海拔">这儿<marker>海拨</marker>5000米。</example>
                 <example>这儿海拔5000米。</example>
             </rule>
             <rule>
@@ -3735,9 +3565,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"拨给"吗？
+                    您的意思是"<suggestion>拨给</suggestion>"吗？
                 </message>
-                <example correction="">中央政府<marker>拔给</marker>了当地政府1000万。</example>
+                <example correction="拨给">中央政府<marker>拔给</marker>了当地政府1000万。</example>
                 <example>中央政府拨给了当地政府1000万。</example>
             </rule>
             <rule>
@@ -3747,9 +3577,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"拨下"吗？
+                    您的意思是"<suggestion>拨下</suggestion>"吗？
                 </message>
-                <example correction="">哪里不懂？等下老师回来给你点<marker>拔下</marker>。</example>
+                <example correction="拨下">哪里不懂？等下老师回来给你点<marker>拔下</marker>。</example>
                 <example>哪里不懂？等下老师回来给你点拨下。</example>
             </rule>
         </rulegroup>
@@ -3761,9 +3591,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"敞开"吗？
+                    您的意思是"<suggestion>敞开</suggestion>"吗？
                 </message>
-                <example correction="">你要<marker>敝开</marker>心胸。</example>
+                <example correction="敞开">你要<marker>敝开</marker>心胸。</example>
                 <example>你要敞开心胸。</example>
             </rule>
             <rule>
@@ -3773,9 +3603,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"宽敞"吗？
+                    您的意思是"<suggestion>宽敞</suggestion>"吗？
                 </message>
-                <example correction="">好一个<marker>宽敝</marker>的房间啊。</example>
+                <example correction="宽敞">好一个<marker>宽敝</marker>的房间啊。</example>
                 <example>好一个宽敞的房间啊。</example>
             </rule>
         </rulegroup>
@@ -3787,9 +3617,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"茶杯"吗？
+                    您的意思是"<suggestion>茶杯</suggestion>"吗？
                 </message>
-                <example correction="">我今天买了一个<marker>荼杯</marker>。</example>
+                <example correction="茶杯">我今天买了一个<marker>荼杯</marker>。</example>
                 <example>我今天买了一个茶杯。</example>
             </rule>
         </rulegroup>
@@ -3801,9 +3631,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"讽刺"吗？
+                    您的意思是"<suggestion>讽刺</suggestion>"吗？
                 </message>
-                <example correction="">这篇文章<marker>讽剌</marker>了中国现状。</example>
+                <example correction="讽刺">这篇文章<marker>讽剌</marker>了中国现状。</example>
                 <example>这篇文章讽刺了中国现状。</example>
             </rule>
             <rule>
@@ -3813,9 +3643,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"泼剌"吗？
+                    您的意思是"<suggestion>泼剌</suggestion>"吗？
                 </message>
-                <example correction="">好一个<marker>泼刺</marker>的女子！</example>
+                <example correction="泼剌">好一个<marker>泼刺</marker>的女子！</example>
                 <example>好一个泼剌的女子！</example>
             </rule>
         </rulegroup>
@@ -3823,14 +3653,45 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>
-                        <token>的</token>
+                        <token regexp="yes">(勿)(忙|促|猝)</token>
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"地"吗？
+                    您的意思是“
+                    <suggestion><match no="1" regexp_match="(勿)([忙促猝])" regexp_replace="匆$2"/></suggestion>
+                    ”吗？
                 </message>
-                <example correction="">我勿忙<marker>的</marker>去了厕所。</example>
+                <example correction="匆忙">我<marker>勿忙</marker>的去了厕所。</example>
                 <example>我匆忙地去了厕所。</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="d">勿</token>
+                    <token postag="l">勿</token>
+                </pattern>
+                <message>
+                    您的意思是“
+                    <suggestion>匆匆</suggestion>
+                    ”吗？
+                </message>
+                <short>词语错误</short>
+                <example correction="匆匆">来也<marker>勿勿</marker>，去也冲冲。</example>
+                <example>来也匆匆，去也冲冲</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>请匆</token>
+                    </marker>
+                </pattern>
+                <message>
+                    您的意思是请“
+                    <suggestion>请勿</suggestion>
+                    ”吗？
+                </message>
+                <short>词语错误</short>
+                <example correction="请勿"><marker>请匆</marker>在教室吃东西。</example>
+                <example>请勿在教室吃东西。</example>
             </rule>
         </rulegroup>
         <rulegroup id="DAI_FA" name="代/伐">
@@ -3841,9 +3702,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"伐树"吗？
+                    您的意思是"<suggestion>伐树</suggestion>"吗？
                 </message>
-                <example correction="">这里禁止<marker>代树</marker>。</example>
+                <example correction="伐树">这里禁止<marker>代树</marker>。</example>
                 <example>这里禁止伐树。</example>
             </rule>
             <rule>
@@ -3853,9 +3714,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"伐木"吗？
+                    您的意思是"<suggestion>伐木</suggestion>"吗？
                 </message>
-                <example correction="">这里禁止<marker>代木</marker>。</example>
+                <example correction="伐木">这里禁止<marker>代木</marker>。</example>
                 <example>这里禁止伐木。</example>
             </rule>
             <rule>
@@ -3865,9 +3726,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"征伐"吗？
+                    您的意思是"<suggestion>征伐</suggestion>"吗？
                 </message>
-                <example correction="">秦国在开春后就要开始<marker>征代</marker>齐国。</example>
+                <example correction="征伐">秦国在开春后就要开始<marker>征代</marker>齐国。</example>
                 <example>秦国在开春后就要开始征伐齐国。</example>
             </rule>
         </rulegroup>
@@ -3879,9 +3740,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"叨咕"吗？
+                    您的意思是"<suggestion>叨咕</suggestion>"吗？
                 </message>
-                <example correction="">您能别再<marker>叼咕</marker>了吗？</example>
+                <example correction="叨咕">您能别再<marker>叼咕</marker>了吗？</example>
                 <example>您能别在叨咕了吗？</example>
             </rule>
             <rule>
@@ -3891,18 +3752,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"唠叨"吗？
+                    您的意思是"<suggestion>唠叨</suggestion>"吗？
                 </message>
-                <example correction="">其实，父母的<marker>唠叼</marker>也是一种幸福。</example>
+                <example correction="唠叨">其实，父母的<marker>唠叼</marker>也是一种幸福。</example>
                 <example>其实，父母的唠叨也是一种幸福。</example>
             </rule>
         </rulegroup>
-    </category>
-
-    <!-- ====================================================================== -->
-    <!-- 拼写： 词语错误 -->
-    <!-- ====================================================================== -->
-    <category name="词语错误" id="CN_CAT1">
         <rule id="xiaohui" name="销毁">
             <pattern>
                 <marker>
@@ -4058,6 +3913,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="战栗">襄王闻之，颜色变作，身体<marker>战粟</marker>。</example>
         </rule>
     </category>
+
     <!-- ====================================================================== -->
     <!-- 拼写： 成语错误 -->
     <!-- ====================================================================== -->
@@ -5469,8 +5325,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>反应</token>
                 <token postag='u'>了</token>
             </pattern>
-            <message>您的意思是"反映"吗？</message>
-            <example correction=''>这部小说<marker>反应了</marker>现实生活</example>
+            <message>您的意思是"<suggestion>反映</suggestion>"吗？</message>
+            <example correction='反映'>这部小说<marker>反应了</marker>现实生活</example>
             <example>这部小说反映了现实生活</example>
         </rule>
         <rule id="ZH2" name="必需\必须">
@@ -5490,8 +5346,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>法制</token>
                 <token regexp='yes'>社会|国家</token>
             </pattern>
-            <message>您的意思是"法治<match no="2"/>"吗？</message>
-            <example correction=''><marker>法制社会</marker>和人治社会是相对而言的</example>
+            <message>您的意思是"<suggestion>法治<match no="2"/></suggestion>"吗？</message>
+            <example correction='法治社会'><marker>法制社会</marker>和人治社会是相对而言的</example>
             <example>法治社会和人治社会是相对而言的</example>
         </rule>
         <rulegroup id="wa1" name="词性误用">
@@ -5610,7 +5466,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
     </category>
-
 
     <!-- ====================================================================== -->
     <!-- 语法：虚词的词法 -->
@@ -6640,7 +6495,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
 
-
     <!-- ====================================================================== -->
     <!-- 语法：句法 -->
     <!-- ====================================================================== -->
@@ -6922,28 +6776,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </example>
                 <example>我们要努力加强民众与政府的联系。</example>
             </rule>
-            <!-- commented out because of the warning in PatternRuleTest if CHECK_WITH_SENTENCE_SPLITTING = true
-			<rule>
-				<pattern>
-					<token skip="-1">克服</token>
-					<marker>
-						<token>条件</token>
-					</marker>
-				</pattern>
-				<message>
-					‘克服’不应该与‘条件’搭配，您可以使用‘
-					<suggestion>困难</suggestion>
-					’与之搭配。
-				</message>
-				<short>动宾搭配不当</short>
-				<example correction="困难">
-					运火炬登顶珠峰，必须克服低温、低压、大风等不利的特殊气候
-					<marker>条件</marker>
-					。
-				</example>
-				<example>考研所要克服的困难实在是很多。</example>
-			</rule>
-			-->
+            <rule>
+                <pattern>
+                    <token skip="-1">克服</token>
+                    <marker>
+                        <token>条件</token>
+                    </marker>
+                </pattern>
+                <message>
+                    ‘克服’不应该与‘条件’搭配，您可以使用‘
+                    <suggestion>困难</suggestion>
+                    ’与之搭配。
+                </message>
+                <short>动宾搭配不当</short>
+                <example correction="困难">
+                    运火炬登顶珠峰，必须克服低温、低压、大风等不利的特殊气候
+                    <marker>条件</marker>
+                    。
+                </example>
+                <example>考研所要克服的困难实在是很多。</example>
+            </rule>
             <rule>
                 <pattern>
                     <marker>

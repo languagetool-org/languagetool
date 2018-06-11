@@ -21,7 +21,6 @@ package org.languagetool.rules.zh;
 
 import com.hankcs.hanlp.HanLP;
 import org.languagetool.AnalyzedSentence;
-import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;

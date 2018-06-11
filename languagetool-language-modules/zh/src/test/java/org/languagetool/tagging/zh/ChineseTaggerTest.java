@@ -19,7 +19,6 @@
 
 package org.languagetool.tagging.zh;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.languagetool.TestTools;
 import org.languagetool.tokenizers.zh.ChineseWordTokenizer;
@@ -45,7 +44,7 @@ public class ChineseTaggerTest {
 
     TestTools.myAssert(
             "主任强调指出错误的地方。",
-            "主任/[null]n -- 强调指出/[null]v -- 错误/[null]a -- 的/[null]u -- 地方/[null]n -- 。/[null]w",
+            "主任/[null]n -- 强调/[null]vd -- 指出/[null]v -- 错误/[null]a -- 的/[null]u -- 地方/[null]n -- 。/[null]w",
             tokenizer, tagger);
 
     TestTools.myAssert(
@@ -60,7 +59,7 @@ public class ChineseTaggerTest {
 
     TestTools.myAssert(
             "我们的女组长真是百尺竿头更进一步。",
-            "我们/[null]r -- 的/[null]u -- 女/[null]b -- 组长/[null]n -- 真是/[null]d -- 百尺竿头更进一步/[null]l -- 。/[null]w",
+            "我们/[null]r -- 的/[null]u -- 女/[null]b -- 组长/[null]n -- 真是/[null]d -- 百尺/[null]i -- 竿头/[null]n -- 更/[null]d -- 进一步/[null]d -- 。/[null]w",
             tokenizer, tagger);
 
   }
