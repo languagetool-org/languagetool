@@ -215,6 +215,7 @@ public class HTTPServerConfig {
   }
 
   private void setLanguageModelDirectory(String langModelDir) {
+    System.setProperty("ngram.path", langModelDir);
     languageModelDir = new File(langModelDir);
     if (!languageModelDir.exists() || !languageModelDir.isDirectory()) {
       throw new RuntimeException("LanguageModel directory not found or is not a directory: " + languageModelDir);
