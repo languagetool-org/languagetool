@@ -18,8 +18,6 @@
  */
 package org.languagetool.tagging.de;
 
-import java.util.regex.Pattern;
-
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedToken;
