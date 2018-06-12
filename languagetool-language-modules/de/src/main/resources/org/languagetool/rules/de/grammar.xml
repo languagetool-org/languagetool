@@ -38152,5 +38152,49 @@ Andere Projekte</example>
             </rule>
         </rulegroup>
     </category>
+    <category id="CREATIV_WRITING" name="Stilistische Hinweise zum kreativen Schreiben" default="off">
+        <rulegroup id="AUSSAGEKRAFT_VERBEN" name="Verben mit wenig Aussagekraft" default="off">
+            <rule>
+                <antipattern>
+                    <token skip="-1" inflected="yes">machen</token>
+                    <token case_sensitive="yes">Angst</token>
+                </antipattern>
+                <antipattern>
+                    <token skip="-1" case_sensitive="yes">Angst</token>
+                    <token inflected="yes">machen</token>
+                </antipattern>
+                <pattern>
+                    <token inflected="yes" regexp="yes">tun|machen</token>
+                </pattern>
+                <message>Das Verb '\1' hat wenig Aussagekraft. Verwenden Sie wenn möglich ein anderes oder formulieren Sie den Satz um.</message>
+                <example type="incorrect">Er <marker>machte</marker> einen Kuchen.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token skip="-1" inflected="yes" regexp="yes">haben|sein</token>
+                    <token postag="(PA2|VER:PA2):.*" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <token inflected="yes" regexp="yes">haben|sein</token>
+                </pattern>
+                <message>Das Verb '\1' hat wenig Aussagekraft. Verwenden Sie wenn möglich ein anderes oder formulieren Sie den Satz um.</message>
+                <example type="incorrect">Er <marker>hat</marker> ein rotes Auto.</example>
+                <example>Er <marker>hat</marker> gerade gegessen.</example>
+            </rule>
+        </rulegroup>
+        <rule id="UEBERFLUESSIGE_PHRASE" name="Phrasen" default="off">
+            <regexp>\b(dann und wann|des Ungeachtet|ganz und gar|hie und da|im Allgemeinen|in der Tat|in diesem Zusammenhang|mehr oder weniger|meines Erachtens|ohne weiteres|ohne Zweifel|samt und sonders|sowohl als auch|voll und ganz|von Neuem|allem Anschein nach|aufs Neue|ein bisschen|ein wenig|des Öfteren|bei weitem|an sich")\b</regexp>
+            <message>Der Ausdruck '\1' gilt als Phrase. Es wird empfohlen ihn zu löschen, falls möglich.</message>
+            <example type="incorrect">Sie sah <marker>ohne Zweifel</marker> hinreißend aus.</example>
+    </rule>
+        <rule id="BINDEWOERTER_SATZANFANG" name="Bindewörter am Satzanfang" default="off">
+            <regexp>^(aber|allerdings|als|also|andererseits|anschließend|anstatt|außer|ausserdem|bevor|beziehungsweise|bis|da|dadurch|dafür|dagegen|damit|danach|dann|darauf|darum|dass|davor|dazu|denn|deshalb|dessen|desto|desungeachtet|deswegen|doch|eh|ehe|entweder|falls|ferner|folglich|genauso|geschweige|im Falle|immerhin|indem|indes|indessen|insofern|insoweit|inzwischen|je|jedoch|nachdem|ob|obgleich|obschon|obwohl|obzwar|oder|respektive|seit|seitdem|so|sodass|sofern|solang|solange|sondern|sooft|soviel|soweit|sowie|sowohl|später|statt|trotzdem|um|umso|und|ungeachtet|vorher|während|währenddem|währenddessen|weder|weil|wenn|wenngleich|wennschon|wie|wiewohl|wobei|wohingegen|zumal|zuvor|zwar")\b</regexp>
+            <message>Ein Bindewort wie '\1' sollte nur in Ausnahmefällen am Satzanfang verwendet werden. Formulieren Sie den Satz um, falls möglich.</message>
+            <example type="incorrect"><marker>Also</marker> ging er.</example>
+    </rule>
+
+
+
+    </category>
 </rules>
 
