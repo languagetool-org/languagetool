@@ -76,7 +76,8 @@ public class GermanStyleRepeatedWordRule  extends AbstractStyleRepeatedWordRule 
    */
   protected boolean isTokenToCheck(AnalyzedTokenReadings token) {
     return (token.matchesPosTagRegex("(SUB|EIG|VER|ADJ):.*") 
-        && !token.matchesPosTagRegex("(PRO|ART|ADV|VER:(AUX|MOD)):.*"))
+        && !token.matchesPosTagRegex("(PRO|ART|ADV|VER:(AUX|MOD)):.*")
+        && !token.getToken().equals("Ich"))
         || isUnknownWord(token);
   }
 
