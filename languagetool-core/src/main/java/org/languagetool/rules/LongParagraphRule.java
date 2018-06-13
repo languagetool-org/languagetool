@@ -46,8 +46,8 @@ public class LongParagraphRule extends TextLevelRule {
 
   public LongParagraphRule(ResourceBundle messages, UserConfig userConfig, int defaultWords, boolean defaultActive) {
     super(messages);
-    super.setCategory(new Category(new CategoryId("CREATIV_WRITING"), 
-        messages.getString("category_creativ_writing"), Location.INTERNAL, false));
+    super.setCategory(new Category(new CategoryId("CREATIVE_WRITING"), 
+        messages.getString("category_creative_writing"), Location.INTERNAL, false));
     if (!defaultActive) {
       setDefaultOff();
     }

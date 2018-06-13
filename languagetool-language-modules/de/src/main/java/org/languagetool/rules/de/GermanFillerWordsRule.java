@@ -30,9 +30,10 @@ import org.languagetool.UserConfig;
 import org.languagetool.rules.AbstractFillerWordsRule;
 
 /**
- * A rule checks the appearance of same words in a sentence or in two consecutive sentences.
- * Only substantive, verbs and adjectives are checked.
- * This rule detects no grammar error but a stylistic problem (default off)
+ * A rule that gives Hints on the use of German filler words.
+ * The Hints are only given when the percentage of filler words per paragraph exceeds the given limit.
+ * A limit of 0 shows all used filler words. Direct speech or citation is excluded otherwise. 
+ * This rule detects no grammar error but gives stylistic hints (default off).
  * @author Fred Kruse
  * @since 4.2
  */
