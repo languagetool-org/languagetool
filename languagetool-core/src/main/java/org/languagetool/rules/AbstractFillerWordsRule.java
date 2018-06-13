@@ -32,7 +32,7 @@ import org.languagetool.UserConfig;
 import org.languagetool.rules.Category.Location;
 
 /**
- * A rule that gives Hints on the use of filler words.
+ * A rule that gives Hints about the use of filler words.
  * The Hints are only given when the percentage of filler words per paragraph exceeds the given limit.
  * A limit of 0 shows all used filler words. Direct speech or citation is excluded otherwise. 
  * This rule detects no grammar error but gives stylistic hints (default off).
@@ -180,24 +180,6 @@ public abstract class AbstractFillerWordsRule extends TextLevelRule {
       }
     }
     return toRuleMatchArray(ruleMatches);
-  }
-
-  static class DialogThread extends Thread {
-    private final String text;
-
-    DialogThread(String text) {
-      this.text = text;
-    }
-
-    @Override
-    public void run() {
-      JOptionPane.showMessageDialog(null, text);
-    }
-  }
-
-  void showMessage(String txt) {
-    DialogThread dt = new DialogThread(txt);
-    dt.run();
   }
   
 }
