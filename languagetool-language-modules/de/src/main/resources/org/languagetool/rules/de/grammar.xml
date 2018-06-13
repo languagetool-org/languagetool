@@ -10461,7 +10461,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                 <token regexp="yes">hin(ein|aus|zu|durch|weg|über|unter)?</token>
                 <token postag="VER:.*" postag_regexp="yes">
-                    <exception postag="VER:AUX:.*|SUB:.*|PRP:.*" postag_regexp="yes"/>
+                    <exception postag="VER:(AUX|MOD):.*|SUB:.*|PRP:.*" postag_regexp="yes"/>
                     <exception inflected="yes" regexp="yes">meinen|sein|einen|sieben|achten|einigen|äußern|fernsehen|proben</exception>
                     <exception regexp="yes">(aus|her|durch|weg|über|unter).*</exception>
                 </token>
@@ -38153,7 +38153,7 @@ Andere Projekte</example>
             </rule>
         </rulegroup>
     </category>
-    <category id="CREATIV_WRITING" name="Stilistische Hinweise zum kreativen Schreiben" default="off">
+    <category id="CREATIVE_WRITING" name="Stilistische Hinweise zum kreativen Schreiben" default="off">
         <rulegroup id="AUSSAGEKRAFT_VERBEN" name="Verben mit wenig Aussagekraft" default="off">
             <rule>
                 <antipattern>
@@ -38187,15 +38187,12 @@ Andere Projekte</example>
             <regexp>\b(dann und wann|des Ungeachtet|ganz und gar|hie und da|im Allgemeinen|in der Tat|in diesem Zusammenhang|mehr oder weniger|meines Erachtens|ohne weiteres|ohne Zweifel|samt und sonders|sowohl als auch|voll und ganz|von Neuem|allem Anschein nach|aufs Neue|ein bisschen|ein wenig|des Öfteren|bei weitem|an sich")\b</regexp>
             <message>Der Ausdruck '\1' gilt als Phrase. Es wird empfohlen ihn zu löschen, falls möglich.</message>
             <example type="incorrect">Sie sah <marker>ohne Zweifel</marker> hinreißend aus.</example>
-    </rule>
+        </rule>
         <rule id="BINDEWOERTER_SATZANFANG" name="Bindewörter am Satzanfang" default="off">
             <regexp>^(aber|allerdings|als|also|andererseits|anschließend|anstatt|außer|ausserdem|bevor|beziehungsweise|bis|da|dadurch|dafür|dagegen|damit|danach|dann|darauf|darum|dass|davor|dazu|denn|deshalb|dessen|desto|desungeachtet|deswegen|doch|eh|ehe|entweder|falls|ferner|folglich|genauso|geschweige|im Falle|immerhin|indem|indes|indessen|insofern|insoweit|inzwischen|je|jedoch|nachdem|ob|obgleich|obschon|obwohl|obzwar|oder|respektive|seit|seitdem|so|sodass|sofern|solang|solange|sondern|sooft|soviel|soweit|sowie|sowohl|später|statt|trotzdem|um|umso|und|ungeachtet|vorher|während|währenddem|währenddessen|weder|weil|wenn|wenngleich|wennschon|wie|wiewohl|wobei|wohingegen|zumal|zuvor|zwar")\b</regexp>
             <message>Ein Bindewort wie '\1' sollte nur in Ausnahmefällen am Satzanfang verwendet werden. Formulieren Sie den Satz um, falls möglich.</message>
             <example type="incorrect"><marker>Also</marker> ging er.</example>
-    </rule>
-
-
-
+        </rule>
     </category>
 </rules>
 
