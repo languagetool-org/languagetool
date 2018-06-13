@@ -126,7 +126,9 @@ abstract class TextChecker {
     boolean useQuerySettings = enabledRules.size() > 0 || disabledRules.size() > 0 ||
             enabledCategories.size() > 0 || disabledCategories.size() > 0;
     boolean allowIncompleteResults = "true".equals(parameters.get("allowIncompleteResults"));
-    QueryParams params = new QueryParams(enabledRules, disabledRules, enabledCategories, disabledCategories, useEnabledOnly, useQuerySettings, allowIncompleteResults);
+    boolean enableHiddenRules = "true".equals(parameters.get("enableHiddenRules"));
+    QueryParams params = new QueryParams(enabledRules, disabledRules, enabledCategories, disabledCategories, 
+            useEnabledOnly, useQuerySettings, allowIncompleteResults, enableHiddenRules);
 
     List<RuleMatch> ruleMatchesSoFar = Collections.synchronizedList(new ArrayList<>());
     
@@ -183,7 +185,7 @@ abstract class TextChecker {
 
     setHeaders(httpExchange);
     List<RuleMatch> hiddenMatches = new ArrayList<>();
-    if (config.getHiddenMatchesServer() != null && config.getHiddenMatchesLanguages().contains(lang)) {
+    if (config.getHiddenMatchesServer() != null && params.enableHiddenRules && config.getHiddenMatchesLanguages().contains(lang)) {
       ResultExtender resultExtender = new ResultExtender(config.getHiddenMatchesServer(), config.getHiddenMatchesServerTimeout());
       try {
         long start = System.currentTimeMillis();
@@ -343,9 +345,10 @@ abstract class TextChecker {
     final boolean useEnabledOnly;
     final boolean useQuerySettings;
     final boolean allowIncompleteResults;
+    final boolean enableHiddenRules;
 
     QueryParams(List<String> enabledRules, List<String> disabledRules, List<CategoryId> enabledCategories, List<CategoryId> disabledCategories,
-                boolean useEnabledOnly, boolean useQuerySettings, boolean allowIncompleteResults) {
+                boolean useEnabledOnly, boolean useQuerySettings, boolean allowIncompleteResults, boolean enableHiddenRules) {
       this.enabledRules = enabledRules;
       this.disabledRules = disabledRules;
       this.enabledCategories = enabledCategories;
@@ -353,6 +356,7 @@ abstract class TextChecker {
       this.useEnabledOnly = useEnabledOnly;
       this.useQuerySettings = useQuerySettings;
       this.allowIncompleteResults = allowIncompleteResults;
+      this.enableHiddenRules = enableHiddenRules;
     }
   }
 
