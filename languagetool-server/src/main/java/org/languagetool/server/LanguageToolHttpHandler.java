@@ -91,7 +91,7 @@ class LanguageToolHttpHandler implements HttpHandler {
         } catch (TooManyRequestsException e) {
           String errorMessage = "Error: Access from " + remoteAddress + " denied: " + e.getMessage();
           sendError(httpExchange, HttpURLConnection.HTTP_FORBIDDEN, errorMessage);
-          print(errorMessage + " - useragent: " + parameters.get("useragent") +
+          print(errorMessage + ", sending code 403 - useragent: " + parameters.get("useragent") +
                   " - HTTP UserAgent: " + getHttpUserAgent(httpExchange) + ", r:" + reqCounter.getRequestCount());
           return;
         }
@@ -103,13 +103,13 @@ class LanguageToolHttpHandler implements HttpHandler {
                 " Allowed maximum timeouts: " + errorRequestLimiter.getRequestLimit() +
                 " per " + errorRequestLimiter.getRequestLimitPeriodInSeconds() + " seconds";
         sendError(httpExchange, HttpURLConnection.HTTP_FORBIDDEN, errorMessage);
-        print(errorMessage + " - useragent: " + parameters.get("useragent") +
+        print(errorMessage + ", sending code 403 - useragent: " + parameters.get("useragent") +
                 " - HTTP UserAgent: " + getHttpUserAgent(httpExchange) + ", r:" + reqCounter.getRequestCount());
         return;
       }
       if (config.getMaxWorkQueueSize() != 0 && workQueue.size() > config.getMaxWorkQueueSize()) {
         String response = "Error: There are currently too many parallel requests. Please try again later.";
-        print(response + " Queue size: " + workQueue.size() + ", maximum size: " + config.getMaxWorkQueueSize() +
+        print(response + ", sending code 503. Queue size: " + workQueue.size() + ", maximum size: " + config.getMaxWorkQueueSize() +
                 ", handlers:" + reqCounter.getHandleCount() + ", r:" + reqCounter.getRequestCount());
         sendError(httpExchange, HttpURLConnection.HTTP_UNAVAILABLE, "Error: " + response);
         return;
