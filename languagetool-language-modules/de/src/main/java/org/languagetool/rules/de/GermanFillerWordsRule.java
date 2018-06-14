@@ -75,7 +75,7 @@ public class GermanFillerWordsRule extends AbstractFillerWordsRule {
 
   @Override
   public boolean isException(AnalyzedTokenReadings[] tokens, int num) {
-    if("aber".equals(tokens[num].getToken()) && num >= 2 && ",".equals(tokens[num - 2].getToken())) {
+    if ("aber".equals(tokens[num].getToken()) && num >= 2 && ",".equals(tokens[num - 2].getToken())) {
       return true;
     }
     return false;

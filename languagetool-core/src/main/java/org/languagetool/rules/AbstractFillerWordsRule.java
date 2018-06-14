@@ -24,16 +24,14 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
-import javax.swing.JOptionPane;
-
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.UserConfig;
 import org.languagetool.rules.Category.Location;
 
 /**
- * A rule that gives Hints about the use of filler words.
- * The Hints are only given when the percentage of filler words per paragraph exceeds the given limit.
+ * A rule that gives hints about the use of filler words.
+ * The hints are only given when the percentage of filler words per paragraph exceeds the given limit.
  * A limit of 0 shows all used filler words. Direct speech or citation is excluded otherwise. 
  * This rule detects no grammar error but gives stylistic hints (default off).
  * @author Fred Kruse
@@ -51,7 +49,6 @@ public abstract class AbstractFillerWordsRule extends TextLevelRule {
   private static final boolean DEFAULT_ACTIVATION = false;
 
   private int minPercent = DEFAULT_MIN_PERCENT;
-
 
   /*
    * Override this to detect filler words in the specified language
@@ -124,25 +121,25 @@ public abstract class AbstractFillerWordsRule extends TextLevelRule {
   public RuleMatch[] match(List<AnalyzedSentence> sentences) throws IOException {
     List<RuleMatch> ruleMatches = new ArrayList<>();
     String msg = getMessage();
-    List<Integer> startPos = new ArrayList<Integer>();
-    List<Integer> endPos = new ArrayList<Integer>();
-    double percent = 0;
+    List<Integer> startPos = new ArrayList<>();
+    List<Integer> endPos = new ArrayList<>();
+    double percent;
     int pos = 0;
     int wordCount = 0;
     boolean isDirectSpeech = false;
-    for(AnalyzedSentence sentence : sentences) {
+    for (AnalyzedSentence sentence : sentences) {
       AnalyzedTokenReadings[] tokens = sentence.getTokens();
-      for(int n = 0; n < tokens.length; n++) {
+      for (int n = 0; n < tokens.length; n++) {
         AnalyzedTokenReadings token = tokens[n];
         String sToken = token.getToken();
-        if(OPENING_QUOTES.matcher(sToken).matches() && n < tokens.length -1 && !tokens[n + 1].isWhitespace()) {
+        if (OPENING_QUOTES.matcher(sToken).matches() && n < tokens.length -1 && !tokens[n + 1].isWhitespace()) {
           isDirectSpeech = true;
         }
-        else if(ENDING_QUOTES.matcher(sToken).matches() 
+        else if (ENDING_QUOTES.matcher(sToken).matches() 
             && !tokens[n - 1].isWhitespace() && !tokens[n - 1].isSentenceStart()) {
           isDirectSpeech = false;
         }
-        else if((!isDirectSpeech || minPercent == 0) && !token.isWhitespace() && !token.isSentenceStart() 
+        else if ((!isDirectSpeech || minPercent == 0) && !token.isWhitespace() && !token.isSentenceStart() 
             && !token.isSentenceEnd() && !NON_WORD_REGEX.matcher(sToken).matches()) {
           wordCount++;
           if(isFillerWord(sToken) && !isException(tokens, n)) {
@@ -162,13 +159,13 @@ public abstract class AbstractFillerWordsRule extends TextLevelRule {
             }
           }
           wordCount = 0;
-          startPos = new ArrayList<Integer>();
-          endPos = new ArrayList<Integer>();
+          startPos = new ArrayList<>();
+          endPos = new ArrayList<>();
         }
       }
       pos += sentence.getText().length();
     }
-    if(wordCount > 0) {
+    if (wordCount > 0) {
       percent = startPos.size() * 100.0 / wordCount;
     } else {
       percent = 0;

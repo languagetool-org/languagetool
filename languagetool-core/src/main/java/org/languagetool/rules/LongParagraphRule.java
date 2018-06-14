@@ -51,12 +51,12 @@ public class LongParagraphRule extends TextLevelRule {
     if (!defaultActive) {
       setDefaultOff();
     }
-    if(defaultWords > 0) {
+    if (defaultWords > 0) {
       this.maxWords = defaultWords;
     }
     if (userConfig != null) {
       int confWords = userConfig.getConfigValueByID(getId());
-      if(confWords > 0) {
+      if (confWords > 0) {
         this.maxWords = confWords;
       }
     }
