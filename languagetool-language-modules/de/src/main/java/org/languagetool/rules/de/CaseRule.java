@@ -224,7 +224,7 @@ public class CaseRule extends Rule {
     ),
     Arrays.asList(
        // "... etwas Interessantes und Spannendes suchte"
-       regex("etwas|nichts|viel|wenig|allerlei"),
+       regex("etwas|nichts|viel|wenig|allerlei|was"),
        regex("[A-ZÄÖÜ].*es"),
        regex("und|oder|,"),
        regex("[A-ZÄÖÜ].*es")
