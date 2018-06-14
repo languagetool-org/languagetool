@@ -135,6 +135,7 @@ abstract class Server {
     System.out.println("                 'maxWorkQueueSize' - reject request if request queue gets larger than this (optional)");
     System.out.println("                 'rulesFile' - a file containing rules configuration, such as .langugagetool.cfg (optional)");
     System.out.println("                 'warmUp' - set to 'true' to warm up server at start, i.e. run a short check with all languages (optional)");
+    System.out.println("                 'blockedReferrers' - a comma-separated list of HTTP referrers that are blocked and will not be served (optional)");
   }
 
   protected static void printCommonOptions() {

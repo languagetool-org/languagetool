@@ -49,6 +49,8 @@
     user had selected the wrong language.
   * Speed up false friend rule loading using a cache (can save about 20ms per 
     request - only if mother tongue is set, has no effect otherwise)
+  * New optional configuration setting `blockedReferrers`: a comma-separated list 
+    of HTTP referrers that are blocked and will not be served
   * BETA: New optional configuration settings `dbDriver`, `dbUrl`, `dbUsername`,
     `dbPassword` to allow user-specific dictionaries
     

@@ -28,6 +28,8 @@ import java.io.UnsupportedEncodingException;
 import java.net.SocketException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.Arrays;
+import java.util.HashMap;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -38,7 +40,7 @@ public class HTTPSServerTest {
   private static final String KEYSTORE_PASSWORD = "mytest";
 
   @Test
-  public void runRequestLimitationTest() throws Exception {
+  public void runRequestAndReferrerLimitationTest() throws Exception {
     HTTPTools.disableCertChecks();
     HTTPSServerConfig serverConfig = new HTTPSServerConfig(HTTPTools.getDefaultPort(), false, getKeystoreFile(), KEYSTORE_PASSWORD, 2, 120);
     HTTPSServer server = new HTTPSServer(serverConfig, false, HTTPServerConfig.DEFAULT_HOST, null);
@@ -51,6 +53,17 @@ public class HTTPSServerTest {
         String result = check(new German(), "foo");
         fail("Expected exception not thrown, got this result instead: '" + result + "'");
       } catch (IOException ignored) {}
+
+      serverConfig.setBlockedReferrers(Arrays.asList("http://foo.org"));
+      try {
+        URL url = new URL("https://localhost:" + HTTPTools.getDefaultPort() + "/v2/check");
+        HashMap<String, String> map = new HashMap<>();
+        map.put("Referer", "http://foo.org/myref");
+        HTTPTools.checkAtUrlByPost(url, "language=en&text=a test", map);
+        fail("Request should fail because of blocked referrer");
+      } catch (Exception ignored) {
+        ignored.printStackTrace();
+      }
     } finally {
       server.stop();
     }

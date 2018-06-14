@@ -76,6 +76,16 @@ class LanguageToolHttpHandler implements HttpHandler {
     Map<String, String> parameters = new HashMap<>();
     int reqId = reqCounter.incrementRequestCount();
     try {
+      String referrer = httpExchange.getRequestHeaders().getFirst("Referer");
+      for (String ref : config.getBlockedReferrers()) {
+        if (referrer != null && referrer.startsWith(ref)) {
+          String errorMessage = "Error: Access with referrer " + referrer + " denied.";
+          sendError(httpExchange, HttpURLConnection.HTTP_FORBIDDEN, errorMessage);
+          print(errorMessage + ", sending code 403 - useragent: " + parameters.get("useragent") +
+                  " - HTTP UserAgent: " + getHttpUserAgent(httpExchange) + ", r:" + reqCounter.getRequestCount());
+          return;
+        }
+      }
       URI requestedUri = httpExchange.getRequestURI();
       String origAddress = httpExchange.getRemoteAddress().getAddress().getHostAddress();
       String realAddressOrNull = getRealRemoteAddressOrNull(httpExchange);
