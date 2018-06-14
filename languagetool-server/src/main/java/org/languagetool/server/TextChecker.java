@@ -158,7 +158,7 @@ abstract class TextChecker {
         } else if (e.getCause() != null && e.getCause() instanceof OutOfMemoryError) {
           throw (OutOfMemoryError)e.getCause();
         } else {
-          throw e;
+          throw new RuntimeException(e.getMessage() + ", detected: " + detLang, e);
         }
       } catch (TimeoutException e) {
         boolean cancelled = future.cancel(true);
@@ -169,7 +169,9 @@ abstract class TextChecker {
         }
         String message = "Text checking took longer than allowed maximum of " + limits.getMaxCheckTimeMillis() +
                          " milliseconds (cancelled: " + cancelled +
-                         ", language: " + lang.getShortCodeWithCountryAndVariant() + ", #" + count +
+                         ", lang: " + lang.getShortCodeWithCountryAndVariant() +
+                         ", detected: " + detLang +
+                         ", #" + count +
                          ", " + aText.getPlainText().length() + " characters of text" +
                          ", h: " + reqCounter.getHandleCount() + ", r: " + reqCounter.getRequestCount() + ", system load: " + loadInfo + ")";
         if (params.allowIncompleteResults) {

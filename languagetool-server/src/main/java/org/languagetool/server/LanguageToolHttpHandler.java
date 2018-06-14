@@ -140,21 +140,22 @@ class LanguageToolHttpHandler implements HttpHandler {
       int errorCode;
       boolean textLoggingAllowed = false;
       boolean logStacktrace = true;
-      if (e instanceof TextTooLongException) {
+      Throwable rootCause = ExceptionUtils.getRootCause(e);
+      if (e instanceof TextTooLongException || rootCause instanceof TextTooLongException) {
         errorCode = HttpURLConnection.HTTP_ENTITY_TOO_LARGE;
         response = e.getMessage();
         logStacktrace = false;
-      } else if (ExceptionUtils.getRootCause(e) instanceof ErrorRateTooHighException) {
+      } else if (e instanceof ErrorRateTooHighException || rootCause instanceof ErrorRateTooHighException) {
         errorCode = HttpURLConnection.HTTP_BAD_REQUEST;
         response = ExceptionUtils.getRootCause(e).getMessage();
         logStacktrace = false;
-      } else if (e instanceof AuthException || e.getCause() != null && e.getCause() instanceof AuthException) {
+      } else if (e instanceof AuthException || rootCause instanceof AuthException) {
         errorCode = HttpURLConnection.HTTP_FORBIDDEN;
         response = e.getMessage();
-      } else if (e instanceof IllegalArgumentException) {
+      } else if (e instanceof IllegalArgumentException || rootCause instanceof IllegalArgumentException) {
         errorCode = HttpURLConnection.HTTP_BAD_REQUEST;
         response = e.getMessage();
-      } else if (e.getCause() != null && e.getCause() instanceof TimeoutException) {
+      } else if (e instanceof TimeoutException || rootCause instanceof TimeoutException) {
         errorCode = HttpURLConnection.HTTP_INTERNAL_ERROR;
         response = "Checking took longer than " + config.getMaxCheckTimeMillis()/1000.0f + " seconds, which is this server's limit. " +
                    "Please make sure you have selected the proper language or consider submitting a shorter text.";
