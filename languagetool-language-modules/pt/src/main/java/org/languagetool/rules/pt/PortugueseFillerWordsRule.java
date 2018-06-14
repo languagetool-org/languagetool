@@ -23,15 +23,13 @@ import java.util.HashSet;
 import java.util.ResourceBundle;
 import java.util.Set;
 
-import javax.swing.JOptionPane;
-
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.UserConfig;
 import org.languagetool.rules.AbstractFillerWordsRule;
 
 /**
- * A rule that gives Hints on the use of German filler words.
- * The Hints are only given when the percentage of filler words per paragraph exceeds the given limit.
+ * A rule that gives hints on the use of Portuguese filler words.
+ * The hints are only given when the percentage of filler words per paragraph exceeds the given limit.
  * A limit of 0 shows all used filler words. Direct speech or citation is excluded otherwise. 
  * This rule detects no grammar error but gives stylistic hints (default off).
  * @author Fred Kruse
@@ -77,7 +75,7 @@ public class PortugueseFillerWordsRule extends AbstractFillerWordsRule {
 
   @Override
   public boolean isException(AnalyzedTokenReadings[] tokens, int num) {
-    if("mas".equals(tokens[num].getToken()) && num >= 2 && ",".equals(tokens[num - 2].getToken())) {
+    if ("mas".equals(tokens[num].getToken()) && num >= 2 && ",".equals(tokens[num - 2].getToken())) {
       return true;
     }
     return false;
