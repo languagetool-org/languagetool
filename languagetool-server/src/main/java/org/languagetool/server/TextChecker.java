@@ -18,6 +18,7 @@
  */
 package org.languagetool.server;
 
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.sun.net.httpserver.HttpExchange;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.jetbrains.annotations.NotNull;
@@ -77,7 +78,7 @@ abstract class TextChecker {
     this.workQueue = workQueue;
     this.reqCounter = reqCounter;
     this.identifier = new LanguageIdentifier();
-    this.executorService = Executors.newCachedThreadPool();
+    this.executorService = Executors.newCachedThreadPool(new ThreadFactoryBuilder().setNameFormat("lt-textchecker-thread-%d").build());
     this.cache = config.getCacheSize() > 0 ? new ResultCache(config.getCacheSize()) : null;
   }
 
