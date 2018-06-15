@@ -174,7 +174,8 @@ class LanguageToolHttpHandler implements HttpHandler {
         errorCode = HttpURLConnection.HTTP_INTERNAL_ERROR;
         textLoggingAllowed = true;
       }
-      logError(remoteAddress, e, errorCode, httpExchange, parameters, textLoggingAllowed, logStacktrace);
+      long endTime = System.currentTimeMillis();
+      logError(remoteAddress, e, errorCode, httpExchange, parameters, textLoggingAllowed, logStacktrace, endTime-startTime);
       sendError(httpExchange, errorCode, "Error: " + response);
     } finally {
       httpExchange.close();
@@ -197,7 +198,7 @@ class LanguageToolHttpHandler implements HttpHandler {
   }
 
   private void logError(String remoteAddress, Exception e, int errorCode, HttpExchange httpExchange, Map<String, String> params, 
-                        boolean textLoggingAllowed, boolean logStacktrace) {
+                        boolean textLoggingAllowed, boolean logStacktrace, long runtimeMillis) {
     String message = "An error has occurred: '" +  e.getMessage() + "', sending HTTP code " + errorCode + ". ";
     message += "Access from " + remoteAddress + ", ";
     message += "HTTP user agent: " + getHttpUserAgent(httpExchange) + ", ";
@@ -206,6 +207,7 @@ class LanguageToolHttpHandler implements HttpHandler {
     message += "language: " + params.get("language") + ", ";
     message += "h: " + reqCounter.getHandleCount() + ", ";
     message += "r: " + reqCounter.getRequestCount() + ", ";
+    message += "time: " + runtimeMillis + ", ";
     String text = params.get("text");
     if (text != null) {
       message += "text length: " + text.length() + ", ";
