@@ -922,8 +922,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   @Override
   protected boolean isQuotedCompound (AnalyzedSentence analyzedSentence, int idx, String token) {
     if (idx > 3 && token.startsWith("-")) {
-      return "“".equals(analyzedSentence.getTokens()[idx-1].getToken()) &&
-          "„".equals(analyzedSentence.getTokens()[idx-3].getToken());
+      return StringUtils.equalsAny(analyzedSentence.getTokens()[idx-1].getToken(), "“", "\"") &&
+          StringUtils.equalsAny(analyzedSentence.getTokens()[idx-3].getToken(), "„", "\"");
     }
     return false;
   }
