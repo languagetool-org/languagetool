@@ -7,7 +7,7 @@
         <version>4.2-SNAPSHOT</version>
         <relativePath>../../pom.xml</relativePath>
     </parent>
-    
+
     <artifactId>language-zh</artifactId>
     <url>http://www.languagetool.org</url>
     <name>Chinese module for LanguageTool</name>
@@ -20,7 +20,7 @@
             <comments>The license refers to the source code, resources may be under different licenses</comments>
         </license>
     </licenses>
-    
+
     <packaging>jar</packaging>
 
     <developers>
@@ -37,7 +37,7 @@
             <roles><role>Maintainer</role></roles>
         </developer>
     </developers>
-    
+
     <build>
         <plugins>
             <plugin>
@@ -45,28 +45,6 @@
             </plugin>
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <configuration>
-                    <archive>
-                        <manifest>
-                            <mainClass>it.bitrack.main.Main</mainClass>
-                        </manifest>
-                    </archive>
-                    <descriptorRefs>
-                        <descriptorRef>jar-with-dependencies</descriptorRef>
-                    </descriptorRefs>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>make-assembly</id> <!-- this is used for inheritance merges -->
-                        <phase>package</phase> <!-- bind to the packaging phase -->
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>
@@ -77,7 +55,7 @@
             <artifactId>languagetool-core</artifactId>
             <version>${languagetool.version}</version>
         </dependency>
-        
+
         <dependency>
             <groupId>com.googlecode.ictclas4j</groupId>
             <artifactId>ictclas4j</artifactId>

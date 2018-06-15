@@ -54,7 +54,7 @@ public class JLanguageToolTest {
 
   @Test
   public void demoCodeForHomepage2() throws IOException {
-    String[] text = {"他的公司解散後，生計並無著落，簡直是走頭無路。"};
+    String[] text = {"他的公司解散後，生計並無著落，簡直是走頭無路。", "打印機"};
     for (String t : text) {
 //      System.out.println(languageTool2.analyzeText(t));
       List<RuleMatch> matches = languageTool2.check(t);

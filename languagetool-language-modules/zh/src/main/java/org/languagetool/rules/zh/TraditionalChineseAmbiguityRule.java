@@ -28,6 +28,7 @@ import org.languagetool.rules.RuleMatch;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 /**
  * A rule that raises suggestions when the user inputs TC sentences
@@ -42,6 +43,14 @@ import java.util.List;
  * @author Ze Dang
  */
 public class TraditionalChineseAmbiguityRule extends Rule {
+
+  public TraditionalChineseAmbiguityRule() {
+    super();
+  }
+
+  public TraditionalChineseAmbiguityRule(ResourceBundle messages) {
+    super(messages);
+  }
 
   @Override
   public String getId() {
