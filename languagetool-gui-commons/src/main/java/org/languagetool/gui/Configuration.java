@@ -40,7 +40,7 @@ import java.util.List;
 public class Configuration {
   
   static final int DEFAULT_SERVER_PORT = 8081;  // should be HTTPServerConfig.DEFAULT_PORT but we don't have that dependency
-  static final int DEFAULT_NUM_CHECK_PARAS = 5;  //  default number of parameters to be checked by TextLevelRules in LO/OO 
+  static final int DEFAULT_NUM_CHECK_PARAS = 0;  //  default number of parameters to be checked by TextLevelRules in LO/OO 
   static final int FONT_STYLE_INVALID = -1;
   static final int FONT_SIZE_INVALID = -1;
 
@@ -95,7 +95,7 @@ public class Configuration {
   private int fontSize = FONT_SIZE_INVALID;
   private int serverPort = DEFAULT_SERVER_PORT;
   private int numParasToCheck = DEFAULT_NUM_CHECK_PARAS;
-  private boolean doResetCheck = true;
+  private boolean doResetCheck = false;
   private String externalRuleDirectory;
   private String lookAndFeelName;
 
