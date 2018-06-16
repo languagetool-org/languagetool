@@ -32,10 +32,11 @@ import java.util.Objects;
 public class UserConfig {
 
   private final List<String> userSpecificSpellerWords;
+  private final int maxSpellingSuggestions;
   private final Map<String, Integer> configurableRuleValues = new HashMap<>();
 
   public UserConfig() {
-    userSpecificSpellerWords = new ArrayList<>();
+    this(new ArrayList<>(), new HashMap<>());
   }
 
   public UserConfig(List<String> userSpecificSpellerWords) {
@@ -47,14 +48,23 @@ public class UserConfig {
   }
 
   public UserConfig(List<String> userSpecificSpellerWords, Map<String, Integer> ruleValues) {
+    this(userSpecificSpellerWords, ruleValues, 0);
+  }
+
+  public UserConfig(List<String> userSpecificSpellerWords, Map<String, Integer> ruleValues, int maxSpellingSuggestions) {
     this.userSpecificSpellerWords = Objects.requireNonNull(userSpecificSpellerWords);
     for (Map.Entry<String, Integer> entry : ruleValues.entrySet()) {
       this.configurableRuleValues.put(entry.getKey(), entry.getValue());
     }
+    this.maxSpellingSuggestions = maxSpellingSuggestions;
   }
 
   public List<String> getAcceptedWords() {
     return userSpecificSpellerWords;
+  }
+
+  public int getMaxSpellingSuggestions() {
+    return maxSpellingSuggestions;
   }
 
   public Map<String, Integer> getConfigValues() {
@@ -79,6 +89,7 @@ public class UserConfig {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     UserConfig that = (UserConfig) o;
+    if (maxSpellingSuggestions != that.maxSpellingSuggestions) return false;
     if (!userSpecificSpellerWords.equals(that.userSpecificSpellerWords)) return false;
     return configurableRuleValues.equals(that.configurableRuleValues);
   }
@@ -86,6 +97,7 @@ public class UserConfig {
   @Override
   public int hashCode() {
     int result = userSpecificSpellerWords.hashCode();
+    result = 31 * result + maxSpellingSuggestions;
     result = 31 * result + configurableRuleValues.hashCode();
     return result;
   }

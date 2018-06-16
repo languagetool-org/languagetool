@@ -95,7 +95,9 @@ abstract class TextChecker {
       throw new TextTooLongException("Your text exceeds the limit of " + limits.getMaxTextLength() +
               " characters (it's " + aText.getPlainText().length() + " characters). Please submit a shorter text.");
     }
-    UserConfig userConfig = new UserConfig(limits.getPremiumUid() != null ? getUserDictWords(limits.getPremiumUid()) : Collections.emptyList());
+    UserConfig userConfig = new UserConfig(
+            limits.getPremiumUid() != null ? getUserDictWords(limits.getPremiumUid()) : Collections.emptyList(),
+            new HashMap<>(), config.getMaxSpellingSuggestions());
     //print("Check start: " + text.length() + " chars, " + langParam);
     boolean autoDetectLanguage = getLanguageAutoDetect(parameters);
     List<String> preferredVariants = getPreferredVariants(parameters);

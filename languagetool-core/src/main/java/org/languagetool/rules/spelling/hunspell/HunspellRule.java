@@ -64,9 +64,12 @@ public class HunspellRule extends SpellingCheckRule {
   }
   protected Pattern nonWordPattern;
 
+  private final UserConfig userConfig;
+
   public HunspellRule(ResourceBundle messages, Language language, UserConfig userConfig) {
     super(messages, language, userConfig);
     super.setCategory(Categories.TYPOS.getCategory(messages));
+    this.userConfig = userConfig;
   }
 
   @Override
@@ -112,24 +115,29 @@ public class HunspellRule extends SpellingCheckRule {
             len, len + word.length(),
             messages.getString("spelling"),
             messages.getString("desc_spelling_short"));
-        List<String> suggestions = getSuggestions(word);
-        List<String> additionalTopSuggestions = getAdditionalTopSuggestions(suggestions, word);
-        Collections.reverse(additionalTopSuggestions);
-        for (String additionalTopSuggestion : additionalTopSuggestions) {
-          if (!word.equals(additionalTopSuggestion)) {
-            suggestions.add(0, additionalTopSuggestion);
+        if (userConfig.getMaxSpellingSuggestions() == 0 || ruleMatches.size() <= userConfig.getMaxSpellingSuggestions()) {
+          List<String> suggestions = getSuggestions(word);
+          List<String> additionalTopSuggestions = getAdditionalTopSuggestions(suggestions, word);
+          Collections.reverse(additionalTopSuggestions);
+          for (String additionalTopSuggestion : additionalTopSuggestions) {
+            if (!word.equals(additionalTopSuggestion)) {
+              suggestions.add(0, additionalTopSuggestion);
+            }
           }
-        }
-        List<String> additionalSuggestions = getAdditionalSuggestions(suggestions, word);
-        for (String additionalSuggestion : additionalSuggestions) {
-          if (!word.equals(additionalSuggestion)) {
-            suggestions.addAll(additionalSuggestions);
+          List<String> additionalSuggestions = getAdditionalSuggestions(suggestions, word);
+          for (String additionalSuggestion : additionalSuggestions) {
+            if (!word.equals(additionalSuggestion)) {
+              suggestions.addAll(additionalSuggestions);
+            }
           }
-        }
-        if (!suggestions.isEmpty()) {
-          filterSuggestions(suggestions);
-          filterDupes(suggestions);
-          ruleMatch.setSuggestedReplacements(suggestions);
+          if (!suggestions.isEmpty()) {
+            filterSuggestions(suggestions);
+            filterDupes(suggestions);
+            ruleMatch.setSuggestedReplacements(suggestions);
+          }
+        } else {
+          // limited to save CPU
+          ruleMatch.setSuggestedReplacement(messages.getString("too_many_errors"));
         }
         ruleMatches.add(ruleMatch);
       }
