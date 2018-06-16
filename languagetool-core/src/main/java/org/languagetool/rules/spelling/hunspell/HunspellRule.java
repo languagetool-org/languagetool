@@ -115,7 +115,7 @@ public class HunspellRule extends SpellingCheckRule {
             len, len + word.length(),
             messages.getString("spelling"),
             messages.getString("desc_spelling_short"));
-        if (userConfig.getMaxSpellingSuggestions() == 0 || ruleMatches.size() <= userConfig.getMaxSpellingSuggestions()) {
+        if (userConfig == null || userConfig.getMaxSpellingSuggestions() == 0 || ruleMatches.size() <= userConfig.getMaxSpellingSuggestions()) {
           List<String> suggestions = getSuggestions(word);
           List<String> additionalTopSuggestions = getAdditionalTopSuggestions(suggestions, word);
           Collections.reverse(additionalTopSuggestions);
