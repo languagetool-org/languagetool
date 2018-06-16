@@ -79,12 +79,14 @@ public class UserConfig {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     UserConfig that = (UserConfig) o;
-    return userSpecificSpellerWords.equals(that.userSpecificSpellerWords);
+    if (!userSpecificSpellerWords.equals(that.userSpecificSpellerWords)) return false;
+    return configurableRuleValues.equals(that.configurableRuleValues);
   }
 
   @Override
   public int hashCode() {
-    return userSpecificSpellerWords.hashCode();
+    int result = userSpecificSpellerWords.hashCode();
+    result = 31 * result + configurableRuleValues.hashCode();
+    return result;
   }
-  
 }
