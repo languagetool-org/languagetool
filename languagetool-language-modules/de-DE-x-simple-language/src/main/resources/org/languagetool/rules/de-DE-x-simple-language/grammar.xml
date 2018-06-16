@@ -237,14 +237,47 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="ZUS"/>
                 </antipattern>
                 <antipattern>
+                    <token regexp="yes">\d+</token>
+                    <token regexp="yes">und|oder</token>
+                    <token regexp="yes">\d+</token>
+                </antipattern>
+                <antipattern case_sensitive="yes">
+                    <token regexp="yes">mit|zwischen</token>
+                    <token regexp="yes">de[nm]</token>
+                    <token/>
+                    <token regexp="yes">und|oder</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">und|oder</token>
+                    <token regexp="yes">-[a-zäöüß]+</token>
+                </antipattern>
+                <antipattern>
                     <token postag="SUB:.+" postag_regexp="yes"/>
                     <token regexp="yes">und|oder</token>
+                    <token postag="SUB:.+" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="ADJ:.+" postag_regexp="yes"/>
+                    <token regexp="yes">und|oder</token>
+                    <token postag="ADJ:.+|UNKNOWN" postag_regexp="yes"/>
                     <token postag="SUB:.+" postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
                     <token postag="VER:MOD:[1-3]:.+" postag_regexp="yes" skip="-1"/>
                     <token regexp="yes" skip="-1">und|oder</token>
                     <token postag="VER:INF:.+" postag_regexp="yes"/>
+                    <token>.</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="VER:(INF|EIZ):.+" postag_regexp="yes"/>
+                    <token regexp="yes" skip="-1">und|oder</token>
+                    <token postag="VER:(INF|EIZ):.+" postag_regexp="yes"/>
+                    <token>.</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">und|oder</token>
+                    <token postag="ADJ:.+" postag_regexp="yes"/>
+                    <token/>
                     <token>.</token>
                 </antipattern>
                 <pattern>
@@ -262,10 +295,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Er hat Eier und Milch bei einem Bauern gekauft.</example>
                 <example>Er sollte Schrauben und Muttern trennen.</example>
                 <example>Ist er groß oder klein?</example>
+                <example>Es gibt immer mehr vegetarische und vegane Fertigprodukte.</example>
                 <example correction="">Ihr macht das jetzt fertig <marker>und</marker> ich gehe.</example>
                 <example correction="">Ich mache das jetzt fertig <marker>und</marker> ihr könnt gehen.</example>
+                <example>Er besitzt zwischen 50 und 100 Spiele.</example>
+                <example>Es trafen sich alle Ministerpräsidenten und -präsidentinnen.</example>
+                <example>Lassen Sie das Kind zwischen dem achten und neunten Monat impfen.</example>
+                <example>Das tut sie auch, um ihre Themen durchzusetzen und ihre Haltung mehrheitsfähig zu machen.</example>
+                <example>Die Elternzeit erlaubt es den Eltern, drei Jahre lang aus ihrem Beruf auszusteigen und danach wieder zu den gleichen Bedingungen wie vorher einzusteigen.</example>
             </rule>
             <rule>
+                <antipattern case_sensitive="yes">
+                    <token regexp="yes">mit|zwischen</token>
+                    <token regexp="yes">de[nm]</token>
+                    <token/>
+                    <token regexp="yes">und|oder</token>
+                </antipattern>
                 <antipattern>
                     <token postag="SENT_START" skip="2"/>
                     <token regexp="yes">und|oder</token>
