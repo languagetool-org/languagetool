@@ -269,12 +269,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>.</token>
                 </antipattern>
                 <antipattern>
-                    <token postag="VER:(INF|EIZ):.+" postag_regexp="yes"/>
-                    <token regexp="yes" skip="-1">und|oder</token>
-                    <token postag="VER:(INF|EIZ):.+" postag_regexp="yes"/>
-                    <token>.</token>
-                </antipattern>
-                <antipattern>
                     <token regexp="yes">und|oder</token>
                     <token postag="ADJ:.+" postag_regexp="yes"/>
                     <token/>
@@ -303,6 +297,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Lassen Sie das Kind zwischen dem achten und neunten Monat impfen.</example>
                 <example>Das tut sie auch, um ihre Themen durchzusetzen und ihre Haltung mehrheitsfähig zu machen.</example>
                 <example>Die Elternzeit erlaubt es den Eltern, drei Jahre lang aus ihrem Beruf auszusteigen und danach wieder zu den gleichen Bedingungen wie vorher einzusteigen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="VER:(INF|EIZ):.+" postag_regexp="yes"/>
+                    <marker>
+                        <token regexp="yes">und|oder</token>
+                    </marker>
+                    <token/>
+                    <token skip="-1"/>
+                    <token postag="VER:(INF|EIZ):.+" postag_regexp="yes"/>
+                    <token>.</token>
+                </pattern>
+                <message>Jeder Satz sollte nur eine Aussage enthalten. Können Sie diesen Satz in mehrere Sätze aufteilen?</message>
+                <example correction="">Das tut sie auch, um ihre Themen durchzusetzen <marker>und</marker> ihre Haltung mehrheitsfähig zu machen.</example>
+                <example correction="">Die Elternzeit erlaubt es den Eltern, drei Jahre lang aus ihrem Beruf auszusteigen <marker>und</marker> danach wieder zu den gleichen Bedingungen wie vorher einzusteigen.</example>
             </rule>
             <rule>
                 <antipattern case_sensitive="yes">
