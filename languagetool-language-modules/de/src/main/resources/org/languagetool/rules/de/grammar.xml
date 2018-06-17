@@ -10257,6 +10257,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="VER:.*" postag_regexp="yes"></token>
             </antipattern>
             <antipattern>
+                <token regexp="yes">rüber|runter</token>
+                <token/>
+                <token regexp="yes">eine?|das|der</token>
+            </antipattern>
+            <antipattern>
                 <token>hin</token>
                 <token>und</token>
                 <token>her</token>
@@ -10276,13 +10281,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token><exception regexp="yes">;|:</exception><exception postag="SENT_START"/></token>
                 <marker>
-                <token regexp="yes">(um)?her(ein|aus|vor|bei|nieder|über|unter)?|rein</token>
+                <token regexp="yes">(um)?her(ein|aus|vor|bei|nieder|über|unter)?|rein|runter|rüber</token>
                 <token postag="VER:.*" postag_regexp="yes"><exception postag="VER:AUX:.*|SUB:.*|PRP:.*" postag_regexp="yes"/><exception regexp="yes">hin.*</exception></token>
                 </marker>
             </pattern>
             <message>Bitte überprüfen Sie die Zusammenschreibung. Meinten Sie <suggestion><match no="2"/><match no="3" case_conversion ="alllower"/></suggestion>?</message>
             <example correction="hervorgeholt">Sie hatte das Buch bereits <marker>hervor geholt</marker>.</example>
             <example correction="reinlassen">Kannst du ihn bitte <marker>rein lassen</marker>?</example>
+            <example correction="rüberlassen">Kannst du ihn bitte <marker>rüber lassen</marker>?</example>
+            <example correction="runterlassen">Kannst du ihn bitte <marker>runter lassen</marker>?</example>
+            <example>Gleich die Straße rüber liegt ein kleines Cafe.</example>
+            <example>Gleich die Straße runter liegt der kleine Laden.</example>
         </rule>
         <rule id="ZUSAMMENSCHREIBUNG_HIERHER" name="Zusammenschreibung von Verben mit dem Präfix 'hierher'">
             <antipattern>
