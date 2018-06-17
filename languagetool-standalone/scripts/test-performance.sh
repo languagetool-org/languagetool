@@ -22,3 +22,9 @@ DATE=`date +"%Y-%m-%d %H:%M:%S"`
 echo "$DATE;$RUNTIME" >>$DATADIR/performance-api-cloud.log
 # 8640 = 288 checks per day * 30 days:
 tail -n 8640 $DATADIR/performance-api-cloud.log >$DATADIR/performance-api-recent2.log
+
+RUNTIME=`curl -s -w "\nTOTAL_TIME:%{time_total}\n\n" "https://api.languagetoolplus.com/v2/languages" "https://api.languagetoolplus.com/v2/check?language=en-US&text=my+texd" | grep "TOTAL_TIME" | sed 's/TOTAL_TIME://' | tail -n 1`
+DATE=`date +"%Y-%m-%d %H:%M:%S"`
+echo "$DATE;$RUNTIME" >>$DATADIR/performance-ltp-api-cloud.log
+# 8640 = 288 checks per day * 30 days:
+tail -n 8640 $DATADIR/performance-ltp-api-cloud.log >$DATADIR/performance-ltp-api-cloud-recent.log
