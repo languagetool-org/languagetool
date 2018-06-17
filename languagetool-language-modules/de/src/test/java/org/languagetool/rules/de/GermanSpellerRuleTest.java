@@ -253,6 +253,8 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("eckelt", "ekelt", rule, lt);
     assertFirstSuggestion("geherte", "geehrte", rule, lt);
     assertFirstSuggestion("Kattermesser", "Cuttermesser", rule, lt);
+    assertFirstSuggestion("antisemitistischer", "antisemitischer", rule, lt);
+    assertFirstSuggestion("unvorsehbares", "unvorhersehbares", rule, lt);
   }
 
   @Test
