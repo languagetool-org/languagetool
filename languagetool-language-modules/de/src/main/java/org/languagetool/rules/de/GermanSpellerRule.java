@@ -197,6 +197,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("Kaput", "t", "tt");
     putRepl("[fF]estell(s?t|en?)", "est", "estst");
     putRepl("(Baden-)?Würtenbergs?", "Würten", "Württem");
+    putRepl("Rechts?schreibungsfehler[ns]?", "Rechts?schreibungs", "Rechtschreib");
     put("[kK]onn?ekt?schen", "Connection");
     put("E-Maul", "E-Mail");
     put("E-Mauls", "E-Mails");
