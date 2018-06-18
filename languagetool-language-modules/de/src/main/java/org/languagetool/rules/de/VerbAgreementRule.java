@@ -87,6 +87,14 @@ public class VerbAgreementRule extends TextLevelRule {
       new PatternTokenBuilder().token("ich").build()
     ),
     Arrays.asList(
+      new PatternTokenBuilder().csToken("Solltest").build(),
+      new PatternTokenBuilder().token("du").build()
+    ),
+    Arrays.asList(
+      new PatternTokenBuilder().csToken("Sollte").build(),
+      new PatternTokenBuilder().tokenRegex("er|sie").build()
+    ),
+    Arrays.asList(
       new PatternTokenBuilder().pos(JLanguageTool.SENTENCE_START_TAGNAME).build(),  // "Bin gleich wieder da"
       new PatternTokenBuilder().csToken("Bin").build()
     ),
