@@ -108,20 +108,20 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
       // if we use token.getToken() we'll get ignored characters inside and speller will choke
       String word = token.getAnalyzedToken(0).getToken();
       if (tokenizingPattern() == null) {
-        ruleMatches.addAll(getRuleMatches(word, token.getStartPos(), sentence));
+        ruleMatches.addAll(getRuleMatches(word, token.getStartPos(), sentence, ruleMatches));
       } else {
         int index = 0;
         Matcher m = tokenizingPattern().matcher(word);
         while (m.find()) {
           String match = word.subSequence(index, m.start()).toString();
-          ruleMatches.addAll(getRuleMatches(match, token.getStartPos() + index, sentence));
+          ruleMatches.addAll(getRuleMatches(match, token.getStartPos() + index, sentence, ruleMatches));
           index = m.end();
         }
         if (index == 0) { // tokenizing char not found
-          ruleMatches.addAll(getRuleMatches(word, token.getStartPos(), sentence));
+          ruleMatches.addAll(getRuleMatches(word, token.getStartPos(), sentence, ruleMatches));
         } else {
           ruleMatches.addAll(getRuleMatches(word.subSequence(
-              index, word.length()).toString(), token.getStartPos() + index, sentence));
+              index, word.length()).toString(), token.getStartPos() + index, sentence, ruleMatches));
         }
       }
     }
@@ -178,25 +178,30 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     return true;
   }
 
-  protected List<RuleMatch> getRuleMatches(String word, int startPos, AnalyzedSentence sentence) throws IOException {
+  protected List<RuleMatch> getRuleMatches(String word, int startPos, AnalyzedSentence sentence, List<RuleMatch> ruleMatchesSoFar) throws IOException {
     List<RuleMatch> ruleMatches = new ArrayList<>();
     if (isMisspelled(speller1, word) || isProhibited(word)) {
       RuleMatch ruleMatch = new RuleMatch(this, sentence, startPos, startPos
           + word.length(), messages.getString("spelling"),
           messages.getString("desc_spelling_short"));
-      List<String> suggestions = speller1.getSuggestions(word);
-      if (suggestions.isEmpty() && word.length() >= 5) {
-        // speller1 uses a maximum edit distance of 1, it won't find suggestion for "garentee", "greatful" etc.
-        suggestions.addAll(speller2.getSuggestions(word));
-        if (suggestions.isEmpty()) {
-          suggestions.addAll(speller3.getSuggestions(word));
+      if (userConfig == null || userConfig.getMaxSpellingSuggestions() == 0 || ruleMatchesSoFar.size() <= userConfig.getMaxSpellingSuggestions()) {
+        List<String> suggestions = speller1.getSuggestions(word);
+        if (suggestions.isEmpty() && word.length() >= 5) {
+          // speller1 uses a maximum edit distance of 1, it won't find suggestion for "garentee", "greatful" etc.
+          suggestions.addAll(speller2.getSuggestions(word));
+          if (suggestions.isEmpty()) {
+            suggestions.addAll(speller3.getSuggestions(word));
+          }
         }
-      }
-      suggestions.addAll(0, getAdditionalTopSuggestions(suggestions, word));
-      suggestions.addAll(getAdditionalSuggestions(suggestions, word));
-      if (!suggestions.isEmpty()) {
-        filterSuggestions(suggestions);
-        ruleMatch.setSuggestedReplacements(orderSuggestions(suggestions, word));
+        suggestions.addAll(0, getAdditionalTopSuggestions(suggestions, word));
+        suggestions.addAll(getAdditionalSuggestions(suggestions, word));
+        if (!suggestions.isEmpty()) {
+          filterSuggestions(suggestions);
+          ruleMatch.setSuggestedReplacements(orderSuggestions(suggestions, word));
+        }
+      } else {
+        // limited to save CPU
+        ruleMatch.setSuggestedReplacement(messages.getString("too_many_errors"));
       }
       ruleMatches.add(ruleMatch);
     }
