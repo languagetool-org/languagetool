@@ -592,7 +592,7 @@ public class Configuration {
 
   private void parseErrorColors(String colorsString) {
     if (StringUtils.isNotEmpty(colorsString)) {
-      String[] typeToColorList = colorsString.split(",\\s*");
+      String[] typeToColorList = colorsString.split("(?<=:#[0-9A-Fa-f]{6}),\\s*");
       for (String typeToColor : typeToColorList) {
         String[] typeAndColor = typeToColor.split(":");
         if (typeAndColor.length != 2) {
@@ -607,7 +607,7 @@ public class Configuration {
 
   private void parseUnderlineColors(String colorsString) {
     if (StringUtils.isNotEmpty(colorsString)) {
-      String[] typeToColorList = colorsString.split(",\\s*");
+      String[] typeToColorList = colorsString.split("(?<=:#[0-9A-Fa-f]{6}),\\s*");
       for (String typeToColor : typeToColorList) {
         String[] typeAndColor = typeToColor.split(":");
         if (typeAndColor.length != 2) {
@@ -620,7 +620,7 @@ public class Configuration {
 
   private void parseConfigurableRuleValues(String rulesValueString) {
     if (StringUtils.isNotEmpty(rulesValueString)) {
-      String[] ruleToValueList = rulesValueString.split(",\\s*");
+      String[] ruleToValueList = rulesValueString.split("(?<=:#[0-9A-Fa-f]{6}),\\s*");
       for (String ruleToValue : ruleToValueList) {
         String[] ruleAndValue = ruleToValue.split(":");
         if (ruleAndValue.length != 2) {
