@@ -24,7 +24,6 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
 import org.languagetool.rules.ITSIssueType;
-import org.languagetool.rules.LongSentenceRule;
 
 import java.awt.*;
 import java.io.*;
@@ -70,6 +69,12 @@ public class Configuration {
   private static final String CONFIGURABLE_RULE_VALUES_KEY = "configurableRuleValues";
 
   private static final String DELIMITER = ",";
+  // find all comma followed by zero or more white space characters that are preceded by ":" AND a valid 6-digit hex code
+  // example: ":#44ffee,"
+  private static final String COLOR_SPLITTER_REGEXP = "(?<=:#[0-9A-Fa-f]{6}),\\s*";
+  // find all comma followed by zero or more white space characters that are preceded by at least one digit
+  // example: "4,"
+  private static final String CONFIGURABLE_RULE_SPLITTER_REGEXP = "(?<=[0-9]),\\s*";
   private static final String EXTERNAL_RULE_DIRECTORY = "extRulesDirectory";
 
   private final Map<String, String> configForOtherLanguages = new HashMap<>();
@@ -592,7 +597,7 @@ public class Configuration {
 
   private void parseErrorColors(String colorsString) {
     if (StringUtils.isNotEmpty(colorsString)) {
-      String[] typeToColorList = colorsString.split("(?<=:#[0-9A-Fa-f]{6}),\\s*");
+      String[] typeToColorList = colorsString.split(COLOR_SPLITTER_REGEXP);
       for (String typeToColor : typeToColorList) {
         String[] typeAndColor = typeToColor.split(":");
         if (typeAndColor.length != 2) {
@@ -607,7 +612,7 @@ public class Configuration {
 
   private void parseUnderlineColors(String colorsString) {
     if (StringUtils.isNotEmpty(colorsString)) {
-      String[] typeToColorList = colorsString.split("(?<=:#[0-9A-Fa-f]{6}),\\s*");
+      String[] typeToColorList = colorsString.split(COLOR_SPLITTER_REGEXP);
       for (String typeToColor : typeToColorList) {
         String[] typeAndColor = typeToColor.split(":");
         if (typeAndColor.length != 2) {
@@ -620,7 +625,7 @@ public class Configuration {
 
   private void parseConfigurableRuleValues(String rulesValueString) {
     if (StringUtils.isNotEmpty(rulesValueString)) {
-      String[] ruleToValueList = rulesValueString.split("(?<=:#[0-9A-Fa-f]{6}),\\s*");
+      String[] ruleToValueList = rulesValueString.split(CONFIGURABLE_RULE_SPLITTER_REGEXP);
       for (String ruleToValue : ruleToValueList) {
         String[] ruleAndValue = ruleToValue.split(":");
         if (ruleAndValue.length != 2) {
