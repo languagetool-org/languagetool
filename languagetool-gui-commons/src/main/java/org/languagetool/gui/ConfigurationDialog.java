@@ -96,13 +96,9 @@ public class ConfigurationDialog implements ActionListener {
     Map<String, DefaultMutableTreeNode> parents = new TreeMap<>();
     for (Rule rule : rules) {
       if((isStyle && (rule.getLocQualityIssueType().toString().equalsIgnoreCase("STYLE")
-            || rule.getLocQualityIssueType().toString().equalsIgnoreCase("REGISTER")
-            || rule.getCategory().getId().toString().equals("STYLE")
-            || rule.getCategory().getId().toString().equals("TYPOGRAPHY"))) ||
+            || rule.getCategory().getId().toString().equals("STYLE"))) ||
           (!isStyle && !rule.getLocQualityIssueType().toString().equalsIgnoreCase("STYLE")
-            && !rule.getLocQualityIssueType().toString().equalsIgnoreCase("REGISTER")
-            && !rule.getCategory().getId().toString().equals("STYLE")
-            && !rule.getCategory().getId().toString().equals("TYPOGRAPHY"))) {
+            && !rule.getCategory().getId().toString().equals("STYLE"))) {
         if(rule.hasConfigurableValue()) {
           configurableRules.add(rule);
         } else {
