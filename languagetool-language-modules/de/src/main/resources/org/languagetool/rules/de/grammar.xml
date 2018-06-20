@@ -30113,16 +30113,16 @@ Andere Projekte</example>
                 <pattern>
                     <token regexp="yes">bei|nahe|nebst|mit(samt)?|samt|von|zu</token>
                     <marker>
-                        <token case_sensitive="yes">[dms]einen|ihren|unseren|euren</token>
+                        <token regexp="yes">[dms]einen|ihren|unseren|euren</token>
                     </marker>
                     <token postag_regexp="yes" postag="SUB:...:SIN:(MAS|NEU).*"><exception postag_regexp="yes" postag="SUB:...:PLU:.*"/></token>
                 </pattern>
-                <message>Die Präposition '\1' erfordert in der Regel den Dativ: <suggestion><match no="2" regexp_match="m" regexp_replace="n"/></suggestion></message>
+                <message>Die Präposition '\1' erfordert in der Regel den Dativ: <suggestion><match no="2" regexp_match="n$" regexp_replace="m"/></suggestion></message>
                 <example correction="ihrem">Sie ging zu <marker>ihren</marker> Arzt.</example>
                 <example correction="seinem">Mit <marker>seinen</marker> Arzt spreche ich nicht.</example>
                 <example correction="ihrem">Er ging von <marker>ihren</marker> Mann zu einem anderen.</example>
                 <example>Sie sah ab und zu einen Mann.</example>
-                <example>Sie sagte zu, eine Lösung zu finden.</example>
+                <example>Sie versprach, meinen Vater zu grüßen.</example>
             </rule>
         </rulegroup>
         <rulegroup id="PRAEP_AKK" name="Präposition mit Akkusativ (ohne, für etc.)">
@@ -30870,24 +30870,19 @@ Andere Projekte</example>
                 <example>Er dehnte nach und nach seinen Einfluss aus.</example>
             </rule>
             <rule>
-                <antipattern>
-                    <token>ab</token>
-                    <token case_sensitive="yes">und</token>
-                    <token case_sensitive="yes">zu</token>
-                </antipattern>
                 <pattern>
-                    <token regexp="yes">bei|nahe|nebst|mit(samt)?|samt|von|zu</token>
-                    <marker>
-                        <token regexp="yes">[dms]einen|ihren|unseren|euren</token>
-                    </marker>
-                    <token postag_regexp="yes" postag="SUB:...:SIN:(MAS|NEU).*"><exception postag_regexp="yes" postag="SUB:...:PLU:.*"/></token>
+                    <token regexp="yes">bei|mitsamt|seit|von</token>
+                    <marker><token regexp="yes">d(ies)?en|jenen|s?einen|ihren</token></marker>
+                    <token postag="ADJ:.+:SIN:.+" postag_regexp="yes" min="0"/>
+                    <token postag="SUB:.+:SIN:MAS.*" postag_regexp="yes"><exception  postag="SUB:.+:PLU:.+|.+:INF" postag_regexp="yes"></exception></token>
                 </pattern>
-                <message>Die Präposition '\1' erfordert in der Regel den Dativ: <suggestion><match no="2" regexp_match="n$" regexp_replace="m"/></suggestion></message>
-                <example correction="ihrem">Sie ging zu <marker>ihren</marker> Arzt.</example>
-                <example correction="seinem">Mit <marker>seinen</marker> Arzt spreche ich nicht.</example>
-                <example correction="ihrem">Er ging von <marker>ihren</marker> Mann zu einem anderen.</example>
-                <example>Sie sah ab und zu einen Mann.</example>
-                <example>Sie sagte zu, eine Lösung zu finden.</example>
+                <message>Meinten Sie <suggestion><match no="2" regexp_match="n$" regexp_replace="m"/></suggestion>?</message>
+                <url>http://www.canoo.net/services/OnlineGrammar/Wort/Praeposition/Kasus/Dativ.html</url>
+                <example correction="dem">Seit <marker>den</marker> Unfall ist er nicht mehr derselbe.</example>
+                <example correction="ihrem">Sie hat es von <marker>ihren</marker> Mann bekommen.</example>
+                <example correction="diesem">Bei <marker>diesen</marker> Film schlafe ich immer ein.</example>
+                <example correction="dem">Seit <marker>den</marker> schweren Unfall ist er nicht mehr derselbe.</example>
+                <example>Bei klarem Wetter kann man von hier aus den Berg Fuji sehen.</example>
             </rule>
         </rulegroup>
         <rule id="AN_HERR" name="Präposition/Kasus – 'an/für Herr (Herrn)' etc.">
