@@ -28,6 +28,8 @@ import java.io.UnsupportedEncodingException;
 import java.net.SocketException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.Arrays;
+import java.util.HashMap;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -38,7 +40,7 @@ public class HTTPSServerTest {
   private static final String KEYSTORE_PASSWORD = "mytest";
 
   @Test
-  public void runRequestLimitationTest() throws Exception {
+  public void runRequestAndReferrerLimitationTest() throws Exception {
     HTTPTools.disableCertChecks();
     HTTPSServerConfig serverConfig = new HTTPSServerConfig(HTTPTools.getDefaultPort(), false, getKeystoreFile(), KEYSTORE_PASSWORD, 2, 120);
     HTTPSServer server = new HTTPSServer(serverConfig, false, HTTPServerConfig.DEFAULT_HOST, null);
@@ -51,6 +53,17 @@ public class HTTPSServerTest {
         String result = check(new German(), "foo");
         fail("Expected exception not thrown, got this result instead: '" + result + "'");
       } catch (IOException ignored) {}
+
+      serverConfig.setBlockedReferrers(Arrays.asList("http://foo.org"));
+      try {
+        URL url = new URL("https://localhost:" + HTTPTools.getDefaultPort() + "/v2/check");
+        HashMap<String, String> map = new HashMap<>();
+        map.put("Referer", "http://foo.org/myref");
+        HTTPTools.checkAtUrlByPost(url, "language=en&text=a test", map);
+        fail("Request should fail because of blocked referrer");
+      } catch (Exception ignored) {
+        ignored.printStackTrace();
+      }
     } finally {
       server.stop();
     }
@@ -108,13 +121,23 @@ public class HTTPSServerTest {
         fail("Expected exception with error 413, got: " + expected);
       }
     }
+
+    String json = check("de", "This is an English text, but we specify German anyway");
+    assertTrue("Got: " + json, json.contains("\"German\""));
+    assertTrue("Got: " + json, json.contains("\"de\""));
+    assertTrue("Got: " + json, json.contains("\"English (US)\""));
+    assertTrue("Got: " + json, json.contains("\"en-US\""));
   }
 
-  private String check(Language lang, String text) throws IOException {
-    String urlOptions = "/v2/check?language=" + lang.getShortCode();
+  private String check(String langCode, String text) throws IOException {
+    String urlOptions = "/v2/check?language=" + langCode;
     urlOptions += "&disabledRules=HUNSPELL_RULE&text=" + URLEncoder.encode(text, "UTF-8"); // latin1 is not enough for languages like polish, romanian, etc
     URL url = new URL("https://localhost:" + HTTPTools.getDefaultPort() + urlOptions);
     return HTTPTools.checkAtUrl(url);
+  }
+
+  private String check(Language lang, String text) throws IOException {
+    return check(lang.getShortCode(), text);
   }
   
   private String encode(String text) throws UnsupportedEncodingException {

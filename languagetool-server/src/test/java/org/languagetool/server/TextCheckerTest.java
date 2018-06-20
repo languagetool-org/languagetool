@@ -43,16 +43,16 @@ import static org.junit.Assert.*;
 public class TextCheckerTest {
 
   private final String english = "This is clearly an English text, should be easy to detect.";
-  private final TextChecker checker = new V2TextChecker(new HTTPServerConfig(), false, null);
+  private final TextChecker checker = new V2TextChecker(new HTTPServerConfig(), false, null, new RequestCounter());
 
   @Test
   public void testMaxTextLength() throws Exception {
     Map<String, String> params = new HashMap<>();
     params.put("text", "not used");
     params.put("language", "en");
-    HTTPServerConfig config1 = new HTTPServerConfig();
+    HTTPServerConfig config1 = new HTTPServerConfig(HTTPTools.getDefaultPort());
     config1.setMaxTextLength(10);
-    TextChecker checker = new V2TextChecker(config1, false, null);
+    TextChecker checker = new V2TextChecker(config1, false, null, new RequestCounter());
     try {
       checker.checkText(new AnnotatedTextBuilder().addText("longer than 10 chars").build(), new FakeHttpExchange(), params, null, null);
       fail();

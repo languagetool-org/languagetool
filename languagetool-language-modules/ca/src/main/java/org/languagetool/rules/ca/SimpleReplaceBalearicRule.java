@@ -51,6 +51,7 @@ public class SimpleReplaceBalearicRule extends AbstractSimpleReplaceRule {
     super(messages);
     super.setCategory(Categories.TYPOS.getCategory(messages));
     super.setLocQualityIssueType(ITSIssueType.Misspelling);
+    this.setCheckLemmas(false);
     //this.setIgnoreTaggedWords();
   }  
 

@@ -19,6 +19,7 @@
 package org.languagetool.rules.sr.jekavian;
 
 import org.languagetool.Language;
+import org.languagetool.UserConfig;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
 
 import java.io.IOException;
@@ -34,9 +35,9 @@ public final class MorfologikJekavianSpellerRule extends MorfologikSpellerRule {
 
   public MorfologikJekavianSpellerRule(
           ResourceBundle messages,
-          Language language) throws IOException {
+          Language language, UserConfig userConfig) throws IOException {
 
-    super(messages, language);
+    super(messages, language, userConfig);
     /*addExamplePair(
             Example.wrong("Двије сам <marker>зивдјезе</marker> видјела."),
             Example.fixed("Двије сам <marker>звијезде</marker> видјела.")

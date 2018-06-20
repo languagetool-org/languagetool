@@ -52,6 +52,7 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
     super.setCategory(Categories.TYPOS.getCategory(messages));
     super.setLocQualityIssueType(ITSIssueType.Misspelling);
     this.setIgnoreTaggedWords();
+    this.setCheckLemmas(false);
   }  
 
   @Override

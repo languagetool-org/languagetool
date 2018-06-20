@@ -128,6 +128,7 @@ public class HTTPServer extends Server {
       System.exit(1);
     }
     HTTPServerConfig config = new HTTPServerConfig(args);
+    DatabaseAccess.init(config);
     try {
       checkForNonRootUser();
       HTTPServer server;

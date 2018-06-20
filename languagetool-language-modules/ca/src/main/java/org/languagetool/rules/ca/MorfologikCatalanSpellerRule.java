@@ -31,6 +31,7 @@ import java.util.regex.Pattern;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
+import org.languagetool.UserConfig;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
 import org.languagetool.tagging.ca.CatalanTagger;
 
@@ -52,9 +53,8 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
   private static final Pattern VERB_INFGERIMP = Pattern.compile("V.[NGM].*");
   private CatalanTagger tagger;
 
-  public MorfologikCatalanSpellerRule(ResourceBundle messages, Language language)
-      throws IOException {
-    super(messages, language);
+  public MorfologikCatalanSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig) throws IOException {
+    super(messages, language, userConfig);
     this.setIgnoreTaggedWords();
     tagger = new CatalanTagger(language);
     dictFilename = "/ca/" + language.getShortCodeWithCountryAndVariant() + ".dict";

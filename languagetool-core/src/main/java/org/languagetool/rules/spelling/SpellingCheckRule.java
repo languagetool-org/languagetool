@@ -18,10 +18,7 @@
  */
 package org.languagetool.rules.spelling;
 
-import org.languagetool.AnalyzedSentence;
-import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
+import org.languagetool.*;
 import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
@@ -55,24 +52,29 @@ public abstract class SpellingCheckRule extends Rule {
   public static final String LANGUAGETOOL_FX = "LanguageToolFx";
 
   protected final Language language;
+  protected final CachingWordListLoader wordListLoader = new CachingWordListLoader();
 
   private static final String SPELLING_IGNORE_FILE = "/hunspell/ignore.txt";
   private static final String SPELLING_FILE = "/hunspell/spelling.txt";
   private static final String SPELLING_PROHIBIT_FILE = "/hunspell/prohibit.txt";
   private static final Comparator<String> STRING_LENGTH_COMPARATOR = Comparator.comparingInt(String::length);
-  private Map<String,Set<String>> wordsToBeIgnoredDictionary = new HashMap<>();
-  private Map<String,Set<String>> wordsToBeIgnoredDictionaryIgnoreCase = new HashMap<>();
+
   private final Set<String> wordsToBeIgnored = new HashSet<>();
   private final Set<String> wordsToBeProhibited = new HashSet<>();
-  protected final CachingWordListLoader wordListLoader = new CachingWordListLoader();
+
+  private Map<String,Set<String>> wordsToBeIgnoredDictionary = new HashMap<>();
+  private Map<String,Set<String>> wordsToBeIgnoredDictionaryIgnoreCase = new HashMap<>();
   
   private List<DisambiguationPatternRule> antiPatterns = new ArrayList<>();
   private boolean considerIgnoreWords = true;
   private boolean convertsCase = false;
 
-  public SpellingCheckRule(ResourceBundle messages, Language language) {
+  public SpellingCheckRule(ResourceBundle messages, Language language, UserConfig userConfig) {
     super(messages);
     this.language = language;
+    if (userConfig != null) {
+      wordsToBeIgnored.addAll(userConfig.getAcceptedWords());
+    }
     setLocQualityIssueType(ITSIssueType.Misspelling);
   }
 
@@ -218,7 +220,7 @@ public abstract class SpellingCheckRule extends Rule {
     }
     updateIgnoredWordDictionary();
     for (String prohibitedWord : wordListLoader.loadWords(getProhibitFileName())) {
-      wordsToBeProhibited.addAll(expandLine(prohibitedWord));
+      addProhibitedWords(expandLine(prohibitedWord));
     }
   }
 
@@ -290,6 +292,14 @@ public abstract class SpellingCheckRule extends Rule {
     } else {
       wordsToBeIgnored.add(line);
     }
+  }
+
+  /**
+   * @param words list of words to be prohibited.
+   * @since 4.2
+   */
+  protected void addProhibitedWords(List<String> words) {
+    wordsToBeProhibited.addAll(words);
   }
 
   /**
@@ -372,7 +382,7 @@ public abstract class SpellingCheckRule extends Rule {
     if (word.length() < 4) {
       return 0;
     }
-    Optional<String> match = null;
+    Optional<String> match = Optional.empty();
     if(caseSensitive) {
       Set<String> subset = wordsToBeIgnoredDictionary.get(word.substring(0, 1));
       if (subset != null) {
@@ -385,7 +395,7 @@ public abstract class SpellingCheckRule extends Rule {
         match = subset.stream().filter(s -> lowerCaseWord.startsWith(s)).max(STRING_LENGTH_COMPARATOR);
       }
     }
-    return match != null && match.isPresent() ? match.get().length() : 0;
+    return match.isPresent() ? match.get().length() : 0;
   }
 
 }

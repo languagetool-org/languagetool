@@ -39,7 +39,6 @@ import javax.swing.tree.TreePath;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
-import java.net.URL;
 import java.util.*;
 import java.util.List;
 
@@ -68,8 +67,7 @@ public class ConfigurationDialog implements ActionListener {
   private JTree configTree[] = new JTree[2];
   private JCheckBox serverSettingsCheckbox;
   private final List<JPanel> extraPanels = new ArrayList<>();
-  private Rule repeatedWordRule = null;
-  private Rule longSentencesRule = null;
+  private final List<Rule> configurableRules = new ArrayList<>();
 
   public ConfigurationDialog(Frame owner, boolean insideOffice, Configuration config) {
     this.owner = owner;
@@ -97,16 +95,16 @@ public class ConfigurationDialog implements ActionListener {
     String lastRuleId = null;
     Map<String, DefaultMutableTreeNode> parents = new TreeMap<>();
     for (Rule rule : rules) {
-      if((isStyle && (rule.getLocQualityIssueType().toString().equalsIgnoreCase("STYLE") 
+      if((isStyle && (rule.getLocQualityIssueType().toString().equalsIgnoreCase("STYLE")
+            || rule.getLocQualityIssueType().toString().equalsIgnoreCase("REGISTER")
             || rule.getCategory().getId().toString().equals("STYLE")
             || rule.getCategory().getId().toString().equals("TYPOGRAPHY"))) ||
           (!isStyle && !rule.getLocQualityIssueType().toString().equalsIgnoreCase("STYLE")
+            && !rule.getLocQualityIssueType().toString().equalsIgnoreCase("REGISTER")
             && !rule.getCategory().getId().toString().equals("STYLE")
             && !rule.getCategory().getId().toString().equals("TYPOGRAPHY"))) {
-        if(rule.getId().startsWith("STYLE_REPEATED_WORD_RULE")) {
-          repeatedWordRule = rule;
-        } else if(rule.getId().startsWith("TOO_LONG_SENTENCE")) {
-          longSentencesRule = rule;
+        if(rule.hasConfigurableValue()) {
+          configurableRules.add(rule);
         } else {
           if (!parents.containsKey(rule.getCategory().getName())) {
             boolean enabled = true;
@@ -167,6 +165,8 @@ public class ConfigurationDialog implements ActionListener {
     rootPane.registerKeyboardAction(actionListener, stroke,
         JComponent.WHEN_IN_FOCUSED_WINDOW);
 
+    configurableRules.clear();
+
     JPanel checkBoxPanel = new JPanel();
     checkBoxPanel.setLayout(new GridBagLayout());
     GridBagConstraints cons = new GridBagConstraints();
@@ -174,7 +174,7 @@ public class ConfigurationDialog implements ActionListener {
     cons.gridx = 0;
     cons.weightx = 1.0;
     cons.weighty = 1.0;
-    cons.fill = GridBagConstraints.BOTH;
+    cons.fill = GridBagConstraints.HORIZONTAL;
     Collections.sort(rules, new CategoryComparator());
     DefaultMutableTreeNode rootNode = createTree(rules, false);   //  grammar options
     configTree[0] = new JTree(getTreeModel(rootNode));
@@ -199,7 +199,7 @@ public class ConfigurationDialog implements ActionListener {
     cons.gridx = 0;
     cons.weightx = 1.0;
     cons.weighty = 1.0;
-    cons.fill = GridBagConstraints.BOTH;
+    cons.fill = GridBagConstraints.HORIZONTAL;
     Collections.sort(rules, new CategoryComparator());
     rootNode = createTree(rules, true);  //  Style options
     configTree[1] = new JTree(getTreeModel(rootNode));
@@ -253,6 +253,8 @@ public class ConfigurationDialog implements ActionListener {
 
     cons.gridx = 0;
     cons.gridy = 0;
+    cons.weightx = 10.0f;
+    cons.weighty = 0.0f;
     cons.fill = GridBagConstraints.NONE;
     cons.anchor = GridBagConstraints.NORTHWEST;
     cons.gridy++;
@@ -270,13 +272,25 @@ public class ConfigurationDialog implements ActionListener {
     cons.gridy++;
     cons.anchor = GridBagConstraints.WEST;
     jPane.add(portPanel, cons);
+    
+    cons.gridx = 0;
+    cons.gridy++;
+    cons.anchor = GridBagConstraints.WEST;
+    jPane.add(getUnderlineColorPanel(rules), cons);
 
     cons.fill = GridBagConstraints.HORIZONTAL;
     cons.anchor = GridBagConstraints.WEST;
     for(JPanel extra : extraPanels) {
+      //in case it wasn't in a containment hierarchy when user changed L&F
+      SwingUtilities.updateComponentTreeUI(extra);
       cons.gridy++;
       jPane.add(extra, cons);
     }
+
+    cons.gridy++;
+    cons.fill = GridBagConstraints.BOTH;
+    cons.weighty = 1.0f;
+    jPane.add(new JPanel(), cons);
 
     tabpane.addTab(messages.getString("guiGeneral"), jPane);
 
@@ -320,26 +334,16 @@ public class ConfigurationDialog implements ActionListener {
     cons.anchor = GridBagConstraints.LINE_END;
     jPane.add(getTreeButtonPanel(1), cons);
     
-    if(longSentencesRule != null) {
-      cons.gridx = 0;
-      cons.gridy++;
-      cons.fill = GridBagConstraints.NONE;
-      cons.anchor = GridBagConstraints.WEST;
-      String msg = messages.getString("guiLongSentencesText");
-      jPane.add(getSpecialRuleValuePanel(longSentencesRule, msg, 5, 100), cons);
-    }
-
-    if(repeatedWordRule != null) {
-      cons.gridx = 0;
-      cons.gridy++;
-      cons.fill = GridBagConstraints.NONE;
-      cons.anchor = GridBagConstraints.WEST;
-      String msg = messages.getString("guiStyleRepeatedWordText");
-      jPane.add(getSpecialRuleValuePanel(repeatedWordRule, msg, 0, 5), cons);
-    }
+    cons.gridx = 0;
+    cons.gridy++;
+    cons.weightx = 5.0f;
+    cons.weighty = 5.0f;
+    cons.fill = GridBagConstraints.BOTH;
+    cons.anchor = GridBagConstraints.WEST;
+    jPane.add(new JScrollPane(getSpecialRuleValuePanel()), cons);
 
     tabpane.addTab(messages.getString("guiStyleRules"), jPane);
-    
+
     Container contentPane = dialog.getContentPane();
     contentPane.setLayout(new GridBagLayout());
     cons = new GridBagConstraints();
@@ -359,7 +363,6 @@ public class ConfigurationDialog implements ActionListener {
     contentPane.add(buttonPanel, cons);
 
     dialog.pack();
-    dialog.setSize(520, 500);
     // center on screen:
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     Dimension frameSize = dialog.getSize();
@@ -537,6 +540,22 @@ public class ConfigurationDialog implements ActionListener {
     }
     cons.gridx = 1;
     portPanel.add(numParaField, cons);
+    
+    JCheckBox resetCheckbox = new JCheckBox(Tools.getLabel(messages.getString("guiDoResetCheck")));
+    resetCheckbox.setSelected(config.isResetCheck());
+    resetCheckbox.addItemListener(new ItemListener() {
+      @Override
+      public void itemStateChanged(ItemEvent e) {
+        config.setDoResetCheck(resetCheckbox.isSelected());
+      }
+    });
+    cons.gridx = 0;
+    JLabel dummyLabel = new JLabel(" ");
+    cons.gridy++;
+    portPanel.add(dummyLabel, cons);
+    cons.gridy++;
+    portPanel.add(resetCheckbox, cons);
+    
   }
 
   @NotNull
@@ -748,13 +767,7 @@ public class ConfigurationDialog implements ActionListener {
     helpButton.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        if (Desktop.isDesktopSupported()) {
-          try {
-            Desktop.getDesktop().browse(new URL("http://wiki.languagetool.org/finding-errors-using-n-gram-data").toURI());
-          } catch (Exception ex) {
-            Tools.showError(ex);
-          }
-        }
+        Tools.openURL("http://wiki.languagetool.org/finding-errors-using-n-gram-data");
       }
     });
     panel.add(helpButton, cons);
@@ -786,13 +799,7 @@ public class ConfigurationDialog implements ActionListener {
     panel.add(word2vecDirButton, cons);
     JButton helpButton = new JButton(messages.getString("guiWord2VecHelp"));
     helpButton.addActionListener(e -> {
-      if (Desktop.isDesktopSupported()) {
-        try {
-          Desktop.getDesktop().browse(new URL("https://github.com/gulp21/languagetool-neural-network").toURI());
-        } catch (Exception ex) {
-          Tools.showError(ex);
-        }
-      }
+      Tools.openURL("https://github.com/gulp21/languagetool-neural-network");
     });
     panel.add(helpButton, cons);
     return panel;
@@ -858,97 +865,173 @@ public class ConfigurationDialog implements ActionListener {
   }
 
 /* Panel to set Values for special rules like LongSentenceRule
- * cons = GridBagConstraints
- * rule = the special rule (has to be set in createTree)
- * msg = Message to display before value
- * min = minimal value to set
- * max = maximal value to set
  * @since 4.1
  */
-  private JPanel getSpecialRuleValuePanel(Rule rule, String msg, int min, int max) {
+  private JPanel getSpecialRuleValuePanel() {
     JPanel panel = new JPanel();
     panel.setLayout(new GridBagLayout());
     GridBagConstraints cons = new GridBagConstraints();
     cons.gridx = 0;
     cons.gridy = 0;
     cons.weightx = 0.0f;
-    cons.fill = GridBagConstraints.NONE;
     cons.anchor = GridBagConstraints.WEST;
-
-    JCheckBox ruleCheckbox = new JCheckBox(rule.getDescription());
-    ruleCheckbox.setSelected(getEnabledState(rule));
-    panel.add(ruleCheckbox, cons);
-
-    cons.insets = new Insets(0, 24, 0, 0);
-    cons.gridy++;
-    JLabel ruleLabel = new JLabel(msg);
-    ruleLabel.setEnabled(ruleCheckbox.isSelected());
-    panel.add(ruleLabel, cons);
     
-    cons.gridx++;
-    int value;
-    if(rule.getId().startsWith("STYLE_REPEATED_WORD_RULE") && config.getStyleRepeatSentences() >= 0) {
-      value = config.getStyleRepeatSentences();
-    } else if(rule.getId().startsWith("TOO_LONG_SENTENCE") && config.getLongSentencesWords() >= 0) {
-      value = config.getLongSentencesWords();
-    } else {
-      value = rule.getDefaultValue();
-    }
-    JTextField ruleValueField = new JTextField(Integer.toString(value), 2);  // config.getServerPort()
-    ruleValueField.setEnabled(ruleCheckbox.isSelected());
-    ruleValueField.setMinimumSize(new Dimension(35, 25));  // without this the box is just a few pixels small, but why?
-    panel.add(ruleValueField, cons);
-    
-    ruleCheckbox.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(@SuppressWarnings("unused") ActionEvent e) {
-        ruleValueField.setEnabled(ruleCheckbox.isSelected());
-        ruleLabel.setEnabled(ruleCheckbox.isSelected());
-        if (ruleCheckbox.isSelected()) {
-          config.getEnabledRuleIds().add(rule.getId());
-          config.getDisabledRuleIds().remove(rule.getId());
-        } else {
-          config.getEnabledRuleIds().remove(rule.getId());
-          config.getDisabledRuleIds().add(rule.getId());
-        }
-      }
-    });
+    List<JCheckBox> ruleCheckboxes = new ArrayList<JCheckBox>();
+    List<JLabel> ruleLabels = new ArrayList<JLabel>();
+    List<JTextField> ruleValueFields = new ArrayList<JTextField>();
 
-    ruleValueField.getDocument().addDocumentListener(new DocumentListener() {
-      @Override
-      public void insertUpdate(DocumentEvent e) {
-        changedUpdate(e);
+    for(int i = 0; i < configurableRules.size(); i++) {
+      Rule rule = configurableRules.get(i);
+      JCheckBox ruleCheckbox = new JCheckBox(rule.getDescription());
+      ruleCheckboxes.add(ruleCheckbox);
+      ruleCheckbox.setSelected(getEnabledState(rule));
+      cons.insets = new Insets(3, 0, 0, 0);
+      panel.add(ruleCheckbox, cons);
+  
+      cons.insets = new Insets(0, 24, 0, 0);
+      cons.gridy++;
+      JLabel ruleLabel = new JLabel(rule.getConfigureText());
+      ruleLabels.add(ruleLabel);
+      ruleLabel.setEnabled(ruleCheckbox.isSelected());
+      panel.add(ruleLabel, cons);
+      
+      cons.gridx++;
+      int value = config.getConfigurableValue(rule.getId());
+      if(config.getConfigurableValue(rule.getId()) < 0) {
+        value = rule.getDefaultValue();
       }
-
-      @Override
-      public void removeUpdate(DocumentEvent e) {
-        changedUpdate(e);
-      }
-
-      @Override
-      public void changedUpdate(DocumentEvent e) {
-        try {
-          int num = Integer.parseInt(ruleValueField.getText());
-          if (num < min) {
-            num = min;
-            ruleValueField.setForeground(Color.RED);
-          } else if (num > max) {
-            num = max;
-            ruleValueField.setForeground(Color.RED);
+      JTextField ruleValueField = new JTextField(Integer.toString(value), 2);
+      ruleValueFields.add(ruleValueField);
+      ruleValueField.setEnabled(ruleCheckbox.isSelected());
+      ruleValueField.setMinimumSize(new Dimension(35, 25));  // without this the box is just a few pixels small, but why?
+      panel.add(ruleValueField, cons);
+      
+      ruleCheckbox.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(@SuppressWarnings("unused") ActionEvent e) {
+          ruleValueField.setEnabled(ruleCheckbox.isSelected());
+          ruleLabel.setEnabled(ruleCheckbox.isSelected());
+          if (ruleCheckbox.isSelected()) {
+            config.getEnabledRuleIds().add(rule.getId());
+            config.getDisabledRuleIds().remove(rule.getId());
           } else {
-            ruleValueField.setForeground(null);
+            config.getEnabledRuleIds().remove(rule.getId());
+            config.getDisabledRuleIds().add(rule.getId());
           }
-          if(rule.getId().startsWith("STYLE_REPEATED_WORD_RULE")) {
-            config.setStyleRepeatSentences(num);
-          } else if(rule.getId().startsWith("TOO_LONG_SENTENCE")) {
-            config.setLongSentencesWords(num);
-          }
-        } catch (Exception ex) {
-          ruleValueField.setForeground(Color.RED);
         }
-      }
-    });
+      });
+  
+      ruleValueField.getDocument().addDocumentListener(new DocumentListener() {
+        @Override
+        public void insertUpdate(DocumentEvent e) {
+          changedUpdate(e);
+        }
+  
+        @Override
+        public void removeUpdate(DocumentEvent e) {
+          changedUpdate(e);
+        }
+  
+        @Override
+        public void changedUpdate(DocumentEvent e) {
+          try {
+            int num = Integer.parseInt(ruleValueField.getText());
+            if (num < rule.getMinConfigurableValue()) {
+              num = rule.getMinConfigurableValue();
+              ruleValueField.setForeground(Color.RED);
+            } else if (num > rule.getMaxConfigurableValue()) {
+              num = rule.getMaxConfigurableValue();
+              ruleValueField.setForeground(Color.RED);
+            } else {
+              ruleValueField.setForeground(null);
+            }
+            config.setConfigurableValue(rule.getId(), num);
+          } catch (Exception ex) {
+            ruleValueField.setForeground(Color.RED);
+          }
+        }
+      });
+
+      cons.gridx = 0;
+      cons.gridy++;
+
+    }
     return panel;
   }
+
+/*  Panel to choose underline Colors  
+ *  @since 4.2
+ */
+  
+  JPanel getUnderlineColorPanel(List<Rule> rules) {
+    JPanel panel = new JPanel();
+
+    panel.setLayout(new GridBagLayout());
+    GridBagConstraints cons = new GridBagConstraints();
+    cons.gridx = 0;
+    cons.gridy = 0;
+    cons.weightx = 0.0f;
+    cons.fill = GridBagConstraints.NONE;
+    cons.anchor = GridBagConstraints.NORTHWEST;
+
+    panel.add(new JLabel(messages.getString("guiUnderlineColor")), cons);
+    List<String> categories = new ArrayList<String>();
+    for (Rule rule : rules) {
+      String category = rule.getCategory().getName();
+      boolean contain = false;
+      for(String c : categories) {
+        if (c.equals(category)) {
+          contain = true;
+          break;
+        }
+      }
+      if (!contain) {
+        categories.add(category);
+      }
+    }
+    JComboBox<String> categoriesBox = new JComboBox<>(categories.toArray(new String[categories.size()]));
+    JLabel underlineLabel = new JLabel(" \u2588\u2588\u2588 ");  // \u2587 is smaller
+    underlineLabel.setForeground(config.getUnderlineColor(categories.get(0)));
+    underlineLabel.setBackground(config.getUnderlineColor(categories.get(0)));
+    categoriesBox.addItemListener(new ItemListener() {
+      @Override
+      public void itemStateChanged(ItemEvent e) {
+        if (e.getStateChange() == ItemEvent.SELECTED) {
+          underlineLabel.setForeground(config.getUnderlineColor(categoriesBox.getSelectedItem().toString()));
+        }
+      }
+    });
+    cons.gridy++;
+    panel.add(categoriesBox, cons);
+    cons.gridx++;
+    panel.add(underlineLabel, cons);
+
+    JButton changeButton = new JButton(messages.getString("guiUColorChange"));
+    changeButton.addActionListener( new ActionListener() {
+      @Override public void actionPerformed( ActionEvent e ) {
+        Color oldColor = underlineLabel.getForeground();
+        Color newColor = JColorChooser.showDialog( null, messages.getString("guiUColorDialogHeader"), oldColor);
+        if(newColor != null && newColor != oldColor) {
+          underlineLabel.setForeground(newColor);
+          config.setUnderlineColor(categoriesBox.getSelectedItem().toString(), newColor);
+        }
+      }
+    });
+    cons.gridx++;
+    panel.add(changeButton, cons);
+
+    JButton defaultButton = new JButton(messages.getString("guiUColorDefault"));
+    defaultButton.addActionListener( new ActionListener() {
+      @Override public void actionPerformed( ActionEvent e ) {
+        config.setDefaultUnderlineColor(categoriesBox.getSelectedItem().toString());
+        underlineLabel.setForeground(config.getUnderlineColor(categoriesBox.getSelectedItem().toString()));
+      }
+    });
+    cons.gridx++;
+    panel.add(defaultButton, cons);
+
+    return panel;
+  }
+  
   
 }

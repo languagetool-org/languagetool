@@ -35,7 +35,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.regex.Pattern;
 
 /**
  * German part-of-speech tagger, requires data file in <code>de/german.dict</code> in the classpath.
@@ -46,8 +45,6 @@ import java.util.regex.Pattern;
  */
 public class GermanTagger extends BaseTagger {
 
-  private static final Pattern IMPERATIVE_PATTERN = Pattern.compile("[iI](ch|hr)|[eE][rs]|[Ss]ie");
-  
   private final ManualTagger removalTagger;
 
   private GermanCompoundTokenizer compoundTokenizer;
@@ -183,7 +180,7 @@ public class GermanTagger extends BaseTagger {
               }
               //Separate dash-linked words
               //Only check single word tokens and skip words containing numbers because it's unpredictable
-              if (word.split(" ").length == 1 && !word.matches("[0-9].*")) {
+              if (word.split(" ").length == 1 && !Character.isDigit(word.charAt(0))) {
                 String wordOrig = word;
                 word = sanitizeWord(word);
                 String wordStem = wordOrig.substring(0, wordOrig.length() - word.length());
@@ -199,7 +196,7 @@ public class GermanTagger extends BaseTagger {
                 List<TaggedWord> linkedTaggerTokens = addStem(getWordTagger().tag(word), wordStem); //Try to analyze the last part found
 
                 //Some words that are linked with a dash ('-') will be written in uppercase, even adjectives
-                if (wordOrig.contains("-") && linkedTaggerTokens.size() == 0) {
+                if (wordOrig.contains("-") && linkedTaggerTokens.isEmpty()) {
                   if (matchesUppercaseAdjective(word)) {
                     word = StringTools.lowercaseFirstChar(word);
                     linkedTaggerTokens = getWordTagger().tag(word);
@@ -262,7 +259,7 @@ public class GermanTagger extends BaseTagger {
       }
       break;
     }
-    if (!(pos == 0 && sentenceTokens.size() > 1) && !IMPERATIVE_PATTERN.matcher(previousWord).matches()) {
+    if (!(pos == 0 && sentenceTokens.size() > 1) && !StringUtils.equalsAnyIgnoreCase(previousWord, "ich", "er", "es", "sie")) {
       return null;
     }
     String w = pos == 0 ? word.toLowerCase() : word;
@@ -281,7 +278,7 @@ public class GermanTagger extends BaseTagger {
 
   /*
    * Tag substantivated adjectives and participles, which are currently tagged not tagged correctly
-   * (e.g., "Verletzter" in "Ein Verletzter kam in Krankenhaus" needs to be tagged as "SUB:NOM:SIN:MAS") 
+   * (e.g., "Verletzter" in "Ein Verletzter kam ins Krankenhaus" needs to be tagged as "SUB:NOM:SIN:MAS")
    * @param word to be checked
    */
   private List<AnalyzedToken> getSubstantivatedForms(String word, List<String> sentenceTokens, int pos) {

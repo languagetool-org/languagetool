@@ -132,6 +132,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="baz">This is foo <marker>bar</marker>.</example>
             <example correction="baz">This is fou <marker>bar</marker>.</example>
         </rule>
+        <rule id="REGEX_PATTERN_RULE_DEMO_MARK_0" name="see: RegexpPatternRuleTest">
+            <regexp>(fo.) (bar)</regexp>
+            <message>msg: <suggestion>a suggestion \1</suggestion></message>
+            <suggestion>another suggestion \2</suggestion>
+            <example correction="a suggestion fou|another suggestion bar"><marker>fou bar</marker></example>
+        </rule>
+        <rule id="REGEX_PATTERN_RULE_DEMO_MARK_1" name="see: RegexpPatternRuleTest">
+            <regexp mark="1">(fo.) (bar)</regexp>
+            <message>msg: <suggestion>a suggestion \1 !</suggestion></message>
+            <suggestion>another suggestion \2 !</suggestion>
+            <example correction="a suggestion fou !|another suggestion bar !">This is <marker>fou</marker> bar</example>
+        </rule>
         <rule id="DEMO_RULE" name="Find 'foo bar'">
             <!-- a trivial demo rule that matches "foo" followed by "bar" -->
             <pattern case_sensitive="no">
@@ -194,7 +206,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction=""><marker>fake1</marker></example>
                 <example>fake2</example>
             </rule>
-        </rulegroup>        
+        </rulegroup>
         <rulegroup id="OR_GROUPS" name="OR groups">
             <rule>
                 <pattern>
@@ -271,6 +283,71 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>a small <marker>test</marker></example>
             <example correction="">a small <marker>toast</marker></example>
         </rule>
+        <rulegroup id="REGEXP_SUGGESTIONS_INSIDE_OUTSIDE_MESSAGE" name="regexp suggestions when inside and outside the message testing">
+            <rule id="REGEXP_MATCH_SUGGESTIONS_INSIDE" name="xnel vola -> vo nel la">
+                <regexp>[Xx][Nn](' el|el|i l') ((ri?|)vo?(la|ci|cial|chal))(-t i|-t ele|) nén</regexp>
+                <message>Test 01: <suggestion>vo <match no="0"
+                                                        regexp_match="[Xx].* (ri?|)vo?(la|ci|cial|chal)(-t i|-t ele|) nén"
+                                                        regexp_replace="nel $1$2$3 nén"/></suggestion></message>
+                <example correction="vo nel la-t i nén"><marker>xnel vola-t i nén</marker> co.</example>
+            </rule>
+            <rule id="REGEXP_MATCH_SUGGESTIONS_OUTSIDE" name="xnel vola -> vo nel la">
+                <regexp>[Xx][Nn](' el|el|i l') ((ri?|)vo?(la|ci|cial|chal))(-t i|-t ele|) nén</regexp>
+
+                <message>Test 02: </message>
+                <suggestion>vo <match no="0"
+                                      regexp_match="[Xx].* (ri?|)vo?(la|ci|cial|chal)(-t i|-t ele|) nén"
+                                      regexp_replace="nel $1$2$3 nén"/></suggestion>
+                <example correction="vo nel la-t i nén"><marker>xnel vola-t i nén</marker> co.</example>
+            </rule>
+            <rule id="PATTERN_REGEXP_MATCH_SUGGESTIONS_INSIDE" name="znel vola -> vo nel la">
+                <pattern>
+                    <token regexp="yes">znel</token>
+                    <token regexp="yes">(ri?|)vo?(la|ci|cial|chal)</token>
+                </pattern>
+                <message>Test 03: <suggestion>vo <match no="1" case_conversion="startlower"
+                                                        regexp_match="[zZ](nel)"
+                                                        regexp_replace="$1"></match> <match no="2"
+                                                                                            regexp_match="(ri?|)vo?(la|ci|cial|chal)"
+                                                                                            regexp_replace="$1$2"></match></suggestion>?</message>
+                <example correction="Vo nel la"><marker>Znel vola</marker> nén.</example>
+            </rule>
+            <rule id="PATTERN_REGEXP_MATCH_SUGGESTIONS_OUTSIDE" name="znel vola -> vo nel la">
+                <pattern>
+                    <token regexp="yes">znel</token>
+                    <token regexp="yes">(ri?|)vo?(la|ci|cial|chal)</token>
+                </pattern>
+                <message>Test 03: </message>
+                <suggestion>vo <match no="1" case_conversion="startlower"
+                                      regexp_match="[zZ](nel)"
+                                      regexp_replace="$1"></match> <match no="2"
+                                                                          regexp_match="(ri?|)vo?(la|ci|cial|chal)"
+                                                                          regexp_replace="$1$2"></match></suggestion>
+                <example correction="Vo nel la"><marker>Znel vola</marker> nén.</example>
+            </rule>
+            <rule id="PATTERN_REGEXP_EXAMPLE_6234" name="62-Bit (64-Bit) etc.">
+                <regexp>(62|34)-bit</regexp>
+                <message>Meinten Sie <suggestion><match no="0" regexp_match="62|34" regexp_replace="32"/></suggestion> oder <suggestion><match no="0" regexp_match="62|34" regexp_replace="64"/></suggestion>?</message>
+                <example correction="32-Bit|64-Bit">Du solltest die <marker>62-Bit</marker>-Version installieren</example>
+            </rule>
+            <rule id="PATTERN_REGEXP_EXAMPLE_MULTIPLICATION">
+                <regexp>([a-z]|[\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+?[a-z]{0,1})\*([a-z]|[\d\.,⁻¹²³⁴⁵⁶⁷⁸⁹⁰]+?[a-z]{0,1})</regexp>
+                <message>Prefira o símbolo de multiplicación.</message>
+                <suggestion><match no="1" case_conversion="allupper"/>×\2</suggestion>
+                <suggestion>\1·\2</suggestion>
+                <example correction="5×x|5·x">a=<marker>5*x</marker>+7</example>
+                <example correction="5x×5|5x·5">a=<marker>5x*5</marker>+7</example>
+                <example correction="a×b|a·b"><marker>a*b</marker></example>
+                <example>a=2·x²+5</example>
+                <example>4,5×2,5=11,25</example>
+            </rule>
+            <rule id="PATTERN_REGEXP_EXAMPLE_OLDSTYLE_REFERENCE_ON_START" name="'gehießen (geheißen)'">
+                <regexp>(gehießen)</regexp>
+                <message>\1 ist umgangssprachlich.</message>
+                <suggestion>geheißen</suggestion>
+                <example correction="geheißen">Sie hat früher Müller <marker>gehießen</marker>.</example>
+            </rule>
+        </rulegroup>
     </category>
 
     <category id="OTHER" name="otherCategory" type="addition">
@@ -770,5 +847,5 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="">Some <marker>foobar</marker></example>
         </rule>
     </category>
-    
+
 </rules>

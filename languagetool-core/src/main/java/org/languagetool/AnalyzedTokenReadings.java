@@ -240,8 +240,7 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
    * @param token new reading, given as {@link AnalyzedToken}
    */
   public void addReading(AnalyzedToken token) {
-    List<AnalyzedToken> l = new ArrayList<>();
-    l.addAll(Arrays.asList(anTokReadings).subList(0, anTokReadings.length - 1));
+    List<AnalyzedToken> l = new ArrayList<>(Arrays.asList(anTokReadings).subList(0, anTokReadings.length - 1));
     if (anTokReadings[anTokReadings.length - 1].getPOSTag() != null) {
       l.add(anTokReadings[anTokReadings.length - 1]);
     }

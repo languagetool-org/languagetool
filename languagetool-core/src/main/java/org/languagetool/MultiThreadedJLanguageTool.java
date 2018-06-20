@@ -57,23 +57,33 @@ public class MultiThreadedJLanguageTool extends JLanguageTool {
    * @since 2.9
    */
   public MultiThreadedJLanguageTool(Language language, int threadPoolSize) {
-    this(language, null, threadPoolSize);
+    this(language, null, threadPoolSize, null);
   }
 
   /**
    * @see #shutdown()
    */
   public MultiThreadedJLanguageTool(Language language, Language motherTongue) {
-    this(language, motherTongue, getDefaultThreadCount());
+    this(language, motherTongue, getDefaultThreadCount(), null);
+  }
+
+  /**
+   * @since 4.2
+   */
+  public MultiThreadedJLanguageTool(Language language, Language motherTongue, UserConfig userConfig) {
+    this(language, motherTongue, getDefaultThreadCount(), userConfig);
   }
 
   /**
    * @see #shutdown()
    * @param threadPoolSize the number of concurrent threads
    * @since 2.9
+   * UserConfig added
+   * @since 4.2
    */
-  public MultiThreadedJLanguageTool(Language language, Language motherTongue, int threadPoolSize) {
-    super(language, motherTongue);
+  public MultiThreadedJLanguageTool(Language language, Language motherTongue, int threadPoolSize,
+      UserConfig userConfig) {
+    super(language, motherTongue, null, userConfig);
     this.threadPoolSize = threadPoolSize;
     threadPool = Executors.newFixedThreadPool(getThreadPoolSize(), new DaemonThreadFactory());
   }
@@ -235,6 +245,7 @@ public class MultiThreadedJLanguageTool extends JLanguageTool {
     public Thread newThread(Runnable r) {
       Thread thread = new Thread(r);
       thread.setDaemon(true); // so we don't have to shut down executor explicitly
+      thread.setName("lt-multithread");
       return thread;
     }
   }

@@ -76,8 +76,8 @@ public class CommaWhitespaceRule extends Rule {
     boolean prevWhite = false;
     for (int i = 0; i < tokens.length; i++) {
       String token = tokens[i].getToken();
-      boolean isWhitespace = tokens[i].isWhitespace() || StringTools.isNonBreakingWhitespace(token)
-          || tokens[i].isFieldCode();
+      boolean isWhitespace = (tokens[i].isWhitespace() || StringTools.isNonBreakingWhitespace(token)
+          || tokens[i].isFieldCode()) && !token.equals("\u200B");
       String msg = null;
       String suggestionText = null;
       if (isWhitespace && isLeftBracket(prevToken)) {

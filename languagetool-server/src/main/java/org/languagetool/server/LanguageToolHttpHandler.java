@@ -20,7 +20,7 @@ package org.languagetool.server;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
-import org.apache.commons.lang.exception.ExceptionUtils;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -49,6 +49,7 @@ class LanguageToolHttpHandler implements HttpHandler {
   private final TextChecker textCheckerV2;
   private final HTTPServerConfig config;
   private final Set<String> ownIps;
+  private final RequestCounter reqCounter = new RequestCounter();
   
   LanguageToolHttpHandler(HTTPServerConfig config, Set<String> allowedIps, boolean internal, RequestLimiter requestLimiter, ErrorRequestLimiter errorLimiter, LinkedBlockingQueue<Runnable> workQueue) {
     this.config = config;
@@ -61,7 +62,7 @@ class LanguageToolHttpHandler implements HttpHandler {
     } else {
       this.ownIps = new HashSet<>();
     }
-    this.textCheckerV2 = new V2TextChecker(config, internal, workQueue);
+    this.textCheckerV2 = new V2TextChecker(config, internal, workQueue, reqCounter);
   }
 
   /** @since 2.6 */
@@ -70,13 +71,26 @@ class LanguageToolHttpHandler implements HttpHandler {
 
   @Override
   public void handle(HttpExchange httpExchange) throws IOException {
+    long startTime = System.currentTimeMillis();
     String remoteAddress = null;
     Map<String, String> parameters = new HashMap<>();
+    int reqId = reqCounter.incrementRequestCount();
     try {
+      String referrer = httpExchange.getRequestHeaders().getFirst("Referer");
+      for (String ref : config.getBlockedReferrers()) {
+        if (referrer != null && referrer.startsWith(ref)) {
+          String errorMessage = "Error: Access with referrer " + referrer + " denied.";
+          sendError(httpExchange, HttpURLConnection.HTTP_FORBIDDEN, errorMessage);
+          print(errorMessage + ", sending code 403 - useragent: " + parameters.get("useragent") +
+                  " - HTTP UserAgent: " + getHttpUserAgent(httpExchange) + ", r:" + reqCounter.getRequestCount());
+          return;
+        }
+      }
       URI requestedUri = httpExchange.getRequestURI();
       String origAddress = httpExchange.getRemoteAddress().getAddress().getHostAddress();
       String realAddressOrNull = getRealRemoteAddressOrNull(httpExchange);
       remoteAddress = realAddressOrNull != null ? realAddressOrNull : origAddress;
+      reqCounter.incrementHandleCount(remoteAddress, reqId);
       // According to the Javadoc, "Closing an exchange without consuming all of the request body is
       // not an error but may make the underlying TCP connection unusable for following exchanges.",
       // so we consume the request now, even before checking for request limits:
@@ -87,8 +101,8 @@ class LanguageToolHttpHandler implements HttpHandler {
         } catch (TooManyRequestsException e) {
           String errorMessage = "Error: Access from " + remoteAddress + " denied: " + e.getMessage();
           sendError(httpExchange, HttpURLConnection.HTTP_FORBIDDEN, errorMessage);
-          print(errorMessage + " - useragent: " + parameters.get("useragent") +
-                  " - HTTP UserAgent: " + getHttpUserAgent(httpExchange));
+          print(errorMessage + ", sending code 403 - useragent: " + parameters.get("useragent") +
+                  " - HTTP UserAgent: " + getHttpUserAgent(httpExchange) + ", r:" + reqCounter.getRequestCount());
           return;
         }
       }
@@ -99,13 +113,14 @@ class LanguageToolHttpHandler implements HttpHandler {
                 " Allowed maximum timeouts: " + errorRequestLimiter.getRequestLimit() +
                 " per " + errorRequestLimiter.getRequestLimitPeriodInSeconds() + " seconds";
         sendError(httpExchange, HttpURLConnection.HTTP_FORBIDDEN, errorMessage);
-        print(errorMessage + " - useragent: " + parameters.get("useragent") +
-                " - HTTP UserAgent: " + getHttpUserAgent(httpExchange));
+        print(errorMessage + ", sending code 403 - useragent: " + parameters.get("useragent") +
+                " - HTTP UserAgent: " + getHttpUserAgent(httpExchange) + ", r:" + reqCounter.getRequestCount());
         return;
       }
       if (config.getMaxWorkQueueSize() != 0 && workQueue.size() > config.getMaxWorkQueueSize()) {
         String response = "Error: There are currently too many parallel requests. Please try again later.";
-        print(response + " Queue size: " + workQueue.size() + ", maximum size: " + config.getMaxWorkQueueSize());
+        print(response + ", sending code 503. Queue size: " + workQueue.size() + ", maximum size: " + config.getMaxWorkQueueSize() +
+                ", handlers:" + reqCounter.getHandleCount() + ", r:" + reqCounter.getRequestCount());
         sendError(httpExchange, HttpURLConnection.HTTP_UNAVAILABLE, "Error: " + response);
         return;
       }
@@ -113,7 +128,7 @@ class LanguageToolHttpHandler implements HttpHandler {
         if (requestedUri.getRawPath().startsWith("/v2/")) {
           ApiV2 apiV2 = new ApiV2(textCheckerV2, config.getAllowOriginUrl());
           String pathWithoutVersion = requestedUri.getRawPath().substring("/v2/".length());
-          apiV2.handleRequest(pathWithoutVersion, httpExchange, parameters, errorRequestLimiter, remoteAddress);
+          apiV2.handleRequest(pathWithoutVersion, httpExchange, parameters, errorRequestLimiter, remoteAddress, config);
         } else if (requestedUri.getRawPath().endsWith("/Languages")) {
           throw new IllegalArgumentException("You're using an old version of our API that's not supported anymore. Please see https://languagetool.org/http-api/migration.php");
         } else if (requestedUri.getRawPath().equals("/")) {
@@ -135,22 +150,23 @@ class LanguageToolHttpHandler implements HttpHandler {
       int errorCode;
       boolean textLoggingAllowed = false;
       boolean logStacktrace = true;
-      if (e instanceof TextTooLongException) {
+      Throwable rootCause = ExceptionUtils.getRootCause(e);
+      if (e instanceof TextTooLongException || rootCause instanceof TextTooLongException) {
         errorCode = HttpURLConnection.HTTP_ENTITY_TOO_LARGE;
         response = e.getMessage();
         logStacktrace = false;
-      } else if (ExceptionUtils.getRootCause(e) instanceof ErrorRateTooHighException) {
+      } else if (e instanceof ErrorRateTooHighException || rootCause instanceof ErrorRateTooHighException) {
         errorCode = HttpURLConnection.HTTP_BAD_REQUEST;
         response = ExceptionUtils.getRootCause(e).getMessage();
         logStacktrace = false;
-      } else if (e instanceof AuthException || e.getCause() != null && e.getCause() instanceof AuthException) {
+      } else if (e instanceof AuthException || rootCause instanceof AuthException) {
         errorCode = HttpURLConnection.HTTP_FORBIDDEN;
         response = e.getMessage();
-      } else if (e instanceof IllegalArgumentException) {
+      } else if (e instanceof IllegalArgumentException || rootCause instanceof IllegalArgumentException) {
         errorCode = HttpURLConnection.HTTP_BAD_REQUEST;
         response = e.getMessage();
-      } else if (e.getCause() != null && e.getCause() instanceof TimeoutException) {
-        errorCode = HttpURLConnection.HTTP_UNAVAILABLE;
+      } else if (e instanceof TimeoutException || rootCause instanceof TimeoutException) {
+        errorCode = HttpURLConnection.HTTP_INTERNAL_ERROR;
         response = "Checking took longer than " + config.getMaxCheckTimeMillis()/1000.0f + " seconds, which is this server's limit. " +
                    "Please make sure you have selected the proper language or consider submitting a shorter text.";
       } else {
@@ -158,10 +174,12 @@ class LanguageToolHttpHandler implements HttpHandler {
         errorCode = HttpURLConnection.HTTP_INTERNAL_ERROR;
         textLoggingAllowed = true;
       }
-      logError(remoteAddress, e, errorCode, httpExchange, parameters, textLoggingAllowed, logStacktrace);
+      long endTime = System.currentTimeMillis();
+      logError(remoteAddress, e, errorCode, httpExchange, parameters, textLoggingAllowed, logStacktrace, endTime-startTime);
       sendError(httpExchange, errorCode, "Error: " + response);
     } finally {
       httpExchange.close();
+      reqCounter.decrementHandleCount(reqId);
     }
   }
 
@@ -180,13 +198,16 @@ class LanguageToolHttpHandler implements HttpHandler {
   }
 
   private void logError(String remoteAddress, Exception e, int errorCode, HttpExchange httpExchange, Map<String, String> params, 
-                        boolean textLoggingAllowed, boolean logStacktrace) {
+                        boolean textLoggingAllowed, boolean logStacktrace, long runtimeMillis) {
     String message = "An error has occurred: '" +  e.getMessage() + "', sending HTTP code " + errorCode + ". ";
     message += "Access from " + remoteAddress + ", ";
     message += "HTTP user agent: " + getHttpUserAgent(httpExchange) + ", ";
     message += "User agent param: " + params.get("useragent") + ", ";
     message += "Referrer: " + getHttpReferrer(httpExchange) + ", ";
     message += "language: " + params.get("language") + ", ";
+    message += "h: " + reqCounter.getHandleCount() + ", ";
+    message += "r: " + reqCounter.getRequestCount() + ", ";
+    message += "time: " + runtimeMillis + ", ";
     String text = params.get("text");
     if (text != null) {
       message += "text length: " + text.length() + ", ";

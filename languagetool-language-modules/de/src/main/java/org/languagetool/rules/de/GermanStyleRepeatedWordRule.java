@@ -21,6 +21,7 @@ package org.languagetool.rules.de;
 import java.util.ResourceBundle;
 
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.UserConfig;
 import org.languagetool.rules.AbstractStyleRepeatedWordRule;
 import org.languagetool.rules.Categories;
 
@@ -33,11 +34,9 @@ import org.languagetool.rules.Categories;
 
 public class GermanStyleRepeatedWordRule  extends AbstractStyleRepeatedWordRule {
   
-  public GermanStyleRepeatedWordRule(ResourceBundle messages) {
-    super(messages);
+  public GermanStyleRepeatedWordRule(ResourceBundle messages, UserConfig userConfig) {
+    super(messages, userConfig);
     super.setCategory(Categories.STYLE.getCategory(messages));
-//    addExamplePair(Example.wrong("Der alte Mann wohnte in einem <marker>großen</marker> Haus. Es stand in einem <marker>großen</marker> Garten."),
-//                   Example.fixed("Der alte Mann wohnte in einem <marker>großen</marker> Haus. Es stand in einem <marker>weitläufigen</marker> Garten."));
   }
 
   @Override
@@ -66,10 +65,20 @@ public class GermanStyleRepeatedWordRule  extends AbstractStyleRepeatedWordRule 
   }
 
   /*
+   * Is a unknown word (has only letters and no PosTag) 
+   */
+  private static boolean isUnknownWord(AnalyzedTokenReadings token) {
+    return token.isPosTagUnknown() && token.getToken().length() > 2 && token.getToken().matches("^[A-Za-zÄÖÜäöüß]+$");
+  }
+
+  /*
    * Only substantive, names, verbs and adjectives are checked
    */
   protected boolean isTokenToCheck(AnalyzedTokenReadings token) {
-    return token.matchesPosTagRegex("(SUB|EIG|VER|ADJ):.*") && !token.matchesPosTagRegex("ART:.*|ADV:.*|VER:(AUX|MOD):.*");
+    return (token.matchesPosTagRegex("(SUB|EIG|VER|ADJ):.*") 
+        && !token.matchesPosTagRegex("(PRO|ART|ADV|VER:(AUX|MOD)):.*")
+        && !token.getToken().equals("Ich"))
+        || isUnknownWord(token);
   }
 
   /*
@@ -90,4 +99,15 @@ public class GermanStyleRepeatedWordRule  extends AbstractStyleRepeatedWordRule 
     return false;
   }
   
+  protected boolean isPartOfWord(String testTokenText, String tokenText) {
+    if((testTokenText.startsWith(tokenText) || testTokenText.endsWith(tokenText) 
+        || tokenText.startsWith(testTokenText) || tokenText.endsWith(testTokenText)) 
+        && (testTokenText.length() == tokenText.length() || testTokenText.length() < tokenText.length() - 3
+        || testTokenText.length() > tokenText.length() + 3)
+        || testTokenText.equals(tokenText + "s") || tokenText.equals(testTokenText + "s")) {
+      return true;
+    }
+    return false;
+  }
+
 }

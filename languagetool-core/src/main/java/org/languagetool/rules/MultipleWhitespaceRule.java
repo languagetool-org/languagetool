@@ -34,7 +34,7 @@ import java.util.ResourceBundle;
  * 
  * @author Marcin Miłkowski
  */
-public class MultipleWhitespaceRule extends Rule {
+public class MultipleWhitespaceRule extends TextLevelRule {
 
   public MultipleWhitespaceRule(ResourceBundle messages, Language language) {
     super(messages);
@@ -51,51 +51,44 @@ public class MultipleWhitespaceRule extends Rule {
   public String getDescription() {
     return messages.getString("desc_whitespacerepetition");
   }
+  
+  // First White space is not a linebreak, function or footnote
+  private static boolean isFirstWhite(AnalyzedTokenReadings token) {
+    return (token.isWhitespace() || StringTools.isNonBreakingWhitespace(token.getToken())) 
+        && !token.isLinebreak() && !token.getToken().equals("\u200B"); 
+  }
+
+  // Removable white space are not linebreaks, tabs, functions or footnotes
+  private static boolean isRemovableWhite(AnalyzedTokenReadings token) {
+    return (token.isWhitespace() || StringTools.isNonBreakingWhitespace(token.getToken())) 
+        && !token.isLinebreak() && !token.getToken().equals("\t") && !token.getToken().equals("\u200B"); 
+  }
 
   @Override
-  public RuleMatch[] match(AnalyzedSentence sentence) {
+  public RuleMatch[] match(List<AnalyzedSentence> sentences) {
     List<RuleMatch> ruleMatches = new ArrayList<>();
-    AnalyzedTokenReadings[] tokens = sentence.getTokens();
-    boolean prevWhite = false;
-    boolean isLineBreakContinuation = false;
-    int prevLen = 0;
-    int prevPos = 0;
-    //note: we start from token 1
-    //token no. 0 is guaranteed to be SENT_START
-    int i = 1;
-    while (i < tokens.length) {
-      boolean tokenIsTab = tokens[i].getToken().equals("\t");
-      boolean tokenIsFunction = tokens[i].getToken().equals("\u200B"); // functions (e.g. page number, page count)  in LO/OO 
-      boolean prevTokenIsLinebreak = tokens[i -1].isLinebreak();
-      isLineBreakContinuation = (prevTokenIsLinebreak || isLineBreakContinuation) && tokens[i].isWhitespace() && !tokenIsTab && !tokenIsFunction;
-      if ((tokens[i].isWhitespace() ||
-          StringTools.isNonBreakingWhitespace(tokens[i].getToken())) && prevWhite && !tokenIsTab && !tokenIsFunction
-          && !prevTokenIsLinebreak && !isLineBreakContinuation) {
-        int pos = tokens[i -1].getStartPos();
-        while (i < tokens.length && (tokens[i].isWhitespace() ||
-            StringTools.isNonBreakingWhitespace(tokens[i].getToken())) && !tokenIsFunction
-            && !tokens[i].isLinebreak()) {    // preserve LF because LO/OO can't handle grammar errors including LF
-          prevLen += tokens[i].getToken().length();
-          i++;
-        }
-        String message = messages.getString("whitespace_repetition");
-        if (prevLen > 1) {
-          String text = sentence.getText();
-          if (prevPos >= 2 && pos + prevLen <= text.length() && text.substring(prevPos-2, pos + prevLen).equals("-- \n")) {
-            // no match for typical email signature delimiter
-            continue;
+    int pos = 0;
+    for (AnalyzedSentence sentence : sentences) {
+      AnalyzedTokenReadings[] tokens = sentence.getTokens();
+      //note: we start from token 1
+      //token no. 0 is guaranteed to be SENT_START
+      for (int i = 1; i < tokens.length; i++) {
+        if(isFirstWhite(tokens[i])) {
+          int nFirst = i;
+          for (i++; i < tokens.length && isRemovableWhite(tokens[i]); i++);
+          i--;
+          if (i > nFirst) {
+            String message = messages.getString("whitespace_repetition");
+            RuleMatch ruleMatch = new RuleMatch(this, sentence, pos + tokens[nFirst].getStartPos(),
+                pos + tokens[i].getEndPos(), message);
+            ruleMatch.setSuggestedReplacement(tokens[nFirst].getToken());
+            ruleMatches.add(ruleMatch);
           }
-          RuleMatch ruleMatch = new RuleMatch(this, sentence, prevPos, pos + prevLen, message);
-          ruleMatch.setSuggestedReplacement(" ");
-          ruleMatches.add(ruleMatch);
+        } else if (tokens[i].isLinebreak()) {
+          for (i++; i < tokens.length && isRemovableWhite(tokens[i]); i++);
         }
       }
-      if (i < tokens.length) {
-        prevWhite = tokens[i].isWhitespace() || StringTools.isNonBreakingWhitespace(tokens[i].getToken());
-        prevLen = tokens[i].getToken().length();
-        prevPos = tokens[i].getStartPos();
-        i++;
-      }
+      pos += sentence.getText().length();
     }
     return toRuleMatchArray(ruleMatches);
   }

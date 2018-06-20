@@ -20,6 +20,7 @@ package org.languagetool.language;
 
 import org.languagetool.Language;
 import org.languagetool.LanguageMaintainedState;
+import org.languagetool.UserConfig;
 import org.languagetool.chunking.Chunker;
 import org.languagetool.chunking.EnglishChunker;
 import org.languagetool.languagemodel.LanguageModel;
@@ -166,7 +167,7 @@ public class English extends Language implements AutoCloseable {
   }
 
   @Override
-  public List<Rule> getRelevantRules(ResourceBundle messages) throws IOException {
+  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig) throws IOException {
     return Arrays.asList(
         new CommaWhitespaceRule(messages,
                 Example.wrong("We had coffee<marker> ,</marker> cheese and crackers and grapes."),
@@ -176,12 +177,15 @@ public class English extends Language implements AutoCloseable {
                 Example.wrong("This house is old. <marker>it</marker> was built in 1950."),
                 Example.fixed("This house is old. <marker>It</marker> was built in 1950.")),
         new MultipleWhitespaceRule(messages, this),
-        new LongSentenceRule(messages),
         new SentenceWhitespaceRule(messages),
-        //new OpenNMTRule(),     // commented out because of #903
         new WhiteSpaceBeforeParagraphEnd(messages),
         new WhiteSpaceAtBeginOfParagraph(messages),
         new EmptyLineRule(messages),
+        new LongSentenceRule(messages, userConfig),
+        new LongParagraphRule(messages, userConfig),
+        //new OpenNMTRule(),     // commented out because of #903
+        new ParagraphRepeatBeginningRule(messages),
+        new PunctuationMarkAtParagraphEnd(messages),
         // specific to English:
         new EnglishUnpairedBracketsRule(messages, this),
         new EnglishWordRepeatRule(messages, this),
@@ -223,6 +227,8 @@ public class English extends Language implements AutoCloseable {
   public int getPriorityForId(String id) {
     switch (id) {
       case "CONFUSION_RULE": return -10;
+      case LongSentenceRule.RULE_ID:    return -997;
+      case LongParagraphRule.RULE_ID:   return -998;
     }
     return 0;
   }

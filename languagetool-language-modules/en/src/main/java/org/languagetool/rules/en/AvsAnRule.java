@@ -73,17 +73,21 @@ public class AvsAnRule extends Rule {
     List<RuleMatch> ruleMatches = new ArrayList<>();
     AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
     int prevTokenIndex = 0;
+    boolean isSentenceStart;
+    boolean equalsA;
+    boolean equalsAn;
     for (int i = 1; i < tokens.length; i++) {  // ignoring token 0, i.e., SENT_START
       AnalyzedTokenReadings token = tokens[i];
       String prevTokenStr = prevTokenIndex > 0 ? tokens[prevTokenIndex].getToken() : null;
 
-      boolean isSentenceStart = prevTokenIndex == 1;
-      boolean equalsA = "a".equalsIgnoreCase(prevTokenStr);
-      boolean equalsAn = "an".equalsIgnoreCase(prevTokenStr);
+      isSentenceStart = prevTokenIndex == 1;
 
       if (!isSentenceStart) {
         equalsA = "a".equals(prevTokenStr);
         equalsAn = "an".equals(prevTokenStr);
+      } else {
+      	equalsA = "a".equalsIgnoreCase(prevTokenStr);
+        equalsAn = "an".equalsIgnoreCase(prevTokenStr);
       }
 
       if (equalsA || equalsAn) {
@@ -124,12 +128,10 @@ public class AvsAnRule extends Rule {
   public String suggestAorAn(String origWord) {
     AnalyzedTokenReadings token = new AnalyzedTokenReadings(new AnalyzedToken(origWord, null, null), 0);
     Determiner determiner = getCorrectDeterminerFor(token);
-    if (determiner == Determiner.A) {
+    if (determiner == Determiner.A || determiner == Determiner.A_OR_AN) {
       return "a " + origWord;
     } else if (determiner == Determiner.AN) {
       return "an " + origWord;
-    } else if (determiner == Determiner.A_OR_AN) {
-      return "a " + origWord;
     } else {
       return origWord;
     }

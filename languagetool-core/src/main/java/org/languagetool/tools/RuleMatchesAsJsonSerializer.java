@@ -20,7 +20,6 @@ package org.languagetool.tools;
 
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
-import org.languagetool.Experimental;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.rules.Category;
@@ -41,12 +40,13 @@ public class RuleMatchesAsJsonSerializer {
 
   private static final int API_VERSION = 1;
   private static final String STATUS = "";
+  private static final String PREMIUM_HINT = "You might be missing errors only the Premium version can find. Contact us at support<at>languagetoolplus.com.";
   private static final String START_MARKER = "__languagetool_start_marker";
 
   private final JsonFactory factory = new JsonFactory();
   
-  public String ruleMatchesToJson(List<RuleMatch> matches, String text, int contextSize, Language lang) {
-    return ruleMatchesToJson(matches, new ArrayList<>(), text, contextSize, lang, null);
+  public String ruleMatchesToJson(List<RuleMatch> matches, String text, int contextSize, Language lang, Language detectedLang) {
+    return ruleMatchesToJson(matches, new ArrayList<>(), text, contextSize, lang, detectedLang, null);
   }
 
   /**
@@ -54,9 +54,8 @@ public class RuleMatchesAsJsonSerializer {
    *        a 'warnings' section will be added to the JSON. Use {@code null} if results are complete.
    * @since 3.7
    */
-  @Experimental
   public String ruleMatchesToJson(List<RuleMatch> matches, List<RuleMatch> hiddenMatches, String text, int contextSize,
-                                  Language lang, String incompleteResultsReason) {
+                                  Language lang, Language detectedLang, String incompleteResultsReason) {
     ContextTools contextTools = new ContextTools();
     contextTools.setEscapeHtml(false);
     contextTools.setContextSize(contextSize);
@@ -68,7 +67,7 @@ public class RuleMatchesAsJsonSerializer {
         g.writeStartObject();
         writeSoftwareSection(g);
         writeWarningsSection(g, incompleteResultsReason);
-        writeLanguageSection(g, lang);
+        writeLanguageSection(g, lang, detectedLang);
         writeMatchesSection("matches", g, matches, text, contextTools);
         if (hiddenMatches != null && hiddenMatches.size() > 0) {
           writeMatchesSection("hiddenMatches", g, hiddenMatches, text, contextTools);
@@ -87,6 +86,10 @@ public class RuleMatchesAsJsonSerializer {
     g.writeStringField("version", JLanguageTool.VERSION);
     g.writeStringField("buildDate", JLanguageTool.BUILD_DATE);
     g.writeNumberField("apiVersion", API_VERSION);
+    g.writeBooleanField("premium", JLanguageTool.isPremiumVersion());
+    if (!JLanguageTool.isPremiumVersion()) {
+      g.writeStringField("premiumHint", PREMIUM_HINT);
+    }
     g.writeStringField("status", STATUS);
     g.writeEndObject();
   }
@@ -102,10 +105,16 @@ public class RuleMatchesAsJsonSerializer {
     g.writeEndObject();
   }
 
-  private void writeLanguageSection(JsonGenerator g, Language lang) throws IOException {
+  private void writeLanguageSection(JsonGenerator g, Language lang, Language detectedLang) throws IOException {
     g.writeObjectFieldStart("language");
     g.writeStringField("name", lang.getName());
     g.writeStringField("code", lang.getShortCodeWithCountryAndVariant());
+    if (detectedLang != null) {
+      g.writeObjectFieldStart("detectedLanguage");
+      g.writeStringField("name", detectedLang.getName());
+      g.writeStringField("code", detectedLang.getShortCodeWithCountryAndVariant());
+      g.writeEndObject();
+    }
     g.writeEndObject();
   }
 

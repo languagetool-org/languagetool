@@ -27,6 +27,7 @@ import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
+import org.languagetool.UserConfig;
 import org.languagetool.rules.patterns.PatternToken;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 
@@ -112,10 +113,11 @@ public abstract class Rule {
   }
 
   /**
-   * Overwrite this to set a default Integer value by option panel
-   * @since 4.1
+   * Overwrite this to return true, if a value may be configured by option panel
+   * @since 4.2
    */
-  public void setDefaultValue(int num) {
+  public boolean hasConfigurableValue() {
+    return false;
   }
 
   /**
@@ -124,6 +126,30 @@ public abstract class Rule {
    */
   public int getDefaultValue() {
     return 0;
+  }
+
+  /**
+   * Overwrite this to define the minimum of a configurable value
+   * @since 4.2
+   */
+  public int getMinConfigurableValue() {
+    return 0;
+  }
+
+  /**
+   * Overwrite this to define the maximum of a configurable value
+   * @since 4.2
+   */
+  public int getMaxConfigurableValue() {
+    return 100;
+  }
+
+  /**
+   * Overwrite this to define the Text in the option panel for the configurable value
+   * @since 4.2
+   */
+  public String getConfigureText() {
+    return "";
   }
 
   /**
@@ -157,7 +183,7 @@ public abstract class Rule {
       rules.add(new DisambiguationPatternRule("INTERNAL_ANTIPATTERN", "(no description)", language,
               patternTokens, null, null, DisambiguationPatternRule.DisambiguatorAction.IMMUNIZE));
     }
-    return Collections.unmodifiableList(rules);
+    return rules;
   }
   
   /**
@@ -168,7 +194,8 @@ public abstract class Rule {
   public boolean supportsLanguage(Language language) {
     try {
       List<Class<? extends Rule>> relevantRuleClasses = new ArrayList<>();
-      List<Rule> relevantRules = language.getRelevantRules(JLanguageTool.getMessageBundle());
+      List<Rule> relevantRules = language.getRelevantRules(JLanguageTool.getMessageBundle(), 
+          new UserConfig());  //  empty UserConfig has to be added to prevent null pointer exception
       for (Rule relevantRule : relevantRules) {
         relevantRuleClasses.add(relevantRule.getClass());
       }

@@ -16212,6 +16212,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 	<!-- 语法：句法 -->
 	<!-- ====================================================================== -->
 	<category id="CAT5" name="句法">
+		<rule id="NOT_EXIST_NO" name="不存在有/没有" type="style">
+			<pattern>
+				<marker>
+					<token>不</token>
+					<token>存在</token>
+					<token regexp="yes">(有|任何)?</token>
+				</marker>
+				<token postag='v'></token>
+			</pattern>
+			<message>“<match no="1"/><match no="2"/><match no="3"/>”为欧化中文，您可以使用<suggestion>没有</suggestion>。</message>
+			<example correction="没有">医生<marker>不存在有</marker>误解病人的病历。</example>
+			<example correction="没有">政府报告<marker>不存在任何</marker>隐瞒。</example>
+		</rule>
 		<rule id="ZH3" name="搭配不当_执行+责任">
 			<pattern>
 				<token postag='r'></token>

@@ -23,6 +23,7 @@ import org.junit.Test;
 import org.languagetool.TestTools;
 import org.languagetool.language.Dutch;
 import org.languagetool.tokenizers.WordTokenizer;
+import org.languagetool.tokenizers.nl.DutchWordTokenizer;
 
 import java.io.IOException;
 
@@ -34,7 +35,7 @@ public class DutchTaggerTest {
   @Before
   public void setUp() {
     tagger = new DutchTagger();
-    tokenizer = new WordTokenizer();
+    tokenizer = new DutchWordTokenizer();
   }
 
   @Test
@@ -45,8 +46,7 @@ public class DutchTaggerTest {
   @Test
   public void testTagger() throws IOException {
     TestTools.myAssert("Dit is een Nederlandse zin om het programma'tje te testen.",
-        "Dit/[null]null -- is/[is]ZNW:EKV|is/[zijn]WKW:TGW:3EP -- een/[een]GET|een/[een]ZNW:EKV:DE_ -- Nederlandse/[Nederlandse]ZNW:EKV -- zin/[zin]ZNW:EKV:DE_|zin/[zinnen]WKW:TGW:1EP -- om/[om]VRZ -- het/[null]null -- programma/[programma]ZNW:EKV:HET -- tje/[null]null -- te/[te]VRZ -- testen/[test]ZNW:MRV:DE_|testen/[testen]WKW:TGW:INF", tokenizer, tagger);        
+        "Dit/[null]null -- is/[is]ZNW:EKV|is/[zijn]WKW:TGW:3EP -- een/[een]GET|een/[een]ZNW:EKV:DE_ -- Nederlandse/[Nederlands]BNW:STL:VRB -- zin/[zin]ZNW:EKV:DE_|zin/[zinnen]WKW:TGW:1EP -- om/[om]VRZ -- het/[null]null -- programma'tje/[null]null -- te/[te]VRZ -- testen/[test]ZNW:MRV:DE_|testen/[testen]WKW:TGW:INF", tokenizer, tagger);        
     TestTools.myAssert("zwijnden", "zwijnden/[zwijnen]WKW:VLT:INF", tokenizer, tagger);        
   }
-
 }

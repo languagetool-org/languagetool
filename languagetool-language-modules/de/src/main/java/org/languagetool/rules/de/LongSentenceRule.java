@@ -20,6 +20,7 @@ package org.languagetool.rules.de;
 
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.UserConfig;
 import org.languagetool.rules.*;
 
 import java.io.IOException;
@@ -33,27 +34,37 @@ import java.util.ResourceBundle;
  */
 public class LongSentenceRule extends org.languagetool.rules.LongSentenceRule {
 
-  private static final boolean DEFAULT_INACTIVE = false;
+  private static final boolean DEFAULT_ACTIVATION = false;
 
   /**
    * @param defaultActive allows default granularity
    */
-  public LongSentenceRule(ResourceBundle messages, boolean defaultActive) {
-    super(messages);
+  public LongSentenceRule(ResourceBundle messages, UserConfig userConfig, int defaultWords, boolean defaultActive) {
+    super(messages, userConfig, defaultWords);
     super.setCategory(Categories.STYLE.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Style);
     addExamplePair(Example.wrong("<marker>Dies ist ein Bandwurmsatz, der immer weiter geht, obwohl das kein guter Stil ist, den man eigentlich berücksichtigen sollte, obwohl es auch andere Meinungen gibt, die aber in der Minderzahl sind, weil die meisten Autoren sich doch an die Stilvorgaben halten, wenn auch nicht alle, was aber letztendlich wiederum eine Sache des Geschmacks ist</marker>."),
-            Example.fixed("<marker>Dies ist ein kurzer Satz.</marker>"));
+                   Example.fixed("<marker>Dies ist ein kurzer Satz.</marker>"));
     if (defaultActive) {
       setDefaultOn();
     }
   }
 
   /**
-   * Creates a rule with the default Off
+   * Creates a rule with default inactive
+   * @since 4.2
    */
-  public LongSentenceRule(ResourceBundle messages) {
-    this(messages, DEFAULT_INACTIVE);
+  public LongSentenceRule(ResourceBundle messages, UserConfig userConfig, int defaultWords) {
+    this(messages, userConfig, defaultWords, DEFAULT_ACTIVATION);
+  }
+
+
+  /**
+   * Creates a rule with default values can be overwritten by configuration settings
+   * @since 4.2
+   */
+  public LongSentenceRule(ResourceBundle messages, UserConfig userConfig) {
+    this(messages, userConfig, -1, DEFAULT_ACTIVATION);
   }
 
   @Override
@@ -89,10 +100,10 @@ public class LongSentenceRule extends org.languagetool.rules.LongSentenceRule {
   public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
     List<RuleMatch> ruleMatches = new ArrayList<>();
     AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
-    String msg = getMessage();
     if (tokens.length < maxWords + 1) {   // just a short-circuit
       return toRuleMatchArray(ruleMatches);
     }
+    String msg = getMessage();
     int i = 0;
     List<Integer> fromPos = new ArrayList<>();
     List<Integer> toPos = new ArrayList<>();

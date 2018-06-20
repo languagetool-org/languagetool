@@ -1502,6 +1502,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </pattern>
         <message>Правильно: <suggestion>запобігати <match no="2"/> <match no="3" postag_regexp="yes" postag="(adj.*)v_...(.*)" postag_replace="$1v_dav$2"/> <match no="4" postag_regexp="yes" postag="(noun.*)v_...(.*)" postag_replace="$1v_dav$2"/></suggestion></message>
         <example correction="запобігати поширенню">дозволить <marker>попередити поширення</marker> інфекційних захворювань</example>
+        <!--
+        <example correction="запобігати поширенню|запобігати поширенням">дозволить <marker>попередити поширення</marker> інфекційних захворювань</example>
+        -->
         <example correction="запобігати екологічній катастрофі">Співробітники СБУ <marker>попередили екологічну катастрофу</marker>.</example>
         <example correction="Запобігати злочинові|Запобігати злочину"><marker>Попередивши злочин</marker> пішли далі.</example>
         <example correction="запобігати біді"><marker>попередити біду</marker> завжди легше</example>
@@ -2004,7 +2007,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
     <rule id="ODYN_NA_ODYM" name="Один на один">
       <pattern>
-        <token>один</token>
+        <token>один
+          <exception scope="previous" regexp="yes" inflected="yes">.*?класти(ся)?|накладувати(ся)?|.*кладений|.*кладучи|(по)?ставити|поставлений|наповза?ти|наповзаючи|нанизувати(ся)?|нанизаний|нанизуючи</exception>
+        </token>
         <token>на</token>
         <token>один</token>
       </pattern>
@@ -2013,6 +2018,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="сам на сам|віч-на-віч|сам один">Якщо потрібно з кимось порадитись, то це треба робити <marker>один на один</marker>.</example>
       <example correction="сам на сам|віч-на-віч|сам один">Ми лишилися <marker>один на один</marker> зі своїми викликами.</example>
       <example>Сам на сам із ринком</example>
+      <example>Накладений один на один.</example>
+      <example>Нанизуються один на один.</example>
     </rule>
 
     <rule id="ODYN_CHAS" name="Один час">
@@ -4896,6 +4903,63 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="принаймні|щонайменше|у всякому разі">і <marker>по крайній мірі</marker> він там жив.</example>
     </rule>
 
+    <rulegroup id="vechorom" name="Вечором і увечері">
+      <rule>
+        <antipattern>
+          <token regexp="yes">перед|з|із|за|між|є</token>
+          <token postag_regexp="yes" postag="adj:m:v_oru.*" min="0"/>
+          <token>вечором</token>
+        </antipattern>
+        <antipattern>
+          <token regexp="yes" inflected="yes">назвати|стати|керувати|насолоджу.*|задоволений</token>
+          <token postag_regexp="yes" postag="adj:m:v_oru.*" min="0"/>
+          <token>вечором</token>
+        </antipattern>
+        <antipattern>
+          <token regexp="yes">творчим|музичним|щедрим|новорічним|літературним</token>
+          <token>вечором</token>
+        </antipattern>
+        <pattern>
+          <marker>
+            <token postag_regexp="yes" postag="adj:m:v_oru.*" min="0"/>
+            <token>вечором</token>
+          </marker>
+        </pattern>
+        <message>У функції прислівника замість «вечором» треба писати: <suggestion>увечері</suggestion>, <suggestion><match no="1" postag_regexp="yes" postag="adj:m:v_oru(.*)" postag_replace="adj:m:v_rod$1"/> вечора</suggestion></message>
+        <example correction="увечері|вечора">вчора <marker>вечором</marker>.</example>
+        <example correction="увечері|одного вечора"><marker>одним вечором</marker>.</example>
+        <example>тікаючи перед вечором</example>
+        <example>вечір за вечором</example>
+        <example>керували тим творчим вечором</example>
+        <example>насолоджувався осіннім вечором</example>
+      </rule>
+      <!-- ранком - нормальна форма
+      <rule>
+        <antipattern>
+          <token regexp="yes">перед|з|із|за|між|є</token>
+          <token postag_regexp="yes" postag="adj:m:v_oru.*" min="0"/>
+          <token>ранком</token>
+        </antipattern>
+        <antipattern>
+          <token regexp="yes" inflected="yes">стати|насолоджуватися|задоволений</token>
+          <token postag_regexp="yes" postag="adj:m:v_oru.*" min="0"/>
+          <token>ранком</token>
+        </antipattern>
+        <pattern>
+          <marker>
+            <token postag_regexp="yes" postag="adj:m:v_oru.*" min="0"/>
+            <token>ранком</token>
+          </marker>
+        </pattern>
+        <message>У функції прислівника замість «ранком» треба писати: <suggestion>уранці</suggestion>, <suggestion><match no="1" postag_regexp="yes" postag="adj:m:v_oru(.*)" postag_replace="adj:m:v_rod$1"/> ранку</suggestion></message>
+        <example correction="уранці|ранку">сьогодні <marker>ранком</marker>.</example>
+        <example correction="уранці|одного ранку"><marker>одним ранком</marker>.</example>
+        <example>тікаючи перед ранком</example>
+        <example>ранок за ранком</example>
+        <example>насолоджувався ранком</example>
+      </rule>
+      -->
+    </rulegroup>
 
 <!--  Too many false positives with надоїти, moved to replace.txt
     <rule id="nadoyisty" name="Надоїсти">

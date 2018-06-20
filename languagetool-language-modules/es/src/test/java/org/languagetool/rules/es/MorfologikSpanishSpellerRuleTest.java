@@ -33,7 +33,7 @@ public class MorfologikSpanishSpellerRuleTest {
   @Test
   public void testMorfologikSpeller() throws IOException {
     Spanish language = new Spanish();
-    MorfologikSpanishSpellerRule rule = new MorfologikSpanishSpellerRule(TestTools.getMessages("en"), language);
+    MorfologikSpanishSpellerRule rule = new MorfologikSpanishSpellerRule(TestTools.getMessages("en"), language, null);
     JLanguageTool langTool = new JLanguageTool(language);
 
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Escriba un texto aquí. LanguageTool le ayudará a afrontar algunas dificultades propias de la escritura.")).length);
@@ -42,6 +42,18 @@ public class MorfologikSpanishSpellerRuleTest {
     assertEquals(1, matches.length);
     assertEquals(59, matches[0].getFromPos());
     assertEquals(71, matches[0].getToPos());
+    assertEquals("ortográficos", matches[0].getSuggestedReplacements().get(0));
+
+    matches = rule.match(langTool.getAnalyzedSentence("Se a 😂 hecho un esfuerzo para detectar errores tipográficos, ortograficos y incluso gramaticales."));
+    assertEquals(1, matches.length);
+    assertEquals(62, matches[0].getFromPos());
+    assertEquals(74, matches[0].getToPos());
+    assertEquals("ortográficos", matches[0].getSuggestedReplacements().get(0));
+
+    matches = rule.match(langTool.getAnalyzedSentence("Se a 😂😂 hecho un esfuerzo para detectar errores tipográficos, ortograficos y incluso gramaticales."));
+    assertEquals(1, matches.length);
+    assertEquals(64, matches[0].getFromPos());
+    assertEquals(76, matches[0].getToPos());
     assertEquals("ortográficos", matches[0].getSuggestedReplacements().get(0));
   }
 

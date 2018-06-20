@@ -58,7 +58,7 @@ printf "MS-Word Requests  : %'d\n" $MSWORD >>$OUTFILE
 
 # when adding items, add only at the end so scripts don't get confused:
 echo "$DATE2;$TOTAL;$FF;$CHROME;$ANDROID;$CLIENT;$SUBLIME;$WEBEXT;$MSWORD;$WEBEXTFF;$WEBEXTCHROME;$TOTALHOME;$GOOGLEAPP" >>/home/languagetool/api/api-log.csv
-cp /home/languagetool/api/api-log.csv /home/languagetool/languagetool.org/languagetool-website/www/analytics
+cp /home/languagetool/api/api-log.csv /home/languagetool/languagetool.org/languagetool-website-2018/public/analytics
 
 echo "" >>$OUTFILE
 echo "OutOfMemoryError           : `grep -c 'OutOfMemoryError' $TMPFILE`" >>$OUTFILE
@@ -87,8 +87,8 @@ echo "Top 10 Errors:" >>$OUTFILE
 grep 'Could not check sentence' $TMPFILE_ALL | grep -v "Caused by:" | uniq -c | sort -n -r | head -n 10 >>$OUTFILE
 
 echo "" >>$OUTFILE
-echo "Top 30 external Referers:" >>$OUTFILE
-grep "Check done:" /tmp/log.temp | awk -F ', ' '{print $4}' | grep -v "languagetool.org" | cut -c -100 | sed 's#https\?://\([.a-z0-9:-]\+\)/.*#\1#' | sort | uniq -c | sort -r -n | head -n 30 >>$OUTFILE
+echo "Top 50 external Referers:" >>$OUTFILE
+grep "Check done:" /tmp/log.temp | awk -F ', ' '{print $4}' | grep -v "languagetool.org" | cut -c -100 | sed 's#https\?://\([.a-z0-9:-]\+\)/.*#\1#' | sort | uniq -c | sort -r -n | head -n 50 >>$OUTFILE
 
 #echo "" >>$OUTFILE
 #echo "Up to 50 client errors sent to the server:" >>$OUTFILE

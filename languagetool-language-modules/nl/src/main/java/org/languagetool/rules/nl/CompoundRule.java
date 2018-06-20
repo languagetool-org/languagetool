@@ -33,10 +33,11 @@ public class CompoundRule extends AbstractCompoundRule {
 
   public CompoundRule(ResourceBundle messages) throws IOException {
     super(messages,
-            "Hier wordt een koppelteken verwacht.",
+            "Dit woord hoort waarschijnlijk aaneengeschreven met een koppelteken.",
             "Dit woord hoort waarschijnlijk aaneengeschreven.",
             "Deze uitdrukking hoort mogelijk aan elkaar, eventueel met een koppelteken.",
             "Koppeltekenprobleem");
+    super.sentenceStartsWithUpperCase = true;
   }
 
   @Override
@@ -46,7 +47,7 @@ public class CompoundRule extends AbstractCompoundRule {
 
   @Override
   public String getDescription() {
-    return "Woorden die aaneen horen met koppeltekens, bijvoorbeeld 'zee-egel' i.p.v. 'zee egel'.\n";
+    return "Woorden die aaneen geschreven horen, bijvoorbeeld 'zee-egel' i.p.v. 'zee egel'";
   }
 
   @Override

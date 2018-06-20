@@ -124,6 +124,10 @@ public class CaseRuleTest {
     assertGood("Das schließen Forscher aus den gefundenen Spuren.");
     assertGood("Wieder Verletzter bei Unfall");
     assertGood("Eine Gruppe Aufständischer verwüstete die Bar.");
+    assertGood("‚Dieser Satz.‘ Hier kommt der nächste Satz.");
+    assertGood("Dabei werden im Wesentlichen zwei Prinzipien verwendet:");
+    assertGood("Er fragte, ob das gelingen oder scheitern wird.");
+    assertGood("Einen Tag nach Bekanntwerden des Skandals");
 
     //assertBad("Sie sind nicht Verständlich");
     assertBad("Sie Vertraute niemandem.");
@@ -179,6 +183,7 @@ public class CaseRuleTest {
     assertGood("Die ersten Gespanne erreichen Köln.");
     assertGood("Er beschrieb den Angeklagten wie einen Schuldigen");
     assertGood("Er beschrieb den Angeklagten wie einen Schuldigen.");
+    assertGood("Es dauerte bis ins neunzehnte Jahrhundert");
 
     assertGood("Das ist das Dümmste, was ich je gesagt habe.");
     assertBad("Das ist das Dümmste Kind.");
@@ -190,6 +195,7 @@ public class CaseRuleTest {
     assertBad("Er ist begeistert Von der Fülle.");
     assertBad("Er wohnt Über einer Garage.");
     assertBad("„Weißer Rauch“ Über Athen");
+    assertBad("Die Anderen 90 Prozent waren krank.");
 
     assertGood("Man sagt, Liebe mache blind.");
     assertGood("Die Deutschen sind sehr listig.");

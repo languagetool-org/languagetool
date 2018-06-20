@@ -21,6 +21,7 @@ package org.languagetool.rules.fr;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
+import org.languagetool.UserConfig;
 import org.languagetool.rules.Example;
 import org.languagetool.rules.spelling.hunspell.CompoundAwareHunspellRule;
 import org.languagetool.rules.spelling.morfologik.MorfologikMultiSpeller;
@@ -35,8 +36,8 @@ import java.util.*;
  */
 public class FrenchCompoundAwareHunspellRule extends CompoundAwareHunspellRule {
   
-  public FrenchCompoundAwareHunspellRule(ResourceBundle messages, Language language) {
-    super(messages, language, new NonSplittingTokenizer(), getSpeller(language));
+  public FrenchCompoundAwareHunspellRule(ResourceBundle messages, Language language, UserConfig userConfig) {
+    super(messages, language, new NonSplittingTokenizer(), getSpeller(language, userConfig), userConfig);
     addExamplePair(Example.wrong("Le <marker>chein</marker> noir"),
                    Example.fixed("Le <marker>chien</marker> noir"));
   }
@@ -51,7 +52,7 @@ public class FrenchCompoundAwareHunspellRule extends CompoundAwareHunspellRule {
   }
 
   @Nullable
-  private static MorfologikMultiSpeller getSpeller(Language language) {
+  private static MorfologikMultiSpeller getSpeller(Language language, UserConfig userConfig) {
     if (!language.getShortCode().equals(Locale.FRENCH.getLanguage())) {
       throw new RuntimeException("Language is not a variant of French: " + language);
     }
@@ -62,7 +63,7 @@ public class FrenchCompoundAwareHunspellRule extends CompoundAwareHunspellRule {
         String path = "/fr/hunspell/spelling.txt";
         try (InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(path);
              BufferedReader br = new BufferedReader(new InputStreamReader(stream, "utf-8"))) {
-          return new MorfologikMultiSpeller(morfoFile, br, path, 2);
+          return new MorfologikMultiSpeller(morfoFile, br, path, userConfig != null ? userConfig.getAcceptedWords(): Collections.emptyList(), 2);
         }
       } else {
         return null;

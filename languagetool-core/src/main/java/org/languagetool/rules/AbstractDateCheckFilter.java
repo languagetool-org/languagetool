@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules;
 
+import org.apache.commons.lang3.StringUtils;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.patterns.RuleFilter;
 
@@ -131,7 +132,7 @@ public abstract class AbstractDateCheckFilter extends RuleFilter {
   private int getMonthFromArguments(Map<String, String> args) {
     String monthStr = getRequired("month", args);
     int month;
-    if (monthStr.matches("\\d+")) {
+    if (StringUtils.isNumeric(monthStr)) {
       month = Integer.parseInt(monthStr);
     } else {
       month = getMonth(monthStr);

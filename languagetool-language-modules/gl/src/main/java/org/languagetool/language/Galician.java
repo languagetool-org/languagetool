@@ -20,6 +20,7 @@ package org.languagetool.language;
 
 import org.languagetool.Language;
 import org.languagetool.LanguageMaintainedState;
+import org.languagetool.UserConfig;
 import org.languagetool.rules.*;
 import org.languagetool.rules.gl.*;
 import org.languagetool.synthesis.Synthesizer;
@@ -116,7 +117,7 @@ public class Galician extends Language {
   }
 
   @Override
-  public List<Rule> getRelevantRules(ResourceBundle messages) throws IOException {
+  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig) throws IOException {
     return Arrays.asList(
             new CommaWhitespaceRule(messages,
                 Example.wrong("Tomamos café<marker> ,</marker> queixo, bolachas e uvas."),
@@ -125,16 +126,19 @@ public class Galician extends Language {
             new GenericUnpairedBracketsRule(messages,
                     Arrays.asList("[", "(", "{", "“", "«", "»", "‘", "\"", "'"),
                     Arrays.asList("]", ")", "}", "”", "»", "«", "’", "\"", "'")),
-            new HunspellRule(messages, this),
+            new HunspellRule(messages, this, userConfig),
             new UppercaseSentenceStartRule(messages, this,
                 Example.wrong("Esta casa é vella. <marker>foi</marker> construida en 1950."),
                 Example.fixed("Esta casa é vella. <marker>Foi</marker> construida en 1950.")),
             new MultipleWhitespaceRule(messages, this),
-            new LongSentenceRule(messages, true),
+            new LongSentenceRule(messages, userConfig, -1, true),
+            new LongParagraphRule(messages, userConfig),
             new SentenceWhitespaceRule(messages),
             new WhiteSpaceBeforeParagraphEnd(messages),
             new WhiteSpaceAtBeginOfParagraph(messages),
             new EmptyLineRule(messages),
+            new ParagraphRepeatBeginningRule(messages),
+            new PunctuationMarkAtParagraphEnd(messages),
             // Specific to Galician:
             new SimpleReplaceRule(messages),
             new CastWordsRule(messages),

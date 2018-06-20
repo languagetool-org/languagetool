@@ -19,10 +19,12 @@
 package org.languagetool.tokenizers.de;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 import de.danielnaber.jwordsplitter.GermanWordSplitter;
+import de.danielnaber.jwordsplitter.InputTooLongException;
 import org.languagetool.tokenizers.Tokenizer;
 
 /**
@@ -42,13 +44,21 @@ public class GermanCompoundTokenizer implements Tokenizer {
     wordSplitter = new GermanWordSplitter(false);
     // add exceptions here so we don't need to update JWordSplitter for every exception we find:  
     wordSplitter.addException("Maskerade", Collections.singletonList("Maskerade"));
+    wordSplitter.addException("Sportshorts", Arrays.asList("Sport", "shorts")); 
+    wordSplitter.addException("Bermudashorts", Arrays.asList("Bermuda", "shorts"));
+    wordSplitter.addException("Laufshorts", Arrays.asList("Lauf", "shorts"));
+    wordSplitter.addException("Badeshorts", Arrays.asList("Bade", "shorts"));
     wordSplitter.setStrictMode(strictMode);
     wordSplitter.setMinimumWordLength(3);
   }
 
   @Override
   public List<String> tokenize(String word) {
-    return wordSplitter.splitWord(word);
+    try {
+      return wordSplitter.splitWord(word);
+    } catch (InputTooLongException e) {
+      return Collections.singletonList(word);
+    }
   }
 
   public static void main(String[] args) throws IOException {

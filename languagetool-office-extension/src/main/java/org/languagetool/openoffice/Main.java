@@ -20,6 +20,7 @@ package org.languagetool.openoffice;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.awt.Color;
 import java.io.BufferedWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -42,6 +43,7 @@ import org.jetbrains.annotations.Nullable;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
+import org.languagetool.UserConfig;
 import org.languagetool.gui.AboutDialog;
 import org.languagetool.gui.Configuration;
 import org.languagetool.markup.AnnotatedText;
@@ -98,7 +100,7 @@ public class Main extends WeakBase implements XJobExecutor,
   private static final String LIBREOFFICE_SPECIAL_LANGUAGE_TAG = "qlt";
 
   private static final int MAX_SUGGESTIONS = 15;
-  
+
   private static boolean testMode = false;
 
   /**
@@ -109,10 +111,13 @@ public class Main extends WeakBase implements XJobExecutor,
    * == 0 check only one paragraph (works like LT Version <= 3.9)
    * > 0 checks numParasToCheck before and after the processed paragraph
    */
-  private static final String END_OF_PARAGRAPH = "\n";  //  Paragraph Separator from gciterator.cxx: 0x2029
-  private static final boolean debugMode = false;   //  should be false except for testing
+  private static final String END_OF_PARAGRAPH = "\n";  //  Paragraph Separator like in standalone GUI
+  private static final String MANUAL_LINEBREAK = "\r";  //  to distinguish from paragraph separator
+  private static final String ZERO_WIDTH_SPACE = "\u200B";  // Used to mark footnotes
   private static final String logLineBreak = System.getProperty("line.separator");  //  LineBreak in Log-File (MS-Windows compatible)
 
+  private static final boolean debugMode = false;   //  should be false except for testing
+  
   private final List<XLinguServiceEventListener> xEventListeners;
 
   private Configuration config;
@@ -128,8 +133,10 @@ public class Main extends WeakBase implements XJobExecutor,
   private boolean recheck;
 
   private XComponentContext xContext;
-  
-  private int numParasToCheck = 5;    // will be overwritten by config
+
+  private int numParasToCheck = 5;        // will be overwritten by config
+  private boolean doResetCheck = true;    // will be overwritten by config
+
   private List<List<String>> allParas = null;     //  List of paragraphs (only readable by parallel thread)
   private List<List<RuleMatch>> fullTextMatches;  //  List of paragraph matches (only readable by parallel thread)
   private List<RuleMatch> paragraphMatchesFirst;  //  List of paragraph matches (main thread)
@@ -145,6 +152,7 @@ public class Main extends WeakBase implements XJobExecutor,
   private int divNum;    //  difference between number of paragraphs from cursor and from flatParagraph (unchanged by parallel thread)
   private int numLastVCPara1;  //  last paragraph for parallel thread (View Cursor)
   private int numLastFlPara1;  //  last paragraph for parallel thread (FlatParagraph)
+  private XComponent goneContext = null;   // save component of closed document
   private int lastParaPos[] =  {0, 0};
   private int lastDocNum = 0;
 
@@ -160,6 +168,7 @@ public class Main extends WeakBase implements XJobExecutor,
     try {
       config = new Configuration(getHomeDir(), CONFIG_FILE, lang);
       numParasToCheck = config.getNumParasToCheck();
+      doResetCheck = config.isResetCheck();
       disabledRules = config.getDisabledRuleIds();
       if (disabledRules == null) {
         disabledRules = new HashSet<>();
@@ -265,7 +274,7 @@ public class Main extends WeakBase implements XJobExecutor,
 
   /**
    * Runs the grammar checker on paragraph text.
-   * 
+   *
    * @param docID document ID
    * @param paraText paragraph text
    * @param locale Locale the text Locale
@@ -344,6 +353,7 @@ public class Main extends WeakBase implements XJobExecutor,
           langTool.enableRule(ruleName);
         }
       }
+//      langTool.setConfigValues(config.getConfigValues());
       try {
         SentenceFromPara sfp = new SentenceFromPara(paraText, paRes.nStartOfSentencePosition);
         String sentence = sfp.getSentence();
@@ -351,7 +361,7 @@ public class Main extends WeakBase implements XJobExecutor,
         paRes.nStartOfNextSentencePosition = sfp.getPosition() + sentence.length();
         paRes.nBehindEndOfSentencePosition = paRes.nStartOfNextSentencePosition;
         if (!StringTools.isEmpty(sentence)) {
-          AnnotatedText annotatedText = getAnnotatedText(sentence, footnotePositions, paRes);
+          AnnotatedText annotatedText = getAnnotatedText(sentence, footnotePositions, paRes.nStartOfSentencePosition);
           List<RuleMatch> ruleMatches = langTool.check(annotatedText, false,
               JLanguageTool.ParagraphHandling.ONLYNONPARA);
           SingleProofreadingError[] pErrors = checkParaRules(paraText, paRes.nStartOfSentencePosition,
@@ -365,7 +375,7 @@ public class Main extends WeakBase implements XJobExecutor,
                     new SingleProofreadingError[ruleMatches.size() + pErrorCount];
             int i = 0;
             for (RuleMatch myRuleMatch : ruleMatches) {
-              errorArray[i] = createOOoError(myRuleMatch, paRes.nStartOfSentencePosition, 
+              errorArray[i] = createOOoError(myRuleMatch, paRes.nStartOfSentencePosition,
             		                            sentence.length(), sentence.charAt(sentence.length()-1));
               i++;
             }
@@ -394,6 +404,33 @@ public class Main extends WeakBase implements XJobExecutor,
     return paRes;
   }
 
+  private AnnotatedText getAnnotatedText(String text, int[] footnotePos, int startPosition) {
+    AnnotatedTextBuilder annotations = new AnnotatedTextBuilder();
+    if (footnotePos.length == 0) {
+      annotations.addText(text);
+    } else {
+      boolean hasFootnote = false;
+      int lastPos = startPosition;
+      for (int i = 0; i < footnotePos.length && footnotePos[i] - startPosition < text.length(); i++) {
+        if (footnotePos[i] >= startPosition) {
+          if (footnotePos[i] > lastPos) {
+            annotations.addText(text.substring(lastPos - startPosition, footnotePos[i] - startPosition));
+          }
+          annotations.addMarkup(ZERO_WIDTH_SPACE);
+          lastPos = footnotePos[i] + 1;
+          hasFootnote = true;
+        }
+      }
+      if (hasFootnote && lastPos < text.length()) {
+        annotations.addText(text.substring(lastPos - startPosition));
+      } else if (!hasFootnote) {
+        annotations.addText(text);
+      }
+    }
+    return annotations.build();
+  }
+
+  //  Old Implementation could be deleted if the new one is tested
   private AnnotatedText getAnnotatedText(String sentence, int[] footnotePos, ProofreadingResult paRes) {
     Set<Integer> correctedPos = new HashSet<>();
     for (int pos : footnotePos) {
@@ -403,7 +440,7 @@ public class Main extends WeakBase implements XJobExecutor,
     // not very efficient but simple implementation:
     for (int i = 0; i < sentence.length(); i++) {
       if (correctedPos.contains(i)) {
-        annotations.addMarkup("\u200B");
+        annotations.addMarkup("ZERO_WIDTH_SPACE");
       } else {
         annotations.addText(String.valueOf(sentence.charAt(i)));
       }
@@ -415,7 +452,8 @@ public class Main extends WeakBase implements XJobExecutor,
     try {
       prepareConfig(docLanguage);
       // not using MultiThreadedJLanguageTool here fixes "osl::Thread::Create failed", see https://bugs.documentfoundation.org/show_bug.cgi?id=90740:
-      langTool = new JLanguageTool(docLanguage, config.getMotherTongue());
+      langTool = new JLanguageTool(docLanguage, config.getMotherTongue(), null, 
+          new UserConfig(config.getConfigurableValues()));
       File ngramDirectory = config.getNgramDirectory();
       if (ngramDirectory != null) {
         File ngramLangDir = new File(config.getNgramDirectory(), docLanguage.getShortCode());
@@ -440,7 +478,7 @@ public class Main extends WeakBase implements XJobExecutor,
   private class SentenceFromPara {
     private int position;
     private String str;
-  
+
     SentenceFromPara(String paraText, int startPos) {
       List<String> tokenizedSentences = langTool.sentenceTokenize(cleanFootnotes(paraText));
       if (!tokenizedSentences.isEmpty()) {
@@ -472,7 +510,7 @@ public class Main extends WeakBase implements XJobExecutor,
     }
   }
 
-  // Fix numbers that are (probably) foot notes. 
+  // Fix numbers that are (probably) foot notes.
   // See https://bugs.freedesktop.org/show_bug.cgi?id=69416
   // non-private for test case
   String cleanFootnotes(String paraText) {
@@ -483,7 +521,7 @@ public class Main extends WeakBase implements XJobExecutor,
   private SingleProofreadingError[] checkParaRules(
       String paraText, int startPos,
       int endPos, String docID) {
-    
+
     List<RuleMatch> paragraphMatches = null;
     boolean sameDocID = true;
     int numThread = 0;
@@ -497,24 +535,22 @@ public class Main extends WeakBase implements XJobExecutor,
     }
     try {
       if (lastDocID == null || !lastDocID.equals(docID)) {
-        numCurDoc = getNumDocID(docID);
         lastDocID = docID;
         sameDocID = false;
-      } else {
-        numCurDoc = lastDocNum;
       }
+      numCurDoc = getNumDocID(docID);
       numCurPara = getParaPos(paraText, numThread, numCurDoc);
       paraPos = getStartOfParagraph(numCurPara, numCurDoc);
       if (numThread > 0 || (numThread == 0 
           && (startPos == 0 || paraPos != lastParaPos[numThread] || !sameDocID))) {
         if (paraPos < 0) {                                          //  Position not found; check only Paragraph context
-          paragraphMatches = langTool.check(paraText, true,
+          paragraphMatches = langTool.check(fixLinebreak(paraText), true,
               JLanguageTool.ParagraphHandling.ONLYPARA);
           if (numThread == 0) {
             paragraphMatchesFirst = paragraphMatches;
           } else {
             paragraphMatchesSecond = paragraphMatches;
-          }            
+          }
         } else if (numParasToCheck > 0 && !doFullTextCheck) {          //  Check numParasToCheck paragraphs while text is changed
           paragraphMatches = langTool.check(getDocAsString(numCurPara, numCurDoc), true,
               JLanguageTool.ParagraphHandling.ONLYPARA);
@@ -522,11 +558,11 @@ public class Main extends WeakBase implements XJobExecutor,
             paragraphMatchesFirst = paragraphMatches;
           } else {
             paragraphMatchesSecond = paragraphMatches;
-          }            
+          }
         }
         else if (!textIsChecked) {                                  //  Check Full Text only if not already checked
           if (debugMode) {
-            printToLogFile("check Text again");    
+            printToLogFile("check Text again");
           }
           fullTextMatches.set(numCurDoc, langTool.check(getDocAsString(numCurPara, numCurDoc), true,
               JLanguageTool.ParagraphHandling.ONLYPARA));
@@ -539,7 +575,7 @@ public class Main extends WeakBase implements XJobExecutor,
             paragraphMatches = paragraphMatchesFirst;
           } else {
             paragraphMatches = paragraphMatchesSecond;
-          }            
+          }
         }
       } else {
         if (paraPos < 0 || (numParasToCheck > 0 && !doFullTextCheck)) {
@@ -547,21 +583,22 @@ public class Main extends WeakBase implements XJobExecutor,
             paragraphMatches = paragraphMatchesFirst;
           } else {
             paragraphMatches = paragraphMatchesSecond;
-          }            
+          }
         }
       }
-      if ((paraPos < 0 || (numParasToCheck > 0 && !doFullTextCheck)) 
+      if ((paraPos < 0 || (numParasToCheck > 0 && !doFullTextCheck))
             && paragraphMatches != null && !paragraphMatches.isEmpty()) {
         List<SingleProofreadingError> errorList = new ArrayList<>();
         int textPos = paraPos;
         if (textPos < 0) textPos = 0;
         for (RuleMatch myRuleMatch : paragraphMatches) {
           int startErrPos = myRuleMatch.getFromPos() - textPos;
-          int endErrPos = myRuleMatch.getToPos() - textPos;
-          if (startErrPos >= startPos && startErrPos <= endPos
-              && endErrPos >= startPos && endErrPos <= endPos) {
-            errorList.add(createOOoError(myRuleMatch, -textPos, myRuleMatch.getToPos() - textPos, 
-                                          paraText.charAt(myRuleMatch.getToPos()-textPos-1)));
+          if (startErrPos >= startPos && startErrPos <= endPos) {
+            int toPos = myRuleMatch.getToPos() - textPos;
+            if(toPos > paraText.length()) {
+              toPos = paraText.length();
+            }
+            errorList.add(createOOoError(myRuleMatch, -textPos, toPos, paraText.charAt(toPos-1)));
           }
         }
         if (!errorList.isEmpty()) {
@@ -579,11 +616,12 @@ public class Main extends WeakBase implements XJobExecutor,
         if (textPos < 0) textPos = 0;
         for (RuleMatch myRuleMatch : fullTextMatches.get(numCurDoc)) {
           int startErrPos = myRuleMatch.getFromPos() - textPos;
-          int endErrPos = myRuleMatch.getToPos() - textPos;
-          if (startErrPos >= startPos && startErrPos <= endPos
-              && endErrPos >= startPos && endErrPos <= endPos) {
-            errorList.add(createOOoError(myRuleMatch, -textPos, myRuleMatch.getToPos() - textPos, 
-                                          paraText.charAt(myRuleMatch.getToPos()-textPos-1)));
+          if (startErrPos >= startPos && startErrPos <= endPos) {
+            int toPos = myRuleMatch.getToPos() - textPos;
+            if(toPos > paraText.length()) {
+              toPos = paraText.length();
+            }
+            errorList.add(createOOoError(myRuleMatch, -textPos, toPos, paraText.charAt(toPos-1)));
           }
         }
         if (!errorList.isEmpty()) {
@@ -602,6 +640,13 @@ public class Main extends WeakBase implements XJobExecutor,
       proofIsRunning = false;
     }
     return null;
+  }
+  
+  /**
+   * Change manual linebreak to distinguish from end of paragraph
+   */
+  private static String fixLinebreak (String text) {
+    return text.replaceAll(END_OF_PARAGRAPH, MANUAL_LINEBREAK);
   }
 
   /**
@@ -628,7 +673,7 @@ public class Main extends WeakBase implements XJobExecutor,
     if (lastChar == '.' && (ruleMatch.getToPos() + startIndex) == sentencesLength) {
       int i;
       for (i = 0; i < numSuggestions && i < MAX_SUGGESTIONS 
-    		  && allSuggestions[i].charAt(allSuggestions[i].length()-1) == '.'; i++);
+    		  && allSuggestions[i].length() > 0 && allSuggestions[i].charAt(allSuggestions[i].length()-1) == '.'; i++);
       if (i < numSuggestions && i < MAX_SUGGESTIONS) {
     	numSuggestions = 0;
     	allSuggestions = new String[0];
@@ -643,15 +688,30 @@ public class Main extends WeakBase implements XJobExecutor,
     aError.nErrorStart = ruleMatch.getFromPos() + startIndex;
     aError.nErrorLength = ruleMatch.getToPos() - ruleMatch.getFromPos();
     aError.aRuleIdentifier = ruleMatch.getRule().getId();
-    // LibreOffice since version 3.5 supports an URL that provides more
-    // information about the error,
-    // older version will simply ignore the property:
-    if (ruleMatch.getRule().getUrl() != null) {
-      aError.aProperties = new PropertyValue[] { new PropertyValue(
-          "FullCommentURL", -1, ruleMatch.getRule().getUrl().toString(),
-          PropertyState.DIRECT_VALUE) };
+    // LibreOffice since version 3.5 supports an URL that provides more information about the error,
+    // LibreOffice since version 6.2 supports the change of underline color (key: "LineColor", value: int (RGB))
+    // LibreOffice since version 6.2 supports the change of underline style (key: "LineType", value: short (DASHED = 5))
+    // older version will simply ignore the properties
+    Color underlineColor = config.getUnderlineColor(ruleMatch.getRule().getCategory().getName());
+    if(underlineColor != Color.blue) {
+      int ucolor = underlineColor.getRGB() & 0xFFFFFF;
+      if (ruleMatch.getRule().getUrl() != null) {
+        aError.aProperties = new PropertyValue[] { new PropertyValue(
+            "FullCommentURL", -1, ruleMatch.getRule().getUrl().toString(),
+            PropertyState.DIRECT_VALUE),
+            new PropertyValue("LineColor", -1, ucolor, PropertyState.DIRECT_VALUE) };
+      } else {
+        aError.aProperties = new PropertyValue[] {
+            new PropertyValue("LineColor", -1, ucolor, PropertyState.DIRECT_VALUE) };
+      }
     } else {
-      aError.aProperties = new PropertyValue[0];
+      if (ruleMatch.getRule().getUrl() != null) {
+        aError.aProperties = new PropertyValue[] { new PropertyValue(
+            "FullCommentURL", -1, ruleMatch.getRule().getUrl().toString(),
+            PropertyState.DIRECT_VALUE) };
+      } else {
+        aError.aProperties = new PropertyValue[0];
+      }
     }
     return aError;
   }
@@ -677,6 +737,7 @@ public class Main extends WeakBase implements XJobExecutor,
     ConfigThread configThread = new ConfigThread(lang, config, this);
     configThread.start();
     numParasToCheck = config.getNumParasToCheck();
+    doResetCheck = config.isResetCheck();
   }
 
   /**
@@ -768,10 +829,9 @@ public class Main extends WeakBase implements XJobExecutor,
   }
 
   /**
-   * Inform listener (grammar checking iterator) that options have changed and
-   * the doc should be rechecked.
+   * Inform listener that the doc should be rechecked.
    */
-  public final void resetDocument() {
+  public final boolean resetCheck() {
     if (!xEventListeners.isEmpty()) {
       for (XLinguServiceEventListener xEvLis : xEventListeners) {
         if (xEvLis != null) {
@@ -780,8 +840,19 @@ public class Main extends WeakBase implements XJobExecutor,
           xEvLis.processLinguServiceEvent(xEvent);
         }
       }
-      recheck = true;
       textIsChecked = false;
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * Inform listener (grammar checking iterator) that options have changed and
+   * the doc should be rechecked.
+   */
+  public final void resetDocument() {
+    if (resetCheck()) {
+      recheck = true;
       disabledRules = config.getDisabledRuleIds();
       if (disabledRules == null) {
         disabledRules = new HashSet<>();
@@ -878,7 +949,7 @@ public class Main extends WeakBase implements XJobExecutor,
       throw new RuntimeException(e);
     }
     String msg = "An error has occurred in LanguageTool "
-        + JLanguageTool.VERSION + ":\n" + e + "\nStacktrace:\n";
+        + JLanguageTool.VERSION + " (" + JLanguageTool.BUILD_DATE + "):\n" + e + "\nStacktrace:\n";
     msg += Tools.getFullStackTrace(e);
     String metaInfo = "OS: " + System.getProperty("os.name") + " on "
         + System.getProperty("os.arch") + ", Java version "
@@ -981,7 +1052,7 @@ public class Main extends WeakBase implements XJobExecutor,
   /*
    * Full Text Check  (Workaround for XProofread interface)
    */
-  
+
   /**
    * Different possibilities of return
    */
@@ -1017,10 +1088,27 @@ public class Main extends WeakBase implements XJobExecutor,
   /**
    * Reset allParas
    */
-  private boolean resetAllParas(LOCursor loCursor, int docNum) {
+  private boolean resetAllParas(LOCursor loCursor, LOFlatParagraph loFlaPa, int docNum) {
     allParas.set(docNum, loCursor.getAllTextParagraphs());
     if (allParas.get(docNum) == null || allParas.get(docNum).size() < 1) {
       return false;
+    }
+
+    //  change all footnotes to \u200B (like in paraText)
+    List<int[]> footnotes = loFlaPa.getFootnotePositions();
+    int divN = footnotes.size() - allParas.get(docNum).size();
+    if (divN >= 0) {
+      for (int i = 0; i < allParas.get(docNum).size(); i++) {
+        for (int pos : footnotes.get(i + divN)) {
+          if(pos <= allParas.get(docNum).get(i).length()) {
+            String paraText = allParas.get(docNum).get(i).substring(0, pos) + ZERO_WIDTH_SPACE;
+            if (pos < allParas.get(docNum).get(i).length() - 1) {
+              paraText += allParas.get(docNum).get(i).substring(pos + 1);
+            }
+            allParas.get(docNum).set(i, paraText);
+          }
+        }
+      }
     }
     textIsChecked = false;
     return true;
@@ -1044,9 +1132,9 @@ public class Main extends WeakBase implements XJobExecutor,
       endPos = numCurPara + numParasToCheck;
       if (endPos > allParas.get(docNum).size()) endPos = allParas.get(docNum).size();
     }
-    String docText = allParas.get(docNum).get(startPos);
+    String docText = fixLinebreak(allParas.get(docNum).get(startPos));
     for (int i = startPos + 1; i < endPos; i++) {
-      docText += END_OF_PARAGRAPH + allParas.get(docNum).get(i);
+      docText += END_OF_PARAGRAPH + fixLinebreak(allParas.get(docNum).get(i));
     }
     return docText;
   }
@@ -1055,7 +1143,7 @@ public class Main extends WeakBase implements XJobExecutor,
    * Gives Back the StartPosition of Paragraph
    */
   private int getStartOfParagraph(int nPara, int docNum) {
-    if (allParas.get(docNum) != null && nPara >= 0 && nPara < allParas.get(docNum).size()) {
+    if (docNum >= 0 && allParas.get(docNum) != null && nPara >= 0 && nPara < allParas.get(docNum).size()) {
       int startPos;
       if (numParasToCheck < 1 || doFullTextCheck) {
         startPos = 0;
@@ -1069,7 +1157,7 @@ public class Main extends WeakBase implements XJobExecutor,
     }
     return -1;
   }
-  
+
   /**
    * Heuristic try to find next position (dialog box or automatic iteration)
    * Is paragraph same, next not empty after or before   
@@ -1095,14 +1183,14 @@ public class Main extends WeakBase implements XJobExecutor,
     }
     return -1;
   }
-  
+
   /**
    * Search for Position of Paragraph
    * gives Back the Position in full text / -1 if Paragraph can not be found
    */
   private int getParaPos(String chPara, int numThread, int docNum) {
 
-    if (numParasToCheck == 0) {
+    if (numParasToCheck == 0 || docNum < 0) {
       return returnOneParaCheck();  //  check only the processed paragraph
     }
 
@@ -1118,7 +1206,8 @@ public class Main extends WeakBase implements XJobExecutor,
         if (numThread > 0) {              //  if numThread > 0: Thread may only read allParas
           return returnOneParaCheck();
         }
-        if (!resetAllParas(loCursor.get(docNum), docNum)) {
+        loFlaPa = new LOFlatParagraph(xContext);
+        if (!resetAllParas(loCursor.get(docNum), loFlaPa, docNum)) {
           return returnOneParaCheck();
         }
         if (debugMode) {
@@ -1140,8 +1229,14 @@ public class Main extends WeakBase implements XJobExecutor,
           printToLogFile("*** resetAllParas: allParas.size: " + allParas.get(docNum).size() + ", nParas: " + nParas
                   + "; lastDocNum: " + lastDocNum + ", docNum: " + docNum + logLineBreak);
         }
-        if (!resetAllParas(loCursor.get(docNum), docNum)) {
+        if (loFlaPa == null) {
+          loFlaPa = new LOFlatParagraph(xContext);
+        }
+        if (!resetAllParas(loCursor.get(docNum), loFlaPa, docNum)) {
           return returnOneParaCheck();
+        }
+        if(doResetCheck) {
+          resetCheck();
         }
         isReset = true;
       }
@@ -1228,6 +1323,9 @@ public class Main extends WeakBase implements XJobExecutor,
                     + logLineBreak + "old: " + allParas.get(docNum).get(nParas) + logLineBreak + "new: " + chPara + logLineBreak);
           }
           allParas.get(docNum).set(nParas, chPara);
+          if(doResetCheck) {
+            resetCheck();
+          }
           return returnNParaCheck(nParas, numThread);
         }
       }
@@ -1240,9 +1338,10 @@ public class Main extends WeakBase implements XJobExecutor,
       return returnOneParaCheck();
     }
   }
-  
+
   /**
    * Get or Create a Number from docID
+   * Return -1 if failed
    */
   private int getNumDocID(String docID) {
     if (docIDs == null) {
@@ -1254,6 +1353,15 @@ public class Main extends WeakBase implements XJobExecutor,
       numLastVCPara = new ArrayList<>();
       numLastFlPara = new ArrayList<>();
     }
+    if (goneContext != null ) {                   // a document was closed
+      int docNum = removeNumDocID(goneContext);   // the saved information may only be removed after 
+      if(docNum < 0) {                            // the end of check before the new one begins
+        printToLogFile("Error: Disposed document not found");
+      } else if (debugMode) {
+        printToLogFile("Document " + docNum + " deleted");
+      }
+      goneContext = null;
+    }
     for (int i = 0; i < docIDs.size(); i++) {
       if (docIDs.get(i).equals(docID)) {
         return i;                           //  document exist
@@ -1262,6 +1370,10 @@ public class Main extends WeakBase implements XJobExecutor,
     //  Add new document
     if (!testMode) {
       XComponent xComponent = getXComponent();
+      if (xComponent == null) {
+        printToLogFile("Error: Document (ID: " + docID + ") has no XComponent -> Analyse only single paragraphs");
+        return -1;
+      }
       xComponent.addEventListener(this);
       xComponents.add(xComponent);
     } else {
@@ -1301,22 +1413,31 @@ public class Main extends WeakBase implements XJobExecutor,
    */
   @Override
   public void disposing(EventObject source) {
-    XComponent xComponent = UnoRuntime.queryInterface(XComponent.class, source.Source);
-    int docNum = removeNumDocID(xComponent);
-    if(docNum < 0) {
-      printToLogFile("Error: Disposed document not found");
-    } else if (debugMode) {
-      printToLogFile("Document " + docNum + " deleted");
-    }
-    xComponent.removeEventListener(this);
+    //  the data of document will be removed by next call of getNumDocID
+    //  to finish checking thread without crashing
+    goneContext = UnoRuntime.queryInterface(XComponent.class, source.Source);
+    lastDocID = null;
+    goneContext.removeEventListener(this); 
   }
-    
+
+
+  private static String getLogPath() {
+    String xdgDataHome = System.getenv().get("XDG_DATA_HOME");
+    String logHome = xdgDataHome != null ? xdgDataHome + "/LanguageTool" : getHomeDir().toString();
+    String path = logHome + "/" + LOG_FILE;
+    File parentDir = new File(path).getParentFile();
+    if (parentDir != null) {
+      parentDir.mkdirs();
+    }
+    return path;
+  }
+
+
   /**
    * Initialize log-file
    */
   private void initLogFile() {
-    String path = getHomeDir() + "/" + LOG_FILE;
-    try (BufferedWriter bw = new BufferedWriter(new FileWriter(path))) {
+    try (BufferedWriter bw = new BufferedWriter(new FileWriter(getLogPath()))) {
       Date date = new Date();
       bw.write("LT office integration log from " + date.toString() + logLineBreak);
     } catch (Throwable t) {
@@ -1328,8 +1449,7 @@ public class Main extends WeakBase implements XJobExecutor,
    * write to log-file
    */
   static void printToLogFile(String str) {
-    String path = getHomeDir() + "/" + LOG_FILE;
-    try (BufferedWriter bw = new BufferedWriter(new FileWriter(path, true))) {
+    try (BufferedWriter bw = new BufferedWriter(new FileWriter(getLogPath(), true))) {
       bw.write(str + logLineBreak);
     } catch (Throwable t) {
       showError(t);

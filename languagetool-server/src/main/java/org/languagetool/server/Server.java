@@ -18,6 +18,7 @@
  */
 package org.languagetool.server;
 
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.sun.net.httpserver.HttpServer;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.JLanguageTool;
@@ -122,6 +123,8 @@ abstract class Server {
     System.out.println("                 'secretTokenKey' - secret JWT token key, if set by user and valid, maxTextLength can be increased by the user (optional)");
     System.out.println("                 'maxCheckTimeMillis' - maximum time in milliseconds allowed per check (optional)");
     System.out.println("                 'maxErrorsPerWordRate' - checking will stop with error if there are more rules matches per word (optional)");
+    System.out.println("                 'maxSpellingSuggestions' - only this many spelling errors will have suggestions for performance reasons (optional,\n" +
+                       "                                            affects Hunspell-based languages only)");
     System.out.println("                 'maxCheckThreads' - maximum number of threads working in parallel (optional)");
     System.out.println("                 'cacheSize' - size of internal cache in number of sentences (optional, default: 0)");
     System.out.println("                 'requestLimit' - maximum number of requests per requestLimitPeriodInSeconds (optional)");
@@ -135,6 +138,7 @@ abstract class Server {
     System.out.println("                 'maxWorkQueueSize' - reject request if request queue gets larger than this (optional)");
     System.out.println("                 'rulesFile' - a file containing rules configuration, such as .langugagetool.cfg (optional)");
     System.out.println("                 'warmUp' - set to 'true' to warm up server at start, i.e. run a short check with all languages (optional)");
+    System.out.println("                 'blockedReferrers' - a comma-separated list of HTTP referrers that are blocked and will not be served (optional)");
   }
 
   protected static void printCommonOptions() {
@@ -195,7 +199,8 @@ abstract class Server {
   static class StoppingThreadPoolExecutor extends ThreadPoolExecutor {
   
     StoppingThreadPoolExecutor(int threadPoolSize, LinkedBlockingQueue<Runnable> workQueue) {
-      super(threadPoolSize, threadPoolSize, 0L, TimeUnit.MILLISECONDS, workQueue);
+      super(threadPoolSize, threadPoolSize, 0L, TimeUnit.MILLISECONDS, workQueue,
+            new ThreadFactoryBuilder().setNameFormat("lt-server-thread-%d").build());
     }
 
     @Override

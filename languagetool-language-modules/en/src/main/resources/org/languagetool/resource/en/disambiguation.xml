@@ -41,6 +41,14 @@
           <example type="ambiguous" inputform="hoopes[Hoopes/NNP]" outputform="hoopes[hoopes]">These <marker>hoopes</marker> are large.</example>
         </rule>
 
+        <rule name="remove NNP: lowercase month names and day names" id="REMOVE_NNP_FOR_LOWERCASE_MONTHS_DAYS"><!-- Cannot use removed.txt to remove the POS -->
+          <pattern case_sensitive="yes">
+            <token regexp="yes">january|february|april|june|july|september|october|november|december|monday|tuesday|wednesday|thursday|friday|saturday</token>
+          </pattern>
+          <disambig action="remove"><wd pos="NNP"/></disambig>
+          <example type="ambiguous" inputform="january[January/NNP]" outputform="january[january]"><marker>january</marker> is a cold month in England.</example>
+        </rule>
+
     <rule id="CD" name="Tag numbers">
       <pattern>
         <token regexp="yes">\d+</token>
@@ -52,12 +60,23 @@
 
     <rule id="number_JJ" name="Tag number-based adjectives">
         <pattern>
-            <token regexp="yes">\d?(1st|2nd|3rd|\dth)</token>
+        <marker>
+          <token regexp="yes">\d?(1st|2nd|3rd|\dth)<exception postag="JJ"/></token>
+        </marker>
+        <token postag_regexp="yes" postag="NN(:UN?)?|JJS?"/>
         </pattern>
         <disambig postag="JJ"/>
         <example type="ambiguous" inputform="22nd[22nd]" outputform="22nd[22nd/JJ]">This is the <marker>22nd</marker> place.</example>
+        <example type="ambiguous" inputform="99th[99th]" outputform="99th[99th/JJ]">The <marker>99th</marker> conflict occurred yesterday.</example>
+        <example type="ambiguous" inputform="41st[41st]" outputform="41st[41st/JJ]">... making it the 42nd most populous and <marker>41st</marker> largest nation in the world.</example>
+        <example type="ambiguous" inputform="33rd[33rd]" outputform="33rd[33rd/JJ]">This is the <marker>33rd</marker> unscheduled repair this year.</example>
         <example type="untouched">1nd place</example>
         <example type="untouched">1 dollar</example>
+        <example type="untouched">The <marker>22nd</marker> is a good day for me.</example>
+        <example type="untouched">You must go to London on the <marker>22nd</marker> of the month.</example>
+        <example type="untouched">Refer to the <marker>22nd</marker> samples.</example>
+        <example type="untouched">There are too many problems. This is the <marker>99th</marker>, and it's only Tuesday.</example>
+        <example type="untouched">This is the <marker>23rd</marker> example. (The abbreviation has the postag JJ.)</example>
     </rule>
 
     <rule id="CD_PAST_CD" name="Disambiguate time">
@@ -904,6 +923,15 @@
     	<example type="untouched">One are of land.</example>
     	<example type="ambiguous" inputform="Are[are/NN,be/VBP]" outputform="Are[be/VBP]"><marker>Are</marker> people happy?</example>
     </rule>
+    <rule name="Does...?" id="SENT_START_DOES">
+        <pattern>
+            <token postag="SENT_START"/>
+            <marker><token case_sensitive="yes">Does</token></marker>
+        </pattern>
+        <disambig postag="VBZ"/>
+        <example type="untouched">One are of land.</example>
+        <example type="ambiguous" inputform="Does[do/VBZ,doe/NNS]" outputform="Does[do/VBZ]"><marker>Does</marker> he like me?</example>
+    </rule>
     <rule name="NNS|EX + are (noun/verb) -&gt; are (verb)" id="NNS_ARE">
         <pattern>
             <token postag_regexp="yes" postag="EX|NNS|WP"/>
@@ -921,7 +949,7 @@
                 <token postag="NNS"/>
                 </and>
             </marker>
-            <token regexp="yes">were|are</token>
+            <token regexp="yes">weren?|aren?|couldn?|might|may|shouldn?|haven?|don?|wouldn?</token>
         </pattern>
         <disambig postag="NNS"/>
         <example type="ambiguous" inputform="forces[force/NNS,force/VBZ]"
@@ -3677,7 +3705,7 @@
           <pattern>
             <marker>
             <and>
-            <token postag="NNS"/>
+            <token postag="NNS"><exception scope="previous" regexp="yes">is|was</exception></token>
             <token postag="VBZ"/>
             </and>
             </marker>
@@ -3687,6 +3715,9 @@
           <disambig postag="VBZ"/>
           <example type="untouched">This is work.</example>
           <example type="untouched">It has an advantage compared to objects that make something.</example>
+          <example type="untouched">For more than one year there was <marker>updates</marker> every day.</example><!-- Refer to grammar THERE_WAS_MANY. -->
+          <example type="untouched">... and there was <marker>weeds</marker> all round the grave.</example>
+          <example type="untouched">Is <marker>marks</marker> all over the window your idea of cleaning?</example>
           <example type="ambiguous" inputform="causes[cause/NNS,cause/VBZ]" outputform="causes[cause/VBZ]">Hard work <marker>causes</marker> an event.</example>
         </rule>
         
@@ -3725,7 +3756,7 @@
         
         <rule id="DT_VBZNNS_NNS" name="Plural determiners + noun plur/vb sg => noun plur">
           <pattern>
-            <token regexp="yes">both|some|fewer|many|[tw]hose|these|most</token>
+            <token regexp="yes">both|some|fewer|many|whose|th[eo]se|most</token>
             <marker>            
             <and>
               <token postag="VBZ"><exception regexp="yes">is|does</exception></token>

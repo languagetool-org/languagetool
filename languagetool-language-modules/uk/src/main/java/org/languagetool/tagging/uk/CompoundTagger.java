@@ -141,6 +141,7 @@ class CompoundTagger {
     String leftWord = word.substring(0, dashIdx);
     String rightWord = word.substring(dashIdx + 1);
 
+    
     boolean dashPrefixMatch = dashPrefixes.contains( leftWord ) || dashPrefixes.contains( leftWord.toLowerCase() ) || DASH_PREFIX_LAT_PATTERN.matcher(leftWord).matches();
 
     if( ! dashPrefixMatch 
@@ -219,6 +220,14 @@ class CompoundTagger {
 
     List<AnalyzedToken> rightAnalyzedTokens = ukrainianTagger.asAnalyzedTokenListForTaggedWordsInternal(rightWord, rightWdList);
 
+    // Ш-подібний
+    if( leftWord.length() == 1
+        && Character.isUpperCase(leftWord.charAt(0))
+        && LemmaHelper.hasLemma(rightAnalyzedTokens, Arrays.asList("подібний")) ) {
+
+      return generateTokensWithRighInflected(word, leftWord, rightAnalyzedTokens, IPOSTag.adj.getText());
+    }
+
     if( leftWord.equalsIgnoreCase("по") ) {
       if( rightWord.endsWith("ому") ) {
         return poAdvMatch(word, rightAnalyzedTokens, ADJ_TAG_FOR_PO_ADV_MIS);
@@ -233,6 +242,10 @@ class CompoundTagger {
     // exclude: Малишко-це, відносини-коли
 
     List<AnalyzedToken> leftAnalyzedTokens = ukrainianTagger.asAnalyzedTokenListForTaggedWordsInternal(leftWord, leftWdList);
+    
+    if( PosTagHelper.hasPosTagPart(leftAnalyzedTokens, "&pron")
+        && ! PosTagHelper.hasPosTagPart(leftAnalyzedTokens, "numr") )
+      return null;
 
     if( ! leftWord.equalsIgnoreCase(rightWord) && PosTagHelper.hasPosTag(rightAnalyzedTokens, "(part|conj).*|.*:&pron.*") 
         && ! (PosTagHelper.hasPosTag(leftAnalyzedTokens, "numr.*") && PosTagHelper.hasPosTag(rightAnalyzedTokens, "numr.*")) )
@@ -316,6 +329,19 @@ class CompoundTagger {
     compoundDebugLogger.logUnknownCompound(word);
     
     return null;
+  }
+
+
+  private static List<AnalyzedToken> generateTokensWithRighInflected(String word, String leftWord, List<AnalyzedToken> rightAnalyzedTokens, String posTagStart) {
+    List<AnalyzedToken> newAnalyzedTokens = new ArrayList<>(rightAnalyzedTokens.size());
+    for (AnalyzedToken analyzedToken : rightAnalyzedTokens) {
+      String posTag = analyzedToken.getPOSTag();
+      if( posTag.startsWith( posTagStart )
+            && ! posTag.contains("v_kly") ) {
+        newAnalyzedTokens.add(new AnalyzedToken(word, posTag, leftWord + "-" + analyzedToken.getLemma()));
+      }
+    }
+    return newAnalyzedTokens;
   }
   
 

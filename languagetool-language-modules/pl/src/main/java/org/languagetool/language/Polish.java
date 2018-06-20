@@ -25,6 +25,7 @@ import java.util.ResourceBundle;
 
 import org.languagetool.Language;
 import org.languagetool.LanguageMaintainedState;
+import org.languagetool.UserConfig;
 import org.languagetool.rules.*;
 import org.languagetool.rules.pl.*;
 import org.languagetool.synthesis.Synthesizer;
@@ -109,7 +110,7 @@ public class Polish extends Language {
   }
 
   @Override
-  public List<Rule> getRelevantRules(ResourceBundle messages) throws IOException {
+  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig) throws IOException {
     return Arrays.asList(
         new CommaWhitespaceRule(messages),
         new UppercaseSentenceStartRule(messages, this),
@@ -118,7 +119,7 @@ public class Polish extends Language {
         new SentenceWhitespaceRule(messages),
         // specific to Polish:
         new PolishUnpairedBracketsRule(messages, this),
-        new MorfologikPolishSpellerRule(messages, this),
+        new MorfologikPolishSpellerRule(messages, this, userConfig),
         new PolishWordRepeatRule(messages),
         new CompoundRule(messages),
         new SimpleReplaceRule(messages),

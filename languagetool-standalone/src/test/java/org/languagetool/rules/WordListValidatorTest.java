@@ -37,13 +37,13 @@ import static junit.framework.TestCase.fail;
 public class WordListValidatorTest {
 
   private static final Pattern VALID_CHARS = Pattern.compile(
-          "[0-9a-zA-ZöäüÖÄÜßëçèéêáàóòôÈÉÁÀÓÒãñíîş" +
+          "[0-9a-zA-ZöäüÖÄÜßëçèéáàóòÈÉÁÀÓÒãñíîş&" +
           "âêôõû" +  // for Portuguese
-          "Œ€ūαΑβΒγΓδΔεΕζΖηΗθΘιΙκΚλΛμΜνΝξΞοΟπΠρΡσΣτΤυΥφΦχΧψΨωΩάΆέΈίΊήΉύΎϊϋΰΐœţ" +
+          "Œ€ūαΑβΒγɣΓδΔεΕζΖηΗθΘιΙκΚλΛμΜνΝξΞοΟπΠρΡσΣτΤυΥφΦχΧψΨωΩάΆέΈίΊήΉύΎϊϋΰΐœţ" +
           "Śśōżúï" +
           "·" +   // for Catalan
           "./-]+" + 
-          "|[khmcdµ]?m[²³]"
+          "|[khmcdµ]?m[²³]|°[CFR]"
   );
 
   // Words that are valid but with special characters so that we don't want to
@@ -66,6 +66,7 @@ public class WordListValidatorTest {
           "C&A",
           "P&O",
           "S&P",
+          "ČSSR",
           "V&D"
   ));
 

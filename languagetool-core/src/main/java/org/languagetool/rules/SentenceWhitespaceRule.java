@@ -18,14 +18,14 @@
  */
 package org.languagetool.rules;
 
-import org.languagetool.AnalyzedSentence;
-import org.languagetool.AnalyzedTokenReadings;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.regex.Pattern;
+
+import org.apache.commons.lang3.StringUtils;
+import org.languagetool.AnalyzedSentence;
+import org.languagetool.AnalyzedTokenReadings;
 
 /**
  * Checks that there's whitespace between sentences.
@@ -34,8 +34,6 @@ import java.util.regex.Pattern;
  * @since 2.5
  */
 public class SentenceWhitespaceRule extends TextLevelRule {
-
-  private static final Pattern NUMBER_REGEX = Pattern.compile("\\d+");
 
   public SentenceWhitespaceRule(ResourceBundle messages) {
     super(messages);
@@ -84,7 +82,7 @@ public class SentenceWhitespaceRule extends TextLevelRule {
       }
       if (tokens.length > 1) {
         String prevLastToken = tokens[tokens.length-2].getToken();
-        prevSentenceEndsWithNumber = NUMBER_REGEX.matcher(prevLastToken).matches();
+        prevSentenceEndsWithNumber = StringUtils.isNumeric(prevLastToken);
       }
       pos += sentence.getText().length();
     }

@@ -19,11 +19,10 @@
 package org.languagetool.rules.nl;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.ResourceBundle;
 
+import org.languagetool.language.Dutch;
 import org.languagetool.rules.*;
 
 /**
@@ -35,25 +34,23 @@ import org.languagetool.rules.*;
  * 
  * @since 2.7
  */
-public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
+public class SimpleReplaceRule extends AbstractSimpleReplaceRule2 {
 
   public static final String DUTCH_SIMPLE_REPLACE_RULE = "NL_SIMPLE_REPLACE";
-
-  private static final Map<String, List<String>> wrongWords = load("/nl/replace.txt");
+  
   private static final Locale NL_LOCALE = new Locale("nl");
 
-  @Override
-  protected Map<String, List<String>> getWrongWords() {
-    return wrongWords;
-  }
-
   public SimpleReplaceRule(ResourceBundle messages) throws IOException {
-    super(messages);
+    super(messages, new Dutch());
     setLocQualityIssueType(ITSIssueType.Misspelling);
     setCategory(new Category(new CategoryId("VERGISSINGEN"), "Vergissingen"));
-    setCheckLemmas(false);
     addExamplePair(Example.wrong("<marker>ofzo</marker>."),
                    Example.fixed("<marker>of zo</marker>."));
+  }
+
+  @Override
+  public String getFileName() {
+    return "/nl/replace.txt";
   }
 
   @Override
@@ -72,9 +69,13 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
   }
 
   @Override
-  public String getMessage(String tokenStr, List<String> replacements) {
-    return tokenStr + " is een fout, juist is: "
-        + String.join(", ", replacements) + ".";
+  public String getSuggestion() {
+    return " zou fout kunnen zijn. Misschien bedoelt u: ";
+  }
+
+  @Override
+  public String getSuggestionsSeparator() {
+    return ", ";
   }
 
   @Override

@@ -90,6 +90,12 @@ public class SubjectVerbAgreementRule extends Rule {
       new PatternTokenBuilder().pos("PRP:CAU:GEN").setSkip(4).build(),
       new PatternTokenBuilder().csToken("und").setSkip(4).build(),
       new PatternTokenBuilder().tokenRegex("ist|war").build()
+    ),
+    Arrays.asList(
+      new PatternTokenBuilder().pos(JLanguageTool.SENTENCE_START_TAGNAME).build(),
+      new PatternTokenBuilder().posRegex("EIG:.*").build(),
+      new PatternTokenBuilder().csToken("und").setSkip(2).build(),
+      new PatternTokenBuilder().tokenRegex("sind|waren").build()
     )
   );
 
@@ -275,7 +281,7 @@ public class SubjectVerbAgreementRule extends Rule {
       String token = tokens[i].getToken();
       if (tokens[i].hasPartialPosTag("SUB:")) {
         AnalyzedTokenReadings lookup = tagger.lookup(token.toLowerCase());
-        if (lookup != null && lookup.hasPartialPosTag("VER:INF:")) {
+        if (lookup != null && lookup.hasPosTagStartingWith("VER:INF:")) {
           infinitives++;
         } else {
           return false;

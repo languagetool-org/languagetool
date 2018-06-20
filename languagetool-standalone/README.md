@@ -4,7 +4,7 @@
 Polish, Chinese, French, Russian, Italian, Dutch
 and [more languages](https://www.languagetool.org/languages/)**
 
-Version 4.1-SNAPSHOT, 2018-xx-yy  
+Version 4.1, 2018-03-27  
 Copyright (C) 2005-2018 the LanguageTool community and Daniel Naber (www.danielnaber.de)  
 https://www.languagetool.org
 
@@ -23,12 +23,12 @@ https://www.languagetool.org
 
 To integrate LanguageTool into LibreOffice or OpenOffice.org, you can use two methods:
 
-* Double-click `LanguageTool-4.0.oxt`. The extension should
+* Double-click `LanguageTool-4.1.oxt`. The extension should
    start installing. Follow the on-screen instructions.
 
 * If the above method doesn't work, call `Tools > Extension
    Manager > Add...` in LibreOffice/OpenOffice.org and browse for the
-   `LanguageTool-4.0.oxt` file.
+   `LanguageTool-4.1.oxt` file.
 
 Close and restart LibreOffice/OpenOffice.org Writer. Remember to close
 the QuickStarter as well if you use it. Type text with
@@ -308,10 +308,10 @@ The Romanian data for part-of-speech tagging is developed by Ionuț Păduraru
 
 Russian dictionary originally developed by www.aot.ru and licensed under LGPL.
 (http://www.aot.ru) or (http://sourceforge.net/p/seman/svn/HEAD/tree/trunk/Dicts/SrcMorph/RusSrc/) file (morphs.mrd).
-It was partially converted to fsa format in 2008-2011, 2014, 2016, 2017 by Yakov Reztsov.
+It was partially converted to fsa format in 2008-2011, 2014, 2016, 2017, 2018 by Yakov Reztsov.
 Frequency information for spell-checking dictionary from (www.aot.ru).
 Source frequency information (https://sourceforge.net/p/seman/svn/HEAD/tree/trunk/Dicts/SrcBinDict/WordData.txt).
-It was converted to use with spell-checking dictionary in 2014 by Yakov Reztsov.
+It was converted to use with spell-checking dictionary in 2014, 2016 by Yakov Reztsov.
 
 #### Slovak
 

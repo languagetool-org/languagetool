@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules.de;
 
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
@@ -67,7 +68,7 @@ public class CompoundCoherencyRule extends TextLevelRule {
         // the word (and this its lemma) isn't known.
         String lemma = lemmaOrNull != null ? lemmaOrNull : token;
         String normToken = lemma.replace("-", "").toLowerCase();
-        if (normToken.matches("\\d+")) {
+        if (StringUtils.isNumeric(normToken)) {
           // avoid messages about "2-3" and "23" both being used
           break;
         }

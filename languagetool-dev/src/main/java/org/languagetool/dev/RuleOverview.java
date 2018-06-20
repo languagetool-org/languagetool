@@ -18,7 +18,7 @@
  */
 package org.languagetool.dev;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.LanguageMaintainedState;
@@ -280,7 +280,7 @@ public final class RuleOverview {
   }
 
   private SpellcheckSupport spellcheckSupport(Language lang) throws IOException {
-    for (Rule rule : lang.getRelevantRules(JLanguageTool.getMessageBundle())) {
+    for (Rule rule : lang.getRelevantRules(JLanguageTool.getMessageBundle(), null)) {
       if (rule.isDictionaryBasedSpellingRule()) {
         if (rule instanceof HunspellNoSuggestionRule) {
           return SpellcheckSupport.NoSuggestion;

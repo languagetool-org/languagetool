@@ -21,6 +21,7 @@ package org.languagetool.rules.pl;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
+import org.languagetool.UserConfig;
 import org.languagetool.rules.*;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
 
@@ -84,12 +85,15 @@ public final class MorfologikPolishSpellerRule extends MorfologikSpellerRule {
       bannedSuffixes = Collections.unmodifiableSet(tempSet);
     }
 
+  private final UserConfig userConfig;
+
   public MorfologikPolishSpellerRule(ResourceBundle messages,
-                                     Language language) throws IOException {
-    super(messages, language);
+                                     Language language, UserConfig userConfig) throws IOException {
+    super(messages, language, userConfig);
     setCategory(Categories.TYPOS.getCategory(messages));
     addExamplePair(Example.wrong("To jest zdanie z <marker>bledem</marker>"),
                    Example.fixed("To jest zdanie z <marker>błędem</marker>."));
+    this.userConfig = userConfig;
   }
 
   @Override
@@ -108,7 +112,7 @@ public final class MorfologikPolishSpellerRule extends MorfologikSpellerRule {
   }
 
   @Override
-  protected List<RuleMatch> getRuleMatches(final String word, final int startPos, AnalyzedSentence sentence)
+  protected List<RuleMatch> getRuleMatches(final String word, final int startPos, AnalyzedSentence sentence, List<RuleMatch> ruleMatchesSoFar)
           throws IOException {
     final List<RuleMatch> ruleMatches = new ArrayList<>();
     if (isMisspelled(speller1, word) && isNotCompound(word)) {
@@ -116,17 +120,28 @@ public final class MorfologikPolishSpellerRule extends MorfologikSpellerRule {
               + word.length(), messages.getString("spelling"),
               messages.getString("desc_spelling_short"));
       //If lower case word is not a misspelled word, return it as the only suggestion
+      boolean createSuggestions = userConfig == null || userConfig.getMaxSpellingSuggestions() == 0 || ruleMatchesSoFar.size() <= userConfig.getMaxSpellingSuggestions();
       if (!isMisspelled(speller1, word.toLowerCase(conversionLocale))) {
-        List<String> suggestion = Arrays.asList(word.toLowerCase(conversionLocale));
-        ruleMatch.setSuggestedReplacements(suggestion);
+        if (createSuggestions) {
+          List<String> suggestion = Arrays.asList(word.toLowerCase(conversionLocale));
+          ruleMatch.setSuggestedReplacements(suggestion);
+        } else {
+          // limited to save CPU
+          ruleMatch.setSuggestedReplacement(messages.getString("too_many_errors"));
+        }
         ruleMatches.add(ruleMatch);
         return ruleMatches;
       }
-      List<String> suggestions = speller1.getSuggestions(word);
-      suggestions.addAll(0, getAdditionalTopSuggestions(suggestions, word));
-      suggestions.addAll(getAdditionalSuggestions(suggestions, word));
-      if (!suggestions.isEmpty()) {
-        ruleMatch.setSuggestedReplacements(pruneSuggestions(orderSuggestions(suggestions,word)));
+      if (createSuggestions) {
+        List<String> suggestions = speller1.getSuggestions(word);
+        suggestions.addAll(0, getAdditionalTopSuggestions(suggestions, word));
+        suggestions.addAll(getAdditionalSuggestions(suggestions, word));
+        if (!suggestions.isEmpty()) {
+          ruleMatch.setSuggestedReplacements(pruneSuggestions(orderSuggestions(suggestions,word)));
+        }
+      } else {
+        // limited to save CPU
+        ruleMatch.setSuggestedReplacement(messages.getString("too_many_errors"));
       }
       ruleMatches.add(ruleMatch);
     }
@@ -193,5 +208,9 @@ public final class MorfologikPolishSpellerRule extends MorfologikSpellerRule {
         }
       }
       return prunedSuggestions;
+    }
+
+    protected boolean ignoreWord(String word) throws IOException {
+      return super.ignoreWord(word) || isSurrogatePairCombination(word);
     }
 }

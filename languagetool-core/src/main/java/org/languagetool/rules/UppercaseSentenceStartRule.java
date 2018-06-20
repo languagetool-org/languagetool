@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
@@ -39,12 +40,9 @@ import org.languagetool.tools.StringTools;
 public class UppercaseSentenceStartRule extends TextLevelRule {
 
   private static final Pattern NUMERALS_EN =
-          Pattern.compile("[a-z]|(m{0,4}(cm|cd|d?c{0,3})(xc|xl|l?x{0,3})(ix|iv|v?i{0,3}))$");
+          Pattern.compile("[a-z]|(m{0,4}(c[md]|d?c{0,3})(x[cl]|l?x{0,3})(i[xv]|v?i{0,3}))$");
   private static final Pattern WHITESPACE_OR_QUOTE = Pattern.compile("[ \"'„«»‘’“”\\n]"); //only ending quote is necessary?
-  private static final Pattern QUOTE_START = Pattern.compile("[\"'„»«“‘]");
   private static final Pattern SENTENCE_END1 = Pattern.compile("[.?!…]|");
-  private static final Pattern SENTENCE_END2 = Pattern.compile("[.?!…]");
-  private static final Pattern DUTCH_SPECIAL_CASE = Pattern.compile("[kmnrst]");
 
   private final Language language;
 
@@ -92,7 +90,7 @@ public class UppercaseSentenceStartRule extends TextLevelRule {
       String secondToken = null;
       String thirdToken = null;
       // ignore quote characters:
-      if (tokens.length >= 3 && QUOTE_START.matcher(firstToken).matches()) {
+      if (tokens.length >= 3 && isQuoteStart(firstToken)) {
         matchTokenPos = 2;
         secondToken = tokens[matchTokenPos].getToken();
       }
@@ -119,7 +117,7 @@ public class UppercaseSentenceStartRule extends TextLevelRule {
       if (lastParagraphString.equals(",") || lastParagraphString.equals(";")) {
         preventError = true;
       }
-      if (!SENTENCE_END1.matcher(lastParagraphString).matches() && !SENTENCE_END2.matcher(lastToken).matches()) {
+      if (!SENTENCE_END1.matcher(lastParagraphString).matches() && !isSentenceEnd(lastToken)) {
         preventError = true;
       }
 
@@ -160,7 +158,7 @@ public class UppercaseSentenceStartRule extends TextLevelRule {
       return null;
     }
     if (tokens.length >= 3 && firstToken.equals("'")
-        && DUTCH_SPECIAL_CASE.matcher(secondToken).matches()) {
+        && isDutchSpecialCase(secondToken)) {
       return tokens[3].getToken();
     }
     return null;
@@ -172,5 +170,17 @@ public class UppercaseSentenceStartRule extends TextLevelRule {
 
   protected boolean isEMail(String token) {
     return WordTokenizer.isEMail(token);
+  }
+
+  private boolean isDutchSpecialCase(String word) {
+    return StringUtils.equalsAny(word, "k", "m", "n", "r", "s", "t");
+  }
+
+  private boolean isSentenceEnd(String word) {
+    return StringUtils.equalsAny(word, ".", "?", "!", "…");
+  }
+
+  private boolean isQuoteStart(String word) {
+    return StringUtils.equalsAny(word, "\"", "'", "„", "»", "«", "“", "‘");
   }
 }

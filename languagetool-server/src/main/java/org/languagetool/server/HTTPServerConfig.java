@@ -19,6 +19,7 @@
 package org.languagetool.server;
 
 import org.apache.commons.lang3.ArrayUtils;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.Experimental;
 import org.languagetool.Language;
@@ -27,9 +28,7 @@ import org.languagetool.Languages;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 
 /**
  * @since 2.0
@@ -52,8 +51,10 @@ public class HTTPServerConfig {
   protected String allowOriginUrl = null;
   protected int maxTextLength = Integer.MAX_VALUE;
   protected int maxTextHardLength = Integer.MAX_VALUE;
+  protected int maxTextLengthWithApiKey = Integer.MAX_VALUE;
   protected String secretTokenKey = null;
   protected long maxCheckTimeMillis = -1;
+  protected long maxCheckTimeWithApiKeyMillis = -1;
   protected int maxCheckThreads = 10;
   protected Mode mode;
   protected File languageModelDir = null;
@@ -68,9 +69,15 @@ public class HTTPServerConfig {
   protected int cacheSize = 0;
   protected boolean warmUp = false;
   protected float maxErrorsPerWordRate = 0;
+  protected int maxSpellingSuggestions = 0;
+  protected List<String> blockedReferrers = new ArrayList<>();
   protected String hiddenMatchesServer;
   protected int hiddenMatchesServerTimeout;
   protected List<Language> hiddenMatchesLanguages = new ArrayList<>();
+  protected String dbDriver = null;
+  protected String dbUrl = null;
+  protected String dbUsername = null;
+  protected String dbPassword = null;
 
   /**
    * Create a server configuration for the default port ({@link #DEFAULT_PORT}).
@@ -152,9 +159,11 @@ public class HTTPServerConfig {
       try (FileInputStream fis = new FileInputStream(file)) {
         props.load(fis);
         maxTextLength = Integer.parseInt(getOptionalProperty(props, "maxTextLength", Integer.toString(Integer.MAX_VALUE)));
+        maxTextLengthWithApiKey = Integer.parseInt(getOptionalProperty(props, "maxTextLengthWithApiKey", Integer.toString(Integer.MAX_VALUE)));
         maxTextHardLength = Integer.parseInt(getOptionalProperty(props, "maxTextHardLength", Integer.toString(Integer.MAX_VALUE)));
         secretTokenKey = getOptionalProperty(props, "secretTokenKey", null);
         maxCheckTimeMillis = Long.parseLong(getOptionalProperty(props, "maxCheckTimeMillis", "-1"));
+        maxCheckTimeWithApiKeyMillis = Long.parseLong(getOptionalProperty(props, "maxCheckTimeWithApiKeyMillis", "-1"));
         requestLimit = Integer.parseInt(getOptionalProperty(props, "requestLimit", "0"));
         requestLimitInBytes = Integer.parseInt(getOptionalProperty(props, "requestLimitInBytes", "0"));
         timeoutRequestLimit = Integer.parseInt(getOptionalProperty(props, "timeoutRequestLimit", "0"));
@@ -200,6 +209,8 @@ public class HTTPServerConfig {
           throw new IllegalArgumentException("Invalid value for warmUp: '" + warmUpStr + "', use 'true' or 'false'");
         }
         maxErrorsPerWordRate = Float.parseFloat(getOptionalProperty(props, "maxErrorsPerWordRate", "0"));
+        maxSpellingSuggestions = Integer.parseInt(getOptionalProperty(props, "maxSpellingSuggestions", "0"));
+        blockedReferrers = Arrays.asList(getOptionalProperty(props, "blockedReferrers", "").split(",\\s*"));
         hiddenMatchesServer = getOptionalProperty(props, "hiddenMatchesServer", null);
         hiddenMatchesServerTimeout = Integer.parseInt(getOptionalProperty(props, "hiddenMatchesServerTimeout", "1000"));
         String langCodes = getOptionalProperty(props, "hiddenMatchesLanguages", "");
@@ -208,6 +219,10 @@ public class HTTPServerConfig {
             hiddenMatchesLanguages.add(Languages.getLanguageForShortCode(code));
           }
         }
+        dbDriver = getOptionalProperty(props, "dbDriver", null);
+        dbUrl = getOptionalProperty(props, "dbUrl", null);
+        dbUsername = getOptionalProperty(props, "dbUsername", null);
+        dbPassword = getOptionalProperty(props, "dbPassword", null);
       }
     } catch (IOException e) {
       throw new RuntimeException("Could not load properties from '" + file + "'", e);
@@ -254,6 +269,13 @@ public class HTTPServerConfig {
   }
 
   /**
+   * @since 4.2
+   */
+  public void setAllowOriginUrl(String allowOriginUrl) {
+    this.allowOriginUrl = allowOriginUrl;
+  }
+
+  /**
    * @param len the maximum text length allowed (in number of characters), texts that are longer
    *            will cause an exception when being checked, unless the user can provide
    *            a JWT 'token' parameter with a 'maxTextLength' claim          
@@ -273,6 +295,15 @@ public class HTTPServerConfig {
 
   int getMaxTextLength() {
     return maxTextLength;
+  }
+
+  /**
+   * Maximum text length for users that can identify themselves with an API key.
+   * @since 4.2
+   */
+  @Experimental
+  int getMaxTextLengthWithApiKey() {
+    return maxTextLengthWithApiKey;
   }
 
   /**
@@ -329,6 +360,12 @@ public class HTTPServerConfig {
   /** @since 2.6 */
   long getMaxCheckTimeMillis() {
     return maxCheckTimeMillis;
+  }
+
+  /** @since 4.2 */
+  @Experimental
+  long getMaxCheckTimeWithApiKeyMillis() {
+    return maxCheckTimeWithApiKeyMillis;
   }
 
   /**
@@ -388,9 +425,20 @@ public class HTTPServerConfig {
     return maxWorkQueueSize;
   }
 
-  /** @since 3.7 */
+  /**
+   * Cache size (in number of sentences).
+   * @since 3.7
+   */
   int getCacheSize() {
     return cacheSize;
+  }
+
+  /** 
+   * Set cache size (in number of sentences).
+   * @since 4.2
+   */
+  void setCacheSize(int sentenceCacheSize) {
+    this.cacheSize = sentenceCacheSize;
   }
 
   /** @since 3.7 */
@@ -409,6 +457,31 @@ public class HTTPServerConfig {
     return maxErrorsPerWordRate;
   }
 
+  /**
+   * Maximum number of spelling errors for which a suggestion will be generated
+   * per check. It makes sense to limit this as generating suggestions is a CPU-heavy task.
+   * @since 4.2
+   */
+  int getMaxSpellingSuggestions() {
+    return maxSpellingSuggestions;
+  }
+
+  /**
+   * A list of HTTP referrers that are blocked and will only get an error message.
+   * @since 4.2
+   */
+  @NotNull
+  List<String> getBlockedReferrers() {
+    return blockedReferrers;
+  }
+
+  /**
+   * @since 4.2
+   */
+  void setBlockedReferrers(List<String> blockedReferrers) {
+    this.blockedReferrers = Objects.requireNonNull(blockedReferrers);
+  }
+  
   /**
    * URL of server that is queried to add additional (but hidden) matches to the result.
    * @since 4.0
@@ -446,6 +519,78 @@ public class HTTPServerConfig {
     return rulesConfigFile;
   }
 
+  /**
+   * @return the database driver name like {@code org.mariadb.jdbc.Driver}, or {@code null}
+   * @since 4.2
+   */
+  @Nullable
+  @Experimental
+  String getDatabaseDriver() {
+    return dbDriver;
+  }
+  
+  /**
+   * @since 4.2
+   */
+  @Experimental
+  void setDatabaseDriver(String dbDriver) {
+    this.dbDriver = dbDriver;
+  }
+
+  /**
+   * @return the database url like {@code jdbc:mysql://localhost:3306/languagetool}, or {@code null}
+   * @since 4.2
+   */
+  @Nullable
+  @Experimental
+  String getDatabaseUrl() {
+    return dbUrl;
+  }
+
+  /**
+   * @since 4.2
+   */
+  @Experimental
+  void setDatabaseUrl(String dbUrl) {
+    this.dbUrl = dbUrl;
+  }
+  
+  /**
+   * @return the database username, or {@code null}
+   * @since 4.2
+   */
+  @Nullable
+  @Experimental
+  String getDatabaseUsername() {
+    return dbUsername;
+  }
+
+  /**
+   * @since 4.2
+   */
+  @Experimental
+  void setDatabaseUsername(String dbUsername) {
+    this.dbUsername = dbUsername;
+  }
+  
+  /**
+   * @return the database password matching {@link #getDatabaseUsername()}, or {@code null}
+   * @since 4.2
+   */
+  @Nullable
+  @Experimental
+  String getDatabasePassword() {
+    return dbPassword;
+  }
+
+  /**
+   * @since 4.2
+   */
+  @Experimental
+  void setDatabasePassword(String dbPassword) {
+    this.dbPassword = dbPassword;
+  }
+  
   /**
    * @throws IllegalConfigurationException if property is not set 
    */

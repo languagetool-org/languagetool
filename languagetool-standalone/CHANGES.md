@@ -1,44 +1,133 @@
 # LanguageTool Change Log
 
-## 4.1-SNAPSHOT (release planned for 2018-03-27)
+## 4.2-SNAPSHOT (release planned for 2018-06-26)
+
+#### Catalan
+  * added and improved rules
+  * rules and updated dictionary for new diacritics rules (IEC 2017)
+
+#### Breton
+  * Made many messages shorter
+  * updated FSA spelling dictionary from An Drouizig Breton Spellchecker 0.15
+
+#### Dutch
+  * added and improved rules
+
+#### English
+  * added and improved rules
+  * updated en_GB spellchecker dictionary from https://github.com/marcoagpinto/aoo-mozilla-en-dict  (Version 2018-06-01)
+  * updated en_US spellchecker dictionary from http://wordlist.aspell.net (Version 2018.04.16)
+  * updated en_CA spellchecker dictionary from http://wordlist.aspell.net (Version 2018.04.16)
+
+#### German
+  * added and improved rules
+  * updated jwordsplitter to 4.4 to prevent excessively long processing times for
+    artificially long compounds
+  * `prohibit.txt`: lines ending with ".*" will prohibit all words starting with
+    the previous string
+
+#### German (simple)
+  * added and improved rules
+
+#### Greek
+  * added rules
+
+#### Portuguese
+  * added and improved rules
+  
+#### Russian
+  * added and improved grammar and punctuation rules
+  * small spelling dictionary update
+
+#### Ukrainian
+  * added and improved rules
+
+#### HTTP API / LT server
+  * The JSON contains a new section `detectedLanguage` (under `language`) that
+    contains information about the automatically detected language. This way
+    clients can suggest switching to that language, e.g. in cases where the
+    user had selected the wrong language.
+  * Speed up false friend rule loading using a cache (can save about 20ms per 
+    request - only if mother tongue is set, has no effect otherwise)
+  * New optional configuration setting `blockedReferrers`: a comma-separated list 
+    of HTTP referrers that are blocked and will not be served
+  * BETA: New optional configuration settings `dbDriver`, `dbUrl`, `dbUsername`,
+    `dbPassword` to allow user-specific dictionaries
+    
+#### Java API
+  * The parameters of the `*SpellerRule` classes (e.g. `MorfologikRussianSpellerRule`)
+    have changed
+  * `LanguageIdentifier` will now only consider the first 1000 characters when
+    identifying the language of a text. This improves performance for long texts. 
+
+
+
+## 4.1 (2018-03-27)
+
+#### Catalan
+  * added and improved rules
 
 #### Chinese
   * added some rules
 
+#### Dutch
+  * added and improved rules
+  * added new Java rule `NL_PREFERRED_WORD_RULE` that suggests preferred words (e.g., 'fiets' for 'rijwiel')
+
 #### English
+  * all-uppercase words are now also spellchecked
   * added and improved rules
   * added remaining collocation rules (~130) contributed by Nicholas Walker (Bokomaru)
-  * all-uppercase words are now also spellchecked
 
 #### Esperanto
   * words written with x-sistemo now get proper POS tag so grammar mistakes can now
     be found in: ambaux virino (->ambaux virinoj), mi farigxis maljunan (-> mi
     farigxis maljuna), etc.
   * added and improved rules
-  * Added many <url> to rules
+  * added many `<url>` to rules
   
 #### French
   * improved suggestion for spelling mistakes (#912)
 
+#### Galician
+  * added a couple of rules
+
 #### German
   * added and improved rules
   * New rule that checks coherent use of Du/du, Dich/dich etc. Assumes that the first
-    use has 'correct' capitalization and suggest the same capitalization for subsequent uses.
-  * New line extension '-*' for 'ignore.txt': entries ending with '*-' are ignored only if 
-    they are part of a hyphenated compound
+    use has 'correct' capitalization and suggests the same capitalization for subsequent uses.
+  * New line extension `-*` for `ignore.txt`: entries ending with `-*` are ignored only if
+    they are part of a hyphenated compound (e.g, `Fair-Trade-*` allows `Fair-Trade-Kakao`)
   * Added a new rule that tries to find compounds that are probably not correct, like
     `Lehrzeile` instead of `Leerzeile`, requires ngram data (rule id `DE_PROHIBITED_COMPOUNDS`)
 
+#### German (simple)
+  * added and improved rules
+
 #### Portuguese
   * added and improved rules
-  
+
 #### Russian
   * sentence segmentation improvements
   * added and improved rules
-  
+  * upgraded the tagging and synthesizer dictionaries with extended POS tags from AOT.ru rev.269
+
+#### Spanish
+  * update to the part-of-speech dictionary
+
+#### Ukrainian
+  * dictionary update (~5K new lemmas)
+  * compound word tagging improvements
+  * many new disambiguation rules
+  * several new barbarism and grammar rules
+
+#### HTTP API / LT server
+  * The server now returns HTTP error code 500 in case of a timeout (it used to return 503)
+
 #### Java API
   * Constructors that take a `ResultCache` have been removed from `MultiThreadedJLanguageTool`
     as using them caused incorrect results. (https://github.com/languagetool-org/languagetool/issues/897)
+
 
 
 ## 4.0 (2017-12-29)
@@ -93,7 +182,7 @@
   * New rule that checks coherency of hyphen usage in compounds, e.g. it complains
     when "Ärzteverband" and "Ärzte-Verband" are both used in the same text. While both
     spellings are correct, it's probably a good idea to stick to one spelling.
-  * improved POS tagging of hyphenated compounds (e.g., "CO2-arm" is recgonized as a variant of "arm")
+  * improved POS tagging of hyphenated compounds (e.g., "CO2-arm" is recognized as a variant of "arm")
 
 #### Polish
   * added rules
@@ -149,6 +238,7 @@
   * show line numbers in the text area
   * a directory with word2vec language model for neural network rules can now be
     specified in the configuration dialog, see https://forum.languagetool.org/t/neural-network-rules/2225
+  * Stop disposition of vertical scroll when expanding the checkbox.
 
 #### Java API
   * A `RuleMatch` can now have a URL, too. The URL usually points to a page that

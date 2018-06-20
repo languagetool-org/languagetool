@@ -50,7 +50,7 @@ final class CaseRuleExceptions {
       }
       exceptionPatterns.add(patterns);
     }
-    return exceptionPatterns;
+    return Collections.unmodifiableSet(exceptionPatterns);
   }
 
   private static Set<String> loadExceptions(String path) {

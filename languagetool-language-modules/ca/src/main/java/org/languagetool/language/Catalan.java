@@ -25,12 +25,14 @@ import java.util.ResourceBundle;
 
 import org.languagetool.Language;
 import org.languagetool.LanguageMaintainedState;
+import org.languagetool.UserConfig;
 import org.languagetool.rules.*;
 import org.languagetool.rules.ca.AccentuationCheckRule;
 import org.languagetool.rules.ca.CatalanUnpairedBracketsRule;
 import org.languagetool.rules.ca.CatalanUnpairedExclamationMarksRule;
 import org.languagetool.rules.ca.CatalanUnpairedQuestionMarksRule;
 import org.languagetool.rules.ca.CatalanWordRepeatRule;
+import org.languagetool.rules.ca.CatalanWrongWordInContextDiacriticsRule;
 import org.languagetool.rules.ca.CatalanWrongWordInContextRule;
 import org.languagetool.rules.ca.ComplexAdjectiveConcordanceRule;
 import org.languagetool.rules.ca.MorfologikCatalanSpellerRule;
@@ -39,6 +41,8 @@ import org.languagetool.rules.ca.ReplaceOperationNamesRule;
 import org.languagetool.rules.ca.SimpleReplaceRule;
 import org.languagetool.rules.ca.SimpleReplaceBalearicRule;
 import org.languagetool.rules.ca.SimpleReplaceDNVRule;
+import org.languagetool.rules.ca.SimpleReplaceDiacriticsIEC;
+import org.languagetool.rules.ca.SimpleReplaceDiacriticsTraditional;
 import org.languagetool.rules.ca.SimpleReplaceVerbsRule;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.ca.CatalanSynthesizer;
@@ -87,7 +91,7 @@ public class Catalan extends Language {
   }
 
   @Override
-  public List<Rule> getRelevantRules(ResourceBundle messages) throws IOException {
+  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig) throws IOException {
     return Arrays.asList(
             new CommaWhitespaceRule(messages, 
             		Example.wrong("A parer seu<marker> ,</marker> no era veritat."),
@@ -98,21 +102,24 @@ public class Catalan extends Language {
             		Example.wrong("Preus de venda al públic. <marker>han</marker> pujat molt."),
             		Example.fixed("Preus de venda al públic. <marker>Han</marker> pujat molt.")),
             new MultipleWhitespaceRule(messages, this),
-            new LongSentenceRule(messages),
+            new LongSentenceRule(messages, userConfig),
             // specific to Catalan:
             new CatalanWordRepeatRule(messages, this),
-            new MorfologikCatalanSpellerRule(messages, this),
+            new MorfologikCatalanSpellerRule(messages, this, userConfig),
             new CatalanUnpairedQuestionMarksRule(messages, this),
             new CatalanUnpairedExclamationMarksRule(messages, this),
             new AccentuationCheckRule(messages),
             new ComplexAdjectiveConcordanceRule(messages),
             new CatalanWrongWordInContextRule(messages),
+            new CatalanWrongWordInContextDiacriticsRule(messages),
             new ReflexiveVerbsRule(messages),
             new SimpleReplaceVerbsRule(messages, this),
             new SimpleReplaceBalearicRule(messages),
             new SimpleReplaceRule(messages),
             new ReplaceOperationNamesRule(messages, this),
-            new SimpleReplaceDNVRule(messages, this) // can be removed here after updating dictionaries
+            new SimpleReplaceDNVRule(messages, this), // can be removed here after updating dictionaries
+            new SimpleReplaceDiacriticsIEC(messages),
+            new SimpleReplaceDiacriticsTraditional(messages)
     );
   }
 
@@ -172,6 +179,7 @@ public class Catalan extends Language {
       case "REGIONAL_VERBS": return -10;
       case "FALTA_ELEMENT_ENTRE_VERBS": return -10;
       case "FALTA_COMA_FRASE_CONDICIONAL": return -20;
+      case "SUBSTANTIUS_JUNTS": return -25;
       case "MUNDAR": return -50;
       case "MORFOLOGIK_RULE_CA_ES": return -100;
       case "NOMBRES_ROMANS": return -400;

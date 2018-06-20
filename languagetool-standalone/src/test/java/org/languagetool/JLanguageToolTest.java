@@ -18,6 +18,7 @@
  */
 package org.languagetool;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.languagetool.language.*;
 import org.languagetool.markup.AnnotatedText;
@@ -25,11 +26,15 @@ import org.languagetool.markup.AnnotatedTextBuilder;
 import org.languagetool.rules.CategoryId;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.TextLevelRule;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
@@ -40,17 +45,22 @@ public class JLanguageToolTest {
 
   @Test
   public void testGetAllActiveRules() throws Exception {
-    JLanguageTool langTool = new JLanguageTool(new Demo());
-    List<String> ruleIds = getActiveRuleIds(langTool);
+    JLanguageTool lt = new JLanguageTool(new Demo());
+    List<String> ruleIds = getActiveRuleIds(lt);
     assertTrue(ruleIds.contains("DEMO_RULE"));
     assertFalse(ruleIds.contains("DEMO_RULE_OFF"));
-    for (Rule rule : langTool.getAllRules()) {
+    for (Rule rule : lt.getAllRules()) {
       if (rule.getId().equals("DEMO_RULE_OFF")) {
         rule.setDefaultOn();
       }
     }
-    List<String> ruleIds2 = getActiveRuleIds(langTool);
+    List<String> ruleIds2 = getActiveRuleIds(lt);
     assertTrue(ruleIds2.contains("DEMO_RULE_OFF"));
+  }
+
+  @Test
+  public void testIsPremium() throws Exception {
+    assertFalse(JLanguageTool.isPremiumVersion());
   }
 
   @Test
@@ -81,9 +91,9 @@ public class JLanguageToolTest {
     assertTrue(ruleIds5.contains("IN_OFF_CATEGORY_OFF_ITSELF"));
   }
 
-  private List<String> getActiveRuleIds(JLanguageTool langTool) {
+  private List<String> getActiveRuleIds(JLanguageTool lt) {
     List<String> ruleIds = new ArrayList<>();
-    for (Rule rule : langTool.getAllActiveRules()) {
+    for (Rule rule : lt.getAllActiveRules()) {
       ruleIds.add(rule.getId());
     }
     return ruleIds;
@@ -111,8 +121,8 @@ public class JLanguageToolTest {
 
   @Test
   public void testSentenceTokenize() throws IOException {
-    JLanguageTool languageTool = new JLanguageTool(english);
-    List<String> sentences = languageTool.sentenceTokenize("This is a sentence! This is another one.");
+    JLanguageTool lt = new JLanguageTool(english);
+    List<String> sentences = lt.sentenceTokenize("This is a sentence! This is another one.");
     assertEquals(2, sentences.size());
     assertEquals("This is a sentence! ", sentences.get(0));
     assertEquals("This is another one.", sentences.get(1));
@@ -120,14 +130,14 @@ public class JLanguageToolTest {
 
   @Test
   public void testAnnotateTextCheck() throws IOException {
-    JLanguageTool languageTool = new JLanguageTool(english);
+    JLanguageTool lt = new JLanguageTool(english);
     AnnotatedText annotatedText = new AnnotatedTextBuilder()
             .addMarkup("<b>")
             .addText("here")
             .addMarkup("</b>")
             .addText(" is an error")
             .build();
-    List<RuleMatch> matches = languageTool.check(annotatedText);
+    List<RuleMatch> matches = lt.check(annotatedText);
     assertThat(matches.size(), is(1));
     assertThat(matches.get(0).getFromPos(), is(3));
     assertThat(matches.get(0).getToPos(), is(7));
@@ -135,7 +145,7 @@ public class JLanguageToolTest {
 
   @Test
   public void testAnnotateTextCheckMultipleSentences() throws IOException {
-    JLanguageTool languageTool = new JLanguageTool(english);
+    JLanguageTool lt = new JLanguageTool(english);
     AnnotatedText annotatedText = new AnnotatedTextBuilder()
             .addMarkup("<b>")
             .addText("here")
@@ -146,7 +156,7 @@ public class JLanguageToolTest {
             .addMarkup("</i>")
             .addText(" a error.")
             .build();
-    List<RuleMatch> matches = languageTool.check(annotatedText);
+    List<RuleMatch> matches = lt.check(annotatedText);
     assertThat(matches.size(), is(2));
     assertThat(matches.get(0).getFromPos(), is(3));
     assertThat(matches.get(0).getToPos(), is(7));
@@ -156,7 +166,7 @@ public class JLanguageToolTest {
 
   @Test
   public void testAnnotateTextCheckMultipleSentences2() throws IOException {
-    JLanguageTool languageTool = new JLanguageTool(english);
+    JLanguageTool lt = new JLanguageTool(english);
     AnnotatedText annotatedText = new AnnotatedTextBuilder()
             .addText("here")
             .addText(" is an error. And ")
@@ -167,7 +177,7 @@ public class JLanguageToolTest {
             .addMarkup("</i>")
             .addText(" error.")
             .build();
-    List<RuleMatch> matches = languageTool.check(annotatedText);
+    List<RuleMatch> matches = lt.check(annotatedText);
     assertThat(matches.size(), is(2));
     assertThat(matches.get(0).getFromPos(), is(0));
     assertThat(matches.get(0).getToPos(), is(4));
@@ -177,10 +187,10 @@ public class JLanguageToolTest {
 
   @Test
   public void testAnnotateTextCheckPlainText() throws IOException {
-    JLanguageTool languageTool = new JLanguageTool(english);
+    JLanguageTool lt = new JLanguageTool(english);
     AnnotatedText annotatedText = new AnnotatedTextBuilder()
             .addText("A good sentence. But here's a error.").build();
-    List<RuleMatch> matches = languageTool.check(annotatedText);
+    List<RuleMatch> matches = lt.check(annotatedText);
     assertThat(matches.size(), is(1));
     assertThat(matches.get(0).getFromPos(), is(28));
     assertThat(matches.get(0).getToPos(), is(29));
@@ -188,8 +198,8 @@ public class JLanguageToolTest {
 
   @Test
   public void testStrangeInput() throws IOException {
-    JLanguageTool languageTool = new JLanguageTool(english);
-    List<RuleMatch> matches = languageTool.check("­");  // used to be a bug (it's not a normal dash)
+    JLanguageTool lt = new JLanguageTool(english);
+    List<RuleMatch> matches = lt.check("­");  // used to be a bug (it's not a normal dash)
     assertThat(matches.size(), is(0));
   }
 
@@ -246,6 +256,106 @@ public class JLanguageToolTest {
     assertThat(cache.hitCount(), is(8L));
     assertThat(ltWithCache.check("Ein Delphin. Noch ein Delphin.").size(), is(0));   // try again - no state is kept
     assertThat(cache.hitCount(), is(12L));
+  }
+
+  private class IgnoreInterval {
+    int left, right;
+
+    IgnoreInterval(int left, int right) {
+      this.left = left;
+      this.right = right;
+    }
+
+    boolean contains(int position) {
+      return left <= position & position <= right;
+    }
+  }
+
+  private List<IgnoreInterval> calculateIgnoreIntervals(String message, boolean ignoreQuotes, boolean ignoreBrackets) {
+    String ignorePattern = "(<.+>[^<]+</.+>)";
+    if (ignoreQuotes) {
+      ignorePattern += "|('[^']+')|(\"[^\"]\")";
+    }
+    if (ignoreBrackets) {
+      ignorePattern += "|(\\([^)]+\\))";
+    }
+    Matcher ignoreMat = Pattern.compile(ignorePattern).matcher(message);
+    List<IgnoreInterval> ignoreIntervals = new ArrayList<>();
+    if (ignoreMat.find()) {
+      for (int i = 0; i < ignoreMat.groupCount(); i++) {
+        ignoreIntervals.add(new IgnoreInterval(ignoreMat.start(i), ignoreMat.end(i)));
+      }
+    }
+    return ignoreIntervals;
+  }
+
+  private String getRuleMessage(Rule rule, JLanguageTool lt) throws Exception {
+    Pattern p = Pattern.compile("<.+>([^<]+)</.+>");
+    String example = rule.getIncorrectExamples().get(0).getExample();
+    example = p.matcher(example).replaceAll("$1");
+    List<AnalyzedSentence> sentences = lt.analyzeText(example);
+
+    RuleMatch[] matches;
+    if (rule instanceof TextLevelRule) {
+      matches = ((TextLevelRule) rule).match(sentences);
+    } else {
+      matches = rule.match(sentences.get(0));
+    }
+    if (matches.length == 0) {
+      return null;
+    }
+    return matches[0].getMessage().replace("<suggestion>", "").replace("</suggestion>", "");
+  }
+
+  @Test
+  @Ignore
+  public void testRuleMessagesForSpellingErrors() throws Exception {
+    JLanguageTool lt = new JLanguageTool(english);
+    //JLanguageTool lt = new JLanguageTool(new GermanyGerman());
+    //JLanguageTool lt = new JLanguageTool(new Russian());
+    String[] rulesDisabled = {
+            // en:
+            "EN_QUOTES", "UPPERCASE_SENTENCE_START", "WHITESPACE_RULE",
+            "EN_UNPAIRED_BRACKETS", "DASH_RULE", "COMMA_PARENTHESIS_WHITESPACE",
+            // de:
+            "TYPOGRAFISCHE_ANFUEHRUNGSZEICHEN", "GROESSER_KLEINER_ANFUEHRUNG",
+            "ABKUERZUNG_LEERZEICHEN"
+    };
+    lt.disableRules(Arrays.asList(rulesDisabled));
+    int matchesCounter = 0;
+
+    List<Rule> rules = lt.getAllRules();
+    for (Rule rule : rules) {
+      if (rule.getIncorrectExamples().size() == 0) {
+        continue;
+      }
+      String message = getRuleMessage(rule, lt);
+      if (message == null) {
+        continue;
+      }
+      List<RuleMatch> allMatches = lt.check(message);
+      // Ignore errors inside <>..</>, '..', "..", (..)
+      List<IgnoreInterval> ignoreIntervals = calculateIgnoreIntervals(message, true, true);
+      matches:
+      for (RuleMatch ruleMatch : allMatches) {
+        if (ruleMatch.getRule().getId().equals(rule.getId())) {
+          continue;
+        }
+        for (IgnoreInterval interval : ignoreIntervals) {
+          if (interval.contains(ruleMatch.getFromPos()) || interval.contains(ruleMatch.getToPos())) {
+            continue matches;
+          }
+        }
+        System.out.println(String.format("Rule: %s\nMessage: %s\nMatch:\n%s: %s",
+                rule.getId(), message, ruleMatch.getRule().getId(), ruleMatch.getMessage()));
+        System.out.println(String.format("Error in [%d,%d]: \"%s\"", ruleMatch.getFromPos(),
+                ruleMatch.getToPos(), message.substring(ruleMatch.getFromPos(), ruleMatch.getToPos())));
+        System.out.println("-------");
+        matchesCounter++;
+      }
+    }
+    System.out.println("Total matches:" + matchesCounter);
+    assertThat(matchesCounter, is(0));
   }
 
 }

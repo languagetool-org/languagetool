@@ -22,6 +22,7 @@ import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.Language;
+import org.languagetool.UserConfig;
 import org.languagetool.rules.Example;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
@@ -35,7 +36,14 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
   private final EnglishSynthesizer synthesizer = new EnglishSynthesizer();
 
   public AbstractEnglishSpellerRule(ResourceBundle messages, Language language) throws IOException {
-    super(messages, language);
+    this(messages, language, null);
+  }
+
+  /**
+   * @since 4.2
+   */
+  public AbstractEnglishSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig) throws IOException {
+    super(messages, language, userConfig);
     setCheckCompound(true);
     addExamplePair(Example.wrong("This <marker>sentenc</marker> contains a spelling mistake."),
                    Example.fixed("This <marker>sentence</marker> contains a spelling mistake."));
@@ -46,8 +54,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
   }
 
   @Override
-  protected List<RuleMatch> getRuleMatches(String word, int startPos, AnalyzedSentence sentence) throws IOException {
-    List<RuleMatch> ruleMatches = super.getRuleMatches(word, startPos, sentence);
+  protected List<RuleMatch> getRuleMatches(String word, int startPos, AnalyzedSentence sentence, List<RuleMatch> ruleMatchesSoFar) throws IOException {
+    List<RuleMatch> ruleMatches = super.getRuleMatches(word, startPos, sentence, ruleMatchesSoFar);
     if (ruleMatches.size() > 0) {
       // so 'word' is misspelled: 
       IrregularForms forms = getIrregularFormsOrNull(word);

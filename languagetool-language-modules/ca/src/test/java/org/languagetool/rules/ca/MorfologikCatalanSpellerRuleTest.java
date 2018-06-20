@@ -35,7 +35,7 @@ public class MorfologikCatalanSpellerRuleTest {
     @Test
     public void testMorfologikSpeller() throws IOException {
         MorfologikCatalanSpellerRule rule =
-                new MorfologikCatalanSpellerRule (TestTools.getMessages("ca"), new Catalan());
+                new MorfologikCatalanSpellerRule (TestTools.getMessages("ca"), new Catalan(), null);
 
         RuleMatch[] matches;
         JLanguageTool langTool = new JLanguageTool(new Catalan());

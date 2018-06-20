@@ -494,6 +494,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="dé">No es justo que sólo yo <marker>de</marker>.</example>
                 <example>No es justo que sólo yo dé.</example>
             </rule>
+            <rule id="CONTINUA" name="continua/continúa">
+                <pattern>
+                    <marker>
+                        <token>continua</token>
+                    </marker>
+                    <token postag="V.G.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Si es un verbo, lleva tilde.</message>
+                <suggestion>continúa</suggestion>
+                <example correction="Continúa"><marker>Continua</marker> recibiendo apoyos.</example>
+                <example>De tensión continua.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="SUSTANTIVO_TILDE" name="Verbos con o sin tilde">
             <short>El sustantivo lleva tilde.</short>
@@ -692,11 +704,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="aún">Pensaba <marker>aun</marker> lo mismo.</example>
                 <example>No me importaría aun si ella no viene.</example>
             </rule>
+            <rule id="CUAL_SIN_ACENTO" name="el *cuál/el cual">
+                <pattern>
+                    <token postag="DA.*|SP.DA" postag_regexp="yes"></token>
+                    <marker>
+                        <token regexp="yes">cuál|cuáles</token>
+                    </marker>
+                </pattern>
+                <message>No se acentúa.</message>
+                <suggestion><match no="2" regexp_match="cuál(.*)" regexp_replace="cual$1"/></suggestion>
+                <example correction="cual">El país del <marker>cuál</marker> vengo.</example>
+                <example correction="cuales">Documentos a los <marker>cuáles</marker> ha tenido acceso.</example>
+                <example correction="cual">Lo <marker>cuál</marker> es muy importante.</example>
+                <example>¿Cuál es la respuesta correcta?</example>
+            </rule>
         </rulegroup>
         <rule id="A_PUNTO_DE" name="*apunto de/a punto de">
             <pattern>
                 <marker>
-                    <token>apunto</token>
+                    <token>apunto<exception scope="previous" regexp="yes">me|te|lo|la|le|nos|os|los|las|les</exception></token>
                     <token>de</token>
                 </marker>
                 <token><exception regexp="yes">manera|forma</exception></token>
@@ -704,7 +730,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Esta locución es escribe: <suggestion>a punto de</suggestion>.</message>
             <url>http://www.fundeu.es/recomendacion/a-punto-de-no-apunto-de-1427</url>
             <example correction="a punto de">Estaba <marker>apunto de</marker> llegar.</example>
-            <example>se lo apunto de manera inmediata</example>
+            <example>Apunto de manera inmediata</example>
+            <example>Me apunto de voluntario.</example>
         </rule>
         <!-- ROMAN NUMERALS CHECKER : Comprobación de números romanos (adaptado de la versión catalana) -->
         <rule id="ROMAN_NUMERALS_CHECK" name="comprueba números romanos">
@@ -819,6 +846,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Confusión entre «sine qua non» y «sin ecuánime»</short>
             <example correction="condición sine qua non">Para aprobar, la <marker>condición sin ecuánime</marker> es obtener un 5.</example>
             <example>Es condición sine qua non tener permiso para entrar en el local.</example>
+        </rule>
+        <rule id="CONFUSION_AL_LA" name="confusión al/la">
+            <pattern>
+                <marker>
+                    <token>al</token>
+                </marker>
+                <token postag="NCF.*" postag_regexp="yes"><exception postag="NCM.*|SPS00|C." postag_regexp="yes"/><exception regexp="yes">habla|agua|águila|arma|alba|haya</exception></token>
+            </pattern>
+            <message>Posible error de concordancia.</message>
+            <suggestion>la</suggestion>
+            <example correction="la">El presidente de <marker>al</marker> República italiana.</example>
+            <example>Al final</example>
+            <example>Estamos al habla.</example>
+            <example>Cayó al agua.</example>
         </rule>
     </category>
     <category id="GRAMMAR" name="Gramática" type="grammar">
