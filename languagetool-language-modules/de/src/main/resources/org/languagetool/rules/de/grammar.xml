@@ -10259,12 +10259,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token regexp="yes">rüber|runter</token>
                 <token/>
-                <token regexp="yes">eine?|das|der</token>
+                <token regexp="yes">eine?|das|der|es</token>
+            </antipattern>
+            <antipattern>
+                <token>frisch</token>
+                <token>heraus</token>
             </antipattern>
             <antipattern>
                 <token>hin</token>
                 <token>und</token>
                 <token>her</token>
+            </antipattern>
+            <antipattern>
+                <token skip="3">um</token>
+                <token>herum</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">falsch|richtig|verkehrt|rings</token>
+                <token>herum</token>
             </antipattern>
             <antipattern>
                 <token skip="-1" regexp="yes">vor|hinter|neben<exception scope="next" regexp="yes">,|:|\?|!|;|-|–|—|\)|\(|„|“|»|«|"|und|oder</exception></token>
@@ -10281,8 +10293,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token><exception regexp="yes">;|:</exception><exception postag="SENT_START"/></token>
                 <marker>
-                <token regexp="yes">(um)?her(ein|aus|vor|bei|nieder|über|unter)?|rein|runter|rüber</token>
-                <token postag="VER:.*" postag_regexp="yes"><exception postag="VER:AUX:.*|SUB:.*|PRP:.*" postag_regexp="yes"/><exception regexp="yes">hin.*</exception></token>
+                <token regexp="yes" case_sensitive="yes">her(ein|aus|vor|bei|nieder|über|unter|um)?|rein|runter|rüber|umher</token>
+                <token postag="VER:.*" postag_regexp="yes"><exception postag="VER:AUX:.*|SUB:.*|PRP:.*" postag_regexp="yes"/><exception regexp="yes">(auf|hin|unter).*</exception></token>
                 </marker>
             </pattern>
             <message>Bitte überprüfen Sie die Zusammenschreibung. Meinten Sie <suggestion><match no="2"/><match no="3" case_conversion ="alllower"/></suggestion>?</message>
@@ -10290,8 +10302,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="reinlassen">Kannst du ihn bitte <marker>rein lassen</marker>?</example>
             <example correction="rüberlassen">Kannst du ihn bitte <marker>rüber lassen</marker>?</example>
             <example correction="runterlassen">Kannst du ihn bitte <marker>runter lassen</marker>?</example>
+            <example correction="herumgeschrien">Sie haben laut <marker>herum geschrien</marker>.</example>
             <example>Gleich die Straße rüber liegt ein kleines Cafe.</example>
             <example>Gleich die Straße runter liegt der kleine Laden.</example>
+            <example>Um den Bauernhof herum bestellen sie die Felder.</example>
+            <example>Er hat den Pullover verkehrt herum angezogen.</example>
+            <example>Die chirurgischen Instrumente muss man absolut rein aufbewahren.</example>
         </rule>
         <rule id="ZUSAMMENSCHREIBUNG_HIERHER" name="Zusammenschreibung von Verben mit dem Präfix 'hierher'">
             <antipattern>
