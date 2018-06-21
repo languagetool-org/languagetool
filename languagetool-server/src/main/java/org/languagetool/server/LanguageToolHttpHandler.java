@@ -81,8 +81,7 @@ class LanguageToolHttpHandler implements HttpHandler {
         if (referrer != null && referrer.startsWith(ref)) {
           String errorMessage = "Error: Access with referrer " + referrer + " denied.";
           sendError(httpExchange, HttpURLConnection.HTTP_FORBIDDEN, errorMessage);
-          print(errorMessage + ", sending code 403 - useragent: " + parameters.get("useragent") +
-                  " - HTTP UserAgent: " + getHttpUserAgent(httpExchange) + ", r:" + reqCounter.getRequestCount());
+          logError(errorMessage, HttpURLConnection.HTTP_FORBIDDEN, parameters, httpExchange);
           return;
         }
       }
@@ -100,9 +99,9 @@ class LanguageToolHttpHandler implements HttpHandler {
           requestLimiter.checkAccess(remoteAddress, parameters);
         } catch (TooManyRequestsException e) {
           String errorMessage = "Error: Access from " + remoteAddress + " denied: " + e.getMessage();
-          sendError(httpExchange, HttpURLConnection.HTTP_FORBIDDEN, errorMessage);
-          print(errorMessage + ", sending code 403 - useragent: " + parameters.get("useragent") +
-                  " - HTTP UserAgent: " + getHttpUserAgent(httpExchange) + ", r:" + reqCounter.getRequestCount());
+          int code = HttpURLConnection.HTTP_FORBIDDEN;
+          sendError(httpExchange, code, errorMessage);
+          logError(errorMessage, code, parameters, httpExchange);
           return;
         }
       }
@@ -112,9 +111,9 @@ class LanguageToolHttpHandler implements HttpHandler {
                 textSizeMessage +
                 " Allowed maximum timeouts: " + errorRequestLimiter.getRequestLimit() +
                 " per " + errorRequestLimiter.getRequestLimitPeriodInSeconds() + " seconds";
-        sendError(httpExchange, HttpURLConnection.HTTP_FORBIDDEN, errorMessage);
-        print(errorMessage + ", sending code 403 - useragent: " + parameters.get("useragent") +
-                " - HTTP UserAgent: " + getHttpUserAgent(httpExchange) + ", r:" + reqCounter.getRequestCount());
+        int code = HttpURLConnection.HTTP_FORBIDDEN;
+        sendError(httpExchange, code, errorMessage);
+        logError(errorMessage, code, parameters, httpExchange);
         return;
       }
       if (config.getMaxWorkQueueSize() != 0 && workQueue.size() > config.getMaxWorkQueueSize()) {
@@ -197,6 +196,18 @@ class LanguageToolHttpHandler implements HttpHandler {
     return "";
   }
 
+  private void logError(String errorMessage, int code, Map<String, String> params, HttpExchange httpExchange) {
+    String message = errorMessage + ", sending code " + code + " - useragent: " + params.get("useragent") +
+            " - HTTP UserAgent: " + getHttpUserAgent(httpExchange) + ", r:" + reqCounter.getRequestCount();
+    if (params.get("username") != null) {
+      message += ", user: " + params.get("username");
+    }
+    if (params.get("apiKey") != null) {
+      message += ", apikey: " + params.get("apiKey");
+    }
+    print(message);
+  }
+
   private void logError(String remoteAddress, Exception e, int errorCode, HttpExchange httpExchange, Map<String, String> params, 
                         boolean textLoggingAllowed, boolean logStacktrace, long runtimeMillis) {
     String message = "An error has occurred: '" +  e.getMessage() + "', sending HTTP code " + errorCode + ". ";
@@ -207,6 +218,12 @@ class LanguageToolHttpHandler implements HttpHandler {
     message += "language: " + params.get("language") + ", ";
     message += "h: " + reqCounter.getHandleCount() + ", ";
     message += "r: " + reqCounter.getRequestCount() + ", ";
+    if (params.get("username") != null) {
+      message += "user: " + params.get("username") + ", ";
+    }
+    if (params.get("apiKey") != null) {
+      message += "apikey: " + params.get("apiKey") + ", ";
+    }
     message += "time: " + runtimeMillis + ", ";
     String text = params.get("text");
     if (text != null) {
