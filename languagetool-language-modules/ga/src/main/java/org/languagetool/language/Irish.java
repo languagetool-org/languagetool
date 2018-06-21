@@ -25,6 +25,7 @@ import java.util.ResourceBundle;
 
 import org.languagetool.Language;
 import org.languagetool.LanguageMaintainedState;
+import org.languagetool.UserConfig;
 import org.languagetool.rules.*;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.ga.IrishSynthesizer;
@@ -77,13 +78,14 @@ public class Irish extends Language {
   }
 
   @Override
-  public List<Rule> getRelevantRules(ResourceBundle messages) throws IOException {
+  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig) throws IOException {
     return Arrays.asList(
             new CommaWhitespaceRule(messages),
             new DoublePunctuationRule(messages),
             new UppercaseSentenceStartRule(messages, this),
             new MultipleWhitespaceRule(messages, this),
-            new LongSentenceRule(messages)
+	    new WordRepeatRule(messages, this),
+	    new SentenceWhitespaceRule(messages)
     );
   }
 
