@@ -76,6 +76,22 @@ class LanguageToolHttpHandler implements HttpHandler {
     Map<String, String> parameters = new HashMap<>();
     int reqId = reqCounter.incrementRequestCount();
     try {
+      URI requestedUri = httpExchange.getRequestURI();
+      if (requestedUri.getRawPath().startsWith("/v2/")) {
+        // healthcheck should come before other limit checks (requests per time etc.), to be sure it works: 
+        String pathWithoutVersion = requestedUri.getRawPath().substring("/v2/".length());
+        if (pathWithoutVersion.equals("healthcheck")) {
+          if (workQueueFull(httpExchange, "Healthcheck failed: There are currently too many parallel requests.")) {
+            return;
+          } else {
+            String ok = "OK";
+            httpExchange.getResponseHeaders().set("Content-Type", "text/plain");
+            httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, ok.getBytes(ENCODING).length);
+            httpExchange.getResponseBody().write(ok.getBytes(ENCODING));
+            return;
+          }
+        }
+      }
       String referrer = httpExchange.getRequestHeaders().getFirst("Referer");
       for (String ref : config.getBlockedReferrers()) {
         if (referrer != null && referrer.startsWith(ref)) {
@@ -85,7 +101,6 @@ class LanguageToolHttpHandler implements HttpHandler {
           return;
         }
       }
-      URI requestedUri = httpExchange.getRequestURI();
       String origAddress = httpExchange.getRemoteAddress().getAddress().getHostAddress();
       String realAddressOrNull = getRealRemoteAddressOrNull(httpExchange);
       remoteAddress = realAddressOrNull != null ? realAddressOrNull : origAddress;
@@ -116,11 +131,7 @@ class LanguageToolHttpHandler implements HttpHandler {
         logError(errorMessage, code, parameters, httpExchange);
         return;
       }
-      if (config.getMaxWorkQueueSize() != 0 && workQueue.size() > config.getMaxWorkQueueSize()) {
-        String response = "Error: There are currently too many parallel requests. Please try again later.";
-        print(response + ", sending code 503. Queue size: " + workQueue.size() + ", maximum size: " + config.getMaxWorkQueueSize() +
-                ", handlers:" + reqCounter.getHandleCount() + ", r:" + reqCounter.getRequestCount());
-        sendError(httpExchange, HttpURLConnection.HTTP_UNAVAILABLE, "Error: " + response);
+      if (workQueueFull(httpExchange, "Error: There are currently too many parallel requests. Please try again later.")) {
         return;
       }
       if (allowedIps == null || allowedIps.contains(origAddress)) {
@@ -180,6 +191,16 @@ class LanguageToolHttpHandler implements HttpHandler {
       httpExchange.close();
       reqCounter.decrementHandleCount(reqId);
     }
+  }
+
+  private boolean workQueueFull(HttpExchange httpExchange, String response) throws IOException {
+    if (config.getMaxWorkQueueSize() != 0 && workQueue.size() > config.getMaxWorkQueueSize()) {
+      print(response + ", sending code 503. Queue size: " + workQueue.size() + ", maximum size: " + config.getMaxWorkQueueSize() +
+              ", handlers:" + reqCounter.getHandleCount() + ", r:" + reqCounter.getRequestCount());
+      sendError(httpExchange, HttpURLConnection.HTTP_UNAVAILABLE, "Error: " + response);
+      return true;
+    }
+    return false;
   }
 
   @NotNull
