@@ -13,6 +13,7 @@ import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.uk.InflectionHelper.Inflection;
 import org.languagetool.tagging.uk.IPOSTag;
 import org.languagetool.tagging.uk.PosTagHelper;
+import org.languagetool.tools.StringTools;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,6 +41,16 @@ final class TokenAgreementAdjNounExceptionHelper {
 
     AnalyzedTokenReadings adjAnalyzedTokenReadings = tokens[i-1];
 
+
+    if( i > 1
+        && StringTools.isCapitalizedWord(tokens[i-1].getToken())
+        && StringTools.isCapitalizedWord(tokens[i-2].getToken())
+        && (LemmaHelper.hasLemma(tokens[i-1], "вітчизняний") || LemmaHelper.hasLemma(tokens[i-1], "житомирський"))
+        && LemmaHelper.hasLemma(tokens[i-2], "великий")
+        && ! LemmaHelper.hasLemma(tokens[i], "війна") ) {
+      logException();
+      return true;
+    }
 
     if( i > 1
         && LemmaHelper.hasLemma(tokens[i-1], "національний")

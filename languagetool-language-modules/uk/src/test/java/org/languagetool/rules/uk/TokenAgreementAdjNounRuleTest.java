@@ -427,6 +427,10 @@ public class TokenAgreementAdjNounRuleTest {
     assertEmptyMatch("Львівської ім. С. Крушельницької");
     assertEmptyMatch("4-й Запорізький ім. гетьмана Б. Хмельницького");
 
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("у Великій Вітчизняній Війн")).length);
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("у Великій Вітчизняній війна")).length);
+    assertEmptyMatch("Після Великої Вітчизняної будівництво істотно розширилося");
+
     // зразка
     assertEmptyMatch("польські зразка 1620—1650 років");
 
