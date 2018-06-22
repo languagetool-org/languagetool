@@ -249,6 +249,9 @@ public class UkrainianWordTokenizerTest {
     
     testList = w.tokenize("диво з див...");
     assertEquals(Arrays.asList("диво", " ", "з", " ", "див", "..."), testList);
+
+    testList = w.tokenize("тел.: 044-425-20-63");
+    assertEquals(Arrays.asList("тел.", ":", " ", "044-425-20-63"), testList);
   }
 
 }
