@@ -271,7 +271,7 @@ public class UkrainianTaggerTest {
     TestTools.myAssert("чорній-чорній", "чорній-чорній/[чорний-чорний]adj:f:v_dav|чорній-чорній/[чорний-чорний]adj:f:v_mis|чорній-чорній/[чорніти-чорніти]verb:imperf:impr:s:2", tokenizer, tagger);
 
 
-    TestTools.myAssert("етно-диско", "етно-диско/[null]null", tokenizer, tagger);
+//    TestTools.myAssert("етно-диско", "етно-диско/[null]null", tokenizer, tagger);
     TestTools.myAssert("екс-партнер", "екс-партнер/[екс-партнер]noun:anim:m:v_naz", tokenizer, tagger);
     TestTools.myAssert("еспресо-машина", "еспресо-машина/[еспресо-машина]noun:inanim:f:v_naz", tokenizer, tagger);
 
