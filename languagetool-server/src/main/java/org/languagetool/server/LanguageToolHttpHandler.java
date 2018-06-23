@@ -94,7 +94,7 @@ class LanguageToolHttpHandler implements HttpHandler {
       }
       String referrer = httpExchange.getRequestHeaders().getFirst("Referer");
       for (String ref : config.getBlockedReferrers()) {
-        if (referrer != null && referrer.startsWith(ref)) {
+        if (referrer != null && ref != null && !ref.isEmpty() && referrer.startsWith(ref)) {
           String errorMessage = "Error: Access with referrer " + referrer + " denied.";
           sendError(httpExchange, HttpURLConnection.HTTP_FORBIDDEN, errorMessage);
           logError(errorMessage, HttpURLConnection.HTTP_FORBIDDEN, parameters, httpExchange);
