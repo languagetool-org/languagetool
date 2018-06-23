@@ -126,17 +126,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Stille">Sie wurde in aller <marker>Stile</marker> beigesetzt.</example>
             </rule>
         </rulegroup>
-        <rule id="BEAMTER" name="der Beamte(r)">
-            <pattern>
-                <token regexp="yes">de[rn]</token>
-                <marker>
-                    <token regexp='yes'>\w*beamter</token>
-                </marker>
-            </pattern>
-            <message>Meinten Sie <suggestion><match no="2" regexp_match="er$" regexp_replace="e"/></suggestion> oder <suggestion><match no="2" regexp_match="er$" regexp_replace="en"/></suggestion>?</message>
-            <example correction='Schalterbeamte|Schalterbeamten'>Der <marker>Schalterbeamter</marker> war sehr unhöflich.</example>
-            <example correction='Beamte|Beamten'>Sehen Sie den <marker>Beamter</marker> dort?</example>
-        </rule>
+        <rulegroup id="BEAMTER" name="der Beamte(r)">
+            <rule>
+                <pattern>
+                    <token regexp="yes">de[rsmn]</token>
+                    <marker>
+                        <token regexp='yes'>\w*beamter</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie <suggestion><match no="2" regexp_match="er$" regexp_replace="e"/></suggestion> oder <suggestion><match no="2" regexp_match="er$" regexp_replace="en"/></suggestion>?</message>
+                <example correction='Schalterbeamte|Schalterbeamten'>Der <marker>Schalterbeamter</marker> war sehr unhöflich.</example>
+                <example correction='Beamte|Beamten'>Sehen Sie den <marker>Beamter</marker> dort?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">(ein|dies|jen)(e[nms])?</token>
+                    <marker>
+                        <token regexp='yes'>\w*beamte</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie <suggestion><match no="2" regexp_match="e$" regexp_replace="er"/></suggestion> oder <suggestion><match no="2" regexp_match="e$" regexp_replace="en"/></suggestion>?</message>
+                <example correction='Schalterbeamter|Schalterbeamten'>Ein <marker>Schalterbeamte</marker> war sehr unhöflich.</example>
+                <example correction='Beamter|Beamten'>Sehen Sie diesen <marker>Beamte</marker> dort?</example>
+            </rule>
+        </rulegroup>
         <rule id="ZU_SCHRIEBEN_ETC" name="zu schrieben (schreiben) etc.">
             <pattern>
                 <token>zu</token>
