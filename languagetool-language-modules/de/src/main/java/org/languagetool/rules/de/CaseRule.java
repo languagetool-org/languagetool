@@ -901,13 +901,6 @@ public class CaseRule extends Rule {
         && tokens[pos].getToken().startsWith("Über")
         && lowercaseReadings.hasAnyPartialPosTag("VER:INF:", "PA2:PRD:GRU:VER");
       }
-    else if (!isPotentialError &&
-             tokens.length > pos+1 &&
-             lowercaseReadings != null &&
-             lowercaseReadings.hasPosTagStartingWith("ADJ:")) {
-      // das Extreme Sportfest
-      isPotentialError = tokens[pos+1].hasPosTagStartingWith("SUB:");
-    }
     return isPotentialError;
   }
 
