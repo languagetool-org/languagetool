@@ -948,10 +948,14 @@ public class CaseRule extends Rule {
   // e.g. "Ein Kaninchen, das zaubern kann" - avoid false alarm here
   //                          ^^^^^^^
   private boolean isPrevProbablyRelativePronoun(AnalyzedTokenReadings[] tokens, int i) {
-    return i >= 3 &&
-      tokens[i-1].getToken().equals("das") &&
-      tokens[i-2].getToken().equals(",") &&
-      tokens[i-3].matchesPosTagRegex("SUB:...:SIN:NEU");
+    if (i >= 3) {
+      if (tokens[i-1].getToken().equals("das") &&
+          tokens[i-2].getToken().equals(",") &&
+          tokens[i-3].matchesPosTagRegex("SUB:...:SIN:NEU")) {
+        return true;
+      }
+    }
+    return false;
   }
 
   private boolean isSalutation(String token) {
@@ -1076,11 +1080,18 @@ public class CaseRule extends Rule {
       AnalyzedTokenReadings prevPrevToken = i >= 2 ? tokens[i-2] : null;
       AnalyzedTokenReadings prevPrevPrevToken = i >= 3 ? tokens[i-3] : null;
       String prevTokenStr = prevToken != null ? prevToken.getToken() : "";
-      if (StringUtils.equalsAny(prevTokenStr, "und", "oder", "beziehungsweise") && prevPrevToken != null &&
-           (tokens[i].hasPartialPosTag("SUB") && tokens[i].hasPartialPosTag(":ADJ")) || //"das dabei Erlernte und Erlebte ist ..." -> 'Erlebte' is correct here
-           (prevPrevToken.hasPartialPosTag("SUB") && !hasNounReading(nextReadings) && // "die Ausgaben für Umweltschutz und Soziales"
-               lowercaseReadings != null && lowercaseReadings.hasPartialPosTag("ADJ"))) {
-        return true;
+      if (StringUtils.equalsAny(prevTokenStr, "und", "oder", "beziehungsweise")) {
+        if (prevPrevToken != null) {
+          if (tokens[i].hasPartialPosTag("SUB") && tokens[i].hasPartialPosTag(":ADJ")) {
+            // "das dabei Erlernte und Erlebte ist ..." -> 'Erlebte' is correct here
+            return true;
+          } else if (prevPrevToken.hasPartialPosTag("SUB") && !hasNounReading(nextReadings)) {
+            if (lowercaseReadings != null && lowercaseReadings.hasPartialPosTag("ADJ")) {
+              // "die Ausgaben für Umweltschutz und Soziales"
+              return true;
+            }
+          }
+        }
       }
       if (lowercaseReadings != null && lowercaseReadings.hasPosTag("PA1:PRD:GRU:VER")) {
         // "aus sechs Überwiegend muslimischen Ländern"
