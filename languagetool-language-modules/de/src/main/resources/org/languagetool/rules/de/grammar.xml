@@ -21906,6 +21906,11 @@ Andere Projekte</example>
         </rulegroup>
         <rulegroup id="SORGEN_MACHEN" name="'sorgen (Sorgen) machen etc.'">
             <rule>
+                <antipattern case_sensitive="yes">
+                    <token skip="1">sorgen</token>
+                    <token>dafür</token>
+                    <token>,</token>
+                </antipattern>
                 <pattern case_sensitive="yes">
                     <token inflected="yes" regexp="yes" skip="1">[mM]achen<exception scope="next">,</exception></token>
                     <token postag="PRO:REF:DAT.*" postag_regexp="yes" skip="3"><exception scope="next">,</exception></token>
@@ -33429,7 +33434,7 @@ Andere Projekte</example>
                     <token spacebefore="no" regexp="yes">[\*×∗·\+÷:=]</token>
                     <token spacebefore="no" regexp="yes">(([0-9]+[a-z]*))+<exception regexp="yes">\d\dh</exception></token>
                 </marker>
-                <token negate="yes">Uhr</token>
+                <token negate="yes" regexp="yes">Uhr|gegen</token>
             </pattern>
             <message>Rechenzeichen sollten durch (schmale, geschützte) Leerzeichen abgetrennt werden.</message>
             <suggestion>\1 \2 \3</suggestion>
@@ -33441,6 +33446,7 @@ Andere Projekte</example>
             <example>4,5 × 2,5</example>
             <example>Sie verloren das Spiel mit 3:0.</example>
             <example>Zwischen 9:00 und 16:45.</example>
+            <example>Das 5:2 gegen Ungarn</example>
             <example correction="3a = 2"><marker>3a=2</marker>.</example>
             <example correction="5 * 5"><marker>5*5</marker>.</example>
         </rule>
