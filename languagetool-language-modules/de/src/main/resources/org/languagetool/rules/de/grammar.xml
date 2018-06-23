@@ -33421,7 +33421,14 @@ Andere Projekte</example>
             </antipattern>
             <antipattern>
                 <!-- vermutlich Spielstand -->
-                <token inflected="yes" regexp="yes">mit|verlieren|gewinnen|enden|Maßstab|Verhältnis</token>
+                <token inflected="yes" regexp="yes">mit|verlieren|gewinnen|enden|Maßstab|Verhältnis|unentschieden</token>
+                <token regexp="yes">[0-9]+</token>
+                <token>:</token>
+                <token regexp="yes">[0-9]+</token>
+            </antipattern>
+            <antipattern>
+                <!-- vermutlich Spielstand -->
+                <token inflected="yes" skip="1">schlagen</token>
                 <token regexp="yes">[0-9]+</token>
                 <token>:</token>
                 <token regexp="yes">[0-9]+</token>
@@ -33434,7 +33441,7 @@ Andere Projekte</example>
                     <token spacebefore="no" regexp="yes">[\*×∗·\+÷:=]</token>
                     <token spacebefore="no" regexp="yes">(([0-9]+[a-z]*))+<exception regexp="yes">\d\dh</exception></token>
                 </marker>
-                <token negate="yes" regexp="yes">Uhr|gegen</token>
+                <token negate="yes" regexp="yes">Uhr|gegen|für|unentschieden</token>
             </pattern>
             <message>Rechenzeichen sollten durch (schmale, geschützte) Leerzeichen abgetrennt werden.</message>
             <suggestion>\1 \2 \3</suggestion>
