@@ -30192,7 +30192,7 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <antipattern>
-                    <token regexp="yes">in|auf|bei</token>
+                    <token regexp="yes">in|auf|bei|mit</token>
                     <token>was</token>
                     <token>für</token>
                     <token>einem</token>
@@ -30332,6 +30332,18 @@ Andere Projekte</example>
                 <short>'\1' erfordert den Akkusativ</short>
                 <example>Das Öl ist für <marker>mein Auto</marker>.</example>
                 <example correction="">Das Öl ist für <marker>meines Autos</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token><exception>was</exception></token>
+                    <token regexp="yes">betreffend|durch|für|gegen|kontra|ohne|via|wider</token>
+                    <token min="0">nicht</token>
+                    <marker><token postag="(ART|PA[12]|ADJ):DAT:SIN:.+" postag_regexp="yes" regexp="yes">.+em</token></marker>
+                </pattern>
+                <message>Auf die Präposition '\1' folgt in der Regel der Akkusativ: <suggestion><match no="4" regexp_match="m$" regexp_replace="n"/></suggestion></message>
+                <example correction="verschwindenden">Für <marker>verschwindendem</marker> Imaginärteil erhalten wir eine Nulllösung.</example>
+                <example correction="verschwindenden">Für nicht <marker>verschwindendem</marker> Imaginärteil erhalten wir eine Nulllösung.</example>
+                <example>In was für einem Land leben wir denn?</example>
             </rule>
         </rulegroup>
         <rulegroup id="ART_ADJ_SOL" name="Stark oder gemischt flektiertes Adjektiv nach Artikel, z.B. 'im heißem (heißen) Ofen'">
