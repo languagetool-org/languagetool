@@ -17745,6 +17745,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Die <marker>zentralen</marker> Aufgaben werden vom Ministerium gestellt.</example>
             </rule>
             <rule>
+                <antipattern case_sensitive="yes">
+                    <token postag="SENT_START"/>
+                    <token regexp="yes">Die(se)?|[DMS]eine|Ihre|Eure|Unsere</token>
+                    <token postag="ADJ:NOM:PLU:(FEM|MAS|NEU):GRU:IND" postag_regexp="yes"/>
+                    <token>würden</token>
+                    <token postag="VER:INF:.+" postag_regexp="yes"/>
+                </antipattern>
                 <pattern case_sensitive="yes">
                     <token postag="SENT_START"/>
                     <token regexp="yes">Die(se)?|[DMS]eine|Ihre|Eure|Unsere</token>
@@ -17765,6 +17772,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Klingen">Die rostigen <marker>klingen</marker> waren stumpf.</example>
                 <example correction="Taten">Seine heroischen <marker>taten</marker> sind legendär.</example>
                 <example correction="Lügen">Deine unverschämten <marker>lügen</marker> waren auch mal einfallsreicher.</example>
+                <example>Die meisten würden vermuten, dass das unvermeidlich ist.</example> 
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
