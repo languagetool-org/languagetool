@@ -75,6 +75,7 @@ class LanguageToolHttpHandler implements HttpHandler {
     String remoteAddress = null;
     Map<String, String> parameters = new HashMap<>();
     int reqId = reqCounter.incrementRequestCount();
+    boolean incrementHandleCount = false;
     try {
       URI requestedUri = httpExchange.getRequestURI();
       if (requestedUri.getRawPath().startsWith("/v2/")) {
@@ -105,6 +106,7 @@ class LanguageToolHttpHandler implements HttpHandler {
       String realAddressOrNull = getRealRemoteAddressOrNull(httpExchange);
       remoteAddress = realAddressOrNull != null ? realAddressOrNull : origAddress;
       reqCounter.incrementHandleCount(remoteAddress, reqId);
+      incrementHandleCount = true;
       // According to the Javadoc, "Closing an exchange without consuming all of the request body is
       // not an error but may make the underlying TCP connection unusable for following exchanges.",
       // so we consume the request now, even before checking for request limits:
@@ -189,7 +191,9 @@ class LanguageToolHttpHandler implements HttpHandler {
       sendError(httpExchange, errorCode, "Error: " + response);
     } finally {
       httpExchange.close();
-      reqCounter.decrementHandleCount(reqId);
+      if (incrementHandleCount) {
+        reqCounter.decrementHandleCount(reqId);
+      }
     }
   }
 
