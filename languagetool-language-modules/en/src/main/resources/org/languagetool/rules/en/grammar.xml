@@ -8361,8 +8361,15 @@ USA
                 <example>The band emerged triumphant, <marker>as always</marker>.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>how</token>
+                    <token>often</token>
+                    <token inflected="yes">be</token>
+                </antipattern>
                 <pattern>
-                    <token postag="SENT_START" skip="-1"><exception scope="next" postag_regexp="yes" postag="VB.*|MD"/></token>
+                    <token postag="SENT_START" skip="-1">
+                        <exception scope="next" postag_regexp="yes" postag="VB.*|MD"/>
+                    </token>
                     <marker>
                         <token regexp="yes">always|hardly|never|often|rarely|seldom|sometimes|usually</token>
                         <token inflected="yes">be</token>
@@ -8371,7 +8378,8 @@ USA
                 <message>The adverb '\2' is usually put after the verb '\3'.</message>
                 <suggestion>\3 \2</suggestion>
                 <example correction="am sometimes">I <marker>sometimes am</marker> happy.</example>
-                <example>Although they can <marker>sometimes</marker> be found</example>
+                <example>Although they can <marker>sometimes</marker> be found.</example>
+                <example>How <marker>often are</marker> feeling lonely?</example>
             </rule>
             <rule>
                 <antipattern>
@@ -20995,6 +21003,17 @@ USA
             <message>Did you mean <suggestion>deep-seated</suggestion>?</message>
             <url>https://writingexplained.org/deep-seated-or-deep-seeded-difference</url>
             <example correction="deep-seated">He has a <marker>deep-seeded</marker> infection.</example>
+        </rule>
+        <rule id="DECEASE_DISEASE" name="decease (disease)">
+            <pattern>
+                <token regexp="yes">bacterial|cardiac|cardiovasular|chronic|deadly|fatal|fungal|genetic|infectious|pulmonary|respiratory|terminal|vascular</token>
+                <marker>
+                    <token>decease</token>
+                </marker>
+            </pattern>
+            <message>Did you mean <suggestion>disease</suggestion> (=sickness)?</message>
+            <url>https://writingexplained.org/deep-seated-or-deep-seeded-difference</url>
+            <example correction="disease">He has a deadly <marker>decease</marker>.</example>
         </rule>
         <rule id="STRIPPED_STRIPED" name="stripped (striped)">
             <pattern>
