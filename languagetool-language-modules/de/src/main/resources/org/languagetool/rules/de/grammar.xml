@@ -10307,7 +10307,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token><exception regexp="yes">;|:</exception><exception postag="SENT_START"/></token>
                 <marker>
                 <token regexp="yes" case_sensitive="yes">her(ein|aus|vor|bei|nieder|über|unter|um)?|rein|runter|rüber|umher</token>
-                <token postag="VER:.*" postag_regexp="yes"><exception postag="VER:AUX:.*|SUB:.*|PRP:.*" postag_regexp="yes"/><exception regexp="yes">(auf|hin|unter).*</exception></token>
+                <token postag="VER:.*" postag_regexp="yes"><exception postag="VER:AUX:.*|SUB:.*|PRP:.*" postag_regexp="yes"/><exception regexp="yes">(an|auf|hin|unter).*</exception></token>
                 </marker>
             </pattern>
             <message>Bitte überprüfen Sie die Zusammenschreibung. Meinten Sie <suggestion><match no="2"/><match no="3" case_conversion ="alllower"/></suggestion>?</message>
@@ -14392,6 +14392,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Meinten Sie das Substantiv <suggestion><match no="2" case_conversion="startupper"/></suggestion> (=Gefährte, Kamerad)?</message>
                 <short>&prgk;.</short>
                 <example correction='Freunde'>Seine <marker>freunde</marker> sind schon da.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="BESTAND" name="bestand (Bestand)">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token case_sensitive='yes'>bestand</token>
+                    </marker>
+                    <token min="0" regexp="yes">nicht|zu</token>
+                    <token inflected="yes" regexp="yes">erholen|gefährden|haben|schrumpfen|sichern</token>
+                </pattern>
+                <message>Meinten Sie das Substantiv <suggestion>Bestand</suggestion> statt der Verbform 'bestand'?</message>
+                <short>&prgk;.</short>
+                <example correction='Bestand'>Er will den <marker>bestand</marker> sichern.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token case_sensitive='yes' skip="1">Bestand</token>
+                    </marker>
+                    <token regexp="yes">dar(auf|in)</token>
+                </pattern>
+                <message>Meinten Sie das die Verbform <suggestion><match no="1" case_conversion="startlower"/></suggestion>?</message>
+                <short>&prgk;.</short>
+                <example correction='bestand'>Sie <marker>Bestand</marker> darauf, sofort zu gehen.</example>
             </rule>
         </rulegroup>
         <rule id="SEIT_BEGINN" name="'seit beginn (seit Beginn)'">
