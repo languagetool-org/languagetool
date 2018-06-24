@@ -273,6 +273,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="es">Dann gab <marker>des</marker> ein großes Fest.</example>
             <example correction="es">Jetzt obliegt <marker>des</marker> ihm zu entscheiden.</example>
         </rule>
+        <rule id="VEREINBAREN" name="Vereinbaren (vereinbare)">
+            <pattern case_sensitive="yes">
+                <token regexp="yes">Vereinbar(en)?<exception postag="SENT_START" scope="previous"/></token>
+            </pattern>
+            <message>Meinten Sie <suggestion><match no="1" case_conversion="startlower"/></suggestion>?</message>
+            <example correction="vereinbaren">Dies ist nur schwer miteinander zu <marker>Vereinbaren</marker>.</example>
+            <example correction="vereinbar">Dies ist nur schwer miteinander <marker>Vereinbar</marker>.</example>
+        </rule>
         <rule id="ALLER_X_MONATE" name="aller (alle) x Monate">
             <pattern>
                 <marker>
@@ -27665,24 +27673,12 @@ Andere Projekte</example>
                     <marker>
                         <token>gewissen</token>
                     </marker>
+                    <token min="0">zu</token>
                     <token inflected="yes">vereinbaren</token>
                 </pattern>
                 <message>&subanfang;<suggestion>Gewissen</suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example correction="Gewissen">Ich kann das nicht mit meinem <marker>gewissen</marker> vereinbaren.</example>
-            </rule>
-            <rule>
-                <pattern case_sensitive="yes">
-                    <token>mit</token>
-                    <token regexp="yes">dem|[dDms]einem|[iI]hrem|unserem|[eE]urem</token>
-                    <marker>
-                        <token>gewissen</token>
-                    </marker>
-                    <token>zu</token>
-                    <token>vereinbaren</token>
-                </pattern>
-                <message>&subanfang;<suggestion>Gewissen</suggestion>&subende;</message>
-                <short>&prgk;.</short>
                 <example correction="Gewissen">Das ist nicht mit meinem <marker>gewissen</marker> zu vereinbaren.</example>
             </rule>
         </rulegroup>

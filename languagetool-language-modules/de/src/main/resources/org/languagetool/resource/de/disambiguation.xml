@@ -741,7 +741,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <example type="ambiguous" inputform="sehen[sehen/VER:1:PLU:KJ1:NON,sehen/VER:1:PLU:PRÄ:NON,sehen/VER:3:PLU:KJ1:NON,sehen/VER:3:PLU:PRÄ:NON,sehen/VER:INF:NON]" outputform="sehen[sehen/VER:INF:NON]">"Sie kommen, um dich zu <marker>sehen</marker>."</example>
         <example type="ambiguous" inputform="sehen[sehen/VER:1:PLU:KJ1:NON,sehen/VER:1:PLU:PRÄ:NON,sehen/VER:3:PLU:KJ1:NON,sehen/VER:3:PLU:PRÄ:NON,sehen/VER:INF:NON]" outputform="sehen[sehen/VER:INF:NON]">Sie kommen, um dich zu <marker>sehen</marker> und dich zu pflegen.</example>
     </rule>
-        <rule id="RIW" name="Reit im Winkl">
+    <rule id="RIW" name="Reit im Winkl">
         <pattern case_sensitive="yes">
             <marker>
                 <token>Reit</token>
@@ -750,6 +750,14 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <token>Winkl</token>
         </pattern>
         <disambig action="remove" postag="VER:.+"/>
+    </rule>
+    <rule id="BAR" name="vereinbar">
+        <pattern case_sensitive="yes">
+            <marker>
+                <token regexp="yes">Vereinbar(en)</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="SUB:.+"/>
     </rule>
     <!-- ============================================================================================================== -->
     <!-- IGNORE SPELLING -->
