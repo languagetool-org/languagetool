@@ -37,7 +37,8 @@
   
 #### Russian
   * added and improved grammar and punctuation rules
-  * small spelling dictionary update
+  * upgraded the tagging and synthesizer dictionaries from AOT.ru rev.269 (extend tags, add missing tags)
+  * spelling dictionary update
 
 #### Ukrainian
   * added and improved rules
