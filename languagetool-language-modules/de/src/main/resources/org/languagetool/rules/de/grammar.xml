@@ -273,13 +273,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="es">Dann gab <marker>des</marker> ein großes Fest.</example>
             <example correction="es">Jetzt obliegt <marker>des</marker> ihm zu entscheiden.</example>
         </rule>
-        <rule id="VEREINBAREN" name="Vereinbaren (vereinbaren)">
+        <rule id="VEREINBAREN" name="zu Vereinbaren (vereinbaren)">
             <pattern case_sensitive="yes">
-                <token regexp="yes">Vereinbar(en)?<exception postag="SENT_START" scope="previous"/></token>
+                <token regexp="yes">an|auf|bei|hinter|in|mit|nach|vo[nr]|zu|Termin</token>
+                <marker>
+                    <token regexp="yes">[A-Z]\w+baren</token>
+                </marker>
             </pattern>
-            <message>Meinten Sie <suggestion><match no="1" case_conversion="startlower"/></suggestion>?</message>
+            <message>Wenn es sich bei '\2' um eine Verbform handelt, muss diese kleingeschrieben werden.</message>
+            <suggestion><match no="2" case_conversion="startlower"/></suggestion>
             <example correction="vereinbaren">Dies ist nur schwer miteinander zu <marker>Vereinbaren</marker>.</example>
-            <example correction="vereinbar">Dies ist nur schwer miteinander <marker>Vereinbar</marker>.</example>
+            <example correction="wunderbaren">Sie erzählte von <marker>Wunderbaren</marker> Erlebnissen.</example>
+            <example>Glaube ist die Liebe zum Unsichtbaren.</example>
         </rule>
         <rule id="ALLER_X_MONATE" name="aller (alle) x Monate">
             <pattern>
