@@ -23111,6 +23111,11 @@ Andere Projekte</example>
                 <example correction="recht">Das ist nur <marker>Recht</marker> und billig.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>die</token>
+                    <token case_sensitive="yes">Rechte</token>
+                    <token>Dritter</token>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">d(er|ie|as)|am|zur</token>
                     <marker>
@@ -23122,6 +23127,7 @@ Andere Projekte</example>
                 <short>&prgk;.</short>
                 <example correction="rechte">Das ist weder der <marker>Rechte</marker> Ort noch die die rechte Zeit.</example>
                 <example correction="rechten">Du erfährst es zur <marker>Rechten</marker> Zeit.</example>
+                <example>Dieses Vorgehen verletzte die <marker>Rechte</marker> Dritter.</example>
             </rule>
         </rulegroup>
         <rulegroup id="LAUFE_SUBST" name="'im laufe (Laufe) des Tages'">
@@ -26845,7 +26851,7 @@ Andere Projekte</example>
         <rulegroup id="WEITERE_VORGEHEN" name="'das weitere vorgehen (Vorgehen)'">
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">weiteren?</token>
+                    <token regexp="yes">brutales?|D(iese|a)s|gemeinsames?|gewaltsames?|hartes?|weiteren?</token>
                     <marker>
                         <token>vorgehen</token>
                     </marker>
@@ -26853,12 +26859,13 @@ Andere Projekte</example>
                 <message>&subanfang;<suggestion>Vorgehen</suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example correction="Vorgehen">Wir werden das weitere <marker>vorgehen</marker> zusammen abstimmen.</example>
+                <example correction="Vorgehen">Dieses <marker>vorgehen</marker> verletzte die Rechte Dritter.</example>
             </rule>
         </rulegroup>
         <rulegroup id="BEICHTE" name="'die beichte (Beichte)'">
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">[ms]?eine|die|ihre</token>
+                    <token regexp="yes">[dms]?eine|die|ihre</token>
                     <marker>
                         <token>beichte</token>
                     </marker>
