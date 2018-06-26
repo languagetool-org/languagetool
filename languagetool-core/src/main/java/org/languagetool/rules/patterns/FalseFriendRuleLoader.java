@@ -18,10 +18,6 @@
  */
 package org.languagetool.rules.patterns;
 
-import com.google.common.cache.CacheBuilder;
-import com.google.common.cache.CacheLoader;
-import com.google.common.cache.LoadingCache;
-import org.jetbrains.annotations.NotNull;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.xml.sax.SAXException;
@@ -30,14 +26,13 @@ import org.xml.sax.helpers.DefaultHandler;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.MessageFormat;
 import java.util.List;
-import java.util.Objects;
 import java.util.ResourceBundle;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 /**
@@ -46,37 +41,34 @@ import java.util.stream.Collectors;
  * @author Daniel Naber
  */
 public class FalseFriendRuleLoader extends DefaultHandler {
+  
+  /**
+   * @param file XML file with false friend rules
+   * @since 2.3
+   */
+  public final List<AbstractPatternRule> getRules(File file, Language language, Language motherTongue) throws IOException {
+    try (InputStream inputStream = new FileInputStream(file)) {
+      return getRules(inputStream, language, motherTongue);
+    } catch (ParserConfigurationException | SAXException e) {
+      throw new IOException("Could not load false friend rules from " + file, e);
+    }
+  }
 
-  private static final LoadingCache<FalseFriendConfig, List<AbstractPatternRule>> cache = CacheBuilder.newBuilder()
-          .expireAfterWrite(15, TimeUnit.MINUTES)
-          .build(new CacheLoader<FalseFriendConfig, List<AbstractPatternRule>>() {
-            @Override
-            public List<AbstractPatternRule> load(@NotNull FalseFriendConfig ffConfig) throws Exception {
-              try (InputStream is = this.getClass().getResourceAsStream(ffConfig.filename)) {
-                if (is == null) {
-                  try (InputStream is2 = new FileInputStream(ffConfig.filename)) {
-                    return getRulesInternal(is2, ffConfig.language, ffConfig.motherTongue);
-                  } catch (ParserConfigurationException | SAXException e) {
-                    throw new IOException("Could not load false friend rules from " + ffConfig.filename, e);
-                  }
-                } else {
-                  return getRulesInternal(is, ffConfig.language, ffConfig.motherTongue);
-                }
-              }
-            }
-          });
-
-  private static List<AbstractPatternRule> getRulesInternal(InputStream stream,
+  public final List<AbstractPatternRule> getRules(InputStream stream,
       Language textLanguage, Language motherTongue)
       throws ParserConfigurationException, SAXException, IOException {
-    FalseFriendRuleHandler handler = new FalseFriendRuleHandler(textLanguage, motherTongue);
+    FalseFriendRuleHandler handler = new FalseFriendRuleHandler(
+        textLanguage, motherTongue);
     SAXParserFactory factory = SAXParserFactory.newInstance();
     SAXParser saxParser = factory.newSAXParser();
-    saxParser.getXMLReader().setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
+    saxParser.getXMLReader().setFeature(
+            "http://apache.org/xml/features/nonvalidating/load-external-dtd",
+            false);
     saxParser.parse(stream, handler);
     List<AbstractPatternRule> rules = handler.getRules();
     // Add suggestions to each rule:
-    ResourceBundle messages = ResourceBundle.getBundle(JLanguageTool.MESSAGE_BUNDLE, motherTongue.getLocale());
+    ResourceBundle messages = ResourceBundle.getBundle(
+            JLanguageTool.MESSAGE_BUNDLE, motherTongue.getLocale());
     MessageFormat msgFormat = new MessageFormat(messages.getString("false_friend_suggestion"));
     for (AbstractPatternRule rule : rules) {
       List<String> suggestions = handler.getSuggestionMap().get(rule.getId());
@@ -88,47 +80,8 @@ public class FalseFriendRuleLoader extends DefaultHandler {
     return rules;
   }
 
-  private static String formatSuggestions(List<String> l) {
+  private String formatSuggestions(List<String> l) {
     return l.stream().map(o -> "<suggestion>" + o + "</suggestion>").collect(Collectors.joining(", "));
   }
 
-  /**
-   * @param filename XML file with false friend rules
-   * @since 4.2
-   */
-  public final List<AbstractPatternRule> getRules(String filename, Language language, Language motherTongue) throws IOException, ParserConfigurationException, SAXException {
-    return cache.getUnchecked(new FalseFriendConfig(filename, language, motherTongue));
-  }
-  
-  private class FalseFriendConfig {
-    
-    private String filename;
-    private Language language;
-    private Language motherTongue;
-    
-    private FalseFriendConfig(String filename, Language language, Language motherTongue) {
-      this.filename = Objects.requireNonNull(filename);
-      this.language = Objects.requireNonNull(language);
-      this.motherTongue = Objects.requireNonNull(motherTongue);
-    }
-
-    @Override
-    public boolean equals(Object o) {
-      if (this == o) return true;
-      if (o == null || getClass() != o.getClass()) return false;
-      FalseFriendConfig that = (FalseFriendConfig) o;
-      if (!filename.equals(that.filename)) return false;
-      if (!language.equals(that.language)) return false;
-      return motherTongue.equals(that.motherTongue);
-    }
-
-    @Override
-    public int hashCode() {
-      int result = filename.hashCode();
-      result = 31 * result + language.hashCode();
-      result = 31 * result + motherTongue.hashCode();
-      return result;
-    }
-  }
-  
 }

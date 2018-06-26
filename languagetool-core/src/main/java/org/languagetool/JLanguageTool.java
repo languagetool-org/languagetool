@@ -365,7 +365,13 @@ public class JLanguageTool {
       return Collections.emptyList();
     }
     FalseFriendRuleLoader ruleLoader = new FalseFriendRuleLoader();
-    return ruleLoader.getRules(filename, language, motherTongue);
+    try (InputStream is = this.getClass().getResourceAsStream(filename)) {
+      if (is == null) {
+        return ruleLoader.getRules(new File(filename), language, motherTongue);
+      } else {
+        return ruleLoader.getRules(is, language, motherTongue);
+      }
+    }
   }
 
   /**
