@@ -67,8 +67,8 @@ public final class RuleOverview {
   }
   
   private void run(File webRoot) throws IOException {
-    System.out.println("<b>Rules in LanguageTool " + JLanguageTool.VERSION + "</b><br />");
-    System.out.println("Date: " + new SimpleDateFormat("yyyy-MM-dd").format(new Date()) + "<br /><br />\n");
+    System.out.println("<p><b>Rules in LanguageTool " + JLanguageTool.VERSION + "</b><br />");
+    System.out.println("Date: " + new SimpleDateFormat("yyyy-MM-dd").format(new Date()) + "</p>\n");
     System.out.println("<table class=\"tablesorter sortable\" style=\"width: auto\">");
     System.out.println("<thead>");
     System.out.println("<tr>");
@@ -80,7 +80,7 @@ public final class RuleOverview {
     System.out.println("  <th align=\"left\" width=\"60\">Spell<br/>check*</th>");
     System.out.println("  <th align=\"left\" width=\"60\">Confusion<br/>pairs</th>");
     //System.out.println("  <th valign='bottom' width=\"65\">Auto-<br/>detected</th>");
-    System.out.println("  <th valign='bottom' align=\"left\" width=\"70\">Activity</th>");
+    System.out.println("  <th valign='bottom' align=\"left\" width=\"90\">Activity</th>");
     System.out.println("  <th valign='bottom' align=\"left\">Rule Maintainers</th>");
     System.out.println("</tr>");
     System.out.println("</thead>");
