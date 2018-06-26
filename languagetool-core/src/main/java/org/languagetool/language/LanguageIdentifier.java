@@ -69,7 +69,7 @@ public class LanguageIdentifier {
    * @param maxLength the maximum number of characters that will be considered - can help
    *                  with performance. Don't use values below 100, as this would decrease
    *                  accuracy.
-   * @throws IllegalArgumentException if {@code maxLength} is < 10
+   * @throws IllegalArgumentException if {@code maxLength} is less than 10
    * @since 4.2
    */
   public LanguageIdentifier(int maxLength) {
