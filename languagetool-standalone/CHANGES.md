@@ -1,5 +1,11 @@
 # LanguageTool Change Log
 
+## 4.3-SNAPSHOT (2018-09-26)
+
+...
+
+
+
 ## 4.2 (2018-06-26)
 
 #### Breton
