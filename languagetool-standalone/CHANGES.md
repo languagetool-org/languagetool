@@ -41,7 +41,9 @@
   * spelling dictionary update
 
 #### Ukrainian
+  * dictionary update (more than 15k of new words)
   * added and improved rules
+  * some improvements to tokenization, tagging and disambiguation
 
 #### HTTP API / LT server
   * The JSON contains a new section `detectedLanguage` (under `language`) that
