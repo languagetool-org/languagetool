@@ -7830,7 +7830,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="innehat">Das Amt, das er <marker>inne hat</marker>.</example>
         </rule>
         <rule id="DIPL_ING" name="Dipl. Ing. (Dipl.-Ing.)">
-            <regexp>Dipl\. (Ing|Jur|Math|Met|Inf|Bibl|Biol|Chem|Hdl|Kff|Kffr|Kfm)\.</regexp>
+            <regexp>Dipl\. (Ing|Jur|Math|Met|Inf|Bibl|Biol|Phys|Chem|Hdl|Kffr?|Kfm)\.</regexp>
             <message><suggestion>Dipl.-\1.</suggestion> und ähnliche Bezeichnungen werden mit Bindestrich geschrieben.</message>
             <url>http://www.korrekturen.de/beliebte_fehler/dipl_ing.shtml</url>
             <short>Fehlender Bindestrich</short>
@@ -11493,18 +11493,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="DOPPELUNG_MODALVERB" name="Wiederholdung von Modalverben">
             <antipattern>
                 <token>können</token>
-                <token inflected="yes">sollen</token>
-            </antipattern>
-            <antipattern>
-                <token>können</token>
-                <token inflected="yes">müssen</token>
+                <token inflected="yes" regexp="yes">sollen|müssen</token>
             </antipattern>
             <antipattern>
                 <token>wollen</token>
                 <token inflected="yes">können</token>
             </antipattern>
             <pattern>
-                <token postag_regexp="yes" postag="VER:MOD:.*"><exception inflected="yes">lassen</exception></token>
+                <token postag_regexp="yes" postag="VER:MOD:.*"><exception inflected="yes" regexp="yes">[a-z]*lassen</exception></token>
                 <token postag_regexp="yes" postag="VER:MOD:.*"/>
             </pattern>
             <message>Möglicher Tippfehler: zwei Modalverben hintereinander</message>
@@ -11514,6 +11510,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="muss, kann|muss|kann">Das <marker>muss kann</marker> nicht sein.</example>
             <example>Ein Roboter, zu dem man eine emotionale Bindung eingehen <marker>können soll</marker>.</example>
             <example>Drachen steigen <marker>lassen kann</marker> gefährlich sein.</example>
+            <example>Sie sagte, dass er die Tiere <marker>hinauslassen darf</marker>.</example>
         </rule>
         <rulegroup id="CA_ETWA" name="'ca. etwa'">
             <rule>
