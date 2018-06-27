@@ -19,6 +19,7 @@
 package org.languagetool.server;
 
 import org.apache.ibatis.io.Resources;
+import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
@@ -84,6 +85,17 @@ class DatabaseAccess {
     return dictEntries;
   }
 
+  List<UserDictEntry> getWords(Long userId, int offset, int limit) {
+    if (sqlSessionFactory == null) {
+      return new ArrayList<>();
+    }
+    try (SqlSession session = sqlSessionFactory.openSession(true)) {
+      Map<Object, Object> map = new HashMap<>();
+      map.put("userId", userId);
+      return session.selectList("org.languagetool.server.UserDictMapper.selectWordList", map, new RowBounds(offset, limit));
+    }
+  }
+  
   boolean addWord(String word, Long userId) {
     validateWord(word);
     if (sqlSessionFactory == null) {
