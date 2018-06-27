@@ -51,7 +51,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
 
   private static final String XGBOOST_MODEL_BASE_PATH = "org/languagetool/resource/speller_rule/models/";
   private static final String DEFAULT_PATH_TO_NGRAMS = "/home/ec2-user/ngram"; //TODO
-  private static NGramUtil nGramUtil;
+  private static NGramUtil nGramUtil = null;
   private static Booster booster;
   /**
    * Get the filename, e.g., <tt>/resource/pl/spelling.dict</tt>.
@@ -72,11 +72,19 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     this.conversionLocale = conversionLocale != null ? conversionLocale : Locale.getDefault();
     init();
     setLocQualityIssueType(ITSIssueType.Misspelling);
-    nGramUtil = new NGramUtil(language);
-    try (InputStream models_path = this.getClass().getClassLoader().getResourceAsStream(XGBOOST_MODEL_BASE_PATH + this.getId() + "/spc.model")) {
-      booster = XGBoost.loadModel(models_path);
-    } catch (XGBoostError xgBoostError) {
-      throw new RuntimeException("error when loading xgboost model for " + this.getId());
+
+    try {
+      nGramUtil = new NGramUtil(language);
+      try (InputStream models_path = this.getClass().getClassLoader().getResourceAsStream(XGBOOST_MODEL_BASE_PATH + this.getId() + "/spc.model")) {
+        booster = XGBoost.loadModel(models_path);
+      } catch (XGBoostError xgBoostError) {
+        throw new RuntimeException("error when loading xgboost model for " + this.getId());
+      }
+    } catch (RuntimeException e){
+      if (e.getMessage().contains("directory")){}
+      else {
+        throw new RuntimeException(e);
+      }
     }
   }
 
@@ -212,7 +220,9 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
       suggestions.addAll(getAdditionalSuggestions(suggestions, word));
       if (!suggestions.isEmpty()) {
         filterSuggestions(suggestions);
-        ruleMatch.setSuggestedReplacements(orderSuggestions(suggestions, word, sentence, startPos, word.length()));
+        ruleMatch.setSuggestedReplacements(nGramUtil == null ?
+                orderSuggestions(suggestions, word) :
+                orderSuggestions(suggestions, word, sentence, startPos, word.length()));
       }
       ruleMatches.add(ruleMatch);
     }
@@ -540,7 +550,6 @@ class NGramUtil {
   public NGramUtil(Language language) {
     try {
       NGramUtil.language = language;
-      System.out.println("in ngram utils: " + System.getProperty("ngram.path"));
       languageModel = language.getLanguageModel(Paths.get(System.getProperty("ngram.path")).toFile());
     } catch (IOException e) {
       throw new RuntimeException("NGram file not found");
