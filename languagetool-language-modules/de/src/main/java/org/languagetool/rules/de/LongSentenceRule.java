@@ -48,6 +48,15 @@ public class LongSentenceRule extends org.languagetool.rules.LongSentenceRule {
     if (defaultActive) {
       setDefaultOn();
     }
+    if(defaultWords > 0) {
+      this.maxWords = defaultWords;
+    }
+    if (userConfig != null) {
+      int confWords = userConfig.getConfigValueByID(getId());
+      if(confWords > 0) {
+        this.maxWords = confWords;
+      }
+    }
   }
 
   /**
@@ -99,7 +108,7 @@ public class LongSentenceRule extends org.languagetool.rules.LongSentenceRule {
   @Override
   public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
     List<RuleMatch> ruleMatches = new ArrayList<>();
-    AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
+    AnalyzedTokenReadings[] tokens = sentence.getTokens();
     if (tokens.length < maxWords + 1) {   // just a short-circuit
       return toRuleMatchArray(ruleMatches);
     }
@@ -117,6 +126,8 @@ public class LongSentenceRule extends org.languagetool.rules.LongSentenceRule {
       //  Text before and after ':' and ';' is handled as separated sentences
       //  Direct speech is splitted 
       while (i < tokens.length && !tokens[i].getToken().equals(":") && !tokens[i].getToken().equals(";")
+              && !tokens[i].getToken().equals("\n") && !tokens[i].getToken().equals("\r\n") 
+              && !tokens[i].getToken().equals("\n\r")
               && ((i < tokens.length - 1 && !tokens[i + 1].getToken().equals(","))
               || (!tokens[i].getToken().equals("“") && !tokens[i].getToken().equals("»")
               && !tokens[i].getToken().equals("«") && !tokens[i].getToken().equals("\"")))) {
