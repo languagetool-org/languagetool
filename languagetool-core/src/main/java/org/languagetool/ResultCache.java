@@ -20,6 +20,7 @@ package org.languagetool;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.Weigher;
 import org.languagetool.rules.RuleMatch;
 
 import java.util.List;
@@ -57,8 +58,32 @@ public class ResultCache {
     if (maxSize < 0) {
       throw new IllegalArgumentException("Result cache size must be >= 0: " + maxSize);
     }
-    matchesCache = CacheBuilder.newBuilder().maximumSize(maxSize/2).recordStats().expireAfterAccess(expireAfter, timeUnit).build();
-    sentenceCache = CacheBuilder.newBuilder().maximumSize(maxSize/2).recordStats().expireAfterAccess(expireAfter, timeUnit).build();
+    matchesCache = CacheBuilder.newBuilder().
+            maximumWeight(maxSize/2).weigher(new MatchesWeigher()).
+            recordStats().
+            expireAfterAccess(expireAfter, timeUnit).
+            build();
+    sentenceCache = CacheBuilder.newBuilder().
+            maximumWeight(maxSize/2).weigher(new SentenceWeigher()).
+            recordStats().
+            expireAfterAccess(expireAfter, timeUnit).
+            build();
+  }
+  
+  class MatchesWeigher implements Weigher<InputSentence, List<RuleMatch>> {
+    @Override
+    public int weigh(InputSentence sentence, List<RuleMatch> matches) {
+      // this is just a rough guesstimate so that the cacheSize given by the user
+      // is very roughly the number of average sentences the cache can keep:
+      return sentence.getText().length() / 75 + matches.size();
+    }
+  }
+  
+  class SentenceWeigher implements Weigher<SimpleInputSentence, AnalyzedSentence> {
+    @Override
+    public int weigh(SimpleInputSentence sentence, AnalyzedSentence analyzedSentence) {
+      return sentence.getText().length() / 75;
+    }
   }
   
   public double hitRate() {
