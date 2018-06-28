@@ -616,6 +616,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="">Ich <marker>liege</marker> mich aufs Bett.</example>
             <example>Sie liegen sich in den Armen.</example>
         </rule>
+        <rule id="SITZEN_SETZEN" name="sitzen (setzen)">
+            <pattern>
+                <marker><token regexp="yes" case_sensitive="yes">saß(en)?|säßen?|sitzt|sitzen</token></marker>
+                <token postag="PRO:REF:AKK:SIN:ALG.*" postag_regexp="yes"><exception scope="next">gegenüber</exception></token>
+            </pattern>
+            <message>Prüfen Sie, ob hier eine Form von 'setzen' stehen sollte.</message>
+            <example correction="">Ich <marker>saß</marker> mich aufs Bett.</example>
+            <example>Lädt er zum Sitzen mich ein, stehl ich für heute mich weg </example>
+            <example>Die beiden Schauspieler saßen sich gegenüber</example>
+        </rule>
         <rulegroup id="UEBERLASEN_UEBERLASSEN" name="'sich selbst überlasen (überlassen)' u.ä.">
             <rule>
                 <pattern>
