@@ -3971,7 +3971,21 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="remove"><wd lemma="capritxo"/></disambig>
     </rule>
-
+    <rule id="COIXOS" name="coixos">
+        <pattern>
+            <token>coixos</token>
+        </pattern>
+        <disambig action="remove"><wd lemma="coixo"/></disambig>
+    </rule>
+    <rule id="ROSSAR" name="rossar/rossejar">
+        <pattern>
+            <and>
+                <token postag="V.*" postag_regexp="yes" inflected="yes">rossar</token>
+                <token postag="V.*" postag_regexp="yes" negate_pos="yes"></token>
+            </and>
+        </pattern>
+        <disambig action="remove" postag="V.*"/>
+    </rule>
     <rule id="EXPONENT" name="exponent (expondre)">
         <pattern>
             <token><exception inflected="yes" regexp="yes">estar|anar</exception></token>
