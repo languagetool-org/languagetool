@@ -377,7 +377,7 @@ public class GermanSpellerRuleTest {
 
   private static class MyGermanSpellerRule extends GermanSpellerRule {
     MyGermanSpellerRule(ResourceBundle messages, German language) throws IOException {
-      super(messages, language, null);
+      super(messages, language, null, null);
       init();
     }
     boolean doIgnoreWord(String word) throws IOException {
