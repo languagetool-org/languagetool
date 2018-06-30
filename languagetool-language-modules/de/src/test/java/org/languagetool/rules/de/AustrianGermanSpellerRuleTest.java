@@ -22,6 +22,7 @@ import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.AustrianGerman;
+import org.languagetool.rules.RuleMatch;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
