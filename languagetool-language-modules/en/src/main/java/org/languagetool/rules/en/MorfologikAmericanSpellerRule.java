@@ -30,6 +30,7 @@ public final class MorfologikAmericanSpellerRule extends AbstractEnglishSpellerR
   public static final String RULE_ID = "MORFOLOGIK_RULE_EN_US";
 
   private static final String RESOURCE_FILENAME = "/en/hunspell/en_US.dict";
+  private static final String LANGUAGE_SPECIFIC_PLAIN_TEXT_DICT = "en/hunspell/spelling_en-US.txt";
 
   public MorfologikAmericanSpellerRule(ResourceBundle messages, Language language) throws IOException {
     super(messages, language, null);
@@ -52,4 +53,8 @@ public final class MorfologikAmericanSpellerRule extends AbstractEnglishSpellerR
     return RULE_ID;
   }
 
+  @Override
+  public String getLanguageVariantSpellingFileName() {
+    return LANGUAGE_SPECIFIC_PLAIN_TEXT_DICT;
+  }
 }

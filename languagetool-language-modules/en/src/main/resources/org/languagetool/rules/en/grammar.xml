@@ -8361,8 +8361,15 @@ USA
                 <example>The band emerged triumphant, <marker>as always</marker>.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>how</token>
+                    <token>often</token>
+                    <token inflected="yes">be</token>
+                </antipattern>
                 <pattern>
-                    <token postag="SENT_START" skip="-1"><exception scope="next" postag_regexp="yes" postag="VB.*|MD"/></token>
+                    <token postag="SENT_START" skip="-1">
+                        <exception scope="next" postag_regexp="yes" postag="VB.*|MD"/>
+                    </token>
                     <marker>
                         <token regexp="yes">always|hardly|never|often|rarely|seldom|sometimes|usually</token>
                         <token inflected="yes">be</token>
@@ -8371,7 +8378,8 @@ USA
                 <message>The adverb '\2' is usually put after the verb '\3'.</message>
                 <suggestion>\3 \2</suggestion>
                 <example correction="am sometimes">I <marker>sometimes am</marker> happy.</example>
-                <example>Although they can <marker>sometimes</marker> be found</example>
+                <example>Although they can <marker>sometimes</marker> be found.</example>
+                <example>How <marker>often are</marker> feeling lonely?</example>
             </rule>
             <rule>
                 <antipattern>
@@ -8490,18 +8498,19 @@ USA
                 <pattern>
                     <token inflected="yes">have</token>
                     <token>been</token>
-                    <token regexp="yes">knowing|belonging|meaning|supposing</token>
+                    <token regexp="yes">knowing|belonging|supposing</token>
                 </pattern>
                 <message>The verb <match no="3" postag="VB"/> is usually not used with a continuous form, use the simple form instead.</message>
                 <suggestion>\1 <match no="3" postag="VBN"/></suggestion>
                 <url>http://www.eslbase.com/grammar/present-perfect-continuous</url>
                 <short>Probably incorrect use of continuous form</short>
                 <example correction="had known">He <marker>had been knowing</marker> it.</example>
+                <example>I have been meaning to try out a dance class sometime.</example>
             </rule>
             <rule>
                 <pattern>
                     <token regexp="yes">w(ere|as)</token>
-                    <token regexp="yes">knowing|belonging|meaning|supposing</token>
+                    <token regexp="yes">knowing|belonging|supposing</token>
                 </pattern>
                 <message>The verb <match no="2" postag="VB"/> is usually not used with a continuous form, use the simple form instead.</message>
                 <suggestion><match no="2" postag="VBD"/></suggestion>
@@ -8513,7 +8522,7 @@ USA
             <rule>
                 <pattern>
                     <token>is</token>
-                    <token regexp="yes">knowing|belonging|meaning|supposing</token>
+                    <token regexp="yes">knowing|belonging|supposing</token>
                 </pattern>
                 <message>The verb <match no="2" postag="VB"/> is usually not used with a continuous form, use the simple form instead.</message>
                 <suggestion><match no="2" postag="VBZ"/></suggestion>
@@ -8525,7 +8534,7 @@ USA
             <rule>
                 <pattern>
                     <token regexp="yes">a(?:m|re)|were</token>
-                    <token regexp="yes">knowing|belonging|meaning|supposing</token>
+                    <token regexp="yes">knowing|belonging|supposing</token>
                 </pattern>
                 <message>The verb <match no="2" postag="VB"/> is usually not used with a continuous form, use the simple form instead.</message>
                 <suggestion><match no="2" postag="VBP"/></suggestion>
@@ -15463,7 +15472,7 @@ USA
       <message>Unless you mean "in a political party," the usual preposition for a party is "at." Did you mean, <suggestion>at a party</suggestion>?</message>
       <example correction='at a party'>Later, I started working as a Research Assistant in university projects again, where I met her <marker>in a party</marker>.</example>
     </rule>
-    <rule id='WORK_IN_ON_A_PROJECT' name='Collocation: '>
+    <rule id='WORK_IN_ON_A_PROJECT' name='Collocation: in (on) university projects'>
     <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
       <pattern>
           <token postag_regexp="yes" postag="PRP|NNP"/>
@@ -15775,7 +15784,7 @@ USA
       <message>The usual collocations for "\1" is "\1 for". Did you mean <suggestion>\1 for</suggestion> or <suggestion>in charge of</suggestion>?</message>
       <example correction='responsable for|in charge of'>I am <marker>responsable of</marker> marketing.</example>
     </rule>
-    <rule id='WAIT_AFTER_FOR' name='Collocation: '>
+    <rule id='WAIT_AFTER_FOR' name='Collocation: waiting after (for) someone'>
     <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
       <pattern>
           <token inflected="yes">wait</token>
@@ -16071,7 +16080,7 @@ USA
       <example correction='entering the room'>While he was <marker>entering in the room</marker>, he felt an uncomfortable feeling on his spine.</example>
       <example>The record is <marker>entered in a book</marker>.</example>
     </rule>
-    <rule id='GO_TO_HOME' name='Collocation: '>
+    <rule id='GO_TO_HOME' name='Collocation: go to home (go home)'>
     <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
       <antipattern>
           <token>home</token>
@@ -17001,7 +17010,7 @@ USA
       <message>The usual prepositions to use after "\1" is 'with' not "\2" Did you mean <suggestion>\1 \2 \3 with</suggestion>?</message>
       <example correction="Fill the page with"><marker>Fill the page of</marker> numbers.</example>
     </rule>
-    <rule id='LOCATED_ON_AT' name='Collocation: '>
+    <rule id='LOCATED_ON_AT' name='Collocation: located on (at) Main street'>
     <!-- Created by Nicholas Walker (Bokomaru), 2018-05-16 -->
       <pattern>
           <token regexp='yes' inflected='yes'>locate|live|resident|sell|buy|go|turn</token>
@@ -17011,9 +17020,9 @@ USA
           <token regexp="yes">Street|Road|Blvd|Boulevard|Avenue|Ave|St|Rd</token>
       </pattern>
       <message>The usual preposition for an exact address is "at" not "on". Did you mean <suggestion>located at \3 <match no="4" include_skipped='all' case_conversion="startupper"/> <match no="5" include_skipped='all' case_conversion="startupper"/></suggestion>?</message>
-      <example correction='located at 11056 Main Street'>The company's name is Denver Inc. and its <marker>located on 11056 Main street</marker>.</example>
-      <example correction='located at 11056 Great Suffolk St'>The company's name is Denver Inc. and its <marker>located in 11056 Great Suffolk St</marker>.</example>
-      <example correction='located at 11056 Henri-Bourassa Street'>The company's name is Denver Inc. and its <marker>located on 11056 Henri-Bourassa street</marker>.</example>
+      <example correction='located at 11056 Main Street'>The company's name is Denver Inc. and it's <marker>located on 11056 Main street</marker>.</example>
+      <example correction='located at 11056 Great Suffolk St'>The company's name is Denver Inc. and it's <marker>located in 11056 Great Suffolk St</marker>.</example>
+      <example correction='located at 11056 Henri-Bourassa Street'>The company's name is Denver Inc. and it's <marker>located on 11056 Henri-Bourassa street</marker>.</example>
     </rule>
     <rule id='ON_IN_THE_MIDDLE' name='Collocation: on/in the middle'>
     <!-- Created by Nicholas Walker (Bokomaru), 2018-05-16 -->
@@ -20937,19 +20946,51 @@ USA
                 <marker>
                     <token regexp="yes">mar(sh|it)al</token>
                 </marker>
-                <token regexp='yes'>art(ist)?s?|court|discipline|laws?|life|music|people|prowess|rhetoric|traditions?</token>
+                <token regexp='yes'>art(ist)?s?|court|discipline|laws?|life|music|overtones?|people|prowess|rhetoric|traditions?</token>
             </pattern>
             <message>Did you mean <suggestion>martial</suggestion> (relating to war or a warrior)?</message>
             <url>http://grammarist.com/spelling/marshal-martial/</url>
             <example correction="martial">He is an experienced <marker>marshal</marker> artist.</example>
             <example correction="martial">He is an experienced <marker>marital</marker> artist.</example>
         </rule>
+        <rulegroup id="CONFUSION_OF_GOLD_GOLF" name="gold (golf)">
+            <rule>
+                <pattern>
+                   <token inflected="yes" regexp='yes'>play|enjoy</token>
+                    <marker>
+                        <token>gold</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion>golf</suggestion>?</message>
+                <example correction="golf">She likes playing <marker>gold</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>gold</token>
+                    </marker>
+                    <token regexp='yes'>balls?|carts?|courses?|champioships?|tournaments?</token>
+                </pattern>
+                <message>Did you mean <suggestion>golf</suggestion>?</message>
+                <example correction="golf">She drove the <marker>gold</marker> cart.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>golf</token>
+                    </marker>
+                    <token regexp='yes'>co(ast|in)s?|diggers?|medal(list)?s?|miner?s?|prices?|rush</token>
+                </pattern>
+                <message>Did you mean <suggestion>gold</suggestion>?</message>
+                <example correction="gold">She is a <marker>golf</marker> medallist.</example>
+            </rule>
+        </rulegroup>
         <rule id="CONFUSION_OF_ADDICTING_ADDICITVE" name="addicting (addictive)">
             <pattern>
                 <marker>
                     <token>addicting</token>
                 </marker>
-                <token regexp='yes'>behaviou?rs?|drugs?|games?|opiods?|painkillers?|substances?</token>
+                <token regexp='yes'>behaviou?rs?|drugs?|game(play)?s?|nature|opiods?|painkillers?|substances?</token>
             </pattern>
             <message>Did you mean the adjective <suggestion>addictive</suggestion> instead of the verb form 'addicting'?</message>
             <example correction="addictive">Nicotine is the <marker>addicting</marker> drug in tobacco.</example>
@@ -20963,6 +21004,16 @@ USA
             <message>Did you mean <suggestion>deep-seated</suggestion>?</message>
             <url>https://writingexplained.org/deep-seated-or-deep-seeded-difference</url>
             <example correction="deep-seated">He has a <marker>deep-seeded</marker> infection.</example>
+        </rule>
+        <rule id="DECEASE_DISEASE" name="decease (disease)">
+            <pattern>
+                <token regexp="yes">bacterial|cardiac|cardiovasular|chronic|deadly|fatal|fungal|genetic|infectious|pulmonary|respiratory|terminal|vascular</token>
+                <marker>
+                    <token>decease</token>
+                </marker>
+            </pattern>
+            <message>Did you mean <suggestion>disease</suggestion> (=sickness)?</message>
+            <example correction="disease">He has a deadly <marker>decease</marker>.</example>
         </rule>
         <rule id="STRIPPED_STRIPED" name="stripped (striped)">
             <pattern>

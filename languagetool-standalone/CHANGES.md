@@ -1,14 +1,20 @@
 # LanguageTool Change Log
 
-## 4.2-SNAPSHOT (release planned for 2018-06-26)
+## 4.3-SNAPSHOT (2018-09-26)
+
+...
+
+
+
+## 4.2 (2018-06-26)
+
+#### Breton
+  * made many messages shorter
+  * updated FSA spelling dictionary from An Drouizig Breton Spellchecker 0.15
 
 #### Catalan
   * added and improved rules
   * rules and updated dictionary for new diacritics rules (IEC 2017)
-
-#### Breton
-  * Made many messages shorter
-  * updated FSA spelling dictionary from An Drouizig Breton Spellchecker 0.15
 
 #### Dutch
   * added and improved rules
@@ -18,6 +24,9 @@
   * updated en_GB spellchecker dictionary from https://github.com/marcoagpinto/aoo-mozilla-en-dict  (Version 2018-06-01)
   * updated en_US spellchecker dictionary from http://wordlist.aspell.net (Version 2018.04.16)
   * updated en_CA spellchecker dictionary from http://wordlist.aspell.net (Version 2018.04.16)
+
+#### Esperanto
+  * added and improved rules
 
 #### German
   * added and improved rules
@@ -37,18 +46,22 @@
   
 #### Russian
   * added and improved grammar and punctuation rules
-  * small spelling dictionary update
+  * upgraded the tagging and synthesizer dictionaries from AOT.ru rev.269 (extend tags, add missing tags)
+  * spelling dictionary update
+
+#### Spanish
+  * added and improved a few rules
 
 #### Ukrainian
+  * dictionary update (more than 15k of new words)
   * added and improved rules
+  * some improvements to tokenization, tagging and disambiguation
 
 #### HTTP API / LT server
   * The JSON contains a new section `detectedLanguage` (under `language`) that
     contains information about the automatically detected language. This way
     clients can suggest switching to that language, e.g. in cases where the
     user had selected the wrong language.
-  * Speed up false friend rule loading using a cache (can save about 20ms per 
-    request - only if mother tongue is set, has no effect otherwise)
   * New optional configuration setting `blockedReferrers`: a comma-separated list 
     of HTTP referrers that are blocked and will not be served
   * BETA: New optional configuration settings `dbDriver`, `dbUrl`, `dbUsername`,

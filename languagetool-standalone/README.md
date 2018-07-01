@@ -4,7 +4,7 @@
 Polish, Chinese, French, Russian, Italian, Dutch
 and [more languages](https://www.languagetool.org/languages/)**
 
-Version 4.1, 2018-03-27  
+Version 4.2, 2018-06-26  
 Copyright (C) 2005-2018 the LanguageTool community and Daniel Naber (www.danielnaber.de)  
 https://www.languagetool.org
 
@@ -23,12 +23,12 @@ https://www.languagetool.org
 
 To integrate LanguageTool into LibreOffice or OpenOffice.org, you can use two methods:
 
-* Double-click `LanguageTool-4.1.oxt`. The extension should
+* Double-click `LanguageTool-4.2.oxt`. The extension should
    start installing. Follow the on-screen instructions.
 
 * If the above method doesn't work, call `Tools > Extension
    Manager > Add...` in LibreOffice/OpenOffice.org and browse for the
-   `LanguageTool-4.1.oxt` file.
+   `LanguageTool-4.2.oxt` file.
 
 Close and restart LibreOffice/OpenOffice.org Writer. Remember to close
 the QuickStarter as well if you use it. Type text with
@@ -111,7 +111,7 @@ Contributor(s): Xesús González Rato <esbardu@softastur.org>
 Spellchecker dictionary is based on dict-be-official-2008-20140108.oxt from http://bnkorpus.info/download.html 
 under Creative Commons Attribution/Share-Alike 3.0.
 
-####  Breton
+#### Breton
 
 The Breton data for part-of-speech tagging is based on the Apertium Breton
 dictionary under GNU General Public License with permission of its authors:

@@ -83,6 +83,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("vorr?auss?etzlich", w -> Arrays.asList("voraussichtlich", "vorausgesetzt"));
     put("nichtmals", w -> Arrays.asList("nicht mal", "nicht einmal"));
     put("eingepeilt", "angepeilt");
+    put("gekukt", "geguckt");
+    put("wah?rscheindlichkeit", "Wahrscheinlichkeit");
     put("Hijab", "Hidschāb");
     putRepl("for?melar(en?)?", "for?me", "Formu");
     putRepl("näste[mnrs]?$", "^näs", "nächs");
@@ -298,14 +300,14 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private final Tagger tagger;
 
   public GermanSpellerRule(ResourceBundle messages, German language) {
-    this(messages, language, null);
+    this(messages, language, null, null);
   }
 
   /**
    * @since 4.2
    */
-  public GermanSpellerRule(ResourceBundle messages, German language, UserConfig userConfig) {
-    super(messages, language, language.getNonStrictCompoundSplitter(), getSpeller(language, userConfig), userConfig);
+  public GermanSpellerRule(ResourceBundle messages, German language, UserConfig userConfig, String languageVariantPlainTextDict) {
+    super(messages, language, language.getNonStrictCompoundSplitter(), getSpeller(language, userConfig, languageVariantPlainTextDict), userConfig);
     addExamplePair(Example.wrong("LanguageTool kann mehr als eine <marker>nromale</marker> Rechtschreibprüfung."),
                    Example.fixed("LanguageTool kann mehr als eine <marker>normale</marker> Rechtschreibprüfung."));
     compoundTokenizer = language.getStrictCompoundTokenizer();
@@ -397,7 +399,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   }
 
   @Nullable
-  private static MorfologikMultiSpeller getSpeller(Language language, UserConfig userConfig) {
+  private static MorfologikMultiSpeller getSpeller(Language language, UserConfig userConfig, String languageVariantPlainTextDict) {
     if (!language.getShortCode().equals(Locale.GERMAN.getLanguage())) {
       throw new RuntimeException("Language is not a variant of German: " + language);
     }
@@ -408,7 +410,13 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
         String path = "/de/hunspell/spelling.txt";
         try (InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(path);
              BufferedReader br = new BufferedReader(new InputStreamReader(stream, "utf-8"))) {
-          return new MorfologikMultiSpeller(morfoFile, new ExpandingReader(br), path, userConfig != null ? userConfig.getAcceptedWords(): Collections.emptyList(), MAX_EDIT_DISTANCE);
+          InputStream variantStream = null;
+          BufferedReader variantReader = null;
+          if (languageVariantPlainTextDict != null && !languageVariantPlainTextDict.isEmpty()) {
+            variantStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(languageVariantPlainTextDict);
+            variantReader = new ExpandingReader (new BufferedReader(new InputStreamReader(variantStream, "utf-8")));
+          }
+          return new MorfologikMultiSpeller(morfoFile, new ExpandingReader(br), path, variantReader, languageVariantPlainTextDict, userConfig != null ? userConfig.getAcceptedWords(): Collections.emptyList(), MAX_EDIT_DISTANCE);
         }
       } else {
         return null;
@@ -803,7 +811,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     String nextWord = getWordAfterEnumerationOrNull(words, idx+1);
     nextWord = StringUtils.removeEnd(nextWord, ".");
 
-    boolean isCompound = nextWord != null && (compoundTokenizer.tokenize(nextWord).size() > 1 || nextWord.indexOf("-") > 0);
+    boolean isCompound = nextWord != null && (compoundTokenizer.tokenize(nextWord).size() > 1 || nextWord.indexOf('-') > 0);
     if (isCompound) {
       word = StringUtils.removeEnd(word, "-");
       boolean isMisspelled = hunspellDict.misspelled(word);  // "Stil- und Grammatikprüfung" or "Stil-, Text- und Grammatikprüfung"
@@ -819,7 +827,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   }
 
   private boolean isNeedingFugenS (String word) {
-	// according to http://www.spiegel.de/kultur/zwiebelfisch/zwiebelfisch-der-gebrauch-des-fugen-s-im-ueberblick-a-293195.html
+    // according to http://www.spiegel.de/kultur/zwiebelfisch/zwiebelfisch-der-gebrauch-des-fugen-s-im-ueberblick-a-293195.html
     return StringUtils.endsWithAny(word, "tum", "ling", "ion", "tät", "keit", "schaft", "sicht", "ung", "en");
   }
 

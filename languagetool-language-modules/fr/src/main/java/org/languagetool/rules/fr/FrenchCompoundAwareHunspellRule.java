@@ -63,7 +63,7 @@ public class FrenchCompoundAwareHunspellRule extends CompoundAwareHunspellRule {
         String path = "/fr/hunspell/spelling.txt";
         try (InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(path);
              BufferedReader br = new BufferedReader(new InputStreamReader(stream, "utf-8"))) {
-          return new MorfologikMultiSpeller(morfoFile, br, path, userConfig != null ? userConfig.getAcceptedWords(): Collections.emptyList(), 2);
+          return new MorfologikMultiSpeller(morfoFile, br, path, null, null, userConfig != null ? userConfig.getAcceptedWords(): Collections.emptyList(), 2);
         }
       } else {
         return null;

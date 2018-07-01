@@ -807,6 +807,15 @@
             </pattern>
             <disambig postag="IN"/>
         </rule>
+        <rule name="learning as noun" id="LEARNING_AS_NOUN">
+            <pattern>
+                <token regexp="yes">deep|reinforcement</token>
+                <marker>
+                    <token>learning</token>
+                </marker>
+            </pattern>
+            <disambig action="remove"><wd pos="VBG"/></disambig>
+        </rule>
         <rule id="IN_ADJ_NN" name="in + adjective + noun">
           <pattern>
             <marker><token>in</token></marker>

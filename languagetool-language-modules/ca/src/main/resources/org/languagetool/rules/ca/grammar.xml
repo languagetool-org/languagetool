@@ -27608,12 +27608,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token skip="2" regexp="yes">fa|feia<exception scope="next">que</exception></token>
                 <token regexp="yes" inflected="yes">&unitats_temps;</token>
-                <token regexp="yes">enrere|endarrere</token>
+                <token regexp="yes">enrere|endarrere|arrere</token>
             </pattern>
             <message>Construcció incorrecta.</message>
             <suggestion><match no="1" include_skipped="all"/> \2</suggestion>
             <suggestion><match no="1" include_skipped="following"/> \2 \3</suggestion>
             <example correction="fa tres anys|tres anys enrere"><marker>fa tres anys enrere</marker>.</example>
+<!-- TODO: bug?  <example correction="feia mesos|mesos arrere">Des de <marker>feia mesos arrere</marker>.</example>-->
+            <example correction="feia tres mesos|tres mesos arrere">Des de <marker>feia tres mesos arrere</marker>.</example>
             <example>els mateixos si fa no fa que un segle enrere</example>
         </rule>
         <rule id="RISC_DE_VIDA" name="Risc de vida">
@@ -33807,6 +33809,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category id="INCORRECT_WORDS_IN_CONTEXT" name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
             (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rule id="RATO" name="*rato/estona">
+            <pattern>
+                <token>rato<exception postag="_possible_nompropi"/></token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>estona</suggestion>? Correcte si és del verb 'ratar'.</message>
+            <example correction="estona">Un <marker>rato</marker> més tard.</example>
+            <example>Rodrigo Rato</example>
+        </rule>
         <rule id="MALEIT" name="maleit/maleït">
             <pattern>
                 <token regexp="yes">maleits?</token>
@@ -36823,7 +36833,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token inflected="yes" skip="5" regexp="yes">desvetl?lar</token>
                     </marker>
-                    <token postag="N.*|PI.*" postag_regexp="yes" inflected="yes" regexp="yes">final|alineació|incertesa|detall|contingut|motiu|res|nom|pla|causa|origen|veritat|jo|secret|misteri|propòsit|intenció</token>
+                    <token postag="N.*|PI.*" postag_regexp="yes" inflected="yes" regexp="yes">conspiració|final|alineació|incertesa|detall|contingut|motiu|res|nom|pla|causa|origen|veritat|jo|secret|misteri|propòsit|intenció</token>
                 </pattern>
                 <message>¿Volíeu dir <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">desvelar</match></suggestion> en comptes de "<match no="1" case_conversion="alllower"/>" (= perdre la son, suscitar)?</message>
                 <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">descobrir</match></suggestion>
@@ -36852,7 +36862,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token postag="N.*" skip="2" postag_regexp="yes" inflected="yes" regexp="yes">detall|contingut|motiu|res|nom|pla|causa|origen|veritat|secret|misteri</token>
+                    <token postag="N.*" skip="2" postag_regexp="yes" inflected="yes" regexp="yes">detall|contingut|motiu|res|nom|pla|causa|origen|veritat|secret|misteri|conspiració</token>
                     <marker>
                         <token inflected="yes" regexp="yes">desvetl?lar</token>
                     </marker>
@@ -45588,7 +45598,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule> <!--exception: raigs -->
                 <pattern>
                     <and>
-                        <token regexp="yes">.+igs<exception regexp="yes">boligs|desigs|estoigs|lleigs|rebuigs|remigs|trepigs|migs|raigs|càstigs</exception></token>
+                        <token regexp="yes">.+igs<exception regexp="yes">boligs|desigs|estoigs|lleigs|rebuigs|remigs|trepigs|migs|raigs|càstigs|maigs</exception></token>
                         <token regexp="yes" inflected="yes">.+ig</token>
                     </and>
                 </pattern>

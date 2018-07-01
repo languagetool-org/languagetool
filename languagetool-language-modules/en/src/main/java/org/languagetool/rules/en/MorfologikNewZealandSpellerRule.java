@@ -28,6 +28,7 @@ import org.languagetool.UserConfig;
 public final class MorfologikNewZealandSpellerRule extends AbstractEnglishSpellerRule {
 
   private static final String RESOURCE_FILENAME = "/en/hunspell/en_NZ.dict";
+  private static final String LANGUAGE_SPECIFIC_PLAIN_TEXT_DICT = "en/hunspell/spelling_en-NZ.txt";
 
   public MorfologikNewZealandSpellerRule(ResourceBundle messages,
                                          Language language, UserConfig userConfig) throws IOException {
@@ -44,4 +45,8 @@ public final class MorfologikNewZealandSpellerRule extends AbstractEnglishSpelle
     return "MORFOLOGIK_RULE_EN_NZ";
   }
 
+  @Override
+  public String getLanguageVariantSpellingFileName() {
+    return LANGUAGE_SPECIFIC_PLAIN_TEXT_DICT;
+  }
 }

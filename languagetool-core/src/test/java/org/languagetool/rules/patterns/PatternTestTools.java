@@ -426,7 +426,7 @@ public final class PatternTestTools {
                   + ruleId + ", token [" + tokenIndex + "], contains empty "
                   + "disjunction | within " + "\"" + stringValue + "\".");
         }
-        String[] groups = stringValue.split("\\)");
+        String[] groups = stringValue.split("\\)|\\(");
         for (String group : groups) {
           String[] alt = group.split("\\|");
           Set<String> partSet = new HashSet<>();

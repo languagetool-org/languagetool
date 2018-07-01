@@ -22,6 +22,7 @@ import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.SwissGerman;
+import org.languagetool.rules.RuleMatch;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -38,6 +39,10 @@ public class SwissGermanSpellerRuleTest {
     assertThat(rule.match(lt.getAnalyzedSentence("Abwart")).length, is(0));
     assertThat(rule.match(lt.getAnalyzedSentence("Abwarts")).length, is(0));
     assertThat(rule.match(lt.getAnalyzedSentence("aifhdlidflifs")).length, is(1));
+
+    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("Trottinettens")); // from spelling-de-CH.txt
+    assertThat("Matches: " + matches.length + ", Suggestions of first match: " +
+            matches[0].getSuggestedReplacements(), matches[0].getSuggestedReplacements().get(0), is("Trottinetten"));
   }
 
 }

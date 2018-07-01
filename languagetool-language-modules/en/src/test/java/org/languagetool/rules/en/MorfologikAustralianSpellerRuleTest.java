@@ -18,7 +18,10 @@
  */
 package org.languagetool.rules.en;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 
@@ -37,6 +40,10 @@ public class MorfologikAustralianSpellerRuleTest extends AbstractEnglishSpellerR
     Language language = new AustralianEnglish();
     Rule rule = new MorfologikAustralianSpellerRule(TestTools.getMessages("en"), language, null);
     super.testNonVariantSpecificSuggestions(rule, language);
+
+    JLanguageTool langTool = new JLanguageTool(language);
+    // suggestions from language specific spelling_en-XX.txt
+    assertSuggestion(rule, langTool, "AUTestWordToBeIgnore", "AUTestWordToBeIgnored");
   }
 
   @Test
@@ -79,7 +86,15 @@ public class MorfologikAustralianSpellerRuleTest extends AbstractEnglishSpellerR
     assertEquals(3, matches2[0].getFromPos());
     assertEquals(10, matches2[0].getToPos());
     assertEquals("taught", matches2[0].getSuggestedReplacements().get(0));
-  
   }
 
+  private void assertSuggestion(Rule rule, JLanguageTool lt, String input, String... expectedSuggestions) throws IOException {
+    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(input));
+    assertThat(matches.length, is(1));
+    assertTrue("Expected >= " + expectedSuggestions.length + ", got: " + matches[0].getSuggestedReplacements(),
+            matches[0].getSuggestedReplacements().size() >= expectedSuggestions.length);
+    for (String expectedSuggestion : expectedSuggestions) {
+      assertTrue(matches[0].getSuggestedReplacements().contains(expectedSuggestion));
+    }
+  }
 }

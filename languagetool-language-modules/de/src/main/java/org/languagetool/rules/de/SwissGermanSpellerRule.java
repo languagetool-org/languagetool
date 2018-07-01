@@ -31,6 +31,7 @@ import java.util.ResourceBundle;
 public class SwissGermanSpellerRule extends GermanSpellerRule {
 
   private final CachingWordListLoader wordListLoader = new CachingWordListLoader();
+  private static final String LANGUAGE_SPECIFIC_PLAIN_TEXT_DICT = "de/hunspell/spelling-de-CH.txt";
   
   public SwissGermanSpellerRule(ResourceBundle messages, German language) {
     this(messages, language, null);
@@ -40,7 +41,7 @@ public class SwissGermanSpellerRule extends GermanSpellerRule {
    * @since 4.2
    */
   public SwissGermanSpellerRule(ResourceBundle messages, German language, UserConfig userConfig) {
-    super(messages, language, userConfig);
+    super(messages, language, userConfig, LANGUAGE_SPECIFIC_PLAIN_TEXT_DICT);
   }
 
   @Override
@@ -55,5 +56,9 @@ public class SwissGermanSpellerRule extends GermanSpellerRule {
       addIgnoreWords(ignoreWord);
     }
   }
-  
+
+  @Override
+  public String getLanguageVariantSpellingFileName() {
+    return LANGUAGE_SPECIFIC_PLAIN_TEXT_DICT;
+  }
 }

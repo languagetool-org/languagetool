@@ -130,13 +130,17 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
 
   private void initSpeller(String binaryDict) throws IOException {
     String plainTextDict = null;
+    String languageVariantPlainTextDict = null;
     if (JLanguageTool.getDataBroker().resourceExists(getSpellingFileName())) {
       plainTextDict = getSpellingFileName();
     }
+    if (getLanguageVariantSpellingFileName() != null && JLanguageTool.getDataBroker().resourceExists(getLanguageVariantSpellingFileName())) {
+      languageVariantPlainTextDict = getLanguageVariantSpellingFileName();
+    }
     if (plainTextDict != null) {
-      speller1 = new MorfologikMultiSpeller(binaryDict, plainTextDict, userConfig, 1);
-      speller2 = new MorfologikMultiSpeller(binaryDict, plainTextDict, userConfig, 2);
-      speller3 = new MorfologikMultiSpeller(binaryDict, plainTextDict, userConfig, 3);
+      speller1 = new MorfologikMultiSpeller(binaryDict, plainTextDict, languageVariantPlainTextDict, userConfig, 1);
+      speller2 = new MorfologikMultiSpeller(binaryDict, plainTextDict, languageVariantPlainTextDict, userConfig, 2);
+      speller3 = new MorfologikMultiSpeller(binaryDict, plainTextDict, languageVariantPlainTextDict, userConfig, 3);
       setConvertsCase(speller1.convertsCase());
     } else {
       throw new RuntimeException("Could not find ignore spell file in path: " + getSpellingFileName());
@@ -163,16 +167,14 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
       return false;
     }
 
-    if (checkCompound) {
-      if (compoundRegex.matcher(word).find()) {
-        String[] words = compoundRegex.split(word);
-        for (String singleWord: words) {
-          if (speller.isMisspelled(singleWord)) {
-            return true;
-          }
+    if (checkCompound && compoundRegex.matcher(word).find()) {
+      String[] words = compoundRegex.split(word);
+      for (String singleWord: words) {
+        if (speller.isMisspelled(singleWord)) {
+          return true;
         }
-        return false;
       }
+      return false;
     }
 
     return true;

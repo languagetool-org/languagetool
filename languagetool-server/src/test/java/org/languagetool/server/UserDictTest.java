@@ -18,6 +18,8 @@
  */
 package org.languagetool.server;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 import org.languagetool.Language;
@@ -26,6 +28,8 @@ import org.languagetool.Languages;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
@@ -77,7 +81,10 @@ public class UserDictTest {
     assertRuleMatch(1, input, lang, errorRuleId, USERNAME1, API_KEY1);
     assertRuleMatch(1, input, lang, errorRuleId, USERNAME2, API_KEY2);
     assertRuleMatch(1, input, lang, errorRuleId, null, null);  // anonymous user
+    assertThat(getWords(USERNAME1, API_KEY1).toString(), is("[]"));
     addWord(name, USERNAME1, API_KEY1);
+    assertThat(getWords(USERNAME1, API_KEY1).toString(), is("[" + name + "]"));
+    assertThat(getWords(USERNAME2, API_KEY2).toString(), is("[]"));
     assertRuleMatch(0, input, lang, errorRuleId, USERNAME1, API_KEY1);
     assertRuleMatch(1, input, lang, errorRuleId, USERNAME2, API_KEY2);  // cache must not mix up users
     assertRuleMatch(1, input, lang, errorRuleId, null, null);  // anonymous user
@@ -85,6 +92,7 @@ public class UserDictTest {
     String json = assertRuleMatch(1, inputWithTypo, lang, errorRuleId, USERNAME1, API_KEY1);
     assertTrue("Missing suggestion '" + name + "': " + json, json.contains("\"" + name + "\"") || json.contains("\"" + name + ".\""));
     deleteWord(name, USERNAME1, API_KEY1);
+    assertThat(getWords(USERNAME1, API_KEY1).toString(), is("[]"));
     assertRuleMatch(1, input, lang, errorRuleId, USERNAME1, API_KEY1);
     assertRuleMatch(1, input, lang, errorRuleId, USERNAME2, API_KEY2);
     assertRuleMatch(1, input, lang, errorRuleId, null, null);
@@ -110,6 +118,19 @@ public class UserDictTest {
     return HTTPTools.checkAtUrl(url);
   }
 
+  private List<String> getWords(String username, String apiKey) throws IOException {
+    URL url = new URL("http://localhost:" + HTTPTools.getDefaultPort() + "/v2/words?username=" + username + "&apikey=" + apiKey);
+    ObjectMapper mapper = new ObjectMapper();
+    String result = HTTPTools.checkAtUrl(url);
+    JsonNode data = mapper.readTree(result);
+    JsonNode list = data.get("words");
+    List<String> words = new ArrayList<>();
+    for (JsonNode jsonNode : list) {
+      words.add(jsonNode.asText());
+    }
+    return words;
+  }
+  
   private String addWord(String word, String username, String apiKey) throws IOException {
     URL url = new URL("http://localhost:" + HTTPTools.getDefaultPort() + "/v2/words/add");
     return HTTPTools.checkAtUrlByPost(url, "word=" + word + "&username=" + username + "&apikey=" + apiKey);

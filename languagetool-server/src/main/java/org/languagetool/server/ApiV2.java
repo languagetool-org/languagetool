@@ -59,6 +59,8 @@ class ApiV2 {
       handleLanguagesRequest(httpExchange);
     } else if (path.equals("check")) {
       handleCheckRequest(httpExchange, parameters, errorRequestLimiter, remoteAddress);
+    } else if (path.equals("words")) {
+      handleWordsRequest(httpExchange, parameters, config);
     } else if (path.equals("words/add")) {
       handleWordAddRequest(httpExchange, parameters, config);
     } else if (path.equals("words/delete")) {
@@ -91,6 +93,16 @@ class ApiV2 {
     textChecker.checkText(aText, httpExchange, parameters, errorRequestLimiter, remoteAddress);
   }
 
+  private void handleWordsRequest(HttpExchange httpExchange, Map<String, String> params, HTTPServerConfig config) throws Exception {
+    ensureGetMethod(httpExchange, "/words");
+    UserLimits limits = getUserLimits(params, config);
+    DatabaseAccess db = DatabaseAccess.getInstance();
+    int offset = params.get("offset") != null ? Integer.parseInt(params.get("offset")) : 0;
+    int limit = params.get("limit") != null ? Integer.parseInt(params.get("limit")) : 10;
+    List<UserDictEntry> words = db.getWords(limits.getPremiumUid(), offset, limit);
+    writeListResponse("words", words, httpExchange);
+  }
+  
   private void handleWordAddRequest(HttpExchange httpExchange, Map<String, String> parameters, HTTPServerConfig config) throws Exception {
     ensurePostMethod(httpExchange, "/words/add");
     UserLimits limits = getUserLimits(parameters, config);
@@ -107,6 +119,12 @@ class ApiV2 {
     writeResponse("deleted", deleted, httpExchange);
   }
 
+  private void ensureGetMethod(HttpExchange httpExchange, String url) {
+    if (!httpExchange.getRequestMethod().equalsIgnoreCase("get")) {
+      throw new IllegalArgumentException(url + " needs to be called with GET");
+    }
+  }
+  
   private void ensurePostMethod(HttpExchange httpExchange, String url) {
     if (!httpExchange.getRequestMethod().equalsIgnoreCase("post")) {
       throw new IllegalArgumentException(url + " needs to be called with POST");
@@ -129,7 +147,26 @@ class ApiV2 {
       g.writeBooleanField(fieldName, added);
       g.writeEndObject();
     }
+    sendJson(httpExchange, sw);
+  }
+  
+  private void writeListResponse(String fieldName, List<UserDictEntry> words, HttpExchange httpExchange) throws IOException {
+    StringWriter sw = new StringWriter();
+    try (JsonGenerator g = factory.createGenerator(sw)) {
+      g.writeStartObject();
+      g.writeArrayFieldStart(fieldName);
+      for (UserDictEntry word : words) {
+        g.writeString(word.getWord());
+      }
+      g.writeEndArray();
+      g.writeEndObject();
+    }
+    sendJson(httpExchange, sw);
+  }
+
+  private void sendJson(HttpExchange httpExchange, StringWriter sw) throws IOException {
     String response = sw.toString();
+    ServerTools.setCommonHeaders(httpExchange, JSON_CONTENT_TYPE, allowOriginUrl);
     httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, response.getBytes(ENCODING).length);
     httpExchange.getResponseBody().write(response.getBytes(ENCODING));
   }
