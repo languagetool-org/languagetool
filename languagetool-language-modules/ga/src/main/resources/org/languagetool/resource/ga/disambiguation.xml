@@ -442,6 +442,15 @@
         </pattern>
         <disambig action="remove" postag="(?:C[UMC]:)?Verb:.*:Imper.*"/>
     </rule>
+    <rule id="IS_DEFART_PL" name="is plural defart">
+        <pattern>
+            <marker>
+                <token postag="Art:Pl:Def|Prep:Art:Pl" postag_regexp="yes"></token>
+                <token postag=".*:Pl:DefArt" postag_regexp="yes"></token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
     <rule id="IS_DEFART" name="is defart">
         <pattern>
             <marker>
