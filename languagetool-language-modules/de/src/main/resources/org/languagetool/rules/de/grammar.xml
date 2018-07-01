@@ -30426,13 +30426,26 @@ Andere Projekte</example>
                 <example correction="verschwindenden">Für nicht <marker>verschwindendem</marker> Imaginärteil erhalten wir eine Nulllösung.</example>
                 <example>In was für einem Land leben wir denn?</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token>in</token>
+                        <marker>
+                            <token postag_regexp="yes" postag="PRO:...:DAT:SIN:MAS.*" skip="1"></token>
+                        </marker>
+                        <token inflected="yes" regexp="yes">geraten|legen|ver(lieben|wandeln)</token>
+                        <token postag="PKT"/>
+                </pattern>
+                <message>Sollte hier die Akkusativform <suggestion><match no="2" regexp_match="m$" regexp_replace="n"/></suggestion> stehen?</message>
+                <example correction="">Ich habe mich in <marker>meinem</marker> Schaukestuhl gelegt.</example>
+                <example>In <marker>meinem Haus legte</marker> sie ihre Vorurteile ab.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="ART_ADJ_SOL" name="Stark oder gemischt flektiertes Adjektiv nach Artikel, z.B. 'im heißem (heißen) Ofen'">
             <rule>
                 <antipattern>
                     <token regexp="yes">eine[rs]?</token>
                     <token>der</token>
-                    <token postag="ADJ:.*:(SOL|IND)" postag_regexp="yes"/>
+                    <token postag="ADJ:.+:(SOL|IND)" postag_regexp="yes"/>
                     <token postag="ADJ:.*" postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
