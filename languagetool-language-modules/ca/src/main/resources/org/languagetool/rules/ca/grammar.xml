@@ -27608,12 +27608,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token skip="2" regexp="yes">fa|feia<exception scope="next">que</exception></token>
                 <token regexp="yes" inflected="yes">&unitats_temps;</token>
-                <token regexp="yes">enrere|endarrere</token>
+                <token regexp="yes">enrere|endarrere|arrere</token>
             </pattern>
             <message>Construcció incorrecta.</message>
             <suggestion><match no="1" include_skipped="all"/> \2</suggestion>
             <suggestion><match no="1" include_skipped="following"/> \2 \3</suggestion>
             <example correction="fa tres anys|tres anys enrere"><marker>fa tres anys enrere</marker>.</example>
+<!-- TODO: bug?  <example correction="feia mesos|mesos arrere">Des de <marker>feia mesos arrere</marker>.</example>-->
+            <example correction="feia tres mesos|tres mesos arrere">Des de <marker>feia tres mesos arrere</marker>.</example>
             <example>els mateixos si fa no fa que un segle enrere</example>
         </rule>
         <rule id="RISC_DE_VIDA" name="Risc de vida">
