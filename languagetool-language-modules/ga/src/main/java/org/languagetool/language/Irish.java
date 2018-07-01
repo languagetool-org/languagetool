@@ -27,6 +27,7 @@ import org.languagetool.Language;
 import org.languagetool.LanguageMaintainedState;
 import org.languagetool.UserConfig;
 import org.languagetool.rules.*;
+import org.languagetool.rules.ga.*;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.ga.IrishSynthesizer;
 import org.languagetool.tagging.Tagger;
@@ -85,6 +86,9 @@ public class Irish extends Language {
             new UppercaseSentenceStartRule(messages, this),
             new MultipleWhitespaceRule(messages, this),
 	    new WordRepeatRule(messages, this),
+	    new MorfologikIrishSpellerRule(messages, this, userConfig),
+	    new LogainmRule(messages),
+	    new PeopleRule(messages),
 	    new SentenceWhitespaceRule(messages)
     );
   }
