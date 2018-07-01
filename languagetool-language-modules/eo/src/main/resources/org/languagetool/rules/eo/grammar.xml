@@ -2145,6 +2145,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="tiun ĉi">Mi deziras <marker>tiun-ĉi</marker>.</example>
       </rule>
     </rulegroup>
+    <rule id="KELK" name="kelk dek → kelkdek">
+      <pattern>
+        <token>kelk</token>
+        <token regexp="yes">(?:dek|cent|mil)(?:[ao]j?n)?|milionoj?n?|bilionoj?n?</token>
+      </pattern>
+      <message>Ne eblas disskribi vorton kiel «\1 \2».</message>
+      <suggestion>\1\2</suggestion>
+      <url>http://bertilow.com/pmeg/vortfarado/afiksoj/afiksecaj_elementoj/radikoj_kunmetajhoj.html#i-pzn</url>
+      <example correction="kelkdek">Li scias nur <marker>kelk dek</marker> anglajn vortojn.</example>
+    </rule>
+    <rule id="KELKIU" name="kelkiu → kelkiuj">
+      <pattern>
+        <token regexp="yes">kelkiun?</token>
+      </pattern>
+      <message>La iafoje uzata formo «\1» (sen j) estas memkontraŭdira: -iu montras precize unu individuon, dum kelk- montras pli ol unu.</message>
+      <suggestion><match no="1" regexp_match="^(......)(.*)" regexp_replace="$1j$2"/></suggestion>
+      <url>http://bertilow.com/pmeg/vortfarado/afiksoj/afiksecaj_elementoj/radikoj_kunmetajhoj.html#i-pzn</url>
+      <example correction="Kelkiuj"><marker>Kelkiu</marker> alvenis.</example>
+      <example correction="kelkiujn">Mi vidis <marker>kelkiun</marker>.</example>
+    </rule>
     <rule id="JA_JES" name="ja jes (jes ja)">
       <pattern>
         <token>ja</token>
