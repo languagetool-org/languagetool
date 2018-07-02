@@ -86,7 +86,7 @@ public class Irish extends Language {
             new UppercaseSentenceStartRule(messages, this),
             new MultipleWhitespaceRule(messages, this),
 	    new WordRepeatRule(messages, this),
-	    new MorfologikIrishSpellerRule(messages, this, userConfig),
+	    //new MorfologikIrishSpellerRule(messages, this, userConfig),
 	    new LogainmRule(messages),
 	    new PeopleRule(messages),
 	    new SpacesRule(messages),
