@@ -24,6 +24,7 @@ Contributions and ideas from:
 - E. Sanders: Aarsrivalen, scheldkarbonades en terminale baden, uitgeverij Prometheus, met toestemming van de auteur.
 - Jan de Ridder (missende regels aan de hand van fouten op Wikipedia)
 - F. de Raat: Hoe bereidt je een paard, uitgeverij Nieuw Amsterdan (NRC), met toestemming van de auteur
+- M v d Wiel, m.b.t. dyslexie
 ================================
 * full update of all rules at end of march 2018
 ================================
@@ -187,6 +188,22 @@ regexp case-insensitive maken : (?i)
             </rule>
         </rulegroup>
     </category>
+    
+    <category id="DYSLEXIE" name="Speciale regels m.b.t. dyslexie" default="on">
+        <rulegroup id="EER_IR" name="waarschuwing bij gebruik ir i.p.v. eer">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>kir</token>
+                    </marker>
+                    <token negate="yes">royale</token>
+                </pattern>
+                <message>Bedoelt u <suggestion>keer</suggestion>?.</message>
+                <example correction="keer">Ik heb dit al vijf <marker>kir</marker> gezegd.</example>
+            </rule>
+        </rulegroup>
+    </category>
+
     <category id="HINTS_CAT" name="Geen fout, maar er is een gerelateerd advies" default="on">
         <rulegroup id="HINTS" name="Taaladvies over woord of woordgroep">
             <rule>
