@@ -190,24 +190,12 @@ regexp case-insensitive maken : (?i)
     </category>
     
     <category id="DYSLEXIE" name="Speciale regels m.b.t. dyslexie" default="on">
-        <rulegroup id="EER_IR" name="waarschuwing bij gebruik ir i.p.v. eer">
-            <rule>
-                <pattern>
-                    <marker>
-                        <token>kir</token>
-                    </marker>
-                    <token negate="yes">royale</token>
-                </pattern>
-                <message>Bedoelt u <suggestion>keer</suggestion>?.</message>
-                <example correction="keer">Ik heb dit al vijf <marker>kir</marker> gezegd.</example>
-            </rule>
-        </rulegroup>
         <rulegroup id="BEER_BIR" name="waarschuwing bij gebruik bir i.p.v. beer">
             <rule>
                 <pattern>
                        <token>bir</token>
                 </pattern>
-                <message>Bedoelt u <suggestion>beer</suggestion>? (Bir komt weinig voor in het Nederlands.)</message>
+                <message>Bedoelt u <suggestion>beer</suggestion>? Bir komt weinig voor in het Nederlands.</message>
                 <example correction="beer">De <marker>bir</marker> smeert nog een broodje.</example>
             </rule>
         </rulegroup>
@@ -216,52 +204,96 @@ regexp case-insensitive maken : (?i)
                 <pattern>
                        <token>mirt</token>
                 </pattern>
-                <message>Bedoelt u <suggestion>meert</suggestion>? (Mirt komt weinig voor; het is een plantje.)</message>
+                <message>Bedoelt u <suggestion>meert</suggestion>? Mirt komt weinig voor; het is een plantje..</message>
                 <example correction="meert">De boot <marker>mirt</marker> aan.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="GEKEER_GEKIR" name="waarschuwing bij gebruik gekir i.p.v. gekeer">
+        <rulegroup id="SMEERT_SMIRT" name="waarschuwing bij gebruik smirt i.p.v. smeert">
+            <rule>
+                <pattern>
+                       <token>smirt</token>
+                </pattern>
+                <message>Bedoelt u <suggestion>smeert</suggestion>? Smirt komt weinig voor.</message>
+                <example correction="smeert">De beer <marker>smirt</marker> een broodje.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="MEER_MIR" name="waarschuwing bij gebruik mir i.p.v. meer">
+            <rule>
+                <pattern>
+                       <token>mir</token>
+                </pattern>
+                <message>Bedoelt u <suggestion>meer</suggestion>? Mir (Russisch dorp) komt weinig voor in het Nederlands.</message>
+                <example correction="meer">Ik zie <marker>mir</marker> fouten.</example>
+            </rule>
+            <rule>
+                <pattern>
+                       <token>mirtje</token>
+                </pattern>
+                <message>Bedoelt u <suggestion>meertje</suggestion>? Mirtje (Russisch dorpje of plantje) komt bijna niet voor.</message>
+                <example correction="meertje">Ik zie een <marker>mirtje</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                       <token>mirtjes</token>
+                </pattern>
+                <message>Bedoelt u <suggestion>meertjes</suggestion>? Mirtjes (Russische dorpjes of plantjes) komt bijna niet voor.</message>
+                <example correction="meertjes">Ik zie <marker>mirtjes</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="KEER_KIR" name="waarschuwing bij gebruik kir i.p.v. keer">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>kir</token>
+                    </marker>
+                    <token negate="yes">royale</token>
+                </pattern>
+                <message>Bedoelt u <suggestion>keer</suggestion>? Kir is een drankje of een vorm van kirren=lachen.</message>
+                <example correction="keer">Ik heb dit al vijf <marker>kir</marker> gezegd.</example>
+            </rule>
             <rule>
                 <pattern>
                        <token>gekir</token>
                 </pattern>
-                <message>Bedoelt u <suggestion>gekeer</suggestion>? (Beide zijn zeldzaam; gekir=gelach, gekeer= steeds keren.)</message>
+                    <message>bedoel je: <suggestion><match no="1" regexp_match="ir" regexp_replace="eer"/></suggestion></message>
                 <example correction="gekeer">Ik word gek van dat <marker>gekir</marker> op ons tuinpad.</example>
             </rule>
-        </rulegroup>
-        <rulegroup id="GEKEERD_GEKIRD" name="waarschuwing bij gebruik gekird i.p.v. gekeerd">
             <rule>
                 <pattern>
                        <token>gekird</token>
                 </pattern>
-                <message>Bedoelt u <suggestion>gekeerd</suggestion>? (Gekird=gelachen; gekeerd=omgedraaid.)</message>
+                <message>Bedoelt u <suggestion>gekeerd</suggestion>? Gekird=gelachen; gekeerd=omgedraaid.</message>
                 <example correction="gekeerd">Ik heb het eten <marker>gekird</marker>.</example>
             </rule>
             <rule>
                 <pattern>
                        <token>gekirde</token>
                 </pattern>
-                <message>Bedoelt u <suggestion>gekeerde</suggestion>? (Gekirde=gelachen; gekeerde=omgedraaide.)</message>
+                <message>Bedoelt u <suggestion>gekeerde</suggestion>? Gekirde=gelachen; gekeerde=omgedraaide.</message>
                 <example correction="gekeerde">Ik heb het <marker>gekirde</marker> eten gezien.</example>
             </rule>
-        </rulegroup>
-        <rulegroup id="KEERDE_KIRDE" name="waarschuwing bij gebruik kirde i.p.v. keerde">
             <rule>
                 <pattern>
-                       <token>kirde</token>
+                       <token>kirt</token>
                 </pattern>
-                <message>Bedoelt u <suggestion>keerde</suggestion>? (kirde=lachte; keerde=draaide om.)</message>
-                <example correction="keerde">Ik <marker>kirde</marker> het eten.</example>
+                <message>Bedoelt u <suggestion>keert</suggestion>? Kirt=lacht; keert=draait om.</message>
+                <example correction="keert">Hij <marker>kirt</marker> het eten.</example>
             </rule>
             <rule>
                 <pattern>
                        <token>kirden</token>
                 </pattern>
-                <message>Bedoelt u <suggestion>keerden</suggestion>? (kirden=lachten; keerden=draaiden om.)</message>
+                <message>Bedoelt u <suggestion>keerden</suggestion>? Kirden=lachten; keerden=draaiden om.</message>
                 <example correction="keerden">Ze <marker>kirden</marker> het eten.</example>
             </rule>
+            <rule>
+                <pattern>
+                       <token>kirde</token>
+                </pattern>
+                <message>Bedoelt u <suggestion>keerde</suggestion>? Kirde=lachte; keerde=draaide om.</message>
+                <example correction="keerde">Ik <marker>kirde</marker> het eten.</example>
+            </rule>
         </rulegroup>
-        
     </category>
 
     <category id="HINTS_CAT" name="Geen fout, maar er is een gerelateerd advies" default="on">
