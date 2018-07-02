@@ -75,7 +75,7 @@ public class AgreementRule extends Rule {
       this.displayName = displayName;
     }
   }
-
+  private static final AnalyzedToken[] INS_REPLACEMENT = {new AnalyzedToken("das", "ART:DEF:AKK:SIN:NEU", "das")};
   private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
     Arrays.asList(  // "Dies erlaubt Forschern, ..."
       new PatternTokenBuilder().posRegex("PRO:DEM:.+").build(),
@@ -439,10 +439,19 @@ public class AgreementRule extends Rule {
     return "Kongruenz von Nominalphrasen (unvollständig!), z.B. 'mein kleiner(kleines) Haus'";
   }
 
+  private void replacePrepositionsByArticle (AnalyzedTokenReadings[] tokens) {
+  	for (int i = 0; i < tokens.length; i++) {
+  		if ("ins".equals(tokens[i].getToken())) {
+  			tokens[i] = new AnalyzedTokenReadings(INS_REPLACEMENT, tokens[i].getStartPos());
+  		}
+  	}
+  }
+
   @Override
   public RuleMatch[] match(AnalyzedSentence sentence) {
     List<RuleMatch> ruleMatches = new ArrayList<>();
     AnalyzedTokenReadings[] tokens = getSentenceWithImmunization(sentence).getTokensWithoutWhitespace();
+    replacePrepositionsByArticle(tokens);
     for (int i = 0; i < tokens.length; i++) {
       //defaulting to the first reading
       //TODO: check for all readings
