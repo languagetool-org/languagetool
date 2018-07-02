@@ -292,6 +292,7 @@ public class AgreementRuleTest {
     assertGood("Aber mein Wissen über die Antike ist ausbaufähig.");
     assertBad("Er ging ins Küche.");
     assertBad("Er ging ans Luft.");
+    assertBad("Eine Niereninsuffizienz führt zur Störungen des Wasserhaushalts.");
 
     // TODO: not yet detected:
     //assertBad("Erst recht wir fleißiges Arbeiter.");

@@ -76,6 +76,8 @@ public class AgreementRule extends Rule {
     }
   }
   private static final AnalyzedToken[] INS_REPLACEMENT = {new AnalyzedToken("das", "ART:DEF:AKK:SIN:NEU", "das")};
+  private static final AnalyzedToken[] ZUR_REPLACEMENT = {new AnalyzedToken("der", "ART:DEF:DAT:SIN:FEM", "der")};
+
   private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
     Arrays.asList(  // "Dies erlaubt Forschern, ..."
       new PatternTokenBuilder().posRegex("PRO:DEM:.+").build(),
@@ -443,6 +445,8 @@ public class AgreementRule extends Rule {
   	for (int i = 0; i < tokens.length; i++) {
   		if (StringUtils.equalsAny(tokens[i].getToken(), "ins", "ans")) {
   			tokens[i] = new AnalyzedTokenReadings(INS_REPLACEMENT, tokens[i].getStartPos());
+  		} else if (StringUtils.equalsAny(tokens[i].getToken(), "zur")) {
+  			tokens[i] = new AnalyzedTokenReadings(ZUR_REPLACEMENT, tokens[i].getStartPos());
   		}
   	}
   }
