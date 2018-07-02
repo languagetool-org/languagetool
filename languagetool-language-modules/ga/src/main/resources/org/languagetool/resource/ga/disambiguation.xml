@@ -141,6 +141,26 @@
         </pattern>
         <disambig action="filterall"></disambig>
     </rule>
+    <rulegroup id="DAR_LE" name="dar le">
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="Verb:PresInd">dar</token>
+                    <token postag=".*Prep:.*" postag_regexp="yes">le</token>
+                </marker>
+            </pattern>
+            <disambig action="filterall"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="Verb:PresInd">dar</token>
+                </marker>
+                <token postag=".*Prep:.*" postag_regexp="yes" negate_pos="yes">le</token>
+            </pattern>
+            <disambig action="remove" postag="Verb:PresInd"/>
+        </rule>
+    </rulegroup>
     <rulegroup id="A_HAON" name="a haon">
         <rule>
             <pattern>
