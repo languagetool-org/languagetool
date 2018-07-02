@@ -24,6 +24,7 @@ Contributions and ideas from:
 - E. Sanders: Aarsrivalen, scheldkarbonades en terminale baden, uitgeverij Prometheus, met toestemming van de auteur.
 - Jan de Ridder (missende regels aan de hand van fouten op Wikipedia)
 - F. de Raat: Hoe bereidt je een paard, uitgeverij Nieuw Amsterdan (NRC), met toestemming van de auteur
+- M v d Wiel, m.b.t. dyslexie
 ================================
 * full update of all rules at end of march 2018
 ================================
@@ -187,6 +188,82 @@ regexp case-insensitive maken : (?i)
             </rule>
         </rulegroup>
     </category>
+    
+    <category id="DYSLEXIE" name="Speciale regels m.b.t. dyslexie" default="on">
+        <rulegroup id="EER_IR" name="waarschuwing bij gebruik ir i.p.v. eer">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>kir</token>
+                    </marker>
+                    <token negate="yes">royale</token>
+                </pattern>
+                <message>Bedoelt u <suggestion>keer</suggestion>?.</message>
+                <example correction="keer">Ik heb dit al vijf <marker>kir</marker> gezegd.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="BEER_BIR" name="waarschuwing bij gebruik bir i.p.v. beer">
+            <rule>
+                <pattern>
+                       <token>bir</token>
+                </pattern>
+                <message>Bedoelt u <suggestion>beer</suggestion>? (Bir komt weinig voor in het Nederlands.)</message>
+                <example correction="beer">De <marker>bir</marker> smeert nog een broodje.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="MEERT_MIRT" name="waarschuwing bij gebruik mirt i.p.v. meert">
+            <rule>
+                <pattern>
+                       <token>mirt</token>
+                </pattern>
+                <message>Bedoelt u <suggestion>meert</suggestion>? (Mirt komt weinig voor; het is een plantje.)</message>
+                <example correction="meert">De boot <marker>mirt</marker> aan.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="GEKEER_GEKIR" name="waarschuwing bij gebruik gekir i.p.v. gekeer">
+            <rule>
+                <pattern>
+                       <token>gekir</token>
+                </pattern>
+                <message>Bedoelt u <suggestion>gekeer</suggestion>? (Beide zijn zeldzaam; gekir=gelach, gekeer= steeds keren.)</message>
+                <example correction="gekeer">Ik word gek van dat <marker>gekir</marker> op ons tuinpad.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="GEKEERD_GEKIRD" name="waarschuwing bij gebruik gekird i.p.v. gekeerd">
+            <rule>
+                <pattern>
+                       <token>gekird</token>
+                </pattern>
+                <message>Bedoelt u <suggestion>gekeerd</suggestion>? (Gekird=gelachen; gekeerd=omgedraaid.)</message>
+                <example correction="gekeerd">Ik heb het eten <marker>gekird</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                       <token>gekirde</token>
+                </pattern>
+                <message>Bedoelt u <suggestion>gekeerde</suggestion>? (Gekirde=gelachen; gekeerde=omgedraaide.)</message>
+                <example correction="gekeerde">Ik heb het <marker>gekirde</marker> eten gezien.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="KEERDE_KIRDE" name="waarschuwing bij gebruik kirde i.p.v. keerde">
+            <rule>
+                <pattern>
+                       <token>kirde</token>
+                </pattern>
+                <message>Bedoelt u <suggestion>keerde</suggestion>? (kirde=lachte; keerde=draaide om.)</message>
+                <example correction="keerde">Ik <marker>kirde</marker> het eten.</example>
+            </rule>
+            <rule>
+                <pattern>
+                       <token>kirden</token>
+                </pattern>
+                <message>Bedoelt u <suggestion>keerden</suggestion>? (kirden=lachten; keerden=draaiden om.)</message>
+                <example correction="keerden">Ze <marker>kirden</marker> het eten.</example>
+            </rule>
+        </rulegroup>
+        
+    </category>
+
     <category id="HINTS_CAT" name="Geen fout, maar er is een gerelateerd advies" default="on">
         <rulegroup id="HINTS" name="Taaladvies over woord of woordgroep">
             <rule>
