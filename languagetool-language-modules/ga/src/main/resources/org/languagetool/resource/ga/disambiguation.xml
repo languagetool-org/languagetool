@@ -141,6 +141,31 @@
         </pattern>
         <disambig action="filterall"></disambig>
     </rule>
+    <rulegroup id="DAR_LE" name="dar le">
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="Verb:PresInd">dar</token>
+                    <token postag="(.*)?Prep:.*" postag_regexp="yes" inflected="yes">le</token>
+                </marker>
+            </pattern>
+            <disambig action="filterall"/>
+        </rule>
+        <rule>
+            <antipattern>
+                <marker>
+                    <token postag="Verb:PresInd">dar</token>
+                    <token inflected="yes">le</token>
+                </marker>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token postag="Verb:PresInd">dar</token>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="Verb:PresInd"/>
+        </rule>
+    </rulegroup>
     <rulegroup id="A_HAON" name="a haon">
         <rule>
             <pattern>
@@ -188,11 +213,20 @@
         </pattern>
         <disambig action="filterall"></disambig>
     </rule>
+    <rule id="DE_MAIRT" name="Dé Máirt">
+        <pattern>
+            <marker>
+                <token postag="Subst:Noun:Sg">Dé</token>
+                <token postag="Noun:Fem:Gen:Sg">Máirt</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"></disambig>
+    </rule>
     <rule id="DE_LUAIN" name="Dé Luain">
         <pattern>
             <marker>
                 <token postag="Subst:Noun:Sg">Dé</token>
-                <token regexp="yes" postag="Noun:Fem:Gen:Sg|Noun:Masc:Gen:Sg" postag_regexp="yes">Luain|Máirt|Céadaoin|Sathairn|Domhnaigh</token>
+                <token regexp="yes" postag="Noun:Fem:Gen:Sg|Noun:Masc:Gen:Sg" postag_regexp="yes">Luain|Céadaoin|Sathairn|Domhnaigh</token>
             </marker>
         </pattern>
         <disambig action="filterall"></disambig>
@@ -442,6 +476,15 @@
         </pattern>
         <disambig action="remove" postag="(?:C[UMC]:)?Verb:.*:Imper.*"/>
     </rule>
+    <rule id="NA_IMPERATIVE" name="ná imperative">
+        <pattern>
+            <marker>
+                <token postag="Part:Vb:Neg:Imp">ná</token>
+                <token postag="(?:C[UMC]:)?Verb:.*:Imper.*:Neg" postag_regexp="yes"></token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
     <rule id="IS_DEFART_PL" name="is plural defart">
         <pattern>
             <marker>
@@ -454,7 +497,7 @@
     <rule id="IS_DEFART" name="is defart">
         <pattern>
             <marker>
-                <token postag="Art:Gen:Sg:Def:Fem|Art:Pl:Def|CU:Prep:Art:Sg|Cop:Pres:Pron:Pers:3P:Sg:Masc:Art:Sg:Def|Cop:Q:Art:Sg|Det:Q:Art:Sg|Prep:Art:Pl|Prep:Art:Sg" postag_regexp="yes"></token>
+                <token postag="Art:Gen:Sg:Def:Fem|Art:Pl:Def|CU:Prep:Art:Sg|Cop:Pres:Pron:Pers:3P:Sg:Masc:Art:Sg:Def|Cop:Q:Art:Sg|Det:Q:Art:Sg|Prep:Art:Pl|Prep:Art:Sg|Art:Sg:Def" postag_regexp="yes"></token>
                 <token postag=".*:DefArt" postag_regexp="yes"></token>
             </marker>
         </pattern>
@@ -791,6 +834,13 @@
         </pattern>
         <disambig action="immunize"/>
     </rule>
+    <rule id="FADO_FADO" name="fadó fadó">  <!-- suppress in word repeat rule -->
+        <pattern>
+            <marker><token>fadó</token></marker>
+            <token>fadó</token>
+        </pattern>
+        <disambig action="immunize"/>
+    </rule>
     <rule id="LEOR_LEOR" name="leor leor">  <!-- suppress in word repeat rule -->
         <pattern>
             <marker><token>leor</token></marker>
@@ -840,7 +890,14 @@
         </pattern>
         <disambig action="immunize"/>
     </rule>
-<!--
+    <rule id="PICTIURLANN_SAVOY" name="pictiúrlann an Savoy">
+	<pattern>
+            <token>pictúirlann</token>
+            <token min="0">an</token>
+	    <marker><token>Savoy</token></marker>
+        </pattern>
+        <disambig action="immunize"/>
+    </rule>
     <rulegroup id="NOUN_ADJ" name="noun adj">
         <rule>
             <pattern>
@@ -851,21 +908,16 @@
                 </unify>
             </pattern>
             <disambig action="filterall"/>
-            <example type="ambiguous" inputform="bó[bó/Noun:Fem:Com:Sg,bó/Noun:Fem:Gen:Sg,bó/Noun:Fem:Gen:Weak:Pl,bó/Noun:Masc:Com:Sg,bó/Noun:Masc:Gen:Sg] bheag[beag/Adj:Base:Len,beag/Adj:Fem:Com:Sg:Len,beag/Adj:Fem:Voc:Sg:Len,beag/Adj:Masc:Com:Sg:Len,beag/Adj:Masc:Gen:Sg:Len,beag/Adj:Masc:Voc:Sg:Len,beag/Noun:Masc:Com:Sg:Len]"
-                     outputform="bó[bó/Noun:Fem:Com:Sg] bheag[beag/Adj:Fem:Com:Sg:Len]">Bhí <marker>bó bheag</marker> ann.</example>
         </rule>
         <rule>
             <pattern>
                 <unify>
-                    <feature id="case"/><feature id="number"/><feature id="strength"/>
+                    <feature id="case"/><feature id="strength"/><feature id="number"/>
                     <token postag="Noun.*Pl" postag_regexp="yes"></token>
                     <token postag="Adj.*Pl" postag_regexp="yes"></token>
                 </unify>
             </pattern>
             <disambig action="filterall"/>
-            <example type="ambiguous" inputform="bó[bó/Noun:Fem:Com:Sg,bó/Noun:Fem:Gen:Sg,bó/Noun:Fem:Gen:Weak:Pl,bó/Noun:Masc:Com:Sg,bó/Noun:Masc:Gen:Sg] beag[beag/Adj:Base,beag/Adj:Gen:Weak:Pl,beag/Adj:Masc:Com:Sg,beag/Noun:Masc:Com:Sg,beag/Noun:Masc:Com:Sg:DefArt]"
-                     outputform="bó[bó/Noun:Fem:Gen:Weak:Pl] beag[beag/Adj:Gen:Weak:Pl]">Bhí a lán <marker>bó beag</marker> ann.</example>
         </rule>
     </rulegroup>
--->
 </rules>

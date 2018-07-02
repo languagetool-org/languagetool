@@ -28,7 +28,7 @@ import org.languagetool.rules.Example;
 /**
  * Checks that compounds (if in the list) are not written as separate words.
  */
-public class CompoundRule extends AbstractCompoundRule {
+public final class CompoundRule extends AbstractCompoundRule {
 
   private static final CompoundRuleData compoundData = new CompoundRuleData("/ga/compounds.txt");
 
@@ -38,8 +38,8 @@ public class CompoundRule extends AbstractCompoundRule {
             "Litrítear an focal seo mar fhocal amháin de ghnáth.",
             "Litrítear an nath seo mar fhocal amháin nó le fleiscín.",
             "Fadhb leis an bhfleiscíniú");
-    addExamplePair(Example.wrong("Tá tú i do chónaí i <marker>mBaile-Átha-Cliath</marker>."),
-                   Example.fixed("Tá tú i do chónaí i <marker>mBaile Átha Cliath</marker>."));
+    addExamplePair(Example.wrong("Tá <marker>mí úsáid</marker> fhisiciúil i gceist."),
+                   Example.fixed("Tá <marker>mí-úsáid</marker> fhisiciúil i gceist."));
   }
 
   @Override
@@ -49,7 +49,7 @@ public class CompoundRule extends AbstractCompoundRule {
 
   @Override
   public String getDescription() {
-    return "Focail fhleiscínithe, e.g., Moltar 'ró-úsáid' seachas 'róúsáid'";
+    return "Focail fhleiscínithe, e.g., Moltar 'ró-úsáid' seachas 'ró úsáid'";
   }
 
   @Override

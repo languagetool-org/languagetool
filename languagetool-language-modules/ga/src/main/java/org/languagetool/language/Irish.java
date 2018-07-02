@@ -89,6 +89,8 @@ public class Irish extends Language {
 	    new MorfologikIrishSpellerRule(messages, this, userConfig),
 	    new LogainmRule(messages),
 	    new PeopleRule(messages),
+	    new SpacesRule(messages),
+	    new CompoundRule(messages),
 	    new SentenceWhitespaceRule(messages)
     );
   }

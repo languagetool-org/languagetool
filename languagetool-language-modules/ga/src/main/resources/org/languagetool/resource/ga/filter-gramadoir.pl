@@ -5,8 +5,8 @@ use strict;
 use utf8;
 use FindBin qw($RealBin);
 
-open(PLACES, '<', "$RealBin/placenames.txt") or die "placenames.txt: $!\n";
-open(PEOPLE, '<', "$RealBin/people.txt") or die "people.txt: $!\n";
+open(PLACES, '<', "$RealBin/../../rules/ga/placenames.txt") or die "placenames.txt: $!\n";
+open(PEOPLE, '<', "$RealBin/../../rules/ga/names.txt") or die "names.txt: $!\n";
 open(REPL, '<', "$RealBin/../../rules/ga/replace.txt") or die "replace.txt: $!\n";
 open(EARR, '<', "$RealBin/earraidi-ga.bs") or die "earraidi-ga.bs: $!\n";
 open(EILE, '<', "$RealBin/eile-ga.bs") or die "eile-ga.bs: $!\n";
