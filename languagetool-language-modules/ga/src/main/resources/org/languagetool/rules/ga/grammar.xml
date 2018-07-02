@@ -714,6 +714,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
     </category>
+     <category id="PREP" name="Prepositions" type="grammar">
+        <rulegroup id="PREP_NOUN_ECL" name="i bpáirc">
+            <rule>
+                <pattern>
+                    <token postag='Prep:Simp'>i</token>
+                    <marker>
+                        <token postag='Noun:(?:Masc|Fem):Com:(?:Sg|Pl):Len|Noun:(?:Masc|Fem):Com:(?:Sg|Pl)' postag_regexp="yes" regexp="yes">[bcdfgmpst].*</token>
+                    </marker>
+                </pattern>
+                <message>Ba chóir duit “<match no="2" postag="(Noun:(?:Masc|Fem):Com:(?:Sg|Pl)).*" postag_regexp="yes" postag_replace="$1:Ecl"/>” a scríobh.</message>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag='Prep:Simp'>i</token>
+                        <token postag='Noun:(?:Masc|Fem):Com:(?:Sg|Pl):Len|Noun:(?:Masc|Fem):Com:(?:Sg|Pl).*' postag_regexp="yes" regexp="yes" inflected="yes">[aeiouáéíóú].*</token>
+                    </marker>
+                </pattern>
+                <message>Ba chóir duit “in <match no="2" postag="(Noun:(?:Masc|Fem):Com:(?:Sg|Pl)).*" postag_regexp="yes" postag_replace="$1"/>” a scríobh.</message>
+            </rule>
+        </rulegroup>
+    </category>
     <category id="GRAMADOIR_CAIGHDEAN" name="Foirm neamhchaighdeánach" type="non-conformance">
         <rule id="AG_MARBHADH" name="ag marbhadh">
             <pattern>
