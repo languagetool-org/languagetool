@@ -451,6 +451,15 @@
         </pattern>
         <disambig action="remove" postag="(?:C[UMC]:)?Verb:.*:Imper.*"/>
     </rule>
+    <rule id="NA_IMPERATIVE" name="ná imperative">
+        <pattern>
+            <marker>
+                <token postag="Part:Vb:Neg:Imp">ná</token>
+                <token postag="(?:C[UMC]:)?Verb:.*:Imper.*:Neg" postag_regexp="yes"></token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
     <rule id="IS_DEFART_PL" name="is plural defart">
         <pattern>
             <marker>
