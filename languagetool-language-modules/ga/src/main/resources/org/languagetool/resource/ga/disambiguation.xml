@@ -146,17 +146,22 @@
             <pattern>
                 <marker>
                     <token postag="Verb:PresInd">dar</token>
-                    <token postag=".*Prep:.*" postag_regexp="yes">le</token>
+                    <token postag="(.*)?Prep:.*" postag_regexp="yes" inflected="yes">le</token>
                 </marker>
             </pattern>
             <disambig action="filterall"/>
         </rule>
         <rule>
+            <antipattern>
+                <marker>
+                    <token postag="Verb:PresInd">dar</token>
+                    <token inflected="yes">le</token>
+                </marker>
+            </antipattern>
             <pattern>
                 <marker>
                     <token postag="Verb:PresInd">dar</token>
                 </marker>
-                <token postag=".*Prep:.*" postag_regexp="yes" negate_pos="yes">le</token>
             </pattern>
             <disambig action="remove" postag="Verb:PresInd"/>
         </rule>
