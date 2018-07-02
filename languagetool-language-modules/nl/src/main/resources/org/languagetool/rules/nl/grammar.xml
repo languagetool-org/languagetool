@@ -237,7 +237,31 @@ regexp case-insensitive maken : (?i)
                 <message>Bedoelt u <suggestion>gekeerd</suggestion>? (Gekird=gelachen; gekeerd=omgedraaid.)</message>
                 <example correction="gekeerd">Ik heb het eten <marker>gekird</marker>.</example>
             </rule>
+            <rule>
+                <pattern>
+                       <token>gekirde</token>
+                </pattern>
+                <message>Bedoelt u <suggestion>gekeerde</suggestion>? (Gekirde=gelachen; gekeerde=omgedraaide.)</message>
+                <example correction="gekeerde">Ik heb het <marker>gekirde</marker> eten gezien.</example>
+            </rule>
         </rulegroup>
+        <rulegroup id="KEERDE_KIRDE" name="waarschuwing bij gebruik kirde i.p.v. keerde">
+            <rule>
+                <pattern>
+                       <token>kirde</token>
+                </pattern>
+                <message>Bedoelt u <suggestion>keerde</suggestion>? (kirde=lachte; keerde=draaide om.)</message>
+                <example correction="keerde">Ik <marker>kirde</marker> het eten.</example>
+            </rule>
+            <rule>
+                <pattern>
+                       <token>kirden</token>
+                </pattern>
+                <message>Bedoelt u <suggestion>keerden</suggestion>? (kirden=lachten; keerden=draaiden om.)</message>
+                <example correction="keerden">Ze <marker>kirden</marker> het eten.</example>
+            </rule>
+        </rulegroup>
+        
     </category>
 
     <category id="HINTS_CAT" name="Geen fout, maar er is een gerelateerd advies" default="on">
