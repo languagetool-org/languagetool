@@ -290,7 +290,8 @@ public class AgreementRuleTest {
     
     assertBad("Ich weiß nicht mehr, was unser langweiligen Thema war.");
     assertGood("Aber mein Wissen über die Antike ist ausbaufähig.");
-    assertGood("Er ging ins Küche.");
+    assertBad("Er ging ins Küche.");
+    assertBad("Er ging ans Luft.");
 
     // TODO: not yet detected:
     //assertBad("Erst recht wir fleißiges Arbeiter.");

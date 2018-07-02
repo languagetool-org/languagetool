@@ -441,7 +441,7 @@ public class AgreementRule extends Rule {
 
   private void replacePrepositionsByArticle (AnalyzedTokenReadings[] tokens) {
   	for (int i = 0; i < tokens.length; i++) {
-  		if ("ins".equals(tokens[i].getToken())) {
+  		if (StringUtils.equalsAny(tokens[i].getToken(), "ins", "ans")) {
   			tokens[i] = new AnalyzedTokenReadings(INS_REPLACEMENT, tokens[i].getStartPos());
   		}
   	}
