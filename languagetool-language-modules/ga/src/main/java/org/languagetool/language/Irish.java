@@ -74,7 +74,8 @@ public class Irish extends Language {
     return new Contributor[] {
       new Contributor("Jim O'Regan"),
       new Contributor("Emily Barnes"),
-      new Contributor("Mícheál J. Ó Meachair")
+      new Contributor("Mícheál J. Ó Meachair"),
+      new Contributor("Seanán Ó Coistín")
     };
   }
 
