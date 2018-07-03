@@ -717,10 +717,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category id="GENITIVE" name="Genitive" type="grammar">
         <rulegroup id="PREP_NOUN" name="chun bás">
             <rule>
+                <antipattern>
+                    <token postag='Prep:Simp' regexp="yes">chun|trasna|timpeall|fearacht|dála|cois</token>
+                    <token postag='.*Noun.*Gen.*' postag_regexp="yes"></token>
+                </antipattern>
                 <pattern>
                     <token postag='Prep:Simp' regexp="yes">chun|trasna|timpeall|fearacht|dála|cois</token>
                     <marker>
-                        <token postag='.*Noun.*Com.*' postag_regexp="yes" regexp="yes"></token>
+                        <token postag='.*Noun.*Com.*' postag_regexp="yes"></token>
                     </marker>
                 </pattern>
                 <message>Ba chóir duit “<match no="2" postag="(.*):Com(.*)" postag_regexp="yes" postag_replace="$1:Gen$2"/>” a scríobh.</message>
