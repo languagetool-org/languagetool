@@ -436,6 +436,26 @@
         </pattern>
         <disambig action="filterall"></disambig>
     </rule>
+    <rulegroup id="LINN_EISC" name="linn éisc">
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="Noun:Fem.*" postag_regexp="yes">linn</token>
+                    <token postag="Noun:Masc:Gen:Sg">éisc</token>
+                </marker>
+            </pattern>
+            <disambig action="filterall"></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="Noun:Fem.*" postag_regexp="yes">linn</token>
+                <marker>
+                    <token postag="Noun:Masc:Gen:Sg">éisc</token>
+                </marker>
+            </pattern>
+            <disambig action="remove"><wd lemma="éasc" pos="Noun:Masc:Gen:Sg">éisc</wd></disambig>
+        </rule>
+    </rulegroup>
     <rule name="de Valera" id="de_Valera">
         <pattern>
             <marker><token>de</token></marker>
