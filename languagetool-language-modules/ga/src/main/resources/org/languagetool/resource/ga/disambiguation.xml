@@ -914,4 +914,26 @@
             <disambig action="filterall"/>
         </rule>
     </rulegroup>
+    <rulegroup id="GEN_PREP" name="genitive prep">
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="Prep:Simp" postag_regexp="yes" regexp="yes">chun|trasna|timpeall|fearacht|dála|cois</token>
+                </marker>
+                <token postag="Art:.*"></token>
+                <token postag=".*Noun:.*Gen:.*" postag_regexp="yes"></token>
+            </pattern>
+            <disambig><match no="1" postag="Prep:Simp" postag_regexp="yes" /></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>dála</token>
+                </marker>
+                <token postag="Art:.*"></token>
+                <token postag=".*Noun:.*Gen:.*" postag_regexp="yes"></token>
+            </pattern>
+            <disambig action="replace"><wd pos="Prep:Simp">dála</wd></disambig>
+        </rule>
+    </rulegroup>
 </rules>
