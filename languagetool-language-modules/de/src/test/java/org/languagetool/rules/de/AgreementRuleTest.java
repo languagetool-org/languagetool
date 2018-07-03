@@ -293,6 +293,7 @@ public class AgreementRuleTest {
     assertBad("Er ging ins Küche.");
     assertBad("Er ging ans Luft.");
     assertBad("Eine Niereninsuffizienz führt zur Störungen des Wasserhaushalts.");
+    assertBad("Er stieg durchs Fensters.");
 
     // TODO: not yet detected:
     //assertBad("Erst recht wir fleißiges Arbeiter.");
