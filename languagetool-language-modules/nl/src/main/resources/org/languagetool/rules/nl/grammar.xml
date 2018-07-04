@@ -257,7 +257,7 @@ regexp case-insensitive maken : (?i)
                 <pattern>
                        <token>gekir</token>
                 </pattern>
-                    <message>bedoel je: <suggestion><match no="1" regexp_match="ir" regexp_replace="eer"/></suggestion></message>
+                    <message>bedoel je: <suggestion><match no="1" regexp_match="ir" regexp_replace="eer"/></suggestion>? Keren=omdraaien, kirren =lachen.</message>
                 <example correction="gekeer">Ik word gek van dat <marker>gekir</marker> op ons tuinpad.</example>
             </rule>
             <rule>
@@ -305,7 +305,7 @@ regexp case-insensitive maken : (?i)
                             <token>geburen</token>
                        </marker>
                 </pattern>
-                <message>Bedoelt u wellicht <suggestion>gebeuren</suggestion>?</message>
+                <message>Bedoelt u wellicht <suggestion>gebeuren</suggestion>? Geburen zijn de buren.</message>
                 <example correction="gebeuren">Het woord <marker>geburen</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
@@ -315,7 +315,7 @@ regexp case-insensitive maken : (?i)
                 <pattern>
                        <token>zuren</token>
                 </pattern>
-                <message>Bedoelt u wellicht <suggestion>zeuren</suggestion>?</message>
+                <message>Bedoelt u wellicht <suggestion>zeuren</suggestion>? Zeuren=klagen, zuren bijten.</message>
                 <example correction="zeuren">Het woord <marker>zuren</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
@@ -325,7 +325,7 @@ regexp case-insensitive maken : (?i)
                 <pattern>
                        <token>kuren</token>
                 </pattern>
-                <message>Bedoelt u wellicht <suggestion>keuren</suggestion>?</message>
+                <message>Bedoelt u wellicht <suggestion>keuren</suggestion>? Keuren=beoordelen, kuren zijn vreemd gedrag.</message>
                 <example correction="keuren">Het woord <marker>kuren</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
@@ -335,7 +335,7 @@ regexp case-insensitive maken : (?i)
                 <pattern>
                        <token>schuren</token>
                 </pattern>
-                <message>Bedoelt u wellicht <suggestion>scheuren</suggestion>?</message>
+                <message>Bedoelt u wellicht <suggestion>scheuren</suggestion>? Scheuren=stuk maken, schuren zijn bergruimtes.</message>
                 <example correction="scheuren">Het woord <marker>schuren</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
@@ -345,18 +345,8 @@ regexp case-insensitive maken : (?i)
                 <pattern>
                        <token>dur</token>
                 </pattern>
-                <message>Bedoelt u wellicht <suggestion>deur</suggestion>?</message>
+                <message>Bedoelt u wellicht <suggestion>deur</suggestion>? Dur komt niet zo vaak voor in het Nederlands.</message>
                 <example correction="deur">Het woord <marker>dur</marker> kan een vergissing zijn.</example>
-            </rule>
-        </rulegroup>
-
-        <rulegroup id="KEUR_KUR" name="waarschuwing bij gebruik kur i.p.v. keur">
-            <rule>
-                <pattern>
-                       <token>kur</token>
-                </pattern>
-                <message>Bedoelt u wellicht <suggestion>keur</suggestion>?</message>
-                <example correction="keur">Het woord <marker>kur</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
 
@@ -365,7 +355,7 @@ regexp case-insensitive maken : (?i)
                 <pattern>
                        <token>duren</token>
                 </pattern>
-                <message>Bedoelt u wellicht <suggestion>deuren</suggestion>?</message>
+                <message>Bedoelt u wellicht <suggestion>deuren</suggestion>? Deur=ingang, duren= tijd kosten</message>
                 <example correction="deuren">Het woord <marker>duren</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
@@ -375,7 +365,7 @@ regexp case-insensitive maken : (?i)
                 <pattern>
                        <token>guren</token>
                 </pattern>
-                <message>Bedoelt u wellicht <suggestion>geuren</suggestion>?</message>
+                <message>Bedoelt u wellicht <suggestion>geuren</suggestion>? Geuren=luchtjes, guren= 'zij die guur zijn'.</message>
                 <example correction="geuren">Het woord <marker>guren</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
@@ -385,28 +375,8 @@ regexp case-insensitive maken : (?i)
                 <pattern>
                        <token>gurige</token>
                 </pattern>
-                <message>Bedoelt u wellicht <suggestion>geurige</suggestion>?</message>
+                <message>Bedoelt u wellicht <suggestion>geurige</suggestion>? Geurig=ruikend, gurig=beetje ruig (weer)</message>
                 <example correction="geurige">Het woord <marker>gurige</marker> kan een vergissing zijn.</example>
-            </rule>
-        </rulegroup>
-
-        <rulegroup id="ZEURENDE_ZURENDE" name="waarschuwing bij gebruik zurende i.p.v. zeurende">
-            <rule>
-                <pattern>
-                       <token>zurende</token>
-                </pattern>
-                <message>Bedoelt u wellicht <suggestion>zeurende</suggestion>?</message>
-                <example correction="zeurende">Het woord <marker>zurende</marker> kan een vergissing zijn.</example>
-            </rule>
-        </rulegroup>
-
-        <rulegroup id="SPEURT_SPURT" name="waarschuwing bij gebruik spurt i.p.v. speurt">
-            <rule>
-                <pattern>
-                       <token>spurt</token>
-                </pattern>
-                <message>Bedoelt u wellicht <suggestion>speurt</suggestion>?</message>
-                <example correction="speurt">Het woord <marker>spurt</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
 
@@ -419,24 +389,44 @@ regexp case-insensitive maken : (?i)
                 <example correction="geurig">Het woord <marker>gurig</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
+        
+        <rulegroup id="ZEURENDE_ZURENDE" name="waarschuwing bij gebruik zurende i.p.v. zeurende">
+            <rule>
+                <pattern>
+                       <token>zurende</token>
+                </pattern>
+                <message>Bedoelt u wellicht <suggestion>zeurende</suggestion>? Zeurend=klagend, zurend=zuur makend.</message>
+                <example correction="zeurende">Het woord <marker>zurende</marker> kan een vergissing zijn.</example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup id="ZEUREND_ZUREND" name="waarschuwing bij gebruik zurend i.p.v. zeurend">
+            <rule>
+                <pattern>
+                       <token>zurend</token>
+                </pattern>
+                <message>Bedoelt u wellicht <suggestion>zeurend</suggestion>? Zeurend=klagend, zurend=zuur makend.</message>
+                <example correction="zeurend">Het woord <marker>zurend</marker> kan een vergissing zijn.</example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup id="SPEURT_SPURT" name="waarschuwing bij gebruik spurt i.p.v. speurt">
+            <rule>
+                <pattern>
+                       <token>spurt</token>
+                </pattern>
+                <message>Bedoelt u wellicht <suggestion>speurt</suggestion>? Speurt=zoekt, spurt=snelle ren.</message>
+                <example correction="speurt">Het woord <marker>spurt</marker> kan een vergissing zijn.</example>
+            </rule>
+        </rulegroup>
 
         <rulegroup id="SCHEURING_SCHURING" name="waarschuwing bij gebruik schuring i.p.v. scheuring">
             <rule>
                 <pattern>
                        <token>schuring</token>
                 </pattern>
-                <message>Bedoelt u wellicht <suggestion>scheuring</suggestion>?</message>
+                <message>Bedoelt u wellicht <suggestion>scheuring</suggestion>? Scheuring=deling, schuring=het langs elkaar wrijven.</message>
                 <example correction="scheuring">Het woord <marker>schuring</marker> kan een vergissing zijn.</example>
-            </rule>
-        </rulegroup>
-
-        <rulegroup id="BEUREN_BUREN" name="waarschuwing bij gebruik buren i.p.v. beuren">
-            <rule>
-                <pattern>
-                       <token>buren</token>
-                </pattern>
-                <message>Bedoelt u wellicht <suggestion>beuren</suggestion>?</message>
-                <example correction="beuren">Het woord <marker>buren</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
 
@@ -445,17 +435,40 @@ regexp case-insensitive maken : (?i)
                 <pattern>
                        <token>schurende</token>
                 </pattern>
-                <message>Bedoelt u wellicht <suggestion>scheurende</suggestion>?</message>
+                <message>Bedoelt u wellicht <suggestion>scheurende</suggestion>? Scheurend=stuk makend, racend, schurend=glad makend.</message>
                 <example correction="scheurende">Het woord <marker>schurende</marker> kan een vergissing zijn.</example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup id="SCHEUREND_SCHUREND" name="waarschuwing bij gebruik schurend i.p.v. scheurend">
+            <rule>
+                <pattern>
+                       <token>schurend</token>
+                </pattern>
+                <message>Bedoelt u wellicht <suggestion>scheurend</suggestion>?  Scheurend=stuk makend, racend, schurend=glad makend.</message>
+                <example correction="scheurend">Het woord <marker>schurend</marker> kan een vergissing zijn.</example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup id="BEUREN_BUREN" name="waarschuwing bij gebruik buren i.p.v. beuren">
+            <rule>
+                <pattern>
+                       <token>buren</token>
+                </pattern>
+                <message>Bedoelt u wellicht <suggestion>beuren</suggestion>? Beuren=tillen, buren wonen naast je.</message>
+                <example correction="beuren">Het woord <marker>buren</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
 
         <rulegroup id="LEUREN_LUREN" name="waarschuwing bij gebruik luren i.p.v. leuren">
             <rule>
+                <antipattern><token skip="5">luren</token><token inflected="yes">leggen</token></antipattern>
                 <pattern>
+                    <marker>
                        <token>luren</token>
+                   </marker>
                 </pattern>
-                <message>Bedoelt u wellicht <suggestion>leuren</suggestion>?</message>
+                <message>Bedoelt u wellicht <suggestion>leuren</suggestion>? Leuren=venten, in de luren leg je iemand.</message>
                 <example correction="leuren">Het woord <marker>luren</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
@@ -465,18 +478,8 @@ regexp case-insensitive maken : (?i)
                 <pattern>
                        <token>afschuren</token>
                 </pattern>
-                <message>Bedoelt u wellicht <suggestion>afscheuren</suggestion>?</message>
+                <message>Bedoelt u wellicht <suggestion>afscheuren</suggestion>? Afscheuren=loshalen van, afschuren is verwijderen door wrijven.</message>
                 <example correction="afscheuren">Het woord <marker>afschuren</marker> kan een vergissing zijn.</example>
-            </rule>
-        </rulegroup>
-
-        <rulegroup id="ZEUREND_ZUREND" name="waarschuwing bij gebruik zurend i.p.v. zeurend">
-            <rule>
-                <pattern>
-                       <token>zurend</token>
-                </pattern>
-                <message>Bedoelt u wellicht <suggestion>zeurend</suggestion>?</message>
-                <example correction="zeurend">Het woord <marker>zurend</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
 
@@ -485,7 +488,7 @@ regexp case-insensitive maken : (?i)
                 <pattern>
                        <token>uitschuren</token>
                 </pattern>
-                <message>Bedoelt u wellicht <suggestion>uitscheuren</suggestion>?</message>
+                <message>Bedoelt u wellicht <suggestion>uitscheuren</suggestion>? Uitscheuren=halen uit, uitschuren is verwijderen door wrijven.</message>
                 <example correction="uitscheuren">Het woord <marker>uitschuren</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
@@ -495,7 +498,7 @@ regexp case-insensitive maken : (?i)
                 <pattern>
                        <token>inschuren</token>
                 </pattern>
-                <message>Bedoelt u wellicht <suggestion>inscheuren</suggestion>?</message>
+                <message>Bedoelt u wellicht <suggestion>inscheuren</suggestion>? Inscheuren=spleet maken in, inschuren= in de schuur doen.</message>
                 <example correction="inscheuren">Het woord <marker>inschuren</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
@@ -505,18 +508,8 @@ regexp case-insensitive maken : (?i)
                 <pattern>
                        <token>puren</token>
                 </pattern>
-                <message>Bedoelt u wellicht <suggestion>peuren</suggestion>?</message>
+                <message>Bedoelt u wellicht <suggestion>peuren</suggestion>? Peuren= soort vissen, puren='zij die puur zijn'.</message>
                 <example correction="peuren">Het woord <marker>puren</marker> kan een vergissing zijn.</example>
-            </rule>
-        </rulegroup>
-
-        <rulegroup id="SCHEUREND_SCHUREND" name="waarschuwing bij gebruik schurend i.p.v. scheurend">
-            <rule>
-                <pattern>
-                       <token>schurend</token>
-                </pattern>
-                <message>Bedoelt u wellicht <suggestion>scheurend</suggestion>?</message>
-                <example correction="scheurend">Het woord <marker>schurend</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
 
@@ -525,8 +518,18 @@ regexp case-insensitive maken : (?i)
                 <pattern>
                        <token>kurende</token>
                 </pattern>
-                <message>Bedoelt u wellicht <suggestion>keurende</suggestion>?</message>
+                <message>Bedoelt u wellicht <suggestion>keurende</suggestion>? Keurend=beoordelend, kurend=kuur volgend.</message>
                 <example correction="keurende">Het woord <marker>kurende</marker> kan een vergissing zijn.</example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup id="KEUREND_KUREND" name="waarschuwing bij gebruik kurend i.p.v. keurend">
+            <rule>
+                <pattern>
+                       <token>kurend</token>
+                </pattern>
+                <message>Bedoelt u wellicht <suggestion>keurend</suggestion>?  Keurend=beoordelend, kurend=kuur volgend.</message>
+                <example correction="keurend">Het woord <marker>kurend</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
 
@@ -535,7 +538,7 @@ regexp case-insensitive maken : (?i)
                 <pattern>
                        <token>sturen</token>
                 </pattern>
-                <message>Bedoelt u wellicht <suggestion>steuren</suggestion>?</message>
+                <message>Bedoelt u wellicht <suggestion>steuren</suggestion>? Sturen=richting geven, steuren zijn vissen.</message>
                 <example correction="steuren">Het woord <marker>sturen</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
@@ -545,7 +548,7 @@ regexp case-insensitive maken : (?i)
                 <pattern>
                        <token>schuringen</token>
                 </pattern>
-                <message>Bedoelt u wellicht <suggestion>scheuringen</suggestion>?</message>
+                <message>Bedoelt u wellicht <suggestion>scheuringen</suggestion>? Scheuringen=splitsing, schuring=wrijving.</message>
                 <example correction="scheuringen">Het woord <marker>schuringen</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
@@ -555,7 +558,7 @@ regexp case-insensitive maken : (?i)
                 <pattern>
                        <token>doorschuren</token>
                 </pattern>
-                <message>Bedoelt u wellicht <suggestion>doorscheuren</suggestion>?</message>
+                <message>Bedoelt u wellicht <suggestion>doorscheuren</suggestion>? Doorscheuren= in 2 stukken verdelen, doorschuren=verder wrijven.</message>
                 <example correction="doorscheuren">Het woord <marker>doorschuren</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
@@ -565,7 +568,7 @@ regexp case-insensitive maken : (?i)
                 <pattern>
                        <token>muren</token>
                 </pattern>
-                <message>Bedoelt u wellicht <suggestion>meuren</suggestion>?</message>
+                <message>Bedoelt u wellicht <suggestion>meuren</suggestion>? Muren=wanden, meuren=stinken.</message>
                 <example correction="meuren">Het woord <marker>muren</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
@@ -575,7 +578,7 @@ regexp case-insensitive maken : (?i)
                 <pattern>
                        <token>brandduren</token>
                 </pattern>
-                <message>Bedoelt u wellicht <suggestion>branddeuren</suggestion>?</message>
+                <message>Bedoelt u wellicht <suggestion>branddeuren</suggestion>? Branddeuren houden vuur tegen; brandduren is hoeveel tijd de brand kost.</message>
                 <example correction="branddeuren">Het woord <marker>brandduren</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
@@ -585,18 +588,8 @@ regexp case-insensitive maken : (?i)
                 <pattern>
                        <token>afspurt</token>
                 </pattern>
-                <message>Bedoelt u wellicht <suggestion>afspeurt</suggestion>?</message>
+                <message>Bedoelt u wellicht <suggestion>afspeurt</suggestion>? Afspeuren=doorzoeken, afspurten= stoppen met rennen.</message>
                 <example correction="afspeurt">Het woord <marker>afspurt</marker> kan een vergissing zijn.</example>
-            </rule>
-        </rulegroup>
-
-        <rulegroup id="KEUREND_KUREND" name="waarschuwing bij gebruik kurend i.p.v. keurend">
-            <rule>
-                <pattern>
-                       <token>kurend</token>
-                </pattern>
-                <message>Bedoelt u wellicht <suggestion>keurend</suggestion>?</message>
-                <example correction="keurend">Het woord <marker>kurend</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
 
@@ -605,7 +598,7 @@ regexp case-insensitive maken : (?i)
                 <pattern>
                        <token>rondschuren</token>
                 </pattern>
-                <message>Bedoelt u wellicht <suggestion>rondscheuren</suggestion>?</message>
+                <message>Bedoelt u wellicht <suggestion>rondscheuren</suggestion>? Rondscheuren=racen, rondschuren = wrijven tot het rond is.</message>
                 <example correction="rondscheuren">Het woord <marker>rondschuren</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
@@ -615,7 +608,7 @@ regexp case-insensitive maken : (?i)
                 <pattern>
                        <token>afschuring</token>
                 </pattern>
-                <message>Bedoelt u wellicht <suggestion>afscheuring</suggestion>?</message>
+                <message>Bedoelt u wellicht <suggestion>afscheuring</suggestion>? Afscheuring=het losmaken, afschuring=het verwijderen door wrijven.</message>
                 <example correction="afscheuring">Het woord <marker>afschuring</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
@@ -625,7 +618,7 @@ regexp case-insensitive maken : (?i)
                 <pattern>
                        <token>vluchtduren</token>
                 </pattern>
-                <message>Bedoelt u wellicht <suggestion>vluchtdeuren</suggestion>?</message>
+                <message>Bedoelt u wellicht <suggestion>vluchtdeuren</suggestion>? Vluchtdeuren latne je ontsnappen, vluchtduren is hoe lang dat duurt.</message>
                 <example correction="vluchtdeuren">Het woord <marker>vluchtduren</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
@@ -635,7 +628,7 @@ regexp case-insensitive maken : (?i)
                 <pattern>
                        <token>pur</token>
                 </pattern>
-                <message>Bedoelt u wellicht <suggestion>peur</suggestion>?</message>
+                <message>Bedoelt u wellicht <suggestion>peur</suggestion>? Peur=til, vis, pur=opvulschuim.</message>
                 <example correction="peur">Het woord <marker>pur</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
@@ -645,7 +638,7 @@ regexp case-insensitive maken : (?i)
                 <pattern>
                        <token>wegschuren</token>
                 </pattern>
-                <message>Bedoelt u wellicht <suggestion>wegscheuren</suggestion>?</message>
+                <message>Bedoelt u wellicht <suggestion>wegscheuren</suggestion>? Wegscheuren=racen, schuren=wrijven.</message>
                 <example correction="wegscheuren">Het woord <marker>wegschuren</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
@@ -655,7 +648,7 @@ regexp case-insensitive maken : (?i)
                 <pattern>
                        <token>bedrijfsduren</token>
                 </pattern>
-                <message>Bedoelt u wellicht <suggestion>bedrijfsdeuren</suggestion>?</message>
+                <message>Bedoelt u wellicht <suggestion>bedrijfsdeuren</suggestion>? Deuren=toegangen, duren=tijd.</message>
                 <example correction="bedrijfsdeuren">Het woord <marker>bedrijfsduren</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
@@ -665,7 +658,7 @@ regexp case-insensitive maken : (?i)
                 <pattern>
                        <token>loopduren</token>
                 </pattern>
-                <message>Bedoelt u wellicht <suggestion>loopdeuren</suggestion>?</message>
+                <message>Bedoelt u wellicht <suggestion>loopdeuren</suggestion>? Deuren=toegangen, duren=tijd.</message>
                 <example correction="loopdeuren">Het woord <marker>loopduren</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
@@ -675,7 +668,7 @@ regexp case-insensitive maken : (?i)
                 <pattern>
                        <token>aanschuren</token>
                 </pattern>
-                <message>Bedoelt u wellicht <suggestion>aanscheuren</suggestion>?</message>
+                <message>Bedoelt u wellicht <suggestion>aanscheuren</suggestion>? Aanscheuren=aan komen rijden, aanschuren=wrijven tegen.</message>
                 <example correction="aanscheuren">Het woord <marker>aanschuren</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
@@ -685,7 +678,7 @@ regexp case-insensitive maken : (?i)
                 <pattern>
                        <token>droogschuren</token>
                 </pattern>
-                <message>Bedoelt u wellicht <suggestion>droogscheuren</suggestion>?</message>
+                <message>Bedoelt u wellicht <suggestion>droogscheuren</suggestion>? Droogscheuren zijn spelten door droogte, droogschuren zijn keten om in te drogen.</message>
                 <example correction="droogscheuren">Het woord <marker>droogschuren</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
@@ -695,7 +688,7 @@ regexp case-insensitive maken : (?i)
                 <pattern>
                        <token>purt</token>
                 </pattern>
-                <message>Bedoelt u wellicht <suggestion>peurt</suggestion>?</message>
+                <message>Bedoelt u wellicht <suggestion>peurt</suggestion>? Purt=maakt dicht met schuim; peurt=vist, tilt.</message>
                 <example correction="peurt">Het woord <marker>purt</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
@@ -705,7 +698,7 @@ regexp case-insensitive maken : (?i)
                 <pattern>
                        <token>afschuringen</token>
                 </pattern>
-                <message>Bedoelt u wellicht <suggestion>afscheuringen</suggestion>?</message>
+                <message>Bedoelt u wellicht <suggestion>afscheuringen</suggestion>? Afscheuringen=het losmaken, afschuringen=het wegwrijven.</message>
                 <example correction="afscheuringen">Het woord <marker>afschuringen</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
@@ -715,7 +708,7 @@ regexp case-insensitive maken : (?i)
                 <pattern>
                        <token>gepurd</token>
                 </pattern>
-                <message>Bedoelt u wellicht <suggestion>gepeurd</suggestion>?</message>
+                <message>Bedoelt u wellicht <suggestion>gepeurd</suggestion>? Gepeurd=getild, gevist; gepurd=opgevuld met schuim</message>
                 <example correction="gepeurd">Het woord <marker>gepurd</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
@@ -725,7 +718,7 @@ regexp case-insensitive maken : (?i)
                 <pattern>
                        <token>purde</token>
                 </pattern>
-                <message>Bedoelt u wellicht <suggestion>peurde</suggestion>?</message>
+                <message>Bedoelt u wellicht <suggestion>peurde</suggestion>? Peurde=viste, tilde; purde=vulde op met schuim.</message>
                 <example correction="peurde">Het woord <marker>purde</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
@@ -735,7 +728,7 @@ regexp case-insensitive maken : (?i)
                 <pattern>
                        <token>verbindingsduren</token>
                 </pattern>
-                <message>Bedoelt u wellicht <suggestion>verbindingsdeuren</suggestion>?</message>
+                <message>Bedoelt u wellicht <suggestion>verbindingsdeuren</suggestion>?  Deuren=toegangen, duren=tijd.</message>
                 <example correction="verbindingsdeuren">Het woord <marker>verbindingsduren</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
@@ -745,7 +738,7 @@ regexp case-insensitive maken : (?i)
                 <pattern>
                        <token>zurige</token>
                 </pattern>
-                <message>Bedoelt u wellicht <suggestion>zeurige</suggestion>?</message>
+                <message>Bedoelt u wellicht <suggestion>zeurige</suggestion>? Zeurige=klagerige, zurige=beetje zure.</message>
                 <example correction="zeurige">Het woord <marker>zurige</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
@@ -755,7 +748,7 @@ regexp case-insensitive maken : (?i)
                 <pattern>
                        <token>ovenduren</token>
                 </pattern>
-                <message>Bedoelt u wellicht <suggestion>ovendeuren</suggestion>?</message>
+                <message>Bedoelt u wellicht <suggestion>ovendeuren</suggestion>? Deuren=toegangen, duren=tijd.</message>
                 <example correction="ovendeuren">Het woord <marker>ovenduren</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
@@ -765,7 +758,7 @@ regexp case-insensitive maken : (?i)
                 <pattern>
                        <token>vuren</token>
                 </pattern>
-                <message>Bedoelt u wellicht <suggestion>veuren</suggestion>?</message>
+                <message>Bedoelt u wellicht <suggestion>veuren</suggestion>? Veuren zijn dorpjes; vuren branden.</message>
                 <example correction="veuren">Het woord <marker>vuren</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
@@ -775,7 +768,7 @@ regexp case-insensitive maken : (?i)
                 <pattern>
                        <token>purden</token>
                 </pattern>
-                <message>Bedoelt u wellicht <suggestion>peurden</suggestion>?</message>
+                <message>Bedoelt u wellicht <suggestion>peurden</suggestion>? Peurden=tilden, visten; purden=vulden met schuim.</message>
                 <example correction="peurden">Het woord <marker>purden</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
@@ -785,7 +778,7 @@ regexp case-insensitive maken : (?i)
                 <pattern>
                        <token>wegschurende</token>
                 </pattern>
-                <message>Bedoelt u wellicht <suggestion>wegscheurende</suggestion>?</message>
+                <message>Bedoelt u wellicht <suggestion>wegscheurende</suggestion>? Wegscheuren=wegrijden, wegschuren=wegwrijven.</message>
                 <example correction="wegscheurende">Het woord <marker>wegschurende</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
@@ -795,7 +788,7 @@ regexp case-insensitive maken : (?i)
                 <pattern>
                        <token>transportduren</token>
                 </pattern>
-                <message>Bedoelt u wellicht <suggestion>transportdeuren</suggestion>?</message>
+                <message>Bedoelt u wellicht <suggestion>transportdeuren</suggestion>? Deuren=toegangen, duren=tijd.</message>
                 <example correction="transportdeuren">Het woord <marker>transportduren</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
@@ -805,7 +798,7 @@ regexp case-insensitive maken : (?i)
                 <pattern>
                        <token>zurig</token>
                 </pattern>
-                <message>Bedoelt u wellicht <suggestion>zeurig</suggestion>?</message>
+                <message>Bedoelt u wellicht <suggestion>zeurig</suggestion>? Zeurig=klagerig, zurig=beetje zuur.</message>
                 <example correction="zeurig">Het woord <marker>zurig</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
@@ -3288,7 +3281,7 @@ regexp case-insensitive maken : (?i)
                 <pattern>
                        <token>leid</token>
                 </pattern>
-                <message>Bedoelt u wellicht <suggestion>lijd</suggestion>?</message>
+                <message>Bedoelt u wellicht <suggestion>lijd</suggestion>? Lijd=pijn hebben, leid=stuur.</message>
                 <example correction="lijd">Het woord <marker>leid</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
@@ -3298,7 +3291,7 @@ regexp case-insensitive maken : (?i)
                 <pattern>
                        <token>weids</token>
                 </pattern>
-                <message>Bedoelt u wellicht <suggestion>wijds</suggestion>?</message>
+                <message>Bedoelt u wellicht <suggestion>wijds</suggestion>? Iets wijds is breed, weids=uitgeschrekt, groots.</message>
                 <example correction="wijds">Het woord <marker>weids</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
@@ -3308,7 +3301,7 @@ regexp case-insensitive maken : (?i)
                 <pattern>
                        <token>verweiden</token>
                 </pattern>
-                <message>Bedoelt u wellicht <suggestion>verwijden</suggestion>?</message>
+                <message>Bedoelt u wellicht <suggestion>verwijden</suggestion>? Verwijden=groter maken, verweiden=in andere weide zetten.</message>
                 <example correction="verwijden">Het woord <marker>verweiden</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
@@ -3318,7 +3311,7 @@ regexp case-insensitive maken : (?i)
                 <pattern>
                        <token>bereidbaar</token>
                 </pattern>
-                <message>Bedoelt u wellicht <suggestion>berijdbaar</suggestion>?</message>
+                <message>Bedoelt u wellicht <suggestion>berijdbaar</suggestion>? Berijdbaar=kan op geredenworden; bereidbaar=kan gemaakt worden (eten).</message>
                 <example correction="berijdbaar">Het woord <marker>bereidbaar</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
@@ -3328,7 +3321,7 @@ regexp case-insensitive maken : (?i)
                 <pattern>
                        <token>bereiders</token>
                 </pattern>
-                <message>Bedoelt u wellicht <suggestion>berijders</suggestion>?</message>
+                <message>Bedoelt u wellicht <suggestion>berijders</suggestion>? Bereiders maken een gerecht, berijders zitten op een dier.</message>
                 <example correction="berijders">Het woord <marker>bereiders</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
@@ -8068,16 +8061,6 @@ regexp case-insensitive maken : (?i)
                 </pattern>
                 <message>Bedoelt u wellicht <suggestion>viste</suggestion>?</message>
                 <example correction="viste">Het woord <marker>fiste</marker> kan een vergissing zijn.</example>
-            </rule>
-        </rulegroup>
-
-        <rulegroup id="OF_OV" name="waarschuwing bij gebruik of i.p.v. ov">
-            <rule>
-                <pattern>
-                       <token>of</token>
-                </pattern>
-                <message>Bedoelt u wellicht <suggestion>ov</suggestion>?</message>
-                <example correction="ov">Het woord <marker>of</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
 
