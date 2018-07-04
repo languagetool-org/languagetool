@@ -17944,11 +17944,12 @@ tuinkussens;Tuinkussens
         <rulegroup id="ZEGGEN_EN_SCHRIJVEN" name="Zeggen en schrijven → zegge en schrijve">
             <!-- 2014-09-08 TaalTik -->
             <rule>
+                <antipattern><token>zegge</token><token>en</token><token>schrijve</token></antipattern>
                 <pattern>
 					<marker>
-						<token>zeggen</token>
+						<token regexp="yes">zeggen?</token>
 						<token>en</token>
-						<token skip="2">schrijven</token>
+						<token skip="2" regexp="yes">schrijven?</token>
 					</marker>
                     <token regexp="yes">([0-9]|één|een|twee|drie|vier|vijf|zes|zeven|acht|negen|tien|elf|twaalf|dertien|veertien|honderd|duizend).*</token>
                 </pattern>
@@ -25537,7 +25538,20 @@ tuinkussens;Tuinkussens
                 <message>De tekst wordt vlotter als je deze herschrijft met <suggestion>of</suggestion>.</message>
                 <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
                 <example correction="of">In Nederland hebben 650.000 mensen artrose, <marker>oftewel</marker> gewrichtsslijtage.</example>
-                <example correction="of">Het is een merk dat staat voor kwaliteit en duurzaamheid, <marker>oftewel</marker> 'hufterproof' producten.</example>
+                <example correction="of">Het is een merk dat staat voor kwaliteit en duurzaamheid <marker>oftewel</marker> 'hufterproof' producten.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="OFTE" name="oftel">
+            <rule>
+                <pattern>
+                    <token negate="yes">nooit</token>
+                    <marker>
+                        <token>ofte</token>
+                    </marker>
+                    <token negate="yes">nimmer</token>
+                </pattern>
+                <message>Incorrect: gebruik <suggestion>of te</suggestion>.</message>
+                <example correction="of te">In Nederland hebben 650.000 mensen artrose <marker>ofte</marker> gewrichtsslijtage.</example>
             </rule>
         </rulegroup>
         <rulegroup id="OMBUIGEN" name="ombuigen">
@@ -31584,6 +31598,13 @@ tuinkussens;Tuinkussens
             </rule>
         </rulegroup>     
         <rulegroup id="FOUTE_WOORDGROEPEN" name="Foute woordgroepen">
+            <rule>
+                <pattern>
+                    <token>laatste</token><token>lootjes</token>
+                </pattern>
+                <message>Aan het einde zijn het de <suggestion>laatste loodjes</suggestion>, behalve bij een loterij.</message>
+                <example correction="laatste loodjes">Het zijn de <marker>laatste lootjes</marker>.</example>
+            </rule>
             <rule>
                 <pattern>
                     <token>mijn</token><token>inziens</token>
