@@ -113,6 +113,10 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("emen[sz]", "immens");
     put("verhing", "verhängte");
     put("verhingen", "verhängten");
+    put("fangte", "fing");
+    put("fangten", "fingen");
+    put("[aA]nwesenzeiten", "Anwesenheitszeiten");
+    put("[fF]leißigkeit", "Fleiß");
     put("Bequemheit", "Bequemlichkeit");
     put("[mM]issionarie?sie?rung", "Missionierung");
     put("[sS]chee?selonge?", "Chaiselongue");
@@ -121,6 +125,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("ein[ua]ndhalb", "eineinhalb");
     put("[mM]illion(en)?mal", w -> Collections.singletonList(StringTools.uppercaseFirstChar(w.replaceFirst("mal", " Mal"))));
     put("desweitere[nm]", "des Weiteren");
+    putRepl("indifiziert(e[mnrs]?)?", "ind", "ident");
+    putRepl("dreite[mnrs]?", "dreit", "dritt");
+    putRepl("verblüte[mnrs]?", "blü", "blüh");
     putRepl("einzigste[mnrs]?", "einzigst", "einzig");
     putRepl("[iI]nterkurell(e[nmrs]?)?", "ku", "kultu");
     putRepl("ubera(g|sch)end(e[nmrs]?)?", "uber", "überr");
