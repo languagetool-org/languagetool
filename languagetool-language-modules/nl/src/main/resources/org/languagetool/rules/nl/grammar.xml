@@ -12910,6 +12910,19 @@ regexp case-insensitive maken : (?i)
                 <example>Ik snap dat hij het <marker>uit de weg gaat</marker>.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="HET_GAAT_LOOS" name="Het gaat loos / het gaat los ">
+            <rule>
+                <pattern>
+                    <token skip="3">gaat</token>
+                    <marker>
+                        <token>loos</token>
+                    </marker>
+                </pattern>
+                <message>Waarschijnlijk bedoelt u: <suggestion>los</suggestion>.</message>
+                <example correction="los">Het gaat weer eens <marker>loos</marker>!</example>
+            </rule>
+        </rulegroup>
+        
         <rulegroup id="DANKJE_WEL" name="Dankje wel / dank je wel ">
             <rule>
                 <pattern>
