@@ -115,6 +115,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("verhingen", "verhängten");
     put("fangte", "fing");
     put("fangten", "fingen");
+    put("past", "passt");
     put("[aA]nwesenzeiten", "Anwesenheitszeiten");
     put("[fF]leißigkeit", "Fleiß");
     put("Bequemheit", "Bequemlichkeit");
