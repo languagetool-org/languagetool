@@ -100,7 +100,41 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Die Schifffahrt auf der Donau ist beliebt.</example>
             <example correction="">Die <marker>Donaudampfschifffahrt</marker> ist beliebt.</example>
         </rule>
-
+        <rulegroup id="NEBENSAETZE" name="Leichte Sprache: Nebensätze">
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"></token>
+                    <marker><token postag="KON:UNT"></token></marker>
+                    <token skip="-1"></token>
+                    <token postag="PKT">,</token>
+                    <token postag="VER:.+" postag_regexp="yes" skip="-1"></token>
+                </pattern>
+                <message>Vermeiden Sie Nebensätze.</message>
+                <example correction=""><marker>Weil</marker> sie krank ist, kommt sie nicht zur Schule.</example>
+                <example>Sie ist krank. Deshalb kommt sie nicht zur Schule.</example>
+            </rule>
+            <rule id="CONFUSION_OF_BED_BAD" name="confusion of bed/bad">
+                <antipattern>
+                    <token skip="-1" regexp="yes">so|wie</token>
+                    <token>,</token>
+                    <token regexp="yes">wie|so</token>
+                </antipattern>
+                <pattern>
+                    <token postag="SENT_START"></token>
+                    <token><exception postag="PKT"></exception></token>
+                    <token><exception postag="PKT"></exception></token>
+                    <token><exception postag="PKT"></exception></token>
+                    <token skip="-1"></token>
+                    <token postag="PKT">,</token>
+                    <marker><token postag="KON:UNT"></token></marker>
+                    <token skip="-1"></token>
+                    <token postag="SENT_END">.</token>
+                </pattern>
+                <message>Vermeiden Sie Nebensätze.</message>
+                <example correction="">Sie ist nicht in die Schule gekommen, <marker>weil</marker> sie erkältet war.</example>
+                <example>Sie war erkältet. Deshalb ist sie nicht zur Schule gekommen.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="ABKUERZUNG" name="Leichte Sprache: Abkürzung">
             <rule>
                 <pattern>
