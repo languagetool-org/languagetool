@@ -714,7 +714,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
     </category>
-     <category id="PREP" name="Prepositions" type="grammar">
+    <category id="GENITIVE" name="Genitive" type="grammar">
+        <rulegroup id="PREP_NOUN" name="chun bás">
+            <rule>
+                <antipattern>
+                    <token postag='Prep:Simp' regexp="yes">chun|trasna|timpeall|fearacht|dála|cois</token>
+                    <token postag='.*Noun.*Gen.*' postag_regexp="yes"></token>
+                </antipattern>
+                <pattern>
+                    <token postag='Prep:Simp' regexp="yes">chun|trasna|timpeall|fearacht|dála|cois</token>
+                    <marker>
+                        <token postag='.*Noun.*Com.*' postag_regexp="yes"></token>
+                    </marker>
+                </pattern>
+		<message>Bíonn ainmfhocail i lorg “<match no="1"/>” sa tuiseal ginideach: “<match no="2" postag="(.*):Com(.*)" postag_regexp="yes" postag_replace="$1:Gen$2"/>”.</message>
+            </rule>
+        </rulegroup>
+    </category>
+    <category id="PREP" name="Prepositions" type="grammar">
         <rulegroup id="PREP_NOUN_ECL" name="i bpáirc">
             <rule>
                 <pattern>
@@ -1135,6 +1152,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Foirm neamhchaighdeánach de <suggestion>arsa</suggestion></message>
         </rule>
         <rule id="ATHAIR" name="'athair">
+            <antipattern>
+                <token regexp="yes">m|d</token>
+                <token regexp="yes" spacebefore="no">[&apos;|’]</token>
+                <token regexp="yes" spacebefore="no">athair</token>
+            </antipattern>
             <pattern>
                 <match>
                     <token regexp="yes">[&apos;|’]</token>

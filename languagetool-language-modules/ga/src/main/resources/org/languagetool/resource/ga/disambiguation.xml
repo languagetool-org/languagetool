@@ -436,6 +436,63 @@
         </pattern>
         <disambig action="filterall"></disambig>
     </rule>
+    <rulegroup id="LINN_EISC" name="linn éisc">
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="Noun:Fem.*" postag_regexp="yes">linn</token>
+                    <token postag="Noun:Masc:Gen:Sg">éisc</token>
+                </marker>
+            </pattern>
+            <disambig action="filterall"></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="Noun:Fem.*" postag_regexp="yes">linn</token>
+                <marker>
+                    <token postag="Noun:Masc:Gen:Sg">éisc</token>
+                </marker>
+            </pattern>
+            <disambig action="remove"><wd lemma="éasc" pos="Noun:Masc:Gen:Sg">éisc</wd></disambig>
+        </rule>
+    </rulegroup>
+    <rule id="LINN_FOLA" name="linn fola">
+        <pattern>
+            <marker>
+                <token postag="Noun:Masc.*" postag_regexp="yes">linn</token>
+                <token postag="Noun:Fem:Gen:Sg" regexp="yes">fola|trá</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"></disambig>
+    </rule>
+    <rule id="LINN_LACHAN" name="linn lachan">
+        <pattern>
+            <marker>
+                <token postag="Noun:Masc.*" postag_regexp="yes">linn</token>
+                <token postag="Noun:Fem:Gen:Weak:Pl">lachan</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"></disambig>
+    </rule>
+    <rule id="LINN_CHALAIDH" name="linn chalaidh">
+        <pattern>
+            <marker>
+                <token postag="Noun:Masc.*" postag_regexp="yes">linn</token>
+                <token postag="Noun:Masc:Gen:Sg:Len" regexp="yes">mhuilinn|chalaidh</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"></disambig>
+    </rule>
+    <rule id="CURSAI_NA_LINNE" name="cúrsaí na linne">
+        <pattern>
+            <marker>
+                <token postag="Noun:Masc.*" postag_regexp="yes" inflected="yes">cúrsa</token>
+                <token postag="Art:Gen:Sg:Def:Fem">na</token>
+                <token postag="Noun:Fem:Gen:Sg:DefArt">linne</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"></disambig>
+    </rule>
     <rule name="de Valera" id="de_Valera">
         <pattern>
             <marker><token>de</token></marker>
@@ -475,6 +532,15 @@
             <marker>
                 <token postag="Part:Vb:Neg:Imp">ná</token>
                 <token postag="(?:C[UMC]:)?Verb:.*:Imper.*:Neg" postag_regexp="yes"></token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+    <rule id="IS_DEFART_FEMSG" name="is feminine singular defart">
+        <pattern>
+            <marker>
+                <token postag="Art:Gen:Sg:Def:Fem">na</token>
+                <token postag=".*Noun:Fem:Gen:Sg:DefArt" postag_regexp="yes"></token>
             </marker>
         </pattern>
         <disambig action="filterall"/>
@@ -912,6 +978,28 @@
                 </unify>
             </pattern>
             <disambig action="filterall"/>
+        </rule>
+    </rulegroup>
+    <rulegroup id="GEN_PREP" name="genitive prep">
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="Prep:Simp" postag_regexp="yes" regexp="yes">chun|trasna|timpeall|fearacht|dála|cois</token>
+                </marker>
+                <token postag="Art:.*"></token>
+                <token postag=".*Noun:.*Gen:.*" postag_regexp="yes"></token>
+            </pattern>
+            <disambig><match no="1" postag="Prep:Simp" postag_regexp="yes" /></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>dála</token>
+                </marker>
+                <token postag="Art:.*"></token>
+                <token postag=".*Noun:.*Gen:.*" postag_regexp="yes"></token>
+            </pattern>
+            <disambig action="replace"><wd pos="Prep:Simp">dála</wd></disambig>
         </rule>
     </rulegroup>
 </rules>
