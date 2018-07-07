@@ -15120,6 +15120,17 @@ regexp case-insensitive maken : (?i)
         </rule>
         </rulegroup>
         -->
+        <rulegroup id="KOALA_LUMPUR" name="Koala Lumpur / Kuala Lumpur ">
+            <rule>
+                <pattern>
+                    <token>koala</token>
+                    <token>lumpur</token>
+                </pattern>
+                <message>Juist is: <suggestion>Kuala Lumpur</suggestion>.</message>
+                <example correction="Kuala Lumpur">Het toestel landt in <marker>Koala Lumpur</marker>.</example>
+            </rule>
+        </rulegroup>
+        
         <rulegroup id="HOOFDDORP" name="Een hoofddorp / Hoofddorp">
             <rule>
                 <pattern>
@@ -30346,7 +30357,7 @@ tuinkussens;Tuinkussens
                 <pattern>
                     <token postag="SENT_START"/>
                     <marker>
-                        <token regexp="yes">jij|hij|u|zij|je</token>
+                        <token regexp="yes">jij|hij|u|zij|je|men</token>
                         <token postag="WKW:VTD:ONV" regexp="yes">.*d<exception postag="WKW:TGW:3EP|UNKNOWN" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
