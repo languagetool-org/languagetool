@@ -408,6 +408,12 @@ title="Easy editing stylesheet" ?>
           <token>quanto</token>
           <token postag='(?:[NZ].|A..)M.+' postag_regexp='yes'/>
       </antipattern>
+      <antipattern><!-- XXX E.g. Lei n.º XXXX -->
+          <token postag_regexp='yes' postag='N.F.+'/>
+          <token>n</token>
+          <token>.</token>
+          <token regexp='yes'>º.*</token>
+      </antipattern>
       <pattern>
           <token negate='yes' regexp='yes'>e|de|&hifen;</token>
         <marker>
@@ -436,6 +442,7 @@ title="Easy editing stylesheet" ?>
       <example>Alemanha tinha perdido a Primeira Guerra Mundial devido à Revolução alemã.</example>
       <example>Uma rua Roberto Duarte Silva, tantas memórias.</example>
       <example>Nenhuma cidade na Europa é tão populosa quanto Tóquio.</example>
+      <example>... da aprovação da Lei n.º54/2017, que procedeu à alteração...</example>
     </rule>
     <rule>
       <pattern>
@@ -477,6 +484,12 @@ title="Easy editing stylesheet" ?>
           <token>alíneas</token>
           <token regexp='yes'>\w|\d</token>
       </antipattern>
+      <antipattern><!-- XXX E.g. Lei n.º XXXX -->
+          <token postag_regexp='yes' postag='N.F.+'/>
+          <token>n</token>
+          <token>.</token>
+          <token regexp='yes'>º.*</token>
+      </antipattern>
       <pattern>
           <token negate='yes' regexp='yes'>e|de|&hifen;</token>
         <marker>
@@ -503,6 +516,7 @@ title="Easy editing stylesheet" ?>
     <!--example>Isso é nas escolas Álvaro de Campos, José Rodrigues dos Santos e Fernando Pessoa.</example--><!-- TODO Tokenize conjunctions -->
       <example>Isto é, as escolas Álvaro de Campos, José Rodrigues dos Santos e Fernando Pessoa.</example>
       <example correction="Os rios|As (rios)"><marker>As rios</marker> Onda, Ave e Leça pertencem à mesma região hidrográfica.</example>
+      <example>... da aprovação das Leis n.º 54/2017, que procedeu à alteração...</example>
     </rule>
     <rule>
       <pattern>

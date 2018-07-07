@@ -1206,6 +1206,17 @@
   </rulegroup>
 
   <rulegroup id="PERIFRASES" name="Perífrases de infinitivo">
+    <rule>
+    <!-- Created by Tiago F. Santos, Portuguese rule, 2018-07-04  	-->
+      <pattern>
+          <token inflected='yes'>ir</token>
+          <token regexp='yes'>tod[ao]s</token>
+        <marker>
+          <token postag="VMN0000"/>
+        </marker>
+      </pattern>
+      <disambig action="filter" postag="VMN0000"/>
+    </rule>
     <!-- 		l18n from Galician disambiguation.xml by Tiago F. Santos		-->
     <rule>
       <pattern>
@@ -1216,7 +1227,6 @@
             <exception negate_pos="yes" postag="V.+" postag_regexp="yes"/></token>
         </marker>
       </pattern>
-
       <disambig postag="VMN0000"/>
     </rule>
     <rule>
@@ -1228,7 +1238,6 @@
             <exception negate_pos="yes" postag="V.+" postag_regexp="yes"/></token>
         </marker>
       </pattern>
-
       <disambig postag="VMN0000"/>
     </rule>
     <rule>
@@ -1240,7 +1249,6 @@
             <exception negate_pos="yes" postag="V.+" postag_regexp="yes"/></token>
         </marker>
       </pattern>
-
       <disambig postag="VMN0000"/>
     </rule>
     <rule>

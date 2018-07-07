@@ -10343,7 +10343,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token><exception regexp="yes">;|:</exception><exception postag="SENT_START"/></token>
                 <marker>
-                <token regexp="yes" case_sensitive="yes">her(ein|aus|vor|bei|nieder|über|unter|um)?|rein|runter|rüber|umher</token>
+                <token regexp="yes" case_sensitive="yes">her(ein|aus|vor|bei|nieder|über|unter|um)?|raus|rein|runter|rüber|umher</token>
                 <token postag="VER:.*" postag_regexp="yes"><exception postag="VER:AUX:.*|SUB:.*|PRP:.*" postag_regexp="yes"/><exception regexp="yes">(an|auf|hin|unter).*</exception></token>
                 </marker>
             </pattern>
@@ -30218,6 +30218,17 @@ Andere Projekte</example>
                 <example>Sie sah ab und zu einen Mann.</example>
                 <example>Sie versprach, meinen Vater zu grüßen.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">bei|nahe|nebst|mit(samt)?|samt|von|zu</token>
+                    <marker>
+                        <token regexp="yes">ihn|mich|dich</token>
+                    </marker>
+                </pattern>
+                <message>Die Präposition '\1' erfordert in der Regel den Dativ: <suggestion><match no="2" postag="PRO:PER:AKK:SIN:(.*)" postag_regexp="yes" postag_replace="PRO:PER:DAT:SIN:$1"/></suggestion></message>
+                <example correction="ihm">Sie ging zu <marker>ihn</marker> Arzt.</example>
+                <example correction="mir">Komm mit zu <marker>mich</marker>!</example>
+            </rule>
         </rulegroup>
         <rulegroup id="PRAEP_AKK" name="Präposition mit Akkusativ (ohne, für etc.)">
             <url>http://www.canoo.net/services/OnlineGrammar/Wort/Praeposition/Kasus/Akkusativ.html</url>
@@ -38329,9 +38340,14 @@ Andere Projekte</example>
                     <token postag="SENT_START"/>
                     <token case_sensitive="yes">Recht</token>
                 </antipattern>
+                <antipattern>
+                    <token>:</token>
+                    <token>„</token>
+                    <token case_sensitive="yes">Recht</token>
+                </antipattern>
                 <pattern>
                     <marker>
-                    <token case_sensitive="yes">Recht</token>
+                        <token case_sensitive="yes">Recht</token>
                     </marker>
                     <token inflected="yes" regexp="yes">haben|geben</token>
                 </pattern>
@@ -38341,6 +38357,7 @@ Andere Projekte</example>
                 <example correction="recht">Sie wollte unbedingt <marker>Recht</marker> haben.</example>
                 <example>Er wusste, dass er das <marker>Recht</marker> hatte so etwas zu verlangen.</example>
                 <example><marker>Recht</marker> hatte sie.</example>
+                <example>Herr Zero sagte: „Recht haben und recht bekommen sind zwei verschiedene Fakten.“</example>
             </rule>
         </rulegroup>
     </category>

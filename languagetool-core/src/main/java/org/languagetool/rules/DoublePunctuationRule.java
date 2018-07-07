@@ -55,7 +55,7 @@ public class DoublePunctuationRule extends Rule {
   @Override
   public final RuleMatch[] match(AnalyzedSentence sentence) {
     List<RuleMatch> ruleMatches = new ArrayList<>();
-    AnalyzedTokenReadings[] tokens = sentence.getTokens();
+    AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
     int startPos = 0;
     int dotCount = 0;
     int commaCount = 0;
