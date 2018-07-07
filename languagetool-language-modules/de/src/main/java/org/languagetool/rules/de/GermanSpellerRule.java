@@ -171,6 +171,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("[uU]nzerbrechbar(e[nmrs]?)?", "bar", "lich");
     putRepl("tableten?", "tablet", "Tablett");
     putRepl("unverantwortungsvoll(e[nmrs]?)?", "unverantwortungsvoll", "verantwortungslos");
+    putRepl("[zZ]uk(ue?|ü)nftlich(e[mnrs]?)?", "uk(ue?|ü)nftlich", "ukünftig");
     putRepl("[rR]eligiösisch(e[nmrs]?)?", "isch", "");
     putRepl("[fF]olklorisch(e[nmrs]?)?", "isch", "istisch");
     putRepl("[eE]infühlsvoll(e[nmrs]?)?", "voll", "am");

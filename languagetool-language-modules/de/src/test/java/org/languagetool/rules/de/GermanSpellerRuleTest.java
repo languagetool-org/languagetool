@@ -261,6 +261,7 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("indifiziert", "identifiziert", rule, lt);
     assertFirstSuggestion("verblüte", "verblühte", rule, lt);
     assertFirstSuggestion("dreitem", "drittem", rule, lt);
+    assertFirstSuggestion("zukuenftliche", "zukünftige", rule, lt);
   }
 
   @Test
