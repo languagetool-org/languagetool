@@ -113,7 +113,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction=""><marker>Weil</marker> sie krank ist, kommt sie nicht zur Schule.</example>
                 <example>Sie ist krank. Deshalb kommt sie nicht zur Schule.</example>
             </rule>
-            <rule id="CONFUSION_OF_BED_BAD" name="confusion of bed/bad">
+            <rule>
                 <antipattern>
                     <token skip="-1" regexp="yes">so|wie</token>
                     <token>,</token>
@@ -127,12 +127,41 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token skip="-1"></token>
                     <token postag="PKT">,</token>
                     <marker><token postag="KON:UNT"></token></marker>
-                    <token skip="-1"></token>
+                    <token></token>
                     <token postag="SENT_END">.</token>
                 </pattern>
                 <message>Vermeiden Sie Nebensätze.</message>
                 <example correction="">Sie ist nicht in die Schule gekommen, <marker>weil</marker> sie erkältet war.</example>
                 <example>Sie war erkältet. Deshalb ist sie nicht zur Schule gekommen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"></token>
+                    <token><exception postag="PKT"></exception></token>
+                    <token><exception postag="PKT"></exception></token>
+                    <token skip="-1"></token>
+                    <token postag="PKT">,</token>
+                    <marker><token postag="PRO:RIN:.+" postag_regexp="yes"></token></marker>
+                    <token skip="-1"></token>
+                    <token postag="SENT_END">.</token>
+                </pattern>
+                <message>Vermeiden Sie Nebensätze.</message>
+                <example correction="">Ich weiß nicht, <marker>was</marker> dieser Test bringt.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token postag="SENT_START" skip="-1"></token>
+                    <token>?</token>
+                </antipattern>
+                <pattern>
+                    <token postag="SENT_START"></token>
+                    <marker><token postag="PRO:RIN:.+" postag_regexp="yes"></token></marker>
+                    <token skip="-1"></token>
+                    <token postag="PKT">,</token>
+                    <token postag="VER:.+" postag_regexp="yes"></token>
+                </pattern>
+                <message>Vermeiden Sie Nebensätze.</message>
+                <example correction=""><marker>Was</marker> dieser Test bringt, weiß ich nicht.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ABKUERZUNG" name="Leichte Sprache: Abkürzung">
