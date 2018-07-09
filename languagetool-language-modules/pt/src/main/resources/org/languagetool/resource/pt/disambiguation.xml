@@ -521,6 +521,20 @@
     </rule>
   </rulegroup>
 
+    <rule id="QUEM_VERBO" name="quem + verbo">
+    <!-- Created by Tiago F. Santos, Portuguese rule, 2018-07-08  -->
+      <pattern>
+          <token>quem</token>
+        <marker>
+        <and>
+          <token postag="N.+" postag_regexp="yes"/>
+          <token postag="V.+" postag_regexp="yes"/>
+        </and>
+        </marker>
+      </pattern>
+      <disambig action="filter" postag="V.+"/>
+    </rule>
+
     <rule id="SPS_SI" name="Preposição + Si">
     <!-- Si : Pronoun or Musical note				-->
     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-11-19  -->
@@ -1204,6 +1218,31 @@
       <example type="ambiguous" inputform="&quot;[&quot;/'',&quot;/``]" outputform="&quot;[&quot;/``]">Um (<marker>&quot;</marker>teste&quot;.</example>
     </rule>
   </rulegroup>
+
+  <rulegroup id="VERBOS_COMPOSTOS" name="Verbos compostos">
+    <rule>
+    <!-- Created by Tiago F. Santos, Portuguese rule, 2018-07-08  	-->
+      <pattern>
+          <token inflected='yes'>levar</token>
+          <token>a</token>
+        <marker>
+          <token>cabo</token>
+        </marker>
+      </pattern>
+      <disambig action="replace" postag="RG"/>
+    </rule>
+  </rulegroup>
+
+    <rule id="DEVE_SER" name="Deve + Infinitivo">
+    <!-- Created by Tiago F. Santos, Portuguese rule, 2018-07-08  	-->
+      <pattern>
+        <marker>
+          <token inflected='yes'>dever</token>
+        </marker>
+          <token postag="VMN0000"/>
+      </pattern>
+      <disambig action="filter" postag="V.+"/>
+    </rule>
 
   <rulegroup id="PERIFRASES" name="Perífrases de infinitivo">
     <rule>
