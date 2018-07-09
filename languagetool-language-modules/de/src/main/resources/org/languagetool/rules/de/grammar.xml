@@ -37359,11 +37359,12 @@ Andere Projekte</example>
             <rule>
                 <pattern>
                     <token postag="(SUB|EIG|VER):.+" postag_regexp="yes"></token>
-                    <token inflected="yes">welch</token>
+                    <token inflected="yes">welch<exception postag="SENT_END" scope="next"/></token>
                 </pattern>
                 <message>Prüfen Sie, ob hier ein Komma eingefügt werden muss.</message>
                 <suggestion>\1, \2</suggestion>
                 <example correction="Satz, welchen">Mit diesem <marker>Satz welchen</marker> ich gleich beweisen werde, wurde Fermat sehr berühmt.</example>
+                <example>Wer will welches?</example>
             </rule>
         </rulegroup>
         <rulegroup id="FEHLERHAFTES_KOMMA_ALLG" name="Fehlerhaftes Komma">
@@ -37392,13 +37393,7 @@ Andere Projekte</example>
                 </antipattern>
                 <antipattern>
                     <token postag="SENT_START"/>
-                    <token/>
-                    <token>,</token>
-                </antipattern>
-                <antipattern>
-                    <token postag="SENT_START"/>
-                    <token/>
-                    <token/>
+                    <token skip="1"/>
                     <token>,</token>
                 </antipattern>
                 <antipattern>
@@ -37408,13 +37403,7 @@ Andere Projekte</example>
                 </antipattern>
                 <antipattern>
                     <token>,</token>
-                    <token/>
-                    <token postag="SENT_END"/>
-                </antipattern>
-                <antipattern>
-                    <token>,</token>
-                    <token/>
-                    <token/>
+                    <token skip="1"/>
                     <token postag="SENT_END"/>
                 </antipattern>
                 <antipattern>
