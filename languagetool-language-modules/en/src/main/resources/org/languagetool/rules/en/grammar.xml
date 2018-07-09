@@ -29619,4 +29619,39 @@ USA
         </rule>
     </category>
 
+    <!-- ====================================================================== -->
+    <!--         E-Prime        https://en.wikipedia.org/wiki/E-Prime           -->
+    <!-- ====================================================================== -->
+    <category id="CREATIVE_WRITING" name="Creative Writing" type="style" default="off">
+        <rule id="E_PRIME_STRICT" name="Creative Writing: E-Prime: all 'to be' forms">
+        <!-- Created by Tiago F. Santos, 2018-07-09 -->
+            <pattern>
+                <token inflected="yes">be</token>
+            </pattern>
+            <message>According to E-Prime, avoiding the use of the stative verb 'to be' makes the communication clearer, more accurate, and less dogmatic. Use an alternative verb.</message>
+            <url>https://litemind.com/e-prime/</url>
+            <short>Using E-Prime, you should avoid the verb 'to be'.</short>
+            <example type="incorrect" correction="">This <marker>is</marker> wrong.</example>
+            <example>This <marker>does not conform</marker> with my current knowledge.</example>
+            <example>The data <marker>refutes</marker> that assertion.</example>
+        </rule>
+        <rule id="E_PRIME_LOOSE" name="E-Prime: 'to be' as the main verb">
+        <!-- Created by Tiago F. Santos, 2018-07-09 -->
+            <antipattern>
+                <token inflected="yes">be</token>
+                <token min='0' max='2' postag_regexp='yes' postag='R.+'/>
+                <token postag_regexp='yes' postag='V.+'>
+                  <exception postag_regexp='yes' postag='N.+'/></token>
+            </antipattern>
+            <pattern>
+                <token inflected="yes">be</token>
+            </pattern>
+            <message>According to E-Prime, avoiding the use of the stative verb 'to be' makes the communication clearer, more accurate, and less dogmatic. Use an alternative verb.</message>
+            <url>https://litemind.com/e-prime/</url>
+            <short>Using E-Prime, you should avoid the verb 'to be'.</short>
+            <example type="incorrect" correction="">This <marker>is</marker> right.</example>
+            <example>This <marker>is</marker> conforming with my current knowledge.</example>
+        </rule>
+    </category>
+
 </rules>
