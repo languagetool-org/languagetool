@@ -38,8 +38,8 @@ import java.util.*;
  */
 public class SimilarNameRule extends TextLevelRule {
 
-  private static final int minLength = 4;
-  private static final int maxDiff = 1;
+  private static final int MIN_LENGTH = 4;
+  private static final int MAX_DIFF = 1;
   
   public SimilarNameRule(ResourceBundle messages) {
     super(messages);
@@ -69,9 +69,12 @@ public class SimilarNameRule extends TextLevelRule {
       for (AnalyzedTokenReadings token : tokens) {
         String word = token.getToken();
         // not tagged = too many correct words are not known so we cannot use that:
-        //boolean isName = word.length() > minLength && (token.hasPartialPosTag("EIG:") || !token.isTagged());
-        boolean isName = word.length() >= minLength && token.hasPartialPosTag("EIG:") && !token.hasPartialPosTag(":COU");
-        if (isName && StringTools.startsWithUppercase(word)) {
+        //boolean isName = word.length() > MIN_LENGTH && (token.hasPartialPosTag("EIG:") || !token.isTagged());
+        boolean isMaybeName = word.length() >= MIN_LENGTH 
+                && ((token.hasPartialPosTag("EIG:") && !token.hasPartialPosTag(":COU")) || token.isPosTagUnknown())
+                && !word.equals("Dein") && !word.equals("Deine") && !word.equals("Deinen") && !word.equals("Deiner") && !word.equals("Deines") && !word.equals("Deinem")
+                && !word.equals("Ihr") && !word.equals("Ihre") && !word.equals("Ihren") && !word.equals("Ihrer") && !word.equals("Ihres") && !word.equals("Ihrem");
+        if (isMaybeName && StringTools.startsWithUppercase(word)) {
           String similarName = similarName(word, namesSoFar);
           if (similarName != null) {
             String msg = "'" + word + "' ähnelt dem vorher benutzten '" + similarName + "', handelt es sich evtl. um einen Tippfehler?";
@@ -96,11 +99,13 @@ public class SimilarNameRule extends TextLevelRule {
       int lenDiff = Math.abs(name.length() - nameHere.length());
       boolean nameEndsWithS = name.endsWith("s") && !nameHere.endsWith("s");
       boolean otherNameEndsWithS = !name.endsWith("s") && nameHere.endsWith("s");
-      if (nameEndsWithS || otherNameEndsWithS) {
+      boolean nameEndsWithN = name.endsWith("n") && !nameHere.endsWith("n");   // probably a dative
+      boolean otherNameEndsWithN = !name.endsWith("n") && nameHere.endsWith("n");
+      if (nameEndsWithS || otherNameEndsWithS || nameEndsWithN || otherNameEndsWithN) {
         // we assume this is a genitive, e.g. "Angela Merkels Ehemann"
         continue;
       }
-      if (lenDiff <= maxDiff && StringUtils.getLevenshteinDistance(name, nameHere) <= maxDiff) {
+      if (lenDiff <= MAX_DIFF && StringUtils.getLevenshteinDistance(name, nameHere) <= MAX_DIFF) {
         return name;
       }
     }
