@@ -1,0 +1,16 @@
+
+description = 'LanguageTool embedded HTTP server'
+dependencies {
+  compile project(':languagetool-core')
+  compile project(':languagetool-gui-commons')
+  compile project(':language-all')
+    compile group: 'org.slf4j', name: 'slf4j-api', version:'1.7.25'
+    compile group: 'ch.qos.logback', name: 'logback-classic', version:'1.2.3'
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version:'2.9.4'
+    compile group: 'com.auth0', name: 'java-jwt', version:'3.2.0'
+    compile group: 'org.mybatis', name: 'mybatis', version:'3.4.6'
+    compile group: 'org.mariadb.jdbc', name: 'mariadb-java-client', version:'2.2.3'
+  testCompile project(path: ':languagetool-core', configuration: 'tests')
+    testCompile group: 'junit', name: 'junit', version:'4.12'
+    testCompile group: 'org.hsqldb', name: 'hsqldb', version:'2.4.0'
+}

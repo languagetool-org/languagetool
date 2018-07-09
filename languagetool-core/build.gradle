@@ -1,0 +1,40 @@
+
+description = 'LanguageTool Style and Grammar Checker Core'
+dependencies {
+    compile group: 'org.apache.commons', name: 'commons-lang3', version:'3.5'
+    compile group: 'com.google.guava', name: 'guava', version:'21.0'
+    compile group: 'net.java.dev.jna', name: 'jna', version:'4.4.0'
+    compile group: 'org.carrot2', name: 'morfologik-fsa', version:'2.1.5'
+    compile group: 'org.carrot2', name: 'morfologik-fsa-builders', version:'2.1.5'
+    compile group: 'org.carrot2', name: 'morfologik-speller', version:'2.1.5'
+    compile group: 'org.carrot2', name: 'morfologik-stemming', version:'2.1.5'
+    compile group: 'com.carrotsearch', name: 'hppc', version:'0.7.2'
+    compile group: 'net.loomchild', name: 'segment', version:'2.0.0'
+    compile group: 'com.optimaize.languagedetector', name: 'language-detector', version:'0.6'
+    compile group: 'com.intellij', name: 'annotations', version:'12.0'
+    compile group: 'org.apache.lucene', name: 'lucene-core', version:'5.5.4'
+    compile group: 'org.apache.lucene', name: 'lucene-backward-codecs', version:'5.5.4'
+    compile group: 'edu.berkeley.nlp', name: 'berkeleylm', version:'1.1.2'
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version:'2.9.4'
+    compile group: 'javax.xml.bind', name: 'jaxb-api', version:'2.3.0'
+    compile group: 'org.slf4j', name: 'slf4j-api', version:'1.7.25'
+    testCompile group: 'ch.qos.logback', name: 'logback-classic', version:'1.2.3'
+    testCompile group: 'junit', name: 'junit', version:'4.12'
+}
+
+task testJar(type: Jar) {
+    from sourceSets.test.output+sourceSets.test.allSource
+    classifier = 'tests'
+}
+
+configurations {
+    tests
+}
+
+artifacts {
+    tests testJar
+}
+
+test {
+    exclude 'org/languagetool/rules/patterns/PatternRuleLoaderPermissionTest.class'
+}

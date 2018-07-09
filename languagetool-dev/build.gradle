@@ -1,0 +1,13 @@
+
+description = 'LanguageTool development tools'
+dependencies {
+  compile project(':language-all')
+  compile project(':languagetool-commandline')
+    compile group: 'com.google.guava', name: 'guava', version:'20.0'
+  compile project(':languagetool-wikipedia')
+    testCompile group: 'junit', name: 'junit', version:'4.12'
+}
+
+test {
+    exclude 'org/languagetool/dev/errorcorpus/PedlerCorpusTest.class'
+}

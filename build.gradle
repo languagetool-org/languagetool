@@ -1,0 +1,35 @@
+allprojects {
+    apply plugin: 'maven'
+    group = 'org.languagetool'
+    version = '4.2-SNAPSHOT'
+
+//        languagetool.version = '4.2-SNAPSHOT'
+
+    ext {
+        languagetoolVersion = '4.2-SNAPSHOT'
+        junitVersion = '4.12'
+        morfologikVersion = '2.1.5'
+        jacksonVersion = '2.9.4'
+        luceneVersion = '5.5.4'
+    }
+}
+
+subprojects {
+    apply plugin: 'java'
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+    tasks.withType(JavaCompile) {
+        options.encoding = 'UTF-8'
+    }
+
+
+    repositories {
+        mavenLocal()
+
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
+        maven { url "http://repo.maven.apache.org/maven2" }
+    }
+
+    configurations.all {
+    }
+}

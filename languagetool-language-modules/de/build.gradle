@@ -1,0 +1,13 @@
+
+description = 'German module for LanguageTool'
+dependencies {
+  compile project(':languagetool-core')
+  compile project(':hunspell-native-libs')
+    compile group: 'de.danielnaber', name: 'german-pos-dict', version:'1.1'
+    compile(group: 'edu.washington.cs.knowitall', name: 'openregex', version:'1.1.1') {
+exclude(module: 'jsr305')
+    }
+    compile group: 'de.danielnaber', name: 'jwordsplitter', version:'4.4'
+  testCompile project(path: ':languagetool-core', configuration: 'tests')
+    testCompile group: 'junit', name: 'junit', version:'4.12'
+}

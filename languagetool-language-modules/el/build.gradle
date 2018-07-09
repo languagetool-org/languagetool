@@ -1,0 +1,10 @@
+
+description = 'Greek module for LanguageTool'
+dependencies {
+  compile project(':languagetool-core')
+    compile(group: 'org.ioperm', name: 'morphology-el', version:'1.0.0') {
+exclude(module: 'morfologik-stemming')
+    }
+  testCompile project(path: ':languagetool-core', configuration: 'tests')
+    testCompile group: 'junit', name: 'junit', version:'4.12'
+}

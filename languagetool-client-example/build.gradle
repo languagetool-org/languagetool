@@ -1,0 +1,13 @@
+task foo {
+    doLast{
+        println jacksonVersion
+        println languagetoolVersion
+        println junitVersion
+    }
+}
+
+dependencies {
+    compile "com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}"
+    testCompile "org.languagetool:languagetool-server:${languagetoolVersion}"
+    testCompile "junit:junit${junitVersion}"
+}
