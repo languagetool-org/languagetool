@@ -2955,6 +2955,25 @@ title="Easy editing stylesheet" ?>
       <example correction='Junho a Setembro'>Os melhores meses para ir de férias é de <marker>Junho à Setembro</marker>.</example>
     </rule>
     <rule>
+      <antipattern>
+          <token>uma</token>
+          <token>da</token>
+          <token regexp='yes'>manhã|tarde|noite</token>
+      </antipattern>
+      <antipattern>
+          <token>uma</token>
+          <token regexp='yes'>hora|badalada</token>
+      </antipattern>
+      <pattern>
+          <token>à</token>
+          <token regexp='yes'>u[ms]a?s?</token>
+      </pattern>
+      <message>Se não se refere a horas não se utiliza a crase.</message>
+        <suggestion>a \2</suggestion>
+      <example correction='a uma'>Foi <marker>à uma</marker> corrida de cavalos, antes do almaço.</example>
+      <example>O almoço foi à uma da tarde.</example>
+    </rule>
+    <rule>
     <!--                     Loosely based on CoGrOO rules                 -->
       <pattern>
           <token regexp='yes'>às?</token>
