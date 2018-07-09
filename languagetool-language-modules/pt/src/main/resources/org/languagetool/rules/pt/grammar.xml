@@ -975,6 +975,12 @@ title="Easy editing stylesheet" ?>
     <!-- Created by Tiago F. Santos, 2017-01-17 -->
       <url>https://pt.wikipedia.org/wiki/Verbo_de_liga%C3%A7%C3%A3o</url>
     <rule>
+      <antipattern>
+          <token>o</token>
+          <token>valor</token>
+          <token inflected='yes' postag_regexp='yes' postag='V....S.+' regexp='yes'>&verbos_de_ligacao;</token>
+          <token regexp="yes">[\d,. ]+[&#37;&#8240;&#8241;]</token>
+      </antipattern>
       <pattern case_sensitive='yes'>
           <token inflected='yes' postag_regexp='yes' postag='V....S.+' regexp='yes'>&verbos_de_ligacao;
             <exception postag_regexp='yes' postag='V.[NP].+'/>
@@ -1952,7 +1958,7 @@ title="Easy editing stylesheet" ?>
     <!-- FIXME token index doesn't work with variable size phrases -->
       <example correction=""><marker>Na próxima semana, os editores enviaram</marker> os livros antes do fecho.</example>
       <example correction=""><marker>Na próxima semana enviaram</marker> os livros antes do fecho.</example>
-      <example>Na semana passada enviram os livros antes do fecho.</example>
+      <example>Na semana passada enviaram os livros antes do fecho.</example>
     </rule>
     <rule>
       <pattern>
@@ -3525,6 +3531,15 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes'>desses?</token>
           <token regexp='yes'>(?:alg)?u[mn]a?s?</token>
       </antipattern>
+      <antipattern>
+          <token>uma</token>
+          <token>da</token>
+          <token regexp='yes'>manhã|tarde|noite</token>
+      </antipattern>
+      <antipattern>
+          <token>uma</token>
+          <token regexp='yes'>hora|badalada</token>
+      </antipattern>
       <pattern>
           <token>
             <exception regexp='yes'>&hifen;</exception></token>
@@ -3545,6 +3560,7 @@ title="Easy editing stylesheet" ?>
       <example>A religião deu lugar a uma concepção científica do homem e do universo.</example>
       <example>As línguas oficiais são as das antigas metrópoles —</example>
       <example>Portugal foi um dos últimos países a adotar o novo método, </example>
+      <example>O resgate deve começar a partir da uma da manhã.</example>
     </rule>
     <rule>
       <antipattern>
@@ -10501,7 +10517,7 @@ tokenizer spreadsheet in the forum	     -->
 
  </category>
 
- <category id='CLICHES' name="Frases-feitas e expressões idiomáticas" type='style'>
+ <category id='CLICHES' name="Frases-Feitas e Expressões Idiomáticas" type='style'>
 
   <rulegroup id='PT_CLICHE_REPLACE_2' name='Frases-feitas e expressões idiomáticas'>
       <url>https://pt.wikipedia.org/wiki/V%C3%ADcio_de_linguagem#Chav.C3.B5es_ou_Clich.C3.AA_.28frases-feitas.29</url>
@@ -24433,7 +24449,7 @@ TODO Write better examples
       <pattern>
           <token postag_regexp='yes' postag='AQC.+|N.....[AD]'>
             <exception negate_pos='yes' postag_regexp='yes' postag='AQC.+|N.....[AD]'/>
-            <exception regexp='yes'>sozinh[ao]s?|finit[ao]s?|capita</exception></token>
+            <exception regexp='yes'>sozinh[ao]s?|finit[ao]s?|ca(?:pita|[mn]arinh[ao])s?</exception></token>
     <!-- TODO Improve tagger so that it recognizes missing aumentatives and diminutives -->
       </pattern>
       <message>Linguagem informal. Considere as alternativas.</message>
@@ -24441,6 +24457,7 @@ TODO Write better examples
       <example type="correct">O peixe era <marker>muito grande</marker>, mas não bati nenhum recorde.</example>
       <example type="correct">água límpida da nascente brota entre as pedras e <marker>caminha</marker> por entre as árvores que agradecem.</example>
       <example type="correct">Ele sustentou <marker>sozinho</marker> três crianças. por entre as árvores que agradecem.</example>
+      <example type="correct">A derrota <marker>canarinha</marker> não deixou repercussões apenas em terras brasileiras.</example>
     </rule>
     <rule>
       <pattern>
