@@ -7426,7 +7426,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="N_TEILIG" name="fünf teilig (fünfteilig) etc.">
             <pattern>
                 <token postag="ZAL"/>
-                <token regexp="yes">teilig(e[mnrs]?)?</token>
+                <token regexp="yes">(wöch|teil|räum)ig(e[mnrs]?)?</token>
             </pattern>
             <message><suggestion>\1\2</suggestion> wird zusammengeschrieben.</message>
             <example correction='fünfteiliges'>Ich biete ein <marker>fünf teiliges</marker> Set zum Verkauf an.</example>
@@ -7852,6 +7852,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <url>http://www.korrekturen.de/beliebte_fehler/inne_haben.shtml</url>
             <example correction="innehaben">Bald wird er das Amt des Bürgermeisters <marker>inne haben</marker>.</example>
             <example correction="innehat">Das Amt, das er <marker>inne hat</marker>.</example>
+        </rule>
+        <rule id="KNOWHOW" name="Know How (Know-how)">
+            <pattern>
+                <token>Know</token>
+                <token>How</token>
+            </pattern>
+            <message>Meinten Sie <suggestion>Know-how</suggestion> oder <suggestion>Knowhow</suggestion>?</message>
+            <url>https://www.duden.de/rechtschreibung/Know_how</url>
+            <short>Fehlender Bindestrich</short>
+            <example correction="Know-how|Knowhow">Da steckt viel <marker>Know How</marker> drin.</example>
         </rule>
         <rule id="DIPL_ING" name="Dipl. Ing. (Dipl.-Ing.)">
             <regexp>Dipl\. (Ing|Jur|Math|Met|Inf|Bibl|Biol|Phys|Chem|Hdl|Kffr?|Kfm)\.</regexp>
