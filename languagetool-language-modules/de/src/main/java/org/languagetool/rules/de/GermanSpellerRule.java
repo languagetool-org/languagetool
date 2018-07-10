@@ -189,6 +189,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("[iI]nordnung", "ordnung", " Ordnung");
     putRepl("[iI]mmoment", "moment", " Moment");
     putRepl("[wW]ienerschnitzel[ns]?", "[wW]ieners", "Wiener S");
+    putRepl("[sS]chwarzwälderkirschtorten?", "[sS]chwarzwälderk", "Schwarzwälder K");
     putRepl("[kK]oxial(e[nmrs]?)?", "x", "ax");
     putRepl("[dD]urs?chnitt?lich(e[nmrs]?)?", "s?chnitt?", "chschnitt");
     putRepl("[oO]rganisativ(e[nmrs]?)?", "tiv", "torisch");
