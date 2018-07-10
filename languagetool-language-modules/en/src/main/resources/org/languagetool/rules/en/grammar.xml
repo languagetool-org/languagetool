@@ -34,6 +34,7 @@ USA
     <!ENTITY months "January|February|March|April|May|Ju(ne|ly)|August|September|October|November|December">
     <!ENTITY abbrevMonths "Jan|Feb|Mar|Apr|Ju[ln]|Aug|Sept?|Oct|Nov|Dec">
     <!ENTITY languages "Akan|Amharic|Arabic|Assamese|Awadhi|Azerbaijani|Balochi|Bangla|Belarusian|Bengali|Bhojpuri|Burmese|Cantonese|Cebuano|Chewa|Chhattisgarhi|Chittagonian|Czech|Deccan|Dhundhari|Dutch|English|Filipino|French|Fula|Gaelic|German|Greek|Gujarati|Hakka|Haryanvi|Hausa|Hiligaynon|Hindi|Hmong|Hunanese|Hungarian|Igbo|Ilocano|Ilonggo|Indonesian|Italian|Ja[pv]anese|Jin|Kannada|Kazakh|Khmer|Kinyarwanda|Kirundi|Konkani|Korean|Kurdish|Madurese|Magahi|Maithili|Malagasy|Malay(alam)?|Malaysian|Mandarin|Marathi|Marwari|Mossi|Nepali|Odia|Oriya|Oromo|Pashto|Persian|Polish|Portuguese|Punjabi|Quechua|Romanian|Russian|Saraiki|Serbo-Croatian|Shona|Sindhi|Sinhalese|Somali|Spanish|Sundanese|Swedish|Sylheti|Tagalog|Tamil|Telugu|Thai|Turk(ish|men)|Ukrainian|Urdu|Uyghur|Uzbek|Vietnamese|Visayan|Wu|Xhosa|Xiang|Yoruba|Yue|Zhuang|Zulu"><!-- Most are from https://en.wikipedia.org/wiki/List_of_languages_by_number_of_native_speakers -->
+    <!ENTITY short_adjectives "angry|bad|big|bitter|black|bland|bloody|blue|bold|bossy|brave|brief|bright|broad|busy|calm|cheap|chewy|chubby|classy|clean|clear|clever|close|cloudy|clumsy|coarse|cold|cool|crazy|creamy|creepy|crispy|cruel|crunchy|curly|curvy|cute|damp|dark|deadly|deep|dense|dirty|dry|dull|dumb|dusty|early|easy|faint|fair|fancy|far|fast|fat|few|fierce|filthy|fine|firm|fit|flaky|flat|fresh|friendly|full|funny|gentle|gloomy|good|grand|grave|greasy|great|greedy|gross|guilty|hairy|handy|happy|hard|harsh|healthy|heavy|high|hip|hot|humble|hungry|icy|itchy|juicy|kind|large|late|lazy|light|likely|little|lively|lonely|long|loud|lovely|low|mad|mean|messy|mild|moist|narrow|nasty|naughty|near|neat|needy|new|nice|noisy|odd|oily|old|plain|polite|poor|pretty|proud|pure|quick|quiet|rare|raw|rich|ripe|risky|roomy|rough|rude|rusty|sad|safe|salty|sane|scary|shallow|sharp|shiny|short|shy|silly|simple|sincere|skinny|sleepy|slim|slimy|slow|small|smart|smelly|smoky|smooth|soft|soon|sore|sorry|sour|spicy|steep|stingy|strange|strict|strong|sunny|sweaty|sweet|tall|tan|tasty|thick|thin|thirsty|tiny|tough|true|ugly|warm|weak|wealthy|weird|wet|wide|wild|windy|wise|worldly|worthy|young">
 ]>
 
 <rules lang="en" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -11984,6 +11985,16 @@ USA
                 <example>He is my best friend.</example>
             </rule>
         </rulegroup>
+          <rule id='SHORT_COMPARATIVES' name="Short comparatives">
+	      <!--      Created by Tiago F. Santos, 2018-07-10      -->
+                <pattern>
+                    <token>more</token>
+                    <token regexp='yes'>&short_adjectives;</token>
+                </pattern>
+                <message>This adjective uses the short form of compatives.</message>
+                  <suggestion><match no='2' postag='(.+)' postag_regexp='yes' postag_replace='JJR'/></suggestion>
+                <example correction="sillier">This example is <marker>more silly</marker> than the other.</example>
+          </rule>
         <rulegroup id="DID_BASEFORM" name="Non-infinitive verb after modal verbs">
             <rule>
                 <antipattern>
