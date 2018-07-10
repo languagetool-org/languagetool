@@ -262,6 +262,7 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("verblüte", "verblühte", rule, lt);
     assertFirstSuggestion("dreitem", "drittem", rule, lt);
     assertFirstSuggestion("zukuenftliche", "zukünftige", rule, lt);
+    assertFirstSuggestion("schwarzwälderkirschtorte", "Schwarzwälder Kirschtorte", rule, lt);
   }
 
   @Test
