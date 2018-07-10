@@ -7423,14 +7423,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Meinten Sie <suggestion>\1\2</suggestion>, die Software zur Textprüfung?</message>
             <example correction="LanguageTool">Sie testet <marker>Language Tool</marker>.</example>
         </rule>
-        <rule id="N_TEILIG" name="fünf teilig (fünfteilig) etc.">
-            <pattern>
-                <token postag="ZAL"/>
-                <token regexp="yes">(wöch|teil|räum)ig(e[mnrs]?)?</token>
-            </pattern>
-            <message><suggestion>\1\2</suggestion> wird zusammengeschrieben.</message>
-            <example correction='fünfteiliges'>Ich biete ein <marker>fünf teiliges</marker> Set zum Verkauf an.</example>
-        </rule>
+        <rulegroup id="N_TEILIG" name="fünf teilig (fünfteilig) etc.">
+            <rule>
+                <pattern>
+                    <token regexp="yes">[0-9]+</token>
+                    <token regexp="yes">(wöch|teil|räum)ig(e[mnrs]?)?</token>
+                </pattern>
+                <message><suggestion>\1-\2</suggestion> wird mit Bindestrich geschrieben.</message>
+                <example correction='7-teiliges'>Ich biete ein <marker>7 teiliges</marker> Set zum Verkauf an.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="ZAL"/>
+                    <token regexp="yes">(wöch|teil|räum)ig(e[mnrs]?)?</token>
+                </pattern>
+                <message><suggestion>\1\2</suggestion> wird zusammengeschrieben.</message>
+                <example correction='fünfteiliges'>Ich biete ein <marker>fünf teiliges</marker> Set zum Verkauf an.</example>
+            </rule>
+        </rulegroup>
         <rule id="EIWEISS_REICH" name="Eiweiß reich (eiweißreich)">
             <pattern>
                 <token>Eiweiß</token>
