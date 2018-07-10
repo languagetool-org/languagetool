@@ -4065,7 +4065,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rule id="AB_DIENSTAGE" name="ab Dienstage (Dienstag) etc.">
             <pattern>
-                <token regexp="yes">ab|am</token>
+                <token regexp="yes">ab|am|seit</token>
                 <marker>
                     <!-- "Montag" rausgelassen wg. zweiter Bedeutung -->
                     <token regexp="yes">(Dienstag|Mittwoch|Donnerstag|Freitag|Samstag|Sonnabend|Sonntag)e</token>
@@ -4300,7 +4300,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token>wehrend</token>
                 </marker>
-                <token postag='PRO:.*' postag_regexp='yes'/>
+                <token postag='PRO:.+' postag_regexp='yes'/>
             </pattern>
             <message>Meinten Sie <suggestion>während</suggestion> (dabei, währenddessen)?</message>
             <example correction="während">Hätte es sowas <marker>wehrend</marker> meiner Schulzeit gegeben!</example>
@@ -31776,12 +31776,25 @@ Andere Projekte</example>
             </rule>
         </rulegroup>
         <rule id="IN_BAUCH_UND_BOGEN" name="'in Bauch (Bausch) und Bogen'">
-            <regexp case_sensitive='yes'>[iI]n (Bau?(ch|m)) und Bogen</regexp>
+            <regexp case_sensitive='yes'>[iI]n (B(au?(ch|m)|usch)) und Bogen</regexp>
             <message>Meinten Sie die Redewendung <suggestion>in Bausch und Bogen</suggestion>?</message>
             <url>http://www.duden.de/rechtschreibung/Bausch</url>
             <short>Möglicherweise falsch verwendete Redewendung</short>
             <example correction="in Bausch und Bogen">Ich will es nicht <marker>in Bauch und Bogen</marker> verurteilen.</example>
             <example correction="in Bausch und Bogen">Ich will es nicht <marker>in Baum und Bogen</marker> verurteilen.</example>
+            <example correction="in Bausch und Bogen">Ich will es nicht <marker>in Busch und Bogen</marker> verurteilen.</example>
+        </rule>
+        <rule id="NIE_UND_IMMER" name="'nie und (n)immer'">
+            <pattern>
+                <token>nie<exception scope="previous">:</exception></token>
+                <token case_sensitive="yes">und</token>
+                <marker>
+                    <token case_sensitive="yes">immer</token>
+                </marker>
+            </pattern>
+            <message>Meinten Sie die Redewendung 'nie und <suggestion>nimmer</suggestion>' (=niemals)?</message>
+            <short>Möglicherweise falsch verwendete Redewendung</short>
+            <example correction="nimmer">Das ist nie und <marker>immer</marker> das beste Bier der Welt.</example>
         </rule>
         <rule id="GANG_UND_GEBE" name="'gang und gebe (gäbe)'">
             <regexp>\bgang und gebe\b</regexp>
