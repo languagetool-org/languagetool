@@ -9454,6 +9454,16 @@ regexp case-insensitive maken : (?i)
             </rule>
         </rulegroup>
 
+        <rulegroup id="CORPSLID_KORPSLID" name="waarschuwing bij gebruik korpslid i.p.v. corpslid">
+            <rule>
+                <pattern>
+                       <token inflected="yes">korpslid</token>
+                </pattern>
+                <message>Bedoelt u wellicht <suggestion><match no="1" postag="ZNW.*" postag_regexp="yes">corpslid</match></suggestion> (lid van studentenvereniging)? Of toch lid van het korps (groep, als in leger, politie, journalisten etc.)</message>
+                <example correction="corpslid">Het woord <marker>korpslid</marker> kan een vergissing zijn.</example>
+            </rule>
+        </rulegroup>
+
         <rulegroup id="CLIP_KLIP" name="waarschuwing bij gebruik klip i.p.v. clip">
             <rule>
                 <pattern>
@@ -15131,7 +15141,17 @@ regexp case-insensitive maken : (?i)
         </rulegroup>
     </category>
     <category id="CONSTRUCTIEFOUT" name="Constructiefout">
-
+        <rulegroup id="MIJN_FORTE" name="mijn fort is beter">
+            <rule>
+                <pattern>
+                    <token regexp="yes">mijn|zijn|haar|hun|ons</token>
+                    <token>forte</token>
+                </pattern>
+                <message>Beter is <suggestion>\1 fort</suggestion>.</message>
+                <url>https://onzetaal.nl/taaladvies/dat-is-niet-mijn-fort/</url>
+                <example correction="hun fort">Grammatica is niet <marker>hun forte</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="JARIG_LUSTRUM" name="rare combinatie">
             <rule>
                 <pattern>
