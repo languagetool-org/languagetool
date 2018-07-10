@@ -3180,6 +3180,10 @@ title="Easy editing stylesheet" ?>
 
     <rule id='DEMAIS_DE_MAIS' name="Confusão: 'de mais'  + 'demais'">
     <!-- Created by Tiago F. Santos, 2017-03-15 -->
+      <antipattern>
+         <token regex='yes'>&hifen;</token>
+         <token regex='yes' spacebefore='no'>n[oa]s</token>
+      </antipattern>
       <pattern>
           <token regexp='yes'>[nd]?[ao]s?</token>
           <token>de</token>
@@ -5338,28 +5342,6 @@ title="Easy editing stylesheet" ?>
       <message>Se o orador é do sexo masculino, utilize <suggestion>obrigado</suggestion>.</message>
       <example correction="obrigado">O meu muito <marker>obrigada</marker> por tudo.</example>
     </rule>
-
-  <rulegroup id='EU_NÓS_REMOVAL' name="Omitir pronome pessoal eu/nós" type='style'>
-    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
-    <rule>
-      <pattern>
-          <token>eu</token>
-          <token postag_regexp="yes" postag="V...1S.+">
-            <exception negate_pos='yes' postag_regexp="yes" postag="V...1S.+"/></token>
-      </pattern>
-      <message>Para melhorar o estilo de escrita, pode omitir o pronome pessoal: <suggestion>\2</suggestion>.</message>
-      <example correction="quero">O que <marker>eu quero</marker> é casar.</example>
-    </rule>
-    <rule>
-      <pattern>
-          <token>nós</token>
-          <token postag_regexp="yes" postag="V...1P.+">
-            <exception negate_pos='yes' postag_regexp="yes" postag="V...1P.+"/></token>
-      </pattern>
-      <message>Para melhorar o estilo de escrita, pode omitir o pronome pessoal: <suggestion>\2</suggestion>.</message>
-      <example correction="queremos">O que <marker>nós queremos</marker> é casar.</example>
-    </rule>
-  </rulegroup>
 
     <rule id='ORA_DE_REFEIÇÃO' name="Hora de refeição">
     <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
@@ -8463,7 +8445,7 @@ title="Easy editing stylesheet" ?>
     </rule>
   </rulegroup>
 
-  <rulegroup id='WORDINESS' name='Expressão prolixas'>
+  <rulegroup id='WORDINESS' name='Expressão prolixas' type='style'>
     <!--  Rule group made semi automatically with the Wikipedia list
 tokenizer spreadsheet in the forum	     -->
     <!-- Created by Tiago F. Santos, Portuguese rule, 2017-06-11 -->
@@ -24142,6 +24124,28 @@ TODO Write better examples
       <example correction="As pessoas"><marker>Os homens e mulheres</marker> saíram à rua.</example>
     </rule>
 
+  <rulegroup id='EU_NÓS_REMOVAL' name="Omitir pronome pessoal eu/nós" type='style'>
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
+    <rule>
+      <pattern>
+          <token>eu</token>
+          <token postag_regexp="yes" postag="V...1S.+">
+            <exception negate_pos='yes' postag_regexp="yes" postag="V...1S.+"/></token>
+      </pattern>
+      <message>Para melhorar o estilo de escrita, pode omitir o pronome pessoal: <suggestion>\2</suggestion>.</message>
+      <example correction="quero">O que <marker>eu quero</marker> é casar.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>nós</token>
+          <token postag_regexp="yes" postag="V...1P.+">
+            <exception negate_pos='yes' postag_regexp="yes" postag="V...1P.+"/></token>
+      </pattern>
+      <message>Para melhorar o estilo de escrita, pode omitir o pronome pessoal: <suggestion>\2</suggestion>.</message>
+      <example correction="queremos">O que <marker>nós queremos</marker> é casar.</example>
+    </rule>
+  </rulegroup>
+
   <rulegroup id='DORAVANTE'  name="Utilização de 'Doravante'" default='off'>
     <!--     Created by Marco A.G. Pinto, Portuguese rule,   -->
     <rule>
@@ -28294,7 +28298,7 @@ TODO Write better examples
 
  </category>
 
- <category id="CREATIVE_WRITING" name="Escrita Criativa" type="style" default="off">
+ <category id="CREATIVE_WRITING" name="Escrita Criativa" type="style" default='off'>
 
   <rulegroup id='WEAK_WORDS' name='Escrita Criativa: Termos frágeis' default='off'> <!-- test on wikipedia and then disable -->
     <!--      Localized from vim-wordy by Tiago F. Santos, Portuguese rule, 2017-08-24      -->
@@ -28384,7 +28388,7 @@ TODO Write better examples
     <!-- ====================================================================== -->
     <!--         E-Prime        https://en.wikipedia.org/wiki/E-Prime           -->
     <!-- ====================================================================== -->
-    <rule id="E_PRIME_ESTRITO" name="Escrita Criativa: E-Prime: todas as formas do verbo 'ser' e 'estar'">
+    <rule id="E_PRIME_STRIT" name="Escrita Criativa: E-Prime: todas as formas do verbo 'ser' e 'estar'" default='off'>
     <!-- Created by Tiago F. Santos, 2018-07-09 -->
       <pattern>
           <token inflected="yes" regexp='yes'>ser|estar</token>
@@ -28392,12 +28396,12 @@ TODO Write better examples
       <message>De acordo com a versão inglesa do E-Prime, evitar formas verbais do verbo 'ser' e 'estar' torna a comunicação mais clara, precisa, e menos dogmática. Tente utilizar um verbo alternativo ou refazer a frase.</message>
       <url>https://litemind.com/e-prime/</url>
       <short>De acordo com a lógica do E-Prime, deve evitar os verbos 'ser' e 'estar'.</short>
-      <example type="incorrect" correction="">Isto <marker>é</marker> errado…</example>
+      <example correction="parece">Isto <marker>é</marker> errado…</example>
       <example>Isto não se <marker>conforma</marker> com o meu conhecimento atual…</example>
       <example>Os dados não <marker>confirmam</marker> essa afirmação…</example>
     </rule>
 
-    <!--rule id="E_PRIME_LOOSE" name="E-Prime: 'to be' as the main verb">
+    <!--rule id="E_PRIME_LOOSE" name="E-Prime: 'ser' e 'estar' como verbos princiais" default='off'>
         <Created by Tiago F. Santos, 2018-07-09>
       <antipattern>
           <token inflected="yes">be</token>
@@ -28408,11 +28412,11 @@ TODO Write better examples
       <pattern>
           <token inflected="yes">be</token>
       </pattern>
-      <message>According to E-Prime, avoiding the use of the stative verb 'to be' makes the communication clearer, more accurate, and less judgemental. Use an alternative verb.</message>
+      <message>De acordo com a versão inglesa do E-Prime, evitar formas verbais do verbo 'ser' e 'estar' torna a comunicação mais clara, precisa, e menos dogmática. Tente utilizar um verbo alternativo ou refazer a frase.</message>
       <url>https://www.youtube.com/watch?v=y4h2tJuy62U</url>
       <url>https://rationalwiki.org/wiki/E-Prime</url>
       <url>https://www.youtube.com/watch?v=sl4UZDLFNT0</url>
-      <short>Using E-Prime, you should avoid the verb 'to be'.</short>
+      <short>De acordo com a lógica do E-Prime, deve evitar os verbos 'ser' e 'estar'.</short>
       <example type="incorrect" correction="">This <marker>is</marker> right…</example>
       <example>This <marker>is</marker> conforming with my knowledge…</example>
       <example>This <marker>conforms</marker> with my current knowledge…</example>
