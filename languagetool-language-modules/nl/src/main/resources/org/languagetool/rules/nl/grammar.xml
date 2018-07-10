@@ -9384,6 +9384,16 @@ regexp case-insensitive maken : (?i)
                 <example correction="cola">Het woord <marker>kola</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
+        
+        <rulegroup id="COLA_S_KOLA_S" name="waarschuwing bij gebruik kola's i.p.v. cola's">
+            <rule>
+                <pattern>
+                       <token>kola's</token>
+                </pattern>
+                <message>Bedoelt u wellicht <suggestion>cola's</suggestion> (drank)? Een kola is een soort boom.</message>
+                <example correction="cola's">Het woord <marker>kola's</marker> kan een vergissing zijn.</example>
+            </rule>
+        </rulegroup>        
 
         <rulegroup id="CAST_KAST" name="waarschuwing bij gebruik kast i.p.v. cast">
             <rule>
@@ -15062,6 +15072,17 @@ regexp case-insensitive maken : (?i)
         </rulegroup>
     </category>
     <category id="CONSTRUCTIEFOUT" name="Constructiefout">
+
+        <rulegroup id="JARIG_LUSTRUM" name="rare combinatie">
+            <rule>
+                <pattern>
+                    <token regexp="yes">.*jarige?</token>
+                    <token>lustrum</token>
+                </pattern>
+                <message>Onlogisch. Een lustrum is een periode van 5 jaar. Schijf <suggestion>\1 jubileum</suggestion> of deel het aantal jaren door 5 en gebruik lustrum.</message>
+                <example correction="10-jarig jubileum">Hij vierde het <marker>10-jarig lustrum</marker> met verve.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="A_APO_S" name=" ">
             <rule>
                 <pattern>
