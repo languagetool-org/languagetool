@@ -11995,6 +11995,17 @@ USA
                   <suggestion><match no='2' postag='(.+)' postag_regexp='yes' postag_replace='JJR'/></suggestion>
                 <example correction="sillier">This example is <marker>more silly</marker> than the other.</example>
           </rule>
+          <rule id='SHORT_SUPERLATIVES' name="Short superlatives">
+	      <!--      Created by Tiago F. Santos, 2018-07-10      -->
+                <pattern>
+                    <token>the</token>
+                    <token>most</token>
+                    <token regexp='yes'>&short_adjectives;</token>
+                </pattern>
+                <message>This adjective uses the short form of compatives.</message>
+                  <suggestion><match no='3' postag='(.+)' postag_regexp='yes' postag_replace='JJS'/></suggestion>
+                <example correction="silliest">This example is <marker>the most silly</marker> I have read.</example>
+          </rule>
         <rulegroup id="DID_BASEFORM" name="Non-infinitive verb after modal verbs">
             <rule>
                 <antipattern>
