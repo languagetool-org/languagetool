@@ -9413,6 +9413,24 @@ regexp case-insensitive maken : (?i)
                 <example correction="hoofdcast">Het woord <marker>hoofdkast</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="KINDERCAST_KINDERKAST" name="waarschuwing bij gebruik kinderkast i.p.v. kindercast">
+            <rule>
+                <pattern>
+                       <token>kinderkast</token>
+                </pattern>
+                <message>Bedoelt u wellicht <suggestion>kindercast</suggestion> (rolbezetting met kinderen)? Of toch een opbergruimte voor kinderen?</message>
+                <example correction="kindercast">Het woord <marker>kinderkast</marker> kan een vergissing zijn.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="FILMCAST_FILMKAST" name="waarschuwing bij gebruik filmkast i.p.v. filmcast">
+            <rule>
+                <pattern>
+                       <token>filmkast</token>
+                </pattern>
+                <message>Bedoelt u wellicht <suggestion>filmcast</suggestion> (rolbezetting)? Of toch een opbergruimte voor films?</message>
+                <example correction="filmcast">Het woord <marker>filmkast</marker> kan een vergissing zijn.</example>
+            </rule>
+        </rulegroup>
 
         <rulegroup id="CINEMA_KINEMA" name="waarschuwing bij gebruik kinema i.p.v. cinema">
             <rule>
@@ -9481,6 +9499,15 @@ regexp case-insensitive maken : (?i)
                 </pattern>
                 <message>Bedoelt u wellicht <suggestion>stucwerk</suggestion> (pleisterwerk)? Stuk(s)werk is werk dat per stuk wordt gedaan.</message>
                 <example correction="stucwerk">Het woord <marker>stukwerk</marker> kan een vergissing zijn.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="STUCLIJST_STUKLIJST" name="waarschuwing bij gebruik stuklijst i.p.v. stuclijst">
+            <rule>
+                <pattern>
+                       <token inflected="yes">stuklijst</token>
+                </pattern>
+                <message>Bedoelt u wellicht <suggestion><match no="1" postag="ZNW.*" postag_regexp="yes">stuclijst</match></suggestion> (omlijsting van gips)? Of toch een stuk(s)lijst, opsomming.</message>
+                <example correction="stuclijsten">Het woord <marker>stuklijsten</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
 
