@@ -1220,8 +1220,8 @@
   </rulegroup>
 
   <rulegroup id="VERBOS_COMPOSTOS" name="Verbos compostos">
-    <rule>
     <!-- Created by Tiago F. Santos, Portuguese rule, 2018-07-08  	-->
+    <rule>
       <pattern>
           <token inflected='yes'>levar</token>
           <token>a</token>
@@ -1230,6 +1230,16 @@
         </marker>
       </pattern>
       <disambig action="replace" postag="RG"/>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token inflected='yes'>levar</token>
+        </marker>
+          <token>a</token>
+          <token>cabo</token>
+      </pattern>
+      <disambig action="filter" postag="V.+"/>
     </rule>
   </rulegroup>
 
