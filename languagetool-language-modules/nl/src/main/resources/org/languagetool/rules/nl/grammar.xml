@@ -9404,8 +9404,17 @@ regexp case-insensitive maken : (?i)
                 <example correction="cast">Het woord <marker>kast</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="HOOFDCAST_HOOFDKAST" name="waarschuwing bij gebruik hoofdkast i.p.v. hoofdcast">
+            <rule>
+                <pattern>
+                       <token>hoofdkast</token>
+                </pattern>
+                <message>Bedoelt u wellicht <suggestion>hoofdcast</suggestion> (belangrijkste rolbezetting? Of toch de belangrijkste opbergruimte?</message>
+                <example correction="hoofdcast">Het woord <marker>hoofdkast</marker> kan een vergissing zijn.</example>
+            </rule>
+        </rulegroup>
 
-          <rulegroup id="CINEMA_KINEMA" name="waarschuwing bij gebruik kinema i.p.v. cinema">
+        <rulegroup id="CINEMA_KINEMA" name="waarschuwing bij gebruik kinema i.p.v. cinema">
             <rule>
                 <pattern>
                        <token>kinema</token>
@@ -9448,20 +9457,10 @@ regexp case-insensitive maken : (?i)
         <rulegroup id="CLIP_KLIP" name="waarschuwing bij gebruik klip i.p.v. clip">
             <rule>
                 <pattern>
-                       <token>klip</token>
+                       <token inflected="yes">klip</token>
                 </pattern>
-                <message>Bedoelt u wellicht <suggestion>clip</suggestion> (filmpje, klem)? Een klip is een afgrond.</message>
+                <message>Bedoelt u wellicht <suggestion><match no="1" postag="ZNW.*" postag_regexp="yes">clip</match></suggestion> (filmpje, klem)? Een klip is een steile rotswand.</message>
                 <example correction="clip">Het woord <marker>klip</marker> kan een vergissing zijn.</example>
-            </rule>
-        </rulegroup>
-
-        <rulegroup id="CLIPJE_KLIPJE" name="waarschuwing bij gebruik klipje i.p.v. clipje">
-            <rule>
-                <pattern>
-                       <token>klipje</token>
-                </pattern>
-                <message>Bedoelt u wellicht <suggestion>clipje</suggestion> (filmpje, klem)? Een klipje is een kleine afgrond.</message>
-                <example correction="clipje">Het woord <marker>klipje</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
 
@@ -9608,9 +9607,9 @@ regexp case-insensitive maken : (?i)
         <rulegroup id="TIC_TIK" name="waarschuwing bij gebruik tik i.p.v. tic">
             <rule>
                 <pattern>
-                       <token>tik</token>
+                       <token inflected="yes">tik</token>
                 </pattern>
-                <message>Bedoelt u wellicht <suggestion>tic</suggestion> (afwijking)? Een tik is een klap.</message>
+                <message>Bedoelt u wellicht <suggestion><match no="1" postag="ZNW.*" postag_regexp="yes">tic</match></suggestion> (afwijking)? Een tik is een klap.</message>
                 <example correction="tic">Het woord <marker>tik</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
@@ -9628,9 +9627,9 @@ regexp case-insensitive maken : (?i)
         <rulegroup id="LOC_LOK" name="waarschuwing bij gebruik lok i.p.v. loc">
             <rule>
                 <pattern>
-                       <token>lok</token>
+                       <token inflected="yes">lok</token>
                 </pattern>
-                <message>Bedoelt u wellicht <suggestion>loc</suggestion> (locomotief)? Lok komt van het werkwoord lokken.</message>
+                <message>Bedoelt u wellicht <suggestion><match no="1" postag="ZNW.*" postag_regexp="yes">loc</match></suggestion> (locomotief)? Lok komt van lokken, of het gaat om een pluk haar.</message>
                 <example correction="loc">Het woord <marker>lok</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
@@ -9642,16 +9641,6 @@ regexp case-insensitive maken : (?i)
                 </pattern>
                 <message>Bedoelt u wellicht <suggestion>stuc</suggestion> (pleisterwerk)? Stuk is kapot.</message>
                 <example correction="stuc">Het woord <marker>stuk</marker> kan een vergissing zijn.</example>
-            </rule>
-        </rulegroup>
-
-        <rulegroup id="CLIPJES_KLIPJES" name="waarschuwing bij gebruik klipjes i.p.v. clipjes">
-            <rule>
-                <pattern>
-                       <token>klipjes</token>
-                </pattern>
-                <message>Bedoelt u wellicht <suggestion>clipjes</suggestion> (filmpjes)?</message>
-                <example correction="clipjes">Het woord <marker>klipjes</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
 
@@ -9923,6 +9912,7 @@ regexp case-insensitive maken : (?i)
                 <example correction="docken">Het woord <marker>dokken</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
+
         
         <!-- ######### TODO : meer ######## -->
     </category>
