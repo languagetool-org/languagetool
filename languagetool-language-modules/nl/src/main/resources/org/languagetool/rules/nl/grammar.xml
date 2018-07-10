@@ -9438,20 +9438,10 @@ regexp case-insensitive maken : (?i)
         <rulegroup id="CAMPER_KAMPER" name="waarschuwing bij gebruik kamper i.p.v. camper">
             <rule>
                 <pattern>
-                       <token>kamper</token>
+                       <token inflected="yes">kamper</token>
                 </pattern>
-                <message>Bedoelt u wellicht <suggestion>camper</suggestion> (kampeerwagen)? Een kamper is iemand die op een woonwagenkamp woont.</message>
+                <message>Bedoelt u wellicht <suggestion><match no="1" postag="ZNW.*" postag_regexp="yes">camper</match></suggestion> een kampeerwagen? Een kamper is iemand die op een woonwagenkamp woont.</message>
                 <example correction="camper">Het woord <marker>kamper</marker> kan een vergissing zijn.</example>
-            </rule>
-        </rulegroup>
-
-        <rulegroup id="CAMPERS_KAMPERS" name="waarschuwing bij gebruik kampers i.p.v. campers">
-            <rule>
-                <pattern>
-                       <token>kampers</token>
-                </pattern>
-                <message>Bedoelt u wellicht <suggestion>campers</suggestion> (kampeerwagens)? Een kamper woont op een woonwagenkamp.</message>
-                <example correction="campers">Het woord <marker>kampers</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
 
@@ -9911,6 +9901,26 @@ regexp case-insensitive maken : (?i)
                 </pattern>
                 <message>Bedoelt u wellicht <suggestion>maca</suggestion> (plant)? Maka is Surinaams.</message>
                 <example correction="maca">Het woord <marker>maka</marker> kan een vergissing zijn.</example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup id="COPEN_KOPEN" name="waarschuwing bij gebruik kopen i.p.v. copen">
+            <rule>
+                <pattern>
+                       <token>kopen</token>
+                </pattern>
+                <message>Bedoelt u wellicht <suggestion>copen</suggestion> (omgaan met)? Kopen is aanschaffen.</message>
+                <example correction="copen">Het woord <marker>kopen</marker> kan een vergissing zijn.</example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup id="DOCKEN_DOKKEN" name="waarschuwing bij gebruik dokken i.p.v. docken">
+            <rule>
+                <pattern>
+                       <token>dokken</token>
+                </pattern>
+                <message>Bedoelt u wellicht <suggestion>docken</suggestion> (in een houder plaatsen)? Of toch betalen?</message>
+                <example correction="docken">Het woord <marker>dokken</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
         
