@@ -263,6 +263,12 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("dreitem", "drittem", rule, lt);
     assertFirstSuggestion("zukuenftliche", "zukünftige", rule, lt);
     assertFirstSuggestion("schwarzwälderkirschtorte", "Schwarzwälder Kirschtorte", rule, lt);
+    assertFirstSuggestion("kolegen", "Kollegen", rule, lt);
+    assertFirstSuggestion("gerechtlichkeit", "Gerechtigkeit", rule, lt);
+    assertFirstSuggestion("Zuverlässlichkeit", "Zuverlässigkeit", rule, lt);
+    assertFirstSuggestion("Krankenhausen", "Krankenhäusern", rule, lt);
+    assertFirstSuggestion("jedwilliger", "jedweder", rule, lt);
+    assertFirstSuggestion("Betriebsratzimmern", "Betriebsratszimmern", rule, lt);
   }
 
   @Test
