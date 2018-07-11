@@ -19,9 +19,14 @@
 
 package org.languagetool.rules.spelling.morfologik;
 
-import ml.dmlc.xgboost4j.java.*;
 import org.apache.commons.lang3.tuple.Pair;
+import org.dmg.pmml.FieldName;
+import org.dmg.pmml.PMML;
 import org.jetbrains.annotations.Nullable;
+import org.jpmml.evaluator.Evaluator;
+import org.jpmml.evaluator.FieldValue;
+import org.jpmml.evaluator.InputField;
+import org.jpmml.evaluator.ModelEvaluatorFactory;
 import org.languagetool.*;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.Categories;
@@ -29,7 +34,8 @@ import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.rules.ngrams.GoogleTokenUtil;
-
+import org.xml.sax.SAXException;
+import javax.xml.bind.JAXBException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Paths;
@@ -49,10 +55,12 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
   private Pattern compoundRegex = Pattern.compile("-");
   private final UserConfig userConfig;
 
+  private static boolean useNgramBasedModel = true;
+
   private static final String XGBOOST_MODEL_BASE_PATH = "org/languagetool/resource/speller_rule/models/";
-  private static final String DEFAULT_PATH_TO_NGRAMS = "/home/ec2-user/ngram"; //TODO
   private static NGramUtil nGramUtil = null;
-  private static Booster booster;
+  private static Evaluator evaluator;
+
   /**
    * Get the filename, e.g., <tt>/resource/pl/spelling.dict</tt>.
    */
@@ -75,14 +83,18 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
 
     try {
       nGramUtil = new NGramUtil(language);
-      try (InputStream models_path = this.getClass().getClassLoader().getResourceAsStream(XGBOOST_MODEL_BASE_PATH + this.getId() + "/spc.model")) {
-        booster = XGBoost.loadModel(models_path);
-      } catch (XGBoostError xgBoostError) {
-        throw new RuntimeException("error when loading xgboost model for " + this.getId());
+      try (InputStream models_path = this.getClass().getClassLoader().getResourceAsStream(XGBOOST_MODEL_BASE_PATH + this.getId() + "/spc.model.pmml")) {
+        PMML pmml = org.jpmml.model.PMMLUtil.unmarshal(models_path);
+        ModelEvaluatorFactory modelEvaluatorFactory = ModelEvaluatorFactory.newInstance();
+        evaluator = modelEvaluatorFactory.newModelEvaluator(pmml);
+      } catch (JAXBException | SAXException e) {
+        //throw new RuntimeException("error when loading xgboost model for " + this.getId());
+        useNgramBasedModel = false;
       }
-    } catch (RuntimeException e){
-      if (e.getMessage().contains("directory")){}
-      else {
+    } catch (IOException | RuntimeException e) {
+      if (e.getMessage().equalsIgnoreCase("NGram file not found")) {
+        useNgramBasedModel = false;
+      } else {
         throw new RuntimeException(e);
       }
     }
@@ -220,9 +232,9 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
       suggestions.addAll(getAdditionalSuggestions(suggestions, word));
       if (!suggestions.isEmpty()) {
         filterSuggestions(suggestions);
-        ruleMatch.setSuggestedReplacements(nGramUtil == null ?
-                orderSuggestions(suggestions, word) :
-                orderSuggestions(suggestions, word, sentence, startPos, word.length()));
+        ruleMatch.setSuggestedReplacements(useNgramBasedModel ?
+                orderSuggestions(suggestions, word, sentence, startPos, word.length()) :
+                orderSuggestions(suggestions, word));
       }
       ruleMatches.add(ruleMatch);
     }
@@ -323,15 +335,20 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     float[] data = {left_context_covered_length, left_context_covered_proba,
             right_context_covered_length, right_context_covered_proba,
             left_context_correction_length, left_context_correction_proba,
-            right_context_correction_length, right_context_correction_proba, first_letter_matches, edit_distance};
-    float res = -1;
-    try {
-      res = booster.predict(new DMatrix(data, 1, data.length))[0][0];
-    } catch (XGBoostError xgBoostError) {
-      xgBoostError.printStackTrace();
-    }
+            right_context_correction_length, right_context_correction_proba,
+            first_letter_matches, edit_distance};
 
-    return res;
+    Map<FieldName, FieldValue> evaluatorArguments = new HashMap<>();
+    List<InputField> evaluatorInputFields = evaluator.getInputFields();
+    for (InputField inputField : evaluatorInputFields) {
+      FieldName inputFieldName = inputField.getName();
+      Object rawFieldValue = data[Integer.parseInt(inputFieldName.getValue().substring(1))]; // todo named features
+      FieldValue inputFieldValue = inputField.prepare(rawFieldValue);
+      evaluatorArguments.put(inputFieldName, inputFieldValue);
+    }
+    Map<FieldName, ?> predictions = evaluator.evaluate(evaluatorArguments);
+
+    return (Float) predictions.get(FieldName.create("probability(1)"));
   }
 
 
@@ -551,7 +568,7 @@ class NGramUtil {
     try {
       NGramUtil.language = language;
       languageModel = language.getLanguageModel(Paths.get(System.getProperty("ngram.path")).toFile());
-    } catch (IOException e) {
+    } catch (IOException | RuntimeException e) {
       throw new RuntimeException("NGram file not found");
     }
   }
