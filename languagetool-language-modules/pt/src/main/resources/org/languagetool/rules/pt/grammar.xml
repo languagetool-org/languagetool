@@ -1807,10 +1807,10 @@ title="Easy editing stylesheet" ?>
       <short>&MSG_ECV;</short>
     <rule>
       <antipattern>
-          <token postag_regexp='yes' postag='V....S.+' inflected='yes'>dizer|ler</token>
+          <token postag_regexp='yes' postag='V....S.+' inflected='yes' regexp='yes'>dizer|ler</token>
           <token regexp='yes' spacebefore='no'>&hifen;</token>
           <token>se</token>
-          <token max="3" postag_regexp='yes' postag='(?:N..|A...)P.+'/>
+          <token postag_regexp='yes' postag='(?:N..|A...)P.+'/>
       </antipattern>
       <pattern>
           <token postag_regexp='yes' postag='V....S.+'>
@@ -22344,7 +22344,7 @@ TODO Write better examples
       <short>Erro tipográfico.</short>
       <example correction='Trás-os|Trás — os'>Alfândega da Fé fica em <marker>Trás- os</marker>-Montes.</example>
       <example>-------------</example>
-      <example>— Quantos é que vocês são?— Treze.— Treze?— Sim, sim.</example><!-- XXX Test SENT_START -->
+      <!--example>— Quantos é que vocês são?— Treze.— Treze?— Sim, sim.</example> XXX Can't test \n SENT_START -->
     </rule>
   </rulegroup>
 
