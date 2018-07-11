@@ -682,6 +682,22 @@
       <disambig action="filter" postag="R.+"/>
     </rule>
 
+    <rule id="ADVERB_VERB_SINGULAR" name="Advérbio Verbo/nome Nome Singular">
+    <!-- Created by Tiago F. Santos, Portuguese rule, 2017-09-27  	-->
+      <pattern>
+          <token postag="R.+" postag_regexp='yes'/>
+        <marker>
+        <and>
+          <token postag="V.+" postag_regexp='yes'/>
+          <token postag="(N|A.)..P.+" postag_regexp='yes'/>
+        </and>
+        </marker>
+          <token postag="(N|A.)..S.+" postag_regexp='yes'>
+            <exception negate_pos='yes' postag="(N|A.)..S.+" postag_regexp='yes'/></token>
+      </pattern>
+      <disambig action="filter" postag="V.+"/>
+    </rule>
+
     <rule id="CERTO" name="Estar + Certo">
     <!-- Created by Tiago F. Santos, Portuguese rule, 2017-11-30  -->
       <pattern>
