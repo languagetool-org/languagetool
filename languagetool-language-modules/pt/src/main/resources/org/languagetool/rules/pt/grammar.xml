@@ -772,7 +772,7 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes' min='0'>&adverbios_de_intensidade;</token><!-- XXX use POS after disambiguation improvements -->
           <token postag='(?:[NZ].|A..|DP.)[MC]S.+' postag_regexp='yes'>
             <exception postag='(?:[NZ].|A..|DP.)[MC]P.+|NPMS.+|P[ID].[CFM].+|(C|R).+|SPS00|VMG0000' postag_regexp='yes'/>
-            <exception regexp="yes">[dlv]ê|há|são|ser|haver|devido|média|mídia</exception></token>
+            <exception regexp="yes">[dlv]ê|devido|m[éí]dia|há|haver|são|ser(?:ão)?</exception></token>
         </marker>
           <token>
             <exception postag_regexp='yes' postag='[^Z].+' regexp='yes'>e|&hifen;</exception></token>
@@ -1806,6 +1806,12 @@ title="Easy editing stylesheet" ?>
       <url>http://www.infoescola.com/portugues/concordancia-verbal/</url>
       <short>&MSG_ECV;</short>
     <rule>
+      <antipattern>
+          <token postag_regexp='yes' postag='V....S.+' inflected='yes'>dizer|ler</token>
+          <token regexp='yes' spacebefore='no'>&hifen;</token>
+          <token>se</token>
+          <token max="3" postag_regexp='yes' postag='(?:N..|A...)P.+'/>
+      </antipattern>
       <pattern>
           <token postag_regexp='yes' postag='V....S.+'>
             <exception inflected='yes'>concentrar</exception>
@@ -1822,6 +1828,7 @@ title="Easy editing stylesheet" ?>
         <suggestion><match no='1' postag='(V....)S(.+)' include_skipped='all' postag_replace='$1P$2' postag_regexp='yes'/>\2\3 <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/> <match no='6' include_skipped='all'/></suggestion>
       <example correction='juntaram-se os amigos'>A ele <marker>juntou-se os amigos</marker> e família.</example>
       <example correction='juntaram-se muitos bons amigos'>A ele <marker>juntou-se muitos bons amigos</marker> e família.</example>
+      <example>...leia-se superstições...</example>
     </rule>
     <rule>
       <pattern>
@@ -22326,7 +22333,8 @@ TODO Write better examples
           <token regexp='yes'>\d+|&meses_ano;|&meses_ano_abrev;|&dias_semana;|&dias_semana_abrev;</token>
       </antipattern>
       <pattern>
-          <token/>
+          <token>
+            <exception postag='SENT_START'/></token>
           <token spacebefore="no" regexp='yes'>&tracos_de_separacao;</token>
           <token spacebefore="yes"/>
       </pattern>
@@ -22336,6 +22344,7 @@ TODO Write better examples
       <short>Erro tipográfico.</short>
       <example correction='Trás-os|Trás — os'>Alfândega da Fé fica em <marker>Trás- os</marker>-Montes.</example>
       <example>-------------</example>
+      <example>— Quantos é que vocês são?— Treze.— Treze?— Sim, sim.</example><!-- XXX Test SENT_START -->
     </rule>
   </rulegroup>
 
