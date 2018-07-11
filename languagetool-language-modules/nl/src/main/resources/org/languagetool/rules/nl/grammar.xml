@@ -9492,6 +9492,16 @@ regexp case-insensitive maken : (?i)
             </rule>
         </rulegroup>
 
+        <rulegroup id="CABINETJE_KABINETJE" name="waarschuwing bij gebruik kabinetje i.p.v. cabinetje">
+            <rule>
+                <pattern>
+                    <token>kabinetje</token>
+                </pattern>
+                <message>Bedoelt u wellicht <suggestion>cabinetje</suggestion> (van de regering)? Of toch een kleine cabine?</message>
+                <example correction="cabinetje">Het woord <marker>kabinetje</marker> kan een vergissing zijn.</example>
+            </rule>
+        </rulegroup>
+
         <rulegroup id="STUCWERK_STUKWERK" name="waarschuwing bij gebruik stukwerk i.p.v. stucwerk">
             <rule>
                 <pattern>
@@ -9501,6 +9511,16 @@ regexp case-insensitive maken : (?i)
                 <example correction="stucwerk">Het woord <marker>stukwerk</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="STUCWERKER_STUKWERKER" name="waarschuwing bij gebruik stukwerker i.p.v. stucwerker">
+            <rule>
+                <pattern>
+                       <token>stukwerker</token>
+                </pattern>
+                <message>Bedoelt u wellicht <suggestion>stucwerker</suggestion> (iemand die stuukt)? Of toch stuk(s)werker: iemand die dingen per stuk maakt.</message>
+                <example correction="stucwerker">Het woord <marker>stukwerker</marker> kan een vergissing zijn.</example>
+            </rule>
+        </rulegroup>
+        
         <rulegroup id="STUCLIJST_STUKLIJST" name="waarschuwing bij gebruik stuklijst i.p.v. stuclijst">
             <rule>
                 <pattern>
@@ -9592,25 +9612,15 @@ regexp case-insensitive maken : (?i)
             </rule>
         </rulegroup>
 
-        <rulegroup id="LOCKERS_LOKKERS" name="waarschuwing bij gebruik lokkers i.p.v. lockers">
-            <rule>
-                <pattern>
-                       <token>lokkers</token>
-                </pattern>
-                <message>Bedoelt u wellicht <suggestion>lockers</suggestion> (kluisjes)? Een lokker lokt iemand.</message>
-                <example correction="lockers">Het woord <marker>lokkers</marker> kan een vergissing zijn.</example>
-            </rule>
-        </rulegroup>
         <rulegroup id="LOCKER_LOKKER" name="waarschuwing bij gebruik lokker i.p.v. locker">
             <rule>
                 <pattern>
-                       <token>lokker</token>
+                       <token inflected="yes">lokker</token>
                 </pattern>
-                <message>Bedoelt u wellicht <suggestion>locker</suggestion>?</message>
+                <message>Bedoelt u wellicht <suggestion><match no="1" postag="ZNW.*" postag_regexp="yes">locker</match></suggestion>?</message>
                 <example correction="locker">Het woord <marker>lokker</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
-
 
         <rulegroup id="CULT_KULT" name="waarschuwing bij gebruik kult i.p.v. cult">
             <rule>
@@ -9639,7 +9649,25 @@ regexp case-insensitive maken : (?i)
                 <message>Bedoelt u wellicht <suggestion>carters</suggestion> (auto-onderdelen)? Een karter is iemand die kart rijdt.</message>
                 <example correction="carters">Het woord <marker>karters</marker> kan een vergissing zijn.</example>
             </rule>
-        </rulegroup>        
+        </rulegroup>
+        <rulegroup id="CARTERTJES_KARTERTJES" name="waarschuwing bij gebruik kartertjes i.p.v. cartertjes">
+            <rule>
+                <pattern>
+                       <token>kartertjes</token>
+                </pattern>
+                <message>Bedoelt u wellicht <suggestion>cartertjes</suggestion> (van de auto)? Of toch kleine kartrijders?</message>
+                <example correction="cartertjes">Het woord <marker>kartertjes</marker> kan een vergissing zijn.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="CARTERTJE_KARTERTJE" name="waarschuwing bij gebruik kartertje i.p.v. cartertje">
+            <rule>
+                <pattern>
+                       <token>kartertje</token>
+                </pattern>
+                <message>Bedoelt u wellicht <suggestion>cartertje</suggestion> (van de auto)? Of toch een kleine kartrijder?</message>
+                <example correction="cartertje">Het woord <marker>kartertje</marker> kan een vergissing zijn.</example>
+            </rule>
+        </rulegroup>
 
         <rulegroup id="TIC_TIK" name="waarschuwing bij gebruik tik i.p.v. tic">
             <rule>
@@ -9680,7 +9708,7 @@ regexp case-insensitive maken : (?i)
                 <example correction="stuc">Het woord <marker>stuk</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
-
+        
         <rulegroup id="CROP_KROP" name="waarschuwing bij gebruik krop i.p.v. crop">
             <rule>
                 <pattern>
@@ -9760,16 +9788,17 @@ regexp case-insensitive maken : (?i)
             </rule>
         </rulegroup>
 
+        <!-- is nog iets aan de hand met de postags; later activeren
         <rulegroup id="CAPO_KAPO" name="waarschuwing bij gebruik kapo i.p.v. capo">
             <rule>
                 <pattern>
-                       <token>kapo</token>
+                       <token inflected="yes">kapo</token>
                 </pattern>
-                <message>Bedoelt u wellicht <suggestion>capo</suggestion>(maffiabaas) ? Kapo staat voor een nazi (kamppolitie).</message>
+                <message>Bedoelt u wellicht <suggestion><match no="1" postag="ZNW.*" postag_regexp="yes">capo</match></suggestion> (maffiabaas) ? Kapo staat voor een nazi (kamppolitie).</message>
                 <example correction="capo">Het woord <marker>kapo</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
-
+        -->
         <rulegroup id="COPS_KOPS" name="waarschuwing bij gebruik kops i.p.v. cops">
             <rule>
                 <pattern>
@@ -9950,6 +9979,27 @@ regexp case-insensitive maken : (?i)
             </rule>
         </rulegroup>
 
+        <rulegroup id="PACTEN_PAKTEN" name="waarschuwing bij gebruik pakten i.p.v. pacten">
+            <rule>
+                <pattern>
+                       <token>pakten</token>
+                </pattern>
+                <message>Bedoelt u wellicht <suggestion>pacten</suggestion> (verdragen)? Of toch de verleden tijd van pakken?</message>
+                <example correction="pacten">Het woord <marker>pakten</marker> kan een vergissing zijn.</example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup id="COLT_KOLT" name="waarschuwing bij gebruik kolt i.p.v. colt">
+            <rule>
+                <pattern>
+                       <token>kolt</token>
+                </pattern>
+                <message>Bedoelt u wellicht <suggestion>colt</suggestion> (pistool)? Of toch de vorm van het zeldzame werkwoord kollen?</message>
+                <example correction="colt">Het woord <marker>kolt</marker> kan een vergissing zijn.</example>
+            </rule>
+        </rulegroup>
+        
+       
         
         <!-- ######### TODO : meer ######## -->
     </category>
