@@ -560,14 +560,13 @@ class Utils {
 
 class NGramUtil {
 
-  //    private static final JLanguageTool lt = new JLanguageTool(new AmericanEnglish());
-  private static Language language;
-  private static LanguageModel languageModel;
+  private Language language;
+  private LanguageModel languageModel;
 
   public NGramUtil(Language language) {
     try {
-      NGramUtil.language = language;
-      languageModel = language.getLanguageModel(Paths.get(System.getProperty("ngram.path")).toFile());
+      this.language = language;
+      this.languageModel = language.getLanguageModel(Paths.get(System.getProperty("ngram.path")).toFile());
     } catch (IOException | RuntimeException e) {
       throw new RuntimeException("NGram file not found");
     }
