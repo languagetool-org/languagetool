@@ -352,10 +352,9 @@ class LanguageToolHttpHandler implements HttpHandler {
 
   private String readerToString(Reader reader, int maxTextLength) throws IOException {
     StringBuilder sb = new StringBuilder();
-    int readBytes = 0;
     char[] chars = new char[4000];
-    while (readBytes >= 0) {
-      readBytes = reader.read(chars, 0, 4000);
+    while (true) {
+      int readBytes = reader.read(chars, 0, 4000);
       if (readBytes <= 0) {
         break;
       }
