@@ -37392,6 +37392,10 @@ Andere Projekte</example>
                 <example correction="Buch, in dem zu lesen war">Das <marker>Buch in dem zu lesen war</marker>, dass viele Dänen stricken, war ein Fake.</example>
             </rule>
             <rule>
+               <antipattern>
+                    <token inflected="yes" skip="-1">welch<exception scope="next" postag="VER:.+" postag_regexp="yes"></token>
+                    <token postag="SENT_END"/>
+                </antipattern>
                 <pattern>
                     <token postag="(SUB|EIG|VER):.+" postag_regexp="yes"><exception postag="KON:.+" postag_regexp="yes"/></token>
                     <token inflected="yes">welch<exception postag="SENT_END" scope="next"/></token>
@@ -37401,6 +37405,7 @@ Andere Projekte</example>
                 <example correction="Satz, welchen">Mit diesem <marker>Satz welchen</marker> ich gleich beweisen werde, wurde Fermat sehr berühmt.</example>
                 <example>Wer will welches?</example>
                 <example>Aber welche Fragen waren in der Umfrage vertreten?</example>
+                <example>Die Haustür wurde aufgeschlossen und es kamen welche ins Haus rein.</example>
             </rule>
         </rulegroup>
         <rulegroup id="FEHLERHAFTES_KOMMA_ALLG" name="Fehlerhaftes Komma">
