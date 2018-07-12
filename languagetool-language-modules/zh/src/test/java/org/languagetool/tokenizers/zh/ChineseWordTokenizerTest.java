@@ -43,8 +43,8 @@ public class ChineseWordTokenizerTest {
   public void testTokenize() {
 
     List<String> tokens = wordTokenizer.tokenize("主任强调指出错误的地方。");
-    assertEquals(tokens.size(), 6);
-    assertEquals("[主任/n, 强调指出/v, 错误/a, 的/u, 地方/n, 。/w]",
+    assertEquals(tokens.size(), 7);
+    assertEquals("[主任/n, 强调/vd, 指出/v, 错误/a, 的/u, 地方/n, 。/w]",
             tokens.toString());
 
     List<String> tokens2 = wordTokenizer.tokenize("她胸前挂着一块碧绿的玉。");
@@ -58,11 +58,6 @@ public class ChineseWordTokenizerTest {
             "[“/w, 鲯鳅/n, ”/w, 的/u, 研究/vn, 结果/d, 有/v, 什么/r, 奥妙/an, ？/w]",
             tokens3.toString());
 
-    List<String> tokens4 = wordTokenizer.tokenize("我们的女组长真是百尺竿头更进一步。");
-    assertEquals(tokens4.size(), 7);
-    assertEquals(
-            "[我们/r, 的/u, 女/b, 组长/n, 真是/d, 百尺竿头更进一步/l, 。/w]",
-            tokens4.toString());
 
   }
 

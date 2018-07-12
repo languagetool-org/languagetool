@@ -46,13 +46,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>
-                        <token regexp="yes">恰(谈|商|办|购)</token>
+                        <token postag="d">恰</token>
                     </marker>
+                    <token regexp="yes">(谈|商|办|购)</token>
                 </pattern>
                 <message>
-                    您的意思是"<suggestion><match no="1" regexp_match="(恰)([谈商办购])" regexp_replace="洽$2"/></suggestion>"吗？
+                    您的意思是"<suggestion>洽</suggestion>"吗？
                 </message>
-                <example correction="洽谈">今天要到国际会议中心，<marker>恰谈</marker>一笔户外广告的生意。</example>
+                <example correction="洽">今天要到国际会议中心，<marker>恰</marker>谈一笔户外广告的生意。</example>
                 <example>今天要到国际会议中心，洽谈一笔户外广告的生意。</example>
             </rule>
             <rule>
@@ -286,13 +287,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>
-                        <token regexp="yes">(云|九|重|凌)(宵)</token>
+                        <token regexp="yes">(云|九|重|凌)宵</token>
                     </marker>
                 </pattern>
                 <message>
-                    您的意思是"<suggestion><match no="1" regexp_match="([云九重凌])(宵)" regexp_replace="$1霄"/></suggestion>"吗？
+                    您的意思是"
+                    <suggestion><match no="1" regexp_match="([云九重凌])宵" regexp_replace="$1霄"/></suggestion>"吗？
                 </message>
-                <example correction="重霄">层峦耸翠，上出<marker>重宵</marker>。飞阁流丹，下临无地。</example>
+                <example correction="重霄">层峦耸翠，上出<marker>重宵</marker>；飞阁流丹，下临无地。</example>
                 <example>层峦耸翠，上出重霄；飞阁流丹，下临无地。</example>
             </rule>
         </rulegroup>

@@ -38,7 +38,7 @@ public class JLanguageToolTest {
    */
   @Test
   public void demoCodeForHomepage() throws IOException {
-    String[] text = {"戎边的战士们真的很辛苦。.", "他们定婚了。","常年累月"};
+    String[] text = {"戎边的战士门真的很辛苦。.", "他们定婚了。","常年累月", "假书抵万金。"};
     for (String t : text) {
 //      System.out.println(languageTool1.analyzeText(t));
       List<RuleMatch> matches = languageTool1.check(t);
@@ -54,7 +54,7 @@ public class JLanguageToolTest {
 
   @Test
   public void demoCodeForHomepage2() throws IOException {
-    String[] text = {"他的公司解散後，生計並無著落，簡直是走頭無路。", "打印機"};
+    String[] text = {"他的互聯網公司解散後，生計並無著落，簡直是走頭無路。", "我的打印機壞了。"};
     for (String t : text) {
 //      System.out.println(languageTool2.analyzeText(t));
       List<RuleMatch> matches = languageTool2.check(t);

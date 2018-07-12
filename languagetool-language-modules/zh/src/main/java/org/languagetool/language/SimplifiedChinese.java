@@ -19,6 +19,13 @@
 
 package org.languagetool.language;
 
+import org.languagetool.rules.Rule;
+import org.languagetool.rules.zh.ChineseNgramProbabilityRule;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ResourceBundle;
+
 public class SimplifiedChinese extends Chinese {
 
   @Override
@@ -29,6 +36,14 @@ public class SimplifiedChinese extends Chinese {
   @Override
   public String[] getCountries() {
     return  new String[]{"CN"};
+  }
+
+  @Override
+  public List<Rule> getRelevantRules(ResourceBundle messages) {
+    List<Rule> rules = new ArrayList<>();
+    rules.addAll(super.getRelevantRules(messages));
+    rules.add(new ChineseNgramProbabilityRule());
+    return rules;
   }
 
 }
