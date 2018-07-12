@@ -22332,9 +22332,13 @@ TODO Write better examples
           <token regexp='yes'>–|&hifen;</token>
           <token regexp='yes'>\d+|&meses_ano;|&meses_ano_abrev;|&dias_semana;|&dias_semana_abrev;</token>
       </antipattern>
+      <antipattern>
+          <token postag='SENT_START'/>
+          <token spacebefore="no">—</token>
+          <token spacebefore="yes"/>
+      </antipattern>
       <pattern>
-          <token>
-            <exception postag='SENT_START'/></token>
+          <token/>
           <token spacebefore="no" regexp='yes'>&tracos_de_separacao;</token>
           <token spacebefore="yes"/>
       </pattern>
