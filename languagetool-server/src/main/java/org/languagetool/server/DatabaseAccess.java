@@ -104,7 +104,7 @@ class DatabaseAccess {
             dictEntries.add(userDictEntry.getWord());
           }
         } else {
-          print("ERROR: Could not get words from database for user " + userId + ": " + e.getMessage() + " - also, could not use version from cache, user if not fond in cache, will use empty list. Full stack trace follows:", System.err);
+          print("ERROR: Could not get words from database for user " + userId + ": " + e.getMessage() + " - also, could not use version from cache, user id not found in cache, will use empty dict. Full stack trace follows:", System.err);
         }
         e.printStackTrace();
       }
