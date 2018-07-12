@@ -19,12 +19,19 @@
 
  package org.languagetool.rules.zh;
 
+ import com.google.common.collect.Lists;
+ import com.hankcs.hanlp.dictionary.CoreDictionary;
  import com.hankcs.hanlp.dictionary.stopword.CoreStopWordDictionary;
  import com.hankcs.hanlp.seg.CRF.CRFSegment;
  import com.hankcs.hanlp.seg.Segment;
  import com.hankcs.hanlp.seg.common.Term;
 
+ import edu.berkeley.nlp.lm.ArrayEncodedNgramLanguageModel;
+ import edu.berkeley.nlp.lm.ArrayEncodedProbBackoffLm;
+ import edu.berkeley.nlp.lm.ContextEncodedNgramLanguageModel;
  import edu.berkeley.nlp.lm.NgramLanguageModel;
+ import edu.berkeley.nlp.lm.cache.ArrayEncodedCachingLmWrapper;
+ import edu.berkeley.nlp.lm.cache.ContextEncodedLmCache;
  import edu.berkeley.nlp.lm.io.LmReaders;
 
  import org.languagetool.AnalyzedSentence;
@@ -42,36 +49,7 @@
 
  public class ChineseNgramProbabilityRule extends Rule {
 
-   private static ResourceDataBroker resourceDataBroker = JLanguageTool.getDataBroker();
-   private static final String TRIGRAM_PATH = resourceDataBroker.getFromResourceDirAsUrl("zh/zhwiki_word_trigram.binary").getPath();
-   private static final String SIMILAR_DICTIONAY = resourceDataBroker.getFromResourceDirAsUrl("zh/similar_char_dictionary.txt").getPath();
-   private Map<String, List<String>> similarDictionary;
-   private NgramLanguageModel<String> trigram;
-   private Segment seg;
-
-   public ChineseNgramProbabilityRule() {
-     trigram = LmReaders.readLmBinary(TRIGRAM_PATH);
-     System.out.println("Loaded Trigram.....");
-
-     seg = new CRFSegment();
-     seg.enablePartOfSpeechTagging(true);
-     seg.enableOffset(true);
-     System.out.println("Enabled CRF segment.....");
-
-     similarDictionary = new HashMap<>();
-     try (BufferedReader br = new BufferedReader(new FileReader(SIMILAR_DICTIONAY))) {
-       String line;
-       while ((line = br.readLine()) != null) {
-         String[] kv = line.split(" ");
-         String key = kv[0];
-         List<String> val = Arrays.asList(kv[1].split(","));
-         similarDictionary.put(key, val);
-       }
-       System.out.println("Loaded Similar Dictionary.....");
-     } catch (IOException e) {
-       System.out.println("Failed to similar_char_dictionary");
-     }
-   }
+   private RuleHelper ruleHelper = new RuleHelper();
 
    @Override
    public String getDescription() {
@@ -89,21 +67,24 @@
      String ss = sentence.getText();
      String maxProbSentence = ss;
 
-     List<Term> tokens = seg.seg(ss);
-     float score = scoreSentence(tokens);
+     float score = ruleHelper.scoreSentence(ss);
+     List<Term> tokens = ruleHelper.seg.seg(ss);
+     int startPos = 0;
 
      for (Term t : tokens) {
        if (CoreStopWordDictionary.contains(t.word)) {
+         startPos += t.word.length();
          continue;
        }
        if (t.length() <= 3) {
-         int startPos = t.offset;
          for (int i = 0; i < t.word.length(); i++) {
            String currChar = Character.toString(t.word.charAt(i));
-           List<String> newChars = getCharReplacements(currChar);
+           List<String> newChars = ruleHelper.getCharReplacements(currChar);
+           if (newChars == null) continue;
            for (String newChar : newChars) {
+             if (ruleHelper.getFrequency(newChar) <= -6.5) continue;
              String newSentence = maxProbSentence.substring(0, startPos + i) + newChar + maxProbSentence.substring(startPos + i + 1);
-             float newScore = scoreSentence(newSentence);
+             float newScore = ruleHelper.scoreSentence(newSentence);
              if (newScore > score) {
                maxProbSentence = newSentence;
                score = newScore;
@@ -111,6 +92,7 @@
            }
          }
        }
+       startPos += t.word.length();
      }
 
      for (int i = 0; i < ss.length(); i++) {
@@ -126,41 +108,74 @@
      return toRuleMatchArray(ruleMatches);
    }
 
-   private List<String> getCharReplacements(String character) {
-     List<String> result = similarDictionary.get(character);
-     if (result != null) {
-       return result;
-     } else {
-       return Arrays.asList(character);
+   private class RuleHelper {
+
+     private Map<String, List<String>> similarDictionary;
+     private NgramLanguageModel trigram;
+     private NgramLanguageModel<String> unigram;
+     private Segment seg;
+
+     private RuleHelper() {
+
+       ResourceDataBroker resourceDataBroker = JLanguageTool.getDataBroker();
+       trigram = LmReaders.readLmBinary(resourceDataBroker.getFromResourceDirAsUrl("zh/word_trigram.binary").getPath());
+//       System.out.println("Loaded Trigram.....");
+
+       unigram = LmReaders.readLmBinary(resourceDataBroker.getFromResourceDirAsUrl("zh/char_unigram.binary").getPath());
+//       System.out.println("Loaded Unigram.....");
+
+       seg = new CRFSegment();
+       seg.enablePartOfSpeechTagging(true);
+       seg.enableOffset(true);
+//       System.out.println("Enabled CRF segment.....");
+
+       similarDictionary = new HashMap<>();
+       try (BufferedReader br = new BufferedReader(new FileReader(resourceDataBroker.getFromResourceDirAsUrl("zh/similar_char_dictionary.txt").getPath()))) {
+         String line;
+         while ((line = br.readLine()) != null) {
+           try {
+             String[] kv = line.split(" ");
+             String key = kv[0];
+             List<String> val = Arrays.asList(kv[1].split(","));
+             similarDictionary.put(key, val);
+           } catch (Exception e) {
+             System.out.print(String.format("%s format error.", line));
+           }
+         }
+//         System.out.println("Loaded Similar Dictionary.....");
+       } catch (IOException e) {
+         System.out.println("Failed to similar_char_dictionary.");
+       }
      }
-   }
 
-
-   private float scoreSentence(String sentence) {
-     List<Term> termList = seg.seg(sentence);
-     return scoreSentence(termList);
-   }
-
-   private float scoreSentence(List<Term> tokens) {
-     List<String> sentence = new ArrayList<>();
-     for (Term t : tokens) {
-       sentence.add(t.word);
+     private float scoreSentence(String sentence) {
+       List<Term> termList = seg.seg(sentence);
+       List<String> ngram = new ArrayList<>();
+       for (Term t : termList) {
+         ngram.add(t.word);
+       }
+       return trigram.scoreSentence(ngram);
      }
-     return trigram.scoreSentence(sentence);
+
+     private List<String> getCharReplacements(String character) {
+       return similarDictionary.get(character);
+     }
+
+     private float getFrequency(String character) {
+       return unigram.getLogProb(Arrays.asList(character));
+     }
    }
 
 
    public static void main(String[] args) throws IOException {
      ChineseNgramProbabilityRule rule = new ChineseNgramProbabilityRule();
      JLanguageTool languageTool = new JLanguageTool(new SimplifiedChinese());
-     String ss = "金天天气不好，说以我不出去了。";
+     String ss = "假书抵万金。";
      AnalyzedSentence sentence = languageTool.getAnalyzedSentence(ss);
      RuleMatch[] ruleMatches = rule.match(sentence);
      for (RuleMatch r : ruleMatches) {
        System.out.println(r.toString() + r.getSuggestedReplacements());
      }
-
-
 
    }
  }

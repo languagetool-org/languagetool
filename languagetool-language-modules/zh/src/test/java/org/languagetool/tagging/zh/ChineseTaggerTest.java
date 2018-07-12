@@ -44,7 +44,7 @@ public class ChineseTaggerTest {
 
     TestTools.myAssert(
             "主任强调指出错误的地方。",
-            "主任/[null]n -- 强调指出/[null]v -- 错误/[null]a -- 的/[null]u -- 地方/[null]n -- 。/[null]w",
+            "主任/[null]n -- 强调/[null]vd -- 指出/[null]v -- 错误/[null]a -- 的/[null]u -- 地方/[null]n -- 。/[null]w",
             tokenizer, tagger);
 
     TestTools.myAssert(
@@ -55,11 +55,6 @@ public class ChineseTaggerTest {
     TestTools.myAssert(
             "“鲯鳅”的研究结果有什么奥妙？",
             "“/[null]w -- 鲯鳅/[null]n -- ”/[null]w -- 的/[null]u -- 研究/[null]vn -- 结果/[null]d -- 有/[null]v -- 什么/[null]r -- 奥妙/[null]an -- ？/[null]w",
-            tokenizer, tagger);
-
-    TestTools.myAssert(
-            "我们的女组长真是百尺竿头更进一步。",
-            "我们/[null]r -- 的/[null]u -- 女/[null]b -- 组长/[null]n -- 真是/[null]d -- 百尺竿头更进一步/[null]l -- 。/[null]w",
             tokenizer, tagger);
 
   }
