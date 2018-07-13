@@ -11781,7 +11781,7 @@ USA
             <pattern>
                 <marker>
                     <token postag='(?:JJ|RB)S?' postag_regexp='yes'>
-                      <exception regexp='yes'>more|less|rather|other(?:wise)?|different</exception>
+                      <exception regexp='yes'>more|less|rather|other(?:wise)?|different|inferior|superior</exception>
                       <exception postag='JJR|RBR' postag_regexp='yes'/></token>
                 </marker>
                 <token>than</token>
@@ -11803,6 +11803,16 @@ USA
             <example>...don't think that there is any better way to learn English than by living in America.</example>
             <!--example>No sooner had I sat down and relaxed than the phone rang.</example> XXX this is missing a comma -->
             <!--example>...to no-kin, to friends than to strangers, to those <marker>attractive than</marker> to those unattractive, to non-competitors th...</example> XXX doesn't account for skipped words (rather) -->
+        </rule>
+        </rule>
+        <rule id="SUPERIOR_THAN_TO" name="Special comparatives (e.g. superior than/to)">
+            <pattern>
+                <token regexp="yes">inferior|superior</token>
+                <token>than</token>
+            </pattern>
+            <message>Some adjectives derived from Latin act as both adjective and comparative. In these cases use the collocation 'to'</message>
+              <suggestion>\1 to</suggestion>
+            <example correction="superior to">This product is <marker>superior than</marker> the competition.</example>
         </rule>
         <rule id="THE_WORSE_OF" name="THE + RELATIVE + OF, e.g. the worse (worst) of">
         <!-- Created by Tiago F. Santos, 2018-02-02 -->
