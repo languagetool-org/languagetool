@@ -65,6 +65,7 @@ echo "OutOfMemoryError           : `grep -c 'OutOfMemoryError' $TMPFILE`" >>$OUT
 echo "too many parallel requests : `grep -c 'too many parallel requests' $TMPFILE`" >>$OUTFILE
 echo "Incomplete results sent    : `grep -c  "matches found so far" $TMPFILE`" >>$OUTFILE
 echo "ErrorRateTooHigh           : `grep -c  "ErrorRateTooHigh" $TMPFILE`" >>$OUTFILE
+echo "WARN                       : `grep -c  "WARN:" $TMPFILE`" >>$OUTFILE
 
 echo "" >>$OUTFILE
 echo "An error has occurred      : `grep -c 'An error has occurred' $TMPFILE`" >>$OUTFILE
