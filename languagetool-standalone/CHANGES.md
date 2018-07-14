@@ -4,6 +4,8 @@
 
 ...
 
+#### Russian
+  * added and improved rules
 
 
 ## 4.2 (2018-06-26)
