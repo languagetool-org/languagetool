@@ -71,6 +71,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("[aA]lsallerersten?s", w -> Arrays.asList(w.replaceFirst("lsallerersten?s", "ls allererstes"), w.replaceFirst("lsallerersten?s", "ls Allererstes")));
     putRepl("(an|auf|ein|zu)gehangen(e[mnrs]?)?$", "hangen", "hängt");
     putRepl("[oO]key", "ey$", "ay");
+    put("packet", "Paket");
+    put("Allalei", "Allerlei");
     put("geupdate[dt]$", "upgedatet");
     put("gefaked", "gefakt");
     put("[pP]roblemhaft(e[nmrs]?)?", w -> Arrays.asList(w.replaceFirst("haft", "behaftet"), w.replaceFirst("haft", "atisch")));
