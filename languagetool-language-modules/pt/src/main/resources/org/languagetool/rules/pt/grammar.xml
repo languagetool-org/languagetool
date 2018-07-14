@@ -2160,6 +2160,69 @@ title="Easy editing stylesheet" ?>
     </rule>
   </rulegroup>
 
+    <rule id="ESPERA_QUE_INDICATIVO" name="Esperar que + Indicativo">
+    <!-- Localized from Catalan grammar.xml by Tiago F. Santos, 2018-07-13 -->
+      <antipattern>
+        <marker>
+          <token>que</token>
+          <token postag="P.+" postag_regexp="yes"/>
+          <token inflected="yes" regexp="yes">esperar|evitar</token>
+          <token>que</token>
+        </marker>
+      </antipattern>
+      <pattern>
+          <token postag='V.IP.+|V.[NG].+' postag_regexp='yes' inflected='yes' skip='4' regexp="yes">esperar|evitar
+            <exception scope="next" postag="CC|N.+|DI.+|NP.+|V.[^P].*" postag_regexp="yes"/>
+            <exception scope="next" regexp="yes">[;,«“”»]|&quot;</exception>
+            <exception scope="previous" postag="P0[12].{5}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00" postag_regexp="yes"/></token>
+          <token skip='5'>que
+            <exception scope="next">que</exception>
+            <exception scope="next" postag="CC|V.S.+|V.IF.+|_PUNCT.*" postag_regexp="yes"/>
+            <exception scope="previous" regexp="yes">até|o</exception></token>
+        <marker>
+          <token postag='V.IP.+' postag_regexp='yes'>
+            <exception postag='V.S.+|N.+|V.IC.+' postag_regexp='yes'/></token>
+        </marker>
+      </pattern>
+      <message>Tempo verbal incorreto.</message> <!-- VMIP3S00 -->
+        <suggestion><match no="3" postag="(V.)I(P.+)" postag_regexp="yes" postag_replace="$1S$2"/></suggestion>
+      <example correction="venhais">Espero que <marker>vindes</marker>.</example>
+      <example correction="produzam">Espera-se que se <marker>produzem</marker> bom resultados.</example>
+      <example correction="possa">Espero que no final <marker>posso</marker> vir.</example>
+      <example correction="vejamos">Estamos à espera que nos <marker>vemos</marker> nesta sexta-feira.</example>
+      <example correction="chegue">Espera-se que a sonda Cassini <marker>chega</marker> cedo.</example>
+      <!--example correction="chegue">Se espera que a sonda <marker>chega</marker> cedo.</example--><!-- TODO disambiguate 'se' CS|PP3CN000 -->
+      <example correction="amplie">Esperam que o gás de lutite <marker>amplia</marker> o fornecimento.</example>
+      <!--example correction="possa">Se espera que no final <marker>posso</marker> vir.</example--><!-- TODO disambiguate 'se' CS|PP3CN000 -->
+      <example correction="levem">...para evitar que as esquerdas <marker>levam</marker> adiante o seu programa.</example>
+      <example>Espera-se que a sonda Cassini chegue cedo.</example>
+      <example>Espera-se que a sonda chegue cedo.</example>
+      <example>Espero que possais vir.</example>
+      <example>Espero que perdoar-me-ás se não venho.</example>
+      <example>Esperamos o bem-estar que a publicidade não se cansa de pregar.</example>
+    <!-- <example>Espero que no deus voler proposar-ho.</example> -->
+      <example>Esperando até que fez o mesmo.</example>
+      <example>Esperamos que atrás não esteja fechada.</example>
+      <example>Passa as férias à espera que o Marco se una.</example>
+      <example>Esperando uma bastante animada que nunca chega.</example>
+      <example>Esperando uma que nunca chega.</example>
+      <example>Esperam que a capa da capota se abra.</example>
+      <example>A espera o Spiderman que lhe confesse a história.</example>
+      <example>Se espera que a demanda de indemnização seja alta.</example>
+      <example>Se espera que a obra esteja terminada o 2014.</example>
+      <example>Se espera que a esperança de vida seja de 81,7 anos.</example>
+      <example>O comportamento que se espera que tem de ter um indivíduo.</example>
+      <example>Se espera que o novo edifício gere uns gastos anuais.</example>
+      <example>Se espera que novas descobertas possam contribuir.</example>
+      <example>Bach espera que a orquestra realize algum tipo de improviso.</example>
+      <example>Estava a esperar que o terra se secasse depois da chuva.</example>
+      <example>Esperando que seria adoptado.</example> <!-- ?? -->
+      <example>Que alguns esperam pensando que se vende droga.</example>
+      <example>Esperamos que a rosa ‘Peace’ levará os pensamentos humanos.</example>
+      <example>Evitar o que é meramente subjetivo.</example>
+      <example>Se espera que o consumo privado se mantenha.</example>
+    </rule>
+
     <rule id='PRONOMIAL_COLOCATIONS_ADJUSTMENT_NOS' name='Colocações pronomiais: ênclise de formas nasais (no, na, nos, nas)'>
     <!-- Created by Tiago F. Santos, 2017-03-10 -->
       <pattern>
@@ -3188,8 +3251,8 @@ title="Easy editing stylesheet" ?>
     <rule id='DEMAIS_DE_MAIS' name="Confusão: 'de mais'  + 'demais'">
     <!-- Created by Tiago F. Santos, 2017-03-15 -->
       <antipattern>
-         <token regexp='yes'>&hifen;</token>
-         <token regexp='yes' spacebefore='no'>n[oa]s</token>
+          <token regexp='yes'>&hifen;</token>
+          <token regexp='yes' spacebefore='no'>n[oa]s</token>
       </antipattern>
       <pattern>
           <token regexp='yes'>[nd]?[ao]s?</token>
@@ -3443,7 +3506,7 @@ title="Easy editing stylesheet" ?>
   </rulegroup>
 
   <rulegroup id='SPECIAL_COMPARATIVES' name="Comparativos Especiais">
-	<!--      Created by Marco A.G.Pinto, Portuguese rule      -->
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
     <rule>
       <antipattern>
           <token>mais</token>
@@ -22348,7 +22411,7 @@ TODO Write better examples
       <short>Erro tipográfico.</short>
       <example correction='Trás-os|Trás — os'>Alfândega da Fé fica em <marker>Trás- os</marker>-Montes.</example>
       <example>-------------</example>
-      <!--example>— Quantos é que vocês são?— Treze.— Treze?— Sim, sim.</example> XXX Can't test \n SENT_START -->
+    <!--example>— Quantos é que vocês são?— Treze.— Treze?— Sim, sim.</example> XXX Can't test \n SENT_START -->
     </rule>
   </rulegroup>
 
