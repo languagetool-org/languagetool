@@ -9247,7 +9247,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="PREP_ON_END" name="Предлог в конце предложения">
             <pattern case_sensitive="yes">
                 <token regexp="yes">для|на|к|от|по|в</token>
-                <token>.<exception postag='SENT_END' negate_pos='yes'></exception></token>
+                <token postag="SENT_END" spacebefore="no">.</token>
             </pattern>
             <message>Предлог в конце предложения не употребляется.</message>
             <short>Предлог в конце предложения.</short>
@@ -9259,7 +9259,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <!--      Заканчивать предложение местоимением – дурной стиль, не для этого оно.  -->
             <pattern case_sensitive="yes">
                 <token regexp="yes">он|она|оно<exception postag='VB:.*' postag_regexp='yes' scope='previous'></exception></token>
-                <token>.<exception postag='SENT_END' negate_pos='yes'></exception></token>
+                <token postag="SENT_END" spacebefore="no">.</token>
             </pattern>
             <message>Местоимение в конце предложения не употребляется.</message>
             <short>Местоимение в конце предложения.</short>
@@ -9273,7 +9273,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                   <token><exception postag="NN:.*|ADV|PNN:.*" postag_regexp="yes"></exception><exception>является</exception><exception regexp="yes">-|—|очень|совсем|крайне</exception></token>
                   <marker>  
                     <token postag="ADJ:Posit:.*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="ADJ:Posit:.*" /></token> 
-                    <token>.<exception postag="SENT_END" negate_pos="yes"></exception></token>
+                    <token postag="SENT_END" spacebefore="no">.</token>
                   </marker>
                 </pattern>
                 <message>Опущено существительное в конце предложения.</message>
