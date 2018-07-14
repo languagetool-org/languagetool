@@ -26804,6 +26804,38 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
+        <rulegroup id="GIRAR_LES_TORNES" name="*girar les tornes">
+             <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes">canviar|girar|tornar|invertir</token>
+                    <token>les</token>
+                    <token>tornes</token>
+                </pattern>
+                <message>Expressió incorrecta</message>
+                <suggestion>(girar-se) la truita</suggestion>
+                <suggestion>(bufar) nous vents</suggestion>
+                <suggestion>(bufar) vent contrari</suggestion>
+                <suggestion>(haver-hi) un capgirell</suggestion>
+                <suggestion>(mudar-se) els daus</suggestion>
+                <suggestion>(canviar) la sort</suggestion>
+                <example correction="(girar-se) la truita|(bufar) nous vents|(bufar) vent contrari|(haver-hi) un capgirell|(mudar-se) els daus|(canviar) la sort">I llavors es <marker>giraren les tornes</marker>.</example>
+             </rule>
+            <rule>
+                <pattern>
+                    <token>les</token>
+                    <token skip="3">tornes</token>
+                    <token inflected="yes" regexp="yes">canviar|girar|tornar|invertir</token>
+                </pattern>
+                <message>Expressió incorrecta</message>
+                <suggestion>(girar-se) la truita</suggestion>
+                <suggestion>(bufar) nous vents</suggestion>
+                <suggestion>(bufar) vent contrari</suggestion>
+                <suggestion>(haver-hi) un capgirell</suggestion>
+                <suggestion>(mudar-se) els daus</suggestion>
+                <suggestion>(canviar) la sort</suggestion>
+                <example correction="(girar-se) la truita|(bufar) nous vents|(bufar) vent contrari|(haver-hi) un capgirell|(mudar-se) els daus|(canviar) la sort">I llavors <marker>les tornes es van invertir</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="VENIR_AVALL" name="venir-se avall">
              <rule>
                 <pattern>
