@@ -2160,7 +2160,7 @@ title="Easy editing stylesheet" ?>
     </rule>
   </rulegroup>
 
-    <rule id="ESPERA_QUE_INDICATIVO" name="Esperar que + Indicativo">
+    <rule id="ESPERA_QUE_INDICATIVO" name="Concordâcia Verbal: Esperar que + Indicativo">
     <!-- Localized from Catalan grammar.xml by Tiago F. Santos, 2018-07-13 -->
       <antipattern>
         <marker>
@@ -2191,9 +2191,9 @@ title="Easy editing stylesheet" ?>
       <example correction="possa">Espero que no final <marker>posso</marker> vir.</example>
       <example correction="vejamos">Estamos à espera que nos <marker>vemos</marker> nesta sexta-feira.</example>
       <example correction="chegue">Espera-se que a sonda Cassini <marker>chega</marker> cedo.</example>
-      <!--example correction="chegue">Se espera que a sonda <marker>chega</marker> cedo.</example--><!-- TODO disambiguate 'se' CS|PP3CN000 -->
+    <!--example correction="chegue">Se espera que a sonda <marker>chega</marker> cedo.</example--><!-- TODO disambiguate 'se' CS|PP3CN000 -->
       <example correction="amplie">Esperam que o gás de lutite <marker>amplia</marker> o fornecimento.</example>
-      <!--example correction="possa">Se espera que no final <marker>posso</marker> vir.</example--><!-- TODO disambiguate 'se' CS|PP3CN000 -->
+    <!--example correction="possa">Se espera que no final <marker>posso</marker> vir.</example--><!-- TODO disambiguate 'se' CS|PP3CN000 -->
       <example correction="levem">...para evitar que as esquerdas <marker>levam</marker> adiante o seu programa.</example>
       <example>Espera-se que a sonda Cassini chegue cedo.</example>
       <example>Espera-se que a sonda chegue cedo.</example>
@@ -2201,7 +2201,7 @@ title="Easy editing stylesheet" ?>
       <example>Espero que perdoar-me-ás se não venho.</example>
       <example>Esperamos o bem-estar que a publicidade não se cansa de pregar.</example>
     <!-- <example>Espero que no deus voler proposar-ho.</example> -->
-      <example>Esperando até que fez o mesmo.</example>
+      <!--example>Esperando até que fez o mesmo.</example--> <!-- TODO disambiguate 'fez' -->
       <example>Esperamos que atrás não esteja fechada.</example>
       <example>Passa as férias à espera que o Marco se una.</example>
       <example>Esperando uma bastante animada que nunca chega.</example>
@@ -2281,6 +2281,49 @@ title="Easy editing stylesheet" ?>
       <example correction='De forma alguma me diga'><marker>De forma alguma diga-me</marker> isso.</example>
     </rule>
   </rulegroup>
+
+    <rule id="MUITOS_MUITO" name="Advérbios: muitos/muito contentes">
+    <!-- Localized from Catalan grammar.xml by Tiago F. Santos, 2018-07-13 -->
+      <antipattern>
+        <marker>
+          <token regexp="yes">muit[ao]s|pouc[ao]s</token>
+          <token max="3" postag="A..[MC][PN]." postag_regexp="yes"/>
+          <token postag="N.[MC][PN].*|PI.[MC]P.*" postag_regexp="yes"/>
+        </marker>
+      </antipattern>
+      <antipattern>
+        <marker>
+          <token regexp="yes">uns|umas</token>
+          <token regexp="yes">pouc[ao]s</token>
+        </marker>
+      </antipattern>
+    <!--antipattern>
+        <marker>
+          <token>n'</token>
+          <token>hi</token>
+          <token inflected="yes">haver</token>
+          <token regexp="yes">molts|pocs</token>
+        </marker>
+      </antipattern-->
+      <pattern>
+        <marker>
+          <token regexp="yes">muit[ao]s|pouc[ao]s
+            <exception postag="DA0MP0|SPS00" postag_regexp="yes" scope="previous"/></token>
+        </marker>
+          <token postag="AQ.[MC][PN]." postag_regexp="yes">
+            <exception postag="N.[MC][PN].*|PI.[MC]P.*" postag_regexp="yes"/></token>
+      </pattern>
+      <message>Pretende dizer <suggestion><match no="1" regexp_match="(muit[ao]|pouc[ao])s" regexp_replace="$1"/></suggestion>?</message>
+      <example correction="muito">Estamos <marker>muitos</marker> contentes.</example>
+      <example correction="pouco">São <marker>poucos</marker> usuais.</example>
+      <example>Muitos grandes cantores.</example>
+      <example>Entre muitos outros, mencionam-se os seguintes.</example>
+      <example>Com muitos outros curiosos animais.</example>
+      <example>O primeiro dos muitos famosos entrevistados.</example>
+      <example>Muitos asiáticos e uns poucos europeus.</example>
+      <!--example>há muitos disponíveis por outros meios.</example-->
+      <example>Trabalhamos com muitos autónomos.</example>
+    </rule>
 
     <rule id='SEQUER_WITHOUT_NEGATIVE' name='Sequer sem negativa'>
     <!--      Created by Tiago F. Santos, 2017-03-05      -->
