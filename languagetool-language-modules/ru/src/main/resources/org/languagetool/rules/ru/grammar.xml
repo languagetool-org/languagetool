@@ -2894,13 +2894,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>  <!-- TODO - need improve rule -->
                 <pattern>
                     <token>и</token>
-                    <token regexp="yes" negate="yes" min="1" max="2">,</token>
+              <!--  <token regexp="yes" negate="yes" min="1" max="2">,</token>  -->
+                    <token postag="PREP|ADJ:.*" postag_regexp="yes"></token>
+                    <token postag="NN:.*" postag_regexp="yes"></token> 
                     <token>и</token>
-                    <token regexp="yes" negate="yes" min="1" max="2">,</token>
+              <!--  <token regexp="yes" negate="yes" min="1" max="2">,</token>  -->
+                    <token postag="PREP|ADJ:.*" postag_regexp="yes"></token>
+                    <token postag="NN:.*" postag_regexp="yes"></token> 
                     <token>и</token>
-                    <token regexp="yes" negate="yes" min="1" max="2">,</token>
+                    <token postag="PREP|ADJ:.*" postag_regexp="yes"></token>
+                    <token postag="NN:.*" postag_regexp="yes"></token> 
+              <!--  <token regexp="yes" negate="yes" min="1" max="2">,</token>  -->
                 </pattern>
-              <message>Пропущена запятая:<suggestion><match no="1" include_skipped="all"/> <match no="2" include_skipped="all" />, <match no="3" include_skipped="all"/> <match no="4" include_skipped="all"/>, <match no="5" include_skipped="all"/> <match no="6" include_skipped="all"/></suggestion>.</message>
+              <message>Пропущена запятая:<suggestion>\1 \2 \3, \4 \5 \6, \7 \8 \9</suggestion>.</message>
               <short>Пропущена запятая.</short>
               <example>Было грустно и в воздухе, и на небе, и в вагоне.</example>
               <example correction="и в воздухе, и на небе, и в вагоне">Было грустно <marker>и в воздухе и на небе и в вагоне</marker>.</example>
