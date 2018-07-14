@@ -80,6 +80,18 @@ echo "Top HTTP error codes:" >>$OUTFILE
 grep "An error has occurred" /tmp/log.temp|sed 's/.*HTTP code \([0-9]\+\)..*/HTTP code \1/'|sort |uniq -c| sort -r -n >>$OUTFILE
 
 echo "" >>$OUTFILE
+echo "API deploy dates:" >>$OUTFILE
+echo -n "languagetool.org        : " >>$OUTFILE
+curl -s "https://languagetool.org/api/v2/check?text=Test&language=en" | json_pp | grep buildDate >>$OUTFILE
+echo -n "api.languagetool.org    : " >>$OUTFILE
+curl -s "https://api.languagetool.org/v2/check?text=Test&language=en" | json_pp | grep buildDate >>$OUTFILE
+echo -n "languagetoolplus.com    : " >>$OUTFILE
+curl -s "https://languagetoolplus.com/api/v2/check?text=Test&language=en" | json_pp | grep buildDate >>$OUTFILE
+echo -n "api.languagetoolplus.com: " >>$OUTFILE
+curl -s "https://api.languagetoolplus.com/v2/check?text=Test&language=en" | json_pp | grep buildDate >>$OUTFILE
+echo "TODO: premium only on api.languagetoolplus.com" >>$OUTFILE
+
+echo "" >>$OUTFILE
 echo "Top API blocks:" >>$OUTFILE
 grep "too many requests" $TMPFILE | cut -c 21-59 | sort | uniq -c | sort -r -n | head -n 10  >>$OUTFILE
 
