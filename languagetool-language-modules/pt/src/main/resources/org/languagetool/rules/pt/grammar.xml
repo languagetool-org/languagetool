@@ -4235,6 +4235,20 @@ title="Easy editing stylesheet" ?>
     </rule>
   </rulegroup>
 
+  <rulegroup id="ABREVIATIONS" name="Abreviaturas: p.ex. sr. -> Sr.">
+    <!--  Based on German gramar.xml rule, by Tiago F. Santos, 2017-07-13      -->
+    <rule>
+      <pattern>
+          <token case_sensitive='yes'>sr</token>
+          <token spacebefore='no'>.</token>
+      </pattern>
+      <message>A abreviatura de 'Senhor' é capitalizada. A abreviatura 'sr.' refere-se a 'sénior'.</message>
+        <suggestion>Sr.</suggestion>
+      <url>https://www.uc.pt/sibuc/Pdfs/ISBD3</url>
+      <example correction="Sr.">Exmo <marker>sr.</marker> Costa,</example>
+    </rule>
+  </rulegroup>
+
   <rulegroup id='SI_UNITS_CASE' name="Unidades do Sistema Internacional: Km/km">
     <!--  Based on Catalan KILO_LOWERCASE rule, by Tiago F. Santos, 2017-02-27      -->
       <url>https://pt.wikipedia.org/wiki/Prefixos_do_Sistema_Internacional_de_Unidades</url>
