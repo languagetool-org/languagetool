@@ -17816,6 +17816,18 @@ USA
             <example correction="Friday,">We will meet <marker>Friday</marker> July 15.</example>
             <example>He was born on Friday, August 12, 2016.</example>
         </rule>
+    <rule id='UNLIKELY_OPENING_PUNCTUATION' name="Loose punctuation mark">
+    <!-- Created by Tiago F. Santos, 2018-07-14 -->
+      <pattern>
+          <token postag='SENT_START'/>
+        <marker>
+          <token regexp='yes'>[,;\:\)\]\}]</token>
+        </marker>
+      </pattern>
+      <message>Loose punctuation mark.</message>
+        <suggestion></suggestion>
+      <example correction=""><marker>;</marker> How's it goin'?</example>
+    </rule>
         <rule id="FOR_NOUN_SAKE" name="for heaven's sake">
             <pattern>
                 <token>for</token>
