@@ -1008,7 +1008,7 @@ title="Easy editing stylesheet" ?>
             <exception inflected='yes' regexp='yes'>andar|continuar</exception></token>
           <token postag_regexp='yes' postag='(?:NC|A..|V.P.).S.+'>
             <exception negate_pos='yes' postag_regexp='yes' postag='(?:NC|A..|V.P.).S.+'/>
-            <exception regexp='yes'>maioria|minoria|propriedade</exception></token>
+            <exception regexp='yes'>demasiado|maioria|minoria|propriedade</exception></token>
         </marker>
           <token>
             <exception regexp='yes'>e|&hifen;</exception></token>
@@ -1030,6 +1030,7 @@ title="Easy editing stylesheet" ?>
       <example>A fronte, bochechas e região do ouvido são azul-acinzentados.</example>
       <example>O bico é inteiramente preto e os pés são marrom-escuros a pretos.</example>
       <example>Os seus nomes são Tom e Ken.</example>
+      <example>As pessoas ficam demasiado imersas no primeiro nascimento.</example>
     </rule>
   </rulegroup>
 
@@ -2517,6 +2518,10 @@ title="Easy editing stylesheet" ?>
       <example correction='obedecerei aos'>Acima de tudo, <marker>obedecerei os</marker> meus princípios!</example>
     </rule>
     <rule>
+      <antipattern>
+          <token>a</token>
+          <token postag_regexp='yes' postag='D.+'/>
+      </antipattern>
       <pattern>
         <marker>
           <token inflected='yes' regexp='yes'>obedecer|desobedecer</token>
@@ -2922,6 +2927,10 @@ title="Easy editing stylesheet" ?>
       <antipattern>
           <token>a</token>
           <token regexp='yes'>&toponimos_sem_artigo;</token>
+      </antipattern>
+      <antipattern>
+          <token>a</token>
+          <token postag_regexp='yes' postag='D.+'/>
       </antipattern>
     <rule>
       <pattern>
@@ -6793,6 +6802,7 @@ title="Easy editing stylesheet" ?>
 
  <category id='PUNCTUATION' name="Pontuação">
 
+
     <!-- COMMA BEFORE/AFTER WORDS #1 -->
   <rulegroup id='COMMA_1' name="Vírgula antes conjunção">
     <!-- Created by Marco A.G. Pinto, Portuguese rule -->
@@ -6851,6 +6861,21 @@ title="Easy editing stylesheet" ?>
   <rulegroup id="ENUMERATIONS_AND_AND" name="Enumerações com e ... e ..." default="on">
     <!-- Created by Tiago F. Santos, 2018-07-14 -->
     <rule>
+      <antipattern>
+          <token>ascensão</token>
+          <token>e</token>
+          <token>queda</token>
+      </antipattern>
+      <antipattern>
+          <token>primeira</token>
+          <token>e</token>
+          <token>única</token>
+      </antipattern>
+      <antipattern>
+          <token>Trinidade</token>
+          <token>e</token>
+          <token>Tobago</token>
+      </antipattern>
       <pattern>
           <token/>
           <token>e</token>
@@ -6860,11 +6885,16 @@ title="Easy editing stylesheet" ?>
           <token min='0' postag="[ADP].+" postag_regexp="yes"/>
           <token postag="[AN].+" postag_regexp="yes"/>
       </pattern>
-      <message>Sempre que possível, deve utilizar só um 'e' nas enumerações.</message>
+      <message>Sempre que possível, deve utilizar só um 'e' nas enumerações. Caso contrário, segmente a frase com pontuação ou considere utilizar a 'Oxford Comma'.</message>
         <suggestion>\1, <match no='3' include_skipped='all'/> \4 \5 <match no='6' include_skipped='all'/> \7</suggestion>
+        <suggestion>\1 \2 <match no='3' include_skipped='all'/> \4, \5 <match no='6' include_skipped='all'/> \7</suggestion>
+      <url>https://superioringles.com.br/2016/09/27/virgula-oxford/</url>
       <short>Reveja a pontuação em enumareções.</short>
-      <example correction="grande, confortável e bem">A casa é <marker>grande e confortável e bem</marker> desenhada.</example>
-      <example correction="sala, um quarto e uma cozinha">A casa tem uma <marker>sala e um quarto e uma cozinha</marker>.</example>
+      <example correction="grande, confortável e bem|grande e confortável, e bem">A casa é <marker>grande e confortável e bem</marker> desenhada.</example>
+      <example correction="sala, um quarto e uma cozinha|sala e um quarto, e uma cozinha">A casa tem uma <marker>sala e um quarto e uma cozinha</marker>.</example>
+      <example correction="sul, oeste e o Suriname|sul e oeste, e o Suriname">...esa a norte, o Oceano Atlântico a leste, o Pará a <marker>sul e oeste e o Suriname</marker> a noroeste.</example>
+      <example type="correct">Gostava de agradecer aos <marker>pais, presidente, e primeira</marker>-dama.</example>
+      <!--example>...inam climas desérticos e semi-desérticos, ao norte, e frios e temperados na regiões mais altas.</example-->
     </rule>
   </rulegroup>
 
@@ -8248,7 +8278,7 @@ title="Easy editing stylesheet" ?>
           <token><match no="0"/></token>
         </marker>
       </pattern>
-      <message>Repetição estilisticamente incorreta.</message>
+      <message>Repetição gramaticalmente incorreta.</message>
       <url>https://pt.wikiversity.org/wiki/Norma_padrão_da_língua_portuguesa/Repetições_e_elipses</url>
       <example correction="">Também escreveu <marker>também</marker> para um jornal nacional.</example>
       <example correction="">Embora não é <marker>embora</marker> definitivo.</example>
@@ -8290,7 +8320,12 @@ title="Easy editing stylesheet" ?>
       </antipattern>
       <antipattern>
           <token/>
-          <token regexp='yes'>a|e|após</token>
+          <token regexp='yes'>a|e|após|por</token>
+          <token><match no="0"/></token>
+      </antipattern>
+      <antipattern>
+          <token>p</token>
+          <token>.</token>
           <token><match no="0"/></token>
       </antipattern>
       <pattern>
@@ -8330,6 +8365,7 @@ title="Easy editing stylesheet" ?>
       <example>Hectares e hectares de terra ardida.</example>
       <example>Bateu o recorde na prova dos cem metros, muito antes de ter considerado competir nos quatrocentos metros barreiras.</example>
       <example>Trabalho é trabalho, conhaque é conhaque.</example>
+      <example>Vamos analisar, facto por facto.</example>
     </rule>
 
     <rule id='REPEATED_WORDS_3X' name="Palavras repetidas (3x)" default='on' type='style'>
