@@ -8085,6 +8085,19 @@ title="Easy editing stylesheet" ?>
     </rule>
   </rulegroup>
 
+    <rule id='UNLIKELY_OPENING_PUNCTUATION' name="Sinal de pontuação perdidos">
+    <!-- Created by Tiago F. Santos, 2018-07-14 -->
+      <pattern>
+          <token postag='SENT_START'/>
+        <marker>
+          <token regexp='yes'>[,;\:\)\]\}]</token>
+        </marker>
+      </pattern>
+      <message>Sinal de pontuação isolado.</message>
+        <suggestion></suggestion>
+      <example correction=""><marker>;</marker> Como estás?</example>
+    </rule>
+
     <rule id="FINAL_PUNCTUATION" name="Pontuagão final em falta">
     <!-- Localized from German grammar.xml by Tiago F. Santos,  2017-08-19      -->
       <antipattern>
