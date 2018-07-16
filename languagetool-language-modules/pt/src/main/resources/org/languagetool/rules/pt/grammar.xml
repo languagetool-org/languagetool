@@ -4412,18 +4412,31 @@ title="Easy editing stylesheet" ?>
       <example correction="onde">Diga-me <marker>aonde</marker> está o livro.</example>
     </rule>
 
-    <rule id='A_PARTE' name="aparte">
+  <rulegroup id='A_PARTE' name="aparte">
     <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
+    <rule>
       <pattern>
-		  <token>o</token>          
+		  <token regexp='yes'>os?|(?:u|algu)(?:m|ns)|&contracoes_MS;|&contracoes_MP;</token>          
 		  <marker>
 			<token>à</token>
-			<token>parte</token>
+			<token>partes?</token>
 		  </marker>
-		  <token regexp="yes">das?|dos?</token>
+		  <token regexp="yes">d[ao]s?</token>
       </pattern>
-	  <message>Substitua por <suggestion>aparte</suggestion>.</message>
+	  <message>Substitua por <suggestion>a\3</suggestion>.</message>
       <example correction="aparte">O <marker>à parte</marker> da Ana é importante.</example>
+    </rule>
+    <rule>
+      <pattern>
+		  <marker>
+          <token inflected='yes'>fazer|falar|dizer</token>
+		  <token regexp='yes'>os?|(?:u|algu)(?:m|ns)|&contracoes_MS;|&contracoes_MP;</token>          
+			<token>à</token>
+			<token>partes?</token>
+		  </marker>
+      </pattern>
+	  <message>Substitua por <suggestion>\1 \2 a\4</suggestion>.</message>
+      <example correction="aparte">A Ana <marker>fez um à parte</marker> que é importante.</example>
     </rule>
 	
     <rule id='AS_OSSADAS_DE' name="A ossada de">
