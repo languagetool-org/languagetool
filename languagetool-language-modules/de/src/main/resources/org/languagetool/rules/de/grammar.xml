@@ -14516,6 +14516,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>&prgk;.</short>
             <example correction="Stand">Hier mal der aktuelle <marker>stand</marker>.</example>
         </rule>
+        <rule id="GROSSSCHREIBUNG_BEI_WOERTLICHER_REDE" name="Großschreibung bei wörtlicher Rede">
+            <pattern case_sensitive="yes">
+                <token>:</token>
+                <token pacebefore="yes">„</token>
+                <marker><token regexp="yes" skip="-1" spacebefore="no">[a-zäüö].+</token></marker>
+                <token postag="PKT" regexp="yes">[\?\!\.]</token>
+                <token>“</token>
+            </pattern>
+            <message>Das erste Wort der wörtlichen Rede schreibt man groß.</message>
+            <suggestion><match no="3" case_conversion="startupper"/></suggestion>
+            <short>&prgk;.</short>
+            <example correction="Kommt">Sie fragte: „<marker>kommt</marker> er heute?“</example>
+        </rule>
         <rulegroup id="UNFEST_ZUSAMMENGESETZTE_VERBEN" name="unfest zusammengesetzte Verben: du stehst Kopf (kopf)">
             <short>&prgk;.</short>
             <rule>
