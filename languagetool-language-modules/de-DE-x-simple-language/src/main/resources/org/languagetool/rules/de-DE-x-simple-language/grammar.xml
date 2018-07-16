@@ -165,7 +165,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <marker><token postag="KON:INF" skip="-1"></token></marker>
+                    <marker><token postag="KON:INF" skip="-1"><exception scope="next" regexp="yes">,|\)</exception></token></marker>
                     <token>zu</token>
                     <token postag="VER:INF:.+" postag_regexp="yes"/>
                     <token postag="PKT"></token>
@@ -179,7 +179,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <marker><token postag="KON:INF" skip="-1"></token></marker>
+                    <marker><token postag="KON:INF" skip="-1"><exception scope="next" regexp="yes">,|\)</exception></token></marker>
                     <token postag="VER:EIZ:.+" postag_regexp="yes"/>
                     <token postag="PKT"></token>
                 </pattern>
@@ -188,9 +188,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Sie sollte aufpassen. Doch sie hat lieber geschlafen.</example>
                 <example correction="">Sie besucht ihn, <marker>um</marker> ihm beizustehen.</example>
                 <example>Sie besuchte ihn. Sie half ihm dann bei der Arbeit.</example>
+                <example correction="">Er redet um den Brei herum, <marker>statt</marker> das Problem richtig anzusprechen.</example>
             </rule>
-        </rulegroup>
-        <rulegroup id="ERWEITERTE_INFINITIVE" name="Leichte Sprache: Erweiterter Infinitv">
             <rule>
                 <pattern>
                     <marker>
