@@ -4418,7 +4418,7 @@ title="Easy editing stylesheet" ?>
       <pattern>
 		  <token regexp='yes'>os?|(?:u|algu)(?:m|ns)|&contracoes_MS;|&contracoes_MP;</token>          
 		  <marker>
-			<token>à</token>
+			<token regexp='yes'>[aà]</token>
 			<token regexp="yes">partes?</token>
 		  </marker>
 		  <token regexp="yes">d[ao]s?</token>
@@ -4431,13 +4431,24 @@ title="Easy editing stylesheet" ?>
 		  <marker>
           <token inflected='yes' regexp='yes'>fazer|falar|dizer</token>
 		  <token regexp='yes'>os?|(?:u|algu)(?:m|ns)|&contracoes_MS;|&contracoes_MP;</token>          
-			<token>à</token>
+			<token regexp='yes'>[aà]</token>
 			<token regexp="yes">partes?</token>
 		  </marker>
       </pattern>
 	  <message>Substitua por <suggestion>\1 \2 a\4</suggestion>.</message>
 	  <url>https://pt.wikipedia.org/wiki/Aparte</url>
-      <example correction="aparte">A Ana <marker>fez um à parte</marker> que é importante.</example>
+      <example correction="fez um aparte">A Ana <marker>fez um à parte</marker> que é importante.</example>
+    </rule>
+    <rule>
+      <pattern>
+		  <marker>
+          <token regexp='yes'>modéstias?</token>
+		  <token regexp='yes'>apartes?</token>
+		  </marker>
+      </pattern>
+	  <message>Substitua por <suggestion>\1 à <match no='2' regexp_match='(.)(.+)' regexp_replace='$2'/></suggestion>.</message>
+	  <url>https://pt.wikipedia.org/wiki/Aparte</url>
+      <example correction="Modéstia à parte"><marker>Modéstia aparte</marker>, o trabalho ficou bem feito.</example>
     </rule>
   </rulegroup>
 	
