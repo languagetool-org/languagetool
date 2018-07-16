@@ -163,6 +163,61 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Vermeiden Sie Nebensätze.</message>
                 <example correction=""><marker>Was</marker> dieser Test bringt, weiß ich nicht.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <marker><token postag="KON:INF" skip="-1"></token></marker>
+                    <token>zu</token>
+                    <token postag="VER:INF:.+" postag_regexp="yes"/>
+                    <token postag="PKT"></token>
+                </pattern>
+                <message>Vermeiden Sie Nebensätze.</message>
+                <example correction="">Sie hat geschlafen, <marker>statt</marker> fleißig zu arbeiten.</example>
+                <example>Sie sollte fleißig arbeiten. Doch sie hat lieber geschlafen.</example>
+                <example correction="">Sie besuchte ihn, <marker>um</marker> ihm bei der Arbeit zu helfen.</example>
+                <example>Sie besuchte ihn. Sie half ihm dann bei der Arbeit.</example>
+                <example>Können Sie um neun vorbeikommen?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker><token postag="KON:INF" skip="-1"></token></marker>
+                    <token postag="VER:EIZ:.+" postag_regexp="yes"/>
+                    <token postag="PKT"></token>
+                </pattern>
+                <message>Vermeiden Sie Nebensätze.</message>
+                <example correction="">Sie hat geschalfen, <marker>statt</marker> aufzupassen.</example>
+                <example>Sie sollte aufpassen. Doch sie hat lieber geschlafen.</example>
+                <example correction="">Sie besucht ihn, <marker>um</marker> ihm beizustehen.</example>
+                <example>Sie besuchte ihn. Sie half ihm dann bei der Arbeit.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="ERWEITERTE_INFINITIVE" name="Leichte Sprache: Erweiterter Infinitv">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>,</token>
+                        <token skip="-1"><exception scope="next" regexp="yes">,|\)</exception></token>
+                    </marker>
+                    <token postag="VER:EIZ:.+" postag_regexp="yes"/>
+                    <token postag="PKT"></token>
+                </pattern>
+                <message>Vermeiden Sie Nebensätze.</message>
+                <example correction="">Er hat ihr befohlen<marker>, auf</marker> das Geld aufzupassen.</example>
+                <example>Er hat ihr einen Befehl gegeben: Sie sollte auf das Geld aufpassen</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>,</token>
+                        <token skip="-1"><exception scope="next" regexp="yes">,|\)</exception></token>
+                    </marker>
+                    <token>zu</token>
+                    <token postag="VER:INF:.+" postag_regexp="yes"/>
+                    <token postag="PKT"></token>
+                </pattern>
+                <message>Vermeiden Sie Nebensätze.</message>
+                <example correction="">Er hat vor<marker>, seine</marker> Tante zu besuchen.</example>
+                <example>Er wollte seine Tante besuchen.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="ABKUERZUNG" name="Leichte Sprache: Abkürzung">
             <rule>
