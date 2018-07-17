@@ -297,8 +297,7 @@ public class LOFlatParagraph {
   }
 
   /**
-   * Returns Number of all FlatParagraphs of Document
-   * Returns negative value if it fails
+   * Marks all paragraphs as checked with exception of the paragraphs "from" to "to"
    */
   public void markFlatParasAsChecked(int from, int to) {
     try {
