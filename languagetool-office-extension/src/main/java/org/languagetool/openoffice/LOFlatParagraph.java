@@ -296,6 +296,43 @@ public class LOFlatParagraph {
     }
   }
 
+  /**
+   * Returns Number of all FlatParagraphs of Document
+   * Returns negative value if it fails
+   */
+  public void markFlatParasAsChecked(int from, int to) {
+    try {
+      if(xFlatParaIter == null || xFlatPara == null) {
+        return;
+      }
+      XFlatParagraph tmpFlatPara = xFlatPara;
+      XFlatParagraph startFlatPara = xFlatPara;
+      while (tmpFlatPara != null) {
+        startFlatPara = tmpFlatPara;
+        tmpFlatPara = xFlatParaIter.getParaBefore(tmpFlatPara);
+      }
+      tmpFlatPara = startFlatPara;
+      int num = 0;
+      while (tmpFlatPara != null && num < from) {
+        tmpFlatPara.setChecked(TextMarkupType.PROOFREADING, true);
+        tmpFlatPara = xFlatParaIter.getParaAfter(tmpFlatPara);
+        num++;
+      }
+      while (tmpFlatPara != null && num < to) {
+        tmpFlatPara = xFlatParaIter.getParaAfter(tmpFlatPara);
+        num++;
+      }
+      while (tmpFlatPara != null) {
+        tmpFlatPara.setChecked(TextMarkupType.PROOFREADING, true);
+        tmpFlatPara = xFlatParaIter.getParaAfter(tmpFlatPara);
+        num++;
+      }
+    } catch (Throwable t) {
+      printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
+    }
+  }
+
+
 
   
 }
