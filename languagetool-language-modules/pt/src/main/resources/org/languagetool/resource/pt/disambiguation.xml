@@ -916,14 +916,15 @@
             <exception>nos</exception></token>
         <marker>
         <and>
-          <token postag="N.+" postag_regexp="yes"/>
+          <token postag="N.+" postag_regexp="yes">
+            <exception regexp='yes'>cercas?</exception></token>
           <token postag="V.+" postag_regexp="yes">
             <exception postag="VMN0000"/></token>
         </and>
         </marker>
       </pattern>
       <disambig action="remove" postag="V.+"/>
-      <example type="ambiguous" inputform="cerca[cerca/NCFS000,cerca/RG,cercar/VMIP3S0,cercar/VMM02S0]" outputform="cerca[cerca/NCFS000,cerca/RG]">Dos <marker>cerca</marker> de 416 mil soldados que serviram, cerca de 60 mil...</example>
+      <!--example type="ambiguous" inputform="cerca[cerca/NCFS000,cerca/RG,cercar/VMIP3S0,cercar/VMM02S0]" outputform="cerca[cerca/NCFS000,cerca/RG]">Dos <marker>cerca</marker> de 416 mil soldados que serviram, cerca de 60 mil...</example--><!-- XXX disambiguated by more specific CERCA_DE -->
       <example type="ambiguous" inputform="carpinteiro[carpinteirar/VMIP1S0,carpinteiro/NCMS000]" outputform="carpinteiro[carpinteiro/NCMS000]">O <marker>carpinteiro</marker> serra-te isso à medida.</example>
       <example type="untouched">Muitos destes “senhores dos mares” correm sérios riscos de deixarem de o <marker>ser</marker>.</example>
     </rule>
