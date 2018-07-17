@@ -33,6 +33,7 @@ USA
     <!ENTITY abbrevWeekdays "Mon?|Tue?|Wed?|Thu?|Fri?|Sat?|Sun?">
     <!ENTITY months "January|February|March|April|May|Ju(ne|ly)|August|September|October|November|December">
     <!ENTITY abbrevMonths "Jan|Feb|Mar|Apr|Ju[ln]|Aug|Sept?|Oct|Nov|Dec">
+    <!ENTITY interjections "aah|aha|ahem|ahh|argh|aww|aw|bah|boo|boo-hoo|brr|d'oh|duh|eek|eep|eh|eww|fuff|gah|gee|grr|hmm|humph|hah|haha|huh|hurrah|ick|meh|mhm|mm|muahaha|mwah|nah|nuh-uh|oh|ooh-la-la|ooh|oomph|oops|ouch|oww|oy|pew|pff|phew|psst|sheesh|shh|shoo|tsk-tsk|uh-huh|uh-oh|uh-uh|uhh|umm|waah|wee|whoa|wow|yahoo|yay|yeah|yee-haw|yikes|yoo-hoo|yuh-uh|yuck|zing">
     <!ENTITY languages "Akan|Amharic|Arabic|Assamese|Awadhi|Azerbaijani|Balochi|Bangla|Belarusian|Bengali|Bhojpuri|Burmese|Cantonese|Cebuano|Chewa|Chhattisgarhi|Chittagonian|Czech|Deccan|Dhundhari|Dutch|English|Filipino|French|Fula|Gaelic|German|Greek|Gujarati|Hakka|Haryanvi|Hausa|Hiligaynon|Hindi|Hmong|Hunanese|Hungarian|Igbo|Ilocano|Ilonggo|Indonesian|Italian|Ja[pv]anese|Jin|Kannada|Kazakh|Khmer|Kinyarwanda|Kirundi|Konkani|Korean|Kurdish|Madurese|Magahi|Maithili|Malagasy|Malay(alam)?|Malaysian|Mandarin|Marathi|Marwari|Mossi|Nepali|Odia|Oriya|Oromo|Pashto|Persian|Polish|Portuguese|Punjabi|Quechua|Romanian|Russian|Saraiki|Serbo-Croatian|Shona|Sindhi|Sinhalese|Somali|Spanish|Sundanese|Swedish|Sylheti|Tagalog|Tamil|Telugu|Thai|Turk(ish|men)|Ukrainian|Urdu|Uyghur|Uzbek|Vietnamese|Visayan|Wu|Xhosa|Xiang|Yoruba|Yue|Zhuang|Zulu"><!-- Most are from https://en.wikipedia.org/wiki/List_of_languages_by_number_of_native_speakers -->
     <!ENTITY short_adjectives "bad|big|black|bland|blue|bold|brave|brief|bright|broad|calm|cheap|chewy|clean|close|coarse|cold|cool|cruel|cute|damp|dark|deep|dense|dry|dull|dumb|early|easy|faint|fair|far|fast|fat|few|fierce|fine|firm|fit|flat|fresh|full|good|grand|grave|great|gross|hard|harsh|high|hip|hot|humble|kind|large|late|light|little|long|loud|low|mad|mean|mild|moist|narrow|near|neat|new|nice|odd|old|plain|poor|proud|pure|quick|quiet|rare|raw|rich|ripe|rough|rude|sad|safe|sane|shallow|sharp|short|shy|silly|simple|sincere|slim|slow|small|smart|smooth|soft|soon|sore|sour|steep|strange|strict|strong|sweet|tall|tan|thick|thin|tiny|tough|true|ugly|warm|weak|weird|wet|wide|wild|wise|young">
     <!ENTITY optional_short_adjectives "angry|bitter|bloody|bossy|busy|chubby|classy|clear|clever|cloudy|clumsy|crazy|creamy|creepy|crispy|crunchy|curly|curvy|deadly|dirty|dusty|fancy|filthy|flaky|friendly|funny|gentle|gloomy|greasy|greedy|guilty|hairy|handy|happy|healthy|heavy|hungry|icy|itchy|juicy|lazy|likely|lively|lonely|lovely|messy|nasty|naughty|needy|noisy|oily|polite|pretty|risky|roomy|rusty|salty|scary|shiny|skinny|sleepy|slimy|smelly|smoky|sorry|spicy|stingy|sunny|sweaty|tasty|thirsty|wealthy|windy|worldly|worthy">
@@ -3163,7 +3164,7 @@ USA
             <rule>
                 <pattern>
                     <marker>
-                        <token regexp="yes">[cw]ould|should|might|may|must</token>
+                        <token regexp="yes">[cw]ould|sh(ould|all)|m(ight|ay|ust)</token>
                         <token>of</token>
                     </marker>
                     <token postag="VBN|JJ" postag_regexp="yes"><exception>course</exception></token>
@@ -17758,6 +17759,40 @@ USA
                  <example correction='years, I'>For <marker>years I</marker> have been travelling.</example>
                  <example>At least they believed me.</example>
                  <example>To see you is always a great pleasure.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="INTERJECTIONS_PUNCTUATION" name="Missing comma after introductory phrase">
+    <!--  Created by Tiago F. Santos, 2018-07-16      -->
+                 <url>http://www.chompchomp.com/terms/interjection.htm</url>
+                 <short>Missing punctuation</short>
+            <rule>
+                 <pattern>
+                     <token postag='SENT_START'></token>
+                     <marker><token regexp='yes'>&interjections;</token></marker>
+                     <token>
+                       <exception regexp='yes'>[\!\?\.,;]</exception>
+                       <exception postag='NNP'/></token>
+                 </pattern>
+                 <message>Interjections are usually punctuated.</message>
+                   <suggestion>\2!</suggestion>
+                   <suggestion>\2?</suggestion>
+                   <suggestion>\2,</suggestion>
+                   <suggestion>\2.</suggestion>
+                 <example correction='Oh!|Oh?|Oh,|Oh.'><marker>Oh</marker> horrid examples...</example>
+            </rule>
+            <rule>
+                 <pattern>
+                     <token postag='SENT_START'></token>
+                     <marker><token regexp='yes'>&interjections;</token>
+                     <token postag='NNP'/></marker>
+                 </pattern>
+                 <message>Interjections are usually punctuated.</message>
+                   <suggestion>\2, \3!</suggestion>
+                   <suggestion>\2, \3?</suggestion>
+                   <suggestion>\2, \3,</suggestion>
+                   <suggestion>\2, \3.</suggestion>
+                 <example correction='Oh, John!|Oh, John?|Oh, John,|Oh, John.'><marker>Oh John</marker> what a horrid example...</example>
+                 <example><marker>Oh!</marker> Horrid examples...</example>
             </rule>
         </rulegroup>
         <rule id="COMMA_AFTER_A_MONTH" name="Comma after a month">
