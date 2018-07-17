@@ -709,6 +709,40 @@
       <disambig action="filter" postag="A.+"/>
     </rule>
 
+  <rulegroup id="CERCA_DE" name="'cerca de'">
+    <!-- Created by Tiago F. Santos, Portuguese rule, 2018-07-18  -->
+    <rule>
+      <pattern>
+        <marker>
+          <token>cerca</token>
+        </marker>
+          <token>de
+            <exception scope='next' postag_regexp='yes' postag='NC.+'/></token>
+      </pattern>
+      <disambig action="replace" postag="RG"/>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token regexp='yes'>cercas?</token>
+        </marker>
+          <token>de</token>
+          <token postag_regexp='yes' postag='NC.+'/>
+      </pattern>
+      <disambig action="filter" postag="N.+"/>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp='yes'>cercas?</token>
+          <token>de</token>
+        <marker>
+          <token postag_regexp='yes' postag='NC.+'/>
+        </marker>
+      </pattern>
+      <disambig action="filter" postag="N.+"/>
+    </rule>
+  </rulegroup>
+
   <rulegroup id="TAL_ADVERB" name="Locuções adverbiais com 'tal'">
     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-11-19  -->
     <rule>
