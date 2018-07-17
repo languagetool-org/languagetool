@@ -7042,6 +7042,10 @@ USA
         </rule>
         <rule id="TWO_CONNECTED_MODAL_VERBS" name="Two modal verbs in a row (will can)">
         <!-- Created by Tiago F. Santos, 2018-07-16 -->
+            <antipattern>
+                 <token/>
+                 <token><match no='0'/></token>
+            </antipattern>
             <pattern>
                  <token regexp="yes">c(an|ould)|w(ill|ould)|sh(ould|all)|m(ight|ay|ust)</token>
                  <token regexp="yes" case_sensitive='yes'>c(an|ould)|w(ill|ould)|sh(ould|all)|m(ight|ay|ust)
@@ -7050,6 +7054,7 @@ USA
             <message>Two modal verbs connected. Do you mean: <suggestion>\1, \2</suggestion>, <suggestion>\1</suggestion> or <suggestion>\2</suggestion>?</message>
             <example correction="could, should|could|should">That <marker>could should</marker> do.</example>
             <example><marker>Will Will</marker> notice this?</example>
+            <example><marker>Will will</marker> notice this.</example>
         </rule>
         <rule id='COLLECTIVE_NOUN_VERB_AGREEMENT_VBP' name='COLLECTIVE_NOUN_VERB_AGREEMENT_VBP'>
             <pattern>
