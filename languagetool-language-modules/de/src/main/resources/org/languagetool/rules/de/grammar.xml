@@ -5792,6 +5792,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>,</token>
                     <token postag="PRO:RIN:.*|UNKNOWN" postag_regexp="yes" />
                 </antipattern>
+                <antipattern>
+                    <token postag="SUB.*SIN.*NEU.*|EIG.*SIN.*NEU.*|PRO:.*SIN.*NEU.*" postag_regexp="yes"/>
+                    <token postag="VER:[123].+" postag_regexp="yes"/>
+                    <token>,</token>
+                    <token>dass</token>
+                </antipattern>
                 <pattern>
                     <token skip="-1" postag="SUB.*SIN.*NEU.*|EIG.*SIN.*NEU.*|PRO:.*SIN.*NEU.*" postag_regexp="yes"/>
                     <token>,</token>
@@ -5806,6 +5812,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="das">Das Kind, <marker>dass</marker> dort spielt.</example>
                 <example correction="das">Er hat kein Stück geschrieben, <marker>dass</marker> nicht erfolgreich wurde.</example>
                 <example>Er sagt, <marker>dass</marker> er sie liebt.</example>
+                <example>Das Mädchen sagte, dass nur reden hilft und nicht betrügen.</example>
             </rule>
             <rule>
                 <pattern>
