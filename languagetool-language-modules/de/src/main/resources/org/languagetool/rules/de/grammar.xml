@@ -29730,6 +29730,11 @@ Andere Projekte</example>
         </rulegroup>
         <rulegroup id="PRAEP_GEN" name="Präposition mit Genitiv (abzüglich, wegen etc.)">
             <url>http://www.canoo.net/services/OnlineGrammar/Wort/Praeposition/Kasus/Genitiv.html</url>
+            <antipattern>
+            <!-- http://canoo.net/blog/2013/09/30/bis-einschliesslich-zum-dritten/ -->
+                <token>bis</token>
+                <token>einschließlich</token>
+            </antipattern>
             <rule>
                 <pattern case_sensitive="yes">
                     <token skip="-1" postag="SENT_START"><exception scope="next" postag="SUB.*:GEN:.*" postag_regexp="yes"/></token>
@@ -29749,6 +29754,7 @@ Andere Projekte</example>
                 <example>Ich bin <marker>wegen jenes</marker> Autos gekommen.</example>
                 <example>Ich habe des Staus <marker>wegen deinem</marker> Freund Bescheid gegeben.</example>
                 <example>Es gibt Kanuvereine, die ausschließlich das Wasserwandern betreiben.</example>
+                <example>Bis einschließlich diesen Freitag hat er Urlaub.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
