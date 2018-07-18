@@ -1248,7 +1248,7 @@ public class Main extends WeakBase implements XJobExecutor,
           resetCheck();
           if(numParasToCheck > 0) {
             int from;
-            for(from = 0; from < allParas.get(docNum).size() 
+            for(from = 0; from < allParas.get(docNum).size() && from < oldParas.size() 
                 && allParas.get(docNum).get(from).equals(oldParas.get(from)); from++);
             from -= 1 + numParasToCheck;
             int to;
