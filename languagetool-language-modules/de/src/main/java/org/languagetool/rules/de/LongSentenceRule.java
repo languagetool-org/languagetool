@@ -83,7 +83,7 @@ public class LongSentenceRule extends org.languagetool.rules.LongSentenceRule {
 
   @Override
   public String getMessage() {
-    return "Dieser Satz ist sehr lang (mehr als " + maxWords + " Wörter).";
+    return "Der Satz hat an der markierten Stelle mehr als " + maxWords + " Wörter.";
   }
 
   @Override
@@ -135,8 +135,6 @@ public class LongSentenceRule extends org.languagetool.rules.LongSentenceRule {
           if(numWords == maxWords + 1) {
             fromPos.set(fromPos.size() - 1, tokens[i].getStartPos());
             toPos.set(fromPos.size() - 1, tokens[i].getEndPos());
-          } else if (numWords == maxWords + 2) {
-            toPos.set(fromPos.size() - 1, tokens[i].getEndPos());
           }
           numWords++;
         } else if (tokens[i].getToken().equals("(") || tokens[i].getToken().equals("{")
@@ -159,8 +157,6 @@ public class LongSentenceRule extends org.languagetool.rules.LongSentenceRule {
             if (isWordCount(tokens[k].getToken())) {
               if(numWordsInt == maxWords + 1) {
                 fromPosInt = tokens[k].getStartPos();
-                toPosInt = tokens[k].getEndPos();
-              } else if (numWordsInt == maxWords + 2) {
                 toPosInt = tokens[k].getEndPos();
               }
               numWordsInt++;
