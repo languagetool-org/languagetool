@@ -8915,13 +8915,13 @@ USA
         </rulegroup>
         <rulegroup id="SINGULAR_AGREEMENT_SENT_START" name="Possible agreement error: singular noun + plural verb">
     <!-- Created by Tiago F. Santos, 2018-07-17	-->
-            <rule>
+            <rule><!-- TODO overly strict. expand with other rules or improve disambiguation significantly-->
                 <pattern>
                     <token postag="SENT_START"/>
                     <token postag="DT|PRP\$" postag_regexp="yes"/>
-                    <token postag="NN"><exception postag="NN.+" postag_regexp="yes"/></token>
+                    <token postag="NN"><exception postag="NN.+|JJ" postag_regexp="yes"/></token>
                     <marker>
-                        <token postag="VBP"><exception>is</exception></token>
+                        <token postag="VBP"><exception negate_pos='yes' postag="VBP"/><exception>is</exception></token>
                     </marker>
                 </pattern>
                 <message>You should probably use <suggestion><match no="4" postag="VBZ"/></suggestion>.</message>
@@ -8929,6 +8929,67 @@ USA
                 <example correction="is">The dog <marker>are</marker> released.</example>
                 <!--example correction="barks">The dog <marker>bark</marker> loudly.</example--><!-- XXX disambiguation clash -->
                 <example>The media has a lot of influence on the outcome of an election.</example>
+                <example>A known mistake is better than an unknown truth.</example>
+                <example>The Academy Award for Best Production Design recognizes achievement...</example>
+                <example>Your shirt button is coming off.</example>
+                <example>The rich are apt to look down upon the poor.</example>
+                <example>The rich are not always happy.</example>
+                <example>The rich are apt to look down on people.</example>
+                <example>The rich are often misers.</example>
+                <example>The rich are not always happier than the poor.</example>
+                <example>Her husband quit shortly after Galt did and joined the strike some...</example>
+                <example>The burglar shut the child in the closet.</example>
+                <example>The burglar burst into his house.</example>
+                <example>The fisherman cast his line into the water.</example>
+                <example>The hill lay covered with snow.</example>
+                <example>The chairperson cut me short.</example>
+                <example>The trip back was very comfortable.</example>
+                <example>The director cast me as the devil.</example>
+                <example>The student center is a good place to strike up conversations.</example>
+                <example>The Syndic General then notifies the Co-princes who in turn appoint ...</example>
+                <example>His official title at the company is Assistant to the President.</example>
+                <example>The greenhouse frog (Eleutherodactylus planirostris) lays eggs in sma...</example>
+                <!--example>The remainder are scattered throughout Alaska, both within organize...</example   TODO fix remainder POS and/or disambiguation -->
+                <example>The official state song of Alaska is "Alaska's Flag", which was adop...</example>
+                <example>Our yacht club has ten members.</example>
+                <example>Our team beat the Lions 3 to 0.</example>
+                <example>The vase burst into fragments.</example>
+                <example>The vase fell to the floor and shattered.</example>
+                <example>The vase fell from the table and crashed to pieces.</example>
+                <example>An alkyl group, generally abbreviated with the symbol R, is a fu...</example>
+                <example>A tablet found on the Greek island Salamis in 1846 AD dates back...</example>
+                <example>The prince fell in love with a woodcutter's daughter.</example>
+                <example>The inscription read: They also left behind a memorial bag containing ...</example>
+                <example>The cruise phase was a relatively uneventful part of the flight, e...</example>
+                <example>The driver felt like taking a rest.</example>
+                <example>The cruise back to Earth was mostly a time for the crew to relax ...</example>
+                <example>My upper right wisdom tooth hurts.</example>
+                <example>The electron pair is attracted so close to the chlorine atom that t...</example>
+                <example>The pommel horse requires more balance than strength.</example>
+                <example>The ayu season has opened.</example>
+                <example>The rocket put a communications satellite into orbit.</example>
+                <example>A birthday cake with twelve candles on top.</example>
+                <example>The bike ride told on Louie.</example>
+                <example>The lion put an end to his prey with one stroke.</example>
+                <example>My mistake cost me my fortune.</example>
+                <example>A Pew Research Center demographic study from 2009 put the percen...</example>
+                <example>The volunteer group provides war victims with food and medicine.</example>
+                <example>My ballpoint pen just ran out of ink.</example>
+                <example>The ball hit him on the left side of the head.</example>
+                <example>The ball hit her in the eye.</example>
+                <example>A ball hit her on the right leg.</example>
+                <example>A fork fell off the table.</example>
+                <example>A pistol bullet went clean through his leg.</example>
+                <example>My band name's Red Hot.</example>
+                <example>The bus stop is across the street.</example>
+                <example>The bus stop is quite handy.</example>
+                <example>The bus stop is near our school.</example>
+                <example>The bus stop is close by.</example>
+                <example>The bus stop is five minutes' walk from here.</example>
+                <example>My bath towel was wet, so it was of no use.</example>
+                <example>The bus fell off the cliff, killing all 10 aboard.</example>
+                <example>His symbol space would be</example>
+                <example>My brother saw to all the arrangements for the party.</example>
             </rule>
         </rulegroup>
         <rulegroup id="AGREEMENT_SENT_START" name="Possible agreement error: plural noun + singular verb">
