@@ -25468,6 +25468,7 @@ USA
                     <token>,</token>
                     <token regexp="yes">\d\d?</token>
                     <token regexp="yes">&months;|&abbrevMonths;</token>
+                    <token regexp="yes" negate="yes">(\d\d|\d\d\d\d)</token>
                 </pattern>
                 <filter class="org.languagetool.rules.en.DateCheckFilter" args="month:\4 day:\3 weekDay:\1"/>
                 <message>Did you mean to refer to the current year? \3 \4 {currentYear} is not a {day}, but a {realDay}.</message>
@@ -25485,9 +25486,10 @@ USA
                     <token>,</token>
                     <token regexp="yes">&months;|&abbrevMonths;</token>
                     <token regexp="yes">\d\d?</token>
+                    <token regexp="yes" negate="yes">(\d\d|\d\d\d\d)</token>
                 </pattern>
                 <filter class="org.languagetool.rules.en.DateCheckFilter" args="month:\3 day:\4 weekDay:\1"/>
-                <message>Did you mean to refer to the current year? \3 \4 {currentYear} is not a {day}, but a {realDay}.</message>
+                <message>Did you mean to refer to the current year? \3 \4, {currentYear} is not a {day}, but a {realDay}.</message>
                 <example correction="">IGD Convention - <marker>Monday, October 7</marker></example>
                 <example correction="">IGD Convention - <marker>Mon, October 7</marker></example>
                 <example correction="">IGD Convention - <marker>Mo, October 7</marker></example>
@@ -25516,9 +25518,11 @@ USA
                     <token regexp="yes">0?[1-9]|[12][0-9]|3[01]</token>
                     <token>/</token>
                     <token regexp="yes">0?[1-9]|1[0-2]</token>
+                    <token neagte="yes">/</token>
+                    <token regexp="yes" negate="yes">(\d\d|\d\d\d\d)</token>
                 </pattern>
                 <filter class="org.languagetool.rules.en.DateCheckFilter" args="month:\5 day:\3 weekDay:\1"/>
-                <message>Did you mean to refer to the current year? \3/\5 {currentYear} is not a {day}, but a {realDay}.</message>
+                <message>Did you mean to refer to the current year? \3/\5/{currentYear} is not a {day}, but a {realDay}.</message>
                 <example correction="">IGD Convention 2014 - <marker>Monday, 31/10</marker></example>
                 <example>IGD Convention 2014 - <marker>Friday, 31/10</marker></example>
                 <example>IGD Convention 2014 - <marker>Monday, 10/09</marker></example><!-- not correct, but ambiguous -->
@@ -25540,9 +25544,11 @@ USA
                     <token regexp="yes">0?[1-9]|1[0-2]</token>
                     <token>/</token>
                     <token regexp="yes">0?[1-9]|[12][0-9]|3[01]</token>
+                    <token negate="yes">/</token>
+                    <token regexp="yes" negate="yes">(\d\d|\d\d\d\d)</token>
                 </pattern>
                 <filter class="org.languagetool.rules.en.DateCheckFilter" args="month:\3 day:\5 weekDay:\1"/>
-                <message>Did you mean to refer to the current year? \3/\5 {currentYear} is not a {day}, but a {realDay}.</message>
+                <message>Did you mean to refer to the current year? \3/\5/{currentYear} is not a {day}, but a {realDay}.</message>
                 <example correction="">IGD Convention 2014 - <marker>Monday, 10/31</marker></example>
                 <example>IGD Convention 2014 - <marker>Friday, 10/31</marker></example>
                 <example>IGD Convention 2014 - <marker>Monday, 10/09</marker></example><!-- not correct, but ambiguous -->
