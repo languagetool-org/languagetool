@@ -24,11 +24,14 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
 import org.languagetool.rules.ITSIssueType;
+import org.languagetool.rules.Rule;
 
 import java.awt.*;
 import java.io.*;
 import java.util.*;
 import java.util.List;
+
+import javax.swing.JOptionPane;
 
 /**
  * Configuration like list of disabled rule IDs, server mode etc.
@@ -42,6 +45,7 @@ public class Configuration {
   static final int DEFAULT_NUM_CHECK_PARAS = 5;  //  default number of parameters to be checked by TextLevelRules in LO/OO 
   static final int FONT_STYLE_INVALID = -1;
   static final int FONT_SIZE_INVALID = -1;
+  static final Color STYLE_COLOR = new Color( 0, 175, 0);
 
   private static final String CONFIG_FILE = ".languagetool.cfg";
 
@@ -81,6 +85,7 @@ public class Configuration {
   private final Map<ITSIssueType, Color> errorColors = new HashMap<>();
   private final Map<String, Color> underlineColors = new HashMap<>();
   private final Map<String, Integer> configurableRuleValues = new HashMap<>();
+  private final Set<String> styleLikeCategories = new HashSet<>();
 
   private File configFile;
   private Set<String> disabledRuleIds = new HashSet<>();
@@ -123,6 +128,8 @@ public class Configuration {
     }
     configFile = new File(baseDir, filename);
     loadConfiguration(lang);
+    // initialize style like categories
+    initStyleCategories(lang);
   }
 
   private Configuration() {
@@ -180,6 +187,11 @@ public class Configuration {
     for (Map.Entry<String, Integer> entry : configuration.configurableRuleValues.entrySet()) {
       this.configurableRuleValues.put(entry.getKey(), entry.getValue());
     }
+    this.styleLikeCategories.clear();
+    for (String entry : configuration.styleLikeCategories) {
+      this.styleLikeCategories.add(entry);
+    }
+    
   }
 
   public Set<String> getDisabledRuleIds() {
@@ -445,6 +457,39 @@ public class Configuration {
   }
 
   /**
+   * @since 4.3
+   * Returns true if category is style like
+   */
+  public boolean isStyleCategory(String category) {
+    return styleLikeCategories.contains(category);
+  }
+
+  /**
+   * @since 4.3
+   * Initialize set of style like categories
+   */
+  private void initStyleCategories(Language lang) {
+    if (lang == null) {
+      lang = language;
+      if (lang == null) {
+        return;
+      }
+    }
+    JLanguageTool langTool = new JLanguageTool(lang, motherTongue);
+    List<Rule> allRules = langTool.getAllRules();
+    for (Rule rule : allRules) {
+      if(rule.getLocQualityIssueType().toString().equalsIgnoreCase("STYLE")
+          || rule.getLocQualityIssueType().toString().equalsIgnoreCase("REGISTER")
+          || rule.getCategory().getId().toString().equals("STYLE")
+          || rule.getCategory().getId().toString().equals("TYPOGRAPHY")) {
+        if(!styleLikeCategories.contains(rule.getCategory().getName())) {
+          styleLikeCategories.add(rule.getCategory().getName());
+        }
+      }
+    }
+  }
+
+  /**
    * @since 4.2
    */
   public Map<String, Color> getUnderlineColors() {
@@ -458,6 +503,9 @@ public class Configuration {
   public Color getUnderlineColor(String category) {
     if(underlineColors.containsKey(category)) {
       return underlineColors.get(category);
+    }
+    if (styleLikeCategories.contains(category)) {
+      return STYLE_COLOR;
     }
     return Color.blue;
   }
@@ -589,10 +637,11 @@ public class Configuration {
 
       //store config for other languages
       loadConfigForOtherLanguages(lang, props);
-
+      
     } catch (FileNotFoundException e) {
       // file not found: okay, leave disabledRuleIds empty
     }
+
   }
 
   private void parseErrorColors(String colorsString) {

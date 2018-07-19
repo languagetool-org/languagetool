@@ -95,14 +95,8 @@ public class ConfigurationDialog implements ActionListener {
     String lastRuleId = null;
     Map<String, DefaultMutableTreeNode> parents = new TreeMap<>();
     for (Rule rule : rules) {
-      if((isStyle && (rule.getLocQualityIssueType().toString().equalsIgnoreCase("STYLE")
-            || rule.getLocQualityIssueType().toString().equalsIgnoreCase("REGISTER")
-            || rule.getCategory().getId().toString().equals("STYLE")
-            || rule.getCategory().getId().toString().equals("TYPOGRAPHY"))) ||
-          (!isStyle && !rule.getLocQualityIssueType().toString().equalsIgnoreCase("STYLE")
-            && !rule.getLocQualityIssueType().toString().equalsIgnoreCase("REGISTER")
-            && !rule.getCategory().getId().toString().equals("STYLE")
-            && !rule.getCategory().getId().toString().equals("TYPOGRAPHY"))) {
+      if((isStyle && config.isStyleCategory(rule.getCategory().getName())) ||
+         (!isStyle && !config.isStyleCategory(rule.getCategory().getName()))) {
         if(rule.hasConfigurableValue()) {
           configurableRules.add(rule);
         } else {
@@ -272,12 +266,6 @@ public class ConfigurationDialog implements ActionListener {
     cons.gridy++;
     cons.anchor = GridBagConstraints.WEST;
     jPane.add(portPanel, cons);
-    
-    cons.gridx = 0;
-    cons.gridy++;
-    cons.anchor = GridBagConstraints.WEST;
-    jPane.add(getUnderlineColorPanel(rules), cons);
-
     cons.fill = GridBagConstraints.HORIZONTAL;
     cons.anchor = GridBagConstraints.WEST;
     for(JPanel extra : extraPanels) {
@@ -344,6 +332,25 @@ public class ConfigurationDialog implements ActionListener {
 
     tabpane.addTab(messages.getString("guiStyleRules"), jPane);
 
+    jPane = new JPanel();
+    jPane.setLayout(new GridBagLayout());
+    cons = new GridBagConstraints();
+    cons.insets = new Insets(4, 4, 4, 4);
+    cons.gridx = 0;
+    cons.gridy = 0;
+    if (insideOffice) {
+      JLabel versionText = new JLabel(messages.getString("guiUColorHint"));
+      versionText.setForeground(Color.blue);
+      jPane.add(versionText, cons);
+      cons.gridy++;
+    }
+
+    cons.weightx = 2.0f;
+    cons.weighty = 2.0f;
+    cons.fill = GridBagConstraints.BOTH;
+    
+    jPane.add(new JScrollPane(getUnderlineColorPanel(rules)), cons);
+    
     Container contentPane = dialog.getContentPane();
     contentPane.setLayout(new GridBagLayout());
     cons = new GridBagConstraints();
@@ -369,6 +376,9 @@ public class ConfigurationDialog implements ActionListener {
     dialog.setLocation(screenSize.width / 2 - frameSize.width / 2,
         screenSize.height / 2 - frameSize.height / 2);
     dialog.setLocationByPlatform(true);
+    //  add Color tab after dimension was set
+    tabpane.addTab(messages.getString("guiUnderlineColor"), jPane);
+
     for(JPanel extra : this.extraPanels) {
       if(extra instanceof SavablePanel) {
         ((SavablePanel) extra).componentShowing();
@@ -974,7 +984,6 @@ public class ConfigurationDialog implements ActionListener {
     cons.fill = GridBagConstraints.NONE;
     cons.anchor = GridBagConstraints.NORTHWEST;
 
-    panel.add(new JLabel(messages.getString("guiUnderlineColor")), cons);
     List<String> categories = new ArrayList<String>();
     for (Rule rule : rules) {
       String category = rule.getCategory().getName();
@@ -989,47 +998,47 @@ public class ConfigurationDialog implements ActionListener {
         categories.add(category);
       }
     }
-    JComboBox<String> categoriesBox = new JComboBox<>(categories.toArray(new String[categories.size()]));
-    JLabel underlineLabel = new JLabel(" \u2588\u2588\u2588 ");  // \u2587 is smaller
-    underlineLabel.setForeground(config.getUnderlineColor(categories.get(0)));
-    underlineLabel.setBackground(config.getUnderlineColor(categories.get(0)));
-    categoriesBox.addItemListener(new ItemListener() {
-      @Override
-      public void itemStateChanged(ItemEvent e) {
-        if (e.getStateChange() == ItemEvent.SELECTED) {
-          underlineLabel.setForeground(config.getUnderlineColor(categoriesBox.getSelectedItem().toString()));
+    List<JLabel> categorieLabel = new ArrayList<JLabel>();
+    List<JLabel> underlineLabel = new ArrayList<JLabel>();
+    List<JButton> changeButton = new ArrayList<JButton>();
+    List<JButton> defaultButton = new ArrayList<JButton>();
+    for(int nCat = 0; nCat < categories.size(); nCat++) {
+      categorieLabel.add(new JLabel(categories.get(nCat) + " "));
+      underlineLabel.add(new JLabel(" \u2588\u2588\u2588 "));  // \u2587 is smaller
+      underlineLabel.get(nCat).setForeground(config.getUnderlineColor(categories.get(nCat)));
+      underlineLabel.get(nCat).setBackground(config.getUnderlineColor(categories.get(nCat)));
+      JLabel uLabel = underlineLabel.get(nCat);
+      String cLabel = categories.get(nCat);
+      panel.add(categorieLabel.get(nCat), cons);
+      cons.gridx++;
+      panel.add(underlineLabel.get(nCat), cons);
+
+      changeButton.add(new JButton(messages.getString("guiUColorChange")));
+      changeButton.get(nCat).addActionListener( new ActionListener() {
+        @Override public void actionPerformed( ActionEvent e ) {
+          Color oldColor = uLabel.getForeground();
+          Color newColor = JColorChooser.showDialog( null, messages.getString("guiUColorDialogHeader"), oldColor);
+          if(newColor != null && newColor != oldColor) {
+            uLabel.setForeground(newColor);
+            config.setUnderlineColor(cLabel, newColor);
+          }
         }
-      }
-    });
-    cons.gridy++;
-    panel.add(categoriesBox, cons);
-    cons.gridx++;
-    panel.add(underlineLabel, cons);
-
-    JButton changeButton = new JButton(messages.getString("guiUColorChange"));
-    changeButton.addActionListener( new ActionListener() {
-      @Override public void actionPerformed( ActionEvent e ) {
-        Color oldColor = underlineLabel.getForeground();
-        Color newColor = JColorChooser.showDialog( null, messages.getString("guiUColorDialogHeader"), oldColor);
-        if(newColor != null && newColor != oldColor) {
-          underlineLabel.setForeground(newColor);
-          config.setUnderlineColor(categoriesBox.getSelectedItem().toString(), newColor);
+      });
+      cons.gridx++;
+      panel.add(changeButton.get(nCat), cons);
+  
+      defaultButton.add(new JButton(messages.getString("guiUColorDefault")));
+      defaultButton.get(nCat).addActionListener( new ActionListener() {
+        @Override public void actionPerformed( ActionEvent e ) {
+          config.setDefaultUnderlineColor(cLabel);
+          uLabel.setForeground(config.getUnderlineColor(cLabel));
         }
-      }
-    });
-    cons.gridx++;
-    panel.add(changeButton, cons);
-
-    JButton defaultButton = new JButton(messages.getString("guiUColorDefault"));
-    defaultButton.addActionListener( new ActionListener() {
-      @Override public void actionPerformed( ActionEvent e ) {
-        config.setDefaultUnderlineColor(categoriesBox.getSelectedItem().toString());
-        underlineLabel.setForeground(config.getUnderlineColor(categoriesBox.getSelectedItem().toString()));
-      }
-    });
-    cons.gridx++;
-    panel.add(defaultButton, cons);
-
+      });
+      cons.gridx++;
+      panel.add(defaultButton.get(nCat), cons);
+      cons.gridx = 0;
+      cons.gridy++;
+    }
     return panel;
   }
   
