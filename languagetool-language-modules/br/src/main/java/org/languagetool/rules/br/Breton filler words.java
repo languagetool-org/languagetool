@@ -73,7 +73,6 @@ import org.languagetool.rules.AbstractFillerWordsRule;
 "(sufix) -aat",
 
 
-	"A:"
 "a benn",
 "a bep amzer",
 "a boan",
@@ -371,7 +370,6 @@ import org.languagetool.rules.AbstractFillerWordsRule;
 "azv",
 
 
-	"B:"
 "bagol",
 "balc'hded",
 "balc'hder",
@@ -494,7 +492,6 @@ import org.languagetool.rules.AbstractFillerWordsRule;
 "chom da restañ",
 
 	
-	"D:"
 "d'al liesañ",
 "d'an ampoent ma",
 "d'an ampoent",
@@ -845,7 +842,6 @@ import org.languagetool.rules.AbstractFillerWordsRule;
 "dudius",
 
 
-	"E:"
 "e berr amzer",
 "e berr gomzoù",
 "e darempred gant",
@@ -1123,7 +1119,6 @@ import org.languagetool.rules.AbstractFillerWordsRule;
 "eztaoler",
 
 
-	"F:"
 "fablus",
 "fachus",
 "faezhus",
@@ -1178,7 +1173,6 @@ import org.languagetool.rules.AbstractFillerWordsRule;
 "furnezh",
 
 	
-	"G:"
 "gaeoni",
 "gai",
 "gallet",
@@ -1263,7 +1257,6 @@ import org.languagetool.rules.AbstractFillerWordsRule;
 "gwitibunan",
 
 
-	"H:"
 "ha c'hoazh",
 "ha c'hoazh",
 "ha c'hwi ivez",
@@ -1367,7 +1360,6 @@ import org.languagetool.rules.AbstractFillerWordsRule;
 "humpl",
 
 	
-	"I:"
 "ijinek",
 "illur",
 "implijus",
@@ -1386,7 +1378,6 @@ import org.languagetool.rules.AbstractFillerWordsRule;
 "iwin",
 
 	
-	"J:"
 "james",
 "jedet",
 "jediñ",
@@ -1398,7 +1389,6 @@ import org.languagetool.rules.AbstractFillerWordsRule;
 "justik",
 
 	
-	"K:"
 "kabidan",
 "kaer ken-ken",
 "kaer-kenañ",
@@ -1556,7 +1546,6 @@ import org.languagetool.rules.AbstractFillerWordsRule;
 "kustum",
 
 	
-	"L:"
 "la",
 "labaskenn",
 "labour-skol",
@@ -1639,7 +1628,6 @@ import org.languagetool.rules.AbstractFillerWordsRule;
 "luzius",
 
 
-	"M:"
 "ma c'hall",
 "maen",
 "mailhard",
@@ -1728,7 +1716,6 @@ import org.languagetool.rules.AbstractFillerWordsRule;
 "muzuliañ",
 
 	
-	"N:"
 "n'eo ket",
 "n'eus forzh pehini",
 "n'eus forzh pelec'h",
@@ -1798,7 +1785,6 @@ import org.languagetool.rules.AbstractFillerWordsRule;
 "notapl",
 
 	
-	"O:"
 "o c'houzout",
 "o paouez",
 "o vezañ ma",
@@ -1827,7 +1813,6 @@ import org.languagetool.rules.AbstractFillerWordsRule;
 "ouzhpennañ",
 
 	
-	"P:"
 "p'ez eo gwir",
 "pa 'z eo",
 "pa laran",
@@ -2005,7 +1990,6 @@ import org.languagetool.rules.AbstractFillerWordsRule;
 "put",
 
 
-	"R:"
 "ra vo graet",
 "rag-eeun",
 "rak ma",
@@ -2065,7 +2049,6 @@ import org.languagetool.rules.AbstractFillerWordsRule;
 "rust",
 
 	
-	"S:"
 "sa",
 "sabaturus",
 "sabatus",
@@ -2201,7 +2184,6 @@ import org.languagetool.rules.AbstractFillerWordsRule;
 "sustañsus",
 
 
-	"T:"
 "tabou",
 "tachad",
 "tachadig",
@@ -2309,7 +2291,6 @@ import org.languagetool.rules.AbstractFillerWordsRule;
 "tuig ha talig",
 
 	
-	"U:"
 "uhel mat",
 "uhel-kaer",
 "uhel-mat",
@@ -2368,7 +2349,6 @@ import org.languagetool.rules.AbstractFillerWordsRule;
 "uvel",
 
 
-	"V:"
 "veilhañ",
 "vertuzius",
 "vil",
@@ -2378,7 +2358,6 @@ import org.languagetool.rules.AbstractFillerWordsRule;
 "vostapl",
 
 	
-	"W:"
 "war a seblant",
 "war al lec'h",
 "war an ampl",
@@ -2421,13 +2400,36 @@ import org.languagetool.rules.AbstractFillerWordsRule;
 "well-wazh",
 "wellañ",
 
-	"Y:"
 "ya da",
 "yac'h",
 "yael",
 "youleg",
 "youlegezh",
 	
-	"Z:"
 "zokennoc'h",
 "zokenoc'h",
+));
+  
+  public PortugueseFillerWordsRule(ResourceBundle messages, UserConfig userConfig) {
+    super(messages, userConfig);
+  }
+
+  @Override
+  public String getId() {
+    return RULE_ID + "_PT";
+  }
+
+  @Override
+  protected boolean isFillerWord(String token) {
+    return fillerWords.contains(token);
+  }
+
+  @Override
+  public boolean isException(AnalyzedTokenReadings[] tokens, int num) {
+    if ("mas".equals(tokens[num].getToken()) && num >= 2 && ",".equals(tokens[num - 2].getToken())) {
+      return true;
+    }
+    return false;
+  }
+  
+}
