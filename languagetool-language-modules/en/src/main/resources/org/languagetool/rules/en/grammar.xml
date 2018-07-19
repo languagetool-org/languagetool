@@ -25448,6 +25448,107 @@ USA
                 <example>IGD Convention 2014 - <marker>Friday, 2014-10-31</marker></example>
             </rule>             
         </rulegroup>
+        
+        <rulegroup id="DATE_WEEKDAY_WITHOUT_YEAR" name="Weekday doesn't match date for the current year">
+            <antipattern>
+                <token regexp="yes">\d\d\d\d</token>
+                <token>BC</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">\d\d\d\d</token>
+                <token>B</token>
+                <token>.</token>
+                <token>C</token>
+                <token>.</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <!-- "Monday, 7 October" -->
+                    <token regexp="yes">&weekdays;|&abbrevWeekdays;</token>
+                    <token>,</token>
+                    <token regexp="yes">\d\d?</token>
+                    <token regexp="yes">&months;|&abbrevMonths;</token>
+                </pattern>
+                <filter class="org.languagetool.rules.en.DateCheckFilter" args="month:\4 day:\3 weekDay:\1"/>
+                <message>Did you mean to refer to the current year? \3 \4 {currentYear} is not a {day}, but a {realDay}.</message>
+                <example correction="">IGD Convention - <marker>Monday, 7 October</marker></example>
+                <example correction="">IGD Convention - <marker>Mon, 7 October</marker></example>
+                <example correction="">IGD Convention - <marker>Mo, 7 October</marker></example>
+                <example correction="">IGD Convention - <marker>Monday, 7 Oct</marker></example>
+                <example>IGD Convention - <marker>Tuesday, 7 October</marker></example>
+                <example>IGD Convention - <marker>Tuesday, 7 Oct</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <!-- "Monday, October 7" -->
+                    <token regexp="yes">&weekdays;|&abbrevWeekdays;</token>
+                    <token>,</token>
+                    <token regexp="yes">&months;|&abbrevMonths;</token>
+                    <token regexp="yes">\d\d?</token>
+                </pattern>
+                <filter class="org.languagetool.rules.en.DateCheckFilter" args="month:\3 day:\4 weekDay:\1"/>
+                <message>Did you mean to refer to the current year? \3 \4 {currentYear} is not a {day}, but a {realDay}.</message>
+                <example correction="">IGD Convention - <marker>Monday, October 7</marker></example>
+                <example correction="">IGD Convention - <marker>Mon, October 7</marker></example>
+                <example correction="">IGD Convention - <marker>Mo, October 7</marker></example>
+                <example correction="">IGD Convention - <marker>Wednesday, October 7</marker></example>
+                <example correction="">IGD Convention - <marker>Thursday, October 7</marker></example>
+                <example correction="">IGD Convention - <marker>Friday, October 7</marker></example>
+                <example correction="">IGD Convention - <marker>Saturday, October 7</marker></example>
+                <example correction="">IGD Convention - <marker>Sunday, October 7</marker></example>
+                <example correction="">IGD Convention - <marker>Sunday, Oct 7</marker></example>
+                <example>IGD Convention - <marker>Tuesday, October 7</marker></example>
+                <example>IGD Convention - <marker>Tuesday, Oct 7</marker></example>
+            </rule>
+            <!-- "Monday, 31/10" -->
+            <!-- the ambiguous forms have been antipatterned -->
+            <rule>
+                <antipattern>
+                    <token regexp="yes">&weekdays;</token>
+                    <token>,</token>
+                    <token regexp="yes">0?[1-9]|1[0-2]</token>
+                    <token>/</token>
+                    <token regexp="yes">0?[1-9]|1[0-2]</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">&weekdays;</token>
+                    <token>,</token>
+                    <token regexp="yes">0?[1-9]|[12][0-9]|3[01]</token>
+                    <token>/</token>
+                    <token regexp="yes">0?[1-9]|1[0-2]</token>
+                </pattern>
+                <filter class="org.languagetool.rules.en.DateCheckFilter" args="month:\5 day:\3 weekDay:\1"/>
+                <message>Did you mean to refer to the current year? \3/\5 {currentYear} is not a {day}, but a {realDay}.</message>
+                <example correction="">IGD Convention 2014 - <marker>Monday, 31/10</marker></example>
+                <example>IGD Convention 2014 - <marker>Friday, 31/10</marker></example>
+                <example>IGD Convention 2014 - <marker>Monday, 10/09</marker></example><!-- not correct, but ambiguous -->
+                <example>IGD Convention 2014 - <marker>Monday, 9/10</marker></example><!-- not correct, but ambiguous -->
+            </rule>
+            <rule>
+                <!-- "Monday, 10/31" -->
+                <!-- the ambiguous forms have been antipatterned -->
+                <antipattern>
+                    <token regexp="yes">&weekdays;</token>
+                    <token>,</token>
+                    <token regexp="yes">0?[1-9]|1[0-2]</token>
+                    <token>/</token>
+                    <token regexp="yes">0?[1-9]|1[0-2]</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">&weekdays;</token>
+                    <token>,</token>
+                    <token regexp="yes">0?[1-9]|1[0-2]</token>
+                    <token>/</token>
+                    <token regexp="yes">0?[1-9]|[12][0-9]|3[01]</token>
+                </pattern>
+                <filter class="org.languagetool.rules.en.DateCheckFilter" args="month:\3 day:\5 weekDay:\1"/>
+                <message>Did you mean to refer to the current year? \3/\5 {currentYear} is not a {day}, but a {realDay}.</message>
+                <example correction="">IGD Convention 2014 - <marker>Monday, 10/31</marker></example>
+                <example>IGD Convention 2014 - <marker>Friday, 10/31</marker></example>
+                <example>IGD Convention 2014 - <marker>Monday, 10/09</marker></example><!-- not correct, but ambiguous -->
+                <example>IGD Convention 2014 - <marker>Monday, 9/10</marker></example><!-- not correct, but ambiguous -->
+            </rule>
+        </rulegroup>
         <rulegroup id="INVALID_DATE" name="Invalid date, like 'February 31, 2014'">
             <rule>
                 <pattern>
