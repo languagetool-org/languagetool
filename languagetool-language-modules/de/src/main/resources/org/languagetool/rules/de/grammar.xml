@@ -11101,6 +11101,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Bei Temperaturen um 25° C ist es warm.</example>
             </rule>
         </rulegroup>
+
+
         <rulegroup id="DATUM_WOCHENTAG" name="Wochentag passt nicht zum Datum">
             <antipattern case_sensitive="yes">
                 <!-- Zeitung "der freitag" -->
@@ -11241,6 +11243,130 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <!-- TODO: weitere regel auch ohne Jahr (Annahme: dieses Jahr (auch am jahresende bei "2.1."?)) -->
         </rulegroup>
+
+        <rulegroup id="DATUM_WOCHENTAG_OHNE_JAHR" name="Wochentag passt nicht zum Datum dieses Jahres">
+            <antipattern case_sensitive="yes">
+                <!-- Zeitung "der freitag" -->
+                <token>der</token>
+                <token>freitag</token>
+            </antipattern>
+            <antipattern case_sensitive="yes">
+                <!-- z.B. "lemonde.fr" -->
+                <token>.</token>
+                <token spacebefore="no">fr</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">\d\d\d\d</token>
+                <token>v</token>
+                <token>.</token>
+                <token min="0">&nbsp;</token>
+                <token>Chr</token>
+                <token>.</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">\d\d\d\d</token>
+                <token>v</token>
+                <token>.</token>
+                <token min="0">&nbsp;</token>
+                <token>u</token>
+                <token>.</token>
+                <token min="0">&nbsp;</token>
+                <token>Z</token>
+                <token>.</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token regexp="yes">&wochentage;|&abgekWochentage;</token>
+                    <token>,</token>
+                    <token regexp="yes" min="0">de[mnrs]</token>
+                    <token regexp="yes">\d\d?</token>
+                    <token>.</token>
+                    <token regexp="yes">\d\d?</token>
+                    <token>.</token>
+                </pattern>
+                <filter class="org.languagetool.rules.de.DateCheckFilter" args="month:\6 day:\4 weekDay:\1"/>
+                <!-- TODO change examples -->
+                <message>Bezieht sich dieses Datum auf das aktuelle Jahr? Der \4.\6.{currentYear} fällt nicht auf einen {day}, sondern auf einen {realDay}.</message>
+                <example correction="">Termin: <marker>Sonntag, 23.08.</marker></example>
+                <example correction="">Termin: <marker>Sonntag, 23.8.</marker></example>
+                <example correction="">Termin: <marker>So, 23.08.</marker></example>
+                <example correction="">Termin: <marker>Sonntag, den 23.08.</marker></example>
+                <example correction="">Termin: <marker>So, den 23.08.</marker></example>
+                <example>Termin: Sonnabend, 23.08.</example>
+                <example>Termin: Samstag, 23.08.</example>
+                <example>Termin: Sa, 23.08.</example>
+                <example>Termin: Sa, 33.08.</example><!-- invalid, but ignored by this rule -->
+                <example>Termin: Sa, 11.13.</example><!-- invalid, but ignored by this rule -->
+                <example>Termin: Sa, 12.13.</example><!-- invalid, but ignored by this rule -->
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">&abgekWochentage;</token>
+                    <token>.</token>
+                    <token>,</token>
+                    <token regexp="yes" min="0">de[nmrs]</token>
+                    <token regexp="yes">\d\d?</token>
+                    <token>.</token>
+                    <token regexp="yes">\d\d?</token>
+                    <token>.</token>
+                </pattern>
+                <filter class="org.languagetool.rules.de.DateCheckFilter" args="month:\7 day:\5 weekDay:\1"/>
+                <message>Bezieht sich dieses Datum auf das aktuelle Jahr?
+                    Der \5.\7.{currentYear} fällt nicht auf einen {day}, sondern auf einen {realDay}.</message>
+                <example correction="">Termin: <marker>So., 23.08.</marker></example>
+                <example correction="">Termin: <marker>So., den 23.08.</marker></example>
+                <example>Termin: Sa., 23.08.</example>
+                <example>Termin: Sa., 34.08.</example><!-- invalid, but ignored by this rule -->
+                <example>Termin: Sa., 35.08.</example><!-- invalid, but ignored by this rule -->
+            </rule>
+            <rule>
+                <antipattern case_sensitive="yes">
+                    <!-- Wochenzeitung -->
+                    <token>Der</token>
+                    <token>Freitag</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">&wochentage;|&abgekWochentage;</token>
+                    <token>,</token>
+                    <token regexp="yes" min="0">de[nmrs]</token>
+                    <token regexp="yes">\d\d?</token>
+                    <token>.</token>
+                    <token regexp="yes">&monate;</token>
+                </pattern>
+                <filter class="org.languagetool.rules.de.DateCheckFilter" args="month:\6 day:\4 weekDay:\1"/>
+                <message>Bezieht sich dieses Datum auf das aktuelle Jahr? Der \4. \6 {currentYear} fällt nicht auf einen {day}, sondern auf einen {realDay}.</message>
+                <example correction="">Termin: <marker>Donnerstag, 1. Jänner</marker></example>
+                <example correction="">Termin: <marker>Sonntag, 23. August</marker></example>
+                <example correction="">Termin: <marker>So, 23. August</marker></example>
+                <example correction="">Termin: <marker>Sonntag, den 23. August</marker></example>
+                <example>Termin: <marker>Mittwoch, 1. Jänner</marker></example>
+                <example>Termin: <marker>Samstag, 23. August</marker></example>
+                <example>Termin: <marker>Sa, 23. August</marker></example>
+                <example>Termin: <marker>Samstag, den 23. August</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">&wochentage;|&abgekWochentage;</token>
+                    <token>,</token>
+                    <token regexp="yes" min="0">de[nmrs]</token>
+                    <token regexp="yes">\d\d?</token>
+                    <token>.</token>
+                    <token regexp="yes">&abgekMonate;</token>
+                    <token>.</token>
+                </pattern>
+                <filter class="org.languagetool.rules.de.DateCheckFilter" args="month:\6 day:\4 weekDay:\1"/>
+                <message>Bezieht sich dieses Datum auf das aktuelle Jahr? Der \4. \6 {currentYear} fällt nicht auf einen {day}, sondern auf einen {realDay}.</message>
+                <example correction="">Termin: <marker>Donnerstag, 1. Jän.</marker></example>
+                <example correction="">Termin: <marker>Sonntag, 23. Aug.</marker></example>
+                <example correction="">Termin: <marker>So, 23. Aug.</marker></example>
+                <example correction="">Termin: <marker>Sonntag, den 23. Aug.</marker></example>
+                <example>Termin: <marker>Mittwoch, 1. Jän.</marker></example>
+                <example>Termin: <marker>Samstag, 23. Aug.</marker></example>
+                <example>Termin: <marker>Sa, 23. Aug.</marker></example>
+                <example>Termin: <marker>Samstag, den 23. Aug.</marker></example>
+            </rule>
+        </rulegroup>
+
         <rulegroup id="UNGUELTIGES_DATUM" name="Ungültiges Datum, z.B. '31. Februar'">
             <rule>
                 <pattern>
