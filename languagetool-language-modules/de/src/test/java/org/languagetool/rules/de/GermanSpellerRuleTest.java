@@ -269,6 +269,8 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("Krankenhausen", "Krankenhäusern", rule, lt);
     assertFirstSuggestion("jedwilliger", "jedweder", rule, lt);
     assertFirstSuggestion("Betriebsratzimmern", "Betriebsratszimmern", rule, lt);
+    assertFirstSuggestion("ausiehst", "aussiehst", rule, lt);
+    assertFirstSuggestion("unterbemittelnde", "minderbemittelte", rule, lt);
   }
 
   @Test

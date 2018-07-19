@@ -219,6 +219,15 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("(Baden-)?Würtenbergs?", "Würten", "Württem");
     putRepl("Betriebsratzimmer[ns]?", "rat", "rats");
     putRepl("Rechts?schreibungsfehler[ns]?", "Rechts?schreibungs", "Rechtschreib");
+    putRepl("Open[aA]ir-Konzert(en?)?", "Open[aA]ir", "Open-Air");
+    putRepl("Jugenschuhen?", "Jug", "Jung");
+    putRepl("TODO-Listen?", "TODO", "To-do");
+    putRepl("ausiehs?t", "aus", "auss");
+    putRepl("unterbemittel(nd|t)(e[nmrs]?)?", "unterbemittel(nd|t)", "minderbemittelt");
+    put("Makieren", "Markieren");
+    put("Altersheimer", "Alzheimer");
+    put("gesen", "gesehen");
+    put("Neugierigkeit", w -> Arrays.asList("Neugier", "Neugierde"));
     put("[kK]onn?ekt?schen", "Connection");
     put("E-Maul", "E-Mail");
     put("E-Mauls", "E-Mails");
