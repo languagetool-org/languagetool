@@ -6981,6 +6981,25 @@ title="Easy editing stylesheet" ?>
     </rule>
   </rulegroup>
 
+  <rulegroup id='ALTERNATIVE_CONJUNCTIONS_COMMA' name="Pontuação: conjunções coordenativas: tal..., tal ...; quer..., quer ...">
+    <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-25 -->
+    <!-- <url>http://www.lpeu.com.br/q/v73qc</url>               -->
+      <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/ainda-a-virgula-em-quer-quer/25734</url>
+      <short>Separe com vírgulas</short>
+    <rule>
+      <pattern>
+          <token regexp="yes">já|o(ra|u)|qu(al|er)|tal</token>
+          <token skip='-1'>
+            <exception scope='next' regexp='yes'>[,\:;»]</exception></token>
+          <token><match no='0'/></token>
+      </pattern>
+      <message>Conjunções alternativas ou disjuntivas devem ser separadas por vírgulas.</message>
+        <suggestion>\1 <match no='2' include_skipped='all'/>, \3</suggestion>
+      <example correction="Quer diga que sim, quer"><marker>Quer diga que sim quer</marker> diga que não, está bem feito.</example>
+      <example>"Ou sim, ou sopas?"</example>
+    </rule>
+  </rulegroup>
+
   <rulegroup id='VERB_COMMA_CONJUNCTION' name="Locuções entre vírgulas: portanto, por exemplo, na verdade">
     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-25 -->
     <!-- <url>http://www.lpeu.com.br/q/v73qc</url>               -->
