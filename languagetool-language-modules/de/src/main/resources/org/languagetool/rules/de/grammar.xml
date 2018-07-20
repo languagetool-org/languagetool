@@ -11274,6 +11274,49 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>Z</token>
                 <token>.</token>
             </antipattern>
+
+            <!-- all patterns for DATUM_WOCHENTAG are antipatterns, otherwise both trigger for the same date -->
+            <antipattern>
+                <token regexp="yes">&wochentage;|&abgekWochentage;</token>
+                <token>,</token>
+                <token regexp="yes" min="0">de[mnrs]</token>
+                <token regexp="yes">\d\d?</token>
+                <token>.</token>
+                <token regexp="yes">\d\d?</token>
+                <token>.</token>
+                <token regexp="yes">\d\d\d\d</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">&abgekWochentage;</token>
+                <token>.</token>
+                <token>,</token>
+                <token regexp="yes" min="0">de[nmrs]</token>
+                <token regexp="yes">\d\d?</token>
+                <token>.</token>
+                <token regexp="yes">\d\d?</token>
+                <token>.</token>
+                <token regexp="yes">\d\d\d\d</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">&wochentage;|&abgekWochentage;</token>
+                <token>,</token>
+                <token regexp="yes" min="0">de[nmrs]</token>
+                <token regexp="yes">\d\d?</token>
+                <token>.</token>
+                <token regexp="yes">&monate;</token>
+                <token regexp="yes">\d\d\d\d</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">&wochentage;|&abgekWochentage;</token>
+                <token>,</token>
+                <token regexp="yes" min="0">de[nmrs]</token>
+                <token regexp="yes">\d\d?</token>
+                <token>.</token>
+                <token regexp="yes">&abgekMonate;</token>
+                <token>.</token>
+                <token regexp="yes">\d\d\d\d</token>
+            </antipattern>
+
             <rule>
                 <pattern>
                     <token regexp="yes">&wochentage;|&abgekWochentage;</token>
@@ -11283,7 +11326,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>.</token>
                     <token regexp="yes">\d\d?</token>
                     <token>.</token>
-                    <token regexp="yes" negate="yes">(\d\d|\d\d\d\d)</token>
                 </pattern>
                 <filter class="org.languagetool.rules.de.DateCheckFilter" args="month:\6 day:\4 weekDay:\1"/>
                 <!-- TODO change examples -->
@@ -11310,7 +11352,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>.</token>
                     <token regexp="yes">\d\d?</token>
                     <token>.</token>
-                    <token regexp="yes" negate="yes">(\d\d|\d\d\d\d)</token>
                 </pattern>
                 <filter class="org.languagetool.rules.de.DateCheckFilter" args="month:\7 day:\5 weekDay:\1"/>
                 <message>Bezieht sich dieses Datum auf das aktuelle Jahr?
@@ -11334,7 +11375,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">\d\d?</token>
                     <token>.</token>
                     <token regexp="yes">&monate;</token>
-                    <token regexp="yes" negate="yes">(\d\d|\d\d\d\d)</token>
                 </pattern>
                 <filter class="org.languagetool.rules.de.DateCheckFilter" args="month:\6 day:\4 weekDay:\1"/>
                 <message>Bezieht sich dieses Datum auf das aktuelle Jahr? Der \4. \6 {currentYear} fällt nicht auf einen {day}, sondern auf einen {realDay}.</message>
@@ -11356,7 +11396,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>.</token>
                     <token regexp="yes">&abgekMonate;</token>
                     <token>.</token>
-                    <token regexp="yes" negate="yes">(\d\d|\d\d\d\d)</token>
                 </pattern>
                 <filter class="org.languagetool.rules.de.DateCheckFilter" args="month:\6 day:\4 weekDay:\1"/>
                 <message>Bezieht sich dieses Datum auf das aktuelle Jahr? Der \4. \6 {currentYear} fällt nicht auf einen {day}, sondern auf einen {realDay}.</message>
