@@ -5298,6 +5298,10 @@
 <beforebreak>\b[dD]\.l\.e\.?</beforebreak>
 <afterbreak></afterbreak>
 </rule>
+<rule break="yes">
+<beforebreak>[\.!?…]['"”»\p{Pe}\u00BB\u201D]?\s*</beforebreak>
+<afterbreak>\p{Lu}[^\p{Lu}]</afterbreak>
+</rule>
 <!-- Break rules -->
 <rule break="yes">
 <beforebreak>[\.!?…][\u0002|'|"|«|\)|\]|\}¹²³]?\s+</beforebreak>
@@ -5524,12 +5528,16 @@
 <afterbreak></afterbreak>
 </rule>
 <rule break="yes">
-<beforebreak>[\.!?…]['"”»\p{Pe}\u00BB\u201D]?</beforebreak>
+<beforebreak>[\.!?…]['"”»\p{Pe}\u00BB\u201D]?\s*</beforebreak>
 <afterbreak>\p{Lu}[^\p{Lu}]</afterbreak>
 </rule>
 <rule break="yes">
 <beforebreak>\s\p{L}[\.!?…]\s</beforebreak>
 <afterbreak>\p{Lu}\p{Ll}</afterbreak>
+</rule>
+<rule break="yes">
+<beforebreak>[^\s]:\s</beforebreak>
+<afterbreak>['"«¡¿\p{Ps}\p{Pi}]?\p{Lu}\p{Ll}*</afterbreak>
 </rule>
 </languagerule>
 <languagerule languagerulename="Italian">
