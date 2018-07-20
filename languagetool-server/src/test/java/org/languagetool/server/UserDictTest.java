@@ -66,6 +66,7 @@ public class UserDictTest {
         String res = check(deDE, "Hier steht Schockl", USERNAME1, API_KEY1);
         assertThat(StringUtils.countMatches(res, "GERMAN_SPELLER_RULE"), is (1));  // 'Schöckl' accepted, but not 'Schockl' (NOTE: depends on encoding/collation of database) 
         try {
+          System.out.println("=== Testing multi word insertion now, ignore stack trace: ===");
           addWord("multi word", USERNAME1, API_KEY1);
           fail("Should not be able to insert multi words");
         } catch (IOException ignore) {}
