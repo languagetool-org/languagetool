@@ -207,6 +207,8 @@ class DatabaseAccess {
       map.put("matches", matches);
       map.put("language", lang.getShortCodeWithCountryAndVariant());
       session.insert("org.languagetool.server.LogMapper.logCheck", map);
+    } catch (Exception e) {
+      print("Could not log check for " + userId + ": " + e.getMessage());
     }
   }
   
