@@ -229,7 +229,7 @@ abstract class TextChecker {
             + ", r:" + reqCounter.getRequestCount());
   }
 
-  private List<String> getUserDictWords(Long userId) throws IOException {
+  private List<String> getUserDictWords(Long userId) {
     DatabaseAccess db = DatabaseAccess.getInstance();
     return db.getUserDictWords(userId);
   }
