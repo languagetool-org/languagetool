@@ -25,9 +25,11 @@ import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+import org.languagetool.Language;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -189,6 +191,25 @@ class DatabaseAccess {
     }
   }
 
+  void logAccess(Language lang, int textSize, int matches, Long userId) {
+    if (sqlSessionFactory == null) {
+      return;
+    }
+    try (SqlSession session = sqlSessionFactory.openSession(true)) {
+      HashMap<Object, Object> map = new HashMap<>();
+      Calendar date = Calendar.getInstance();
+      SimpleDateFormat dayFormat = new SimpleDateFormat("yyyy-MM-dd");
+      SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+      map.put("day", dayFormat.format(date.getTime()));
+      map.put("date", dateFormat.format(date.getTime()));
+      map.put("user_id", userId);
+      map.put("textsize", textSize);
+      map.put("matches", matches);
+      map.put("language", lang.getShortCodeWithCountryAndVariant());
+      session.insert("org.languagetool.server.LogMapper.logCheck", map);
+    }
+  }
+  
   private void validateWord(String word) {
     if (word == null || word.trim().isEmpty()) {
       throw new IllegalArgumentException("Invalid word, cannot be empty or whitespace only");
