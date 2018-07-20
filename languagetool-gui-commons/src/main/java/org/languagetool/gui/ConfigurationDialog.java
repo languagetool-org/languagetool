@@ -64,7 +64,7 @@ public class ConfigurationDialog implements ActionListener {
   private JDialog dialog;
   private JCheckBox serverCheckbox;
   private JTextField serverPortField;
-  private JTree configTree[] = new JTree[2];
+  private JTree configTree[];
   private JCheckBox serverSettingsCheckbox;
   private final List<JPanel> extraPanels = new ArrayList<>();
   private final List<Rule> configurableRules = new ArrayList<>();
@@ -90,13 +90,15 @@ public class ConfigurationDialog implements ActionListener {
     extraPanels.add(panel);
   }
 
-  private DefaultMutableTreeNode createTree(List<Rule> rules, boolean isStyle) {
+  private DefaultMutableTreeNode createTree(List<Rule> rules, boolean isStyle, String tabName) {
     DefaultMutableTreeNode root = new DefaultMutableTreeNode("Rules");
     String lastRuleId = null;
     Map<String, DefaultMutableTreeNode> parents = new TreeMap<>();
     for (Rule rule : rules) {
-      if((isStyle && config.isStyleCategory(rule.getCategory().getName())) ||
-         (!isStyle && !config.isStyleCategory(rule.getCategory().getName()))) {
+      if((tabName == null && !config.isSpecialTabCategory(rule.getCategory().getName()) &&
+          ((isStyle && config.isStyleCategory(rule.getCategory().getName())) ||
+         (!isStyle && !config.isStyleCategory(rule.getCategory().getName())))) || 
+          (tabName != null && config.isInSpecialTab(rule.getCategory().getName(), tabName))) {
         if(rule.hasConfigurableValue()) {
           configurableRules.add(rule);
         } else {
@@ -105,7 +107,8 @@ public class ConfigurationDialog implements ActionListener {
             if (config.getDisabledCategoryNames() != null && config.getDisabledCategoryNames().contains(rule.getCategory().getName())) {
               enabled = false;
             }
-            if(rule.getCategory().isDefaultOff()) {
+            if(rule.getCategory().isDefaultOff() && (config.getEnabledCategoryNames() == null 
+                || !config.getEnabledCategoryNames().contains(rule.getCategory().getName()))) {
               enabled = false;
             }
             DefaultMutableTreeNode categoryNode = new CategoryNode(rule.getCategory(), enabled);
@@ -161,50 +164,46 @@ public class ConfigurationDialog implements ActionListener {
 
     configurableRules.clear();
 
-    JPanel checkBoxPanel = new JPanel();
-    checkBoxPanel.setLayout(new GridBagLayout());
-    GridBagConstraints cons = new GridBagConstraints();
-    cons.anchor = GridBagConstraints.NORTHWEST;
-    cons.gridx = 0;
-    cons.weightx = 1.0;
-    cons.weighty = 1.0;
-    cons.fill = GridBagConstraints.HORIZONTAL;
-    Collections.sort(rules, new CategoryComparator());
-    DefaultMutableTreeNode rootNode = createTree(rules, false);   //  grammar options
-    configTree[0] = new JTree(getTreeModel(rootNode));
-
     Language lang = config.getLanguage();
     if (lang == null) {
       lang = Languages.getLanguageForLocale(Locale.getDefault());
     }
-    configTree[0].applyComponentOrientation(ComponentOrientation.getOrientation(lang.getLocale()));
 
-    configTree[0].setRootVisible(false);
-    configTree[0].setEditable(false);
-    configTree[0].setCellRenderer(new CheckBoxTreeCellRenderer());
-    TreeListener.install(configTree[0]);
-    checkBoxPanel.add(configTree[0], cons);
-    configTree[0].addMouseListener(getMouseAdapter());
-    
-    JPanel checkBoxPanel1 = new JPanel();
-    checkBoxPanel1.setLayout(new GridBagLayout());
-    cons = new GridBagConstraints();
-    cons.anchor = GridBagConstraints.NORTHWEST;
-    cons.gridx = 0;
-    cons.weightx = 1.0;
-    cons.weighty = 1.0;
-    cons.fill = GridBagConstraints.HORIZONTAL;
-    Collections.sort(rules, new CategoryComparator());
-    rootNode = createTree(rules, true);  //  Style options
-    configTree[1] = new JTree(getTreeModel(rootNode));
-    configTree[1].applyComponentOrientation(ComponentOrientation.getOrientation(lang.getLocale()));
+    String specialTabNames[] = config.getSpecialTabNames();
+    int numConfigTrees = 2 + specialTabNames.length;
+    configTree = new JTree[numConfigTrees];
+    JPanel checkBoxPanel[] = new JPanel[numConfigTrees];
+    DefaultMutableTreeNode rootNode;
+    GridBagConstraints cons;
 
-    configTree[1].setRootVisible(false);
-    configTree[1].setEditable(false);
-    configTree[1].setCellRenderer(new CheckBoxTreeCellRenderer());
-    TreeListener.install(configTree[1]);
-    checkBoxPanel1.add(configTree[1], cons);
-    configTree[1].addMouseListener(getMouseAdapter());
+    for (int i = 0; i < numConfigTrees; i++) {
+      checkBoxPanel[i] = new JPanel();
+      cons = new GridBagConstraints();
+      checkBoxPanel[i].setLayout(new GridBagLayout());
+      cons.anchor = GridBagConstraints.NORTHWEST;
+      cons.gridx = 0;
+      cons.weightx = 1.0;
+      cons.weighty = 1.0;
+      cons.fill = GridBagConstraints.HORIZONTAL;
+      Collections.sort(rules, new CategoryComparator());
+      if(i == 0) {
+        rootNode = createTree(rules, false, null);   //  grammar options
+      } else if(i ==1 ) {
+        rootNode = createTree(rules, true, null);    //  Style options
+      } else {
+        rootNode = createTree(rules, true, specialTabNames[i - 2]);    //  Special tab options
+      }
+      configTree[i] = new JTree(getTreeModel(rootNode));
+      
+      configTree[i].applyComponentOrientation(ComponentOrientation.getOrientation(lang.getLocale()));
+  
+      configTree[i].setRootVisible(false);
+      configTree[i].setEditable(false);
+      configTree[i].setCellRenderer(new CheckBoxTreeCellRenderer());
+      TreeListener.install(configTree[i]);
+      checkBoxPanel[i].add(configTree[i], cons);
+      configTree[i].addMouseListener(getMouseAdapter());
+    }
     
 
     JPanel portPanel = new JPanel();
@@ -291,7 +290,7 @@ public class ConfigurationDialog implements ActionListener {
     cons.weightx = 10.0f;
     cons.weighty = 10.0f;
     cons.fill = GridBagConstraints.BOTH;
-    jPane.add(new JScrollPane(checkBoxPanel), cons);
+    jPane.add(new JScrollPane(checkBoxPanel[0]), cons);
     cons.weightx = 0.0f;
     cons.weighty = 0.0f;
 
@@ -312,7 +311,7 @@ public class ConfigurationDialog implements ActionListener {
     cons.weightx = 10.0f;
     cons.weighty = 10.0f;
     cons.fill = GridBagConstraints.BOTH;
-    jPane.add(new JScrollPane(checkBoxPanel1), cons);
+    jPane.add(new JScrollPane(checkBoxPanel[1]), cons);
     cons.weightx = 0.0f;
     cons.weighty = 0.0f;
 
@@ -331,6 +330,29 @@ public class ConfigurationDialog implements ActionListener {
     jPane.add(new JScrollPane(getSpecialRuleValuePanel()), cons);
 
     tabpane.addTab(messages.getString("guiStyleRules"), jPane);
+
+    for (int i = 0; i < specialTabNames.length; i++) {
+      jPane = new JPanel();
+      jPane.setLayout(new GridBagLayout());
+      cons = new GridBagConstraints();
+      cons.insets = new Insets(4, 4, 4, 4);
+      cons.gridx = 0;
+      cons.gridy = 0;
+      cons.weightx = 10.0f;
+      cons.weighty = 10.0f;
+      cons.fill = GridBagConstraints.BOTH;
+      jPane.add(new JScrollPane(checkBoxPanel[i + 2]), cons);
+      cons.weightx = 0.0f;
+      cons.weighty = 0.0f;
+  
+      cons.gridx = 0;
+      cons.gridy++;
+      cons.fill = GridBagConstraints.NONE;
+      cons.anchor = GridBagConstraints.LINE_END;
+      jPane.add(getTreeButtonPanel(i + 2), cons);
+  
+      tabpane.addTab(specialTabNames[i], jPane);
+    }
 
     jPane = new JPanel();
     jPane.setLayout(new GridBagLayout());
@@ -597,10 +619,20 @@ public class ConfigurationDialog implements ActionListener {
         }
         if (node instanceof CategoryNode) {
           CategoryNode o = (CategoryNode) node;
-          if (o.isEnabled()) {
-            config.getDisabledCategoryNames().remove(o.getCategory().getName());
+          if (o.getCategory().isDefaultOff()) {
+            if (o.isEnabled()) {
+              config.getDisabledCategoryNames().remove(o.getCategory().getName());
+              config.getEnabledCategoryNames().add(o.getCategory().getName());
+            } else {
+              config.getDisabledCategoryNames().add(o.getCategory().getName());
+              config.getEnabledCategoryNames().remove(o.getCategory().getName());
+            }
           } else {
-            config.getDisabledCategoryNames().add(o.getCategory().getName());
+            if (o.isEnabled()) {
+              config.getDisabledCategoryNames().remove(o.getCategory().getName());
+            } else {
+              config.getDisabledCategoryNames().add(o.getCategory().getName());
+            }
           }
         }
       }

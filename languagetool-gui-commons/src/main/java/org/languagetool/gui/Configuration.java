@@ -31,8 +31,6 @@ import java.io.*;
 import java.util.*;
 import java.util.List;
 
-import javax.swing.JOptionPane;
-
 /**
  * Configuration like list of disabled rule IDs, server mode etc.
  * Configuration is loaded from and stored to a properties file.
@@ -52,6 +50,7 @@ public class Configuration {
   private static final String DISABLED_RULES_KEY = "disabledRules";
   private static final String ENABLED_RULES_KEY = "enabledRules";
   private static final String DISABLED_CATEGORIES_KEY = "disabledCategories";
+  private static final String ENABLED_CATEGORIES_KEY = "enabledCategories";
   private static final String ENABLED_RULES_ONLY_KEY = "enabledRulesOnly";
   private static final String LANGUAGE_KEY = "language";
   private static final String MOTHER_TONGUE_KEY = "motherTongue";
@@ -86,11 +85,13 @@ public class Configuration {
   private final Map<String, Color> underlineColors = new HashMap<>();
   private final Map<String, Integer> configurableRuleValues = new HashMap<>();
   private final Set<String> styleLikeCategories = new HashSet<>();
+  private final Map<String, String> specialTabCategories = new HashMap<>();
 
   private File configFile;
   private Set<String> disabledRuleIds = new HashSet<>();
   private Set<String> enabledRuleIds = new HashSet<>();
   private Set<String> disabledCategoryNames = new HashSet<>();
+  private Set<String> enabledCategoryNames = new HashSet<>();
   private boolean enabledRulesOnly = false;
   private Language language;
   private Language motherTongue;
@@ -175,6 +176,8 @@ public class Configuration {
     this.enabledRuleIds.addAll(configuration.enabledRuleIds);
     this.disabledCategoryNames.clear();
     this.disabledCategoryNames.addAll(configuration.disabledCategoryNames);
+    this.enabledCategoryNames.clear();
+    this.enabledCategoryNames.addAll(configuration.enabledCategoryNames);
     this.configForOtherLanguages.clear();
     for (String key : configuration.configForOtherLanguages.keySet()) {
       this.configForOtherLanguages.put(key, configuration.configForOtherLanguages.get(key));
@@ -191,6 +194,10 @@ public class Configuration {
     for (String entry : configuration.styleLikeCategories) {
       this.styleLikeCategories.add(entry);
     }
+    this.specialTabCategories.clear();
+    for (Map.Entry<String, String> entry : configuration.specialTabCategories.entrySet()) {
+      this.specialTabCategories.put(entry.getKey(), entry.getValue());
+    }
     
   }
 
@@ -206,6 +213,10 @@ public class Configuration {
     return disabledCategoryNames;
   }
 
+  public Set<String> getEnabledCategoryNames() {
+    return enabledCategoryNames;
+  }
+
   public void setDisabledRuleIds(Set<String> ruleIds) {
     disabledRuleIds = ruleIds;
     enabledRuleIds.removeAll(ruleIds);
@@ -217,6 +228,10 @@ public class Configuration {
 
   public void setDisabledCategoryNames(Set<String> categoryNames) {
     disabledCategoryNames = categoryNames;
+  }
+
+  public void setEnabledCategoryNames(Set<String> categoryNames) {
+    enabledCategoryNames = categoryNames;
   }
 
   public boolean getEnabledRulesOnly() {
@@ -478,6 +493,11 @@ public class Configuration {
     JLanguageTool langTool = new JLanguageTool(lang, motherTongue);
     List<Rule> allRules = langTool.getAllRules();
     for (Rule rule : allRules) {
+      if(rule.getCategory().getTabName() != null) {
+        if(!specialTabCategories.containsKey(rule.getCategory().getName())) {
+          specialTabCategories.put(rule.getCategory().getName(), rule.getCategory().getTabName());
+        }
+      }
       if(rule.getLocQualityIssueType().toString().equalsIgnoreCase("STYLE")
           || rule.getLocQualityIssueType().toString().equalsIgnoreCase("REGISTER")
           || rule.getCategory().getId().toString().equals("STYLE")
@@ -487,6 +507,53 @@ public class Configuration {
         }
       }
     }
+  }
+
+  /**
+   * @since 4.3
+   * Returns true if category is a special Tab category
+   */
+  public boolean isSpecialTabCategory(String category) {
+    return specialTabCategories.containsKey(category);
+  }
+
+  /**
+   * @since 4.3
+   * Returns true if category is member of named special Tab
+   */
+  public boolean isInSpecialTab(String category, String tabName) {
+    if (specialTabCategories.containsKey(category)) {
+      return specialTabCategories.get(category).equals(tabName);
+    }
+    return false;
+  }
+
+  /**
+   * @since 4.3
+   * Returns all special tab names
+   */
+  public String[] getSpecialTabNames() {
+    Set<String> tabNames = new HashSet<>();
+    for (Map.Entry<String, String> entry : specialTabCategories.entrySet()) {
+      if(!tabNames.contains(entry.getValue())) {
+        tabNames.add(entry.getValue());
+      }
+    }
+    return tabNames.toArray(new String[tabNames.size()]);
+  }
+
+  /**
+   * @since 4.3
+   * Returns all categories for a named special tab
+   */
+  public Set<String> getSpecialTabCategories(String tabName) {
+    Set<String> tabCategories = new HashSet<>();
+    for (Map.Entry<String, String> entry : specialTabCategories.entrySet()) {
+      if(entry.getKey().equals(tabName)) {
+        tabCategories.add(entry.getKey());
+      }
+    }
+    return tabCategories;
   }
 
   /**
@@ -566,6 +633,7 @@ public class Configuration {
       disabledRuleIds.addAll(getListFromProperties(props, DISABLED_RULES_KEY + qualifier));
       enabledRuleIds.addAll(getListFromProperties(props, ENABLED_RULES_KEY + qualifier));
       disabledCategoryNames.addAll(getListFromProperties(props, DISABLED_CATEGORIES_KEY + qualifier));
+      enabledCategoryNames.addAll(getListFromProperties(props, ENABLED_CATEGORIES_KEY + qualifier));
       enabledRulesOnly = "true".equals(props.get(ENABLED_RULES_ONLY_KEY));
 
       String languageStr = (String) props.get(LANGUAGE_KEY);
@@ -727,6 +795,7 @@ public class Configuration {
     addListToProperties(props, DISABLED_RULES_KEY + qualifier, disabledRuleIds);
     addListToProperties(props, ENABLED_RULES_KEY + qualifier, enabledRuleIds);
     addListToProperties(props, DISABLED_CATEGORIES_KEY + qualifier, disabledCategoryNames);
+    addListToProperties(props, ENABLED_CATEGORIES_KEY + qualifier, enabledCategoryNames);
     if (language != null && !language.isExternal()) {  // external languages won't be known at startup, so don't save them
       props.setProperty(LANGUAGE_KEY, language.getShortCodeWithCountryAndVariant());
     }
