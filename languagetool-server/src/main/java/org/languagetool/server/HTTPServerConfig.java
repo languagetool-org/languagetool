@@ -19,6 +19,7 @@
 package org.languagetool.server;
 
 import org.apache.commons.lang3.ArrayUtils;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.Experimental;
 import org.languagetool.Language;
@@ -27,9 +28,7 @@ import org.languagetool.Languages;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 
 /**
  * @since 2.0
@@ -70,6 +69,8 @@ public class HTTPServerConfig {
   protected int cacheSize = 0;
   protected boolean warmUp = false;
   protected float maxErrorsPerWordRate = 0;
+  protected int maxSpellingSuggestions = 0;
+  protected List<String> blockedReferrers = new ArrayList<>();
   protected String hiddenMatchesServer;
   protected int hiddenMatchesServerTimeout;
   protected List<Language> hiddenMatchesLanguages = new ArrayList<>();
@@ -208,6 +209,8 @@ public class HTTPServerConfig {
           throw new IllegalArgumentException("Invalid value for warmUp: '" + warmUpStr + "', use 'true' or 'false'");
         }
         maxErrorsPerWordRate = Float.parseFloat(getOptionalProperty(props, "maxErrorsPerWordRate", "0"));
+        maxSpellingSuggestions = Integer.parseInt(getOptionalProperty(props, "maxSpellingSuggestions", "0"));
+        blockedReferrers = Arrays.asList(getOptionalProperty(props, "blockedReferrers", "").split(",\\s*"));
         hiddenMatchesServer = getOptionalProperty(props, "hiddenMatchesServer", null);
         hiddenMatchesServerTimeout = Integer.parseInt(getOptionalProperty(props, "hiddenMatchesServerTimeout", "1000"));
         String langCodes = getOptionalProperty(props, "hiddenMatchesLanguages", "");
@@ -455,6 +458,31 @@ public class HTTPServerConfig {
     return maxErrorsPerWordRate;
   }
 
+  /**
+   * Maximum number of spelling errors for which a suggestion will be generated
+   * per check. It makes sense to limit this as generating suggestions is a CPU-heavy task.
+   * @since 4.2
+   */
+  int getMaxSpellingSuggestions() {
+    return maxSpellingSuggestions;
+  }
+
+  /**
+   * A list of HTTP referrers that are blocked and will only get an error message.
+   * @since 4.2
+   */
+  @NotNull
+  List<String> getBlockedReferrers() {
+    return blockedReferrers;
+  }
+
+  /**
+   * @since 4.2
+   */
+  void setBlockedReferrers(List<String> blockedReferrers) {
+    this.blockedReferrers = Objects.requireNonNull(blockedReferrers);
+  }
+  
   /**
    * URL of server that is queried to add additional (but hidden) matches to the result.
    * @since 4.0

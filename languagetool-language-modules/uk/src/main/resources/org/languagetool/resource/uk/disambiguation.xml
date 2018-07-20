@@ -95,6 +95,50 @@
     <example type="untouched">На тому метру.</example>
   </rule>
 
+  <rule name="Шлем/шолом 1" id="shlem_sholom_1">
+    <pattern>
+      <token case_sensitive="yes" regexp="yes">Велик.*|Мал.*|Гранд|[«"„]</token>
+      <marker>
+        <token inflected="yes" postag_regexp="yes" postag="noun.*:bad.*">шлем</token>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="noun.*?:bad.*"/>
+    <example type="ambiguous"
+        inputform="шлему[шлем/noun:inanim:m:v_dav:bad:xp2,шлем/noun:inanim:m:v_dav:xp1,шлем/noun:inanim:m:v_mis:bad:xp2,шлем/noun:inanim:m:v_mis:xp1,шлем/noun:inanim:m:v_rod:xp1]"
+        outputform="шлему[шлем/noun:inanim:m:v_dav:xp1,шлем/noun:inanim:m:v_mis:xp1,шлем/noun:inanim:m:v_rod:xp1]">серія Великого <marker>шлему</marker>.</example>
+    <example type="untouched">такого великого шолома.</example>
+  </rule>
+
+  <rule name="Шлем/шолом 2" id="shlem_sholom_2">
+    <pattern>
+    <!--
+      <token negate="yes" case_sensitive="yes" regexp="yes">Велик.*|Мал.*|Гранд|[«"„]</token>
+    -->
+      <marker>
+        <token inflected="yes" postag_regexp="yes" postag="noun.*?:bad.*">шлем</token>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="noun.*?:xp1.*"/>
+    <example type="ambiguous"
+        inputform="шлему[шлем/noun:inanim:m:v_dav:bad:xp2,шлем/noun:inanim:m:v_dav:xp1,шлем/noun:inanim:m:v_mis:bad:xp2,шлем/noun:inanim:m:v_mis:xp1,шлем/noun:inanim:m:v_rod:xp1]"
+        outputform="шлему[шлем/noun:inanim:m:v_dav:bad:xp2,шлем/noun:inanim:m:v_mis:bad:xp2]">такому великому <marker>шлему</marker>.</example>
+    <example type="untouched">серія Великого шолому.</example>
+  </rule>
+
+  <rule name="Великого шолому" id="velykogo_sholomu">
+    <pattern>
+      <token case_sensitive="yes">Великого</token>
+      <marker>
+        <token>шолому</token>
+      </marker>
+    </pattern>
+    <disambig><wd lemma="шолом" pos="noun:inanim:m:v_rod"/></disambig>
+    <example type="ambiguous"
+        inputform="шолому[шолом/noun:inanim:m:v_dav,шолом/noun:inanim:m:v_mis]"
+        outputform="шолому[шолом/noun:inanim:m:v_rod]">серія Великого <marker>шолому</marker>.</example>
+    <example type="untouched">такого великого шолома.</example>
+  </rule>
+
   <rule name="Ловити вітра" id="LOVYTY_VITRA">
     <pattern>
       <token inflected="yes" regexp="yes">ловити|шукати|виглядати</token>
@@ -113,7 +157,7 @@
     <pattern>
       <marker>
         <token>коли
-          <exception scope="previous" inflected="yes" regexp="yes">випити|випивши|випитий|дерев'яний</exception>
+          <exception scope="previous" inflected="yes" regexp="yes">випити|випивши|випитий|дерев'яний|.*забивати|.*забити</exception>
         </token>
       </marker>
     </pattern>
@@ -122,6 +166,7 @@
         inputform="коли[кола/noun:inanim:f:v_rod,кола/noun:inanim:p:v_naz,кола/noun:inanim:p:v_zna,коли/adv:&amp;pron:int:rel,коли/conj:subord,коли/part,кіл/noun:inanim:p:v_naz,кіл/noun:inanim:p:v_zna]"
         outputform="коли[коли/adv:&amp;pron:int:rel,коли/conj:subord,коли/part]">запитали <marker>коли</marker> він їде.</example>
     <example type="untouched">дерев'яні коли.</example>
+    <example type="untouched">позабивати коли.</example>
     <example type="untouched">від випитої коли.</example>
   </rule>
 
@@ -314,6 +359,22 @@
         outputform="С.[С.]"><marker>С.</marker> Макаров.</example>
   </rule>
 
+
+  <rule name="Прізвище після імені" id="last_name_after_first_name">
+    <pattern>
+      <token postag_regexp="yes" postag="noun:anim.*?fname.*"/>
+      <marker>
+        <token postag_regexp="yes" postag="noun:anim.*?lname.*"/>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="noun:.*?prop.*"></disambig>
+    <!-- allow other :prop for now, e.g. Андрій Макарів (місто) не любив... -->
+    <example type="ambiguous"
+        inputform="Кіска[Кіска/noun:anim:m:v_naz:prop:lname,кіска/noun:inanim:f:v_naz]"
+        outputform="Кіска[Кіска/noun:anim:m:v_naz:prop:lname]"
+            >його привітав Андрей <marker>Кіска</marker>.</example>
+    <example type="untouched">довга Кіска</example>
+  </rule>
 
   <!-- Загальне правило не працює, бо часто загальні іменники можуть вживатися з великої: «але для Ігор у Турині зробили виняток»
   <rule name="Іменник з великої літери в середині речення - власна назва" id="CAPITAL_INSIDE_SENTENCE_IS_PROP_NOUN">
@@ -1074,6 +1135,20 @@
         inputform="Києві[Кий/noun:anim:m:v_dav:prop:fname,Кий/noun:anim:m:v_mis:prop:fname,Київ/noun:inanim:m:v_mis:prop,кий/noun:inanim:m:v_dav,кий/noun:inanim:m:v_mis]"
         outputform="Києві[Київ/noun:inanim:m:v_mis:prop]"
             >в <marker>Києві</marker>.</example>
+    <example type="untouched">принесли Києві</example>
+  </rule>
+
+  <rule name="Київ" id="KYYIV">
+    <pattern>
+      <marker>
+        <token case_sensitive="yes">Київ</token>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="noun:inanim:m:v_(naz|zna):prop"/>
+    <example type="ambiguous"
+        inputform="Київ[Київ/noun:inanim:m:v_naz:prop,Київ/noun:inanim:m:v_zna:prop,кий/noun:inanim:p:v_rod]"
+        outputform="Київ[Київ/noun:inanim:m:v_naz:prop,Київ/noun:inanim:m:v_zna:prop]"
+            >в <marker>Київ</marker>.</example>
     <example type="untouched">принесли Києві</example>
   </rule>
 

@@ -100,7 +100,124 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Die Schifffahrt auf der Donau ist beliebt.</example>
             <example correction="">Die <marker>Donaudampfschifffahrt</marker> ist beliebt.</example>
         </rule>
-
+        <rulegroup id="NEBENSAETZE" name="Leichte Sprache: Nebensätze">
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"></token>
+                    <marker><token postag="KON:UNT"></token></marker>
+                    <token skip="-1"></token>
+                    <token postag="PKT">,</token>
+                    <token postag="VER:.+" postag_regexp="yes" skip="-1"></token>
+                </pattern>
+                <message>Vermeiden Sie Nebensätze.</message>
+                <example correction=""><marker>Weil</marker> sie krank ist, kommt sie nicht zur Schule.</example>
+                <example>Sie ist krank. Deshalb kommt sie nicht zur Schule.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token skip="-1" regexp="yes">so|wie</token>
+                    <token>,</token>
+                    <token regexp="yes">wie|so</token>
+                </antipattern>
+                <pattern>
+                    <token postag="VER:.*[1-3]:.+" postag_regexp="yes" skip="-1"></token>
+                    <token postag="PKT">,</token>
+                    <marker><token postag="KON:UNT"></token></marker>
+                    <token skip="-1"></token>
+                    <token postag="SENT_END">.</token>
+                </pattern>
+                <message>Vermeiden Sie Nebensätze.</message>
+                <example correction="">Sie ist nicht in die Schule gekommen, <marker>weil</marker> sie erkältet war.</example>
+                <example>Sie war erkältet. Deshalb ist sie nicht zur Schule gekommen.</example>
+                <example correction="">Ich mag, <marker>dass</marker> das Taschentuch so weich ist.</example>
+                <example>Das Taschentuch ist weich. Ich mag das.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <token postag="VER:IMP:.+" postag_regexp="yes" skip="2"></token>
+                    <token postag="PKT">,</token>
+                    <token postag="PRO:RIN:.+" postag_regexp="yes"></token>
+                </antipattern>
+                <pattern>
+                    <token postag="VER:.*[1-3]:.+" postag_regexp="yes" skip="-1"></token>
+                    <token postag="PKT">,</token>
+                    <marker><token postag="PRO:RIN:.+" postag_regexp="yes"></token></marker>
+                    <token skip="-1"></token>
+                    <token postag="SENT_END">.</token>
+                </pattern>
+                <message>Vermeiden Sie Nebensätze.</message>
+                <example correction="">Ich weiß nicht, <marker>was</marker> dieser Test bringt.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token postag="SENT_START" skip="-1"></token>
+                    <token>?</token>
+                </antipattern>
+                <pattern>
+                    <marker><token postag="PRO:RIN:.+" postag_regexp="yes"></token></marker>
+                    <token skip="-1"></token>
+                    <token postag="PKT">,</token>
+                    <token postag="VER:.+" postag_regexp="yes"></token>
+                </pattern>
+                <message>Vermeiden Sie Nebensätze.</message>
+                <example correction=""><marker>Was</marker> dieser Test bringt, weiß ich nicht.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker><token postag="KON:INF" skip="-1"><exception scope="next" regexp="yes">,|\)</exception></token></marker>
+                    <token>zu</token>
+                    <token postag="VER:INF:.+" postag_regexp="yes"/>
+                    <token postag="PKT"></token>
+                </pattern>
+                <message>Vermeiden Sie Nebensätze.</message>
+                <example correction="">Sie hat geschlafen, <marker>statt</marker> fleißig zu arbeiten.</example>
+                <example>Sie sollte fleißig arbeiten. Doch sie hat lieber geschlafen.</example>
+                <example correction="">Sie besuchte ihn, <marker>um</marker> ihm bei der Arbeit zu helfen.</example>
+                <example>Sie besuchte ihn. Sie half ihm dann bei der Arbeit.</example>
+                <example>Können Sie um neun vorbeikommen?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker><token postag="KON:INF" skip="-1"><exception scope="next" regexp="yes">,|\)</exception></token></marker>
+                    <token postag="VER:EIZ:.+" postag_regexp="yes"/>
+                    <token postag="PKT"></token>
+                </pattern>
+                <message>Vermeiden Sie Nebensätze.</message>
+                <example correction="">Sie hat geschalfen, <marker>statt</marker> aufzupassen.</example>
+                <example>Sie sollte aufpassen. Doch sie hat lieber geschlafen.</example>
+                <example correction="">Sie besucht ihn, <marker>um</marker> ihm beizustehen.</example>
+                <example>Sie besuchte ihn. Sie half ihm dann bei der Arbeit.</example>
+                <example correction="">Er redet um den Brei herum, <marker>statt</marker> das Problem richtig anzusprechen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>,</token>
+                        <token skip="-1"><exception scope="next" regexp="yes">,|\)</exception></token>
+                    </marker>
+                    <token postag="VER:EIZ:.+" postag_regexp="yes"/>
+                    <token postag="PKT"></token>
+                </pattern>
+                <message>Vermeiden Sie Nebensätze.</message>
+                <example correction="">Er hat ihr befohlen<marker>, auf</marker> das Geld aufzupassen.</example>
+                <example>Er hat ihr einen Befehl gegeben: Sie sollte auf das Geld aufpassen</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>,</token>
+                        <token skip="-1"><exception scope="next" regexp="yes">,|\)</exception></token>
+                    </marker>
+                    <token>zu</token>
+                    <token postag="VER:INF:.+" postag_regexp="yes"/>
+                    <token postag="PKT"></token>
+                </pattern>
+                <message>Vermeiden Sie Nebensätze.</message>
+                <example correction="">Er hat vor<marker>, seine</marker> Tante zu besuchen.</example>
+                <example>Er wollte seine Tante besuchen.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="ABKUERZUNG" name="Leichte Sprache: Abkürzung">
             <rule>
                 <pattern>
@@ -237,14 +354,41 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="ZUS"/>
                 </antipattern>
                 <antipattern>
+                    <token regexp="yes">\d+</token>
+                    <token regexp="yes">und|oder</token>
+                    <token regexp="yes">\d+</token>
+                </antipattern>
+                <antipattern case_sensitive="yes">
+                    <token regexp="yes">mit|zwischen</token>
+                    <token regexp="yes">de[nm]</token>
+                    <token/>
+                    <token regexp="yes">und|oder</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">und|oder</token>
+                    <token regexp="yes">-[a-zäöüß]+</token>
+                </antipattern>
+                <antipattern>
                     <token postag="SUB:.+" postag_regexp="yes"/>
                     <token regexp="yes">und|oder</token>
+                    <token postag="SUB:.+" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="ADJ:.+" postag_regexp="yes"/>
+                    <token regexp="yes">und|oder</token>
+                    <token postag="ADJ:.+|UNKNOWN" postag_regexp="yes"/>
                     <token postag="SUB:.+" postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
                     <token postag="VER:MOD:[1-3]:.+" postag_regexp="yes" skip="-1"/>
                     <token regexp="yes" skip="-1">und|oder</token>
                     <token postag="VER:INF:.+" postag_regexp="yes"/>
+                    <token>.</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">und|oder</token>
+                    <token postag="ADJ:.+" postag_regexp="yes"/>
+                    <token/>
                     <token>.</token>
                 </antipattern>
                 <pattern>
@@ -255,17 +399,44 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token skip="-1"/>
                     <token postag="VER.*:[1-3]:.*" postag_regexp="yes"/>
                 </pattern>
-                <message>Jeder Satz sollte nur eine Aussage enthalten. Können Sie diesen Satz in zwei Sätze aufteilen?</message>
+                <message>Jeder Satz sollte nur eine Aussage enthalten. Können Sie diesen Satz in mehrere Sätze aufteilen?</message>
                 <example>Wir essen gerne Milchreis mit Zucker und Zimt.</example>
                 <example correction="">Tim liebt Tina <marker>und</marker> Tina liebt Tim.</example>
                 <example><marker>Max und Moritz</marker> heißen die beiden Hauptfiguren.</example>
                 <example>Er hat Eier und Milch bei einem Bauern gekauft.</example>
                 <example>Er sollte Schrauben und Muttern trennen.</example>
                 <example>Ist er groß oder klein?</example>
+                <example>Es gibt immer mehr vegetarische und vegane Fertigprodukte.</example>
                 <example correction="">Ihr macht das jetzt fertig <marker>und</marker> ich gehe.</example>
                 <example correction="">Ich mache das jetzt fertig <marker>und</marker> ihr könnt gehen.</example>
+                <example>Er besitzt zwischen 50 und 100 Spiele.</example>
+                <example>Es trafen sich alle Ministerpräsidenten und -präsidentinnen.</example>
+                <example>Lassen Sie das Kind zwischen dem achten und neunten Monat impfen.</example>
+                <example>Das tut sie auch, um ihre Themen durchzusetzen und ihre Haltung mehrheitsfähig zu machen.</example>
+                <example>Die Elternzeit erlaubt es den Eltern, drei Jahre lang aus ihrem Beruf auszusteigen und danach wieder zu den gleichen Bedingungen wie vorher einzusteigen.</example>
             </rule>
             <rule>
+                <pattern>
+                    <token postag="VER:(INF|EIZ):.+" postag_regexp="yes"/>
+                    <marker>
+                        <token regexp="yes">und|oder</token>
+                    </marker>
+                    <token/>
+                    <token skip="-1"/>
+                    <token postag="VER:(INF|EIZ):.+" postag_regexp="yes"/>
+                    <token>.</token>
+                </pattern>
+                <message>Jeder Satz sollte nur eine Aussage enthalten. Können Sie diesen Satz in mehrere Sätze aufteilen?</message>
+                <example correction="">Das tut sie auch, um ihre Themen durchzusetzen <marker>und</marker> ihre Haltung mehrheitsfähig zu machen.</example>
+                <example correction="">Die Elternzeit erlaubt es den Eltern, drei Jahre lang aus ihrem Beruf auszusteigen <marker>und</marker> danach wieder zu den gleichen Bedingungen wie vorher einzusteigen.</example>
+            </rule>
+            <rule>
+                <antipattern case_sensitive="yes">
+                    <token regexp="yes">mit|zwischen</token>
+                    <token regexp="yes">de[nm]</token>
+                    <token/>
+                    <token regexp="yes">und|oder</token>
+                </antipattern>
                 <antipattern>
                     <token postag="SENT_START" skip="2"/>
                     <token regexp="yes">und|oder</token>
@@ -283,7 +454,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="VER.*:[1-3]:.*" postag_regexp="yes"/>
                     <token><exception>.</exception></token>
                 </pattern>
-                <message>Jeder Satz sollte nur eine Aussage enthalten. Können Sie diesen Satz in zwei Sätze aufteilen?</message>
+                <message>Jeder Satz sollte nur eine Aussage enthalten. Können Sie diesen Satz in mehrere Sätze aufteilen?</message>
                 <example correction="">Ich glaubte ihm <marker>und</marker> folgte ihm auf sein Zimmer.</example>
                 <example correction="">Sie spielen am Abend Schach <marker>und</marker> tanzen bis Mitternacht Polka.</example>
                 <example correction="">Ich sah etwas <marker>oder</marker> glaubte, etwas zu sehen.</example>
@@ -308,7 +479,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token skip="-1"/>
                     <token postag="SENT_END"/>
                 </pattern>
-                <message>Jeder Satz sollte nur eine Aussage enthalten. Können Sie diesen Satz in zwei Sätze aufteilen?</message>
+                <message>Jeder Satz sollte nur eine Aussage enthalten. Können Sie diesen Satz in mehrere Sätze aufteilen?</message>
                 <example correction="">Die Milch hat er beim Bauern gekauft <marker>und</marker> die Wurst beim Metzger.</example>
                 <example correction="">Es ist besser, wenn du Käse isst <marker>und</marker> Oskar Milch trinkt.</example>
                 <example correction="">Er fragte, ob er aus Kanada stammt <marker>oder</marker> ob er dort länger gelebt hat.</example>
@@ -321,7 +492,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker><token skip="-1">oder</token></marker>
                     <token postag="VER.*:[1-3]:.*" postag_regexp="yes" skip="-1"/>
                 </pattern>
-                <message>Jeder Satz sollte nur eine Aussage enthalten. Können Sie diesen Satz in zwei Sätze aufteilen?</message>
+                <message>Jeder Satz sollte nur eine Aussage enthalten. Können Sie diesen Satz in mehrere Sätze aufteilen?</message>
                 <example correction="">Entweder gehst du jetzt <marker>oder</marker> ich rufe du Polizei.</example>
             </rule>
             <rule>
@@ -330,7 +501,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker><token skip="-1">noch</token></marker>
                     <token postag="VER.*" postag_regexp="yes"/>
                 </pattern>
-                <message>Jeder Satz sollte nur eine Aussage enthalten. Können Sie diesen Satz in zwei Sätze aufteilen?</message>
+                <message>Jeder Satz sollte nur eine Aussage enthalten. Können Sie diesen Satz in mehrere Sätze aufteilen?</message>
                 <example correction="">Weder habe ich dich gesehen <marker>noch</marker> habe ich dich gehört.</example>
                 <example>Ich habe dich nicht gesehen. Ich habe dich auch nicht gehört.</example>
                 <example correction="">Er hat weder Eier gesammelt <marker>noch</marker> Milch gekauft.</example>
@@ -339,13 +510,36 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token skip="-1">nicht</token>
                     <marker>
-                       <token skip="4">sondern</token>
+                       <token>sondern</token>
                     </marker>
                 </pattern>
-                <message>Jeder Satz sollte nur eine Aussage enthalten. Können Sie diesen Satz in zwei Sätze aufteilen?</message>
+                <message>Jeder Satz sollte nur eine Aussage enthalten. Können Sie diesen Satz in mehrere Sätze aufteilen?</message>
                 <example correction="">Er hat nicht nur Hunde, <marker>sondern</marker> auch Katzen.</example>
                 <example correction="">Er isst nicht nur Eier, <marker>sondern</marker> er trinkt auch Milch.</example>
                 <example>Er hat Hunde. Er hat auch Katzen.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token regexp="yes" skip="1">aber|denn|sondern</token>
+                    <token>.</token>
+                </antipattern>
+                <pattern>
+                    <token>,</token>
+                    <marker>
+                       <token regexp="yes">aber|denn|sondern</token>
+                    </marker>
+                </pattern>
+                <message>Jeder Satz sollte nur eine Aussage enthalten. Können Sie diesen Satz in mehrere Sätze aufteilen?</message>
+                <example correction="">Ich trinke keinen Kaffee, <marker>sondern</marker> esse lieber ein Eis.</example>
+                <example>Er hat Hunde. Er hat auch Katzen.</example>
+                <example correction="">Der Mann ist schon 80, <marker>aber</marker> er läuft noch flink.</example>
+                <example correction="">Das Kino hat schon begonnen, <marker>aber</marker> das ist egal.</example>
+                <example correction="">Ich will ihm helfen, <marker>aber</marker> weiß nicht genug.</example>
+                <example correction="">Er schreibt ein Buch, liest es vor, <marker>aber</marker> keiner hört zu.</example>
+                <example correction="">Wir gehen zu Fuß, <marker>denn</marker> der Bus ist schon abgefahren.</example>
+                <example correction="">Ich kündige heute, <marker>denn</marker> morgen ist es zu spät.</example>
+                <example correction="">Er will kündigen, <marker>denn</marker> der Job gefällt ihm nicht.</example>
+                <example correction="">Ich mache heute den Abwasch, <marker>denn</marker> morgen hab ich Dienst.</example>
             </rule>
         </rulegroup>
         <rulegroup id="KONJUNKTIV" name="Leichte Sprache: Konjunktiv">

@@ -448,6 +448,12 @@ title="Easy editing stylesheet" ?>
           <token>sua</token>
           <token regexp='yes'>adoração|defesa|homenagem|honra</token>
       </antipattern>
+      <antipattern>
+          <token postag_regexp='yes' postag='_PUNCT|SENT_START'/>
+          <token>meus</token>
+          <token>caros</token>
+          <token postag_regexp='yes' postag='_PUNCT'/>
+      </antipattern>
       <pattern>
           <token>
             <exception regexp="yes">[ao]s?|es[st][ae]s?|uma?s?|uns|por|de|em|&contracoes_MS;|&contracoes_MP;|&contracoes_FS;|&contracoes_FP;</exception></token>
@@ -894,7 +900,7 @@ title="Easy editing stylesheet" ?>
  </category>
   -->
 
- <category id='FORMAL_SPEECH' name='Linguagem Formal' type='style'>
+ <category id='FORMAL_SPEECH' name='Linguagem Formal' type='register'>
 
     <!-- TODO Add antipattern for dash and quotations -->
   <rulegroup id='T-V_DISTINCTION' name='Tratamento formal: Tu,Você; Vós,Vocês' default='on'>
@@ -1077,6 +1083,18 @@ title="Easy editing stylesheet" ?>
       <example correction="o Senhor|a Senhora|o Excelentíssimo|a Excelentíssima|si">Depois peço a <marker>você</marker> para me ajudar.</example>
     </rule>
   </rulegroup>
+
+    <rule id='A_NIVEL' name="A nível" default='off'>
+    <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-28 -->
+      <pattern>
+          <token regexp='yes'>a|em</token>
+          <token>nível</token>
+      </pattern>
+      <message>Substitua por <suggestion>ao \2</suggestion>.</message>
+      <url>https://duvidas.dicio.com.br/em-nivel-de-a-nivel-de-ou-ao-nivel-de/</url>
+      <short>Construção gramatical incorreta.</short>
+      <example correction="Ao nível"><marker>A nível</marker> de português está muito mau.</example>
+    </rule>
 
  </category>
 

@@ -33,6 +33,8 @@ import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.cert.X509Certificate;
+import java.util.HashMap;
+import java.util.Map;
 
 final class HTTPTools {
 
@@ -77,10 +79,17 @@ final class HTTPTools {
   }
 
   static String checkAtUrlByPost(URL url, String postData) throws IOException {
+    return checkAtUrlByPost(url, postData, new HashMap<>());
+  }
+  
+  static String checkAtUrlByPost(URL url, String postData, Map<String, String> properties) throws IOException {
     String keepAlive = System.getProperty("http.keepAlive");
     try {
       System.setProperty("http.keepAlive", "false");  // without this, there's an overhead of about 1 second - not sure why
       URLConnection connection = url.openConnection();
+      for (Map.Entry<String, String> entry : properties.entrySet()) {
+        connection.setRequestProperty(entry.getKey(), entry.getValue());
+      }
       connection.setDoOutput(true);
       try (OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream())) {
         writer.write(postData);

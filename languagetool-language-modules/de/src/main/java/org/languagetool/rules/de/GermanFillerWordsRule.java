@@ -18,24 +18,28 @@
  */
 package org.languagetool.rules.de;
 
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.ResourceBundle;
+import java.util.Set;
+
+import javax.swing.JOptionPane;
 
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.UserConfig;
 import org.languagetool.rules.AbstractFillerWordsRule;
-import org.languagetool.rules.AbstractStyleRepeatedWordRule;
-import org.languagetool.rules.Categories;
 
 /**
- * A rule checks the appearance of same words in a sentence or in two consecutive sentences.
- * Only substantive, verbs and adjectives are checked.
- * This rule detects no grammar error but a stylistic problem (default off)
+ * A rule that gives Hints about the use of German filler words.
+ * The Hints are only given when the percentage of filler words per paragraph exceeds the given limit.
+ * A limit of 0 shows all used filler words. Direct speech or citation is excluded otherwise. 
+ * This rule detects no grammar error but gives stylistic hints (default off).
  * @author Fred Kruse
  * @since 4.2
  */
 public class GermanFillerWordsRule extends AbstractFillerWordsRule {
 
-  private static final String[] fillerWords = {  "aber","abermals","allein","allemal","allenfalls","allenthalben","allerdings","allesamt","allzu","also",
+  private static final Set<String> fillerWords = new HashSet<>(Arrays.asList( "aber","abermals","allein","allemal","allenfalls","allenthalben","allerdings","allesamt","allzu","also",
       "alt","andauernd","andererseits","andernfalls","anscheinend","auch","auffallend","augenscheinlich","ausdrücklich","ausgerechnet","ausnahmslos",
       "außerdem","äußerst","beinahe","bekanntlich","bereits","besonders","bestenfalls","bestimmt","bloß","dabei","dadurch","dafür","dagegen","daher","damals",
       "danach","demgegenüber","demgemäß","demnach","denkbar","denn","dennoch","deshalb","deswegen","doch","durchaus","durchweg","eben","eigentlich",
@@ -53,7 +57,7 @@ public class GermanFillerWordsRule extends AbstractFillerWordsRule {
       "unsagbar","unsäglich","unstreitig","unzweifelhaft","vergleichsweise","vermutlich","vielfach","vielleicht","voll","vollends","völlig",
       "vollkommen","vollständig","wahrscheinlich","weidlich","weitgehend","wenigstens","wieder","wiederum","wirklich","wohl","wohlgemerkt",
       "womöglich","ziemlich","zudem","zugegeben","zumeist","zusehends","zuweilen","zweifellos","zweifelsfrei","zweifelsohne"
-  };
+  ));
   
   public GermanFillerWordsRule(ResourceBundle messages, UserConfig userConfig) {
     super(messages, userConfig);
@@ -66,12 +70,15 @@ public class GermanFillerWordsRule extends AbstractFillerWordsRule {
 
   @Override
   protected boolean isFillerWord(String token) {
-    for(String fillerWord : fillerWords) {
-      if(fillerWord.equals(token)) {
-        return true;
-      }
+    return fillerWords.contains(token);
+  }
+
+  @Override
+  public boolean isException(AnalyzedTokenReadings[] tokens, int num) {
+    if ("aber".equals(tokens[num].getToken()) && num >= 2 && ",".equals(tokens[num - 2].getToken())) {
+      return true;
     }
     return false;
   }
-
+  
 }

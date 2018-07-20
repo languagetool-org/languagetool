@@ -24,7 +24,7 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
 import org.languagetool.rules.ITSIssueType;
-import org.languagetool.rules.LongSentenceRule;
+import org.languagetool.rules.Rule;
 
 import java.awt.*;
 import java.io.*;
@@ -43,12 +43,14 @@ public class Configuration {
   static final int DEFAULT_NUM_CHECK_PARAS = 5;  //  default number of parameters to be checked by TextLevelRules in LO/OO 
   static final int FONT_STYLE_INVALID = -1;
   static final int FONT_SIZE_INVALID = -1;
+  static final Color STYLE_COLOR = new Color( 0, 175, 0);
 
   private static final String CONFIG_FILE = ".languagetool.cfg";
 
   private static final String DISABLED_RULES_KEY = "disabledRules";
   private static final String ENABLED_RULES_KEY = "enabledRules";
   private static final String DISABLED_CATEGORIES_KEY = "disabledCategories";
+  private static final String ENABLED_CATEGORIES_KEY = "enabledCategories";
   private static final String ENABLED_RULES_ONLY_KEY = "enabledRulesOnly";
   private static final String LANGUAGE_KEY = "language";
   private static final String MOTHER_TONGUE_KEY = "motherTongue";
@@ -70,17 +72,26 @@ public class Configuration {
   private static final String CONFIGURABLE_RULE_VALUES_KEY = "configurableRuleValues";
 
   private static final String DELIMITER = ",";
+  // find all comma followed by zero or more white space characters that are preceded by ":" AND a valid 6-digit hex code
+  // example: ":#44ffee,"
+  private static final String COLOR_SPLITTER_REGEXP = "(?<=:#[0-9A-Fa-f]{6}),\\s*";
+  // find all comma followed by zero or more white space characters that are preceded by at least one digit
+  // example: "4,"
+  private static final String CONFIGURABLE_RULE_SPLITTER_REGEXP = "(?<=[0-9]),\\s*";
   private static final String EXTERNAL_RULE_DIRECTORY = "extRulesDirectory";
 
   private final Map<String, String> configForOtherLanguages = new HashMap<>();
   private final Map<ITSIssueType, Color> errorColors = new HashMap<>();
   private final Map<String, Color> underlineColors = new HashMap<>();
   private final Map<String, Integer> configurableRuleValues = new HashMap<>();
+  private final Set<String> styleLikeCategories = new HashSet<>();
+  private final Map<String, String> specialTabCategories = new HashMap<>();
 
   private File configFile;
   private Set<String> disabledRuleIds = new HashSet<>();
   private Set<String> enabledRuleIds = new HashSet<>();
   private Set<String> disabledCategoryNames = new HashSet<>();
+  private Set<String> enabledCategoryNames = new HashSet<>();
   private boolean enabledRulesOnly = false;
   private Language language;
   private Language motherTongue;
@@ -118,6 +129,8 @@ public class Configuration {
     }
     configFile = new File(baseDir, filename);
     loadConfiguration(lang);
+    // initialize style like categories
+    initStyleCategories(lang);
   }
 
   private Configuration() {
@@ -163,6 +176,8 @@ public class Configuration {
     this.enabledRuleIds.addAll(configuration.enabledRuleIds);
     this.disabledCategoryNames.clear();
     this.disabledCategoryNames.addAll(configuration.disabledCategoryNames);
+    this.enabledCategoryNames.clear();
+    this.enabledCategoryNames.addAll(configuration.enabledCategoryNames);
     this.configForOtherLanguages.clear();
     for (String key : configuration.configForOtherLanguages.keySet()) {
       this.configForOtherLanguages.put(key, configuration.configForOtherLanguages.get(key));
@@ -175,6 +190,15 @@ public class Configuration {
     for (Map.Entry<String, Integer> entry : configuration.configurableRuleValues.entrySet()) {
       this.configurableRuleValues.put(entry.getKey(), entry.getValue());
     }
+    this.styleLikeCategories.clear();
+    for (String entry : configuration.styleLikeCategories) {
+      this.styleLikeCategories.add(entry);
+    }
+    this.specialTabCategories.clear();
+    for (Map.Entry<String, String> entry : configuration.specialTabCategories.entrySet()) {
+      this.specialTabCategories.put(entry.getKey(), entry.getValue());
+    }
+    
   }
 
   public Set<String> getDisabledRuleIds() {
@@ -189,6 +213,10 @@ public class Configuration {
     return disabledCategoryNames;
   }
 
+  public Set<String> getEnabledCategoryNames() {
+    return enabledCategoryNames;
+  }
+
   public void setDisabledRuleIds(Set<String> ruleIds) {
     disabledRuleIds = ruleIds;
     enabledRuleIds.removeAll(ruleIds);
@@ -200,6 +228,10 @@ public class Configuration {
 
   public void setDisabledCategoryNames(Set<String> categoryNames) {
     disabledCategoryNames = categoryNames;
+  }
+
+  public void setEnabledCategoryNames(Set<String> categoryNames) {
+    enabledCategoryNames = categoryNames;
   }
 
   public boolean getEnabledRulesOnly() {
@@ -440,6 +472,91 @@ public class Configuration {
   }
 
   /**
+   * @since 4.3
+   * Returns true if category is style like
+   */
+  public boolean isStyleCategory(String category) {
+    return styleLikeCategories.contains(category);
+  }
+
+  /**
+   * @since 4.3
+   * Initialize set of style like categories
+   */
+  private void initStyleCategories(Language lang) {
+    if (lang == null) {
+      lang = language;
+      if (lang == null) {
+        return;
+      }
+    }
+    JLanguageTool langTool = new JLanguageTool(lang, motherTongue);
+    List<Rule> allRules = langTool.getAllRules();
+    for (Rule rule : allRules) {
+      if(rule.getCategory().getTabName() != null) {
+        if(!specialTabCategories.containsKey(rule.getCategory().getName())) {
+          specialTabCategories.put(rule.getCategory().getName(), rule.getCategory().getTabName());
+        }
+      }
+      if(rule.getLocQualityIssueType().toString().equalsIgnoreCase("STYLE")
+          || rule.getLocQualityIssueType().toString().equalsIgnoreCase("REGISTER")
+          || rule.getCategory().getId().toString().equals("STYLE")
+          || rule.getCategory().getId().toString().equals("TYPOGRAPHY")) {
+        if(!styleLikeCategories.contains(rule.getCategory().getName())) {
+          styleLikeCategories.add(rule.getCategory().getName());
+        }
+      }
+    }
+  }
+
+  /**
+   * @since 4.3
+   * Returns true if category is a special Tab category
+   */
+  public boolean isSpecialTabCategory(String category) {
+    return specialTabCategories.containsKey(category);
+  }
+
+  /**
+   * @since 4.3
+   * Returns true if category is member of named special Tab
+   */
+  public boolean isInSpecialTab(String category, String tabName) {
+    if (specialTabCategories.containsKey(category)) {
+      return specialTabCategories.get(category).equals(tabName);
+    }
+    return false;
+  }
+
+  /**
+   * @since 4.3
+   * Returns all special tab names
+   */
+  public String[] getSpecialTabNames() {
+    Set<String> tabNames = new HashSet<>();
+    for (Map.Entry<String, String> entry : specialTabCategories.entrySet()) {
+      if(!tabNames.contains(entry.getValue())) {
+        tabNames.add(entry.getValue());
+      }
+    }
+    return tabNames.toArray(new String[tabNames.size()]);
+  }
+
+  /**
+   * @since 4.3
+   * Returns all categories for a named special tab
+   */
+  public Set<String> getSpecialTabCategories(String tabName) {
+    Set<String> tabCategories = new HashSet<>();
+    for (Map.Entry<String, String> entry : specialTabCategories.entrySet()) {
+      if(entry.getKey().equals(tabName)) {
+        tabCategories.add(entry.getKey());
+      }
+    }
+    return tabCategories;
+  }
+
+  /**
    * @since 4.2
    */
   public Map<String, Color> getUnderlineColors() {
@@ -453,6 +570,9 @@ public class Configuration {
   public Color getUnderlineColor(String category) {
     if(underlineColors.containsKey(category)) {
       return underlineColors.get(category);
+    }
+    if (styleLikeCategories.contains(category)) {
+      return STYLE_COLOR;
     }
     return Color.blue;
   }
@@ -513,6 +633,7 @@ public class Configuration {
       disabledRuleIds.addAll(getListFromProperties(props, DISABLED_RULES_KEY + qualifier));
       enabledRuleIds.addAll(getListFromProperties(props, ENABLED_RULES_KEY + qualifier));
       disabledCategoryNames.addAll(getListFromProperties(props, DISABLED_CATEGORIES_KEY + qualifier));
+      enabledCategoryNames.addAll(getListFromProperties(props, ENABLED_CATEGORIES_KEY + qualifier));
       enabledRulesOnly = "true".equals(props.get(ENABLED_RULES_ONLY_KEY));
 
       String languageStr = (String) props.get(LANGUAGE_KEY);
@@ -584,15 +705,16 @@ public class Configuration {
 
       //store config for other languages
       loadConfigForOtherLanguages(lang, props);
-
+      
     } catch (FileNotFoundException e) {
       // file not found: okay, leave disabledRuleIds empty
     }
+
   }
 
   private void parseErrorColors(String colorsString) {
     if (StringUtils.isNotEmpty(colorsString)) {
-      String[] typeToColorList = colorsString.split(",\\s*");
+      String[] typeToColorList = colorsString.split(COLOR_SPLITTER_REGEXP);
       for (String typeToColor : typeToColorList) {
         String[] typeAndColor = typeToColor.split(":");
         if (typeAndColor.length != 2) {
@@ -607,7 +729,7 @@ public class Configuration {
 
   private void parseUnderlineColors(String colorsString) {
     if (StringUtils.isNotEmpty(colorsString)) {
-      String[] typeToColorList = colorsString.split(",\\s*");
+      String[] typeToColorList = colorsString.split(COLOR_SPLITTER_REGEXP);
       for (String typeToColor : typeToColorList) {
         String[] typeAndColor = typeToColor.split(":");
         if (typeAndColor.length != 2) {
@@ -620,7 +742,7 @@ public class Configuration {
 
   private void parseConfigurableRuleValues(String rulesValueString) {
     if (StringUtils.isNotEmpty(rulesValueString)) {
-      String[] ruleToValueList = rulesValueString.split(",\\s*");
+      String[] ruleToValueList = rulesValueString.split(CONFIGURABLE_RULE_SPLITTER_REGEXP);
       for (String ruleToValue : ruleToValueList) {
         String[] ruleAndValue = ruleToValue.split(":");
         if (ruleAndValue.length != 2) {
@@ -673,6 +795,7 @@ public class Configuration {
     addListToProperties(props, DISABLED_RULES_KEY + qualifier, disabledRuleIds);
     addListToProperties(props, ENABLED_RULES_KEY + qualifier, enabledRuleIds);
     addListToProperties(props, DISABLED_CATEGORIES_KEY + qualifier, disabledCategoryNames);
+    addListToProperties(props, ENABLED_CATEGORIES_KEY + qualifier, enabledCategoryNames);
     if (language != null && !language.isExternal()) {  // external languages won't be known at startup, so don't save them
       props.setProperty(LANGUAGE_KEY, language.getShortCodeWithCountryAndVariant());
     }

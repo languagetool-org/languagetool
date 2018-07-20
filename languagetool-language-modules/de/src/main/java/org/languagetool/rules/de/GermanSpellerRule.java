@@ -71,6 +71,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("[aA]lsallerersten?s", w -> Arrays.asList(w.replaceFirst("lsallerersten?s", "ls allererstes"), w.replaceFirst("lsallerersten?s", "ls Allererstes")));
     putRepl("(an|auf|ein|zu)gehangen(e[mnrs]?)?$", "hangen", "hängt");
     putRepl("[oO]key", "ey$", "ay");
+    put("packet", "Paket");
+    put("Allalei", "Allerlei");
     put("geupdate[dt]$", "upgedatet");
     put("gefaked", "gefakt");
     put("[pP]roblemhaft(e[nmrs]?)?", w -> Arrays.asList(w.replaceFirst("haft", "behaftet"), w.replaceFirst("haft", "atisch")));
@@ -80,9 +82,13 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Abbrechung", "Abbruch");
     put("Abbrechungen", w -> Arrays.asList("Abbrüche", "Abbrüchen"));
     put("Urteilung", w -> Arrays.asList("Urteil", "Verurteilung"));
+    put("allmöglichen?", w -> Arrays.asList("alle möglichen", "alle mögliche"));
+    put("Krankenhausen", w -> Arrays.asList("Krankenhäusern", "Krankenhäuser"));
     put("vorr?auss?etzlich", w -> Arrays.asList("voraussichtlich", "vorausgesetzt"));
     put("nichtmals", w -> Arrays.asList("nicht mal", "nicht einmal"));
     put("eingepeilt", "angepeilt");
+    put("gekukt", "geguckt");
+    put("[wW]ah?rscheindlichkeit", "Wahrscheinlichkeit");
     put("Hijab", "Hidschāb");
     putRepl("for?melar(en?)?", "for?me", "Formu");
     putRepl("näste[mnrs]?$", "^näs", "nächs");
@@ -111,6 +117,11 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("emen[sz]", "immens");
     put("verhing", "verhängte");
     put("verhingen", "verhängten");
+    put("fangte", "fing");
+    put("fangten", "fingen");
+    put("past", "passt");
+    put("[aA]nwesenzeiten", "Anwesenheitszeiten");
+    put("[fF]leißigkeit", "Fleiß");
     put("Bequemheit", "Bequemlichkeit");
     put("[mM]issionarie?sie?rung", "Missionierung");
     put("[sS]chee?selonge?", "Chaiselongue");
@@ -119,6 +130,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("ein[ua]ndhalb", "eineinhalb");
     put("[mM]illion(en)?mal", w -> Collections.singletonList(StringTools.uppercaseFirstChar(w.replaceFirst("mal", " Mal"))));
     put("desweitere[nm]", "des Weiteren");
+    putRepl("indifiziert(e[mnrs]?)?", "ind", "ident");
+    putRepl("dreite[mnrs]?", "dreit", "dritt");
+    putRepl("verblüte[mnrs]?", "blü", "blüh");
     putRepl("einzigste[mnrs]?", "einzigst", "einzig");
     putRepl("[iI]nterkurell(e[nmrs]?)?", "ku", "kultu");
     putRepl("ubera(g|sch)end(e[nmrs]?)?", "uber", "überr");
@@ -154,18 +168,25 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("[aA]benzu", "enzu", " und zu");
     putRepl("[kK]onflikation(en)?", "[kK]onfli", "Kompli");
     putRepl("[mM]itanader", "ana", "einan");
+    putRepl("[jJ]edwillige[mnrs]?", "willig", "wed");
     putRepl("[qQ]ualitäts?bewußt(e[mnrs]?)?", "ts?bewußt", "tsbewusst");
     putRepl("[vV]oraussichtig(e[nmrs]?)?", "sichtig", "sichtlich");
     putRepl("[gG]leichrechtig(e[nmrs]?)?", "rechtig", "berechtigt");
     putRepl("[uU]nnützlich(e[nmrs]?)?", "nützlich", "nütz");
     putRepl("[uU]nzerbrechbar(e[nmrs]?)?", "bar", "lich");
+    putRepl("kolegen?", "ko", "Kol");
     putRepl("tableten?", "tablet", "Tablett");
     putRepl("unverantwortungsvoll(e[nmrs]?)?", "unverantwortungsvoll", "verantwortungslos");
+    putRepl("[gG]erechtlichkeit", "[gG]erechtlich", "Gerechtig");
+    putRepl("[zZ]uverlässlichkeit", "lich", "ig");
+    putRepl("[zZ]uk(ue?|ü)nftlich(e[mnrs]?)?", "uk(ue?|ü)nftlich", "ukünftig");
     putRepl("[rR]eligiösisch(e[nmrs]?)?", "isch", "");
     putRepl("[fF]olklorisch(e[nmrs]?)?", "isch", "istisch");
     putRepl("[eE]infühlsvoll(e[nmrs]?)?", "voll", "am");
     putRepl("todesbedroh(end|lich)(e[nmrs]?)?", "todes", "lebens");
     putRepl("^[uU]nabsichtig(e[nmrs]?)?", "ig", "lich");
+    putRepl("[aA]ntisemitistisch(e[mnrs]?)?", "tist", "t");
+    putRepl("[uU]nvorsehbar(e[mnrs]?)?", "vor", "vorher");
     putRepl("([eE]r|[bB]e|unter)?hälst", "hälst", "hältst");
     put("[wW]ohlfühlseins?", w -> Arrays.asList("Wellness", w.replaceFirst("[wW]ohlfühlsein", "Wohlbefinden"), w.replaceFirst("[wW]ohlfühlsein", "Wohlfühlen")));
     putRepl("[sS]chmett?e?rling(s|en?)?", "[sS]chmett?e?rling", "Schmetterling");
@@ -176,6 +197,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("[iI]nordnung", "ordnung", " Ordnung");
     putRepl("[iI]mmoment", "moment", " Moment");
     putRepl("[wW]ienerschnitzel[ns]?", "[wW]ieners", "Wiener S");
+    putRepl("[sS]chwarzwälderkirschtorten?", "[sS]chwarzwälderk", "Schwarzwälder K");
     putRepl("[kK]oxial(e[nmrs]?)?", "x", "ax");
     putRepl("[dD]urs?chnitt?lich(e[nmrs]?)?", "s?chnitt?", "chschnitt");
     putRepl("[oO]rganisativ(e[nmrs]?)?", "tiv", "torisch");
@@ -194,6 +216,18 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("[aA]leine", "l", "ll");
     putRepl("Kaput", "t", "tt");
     putRepl("[fF]estell(s?t|en?)", "est", "estst");
+    putRepl("(Baden-)?Würtenbergs?", "Würten", "Württem");
+    putRepl("Betriebsratzimmer[ns]?", "rat", "rats");
+    putRepl("Rechts?schreibungsfehler[ns]?", "Rechts?schreibungs", "Rechtschreib");
+    putRepl("Open[aA]ir-Konzert(en?)?", "Open[aA]ir", "Open-Air");
+    putRepl("Jugenschuhen?", "Jug", "Jung");
+    putRepl("TODO-Listen?", "TODO", "To-do");
+    putRepl("ausiehs?t", "aus", "auss");
+    putRepl("unterbemittel(nd|t)(e[nmrs]?)?", "unterbemittel(nd|t)", "minderbemittelt");
+    put("Makieren", "Markieren");
+    put("Altersheimer", "Alzheimer");
+    put("gesen", "gesehen");
+    put("Neugierigkeit", w -> Arrays.asList("Neugier", "Neugierde"));
     put("[kK]onn?ekt?schen", "Connection");
     put("E-Maul", "E-Mail");
     put("E-Mauls", "E-Mails");
@@ -214,15 +248,21 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("geklabt", "geklappt");
     put("angefangt", "angefangen");
     put("beinhält", "beinhaltet");
+    put("einhaltest", "einhältst");
     put("bescheit", "Bescheid");
     put("Revisionierung", "Revision");
     put("[eE]infühlvermögen", "Einfühlungsvermögen");
     put("[sS]peziellisierung", "Spezialisierung");
+    put("[cC]hangse", "Chance");
+    put("untergangen", "untergegangen");
+    put("BluRay", "Blu-ray");
+    put("Freiwilligerin", "Freiwillige");
+    put("Hautreinheiten", "Hautunreinheiten");
     put("tuhen", "tun");
     put("ccm", "cm³");
     put("Kilimand?jaro", "Kilimandscharo");
     put("[hH]erausfordung", "Herausforderung");
-    put("berücksichtung", "Berücksichtigung");
+    put("[bB]erücksichtung", "Berücksichtigung");
     put("artzt?", "Arzt");
     put("[tT]h?elepath?ie", "Telepathie");
     put("Wi-?Fi-Dire[ck]t", "Wi-Fi Direct");
@@ -288,14 +328,14 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private final Tagger tagger;
 
   public GermanSpellerRule(ResourceBundle messages, German language) {
-    this(messages, language, null);
+    this(messages, language, null, null);
   }
 
   /**
    * @since 4.2
    */
-  public GermanSpellerRule(ResourceBundle messages, German language, UserConfig userConfig) {
-    super(messages, language, language.getNonStrictCompoundSplitter(), getSpeller(language, userConfig), userConfig);
+  public GermanSpellerRule(ResourceBundle messages, German language, UserConfig userConfig, String languageVariantPlainTextDict) {
+    super(messages, language, language.getNonStrictCompoundSplitter(), getSpeller(language, userConfig, languageVariantPlainTextDict), userConfig);
     addExamplePair(Example.wrong("LanguageTool kann mehr als eine <marker>nromale</marker> Rechtschreibprüfung."),
                    Example.fixed("LanguageTool kann mehr als eine <marker>normale</marker> Rechtschreibprüfung."));
     compoundTokenizer = language.getStrictCompoundTokenizer();
@@ -387,7 +427,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   }
 
   @Nullable
-  private static MorfologikMultiSpeller getSpeller(Language language, UserConfig userConfig) {
+  private static MorfologikMultiSpeller getSpeller(Language language, UserConfig userConfig, String languageVariantPlainTextDict) {
     if (!language.getShortCode().equals(Locale.GERMAN.getLanguage())) {
       throw new RuntimeException("Language is not a variant of German: " + language);
     }
@@ -398,7 +438,13 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
         String path = "/de/hunspell/spelling.txt";
         try (InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(path);
              BufferedReader br = new BufferedReader(new InputStreamReader(stream, "utf-8"))) {
-          return new MorfologikMultiSpeller(morfoFile, new ExpandingReader(br), path, userConfig != null ? userConfig.getAcceptedWords(): Collections.emptyList(), MAX_EDIT_DISTANCE);
+          InputStream variantStream = null;
+          BufferedReader variantReader = null;
+          if (languageVariantPlainTextDict != null && !languageVariantPlainTextDict.isEmpty()) {
+            variantStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(languageVariantPlainTextDict);
+            variantReader = new ExpandingReader (new BufferedReader(new InputStreamReader(variantStream, "utf-8")));
+          }
+          return new MorfologikMultiSpeller(morfoFile, new ExpandingReader(br), path, variantReader, languageVariantPlainTextDict, userConfig != null ? userConfig.getAcceptedWords(): Collections.emptyList(), MAX_EDIT_DISTANCE);
         }
       } else {
         return null;
@@ -793,7 +839,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     String nextWord = getWordAfterEnumerationOrNull(words, idx+1);
     nextWord = StringUtils.removeEnd(nextWord, ".");
 
-    boolean isCompound = nextWord != null && (compoundTokenizer.tokenize(nextWord).size() > 1 || nextWord.indexOf("-") > 0);
+    boolean isCompound = nextWord != null && (compoundTokenizer.tokenize(nextWord).size() > 1 || nextWord.indexOf('-') > 0);
     if (isCompound) {
       word = StringUtils.removeEnd(word, "-");
       boolean isMisspelled = hunspellDict.misspelled(word);  // "Stil- und Grammatikprüfung" or "Stil-, Text- und Grammatikprüfung"
@@ -809,7 +855,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   }
 
   private boolean isNeedingFugenS (String word) {
-	// according to http://www.spiegel.de/kultur/zwiebelfisch/zwiebelfisch-der-gebrauch-des-fugen-s-im-ueberblick-a-293195.html
+    // according to http://www.spiegel.de/kultur/zwiebelfisch/zwiebelfisch-der-gebrauch-des-fugen-s-im-ueberblick-a-293195.html
     return StringUtils.endsWithAny(word, "tum", "ling", "ion", "tät", "keit", "schaft", "sicht", "ung", "en");
   }
 
@@ -922,8 +968,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   @Override
   protected boolean isQuotedCompound (AnalyzedSentence analyzedSentence, int idx, String token) {
     if (idx > 3 && token.startsWith("-")) {
-      return "“".equals(analyzedSentence.getTokens()[idx-1].getToken()) &&
-          "„".equals(analyzedSentence.getTokens()[idx-3].getToken());
+      return StringUtils.equalsAny(analyzedSentence.getTokens()[idx-1].getToken(), "“", "\"") &&
+          StringUtils.equalsAny(analyzedSentence.getTokens()[idx-3].getToken(), "„", "\"");
     }
     return false;
   }

@@ -58,7 +58,7 @@ public class ProhibitedCompoundRule extends Rule {
           new Pair("verklärung", "Beschönigung, Darstellung in einem besseren Licht", "erklärung", "Darstellung, Erläuterung"),
           new Pair("spitze", "spitzes Ende eines Gegenstandes", "spritze", "medizinisches Instrument zur Injektion")
   );
-  private static final GermanSpellerRule spellerRule = new GermanSpellerRule(JLanguageTool.getMessageBundle(), new GermanyGerman(), null);
+  private static final GermanSpellerRule spellerRule = new GermanSpellerRule(JLanguageTool.getMessageBundle(), new GermanyGerman(), null, null);
   private static final List<String> ignoreWords = Arrays.asList("Die", "De");
   private static final List<Pair> pairs = new ArrayList<>();
   static {

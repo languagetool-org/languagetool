@@ -33,6 +33,7 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.HashSet;
 
+import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
 
 public class HTTPServerTest {
@@ -188,6 +189,21 @@ public class HTTPServerTest {
           fail("Expected exception with error 500, got: " + expected);
         }
       }
+    } finally {
+      server.stop();
+    }
+  }
+
+  @Test
+  public void testHealthcheck() throws Exception {
+    HTTPServerConfig config = new HTTPServerConfig(HTTPTools.getDefaultPort(), false);
+    HTTPServer server = new HTTPServer(config, false);
+    try {
+      server.run();
+      URL url = new URL("http://localhost:<PORT>/v2/healthcheck".replace("<PORT>", String.valueOf(HTTPTools.getDefaultPort())));
+      InputStream stream = (InputStream)url.getContent();
+      String response = StringTools.streamToString(stream, "UTF-8");
+      assertThat(response, is("OK"));
     } finally {
       server.stop();
     }

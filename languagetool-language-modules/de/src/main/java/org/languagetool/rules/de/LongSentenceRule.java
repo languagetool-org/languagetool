@@ -48,6 +48,15 @@ public class LongSentenceRule extends org.languagetool.rules.LongSentenceRule {
     if (defaultActive) {
       setDefaultOn();
     }
+    if(defaultWords > 0) {
+      this.maxWords = defaultWords;
+    }
+    if (userConfig != null) {
+      int confWords = userConfig.getConfigValueByID(getId());
+      if(confWords > 0) {
+        this.maxWords = confWords;
+      }
+    }
   }
 
   /**
@@ -74,7 +83,7 @@ public class LongSentenceRule extends org.languagetool.rules.LongSentenceRule {
 
   @Override
   public String getMessage() {
-    return "Dieser Satz ist sehr lang (mehr als " + maxWords + " Wörter).";
+    return "Der Satz hat an der markierten Stelle mehr als " + maxWords + " Wörter.";
   }
 
   @Override
@@ -99,7 +108,7 @@ public class LongSentenceRule extends org.languagetool.rules.LongSentenceRule {
   @Override
   public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
     List<RuleMatch> ruleMatches = new ArrayList<>();
-    AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
+    AnalyzedTokenReadings[] tokens = sentence.getTokens();
     if (tokens.length < maxWords + 1) {   // just a short-circuit
       return toRuleMatchArray(ruleMatches);
     }
@@ -117,11 +126,16 @@ public class LongSentenceRule extends org.languagetool.rules.LongSentenceRule {
       //  Text before and after ':' and ';' is handled as separated sentences
       //  Direct speech is splitted 
       while (i < tokens.length && !tokens[i].getToken().equals(":") && !tokens[i].getToken().equals(";")
+              && !tokens[i].getToken().equals("\n") && !tokens[i].getToken().equals("\r\n") 
+              && !tokens[i].getToken().equals("\n\r")
               && ((i < tokens.length - 1 && !tokens[i + 1].getToken().equals(","))
               || (!tokens[i].getToken().equals("“") && !tokens[i].getToken().equals("»")
               && !tokens[i].getToken().equals("«") && !tokens[i].getToken().equals("\"")))) {
         if (isWordCount(tokens[i].getToken())) {
-          toPos.set(toPos.size() - 1, tokens[i].getEndPos());
+          if(numWords == maxWords + 1) {
+            fromPos.set(fromPos.size() - 1, tokens[i].getStartPos());
+            toPos.set(fromPos.size() - 1, tokens[i].getEndPos());
+          }
           numWords++;
         } else if (tokens[i].getToken().equals("(") || tokens[i].getToken().equals("{")
                 || tokens[i].getToken().equals("[")) {        //  The Text between brackets is handled as separate sentence
@@ -133,15 +147,18 @@ public class LongSentenceRule extends org.languagetool.rules.LongSentenceRule {
           int fromPosInt = 0;
           int toPosInt = 0;
           int k;
-          for (k = i + 1; k < tokens.length && !tokens[k].getToken().equals(endChar) && !isWordCount(tokens[k].getToken()); k++)
-            ;
+          for (k = i + 1; k < tokens.length && !tokens[k].getToken().equals(endChar) 
+                && !isWordCount(tokens[k].getToken()); k++);
           if (k < tokens.length) {
             fromPosInt = tokens[k].getStartPos();
             toPosInt = tokens[k].getEndPos();
           }
           for (k++; k < tokens.length && !tokens[k].getToken().equals(endChar); k++) {
             if (isWordCount(tokens[k].getToken())) {
-              toPosInt = tokens[k].getEndPos();
+              if(numWordsInt == maxWords + 1) {
+                fromPosInt = tokens[k].getStartPos();
+                toPosInt = tokens[k].getEndPos();
+              }
               numWordsInt++;
             }
           }

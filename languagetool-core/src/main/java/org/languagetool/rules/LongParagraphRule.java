@@ -1,6 +1,6 @@
-/* LanguageTool, a natural language style checker
- * Copyright (C) 2011 Michael Bryant
- *
+/* LanguageTool, a natural language style checker 
+ * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
+ * 
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -25,8 +25,6 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
-import javax.swing.JOptionPane;
-
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.UserConfig;
@@ -34,6 +32,7 @@ import org.languagetool.rules.Category.Location;
 
 /**
  * A rule that warns on long paragraphs. Note that this rule is off by default.
+ * @since 4.2
  */
 public class LongParagraphRule extends TextLevelRule {
 
@@ -45,41 +44,29 @@ public class LongParagraphRule extends TextLevelRule {
 
   protected int maxWords = DEFAULT_MAX_WORDS;
 
-  /**
-   * @since 4.2
-   */
   public LongParagraphRule(ResourceBundle messages, UserConfig userConfig, int defaultWords, boolean defaultActive) {
     super(messages);
-    super.setCategory(new Category(new CategoryId("CREATIV_WRITING"), 
-        messages.getString("category_creativ_writing"), Location.INTERNAL, false));
+    super.setCategory(new Category(new CategoryId("CREATIVE_WRITING"), 
+        messages.getString("category_creative_writing"), Location.INTERNAL, false));
     if (!defaultActive) {
       setDefaultOff();
     }
-    if(defaultWords > 0) {
+    if (defaultWords > 0) {
       this.maxWords = defaultWords;
     }
     if (userConfig != null) {
       int confWords = userConfig.getConfigValueByID(getId());
-      if(confWords > 0) {
+      if (confWords > 0) {
         this.maxWords = confWords;
       }
     }
     setLocQualityIssueType(ITSIssueType.Style);
   }
 
-  /**
-   * Creates a rule with default inactive
-   * @since 4.2
-   */
   public LongParagraphRule(ResourceBundle messages, UserConfig userConfig, int defaultWords) {
     this(messages, userConfig, defaultWords, DEFAULT_ACTIVATION);
   }
 
-
-  /**
-   * Creates a rule with default values can be overwritten by configuration settings
-   * @since 4.2
-   */
   public LongParagraphRule(ResourceBundle messages, UserConfig userConfig) {
     this(messages, userConfig, -1, DEFAULT_ACTIVATION);
   }
@@ -89,54 +76,32 @@ public class LongParagraphRule extends TextLevelRule {
     return MessageFormat.format(messages.getString("long_paragraph_rule_desc"), maxWords);
   }
 
-  /**
-   * Override this ID by adding a language acronym (e.g. TOO_LONG_SENTENCE_DE)
-   * to use adjustment of maxWords by option panel
-   * @since 4.1
-   */   
   @Override
   public String getId() {
     return RULE_ID;
   }
 
-  /*
-   * get maximal Distance of words in number of sentences
-   * @since 4.1
-   */
   @Override
   public int getDefaultValue() {
     return maxWords;
   }
 
-  /**
-   * @since 4.2
-   */
   @Override
   public boolean hasConfigurableValue() {
     return true;
   }
 
-  /**
-   * @since 4.2
-   */
   @Override
   public int getMinConfigurableValue() {
     return 5;
   }
 
-  /**
-   * @since 4.2
-   */
   @Override
   public int getMaxConfigurableValue() {
     return 200;
   }
 
-  /**
-   * @since 4.2
-   */
   public String getConfigureText() {
-//    return messages.getString("guiLongParagraphText");
     return messages.getString("guiLongParagraphsText");
   }
 

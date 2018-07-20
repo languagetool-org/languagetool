@@ -131,6 +131,7 @@ public class LongSentenceRule extends Rule {
   /**
    * @since 4.2
    */
+  @Override
   public String getConfigureText() {
     return messages.getString("guiLongSentencesText");
   }

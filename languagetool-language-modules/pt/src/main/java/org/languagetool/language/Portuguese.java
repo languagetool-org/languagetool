@@ -145,6 +145,7 @@ public class Portuguese extends Language implements AutoCloseable {
                     Arrays.asList("]", ")", "}", "\"", "”" /*, "»", "'", "’" */)),
             new HunspellRule(messages, this, userConfig),
             new LongSentenceRule(messages, userConfig, -1, true),
+            new LongParagraphRule(messages, userConfig),
             new UppercaseSentenceStartRule(messages, this,
                 Example.wrong("Esta casa é velha. <marker>foi</marker> construida em 1950."),
                 Example.fixed("Esta casa é velha. <marker>Foi</marker> construida em 1950.")),
@@ -160,6 +161,7 @@ public class Portuguese extends Language implements AutoCloseable {
             new PortugueseReplaceRule(messages),
             new PortugueseBarbarismsRule(messages),
             new PortugueseClicheRule(messages),
+            new PortugueseFillerWordsRule(messages, userConfig),
             new PortugueseRedundancyRule(messages),
             new PortugueseWordinessRule(messages),
             new PortugueseWeaselWordsRule(messages),
@@ -247,8 +249,10 @@ public class Portuguese extends Language implements AutoCloseable {
       case "T-V_DISTINCTION_ALL":       return -101;
       case "REPEATED_WORDS":            return -210;
       case "REPEATED_WORDS_3X":         return -211;
-      case "PT_WIKIPEDIA_COMMON_ERRORS":   return -500;
+      case "PT_WIKIPEDIA_COMMON_ERRORS":return -500;
+      case "FILLER_WORDS_PT":           return -990;
       case LongSentenceRule.RULE_ID:    return -997;
+      case LongParagraphRule.RULE_ID:   return -998;
       case "CACOPHONY":                 return -2000;
     }
     return 0;

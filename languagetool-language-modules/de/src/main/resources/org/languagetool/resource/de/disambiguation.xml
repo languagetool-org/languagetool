@@ -703,6 +703,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </rule>
     </rulegroup>
     <rule name="WORKAROUND_GH_635" id="WORKAROUND_GH_635">
+        <!-- workaround for github issue mentioned in  https://github.com/languagetool-org/languagetool/issues/635 -->
         <pattern case_sensitive="yes">
             <marker>
                 <token>-</token>
@@ -733,13 +734,14 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <marker>
                 <token postag="VER:INF:.+" postag_regexp="yes"/>
             </marker>
-            <token postag="PKT"/>
+            <token postag="PKT|KON:NEB" postag_regexp="yes"/>
         </pattern>
         <disambig action="remove" postag="VER:[1-3]:.+"/>
         <example type="ambiguous" inputform="sehen[sehen/VER:1:PLU:KJ1:NON,sehen/VER:1:PLU:PRÄ:NON,sehen/VER:3:PLU:KJ1:NON,sehen/VER:3:PLU:PRÄ:NON,sehen/VER:INF:NON]" outputform="sehen[sehen/VER:INF:NON]">Sie kommen, um dich zu <marker>sehen</marker>.</example>
         <example type="ambiguous" inputform="sehen[sehen/VER:1:PLU:KJ1:NON,sehen/VER:1:PLU:PRÄ:NON,sehen/VER:3:PLU:KJ1:NON,sehen/VER:3:PLU:PRÄ:NON,sehen/VER:INF:NON]" outputform="sehen[sehen/VER:INF:NON]">"Sie kommen, um dich zu <marker>sehen</marker>."</example>
+        <example type="ambiguous" inputform="sehen[sehen/VER:1:PLU:KJ1:NON,sehen/VER:1:PLU:PRÄ:NON,sehen/VER:3:PLU:KJ1:NON,sehen/VER:3:PLU:PRÄ:NON,sehen/VER:INF:NON]" outputform="sehen[sehen/VER:INF:NON]">Sie kommen, um dich zu <marker>sehen</marker> und dich zu pflegen.</example>
     </rule>
-        <rule id="RIW" name="Reit im Winkl">
+    <rule id="RIW" name="Reit im Winkl">
         <pattern case_sensitive="yes">
             <marker>
                 <token>Reit</token>
@@ -749,13 +751,30 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </pattern>
         <disambig action="remove" postag="VER:.+"/>
     </rule>
+    <rule id="WUERDIGE" name="eine würdige (keine Verbform)">
+        <pattern case_sensitive="yes">
+            <token regexp="yes">[kdms]?eine|die(se)?</token>
+            <marker>
+                <token>würdige</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="VER:.+"/>
+    </rule>
     <!-- ============================================================================================================== -->
     <!-- IGNORE SPELLING -->
 
+    <rule name="x-geschossig" id="X_GESCHOSSIG">
+    <!-- 3-geschossig etc. -->
+        <pattern>
+            <token regexp="yes">\d+-(geschoss|stöck|wöch|teil|räum)ig(e[mnrs]?)?</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    
     <rule name="en vogue" id="EN_VOGUE">
         <pattern>
             <token>en</token>
-            <token regexp="yes">bloc|vogue|gros|masse|miniature|passant|détail|suite</token>
+            <token regexp="yes">bloc|vogue|gros|masse|miniature|passant|détail|suite|fa(mill|c)e|garde|route|suite</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -1009,15 +1028,21 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rule name="Las Vegas" id="LAS_VEGAS">
         <pattern case_sensitive="yes">
             <token>Las</token>
-            <token>Vegas</token>
+            <token regexp="yes">Ramblas|Vegas</token>
         </pattern>
         <disambig action="immunize"/>
     </rule>
-
+    <rule name="ABBEY" id="ABBEY">
+        <pattern case_sensitive="yes">
+            <token>Westminster</token>
+            <token>Abbey</token>
+        </pattern>
+        <disambig action="immunize"/>
+    </rule>
     <rule name="Valleys" id="VALLEYS">
         <pattern case_sensitive="yes">
             <token regexp="yes">Death|Silicon</token>
-            <token>Valley</token>
+            <token regexp="yes">Valleys?</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -1126,7 +1151,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rule name="La Paz" id="LA_PAZ">
         <pattern case_sensitive="yes">
             <token>La</token>
-            <token regexp="yes">Paz|[Tt]raviata</token>
+            <token regexp="yes">Paz|[Tt]raviata|Rambla</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -1945,7 +1970,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rule name="Grand Canyon" id="GRAND_CANYON">
         <pattern case_sensitive="yes">
             <token>Grand</token>
-            <token regexp='yes'>Canyon|Jury|Slam|Hyatt|Prix|Cru|Marnier|Fleet|Lit</token>
+            <token regexp='yes'>Canyons?|Jury|Slams?|Hyatt|Prix|Cru|Marnier|Fleet|Lit</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -2101,7 +2126,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rule name="American Dream" id="AMERICAN_DREAM">
         <pattern case_sensitive="yes">
             <token>American</token>
-            <token regexp="yes">Airlines|Dream|Football</token>
+            <token regexp="yes">Airlines|Dream|Express|Football</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -2641,6 +2666,13 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
       </pattern>
       <disambig action="ignore_spelling"/>
     </rule>
+    <rule name="Hotdog" id="HOTDOG">
+      <pattern case_sensitive="yes">
+        <token>Hot</token>
+        <token>Dog</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
     <rule name="ich stehe kopf" id="KOPFSTEHEN">
       <pattern>
         <token inflected="yes">stehen</token>
@@ -2717,6 +2749,13 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <token>Reit</token>
         <token>im</token>
         <token>Winkl</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="à la" id="A_LA">
+      <pattern case_sensitive="yes">
+        <token>à</token>
+        <token>la</token>
       </pattern>
       <disambig action="ignore_spelling"/>
     </rule>

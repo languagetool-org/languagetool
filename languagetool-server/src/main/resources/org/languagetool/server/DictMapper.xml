@@ -6,7 +6,7 @@
         SELECT id FROM users WHERE email = #{username} AND api_key = #{apiKey}
     </select>
     <select id="selectWordList" resultType="org.languagetool.server.UserDictEntry">
-        SELECT id, ignore_word FROM ignore_words WHERE user_id = #{userId}
+        SELECT id, ignore_word FROM ignore_words WHERE user_id = #{userId} ORDER BY id
     </select>
     <select id="selectWord" resultType="org.languagetool.server.UserDictEntry">
         SELECT id, ignore_word FROM ignore_words WHERE user_id = #{userId} AND ignore_word = #{word}

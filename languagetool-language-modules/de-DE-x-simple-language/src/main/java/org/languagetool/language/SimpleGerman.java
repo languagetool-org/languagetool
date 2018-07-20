@@ -21,7 +21,7 @@ package org.languagetool.language;
 import org.languagetool.UserConfig;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.Rule;
-import org.languagetool.rules.LongSentenceRule;
+import org.languagetool.rules.de.LongSentenceRule;
 
 import java.io.File;
 import java.io.IOException;

@@ -25,39 +25,46 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- * User-specific configuration. So far, this contains only a list of words.
+ * User-specific configuration. So far, this contains a list of words and a settings map.
  * @since 4.2
  */
 @Experimental
 public class UserConfig {
 
   private final List<String> userSpecificSpellerWords;
+  private final int maxSpellingSuggestions;
   private final Map<String, Integer> configurableRuleValues = new HashMap<>();
 
   public UserConfig() {
-    userSpecificSpellerWords = new ArrayList<String>();
+    this(new ArrayList<>(), new HashMap<>());
   }
 
   public UserConfig(List<String> userSpecificSpellerWords) {
-    this.userSpecificSpellerWords = Objects.requireNonNull(userSpecificSpellerWords);
+    this(userSpecificSpellerWords, new HashMap<>());
   }
 
   public UserConfig(Map<String, Integer> ruleValues) {
-    for (Map.Entry<String, Integer> entry : ruleValues.entrySet()) {
-      this.configurableRuleValues.put(entry.getKey(), entry.getValue());
-    }
-    userSpecificSpellerWords = new ArrayList<String>();
+    this(new ArrayList<>(), Objects.requireNonNull(ruleValues));
   }
 
   public UserConfig(List<String> userSpecificSpellerWords, Map<String, Integer> ruleValues) {
+    this(userSpecificSpellerWords, ruleValues, 0);
+  }
+
+  public UserConfig(List<String> userSpecificSpellerWords, Map<String, Integer> ruleValues, int maxSpellingSuggestions) {
     this.userSpecificSpellerWords = Objects.requireNonNull(userSpecificSpellerWords);
     for (Map.Entry<String, Integer> entry : ruleValues.entrySet()) {
       this.configurableRuleValues.put(entry.getKey(), entry.getValue());
     }
+    this.maxSpellingSuggestions = maxSpellingSuggestions;
   }
 
   public List<String> getAcceptedWords() {
     return userSpecificSpellerWords;
+  }
+
+  public int getMaxSpellingSuggestions() {
+    return maxSpellingSuggestions;
   }
 
   public Map<String, Integer> getConfigValues() {
@@ -71,7 +78,7 @@ public class UserConfig {
   }
   
   public int getConfigValueByID(String ruleID) {
-    if(configurableRuleValues.containsKey(ruleID)) {
+    if (configurableRuleValues.containsKey(ruleID)) {
       return configurableRuleValues.get(ruleID);
     }
     return -1;
@@ -82,12 +89,16 @@ public class UserConfig {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     UserConfig that = (UserConfig) o;
-    return userSpecificSpellerWords.equals(that.userSpecificSpellerWords);
+    if (maxSpellingSuggestions != that.maxSpellingSuggestions) return false;
+    if (!userSpecificSpellerWords.equals(that.userSpecificSpellerWords)) return false;
+    return configurableRuleValues.equals(that.configurableRuleValues);
   }
 
   @Override
   public int hashCode() {
-    return userSpecificSpellerWords.hashCode();
+    int result = userSpecificSpellerWords.hashCode();
+    result = 31 * result + maxSpellingSuggestions;
+    result = 31 * result + configurableRuleValues.hashCode();
+    return result;
   }
-  
 }

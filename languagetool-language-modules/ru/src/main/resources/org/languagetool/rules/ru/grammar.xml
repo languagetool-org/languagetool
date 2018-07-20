@@ -38,7 +38,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 <!ENTITY prep_na "балет|заводе|Кавказ|концерт|почте|фабрике|факультете"> <!-- words that require 'на' instead of 'в' as a preposition -->
 <!ENTITY start_vvodnoe "по-видимому|по-моему|по-твоему|впрочем|итак|следовательно|во-первых|во-вторых|в-третьих|в-четвертых|в-пятых|к|видишь|понимаешь|конечно|несомненно|вероятно|может|кажется|однако|одним|несмотря|наверное|прежде"> <!-- First words for exceptions in other rules!!! -->
 <!ENTITY missing_yo "жилье|белье|битье|щеткой|стерней|сырье|ружье|фоторужье|копье|чутье|офицерье|рытье|цевье|острие|вранье|дутье|нытье|звезды">
-<!ENTITY double_num "два|три|четыре|2|3|4">
+<!ENTITY double_num "два|две|три|четыре|2|3|4">
 <!ENTITY defis_libo "какая|какие|какое|какой|какому|кому|кто|такому|такая|такое|такой|вообще|всего|где|зачем|когда|куда|откуда|отчего|почему|сколько|тогда|так|туда|чего|что">
 ]>
 <!-- «» -->
@@ -2890,21 +2890,38 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="мало, но">Она говорила <marker>мало но</marker> толково.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="i_and_i_and_i" name="Союзы «и» + «и» + «и»" default="off">
-            <rule>  <!-- TODO - need improve rule -->
+        <rulegroup id="i_and_i_and_i" name="Союзы «и» + «и» + «и»" default="on">
+            <rule>  <!-- TODO - add unification for noun -->
                 <pattern>
                     <token>и</token>
-                    <token regexp="yes" negate="yes" min="1" max="2">,</token>
+                    <token postag="PREP|ADJ:.*" postag_regexp="yes"></token>
+                    <token postag="NN:.*" postag_regexp="yes"></token> 
                     <token>и</token>
-                    <token regexp="yes" negate="yes" min="1" max="2">,</token>
+                    <token postag="PREP|ADJ:.*" postag_regexp="yes"></token>
+                    <token postag="NN:.*" postag_regexp="yes"></token> 
                     <token>и</token>
-                    <token regexp="yes" negate="yes" min="1" max="2">,</token>
+                    <token postag="PREP|ADJ:.*" postag_regexp="yes"></token>
+                    <token postag="NN:.*" postag_regexp="yes"></token> 
                 </pattern>
-              <message>Пропущена запятая:<suggestion><match no="1" include_skipped="all"/> <match no="2" include_skipped="all" />, <match no="3" include_skipped="all"/> <match no="4" include_skipped="all"/>, <match no="5" include_skipped="all"/> <match no="6" include_skipped="all"/></suggestion>.</message>
+              <message>Пропущена запятая:<suggestion>\1 \2 \3, \4 \5 \6, \7 \8 \9</suggestion>.</message>
               <short>Пропущена запятая.</short>
               <example>Было грустно и в воздухе, и на небе, и в вагоне.</example>
               <example correction="и в воздухе, и на небе, и в вагоне">Было грустно <marker>и в воздухе и на небе и в вагоне</marker>.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token>и</token>
+                    <token postag="VB:.*" postag_regexp="yes" skip="-1"><exception scope="next">,</exception></token>
+                    <token>и</token>
+                    <token postag="VB:.*" postag_regexp="yes" skip="-1"><exception scope="next">,</exception></token>
+                    <token>и</token>
+                    <token postag="VB:.*" postag_regexp="yes"></token>
+                </pattern>
+              <message>Пропущена запятая:<suggestion><match no="1" /> <match no="2" include_skipped="all" />, <match no="3" /> <match no="4" include_skipped="all"/>, <match no="5" /> <match no="6"/></suggestion>.</message>
+              <short>Пропущена запятая.</short>
+              <example>Он и бегал, и прыгал, и скакал в вагоне.</example>
+              <example correction="и бегал, и прыгал, и скакал">Он <marker>и бегал и прыгал и скакал</marker>  в вагоне.</example>
+            </rule>       
         </rulegroup>
         <rulegroup default="off" id="PUNKT_KOTORIJ1" name="Пунктуация перед союзами «который», ...(1)">
         <!-- TODO: Need improve -->    
@@ -4791,7 +4808,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule>
             <pattern>
                     <token postag="NumC:Nom" ><exception regexp="yes">одни|один|одно|одна|две|два|три|четыре|столько|сколько|несколько|много|немного|немножко|немало|мало|сто|тысяча|двое|трое|четверо|пятеро</exception></token>
-                    <token postag="NN:.*:.*:.*" postag_regexp="yes"><exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes"/><exception postag="NN:.*:PL:R"  postag_regexp="yes"/><exception regexp="yes" >утра|вечера|дня|ночи</exception></token>
+                    <token postag="NN:.*:.*:.*" postag_regexp="yes"><exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes"/><exception postag="NN:.*:PL:R"  postag_regexp="yes"/><exception regexp="yes" >утра|вечера|дня|ночи|минимум|максимум</exception></token>
             </pattern>
             <message>Числительное не согласуется с существительным по падежу: <suggestion><match no="1"/> <match no="2" postag_regexp="yes" postag="NN:(.*):.*:.*" postag_replace="NN:$1:PL:R" /></suggestion>.</message>
             <url>https://ru.wikipedia.org/wiki/%D0%98%D0%BC%D1%8F_%D1%87%D0%B8%D1%81%D0%BB%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5#.D0.A1.D0.BA.D0.BB.D0.BE.D0.BD.D0.B5.D0.BD.D0.B8.D0.B5_.D0.B8.D0.BC.D1.91.D0.BD_.D1.87.D0.B8.D1.81.D0.BB.D0.B8.D1.82.D0.B5.D0.BB.D1.8C.D0.BD.D1.8B.D1.85</url>
@@ -4802,8 +4819,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Численность рабочих уменьшилась в пять раз.</example>
             <example>Новая машина займёт много места.</example>
             <example>Я просыпаюсь в шесть утра.</example>
+            <example>К сожалению, дней через пять минимум.</example>
          </rule>
          <rule>
+            <antipattern>
+                <token regexp="yes">метр|километр|сантиметр</token>
+                <token postag="NumC:Nom" />
+                <marker>
+                    <token>один</token>
+                    <token postag="NN:.*:.*:.*" postag_regexp="yes"><exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes"/><exception postag="NN:.*:Sin:Nom"  postag_regexp="yes"/><exception postag="NN:.*:Sin:V"  postag_regexp="yes"/></token>
+                </marker>
+            </antipattern>
             <pattern>
                     <token>один</token>
                     <token postag="NN:.*:.*:.*" postag_regexp="yes"><exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes"/><exception postag="NN:.*:Sin:Nom"  postag_regexp="yes"/><exception postag="NN:.*:Sin:V"  postag_regexp="yes"/></token>
@@ -4814,11 +4840,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="один карандаш" >В коробке лежал <marker>один карандаша</marker>.</example>
             <example>В коробке лежал один карандаш.</example>
             <example>Ты не должен столько есть за один раз.</example>
+            <example>В нём метр девяносто один росту.</example>    <!--  согласуется с "метр" -->
          </rule>
          <rule>
             <pattern>
-                    <token regexp="yes">два|три|четыре</token>
-                    <token postag="NN:.*:.*:.*" postag_regexp="yes"><exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes"/><exception postag="NN:.*:Sin:R"  postag_regexp="yes"/></token>
+                    <token regexp="yes">два|три|четыре<exception scope="previous" postag="NN:.*:Sin:R"  postag_regexp="yes"/></token>
+                    <token postag="NN:.*:.*:.*" postag_regexp="yes"><exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes"/><exception postag="NN:.*:Sin:R"  postag_regexp="yes"/><exception regexp="yes" >минимум|максимум</exception></token>
             </pattern>
             <message>Числительное не согласуется с существительным по падежу: <suggestion><match no="1"/> <match no="2" postag_regexp="yes" postag="NN:(.*):.*:.*" postag_replace="NN:$1:Sin:R" /></suggestion>.</message>
             <url>https://ru.wikipedia.org/wiki/%D0%98%D0%BC%D1%8F_%D1%87%D0%B8%D1%81%D0%BB%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5#.D0.A1.D0.BA.D0.BB.D0.BE.D0.BD.D0.B5.D0.BD.D0.B8.D0.B5_.D0.B8.D0.BC.D1.91.D0.BD_.D1.87.D0.B8.D1.81.D0.BB.D0.B8.D1.82.D0.B5.D0.BB.D1.8C.D0.BD.D1.8B.D1.85</url>
@@ -4826,6 +4853,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="три карандаша" >В коробке лежало <marker>три карандаш</marker>.</example>
             <example>В коробке лежало два карандаша.</example>
             <example>Однако дворец был возрождён за два года.</example>
+            <example>К сожалению, дня через два минимум.</example>
+            <example>Мне нужна дощечка дюйма три толщиной</example> <!-- обратный порядок слов -->
          </rule>
         </rulegroup>   
         
@@ -5400,6 +5429,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                             <exception postag="VB:.*|CONJ|PREP|ADV|ADJ:.*" postag_regexp="yes" />
                             <!-- Слова без буквы ё имеют неправильный падеж -->
                             <exception regexp="yes">&missing_yo;</exception>
+                            <exception scope="next" regexp="yes">&double_num;</exception>
                             <exception case_sensitive="yes">Tом</exception>
                         </token>
                     </unify>				        
@@ -5425,6 +5455,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                             <exception postag="VB:.*|CONJ|PREP|ADV|ADJ:.*" postag_regexp="yes" />
                             <!-- Слова без буквы ё имеют неправильный падеж -->
                             <exception regexp="yes">&missing_yo;</exception>
+                            <exception scope="next" regexp="yes">&double_num;</exception>
                             <exception case_sensitive="yes">Tом</exception>
                             <!-- полчаса, полдня -->
                             <exception regexp="yes">пол.*</exception>  
@@ -5455,6 +5486,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <exception postag="VB:.*|CONJ|PREP|ADV|ADJ:.*" postag_regexp="yes" />
                     <!-- Слова без буквы ё имеют неправильный падеж -->
                     <exception regexp="yes">&missing_yo;</exception>
+                    <exception scope="next" regexp="yes">&double_num;</exception>
                     <exception case_sensitive="yes">Tом</exception>
                     <!-- полчаса, полдня -->
                     <exception regexp="yes">пол.*</exception>
@@ -5473,6 +5505,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                             <exception postag="VB:.*|CONJ|PREP|ADV|ADJ:.*" postag_regexp="yes" />
                             <!-- Слова без буквы ё имеют неправильный падеж -->
                             <exception regexp="yes">&missing_yo;</exception>
+                            <exception scope="next" regexp="yes">&double_num;</exception>
                             <exception case_sensitive="yes">Tом</exception>
                             <!-- полчаса, полдня -->
                             <exception regexp="yes">пол.*</exception>
@@ -5483,6 +5516,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Притяжательное прилагательное (местоимение) не согласуется с существительным по числу.</message>
             <short>Не согласуются по числу</short>
             <example>это отношение</example>
+            <example>Он путешествовал каких-нибудь месяца два.</example>
             <example>Он каждые полчаса бежит в лабораторию.</example>
             <example>Сама кашу заварила, сама и расхлёбывай.</example>
             <example>Тем самым предложение обособляется.</example>
@@ -5648,6 +5682,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                                 <token postag="NN:.*" postag_regexp="yes">
                                     <exception postag="CONJ|PREP|ADV|Ord:.*" postag_regexp="yes" />
                                     <exception regexp="yes">друг|уже|были|дай|гей|стряпней|стерней</exception>
+                                    <!-- полчаса, полдня -->
+                                    <exception regexp="yes">пол.*</exception>
                                 </token>
                             </unify>				        
                         </marker>
@@ -5659,6 +5695,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <message>Прилагательное не согласуется с существительным по числу.</message>
                     <short>Грамматическая ошибка в согласовании числа.</short>
                     <example>Крепкие столы.</example>
+                    <example>Эти добрые полчаса.</example>
                     <example>Суеверие — это религия слабых духом.</example>
                     <example>Счастливые часов не наблюдают.</example>
                     <example>Смелого пуля боится.</example>
@@ -5688,7 +5725,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <example>Он каждые полчаса бежит в лабораторию.</example>
                     <example correction="">Столы сделаны из <marker>красивой сосен</marker>.</example>
                 </rule>
-
+                
+                 
                 <rule  id="Unify_Adj_NN_gender">
                     <pattern>
                         <marker>
@@ -5704,6 +5742,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                                     <exception postag="CONJ|PREP|ADV|ADJ:.*|Ord:.*" postag_regexp="yes" />
                                     <exception regexp="yes">друг|уже|уж|при|после|весь|мировой|молодой|куплю|байке|лажа|лазанью|были|дай|гей</exception>
                                     <exception case_sensitive="yes">Tом</exception>
+                                    <!-- полчаса, полдня -->
+                                    <exception regexp="yes">пол.*</exception>  
                                 </token>
                             </unify>				        
                         </marker>
@@ -5714,6 +5754,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </pattern>
                     <message>Прилагательное не согласуется с существительным по роду.</message>
                     <example>Крепкие столы.</example>
+                    <example>Эти добрые полчаса.</example>
                     <example>Суеверие — это религия слабых духом.</example>
                     <example>Счастливые часов не наблюдают.</example>
                     <example>Смелого пуля боится.</example>
@@ -5794,6 +5835,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                                     <!-- Слова без буквы ё имеют неправильный падеж -->
                                     <exception regexp="yes">&missing_yo;</exception>
                                     <exception case_sensitive="yes">Tом</exception>
+                                    <!-- полчаса, полдня -->
+                                    <exception regexp="yes">пол.*</exception>   
                                 </token>
                             </unify>				        
                         </marker>
@@ -5807,6 +5850,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <example>Ставшие хрестоматийными слова «Природой здесь нам суждено в Европу прорубить окно», которые А. С. Пушкин вкладывает в уста Петра I — лишь риторически эффектная фраза.</example>
                     <example correction="">Я терпеть не могу эту <marker>глупою женщину</marker>.</example>
                     <example>Временными правительства называли журналисты.</example>
+                    <example>Эти добрые полчаса.</example>
                     <example>Временной заплату считали недолго.</example>
                     <example>Среди них наибольшей известностью пользовались простые шутки.</example>
                     <example>Среди них большей известностью пользовались простые шутки.</example>
@@ -5864,6 +5908,89 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <example>Он каждые полчаса бежит в лабораторию.</example>
                     <example correction="">Они думали о <marker>родного доме</marker>.</example>
                 </rule>
+        </rulegroup>
+        <rulegroup  id="EAdj_NN_number_2_4" name="Определение при существительном, зависящем от числительных два, три, четыре">
+            <!-- Розенталь ЛИТЕРАТУРНОЕ РЕДАКТИРОВАНИЕ ТЕКСТА $193 -->
+            <rule>
+                    <pattern>
+                      <token regexp="yes">&double_num;</token>
+                        <marker>
+                               <token postag="ADJ:.*:(Masc|Fem|Neut):.*" postag_regexp="yes">
+                                    <exception postag="ADJ:.*:PL:.*" postag_regexp="yes"></exception>
+                                    <exception postag="ADV|ADJ:Comp|PT:.*|ADJ:MPR:.*|ADJ:Short:.*|NN:.*" postag_regexp='yes'/>
+                                </token>
+                                <token postag="NN:.*:(Masc|Neut):Sin:.*" postag_regexp="yes">
+                                    <exception postag="CONJ|PREP|ADV|Ord:.*" postag_regexp="yes" />
+                                </token>
+                        </marker>
+                        <token>
+                            <exception regexp="yes">и|[«»",]</exception>
+                            <exception postag="NN:.*" postag_regexp="yes"/>
+                        </token>
+                    </pattern>
+                    <message>Определение, находящееся между числительным 2,3,4 и существительным мужского или среднего рода, ставится в форме родительного падежа множественного числа:<suggestion><match no="2" postag="ADJ:(.*):(Masc|Fem|Neut):(.*)" postag_regexp="yes" postag_replace="ADJ:$1:PL:R"></match> <match no="3"></match></suggestion></message>
+                    <short>Грамматическая ошибка в согласовании.</short>
+                    <example>Два дружных брата.</example>
+                    <example>3 бурых медведя.</example>
+                    <example>Сегодня будут открыты 3 дополнительных офиса.</example>
+                    <example correction="дружных брата">два <marker>дружный брата</marker>.</example>
+                    <example correction="бурых медведя">3 <marker>бурый медведя</marker>.</example>
+                    <example correction="бурых медведя">Три <marker>бурый медведя</marker>.</example>
+            </rule> 
+            <rule>
+                    <pattern>
+                      <token regexp="yes">&double_num;</token>
+                        <marker>
+                               <token postag="ADJ:.*:(Masc|Fem|Neut):.*" postag_regexp="yes">
+                                    <exception postag="ADJ:.*:PL:.*" postag_regexp="yes"></exception>
+                                    <exception postag="ADV|ADJ:Comp|PT:.*|ADJ:MPR:.*|ADJ:Short:.*|NN:.*" postag_regexp='yes'/>
+                                </token>
+                                <token postag="NN:.*:Fem:Sin:.*" postag_regexp="yes">
+                                    <exception postag="CONJ|PREP|ADV|Ord:.*" postag_regexp="yes" />
+                                </token>
+                        </marker>
+                        <token>
+                            <exception regexp="yes">и|[«»",]</exception>
+                            <exception postag="NN:.*" postag_regexp="yes"/>
+                        </token>
+                    </pattern>
+                    <message>Определение, находящееся между числительным 2,3,4 и существительным женского рода, ставится в форме именительного падежа множественного числа (в случае наличия предлога возможна форма родительного падежа множественного числа):<suggestion><match no="2" postag="ADJ:(.*):(Masc|Fem|Neut):(.*)" postag_regexp="yes" postag_replace="ADJ:$1:PL:Nom"></match> <match no="3"></match></suggestion></message>
+                    <short>Грамматическая ошибка в согласовании.</short>
+                    <example>Две дружные сестры.</example>
+                    <example>Разделить на две равные части.</example>
+                    <example>Две столовые ложки лежали возле тарелки.</example>
+                    <example>Давать по две столовых ложки.</example>
+                    <example>3 бурых медведя.</example>
+                    <example>Сегодня будут открыты 3 дополнительных офиса.</example>
+                    <example correction="равные части">две <marker>равная части</marker>.</example>
+
+            </rule> 
+            <!--   -->
+            <rule>
+                    <pattern>
+                      <token regexp="yes">&double_num;</token>
+                        <marker>
+                               <token postag="ADJ:.*:PL:.*" postag_regexp="yes">
+                                    <exception postag="ADV|ADJ:Comp|PT:.*|ADJ:MPR:.*|ADJ:Short:.*|NN:.*" postag_regexp='yes'/>
+                                </token>
+                                <token postag="NN:Anim:.*:PL:.*" postag_regexp="yes">
+                                    <exception postag="CONJ|PREP|ADV|Ord:.*" postag_regexp="yes" />
+                                </token>
+                        </marker>
+                        <token>
+                            <exception regexp="yes">и|[«»",]</exception>
+                            <exception postag="NN:.*" postag_regexp="yes"/>
+                        </token>
+                    </pattern>
+                    <message>Грамматическая ошибка в согласовании числа: <suggestion><match no="2"></match> <match no="3" postag="NN:Anim:(.*):PL:(.*)" postag_regexp="yes" postag_replace="NN:Anim:$1:Sin:R"></match></suggestion></message>
+                    <short>Грамматическая ошибка в согласовании.</short>
+                    <example>Два дружных брата.</example>
+                    <example>3 бурых медведя.</example>           
+                    <example>Сегодня будут открыты 3 дополнительных офиса.</example>
+                    <example correction="дружных брата">два <marker>дружных братьев</marker>.</example>
+                    <example correction="бурых медведя">3 <marker>бурых медведей</marker>.</example>
+                    <example correction="бурых медведя">Три <marker>бурых медведей</marker>.</example>
+            </rule>
         </rulegroup>
 
         
@@ -9120,7 +9247,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="PREP_ON_END" name="Предлог в конце предложения">
             <pattern case_sensitive="yes">
                 <token regexp="yes">для|на|к|от|по|в</token>
-                <token>.<exception postag='SENT_END' negate_pos='yes'></exception></token>
+                <token postag="SENT_END" spacebefore="no">.</token>
             </pattern>
             <message>Предлог в конце предложения не употребляется.</message>
             <short>Предлог в конце предложения.</short>
@@ -9132,7 +9259,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <!--      Заканчивать предложение местоимением – дурной стиль, не для этого оно.  -->
             <pattern case_sensitive="yes">
                 <token regexp="yes">он|она|оно<exception postag='VB:.*' postag_regexp='yes' scope='previous'></exception></token>
-                <token>.<exception postag='SENT_END' negate_pos='yes'></exception></token>
+                <token postag="SENT_END" spacebefore="no">.</token>
             </pattern>
             <message>Местоимение в конце предложения не употребляется.</message>
             <short>Местоимение в конце предложения.</short>
@@ -9146,7 +9273,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                   <token><exception postag="NN:.*|ADV|PNN:.*" postag_regexp="yes"></exception><exception>является</exception><exception regexp="yes">-|—|очень|совсем|крайне</exception></token>
                   <marker>  
                     <token postag="ADJ:Posit:.*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="ADJ:Posit:.*" /></token> 
-                    <token>.<exception postag="SENT_END" negate_pos="yes"></exception></token>
+                    <token postag="SENT_END" spacebefore="no">.</token>
                   </marker>
                 </pattern>
                 <message>Опущено существительное в конце предложения.</message>

@@ -169,6 +169,8 @@ public class MorfologikAmericanSpellerRuleTest extends AbstractEnglishSpellerRul
     assertSuggestion("farest", "furthest", "farthest");
     //double consonants not yet supported:
     //assertSuggestion("baddest", "worst");
+    // suggestions from language specific spelling_en-XX.txt
+    assertSuggestion("USTestWordToBeIgnore", "USTestWordToBeIgnored");
   }
 
   private void assertSuggestion(String input, String... expectedSuggestions) throws IOException {

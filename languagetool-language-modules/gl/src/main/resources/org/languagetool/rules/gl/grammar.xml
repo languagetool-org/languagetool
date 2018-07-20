@@ -4520,6 +4520,47 @@
 
  </category>
 
+ <category id="CREATIVE_WRITING" name="Escrita Criativa" type="style" default='off'>
+
+    <!-- ====================================================================== -->
+    <!--         E-Prime        https://en.wikipedia.org/wiki/E-Prime           -->
+    <!-- ====================================================================== -->
+    <rule id="E_PRIME_STRIT" name="Escrita Creativa: E-Prime: todas as formas do verbo 'ser' e 'estar'" default='off'>
+    <!-- Created by Tiago F. Santos, 2018-07-09 -->
+      <pattern>
+          <token inflected="yes" regexp='yes'>ser|estar</token>
+      </pattern>
+      <message>De acordo coa versión inglesa do E-Prime, evitar formas verbais do verbo 'ser' e 'estar' torna a comunicación máis clara, precisa, e menos dogmática. Tente utilizar un verbo alternativo ou refacer a frase.</message>
+      <url>https://litemind.com/e-prime/</url>
+      <short>De acordo coa lóxica do E-Prime, debe evitar os verbos 'ser' e 'estar'.</short>
+      <example type="incorrect" correction="">Isto <marker>é</marker> errado…</example>
+      <example>Isto non se <marker>conforma</marker> com o meu coñecemento actual…</example>
+      <example>Os dados non <marker>confirman</marker> esa afirmación…</example>
+    </rule>
+
+    <!--rule id="E_PRIME_LOOSE" name="E-Prime: 'ser' e 'estar' como verbos princiais" default='off'>
+        <Created by Tiago F. Santos, 2018-07-09>
+      <antipattern>
+          <token inflected="yes">be</token>
+          <token min='0' max='2' postag_regexp='yes' postag='R.+'/>
+          <token postag_regexp='yes' postag='V.+'>
+            <exception postag_regexp='yes' postag='N.+'/></token>
+      </antipattern>
+      <pattern>
+          <token inflected="yes">be</token>
+      </pattern>
+      <message>De acordo coa versión inglesa do E-Prime, evitar formas verbais do verbo 'ser' e 'estar' torna a comunicación máis clara, precisa, e menos *dogmática. Tente utilizar un verbo alternativo ou refacer a frase.</message>
+      <url>https://www.youtube.com/watch?v=y4h2tJuy62U</url>
+      <url>https://rationalwiki.org/wiki/E-Prime</url>
+      <url>https://www.youtube.com/watch?v=sl4UZDLFNT0</url>
+      <short>De acordo coa lóxica do E-Prime, debe evitar os verbos 'ser' e 'estar'.</short>
+      <example type="incorrect" correction="">This <marker>is</marker> right…</example>
+      <example>This <marker>is</marker> conforming with my knowledge…</example>
+      <example>This <marker>conforms</marker> with my current knowledge…</example>
+    </rule -->
+
+ </category>
+
  <category id='DEVELOPMENT' name="Desenvolvemento" type="grammar" default='off'>
 
     <rule id="UNKNOWN_WORD" name="Desenvolvemento: palabra sen POS">

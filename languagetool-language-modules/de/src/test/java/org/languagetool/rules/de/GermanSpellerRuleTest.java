@@ -68,14 +68,14 @@ public class GermanSpellerRuleTest {
     rule.filterForLanguage(list2);
     assertThat(list2, is(Arrays.asList("foo")));
 
-    GermanSpellerRule ruleCH = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_CH);
+    GermanSpellerRule ruleCH = new SwissGermanSpellerRule(TestTools.getMessages("de"), GERMAN_CH);
     List<String> list3 = new ArrayList<>(Arrays.asList("Muße", "foo"));
     ruleCH.filterForLanguage(list3);
     assertThat(list3, is(Arrays.asList("Musse", "foo")));
   }
 
   @Test
-  public void testSortSuggestion() throws Exception {
+  public void testSortSuggestion() {
     GermanSpellerRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
     assertThat(rule.sortSuggestionByQuality("fehler", Arrays.asList("fehla", "xxx", "Fehler")).toString(),
             is("[Fehler, fehla, xxx]"));
@@ -253,6 +253,24 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("eckelt", "ekelt", rule, lt);
     assertFirstSuggestion("geherte", "geehrte", rule, lt);
     assertFirstSuggestion("Kattermesser", "Cuttermesser", rule, lt);
+    assertFirstSuggestion("antisemitistischer", "antisemitischer", rule, lt);
+    assertFirstSuggestion("unvorsehbares", "unvorhersehbares", rule, lt);
+    assertFirstSuggestion("Würtenberg", "Württemberg", rule, lt);
+    assertFirstSuggestion("Baden-Würtenbergs", "Baden-Württembergs", rule, lt);
+    assertFirstSuggestion("Rechtsschreibungsfehlern", "Rechtschreibfehlern", rule, lt);
+    assertFirstSuggestion("indifiziert", "identifiziert", rule, lt);
+    assertFirstSuggestion("verblüte", "verblühte", rule, lt);
+    assertFirstSuggestion("dreitem", "drittem", rule, lt);
+    assertFirstSuggestion("zukuenftliche", "zukünftige", rule, lt);
+    assertFirstSuggestion("schwarzwälderkirschtorte", "Schwarzwälder Kirschtorte", rule, lt);
+    assertFirstSuggestion("kolegen", "Kollegen", rule, lt);
+    assertFirstSuggestion("gerechtlichkeit", "Gerechtigkeit", rule, lt);
+    assertFirstSuggestion("Zuverlässlichkeit", "Zuverlässigkeit", rule, lt);
+    assertFirstSuggestion("Krankenhausen", "Krankenhäusern", rule, lt);
+    assertFirstSuggestion("jedwilliger", "jedweder", rule, lt);
+    assertFirstSuggestion("Betriebsratzimmern", "Betriebsratszimmern", rule, lt);
+    assertFirstSuggestion("ausiehst", "aussiehst", rule, lt);
+    assertFirstSuggestion("unterbemittelnde", "minderbemittelte", rule, lt);
   }
 
   @Test
@@ -306,6 +324,7 @@ public class GermanSpellerRuleTest {
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Des World Wide Webs")).length); // expanded multi-word entry from spelling.txt
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Der westperuanische Ferienort.")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("„Pumpe“-Nachfolge")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("\"Pumpe\"-Nachfolge")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("ÖVP- und FPÖ-Chefverhandler")).length); // first part is from spelling.txt
     assertEquals(0, rule.match(lt.getAnalyzedSentence("α-Strahlung")).length); // compound with ignored word from spelling.txt
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Primär-α-Mischkristallen")).length); // compound with ignored word from spelling.txt
@@ -371,7 +390,7 @@ public class GermanSpellerRuleTest {
 
   private static class MyGermanSpellerRule extends GermanSpellerRule {
     MyGermanSpellerRule(ResourceBundle messages, German language) throws IOException {
-      super(messages, language, null);
+      super(messages, language, null, null);
       init();
     }
     boolean doIgnoreWord(String word) throws IOException {
@@ -395,7 +414,7 @@ public class GermanSpellerRuleTest {
   @Test
   public void testRuleWithAustrianGerman() throws Exception {
     AustrianGerman language = new AustrianGerman();
-    HunspellRule rule = new GermanSpellerRule(TestTools.getMessages("de"), language);
+    HunspellRule rule = new AustrianGermanSpellerRule(TestTools.getMessages("de"), language);
     JLanguageTool lt = new JLanguageTool(language);
     commonGermanAsserts(rule, lt);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Der äußere Übeltäter.")).length);  // umlauts
@@ -406,7 +425,7 @@ public class GermanSpellerRuleTest {
   @Test
   public void testRuleWithSwissGerman() throws Exception {
     SwissGerman language = new SwissGerman();
-    HunspellRule rule = new GermanSpellerRule(TestTools.getMessages("de"), language);
+    HunspellRule rule = new SwissGermanSpellerRule(TestTools.getMessages("de"), language);
     JLanguageTool lt = new JLanguageTool(language);
     commonGermanAsserts(rule, lt);
     assertEquals(1, rule.match(lt.getAnalyzedSentence("Der äußere Übeltäter.")).length);  // ß not allowed in Swiss

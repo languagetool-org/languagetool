@@ -23,6 +23,7 @@ import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.German;
+import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -39,11 +40,17 @@ public class SimilarNameRuleTest {
     assertErrors("Hier steht Angela Müller. Im nächsten Satz dann Miller.", 1, rule, lt);
     assertErrors("Hier steht Angela Müller. Im nächsten Satz dann Müllers Ehemann.", 0, rule, lt);
     assertErrors("Hier steht Angela Müller. Dann Mulla, nicht ähnlich genug.", 0, rule, lt);
+    assertErrors("Ein Mikrocontroller, bei Mikrocontrollern", 0, rule, lt);
+    assertErrors("Hier steht das Rad Deiner Freundin. Und Deinem Hund geht es gut?", 0, rule, lt);
   }
 
   private void assertErrors(String input, int expectedMatches, SimilarNameRule rule, JLanguageTool lt) throws IOException {
     AnalyzedSentence sentence = lt.getAnalyzedSentence(input);
-    assertThat(rule.match(Collections.singletonList(sentence)).length, is(expectedMatches));
+    RuleMatch[] matches = rule.match(Collections.singletonList(sentence));
+    assertThat(matches.length, is(expectedMatches));
+    if (expectedMatches == 1) {
+      assertThat(matches[0].getRule().getId(), is("DE_SIMILAR_NAMES"));
+    }
   }
 
 }

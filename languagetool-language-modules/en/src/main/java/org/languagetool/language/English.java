@@ -177,13 +177,15 @@ public class English extends Language implements AutoCloseable {
                 Example.wrong("This house is old. <marker>it</marker> was built in 1950."),
                 Example.fixed("This house is old. <marker>It</marker> was built in 1950.")),
         new MultipleWhitespaceRule(messages, this),
-        new LongSentenceRule(messages, userConfig),
         new SentenceWhitespaceRule(messages),
-        //new OpenNMTRule(),     // commented out because of #903
         new WhiteSpaceBeforeParagraphEnd(messages),
         new WhiteSpaceAtBeginOfParagraph(messages),
         new EmptyLineRule(messages),
+        new LongSentenceRule(messages, userConfig),
+        new LongParagraphRule(messages, userConfig),
+        //new OpenNMTRule(),     // commented out because of #903
         new ParagraphRepeatBeginningRule(messages),
+        new PunctuationMarkAtParagraphEnd(messages),
         // specific to English:
         new EnglishUnpairedBracketsRule(messages, this),
         new EnglishWordRepeatRule(messages, this),
@@ -224,7 +226,10 @@ public class English extends Language implements AutoCloseable {
   @Override
   public int getPriorityForId(String id) {
     switch (id) {
-      case "CONFUSION_RULE": return -10;
+      case "TWO_CONNECTED_MODAL_VERBS": return -5;
+      case "CONFUSION_RULE":            return -10;
+      case LongSentenceRule.RULE_ID:    return -997;
+      case LongParagraphRule.RULE_ID:   return -998;
     }
     return 0;
   }

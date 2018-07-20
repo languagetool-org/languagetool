@@ -33,7 +33,10 @@ USA
     <!ENTITY abbrevWeekdays "Mon?|Tue?|Wed?|Thu?|Fri?|Sat?|Sun?">
     <!ENTITY months "January|February|March|April|May|Ju(ne|ly)|August|September|October|November|December">
     <!ENTITY abbrevMonths "Jan|Feb|Mar|Apr|Ju[ln]|Aug|Sept?|Oct|Nov|Dec">
+    <!ENTITY interjections "aah|aha|ahem|ahh|argh|aww|aw|bah|boo|boo-hoo|brr|d'oh|duh|eek|eep|eh|eww|fuff|gah|gee|grr|hmm|humph|hah|haha|huh|hurrah|ick|meh|mhm|mm|muahaha|mwah|nah|nuh-uh|oh|ooh-la-la|ooh|oomph|oops|ouch|oww|oy|pew|pff|phew|psst|sheesh|shh|shoo|tsk-tsk|uh-huh|uh-oh|uh-uh|uhh|umm|waah|wee|whoa|wow|yahoo|yay|yeah|yee-haw|yikes|yoo-hoo|yuh-uh|yuck|zing">
     <!ENTITY languages "Akan|Amharic|Arabic|Assamese|Awadhi|Azerbaijani|Balochi|Bangla|Belarusian|Bengali|Bhojpuri|Burmese|Cantonese|Cebuano|Chewa|Chhattisgarhi|Chittagonian|Czech|Deccan|Dhundhari|Dutch|English|Filipino|French|Fula|Gaelic|German|Greek|Gujarati|Hakka|Haryanvi|Hausa|Hiligaynon|Hindi|Hmong|Hunanese|Hungarian|Igbo|Ilocano|Ilonggo|Indonesian|Italian|Ja[pv]anese|Jin|Kannada|Kazakh|Khmer|Kinyarwanda|Kirundi|Konkani|Korean|Kurdish|Madurese|Magahi|Maithili|Malagasy|Malay(alam)?|Malaysian|Mandarin|Marathi|Marwari|Mossi|Nepali|Odia|Oriya|Oromo|Pashto|Persian|Polish|Portuguese|Punjabi|Quechua|Romanian|Russian|Saraiki|Serbo-Croatian|Shona|Sindhi|Sinhalese|Somali|Spanish|Sundanese|Swedish|Sylheti|Tagalog|Tamil|Telugu|Thai|Turk(ish|men)|Ukrainian|Urdu|Uyghur|Uzbek|Vietnamese|Visayan|Wu|Xhosa|Xiang|Yoruba|Yue|Zhuang|Zulu"><!-- Most are from https://en.wikipedia.org/wiki/List_of_languages_by_number_of_native_speakers -->
+    <!ENTITY short_adjectives "bad|big|black|bland|blue|bold|brave|brief|bright|broad|calm|cheap|chewy|clean|close|coarse|cold|cool|cruel|cute|damp|dark|deep|dense|dry|dull|dumb|early|easy|faint|fair|far|fast|fat|few|fierce|fine|firm|fit|flat|fresh|full|good|grand|grave|great|gross|hard|harsh|high|hip|hot|humble|kind|large|late|light|little|long|loud|low|mad|mean|mild|moist|narrow|near|neat|new|nice|odd|old|plain|poor|proud|pure|quick|quiet|rare|raw|rich|ripe|rough|rude|sad|safe|sane|shallow|sharp|short|shy|silly|simple|sincere|slim|slow|small|smart|smooth|soft|soon|sore|sour|steep|strange|strict|strong|sweet|tall|tan|thick|thin|tiny|tough|true|ugly|warm|weak|weird|wet|wide|wild|wise|young">
+    <!ENTITY optional_short_adjectives "angry|bitter|bloody|bossy|busy|chubby|classy|clear|clever|cloudy|clumsy|crazy|creamy|creepy|crispy|crunchy|curly|curvy|deadly|dirty|dusty|fancy|filthy|flaky|friendly|funny|gentle|gloomy|greasy|greedy|guilty|hairy|handy|happy|healthy|heavy|hungry|icy|itchy|juicy|lazy|likely|lively|lonely|lovely|messy|nasty|naughty|needy|noisy|oily|polite|pretty|risky|roomy|rusty|salty|scary|shiny|skinny|sleepy|slimy|smelly|smoky|sorry|spicy|stingy|sunny|sweaty|tasty|thirsty|wealthy|windy|worldly|worthy">
 ]>
 
 <rules lang="en" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -3161,7 +3164,7 @@ USA
             <rule>
                 <pattern>
                     <marker>
-                        <token regexp="yes">[cw]ould|should|might|may|must</token>
+                        <token regexp="yes">[cw]ould|sh(ould|all)|m(ight|ay|ust)</token>
                         <token>of</token>
                     </marker>
                     <token postag="VBN|JJ" postag_regexp="yes"><exception>course</exception></token>
@@ -3248,7 +3251,7 @@ USA
                     <marker>
                         <token postag="NNP?S" postag_regexp="yes" regexp="yes">\p{Lu}?\p{Ll}*s<exception regexp="yes">eats|says|likes|loves|hates|customs|sports|decreases|does|his|ones|relations|affairs|weapons|crimes</exception><exception postag="VBZ|RB|IN|JJ|NN:.*|NNP?" postag_regexp="yes"/></token>
                     </marker>
-                    <token postag="NN|NN:.*" postag_regexp="yes" regexp="yes">\p{Ll}{2,}<exception regexp="yes">equipment|department|sector|exam|faculty|given|can|today|yesterday|tomorrow|now|in|are</exception><exception postag="VBG|VB|VBP|VB[DN]|RB|MD|IN|JJ.*|CC|PRP|NNP.*" postag_regexp="yes"/></token>
+                    <token postag="NN(:.+)?" postag_regexp="yes" regexp="yes">\p{Ll}{2,}<exception regexp="yes">equipment|department|sector|exam|faculty|given|can|today|yesterday|tomorrow|now|in|are</exception><exception postag="VBG|VB|VBP|VB[DN]|RB|MD|IN|JJ.*|CC|PRP|NNP.*" postag_regexp="yes"/></token>
                     <token><exception regexp="yes">\p{Punct}|and|or</exception></token>
                 </pattern>
                 <message>Apostrophe might be missing. Did you mean <suggestion><match no="3"/>'</suggestion> or <suggestion><match suppress_misspelled="yes" no="3" postag="NN(P)?S" postag_regexp="yes" postag_replace="NN$1(:U.?)?" setpos="no"/>'s</suggestion>?</message>
@@ -3286,7 +3289,7 @@ USA
                     <marker>
                         <token postag="NNP?S" postag_regexp="yes" regexp="yes">\p{Ll}*s<exception regexp="yes">sports|eats|says|likes|loves|hates|desires|his|ones|relations|affairs|weapons|crimes</exception><exception postag="VBZ|RB|IN|JJ|NN:.*|NNP?" postag_regexp="yes"/></token>
                     </marker>
-                    <token postag="NN|NN:.*" postag_regexp="yes" regexp="yes">\p{Ll}{2,}<exception regexp="yes">sector|department|given|exam|faculty|factory|today|yesterday|tomorrow|now|in</exception><exception postag="RB|MD|IN|JJ.*|CC|VB[GDP]" postag_regexp="yes"/></token>
+                    <token postag="NN(:.+)?" postag_regexp="yes" regexp="yes">\p{Ll}{2,}<exception regexp="yes">sector|department|given|exam|faculty|factory|today|yesterday|tomorrow|now|in</exception><exception postag="RB|MD|IN|JJ.*|CC|VB[GDP]" postag_regexp="yes"/></token>
                     <token regexp="yes">\p{Punct}</token>
                 </pattern>
                 <message>Possible typo: apostrophe is missing. Did you mean <suggestion><match no="3"/>'</suggestion> or <suggestion><match no="3" postag="NN(P)?S" postag_regexp="yes" postag_replace="NN$1(:U.?)?" setpos="no"/>'s</suggestion>?</message>
@@ -7037,6 +7040,22 @@ USA
             <example>You kids must be hungry.</example>
             <example>You guys wait here.</example>
         </rule>
+        <rule id="TWO_CONNECTED_MODAL_VERBS" name="Two modal verbs in a row (will can)">
+        <!-- Created by Tiago F. Santos, 2018-07-16 -->
+            <antipattern>
+                 <token/>
+                 <token><match no='0'/></token>
+            </antipattern>
+            <pattern>
+                 <token regexp="yes">c(an|ould)|w(ill|ould)|sh(ould|all)|m(ight|ay|ust)</token>
+                 <token regexp="yes" case_sensitive='yes'>c(an|ould)|w(ill|ould)|sh(ould|all)|m(ight|ay|ust)
+                   <!--exception><match no='0'/></exception--></token><!-- TODO allow element match inside an exception -->
+            </pattern>
+            <message>Two modal verbs connected. Do you mean: <suggestion>\1, \2</suggestion>, <suggestion>\1</suggestion> or <suggestion>\2</suggestion>?</message>
+            <example correction="could, should|could|should">That <marker>could should</marker> do.</example>
+            <example><marker>Will Will</marker> notice this?</example>
+            <example><marker>Will will</marker> notice this.</example>
+        </rule>
         <rule id='COLLECTIVE_NOUN_VERB_AGREEMENT_VBP' name='COLLECTIVE_NOUN_VERB_AGREEMENT_VBP'>
             <pattern>
                 <token postag='NN'>
@@ -8051,7 +8070,7 @@ USA
             <rule>
                 <pattern>
                     <token postag="CD"/>
-                    <token postag="NNS"/>
+                    <token postag="NNS"><exception regexp="yes">years|months|days|hours|minutes|seconds</exception></token>
                     <token>or</token>
                     <marker>
                         <token>less</token>
@@ -8060,6 +8079,7 @@ USA
                 <message>Did you mean <suggestion>fewer</suggestion>? The noun \2 is countable.</message>
                 <short>Grammatical error</short>
                 <example correction="fewer">Ten items or <marker>less</marker></example>
+                <example>It typically takes 30 seconds or <marker>less</marker></example>
             </rule>
             <rule>
                 <antipattern>
@@ -8361,8 +8381,15 @@ USA
                 <example>The band emerged triumphant, <marker>as always</marker>.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>how</token>
+                    <token>often</token>
+                    <token inflected="yes">be</token>
+                </antipattern>
                 <pattern>
-                    <token postag="SENT_START" skip="-1"><exception scope="next" postag_regexp="yes" postag="VB.*|MD"/></token>
+                    <token postag="SENT_START" skip="-1">
+                        <exception scope="next" postag_regexp="yes" postag="VB.*|MD"/>
+                    </token>
                     <marker>
                         <token regexp="yes">always|hardly|never|often|rarely|seldom|sometimes|usually</token>
                         <token inflected="yes">be</token>
@@ -8371,7 +8398,8 @@ USA
                 <message>The adverb '\2' is usually put after the verb '\3'.</message>
                 <suggestion>\3 \2</suggestion>
                 <example correction="am sometimes">I <marker>sometimes am</marker> happy.</example>
-                <example>Although they can <marker>sometimes</marker> be found</example>
+                <example>Although they can <marker>sometimes</marker> be found.</example>
+                <example>How <marker>often are</marker> feeling lonely?</example>
             </rule>
             <rule>
                 <antipattern>
@@ -8490,18 +8518,19 @@ USA
                 <pattern>
                     <token inflected="yes">have</token>
                     <token>been</token>
-                    <token regexp="yes">knowing|belonging|meaning|supposing</token>
+                    <token regexp="yes">knowing|belonging|supposing</token>
                 </pattern>
                 <message>The verb <match no="3" postag="VB"/> is usually not used with a continuous form, use the simple form instead.</message>
                 <suggestion>\1 <match no="3" postag="VBN"/></suggestion>
                 <url>http://www.eslbase.com/grammar/present-perfect-continuous</url>
                 <short>Probably incorrect use of continuous form</short>
                 <example correction="had known">He <marker>had been knowing</marker> it.</example>
+                <example>I have been meaning to try out a dance class sometime.</example>
             </rule>
             <rule>
                 <pattern>
                     <token regexp="yes">w(ere|as)</token>
-                    <token regexp="yes">knowing|belonging|meaning|supposing</token>
+                    <token regexp="yes">knowing|belonging|supposing</token>
                 </pattern>
                 <message>The verb <match no="2" postag="VB"/> is usually not used with a continuous form, use the simple form instead.</message>
                 <suggestion><match no="2" postag="VBD"/></suggestion>
@@ -8513,7 +8542,7 @@ USA
             <rule>
                 <pattern>
                     <token>is</token>
-                    <token regexp="yes">knowing|belonging|meaning|supposing</token>
+                    <token regexp="yes">knowing|belonging|supposing</token>
                 </pattern>
                 <message>The verb <match no="2" postag="VB"/> is usually not used with a continuous form, use the simple form instead.</message>
                 <suggestion><match no="2" postag="VBZ"/></suggestion>
@@ -8525,7 +8554,7 @@ USA
             <rule>
                 <pattern>
                     <token regexp="yes">a(?:m|re)|were</token>
-                    <token regexp="yes">knowing|belonging|meaning|supposing</token>
+                    <token regexp="yes">knowing|belonging|supposing</token>
                 </pattern>
                 <message>The verb <match no="2" postag="VB"/> is usually not used with a continuous form, use the simple form instead.</message>
                 <suggestion><match no="2" postag="VBP"/></suggestion>
@@ -8884,12 +8913,91 @@ USA
                 <example correction="his|her|his or her|its">Each child needs <marker>their</marker> parents.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="SINGULAR_AGREEMENT_SENT_START" name="Possible agreement error: singular noun + plural verb">
+    <!-- Created by Tiago F. Santos, 2018-07-17	-->
+            <rule><!-- TODO overly strict. expand with other rules or improve disambiguation significantly-->
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token postag="DT|PRP\$" postag_regexp="yes"/>
+                    <token postag="NN"><exception postag="NN.+|JJ" postag_regexp="yes"/></token>
+                    <marker>
+                        <token postag="VBP"><exception negate_pos='yes' postag="VBP"/><exception>is</exception></token>
+                    </marker>
+                </pattern>
+                <message>You should probably use <suggestion><match no="4" postag="VBZ"/></suggestion>.</message>
+                <short>Possible agreement error</short>
+                <example correction="is">The dog <marker>are</marker> released.</example>
+                <!--example correction="barks">The dog <marker>bark</marker> loudly.</example--><!-- XXX disambiguation clash -->
+                <example>The media has a lot of influence on the outcome of an election.</example>
+                <example>A known mistake is better than an unknown truth.</example>
+                <example>The Academy Award for Best Production Design recognizes achievement...</example>
+                <example>Your shirt button is coming off.</example>
+                <example>The rich are apt to look down upon the poor.</example>
+                <example>The rich are not always happy.</example>
+                <example>The rich are apt to look down on people.</example>
+                <example>The rich are often misers.</example>
+                <example>The rich are not always happier than the poor.</example>
+                <example>Her husband quit shortly after Galt did and joined the strike some...</example>
+                <example>The burglar shut the child in the closet.</example>
+                <example>The burglar burst into his house.</example>
+                <example>The fisherman cast his line into the water.</example>
+                <example>The hill lay covered with snow.</example>
+                <example>The chairperson cut me short.</example>
+                <example>The trip back was very comfortable.</example>
+                <example>The director cast me as the devil.</example>
+                <example>The student center is a good place to strike up conversations.</example>
+                <example>The Syndic General then notifies the Co-princes who in turn appoint ...</example>
+                <example>His official title at the company is Assistant to the President.</example>
+                <example>The greenhouse frog (Eleutherodactylus planirostris) lays eggs in sma...</example>
+                <!--example>The remainder are scattered throughout Alaska, both within organize...</example   TODO fix remainder POS and/or disambiguation -->
+                <example>The official state song of Alaska is "Alaska's Flag", which was adop...</example>
+                <example>Our yacht club has ten members.</example>
+                <example>Our team beat the Lions 3 to 0.</example>
+                <example>The vase burst into fragments.</example>
+                <example>The vase fell to the floor and shattered.</example>
+                <example>The vase fell from the table and crashed to pieces.</example>
+                <example>An alkyl group, generally abbreviated with the symbol R, is a fu...</example>
+                <example>A tablet found on the Greek island Salamis in 1846 AD dates back...</example>
+                <example>The prince fell in love with a woodcutter's daughter.</example>
+                <example>The inscription read: They also left behind a memorial bag containing ...</example>
+                <example>The cruise phase was a relatively uneventful part of the flight, e...</example>
+                <example>The driver felt like taking a rest.</example>
+                <example>The cruise back to Earth was mostly a time for the crew to relax ...</example>
+                <example>My upper right wisdom tooth hurts.</example>
+                <example>The electron pair is attracted so close to the chlorine atom that t...</example>
+                <example>The pommel horse requires more balance than strength.</example>
+                <example>The ayu season has opened.</example>
+                <example>The rocket put a communications satellite into orbit.</example>
+                <example>A birthday cake with twelve candles on top.</example>
+                <example>The bike ride told on Louie.</example>
+                <example>The lion put an end to his prey with one stroke.</example>
+                <example>My mistake cost me my fortune.</example>
+                <example>A Pew Research Center demographic study from 2009 put the percen...</example>
+                <example>The volunteer group provides war victims with food and medicine.</example>
+                <example>My ballpoint pen just ran out of ink.</example>
+                <example>The ball hit him on the left side of the head.</example>
+                <example>The ball hit her in the eye.</example>
+                <example>A ball hit her on the right leg.</example>
+                <example>A fork fell off the table.</example>
+                <example>A pistol bullet went clean through his leg.</example>
+                <example>My band name's Red Hot.</example>
+                <example>The bus stop is across the street.</example>
+                <example>The bus stop is quite handy.</example>
+                <example>The bus stop is near our school.</example>
+                <example>The bus stop is close by.</example>
+                <example>The bus stop is five minutes' walk from here.</example>
+                <example>My bath towel was wet, so it was of no use.</example>
+                <example>The bus fell off the cliff, killing all 10 aboard.</example>
+                <example>His symbol space would be</example>
+                <example>My brother saw to all the arrangements for the party.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="AGREEMENT_SENT_START" name="Possible agreement error: plural noun + singular verb">
             <rule>
                 <pattern>
                     <token postag="SENT_START"/>
                     <token postag="DT|PRP\$" postag_regexp="yes"/>
-                    <token postag="NNS"><exception postag="NN|NN:.*" postag_regexp="yes"/><exception>media</exception></token>
+                    <token postag="NNS"><exception postag="NN(:.+)?" postag_regexp="yes"/><exception>media</exception></token>
                     <marker>
                         <token postag="VBZ"><exception>is</exception></token>
                     </marker>
@@ -8905,7 +9013,7 @@ USA
                 <pattern>
                     <token postag="SENT_START"/>
                     <token postag="DT|PRP\$" postag_regexp="yes"/>
-                    <token postag="NNS"><exception postag="NN|NN:.*" postag_regexp="yes"/></token>
+                    <token postag="NNS"><exception postag="NN(:.+)?" postag_regexp="yes"/></token>
                     <token postag="IN"/>
                     <token postag="NN.*" postag_regexp="yes"/>
                     <marker>
@@ -8942,7 +9050,7 @@ USA
                     <token postag="DT|PRP\$" postag_regexp="yes"/>
                     <token postag="NNS"><exception postag="NN"/></token>
                     <token>of</token>
-                    <token postag="NN|NN:.*" postag_regexp="yes"><exception>hedge</exception></token>
+                    <token postag="NN(:.+)?" postag_regexp="yes"><exception>hedge</exception></token>
                     <marker>
                         <token postag="VBZ"><exception>is</exception></token>
                     </marker>
@@ -8958,7 +9066,7 @@ USA
                 <pattern>
                     <token postag="SENT_START"/>
                     <token postag="DT|PRP\$" postag_regexp="yes"/>
-                    <token postag="NNS"><exception postag="NN|NN:.*" postag_regexp="yes"/></token>
+                    <token postag="NNS"><exception postag="NN(:.+)?" postag_regexp="yes"/></token>
                     <marker>
                         <token>is</token>
                     </marker>
@@ -8972,7 +9080,7 @@ USA
                 <pattern>
                     <token postag="SENT_START"/>
                     <token postag="DT|PRP\$" postag_regexp="yes"/>
-                    <token postag="NNS"><exception postag="NN|NN:.*" postag_regexp="yes"/><exception>media</exception></token>
+                    <token postag="NNS"><exception postag="NN(:.+)?" postag_regexp="yes"/><exception>media</exception></token>
                     <marker>
                         <token>was</token>
                     </marker>
@@ -8988,7 +9096,7 @@ USA
                     <token postag="DT"/>
                     <token postag="NNS"><exception postag="NN"/></token>
                     <token>of</token>
-                    <token postag="NN|NN:.*" postag_regexp="yes"/>
+                    <token postag="NN(:.+)?" postag_regexp="yes"/>
                     <marker>
                         <token>is</token>
                     </marker>
@@ -9005,7 +9113,7 @@ USA
                     <token postag="DT"/>
                     <token postag="NNS"/>
                     <token>of</token>
-                    <token postag="NN|NN:.*" postag_regexp="yes"/>
+                    <token postag="NN(:.+)?" postag_regexp="yes"/>
                     <marker>
                         <token>was</token>
                     </marker>
@@ -9020,7 +9128,7 @@ USA
                 <pattern>
                     <token postag="SENT_START"/>
                     <token postag="DT|PRP\$" postag_regexp="yes"/>
-                    <token postag="NNS"><exception postag="NN|NN:.*" postag_regexp="yes"/></token>
+                    <token postag="NNS"><exception postag="NN(:.+)?" postag_regexp="yes"/></token>
                     <token skip="-1">,</token>
                     <token>,</token>
                     <marker>
@@ -9036,7 +9144,7 @@ USA
                 <pattern>
                     <token postag="SENT_START"/>
                     <token postag="DT|PRP\$" postag_regexp="yes"/>
-                    <token postag="NNS"><exception postag="NN|NN:.*" postag_regexp="yes"/></token>
+                    <token postag="NNS"><exception postag="NN(:.+)?" postag_regexp="yes"/></token>
                     <token postag="IN"/>
                     <token postag="NN.*" postag_regexp="yes"/>
                     <token skip="-1">,</token>
@@ -9072,7 +9180,7 @@ USA
                     <token postag="DT|PRP\$" postag_regexp="yes"/>
                     <token postag="NNS"/>
                     <token>of</token>
-                    <token postag="NN|NN:.*" postag_regexp="yes"><exception>hedge</exception></token>
+                    <token postag="NN(:.+)?" postag_regexp="yes"><exception>hedge</exception></token>
                     <token skip="-1">,</token>
                     <token>,</token>
                     <marker>
@@ -9089,7 +9197,7 @@ USA
                 <pattern>
                     <token postag="SENT_START"/>
                     <token postag="DT|PRP\$" postag_regexp="yes"/>
-                    <token postag="NNS"><exception postag="NN|NN:.*" postag_regexp="yes"/></token>
+                    <token postag="NNS"><exception postag="NN(:.+)?" postag_regexp="yes"/></token>
                     <token skip="-1">,</token>
                     <token>,</token>
                     <marker>
@@ -9105,7 +9213,7 @@ USA
                 <pattern>
                     <token postag="SENT_START"/>
                     <token postag="DT|PRP\$" postag_regexp="yes"/>
-                    <token postag="NNS"><exception postag="NN|NN:.*" postag_regexp="yes"/><exception>media</exception></token>
+                    <token postag="NNS"><exception postag="NN(:.+)?" postag_regexp="yes"/><exception>media</exception></token>
                     <token skip="-1">,</token>
                     <token>,</token>
                     <marker>
@@ -9123,7 +9231,7 @@ USA
                     <token postag="DT|PRP\$" postag_regexp="yes"/>
                     <token postag="NNS"><exception postag="NN:UN"/></token>
                     <token>of</token>
-                    <token postag="NN|NN:.*" postag_regexp="yes"/>
+                    <token postag="NN(:.+)?" postag_regexp="yes"/>
                     <token skip="-1">,</token>
                     <token>,</token>
                     <marker>
@@ -9142,7 +9250,7 @@ USA
                     <token postag="DT|PRP\$" postag_regexp="yes"/>
                     <token postag="NNS"/>
                     <token>of</token>
-                    <token postag="NN|NN:.*" postag_regexp="yes"/>
+                    <token postag="NN(:.+)?" postag_regexp="yes"/>
                     <token skip="-1">,</token>
                     <token>,</token>
                     <marker>
@@ -9159,7 +9267,7 @@ USA
                 <pattern>
                     <token regexp="yes">wh(at|ich|o|ose|ere|en|ether)</token>
                     <token postag="DT"/>
-                    <token postag="NNS"><exception postag="NN|NN:.*" postag_regexp="yes"/></token>
+                    <token postag="NNS"><exception postag="NN(:.+)?" postag_regexp="yes"/></token>
                     <marker>
                         <token postag="VBZ"><exception>is</exception><exception>does</exception></token>
                     </marker>
@@ -9175,7 +9283,7 @@ USA
                 <pattern>
                     <token regexp="yes">wh(at|ich|o|ose|ere|en|ether)</token>
                     <token postag="DT"/>
-                    <token postag="NNS"><exception postag="NN|NN:.*" postag_regexp="yes"/></token>
+                    <token postag="NNS"><exception postag="NN(:.+)?" postag_regexp="yes"/></token>
                     <token postag="IN"/>
                     <token postag="NN.*" postag_regexp="yes"/>
                     <marker>
@@ -9209,7 +9317,7 @@ USA
                     <token postag="DT"/>
                     <token postag="NNS"/>
                     <token>of</token>
-                    <token postag="NN|NN:.*" postag_regexp="yes"><exception>hedge</exception></token>
+                    <token postag="NN(:.+)?" postag_regexp="yes"><exception>hedge</exception></token>
                     <marker>
                         <token postag="VBZ"><exception>is</exception></token>
                     </marker>
@@ -9224,7 +9332,7 @@ USA
                 <pattern>
                     <token regexp="yes">wh(at|ich|o|ose|ere|en|ether)</token>
                     <token postag="DT"><exception>many</exception></token>
-                    <token postag="NNS"><exception postag="NN|NN:.*" postag_regexp="yes"/></token>
+                    <token postag="NNS"><exception postag="NN(:.+)?" postag_regexp="yes"/></token>
                     <marker>
                         <token>is</token>
                     </marker>
@@ -9239,7 +9347,7 @@ USA
                 <pattern>
                     <token regexp="yes">wh(at|ich|o|ose|ere|en|ether)</token>
                     <token postag="DT"/>
-                    <token postag="NNS"><exception postag="NN|NN:.*" postag_regexp="yes"/><exception>media</exception></token>
+                    <token postag="NNS"><exception postag="NN(:.+)?" postag_regexp="yes"/><exception>media</exception></token>
                     <marker>
                         <token>was</token>
                     </marker>
@@ -9255,7 +9363,7 @@ USA
                     <token postag="DT"/>
                     <token postag="NNS"/>
                     <token>of</token>
-                    <token postag="NN|NN:.*" postag_regexp="yes"/>
+                    <token postag="NN(:.+)?" postag_regexp="yes"/>
                     <marker>
                         <token>is</token>
                     </marker>
@@ -9271,7 +9379,7 @@ USA
                     <token postag="DT"/>
                     <token postag="NNS"/>
                     <token>of</token>
-                    <token postag="NN|NN:.*" postag_regexp="yes"/>
+                    <token postag="NN(:.+)?" postag_regexp="yes"/>
                     <marker>
                         <token>was</token>
                     </marker>
@@ -9286,7 +9394,7 @@ USA
                 <pattern>
                     <token regexp="yes">wh(at|ich|o|ose|ere|en|ether)</token>
                     <token postag="DT"/>
-                    <token postag="NNS"><exception postag="NN|NN:.*" postag_regexp="yes"/></token>
+                    <token postag="NNS"><exception postag="NN(:.+)?" postag_regexp="yes"/></token>
                     <token skip="-1">,</token>
                     <token>,</token>
                     <marker>
@@ -9302,7 +9410,7 @@ USA
                 <pattern>
                     <token regexp="yes">wh(at|ich|o|ose|ere|en|ether)</token>
                     <token postag="DT"/>
-                    <token postag="NNS"><exception postag="NN|NN:.*" postag_regexp="yes"/></token>
+                    <token postag="NNS"><exception postag="NN(:.+)?" postag_regexp="yes"/></token>
                     <token postag="IN"/>
                     <token postag="NN.*" postag_regexp="yes"/>
                     <token skip="-1">,</token>
@@ -9338,7 +9446,7 @@ USA
                     <token postag="DT"/>
                     <token postag="NNS"/>
                     <token>of</token>
-                    <token postag="NN|NN:.*" postag_regexp="yes"><exception>hedge</exception></token>
+                    <token postag="NN(:.+)?" postag_regexp="yes"><exception>hedge</exception></token>
                     <token skip="-1">,</token>
                     <token>,</token>
                     <marker>
@@ -9355,7 +9463,7 @@ USA
                 <pattern>
                     <token regexp="yes">wh(at|ich|o|ose|ere|en|ether)</token>
                     <token postag="DT"/>
-                    <token postag="NNS"><exception postag="NN|NN:.*" postag_regexp="yes"/></token>
+                    <token postag="NNS"><exception postag="NN(:.+)?" postag_regexp="yes"/></token>
                     <token skip="-1">,</token>
                     <token>,</token>
                     <marker>
@@ -9371,7 +9479,7 @@ USA
                 <pattern>
                     <token regexp="yes">wh(at|ich|o|ose|ere|en|ether)</token>
                     <token postag="DT"/>
-                    <token postag="NNS"><exception postag="NN|NN:.*" postag_regexp="yes"/><exception>media</exception></token>
+                    <token postag="NNS"><exception postag="NN(:.+)?" postag_regexp="yes"/><exception>media</exception></token>
                     <token skip="-1">,</token>
                     <token>,</token>
                     <marker>
@@ -9389,7 +9497,7 @@ USA
                     <token postag="DT"/>
                     <token postag="NNS"/>
                     <token>of</token>
-                    <token postag="NN|NN:.*" postag_regexp="yes"/>
+                    <token postag="NN(:.+)?" postag_regexp="yes"/>
                     <token skip="-1">,</token>
                     <token>,</token>
                     <marker>
@@ -9407,7 +9515,7 @@ USA
                     <token postag="DT"/>
                     <token postag="NNS"/>
                     <token>of</token>
-                    <token postag="NN|NN:.*" postag_regexp="yes"/>
+                    <token postag="NN(:.+)?" postag_regexp="yes"/>
                     <token skip="-1">,</token>
                     <token>,</token>
                     <marker>
@@ -9643,7 +9751,7 @@ USA
                         <token regexp="yes">is|was</token>
                     </marker>
                     <token postag="DT|PRP\$" postag_regexp="yes"/>
-                    <token postag="NNS"><exception postag="NN|NN:.*" postag_regexp="yes"/><exception>media</exception></token>
+                    <token postag="NNS"><exception postag="NN(:.+)?" postag_regexp="yes"/><exception>media</exception></token>
                     <token>?</token>
                 </pattern>
                 <message>You should probably use <suggestion>are</suggestion> or <suggestion>were</suggestion>.</message>
@@ -9735,7 +9843,7 @@ USA
                 </marker>
                 <token><exception postag="NN.*" postag_regexp="yes"/><exception regexp="yes">['’]</exception></token>
             </pattern>
-            <message>Don't use the numeral 'one' with plural words. Did you mean <suggestion><match no="2"/> <match no="3" postag="NN|NN:.*" postag_regexp="yes"/></suggestion>, <suggestion><match no="3" postag="NN|NN:.*\+INDT" postag_regexp="yes"/></suggestion>, or simply <suggestion><match no="3"/></suggestion>?</message>
+            <message>Don't use the numeral 'one' with plural words. Did you mean <suggestion><match no="2"/> <match no="3" postag="NN(:.+)?" postag_regexp="yes"/></suggestion>, <suggestion><match no="3" postag="NN|NN:.*\+INDT" postag_regexp="yes"/></suggestion>, or simply <suggestion><match no="3"/></suggestion>?</message>
             <short>Possible agreement error</short>
             <example correction="one hexagon|a hexagon|hexagons">I drew <marker>one hexagons</marker> on my paper.</example>
             <!-- TODO: This rule doesn't detect the following errors:
@@ -10089,13 +10197,13 @@ USA
                     <token postag="VB.*" postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
-                    <token postag="NN|NN:.*" postag_regexp="yes"/>
+                    <token postag="NN(:.+)?" postag_regexp="yes"/>
                     <token>that</token>
                 </antipattern>
                 <pattern>
                     <token postag="SENT_START"/>
                     <token postag="DT|PRP\$" postag_regexp="yes"><exception regexp="yes">th[eo]se</exception></token>
-                    <token postag="NN|NN:.*" postag_regexp="yes">
+                    <token postag="NN(:.+)?" postag_regexp="yes">
                         <exception postag="JJ|MD|NNS" postag_regexp="yes"/>
                         <exception regexp="yes">rest|latter|government|might|can|personnel|family|army|audience|board|cabinet|class|committee|company|corporation|council|department|faculty|firm|group|jury|majority|minority|navy|public|school|senate|society|team|troupe</exception>
                     </token>
@@ -10124,13 +10232,13 @@ USA
                     <token postag="VB.*" postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
-                    <token postag="NN|NN:.*" postag_regexp="yes"/>
+                    <token postag="NN(:.+)?" postag_regexp="yes"/>
                     <token>that</token>
                 </antipattern>
                 <pattern>
                     <token postag="SENT_START"/>
                     <token postag="DT|PRP\$" postag_regexp="yes"><exception regexp="yes">th[eo]se</exception></token>
-                    <token postag="NN|NN:.*" postag_regexp="yes"><exception postag="JJ|MD|NNS" postag_regexp="yes"/><exception regexp="yes">rest|latter|government|might|can|personnel|family|army|audience|board|cabinet|class|committee|company|corporation|council|department|faculty|firm|group|jury|majority|minority|navy|public|school|senate|society|team|troupe</exception></token>
+                    <token postag="NN(:.+)?" postag_regexp="yes"><exception postag="JJ|MD|NNS" postag_regexp="yes"/><exception regexp="yes">rest|latter|government|might|can|personnel|family|army|audience|board|cabinet|class|committee|company|corporation|council|department|faculty|firm|group|jury|majority|minority|navy|public|school|senate|society|team|troupe</exception></token>
                     <token skip="-1">,</token>
                     <token>,</token>
                     <marker>
@@ -10149,7 +10257,7 @@ USA
                 <pattern>
                     <token postag="SENT_START"/>
                     <token postag="DT|PRP\$" postag_regexp="yes"><exception regexp="yes">th[eo]se</exception></token>
-                    <token postag="NN|NN:.*" postag_regexp="yes"><exception postag="JJ|MD|NNS" postag_regexp="yes"/><exception regexp="yes">rest|latter|jury|committee|government|might|can</exception></token>
+                    <token postag="NN(:.+)?" postag_regexp="yes"><exception postag="JJ|MD|NNS" postag_regexp="yes"/><exception regexp="yes">rest|latter|jury|committee|government|might|can</exception></token>
                     <marker>
                         <token postag="VBP?" postag_regexp="yes"><exception postag="VB[ZNDG]|JJ|MD" postag_regexp="yes"/></token>
                     </marker>
@@ -10165,7 +10273,7 @@ USA
                 <pattern>
                     <token postag="SENT_START"/>
                     <token postag="DT|PRP\$" postag_regexp="yes"><exception regexp="yes">th[eo]se</exception></token>
-                    <token postag="NN|NN:.*" postag_regexp="yes"><exception postag="JJ|MD|NNS" postag_regexp="yes"/><exception regexp="yes">rest|latter|government|might|can|personnel|family|army|audience|board|cabinet|class|committee|company|corporation|council|department|faculty|firm|group|jury|majority|minority|navy|public|school|senate|society|team|troupe</exception></token>
+                    <token postag="NN(:.+)?" postag_regexp="yes"><exception postag="JJ|MD|NNS" postag_regexp="yes"/><exception regexp="yes">rest|latter|government|might|can|personnel|family|army|audience|board|cabinet|class|committee|company|corporation|council|department|faculty|firm|group|jury|majority|minority|navy|public|school|senate|society|team|troupe</exception></token>
                     <token skip="-1">,</token>
                     <token>,</token>
                     <marker>
@@ -10221,13 +10329,13 @@ USA
                     <token postag="VB.*" postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
-                    <token postag="NN|NN:.*" postag_regexp="yes"/>
+                    <token postag="NN(:.+)?" postag_regexp="yes"/>
                     <token>that</token>
                 </antipattern>
                 <pattern>
                     <token regexp="yes">wh(at|ich|o|ose|ere|en|ether)</token>
                     <token postag="DT|PRP\$" postag_regexp="yes"><exception regexp="yes">th[eo]se</exception></token>
-                    <token postag="NN|NN:.*" postag_regexp="yes"><exception postag="JJ|MD|NNS" postag_regexp="yes"/><exception regexp="yes">rest|latter|jury|committee|government|might|can</exception></token>
+                    <token postag="NN(:.+)?" postag_regexp="yes"><exception postag="JJ|MD|NNS" postag_regexp="yes"/><exception regexp="yes">rest|latter|jury|committee|government|might|can</exception></token>
                     <marker>
                         <token postag="VBP?" postag_regexp="yes"><exception postag="VB[ZNDG]|JJ|MD" postag_regexp="yes"/></token>
                     </marker>
@@ -10244,13 +10352,13 @@ USA
                     <token postag="VB.*" postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
-                    <token postag="NN|NN:.*" postag_regexp="yes"/>
+                    <token postag="NN(:.+)?" postag_regexp="yes"/>
                     <token>that</token>
                 </antipattern>
                 <pattern>
                     <token regexp="yes">wh(at|ich|o|ose|ere|en|ether)</token>
                     <token postag="DT"><exception regexp="yes">th[eo]se</exception></token>
-                    <token postag="NN|NN:.*" postag_regexp="yes"><exception postag="JJ|MD|NNS" postag_regexp="yes"/><exception regexp="yes">rest|latter|government|might|can|personnel|family|army|audience|board|cabinet|class|committee|company|corporation|council|department|faculty|firm|group|jury|majority|minority|navy|public|school|senate|society|team|troupe</exception></token>
+                    <token postag="NN(:.+)?" postag_regexp="yes"><exception postag="JJ|MD|NNS" postag_regexp="yes"/><exception regexp="yes">rest|latter|government|might|can|personnel|family|army|audience|board|cabinet|class|committee|company|corporation|council|department|faculty|firm|group|jury|majority|minority|navy|public|school|senate|society|team|troupe</exception></token>
                     <token skip="-1">,</token>
                     <token>,</token>
                     <marker>
@@ -10266,7 +10374,7 @@ USA
                 <pattern>
                     <token regexp="yes">wh(at|ich|o|ose|ere|en|ether)</token>
                     <token postag="DT|PRP\$" postag_regexp="yes"><exception regexp="yes">th[eo]se</exception></token>
-                    <token postag="NN|NN:.*" postag_regexp="yes"><exception postag="JJ|MD|NNS" postag_regexp="yes"/><exception regexp="yes">rest|latter|jury|committee|government|might|can</exception></token>
+                    <token postag="NN(:.+)?" postag_regexp="yes"><exception postag="JJ|MD|NNS" postag_regexp="yes"/><exception regexp="yes">rest|latter|jury|committee|government|might|can</exception></token>
                     <marker>
                         <token postag="VBP?" postag_regexp="yes">
                             <exception postag="VB[ZNDG]|JJ|MD" postag_regexp="yes"/>
@@ -10282,7 +10390,7 @@ USA
                 <pattern>
                     <token regexp="yes">wh(at|ich|o|ose|ere|en|ether)</token>
                     <token postag="DT|PRP\$" postag_regexp="yes"><exception regexp="yes">th[eo]se</exception></token>
-                    <token postag="NN|NN:.*" postag_regexp="yes"><exception postag="JJ|MD|NNS" postag_regexp="yes"/><exception regexp="yes">rest|latter|government|might|can|personnel|family|army|audience|board|cabinet|class|committee|company|corporation|council|department|faculty|firm|group|jury|majority|minority|navy|public|school|senate|society|team|troupe</exception></token>
+                    <token postag="NN(:.+)?" postag_regexp="yes"><exception postag="JJ|MD|NNS" postag_regexp="yes"/><exception regexp="yes">rest|latter|government|might|can|personnel|family|army|audience|board|cabinet|class|committee|company|corporation|council|department|faculty|firm|group|jury|majority|minority|navy|public|school|senate|society|team|troupe</exception></token>
                     <token skip="-1">,</token>
                     <token>,</token>
                     <marker>
@@ -11689,7 +11797,7 @@ USA
                 <pattern>
                     <marker>
                         <token regexp="yes">th[eo]se</token>
-                        <token postag="NN|NN:.*" postag_regexp="yes"><exception postag="VB[ZGN]|NNS|JJ.*|VBP|MD|CD|RP|DT" postag_regexp="yes"/><exception>are</exception></token>
+                        <token postag="NN(:.+)?" postag_regexp="yes"><exception postag="VB[ZGN]|NNS|JJ.*|VBP|MD|CD|RP|DT" postag_regexp="yes"/><exception>are</exception></token>
                     </marker>
                     <token><exception postag="NNP?S" postag_regexp="yes"/></token>
                 </pattern>
@@ -11769,7 +11877,7 @@ USA
             <pattern>
                 <marker>
                     <token postag='(?:JJ|RB)S?' postag_regexp='yes'>
-                      <exception regexp='yes'>more|less|rather|other(?:wise)?|different</exception>
+                      <exception regexp='yes'>more|less|rather|other(?:wise)?|different|inferior|superior</exception>
                       <exception postag='JJR|RBR' postag_regexp='yes'/></token>
                 </marker>
                 <token>than</token>
@@ -11791,6 +11899,16 @@ USA
             <example>...don't think that there is any better way to learn English than by living in America.</example>
             <!--example>No sooner had I sat down and relaxed than the phone rang.</example> XXX this is missing a comma -->
             <!--example>...to no-kin, to friends than to strangers, to those <marker>attractive than</marker> to those unattractive, to non-competitors th...</example> XXX doesn't account for skipped words (rather) -->
+        </rule>
+        <rule id="SUPERIOR_THAN_TO" name="Special comparatives (e.g. superior than/to)">
+            <pattern>
+                <token regexp="yes">inferior|superior</token>
+                <token>than</token>
+            </pattern>
+            <message>Some adjectives derived from Latin act as both adjective and comparative. In these cases use the collocation 'to'</message>
+              <suggestion>\1 to</suggestion>
+            <url>https://forum.wordreference.com/threads/superior-inferior-supreme.3324447/</url>
+            <example correction="superior to">This product is <marker>superior than</marker> the competition.</example>
         </rule>
         <rule id="THE_WORSE_OF" name="THE + RELATIVE + OF, e.g. the worse (worst) of">
         <!-- Created by Tiago F. Santos, 2018-02-02 -->
@@ -11974,6 +12092,27 @@ USA
                 <example>He is my best friend.</example>
             </rule>
         </rulegroup>
+          <rule id='SHORT_COMPARATIVES' name="Short comparatives">
+	      <!--      Created by Tiago F. Santos, 2018-07-10      -->
+                <pattern>
+                    <token>more</token>
+                    <token regexp='yes'>&short_adjectives;</token>
+                </pattern>
+                <message>This adjective uses the short comparatives form.</message>
+                  <suggestion><match no='2' postag='(.+)' postag_regexp='yes' postag_replace='JJR'/></suggestion>
+                <example correction="sillier">This example is <marker>more silly</marker> than the other.</example>
+          </rule>
+          <rule id='SHORT_SUPERLATIVES' name="Short superlatives">
+	      <!--      Created by Tiago F. Santos, 2018-07-10      -->
+                <pattern>
+                    <token>the</token>
+                    <token>most</token>
+                    <token regexp='yes'>&short_adjectives;</token>
+                </pattern>
+                <message>This adjective uses the short comparatives form.</message>
+                  <suggestion><match no='3' postag='(.+)' postag_regexp='yes' postag_replace='JJS'/></suggestion>
+                <example correction="silliest">This example is <marker>the most silly</marker> I have read.</example>
+          </rule>
         <rulegroup id="DID_BASEFORM" name="Non-infinitive verb after modal verbs">
             <rule>
                 <antipattern>
@@ -12675,7 +12814,7 @@ USA
                 <pattern>
                     <token>
                         <exception regexp="yes">(that|ha[ds]|will|must|could|can|should|would|does|did|may|might|t|let)</exception>
-                        <exception inflected="yes" regexp="yes">feel|hear|see|watch|prevent|help|stop|be</exception>
+                        <exception inflected="yes" regexp="yes">feel|hear|see|watch|prevent|help|stop|be|make</exception>
                         <exception postag="C[CD]|IN|DT|MD|NNP|\." postag_regexp="yes"/>
                         <exception scope="previous" postag="PRP$"/>
                     </token>
@@ -12703,6 +12842,7 @@ USA
                 <example>He rebounded from his Wimbledon <marker>defeat</marker> by winning the US Open.</example><!-- The chunker identifies 'his' as B-NP-plural and 'lecture' as E-NP-plural. -->
                 <example>The amendment became part of the Republican / Unionist <marker>platform</marker> in the election of 1864.</example>
                 <example>The amendment became part of the Republican/Unionist <marker>platform</marker> in the election of 1864.</example>
+                <example>Facebook tries to explain their practices in ways that make Facebook look like the good guy.</example>
                 <example>… by Muslims, including "Subhan-Allah" (<marker>Holiness</marker> be to God).</example><!-- The text is correct English (subjunctive 'be'). Unlike the example below, it does not trigger an error, because rules in the disambiguator rulegroup QUOT treat curly quotes and straight quotes differently.  -->
                 <example type="triggers_error">… by Muslims, including “Subhan-Allah” (<marker>Holiness</marker> be to God).</example>
                 <example type="triggers_error">We elected Jeffrey <marker>captain</marker> of our team.</example>
@@ -14767,6 +14907,19 @@ USA
             <short>Word confusion</short>
             <example correction="worst">Worse came to <marker>worse</marker>.</example>
         </rule>
+        <rulegroup id="WORST_WORSE" name="much worst (worse)">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>much</token>
+                    <marker>
+                        <token>worst</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion>worse</suggestion>?</message>
+                <short>Word confusion</short>
+                <example correction="worse">The conditions in March were much <marker>worst</marker> than they imagined to be possible.</example>
+            </rule>
+        </rulegroup>
         <rule id="PEAK_PIQUE" name="peak (pique) interest">
             <pattern>
                 <marker><token inflected="yes" skip="1">peak</token></marker>
@@ -15450,7 +15603,7 @@ USA
       <message>Unless you mean "in a political party," the usual preposition for a party is "at." Did you mean, <suggestion>at a party</suggestion>?</message>
       <example correction='at a party'>Later, I started working as a Research Assistant in university projects again, where I met her <marker>in a party</marker>.</example>
     </rule>
-    <rule id='WORK_IN_ON_A_PROJECT' name='Collocation: '>
+    <rule id='WORK_IN_ON_A_PROJECT' name='Collocation: in (on) university projects'>
     <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
       <pattern>
           <token postag_regexp="yes" postag="PRP|NNP"/>
@@ -15762,7 +15915,7 @@ USA
       <message>The usual collocations for "\1" is "\1 for". Did you mean <suggestion>\1 for</suggestion> or <suggestion>in charge of</suggestion>?</message>
       <example correction='responsable for|in charge of'>I am <marker>responsable of</marker> marketing.</example>
     </rule>
-    <rule id='WAIT_AFTER_FOR' name='Collocation: '>
+    <rule id='WAIT_AFTER_FOR' name='Collocation: waiting after (for) someone'>
     <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
       <pattern>
           <token inflected="yes">wait</token>
@@ -16058,7 +16211,7 @@ USA
       <example correction='entering the room'>While he was <marker>entering in the room</marker>, he felt an uncomfortable feeling on his spine.</example>
       <example>The record is <marker>entered in a book</marker>.</example>
     </rule>
-    <rule id='GO_TO_HOME' name='Collocation: '>
+    <rule id='GO_TO_HOME' name='Collocation: go to home (go home)'>
     <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
       <antipattern>
           <token>home</token>
@@ -16988,7 +17141,7 @@ USA
       <message>The usual prepositions to use after "\1" is 'with' not "\2" Did you mean <suggestion>\1 \2 \3 with</suggestion>?</message>
       <example correction="Fill the page with"><marker>Fill the page of</marker> numbers.</example>
     </rule>
-    <rule id='LOCATED_ON_AT' name='Collocation: '>
+    <rule id='LOCATED_ON_AT' name='Collocation: located on (at) Main street'>
     <!-- Created by Nicholas Walker (Bokomaru), 2018-05-16 -->
       <pattern>
           <token regexp='yes' inflected='yes'>locate|live|resident|sell|buy|go|turn</token>
@@ -16998,9 +17151,9 @@ USA
           <token regexp="yes">Street|Road|Blvd|Boulevard|Avenue|Ave|St|Rd</token>
       </pattern>
       <message>The usual preposition for an exact address is "at" not "on". Did you mean <suggestion>located at \3 <match no="4" include_skipped='all' case_conversion="startupper"/> <match no="5" include_skipped='all' case_conversion="startupper"/></suggestion>?</message>
-      <example correction='located at 11056 Main Street'>The company's name is Denver Inc. and its <marker>located on 11056 Main street</marker>.</example>
-      <example correction='located at 11056 Great Suffolk St'>The company's name is Denver Inc. and its <marker>located in 11056 Great Suffolk St</marker>.</example>
-      <example correction='located at 11056 Henri-Bourassa Street'>The company's name is Denver Inc. and its <marker>located on 11056 Henri-Bourassa street</marker>.</example>
+      <example correction='located at 11056 Main Street'>The company's name is Denver Inc. and it's <marker>located on 11056 Main street</marker>.</example>
+      <example correction='located at 11056 Great Suffolk St'>The company's name is Denver Inc. and it's <marker>located in 11056 Great Suffolk St</marker>.</example>
+      <example correction='located at 11056 Henri-Bourassa Street'>The company's name is Denver Inc. and it's <marker>located on 11056 Henri-Bourassa street</marker>.</example>
     </rule>
     <rule id='ON_IN_THE_MIDDLE' name='Collocation: on/in the middle'>
     <!-- Created by Nicholas Walker (Bokomaru), 2018-05-16 -->
@@ -17703,6 +17856,40 @@ USA
                  <example>To see you is always a great pleasure.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="INTERJECTIONS_PUNCTUATION" name="Missing comma after introductory phrase">
+    <!--  Created by Tiago F. Santos, 2018-07-16      -->
+                 <url>http://www.chompchomp.com/terms/interjection.htm</url>
+                 <short>Missing punctuation</short>
+            <rule>
+                 <pattern>
+                     <token postag='SENT_START'></token>
+                     <marker><token regexp='yes'>&interjections;</token></marker>
+                     <token>
+                       <exception regexp='yes'>[\!\?\.,;]</exception>
+                       <exception postag='NNP'/></token>
+                 </pattern>
+                 <message>Interjections are usually punctuated.</message>
+                   <suggestion>\2!</suggestion>
+                   <suggestion>\2?</suggestion>
+                   <suggestion>\2,</suggestion>
+                   <suggestion>\2.</suggestion>
+                 <example correction='Oh!|Oh?|Oh,|Oh.'><marker>Oh</marker> horrid examples...</example>
+            </rule>
+            <rule>
+                 <pattern>
+                     <token postag='SENT_START'></token>
+                     <marker><token regexp='yes'>&interjections;</token>
+                     <token postag='NNP'/></marker>
+                 </pattern>
+                 <message>Interjections are usually punctuated.</message>
+                   <suggestion>\2, \3!</suggestion>
+                   <suggestion>\2, \3?</suggestion>
+                   <suggestion>\2, \3,</suggestion>
+                   <suggestion>\2, \3.</suggestion>
+                 <example correction='Oh, John!|Oh, John?|Oh, John,|Oh, John.'><marker>Oh John</marker> what a horrid example...</example>
+                 <example><marker>Oh!</marker> Horrid examples...</example>
+            </rule>
+        </rulegroup>
         <rule id="COMMA_AFTER_A_MONTH" name="Comma after a month">
          <pattern>
           <token regexp='yes'>&months;</token>
@@ -17759,6 +17946,18 @@ USA
             <example correction="Friday,">We will meet <marker>Friday</marker> July 15.</example>
             <example>He was born on Friday, August 12, 2016.</example>
         </rule>
+    <rule id='UNLIKELY_OPENING_PUNCTUATION' name="Loose punctuation mark">
+    <!-- Created by Tiago F. Santos, 2018-07-14 -->
+      <pattern>
+          <token postag='SENT_START'/>
+        <marker>
+          <token regexp='yes'>[,;\:\)\]\}]</token>
+        </marker>
+      </pattern>
+      <message>Loose punctuation mark.</message>
+        <suggestion></suggestion>
+      <example correction=""><marker>;</marker> How's it goin'?</example>
+    </rule>
         <rule id="FOR_NOUN_SAKE" name="for heaven's sake">
             <pattern>
                 <token>for</token>
@@ -20919,12 +21118,56 @@ USA
             <example correction="Coral"><marker>Corral</marker> reefs are diverse underwater ecosystems.</example>
             <example correction="coral">She likes <marker>corral</marker> lipsticks.</example>
         </rule>
+        <rule id="CONFUSION_OF_MARSHAL_MARTIAL" name="marshal/marital (martial)">
+            <pattern>
+                <marker>
+                    <token regexp="yes">mar(sh|it)al</token>
+                </marker>
+                <token regexp='yes'>art(ist)?s?|court|discipline|laws?|life|music|overtones?|people|prowess|rhetoric|traditions?</token>
+            </pattern>
+            <message>Did you mean <suggestion>martial</suggestion> (relating to war or a warrior)?</message>
+            <url>http://grammarist.com/spelling/marshal-martial/</url>
+            <example correction="martial">He is an experienced <marker>marshal</marker> artist.</example>
+            <example correction="martial">He is an experienced <marker>marital</marker> artist.</example>
+        </rule>
+        <rulegroup id="CONFUSION_OF_GOLD_GOLF" name="gold (golf)">
+            <rule>
+                <pattern>
+                   <token inflected="yes" regexp='yes'>play|enjoy</token>
+                    <marker>
+                        <token>gold</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion>golf</suggestion>?</message>
+                <example correction="golf">She likes playing <marker>gold</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>gold</token>
+                    </marker>
+                    <token regexp='yes'>balls?|carts?|courses?|championships?|tournaments?</token>
+                </pattern>
+                <message>Did you mean <suggestion>golf</suggestion>?</message>
+                <example correction="golf">She drove the <marker>gold</marker> cart.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>golf</token>
+                    </marker>
+                    <token regexp='yes'>co(ast|in)s?|diggers?|medal(list)?s?|miner?s?|prices?|rush</token>
+                </pattern>
+                <message>Did you mean <suggestion>gold</suggestion>?</message>
+                <example correction="gold">She is a <marker>golf</marker> medallist.</example>
+            </rule>
+        </rulegroup>
         <rule id="CONFUSION_OF_ADDICTING_ADDICITVE" name="addicting (addictive)">
             <pattern>
                 <marker>
                     <token>addicting</token>
                 </marker>
-                <token regexp='yes'>behaviou?rs?|drugs?|games?|opiods?|painkillers?|substances?</token>
+                <token regexp='yes'>behaviou?rs?|drugs?|game(play)?s?|nature|opiods?|painkillers?|substances?</token>
             </pattern>
             <message>Did you mean the adjective <suggestion>addictive</suggestion> instead of the verb form 'addicting'?</message>
             <example correction="addictive">Nicotine is the <marker>addicting</marker> drug in tobacco.</example>
@@ -20938,6 +21181,16 @@ USA
             <message>Did you mean <suggestion>deep-seated</suggestion>?</message>
             <url>https://writingexplained.org/deep-seated-or-deep-seeded-difference</url>
             <example correction="deep-seated">He has a <marker>deep-seeded</marker> infection.</example>
+        </rule>
+        <rule id="DECEASE_DISEASE" name="decease (disease)">
+            <pattern>
+                <token regexp="yes">bacterial|cardiac|cardiovascular|chronic|deadly|fatal|fungal|genetic|infectious|pulmonary|respiratory|terminal|vascular</token>
+                <marker>
+                    <token>decease</token>
+                </marker>
+            </pattern>
+            <message>Did you mean <suggestion>disease</suggestion> (=sickness)?</message>
+            <example correction="disease">He has a deadly <marker>decease</marker>.</example>
         </rule>
         <rule id="STRIPPED_STRIPED" name="stripped (striped)">
             <pattern>
@@ -21025,7 +21278,7 @@ USA
               <token regexp="yes">was|is</token>
               <token postag="DT"></token>
               <token postag="JJ.*" postag_regexp="yes"/>
-              <token postag="NN|NN:.*" postag_regexp="yes"/>
+              <token postag="NN(:.+)?" postag_regexp="yes"/>
               <marker>
                   <token>there</token>
                   <token>where</token>
@@ -21035,7 +21288,7 @@ USA
               <token>there</token>
               <token regexp="yes">was|is</token>
               <token postag="DT"></token>              
-              <token postag="NN|NN:.*" postag_regexp="yes"/>
+              <token postag="NN(:.+)?" postag_regexp="yes"/>
               <marker>
                   <token>there</token>
                   <token>where</token>
@@ -22105,7 +22358,7 @@ USA
         <rule id="SLIGHT_OF_HAND" name="slight (sleight) of hand">
             <pattern>
                 <marker>
-                    <token regexp="yes">slight|slights</token>
+                    <token regexp="yes">slights?</token>
                 </marker>
                 <token>of</token>
                 <token>hand</token>
@@ -23528,6 +23781,18 @@ USA
             <example correction="scrutiny">Their manifesto yesterday received the same <marker>close scrutiny</marker> as the other two big parties — and it was an uncomfortable experience.</example>
         </rule>
         </rulegroup>
+        <rule id="COMBINE_TOGETHER" name="combine together (combine)"><!-- https://github.com/languagetool-org/languagetool/issues/1027 -->
+            <pattern>
+                <token inflected="yes">combine</token>
+                <token>together</token>
+            </pattern>
+            <message>'<match no="1"/> <match no="2"/>' is redundant. Use <suggestion><match no="1"/></suggestion></message>
+            <url>https://www.btb.termiumplus.gc.ca/tpv2guides/guides/wrtps/index-eng.html?lang=eng&amp;lettr=indx_catlog_c&amp;page=9xIUi4CtvHsc.html</url>
+            <short>Redundant phrase</short>
+            <example correction="combined">Two things are <marker>combined together</marker> in this application.</example>
+            <example correction="combines">Each layer <marker>combines together</marker> for an absolute orchestra of flavors.</example>
+            <example>Two things are <marker>combined</marker> in this application.</example>
+        </rule>
         <rule id="COMFORTABLE_WITH_VBG" name="comfortable with doing (comfortable doing)">
             <pattern>
                 <token>comfortable</token>
@@ -24759,9 +25024,9 @@ USA
         </rule>
         <rule default="off" id="THREE_NN" name="Readability: Three nouns in a row">
             <pattern>
-                <token postag="NN|NN:.*" postag_regexp="yes" regexp="yes">.{2,}<exception regexp="yes">today|yesterday|tomorrow|now|in|are</exception><exception postag="VBG|VB|VBP|VB[DN]|RB|MD|IN|JJ.*|CC|DT" postag_regexp="yes"/></token>
-                <token postag="NN|NN:.*" postag_regexp="yes" regexp="yes">.{2,}<exception regexp="yes">today|yesterday|tomorrow|now|in|are</exception><exception postag="VBG|VB|VBP|VB[DN]|RB|MD|IN|JJ.*|CC" postag_regexp="yes"/></token>
-                <token postag="NN|NN:.*" postag_regexp="yes" regexp="yes">.{2,}<exception regexp="yes">today|yesterday|tomorrow|now|in|are</exception><exception postag="VBG|VB|VBP|VB[DN]|RB|MD|IN|JJ.*|CC" postag_regexp="yes"/></token>
+                <token postag="NN(:.+)?" postag_regexp="yes" regexp="yes">.{2,}<exception regexp="yes">today|yesterday|tomorrow|now|in|are</exception><exception postag="VBG|VB|VBP|VB[DN]|RB|MD|IN|JJ.*|CC|DT" postag_regexp="yes"/></token>
+                <token postag="NN(:.+)?" postag_regexp="yes" regexp="yes">.{2,}<exception regexp="yes">today|yesterday|tomorrow|now|in|are</exception><exception postag="VBG|VB|VBP|VB[DN]|RB|MD|IN|JJ.*|CC" postag_regexp="yes"/></token>
+                <token postag="NN(:.+)?" postag_regexp="yes" regexp="yes">.{2,}<exception regexp="yes">today|yesterday|tomorrow|now|in|are</exception><exception postag="VBG|VB|VBP|VB[DN]|RB|MD|IN|JJ.*|CC" postag_regexp="yes"/></token>
             </pattern>
             <message>You used three nouns after one another, and this might decrease readability. You might consider rewording the sentence.</message>
             <short>Possibly bad style</short>
@@ -25182,6 +25447,145 @@ USA
                 <example correction="">IGD Convention 2014 - <marker>Monday, 2014-10-31</marker></example>
                 <example>IGD Convention 2014 - <marker>Friday, 2014-10-31</marker></example>
             </rule>             
+        </rulegroup>
+        
+        <rulegroup id="DATE_WEEKDAY_WITHOUT_YEAR" name="Weekday doesn't match date for the current year">
+            <antipattern>
+                <token regexp="yes">\d\d\d\d</token>
+                <token>BC</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">\d\d\d\d</token>
+                <token>B</token>
+                <token>.</token>
+                <token>C</token>
+                <token>.</token>
+            </antipattern>
+
+            <!-- prevent overlapping match with DATE_WEEKDAY -->
+            <antipattern>
+                <!-- "Monday, 7 October 2014" -->
+                <token regexp="yes">&weekdays;|&abbrevWeekdays;</token>
+                <token>,</token>
+                <token regexp="yes">\d\d?</token>
+                <token regexp="yes">&months;|&abbrevMonths;</token>
+                <token regexp="yes">\d\d\d\d</token>
+            </antipattern>
+            <antipattern>
+                <!-- "Monday, October 7, 2014" -->
+                <token regexp="yes">&weekdays;|&abbrevWeekdays;</token>
+                <token>,</token>
+                <token regexp="yes">&months;|&abbrevMonths;</token>
+                <token regexp="yes">\d\d?</token>
+                <token>,</token>
+                <token regexp="yes">\d\d\d\d</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">&weekdays;</token>
+                <token>,</token>
+                <token regexp="yes">0?[1-9]|[12][0-9]|3[01]</token>
+                <token>/</token>
+                <token regexp="yes">0?[1-9]|1[0-2]</token>
+                <token>/</token>
+                <token regexp="yes">\d\d\d\d</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">&weekdays;</token>
+                <token>,</token>
+                <token regexp="yes">0?[1-9]|1[0-2]</token>
+                <token>/</token>
+                <token regexp="yes">0?[1-9]|[12][0-9]|3[01]</token>
+                <token>/</token>
+                <token regexp="yes">\d\d\d\d</token>
+            </antipattern>
+
+            <rule>
+                <pattern>
+                    <!-- "Monday, 7 October" -->
+                    <token regexp="yes">&weekdays;|&abbrevWeekdays;</token>
+                    <token>,</token>
+                    <token regexp="yes">\d\d?</token>
+                    <token regexp="yes">&months;|&abbrevMonths;</token>
+                </pattern>
+                <filter class="org.languagetool.rules.en.DateCheckFilter" args="month:\4 day:\3 weekDay:\1"/>
+                <message>Did you mean to refer to the current year? \3 \4 {currentYear} is not a {day}, but a {realDay}.</message>
+                <example correction="">IGD Convention - <marker>Monday, 7 October</marker></example>
+                <example correction="">IGD Convention - <marker>Mon, 7 October</marker></example>
+                <example correction="">IGD Convention - <marker>Mo, 7 October</marker></example>
+                <example correction="">IGD Convention - <marker>Monday, 7 Oct</marker></example>
+                <example>IGD Convention - <marker>Tuesday, 7 October</marker></example>
+                <example>IGD Convention - <marker>Tuesday, 7 Oct</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <!-- "Monday, October 7" -->
+                    <token regexp="yes">&weekdays;|&abbrevWeekdays;</token>
+                    <token>,</token>
+                    <token regexp="yes">&months;|&abbrevMonths;</token>
+                    <token regexp="yes">\d\d?</token>
+                </pattern>
+                <filter class="org.languagetool.rules.en.DateCheckFilter" args="month:\3 day:\4 weekDay:\1"/>
+                <message>Did you mean to refer to the current year? \3 \4, {currentYear} is not a {day}, but a {realDay}.</message>
+                <example correction="">IGD Convention - <marker>Monday, October 7</marker></example>
+                <example correction="">IGD Convention - <marker>Mon, October 7</marker></example>
+                <example correction="">IGD Convention - <marker>Mo, October 7</marker></example>
+                <example correction="">IGD Convention - <marker>Wednesday, October 7</marker></example>
+                <example correction="">IGD Convention - <marker>Thursday, October 7</marker></example>
+                <example correction="">IGD Convention - <marker>Friday, October 7</marker></example>
+                <example correction="">IGD Convention - <marker>Saturday, October 7</marker></example>
+                <example correction="">IGD Convention - <marker>Sunday, October 7</marker></example>
+                <example correction="">IGD Convention - <marker>Sunday, Oct 7</marker></example>
+                <example>IGD Convention - <marker>Tuesday, October 7</marker></example>
+                <example>IGD Convention - <marker>Tuesday, Oct 7</marker></example>
+            </rule>
+            <!-- "Monday, 31/10" -->
+            <!-- the ambiguous forms have been antipatterned -->
+            <rule>
+                <antipattern>
+                    <token regexp="yes">&weekdays;</token>
+                    <token>,</token>
+                    <token regexp="yes">0?[1-9]|1[0-2]</token>
+                    <token>/</token>
+                    <token regexp="yes">0?[1-9]|1[0-2]</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">&weekdays;</token>
+                    <token>,</token>
+                    <token regexp="yes">0?[1-9]|[12][0-9]|3[01]</token>
+                    <token>/</token>
+                    <token regexp="yes">0?[1-9]|1[0-2]</token>
+                </pattern>
+                <filter class="org.languagetool.rules.en.DateCheckFilter" args="month:\5 day:\3 weekDay:\1"/>
+                <message>Did you mean to refer to the current year? \3/\5/{currentYear} is not a {day}, but a {realDay}.</message>
+                <example correction="">IGD Convention 2014 - <marker>Monday, 31/10</marker></example>
+                <example>IGD Convention 2014 - <marker>Friday, 31/10</marker></example>
+                <example>IGD Convention 2014 - <marker>Monday, 10/09</marker></example><!-- not correct, but ambiguous -->
+                <example>IGD Convention 2014 - <marker>Monday, 9/10</marker></example><!-- not correct, but ambiguous -->
+            </rule>
+            <rule>
+                <!-- "Monday, 10/31" -->
+                <!-- the ambiguous forms have been antipatterned -->
+                <antipattern>
+                    <token regexp="yes">&weekdays;</token>
+                    <token>,</token>
+                    <token regexp="yes">0?[1-9]|1[0-2]</token>
+                    <token>/</token>
+                    <token regexp="yes">0?[1-9]|1[0-2]</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">&weekdays;</token>
+                    <token>,</token>
+                    <token regexp="yes">0?[1-9]|1[0-2]</token>
+                    <token>/</token>
+                    <token regexp="yes">0?[1-9]|[12][0-9]|3[01]</token>
+                </pattern>
+                <filter class="org.languagetool.rules.en.DateCheckFilter" args="month:\3 day:\5 weekDay:\1"/>
+                <message>Did you mean to refer to the current year? \3/\5/{currentYear} is not a {day}, but a {realDay}.</message>
+                <example correction="">IGD Convention 2014 - <marker>Monday, 10/31</marker></example>
+                <example>IGD Convention 2014 - <marker>Friday, 10/31</marker></example>
+                <example>IGD Convention 2014 - <marker>Monday, 10/09</marker></example><!-- not correct, but ambiguous -->
+                <example>IGD Convention 2014 - <marker>Monday, 9/10</marker></example><!-- not correct, but ambiguous -->
+            </rule>
         </rulegroup>
         <rulegroup id="INVALID_DATE" name="Invalid date, like 'February 31, 2014'">
             <rule>
@@ -29527,6 +29931,41 @@ USA
             <example type="incorrect" correction="">The Finance Section has to <marker>visa</marker> all transactions before they can be authorised.</example>
             <example type="incorrect" correction="">… the ex-ante <marker>visa</marker> of the Delegation would be suspended unless…</example>
             <example>The centralised ex-ante <marker>approval</marker> performed by the Financial Controller, …</example>
+        </rule>
+    </category>
+
+    <!-- ====================================================================== -->
+    <!--         E-Prime        https://en.wikipedia.org/wiki/E-Prime           -->
+    <!-- ====================================================================== -->
+    <category id="CREATIVE_WRITING" name="Creative Writing" type="style" default="off">
+        <rule id="E_PRIME_STRICT" name="Creative Writing: E-Prime: all 'to be' forms" default="off">
+        <!-- Created by Tiago F. Santos, 2018-07-09 -->
+            <pattern>
+                <token inflected="yes">be</token>
+            </pattern>
+            <message>According to E-Prime, avoiding the use of the stative verb 'to be' makes the communication clearer, more accurate, and less dogmatic. Use an alternative verb.</message>
+            <url>https://litemind.com/e-prime/</url>
+            <short>Using E-Prime, you should avoid the verb 'to be'.</short>
+            <example type="incorrect" correction="">This <marker>is</marker> wrong.</example>
+            <example>This <marker>does not conform</marker> with my current knowledge.</example>
+            <example>The data <marker>refutes</marker> that assertion.</example>
+        </rule>
+        <rule id="E_PRIME_LOOSE" name="Creative Writing: E-Prime: 'to be' as the main verb" default="off">
+        <!-- Created by Tiago F. Santos, 2018-07-09 -->
+            <antipattern>
+                <token inflected="yes">be</token>
+                <token min='0' max='2' postag_regexp='yes' postag='R.+'/>
+                <token postag_regexp='yes' postag='V.+'>
+                  <exception postag_regexp='yes' postag='N.+'/></token>
+            </antipattern>
+            <pattern>
+                <token inflected="yes">be</token>
+            </pattern>
+            <message>According to E-Prime, avoiding the use of the stative verb 'to be' makes the communication clearer, more accurate, and less dogmatic. Use an alternative verb.</message>
+            <url>https://litemind.com/e-prime/</url>
+            <short>Using E-Prime, you should avoid the verb 'to be'.</short>
+            <example type="incorrect" correction="">This <marker>is</marker> right.</example>
+            <example>This <marker>is</marker> conforming with my current knowledge.</example>
         </rule>
     </category>
 

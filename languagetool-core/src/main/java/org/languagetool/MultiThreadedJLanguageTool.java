@@ -245,6 +245,7 @@ public class MultiThreadedJLanguageTool extends JLanguageTool {
     public Thread newThread(Runnable r) {
       Thread thread = new Thread(r);
       thread.setDaemon(true); // so we don't have to shut down executor explicitly
+      thread.setName("lt-multithread");
       return thread;
     }
   }

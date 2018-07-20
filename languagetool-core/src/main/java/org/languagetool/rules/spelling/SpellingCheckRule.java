@@ -57,6 +57,7 @@ public abstract class SpellingCheckRule extends Rule {
   private static final String SPELLING_IGNORE_FILE = "/hunspell/ignore.txt";
   private static final String SPELLING_FILE = "/hunspell/spelling.txt";
   private static final String SPELLING_PROHIBIT_FILE = "/hunspell/prohibit.txt";
+  private static final String SPELLING_FILE_VARIANT = null;
   private static final Comparator<String> STRING_LENGTH_COMPARATOR = Comparator.comparingInt(String::length);
 
   private final Set<String> wordsToBeIgnored = new HashSet<>();
@@ -241,6 +242,17 @@ public abstract class SpellingCheckRule extends Rule {
    */
   public String getSpellingFileName() {
     return language.getShortCode() + SPELLING_FILE;
+  }
+
+  /**
+   * 
+   * Get the name of the spelling file for a language variant (e.g., en-US or de-AT), 
+   * which lists words to be accepted and used for suggestions, even when the spell
+   * checker would not accept them.
+   * @since 4.3
+   */
+  public String getLanguageVariantSpellingFileName() {
+    return SPELLING_FILE_VARIANT;
   }
 
   /**

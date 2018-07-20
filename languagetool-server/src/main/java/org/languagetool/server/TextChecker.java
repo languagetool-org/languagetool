@@ -18,6 +18,7 @@
  */
 package org.languagetool.server;
 
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.sun.net.httpserver.HttpExchange;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.jetbrains.annotations.NotNull;
@@ -77,7 +78,7 @@ abstract class TextChecker {
     this.workQueue = workQueue;
     this.reqCounter = reqCounter;
     this.identifier = new LanguageIdentifier();
-    this.executorService = Executors.newCachedThreadPool();
+    this.executorService = Executors.newCachedThreadPool(new ThreadFactoryBuilder().setNameFormat("lt-textchecker-thread-%d").build());
     this.cache = config.getCacheSize() > 0 ? new ResultCache(config.getCacheSize()) : null;
   }
 
@@ -94,7 +95,9 @@ abstract class TextChecker {
       throw new TextTooLongException("Your text exceeds the limit of " + limits.getMaxTextLength() +
               " characters (it's " + aText.getPlainText().length() + " characters). Please submit a shorter text.");
     }
-    UserConfig userConfig = new UserConfig(limits.getPremiumUid() != null ? getUserDictWords(limits.getPremiumUid()) : Collections.emptyList());
+    UserConfig userConfig = new UserConfig(
+            limits.getPremiumUid() != null ? getUserDictWords(limits.getPremiumUid()) : Collections.emptyList(),
+            new HashMap<>(), config.getMaxSpellingSuggestions());
     //print("Check start: " + text.length() + " chars, " + langParam);
     boolean autoDetectLanguage = getLanguageAutoDetect(parameters);
     List<String> preferredVariants = getPreferredVariants(parameters);
@@ -126,7 +129,9 @@ abstract class TextChecker {
     boolean useQuerySettings = enabledRules.size() > 0 || disabledRules.size() > 0 ||
             enabledCategories.size() > 0 || disabledCategories.size() > 0;
     boolean allowIncompleteResults = "true".equals(parameters.get("allowIncompleteResults"));
-    QueryParams params = new QueryParams(enabledRules, disabledRules, enabledCategories, disabledCategories, useEnabledOnly, useQuerySettings, allowIncompleteResults);
+    boolean enableHiddenRules = "true".equals(parameters.get("enableHiddenRules"));
+    QueryParams params = new QueryParams(enabledRules, disabledRules, enabledCategories, disabledCategories, 
+            useEnabledOnly, useQuerySettings, allowIncompleteResults, enableHiddenRules);
 
     List<RuleMatch> ruleMatchesSoFar = Collections.synchronizedList(new ArrayList<>());
     
@@ -156,7 +161,7 @@ abstract class TextChecker {
         } else if (e.getCause() != null && e.getCause() instanceof OutOfMemoryError) {
           throw (OutOfMemoryError)e.getCause();
         } else {
-          throw e;
+          throw new RuntimeException(e.getMessage() + ", detected: " + detLang, e);
         }
       } catch (TimeoutException e) {
         boolean cancelled = future.cancel(true);
@@ -167,7 +172,9 @@ abstract class TextChecker {
         }
         String message = "Text checking took longer than allowed maximum of " + limits.getMaxCheckTimeMillis() +
                          " milliseconds (cancelled: " + cancelled +
-                         ", language: " + lang.getShortCodeWithCountryAndVariant() + ", #" + count +
+                         ", lang: " + lang.getShortCodeWithCountryAndVariant() +
+                         ", detected: " + detLang +
+                         ", #" + count +
                          ", " + aText.getPlainText().length() + " characters of text" +
                          ", h: " + reqCounter.getHandleCount() + ", r: " + reqCounter.getRequestCount() + ", system load: " + loadInfo + ")";
         if (params.allowIncompleteResults) {
@@ -183,7 +190,7 @@ abstract class TextChecker {
 
     setHeaders(httpExchange);
     List<RuleMatch> hiddenMatches = new ArrayList<>();
-    if (config.getHiddenMatchesServer() != null && config.getHiddenMatchesLanguages().contains(lang)) {
+    if (config.getHiddenMatchesServer() != null && params.enableHiddenRules && config.getHiddenMatchesLanguages().contains(lang)) {
       ResultExtender resultExtender = new ResultExtender(config.getHiddenMatchesServer(), config.getHiddenMatchesServerTimeout());
       try {
         long start = System.currentTimeMillis();
@@ -222,7 +229,7 @@ abstract class TextChecker {
             + ", r:" + reqCounter.getRequestCount());
   }
 
-  private List<String> getUserDictWords(Long userId) throws IOException {
+  private List<String> getUserDictWords(Long userId) {
     DatabaseAccess db = DatabaseAccess.getInstance();
     return db.getUserDictWords(userId);
   }
@@ -343,9 +350,10 @@ abstract class TextChecker {
     final boolean useEnabledOnly;
     final boolean useQuerySettings;
     final boolean allowIncompleteResults;
+    final boolean enableHiddenRules;
 
     QueryParams(List<String> enabledRules, List<String> disabledRules, List<CategoryId> enabledCategories, List<CategoryId> disabledCategories,
-                boolean useEnabledOnly, boolean useQuerySettings, boolean allowIncompleteResults) {
+                boolean useEnabledOnly, boolean useQuerySettings, boolean allowIncompleteResults, boolean enableHiddenRules) {
       this.enabledRules = enabledRules;
       this.disabledRules = disabledRules;
       this.enabledCategories = enabledCategories;
@@ -353,6 +361,7 @@ abstract class TextChecker {
       this.useEnabledOnly = useEnabledOnly;
       this.useQuerySettings = useQuerySettings;
       this.allowIncompleteResults = allowIncompleteResults;
+      this.enableHiddenRules = enableHiddenRules;
     }
   }
 

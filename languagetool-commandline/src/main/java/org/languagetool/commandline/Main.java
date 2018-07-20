@@ -433,8 +433,14 @@ class Main {
               "category ids (" + catIds + ") are correct");
     }
     if (languageHint != null) {
-      String spellHint = prg.isSpellCheckingActive() ?
-              "" : " (no spell checking active, specify a language variant like 'en-GB' if available)";
+      String spellHint = "";
+      if (!prg.isSpellCheckingActive()) {
+        if (prg.lt.getLanguage().isVariant()) {
+          spellHint = " (no spell checking active)";
+        } else {
+          spellHint = " (no spell checking active, specify a language variant like 'en-GB' if available)";
+        }
+      }
       System.err.println(languageHint + spellHint);
     }
     prg.setListUnknownWords(options.isListUnknown());

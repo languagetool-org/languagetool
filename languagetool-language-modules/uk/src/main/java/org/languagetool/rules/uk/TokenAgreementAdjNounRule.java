@@ -209,16 +209,21 @@ public class TokenAgreementAdjNounRule extends Rule {
 
         if( PosTagHelper.hasPosTagPart(adjTokenReadings, ":m:v_rod")
             && tokens[i].getToken().matches(".*[ую]")
-            && PosTagHelper.hasPosTag(slaveTokenReadings, "noun.*:m:v_dav.*") ) {
+            && PosTagHelper.hasPosTag(slaveTokenReadings, "noun.*?:m:v_dav.*") ) {
           msg += ". Можливо, вжито невнормований родовий відмінок ч.р. з закінченням -у/-ю замість -а/-я (така тенденція є в сучасній мові)?";
         }
         else if( adjAnalyzedTokenReadings.getToken().contains("-")
             && Pattern.compile(".*([23]-є|[02-9]-а|[0-9]-ма)").matcher(adjAnalyzedTokenReadings.getToken()).matches() ) {
           msg += ". Можливо, вжито зайве літерне нарощення після кількісного числівника?";
         }
+        else if( adjAnalyzedTokenReadings.getToken().startsWith("не")
+        // TODO: && tag(adjAnalyzedTokenReadings.getToken().substring(2)) has adjp
+            && PosTagHelper.hasPosTag(slaveTokenReadings, "noun.*?:v_oru.*") ) {
+          msg += ". Можливо, тут «не» потрібно писати окремо?";
+        }
 
         RuleMatch potentialRuleMatch = new RuleMatch(this, sentence, adjAnalyzedTokenReadings.getStartPos(), tokenReadings.getEndPos(), msg, getShort());
-        
+
         Synthesizer ukrainianSynthesizer = ukrainian.getSynthesizer();
         List<String> suggestions = new ArrayList<>();
 

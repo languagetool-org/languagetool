@@ -296,6 +296,42 @@ public class LOFlatParagraph {
     }
   }
 
+  /**
+   * Marks all paragraphs as checked with exception of the paragraphs "from" to "to"
+   */
+  public void markFlatParasAsChecked(int from, int to) {
+    try {
+      if(xFlatParaIter == null || xFlatPara == null) {
+        return;
+      }
+      XFlatParagraph tmpFlatPara = xFlatPara;
+      XFlatParagraph startFlatPara = xFlatPara;
+      while (tmpFlatPara != null) {
+        startFlatPara = tmpFlatPara;
+        tmpFlatPara = xFlatParaIter.getParaBefore(tmpFlatPara);
+      }
+      tmpFlatPara = startFlatPara;
+      int num = 0;
+      while (tmpFlatPara != null && num < from) {
+        tmpFlatPara.setChecked(TextMarkupType.PROOFREADING, true);
+        tmpFlatPara = xFlatParaIter.getParaAfter(tmpFlatPara);
+        num++;
+      }
+      while (tmpFlatPara != null && num < to) {
+        tmpFlatPara = xFlatParaIter.getParaAfter(tmpFlatPara);
+        num++;
+      }
+      while (tmpFlatPara != null) {
+        tmpFlatPara.setChecked(TextMarkupType.PROOFREADING, true);
+        tmpFlatPara = xFlatParaIter.getParaAfter(tmpFlatPara);
+        num++;
+      }
+    } catch (Throwable t) {
+      printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
+    }
+  }
+
+
 
   
 }

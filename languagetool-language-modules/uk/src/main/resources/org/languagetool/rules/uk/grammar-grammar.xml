@@ -848,6 +848,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
       <rule>
         <pattern>
+          <token regexp="yes" inflected="yes">п'ять|шість|сім|вісім|дев'ять|нуль|десять|двадцять|тридцять|сорок|.*десят|дев'яносто|сотня|сто|двісті|триста|чотириста|п'ятьсот|шістьсот|сімсот|вісімсот|дев'ятсот|([0-9 ]*[05-9]|[0-9 ]*1[1-4])</token>
+          <marker>
+            <token regexp="yes">мільйон[аи]|мільярд[аи]|трильйон[аи]</token>
+          </marker>
+        </pattern>
+        <message>Після числівника, що закінчується на 5-9 або 0, іменник має стояти в родовому відмінку множини: <suggestion><match no="2" postag="noun:(in)?anim:p:v_rod.*" postag_regexp="yes"/></suggestion></message>
+        <example correction="мільйонів">10 <marker>мільйона</marker></example>
+        <example correction="мільярдів">вартістю 56 <marker>мільярда</marker> євро</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token regexp="yes" inflected="yes">([0-9 ]*[05-9]|[0-9 ]*1[1-4]),5</token>
+          <marker>
+            <token regexp="yes">мільйони|мільярди|трильйони</token>
+          </marker>
+        </pattern>
+        <message>Після числівника, що закінчується на 5-9 або 0, і потім «,5», іменник має стояти в родовому відмінку множини (якщо вимовляємо «з половиною»), або в родовом відмінку однини (якщо вимовляємо «і п'ять десятих»)</message>
+        <suggestion><match no="2" postag="noun:(in)?anim:p:v_rod.*" postag_regexp="yes"/></suggestion>
+        <suggestion><match no="2" postag="noun:(in)?anim:[mfn]:v_rod.*" postag_regexp="yes"/></suggestion>
+        <example correction="мільйонів|мільйона">7,5 <marker>мільйони</marker></example>
+        <example correction="мільярдів|мільярда">вартістю 56,5 <marker>мільярди</marker> євро</example>
+      </rule>
+
+      <rule>
+        <pattern>
           <token regexp="yes">([1-9][0-9 \u00A0]*)[02-9]1
             <exception scope="previous" regexp="yes">[:./№]</exception>
             <exception regexp="yes">(1[0-9]{3}|20[0-2][0-9])</exception>

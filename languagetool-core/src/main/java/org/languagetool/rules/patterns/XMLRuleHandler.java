@@ -94,6 +94,7 @@ public class XMLRuleHandler extends DefaultHandler {
   protected static final String PHRASES = "phrases";
   protected static final String MESSAGE = "message";
   protected static final String SUGGESTION = "suggestion";
+  protected static final String TABNAME = "tab";
 
   protected List<AbstractPatternRule> rules = new ArrayList<>();
   protected Language language;

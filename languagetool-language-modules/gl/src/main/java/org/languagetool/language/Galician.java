@@ -132,6 +132,7 @@ public class Galician extends Language {
                 Example.fixed("Esta casa é vella. <marker>Foi</marker> construida en 1950.")),
             new MultipleWhitespaceRule(messages, this),
             new LongSentenceRule(messages, userConfig, -1, true),
+            new LongParagraphRule(messages, userConfig),
             new SentenceWhitespaceRule(messages),
             new WhiteSpaceBeforeParagraphEnd(messages),
             new WhiteSpaceAtBeginOfParagraph(messages),

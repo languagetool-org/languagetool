@@ -48,9 +48,12 @@ public class FalseFriendsAsBitextLoader {
           SAXException, IOException {
     FalseFriendRuleLoader ruleLoader = new FalseFriendRuleLoader();
     List<BitextPatternRule> bRules = new ArrayList<>();
-    String rulesDir = JLanguageTool.getDataBroker().getRulesDir();
-    List<AbstractPatternRule> rules1 = ruleLoader.getRules(rulesDir + "/" + filename, motherTongue, language);
-    List<AbstractPatternRule> rules2 = ruleLoader.getRules(rulesDir + "/" + filename, language, motherTongue);
+    List<AbstractPatternRule> rules1 = ruleLoader.getRules(
+            JLanguageTool.getDataBroker().getFromRulesDirAsStream(filename),
+            motherTongue, language);
+    List<AbstractPatternRule> rules2 = ruleLoader.getRules(
+            JLanguageTool.getDataBroker().getFromRulesDirAsStream(filename),
+            language, motherTongue);
     Map<String, AbstractPatternRule> srcRules = new HashMap<>();
     for (AbstractPatternRule rule : rules1) {
       srcRules.put(rule.getId(), rule);
