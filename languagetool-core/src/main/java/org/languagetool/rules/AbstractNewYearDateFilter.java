@@ -27,12 +27,27 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Accepts rule matches if a date doesn't match the accompanying weekday, e.g. if {@code Monday, 8 November 2003}
- * isn't actually a Monday. Replaces {@code {realDay}} with the real day of the date in the rule's message,
- * and {@code {day}} with the claimed day from the text (might be useful in case the text uses an abbreviation).
- * @since 2.7
+ * Accepts rule matches if we are in the first days of a new year and the user
+ * may have entered a date with the old year
+ * * @since 4.2
  */
-public abstract class AbstractDateCheckFilter extends RuleFilter {
+public abstract class AbstractNewYearDateFilter extends RuleFilter {
+  /** 
+   * Return true if the year recently changed (= it is January)
+  */
+  protected boolean isNewYear() {
+    if (isJUnitTest()) // TODO think about how to test rule
+      return true;
+    // TODO
+    return getCalendar().get(Calendar.MONTH) == Calendar.JANUARY;// || true;
+  }
+
+  protected int getCurrentYear() {
+    if (isJUnitTest()) 
+      return 2014;
+    return getCalendar().get(Calendar.YEAR);
+  }
+
   // The day of the month may contain not only digits but also extra letters
   // such as"22nd" in English or "22-an" in Esperanto. The regexp extracts
   // the numerical part.
@@ -66,26 +81,23 @@ public abstract class AbstractDateCheckFilter extends RuleFilter {
   protected abstract Calendar getCalendar();
 
   /**
-   * @param args a map with values for {@code year}, {@code month}, {@code day} (day of month), {@code weekDay}
+   * @param args a map with values for {@code year}, {@code month}, {@code day} (day of month)
    */
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> args, AnalyzedTokenReadings[] patternTokens) {
-    int dayOfWeekFromString = getDayOfWeek(getRequired("weekDay", args));
+
     Calendar dateFromDate = getDate(args);
-    int dayOfWeekFromDate;
+    int yearFromDate;
     try {
-      dayOfWeekFromDate = dateFromDate.get(Calendar.DAY_OF_WEEK);
-    } catch (IllegalArgumentException ignore) {
-      // happens with 'dates' like '32.8.2014' - those should be caught by a different rule
-      return null;
+      yearFromDate = dateFromDate.get(Calendar.YEAR);
+    } catch(IllegalArgumentException e) {
+      return null; // date is not valid; another rule is responsible
     }
-    if (dayOfWeekFromString != dayOfWeekFromDate) {
-      Calendar calFromDateString = Calendar.getInstance();
-      calFromDateString.set(Calendar.DAY_OF_WEEK, dayOfWeekFromString);
+    int currentYear = getCurrentYear();
+    if (isNewYear() && yearFromDate + 1 == currentYear) {
       String message = match.getMessage()
-              .replace("{realDay}", getDayOfWeek(dateFromDate))
-              .replace("{day}", getDayOfWeek(calFromDateString))
-              .replace("{currentYear}", Integer.toString(Calendar.getInstance().get(Calendar.YEAR)));
+              .replace("{year}", Integer.toString(yearFromDate))
+              .replace("{realYear}", Integer.toString(currentYear));
       return new RuleMatch(match.getRule(),match.getSentence(), match.getFromPos(), match.getToPos(), message, match.getShortMessage());
     } else {
       return null;
@@ -113,20 +125,7 @@ public abstract class AbstractDateCheckFilter extends RuleFilter {
 
 
   private Calendar getDate(Map<String, String> args) {
-    String yearArg = args.get("year");
-    int year;
-    if (yearArg == null && isJUnitTest()) {
-      // Volkswagen-style testing
-      // Hack for tests of date - weekday match with missing year
-      // in production, we assume the current year
-      // For xml tests, we use weekdays of the year 2014
-      year = 2014;
-    } else if (yearArg == null) {
-      // assume current year for rule DATUM_WOCHENTAG_OHNE_JAHR etc.
-      year = getCalendar().get(Calendar.YEAR);
-    } else {
-      year = Integer.parseInt(yearArg);
-    }
+    int year = Integer.parseInt(getRequired("year", args));
     int month = getMonthFromArguments(args);
     int dayOfMonth = getDayOfMonthFromArguments(args);
 

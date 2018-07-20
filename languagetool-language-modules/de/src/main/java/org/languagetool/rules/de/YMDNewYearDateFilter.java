@@ -26,9 +26,10 @@ import java.util.Map;
 
 /**
  * Date filter that expects a 'date' argument in the format 'yyyy-mm-dd'.
+ *
  * @since 3.2
  */
-public class YMDDateCheckFilter extends DateCheckFilter {
+public class YMDNewYearDateFilter extends NewYearDateFilter {
 
   private final org.languagetool.rules.YMDDateHelper YMDDateHelper = new YMDDateHelper();
 
@@ -37,7 +38,8 @@ public class YMDDateCheckFilter extends DateCheckFilter {
     if (args.containsKey("year") || args.containsKey("month") || args.containsKey("day")) {
       throw new RuntimeException("Set only 'weekDay' and 'date' for " + YMDDateCheckFilter.class.getSimpleName());
     }
-    return super.acceptRuleMatch(match, YMDDateHelper.parseDate(args), patternTokens);
+    args = YMDDateHelper.parseDate(args);
+    return super.acceptRuleMatch(YMDDateHelper.correctDate(match, args), args, patternTokens);
   }
 
 }
