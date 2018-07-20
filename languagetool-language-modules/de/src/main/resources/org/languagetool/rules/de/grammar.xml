@@ -11112,6 +11112,100 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
 
+        <rulegroup id="DATUM_NEUES_JAHR" name="Ein neues Jahr hat begonnen">
+            <antipattern>
+                <token regexp="yes">\d\d\d\d</token>
+                <token>v</token>
+                <token>.</token>
+                <token min="0">&nbsp;</token>
+                <token>Chr</token>
+                <token>.</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">\d\d\d\d</token>
+                <token>v</token>
+                <token>.</token>
+                <token min="0">&nbsp;</token>
+                <token>u</token>
+                <token>.</token>
+                <token min="0">&nbsp;</token>
+                <token>Z</token>
+                <token>.</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token regexp="yes">\d\d?</token>
+                    <token>.</token>
+                    <token regexp="yes">\d\d?</token>
+                    <token>.</token>
+                    <token regexp="yes">\d\d\d\d</token>
+                </pattern>
+                <filter class="org.languagetool.rules.de.NewYearDateFilter" args="year:\5 month:\3 day:\1"/>
+                <message>Ein neues Jahr hat begonnen. Meinten Sie den 
+                    <suggestion>\1.\3.{realYear}</suggestion>?
+                </message>
+                <example correction="23.08.2014">Termin: <marker>23.08.2013</marker></example>
+                <example>Termin: 23.08.2014</example>
+                <example>Termin: 23.08.2018</example>
+                <example>Termin: 23.08.2012</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">\d\d?</token>
+                    <token>.</token>
+                    <token regexp="yes">&monate;</token>
+                    <token regexp="yes">\d\d\d\d</token>
+                </pattern>
+                <filter class="org.languagetool.rules.de.NewYearDateFilter" args="year:\4 month:\3 day:\1"/>
+                <message>
+                    Ein neues Jahr hat begonnen. Meinten Sie den
+                    <suggestion>\1. \3 {realYear}</suggestion>?
+                </message>
+                <example correction="1. Jänner 2014">Termin: <marker>1. Jänner 2013</marker></example>
+                <example correction="23. Februar 2014">Termin: Sonntag, <marker>23. Februar 2013</marker></example>
+                <example>Termin: Mittwoch, <marker>1. Jänner 2014</marker></example>
+                <example>Termin: Samstag, <marker>23. August 2014</marker></example>
+                <example>Termin: Samstag, <marker>23. August 2018</marker></example>
+                <example>Termin: Samstag, <marker>23. August 2012</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">\d\d?</token>
+                    <token>.</token>
+                    <token regexp="yes">&abgekMonate;</token>
+                    <token>.</token>
+                    <token regexp="yes">\d\d\d\d</token>
+                </pattern>
+                <filter class="org.languagetool.rules.de.NewYearDateFilter" args="year:\5 month:\3 day:\1"/>
+                <message>
+                    Ein neues Jahr hat begonnen. Meinten Sie den 
+                    <suggestion>\1. \3. {realYear}</suggestion>?
+                </message>
+                <example correction="1. Feb. 2014">Termin: Donnerstag, <marker>1. Feb. 2013</marker></example>
+                <example correction="23. Aug. 2014">Termin: Sonntag, <marker>23. Aug. 2013</marker></example>
+                <example>Termin: Mittwoch, <marker>1. Jän. 2014</marker></example>
+                <example>Termin: Samstag, <marker>23. Aug. 2014</marker></example>
+                <example>Termin: Sa, <marker>23. Aug. 2014</marker></example>
+                <example>Termin: Samstag, den <marker>23. Aug. 2014</marker></example>
+                <example>Termin: Samstag, den <marker>23. Aug. 2017</marker></example>
+                <example>Termin: Samstag, den <marker>23. Aug. 2012</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">\d\d\d\d-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])</token>
+                </pattern>
+                <filter class="org.languagetool.rules.de.YMDNewYearDateFilter" args="date:\1"/>
+                <message>
+                    Ein neues Jahr hat begonnen. Meinten Sie 
+                    <suggestion>{realDate}</suggestion>?
+                </message>
+                <example correction="2014-09-28">Ein Termin am Dienstag, <marker>2013-09-28</marker>.</example>
+                <example>Ein Termin am Montag, <marker>2014-09-28</marker>.</example>
+                <example>Ein Termin am Montag, <marker>2017-09-28</marker>.</example>
+                <example>Ein Termin am Montag, <marker>2011-09-28</marker>.</example>
+            </rule> 
+            <!-- TODO: weitere regel auch ohne Jahr (Annahme: dieses Jahr (auch am jahresende bei "2.1."?)) -->
+        </rulegroup>
 
         <rulegroup id="DATUM_WOCHENTAG" name="Wochentag passt nicht zum Datum">
             <antipattern case_sensitive="yes">
@@ -11421,6 +11515,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
 
         <rulegroup id="UNGUELTIGES_DATUM" name="Ungültiges Datum, z.B. '31. Februar'">
+            <!-- <antipattern>
+                DOI regex 
+                <token regexp="yes">10.\d{4,9}/[-._;()/:A-Z0-9]+</token> 
+                does not work because of <regexp> rules in this rulegroup 
+            </antipattern>-->
             <rule>
                 <pattern>
                     <token>31</token>
@@ -11430,6 +11529,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Der Monat \3 hat nur 30 Tage.</message>
                 <example correction="">Es geschah am <marker>31. November</marker>.</example>
                 <example>Es geschah am <marker>30. November</marker>.</example>
+                <!-- <example>Band 89, Nr. 9, 2002, S. 1531–1546, DOI: 10.3732/ajb.89.9.1531.</example> -->
             </rule>
             <rule>
                 <pattern>
