@@ -1786,11 +1786,12 @@ title="Easy editing stylesheet" ?>
           <token min='0' regexp='yes'>d[eao]s?</token>
           <token min='0' postag_regexp='yes' postag='N.+'/>
           <token min="0" skip="3" postag_regexp='yes' postag='R.'/>
-          <token postag_regexp='yes' postag='V....P.+'>
-            <exception negate_pos='yes' postag_regexp='yes' postag='V....P.+'/></token>
+          <token postag_regexp='yes' postag='V.+'>
+            <exception postag_regexp='yes' postag='V...3S.+'/>
+            <exception negate_pos='yes' postag_regexp='yes' postag='V.+'/></token>
       </pattern>
       <message>Nesta situação deve utilizar o verbo no singular.</message>
-        <suggestion>\1 \2 <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/> <match no='6' postag='(V....)P(.+)' include_skipped='all' postag_replace='$1S$2' postag_regexp='yes'/></suggestion>
+        <suggestion>\1 \2 <match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/> <match no='6' postag='(V...)..(.+)' include_skipped='all' postag_replace='$13S$2' postag_regexp='yes'/></suggestion>
       <example correction='A maioria faz|A maioria fá'><marker>A maioria fazem</marker> muito pouco.</example>
       <example correction='A maioria não sabe'><marker>A maioria não sabem</marker> muito.</example>
       <example correction='A maioria do país não sabe'><marker>A maioria do país não sabem</marker> muito.</example>
@@ -2928,6 +2929,10 @@ title="Easy editing stylesheet" ?>
           <token postag_regexp='yes' postag='D.+'/>
       </antipattern>
     <rule>
+      <antipattern>
+          <token>à</token>
+          <token>mingua</token>
+      </antipattern>
       <pattern>
           <token regexp='yes'>às?</token>
           <token postag_regexp='yes' postag='V.+'>
@@ -3161,7 +3166,7 @@ title="Easy editing stylesheet" ?>
         <suggestion>à \2 \3</suggestion>
       <example correction='à direita do'>Os estacionamentos <marker>a direita do</marker> parque são reservados.</example>
       <example>Os autocarros estacionaram à esquerda do pátio.</example>
-      <!--example>A esquerda dos safe spaces e das manifestações nas universidades</example-->
+    <!--example>A esquerda dos safe spaces e das manifestações nas universidades</example-->
     </rule>
   </rulegroup>
 
@@ -4428,43 +4433,43 @@ title="Easy editing stylesheet" ?>
 
   <rulegroup id='A_PARTE' name="aparte">
     <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
-	  <url>https://pt.wikipedia.org/wiki/Aparte</url>
+      <url>https://pt.wikipedia.org/wiki/Aparte</url>
     <rule>
       <pattern>
-		  <token regexp='yes'>os?|(?:u|algu)(?:m|ns)|&contracoes_MS;|&contracoes_MP;</token>          
-		  <marker>
-			<token regexp='yes'>[aà]</token>
-			<token regexp="yes">partes?</token>
-		  </marker>
-		  <token regexp="yes">d[ao]s?</token>
+          <token regexp='yes'>os?|(?:u|algu)(?:m|ns)|&contracoes_MS;|&contracoes_MP;</token>
+        <marker>
+          <token regexp='yes'>[aà]</token>
+          <token regexp="yes">partes?</token>
+        </marker>
+          <token regexp="yes">d[ao]s?</token>
       </pattern>
-	  <message>Substitua por <suggestion>a\3</suggestion>.</message>
+      <message>Substitua por <suggestion>a\3</suggestion>.</message>
       <example correction="aparte">O <marker>à parte</marker> da Ana é importante.</example>
     </rule>
     <rule>
       <pattern>
-		  <marker>
+        <marker>
           <token inflected='yes' regexp='yes'>fazer|falar|dizer</token>
-		  <token regexp='yes'>os?|(?:u|algu)(?:m|ns)|&contracoes_MS;|&contracoes_MP;</token>          
-			<token regexp='yes'>[aà]</token>
-			<token regexp="yes">partes?</token>
-		  </marker>
+          <token regexp='yes'>os?|(?:u|algu)(?:m|ns)|&contracoes_MS;|&contracoes_MP;</token>
+          <token regexp='yes'>[aà]</token>
+          <token regexp="yes">partes?</token>
+        </marker>
       </pattern>
-	  <message>Substitua por <suggestion>\1 \2 a\4</suggestion>.</message>
+      <message>Substitua por <suggestion>\1 \2 a\4</suggestion>.</message>
       <example correction="fez um aparte">A Ana <marker>fez um à parte</marker> que é importante.</example>
     </rule>
     <rule>
       <pattern>
-		  <marker>
+        <marker>
           <token regexp='yes'>modéstias?</token>
-		  <token regexp='yes'>apartes?</token>
-		  </marker>
+          <token regexp='yes'>apartes?</token>
+        </marker>
       </pattern>
-	  <message>Substitua por <suggestion>\1 à <match no='2' regexp_match='(.)(.+)' regexp_replace='$2'/></suggestion>.</message>
+      <message>Substitua por <suggestion>\1 à <match no='2' regexp_match='(.)(.+)' regexp_replace='$2'/></suggestion>.</message>
       <example correction="Modéstia à parte"><marker>Modéstia aparte</marker>, o trabalho ficou bem feito.</example>
     </rule>
   </rulegroup>
-	
+
     <rule id='AS_OSSADAS_DE' name="A ossada de">
     <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
@@ -5692,12 +5697,12 @@ title="Easy editing stylesheet" ?>
     <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
           <token inflected='yes'>preferir</token>
-		  <token>antes</token>
+          <token>antes</token>
       </pattern>
       <message>Substitua por <suggestion>\1</suggestion>.</message>
       <example correction="prefere">A Ana <marker>prefere antes</marker> a Matemática.</example>
-    </rule>	
-	
+    </rule>
+
     <!-- O MAIS + ADJ-PLURAL + POSSÍVEIS - o mais adj-plural possível -->
     <rule id='O_MAIS_ADJ-PLURAL_POSSÍVEIS' name="Erro de concordância de número - possíveis-possível">
       <pattern>
@@ -6977,7 +6982,7 @@ title="Easy editing stylesheet" ?>
       <example correction="sala, um quarto e uma cozinha|sala e um quarto, e uma cozinha">A casa tem uma <marker>sala e um quarto e uma cozinha</marker>.</example>
       <example correction="sul, oeste e o Suriname|sul e oeste, e o Suriname">...esa a norte, o Oceano Atlântico a leste, o Pará a <marker>sul e oeste e o Suriname</marker> a noroeste.</example>
       <example type="correct">Gostava de agradecer aos <marker>pais, presidente, e primeira</marker>-dama.</example>
-      <!--example>...inam climas desérticos e semi-desérticos, ao norte, e frios e temperados na regiões mais altas.</example-->
+    <!--example>...inam climas desérticos e semi-desérticos, ao norte, e frios e temperados na regiões mais altas.</example-->
     </rule>
   </rulegroup>
 
@@ -6989,7 +6994,8 @@ title="Easy editing stylesheet" ?>
       <pattern>
           <token regexp="yes">já|o(?:ra|u)|nem|qu(?:al|er)|seja|tal(?:vez)?</token>
           <token skip='-1'>
-            <exception scope='next' regexp='yes'>[,\:;»]</exception></token>
+            <exception regexp='yes'>[,\:;»“”\(\)\"]</exception>
+            <exception scope='next' regexp='yes'>[,\:;»\(\)\"]</exception></token>
           <token><match no='0'/></token>
       </pattern>
       <message>Conjunções alternativas ou disjuntivas devem ser separadas por vírgulas.</message>
@@ -8219,7 +8225,7 @@ title="Easy editing stylesheet" ?>
         </marker>
       </pattern>
       <message>Sinal de pontuação isolado.</message>
-        <suggestion></suggestion>
+        <suggestion/>
       <example correction=""><marker>;</marker> Como estás?</example>
     </rule>
 
@@ -20705,7 +20711,7 @@ TODO Write better examples
     </rule>
     <rule>
       <pattern>
-          <token regexp='yes'>(?:a|aí|ao|atrasa|atrasaram|atrasou|boicotam|bom|cada|com|como|cujo|curioso|dá|dado|dando|dão|dar|dará|daremos|daria|dava|davam|de|dê|demos|dera|deram|desse|deste|deu|difícil|dise|do|e|em|esse|este|indica|mais|marca|marcam|marcou|mau|melhor|mesmo|meu|naquele|nesse|neste|no|nos|noso|novo|num|o|os|ótimo|ou|para|pelo|pior|pleno|próprio|qualquer|recente|seu|simples|tardio|tem|têm|tendo|tenha|ter|terá|terão|teria|teve|tido|tinha|tinham|tiver|tivera|tiveram|todo|um)s?</token>
+          <token regexp='yes'>(?:a|aí|ao|atrasa|atrasaram|atrasou|boicotam|bom|cada|com|como|cujo|curioso|dá|dado|dando|dão|dar|dará|daremos|daria|dava|davam|de|dê|demos|dera|deram|desse|deste|deu|difícil|disse|do|e|em|esse|este|indica|mais|marca|marcam|marcou|mau|melhor|mesmo|meu|naquele|nesse|neste|no|nos|noso|novo|num|o|os|ótimo|ou|para|pelo|pior|pleno|próprio|qualquer|recente|seu|simples|tardio|tem|têm|tendo|tenha|ter|terá|terão|teria|teve|tido|tinha|tinham|tiver|tivera|tiveram|todo|um)s?</token>
         <marker>
           <token regexp='yes'>inicios?</token>
         </marker>
@@ -20727,7 +20733,7 @@ TODO Write better examples
     </rule>
     <rule>
       <pattern>
-          <token regexp='yes'>(?:a|à|afoga|alguma|apenas|aquela|bastante|cada|causou|certa|com|cuja|da|daquela|de|demonstrando|dessa|doe|dolorosa|e|É|em|era|essa|esta|estranha|eterna|fingida|fingindo|fose|funda|grande|guarda|guardo|há|horível|humana|imensa|infinda|infinita|interior|íntima|justa|leve|maior|mesma|minha|muita|na|naquela|negra|nem|nenhuma|nessa|nossa|numa|obscura|oculta|ou|para|pela|pequena|pesada|primeira|profunda|própria|pura|qualquer|que|sem|sentia|sobra|solene|sua|súbita|tal|tanta|tem|tens|tinha|traz|tua|uma|única|verdadeira|visível)s?</token>
+          <token regexp='yes'>(?:a|à|afoga|alguma|apenas|aquela|bastante|cada|causou|certa|com|cuja|da|daquela|de|demonstrando|dessa|doe|dolorosa|e|É|em|era|essa|esta|estranha|eterna|fingida|fingindo|fosse|funda|grande|guarda|guardo|há|horível|humana|imensa|infinda|infinita|interior|íntima|justa|leve|maior|mesma|minha|muita|na|naquela|negra|nem|nenhuma|nessa|nossa|numa|obscura|oculta|ou|para|pela|pequena|pesada|primeira|profunda|própria|pura|qualquer|que|sem|sentia|sobra|solene|sua|súbita|tal|tanta|tem|tens|tinha|traz|tua|uma|única|verdadeira|visível)s?</token>
         <marker>
           <token regexp='yes'>magoas?</token>
         </marker>
@@ -20771,7 +20777,7 @@ TODO Write better examples
     </rule>
     <rule>
       <pattern>
-          <token regexp='yes'>(?:[A-Za-z]+mente|[A-Za-z]+mento|alcance|algum|apenas|ar|aspec?to|bastante|bem|campo|caráter|científico|coeficiente|como|controle|curso|de|dentista|desempenho|destino|devaso|do|domínio|e|É|efeito|em|ensino|era|espírito|este|estivese|estudo|exame|exemplo|exercício|fica|filósofo|gênio|grande|guia|hábito|homem|interese|intuito|iso|juízo|lado|mais|manejo|manual|marido|meio|menos|método|modo|muito|mundo|nada|navegante|negociante|nível|o|objetivo|olho|outro|país|palavreado|paso|pelo|pouco|princípio|problema|proceso|psicólogo|ramo|realismo|remédio|responsável|resultado|roteiro|saber|senso|sentido|ser|será|seria|significado|sobretudo|soldado|sujeito|suporte|talento|tão|tereno|teste|tornar|trabalho|treino|um|uso|valore?)s?</token>
+          <token regexp='yes'>(?:[A-Za-z]+mente|[A-Za-z]+mento|alcance|algum|apenas|ar|aspec?to|bastante|bem|campo|caráter|científico|coeficiente|como|controle|curso|de|dentista|desempenho|destino|devaso|do|domínio|e|É|efeito|em|ensino|era|espírito|este|estivesse|estudo|exame|exemplo|exercício|fica|filósofo|gênio|grande|guia|hábito|homem|interesse|intuito|iso|juízo|lado|mais|manejo|manual|marido|meio|menos|método|modo|muito|mundo|nada|navegante|negociante|nível|o|objetivo|olho|outro|país|palavreado|paso|pelo|pouco|princípio|problema|proceso|psicólogo|ramo|realismo|remédio|responsável|resultado|roteiro|saber|senso|sentido|ser|será|seria|significado|sobretudo|soldado|sujeito|suporte|talento|tão|tereno|teste|tornar|trabalho|treino|um|uso|valore?)s?</token>
         <marker>
           <token regexp='yes'>praticos?</token>
         </marker>
@@ -20787,7 +20793,7 @@ TODO Write better examples
           <token>Educação</token>
       </antipattern>
       <pattern>
-          <token regexp='yes'>(?:[A-Za-z]+dade|[A-Za-z]+ência|[A-Za-z]+[sç]ão|[A-Za-z]+ária|[A-Za-z]+mente|à|advocacia|agenda|alegria|alma|antipatia|[\xc1á]rea|arte|aula|aura|bastante|bem|biblioteca|briga|cabine|cadeia|cadeira|campanha|careira|carta|casa|causa|cena|censura|cerimônia|ciência|cisterna|civil|coisa|com|confiança|consulta|conversa|cousa|crítica|da|de|defensora|defensoria|defesa|demanda|denúncia|desgraça|desonra|desordem|despedida|despesa|disputa|dívida|é|economia|em|emisora|empresa|encomenda|ênfase|entrada|era|escola|escritura|esfera|está|estátua|esteira|estima|evento|expec?tativa|face|fazem|fazenda|fé|feira|festa|fez|figura|financeira|fita|fonte|fora|foram|força|forma|fortuna|fose|fotografia|garantia|gastança|higiene|história|homenagem|honra|hospitalar|imagem|incerteza|indiferença|infraestrutura|iniciativa|insegurança|justiça|leitura|limpeza|linguagem|livraria|luz|mais|máquina|medicina|memória|mentira|mesa|miséria|misa|modéstia|moral|morte|mulher|museologia|namorada|natureza|notícia|obra|oferta|opinião|ordem|orgia|palavra|palestra|parceria|parte|parvalheira|pasmaceira|paz|pela|penal|performance|pesoa|pista|polêmica|política|pose|poupança|praça|preferisem|preguiça|prestando|profesora|profisional|promesa|promotora|promotoria|prova|queixa|questão|razão|receita|rede|relevância|repugnância|retórica|reunião|riqueza|ruptura|saúde|secretaria|segurança|seja|ser|será|serventia|servidora|sido|simpatia|social|solene|suspeita|tanto|tão|tarifa|telefônica|tirania|tolerância|tomada|torna|tornada|tornado|tornar|tornase|tornava|tornei|tornou|trajetória|tribuna|venda|vergonha|via|viagem|vida|vigilância|virtude|visita|vistoria|voze?)s?</token>
+          <token regexp='yes'>(?:[A-Za-z]+dade|[A-Za-z]+ência|[A-Za-z]+[sç]ão|[A-Za-z]+ária|[A-Za-z]+mente|à|advocacia|agenda|alegria|alma|antipatia|[\xc1á]rea|arte|aula|aura|bastante|bem|biblioteca|briga|cabine|cadeia|cadeira|campanha|careira|carta|casa|causa|cena|censura|cerimônia|ciência|cisterna|civil|coisa|com|confiança|consulta|conversa|cousa|crítica|da|de|defensora|defensoria|defesa|demanda|denúncia|desgraça|desonra|desordem|despedida|despesa|disputa|dívida|é|economia|em|emisora|empresa|encomenda|ênfase|entrada|era|escola|escritura|esfera|está|estátua|esteira|estima|evento|expec?tativa|face|fazem|fazenda|fé|feira|festa|fez|figura|financeira|fita|fonte|fora|foram|força|forma|fortuna|fosse|fotografia|garantia|gastança|higiene|história|homenagem|honra|hospitalar|imagem|incerteza|indiferença|infraestrutura|iniciativa|insegurança|justiça|leitura|limpeza|linguagem|livraria|luz|mais|máquina|medicina|memória|mentira|mesa|miséria|misa|modéstia|moral|morte|mulher|museologia|namorada|natureza|notícia|obra|oferta|opinião|ordem|orgia|palavra|palestra|parceria|parte|parvalheira|pasmaceira|paz|pela|penal|performance|pesoa|pista|polêmica|política|pose|poupança|praça|preferisem|preguiça|prestando|profesora|profisional|promesa|promotora|promotoria|prova|queixa|questão|razão|receita|rede|relevância|repugnância|retórica|reunião|riqueza|ruptura|saúde|secretaria|segurança|seja|ser|será|serventia|servidora|sido|simpatia|social|solene|suspeita|tanto|tão|tarifa|telefônica|tirania|tolerância|tomada|torna|tornada|tornado|tornar|tornasse|tornava|tornei|tornou|trajetória|tribuna|venda|vergonha|via|viagem|vida|vigilância|virtude|visita|vistoria|voze?)s?</token>
         <marker>
           <token regexp='yes'>publicas?</token>
         </marker>
@@ -20798,7 +20804,7 @@ TODO Write better examples
     </rule>
     <rule>
       <pattern>
-          <token regexp='yes'>(?:a|à|antiga|aquela|atual|cada|como|comunista|curiosa|da|daquela|de|democrática|dessa|desta|do|duma|e|É|em|escola|essa|esta|famosa|fez|formada|formosa|fose|futura|gloriosa|grande|haverá|já|jovem|juvenil|maldita|minha|miserável|na|nascente|nem|nessa|nesta|nossa|nova|numa|ou|outra|palavra|para|pela|pequena|pobre|por|primeira|quarta|que|quinta|segunda|sua|terceira|última|uma|velha|verdadeira|vizinha)s?</token>
+          <token regexp='yes'>(?:a|à|antiga|aquela|atual|cada|como|comunista|curiosa|da|daquela|de|democrática|dessa|desta|do|duma|e|É|em|escola|essa|esta|famosa|fez|formada|formosa|fosse|futura|gloriosa|grande|haverá|já|jovem|juvenil|maldita|minha|miserável|na|nascente|nem|nessa|nesta|nossa|nova|numa|ou|outra|palavra|para|pela|pequena|pobre|por|primeira|quarta|que|quinta|segunda|sua|terceira|última|uma|velha|verdadeira|vizinha)s?</token>
         <marker>
           <token regexp='yes'>republicas?</token>
         </marker>
@@ -20831,7 +20837,7 @@ TODO Write better examples
     </rule-->
     <rule>
       <pattern>
-          <token regexp='yes'>(?:a|abonando|abre|abrir|acesar|acharia|admitem|alcançarem|algum|altera|ampliar|antigo|ao|apresente|aranjou|bom|bonito|buscando|buscar|colocou|com|como|concedam|concede|conceder|concedia|consegue|conseguiram|consolidado|constarão|constituirá|contratar|cronista|cujo|dado|dai|dando|dar|daria|daríeis|dava|de|dei|dera|deram|dermos|desse|deses|deste|determinado|deu|devido|do|É|e|em|empresas|encontra|escaso|esse|este|estuda|evento|eventual|fitas|fornecer|ganhara|ganharão|ganhase|garante|garantir|grande|há|haverá|imenso|implicam|implicará|inteiro|largo|maior|mais|mediante|menor|menos|merece|merecem|merecerem|mesmo|meu|muda|muito|municipal|não|negar|nem|nenhum|no|noso|novo|o|obtém|obter|obtinham|obtiveram|ocore|oferecendo|ou|para|pede|pelo|pequeno|piano|pleno|por|pouco|poupança|presidente|prestar|primeiro|próprio|qualquer|quer|queremos|receber|receberam|regateavam|respec?tivo|restringem|restringir|segundo|sem|seu|simplifica|sobre|solicitar|tal|tanto|tem|têm|tenho|ter|terá|teu|tinha|tiveram|tivesem|transferir|último|um|utilizado|volume|voso)s?</token>
+          <token regexp='yes'>(?:a|abonando|abre|abrir|acesar|acharia|admitem|alcançarem|algum|altera|ampliar|antigo|ao|apresente|aranjou|bom|bonito|buscando|buscar|colocou|com|como|concedam|concede|conceder|concedia|consegue|conseguiram|consolidado|constarão|constituirá|contratar|cronista|cujo|dado|dai|dando|dar|daria|daríeis|dava|de|dei|dera|deram|dermos|desse|deses|deste|determinado|deu|devido|do|É|e|em|empresas|encontra|escaso|esse|este|estuda|evento|eventual|fitas|fornecer|ganhara|ganharão|ganhasse|garante|garantir|grande|há|haverá|imenso|implicam|implicará|inteiro|largo|maior|mais|mediante|menor|menos|merece|merecem|merecerem|mesmo|meu|muda|muito|municipal|não|negar|nem|nenhum|no|noso|novo|o|obtém|obter|obtinham|obtiveram|ocore|oferecendo|ou|para|pede|pelo|pequeno|piano|pleno|por|pouco|poupança|presidente|prestar|primeiro|próprio|qualquer|quer|queremos|receber|receberam|regateavam|respec?tivo|restringem|restringir|segundo|sem|seu|simplifica|sobre|solicitar|tal|tanto|tem|têm|tenho|ter|terá|teu|tinha|tiveram|tivesem|transferir|último|um|utilizado|volume|voso)s?</token>
         <marker>
           <token regexp='yes'>creditos?</token>
         </marker>
@@ -20898,7 +20904,7 @@ TODO Write better examples
     </rule>
     <rule>
       <pattern>
-          <token regexp='yes'>ainda|algum|antes|ao|aquele|asegurados|belo|bom|buscar|céu|chamo|chamou|com|como|conceder|considerável|cujo|dava|de|decisivo|desse|desem|dispensando|dispensar|do|É|e|em|encontrar|esperando|esperar|esse|forneceu|generoso|grande|grave|implorando|importante|incômodo|insignificante|justificável|maior|mais|menor|meu|necesitando|negar|nenhum|no|noso|o|obter|oferecer|ou|outro|para|peça|peçamos|peças|peço|pede|pedido|pedia|pediam|pedíamos|pedimos|pedindo|pedir|pedira|pedirá|pedirão|pediram|pedirei|pediremos|pediria|pediriam|pedise|pediu|pelo|pequeno|permanente|poderoso|por|potente|pouco|precioso|prestam|prestando|prestar|prestaram|prestarão|preste|prestou|procurando|procurar|procurasem|procurou|prometeu|prometeram|prometiam|pronto|qualquer|receber|receberam|recebeu|recebido|recusavam|requerendo|sem|seu|simples|só|solicitar|solicitou|suplicaram|suplicou|sustentado|também|tanto|tem|têm|temos|tenha|tenho|terá|terão|terei|teria|teriam|teu|teve|tido|tinha|tinham|tive|tivera|tiveram|tríplice|um|único|útil|valioso|veio|vinha|virá|viria|viriam</token>
+          <token regexp='yes'>ainda|algum|antes|ao|aquele|asegurados|belo|bom|buscar|céu|chamo|chamou|com|como|conceder|considerável|cujo|dava|de|decisivo|desse|desem|dispensando|dispensar|do|É|e|em|encontrar|esperando|esperar|esse|forneceu|generoso|grande|grave|implorando|importante|incômodo|insignificante|justificável|maior|mais|menor|meu|necesitando|negar|nenhum|no|noso|o|obter|oferecer|ou|outro|para|peça|peçamos|peças|peço|pede|pedido|pedia|pediam|pedíamos|pedimos|pedindo|pedir|pedira|pedirá|pedirão|pediram|pedirei|pediremos|pediria|pediriam|pedisse|pediu|pelo|pequeno|permanente|poderoso|por|potente|pouco|precioso|prestam|prestando|prestar|prestaram|prestarão|preste|prestou|procurando|procurar|procurasem|procurou|prometeu|prometeram|prometiam|pronto|qualquer|receber|receberam|recebeu|recebido|recusavam|requerendo|sem|seu|simples|só|solicitar|solicitou|suplicaram|suplicou|sustentado|também|tanto|tem|têm|temos|tenha|tenho|terá|terão|terei|teria|teriam|teu|teve|tido|tinha|tinham|tive|tivera|tiveram|tríplice|um|único|útil|valioso|veio|vinha|virá|viria|viriam</token>
         <marker>
           <token regexp='yes'>auxilios?</token>
         </marker>
@@ -20909,7 +20915,7 @@ TODO Write better examples
     </rule>
     <rule>
       <pattern>
-          <token regexp='yes'>(?:a|à|abrindo|alguma|aparente|aquela|àquela|bastante|boa|breve|caso|certa|com|considerável|cuja|curta|da|dada|daquela|de|denominada|desconsoladora|deseja|dessa|desta|determinada|duma|e|É|em|encurtar|enorme|essa|esta|exigia|existe|explorada|firme|ganhar|ganhara|gélida|grande|guardando|guardou|há|habitual|havia|houvera|igual|imensa|impercorível|impõe|impunha|inaceitável|indicando|insondável|intérmina|interpusese|intransponível|larga|longa|maior|mais|mantendo|mantenha|manter|marcando|média|meia|menor|mesma|mínima|muita|na|naquela|necesária|nenhuma|nessa|nesta|notável|numa|ou|pela|pequena|por|pouca|primeira|própria|qualquer|que|quer|querem|queria|quero|quis|razoável|relativa|removida|representar|respec?tiva|respeitável|respeitosa|segura|sem|sua|tal|tanta|tinha|tomando|tomou|última|única|uma|vence|venceu|velha)s?</token>
+          <token regexp='yes'>(?:a|à|abrindo|alguma|aparente|aquela|àquela|bastante|boa|breve|caso|certa|com|considerável|cuja|curta|da|dada|daquela|de|denominada|desconsoladora|deseja|dessa|desta|determinada|duma|e|É|em|encurtar|enorme|essa|esta|exigia|existe|explorada|firme|ganhar|ganhara|gélida|grande|guardando|guardou|há|habitual|havia|houvera|igual|imensa|impercorível|impõe|impunha|inaceitável|indicando|insondável|intérmina|interpusesse|intransponível|larga|longa|maior|mais|mantendo|mantenha|manter|marcando|média|meia|menor|mesma|mínima|muita|na|naquela|necesária|nenhuma|nessa|nesta|notável|numa|ou|pela|pequena|por|pouca|primeira|própria|qualquer|que|quer|querem|queria|quero|quis|razoável|relativa|removida|representar|respec?tiva|respeitável|respeitosa|segura|sem|sua|tal|tanta|tinha|tomando|tomou|última|única|uma|vence|venceu|velha)s?</token>
         <marker>
           <token regexp='yes'>distancias?</token>
         </marker>
@@ -21003,7 +21009,7 @@ TODO Write better examples
     </rule>
     <rule>
       <pattern>
-          <token regexp='yes'>(?:a|abandono|abuso|acionamento|açoite|acompanhamento|afastamento|algo|antigo|ao|ardor|ataque|ato|atrito|aumento|austero|bailado|baixo|barateamento|barulho|bom|brado|ciclo|circular|citoplasma|com|combate|comércio|conjunto|crescendo|crescer|crescimento|cultivo|daquele|de|decair|declive|desde|desdobramento|desejo|desencontro|desenvolver|desenvolvimento|desgaste|deslumbramento|disparo|do|dum|É|em|empobrecimento|enfraquecimento|entre|era|erosão|esforço|espec?tro|esse|estado|este|fio|flagelo|fluido|fluxo|foco|fogo|foi|fornecimento|forno|friso|fui|gemido|giro|golpe|gravitar|hábito|instrumento|interdisciplinar|interese|investimento|jato|jogo|labor|labutar|levantamento|mais|mental|modo|monitoramento|montanhoso|movimento|murmúrio|no|novo|num|numérico|o|ordem|padecer|paralelo|pelo|pensamento|pesar|pigaro|por|povoamento|proceso|quase|querer|reconhecimento|regime|registador|registo|resfriamento|revezamento|risco|ritmo|rodopiar|rolo|ruído|rumor|seja|sente|será|serviço|seu|simples|sistema|soluçar|som|sonho|subconsciente|subir|susto|tão|tempo|térmico|texto|trabalho|traçado|traço|trato|trem|tremor|tropear|turbilhão|um|uso|vaivém|velho|vertia|volver|vômito|vo|voz|zunido)s?</token>
+          <token regexp='yes'>(?:a|abandono|abuso|acionamento|açoite|acompanhamento|afastamento|algo|antigo|ao|ardor|ataque|ato|atrito|aumento|austero|bailado|baixo|barateamento|barulho|bom|brado|ciclo|circular|citoplasma|com|combate|comércio|conjunto|crescendo|crescer|crescimento|cultivo|daquele|de|decair|declive|desde|desdobramento|desejo|desencontro|desenvolver|desenvolvimento|desgaste|deslumbramento|disparo|do|dum|É|em|empobrecimento|enfraquecimento|entre|era|erosão|esforço|espec?tro|esse|estado|este|fio|flagelo|fluido|fluxo|foco|fogo|foi|fornecimento|forno|friso|fui|gemido|giro|golpe|gravitar|hábito|instrumento|interdisciplinar|interesse|investimento|jato|jogo|labor|labutar|levantamento|mais|mental|modo|monitoramento|montanhoso|movimento|murmúrio|no|novo|num|numérico|o|ordem|padecer|paralelo|pelo|pensamento|pesar|pigaro|por|povoamento|proceso|quase|querer|reconhecimento|regime|registador|registo|resfriamento|revezamento|risco|ritmo|rodopiar|rolo|ruído|rumor|seja|sente|será|serviço|seu|simples|sistema|soluçar|som|sonho|subconsciente|subir|susto|tão|tempo|térmico|texto|trabalho|traçado|traço|trato|trem|tremor|tropear|turbilhão|um|uso|vaivém|velho|vertia|volver|vômito|vo|voz|zunido)s?</token>
         <marker>
           <token regexp='yes'>continuos?</token>
         </marker>
@@ -21014,7 +21020,7 @@ TODO Write better examples
     </rule>
     <rule>
       <pattern>
-          <token regexp='yes'>(?:[a-záâéíóôú]+tura|[a-záâéíóôú]+ral|[a-záâéíóôú]+ade|[a-zêâ]+ncia|[a-z]+gia|[a-z]+cial|[a-z]+ional|abordagem|análise|[\xc1á]rea|arte|asembleia|atitude|base|bem|biblioteca|cartilha|causa|cautelar|clase|cláusula|coisa|com|conhecimento|cor|cura|da|data|de|dieta|diferença|disciplina|doença|e|É|empresa|[\xcaê]nfase|enzima|Época|era|escala|escolha|etnia|faixa|feramenta|fobia|foi|folha|forma|franja|gama|ideia|interface|legal|lei|língua|linguagem|linha|mais|maneira|marca|masa|medida|mental|meta|mudança|muito|mundo|musical|na|negócios|nenhuma|norma|ordem|outra|paixão|parte|pesquisa|pesoa|preço|preços|proposta|proteína|queixa|questão|raça|região|regra|religião|resposta|riqueza|saída|sala|ser|simpatia|sintaxe|subárea|tão|tarefa|tribal|tutela|tutelar|uma|urbana|variável|via|visual|vocabular)s?</token>
+          <token regexp='yes'>(?:[a-záâéíóôú]+tura|[a-záâéíóôú]+ral|[a-záâéíóôú]+ade|[a-zêâ]+ncia|[a-z]+gia|[a-z]+cial|[a-z]+ional|abordagem|análise|[\xc1á]rea|arte|asembleia|atitude|base|bem|biblioteca|cartilha|causa|cautelar|classe|cláusula|coisa|com|conhecimento|cor|cura|da|data|de|dieta|diferença|disciplina|doença|e|É|empresa|[\xcaê]nfase|enzima|Época|era|escala|escolha|etnia|faixa|feramenta|fobia|foi|folha|forma|franja|gama|ideia|interface|legal|lei|língua|linguagem|linha|mais|maneira|marca|masa|medida|mental|meta|mudança|muito|mundo|musical|na|negócios|nenhuma|norma|ordem|outra|paixão|parte|pesquisa|pesoa|preço|preços|proposta|proteína|queixa|questão|raça|região|regra|religião|resposta|riqueza|saída|sala|ser|simpatia|sintaxe|subárea|tão|tarefa|tribal|tutela|tutelar|uma|urbana|variável|via|visual|vocabular)s?</token>
         <marker>
           <token regexp='yes'>especificas?</token>
         </marker>
@@ -21025,7 +21031,7 @@ TODO Write better examples
     </rule>
     <rule>
       <pattern>
-          <token regexp='yes'>(?:[a-z]+nte|[a-z]+nto|[a-z]+sto|[a-z]+i[tv]o|[a-z]+ado|[a-z]+[sç]ão|[a-z]+[dt]or|[a-z]+eto|[a-záâéíóôú]+ico|[a-záâéíóôú]+rio|[a-záâéíóôú]+ulo|[a-záâéíóôú]+ismo|acordo|algo|algoritmo|alvo|[\xc2â]mbito|anticorpo|apoio|aranjo|artigo|aspec?to|ato|bem|calor|caminho|campo|canal|carác?ter|caso|cheiro|conteúdo|contexto|corpo|curso|de|deficit|demanda|desejo|despacho|diploma|do|dolo|domínio|e|É|em|embora|endereço|energia|estilo|estrese|estudo|exame|exemplo|fenômeno|fim|foi|fruto|fundo|gene|gênero|grupo|habitat|[\xcdí]ndice|indivíduo|inimigo|interese|intervalo|jargão|limite|local|lugar|mais|mandato|marketing|material|método|meu|modo|nada|não|nome|número|o|onda|[\xd3ó]rgão|padrão|palco|papel|perigo|peso|pesquisa|prazo|preparo|problema|proceso|produto|programa|quase|registro|remédio|risco|ritual|roteiro|seja|sensor|sentido|serviço|sistema|site|social|som|soro|substrato|tão|tecidular|tempo|termo|texto|tipo|trabalho|treino|último|um|uso|valor|visual)s?</token>
+          <token regexp='yes'>(?:[a-z]+nte|[a-z]+nto|[a-z]+sto|[a-z]+i[tv]o|[a-z]+ado|[a-z]+[sç]ão|[a-z]+[dt]or|[a-z]+eto|[a-záâéíóôú]+ico|[a-záâéíóôú]+rio|[a-záâéíóôú]+ulo|[a-záâéíóôú]+ismo|acordo|algo|algoritmo|alvo|[\xc2â]mbito|anticorpo|apoio|aranjo|artigo|aspec?to|ato|bem|calor|caminho|campo|canal|carác?ter|caso|cheiro|conteúdo|contexto|corpo|curso|de|deficit|demanda|desejo|despacho|diploma|do|dolo|domínio|e|É|em|embora|endereço|energia|estilo|e?stresse|estudo|exame|exemplo|fenômeno|fim|foi|fruto|fundo|gene|gênero|grupo|habitat|[\xcdí]ndice|indivíduo|inimigo|interesse|intervalo|jargão|limite|local|lugar|mais|mandato|marketing|material|método|meu|modo|nada|não|nome|número|o|onda|[\xd3ó]rgão|padrão|palco|papel|perigo|peso|pesquisa|prazo|preparo|problema|proceso|produto|programa|quase|registro|remédio|risco|ritual|roteiro|seja|sensor|sentido|serviço|sistema|site|social|som|soro|substrato|tão|tecidular|tempo|termo|texto|tipo|trabalho|treino|último|um|uso|valor|visual)s?</token>
         <marker>
           <token regexp='yes'>especificos?</token>
         </marker>
@@ -21036,7 +21042,7 @@ TODO Write better examples
     </rule>
     <rule>
       <pattern>
-          <token regexp='yes'>(?:a|algum|ao|àquele|ardente|cada|claro|com|como|confirma|dado|daquele|dar|dava|davam|de|dê|definiu|desse|deram|determinado|deu|do|dum|e|É|em|encontra|encontrava|encontravam|encontraram|encontrase|encontrou|entre|esse|este|estranho|extrair|extremo|formar|forte|grande|há|haja|havia|houve|houvese|houver|importante|já|ligeiro|lubrificante|maior|mais|melhor|mesmo|meu|mínimo|não|natural|nem|nenhum|no|nobre|novo|nosso|num|o|ou|outro|palavra|para|pelo|poderoso|por|primeiro|principal|produz|produza|produziu|prover|quente|recebe|recebeu|recebia|reconfortante|são|sem|semelhante|seu|simples|tal|tem|tivese|todo|um|último|único|usava|vivo)s?</token>
+          <token regexp='yes'>(?:a|algum|ao|àquele|ardente|cada|claro|com|como|confirma|dado|daquele|dar|dava|davam|de|dê|definiu|desse|deram|determinado|deu|do|dum|e|É|em|encontra|encontrava|encontravam|encontraram|encontrasse|encontrou|entre|esse|este|estranho|extrair|extremo|formar|forte|grande|há|haja|havia|houve|houvesse|houver|importante|já|ligeiro|lubrificante|maior|mais|melhor|mesmo|meu|mínimo|não|natural|nem|nenhum|no|nobre|novo|nosso|num|o|ou|outro|palavra|para|pelo|poderoso|por|primeiro|principal|produz|produza|produziu|prover|quente|recebe|recebeu|recebia|reconfortante|são|sem|semelhante|seu|simples|tal|tem|tivesse|todo|um|último|único|usava|vivo)s?</token>
         <marker>
           <token regexp='yes'>estimulos?</token>
         </marker>
@@ -21080,7 +21086,7 @@ TODO Write better examples
     </rule>
     <rule>
       <pattern>
-          <token regexp='yes'>(?:[a-zêâ]+ncia|a|agonia|alegria|alma|amiga|amizade|ansiedade|aquela|atitude|atividade|bem|bondade|calma|carta|causa|ceia|cena|certeza|com|como|confiança|consulta|contextura|conversa|crônica|cumplicidade|da|daquela|de|delícia|descoberta|dessa|desta|dor|e|É|em|energia|era|esfera|esperança|essa|esta|estante|estrutura|falta|fazer|felicidade|festa|fez|foi|força|forma|fose|fraternidade|frieza|ginástica|higiene|história|inimiga|irlanda|já|linguagem|literária|luta|luz|magoa|mágoa|mais|mantém|mas|menos|mesa|mesma|minha|moralidade|mostrar|muita|muito|na|não|natureza|necesidade|nossa|nota|nudez|numa|ordem|ou|pagina|página|palavra|palestra|palpite|parte|paz|pela|pergunta|perspec?tiva|pesoa|poesia|posuem|prática|que|quem|realidade|reviravolta|revolta|revolve|roupa|segurança|senhora|ser|sinceridade|sociedade|sombra|sou|sua|também|toda|tornou|tortura|tristeza|túnica|uma|verdade|vida|voz|zona)s?</token><!-- XXX add in new rule [A-Za-zçáê]+(-se|-lhe|-o|-me|-lo|-te) -->
+          <token regexp='yes'>(?:[a-zêâ]+ncia|a|agonia|alegria|alma|amiga|amizade|ansiedade|aquela|atitude|atividade|bem|bondade|calma|carta|causa|ceia|cena|certeza|com|como|confiança|consulta|contextura|conversa|crônica|cumplicidade|da|daquela|de|delícia|descoberta|dessa|desta|dor|e|É|em|energia|era|esfera|esperança|essa|esta|estante|estrutura|falta|fazer|felicidade|festa|fez|foi|força|forma|fosse|fraternidade|frieza|ginástica|higiene|história|inimiga|irlanda|já|linguagem|literária|luta|luz|magoa|mágoa|mais|mantém|mas|menos|mesa|mesma|minha|moralidade|mostrar|muita|muito|na|não|natureza|necesidade|nossa|nota|nudez|numa|ordem|ou|pagina|página|palavra|palestra|palpite|parte|paz|pela|pergunta|perspec?tiva|pesoa|poesia|posuem|prática|que|quem|realidade|reviravolta|revolta|revolve|roupa|segurança|senhora|ser|sinceridade|sociedade|sombra|sou|sua|também|toda|tornou|tortura|tristeza|túnica|uma|verdade|vida|voz|zona)s?</token><!-- XXX add in new rule [A-Za-zçáê]+(-se|-lhe|-o|-me|-lo|-te) -->
 
         <marker>
           <token regexp='yes'>intimas?</token>
@@ -21248,7 +21254,7 @@ TODO Write better examples
     </rule>
     <rule>
       <pattern>
-          <token regexp='yes'>[A-Za-zçáê]+(-se|-lhe|-o|-me|-lo|-te)|algum|ao|apertado|aquele|com|cujo|de|desse|deste|diferente|discute|do|doce|duplo|em|Ém|esse|estabelece|estabelecer|estabeleceram|estabeleceu|este|existe|forte|ganhou|gera|gerase|gere|mais|mesmo|meu|muito|nega|nenhum|o|outro|pelo|por|posuem|posui|posuia|primeiro|pouco|qualquer|sem|seu|tal|tampouco|têm|tendo|tenha|tenho|tinha|tivese|último|um|único|vital</token>
+          <token regexp='yes'>[A-Za-zçáê]+(-se|-lhe|-o|-me|-lo|-te)|algum|ao|apertado|aquele|com|cujo|de|desse|deste|diferente|discute|do|doce|duplo|em|Ém|esse|estabelece|estabelecer|estabeleceram|estabeleceu|este|existe|forte|ganhou|gera|gerasse|gere|mais|mesmo|meu|muito|nega|nenhum|o|outro|pelo|por|posuem|posui|posuia|primeiro|pouco|qualquer|sem|seu|tal|tampouco|têm|tendo|tenha|tenho|tinha|tivesse|último|um|único|vital</token>
         <marker>
           <token regexp='yes'>vinculos?</token>
         </marker>
@@ -21259,7 +21265,7 @@ TODO Write better examples
     </rule>
     <rule>
       <pattern>
-          <token regexp='yes'>(?:a|À\xc0à]|acaba|acabase|alegadamente|alguma|aluna|anos|antiga|aparente|aparentemente|cada|cair|caiu|certamente|com|como|considera|considerado|considerar|considerava|criatura|cuja|da|de|dela|dele|depois|dessa|pareceu|desgraçada|designada|divina|diz|dizes|duma|e|É|ela|ele|em|entre|entregava|era|És|escolhida|escravidão|essa|esta|estreada|estudante|eu|fácil|facilmente|faleceu|fatalmente|faz|fazer|foi|for|fora|foram|fose|foses|foste|fui|grande|há|hospitalizado|imbele|indefesa|inevitavelmente|infeliz|ing[êé]nua|inocente|logo|maior|mais|mansa|minha|mísera|morre|morrer|morreu|morrido|mostra|mulher|musical|na|nem|nenhuma|nobre|noite|nova|novamente|numa|oitava|ontem|ou|outra|padre|para|parecia|pela|perece.*|perpétua|personagem|pobre|população|por|praga|primeira|principal|própria|provavelmente|próxima|qualquer|quarta|que|querida|recente|se|segunda|seja|sem|sempre|sendo|sente|sentir|sentiu|ser|será|sereis|seria|sido|só|social|somos|sou|sua|sucumbido|suposta|talvez|também|terceira|tinham|torna|tornar|tornaria|tornou|tua|última|uma?|única|vez|via|vise|voluntária)s?</token><!-- XXX add in new rule [A-Za-zçáê]+(-se|-lhe|-o|-me|-lo|-te) -->
+          <token regexp='yes'>(?:a|À\xc0à]|acaba|acabasse|alegadamente|alguma|aluna|anos|antiga|aparente|aparentemente|cada|cair|caiu|certamente|com|como|considera|considerado|considerar|considerava|criatura|cuja|da|de|dela|dele|depois|dessa|pareceu|desgraçada|designada|divina|diz|dizes|duma|e|É|ela|ele|em|entre|entregava|era|És|escolhida|escravidão|essa|esta|estreada|estudante|eu|fácil|facilmente|faleceu|fatalmente|faz|fazer|foi|for|fora|foram|fosse|foses|foste|fui|grande|há|hospitalizado|imbele|indefesa|inevitavelmente|infeliz|ing[êé]nua|inocente|logo|maior|mais|mansa|minha|mísera|morre|morrer|morreu|morrido|mostra|mulher|musical|na|nem|nenhuma|nobre|noite|nova|novamente|numa|oitava|ontem|ou|outra|padre|para|parecia|pela|perece.*|perpétua|personagem|pobre|população|por|praga|primeira|principal|própria|provavelmente|próxima|qualquer|quarta|que|querida|recente|se|segunda|seja|sem|sempre|sendo|sente|sentir|sentiu|ser|será|sereis|seria|sido|só|social|somos|sou|sua|sucumbido|suposta|talvez|também|terceira|tinham|torna|tornar|tornaria|tornou|tua|última|uma?|única|vez|via|visse|voluntária)s?</token><!-- XXX add in new rule [A-Za-zçáê]+(-se|-lhe|-o|-me|-lo|-te) -->
         <marker>
           <token regexp='yes'>vitimas?</token>
         </marker>
@@ -21270,7 +21276,7 @@ TODO Write better examples
     </rule>
     <rule>
       <pattern>
-          <token regexp='yes'>(?:a|à|acabrunhadora|agradável|ainda|alguma|apareceu|aquela|àquela|atraente|bela|boa|breve|cada|certa|certamente|chamado|chegase|chegou|circunstanciada|com|comprida|conforme|consoladora|consta|cuja|curiosa|da|dá|dado|dando|dão|daquela|dar|darão|darem|daremos|darmos|dava|davam|de|dê|dei|deixase|dele|der|dera|deram|desagradável|desastrosa|desgostosa|desmentiu|desoladora|dessa|desse|desem|desta|detalhada|deu|diseram|dolorosa|dou|duma|e|É|ele|encontra|era|eram|essa|esta|estupenda|exata|existindo|extraordinária|falsa|fantasiosa|fatal|fazem|feliz|foi|fora|foram|fosem|fraca|funesta|futura|grande|grata|grave|há|haja|haver|havia|horível|houve|houvera|houvese|ia|impac?ta|importante|inesperada|intempestiva|jornais|larga|leve|ligeira|lisonjeira|logo|lúgubre|má|mais|mandaria|mande|menor|mesma|minha|mínima|misteriosa|na|naquela|nem|nenhuma|nesta|numa|ontem|[\xd3ó]tima|ou|outra|outro|ouvidos|pavorosa|pediu|pela|pequena|pesco|pésima|pior|pobre|por|porém|portentosa|posui|pouca|pouco|prévia|primeira|principal|pronta|própria|próprios|próspera|qual|qualquer|quanta|que|querer|rara|recebemos|receber|recebera|receberam|recebeste|referida|saber|sabia|são|seguinte|segunda|segundo|sejam|sem|semelhante|ser|seriam|sido|simples|só|sobretudo|somente|soube|sua|surprendente|tal|tanta|tem|têm|temos|tendenciosa|tendo|tenhamos|tenho|tens|ter|teriam|terrível|teve|tido|tinha|tinham|tínhamos|tive|tivemos|tiver|tivera|tiveram|tivese|tiveste|tornarem|tornou|trágica|traz|trazer|trazido|triste|trouxe|última|uma|única|ver|vez|vinha|virar|virou|terei|traga|tragam|espalhafatosa|sensacional|maravilhosa|sobre)s?</token><!-- XXX add in new rule [A-Za-zçáê]+(-se|-lhe|-lhes|-o|-me|-nos|-la|-lo|-te) -->
+          <token regexp='yes'>(?:a|à|acabrunhadora|agradável|ainda|alguma|apareceu|aquela|àquela|atraente|bela|boa|breve|cada|certa|certamente|chamado|chegasse|chegou|circunstanciada|com|comprida|conforme|consoladora|consta|cuja|curiosa|da|dá|dado|dando|dão|daquela|dar|darão|darem|daremos|darmos|dava|davam|de|dê|dei|deixasse|dele|der|dera|deram|desagradável|desastrosa|desgostosa|desmentiu|desoladora|dessa|desse|dessem|desta|detalhada|deu|diseram|dolorosa|dou|duma|e|É|ele|encontra|era|eram|essa|esta|estupenda|exata|existindo|extraordinária|falsa|fantasiosa|fatal|fazem|feliz|foi|fora|foram|fosem|fraca|funesta|futura|grande|grata|grave|há|haja|haver|havia|horrível|houve|houvera|houvesse|ia|impac?ta|importante|inesperada|intempestiva|jornais|larga|leve|ligeira|lisonjeira|logo|lúgubre|má|mais|mandaria|mande|menor|mesma|minha|mínima|misteriosa|na|naquela|nem|nenhuma|nesta|numa|ontem|ótima|ou|outra|outro|ouvidos|pavorosa|pediu|pela|pequena|pesco|pésima|pior|pobre|por|porém|portentosa|possui|pouca|pouco|prévia|primeira|principal|pronta|própria|próprios|próspera|qual|qualquer|quanta|que|querer|rara|recebemos|receber|recebera|receberam|recebeste|referida|saber|sabia|são|seguinte|segunda|sejam|sem|semelhante|ser|seriam|sido|simples|só|sobretudo|somente|soube|sua|surprendente|tal|tanta|tem|têm|temos|tendenciosa|tendo|tenhamos|tenho|tens|ter|teriam|terrível|teve|tido|tinha|tinham|tínhamos|tive|tivemos|tiver|tivera|tiveram|tivesse|tiveste|tornarem|tornou|trágica|traz|trazer|trazido|triste|trouxe|última|uma|única|ver|vez|vinha|virar|virou|terei|traga|tragam|espalhafatosa|sensacional|maravilhosa|sobre)s?</token><!-- XXX add in new rule [A-Za-zçáê]+(-se|-lhe|-lhes|-o|-me|-nos|-la|-lo|-te) -->
         <marker>
           <token regexp='yes'>noticias?</token>
         </marker>
@@ -21295,7 +21301,7 @@ TODO Write better examples
         <marker>
           <token regexp='yes'>agencias?</token>
         </marker>
-          <token regexp='yes'>(?:à|aberta|acrescenta|água|alemã|americana|anatólia|ansa|antara|antidrogas|atômica|austríaca|autorizada|avaliar|bancária|bancárias|boca|brasil|brasileira|britânica|causado|central|centro|comprar|continua|corespondente|credenciada|criou|da|das|de|depositária|designer|dessa|desse|deverá|dinheiro|dise|distribuiu|diz|do|dos|e|É|efe|em|escala|espacial|espanhola|especial|especializada|específica|está|estado|estadual|estão|estatal|estuda|europeia|existente|fechadas|federal|ficar|financeira|foi|folha|fotográfica|fotográficas|francesa|funerária|ganhou|gaúcha|governamental|guardaria|há|humanitária|imobiliária|incendiária|independência|indica|informativa|inglesa|instalada|internacionais|internacional|iraniana|já|judaica|leva|lisboeta|local|lotérica|lusa|magno|mas|matrimonial|matriz|menino|meridional|meteorológica|mundial|na|nacional|nada|não|no|norte-americana|nos|noticiosa|nova|o|oferece|oficial|onde|ou|paga|para|paranaense|parece|parisiense|paulista|permanente|porque|portuguesa|prevê|proponente|publicitária|que|quer|recebeu|recifense|referiu|regional|reguladora|regulatória|responsável|rodoviária|rusa|sacada|safras|santana|são|saúde|se|sobre|somará|superavitária|também|tanto|telegráfica|tem|tinha|traria|tucana|universitária|usa|vai|venha|vinculada|voltada)s?</token>
+          <token regexp='yes'>(?:à|aberta|acrescenta|água|alemã|americana|anatólia|ansa|antara|antidrogas|atômica|austríaca|autorizada|avaliar|bancária|bancárias|boca|brasil|brasileira|britânica|causado|central|centro|comprar|continua|corespondente|credenciada|criou|da|das|de|depositária|designer|dessa|desse|deverá|dinheiro|disse|distribuiu|diz|do|dos|e|É|efe|em|escala|espacial|espanhola|especial|especializada|específica|está|estado|estadual|estão|estatal|estuda|europeia|existente|fechadas|federal|ficar|financeira|foi|folha|fotográfica|fotográficas|francesa|funerária|ganhou|gaúcha|governamental|guardaria|há|humanitária|imobiliária|incendiária|independência|indica|informativa|inglesa|instalada|internacionais|internacional|iraniana|já|judaica|leva|lisboeta|local|lotérica|lusa|magno|mas|matrimonial|matriz|menino|meridional|meteorológica|mundial|na|nacional|nada|não|no|norte-americana|nortenha|nos|noticiosa|nova|o|oferece|oficial|onde|ou|paga|para|paranaense|parece|parisiense|paulista|permanente|porque|portuguesa|prevê|proponente|publicitária|que|quer|recebeu|recifense|referiu|regional|reguladora|regulatória|responsável|rodoviária|rusa|sacada|safras|santana|são|saúde|se|sobre|somará|superavitária|também|tanto|telegráfica|tem|tinha|traria|tucana|universitária|usa|vai|venha|vinculada|voltada)s?</token>
       </pattern>
       <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
         <suggestion>agência<match no='1' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
@@ -21347,7 +21353,7 @@ TODO Write better examples
     </rule>
     <rule>
       <pattern>
-          <token regexp='yes'>(?:a|à|abençoada|acentuada|admirável|adquirido|agitadora|aí|alguma|ali|alta|alucinadora|aluguer|americano|apresenta|apresentando|apresente|apresentou|aquela|àquela|[\xc1á]rea|até|atuais|autêntica|bastante|bem|benéfica|benévola|benigna|boa|branda|breve|certa|chamarei|chamava|clara|com|como|conquistasem|considerável|crescente|cuja|da|de|debate|decidida|decisiva|declarada|demasiada|demonstra|denotando|dessa|desta|dizer|doce|dupla|duplicada|duradoura|e|É|eficaz|em|enorme|era|essa|esta|estranha|eventual|excelente|excesiva|exerce|exercem|exercendo|exercer|exercerá|exerceram|exerceu|exercia|exercido|extraordinária|fatal|feliz|firme|forte|fose|fosem|funda|funesta|ganhar|ganhou|geralmente|gigantesca|grande|grave|grosa|há|haja|havia|importante|incontestável|incrível|indeclinável|inexplicável|insistente|intervenha|irresistível|iso|larga|legítima|legitimamente|leve|má|mágica|maior|mais|maléfica|maligna|marcada|marcante|mas|menor|menos|mesma|mesquinha|mim|minha|mínima|misteriosa|mística|moeda|muita|mutua|mútua|na|nas|natural|nefasta|nem|nenhuma|nesta|nisso|nítida|nossa|notável|notória|nula|obteve|[\xd3ó]bvia|opresiva|ou|outra|particular|pela|pequena|perde|perdendo|perder|perderam|perniciosa|plena|poderosa|por|positiva|posível|pouca|primeira|primitiva|principal|profunda|própria|quaisquer|qual|qualquer|rápida|real|realidade|recebe|recebendo|receber|receberam|recebeu|recebia|recebiam|recíproca|recolhe|reivindicar|retirou|revela|revelam|revelando|romântica|salutar|secreta|sem|ser|séria|significativa|simular|sob|sofre|sofrem|sofremos|sofrendo|sofrer|sofreram|sofreu|sofri|sofrido|solo|sou|sua|suavísima|superior|tal|talvez|tamanha|também|tanta|tem|têm|tendo|tenha|tenham|tenho|ter|terá|terão|terceira|teria|terrível|teve|tido|tinha|tinham|tive|tivemos|tiveram|total|tremenda|tua|uma?|única|vasta|vendido|verdadeira|viage[mn])s?</token><!-- XXX add in new rule [A-Za-zçáê]+(-se|-lhe|-o|-me|-lo|-te) -->
+          <token regexp='yes'>(?:a|à|abençoada|acentuada|admirável|adquirido|agitadora|aí|alguma|ali|alta|alucinadora|aluguer|americano|apresenta|apresentando|apresente|apresentou|aquela|àquela|[\xc1á]rea|até|atuais|autêntica|bastante|bem|benéfica|benévola|benigna|boa|branda|breve|certa|chamarei|chamava|clara|com|como|conquistasem|considerável|crescente|cuja|da|de|debate|decidida|decisiva|declarada|demasiada|demonstra|denotando|dessa|desta|dizer|doce|dupla|duplicada|duradoura|e|É|eficaz|em|enorme|era|essa|esta|estranha|eventual|excelente|excesiva|exerce|exercem|exercendo|exercer|exercerá|exerceram|exerceu|exercia|exercido|extraordinária|fatal|feliz|firme|forte|fosse|fosem|funda|funesta|ganhar|ganhou|geralmente|gigantesca|grande|grave|grosa|há|haja|havia|importante|incontestável|incrível|indeclinável|inexplicável|insistente|intervenha|irresistível|iso|larga|legítima|legitimamente|leve|má|mágica|maior|mais|maléfica|maligna|marcada|marcante|mas|menor|menos|mesma|mesquinha|mim|minha|mínima|misteriosa|mística|moeda|muita|mutua|mútua|na|nas|natural|nefasta|nem|nenhuma|nesta|nisso|nítida|nossa|notável|notória|nula|obteve|[\xd3ó]bvia|opresiva|ou|outra|particular|pela|pequena|perde|perdendo|perder|perderam|perniciosa|plena|poderosa|por|positiva|posível|pouca|primeira|primitiva|principal|profunda|própria|quaisquer|qual|qualquer|rápida|real|realidade|recebe|recebendo|receber|receberam|recebeu|recebia|recebiam|recíproca|recolhe|reivindicar|retirou|revela|revelam|revelando|romântica|salutar|secreta|sem|ser|séria|significativa|simular|sob|sofre|sofrem|sofremos|sofrendo|sofrer|sofreram|sofreu|sofri|sofrido|solo|sou|sua|suavísima|superior|tal|talvez|tamanha|também|tanta|tem|têm|tendo|tenha|tenham|tenho|ter|terá|terão|terceira|teria|terrível|teve|tido|tinha|tinham|tive|tivemos|tiveram|total|tremenda|tua|uma?|única|vasta|vendido|verdadeira|viage[mn])s?</token><!-- XXX add in new rule [A-Za-zçáê]+(-se|-lhe|-o|-me|-lo|-te) -->
         <marker>
           <token regexp='yes'>influencias?</token>
         </marker>
@@ -21424,7 +21430,7 @@ TODO Write better examples
     </rule>
     <rule>
       <pattern>
-          <token regexp='yes'>[A-Za-zçáê]+(-se|-lhe|-lhes|-o|-me|-nos|-la|-lo|-te)|a|admite|admitia|admitindo|agora|alanceantes|alguma|algumas|alimentar|aplacava|apresentando|aquelas|as|às|atiçavam|causam|causando|causar|certas|certo|colocam|colocar|com|compartilham|cortar|criar|cultivar|das|de|deixa|deixado|deixam|deixando|deixar|deixara|deixarei|deixase|deixava|deixavam|deixou|demais|destas|dirimir|discute|disipar|diversas|duas|e|em|entre|era|esclarecendo|esclarecer|espalhar|espírito|esquecendo|esas|estas|eventuais|evitar|existam|existem|existindo|existirem|explicar|ficam|ficaram|ficasem|ficavam|fiquem|fortes|frequentes|fundadas|gerar|grandes|há|haja|havendo|haver|haverá|haveria|havia|houve|houver|houvese|infindas|injustas|insinuando|intermináveis|inúmeras|iso|já|lançam|lançar|lancinantes|lançou|levanta|levantadas|levantam|levantando|levantar|levantaram|levantou|maiores|mais|manifestou|mas|menos|mesmas|mil|minhas|mostrando|muitas|nas|nossa|nosas|novas|novo|nutria|nutrir|oferece|ou|outras|pairem|para|pare|pelas|pequenas|permanecem|permitem|permitiam|persistam|persistem|perturbantes|ponho|por|pôr|porque|poucas|primeiras|principais|princípio|próprias|provocava|quaisquer|quantas|que|queria|quero|reinam|resolver|restam|restar|restaram|restarem|restasem|restavam|restem|resultaram|revisor|sanar|são|se|sem|semelhantes|sérias|simples|sob|sobraram|sobre|sobrevivem|sofreu|sofria|suas|subsistam|subsistem|subsistiam|sucesivas|sugeriu|surgem|surgir|surgiram|surgirem|suscita|suscitam|suscitar|suscitou|tais|também|tantas|tem|têm|têm-se|temos|tendo|tenha|tenham|tenhamos|tenhas|tenho|tens|ter|terei|teríveis|testasem|teve|tinha|tinham|tira|tirando|tirar|tire|tive|tiver|tivera|tiveram|tiverem|tivese|transformou|transparecer|tuas|últimas|várias|varer|vez|vezes|vinham</token>
+          <token regexp='yes'>[A-Za-zçáê]+(-se|-lhe|-lhes|-o|-me|-nos|-la|-lo|-te)|a|admite|admitia|admitindo|agora|alanceantes|alguma|algumas|alimentar|aplacava|apresentando|aquelas|as|às|atiçavam|causam|causando|causar|certas|certo|colocam|colocar|com|compartilham|cortar|criar|cultivar|das|de|deixa|deixado|deixam|deixando|deixar|deixara|deixarei|deixasse|deixava|deixavam|deixou|demais|destas|dirimir|discute|disipar|diversas|duas|e|em|entre|era|esclarecendo|esclarecer|espalhar|espírito|esquecendo|esas|estas|eventuais|evitar|existam|existem|existindo|existirem|explicar|ficam|ficaram|ficasem|ficavam|fiquem|fortes|frequentes|fundadas|gerar|grandes|há|haja|havendo|haver|haverá|haveria|havia|houve|houver|houvesse|infindas|injustas|insinuando|intermináveis|inúmeras|iso|já|lançam|lançar|lancinantes|lançou|levanta|levantadas|levantam|levantando|levantar|levantaram|levantou|maiores|mais|manifestou|mas|menos|mesmas|mil|minhas|mostrando|muitas|nas|nossa|nosas|novas|novo|nutria|nutrir|oferece|ou|outras|pairem|para|pare|pelas|pequenas|permanecem|permitem|permitiam|persistam|persistem|perturbantes|ponho|por|pôr|porque|poucas|primeiras|principais|princípio|próprias|provocava|quaisquer|quantas|que|queria|quero|reinam|resolver|restam|restar|restaram|restarem|restasem|restavam|restem|resultaram|revisor|sanar|são|se|sem|semelhantes|sérias|simples|sob|sobraram|sobre|sobrevivem|sofreu|sofria|suas|subsistam|subsistem|subsistiam|sucesivas|sugeriu|surgem|surgir|surgiram|surgirem|suscita|suscitam|suscitar|suscitou|tais|também|tantas|tem|têm|têm-se|temos|tendo|tenha|tenham|tenhamos|tenhas|tenho|tens|ter|terei|teríveis|testasem|teve|tinha|tinham|tira|tirando|tirar|tire|tive|tiver|tivera|tiveram|tiverem|tivesse|transformou|transparecer|tuas|últimas|várias|varer|vez|vezes|vinham</token>
         <marker>
           <token>duvidas</token>
         </marker>
@@ -21435,7 +21441,7 @@ TODO Write better examples
     </rule>
     <rule>
       <pattern>
-          <token regexp='yes'>(?:a|à|alguma|apelidei|aquela|atroz|com|da|de|dessa|e|É|em|era|esquisita|essa|esta|estúpida|fazendo|fazer|fez|fose|grande|grandesísima|grandísima|horível|infame|mais|minha|na|nem|nessa|nova|numa|ou|pela|perversa|por|qual|qualquer|que|semelhante|ser|simples|sua|terrível|torpe|tudo|uma|velha|vil)s?</token><!-- XXX add in new rule [A-Za-zçáê]+(-se|-lhe|-lhes|-o|-me|-nos|-la|-lo|-te) -->
+          <token regexp='yes'>(?:a|à|alguma|apelidei|aquela|atroz|com|da|de|dessa|e|É|em|era|esquisita|essa|esta|estúpida|fazendo|fazer|fez|fosse|grande|grandesísima|grandísima|horível|infame|mais|minha|na|nem|nessa|nova|numa|ou|pela|perversa|por|qual|qualquer|que|semelhante|ser|simples|sua|terrível|torpe|tudo|uma|velha|vil)s?</token><!-- XXX add in new rule [A-Za-zçáê]+(-se|-lhe|-lhes|-o|-me|-nos|-la|-lo|-te) -->
         <marker>
           <token regexp='yes'>calunias?</token>
         </marker>
@@ -21569,7 +21575,6 @@ TODO Write better examples
     <rule>
       <pattern>
           <token regexp='yes'>(?:a|ao|até|com|de|do|dum|e|esse|este|grande|inseparável|melhor|mencionei|meu|nem|no|num|o|ou|para|pelo|sem|seu|tenho|teu|toma|tomado|um|velho|verdadeiro)s?</token><!-- XXX add in new rule [A-Za-zçáê]+(-se|-lhe|-lhes|-o|-me|-nos|-la|-lo|-te) -->
-
         <marker>
           <token regexp='yes'>revolvers?</token>
         </marker>
