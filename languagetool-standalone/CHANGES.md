@@ -3,9 +3,9 @@
 ## 4.3-SNAPSHOT (2018-09-26)
 
 #### Portuguese
-  * dictionary update
   * added and improved rules
-  * improvements to disambiguation
+  * improvements to disambiguation, and segmentation
+  * dictionary update
 
 #### Russian
   * added and improved rules
