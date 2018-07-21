@@ -2,6 +2,12 @@
 
 ## 4.3-SNAPSHOT (2018-09-26)
 
+#### English
+  * added and improved rules
+
+#### Galician
+  * added and improved rules
+
 #### Portuguese
   * added and improved rules
   * improvements to disambiguation, and segmentation
