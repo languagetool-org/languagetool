@@ -29912,9 +29912,13 @@ Andere Projekte</example>
                 <token>bis</token>
                 <token>einschließlich</token>
             </antipattern>
+            <antipattern>
+                <token>weiter</token>
+                <token regexp="yes">(west|süd|öst|nörd)lich</token>
+            </antipattern>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token skip="-1" postag="SENT_START"><exception scope="next" postag="SUB.*:GEN:.*" postag_regexp="yes"/></token>
+                    <token skip="-1" postag="SENT_START"><exception scope="next" postag="SUB.*:GEN:.+" postag_regexp="yes"/></token>
                     <marker>
                         <token regexp="yes">abseits|abzüglich|angelegentlich|angesichts|anhand|anlässlich|anstelle|aufgrund|aufseiten|ausgangs|außerhalb|ausweislich|behufs|beiderseits|beidseits|betreffs|bezüglich|dank|diesseits|eingangs|eingedenk|einschließlich|fernab|hinsichtlich|infolge|inklusive|inmitten|innerhalb|innert|inpuncto|jenseits|kraft|längs|längsseits|mangels|mithilfe|mittels|namens|nördlich|oberhalb|östlich|rücksichtlich|seitens|seitlich|seitwärts|südlich|trotz|unbeschadet|uneingedenk|unerachtet|unfern|ungeachtet|ungerechnet|unterhalb|unweit|vermittels(t)|vermöge|vonseiten|vorbehaltlich|vorbehältlich|wegen|weitab|westlich|willen|zeit|zugunsten|zuhanden|zulasten|zuseiten|zuungunsten|zuzüglich|zwecks</token>
                         <token regexp="yes">d(as|e[mn]|ie)(selben?)?|ein|[Ddsm]?eine[mn]?|(eu|ih|Ih|unse)re[mn]?|(jene|deine|diese)[mn]?</token>
@@ -29932,6 +29936,7 @@ Andere Projekte</example>
                 <example>Ich habe des Staus <marker>wegen deinem</marker> Freund Bescheid gegeben.</example>
                 <example>Es gibt Kanuvereine, die ausschließlich das Wasserwandern betreiben.</example>
                 <example>Bis einschließlich diesen Freitag hat er Urlaub.</example>
+                <example>Wenn sich ihr Angriff erfolgreich gestaltete, sollte weiter westlich ein Angriff der Armee ihn unterstützen.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -36368,6 +36373,11 @@ Andere Projekte</example>
                     <token postag="ADV:.*" postag_regexp="yes"/>
                     <token>aber</token>
                 </antipattern>
+                <antipattern case_sensitive="yes">
+                    <token>nach</token>
+                    <token>wie</token>
+                    <token>vor</token>
+                </antipattern>
                 <pattern>
                     <marker>
                     <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*|VER:IMP:.*" postag_regexp="yes" skip="-1">
@@ -36391,6 +36401,7 @@ Andere Projekte</example>
                 <example>Neben den Silikatgläsern gibt es aber auch sog. metallische Gläser.</example>
                 <example>Für ein gutes Drittel der befragten 16- bis 29-Jährigen ist Wohnen extrem wichtig.</example>
                 <example>Einmal falsch überwiesenes Geld kann dadurch aber auch nicht durch eine zentrale Instanz zurücküberwiesen werden.</example>
+                <example>Es war besonders hinderlich, dass die bereits erreichten Einbrüche nach wie vor im Osten von den Sinjawino-Höhen flankiert wurden.</example>
             </rule>
 <!-- Komma nach Nebensatz   -->
             <rule>
