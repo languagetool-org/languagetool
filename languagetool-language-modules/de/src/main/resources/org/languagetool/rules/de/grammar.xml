@@ -4063,6 +4063,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Wessen"><marker>Wesen</marker> Kleid trug sie gestern?</example>
             </rule>
         </rulegroup>
+        <rulegroup id="TOT_GEWEIHT" name="tot geweiht (todgeweiht)">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>tot</token>
+                    <token inflected="yes">geweiht</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>tod\2</suggestion> (= dem Tod nahe) statt '\1 \2' (geweiht nach dem Tod)?</message>
+                <example correction="todgeweihten">Die <marker>tot geweihten</marker> Gladiatoren wurden vom Publikum bejubelt</example>
+            </rule>
+        </rulegroup>
         <rule id="AB_DIENSTAGE" name="ab Dienstage (Dienstag) etc.">
             <pattern>
                 <token regexp="yes">ab|am|seit</token>
@@ -23907,6 +23917,19 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
+                    <token regexp="yes">(entscheidend|groß|klein|mutig|wichtig)e[rn]?</token>
+                    <marker>
+                        <token regexp="yes">schritte?</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example correction="Schritt">Den Forschern gelang ein großer <marker>schritt</marker> im Kampf gegen Krebs.</example>
+                <example correction="Schritt">Der mutige <marker>schritt</marker> sollte viele Nachahmer finden.</example>
+                <example correction="Schritte">Viele kleine <marker>schritte</marker> sind nötig.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
                     <marker>
                         <token>schritt</token>
                     </marker>
@@ -23972,7 +23995,7 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">besteh(en?|t)?|bestand(en)?|war(en)?</token>
+                    <token regexp="yes" inflected="yes">bestehen|sein</token>
                     <token>aus</token>
                     <marker>
                         <token regexp="yes">stahl|eisen|wolle</token>
@@ -24194,22 +24217,12 @@ Andere Projekte</example>
                     <marker>
                         <token>schuld</token>
                     </marker>
-                    <token inflected="yes">zuschieben</token>
+                    <token inflected="yes" regexp="yes">tragen|zuschieben</token>
                 </pattern>
                 <message>&subanfang;<suggestion>Schuld</suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example>Mir wurde wie immer die <marker>Schuld</marker> zugeschoben.</example>
                 <example correction="Schuld">Ihm wurde die <marker>schuld</marker> zugeschoben.</example>
-            </rule>
-            <rule>
-                <pattern case_sensitive="yes">
-                    <marker>
-                        <token>schuld</token>
-                    </marker>
-                    <token inflected="yes">tragen</token>
-                </pattern>
-                <message>&subanfang;<suggestion>Schuld</suggestion>&subende;</message>
-                <short>&prgk;.</short>
                 <example correction="Schuld">Er hat keine <marker>schuld</marker> getragen.</example>
             </rule>
             <rule>
@@ -24484,6 +24497,7 @@ Andere Projekte</example>
             <rule>
                 <pattern case_sensitive="yes">
                     <token inflected="yes">kommen</token>
+                    <token regexp="yes" min="0">ich|du|e[rs]|[sS]ie|wir|[iI]hr</token>
                     <token>an</token>
                     <token>die</token>
                     <marker>
@@ -24493,19 +24507,6 @@ Andere Projekte</example>
                 <message>&subanfang;<suggestion>Reihe</suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example correction="Reihe">Jeder kommt an die <marker>reihe</marker>!</example>
-            </rule>
-            <rule>
-                <pattern case_sensitive="yes">
-                    <token inflected="yes">kommen</token>
-                    <token regexp="yes">ich|du|e[rs]|[sS]ie|wir|[iI]hr</token>
-                    <token>an</token>
-                    <token>die</token>
-                    <marker>
-                        <token>reihe</token>
-                    </marker>
-                </pattern>
-                <message>&subanfang;<suggestion>Reihe</suggestion>&subende;</message>
-                <short>&prgk;.</short>
                 <example correction="Reihe">Jetzt kommt ihr an die <marker>reihe</marker>!</example>
             </rule>
             <rule>
