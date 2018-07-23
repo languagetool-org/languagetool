@@ -172,6 +172,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("[aA]benzu", "enzu", " und zu");
     putRepl("[kK]onflikation(en)?", "[kK]onfli", "Kompli");
     putRepl("[mM]itanader", "ana", "einan");
+    putRepl("[mM]itenand", "enand", "einander");
+    putRepl("Gelangenheitsbestätigung(en)?", "heit", "");
     putRepl("[jJ]edwillige[mnrs]?", "willig", "wed");
     putRepl("[qQ]ualitäts?bewußt(e[mnrs]?)?", "ts?bewußt", "tsbewusst");
     putRepl("[vV]oraussichtig(e[nmrs]?)?", "sichtig", "sichtlich");
