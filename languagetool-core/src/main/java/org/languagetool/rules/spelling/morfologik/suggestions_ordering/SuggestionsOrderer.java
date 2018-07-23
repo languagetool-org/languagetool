@@ -67,47 +67,45 @@ public class SuggestionsOrderer {
     }
   }
 
-  static Evaluator initializePMMLModelEvaluator(InputStream models_path) throws SAXException, JAXBException {
+  private static Evaluator initializePMMLModelEvaluator(InputStream models_path) throws SAXException, JAXBException {
     ModelEvaluatorFactory modelEvaluatorFactory = ModelEvaluatorFactory.newInstance();
     PMML pmml = org.jpmml.model.PMMLUtil.unmarshal(models_path);
     return modelEvaluatorFactory.newModelEvaluator(pmml);
   }
 
-  static float processRow(String sentence, String correctedSentence, String covered, String replacement,
-                          Integer suggestionPos, Integer contextLength) throws IOException {
+  private static float processRow(String sentence, String correctedSentence, String covered, String replacement,
+                                  Integer contextLength) throws IOException {
 
 
     Pair<String, String> context = Pair.of("", "");
     int errorStartIdx;
 
-    int sentencesDifferenceCharIdx = Utils.firstDifferencePosition(sentence, correctedSentence);
+    int sentencesDifferenceCharIdx = ContextUtils.firstDifferencePosition(sentence, correctedSentence);
     if (sentencesDifferenceCharIdx != -1) {
-      errorStartIdx = Utils.startOfErrorString(sentence, covered, sentencesDifferenceCharIdx);
+      errorStartIdx = ContextUtils.startOfErrorString(sentence, covered, sentencesDifferenceCharIdx);
       if (errorStartIdx != -1) {
-        context = Utils.extractContext(sentence, covered, errorStartIdx, contextLength);
+        context = ContextUtils.extractContext(sentence, covered, errorStartIdx, contextLength);
       }
     }
 
     String leftContextCovered = context.getKey();
     String rightContextCovered = context.getValue();
-//        String covered = covered;
-    String correction = replacement;
 
-    String leftContextCorrection = leftContextCovered.isEmpty() ? "" : leftContextCovered.substring(0, leftContextCovered.length() - covered.length()) + correction;
-    String rightContextCorrection = rightContextCovered.isEmpty() ? "" : correction + rightContextCovered.substring(covered.length());
+    String leftContextCorrection = leftContextCovered.isEmpty() ? "" : leftContextCovered.substring(0, leftContextCovered.length() - covered.length()) + replacement;
+    String rightContextCorrection = rightContextCovered.isEmpty() ? "" : replacement + rightContextCovered.substring(covered.length());
 
-    boolean firstLetterMatches = Utils.longestCommonPrefix(new String[]{correction, covered}).length() != 0;
+    boolean firstLetterMatches = ContextUtils.longestCommonPrefix(new String[]{replacement, covered}).length() != 0;
 
-    Integer editDistance = Utils.editDisctance(covered, correction);
+    Integer editDistance = ContextUtils.editDistance(covered, replacement);
 
     List<String> leftContextCoveredTokenized = nGramUtil.tokenizeString(leftContextCovered.isEmpty() ? covered : leftContextCovered);
     double leftContextCoveredProba = nGramUtil.stringProbability(leftContextCoveredTokenized, 3);
     List<String> rightContextCoveredTokenized = nGramUtil.tokenizeString(rightContextCovered.isEmpty() ? covered : rightContextCovered);
     double rightContextCoveredProba = nGramUtil.stringProbability(rightContextCoveredTokenized, 3);
 
-    List<String> leftContextCorrectionTokenized = nGramUtil.tokenizeString(leftContextCorrection.isEmpty() ? correction : leftContextCorrection);
+    List<String> leftContextCorrectionTokenized = nGramUtil.tokenizeString(leftContextCorrection.isEmpty() ? replacement : leftContextCorrection);
     double leftContextCorrectionProba = nGramUtil.stringProbability(leftContextCorrectionTokenized, 3);
-    List<String> rightContextCorrectionTokenized = nGramUtil.tokenizeString(rightContextCorrection.isEmpty() ? correction : rightContextCorrection);
+    List<String> rightContextCorrectionTokenized = nGramUtil.tokenizeString(rightContextCorrection.isEmpty() ? replacement : rightContextCorrection);
     double rightContextCorrectionProba = nGramUtil.stringProbability(rightContextCorrectionTokenized, 3);
 
     float left_context_covered_length = leftContextCoveredTokenized.size();
@@ -144,25 +142,24 @@ public class SuggestionsOrderer {
   public List<String> orderSuggestionsUsingModel(List<String> suggestions, String word, AnalyzedSentence sentence, int startPos, int wordLength) {
 
 
-    List<Pair<String, Float>> suggestionsProbs = new LinkedList<>();
-    for (int i = 0; i < suggestions.size(); i++) {
-      String suggestion = suggestions.get(i);
+    List<Pair<String, Float>> suggestionsScores = new LinkedList<>();
+    for (String suggestion : suggestions) {
       String text = sentence.getText();
       String correctedSentence = text.substring(0, startPos) + suggestion + sentence.getText().substring(startPos + wordLength);
-      float score = 0;
+
+      float score;
       try {
-        score = processRow(text, correctedSentence, word, suggestion, startPos, DEFAULT_CONTEXT_LENGTH);
+        score = processRow(text, correctedSentence, word, suggestion, DEFAULT_CONTEXT_LENGTH);
       } catch (IOException e) {
         throw new RuntimeException(e);
       }
-      suggestionsProbs.add(Pair.of(suggestion, score));
-
+      suggestionsScores.add(Pair.of(suggestion, score));
     }
     Comparator<Pair<String, Float>> comparing = Comparator.comparing(Pair::getValue);
-    suggestionsProbs.sort(comparing.reversed());
+    suggestionsScores.sort(comparing.reversed());
     List<String> result = new LinkedList<>();
 
-    suggestionsProbs.iterator().forEachRemaining((Pair<String, Float> p) -> result.add(p.getKey()));
+    suggestionsScores.iterator().forEachRemaining((Pair<String, Float> p) -> result.add(p.getKey()));
     return result;
   }
 
@@ -208,7 +205,8 @@ public class SuggestionsOrderer {
     }
   }
 
-  static class Utils {
+  @SuppressWarnings("WeakerAccess")
+  static class ContextUtils {
 
     public static String leftContext(String originalSentence, int errorStartIdx, String errorString, int contextLength) {
       String regex = repeat(contextLength, "\\w+\\W+") + errorString + "$";
@@ -320,7 +318,7 @@ public class SuggestionsOrderer {
       return strs[0].substring(0, minLen);
     }
 
-    public static int editDisctance(String x, String y) {
+    public static int editDistance(String x, String y) {
       int[][] dp = new int[x.length() + 1][y.length() + 1];
 
       for (int i = 0; i <= x.length(); i++) {
