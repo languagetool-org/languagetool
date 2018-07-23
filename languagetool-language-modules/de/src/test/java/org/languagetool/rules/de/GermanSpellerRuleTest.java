@@ -271,6 +271,7 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("Betriebsratzimmern", "Betriebsratszimmern", rule, lt);
     assertFirstSuggestion("ausiehst", "aussiehst", rule, lt);
     assertFirstSuggestion("unterbemittelnde", "minderbemittelte", rule, lt);
+    assertFirstSuggestion("koregiert", "korrigiert", rule, lt);
   }
 
   @Test

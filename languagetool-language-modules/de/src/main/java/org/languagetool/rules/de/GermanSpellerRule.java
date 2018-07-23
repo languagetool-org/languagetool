@@ -167,6 +167,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("geh?neh?m[ie]gung(en)?", "geh?neh?m[ie]gung", "Genehmigung");
     putRepl("Korrigierung(en)?", "igierung", "ektur");
     putRepl("[kK]orregierung(en)?", "[kK]orregierung", "Korrektur");
+    putRepl("[kK]orrie?girung(en)?", "[kK]orrie?girung", "Korrektur");
     putRepl("[nN]ocheimal", "eimal", " einmal");
     putRepl("[aA]benzu", "enzu", " und zu");
     putRepl("[kK]onflikation(en)?", "[kK]onfli", "Kompli");
@@ -594,6 +595,11 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       }
     } else if (word.matches("[vV]erstehendniss?(es?)?")) {
       suggestion = word.replaceFirst("[vV]erstehendnis", "Verständnis");
+      if (!hunspellDict.misspelled(suggestion)) {
+        return Collections.singletonList(suggestion);
+      }
+    } else if (word.matches("koregier.+")) {
+      suggestion = word.replaceAll("reg", "rrig");
       if (!hunspellDict.misspelled(suggestion)) {
         return Collections.singletonList(suggestion);
       }
