@@ -1,4 +1,4 @@
-package org.languagetool.rules.spelling.morfologik;
+package org.languagetool.rules.spelling.morfologik.suggestions_ordering;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.dmg.pmml.FieldName;
@@ -23,15 +23,21 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class SuggestionsOrderer {
-  public static final String SPC_NGRAM_BASED_MODEL_FILENAME = "spc_ngram.model.pmml";
-  public static final String NO_NGRAM_BASED_MODEL_FILENAME = "spc_naive.model.pmml";
-  static final String XGBOOST_MODEL_BASE_PATH = "org/languagetool/resource/speller_rule/models/";
-  static final Integer DEFAULT_CONTEXT_LENGTH = 2;
+  private static final String SPC_NGRAM_BASED_MODEL_FILENAME = "spc_ngram.model.pmml";
+  private static final String NO_NGRAM_BASED_MODEL_FILENAME = "spc_naive.model.pmml";
+  private static final String XGBOOST_MODEL_BASE_PATH = "org/languagetool/resource/speller_rule/models/";
+  private static final Integer DEFAULT_CONTEXT_LENGTH = 2;
+  private static final String PMML_PROBABILITY_FIELD_NAME = "probability(1)";
 
-  public boolean useNgramBasedModel = true;
+  private boolean MLAvailable = true;
 
   private static SuggestionsOrderer.NGramUtil nGramUtil = null;
   private static Evaluator evaluator;
+
+  public boolean isMLAvailable() {
+    return MLAvailable;
+  }
+
 
   public SuggestionsOrderer(Language language, String rule_id) {
     try {
@@ -50,11 +56,11 @@ public class SuggestionsOrderer {
       try (InputStream models_path = this.getClass().getClassLoader().getResourceAsStream(languageModelFileName)) {
         evaluator = SuggestionsOrderer.initializePMMLModelEvaluator(models_path);
       } catch (JAXBException | SAXException e) {
-        useNgramBasedModel = false;
+        MLAvailable = false;
       }
     } catch (IOException | RuntimeException e) {
       if (e.getMessage().equalsIgnoreCase("NGram file not found")) {
-        useNgramBasedModel = false;
+        MLAvailable = false;
       } else {
         throw new RuntimeException(e);
       }
@@ -132,10 +138,10 @@ public class SuggestionsOrderer {
     }
     Map<FieldName, ?> predictions = evaluator.evaluate(evaluatorArguments);
 
-    return (Float) predictions.get(FieldName.create("probability(1)"));
+    return (Float) predictions.get(FieldName.create(PMML_PROBABILITY_FIELD_NAME));
   }
 
-  protected List<String> orderSuggestions(List<String> suggestions, String word, AnalyzedSentence sentence, int startPos, int wordLength) {
+  public List<String> orderSuggestionsUsingModel(List<String> suggestions, String word, AnalyzedSentence sentence, int startPos, int wordLength) {
 
 
     List<Pair<String, Float>> suggestionsProbs = new LinkedList<>();
@@ -147,7 +153,7 @@ public class SuggestionsOrderer {
       try {
         score = processRow(text, correctedSentence, word, suggestion, startPos, DEFAULT_CONTEXT_LENGTH);
       } catch (IOException e) {
-        e.printStackTrace();
+        throw new RuntimeException(e);
       }
       suggestionsProbs.add(Pair.of(suggestion, score));
 
@@ -170,7 +176,7 @@ public class SuggestionsOrderer {
     public NGramUtil(Language language) {
       this.language = language;
       try {
-        String ngramPath = System.getProperty("ngram.path");
+        String ngramPath = SuggestionsOrdererConfig.getNgramsPath();
         if (ngramPath != null) {
           this.languageModel = language.getLanguageModel(Paths.get(ngramPath).toFile());
         }
@@ -182,8 +188,7 @@ public class SuggestionsOrderer {
           this.languageModel = new MockLanguageModel(); // mock ngrams for language
         }
       } catch (IOException | RuntimeException e) {
-//        throw new RuntimeException("bad ngrams for language " + language.getShortCode() + " " + language.getName());
-        this.languageModel = new MockLanguageModel();
+        this.languageModel = new MockLanguageModel(); // mock ngrams for language
       }
     }
 
