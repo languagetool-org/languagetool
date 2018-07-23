@@ -217,6 +217,33 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="">Er hat vor<marker>, seine</marker> Tante zu besuchen.</example>
                 <example>Er wollte seine Tante besuchen.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token skip="-1"><exception postag="KON:.+" postag_regexp="yes"/><exception scope="next" regexp="yes">,|\)</exception></token>
+                    <token>zu</token>
+                    <marker>
+                        <token postag="VER:INF:.+" postag_regexp="yes"/>
+                        <token>,</token>                        
+                    </marker>
+                    <token postag="VER:.+" postag_regexp="yes"/>
+                </pattern>
+                <message>Vermeiden Sie Nebensätze.</message>
+                <example correction="">Darüber zu <marker>sprechen,</marker> fällt ihm schwer.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token skip="-1"><exception postag="KON:.+" postag_regexp="yes"/><exception scope="next" regexp="yes">,|\)</exception></token>
+                    <marker>
+                        <token postag="VER:EIZ:.+" postag_regexp="yes"/>
+                        <token>,</token>
+                    </marker>
+                    <token postag="VER:.+" postag_regexp="yes"/>
+                </pattern>
+                <message>Vermeiden Sie Nebensätze.</message>
+                <example correction="">Das <marker>zuzugeben,</marker> fällt ihm schwer.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="ABKUERZUNG" name="Leichte Sprache: Abkürzung">
             <rule>
