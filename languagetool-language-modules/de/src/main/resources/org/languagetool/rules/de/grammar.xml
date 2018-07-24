@@ -10128,12 +10128,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token>zu</token>
-                    <token inflected="yes">lassen<exception>lassen</exception></token>
+                    <token inflected="yes" regexp="yes">geben|lassen<exception regexp="yes">geben|lassen</exception></token>
                 </pattern>
-                <message>Falls Sie eine Form des Verbs 'zulassen' (=erlauben) meinten, wird diese zusammengeschrieben.</message>
+                <message>Falls Sie eine Form des Verbs 'zu<match no="2" postag="VER:INF:NON"/>' meinten, wird diese zusammengeschrieben.</message>
                 <suggestion>\1\2</suggestion>
                 <short>&getrennt;.</short>
                 <example correction="zulässt">Falls er es <marker>zu lässt</marker>, sind wir machtlos.</example>
+                <example correction="zugibt">Wenn er es <marker>zu gibt</marker>, erhält er eine mildere Strafe.</example>
                 <example>Es wäre besser, es zu lassen.</example>
             </rule>
         </rulegroup>
