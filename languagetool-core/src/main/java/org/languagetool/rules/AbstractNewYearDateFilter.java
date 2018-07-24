@@ -29,48 +29,28 @@ import java.util.regex.Pattern;
 /**
  * Accepts rule matches if we are in the first days of a new year and the user
  * may have entered a date with the old year
- * * @since 4.2
+ * @since 4.3
  */
 public abstract class AbstractNewYearDateFilter extends RuleFilter {
-  private final TestHackHelper testHackHelper = new TestHackHelper();
-
-  /**
-   * Return true if the year recently changed (= it is January)
-  */
-  protected boolean isNewYear() {
-    if (testHackHelper.isJUnitTest())
-      return true;
-    return getCalendar().get(Calendar.MONTH) == Calendar.JANUARY;
-  }
-
-  protected int getCurrentYear() {
-    if (testHackHelper.isJUnitTest())
-      return 2014;
-    return getCalendar().get(Calendar.YEAR);
-  }
-
   // The day of the month may contain not only digits but also extra letters
   // such as"22nd" in English or "22-an" in Esperanto. The regexp extracts
   // the numerical part.
   private static final Pattern DAY_OF_MONTH_PATTERN = Pattern.compile("(\\d+).*");
 
   /**
-   * Implement so that Sunday returns {@code 1}, Monday {@code 2} etc.
-   * @param localizedWeekDayString a week day name or abbreviation thereof
-   */
-  protected abstract int getDayOfWeek(String localizedWeekDayString);
+   * Return true if the year recently changed (= it is January)
+  */
+  protected boolean isJanuary() {
+    if (TestHackHelper.isJUnitTest()) {
+      return true;
+    }
+    return getCalendar().get(Calendar.MONTH) == Calendar.JANUARY;
+  }
 
-  /**
-   * Get the localized name of the day of week for the given date.
-   */
-  protected abstract String getDayOfWeek(Calendar date);
-
-  /**
-   * Implement so that "first" returns {@code 1}, second returns {@code 2} etc.
-   * @param localizedDayOfMonth name of day of the month or abbreviation thereof
-   */
-  protected int getDayOfMonth(String localizedDayOfMonth) {
-    return 0;
+  protected int getCurrentYear() {
+    if (TestHackHelper.isJUnitTest())
+      return 2014;
+    return getCalendar().get(Calendar.YEAR);
   }
 
   /**
@@ -82,20 +62,27 @@ public abstract class AbstractNewYearDateFilter extends RuleFilter {
   protected abstract Calendar getCalendar();
 
   /**
+   * Implement so that "first" returns {@code 1}, second returns {@code 2} etc.
+   * @param localizedDayOfMonth name of day of the month or abbreviation thereof
+   */
+  protected int getDayOfMonth(String localizedDayOfMonth) {
+    return 0;
+  }
+
+  /**
    * @param args a map with values for {@code year}, {@code month}, {@code day} (day of month)
    */
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> args, AnalyzedTokenReadings[] patternTokens) {
-
     Calendar dateFromDate = getDate(args);
     int yearFromDate;
     try {
       yearFromDate = dateFromDate.get(Calendar.YEAR);
-    } catch(IllegalArgumentException e) {
+    } catch (IllegalArgumentException e) {
       return null; // date is not valid; another rule is responsible
     }
     int currentYear = getCurrentYear();
-    if (isNewYear() && yearFromDate + 1 == currentYear) {
+    if (isJanuary() && yearFromDate + 1 == currentYear) {
       String message = match.getMessage()
               .replace("{year}", Integer.toString(yearFromDate))
               .replace("{realYear}", Integer.toString(currentYear));

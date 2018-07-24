@@ -1,5 +1,5 @@
 /* LanguageTool, a natural language style checker
- * Copyright (C) 2015 Daniel Naber (http://www.danielnaber.de)
+ * Copyright (C) 2018 Fabian Richter
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -25,8 +25,8 @@ import org.languagetool.rules.YMDDateHelper;
 import java.util.Map;
 
 /**
- * Date filter that expects a 'date' argument in the format 'yyyy-mm-dd'.
- * @since 3.2
+ * New year date filter that expects a 'date' argument in the format 'yyyy-mm-dd'.
+ * @since 4.3
  */
 public class YMDNewYearDateFilter extends NewYearDateFilter {
 
