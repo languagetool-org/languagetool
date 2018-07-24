@@ -231,19 +231,10 @@ public class HTTPServerConfig {
   }
 
   private void setLanguageModelDirectory(String langModelDir) {
-    configureLanguageModelBasedSuggestionsOrdering(langModelDir);
+    SuggestionsOrdererConfig.setNgramsPath(langModelDir);
     languageModelDir = new File(langModelDir);
     if (!languageModelDir.exists() || !languageModelDir.isDirectory()) {
       throw new RuntimeException("LanguageModel directory not found or is not a directory: " + languageModelDir);
-    }
-  }
-
-  private void configureLanguageModelBasedSuggestionsOrdering(String langModelDir) {
-    String enableMLSuggestionsOrderingProperty = System.getProperty("enableMLSuggestionsOrdering", "false");
-    Boolean enableMLSuggestionsOrdering = Boolean.parseBoolean(enableMLSuggestionsOrderingProperty);
-    if (enableMLSuggestionsOrdering) {
-      SuggestionsOrdererConfig.setNgramsPath(langModelDir);
-      SuggestionsOrdererConfig.setMLSuggestionsOrderingEnabled(true);
     }
   }
 

@@ -46,6 +46,18 @@ public class SuggestionsOrdererTest {
     testOrderingHappened(language, rule_id);
   }
 
+  @Test
+  public void orderSuggestionsWithEnabledML() throws Exception {
+    SuggestionsOrdererConfig.setMLSuggestionsOrderingEnabled(true);
+    orderSuggestionsUsingModelExistingRuleId();
+  }
+
+  @Test
+  public void orderSuggestionsWithDisabledML() throws Exception {
+    SuggestionsOrdererConfig.setMLSuggestionsOrderingEnabled(false);
+    orderSuggestionsUsingModelExistingRuleId();
+  }
+
   private void testOrderingHappened(Language language, String rule_id) throws IOException {
     JLanguageTool languageTool = new JLanguageTool(language);
     SuggestionsOrderer suggestionsOrderer = new SuggestionsOrderer(language, rule_id);

@@ -2,7 +2,7 @@ package org.languagetool.rules.spelling.morfologik.suggestions_ordering;
 
 public class SuggestionsOrdererConfig {
   private static String ngramsPath;
-  private static boolean MLSuggestionsOrderingEnabled = false;
+  private static String enableMLSuggestionsOrderingProp = "enableMLSuggestionsOrdering";
 
   public static String getNgramsPath() {
     return ngramsPath;
@@ -13,10 +13,11 @@ public class SuggestionsOrdererConfig {
   }
 
   public static boolean isMLSuggestionsOrderingEnabled() {
-    return MLSuggestionsOrderingEnabled;
+    String enableMLSuggestionsOrderingProperty = System.getProperty(enableMLSuggestionsOrderingProp, "false");
+    return Boolean.parseBoolean(enableMLSuggestionsOrderingProperty);
   }
 
   public static void setMLSuggestionsOrderingEnabled(boolean MLSuggestionsOrderingEnabled) {
-    SuggestionsOrdererConfig.MLSuggestionsOrderingEnabled = MLSuggestionsOrderingEnabled;
+    System.setProperty(enableMLSuggestionsOrderingProp, String.valueOf(MLSuggestionsOrderingEnabled));
   }
 }
