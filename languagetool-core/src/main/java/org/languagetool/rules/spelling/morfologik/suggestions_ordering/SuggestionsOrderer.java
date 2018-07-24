@@ -36,7 +36,7 @@ public class SuggestionsOrderer {
   private static Evaluator evaluator;
 
   public boolean isMLAvailable() {
-    return MLAvailable;
+    return MLAvailable && SuggestionsOrdererConfig.isMLSuggestionsOrderingEnabled();
   }
 
 
