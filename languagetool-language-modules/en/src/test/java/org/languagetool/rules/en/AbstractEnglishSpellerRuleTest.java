@@ -41,7 +41,7 @@ public class AbstractEnglishSpellerRuleTest {
   public void testNonVariantSpecificSuggestions(Rule rule, Language language) throws IOException {
     this.lt = new JLanguageTool(language);
     this.rule = rule;
-    assertHasMatch("teh", "the");
+    assertFirstMatch("teh", "the");
     
     // from http://waxy.org/2003/04/typo_popularity/:
     assertFirstMatch("transexual", "transsexual");
@@ -72,7 +72,7 @@ public class AbstractEnglishSpellerRuleTest {
     assertFirstMatch("hipocrit", "hypocrite");
     assertFirstMatch("mischevious", "mischievous");
     assertFirstMatch("hygeine", "hygiene");
-    assertHasMatch("vehical", "vehicle", "vertical");
+    assertFirstMatch("vehical", "medical", "vehicle");
     //assertFirstMatch("calender", "calendar");  // handled by grammar.xml
     
     assertEquals(0, rule.match(lt.getAnalyzedSentence("You couldn't; he didn't; it doesn't; they aren't; I hadn't; etc.")).length);
@@ -100,19 +100,6 @@ public class AbstractEnglishSpellerRuleTest {
     for (String expectedSuggestion : expectedSuggestions) {
       assertThat("Expected suggestion '" + expectedSuggestion + "' not found at position " + i + " in suggestions: "
               + suggestions, suggestions.get(i), is(expectedSuggestion));
-      i++;
-    }
-  }
-
-  private void assertHasMatch(String text, String... expectedSuggestions) throws IOException {
-    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(text));
-    assertTrue("Expected 1 match for '" + text + "', got " + matches.length, matches.length == 1);
-    List<String> suggestions = matches[0].getSuggestedReplacements();
-    assertTrue("Expected at least one suggestion for '" + text + "'", suggestions.size() > 0);
-    int i = 0;
-    for (String expectedSuggestion : expectedSuggestions) {
-      assertThat("Expected suggestion '" + expectedSuggestion + "' not found in suggestions: "
-              + suggestions, suggestions, hasItem(expectedSuggestion));
       i++;
     }
   }
