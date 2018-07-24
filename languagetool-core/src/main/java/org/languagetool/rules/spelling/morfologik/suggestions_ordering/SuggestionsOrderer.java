@@ -26,6 +26,7 @@ public class SuggestionsOrderer {
   private static final String SPC_NGRAM_BASED_MODEL_FILENAME = "spc_ngram.model.pmml";
   private static final String NO_NGRAM_BASED_MODEL_FILENAME = "spc_naive.model.pmml";
   private static final String XGBOOST_MODEL_BASE_PATH = "org/languagetool/resource/speller_rule/models/";
+  private static final String COMMON_DEFAULT_MODEL_PATH = XGBOOST_MODEL_BASE_PATH + NO_NGRAM_BASED_MODEL_FILENAME;
   private static final Integer DEFAULT_CONTEXT_LENGTH = 2;
   private static final String PMML_PROBABILITY_FIELD_NAME = "probability(1)";
 
@@ -56,7 +57,11 @@ public class SuggestionsOrderer {
       try (InputStream models_path = this.getClass().getClassLoader().getResourceAsStream(languageModelFileName)) {
         evaluator = SuggestionsOrderer.initializePMMLModelEvaluator(models_path);
       } catch (JAXBException | SAXException e) {
-        MLAvailable = false;
+        try (InputStream models_path = this.getClass().getClassLoader().getResourceAsStream(COMMON_DEFAULT_MODEL_PATH)) {
+          evaluator = SuggestionsOrderer.initializePMMLModelEvaluator(models_path);
+        } catch (JAXBException | SAXException e1) {
+          MLAvailable = false;
+        }
       }
     } catch (IOException | RuntimeException e) {
       if (e.getMessage().equalsIgnoreCase("NGram file not found")) {
@@ -141,6 +146,9 @@ public class SuggestionsOrderer {
 
   public List<String> orderSuggestionsUsingModel(List<String> suggestions, String word, AnalyzedSentence sentence, int startPos, int wordLength) {
 
+    if (!isMLAvailable()) {
+      return suggestions;
+    }
 
     List<Pair<String, Float>> suggestionsScores = new LinkedList<>();
     for (String suggestion : suggestions) {
