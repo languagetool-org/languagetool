@@ -1,20 +1,14 @@
 package org.languagetool.rules.spelling.morfologik.suggestions_ordering;
 
+import biz.k11i.xgboost.Predictor;
+import biz.k11i.xgboost.util.FVec;
 import org.apache.commons.lang3.tuple.Pair;
-import org.dmg.pmml.FieldName;
-import org.dmg.pmml.PMML;
-import org.jpmml.evaluator.Evaluator;
-import org.jpmml.evaluator.FieldValue;
-import org.jpmml.evaluator.InputField;
-import org.jpmml.evaluator.ModelEvaluatorFactory;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.Language;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.languagemodel.MockLanguageModel;
 import org.languagetool.rules.ngrams.GoogleTokenUtil;
-import org.xml.sax.SAXException;
 
-import javax.xml.bind.JAXBException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Paths;
@@ -23,17 +17,16 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class SuggestionsOrderer {
-  private static final String SPC_NGRAM_BASED_MODEL_FILENAME = "spc_ngram.model.pmml";
-  private static final String NO_NGRAM_BASED_MODEL_FILENAME = "spc_naive.model.pmml";
+  private static final String SPC_NGRAM_BASED_MODEL_FILENAME = "spc_ngram.model";
+  private static final String NO_NGRAM_BASED_MODEL_FILENAME = "spc_naive.model";
   private static final String XGBOOST_MODEL_BASE_PATH = "org/languagetool/resource/speller_rule/models/";
   private static final String COMMON_DEFAULT_MODEL_PATH = XGBOOST_MODEL_BASE_PATH + NO_NGRAM_BASED_MODEL_FILENAME;
   private static final Integer DEFAULT_CONTEXT_LENGTH = 2;
-  private static final String PMML_PROBABILITY_FIELD_NAME = "probability(1)";
 
   private boolean MLAvailable = true;
 
   private static SuggestionsOrderer.NGramUtil nGramUtil = null;
-  private static Evaluator evaluator;
+  private static Predictor predictor;
 
   public boolean isMLAvailable() {
     return MLAvailable && SuggestionsOrdererConfig.isMLSuggestionsOrderingEnabled();
@@ -55,27 +48,21 @@ public class SuggestionsOrderer {
       }
 
       try (InputStream models_path = this.getClass().getClassLoader().getResourceAsStream(languageModelFileName)) {
-        evaluator = SuggestionsOrderer.initializePMMLModelEvaluator(models_path);
-      } catch (JAXBException | SAXException e) {
+        predictor = new Predictor(models_path);
+      } catch (IOException | NullPointerException e) {
         try (InputStream models_path = this.getClass().getClassLoader().getResourceAsStream(COMMON_DEFAULT_MODEL_PATH)) {
-          evaluator = SuggestionsOrderer.initializePMMLModelEvaluator(models_path);
-        } catch (JAXBException | SAXException e1) {
+          predictor = new Predictor(models_path);
+        } catch (IOException | NullPointerException e1) {
           MLAvailable = false;
         }
       }
-    } catch (IOException | RuntimeException e) {
+    } catch (RuntimeException e) {
       if (e.getMessage().equalsIgnoreCase("NGram file not found")) {
         MLAvailable = false;
       } else {
         throw new RuntimeException(e);
       }
     }
-  }
-
-  private static Evaluator initializePMMLModelEvaluator(InputStream models_path) throws SAXException, JAXBException {
-    ModelEvaluatorFactory modelEvaluatorFactory = ModelEvaluatorFactory.newInstance();
-    PMML pmml = org.jpmml.model.PMMLUtil.unmarshal(models_path);
-    return modelEvaluatorFactory.newModelEvaluator(pmml);
   }
 
   private static float processRow(String sentence, String correctedSentence, String covered, String replacement,
@@ -131,17 +118,12 @@ public class SuggestionsOrderer {
             right_context_correction_length, right_context_correction_proba,
             first_letter_matches, edit_distance};
 
-    Map<FieldName, FieldValue> evaluatorArguments = new HashMap<>();
-    List<InputField> evaluatorInputFields = evaluator.getInputFields();
-    for (InputField inputField : evaluatorInputFields) {
-      FieldName inputFieldName = inputField.getName();
-      Object rawFieldValue = data[Integer.parseInt(inputFieldName.getValue().substring(1))]; // todo named features
-      FieldValue inputFieldValue = inputField.prepare(rawFieldValue);
-      evaluatorArguments.put(inputFieldName, inputFieldValue);
-    }
-    Map<FieldName, ?> predictions = evaluator.evaluate(evaluatorArguments);
+    FVec featuresVector = FVec.Transformer.fromArray(data,false);
 
-    return (Float) predictions.get(FieldName.create(PMML_PROBABILITY_FIELD_NAME));
+    double[] predictions = predictor.predict(featuresVector);
+    double predicted_score = predictions.length == 0 ? 0 : predictions[0];
+
+    return (float) predicted_score;
   }
 
   public List<String> orderSuggestionsUsingModel(List<String> suggestions, String word, AnalyzedSentence sentence, int startPos, int wordLength) {
