@@ -30,14 +30,14 @@ import java.util.Map;
  */
 public class YMDDateCheckFilter extends DateCheckFilter {
 
-  private final org.languagetool.rules.YMDDateHelper YMDDateHelper = new YMDDateHelper();
+  private final YMDDateHelper ymdDateHelper = new YMDDateHelper();
 
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> args, AnalyzedTokenReadings[] patternTokens) {
     if (args.containsKey("year") || args.containsKey("month") || args.containsKey("day")) {
       throw new RuntimeException("Set only 'weekDay' and 'date' for " + YMDDateCheckFilter.class.getSimpleName());
     }
-    return super.acceptRuleMatch(match, YMDDateHelper.parseDate(args), patternTokens);
+    return super.acceptRuleMatch(match, ymdDateHelper.parseDate(args), patternTokens);
   }
 
 }

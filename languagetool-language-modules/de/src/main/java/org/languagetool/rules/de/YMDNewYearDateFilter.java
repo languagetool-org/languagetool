@@ -31,15 +31,15 @@ import java.util.Map;
  */
 public class YMDNewYearDateFilter extends NewYearDateFilter {
 
-  private final org.languagetool.rules.YMDDateHelper YMDDateHelper = new YMDDateHelper();
+  private final YMDDateHelper ymdDateHelper = new YMDDateHelper();
 
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> args, AnalyzedTokenReadings[] patternTokens) {
     if (args.containsKey("year") || args.containsKey("month") || args.containsKey("day")) {
       throw new RuntimeException("Set only 'weekDay' and 'date' for " + YMDDateCheckFilter.class.getSimpleName());
     }
-    args = YMDDateHelper.parseDate(args);
-    return super.acceptRuleMatch(YMDDateHelper.correctDate(match, args), args, patternTokens);
+    args = ymdDateHelper.parseDate(args);
+    return super.acceptRuleMatch(ymdDateHelper.correctDate(match, args), args, patternTokens);
   }
 
 }

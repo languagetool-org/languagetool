@@ -25,8 +25,6 @@ import java.util.Locale;
  * @since 4.3
  */
 class DateFilterHelper {
-  public DateFilterHelper() {
-  }
 
   protected Calendar getCalendar() {
     return Calendar.getInstance(Locale.UK);

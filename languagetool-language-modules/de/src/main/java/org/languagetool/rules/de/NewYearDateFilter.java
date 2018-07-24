@@ -31,11 +31,11 @@ public class NewYearDateFilter extends AbstractNewYearDateFilter {
 
   @Override
   protected int getMonth(String localizedMonth) {
-        return dateFilterHelper.getMonth(localizedMonth);
-    }
+    return dateFilterHelper.getMonth(localizedMonth);
+  }
 
   @Override
   protected Calendar getCalendar() {
-        return dateFilterHelper.getCalendar();
-    }
+    return dateFilterHelper.getCalendar();
+  }
 }
