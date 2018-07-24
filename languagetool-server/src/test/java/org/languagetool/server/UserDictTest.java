@@ -40,7 +40,7 @@ public class UserDictTest {
   private static final String API_KEY1 = "foo";
   private static final String USERNAME2 = "two@test.de";
   private static final String API_KEY2 = "foo-two";
-
+    
   @Test
   public void testHTTPServer() throws Exception {
     HTTPServerConfig config = new HTTPServerConfig(HTTPTools.getDefaultPort());
