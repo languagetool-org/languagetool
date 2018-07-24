@@ -26,8 +26,6 @@ import org.languagetool.rules.RuleMatch;
 import java.io.IOException;
 import java.util.List;
 
-import static org.hamcrest.CoreMatchers.containsString;
-import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;

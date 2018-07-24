@@ -25,8 +25,6 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
@@ -34,25 +32,8 @@ import org.languagetool.TestTools;
 import org.languagetool.language.BritishEnglish;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
-import org.languagetool.rules.spelling.morfologik.suggestions_ordering.SuggestionsOrdererConfig;
 
 public class MorfologikBritishSpellerRuleTest extends AbstractEnglishSpellerRuleTest {
-
-  private String originalConfigNgramsPathValue;
-  private boolean originalConfigMLSuggestionsOrderingEnabledValue;
-
-  @Before
-  public void setUp() throws Exception {
-    originalConfigNgramsPathValue = SuggestionsOrdererConfig.getNgramsPath();
-    originalConfigMLSuggestionsOrderingEnabledValue = SuggestionsOrdererConfig.isMLSuggestionsOrderingEnabled();
-    SuggestionsOrdererConfig.setMLSuggestionsOrderingEnabled(false);
-  }
-
-  @After
-  public void tearDown() throws Exception {
-    SuggestionsOrdererConfig.setNgramsPath(originalConfigNgramsPathValue);
-    SuggestionsOrdererConfig.setMLSuggestionsOrderingEnabled(originalConfigMLSuggestionsOrderingEnabledValue);
-  }
 
   @Test
   public void testSuggestions() throws IOException {

@@ -21,12 +21,9 @@ package org.languagetool.server;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.StringUtils;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.languagetool.Language;
 import org.languagetool.Languages;
-import org.languagetool.rules.spelling.morfologik.suggestions_ordering.SuggestionsOrdererConfig;
 
 import java.io.IOException;
 import java.net.URL;
@@ -43,22 +40,6 @@ public class UserDictTest {
   private static final String API_KEY1 = "foo";
   private static final String USERNAME2 = "two@test.de";
   private static final String API_KEY2 = "foo-two";
-
-  private String originalConfigNgramsPathValue;
-  private boolean originalConfigMLSuggestionsOrderingEnabledValue;
-
-  @Before
-  public void setUp() throws Exception {
-    originalConfigNgramsPathValue = SuggestionsOrdererConfig.getNgramsPath();
-    originalConfigMLSuggestionsOrderingEnabledValue = SuggestionsOrdererConfig.isMLSuggestionsOrderingEnabled();
-    SuggestionsOrdererConfig.setMLSuggestionsOrderingEnabled(false);
-  }
-
-  @After
-  public void tearDown() throws Exception {
-    SuggestionsOrdererConfig.setNgramsPath(originalConfigNgramsPathValue);
-    SuggestionsOrdererConfig.setMLSuggestionsOrderingEnabled(originalConfigMLSuggestionsOrderingEnabledValue);
-  }
 
   @Test
   public void testHTTPServer() throws Exception {
