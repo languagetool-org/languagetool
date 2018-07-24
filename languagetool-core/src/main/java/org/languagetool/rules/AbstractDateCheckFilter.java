@@ -34,7 +34,6 @@ import java.util.regex.Pattern;
  */
 public abstract class AbstractDateCheckFilter extends RuleFilter {
 
-  private final TestHackHelper testHackHelper = new TestHackHelper();
   // The day of the month may contain not only digits but also extra letters
   // such as"22nd" in English or "22-an" in Esperanto. The regexp extracts
   // the numerical part.
@@ -106,7 +105,7 @@ public abstract class AbstractDateCheckFilter extends RuleFilter {
   private Calendar getDate(Map<String, String> args) {
     String yearArg = args.get("year");
     int year;
-    if (yearArg == null && testHackHelper.isJUnitTest()) {
+    if (yearArg == null && TestHackHelper.isJUnitTest()) {
       // Volkswagen-style testing
       // Hack for tests of date - weekday match with missing year
       // in production, we assume the current year

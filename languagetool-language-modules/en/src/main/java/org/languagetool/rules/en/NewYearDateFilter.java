@@ -1,5 +1,5 @@
 /* LanguageTool, a natural language style checker
- * Copyright (C) 2018 Daniel Naber (http://www.danielnaber.de)
+ * Copyright (C) 2018 Fabian Richter
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -22,27 +22,20 @@ import org.languagetool.rules.AbstractNewYearDateFilter;
 
 import java.util.Calendar;
 
+/**
+ * @since 4.3
+ */
 public class NewYearDateFilter extends AbstractNewYearDateFilter {
 
-    private final DateFilterHelper dateFilterHelper = new DateFilterHelper();
+  private final DateFilterHelper dateFilterHelper = new DateFilterHelper();
 
-    @Override
-    protected int getDayOfWeek(String localizedWeekDayString) {
-        return dateFilterHelper.getDayOfWeek(localizedWeekDayString);
-    }
+  @Override
+  protected int getMonth(String localizedMonth) {
+    return dateFilterHelper.getMonth(localizedMonth);
+  }
 
-    @Override
-    protected String getDayOfWeek(Calendar date) {
-        return dateFilterHelper.getDayOfWeek(date);
-    }
-
-    @Override
-    protected int getMonth(String localizedMonth) {
-        return dateFilterHelper.getMonth(localizedMonth);
-    }
-
-    @Override
-    protected Calendar getCalendar() {
-        return dateFilterHelper.getCalendar();
-    }
+  @Override
+  protected Calendar getCalendar() {
+    return dateFilterHelper.getCalendar();
+  }
 }
