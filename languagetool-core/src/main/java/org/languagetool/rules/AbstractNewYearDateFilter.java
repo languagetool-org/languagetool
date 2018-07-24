@@ -32,18 +32,19 @@ import java.util.regex.Pattern;
  * * @since 4.2
  */
 public abstract class AbstractNewYearDateFilter extends RuleFilter {
-  /** 
+  private final TestHackHelper testHackHelper = new TestHackHelper();
+
+  /**
    * Return true if the year recently changed (= it is January)
   */
   protected boolean isNewYear() {
-    if (isJUnitTest()) // TODO think about how to test rule
+    if (testHackHelper.isJUnitTest())
       return true;
-    // TODO
-    return getCalendar().get(Calendar.MONTH) == Calendar.JANUARY;// || true;
+    return getCalendar().get(Calendar.MONTH) == Calendar.JANUARY;
   }
 
   protected int getCurrentYear() {
-    if (isJUnitTest()) 
+    if (testHackHelper.isJUnitTest())
       return 2014;
     return getCalendar().get(Calendar.YEAR);
   }
@@ -111,18 +112,6 @@ public abstract class AbstractNewYearDateFilter extends RuleFilter {
     }
     return result;
   }
-
-  private boolean isJUnitTest() {
-    StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
-    List<StackTraceElement> list = Arrays.asList(stackTrace);
-    for (StackTraceElement element : list) {
-      if (element.getClassName().startsWith("org.junit.")) {
-        return true;
-      }
-    }
-    return false;
-  }
-
 
   private Calendar getDate(Map<String, String> args) {
     int year = Integer.parseInt(getRequired("year", args));
