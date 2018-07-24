@@ -70,6 +70,7 @@ public class Hunspell {
     }
 
     protected void tryLoad(String libFile) throws UnsupportedOperationException {
+    	System.out.println("tryLoad: " + libFile);
         hsl = (HunspellLibrary)Native.loadLibrary(libFile, HunspellLibrary.class);
     }
 
@@ -89,6 +90,7 @@ public class Hunspell {
 
         libFile = libDir != null ? libDir+"/"+libName() : libNameBare();
         try {	   
+        	System.out.println("Constr: " + libFile);
             hsl = (HunspellLibrary)Native.loadLibrary(libFile, HunspellLibrary.class);
         } catch (UnsatisfiedLinkError urgh) {
 
@@ -123,7 +125,7 @@ public class Hunspell {
                     try { fos.close(); } catch(IOException e) { }
                 }
             }
-            //System.out.println("Loading temp lib: "+lib.getAbsolutePath());
+            System.out.println("Loading temp lib: "+lib.getAbsolutePath());
             hsl = (HunspellLibrary)Native.loadLibrary(lib.getAbsolutePath(), HunspellLibrary.class);
         }
     }
@@ -146,7 +148,8 @@ public class Hunspell {
             //	    return libNameBare()+".dylib";
             return libNameBare()+".jnilib";
 
-        } else {
+        } 
+        else {
             return "lib"+libNameBare()+".so";
         }  
     }
@@ -203,6 +206,9 @@ public class Hunspell {
             }
 
         } 
+        else if(os.startsWith("aix")) {
+        	return "hunspell-ppc64";
+        }
 
         throw new UnsupportedOperationException("Unknown OS/arch: "+os+"/"+arch);
     }    
