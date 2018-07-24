@@ -57,8 +57,7 @@ public class OldSpellingRule extends Rule {
     for (OldSpellingRuleWithSuggestion ruleWithSuggestion : data.get()) {
       Rule rule = ruleWithSuggestion.rule;
       RuleMatch[] matches = rule.match(sentence);
-      if (matches.length > 0) {
-        RuleMatch match = matches[0];
+      for (RuleMatch match : matches) {
         String matchedText = sentence.getText().substring(match.getFromPos(), match.getToPos());
         String textFromMatch = sentence.getText().substring(match.getFromPos());
         if (textFromMatch.startsWith("Schloß Holte")) {
@@ -67,7 +66,7 @@ public class OldSpellingRule extends Rule {
         String suggestion = matchedText.replace(ruleWithSuggestion.oldSpelling, ruleWithSuggestion.newSpelling);
         if (!suggestion.equals(matchedText)) {   // "Schlüsse" etc. is otherwise considered incorrect (inflected form of "Schluß")
           match.setSuggestedReplacement(suggestion);
-          ruleMatches.addAll(Arrays.asList(matches));
+          ruleMatches.add(match);
         }
       }
     }
