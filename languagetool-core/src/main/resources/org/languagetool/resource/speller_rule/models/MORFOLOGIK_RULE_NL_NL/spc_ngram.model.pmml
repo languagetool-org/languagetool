@@ -1,0 +1,3292 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<PMML xmlns="http://www.dmg.org/PMML-4_3" xmlns:data="http://jpmml.org/jpmml-model/InlineTable" version="4.3">
+	<Header>
+		<Application name="JPMML-XGBoost" version="1.3.1"/>
+		<Timestamp>2018-07-10T14:06:21Z</Timestamp>
+	</Header>
+	<DataDictionary>
+		<DataField name="_target" optype="categorical" dataType="string">
+			<Value value="0"/>
+			<Value value="1"/>
+		</DataField>
+		<DataField name="f0" optype="continuous" dataType="float"/>
+		<DataField name="f1" optype="continuous" dataType="float"/>
+		<DataField name="f2" optype="continuous" dataType="float"/>
+		<DataField name="f3" optype="continuous" dataType="float"/>
+		<DataField name="f4" optype="continuous" dataType="float"/>
+		<DataField name="f5" optype="continuous" dataType="float"/>
+		<DataField name="f6" optype="continuous" dataType="float"/>
+		<DataField name="f7" optype="continuous" dataType="float"/>
+		<DataField name="f8" optype="continuous" dataType="float"/>
+		<DataField name="f9" optype="continuous" dataType="float"/>
+	</DataDictionary>
+	<MiningModel functionName="classification" x-mathContext="float">
+		<MiningSchema>
+			<MiningField name="_target" usageType="target"/>
+			<MiningField name="f1"/>
+			<MiningField name="f4"/>
+			<MiningField name="f0"/>
+			<MiningField name="f2"/>
+			<MiningField name="f9"/>
+			<MiningField name="f7"/>
+			<MiningField name="f8"/>
+			<MiningField name="f3"/>
+			<MiningField name="f5"/>
+			<MiningField name="f6"/>
+		</MiningSchema>
+		<Segmentation multipleModelMethod="modelChain">
+			<Segment id="1">
+				<True/>
+				<MiningModel functionName="regression" x-mathContext="float">
+					<MiningSchema>
+						<MiningField name="f1"/>
+						<MiningField name="f4"/>
+						<MiningField name="f0"/>
+						<MiningField name="f2"/>
+						<MiningField name="f9"/>
+						<MiningField name="f7"/>
+						<MiningField name="f8"/>
+						<MiningField name="f3"/>
+						<MiningField name="f5"/>
+						<MiningField name="f6"/>
+					</MiningSchema>
+					<Output>
+						<OutputField name="xgbValue" optype="continuous" dataType="float" feature="predictedValue" isFinalResult="false"/>
+					</Output>
+					<Segmentation multipleModelMethod="sum">
+						<Segment id="1">
+							<True/>
+							<TreeModel functionName="regression" missingValueStrategy="none" noTrueChildStrategy="returnLastPrediction" splitCharacteristic="multiSplit" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="f0"/>
+									<MiningField name="f1"/>
+									<MiningField name="f2"/>
+									<MiningField name="f3"/>
+									<MiningField name="f5"/>
+									<MiningField name="f6"/>
+									<MiningField name="f7"/>
+									<MiningField name="f8"/>
+									<MiningField name="f9"/>
+								</MiningSchema>
+								<Node score="-0.5739857">
+									<True/>
+									<Node score="-0.484492">
+										<SimplePredicate field="f8" operator="greaterOrEqual" value="0.5"/>
+										<Node score="0.20748301">
+											<SimplePredicate field="f3" operator="greaterOrEqual" value="3.5636414E-13"/>
+											<Node score="-0.17254336">
+												<SimplePredicate field="f7" operator="greaterOrEqual" value="1.2260312E-12"/>
+												<Node score="0.50188684">
+													<SimplePredicate field="f5" operator="greaterOrEqual" value="1.3540143E-12"/>
+													<Node score="-0.15">
+														<SimplePredicate field="f0" operator="greaterOrEqual" value="3.5"/>
+													</Node>
+													<Node score="0.06666667">
+														<SimplePredicate field="f5" operator="greaterOrEqual" value="8.465068E-6"/>
+													</Node>
+												</Node>
+												<Node score="-0.28424865">
+													<SimplePredicate field="f9" operator="greaterOrEqual" value="1.5"/>
+													<Node score="-0.51789474">
+														<SimplePredicate field="f9" operator="greaterOrEqual" value="3.5"/>
+													</Node>
+												</Node>
+												<Node score="-0.0029654037">
+													<SimplePredicate field="f7" operator="greaterOrEqual" value="1.242836E-10"/>
+												</Node>
+											</Node>
+											<Node score="-0.5626943">
+												<SimplePredicate field="f6" operator="greaterOrEqual" value="3.5"/>
+												<Node score="0.018556701">
+													<SimplePredicate field="f5" operator="greaterOrEqual" value="1.629007E-13"/>
+													<Node score="-0.42000002">
+														<SimplePredicate field="f5" operator="greaterOrEqual" value="1.2668681E-12"/>
+													</Node>
+												</Node>
+												<Node score="-0.05454546">
+													<SimplePredicate field="f2" operator="greaterOrEqual" value="3.5"/>
+												</Node>
+											</Node>
+											<Node score="-0.50204086">
+												<SimplePredicate field="f3" operator="greaterOrEqual" value="1.2944951E-12"/>
+											</Node>
+											<Node score="0.013793104">
+												<SimplePredicate field="f9" operator="greaterOrEqual" value="1.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.0">
+											<SimplePredicate field="f2" operator="greaterOrEqual" value="3.5"/>
+											<Node score="-0.040000003">
+												<SimplePredicate field="f9" operator="greaterOrEqual" value="2.5"/>
+												<Node score="-0.55102044">
+													<SimplePredicate field="f9" operator="greaterOrEqual" value="4.5"/>
+												</Node>
+												<Node score="-0.36774194">
+													<SimplePredicate field="f5" operator="greaterOrEqual" value="6.087181E-19"/>
+												</Node>
+											</Node>
+											<Node score="-0.33333337">
+												<SimplePredicate field="f0" operator="greaterOrEqual" value="3.5"/>
+												<Node score="0.05915493">
+													<SimplePredicate field="f5" operator="greaterOrEqual" value="1.4233705E-22"/>
+												</Node>
+											</Node>
+											<Node score="-0.2169903">
+												<SimplePredicate field="f3" operator="greaterOrEqual" value="1.8620332E-19"/>
+											</Node>
+										</Node>
+										<Node score="-0.5667378">
+											<SimplePredicate field="f9" operator="greaterOrEqual" value="2.5"/>
+										</Node>
+										<Node score="-0.18631864">
+											<SimplePredicate field="f3" operator="greaterOrEqual" value="2.3919872E-15"/>
+											<Node score="-0.4790698">
+												<SimplePredicate field="f7" operator="greaterOrEqual" value="5.4459237E-13"/>
+											</Node>
+										</Node>
+										<Node score="-0.35056877">
+											<SimplePredicate field="f7" operator="greaterOrEqual" value="3.0993822E-17"/>
+										</Node>
+									</Node>
+									<Node score="-0.3794118">
+										<SimplePredicate field="f3" operator="greaterOrEqual" value="3.096308E-13"/>
+										<Node score="-0.53722334">
+											<SimplePredicate field="f7" operator="greaterOrEqual" value="1.0024364E-12"/>
+											<Node score="-0.05454546">
+												<SimplePredicate field="f2" operator="greaterOrEqual" value="4.5"/>
+											</Node>
+											<Node score="-0.40000004">
+												<SimplePredicate field="f0" operator="greaterOrEqual" value="4.5"/>
+												<Node score="-0.0">
+													<SimplePredicate field="f5" operator="greaterOrEqual" value="6.9105366E-13"/>
+												</Node>
+											</Node>
+											<Node score="-0.15">
+												<SimplePredicate field="f5" operator="greaterOrEqual" value="1.5289356E-8"/>
+											</Node>
+										</Node>
+										<Node score="-0.34285718">
+											<SimplePredicate field="f7" operator="greaterOrEqual" value="6.2679686E-14"/>
+											<Node score="0.15">
+												<SimplePredicate field="f7" operator="greaterOrEqual" value="4.778389E-13"/>
+											</Node>
+											<Node score="-0.02857143">
+												<SimplePredicate field="f1" operator="greaterOrEqual" value="3.860417E-18"/>
+											</Node>
+										</Node>
+										<Node score="-0.5419355">
+											<SimplePredicate field="f9" operator="greaterOrEqual" value="2.5"/>
+										</Node>
+										<Node score="-0.46938777">
+											<SimplePredicate field="f1" operator="greaterOrEqual" value="1.5079352E-15"/>
+										</Node>
+									</Node>
+									<Node score="-0.24000001">
+										<SimplePredicate field="f2" operator="greaterOrEqual" value="4.5"/>
+										<Node score="-0.0">
+											<SimplePredicate field="f3" operator="greaterOrEqual" value="1.8475282E-18"/>
+											<Node score="0.05454546">
+												<SimplePredicate field="f5" operator="greaterOrEqual" value="2.6155562E-12"/>
+											</Node>
+											<Node score="-0.50886077">
+												<SimplePredicate field="f1" operator="greaterOrEqual" value="3.2540872E-16"/>
+											</Node>
+										</Node>
+										<Node score="0.20000002">
+											<SimplePredicate field="f1" operator="greaterOrEqual" value="4.3695618E-15"/>
+										</Node>
+										<Node score="0.06666667">
+											<SimplePredicate field="f2" operator="greaterOrEqual" value="5.5"/>
+										</Node>
+									</Node>
+									<Node score="-0.15">
+										<SimplePredicate field="f7" operator="greaterOrEqual" value="3.3767617E-11"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="2">
+							<True/>
+							<TreeModel functionName="regression" missingValueStrategy="none" noTrueChildStrategy="returnLastPrediction" splitCharacteristic="multiSplit" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="f0"/>
+									<MiningField name="f1"/>
+									<MiningField name="f2"/>
+									<MiningField name="f3"/>
+									<MiningField name="f4"/>
+									<MiningField name="f5"/>
+									<MiningField name="f6"/>
+									<MiningField name="f7"/>
+									<MiningField name="f8"/>
+									<MiningField name="f9"/>
+								</MiningSchema>
+								<Node score="-0.1666154">
+									<True/>
+									<Node score="-0.34543017">
+										<SimplePredicate field="f8" operator="greaterOrEqual" value="0.5"/>
+										<Node score="-0.10206892">
+											<SimplePredicate field="f3" operator="greaterOrEqual" value="9.0513073E-13"/>
+											<Node score="-0.14434665">
+												<SimplePredicate field="f7" operator="greaterOrEqual" value="1.2260312E-12"/>
+												<Node score="0.13397571">
+													<SimplePredicate field="f7" operator="greaterOrEqual" value="8.100075E-11"/>
+													<Node score="-0.28562933">
+														<SimplePredicate field="f3" operator="greaterOrEqual" value="6.3069283E-10"/>
+														<Node score="0.43381518">
+															<SimplePredicate field="f1" operator="greaterOrEqual" value="6.267363E-11"/>
+														</Node>
+													</Node>
+													<Node score="0.35520956">
+														<SimplePredicate field="f5" operator="greaterOrEqual" value="1.5059239E-11"/>
+													</Node>
+												</Node>
+												<Node score="-0.28593788">
+													<SimplePredicate field="f9" operator="greaterOrEqual" value="1.5"/>
+													<Node score="0.12533474">
+														<SimplePredicate field="f4" operator="greaterOrEqual" value="4.5"/>
+													</Node>
+												</Node>
+												<Node score="0.01445623">
+													<SimplePredicate field="f5" operator="greaterOrEqual" value="2.2403441E-13"/>
+												</Node>
+											</Node>
+											<Node score="-0.43332583">
+												<SimplePredicate field="f6" operator="greaterOrEqual" value="3.5"/>
+												<Node score="0.15080304">
+													<SimplePredicate field="f5" operator="greaterOrEqual" value="1.629007E-13"/>
+													<Node score="-0.1637528">
+														<SimplePredicate field="f9" operator="greaterOrEqual" value="2.5"/>
+													</Node>
+												</Node>
+												<Node score="0.093021974">
+													<SimplePredicate field="f7" operator="greaterOrEqual" value="2.6650925E-13"/>
+												</Node>
+											</Node>
+											<Node score="0.3918751">
+												<SimplePredicate field="f7" operator="greaterOrEqual" value="4.5910527E-14"/>
+												<Node score="0.10097514">
+													<SimplePredicate field="f4" operator="greaterOrEqual" value="3.5"/>
+												</Node>
+											</Node>
+											<Node score="0.10367065">
+												<SimplePredicate field="f0" operator="greaterOrEqual" value="2.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.27748802">
+											<SimplePredicate field="f2" operator="greaterOrEqual" value="3.5"/>
+											<Node score="-0.1830709">
+												<SimplePredicate field="f3" operator="greaterOrEqual" value="1.823688E-16"/>
+												<Node score="-0.37607792">
+													<SimplePredicate field="f9" operator="greaterOrEqual" value="2.5"/>
+													<Node score="-0.2066391">
+														<SimplePredicate field="f5" operator="greaterOrEqual" value="1.613567E-13"/>
+													</Node>
+												</Node>
+												<Node score="0.06371225">
+													<SimplePredicate field="f6" operator="greaterOrEqual" value="5.5"/>
+												</Node>
+											</Node>
+											<Node score="-0.2173476">
+												<SimplePredicate field="f1" operator="greaterOrEqual" value="1.0359325E-15"/>
+												<Node score="0.067673184">
+													<SimplePredicate field="f5" operator="greaterOrEqual" value="2.4740843E-14"/>
+												</Node>
+											</Node>
+											<Node score="0.14066352">
+												<SimplePredicate field="f5" operator="greaterOrEqual" value="1.9919345E-22"/>
+											</Node>
+										</Node>
+										<Node score="-0.43285963">
+											<SimplePredicate field="f9" operator="greaterOrEqual" value="2.5"/>
+										</Node>
+										<Node score="-0.0066271704">
+											<SimplePredicate field="f6" operator="greaterOrEqual" value="4.5"/>
+											<Node score="0.43326154">
+												<SimplePredicate field="f3" operator="greaterOrEqual" value="8.988316E-16"/>
+											</Node>
+										</Node>
+										<Node score="-0.22440304">
+											<SimplePredicate field="f7" operator="greaterOrEqual" value="6.290194E-17"/>
+										</Node>
+									</Node>
+									<Node score="-0.24195023">
+										<SimplePredicate field="f3" operator="greaterOrEqual" value="3.096308E-13"/>
+										<Node score="-0.45317128">
+											<SimplePredicate field="f3" operator="greaterOrEqual" value="1.2944951E-12"/>
+											<Node score="-0.1210074">
+												<SimplePredicate field="f5" operator="greaterOrEqual" value="6.4748207E-12"/>
+											</Node>
+										</Node>
+										<Node score="0.04770715">
+											<SimplePredicate field="f7" operator="greaterOrEqual" value="1.1690078E-8"/>
+											<Node score="-0.16421324">
+												<SimplePredicate field="f5" operator="greaterOrEqual" value="6.4031495E-13"/>
+											</Node>
+											<Node score="0.33860394">
+												<SimplePredicate field="f1" operator="greaterOrEqual" value="4.524717E-15"/>
+											</Node>
+										</Node>
+										<Node score="-0.3993188">
+											<SimplePredicate field="f7" operator="greaterOrEqual" value="1.0024364E-12"/>
+											<Node score="-0.044155635">
+												<SimplePredicate field="f2" operator="greaterOrEqual" value="4.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.36686134">
+											<SimplePredicate field="f9" operator="greaterOrEqual" value="1.5"/>
+										</Node>
+									</Node>
+									<Node score="0.14400877">
+										<SimplePredicate field="f2" operator="greaterOrEqual" value="4.5"/>
+										<Node score="-0.0">
+											<SimplePredicate field="f3" operator="greaterOrEqual" value="1.8475282E-18"/>
+											<Node score="0.044155683">
+												<SimplePredicate field="f5" operator="greaterOrEqual" value="2.6155562E-12"/>
+											</Node>
+											<Node score="-0.389948">
+												<SimplePredicate field="f1" operator="greaterOrEqual" value="3.2540872E-16"/>
+											</Node>
+										</Node>
+										<Node score="-0.12025682">
+											<SimplePredicate field="f6" operator="greaterOrEqual" value="4.5"/>
+										</Node>
+									</Node>
+									<Node score="-0.40869847">
+										<SimplePredicate field="f2" operator="greaterOrEqual" value="3.5"/>
+										<Node score="-0.020383187">
+											<SimplePredicate field="f5" operator="greaterOrEqual" value="1.5165787E-12"/>
+										</Node>
+										<Node score="-0.1666154">
+											<SimplePredicate field="f0" operator="greaterOrEqual" value="4.5"/>
+										</Node>
+									</Node>
+									<Node score="-0.44565552">
+										<SimplePredicate field="f7" operator="greaterOrEqual" value="1.502351E-21"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="3">
+							<True/>
+							<TreeModel functionName="regression" missingValueStrategy="none" noTrueChildStrategy="returnLastPrediction" splitCharacteristic="multiSplit" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="f1"/>
+									<MiningField name="f2"/>
+									<MiningField name="f3"/>
+									<MiningField name="f4"/>
+									<MiningField name="f5"/>
+									<MiningField name="f6"/>
+									<MiningField name="f7"/>
+									<MiningField name="f8"/>
+									<MiningField name="f9"/>
+								</MiningSchema>
+								<Node score="-0.13670947">
+									<True/>
+									<Node score="-0.24353592">
+										<SimplePredicate field="f8" operator="greaterOrEqual" value="0.5"/>
+										<Node score="-0.23330693">
+											<SimplePredicate field="f3" operator="greaterOrEqual" value="9.0513073E-13"/>
+											<Node score="0.019420186">
+												<SimplePredicate field="f9" operator="greaterOrEqual" value="3.5"/>
+												<Node score="0.16440037">
+													<SimplePredicate field="f9" operator="greaterOrEqual" value="7.5"/>
+												</Node>
+												<Node score="-0.13227162">
+													<SimplePredicate field="f9" operator="greaterOrEqual" value="4.5"/>
+													<Node score="-0.40278074">
+														<SimplePredicate field="f1" operator="greaterOrEqual" value="5.1471036E-20"/>
+													</Node>
+												</Node>
+												<Node score="-0.28605464">
+													<SimplePredicate field="f1" operator="greaterOrEqual" value="4.72444E-19"/>
+												</Node>
+											</Node>
+											<Node score="-0.113885626">
+												<SimplePredicate field="f7" operator="greaterOrEqual" value="1.2260312E-12"/>
+												<Node score="0.20939095">
+													<SimplePredicate field="f5" operator="greaterOrEqual" value="1.3540143E-12"/>
+													<Node score="0.39737564">
+														<SimplePredicate field="f1" operator="greaterOrEqual" value="6.0553076E-11"/>
+													</Node>
+												</Node>
+												<Node score="0.008232523">
+													<SimplePredicate field="f7" operator="greaterOrEqual" value="1.3417682E-10"/>
+												</Node>
+											</Node>
+											<Node score="-0.4866538">
+												<SimplePredicate field="f7" operator="greaterOrEqual" value="1.5426856E-17"/>
+												<Node score="0.09020317">
+													<SimplePredicate field="f2" operator="greaterOrEqual" value="2.5"/>
+												</Node>
+											</Node>
+											<Node score="0.12576413">
+												<SimplePredicate field="f4" operator="greaterOrEqual" value="4.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.10091516">
+											<SimplePredicate field="f9" operator="greaterOrEqual" value="3.5"/>
+											<Node score="0.07561545">
+												<SimplePredicate field="f3" operator="greaterOrEqual" value="1.9075473E-13"/>
+											</Node>
+											<Node score="-0.3932541">
+												<SimplePredicate field="f3" operator="greaterOrEqual" value="6.256508E-21"/>
+											</Node>
+										</Node>
+										<Node score="0.08660126">
+											<SimplePredicate field="f2" operator="greaterOrEqual" value="3.5"/>
+											<Node score="-0.3050395">
+												<SimplePredicate field="f3" operator="greaterOrEqual" value="8.7805316E-15"/>
+												<Node score="-0.10229022">
+													<SimplePredicate field="f1" operator="greaterOrEqual" value="4.4856077E-18"/>
+												</Node>
+											</Node>
+											<Node score="-0.09122396">
+												<SimplePredicate field="f1" operator="greaterOrEqual" value="8.98273E-16"/>
+											</Node>
+										</Node>
+										<Node score="-0.07739788">
+											<SimplePredicate field="f3" operator="greaterOrEqual" value="2.3919872E-15"/>
+											<Node score="-0.29966068">
+												<SimplePredicate field="f7" operator="greaterOrEqual" value="9.729001E-13"/>
+											</Node>
+										</Node>
+										<Node score="0.034821525">
+											<SimplePredicate field="f6" operator="greaterOrEqual" value="4.5"/>
+										</Node>
+									</Node>
+									<Node score="-0.27190945">
+										<SimplePredicate field="f3" operator="greaterOrEqual" value="3.096308E-13"/>
+										<Node score="-0.3897185">
+											<SimplePredicate field="f3" operator="greaterOrEqual" value="1.2944951E-12"/>
+											<Node score="0.05148915">
+												<SimplePredicate field="f7" operator="greaterOrEqual" value="9.537499E-6"/>
+												<Node score="-0.28173533">
+													<SimplePredicate field="f3" operator="greaterOrEqual" value="1.2998333E-7"/>
+												</Node>
+											</Node>
+											<Node score="-0.10358024">
+												<SimplePredicate field="f5" operator="greaterOrEqual" value="6.4748207E-12"/>
+											</Node>
+										</Node>
+										<Node score="-0.061411105">
+											<SimplePredicate field="f7" operator="greaterOrEqual" value="4.0624037E-9"/>
+											<Node score="-0.22698347">
+												<SimplePredicate field="f5" operator="greaterOrEqual" value="1.0874346E-13"/>
+											</Node>
+											<Node score="0.37992778">
+												<SimplePredicate field="f1" operator="greaterOrEqual" value="4.524717E-15"/>
+											</Node>
+										</Node>
+										<Node score="-0.34200215">
+											<SimplePredicate field="f7" operator="greaterOrEqual" value="1.0024364E-12"/>
+											<Node score="-0.23495404">
+												<SimplePredicate field="f5" operator="greaterOrEqual" value="5.630522E-13"/>
+											</Node>
+										</Node>
+										<Node score="0.017768696">
+											<SimplePredicate field="f7" operator="greaterOrEqual" value="6.2679686E-14"/>
+										</Node>
+									</Node>
+									<Node score="0.030631872">
+										<SimplePredicate field="f2" operator="greaterOrEqual" value="4.5"/>
+										<Node score="-0.0">
+											<SimplePredicate field="f3" operator="greaterOrEqual" value="1.8475282E-18"/>
+											<Node score="0.03577314">
+												<SimplePredicate field="f5" operator="greaterOrEqual" value="2.6155562E-12"/>
+											</Node>
+											<Node score="-0.32332882">
+												<SimplePredicate field="f1" operator="greaterOrEqual" value="3.2540872E-16"/>
+											</Node>
+										</Node>
+										<Node score="0.17050904">
+											<SimplePredicate field="f1" operator="greaterOrEqual" value="4.3695618E-15"/>
+										</Node>
+										<Node score="-0.19936822">
+											<SimplePredicate field="f9" operator="greaterOrEqual" value="2.5"/>
+										</Node>
+									</Node>
+									<Node score="-0.11263365">
+										<SimplePredicate field="f2" operator="greaterOrEqual" value="3.5"/>
+										<Node score="-0.016901223">
+											<SimplePredicate field="f5" operator="greaterOrEqual" value="1.5165787E-12"/>
+										</Node>
+										<Node score="-0.34353143">
+											<SimplePredicate field="f5" operator="greaterOrEqual" value="4.702395E-21"/>
+										</Node>
+									</Node>
+									<Node score="-0.38090348">
+										<SimplePredicate field="f7" operator="greaterOrEqual" value="1.502351E-21"/>
+										<Node score="-0.09754813">
+											<SimplePredicate field="f7" operator="greaterOrEqual" value="2.6348913E-11"/>
+										</Node>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="4">
+							<True/>
+							<TreeModel functionName="regression" missingValueStrategy="none" noTrueChildStrategy="returnLastPrediction" splitCharacteristic="multiSplit" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="f0"/>
+									<MiningField name="f1"/>
+									<MiningField name="f2"/>
+									<MiningField name="f3"/>
+									<MiningField name="f4"/>
+									<MiningField name="f5"/>
+									<MiningField name="f7"/>
+									<MiningField name="f8"/>
+									<MiningField name="f9"/>
+								</MiningSchema>
+								<Node score="-0.112530895">
+									<True/>
+									<Node score="-0.1200562">
+										<SimplePredicate field="f8" operator="greaterOrEqual" value="0.5"/>
+										<Node score="-0.15640226">
+											<SimplePredicate field="f9" operator="greaterOrEqual" value="3.5"/>
+											<Node score="0.13525021">
+												<SimplePredicate field="f9" operator="greaterOrEqual" value="7.5"/>
+											</Node>
+											<Node score="-0.35799956">
+												<SimplePredicate field="f9" operator="greaterOrEqual" value="4.5"/>
+											</Node>
+											<Node score="0.014744535">
+												<SimplePredicate field="f3" operator="greaterOrEqual" value="1.9075473E-13"/>
+												<Node score="-0.2191175">
+													<SimplePredicate field="f1" operator="greaterOrEqual" value="4.72444E-19"/>
+												</Node>
+											</Node>
+											<Node score="-0.34767255">
+												<SimplePredicate field="f7" operator="greaterOrEqual" value="3.4538244E-18"/>
+											</Node>
+										</Node>
+										<Node score="0.0067363963">
+											<SimplePredicate field="f3" operator="greaterOrEqual" value="5.972568E-14"/>
+											<Node score="0.288619">
+												<SimplePredicate field="f9" operator="greaterOrEqual" value="1.5"/>
+												<Node score="0.24334206">
+													<SimplePredicate field="f4" operator="greaterOrEqual" value="4.5"/>
+													<Node score="-0.31146133">
+														<SimplePredicate field="f0" operator="greaterOrEqual" value="4.5"/>
+													</Node>
+												</Node>
+												<Node score="-0.1141097">
+													<SimplePredicate field="f5" operator="greaterOrEqual" value="6.994361E-21"/>
+												</Node>
+											</Node>
+											<Node score="0.40893912">
+												<SimplePredicate field="f3" operator="greaterOrEqual" value="1.7928548E-12"/>
+												<Node score="-0.21881114">
+													<SimplePredicate field="f0" operator="greaterOrEqual" value="1.5"/>
+												</Node>
+											</Node>
+											<Node score="0.16849266">
+												<SimplePredicate field="f7" operator="greaterOrEqual" value="1.4114974E-12"/>
+											</Node>
+										</Node>
+										<Node score="-0.12221975">
+											<SimplePredicate field="f5" operator="greaterOrEqual" value="3.241885E-8"/>
+											<Node score="0.2190393">
+												<SimplePredicate field="f7" operator="greaterOrEqual" value="1.5277064E-15"/>
+												<Node score="-0.29941463">
+													<SimplePredicate field="f2" operator="greaterOrEqual" value="3.5"/>
+												</Node>
+											</Node>
+											<Node score="-0.37127465">
+												<SimplePredicate field="f1" operator="greaterOrEqual" value="6.245096E-11"/>
+											</Node>
+										</Node>
+										<Node score="-0.26131904">
+											<SimplePredicate field="f7" operator="greaterOrEqual" value="1.2130091E-12"/>
+											<Node score="0.28010175">
+												<SimplePredicate field="f7" operator="greaterOrEqual" value="1.3897887E-12"/>
+											</Node>
+										</Node>
+										<Node score="0.5099518">
+											<SimplePredicate field="f7" operator="greaterOrEqual" value="6.158669E-14"/>
+										</Node>
+									</Node>
+									<Node score="-0.17140505">
+										<SimplePredicate field="f3" operator="greaterOrEqual" value="3.096308E-13"/>
+										<Node score="-0.3486131">
+											<SimplePredicate field="f3" operator="greaterOrEqual" value="1.2944951E-12"/>
+											<Node score="0.08869497">
+												<SimplePredicate field="f7" operator="greaterOrEqual" value="9.537499E-6"/>
+												<Node score="-0.26166716">
+													<SimplePredicate field="f3" operator="greaterOrEqual" value="1.5286883E-8"/>
+												</Node>
+											</Node>
+											<Node score="-0.088924766">
+												<SimplePredicate field="f5" operator="greaterOrEqual" value="6.4748207E-12"/>
+											</Node>
+										</Node>
+										<Node score="-0.054855507">
+											<SimplePredicate field="f7" operator="greaterOrEqual" value="2.601299E-9"/>
+											<Node score="-0.24359077">
+												<SimplePredicate field="f1" operator="greaterOrEqual" value="1.0874346E-13"/>
+												<Node score="-0.02463246">
+													<SimplePredicate field="f7" operator="greaterOrEqual" value="6.797076E-8"/>
+												</Node>
+											</Node>
+											<Node score="0.37765855">
+												<SimplePredicate field="f1" operator="greaterOrEqual" value="4.524717E-15"/>
+											</Node>
+										</Node>
+										<Node score="-0.2945572">
+											<SimplePredicate field="f7" operator="greaterOrEqual" value="1.0024364E-12"/>
+											<Node score="-0.1891156">
+												<SimplePredicate field="f5" operator="greaterOrEqual" value="5.630522E-13"/>
+											</Node>
+										</Node>
+										<Node score="-0.30368844">
+											<SimplePredicate field="f9" operator="greaterOrEqual" value="2.5"/>
+										</Node>
+									</Node>
+									<Node score="0.08042522">
+										<SimplePredicate field="f2" operator="greaterOrEqual" value="4.5"/>
+										<Node score="0.07642083">
+											<SimplePredicate field="f5" operator="greaterOrEqual" value="2.6155562E-12"/>
+										</Node>
+										<Node score="-0.004349878">
+											<SimplePredicate field="f5" operator="greaterOrEqual" value="1.2099116E-18"/>
+											<Node score="-0.28740984">
+												<SimplePredicate field="f3" operator="greaterOrEqual" value="1.8475282E-18"/>
+											</Node>
+										</Node>
+									</Node>
+									<Node score="-0.09288661">
+										<SimplePredicate field="f2" operator="greaterOrEqual" value="3.5"/>
+										<Node score="0.23325801">
+											<SimplePredicate field="f5" operator="greaterOrEqual" value="1.41785396E-14"/>
+											<Node score="-0.23875606">
+												<SimplePredicate field="f1" operator="greaterOrEqual" value="1.766841E-14"/>
+											</Node>
+										</Node>
+										<Node score="-0.32280147">
+											<SimplePredicate field="f5" operator="greaterOrEqual" value="4.702395E-21"/>
+										</Node>
+									</Node>
+									<Node score="-0.34966773">
+										<SimplePredicate field="f7" operator="greaterOrEqual" value="1.502351E-21"/>
+										<Node score="-0.3187107">
+											<SimplePredicate field="f3" operator="greaterOrEqual" value="8.50634E-16"/>
+										</Node>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="5">
+							<True/>
+							<TreeModel functionName="regression" missingValueStrategy="none" noTrueChildStrategy="returnLastPrediction" splitCharacteristic="multiSplit" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="f0"/>
+									<MiningField name="f1"/>
+									<MiningField name="f2"/>
+									<MiningField name="f3"/>
+									<MiningField name="f4"/>
+									<MiningField name="f5"/>
+									<MiningField name="f7"/>
+									<MiningField name="f8"/>
+									<MiningField name="f9"/>
+								</MiningSchema>
+								<Node score="-0.11288773">
+									<True/>
+									<Node score="-0.28691837">
+										<SimplePredicate field="f8" operator="greaterOrEqual" value="0.5"/>
+										<Node score="0.11423928">
+											<SimplePredicate field="f9" operator="greaterOrEqual" value="3.5"/>
+											<Node score="-0.26044872">
+												<SimplePredicate field="f9" operator="greaterOrEqual" value="4.5"/>
+												<Node score="0.11194795">
+													<SimplePredicate field="f9" operator="greaterOrEqual" value="7.5"/>
+												</Node>
+												<Node score="-0.3360997">
+													<SimplePredicate field="f2" operator="greaterOrEqual" value="1.5"/>
+												</Node>
+												<Node score="0.115743004">
+													<SimplePredicate field="f1" operator="greaterOrEqual" value="4.8819865E-14"/>
+												</Node>
+											</Node>
+											<Node score="0.020330708">
+												<SimplePredicate field="f3" operator="greaterOrEqual" value="1.9075473E-13"/>
+												<Node score="0.22896262">
+													<SimplePredicate field="f5" operator="greaterOrEqual" value="3.6555525E-16"/>
+													<Node score="-0.14480677">
+														<SimplePredicate field="f1" operator="greaterOrEqual" value="6.1112765E-16"/>
+													</Node>
+												</Node>
+												<Node score="-0.281022">
+													<SimplePredicate field="f5" operator="greaterOrEqual" value="2.9082479E-19"/>
+												</Node>
+											</Node>
+											<Node score="-0.3264664">
+												<SimplePredicate field="f7" operator="greaterOrEqual" value="3.547227E-17"/>
+											</Node>
+											<Node score="-0.26268855">
+												<SimplePredicate field="f1" operator="greaterOrEqual" value="1.5387243E-16"/>
+											</Node>
+										</Node>
+										<Node score="-0.035465173">
+											<SimplePredicate field="f3" operator="greaterOrEqual" value="1.4944492E-15"/>
+											<Node score="-0.23658383">
+												<SimplePredicate field="f7" operator="greaterOrEqual" value="1.2260312E-12"/>
+												<Node score="0.12773187">
+													<SimplePredicate field="f7" operator="greaterOrEqual" value="1.3417682E-10"/>
+													<Node score="-0.08794082">
+														<SimplePredicate field="f3" operator="greaterOrEqual" value="2.442389E-10"/>
+													</Node>
+												</Node>
+												<Node score="-0.07012727">
+													<SimplePredicate field="f3" operator="greaterOrEqual" value="5.695285E-14"/>
+												</Node>
+											</Node>
+											<Node score="-0.18050414">
+												<SimplePredicate field="f4" operator="greaterOrEqual" value="3.5"/>
+												<Node score="0.075696625">
+													<SimplePredicate field="f5" operator="greaterOrEqual" value="2.3521834E-13"/>
+												</Node>
+											</Node>
+											<Node score="0.07274081">
+												<SimplePredicate field="f3" operator="greaterOrEqual" value="5.2083717E-13"/>
+											</Node>
+										</Node>
+										<Node score="-0.02453271">
+											<SimplePredicate field="f2" operator="greaterOrEqual" value="3.5"/>
+											<Node score="0.07275502">
+												<SimplePredicate field="f3" operator="greaterOrEqual" value="3.0466658E-16"/>
+												<Node score="-0.22588755">
+													<SimplePredicate field="f5" operator="greaterOrEqual" value="6.059517E-16"/>
+												</Node>
+											</Node>
+											<Node score="0.15561864">
+												<SimplePredicate field="f5" operator="greaterOrEqual" value="2.4740843E-14"/>
+											</Node>
+										</Node>
+										<Node score="0.04611733">
+											<SimplePredicate field="f7" operator="greaterOrEqual" value="1.00652727E-16"/>
+											<Node score="-0.14550062">
+												<SimplePredicate field="f3" operator="greaterOrEqual" value="3.975827E-18"/>
+											</Node>
+										</Node>
+										<Node score="-0.096995465">
+											<SimplePredicate field="f3" operator="greaterOrEqual" value="1.2173526E-16"/>
+										</Node>
+									</Node>
+									<Node score="-0.07989232">
+										<SimplePredicate field="f3" operator="greaterOrEqual" value="3.096308E-13"/>
+										<Node score="-0.23229145">
+											<SimplePredicate field="f3" operator="greaterOrEqual" value="1.2944951E-12"/>
+											<Node score="-0.32726794">
+												<SimplePredicate field="f5" operator="greaterOrEqual" value="6.372842E-19"/>
+												<Node score="-0.07649986">
+													<SimplePredicate field="f5" operator="greaterOrEqual" value="6.4748207E-12"/>
+												</Node>
+											</Node>
+											<Node score="-0.2862006">
+												<SimplePredicate field="f3" operator="greaterOrEqual" value="1.5464922E-5"/>
+											</Node>
+											<Node score="0.20665343">
+												<SimplePredicate field="f3" operator="greaterOrEqual" value="4.0500375E-10"/>
+											</Node>
+										</Node>
+										<Node score="0.1932012">
+											<SimplePredicate field="f7" operator="greaterOrEqual" value="2.601299E-9"/>
+											<Node score="-0.2278207">
+												<SimplePredicate field="f1" operator="greaterOrEqual" value="3.717543E-17"/>
+												<Node score="0.049170174">
+													<SimplePredicate field="f1" operator="greaterOrEqual" value="4.524717E-15"/>
+												</Node>
+											</Node>
+										</Node>
+										<Node score="-0.27909034">
+											<SimplePredicate field="f7" operator="greaterOrEqual" value="1.0024364E-12"/>
+											<Node score="-0.20744161">
+												<SimplePredicate field="f1" operator="greaterOrEqual" value="7.820681E-16"/>
+											</Node>
+										</Node>
+										<Node score="-0.20947216">
+											<SimplePredicate field="f9" operator="greaterOrEqual" value="1.5"/>
+										</Node>
+									</Node>
+									<Node score="0.010124694">
+										<SimplePredicate field="f2" operator="greaterOrEqual" value="3.5"/>
+										<Node score="0.25837648">
+											<SimplePredicate field="f5" operator="greaterOrEqual" value="1.5165787E-12"/>
+											<Node score="-0.28298527">
+												<SimplePredicate field="f1" operator="greaterOrEqual" value="1.9093918E-9"/>
+											</Node>
+										</Node>
+										<Node score="-0.25879577">
+											<SimplePredicate field="f5" operator="greaterOrEqual" value="4.702395E-21"/>
+											<Node score="-0.10336491">
+												<SimplePredicate field="f0" operator="greaterOrEqual" value="4.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.058070045">
+											<SimplePredicate field="f9" operator="greaterOrEqual" value="2.5"/>
+										</Node>
+									</Node>
+									<Node score="0.09333712">
+										<SimplePredicate field="f3" operator="greaterOrEqual" value="8.50634E-16"/>
+										<Node score="-0.29150322">
+											<SimplePredicate field="f3" operator="greaterOrEqual" value="9.199644E-16"/>
+											<Node score="0.08782467">
+												<SimplePredicate field="f5" operator="greaterOrEqual" value="3.3291124E-7"/>
+											</Node>
+										</Node>
+									</Node>
+									<Node score="-0.32175025">
+										<SimplePredicate field="f7" operator="greaterOrEqual" value="6.731612E-22"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="6">
+							<True/>
+							<TreeModel functionName="regression" missingValueStrategy="none" noTrueChildStrategy="returnLastPrediction" splitCharacteristic="multiSplit" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="f0"/>
+									<MiningField name="f1"/>
+									<MiningField name="f2"/>
+									<MiningField name="f3"/>
+									<MiningField name="f4"/>
+									<MiningField name="f5"/>
+									<MiningField name="f6"/>
+									<MiningField name="f7"/>
+									<MiningField name="f8"/>
+									<MiningField name="f9"/>
+								</MiningSchema>
+								<Node score="-0.0967101">
+									<True/>
+									<Node score="-0.2208147">
+										<SimplePredicate field="f8" operator="greaterOrEqual" value="0.5"/>
+										<Node score="-0.2514479">
+											<SimplePredicate field="f9" operator="greaterOrEqual" value="2.5"/>
+											<Node score="-0.26584652">
+												<SimplePredicate field="f9" operator="greaterOrEqual" value="4.5"/>
+												<Node score="0.09305543">
+													<SimplePredicate field="f9" operator="greaterOrEqual" value="7.5"/>
+												</Node>
+												<Node score="-0.08985132">
+													<SimplePredicate field="f2" operator="greaterOrEqual" value="2.5"/>
+													<Node score="-0.32278425">
+														<SimplePredicate field="f1" operator="greaterOrEqual" value="5.1471036E-20"/>
+													</Node>
+												</Node>
+												<Node score="0.07678588">
+													<SimplePredicate field="f4" operator="greaterOrEqual" value="4.5"/>
+												</Node>
+											</Node>
+											<Node score="0.37010694">
+												<SimplePredicate field="f3" operator="greaterOrEqual" value="6.835396E-14"/>
+												<Node score="0.048097156">
+													<SimplePredicate field="f5" operator="greaterOrEqual" value="1.1523713E-20"/>
+													<Node score="-0.13895635">
+														<SimplePredicate field="f7" operator="greaterOrEqual" value="2.5129943E-16"/>
+													</Node>
+												</Node>
+											</Node>
+											<Node score="-0.31476194">
+												<SimplePredicate field="f7" operator="greaterOrEqual" value="9.236982E-15"/>
+											</Node>
+											<Node score="-0.02704767">
+												<SimplePredicate field="f2" operator="greaterOrEqual" value="3.5"/>
+											</Node>
+										</Node>
+										<Node score="0.031143622">
+											<SimplePredicate field="f3" operator="greaterOrEqual" value="1.4944492E-15"/>
+											<Node score="-0.03613844">
+												<SimplePredicate field="f7" operator="greaterOrEqual" value="1.2260312E-12"/>
+												<Node score="-0.14808106">
+													<SimplePredicate field="f1" operator="greaterOrEqual" value="3.8458216E-11"/>
+													<Node score="0.38432416">
+														<SimplePredicate field="f3" operator="greaterOrEqual" value="8.858981E-15"/>
+													</Node>
+												</Node>
+												<Node score="-0.16631292">
+													<SimplePredicate field="f3" operator="greaterOrEqual" value="5.0579096E-10"/>
+												</Node>
+											</Node>
+											<Node score="0.27013972">
+												<SimplePredicate field="f5" operator="greaterOrEqual" value="5.6960223E-9"/>
+												<Node score="-0.3479617">
+													<SimplePredicate field="f7" operator="greaterOrEqual" value="8.1597537E-19"/>
+												</Node>
+											</Node>
+											<Node score="-0.37624976">
+												<SimplePredicate field="f3" operator="greaterOrEqual" value="1.2944951E-12"/>
+											</Node>
+										</Node>
+										<Node score="-0.0056236805">
+											<SimplePredicate field="f2" operator="greaterOrEqual" value="3.5"/>
+											<Node score="0.10474841">
+												<SimplePredicate field="f3" operator="greaterOrEqual" value="3.0466658E-16"/>
+												<Node score="-0.17727298">
+													<SimplePredicate field="f1" operator="greaterOrEqual" value="6.059517E-16"/>
+												</Node>
+											</Node>
+											<Node score="0.13364549">
+												<SimplePredicate field="f1" operator="greaterOrEqual" value="2.5487828E-14"/>
+											</Node>
+										</Node>
+										<Node score="-0.0015206452">
+											<SimplePredicate field="f7" operator="greaterOrEqual" value="2.92796E-17"/>
+											<Node score="-0.10240923">
+												<SimplePredicate field="f3" operator="greaterOrEqual" value="3.975827E-18"/>
+											</Node>
+										</Node>
+										<Node score="0.15122399">
+											<SimplePredicate field="f6" operator="greaterOrEqual" value="4.5"/>
+										</Node>
+									</Node>
+									<Node score="-0.10962708">
+										<SimplePredicate field="f3" operator="greaterOrEqual" value="3.096308E-13"/>
+										<Node score="-0.07474776">
+											<SimplePredicate field="f3" operator="greaterOrEqual" value="1.2944951E-12"/>
+											<Node score="-0.30866727">
+												<SimplePredicate field="f5" operator="greaterOrEqual" value="6.372842E-19"/>
+												<Node score="-0.06590764">
+													<SimplePredicate field="f5" operator="greaterOrEqual" value="6.4748207E-12"/>
+												</Node>
+												<Node score="-0.11883698">
+													<SimplePredicate field="f7" operator="greaterOrEqual" value="9.537499E-6"/>
+												</Node>
+											</Node>
+											<Node score="-0.1834023">
+												<SimplePredicate field="f1" operator="greaterOrEqual" value="1.732831E-20"/>
+												<Node score="0.22385782">
+													<SimplePredicate field="f7" operator="greaterOrEqual" value="6.1845626E-8"/>
+												</Node>
+											</Node>
+											<Node score="-0.26770052">
+												<SimplePredicate field="f3" operator="greaterOrEqual" value="4.3406512E-10"/>
+											</Node>
+										</Node>
+										<Node score="-0.22381191">
+											<SimplePredicate field="f7" operator="greaterOrEqual" value="1.0024364E-12"/>
+											<Node score="-0.10993831">
+												<SimplePredicate field="f7" operator="greaterOrEqual" value="4.0747705E-10"/>
+												<Node score="0.108143434">
+													<SimplePredicate field="f1" operator="greaterOrEqual" value="4.524717E-15"/>
+												</Node>
+											</Node>
+											<Node score="-0.111991495">
+												<SimplePredicate field="f5" operator="greaterOrEqual" value="5.630522E-13"/>
+											</Node>
+										</Node>
+										<Node score="-0.2739769">
+											<SimplePredicate field="f9" operator="greaterOrEqual" value="2.5"/>
+											<Node score="-0.08464189">
+												<SimplePredicate field="f7" operator="greaterOrEqual" value="2.700873E-15"/>
+											</Node>
+										</Node>
+										<Node score="0.24206068">
+											<SimplePredicate field="f7" operator="greaterOrEqual" value="1.4388734E-13"/>
+										</Node>
+									</Node>
+									<Node score="0.008370233">
+										<SimplePredicate field="f2" operator="greaterOrEqual" value="3.5"/>
+										<Node score="0.20634139">
+											<SimplePredicate field="f5" operator="greaterOrEqual" value="1.5165787E-12"/>
+											<Node score="-0.24775946">
+												<SimplePredicate field="f1" operator="greaterOrEqual" value="1.9093918E-9"/>
+											</Node>
+										</Node>
+										<Node score="-0.2241412">
+											<SimplePredicate field="f5" operator="greaterOrEqual" value="4.702395E-21"/>
+											<Node score="-0.08049293">
+												<SimplePredicate field="f0" operator="greaterOrEqual" value="4.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.04999196">
+											<SimplePredicate field="f9" operator="greaterOrEqual" value="2.5"/>
+										</Node>
+									</Node>
+									<Node score="-0.08096201">
+										<SimplePredicate field="f3" operator="greaterOrEqual" value="2.4536796E-17"/>
+										<Node score="0.30792964">
+											<SimplePredicate field="f5" operator="greaterOrEqual" value="7.733662E-12"/>
+											<Node score="-0.19879787">
+												<SimplePredicate field="f5" operator="greaterOrEqual" value="4.476683E-10"/>
+											</Node>
+										</Node>
+										<Node score="-0.27990097">
+											<SimplePredicate field="f7" operator="greaterOrEqual" value="8.2012295E-20"/>
+										</Node>
+									</Node>
+									<Node score="0.02448684">
+										<SimplePredicate field="f7" operator="greaterOrEqual" value="1.0943966E-15"/>
+										<Node score="-0.297451">
+											<SimplePredicate field="f7" operator="greaterOrEqual" value="1.7283832E-15"/>
+										</Node>
+									</Node>
+									<Node score="-0.3227811">
+										<SimplePredicate field="f7" operator="greaterOrEqual" value="6.731612E-22"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="7">
+							<True/>
+							<TreeModel functionName="regression" missingValueStrategy="none" noTrueChildStrategy="returnLastPrediction" splitCharacteristic="multiSplit" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="f0"/>
+									<MiningField name="f1"/>
+									<MiningField name="f2"/>
+									<MiningField name="f3"/>
+									<MiningField name="f4"/>
+									<MiningField name="f5"/>
+									<MiningField name="f6"/>
+									<MiningField name="f7"/>
+									<MiningField name="f8"/>
+									<MiningField name="f9"/>
+								</MiningSchema>
+								<Node score="-0.08296425">
+									<True/>
+									<Node score="-0.06557019">
+										<SimplePredicate field="f8" operator="greaterOrEqual" value="0.5"/>
+										<Node score="0.08252148">
+											<SimplePredicate field="f9" operator="greaterOrEqual" value="3.5"/>
+											<Node score="-0.051191244">
+												<SimplePredicate field="f9" operator="greaterOrEqual" value="4.5"/>
+												<Node score="-0.07627145">
+													<SimplePredicate field="f2" operator="greaterOrEqual" value="1.5"/>
+													<Node score="-0.10002207">
+														<SimplePredicate field="f4" operator="greaterOrEqual" value="1.5"/>
+														<Node score="-0.3085083">
+															<SimplePredicate field="f1" operator="greaterOrEqual" value="5.1471036E-20"/>
+														</Node>
+													</Node>
+												</Node>
+												<Node score="0.23055655">
+													<SimplePredicate field="f1" operator="greaterOrEqual" value="4.5471138E-14"/>
+												</Node>
+												<Node score="-0.2478613">
+													<SimplePredicate field="f5" operator="greaterOrEqual" value="8.062902E-18"/>
+												</Node>
+											</Node>
+											<Node score="-0.1141522">
+												<SimplePredicate field="f3" operator="greaterOrEqual" value="1.9075473E-13"/>
+												<Node score="-0.2891186">
+													<SimplePredicate field="f4" operator="greaterOrEqual" value="5.5"/>
+												</Node>
+												<Node score="0.0959788">
+													<SimplePredicate field="f4" operator="greaterOrEqual" value="3.5"/>
+												</Node>
+											</Node>
+											<Node score="-0.3030121">
+												<SimplePredicate field="f7" operator="greaterOrEqual" value="6.4067577E-15"/>
+											</Node>
+											<Node score="-0.2012078">
+												<SimplePredicate field="f1" operator="greaterOrEqual" value="1.3006326E-16"/>
+											</Node>
+										</Node>
+										<Node score="0.33685586">
+											<SimplePredicate field="f3" operator="greaterOrEqual" value="9.0513073E-13"/>
+											<Node score="-0.054403033">
+												<SimplePredicate field="f9" operator="greaterOrEqual" value="1.5"/>
+												<Node score="0.4419844">
+													<SimplePredicate field="f4" operator="greaterOrEqual" value="4.5"/>
+													<Node score="-0.034813967">
+														<SimplePredicate field="f2" operator="greaterOrEqual" value="1.5"/>
+													</Node>
+												</Node>
+												<Node score="-0.2758826">
+													<SimplePredicate field="f5" operator="greaterOrEqual" value="1.922995E-10"/>
+												</Node>
+											</Node>
+											<Node score="0.019022403">
+												<SimplePredicate field="f0" operator="greaterOrEqual" value="1.5"/>
+												<Node score="-0.11862777">
+													<SimplePredicate field="f3" operator="greaterOrEqual" value="6.490962E-12"/>
+												</Node>
+											</Node>
+											<Node score="0.01233818">
+												<SimplePredicate field="f2" operator="greaterOrEqual" value="2.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.13233748">
+											<SimplePredicate field="f1" operator="greaterOrEqual" value="3.670674E-13"/>
+											<Node score="-0.28476915">
+												<SimplePredicate field="f5" operator="greaterOrEqual" value="3.241885E-8"/>
+												<Node score="0.017438864">
+													<SimplePredicate field="f7" operator="greaterOrEqual" value="1.5277064E-15"/>
+												</Node>
+											</Node>
+											<Node score="0.052299157">
+												<SimplePredicate field="f5" operator="greaterOrEqual" value="5.435026E-11"/>
+											</Node>
+										</Node>
+										<Node score="-0.06875024">
+											<SimplePredicate field="f5" operator="greaterOrEqual" value="3.418581E-13"/>
+											<Node score="0.30125833">
+												<SimplePredicate field="f3" operator="greaterOrEqual" value="4.3196397E-18"/>
+											</Node>
+										</Node>
+										<Node score="0.024049573">
+											<SimplePredicate field="f5" operator="greaterOrEqual" value="1.17357025E-14"/>
+										</Node>
+									</Node>
+									<Node score="-0.028754503">
+										<SimplePredicate field="f3" operator="greaterOrEqual" value="2.150863E-14"/>
+										<Node score="-0.083984405">
+											<SimplePredicate field="f3" operator="greaterOrEqual" value="1.2944951E-12"/>
+											<Node score="0.13841596">
+												<SimplePredicate field="f7" operator="greaterOrEqual" value="3.9377372E-7"/>
+												<Node score="-0.27314737">
+													<SimplePredicate field="f3" operator="greaterOrEqual" value="1.284845E-7"/>
+												</Node>
+												<Node score="-0.078131035">
+													<SimplePredicate field="f7" operator="greaterOrEqual" value="9.758995E-7"/>
+												</Node>
+											</Node>
+											<Node score="-0.2923279">
+												<SimplePredicate field="f5" operator="greaterOrEqual" value="4.0198546E-21"/>
+											</Node>
+										</Node>
+										<Node score="-0.05058303">
+											<SimplePredicate field="f7" operator="greaterOrEqual" value="4.747324E-15"/>
+											<Node score="-0.18382913">
+												<SimplePredicate field="f0" operator="greaterOrEqual" value="4.5"/>
+												<Node score="0.27098203">
+													<SimplePredicate field="f6" operator="greaterOrEqual" value="2.5"/>
+												</Node>
+											</Node>
+											<Node score="-0.18698564">
+												<SimplePredicate field="f2" operator="greaterOrEqual" value="1.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.08608417">
+											<SimplePredicate field="f9" operator="greaterOrEqual" value="1.5"/>
+											<Node score="-0.28116226">
+												<SimplePredicate field="f5" operator="greaterOrEqual" value="4.062253E-13"/>
+											</Node>
+										</Node>
+										<Node score="0.53207433">
+											<SimplePredicate field="f5" operator="greaterOrEqual" value="3.4576297E-11"/>
+										</Node>
+									</Node>
+									<Node score="-0.25782073">
+										<SimplePredicate field="f2" operator="greaterOrEqual" value="3.5"/>
+										<Node score="0.063948706">
+											<SimplePredicate field="f1" operator="greaterOrEqual" value="1.2101259E-15"/>
+											<Node score="0.15065394">
+												<SimplePredicate field="f5" operator="greaterOrEqual" value="1.5165787E-12"/>
+												<Node score="-0.13260667">
+													<SimplePredicate field="f5" operator="greaterOrEqual" value="1.3362033E-9"/>
+												</Node>
+											</Node>
+											<Node score="-0.22023293">
+												<SimplePredicate field="f5" operator="greaterOrEqual" value="2.4843126E-17"/>
+											</Node>
+										</Node>
+										<Node score="-0.25633737">
+											<SimplePredicate field="f9" operator="greaterOrEqual" value="3.5"/>
+										</Node>
+										<Node score="0.066927105">
+											<SimplePredicate field="f1" operator="greaterOrEqual" value="6.2663607E-22"/>
+										</Node>
+									</Node>
+									<Node score="-0.059822462">
+										<SimplePredicate field="f3" operator="greaterOrEqual" value="2.4536796E-17"/>
+										<Node score="0.13931835">
+											<SimplePredicate field="f5" operator="greaterOrEqual" value="7.733662E-12"/>
+											<Node score="-0.16759048">
+												<SimplePredicate field="f5" operator="greaterOrEqual" value="4.476683E-10"/>
+											</Node>
+										</Node>
+										<Node score="-0.2572755">
+											<SimplePredicate field="f7" operator="greaterOrEqual" value="8.2012295E-20"/>
+										</Node>
+									</Node>
+									<Node score="-0.03680929">
+										<SimplePredicate field="f7" operator="greaterOrEqual" value="4.6905185E-16"/>
+										<Node score="-0.27373695">
+											<SimplePredicate field="f9" operator="greaterOrEqual" value="1.5"/>
+										</Node>
+									</Node>
+									<Node score="-0.30996877">
+										<SimplePredicate field="f7" operator="greaterOrEqual" value="6.731612E-22"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="8">
+							<True/>
+							<TreeModel functionName="regression" missingValueStrategy="none" noTrueChildStrategy="returnLastPrediction" splitCharacteristic="multiSplit" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="f0"/>
+									<MiningField name="f1"/>
+									<MiningField name="f2"/>
+									<MiningField name="f3"/>
+									<MiningField name="f4"/>
+									<MiningField name="f5"/>
+									<MiningField name="f6"/>
+									<MiningField name="f7"/>
+									<MiningField name="f8"/>
+									<MiningField name="f9"/>
+								</MiningSchema>
+								<Node score="0.08277574">
+									<True/>
+									<Node score="-0.021814987">
+										<SimplePredicate field="f8" operator="greaterOrEqual" value="0.5"/>
+										<Node score="-0.2731346">
+											<SimplePredicate field="f9" operator="greaterOrEqual" value="3.5"/>
+											<Node score="-0.21967018">
+												<SimplePredicate field="f9" operator="greaterOrEqual" value="4.5"/>
+												<Node score="-0.06288555">
+													<SimplePredicate field="f2" operator="greaterOrEqual" value="2.5"/>
+													<Node score="-0.06778809">
+														<SimplePredicate field="f1" operator="greaterOrEqual" value="5.1471036E-20"/>
+														<Node score="-0.30191737">
+															<SimplePredicate field="f4" operator="greaterOrEqual" value="1.5"/>
+														</Node>
+													</Node>
+												</Node>
+												<Node score="0.18050566">
+													<SimplePredicate field="f5" operator="greaterOrEqual" value="7.4442283E-14"/>
+												</Node>
+												<Node score="-0.023931913">
+													<SimplePredicate field="f1" operator="greaterOrEqual" value="4.192065E-15"/>
+												</Node>
+											</Node>
+											<Node score="-0.18569222">
+												<SimplePredicate field="f3" operator="greaterOrEqual" value="1.9075473E-13"/>
+												<Node score="-0.26411158">
+													<SimplePredicate field="f4" operator="greaterOrEqual" value="5.5"/>
+												</Node>
+												<Node score="-0.004817669">
+													<SimplePredicate field="f6" operator="greaterOrEqual" value="2.5"/>
+												</Node>
+											</Node>
+											<Node score="0.17998478">
+												<SimplePredicate field="f2" operator="greaterOrEqual" value="3.5"/>
+												<Node score="-0.14653592">
+													<SimplePredicate field="f1" operator="greaterOrEqual" value="1.5069948E-16"/>
+												</Node>
+											</Node>
+										</Node>
+										<Node score="0.3305985">
+											<SimplePredicate field="f7" operator="greaterOrEqual" value="6.1090644E-10"/>
+											<Node score="-0.1833981">
+												<SimplePredicate field="f1" operator="greaterOrEqual" value="1.2644472E-16"/>
+												<Node score="-0.20014417">
+													<SimplePredicate field="f7" operator="greaterOrEqual" value="4.1262773E-8"/>
+													<Node score="0.22973494">
+														<SimplePredicate field="f1" operator="greaterOrEqual" value="1.6014653E-10"/>
+													</Node>
+												</Node>
+												<Node score="0.12182345">
+													<SimplePredicate field="f5" operator="greaterOrEqual" value="3.977555E-16"/>
+												</Node>
+											</Node>
+											<Node score="-0.19928183">
+												<SimplePredicate field="f3" operator="greaterOrEqual" value="1.0874506E-8"/>
+												<Node score="0.12275467">
+													<SimplePredicate field="f3" operator="greaterOrEqual" value="2.3881618E-8"/>
+												</Node>
+											</Node>
+											<Node score="0.08445662">
+												<SimplePredicate field="f7" operator="greaterOrEqual" value="1.565417E-8"/>
+											</Node>
+										</Node>
+										<Node score="0.33999497">
+											<SimplePredicate field="f3" operator="greaterOrEqual" value="2.56846E-11"/>
+											<Node score="0.32354534">
+												<SimplePredicate field="f0" operator="greaterOrEqual" value="1.5"/>
+												<Node score="-0.23282908">
+													<SimplePredicate field="f5" operator="greaterOrEqual" value="6.696448E-22"/>
+												</Node>
+											</Node>
+											<Node score="0.07582256">
+												<SimplePredicate field="f9" operator="greaterOrEqual" value="2.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.23807298">
+											<SimplePredicate field="f5" operator="greaterOrEqual" value="5.6960223E-9"/>
+											<Node score="0.14218092">
+												<SimplePredicate field="f7" operator="greaterOrEqual" value="1.5277064E-15"/>
+											</Node>
+										</Node>
+										<Node score="0.11964726">
+											<SimplePredicate field="f5" operator="greaterOrEqual" value="1.2479692E-12"/>
+										</Node>
+									</Node>
+									<Node score="-0.07796295">
+										<SimplePredicate field="f3" operator="greaterOrEqual" value="1.4269643E-13"/>
+										<Node score="-0.16855961">
+											<SimplePredicate field="f3" operator="greaterOrEqual" value="1.2944951E-12"/>
+											<Node score="-0.28147474">
+												<SimplePredicate field="f5" operator="greaterOrEqual" value="7.262145E-18"/>
+												<Node score="0.024278041">
+													<SimplePredicate field="f7" operator="greaterOrEqual" value="9.126318E-7"/>
+													<Node score="-0.21282284">
+														<SimplePredicate field="f9" operator="greaterOrEqual" value="1.5"/>
+													</Node>
+												</Node>
+											</Node>
+											<Node score="-0.24725243">
+												<SimplePredicate field="f3" operator="greaterOrEqual" value="1.6809264E-7"/>
+											</Node>
+											<Node score="0.26033574">
+												<SimplePredicate field="f3" operator="greaterOrEqual" value="1.0752695E-9"/>
+											</Node>
+										</Node>
+										<Node score="-0.07393437">
+											<SimplePredicate field="f9" operator="greaterOrEqual" value="4.5"/>
+											<Node score="0.053303238">
+												<SimplePredicate field="f1" operator="greaterOrEqual" value="9.7535166E-14"/>
+												<Node score="-0.16403665">
+													<SimplePredicate field="f5" operator="greaterOrEqual" value="1.1502954E-13"/>
+												</Node>
+											</Node>
+											<Node score="-0.28559715">
+												<SimplePredicate field="f6" operator="greaterOrEqual" value="2.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.13841195">
+											<SimplePredicate field="f7" operator="greaterOrEqual" value="1.0024364E-12"/>
+											<Node score="0.11576655">
+												<SimplePredicate field="f4" operator="greaterOrEqual" value="4.5"/>
+											</Node>
+										</Node>
+										<Node score="0.31226188">
+											<SimplePredicate field="f7" operator="greaterOrEqual" value="3.5390663E-13"/>
+										</Node>
+									</Node>
+									<Node score="0.08152568">
+										<SimplePredicate field="f2" operator="greaterOrEqual" value="4.5"/>
+										<Node score="-0.023425816">
+											<SimplePredicate field="f5" operator="greaterOrEqual" value="1.1380503E-14"/>
+											<Node score="0.07713579">
+												<SimplePredicate field="f5" operator="greaterOrEqual" value="2.3969543E-10"/>
+											</Node>
+											<Node score="-0.25421113">
+												<SimplePredicate field="f3" operator="greaterOrEqual" value="1.8475282E-18"/>
+											</Node>
+										</Node>
+										<Node score="0.44330758">
+											<SimplePredicate field="f5" operator="greaterOrEqual" value="1.087044E-15"/>
+										</Node>
+										<Node score="-0.14330766">
+											<SimplePredicate field="f9" operator="greaterOrEqual" value="1.5"/>
+										</Node>
+									</Node>
+									<Node score="0.4119644">
+										<SimplePredicate field="f7" operator="greaterOrEqual" value="1.0004187E-16"/>
+										<Node score="-0.21038263">
+											<SimplePredicate field="f7" operator="greaterOrEqual" value="1.06099E-16"/>
+											<Node score="0.25995228">
+												<SimplePredicate field="f5" operator="greaterOrEqual" value="1.3879571E-8"/>
+											</Node>
+										</Node>
+									</Node>
+									<Node score="-0.27538684">
+										<SimplePredicate field="f7" operator="greaterOrEqual" value="5.4965544E-20"/>
+										<Node score="-0.021364234">
+											<SimplePredicate field="f3" operator="greaterOrEqual" value="2.7793457E-14"/>
+										</Node>
+									</Node>
+									<Node score="-0.18734351">
+										<SimplePredicate field="f5" operator="greaterOrEqual" value="2.9662118E-18"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="9">
+							<True/>
+							<TreeModel functionName="regression" missingValueStrategy="none" noTrueChildStrategy="returnLastPrediction" splitCharacteristic="multiSplit" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="f0"/>
+									<MiningField name="f1"/>
+									<MiningField name="f2"/>
+									<MiningField name="f3"/>
+									<MiningField name="f4"/>
+									<MiningField name="f5"/>
+									<MiningField name="f7"/>
+									<MiningField name="f8"/>
+									<MiningField name="f9"/>
+								</MiningSchema>
+								<Node score="-0.06741131">
+									<True/>
+									<Node score="0.009586041">
+										<SimplePredicate field="f8" operator="greaterOrEqual" value="0.5"/>
+										<Node score="-0.20579909">
+											<SimplePredicate field="f9" operator="greaterOrEqual" value="2.5"/>
+											<Node score="-0.19548747">
+												<SimplePredicate field="f9" operator="greaterOrEqual" value="4.5"/>
+												<Node score="-0.05388197">
+													<SimplePredicate field="f2" operator="greaterOrEqual" value="2.5"/>
+													<Node score="-0.058082994">
+														<SimplePredicate field="f1" operator="greaterOrEqual" value="5.1471036E-20"/>
+														<Node score="-0.289621">
+															<SimplePredicate field="f4" operator="greaterOrEqual" value="1.5"/>
+														</Node>
+													</Node>
+												</Node>
+												<Node score="0.1397578">
+													<SimplePredicate field="f5" operator="greaterOrEqual" value="7.4442283E-14"/>
+												</Node>
+												<Node score="-0.029192846">
+													<SimplePredicate field="f1" operator="greaterOrEqual" value="3.939024E-15"/>
+												</Node>
+											</Node>
+											<Node score="0.31836084">
+												<SimplePredicate field="f3" operator="greaterOrEqual" value="6.835396E-14"/>
+												<Node score="-0.043139886">
+													<SimplePredicate field="f5" operator="greaterOrEqual" value="1.1523713E-20"/>
+													<Node score="-0.24442308">
+														<SimplePredicate field="f3" operator="greaterOrEqual" value="9.8945636E-11"/>
+													</Node>
+												</Node>
+												<Node score="0.08407244">
+													<SimplePredicate field="f0" operator="greaterOrEqual" value="3.5"/>
+												</Node>
+											</Node>
+											<Node score="-0.26333827">
+												<SimplePredicate field="f7" operator="greaterOrEqual" value="9.236982E-15"/>
+											</Node>
+											<Node score="0.007339816">
+												<SimplePredicate field="f2" operator="greaterOrEqual" value="3.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.39572617">
+											<SimplePredicate field="f4" operator="greaterOrEqual" value="4.5"/>
+											<Node score="0.3697911">
+												<SimplePredicate field="f5" operator="greaterOrEqual" value="3.9178767E-14"/>
+												<Node score="0.121978134">
+													<SimplePredicate field="f1" operator="greaterOrEqual" value="9.624621E-13"/>
+													<Node score="-0.23361887">
+														<SimplePredicate field="f9" operator="greaterOrEqual" value="1.5"/>
+													</Node>
+												</Node>
+												<Node score="0.0056682527">
+													<SimplePredicate field="f5" operator="greaterOrEqual" value="1.8793172E-12"/>
+												</Node>
+											</Node>
+											<Node score="0.16166246">
+												<SimplePredicate field="f0" operator="greaterOrEqual" value="4.5"/>
+												<Node score="-0.029854544">
+													<SimplePredicate field="f1" operator="greaterOrEqual" value="1.505223E-18"/>
+												</Node>
+											</Node>
+										</Node>
+										<Node score="0.21164611">
+											<SimplePredicate field="f4" operator="greaterOrEqual" value="3.5"/>
+											<Node score="-0.06432655">
+												<SimplePredicate field="f0" operator="greaterOrEqual" value="3.5"/>
+												<Node score="0.092326835">
+													<SimplePredicate field="f2" operator="greaterOrEqual" value="3.5"/>
+												</Node>
+											</Node>
+											<Node score="-0.38973188">
+												<SimplePredicate field="f0" operator="greaterOrEqual" value="2.5"/>
+											</Node>
+										</Node>
+										<Node score="0.44630212">
+											<SimplePredicate field="f7" operator="greaterOrEqual" value="1.3304225E-12"/>
+											<Node score="0.04940008">
+												<SimplePredicate field="f7" operator="greaterOrEqual" value="6.588464E-12"/>
+											</Node>
+										</Node>
+										<Node score="-0.05172972">
+											<SimplePredicate field="f7" operator="greaterOrEqual" value="1.2260312E-12"/>
+										</Node>
+									</Node>
+									<Node score="0.2704726">
+										<SimplePredicate field="f3" operator="greaterOrEqual" value="8.50634E-16"/>
+										<Node score="-0.30157015">
+											<SimplePredicate field="f9" operator="greaterOrEqual" value="3.5"/>
+											<Node score="0.11819396">
+												<SimplePredicate field="f3" operator="greaterOrEqual" value="3.1790803E-13"/>
+												<Node score="-0.26646143">
+													<SimplePredicate field="f9" operator="greaterOrEqual" value="4.5"/>
+													<Node score="-0.09863835">
+														<SimplePredicate field="f5" operator="greaterOrEqual" value="6.7594703E-15"/>
+													</Node>
+												</Node>
+												<Node score="-0.12370262">
+													<SimplePredicate field="f4" operator="greaterOrEqual" value="2.5"/>
+												</Node>
+											</Node>
+										</Node>
+										<Node score="-0.15284711">
+											<SimplePredicate field="f3" operator="greaterOrEqual" value="1.2944951E-12"/>
+											<Node score="-0.2602931">
+												<SimplePredicate field="f5" operator="greaterOrEqual" value="7.262145E-18"/>
+												<Node score="-0.10582631">
+													<SimplePredicate field="f7" operator="greaterOrEqual" value="9.126318E-7"/>
+												</Node>
+											</Node>
+											<Node score="0.08132389">
+												<SimplePredicate field="f7" operator="greaterOrEqual" value="3.3825543E-7"/>
+											</Node>
+										</Node>
+										<Node score="-0.1390066">
+											<SimplePredicate field="f3" operator="greaterOrEqual" value="9.199644E-16"/>
+											<Node score="-0.075688">
+												<SimplePredicate field="f3" operator="greaterOrEqual" value="1.0571134E-12"/>
+											</Node>
+										</Node>
+									</Node>
+									<Node score="-0.19919038">
+										<SimplePredicate field="f2" operator="greaterOrEqual" value="3.5"/>
+										<Node score="-0.22120772">
+											<SimplePredicate field="f5" operator="greaterOrEqual" value="4.0647043E-18"/>
+											<Node score="-0.19417612">
+												<SimplePredicate field="f5" operator="greaterOrEqual" value="2.864725E-13"/>
+												<Node score="0.1763087">
+													<SimplePredicate field="f3" operator="greaterOrEqual" value="3.3552184E-20"/>
+												</Node>
+											</Node>
+											<Node score="0.040511973">
+												<SimplePredicate field="f2" operator="greaterOrEqual" value="4.5"/>
+											</Node>
+										</Node>
+										<Node score="0.42070386">
+											<SimplePredicate field="f1" operator="greaterOrEqual" value="5.6890865E-20"/>
+											<Node score="0.065703526">
+												<SimplePredicate field="f5" operator="greaterOrEqual" value="1.4142772E-18"/>
+											</Node>
+										</Node>
+										<Node score="-0.07697249">
+											<SimplePredicate field="f1" operator="greaterOrEqual" value="1.0739582E-21"/>
+										</Node>
+									</Node>
+									<Node score="-0.27921456">
+										<SimplePredicate field="f5" operator="greaterOrEqual" value="4.1882747E-11"/>
+										<Node score="-0.089493334">
+											<SimplePredicate field="f3" operator="greaterOrEqual" value="2.332593E-17"/>
+											<Node score="0.2268813">
+												<SimplePredicate field="f7" operator="greaterOrEqual" value="2.4264096E-17"/>
+											</Node>
+										</Node>
+									</Node>
+									<Node score="-0.26114833">
+										<SimplePredicate field="f7" operator="greaterOrEqual" value="6.731612E-22"/>
+										<Node score="-0.21130444">
+											<SimplePredicate field="f7" operator="greaterOrEqual" value="8.093499E-16"/>
+										</Node>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="10">
+							<True/>
+							<TreeModel functionName="regression" missingValueStrategy="none" noTrueChildStrategy="returnLastPrediction" splitCharacteristic="multiSplit" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="f0"/>
+									<MiningField name="f1"/>
+									<MiningField name="f2"/>
+									<MiningField name="f3"/>
+									<MiningField name="f4"/>
+									<MiningField name="f5"/>
+									<MiningField name="f6"/>
+									<MiningField name="f7"/>
+									<MiningField name="f8"/>
+									<MiningField name="f9"/>
+								</MiningSchema>
+								<Node score="-0.2738154">
+									<True/>
+									<Node score="-0.17975509">
+										<SimplePredicate field="f8" operator="greaterOrEqual" value="0.5"/>
+										<Node score="-0.08488287">
+											<SimplePredicate field="f3" operator="greaterOrEqual" value="9.0513073E-13"/>
+											<Node score="-0.25336298">
+												<SimplePredicate field="f6" operator="greaterOrEqual" value="3.5"/>
+												<Node score="-0.36228275">
+													<SimplePredicate field="f5" operator="greaterOrEqual" value="3.3374146E-16"/>
+													<Node score="-0.24164383">
+														<SimplePredicate field="f7" operator="greaterOrEqual" value="5.2270522E-20"/>
+														<Node score="0.0836779">
+															<SimplePredicate field="f4" operator="greaterOrEqual" value="2.5"/>
+														</Node>
+													</Node>
+												</Node>
+												<Node score="-0.10571147">
+													<SimplePredicate field="f2" operator="greaterOrEqual" value="4.5"/>
+													<Node score="0.2903895">
+														<SimplePredicate field="f1" operator="greaterOrEqual" value="5.1313206E-18"/>
+													</Node>
+												</Node>
+												<Node score="-0.0887065">
+													<SimplePredicate field="f7" operator="greaterOrEqual" value="1.4288044E-12"/>
+												</Node>
+											</Node>
+											<Node score="0.009559984">
+												<SimplePredicate field="f7" operator="greaterOrEqual" value="1.6884293E-15"/>
+												<Node score="0.0066715134">
+													<SimplePredicate field="f9" operator="greaterOrEqual" value="1.5"/>
+													<Node score="-0.07281601">
+														<SimplePredicate field="f1" operator="greaterOrEqual" value="6.1112765E-16"/>
+													</Node>
+												</Node>
+												<Node score="0.21383019">
+													<SimplePredicate field="f5" operator="greaterOrEqual" value="1.6261983E-10"/>
+												</Node>
+											</Node>
+											<Node score="-0.09100406">
+												<SimplePredicate field="f0" operator="greaterOrEqual" value="2.5"/>
+												<Node score="0.15321985">
+													<SimplePredicate field="f7" operator="greaterOrEqual" value="2.4327021E-17"/>
+												</Node>
+											</Node>
+											<Node score="-0.32636762">
+												<SimplePredicate field="f7" operator="greaterOrEqual" value="1.0592875E-15"/>
+											</Node>
+										</Node>
+										<Node score="-0.04757366">
+											<SimplePredicate field="f0" operator="greaterOrEqual" value="2.5"/>
+											<Node score="0.5049902">
+												<SimplePredicate field="f7" operator="greaterOrEqual" value="1.2130091E-12"/>
+												<Node score="-0.1893772">
+													<SimplePredicate field="f3" operator="greaterOrEqual" value="8.921683E-17"/>
+													<Node score="0.22313881">
+														<SimplePredicate field="f3" operator="greaterOrEqual" value="1.1214745E-13"/>
+													</Node>
+												</Node>
+												<Node score="-0.30363148">
+													<SimplePredicate field="f9" operator="greaterOrEqual" value="1.5"/>
+												</Node>
+											</Node>
+											<Node score="0.27489206">
+												<SimplePredicate field="f7" operator="greaterOrEqual" value="2.2365776E-14"/>
+												<Node score="-0.062868096">
+													<SimplePredicate field="f3" operator="greaterOrEqual" value="4.7949475E-14"/>
+												</Node>
+											</Node>
+											<Node score="0.038377956">
+												<SimplePredicate field="f9" operator="greaterOrEqual" value="1.5"/>
+											</Node>
+										</Node>
+										<Node score="0.35800907">
+											<SimplePredicate field="f2" operator="greaterOrEqual" value="5.5"/>
+											<Node score="0.08864066">
+												<SimplePredicate field="f2" operator="greaterOrEqual" value="6.5"/>
+											</Node>
+										</Node>
+										<Node score="0.3427444">
+											<SimplePredicate field="f7" operator="greaterOrEqual" value="1.4617828E-15"/>
+											<Node score="-0.0899166">
+												<SimplePredicate field="f7" operator="greaterOrEqual" value="1.9748349E-15"/>
+											</Node>
+										</Node>
+										<Node score="0.029581072">
+											<SimplePredicate field="f2" operator="greaterOrEqual" value="3.5"/>
+										</Node>
+									</Node>
+									<Node score="0.004353859">
+										<SimplePredicate field="f3" operator="greaterOrEqual" value="8.50634E-16"/>
+										<Node score="-0.29052398">
+											<SimplePredicate field="f9" operator="greaterOrEqual" value="3.5"/>
+											<Node score="0.09539401">
+												<SimplePredicate field="f3" operator="greaterOrEqual" value="3.1790803E-13"/>
+												<Node score="-0.22958665">
+													<SimplePredicate field="f9" operator="greaterOrEqual" value="4.5"/>
+													<Node score="-0.05051249">
+														<SimplePredicate field="f1" operator="greaterOrEqual" value="9.7535166E-14"/>
+													</Node>
+												</Node>
+												<Node score="-0.10006662">
+													<SimplePredicate field="f4" operator="greaterOrEqual" value="2.5"/>
+												</Node>
+											</Node>
+										</Node>
+										<Node score="-0.26150632">
+											<SimplePredicate field="f3" operator="greaterOrEqual" value="1.0335325E-8"/>
+										</Node>
+										<Node score="0.011911028">
+											<SimplePredicate field="f0" operator="greaterOrEqual" value="2.5"/>
+											<Node score="-0.08149175">
+												<SimplePredicate field="f7" operator="greaterOrEqual" value="5.382602E-16"/>
+											</Node>
+										</Node>
+										<Node score="-0.21334098">
+											<SimplePredicate field="f9" operator="greaterOrEqual" value="1.5"/>
+										</Node>
+									</Node>
+									<Node score="-0.2079236">
+										<SimplePredicate field="f2" operator="greaterOrEqual" value="3.5"/>
+										<Node score="0.13341625">
+											<SimplePredicate field="f5" operator="greaterOrEqual" value="1.0386232E-16"/>
+											<Node score="0.120856665">
+												<SimplePredicate field="f2" operator="greaterOrEqual" value="5.5"/>
+											</Node>
+											<Node score="-0.17511758">
+												<SimplePredicate field="f3" operator="greaterOrEqual" value="2.7406454E-22"/>
+											</Node>
+										</Node>
+										<Node score="0.015768498">
+											<SimplePredicate field="f1" operator="greaterOrEqual" value="5.6890865E-20"/>
+											<Node score="0.34489053">
+												<SimplePredicate field="f3" operator="greaterOrEqual" value="1.3167945E-16"/>
+											</Node>
+										</Node>
+										<Node score="-0.06349061">
+											<SimplePredicate field="f1" operator="greaterOrEqual" value="1.0739582E-21"/>
+										</Node>
+									</Node>
+									<Node score="-0.2667795">
+										<SimplePredicate field="f5" operator="greaterOrEqual" value="4.1882747E-11"/>
+										<Node score="-0.046245895">
+											<SimplePredicate field="f3" operator="greaterOrEqual" value="2.332593E-17"/>
+											<Node score="0.27399486">
+												<SimplePredicate field="f7" operator="greaterOrEqual" value="1.9703805E-16"/>
+											</Node>
+										</Node>
+									</Node>
+									<Node score="0.4266086">
+										<SimplePredicate field="f7" operator="greaterOrEqual" value="1.0004187E-16"/>
+										<Node score="-0.22024997">
+											<SimplePredicate field="f7" operator="greaterOrEqual" value="1.0718147E-16"/>
+										</Node>
+									</Node>
+									<Node score="-0.1816971">
+										<SimplePredicate field="f3" operator="greaterOrEqual" value="8.1939876E-17"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="11">
+							<True/>
+							<TreeModel functionName="regression" missingValueStrategy="none" noTrueChildStrategy="returnLastPrediction" splitCharacteristic="multiSplit" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="f0"/>
+									<MiningField name="f1"/>
+									<MiningField name="f2"/>
+									<MiningField name="f3"/>
+									<MiningField name="f4"/>
+									<MiningField name="f5"/>
+									<MiningField name="f6"/>
+									<MiningField name="f7"/>
+									<MiningField name="f8"/>
+									<MiningField name="f9"/>
+								</MiningSchema>
+								<Node score="-0.20930782">
+									<True/>
+									<Node score="-0.22737493">
+										<SimplePredicate field="f8" operator="greaterOrEqual" value="0.5"/>
+										<Node score="-0.013898885">
+											<SimplePredicate field="f9" operator="greaterOrEqual" value="4.5"/>
+											<Node score="-0.032025155">
+												<SimplePredicate field="f2" operator="greaterOrEqual" value="2.5"/>
+												<Node score="-0.03988694">
+													<SimplePredicate field="f1" operator="greaterOrEqual" value="5.1471036E-20"/>
+													<Node score="-0.27267128">
+														<SimplePredicate field="f4" operator="greaterOrEqual" value="1.5"/>
+													</Node>
+												</Node>
+											</Node>
+											<Node score="0.16075443">
+												<SimplePredicate field="f4" operator="greaterOrEqual" value="4.5"/>
+											</Node>
+											<Node score="-0.008057705">
+												<SimplePredicate field="f9" operator="greaterOrEqual" value="5.5"/>
+											</Node>
+											<Node score="-0.22439714">
+												<SimplePredicate field="f5" operator="greaterOrEqual" value="1.8536386E-17"/>
+											</Node>
+										</Node>
+										<Node score="0.63519603">
+											<SimplePredicate field="f3" operator="greaterOrEqual" value="2.3919872E-15"/>
+											<Node score="0.008311582">
+												<SimplePredicate field="f3" operator="greaterOrEqual" value="2.4992372E-15"/>
+												<Node score="0.1953459">
+													<SimplePredicate field="f5" operator="greaterOrEqual" value="8.165141E-17"/>
+													<Node score="0.009093233">
+														<SimplePredicate field="f5" operator="greaterOrEqual" value="1.2001885E-16"/>
+													</Node>
+												</Node>
+												<Node score="-0.123997256">
+													<SimplePredicate field="f1" operator="greaterOrEqual" value="2.7260678E-17"/>
+												</Node>
+											</Node>
+										</Node>
+										<Node score="-0.04193155">
+											<SimplePredicate field="f2" operator="greaterOrEqual" value="3.5"/>
+											<Node score="-0.2025984">
+												<SimplePredicate field="f5" operator="greaterOrEqual" value="9.240647E-16"/>
+												<Node score="0.014429617">
+													<SimplePredicate field="f5" operator="greaterOrEqual" value="1.9217246E-15"/>
+												</Node>
+											</Node>
+											<Node score="0.18075664">
+												<SimplePredicate field="f5" operator="greaterOrEqual" value="1.02763194E-19"/>
+											</Node>
+										</Node>
+										<Node score="-0.026527409">
+											<SimplePredicate field="f7" operator="greaterOrEqual" value="3.0993822E-17"/>
+											<Node score="-0.2617388">
+												<SimplePredicate field="f3" operator="greaterOrEqual" value="2.176662E-15"/>
+											</Node>
+										</Node>
+										<Node score="-0.06978642">
+											<SimplePredicate field="f3" operator="greaterOrEqual" value="2.491095E-18"/>
+										</Node>
+									</Node>
+									<Node score="-0.008692075">
+										<SimplePredicate field="f3" operator="greaterOrEqual" value="1.0571134E-12"/>
+										<Node score="-0.02402756">
+											<SimplePredicate field="f3" operator="greaterOrEqual" value="1.2944951E-12"/>
+											<Node score="0.21290107">
+												<SimplePredicate field="f7" operator="greaterOrEqual" value="3.9377372E-7"/>
+												<Node score="-0.21868198">
+													<SimplePredicate field="f3" operator="greaterOrEqual" value="1.284845E-7"/>
+												</Node>
+												<Node score="-0.029216522">
+													<SimplePredicate field="f7" operator="greaterOrEqual" value="9.758995E-7"/>
+												</Node>
+											</Node>
+											<Node score="-0.26246575">
+												<SimplePredicate field="f5" operator="greaterOrEqual" value="4.0198546E-21"/>
+												<Node score="-0.1386557">
+													<SimplePredicate field="f5" operator="greaterOrEqual" value="4.2170708E-14"/>
+												</Node>
+											</Node>
+										</Node>
+										<Node score="-0.048579752">
+											<SimplePredicate field="f6" operator="greaterOrEqual" value="3.5"/>
+											<Node score="0.2353424">
+												<SimplePredicate field="f2" operator="greaterOrEqual" value="4.5"/>
+											</Node>
+											<Node score="-0.2676289">
+												<SimplePredicate field="f0" operator="greaterOrEqual" value="2.5"/>
+											</Node>
+										</Node>
+										<Node score="0.2671238">
+											<SimplePredicate field="f7" operator="greaterOrEqual" value="8.715203E-13"/>
+											<Node score="-0.07264798">
+												<SimplePredicate field="f1" operator="greaterOrEqual" value="1.1533801E-20"/>
+											</Node>
+										</Node>
+										<Node score="0.32850128">
+											<SimplePredicate field="f7" operator="greaterOrEqual" value="6.2679686E-14"/>
+										</Node>
+									</Node>
+									<Node score="0.08364445">
+										<SimplePredicate field="f2" operator="greaterOrEqual" value="3.5"/>
+										<Node score="-0.11744462">
+											<SimplePredicate field="f5" operator="greaterOrEqual" value="1.41785396E-14"/>
+											<Node score="-0.15170847">
+												<SimplePredicate field="f9" operator="greaterOrEqual" value="1.5"/>
+												<Node score="0.17422944">
+													<SimplePredicate field="f3" operator="greaterOrEqual" value="1.2491664E-13"/>
+												</Node>
+											</Node>
+											<Node score="0.54092526">
+												<SimplePredicate field="f0" operator="greaterOrEqual" value="2.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.048596166">
+											<SimplePredicate field="f2" operator="greaterOrEqual" value="4.5"/>
+											<Node score="0.35583436">
+												<SimplePredicate field="f5" operator="greaterOrEqual" value="1.087044E-15"/>
+											</Node>
+										</Node>
+										<Node score="-0.15921912">
+											<SimplePredicate field="f5" operator="greaterOrEqual" value="4.702395E-21"/>
+										</Node>
+									</Node>
+									<Node score="0.4102609">
+										<SimplePredicate field="f7" operator="greaterOrEqual" value="1.4774908E-15"/>
+										<Node score="-0.25885308">
+											<SimplePredicate field="f7" operator="greaterOrEqual" value="1.835791E-15"/>
+											<Node score="-0.104994096">
+												<SimplePredicate field="f1" operator="greaterOrEqual" value="5.2886123E-18"/>
+											</Node>
+										</Node>
+										<Node score="-0.04236712">
+											<SimplePredicate field="f9" operator="greaterOrEqual" value="1.5"/>
+										</Node>
+									</Node>
+									<Node score="-0.01473085">
+										<SimplePredicate field="f9" operator="greaterOrEqual" value="1.5"/>
+										<Node score="-0.2376901">
+											<SimplePredicate field="f7" operator="greaterOrEqual" value="8.2012295E-20"/>
+										</Node>
+									</Node>
+									<Node score="-0.061197247">
+										<SimplePredicate field="f7" operator="greaterOrEqual" value="1.0004187E-16"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="12">
+							<True/>
+							<TreeModel functionName="regression" missingValueStrategy="none" noTrueChildStrategy="returnLastPrediction" splitCharacteristic="multiSplit" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="f0"/>
+									<MiningField name="f1"/>
+									<MiningField name="f2"/>
+									<MiningField name="f3"/>
+									<MiningField name="f4"/>
+									<MiningField name="f5"/>
+									<MiningField name="f7"/>
+									<MiningField name="f8"/>
+									<MiningField name="f9"/>
+								</MiningSchema>
+								<Node score="0.19728948">
+									<True/>
+									<Node score="-0.21663114">
+										<SimplePredicate field="f8" operator="greaterOrEqual" value="0.5"/>
+										<Node score="-0.21496515">
+											<SimplePredicate field="f9" operator="greaterOrEqual" value="2.5"/>
+											<Node score="-0.03522638">
+												<SimplePredicate field="f3" operator="greaterOrEqual" value="6.835396E-14"/>
+												<Node score="-7.1822107E-4">
+													<SimplePredicate field="f7" operator="greaterOrEqual" value="2.5129943E-16"/>
+													<Node score="0.006249175">
+														<SimplePredicate field="f7" operator="greaterOrEqual" value="1.2007469E-14"/>
+														<Node score="-0.14980994">
+															<SimplePredicate field="f9" operator="greaterOrEqual" value="4.5"/>
+														</Node>
+													</Node>
+													<Node score="-0.29965448">
+														<SimplePredicate field="f2" operator="greaterOrEqual" value="1.5"/>
+													</Node>
+												</Node>
+												<Node score="0.34252387">
+													<SimplePredicate field="f7" operator="greaterOrEqual" value="4.2197294E-20"/>
+													<Node score="0.08543153">
+														<SimplePredicate field="f5" operator="greaterOrEqual" value="9.90684E-17"/>
+													</Node>
+												</Node>
+												<Node score="-0.3267811">
+													<SimplePredicate field="f5" operator="greaterOrEqual" value="1.2224529E-12"/>
+												</Node>
+											</Node>
+											<Node score="-0.28177756">
+												<SimplePredicate field="f3" operator="greaterOrEqual" value="2.7793457E-14"/>
+											</Node>
+											<Node score="0.15506124">
+												<SimplePredicate field="f3" operator="greaterOrEqual" value="3.0661754E-15"/>
+												<Node score="-0.11291579">
+													<SimplePredicate field="f9" operator="greaterOrEqual" value="3.5"/>
+												</Node>
+											</Node>
+											<Node score="0.013133435">
+												<SimplePredicate field="f4" operator="greaterOrEqual" value="4.5"/>
+											</Node>
+										</Node>
+										<Node score="0.009758558">
+											<SimplePredicate field="f2" operator="greaterOrEqual" value="5.5"/>
+											<Node score="0.4524952">
+												<SimplePredicate field="f9" operator="greaterOrEqual" value="1.5"/>
+											</Node>
+											<Node score="0.25420886">
+												<SimplePredicate field="f1" operator="greaterOrEqual" value="1.4689991E-15"/>
+												<Node score="-0.051440444">
+													<SimplePredicate field="f0" operator="greaterOrEqual" value="2.5"/>
+												</Node>
+											</Node>
+											<Node score="0.39102975">
+												<SimplePredicate field="f1" operator="greaterOrEqual" value="1.5193074E-18"/>
+											</Node>
+										</Node>
+										<Node score="0.052738003">
+											<SimplePredicate field="f5" operator="greaterOrEqual" value="8.335905E-8"/>
+											<Node score="0.15497737">
+												<SimplePredicate field="f1" operator="greaterOrEqual" value="5.0125727E-6"/>
+											</Node>
+											<Node score="-0.30007207">
+												<SimplePredicate field="f7" operator="greaterOrEqual" value="1.1421853E-18"/>
+											</Node>
+										</Node>
+										<Node score="-0.008504799">
+											<SimplePredicate field="f5" operator="greaterOrEqual" value="1.2479692E-12"/>
+											<Node score="0.28403986">
+												<SimplePredicate field="f7" operator="greaterOrEqual" value="1.1741544E-14"/>
+											</Node>
+										</Node>
+										<Node score="-0.004736147">
+											<SimplePredicate field="f5" operator="greaterOrEqual" value="6.756388E-23"/>
+										</Node>
+									</Node>
+									<Node score="-0.08574293">
+										<SimplePredicate field="f3" operator="greaterOrEqual" value="1.4037885E-16"/>
+										<Node score="-0.274752">
+											<SimplePredicate field="f9" operator="greaterOrEqual" value="4.5"/>
+											<Node score="-0.026031425">
+												<SimplePredicate field="f5" operator="greaterOrEqual" value="1.6604001E-15"/>
+												<Node score="-0.22803815">
+													<SimplePredicate field="f5" operator="greaterOrEqual" value="8.556988E-15"/>
+													<Node score="-0.06308193">
+														<SimplePredicate field="f7" operator="greaterOrEqual" value="6.7172727E-13"/>
+													</Node>
+												</Node>
+												<Node score="0.13859126">
+													<SimplePredicate field="f5" operator="greaterOrEqual" value="2.269242E-15"/>
+												</Node>
+											</Node>
+										</Node>
+										<Node score="0.32877406">
+											<SimplePredicate field="f4" operator="greaterOrEqual" value="6.5"/>
+										</Node>
+										<Node score="-0.23689605">
+											<SimplePredicate field="f3" operator="greaterOrEqual" value="1.0335325E-8"/>
+										</Node>
+										<Node score="-0.032967456">
+											<SimplePredicate field="f3" operator="greaterOrEqual" value="1.0571134E-12"/>
+										</Node>
+									</Node>
+									<Node score="-0.22534491">
+										<SimplePredicate field="f7" operator="greaterOrEqual" value="9.294028E-20"/>
+										<Node score="-0.01587581">
+											<SimplePredicate field="f2" operator="greaterOrEqual" value="4.5"/>
+										</Node>
+										<Node score="0.20175166">
+											<SimplePredicate field="f7" operator="greaterOrEqual" value="1.0943966E-15"/>
+											<Node score="-0.22374749">
+												<SimplePredicate field="f7" operator="greaterOrEqual" value="2.3300174E-15"/>
+											</Node>
+										</Node>
+										<Node score="-0.10503127">
+											<SimplePredicate field="f5" operator="greaterOrEqual" value="2.3063573E-10"/>
+										</Node>
+									</Node>
+									<Node score="-0.19217812">
+										<SimplePredicate field="f5" operator="greaterOrEqual" value="1.3733456E-18"/>
+										<Node score="0.12921406">
+											<SimplePredicate field="f3" operator="greaterOrEqual" value="9.497355E-18"/>
+										</Node>
+										<Node score="0.1028947">
+											<SimplePredicate field="f2" operator="greaterOrEqual" value="5.5"/>
+										</Node>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="13">
+							<True/>
+							<TreeModel functionName="regression" missingValueStrategy="none" noTrueChildStrategy="returnLastPrediction" splitCharacteristic="multiSplit" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="f0"/>
+									<MiningField name="f1"/>
+									<MiningField name="f2"/>
+									<MiningField name="f3"/>
+									<MiningField name="f4"/>
+									<MiningField name="f5"/>
+									<MiningField name="f6"/>
+									<MiningField name="f7"/>
+									<MiningField name="f8"/>
+									<MiningField name="f9"/>
+								</MiningSchema>
+								<Node score="0.1719794">
+									<True/>
+									<Node score="0.007552302">
+										<SimplePredicate field="f8" operator="greaterOrEqual" value="0.5"/>
+										<Node score="0.15829991">
+											<SimplePredicate field="f1" operator="greaterOrEqual" value="1.205694E-12"/>
+											<Node score="-0.050748058">
+												<SimplePredicate field="f2" operator="greaterOrEqual" value="2.5"/>
+												<Node score="-0.31728595">
+													<SimplePredicate field="f3" operator="greaterOrEqual" value="1.2944951E-12"/>
+													<Node score="0.03534172">
+														<SimplePredicate field="f3" operator="greaterOrEqual" value="3.550435E-11"/>
+													</Node>
+												</Node>
+												<Node score="-0.061669827">
+													<SimplePredicate field="f9" operator="greaterOrEqual" value="1.5"/>
+													<Node score="-0.29082683">
+														<SimplePredicate field="f5" operator="greaterOrEqual" value="5.3237903E-10"/>
+													</Node>
+												</Node>
+												<Node score="0.048482325">
+													<SimplePredicate field="f0" operator="greaterOrEqual" value="2.5"/>
+												</Node>
+											</Node>
+											<Node score="-0.13174462">
+												<SimplePredicate field="f6" operator="greaterOrEqual" value="1.5"/>
+												<Node score="0.4920551">
+													<SimplePredicate field="f5" operator="greaterOrEqual" value="1.06344004E-13"/>
+													<Node score="0.24101889">
+														<SimplePredicate field="f2" operator="greaterOrEqual" value="1.5"/>
+													</Node>
+												</Node>
+											</Node>
+											<Node score="-0.20162337">
+												<SimplePredicate field="f0" operator="greaterOrEqual" value="2.5"/>
+												<Node score="0.054306943">
+													<SimplePredicate field="f9" operator="greaterOrEqual" value="2.5"/>
+												</Node>
+											</Node>
+											<Node score="-0.058620606">
+												<SimplePredicate field="f9" operator="greaterOrEqual" value="2.5"/>
+											</Node>
+										</Node>
+										<Node score="0.11285596">
+											<SimplePredicate field="f5" operator="greaterOrEqual" value="5.147987E-13"/>
+											<Node score="0.15693402">
+												<SimplePredicate field="f9" operator="greaterOrEqual" value="2.5"/>
+												<Node score="-0.027309181">
+													<SimplePredicate field="f1" operator="greaterOrEqual" value="1.1874726E-14"/>
+													<Node score="0.37537763">
+														<SimplePredicate field="f3" operator="greaterOrEqual" value="7.693563E-13"/>
+													</Node>
+												</Node>
+												<Node score="-0.13003127">
+													<SimplePredicate field="f3" operator="greaterOrEqual" value="8.694044E-15"/>
+												</Node>
+											</Node>
+											<Node score="0.250282">
+												<SimplePredicate field="f3" operator="greaterOrEqual" value="4.3196397E-18"/>
+												<Node score="-0.14809325">
+													<SimplePredicate field="f7" operator="greaterOrEqual" value="2.7428957E-9"/>
+												</Node>
+											</Node>
+											<Node score="-0.16396758">
+												<SimplePredicate field="f7" operator="greaterOrEqual" value="4.7721374E-20"/>
+											</Node>
+										</Node>
+										<Node score="0.0026696695">
+											<SimplePredicate field="f4" operator="greaterOrEqual" value="3.5"/>
+											<Node score="0.25267768">
+												<SimplePredicate field="f0" operator="greaterOrEqual" value="3.5"/>
+												<Node score="-0.013193493">
+													<SimplePredicate field="f6" operator="greaterOrEqual" value="1.5"/>
+												</Node>
+											</Node>
+											<Node score="-0.31820843">
+												<SimplePredicate field="f5" operator="greaterOrEqual" value="1.8932235E-20"/>
+											</Node>
+										</Node>
+										<Node score="-0.039634332">
+											<SimplePredicate field="f7" operator="greaterOrEqual" value="1.2260312E-12"/>
+											<Node score="0.058010653">
+												<SimplePredicate field="f7" operator="greaterOrEqual" value="1.3304225E-12"/>
+											</Node>
+										</Node>
+										<Node score="0.14028336">
+											<SimplePredicate field="f7" operator="greaterOrEqual" value="4.0441568E-14"/>
+										</Node>
+									</Node>
+									<Node score="0.02528089">
+										<SimplePredicate field="f3" operator="greaterOrEqual" value="1.4037885E-16"/>
+										<Node score="-0.26249528">
+											<SimplePredicate field="f9" operator="greaterOrEqual" value="4.5"/>
+											<Node score="-0.2341781">
+												<SimplePredicate field="f5" operator="greaterOrEqual" value="1.6604001E-15"/>
+												<Node score="0.066684134">
+													<SimplePredicate field="f9" operator="greaterOrEqual" value="5.5"/>
+												</Node>
+												<Node score="0.023033129">
+													<SimplePredicate field="f1" operator="greaterOrEqual" value="9.257158E-13"/>
+												</Node>
+											</Node>
+										</Node>
+										<Node score="0.11431972">
+											<SimplePredicate field="f3" operator="greaterOrEqual" value="1.2944951E-12"/>
+											<Node score="-0.21629973">
+												<SimplePredicate field="f5" operator="greaterOrEqual" value="7.262145E-18"/>
+												<Node score="-0.023285884">
+													<SimplePredicate field="f7" operator="greaterOrEqual" value="9.126318E-7"/>
+												</Node>
+											</Node>
+											<Node score="-0.17465542">
+												<SimplePredicate field="f3" operator="greaterOrEqual" value="1.6809264E-7"/>
+											</Node>
+										</Node>
+										<Node score="-0.055545725">
+											<SimplePredicate field="f7" operator="greaterOrEqual" value="4.2558023E-12"/>
+											<Node score="0.3124907">
+												<SimplePredicate field="f1" operator="greaterOrEqual" value="1.3737158E-15"/>
+											</Node>
+										</Node>
+										<Node score="-0.048441287">
+											<SimplePredicate field="f5" operator="greaterOrEqual" value="1.3034414E-18"/>
+										</Node>
+									</Node>
+									<Node score="-0.27517724">
+										<SimplePredicate field="f7" operator="greaterOrEqual" value="9.294028E-20"/>
+										<Node score="-0.04897084">
+											<SimplePredicate field="f7" operator="greaterOrEqual" value="1.3137095E-18"/>
+											<Node score="-0.17971137">
+												<SimplePredicate field="f7" operator="greaterOrEqual" value="1.608461E-18"/>
+												<Node score="-0.041857116">
+													<SimplePredicate field="f5" operator="greaterOrEqual" value="2.3063573E-10"/>
+												</Node>
+											</Node>
+											<Node score="0.3630523">
+												<SimplePredicate field="f1" operator="greaterOrEqual" value="1.5656845E-15"/>
+											</Node>
+										</Node>
+										<Node score="-0.012410856">
+											<SimplePredicate field="f3" operator="greaterOrEqual" value="2.5717464E-17"/>
+										</Node>
+									</Node>
+									<Node score="0.14865717">
+										<SimplePredicate field="f7" operator="greaterOrEqual" value="4.8612875E-20"/>
+									</Node>
+									<Node score="-0.2239197">
+										<SimplePredicate field="f3" operator="greaterOrEqual" value="5.412305E-21"/>
+										<Node score="-0.037257444">
+											<SimplePredicate field="f5" operator="greaterOrEqual" value="5.5361392E-14"/>
+										</Node>
+									</Node>
+									<Node score="-0.14266902">
+										<SimplePredicate field="f9" operator="greaterOrEqual" value="2.5"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="14">
+							<True/>
+							<TreeModel functionName="regression" missingValueStrategy="none" noTrueChildStrategy="returnLastPrediction" splitCharacteristic="multiSplit" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="f0"/>
+									<MiningField name="f1"/>
+									<MiningField name="f2"/>
+									<MiningField name="f3"/>
+									<MiningField name="f4"/>
+									<MiningField name="f5"/>
+									<MiningField name="f7"/>
+									<MiningField name="f8"/>
+									<MiningField name="f9"/>
+								</MiningSchema>
+								<Node score="-0.034824543">
+									<True/>
+									<Node score="-0.012327072">
+										<SimplePredicate field="f3" operator="greaterOrEqual" value="9.0513073E-13"/>
+										<Node score="-0.22481792">
+											<SimplePredicate field="f7" operator="greaterOrEqual" value="7.902014E-15"/>
+											<Node score="0.27186424">
+												<SimplePredicate field="f7" operator="greaterOrEqual" value="1.1007972E-14"/>
+												<Node score="-0.005113383">
+													<SimplePredicate field="f7" operator="greaterOrEqual" value="1.0234239E-12"/>
+													<Node score="0.28299838">
+														<SimplePredicate field="f1" operator="greaterOrEqual" value="1.6717383E-11"/>
+														<Node score="-0.06820405">
+															<SimplePredicate field="f3" operator="greaterOrEqual" value="2.4996561E-5"/>
+														</Node>
+													</Node>
+													<Node score="-0.082776606">
+														<SimplePredicate field="f3" operator="greaterOrEqual" value="1.4097841E-10"/>
+													</Node>
+												</Node>
+												<Node score="0.2139286">
+													<SimplePredicate field="f7" operator="greaterOrEqual" value="4.5910527E-14"/>
+													<Node score="0.36980507">
+														<SimplePredicate field="f7" operator="greaterOrEqual" value="3.798369E-13"/>
+													</Node>
+												</Node>
+												<Node score="-0.049498428">
+													<SimplePredicate field="f7" operator="greaterOrEqual" value="1.13463926E-14"/>
+												</Node>
+											</Node>
+											<Node score="-0.36383438">
+												<SimplePredicate field="f7" operator="greaterOrEqual" value="8.947584E-15"/>
+												<Node score="-0.23936133">
+													<SimplePredicate field="f7" operator="greaterOrEqual" value="9.637836E-15"/>
+													<Node score="0.055059817">
+														<SimplePredicate field="f1" operator="greaterOrEqual" value="1.3186681E-15"/>
+													</Node>
+												</Node>
+											</Node>
+											<Node score="-0.2122726">
+												<SimplePredicate field="f7" operator="greaterOrEqual" value="8.506066E-15"/>
+												<Node score="0.109630354">
+													<SimplePredicate field="f1" operator="greaterOrEqual" value="4.128271E-17"/>
+												</Node>
+											</Node>
+											<Node score="0.10248731">
+												<SimplePredicate field="f5" operator="greaterOrEqual" value="1.8735288E-10"/>
+											</Node>
+										</Node>
+										<Node score="0.25867304">
+											<SimplePredicate field="f4" operator="greaterOrEqual" value="3.5"/>
+											<Node score="-0.105120905">
+												<SimplePredicate field="f1" operator="greaterOrEqual" value="1.7720579E-19"/>
+												<Node score="0.17489234">
+													<SimplePredicate field="f1" operator="greaterOrEqual" value="2.5921978E-13"/>
+													<Node score="-0.13205793">
+														<SimplePredicate field="f7" operator="greaterOrEqual" value="1.5545586E-16"/>
+													</Node>
+												</Node>
+												<Node score="-0.34889415">
+													<SimplePredicate field="f1" operator="greaterOrEqual" value="1.941963E-13"/>
+												</Node>
+											</Node>
+											<Node score="0.14773205">
+												<SimplePredicate field="f1" operator="greaterOrEqual" value="9.1467306E-21"/>
+												<Node score="0.5230905">
+													<SimplePredicate field="f0" operator="greaterOrEqual" value="3.5"/>
+												</Node>
+											</Node>
+											<Node score="-0.16733952">
+												<SimplePredicate field="f9" operator="greaterOrEqual" value="1.5"/>
+											</Node>
+										</Node>
+										<Node score="0.07681073">
+											<SimplePredicate field="f0" operator="greaterOrEqual" value="2.5"/>
+											<Node score="0.37168118">
+												<SimplePredicate field="f5" operator="greaterOrEqual" value="4.608546E-13"/>
+												<Node score="-0.17980778">
+													<SimplePredicate field="f3" operator="greaterOrEqual" value="1.2944951E-12"/>
+												</Node>
+											</Node>
+											<Node score="-0.330635">
+												<SimplePredicate field="f1" operator="greaterOrEqual" value="4.2478868E-13"/>
+											</Node>
+										</Node>
+										<Node score="0.38206577">
+											<SimplePredicate field="f7" operator="greaterOrEqual" value="2.5315545E-15"/>
+											<Node score="0.038049005">
+												<SimplePredicate field="f8" operator="greaterOrEqual" value="0.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.23413368">
+											<SimplePredicate field="f9" operator="greaterOrEqual" value="1.5"/>
+										</Node>
+									</Node>
+									<Node score="-0.2713691">
+										<SimplePredicate field="f9" operator="greaterOrEqual" value="2.5"/>
+										<Node score="0.17642595">
+											<SimplePredicate field="f2" operator="greaterOrEqual" value="3.5"/>
+											<Node score="0.00516157">
+												<SimplePredicate field="f1" operator="greaterOrEqual" value="8.49159E-18"/>
+												<Node score="-0.23017319">
+													<SimplePredicate field="f1" operator="greaterOrEqual" value="3.839464E-15"/>
+													<Node score="0.0076829777">
+														<SimplePredicate field="f1" operator="greaterOrEqual" value="1.33920474E-14"/>
+													</Node>
+												</Node>
+												<Node score="0.30990627">
+													<SimplePredicate field="f5" operator="greaterOrEqual" value="1.4330466E-15"/>
+												</Node>
+											</Node>
+											<Node score="-0.29779717">
+												<SimplePredicate field="f3" operator="greaterOrEqual" value="5.87597E-17"/>
+											</Node>
+											<Node score="-0.100439236">
+												<SimplePredicate field="f2" operator="greaterOrEqual" value="4.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.20001757">
+											<SimplePredicate field="f5" operator="greaterOrEqual" value="1.0136835E-16"/>
+											<Node score="-0.29439083">
+												<SimplePredicate field="f7" operator="greaterOrEqual" value="4.401877E-18"/>
+												<Node score="-0.15682599">
+													<SimplePredicate field="f3" operator="greaterOrEqual" value="2.3759486E-15"/>
+												</Node>
+											</Node>
+											<Node score="0.1921206">
+												<SimplePredicate field="f7" operator="greaterOrEqual" value="2.1353312E-18"/>
+											</Node>
+										</Node>
+										<Node score="0.308814">
+											<SimplePredicate field="f5" operator="greaterOrEqual" value="5.126682E-18"/>
+											<Node score="-0.08278901">
+												<SimplePredicate field="f1" operator="greaterOrEqual" value="2.0789987E-17"/>
+											</Node>
+										</Node>
+									</Node>
+									<Node score="0.2399005">
+										<SimplePredicate field="f7" operator="greaterOrEqual" value="2.9875581E-12"/>
+										<Node score="0.5174998">
+											<SimplePredicate field="f1" operator="greaterOrEqual" value="1.0789675E-15"/>
+										</Node>
+										<Node score="-0.18238774">
+											<SimplePredicate field="f5" operator="greaterOrEqual" value="3.8311173E-16"/>
+										</Node>
+									</Node>
+									<Node score="0.16136755">
+										<SimplePredicate field="f2" operator="greaterOrEqual" value="4.5"/>
+										<Node score="-0.23322283">
+											<SimplePredicate field="f5" operator="greaterOrEqual" value="2.4644813E-12"/>
+											<Node score="0.17545906">
+												<SimplePredicate field="f3" operator="greaterOrEqual" value="1.648813E-15"/>
+											</Node>
+										</Node>
+										<Node score="-0.05063122">
+											<SimplePredicate field="f3" operator="greaterOrEqual" value="5.5271987E-15"/>
+										</Node>
+									</Node>
+									<Node score="0.10320794">
+										<SimplePredicate field="f7" operator="greaterOrEqual" value="1.2130091E-12"/>
+										<Node score="-0.1551264">
+											<SimplePredicate field="f3" operator="greaterOrEqual" value="2.3224929E-17"/>
+										</Node>
+									</Node>
+									<Node score="0.050651178">
+										<SimplePredicate field="f7" operator="greaterOrEqual" value="2.1166293E-14"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="15">
+							<True/>
+							<TreeModel functionName="regression" missingValueStrategy="none" noTrueChildStrategy="returnLastPrediction" splitCharacteristic="multiSplit" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="f1"/>
+									<MiningField name="f2"/>
+									<MiningField name="f3"/>
+									<MiningField name="f4"/>
+									<MiningField name="f5"/>
+									<MiningField name="f7"/>
+									<MiningField name="f9"/>
+								</MiningSchema>
+								<Node score="-0.2728621">
+									<True/>
+									<Node score="-0.012348598">
+										<SimplePredicate field="f9" operator="greaterOrEqual" value="4.5"/>
+										<Node score="-0.05870091">
+											<SimplePredicate field="f2" operator="greaterOrEqual" value="2.5"/>
+											<Node score="-0.20751075">
+												<SimplePredicate field="f1" operator="greaterOrEqual" value="1.0204969E-13"/>
+												<Node score="-0.06862413">
+													<SimplePredicate field="f3" operator="greaterOrEqual" value="7.825131E-13"/>
+													<Node score="-0.16640025">
+														<SimplePredicate field="f4" operator="greaterOrEqual" value="4.5"/>
+													</Node>
+													<Node score="0.1526023">
+														<SimplePredicate field="f4" operator="greaterOrEqual" value="2.5"/>
+													</Node>
+												</Node>
+											</Node>
+											<Node score="-0.24699154">
+												<SimplePredicate field="f1" operator="greaterOrEqual" value="5.1471036E-20"/>
+											</Node>
+										</Node>
+										<Node score="0.28486058">
+											<SimplePredicate field="f5" operator="greaterOrEqual" value="8.657074E-16"/>
+											<Node score="-0.05939435">
+												<SimplePredicate field="f1" operator="greaterOrEqual" value="1.6612422E-13"/>
+											</Node>
+										</Node>
+										<Node score="-0.20238064">
+											<SimplePredicate field="f5" operator="greaterOrEqual" value="6.720884E-18"/>
+										</Node>
+									</Node>
+									<Node score="0.31460357">
+										<SimplePredicate field="f1" operator="greaterOrEqual" value="8.540853E-20"/>
+										<Node score="-0.07355611">
+											<SimplePredicate field="f1" operator="greaterOrEqual" value="1.1961933E-18"/>
+											<Node score="0.07315199">
+												<SimplePredicate field="f5" operator="greaterOrEqual" value="7.489662E-17"/>
+												<Node score="-0.20220982">
+													<SimplePredicate field="f1" operator="greaterOrEqual" value="3.7483132E-16"/>
+													<Node score="-6.038214E-4">
+														<SimplePredicate field="f5" operator="greaterOrEqual" value="3.88042E-16"/>
+													</Node>
+												</Node>
+												<Node score="-0.046902593">
+													<SimplePredicate field="f4" operator="greaterOrEqual" value="3.5"/>
+												</Node>
+											</Node>
+											<Node score="-0.17667496">
+												<SimplePredicate field="f1" operator="greaterOrEqual" value="3.8605363E-17"/>
+												<Node score="-0.03009458">
+													<SimplePredicate field="f5" operator="greaterOrEqual" value="4.248261E-17"/>
+												</Node>
+											</Node>
+											<Node score="0.017114995">
+												<SimplePredicate field="f1" operator="greaterOrEqual" value="3.1655553E-18"/>
+											</Node>
+										</Node>
+										<Node score="0.15529825">
+											<SimplePredicate field="f1" operator="greaterOrEqual" value="1.182402E-18"/>
+											<Node score="0.605033">
+												<SimplePredicate field="f3" operator="greaterOrEqual" value="3.4923827E-19"/>
+												<Node score="0.19499685">
+													<SimplePredicate field="f1" operator="greaterOrEqual" value="1.1841874E-18"/>
+												</Node>
+											</Node>
+										</Node>
+										<Node score="0.090540096">
+											<SimplePredicate field="f2" operator="greaterOrEqual" value="2.5"/>
+											<Node score="-0.068691276">
+												<SimplePredicate field="f7" operator="greaterOrEqual" value="1.2163155E-12"/>
+											</Node>
+										</Node>
+										<Node score="0.045920484">
+											<SimplePredicate field="f1" operator="greaterOrEqual" value="7.091468E-19"/>
+										</Node>
+									</Node>
+									<Node score="-0.18976054">
+										<SimplePredicate field="f2" operator="greaterOrEqual" value="3.5"/>
+										<Node score="-0.01590233">
+											<SimplePredicate field="f3" operator="greaterOrEqual" value="9.008824E-14"/>
+											<Node score="-0.3108427">
+												<SimplePredicate field="f5" operator="greaterOrEqual" value="4.063649E-21"/>
+												<Node score="-0.024071304">
+													<SimplePredicate field="f3" operator="greaterOrEqual" value="1.4288044E-12"/>
+												</Node>
+											</Node>
+										</Node>
+										<Node score="0.20639168">
+											<SimplePredicate field="f5" operator="greaterOrEqual" value="1.9919345E-22"/>
+											<Node score="-0.04539287">
+												<SimplePredicate field="f5" operator="greaterOrEqual" value="1.2118792E-20"/>
+											</Node>
+										</Node>
+									</Node>
+									<Node score="0.23558368">
+										<SimplePredicate field="f7" operator="greaterOrEqual" value="6.7649034E-17"/>
+										<Node score="-0.007960549">
+											<SimplePredicate field="f4" operator="greaterOrEqual" value="4.5"/>
+											<Node score="0.33029327">
+												<SimplePredicate field="f3" operator="greaterOrEqual" value="6.452101E-13"/>
+											</Node>
+										</Node>
+										<Node score="-0.024121074">
+											<SimplePredicate field="f3" operator="greaterOrEqual" value="6.5477685E-16"/>
+										</Node>
+									</Node>
+									<Node score="0.06560232">
+										<SimplePredicate field="f4" operator="greaterOrEqual" value="5.5"/>
+									</Node>
+									<Node score="-0.14257197">
+										<SimplePredicate field="f7" operator="greaterOrEqual" value="5.637233E-18"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="16">
+							<True/>
+							<TreeModel functionName="regression" missingValueStrategy="none" noTrueChildStrategy="returnLastPrediction" splitCharacteristic="multiSplit" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="f0"/>
+									<MiningField name="f1"/>
+									<MiningField name="f2"/>
+									<MiningField name="f3"/>
+									<MiningField name="f4"/>
+									<MiningField name="f5"/>
+									<MiningField name="f7"/>
+									<MiningField name="f9"/>
+								</MiningSchema>
+								<Node score="0.020004718">
+									<True/>
+									<Node score="-0.038389754">
+										<SimplePredicate field="f9" operator="greaterOrEqual" value="3.5"/>
+										<Node score="0.3817001">
+											<SimplePredicate field="f3" operator="greaterOrEqual" value="1.9075473E-13"/>
+											<Node score="-0.25900856">
+												<SimplePredicate field="f3" operator="greaterOrEqual" value="1.2944951E-12"/>
+											</Node>
+											<Node score="-0.05402833">
+												<SimplePredicate field="f2" operator="greaterOrEqual" value="1.5"/>
+												<Node score="0.41183448">
+													<SimplePredicate field="f5" operator="greaterOrEqual" value="7.005112E-15"/>
+													<Node score="-0.05240003">
+														<SimplePredicate field="f5" operator="greaterOrEqual" value="1.1003576E-14"/>
+													</Node>
+												</Node>
+												<Node score="-0.26130545">
+													<SimplePredicate field="f1" operator="greaterOrEqual" value="1.9666485E-15"/>
+												</Node>
+											</Node>
+											<Node score="-0.1623252">
+												<SimplePredicate field="f5" operator="greaterOrEqual" value="2.679391E-17"/>
+												<Node score="0.30533105">
+													<SimplePredicate field="f1" operator="greaterOrEqual" value="2.1111778E-14"/>
+												</Node>
+											</Node>
+										</Node>
+										<Node score="-0.20770809">
+											<SimplePredicate field="f5" operator="greaterOrEqual" value="1.0136835E-16"/>
+											<Node score="-0.2759893">
+												<SimplePredicate field="f7" operator="greaterOrEqual" value="1.6962873E-18"/>
+												<Node score="-0.03991569">
+													<SimplePredicate field="f2" operator="greaterOrEqual" value="3.5"/>
+													<Node score="-0.19722764">
+														<SimplePredicate field="f7" operator="greaterOrEqual" value="6.568102E-15"/>
+													</Node>
+												</Node>
+											</Node>
+											<Node score="0.106737465">
+												<SimplePredicate field="f7" operator="greaterOrEqual" value="8.337575E-20"/>
+											</Node>
+										</Node>
+										<Node score="-0.075405315">
+											<SimplePredicate field="f1" operator="greaterOrEqual" value="1.03157975E-17"/>
+											<Node score="0.33643302">
+												<SimplePredicate field="f7" operator="greaterOrEqual" value="5.489648E-16"/>
+											</Node>
+										</Node>
+										<Node score="-0.23385857">
+											<SimplePredicate field="f7" operator="greaterOrEqual" value="1.5745773E-16"/>
+										</Node>
+									</Node>
+									<Node score="-0.043939024">
+										<SimplePredicate field="f3" operator="greaterOrEqual" value="8.461888E-16"/>
+										<Node score="0.0052951043">
+											<SimplePredicate field="f7" operator="greaterOrEqual" value="1.5713528E-15"/>
+											<Node score="0.1568828">
+												<SimplePredicate field="f7" operator="greaterOrEqual" value="2.5328823E-14"/>
+												<Node score="-0.30036065">
+													<SimplePredicate field="f7" operator="greaterOrEqual" value="1.1784657E-13"/>
+													<Node score="-0.00268585">
+														<SimplePredicate field="f7" operator="greaterOrEqual" value="1.1914391E-13"/>
+													</Node>
+												</Node>
+												<Node score="-0.073745">
+													<SimplePredicate field="f9" operator="greaterOrEqual" value="1.5"/>
+												</Node>
+											</Node>
+											<Node score="-0.4468079">
+												<SimplePredicate field="f7" operator="greaterOrEqual" value="2.473037E-14"/>
+												<Node score="-0.10090491">
+													<SimplePredicate field="f5" operator="greaterOrEqual" value="1.0494658E-13"/>
+												</Node>
+											</Node>
+											<Node score="-0.061039228">
+												<SimplePredicate field="f7" operator="greaterOrEqual" value="5.227219E-15"/>
+											</Node>
+										</Node>
+										<Node score="0.022839176">
+											<SimplePredicate field="f0" operator="greaterOrEqual" value="2.5"/>
+											<Node score="0.12553217">
+												<SimplePredicate field="f4" operator="greaterOrEqual" value="3.5"/>
+												<Node score="-0.078021474">
+													<SimplePredicate field="f3" operator="greaterOrEqual" value="2.2224383E-15"/>
+												</Node>
+											</Node>
+											<Node score="0.11653395">
+												<SimplePredicate field="f5" operator="greaterOrEqual" value="1.2976598E-16"/>
+											</Node>
+										</Node>
+										<Node score="-0.2590407">
+											<SimplePredicate field="f9" operator="greaterOrEqual" value="1.5"/>
+											<Node score="0.039717995">
+												<SimplePredicate field="f0" operator="greaterOrEqual" value="1.5"/>
+											</Node>
+										</Node>
+										<Node score="0.5655328">
+											<SimplePredicate field="f5" operator="greaterOrEqual" value="8.5346414E-7"/>
+										</Node>
+									</Node>
+									<Node score="0.24979746">
+										<SimplePredicate field="f7" operator="greaterOrEqual" value="1.6956698E-15"/>
+										<Node score="0.26373082">
+											<SimplePredicate field="f3" operator="greaterOrEqual" value="5.8583287E-16"/>
+											<Node score="-0.10386575">
+												<SimplePredicate field="f7" operator="greaterOrEqual" value="2.1433034E-15"/>
+												<Node score="-0.3106688">
+													<SimplePredicate field="f3" operator="greaterOrEqual" value="7.9146753E-16"/>
+												</Node>
+											</Node>
+										</Node>
+										<Node score="0.24697663">
+											<SimplePredicate field="f3" operator="greaterOrEqual" value="9.801493E-20"/>
+											<Node score="0.053040575">
+												<SimplePredicate field="f3" operator="greaterOrEqual" value="3.975827E-18"/>
+											</Node>
+										</Node>
+										<Node score="-0.2491813">
+											<SimplePredicate field="f5" operator="greaterOrEqual" value="3.8931586E-19"/>
+										</Node>
+									</Node>
+									<Node score="0.08713069">
+										<SimplePredicate field="f2" operator="greaterOrEqual" value="3.5"/>
+										<Node score="-0.25563794">
+											<SimplePredicate field="f7" operator="greaterOrEqual" value="6.9734163E-16"/>
+											<Node score="-0.0010837098">
+												<SimplePredicate field="f3" operator="greaterOrEqual" value="7.895423E-16"/>
+											</Node>
+										</Node>
+										<Node score="-0.020191014">
+											<SimplePredicate field="f1" operator="greaterOrEqual" value="4.8232063E-15"/>
+										</Node>
+									</Node>
+									<Node score="0.10341488">
+										<SimplePredicate field="f3" operator="greaterOrEqual" value="9.497991E-17"/>
+										<Node score="-0.1080346">
+											<SimplePredicate field="f3" operator="greaterOrEqual" value="2.4026672E-16"/>
+										</Node>
+									</Node>
+									<Node score="-0.13897862">
+										<SimplePredicate field="f3" operator="greaterOrEqual" value="8.358458E-20"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="17">
+							<True/>
+							<TreeModel functionName="regression" missingValueStrategy="none" noTrueChildStrategy="returnLastPrediction" splitCharacteristic="multiSplit" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="f0"/>
+									<MiningField name="f1"/>
+									<MiningField name="f2"/>
+									<MiningField name="f3"/>
+									<MiningField name="f4"/>
+									<MiningField name="f5"/>
+									<MiningField name="f6"/>
+									<MiningField name="f7"/>
+									<MiningField name="f8"/>
+									<MiningField name="f9"/>
+								</MiningSchema>
+								<Node score="-0.11582957">
+									<True/>
+									<Node score="0.09789651">
+										<SimplePredicate field="f5" operator="greaterOrEqual" value="1.2479692E-12"/>
+										<Node score="0.34790927">
+											<SimplePredicate field="f0" operator="greaterOrEqual" value="1.5"/>
+											<Node score="0.23983863">
+												<SimplePredicate field="f4" operator="greaterOrEqual" value="3.5"/>
+												<Node score="-0.37027392">
+													<SimplePredicate field="f5" operator="greaterOrEqual" value="4.206455E-12"/>
+													<Node score="-0.0916631">
+														<SimplePredicate field="f4" operator="greaterOrEqual" value="5.5"/>
+													</Node>
+												</Node>
+												<Node score="0.326641">
+													<SimplePredicate field="f3" operator="greaterOrEqual" value="3.23528E-16"/>
+													<Node score="0.07871686">
+														<SimplePredicate field="f3" operator="greaterOrEqual" value="1.4568334E-13"/>
+													</Node>
+												</Node>
+												<Node score="-0.19958213">
+													<SimplePredicate field="f7" operator="greaterOrEqual" value="6.2562244E-19"/>
+												</Node>
+											</Node>
+											<Node score="-0.039334428">
+												<SimplePredicate field="f7" operator="greaterOrEqual" value="2.7428957E-9"/>
+											</Node>
+											<Node score="0.4758098">
+												<SimplePredicate field="f7" operator="greaterOrEqual" value="5.158351E-19"/>
+												<Node score="0.24681269">
+													<SimplePredicate field="f3" operator="greaterOrEqual" value="9.363227E-13"/>
+												</Node>
+											</Node>
+											<Node score="-0.20892856">
+												<SimplePredicate field="f7" operator="greaterOrEqual" value="4.3356274E-20"/>
+											</Node>
+										</Node>
+										<Node score="-0.48471066">
+											<SimplePredicate field="f7" operator="greaterOrEqual" value="2.5188081E-15"/>
+											<Node score="0.035895076">
+												<SimplePredicate field="f5" operator="greaterOrEqual" value="6.121431E-11"/>
+												<Node score="-0.18273117">
+													<SimplePredicate field="f7" operator="greaterOrEqual" value="5.7120522E-15"/>
+													<Node score="0.16556504">
+														<SimplePredicate field="f7" operator="greaterOrEqual" value="1.1741544E-14"/>
+													</Node>
+												</Node>
+												<Node score="0.52037394">
+													<SimplePredicate field="f5" operator="greaterOrEqual" value="4.8662285E-10"/>
+												</Node>
+											</Node>
+										</Node>
+										<Node score="-0.27382556">
+											<SimplePredicate field="f9" operator="greaterOrEqual" value="1.5"/>
+											<Node score="0.1303145">
+												<SimplePredicate field="f2" operator="greaterOrEqual" value="3.5"/>
+											</Node>
+											<Node score="-0.06172443">
+												<SimplePredicate field="f5" operator="greaterOrEqual" value="1.773911E-6"/>
+											</Node>
+										</Node>
+										<Node score="0.44358322">
+											<SimplePredicate field="f3" operator="greaterOrEqual" value="1.3654677E-15"/>
+											<Node score="0.091934144">
+												<SimplePredicate field="f8" operator="greaterOrEqual" value="0.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.1437662">
+											<SimplePredicate field="f5" operator="greaterOrEqual" value="6.269829E-10"/>
+										</Node>
+									</Node>
+									<Node score="5.883593E-4">
+										<SimplePredicate field="f3" operator="greaterOrEqual" value="9.0513073E-13"/>
+										<Node score="0.0055368217">
+											<SimplePredicate field="f3" operator="greaterOrEqual" value="1.2944951E-12"/>
+											<Node score="0.17301326">
+												<SimplePredicate field="f5" operator="greaterOrEqual" value="9.13351E-18"/>
+												<Node score="0.41281676">
+													<SimplePredicate field="f7" operator="greaterOrEqual" value="2.7973165E-6"/>
+													<Node score="-0.014950574">
+														<SimplePredicate field="f1" operator="greaterOrEqual" value="2.5084068E-16"/>
+													</Node>
+												</Node>
+												<Node score="-0.121688105">
+													<SimplePredicate field="f0" operator="greaterOrEqual" value="1.5"/>
+												</Node>
+											</Node>
+											<Node score="-0.22499801">
+												<SimplePredicate field="f3" operator="greaterOrEqual" value="4.8882084E-4"/>
+												<Node score="-0.04920375">
+													<SimplePredicate field="f7" operator="greaterOrEqual" value="6.6827475E-8"/>
+												</Node>
+											</Node>
+											<Node score="0.20107883">
+												<SimplePredicate field="f7" operator="greaterOrEqual" value="1.591572E-9"/>
+											</Node>
+										</Node>
+										<Node score="-0.009678932">
+											<SimplePredicate field="f7" operator="greaterOrEqual" value="1.4114974E-12"/>
+											<Node score="0.62162334">
+												<SimplePredicate field="f6" operator="greaterOrEqual" value="2.5"/>
+												<Node score="0.18406077">
+													<SimplePredicate field="f7" operator="greaterOrEqual" value="1.2108317E-10"/>
+												</Node>
+											</Node>
+											<Node score="0.12155023">
+												<SimplePredicate field="f5" operator="greaterOrEqual" value="1.3004177E-15"/>
+											</Node>
+										</Node>
+										<Node score="0.450898">
+											<SimplePredicate field="f5" operator="greaterOrEqual" value="7.985356E-14"/>
+											<Node score="0.024246262">
+												<SimplePredicate field="f5" operator="greaterOrEqual" value="8.852149E-14"/>
+											</Node>
+										</Node>
+										<Node score="-0.21679138">
+											<SimplePredicate field="f1" operator="greaterOrEqual" value="6.207564E-14"/>
+										</Node>
+									</Node>
+									<Node score="-0.01366202">
+										<SimplePredicate field="f4" operator="greaterOrEqual" value="2.5"/>
+										<Node score="-0.23890558">
+											<SimplePredicate field="f3" operator="greaterOrEqual" value="3.8910722E-14"/>
+											<Node score="-0.0519803">
+												<SimplePredicate field="f1" operator="greaterOrEqual" value="4.4856077E-18"/>
+												<Node score="0.08376478">
+													<SimplePredicate field="f1" operator="greaterOrEqual" value="8.25145E-15"/>
+												</Node>
+											</Node>
+											<Node score="0.05339573">
+												<SimplePredicate field="f7" operator="greaterOrEqual" value="2.665764E-13"/>
+											</Node>
+										</Node>
+										<Node score="0.08576456">
+											<SimplePredicate field="f3" operator="greaterOrEqual" value="8.0503815E-15"/>
+											<Node score="-0.16357794">
+												<SimplePredicate field="f1" operator="greaterOrEqual" value="8.277557E-13"/>
+											</Node>
+										</Node>
+										<Node score="-0.2777557">
+											<SimplePredicate field="f3" operator="greaterOrEqual" value="7.9952516E-15"/>
+										</Node>
+									</Node>
+									<Node score="0.059343554">
+										<SimplePredicate field="f6" operator="greaterOrEqual" value="3.5"/>
+										<Node score="-0.21806785">
+											<SimplePredicate field="f3" operator="greaterOrEqual" value="7.0037326E-15"/>
+											<Node score="0.006361994">
+												<SimplePredicate field="f3" operator="greaterOrEqual" value="1.2491664E-13"/>
+											</Node>
+										</Node>
+										<Node score="0.48381433">
+											<SimplePredicate field="f3" operator="greaterOrEqual" value="4.708581E-16"/>
+										</Node>
+									</Node>
+									<Node score="0.4293032">
+										<SimplePredicate field="f7" operator="greaterOrEqual" value="2.9070645E-14"/>
+										<Node score="-0.1259393">
+											<SimplePredicate field="f7" operator="greaterOrEqual" value="1.8484671E-13"/>
+										</Node>
+									</Node>
+									<Node score="-0.23107965">
+										<SimplePredicate field="f7" operator="greaterOrEqual" value="2.3223708E-15"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="18">
+							<True/>
+							<TreeModel functionName="regression" missingValueStrategy="none" noTrueChildStrategy="returnLastPrediction" splitCharacteristic="multiSplit" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="f0"/>
+									<MiningField name="f1"/>
+									<MiningField name="f2"/>
+									<MiningField name="f3"/>
+									<MiningField name="f4"/>
+									<MiningField name="f5"/>
+									<MiningField name="f7"/>
+									<MiningField name="f8"/>
+									<MiningField name="f9"/>
+								</MiningSchema>
+								<Node score="0.0784998">
+									<True/>
+									<Node score="-0.25511542">
+										<SimplePredicate field="f9" operator="greaterOrEqual" value="4.5"/>
+										<Node score="0.10441596">
+											<SimplePredicate field="f3" operator="greaterOrEqual" value="7.77892E-15"/>
+											<Node score="-0.06957389">
+												<SimplePredicate field="f7" operator="greaterOrEqual" value="4.170404E-18"/>
+												<Node score="-0.15822214">
+													<SimplePredicate field="f9" operator="greaterOrEqual" value="5.5"/>
+													<Node score="-0.16668306">
+														<SimplePredicate field="f1" operator="greaterOrEqual" value="1.0869844E-13"/>
+													</Node>
+													<Node score="0.312546">
+														<SimplePredicate field="f5" operator="greaterOrEqual" value="7.978558E-16"/>
+													</Node>
+												</Node>
+												<Node score="-0.07345565">
+													<SimplePredicate field="f5" operator="greaterOrEqual" value="9.171483E-13"/>
+													<Node score="0.2174258">
+														<SimplePredicate field="f4" operator="greaterOrEqual" value="2.5"/>
+													</Node>
+												</Node>
+												<Node score="-0.2633425">
+													<SimplePredicate field="f5" operator="greaterOrEqual" value="6.363741E-17"/>
+												</Node>
+											</Node>
+										</Node>
+									</Node>
+									<Node score="0.049725726">
+										<SimplePredicate field="f2" operator="greaterOrEqual" value="4.5"/>
+										<Node score="0.06240163">
+											<SimplePredicate field="f7" operator="greaterOrEqual" value="1.22922675E-14"/>
+											<Node score="0.21252722">
+												<SimplePredicate field="f1" operator="greaterOrEqual" value="2.2604263E-13"/>
+												<Node score="0.5614977">
+													<SimplePredicate field="f3" operator="greaterOrEqual" value="1.1929963E-13"/>
+												</Node>
+												<Node score="-0.1446108">
+													<SimplePredicate field="f9" operator="greaterOrEqual" value="2.0"/>
+												</Node>
+											</Node>
+											<Node score="-0.19647332">
+												<SimplePredicate field="f1" operator="greaterOrEqual" value="1.9303036E-14"/>
+												<Node score="0.17003247">
+													<SimplePredicate field="f5" operator="greaterOrEqual" value="2.130545E-14"/>
+												</Node>
+											</Node>
+											<Node score="0.4011877">
+												<SimplePredicate field="f5" operator="greaterOrEqual" value="7.6894863E-16"/>
+											</Node>
+										</Node>
+										<Node score="0.021539947">
+											<SimplePredicate field="f5" operator="greaterOrEqual" value="4.9301817E-14"/>
+											<Node score="-0.27244598">
+												<SimplePredicate field="f4" operator="greaterOrEqual" value="4.5"/>
+												<Node score="0.3177984">
+													<SimplePredicate field="f7" operator="greaterOrEqual" value="7.648278E-21"/>
+												</Node>
+											</Node>
+											<Node score="-0.19584148">
+												<SimplePredicate field="f4" operator="greaterOrEqual" value="2.5"/>
+											</Node>
+										</Node>
+										<Node score="0.03460092">
+											<SimplePredicate field="f4" operator="greaterOrEqual" value="4.5"/>
+											<Node score="-0.15261841">
+												<SimplePredicate field="f3" operator="greaterOrEqual" value="6.947911E-16"/>
+											</Node>
+										</Node>
+										<Node score="0.29776317">
+											<SimplePredicate field="f3" operator="greaterOrEqual" value="4.6124406E-16"/>
+										</Node>
+									</Node>
+									<Node score="-4.272293E-4">
+										<SimplePredicate field="f8" operator="greaterOrEqual" value="0.5"/>
+										<Node score="-0.41147438">
+											<SimplePredicate field="f5" operator="greaterOrEqual" value="1.3323853E-12"/>
+											<Node score="-0.027501184">
+												<SimplePredicate field="f0" operator="greaterOrEqual" value="1.5"/>
+												<Node score="0.22482619">
+													<SimplePredicate field="f1" operator="greaterOrEqual" value="6.2074496E-15"/>
+												</Node>
+											</Node>
+											<Node score="0.011388843">
+												<SimplePredicate field="f5" operator="greaterOrEqual" value="6.053352E-11"/>
+											</Node>
+										</Node>
+										<Node score="0.06193934">
+											<SimplePredicate field="f1" operator="greaterOrEqual" value="3.0882062E-13"/>
+											<Node score="-0.056210857">
+												<SimplePredicate field="f2" operator="greaterOrEqual" value="2.5"/>
+											</Node>
+										</Node>
+										<Node score="0.12711413">
+											<SimplePredicate field="f5" operator="greaterOrEqual" value="2.3925762E-13"/>
+										</Node>
+									</Node>
+									<Node score="0.17999431">
+										<SimplePredicate field="f3" operator="greaterOrEqual" value="2.4536796E-17"/>
+										<Node score="-0.11370071">
+											<SimplePredicate field="f5" operator="greaterOrEqual" value="3.548173E-7"/>
+											<Node score="0.5857402">
+												<SimplePredicate field="f7" operator="greaterOrEqual" value="1.7075622E-17"/>
+											</Node>
+										</Node>
+										<Node score="-0.032993224">
+											<SimplePredicate field="f7" operator="greaterOrEqual" value="7.8401843E-19"/>
+										</Node>
+									</Node>
+									<Node score="0.25073963">
+										<SimplePredicate field="f7" operator="greaterOrEqual" value="4.6905185E-16"/>
+										<Node score="-0.22697508">
+											<SimplePredicate field="f3" operator="greaterOrEqual" value="2.9317403E-18"/>
+										</Node>
+									</Node>
+									<Node score="-0.17745401">
+										<SimplePredicate field="f7" operator="greaterOrEqual" value="5.4800226E-22"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="19">
+							<True/>
+							<TreeModel functionName="regression" missingValueStrategy="none" noTrueChildStrategy="returnLastPrediction" splitCharacteristic="multiSplit" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="f0"/>
+									<MiningField name="f1"/>
+									<MiningField name="f2"/>
+									<MiningField name="f3"/>
+									<MiningField name="f4"/>
+									<MiningField name="f5"/>
+									<MiningField name="f6"/>
+									<MiningField name="f7"/>
+									<MiningField name="f9"/>
+								</MiningSchema>
+								<Node score="-0.2270706">
+									<True/>
+									<Node score="-0.015455954">
+										<SimplePredicate field="f9" operator="greaterOrEqual" value="4.5"/>
+										<Node score="-0.0079936525">
+											<SimplePredicate field="f2" operator="greaterOrEqual" value="2.5"/>
+											<Node score="0.08719312">
+												<SimplePredicate field="f1" operator="greaterOrEqual" value="1.0204969E-13"/>
+												<Node score="-0.16633557">
+													<SimplePredicate field="f5" operator="greaterOrEqual" value="1.0635271E-13"/>
+													<Node score="-0.010660577">
+														<SimplePredicate field="f7" operator="greaterOrEqual" value="6.7172727E-13"/>
+														<Node score="-0.047312167">
+															<SimplePredicate field="f0" operator="greaterOrEqual" value="1.5"/>
+														</Node>
+													</Node>
+												</Node>
+											</Node>
+											<Node score="-0.21225773">
+												<SimplePredicate field="f1" operator="greaterOrEqual" value="6.0428335E-20"/>
+											</Node>
+										</Node>
+										<Node score="0.1924059">
+											<SimplePredicate field="f4" operator="greaterOrEqual" value="4.5"/>
+										</Node>
+										<Node score="0.032134447">
+											<SimplePredicate field="f9" operator="greaterOrEqual" value="5.5"/>
+										</Node>
+										<Node score="-0.17733231">
+											<SimplePredicate field="f1" operator="greaterOrEqual" value="5.698681E-17"/>
+										</Node>
+									</Node>
+									<Node score="0.041513786">
+										<SimplePredicate field="f1" operator="greaterOrEqual" value="8.540853E-20"/>
+										<Node score="0.017899334">
+											<SimplePredicate field="f1" operator="greaterOrEqual" value="1.2127576E-18"/>
+											<Node score="0.23227887">
+												<SimplePredicate field="f1" operator="greaterOrEqual" value="1.4262258E-18"/>
+												<Node score="-0.03533996">
+													<SimplePredicate field="f3" operator="greaterOrEqual" value="4.6628904E-22"/>
+													<Node score="0.0015616138">
+														<SimplePredicate field="f7" operator="greaterOrEqual" value="1.08023965E-17"/>
+													</Node>
+												</Node>
+												<Node score="-0.07541177">
+													<SimplePredicate field="f9" operator="greaterOrEqual" value="1.5"/>
+												</Node>
+											</Node>
+											<Node score="0.09239578">
+												<SimplePredicate field="f0" operator="greaterOrEqual" value="3.5"/>
+											</Node>
+											<Node score="-0.24014232">
+												<SimplePredicate field="f7" operator="greaterOrEqual" value="3.1435582E-15"/>
+											</Node>
+										</Node>
+										<Node score="0.15281335">
+											<SimplePredicate field="f1" operator="greaterOrEqual" value="1.182402E-18"/>
+											<Node score="0.042332">
+												<SimplePredicate field="f2" operator="greaterOrEqual" value="3.5"/>
+											</Node>
+											<Node score="0.4739947">
+												<SimplePredicate field="f9" operator="greaterOrEqual" value="1.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.24240091">
+											<SimplePredicate field="f5" operator="greaterOrEqual" value="1.1365569E-18"/>
+											<Node score="0.061065335">
+												<SimplePredicate field="f5" operator="greaterOrEqual" value="4.803324E-15"/>
+											</Node>
+										</Node>
+										<Node score="0.26680928">
+											<SimplePredicate field="f1" operator="greaterOrEqual" value="7.9251637E-19"/>
+										</Node>
+									</Node>
+									<Node score="-0.32438377">
+										<SimplePredicate field="f5" operator="greaterOrEqual" value="4.9182182E-20"/>
+										<Node score="0.30265793">
+											<SimplePredicate field="f7" operator="greaterOrEqual" value="7.394376E-16"/>
+											<Node score="-0.17015593">
+												<SimplePredicate field="f7" operator="greaterOrEqual" value="1.2711913E-15"/>
+												<Node score="0.12514794">
+													<SimplePredicate field="f4" operator="greaterOrEqual" value="4.5"/>
+												</Node>
+											</Node>
+										</Node>
+										<Node score="0.19006886">
+											<SimplePredicate field="f5" operator="greaterOrEqual" value="7.6887315E-14"/>
+											<Node score="-0.16468441">
+												<SimplePredicate field="f9" operator="greaterOrEqual" value="1.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.030447027">
+											<SimplePredicate field="f0" operator="greaterOrEqual" value="5.5"/>
+										</Node>
+									</Node>
+									<Node score="0.23499651">
+										<SimplePredicate field="f6" operator="greaterOrEqual" value="3.5"/>
+										<Node score="-0.24466428">
+											<SimplePredicate field="f7" operator="greaterOrEqual" value="1.887529E-13"/>
+											<Node score="0.06306997">
+												<SimplePredicate field="f3" operator="greaterOrEqual" value="1.4288044E-12"/>
+											</Node>
+										</Node>
+										<Node score="-0.023057977">
+											<SimplePredicate field="f3" operator="greaterOrEqual" value="2.9719268E-19"/>
+										</Node>
+									</Node>
+									<Node score="0.10478743">
+										<SimplePredicate field="f7" operator="greaterOrEqual" value="1.9529347E-17"/>
+										<Node score="-0.0013043041">
+											<SimplePredicate field="f7" operator="greaterOrEqual" value="2.5186514E-15"/>
+										</Node>
+									</Node>
+									<Node score="-0.007827468">
+										<SimplePredicate field="f3" operator="greaterOrEqual" value="1.14247025E-14"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+						<Segment id="20">
+							<True/>
+							<TreeModel functionName="regression" missingValueStrategy="none" noTrueChildStrategy="returnLastPrediction" splitCharacteristic="multiSplit" x-mathContext="float">
+								<MiningSchema>
+									<MiningField name="f0"/>
+									<MiningField name="f1"/>
+									<MiningField name="f2"/>
+									<MiningField name="f3"/>
+									<MiningField name="f5"/>
+									<MiningField name="f6"/>
+									<MiningField name="f7"/>
+									<MiningField name="f9"/>
+								</MiningSchema>
+								<Node score="0.048157234">
+									<True/>
+									<Node score="-0.04882589">
+										<SimplePredicate field="f5" operator="greaterOrEqual" value="1.4233705E-22"/>
+										<Node score="-0.2351728">
+											<SimplePredicate field="f5" operator="greaterOrEqual" value="1.9395782E-21"/>
+											<Node score="-0.017851409">
+												<SimplePredicate field="f1" operator="greaterOrEqual" value="3.899461E-21"/>
+												<Node score="-0.15178517">
+													<SimplePredicate field="f3" operator="greaterOrEqual" value="3.425528E-10"/>
+													<Node score="0.28151542">
+														<SimplePredicate field="f1" operator="greaterOrEqual" value="2.0664466E-9"/>
+													</Node>
+													<Node score="-0.014302711">
+														<SimplePredicate field="f7" operator="greaterOrEqual" value="6.1585304E-10"/>
+													</Node>
+												</Node>
+												<Node score="0.105043724">
+													<SimplePredicate field="f7" operator="greaterOrEqual" value="3.9511056E-10"/>
+													<Node score="-0.11899282">
+														<SimplePredicate field="f5" operator="greaterOrEqual" value="3.1353026E-13"/>
+													</Node>
+												</Node>
+												<Node score="0.0057559535">
+													<SimplePredicate field="f5" operator="greaterOrEqual" value="7.49578E-17"/>
+												</Node>
+											</Node>
+											<Node score="-0.094565175">
+												<SimplePredicate field="f1" operator="greaterOrEqual" value="3.6531818E-21"/>
+												<Node score="-0.13211219">
+													<SimplePredicate field="f7" operator="greaterOrEqual" value="9.39774E-16"/>
+													<Node score="-0.40708733">
+														<SimplePredicate field="f2" operator="greaterOrEqual" value="2.0"/>
+													</Node>
+												</Node>
+												<Node score="0.013032298">
+													<SimplePredicate field="f7" operator="greaterOrEqual" value="5.6512514E-16"/>
+												</Node>
+											</Node>
+											<Node score="0.19929059">
+												<SimplePredicate field="f7" operator="greaterOrEqual" value="4.833024E-16"/>
+												<Node score="-0.109263256">
+													<SimplePredicate field="f0" operator="greaterOrEqual" value="3.5"/>
+												</Node>
+											</Node>
+											<Node score="-0.013106723">
+												<SimplePredicate field="f6" operator="greaterOrEqual" value="3.5"/>
+											</Node>
+										</Node>
+										<Node score="-0.0013355892">
+											<SimplePredicate field="f0" operator="greaterOrEqual" value="3.5"/>
+											<Node score="0.1145165">
+												<SimplePredicate field="f7" operator="greaterOrEqual" value="6.95872E-13"/>
+												<Node score="-0.18523389">
+													<SimplePredicate field="f2" operator="greaterOrEqual" value="3.5"/>
+												</Node>
+											</Node>
+											<Node score="0.37936532">
+												<SimplePredicate field="f7" operator="greaterOrEqual" value="1.4849589E-16"/>
+											</Node>
+										</Node>
+										<Node score="0.48105782">
+											<SimplePredicate field="f9" operator="greaterOrEqual" value="1.5"/>
+										</Node>
+										<Node score="0.08186036">
+											<SimplePredicate field="f2" operator="greaterOrEqual" value="2.5"/>
+											<Node score="0.41070247">
+												<SimplePredicate field="f7" operator="greaterOrEqual" value="1.1297645E-15"/>
+											</Node>
+										</Node>
+									</Node>
+									<Node score="0.26456955">
+										<SimplePredicate field="f3" operator="greaterOrEqual" value="8.238786E-14"/>
+										<Node score="-0.25165254">
+											<SimplePredicate field="f7" operator="greaterOrEqual" value="1.0024364E-12"/>
+											<Node score="0.1741116">
+												<SimplePredicate field="f7" operator="greaterOrEqual" value="2.596163E-11"/>
+												<Node score="-0.1857534">
+													<SimplePredicate field="f7" operator="greaterOrEqual" value="4.1304202E-10"/>
+													<Node score="0.04971872">
+														<SimplePredicate field="f7" operator="greaterOrEqual" value="9.9624735E-9"/>
+													</Node>
+												</Node>
+											</Node>
+											<Node score="-0.08836142">
+												<SimplePredicate field="f9" operator="greaterOrEqual" value="1.5"/>
+											</Node>
+										</Node>
+										<Node score="0.03109814">
+											<SimplePredicate field="f9" operator="greaterOrEqual" value="1.5"/>
+										</Node>
+									</Node>
+									<Node score="-0.051574197">
+										<SimplePredicate field="f3" operator="greaterOrEqual" value="4.637403E-14"/>
+										<Node score="-0.26249567">
+											<SimplePredicate field="f7" operator="greaterOrEqual" value="2.2455085E-15"/>
+										</Node>
+									</Node>
+									<Node score="-0.19831716">
+										<SimplePredicate field="f2" operator="greaterOrEqual" value="3.5"/>
+									</Node>
+								</Node>
+							</TreeModel>
+						</Segment>
+					</Segmentation>
+				</MiningModel>
+			</Segment>
+			<Segment id="2">
+				<True/>
+				<RegressionModel functionName="classification" normalizationMethod="logit" x-mathContext="float">
+					<MiningSchema>
+						<MiningField name="_target" usageType="target"/>
+						<MiningField name="xgbValue"/>
+					</MiningSchema>
+					<Output>
+						<OutputField name="probability(0)" optype="continuous" dataType="float" feature="probability" value="0"/>
+						<OutputField name="probability(1)" optype="continuous" dataType="float" feature="probability" value="1"/>
+					</Output>
+					<RegressionTable intercept="0.0" targetCategory="1">
+						<NumericPredictor name="xgbValue" coefficient="1.0"/>
+					</RegressionTable>
+					<RegressionTable intercept="0.0" targetCategory="0"/>
+				</RegressionModel>
+			</Segment>
+		</Segmentation>
+	</MiningModel>
+</PMML>
