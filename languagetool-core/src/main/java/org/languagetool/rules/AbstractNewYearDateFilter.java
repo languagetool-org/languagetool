@@ -27,35 +27,30 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Accepts rule matches if a date doesn't match the accompanying weekday, e.g. if {@code Monday, 8 November 2003}
- * isn't actually a Monday. Replaces {@code {realDay}} with the real day of the date in the rule's message,
- * and {@code {day}} with the claimed day from the text (might be useful in case the text uses an abbreviation).
- * @since 2.7
+ * Accepts rule matches if we are in the first days of a new year and the user
+ * may have entered a date with the old year
+ * @since 4.3
  */
-public abstract class AbstractDateCheckFilter extends RuleFilter {
-
+public abstract class AbstractNewYearDateFilter extends RuleFilter {
   // The day of the month may contain not only digits but also extra letters
   // such as"22nd" in English or "22-an" in Esperanto. The regexp extracts
   // the numerical part.
   private static final Pattern DAY_OF_MONTH_PATTERN = Pattern.compile("(\\d+).*");
 
   /**
-   * Implement so that Sunday returns {@code 1}, Monday {@code 2} etc.
-   * @param localizedWeekDayString a week day name or abbreviation thereof
-   */
-  protected abstract int getDayOfWeek(String localizedWeekDayString);
+   * Return true if the year recently changed (= it is January)
+  */
+  protected boolean isJanuary() {
+    if (TestHackHelper.isJUnitTest()) {
+      return true;
+    }
+    return getCalendar().get(Calendar.MONTH) == Calendar.JANUARY;
+  }
 
-  /**
-   * Get the localized name of the day of week for the given date.
-   */
-  protected abstract String getDayOfWeek(Calendar date);
-
-  /**
-   * Implement so that "first" returns {@code 1}, second returns {@code 2} etc.
-   * @param localizedDayOfMonth name of day of the month or abbreviation thereof
-   */
-  protected int getDayOfMonth(String localizedDayOfMonth) {
-    return 0;
+  protected int getCurrentYear() {
+    if (TestHackHelper.isJUnitTest())
+      return 2014;
+    return getCalendar().get(Calendar.YEAR);
   }
 
   /**
@@ -67,26 +62,30 @@ public abstract class AbstractDateCheckFilter extends RuleFilter {
   protected abstract Calendar getCalendar();
 
   /**
-   * @param args a map with values for {@code year}, {@code month}, {@code day} (day of month), {@code weekDay}
+   * Implement so that "first" returns {@code 1}, second returns {@code 2} etc.
+   * @param localizedDayOfMonth name of day of the month or abbreviation thereof
+   */
+  protected int getDayOfMonth(String localizedDayOfMonth) {
+    return 0;
+  }
+
+  /**
+   * @param args a map with values for {@code year}, {@code month}, {@code day} (day of month)
    */
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> args, AnalyzedTokenReadings[] patternTokens) {
-    int dayOfWeekFromString = getDayOfWeek(getRequired("weekDay", args));
     Calendar dateFromDate = getDate(args);
-    int dayOfWeekFromDate;
+    int yearFromDate;
     try {
-      dayOfWeekFromDate = dateFromDate.get(Calendar.DAY_OF_WEEK);
-    } catch (IllegalArgumentException ignore) {
-      // happens with 'dates' like '32.8.2014' - those should be caught by a different rule
-      return null;
+      yearFromDate = dateFromDate.get(Calendar.YEAR);
+    } catch (IllegalArgumentException e) {
+      return null; // date is not valid; another rule is responsible
     }
-    if (dayOfWeekFromString != dayOfWeekFromDate) {
-      Calendar calFromDateString = Calendar.getInstance();
-      calFromDateString.set(Calendar.DAY_OF_WEEK, dayOfWeekFromString);
+    int currentYear = getCurrentYear();
+    if (isJanuary() && yearFromDate + 1 == currentYear) {
       String message = match.getMessage()
-              .replace("{realDay}", getDayOfWeek(dateFromDate))
-              .replace("{day}", getDayOfWeek(calFromDateString))
-              .replace("{currentYear}", Integer.toString(Calendar.getInstance().get(Calendar.YEAR)));
+              .replace("{year}", Integer.toString(yearFromDate))
+              .replace("{realYear}", Integer.toString(currentYear));
       return new RuleMatch(match.getRule(),match.getSentence(), match.getFromPos(), match.getToPos(), message, match.getShortMessage());
     } else {
       return null;
@@ -101,22 +100,8 @@ public abstract class AbstractDateCheckFilter extends RuleFilter {
     return result;
   }
 
-
   private Calendar getDate(Map<String, String> args) {
-    String yearArg = args.get("year");
-    int year;
-    if (yearArg == null && TestHackHelper.isJUnitTest()) {
-      // Volkswagen-style testing
-      // Hack for tests of date - weekday match with missing year
-      // in production, we assume the current year
-      // For xml tests, we use weekdays of the year 2014
-      year = 2014;
-    } else if (yearArg == null) {
-      // assume current year for rule DATUM_WOCHENTAG_OHNE_JAHR etc.
-      year = getCalendar().get(Calendar.YEAR);
-    } else {
-      year = Integer.parseInt(yearArg);
-    }
+    int year = Integer.parseInt(getRequired("year", args));
     int month = getMonthFromArguments(args);
     int dayOfMonth = getDayOfMonthFromArguments(args);
 

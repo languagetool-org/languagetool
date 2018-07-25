@@ -106,7 +106,7 @@ public class Configuration {
   private int fontSize = FONT_SIZE_INVALID;
   private int serverPort = DEFAULT_SERVER_PORT;
   private int numParasToCheck = DEFAULT_NUM_CHECK_PARAS;
-  private boolean doResetCheck = true;
+  private boolean doResetCheck = false;
   private String externalRuleDirectory;
   private String lookAndFeelName;
 

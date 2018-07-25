@@ -2,13 +2,24 @@
 
 ## 4.3-SNAPSHOT (2018-09-26)
 
-#### Portuguese
-  * dictionary update
+#### English
   * added and improved rules
-  * improvements to disambiguation
+
+#### Galician
+  * added and improved rules
+
+#### Portuguese
+  * added and improved rules
+  * improvements to disambiguation, and segmentation
+  * dictionary update
 
 #### Russian
   * added and improved rules
+
+#### General
+  * Prepared support for AIX. See https://github.com/MartinKallinger/hunspell-aix
+    for the required libraries
+
 
 
 ## 4.2 (2018-06-26)
