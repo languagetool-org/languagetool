@@ -16,6 +16,11 @@
 #### Russian
   * added and improved rules
 
+#### General
+  * Prepared support for AIX. See https://github.com/MartinKallinger/hunspell-aix
+    for the required libraries
+
+
 
 ## 4.2 (2018-06-26)
 
