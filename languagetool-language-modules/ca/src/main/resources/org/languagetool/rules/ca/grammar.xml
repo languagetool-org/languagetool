@@ -39394,6 +39394,60 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="PREFERABLE_EXPRESSIONS" name="C7) Expressions preferibles" default="on" type="style">
+        <rulegroup id="ANAR_A_INFINITIU" name="anar a + infintiu" default="on" type="style">
+            <!--  false alarms?? -->
+            <url>http://esadir.cat/entrades/fitxa/id/1564</url>
+            <rule>
+                <antipattern>
+                    <marker>
+                        <token>aneu</token>
+                        <token>a</token>
+                        <token>saber</token>
+                    </marker>
+                </antipattern>
+                <pattern>
+                    <token><exception inflected="yes" regexp="yes">en|hi</exception></token>
+                    <marker>
+                        <token regexp="yes">vaig|vas|va|anem|aneu|van</token> <!-- potser és més probable amb uns que amb altres -->  <!--dubtós: morir-->
+                        <token>a</token>
+                        <!--<token regexp="yes">abreujar|abreviar|acabar|acceptar|alimentar|analitzar|aparéixer|aparèixer|arribar|assentar|calcular|caracteritzar|cedir|començar|comportar|comprovar|comptar|confirmar|conferir|constituir|construir|contar|convertir|cremar|cridar|declarar|dedicar|definir|demostrar|descriure|dibuixar|dir|donar|durar|encertar|encetar|entrar|errar|esser|ésser|establir|estendre|exigir|explicar|fallar|finalitzar|formar|gastar|gustar|incorporar|intervenir|limitar|llegir|lliurar|mantenir|mantindre|marcar|menjar|millorar|morir|mostrar|nevar|notar|obtenir|obtindre|oferir|pagar|passar|perdre|potenciar|ploure|potenciar|preparar|presentar|produir|provar|realitzar|recollir|refer|reproduir|rescatar|resoldre|ressorgir|ser|substituir|succeir|suïcidar|tallar|tardar|tenir|tindre|tocar|tornar|tractar|transmetre|traslladar|travessar|trigar|trobar|trucar|unir|usar|utilitzar</token>-->
+                        <token postag="V.N.*" postag_regexp="yes"><exception regexp="yes">abocar|abordar|abraçar|adorar|ajudar|asseure|ballar|banyar|berenar|buscar|caçar|calfar|cantar|cercar|combatre|combregar|comprar|córrer|desaiguar|desguassar|desdejunar|desembocar|dinar|dormir|dutxar|escalfar|esmorzar|esquiar|estudiar|fer|jugar|lluitar|mirar|nedar|nadar|olorar|parar|parlar|passejar|patinar|pescar|raure|recollir|seure|socórrer|sopar|treballar|trobar|veure|visitar|viure</exception></token>
+                    </marker>
+                </pattern>
+                <message>Si no indica moviment, val més fer servir una altra expressió: elimineu el verb anar i useu el present o el futur.</message>
+                <!-- Cal el postag del primer i el lema del segon
+                    <suggestion><match no="1" postag="V.IP(..)0" postag_regexp="yes" postag_replace="yes"></match> </suggestion> -->
+                <example correction="">Li <marker>vaig a dir</marker> que no pot ser.</example>
+                <example correction="">Què creus que <marker>va a passar</marker>.</example>
+                <example correction="">Crec que <marker>va a ésser</marker> molt difícil.</example>
+                <example correction="">El concert <marker>va a començar</marker>.</example>
+                <!-- <example correction="">Ara <marker>anem a veure</marker> què passa.</example> -->
+                <example>Li diré que no pot ser.</example>
+                <example>que hi van a passar els caps de setmana</example>
+                <example>Me'n vaig a mirar.</example>
+                <example>Van a l'escola.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">qui|com</token>
+                    <token regexp="yes">m'|t'|li|ens|us|els|s'</token>
+                    <token min="0">ho</token>
+                    <marker>
+                        <token postag="VMII.*" postag_regexp="yes" inflected="yes">anar</token>
+                        <token>a</token>
+                    </marker>
+                    <token regexp="yes">dir|pensar|creure</token>
+                </pattern>
+                <message>Val més fer servir una altra expressió.</message>
+                <suggestion><match no="4" postag="VMII(.*)" postag_regexp="yes" postag_replace="VAII$1">haver</match> de</suggestion>
+                <example correction="havia de">Qui ens ho <marker>anava a</marker> dir?</example>
+                <example correction="havia de">Com m'<marker>anava a</marker> pensar això?</example>
+                <!--<example correction="havien de">Per què s'ho <marker>anaven a</marker> pensar, això?</example>-->
+                <example correction="havíem de">Com ens ho <marker>anàvem a</marker> pensar?</example>
+                <!--<example correction="havies de">Per què t'<marker>anaves a</marker> pensar que aniria així?</example>-->
+                <example>Què m'anàveu a dir?</example>
+            </rule>
+        </rulegroup>
         <rule id="FINS_A_LA_SACIETAT" name="fins a la sacietat">
             <pattern>
                 <token>fins</token>
@@ -45146,77 +45200,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>No hi ha res millor que fer un canvi.</example>
                 <example>no hi ha res millor en aquesta vida que menjar, beure i estar content</example>
             </rule>
-        </rulegroup>
-        <rulegroup id="ANAR_A_INFINITIU" name="anar a + infintiu" default="on">
-            <!--  false alarms?? -->
-            <url>http://esadir.cat/entrades/fitxa/id/1564</url>
-            <rule>
-                <antipattern>
-                    <marker>
-                        <token>aneu</token>
-                        <token>a</token>
-                        <token>saber</token>
-                    </marker>
-                </antipattern>
-                <pattern>
-                    <token><exception inflected="yes" regexp="yes">en|hi</exception></token>
-                    <marker>
-                        <token regexp="yes">vaig|vas|va|anem|aneu|van</token> <!-- potser és més probable amb uns que amb altres -->  <!--dubtós: morir-->
-                        <token>a</token>
-                        <!--<token regexp="yes">abreujar|abreviar|acabar|acceptar|alimentar|analitzar|aparéixer|aparèixer|arribar|assentar|calcular|caracteritzar|cedir|començar|comportar|comprovar|comptar|confirmar|conferir|constituir|construir|contar|convertir|cremar|cridar|declarar|dedicar|definir|demostrar|descriure|dibuixar|dir|donar|durar|encertar|encetar|entrar|errar|esser|ésser|establir|estendre|exigir|explicar|fallar|finalitzar|formar|gastar|gustar|incorporar|intervenir|limitar|llegir|lliurar|mantenir|mantindre|marcar|menjar|millorar|morir|mostrar|nevar|notar|obtenir|obtindre|oferir|pagar|passar|perdre|potenciar|ploure|potenciar|preparar|presentar|produir|provar|realitzar|recollir|refer|reproduir|rescatar|resoldre|ressorgir|ser|substituir|succeir|suïcidar|tallar|tardar|tenir|tindre|tocar|tornar|tractar|transmetre|traslladar|travessar|trigar|trobar|trucar|unir|usar|utilitzar</token>-->
-                        <token postag="V.N.*" postag_regexp="yes"><exception regexp="yes">abocar|abordar|abraçar|adorar|ajudar|asseure|ballar|banyar|berenar|buscar|caçar|calfar|cantar|cercar|combatre|combregar|comprar|córrer|desaiguar|desguassar|desdejunar|desembocar|dinar|dormir|dutxar|escalfar|esmorzar|esquiar|estudiar|fer|jugar|lluitar|mirar|nedar|nadar|olorar|parar|parlar|passejar|patinar|pescar|raure|recollir|seure|socórrer|sopar|treballar|trobar|veure|visitar|viure</exception></token>
-                    </marker>
-                </pattern>
-                <message>Expressió incorrecta si no indica moviment. Elimineu el verb anar i useu el present o el futur.</message>
-                <!-- Cal el postag del primer i el lema del segon
-                    <suggestion><match no="1" postag="V.IP(..)0" postag_regexp="yes" postag_replace="yes"></match> </suggestion> -->
-                <example correction="">Li <marker>vaig a dir</marker> que no pot ser.</example>
-                <example correction="">Què creus que <marker>va a passar</marker>.</example>
-                <example correction="">Crec que <marker>va a ésser</marker> molt difícil.</example>
-                <example correction="">El concert <marker>va a començar</marker>.</example>
-                <!-- <example correction="">Ara <marker>anem a veure</marker> què passa.</example> -->
-                <example>Li diré que no pot ser.</example>
-                <example>que hi van a passar els caps de setmana</example>
-                <example>Me'n vaig a mirar.</example>
-                <example>Van a l'escola.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token regexp="yes">qui|com</token>
-                    <token regexp="yes">m'|t'|li|ens|us|els|s'</token>
-                    <token min="0">ho</token>
-                    <marker>
-                        <token postag="VMII.*" postag_regexp="yes" inflected="yes">anar</token>
-                        <token>a</token>
-                    </marker>
-                    <token regexp="yes">dir|pensar|creure</token>
-                </pattern>
-                <message>Expressió probablement incorrecta</message>
-                <suggestion><match no="4" postag="VMII(.*)" postag_regexp="yes" postag_replace="VAII$1">haver</match> de</suggestion>
-                <example correction="havia de">Qui ens ho <marker>anava a</marker> dir?</example>
-                <example correction="havia de">Com m'<marker>anava a</marker> pensar això?</example>
-                <!--<example correction="havien de">Per què s'ho <marker>anaven a</marker> pensar, això?</example>-->
-                <example correction="havíem de">Com ens ho <marker>anàvem a</marker> pensar?</example>
-                <!--<example correction="havies de">Per què t'<marker>anaves a</marker> pensar que aniria així?</example>-->
-                <example>Què m'anàveu a dir?</example>
-            </rule>
-            <!-- <rule>
-                <pattern>
-                <token postag="SENT_START"/>
-                <marker>
-                <token postag="PT.*" postag_regexp="yes" skip="1"></token>
-                <token postag="V.I[PI].*" postag_regexp="yes" inflected="yes">anar</token>
-                <token>a</token>
-                <token postag="V.N.*" postag_regexp="yes"/>
-                </marker>
-                </pattern>
-                <message>Expressió dubtosa. Podeu dir: <suggestion>(<match no="1"/> vols que...)</suggestion>,
-                <suggestion>(<match no="1"/> havia de...)</suggestion>.</message>
-                <url>http://esadir.cat/entrades/fitxa/id/1564</url>
-                <example correction=""><marker>Com anava a tenir</marker> raó?</example>
-                <example correction=""><marker>Qui m'anava a dir</marker> que acabaria així?</example>
-                <example>Com vols que tingui raó?</example>
-                </rule> -->
         </rulegroup>
         <rulegroup id="SUBSTANTIUS_JUNTS" name="Dos noms comuns junts">
             <antipattern>
