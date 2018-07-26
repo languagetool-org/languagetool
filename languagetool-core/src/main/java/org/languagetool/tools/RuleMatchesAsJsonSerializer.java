@@ -22,6 +22,8 @@ import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
+import org.languagetool.markup.AnnotatedText;
+import org.languagetool.markup.AnnotatedTextBuilder;
 import org.languagetool.rules.Category;
 import org.languagetool.rules.CategoryId;
 import org.languagetool.rules.RuleMatch;
@@ -55,6 +57,16 @@ public class RuleMatchesAsJsonSerializer {
    * @since 3.7
    */
   public String ruleMatchesToJson(List<RuleMatch> matches, List<RuleMatch> hiddenMatches, String text, int contextSize,
+                                  Language lang, Language detectedLang, String incompleteResultsReason) {
+    return ruleMatchesToJson(matches, hiddenMatches, new AnnotatedTextBuilder().addText(text).build(), contextSize, lang, detectedLang, incompleteResultsReason);
+  }
+
+  /**
+   * @param incompleteResultsReason use a string that explains why results are incomplete (e.g. due to a timeout) -
+   *        a 'warnings' section will be added to the JSON. Use {@code null} if results are complete.
+   * @since 4.3
+   */
+  public String ruleMatchesToJson(List<RuleMatch> matches, List<RuleMatch> hiddenMatches, AnnotatedText text, int contextSize,
                                   Language lang, Language detectedLang, String incompleteResultsReason) {
     ContextTools contextTools = new ContextTools();
     contextTools.setEscapeHtml(false);
@@ -118,7 +130,7 @@ public class RuleMatchesAsJsonSerializer {
     g.writeEndObject();
   }
 
-  private void writeMatchesSection(String sectionName, JsonGenerator g, List<RuleMatch> matches, String text, ContextTools contextTools) throws IOException {
+  private void writeMatchesSection(String sectionName, JsonGenerator g, List<RuleMatch> matches, AnnotatedText text, ContextTools contextTools) throws IOException {
     g.writeArrayFieldStart(sectionName);
     for (RuleMatch match : matches) {
       g.writeStartObject();
@@ -150,8 +162,8 @@ public class RuleMatchesAsJsonSerializer {
     g.writeEndArray();
   }
 
-  private void writeContext(JsonGenerator g, RuleMatch match, String text, ContextTools contextTools) throws IOException {
-    String context = contextTools.getContext(match.getFromPos(), match.getToPos(), text);
+  private void writeContext(JsonGenerator g, RuleMatch match, AnnotatedText text, ContextTools contextTools) throws IOException {
+    String context = contextTools.getContext(match.getFromPos(), match.getToPos(), text.getTextWithMarkup());
     int contextOffset = context.indexOf(START_MARKER);
     context = context.replaceFirst(START_MARKER, "");
     g.writeObjectFieldStart("context");

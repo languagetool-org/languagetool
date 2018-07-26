@@ -46,7 +46,7 @@ import static org.languagetool.server.ServerTools.print;
 abstract class TextChecker {
 
   protected abstract void setHeaders(HttpExchange httpExchange);
-  protected abstract String getResponse(String text, DetectedLanguage lang, Language motherTongue, List<RuleMatch> matches,
+  protected abstract String getResponse(AnnotatedText text, DetectedLanguage lang, Language motherTongue, List<RuleMatch> matches,
                                         List<RuleMatch> hiddenMatches, String incompleteResultReason);
   @NotNull
   protected abstract List<String> getPreferredVariants(Map<String, String> parameters);
@@ -202,7 +202,7 @@ abstract class TextChecker {
         print("Warn: Failed to query hidden matches server at " + config.getHiddenMatchesServer() + ": " + e.getClass() + ": " + e.getMessage());
       }
     }
-    String response = getResponse(aText.getPlainText(), detLang, motherTongue, matches, hiddenMatches, incompleteResultReason);
+    String response = getResponse(aText, detLang, motherTongue, matches, hiddenMatches, incompleteResultReason);
     String messageSent = "sent";
     String languageMessage = lang.getShortCodeWithCountryAndVariant();
     String referrer = httpExchange.getRequestHeaders().getFirst("Referer");

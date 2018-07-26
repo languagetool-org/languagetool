@@ -20,7 +20,21 @@
   * Prepared support for AIX. See https://github.com/MartinKallinger/hunspell-aix
     for the required libraries
 
-
+#### HTTP API / LT server
+  * The server can now accept JSON as the `data` parameter that describes
+    markup. For example:
+    ```
+    {"annotation":[
+      {"text": "A "},
+      {"markup": "<b>"},
+      {"text": "test"},
+      {"markup": "</b>"}
+    ]}
+    ```
+    With this input, LT will ignore the `markup` parts and run the check only
+    on the `text` parts. The error offset positions will still refer to the
+    original input including the markup, so that suggestions can easily be applied.  
+    (https://github.com/languagetool-org/languagetool/issues/757)
 
 ## 4.2 (2018-06-26)
 

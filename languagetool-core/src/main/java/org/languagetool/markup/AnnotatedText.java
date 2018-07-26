@@ -67,6 +67,17 @@ public class AnnotatedText {
   }
 
   /**
+   * @since 4.3
+   */
+  public String getTextWithMarkup() {
+    StringBuilder sb = new StringBuilder();
+    for (TextPart part : parts) {
+      sb.append(part.getPart());
+    }
+    return sb.toString();
+  }
+
+  /**
    * Internally used by LanguageTool to adjust error positions to point to the
    * original location with markup, even though markup was ignored during text checking.
    * @param plainTextPosition the position in the plain text (no markup) that was checked

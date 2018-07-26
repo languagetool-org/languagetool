@@ -81,12 +81,24 @@ class ApiV2 {
 
   private void handleCheckRequest(HttpExchange httpExchange, Map<String, String> parameters, ErrorRequestLimiter errorRequestLimiter, String remoteAddress) throws Exception {
     AnnotatedText aText;
+    int paramCount = (parameters.containsKey("text") ? 1 : 0) + (parameters.containsKey("data") ? 1 : 0);
+    if (paramCount > 1) {
+      throw new RuntimeException("Set only 'text' or 'data' parameters, not both");
+    }
     if (parameters.containsKey("text")) {
       aText = new AnnotatedTextBuilder().addText(parameters.get("text")).build();
     } else if (parameters.containsKey("data")) {
       ObjectMapper mapper = new ObjectMapper();
       JsonNode data = mapper.readTree(parameters.get("data"));
-      aText = getAnnotatedText(data, data.get("text").asText());
+      if (data.get("text") != null && data.get("annotation") != null) {
+        throw new RuntimeException("'data' key in JSON requires either 'text' or 'annotation' key, not both");
+      } else if (data.get("text") != null) {
+        aText = getAnnotatedTextFromString(data, data.get("text").asText());
+      } else if (data.get("annotation") != null) {
+        aText = getAnnotatedTextFromJson(data);
+      } else {
+        throw new RuntimeException("'data' key in JSON requires 'text' or 'annotation' key");
+      }
     } else {
       throw new RuntimeException("Missing 'text' or 'data' parameter");
     }
@@ -183,7 +195,7 @@ class ApiV2 {
     httpExchange.getResponseBody().write(response.getBytes(ENCODING));
   }
 
-  private AnnotatedText getAnnotatedText(JsonNode data, String text) {
+  private AnnotatedText getAnnotatedTextFromString(JsonNode data, String text) {
     AnnotatedTextBuilder textBuilder = new AnnotatedTextBuilder().addText(text);
     if (data.has("metaData")) {
       JsonNode metaData = data.get("metaData");
@@ -200,6 +212,30 @@ class ApiV2 {
       }
     }
     return textBuilder.build();
+  }
+
+  private AnnotatedText getAnnotatedTextFromJson(JsonNode data) {
+    AnnotatedTextBuilder atb = new AnnotatedTextBuilder();
+    // Expected format:
+    // [
+    //   {text: 'text'},
+    //   {markup: '<b>'}
+    //   {text: 'more text'},
+    //   {markup: '</b>'}
+    // ]
+    //
+    for (JsonNode node : data.get("annotation")) {
+      if (node.get("text") != null && node.get("markup") != null) {
+        throw new RuntimeException("Only either 'text' or 'markup' are supported in 'annotation' list, not both: " + node);
+      } else if (node.get("text") != null) {
+        atb.addText(node.get("text").asText());
+      } else if (node.get("markup") != null) {
+        atb.addMarkup(node.get("markup").asText());
+      } else {
+        throw new RuntimeException("Only 'text' and 'markup' are supported in 'annotation' list: " + node);
+      }
+    }
+    return atb.build();
   }
 
   String getLanguages() throws IOException {

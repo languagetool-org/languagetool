@@ -22,6 +22,7 @@ import com.sun.net.httpserver.HttpExchange;
 import org.jetbrains.annotations.NotNull;
 import org.languagetool.Language;
 import org.languagetool.Languages;
+import org.languagetool.markup.AnnotatedText;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.tools.StringTools;
 import org.languagetool.tools.RuleMatchesAsJsonSerializer;
@@ -48,7 +49,7 @@ class V2TextChecker extends TextChecker {
   }
 
   @Override
-  protected String getResponse(String text, DetectedLanguage lang, Language motherTongue, List<RuleMatch> matches,
+  protected String getResponse(AnnotatedText text, DetectedLanguage lang, Language motherTongue, List<RuleMatch> matches,
                                List<RuleMatch> hiddenMatches, String incompleteResultsReason) {
     RuleMatchesAsJsonSerializer serializer = new RuleMatchesAsJsonSerializer();
     return serializer.ruleMatchesToJson(matches, hiddenMatches, text, CONTEXT_SIZE,

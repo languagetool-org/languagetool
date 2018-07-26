@@ -19,7 +19,6 @@
 package org.languagetool.server;
 
 import org.apache.commons.lang3.StringUtils;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.languagetool.Language;
 import org.languagetool.language.*;
@@ -44,7 +43,6 @@ public class HTTPServerTest {
   //private static final String LOAD_TEST_URL = "https://api.languagetool.org/v2/check";
   //private static final String LOAD_TEST_URL = "https://languagetool.org/api/v2/check";
 
-  @Ignore("already gets tested by sub class HTTPServerLoadTest")
   @Test
   public void testHTTPServer() throws Exception {
     HTTPServer server = new HTTPServer();
@@ -157,7 +155,7 @@ public class HTTPServerTest {
   }
 
   private void runDataTests() throws IOException {
-    English english = new English();
+    English english = new AmericanEnglish();
     assertTrue(dataTextCheck(english, null,
             "{\"text\": \"This is an test.\"}", "").contains("EN_A_VS_AN"));
     assertTrue(dataTextCheck(english, null,
@@ -168,10 +166,38 @@ public class HTTPServerTest {
             "{\"text\": \"This is an test.\", \"metaData\": {\"key\": \"val\", \"EmailToAddress\": \"My name <foo@bar.org>\"}}", "").contains("EN_A_VS_AN"));
     assertFalse(dataTextCheck(english, null,
             "{\"text\": \"This is a test.\"}", "").contains("EN_A_VS_AN"));
+
+    // Text:
+    // This is <xyz>an test</xyz>. Yet another error error.
+    //              ^^                         ^^^^^^^^^^^
+    String res = dataTextCheck(english, null, "{\"annotation\": [" +
+            "{\"text\": \"This is \"}, {\"markup\": \"<xyz>\"}, {\"text\": \"an test\"}, {\"markup\": \"</xyz>\"}, {\"text\": \". Yet another error error.\"}]}", "");
+
+    System.out.println("RES: " + res);
+    assertTrue(res.contains("EN_A_VS_AN"));
+    assertTrue(res.contains("\"offset\":13"));
+    assertTrue(res.contains("\"length\":2"));
+    assertTrue(res.contains("ENGLISH_WORD_REPEAT_RULE"));
+    assertTrue(res.contains("\"offset\":40"));
+    assertTrue(res.contains("\"length\":11"));
+    assertFalse(res.contains("MORFOLOGIK_RULE_EN_US"));  // "xyz" would be an error, but it's ignored
+    
+    try {
+      dataTextCheck(english, null, "{\"annotation\": [{\"text\": \"An\", \"markup\": \"foo\"}]}", "");
+      fail();
+    } catch (IOException ignore) {}
+    try {
+      dataTextCheck(english, null, "{\"annotation\": [{\"bla\": \"An\"}]}", "");
+      fail();
+    } catch (IOException ignore) {}
+    try {
+      dataTextCheck(english, null, "{\"text\": \"blah\", \"annotation\": \"foo\"}", "");
+      fail();
+    } catch (IOException ignore) {}
   }
 
   @Test
-  public void testTimeout() throws Exception {
+  public void testTimeout() {
     HTTPServerConfig config = new HTTPServerConfig(HTTPTools.getDefaultPort(), false);
     config.setMaxCheckTimeMillis(1);
     HTTPServer server = new HTTPServer(config, false);
