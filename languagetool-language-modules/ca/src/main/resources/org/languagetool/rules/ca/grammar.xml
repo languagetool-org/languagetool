@@ -36162,6 +36162,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Com a terme matemàtic, és preferible dir <suggestion><match no="1" postag="(NC.*)" postag_regexp="yes" postag_replace="$1">nombre</match></suggestion>.</message>
                 <example correction="nombres">Són <marker>números</marker> racionals.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes" skip="3">número</token>
+                    </marker>
+                    <token regexp="yes">de|d'</token>
+                    <token regexp="yes">Avogadro|Skewes|Fermat|Lucas|Mach|Dunbar|Reynolds|Stirling|Smith|Bernoulli|Carmichael|Euler|Mersenne|Catalan|Moivre</token>
+                </pattern>
+                <message>Cal dir <suggestion><match no="1" postag="(NC.*)" postag_regexp="yes" postag_replace="$1">nombre</match></suggestion>.</message>
+                <example correction="nombre">El <marker>número</marker> de Fermat</example>
+                <example correction="nombres">Els <marker>números</marker> de Lucas.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="BAIXAR_ABAIXAR" name="Comprova: abaixar/baixar ">
             <rule>
