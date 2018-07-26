@@ -1240,24 +1240,11 @@ public class Main extends WeakBase implements XJobExecutor,
         if (loFlaPa == null) {
           loFlaPa = new LOFlatParagraph(xContext);
         }
-        List<String> oldParas = allParas.get(docNum);
         if (!resetAllParas(loCursor.get(docNum), loFlaPa, docNum)) {
           return returnOneParaCheck();
         }
         if(doResetCheck) {
           resetCheck();
-          if(numParasToCheck > 0) {
-            int from;
-            for(from = 0; from < allParas.get(docNum).size() && from < oldParas.size() 
-                && allParas.get(docNum).get(from).equals(oldParas.get(from)); from++);
-            from -= 1 + numParasToCheck;
-            int to;
-            for(to = 1; to <= allParas.get(docNum).size() && to <= oldParas.size()
-                && allParas.get(docNum).get(allParas.get(docNum).size() - to).equals(
-                    oldParas.get(oldParas.size() - to)); to++);
-            to = allParas.get(docNum).size() + numParasToCheck - to;
-            loFlaPa.markFlatParasAsChecked(from, to);
-          }
         }
         isReset = true;
         isChanged = true;
@@ -1347,9 +1334,6 @@ public class Main extends WeakBase implements XJobExecutor,
           allParas.get(docNum).set(nParas, chPara);
           if(doResetCheck) {
             resetCheck();
-            if(numParasToCheck > 0) {
-                loFlaPa.markFlatParasAsChecked(nParas - numParasToCheck, nParas + numParasToCheck);
-            }
           }
           return returnNParaCheck(nParas, numThread);
         }

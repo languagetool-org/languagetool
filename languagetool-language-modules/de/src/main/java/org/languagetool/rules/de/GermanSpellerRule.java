@@ -110,6 +110,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("Phählen?", "^Ph", "Pf");
     putRepl("Kattermesser[ns]?", "Ka", "Cu");
     putRepl("gehert(e[mnrs]?)?", "he", "eh"); // "geherte" -> "geehrte"
+    put("kreativlos(e[nmrs]?)?", w -> Arrays.asList(w.replaceFirst("kreativ", "fantasie"), w.replaceFirst("kreativ", "einfalls"), w.replaceFirst("kreativlos", "unkreativ"), w.replaceFirst("kreativlos", "uninspiriert")));
+    put("Kreativlosigkeit", "Unkreativität");
+    put("hinund?her", "hin und her");
     put("misverständniss", "Missverständnis");
     put("warheit", "Wahrheit");
     put("unerkennlich", "unkenntlich");
@@ -121,14 +124,17 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("fangten", "fingen");
     put("past", "passt");
     put("[aA]nwesenzeiten", "Anwesenheitszeiten");
+    put("[gG]eizigkeit", "Geiz");
     put("[fF]leißigkeit", "Fleiß");
-    put("Bequemheit", "Bequemlichkeit");
+    put("[bB]equemheit", "Bequemlichkeit");
     put("[mM]issionarie?sie?rung", "Missionierung");
     put("[sS]chee?selonge?", "Chaiselongue");
     put("Re[kc]amiere", "Récamière");
     put("legen[td]lich", "lediglich");
     put("ein[ua]ndhalb", "eineinhalb");
     put("[mM]illion(en)?mal", w -> Collections.singletonList(StringTools.uppercaseFirstChar(w.replaceFirst("mal", " Mal"))));
+    put("Opelarena", "Opel Arena");
+    put("Toll-Collect", "Toll Collect");
     put("desweitere[nm]", "des Weiteren");
     putRepl("indifiziert(e[mnrs]?)?", "ind", "ident");
     putRepl("dreite[mnrs]?", "dreit", "dritt");
@@ -164,10 +170,13 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("geh?neh?m[ie]gung(en)?", "geh?neh?m[ie]gung", "Genehmigung");
     putRepl("Korrigierung(en)?", "igierung", "ektur");
     putRepl("[kK]orregierung(en)?", "[kK]orregierung", "Korrektur");
+    putRepl("[kK]orrie?girung(en)?", "[kK]orrie?girung", "Korrektur");
     putRepl("[nN]ocheimal", "eimal", " einmal");
     putRepl("[aA]benzu", "enzu", " und zu");
     putRepl("[kK]onflikation(en)?", "[kK]onfli", "Kompli");
     putRepl("[mM]itanader", "ana", "einan");
+    putRepl("[mM]itenand", "enand", "einander");
+    putRepl("Gelangenheitsbestätigung(en)?", "heit", "");
     putRepl("[jJ]edwillige[mnrs]?", "willig", "wed");
     putRepl("[qQ]ualitäts?bewußt(e[mnrs]?)?", "ts?bewußt", "tsbewusst");
     putRepl("[vV]oraussichtig(e[nmrs]?)?", "sichtig", "sichtlich");
@@ -591,6 +600,11 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       }
     } else if (word.matches("[vV]erstehendniss?(es?)?")) {
       suggestion = word.replaceFirst("[vV]erstehendnis", "Verständnis");
+      if (!hunspellDict.misspelled(suggestion)) {
+        return Collections.singletonList(suggestion);
+      }
+    } else if (word.matches("koregier.+")) {
+      suggestion = word.replaceAll("reg", "rrig");
       if (!hunspellDict.misspelled(suggestion)) {
         return Collections.singletonList(suggestion);
       }

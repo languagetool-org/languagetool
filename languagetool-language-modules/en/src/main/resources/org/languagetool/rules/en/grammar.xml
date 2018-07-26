@@ -25325,6 +25325,134 @@ USA
             <example correction="">It allows us to <marker>both grow a lot, focus some, and</marker> flourish.</example>
             <example>It allows us to <marker>both</marker> grow and focus, and later flourish.</example>
         </rule>
+
+        <rulegroup id="DATE_NEW_YEAR" name="A new year has begun">
+            <antipattern>
+                <token regexp="yes">\d\d\d\d</token>
+                <token>BC</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">\d\d\d\d</token>
+                <token>B</token>
+                <token>.</token>
+                <token>C</token>
+                <token>.</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <!-- "7 October 2014" -->
+                    <token regexp="yes">\d\d?</token>
+                    <token regexp="yes">&months;|&abbrevMonths;</token>
+                    <token regexp="yes">\d\d\d\d</token>
+                </pattern>
+                <filter class="org.languagetool.rules.en.NewYearDateFilter" args="year:\3 month:\2 day:\1"/>
+                <message>
+                    A new year has begun. Did you mean
+                    <suggestion>\1 \2 {realYear}</suggestion>?
+                </message>
+                <example correction="7 October 2014">IGD Convention - <marker>7 October 2013</marker></example>
+                <example correction="7 Oct 2014">IGD Convention - <marker>7 Oct 2013</marker></example>
+                <example>IGD Convention - Tuesday, <marker>7 October 2014</marker></example>
+                <example>IGD Convention - Tuesday, <marker>7 Oct 2014</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <!-- "October 7, 2014" -->
+                    <token regexp="yes">&months;|&abbrevMonths;</token>
+                    <token regexp="yes">\d\d?</token>
+                    <token>,</token>
+                    <token regexp="yes">\d\d\d\d</token>
+                </pattern>
+                <filter class="org.languagetool.rules.en.NewYearDateFilter" args="year:\4 month:\1 day:\2"/>
+                <message>
+                    A new year has begun. Did you mean
+                    <suggestion>\1 \2, {realYear}</suggestion>?
+                </message>
+                <example correction="October 7, 2014">IGD Convention - <marker>October 7, 2013</marker></example>
+                <example correction="Oct 7, 2014">IGD Convention - <marker>Oct 7, 2013</marker></example>
+                <example>IGD Convention - Tuesday, <marker>Oct 7, 2014</marker></example>
+                <example>IGD Convention - Tuesday, <marker>Oct 7, 2018</marker></example>
+                <example>IGD Convention - Tuesday, <marker>October 7, 2012</marker></example>
+            </rule>
+            <!-- "31/10/2014" -->
+            <!-- the ambiguous forms have been antipatterned -->
+            <rule>
+                <antipattern>
+                    <token regexp="yes">&weekdays;</token>
+                    <token>,</token>
+                    <token regexp="yes">0?[1-9]|1[0-2]</token>
+                    <token>/</token>
+                    <token regexp="yes">0?[1-9]|1[0-2]</token>
+                    <token>/</token>
+                    <token regexp="yes">\d\d\d\d</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">0?[1-9]|[12][0-9]|3[01]</token>
+                    <token>/</token>
+                    <token regexp="yes">0?[1-9]|1[0-2]</token>
+                    <token>/</token>
+                    <token regexp="yes">\d\d\d\d</token>
+                </pattern>
+                <filter class="org.languagetool.rules.en.NewYearDateFilter" args="year:\5 month:\3 day:\1"/>
+                <message>
+                    A new year has begun. Did you mean
+                    <suggestion>\1/\3/{realYear}</suggestion>?
+                </message>
+                <example correction="31/10/2014">IGD Convention 2014 - <marker>31/10/2013</marker></example>
+                <example>IGD Convention 2014 - <marker>31/10/2014</marker></example>
+                <example>IGD Convention 2014 - <marker>31/10/2018</marker></example>
+                <example>IGD Convention 2014 - <marker>31/10/2012</marker></example>
+                <example>IGD Convention 2014 - <marker>10/09/2014</marker></example><!-- not correct, but ambiguous -->
+                <example>IGD Convention 2014 - <marker>9/10/2014</marker></example><!-- not correct, but ambiguous -->
+            </rule>
+            <rule>
+                <!-- "10/31/2014" -->
+                <!-- the ambiguous forms have been antipatterned -->
+                <antipattern>
+                    <token regexp="yes">&weekdays;</token>
+                    <token>,</token>
+                    <token regexp="yes">0?[1-9]|1[0-2]</token>
+                    <token>/</token>
+                    <token regexp="yes">0?[1-9]|1[0-2]</token>
+                    <token>/</token>
+                    <token regexp="yes">\d\d\d\d</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">0?[1-9]|1[0-2]</token>
+                    <token>/</token>
+                    <token regexp="yes">0?[1-9]|[12][0-9]|3[01]</token>
+                    <token>/</token>
+                    <token regexp="yes">\d\d\d\d</token>
+                </pattern>
+                <filter class="org.languagetool.rules.en.NewYearDateFilter" args="year:\5 month:\1 day:\3"/>
+                <message>
+                    A new year has begun. Did you mean
+                    <suggestion>\1/\3/{realYear}</suggestion>?
+                </message>
+                <example correction="10/31/2014">IGD Convention 2014 - <marker>10/31/2013</marker></example>
+                <example>IGD Convention 2014 - <marker>10/31/2014</marker></example>
+                <example>IGD Convention 2014 - <marker>10/31/2018</marker></example>
+                <example>IGD Convention 2014 - <marker>10/31/2012</marker></example>
+                <example>IGD Convention 2014 - <marker>10/09/2014</marker></example><!-- not correct, but ambiguous -->
+                <example>IGD Convention 2014 - <marker>9/10/2014</marker></example><!-- not correct, but ambiguous -->
+            </rule>
+            <rule>
+                <!-- "2014-10-31" -->
+                <pattern>
+                    <token regexp="yes">\d\d\d\d-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])</token>
+                </pattern>
+                <filter class="org.languagetool.rules.en.YMDNewYearDateFilter" args="date:\1"/>
+                <message>
+                    A new year has begun. Did you mean
+                    <suggestion>{realDate}</suggestion>?
+                </message>
+                <example correction="2014-10-31">IGD Convention 2014 - <marker>2013-10-31</marker></example>
+                <example>IGD Convention 2014 - <marker>2014-10-31</marker></example>
+                <example>IGD Convention 2014 - <marker>2018-10-31</marker></example>
+                <example>IGD Convention 2014 - <marker>2012-10-31</marker></example>
+            </rule>             
+        </rulegroup>
+
         <rulegroup id="DATE_WEEKDAY" name="Weekday doesn't match date">
             <antipattern>
                 <token regexp="yes">\d\d\d\d</token>
@@ -25469,6 +25597,7 @@ USA
                 <token>,</token>
                 <token regexp="yes">\d\d?</token>
                 <token regexp="yes">&months;|&abbrevMonths;</token>
+                <token min="0">,</token>
                 <token regexp="yes">\d\d\d\d</token>
             </antipattern>
             <antipattern>
@@ -25587,7 +25716,12 @@ USA
                 <example>IGD Convention 2014 - <marker>Monday, 9/10</marker></example><!-- not correct, but ambiguous -->
             </rule>
         </rulegroup>
+
         <rulegroup id="INVALID_DATE" name="Invalid date, like 'February 31, 2014'">
+            <antipattern>
+                <!-- DOI regex -->
+                <token regexp="yes">10.\d{4,9}/[-._;()/:A-Z0-9]+</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <!-- "June 31, 2014" -->
@@ -25600,6 +25734,7 @@ USA
                 <message>The month of \1 only has 30 days.</message>
                 <example correction="">It happened on <marker>November 31</marker>, 2014.</example>
                 <example>It happened on <marker>November 30</marker>, 2014.</example>
+                <example>Band 89, Nr. 9, 2002, S. 1531–1546, DOI: 10.3732/ajb.89.9.1531.</example>
             </rule>
             <rule>
                 <pattern>

@@ -4063,6 +4063,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Wessen"><marker>Wesen</marker> Kleid trug sie gestern?</example>
             </rule>
         </rulegroup>
+        <rulegroup id="TOT_GEWEIHT" name="tot geweiht (todgeweiht)">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>tot</token>
+                    <token inflected="yes">geweiht</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>tod\2</suggestion> (= dem Tod nahe) statt '\1 \2' (geweiht nach dem Tod)?</message>
+                <example correction="todgeweihten">Die <marker>tot geweihten</marker> Gladiatoren wurden vom Publikum bejubelt</example>
+            </rule>
+        </rulegroup>
         <rule id="AB_DIENSTAGE" name="ab Dienstage (Dienstag) etc.">
             <pattern>
                 <token regexp="yes">ab|am|seit</token>
@@ -10115,6 +10125,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>&getrennt;.</short>
                 <example correction="bereitzustellen">Es ist wichtig, alle Unterlagen <marker>bereit zu stellen</marker>.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token>zu</token>
+                    <token inflected="yes" regexp="yes">geben|lassen<exception regexp="yes">geben|lassen</exception></token>
+                </pattern>
+                <message>Falls Sie eine Form des Verbs 'zu<match no="2" postag="VER:INF:NON"/>' meinten, wird diese zusammengeschrieben.</message>
+                <suggestion>\1\2</suggestion>
+                <short>&getrennt;.</short>
+                <example correction="zulässt">Falls er es <marker>zu lässt</marker>, sind wir machtlos.</example>
+                <example correction="zugibt">Wenn er es <marker>zu gibt</marker>, erhält er eine mildere Strafe.</example>
+                <example>Es wäre besser, es zu lassen.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="MASSREGELN" name="maß regeln (maßregeln)">
                 <rule>
@@ -10159,14 +10181,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>
-                        <token>schief</token>
+                        <token regexp="yes">glatt|schief</token>
                         <token inflected="yes" regexp="yes">gehen|laufen</token>
                     </marker>
                 </pattern>
-                <message>Formen des Verbs 'schiefgehen' / 'schieflaufen' (in der Bedeutung 'misslingen') werden zusammengeschrieben.</message>
+                <message>Formen des Verbs 'schief-/glattgehen' / 'schief-/glattlaufen' (in der Bedeutung 'miss-/gelingen') werden zusammengeschrieben.</message>
                 <suggestion>\1\2</suggestion>
                 <example correction="schiefgehen">Das wird schon <marker>schief gehen</marker>!</example>
                 <example correction="schiefgelaufen">Es ist alles <marker>schief gelaufen</marker>!</example>
+                <example correction="glattgelaufen">Es ist alles <marker>glatt gelaufen</marker>!</example>
                 <example correction="schiefgeht">Wenn das <marker>schief geht</marker>, haben wir ein Problem.</example>
             </rule>
         </rulegroup>
@@ -11102,6 +11125,100 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
 
+        <rulegroup id="DATUM_NEUES_JAHR" name="Ein neues Jahr hat begonnen">
+            <antipattern>
+                <token regexp="yes">\d\d\d\d</token>
+                <token>v</token>
+                <token>.</token>
+                <token min="0">&nbsp;</token>
+                <token>Chr</token>
+                <token>.</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">\d\d\d\d</token>
+                <token>v</token>
+                <token>.</token>
+                <token min="0">&nbsp;</token>
+                <token>u</token>
+                <token>.</token>
+                <token min="0">&nbsp;</token>
+                <token>Z</token>
+                <token>.</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token regexp="yes">\d\d?</token>
+                    <token>.</token>
+                    <token regexp="yes">\d\d?</token>
+                    <token>.</token>
+                    <token regexp="yes">\d\d\d\d</token>
+                </pattern>
+                <filter class="org.languagetool.rules.de.NewYearDateFilter" args="year:\5 month:\3 day:\1"/>
+                <message>Ein neues Jahr hat begonnen. Meinten Sie den 
+                    <suggestion>\1.\3.{realYear}</suggestion>?
+                </message>
+                <example correction="23.08.2014">Termin: <marker>23.08.2013</marker></example>
+                <example>Termin: 23.08.2014</example>
+                <example>Termin: 23.08.2018</example>
+                <example>Termin: 23.08.2012</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">\d\d?</token>
+                    <token>.</token>
+                    <token regexp="yes">&monate;</token>
+                    <token regexp="yes">\d\d\d\d</token>
+                </pattern>
+                <filter class="org.languagetool.rules.de.NewYearDateFilter" args="year:\4 month:\3 day:\1"/>
+                <message>
+                    Ein neues Jahr hat begonnen. Meinten Sie den
+                    <suggestion>\1. \3 {realYear}</suggestion>?
+                </message>
+                <example correction="1. Jänner 2014">Termin: <marker>1. Jänner 2013</marker></example>
+                <example correction="23. Februar 2014">Termin: Sonntag, <marker>23. Februar 2013</marker></example>
+                <example>Termin: Mittwoch, <marker>1. Jänner 2014</marker></example>
+                <example>Termin: Samstag, <marker>23. August 2014</marker></example>
+                <example>Termin: Samstag, <marker>23. August 2018</marker></example>
+                <example>Termin: Samstag, <marker>23. August 2012</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">\d\d?</token>
+                    <token>.</token>
+                    <token regexp="yes">&abgekMonate;</token>
+                    <token>.</token>
+                    <token regexp="yes">\d\d\d\d</token>
+                </pattern>
+                <filter class="org.languagetool.rules.de.NewYearDateFilter" args="year:\5 month:\3 day:\1"/>
+                <message>
+                    Ein neues Jahr hat begonnen. Meinten Sie den 
+                    <suggestion>\1. \3. {realYear}</suggestion>?
+                </message>
+                <example correction="1. Feb. 2014">Termin: Donnerstag, <marker>1. Feb. 2013</marker></example>
+                <example correction="23. Aug. 2014">Termin: Sonntag, <marker>23. Aug. 2013</marker></example>
+                <example>Termin: Mittwoch, <marker>1. Jän. 2014</marker></example>
+                <example>Termin: Samstag, <marker>23. Aug. 2014</marker></example>
+                <example>Termin: Sa, <marker>23. Aug. 2014</marker></example>
+                <example>Termin: Samstag, den <marker>23. Aug. 2014</marker></example>
+                <example>Termin: Samstag, den <marker>23. Aug. 2017</marker></example>
+                <example>Termin: Samstag, den <marker>23. Aug. 2012</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">\d\d\d\d-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])</token>
+                </pattern>
+                <filter class="org.languagetool.rules.de.YMDNewYearDateFilter" args="date:\1"/>
+                <message>
+                    Ein neues Jahr hat begonnen. Meinten Sie 
+                    <suggestion>{realDate}</suggestion>?
+                </message>
+                <example correction="2014-09-28">Ein Termin am Dienstag, <marker>2013-09-28</marker>.</example>
+                <example>Ein Termin am Montag, <marker>2014-09-28</marker>.</example>
+                <example>Ein Termin am Montag, <marker>2017-09-28</marker>.</example>
+                <example>Ein Termin am Montag, <marker>2011-09-28</marker>.</example>
+            </rule> 
+            <!-- TODO: weitere regel auch ohne Jahr (Annahme: dieses Jahr (auch am jahresende bei "2.1."?)) -->
+        </rulegroup>
 
         <rulegroup id="DATUM_WOCHENTAG" name="Wochentag passt nicht zum Datum">
             <antipattern case_sensitive="yes">
@@ -11411,6 +11528,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
 
         <rulegroup id="UNGUELTIGES_DATUM" name="Ungültiges Datum, z.B. '31. Februar'">
+            <!-- <antipattern>
+                DOI regex 
+                <token regexp="yes">10.\d{4,9}/[-._;()/:A-Z0-9]+</token> 
+                does not work because of <regexp> rules in this rulegroup 
+            </antipattern>-->
             <rule>
                 <pattern>
                     <token>31</token>
@@ -11420,6 +11542,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Der Monat \3 hat nur 30 Tage.</message>
                 <example correction="">Es geschah am <marker>31. November</marker>.</example>
                 <example>Es geschah am <marker>30. November</marker>.</example>
+                <!-- <example>Band 89, Nr. 9, 2002, S. 1531–1546, DOI: 10.3732/ajb.89.9.1531.</example> -->
             </rule>
             <rule>
                 <pattern>
@@ -15345,6 +15468,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern case_sensitive="yes">
                 <token regexp="yes">ans|fürs|übers|unters|hinters|durchs|ins|vors</token>
+                <token regexp="yes" min="0">frühe|späte</token>
                 <token regexp="yes">[a-z]+</token>
                 <token>Jahrhundert</token>
             </antipattern>
@@ -15364,6 +15488,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Man kann die Nutzung des Geländes bis ins <marker>spätere</marker> 4. Jahrhundert belegen</example>
             <example>Dreimal müssen sie von einem Boot ins nächste steigen.</example>
             <example>Es dauerte bis ins neunzehnte Jahrhundert.</example>
+            <example>Es dauerte bis ins späte neunzehnte Jahrhundert.</example>
         </rule>
         <rule id="AM_KLEINES_NOMEN" name="am/beim/... + kleingeschriebenes Nomen">
             <pattern case_sensitive="yes">
@@ -23907,6 +24032,19 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
+                    <token regexp="yes">(entscheidend|groß|klein|mutig|wichtig)e[rn]?</token>
+                    <marker>
+                        <token regexp="yes">schritte?</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example correction="Schritt">Den Forschern gelang ein großer <marker>schritt</marker> im Kampf gegen Krebs.</example>
+                <example correction="Schritt">Der mutige <marker>schritt</marker> sollte viele Nachahmer finden.</example>
+                <example correction="Schritte">Viele kleine <marker>schritte</marker> sind nötig.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
                     <marker>
                         <token>schritt</token>
                     </marker>
@@ -23972,7 +24110,7 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">besteh(en?|t)?|bestand(en)?|war(en)?</token>
+                    <token regexp="yes" inflected="yes">bestehen|sein</token>
                     <token>aus</token>
                     <marker>
                         <token regexp="yes">stahl|eisen|wolle</token>
@@ -24194,22 +24332,12 @@ Andere Projekte</example>
                     <marker>
                         <token>schuld</token>
                     </marker>
-                    <token inflected="yes">zuschieben</token>
+                    <token inflected="yes" regexp="yes">tragen|zuschieben</token>
                 </pattern>
                 <message>&subanfang;<suggestion>Schuld</suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example>Mir wurde wie immer die <marker>Schuld</marker> zugeschoben.</example>
                 <example correction="Schuld">Ihm wurde die <marker>schuld</marker> zugeschoben.</example>
-            </rule>
-            <rule>
-                <pattern case_sensitive="yes">
-                    <marker>
-                        <token>schuld</token>
-                    </marker>
-                    <token inflected="yes">tragen</token>
-                </pattern>
-                <message>&subanfang;<suggestion>Schuld</suggestion>&subende;</message>
-                <short>&prgk;.</short>
                 <example correction="Schuld">Er hat keine <marker>schuld</marker> getragen.</example>
             </rule>
             <rule>
@@ -24484,6 +24612,7 @@ Andere Projekte</example>
             <rule>
                 <pattern case_sensitive="yes">
                     <token inflected="yes">kommen</token>
+                    <token regexp="yes" min="0">ich|du|e[rs]|[sS]ie|wir|[iI]hr</token>
                     <token>an</token>
                     <token>die</token>
                     <marker>
@@ -24493,19 +24622,6 @@ Andere Projekte</example>
                 <message>&subanfang;<suggestion>Reihe</suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example correction="Reihe">Jeder kommt an die <marker>reihe</marker>!</example>
-            </rule>
-            <rule>
-                <pattern case_sensitive="yes">
-                    <token inflected="yes">kommen</token>
-                    <token regexp="yes">ich|du|e[rs]|[sS]ie|wir|[iI]hr</token>
-                    <token>an</token>
-                    <token>die</token>
-                    <marker>
-                        <token>reihe</token>
-                    </marker>
-                </pattern>
-                <message>&subanfang;<suggestion>Reihe</suggestion>&subende;</message>
-                <short>&prgk;.</short>
                 <example correction="Reihe">Jetzt kommt ihr an die <marker>reihe</marker>!</example>
             </rule>
             <rule>
@@ -24612,7 +24728,7 @@ Andere Projekte</example>
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[iI]n|[aA]uf|[wW]ährend|[bB]ei</token>
-                    <token regexp="yes">großer|voller|der</token>
+                    <token regexp="yes">[a-zäöü](.+)?er</token>
                     <marker>
                         <token>fahrt</token>
                     </marker>
@@ -24626,7 +24742,7 @@ Andere Projekte</example>
                     <marker>
                         <token>fahrt</token>
                     </marker>
-                    <token inflected="yes">aufnehmen</token>
+                    <token inflected="yes" regexp="yes">aufnehmen|gewinnen</token>
                 </pattern>
                 <message>&subanfang;<suggestion>Fahrt</suggestion>&subende;</message>
                 <short>&prgk;.</short>
@@ -29911,9 +30027,13 @@ Andere Projekte</example>
                 <token>bis</token>
                 <token>einschließlich</token>
             </antipattern>
+            <antipattern>
+                <token>weiter</token>
+                <token regexp="yes">(west|süd|öst|nörd)lich</token>
+            </antipattern>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token skip="-1" postag="SENT_START"><exception scope="next" postag="SUB.*:GEN:.*" postag_regexp="yes"/></token>
+                    <token skip="-1" postag="SENT_START"><exception scope="next" postag="SUB.*:GEN:.+" postag_regexp="yes"/></token>
                     <marker>
                         <token regexp="yes">abseits|abzüglich|angelegentlich|angesichts|anhand|anlässlich|anstelle|aufgrund|aufseiten|ausgangs|außerhalb|ausweislich|behufs|beiderseits|beidseits|betreffs|bezüglich|dank|diesseits|eingangs|eingedenk|einschließlich|fernab|hinsichtlich|infolge|inklusive|inmitten|innerhalb|innert|inpuncto|jenseits|kraft|längs|längsseits|mangels|mithilfe|mittels|namens|nördlich|oberhalb|östlich|rücksichtlich|seitens|seitlich|seitwärts|südlich|trotz|unbeschadet|uneingedenk|unerachtet|unfern|ungeachtet|ungerechnet|unterhalb|unweit|vermittels(t)|vermöge|vonseiten|vorbehaltlich|vorbehältlich|wegen|weitab|westlich|willen|zeit|zugunsten|zuhanden|zulasten|zuseiten|zuungunsten|zuzüglich|zwecks</token>
                         <token regexp="yes">d(as|e[mn]|ie)(selben?)?|ein|[Ddsm]?eine[mn]?|(eu|ih|Ih|unse)re[mn]?|(jene|deine|diese)[mn]?</token>
@@ -29931,6 +30051,7 @@ Andere Projekte</example>
                 <example>Ich habe des Staus <marker>wegen deinem</marker> Freund Bescheid gegeben.</example>
                 <example>Es gibt Kanuvereine, die ausschließlich das Wasserwandern betreiben.</example>
                 <example>Bis einschließlich diesen Freitag hat er Urlaub.</example>
+                <example>Wenn sich ihr Angriff erfolgreich gestaltete, sollte weiter westlich ein Angriff der Armee ihn unterstützen.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -30273,6 +30394,19 @@ Andere Projekte</example>
                 </pattern>
                 <message>Sollte hier der Plural <suggestion><match no="4" postag_regexp="yes" postag="SUB:NOM:SIN:(.*)" postag_replace="SUB:NOM:PLU:$1"/></suggestion> verwendet werden?</message>
                 <example correction="Eigenleistungen">Wo sind <marker>Eigenleistung</marker> am besten möglich?</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag="SENT_START"></token>
+                    <token>Ihr</token>
+                    <token postag="VER:.*2:SIN:.+" postag_regexp="yes">
+                        <exception postag="VER:(.*2:PLU.*|IMP:PLU.*|.*3:.*)" postag_regexp="yes"></exception>
+                        <exception scope="next">du</exception>
+                    </token>
+                </pattern>
+                <message>Möglicherweise fehlende Übereinstimmung Subjekt ('Ihr') und Prädikat ('\3') bezüglich Person oder Numerus.</message>
+                <example correction=""><marker>Ihr fragst</marker> mich das wirklich?</example>
+                <example>Ihr brauchst du nicht helfen.</example>
             </rule>
         </rulegroup>
         <rule id="PASSIV_KEIN_PARTIZIP" name="fehlerhafte Passivkonstruktion (z.B. 'ist fahndet (gefahndet) worden')">
@@ -36367,6 +36501,11 @@ Andere Projekte</example>
                     <token postag="ADV:.*" postag_regexp="yes"/>
                     <token>aber</token>
                 </antipattern>
+                <antipattern case_sensitive="yes">
+                    <token>nach</token>
+                    <token>wie</token>
+                    <token>vor</token>
+                </antipattern>
                 <pattern>
                     <marker>
                     <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*|VER:IMP:.*" postag_regexp="yes" skip="-1">
@@ -36390,6 +36529,7 @@ Andere Projekte</example>
                 <example>Neben den Silikatgläsern gibt es aber auch sog. metallische Gläser.</example>
                 <example>Für ein gutes Drittel der befragten 16- bis 29-Jährigen ist Wohnen extrem wichtig.</example>
                 <example>Einmal falsch überwiesenes Geld kann dadurch aber auch nicht durch eine zentrale Instanz zurücküberwiesen werden.</example>
+                <example>Es war besonders hinderlich, dass die bereits erreichten Einbrüche nach wie vor im Osten von den Sinjawino-Höhen flankiert wurden.</example>
             </rule>
 <!-- Komma nach Nebensatz   -->
             <rule>

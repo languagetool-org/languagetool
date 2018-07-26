@@ -1,5 +1,5 @@
 /* LanguageTool, a natural language style checker
- * Copyright (C) 2015 Daniel Naber (http://www.danielnaber.de)
+ * Copyright (C) 2018 Fabian Richter
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -16,7 +16,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.rules.de;
+package org.languagetool.rules.en;
 
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.RuleMatch;
@@ -25,10 +25,10 @@ import org.languagetool.rules.YMDDateHelper;
 import java.util.Map;
 
 /**
- * Date filter that expects a 'date' argument in the format 'yyyy-mm-dd'.
- * @since 3.2
+ * New year date filter that expects a 'date' argument in the format 'yyyy-mm-dd'.
+ * @since 4.3
  */
-public class YMDDateCheckFilter extends DateCheckFilter {
+public class YMDNewYearDateFilter extends NewYearDateFilter {
 
   private final YMDDateHelper ymdDateHelper = new YMDDateHelper();
 
@@ -37,7 +37,8 @@ public class YMDDateCheckFilter extends DateCheckFilter {
     if (args.containsKey("year") || args.containsKey("month") || args.containsKey("day")) {
       throw new RuntimeException("Set only 'weekDay' and 'date' for " + YMDDateCheckFilter.class.getSimpleName());
     }
-    return super.acceptRuleMatch(match, ymdDateHelper.parseDate(args), patternTokens);
+    args = ymdDateHelper.parseDate(args);
+    return super.acceptRuleMatch(ymdDateHelper.correctDate(match, args), args, patternTokens);
   }
 
 }

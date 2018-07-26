@@ -100,6 +100,7 @@ public class VerbAgreementRuleTest {
     assertGood("So tes\u00ADtest Du das mit dem soft hyphen.");
     assertGood("Viele Brunnen in Italiens Hauptstadt sind bereits abgeschaltet.");
     assertGood("„Werde ich tun!“");
+    assertGood("Sie fragte: „Muss ich aussagen?“");
     // incorrect sentences:
     assertBad("Als Borcarbid weißt es eine hohe Härte auf.");
     assertBad("Das greift auf Vorläuferinstitutionen bist auf die Zeit von 1234 zurück.");

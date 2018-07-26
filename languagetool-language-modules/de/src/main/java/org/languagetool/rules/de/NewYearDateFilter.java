@@ -1,5 +1,5 @@
 /* LanguageTool, a natural language style checker
- * Copyright (C) 2014 Daniel Naber (http://www.danielnaber.de)
+ * Copyright (C) 2018 Fabian Richter
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -16,40 +16,26 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.rules.en;
+package org.languagetool.rules.de;
 
-import org.languagetool.rules.AbstractDateCheckFilter;
+import org.languagetool.rules.AbstractNewYearDateFilter;
 
 import java.util.Calendar;
 
 /**
- * English localization of {@link AbstractDateCheckFilter}.
- * @since 2.7
+ * @since 4.3
  */
-public class DateCheckFilter extends AbstractDateCheckFilter {
+public class NewYearDateFilter extends AbstractNewYearDateFilter {
 
   private final DateFilterHelper dateFilterHelper = new DateFilterHelper();
+
+  @Override
+  protected int getMonth(String localizedMonth) {
+    return dateFilterHelper.getMonth(localizedMonth);
+  }
 
   @Override
   protected Calendar getCalendar() {
     return dateFilterHelper.getCalendar();
   }
-
-  @SuppressWarnings("ControlFlowStatementWithoutBraces")
-  @Override
-  protected int getDayOfWeek(String dayStr) {
-    return dateFilterHelper.getDayOfWeek(dayStr);
-  }
-
-  @Override
-  protected String getDayOfWeek(Calendar date) {
-    return dateFilterHelper.getDayOfWeek(date);
-  }
-
-  @SuppressWarnings({"ControlFlowStatementWithoutBraces", "MagicNumber"})
-  @Override
-  protected int getMonth(String monthStr) {
-    return dateFilterHelper.getMonth(monthStr);
-  }
-
 }

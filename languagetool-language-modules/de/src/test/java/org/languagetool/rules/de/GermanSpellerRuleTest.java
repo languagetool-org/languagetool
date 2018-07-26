@@ -271,6 +271,10 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("Betriebsratzimmern", "Betriebsratszimmern", rule, lt);
     assertFirstSuggestion("ausiehst", "aussiehst", rule, lt);
     assertFirstSuggestion("unterbemittelnde", "minderbemittelte", rule, lt);
+    assertFirstSuggestion("koregiert", "korrigiert", rule, lt);
+    assertFirstSuggestion("Gelangenheitsbestätigungen", "Gelangensbestätigungen", rule, lt);
+    assertFirstSuggestion("mitenand", "miteinander", rule, lt);
+    assertFirstSuggestion("hinunher", "hin und her", rule, lt);
   }
 
   @Test
