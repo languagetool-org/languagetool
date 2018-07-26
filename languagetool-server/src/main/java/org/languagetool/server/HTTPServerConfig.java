@@ -24,6 +24,7 @@ import org.jetbrains.annotations.Nullable;
 import org.languagetool.Experimental;
 import org.languagetool.Language;
 import org.languagetool.Languages;
+import org.languagetool.rules.spelling.morfologik.suggestions_ordering.SuggestionsOrdererConfig;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -230,6 +231,7 @@ public class HTTPServerConfig {
   }
 
   private void setLanguageModelDirectory(String langModelDir) {
+    SuggestionsOrdererConfig.setNgramsPath(langModelDir);
     languageModelDir = new File(langModelDir);
     if (!languageModelDir.exists() || !languageModelDir.isDirectory()) {
       throw new RuntimeException("LanguageModel directory not found or is not a directory: " + languageModelDir);
