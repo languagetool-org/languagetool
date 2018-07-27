@@ -228,7 +228,7 @@ class LanguageToolHttpHandler implements HttpHandler {
       message += ", user: " + params.get("username");
     }
     if (params.get("apiKey") != null) {
-      message += ", apikey: " + params.get("apiKey");
+      message += ", apiKey: " + params.get("apiKey");
     }
     print(message);
   }
@@ -247,7 +247,7 @@ class LanguageToolHttpHandler implements HttpHandler {
       message += "user: " + params.get("username") + ", ";
     }
     if (params.get("apiKey") != null) {
-      message += "apikey: " + params.get("apiKey") + ", ";
+      message += "apiKey: " + params.get("apiKey") + ", ";
     }
     message += "time: " + runtimeMillis + ", ";
     String text = params.get("text");

@@ -113,14 +113,14 @@ public class UserDictTest {
     urlOptions += "&text=" + URLEncoder.encode(text, "UTF-8");
     if (username != null && apiKey != null) {
       urlOptions += "&username=" + URLEncoder.encode(username, "UTF-8");
-      urlOptions += "&apikey=" + URLEncoder.encode(apiKey, "UTF-8");
+      urlOptions += "&apiKey=" + URLEncoder.encode(apiKey, "UTF-8");
     }
     URL url = new URL("http://localhost:" + HTTPTools.getDefaultPort() + "/v2/check" + urlOptions);
     return HTTPTools.checkAtUrl(url);
   }
 
   private List<String> getWords(String username, String apiKey) throws IOException {
-    URL url = new URL("http://localhost:" + HTTPTools.getDefaultPort() + "/v2/words?username=" + username + "&apikey=" + apiKey);
+    URL url = new URL("http://localhost:" + HTTPTools.getDefaultPort() + "/v2/words?username=" + username + "&apiKey=" + apiKey);
     ObjectMapper mapper = new ObjectMapper();
     String result = HTTPTools.checkAtUrl(url);
     JsonNode data = mapper.readTree(result);
@@ -134,12 +134,12 @@ public class UserDictTest {
   
   private String addWord(String word, String username, String apiKey) throws IOException {
     URL url = new URL("http://localhost:" + HTTPTools.getDefaultPort() + "/v2/words/add");
-    return HTTPTools.checkAtUrlByPost(url, "word=" + word + "&username=" + username + "&apikey=" + apiKey);
+    return HTTPTools.checkAtUrlByPost(url, "word=" + word + "&username=" + username + "&apiKey=" + apiKey);
   }  
   
   private void deleteWord(String word, String username, String apiKey) throws IOException {
     URL url = new URL("http://localhost:" + HTTPTools.getDefaultPort() + "/v2/words/delete");
-    HTTPTools.checkAtUrlByPost(url, "word=" + word + "&username=" + username + "&apikey=" + apiKey);
+    HTTPTools.checkAtUrlByPost(url, "word=" + word + "&username=" + username + "&apiKey=" + apiKey);
   }
   
 }

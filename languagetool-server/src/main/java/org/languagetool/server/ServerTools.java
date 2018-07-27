@@ -58,12 +58,12 @@ final class ServerTools {
     if (params.get("token") != null) {
       return UserLimits.getLimitsFromToken(config, params.get("token"));
     } else if (params.get("username") != null) {
-      if (params.get("apikey") != null) {
-        return UserLimits.getLimitsByApiKey(config, params.get("username"), params.get("apikey"));
+      if (params.get("apiKey") != null) {
+        return UserLimits.getLimitsByApiKey(config, params.get("username"), params.get("apiKey"));
       } else if (params.get("password") != null) {
         return UserLimits.getLimitsFromUserAccount(config, params.get("username"), params.get("password"));
       } else {
-        throw new IllegalArgumentException("With 'username' set, you also need to specify either 'apikey' or 'password'");
+        throw new IllegalArgumentException("With 'username' set, you also need to specify either 'apiKey' or 'password'");
       }
     } else {
       return UserLimits.getDefaultLimits(config);
