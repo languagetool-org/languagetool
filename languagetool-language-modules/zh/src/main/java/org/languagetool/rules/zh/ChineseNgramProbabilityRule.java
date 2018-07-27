@@ -19,19 +19,12 @@
 
  package org.languagetool.rules.zh;
 
- import com.google.common.collect.Lists;
- import com.hankcs.hanlp.dictionary.CoreDictionary;
  import com.hankcs.hanlp.dictionary.stopword.CoreStopWordDictionary;
  import com.hankcs.hanlp.seg.CRF.CRFSegment;
  import com.hankcs.hanlp.seg.Segment;
  import com.hankcs.hanlp.seg.common.Term;
 
- import edu.berkeley.nlp.lm.ArrayEncodedNgramLanguageModel;
- import edu.berkeley.nlp.lm.ArrayEncodedProbBackoffLm;
- import edu.berkeley.nlp.lm.ContextEncodedNgramLanguageModel;
  import edu.berkeley.nlp.lm.NgramLanguageModel;
- import edu.berkeley.nlp.lm.cache.ArrayEncodedCachingLmWrapper;
- import edu.berkeley.nlp.lm.cache.ContextEncodedLmCache;
  import edu.berkeley.nlp.lm.io.LmReaders;
 
  import org.languagetool.AnalyzedSentence;
@@ -42,6 +35,7 @@
  import org.languagetool.rules.RuleMatch;
 
  import java.io.BufferedReader;
+ import java.io.File;
  import java.io.FileReader;
  import java.io.IOException;
  import java.util.*;
@@ -67,7 +61,7 @@
      String ss = sentence.getText();
      String maxProbSentence = ss;
 
-     float score = ruleHelper.scoreSentence(ss);
+     double score = ruleHelper.scoreSentence(ss);
      List<Term> tokens = ruleHelper.seg.seg(ss);
      int startPos = 0;
 
@@ -84,7 +78,7 @@
            for (String newChar : newChars) {
              if (ruleHelper.getFrequency(newChar) <= -6.5) continue;
              String newSentence = maxProbSentence.substring(0, startPos + i) + newChar + maxProbSentence.substring(startPos + i + 1);
-             float newScore = ruleHelper.scoreSentence(newSentence);
+             double newScore = ruleHelper.scoreSentence(newSentence);
              if (newScore > score) {
                maxProbSentence = newSentence;
                score = newScore;
@@ -111,7 +105,7 @@
    private class RuleHelper {
 
      private Map<String, List<String>> similarDictionary;
-     private NgramLanguageModel trigram;
+     private NgramLanguageModel<String> trigram;
      private NgramLanguageModel<String> unigram;
      private Segment seg;
 
@@ -148,13 +142,13 @@
        }
      }
 
-     private float scoreSentence(String sentence) {
+     private double scoreSentence(String sentence) {
        List<Term> termList = seg.seg(sentence);
-       List<String> ngram = new ArrayList<>();
+       List<String> ngrams = new ArrayList<>();
        for (Term t : termList) {
-         ngram.add(t.word);
+         ngrams.add(t.word);
        }
-       return trigram.scoreSentence(ngram);
+       return trigram.scoreSentence(ngrams);
      }
 
      private List<String> getCharReplacements(String character) {
@@ -164,18 +158,5 @@
      private float getFrequency(String character) {
        return unigram.getLogProb(Arrays.asList(character));
      }
-   }
-
-
-   public static void main(String[] args) throws IOException {
-     ChineseNgramProbabilityRule rule = new ChineseNgramProbabilityRule();
-     JLanguageTool languageTool = new JLanguageTool(new SimplifiedChinese());
-     String ss = "假书抵万金。";
-     AnalyzedSentence sentence = languageTool.getAnalyzedSentence(ss);
-     RuleMatch[] ruleMatches = rule.match(sentence);
-     for (RuleMatch r : ruleMatches) {
-       System.out.println(r.toString() + r.getSuggestedReplacements());
-     }
-
    }
  }
