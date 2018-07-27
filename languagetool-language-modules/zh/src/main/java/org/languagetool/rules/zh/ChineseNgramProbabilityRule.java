@@ -105,14 +105,14 @@
    private class RuleHelper {
 
      private Map<String, List<String>> similarDictionary;
-     private LuceneLM trigram;
+     private NgramLanguageModel<String> trigram;
      private NgramLanguageModel<String> unigram;
      private Segment seg;
 
      private RuleHelper() {
 
        ResourceDataBroker resourceDataBroker = JLanguageTool.getDataBroker();
-       trigram = new LuceneLM(new File("C:\\Dev\\ngramDemo\\data\\test\\index"));
+       trigram = LmReaders.readLmBinary(resourceDataBroker.getFromResourceDirAsUrl("zh/word_trigram.binary").getPath());
 //       System.out.println("Loaded Trigram.....");
 
        unigram = LmReaders.readLmBinary(resourceDataBroker.getFromResourceDirAsUrl("zh/char_unigram.binary").getPath());
@@ -157,17 +157,6 @@
 
      private float getFrequency(String character) {
        return unigram.getLogProb(Arrays.asList(character));
-     }
-   }
-
-   public static void main(String[] args) throws IOException {
-     ChineseNgramProbabilityRule rule = new ChineseNgramProbabilityRule();
-     JLanguageTool languageTool = new JLanguageTool(new SimplifiedChinese());
-     String ss = "假书抵万金。";
-     AnalyzedSentence sentence = languageTool.getAnalyzedSentence(ss);
-     RuleMatch[] ruleMatches = rule.match(sentence);
-     for (RuleMatch r : ruleMatches) {
-       System.out.println(r.toString() + r.getSuggestedReplacements());
      }
    }
  }
