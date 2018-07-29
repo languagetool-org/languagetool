@@ -21,6 +21,7 @@ package org.languagetool.language;
 
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.zh.TraditionalChineseAmbiguityRule;
+import org.languagetool.rules.zh.TraditionalChineseNgramProbabilityRule;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +44,7 @@ public class TraditionalChinese extends Chinese{
     List<Rule> rules = new ArrayList<>();
     rules.addAll(super.getRelevantRules(messages));
     rules.add(new TraditionalChineseAmbiguityRule(messages));
+    rules.add(new TraditionalChineseNgramProbabilityRule(messages));
     return rules;
   }
 }
