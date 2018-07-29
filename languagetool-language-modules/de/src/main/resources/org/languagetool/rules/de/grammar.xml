@@ -30655,6 +30655,16 @@ Andere Projekte</example>
         </rule>
         <rulegroup id="PRAEP_DAT" name="Präposition mit Dativ (mit, bei, von)">
             <rule>
+                <pattern>
+                    <token>wo</token>
+                    <token regexp="yes">bei|von|mit|zu</token>
+                    <token regexp="yes" case_sensitive="yes">[mds]?eine|(eu|ih|Ih|unse)re|(je[dn]|dies|all)e</token>
+                </pattern>
+                <message>Die Präposition '\1' erfordert in der Regel den Dativ: <suggestion>\1 \2 \3m</suggestion> oder <suggestion>\1 \2 \3r</suggestion>. Oder meinten Sie <suggestion>\1\2 \3</suggestion></message>
+                <example correction="wo mit einem|wo mit einer|womit eine">Er fuhr dorthin, <marker>wo mit eine</marker> Rollstuhl gefahren werden konnte.</example>
+                <example correction="wo mit seinem|wo mit seiner|womit seine">Das Geschenk, <marker>wo mit seine</marker> Frau zufrieden war, kostete ein Vermögen.</example>
+            </rule>
+            <rule>
                 <antipattern>
                     <token>ab</token>
                     <token>und</token>
@@ -30671,6 +30681,15 @@ Andere Projekte</example>
                 <message>Die Präposition '\1' erfordert in der Regel den Dativ: <suggestion>\2m</suggestion> oder <suggestion>\2r</suggestion></message>
                 <example correction="einem|einer">Er ging mit <marker>eine</marker> Stock in der Hand los.</example>
                 <example correction="seinem|seiner">Das Kind rannte zu <marker>seine</marker> Mutter.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>wo</token>
+                    <token regexp="yes">bei|von|mit|zu</token>
+                    <token regexp="yes" case_sensitive="yes">die|das</token>
+                </pattern>
+                <message>Die Präposition '\1' erfordert in der Regel den Dativ: <suggestion>\1 \2 dem</suggestion>, <suggestion>\1 \2 den</suggestion> oder <suggestion>\1 \2 der</suggestion>. Oder meinten Sie <suggestion>\1\2 \3</suggestion>?</message>
+                <example correction="wo mit dem|wo mit den|wo mit der|womit die">Er gab der Oganisation viel Geld, <marker>wo mit die</marker> Organisation viel Gutes tat.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -35956,7 +35975,7 @@ Andere Projekte</example>
                 </antipattern>
                 <pattern>
                     <marker>
-                    <token><exception regexp="yes">,|;|-|–|\(|„|“|"</exception><exception postag="SENT_START"/></token>
+                    <token><exception regexp="yes">,|;|-|–|—|\(|„|“|"</exception><exception postag="SENT_START"/></token>
                     <token>sondern</token>
                     </marker>
                 </pattern>
@@ -35996,14 +36015,14 @@ Andere Projekte</example>
                 </antipattern>
                 <antipattern>
                     <token postag="VER.*" postag_regexp="yes"/>
-                    <token postag="PRO:.*" postag_regexp="yes"/>
+                    <token postag="PRO:.+" postag_regexp="yes"/>
                     <token>das</token>
                     <token>nämlich</token>
                 </antipattern>
                 <antipattern>
                     <token postag="VER.*" postag_regexp="yes"/>
-                    <token postag="PRO:.*" postag_regexp="yes"/>
-                    <token postag="PRO:.*" postag_regexp="yes"/>
+                    <token postag="PRO:.+" postag_regexp="yes"/>
+                    <token postag="PRO:.+" postag_regexp="yes"/>
                     <token>also</token>
                 </antipattern>
                 <antipattern>
@@ -36018,7 +36037,7 @@ Andere Projekte</example>
                 </antipattern>
                 <antipattern>
                     <token postag="VER.*" postag_regexp="yes"/>
-                    <token postag="PRO:.*|EIG:.*" postag_regexp="yes"/>
+                    <token postag="PRO:.+|EIG:.+" postag_regexp="yes"/>
                     <token regexp="yes">nämlich|insbesondere|einschließlich|also</token>
                 </antipattern>
                 <antipattern>
