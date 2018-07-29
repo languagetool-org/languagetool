@@ -1,3 +1,22 @@
+/* LanguageTool, a natural language style checker
+ * Copyright (C) 2013 Daniel Naber (http://www.danielnaber.de)
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+ * USA
+ */
+
 package org.languagetool.rules.zh;
 
 import org.apache.lucene.index.DirectoryReader;
@@ -77,6 +96,7 @@ public class LuceneLM {
       throw new RuntimeException("Requested " + tokens.size() + " gram but index has only up to " + maxNgram + "gram: " + tokens);
     }
     Objects.requireNonNull(tokens);
+//        Term term = new Term("ngram", String.join(" ",tokens));
     List<String> tokenList = getTokensWithUnk(tokens);
     return getLogProb(tokenList, false);
   }
@@ -103,8 +123,8 @@ public class LuceneLM {
   }
 
   private LuceneSearcher getCachedLuceneSearcher(File indexDir) {
-    LuceneSearcher luceneSearcher = dirToSearcherMap.get(indexDir);
-    if (luceneSearcher == null) {
+    LuceneSearcher lucenenSearcher = dirToSearcherMap.get(indexDir);
+    if (lucenenSearcher == null) {
       try {
         LuceneSearcher newSearcher = new LuceneSearcher(indexDir);
         dirToSearcherMap.put(indexDir, newSearcher);
@@ -113,7 +133,7 @@ public class LuceneLM {
         throw new RuntimeException(e);
       }
     } else {
-      return luceneSearcher;
+      return lucenenSearcher;
     }
   }
 
@@ -125,7 +145,7 @@ public class LuceneLM {
     Term term = new Term("ngram", String.join(" ", tokens));
     LuceneSearcher luceneSearcher = getLuceneSearcher(tokens.size());
     try {
-      TopDocs docs = luceneSearcher.searcher.search(new TermQuery(term), 200);
+      TopDocs docs = luceneSearcher.searcher.search(new TermQuery(term), 5);
       if (!backoff) {
         if (docs.totalHits == 0) {
           int middle = (int) Math.ceil((double)tokens.size() / 2);
@@ -148,13 +168,13 @@ public class LuceneLM {
     return result;
   }
 
-  private List<String> getTokensWithUnk(List<String> tokens){
+  List<String> getTokensWithUnk(List<String> tokens){
     List<String> result = new ArrayList<>();
     LuceneSearcher luceneSearcher = getLuceneSearcher(1);
     for (String token : tokens) {
       Term term = new Term("ngram", token);
       try {
-        TopDocs docs = luceneSearcher.searcher.search(new TermQuery(term), 200);
+        TopDocs docs = luceneSearcher.searcher.search(new TermQuery(term), 5);
         if (docs.totalHits == 0) {
           result.add("<unk>");
         } else {
@@ -189,4 +209,5 @@ public class LuceneLM {
       return reader;
     }
   }
+
 }

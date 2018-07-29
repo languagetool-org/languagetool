@@ -42,7 +42,7 @@ public class SimplifiedChinese extends Chinese {
   public List<Rule> getRelevantRules(ResourceBundle messages) {
     List<Rule> rules = new ArrayList<>();
     rules.addAll(super.getRelevantRules(messages));
-    rules.add(new ChineseNgramProbabilityRule());
+    rules.add(new ChineseNgramProbabilityRule(messages));
     return rules;
   }
 
