@@ -31,8 +31,11 @@ import java.util.*;
 public class OldSpellingRule extends Rule {
 
   private static final String DESC = "Findet Schreibweisen, die nur in der alten Rechtschreibung gültig waren";
-
-  private static final OldSpellingData data = new OldSpellingData(DESC);
+  private static final String FILE_PATH = "/de/alt_neu.csv";
+  private static final String MESSAGE = "Diese Schreibweise war nur in der alten Rechtschreibung korrekt.";
+  private static final String SHORT_MESSAGE = "alte Rechtschreibung";
+  private static final String RULE_INTERNAL = "OLD_SPELLING_INTERNAL";
+  private static final SpellingData data = new SpellingData(DESC, FILE_PATH, MESSAGE, SHORT_MESSAGE, RULE_INTERNAL);
 
   public OldSpellingRule(ResourceBundle messages) throws IOException {
     super.setCategory(Categories.TYPOS.getCategory(messages));
@@ -53,24 +56,8 @@ public class OldSpellingRule extends Rule {
 
   @Override
   public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
-    List<RuleMatch> ruleMatches = new ArrayList<>();
-    for (OldSpellingRuleWithSuggestion ruleWithSuggestion : data.get()) {
-      Rule rule = ruleWithSuggestion.rule;
-      RuleMatch[] matches = rule.match(sentence);
-      for (RuleMatch match : matches) {
-        String matchedText = sentence.getText().substring(match.getFromPos(), match.getToPos());
-        String textFromMatch = sentence.getText().substring(match.getFromPos());
-        if (textFromMatch.startsWith("Schloß Holte")) {
-          continue;
-        }
-        String suggestion = matchedText.replace(ruleWithSuggestion.oldSpelling, ruleWithSuggestion.newSpelling);
-        if (!suggestion.equals(matchedText)) {   // "Schlüsse" etc. is otherwise considered incorrect (inflected form of "Schluß")
-          match.setSuggestedReplacement(suggestion);
-          ruleMatches.add(match);
-        }
-      }
-    }
-    return toRuleMatchArray(ruleMatches);
+    String[] exceptions = {"Schloß Holte"};
+    return toRuleMatchArray(SpellingRuleWithSuggestion.computeMatches(sentence, data, exceptions));
   }
   
 }
