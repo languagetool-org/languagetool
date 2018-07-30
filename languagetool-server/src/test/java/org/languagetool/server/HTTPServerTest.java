@@ -173,7 +173,6 @@ public class HTTPServerTest {
     String res = dataTextCheck(english, null, "{\"annotation\": [" +
             "{\"text\": \"This is \"}, {\"markup\": \"<xyz>\"}, {\"text\": \"an test\"}, {\"markup\": \"</xyz>\"}, {\"text\": \". Yet another error error.\"}]}", "");
 
-    System.out.println("RES: " + res);
     assertTrue(res.contains("EN_A_VS_AN"));
     assertTrue(res.contains("\"offset\":13"));
     assertTrue(res.contains("\"length\":2"));

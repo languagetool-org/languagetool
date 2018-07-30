@@ -217,7 +217,7 @@ class ApiV2 {
   private AnnotatedText getAnnotatedTextFromJson(JsonNode data) {
     AnnotatedTextBuilder atb = new AnnotatedTextBuilder();
     // Expected format:
-    // [
+    // annotation: [
     //   {text: 'text'},
     //   {markup: '<b>'}
     //   {text: 'more text'},
