@@ -7049,7 +7049,10 @@ USA
             </antipattern>
             <pattern>
                 <token>to</token>
-                <token postag="JJ"><exception postag_regexp="yes" postag="NN|NN:UN|VB.*"/></token>
+                <token postag="JJ">
+                    <exception postag_regexp="yes" postag="NN|NN:UN|VB.*"/>
+                    <exception regexp="yes" case_sensitive="yes" postag="NNP">[A-Z].+</exception>
+                </token>
                 <token min="0">,</token>
                 <token>to</token>
             </pattern>
@@ -7059,6 +7062,7 @@ USA
             <example>My mother went <marker>to town to</marker> get some bread.</example>
             <example>It is next to impossible to make him stop smoking.</example>
             <example>The site is open from dawn to dusk to visitors.</example>
+            <example>He traveled to Bermuda to announce that the company would also open up compliance operations there.</example>
         </rule>
         <rule id="BASE_FORM" name="base form after I/you/we/they">
             <pattern>
@@ -7709,6 +7713,12 @@ USA
         </rule>
         <rulegroup id="AT_TIME" name="wrong preposition with times 'on (at) 7:30 p.m.'">
              <rule>
+                <antipattern>
+                    <token>as</token>
+                    <token>early</token>
+                    <token>as</token>
+                    <token postag="CD"/>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token regexp="yes">a[dns]|i[nt]|on</token>
@@ -7723,6 +7733,7 @@ USA
                 <message>Did you mean <suggestion>at</suggestion>?</message>
                 <example correction="at">She came <marker>on</marker> 7:30 p.m.</example>
                 <example correction="at">She came <marker>on</marker> 7 p.m.</example>
+                <example>1,500 workers are on the job, starting as early as 5 a.m. to avoid the 110-degree afternoon heat.</example>
             </rule>
             <rule>
                 <pattern>
