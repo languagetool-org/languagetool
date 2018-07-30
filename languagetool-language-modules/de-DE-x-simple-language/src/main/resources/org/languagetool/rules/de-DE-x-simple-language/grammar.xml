@@ -151,6 +151,44 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <antipattern>
+                    <token postag="SENT_START"/>
+                    <token postag="VER:IMP:.+" postag_regexp="yes" skip="2"></token>
+                    <token postag="PKT">,</token>
+                    <token postag="PRP:.+" postag_regexp="yes"></token>
+                    <token postag="PRO:RIN:.+" postag_regexp="yes"></token>
+                </antipattern>
+                <pattern>
+                    <token postag="VER:.*[1-3]:.+" postag_regexp="yes" skip="-1"></token>
+                    <token postag="PKT">,</token>
+                    <marker>
+                         <token postag="PRP:.+" postag_regexp="yes"></token>
+                         <token postag="PRO:RIN:.+" postag_regexp="yes" regexp="yes">w.+</token>
+                    </marker>
+                    <token skip="-1"></token>
+                    <token postag="SENT_END">.</token>
+                </pattern>
+                <message>Vermeiden Sie Nebensätze.</message>
+                <example correction="">Ich weiß nicht, <marker>über wen</marker> du sprichst.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token postag="SENT_START" skip="-1"></token>
+                    <token>?</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token postag="PRP:.+" postag_regexp="yes"></token>
+                        <token postag="PRO:RIN:.+" postag_regexp="yes"></token>
+                    </marker>
+                    <token skip="-1"></token>
+                    <token postag="PKT">,</token>
+                    <token postag="VER:.+" postag_regexp="yes"></token>
+                </pattern>
+                <message>Vermeiden Sie Nebensätze.</message>
+                <example correction=""><marker>Über wen</marker> du sprichst, weiß ich nicht.</example>
+            </rule>
+            <rule>
+                <antipattern>
                     <token postag="SENT_START" skip="-1"></token>
                     <token>?</token>
                 </antipattern>
@@ -360,7 +398,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="INDIREKTE_REDE" name="Leichte Sprache: Indirekte Rede">
             <rule>
                 <pattern>
-                    <token regexp="yes" inflected="yes" skip="-1">(sagen|antworten|entgegnen|beschließen|berichten|meinen|glauben|denken|fragen|schreib?en|bitten|rufen|erzählen)</token>
+                    <token regexp="yes" inflected="yes" skip="-1">(sagen|antworten|entgegnen|beschließen|berichten|meinen|glauben|denken|fragen|schreib?en|bitten|rufen|erzählen|behaupten)</token>
                     <token>,</token>
                     <token negate_pos="yes" postag_regexp="yes" postag="VER:.*"/>
                 </pattern>
