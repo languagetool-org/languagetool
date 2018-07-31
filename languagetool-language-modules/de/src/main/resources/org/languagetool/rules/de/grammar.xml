@@ -11718,6 +11718,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 does not work because of <regexp> rules in this rulegroup 
             </antipattern>-->
             <rule>
+                <regexp>\d\d?\.\s+\d\d?.\d{2,4}|\d\d?\.\d\d?.\s+\d{2,4}|\d\d?\.\s+\d\d?.\s+\d{2,4}</regexp>
+                <message>Datumsangaben im Format TT.MM.JJJJ enthalten keine Leerzeichen.</message>
+                <example correction=""><marker>21. 3.2015</marker></example>
+                <example correction=""><marker>21.3. 2015</marker></example>
+                <example correction=""><marker>21. 3. 2015</marker></example>
+                <example>21.3.2015</example>
+            </rule>
+            <rule>
                 <pattern>
                     <token>31</token>
                     <token>.</token>
