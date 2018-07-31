@@ -45,7 +45,7 @@ public class HTTPServerTest {
 
   @Test
   public void testHTTPServer() throws Exception {
-    HTTPServer server = new HTTPServer();
+    HTTPServer server = new HTTPServer(new HTTPServerConfig(HTTPTools.getDefaultPort(), true));
     assertFalse(server.isRunning());
     try {
       server.run();
