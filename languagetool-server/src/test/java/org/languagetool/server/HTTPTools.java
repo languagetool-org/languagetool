@@ -27,6 +27,7 @@ import javax.net.ssl.X509TrustManager;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
+import java.net.ConnectException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.security.KeyManagementException;
@@ -74,8 +75,12 @@ final class HTTPTools {
   }
 
   static String checkAtUrl(URL url) throws IOException {
-    InputStream stream = (InputStream)url.getContent();
-    return StringTools.streamToString(stream, "UTF-8");
+    try {
+      InputStream stream = (InputStream)url.getContent();
+      return StringTools.streamToString(stream, "UTF-8");
+    } catch (ConnectException e) {
+      throw new RuntimeException("Could not connect to " + url, e);
+    }
   }
 
   static String checkAtUrlByPost(URL url, String postData) throws IOException {
