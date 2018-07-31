@@ -226,11 +226,17 @@ class ApiV2 {
     //
     for (JsonNode node : data.get("annotation")) {
       if (node.get("text") != null && node.get("markup") != null) {
-        throw new RuntimeException("Only either 'text' or 'markup' are supported in 'annotation' list, not both: " + node);
+        throw new RuntimeException("Only either 'text' or 'markup' are supported in an object in 'annotation' list, not both: " + node);
+      } else if (node.get("text") != null && node.get("interpretAs") != null) {
+        throw new RuntimeException("'text' cannot be used with 'interpretAs' (only 'markup' can): " + node);
       } else if (node.get("text") != null) {
         atb.addText(node.get("text").asText());
       } else if (node.get("markup") != null) {
-        atb.addMarkup(node.get("markup").asText());
+        if (node.get("interpretAs") != null) {
+          atb.addMarkup(node.get("markup").asText(), node.get("interpretAs").asText());
+        } else {
+          atb.addMarkup(node.get("markup").asText());
+        }
       } else {
         throw new RuntimeException("Only 'text' and 'markup' are supported in 'annotation' list: " + node);
       }

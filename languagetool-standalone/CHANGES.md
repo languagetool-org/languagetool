@@ -33,8 +33,12 @@
     ```
     With this input, LT will ignore the `markup` parts and run the check only
     on the `text` parts. The error offset positions will still refer to the
-    original input including the markup, so that suggestions can easily be applied.  
-    (https://github.com/languagetool-org/languagetool/issues/757)
+    original input including the markup, so that suggestions can easily be applied.
+    You can optionally use `interpretAs` to have markup interpreted as whitespace, like this:
+    ```
+    {"markup": "<p>", "interpretAs": "\n\n"}
+    ```  
+    (Issue: https://github.com/languagetool-org/languagetool/issues/757)
 
 ## 4.2 (2018-06-26)
 
