@@ -3970,7 +3970,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="KON:UNT"/>
                 <token>dies</token>
                 <token/>
-                <token inflected="yes">bedeuten</token>
+                <token inflected="yes" regexp="yes">bedeuten|sein</token>
             </antipattern>
             <pattern>
                 <token><exception postag_regexp="yes" postag="VER:[123].*"/></token>
@@ -3985,6 +3985,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Zum großen Teil waren <marker>dies</marker> Krebsvorstufen.</example>
             <example correction="Die"><marker>Dies</marker> ersten beiden Zuweisungen sind korrekt.</example>
             <example>Sie sagte, dass dies Rache bedeutet.</example>
+            <example>Erik sagte, dass dies Erpressung sei.</example>
         </rule>
         <rule id="ZU_NEIGE" name="zu Neige (zur Neige)">
             <regexp>\bzu Neige\b</regexp>
@@ -15658,11 +15659,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">[0-9]+</token>
                 <token>.</token>
             </antipattern>
-            <antipattern case_sensitive="yes">
+            <antipattern>
                 <token regexp="yes">ans|fürs|übers|unters|hinters|durchs|ins|vors</token>
-                <token regexp="yes" min="0">frühe|späte</token>
-                <token regexp="yes">[a-z]+</token>
-                <token>Jahrhundert</token>
+                <token regexp="yes" min="0" case_sensitive="yes">frühe|späte</token>
+                <token regexp="yes" case_sensitive="yes">[a-z]+</token>
+                <token case_sensitive="yes">Jahrhundert</token>
             </antipattern>
             <pattern>
                 <token regexp="yes">ans|fürs|übers|unters|hinters|durchs|ins|vors</token>
