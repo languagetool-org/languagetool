@@ -5841,8 +5841,16 @@
 <afterbreak>\p{Lu}\p{Ll}</afterbreak>
 </rule>
 </languagerule>
+<languagerule languagerulename="GeneralImportant">
+<!--Don't split up e-mail addresses.-->
+<rule break="no">
+<beforebreak>[\.!?]</beforebreak>
+<afterbreak>\S*@</afterbreak>
+</rule>
+</languagerule>
 </languagerules>
 <maprules>
+<languagemap languagepattern=".*" languagerulename="GeneralImportant"></languagemap>
 <languagemap languagepattern="[a-z]{2,3}_one" languagerulename="ByLineBreak"></languagemap>
 <languagemap languagepattern="[a-z]{2,3}_two" languagerulename="ByTwoLineBreaks"></languagemap>
 <languagemap languagepattern="(EL|el).*" languagerulename="Greek"></languagemap>
