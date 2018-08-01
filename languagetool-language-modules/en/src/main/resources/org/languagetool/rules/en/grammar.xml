@@ -25731,7 +25731,7 @@ USA
                     <!-- "Monday, 7 October" -->
                     <token regexp="yes">&weekdays;|&abbrevWeekdays;</token>
                     <token>,</token>
-                    <token regexp="yes">\d\d?</token>
+                    <token regexp="yes">\d\d?(st|nd|rd|th)?</token>
                     <token regexp="yes">&months;|&abbrevMonths;</token>
                 </pattern>
                 <filter class="org.languagetool.rules.en.DateCheckFilter" args="month:\4 day:\3 weekDay:\1"/>
@@ -25740,8 +25740,10 @@ USA
                 <example correction="">IGD Convention - <marker>Mon, 7 October</marker></example>
                 <example correction="">IGD Convention - <marker>Mo, 7 October</marker></example>
                 <example correction="">IGD Convention - <marker>Monday, 7 Oct</marker></example>
+                <example correction="">IGD Convention - <marker>Monday, 7th Oct</marker></example>
                 <example>IGD Convention - <marker>Tuesday, 7 October</marker></example>
                 <example>IGD Convention - <marker>Tuesday, 7 Oct</marker></example>
+                <example>IGD Convention - <marker>Tuesday, 7th Oct</marker></example>
             </rule>
             <rule>
                 <pattern>
@@ -25749,10 +25751,11 @@ USA
                     <token regexp="yes">&weekdays;|&abbrevWeekdays;</token>
                     <token>,</token>
                     <token regexp="yes">&months;|&abbrevMonths;</token>
-                    <token regexp="yes">\d\d?</token>
+                    <token regexp="yes">\d\d?(st|nd|rd|th)?</token> <!-- validation of ordinal numbers may occur elsewhere -->
                 </pattern>
                 <filter class="org.languagetool.rules.en.DateCheckFilter" args="month:\3 day:\4 weekDay:\1"/>
                 <message>Did you mean to refer to the current year? \3 \4, {currentYear} is not a {day}, but a {realDay}.</message>
+                <example correction="">IGD Convention - <marker>Monday, October 7</marker></example>
                 <example correction="">IGD Convention - <marker>Monday, October 7</marker></example>
                 <example correction="">IGD Convention - <marker>Mon, October 7</marker></example>
                 <example correction="">IGD Convention - <marker>Mo, October 7</marker></example>
@@ -25762,8 +25765,15 @@ USA
                 <example correction="">IGD Convention - <marker>Saturday, October 7</marker></example>
                 <example correction="">IGD Convention - <marker>Sunday, October 7</marker></example>
                 <example correction="">IGD Convention - <marker>Sunday, Oct 7</marker></example>
+                <example correction="">IGD Convention - <marker>Sunday, October 3rd</marker></example>
+                <example correction="">IGD Convention - <marker>Sunday, Oct 2rd</marker></example>
+                <example correction="">IGD Convention - <marker>Sunday, Oct 1st</marker></example>
                 <example>IGD Convention - <marker>Tuesday, October 7</marker></example>
+                <example>IGD Convention - <marker>Tuesday, October 7th</marker></example>
                 <example>IGD Convention - <marker>Tuesday, Oct 7</marker></example>
+                <example>IGD Convention - <marker>Friday, Oct 3rd</marker></example>
+                <example>IGD Convention - <marker>Thursday, Oct 2rd</marker></example>
+                <example>IGD Convention - <marker>Wednesday, Oct 1st</marker></example>
             </rule>
             <!-- "Monday, 31/10" -->
             <!-- the ambiguous forms have been antipatterned -->
