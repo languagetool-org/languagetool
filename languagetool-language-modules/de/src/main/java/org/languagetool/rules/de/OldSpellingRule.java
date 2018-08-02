@@ -35,9 +35,9 @@ public class OldSpellingRule extends Rule {
   private static final String MESSAGE = "Diese Schreibweise war nur in der alten Rechtschreibung korrekt.";
   private static final String SHORT_MESSAGE = "alte Rechtschreibung";
   private static final String RULE_INTERNAL = "OLD_SPELLING_INTERNAL";
-  private static final SpellingData data = new SpellingData(DESC, FILE_PATH, MESSAGE, SHORT_MESSAGE, RULE_INTERNAL);
+  private static final SpellingData DATA = new SpellingData(DESC, FILE_PATH, MESSAGE, SHORT_MESSAGE, RULE_INTERNAL);
 
-  public OldSpellingRule(ResourceBundle messages) throws IOException {
+  public OldSpellingRule(ResourceBundle messages) {
     super.setCategory(Categories.TYPOS.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Misspelling);
     addExamplePair(Example.wrong("Der <marker>Abfluß</marker> ist schon wieder verstopft."),
@@ -57,7 +57,7 @@ public class OldSpellingRule extends Rule {
   @Override
   public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
     String[] exceptions = {"Schloß Holte"};
-    return toRuleMatchArray(SpellingRuleWithSuggestion.computeMatches(sentence, data, exceptions));
+    return toRuleMatchArray(SpellingRuleWithSuggestion.computeMatches(sentence, DATA, exceptions));
   }
   
 }
