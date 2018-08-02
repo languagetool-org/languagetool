@@ -81,8 +81,7 @@ public class LanguageIdentifier {
         continue;
       }
       if ("zh".equals(langCode)) {
-        langCodes.add("zh-CN");
-        langCodes.add("zh-TW");
+        langCodes.add(langCode + "-" + lang.getCountries()[0]);
       } else {
         langCodes.add(langCode);
       }
@@ -127,7 +126,12 @@ public class LanguageIdentifier {
     // comment in for debugging:
     //System.out.println(languageDetector.getProbabilities(textObject));
     if (lang.isPresent()) {
-      return lang.get().getLanguage();
+      String languageCode = lang.get().getLanguage();
+      if ("zh".equals(languageCode)) {
+        return lang.get().toString();
+      } else {
+        return languageCode;
+      }
     } else {
       return null;
     }
