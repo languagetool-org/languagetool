@@ -18,11 +18,7 @@
  */
 package org.languagetool.rules.de;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -444,16 +440,23 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       String morfoFile = "/de/hunspell/de_" + language.getCountries()[0] + ".dict";
       if (JLanguageTool.getDataBroker().resourceExists(morfoFile)) {
         // spell data will not exist in LibreOffice/OpenOffice context
-        String path = "/de/hunspell/spelling.txt";
-        try (InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(path);
-             BufferedReader br = new BufferedReader(new InputStreamReader(stream, "utf-8"))) {
+        List<String> paths = Arrays.asList("/de/hunspell/spelling.txt");
+        StringBuilder concatPaths = new StringBuilder();
+        List<InputStream> streams = new ArrayList<>();
+        for (String path : paths) {
+          concatPaths.append(path + ";");
+          streams.add(JLanguageTool.getDataBroker().getFromResourceDirAsStream(path));
+        }
+        try (BufferedReader br = new BufferedReader(
+          new InputStreamReader(new SequenceInputStream(Collections.enumeration(streams)), "utf-8"))) {
           InputStream variantStream = null;
           BufferedReader variantReader = null;
           if (languageVariantPlainTextDict != null && !languageVariantPlainTextDict.isEmpty()) {
             variantStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(languageVariantPlainTextDict);
             variantReader = new ExpandingReader (new BufferedReader(new InputStreamReader(variantStream, "utf-8")));
           }
-          return new MorfologikMultiSpeller(morfoFile, new ExpandingReader(br), path, variantReader, languageVariantPlainTextDict, userConfig != null ? userConfig.getAcceptedWords(): Collections.emptyList(), MAX_EDIT_DISTANCE);
+          return new MorfologikMultiSpeller(morfoFile, new ExpandingReader(br), concatPaths.toString(),
+            variantReader, languageVariantPlainTextDict, userConfig != null ? userConfig.getAcceptedWords(): Collections.emptyList(), MAX_EDIT_DISTANCE);
         }
       } else {
         return null;
