@@ -23,6 +23,7 @@ import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
+import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.patterns.PatternRule;
 import org.languagetool.rules.patterns.PatternToken;
 import org.languagetool.rules.patterns.PatternTokenBuilder;
@@ -42,7 +43,7 @@ class SpellingData {
 
   private final List<SpellingRuleWithSuggestion> spellingRules = new ArrayList<>();
   
-  SpellingData(String ruleDesc, String filePath, String message, String shortMessage, String ruleId) {
+  SpellingData(String ruleDesc, String filePath, String message, String shortMessage, String ruleId, ITSIssueType issueType) {
     try (InputStream inputStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(filePath);
          Scanner scanner = new Scanner(inputStream, "utf-8")) {
       Language german = Languages.getLanguageForShortCode("de");
@@ -59,6 +60,7 @@ class SpellingData {
         String suggestion = parts[1];
         List<PatternToken> patternTokens = getTokens(alternative, german);
         PatternRule rule = new PatternRule(ruleId, german, patternTokens, ruleDesc, message, shortMessage);
+        rule.setLocQualityIssueType(issueType);
         spellingRules.add(new SpellingRuleWithSuggestion(rule, alternative, suggestion));
       }
     } catch (IOException e) {

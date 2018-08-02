@@ -35,11 +35,12 @@ public class OldSpellingRule extends Rule {
   private static final String MESSAGE = "Diese Schreibweise war nur in der alten Rechtschreibung korrekt.";
   private static final String SHORT_MESSAGE = "alte Rechtschreibung";
   private static final String RULE_INTERNAL = "OLD_SPELLING_INTERNAL";
-  private static final SpellingData DATA = new SpellingData(DESC, FILE_PATH, MESSAGE, SHORT_MESSAGE, RULE_INTERNAL);
+  private static final ITSIssueType ISSUE_TYPE = ITSIssueType.Misspelling;
+  private static final SpellingData DATA = new SpellingData(DESC, FILE_PATH, MESSAGE, SHORT_MESSAGE, RULE_INTERNAL, ISSUE_TYPE);
 
   public OldSpellingRule(ResourceBundle messages) {
     super.setCategory(Categories.TYPOS.getCategory(messages));
-    setLocQualityIssueType(ITSIssueType.Misspelling);
+    setLocQualityIssueType(ISSUE_TYPE);
     addExamplePair(Example.wrong("Der <marker>Abfluß</marker> ist schon wieder verstopft."),
                    Example.fixed("Der <marker>Abfluss</marker> ist schon wieder verstopft."));
   }
