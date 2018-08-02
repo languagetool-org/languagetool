@@ -28,7 +28,7 @@ range of possible characters for that entry.  If a [[ ]] is followed by
 a + it means the entry can consist of one or more characters in
 that range. { } are literal.
 
-A typical entry will look like
+A typical entry will look like:
 
 WORD V: WORDed, WORed 2, WORD {EXPL} | WORDing, WORing 2 | WORDs
 
@@ -57,14 +57,14 @@ find any evidence for them.  If two words have the same variant level
 and explanation it means that both inflections were found and the
 script was not sure which one to use.
 
-Sometimes the inflected form to use depends on the meaning of the
-word.  If this is the case the two entries will have different
+Sometimes, the inflected form to use depends on the meaning of the
+word.  If this is the case, then the two entries will have different
 explanations.  If the distinction can be made in a few words it is
 given with underscores (_) replacing spaces.  Otherwise the two
 entries will have different distinguishing numbers.
 
 A < after a word means that there is a good change that this is an
-inflected form of the word, a ~ after a word means that there is a
+inflected form of the word. A ~ after a word means that there is a
 slight chance.  A ! after a word indicates that the word is likely an
 inflections of a similar word (generally one ending in e) and not the
 current word.  A ? after a word means that the word was not in the
@@ -75,7 +75,7 @@ This verson is now almost as accurate as Alan Beale's 2of12id file
 distributed with the "Unofficial Alternate 12 Dicts Package" for the
 base words which have an entry in 2of12id.txt with a few notable
 exceptions.  The most obvious one is the "person" entry.  Alan Beale
-considers, based on what his sources have told him, that "persons" is
+considers - based on what his sources have told him, that "persons" is
 the proper plural for "person" and "people" is considered a variant.
 I however disagree and decided to consider "people" the primary form
 and "persons" as the sligtly less perfered variant based on my own
@@ -93,7 +93,7 @@ which says:
   except in certain set phrases.
 
 I considered making "persons" a variant (level 1), but I decided
-against it as "persons" is for the most part perfectly acceptable and
+against it as "persons" is, for the most part, perfectly acceptable and
 probably considered the proper plural to use by some.
 
 I also considered the -people ending the primary form for all words
@@ -111,16 +111,16 @@ variant levels in 2of12id.  For example:
   ditto N: dittos, dittoes 1
   ditto V: dittoed | dittoing | dittos, dittoes 0.1
 For purely technical reasons and because I do not feel that it matters
-too much I have made the variant levels for the -s forms the same.  For
+too much, I have made the variant levels for the -s forms the same.  For
 example the ditto entries became:
   ditto N: dittos, dittoes 0.1
   ditto V: dittoed | dittoing | dittos, dittoes 0.1
-The choice of the variant levels I used is somewhat arbitrary but I in
-general went with the lower level.
+The choice of the variant levels I used is somewhat arbitrary, but I, in
+general, went with the lower level.
 
-Fell free to send me corrections to correct any of these questionable
-words.  I am mostly interested in the preferred form of the word when
-the script was not able to decide or words marked with < or ~ that are
+Feel free to send me corrections to correct any of these questionable
+words.  I am mostly interested in the preferred form of the word that
+the script was unable to decide, or words marked with < or ~ that are
 valid inflected forms of the words.
 
 Also included in this version are the files "variant_0.lst",
