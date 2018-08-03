@@ -11175,10 +11175,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     &date_allnumbers_skip;
                     <token inflected="yes" postag="VER:AUX:.*" postag_regexp="yes" skip="-1">sein</token>
-                    <or>
-                        <token postag="VER:INF:.*" postag_regexp="yes"/>
-                        <token postag="VER:PA2:.*" postag_regexp="yes"/>
-                    </or>
+                    <token postag="VER:(INF|PA2):.*" postag_regexp="yes"/>
                 </pattern>
                 <filter class="org.languagetool.rules.de.FutureDateFilter" args="year:\5 month:\3 day:\1"/>
                 <message>Das Datum liegt in der Zukunft, aber das Verb ist in der Vergangenheitsform.</message>
@@ -11226,10 +11223,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     &date_month_shortened_skip;
                     <token inflected="yes" postag="VER:AUX:.*" postag_regexp="yes" skip="-1">sein</token>
-                    <or>
-                        <token postag="VER:INF:.*" postag_regexp="yes"/>
-                        <token postag="VER:PA2:.*" postag_regexp="yes"/>
-                    </or>
+                    <token postag="VER:(INF|PA2):.*" postag_regexp="yes"/>
                 </pattern>
                 <filter class="org.languagetool.rules.de.FutureDateFilter" args="year:\5 month:\3 day:\1"/>
                 <message>Das Datum liegt in der Zukunft, aber das Verb ist in der Vergangenheitsform.</message>
@@ -11276,10 +11270,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     &date_month_full_skip;
                     <token inflected="yes" postag="VER:AUX:.*" postag_regexp="yes" skip="-1">sein</token>
-                    <or>
-                        <token postag="VER:PA2:.*" postag_regexp="yes"/>
-                        <token postag="VER:INF:.*" postag_regexp="yes"/>
-                    </or>
+                    <token postag="VER:(PA2|INF):.*" postag_regexp="yes"/>
                 </pattern>
                 <filter class="org.languagetool.rules.de.FutureDateFilter" args="year:\4 month:\3 day:\1"/>
                 <message>Das Datum liegt in der Zukunft, aber das Verb (\5 ... \6) ist in der Vergangenheitsform.</message>
@@ -35424,12 +35415,12 @@ Andere Projekte</example>
                 </antipattern>
                 <pattern>
                     <or>
-                    <token postag="SENT_START"/>
-                    <token regexp="yes">:|,|;</token>
+                        <token postag="SENT_START"/>
+                        <token regexp="yes">:|,|;</token>
                     </or>
                     <marker>
-                    <token regexp="yes">„|»|«|"|\(|\{</token>
-                    <token spacebefore="yes"/>
+                        <token regexp="yes">„|»|«|"|\(|\{</token>
+                        <token spacebefore="yes"/>
                     </marker>
                 </pattern>
                 <message>Bitte das überflüssige Leerzeichen löschen.</message>
