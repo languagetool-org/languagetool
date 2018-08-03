@@ -283,6 +283,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="">Das <marker>zuzugeben,</marker> fällt ihm schwer.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="RELATIVSAETZE" name="Leichte Sprache: Relativsätze">
+            <rule>
+                <pattern>
+                    <token postag="(SUB|EIG):.+|UNKNOWN" postag_regexp="yes" regexp="yes">[A-ZÄÖÜ].+</token>
+                    <marker>
+                        <token>,</token>
+                        <token postag="PRP:.+" postag_regexp="yes" min="0"/>
+                        <token inflected="yes" skip="-1">der</token>
+                    </marker>
+                    <token postag="VER.*:[123]:.+" postag_regexp="yes"/>
+                    <token postag="PKT"></token>
+                </pattern>
+                <message>Verzichten Sie auf Relativsätze.</message>
+                <example correction="">Der Mann<marker>, der</marker> gut singt, tritt heute abend auf.</example>
+                <example correction="">Der Mann<marker>, dem</marker> ich so gerne zuhöre, tritt heute abend auf.</example>
+                <example correction="">Der Mann<marker>, dessen</marker> Stimme so schön klingt, tritt heute abend auf.</example>
+                <example correction="">Der Mann<marker>, über den</marker> viel gesprochen wird, tritt heute abend auf.</example>
+                <example correction="">Das sind die Freunde<marker>, mit denen</marker> ich viel Zeit verbringe.</example>
+                <example correction="">Bodo<marker>, den</marker> ich schon ewig kenne, ist sehr lustig.</example>
+                <example correction="">Marta<marker>, die</marker> eine Brille trägt, geht in meine Klasse.</example>
+                <example correction="">Linda<marker>, deren</marker> Lächeln bezaubernd ist, kann toll tanzen.</example>
+                <example correction="">Und hier ist Knut<marker>, dem</marker> ich viel verdanke.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="ABKUERZUNG" name="Leichte Sprache: Abkürzung">
             <rule>
                 <pattern>
