@@ -720,10 +720,10 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </pattern>
         <disambig action="remove" postag=".+:FEM"/>
     </rule>
-    <rule id="HOCHDRAMATISCH" name="kein Verb: hochdramatisch">
+    <rule id="HOCHDRAMATISCH" name="kein Verb: charismatischen / hochdramatischen">
         <pattern case_sensitive="yes">
             <marker>
-                <token regexp="yes">hochdramatischen?</token>
+                <token inflected="yes" regexp="yes">(charis|hochdra)matischen</token>
             </marker>
         </pattern>
         <disambig action="remove" postag="VER:.+"/>
@@ -776,14 +776,6 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <token regexp="yes">[kdms]?eine|die(se)?</token>
             <marker>
                 <token>würdige</token>
-            </marker>
-        </pattern>
-        <disambig action="remove" postag="VER:.+"/>
-    </rule>
-    <rule id="CHARISMATISCHEN" name="charismatischen (keine Verbform)">
-        <pattern case_sensitive="yes">
-            <marker>
-                <token inflected="yes">charismatischen</token>
             </marker>
         </pattern>
         <disambig action="remove" postag="VER:.+"/>
