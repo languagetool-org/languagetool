@@ -76,8 +76,7 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
     ignoreTaggedWords = true;
   }
 
-  public AbstractSimpleReplaceRule(ResourceBundle messages)
-      throws IOException {
+  public AbstractSimpleReplaceRule(ResourceBundle messages) {
     super.setCategory(Categories.MISC.getCategory(messages));
   }
 
@@ -108,27 +107,22 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
   public RuleMatch[] match(AnalyzedSentence sentence) {
     List<RuleMatch> ruleMatches = new ArrayList<>();
     AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
-
     for (AnalyzedTokenReadings tokenReadings : tokens) {
-
       // short for SENT_START
-      if( JLanguageTool.SENTENCE_START_TAGNAME.equals(tokenReadings.getAnalyzedToken(0).getPOSTag()) )
+      if( JLanguageTool.SENTENCE_START_TAGNAME.equals(tokenReadings.getAnalyzedToken(0).getPOSTag()) ) {
         continue;
-
+      }
       //this rule is used mostly for spelling, so ignore both immunized
       // and speller-ignorable rules
       if (tokenReadings.isImmunized() || tokenReadings.isIgnoredBySpeller()) {
         continue;
       }
-
       if (ignoreTaggedWords && isTagged(tokenReadings)) {
         continue;
       }
-
       List<RuleMatch> matchesForToken = findMatches(tokenReadings, sentence);
       ruleMatches.addAll( matchesForToken );
     }
-    
     return toRuleMatchArray(ruleMatches);
   }
 
@@ -166,11 +160,8 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
     }
 
     if (possibleReplacements != null && possibleReplacements.size() > 0) {
-      List<String> replacements = new ArrayList<>();
-      replacements.addAll(possibleReplacements);
-      if (replacements.contains(originalTokenStr)) {
-        replacements.remove(originalTokenStr);
-      }
+      List<String> replacements = new ArrayList<>(possibleReplacements);
+      replacements.remove(originalTokenStr);
       if (replacements.size() > 0) {
         RuleMatch potentialRuleMatch = createRuleMatch(tokenReadings, replacements, sentence);
         ruleMatches.add(potentialRuleMatch);
