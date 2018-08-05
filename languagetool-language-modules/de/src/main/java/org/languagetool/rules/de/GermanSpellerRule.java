@@ -261,6 +261,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Humuspaste", "Hummuspaste");
     put("afarung", "Erfahrung");
     put("bescheid?t", "Bescheid");
+    put("[mM]iteillung", "Mitteilung");
     put("Revisionierung", "Revision");
     put("[eE]infühlvermögen", "Einfühlungsvermögen");
     put("[sS]peziellisierung", "Spezialisierung");
@@ -559,6 +560,11 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       }
     } else if (word.endsWith("tip")) {
       suggestion = word + "p";
+      if (!hunspellDict.misspelled(suggestion)) {
+        return Collections.singletonList(suggestion);
+      }
+    } else if (word.endsWith("entfehlung")) {
+      suggestion = word.replaceFirst("ent", "emp");
       if (!hunspellDict.misspelled(suggestion)) {
         return Collections.singletonList(suggestion);
       }
