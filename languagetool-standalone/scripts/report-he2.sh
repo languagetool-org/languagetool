@@ -58,22 +58,34 @@ printf "MS-Word Requests  : %'d\n" $MSWORD >>$OUTFILE
 
 # when adding items, add only at the end so scripts don't get confused:
 echo "$DATE2;$TOTAL;-;$CHROME;$ANDROID;$CLIENT;$SUBLIME;-;$MSWORD;$WEBEXTFF;$WEBEXTCHROME;$TOTALHOME;$GOOGLEAPP" >>/home/languagetool/api/api-log.csv
-##cp /home/languagetool/api/api-log.csv /home/languagetool/languagetool.org/languagetool-website-2018/public/analytics
+cp /home/languagetool/api/api-log.csv /home/languagetool/data.languagetool.org/public/analytics/
 
 echo "" >>$OUTFILE
-echo "OutOfMemoryError           : `grep -c 'OutOfMemoryError' $TMPFILE`" >>$OUTFILE
-echo "too many parallel requests : `grep -c 'too many parallel requests' $TMPFILE`" >>$OUTFILE
-echo "Incomplete results sent    : `grep -c  "matches found so far" $TMPFILE`" >>$OUTFILE
-echo "ErrorRateTooHigh           : `grep -c  "ErrorRateTooHigh" $TMPFILE`" >>$OUTFILE
-echo "WARN                       : `grep -c  "WARN:" $TMPFILE`" >>$OUTFILE
+ERROR_OOM=`grep -c 'OutOfMemoryError' $TMPFILE`
+echo "OutOfMemoryError           : $ERROR_OOM" >>$OUTFILE
+ERROR_TOO_MANY_PAR_REQ=`grep -c 'too many parallel requests' $TMPFILE`
+echo "too many parallel requests : $ERROR_TOO_MANY_PAR_REQ" >>$OUTFILE
+ERROR_INCOMPLETE_RES=`grep -c  "matches found so far" $TMPFILE`
+echo "Incomplete results sent    : $ERROR_INCOMPLETE_RES" >>$OUTFILE
+ERROR_RATE_TOO_HIGH=`grep -c  "ErrorRateTooHigh" $TMPFILE`
+echo "ErrorRateTooHigh           : $ERROR_RATE_TOO_HIGH" >>$OUTFILE
+ERROR_WARN=`grep -c  "WARN:" $TMPFILE`
+echo "WARN                       : $ERROR_WARN" >>$OUTFILE
 
 echo "" >>$OUTFILE
-echo "An error has occurred      : `grep -c 'An error has occurred' $TMPFILE`" >>$OUTFILE
-echo "too many requests          : `grep -c 'too many requests' $TMPFILE`" >>$OUTFILE
-echo "too many requests (Android): `grep -c 'too many requests.*androidspell' $TMPFILE`" >>$OUTFILE
+ERROR_SOME=`grep -c 'An error has occurred' $TMPFILE`
+echo "An error has occurred      : $ERROR_SOME" >>$OUTFILE
+ERROR_TOO_MANY_REQ=`grep -c 'too many requests' $TMPFILE`
+echo "too many requests          : $ERROR_TOO_MANY_REQ" >>$OUTFILE
+ERROR_TOO_MANY_REQ_ANDROID=`grep -c 'too many requests.*androidspell' $TMPFILE`
+echo "too many requests (Android): $ERROR_TOO_MANY_REQ_ANDROID" >>$OUTFILE
+ERROR_REQ_LIMIT=`grep -c 'Request limit of' $TMPFILE`
+echo "Request limit              : $ERROR_REQ_LIMIT" >>$OUTFILE
+ERROR_REQ_SIZE_LIMIT=`grep -c 'Request size limit of' $TMPFILE`
+echo "Request size limit         : $ERROR_REQ_SIZE_LIMIT" >>$OUTFILE
 
-echo "Request limit              : `grep -c 'Request limit of' $TMPFILE`" >>$OUTFILE
-echo "Request size limit         : `grep -c 'Request size limit of' $TMPFILE`" >>$OUTFILE
+echo "$DATE2;$ERROR_OOM;$ERROR_TOO_MANY_PAR_REQ;$ERROR_INCOMPLETE_RES;$ERROR_RATE_TOO_HIGH;$ERROR_WARN" >>/home/languagetool/api/api-errors-log.csv
+cp /home/languagetool/api/api-errors-log.csv /home/languagetool/data.languagetool.org/public/analytics/
 
 echo "" >>$OUTFILE
 echo "Top HTTP error codes:" >>$OUTFILE
