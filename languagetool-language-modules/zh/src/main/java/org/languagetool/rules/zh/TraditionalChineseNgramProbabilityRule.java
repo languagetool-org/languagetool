@@ -39,21 +39,11 @@ public class TraditionalChineseNgramProbabilityRule extends ChineseNgramProbabil
 
   @Override
   public RuleMatch[] match(AnalyzedSentence sentence) {
-    List<RuleMatch> ruleMatches = new ArrayList<>();
     String ss = sentence.getText();
     String maxProbSentence = super.getMaxProbSentence(HanLP.convertToSimplifiedChinese(ss));
     maxProbSentence = HanLP.s2hk(maxProbSentence);
 
-    for (int i = 0; i < ss.length(); i++) {
-      String oldChar = Character.toString(ss.charAt(i));
-      String newChar = Character.toString(maxProbSentence.charAt(i));
-      if (!oldChar.equals(newChar)) {
-        RuleMatch ruleMatch = new RuleMatch(this, sentence, i, i + 1, "");
-        ruleMatch.setSuggestedReplacement(newChar);
-        ruleMatches.add(ruleMatch);
-      }
-    }
-
+    List<RuleMatch> ruleMatches = super.getRuleMatches(ss, maxProbSentence, sentence);
     return toRuleMatchArray(ruleMatches);
   }
 
