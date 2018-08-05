@@ -84,7 +84,7 @@ echo "Request limit              : $ERROR_REQ_LIMIT" >>$OUTFILE
 ERROR_REQ_SIZE_LIMIT=`grep -c 'Request size limit of' $TMPFILE`
 echo "Request size limit         : $ERROR_REQ_SIZE_LIMIT" >>$OUTFILE
 
-echo "$DATE2;$ERROR_OOM;$ERROR_TOO_MANY_PAR_REQ;$ERROR_INCOMPLETE_RES;$ERROR_RATE_TOO_HIGH;$ERROR_WARN" >>/home/languagetool/api/api-errors-log.csv
+echo "$DATE2;$ERROR_OOM;$ERROR_TOO_MANY_PAR_REQ;$ERROR_INCOMPLETE_RES;$ERROR_RATE_TOO_HIGH;$ERROR_WARN;$ERROR_SOME;$ERROR_TOO_MANY_REQ;$ERROR_TOO_MANY_REQ_ANDROID;$ERROR_REQ_LIMIT;$ERROR_REQ_SIZE_LIMIT" >>/home/languagetool/api/api-errors-log.csv
 cp /home/languagetool/api/api-errors-log.csv /home/languagetool/data.languagetool.org/public/analytics/
 
 echo "" >>$OUTFILE
