@@ -26,6 +26,7 @@ import com.hankcs.hanlp.seg.Segment;
 import com.hankcs.hanlp.seg.common.Term;
 
 import edu.berkeley.nlp.lm.NgramLanguageModel;
+import edu.berkeley.nlp.lm.io.LmReader;
 import edu.berkeley.nlp.lm.io.LmReaders;
 
 import org.languagetool.AnalyzedSentence;
@@ -65,34 +66,34 @@ public class ChineseNgramProbabilityRule extends Rule {
 
   @Override
   public RuleMatch[] match(AnalyzedSentence sentence) {
-    List<RuleMatch> ruleMatches = new ArrayList<>();
     String ss = sentence.getText();
     String maxProbSentence = getMaxProbSentence(ss);
+    List<RuleMatch> ruleMatches = getRuleMatches(ss, maxProbSentence, sentence);
+    return toRuleMatchArray(ruleMatches);
+  }
 
-    for (int i = 0; i < ss.length(); i++) {
-      String oldChar = Character.toString(ss.charAt(i));
-      String newChar = Character.toString(maxProbSentence.charAt(i));
+  protected List<RuleMatch> getRuleMatches(String before, String after, AnalyzedSentence sentence) {
+    List<RuleMatch> ruleMatches = new ArrayList<>();
+    for (int i = 0; i < before.length(); i++) {
+      String oldChar = Character.toString(before.charAt(i));
+      String newChar = Character.toString(after.charAt(i));
       if (!oldChar.equals(newChar)) {
         RuleMatch ruleMatch = new RuleMatch(this, sentence, i, i + 1, "");
         ruleMatch.setSuggestedReplacement(newChar);
         ruleMatches.add(ruleMatch);
       }
     }
-
-    return toRuleMatchArray(ruleMatches);
+    return ruleMatches;
   }
 
   protected String getMaxProbSentence(String sentence) {
     String maxProbSentence = sentence;
-    double score = ruleHelper.scoreSentence(sentence);
+    float score = ruleHelper.scoreSentence(sentence);
     List<Term> tokens = ruleHelper.seg.seg(sentence);
     int startPos = 0;
 
     for (Term t : tokens) {
       if (CoreStopWordDictionary.contains(t.word)) {
-        startPos += t.word.length();
-        continue;
-      } else if (CoreDictionary.getTermFrequency(t.word) > 200) {
         startPos += t.word.length();
         continue;
       }
@@ -104,7 +105,7 @@ public class ChineseNgramProbabilityRule extends Rule {
           for (String newChar : newChars) {
             if (ruleHelper.getFrequency(newChar) <= -6.5) continue;
             String newSentence = maxProbSentence.substring(0, startPos + i) + newChar + maxProbSentence.substring(startPos + i + 1);
-            double newScore = ruleHelper.scoreSentence(newSentence);
+            float newScore = ruleHelper.scoreSentence(newSentence);
             if (newScore > score) {
               maxProbSentence = newSentence;
               score = newScore;
@@ -117,27 +118,31 @@ public class ChineseNgramProbabilityRule extends Rule {
     return maxProbSentence;
   }
 
+  /**
+   * A helper class that holds ngram data detail.
+   * In default, it uses Lucene to lookup trigram data, which is slower than
+   * BerkeleyLM(NgramLanguageModel) but leads a lower memory usage.
+   * If you would like to make this rule run faster, please uncomment it.
+   * Also, please make
+   */
   private class RuleHelper {
 
     private Map<String, List<String>> similarDictionary;
-    private LuceneLM trigram;
+//    private LuceneLM trigram;
+    private NgramLanguageModel<String> trigram;
     private NgramLanguageModel<String> unigram;
     private Segment seg;
+
 
     private RuleHelper() {
 
       ResourceDataBroker resourceDataBroker = JLanguageTool.getDataBroker();
-      trigram = new LuceneLM(new File("C:\\Dev\\ngramDemo\\data\\test\\index"));
-//       System.out.println("Loaded Trigram.....");
-
+//      trigram = new LuceneLM(new File(resourceDataBroker.getFromResourceDirAsUrl("zh/trigram/index").getPath()));
+      trigram = LmReaders.readLmBinary(resourceDataBroker.getFromResourceDirAsUrl("zh/word_trigram.binary").getPath());
       unigram = LmReaders.readLmBinary(resourceDataBroker.getFromResourceDirAsUrl("zh/char_unigram.binary").getPath());
-//       System.out.println("Loaded Unigram.....");
-
       seg = new CRFSegment();
       seg.enablePartOfSpeechTagging(true);
       seg.enableOffset(true);
-//       System.out.println("Enabled CRF segment.....");
-
       similarDictionary = new HashMap<>();
       try (BufferedReader br = new BufferedReader(new FileReader(resourceDataBroker.getFromResourceDirAsUrl("zh/similar_char_dictionary.txt").getPath()))) {
         String line;
@@ -151,19 +156,18 @@ public class ChineseNgramProbabilityRule extends Rule {
             System.out.print(String.format("%s format error.", line));
           }
         }
-//         System.out.println("Loaded Similar Dictionary.....");
       } catch (IOException e) {
         System.out.println("Failed to similar_char_dictionary.");
       }
     }
 
-    private double scoreSentence(String sentence) {
+    private float scoreSentence(String sentence) {
       List<Term> termList = seg.seg(sentence);
       List<String> ngrams = new ArrayList<>();
       for (Term t : termList) {
         ngrams.add(t.word);
       }
-      return trigram.scoreSentence(ngrams);
+      return (float)trigram.scoreSentence(ngrams);
     }
 
     private List<String> getCharReplacements(String character) {
