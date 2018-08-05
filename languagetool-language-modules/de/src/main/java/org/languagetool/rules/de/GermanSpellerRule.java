@@ -229,6 +229,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("TODO-Listen?", "TODO", "To-do");
     putRepl("ausiehs?t", "aus", "auss");
     putRepl("unterbemittel(nd|t)(e[nmrs]?)?", "unterbemittel(nd|t)", "minderbemittelt");
+    putRepl("[xX]te[mnrs]?", "te", "-te");
     put("Makieren", "Markieren");
     put("Altersheimer", "Alzheimer");
     put("gesen", "gesehen");
@@ -254,7 +255,12 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("angefangt", "angefangen");
     put("beinhält", "beinhaltet");
     put("einhaltest", "einhältst");
-    put("bescheit", "Bescheid");
+    put("übersäht", "übersät");
+    put("staats?angehoe?rigkeit", "Staatsangehörigkeit");
+    put("[uU]nangeneh?mheiten", "Unannehmlichkeiten");
+    put("Humuspaste", "Hummuspaste");
+    put("afarung", "Erfahrung");
+    put("bescheid?t", "Bescheid");
     put("Revisionierung", "Revision");
     put("[eE]infühlvermögen", "Einfühlungsvermögen");
     put("[sS]peziellisierung", "Spezialisierung");

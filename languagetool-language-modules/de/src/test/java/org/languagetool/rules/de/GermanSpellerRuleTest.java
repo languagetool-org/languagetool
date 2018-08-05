@@ -275,6 +275,7 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("Gelangenheitsbestätigungen", "Gelangensbestätigungen", rule, lt);
     assertFirstSuggestion("mitenand", "miteinander", rule, lt);
     assertFirstSuggestion("hinunher", "hin und her", rule, lt);
+    assertFirstSuggestion("Xter", "X-ter", rule, lt);
   }
 
   @Test
