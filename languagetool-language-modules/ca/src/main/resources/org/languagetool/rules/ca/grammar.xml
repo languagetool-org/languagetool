@@ -39414,6 +39414,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="PREFERABLE_EXPRESSIONS" name="C7) Expressions preferibles" default="on" type="style">
+        <rulegroup id="TIPUS_MENA" name="*tipus/mena">
+            <rule>
+                <pattern>
+                    <token>cap</token>
+                    <marker>
+                        <token>tipus</token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>mena</suggestion> en lloc de tipus (=model)?</message>
+                <suggestion>classe</suggestion>
+                <example correction="mena|classe">Sense cap <marker>tipus</marker> de dubte.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>tot</token>
+                    <token>tipus</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>tota mena</suggestion> en lloc de tipus (=model)?</message>
+                <suggestion>tota classe</suggestion>
+                <example correction="tota mena|tota classe">Amb <marker>tot tipus</marker> de detall.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="ANAR_A_INFINITIU" name="anar a + infintiu" default="on" type="style">
             <!--  false alarms?? -->
             <url>http://esadir.cat/entrades/fitxa/id/1564</url>
