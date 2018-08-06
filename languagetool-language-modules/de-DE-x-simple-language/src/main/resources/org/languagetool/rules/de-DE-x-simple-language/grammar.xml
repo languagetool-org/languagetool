@@ -285,6 +285,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="RELATIVSAETZE" name="Leichte Sprache: Relativsätze">
             <rule>
+                <antipattern>
+                    <token>,</token>
+                    <token inflected="yes">der</token>
+                    <token postag="ADJ:.+" postag_regexp="yes" min="0"/>
+                    <token postag="SUB:.+" postag_regexp="yes"/>
+                    <token postag="KON:NEB"></token>
+                    <token inflected="yes">der</token>
+                </antipattern>
                 <pattern>
                     <token postag="(SUB|EIG):.+|UNKNOWN" postag_regexp="yes" regexp="yes">[A-ZÄÖÜ].+</token>
                     <marker>
@@ -293,6 +301,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token inflected="yes" skip="-1">der</token>
                     </marker>
                     <token postag="VER.*:[123]:.+" postag_regexp="yes"/>
+                    <token postag="VER.*:[123]:.+" postag_regexp="yes" min="0"/>
                     <token postag="PKT"></token>
                 </pattern>
                 <message>Verzichten Sie auf Relativsätze.</message>
@@ -305,6 +314,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="">Marta<marker>, die</marker> eine Brille trägt, geht in meine Klasse.</example>
                 <example correction="">Linda<marker>, deren</marker> Lächeln bezaubernd ist, kann toll tanzen.</example>
                 <example correction="">Und hier ist Knut<marker>, dem</marker> ich viel verdanke.</example>
+                <example correction="">Der Mann<marker>, den</marker> ich gerne singen höre, tritt heute abend auf.</example>
+                <example correction="">Bodo<marker>, den</marker> ich öfter bummeln sehe, kommt gern her.</example>
+                <example>Die Mutter<marker>, der</marker> Vater und das Kind spielen im Garten.</example>
+                <example>Die Mutter<marker>, der</marker> Vater und das Kind spielen.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ABKUERZUNG" name="Leichte Sprache: Abkürzung">
