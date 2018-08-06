@@ -129,6 +129,8 @@ public class CaseRuleTest {
     assertGood("Er fragte, ob das gelingen oder scheitern wird.");
     assertGood("Einen Tag nach Bekanntwerden des Skandals");
     assertGood("Das machen eher die Erwachsenen.");
+    assertGood("Das ist ihr Zuhause.");
+    assertGood("Das ist Sandras Zuhause.");
 
     //assertBad("Sie sind nicht Verständlich");
     assertBad("Sie Vertraute niemandem.");

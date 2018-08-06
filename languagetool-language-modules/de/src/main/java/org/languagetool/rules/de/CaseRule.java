@@ -317,6 +317,10 @@ public class CaseRule extends Rule {
     Arrays.asList( // Einen Tag nach Bekanntwerden des Skandals
       pos("ZUS"),
       csToken("Bekanntwerden")
+    ),
+    Arrays.asList( // Das ist also ihr Zuhause.
+      posRegex(".+:(POS|GEN):.+"),
+      csToken("Zuhause")
     )
   );
 
