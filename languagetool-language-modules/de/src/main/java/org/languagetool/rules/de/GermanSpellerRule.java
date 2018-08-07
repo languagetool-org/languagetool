@@ -239,7 +239,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("E-Mauls", "E-Mails");
     put("E-Mal", "E-Mail");
     put("E-Mals", "E-Mails");
-    put("Naricht", "Nachricht");
+    put("[nN]ah?richt", "Nachricht");
+    put("[nN]ah?richten", "Nachrichten");
     put("Getrixe", "Getrickse");
     put("Ausage", "Aussage");
     put("gelessen", "gelesen");
