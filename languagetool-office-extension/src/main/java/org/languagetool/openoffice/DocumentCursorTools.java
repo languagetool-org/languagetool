@@ -47,8 +47,8 @@ import com.sun.star.uno.XComponentContext;
 class DocumentCursorTools {
   
   private static MessageHandler messageHandler;
-  private XParagraphCursor xPCursor = null;
-  private XTextViewCursor xVCursor = null;
+  private XParagraphCursor xPCursor;
+  private XTextViewCursor xVCursor;
   
   DocumentCursorTools(XComponentContext xContext) {
     this.messageHandler = messageHandler;

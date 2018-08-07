@@ -286,7 +286,7 @@ public class Main extends WeakBase implements XJobExecutor,
    */
   public final void resetDocument() {
     if (resetCheck()) {
-      documents.setrecheck();
+      documents.setRecheck();
       disabledRules = config.getDisabledRuleIds();
       if (disabledRules == null) {
         disabledRules = new HashSet<>();
@@ -426,7 +426,7 @@ public class Main extends WeakBase implements XJobExecutor,
     } catch (Throwable t) {
       messageHandler.showError(t);
     }
-    documents.setrecheck();
+    documents.setRecheck();
   }
 
   /**
@@ -444,7 +444,7 @@ public class Main extends WeakBase implements XJobExecutor,
     } catch (Throwable t) {
       messageHandler.showError(t);
     }
-    documents.setrecheck();
+    documents.setRecheck();
   }
 
   @Override
@@ -460,7 +460,7 @@ public class Main extends WeakBase implements XJobExecutor,
     //  the data of document will be removed by next call of getNumDocID
     //  to finish checking thread without crashing
     XComponent goneContext = UnoRuntime.queryInterface(XComponent.class, source.Source);
-    documents.setContextofClosedDoc(goneContext);
+    documents.setContextOfClosedDoc(goneContext);
     goneContext.removeEventListener(this); 
   }
 

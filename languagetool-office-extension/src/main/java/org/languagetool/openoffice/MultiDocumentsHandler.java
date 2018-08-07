@@ -91,7 +91,7 @@ public class MultiDocumentsHandler {
     this.xEventListener = xEventListener;
     this.messageHandler = messageHandler;
     
-    documents = new ArrayList<SingleDocument>();
+    documents = new ArrayList<>();
   }
   
   public ProofreadingResult getCheckResults(String paraText, Locale locale, 
@@ -127,14 +127,14 @@ public class MultiDocumentsHandler {
   /**
    *  Set all documents to be checked again
    */
-  public void setrecheck() {
+  public void setRecheck() {
     recheck = true;
   }
   
   /**
    *  Set a document as closed
    */
-  public void setContextofClosedDoc(XComponent context) {
+  public void setContextOfClosedDoc(XComponent context) {
     goneContext = context;
   }
   
@@ -288,7 +288,7 @@ public class MultiDocumentsHandler {
       } else {
         return Languages.getLanguageForShortCode(locale.Language + "-" + locale.Country);
       }
-    } catch (java.lang.IllegalArgumentException e) {
+    } catch (IllegalArgumentException e) {
       return Languages.getLanguageForShortCode(locale.Language);
     }
   }

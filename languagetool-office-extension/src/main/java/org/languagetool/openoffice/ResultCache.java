@@ -36,10 +36,10 @@ public class ResultCache {
   private List<SingleProofreadingError[]> errorArray;
   
   ResultCache() {
-    numberOfParagraph = new ArrayList<Integer>();
-    startOfSentencePosition = new ArrayList<Integer>();
-    nextSentencePosition = new ArrayList<Integer>();
-    errorArray = new ArrayList<SingleProofreadingError[]>();
+    numberOfParagraph = new ArrayList<>();
+    startOfSentencePosition = new ArrayList<>();
+    nextSentencePosition = new ArrayList<>();
+    errorArray = new ArrayList<>();
   }
   
   /**
@@ -129,10 +129,10 @@ public class ResultCache {
    *  Remove all cache entries
    */
   public void removeAll() {
-    numberOfParagraph = new ArrayList<Integer>();
-    startOfSentencePosition = new ArrayList<Integer>();
-    nextSentencePosition = new ArrayList<Integer>();
-    errorArray = new ArrayList<SingleProofreadingError[]>();
+    numberOfParagraph = new ArrayList<>();
+    startOfSentencePosition = new ArrayList<>();
+    nextSentencePosition = new ArrayList<>();
+    errorArray = new ArrayList<>();
   }
   
   /**
@@ -166,7 +166,7 @@ public class ResultCache {
               int startOfSentencePosition, int endOfSentencePosition) {
     for(int i = 0; i < this.numberOfParagraph.size(); i++) {
       if(this.numberOfParagraph.get(i) == numberOfParagraph) {
-        List<SingleProofreadingError> errorList = new ArrayList<SingleProofreadingError>();
+        List<SingleProofreadingError> errorList = new ArrayList<>();
         for (SingleProofreadingError eArray : this.errorArray.get(i)) {
           if (eArray.nErrorStart >= startOfSentencePosition && eArray.nErrorStart < endOfSentencePosition) {
             errorList.add(eArray);

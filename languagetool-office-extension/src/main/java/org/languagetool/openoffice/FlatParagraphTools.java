@@ -45,8 +45,8 @@ public class FlatParagraphTools {
   private static final boolean debugMode = false;   //  should be false except for testing
   
   private static MessageHandler messageHandler;
-  private XFlatParagraphIterator xFlatParaIter = null;
-  private XFlatParagraph xFlatPara = null;
+  private XFlatParagraphIterator xFlatParaIter;
+  private XFlatParagraph xFlatPara;
   
   FlatParagraphTools(XComponentContext xContext, MessageHandler messageHandler) {
     this.messageHandler = messageHandler;
@@ -310,7 +310,7 @@ public class FlatParagraphTools {
    * Returns the absolute positions of all footnotes (and endnotes) of the text
    */
   public List<int[]> getFootnotePositions() {
-    List<int[]> paraPositions = new ArrayList<int[]>();
+    List<int[]> paraPositions = new ArrayList<>();
     try {
       if(xFlatParaIter == null) {
         if(debugMode) {
@@ -390,8 +390,5 @@ public class FlatParagraphTools {
       messageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
     }
   }
-
-
-
   
 }
