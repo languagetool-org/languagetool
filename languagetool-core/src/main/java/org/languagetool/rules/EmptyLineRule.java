@@ -37,12 +37,10 @@ public class EmptyLineRule extends TextLevelRule {
   public EmptyLineRule(ResourceBundle messages, boolean defaultActive) {
     super(messages);
     super.setCategory(Categories.STYLE.getCategory(messages));
-
     if (!defaultActive) {
-        setDefaultOff();   //  Default is Off
+      setDefaultOff();
     }
     setOfficeDefaultOn();  // Default for LO/OO is always On
-      
     setLocQualityIssueType(ITSIssueType.Style);
   }
 
