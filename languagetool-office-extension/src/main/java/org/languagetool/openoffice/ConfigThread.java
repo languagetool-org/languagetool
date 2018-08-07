@@ -39,13 +39,15 @@ class ConfigThread extends Thread {
   private final Language docLanguage;
   private final Configuration config;
   private final Main mainThread;
+  private MessageHandler messageHandler;
   
   private final ConfigurationDialog cfgDialog;
   
-  ConfigThread(Language docLanguage, Configuration config, Main main) {
+  ConfigThread(Language docLanguage, Configuration config, Main main, MessageHandler messageHandler) {
     this.docLanguage = docLanguage;
     this.config = config;
     mainThread = main; 
+    this.messageHandler = messageHandler;
     cfgDialog = new ConfigurationDialog(null, true, config);
   }
 
@@ -65,7 +67,7 @@ class ConfigThread extends Thread {
         mainThread.resetDocument();
       }
     } catch (Throwable e) {
-      Main.showError(e);
+      messageHandler.showError(e);
     }
   }
   

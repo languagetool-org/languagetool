@@ -1,6 +1,6 @@
-/* LanguageTool, a natural language style checker 
- * Copyright (C) 2017 Fred Kruse
- * 
+/* LanguageTool, a natural language style checker
+ * Copyright (C) 2011 Daniel Naber (http://www.danielnaber.de)
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -40,16 +40,18 @@ import com.sun.star.uno.XComponentContext;
 
 /**
  * Information about Paragraphs of LibreOffice/OpenOffice documents
- * on the basis of the LO/OO ViewCursor
+ * on the basis of the LO/OO text and view cursor
  * @since 4.0
  * @author Fred Kruse
  */
-class LOCursor {
+class DocumentCursorTools {
   
+  private static MessageHandler messageHandler;
   private XParagraphCursor xPCursor = null;
   private XTextViewCursor xVCursor = null;
   
-  LOCursor(XComponentContext xContext) {
+  DocumentCursorTools(XComponentContext xContext) {
+    this.messageHandler = messageHandler;
     xPCursor = getParagraphCursor(xContext);
     xVCursor = getViewCursor(xContext);
   }
@@ -75,7 +77,7 @@ class LOCursor {
       }
       return UnoRuntime.queryInterface(XDesktop.class, desktop);
     } catch (Throwable t) {
-      printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
+      messageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
       return null;           // Return null as method failed
     }
   }
@@ -93,7 +95,7 @@ class LOCursor {
       }
       else return xdesktop.getCurrentComponent();
     } catch (Throwable t) {
-      printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
+      messageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
       return null;           // Return null as method failed
     }
   }
@@ -111,7 +113,7 @@ class LOCursor {
       }
       else return UnoRuntime.queryInterface(XTextDocument.class, curcomp);
     } catch (Throwable t) {
-      printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
+      messageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
       return null;           // Return null as method failed
     }
   }
@@ -133,7 +135,7 @@ class LOCursor {
       }
       else return xText.createTextCursor();
     } catch (Throwable t) {
-      printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
+      messageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
       return null;           // Return null as method failed
     }
   }
@@ -151,7 +153,7 @@ class LOCursor {
       }
       return UnoRuntime.queryInterface(XParagraphCursor.class, xcursor);
     } catch (Throwable t) {
-      printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
+      messageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
       return null;           // Return null as method failed
     }
 }
@@ -186,18 +188,11 @@ class LOCursor {
       }
       return xViewCursorSupplier.getViewCursor();
     } catch (Throwable t) {
-      printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
+      messageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
       return null;           // Return null as method failed
     }
   }
   
-  /** 
-   * Prints Exception to default out  
-   */
-  private static void printException (Throwable t) {
-    Main.printToLogFile(Tools.getFullStackTrace(t));
-  }
-
   /** 
    * Returns Number of all Paragraphs of Document without footnotes etc.  
    * Returns 0 if it fails
@@ -212,7 +207,7 @@ class LOCursor {
       while (xPCursor.gotoNextParagraph(false)) npara++;
       return npara;
     } catch (Throwable t) {
-      printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
+      messageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
       return 0;              // Return 0 as method failed
     }
   }
@@ -239,7 +234,7 @@ class LOCursor {
       }
       return allParas;
     } catch (Throwable t) {
-      printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
+      messageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
       return null;           // Return null as method failed
     }
   }
@@ -270,7 +265,7 @@ class LOCursor {
       while (xParagraphCursor.gotoPreviousParagraph(false)) pos++;
       return pos;
     } catch (Throwable t) {
-      printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
+      messageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
       return -5;             // Return negative value as method failed
     }
   }
