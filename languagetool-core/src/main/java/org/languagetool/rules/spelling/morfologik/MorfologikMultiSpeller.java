@@ -49,7 +49,11 @@ public class MorfologikMultiSpeller {
           .build(new CacheLoader<BufferedReaderWithSource, List<byte[]>>() {
             @Override
             public List<byte[]> load(@NotNull BufferedReaderWithSource reader) throws IOException {
-              return getLines(reader.br);
+              List<byte[]> lines = getLines(reader.reader);
+              if (reader.languageVariantReader != null) {
+                lines.addAll(getLines(reader.languageVariantReader));
+              }
+              return lines;
             }
           });
   private static final Map<String,Dictionary> dicPathToDict = new HashMap<>();
@@ -131,13 +135,9 @@ public class MorfologikMultiSpeller {
   @Nullable
   private MorfologikSpeller getPlainTextDictSpellerOrNull(BufferedReader plainTextReader, String plainTextReaderPath,
       BufferedReader languageVariantPlainTextReader, String languageVariantPlainTextPath, String dictPath, int maxEditDistance) throws IOException {
-    List<byte[]> lines = dictCache.getUnchecked(new BufferedReaderWithSource(plainTextReader, plainTextReaderPath));
+    List<byte[]> lines = dictCache.getUnchecked(new BufferedReaderWithSource(plainTextReader, plainTextReaderPath, languageVariantPlainTextReader, languageVariantPlainTextPath));
     if (lines.isEmpty()) {
       return null;
-    }
-    if (languageVariantPlainTextReader != null && languageVariantPlainTextPath != null && !languageVariantPlainTextPath.isEmpty()) {
-      dictCache.invalidateAll();
-      lines.addAll(dictCache.getUnchecked(new BufferedReaderWithSource(languageVariantPlainTextReader, languageVariantPlainTextPath)));
     }
     Dictionary dictionary = getDictionary(lines, plainTextReaderPath, dictPath.replace(".dict", ".info"), true);
     return new MorfologikSpeller(dictionary, maxEditDistance);
@@ -212,12 +212,16 @@ public class MorfologikMultiSpeller {
   }
 
   static class BufferedReaderWithSource {
-    private BufferedReader br;
-    private String path;
+    private BufferedReader reader;
+    private String readerPath;
+    private BufferedReader languageVariantReader;
+    private String languageVariantPath;
 
-    BufferedReaderWithSource(BufferedReader br, String path) {
-      this.br = Objects.requireNonNull(br);
-      this.path = Objects.requireNonNull(path);
+    BufferedReaderWithSource(BufferedReader reader, String readerPath, BufferedReader languageVariantReader, String languageVariantPath) {
+      this.reader = Objects.requireNonNull(reader);
+      this.readerPath = Objects.requireNonNull(readerPath);
+      this.languageVariantReader = languageVariantReader;
+      this.languageVariantPath = languageVariantPath;
     }
 
     @Override
@@ -225,14 +229,12 @@ public class MorfologikMultiSpeller {
       if (this == o) return true;
       if (o == null || getClass() != o.getClass()) return false;
       BufferedReaderWithSource that = (BufferedReaderWithSource) o;
-      return path.equals(that.path);
+      return Objects.equals(readerPath, that.readerPath) && Objects.equals(languageVariantPath, that.languageVariantPath);
     }
 
     @Override
     public int hashCode() {
-      return path.hashCode();
+      return Objects.hash(readerPath, languageVariantPath);
     }
   }
-
-
 }
