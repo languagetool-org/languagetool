@@ -294,7 +294,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token inflected="yes">der</token>
                 </antipattern>
                 <pattern>
-                    <token postag="(SUB|EIG):.+|UNKNOWN" postag_regexp="yes" regexp="yes">[A-ZÄÖÜ].+</token>
+                    <token postag="(SUB|EIG|PRO):.+|UNKNOWN" postag_regexp="yes" regexp="yes">[A-ZÄÖÜ].+</token>
                     <marker>
                         <token>,</token>
                         <token postag="PRP:.+" postag_regexp="yes" min="0"/>
@@ -302,7 +302,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token postag="VER.*:[123]:.+" postag_regexp="yes"/>
                     <token postag="VER.*:[123]:.+" postag_regexp="yes" min="0"/>
-                    <token postag="PKT"></token>
+                    <token postag="PKT|KON:NEB" postag_regexp="yes"></token>
                 </pattern>
                 <message>Verzichten Sie auf Relativsätze.</message>
                 <example correction="">Der Mann<marker>, der</marker> gut singt, tritt heute abend auf.</example>
@@ -318,6 +318,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="">Bodo<marker>, den</marker> ich öfter bummeln sehe, kommt gern her.</example>
                 <example>Die Mutter<marker>, der</marker> Vater und das Kind spielen im Garten.</example>
                 <example>Die Mutter<marker>, der</marker> Vater und das Kind spielen.</example>
+                <example correction="">Er ist jemand<marker>, der</marker> gern lacht und selten schimpft.</example>
+                <example correction="">Er ist jemand<marker>, der</marker> gern lacht, viel isst und selten schimpft.</example>
+                <example correction="">Er ist jemand<marker>, der</marker> gern lacht und auf den alle hören.</example>
+                <example correction="">Er ist jemand<marker>, der</marker> gern lacht, aber wenig Kritik verträgt.</example>
+                <example correction="">Er ist jemand<marker>, der</marker> gern lacht, dem alles egal ist und über den keiner schimpft.</example>
+                <example correction="">Er ist jemand<marker>, der</marker> gern lacht, nichts nachträgt und auf den alle hören.</example>
+                <example correction="">Er ist jemand<marker>, der</marker> gern lacht, der selten schimpft und viel Geduld hat</example>
             </rule>
         </rulegroup>
         <rulegroup id="ABKUERZUNG" name="Leichte Sprache: Abkürzung">
