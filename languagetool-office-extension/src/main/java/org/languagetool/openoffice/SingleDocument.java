@@ -796,7 +796,7 @@ public class SingleDocument {
   }
 
   private void setFirstCheckDone() {
-    if (!firstCheckDone) {
+    if (!firstCheckDone && allParas != null) {
       if (debugMode > 1) {
         messageHandler.printToLogFile("firstCheckDone --> sentenceCache: " + sentencesCache.getNumberOfParas() 
             + "; allParas: " + allParas.size() + "; docID: " + docID + logLineBreak);
