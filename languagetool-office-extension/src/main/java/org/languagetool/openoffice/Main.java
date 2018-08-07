@@ -358,8 +358,8 @@ public class Main extends WeakBase implements XJobExecutor,
         && (version.startsWith("1.0") || version.startsWith("1.1")
             || version.startsWith("1.2") || version.startsWith("1.3")
             || version.startsWith("1.4") || version.startsWith("1.5")
-            || version.startsWith("1.6"))) {
-      messageHandler.showMessage("Error: LanguageTool requires Java 7.0 or later. Current version: " + version);
+            || version.startsWith("1.6") || version.startsWith("1.7"))) {
+      messageHandler.showMessage("Error: LanguageTool requires Java 8 or later. Current version: " + version);
       return false;
     }
     try {
