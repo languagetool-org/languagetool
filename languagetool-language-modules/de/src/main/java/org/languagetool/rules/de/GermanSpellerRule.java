@@ -287,6 +287,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Lexion", "Lexikon");
     put("[mM]otorisation", "Motorisierung");
     put("[mM]enegment", "Management");
+    put("[iI]nstall?atör", "Installateur");
     put("maletriert", "malträtiert");
     put("abgeschaffen", "abgeschafft");
     put("Verschiden", "Verschieden");
