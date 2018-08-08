@@ -113,7 +113,7 @@ public class Main extends WeakBase implements XJobExecutor,
     }
   }
 
-  private void changeContext(XComponentContext xCompContext) {
+  void changeContext(XComponentContext xCompContext) {
     xContext = xCompContext;
   }
 
@@ -300,7 +300,7 @@ public class Main extends WeakBase implements XJobExecutor,
     return getServiceNames();
   }
 
-  private static String[] getServiceNames() {
+  static String[] getServiceNames() {
     return SERVICE_NAMES;
   }
 
