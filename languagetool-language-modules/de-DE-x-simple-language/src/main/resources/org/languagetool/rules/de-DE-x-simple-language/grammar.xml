@@ -257,6 +257,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
+                    <marker>
+                        <token>,</token>
+                        <token skip="-1"><exception scope="next" regexp="yes">,|\)</exception></token>
+                    </marker>
+                    <token>zu</token>
+                    <token postag="VER:INF:.+" postag_regexp="yes"/>
+                    <token postag="KON:NEB" skip="-1"></token>
+                    <token postag="VER:(INF|EIZ):.+" postag_regexp="yes"/>
+                    <token postag="PKT"></token>
+                </pattern>
+                <message>Vermeiden Sie Infinitivsätze.</message>
+                <example correction="">Er hat vor<marker>, seine</marker> Tante zu besuchen und ihr bei der Gartenarbeit zu helfen.</example>
+                <example correction="">Er hat vor<marker>, seine</marker> Tante zu besuchen und ihr beizustehen.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token postag="SENT_START"/>
                     <token skip="-1"><exception postag="KON:.+" postag_regexp="yes"/><exception scope="next" regexp="yes">,|\)</exception></token>
                     <token>zu</token>
