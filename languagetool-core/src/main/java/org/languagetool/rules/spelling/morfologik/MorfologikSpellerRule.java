@@ -239,13 +239,12 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     return orderedSuggestions;
   }
 
-
-    /**
-     * @param checkCompound If true and the word is not in the dictionary
-     * it will be split (see {@link #setCompoundRegex(String)})
-     * and each component will be checked separately
-     * @since 2.4
-     */
+  /**
+   * @param checkCompound If true and the word is not in the dictionary
+   * it will be split (see {@link #setCompoundRegex(String)})
+   * and each component will be checked separately
+   * @since 2.4
+   */
   protected void setCheckCompound(boolean checkCompound) {
     this.checkCompound = checkCompound;
   }
@@ -270,9 +269,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
       for (int i = 0; i < word.length() && isSurrogatePairCombination; i += 2) {
         isSurrogatePairCombination &= Character.isSurrogatePair(word.charAt(i), word.charAt(i + 1));
       }
-      if (isSurrogatePairCombination) {
-        return isSurrogatePairCombination;
-      }
+      return isSurrogatePairCombination;
     }
     return false;
   }

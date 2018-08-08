@@ -20,8 +20,9 @@ package org.languagetool.rules.spelling.morfologik.suggestions_ordering;
 
 public class SuggestionsOrdererConfig {
 
+  private static final String PROP_NAME = "enableMLSuggestionsOrdering";
+
   private static String ngramsPath;
-  private static String enableMLSuggestionsOrderingProp = "enableMLSuggestionsOrdering";
 
   static String getNgramsPath() {
     return ngramsPath;
@@ -32,11 +33,11 @@ public class SuggestionsOrdererConfig {
   }
 
   static boolean isMLSuggestionsOrderingEnabled() {
-    String enableMLSuggestionsOrderingProperty = System.getProperty(enableMLSuggestionsOrderingProp, "false");
+    String enableMLSuggestionsOrderingProperty = System.getProperty(PROP_NAME, "false");
     return Boolean.parseBoolean(enableMLSuggestionsOrderingProperty);
   }
 
   static void setMLSuggestionsOrderingEnabled(boolean MLSuggestionsOrderingEnabled) {
-    System.setProperty(enableMLSuggestionsOrderingProp, String.valueOf(MLSuggestionsOrderingEnabled));
+    System.setProperty(PROP_NAME, String.valueOf(MLSuggestionsOrderingEnabled));
   }
 }
