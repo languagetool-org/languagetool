@@ -113,7 +113,7 @@ public class MultiDocumentsHandler {
     }
     
     docNum = getNumDoc(paRes.aDocumentIdentifier);
-    paRes = documents.get(docNum).getCheckResults(paraText, locale, paRes, footnotePositions, isParallelThread);
+    paRes = documents.get(docNum).getCheckResults(paraText, paRes, footnotePositions, isParallelThread);
     
     if(isParallelThread) {
       isParallelThread = false;
