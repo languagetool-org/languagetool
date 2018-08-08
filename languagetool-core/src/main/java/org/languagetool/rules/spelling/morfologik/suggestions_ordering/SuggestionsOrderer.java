@@ -58,7 +58,7 @@ public class SuggestionsOrderer {
       String nonNgramModelFilename = SuggestionsOrderer.XGBOOST_MODEL_BASE_PATH + ruleId + "/" + SuggestionsOrderer.NO_NGRAM_BASED_MODEL_FILENAME;
 
       String languageModelFileName;
-      if (nGramUtil.isMockLanguageModel()){
+      if (nGramUtil.isMockLanguageModel()) {
         languageModelFileName = nonNgramModelFilename;
       } else {
         languageModelFileName = ngramBasedModelFilename;
@@ -173,8 +173,7 @@ public class SuggestionsOrderer {
         String ngramPath = SuggestionsOrdererConfig.getNgramsPath();
         if (ngramPath != null) {
           this.languageModel = language.getLanguageModel(Paths.get(ngramPath).toFile());
-        }
-        else {
+        } else {
           this.languageModel = null; // no ngrams path specified
         }
         if (this.languageModel == null) {
@@ -208,14 +207,12 @@ public class SuggestionsOrderer {
     public static String leftContext(String originalSentence, int errorStartIdx, String errorString, int contextLength) {
       String regex = repeat(contextLength, "\\w+\\W+") + errorString + "$";
       String stringToSearch = originalSentence.substring(0, errorStartIdx + errorString.length());
-
       return findFirstRegexMatch(regex, stringToSearch);
     }
 
     public static String rightContext(String originalSentence, int errorStartIdx, String errorString, int contextLength) {
       String regex = "^" + errorString + repeat(contextLength, "\\W+\\w+");
       String stringToSearch = originalSentence.substring(errorStartIdx);
-
       return findFirstRegexMatch(regex, stringToSearch);
     }
 
@@ -232,7 +229,6 @@ public class SuggestionsOrderer {
 
     public static int startOfErrorString(String sentence, String errorString, int sentencesDifferenceCharIdx) {
       int result = -1;
-
       List<Integer> possibleIntersections = allIndexesOf(sentence.charAt(sentencesDifferenceCharIdx), errorString);
       for (int i : possibleIntersections) {
         if (sentencesDifferenceCharIdx - i < 0 || sentencesDifferenceCharIdx - i + errorString.length() > sentence.length()) {
@@ -245,7 +241,6 @@ public class SuggestionsOrderer {
           break;
         }
       }
-
       return result;
     }
 
@@ -289,8 +284,9 @@ public class SuggestionsOrderer {
         return "";
       }
 
-      if (strs.length == 1)
+      if (strs.length == 1) {
         return strs[0];
+      }
 
       int minLen = strs.length + 1;
 
