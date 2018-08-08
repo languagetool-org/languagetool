@@ -100,8 +100,8 @@ class MessageHandler {
     File parentDir = new File(path).getParentFile();
     if (parentDir != null) {
       boolean success = parentDir.mkdirs();
-      if(!success) {
-        showMessage("Can't create dirctory: " + path);
+      if(!testMode && !success) {
+        showMessage("Can't create directory: " + path);
       }
     }
     return path;
