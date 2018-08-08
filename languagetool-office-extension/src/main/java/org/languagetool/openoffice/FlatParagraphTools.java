@@ -44,7 +44,7 @@ public class FlatParagraphTools {
   
   private static final boolean debugMode = false;   //  should be false except for testing
   
-  private static MessageHandler messageHandler;
+  private MessageHandler messageHandler;
   private XFlatParagraphIterator xFlatParaIter;
   private XFlatParagraph xFlatPara;
   
@@ -59,7 +59,7 @@ public class FlatParagraphTools {
    * Returns null if it fails
    */
   @Nullable
-  private static XDesktop getCurrentDesktop(XComponentContext xContext) {
+  private XDesktop getCurrentDesktop(XComponentContext xContext) {
     try {
       if (xContext == null) {
         return null;
@@ -85,7 +85,7 @@ public class FlatParagraphTools {
    * Returns null if it fails
    */
   @Nullable
-  private static XComponent getCurrentComponent(XComponentContext xContext) {
+  private XComponent getCurrentComponent(XComponentContext xContext) {
     try {
       XDesktop xdesktop = getCurrentDesktop(xContext);
       if(xdesktop == null) {
@@ -103,7 +103,7 @@ public class FlatParagraphTools {
    * Returns null if it fails
    */
   @Nullable
-  private static XFlatParagraphIterator getXFlatParagraphIterator (XComponentContext xContext) {
+  private XFlatParagraphIterator getXFlatParagraphIterator(XComponentContext xContext) {
     try {
       XComponent xCurrentComponent = getCurrentComponent(xContext);
       if(xCurrentComponent == null) {
@@ -126,7 +126,7 @@ public class FlatParagraphTools {
    * Returns null if it fails
    */
   @Nullable
-  private static XFlatParagraph getFlatParagraph(XFlatParagraphIterator xFlatParaIter) {
+  private XFlatParagraph getFlatParagraph(XFlatParagraphIterator xFlatParaIter) {
     try {
     if(xFlatParaIter == null) {
       return null;
@@ -157,11 +157,7 @@ public class FlatParagraphTools {
       }
       return false;
     }
-    if(xFlatParaIter.getParaBefore(xFlatPara) != null 
-        || xFlatParaIter.getParaAfter(xFlatPara) != null) {
-      return true;
-    }
-    return false;
+      return xFlatParaIter.getParaBefore(xFlatPara) != null || xFlatParaIter.getParaAfter(xFlatPara) != null;
     } catch (Throwable t) {
       messageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
       return false;          // Return false as method failed
@@ -172,7 +168,7 @@ public class FlatParagraphTools {
    * Returns Current Paragraph Number from FlatParagaph
    * Returns -1 if it fails
    */
-  public int getCurNumFlatParagraphs() {
+  int getCurNumFlatParagraphs() {
     try {
       if(xFlatParaIter == null) {
         if(debugMode) {
@@ -242,7 +238,7 @@ public class FlatParagraphTools {
    * Returns Number of all FlatParagraphs of Document
    * Returns negative value if it fails
    */
-  public int getNumberOfAllFlatPara() {
+  int getNumberOfAllFlatPara() {
     try {
       if(xFlatParaIter == null) {
         if(debugMode) {
@@ -287,7 +283,7 @@ public class FlatParagraphTools {
       }
       return  new int[]{};
     }
-    XPropertySet paraProps = (XPropertySet) UnoRuntime.queryInterface(XPropertySet.class, xFlatPara);
+    XPropertySet paraProps = UnoRuntime.queryInterface(XPropertySet.class, xFlatPara);
     if (paraProps == null) {
       messageHandler.printToLogFile("XPropertySet == null");
       return  new int[]{};
@@ -309,7 +305,7 @@ public class FlatParagraphTools {
   /** 
    * Returns the absolute positions of all footnotes (and endnotes) of the text
    */
-  public List<int[]> getFootnotePositions() {
+  List<int[]> getFootnotePositions() {
     List<int[]> paraPositions = new ArrayList<>();
     try {
       if(xFlatParaIter == null) {
@@ -349,7 +345,7 @@ public class FlatParagraphTools {
   /**
    * Marks all paragraphs as checked with exception of the paragraphs "from" to "to"
    */
-  public void markFlatParasAsChecked(int from, int to) {
+  void markFlatParasAsChecked(int from, int to) {
     try {
       if(xFlatParaIter == null) {
         if(debugMode) {

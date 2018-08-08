@@ -33,7 +33,7 @@ import org.languagetool.tools.Tools;
  * @since 4.3
  * @author Fred Kruse, Marcin Miłkowski
  */
-public class MessageHandler {
+class MessageHandler {
   
   private static final String logLineBreak = System.getProperty("line.separator");  //  LineBreak in Log-File (MS-Windows compatible)
   private final String homeDir;
@@ -49,7 +49,7 @@ public class MessageHandler {
   /**
    * Initialize log-file
    */
-  public void initLogFile() {
+  private void initLogFile() {
     try (BufferedWriter bw = new BufferedWriter(new FileWriter(getLogPath()))) {
       Date date = new Date();
       bw.write("LT office integration log from " + date.toString() + logLineBreak);
@@ -58,7 +58,7 @@ public class MessageHandler {
     }
   }
   
-  public void showError(Throwable e) {
+  void showError(Throwable e) {
     if (testMode) {
       throw new RuntimeException(e);
     }
@@ -78,7 +78,7 @@ public class MessageHandler {
   /**
    * write to log-file
    */
-  public void printToLogFile(String str) {
+  void printToLogFile(String str) {
     try (BufferedWriter bw = new BufferedWriter(new FileWriter(getLogPath(), true))) {
       bw.write(str + logLineBreak);
     } catch (Throwable t) {
@@ -89,17 +89,20 @@ public class MessageHandler {
   /** 
    * Prints Exception to log-file  
    */
- public void printException (Throwable t) {
+  void printException (Throwable t) {
    printToLogFile(Tools.getFullStackTrace(t));
   }
 
- private String getLogPath() {
+  private String getLogPath() {
     String xdgDataHome = System.getenv().get("XDG_DATA_HOME");
     String logHome = xdgDataHome != null ? xdgDataHome + "/LanguageTool" : homeDir;
     String path = logHome + "/" + logFileName;
     File parentDir = new File(path).getParentFile();
     if (parentDir != null) {
-      parentDir.mkdirs();
+      boolean success = parentDir.mkdirs();
+      if(!success) {
+        showMessage("Can't create dirctory: " + path);
+      }
     }
     return path;
   }
@@ -107,15 +110,15 @@ public class MessageHandler {
   /**
    * Will throw exception instead of showing errors as dialogs - use only for test cases.
    */
-  public void setTestMode(boolean mode) {
+  void setTestMode(boolean mode) {
     testMode = mode;
   }
 
   /**
    * Shows a message in a dialog box
-   * @param txt
+   * @param txt message to be shown
    */
-  public void showMessage(String txt) {
+  void showMessage(String txt) {
     DialogThread dt = new DialogThread(txt);
     dt.run();
   }

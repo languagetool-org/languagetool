@@ -33,19 +33,20 @@ import org.languagetool.tools.StringTools;
 
 import com.sun.star.beans.PropertyState;
 import com.sun.star.beans.PropertyValue;
-import com.sun.star.lang.Locale;
 import com.sun.star.lang.XComponent;
 import com.sun.star.linguistic2.ProofreadingResult;
 import com.sun.star.linguistic2.SingleProofreadingError;
 import com.sun.star.text.TextMarkupType;
 import com.sun.star.uno.XComponentContext;
 
+import static java.lang.System.arraycopy;
+
 /**
  * Class for checking text of one LO document 
  * @since 4.3
  * @author Fred Kruse, Marcin Miłkowski
  */
-public class SingleDocument {
+class SingleDocument {
   
   /**
    * Full text Check:
@@ -83,7 +84,6 @@ public class SingleDocument {
   private XComponent xComponent;                //  XComponent of the open document
 
   private List<String> allParas = null;         //  List of paragraphs (only readable by parallel thread)
-  private List<int[]> footnotes;                //  List of footnotes
   private DocumentCursorTools docCursor = null; //  Save Cursor for the single documents
   private FlatParagraphTools flatPara = null;   //  Save FlatParagraph for the single documents
   private Integer numLastVCPara = 0;            //  Save position of ViewCursor for the single documents
@@ -98,7 +98,7 @@ public class SingleDocument {
   private int resetFrom = 0;                    //  Reset from paragraph
   private int resetTo = 0;                      //  Reset to paragraph
   
-  public SingleDocument(XComponentContext xContext, JLanguageTool langTool, Configuration config, String docID, 
+  SingleDocument(XComponentContext xContext, JLanguageTool langTool, Configuration config, String docID,
       XComponent xComponent, MessageHandler messageHandler) {
     this.xContext = xContext;
     this.langTool = langTool;
@@ -113,14 +113,13 @@ public class SingleDocument {
   
   /**  get the result for a check of a single document 
    * 
-   * @param paraText
-   * @param locale
-   * @param paRes
-   * @param footnotePositions
-   * @param isParallelThread
-   * @return
+   * @param paraText          paragraph text
+   * @param paRes             proof reading result
+   * @param footnotePositions position of footnotes
+   * @param isParallelThread  true: check runs as parallel thread
+   * @return                  proof reading result
    */
-  public ProofreadingResult getCheckResults(String paraText, Locale locale, 
+  ProofreadingResult getCheckResults(String paraText,
       ProofreadingResult paRes, int[] footnotePositions, boolean isParallelThread) {
     try {
       SingleProofreadingError[] sErrors = null;
@@ -159,11 +158,10 @@ public class SingleDocument {
     return paRes;
   }
 
-  /** set values set by configuration dialog
-   * @param numParasToCheck
-   * @param doResetCheck
+  /**
+   * set values set by configuration dialog
    */
-  public void setConfigValues(Configuration config, JLanguageTool langTool) {
+  void setConfigValues(Configuration config, JLanguageTool langTool) {
     this.config = config;
     this.langTool = langTool;
     numParasToCheck = config.getNumParasToCheck();
@@ -173,19 +171,19 @@ public class SingleDocument {
   
   /** Get xComponent of the document
    */
-  public XComponent getXComponent() {
+  XComponent getXComponent() {
     return xComponent;
   }
   
   /** Get ID of the document
    */
-  public String getDocID() {
+  String getDocID() {
     return docID;
   }
   
   /** Reset all caches of the document
    */
-  public void resetCache() {
+  void resetCache() {
     sentencesCache.removeAll();
     paragraphsCache.removeAll();
     singleParaCache.removeAll();
@@ -195,7 +193,7 @@ public class SingleDocument {
   /** 
    * Do a reset to check document again
    */
-  public boolean doresetCheck() {
+  boolean doresetCheck() {
     if(!doResetCheck) {
       return false;
     }
@@ -205,7 +203,7 @@ public class SingleDocument {
   /** 
    * Reset only changed paragraphs
    */
-  public void optimizeReset() {
+  void optimizeReset() {
     if(firstCheckDone) {
       flatPara.markFlatParasAsChecked(resetFrom, resetTo);
     }
@@ -214,7 +212,7 @@ public class SingleDocument {
   // Fix numbers that are (probably) foot notes.
   // See https://bugs.freedesktop.org/show_bug.cgi?id=69416
   // public for test reasons
-  public String cleanFootnotes(String paraText) {
+  String cleanFootnotes(String paraText) {
     return paraText.replaceAll("([^\\d][.!?])\\d ", "$1¹ ");
   }
   
@@ -229,7 +227,7 @@ public class SingleDocument {
     }
 
     if (docCursor == null) {
-      docCursor = new DocumentCursorTools(xContext);
+      docCursor = new DocumentCursorTools(xContext, messageHandler);
     }
     if (flatPara == null) {
       flatPara = new FlatParagraphTools(xContext, messageHandler);
@@ -272,15 +270,19 @@ public class SingleDocument {
       if (!resetAllParas(docCursor)) {
         return -1;
       }
-      int from;
-      for(from = 0; from < allParas.size() && from < oldParas.size() 
-          && allParas.get(from).equals(oldParas.get(from)); from++);
+      int from = 0;
+      while (from < allParas.size() && from < oldParas.size()
+          && allParas.get(from).equals(oldParas.get(from))) {
+        from++;
+      }
       from -= 1 + numParasToCheck;
       resetFrom = from;
-      int to;
-      for(to = 1; to <= allParas.size() && to <= oldParas.size()
+      int to = 1;
+      while (to <= allParas.size() && to <= oldParas.size()
           && allParas.get(allParas.size() - to).equals(
-              oldParas.get(oldParas.size() - to)); to++);
+              oldParas.get(oldParas.size() - to))) {
+        to++;
+      }
       to = allParas.size() + numParasToCheck - to;
       resetTo = to;
       paragraphsCache.removeAndShift(from, to, allParas.size() - oldParas.size());
@@ -376,7 +378,8 @@ public class SingleDocument {
       return false;
     }
     //  change all footnotes to \u200B (like in paraText)
-    footnotes = flatPara.getFootnotePositions();
+    //  List of footnotes
+    List<int[]> footnotes = flatPara.getFootnotePositions();
     divNum = footnotes.size() - allParas.size();
     if (divNum >= 0) {
       for (int i = 0; i < allParas.size(); i++) {
@@ -447,18 +450,18 @@ public class SingleDocument {
       endPos = numCurPara + 1 + numParasToCheck;
       if(!textIsChanged) {
         endPos += defaultParaCheck;
-      } else if(textIsChanged && doResetCheck) {
+      } else if(doResetCheck) {
         endPos += numParasToCheck;
       }
       if (endPos > allParas.size()) {
         endPos = allParas.size();
       }
     }
-    String docText = fixLinebreak(allParas.get(startPos));
+    StringBuilder docText = new StringBuilder(fixLinebreak(allParas.get(startPos)));
     for (int i = startPos + 1; i < endPos; i++) {
-      docText += END_OF_PARAGRAPH + fixLinebreak(allParas.get(i));
+      docText.append(END_OF_PARAGRAPH).append(fixLinebreak(allParas.get(i)));
     }
-    return docText;
+    return docText.toString();
   }
 
   /**
@@ -526,14 +529,10 @@ public class SingleDocument {
     int sErrorCount = 0;
     if (sErrors != null) {
       sErrorCount = sErrors.length;
-      for (int i = 0; i < sErrorCount; i++) {
-        errorArray[i] = sErrors[i];
-      }
+      arraycopy(sErrors, 0, errorArray, 0, sErrorCount);
     }
     if (pErrors != null) {
-      for (int i = 0; i < pErrors.length; i++) {
-        errorArray[i + sErrorCount] = pErrors[i];
-      }
+      arraycopy(pErrors, 0, errorArray, sErrorCount, pErrors.length);
     }
     Arrays.sort(errorArray, new ErrorPositionComparator());
     return errorArray;
@@ -543,7 +542,7 @@ public class SingleDocument {
   private SingleProofreadingError[] checkParaRules( String paraText, int paraNum, 
       int startSentencePos, int endSentencePos, boolean isParallelThread) {
 
-    List<RuleMatch> paragraphMatches = null;
+    List<RuleMatch> paragraphMatches;
     SingleProofreadingError[] pErrors = null;
     try {
       
@@ -715,9 +714,11 @@ public class SingleDocument {
     //  Filter: remove suggestions for override dot at the end of sentences
     //  needed because of error in dialog
     if (lastChar == '.' && (ruleMatch.getToPos() + startIndex) == sentencesLength) {
-      int i;
-      for (i = 0; i < numSuggestions && i < MAX_SUGGESTIONS 
-          && allSuggestions[i].length() > 0 && allSuggestions[i].charAt(allSuggestions[i].length()-1) == '.'; i++);
+      int i = 0;
+      while (i < numSuggestions && i < MAX_SUGGESTIONS
+          && allSuggestions[i].length() > 0 && allSuggestions[i].charAt(allSuggestions[i].length()-1) == '.') {
+        i++;
+      }
       if (i < numSuggestions && i < MAX_SUGGESTIONS) {
       numSuggestions = 0;
       allSuggestions = new String[0];

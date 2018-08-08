@@ -82,7 +82,7 @@ public class MultiDocumentsHandler {
   private boolean testMode = false;
 
 
-  public MultiDocumentsHandler(XComponentContext xContext, File configDir, String configFile,
+  MultiDocumentsHandler(XComponentContext xContext, File configDir, String configFile,
       ResourceBundle MESSAGES, XEventListener xEventListener, MessageHandler messageHandler) {
     this.xContext = xContext;
     this.configDir = configDir;
@@ -94,8 +94,7 @@ public class MultiDocumentsHandler {
     documents = new ArrayList<>();
   }
   
-  public ProofreadingResult getCheckResults(String paraText, Locale locale, 
-      ProofreadingResult paRes, int[] footnotePositions) {
+  ProofreadingResult getCheckResults(String paraText, Locale locale, ProofreadingResult paRes, int[] footnotePositions) {
     
     if (!hasLocale(locale)) {
       return paRes;
@@ -127,28 +126,28 @@ public class MultiDocumentsHandler {
   /**
    *  Set all documents to be checked again
    */
-  public void setRecheck() {
+  void setRecheck() {
     recheck = true;
   }
   
   /**
    *  Set a document as closed
    */
-  public void setContextOfClosedDoc(XComponent context) {
+  void setContextOfClosedDoc(XComponent context) {
     goneContext = context;
   }
   
   /**
    *  get LanguageTool
    */
-  public JLanguageTool getLanguageTool() {
+  JLanguageTool getLanguageTool() {
     return langTool;
   }
   
   /**
    * Allow xContext == null for test cases
    */
-  public void setTestMode(boolean mode) {
+  void setTestMode(boolean mode) {
     testMode = mode;
   }
 
@@ -156,7 +155,7 @@ public class MultiDocumentsHandler {
   /** 
    * Do a reset to check document again
    */
-  public boolean doResetCheck() {
+  boolean doResetCheck() {
     if(documents.size() == 0) {
       return false;
     }
@@ -166,7 +165,7 @@ public class MultiDocumentsHandler {
   /** 
    * Reset only changed paragraphs
    */
-  public void optimizeReset() {
+  void optimizeReset() {
     if(documents.size() == 1) {
       documents.get(docNum).optimizeReset();
     }
@@ -183,6 +182,9 @@ public class MultiDocumentsHandler {
     XPropertySet xCursorProps;
     try {
       XModel model = UnoRuntime.queryInterface(XModel.class, xComponent);
+      if(model == null) {
+        return Languages.getLanguageForShortCode("en-US");
+      }
       XTextViewCursorSupplier xViewCursorSupplier =
           UnoRuntime.queryInterface(XTextViewCursorSupplier.class, model.getCurrentController());
       XTextViewCursor xCursor = xViewCursorSupplier.getViewCursor();
@@ -240,7 +242,7 @@ public class MultiDocumentsHandler {
    * @return true if LT supports the language of a given locale
    * @param locale The Locale to check
    */
-  public final boolean hasLocale(Locale locale) {
+  final boolean hasLocale(Locale locale) {
     try {
       for (Language element : Languages.get()) {
         if (locale.Language.equalsIgnoreCase(LIBREOFFICE_SPECIAL_LANGUAGE_TAG)
@@ -260,11 +262,11 @@ public class MultiDocumentsHandler {
   /**
    *  Set config Values for all documents
    */
-  public void setConfigValues(Configuration config, JLanguageTool langTool) {
+  private void setConfigValues(Configuration config, JLanguageTool langTool) {
     this.config = config;
     this.langTool = langTool;
-    for(int i = 0; i < documents.size(); i++) {
-      documents.get(i).setConfigValues(config, langTool);
+    for (SingleDocument document : documents) {
+      document.setConfigValues(config, langTool);
     }
   }
 
@@ -276,7 +278,7 @@ public class MultiDocumentsHandler {
       XDesktop xDesktop = UnoRuntime.queryInterface(XDesktop.class, desktop);
       return xDesktop.getCurrentComponent();
     } catch (Throwable t) {
-      messageHandler.showError(t);;
+      messageHandler.showError(t);
       return null;
     }
   }
@@ -299,7 +301,7 @@ public class MultiDocumentsHandler {
    */
   private int getNumDoc(String docID) {
     if (goneContext != null ) {
-      removeDoc(goneContext, docID); 
+      removeDoc(docID);
     }
     for (int i = 0; i < documents.size(); i++) {
       if (documents.get(i).getDocID().equals(docID)) {  //  document exist
@@ -323,7 +325,7 @@ public class MultiDocumentsHandler {
   /**
    * Delete a document number and all internal space
    */
-  private void removeDoc(XComponent xComponent, String docID) {
+  private void removeDoc(String docID) {
     int rmNum = -1;
     int docNum = -1;
     for (int i = 0; i < documents.size(); i++) {
@@ -403,8 +405,8 @@ public class MultiDocumentsHandler {
         langTool.enableRule(ruleName);
       }
     }
-    for (int i = 0; i < documents.size(); i++) {
-      documents.get(i).resetCache();
+    for (SingleDocument document : documents) {
+      document.resetCache();
     }
     recheck = false;
   }

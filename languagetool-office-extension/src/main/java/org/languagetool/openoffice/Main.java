@@ -28,7 +28,6 @@ import java.util.Set;
 import javax.swing.UIManager;
 
 import com.sun.star.lang.*;
-import com.sun.star.lang.IllegalArgumentException;
 import com.sun.star.linguistic2.LinguServiceEvent;
 import com.sun.star.linguistic2.LinguServiceEventFlags;
 
@@ -95,11 +94,13 @@ public class Main extends WeakBase implements XJobExecutor,
   public Main(XComponentContext xCompContext) {
     changeContext(xCompContext);
     xEventListeners = new ArrayList<>();
-    messageHandler = new MessageHandler(getHomeDir().toString(), LOG_FILE);
+    File homeDir = getHomeDir();
+    String homeDirName = homeDir == null ? "." : homeDir.toString();
+    messageHandler = new MessageHandler(homeDirName, LOG_FILE);
     documents = new MultiDocumentsHandler(xContext, getHomeDir(), CONFIG_FILE, MESSAGES, this, messageHandler);
   }
 
-  public void prepareConfig(Language lang) {
+  private void prepareConfig(Language lang) {
     try {
       config = new Configuration(getHomeDir(), CONFIG_FILE, lang);
       disabledRules = config.getDisabledRuleIds();
@@ -112,7 +113,7 @@ public class Main extends WeakBase implements XJobExecutor,
     }
   }
 
-  public final void changeContext(XComponentContext xCompContext) {
+  private void changeContext(XComponentContext xCompContext) {
     xContext = xCompContext;
   }
 
@@ -178,7 +179,7 @@ public class Main extends WeakBase implements XJobExecutor,
   /**
    * Runs LT options dialog box.
    */
-  public final void runOptionsDialog() {
+  private void runOptionsDialog() {
     Language lang = documents.getLanguage();
     if (lang == null) {
       return;
@@ -266,7 +267,7 @@ public class Main extends WeakBase implements XJobExecutor,
   /**
    * Inform listener that the doc should be rechecked.
    */
-  public boolean resetCheck() {
+  private boolean resetCheck() {
     if (!xEventListeners.isEmpty()) {
       for (XLinguServiceEventListener xEvLis : xEventListeners) {
         if (xEvLis != null) {
@@ -284,7 +285,7 @@ public class Main extends WeakBase implements XJobExecutor,
    * Inform listener (grammar checking iterator) that options have changed and
    * the doc should be rechecked.
    */
-  public final void resetDocument() {
+  void resetDocument() {
     if (resetCheck()) {
       documents.setRecheck();
       disabledRules = config.getDisabledRuleIds();
@@ -299,7 +300,7 @@ public class Main extends WeakBase implements XJobExecutor,
     return getServiceNames();
   }
 
-  public static String[] getServiceNames() {
+  private static String[] getServiceNames() {
     return SERVICE_NAMES;
   }
 
@@ -380,6 +381,7 @@ public class Main extends WeakBase implements XJobExecutor,
     String homeDir = System.getProperty("user.home");
     if (homeDir == null) {
       messageHandler.showError(new RuntimeException("Could not get home directory"));
+      return null;
     }
     return new File(homeDir);
   }
@@ -388,7 +390,7 @@ public class Main extends WeakBase implements XJobExecutor,
    * Will throw exception instead of showing errors as dialogs - use only for test cases.
    * @since 2.9
    */
-  public void setTestMode(boolean mode) {
+  void setTestMode(boolean mode) {
     documents.setTestMode(mode);
     messageHandler.setTestMode(mode);
   }
@@ -415,9 +417,8 @@ public class Main extends WeakBase implements XJobExecutor,
    * Called when "Ignore" is selected e.g. in the context menu for an error.
    */
   @Override
-  public void ignoreRule(String ruleId, Locale locale)
-      throws IllegalArgumentException {
-    // TODO: config should be locale-dependent
+  public void ignoreRule(String ruleId, Locale locale) {
+    /* TODO: config should be locale-dependent */
     disabledRulesUI.add(ruleId);
     config.setDisabledRuleIds(disabledRulesUI);
     try {

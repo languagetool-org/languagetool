@@ -28,7 +28,7 @@ import com.sun.star.linguistic2.SingleProofreadingError;
  * @since 4.3
  * @author Fred Kruse, Marcin Miłkowski
  */
-public class ResultCache {
+class ResultCache {
   
   private List<Integer> numberOfParagraph;
   private List<Integer> startOfSentencePosition;
@@ -45,7 +45,7 @@ public class ResultCache {
   /**
    *  Remove a cache entry for a sentence
    */
-  public void remove(int numberOfParagraph, int startOfSentencePosition) {
+  void remove(int numberOfParagraph, int startOfSentencePosition) {
     for(int i = 0; i < this.numberOfParagraph.size(); i++) {
       if(this.numberOfParagraph.get(i) == numberOfParagraph && this.startOfSentencePosition.get(i) == startOfSentencePosition) {
         this.numberOfParagraph.remove(i);
@@ -60,7 +60,7 @@ public class ResultCache {
   /**
    *  Remove all cache entries for a paragraph
    */
-  public void remove(int numberOfParagraph) {
+  void remove(int numberOfParagraph) {
     for(int i = 0; i < this.numberOfParagraph.size(); i++) {
       if(this.numberOfParagraph.get(i) == numberOfParagraph) {
         this.numberOfParagraph.remove(i);
@@ -76,7 +76,7 @@ public class ResultCache {
    *  Remove all cache entries between firstPara (included) and lastPara (included)
    *  shift all numberOfParagraph by 'shift'
    */
-  public void removeAndShift(int firstPara, int lastPara, int shift) {
+  void removeAndShift(int firstPara, int lastPara, int shift) {
     for(int i = 0; i < numberOfParagraph.size(); i++) {
       if(numberOfParagraph.get(i) >= firstPara && numberOfParagraph.get(i) <= lastPara) {
         numberOfParagraph.remove(i);
@@ -113,7 +113,7 @@ public class ResultCache {
   /**
    *  replace an cache entry 
    */
-  public void put(int numberOfParagraph, int startOfSentencePosition, int nextSentencePosition, SingleProofreadingError[] errorArray) {
+  void put(int numberOfParagraph, int startOfSentencePosition, int nextSentencePosition, SingleProofreadingError[] errorArray) {
     remove(numberOfParagraph, startOfSentencePosition);
     add(numberOfParagraph, startOfSentencePosition, nextSentencePosition, errorArray);
   }
@@ -121,14 +121,14 @@ public class ResultCache {
   /**
    *  replace an cache entry for paragraph
    */
-  public void put(int numberOfParagraph, SingleProofreadingError[] errorArray) {
+  void put(int numberOfParagraph, SingleProofreadingError[] errorArray) {
     this.put(numberOfParagraph, 0, 0, errorArray);
   }
   
   /**
    *  Remove all cache entries
    */
-  public void removeAll() {
+  void removeAll() {
     numberOfParagraph = new ArrayList<>();
     startOfSentencePosition = new ArrayList<>();
     nextSentencePosition = new ArrayList<>();
@@ -138,7 +138,7 @@ public class ResultCache {
   /**
    *  get Proofreading errors from cache
    */
-  public SingleProofreadingError[] getMatches(int numberOfParagraph, int startOfSentencePosition) {
+  SingleProofreadingError[] getMatches(int numberOfParagraph, int startOfSentencePosition) {
     for(int i = 0; i < this.numberOfParagraph.size(); i++) {
       if(this.numberOfParagraph.get(i) == numberOfParagraph && this.startOfSentencePosition.get(i) == startOfSentencePosition) {
         return this.errorArray.get(i);
@@ -150,7 +150,7 @@ public class ResultCache {
   /**
    *  get Proofreading errors from cache
    */
-  public int getNextSentencePosition(int numberOfParagraph, int startOfSentencePosition) {
+  int getNextSentencePosition(int numberOfParagraph, int startOfSentencePosition) {
     for(int i = 0; i < this.numberOfParagraph.size(); i++) {
       if(this.numberOfParagraph.get(i) == numberOfParagraph && this.startOfSentencePosition.get(i) == startOfSentencePosition) {
         return this.nextSentencePosition.get(i);
@@ -162,7 +162,7 @@ public class ResultCache {
   /**
    *  get Proofreading errors of sentence out of paragraph matches from cache
    */
-  public SingleProofreadingError[] getFromPara(int numberOfParagraph, 
+  SingleProofreadingError[] getFromPara(int numberOfParagraph,
               int startOfSentencePosition, int endOfSentencePosition) {
     for(int i = 0; i < this.numberOfParagraph.size(); i++) {
       if(this.numberOfParagraph.get(i) == numberOfParagraph) {
@@ -181,7 +181,7 @@ public class ResultCache {
   /**
    *  get number of paragraphs stored in cache
    */
-  public int getNumberOfParas() {
+  int getNumberOfParas() {
     int number = 0;
     for(int i = 0; i < numberOfParagraph.size(); i++) {
       if(startOfSentencePosition.get(i) == 0) {
