@@ -231,7 +231,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
 
   private List<String> orderSuggestions(List<String> suggestions, String word, AnalyzedSentence sentence, int startPos, int wordLength) {
     List<String> orderedSuggestions;
-    if (suggestionsOrderer.isMLAvailable()) {
+    if (suggestionsOrderer.isMlAvailable()) {
       orderedSuggestions = suggestionsOrderer.orderSuggestionsUsingModel(suggestions, word, sentence, startPos, word.length());
     } else {
       orderedSuggestions = orderSuggestions(suggestions, word);

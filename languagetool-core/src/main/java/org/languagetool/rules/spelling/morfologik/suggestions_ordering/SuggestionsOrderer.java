@@ -1,3 +1,21 @@
+/* LanguageTool, a natural language style checker
+ * Copyright (C) 2018 Oleg Serikov
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+ * USA
+ */
 package org.languagetool.rules.spelling.morfologik.suggestions_ordering;
 
 import biz.k11i.xgboost.Predictor;
@@ -17,33 +35,32 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class SuggestionsOrderer {
+  
   private static final String SPC_NGRAM_BASED_MODEL_FILENAME = "spc_ngram.model";
   private static final String NO_NGRAM_BASED_MODEL_FILENAME = "spc_naive.model";
   private static final String XGBOOST_MODEL_BASE_PATH = "org/languagetool/resource/speller_rule/models/";
   private static final String COMMON_DEFAULT_MODEL_PATH = XGBOOST_MODEL_BASE_PATH + NO_NGRAM_BASED_MODEL_FILENAME;
   private static final Integer DEFAULT_CONTEXT_LENGTH = 2;
 
-  private boolean MLAvailable = true;
+  private boolean mlAvailable = true;
 
   private static SuggestionsOrderer.NGramUtil nGramUtil = null;
   private static Predictor predictor;
 
-  public boolean isMLAvailable() {
-    return MLAvailable && SuggestionsOrdererConfig.isMLSuggestionsOrderingEnabled();
+  public boolean isMlAvailable() {
+    return mlAvailable && SuggestionsOrdererConfig.isMLSuggestionsOrderingEnabled();
   }
 
-
-  public SuggestionsOrderer(Language language, String rule_id) {
+  public SuggestionsOrderer(Language language, String ruleId) {
     try {
       nGramUtil = new SuggestionsOrderer.NGramUtil(language);
-      String ngramBasedModelFilename = SuggestionsOrderer.XGBOOST_MODEL_BASE_PATH + rule_id + "/" + SuggestionsOrderer.SPC_NGRAM_BASED_MODEL_FILENAME;
-      String nonNgramModelFilename = SuggestionsOrderer.XGBOOST_MODEL_BASE_PATH + rule_id + "/" + SuggestionsOrderer.NO_NGRAM_BASED_MODEL_FILENAME;
+      String ngramBasedModelFilename = SuggestionsOrderer.XGBOOST_MODEL_BASE_PATH + ruleId + "/" + SuggestionsOrderer.SPC_NGRAM_BASED_MODEL_FILENAME;
+      String nonNgramModelFilename = SuggestionsOrderer.XGBOOST_MODEL_BASE_PATH + ruleId + "/" + SuggestionsOrderer.NO_NGRAM_BASED_MODEL_FILENAME;
 
       String languageModelFileName;
       if (nGramUtil.isMockLanguageModel()){
         languageModelFileName = nonNgramModelFilename;
-      }
-      else {
+      } else {
         languageModelFileName = ngramBasedModelFilename;
       }
 
@@ -53,12 +70,12 @@ public class SuggestionsOrderer {
         try (InputStream models_path = this.getClass().getClassLoader().getResourceAsStream(COMMON_DEFAULT_MODEL_PATH)) {
           predictor = new Predictor(models_path);
         } catch (IOException | NullPointerException e1) {
-          MLAvailable = false;
+          mlAvailable = false;
         }
       }
     } catch (RuntimeException e) {
       if (e.getMessage().equalsIgnoreCase("NGram file not found")) {
-        MLAvailable = false;
+        mlAvailable = false;
       } else {
         throw new RuntimeException(e);
       }
@@ -66,8 +83,7 @@ public class SuggestionsOrderer {
   }
 
   private static float processRow(String sentence, String correctedSentence, String covered, String replacement,
-                                  Integer contextLength) throws IOException {
-
+                                  Integer contextLength) {
 
     Pair<String, String> context = Pair.of("", "");
     int errorStartIdx;
@@ -110,8 +126,7 @@ public class SuggestionsOrderer {
     float right_context_correction_proba = (float) rightContextCorrectionProba;
     float first_letter_matches = firstLetterMatches ? 1f : 0f;
     float edit_distance = editDistance;
-
-
+    
     float[] data = {left_context_covered_length, left_context_covered_proba,
             right_context_covered_length, right_context_covered_proba,
             left_context_correction_length, left_context_correction_proba,
@@ -121,34 +136,26 @@ public class SuggestionsOrderer {
     FVec featuresVector = FVec.Transformer.fromArray(data,false);
 
     double[] predictions = predictor.predict(featuresVector);
-    double predicted_score = predictions.length == 0 ? 0 : predictions[0];
+    double predictedScore = predictions.length == 0 ? 0 : predictions[0];
 
-    return (float) predicted_score;
+    return (float) predictedScore;
   }
 
   public List<String> orderSuggestionsUsingModel(List<String> suggestions, String word, AnalyzedSentence sentence, int startPos, int wordLength) {
-
-    if (!isMLAvailable()) {
+    if (!isMlAvailable()) {
       return suggestions;
     }
-
     List<Pair<String, Float>> suggestionsScores = new LinkedList<>();
     for (String suggestion : suggestions) {
       String text = sentence.getText();
       String correctedSentence = text.substring(0, startPos) + suggestion + sentence.getText().substring(startPos + wordLength);
 
-      float score;
-      try {
-        score = processRow(text, correctedSentence, word, suggestion, DEFAULT_CONTEXT_LENGTH);
-      } catch (IOException e) {
-        throw new RuntimeException(e);
-      }
+      float score = processRow(text, correctedSentence, word, suggestion, DEFAULT_CONTEXT_LENGTH);
       suggestionsScores.add(Pair.of(suggestion, score));
     }
     Comparator<Pair<String, Float>> comparing = Comparator.comparing(Pair::getValue);
     suggestionsScores.sort(comparing.reversed());
     List<String> result = new LinkedList<>();
-
     suggestionsScores.iterator().forEachRemaining((Pair<String, Float> p) -> result.add(p.getKey()));
     return result;
   }
@@ -214,14 +221,12 @@ public class SuggestionsOrderer {
 
     public static int firstDifferencePosition(String sentence1, String sentence2) {
       int result = -1;
-
       for (int i = 0; i < sentence1.length(); i++) {
         if (i >= sentence2.length() || sentence1.charAt(i) != sentence2.charAt(i)) {
           result = i;
           break;
         }
       }
-
       return result;
     }
 
@@ -230,11 +235,11 @@ public class SuggestionsOrderer {
 
       List<Integer> possibleIntersections = allIndexesOf(sentence.charAt(sentencesDifferenceCharIdx), errorString);
       for (int i : possibleIntersections) {
-        if (sentencesDifferenceCharIdx - i < 0 || sentencesDifferenceCharIdx - i + errorString.length() > sentence.length())
+        if (sentencesDifferenceCharIdx - i < 0 || sentencesDifferenceCharIdx - i + errorString.length() > sentence.length()) {
           continue;
+        }
         String possibleErrorString = sentence.substring(sentencesDifferenceCharIdx - i,
                 sentencesDifferenceCharIdx - i + errorString.length());
-
         if (possibleErrorString.equals(errorString)) {
           result = sentencesDifferenceCharIdx - i;
           break;
@@ -340,14 +345,11 @@ public class SuggestionsOrderer {
 
     private static String findFirstRegexMatch(String regex, String stringToSearch) {
       String result = "";
-
       Pattern pattern = Pattern.compile(regex);
       Matcher stringToSearchMatcher = pattern.matcher(stringToSearch);
-
       if (stringToSearchMatcher.find()) {
         result = stringToSearch.substring(stringToSearchMatcher.start(), stringToSearchMatcher.end());
       }
-
       return result;
     }
 
