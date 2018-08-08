@@ -98,10 +98,12 @@ class MessageHandler {
     String logHome = xdgDataHome != null ? xdgDataHome + "/LanguageTool" : homeDir;
     String path = logHome + "/" + logFileName;
     File parentDir = new File(path).getParentFile();
-    if (parentDir != null) {
-      boolean success = parentDir.mkdirs();
-      if(!testMode && !success) {
-        showMessage("Can't create directory: " + path);
+    if (parentDir != null && !testMode) {
+      if(!parentDir.exists()) {
+        boolean success = parentDir.mkdirs();
+        if(!success) {
+          showMessage("Can't create directory: " + parentDir.toString());
+        }
       }
     }
     return path;
