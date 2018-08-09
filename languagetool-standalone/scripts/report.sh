@@ -66,6 +66,10 @@ echo "too many parallel requests : `grep -c 'too many parallel requests' $TMPFIL
 echo "Incomplete results sent    : `grep -c  "matches found so far" $TMPFILE`" >>$OUTFILE
 echo "ErrorRateTooHigh           : `grep -c  "ErrorRateTooHigh" $TMPFILE`" >>$OUTFILE
 echo "WARN                       : `grep -c  "WARN:" $TMPFILE`" >>$OUTFILE
+ERROR_TOO_MANY_ERRORS=`grep -c  "Text checking was stopped due to too many errors" $TMPFILE`
+echo "Too many errors            : $ERROR_TOO_MANY_ERRORS" >>$OUTFILE
+ERROR_TIMEOUT=`grep -c  "Text checking took longer than allowed maximum" $TMPFILE`
+echo "Check timeout              : $ERROR_TIMEOUT" >>$OUTFILE
 
 echo "" >>$OUTFILE
 echo "An error has occurred      : `grep -c 'An error has occurred' $TMPFILE`" >>$OUTFILE
