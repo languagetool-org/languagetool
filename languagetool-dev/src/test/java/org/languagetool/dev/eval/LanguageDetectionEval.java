@@ -84,11 +84,14 @@ class LanguageDetectionEval {
       }
       if (detectedLang == null && i == line.length()) {
         throw new DetectionException("Detection failed for '" + line + "', detected <null>");
-      } else if (detectedLang != null && !expectedLanguage.getShortCode().equals(detectedLang)) {
+      } else if (detectedLang == null || !expectedLanguage.getShortCode().equals(detectedLang)) {
         int textLength = i + 1;
+        //System.out.println("minLen: " + textLength);
         //System.out.println("TEXT     : " + line);
-        //System.out.println("TOO SHORT: " + text + " => " + detectedLang + " (" + textLength + ")");
+        //System.out.println("TOO SHORT : " + text + " => " + detectedLang + " (" + textLength + ")");
         return textLength;
+      } else {
+        //System.out.println("STILL OKAY: " + text + " => " + detectedLang);
       }
     }
     return 1;
@@ -109,6 +112,9 @@ class LanguageDetectionEval {
     LanguageDetectionEval eval = new LanguageDetectionEval();
     long startTime = System.currentTimeMillis();
     for (Language language : Languages.get()) {
+      //if (!language.getShortCode().equals("de")) {
+      //  continue;
+      //}
       eval.evaluate(language);
     }
     long endTime = System.currentTimeMillis();
