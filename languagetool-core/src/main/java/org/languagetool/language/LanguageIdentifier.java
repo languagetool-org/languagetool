@@ -49,6 +49,7 @@ import java.util.List;
 public class LanguageIdentifier {
 
   private static final double MINIMAL_CONFIDENCE = 0.9;
+  private static final int SHORT_ALGO_THRESHOLD = 50;
 
   // ast and gl often prevent the correct detection of Spanish (as the are quite similar
   // to Spanish, I assume) so we disable them for now. See LanguageDetectionEval.java:
@@ -56,7 +57,6 @@ public class LanguageIdentifier {
 
   // languages that we offer profiles for as they are not yet supported by language-detector:
   private static final List<String> externalLangCodes = Arrays.asList("eo");
-  private static final int SHORT_ALGO_THRESHOLD = 50;
 
   private final LanguageDetector languageDetector;
   private final TextObjectFactory textObjectFactory;
