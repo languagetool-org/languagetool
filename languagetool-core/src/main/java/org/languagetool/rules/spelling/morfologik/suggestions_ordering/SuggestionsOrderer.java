@@ -44,7 +44,7 @@ public class SuggestionsOrderer {
 
   private boolean mlAvailable = true;
 
-  private static SuggestionsOrderer.NGramUtil nGramUtil = null;
+  private static NGramUtil nGramUtil = null;
   private static Predictor predictor;
 
   public boolean isMlAvailable() {
@@ -53,9 +53,9 @@ public class SuggestionsOrderer {
 
   public SuggestionsOrderer(Language language, String ruleId) {
     try {
-      nGramUtil = new SuggestionsOrderer.NGramUtil(language);
-      String ngramBasedModelFilename = SuggestionsOrderer.XGBOOST_MODEL_BASE_PATH + ruleId + "/" + SuggestionsOrderer.SPC_NGRAM_BASED_MODEL_FILENAME;
-      String nonNgramModelFilename = SuggestionsOrderer.XGBOOST_MODEL_BASE_PATH + ruleId + "/" + SuggestionsOrderer.NO_NGRAM_BASED_MODEL_FILENAME;
+      nGramUtil = new NGramUtil(language);
+      String ngramBasedModelFilename = XGBOOST_MODEL_BASE_PATH + ruleId + "/" + SPC_NGRAM_BASED_MODEL_FILENAME;
+      String nonNgramModelFilename = XGBOOST_MODEL_BASE_PATH + ruleId + "/" + NO_NGRAM_BASED_MODEL_FILENAME;
 
       String languageModelFileName;
       if (nGramUtil.isMockLanguageModel()) {
@@ -64,11 +64,11 @@ public class SuggestionsOrderer {
         languageModelFileName = ngramBasedModelFilename;
       }
 
-      try (InputStream models_path = this.getClass().getClassLoader().getResourceAsStream(languageModelFileName)) {
-        predictor = new Predictor(models_path);
+      try (InputStream modelsPath = this.getClass().getClassLoader().getResourceAsStream(languageModelFileName)) {
+        predictor = new Predictor(modelsPath);
       } catch (IOException | NullPointerException e) {
-        try (InputStream models_path = this.getClass().getClassLoader().getResourceAsStream(COMMON_DEFAULT_MODEL_PATH)) {
-          predictor = new Predictor(models_path);
+        try (InputStream modelsPath = this.getClass().getClassLoader().getResourceAsStream(COMMON_DEFAULT_MODEL_PATH)) {
+          predictor = new Predictor(modelsPath);
         } catch (IOException | NullPointerException e1) {
           mlAvailable = false;
         }
@@ -160,14 +160,13 @@ public class SuggestionsOrderer {
     return result;
   }
 
-  @SuppressWarnings("WeakerAccess")
-  static class NGramUtil {
+  private static class NGramUtil {
 
     private Language language;
     private LanguageModel languageModel;
     private boolean mockLanguageModel = false;
 
-    public NGramUtil(Language language) {
+    private NGramUtil(Language language) {
       this.language = language;
       try {
         String ngramPath = SuggestionsOrdererConfig.getNgramsPath();
@@ -185,38 +184,37 @@ public class SuggestionsOrderer {
       }
     }
 
-    public List<String> tokenizeString(String s) {
+    private List<String> tokenizeString(String s) {
       return GoogleTokenUtil.getGoogleTokensForString(s, false, language);
     }
 
-    public Double stringProbability(List<String> sTokenized, int length) {
+    private Double stringProbability(List<String> sTokenized, int length) {
       if (sTokenized.size() > length) {
         sTokenized = sTokenized.subList(sTokenized.size() - length, sTokenized.size());
       }
       return sTokenized.isEmpty() ? null : languageModel.getPseudoProbability(sTokenized).getProb();
     }
 
-    public boolean isMockLanguageModel() {
+    private boolean isMockLanguageModel() {
       return mockLanguageModel;
     }
   }
 
-  @SuppressWarnings("WeakerAccess")
-  static class ContextUtils {
+  private static class ContextUtils {
 
-    public static String leftContext(String originalSentence, int errorStartIdx, String errorString, int contextLength) {
+    private static String leftContext(String originalSentence, int errorStartIdx, String errorString, int contextLength) {
       String regex = repeat(contextLength, "\\w+\\W+") + errorString + "$";
       String stringToSearch = originalSentence.substring(0, errorStartIdx + errorString.length());
       return findFirstRegexMatch(regex, stringToSearch);
     }
 
-    public static String rightContext(String originalSentence, int errorStartIdx, String errorString, int contextLength) {
+    private static String rightContext(String originalSentence, int errorStartIdx, String errorString, int contextLength) {
       String regex = "^" + errorString + repeat(contextLength, "\\W+\\w+");
       String stringToSearch = originalSentence.substring(errorStartIdx);
       return findFirstRegexMatch(regex, stringToSearch);
     }
 
-    public static int firstDifferencePosition(String sentence1, String sentence2) {
+    private static int firstDifferencePosition(String sentence1, String sentence2) {
       int result = -1;
       for (int i = 0; i < sentence1.length(); i++) {
         if (i >= sentence2.length() || sentence1.charAt(i) != sentence2.charAt(i)) {
@@ -227,7 +225,7 @@ public class SuggestionsOrderer {
       return result;
     }
 
-    public static int startOfErrorString(String sentence, String errorString, int sentencesDifferenceCharIdx) {
+    private static int startOfErrorString(String sentence, String errorString, int sentencesDifferenceCharIdx) {
       int result = -1;
       List<Integer> possibleIntersections = allIndexesOf(sentence.charAt(sentencesDifferenceCharIdx), errorString);
       for (int i : possibleIntersections) {
@@ -244,7 +242,7 @@ public class SuggestionsOrderer {
       return result;
     }
 
-    public static String getMaximalPossibleRightContext(String sentence, int errorStartIdx, String errorString,
+    private static String getMaximalPossibleRightContext(String sentence, int errorStartIdx, String errorString,
                                                         int startingContextLength) {
       String rightContext = "";
       for (int contextLength = startingContextLength; contextLength > 0; contextLength--) {
@@ -256,7 +254,7 @@ public class SuggestionsOrderer {
       return rightContext;
     }
 
-    public static String getMaximalPossibleLeftContext(String sentence, int errorStartIdx, String errorString,
+    private static String getMaximalPossibleLeftContext(String sentence, int errorStartIdx, String errorString,
                                                        int startingContextLength) {
       String leftContext = "";
       for (int contextLength = startingContextLength; contextLength > 0; contextLength--) {
@@ -268,7 +266,7 @@ public class SuggestionsOrderer {
       return leftContext;
     }
 
-    public static Pair<String, String> extractContext(String sentence, String covered, int errorStartIdx, int contextLength) {
+    private static Pair<String, String> extractContext(String sentence, String covered, int errorStartIdx, int contextLength) {
       int errorEndIdx = errorStartIdx + covered.length();
       String errorString = sentence.substring(errorStartIdx, errorEndIdx);
 
@@ -278,8 +276,7 @@ public class SuggestionsOrderer {
       return Pair.of(leftContext, rightContext);
     }
 
-
-    public static String longestCommonPrefix(String[] strs) {
+    private static String longestCommonPrefix(String[] strs) {
       if (strs == null || strs.length == 0) {
         return "";
       }
@@ -309,7 +306,7 @@ public class SuggestionsOrderer {
       return strs[0].substring(0, minLen);
     }
 
-    public static int editDistance(String x, String y) {
+    private static int editDistance(String x, String y) {
       int[][] dp = new int[x.length() + 1][y.length() + 1];
 
       for (int i = 0; i <= x.length(); i++) {
