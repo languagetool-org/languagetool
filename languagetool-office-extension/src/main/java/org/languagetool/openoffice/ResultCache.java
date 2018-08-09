@@ -37,7 +37,7 @@ class ResultCache {
   }
   
   /**
-   *  Remove a cache entries for a sentence
+   *  Remove a cache entry for a sentence
    */
   void remove(int numberOfParagraph, int startOfSentencePosition) {
     for(int i = 0; i < entries.size(); i++) {
@@ -50,7 +50,7 @@ class ResultCache {
   }
   
   /**
-   *  Remove all cache entries for a paragraph
+   *  Remove all cache entry for a paragraph
    */
   void remove(int numberOfParagraph) {
     for(int i = 0; i < entries.size(); i++) {
@@ -80,21 +80,21 @@ class ResultCache {
   }
   
   /**
-   *  Add an cache entries 
+   *  Add an cache entry 
    */
   public void add(int numberOfParagraph, int startOfSentencePosition, int nextSentencePosition, SingleProofreadingError[] errorArray) {
     entries.add(new CacheEntry(numberOfParagraph, startOfSentencePosition, nextSentencePosition, errorArray));
   }
 
   /**
-   *  Add an cache entries for paragraph
+   *  Add an cache entry for paragraph
    */
   public void add(int numberOfParagraph, SingleProofreadingError[] errorArray) {
     this.add(numberOfParagraph, 0, 0, errorArray);
   }
 
   /**
-   *  replace an cache entries 
+   *  replace an cache entry 
    */
   void put(int numberOfParagraph, int startOfSentencePosition, int nextSentencePosition, SingleProofreadingError[] errorArray) {
     remove(numberOfParagraph, startOfSentencePosition);
@@ -102,7 +102,7 @@ class ResultCache {
   }
   
   /**
-   *  replace an cache entries for paragraph
+   *  replace an cache entry for paragraph
    */
   void put(int numberOfParagraph, SingleProofreadingError[] errorArray) {
     this.put(numberOfParagraph, 0, 0, errorArray);
