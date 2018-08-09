@@ -64,10 +64,12 @@ class ConfigThread extends Thread {
           rule.setDefaultOff();
         }
       }
-      cfgDialog.show(allRules);
-      config.saveConfiguration(docLanguage);
-      if (mainThread != null) {
-        mainThread.resetDocument();
+      boolean configChanged = cfgDialog.show(allRules);
+      if(configChanged) {
+        config.saveConfiguration(docLanguage);
+        if (mainThread != null) {
+          mainThread.resetDocument();
+        }
       }
     } catch (Throwable e) {
       messageHandler.showError(e);

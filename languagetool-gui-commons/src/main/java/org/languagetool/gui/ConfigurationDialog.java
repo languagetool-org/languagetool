@@ -60,6 +60,7 @@ public class ConfigurationDialog implements ActionListener {
   private final Configuration config;
   private final Frame owner;
   private final boolean insideOffice;
+  private boolean configChanged = false;
 
   private JDialog dialog;
   private JCheckBox serverCheckbox;
@@ -144,7 +145,8 @@ public class ConfigurationDialog implements ActionListener {
     return ret;
   }
 
-  public void show(List<Rule> rules) {
+  public boolean show(List<Rule> rules) {
+    configChanged = false;
     if (original != null) {
       config.restoreState(original);
     }
@@ -407,6 +409,7 @@ public class ConfigurationDialog implements ActionListener {
       }
     }
     dialog.setVisible(true);
+    return configChanged;
   }
 
   private void createNonOfficeElements(GridBagConstraints cons, JPanel portPanel) {
@@ -867,6 +870,7 @@ public class ConfigurationDialog implements ActionListener {
           ((SavablePanel) extra).save();
         }
       }
+      configChanged = true;
       dialog.setVisible(false);
     } else if (ACTION_COMMAND_CANCEL.equals(e.getActionCommand())) {
       dialog.setVisible(false);
