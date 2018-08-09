@@ -137,6 +137,12 @@ public class VerbAgreementRule extends TextLevelRule {
      new PatternTokenBuilder().tokenRegex("du|e[rs]|sie|ich").build(),
      new PatternTokenBuilder().token("sein").matchInflectedForms().build(),
      new PatternTokenBuilder().tokenRegex("[\\.,]").build()
+    ),
+    Arrays.asList( // Musst du gehen?
+     new PatternTokenBuilder().tokenRegex("D[au]rf.*|Muss.*").build(),
+     new PatternTokenBuilder().posRegex("PRO:PER:NOM:.+").build(),
+     new PatternTokenBuilder().posRegex("VER:INF:.+").build(),
+     new PatternTokenBuilder().csToken("?").build()
     )
   );
 

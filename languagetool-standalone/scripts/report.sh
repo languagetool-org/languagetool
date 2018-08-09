@@ -65,6 +65,11 @@ echo "OutOfMemoryError           : `grep -c 'OutOfMemoryError' $TMPFILE`" >>$OUT
 echo "too many parallel requests : `grep -c 'too many parallel requests' $TMPFILE`" >>$OUTFILE
 echo "Incomplete results sent    : `grep -c  "matches found so far" $TMPFILE`" >>$OUTFILE
 echo "ErrorRateTooHigh           : `grep -c  "ErrorRateTooHigh" $TMPFILE`" >>$OUTFILE
+echo "WARN                       : `grep -c  "WARN:" $TMPFILE`" >>$OUTFILE
+ERROR_TOO_MANY_ERRORS=`grep -c  "Text checking was stopped due to too many errors" $TMPFILE`
+echo "Too many errors            : $ERROR_TOO_MANY_ERRORS" >>$OUTFILE
+ERROR_TIMEOUT=`grep -c  "Text checking took longer than allowed maximum" $TMPFILE`
+echo "Check timeout              : $ERROR_TIMEOUT" >>$OUTFILE
 
 echo "" >>$OUTFILE
 echo "An error has occurred      : `grep -c 'An error has occurred' $TMPFILE`" >>$OUTFILE
@@ -77,6 +82,18 @@ echo "Request size limit         : `grep -c 'Request size limit of' $TMPFILE`" >
 echo "" >>$OUTFILE
 echo "Top HTTP error codes:" >>$OUTFILE
 grep "An error has occurred" /tmp/log.temp|sed 's/.*HTTP code \([0-9]\+\)..*/HTTP code \1/'|sort |uniq -c| sort -r -n >>$OUTFILE
+
+echo "" >>$OUTFILE
+echo "API deploy dates:" >>$OUTFILE
+echo -n "languagetool.org        : " >>$OUTFILE
+curl -s "https://languagetool.org/api/v2/check?text=Test&language=en" | json_pp | grep buildDate >>$OUTFILE
+echo -n "api.languagetool.org    : " >>$OUTFILE
+curl -s "https://api.languagetool.org/v2/check?text=Test&language=en" | json_pp | grep buildDate >>$OUTFILE
+echo -n "languagetoolplus.com    : " >>$OUTFILE
+curl -s "https://languagetoolplus.com/api/v2/check?text=Test&language=en" | json_pp | grep buildDate >>$OUTFILE
+echo -n "api.languagetoolplus.com: " >>$OUTFILE
+curl -s "https://api.languagetoolplus.com/v2/check?text=Test&language=en" | json_pp | grep buildDate >>$OUTFILE
+echo "TODO: premium only on api.languagetoolplus.com" >>$OUTFILE
 
 echo "" >>$OUTFILE
 echo "Top API blocks:" >>$OUTFILE

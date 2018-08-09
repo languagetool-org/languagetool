@@ -18,15 +18,20 @@
  */
 package org.languagetool.server;
 
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+import org.languagetool.Language;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 import static org.languagetool.server.ServerTools.print;
 
@@ -38,7 +43,12 @@ class DatabaseAccess {
 
   private static DatabaseAccess instance;
   private static SqlSessionFactory sqlSessionFactory;
-  
+
+  private final Cache<Long, List<UserDictEntry>> userDictCache = CacheBuilder.newBuilder()
+          .maximumSize(1000)
+          .expireAfterWrite(24, TimeUnit.HOURS)
+          .build();
+
   private DatabaseAccess(HTTPServerConfig config) {
     if (config.getDatabaseDriver() != null) {
       try {
@@ -77,9 +87,28 @@ class DatabaseAccess {
       return dictEntries;
     }
     try (SqlSession session = sqlSessionFactory.openSession()) {
-      List<UserDictEntry> dict = session.selectList("org.languagetool.server.UserDictMapper.selectWordList", userId);
-      for (UserDictEntry userDictEntry : dict) {
-        dictEntries.add(userDictEntry.getWord());
+      try {
+        List<UserDictEntry> dict = session.selectList("org.languagetool.server.UserDictMapper.selectWordList", userId);
+        for (UserDictEntry userDictEntry : dict) {
+          dictEntries.add(userDictEntry.getWord());
+        }
+        if (dict.size() <= 1000) {  // make sure users with huge dict don't blow up the cache
+          userDictCache.put(userId, dict);
+        } else {
+          print("WARN: Large dict size " + dict.size() + " for user " + userId + " - will not put user's dict in cache");
+        }
+      } catch (Exception e) {
+        // try to be more robust when database is down, i.e. don't just crash but try to use cache:
+        List<UserDictEntry> cachedDictOrNull = userDictCache.getIfPresent(userId);
+        if (cachedDictOrNull != null) {
+          print("ERROR: Could not get words from database for user " + userId + ": " + e.getMessage() + ", will use cached version (" + cachedDictOrNull.size() + " items). Full stack trace follows:", System.err);
+          for (UserDictEntry userDictEntry : cachedDictOrNull) {
+            dictEntries.add(userDictEntry.getWord());
+          }
+        } else {
+          print("ERROR: Could not get words from database for user " + userId + ": " + e.getMessage() + " - also, could not use version from cache, user id not found in cache, will use empty dict. Full stack trace follows:", System.err);
+        }
+        e.printStackTrace();
       }
     }
     return dictEntries;
@@ -162,6 +191,27 @@ class DatabaseAccess {
     }
   }
 
+  void logAccess(Language lang, int textSize, int matches, Long userId) {
+    if (sqlSessionFactory == null) {
+      return;
+    }
+    try (SqlSession session = sqlSessionFactory.openSession(true)) {
+      HashMap<Object, Object> map = new HashMap<>();
+      Calendar date = Calendar.getInstance();
+      SimpleDateFormat dayFormat = new SimpleDateFormat("yyyy-MM-dd");
+      SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+      map.put("day", dayFormat.format(date.getTime()));
+      map.put("date", dateFormat.format(date.getTime()));
+      map.put("user_id", userId);
+      map.put("textsize", textSize);
+      map.put("matches", matches);
+      map.put("language", lang.getShortCodeWithCountryAndVariant());
+      session.insert("org.languagetool.server.LogMapper.logCheck", map);
+    } catch (Exception e) {
+      print("Could not log check for " + userId + ": " + e.getMessage());
+    }
+  }
+  
   private void validateWord(String word) {
     if (word == null || word.trim().isEmpty()) {
       throw new IllegalArgumentException("Invalid word, cannot be empty or whitespace only");

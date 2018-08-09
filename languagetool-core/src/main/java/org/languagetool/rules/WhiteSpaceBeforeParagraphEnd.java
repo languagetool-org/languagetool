@@ -36,7 +36,7 @@ public class WhiteSpaceBeforeParagraphEnd extends TextLevelRule {
     super(messages);
     super.setCategory(Categories.STYLE.getCategory(messages));
     if (!defaultActive) {
-        setDefaultOff();
+      setDefaultOff();
     }
     setOfficeDefaultOn();
     setLocQualityIssueType(ITSIssueType.Style);

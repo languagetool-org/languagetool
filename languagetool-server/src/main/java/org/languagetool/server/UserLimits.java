@@ -94,9 +94,9 @@ class UserLimits {
   /**
    * Get limits from the api key itself, database access is needed.
    */
-  public static UserLimits getLimitsByApiKey(HTTPServerConfig config, String username, String apikey) {
+  public static UserLimits getLimitsByApiKey(HTTPServerConfig config, String username, String apiKey) {
     DatabaseAccess db = DatabaseAccess.getInstance();
-    Long id = db.getUserId(username, apikey);
+    Long id = db.getUserId(username, apiKey);
     return new UserLimits(config.maxTextLengthWithApiKey, config.maxCheckTimeWithApiKeyMillis, id);
   }
 

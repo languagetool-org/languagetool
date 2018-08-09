@@ -96,6 +96,18 @@ public class AnnotatedTextBuilder {
   }
 
   /**
+   * Add a markup text snippet like {@code <b attr='something'>} or {@code <div>}. These
+   * parts will be ignored by LanguageTool when using {@link org.languagetool.JLanguageTool#check(AnnotatedText)}.
+   * @param interpretAs A string that will be used by the checker instead of the markup. This is usually
+   *                    whitespace, e.g. {@code \n\n} for {@code <p>}
+   */
+  public AnnotatedTextBuilder addMarkup(String markup, String interpretAs) {
+    parts.add(new TextPart(markup, TextPart.Type.MARKUP));
+    parts.add(new TextPart(interpretAs, TextPart.Type.FAKE_CONTENT));
+    return this;
+  }
+
+  /**
    * Create the annotated text to be passed into {@link org.languagetool.JLanguageTool#check(AnnotatedText)}.
    */
   public AnnotatedText build() {
@@ -109,6 +121,8 @@ public class AnnotatedTextBuilder {
         totalPosition += part.getPart().length();
       } else if (part.getType() == TextPart.Type.MARKUP) {
         totalPosition += part.getPart().length();
+      } else if (part.getType() == TextPart.Type.FAKE_CONTENT) {
+        plainTextPosition += part.getPart().length();
       }
       mapping.put(plainTextPosition, totalPosition);
     }

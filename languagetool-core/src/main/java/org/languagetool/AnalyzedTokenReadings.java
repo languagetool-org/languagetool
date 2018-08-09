@@ -163,7 +163,7 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
   }
 
   /**
-   * Checks if the token has a particular POS tag, whereas only a part of the given POS tag needs to match.
+   * Checks if the token has a particular POS tag, where only a part of the given POS tag needs to match.
    *
    * @param posTag POS tag substring to look for
    * @since 1.8
@@ -182,7 +182,7 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
   }
 
  /**
-  * Checks if the token has amy of the given particular POS tags (only a part of the given POS tag needs to match)
+  * Checks if the token has any of the given particular POS tags (only a part of the given POS tag needs to match)
   *
   * @param posTags POS tag substring to look for
   * @since 4.0
@@ -197,7 +197,7 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
   }
 
   /**
-   * Checks if the token has a postag starting with the given string.
+   * Checks if the token has a POS tag starting with the given string.
    *
    * @param posTag POS tag substring to look for
    * @since 4.0

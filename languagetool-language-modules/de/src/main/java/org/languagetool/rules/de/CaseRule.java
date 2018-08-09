@@ -159,7 +159,6 @@ public class CaseRule extends Rule {
        regex("Konstanten?")
     ),
     Arrays.asList(
-        //token("dass"),
         token("das"),
         posRegex("PA2:.*"),
         posRegex("VER:AUX:.*")
@@ -283,7 +282,7 @@ public class CaseRule extends Rule {
        new PatternTokenBuilder().pos(JLanguageTool.SENTENCE_START_TAGNAME).build(),
        new PatternTokenBuilder().csToken("Das").build(),
        new PatternTokenBuilder().pos("VER:INF:NON").build(), 
-       new PatternTokenBuilder().posRegex("SUB:NOM:PLU:.+").build()
+       new PatternTokenBuilder().posRegex("SUB:NOM:PLU:.+|ADV:MOD").build()
     ),
     Arrays.asList( // "Tausende Gläubige kamen, um ihn zu sehen."
       new PatternTokenBuilder().tokenRegex("[tT]ausende?").build(),
@@ -318,6 +317,10 @@ public class CaseRule extends Rule {
     Arrays.asList( // Einen Tag nach Bekanntwerden des Skandals
       pos("ZUS"),
       csToken("Bekanntwerden")
+    ),
+    Arrays.asList( // Das ist also ihr Zuhause.
+      posRegex(".+:(POS|GEN):.+"),
+      csToken("Zuhause")
     )
   );
 

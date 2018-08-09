@@ -86,13 +86,13 @@ public class GermanStyleRepeatedWordRule  extends AbstractStyleRepeatedWordRule 
    */
   protected boolean isTokenPair(AnalyzedTokenReadings[] tokens, int n, boolean before) {
     if (before) {
-      if (tokens[n-2].matchesPosTagRegex("SUB:.*") && tokens[n-1].matchesPosTagRegex("PRP:.*")
-              && tokens[n].matchesPosTagRegex("SUB:.*")) {
+      if (tokens[n-2].hasPosTagStartingWith("SUB:") && tokens[n-1].hasPosTagStartingWith("PRP:")
+              && tokens[n].hasPosTagStartingWith("SUB:")) {
         return true;
       }
     } else {
-      if (tokens[n].matchesPosTagRegex("SUB:.*") && tokens[n+1].matchesPosTagRegex("PRP:.*")
-              && tokens[n+2].matchesPosTagRegex("SUB:.*")) {
+      if (tokens[n].hasPosTagStartingWith("SUB:") && tokens[n+1].hasPosTagStartingWith("PRP:")
+              && tokens[n+2].hasPosTagStartingWith("SUB:")) {
         return true;
       }
     }

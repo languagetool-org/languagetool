@@ -31,12 +31,16 @@ import java.util.*;
 public class OldSpellingRule extends Rule {
 
   private static final String DESC = "Findet Schreibweisen, die nur in der alten Rechtschreibung gültig waren";
+  private static final String FILE_PATH = "/de/alt_neu.csv";
+  private static final String MESSAGE = "Diese Schreibweise war nur in der alten Rechtschreibung korrekt.";
+  private static final String SHORT_MESSAGE = "alte Rechtschreibung";
+  private static final String RULE_INTERNAL = "OLD_SPELLING_INTERNAL";
+  private static final ITSIssueType ISSUE_TYPE = ITSIssueType.Misspelling;
+  private static final SpellingData DATA = new SpellingData(DESC, FILE_PATH, MESSAGE, SHORT_MESSAGE, RULE_INTERNAL, ISSUE_TYPE);
 
-  private static final OldSpellingData data = new OldSpellingData(DESC);
-
-  public OldSpellingRule(ResourceBundle messages) throws IOException {
+  public OldSpellingRule(ResourceBundle messages) {
     super.setCategory(Categories.TYPOS.getCategory(messages));
-    setLocQualityIssueType(ITSIssueType.Misspelling);
+    setLocQualityIssueType(ISSUE_TYPE);
     addExamplePair(Example.wrong("Der <marker>Abfluß</marker> ist schon wieder verstopft."),
                    Example.fixed("Der <marker>Abfluss</marker> ist schon wieder verstopft."));
   }
@@ -53,25 +57,8 @@ public class OldSpellingRule extends Rule {
 
   @Override
   public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
-    List<RuleMatch> ruleMatches = new ArrayList<>();
-    for (OldSpellingRuleWithSuggestion ruleWithSuggestion : data.get()) {
-      Rule rule = ruleWithSuggestion.rule;
-      RuleMatch[] matches = rule.match(sentence);
-      if (matches.length > 0) {
-        RuleMatch match = matches[0];
-        String matchedText = sentence.getText().substring(match.getFromPos(), match.getToPos());
-        String textFromMatch = sentence.getText().substring(match.getFromPos());
-        if (textFromMatch.startsWith("Schloß Holte")) {
-          continue;
-        }
-        String suggestion = matchedText.replace(ruleWithSuggestion.oldSpelling, ruleWithSuggestion.newSpelling);
-        if (!suggestion.equals(matchedText)) {   // "Schlüsse" etc. is otherwise considered incorrect (inflected form of "Schluß")
-          match.setSuggestedReplacement(suggestion);
-          ruleMatches.addAll(Arrays.asList(matches));
-        }
-      }
-    }
-    return toRuleMatchArray(ruleMatches);
+    String[] exceptions = {"Schloß Holte"};
+    return toRuleMatchArray(SpellingRuleWithSuggestion.computeMatches(sentence, DATA, exceptions));
   }
   
 }

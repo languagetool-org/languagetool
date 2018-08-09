@@ -720,10 +720,10 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </pattern>
         <disambig action="remove" postag=".+:FEM"/>
     </rule>
-    <rule id="HOCHDRAMATISCH" name="kein Verb: hochdramatisch">
+    <rule id="HOCHDRAMATISCH" name="kein Verb: charismatischen / hochdramatischen">
         <pattern case_sensitive="yes">
             <marker>
-                <token regexp="yes">hochdramatischen?</token>
+                <token inflected="yes" regexp="yes">(charis|hochdra)matischen</token>
             </marker>
         </pattern>
         <disambig action="remove" postag="VER:.+"/>
@@ -740,6 +740,26 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <example type="ambiguous" inputform="sehen[sehen/VER:1:PLU:KJ1:NON,sehen/VER:1:PLU:PRÄ:NON,sehen/VER:3:PLU:KJ1:NON,sehen/VER:3:PLU:PRÄ:NON,sehen/VER:INF:NON]" outputform="sehen[sehen/VER:INF:NON]">Sie kommen, um dich zu <marker>sehen</marker>.</example>
         <example type="ambiguous" inputform="sehen[sehen/VER:1:PLU:KJ1:NON,sehen/VER:1:PLU:PRÄ:NON,sehen/VER:3:PLU:KJ1:NON,sehen/VER:3:PLU:PRÄ:NON,sehen/VER:INF:NON]" outputform="sehen[sehen/VER:INF:NON]">"Sie kommen, um dich zu <marker>sehen</marker>."</example>
         <example type="ambiguous" inputform="sehen[sehen/VER:1:PLU:KJ1:NON,sehen/VER:1:PLU:PRÄ:NON,sehen/VER:3:PLU:KJ1:NON,sehen/VER:3:PLU:PRÄ:NON,sehen/VER:INF:NON]" outputform="sehen[sehen/VER:INF:NON]">Sie kommen, um dich zu <marker>sehen</marker> und dich zu pflegen.</example>
+    </rule>
+    <rule id="MODALVERB_MIT_INFINITIV" name="Infinitiv mit Modalverb">
+        <pattern case_sensitive="yes">
+            <marker>
+                <token postag_regexp="yes" postag="VER:INF:.+"></token>
+            </marker>
+            <token postag_regexp="yes" postag="VER:(AUX|MOD):[1-3]:SIN:.+"></token>
+        </pattern>
+        <disambig action="remove" postag="VER:[1-3]:.+"/>
+        <example type="ambiguous" inputform="sehen[sehen/VER:1:PLU:KJ1:NON,sehen/VER:1:PLU:PRÄ:NON,sehen/VER:3:PLU:KJ1:NON,sehen/VER:3:PLU:PRÄ:NON,sehen/VER:INF:NON]" outputform="sehen[sehen/VER:INF:NON]">Ich glaube nicht , dass er es <marker>sehen</marker> wird.</example>
+    </rule>
+    <rule id="MODALVERB_MIT_INFINITIV_2" name="Infinitiv mit Modalverb">
+        <pattern case_sensitive="yes">
+            <token postag_regexp="yes" postag="VER:(AUX|MOD):[1-3]:SIN:.+"></token>
+            <marker>
+                <token postag_regexp="yes" postag="VER:INF:.+"></token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="VER:[1-3]:.+"/>
+        <example type="ambiguous" inputform="sehen[sehen/VER:1:PLU:KJ1:NON,sehen/VER:1:PLU:PRÄ:NON,sehen/VER:3:PLU:KJ1:NON,sehen/VER:3:PLU:PRÄ:NON,sehen/VER:INF:NON]" outputform="sehen[sehen/VER:INF:NON]">Er kann <marker>sehen</marker>.</example>
     </rule>
     <rule id="RIW" name="Reit im Winkl">
         <pattern case_sensitive="yes">
@@ -763,6 +783,14 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <!-- ============================================================================================================== -->
     <!-- IGNORE SPELLING -->
 
+    <rule name="x-geschossig" id="X_GESCHOSSIG">
+    <!-- 3-geschossig etc. -->
+        <pattern>
+            <token regexp="yes">\d+-(geschoss|stöck|wöch|teil|räum)ig(e[mnrs]?)?</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    
     <rule name="en vogue" id="EN_VOGUE">
         <pattern>
             <token>en</token>
@@ -1248,7 +1276,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rule name="Big Ben" id="BIG_BEN">
         <pattern>
             <token>Big</token>
-            <token regexp="yes">B(en|an[dg]|rother)|Data</token>
+            <token regexp="yes">Apple|B(en|an[dg]|rother)|Data</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -1962,7 +1990,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rule name="Grand Canyon" id="GRAND_CANYON">
         <pattern case_sensitive="yes">
             <token>Grand</token>
-            <token regexp='yes'>Canyon|Jury|Slam|Hyatt|Prix|Cru|Marnier|Fleet|Lit</token>
+            <token regexp='yes'>Canyons?|Jury|Slams?|Hyatt|Prix|Cru|Marnier|Fleet|Lit</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -2655,6 +2683,13 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
       <pattern case_sensitive="yes">
         <token>University</token>
         <token>Press</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Hotdog" id="HOTDOG">
+      <pattern case_sensitive="yes">
+        <token>Hot</token>
+        <token>Dog</token>
       </pattern>
       <disambig action="ignore_spelling"/>
     </rule>

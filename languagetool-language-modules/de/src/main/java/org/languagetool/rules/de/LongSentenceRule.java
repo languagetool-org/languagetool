@@ -83,7 +83,7 @@ public class LongSentenceRule extends org.languagetool.rules.LongSentenceRule {
 
   @Override
   public String getMessage() {
-    return "Dieser Satz ist sehr lang (mehr als " + maxWords + " Wörter).";
+    return "Der Satz hat an der markierten Stelle mehr als " + maxWords + " Wörter.";
   }
 
   @Override
@@ -132,7 +132,10 @@ public class LongSentenceRule extends org.languagetool.rules.LongSentenceRule {
               || (!tokens[i].getToken().equals("“") && !tokens[i].getToken().equals("»")
               && !tokens[i].getToken().equals("«") && !tokens[i].getToken().equals("\"")))) {
         if (isWordCount(tokens[i].getToken())) {
-          toPos.set(toPos.size() - 1, tokens[i].getEndPos());
+          if(numWords == maxWords + 1) {
+            fromPos.set(fromPos.size() - 1, tokens[i].getStartPos());
+            toPos.set(fromPos.size() - 1, tokens[i].getEndPos());
+          }
           numWords++;
         } else if (tokens[i].getToken().equals("(") || tokens[i].getToken().equals("{")
                 || tokens[i].getToken().equals("[")) {        //  The Text between brackets is handled as separate sentence
@@ -144,15 +147,18 @@ public class LongSentenceRule extends org.languagetool.rules.LongSentenceRule {
           int fromPosInt = 0;
           int toPosInt = 0;
           int k;
-          for (k = i + 1; k < tokens.length && !tokens[k].getToken().equals(endChar) && !isWordCount(tokens[k].getToken()); k++)
-            ;
+          for (k = i + 1; k < tokens.length && !tokens[k].getToken().equals(endChar) 
+                && !isWordCount(tokens[k].getToken()); k++);
           if (k < tokens.length) {
             fromPosInt = tokens[k].getStartPos();
             toPosInt = tokens[k].getEndPos();
           }
           for (k++; k < tokens.length && !tokens[k].getToken().equals(endChar); k++) {
             if (isWordCount(tokens[k].getToken())) {
-              toPosInt = tokens[k].getEndPos();
+              if(numWordsInt == maxWords + 1) {
+                fromPosInt = tokens[k].getStartPos();
+                toPosInt = tokens[k].getEndPos();
+              }
               numWordsInt++;
             }
           }

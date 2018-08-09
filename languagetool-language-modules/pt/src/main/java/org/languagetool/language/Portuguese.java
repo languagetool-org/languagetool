@@ -161,6 +161,7 @@ public class Portuguese extends Language implements AutoCloseable {
             new PortugueseReplaceRule(messages),
             new PortugueseBarbarismsRule(messages),
             new PortugueseClicheRule(messages),
+            new PortugueseFillerWordsRule(messages, userConfig),
             new PortugueseRedundancyRule(messages),
             new PortugueseWordinessRule(messages),
             new PortugueseWeaselWordsRule(messages),
@@ -252,7 +253,8 @@ public class Portuguese extends Language implements AutoCloseable {
       case "FILLER_WORDS_PT":           return -990;
       case LongSentenceRule.RULE_ID:    return -997;
       case LongParagraphRule.RULE_ID:   return -998;
-      case "CACOPHONY":                 return -2000;
+      case "CACOPHONY":                 return -1500;
+      case "UNKNOWN_WORD":              return -2000;
     }
     return 0;
   }

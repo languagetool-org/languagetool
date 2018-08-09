@@ -1,6 +1,6 @@
-/* LanguageTool, a natural language style checker 
- * Copyright (C) 2017 Daniel Naber (http://www.danielnaber.de)
- * 
+/* LanguageTool, a natural language style checker
+ * Copyright (C) 2018 Fabian Richter
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -18,23 +18,24 @@
  */
 package org.languagetool.rules.de;
 
-import org.languagetool.rules.Rule;
+import org.languagetool.rules.AbstractNewYearDateFilter;
 
-import java.util.Objects;
+import java.util.Calendar;
 
 /**
- * @since 3.8
+ * @since 4.3
  */
-class OldSpellingRuleWithSuggestion {
+public class NewYearDateFilter extends AbstractNewYearDateFilter {
 
-  Rule rule;
-  String oldSpelling;
-  String newSpelling;
+  private final DateFilterHelper dateFilterHelper = new DateFilterHelper();
 
-  OldSpellingRuleWithSuggestion(Rule rule, String oldSpelling, String newSpelling) {
-    this.rule = Objects.requireNonNull(rule);
-    this.oldSpelling = Objects.requireNonNull(oldSpelling);
-    this.newSpelling = Objects.requireNonNull(newSpelling);
+  @Override
+  protected int getMonth(String localizedMonth) {
+    return dateFilterHelper.getMonth(localizedMonth);
   }
 
+  @Override
+  protected Calendar getCalendar() {
+    return dateFilterHelper.getCalendar();
+  }
 }

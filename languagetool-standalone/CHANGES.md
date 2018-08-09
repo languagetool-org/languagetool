@@ -2,9 +2,45 @@
 
 ## 4.3-SNAPSHOT (2018-09-26)
 
-...
+#### English
+  * added and improved rules
 
+#### Galician
+  * added and improved rules
 
+#### Portuguese
+  * added and improved rules
+  * improvements to disambiguation, and segmentation
+  * dictionary update
+
+#### Russian
+  * added and improved rules
+
+#### General
+  * Prepared support for AIX. See https://github.com/MartinKallinger/hunspell-aix
+    for the required libraries
+
+#### HTTP API / LT server
+  * The server can now accept JSON as the `data` parameter that describes
+    markup. For example:
+    ```
+    {"annotation":[
+      {"text": "A "},
+      {"markup": "<b>"},
+      {"text": "test"},
+      {"markup": "</b>"}
+    ]}
+    ```
+    With this input, LT will ignore the `markup` parts and run the check only
+    on the `text` parts. The error offset positions will still refer to the
+    original input including the markup, so that suggestions can easily be applied.
+    You can optionally use `interpretAs` to have markup interpreted as whitespace, like this:
+    ```
+    {"markup": "<p>", "interpretAs": "\n\n"}
+    ```  
+    Note that HTML entities (including `&nbsp;`) still need to be converted to Unicode characters
+    before feeding them into LT.  
+    (Issue: https://github.com/languagetool-org/languagetool/issues/757)
 
 ## 4.2 (2018-06-26)
 

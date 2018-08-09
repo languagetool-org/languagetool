@@ -39,33 +39,40 @@ class ConfigThread extends Thread {
   private final Language docLanguage;
   private final Configuration config;
   private final Main mainThread;
+  private final MessageHandler messageHandler;
   
   private final ConfigurationDialog cfgDialog;
   
-  ConfigThread(Language docLanguage, Configuration config, Main main) {
+  ConfigThread(Language docLanguage, Configuration config, Main main, MessageHandler messageHandler) {
     this.docLanguage = docLanguage;
     this.config = config;
-    mainThread = main; 
+    this.mainThread = main; 
+    this.messageHandler = messageHandler;
     cfgDialog = new ConfigurationDialog(null, true, config);
   }
 
   @Override
   public void run() {
     try {
-      JLanguageTool langTool = new JLanguageTool(docLanguage, config.getMotherTongue()
-          , null, new UserConfig(config.getConfigurableValues()));
+      JLanguageTool langTool = new JLanguageTool(docLanguage, config.getMotherTongue(), null,
+              new UserConfig(config.getConfigurableValues()));
       List<Rule> allRules = langTool.getAllRules();
       for (Rule rule : allRules) {
-        if(rule.isOfficeDefaultOn()) rule.setDefaultOn();
-        else if(rule.isOfficeDefaultOff()) rule.setDefaultOff();
+        if (rule.isOfficeDefaultOn()) {
+          rule.setDefaultOn();
+        } else if(rule.isOfficeDefaultOff()) {
+          rule.setDefaultOff();
+        }
       }
-      cfgDialog.show(allRules);
-      config.saveConfiguration(docLanguage);
-      if (mainThread != null) {
-        mainThread.resetDocument();
+      boolean configChanged = cfgDialog.show(allRules);
+      if(configChanged) {
+        config.saveConfiguration(docLanguage);
+        if (mainThread != null) {
+          mainThread.resetDocument();
+        }
       }
     } catch (Throwable e) {
-      Main.showError(e);
+      messageHandler.showError(e);
     }
   }
   

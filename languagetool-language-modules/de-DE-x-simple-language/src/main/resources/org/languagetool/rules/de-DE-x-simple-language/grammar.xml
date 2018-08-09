@@ -113,18 +113,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction=""><marker>Weil</marker> sie krank ist, kommt sie nicht zur Schule.</example>
                 <example>Sie ist krank. Deshalb kommt sie nicht zur Schule.</example>
             </rule>
-            <rule id="CONFUSION_OF_BED_BAD" name="confusion of bed/bad">
+            <rule>
                 <antipattern>
                     <token skip="-1" regexp="yes">so|wie</token>
                     <token>,</token>
                     <token regexp="yes">wie|so</token>
                 </antipattern>
                 <pattern>
-                    <token postag="SENT_START"></token>
-                    <token><exception postag="PKT"></exception></token>
-                    <token><exception postag="PKT"></exception></token>
-                    <token><exception postag="PKT"></exception></token>
-                    <token skip="-1"></token>
+                    <token postag="VER:.*[1-3]:.+" postag_regexp="yes" skip="-1"></token>
                     <token postag="PKT">,</token>
                     <marker><token postag="KON:UNT"></token></marker>
                     <token skip="-1"></token>
@@ -133,6 +129,218 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Vermeiden Sie Nebensätze.</message>
                 <example correction="">Sie ist nicht in die Schule gekommen, <marker>weil</marker> sie erkältet war.</example>
                 <example>Sie war erkältet. Deshalb ist sie nicht zur Schule gekommen.</example>
+                <example correction="">Ich mag, <marker>dass</marker> das Taschentuch so weich ist.</example>
+                <example>Das Taschentuch ist weich. Ich mag das.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <token postag="VER:IMP:.+" postag_regexp="yes" skip="2"></token>
+                    <token postag="PKT">,</token>
+                    <token postag="PRO:RIN:.+" postag_regexp="yes"></token>
+                </antipattern>
+                <pattern>
+                    <token postag="VER:.*[1-3]:.+" postag_regexp="yes" skip="-1"></token>
+                    <token postag="PKT">,</token>
+                    <marker><token postag="PRO:RIN:.+|ADV(:PRO|:INR)?" postag_regexp="yes" regexp="yes">w.+</token></marker>
+                    <token skip="-1"></token>
+                    <token postag="SENT_END">.</token>
+                </pattern>
+                <message>Vermeiden Sie Nebensätze.</message>
+                <example correction="">Ich weiß nicht, <marker>was</marker> dieser Test bringt.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <token postag="VER:IMP:.+" postag_regexp="yes" skip="2"></token>
+                    <token postag="PKT">,</token>
+                    <token postag="PRP:.+" postag_regexp="yes"></token>
+                    <token postag="PRO:RIN:.+" postag_regexp="yes"></token>
+                </antipattern>
+                <pattern>
+                    <token postag="VER:.*[1-3]:.+" postag_regexp="yes" skip="-1"></token>
+                    <token postag="PKT">,</token>
+                    <marker>
+                         <token postag="PRP:.+" postag_regexp="yes"></token>
+                         <token postag="PRO:RIN:.+" postag_regexp="yes" regexp="yes">w.+</token>
+                    </marker>
+                    <token skip="-1"></token>
+                    <token postag="SENT_END">.</token>
+                </pattern>
+                <message>Vermeiden Sie Nebensätze.</message>
+                <example correction="">Ich weiß nicht, <marker>über wen</marker> du sprichst.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token postag="SENT_START" skip="-1"></token>
+                    <token>?</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token postag="PRP:.+" postag_regexp="yes"></token>
+                        <token postag="PRO:RIN:.+" postag_regexp="yes"></token>
+                    </marker>
+                    <token skip="-1"></token>
+                    <token postag="PKT">,</token>
+                    <token postag="VER:.+" postag_regexp="yes"></token>
+                </pattern>
+                <message>Vermeiden Sie Nebensätze.</message>
+                <example correction=""><marker>Über wen</marker> du sprichst, weiß ich nicht.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token postag="SENT_START" skip="-1"></token>
+                    <token>?</token>
+                </antipattern>
+                <pattern>
+                    <marker><token postag="PRO:RIN:.+" postag_regexp="yes"></token></marker>
+                    <token skip="-1"></token>
+                    <token postag="PKT">,</token>
+                    <token postag="VER:.+" postag_regexp="yes"></token>
+                </pattern>
+                <message>Vermeiden Sie Nebensätze.</message>
+                <example correction=""><marker>Was</marker> dieser Test bringt, weiß ich nicht.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker><token postag="KON:INF" skip="-1"><exception scope="next" regexp="yes">,|\)</exception></token></marker>
+                    <token>zu</token>
+                    <token postag="VER:INF:.+" postag_regexp="yes"/>
+                    <token postag="PKT"></token>
+                </pattern>
+                <message>Vermeiden Sie Nebensätze.</message>
+                <example correction="">Sie hat geschlafen, <marker>statt</marker> fleißig zu arbeiten.</example>
+                <example>Sie sollte fleißig arbeiten. Doch sie hat lieber geschlafen.</example>
+                <example correction="">Sie besuchte ihn, <marker>um</marker> ihm bei der Arbeit zu helfen.</example>
+                <example>Sie besuchte ihn. Sie half ihm dann bei der Arbeit.</example>
+                <example>Können Sie um neun vorbeikommen?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker><token postag="KON:INF" skip="-1"><exception scope="next" regexp="yes">,|\)</exception></token></marker>
+                    <token postag="VER:EIZ:.+" postag_regexp="yes"/>
+                    <token postag="PKT"></token>
+                </pattern>
+                <message>Vermeiden Sie Nebensätze.</message>
+                <example correction="">Sie hat geschalfen, <marker>statt</marker> aufzupassen.</example>
+                <example>Sie sollte aufpassen. Doch sie hat lieber geschlafen.</example>
+                <example correction="">Sie besucht ihn, <marker>um</marker> ihm beizustehen.</example>
+                <example>Sie besuchte ihn. Sie half ihm dann bei der Arbeit.</example>
+                <example correction="">Er redet um den Brei herum, <marker>statt</marker> das Problem richtig anzusprechen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>,</token>
+                        <token skip="-1"><exception scope="next" regexp="yes">,|\)</exception></token>
+                    </marker>
+                    <token postag="VER:EIZ:.+" postag_regexp="yes"/>
+                    <token postag="PKT"></token>
+                </pattern>
+                <message>Vermeiden Sie Infinitivsätze.</message>
+                <example correction="">Er hat ihr befohlen<marker>, auf</marker> das Geld aufzupassen.</example>
+                <example>Er hat ihr einen Befehl gegeben: Sie sollte auf das Geld aufpassen</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>,</token>
+                        <token skip="-1"><exception scope="next" regexp="yes">,|\)</exception></token>
+                    </marker>
+                    <token>zu</token>
+                    <token postag="VER:INF:.+" postag_regexp="yes"/>
+                    <token postag="PKT"></token>
+                </pattern>
+                <message>Vermeiden Sie Infinitivsätze.</message>
+                <example correction="">Er hat vor<marker>, seine</marker> Tante zu besuchen.</example>
+                <example>Er wollte seine Tante besuchen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>,</token>
+                        <token skip="-1"><exception scope="next" regexp="yes">,|\)</exception></token>
+                    </marker>
+                    <token>zu</token>
+                    <token postag="VER:INF:.+" postag_regexp="yes"/>
+                    <token postag="KON:NEB" skip="-1"></token>
+                    <token postag="VER:(INF|EIZ):.+" postag_regexp="yes"/>
+                    <token postag="PKT"></token>
+                </pattern>
+                <message>Vermeiden Sie Infinitivsätze.</message>
+                <example correction="">Er hat vor<marker>, seine</marker> Tante zu besuchen und ihr bei der Gartenarbeit zu helfen.</example>
+                <example correction="">Er hat vor<marker>, seine</marker> Tante zu besuchen und ihr beizustehen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token skip="-1"><exception postag="KON:.+" postag_regexp="yes"/><exception scope="next" regexp="yes">,|\)</exception></token>
+                    <token>zu</token>
+                    <marker>
+                        <token postag="VER:INF:.+" postag_regexp="yes"/>
+                        <token>,</token>                        
+                    </marker>
+                    <token postag="VER:.+" postag_regexp="yes"/>
+                </pattern>
+                <message>Vermeiden Sie Infinitivsätze.</message>
+                <example correction="">Darüber zu <marker>sprechen,</marker> fällt ihm schwer.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token skip="-1"><exception postag="KON:.+" postag_regexp="yes"/><exception scope="next" regexp="yes">,|\)</exception></token>
+                    <marker>
+                        <token postag="VER:EIZ:.+" postag_regexp="yes"/>
+                        <token>,</token>
+                    </marker>
+                    <token postag="VER:.+" postag_regexp="yes"/>
+                </pattern>
+                <message>Vermeiden Sie Infinitivsätze.</message>
+                <example correction="">Das <marker>zuzugeben,</marker> fällt ihm schwer.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="RELATIVSAETZE" name="Leichte Sprache: Relativsätze">
+            <rule>
+                <antipattern>
+                    <token>,</token>
+                    <token inflected="yes">der</token>
+                    <token postag="ADJ:.+" postag_regexp="yes" min="0"/>
+                    <token postag="SUB:.+" postag_regexp="yes"/>
+                    <token postag="KON:NEB"></token>
+                    <token inflected="yes">der</token>
+                </antipattern>
+                <pattern>
+                    <token postag="(SUB|EIG|PRO):.+|UNKNOWN" postag_regexp="yes" regexp="yes">[A-ZÄÖÜ].+</token>
+                    <marker>
+                        <token>,</token>
+                        <token postag="PRP:.+" postag_regexp="yes" min="0"/>
+                        <token inflected="yes" skip="-1">der</token>
+                    </marker>
+                    <token postag="VER.*:[123]:.+" postag_regexp="yes"/>
+                    <token postag="VER.*:[123]:.+" postag_regexp="yes" min="0"/>
+                    <token postag="PKT|KON:NEB" postag_regexp="yes"></token>
+                </pattern>
+                <message>Verzichten Sie auf Relativsätze.</message>
+                <example correction="">Der Mann<marker>, der</marker> gut singt, tritt heute abend auf.</example>
+                <example correction="">Der Mann<marker>, dem</marker> ich so gerne zuhöre, tritt heute abend auf.</example>
+                <example correction="">Der Mann<marker>, dessen</marker> Stimme so schön klingt, tritt heute abend auf.</example>
+                <example correction="">Der Mann<marker>, über den</marker> viel gesprochen wird, tritt heute abend auf.</example>
+                <example correction="">Das sind die Freunde<marker>, mit denen</marker> ich viel Zeit verbringe.</example>
+                <example correction="">Bodo<marker>, den</marker> ich schon ewig kenne, ist sehr lustig.</example>
+                <example correction="">Marta<marker>, die</marker> eine Brille trägt, geht in meine Klasse.</example>
+                <example correction="">Linda<marker>, deren</marker> Lächeln bezaubernd ist, kann toll tanzen.</example>
+                <example correction="">Und hier ist Knut<marker>, dem</marker> ich viel verdanke.</example>
+                <example correction="">Der Mann<marker>, den</marker> ich gerne singen höre, tritt heute abend auf.</example>
+                <example correction="">Bodo<marker>, den</marker> ich öfter bummeln sehe, kommt gern her.</example>
+                <example>Die Mutter<marker>, der</marker> Vater und das Kind spielen im Garten.</example>
+                <example>Die Mutter<marker>, der</marker> Vater und das Kind spielen.</example>
+                <example correction="">Er ist jemand<marker>, der</marker> gern lacht und selten schimpft.</example>
+                <example correction="">Er ist jemand<marker>, der</marker> gern lacht, viel isst und selten schimpft.</example>
+                <example correction="">Er ist jemand<marker>, der</marker> gern lacht und auf den alle hören.</example>
+                <example correction="">Er ist jemand<marker>, der</marker> gern lacht, aber wenig Kritik verträgt.</example>
+                <example correction="">Er ist jemand<marker>, der</marker> gern lacht, dem alles egal ist und über den keiner schimpft.</example>
+                <example correction="">Er ist jemand<marker>, der</marker> gern lacht, nichts nachträgt und auf den alle hören.</example>
+                <example correction="">Er ist jemand<marker>, der</marker> gern lacht, der selten schimpft und viel Geduld hat</example>
             </rule>
         </rulegroup>
         <rulegroup id="ABKUERZUNG" name="Leichte Sprache: Abkürzung">
@@ -250,7 +458,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="INDIREKTE_REDE" name="Leichte Sprache: Indirekte Rede">
             <rule>
                 <pattern>
-                    <token regexp="yes" inflected="yes" skip="-1">(sagen|antworten|entgegnen|beschließen|berichten|meinen|glauben|denken|fragen|schreib?en|bitten|rufen|erzählen)</token>
+                    <token regexp="yes" inflected="yes" skip="-1">(sagen|antworten|entgegnen|beschließen|berichten|meinen|glauben|denken|fragen|schreib?en|bitten|rufen|erzählen|behaupten)</token>
                     <token>,</token>
                     <token negate_pos="yes" postag_regexp="yes" postag="VER:.*"/>
                 </pattern>

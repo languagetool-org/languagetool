@@ -1,6 +1,6 @@
-/* LanguageTool, a natural language style checker 
- * Copyright (C) 2017 Fred Kruse
- * 
+/* LanguageTool, a natural language style checker
+ * Copyright (C) 2011 Daniel Naber (http://www.danielnaber.de)
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -22,7 +22,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.jetbrains.annotations.Nullable;
-import org.languagetool.tools.Tools;
 
 import com.sun.star.frame.XController;
 import com.sun.star.frame.XDesktop;
@@ -40,16 +39,18 @@ import com.sun.star.uno.XComponentContext;
 
 /**
  * Information about Paragraphs of LibreOffice/OpenOffice documents
- * on the basis of the LO/OO ViewCursor
+ * on the basis of the LO/OO text and view cursor
  * @since 4.0
  * @author Fred Kruse
  */
-class LOCursor {
+class DocumentCursorTools {
   
-  private XParagraphCursor xPCursor = null;
-  private XTextViewCursor xVCursor = null;
+  private MessageHandler messageHandler;
+  private XParagraphCursor xPCursor;
+  private XTextViewCursor xVCursor;
   
-  LOCursor(XComponentContext xContext) {
+  DocumentCursorTools(XComponentContext xContext, MessageHandler messageHandler) {
+    this.messageHandler = messageHandler;
     xPCursor = getParagraphCursor(xContext);
     xVCursor = getViewCursor(xContext);
   }
@@ -59,7 +60,7 @@ class LOCursor {
    * Returns null if it fails
    */
   @Nullable
-  private static XDesktop getCurrentDesktop(XComponentContext xContext) {
+  private XDesktop getCurrentDesktop(XComponentContext xContext) {
     try {
       if (xContext == null) {
         return null;
@@ -75,7 +76,7 @@ class LOCursor {
       }
       return UnoRuntime.queryInterface(XDesktop.class, desktop);
     } catch (Throwable t) {
-      printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
+      messageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
       return null;           // Return null as method failed
     }
   }
@@ -85,7 +86,7 @@ class LOCursor {
    * Returns null if it fails
    */
   @Nullable
-  private static XComponent getCurrentComponent(XComponentContext xContext) {
+  private XComponent getCurrentComponent(XComponentContext xContext) {
     try {
       XDesktop xdesktop = getCurrentDesktop(xContext);
       if(xdesktop == null) {
@@ -93,7 +94,7 @@ class LOCursor {
       }
       else return xdesktop.getCurrentComponent();
     } catch (Throwable t) {
-      printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
+      messageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
       return null;           // Return null as method failed
     }
   }
@@ -103,7 +104,7 @@ class LOCursor {
    * Returns null if it fails
    */
   @Nullable
-  private static XTextDocument getCurrentDocument(XComponentContext xContext) {
+  private XTextDocument getCurrentDocument(XComponentContext xContext) {
     try {
       XComponent curcomp = getCurrentComponent(xContext);
       if (curcomp == null) {
@@ -111,7 +112,7 @@ class LOCursor {
       }
       else return UnoRuntime.queryInterface(XTextDocument.class, curcomp);
     } catch (Throwable t) {
-      printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
+      messageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
       return null;           // Return null as method failed
     }
   }
@@ -121,7 +122,7 @@ class LOCursor {
    * Returns null if it fails
    */
   @Nullable
-  private static XTextCursor getCursor(XComponentContext xContext) {
+  private XTextCursor getCursor(XComponentContext xContext) {
     try {
       XTextDocument curdoc = getCurrentDocument(xContext);
       if (curdoc == null) {
@@ -133,7 +134,7 @@ class LOCursor {
       }
       else return xText.createTextCursor();
     } catch (Throwable t) {
-      printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
+      messageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
       return null;           // Return null as method failed
     }
   }
@@ -143,7 +144,7 @@ class LOCursor {
    * Returns null if it fails
    */
   @Nullable
-  private static XParagraphCursor getParagraphCursor(XComponentContext xContext) {
+  private XParagraphCursor getParagraphCursor(XComponentContext xContext) {
     try {
       XTextCursor xcursor = getCursor(xContext);
       if(xcursor == null) {
@@ -151,7 +152,7 @@ class LOCursor {
       }
       return UnoRuntime.queryInterface(XParagraphCursor.class, xcursor);
     } catch (Throwable t) {
-      printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
+      messageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
       return null;           // Return null as method failed
     }
 }
@@ -161,7 +162,7 @@ class LOCursor {
    * Returns null if it fails
    */
   @Nullable
-  private static XTextViewCursor getViewCursor(XComponentContext xContext) {
+  private XTextViewCursor getViewCursor(XComponentContext xContext) {
     try {
       XDesktop xDesktop = getCurrentDesktop(xContext);
       if(xDesktop == null) {
@@ -186,23 +187,16 @@ class LOCursor {
       }
       return xViewCursorSupplier.getViewCursor();
     } catch (Throwable t) {
-      printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
+      messageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
       return null;           // Return null as method failed
     }
   }
   
   /** 
-   * Prints Exception to default out  
-   */
-  private static void printException (Throwable t) {
-    Main.printToLogFile(Tools.getFullStackTrace(t));
-  }
-
-  /** 
    * Returns Number of all Paragraphs of Document without footnotes etc.  
    * Returns 0 if it fails
    */
-  public int getNumberOfAllTextParagraphs() {
+  int getNumberOfAllTextParagraphs() {
     try {
       if (xPCursor == null) {
         return 0;
@@ -212,7 +206,7 @@ class LOCursor {
       while (xPCursor.gotoNextParagraph(false)) npara++;
       return npara;
     } catch (Throwable t) {
-      printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
+      messageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
       return 0;              // Return 0 as method failed
     }
   }
@@ -222,7 +216,7 @@ class LOCursor {
    * Returns null if it fails
    */
   @Nullable
-  public List<String> getAllTextParagraphs() {
+  List<String> getAllTextParagraphs() {
     try {
       List<String> allParas = new ArrayList<>();
       if (xPCursor == null) {
@@ -239,7 +233,7 @@ class LOCursor {
       }
       return allParas;
     } catch (Throwable t) {
-      printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
+      messageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
       return null;           // Return null as method failed
     }
   }
@@ -248,7 +242,7 @@ class LOCursor {
    * Returns Paragraph number under ViewCursor 
    * Returns a negative value if it fails
    */
-  public int getViewCursorParagraph() {
+  int getViewCursorParagraph() {
     try {
       if(xVCursor == null) {
         return -4;
@@ -270,7 +264,7 @@ class LOCursor {
       while (xParagraphCursor.gotoPreviousParagraph(false)) pos++;
       return pos;
     } catch (Throwable t) {
-      printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
+      messageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
       return -5;             // Return negative value as method failed
     }
   }

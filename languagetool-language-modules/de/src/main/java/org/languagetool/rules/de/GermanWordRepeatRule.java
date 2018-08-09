@@ -75,11 +75,11 @@ public class GermanWordRepeatRule extends WordRepeatRule {
         return true;
       }
       if (tokens.length-1 > position) {
-        if (tokens[position - 2].matchesPosTagRegex("VER:3:.+") && tokens[position + 1].hasPosTag("ZUS")) {
+        if (tokens[position - 2].hasPosTagStartingWith("VER:3:") && tokens[position + 1].hasPosTag("ZUS")) {
           // "Dann warfen sie sie weg."
           return true;
         }
-        if (tokens[position - 2].matchesPosTagRegex("VER:MOD:3:.+") && tokens[position + 1].hasPosTag("VER:INF:NON")) {
+        if (tokens[position - 2].hasPosTagStartingWith("VER:MOD:3:") && tokens[position + 1].hasPosTag("VER:INF:NON")) {
           // "Dann konnte sie sie sehen."
           return true;
         }

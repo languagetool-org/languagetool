@@ -23,6 +23,7 @@ import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
+import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.patterns.PatternRule;
 import org.languagetool.rules.patterns.PatternToken;
 import org.languagetool.rules.patterns.PatternTokenBuilder;
@@ -35,20 +36,17 @@ import java.util.List;
 import java.util.Scanner;
 
 /**
- * Old to new spelling data loaded form CSV.
- * @since 3.8
+ * Old to new spelling data and similar formats loaded form CSV.
+ * @since 4.3
  */
-class OldSpellingData {
+class SpellingData {
 
-  private final List<OldSpellingRuleWithSuggestion> spellingRules = new ArrayList<>();
+  private final List<SpellingRuleWithSuggestion> spellingRules = new ArrayList<>();
   
-  OldSpellingData(String ruleDesc) {
-    String filePath = "/de/alt_neu.csv";
+  SpellingData(String ruleDesc, String filePath, String message, String shortMessage, String ruleId, ITSIssueType issueType) {
     try (InputStream inputStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(filePath);
          Scanner scanner = new Scanner(inputStream, "utf-8")) {
       Language german = Languages.getLanguageForShortCode("de");
-      String message = "Diese Schreibweise war nur in der alten Rechtschreibung korrekt.";
-      String shortMessage = "alte Rechtschreibung";
       while (scanner.hasNextLine()) {
         String line = scanner.nextLine();
         if (line.startsWith("#")) {
@@ -58,11 +56,12 @@ class OldSpellingData {
         if (parts.length != 2) {
           throw new RuntimeException("Unexpected format in file " + filePath + ": " + line);
         }
-        String oldSpelling = parts[0];
-        String newSpelling = parts[1];
-        List<PatternToken> patternTokens = getTokens(oldSpelling, german);
-        PatternRule rule = new PatternRule("OLD_SPELLING_INTERNAL", german, patternTokens, ruleDesc, message, shortMessage);
-        spellingRules.add(new OldSpellingRuleWithSuggestion(rule, oldSpelling, newSpelling));
+        String alternative = parts[0];
+        String suggestion = parts[1];
+        List<PatternToken> patternTokens = getTokens(alternative, german);
+        PatternRule rule = new PatternRule(ruleId, german, patternTokens, ruleDesc, message, shortMessage);
+        rule.setLocQualityIssueType(issueType);
+        spellingRules.add(new SpellingRuleWithSuggestion(rule, alternative, suggestion));
       }
     } catch (IOException e) {
       throw new RuntimeException(e);
@@ -70,13 +69,13 @@ class OldSpellingData {
   }
 
   @NotNull
-  private List<PatternToken> getTokens(String oldSpelling, Language lang) {
+  private List<PatternToken> getTokens(String alternative, Language lang) {
     PatternTokenBuilder builder = new PatternTokenBuilder();
-    String[] newSpellingTokens = oldSpelling.split(" ");
+    String[] suggestionTokens = alternative.split(" ");
     List<PatternToken> patternTokens = new ArrayList<>();
-    for (String part : newSpellingTokens) {
+    for (String part : suggestionTokens) {
       PatternToken token;
-      if (isBaseform(oldSpelling, lang)) {
+      if (isBaseform(alternative, lang)) {
         token = builder.csToken(part).matchInflectedForms().build();
       } else {
         token = builder.csToken(part).build();
@@ -98,7 +97,7 @@ class OldSpellingData {
     }
   }
 
-  public List<OldSpellingRuleWithSuggestion> get() {
+  public List<SpellingRuleWithSuggestion> get() {
     return spellingRules;
   }
 
