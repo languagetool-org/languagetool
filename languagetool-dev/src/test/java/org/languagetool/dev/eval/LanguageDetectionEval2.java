@@ -27,7 +27,9 @@ import org.languagetool.language.LanguageIdentifier;
 class LanguageDetectionEval2 {
 
   //private final static String text = "Als sie oben auf dem Felsen ankamen, waren die jungen";  // detected as DE
-  private final static String text = "Als sie oben auf dem Felsen ankamen, waren die junge";  // not detected anymore with default settings
+  //private final static String text = "Als sie oben auf dem Felsen ankamen, waren die junge";  // not detected anymore with default settings
+  // Not properly detected with shortTextAlgorithm(500):
+  private final static String text = "Den Vogel kennt man am Gesang, den Topf an dem Klang, den Esel an den Ohren und am Gesang den Toren.";
 
   public static void main(String[] args) {
     LanguageIdentifier languageIdentifier = new LanguageIdentifier();
