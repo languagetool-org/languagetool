@@ -27,12 +27,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
  * Evaluate the quality of our language detection.
- *
  * @since 2.9
  */
 class LanguageDetectionEval {
@@ -77,40 +75,23 @@ class LanguageDetectionEval {
 
   private int getShortestCorrectDetection(String line, Language expectedLanguage) {
     totalInputs++;
-    String[] tokens = line.split("\\s+");
-    for (int i = tokens.length; i > 0; i--) {
-      String text = String.join(" ", Arrays.asList(tokens).subList(0, i));
+    for (int i = line.length(); i > 0; i--) {
+      String text = line.substring(0, i);
       Language detectedLangObj = languageIdentifier.detectLanguage(text);
       String detectedLang = null;
       if (detectedLangObj != null) {
         detectedLang = detectedLangObj.getShortCode();
       }
-      if (detectedLang == null && i == tokens.length) {
+      if (detectedLang == null && i == line.length()) {
         throw new DetectionException("Detection failed for '" + line + "', detected <null>");
       } else if (detectedLang != null && !expectedLanguage.getShortCode().equals(detectedLang)) {
-        if (i == tokens.length) {
-          throw new DetectionException("Detection failed for '" + line + "', detected " + detectedLang);
-        } else {
-          int textLength = getTextLength(tokens, i + 1);
-          //System.out.println("TEXT     : " + line);
-          //System.out.println("TOO SHORT: " + text + " => " + detectedLang + " (" + textLength + ")");
-          return textLength;
-        }
+        int textLength = i + 1;
+        //System.out.println("TEXT     : " + line);
+        //System.out.println("TOO SHORT: " + text + " => " + detectedLang + " (" + textLength + ")");
+        return textLength;
       }
     }
-    return tokens[0].length();
-  }
-
-  private int getTextLength(String[] tokens, int tokenPos) {
-    int i = 0;
-    int charCount = 0;
-    for (String token : tokens) {
-      if (i++ > tokenPos) {
-        return charCount;
-      }
-      charCount += token.length();
-    }
-    return charCount;
+    return 1;
   }
 
   private List<String> getLines(InputStream stream) throws IOException {
