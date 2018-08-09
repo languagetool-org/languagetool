@@ -42,7 +42,7 @@ class LanguageDetectionEval {
   private int totalInputs = 0;
   private int totalFailures = 0;
 
-  LanguageDetectionEval() {
+  private LanguageDetectionEval() {
     languageIdentifier = new LanguageIdentifier();
   }
 
