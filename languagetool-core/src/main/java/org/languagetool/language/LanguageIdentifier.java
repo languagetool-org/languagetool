@@ -56,6 +56,7 @@ public class LanguageIdentifier {
 
   // languages that we offer profiles for as they are not yet supported by language-detector:
   private static final List<String> externalLangCodes = Arrays.asList("eo");
+  private static final int SHORT_ALGO_THRESHOLD = 50;
 
   private final LanguageDetector languageDetector;
   private final TextObjectFactory textObjectFactory;
@@ -77,6 +78,7 @@ public class LanguageIdentifier {
       List<LanguageProfile> profiles = loadProfiles(getLanguageCodes());
       languageDetector = LanguageDetectorBuilder.create(NgramExtractors.standard())
               .minimalConfidence(MINIMAL_CONFIDENCE)
+              .shortTextAlgorithm(SHORT_ALGO_THRESHOLD)
               .withProfiles(profiles)
               .build();
       textObjectFactory = CommonTextObjectFactories.forDetectingOnLargeText();
