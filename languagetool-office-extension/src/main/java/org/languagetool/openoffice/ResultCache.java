@@ -50,7 +50,7 @@ class ResultCache {
   }
   
   /**
-   *  Remove all cache entry for a paragraph
+   *  Remove all cache entries for a paragraph
    */
   void remove(int numberOfParagraph) {
     for(int i = 0; i < entries.size(); i++) {
