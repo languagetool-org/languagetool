@@ -19,6 +19,7 @@
 
 package org.languagetool.rules.zh;
 
+import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
@@ -54,6 +55,40 @@ public class ChineseNgramProbabilityRule extends Rule {
             @Override
             public NgramLanguageModel<String> load(@NotNull String fileInClassPath) {
               return LmReaders.readLmBinary(fileInClassPath);
+            }
+          });
+
+  private final static LoadingCache<String, NgramLanguageModel<String>> unigramCache = CacheBuilder.newBuilder()
+          .expireAfterWrite(10, TimeUnit.MINUTES)
+          .build(new CacheLoader<String, NgramLanguageModel<String>>() {
+            @Override
+            public NgramLanguageModel<String> load(@NotNull String fileInClassPath) {
+              return LmReaders.readLmBinary(fileInClassPath);
+            }
+          });
+
+  private final static LoadingCache<String, Map<String, List<String>>> dictionaryCache = CacheBuilder.newBuilder()
+          .expireAfterWrite(10, TimeUnit.MINUTES)
+          .build(new CacheLoader<String, Map<String, List<String>>>() {
+            @Override
+            public Map<String, List<String>> load(@NotNull String fileInClassPath) {
+              Map<String, List<String>> dictionary = new HashMap<>();
+              try (BufferedReader br = new BufferedReader(new FileReader(fileInClassPath))) {
+                String line;
+                while ((line = br.readLine()) != null) {
+                  try {
+                    String[] kv = line.split("\t");
+                    String key = kv[0];
+                    List<String> val = Arrays.asList(kv[1].split(","));
+                    dictionary.put(key, val);
+                  } catch (Exception e) {
+                    System.out.print(String.format("%s format error.", line));
+                  }
+                }
+              } catch (IOException e) {
+                System.out.println("Failed to similar_char_dictionary.");
+              }
+              return dictionary;
             }
           });
 
@@ -152,26 +187,11 @@ public class ChineseNgramProbabilityRule extends Rule {
       ResourceDataBroker resourceDataBroker = JLanguageTool.getDataBroker();
 //      trigram = new LuceneLM(new File(resourceDataBroker.getFromResourceDirAsUrl("zh/trigram/index").getPath()));
       trigram = trigramCache.getUnchecked(resourceDataBroker.getFromResourceDirAsUrl("zh/word_trigram.binary").getPath());
-      unigram = LmReaders.readLmBinary(resourceDataBroker.getFromResourceDirAsUrl("zh/char_unigram.binary").getPath());
+      unigram = unigramCache.getUnchecked(resourceDataBroker.getFromResourceDirAsUrl("zh/char_unigram.binary").getPath());
       seg = new CRFSegment();
       seg.enablePartOfSpeechTagging(true);
       seg.enableOffset(true);
-      similarDictionary = new HashMap<>();
-      try (BufferedReader br = new BufferedReader(new FileReader(resourceDataBroker.getFromResourceDirAsUrl("zh/similar_char_dictionary.txt").getPath()))) {
-        String line;
-        while ((line = br.readLine()) != null) {
-          try {
-            String[] kv = line.split("\t");
-            String key = kv[0];
-            List<String> val = Arrays.asList(kv[1].split(","));
-            similarDictionary.put(key, val);
-          } catch (Exception e) {
-            System.out.print(String.format("%s format error.", line));
-          }
-        }
-      } catch (IOException e) {
-        System.out.println("Failed to similar_char_dictionary.");
-      }
+      similarDictionary = dictionaryCache.getUnchecked(resourceDataBroker.getFromResourceDirAsUrl("zh/similar_char_dictionary.txt").getPath());
     }
 
     private float scoreSentence(String sentence) {
