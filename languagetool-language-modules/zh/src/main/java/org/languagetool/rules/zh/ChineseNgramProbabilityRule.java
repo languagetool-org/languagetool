@@ -19,19 +19,22 @@
 
 package org.languagetool.rules.zh;
 
-import com.hankcs.hanlp.dictionary.CoreDictionary;
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
 import com.hankcs.hanlp.dictionary.stopword.CoreStopWordDictionary;
 import com.hankcs.hanlp.seg.CRF.CRFSegment;
 import com.hankcs.hanlp.seg.Segment;
 import com.hankcs.hanlp.seg.common.Term;
 
 import edu.berkeley.nlp.lm.NgramLanguageModel;
-import edu.berkeley.nlp.lm.io.LmReader;
 import edu.berkeley.nlp.lm.io.LmReaders;
 
+import org.jetbrains.annotations.NotNull;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.databroker.ResourceDataBroker;
+import org.languagetool.language.SimplifiedChinese;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 
@@ -40,9 +43,19 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 
 public class ChineseNgramProbabilityRule extends Rule {
+
+  private final static LoadingCache<String, NgramLanguageModel<String>> trigramCache = CacheBuilder.newBuilder()
+          .expireAfterWrite(10, TimeUnit.MINUTES)
+          .build(new CacheLoader<String, NgramLanguageModel<String>>() {
+            @Override
+            public NgramLanguageModel<String> load(@NotNull String fileInClassPath) {
+              return LmReaders.readLmBinary(fileInClassPath);
+            }
+          });
 
   private RuleHelper ruleHelper = new RuleHelper();
 
@@ -138,7 +151,7 @@ public class ChineseNgramProbabilityRule extends Rule {
 
       ResourceDataBroker resourceDataBroker = JLanguageTool.getDataBroker();
 //      trigram = new LuceneLM(new File(resourceDataBroker.getFromResourceDirAsUrl("zh/trigram/index").getPath()));
-      trigram = LmReaders.readLmBinary(resourceDataBroker.getFromResourceDirAsUrl("zh/word_trigram.binary").getPath());
+      trigram = trigramCache.getUnchecked(resourceDataBroker.getFromResourceDirAsUrl("zh/word_trigram.binary").getPath());
       unigram = LmReaders.readLmBinary(resourceDataBroker.getFromResourceDirAsUrl("zh/char_unigram.binary").getPath());
       seg = new CRFSegment();
       seg.enablePartOfSpeechTagging(true);
