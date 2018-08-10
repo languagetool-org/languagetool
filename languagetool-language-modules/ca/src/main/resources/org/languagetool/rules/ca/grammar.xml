@@ -4822,6 +4822,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="caldria|s'hauria de">No <marker>hi hauria que</marker> fer res</example>
                 <example>No <marker>cal</marker> fer res</example>
             </rule>
+            <rule id="HAURA_QUE" name="Incorrecte: «haver-hi que»">
+                <pattern>
+                    <marker>
+                        <token postag="VA..3S..?" postag_regexp="yes" inflected="yes">haver</token>
+                        <token>que</token>
+                    </marker>
+                    <token postag="V.N.*" postag_regexp="yes"></token>
+                </pattern>
+                <message>Incorrecte com a perífrasi d'obligació.</message>
+                <suggestion><match no="1" postag="VA(.*)" postag_regexp="yes" postag_replace="VM$1">caldre</match></suggestion>
+                <suggestion>s'<match no="1" case_conversion="alllower"/> de</suggestion>
+                <example correction="caldrà|s'haurà de">Potser <marker>haurà que</marker> actualitzar</example>
+                <example correction="caldria|s'hauria de"><marker>Hauria que</marker> triar diputat.</example>
+            </rule>
             <rule id="TENIR_QUE" name="Incorrecte: «tenir que»">
                 <pattern>
                     <marker>

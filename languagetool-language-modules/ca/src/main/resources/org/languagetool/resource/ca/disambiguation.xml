@@ -2914,7 +2914,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
-                <token inflected="yes" regexp="yes">valor|quantitat|xifra|import|volum|pes|durada|quantia|mesura|suma</token>
+                <token inflected="yes" regexp="yes">energia|potència|valor|quantitat|xifra|import|volum|pes|durada|quantia|mesura|suma</token>
                 <marker>
                     <token>llindar</token>
                 </marker>
@@ -4020,6 +4020,14 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </marker>
         </pattern>
         <disambig action="remove" postag="V.P.*"/>
+    </rule>
+    <rule id="CONTENT" name="contenta (contentar)">
+        <pattern>
+            <marker>
+                <token postag="AQ.*" postag_regexp="yes" inflected="yes">content</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="V.*"/>
     </rule>
     <rule id="TRAVAR_TRAVESSAR" name="travar/travessar">
         <pattern>
