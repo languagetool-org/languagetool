@@ -54,6 +54,7 @@ public class DhaNoBeirtRule extends Rule {
     AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
     int markEnd = 1;
     String replacement = null;
+    String msg = null;
     for (int i = 1; i < tokens.length; i++) {  // ignoring token 0, i.e., SENT_START
       if (isNumber(tokens[i]) && (i < tokens.length - 1 && isPerson(tokens[i + 1]))) {
         markEnd = i + 1;
@@ -61,12 +62,13 @@ public class DhaNoBeirtRule extends Rule {
           for (int j = i + 1; j < tokens.length; j++) {
             if ("déag".equalsIgnoreCase(tokens[j].getToken())) {
               markEnd = j;
-              replacement = "dáréag";
+              replacement = "dháréag";
+              msg = "";
             }
           }
         }
         if (replacement == null) {
-          replacement = getNumberReplacements().get(tokens[i]);
+          replacement = getNumberReplacements().get(tokens[i].getToken());
         }
       }
     }
