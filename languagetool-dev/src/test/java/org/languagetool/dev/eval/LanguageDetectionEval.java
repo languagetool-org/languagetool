@@ -44,10 +44,7 @@ class LanguageDetectionEval {
     languageIdentifier = new LanguageIdentifier();
   }
 
-  private void evaluate(Language language) throws IOException {
-    if (language.isVariant()) {
-      return;
-    }
+  private int evaluate(Language language) throws IOException {
     String evalTextFile = "/org/languagetool/dev/eval/lang/" + language.getShortCode() + ".txt";
     InputStream stream = LanguageDetectionEval.class.getResourceAsStream(evalTextFile);
     System.out.println("=== " + language + " ===");
@@ -70,6 +67,7 @@ class LanguageDetectionEval {
       System.out.println("Average minimum size still correctly detected: " + avgMinChars);
       System.out.println("Detection failures: " + failures + " of " + list.size());
       totalFailures += failures;
+      return avgMinChars;
     }
   }
 
@@ -111,16 +109,26 @@ class LanguageDetectionEval {
   public static void main(String[] args) throws IOException {
     LanguageDetectionEval eval = new LanguageDetectionEval();
     long startTime = System.currentTimeMillis();
+    int minCharsTotal = 0;
+    int languageCount = 0;
     for (Language language : Languages.get()) {
       //if (!language.getShortCode().equals("de")) {
       //  continue;
       //}
-      eval.evaluate(language);
+      if (language.isVariant()) {
+        continue;
+      }
+      minCharsTotal += eval.evaluate(language);
+      languageCount++;
     }
     long endTime = System.currentTimeMillis();
     System.out.println();
-    System.out.println("Time: " + (endTime - startTime) + "ms");
+    long totalTime = endTime - startTime;
+    float timePerInput = (float)totalTime / eval.totalInputs;
+    System.out.printf("Time: " + totalTime + "ms = %.2fms per input\n", timePerInput);
     System.out.println("Total detection failures: " + eval.totalFailures + "/" + eval.totalInputs);
+    float avgMinChars = (float) minCharsTotal / languageCount;
+    System.out.printf("Avg. minimum chars: %.2f\n", avgMinChars);
   }
 
   class DetectionException extends RuntimeException {
