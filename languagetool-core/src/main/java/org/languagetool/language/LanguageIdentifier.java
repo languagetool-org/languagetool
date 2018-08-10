@@ -25,9 +25,7 @@ import com.optimaize.langdetect.i18n.LdLocale;
 import com.optimaize.langdetect.ngram.NgramExtractors;
 import com.optimaize.langdetect.profiles.LanguageProfile;
 import com.optimaize.langdetect.profiles.LanguageProfileReader;
-import com.optimaize.langdetect.text.CommonTextObjectFactories;
-import com.optimaize.langdetect.text.TextObject;
-import com.optimaize.langdetect.text.TextObjectFactory;
+import com.optimaize.langdetect.text.*;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
@@ -44,6 +42,7 @@ import java.util.List;
  * detected because they are close to another language. Language variants like
  * en-US or en-GB are not detected, the result will be {@code en} for those.
  * By default, only the first 1000 characters of a text are considered.
+ * Email signatures that use {@code \n-- \n} as a delimiter are ignored.
  * @since 2.9
  */
 public class LanguageIdentifier {
@@ -81,7 +80,12 @@ public class LanguageIdentifier {
               .shortTextAlgorithm(SHORT_ALGO_THRESHOLD)
               .withProfiles(profiles)
               .build();
-      textObjectFactory = CommonTextObjectFactories.forDetectingOnLargeText();
+      textObjectFactory = new TextObjectFactoryBuilder()
+              .maxTextLength(10000)
+              .withTextFilter(UrlTextFilter.getInstance())
+              .withTextFilter(RemoveMinorityScriptsTextFilter.forThreshold(0.3))
+              .withTextFilter(new RemoveEMailSignatureFilter())
+              .build();
     } catch (IOException e) {
       throw new RuntimeException("Could not set up language identifier", e);
     }
@@ -153,4 +157,10 @@ public class LanguageIdentifier {
     }
   }
 
+  class RemoveEMailSignatureFilter implements TextFilter {
+    @Override
+    public String filter(CharSequence text) {
+      return text.toString().replaceFirst("\n-- \n.*", "");
+    }
+  }
 }
