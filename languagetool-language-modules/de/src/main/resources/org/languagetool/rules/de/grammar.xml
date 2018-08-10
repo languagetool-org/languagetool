@@ -12133,11 +12133,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">19[1-9]0er</token>
                     <token regexp="yes">Jahren?</token>
                     <token>des</token>
-                    <token regexp="yes">letzten|vorigen</token>
+                    <token regexp="yes">letzten|vorigen|vergangenen</token>
                     <token regexp="yes">Jahrhunderts|Jahrtausends</token>
                 </pattern>
                 <message>Verdoppelung: Meinten Sie <suggestion>\1 \2</suggestion> oder <suggestion><match no="1" regexp_match="19([0-9][0-9])er" regexp_replace="$1er"/> \2 \3 \4 \5</suggestion>?</message>
                 <example correction="1970er Jahren|70er Jahren des vorigen Jahrhunderts">In den <marker>1970er Jahren des vorigen Jahrhunderts</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">19[1-9]0er-Jahren?</token>
+                    <token>des</token>
+                    <token regexp="yes">letzten|vorigen|vergangenen</token>
+                    <token regexp="yes">Jahrhunderts|Jahrtausends</token>
+                </pattern>
+                <message>Verdoppelung: Meinten Sie <suggestion>\1</suggestion> oder <suggestion><match no="1" regexp_match="19([0-9][0-9])er" regexp_replace="$1er"/> \2 \3 \4</suggestion>?</message>
+                <example correction="1970er-Jahren|70er-Jahren des vorigen Jahrhunderts">In den <marker>1970er-Jahren des vorigen Jahrhunderts</marker>.</example>
             </rule>
             <rule>
                 <pattern>
@@ -12152,6 +12162,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
+                    <token regexp="yes">19[1-9]0er-Jahren?</token>
+                    <token>des</token>
+                    <token>zwanzigsten</token>
+                    <token>Jahrhunderts</token>
+                </pattern>
+                <message>Verdoppelung: Meinten Sie <suggestion>\1</suggestion> oder <suggestion><match no="1" regexp_match="19([0-9][0-9])er" regexp_replace="$1er"/> \2 \3 \4</suggestion>?</message>
+                <example correction="1970er-Jahren|70er-Jahren des zwanzigsten Jahrhunderts">In den <marker>1970er-Jahren des zwanzigsten Jahrhunderts</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token regexp="yes">19[1-9]0er</token>
                     <token regexp="yes">Jahren?</token>
                     <token>des</token>
@@ -12161,6 +12181,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Verdoppelung: Meinten Sie <suggestion>\1 \2</suggestion> oder <suggestion><match no="1" regexp_match="19([0-9][0-9])er" regexp_replace="$1er"/> \2 \3 \4\5 \6</suggestion>?</message>
                 <example correction="1970er Jahren|70er Jahren des 20. Jahrhunderts">In den <marker>1970er Jahren des 20. Jahrhunderts</marker>.</example>
+                <example>In den 70er Jahren des zwanzigsten Jahrhunderts.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">19[1-9]0er-Jahren?</token>
+                    <token>des</token>
+                    <token>20</token>
+                    <token>.</token>
+                    <token>Jahrhunderts</token>
+                </pattern>
+                <message>Verdoppelung: Meinten Sie <suggestion>\1</suggestion> oder <suggestion><match no="1" regexp_match="19([0-9][0-9])er" regexp_replace="$1er"/> \2 \3\4 \5</suggestion>?</message>
+                <example correction="1970er-Jahren|70er-Jahren des 20. Jahrhunderts">In den <marker>1970er-Jahren des 20. Jahrhunderts</marker>.</example>
                 <example>In den 70er Jahren des zwanzigsten Jahrhunderts.</example>
             </rule>
         </rulegroup>
