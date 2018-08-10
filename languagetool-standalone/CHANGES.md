@@ -8,6 +8,12 @@
 #### Galician
   * added and improved rules
 
+#### German
+  * added and improved rules
+
+#### German (simple)
+  * added and improved rules
+
 #### Portuguese
   * added and improved rules
   * improvements to disambiguation, and segmentation
