@@ -842,7 +842,7 @@ public class Configuration {
     for (Map.Entry<ITSIssueType, Color> entry : errorColors.entrySet()) {
       String rgb = Integer.toHexString(entry.getValue().getRGB());
       rgb = rgb.substring(2, rgb.length());
-      sb.append(entry.getKey()).append(":").append("#").append(rgb).append(", ");
+      sb.append(entry.getKey()).append(":#").append(rgb).append(", ");
     }
     props.setProperty(ERROR_COLORS_KEY, sb.toString());
 
@@ -850,7 +850,7 @@ public class Configuration {
     for (Map.Entry<String, Color> entry : underlineColors.entrySet()) {
       String rgb = Integer.toHexString(entry.getValue().getRGB());
       rgb = rgb.substring(2, rgb.length());
-      sbUC.append(entry.getKey()).append(":").append("#").append(rgb).append(", ");
+      sbUC.append(entry.getKey()).append(":#").append(rgb).append(", ");
     }
     props.setProperty(UNDERLINE_COLORS_KEY, sbUC.toString());
 
