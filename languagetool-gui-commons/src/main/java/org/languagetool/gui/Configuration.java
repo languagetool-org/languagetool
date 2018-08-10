@@ -718,7 +718,7 @@ public class Configuration {
     if (StringUtils.isNotEmpty(colorsString)) {
       String[] typeToColorList = colorsString.split(COLOR_SPLITTER_REGEXP);
       for (String typeToColor : typeToColorList) {
-        String[] typeAndColor = typeToColor.split(":");
+        String[] typeAndColor = typeToColor.split(COLOR_SPLITTER_REGEXP_COLON);
         if (typeAndColor.length != 2) {
           throw new RuntimeException("Could not parse type and color, colon expected: '" + typeToColor + "'");
         }
