@@ -12053,6 +12053,28 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
+                <token inflected="yes" skip="1" regexp="yes">fer|donar</token>
+                <token regexp="yes">efecte|impressió</token>
+                <marker>
+                    <token>que</token>
+                </marker>
+                <token postag="V.N.*" postag_regexp="yes"></token>
+            </pattern>
+            <disambig action="add"><wd pos="relatiu" lemma="que"></wd></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token inflected="yes" skip="1">fer</token>
+                <token regexp="yes" inflected="yes">&unitats_temps;</token>
+                <marker>
+                    <token>que</token>
+                </marker>
+                <token postag="V.N.*" postag_regexp="yes"></token>
+            </pattern>
+            <disambig action="add"><wd pos="relatiu" lemma="que"></wd></disambig>
+        </rule>
+        <rule>
+            <pattern>
                 <token inflected="yes" skip="5" regexp="yes">fet|possibilitat|conclusió|evidència|prova|acord</token>
                 <marker>
                     <token>que</token>
