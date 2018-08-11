@@ -18,7 +18,24 @@
  */
 package org.languagetool.rules.spelling;
 
-import org.languagetool.*;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.ResourceBundle;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import org.languagetool.AnalyzedSentence;
+import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
+import org.languagetool.UserConfig;
 import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
@@ -27,10 +44,6 @@ import org.languagetool.rules.patterns.PatternTokenBuilder;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 import org.languagetool.tokenizers.WordTokenizer;
 import org.languagetool.tools.StringTools;
-
-import java.io.IOException;
-import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * An abstract rule for spellchecking rules.
@@ -55,6 +68,7 @@ public abstract class SpellingCheckRule extends Rule {
   protected final CachingWordListLoader wordListLoader = new CachingWordListLoader();
 
   private static final String SPELLING_IGNORE_FILE = "/hunspell/ignore.txt";
+  private static final String SPELLING_NAMES_FILE = "/hunspell/names.txt";
   private static final String SPELLING_FILE = "/hunspell/spelling.txt";
   private static final String SPELLING_PROHIBIT_FILE = "/hunspell/prohibit.txt";
   private static final String SPELLING_FILE_VARIANT = null;
@@ -219,6 +233,11 @@ public abstract class SpellingCheckRule extends Rule {
     for (String ignoreWord : wordListLoader.loadWords(getSpellingFileName())) {
       addIgnoreWords(ignoreWord);
     }
+    if (JLanguageTool.getDataBroker().resourceExists(getProperNamesFileName())) {
+      for (String prohibitedWord : wordListLoader.loadWords(getProperNamesFileName())) {
+        expandLine(prohibitedWord).stream().forEach(w -> addIgnoreWords(w));;
+      }
+    }
     updateIgnoredWordDictionary();
     for (String prohibitedWord : wordListLoader.loadWords(getProhibitFileName())) {
       addProhibitedWords(expandLine(prohibitedWord));
@@ -233,6 +252,16 @@ public abstract class SpellingCheckRule extends Rule {
    */
   protected String getIgnoreFileName() {
     return language.getShortCode() + SPELLING_IGNORE_FILE;
+  }
+
+  /**
+   * Get the name of the file, which contains proper names that should
+   * be ignored. Unlike with {@link #getSpellingFileName()}
+   * the words in this file will not be used for creating suggestions for misspelled words.
+   * @since 4.3
+   */
+  protected String getProperNamesFileName() {
+    return language.getShortCode() + SPELLING_NAMES_FILE;
   }
 
   /**
