@@ -30164,6 +30164,14 @@ Andere Projekte</example>
         </rule>
         <rulegroup id="FEHLENDER_PLURAL" name="Fehlender Plural nach 'werden / müssen etc.'">
             <rule>
+                <antipattern>
+                    <token inflected="yes" regexp="yes" skip="1">der|ein</token>
+                    <token postag_regexp="yes" postag="SUB:.+"></token>
+                    <token>und</token>
+                    <token inflected="yes" regexp="yes" skip="1">der|ein</token>
+                    <token postag_regexp="yes" postag="SUB:.+"></token>
+                    <token regexp="yes">(w[ue]rd|m[uü]sst?|sollt?|k[oö]nnt?|d[uü]rft?)en</token>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">(w[ue]rd|m[uü]sst?|sollt?|k[oö]nnt?|d[uü]rft?)en</token>
                     <token min="0">die</token>
@@ -30179,6 +30187,10 @@ Andere Projekte</example>
                 <example correction="Hunde">Wann müssen die jungen <marker>Hund</marker> geimpft werden?</example>
                 <example correction="Hunde">Wo können junge <marker>Hund</marker> geimpft werden?</example>
                 <example>Auch dort wurden Einheimische integriert.</example>
+                <example>Ein 40-jähriger Mann und eine 25-jährige Frau wurden Donnerstagabend verhaftet.</example>
+                <example>Ein Mann und eine Frau wurden Donnerstagabend verhaftet.</example>
+                <example>Der 40-jähriger Mann und die 25-jährige Frau wurden Donnerstagabend verhaftet.</example>
+                <example>Der Mann und die Frau wurden Donnerstagabend verhaftet.</example>
             </rule>
         </rulegroup>
         <rulegroup id="KEIN_PLURAL_WAEHRUNG" name="Kein Plural bei Geldbeträgen, z.B. 'fünf Euros (Euro)'">
