@@ -49,6 +49,9 @@
     Note that HTML entities (including `&nbsp;`) still need to be converted to Unicode characters
     before feeding them into LT.  
     (Issue: https://github.com/languagetool-org/languagetool/issues/757)
+  * The `blockedReferrers` setting now also considers the `Origin` header
+
+
 
 ## 4.2 (2018-06-26)
 

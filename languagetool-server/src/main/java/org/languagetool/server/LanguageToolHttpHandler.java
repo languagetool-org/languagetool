@@ -94,9 +94,17 @@ class LanguageToolHttpHandler implements HttpHandler {
         }
       }
       String referrer = httpExchange.getRequestHeaders().getFirst("Referer");
+      String origin = httpExchange.getRequestHeaders().getFirst("Origin");   // Referer can be turned off with meta tags, so also check this
       for (String ref : config.getBlockedReferrers()) {
-        if (referrer != null && ref != null && !ref.isEmpty() && referrer.startsWith(ref)) {
-          String errorMessage = "Error: Access with referrer " + referrer + " denied.";
+        String errorMessage = null;
+        if (ref != null && !ref.isEmpty()) {
+          if (referrer != null && referrer.startsWith(ref)) {
+            errorMessage = "Error: Access with referrer " + referrer + " denied.";
+          } else if (origin != null && origin.startsWith(ref)) {
+            errorMessage = "Error: Access with origin " + referrer + " denied.";
+          }
+        }
+        if (errorMessage != null) {
           sendError(httpExchange, HttpURLConnection.HTTP_FORBIDDEN, errorMessage);
           logError(errorMessage, HttpURLConnection.HTTP_FORBIDDEN, parameters, httpExchange);
           return;
