@@ -814,7 +814,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
         String lemma = baseForThirdPersonSingularVerb(wordStem);
         if (lemma != null) {
           AnalyzedToken token = new AnalyzedToken(lemma, null, lemma);
-          String[] forms = synthesizer.synthesize(token, "VER:3:SIN:PRT:.+", true);
+          String[] forms = synthesizer.synthesize(token, "VER:3:SIN:PRT:.*", true);
           if (forms.length > 0) {
             return forms[0];
           }
@@ -859,7 +859,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   @Nullable
   private String getParticipleForBaseform(String baseform) throws IOException {
     AnalyzedToken token = new AnalyzedToken(baseform, null, baseform);
-    String[] forms = synthesizer.synthesize(token, "VER:PA2:.+", true);
+    String[] forms = synthesizer.synthesize(token, "VER:PA2:.*", true);
     if (forms.length > 0 && !hunspellDict.misspelled(forms[0])) {
       return forms[0];
     }

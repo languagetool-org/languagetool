@@ -13,8 +13,6 @@
 
 #### German (simple)
   * added and improved rules
-  * evaluate `names.txt` and treat its content in the same way as the 
-    the content of `ignore.txt`
 
 #### Portuguese
   * added and improved rules
@@ -28,7 +26,7 @@
   * Prepared support for AIX. See https://github.com/MartinKallinger/hunspell-aix
     for the required libraries
   * Email signatures are now ignored for language detection as long as they are
-    separated from the main text with `\n-- \n`
+    separated from the main text with `\n-- \n` 
 
 #### HTTP API / LT server
   * The server can now accept JSON as the `data` parameter that describes
