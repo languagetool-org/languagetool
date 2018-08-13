@@ -192,7 +192,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("^[uU]nabsichtig(e[nmrs]?)?", "ig", "lich");
     putRepl("[aA]ntisemitistisch(e[mnrs]?)?", "tist", "t");
     putRepl("[uU]nvorsehbar(e[mnrs]?)?", "vor", "vorher");
-    putRepl("([eE]r|[bB]e|unter)?hälst", "hälst", "hältst");
+    putRepl("([eE]r|[bB]e|unter|[aA]uf)?hälst", "hälst", "hältst");
     put("[wW]ohlfühlseins?", w -> Arrays.asList("Wellness", w.replaceFirst("[wW]ohlfühlsein", "Wohlbefinden"), w.replaceFirst("[wW]ohlfühlsein", "Wohlfühlen")));
     putRepl("[sS]chmett?e?rling(s|en?)?", "[sS]chmett?e?rling", "Schmetterling");
     putRepl("^[eE]inlamie?nie?r(st|en?|(t(e[nmrs]?)?))?", "^einlamie?nie?r", "laminier");
