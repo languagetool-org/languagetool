@@ -230,6 +230,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("ausiehs?t", "aus", "auss");
     putRepl("unterbemittel(nd|t)(e[nmrs]?)?", "unterbemittel(nd|t)", "minderbemittelt");
     putRepl("[xX]te[mnrs]?", "te", "-te");
+    put("[zZ]oolophie", "Zoophilie");
     put("Makieren", "Markieren");
     put("Altersheimer", "Alzheimer");
     put("gesen", "gesehen");
