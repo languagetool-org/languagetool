@@ -36,6 +36,9 @@ import java.util.*;
  */
 public class HTTPServerConfig {
 
+  private File fasttextModel;
+  private File fasttextBinary;
+
   enum Mode { LanguageTool }
 
   public static final String DEFAULT_HOST = "localhost";
@@ -182,6 +185,11 @@ public class HTTPServerConfig {
         if (word2vecModel != null && loadWord2VecModel) {
           setWord2VecModelDirectory(word2vecModel);
         }
+        String fasttextModel = getOptionalProperty(props, "fasttextModel", null);
+        String fasttextBinary = getOptionalProperty(props, "fasttextBinary", null);
+        if (fasttextBinary != null && fasttextModel != null) {
+          setFasttextPaths(fasttextModel, fasttextBinary);
+        }
         maxCheckThreads = Integer.parseInt(getOptionalProperty(props, "maxCheckThreads", "10"));
         if (maxCheckThreads < 1) {
           throw new IllegalArgumentException("Invalid value for maxCheckThreads, must be >= 1: " + maxCheckThreads);
@@ -242,6 +250,17 @@ public class HTTPServerConfig {
     word2vecModelDir = new File(w2vModelDir);
     if (!word2vecModelDir.exists() || !word2vecModelDir.isDirectory()) {
       throw new RuntimeException("Word2Vec directory not found or is not a directory: " + word2vecModelDir);
+    }
+  }
+
+  private void setFasttextPaths(String fasttextModelPath, String fasttextBinaryPath) {
+    fasttextModel = new File(fasttextModelPath);
+    fasttextBinary = new File(fasttextBinaryPath);
+    if (!fasttextModel.exists() || fasttextModel.isDirectory()) {
+      throw new RuntimeException("Fasttext model path not valid (file doesn't exist or is a directory): " + fasttextModelPath);
+    }
+    if (!fasttextBinary.exists() || fasttextBinary.isDirectory() || !fasttextBinary.canExecute()) {
+      throw new RuntimeException("Fasttext binary path not valid (file doesn't exist, is a directory or not executable): " + fasttextBinaryPath);
     }
   }
 
@@ -387,6 +406,26 @@ public class HTTPServerConfig {
   File getWord2VecModelDir() {
     return word2vecModelDir;
   }
+
+
+  /**
+   * Get model path for fasttext language detection
+   * @since 4.3
+   */
+  @Nullable
+  public File getFasttextModel() {
+    return fasttextModel;
+  }
+
+  /**
+   * Get binary path for fasttext language detection
+   * @since 4.3
+   */
+  @Nullable
+  public File getFasttextBinary() {
+    return fasttextBinary;
+  }
+
 
   /** @since 2.7 */
   Mode getMode() {

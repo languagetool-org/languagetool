@@ -22,6 +22,7 @@ import org.junit.Test;
 import org.languagetool.Language;
 import org.languagetool.Languages;
 
+import java.io.File;
 import java.util.Objects;
 
 import static org.junit.Assert.fail;
@@ -32,8 +33,11 @@ public class LanguageIdentifierTest {
 
   @Test
   public void testDetection() {
+//    identifier.enableFasttext(new File("/path/to/fasttext/binary"), new File("/path/to/fasttext/model"));
+    // fasttext just assumes english, ignore / comment out
     langAssert(null, "");
     langAssert(null, "X");
+
     langAssert("de", "Das ist ein deutscher Text");
     langAssert("en", "This is an English text");
     langAssert("fr", "Le mont Revard est un sommet du département français ...");
