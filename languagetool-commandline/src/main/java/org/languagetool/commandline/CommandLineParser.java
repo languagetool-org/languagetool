@@ -96,6 +96,12 @@ public class CommandLineParser {
       } else if (args[i].equals("--word2vecmodel")) {
         checkArguments("--word2vecmodel", i, args);
         options.setWord2VecModel(new File(args[++i]));
+      } else if (args[i].equals("--fasttextModel")) {
+        checkArguments("--fasttextModel", i, args);
+        options.setFasttextModel(new File(args[++i]));
+      } else if (args[i].equals("--fasttextBinary")) {
+        checkArguments("--fasttextBinary", i, args);
+        options.setFasttextBinary(new File(args[++i]));
       } else if (args[i].equals("--rulefile")) {
         checkArguments("--rulefile", i, args);
         options.setRuleFile(args[++i]);
@@ -216,6 +222,8 @@ public class CommandLineParser {
             + "                           ngram occurrence counts; activates the confusion rule if supported\n"
             + "  --word2vecmodel DIR      a directory with e.g. 'en' sub directory (i.e. a language code) that contains\n"
             + "                           final_embeddings.txt and dictionary.txt; activates neural network based rules\n"
+            + "  --fasttextModel FILE     fasttext language detection model (optional), see https://fasttext.cc/docs/en/language-identification.html\n"
+            + "  --fasttextBinary FILE    fasttext executable (optional), see https://fasttext.cc/docs/en/support.html\n"
             + "  --xmlfilter              remove XML/HTML elements from input before checking (deprecated)\n"
             + "  --line-by-line           work on file line by line (for development, e.g. inside an IDE)"
     );

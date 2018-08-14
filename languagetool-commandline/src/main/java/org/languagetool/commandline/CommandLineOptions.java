@@ -66,6 +66,11 @@ public class CommandLineOptions {
   private File languageModel = null;
   @Nullable
   private File word2vecModel = null;
+
+  @Nullable
+  private File fasttextModel = null;
+  @Nullable
+  private File fasttextBinary = null;
   @Nullable
   private String encoding = null;
   @Nullable
@@ -253,6 +258,38 @@ public class CommandLineOptions {
   public void setWord2VecModel(File neuralNetworkLanguageModel) {
     this.word2vecModel = neuralNetworkLanguageModel;
   }
+
+
+  /**
+   * @since 4.3
+   */
+  @Nullable
+  public File getFasttextModel() {
+    return fasttextModel;
+  }
+
+  /**
+   * @since 4.3
+   */
+  public void setFasttextModel(File fasttextModel) {
+    this.fasttextModel = fasttextModel;
+  }
+
+  /**
+   * @since 4.3
+   */
+  @Nullable
+  public File getFasttextBinary() {
+    return fasttextBinary;
+  }
+
+  /**
+   * @since 4.3
+   */
+  public void setFasttextBinary(File fasttextBinary) {
+    this.fasttextBinary = fasttextBinary;
+  }
+
 
   /**
    * @return an additional rule file name to use
