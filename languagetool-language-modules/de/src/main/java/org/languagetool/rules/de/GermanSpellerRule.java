@@ -536,8 +536,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return Arrays.asList("jetzt", "geht's");
     } else if ("Trons".equals(word)) {
       return Collections.singletonList("Trance");
-    } else if (word.endsWith("ibelkeit")) {
-      suggestion = word.replaceFirst("elkeit$", "ilität");
+    } else if (word.endsWith("ibel[hk]eit")) {
+      suggestion = word.replaceFirst("el[ħk]eit$", "ilität");
       if (!hunspellDict.misspelled(suggestion)) {
         return Collections.singletonList(suggestion);
       }
