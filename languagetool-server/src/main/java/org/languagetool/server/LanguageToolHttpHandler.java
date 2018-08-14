@@ -101,7 +101,7 @@ class LanguageToolHttpHandler implements HttpHandler {
           if (referrer != null && referrer.startsWith(ref)) {
             errorMessage = "Error: Access with referrer " + referrer + " denied.";
           } else if (origin != null && origin.startsWith(ref)) {
-            errorMessage = "Error: Access with origin " + referrer + " denied.";
+            errorMessage = "Error: Access with origin " + origin + " denied.";
           }
         }
         if (errorMessage != null) {
