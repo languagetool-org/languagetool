@@ -30,7 +30,6 @@ import org.jetbrains.annotations.Nullable;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
-import org.languagetool.rules.Rule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,8 +45,8 @@ import java.util.*;
  * @since 2.9
  */
 public class LanguageIdentifier {
-  private static Logger logger = LoggerFactory.getLogger(LanguageIdentifier.class);
 
+  private static final Logger logger = LoggerFactory.getLogger(LanguageIdentifier.class);
   private static final double MINIMAL_CONFIDENCE = 0.9;
   private static final int K_HIGHEST_SCORES = 5;
   private static final int SHORT_ALGO_THRESHOLD = 50;
@@ -88,7 +87,7 @@ public class LanguageIdentifier {
               .withProfiles(profiles)
               .build();
       textObjectFactory = new TextObjectFactoryBuilder()
-              .maxTextLength(10000)
+              .maxTextLength(maxLength)
               .withTextFilter(UrlTextFilter.getInstance())
               .withTextFilter(RemoveMinorityScriptsTextFilter.forThreshold(0.3))
               .withTextFilter(new RemoveEMailSignatureFilter())
@@ -174,16 +173,16 @@ public class LanguageIdentifier {
 
 
   private void startFasttext(File modelPath, File binaryPath) throws IOException {
-      fasttextProcess = new ProcessBuilder(binaryPath.getPath(), "predict-prob", modelPath.getPath(), "-", "" + K_HIGHEST_SCORES).start();
-      fasttextIn = new BufferedReader(new InputStreamReader(fasttextProcess.getInputStream()));
-      fasttextOut = new BufferedWriter(new OutputStreamWriter(fasttextProcess.getOutputStream()));
+    fasttextProcess = new ProcessBuilder(binaryPath.getPath(), "predict-prob", modelPath.getPath(), "-", "" + K_HIGHEST_SCORES).start();
+    fasttextIn = new BufferedReader(new InputStreamReader(fasttextProcess.getInputStream()));
+    fasttextOut = new BufferedWriter(new OutputStreamWriter(fasttextProcess.getOutputStream()));
   }
 
   private String getHighestScoringResult(Map<String, Double> probs) {
     String result = null;
     double max = -1;
     for (Map.Entry<String, Double> entry : probs.entrySet()) {
-      if (entry.getValue() > max){
+      if (entry.getValue() > max) {
         max = entry.getValue();
         result = entry.getKey();
       }
