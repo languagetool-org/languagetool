@@ -151,18 +151,18 @@ public class HunspellRule extends SpellingCheckRule {
    */
   @Experimental
   public boolean isMisspelled(String word) {
-    if (needsInit) {
-      try {
+    try {
+      if (needsInit) {
         init();
-      } catch (IOException e) {
-        throw new RuntimeException(e);
       }
+      boolean isAlphabetic = true;
+      if (word.length() == 1) { // hunspell dictionaries usually do not contain punctuation
+        isAlphabetic = Character.isAlphabetic(word.charAt(0));
+      }
+      return (isAlphabetic && !"--".equals(word) && hunspellDict.misspelled(word) && !ignoreWord(word)) || isProhibited(removeTrailingDot(word));
+    } catch (IOException e) {
+      throw new RuntimeException(e);
     }
-    boolean isAlphabetic = true;
-    if (word.length() == 1) { // hunspell dictionaries usually do not contain punctuation
-      isAlphabetic = Character.isAlphabetic(word.charAt(0));
-    }
-    return (isAlphabetic && !"--".equals(word) && hunspellDict.misspelled(word)) || isProhibited(removeTrailingDot(word));
   }
   
   void filterDupes(List<String> words) {
