@@ -45,6 +45,8 @@ class LineExpander {
           result.add(word + "n");
         } else if (c == 'E') {
           result.add(word + "e");
+        } else if (c == 'F') {
+          result.add(word + "in"); // (m/f)
         } else if (c == 'A') {  // Adjektiv
           result.add(word + "e");
           result.add(word + "er");
