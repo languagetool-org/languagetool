@@ -30668,6 +30668,26 @@ Andere Projekte</example>
                 <example correction=""><marker>Ihr fragst</marker> mich das wirklich?</example>
                 <example>Ihr brauchst du nicht helfen.</example>
             </rule>
+            <rule>
+                <antipattern case_sensitive="yes">
+                    <token inflected="yes">haben</token>
+                    <token postag="PRO:PER:AKK:SIN:.+" postag_regexp="yes"></token>
+                    <token>lieb</token>
+                </antipattern>
+                <pattern case_sensitive="yes">
+                <token postag="PRO:PER:NOM:SIN:.+" postag_regexp="yes"></token>
+                    <marker>
+                        <token>lieb</token>
+                    </marker>
+                    <token><exception inflected="yes">haben</exception></token>
+                </pattern>
+                <message>Prüfen Sie, ob hier eine Form von 'lieben' stehen sollte.</message>
+                <suggestion>liebe</suggestion>
+                <suggestion>liebt</suggestion>
+                <example correction="liebe|liebt">Ich <marker>lieb</marker> dich.</example>
+                <example correction="liebe|liebt">Er <marker>lieb</marker> dich.</example>
+                <example>Er hatte sie <marker>lieb</marker>.</example>
+            </rule>
         </rulegroup>
         <rule id="PASSIV_KEIN_PARTIZIP" name="fehlerhafte Passivkonstruktion (z.B. 'ist fahndet (gefahndet) worden')">
             <pattern>
