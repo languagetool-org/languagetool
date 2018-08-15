@@ -30051,6 +30051,15 @@ Andere Projekte</example>
                 <example correction="dass">Ich glaube kaum, <marker>das</marker> das reicht.</example>
                 <example type="triggers_error">Es wird ein optisches Gitter vorgeschaltet, <marker>das</marker> das einfallende Licht aufspaltet</example>
             </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker><token>Das</token></marker>
+                    <token regexp="yes">d(ies)?e[mnr]</token>
+                </pattern>
+                <message>Prüfen Sie, ob hier <suggestion>Dass</suggestion> stehen sollte.</message>
+                <example correction="Dass"><marker>Das</marker> dem Mann jetzt ein Zahl fehlt, ist bedauerlich.</example>
+                <example correction="Dass"><marker>Das</marker> dieser Frau jetzt ein Zahl fehlt, ist bedauerlich.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="BEI_OHNE_DATIV" name="'bei/entsprechend/...' ohne Dativ">
             <rule>
