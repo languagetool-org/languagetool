@@ -18,6 +18,8 @@
  */
 package org.languagetool.remote;
 
+import com.sun.istack.internal.Nullable;
+
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -34,8 +36,8 @@ public class RemoteResult {
   private final String languageDetectedName;
   private final List<RemoteRuleMatch> matches;
   private final RemoteServer remoteServer;
-  
-  RemoteResult(String language, String languageCode, String languageDetectedCode, String languageDetectedName, List<RemoteRuleMatch> matches, RemoteServer remoteServer) {
+
+  RemoteResult(String language, String languageCode, @Nullable String languageDetectedCode, @Nullable String languageDetectedName, List<RemoteRuleMatch> matches, RemoteServer remoteServer) {
     this.language = Objects.requireNonNull(language);
     this.languageCode = Objects.requireNonNull(languageCode);
     this.languageDetectedCode = languageDetectedCode;
@@ -63,6 +65,7 @@ public class RemoteResult {
   /**
    * @since 4.3
    */
+  @Nullable
   public String getLanguageDetectedCode() {
     return languageDetectedCode;
   }
@@ -70,6 +73,7 @@ public class RemoteResult {
   /**
    * @since 4.3
    */
+  @Nullable
   public String getLanguageDetectedName() {
     return languageDetectedName;
   }

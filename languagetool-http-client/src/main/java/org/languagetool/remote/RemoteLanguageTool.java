@@ -173,8 +173,11 @@ public class RemoteLanguageTool {
     String language = languageObj.get("name");
     String languageCode = languageObj.get("code");
     Map<String, String> detectedLanguageObj = (Map<String, String>) ((Map)languageObj).get("detectedLanguage");
-    String languageDetectedCode = detectedLanguageObj.get("code");
-    String languageDetectedName = detectedLanguageObj.get("name");
+    String languageDetectedCode = null, languageDetectedName = null;
+    if (detectedLanguageObj != null) {
+      languageDetectedCode = detectedLanguageObj.get("code");
+      languageDetectedName = detectedLanguageObj.get("name");
+    }
     Map<String, String> software = (Map<String, String>) map.get("software");
     RemoteServer remoteServer = new RemoteServer(software.get("name"), software.get("version"), software.get("buildDate"));
     List matches = (ArrayList) map.get("matches");
