@@ -37,12 +37,10 @@ import org.languagetool.rules.Rule;
 import org.languagetool.tools.Tools;
 
 import com.sun.star.beans.XPropertySet;
-import com.sun.star.frame.XDesktop;
 import com.sun.star.frame.XModel;
 import com.sun.star.lang.Locale;
 import com.sun.star.lang.XComponent;
 import com.sun.star.lang.XEventListener;
-import com.sun.star.lang.XMultiComponentFactory;
 import com.sun.star.linguistic2.ProofreadingResult;
 import com.sun.star.text.XTextViewCursor;
 import com.sun.star.text.XTextViewCursorSupplier;
@@ -113,7 +111,7 @@ public class MultiDocumentsHandler {
     }
     
     docNum = getNumDoc(paRes.aDocumentIdentifier);
-    paRes = documents.get(docNum).getCheckResults(paraText, paRes, footnotePositions, isParallelThread);
+    paRes = documents.get(docNum).getCheckResults(paraText, paRes, footnotePositions, isParallelThread, langTool);
     
     if(isParallelThread) {
       isParallelThread = false;
@@ -177,7 +175,7 @@ public class MultiDocumentsHandler {
    */
   @Nullable
   public Language getLanguage() {
-    XComponent xComponent = getXComponent();
+    XComponent xComponent = OfficeTools.getCurrentComponent(xContext, messageHandler);
     Locale charLocale;
     XPropertySet xCursorProps;
     try {
@@ -266,20 +264,7 @@ public class MultiDocumentsHandler {
     this.config = config;
     this.langTool = langTool;
     for (SingleDocument document : documents) {
-      document.setConfigValues(config, langTool);
-    }
-  }
-
-  @Nullable
-  private XComponent getXComponent() {
-    try {
-      XMultiComponentFactory xMCF = xContext.getServiceManager();
-      Object desktop = xMCF.createInstanceWithContext("com.sun.star.frame.Desktop", xContext);
-      XDesktop xDesktop = UnoRuntime.queryInterface(XDesktop.class, desktop);
-      return xDesktop.getCurrentComponent();
-    } catch (Throwable t) {
-      messageHandler.showError(t);
-      return null;
+      document.setConfigValues(config);
     }
   }
 
@@ -310,15 +295,18 @@ public class MultiDocumentsHandler {
     }
     //  Add new document
     XComponent xComponent = null;
-    if (!testMode) {
-      xComponent = getXComponent();   //  xComponent == null for test cases 
+    if (!testMode) {              //  xComponent == null for test cases 
+      xComponent = OfficeTools.getCurrentComponent(xContext, messageHandler);
       if (xComponent == null) {
         messageHandler.printToLogFile("Error: Document (ID: " + docID + ") has no XComponent -> Analyse only single paragraphs");
       } else {
         xComponent.addEventListener(xEventListener);
       }
     }
-    documents.add(new SingleDocument(xContext, langTool, config, docID, xComponent, messageHandler));
+    documents.add(new SingleDocument(xContext, config, docID, xComponent, messageHandler));
+    if (debugMode) {
+      messageHandler.printToLogFile("Document " + docNum + " created; docID = " + docID);
+    }
     return documents.size() - 1;
   }
 
@@ -348,7 +336,7 @@ public class MultiDocumentsHandler {
       documents.remove(rmNum);
       goneContext = null;
       if (debugMode) {
-        messageHandler.printToLogFile("Document " + docNum + " deleted");
+        messageHandler.printToLogFile("Document " + rmNum + " deleted");
       }
     }
   }

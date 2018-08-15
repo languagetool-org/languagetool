@@ -24,10 +24,8 @@ import java.util.List;
 import org.jetbrains.annotations.Nullable;
 
 import com.sun.star.frame.XController;
-import com.sun.star.frame.XDesktop;
 import com.sun.star.frame.XModel;
 import com.sun.star.lang.XComponent;
-import com.sun.star.lang.XMultiComponentFactory;
 import com.sun.star.text.XParagraphCursor;
 import com.sun.star.text.XText;
 import com.sun.star.text.XTextCursor;
@@ -56,57 +54,13 @@ class DocumentCursorTools {
   }
 
   /**
-   * Returns the current XDesktop
-   * Returns null if it fails
-   */
-  @Nullable
-  private XDesktop getCurrentDesktop(XComponentContext xContext) {
-    try {
-      if (xContext == null) {
-        return null;
-      }
-      XMultiComponentFactory xMCF = UnoRuntime.queryInterface(XMultiComponentFactory.class,
-              xContext.getServiceManager());
-      if (xMCF == null) {
-        return null;
-      }
-      Object desktop = xMCF.createInstanceWithContext("com.sun.star.frame.Desktop", xContext);
-      if (desktop == null) {
-        return null;
-      }
-      return UnoRuntime.queryInterface(XDesktop.class, desktop);
-    } catch (Throwable t) {
-      messageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
-      return null;           // Return null as method failed
-    }
-  }
-
-  /**
-   * Returns the current XComponent
-   * Returns null if it fails
-   */
-  @Nullable
-  private XComponent getCurrentComponent(XComponentContext xContext) {
-    try {
-      XDesktop xdesktop = getCurrentDesktop(xContext);
-      if(xdesktop == null) {
-        return null;
-      }
-      else return xdesktop.getCurrentComponent();
-    } catch (Throwable t) {
-      messageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
-      return null;           // Return null as method failed
-    }
-  }
-    
-  /**
    * Returns the current text document (if any) 
    * Returns null if it fails
    */
   @Nullable
   private XTextDocument getCurrentDocument(XComponentContext xContext) {
     try {
-      XComponent curcomp = getCurrentComponent(xContext);
+      XComponent curcomp = OfficeTools.getCurrentComponent(xContext, messageHandler);
       if (curcomp == null) {
         return null;
       }
@@ -164,11 +118,7 @@ class DocumentCursorTools {
   @Nullable
   private XTextViewCursor getViewCursor(XComponentContext xContext) {
     try {
-      XDesktop xDesktop = getCurrentDesktop(xContext);
-      if(xDesktop == null) {
-        return null;
-      }
-      XComponent xCurrentComponent = xDesktop.getCurrentComponent();
+      XComponent xCurrentComponent = OfficeTools.getCurrentComponent(xContext, messageHandler);
       if(xCurrentComponent == null) {
         return null;
       }

@@ -24,9 +24,7 @@ import java.util.List;
 import org.jetbrains.annotations.Nullable;
 
 import com.sun.star.beans.XPropertySet;
-import com.sun.star.frame.XDesktop;
 import com.sun.star.lang.XComponent;
-import com.sun.star.lang.XMultiComponentFactory;
 import com.sun.star.text.TextMarkupType;
 import com.sun.star.text.XFlatParagraph;
 import com.sun.star.text.XFlatParagraphIterator;
@@ -55,57 +53,13 @@ public class FlatParagraphTools {
   }
 
   /**
-   * Returns the current XDesktop
-   * Returns null if it fails
-   */
-  @Nullable
-  private XDesktop getCurrentDesktop(XComponentContext xContext) {
-    try {
-      if (xContext == null) {
-        return null;
-      }
-      XMultiComponentFactory xMCF = UnoRuntime.queryInterface(XMultiComponentFactory.class,
-              xContext.getServiceManager());
-      if (xMCF == null) {
-        return null;
-      }
-      Object desktop = xMCF.createInstanceWithContext("com.sun.star.frame.Desktop", xContext);
-      if (desktop == null) {
-        return null;
-      }
-      return UnoRuntime.queryInterface(XDesktop.class, desktop);
-    } catch (Throwable t) {
-      messageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
-      return null;           // Return null as method failed
-    }
-  }
-
-  /** 
-   * Returns the current XComponent 
-   * Returns null if it fails
-   */
-  @Nullable
-  private XComponent getCurrentComponent(XComponentContext xContext) {
-    try {
-      XDesktop xdesktop = getCurrentDesktop(xContext);
-      if(xdesktop == null) {
-        return null;
-      }
-      else return xdesktop.getCurrentComponent();
-    } catch (Throwable t) {
-      messageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
-      return null;           // Return null as method failed
-    }
-  }
-    
-  /**
    * Returns XFlatParagraphIterator 
    * Returns null if it fails
    */
   @Nullable
   private XFlatParagraphIterator getXFlatParagraphIterator(XComponentContext xContext) {
     try {
-      XComponent xCurrentComponent = getCurrentComponent(xContext);
+      XComponent xCurrentComponent = OfficeTools.getCurrentComponent(xContext, messageHandler);
       if(xCurrentComponent == null) {
         return null;
       }

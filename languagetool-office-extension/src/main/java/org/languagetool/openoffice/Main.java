@@ -214,7 +214,7 @@ public class Main extends WeakBase implements XJobExecutor,
           }
         }
       }
-      return locales.toArray(new Locale[locales.size()]);
+      return locales.toArray(new Locale[0]);
     } catch (Throwable t) {
       messageHandler.showError(t);
       return new Locale[0];

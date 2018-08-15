@@ -152,7 +152,7 @@ class ResultCache {
             errorList.add(eArray);
           }
         }
-        return errorList.toArray(new SingleProofreadingError[errorList.size()]);
+        return errorList.toArray(new SingleProofreadingError[0]);
       }
     }
     return null;
@@ -169,6 +169,13 @@ class ResultCache {
       }
     }
     return number;
+  }
+
+  /**
+   *  get number of entries
+   */
+  int getNumberOfEntries() {
+    return entries.size();
   }
 
   class CacheEntry {
