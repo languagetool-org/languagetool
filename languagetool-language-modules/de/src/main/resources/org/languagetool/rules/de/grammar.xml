@@ -11165,6 +11165,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
 
         <rulegroup id="DATUM_ZUKUNFT_VERB_VERGANGENHEIT" name="Datum in der Zukunft, Verb in der Vergangenheitsform">
+            <!-- Ich habe mich zum 1. Januar 2020 beworben. -->
+            <antipattern>
+                <token>zum</token>
+                <token regexp="yes">\d\d?</token>
+                <token>.</token>
+            </antipattern>
             <rule> <!-- haben am DD.MM.JJJJ -->
                 <pattern>
                     <token inflected="yes" postag="VER:AUX:.*" postag_regexp="yes" skip="-1">haben</token>
@@ -11180,6 +11186,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Gestern habe ich Kuchen gegessen.</example>
                 <example>Wir werden am 7.8.2025 den Kunden informieren.</example>
                 <example>Wir werden am 7.8.2025 den Kunden informiert haben.</example>
+                <example>Ich habe mich zum 1.1.2020 beworben.</example>
             </rule>
             <rule><!-- Waren am DD.MM.JJJJ  -->
                 <pattern>
