@@ -42,6 +42,7 @@ import java.util.*;
  * en-US or en-GB are not detected, the result will be {@code en} for those.
  * By default, only the first 1000 characters of a text are considered.
  * Email signatures that use {@code \n-- \n} as a delimiter are ignored.
+ *
  * @since 2.9
  */
 public class LanguageIdentifier {
@@ -82,16 +83,16 @@ public class LanguageIdentifier {
     try {
       List<LanguageProfile> profiles = loadProfiles(getLanguageCodes());
       languageDetector = LanguageDetectorBuilder.create(NgramExtractors.standard())
-              .minimalConfidence(MINIMAL_CONFIDENCE)
-              .shortTextAlgorithm(SHORT_ALGO_THRESHOLD)
-              .withProfiles(profiles)
-              .build();
+        .minimalConfidence(MINIMAL_CONFIDENCE)
+        .shortTextAlgorithm(SHORT_ALGO_THRESHOLD)
+        .withProfiles(profiles)
+        .build();
       textObjectFactory = new TextObjectFactoryBuilder()
-              .maxTextLength(maxLength)
-              .withTextFilter(UrlTextFilter.getInstance())
-              .withTextFilter(RemoveMinorityScriptsTextFilter.forThreshold(0.3))
-              .withTextFilter(new RemoveEMailSignatureFilter())
-              .build();
+        .maxTextLength(10000)
+        .withTextFilter(UrlTextFilter.getInstance())
+        .withTextFilter(RemoveMinorityScriptsTextFilter.forThreshold(0.3))
+        .withTextFilter(new RemoveEMailSignatureFilter())
+        .build();
     } catch (IOException e) {
       throw new RuntimeException("Could not set up language identifier", e);
     }
@@ -151,10 +152,11 @@ public class LanguageIdentifier {
    */
   @Nullable
   public Language detectLanguage(String text) {
+    String shortText = text.length() > maxLength ? text.substring(0, maxLength) : text;
     String languageCode = null;
     if (fasttextEnabled) {
       try {
-        languageCode = getHighestScoringResult(runFasttext(text));
+        languageCode = getHighestScoringResult(runFasttext(shortText));
       } catch (Exception e) {
         fasttextEnabled = false;
         logger.error("Disabling fasttext language identification, got error for text: " + text, e);
@@ -162,7 +164,7 @@ public class LanguageIdentifier {
       }
     }
     if (!fasttextEnabled) { // no else, value can change in if clause
-      languageCode = detectLanguageCode(text)  ;
+      languageCode = detectLanguageCode(shortText);
     }
     if (languageCode != null && Languages.isLanguageSupported(languageCode)) {
       return Languages.getLanguageForShortCode(languageCode);
@@ -190,9 +192,10 @@ public class LanguageIdentifier {
     return result;
   }
 
-  private Map<String, Double> runFasttext(String text) throws IOException {
+  private synchronized Map<String, Double> runFasttext(String text) throws IOException {
     Map<String, Double> probabilities = new HashMap<>();
-    fasttextOut.write(text);
+    String joined = text.replace("\n", " ");
+    fasttextOut.write(joined);
     fasttextOut.newLine();
     fasttextOut.flush();
     String buffer = fasttextIn.readLine();
@@ -217,8 +220,7 @@ public class LanguageIdentifier {
    */
   @Nullable
   private String detectLanguageCode(String text) {
-    String shortText = text.length() > maxLength ? text.substring(0, maxLength) : text;
-    TextObject textObject = textObjectFactory.forText(shortText);
+    TextObject textObject = textObjectFactory.forText(text);
     Optional<LdLocale> lang = languageDetector.detect(textObject);
     // comment in for debugging:
     //System.out.println(languageDetector.getProbabilities(textObject));
