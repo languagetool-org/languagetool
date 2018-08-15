@@ -33,22 +33,6 @@
           <example type="ambiguous" inputform="or[or/CC,or/NN:U]" outputform="or[or/CC]">Let's choose A <marker>or</marker> B.</example>
         </rule>
 
-        <rule name="remove NNP: lowercase hoopes" id="REMOVE_NNP_FOR_LOWERCASE_HOOPES"><!-- Cannot use removed.txt to remove the POS -->
-          <pattern case_sensitive="yes">
-            <token>hoopes</token>
-          </pattern>
-          <disambig action="remove"><wd pos="NNP"/></disambig>
-          <example type="ambiguous" inputform="hoopes[Hoopes/NNP]" outputform="hoopes[hoopes]">These <marker>hoopes</marker> are large.</example>
-        </rule>
-
-        <rule name="remove NNP: lowercase month names and day names" id="REMOVE_NNP_FOR_LOWERCASE_MONTHS_DAYS"><!-- Cannot use removed.txt to remove the POS -->
-          <pattern case_sensitive="yes">
-            <token regexp="yes">january|february|april|june|july|september|october|november|december|monday|tuesday|wednesday|thursday|friday|saturday</token>
-          </pattern>
-          <disambig action="remove"><wd pos="NNP"/></disambig>
-          <example type="ambiguous" inputform="january[January/NNP]" outputform="january[january]"><marker>january</marker> is a cold month in England.</example>
-        </rule>
-
     <rule id="CD" name="Tag numbers">
       <pattern>
         <token regexp="yes">\d+</token>
@@ -223,16 +207,6 @@
         <disambig action="remove"><wd pos="NN:U"/></disambig>
         <example type="untouched">When you have a choice about which brush to use, use the <marker>large</marker>.</example>
         <example type="ambiguous" inputform="large[large/JJ,large/NN:U]" outputform="large[large/JJ]">Use the <marker>large</marker> brush.</example>
-    </rule>
-
-    <rule id="REMOVE_POS_NNP_LOWERCASE_CHEMICAL_SYMBOLS" name="Remove POS NNP from incorrect lower-case chemical symbols">
-      <pattern case_sensitive="yes">
-        <token regexp="yes">ac|ag|al|am|ar|as|at|au|ba|be|bh|bi|bk|br|ca|cd|ce|cf|cl|cm|cn|co|cr|cs|cu|db|ds|dy|er|es|eu|fe|fl|fm|fr|ga|gd|ge|he|hf|hg|ho|hs|in|ir|kr|la|li|lr|lu|lv|mc|md|mg|mn|mo|mt|na|nb|nd|ne|nh|ni|no|np|og|os|pa|pb|pd|pm|po|pr|pt|pu|ra|rb|re|rf|rg|rh|rn|ru|sb|sc|se|sg|si|sm|sn|sr|ta|tb|tc|te|th|ti|tl|tm|ts|xe|yb|zn|zr</token><!-- Source: http://education.jlab.org/itselemental/index_sym.html -->
-      </pattern>
-      <disambig action="remove"><wd pos="NNP"/></disambig>
-        <example type="untouched">The chemical symbol for thorium is <marker>Th</marker>.</example>
-        <example type="untouched"><marker>Th</marker> water is hot.</example><!-- TODO: A rule to find this type of problem -->
-        <example type="ambiguous" inputform="th[Th/NNP]" outputform="th[th]">When <marker>th</marker> water is hot, stop the test.</example>
     </rule>
 
     <rule id="UH" name="Interjections">
