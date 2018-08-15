@@ -18,8 +18,7 @@
  */
 package org.languagetool.remote;
 
-import com.sun.istack.internal.Nullable;
-
+import org.jetbrains.annotations.Nullable;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
