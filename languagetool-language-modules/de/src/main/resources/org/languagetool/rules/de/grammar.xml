@@ -7629,7 +7629,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>auf</token>
                 <token>passen</token>
             </pattern>
-            <message><suggestion>aufpassen</suggestion> (aufmerksam sein) wird zusammengeschrieben</message>
+            <message><suggestion>aufpassen</suggestion> (aufmerksam sein) wird zusammengeschrieben.</message>
             <example correction="aufpassen">Da muss man schon <marker>auf passen</marker>.</example>
         </rule>
         <rule id="FUSSFASSEN" name="Fußfassen (Fuß fassen)">
@@ -10177,6 +10177,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Es wäre besser, es zu lassen.</example>
             </rule>
         </rulegroup>
+        <rule id="INBEGRIFFEN" name="in begriffen (inbegriffen)">
+            <pattern case_sensitive="yes">
+                <token inflected="yes" regexp="yes">sein|im</token>
+                <token min="0" regexp="yes">nicht|darin|Preis</token>
+                <marker>
+                    <token>in</token>
+                    <token regexp="yes">[bB]egriffen</token>
+                </marker>
+            </pattern>
+            <message>Meinten Sie 'inbegriffen' (=eingeschlossen, enthalten)?</message>
+            <suggestion>inbegriffen</suggestion>
+            <short>&getrennt;.</short>
+            <example correction="inbegriffen">Die Nebenkosten sind nicht <marker>in begriffen</marker>.</example>
+            <example correction="inbegriffen">Die Nebenkosten sind im Preis <marker>in begriffen</marker>.</example>
+        </rule>
         <rulegroup id="MASSREGELN" name="maß regeln (maßregeln)">
                 <rule>
                 <pattern>
