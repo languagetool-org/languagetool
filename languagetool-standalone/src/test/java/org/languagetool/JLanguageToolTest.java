@@ -44,7 +44,7 @@ public class JLanguageToolTest {
   private static final English english = new English();
 
   @Test
-  public void testGetAllActiveRules() throws Exception {
+  public void testGetAllActiveRules() {
     JLanguageTool lt = new JLanguageTool(new Demo());
     List<String> ruleIds = getActiveRuleIds(lt);
     assertTrue(ruleIds.contains("DEMO_RULE"));
@@ -59,12 +59,12 @@ public class JLanguageToolTest {
   }
 
   @Test
-  public void testIsPremium() throws Exception {
+  public void testIsPremium() {
     assertFalse(JLanguageTool.isPremiumVersion());
   }
 
   @Test
-  public void testEnableRulesCategories() throws Exception {
+  public void testEnableRulesCategories() {
     JLanguageTool lt = new JLanguageTool(new Demo());
     List<String> ruleIds = getActiveRuleIds(lt);
     assertTrue(ruleIds.contains("DEMO_RULE"));
@@ -100,8 +100,8 @@ public class JLanguageToolTest {
   }
 
   @Test
-  public void testGetMessageBundle() throws Exception {
-    ResourceBundle bundle1 = JLanguageTool.getMessageBundle(new German());
+  public void testGetMessageBundle() {
+    ResourceBundle bundle1 = JLanguageTool.getMessageBundle(new GermanyGerman());
     assertThat(bundle1.getString("de"), is("Deutsch"));
 
     ResourceBundle bundle2 = JLanguageTool.getMessageBundle(english);
@@ -120,7 +120,7 @@ public class JLanguageToolTest {
   }
 
   @Test
-  public void testSentenceTokenize() throws IOException {
+  public void testSentenceTokenize() {
     JLanguageTool lt = new JLanguageTool(english);
     List<String> sentences = lt.sentenceTokenize("This is a sentence! This is another one.");
     assertEquals(2, sentences.size());
