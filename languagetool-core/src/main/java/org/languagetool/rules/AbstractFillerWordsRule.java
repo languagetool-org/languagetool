@@ -38,8 +38,7 @@ import org.languagetool.rules.Category.Location;
  * @since 4.2
  */
 public abstract class AbstractFillerWordsRule extends TextLevelRule {
-
-
+  
   public static final String RULE_ID = "FILLER_WORDS";
   
   private static final int DEFAULT_MIN_PERCENT = 8;
@@ -123,6 +122,7 @@ public abstract class AbstractFillerWordsRule extends TextLevelRule {
     String msg = getMessage();
     List<Integer> startPos = new ArrayList<>();
     List<Integer> endPos = new ArrayList<>();
+    List<AnalyzedSentence> relevantSentences = new ArrayList<>();
     double percent;
     int pos = 0;
     int wordCount = 0;
@@ -142,9 +142,10 @@ public abstract class AbstractFillerWordsRule extends TextLevelRule {
         else if ((!isDirectSpeech || minPercent == 0) && !token.isWhitespace() && !token.isSentenceStart() 
             && !token.isSentenceEnd() && !NON_WORD_REGEX.matcher(sToken).matches()) {
           wordCount++;
-          if(isFillerWord(sToken) && !isException(tokens, n)) {
+          if (isFillerWord(sToken) && !isException(tokens, n)) {
             startPos.add(token.getStartPos() + pos);
             endPos.add(token.getEndPos() + pos);
+            relevantSentences.add(sentence);
           }
         } else if ("\n".equals(sToken) || "\r\n".equals(sToken) || "\n\r".equals(sToken)) {
           if(wordCount > 0) {
@@ -154,13 +155,14 @@ public abstract class AbstractFillerWordsRule extends TextLevelRule {
           }
           if (percent > minPercent) {
             for (int i = 0; i < startPos.size(); i++) {
-              RuleMatch ruleMatch = new RuleMatch(this, startPos.get(i), endPos.get(i), msg);
+              RuleMatch ruleMatch = new RuleMatch(this, sentence, startPos.get(i), endPos.get(i), msg);
               ruleMatches.add(ruleMatch);
             }
           }
           wordCount = 0;
           startPos = new ArrayList<>();
           endPos = new ArrayList<>();
+          relevantSentences = new ArrayList<>();
         }
       }
       pos += sentence.getText().length();
@@ -172,7 +174,7 @@ public abstract class AbstractFillerWordsRule extends TextLevelRule {
     }
     if (percent > minPercent) {
       for (int i = 0; i < startPos.size(); i++) {
-        RuleMatch ruleMatch = new RuleMatch(this, startPos.get(i), endPos.get(i), msg);
+        RuleMatch ruleMatch = new RuleMatch(this, relevantSentences.get(i), startPos.get(i), endPos.get(i), msg);
         ruleMatches.add(ruleMatch);
       }
     }
