@@ -2884,7 +2884,8 @@ regexp case-insensitive maken : (?i)
                 <example correction="ligt">Het woord <marker>licht</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
-
+        
+        <!-- echt komt veel vaker voor dat egt
         <rulegroup id="EGT_ECHT" name="waarschuwing bij gebruik echt i.p.v. egt">
             <rule>
                 <pattern>
@@ -2894,7 +2895,17 @@ regexp case-insensitive maken : (?i)
                 <example correction="egt">Het woord <marker>echt</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
-
+        -->
+        <rulegroup id="ECHT_EGT" name="waarschuwing bij gebruik egt i.p.v. echt">
+            <rule>
+                <pattern>
+                       <token>egt</token>
+                </pattern>
+                <message>U bedoeltvast <suggestion>echt</suggestion>? Eggen is ploegen.</message>
+                <example correction="echt">Het woord <marker>egt</marker> kan een vergissing zijn.</example>
+            </rule>
+        </rulegroup>
+        
         <rulegroup id="HEILIGT_HEILICHT" name="waarschuwing bij gebruik heilicht i.p.v. heiligt">
             <rule>
                 <pattern>
@@ -9442,6 +9453,16 @@ regexp case-insensitive maken : (?i)
             </rule>
         </rulegroup>
 
+        <rulegroup id="BIC_BIK" name="waarschuwing bij gebruik bik i.p.v. bic">
+            <rule>
+                <pattern>
+                       <token>bik</token>
+                </pattern>
+                <message>Bedoelt u wellicht <suggestion>bic</suggestion> (balpen)? Bik komt van bikken (hakken, eten).</message>
+                <example correction="bic">Het woord <marker>bik</marker> kan een vergissing zijn.</example>
+            </rule>
+        </rulegroup>        
+
         <rulegroup id="STICKER_STIKKER" name="waarschuwing bij gebruik stikker i.p.v. sticker">
             <rule>
                 <pattern>
@@ -9471,7 +9492,16 @@ regexp case-insensitive maken : (?i)
                 <example correction="camper">Het woord <marker>kamper</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
-
+        <rulegroup id="CAMPEREND_KAMPEREND" name="waarschuwing bij gebruik kamperend i.p.v. camperend">
+            <rule>
+                <pattern>
+                       <token>kamperend</token>
+                </pattern>
+                <message>Bedoelt u wellicht <suggestion>camperend</suggestion> (met de kampeerauto rijdend)? Of toch op de camping verblijvend?</message>
+                <example correction="camperend">Het woord <marker>kamperend</marker> kan een vergissing zijn.</example>
+            </rule>
+        </rulegroup>
+        
         <rulegroup id="CORPSLID_KORPSLID" name="waarschuwing bij gebruik korpslid i.p.v. corpslid">
             <rule>
                 <pattern>
@@ -9771,9 +9801,9 @@ regexp case-insensitive maken : (?i)
         <rulegroup id="CORNET_KORNET" name="waarschuwing bij gebruik kornet i.p.v. cornet">
             <rule>
                 <pattern>
-                       <token>kornet</token>
+                       <token inflected="yes">kornet</token>
                 </pattern>
-                <message>Bedoelt u wellicht <suggestion>cornet</suggestion> (doosje)? Kornet heeft met muziek en militairen te maken.</message>
+                <message>Bedoelt u wellicht <suggestion><match no="1" postag="ZNW.*" postag_regexp="yes">cornet</match>? Een cornet is een doosje? Kornet heeft met muziek en militairen te maken.</message>
                 <example correction="cornet">Het woord <marker>kornet</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
