@@ -19,6 +19,7 @@
 package org.languagetool.tokenizers;
 
 import org.languagetool.Language;
+import org.languagetool.UserConfig;
 import org.languagetool.language.Contributor;
 import org.languagetool.rules.Rule;
 
@@ -50,7 +51,7 @@ public class SimpleSentenceTokenizer extends SRXSentenceTokenizer {
     @Override public Contributor[] getMaintainers() {
       return new Contributor[0];
     }
-    @Override public List<Rule> getRelevantRules(ResourceBundle messages) {
+    @Override public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig) {
       return Collections.emptyList();
     }
   }

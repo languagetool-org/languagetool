@@ -25,6 +25,7 @@ import org.languagetool.language.Polish;
 import org.languagetool.rules.MultipleWhitespaceRule;
 
 import java.io.IOException;
+import java.util.Collections;
 
 import static org.junit.Assert.assertEquals;
 
@@ -34,8 +35,13 @@ public class MultipleWhitespaceRuleTest {
   public void testRule() throws IOException {
     final MultipleWhitespaceRule rule = new MultipleWhitespaceRule(TestTools.getEnglishMessages(), new Polish());
     final JLanguageTool langTool = new JLanguageTool(new Polish());
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("To jest test.")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("To jest   test.")).length);
+    assertEquals(0, getMatches("To jest test.", rule, langTool));
+    assertEquals(1, getMatches("To jest   test.", rule, langTool));
   }
+
+  private int getMatches(String input, MultipleWhitespaceRule rule, JLanguageTool lt) throws IOException {
+    return rule.match(Collections.singletonList(lt.getAnalyzedSentence(input))).length;
+  }
+
 
 }

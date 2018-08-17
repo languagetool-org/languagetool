@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.languagetool</groupId>
         <artifactId>languagetool-parent</artifactId>
-        <version>4.0-SNAPSHOT</version>
+        <version>4.3-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -76,11 +76,14 @@
             <version>${languagetool.version}</version>
         </dependency>
         <dependency>
-            <!-- to prevent "Failed to load class org.slf4j.impl.StaticLoggerBinder",
-                 see http://www.slf4j.org/codes.html#StaticLoggerBinder -->
             <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-nop</artifactId>
+            <artifactId>slf4j-api</artifactId>
             <version>1.7.25</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.2.3</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
@@ -92,7 +95,17 @@
             <artifactId>java-jwt</artifactId>
             <version>3.2.0</version>
         </dependency>
-
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis</artifactId>
+            <version>3.4.6</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mariadb.jdbc</groupId>
+            <artifactId>mariadb-java-client</artifactId>
+            <version>2.2.3</version>
+        </dependency>
+        
         <dependency>
             <!-- see http://stackoverflow.com/questions/174560/sharing-test-code-in-maven#174670 -->
             <groupId>org.languagetool</groupId>
@@ -105,6 +118,12 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.hsqldb</groupId>
+            <artifactId>hsqldb</artifactId>
+            <version>2.4.0</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

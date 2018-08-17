@@ -27,7 +27,7 @@ import java.util.Objects;
  */
 class TextPart {
 
-  enum Type {TEXT, MARKUP}
+  enum Type {TEXT, MARKUP, FAKE_CONTENT}
 
   private final String part;
   private final Type typ;

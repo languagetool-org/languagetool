@@ -18,6 +18,7 @@
  */
 package org.languagetool.server;
 
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.sun.net.httpserver.HttpServer;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.JLanguageTool;
@@ -92,9 +93,10 @@ abstract class Server {
   @Nullable
   protected RequestLimiter getRequestLimiterOrNull(HTTPServerConfig config) {
     int requestLimit = config.getRequestLimit();
+    int requestLimitInBytes = config.getRequestLimitInBytes();
     int requestLimitPeriodInSeconds = config.getRequestLimitPeriodInSeconds();
-    if (requestLimit > 0 && requestLimitPeriodInSeconds > 0) {
-      return new RequestLimiter(requestLimit, requestLimitPeriodInSeconds);
+    if ((requestLimit > 0 || requestLimitInBytes > 0) && requestLimitPeriodInSeconds > 0) {
+      return new RequestLimiter(requestLimit, requestLimitInBytes, requestLimitPeriodInSeconds);
     }
     return null;
   }
@@ -120,16 +122,27 @@ abstract class Server {
     System.out.println("                 'maxTextHardLength' - maximum text length, applies even to users with a special secret 'token' parameter (optional)");
     System.out.println("                 'secretTokenKey' - secret JWT token key, if set by user and valid, maxTextLength can be increased by the user (optional)");
     System.out.println("                 'maxCheckTimeMillis' - maximum time in milliseconds allowed per check (optional)");
+    System.out.println("                 'maxErrorsPerWordRate' - checking will stop with error if there are more rules matches per word (optional)");
+    System.out.println("                 'maxSpellingSuggestions' - only this many spelling errors will have suggestions for performance reasons (optional,\n" +
+                       "                                            affects Hunspell-based languages only)");
     System.out.println("                 'maxCheckThreads' - maximum number of threads working in parallel (optional)");
     System.out.println("                 'cacheSize' - size of internal cache in number of sentences (optional, default: 0)");
-    System.out.println("                 'requestLimit' - maximum number of requests (optional)");
+    System.out.println("                 'requestLimit' - maximum number of requests per requestLimitPeriodInSeconds (optional)");
+    System.out.println("                 'requestLimitInBytes' - maximum aggregated size of requests per requestLimitPeriodInSeconds (optional)");
     System.out.println("                 'timeoutRequestLimit' - maximum number of timeout request (optional)");
     System.out.println("                 'requestLimitPeriodInSeconds' - time period to which requestLimit and timeoutRequestLimit applies (optional)");
     System.out.println("                 'languageModel' - a directory with '1grams', '2grams', '3grams' sub directories which contain a Lucene index");
     System.out.println("                  each with ngram occurrence counts; activates the confusion rule if supported (optional)");
+    System.out.println("                 'word2vecModel' - a directory with word2vec data (optional), see");
+    System.out.println("                  https://github.com/languagetool-org/languagetool/blob/master/languagetool-standalone/CHANGES.md#word2vec");
+    System.out.println("                 'fasttextModel' - a model file for better language detection (optional), see");
+    System.out.println("                  https://fasttext.cc/docs/en/language-identification.html");
+    System.out.println("                 'fasttextBinary' - compiled fasttext executable for language detection (optional), see");
+    System.out.println("                  https://fasttext.cc/docs/en/support.html");
     System.out.println("                 'maxWorkQueueSize' - reject request if request queue gets larger than this (optional)");
     System.out.println("                 'rulesFile' - a file containing rules configuration, such as .langugagetool.cfg (optional)");
     System.out.println("                 'warmUp' - set to 'true' to warm up server at start, i.e. run a short check with all languages (optional)");
+    System.out.println("                 'blockedReferrers' - a comma-separated list of HTTP referrers (and 'Origin' headers) that are blocked and will not be served (optional)");
   }
 
   protected static void printCommonOptions() {
@@ -143,6 +156,8 @@ abstract class Server {
     System.out.println("  --languageModel  a directory with '1grams', '2grams', '3grams' sub directories (per language)");
     System.out.println("                         which contain a Lucene index (optional, overwrites 'languageModel'");
     System.out.println("                         parameter in properties files)");
+    System.out.println("  --word2vecModel  a directory with word2vec data (optional), see");
+    System.out.println("                   https://github.com/languagetool-org/languagetool/blob/master/languagetool-standalone/CHANGES.md#word2vec");
   }
 
   protected static void checkForNonRootUser() {
@@ -188,7 +203,8 @@ abstract class Server {
   static class StoppingThreadPoolExecutor extends ThreadPoolExecutor {
   
     StoppingThreadPoolExecutor(int threadPoolSize, LinkedBlockingQueue<Runnable> workQueue) {
-      super(threadPoolSize, threadPoolSize, 0L, TimeUnit.MILLISECONDS, workQueue);
+      super(threadPoolSize, threadPoolSize, 0L, TimeUnit.MILLISECONDS, workQueue,
+            new ThreadFactoryBuilder().setNameFormat("lt-server-thread-%d").build());
     }
 
     @Override

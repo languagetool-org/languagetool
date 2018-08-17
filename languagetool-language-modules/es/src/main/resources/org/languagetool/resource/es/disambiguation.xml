@@ -216,7 +216,7 @@ Copyright (C) 2011 Juan Martorell
     <pattern>
       <token postag="D..MS." postag_regexp="yes"><exception inflected="yes">todo</exception><exception postag="R.*" postag_regexp="yes"/></token>
       <marker>  
-         <token postag="NCMS000" postag_regexp="yes">sobre</token>
+         <token postag="NCMS000">sobre</token>
       </marker>
       <token><exception postag="D.*" postag_regexp="yes"/></token>
     </pattern>
@@ -248,6 +248,16 @@ Copyright (C) 2011 Juan Martorell
       <token regexp="yes">[.;:!?…()\[\]&#8210;&#8211;&#8212;&#8213;\-]</token>
     </pattern>
     <disambig action="add"><wd pos="_PUNCT"></wd></disambig>
+  </rule>
+  
+  <!-- ROMAN NUMERALS : Detección de números romanos (adaptado de la versión catalana) -->
+  <rule id="ROMAN_NUMERALS" name="números romanos">
+    <pattern case_sensitive="yes">
+      <marker>
+        <token regexp="yes">(?=.)M{0,4}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})</token>
+      </marker>
+    </pattern>
+    <disambig action="ignore_spelling"/>
   </rule>
   
 </rules>

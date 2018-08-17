@@ -1,13 +1,10 @@
 package org.languagetool.rules.uk;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
@@ -16,11 +13,15 @@ import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.uk.InflectionHelper.Inflection;
 import org.languagetool.tagging.uk.IPOSTag;
 import org.languagetool.tagging.uk.PosTagHelper;
+import org.languagetool.tools.StringTools;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @since 3.6
  */
 final class TokenAgreementAdjNounExceptionHelper {
+  private static Logger logger = LoggerFactory.getLogger(TokenAgreementAdjNounExceptionHelper.class);
   
   private static final Pattern NUMBER_V_NAZ = Pattern.compile("number|numr:p:v_naz|noun.*?:p:v_naz:&numr.*");
   // including latin 'a' and 'i' so the rules don't trip on them in Ukrainian sentences
@@ -40,6 +41,16 @@ final class TokenAgreementAdjNounExceptionHelper {
 
     AnalyzedTokenReadings adjAnalyzedTokenReadings = tokens[i-1];
 
+
+    if( i > 1
+        && StringTools.isCapitalizedWord(tokens[i-1].getToken())
+        && StringTools.isCapitalizedWord(tokens[i-2].getToken())
+        && (LemmaHelper.hasLemma(tokens[i-1], "вітчизняний") || LemmaHelper.hasLemma(tokens[i-1], "житомирський"))
+        && LemmaHelper.hasLemma(tokens[i-2], "великий")
+        && ! LemmaHelper.hasLemma(tokens[i], "війна") ) {
+      logException();
+      return true;
+    }
 
     if( i > 1
         && LemmaHelper.hasLemma(tokens[i-1], "національний")
@@ -127,6 +138,14 @@ final class TokenAgreementAdjNounExceptionHelper {
       return true;
     }
 
+    // старший зміни
+    if( i > 1
+        && tokens[i].getToken().equals("зміни")
+        && LemmaHelper.hasLemma(tokens[i-1], "старший")) {
+      logException();
+      return true;
+    }
+
     // на повну людей розкрутили
     if( i > 1
         && tokens[i-1].getToken().equals("повну")
@@ -148,6 +167,15 @@ final class TokenAgreementAdjNounExceptionHelper {
     if( i < tokens.length -1
         && Arrays.asList("площею", "об'ємом", "довжиною", "висотою", "зростом").contains(tokens[i].getToken())
         && PosTagHelper.hasPosTag(tokens[i+1], "prep.*|.*num.*") ) {
+      logException();
+      return true;
+    }
+
+    // 10 метрів квадратних води
+    if( i > 3
+        && LemmaHelper.hasLemma(tokens[i-2], Pattern.compile(".*метр.*"))
+        && LemmaHelper.hasLemma(tokens[i-1], Pattern.compile("квадратний|кубічний"))
+        && PosTagHelper.hasPosTagPart(tokens[i], "v_rod") ) {
       logException();
       return true;
     }
@@ -535,9 +563,9 @@ final class TokenAgreementAdjNounExceptionHelper {
       String adjToken = adjAnalyzedTokenReadings.getToken();
 
       // Ставши 2003-го прем’єром
-      if( adjToken.matches("([12][0-9])?[0-9][0-9][\u2014\u2013-](й|го|м|му|х)") 
-          || adjToken.matches("([12][0-9])?[0-9]0[\u2014\u2013-](ті|тих|их)") 
-          || adjToken.matches("[12][0-9][0-9][0-9][\u2014\u2013-][12][0-9][0-9][0-9][\u2014\u2013-](й|го|му|х)") ) {
+      if( adjToken.matches("([12][0-9])?[0-9][0-9][\u2014\u2013-](й|го|м|му)")
+          || adjToken.matches("([12][0-9])?[0-9]0[\u2014\u2013-](ті|тих|их|х)")
+          || adjToken.matches("([12][0-9])?[0-9][0-9][\u2014\u2013-]([12][0-9])?[0-9][0-9][\u2014\u2013-](й|го|м|му|ті|тих|их|х)") ) {
         logException();
         return true;
       }
@@ -743,7 +771,7 @@ final class TokenAgreementAdjNounExceptionHelper {
     // adjp:pasv + adj:v_oru + noun (case governed by adjp)
     // підсвічений синім діамант
     if( i > 1
-        && PosTagHelper.hasPosTagPart(tokens[i-2], "adjp:pasv") // could be :&adjp or :&_adjp
+        && PosTagHelper.hasPosTagPart(tokens[i-2], "adjp:pasv") // could be :&adjp or :&&adjp
         && PosTagHelper.hasPosTag(tokens[i-1], "adj.*v_oru.*")
         && ! Collections.disjoint(InflectionHelper.getAdjInflections(tokens[i-2].getReadings()), slaveInflections) ) {
       logException();
@@ -756,7 +784,7 @@ final class TokenAgreementAdjNounExceptionHelper {
     // оприлюднений депутатом Юрієм
     // вкриті плющем будинки
     // всі вкриті плющем
-    if( PosTagHelper.hasPosTagPart(adjAnalyzedTokenReadings, "adjp:pasv") // could be :&adjp or :&_adjp
+    if( PosTagHelper.hasPosTagPart(adjAnalyzedTokenReadings, "adjp:pasv") // could be :&adjp or :&&adjp
         && PosTagHelper.hasPosTagPart(tokens[i], "v_oru") ) {
       logException();
       return true;
@@ -792,7 +820,7 @@ final class TokenAgreementAdjNounExceptionHelper {
           && PosTagHelper.hasPosTagPart(tokens[i+1], "noun:") ) {
 
         // вдячний редакторові Вільяму
-//        if( PosTagHelper.hasPosTag(tokens[i+1], "noun:anim.*([fl]name|patr).*")
+//        if( PosTagHelper.hasPosTag(tokens[i+1], "noun:anim.*?[flp]name.*")
 //            && caseGovernmentMatches(adjTokenReadings, InflectionHelper.getNounInflections(tokens[i+1].getReadings())) ) {
 //          logException();
 //          return true;
@@ -841,17 +869,6 @@ final class TokenAgreementAdjNounExceptionHelper {
     // not an exception
     return false;
   }
-
-  
-
-  private static void logException() {
-    if( TokenAgreementAdjNounRule.DEBUG ) {
-      StackTraceElement stackTraceElement = new Exception().getStackTrace()[1];
-      System.err.println("exception: " + stackTraceElement.getFileName() + ": " + stackTraceElement.getLineNumber());
-//      logger.debug("exception: " + stackTraceElement.getFileName() + ": " + stackTraceElement.getLineNumber());
-    }
-  }
-
 
 
   private static boolean genderMatches(List<InflectionHelper.Inflection> masterInflections, List<InflectionHelper.Inflection> slaveInflections, String masterCaseFilter, String slaveCaseFilter) {
@@ -916,6 +933,13 @@ final class TokenAgreementAdjNounExceptionHelper {
       }
     }
     return false;
+  }
+  
+  private static void logException() {
+    if( logger.isDebugEnabled() ) {
+      StackTraceElement stackTraceElement = Thread.currentThread().getStackTrace()[2];
+      logger.debug("exception: " /*+ stackTraceElement.getFileName()*/ + stackTraceElement.getLineNumber());
+    }
   }
 
 

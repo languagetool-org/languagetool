@@ -65,6 +65,13 @@ public class CommandLineOptions {
   @Nullable
   private File languageModel = null;
   @Nullable
+  private File word2vecModel = null;
+
+  @Nullable
+  private File fasttextModel = null;
+  @Nullable
+  private File fasttextBinary = null;
+  @Nullable
   private String encoding = null;
   @Nullable
   private String filename = null;
@@ -235,6 +242,54 @@ public class CommandLineOptions {
   public void setLanguageModel(File languageModel) {
     this.languageModel = languageModel;
   }
+
+  /**
+   * @return a directory with a word2vec language model for use with neural network rules in sub directories like ({@code en}), or {@code null}
+   * @since 4.0
+   */
+  @Nullable
+  public File getWord2VecModel() {
+    return word2vecModel;
+  }
+
+  /**
+   * @since 4.0
+   */
+  public void setWord2VecModel(File neuralNetworkLanguageModel) {
+    this.word2vecModel = neuralNetworkLanguageModel;
+  }
+
+
+  /**
+   * @since 4.3
+   */
+  @Nullable
+  public File getFasttextModel() {
+    return fasttextModel;
+  }
+
+  /**
+   * @since 4.3
+   */
+  public void setFasttextModel(File fasttextModel) {
+    this.fasttextModel = fasttextModel;
+  }
+
+  /**
+   * @since 4.3
+   */
+  @Nullable
+  public File getFasttextBinary() {
+    return fasttextBinary;
+  }
+
+  /**
+   * @since 4.3
+   */
+  public void setFasttextBinary(File fasttextBinary) {
+    this.fasttextBinary = fasttextBinary;
+  }
+
 
   /**
    * @return an additional rule file name to use

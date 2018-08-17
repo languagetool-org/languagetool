@@ -32,13 +32,13 @@ import static org.junit.Assert.assertEquals;
 
 
 public class SimpleReplaceRuleTest {
+  private final JLanguageTool langTool = new JLanguageTool(new Ukrainian());
 
   @Test
   public void testRule() throws IOException {
     SimpleReplaceRule rule = new SimpleReplaceRule(TestTools.getEnglishMessages());
 
     RuleMatch[] matches;
-    JLanguageTool langTool = new JLanguageTool(new Ukrainian());
 
     // correct sentences:
     matches = rule.match(langTool.getAnalyzedSentence("Ці рядки повинні збігатися."));
@@ -66,4 +66,24 @@ public class SimpleReplaceRuleTest {
     matches = rule.match(langTool.getAnalyzedSentence("щедроти"));
     assertEquals(0, matches.length);
   }
+  
+  @Test
+  public void testRulePartOfMultiword() throws IOException {
+    SimpleReplaceRule rule = new SimpleReplaceRule(TestTools.getEnglishMessages());
+
+    RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("на думку проводжаючих"));
+    assertEquals(1, matches.length);
+  }
+
+  @Test
+  public void testRuleByTag() throws IOException {
+    SimpleReplaceRule rule = new SimpleReplaceRule(TestTools.getEnglishMessages());
+
+    RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("спороутворюючого"));
+    assertEquals(1, matches.length);
+
+    matches = rule.match(langTool.getAnalyzedSentence("примкнувшим"));
+    assertEquals(1, matches.length);
+  }
+
 }

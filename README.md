@@ -21,18 +21,7 @@ For more technical details, see [our wiki](http://wiki.languagetool.org).
 #### Scripted installation and building
 To install or build using a script, simply type:
 ```
-curl -L https://bit.ly/2kfvAha | sudo bash <options>
-```
-
-If you're feeling paranoid and want to ensure the script is safe before running it as root, type:
-
-```
-curl -L https://bit.ly/2kfvAha -o install.sh
-openssl dgst -SHA256 install.sh
-```
-If the output of the checksum matches the checksums listed at `install.sh.DIGESTS`, proceed. You can replace SHA256 with any secure checksum listed.
-
-```
+curl -L https://git.io/vNqdP | sudo bash <options>
 sudo bash install.sh <options>
 ```
 

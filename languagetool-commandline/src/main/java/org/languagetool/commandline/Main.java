@@ -18,25 +18,6 @@
  */
 package org.languagetool.commandline;
 
-import static org.languagetool.tools.StringTools.filterXML;
-import static org.languagetool.tools.StringTools.readerToString;
-
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import javax.xml.parsers.ParserConfigurationException;
-
 import org.apache.commons.io.ByteOrderMark;
 import org.apache.commons.io.input.BOMInputStream;
 import org.languagetool.JLanguageTool;
@@ -55,6 +36,18 @@ import org.languagetool.tools.JnaTools;
 import org.languagetool.tools.StringTools.ApiPrintMode;
 import org.languagetool.tools.Tools;
 import org.xml.sax.SAXException;
+
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.*;
+import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static org.languagetool.tools.StringTools.filterXML;
+import static org.languagetool.tools.StringTools.readerToString;
 
 /**
  * The command line tool to check plain text files.
@@ -83,6 +76,9 @@ class Main {
     }
     if (options.getLanguageModel() != null) {
       lt.activateLanguageModelRules(options.getLanguageModel());
+    }
+    if (options.getWord2VecModel() != null) {
+      lt.activateWord2VecModelRules(options.getWord2VecModel());
     }
     Tools.selectRules(lt, options.getDisabledCategories(), options.getEnabledCategories(),
             new HashSet<>(options.getDisabledRules()), new HashSet<>(options.getEnabledRules()), options.isUseEnabledOnly());
@@ -437,8 +433,14 @@ class Main {
               "category ids (" + catIds + ") are correct");
     }
     if (languageHint != null) {
-      String spellHint = prg.isSpellCheckingActive() ?
-              "" : " (no spell checking active, specify a language variant like 'en-GB' if available)";
+      String spellHint = "";
+      if (!prg.isSpellCheckingActive()) {
+        if (prg.lt.getLanguage().isVariant()) {
+          spellHint = " (no spell checking active)";
+        } else {
+          spellHint = " (no spell checking active, specify a language variant like 'en-GB' if available)";
+        }
+      }
       System.err.println(languageHint + spellHint);
     }
     prg.setListUnknownWords(options.isListUnknown());
@@ -475,8 +477,9 @@ class Main {
     }
   }
 
-  private static Language detectLanguageOfString(String text) {
+  private Language detectLanguageOfString(String text) {
     LanguageIdentifier identifier = new LanguageIdentifier();
+    identifier.enableFasttext(options.getFasttextBinary(), options.getFasttextModel());
     return identifier.detectLanguage(text);
   }
 

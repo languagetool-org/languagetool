@@ -43,14 +43,17 @@ import java.util.stream.Collectors;
 class AutomaticConfusionRuleEvaluator {
   
   private static final String LANGUAGE = "en";
-  private static final boolean CASE_SENSITIVE = false;
+  private static final boolean CASE_SENSITIVE = true;
   private static final int MAX_EXAMPLES = 1000;
+  private static final int MIN_EXAMPLES = 50;
   private static final List<Long> EVAL_FACTORS = Arrays.asList(10L, 100L, 1_000L, 10_000L, 100_000L, 1_000_000L, 10_000_000L);
-  private static final float MIN_PRECISION = 0.99f;
+  private static final float MIN_PRECISION = 0.95f;
   private static final float MIN_RECALL = 0.1f;
+  private static final String LUCENE_CONTENT_FIELD = "field";
 
   private final IndexSearcher searcher;
   private final Map<String, List<ConfusionSet>> knownSets;
+  private final Set<String> finishedPairs = new HashSet<>();
   
   private int ignored = 0;
 
@@ -65,7 +68,9 @@ class AutomaticConfusionRuleEvaluator {
     Language language = Languages.getLanguageForShortCode(LANGUAGE);
     LanguageModel lm = new LuceneLanguageModel(indexDir);
     ConfusionRuleEvaluator evaluator = new ConfusionRuleEvaluator(language, lm, CASE_SENSITIVE);
+    int lineCount = 0;
     for (String line : lines) {
+      lineCount++;
       if (line.contains("#")) {
         System.out.println("Ignoring: " + line);
         continue;
@@ -79,7 +84,7 @@ class AutomaticConfusionRuleEvaluator {
         for (String part : parts) {
           // compare pair-wise - maybe we should compare every item with every other item?
           if (i < parts.length) {
-            runOnPair(evaluator, line, removeComment(part), removeComment(parts[i]));
+            runOnPair(evaluator, line, lineCount, lines.size(), removeComment(part), removeComment(parts[i]));
           }
           i++;
         }
@@ -94,7 +99,11 @@ class AutomaticConfusionRuleEvaluator {
     return str.replaceFirst("\\|.*", "");
   }
 
-  private void runOnPair(ConfusionRuleEvaluator evaluator, String line, String part1, String part2) throws IOException {
+  private void runOnPair(ConfusionRuleEvaluator evaluator, String line, int lineCount, int totalLines, String part1, String part2) throws IOException {
+    if (finishedPairs.contains(part1 + "/" + part2) || finishedPairs.contains(part2 + "/" + part1)) {
+      System.out.println("Ignoring: " + part1 + "/" + part2 + ", finished before");
+      return;
+    }
     for (Map.Entry<String, List<ConfusionSet>> entry : knownSets.entrySet()) {
       if (entry.getKey().equals(part1)) {
         List<ConfusionSet> confusionSet = entry.getValue();
@@ -108,17 +117,22 @@ class AutomaticConfusionRuleEvaluator {
         }
       }
     }
-    System.out.println("Working on: " + line);
-    File sentencesFile = writeExampleSentencesToTempFile(new String[]{part1, part2});
-    List<String> input = Arrays.asList(sentencesFile.getAbsolutePath());
-    Map<Long, ConfusionRuleEvaluator.EvalResult> results = evaluator.run(input, part1, part2, MAX_EXAMPLES, EVAL_FACTORS);
-    Map<Long, ConfusionRuleEvaluator.EvalResult> bestResults = findBestFactor(results);
-    if (bestResults.size() > 0) {
-      for (Map.Entry<Long, ConfusionRuleEvaluator.EvalResult> entry : bestResults.entrySet()) {
-        System.out.println("=> " + entry.getValue().getSummary());
+    System.out.println("Working on: " + line + " (" + lineCount + " of " + totalLines + ")");
+    try {
+      File sentencesFile = writeExampleSentencesToTempFile(new String[]{part1, part2});
+      List<String> input = Arrays.asList(sentencesFile.getAbsolutePath());
+      Map<Long, ConfusionRuleEvaluator.EvalResult> results = evaluator.run(input, part1, part2, MAX_EXAMPLES, EVAL_FACTORS);
+      Map<Long, ConfusionRuleEvaluator.EvalResult> bestResults = findBestFactor(results);
+      if (bestResults.size() > 0) {
+        for (Map.Entry<Long, ConfusionRuleEvaluator.EvalResult> entry : bestResults.entrySet()) {
+          System.out.println("=> " + entry.getValue().getSummary());
+        }
+      } else {
+        System.out.println("No good result found for " + part1 + "/" + part2);
       }
-    } else {
-      System.out.println("No good result found for " + part1 + "/" + part2);
+      finishedPairs.add(part1 + "/" + part2);
+    } catch (TooFewExamples e) {
+      System.out.println("Skipping " + part1 + "/" + part2 + ", too few examples: " + e.getMessage());
     }
   }
 
@@ -136,35 +150,50 @@ class AutomaticConfusionRuleEvaluator {
 
   private File writeExampleSentencesToTempFile(String[] words) throws IOException {
     File tempFile = new File("/tmp/example-sentences.txt");
+    int count = 0;
     try (FileWriter fw = new FileWriter(tempFile)) {
       for (String word : words) {
-        findExampleSentences(word, fw);
+        int tmpCount = findExampleSentences(word, fw);
+        if (tmpCount <= MIN_EXAMPLES) {
+          throw new TooFewExamples(word, tmpCount);
+        }
+        count += tmpCount;
       }
-      System.out.println("Example sentences written to " + tempFile);
+      System.out.println(count + " example sentences written to " + tempFile);
     }
     return tempFile;
   }
 
-  private void findExampleSentences(String word, FileWriter fw) throws IOException {
-    Term term = new Term(TextIndexCreator.FIELD, CASE_SENSITIVE ? word.toLowerCase() : word);
-    TopDocs topDocs = searcher.search(new TermQuery(term), CASE_SENSITIVE ? Integer.MAX_VALUE : MAX_EXAMPLES);
+  private int findExampleSentences(String word, FileWriter fw) throws IOException {
+    Term term = new Term(LUCENE_CONTENT_FIELD, CASE_SENSITIVE ? word.toLowerCase() : word);
+    long t1 = System.currentTimeMillis();
+    //TopDocs topDocs = searcher.search(new TermQuery(term), CASE_SENSITIVE ? Integer.MAX_VALUE : MAX_EXAMPLES);
+    TopDocs topDocs = searcher.search(new TermQuery(term), MAX_EXAMPLES);
+    long t2 = System.currentTimeMillis();
     int count = 0;
+    Set<String> foundSentences = new HashSet<>();
     for (ScoreDoc scoreDoc : topDocs.scoreDocs) {
-      String sentence = searcher.doc(scoreDoc.doc).get(TextIndexCreator.FIELD);
+      String sentence = searcher.doc(scoreDoc.doc).get(LUCENE_CONTENT_FIELD);
       if (CASE_SENSITIVE) {
-        if (sentence.contains(word)) {
+        if (sentence.contains(word) && !foundSentences.contains(sentence)) {
           fw.write(sentence + "\n");
+          foundSentences.add(sentence);
           count++;
         }
-      } else {
+      } else if (!foundSentences.contains(sentence)) {
         fw.write(sentence + "\n");
+        foundSentences.add(sentence);
         count++;
       }
       if (count > MAX_EXAMPLES) {
         break;
       }
     }
-    System.out.println("Found " + count + " examples for " + word);
+    long t3 = System.currentTimeMillis();
+    long searchTime = t2 - t1;
+    long iterateTime = t3 - t2;
+    System.out.println("Found " + count + " examples for " + word + " (" + searchTime + "ms, " + iterateTime + "ms)");
+    return count;
   }
 
   public static void main(String[] args) throws IOException {
@@ -179,4 +208,16 @@ class AutomaticConfusionRuleEvaluator {
     eval.run(lines, new File(args[2]));
   }
 
+  class TooFewExamples extends RuntimeException {
+    private String word;
+    private int exampleCount;
+    TooFewExamples(String word, int exampleCount) {
+      this.word = word;
+      this.exampleCount = exampleCount;
+    }
+    @Override
+    public String getMessage() {
+      return exampleCount + " matches for " + word;
+    }
+  }
 }

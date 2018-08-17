@@ -906,6 +906,7 @@ public final class Main {
     if (config.getRunServer()) {
       try {
         HTTPServerConfig serverConfig = new HTTPServerConfig(config.getServerPort(), false);
+        serverConfig.setAllowOriginUrl("*");    // needed for Firefox so this server can be used from the add-on
         httpServer = new HTTPServer(serverConfig, true);
         httpServer.run();
         if (enableHttpServerItem != null) {
@@ -1753,7 +1754,6 @@ public final class Main {
      *  <li>TextLineNumber.CENTER
      *  <li>TextLineNumber.RIGHT (default)
      *  </ul>
-     *  @param currentLineForeground  the Color used to render the current line
      */
     public void setDigitAlignment(float digitAlignment)  {
       this.digitAlignment =

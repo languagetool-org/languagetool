@@ -24,6 +24,7 @@ import org.languagetool.databroker.ResourceDataBroker;
 import org.languagetool.language.Contributor;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.Rule;
+import org.languagetool.rules.neuralnetwork.Word2VecModel;
 import org.languagetool.rules.patterns.*;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.tagging.Tagger;
@@ -101,7 +102,7 @@ public abstract class Language {
    * Get the rules classes that should run for texts in this language.
    * @since 1.4 (signature modified in 2.7)
    */
-  public abstract List<Rule> getRelevantRules(ResourceBundle messages) throws IOException;
+  public abstract List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig) throws IOException;
 
   // -------------------------------------------------------------------------
 
@@ -153,6 +154,25 @@ public abstract class Language {
    * @since 2.7
    */
   public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel) throws IOException {
+    return Collections.emptyList();
+  }
+
+  /**
+   * @param indexDir directory with a subdirectories like 'en', each containing dictionary.txt and final_embeddings.txt
+   * @return a {@link Word2VecModel} or {@code null} if this language doesn't support one
+   * @since 4.0
+   */
+  @Nullable
+  public Word2VecModel getWord2VecModel(File indexDir) throws IOException {
+    return null;
+  }
+
+  /**
+   * Get a list of rules that require a {@link Word2VecModel}. Returns an empty list for
+   * languages that don't have such rules.
+   * @since 4.0
+   */
+  public List<Rule> getRelevantWord2VecModelRules(ResourceBundle messages, Word2VecModel word2vecModel) throws IOException {
     return Collections.emptyList();
   }
 
@@ -334,7 +354,7 @@ public abstract class Language {
    */
   @SuppressWarnings("resource")
   protected synchronized List<AbstractPatternRule> getPatternRules() throws IOException {
-    // use lazy loading to speed up start of stand-alone LT, where all the languages get initialized:
+    // use lazy loading to speed up server use case and start of stand-alone LT, where all the languages get initialized:
     if (patternRules == null) {
       List<AbstractPatternRule> rules = new ArrayList<>();
       PatternRuleLoader ruleLoader = new PatternRuleLoader();

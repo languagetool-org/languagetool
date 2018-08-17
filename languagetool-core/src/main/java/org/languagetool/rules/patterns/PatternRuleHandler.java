@@ -93,7 +93,8 @@ public class PatternRuleHandler extends XMLRuleHandler {
         Category.Location location = YES.equals(attrs.getValue(EXTERNAL)) ?
                 Category.Location.EXTERNAL : Category.Location.INTERNAL;
         boolean onByDefault = !OFF.equals(attrs.getValue(DEFAULT));
-        category = new Category(catId != null ? new CategoryId(catId) : null, catName, location, onByDefault);
+        String tabName = attrs.getValue(TABNAME);
+        category = new Category(catId != null ? new CategoryId(catId) : null, catName, location, onByDefault, tabName);
         if (attrs.getValue(TYPE) != null) {
           categoryIssueType = attrs.getValue(TYPE);
         }
@@ -560,11 +561,28 @@ public class PatternRuleHandler extends XMLRuleHandler {
     } else {
       PatternToken patternToken = elemList.get(numElement);
       if (patternToken.hasOrGroup()) {
+
+
+
+        // When creating a new rule, we finally clear the backed-up variables. All the elements in
+        // the OR group should share the values of backed-up variables. That's why these variables
+        // are backed-up.
+        List<Match> suggestionMatchesBackup = new ArrayList<>(suggestionMatches);
+        List<Match> suggestionMatchesOutMsgBackup =  new ArrayList<>(suggestionMatchesOutMsg);
+        int startPosBackup = startPos;
+        int endPosBackup = endPos;
+        List<DisambiguationPatternRule> ruleAntiPatternsBackup = new ArrayList<>(ruleAntiPatterns);
         for (PatternToken patternTokenOfOrGroup : patternToken.getOrGroup()) {
           List<PatternToken> tmpElements2 = new ArrayList<>();
           tmpElements2.addAll(tmpPatternTokens);
           tmpElements2.add((PatternToken) ObjectUtils.clone(patternTokenOfOrGroup));
           createRules(elemList, tmpElements2, numElement + 1);
+
+          startPos = startPosBackup;
+          endPos = endPosBackup;
+          suggestionMatches = suggestionMatchesBackup;
+          suggestionMatchesOutMsg = suggestionMatchesOutMsgBackup;
+          ruleAntiPatterns.addAll(ruleAntiPatternsBackup);
         }
       }
       tmpPatternTokens.add((PatternToken) ObjectUtils.clone(patternToken));

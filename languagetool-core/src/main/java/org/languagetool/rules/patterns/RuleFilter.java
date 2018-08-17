@@ -48,7 +48,7 @@ public abstract class RuleFilter {
 
   /** @since 3.2 */
   public boolean matches(Map<String, String> arguments, AnalyzedTokenReadings[] patternTokens) {
-    RuleMatch fakeMatch = new RuleMatch(new FakeRule(), 0, 1, "(internal rule)");
+    RuleMatch fakeMatch = new RuleMatch(new FakeRule(), null, 0, 1, "(internal rule)");
     return acceptRuleMatch(fakeMatch, arguments, patternTokens) != null;
   }
 

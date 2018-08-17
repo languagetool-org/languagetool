@@ -97,7 +97,7 @@ public class MissingVerbRule extends Rule {
       i++;
     }
     if (!verbFound && lastToken != null && sentence.getTokensWithoutWhitespace().length >= MIN_TOKENS_FOR_ERROR) {
-      RuleMatch match = new RuleMatch(this, 0, lastToken.getStartPos() + lastToken.getToken().length(), "Dieser Satz scheint kein Verb zu enthalten");
+      RuleMatch match = new RuleMatch(this, sentence, 0, lastToken.getStartPos() + lastToken.getToken().length(), "Dieser Satz scheint kein Verb zu enthalten");
       return new RuleMatch[]{ match };
     }
     return new RuleMatch[0];
@@ -108,9 +108,9 @@ public class MissingVerbRule extends Rule {
     AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
     if (tokens.length > 0) {
       AnalyzedTokenReadings lastToken = tokens[tokens.length - 1];
-      String lastTokenStr = lastToken.getToken();
-      if (lastTokenStr.equals(".") || lastTokenStr.equals("?") || lastTokenStr.equals("!")) {
-        return true;
+      if (lastToken.hasPosTag("PKT")) {
+        String lastTokenStr = lastToken.getToken();
+        return (lastTokenStr.equals(".") || lastTokenStr.equals("?") || lastTokenStr.equals("!"));
       }
     }
     return false;
@@ -128,12 +128,13 @@ public class MissingVerbRule extends Rule {
       return true;
     }
     // our dictionary doesn't know some imperative forms like "erzähl", but it knows "erzähle", so let's try that:
-    if (!lowercased.endsWith("e")) {
+    // Should be fixed by GermanTagger.getImperativeForm(String, List<String>, int)
+    /*if (!lowercased.endsWith("e")) {
       List<AnalyzedTokenReadings> lcImperativeReadings = language.getTagger().tag(Collections.singletonList(lowercased + "e"));
       if (lcImperativeReadings.size() > 0 && lcImperativeReadings.get(0).hasPartialPosTag("VER")) {
         return true;
       }
-    }
+    }*/
     return false;
   }
 

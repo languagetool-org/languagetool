@@ -178,15 +178,13 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
             mWorker.setTokenRef(refNumber);
             posSelector = mWorker;
           }
-        } else if (inToken) {
-          if (attrs.getValue(NO) != null) {
-            int refNumber = Integer.parseInt(attrs.getValue(NO));
-            refNumberSanityCheck(refNumber);
-            mWorker.setTokenRef(refNumber);
-            tokenReference = mWorker;
-            elements.append('\\');
-            elements.append(refNumber);
-          }
+        } else if (inToken && attrs.getValue(NO) != null) {
+          int refNumber = Integer.parseInt(attrs.getValue(NO));
+          refNumberSanityCheck(refNumber);
+          mWorker.setTokenRef(refNumber);
+          tokenReference = mWorker;
+          elements.append('\\');
+          elements.append(refNumber);
         }
         break;
       case RULEGROUP:

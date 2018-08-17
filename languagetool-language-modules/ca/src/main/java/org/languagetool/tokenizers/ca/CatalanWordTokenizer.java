@@ -44,7 +44,7 @@ public class CatalanWordTokenizer extends WordTokenizer {
   private final int maxPatterns = 11;
   private final Pattern[] patterns = new Pattern[maxPatterns];
   
-  private static final String DICT_FILENAME = "/ca/catalan.dict";
+  private static final String DICT_FILENAME = "/ca/ca-ES-valencia.dict";
   protected MorfologikSpeller speller;
 
   //Patterns to avoid splitting words in certain special cases

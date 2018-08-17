@@ -20,6 +20,7 @@ package org.languagetool.rules.de;
 
 import java.util.*;
 
+import org.apache.commons.lang3.StringUtils;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.*;
@@ -54,15 +55,21 @@ public class DashRule extends Rule {
     String prevToken = null;
     for (int i = 0; i < tokens.length; i++) {
       String token = tokens[i].getToken();
-      if (prevToken != null && !prevToken.equals("-") && !prevToken.contains("--") 
-          && !prevToken.contains("–-")    // first char is some special kind of dash, found in Wikipedia
-          && prevToken.endsWith("-")) {
+      if (prevToken != null &&
+          prevToken.endsWith("-") &&
+          !prevToken.equals("-") &&
+          !prevToken.contains("--") &&
+          !prevToken.contains("–-")    // first char is some special kind of dash, found in Wikipedia
+          ) {
         char firstChar = token.charAt(0);
         if (Character.isUpperCase(firstChar)) {
+          if (StringUtils.isAllUpperCase(token) && StringUtils.isAllUpperCase(prevToken.substring(0, prevToken.length()-1))) {
+            continue; // ignore "NORD- UND SÜDKOREA"
+          }
           String msg = "Möglicherweise fehlt ein 'und' oder ein Komma, oder es wurde nach dem Wort " +
             "ein überflüssiges Leerzeichen eingefügt. Eventuell haben Sie auch versehentlich einen Bindestrich statt eines Punktes eingefügt.";
           String shortMsg = "Fehlendes 'und' oder Komma oder überflüssiges Leerzeichen?";
-          RuleMatch ruleMatch = new RuleMatch(this, tokens[i-1].getStartPos(),
+          RuleMatch ruleMatch = new RuleMatch(this, sentence, tokens[i-1].getStartPos(),
               tokens[i-1].getStartPos()+prevToken.length()+1, msg, shortMsg);
           String prevTokenStr = tokens[i-1].getToken();
           ruleMatch.setSuggestedReplacements(Arrays.asList(prevTokenStr, prevTokenStr + ", "));

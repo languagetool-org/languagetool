@@ -332,7 +332,7 @@ class ResultAreaHelper implements LanguageToolListener, HyperlinkListener {
         if (uri.startsWith(DEACTIVATE_URL) || uri.startsWith(REACTIVATE_URL)) {
           handleRuleLinkClick(uri);
         } else {
-          handleHttpClick(url);
+          Tools.openURL(url);
         }
       } catch (Exception ex) {
         throw new RuntimeException("Could not handle URL click: " + url, ex);
@@ -352,14 +352,4 @@ class ResultAreaHelper implements LanguageToolListener, HyperlinkListener {
     ltSupport.checkImmediately(this);
   }
 
-  private void handleHttpClick(URL url) {
-    if (Desktop.isDesktopSupported()) {
-      try {
-        Desktop desktop = Desktop.getDesktop();
-        desktop.browse(url.toURI());
-      } catch (Exception ex) {
-        throw new RuntimeException("Could not open URL: " + url, ex);
-      }
-    }
-  }
 }

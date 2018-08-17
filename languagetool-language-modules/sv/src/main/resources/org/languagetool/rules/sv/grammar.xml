@@ -24,35 +24,35 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
   <!-- ====================================================================== -->
   <!-- Särskrivningar -->
   <!-- ====================================================================== -->
-  <category id="CAT1" name="Särskrivning rekomenderas">
+  <category id="CAT1" name="Särskrivning rekommenderas">
     <rule id="efter-hand" name="Särskrivning 'efterhand (efter hand)'">
       <pattern>
         <token>efterhand</token>
       </pattern>
-      <message> Felaktig sammanskrivning. Menade du <suggestion>efter hand</suggestion>?</message>
+      <message>Felaktig sammanskrivning. Menade du <suggestion>efter hand</suggestion>?</message>
       <example correction="efter hand">Det visade sig <marker>efterhand</marker> att orden borde särskrivas.</example>
     </rule>
   </category>
-  <category id="CAT2" name="Sammanskrivning rekomenderas">
+  <category id="CAT2" name="Sammanskrivning rekommenderas">
     <rule id="ALLT_MER" name="Allt mer bör ej särskrivas">
       <pattern>
         <token>allt</token>
         <token>mer</token>
       </pattern>
-      <message>Enligt tt-språket och svenska språknämnden bör ordet "<suggestion>alltmer</suggestion>" ej särskrivas.</message>
+      <message>Enligt tt-språket och Svenska språknämnden bör ordet "<suggestion>alltmer</suggestion>" ej särskrivas.</message>
       <example correction="alltmer">Det blir <marker>allt mer</marker> vanligt att folk särskriver.</example>
     </rule>
   </category>
   <!-- ====================================================================== -->
   <!-- Punkter efter förkortningar -->
   <!-- ====================================================================== -->
-  <category id="CAT3" name="punkter efter förkortningar">
+  <category id="CAT3" name="Punkt vid förkortning">
     <rule id="M_FL" name="Förkortningen skrivs normalt med punkter (m.fl.)">
       <pattern>
         <token>m</token>
         <token>fl</token>
       </pattern>
-      <message> Denna förkortning skrivs i regel med punkter: <suggestion>m.fl.</suggestion>. </message>
+      <message>Denna förkortning skrivs i regel med punkter: <suggestion>m.fl.</suggestion>.</message>
       <example correction="m.fl.">Vi tar med oss Maria, Jens, Sara <marker>m fl</marker> och åker till Jönköping.</example>
     </rule>
     <rule default="off" id="T_EX"
@@ -61,25 +61,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <token>t</token>
         <token>ex</token>
       </pattern>
-      <message> Denna förkortning skrivs i regel med punkter: <suggestion>t.ex.</suggestion>. </message>
-      <example> Vi tar <marker>t.ex.</marker> fem myror och fyra elefanter. </example>
-      <example correction="t.ex."> Vi tar <marker>t ex</marker> fem myror och fyra elefanter. </example>
+      <message>Denna förkortning skrivs i regel med punkter: <suggestion>t.ex.</suggestion>.</message>
+      <example>Vi tar <marker>t.ex.</marker> fem myror och fyra elefanter. </example>
+      <example correction="t.ex.">Vi tar <marker>t ex</marker> fem myror och fyra elefanter.</example>
     </rule>
     <rule default="off" id="TEX"
           name="Förkortningen skrivs normalt med punkter (t.ex.)">
       <pattern>
         <token>tex</token>
       </pattern>
-      <message> Denna förkortning skrivs i regel med punkter: <suggestion>t.ex.</suggestion>. </message>
-      <example> Vi tar <marker>t.ex.</marker> fem myror och fyra elefanter. </example>
-      <example correction="t.ex."> Vi tar <marker>tex</marker> fem myror och fyra elefanter. </example>
+      <message>Denna förkortning skrivs i regel med punkter: <suggestion>t.ex.</suggestion>. </message>
+      <example>Vi tar <marker>t.ex.</marker> fem myror och fyra elefanter. </example>
+      <example correction="t.ex.">Vi tar <marker>tex</marker> fem myror och fyra elefanter. </example>
     </rule>
   </category>
   <!-- ====================================================================== -->
   <!-- Grammatik -->
   <!-- ====================================================================== -->
   <category id="GRAMMAR" name="Grammatik">
-    <rule id="JJ.OCH_n-ord" name="Rätt böjning på adjektivet">
+    <rule id="JJ.OCH_n-ord" name="Rätt böjning av adjektivet">
       <pattern>
         <token>ett</token>
         <token postag="JJ:P." postag_regexp="yes">
@@ -88,22 +88,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <!-- All adjectives except the ones in neuter -->
         <token postag="NN:OF:S.*" postag_regexp="yes"/>
       </pattern>
-      <message> Adjektivet är böjt i positiv utrum (\2) och borde då föregås av ordet "en" istället för "ett" alternativt böjas i positiv neutrum. Menade du: <suggestion>en \2 \3</suggestion>.</message>
-      <example correction="en mörk kväll"> Det var <marker>ett mörk kväll</marker>. </example>
+      <message>Adjektivet är böjt i positiv utrum (\2) och bör då föregås av ordet "en" istället för "ett", alternativt böjas i positiv neutrum. Menade du: <suggestion>en \2 \3</suggestion>?</message>
+      <example correction="en mörk kväll">Det var <marker>ett mörk kväll</marker>. </example>
     </rule>
-    <rulegroup id="FORRE_INNAN_TITEL" name="Förre innan titel">
+    <rulegroup id="FORRE_FORE_TITEL" name="Förre före titel">
       <rule>
         <pattern case_sensitive="no">
           <token>förra</token>
           <token regexp="yes">chefen|ordförande</token>
           <token regexp="yes">på|för</token>
         </pattern>
-        <message>Innan titlar bör det stå <suggestion>förre \2 \3</suggestion> och inte förra \2 \3. Detta är oavsätt om det är en kvinna eller man som innehaft posten.</message>
+        <message>Före titlar bör det stå <suggestion>förre \2 \3</suggestion> och inte förra \2 \3. Detta oavsett om det är en kvinna eller man som innehaft posten.</message>
         <example correction="Förre chefen på"><marker>Förra chefen på</marker> Arla var en trevlig prick.</example>
       </rule>
     </rulegroup>
-    <rule id="EJ_INNAN_ATT"
-          name="Ord som ej bör stå innan infinitivmärket &quot;att&quot;">
+    <rule id="EJ_FORE_ATT"
+          name="Ord som ej bör stå före infinitivmärket &quot;att&quot;">
       <pattern case_sensitive="no">
         <token regexp="yes">kunde|brukade</token>
         <token>att</token>
@@ -111,7 +111,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <message>Infinitivmärket "att" bör inte förekomma efter <suggestion>\1</suggestion>.</message>
       <example correction="brukade">Han <marker>brukade att</marker> komma sent.</example>
     </rule>   
-    <rule id="JJ.OCH_t-ord" name="Rätt böjning på adjektivet">
+    <rule id="JJ.OCH_t-ord" name="Rätt böjning av adjektivet">
       <pattern>
         <token>en</token>
         <token postag="JJ:P." postag_regexp="yes">
@@ -119,11 +119,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </token>
         <token postag="NN:OF:S.*" postag_regexp="yes"/>
       </pattern>
-      <message> Adjektivet "\2" är böjt i positiv neutrum och borde då föregås av ordet "ett" istället för "en" alternativt böjas i positiv utrum. <suggestion>ett \2 \3</suggestion></message>
-      <example correction="ett mörkt rum"> Det var <marker>en mörkt rum</marker>. </example>
+      <message>Adjektivet "\2" är böjt i positiv neutrum och bör då föregås av ordet "ett" istället för "en", alternativt böjas i positiv utrum. <suggestion>ett \2 \3</suggestion></message>
+      <example correction="ett mörkt rum">Det var <marker>en mörkt rum</marker>. </example>
     </rule>
     <!-- Ett försök att fånga upp anföringsverb som ska föregås av ett kommatecken -->
-    <rule id="KommaInnanAnfoeringsverb" name="Komma innan anföringsverb" default="off">
+    <rule id="KommaFoereAnfoeringsverb" name="Kommatecken före anföringsverb" default="off">
       <pattern>
         <token><exception regexp="yes">,|vad|visst</exception></token>
         <marker>
@@ -131,7 +131,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token postag="PM:.*" postag_regexp="yes"/>
         </marker>
       </pattern>
-      <message>Kommatecken ska sättas ut innan anföringsverb, dvs. <suggestion>, \2 \3</suggestion></message>
+      <message>Kommatecken ska sättas ut före anföringsverb, dvs. <suggestion>, \2 \3</suggestion></message>
       <example>Det var finfint<marker>, sade Johan</marker>.</example>
       <example correction=", sade Johan">Det var finfint<marker> sade Johan</marker>.</example>
     </rule>
@@ -153,14 +153,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <pattern>
         <token>överrens</token>
       </pattern>
-      <message>Du menar sannolikt <suggestion>överens</suggestion>.</message>
-      <example correction="överens"> Flickorna kom <marker>överrens</marker>. </example>
+      <message>Du menar antagligen <suggestion>överens</suggestion>.</message>
+      <example correction="överens">Flickorna kom <marker>överrens</marker>. </example>
     </rule>
     <rule id="MASERA" name="mas_era">
       <pattern>
         <token>masera</token>
       </pattern>
-      <message>Du menar sannolikt <suggestion>massera</suggestion> om du inte skriver om masarnas era förstås.</message>
+      <message>Du menar antagligen <suggestion>massera</suggestion> om du inte skriver om masarnas era förstås.</message>
       <example correction="massera">Kan du <marker>masera</marker> mig?</example>
     </rule>
   </category>
@@ -172,7 +172,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <token regexp="yes">möjligaste|så</token>
         <token>motto</token>
       </pattern>
-      <message>I dessa uttryck används ordet måtto (från måtta) och inte motto (som betyder ung. slagord)</message>
+      <message>I dessa uttryck används ordet måtto (från måtta) och inte motto (som betyder ung. valspråk)</message>
       <example>Alla hinder bör <marker>i möjligaste måtto</marker> undanröjas.</example>
       <example correction="">Alla hinder bör <marker>i möjligaste motto</marker> undanröjas.</example>
     </rule>
@@ -180,7 +180,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
   <!-- ====================================================================== -->
   <!-- Ord som hör ihop -->
   <!-- ====================================================================== -->
-  <category id="CAT5" name="Ord som hor ihop">
+  <category id="CAT5" name="Ord som hör ihop">
     <rule id="AD" name="ad ...">
       <pattern>
         <token>ad</token>
@@ -188,7 +188,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <exception regexp="yes">hoc|notam|acta</exception>
         </token>
       </pattern>
-      <message>Detta ord brukar sällan stå ensamt på svenska menade du <suggestion>ad hoc</suggestion>, <suggestion>ad acta</suggestion> eller <suggestion>ad notam</suggestion>?</message>
+      <message>Detta ord brukar sällan stå ensamt på svenska. Menade du <suggestion>ad hoc</suggestion>, <suggestion>ad acta</suggestion> eller <suggestion>ad notam</suggestion>?</message>
       <example correction="ad hoc|ad acta|ad notam">
         <marker>ad foobar</marker>
       </example>
@@ -203,7 +203,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <exception regexp="yes">angeles|lobos</exception>
         </token>
       </pattern>
-      <message>Menar du "<suggestion>loss</suggestion>" som i släpp taget om, eller är det en del av ett namn.</message>
+      <message>Menade du "<suggestion>loss</suggestion>" som i "släppa taget om", eller är det en del av ett namn?</message>
       <example>Los Angeles</example>
       <example correction="Loss"><marker>Los</marker> Foobar</example>
     </rule>
@@ -238,7 +238,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </pattern>
       <message>Siffror med ändelser binds ihop med ett kolon: <suggestion><match
             no="1" regexp_match="^([3-90]|[\d]*[3-90])([ae])"
-            regexp_replace="$1:$2"></match></suggestion></message>      
+            regexp_replace="$1:$2"></match></suggestion></message>
       <example>Han kom på 5:e plats</example>
       <example correction="5:e">Han kom på <marker>5e</marker> plats</example>
     </rule>
@@ -247,7 +247,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 Kontamination
 dvs. ihopblandning av besläktade ord. 
 Exempelvis "ta självmord" vilket antingen heter:
-begå självmord eller "ta sitt liv"
+"begå självmord" eller "ta sitt liv"
 ===============================================-->
   <category id="CAT7" name="Kontamination">
     <rule id="PLANER_OM" name="PLANER_OM">
@@ -255,7 +255,7 @@ begå självmord eller "ta sitt liv"
         <token>planer</token>
         <token>om</token>
       </pattern>
-      <message>Undvik att blanda konstruktioner. Planer om borde vara <suggestion>planer på</suggestion> eller <suggestion>drömmar om</suggestion>.</message>
+      <message>Undvik att blanda konstruktioner. "Planer om" bör vara "<suggestion>planer på</suggestion>" eller "<suggestion>drömmar om</suggestion>".</message>
       <example correction="planer på|drömmar om">Hon hade stora <marker>planer om</marker> det nya systemet.</example>
       <example>Hon hade stora <marker>drömmar om</marker> det nya systemet</example>
       <example>Hon hade stora <marker>planer på</marker> förändringar.</example>
@@ -268,17 +268,17 @@ begå självmord eller "ta sitt liv"
         <token>till</token>
         <token/>
       </pattern>
-      <message>Undvik att blanda tva konstruktioner. Skriv hellre <suggestion>\1 \2 \3 och \5</suggestion> än \1 \2 \3 \4 \5.</message>
+      <message>Undvik att blanda två konstruktioner. Skriv hellre <suggestion>\1 \2 \3 och \5</suggestion> än \1 \2 \3 \4 \5.</message>
       <example correction="Mellan klockan två och fyra"><marker>Mellan klockan två till fyra</marker>.</example>
     </rule>
-    <rule id="TA_SJALVMORD" name="Ta_sjalvmord">
+    <rule id="TA_SJALVMORD" name="Ta självmord">
       <pattern case_sensitive="no">
         <token>ta</token>
         <token>självmord</token>
       </pattern>
-      <message>Undvik att blanda konstruktioner. "Ta självmord" borde vara <suggestion>begå självmord</suggestion>, <suggestion>ta ditt liv</suggestion> eller <suggestion>ta sitt liv</suggestion>.</message>
-      <example correction="begå självmord|ta ditt liv|ta sitt liv">Har du nagonsin funderat pa att <marker>ta självmord</marker>.</example>
-      <example>Har du nagonsin funderat pa att <marker>begå självmord</marker>.</example>
+      <message>Undvik att blanda konstruktioner. "Ta självmord" bör vara "<suggestion>begå självmord</suggestion>", "<suggestion>ta ditt liv</suggestion>" eller "<suggestion>ta sitt liv</suggestion>".</message>
+      <example correction="begå självmord|ta ditt liv|ta sitt liv">Har du någonsin funderat på att <marker>ta självmord</marker>.</example>
+      <example>Har du någonsin funderat på att <marker>begå självmord</marker>.</example>
     </rule>
     <rule id="MELLAN_SYD_TILL_NORD" name="Mellan syd till nord">
       <pattern>
@@ -306,7 +306,7 @@ begå självmord eller "ta sitt liv"
         <token>klagomål</token>
         <token>över</token>
       </pattern>
-      <message>Du framför <suggestion>klagomål mot</suggestion> någon, inte över.</message>
+      <message>Man framför <suggestion>klagomål mot</suggestion> någon, inte "över" någon.</message>
       <example correction="klagomål mot">Maria framförde sina <marker>klagomål över</marker> socialen.</example>
     </rule>
     <rule id="ANGRA_PA_ATT" name="Ångra på att &gt; Ångra att">
@@ -315,7 +315,7 @@ begå självmord eller "ta sitt liv"
         <token>på</token>
         <token>att</token>
       </pattern>
-      <message>Du ångrar inte "på" något utan du ångrar något. Skriv därför inte "\1 \2 \3" utan skriv <suggestion>\1 \3</suggestion>.</message>
+      <message>Man ångrar inte "på" något utan man ångrar något. Skriv därför inte "\1 \2 \3" utan skriv <suggestion>\1 \3</suggestion>.</message>
       <example correction="ångrade att">Hon <marker>ångrade på att</marker> hon suttit ensam hemma den fredagen.</example>
     </rule>
   </category>

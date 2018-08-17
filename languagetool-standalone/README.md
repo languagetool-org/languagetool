@@ -4,14 +4,14 @@
 Polish, Chinese, French, Russian, Italian, Dutch
 and [more languages](https://www.languagetool.org/languages/)**
 
-Version 4.0-SNAPSHOT, 2017-xx-xx  
-Copyright (C) 2005-2017 the LanguageTool community and Daniel Naber (www.danielnaber.de)  
-Homepage: https://www.languagetool.org
+Version 4.2, 2018-06-26  
+Copyright (C) 2005-2018 the LanguageTool community and Daniel Naber (www.danielnaber.de)  
+https://www.languagetool.org
 
 
 ## Requirements
 
-* Java 8 or later (when using with Java 9, see https://forum.languagetool.org/t/lt-and-java-9/1588)
+* Java 8 or later
 * For LibreOffice/OpenOffice.org integration:
     * LibreOffice 3.5.4 (or later) or
     * Apache OpenOffice 3.4.1 (or later)
@@ -23,12 +23,12 @@ Homepage: https://www.languagetool.org
 
 To integrate LanguageTool into LibreOffice or OpenOffice.org, you can use two methods:
 
-* Double-click `LanguageTool-3.9.oxt`. The extension should
+* Double-click `LanguageTool-4.2.oxt`. The extension should
    start installing. Follow the on-screen instructions.
 
 * If the above method doesn't work, call `Tools > Extension
    Manager > Add...` in LibreOffice/OpenOffice.org and browse for the
-   `LanguageTool-3.9.oxt` file.
+   `LanguageTool-4.2.oxt` file.
 
 Close and restart LibreOffice/OpenOffice.org Writer. Remember to close
 the QuickStarter as well if you use it. Type text with
@@ -61,10 +61,6 @@ Please see https://www.languagetool.org/issues/ if you experience problems.
 
 To use the stand-alone version, double click on the `languagetool.jar` file
 or call `java -jar languagetool.jar` from the command line.
-
-When using Java 9, start LanguageTool using `java --add-modules java.xml.bind -jar languagetool.jar`.
-Without that parameter, you'd get an `java.lang.NoClassDefFoundError: javax/xml/bind/JAXBException`
-error.
 
 ### Command-line version
 
@@ -115,7 +111,7 @@ Contributor(s): Xesús González Rato <esbardu@softastur.org>
 Spellchecker dictionary is based on dict-be-official-2008-20140108.oxt from http://bnkorpus.info/download.html 
 under Creative Commons Attribution/Share-Alike 3.0.
 
-####  Breton
+#### Breton
 
 The Breton data for part-of-speech tagging is based on the Apertium Breton
 dictionary under GNU General Public License with permission of its authors:
@@ -312,10 +308,10 @@ The Romanian data for part-of-speech tagging is developed by Ionuț Păduraru
 
 Russian dictionary originally developed by www.aot.ru and licensed under LGPL.
 (http://www.aot.ru) or (http://sourceforge.net/p/seman/svn/HEAD/tree/trunk/Dicts/SrcMorph/RusSrc/) file (morphs.mrd).
-It was partially converted to fsa format in 2008-2011, 2014, 2016, 2017 by Yakov Reztsov.
+It was partially converted to fsa format in 2008-2011, 2014, 2016, 2017, 2018 by Yakov Reztsov.
 Frequency information for spell-checking dictionary from (www.aot.ru).
 Source frequency information (https://sourceforge.net/p/seman/svn/HEAD/tree/trunk/Dicts/SrcBinDict/WordData.txt).
-It was converted to use with spell-checking dictionary in 2014 by Yakov Reztsov.
+It was converted to use with spell-checking dictionary in 2014, 2016 by Yakov Reztsov.
 
 #### Slovak
 

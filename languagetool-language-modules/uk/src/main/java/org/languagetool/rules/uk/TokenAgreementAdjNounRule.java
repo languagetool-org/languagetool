@@ -42,6 +42,8 @@ import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.uk.InflectionHelper.Inflection;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.tagging.uk.PosTagHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A rule that checks if adjective and following noun agree on gender and inflection
@@ -49,13 +51,10 @@ import org.languagetool.tagging.uk.PosTagHelper;
  * @author Andriy Rysin
  */
 public class TokenAgreementAdjNounRule extends Rule {
+  private static Logger logger = LoggerFactory.getLogger(TokenAgreementAdjNounRule.class);
   
   static final Pattern ADJ_INFLECTION_PATTERN = Pattern.compile(":([mfnp]):(v_...)(:r(in)?anim)?");
   static final Pattern NOUN_INFLECTION_PATTERN = Pattern.compile("(?::((?:[iu]n)?anim))?:([mfnps]):(v_...)");
-  static boolean DEBUG = Boolean.getBoolean("org.languagetool.rules.uk.TokenInflectionAgreementRule.debug");
-//  private static final Logger logger = LoggerFactory.getLogger(TokenInflectionAgreementRule.class);
-
-  private static final String NO_VIDMINOK_SUBSTR = ":nv";
 
   private final Ukrainian ukrainian = new Ukrainian();
 
@@ -79,9 +78,9 @@ public class TokenAgreementAdjNounRule extends Rule {
   }
 
   @Override
-  public final RuleMatch[] match(AnalyzedSentence text) {
+  public final RuleMatch[] match(AnalyzedSentence sentence) {
     List<RuleMatch> ruleMatches = new ArrayList<>();
-    AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
+    AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
 
     List<AnalyzedToken> adjTokenReadings = new ArrayList<>(); 
     AnalyzedTokenReadings adjAnalyzedTokenReadings = null;
@@ -106,14 +105,14 @@ public class TokenAgreementAdjNounRule extends Rule {
           continue;
 
         //TODO: nv still can be wrong if :np/:ns is present to it's not much gain for lots of work
-        if( PosTagHelper.hasPosTagPart(tokens[i], ":nv")
+        if( PosTagHelper.hasPosTagPart(tokens[i], PosTagHelper.NO_VIDMINOK_SUBSTR)
             //TODO: turn back on when we can handle pron
             || PosTagHelper.hasPosTagPart(tokens[i], "&pron")
             || PosTagHelper.hasPosTagPart(tokens[i], "<") )
           continue;
 
         if( ! PosTagHelper.hasPosTagPart(tokens[i+1], "noun:")
-            || PosTagHelper.hasPosTagPart(tokens[i+1], ":nv")
+            || PosTagHelper.hasPosTagPart(tokens[i+1], PosTagHelper.NO_VIDMINOK_SUBSTR)
             || PosTagHelper.hasPosTagPart(tokens[i+1], "&pron")
             || PosTagHelper.hasPosTagPart(tokens[i+1], "<") )
           continue;
@@ -161,7 +160,7 @@ public class TokenAgreementAdjNounRule extends Rule {
         }
 
         if( nounPosTag.startsWith("noun") 
-            && ! nounPosTag.contains(NO_VIDMINOK_SUBSTR) ) {
+            && ! nounPosTag.contains(PosTagHelper.NO_VIDMINOK_SUBSTR) ) {
 
           slaveTokenReadings.add(token);
         }
@@ -183,9 +182,7 @@ public class TokenAgreementAdjNounRule extends Rule {
         continue;
       }
 
-      if( DEBUG ) {
-        System.err.println(MessageFormat.format("=== Checking:\n\t{0}\n\t{1}", adjTokenReadings, slaveTokenReadings));
-      }
+      logger.debug("=== Checking:\n\t{}\n\t{}", adjTokenReadings, slaveTokenReadings);
 
       // perform the check
 
@@ -200,8 +197,8 @@ public class TokenAgreementAdjNounRule extends Rule {
           continue;
         }
 
-        if( DEBUG ) {
-          System.err.println(MessageFormat.format("=== Found:\n\t{0}\n\t",
+        if( logger.isDebugEnabled()) {
+          logger.debug(MessageFormat.format("=== Found:\n\t{0}\n\t",
             adjAnalyzedTokenReadings.getToken() + ": " + masterInflections + " // " + adjAnalyzedTokenReadings,
             slaveTokenReadings.get(0).getToken() + ": " + slaveInflections+ " // " + slaveTokenReadings));
         }
@@ -212,16 +209,21 @@ public class TokenAgreementAdjNounRule extends Rule {
 
         if( PosTagHelper.hasPosTagPart(adjTokenReadings, ":m:v_rod")
             && tokens[i].getToken().matches(".*[ую]")
-            && PosTagHelper.hasPosTag(slaveTokenReadings, "noun.*:m:v_dav.*") ) {
-          msg += ". Можливо вжито невнормований родовий відмінок ч.р. з закінченням -у/-ю замість -а/-я (така тенденція є в сучасній мові)?";
+            && PosTagHelper.hasPosTag(slaveTokenReadings, "noun.*?:m:v_dav.*") ) {
+          msg += ". Можливо, вжито невнормований родовий відмінок ч.р. з закінченням -у/-ю замість -а/-я (така тенденція є в сучасній мові)?";
         }
         else if( adjAnalyzedTokenReadings.getToken().contains("-")
             && Pattern.compile(".*([23]-є|[02-9]-а|[0-9]-ма)").matcher(adjAnalyzedTokenReadings.getToken()).matches() ) {
-          msg += ". Можливо вжито зайве літерне нарощення після кількісного числівника?";
+          msg += ". Можливо, вжито зайве літерне нарощення після кількісного числівника?";
+        }
+        else if( adjAnalyzedTokenReadings.getToken().startsWith("не")
+        // TODO: && tag(adjAnalyzedTokenReadings.getToken().substring(2)) has adjp
+            && PosTagHelper.hasPosTag(slaveTokenReadings, "noun.*?:v_oru.*") ) {
+          msg += ". Можливо, тут «не» потрібно писати окремо?";
         }
 
-        RuleMatch potentialRuleMatch = new RuleMatch(this, adjAnalyzedTokenReadings.getStartPos(), tokenReadings.getEndPos(), msg, getShort());
-        
+        RuleMatch potentialRuleMatch = new RuleMatch(this, sentence, adjAnalyzedTokenReadings.getStartPos(), tokenReadings.getEndPos(), msg, getShort());
+
         Synthesizer ukrainianSynthesizer = ukrainian.getSynthesizer();
         List<String> suggestions = new ArrayList<>();
 

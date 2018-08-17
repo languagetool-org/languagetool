@@ -19,7 +19,6 @@
 package org.languagetool.server;
 
 import org.apache.commons.lang3.StringUtils;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.languagetool.Language;
 import org.languagetool.language.*;
@@ -33,6 +32,7 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.HashSet;
 
+import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
 
 public class HTTPServerTest {
@@ -43,10 +43,9 @@ public class HTTPServerTest {
   //private static final String LOAD_TEST_URL = "https://api.languagetool.org/v2/check";
   //private static final String LOAD_TEST_URL = "https://languagetool.org/api/v2/check";
 
-  @Ignore("already gets tested by sub class HTTPServerLoadTest")
   @Test
   public void testHTTPServer() throws Exception {
-    HTTPServer server = new HTTPServer();
+    HTTPServer server = new HTTPServer(new HTTPServerConfig(HTTPTools.getDefaultPort(), true));
     assertFalse(server.isRunning());
     try {
       server.run();
@@ -156,7 +155,7 @@ public class HTTPServerTest {
   }
 
   private void runDataTests() throws IOException {
-    English english = new English();
+    English english = new AmericanEnglish();
     assertTrue(dataTextCheck(english, null,
             "{\"text\": \"This is an test.\"}", "").contains("EN_A_VS_AN"));
     assertTrue(dataTextCheck(english, null,
@@ -167,10 +166,77 @@ public class HTTPServerTest {
             "{\"text\": \"This is an test.\", \"metaData\": {\"key\": \"val\", \"EmailToAddress\": \"My name <foo@bar.org>\"}}", "").contains("EN_A_VS_AN"));
     assertFalse(dataTextCheck(english, null,
             "{\"text\": \"This is a test.\"}", "").contains("EN_A_VS_AN"));
+
+    // Text:
+    // This is <xyz>an test</xyz>. Yet another error error.
+    //              ^^                         ^^^^^^^^^^^
+    String res1 = dataTextCheck(english, null, "{\"annotation\": [" +
+            "{\"text\": \"This is \"}, {\"markup\": \"<xyz>\"}, {\"text\": \"an test\"}, {\"markup\": \"</xyz>\"}, {\"text\": \". Yet another error error.\"}]}", "");
+    assertTrue(res1.contains("EN_A_VS_AN"));
+    assertTrue(res1.contains("\"offset\":13"));
+    assertTrue(res1.contains("\"length\":2"));
+    assertTrue(res1.contains("ENGLISH_WORD_REPEAT_RULE"));
+    assertTrue(res1.contains("\"offset\":40"));
+    assertTrue(res1.contains("\"length\":11"));
+    assertFalse(res1.contains("MORFOLOGIK_RULE_EN_US"));  // "xyz" would be an error, but it's ignored
+
+    // Text:
+    // This is a test.<p>Another text.
+    // -> Markup must not just be ignored but also be replaced with whitespace.
+    String res2 = dataTextCheck(english, null, "{\"annotation\": [" +
+            "{\"text\": \"This is a test.\"}, {\"markup\": \"<p>\", \"interpretAs\": \"\\n\\n\"}," +
+            "{\"text\": \"Another text.\"}]}\"", "");
+    System.out.println("RES3: " + res2);
+    assertFalse(res2.contains("SENTENCE_WHITESPACE"));
+
+    // Text:
+    //   A test.<p attrib>Another text text.
+    // This is what is checked internally:
+    //   A test.\n\nAnother text text.
+    String res3 = dataTextCheck(english, null, "{\"annotation\": [" +
+            "{\"text\": \"A test.\"}, {\"markup\": \"<p attrib>\", \"interpretAs\": \"\\n\\n\"}," +
+            "{\"text\": \"Another text text.\"}]}\"", "");
+    System.out.println("RES4: " + res3);
+    assertFalse(res3.contains("SENTENCE_WHITESPACE"));
+    assertTrue(res3.contains("ENGLISH_WORD_REPEAT_RULE"));
+    assertTrue(res3.contains("\"offset\":25"));
+
+    // Text:
+    //   A test.<p>Another text text.</p><p>A hour ago.
+    // This is what is checked internally:
+    //   A test.\n\nAnother text text.\n\nA hour ago.
+    String res4 = dataTextCheck(english, null, "{\"annotation\": [" +
+            "{\"text\": \"A test.\"}, {\"markup\": \"<p>\", \"interpretAs\": \"\\n\\n\"}," +
+            "{\"text\": \"Another text text.\"}," +
+            "{\"markup\": \"</p><p>\", \"interpretAs\": \"\\n\\n\"}, {\"text\": \"A hour ago.\"}" +
+            "]}\"", "");
+    System.out.println("RES5: " + res4);
+    assertFalse(res4.contains("SENTENCE_WHITESPACE"));
+    assertTrue(res4.contains("ENGLISH_WORD_REPEAT_RULE"));
+    assertTrue(res4.contains("\"offset\":18"));
+    assertTrue(res4.contains("EN_A_VS_AN"));
+    assertTrue(res4.contains("\"offset\":35"));
+    
+    try {
+      dataTextCheck(english, null, "{\"annotation\": [{\"text\": \"An\", \"markup\": \"foo\"}]}", "");
+      fail();
+    } catch (IOException ignore) {}
+    try {
+      dataTextCheck(english, null, "{\"annotation\": [{\"bla\": \"An\"}]}", "");
+      fail();
+    } catch (IOException ignore) {}
+    try {
+      dataTextCheck(english, null, "{\"text\": \"blah\", \"annotation\": \"foo\"}", "");
+      fail();
+    } catch (IOException ignore) {}
+    try {
+      dataTextCheck(english, null, "{\"annotation\": [{\"text\": \"An\", \"interpretAs\": \"foo\"}]}", "");
+      fail();
+    } catch (IOException ignore) {}
   }
 
   @Test
-  public void testTimeout() throws Exception {
+  public void testTimeout() {
     HTTPServerConfig config = new HTTPServerConfig(HTTPTools.getDefaultPort(), false);
     config.setMaxCheckTimeMillis(1);
     HTTPServer server = new HTTPServer(config, false);
@@ -178,13 +244,31 @@ public class HTTPServerTest {
       server.run();
       try {
         System.out.println("=== Testing timeout now, please ignore the following exception ===");
-        checkV2(new GermanyGerman(), "Einq Tesz miit fieln Fehlan, desshalb sehee laagnsam bee dr Rechtschriebpürfung");
-        fail("Check was expected to be stopped because it took too long");
+        long t = System.currentTimeMillis();
+        checkV2(new GermanyGerman(), "Einq Tesz miit fieln Fehlan, desshalb sehee laagnsam bee dr Rechtschriebpürfung. "+
+                                     "hir stet noc mer text mt nochh meh feheln. vielleict brucht es soagr nohc mehrr, damt es klapt");
+        fail("Check was expected to be stopped because it took too long (> 1ms), it took " +
+                (System.currentTimeMillis()-t + "ms when measured from client side"));
       } catch (IOException expected) {
-        if (!expected.toString().contains(" 503 ")) {
-          fail("Expected exception with error 503, got: " + expected);
+        if (!expected.toString().contains(" 500 ")) {
+          fail("Expected exception with error 500, got: " + expected);
         }
       }
+    } finally {
+      server.stop();
+    }
+  }
+
+  @Test
+  public void testHealthcheck() throws Exception {
+    HTTPServerConfig config = new HTTPServerConfig(HTTPTools.getDefaultPort(), false);
+    HTTPServer server = new HTTPServer(config, false);
+    try {
+      server.run();
+      URL url = new URL("http://localhost:<PORT>/v2/healthcheck".replace("<PORT>", String.valueOf(HTTPTools.getDefaultPort())));
+      InputStream stream = (InputStream)url.getContent();
+      String response = StringTools.streamToString(stream, "UTF-8");
+      assertThat(response, is("OK"));
     } finally {
       server.stop();
     }
@@ -316,12 +400,19 @@ public class HTTPServerTest {
     URL url = new URL("http://localhost:" + HTTPTools.getDefaultPort() + urlOptions);
     return HTTPTools.checkAtUrl(url);
   }
-  
+
   /**
    * Same as {@link #checkV1(Language, String)} but using HTTP POST method instead of GET
    */
   String checkByPOST(Language lang, String text) throws IOException {
-    String postData = "language=" + lang.getShortCodeWithCountryAndVariant() + "&text=" + URLEncoder.encode(text, "UTF-8"); // latin1 is not enough for languages like Polish, Romanian, etc
+    return checkByPOST(lang.getShortCodeWithCountryAndVariant(), text);
+  }
+
+  /**
+   * Same as {@link #checkV1(Language, String)} but using HTTP POST method instead of GET; overloaded to allow language detection (langCode = 'auto')
+   */
+  String checkByPOST(String langCode, String text) throws IOException {
+    String postData = "language=" + langCode + "&text=" + URLEncoder.encode(text, "UTF-8"); // latin1 is not enough for languages like Polish, Romanian, etc
     URL url = new URL(LOAD_TEST_URL.replace("<PORT>", String.valueOf(HTTPTools.getDefaultPort())));
     try {
       return HTTPTools.checkAtUrlByPost(url, postData);
@@ -331,11 +422,10 @@ public class HTTPServerTest {
         System.err.println("Got expected error on long text (" + text.length() + " chars): " + e.getMessage());
         return "";
       } else {
-        System.err.println("Got error from " + url + " (" + lang.getShortCodeWithCountryAndVariant() + ", " +
+        System.err.println("Got error from " + url + " (" + langCode + ", " +
                            text.length() + " chars): " + e.getMessage() + ", text was (" + text.length() +  " chars): '" + StringUtils.abbreviate(text, 100) + "'");
         return "";
       }
     }
   }
-
 }

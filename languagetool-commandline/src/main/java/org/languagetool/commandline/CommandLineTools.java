@@ -119,7 +119,7 @@ public final class CommandLineTools {
       out.print(xml);
     } else if (isJsonFormat) {
       RuleMatchesAsJsonSerializer serializer = new RuleMatchesAsJsonSerializer();
-      String json = serializer.ruleMatchesToJson(ruleMatches, contents, contextSize, lt.getLanguage());      
+      String json = serializer.ruleMatchesToJson(ruleMatches, contents, contextSize, lt.getLanguage(), null);      
       PrintStream out = new PrintStream(System.out, true, "UTF-8");
       out.print(json);
     } else {

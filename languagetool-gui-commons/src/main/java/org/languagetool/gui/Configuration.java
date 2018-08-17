@@ -24,6 +24,7 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
 import org.languagetool.rules.ITSIssueType;
+import org.languagetool.rules.Rule;
 
 import java.awt.*;
 import java.io.*;
@@ -42,40 +43,62 @@ public class Configuration {
   static final int DEFAULT_NUM_CHECK_PARAS = 5;  //  default number of parameters to be checked by TextLevelRules in LO/OO 
   static final int FONT_STYLE_INVALID = -1;
   static final int FONT_SIZE_INVALID = -1;
+  static final Color STYLE_COLOR = new Color( 0, 175, 0);
 
   private static final String CONFIG_FILE = ".languagetool.cfg";
 
   private static final String DISABLED_RULES_KEY = "disabledRules";
   private static final String ENABLED_RULES_KEY = "enabledRules";
   private static final String DISABLED_CATEGORIES_KEY = "disabledCategories";
+  private static final String ENABLED_CATEGORIES_KEY = "enabledCategories";
+  private static final String ENABLED_RULES_ONLY_KEY = "enabledRulesOnly";
   private static final String LANGUAGE_KEY = "language";
   private static final String MOTHER_TONGUE_KEY = "motherTongue";
   private static final String NGRAM_DIR_KEY = "ngramDir";
+  private static final String WORD2VEC_DIR_KEY = "word2vecDir";
   private static final String AUTO_DETECT_KEY = "autoDetect";
   private static final String TAGGER_SHOWS_DISAMBIG_LOG_KEY = "taggerShowsDisambigLog";
   private static final String SERVER_RUN_KEY = "serverMode";
   private static final String SERVER_PORT_KEY = "serverPort";
   private static final String PARA_CHECK_KEY = "numberParagraphs";
+  private static final String RESET_CHECK_KEY = "doResetCheck";
   private static final String USE_GUI_KEY = "useGUIConfig";
   private static final String FONT_NAME_KEY = "font.name";
   private static final String FONT_STYLE_KEY = "font.style";
   private static final String FONT_SIZE_KEY = "font.size";
   private static final String LF_NAME_KEY = "lookAndFeelName";
   private static final String ERROR_COLORS_KEY = "errorColors";
+  private static final String UNDERLINE_COLORS_KEY = "underlineColors";
+  private static final String CONFIGURABLE_RULE_VALUES_KEY = "configurableRuleValues";
 
   private static final String DELIMITER = ",";
+  // find all comma followed by zero or more white space characters that are preceded by ":" AND a valid 6-digit hex code
+  // example: ":#44ffee,"
+  private static final String COLOR_SPLITTER_REGEXP = "(?<=:#[0-9A-Fa-f]{6}),\\s*";
+ //find all colon followed by a valid 6-digit hex code, e.g., ":#44ffee"
+ private static final String COLOR_SPLITTER_REGEXP_COLON = ":(?=#[0-9A-Fa-f]{6})";
+  // find all comma followed by zero or more white space characters that are preceded by at least one digit
+  // example: "4,"
+  private static final String CONFIGURABLE_RULE_SPLITTER_REGEXP = "(?<=[0-9]),\\s*";
   private static final String EXTERNAL_RULE_DIRECTORY = "extRulesDirectory";
 
   private final Map<String, String> configForOtherLanguages = new HashMap<>();
   private final Map<ITSIssueType, Color> errorColors = new HashMap<>();
+  private final Map<String, Color> underlineColors = new HashMap<>();
+  private final Map<String, Integer> configurableRuleValues = new HashMap<>();
+  private final Set<String> styleLikeCategories = new HashSet<>();
+  private final Map<String, String> specialTabCategories = new HashMap<>();
 
   private File configFile;
   private Set<String> disabledRuleIds = new HashSet<>();
   private Set<String> enabledRuleIds = new HashSet<>();
   private Set<String> disabledCategoryNames = new HashSet<>();
+  private Set<String> enabledCategoryNames = new HashSet<>();
+  private boolean enabledRulesOnly = false;
   private Language language;
   private Language motherTongue;
   private File ngramDirectory;
+  private File word2vecDirectory;
   private boolean runServer;
   private boolean autoDetect;
   private boolean taggerShowsDisambigLog;
@@ -85,6 +108,7 @@ public class Configuration {
   private int fontSize = FONT_SIZE_INVALID;
   private int serverPort = DEFAULT_SERVER_PORT;
   private int numParasToCheck = DEFAULT_NUM_CHECK_PARAS;
+  private boolean doResetCheck = false;
   private String externalRuleDirectory;
   private String lookAndFeelName;
 
@@ -107,6 +131,8 @@ public class Configuration {
     }
     configFile = new File(baseDir, filename);
     loadConfiguration(lang);
+    // initialize style like categories
+    initStyleCategories(lang);
   }
 
   private Configuration() {
@@ -133,6 +159,7 @@ public class Configuration {
     this.language = configuration.language;
     this.motherTongue = configuration.motherTongue;
     this.ngramDirectory = configuration.ngramDirectory;
+    this.word2vecDirectory = configuration.word2vecDirectory;
     this.runServer = configuration.runServer;
     this.autoDetect = configuration.autoDetect;
     this.taggerShowsDisambigLog = configuration.taggerShowsDisambigLog;
@@ -142,6 +169,7 @@ public class Configuration {
     this.fontSize = configuration.fontSize;
     this.serverPort = configuration.serverPort;
     this.numParasToCheck = configuration.numParasToCheck;
+    this.doResetCheck = configuration.doResetCheck;
     this.lookAndFeelName = configuration.lookAndFeelName;
     this.externalRuleDirectory = configuration.externalRuleDirectory;
     this.disabledRuleIds.clear();
@@ -150,10 +178,29 @@ public class Configuration {
     this.enabledRuleIds.addAll(configuration.enabledRuleIds);
     this.disabledCategoryNames.clear();
     this.disabledCategoryNames.addAll(configuration.disabledCategoryNames);
+    this.enabledCategoryNames.clear();
+    this.enabledCategoryNames.addAll(configuration.enabledCategoryNames);
     this.configForOtherLanguages.clear();
     for (String key : configuration.configForOtherLanguages.keySet()) {
       this.configForOtherLanguages.put(key, configuration.configForOtherLanguages.get(key));
     }
+    this.underlineColors.clear();
+    for (Map.Entry<String, Color> entry : configuration.underlineColors.entrySet()) {
+      this.underlineColors.put(entry.getKey(), entry.getValue());
+    }
+    this.configurableRuleValues.clear();
+    for (Map.Entry<String, Integer> entry : configuration.configurableRuleValues.entrySet()) {
+      this.configurableRuleValues.put(entry.getKey(), entry.getValue());
+    }
+    this.styleLikeCategories.clear();
+    for (String entry : configuration.styleLikeCategories) {
+      this.styleLikeCategories.add(entry);
+    }
+    this.specialTabCategories.clear();
+    for (Map.Entry<String, String> entry : configuration.specialTabCategories.entrySet()) {
+      this.specialTabCategories.put(entry.getKey(), entry.getValue());
+    }
+    
   }
 
   public Set<String> getDisabledRuleIds() {
@@ -168,17 +215,29 @@ public class Configuration {
     return disabledCategoryNames;
   }
 
-  public void setDisabledRuleIds(Set<String> ruleIDs) {
-    disabledRuleIds = ruleIDs;
-    enabledRuleIds.removeAll(ruleIDs);
+  public Set<String> getEnabledCategoryNames() {
+    return enabledCategoryNames;
   }
 
-  public void setEnabledRuleIds(Set<String> ruleIDs) {
-    enabledRuleIds = ruleIDs;
+  public void setDisabledRuleIds(Set<String> ruleIds) {
+    disabledRuleIds = ruleIds;
+    enabledRuleIds.removeAll(ruleIds);
+  }
+
+  public void setEnabledRuleIds(Set<String> ruleIds) {
+    enabledRuleIds = ruleIds;
   }
 
   public void setDisabledCategoryNames(Set<String> categoryNames) {
     disabledCategoryNames = categoryNames;
+  }
+
+  public void setEnabledCategoryNames(Set<String> categoryNames) {
+    enabledCategoryNames = categoryNames;
+  }
+
+  public boolean getEnabledRulesOnly() {
+    return enabledRulesOnly;
   }
 
   public Language getLanguage() {
@@ -276,8 +335,22 @@ public class Configuration {
   public void setNumParasToCheck(int numParas) {
     this.numParasToCheck = numParas;
   }
+  
+  /**
+   * will all paragraphs check after every change of text?
+   * @since 4.2
+   */
+  public boolean isResetCheck() {
+    return doResetCheck;
+  }
 
-
+  /**
+   * set all paragraphs to be checked after every change of text
+   * @since 4.2
+   */
+  public void setDoResetCheck(boolean resetCheck) {
+    this.doResetCheck = resetCheck;
+  }
   
   /**
    * Returns the name of the GUI's editing textarea font.
@@ -377,10 +450,177 @@ public class Configuration {
   }
 
   /**
+   * Directory with word2vec data or null.
+   * @since 4.0
+   */
+  @Nullable
+  public File getWord2VecDirectory() {
+    return word2vecDirectory;
+  }
+
+  /**
+   * Sets the directory with word2vec data (may be null).
+   * @since 4.0
+   */
+  public void setWord2VecDirectory(File dir) {
+    this.word2vecDirectory = dir;
+  }
+
+  /**
    * @since 2.8
    */
   public Map<ITSIssueType, Color> getErrorColors() {
     return errorColors;
+  }
+
+  /**
+   * @since 4.3
+   * Returns true if category is style like
+   */
+  public boolean isStyleCategory(String category) {
+    return styleLikeCategories.contains(category);
+  }
+
+  /**
+   * @since 4.3
+   * Initialize set of style like categories
+   */
+  private void initStyleCategories(Language lang) {
+    if (lang == null) {
+      lang = language;
+      if (lang == null) {
+        return;
+      }
+    }
+    JLanguageTool langTool = new JLanguageTool(lang, motherTongue);
+    List<Rule> allRules = langTool.getAllRules();
+    for (Rule rule : allRules) {
+      if(rule.getCategory().getTabName() != null) {
+        if(!specialTabCategories.containsKey(rule.getCategory().getName())) {
+          specialTabCategories.put(rule.getCategory().getName(), rule.getCategory().getTabName());
+        }
+      }
+      if(rule.getLocQualityIssueType().toString().equalsIgnoreCase("STYLE")
+          || rule.getLocQualityIssueType().toString().equalsIgnoreCase("REGISTER")
+          || rule.getCategory().getId().toString().equals("STYLE")
+          || rule.getCategory().getId().toString().equals("TYPOGRAPHY")) {
+        if(!styleLikeCategories.contains(rule.getCategory().getName())) {
+          styleLikeCategories.add(rule.getCategory().getName());
+        }
+      }
+    }
+  }
+
+  /**
+   * @since 4.3
+   * Returns true if category is a special Tab category
+   */
+  public boolean isSpecialTabCategory(String category) {
+    return specialTabCategories.containsKey(category);
+  }
+
+  /**
+   * @since 4.3
+   * Returns true if category is member of named special Tab
+   */
+  public boolean isInSpecialTab(String category, String tabName) {
+    if (specialTabCategories.containsKey(category)) {
+      return specialTabCategories.get(category).equals(tabName);
+    }
+    return false;
+  }
+
+  /**
+   * @since 4.3
+   * Returns all special tab names
+   */
+  public String[] getSpecialTabNames() {
+    Set<String> tabNames = new HashSet<>();
+    for (Map.Entry<String, String> entry : specialTabCategories.entrySet()) {
+      if(!tabNames.contains(entry.getValue())) {
+        tabNames.add(entry.getValue());
+      }
+    }
+    return tabNames.toArray(new String[tabNames.size()]);
+  }
+
+  /**
+   * @since 4.3
+   * Returns all categories for a named special tab
+   */
+  public Set<String> getSpecialTabCategories(String tabName) {
+    Set<String> tabCategories = new HashSet<>();
+    for (Map.Entry<String, String> entry : specialTabCategories.entrySet()) {
+      if(entry.getKey().equals(tabName)) {
+        tabCategories.add(entry.getKey());
+      }
+    }
+    return tabCategories;
+  }
+
+  /**
+   * @since 4.2
+   */
+  public Map<String, Color> getUnderlineColors() {
+    return underlineColors;
+  }
+
+  /**
+   * @since 4.2
+   * Get the color to underline a rule match by the Name of its category
+   */
+  public Color getUnderlineColor(String category) {
+    if(underlineColors.containsKey(category)) {
+      return underlineColors.get(category);
+    }
+    if (styleLikeCategories.contains(category)) {
+      return STYLE_COLOR;
+    }
+    return Color.blue;
+  }
+
+  /**
+   * @since 4.2
+   * Set the color to underline a rule match for its category
+   */
+  public void setUnderlineColor(String category, Color col) {
+    underlineColors.put(category, col);
+  }
+
+  /**
+   * @since 4.2
+   * Set the color back to default (removes category from map)
+   */
+  public void setDefaultUnderlineColor(String category) {
+    underlineColors.remove(category);
+  }
+
+  /**
+   * returns all configured values
+   * @since 4.2
+   */
+  public Map<String, Integer> getConfigurableValues() {
+    return configurableRuleValues;
+  }
+
+  /**
+   * @since 4.2
+   * Get the configurable value of a rule by ruleID
+   * returns -1 if no value is set by configuration
+   */
+  public int getConfigurableValue(String ruleID) {
+    if(configurableRuleValues.containsKey(ruleID)) {
+      return configurableRuleValues.get(ruleID);
+    }
+    return -1;
+  }
+
+  /**
+   * @since 4.2
+   * Set the value for a rule with ruleID
+   */
+  public void setConfigurableValue(String ruleID, int value) {
+    configurableRuleValues.put(ruleID, value);
   }
 
   private void loadConfiguration(Language lang) throws IOException {
@@ -395,6 +635,8 @@ public class Configuration {
       disabledRuleIds.addAll(getListFromProperties(props, DISABLED_RULES_KEY + qualifier));
       enabledRuleIds.addAll(getListFromProperties(props, ENABLED_RULES_KEY + qualifier));
       disabledCategoryNames.addAll(getListFromProperties(props, DISABLED_CATEGORIES_KEY + qualifier));
+      enabledCategoryNames.addAll(getListFromProperties(props, ENABLED_CATEGORIES_KEY + qualifier));
+      enabledRulesOnly = "true".equals(props.get(ENABLED_RULES_ONLY_KEY));
 
       String languageStr = (String) props.get(LANGUAGE_KEY);
       if (languageStr != null) {
@@ -407,6 +649,10 @@ public class Configuration {
       String ngramDir = (String) props.get(NGRAM_DIR_KEY);
       if (ngramDir != null) {
         ngramDirectory = new File(ngramDir);
+      }
+      String word2vecDir = (String) props.get(WORD2VEC_DIR_KEY);
+      if (word2vecDir != null) {
+        word2vecDirectory = new File(word2vecDir);
       }
 
       autoDetect = "true".equals(props.get(AUTO_DETECT_KEY));
@@ -444,29 +690,67 @@ public class Configuration {
       if (paraCheckString != null) {
         numParasToCheck = Integer.parseInt(paraCheckString);
       }
+      
+      String resetCheckString = (String) props.get(RESET_CHECK_KEY);
+      if (resetCheckString != null) {
+        doResetCheck = Boolean.parseBoolean(resetCheckString);
+      }
+      
+      String rulesValuesString = (String) props.get(CONFIGURABLE_RULE_VALUES_KEY);
+      parseConfigurableRuleValues(rulesValuesString);
 
       String colorsString = (String) props.get(ERROR_COLORS_KEY);
       parseErrorColors(colorsString);
 
+      String underlineColorsString = (String) props.get(UNDERLINE_COLORS_KEY);
+      parseUnderlineColors(underlineColorsString);
+
       //store config for other languages
       loadConfigForOtherLanguages(lang, props);
-
+      
     } catch (FileNotFoundException e) {
       // file not found: okay, leave disabledRuleIds empty
     }
+
   }
 
   private void parseErrorColors(String colorsString) {
     if (StringUtils.isNotEmpty(colorsString)) {
-      String[] typeToColorList = colorsString.split(",\\s*");
+      String[] typeToColorList = colorsString.split(COLOR_SPLITTER_REGEXP);
       for (String typeToColor : typeToColorList) {
-        String[] typeAndColor = typeToColor.split(":");
+        String[] typeAndColor = typeToColor.split(COLOR_SPLITTER_REGEXP_COLON);
         if (typeAndColor.length != 2) {
           throw new RuntimeException("Could not parse type and color, colon expected: '" + typeToColor + "'");
         }
         ITSIssueType type = ITSIssueType.getIssueType(typeAndColor[0]);
         String hexColor = typeAndColor[1];
         errorColors.put(type, Color.decode(hexColor));
+      }
+    }
+  }
+
+  private void parseUnderlineColors(String colorsString) {
+    if (StringUtils.isNotEmpty(colorsString)) {
+      String[] typeToColorList = colorsString.split(COLOR_SPLITTER_REGEXP);
+      for (String typeToColor : typeToColorList) {
+        String[] typeAndColor = typeToColor.split(COLOR_SPLITTER_REGEXP_COLON);
+        if (typeAndColor.length != 2) {
+          throw new RuntimeException("Could not parse type and color, colon expected: '" + typeToColor + "'");
+        }
+        underlineColors.put(typeAndColor[0], Color.decode(typeAndColor[1]));
+      }
+    }
+  }
+
+  private void parseConfigurableRuleValues(String rulesValueString) {
+    if (StringUtils.isNotEmpty(rulesValueString)) {
+      String[] ruleToValueList = rulesValueString.split(CONFIGURABLE_RULE_SPLITTER_REGEXP);
+      for (String ruleToValue : ruleToValueList) {
+        String[] ruleAndValue = ruleToValue.split(":");
+        if (ruleAndValue.length != 2) {
+          throw new RuntimeException("Could not parse rule and value, colon expected: '" + ruleToValue + "'");
+        }
+        configurableRuleValues.put(ruleAndValue[0], Integer.parseInt(ruleAndValue[1]));
       }
     }
   }
@@ -513,6 +797,7 @@ public class Configuration {
     addListToProperties(props, DISABLED_RULES_KEY + qualifier, disabledRuleIds);
     addListToProperties(props, ENABLED_RULES_KEY + qualifier, enabledRuleIds);
     addListToProperties(props, DISABLED_CATEGORIES_KEY + qualifier, disabledCategoryNames);
+    addListToProperties(props, ENABLED_CATEGORIES_KEY + qualifier, enabledCategoryNames);
     if (language != null && !language.isExternal()) {  // external languages won't be known at startup, so don't save them
       props.setProperty(LANGUAGE_KEY, language.getShortCodeWithCountryAndVariant());
     }
@@ -522,12 +807,16 @@ public class Configuration {
     if (ngramDirectory != null) {
       props.setProperty(NGRAM_DIR_KEY, ngramDirectory.getAbsolutePath());
     }
+    if (word2vecDirectory != null) {
+      props.setProperty(WORD2VEC_DIR_KEY, word2vecDirectory.getAbsolutePath());
+    }
     props.setProperty(AUTO_DETECT_KEY, Boolean.toString(autoDetect));
     props.setProperty(TAGGER_SHOWS_DISAMBIG_LOG_KEY, Boolean.toString(taggerShowsDisambigLog));
     props.setProperty(USE_GUI_KEY, Boolean.toString(guiConfig));
     props.setProperty(SERVER_RUN_KEY, Boolean.toString(runServer));
     props.setProperty(SERVER_PORT_KEY, Integer.toString(serverPort));
     props.setProperty(PARA_CHECK_KEY, Integer.toString(numParasToCheck));
+    props.setProperty(RESET_CHECK_KEY, Boolean.toString(doResetCheck));
     if (fontName != null) {
       props.setProperty(FONT_NAME_KEY, fontName);
     }
@@ -543,13 +832,27 @@ public class Configuration {
     if (externalRuleDirectory != null) {
       props.setProperty(EXTERNAL_RULE_DIRECTORY, externalRuleDirectory);
     }
+    StringBuilder sbRV = new StringBuilder();
+    for (Map.Entry<String, Integer> entry : configurableRuleValues.entrySet()) {
+      sbRV.append(entry.getKey()).append(":").append(Integer.toString(entry.getValue())).append(", ");
+    }
+    props.setProperty(CONFIGURABLE_RULE_VALUES_KEY, sbRV.toString());
+
     StringBuilder sb = new StringBuilder();
     for (Map.Entry<ITSIssueType, Color> entry : errorColors.entrySet()) {
       String rgb = Integer.toHexString(entry.getValue().getRGB());
       rgb = rgb.substring(2, rgb.length());
-      sb.append(entry.getKey()).append(":").append("#").append(rgb).append(", ");
+      sb.append(entry.getKey()).append(":#").append(rgb).append(", ");
     }
     props.setProperty(ERROR_COLORS_KEY, sb.toString());
+
+    StringBuilder sbUC = new StringBuilder();
+    for (Map.Entry<String, Color> entry : underlineColors.entrySet()) {
+      String rgb = Integer.toHexString(entry.getValue().getRGB());
+      rgb = rgb.substring(2, rgb.length());
+      sbUC.append(entry.getKey()).append(":#").append(rgb).append(", ");
+    }
+    props.setProperty(UNDERLINE_COLORS_KEY, sbUC.toString());
 
     for (String key : configForOtherLanguages.keySet()) {
       props.setProperty(key, configForOtherLanguages.get(key));
@@ -567,4 +870,5 @@ public class Configuration {
       props.setProperty(key, String.join(DELIMITER,  list));
     }
   }
+  
 }

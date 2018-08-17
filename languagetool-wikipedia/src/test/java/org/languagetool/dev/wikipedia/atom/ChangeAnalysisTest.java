@@ -68,7 +68,7 @@ public class ChangeAnalysisTest {
   private List<WikipediaRuleMatch> makeMatches(int... ids) {
     List<WikipediaRuleMatch> matches = new ArrayList<>();
     for (int id : ids) {
-      RuleMatch ruleMatch = new RuleMatch(new FakeRule(id), 10, 20, "error1");
+      RuleMatch ruleMatch = new RuleMatch(new FakeRule(id), null, 10, 20, "error1");
       AtomFeedItem feedItem = new AtomFeedItem("id1", "title1", "summary1", new Date(10000));
       matches.add(new WikipediaRuleMatch(LANGUAGE, ruleMatch, "error context", feedItem));
     }

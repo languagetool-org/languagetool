@@ -57,6 +57,9 @@ public class TokenAgreementNounVerbRuleTest {
     //TODO:
 //    assertMatches(1, "На честь Джудіт Резнік названо кратер");
     
+    //TODO:
+    //assertEmptyMatch("подружжя під прізвищем Крилови оселилося в Москві");
+    
     // inf
     assertEmptyMatch("и зуміє наша держава забезпечити власні потреби");
     assertEmptyMatch("так навчила мене бабуся місити пухке дріжджове тісто");
@@ -306,8 +309,9 @@ public class TokenAgreementNounVerbRuleTest {
     assertEmptyMatch("Левова їхня частка працюють через російських туроператорів");
     
     //numr
-    assertEmptyMatch("понад тисяча отримали порання");
+    assertEmptyMatch("понад тисяча отримали поранення");
     assertEmptyMatch("Решта 121 депутат висловилися проти");
+    assertEmptyMatch("понад сотня отримали поранення");
     //TODO:
 //    assertEmptyMatch("Троє пілотів і 31 глядач загинули миттєво.");
   }
@@ -372,6 +376,18 @@ public class TokenAgreementNounVerbRuleTest {
     }
     
   }
+  
+  @Test
+  public void testSpecialChars() throws IOException {
+    assertEmptyMatch("Тарас при\u00ADбіг.");
+
+    RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("Тарас при\u00ADбігла."));
+    assertEquals(1, matches.length);
+
+    matches = rule.match(langTool.getAnalyzedSentence("Та\u00ADрас прибігла."));
+    assertEquals(1, matches.length);
+  }
+
   
   private void assertMatches(int num, String text) throws IOException {
     assertEquals(num, rule.match(langTool.getAnalyzedSentence(text)).length);

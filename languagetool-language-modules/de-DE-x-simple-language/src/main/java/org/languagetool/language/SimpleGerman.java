@@ -18,11 +18,14 @@
  */
 package org.languagetool.language;
 
+import org.languagetool.UserConfig;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.Rule;
+import org.languagetool.rules.de.LongSentenceRule;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -51,10 +54,13 @@ public class SimpleGerman extends GermanyGerman {
   }
 
   @Override
-  public List<Rule> getRelevantRules(ResourceBundle messages) {
-    return Collections.emptyList();
+  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig) throws IOException {
+    List<Rule> rules = new ArrayList<>();
+    LongSentenceRule lengthRule = new LongSentenceRule(messages, userConfig, 12, true);
+    rules.add(lengthRule);
+    return rules;
   }
-
+  
   @Override
   public synchronized LanguageModel getLanguageModel(File indexDir) throws IOException {
     return null;
@@ -63,6 +69,14 @@ public class SimpleGerman extends GermanyGerman {
   @Override
   public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel) throws IOException {
     return Collections.emptyList();
+  }
+
+  @Override
+  public int getPriorityForId(String id) {
+    switch (id) {
+      case LongSentenceRule.RULE_ID: return 10;
+    }
+    return super.getPriorityForId(id);
   }
 
 }

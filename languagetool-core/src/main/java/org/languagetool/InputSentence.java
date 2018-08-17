@@ -27,8 +27,7 @@ import java.util.Set;
  * For internal use only. Used as a key for caching check results.
  * @since 3.7
  */
-@Experimental
-public class InputSentence {
+class InputSentence {
 
   private final String text;
   private final Language lang;
@@ -37,10 +36,11 @@ public class InputSentence {
   private final Set<CategoryId> disabledRuleCategories;
   private final Set<String> enabledRules;
   private final Set<CategoryId> enabledRuleCategories;
+  private final UserConfig userConfig;
   
-  public InputSentence(String text, Language lang, Language motherTongue,
-                       Set<String> disabledRules, Set<CategoryId> disabledRuleCategories,
-                       Set<String> enabledRules, Set<CategoryId> enabledRuleCategories) {
+  InputSentence(String text, Language lang, Language motherTongue,
+                Set<String> disabledRules, Set<CategoryId> disabledRuleCategories,
+                Set<String> enabledRules, Set<CategoryId> enabledRuleCategories, UserConfig userConfig) {
     this.text = Objects.requireNonNull(text);
     this.lang = Objects.requireNonNull(lang);
     this.motherTongue = motherTongue;
@@ -48,8 +48,14 @@ public class InputSentence {
     this.disabledRuleCategories = disabledRuleCategories;
     this.enabledRules = enabledRules;
     this.enabledRuleCategories = enabledRuleCategories;
+    this.userConfig = userConfig;
   }
 
+  /** @since 4.1 */
+  public String getText() {
+    return text;
+  }
+  
   @Override
   public boolean equals(Object o) {
     if (o == null) return false;
@@ -62,12 +68,17 @@ public class InputSentence {
            Objects.equals(disabledRules, other.disabledRules) &&
            Objects.equals(disabledRuleCategories, other.disabledRuleCategories) &&
            Objects.equals(enabledRules, other.enabledRules) &&
-           Objects.equals(enabledRuleCategories, other.enabledRuleCategories);
+           Objects.equals(enabledRuleCategories, other.enabledRuleCategories) &&
+           Objects.equals(userConfig, other.userConfig);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(text, lang, motherTongue, disabledRules, disabledRuleCategories, enabledRules, enabledRuleCategories);
+    return Objects.hash(text, lang, motherTongue, disabledRules, disabledRuleCategories, enabledRules, enabledRuleCategories, userConfig);
   }
-  
+
+  @Override
+  public String toString() {
+    return text;
+  }
 }

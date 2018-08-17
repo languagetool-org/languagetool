@@ -23,6 +23,7 @@ import com.sun.net.httpserver.HttpExchange;
 import java.io.PrintStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Map;
 
 /**
  * @since 3.4
@@ -52,5 +53,22 @@ final class ServerTools {
       httpExchange.getResponseHeaders().set("Access-Control-Allow-Origin", allowOriginUrl);
     }
   }
+
+  static UserLimits getUserLimits(Map<String, String> params, HTTPServerConfig config) {
+    if (params.get("token") != null) {
+      return UserLimits.getLimitsFromToken(config, params.get("token"));
+    } else if (params.get("username") != null) {
+      if (params.get("apiKey") != null) {
+        return UserLimits.getLimitsByApiKey(config, params.get("username"), params.get("apiKey"));
+      } else if (params.get("password") != null) {
+        return UserLimits.getLimitsFromUserAccount(config, params.get("username"), params.get("password"));
+      } else {
+        throw new IllegalArgumentException("With 'username' set, you also need to specify either 'apiKey' or 'password'");
+      }
+    } else {
+      return UserLimits.getDefaultLimits(config);
+    }
+  }
+
 
 }

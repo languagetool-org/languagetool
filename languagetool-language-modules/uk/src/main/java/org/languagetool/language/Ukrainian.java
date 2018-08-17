@@ -28,12 +28,14 @@ import java.util.regex.Pattern;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.LanguageMaintainedState;
+import org.languagetool.UserConfig;
 import org.languagetool.databroker.ResourceDataBroker;
 import org.languagetool.rules.CommaWhitespaceRule;
 import org.languagetool.rules.Example;
 import org.languagetool.rules.MultipleWhitespaceRule;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.uk.HiddenCharacterRule;
+import org.languagetool.rules.uk.MissingHyphenRule;
 import org.languagetool.rules.uk.MixedAlphabetsRule;
 import org.languagetool.rules.uk.MorfologikUkrainianSpellerRule;
 import org.languagetool.rules.uk.SimpleReplaceRule;
@@ -145,7 +147,7 @@ public class Ukrainian extends Language {
   }
 
   @Override
-  public List<Rule> getRelevantRules(ResourceBundle messages) throws IOException {
+  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig) throws IOException {
     return Arrays.asList(
         new CommaWhitespaceRule(messages,
             Example.wrong("Ми обідали борщем<marker> ,</marker> пловом і салатом."),
@@ -158,8 +160,10 @@ public class Ukrainian extends Language {
 
         // TODO: does not handle !.. and ?..
         //            new DoublePunctuationRule(messages),
-        new MorfologikUkrainianSpellerRule(messages, this),
+        new MorfologikUkrainianSpellerRule(messages, this, userConfig),
 
+        new MissingHyphenRule(messages, ((UkrainianTagger)getTagger()).getWordTagger()),
+        
         new TokenAgreementNounVerbRule(messages),
         new TokenAgreementAdjNounRule(messages),
         new TokenAgreementPrepNounRule(messages),

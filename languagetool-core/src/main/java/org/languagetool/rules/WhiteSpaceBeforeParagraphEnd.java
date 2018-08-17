@@ -36,7 +36,7 @@ public class WhiteSpaceBeforeParagraphEnd extends TextLevelRule {
     super(messages);
     super.setCategory(Categories.STYLE.getCategory(messages));
     if (!defaultActive) {
-        setDefaultOff();
+      setDefaultOff();
     }
     setOfficeDefaultOn();
     setLocQualityIssueType(ITSIssueType.Style);
@@ -56,10 +56,14 @@ public class WhiteSpaceBeforeParagraphEnd extends TextLevelRule {
     return messages.getString("whitespace_before_parapgraph_end_desc");
   }
   
-  private boolean isWhitespaceDel (AnalyzedTokenReadings token) {
+  private static boolean isWhitespaceDel (AnalyzedTokenReadings token) {
     // returns only whitespaces that may be deleted
     // "\u200B" is excluded to prevent function (e.g. page number, page count) in LO/OO
-	  return token.isWhitespace() && !token.getToken().equals("\u200B") && !token.isLinebreak();
+    return token.isWhitespace() && !token.getToken().equals("\u200B") && !token.isLinebreak();
+  }
+
+  private static boolean isParaBreak (AnalyzedTokenReadings token) {
+    return "\n".equals(token.getToken()) || "\r\n".equals(token.getToken()) || "\n\r".equals(token.getToken());
   }
 
   @Override
@@ -69,29 +73,35 @@ public class WhiteSpaceBeforeParagraphEnd extends TextLevelRule {
     for (int n = 0; n < sentences.size(); n++) {
       AnalyzedSentence sentence = sentences.get(n);
       AnalyzedTokenReadings[] tokens = sentence.getTokens();
-      int i = 2;
-      // Whitespace before linebreak (includes last non-whitespace because of problems with OO dialog
-      while (i < tokens.length) {
-        if(isWhitespaceDel(tokens[i]) && !tokens[i - 1].isWhitespace()) {
-          int lastNonWhite = i - 1;
-          for (i++; i < tokens.length && isWhitespaceDel(tokens[i]); i++);
-          if (i < tokens.length && tokens[i].isLinebreak()) { 
-            int fromPos = pos + tokens[lastNonWhite].getStartPos();
-            int toPos = pos + tokens[i].getStartPos();
-            RuleMatch ruleMatch = new RuleMatch(this, fromPos, toPos, messages.getString("whitespace_before_parapgraph_end_msg"));
-            ruleMatch.setSuggestedReplacement(tokens[lastNonWhite].getToken());
+      for (int i = 1; i < tokens.length; i++) {
+        if(isParaBreak(tokens[i])) {
+          int lastPara = i;
+          for (i--; i > 0 && isWhitespaceDel(tokens[i]); i--);
+          int fromPos;
+          if (lastPara > i + 1) { 
+            if (i > 0 && !tokens[i].isWhitespace()) {
+              fromPos = pos + tokens[i].getStartPos();
+            } else {
+              fromPos = pos + tokens[i + 1].getStartPos();
+            }
+            int toPos = pos + tokens[lastPara - 1].getEndPos();
+            RuleMatch ruleMatch = new RuleMatch(this, sentence, fromPos, toPos, messages.getString("whitespace_before_parapgraph_end_msg"));
+            if (i > 0 && !tokens[i].isWhitespace()) {
+              ruleMatch.setSuggestedReplacement(tokens[i].getToken());
+            }
             ruleMatches.add(ruleMatch);
           }
+          i = lastPara;
         }
-        i++;
       }
       // Whitespace before end of paragraph
       if (n == sentences.size() - 1) {
+        int i;
         for (i = tokens.length - 1; i > 0 && isWhitespaceDel(tokens[i]); i--);
         if (i < tokens.length - 1) {
           int fromPos = pos + tokens[i + 1].getStartPos();
           int toPos = pos + tokens[tokens.length - 1].getStartPos() + 1;
-          RuleMatch ruleMatch = new RuleMatch(this, fromPos, toPos, messages.getString("whitespace_before_parapgraph_end_msg"));
+          RuleMatch ruleMatch = new RuleMatch(this, sentence, fromPos, toPos, messages.getString("whitespace_before_parapgraph_end_msg"));
           ruleMatch.setSuggestedReplacement("");
           ruleMatches.add(ruleMatch);
         }

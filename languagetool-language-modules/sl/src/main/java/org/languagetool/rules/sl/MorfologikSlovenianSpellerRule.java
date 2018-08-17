@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.util.ResourceBundle;
 
 import org.languagetool.Language;
+import org.languagetool.UserConfig;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
 
 public final class MorfologikSlovenianSpellerRule extends MorfologikSpellerRule {
@@ -30,8 +31,8 @@ public final class MorfologikSlovenianSpellerRule extends MorfologikSpellerRule 
   private static final String RESOURCE_FILENAME = "/sl/hunspell/sl_SI.dict";
 
   public MorfologikSlovenianSpellerRule(ResourceBundle messages,
-                                        Language language) throws IOException {
-    super(messages, language);
+                                        Language language, UserConfig userConfig) throws IOException {
+    super(messages, language, userConfig);
   }
 
   @Override

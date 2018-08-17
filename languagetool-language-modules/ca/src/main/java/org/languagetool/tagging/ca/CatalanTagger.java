@@ -31,6 +31,7 @@ import morfologik.stemming.IStemmer;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.Language;
 import org.languagetool.chunking.ChunkTag;
 import org.languagetool.tagging.BaseTagger;
 import org.languagetool.tools.StringTools;
@@ -47,6 +48,7 @@ public class CatalanTagger extends BaseTagger {
   private static final Pattern ADJ_PART_FS = Pattern.compile("VMP00SF.|A[QO].[FC][SN].");
   private static final Pattern VERB = Pattern.compile("V.+");
   //private static final Pattern NOUN = Pattern.compile("NC.+");
+  private String variant;
 
   private static final Pattern PREFIXES_FOR_VERBS = Pattern.compile("(auto)(.*[aeiouàéèíòóïü].+[aeiouàéèíòóïü].*)",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
 
@@ -55,8 +57,9 @@ public class CatalanTagger extends BaseTagger {
     return "/ca/manual-tagger.txt";
   }
 
-  public CatalanTagger() {
-    super("/ca/catalan.dict",  new Locale("ca"), false);
+  public CatalanTagger(Language language) {
+    super("/ca/" + language.getShortCodeWithCountryAndVariant() + ".dict",  new Locale("ca"), false);
+    variant = language.getVariant();
   }
   
   @Override
@@ -81,11 +84,15 @@ public class CatalanTagger extends BaseTagger {
       // This hack allows all rules and dictionary entries to work with
       // typewriter apostrophe
       boolean containsTypewriterApostrophe = false;
+      boolean containsTypographicApostrophe = false;
       if (word.length() > 1) {
         if (word.contains("'")) {
           containsTypewriterApostrophe = true;
         }
-        word = word.replace("’", "'");
+        if (word.contains("’")) {
+          containsTypographicApostrophe = true;
+          word = word.replace("’", "'");
+        }
       }
       final List<AnalyzedToken> l = new ArrayList<>();
       final String lowerWord = word.toLowerCase(conversionLocale);
@@ -115,6 +122,11 @@ public class CatalanTagger extends BaseTagger {
       if (containsTypewriterApostrophe) {
         List<ChunkTag> listChunkTags = new ArrayList<>();
         listChunkTags.add(new ChunkTag("containsTypewriterApostrophe"));
+        atr.setChunkTags(listChunkTags);
+      }
+      if (containsTypographicApostrophe) {
+        List<ChunkTag> listChunkTags = new ArrayList<>();
+        listChunkTags.add(new ChunkTag("containsTypographicApostrophe"));
         atr.setChunkTags(listChunkTags);
       }
 
@@ -192,6 +204,29 @@ public class CatalanTagger extends BaseTagger {
       List<AnalyzedToken> taggerTokens = asAnalyzedTokenList(word, dictLookup.lookup(possibleWord));
       return taggerTokens;
     }
+    
+    // adjectives -iste in Valencian variant
+    if (variant != null && word.endsWith("iste")) {
+      final String lowerWord = word.toLowerCase(conversionLocale);
+      final String possibleAdjNoun = lowerWord.replaceAll("^(.+)iste$", "$1ista");
+      List<AnalyzedToken> taggerTokens;
+      taggerTokens = asAnalyzedTokenList(possibleAdjNoun, dictLookup.lookup(possibleAdjNoun));
+      for (AnalyzedToken taggerToken : taggerTokens ) {
+        final String posTag = taggerToken.getPOSTag();
+        if (posTag != null) {
+          if (posTag.equals("NCCS000")) {
+            additionalTaggedTokens.add(new AnalyzedToken(word, "NCMS000", possibleAdjNoun));
+          }
+          if (posTag.equals("AQ0CS0")) {
+            additionalTaggedTokens.add(new AnalyzedToken(word, "AQ0MS0", possibleAdjNoun));
+          }
+          if (!additionalTaggedTokens.isEmpty()) {
+            return additionalTaggedTokens;
+          }
+        }
+      }
+    }
+    
     return null;
   }
 

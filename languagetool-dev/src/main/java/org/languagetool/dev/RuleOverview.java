@@ -18,7 +18,7 @@
  */
 package org.languagetool.dev;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.LanguageMaintainedState;
@@ -38,6 +38,8 @@ import java.io.InputStream;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.*;
+
+import static java.util.Comparator.comparing;
 
 /**
  * Command line tool to list supported languages and their number of rules.
@@ -65,8 +67,8 @@ public final class RuleOverview {
   }
   
   private void run(File webRoot) throws IOException {
-    System.out.println("<b>Rules in LanguageTool " + JLanguageTool.VERSION + "</b><br />");
-    System.out.println("Date: " + new SimpleDateFormat("yyyy-MM-dd").format(new Date()) + "<br /><br />\n");
+    System.out.println("<p><b>Rules in LanguageTool " + JLanguageTool.VERSION + "</b><br />");
+    System.out.println("Date: " + new SimpleDateFormat("yyyy-MM-dd").format(new Date()) + "</p>\n");
     System.out.println("<table class=\"tablesorter sortable\" style=\"width: auto\">");
     System.out.println("<thead>");
     System.out.println("<tr>");
@@ -78,7 +80,7 @@ public final class RuleOverview {
     System.out.println("  <th align=\"left\" width=\"60\">Spell<br/>check*</th>");
     System.out.println("  <th align=\"left\" width=\"60\">Confusion<br/>pairs</th>");
     //System.out.println("  <th valign='bottom' width=\"65\">Auto-<br/>detected</th>");
-    System.out.println("  <th valign='bottom' align=\"left\" width=\"70\">Activity</th>");
+    System.out.println("  <th valign='bottom' align=\"left\" width=\"90\">Activity</th>");
     System.out.println("  <th valign='bottom' align=\"left\">Rule Maintainers</th>");
     System.out.println("</tr>");
     System.out.println("</thead>");
@@ -238,7 +240,7 @@ public final class RuleOverview {
 
   private List<Language> getSortedLanguages() {
     final List<Language> sortedLanguages = new ArrayList<>(Languages.get());
-    Collections.sort(sortedLanguages, (o1, o2) -> o1.getName().compareTo(o2.getName()));
+    sortedLanguages.sort(comparing(Language::getName));
     return sortedLanguages;
   }
 
@@ -278,7 +280,7 @@ public final class RuleOverview {
   }
 
   private SpellcheckSupport spellcheckSupport(Language lang) throws IOException {
-    for (Rule rule : lang.getRelevantRules(JLanguageTool.getMessageBundle())) {
+    for (Rule rule : lang.getRelevantRules(JLanguageTool.getMessageBundle(), null)) {
       if (rule.isDictionaryBasedSpellingRule()) {
         if (rule instanceof HunspellNoSuggestionRule) {
           return SpellcheckSupport.NoSuggestion;

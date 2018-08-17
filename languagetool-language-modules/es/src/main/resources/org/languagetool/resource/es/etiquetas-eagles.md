@@ -10,10 +10,10 @@ Los códigos ~~tachados~~ están sin implementar en LanguageTool.
 |2    |Tipo      |Calificativo |   Q    |
 |	  |          |Ordinal      |   O    |
 |3    |	Grado    |  ---        |   0    |
-|     |          | Aumentativo | ~~A~~  |
-|     |          | Diminutivo  | ~~D~~  |
-|     |          | Comparativo | ~~C~~  |
-|     |          | Superlativo | ~~S~~  |
+|     |          | Aumentativo |   A    |
+|     |          | Diminutivo  |   D    |
+|     |          | Comparativo |   C    |
+|     |          | Superlativo |   S    |
 |4    | Género   | Masculino   |   M    |
 | 	  |          | Femenino    |   F    |
 |     |          | Común       |   C    |
@@ -77,8 +77,8 @@ Los códigos ~~tachados~~ están sin implementar en LanguageTool.
 |     |               | Lugar       | ~~G0~~ |
 |     |               | Organización| ~~O0~~ |
 |     |               | Otros       | ~~V0~~ |
-| 7   | Grado         | Aumentativo | ~~A~~  |
-|     |               | Diminutivo  | ~~D~~  |
+| 7   | Grado         | Aumentativo |   A    |
+|     |               | Diminutivo  |   D    |
 |     |               | ---         |   0    |
 
 ## 5. VERBOS

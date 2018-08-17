@@ -63,16 +63,16 @@ public class MorfologikMultiSpellerTest {
 
   @Test(expected = RuntimeException.class)
   public void testInvalidFileName() throws IOException {
-    new MorfologikMultiSpeller("/xx/spelling/test.dict.README", "/xx/spelling/test2.txt", 1);
+    new MorfologikMultiSpeller("/xx/spelling/test.dict.README", "/xx/spelling/test2.txt", null, 1);
   }
 
   @Test(expected = RuntimeException.class)
   public void testInvalidFile() throws IOException {
-    new MorfologikMultiSpeller("/xx/spelling/no-such-file", "/xx/spelling/test2.txt", 1);
+    new MorfologikMultiSpeller("/xx/spelling/no-such-file", "/xx/spelling/test2.txt", null, 1);
   }
 
   private MorfologikMultiSpeller getSpeller() throws IOException {
-    return new MorfologikMultiSpeller("/xx/spelling/test.dict", "/xx/spelling/test2.txt", 1);
+    return new MorfologikMultiSpeller("/xx/spelling/test.dict", "/xx/spelling/test2.txt", null, 1);
   }
 
 }

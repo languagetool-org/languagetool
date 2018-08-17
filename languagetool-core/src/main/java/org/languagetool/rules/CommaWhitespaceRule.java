@@ -76,8 +76,8 @@ public class CommaWhitespaceRule extends Rule {
     boolean prevWhite = false;
     for (int i = 0; i < tokens.length; i++) {
       String token = tokens[i].getToken();
-      boolean isWhitespace = tokens[i].isWhitespace() || StringTools.isNonBreakingWhitespace(token)
-          || tokens[i].isFieldCode();
+      boolean isWhitespace = (tokens[i].isWhitespace() || StringTools.isNonBreakingWhitespace(token)
+          || tokens[i].isFieldCode()) && !token.equals("\u200B");
       String msg = null;
       String suggestionText = null;
       if (isWhitespace && isLeftBracket(prevToken)) {
@@ -115,7 +115,7 @@ public class CommaWhitespaceRule extends Rule {
       if (msg != null) {
         int fromPos = tokens[i - 1].getStartPos();
         int toPos = tokens[i].getEndPos();
-        RuleMatch ruleMatch = new RuleMatch(this, fromPos, toPos, msg);
+        RuleMatch ruleMatch = new RuleMatch(this, sentence, fromPos, toPos, msg);
         ruleMatch.setSuggestedReplacement(suggestionText);
         ruleMatches.add(ruleMatch);
       }
@@ -132,7 +132,7 @@ public class CommaWhitespaceRule extends Rule {
       char c = str.charAt(0);
       if (c =='\'' || c == '-' || c == '”'
           || c =='’' || c == '"' || c == '“'
-          || c == ',') {
+          || c == ','|| c == '»') {
         return true;
       }
     }

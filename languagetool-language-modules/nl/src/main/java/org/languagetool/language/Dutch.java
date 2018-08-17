@@ -25,11 +25,9 @@ import java.util.ResourceBundle;
 
 import org.languagetool.Language;
 import org.languagetool.LanguageMaintainedState;
+import org.languagetool.UserConfig;
 import org.languagetool.rules.*;
-import org.languagetool.rules.nl.CompoundRule;
-import org.languagetool.rules.nl.DutchWrongWordInContextRule;
-import org.languagetool.rules.nl.MorfologikDutchSpellerRule;
-import org.languagetool.rules.nl.SimpleReplaceRule;
+import org.languagetool.rules.nl.*;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.nl.DutchSynthesizer;
 import org.languagetool.tagging.Tagger;
@@ -118,19 +116,30 @@ public class Dutch extends Language {
   }
 
   @Override
-  public List<Rule> getRelevantRules(ResourceBundle messages) throws IOException {
+  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig) throws IOException {
     return Arrays.asList(
             new CommaWhitespaceRule(messages),
             new DoublePunctuationRule(messages),
             new GenericUnpairedBracketsRule(messages,
-                    Arrays.asList("[", "(", "{", "“", "‹", "“", "„"),
-                    Arrays.asList("]", ")", "}", "”", "›", "”", "”")),
+                    Arrays.asList("[", "(", "{", "“", "‹", "“", "„", "\""),
+                    Arrays.asList("]", ")", "}", "”", "›", "”", "”", "\"")),
             new UppercaseSentenceStartRule(messages, this),
-            new MorfologikDutchSpellerRule(messages, this),
+            new MorfologikDutchSpellerRule(messages, this, userConfig),
             new MultipleWhitespaceRule(messages, this),
             new CompoundRule(messages),
             new DutchWrongWordInContextRule(messages),
-            new SimpleReplaceRule(messages)
+            new WordCoherencyRule(messages),
+            new SimpleReplaceRule(messages),
+            new LongSentenceRule(messages, userConfig, -1, true),
+            new PreferredWordRule(messages)
     );
+  }
+
+  @Override
+  public int getPriorityForId(String id) {
+    switch (id) {
+      case LongSentenceRule.RULE_ID: return -1;
+    }
+    return 0;
   }
 }

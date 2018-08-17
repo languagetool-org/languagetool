@@ -143,7 +143,27 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
   }
 
   /**
-   * Checks if the token has a particular POS tag, whereas only a part of the given POS tag needs to match.
+   * Checks if one of the token's readings has one of the given lemmas
+   *
+   * @param lemmas to look for
+   */
+  public boolean hasAnyLemma(String... lemmas) {
+    boolean found = false;
+    for(String lemma : lemmas) {
+      for (AnalyzedToken reading : anTokReadings) {
+        if (reading.getLemma() != null) {
+          found = lemma.equals(reading.getLemma());
+          if (found) {
+            return found;
+          }
+        }
+      }
+    }
+    return found;
+  }
+
+  /**
+   * Checks if the token has a particular POS tag, where only a part of the given POS tag needs to match.
    *
    * @param posTag POS tag substring to look for
    * @since 1.8
@@ -153,6 +173,40 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
     for (AnalyzedToken reading : anTokReadings) {
       if (reading.getPOSTag() != null) {
         found = reading.getPOSTag().contains(posTag);
+        if (found) {
+          break;
+        }
+      }
+    }
+    return found;
+  }
+
+ /**
+  * Checks if the token has any of the given particular POS tags (only a part of the given POS tag needs to match)
+  *
+  * @param posTags POS tag substring to look for
+  * @since 4.0
+  */
+  public boolean hasAnyPartialPosTag(String... posTags) {
+    for (String posTag : posTags) {
+      if (hasPartialPosTag(posTag)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /**
+   * Checks if the token has a POS tag starting with the given string.
+   *
+   * @param posTag POS tag substring to look for
+   * @since 4.0
+   */
+  public boolean hasPosTagStartingWith(String posTag) {
+    boolean found = false;
+    for (AnalyzedToken reading : anTokReadings) {
+      if (reading.getPOSTag() != null) {
+        found = reading.getPOSTag().startsWith(posTag);
         if (found) {
           break;
         }
@@ -186,8 +240,7 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
    * @param token new reading, given as {@link AnalyzedToken}
    */
   public void addReading(AnalyzedToken token) {
-    List<AnalyzedToken> l = new ArrayList<>();
-    l.addAll(Arrays.asList(anTokReadings).subList(0, anTokReadings.length - 1));
+    List<AnalyzedToken> l = new ArrayList<>(Arrays.asList(anTokReadings).subList(0, anTokReadings.length - 1));
     if (anTokReadings[anTokReadings.length - 1].getPOSTag() != null) {
       l.add(anTokReadings[anTokReadings.length - 1]);
     }

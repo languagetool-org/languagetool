@@ -26,6 +26,7 @@ import java.util.ResourceBundle;
 
 import org.languagetool.Language;
 import org.languagetool.LanguageMaintainedState;
+import org.languagetool.UserConfig;
 import org.languagetool.rules.*;
 import org.languagetool.rules.br.TopoReplaceRule;
 import org.languagetool.rules.br.MorfologikBretonSpellerRule;
@@ -103,11 +104,11 @@ public class Breton extends Language {
   }
 
   @Override
-  public List<Rule> getRelevantRules(ResourceBundle messages) throws IOException {
+  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig) throws IOException {
     return Arrays.asList(
             new CommaWhitespaceRule(messages),
             new DoublePunctuationRule(messages),
-            new MorfologikBretonSpellerRule(messages, this),
+            new MorfologikBretonSpellerRule(messages, this, userConfig),
             new UppercaseSentenceStartRule(messages, this),
             new MultipleWhitespaceRule(messages, this),
             new SentenceWhitespaceRule(messages),

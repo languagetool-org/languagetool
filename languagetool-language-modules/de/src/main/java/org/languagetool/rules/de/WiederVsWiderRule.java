@@ -59,8 +59,7 @@ public class WiederVsWiderRule extends Rule {
     boolean foundWider = false;
     for (int i = 0; i < tokens.length; i++) {
       String token = tokens[i].getToken();
-      if (token.equalsIgnoreCase("spiegelt") || token.equalsIgnoreCase("spiegeln") || token.equalsIgnoreCase("spiegelte")
-              || token.equalsIgnoreCase("spiegelten") || token.equalsIgnoreCase("spiegelst")) {
+      if (tokens[i].hasLemma("spiegeln")) {
         foundSpiegelt = true;
       } else if (token.equalsIgnoreCase("wieder") && foundSpiegelt) {
         foundWieder = true;
@@ -74,7 +73,7 @@ public class WiederVsWiderRule extends Rule {
                 "geschrieben, z.B. 'Das spiegelt die Situation gut wider.'";
         String shortMsg = "'wider' in 'widerspiegeln' wird mit 'i' geschrieben";
         int pos = tokens[i].getStartPos();
-        RuleMatch ruleMatch = new RuleMatch(this, pos, pos + token.length(), msg, shortMsg);
+        RuleMatch ruleMatch = new RuleMatch(this, sentence, pos, pos + token.length(), msg, shortMsg);
         ruleMatch.setSuggestedReplacement("wider");
         ruleMatches.add(ruleMatch);
         foundSpiegelt = false;

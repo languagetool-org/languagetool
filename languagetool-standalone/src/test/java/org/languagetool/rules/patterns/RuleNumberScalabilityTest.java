@@ -36,32 +36,32 @@ final class RuleNumberScalabilityTest {
       System.out.println("Usage: " + RuleNumberScalabilityTest.class.getSimpleName() + " <languageCode> <text_file>");
       System.exit(1);
     }
-    JLanguageTool langTool = new JLanguageTool(Languages.getLanguageForShortCode(args[0]));
+    JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode(args[0]));
     String text = StringTools.readStream(new FileInputStream(args[1]), "utf-8");
     System.out.println("Warmup...");
-    langTool.check(text);
-    langTool.check(text);
+    lt.check(text);
+    lt.check(text);
 
-    long baselineTime = getBaselineTime(langTool, text);
+    long baselineTime = getBaselineTime(lt, text);
     System.out.println("Baseline: " + baselineTime + "ms (time with no pattern rules active)");
 
-    int ruleNumber = langTool.getAllActiveRules().size();
+    int ruleNumber = lt.getAllActiveRules().size();
     System.out.println("Total rules: " + ruleNumber);
     int steps = 5;
     int prevActiveRules = -1;
     long prevCleanRunTime = -1;
     for (int i = steps; i > 0; i--) {
       int targetActiveRules = ruleNumber / i;
-      deactivateAllRules(langTool);
-      for (Rule rule : langTool.getAllRules()) {
-        langTool.enableRule(rule.getId());
-        if (langTool.getAllActiveRules().size() > targetActiveRules) {
+      deactivateAllRules(lt);
+      for (Rule rule : lt.getAllRules()) {
+        lt.enableRule(rule.getId());
+        if (lt.getAllActiveRules().size() > targetActiveRules) {
           break;
         }
       }
-      int activeRules = langTool.getAllActiveRules().size();
+      int activeRules = lt.getAllActiveRules().size();
       long startTime = System.currentTimeMillis();
-      langTool.check(text);
+      lt.check(text);
       long runTime = System.currentTimeMillis() - startTime;
       long cleanRunTime = runTime - baselineTime;
       if (prevActiveRules != -1 && prevCleanRunTime != -1) {

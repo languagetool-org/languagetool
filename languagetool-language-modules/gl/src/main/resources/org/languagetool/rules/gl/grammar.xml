@@ -32,6 +32,7 @@
     <!ENTITY adverbios_de_intensidade "bastante|ben|demasiado|moitísimo|máis|menos|moi|nada|pouco|canto|case|tanto|tan|todo"><!-- XXX untranslated assaz|demais|*«quão -->
     <!ENTITY adverbios_de_lugar "abaixo|enriba|dentro|adiante|fóra|aí|alén|ai|aquén|atrás|acá|dentro|embaixo|externamente|alí|lonxe|preto"><!-- XXX *algures|*alhures|*nenhures -->
     <!ENTITY codigos_de_pais "(?:A(?:[DEFGIMNOQRSTUWZ]|LS?)|M[ACDGHKLMNOPQRSTUVWXYZ]|S[ACDEGHIJKLMNORTUVYZb]|B[ABDEFGHIJMNORSTVWYZ]|C[ACFGHIKLMNORSUVXYZ]|G[ABDEFHILMNPQRSTUWY]|T[CDFGHJKMNOPRTVWZ]|N[ACEFGILOPRTUZ]|P[AEFGHKLMNRTWY]|K[EGHIMNPRWYZ]|L[ABCIKRSTUVY]|I[DELNOQRST]|E[CEGHNRST]|F[IJKMORX]|U[AGKMSYZ]|V[ACEGINU]|D[EJKMOZ]|H[KMNRTU]|R[EOUW]|J[MOP]|Y[ETU]|Z[AMR]|W[FS]|OM|QA)">
+    <!ENTITY divisas "(?:euros|dólares|francos|pesos|libras|rublos|rupias|iuans|iens|[€£¥$₽])">
 
     <!ENTITY separadores_de_oracoes "(?:[,;:…–—\(«“]|\-|\[)">
     <!ENTITY hifen "(?:[-‑])">
@@ -46,6 +47,8 @@
     <!ENTITY contraccions_FS "(?:á|d(?:a|uña|ela|est?a|aquela|outra)|n(?:a|unha|ela|nest?a|aquela|outra)|algunha|pola)"><!-- XXX lost 'me+a|che+a|lle+a'-->
     <!ENTITY contraccions_MP "(?:aos|d(?:os|uns|eles|est?es|aqueles|outros)|n(?:os|uns|eles|est?es|aqueles|outros)|algúns|polos)"><!-- XXX lost 'me+o|che+o|lle+o'+s-->
     <!ENTITY contraccions_FP "(?:ás|d(?:as|uñas|elas|est?as|aquelas|outras)|n(?:as|unhas|elas|est?as|aquelas|outras)|algunhas|polas)"><!-- XXX lost 'me+a|che+a|lle+a'+s-->
+
+    <!ENTITY verbos_auxiliares_part_pasado "(?:ser|estar|ter|haber|ficar)">
 
     <!ENTITY abreviaturas "(?:s(?:[eé]c)?|[Ee]tc\.|(?:m[aá]x|m[ií]n|[aA]prox)|(?:[aA]pt?do|[aA]sdo|[aA]vd?a?|[Cc]ód|[Dd]e?pto|[Ff]ac|[Ii]nst)|(?:[Aa]fm[oa]s?|Emcia|Ilt?m[ao]s?|Iltres?|MM|Exc?m[ao]s?|Magf[oa]|D(?:na)?|Sra?|Sr[ea]s|Srta|Dra?|Dr[ea]s?|Rm[ao]|Rev|Revm[ao]|Mons|Emmo|Rv?d[ao]|[Ll]icd[oa]|[Ll]ic|[Ll]d[oa]|[pP]rofs?)|(?:[Nn][úu]ms?|[fF]igs?|[Pp][aá]xs?|pp?|cc?a)|(?:[Vv]ols?|[Cc]aps?)|(?:[Aa]dmóns?|[aA]d(?:mt)?v[oa]s?)|(?:[pP]pal|[Vv]des?|[Ii]b[íi]d|[Rr]efs?|[Cc]it|[Aa]brevs?|[Aa]bl|[Aa]dx|[Aa]dv|[Aa]cr|[Cc]onx|[Ll]oc|[Pp]rep|[Ss]ubst)|(?:[vV]id|[Cc]fr?)|(?:[Cc]oord|[Ee]d)s?|(?:[Cc]t[ae]|[Tt]e?lf|[Tt]fno|[Tt]el[eé]f|[Tt]el)s|(?:[oO]p|[lL]oc)|cit|[aá]l|vs)"><!-- XXX retrieved from segment.srx, Galician section -->
 
@@ -86,7 +89,7 @@
           <token postag="(?:V...|PP)3.+" postag_regexp="yes"/>
     </equivalence>
   </unification>
-  
+
  <category id="CAT0" name="Gramática::Concordancia">
 
   <rulegroup id='GENERAL_GENDER_AGREEMENT_ERRORS' name="Concordancia de género: Geral">
@@ -132,9 +135,9 @@
       <example correction='Unha vaca|Un (vaca)'><marker>Un vaca</marker> está no pasto.</example>
       <example correction='unha tortilla|un (tortilla)'>Vostede pode facer <marker>un tortilla</marker> española para eu cea, por favor?</example>
       <example>O Un tórnase Dous, o Dous tórnase Tres.</example>
-      <!--example>Dise que a cada día nace un trouxa, e diso o vigarista sabe.</example--><!-- XXX solved after disambiguation rules are converted -->
-      <!--example correction='unha sándwich|un (sándwich)'>Están comendo <marker>un sándwich</marker>.</example-->
-      <!--example correction="unha espantosa dor|un espantosa (dor)">Teño <marker>un espantosa dor</marker> na cabeza.</example--><!-- XXX make example with neutral adjective instead of espantosa>
+    <!--example>Dise que a cada día nace un trouxa, e diso o vigarista sabe.</example--><!-- XXX solved after disambiguation rules are converted -->
+    <!--example correction='unha sándwich|un (sándwich)'>Están comendo <marker>un sándwich</marker>.</example-->
+    <!--example correction="unha espantosa dor|un espantosa (dor)">Teño <marker>un espantosa dor</marker> na cabeza.</example--><!-- XXX make example with neutral adjective instead of espantosa>
       <example correction="unha gran erupción|un gran (erupción)">Por exemplo, <marker>un gran erupción</marker> volcánica causa maior reflexión da luz solar de vo…</example-->
       <example>O monte Fariña é unha montaña do distrito de Vila Real.</example>
     </rule>
@@ -191,7 +194,7 @@
       <example correction='As frases|Os (frases)'><marker>Os frases</marker> están erradas.</example>
       <example correction='Unhas cadelas|Uns cans'><marker>Uns cadelas</marker> están na rúa.</example>
       <example type='correct'><marker>Os bois</marker> están no pasto.</example>
-      <!--example correction="unhas espantosas dores|uns espantosas (dores)">Teño <marker>uns espantosas dores</marker> na cabeza.</example--><!-- XXX adapt example with neutral adjective -->
+    <!--example correction="unhas espantosas dores|uns espantosas (dores)">Teño <marker>uns espantosas dores</marker> na cabeza.</example--><!-- XXX adapt example with neutral adjective -->
       <example>Existe cada vez máis presión nos media para que presenten contidos de calidade.</example>
       <example>Os ríos Onda, Ave e Leça pertencen á mesma rexión hidrográfica.</example>
       <example correction="As escolas|Os (escolas)"><marker>Os escolas</marker> Álvaro de Campos, José Rodrigues dos Santos e Fernando Persoa teñen sido ben avaliadas.</example>
@@ -260,7 +263,7 @@
       <example correction='Un boi|Unha (boi)'><marker>Unha boi</marker> está no pasto.</example>
       <example>Á comunidade Mozilla (Firefox, Thunderbird e SeaMonkey).</example>
       <example>Unha vaca está no pasto.</example>
-      <!--example correction="un espantosa inchazo|unha espantosa (inchazo)">Teño <marker>unha espantoso inchazo</marker> na cabeza.</example XXX enable after disambiguation improvements. Also tests 'espantoso' as neutral -->
+    <!--example correction="un espantosa inchazo|unha espantosa (inchazo)">Teño <marker>unha espantoso inchazo</marker> na cabeza.</example XXX enable after disambiguation improvements. Also tests 'espantoso' as neutral -->
       <example>Alemaña perdera a Primeira Guerra Mundial debido á Revolución alemá.</example>
       <example>Unha rúa Roberto Duarte Silva, tantas memorias.</example>
     </rule>
@@ -316,7 +319,7 @@
         <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no="4" postag="(N.|[AD]..|Z.)M.(.+)" postag_replace='$1FP$2' postag_regexp="yes"/></suggestion>
       <example correction='Uns bois|Unhas (bois)'><marker>Unhas bois</marker> están no pasto.</example>
       <example type='correct'><marker>Unhas vacas</marker> están no pasto.</example>
-      <!-- example correction="uns terríveis inchaços|unhas terríveis (inchaços)">Teño <marker>unhas espantosas inchaços</marker> na cabeza.</example XXX enable after disambiguation improvements. Also tests 'espantoso' as neutral -->
+    <!-- example correction="uns terríveis inchaços|unhas terríveis (inchaços)">Teño <marker>unhas espantosas inchaços</marker> na cabeza.</example XXX enable after disambiguation improvements. Also tests 'espantoso' as neutral -->
       <example correction="os millónes|as (millónes)">Vexan <marker>as millónes</marker> de mulleres.</example>
     <!--example>Isso é nas escolas Álvaro de Campos, José Rodrigues dos Santos e Fernando Pessoa.</example--><!-- TODO Tokenize conjunctions -->
       <example>Isto é, as escolas Álvaro de Campos, José Rodrigues dos Santos e Fernando Persoa.</example>
@@ -339,7 +342,7 @@
       </pattern>
       <message>&MSG_ECX;</message>
         <suggestion><match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no="4" postag="(N.|[AD]..|Z.)M.(.+)" postag_replace='$1FP$2' postag_regexp="yes"/></suggestion>
-      <!--example correction="das grandes descubertas">A maioría <marker>das grandes descubertos</marker> científicas son nada menos que o descubrimento do ób…</example XXX add after disambiguation sync -->
+    <!--example correction="das grandes descubertas">A maioría <marker>das grandes descubertos</marker> científicas son nada menos que o descubrimento do ób…</example XXX add after disambiguation sync -->
       <example correction='Algunhas (bois)'><marker>Algunhas bois</marker> están no pasto.</example>
     </rule>
   </rulegroup>
@@ -648,7 +651,7 @@
       <example correction='Unha vaca|Unhas vacas'><marker>Unha vacas</marker> son malladas, outras non.</example>
       <example>O programa Lendas do Futuro é bo?</example>
       <example>Unha vez acordadas as novas condicións, será feito o abastecemento eléctrico.</example>
-      <!--example correction='unión empobrecida|unións empobrecidas'>As rexións na <marker>unión empobrecidas</marker> acabaron por ser culpabilizadas.</example XXX uncomment after better tagging of VMPs -->
+    <!--example correction='unión empobrecida|unións empobrecidas'>As rexións na <marker>unión empobrecidas</marker> acabaron por ser culpabilizadas.</example XXX uncomment after better tagging of VMPs -->
       <example>As rexións da <marker>unión empobrecidas</marker> acabaron por ser culpabilizados.</example>
     </rule>
     <rule>
@@ -736,7 +739,7 @@
 
   <rulegroup id='GENERAL_NUMBER_FORMAT' name="Matemático: Formateo de números: 10 341 330">
     <!-- Created by Tiago F. Santos, 2017-03-05 -->
-      <!--url>https://ciberduvidas.iscte-iul.pt/consultorio/preguntas/2500-2-500-ou-2500/12873</url TODO localize -->
+    <!--url>https://ciberduvidas.iscte-iul.pt/consultorio/preguntas/2500-2-500-ou-2500/12873</url TODO localize -->
       <short>Erro tipográfico</short>
     <rule>
       <antipattern>
@@ -789,7 +792,7 @@
     <rule>
       <regexp case_sensitive='yes'>(\-?[0-9]+[0-9,\.]*(°C|°F|°De?|°R[éeøa]?|(Z|E|P|T|G|M|k|h|da|d|c|m|µ|n|p|f|a|z|y)?m|(Z|E|P|T|G|M|k|h|da|d|c|m|µ|n|p|f|a|z|y)?N|[kKMGTPEZY]i?B|[kmµnp]g|[Mk]t|kWh|GWa|MWd|MWh))\b</regexp>
       <message>Debe dar un espazo entre o valor e a unidade de medida: <suggestion><match no="1" regexp_match="((\-)?[0-9]+[0-9,.]*{1,})" regexp_replace="$1 "/></suggestion></message>
-      <!-- url>https://ciberduvidas.iscte-iul.pt/consultorio/preguntas/simbolos-de-unidades/11572</url TODO localize -->
+    <!-- url>https://ciberduvidas.iscte-iul.pt/consultorio/preguntas/simbolos-de-unidades/11572</url TODO localize -->
       <example correction="25 °C">Fan <marker>25°C</marker>.</example>
       <example correction="-25 °C">Fan <marker>-25°C</marker>.</example>
       <example correction="25,5 °F">Fan <marker>25,5°F</marker>.</example>
@@ -1123,7 +1126,7 @@
 
   <rulegroup id='YEAR_NUMBER_FORMAT' name="Formateo de números: anos">
     <!-- Localized and improved by Tiago F. Santos, Portuguese rule, 2017-03-05 -->
-      <!--url>https://ciberduvidas.iscte-iul.pt/consultorio/preguntas/2500-2-500-ou-2500/12873</url TODO localize -->
+    <!--url>https://ciberduvidas.iscte-iul.pt/consultorio/preguntas/2500-2-500-ou-2500/12873</url TODO localize -->
     <rule>
       <pattern>
           <token regexp="yes" skip='1'>anos?</token>
@@ -1196,7 +1199,7 @@
       </pattern>
       <message>Escriba a porcentaxe sen espazos (estilo padrão).</message>
         <suggestion>\1\2</suggestion>
-      <!--url>https://ciberduvidas.iscte-iul.pt/consultorio/preguntas/centigrados-porcentagem/18011</url TODO localize -->
+    <!--url>https://ciberduvidas.iscte-iul.pt/consultorio/preguntas/centigrados-porcentagem/18011</url TODO localize -->
       <example correction="23,5%">A taxa é de <marker>23,5 %</marker>.</example>
       <example correction="23,5‰">Paga <marker>23,5 ‰</marker>.</example>
       <example>Neste caso a % é de 1 a 2.</example>
@@ -1210,10 +1213,18 @@
       </pattern>
       <message>Escolleu a opción de inserción de espazo.</message>
         <suggestion><match no="1" regexp_match="(.+)([%‰‱])" regexp_replace="$1 $2"/></suggestion>
-      <!--url>https://ciberduvidas.iscte-iul.pt/consultorio/preguntas/centigrados-porcentaxe/18011</url TODO localize -->
+    <!--url>https://ciberduvidas.iscte-iul.pt/consultorio/preguntas/centigrados-porcentaxe/18011</url TODO localize -->
       <example correction="23,5 %">A taxa é do <marker>23,5%</marker>.</example>
       <example correction="23,5 ‰">Paga <marker>23,5‰</marker>.</example>
       <example>Paga 25 %.</example>
+    </rule>
+
+    <rule id="SPACE_INDENTATION" name="Libreoffice: Indentación con espazos" default='off'>
+    <!-- Localized from German grammar.xml by Tiago F. Santos,  2017-08-19      -->
+      <regexp>^ +</regexp>
+      <message>No LibreOffice, a indentação é máis precisa se utilizar as ferramentas de tabulação ou indentação.</message>
+        <suggestion/>
+      <example correction=""><marker> </marker>El saíu de casa.</example>
     </rule>
 
   <rulegroup id='DASH_RULE' name='Guión, Meio-Raia e Raia'>
@@ -1314,7 +1325,7 @@
         <suggestion>\1–\3</suggestion>
       <short>En gamas numéricas/temporais, debe utilizar o medio-trazo.</short>
       <example correction='1901 – 1978|1901–1978'>Vitorino Nemésio (<marker>1901 - 1978</marker>) — escritor e profesor universitario.</example>
-      <!--example correction='10 – 20%|10–20%'><marker>10-20%</marker></example--> <!-- XXX add half dash to tokenizer split characters and uncomment -->
+    <!--example correction='10 – 20%|10–20%'><marker>10-20%</marker></example--> <!-- XXX add half dash to tokenizer split characters and uncomment -->
       <example>1139–1385 — Formación do Reino de Portugal</example>
       <example>2560-657 TORRES VEDRAS</example>
       <example>---------------------------------------</example>
@@ -1383,7 +1394,7 @@
       </pattern>
       <message>En diálogos, debe dar espazo despois do trazo longo.</message>
         <suggestion>— \3</suggestion>
-      <!--url>https://ciberduvidas.iscte-iul.pt/consultorio/preguntas/o-uso-do-hifen-e-do-travessao/31251</url TODO localize -->
+    <!--url>https://ciberduvidas.iscte-iul.pt/consultorio/preguntas/o-uso-do-hifen-e-do-travessao/31251</url TODO localize -->
       <example correction="— Corre"><marker>—Corre</marker>! Vaia!</example>
       <example>1139–1385 — Formación do Reino de Portugal</example>
       <example>— Saltar</example>
@@ -1452,7 +1463,7 @@
       <message>Os trazos longos son desnecessários en enumerações.</message>
         <suggestion>\2.</suggestion>
       <example correction="1."><marker>1.-</marker> Introdución</example>
-      <example correction="1."><marker>1.--</marker> Introdución</example> 
+      <example correction="1."><marker>1.--</marker> Introdución</example>
       <example correction="1.3."><marker>1.3.—</marker> Introdución</example>
       <example>1139–1385 — Formación do Reino de Portugal</example>
       <example>50-30</example>
@@ -2386,6 +2397,7 @@
  <category id="CAT1" name="Gramática::Verbo">
 
     <rule id="IR_A_INF" name="ir máis infinitivo">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token inflected="yes">ir</token>
           <token>a</token>
@@ -2399,6 +2411,7 @@
     <!-- FIXME false positive when "ven" is imperative -->
   <rulegroup id="VEN_VEN" name="vén vs. ven">
     <rule name="vén + xerundio (vén brincando)">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
         <marker>
           <token regexp="yes">ven|ves</token>
@@ -2411,6 +2424,7 @@
     </rule>
 
     <rule name="vén de + infinitivo (vén de adquirir)">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
         <marker>
           <token>ven</token>
@@ -2428,6 +2442,7 @@
   <rulegroup id="COMPRE" name="cómpre vs. compre">
     <!-- compre + VINF (cómpre ignorar a provocación) -->
     <rule>
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
         <marker>
           <token>compre</token>
@@ -2439,6 +2454,7 @@
     </rule>
     <!-- compre + adverbio + VINF (cómpre agora ignorar a provocación) -->
     <rule>
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
         <marker>
           <token>compre</token>
@@ -2451,6 +2467,7 @@
     </rule>
     <!-- compre + que -->
     <rule>
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
         <marker>
           <token>compre</token>
@@ -2464,6 +2481,7 @@
 
   <rulegroup id="CLITICOS" name="posición dos clíticos">
     <rule name="volo dixen (díxenvolo)">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token postag="SENT_START"/>
           <token postag="PP......:PP......" postag_regexp="yes"/>
@@ -2479,6 +2497,7 @@
   <rulegroup id="REFLEXIVOS" name="cásome, me caso (caso)">
     <!--enclíticos-->
     <rule>
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token inflected="yes" regexp="yes" postag="V...1S.:PP1.S.*" postag_regexp="yes">casar|morrer|acougar|adormecer|agrelar|acedar|murchar|merar|espertar|quedar|marchar|calar|caer</token>
       </pattern>
@@ -2486,6 +2505,7 @@
       <example correction="marchei">Finalmente <marker>marcheime</marker> con Alberte.</example>
     </rule>
     <rule>
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token inflected="yes" regexp="yes" postag="V...2S.:PP2.S.*" postag_regexp="yes">casar|morrer|acougar|adormecer|agrelar|acedar|murchar|merar|espertar|quedar|marchar|calar|caer</token>
       </pattern>
@@ -2493,6 +2513,7 @@
       <example correction="marchas">Finalmente <marker>márchaste</marker> con Alberte?</example>
     </rule>
     <rule>
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token inflected="yes" regexp="yes" postag="V...3[SP].:PP3.N.*" postag_regexp="yes">casar|morrer|acougar|adormecer|agrelar|acedar|murchar|merar|espertar|quedar|marchar|calar|caer</token>
       </pattern>
@@ -2500,6 +2521,7 @@
       <example correction="marchou">Finalmente <marker>marchouse</marker> con Alberte.</example>
     </rule>
     <rule>
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token inflected="yes" regexp="yes" postag="V...1P.:PP1.P.*" postag_regexp="yes">casar|morrer|acougar|adormecer|agrelar|acedar|murchar|merar|espertar|quedar|marchar|calar|caer</token>
       </pattern>
@@ -2507,6 +2529,7 @@
       <example correction="marchamos">Finalmente <marker>marchámonos</marker> con Alberte.</example>
     </rule>
     <rule>
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token inflected="yes" regexp="yes" postag="V...2P.:PP2.P.*" postag_regexp="yes">casar|morrer|acougar|adormecer|agrelar|acedar|murchar|merar|espertar|quedar|marchar|calar|caer</token>
       </pattern>
@@ -2515,6 +2538,7 @@
     </rule>
     <!--proclíticos-->
     <rule>
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <unify>
             <feature id="person">
@@ -2537,6 +2561,7 @@
   </rulegroup>
 
     <rule id="PRON_NOS" name="nos cantamos (nós cantamos)">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
         <marker>
           <token postag="SENT_START"/>
@@ -2551,6 +2576,7 @@
       <example correction="Nós"><marker>Nos</marker> cremos que a lingua é un tesouro.</example>
     </rule>
     <rule id="PRON_VOS" name="vos cantades (vós cantades)">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
         <marker>
           <token postag="SENT_START"/>
@@ -2574,6 +2600,7 @@
             -->
     <!-- V + de + que: informar -->
     <rule>
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token inflected="yes">
             <exception negate_pos="yes" postag="V.*" postag_regexp="yes"/>informar</token>
@@ -2584,6 +2611,7 @@
     </rule>
     <!-- V + en + que: insistir, confiar -->
     <rule>
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token inflected="yes" regexp="yes">insistir|confiar</token>
           <token>que</token>
@@ -2601,6 +2629,7 @@
 
   <rulegroup id="FORA_FORA" name="fóra vs. fora">
     <rule name="preposición + fóra (de fóra)">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token postag="SPS00"/>
         <marker>
@@ -2612,6 +2641,7 @@
     </rule>
     <!-- cando os deixaran fora terrible
     <rule>
+    < Created by Susana Sotelo Docío >
       <pattern mark_from="1">
           <token postag="V[SM][SMI]...." postag_regexp="yes">
             <exception postag="V[SM][SMI]...." postag_regexp="yes" negate_pos="yes"/></token>
@@ -2624,6 +2654,7 @@
   </rulegroup>
 
     <rule id="QUENES" name="quenes (quen)">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token>quenes</token>
       </pattern>
@@ -2636,6 +2667,7 @@
 
   <rulegroup id="GRAN" name="gran día" default="off">
     <rule>
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
         <marker>
           <token>grande</token>
@@ -2649,6 +2681,7 @@
       <example>Resultou ser un <marker>gran</marker> curso.</example>
     </rule>
     <rule>
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
         <marker>
           <token>gran</token>
@@ -2660,6 +2693,7 @@
       <example>Resultou ser un <marker>grande</marker> amigo.</example>
     </rule>
     <rule>
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
         <marker>
           <token>malo</token>
@@ -2672,6 +2706,7 @@
     </rule>
     <!-- FIXME: que pasa se comeza por h- // FIXME: santo cristo/san cristo -->
     <rule>
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
         <marker>
           <token>san</token>
@@ -2683,6 +2718,7 @@
       <example>Foi á romaría de <marker>santo</marker> Andrés.</example>
     </rule>
     <rule>
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
         <marker>
           <token>santo</token>
@@ -2697,6 +2733,7 @@
 
   <rulegroup id="CARA" name="cara a">
     <rule>
+    <!-- Created by Susana Sotelo Docío -->
       <pattern case_sensitive="yes">
         <marker>
           <token>cara
@@ -2711,6 +2748,7 @@
 
     <!-- *cara un/algún/ningún/... -->
     <rule>
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
         <marker>
           <token>cara
@@ -2725,6 +2763,7 @@
 
     <!-- *cara + adxectivo/substantivo plural -->
     <rule>
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
         <marker>
           <token>cara
@@ -2739,6 +2778,7 @@
 
     <!-- *cara a/as ... -->
     <rule>
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
         <marker>
           <token>cara
@@ -2755,6 +2795,7 @@
     </rule>
 
     <rule>
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
         <marker>
           <token>cara
@@ -2772,6 +2813,7 @@
 
   <rulegroup id="ATA_ATE" name="ata á (ata a)">
     <rule>
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token regexp="yes">até|ata</token>
           <token regexp="yes">aos?|ós?|ás?</token>
@@ -2790,6 +2832,7 @@
         -->
   <rulegroup id="INTERROG" name="qué,cál,cómo (que,cal,como)">
     <rule>
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token postag="SENT_START"/>
         <marker>
@@ -2801,6 +2844,7 @@
       <example correction="Cando"><marker>Cándo</marker> chegan teus pais?</example>
     </rule>
     <rule>
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token regexp="yes">\¿|\¡</token>
         <marker>
@@ -2812,6 +2856,7 @@
       <example correction="Cando">¿<marker>Cándo</marker> chegan teus pais?</example>
     </rule>
     <rule>
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token postag="SENT_START"/>
         <marker>
@@ -2823,6 +2868,7 @@
       <example correction="Onde"><marker>Ónde</marker> está Bretoña?</example>
     </rule>
     <rule>
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token regexp="yes">\¿|\¡</token>
         <marker>
@@ -2834,6 +2880,7 @@
       <example correction="Onde">¿<marker>Ónde</marker> está Bretoña?</example>
     </rule>
     <rule>
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token postag="SENT_START"/>
         <marker>
@@ -2845,6 +2892,7 @@
       <example correction="Que"><marker>Qué</marker> día chegan teus pais?</example>
     </rule>
     <rule>
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token regexp="yes">\¿|\¡</token>
         <marker>
@@ -2860,6 +2908,7 @@
     <!-- FIXED: 'demais' can function without article: "versionado en galego, catalán e demais linguas" -->
   <rulegroup id="DEMAIS" name="demais e de mais">
     <rule>
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
     <!-- Exceptions: o, mailo + o, por + o, de + o, en + o, todos + o, con + o, ca + o, a + o    //   e, ou -->
           <token>demais
@@ -2873,6 +2922,7 @@
     </rule>
 
     <rule>
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token>de</token>
           <token>mais</token>
@@ -2888,6 +2938,7 @@
         -->
   <rulegroup id="SENON" name="se non, senón">
     <rule id="SE_SENON_QUE" name="se non que (senón que)">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token skip="-1">non
             <exception scope="next">non</exception></token>
@@ -2902,6 +2953,7 @@
       <example correction="senón que">A economía da guerra non se baseaba na empresa libre, <marker>se non que</marker> era o resultado da sectorización do gasto do goberno</example>
     </rule>
     <rule id="SENON_QUE" name="se non que (senón que)">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token skip="-1">non</token>
         <marker>
@@ -2917,6 +2969,7 @@
 
   <rulegroup id="AMBOS_TODOS" name="ambos, ambas, todos, todas e substantivo">
     <rule>
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token regexp="yes">(entr)?amb[oa]s</token>
           <token postag="NC.P000" postag_regexp="yes">
@@ -2931,6 +2984,7 @@
       <example>Visitou <marker>ambas as cidades</marker> este ano.</example>
     </rule>
     <rule>
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token regexp="yes">tod[oa]s</token>
           <token postag="NC.P000" postag_regexp="yes">
@@ -2950,6 +3004,7 @@
 
     <!-- fuzzy -->
     <rule id="POR_O" name="por o (polo)">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token>por</token>
           <token regexp="yes">[oa]s?</token>
@@ -2959,6 +3014,7 @@
     </rule>
 
     <rule id="E_MAIS_O" name="e mais o (e mailo)">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token>e</token>
           <token regexp="yes">m[aá]is</token>
@@ -2970,6 +3026,7 @@
 
     <!-- FIXME suggest 'e Maila' when 'mailo/a' is the first token in the sentence -->
     <rule id="MAILO" name="mailo (e mailo)">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token negate="yes">e</token>
         <marker>
@@ -2982,6 +3039,7 @@
   </rulegroup>
 
     <rule id="AMBO_TRA_ENTRAMBO_PO_TODO_LOS" name="tódo-los (tódolos)">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token regexp="yes">(ámbo|tra|entrámbo|mai|po|tód[ao])</token>
           <token>-</token>
@@ -2996,7 +3054,7 @@
              previous verb (that could be head of the PP instead of the NP, etc
              TODO: Java rule to check this error.
         -->
-    <!--
+    <!-- Created by Susana Sotelo Docío
     <rule id="SUBST_A_INF" name="substantivo + a + inf">
       <pattern>
           <token postag="NC.*" postag_regexp="yes">
@@ -3011,6 +3069,7 @@
         -->
 
     <rule id="NON_OU" name="non... ou (nin...nin)" default="off">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token skip="-1">non
             <exception scope="next">,</exception></token>
@@ -3024,6 +3083,7 @@
     </rule>
 
     <rule id="SE_BEN" name="se ben (malia que, aínda que)">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token>se</token>
           <token>ben</token>
@@ -3035,6 +3095,7 @@
 
   <rulegroup id="ELO" name="elo como pronome (iso)">
     <rule>
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token postag="SPS00">
             <exception>do</exception>
@@ -3048,6 +3109,7 @@
       <example>Con <marker>iso</marker> conseguimos mellorar o rendemento do proceso.</example>
     </rule>
     <rule>
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token>todo</token>
         <marker>
@@ -3063,6 +3125,7 @@
 
   <rulegroup id="ADV_POSESIVO" name="detrás miña, túa, nosa… (detrás de min, ti, nós…)">
     <rule id="DETRAS_MINHA" name="detrás miña (detrás de min)">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token regexp="yes">adiante|arredor|arriba|atrás|baixo|cerca|debaixo|dediante|derredor|derriba|detrás|diante|embaixo|encima|enriba|riba</token>
           <token>miña</token>
@@ -3072,6 +3135,7 @@
       <example correction="detrás de min">Vén xusto <marker>detrás miña</marker>.</example>
     </rule>
     <rule id="DETRAS_TUA" name="detrás túa (detrás de ti)">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token regexp="yes">adiante|arredor|arriba|atrás|baixo|cerca|debaixo|dediante|derredor|derriba|detrás|diante|embaixo|encima|enriba|riba</token>
           <token>túa</token>
@@ -3081,6 +3145,7 @@
       <example correction="detrás de ti">Mira <marker>detrás túa</marker>, un mono con tres cabezas!</example>
     </rule>
     <rule id="DETRAS_NOSA_VOSA" name="detrás nosa (detrás de nós)">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token regexp="yes">adiante|arredor|arriba|atrás|baixo|cerca|debaixo|dediante|derredor|derriba|detrás|diante|embaixo|encima|enriba|riba</token>
           <token regexp="yes">nosa|vosa</token>
@@ -3090,6 +3155,7 @@
       <example correction="detrás de vós">Mirade <marker>detrás vosa</marker>, un mono con tres cabezas!</example>
     </rule>
     <rule id="DETRAS_SUA" name="detrás súa (detrás del/dela/deles/delas)">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token regexp="yes">adiante|arredor|arriba|atrás|baixo|cerca|debaixo|dediante|derredor|derriba|detrás|diante|embaixo|encima|enriba|riba</token>
           <token>súa</token>
@@ -3107,6 +3173,7 @@
 
  <category id="CAT3" name="Léxico::Estranxeirismos (agás castelanismos)">
     <rule id="BAFFLE" name="baffle (pantalla acústica)">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token regexp="yes">baf?fles?</token>
       </pattern>
@@ -3116,6 +3183,7 @@
     </rule>
 
     <rule id="COMPACTDISK" name="compact disk (disco compacto)">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token>compact</token>
           <token>disk</token>
@@ -3125,6 +3193,7 @@
     </rule>
 
     <rule id="CHEF" name="chef (xefe de cociña)">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token regexp="yes">chefs?</token>
       </pattern>
@@ -3134,6 +3203,7 @@
     </rule>
 
     <rule id="CONTAINER" name="container (colector)">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token regexp="yes">cont[áa]iner(es)?</token>
       </pattern>
@@ -3142,6 +3212,7 @@
     </rule>
 
     <rule id="WATER" name="water (váter)">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token regexp="yes">w[aá]ter(es)?</token>
       </pattern>
@@ -3150,6 +3221,7 @@
     </rule>
 
     <rule id="PLAYBACK" name="playback (son pregravado)">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token regexp="yes">playbacks?</token>
       </pattern>
@@ -3159,6 +3231,7 @@
     </rule>
 
     <rule id="OFFTHERECORD" name="off the record (en privado)">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token>off</token>
           <token>the</token>
@@ -3169,6 +3242,7 @@
     </rule>
 
     <rule id="DOPING" name="doping (dopaxe)">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token regexp="yes">(anti)?d[oó]pings?</token>
       </pattern>
@@ -3178,6 +3252,7 @@
     </rule>
 
     <rule id="STRESS" name="stress (tensión)">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token regexp="yes">e?str[eé]ss?</token>
       </pattern>
@@ -3187,6 +3262,7 @@
     </rule>
 
     <rule id="RECORD" name="record (marca)">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token regexp="yes">r[eé]cords?
             <exception scope="previous">the</exception></token>
@@ -3200,6 +3276,7 @@
  <category id="CAT4" name="Léxico::Falsos homónimos">
 
     <rule id="RACHA" name="racha (refacho)">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token regexp="yes">rachas?</token>
       </pattern>
@@ -3210,6 +3287,7 @@
     </rule>
 
     <rule id="LORO" name="loro (papagaio)">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token regexp="yes">loros?</token>
       </pattern>
@@ -3219,6 +3297,7 @@
     </rule>
 
     <rule id="PILDORA" name="píldora (pílula)">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token inflected="yes">píldora</token>
       </pattern>
@@ -3229,6 +3308,7 @@
     </rule>
 
     <rule id="APORTAR" name="aportar (achegar)">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token inflected="yes">aportar</token>
       </pattern>
@@ -3239,6 +3319,7 @@
     </rule>
 
     <rule id="BECA" name="beca (bolsa)">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token inflected="yes">beca</token>
       </pattern>
@@ -3248,6 +3329,7 @@
     </rule>
 
     <rule id="ABONO" name="abono (fertilizante, pagamento)">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token inflected="yes">abono</token>
       </pattern>
@@ -3260,6 +3342,7 @@
     </rule>
 
     <rule id="GRUA" name="grua (guindastre)">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token inflected="yes">grúa</token>
       </pattern>
@@ -3270,6 +3353,7 @@
     </rule>
 
     <rule id="FECHA" name="fecha (data)">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token inflected="yes">fecha</token>
       </pattern>
@@ -3279,6 +3363,7 @@
     </rule>
 
     <rule id="ASCO" name="asco (noxo)">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token inflected="yes">asco</token>
       </pattern>
@@ -3288,6 +3373,7 @@
     </rule>
 
     <rule id="RAPE" name="rape (peixe sapo)">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token inflected="yes">rape</token>
       </pattern>
@@ -3301,6 +3387,7 @@
  <category id="CAT5" name="Léxico::Castelanismos léxicos">
 
     <rule id="MARTINPESCADOR" name="martín pescador (picapeixe)">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token regexp="yes">martín|martiño</token>
           <token regexp="yes">pescador(es)?</token>
@@ -3310,6 +3397,7 @@
     </rule>
 
     <rule id="ALOMELLOR" name="alomellor (se cadra)">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token>alomellor</token>
       </pattern>
@@ -3318,6 +3406,7 @@
     </rule>
 
     <rule id="CONCELLAL" name="concellal, concexal (concelleiro)">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token regexp="yes">conce(ll|x)a(l|is|es)</token>
       </pattern>
@@ -3326,6 +3415,7 @@
     </rule>
 
     <rule id="DETERIORO" name="deterioro (deterioración)">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token regexp="yes">deterioros?</token>
       </pattern>
@@ -3335,6 +3425,7 @@
     </rule>
 
     <rule id="BASURA" name="basura (lixo)">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token regexp="yes">basuras?</token>
       </pattern>
@@ -3344,6 +3435,7 @@
     </rule>
 
     <rule id="ASIGNATURA" name="asignatura (materia, disciplina)">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token regexp="yes">asignaturas?</token>
       </pattern>
@@ -3353,6 +3445,7 @@
     </rule>
 
     <rule id="VELETA" name="veleta (catavento)">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token regexp="yes">veletas?</token>
       </pattern>
@@ -3362,6 +3455,7 @@
     </rule>
 
     <rule id="VENTANILLA" name="ventanilla (portelo)">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token regexp="yes">ventanillas?</token>
       </pattern>
@@ -3371,6 +3465,7 @@
     </rule>
 
     <rule id="BOTIQUIN" name="botiquín (caixa de urxencias)">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token regexp="yes">botiquíns?</token>
       </pattern>
@@ -3380,6 +3475,7 @@
     </rule>
 
     <rule id="AFORO" name="aforo (capacidade)">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token regexp="yes">aforos?</token>
       </pattern>
@@ -3389,6 +3485,7 @@
     </rule>
 
     <rule id="PROMEDIO" name="promedio (termo medio)">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token regexp="yes">promedios?</token>
       </pattern>
@@ -3398,6 +3495,7 @@
     </rule>
 
     <rule id="PREVENIDO" name="prevenido (prevido)">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token regexp="yes">(des)?prevenid[oa]s?</token>
       </pattern>
@@ -3406,6 +3504,7 @@
     </rule>
 
     <rule id="SERVILLETA" name="servilleta (pano de mesa)">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token regexp="yes">servilletas?</token>
       </pattern>
@@ -3415,6 +3514,7 @@
     </rule>
 
     <rule id="CUPO" name="cupo (cota)">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token regexp="yes">cupos?</token>
       </pattern>
@@ -3424,6 +3524,7 @@
     </rule>
 
     <rule id="CALLEXON" name="callexón, calexón (canella)">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token regexp="yes">(callexón|calei?xón)s?</token>
       </pattern>
@@ -3433,6 +3534,7 @@
     </rule>
 
     <rule id="SABANHON" name="sabañón (frieira)">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token regexp="yes">sabañóns?</token>
       </pattern>
@@ -3442,6 +3544,7 @@
     </rule>
 
     <rule id="RINCON" name="rincón (recuncho)">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token regexp="yes">rincóns?</token>
       </pattern>
@@ -3451,6 +3554,7 @@
     </rule>
 
     <rule id="CARCOMA" name="carcoma (caruncho)">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token regexp="yes">carcomas?</token>
       </pattern>
@@ -3460,6 +3564,7 @@
     </rule>
 
     <rule id="RASGO" name="rasgo (trazo, risco)">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token regexp="yes">rasgos?</token>
       </pattern>
@@ -3469,6 +3574,7 @@
     </rule>
 
     <rule id="BUZON" name="buzón (caixa de correos)">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token regexp="yes">buzóns?</token>
       </pattern>
@@ -3478,6 +3584,7 @@
     </rule>
 
     <rule id="CALAMAR" name="calamar (lura)">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token regexp="yes">calamar(es)?</token>
       </pattern>
@@ -3487,6 +3594,7 @@
     </rule>
 
     <rule id="BRUXULA" name="brúxula (compás)">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token regexp="yes">brúxulas?</token>
       </pattern>
@@ -3496,6 +3604,7 @@
     </rule>
 
     <rule id="CORBATA" name="corbata (gravata, garavata)">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token regexp="yes">corbata?</token>
       </pattern>
@@ -3505,6 +3614,7 @@
     </rule>
 
     <rule id="CONTRASEÑA" name="contraseña (contrasinal)">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token regexp="yes">contraseñas?</token>
       </pattern>
@@ -3514,6 +3624,7 @@
     </rule>
 
     <rule id="GRULLA" name="grulla (grou, grúa)">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token regexp="yes">grullas?</token>
       </pattern>
@@ -3523,6 +3634,7 @@
     </rule>
 
     <rule id="LIBRETA" name="libreta (caderno)">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token regexp="yes">libretas?</token>
       </pattern>
@@ -3532,6 +3644,7 @@
     </rule>
 
     <rule id="TIZA" name="tiza (xiz)">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token regexp="yes">tizas?</token>
       </pattern>
@@ -3541,6 +3654,7 @@
 
     <!--fuzzy-->
     <rule id="TRAGALUZ" name="tragaluz (bufarda)">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token regexp="yes">tragalu(z|ces)</token>
       </pattern>
@@ -3551,6 +3665,7 @@
 
     <!--fuzzy-->
     <rule id="XOROBA" name="xoroba (chepa, carrumba)">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token regexp="yes">xorobas?</token>
       </pattern>
@@ -3561,6 +3676,7 @@
 
     <!--fuzzy-->
     <rule id="XARRON" name="xarrón (floreiro, vaso)">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token regexp="yes">xarróns?</token>
       </pattern>
@@ -3570,6 +3686,7 @@
     </rule>
 
     <rule id="APORTACION" name="aportación, aporte (achega, contribución)">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token regexp="yes">aport(e|ación)s?</token>
       </pattern>
@@ -3580,6 +3697,7 @@
     </rule>
 
     <rule id="TIBURON" name="tiburón (quenlla)">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token regexp="yes">tiburóns?</token>
       </pattern>
@@ -3590,6 +3708,7 @@
     </rule>
 
     <rule id="CHEQUEO" name="chequeo (revisión, recoñecemento)">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token regexp="yes">chequeos?</token>
       </pattern>
@@ -3600,6 +3719,7 @@
     </rule>
 
     <rule id="TURNO_TANDA" name="turno, tanda (quenda, vez)">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token regexp="yes">turnos?|tandas?</token>
       </pattern>
@@ -3612,6 +3732,7 @@
     </rule>
 
     <rule id="TRINEO" name="trineo (zorra)">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token regexp="yes">trineos?</token>
       </pattern>
@@ -3622,6 +3743,7 @@
     </rule>
 
     <rule id="GRIFO" name="grifo (billa)">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token regexp="yes">grifos?</token>
       </pattern>
@@ -3632,6 +3754,7 @@
     </rule>
 
     <rule id="MORDISCO" name="mordisco (dentada)">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token regexp="yes">mordiscos?</token>
       </pattern>
@@ -3642,6 +3765,7 @@
     </rule>
 
     <rule id="ANDAMIO" name="andamio (estada)">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token regexp="yes">andamios?</token>
       </pattern>
@@ -3652,6 +3776,7 @@
     </rule>
 
     <rule id="ANDEN" name="andén (plataforma)">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token regexp="yes">andéns?</token>
       </pattern>
@@ -3662,6 +3787,7 @@
     </rule>
 
     <rule id="ARCEN" name="arcén (beiravía)">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token regexp="yes">arcéns?</token>
       </pattern>
@@ -3673,6 +3799,7 @@
 
   <rulegroup id="ASEQUIBEL" name="alcanzábel, accesíbel">
     <rule>
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token regexp="yes">asequibles?</token>
       </pattern>
@@ -3682,6 +3809,7 @@
       <example>O prezo actual da vivenda non é <marker>accesible</marker> para moita xente no pais.</example>
     </rule>
     <rule>
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token regexp="yes">inasequibles?</token>
       </pattern>
@@ -3691,6 +3819,7 @@
       <example>O prezo actual da vivenda é <marker>inaccesible</marker> para moita xente no pais.</example>
     </rule>
     <rule>
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token regexp="yes">asequíbe(l|is)</token>
       </pattern>
@@ -3700,6 +3829,7 @@
       <example>O prezo actual da vivenda non é <marker>accesíbel</marker> para moita xente no pais.</example>
     </rule>
     <rule>
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token regexp="yes">inasequíbe(l|is)</token>
       </pattern>
@@ -3712,6 +3842,7 @@
 
   <rulegroup id="NORABOA" name="noraboa (parabén)">
     <rule>
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token regexp="yes">noraboas?</token>
       </pattern>
@@ -3721,6 +3852,7 @@
       <example>Moi bo traballo, <marker>parabéns</marker>!</example>
     </rule>
     <rule>
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token inflected="yes">dar</token>
           <token>a</token>
@@ -3732,6 +3864,7 @@
       <example>Quero <marker>felicitar</marker> á miña sobriña Noelia.</example>
     </rule>
     <rule>
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token inflected="yes">dar</token>
           <token>a</token>
@@ -3746,6 +3879,7 @@
   </rulegroup>
 
     <rule id="ADOQUIN" name="adoquín (lastra)">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token regexp="yes">adoquíns?</token>
       </pattern>
@@ -3757,6 +3891,7 @@
 
   <rulegroup id="SEN_EMBARGO" name="sen embargo, nembargantes (porén, mais, no entanto)">
     <rule>
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token>sen</token>
           <token>embargo</token>
@@ -3767,6 +3902,7 @@
       <example><marker>Porén</marker>, a súa importancia débese a outros factores.</example>
     </rule>
     <rule>
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token>nembargantes</token>
       </pattern>
@@ -3779,6 +3915,7 @@
 
   <rulegroup id="CORTEZA" name="corteza (codia, córtex cerebral)">
     <rule id="CORTEZA_NON_CEREBRAL" name="corteza (codia)">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
         <marker>
           <token regexp="yes">(corteza|cortiza)s?</token>
@@ -3790,6 +3927,7 @@
       <example correction="codia">Do pan prefiro comer a <marker>corteza</marker>.</example>
     </rule>
     <rule id="CORTEZA_CEREBRAL" name="corteza cerebral (córtex cerebral)">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token regexp="yes">(corteza|cortiza|codia)s?</token>
           <token regexp="yes">cerebra(l|is|les)</token>
@@ -3805,6 +3943,7 @@
 
  <category id="CAT6" name="Léxico::Barbarismos">
     <rule id="ADICAR" name="adicar (dedicar)">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token inflected="yes">adicar</token>
       </pattern>
@@ -3817,6 +3956,7 @@
 
     <!--
     <rule id="PUNTUAL" name="puntual (concreto)">
+    <! Created by Susana Sotelo Docío >
       <pattern>
           <token inflected="yes">puntual</token>
       </pattern>
@@ -3834,6 +3974,7 @@
 
   <rulegroup id="ACCESIT" name="accésits (accésit)">
     <rule>
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token regexp="yes">acc[eé]sits</token>
       </pattern>
@@ -3842,24 +3983,9 @@
     </rule>
   </rulegroup>
 
-  <rulegroup id="REPETIDA" name="Palabra repetida">
-    <rule>
-      <pattern>
-          <token>
-            <exception postag="SENT_START"/></token>
-          <token>
-                        <match no="0"/>
-            <exception regexp="yes">\p{Lu}\p{Ll}+|\.|\p{Lu}\.|se|moi|son|sapiens</exception>
-          </token>
-      </pattern>
-      <message>Posíbel erro tipográfico: repetíu unha palabra.</message>
-      <example correction="">Como acontece coa maior parte das <marker>linguas linguas</marker> romances.</example>
-      <example>Como acontece coa maior parte das <marker>linguas</marker> romances.</example>
-    </rule>
-  </rulegroup>
-
   <rulegroup id="VEN_BEN" name="ven vs. ben">
     <rule>
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token>tan</token>
           <token>ven</token>
@@ -3870,7 +3996,7 @@
       <example>Xoga <marker>tan ben coma</marker> o pai.</example>
     </rule>
     <!-- falso positivo: cando o amoso ven sempre un rapaz -->
-    <!--
+    <!-- Created by Susana Sotelo Docío >
     <rule>
       <pattern mark_from="1">
           <token postag="V[SM][SMI]...." postag_regexp="yes">
@@ -3885,6 +4011,7 @@
   </rulegroup>
 
     <rule id="EN_DE_SEGUIDA" name="enseguida, deseguida">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token regexp="yes">en|de</token>
           <token>seguida</token>
@@ -3895,6 +4022,7 @@
     </rule>
 
     <rule id="DE_SEGUIDO_CONTADO_CONTINO" name="deseguido, decontado, decontino">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token>de</token>
           <token regexp="yes">seguido|contado|contino</token>
@@ -3905,6 +4033,7 @@
     </rule>
 
     <rule id="TAL_VEZ" name="talvez">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token>tal</token>
           <token>vez</token>
@@ -3914,6 +4043,7 @@
     </rule>
 
     <rule id="DACORDO" name="dacordo (de acordo)">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token>dacordo</token>
       </pattern>
@@ -3922,6 +4052,7 @@
     </rule>
 
     <rule id="A_REO" name="arreo">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token>a</token>
           <token>reo</token>
@@ -3933,6 +4064,7 @@
   <rulegroup id="A_DE_EN_CON_O" name="preposición (a, de, en, con) e artigo de topónimo">
     <!-- Preposicións: a + a,as -->
     <rule>
+    <!-- Created by Susana Sotelo Docío -->
       <pattern case_sensitive="yes">
           <token regexp="yes">a|A</token>
           <token regexp="yes">A|As</token>
@@ -3945,6 +4077,7 @@
 
     <!-- Preposicións: a + o,os -->
     <rule>
+    <!-- Created by Susana Sotelo Docío -->
       <pattern case_sensitive="yes">
           <token regexp="yes">a|A</token>
           <token regexp="yes">O|Os</token>
@@ -3957,6 +4090,7 @@
 
     <!-- Preposicións: de, en, con, a + o,os -->
     <rule>
+    <!-- Created by Susana Sotelo Docío -->
       <pattern case_sensitive="yes">
           <token regexp="yes">(?iu)de|con|en</token>
           <token regexp="yes">O|A|Os|As</token>
@@ -3971,6 +4105,7 @@
   </rulegroup>
 
     <rule id="A_DE_COTIO" name="acotío, decotío">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token regexp="yes">de|a</token>
           <token>cotío</token>
@@ -3981,6 +4116,7 @@
     </rule>
 
     <rule id="DE_VAGAR_COTE" name="devagar, decote">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token>de</token>
           <token regexp="yes">vagar|cote</token>
@@ -3992,6 +4128,7 @@
     </rule>
 
     <rule id="A_MODO_PENAS" name="a modo, a penas (amodo, apenas)">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token>a</token>
           <token regexp="yes">modo|modiño|penas</token>
@@ -4003,6 +4140,7 @@
 
   <rulegroup id="UN_AVE" name="un ave (unha ave)" default="off">
     <rule>
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token regexp="yes">[ndc]?un|[nd]?algún|ningún</token>
           <token regexp="yes" postag="NCFS000">h?[aá].*</token>
@@ -4013,6 +4151,7 @@
     </rule>
 
     <rule>
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token regexp="yes">[nd]?o</token>
           <token regexp="yes" postag="NCFS000">h?[aá].*</token>
@@ -4023,6 +4162,7 @@
     </rule>
 
     <rule>
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token>co</token>
           <token regexp="yes" postag="NCFS000">h?[aá].*</token>
@@ -4035,8 +4175,9 @@
 
   <rulegroup id="ESTE_ESTA" name="éste (este)">
     <rule>
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
-          <token regexp="yes">ést?[ea]</token>
+          <token regexp="yes">ést?[ea]s?</token>
       </pattern>
       <message>Posíbel erro: en galego os pronomes demostrativos (este, ese, aquel) non levan til. Quería vostede dicir <suggestion><match no="1" regexp_match="(?iu)é(.*)" regexp_replace="e$1"/></suggestion>?</message>
       <example correction="esta">Eles consideran que se lle das confianza á xente <marker>ésta</marker> responderá correctamente.</example>
@@ -4047,6 +4188,7 @@
  <category id="CAT8" name="Fraseoloxía">
   <rulegroup id="LOCUCIÓNS" name="locucións e frases feitas">
     <rule id="DE_REOLLO" name="de reollo (de esguello)">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token>de</token>
           <token>reollo</token>
@@ -4057,6 +4199,7 @@
     </rule>
 
     <rule id="VISTO_BO" name="visto bo (visto e prace)">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token>visto</token>
           <token>bo</token>
@@ -4067,6 +4210,7 @@
     </rule>
 
     <rule id="DANOS_E_PREXUIZOS" name="danos e prexuízos (danos e perdas)">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token>danos</token>
           <token>e</token>
@@ -4078,6 +4222,7 @@
     </rule>
 
     <rule id="PASAR_POLO_ARO" name="pasar polo aro (vir ao rego)">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token inflected="yes">pasar</token>
           <token>polo</token>
@@ -4089,6 +4234,7 @@
     </rule>
 
     <rule id="ACUSE_DE_RECIBO" name="acuse de recibo (xustificante de recepción)">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token regexp="yes">acuses?</token>
           <token>de</token>
@@ -4100,6 +4246,7 @@
     </rule>
 
     <rule id="ESTIMAR_UNHA_DEMANDA" name="estimar unha demanda (admitir unha demanda)">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token inflected="yes">estimar</token>
           <token regexp="yes">a|unha</token>
@@ -4112,6 +4259,7 @@
     </rule>
 
     <rule id="BALANZA_DE_PAGOS" name="balanza de pagos (balanza de pagamentos)">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token inflected="yes">balanza</token>
           <token>de</token>
@@ -4123,6 +4271,7 @@
     </rule>
 
     <rule id="BUZON_DE_SUXERENCIAS" name="buzón de suxerencias (caixa de suxestións)">
+    <!-- Created by Susana Sotelo Docío -->
       <pattern>
           <token regexp="yes">buzóns?</token>
           <token>de</token>
@@ -4137,7 +4286,206 @@
 
  </category>
 
-<category id="LIBREOFFICE_RULES" name="LibreOffice: Regras para textos formatados" default="off">
+ <category id='REPETITIONS' name='Repetições' type='duplication'>
+
+    <rule id='CONJUNCTION_REPETITION' name="Repetición de conxunción">
+    <!-- Created by Tiago F. Santos, Portuguese rule, 2016-12-03	-->
+      <pattern>
+          <token regexp="yes" skip='6'>ademais|aínda|alén|conforme|entanto|mais|obstante|porén|pronto|senón|sexa|tamén
+            <exception scope='next' postag_regexp='yes' postag="_PUNCT|''"/></token>
+        <marker>
+          <token><match no="0"/></token>
+        </marker>
+      </pattern>
+      <message>Repetición estilisticamente incorrecta.</message>
+    <!-- url>https://pt.wikiversity.org/wiki/Norma_padrão_da_língua_portuguesa/Repetições_e_elipses</url XXX localize URL -->
+      <example correction="">Tamén escribiu <marker>tamén</marker> para un xornal nacional.</example>
+      <example correction="">Aínda que non é <marker>aínda</marker> que definitivo.</example>
+      <example>Sexa por vergoña, sexa por timidez.</example>
+    </rule>
+
+  <rulegroup id="WORD_REPETITION" name="Palabra repetida">
+    <rule>
+    <!-- Created by Susana Sotelo Docío -->
+      <pattern>
+          <token>
+            <exception postag="SENT_START"/></token>
+          <token><match no="0"/>
+            <exception regexp="yes">\p{Lu}\p{Ll}+|\.|\p{Lu}\.|se|moi|son|sapiens</exception></token>
+      </pattern>
+      <message>Posíbel erro tipográfico: repetíu unha palabra.</message>
+        <suggestion>\1</suggestion>
+      <example correction="linguas">Como acontece coa maior parte das <marker>linguas linguas</marker> romances.</example>
+      <example>Como acontece coa maior parte das <marker>linguas</marker> romances.</example>
+    </rule>
+  </rulegroup>
+
+  <rulegroup id='PHRASE_REPETITION' name="Duplicación de palabras (por alí por alí)">
+    <!--    Localized and improved by Tiago F. Santos, from english grammar.xml, 2016-11-30    -->
+      <short>Segmento duplicado</short>
+    <rule>
+      <antipattern>
+          <token regexp='yes'>un(?:ha)?</token>
+          <token regexp='yes'>amig[ao]</token>
+          <token>de</token>
+      </antipattern>
+      <pattern>
+          <token negate_pos="yes" postag="SENT_START" regexp="yes">
+            <exception/>\p{L}+</token>
+          <token regexp="yes">
+            <exception>e</exception>\p{L}+</token>
+          <token regexp="yes">
+            <exception>e</exception>\p{L}+</token>
+          <token><match no="0"/></token>
+          <token><match no="1"/></token>
+          <token><match no="2"/></token>
+      </pattern>
+      <message>Este segmento está duplicado. Talvez queira, só, dicir <suggestion>\1 \2 \3</suggestion>.</message>
+      <example correction="do final de">Hepatologia <marker>do final de do final de</marker> século.</example>
+      <example>Un amigo dun amigo de seu pai non é necesariamente un amigo.</example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token regexp='yes'>cara|día|face|lado|paso|pouco|terra</token>
+          <token>a </token>
+          <token><match no="0"/></token>
+      </antipattern>
+      <pattern>
+          <token negate_pos="yes" postag="SENT_START" regexp="yes">
+            <exception>e</exception>\p{L}+</token>
+          <token regexp="yes">
+            <exception>e</exception>\p{L}+</token>
+          <token><match no="0"/></token>
+          <token><match no="1"/></token>
+      </pattern>
+      <message>Este segmento está duplicado. Talvez queira, só, dicir <suggestion>\1 \2</suggestion>.</message>
+      <example correction="do final">Hepatologia <marker>do final do final</marker> de século.</example>
+      <example correction="colocou o">El volveu novamente ao estudo, e <marker>colocou o colocou o</marker> candeeiro em cima da mesa.</example>
+      <example correction="vén da">A carruaje con accesibilidade para deficientes motores <marker>vén da vén da</marker> Universidade do Porto.</example>
+      <example>Todo o que eles querían era ficar tranquilos, e ollar e ollar e ollar.</example>
+      <example>As instrucións son executadas paso a paso a partir do comezo da lista.</example>
+      <example>…integrar o día a día a partir de o…</example>
+      <example>Imos pensar en solucións terra-a-terra.</example>
+    </rule>
+  </rulegroup>
+
+    <rule id='REPEATED_WORDS' name="Palavras repetidas (2x)" default='on' type='style'>
+    <!-- Created by Tiago F. Santos , Portuguese rule, 2016-12-03 		-->
+    <!-- XXX If the user finds this rule too intrusive, they will disable it and use REPEATED_WORDS_3X as a fallback		 	-->
+      <antipattern>
+          <token regexp='yes'>cara|día|face|fronte|paso|porta|tempos?|terra|t[éê]te</token>
+          <token min='0' regexp='yes' spacebefore='no'>&hifen;</token>
+          <token regexp='yes'>[àa]o?</token>
+          <token min='0' regexp='yes' spacebefore='no'>&hifen;</token>
+          <token regexp='yes'>cara|día|face|fronte|paso|porta|tempos?|terra|t[*éê]te</token>
+      </antipattern>
+      <antipattern>
+          <token/>
+          <token regexp='yes'>é|son</token>
+          <token><match no="0"/></token>
+          <token>&quot;</token>
+      </antipattern>
+      <antipattern>
+          <token/>
+          <token regexp='yes'>é|son</token>
+          <token><match no="0"/></token>
+          <token postag_regexp='yes' postag="_PUNCT|''"/>
+      </antipattern>
+      <antipattern>
+          <token>de</token>
+          <token/>
+          <token regexp='yes'>en|para</token>
+          <token><match no="1"/></token>
+      </antipattern>
+      <antipattern>
+          <token/>
+          <token regexp='yes'>a|e|tras</token>
+          <token><match no="0"/></token>
+      </antipattern>
+      <pattern>
+          <token>
+            <exception regexp='yes'>&hifen;</exception></token>
+          <token skip='-1'/>
+        <marker>
+          <token><match no="1"/>
+            <exception postag='(?:C|D|NP|P|SP|Z).+|R[GN].*|_PUNCT|_GN_|UNKNOWN' postag_regexp='yes'/>
+            <exception inflected='yes' regexp='yes'>&verbos_auxiliares_part_pasado;</exception>
+            <exception regexp='yes'>son|&divisas;|&unidades_de_medida_por_extenso;|&expressoes_de_tempo;</exception>
+            <exception regexp='yes'>[\d,. ]*['"/\|%º°′″‴]*(&unidades_de_medida;){0,1}</exception>
+          </token>
+        </marker>
+          <token negate='yes' regexp='yes'>&hifen;</token>
+      </pattern>
+      <message>Para mellorar o texto, procure variar máis os termos utilizados.</message>
+      <!-- url>https://pt.wikiversity.org/wiki/Norma_padrão_de a_lingua_portuguesa/Repeticións_e_elipses</url-->
+      <short>Problema de estilo. Palabra repetida.</short>
+      <example correction="">Saíu de coche, logo despois de pegar nas chaves do <marker>coche</marker>.</example>
+      <!-- example correction="">Principalmente migrantes teñen procurado residencia en Alagoas, estabelecéndose <marker>principalmente</marker> na costa.</example -->
+      <example type='incorrect'>As repeticións empobrecem o texto, porque as <marker>repeticións</marker> son aborrecidas de ler.</example>
+      <example>Non virá máis.</example>
+      <example>Descoñezo o significado da palabra "imposíbel".</example>
+      <example>Proteínas son biopolímeros cuxas unidades monoméricas son os aminoácidos.</example>
+      <example>…pola posesión do diploma fornecido pola autoridade educacional e…</example>
+      <example>Club de Choro do Río de Xaneiro</example>
+      <example>Grupos indíxenas Pataxó, Pataxó-hã-hã-hãe, Quiriri e o extinguido Camacã.</example>
+      <example>Isto son exemplos do día a día.</example>
+      <example>É preciso dar tempo ao tempo.</example>
+      <example>371 575 m³ para Gas Natural Comprimido, 243 024 m³ para usuarios comerciais, 120 119 m³ para</example>
+      <example>99,6% con iluminación pública, 99,3% con recada de residuos e 89,7% dos lares ten</example>
+      <example>Andou de estación en estación á procura dela.</example>
+      <example correction="">Andou de estación si en <marker>estación</marker> non á procura dela.</example>
+      <example>Cerca de 42% de todos os xudeus residen en Israel e cerca de 42% nos Estados Unidos e Canadá, coa maioría restante na Europa.</example>
+      <example>Non estou totalmente satisfeito coa situación, mais regras son regras", dixen Bolt.</example>
+      <example>Hectáreas e hectáreas de terra ardida.</example>
+      <example>Bateu a marca na proba dos cen metros, moi antes de considerar competir nos catrocentos metros barreiras.</example>
+      <example>Traballo é traballo, aguardiente é aguardiente.</example>
+    </rule>
+
+    <rule id='REPEATED_WORDS_3X' name="Palabras repetidas (3x)" default='on' type='style'>
+    <!-- Created by Tiago F. Santos , Portuguese rule, 2016-12-03 	-->
+      <antipattern>
+          <token>de</token>
+          <token/>
+          <token regexp='yes'>en|para</token>
+          <token><match no="2"/></token>
+      </antipattern>
+      <pattern>
+          <token>
+            <exception regexp='yes'>&hifen;</exception></token>
+          <token skip='-1'/>
+          <token><match no="1"/></token>
+          <token skip='-1'/>
+        <marker>
+          <token><match no="1"/>
+            <exception postag='(?:C|D|NP|P|SP|Z).+|R[GN].*|_PUNCT|_GN_' postag_regexp='yes'/>
+            <exception inflected='yes' regexp='yes'>&verbos_auxiliares_part_pasado;</exception>
+            <exception regexp='yes'>son|&divisas;|&unidades_de_medida_por_extenso;</exception>
+            <exception regexp='yes'>[\d,. ]*['"/\|%º°′″‴]*(&unidades_de_medida;){0,1}</exception>
+          </token>
+        </marker>
+          <token negate='yes' regexp='yes'>&hifen;</token>
+      </pattern>
+      <message>Para mellorar o texto, procure variar máis os termos utilizados.</message>
+      <url>https://gl.wikipedia.org/wiki/Figura_estil%C3%ADstica</url>
+      <short>Problema de estilo. Palabra repetida.</short>
+      <example type='incorrect'>A astronomía profesional foi dividido en dous ramos: a astronomía 'observacional' e a <marker>astronomía</marker> teórica.</example>
+      <example type='incorrect'>Repeticións... as repeticións empobrecen o texto, porque as <marker>repeticións</marker> son aborrecidas de ler.</example>
+      <example>Saíu de coche, logo despois de pegar nas chaves do <marker>coche</marker>.</example>
+      <example>Non virá máis.</example>
+      <example>Descoñezo o significado da palabra "imposíbel".</example>
+      <example>Proteínas son biopolímeros cuxas unidades 'monoméricas' son os aminoácidos.</example>
+      <example>…pola posesión do diploma fornecido pola autoridade educacional e…</example>
+      <example>Club de Choro do Río de Xaneiro</example>
+      <example>Grupos indíxenas Pataxó, Pataxó-hã-hã-hãe, Quiriri e o extinguido Camacã.</example>
+      <example>371 575 m³ para Gas Natural Comprimido, 243 024 m³ para usuarios comerciais, 120 119 m³ para</example>
+      <example>99,6% con iluminación pública, 99,3% con recada de residuos e 99,7% dos lares ten</example>
+      <!--example correction="">Principalmente migrantes teñen procurado residencia principalmente en Alagoas, estabelecéndose <marker>principalmente</marker> na costa.</example-->
+      <example>Principalmente migrantes teñen procurado residencia en Alagoas, estabelecéndose <marker>principalmente</marker> na costa.</example>
+    </rule>
+
+ </category>
+
+ <category id="PUNCTUATION" name="Pontuación" default="off">
 
     <rule id="FINAL_PUNCTUATION" name="Puntuación final en falta">
     <!-- Localized from German grammar.xml by Tiago F. Santos,  2017-08-19      -->
@@ -4170,13 +4518,46 @@
       <example correction="casa.|casa?|casa!|casa:">Vou en dirección a <marker>casa</marker></example>
     </rule>
 
-    <rule id="SPACE_INDENTATION" name="Indentación con espazos">
-    <!-- Localized from German grammar.xml by Tiago F. Santos,  2017-08-19      -->
-      <regexp>^ +</regexp>
-      <message>No LibreOffice, a indentação é máis precisa se utilizar as ferramentas de tabulação ou indentação.</message>
-        <suggestion/>
-      <example correction=""><marker> </marker>El saíu de casa.</example>
+ </category>
+
+ <category id="CREATIVE_WRITING" name="Escrita Criativa" type="style" default='off'>
+
+    <!-- ====================================================================== -->
+    <!--         E-Prime        https://en.wikipedia.org/wiki/E-Prime           -->
+    <!-- ====================================================================== -->
+    <rule id="E_PRIME_STRIT" name="Escrita Creativa: E-Prime: todas as formas do verbo 'ser' e 'estar'" default='off'>
+    <!-- Created by Tiago F. Santos, 2018-07-09 -->
+      <pattern>
+          <token inflected="yes" regexp='yes'>ser|estar</token>
+      </pattern>
+      <message>De acordo coa versión inglesa do E-Prime, evitar formas verbais do verbo 'ser' e 'estar' torna a comunicación máis clara, precisa, e menos dogmática. Tente utilizar un verbo alternativo ou refacer a frase.</message>
+      <url>https://litemind.com/e-prime/</url>
+      <short>De acordo coa lóxica do E-Prime, debe evitar os verbos 'ser' e 'estar'.</short>
+      <example type="incorrect" correction="">Isto <marker>é</marker> errado…</example>
+      <example>Isto non se <marker>conforma</marker> com o meu coñecemento actual…</example>
+      <example>Os dados non <marker>confirman</marker> esa afirmación…</example>
     </rule>
+
+    <!--rule id="E_PRIME_LOOSE" name="E-Prime: 'ser' e 'estar' como verbos princiais" default='off'>
+        <Created by Tiago F. Santos, 2018-07-09>
+      <antipattern>
+          <token inflected="yes">be</token>
+          <token min='0' max='2' postag_regexp='yes' postag='R.+'/>
+          <token postag_regexp='yes' postag='V.+'>
+            <exception postag_regexp='yes' postag='N.+'/></token>
+      </antipattern>
+      <pattern>
+          <token inflected="yes">be</token>
+      </pattern>
+      <message>De acordo coa versión inglesa do E-Prime, evitar formas verbais do verbo 'ser' e 'estar' torna a comunicación máis clara, precisa, e menos *dogmática. Tente utilizar un verbo alternativo ou refacer a frase.</message>
+      <url>https://www.youtube.com/watch?v=y4h2tJuy62U</url>
+      <url>https://rationalwiki.org/wiki/E-Prime</url>
+      <url>https://www.youtube.com/watch?v=sl4UZDLFNT0</url>
+      <short>De acordo coa lóxica do E-Prime, debe evitar os verbos 'ser' e 'estar'.</short>
+      <example type="incorrect" correction="">This <marker>is</marker> right…</example>
+      <example>This <marker>is</marker> conforming with my knowledge…</example>
+      <example>This <marker>conforms</marker> with my current knowledge…</example>
+    </rule -->
 
  </category>
 
@@ -4193,5 +4574,4 @@
     </rule>
 
  </category>
-
 </rules>

@@ -84,6 +84,18 @@ public class SubjectVerbAgreementRule extends Rule {
       new PatternTokenBuilder().pos("ZAL").build(),
       new PatternTokenBuilder().tokenRegex("Tage|Monate|Jahre").build(),
       new PatternTokenBuilder().posRegex("VER:3:SIN:.*").build()
+    ),
+    Arrays.asList(
+      new PatternTokenBuilder().pos(JLanguageTool.SENTENCE_START_TAGNAME).build(),
+      new PatternTokenBuilder().pos("PRP:CAU:GEN").setSkip(4).build(),
+      new PatternTokenBuilder().csToken("und").setSkip(4).build(),
+      new PatternTokenBuilder().tokenRegex("ist|war").build()
+    ),
+    Arrays.asList(
+      new PatternTokenBuilder().pos(JLanguageTool.SENTENCE_START_TAGNAME).build(),
+      new PatternTokenBuilder().posRegex("EIG:.*").build(),
+      new PatternTokenBuilder().csToken("und").setSkip(2).build(),
+      new PatternTokenBuilder().tokenRegex("sind|waren").build()
     )
   );
 
@@ -132,12 +144,12 @@ public class SubjectVerbAgreementRule extends Rule {
       }
       String tokenStr = tokens[i].getToken();
       // Detect e.g. "Der Hund und die Katze ist":
-      RuleMatch singularMatch = getSingularMatchOrNull(tokens, i, tokens[i], tokenStr);
+      RuleMatch singularMatch = getSingularMatchOrNull(tokens, i, tokens[i], tokenStr, sentence);
       if (singularMatch != null) {
         ruleMatches.add(singularMatch);
       }
       // Detect e.g. "Der Hund sind":
-      RuleMatch pluralMatch = getPluralMatchOrNull(tokens, i, tokens[i], tokenStr);
+      RuleMatch pluralMatch = getPluralMatchOrNull(tokens, i, tokens[i], tokenStr, sentence);
       if (pluralMatch != null) {
         ruleMatches.add(pluralMatch);
       }
@@ -146,7 +158,7 @@ public class SubjectVerbAgreementRule extends Rule {
   }
 
   @Nullable
-  private RuleMatch getSingularMatchOrNull(AnalyzedTokenReadings[] tokens, int i, AnalyzedTokenReadings token, String tokenStr) throws IOException {
+  private RuleMatch getSingularMatchOrNull(AnalyzedTokenReadings[] tokens, int i, AnalyzedTokenReadings token, String tokenStr, AnalyzedSentence sentence) throws IOException {
     if (singular.contains(tokenStr)) {
       AnalyzedTokenReadings prevToken = tokens[i - 1];
       AnalyzedTokenReadings nextToken = i + 1 < tokens.length ? tokens[i + 1] : null;
@@ -167,14 +179,14 @@ public class SubjectVerbAgreementRule extends Rule {
                       && !containsOnlyInfinitivesToTheLeft(tokens, i-1);
       if (match) {
         String message = "Bitte prüfen, ob hier <suggestion>" + getPluralFor(tokenStr) + "</suggestion> stehen sollte.";
-        return new RuleMatch(this, token.getStartPos(), token.getEndPos(), message);
+        return new RuleMatch(this, sentence, token.getStartPos(), token.getEndPos(), message);
       }
     }
     return null;
   }
 
   @Nullable
-  private RuleMatch getPluralMatchOrNull(AnalyzedTokenReadings[] tokens, int i, AnalyzedTokenReadings token, String tokenStr) {
+  private RuleMatch getPluralMatchOrNull(AnalyzedTokenReadings[] tokens, int i, AnalyzedTokenReadings token, String tokenStr, AnalyzedSentence sentence) {
     if (plural.contains(tokenStr)) {
       AnalyzedTokenReadings prevToken = tokens[i - 1];
       List<ChunkTag> prevChunkTags = prevToken.getChunkTags();
@@ -189,7 +201,7 @@ public class SubjectVerbAgreementRule extends Rule {
                       && !isFollowedByNominativePlural(tokens, i+1);  // z.B. "Die Zielgruppe sind Männer." - beides Nominativ, aber 'Männer' ist das Subjekt
       if (match) {
         String message = "Bitte prüfen, ob hier <suggestion>" + getSingularFor(tokenStr) + "</suggestion> stehen sollte.";
-        return new RuleMatch(this, token.getStartPos(), token.getEndPos(), message);
+        return new RuleMatch(this, sentence, token.getStartPos(), token.getEndPos(), message);
       }
     }
     return null;
@@ -269,7 +281,7 @@ public class SubjectVerbAgreementRule extends Rule {
       String token = tokens[i].getToken();
       if (tokens[i].hasPartialPosTag("SUB:")) {
         AnalyzedTokenReadings lookup = tagger.lookup(token.toLowerCase());
-        if (lookup != null && lookup.hasPartialPosTag("VER:INF:")) {
+        if (lookup != null && lookup.hasPosTagStartingWith("VER:INF:")) {
           infinitives++;
         } else {
           return false;

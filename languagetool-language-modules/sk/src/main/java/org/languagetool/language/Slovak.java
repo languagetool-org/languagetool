@@ -25,6 +25,7 @@ import java.util.ResourceBundle;
 
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
+import org.languagetool.UserConfig;
 import org.languagetool.databroker.ResourceDataBroker;
 import org.languagetool.rules.*;
 import org.languagetool.rules.sk.CompoundRule;
@@ -93,7 +94,7 @@ public class Slovak extends Language {
   }
 
   @Override
-  public List<Rule> getRelevantRules(ResourceBundle messages) throws IOException {
+  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig) throws IOException {
     return Arrays.asList(
             new CommaWhitespaceRule(messages),
             new DoublePunctuationRule(messages),
@@ -105,7 +106,7 @@ public class Slovak extends Language {
             new MultipleWhitespaceRule(messages, this),
             // specific to Slovak:
             new CompoundRule(messages),
-            new MorfologikSlovakSpellerRule(messages, this)
+            new MorfologikSlovakSpellerRule(messages, this, userConfig)
             //new SlovakVesRule(messages)
     );
   }

@@ -37,6 +37,8 @@ import org.languagetool.rules.Categories;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.tagging.uk.PosTagHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A rule that checks if noun and verb agree
@@ -45,11 +47,11 @@ import org.languagetool.tagging.uk.PosTagHelper;
  * @since 3.6
  */
 public class TokenAgreementNounVerbRule extends Rule {
+  private static Logger logger = LoggerFactory.getLogger(TokenAgreementNounVerbRule.class);
+  
   private static final Pattern VERB_INFLECTION_PATTERN = Pattern.compile(":([mfnps])(:([123])?|$)");
   private static final Pattern NOUN_INFLECTION_PATTERN = Pattern.compile("(?::((?:[iu]n)?anim))?:([mfnps]):(v_naz)");
   private static final Pattern NOUN_PERSON_PATTERN = Pattern.compile(":([123])");
-  static boolean DEBUG = Boolean.getBoolean("org.languagetool.rules.uk.TokenVerbAgreementRule.debug");
-//  private static final Logger logger = LoggerFactory.getLogger(TokenVerbAgreementRule.class);
 
 
   public TokenAgreementNounVerbRule(ResourceBundle messages) throws IOException {
@@ -80,9 +82,9 @@ public class TokenAgreementNounVerbRule extends Rule {
   }
 
   @Override
-  public final RuleMatch[] match(AnalyzedSentence text) {
+  public final RuleMatch[] match(AnalyzedSentence sentence) {
     List<RuleMatch> ruleMatches = new ArrayList<>();
-    AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();    
+    AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();    
 
     List<AnalyzedToken> nounTokenReadings = new ArrayList<>(); 
     AnalyzedTokenReadings nounAnalyzedTokenReadings = null;
@@ -148,7 +150,7 @@ public class TokenAgreementNounVerbRule extends Rule {
           continue;
         }
 
-        if( verbPosTag.startsWith("</") ) {
+        if( verbPosTag.startsWith("<") ) {
           verbTokenReadings.clear();
           break;
         }
@@ -173,9 +175,7 @@ public class TokenAgreementNounVerbRule extends Rule {
         continue;
       }
 
-      if( DEBUG ) {
-        System.err.println(MessageFormat.format("=== Checking\n\t{0}\n\t{1}", nounTokenReadings, verbTokenReadings));
-      }
+      logger.debug("=== Checking\n\t{}\n\t{}", nounTokenReadings, verbTokenReadings);
 
       // perform the check
 
@@ -183,9 +183,7 @@ public class TokenAgreementNounVerbRule extends Rule {
 
       List<Inflection> slaveInflections = getVerbInflections(verbTokenReadings);
 
-      if( DEBUG ) {
-        System.err.println(MessageFormat.format("\t\t{0}\n\t{1}", masterInflections, slaveInflections));
-      }
+      logger.debug("\t\t{}\n\t{}", masterInflections, slaveInflections);
 
       if( Collections.disjoint(masterInflections, slaveInflections) ) {
         if( TokenAgreementNounVerbExceptionHelper.isException(tokens, i, masterInflections, slaveInflections, nounTokenReadings, verbTokenReadings)) {
@@ -193,8 +191,8 @@ public class TokenAgreementNounVerbRule extends Rule {
           break;
         }
 
-        if( DEBUG ) {
-          System.err.println(MessageFormat.format("=== Found noun/verb mismatch\n\t{0}\n\t{1}",
+        if( logger.isDebugEnabled() ) {
+          logger.debug(MessageFormat.format("=== Found noun/verb mismatch\n\t{0}\n\t{1}",
             nounAnalyzedTokenReadings.getToken() + ": " + masterInflections + " // " + nounAnalyzedTokenReadings,
             verbTokenReadings.get(0).getToken() + ": " + slaveInflections+ " // " + verbTokenReadings));
         }
@@ -202,7 +200,7 @@ public class TokenAgreementNounVerbRule extends Rule {
         String msg = String.format("Не узгоджено іменник з дієсловом: \"%s\" (%s) і \"%s\" (%s)", 
             nounTokenReadings.get(0).getToken(), formatInflections(masterInflections, true), 
             verbTokenReadings.get(0).getToken(), formatInflections(slaveInflections, false));
-        RuleMatch potentialRuleMatch = new RuleMatch(this, nounAnalyzedTokenReadings.getStartPos(), tokenReadings.getEndPos(), msg, getShort());
+        RuleMatch potentialRuleMatch = new RuleMatch(this, sentence, nounAnalyzedTokenReadings.getStartPos(), tokenReadings.getEndPos(), msg, getShort());
         ruleMatches.add(potentialRuleMatch);
       }
 

@@ -76,8 +76,7 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
     ignoreTaggedWords = true;
   }
 
-  public AbstractSimpleReplaceRule(ResourceBundle messages)
-      throws IOException {
+  public AbstractSimpleReplaceRule(ResourceBundle messages) {
     super.setCategory(Categories.MISC.getCategory(messages));
   }
 
@@ -108,66 +107,68 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
   public RuleMatch[] match(AnalyzedSentence sentence) {
     List<RuleMatch> ruleMatches = new ArrayList<>();
     AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
-
     for (AnalyzedTokenReadings tokenReadings : tokens) {
-
       // short for SENT_START
-      if( JLanguageTool.SENTENCE_START_TAGNAME.equals(tokenReadings.getAnalyzedToken(0).getPOSTag()) )
+      if( JLanguageTool.SENTENCE_START_TAGNAME.equals(tokenReadings.getAnalyzedToken(0).getPOSTag()) ) {
         continue;
-
+      }
       //this rule is used mostly for spelling, so ignore both immunized
       // and speller-ignorable rules
       if (tokenReadings.isImmunized() || tokenReadings.isIgnoredBySpeller()) {
         continue;
       }
-
-      String originalTokenStr = tokenReadings.getToken();
       if (ignoreTaggedWords && isTagged(tokenReadings)) {
         continue;
       }
-      String tokenString = cleanup(originalTokenStr);
-
-      // try first with the original word, then with the all lower-case version
-      List<String> possibleReplacements = getWrongWords().get(originalTokenStr);
-      if (possibleReplacements == null) {
-        possibleReplacements = getWrongWords().get(tokenString);
-      }
-
-      if (possibleReplacements == null && checkLemmas) {
-        possibleReplacements = new ArrayList<>();
-
-        List<String> lemmas = new ArrayList<>();
-        for (AnalyzedToken analyzedToken : tokenReadings.getReadings()) {
-          String lemma = analyzedToken.getLemma();
-          if (lemma != null && getWrongWords().containsKey(lemma) && ! lemmas.contains(lemma) ) {
-            lemmas.add(cleanup(lemma));
-          }
-        }
-
-        for (String lemma: lemmas) {
-          List<String> replacements = getWrongWords().get(lemma);
-          if (replacements != null) {
-            possibleReplacements.addAll(replacements);
-          }
-        }
-
-        possibleReplacements = possibleReplacements.stream().distinct().collect(Collectors.toList());
-      }
-
-      if (possibleReplacements != null && possibleReplacements.size() > 0) {
-        List<String> replacements = new ArrayList<>();
-        replacements.addAll(possibleReplacements);
-        if (replacements.contains(originalTokenStr)) {
-          replacements.remove(originalTokenStr);
-        }
-        if (replacements.size() > 0) {
-          RuleMatch potentialRuleMatch = createRuleMatch(tokenReadings,
-              replacements);
-          ruleMatches.add(potentialRuleMatch);
-        }
-      }
+      List<RuleMatch> matchesForToken = findMatches(tokenReadings, sentence);
+      ruleMatches.addAll( matchesForToken );
     }
     return toRuleMatchArray(ruleMatches);
+  }
+
+  protected List<RuleMatch> findMatches(AnalyzedTokenReadings tokenReadings, AnalyzedSentence sentence) {
+    List<RuleMatch> ruleMatches = new ArrayList<>();
+
+    String originalTokenStr = tokenReadings.getToken();
+    String tokenString = cleanup(originalTokenStr);
+
+    // try first with the original word, then with the all lower-case version
+    List<String> possibleReplacements = getWrongWords().get(originalTokenStr);
+    if (possibleReplacements == null) {
+      possibleReplacements = getWrongWords().get(tokenString);
+    }
+
+    if (possibleReplacements == null && checkLemmas) {
+      possibleReplacements = new ArrayList<>();
+
+      List<String> lemmas = new ArrayList<>();
+      for (AnalyzedToken analyzedToken : tokenReadings.getReadings()) {
+        String lemma = analyzedToken.getLemma();
+        if (lemma != null && getWrongWords().containsKey(lemma) && ! lemmas.contains(lemma) ) {
+          lemmas.add(cleanup(lemma));
+        }
+      }
+
+      for (String lemma: lemmas) {
+        List<String> replacements = getWrongWords().get(lemma);
+        if (replacements != null) {
+          possibleReplacements.addAll(replacements);
+        }
+      }
+
+      possibleReplacements = possibleReplacements.stream().distinct().collect(Collectors.toList());
+    }
+
+    if (possibleReplacements != null && possibleReplacements.size() > 0) {
+      List<String> replacements = new ArrayList<>(possibleReplacements);
+      replacements.remove(originalTokenStr);
+      if (replacements.size() > 0) {
+        RuleMatch potentialRuleMatch = createRuleMatch(tokenReadings, replacements, sentence);
+        ruleMatches.add(potentialRuleMatch);
+      }
+    }
+    
+    return ruleMatches;
   }
 
   /**
@@ -179,11 +180,11 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
   }
 
   protected RuleMatch createRuleMatch(AnalyzedTokenReadings tokenReadings,
-      List<String> replacements) {
+                                      List<String> replacements, AnalyzedSentence sentence) {
     String tokenString = tokenReadings.getToken();
     int pos = tokenReadings.getStartPos();
 
-    RuleMatch potentialRuleMatch = new RuleMatch(this, pos, pos
+    RuleMatch potentialRuleMatch = new RuleMatch(this, sentence, pos, pos
         + tokenString.length(), getMessage(tokenString, replacements), getShort());
 
     if (!isCaseSensitive() && StringTools.startsWithUppercase(tokenString)) {

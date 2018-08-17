@@ -120,7 +120,7 @@ public class HTTPServer extends Server {
   }
 
   public static void main(String[] args) {
-    if (args.length > 7 || usageRequested(args)) {
+    if (args.length > 9 || usageRequested(args)) {
       System.out.println("Usage: " + HTTPServer.class.getSimpleName() + " [--config propertyFile] [--port|-p port] [--public]");
       System.out.println("  --config FILE  a Java property file (one key=value entry per line) with values for:");
       printCommonConfigFileOptions();
@@ -128,6 +128,7 @@ public class HTTPServer extends Server {
       System.exit(1);
     }
     HTTPServerConfig config = new HTTPServerConfig(args);
+    DatabaseAccess.init(config);
     try {
       checkForNonRootUser();
       HTTPServer server;

@@ -83,9 +83,14 @@ public class TokenAgreementPrepNounRuleTest {
     assertEmptyMatch("зовсім не святкові товари Серед святкових товарів");
 
     assertEmptyMatch("при кому знайдено вогнепальну");
+    assertEmptyMatch("За його словами Україна – це країна...");
     
     assertEmptyMatch("славетних од цареві");
-    
+
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("що, незважаючи стислі терміни візиту")).length);
+    //TODO:
+//    assertEmptyMatch("залежно що вважати перемогою");
+
     //TODO: temporary until we have a better logic
     assertEmptyMatch("при їх опублікуванні");
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("при їх опублікування")).length);
@@ -231,11 +236,14 @@ public class TokenAgreementPrepNounRuleTest {
   
   @Test
   public void testSpecialChars() throws IOException {
-    RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("по не́рвам, по мо\u00ADстам, по воротам"));
+    assertEmptyMatch("до їм поді\u00ADбних");
+
+    RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("о справедли\u00ADвости."));
+    assertEquals(1, matches.length);
+
+    matches = rule.match(langTool.getAnalyzedSentence("по не́рвам, по мо\u00ADстам, по воротам"));
     // check match positions:
     assertEquals(3, matches.length);
-
-    assertEmptyMatch("до їм поді\u00ADбних");
 
     assertEquals(3, matches[0].getFromPos());
     assertEquals(10, matches[0].getToPos());

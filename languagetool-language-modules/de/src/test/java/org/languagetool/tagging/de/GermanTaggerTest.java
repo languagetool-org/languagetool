@@ -25,8 +25,6 @@ import org.junit.Test;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
-import org.languagetool.Languages;
-import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
 import java.util.*;
@@ -36,6 +34,17 @@ import static org.junit.Assert.*;
 @SuppressWarnings("ConstantConditions")
 public class GermanTaggerTest {
 
+  @Test
+  public void testLemmaOfForDashCompounds() throws IOException {
+    GermanTagger tagger = new GermanTagger();
+    AnalyzedTokenReadings aToken = tagger.lookup("Zahn-Arzt-Verband");
+    List<String> lemmas = new ArrayList<>();
+    for (AnalyzedToken analyzedToken : aToken) {
+      lemmas.add(analyzedToken.getLemma());
+    }
+    assertTrue(lemmas.contains("Zahnarztverband"));
+  }
+  
   @Test
   public void testTagger() throws IOException {
     GermanTagger tagger = new GermanTagger();
@@ -119,6 +128,14 @@ public class GermanTaggerTest {
     AnalyzedTokenReadings aToken13 = tagger.lookup("Entweder-oder");
     assertTrue(aToken13.getReadings().get(0).getPOSTag().matches("SUB.*"));
     assertEquals("Entweder-oder", aToken13.getReadings().get(0).getLemma());
+
+    AnalyzedTokenReadings aToken14 = tagger.lookup("Verletzter");
+    assertTrue(aToken14.getReadings().get(0).getPOSTag().equals("SUB:NOM:SIN:MAS:ADJ"));
+    assertEquals("Verletzter", aToken14.getReadings().get(0).getLemma());
+    assertTrue(aToken14.getReadings().get(1).getPOSTag().equals("SUB:GEN:PLU:MAS:ADJ"));
+
+    AnalyzedTokenReadings aToken15 = tagger.lookup("erzkatholisch");
+    assertTrue(aToken15.getReadings().get(0).getPOSTag().equals("ADJ:PRD:GRU"));
   }
 
   // make sure we use the version of the POS data that was extended with post spelling reform data

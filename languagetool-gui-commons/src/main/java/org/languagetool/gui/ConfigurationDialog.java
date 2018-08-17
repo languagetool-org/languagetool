@@ -39,7 +39,6 @@ import javax.swing.tree.TreePath;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
-import java.net.URL;
 import java.util.*;
 import java.util.List;
 
@@ -61,13 +60,15 @@ public class ConfigurationDialog implements ActionListener {
   private final Configuration config;
   private final Frame owner;
   private final boolean insideOffice;
+  private boolean configChanged = false;
 
   private JDialog dialog;
   private JCheckBox serverCheckbox;
   private JTextField serverPortField;
-  private JTree configTree;
+  private JTree configTree[];
   private JCheckBox serverSettingsCheckbox;
   private final List<JPanel> extraPanels = new ArrayList<>();
+  private final List<Rule> configurableRules = new ArrayList<>();
 
   public ConfigurationDialog(Frame owner, boolean insideOffice, Configuration config) {
     this.owner = owner;
@@ -90,28 +91,38 @@ public class ConfigurationDialog implements ActionListener {
     extraPanels.add(panel);
   }
 
-  private DefaultMutableTreeNode createTree(List<Rule> rules) {
+  private DefaultMutableTreeNode createTree(List<Rule> rules, boolean isStyle, String tabName) {
     DefaultMutableTreeNode root = new DefaultMutableTreeNode("Rules");
     String lastRuleId = null;
     Map<String, DefaultMutableTreeNode> parents = new TreeMap<>();
     for (Rule rule : rules) {
-      if (!parents.containsKey(rule.getCategory().getName())) {
-        boolean enabled = true;
-        if (config.getDisabledCategoryNames() != null && config.getDisabledCategoryNames().contains(rule.getCategory().getName())) {
-          enabled = false;
+      if((tabName == null && !config.isSpecialTabCategory(rule.getCategory().getName()) &&
+          ((isStyle && config.isStyleCategory(rule.getCategory().getName())) ||
+         (!isStyle && !config.isStyleCategory(rule.getCategory().getName())))) || 
+          (tabName != null && config.isInSpecialTab(rule.getCategory().getName(), tabName))) {
+        if(rule.hasConfigurableValue()) {
+          configurableRules.add(rule);
+        } else {
+          if (!parents.containsKey(rule.getCategory().getName())) {
+            boolean enabled = true;
+            if (config.getDisabledCategoryNames() != null && config.getDisabledCategoryNames().contains(rule.getCategory().getName())) {
+              enabled = false;
+            }
+            if(rule.getCategory().isDefaultOff() && (config.getEnabledCategoryNames() == null 
+                || !config.getEnabledCategoryNames().contains(rule.getCategory().getName()))) {
+              enabled = false;
+            }
+            DefaultMutableTreeNode categoryNode = new CategoryNode(rule.getCategory(), enabled);
+            root.add(categoryNode);
+            parents.put(rule.getCategory().getName(), categoryNode);
+          }
+          if (!rule.getId().equals(lastRuleId)) {
+            RuleNode ruleNode = new RuleNode(rule, getEnabledState(rule));
+            parents.get(rule.getCategory().getName()).add(ruleNode);
+          }
+          lastRuleId = rule.getId();
         }
-        if(rule.getCategory().isDefaultOff()) {
-          enabled = false;
-        }
-        DefaultMutableTreeNode categoryNode = new CategoryNode(rule.getCategory(), enabled);
-        root.add(categoryNode);
-        parents.put(rule.getCategory().getName(), categoryNode);
       }
-      if (!rule.getId().equals(lastRuleId)) {
-        RuleNode ruleNode = new RuleNode(rule, getEnabledState(rule));
-        parents.get(rule.getCategory().getName()).add(ruleNode);
-      }
-      lastRuleId = rule.getId();
     }
     return root;
   }
@@ -134,7 +145,8 @@ public class ConfigurationDialog implements ActionListener {
     return ret;
   }
 
-  public void show(List<Rule> rules) {
+  public boolean show(List<Rule> rules) {
+    configChanged = false;
     if (original != null) {
       config.restoreState(original);
     }
@@ -152,31 +164,50 @@ public class ConfigurationDialog implements ActionListener {
     rootPane.registerKeyboardAction(actionListener, stroke,
         JComponent.WHEN_IN_FOCUSED_WINDOW);
 
-    JPanel checkBoxPanel = new JPanel();
-    checkBoxPanel.setLayout(new GridBagLayout());
-    GridBagConstraints cons = new GridBagConstraints();
-    cons.anchor = GridBagConstraints.NORTHWEST;
-    cons.gridx = 0;
-    cons.weightx = 1.0;
-    cons.weighty = 1.0;
-    cons.fill = GridBagConstraints.BOTH;
-    Collections.sort(rules, new CategoryComparator());
-    DefaultMutableTreeNode rootNode = createTree(rules);
-    configTree = new JTree(getTreeModel(rootNode));
+    configurableRules.clear();
 
     Language lang = config.getLanguage();
     if (lang == null) {
       lang = Languages.getLanguageForLocale(Locale.getDefault());
     }
-    configTree.applyComponentOrientation(ComponentOrientation.getOrientation(lang.getLocale()));
 
-    configTree.setRootVisible(false);
-    configTree.setEditable(false);
-    configTree.setCellRenderer(new CheckBoxTreeCellRenderer());
-    TreeListener.install(configTree);
-    checkBoxPanel.add(configTree, cons);
-    configTree.addMouseListener(getMouseAdapter());
+    String specialTabNames[] = config.getSpecialTabNames();
+    int numConfigTrees = 2 + specialTabNames.length;
+    configTree = new JTree[numConfigTrees];
+    JPanel checkBoxPanel[] = new JPanel[numConfigTrees];
+    DefaultMutableTreeNode rootNode;
+    GridBagConstraints cons;
+
+    for (int i = 0; i < numConfigTrees; i++) {
+      checkBoxPanel[i] = new JPanel();
+      cons = new GridBagConstraints();
+      checkBoxPanel[i].setLayout(new GridBagLayout());
+      cons.anchor = GridBagConstraints.NORTHWEST;
+      cons.gridx = 0;
+      cons.weightx = 1.0;
+      cons.weighty = 1.0;
+      cons.fill = GridBagConstraints.HORIZONTAL;
+      Collections.sort(rules, new CategoryComparator());
+      if(i == 0) {
+        rootNode = createTree(rules, false, null);   //  grammar options
+      } else if(i ==1 ) {
+        rootNode = createTree(rules, true, null);    //  Style options
+      } else {
+        rootNode = createTree(rules, true, specialTabNames[i - 2]);    //  Special tab options
+      }
+      configTree[i] = new JTree(getTreeModel(rootNode));
+      
+      configTree[i].applyComponentOrientation(ComponentOrientation.getOrientation(lang.getLocale()));
+  
+      configTree[i].setRootVisible(false);
+      configTree[i].setEditable(false);
+      configTree[i].setCellRenderer(new CheckBoxTreeCellRenderer());
+      TreeListener.install(configTree[i]);
+      checkBoxPanel[i].add(configTree[i], cons);
+      configTree[i].addMouseListener(getMouseAdapter());
+    }
     
+
     JPanel portPanel = new JPanel();
     portPanel.setLayout(new GridBagLayout());
     cons = new GridBagConstraints();
@@ -208,6 +239,142 @@ public class ConfigurationDialog implements ActionListener {
     buttonPanel.add(okButton, cons);
     buttonPanel.add(cancelButton, cons);
 
+    JTabbedPane tabpane = new JTabbedPane();
+
+    JPanel jPane = new JPanel();
+    jPane.setLayout(new GridBagLayout());
+    cons = new GridBagConstraints();
+    cons.insets = new Insets(4, 4, 4, 4);
+
+    cons.gridx = 0;
+    cons.gridy = 0;
+    cons.weightx = 10.0f;
+    cons.weighty = 0.0f;
+    cons.fill = GridBagConstraints.NONE;
+    cons.anchor = GridBagConstraints.NORTHWEST;
+    cons.gridy++;
+    cons.anchor = GridBagConstraints.WEST;
+    jPane.add(getMotherTonguePanel(cons), cons);
+
+    cons.gridy++;
+    cons.anchor = GridBagConstraints.WEST;
+    jPane.add(getNgramPanel(cons), cons);
+
+    cons.gridy++;
+    cons.anchor = GridBagConstraints.WEST;
+    jPane.add(getWord2VecPanel(cons), cons);
+
+    cons.gridy++;
+    cons.anchor = GridBagConstraints.WEST;
+    jPane.add(portPanel, cons);
+    cons.fill = GridBagConstraints.HORIZONTAL;
+    cons.anchor = GridBagConstraints.WEST;
+    for(JPanel extra : extraPanels) {
+      //in case it wasn't in a containment hierarchy when user changed L&F
+      SwingUtilities.updateComponentTreeUI(extra);
+      cons.gridy++;
+      jPane.add(extra, cons);
+    }
+
+    cons.gridy++;
+    cons.fill = GridBagConstraints.BOTH;
+    cons.weighty = 1.0f;
+    jPane.add(new JPanel(), cons);
+
+    tabpane.addTab(messages.getString("guiGeneral"), jPane);
+
+    jPane = new JPanel();
+    jPane.setLayout(new GridBagLayout());
+    cons = new GridBagConstraints();
+    cons.insets = new Insets(4, 4, 4, 4);
+    cons.gridx = 0;
+    cons.gridy = 0;
+    cons.weightx = 10.0f;
+    cons.weighty = 10.0f;
+    cons.fill = GridBagConstraints.BOTH;
+    jPane.add(new JScrollPane(checkBoxPanel[0]), cons);
+    cons.weightx = 0.0f;
+    cons.weighty = 0.0f;
+
+    cons.gridx = 0;
+    cons.gridy++;
+    cons.fill = GridBagConstraints.NONE;
+    cons.anchor = GridBagConstraints.LINE_END;
+    jPane.add(getTreeButtonPanel(0), cons);
+
+    tabpane.addTab(messages.getString("guiGrammarRules"), jPane);
+    
+    jPane = new JPanel();
+    jPane.setLayout(new GridBagLayout());
+    cons = new GridBagConstraints();
+    cons.insets = new Insets(4, 4, 4, 4);
+    cons.gridx = 0;
+    cons.gridy = 0;
+    cons.weightx = 10.0f;
+    cons.weighty = 10.0f;
+    cons.fill = GridBagConstraints.BOTH;
+    jPane.add(new JScrollPane(checkBoxPanel[1]), cons);
+    cons.weightx = 0.0f;
+    cons.weighty = 0.0f;
+
+    cons.gridx = 0;
+    cons.gridy++;
+    cons.fill = GridBagConstraints.NONE;
+    cons.anchor = GridBagConstraints.LINE_END;
+    jPane.add(getTreeButtonPanel(1), cons);
+    
+    cons.gridx = 0;
+    cons.gridy++;
+    cons.weightx = 5.0f;
+    cons.weighty = 5.0f;
+    cons.fill = GridBagConstraints.BOTH;
+    cons.anchor = GridBagConstraints.WEST;
+    jPane.add(new JScrollPane(getSpecialRuleValuePanel()), cons);
+
+    tabpane.addTab(messages.getString("guiStyleRules"), jPane);
+
+    for (int i = 0; i < specialTabNames.length; i++) {
+      jPane = new JPanel();
+      jPane.setLayout(new GridBagLayout());
+      cons = new GridBagConstraints();
+      cons.insets = new Insets(4, 4, 4, 4);
+      cons.gridx = 0;
+      cons.gridy = 0;
+      cons.weightx = 10.0f;
+      cons.weighty = 10.0f;
+      cons.fill = GridBagConstraints.BOTH;
+      jPane.add(new JScrollPane(checkBoxPanel[i + 2]), cons);
+      cons.weightx = 0.0f;
+      cons.weighty = 0.0f;
+  
+      cons.gridx = 0;
+      cons.gridy++;
+      cons.fill = GridBagConstraints.NONE;
+      cons.anchor = GridBagConstraints.LINE_END;
+      jPane.add(getTreeButtonPanel(i + 2), cons);
+  
+      tabpane.addTab(specialTabNames[i], jPane);
+    }
+
+    jPane = new JPanel();
+    jPane.setLayout(new GridBagLayout());
+    cons = new GridBagConstraints();
+    cons.insets = new Insets(4, 4, 4, 4);
+    cons.gridx = 0;
+    cons.gridy = 0;
+    if (insideOffice) {
+      JLabel versionText = new JLabel(messages.getString("guiUColorHint"));
+      versionText.setForeground(Color.blue);
+      jPane.add(versionText, cons);
+      cons.gridy++;
+    }
+
+    cons.weightx = 2.0f;
+    cons.weighty = 2.0f;
+    cons.fill = GridBagConstraints.BOTH;
+    
+    jPane.add(new JScrollPane(getUnderlineColorPanel(rules)), cons);
+    
     Container contentPane = dialog.getContentPane();
     contentPane.setLayout(new GridBagLayout());
     cons = new GridBagConstraints();
@@ -217,54 +384,32 @@ public class ConfigurationDialog implements ActionListener {
     cons.weightx = 10.0f;
     cons.weighty = 10.0f;
     cons.fill = GridBagConstraints.BOTH;
-    contentPane.add(new JScrollPane(checkBoxPanel), cons);
+    cons.anchor = GridBagConstraints.NORTHWEST;
+    contentPane.add(tabpane, cons);
     cons.weightx = 0.0f;
     cons.weighty = 0.0f;
-
-    cons.gridx = 0;
     cons.gridy++;
     cons.fill = GridBagConstraints.NONE;
-    cons.anchor = GridBagConstraints.LINE_END;
-    contentPane.add(getTreeButtonPanel(), cons);
-    
-    cons.gridy++;
-    cons.anchor = GridBagConstraints.WEST;
-    contentPane.add(getMotherTonguePanel(cons), cons);
-
-    cons.gridy++;
-    cons.anchor = GridBagConstraints.WEST;
-    contentPane.add(getNgramPanel(cons), cons);
-
-    cons.gridy++;
-    cons.anchor = GridBagConstraints.WEST;
-    contentPane.add(portPanel, cons);
-
-    cons.fill = GridBagConstraints.HORIZONTAL;
-    cons.anchor = GridBagConstraints.WEST;
-    for(JPanel extra : extraPanels) {
-      cons.gridy++;
-      contentPane.add(extra, cons);
-    }
-
-    cons.fill = GridBagConstraints.NONE;
-    cons.gridy++;
     cons.anchor = GridBagConstraints.EAST;
     contentPane.add(buttonPanel, cons);
 
     dialog.pack();
-    dialog.setSize(500, 500);
     // center on screen:
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     Dimension frameSize = dialog.getSize();
     dialog.setLocation(screenSize.width / 2 - frameSize.width / 2,
         screenSize.height / 2 - frameSize.height / 2);
     dialog.setLocationByPlatform(true);
+    //  add Color tab after dimension was set
+    tabpane.addTab(messages.getString("guiUnderlineColor"), jPane);
+
     for(JPanel extra : this.extraPanels) {
       if(extra instanceof SavablePanel) {
         ((SavablePanel) extra).componentShowing();
       }
     }
     dialog.setVisible(true);
+    return configChanged;
   }
 
   private void createNonOfficeElements(GridBagConstraints cons, JPanel portPanel) {
@@ -430,6 +575,22 @@ public class ConfigurationDialog implements ActionListener {
     }
     cons.gridx = 1;
     portPanel.add(numParaField, cons);
+    
+    JCheckBox resetCheckbox = new JCheckBox(Tools.getLabel(messages.getString("guiDoResetCheck")));
+    resetCheckbox.setSelected(config.isResetCheck());
+    resetCheckbox.addItemListener(new ItemListener() {
+      @Override
+      public void itemStateChanged(ItemEvent e) {
+        config.setDoResetCheck(resetCheckbox.isSelected());
+      }
+    });
+    cons.gridx = 0;
+    JLabel dummyLabel = new JLabel(" ");
+    cons.gridy++;
+    portPanel.add(dummyLabel, cons);
+    cons.gridy++;
+    portPanel.add(resetCheckbox, cons);
+    
   }
 
   @NotNull
@@ -461,10 +622,20 @@ public class ConfigurationDialog implements ActionListener {
         }
         if (node instanceof CategoryNode) {
           CategoryNode o = (CategoryNode) node;
-          if (o.isEnabled()) {
-            config.getDisabledCategoryNames().remove(o.getCategory().getName());
+          if (o.getCategory().isDefaultOff()) {
+            if (o.isEnabled()) {
+              config.getDisabledCategoryNames().remove(o.getCategory().getName());
+              config.getEnabledCategoryNames().add(o.getCategory().getName());
+            } else {
+              config.getDisabledCategoryNames().add(o.getCategory().getName());
+              config.getEnabledCategoryNames().remove(o.getCategory().getName());
+            }
           } else {
-            config.getDisabledCategoryNames().add(o.getCategory().getName());
+            if (o.isEnabled()) {
+              config.getDisabledCategoryNames().remove(o.getCategory().getName());
+            } else {
+              config.getDisabledCategoryNames().add(o.getCategory().getName());
+            }
           }
         }
       }
@@ -540,7 +711,7 @@ public class ConfigurationDialog implements ActionListener {
   }
 
   @NotNull
-  private JPanel getTreeButtonPanel() {
+  private JPanel getTreeButtonPanel(int num) {
     GridBagConstraints cons;
     JPanel treeButtonPanel = new JPanel();
     cons = new GridBagConstraints();
@@ -552,12 +723,12 @@ public class ConfigurationDialog implements ActionListener {
 
       @Override
       public void actionPerformed(ActionEvent e) {
-        TreeNode root = (TreeNode) configTree.getModel().getRoot();
+        TreeNode root = (TreeNode) configTree[num].getModel().getRoot();
         TreePath parent = new TreePath(root);
         for (Enumeration cat = root.children(); cat.hasMoreElements();) {
           TreeNode n = (TreeNode) cat.nextElement();
           TreePath child = parent.pathByAddingChild(n);
-          configTree.expandPath(child);
+          configTree[num].expandPath(child);
         }
       }
     });
@@ -569,12 +740,12 @@ public class ConfigurationDialog implements ActionListener {
     collapseAllButton.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        TreeNode root = (TreeNode) configTree.getModel().getRoot();
+        TreeNode root = (TreeNode) configTree[num].getModel().getRoot();
         TreePath parent = new TreePath(root);
         for (Enumeration categ = root.children(); categ.hasMoreElements();) {
           TreeNode n = (TreeNode) categ.nextElement();
           TreePath child = parent.pathByAddingChild(n);
-          configTree.collapsePath(child);
+          configTree[num].collapsePath(child);
         }
       }
     });
@@ -641,14 +812,39 @@ public class ConfigurationDialog implements ActionListener {
     helpButton.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        if (Desktop.isDesktopSupported()) {
-          try {
-            Desktop.getDesktop().browse(new URL("http://wiki.languagetool.org/finding-errors-using-n-gram-data").toURI());
-          } catch (Exception ex) {
-            Tools.showError(ex);
-          }
-        }
+        Tools.openURL("http://wiki.languagetool.org/finding-errors-using-n-gram-data");
       }
+    });
+    panel.add(helpButton, cons);
+    return panel;
+  }
+
+  private JPanel getWord2VecPanel(GridBagConstraints cons) {
+    JPanel panel = new JPanel();
+    panel.add(new JLabel(messages.getString("guiWord2VecDir")), cons);
+    File dir = config.getWord2VecDirectory();
+    int maxDirDisplayLength = 45;
+    String buttonText = dir != null ? StringUtils.abbreviate(dir.getAbsolutePath(), maxDirDisplayLength) : messages.getString("guiWord2VecDirSelect");
+    JButton word2vecDirButton = new JButton(buttonText);
+    word2vecDirButton.addActionListener(e -> {
+      File newDir = Tools.openDirectoryDialog(owner, dir);
+      if (newDir != null) {
+        try {
+          config.setWord2VecDirectory(newDir);
+          word2vecDirButton.setText(StringUtils.abbreviate(newDir.getAbsolutePath(), maxDirDisplayLength));
+        } catch (Exception ex) {
+          Tools.showErrorMessage(ex);
+        }
+      } else {
+        // not the best UI, but this way user can turn off word2vec feature without another checkbox
+        config.setWord2VecDirectory(null);
+        word2vecDirButton.setText(StringUtils.abbreviate(messages.getString("guiWord2VecDirSelect"), maxDirDisplayLength));
+      }
+    });
+    panel.add(word2vecDirButton, cons);
+    JButton helpButton = new JButton(messages.getString("guiWord2VecHelp"));
+    helpButton.addActionListener(e -> {
+      Tools.openURL("https://github.com/gulp21/languagetool-neural-network");
     });
     panel.add(helpButton, cons);
     return panel;
@@ -674,6 +870,7 @@ public class ConfigurationDialog implements ActionListener {
           ((SavablePanel) extra).save();
         }
       }
+      configChanged = true;
       dialog.setVisible(false);
     } else if (ACTION_COMMAND_CANCEL.equals(e.getActionCommand())) {
       dialog.setVisible(false);
@@ -713,4 +910,173 @@ public class ConfigurationDialog implements ActionListener {
 
   }
 
+/* Panel to set Values for special rules like LongSentenceRule
+ * @since 4.1
+ */
+  private JPanel getSpecialRuleValuePanel() {
+    JPanel panel = new JPanel();
+    panel.setLayout(new GridBagLayout());
+    GridBagConstraints cons = new GridBagConstraints();
+    cons.gridx = 0;
+    cons.gridy = 0;
+    cons.weightx = 0.0f;
+    cons.anchor = GridBagConstraints.WEST;
+    
+    List<JCheckBox> ruleCheckboxes = new ArrayList<JCheckBox>();
+    List<JLabel> ruleLabels = new ArrayList<JLabel>();
+    List<JTextField> ruleValueFields = new ArrayList<JTextField>();
+
+    for(int i = 0; i < configurableRules.size(); i++) {
+      Rule rule = configurableRules.get(i);
+      JCheckBox ruleCheckbox = new JCheckBox(rule.getDescription());
+      ruleCheckboxes.add(ruleCheckbox);
+      ruleCheckbox.setSelected(getEnabledState(rule));
+      cons.insets = new Insets(3, 0, 0, 0);
+      panel.add(ruleCheckbox, cons);
+  
+      cons.insets = new Insets(0, 24, 0, 0);
+      cons.gridy++;
+      JLabel ruleLabel = new JLabel(rule.getConfigureText());
+      ruleLabels.add(ruleLabel);
+      ruleLabel.setEnabled(ruleCheckbox.isSelected());
+      panel.add(ruleLabel, cons);
+      
+      cons.gridx++;
+      int value = config.getConfigurableValue(rule.getId());
+      if(config.getConfigurableValue(rule.getId()) < 0) {
+        value = rule.getDefaultValue();
+      }
+      JTextField ruleValueField = new JTextField(Integer.toString(value), 2);
+      ruleValueFields.add(ruleValueField);
+      ruleValueField.setEnabled(ruleCheckbox.isSelected());
+      ruleValueField.setMinimumSize(new Dimension(35, 25));  // without this the box is just a few pixels small, but why?
+      panel.add(ruleValueField, cons);
+      
+      ruleCheckbox.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(@SuppressWarnings("unused") ActionEvent e) {
+          ruleValueField.setEnabled(ruleCheckbox.isSelected());
+          ruleLabel.setEnabled(ruleCheckbox.isSelected());
+          if (ruleCheckbox.isSelected()) {
+            config.getEnabledRuleIds().add(rule.getId());
+            config.getDisabledRuleIds().remove(rule.getId());
+          } else {
+            config.getEnabledRuleIds().remove(rule.getId());
+            config.getDisabledRuleIds().add(rule.getId());
+          }
+        }
+      });
+  
+      ruleValueField.getDocument().addDocumentListener(new DocumentListener() {
+        @Override
+        public void insertUpdate(DocumentEvent e) {
+          changedUpdate(e);
+        }
+  
+        @Override
+        public void removeUpdate(DocumentEvent e) {
+          changedUpdate(e);
+        }
+  
+        @Override
+        public void changedUpdate(DocumentEvent e) {
+          try {
+            int num = Integer.parseInt(ruleValueField.getText());
+            if (num < rule.getMinConfigurableValue()) {
+              num = rule.getMinConfigurableValue();
+              ruleValueField.setForeground(Color.RED);
+            } else if (num > rule.getMaxConfigurableValue()) {
+              num = rule.getMaxConfigurableValue();
+              ruleValueField.setForeground(Color.RED);
+            } else {
+              ruleValueField.setForeground(null);
+            }
+            config.setConfigurableValue(rule.getId(), num);
+          } catch (Exception ex) {
+            ruleValueField.setForeground(Color.RED);
+          }
+        }
+      });
+
+      cons.gridx = 0;
+      cons.gridy++;
+
+    }
+    return panel;
+  }
+
+/*  Panel to choose underline Colors  
+ *  @since 4.2
+ */
+  
+  JPanel getUnderlineColorPanel(List<Rule> rules) {
+    JPanel panel = new JPanel();
+
+    panel.setLayout(new GridBagLayout());
+    GridBagConstraints cons = new GridBagConstraints();
+    cons.gridx = 0;
+    cons.gridy = 0;
+    cons.weightx = 0.0f;
+    cons.fill = GridBagConstraints.NONE;
+    cons.anchor = GridBagConstraints.NORTHWEST;
+
+    List<String> categories = new ArrayList<String>();
+    for (Rule rule : rules) {
+      String category = rule.getCategory().getName();
+      boolean contain = false;
+      for(String c : categories) {
+        if (c.equals(category)) {
+          contain = true;
+          break;
+        }
+      }
+      if (!contain) {
+        categories.add(category);
+      }
+    }
+    List<JLabel> categorieLabel = new ArrayList<JLabel>();
+    List<JLabel> underlineLabel = new ArrayList<JLabel>();
+    List<JButton> changeButton = new ArrayList<JButton>();
+    List<JButton> defaultButton = new ArrayList<JButton>();
+    for(int nCat = 0; nCat < categories.size(); nCat++) {
+      categorieLabel.add(new JLabel(categories.get(nCat) + " "));
+      underlineLabel.add(new JLabel(" \u2588\u2588\u2588 "));  // \u2587 is smaller
+      underlineLabel.get(nCat).setForeground(config.getUnderlineColor(categories.get(nCat)));
+      underlineLabel.get(nCat).setBackground(config.getUnderlineColor(categories.get(nCat)));
+      JLabel uLabel = underlineLabel.get(nCat);
+      String cLabel = categories.get(nCat);
+      panel.add(categorieLabel.get(nCat), cons);
+      cons.gridx++;
+      panel.add(underlineLabel.get(nCat), cons);
+
+      changeButton.add(new JButton(messages.getString("guiUColorChange")));
+      changeButton.get(nCat).addActionListener( new ActionListener() {
+        @Override public void actionPerformed( ActionEvent e ) {
+          Color oldColor = uLabel.getForeground();
+          Color newColor = JColorChooser.showDialog( null, messages.getString("guiUColorDialogHeader"), oldColor);
+          if(newColor != null && newColor != oldColor) {
+            uLabel.setForeground(newColor);
+            config.setUnderlineColor(cLabel, newColor);
+          }
+        }
+      });
+      cons.gridx++;
+      panel.add(changeButton.get(nCat), cons);
+  
+      defaultButton.add(new JButton(messages.getString("guiUColorDefault")));
+      defaultButton.get(nCat).addActionListener( new ActionListener() {
+        @Override public void actionPerformed( ActionEvent e ) {
+          config.setDefaultUnderlineColor(cLabel);
+          uLabel.setForeground(config.getUnderlineColor(cLabel));
+        }
+      });
+      cons.gridx++;
+      panel.add(defaultButton.get(nCat), cons);
+      cons.gridx = 0;
+      cons.gridy++;
+    }
+    return panel;
+  }
+  
+  
 }

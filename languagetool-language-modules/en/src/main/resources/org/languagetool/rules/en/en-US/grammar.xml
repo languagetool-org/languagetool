@@ -74,15 +74,13 @@ USA
     <category id="BRITISH_ENGLISH" name="British English phrases" type="locale-violation">
         <rule id="GROUND_FIRST_FLOOR" name="ground floor/first floor">
             <pattern>
-                <marker>
-                    <token>ground</token>
-                </marker>
+                <token>ground</token>
                 <token regexp="yes">floors?</token>
             </pattern>
-            <message>This word is British English. Did you mean <suggestion>first</suggestion>?</message>
+            <message>This word is British English. Did you mean <suggestion>first \2</suggestion>?</message>
             <url>http://www.learnenglish.de/mistakes/USvsBrEnglish.html</url>
-            <example correction="first">The room is on the <marker>ground</marker> floor.</example>
-            <example correction="first">Historic Buildings: insulating solid <marker>ground</marker> floors.</example>
+            <example correction="first floor">The room is on the <marker>ground floor</marker>.</example>
+            <example correction="first floors">Historic Buildings: insulating solid <marker>ground floors</marker>.</example>
             <example>The room is on the <marker>first</marker> floor.</example>
         </rule>
         <rule id="MASTERS_DISSERTATION_THESIS" name="master's dissertation (thesis)">
@@ -99,6 +97,19 @@ USA
             <example correction="Master’s theses"><marker>Master’s dissertations</marker> are not easy to write.</example>
             <example correction="master's thesis">Example sentence with no full stop: <marker>master's dissertation</marker></example>
         </rule>
+        <rule id="SI_UNITS_OF_MEASUREMENT_ADJECTIVES_BRE" name="1-litre/1-liter">
+            <pattern>
+                <token regexp="yes">([0-9]+-)(yotta|zetta|exa|peta|tera|giga|mega|kilo|hecto|deca|deci|centi|milli|micro|nano|pico|femto|atto|zepto|yocto)?(gramme|litre|metre)<exception postag="NNP"/></token>
+            </pattern>
+            <message>The word '<match no="1"/>' is an adjective (SI unit of measurement), but the spelling is not correct American English.</message>
+            <short>AmE/BrE: SI units (adjectives)</short>
+            <example type="incorrect">Use a <marker>6-millimetre</marker> bolt.</example>
+            <example type="correct">Use a <marker>6-millimeter</marker> bolt.</example>
+            <example type="correct">Do not find incorrect English: use a <marker>10-millimetres</marker> bolt.</example>
+            <example type="incorrect">Use a <marker>10-metre</marker> rope.</example>
+            <example type="incorrect">The 4.<marker>6-centigramme</marker> difference is not a problem.</example>
+            <example type="incorrect">Also find typgoraphic errors: a 5.7.<marker>8-femtogramme</marker> difference is not important.</example>
+       </rule>
     </category>
 
 </rules>

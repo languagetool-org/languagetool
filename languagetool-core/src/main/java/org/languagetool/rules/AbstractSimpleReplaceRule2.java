@@ -111,7 +111,7 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
         if (parts.length != 2) {
           throw new IOException("Format error in file "
                   + JLanguageTool.getDataBroker().getFromRulesDirAsUrl(getFileName())
-                  + ", line: " + line);
+                  + ". Expected exactly 1 '=' character. Line: " + line);
         }
 
         String[] wrongForms = parts[0].split("\\|"); // multiple incorrect forms
@@ -184,7 +184,7 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
           }
           int startPos = prevTokensList.get(len - crtWordCount).getStartPos();
           int endPos = prevTokensList.get(len - 1).getEndPos();
-          RuleMatch potentialRuleMatch = new RuleMatch(this, startPos, endPos, msg, getShort());
+          RuleMatch potentialRuleMatch = new RuleMatch(this, sentence, startPos, endPos, msg, getShort());
 
           if (!isCaseSensitive() && StringTools.startsWithUppercase(crt)) {
             for (int k = 0; k < replacements.size(); k++) {

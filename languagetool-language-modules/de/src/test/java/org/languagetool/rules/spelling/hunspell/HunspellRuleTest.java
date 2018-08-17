@@ -41,7 +41,7 @@ public class HunspellRuleTest {
 
   @Test
   public void testRuleWithGerman() throws Exception {
-    HunspellRule rule = new HunspellRule(TestTools.getMessages("de"), new GermanyGerman());
+    HunspellRule rule = new HunspellRule(TestTools.getMessages("de"), new GermanyGerman(), null);
     JLanguageTool langTool = new JLanguageTool(new German());
     commonGermanAsserts(rule, langTool);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Der äußere Übeltäter.")).length);  // umlauts
@@ -50,11 +50,22 @@ public class HunspellRuleTest {
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Unter http://foo.org/bar steht was.")).length);
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("dasdassda http://foo.org/bar steht was.")).length);
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("Unter http://foo.org/bar steht dasdassda.")).length);
+    
+    // check the correct calculation of error position
+    // note that emojis have string length 2
+    assertEquals(6 ,rule.match(langTool.getAnalyzedSentence("Hallo men Schatz!"))[0].getFromPos());
+    assertEquals(9 ,rule.match(langTool.getAnalyzedSentence("Hallo men Schatz!"))[0].getToPos());
+    assertEquals(9 ,rule.match(langTool.getAnalyzedSentence("Hallo 😂 men Schatz!"))[0].getFromPos());
+    assertEquals(12 ,rule.match(langTool.getAnalyzedSentence("Hallo 😂 men Schatz!"))[0].getToPos());
+    assertEquals(11 ,rule.match(langTool.getAnalyzedSentence("Hallo 😂😂 men Schatz!"))[0].getFromPos());
+    assertEquals(14 ,rule.match(langTool.getAnalyzedSentence("Hallo 😂😂 men Schatz!"))[0].getToPos());
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Mir geht es 😂gut😂.")).length);
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Mir geht es 😂gtu😂.")).length);
   }
 
   @Test
   public void testRuleWithAustrianGerman() throws Exception {
-    HunspellRule rule = new HunspellRule(TestTools.getMessages("de"), new AustrianGerman());
+    HunspellRule rule = new HunspellRule(TestTools.getMessages("de"), new AustrianGerman(), null);
     JLanguageTool langTool = new JLanguageTool(new German());
     commonGermanAsserts(rule, langTool);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Der äußere Übeltäter.")).length);  // umlauts
@@ -63,7 +74,7 @@ public class HunspellRuleTest {
 
   @Test
   public void testRuleWithSwissGerman() throws Exception {
-    HunspellRule rule = new HunspellRule(TestTools.getMessages("de"), new SwissGerman());
+    HunspellRule rule = new HunspellRule(TestTools.getMessages("de"), new SwissGerman(), null);
     JLanguageTool langTool = new JLanguageTool(new German());
     commonGermanAsserts(rule, langTool);
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("Der äußere Übeltäter.")).length);  // ß not allowed in Swiss

@@ -93,6 +93,15 @@ public class UkrainianSRXSentenceTokenizerTest {
     testSplit("На 0,6 °С. ", "Але ми все маємо."); //укр С
     testSplit("Приїхав у США. ", "Проте на другий рік.");
     testSplit("Маємо страшне диво з див. ", "І кращого варіанту немає.");
+    testSplit("Взяти бодай XIII—XIX ст.", "Раніше п’єса була домінантою.");
+  }
+  
+  @Test
+  public void testTokenizeWithSpecialChars() {
+    testSplit("відбув у тюрмах.\u202fНещодавно письменник");
+    testSplit("закрито бібліотеку української літератури.\u202f ", "Раніше відділ боротьби з екстремізмом...");
+    // still no split for initials
+    testSplit("З особливим обуренням сприймав С.\u202f Шелухин легітимізацію");
   }
 
   private void testSplit(final String... sentences) {

@@ -14,11 +14,15 @@ import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.uk.LemmaHelper.Dir;
 import org.languagetool.tagging.uk.IPOSTag;
 import org.languagetool.tagging.uk.PosTagHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @since 3.6
  */
 public final class TokenAgreementNounVerbExceptionHelper {
+  private static Logger logger = LoggerFactory.getLogger(TokenAgreementNounVerbExceptionHelper.class);
+
   private static final Set<String> MASC_FEM_SET = extendSet(ExtraDictionaryLoader.loadSet("/uk/masc_fem.txt"), "екс-");
 
   private TokenAgreementNounVerbExceptionHelper() {
@@ -197,8 +201,9 @@ public final class TokenAgreementNounVerbExceptionHelper {
 //          return true;
 //        }
         
-        if( PosTagHelper.hasPosTagPart(tokens[i-1], "numr") ) { 
-//            && ! LemmaHelper.hasLemma(tokens[i-1], "один") ) {
+        if( (PosTagHelper.hasPosTagPart(tokens[i-1], "numr")
+            && ! LemmaHelper.hasLemma(tokens[i-1], "один"))
+            || LemmaHelper.hasLemma(tokens[i-1], Arrays.asList("сотня", "тисяча", "десяток")) ) {
           logException();
           return true;
         }
@@ -454,17 +459,19 @@ public final class TokenAgreementNounVerbExceptionHelper {
     return MASC_FEM_SET.contains(lemma.replace('\u2018', '-'));
   }
 
-  private static void logException() {
-    if( TokenAgreementNounVerbRule.DEBUG ) {
-      StackTraceElement stackTraceElement = new Exception().getStackTrace()[1];
-      System.err.println("exception: " + stackTraceElement.getFileName() + ": " + stackTraceElement.getLineNumber());
-    }
-  }
 
   private static Set<String> extendSet(Set<String> loadSet, String string) {
     Set<String> extraSet = loadSet.stream().map(line -> "екс-" + line).collect(Collectors.toSet());
     loadSet.addAll(extraSet);
     return loadSet;
   }
+
   
+  private static void logException() {
+    if( logger.isDebugEnabled() ) {
+      StackTraceElement stackTraceElement = Thread.currentThread().getStackTrace()[2];
+      logger.debug("exception: " /*+ stackTraceElement.getFileName()*/ + stackTraceElement.getLineNumber());
+    }
+  }
+
 }

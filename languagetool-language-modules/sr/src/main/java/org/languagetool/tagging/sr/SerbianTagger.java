@@ -25,17 +25,19 @@ import java.util.Locale;
 /** @since 4.0 */
 public class SerbianTagger extends BaseTagger {
 
+  protected static final String BASE_DICTIONARY_PATH = "/sr/dictionary";
+  protected static final String EKAVIAN_DICTIONARY_PATH = BASE_DICTIONARY_PATH + "/ekavian/";
+
   public SerbianTagger() {
-    super("/sr/serbian.dict", new Locale("sr"));
+    super(EKAVIAN_DICTIONARY_PATH + "serbian.dict", new Locale("sr"));
+  }
+
+  public SerbianTagger(final String fileName, final Locale conversionLocale) {
+    super(fileName, conversionLocale);
   }
 
   @Override
   public String getManualAdditionsFileName() {
-    return "/sr/added.txt";
-  }
-
-  @Override
-  public String getManualRemovalsFileName() {
-    return "/sr/removed.txt";
+    return "/sr/dictionary/added.txt";
   }
 }

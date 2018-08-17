@@ -76,9 +76,10 @@ public class TokenAgreementAdjNounRuleTest {
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("цинічна винахідливості")).length);
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("наступній рік свого життя")).length);
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("жодного кубічного метру в Україні не буде")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("кладний рік на фондовим ринку")).length);
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("складний рік на фондовим ринку")).length);
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("є найкращий засобом для очистки")).length);
     
-    // не працює через іменник французька (мова)
+    // не працює через іменник "французька" (мова)
 //    assertEquals(1, rule.match(langTool.getAnalyzedSentence("французька політик")).length);
 
     RuleMatch[] matches0 = rule.match(langTool.getAnalyzedSentence("4 російських винищувача"));
@@ -161,6 +162,13 @@ public class TokenAgreementAdjNounRuleTest {
     // false v_rod with -а
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("федерального округа")).length);
 
+    // ne- together
+    //TODO: fix later
+//    matches = rule.match(langTool.getAnalyzedSentence("пропонує незламані ураганами сучасності"));
+//    assertEquals(1, matches.length);
+//    assertTrue("Missing message for «не» пишеться окремо", matches[0].getMessage().contains("писати окремо"));
+     
+
     // false :nv
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("затверджений народним віче")).length);
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("На великому родинному віче")).length);
@@ -196,6 +204,8 @@ public class TokenAgreementAdjNounRuleTest {
     // adj as noun
     assertEmptyMatch("надання болгарській статусу");
 
+    assertEmptyMatch("старший зміни");
+
     // pron
     assertEmptyMatch("одної шостої світу");
     assertEmptyMatch("Кожному наглядач кивав");
@@ -221,6 +231,8 @@ public class TokenAgreementAdjNounRuleTest {
     assertEmptyMatch("чотирициліндровий об’ємом 1000 куб. см.");
     assertEmptyMatch("10 жовтих площею 1,5 ");
     assertEmptyMatch("безплатні довжиною від 100 до 1000 метрів");
+
+    assertEmptyMatch("за метр кубічний води");
 
     // річних
     assertEmptyMatch("200% річних прибутку");
@@ -318,6 +330,8 @@ public class TokenAgreementAdjNounRuleTest {
     assertEmptyMatch("за часів «конфронтації» 2008–2009-го квота на них зросла");
     assertEmptyMatch("тільки за 1986–1988-й країна втратила близько 40 млрд крб");
     assertEmptyMatch("На початку двотисячних режисер зустрів двох людей");
+    assertEmptyMatch("корифеї американської поезії 1950-60-х Лоренс Ферлінгетті");
+    assertEmptyMatch("На зламі 80-90-их функціонери ...");
     
     assertEmptyMatch("щороку під Дев’яте травня");
     assertEmptyMatch("з четвертого по одинадцяте липня");
@@ -412,6 +426,10 @@ public class TokenAgreementAdjNounRuleTest {
     assertEmptyMatch("і колишня Маяковського");
     assertEmptyMatch("Львівської ім. С. Крушельницької");
     assertEmptyMatch("4-й Запорізький ім. гетьмана Б. Хмельницького");
+
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("у Великій Вітчизняній Війн")).length);
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("у Великій Вітчизняній війна")).length);
+    assertEmptyMatch("Після Великої Вітчизняної будівництво істотно розширилося");
 
     // зразка
     assertEmptyMatch("польські зразка 1620—1650 років");
@@ -724,6 +742,17 @@ public class TokenAgreementAdjNounRuleTest {
     //TODO: turn back on when we can handle pron
 //    assertEquals(1, rule.match(langTool.getAnalyzedSentence("із такою самого зневагою")).length);
 //    assertEquals(1, rule.match(langTool.getAnalyzedSentence("на вибори само висуванцем")).length);
+  }
+  
+  @Test
+  public void testSpecialChars() throws IOException {
+    assertEmptyMatch("зелений поді\u00ADум");
+
+    RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("зелений по\u00ADділка."));
+    assertEquals(1, matches.length);
+
+    matches = rule.match(langTool.getAnalyzedSentence("зе\u00ADлений поділка."));
+    assertEquals(1, matches.length);
   }
   
   private void assertEmptyMatch(String text) throws IOException {

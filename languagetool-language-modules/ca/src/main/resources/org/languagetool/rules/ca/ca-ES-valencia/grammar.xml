@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/print.xsl" title="Pretty print" ?>
+<?xml-stylesheet type="text/css" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.css" title="Easy editing stylesheet" ?>
+<rules lang="ca-ES-valencia" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
+    <category id="VALENCIAN_RULES" name="Regles específiques per al diccionari valencià" type="style">
+        <rule id="AMANEIXER" name="amanèixer (sinònim d'aparèixer)"> <!--només va amb el dicionari DNV-->
+            <pattern>
+                <token inflected="yes">amanèixer<exception inflected="yes">amanir</exception></token>
+            </pattern>
+            <message>Només és correcte en el sentit de 'aparèixer' (DNV). Per a altres sentits useu altres expressions.</message>
+            <suggestion>(apuntar el dia)</suggestion>
+            <suggestion>(fer-se clar)</suggestion>
+            <suggestion>(fer-se de dia)</suggestion>
+            <suggestion>(clarejar)</suggestion>
+            <suggestion>(despertar-se)</suggestion>
+            <suggestion>(a trenc d'alba)</suggestion>
+            <example correction="(apuntar el dia)|(fer-se clar)|(fer-se de dia)|(clarejar)|(despertar-se)|(a trenc d'alba)">Aquell dia <marker>amaneixia</marker> amb fred.</example>
+            <example>Amaneix bé l'ensalada.</example>
+        </rule>
+        <rule id="EVITA_ISTE" name="evita les terminacions d'adjectius i noms masculins en -iste.">
+            <pattern>
+                <and>
+                    <token postag="NCMS000|AQ0MS0" postag_regexp="yes" regexp="yes">.*iste</token>
+                    <token inflected="yes" regexp="yes">.*ista</token>
+                </and>
+            </pattern>
+            <message>Usem, preferentment, la terminació -ista (invariable).</message>
+            <suggestion><match no="1" regexp_match="(?iu)(.*)iste" regexp_replace="$1ista"/></suggestion>
+            <url>http://www.ceice.gva.es/documents/161863132/163843714/Criteris+Ling%C3%BC%C3%ADstics_web.pdf#page=30</url>
+            <example correction="pianista">El <marker>pianiste</marker>.</example>
+            <example>M'han contat un xiste.</example>
+        </rule>
+        <rule id="COLOREJAR" name="colorejar">
+            <pattern>
+                <token inflected="yes">colorejar</token>
+            </pattern>
+            <message>Paraula admesa només en alguns diccionaris, i només com a verb intransitiu.</message>
+            <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">acolorir</match></suggestion>
+            <example correction="Acoloreix"><marker>Coloreja</marker> el dibuix.</example>
+        </rule>
+        <rule id="LLARGARIA" name="llargaria/llargària">
+            <pattern>
+                <token regexp="yes">llargari(a|es)</token>
+            </pattern>
+            <message>Si és nom, porta accent.</message>
+            <suggestion><match no="1" regexp_match="(?iu)llargari(a|es)" regexp_replace="llargàri$1"/></suggestion>
+            <example correction="llargàries">Les <marker>llargaries</marker>.</example>
+        </rule>
+
+    </category>
+</rules>

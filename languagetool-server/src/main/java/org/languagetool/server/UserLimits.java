@@ -20,6 +20,7 @@ package org.languagetool.server;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.google.common.cache.CacheBuilder;
@@ -58,16 +59,24 @@ class UserLimits {
     return new UserLimits(config.maxTextLength, config.maxCheckTimeMillis, null);
   }
   
-  static UserLimits getLimitsFromToken(HTTPServerConfig config, String token) {
-    Objects.requireNonNull(token);
+  /**
+   * Get limits from the JWT key itself, no database access needed.
+   */
+  static UserLimits getLimitsFromToken(HTTPServerConfig config, String jwtToken) {
+    Objects.requireNonNull(jwtToken);
     try {
       String secretKey = config.getSecretTokenKey();
       if (secretKey == null) {
         throw new RuntimeException("You specified a 'token' parameter but this server doesn't accept tokens");
       }
       Algorithm algorithm = Algorithm.HMAC256(secretKey);
-      JWT.require(algorithm).build().verify(token);
-      DecodedJWT decodedToken = JWT.decode(token);
+      DecodedJWT decodedToken;
+      try {
+        JWT.require(algorithm).build().verify(jwtToken);
+        decodedToken = JWT.decode(jwtToken);
+      } catch (JWTDecodeException e) {
+        throw new AuthException("Could not decode token '" + jwtToken + "'", e);
+      }
       Claim maxTextLengthClaim = decodedToken.getClaim("maxTextLength");
       Claim premiumClaim = decodedToken.getClaim("premium");
       boolean hasPremium = !premiumClaim.isNull() && premiumClaim.asBoolean();
@@ -80,6 +89,15 @@ class UserLimits {
     } catch (UnsupportedEncodingException e) {
       throw new RuntimeException(e);
     }
+  }
+
+  /**
+   * Get limits from the api key itself, database access is needed.
+   */
+  public static UserLimits getLimitsByApiKey(HTTPServerConfig config, String username, String apiKey) {
+    DatabaseAccess db = DatabaseAccess.getInstance();
+    Long id = db.getUserId(username, apiKey);
+    return new UserLimits(config.maxTextLengthWithApiKey, config.maxCheckTimeWithApiKeyMillis, id);
   }
 
   /**
@@ -148,10 +166,10 @@ class UserLimits {
 
   @Override
   public String toString() {
-    return "maxTextLength=" + maxTextLength +
+    return "premiumUid=" + premiumUid + ", maxTextLength=" + maxTextLength +
             ", maxCheckTimeMillis=" + maxCheckTimeMillis;
   }
-  
+
   static class Account {
 
     private String username;

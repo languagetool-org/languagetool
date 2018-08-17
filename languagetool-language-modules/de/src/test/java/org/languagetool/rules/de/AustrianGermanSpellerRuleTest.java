@@ -18,13 +18,13 @@
  */
 package org.languagetool.rules.de;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
+
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.AustrianGerman;
-
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
 
 public class AustrianGermanSpellerRuleTest {
 
@@ -32,7 +32,7 @@ public class AustrianGermanSpellerRuleTest {
 
   @Test
   public void testGetSuggestionsFromSpellingTxt() throws Exception {
-    AustrianGermanSpellerRule rule = new AustrianGermanSpellerRule(TestTools.getEnglishMessages(), DE_AT);
+    AustrianGermanSpellerRule rule = new AustrianGermanSpellerRule(TestTools.getEnglishMessages(), DE_AT, null);
     JLanguageTool lt = new JLanguageTool(DE_AT);
     assertThat(rule.match(lt.getAnalyzedSentence("Shopbewertung")).length, is(0));  // from spelling.txt
     assertThat(rule.match(lt.getAnalyzedSentence("Wahlzuckerl")).length, is(0));

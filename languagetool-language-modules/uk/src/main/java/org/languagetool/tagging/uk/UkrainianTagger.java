@@ -23,10 +23,12 @@ import java.util.List;
 import java.util.Locale;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang3.StringUtils;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.tagging.BaseTagger;
 import org.languagetool.tagging.TaggedWord;
 import org.languagetool.tagging.WordTagger;
+import org.languagetool.tools.StringTools;
 
 /** 
  * Ukrainian part-of-speech tagger.
@@ -37,11 +39,11 @@ import org.languagetool.tagging.WordTagger;
 public class UkrainianTagger extends BaseTagger {
   
   // full latin number regex: M{0,4}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})
-  static final Pattern NUMBER = Pattern.compile("[+-±]?[€₴\\$]?[0-9]+(,[0-9]+)?([-–—][0-9]+(,[0-9]+)?)?(%|°С?)?|\\d{1,3}([ \u00A0]\\d{3})+|(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})");
+  static final Pattern NUMBER = Pattern.compile("[+-±]?[€₴\\$]?[0-9]+(,[0-9]+)?([-–—][0-9]+(,[0-9]+)?)?(%|°С?)?|\\d{1,3}([\\s\u00A0\u202F]\\d{3})+|(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})");
   
   private static final Pattern DATE = Pattern.compile("[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}");
   private static final Pattern TIME = Pattern.compile("([01]?[0-9]|2[0-3])[.:][0-5][0-9]");
-  private static final Pattern ALT_DASHES_IN_WORD = Pattern.compile("[а-яіїєґ0-9][\u2013][а-яіїєґ]", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+  private static final Pattern ALT_DASHES_IN_WORD = Pattern.compile("[а-яіїєґ0-9a-z]\u2013[а-яіїєґ]|[а-яіїєґ]\u2013[0-9]", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
   
   private final CompoundTagger compoundTagger = new CompoundTagger(this, wordTagger, conversionLocale);
 //  private BufferedWriter taggedDebugWriter;
@@ -79,6 +81,17 @@ public class UkrainianTagger extends BaseTagger {
       List<AnalyzedToken> guessedCompoundTags = compoundTagger.guessCompoundTag(word);
       return guessedCompoundTags;
     }
+        
+    return guessOtherTags(word);
+  }
+
+  private List<AnalyzedToken> guessOtherTags(String word) {
+    if( word.length() > 7
+        && StringTools.isCapitalizedWord(word)
+        && (word.endsWith("штрассе")
+        || word.endsWith("штрасе")) ) {
+      return PosTagHelper.generateTokensForNv(word, "f", ":prop");
+    }
     
     return null;
   }
@@ -111,6 +124,20 @@ public class UkrainianTagger extends BaseTagger {
         
         tokens = newTokens;
       }
+      // try УКРАЇНА as Україна
+      else if( StringUtils.isAllUpperCase(word) ) {
+        String newWord = StringUtils.capitalize(StringUtils.lowerCase(word));
+        List<AnalyzedToken> newTokens = super.getAnalyzedTokens(newWord);
+
+        for (int i = 0; i < newTokens.size(); i++) {
+          AnalyzedToken analyzedToken = newTokens.get(i);
+          String lemma = analyzedToken.getLemma();
+          AnalyzedToken newToken = new AnalyzedToken(word, analyzedToken.getPOSTag(), lemma);
+          newTokens.set(i, newToken);
+        }
+
+        tokens = newTokens;
+      }
     }
 
 //    if( taggedDebugWriter != null && ! tkns.isEmpty() ) {
@@ -132,6 +159,11 @@ public class UkrainianTagger extends BaseTagger {
 
   List<AnalyzedToken> asAnalyzedTokenListForTaggedWordsInternal(String word, List<TaggedWord> taggedWords) {
     return super.asAnalyzedTokenListForTaggedWords(word, taggedWords);
+  }
+  
+  // we need to expose this as some rules want to know if the word is in the dictionary
+  public WordTagger getWordTagger() {
+    return super.getWordTagger();
   }
   
 }

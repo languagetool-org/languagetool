@@ -35,7 +35,7 @@ public class RussianVerbConjugationRuleTest {
     private Set<String> rightSentences = ImmutableSet.of("Я иду", "Она сидит", "Оно думает",
             "Они пишут", "Мы думаем", "Ты читаешь", "Он творит", "Вы идёте",
             "Я ходил", "Они ходили", "Мы ходили", "Она ходила", "Оно ходило", "Я ходила",
-            "Я пойду", "Она пойдёт", "Оно пойдёт", "Мы пойдём", "Ты пойдёшь");
+            "Я пойду", "Она пойдёт", "Оно пойдёт", "Мы пойдём", "Ты пойдёшь", "Я согласился на предложение.", "Джек и я согласились" );
 
     private Set<String> wrongSentences = ImmutableSet.of("Я идёт", "Она сидят",
             "Оно думаешь","Они идёте","Мы думаю","Ты читает", "Он творю",
@@ -48,15 +48,13 @@ public class RussianVerbConjugationRuleTest {
         JLanguageTool lt = new JLanguageTool(new Russian());
 
         for (String sentence : wrongSentences) {
-            System.out.println(sentence);
             AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence(sentence);
-            assertEquals(1, rule.match(analyzedSentence).length);
+            assertEquals("Expected error in sentence: " + sentence, 1, rule.match(analyzedSentence).length);
         }
 
         for(String sentence : rightSentences) {
-            System.out.println(sentence);
             AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence(sentence);
-            assertEquals(0, rule.match(analyzedSentence).length);
+            assertEquals("Did not expect error in sentence: " + sentence, 0, rule.match(analyzedSentence).length);
         }
     }
 }

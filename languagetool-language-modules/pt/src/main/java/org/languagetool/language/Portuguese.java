@@ -20,11 +20,16 @@ package org.languagetool.language;
 
 import org.languagetool.Language;
 import org.languagetool.LanguageMaintainedState;
+import org.languagetool.UserConfig;
+import org.languagetool.languagemodel.LanguageModel;
+import org.languagetool.languagemodel.LuceneLanguageModel;
 import org.languagetool.rules.*;
+import org.languagetool.rules.neuralnetwork.NeuralNetworkRuleCreator;
+import org.languagetool.rules.neuralnetwork.Word2VecModel;
 import org.languagetool.rules.pt.*;
+import org.languagetool.rules.spelling.hunspell.HunspellRule;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.pt.PortugueseSynthesizer;
-import org.languagetool.rules.spelling.hunspell.HunspellRule;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.disambiguation.pt.PortugueseHybridDisambiguator;
@@ -33,14 +38,12 @@ import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
 import org.languagetool.tokenizers.Tokenizer;
 import org.languagetool.tokenizers.pt.PortugueseWordTokenizer;
-import org.languagetool.languagemodel.LanguageModel;
-import org.languagetool.languagemodel.LuceneLanguageModel;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.io.File;
 
 /**
  * Post-spelling-reform Portuguese.
@@ -132,7 +135,7 @@ public class Portuguese extends Language implements AutoCloseable {
   }
 
   @Override
-  public List<Rule> getRelevantRules(ResourceBundle messages) throws IOException {
+  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig) throws IOException {
     return Arrays.asList(
             new CommaWhitespaceRule(messages,
                 Example.wrong("Tomamos café<marker> ,</marker> queijo, bolachas e uvas."),
@@ -140,15 +143,9 @@ public class Portuguese extends Language implements AutoCloseable {
             new GenericUnpairedBracketsRule(messages,
                     Arrays.asList("[", "(", "{", "\"", "“" /*, "«", "'", "‘" */),
                     Arrays.asList("]", ")", "}", "\"", "”" /*, "»", "'", "’" */)),
-            new HunspellRule(messages, this),
-            new LongSentenceRule(messages, 20, false),
-            new LongSentenceRule(messages, 25, false),
-            new LongSentenceRule(messages, 30, false),
-            new LongSentenceRule(messages, 35, false),
-            new LongSentenceRule(messages, 40, false),
-            new LongSentenceRule(messages, 45, false),
-            new LongSentenceRule(messages, 50, true),
-            new LongSentenceRule(messages, 60, false),
+            new HunspellRule(messages, this, userConfig),
+            new LongSentenceRule(messages, userConfig, -1, true),
+            new LongParagraphRule(messages, userConfig),
             new UppercaseSentenceStartRule(messages, this,
                 Example.wrong("Esta casa é velha. <marker>foi</marker> construida em 1950."),
                 Example.fixed("Esta casa é velha. <marker>Foi</marker> construida em 1950.")),
@@ -157,11 +154,14 @@ public class Portuguese extends Language implements AutoCloseable {
             new WhiteSpaceBeforeParagraphEnd(messages),
             new WhiteSpaceAtBeginOfParagraph(messages),
             new EmptyLineRule(messages),
+            new ParagraphRepeatBeginningRule(messages),
+            new PunctuationMarkAtParagraphEnd(messages),
             //Specific to Portuguese:
             new PostReformPortugueseCompoundRule(messages),
             new PortugueseReplaceRule(messages),
             new PortugueseBarbarismsRule(messages),
             new PortugueseClicheRule(messages),
+            new PortugueseFillerWordsRule(messages, userConfig),
             new PortugueseRedundancyRule(messages),
             new PortugueseWordinessRule(messages),
             new PortugueseWeaselWordsRule(messages),
@@ -194,6 +194,18 @@ public class Portuguese extends Language implements AutoCloseable {
     return Arrays.<Rule>asList(
             new PortugueseConfusionProbabilityRule(messages, languageModel, this)
     );
+  }
+
+  /** @since 4.0 */
+  @Override
+  public synchronized Word2VecModel getWord2VecModel(File indexDir) throws IOException {
+    return new Word2VecModel(indexDir + File.separator + getShortCode());
+  }
+
+  /** @since 4.0 */
+  @Override
+  public List<Rule> getRelevantWord2VecModelRules(ResourceBundle messages, Word2VecModel word2vecModel) throws IOException {
+    return NeuralNetworkRuleCreator.createRules(messages, this, word2vecModel);
   }
 
   /** @since 3.6 */
@@ -232,20 +244,17 @@ public class Portuguese extends Language implements AutoCloseable {
       case "NO_VERB":                   return -52;
       case "CRASE_CONFUSION":           return -55;
       case "FINAL_STOPS":               return -75;
+      case "EU_NÓS_REMOVAL":            return -90;
       case "T-V_DISTINCTION":           return -100;
       case "T-V_DISTINCTION_ALL":       return -101;
       case "REPEATED_WORDS":            return -210;
       case "REPEATED_WORDS_3X":         return -211;
-      case "PT_WIKIPEDIA_COMMON_ERRORS":   return -500;
-      case "TOO_LONG_SENTENCE_20":      return -997;
-      case "TOO_LONG_SENTENCE_25":      return -998;
-      case "TOO_LONG_SENTENCE_30":      return -999;
-      case "TOO_LONG_SENTENCE_35":      return -1000;
-      case "TOO_LONG_SENTENCE_40":      return -1001;
-      case "TOO_LONG_SENTENCE_45":      return -1002;
-      case "TOO_LONG_SENTENCE_50":      return -1003;
-      case "TOO_LONG_SENTENCE_60":      return -1004;
-      case "CACOPHONY":                 return -2000;
+      case "PT_WIKIPEDIA_COMMON_ERRORS":return -500;
+      case "FILLER_WORDS_PT":           return -990;
+      case LongSentenceRule.RULE_ID:    return -997;
+      case LongParagraphRule.RULE_ID:   return -998;
+      case "CACOPHONY":                 return -1500;
+      case "UNKNOWN_WORD":              return -2000;
     }
     return 0;
   }

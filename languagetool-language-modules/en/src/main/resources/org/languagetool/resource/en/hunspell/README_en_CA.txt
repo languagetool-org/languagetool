@@ -1,6 +1,6 @@
 en_CA Hunspell Dictionary
-Version 2016.06.26
-Sun Jun 26 23:05:32 2016 -0400 [8b0808b]
+Version 2018.04.16
+Mon Apr 16 22:11:56 2018 -0400 [7bbe293]
 http://wordlist.sourceforge.net
 
 README file for English Hunspell dictionaries derived from SCOWL.
@@ -14,10 +14,12 @@ The following dictionaries are available:
   en_CA (Canadian)
   en_GB-ise (British with "ise" spelling)
   en_GB-ize (British with "ize" spelling)
+  en_AU (Australian)
 
   en_US-large
   en_CA-large
   en_GB-large (with both "ise" and "ize" spelling)
+  en_AU-large
 
 The normal (non-large) dictionaries correspond to SCOWL size 60 and,
 to encourage consistent spelling, generally only include one spelling
@@ -38,8 +40,8 @@ only found in the large dictionary for American English:
   incretion jalapeño's kelpie kishkes neuroglias pietisms pullulation
   stemwinder stenoses syce thalassic zees
 
-The en_US and en_CA are the official dictionaries for Hunspell.  The
-en_GB and large dictionaries are made available on an experimental
+The en_US, en_CA and en_AU are the official dictionaries for Hunspell.
+The en_GB and large dictionaries are made available on an experimental
 basis.  If you find them useful please send me a quick email at
 kevina@gnu.org.
 
@@ -59,7 +61,12 @@ kevina@gnu.org or to the wordlist-devel mailing lists
 have specific issues with any of these dictionaries please file a bug
 report at https://github.com/kevina/wordlist/issues.
 
-IMPORTANT CHANGES INTRODUCED IN 2015.04.24:
+IMPORTANT CHANGES INTRODUCED In 2016.11.20:
+
+New Australian dictionaries thanks to the work of Benjamin Titze
+(btitze@protonmail.ch).
+
+IMPORTANT CHANGES INTRODUCED IN 2016.04.24:
 
 The dictionaries are now in UTF-8 format instead of ISO-8859-1.  This
 was required to handle smart quotes correctly.
@@ -87,10 +94,10 @@ released as part of Geoff Kuenning's Ispell and as such is covered by
 his BSD license.  Part of SCOWL is also based on Ispell thus the
 Ispell copyright is included with the SCOWL copyright.
 
-The collective work is Copyright 2000-2015 by Kevin Atkinson as well
+The collective work is Copyright 2000-2016 by Kevin Atkinson as well
 as any of the copyrights mentioned below:
 
-  Copyright 2000-2015 by Kevin Atkinson
+  Copyright 2000-2016 by Kevin Atkinson
 
   Permission to use, copy, modify, distribute and sell these word
   lists, the associated scripts, the output created from the scripts,
@@ -278,11 +285,30 @@ found anywhere else.
 
 Accent information was taken from UKACD.
 
-My VARCON package was used to create the American, British, and
-Canadian word list. 
+The VarCon package was used to create the American, British, Canadian,
+and Australian word list.  It is under the following copyright:
 
-Since the original word lists used in the VARCON package came
-from the Ispell distribution they are under the Ispell copyright:
+  Copyright 2000-2016 by Kevin Atkinson
+
+  Permission to use, copy, modify, distribute and sell this array, the
+  associated software, and its documentation for any purpose is hereby
+  granted without fee, provided that the above copyright notice appears
+  in all copies and that both that copyright notice and this permission
+  notice appear in supporting documentation. Kevin Atkinson makes no
+  representations about the suitability of this array for any
+  purpose. It is provided "as is" without express or implied warranty.
+
+  Copyright 2016 by Benjamin Titze
+
+  Permission to use, copy, modify, distribute and sell this array, the
+  associated software, and its documentation for any purpose is hereby
+  granted without fee, provided that the above copyright notice appears
+  in all copies and that both that copyright notice and this permission
+  notice appear in supporting documentation. Benjamin Titze makes no
+  representations about the suitability of this array for any
+  purpose. It is provided "as is" without express or implied warranty.
+
+  Since the original words lists come from the Ispell distribution:
 
   Copyright 1993, Geoff Kuenning, Granada Hills, CA
   All rights reserved.
@@ -305,18 +331,17 @@ from the Ispell distribution they are under the Ispell copyright:
      products derived from this software without specific prior
      written permission.
 
-  THIS SOFTWARE IS PROVIDED BY GEOFF KUENNING AND CONTRIBUTORS ``AS
-  IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
-  FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL GEOFF
-  KUENNING OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
-  INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
-  BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
-  CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
-  LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
-  ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
-  POSSIBILITY OF SUCH DAMAGE.
+  THIS SOFTWARE IS PROVIDED BY GEOFF KUENNING AND CONTRIBUTORS ``AS IS'' AND
+  ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+  ARE DISCLAIMED.  IN NO EVENT SHALL GEOFF KUENNING OR CONTRIBUTORS BE LIABLE
+  FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+  DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+  OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+  HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+  LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+  OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+  SUCH DAMAGE.
 
-Build Date: Sun Jun 26 23:29:14 EDT 2016
+Build Date: Mon Apr 16 22:14:00 EDT 2018
 Wordlist Command: mk-list --accents=strip en_CA 60

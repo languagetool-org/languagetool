@@ -52,7 +52,7 @@ public class ReflexiveVerbsRule extends Rule {
   private static final Pattern VERB_AUTO = Pattern.compile("auto.+");
   private static final List<String> excepVerbsPronominals = Arrays.asList("amoixar", "delirar", "atendre", "escollir", "assolir","autografiar","automatitzar","autoritzar");  
   
-  private static final List<String> verbsNoPronominals = Arrays.asList("baixar","caure","callar","marxar","albergar","olorar","seure", "saltar", "créixer"); 
+  private static final List<String> verbsNoPronominals = Arrays.asList("baixar","caure","callar","marxar","albergar","olorar","seure", "saltar", "créixer", "postular"); 
   private static final List<String> verbsNoPronominalsImpersonals = Arrays.asList("caure", "callar", "marxar", "olorar", "créixer");
   private static final List<String> verbsNoPronominalsImpersonals2 = Arrays.asList("témer","albergar","baixar");
   private static final List<String> excepVerbsNoPronominals = Arrays.asList("segar");
@@ -219,7 +219,7 @@ public class ReflexiveVerbsRule extends Rule {
         
         // the rule matches
         final String msg = "Expressió incorrecta si equival a 'adonar-se', correcta si vol dir 'retre compte'.";
-        final RuleMatch ruleMatch = new RuleMatch(this,
+        final RuleMatch ruleMatch = new RuleMatch(this, sentence,
             tokens[i].getStartPos(), tokens[i].getEndPos(), msg, "Possible error");
         ruleMatches.add(ruleMatch);
       }
@@ -251,7 +251,7 @@ public class ReflexiveVerbsRule extends Rule {
           else if (token.equalsIgnoreCase("du")) {suggestion ="endú"; }
           else {suggestion= "en"+token; }
         final String msg="¿Volíeu dir <suggestion>"+suggestion+"</suggestion>?";
-        final RuleMatch ruleMatch = new RuleMatch(this,
+        final RuleMatch ruleMatch = new RuleMatch(this, sentence,
             tokens[i].getStartPos(), tokens[i].getEndPos(), msg, "Possible error");
         ruleMatches.add(ruleMatch);    
         continue loop;
@@ -267,7 +267,7 @@ public class ReflexiveVerbsRule extends Rule {
           && matchRegexp(tokens[i + 1].getToken(), REFLEXIU_POSPOSAT) ) {
           // the rule matches
           final String msg = "En aquesta perífrasi verbal el pronom reflexiu posterior és redundant.";
-          final RuleMatch ruleMatch = new RuleMatch(this,
+          final RuleMatch ruleMatch = new RuleMatch(this, sentence,
               tokens[i+1].getStartPos(), tokens[i+1].getStartPos()
                   + tokens[i+1].getToken().length(), msg, "Pronom redundant");
           ruleMatches.add(ruleMatch);
@@ -289,7 +289,7 @@ public class ReflexiveVerbsRule extends Rule {
           continue loop;
         // the rule matches
         final String msg = "Aquest verb és pronominal. Probablement falta un pronom.";
-        final RuleMatch ruleMatch = new RuleMatch(this,
+        final RuleMatch ruleMatch = new RuleMatch(this, sentence,
             tokens[i].getStartPos(), tokens[i].getEndPos(), msg,
             "Verb pronominal: falta un pronom");
         ruleMatches.add(ruleMatch);
@@ -328,7 +328,7 @@ public class ReflexiveVerbsRule extends Rule {
         
         // the rule matches
         final String msg = "Aquest verb no és pronominal. Probablement sobra un pronom.";
-        final RuleMatch ruleMatch = new RuleMatch(this,
+        final RuleMatch ruleMatch = new RuleMatch(this, sentence,
             tokens[i].getStartPos(), tokens[i].getEndPos(),
             msg, "Verb no pronominal");
         if (tokens[i].hasLemma("créixer")) {
@@ -409,7 +409,7 @@ public class ReflexiveVerbsRule extends Rule {
         if (isThereReflexivePronoun(tokens, i) && (!isTherePronoun(tokens, i, LEMMA_EN, POSTAG_EN))) {
           // the rule matches
           final String msg = "No useu com a pronominal aquest verb, o bé afegiu-hi el pronom 'en'."; //Cal canviar el missatge
-          final RuleMatch ruleMatch = new RuleMatch(this, tokens[i].getStartPos(), 
+          final RuleMatch ruleMatch = new RuleMatch(this, sentence, tokens[i].getStartPos(), 
               tokens[i].getEndPos(), msg, "Falta el pronom 'en'");
           ruleMatches.add(ruleMatch);
         }

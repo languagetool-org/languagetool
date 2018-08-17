@@ -22,6 +22,7 @@ import com.sun.net.httpserver.HttpExchange;
 import org.jetbrains.annotations.NotNull;
 import org.languagetool.Language;
 import org.languagetool.Languages;
+import org.languagetool.markup.AnnotatedText;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.tools.StringTools;
 import org.languagetool.tools.RuleMatchesAsJsonSerializer;
@@ -38,8 +39,8 @@ class V2TextChecker extends TextChecker {
 
   private static final String JSON_CONTENT_TYPE = "application/json";
 
-  V2TextChecker(HTTPServerConfig config, boolean internalServer) {
-    super(config, internalServer);
+  V2TextChecker(HTTPServerConfig config, boolean internalServer, Queue<Runnable> workQueue, RequestCounter reqCounter) {
+    super(config, internalServer, workQueue, reqCounter);
   }
 
   @Override
@@ -48,9 +49,11 @@ class V2TextChecker extends TextChecker {
   }
 
   @Override
-  protected String getResponse(String text, Language lang, Language motherTongue, List<RuleMatch> matches, boolean incompleteResult) {
+  protected String getResponse(AnnotatedText text, DetectedLanguage lang, Language motherTongue, List<RuleMatch> matches,
+                               List<RuleMatch> hiddenMatches, String incompleteResultsReason) {
     RuleMatchesAsJsonSerializer serializer = new RuleMatchesAsJsonSerializer();
-    return serializer.ruleMatchesToJson(matches, text, CONTEXT_SIZE, lang, incompleteResult);
+    return serializer.ruleMatchesToJson(matches, hiddenMatches, text, CONTEXT_SIZE,
+            lang.getGivenLanguage(), lang.getDetectedLanguage(), incompleteResultsReason);
   }
 
   @NotNull
@@ -97,15 +100,16 @@ class V2TextChecker extends TextChecker {
   
   @Override
   @NotNull
-  protected Language getLanguage(String text, Map<String, String> parameters, List<String> preferredVariants) {
-    Language lang;
+  protected DetectedLanguage getLanguage(String text, Map<String, String> parameters, List<String> preferredVariants) {
     String langParam = parameters.get("language");
+    Language detectedLang = detectLanguageOfString(text, null, preferredVariants);
+    Language givenLang;
     if (getLanguageAutoDetect(parameters)) {
-      lang = detectLanguageOfString(text, null, preferredVariants);
+      givenLang = detectedLang;
     } else {
-      lang = Languages.getLanguageForShortCode(langParam);
+      givenLang = Languages.getLanguageForShortCode(langParam);
     }
-    return lang;
+    return new DetectedLanguage(givenLang, detectedLang);
   }
 
   @Override

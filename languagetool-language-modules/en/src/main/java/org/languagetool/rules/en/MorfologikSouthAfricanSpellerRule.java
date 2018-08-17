@@ -23,14 +23,16 @@ import java.io.IOException;
 import java.util.ResourceBundle;
 
 import org.languagetool.Language;
+import org.languagetool.UserConfig;
 
 public final class MorfologikSouthAfricanSpellerRule extends AbstractEnglishSpellerRule {
 
   private static final String RESOURCE_FILENAME = "/en/hunspell/en_ZA.dict";
+  private static final String LANGUAGE_SPECIFIC_PLAIN_TEXT_DICT = "en/hunspell/spelling_en-ZA.txt";
 
   public MorfologikSouthAfricanSpellerRule(ResourceBundle messages,
-                                           Language language) throws IOException {
-    super(messages, language);
+                                           Language language, UserConfig userConfig) throws IOException {
+    super(messages, language, userConfig);
   }
 
   @Override
@@ -43,4 +45,8 @@ public final class MorfologikSouthAfricanSpellerRule extends AbstractEnglishSpel
     return "MORFOLOGIK_RULE_EN_ZA";
   }
 
+  @Override
+  public String getLanguageVariantSpellingFileName() {
+    return LANGUAGE_SPECIFIC_PLAIN_TEXT_DICT;
+  }
 }

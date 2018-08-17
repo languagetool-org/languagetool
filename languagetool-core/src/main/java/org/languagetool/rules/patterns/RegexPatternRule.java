@@ -18,11 +18,11 @@
  */
 package org.languagetool.rules.patterns;
 
+import org.apache.commons.lang3.tuple.Pair;
 import org.jetbrains.annotations.NotNull;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.Language;
 import org.languagetool.rules.RuleMatch;
-import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -32,11 +32,18 @@ import java.util.regex.Pattern;
 
 /**
  * Matches 'regexp' elements from XML rules against sentences.
+ *
  * @since 3.2
  */
 class RegexPatternRule extends AbstractPatternRule implements RuleMatcher {
 
   private static final Pattern suggestionPattern = Pattern.compile("<suggestion>(.*?)</suggestion>");  // TODO: this needs to be cleaned up, there should be no need to parse this?
+  private static final Pattern matchPattern = Pattern.compile("\\\\\\d");
+
+  // in suggestions tokens are numbered from 1, anywhere else tokens are numbered from 0.
+  // see: http://wiki.languagetool.org/development-overview#toc17
+  // But most of the rules tend to use 1 to refer the first capturing group, so keeping that behavior as default
+  private static final int MATCHES_IN_SUGGESTIONS_NUMBERED_FROM = 0;
 
   private final Pattern pattern;
   private final int markGroup;
@@ -55,92 +62,100 @@ class RegexPatternRule extends AbstractPatternRule implements RuleMatcher {
 
   @Override
   public RuleMatch[] match(AnalyzedSentence sentenceObj) throws IOException {
-    String sentence = sentenceObj.getText();
-    Matcher matcher = pattern.matcher(sentence);
-    int startPos = 0;
+
+    List<Pair<Integer, Integer>> suggestionsInMessage = getClausePositionsInMessage(suggestionPattern, message);
+    List<Pair<Integer, Integer>> backReferencesInMessage = getClausePositionsInMessage(matchPattern, message);
+
+    List<Pair<Integer, Integer>> suggestionsInSuggestionsOutMsg = getClausePositionsInMessage(suggestionPattern, suggestionsOutMsg);
+    List<Pair<Integer, Integer>> backReferencesInSuggestionsOutMsg = getClausePositionsInMessage(matchPattern, suggestionsOutMsg);
+
+
+    Matcher patternMatcher = pattern.matcher(sentenceObj.getText());
     List<RuleMatch> matches = new ArrayList<>();
-    while (matcher.find(startPos)) {
-      String msg = replaceBackRefs(matcher, message);
-      boolean sentenceStart = matcher.start(0) == 0;
-      List<String> suggestions = extractSuggestions(matcher, msg);
-      List<String> matchSuggestions = getMatchSuggestions(sentence, matcher);
-      msg = replaceMatchElements(msg, matchSuggestions);
-      int markStart = matcher.start(markGroup);
-      int markEnd = matcher.end(markGroup);
-      RuleMatch ruleMatch = new RuleMatch(this, markStart, markEnd, msg, null, sentenceStart, null);
-      List<String> allSuggestions = new ArrayList<>();
-      if (matchSuggestions.size() > 0) {
-        allSuggestions.addAll(matchSuggestions);
-      } else {
-        allSuggestions.addAll(suggestions);
-        List<String> extendedSuggestions = extractSuggestions(matcher, getSuggestionsOutMsg());
-        allSuggestions.addAll(extendedSuggestions);
+    int startPos = 0;
+
+    while (patternMatcher.find(startPos)) {
+      try {
+        int markStart = patternMatcher.start(markGroup);
+        int markEnd = patternMatcher.end(markGroup);
+
+        String processedMessage = processMessage(patternMatcher, message, backReferencesInMessage, suggestionsInMessage, suggestionMatches);
+        String processedSuggestionsOutMsg = processMessage(patternMatcher, suggestionsOutMsg, backReferencesInSuggestionsOutMsg,
+                suggestionsInSuggestionsOutMsg, suggestionMatchesOutMsg);
+
+        boolean startsWithUpperCase = patternMatcher.start() == 0 && Character.isUpperCase(sentenceObj.getText().charAt(patternMatcher.start()));
+        RuleMatch ruleMatch = new RuleMatch(this, sentenceObj, markStart, markEnd, processedMessage, null, startsWithUpperCase, processedSuggestionsOutMsg);
+        matches.add(ruleMatch);
+
+        startPos = patternMatcher.end();
+      } catch (IndexOutOfBoundsException e){
+        throw new RuntimeException(String.format("Unexpected reference to capturing group in rule with id %s.", this.getFullId()), e);
+      } catch (Exception e) {
+        throw new RuntimeException(String.format("Unexpected exception when processing regexp in rule with id %s.", this.getFullId()), e);
       }
-      ruleMatch.setSuggestedReplacements(allSuggestions);
-      matches.add(ruleMatch);
-      startPos = matcher.end();
     }
     return matches.toArray(new RuleMatch[matches.size()]);
   }
 
   @NotNull
-  private List<String> getMatchSuggestions(String sentence, Matcher matcher) {
-    List<String> matchSuggestions = new ArrayList<>();
-    for (Match match : getSuggestionMatches()) {
-      String errorText = sentence.substring(matcher.start(), matcher.end());
-      String regexReplace = match.getRegexReplace();
-      if (regexReplace != null) {
-        String suggestion = match.getRegexMatch().matcher(errorText).replaceFirst(regexReplace);
-        suggestion = CaseConversionHelper.convertCase(match.getCaseConversionType(), suggestion, errorText, getLanguage());
-        matchSuggestions.add(suggestion);
-      }
+  private List<Pair<Integer, Integer>> getClausePositionsInMessage(Pattern pattern, String message) {
+    Matcher matcher = pattern.matcher(message);
+    List<Pair<Integer, Integer>> clausePositionsInMessage = new ArrayList<>();
+    while (matcher.find()) {
+      clausePositionsInMessage.add(Pair.of(matcher.start(), matcher.end()));
     }
-    return matchSuggestions;
+    return clausePositionsInMessage;
   }
 
-  private String replaceMatchElements(String msg, List<String> suggestions) {
-    Matcher sMatcher = suggestionPattern.matcher(msg);
-    StringBuffer sb = new StringBuffer();
-    int i = 0;
-    try {
-      while (sMatcher.find()) {
-        if (i < suggestions.size()) {
-          sMatcher.appendReplacement(sb, "<suggestion>" + suggestions.get(i++).replace("$", "\\$") + "</suggestion>");
+
+  private String processMessage(Matcher matcher, String message, List<Pair<Integer, Integer>> backReferences,
+                                List<Pair<Integer, Integer>> suggestions, List<Match> matches) {
+
+    int closestSuggestionPosition = -1;
+    boolean allSuggestionsPassed = suggestions.isEmpty();
+    if (!suggestions.isEmpty()) {
+      closestSuggestionPosition = 0;
+    }
+
+    boolean insideSuggestion;
+    StringBuilder processedMessage = new StringBuilder();
+    int startOfProcessingPart = 0;
+    for (int i = 0; i < backReferences.size(); i++) {
+      Pair<Integer, Integer> reference = backReferences.get(i);
+
+      while (!allSuggestionsPassed && (reference.getLeft() > suggestions.get(closestSuggestionPosition).getRight())) {
+        closestSuggestionPosition += 1;
+        if (closestSuggestionPosition == suggestions.size()) {
+          allSuggestionsPassed = true;
         }
       }
-    } catch (Exception e) {
-      throw new RuntimeException("Exception running regex of rule " + getFullId() + " with matcher " + sMatcher + " on: '" + msg + "'", e);
-    }
-    sMatcher.appendTail(sb);
-    return sb.toString();
-  }
-  
-  private List<String> extractSuggestions(Matcher matcher, String msg) {
-    Matcher sMatcher = suggestionPattern.matcher(msg);
-    int startPos = 0;
-    List<String> result = new ArrayList<>();
-    while (sMatcher.find(startPos)) {
-      String suggestion = sMatcher.group(1);
-      if (matcher.start() == 0) {
-        result.add(replaceBackRefs(matcher, StringTools.uppercaseFirstChar(suggestion)));
-      } else {
-        result.add(replaceBackRefs(matcher, suggestion));
-      }
-      startPos = sMatcher.end();
-    }
-    return result;
-  }
 
-  private String replaceBackRefs(Matcher matcher, String msg) {
-    String replacedMsg = msg;
-    for (int i = 0; i <= matcher.groupCount(); i++) {
-      String replacement = matcher.group(i);
-      if (replacement != null) {
-        replacedMsg = replacedMsg.replace("\\" + i, replacement);
+      insideSuggestion = !allSuggestionsPassed && reference.getLeft() >= suggestions.get(closestSuggestionPosition).getLeft();
+
+      int inXMLMatchReferenceNo = Integer.parseInt(message.substring(reference.getLeft(), reference.getRight()).split("\\\\")[1]);
+      int actualMatchReferenceNo = inXMLMatchReferenceNo - (insideSuggestion ? MATCHES_IN_SUGGESTIONS_NUMBERED_FROM : 0);
+
+      String matchReferenceStringValue = matcher.group(actualMatchReferenceNo);
+      if (matchReferenceStringValue == null) {
+        matchReferenceStringValue = "";
       }
+
+      Match currentProcessingMatch = matches.get(i);
+      String regexReplace = currentProcessingMatch.getRegexReplace();
+      String suggestion;
+      if (regexReplace != null) {
+        suggestion = currentProcessingMatch.getRegexMatch().matcher(matchReferenceStringValue).replaceFirst(regexReplace);
+        suggestion = CaseConversionHelper.convertCase(currentProcessingMatch.getCaseConversionType(), suggestion, matchReferenceStringValue, getLanguage());
+      } else {
+        suggestion = matchReferenceStringValue;
+      }
+      processedMessage.append(message.substring(startOfProcessingPart, reference.getLeft())).append(suggestion);
+
+      startOfProcessingPart = reference.getRight();
     }
-    replacedMsg = replacedMsg.replaceAll("\\\\[0-9]", "");   // optional matches need to be replaced by empty string
-    return replacedMsg;
+    processedMessage.append(message.substring(startOfProcessingPart));
+
+    return processedMessage.toString();
   }
 
   @Override

@@ -87,7 +87,7 @@ public class SpellingCheckRuleTest {
 
   static class MySpellCheckingRule extends SpellingCheckRule {
     MySpellCheckingRule() {
-      super(TestTools.getEnglishMessages(), new AmericanEnglish());
+      super(TestTools.getEnglishMessages(), new AmericanEnglish(), null);
     }
     @Override public String getId() { return null; }
     @Override public String getDescription() { return null; }

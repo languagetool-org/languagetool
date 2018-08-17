@@ -20,6 +20,7 @@ package org.languagetool.dev;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.*;
 
 /**
@@ -28,15 +29,20 @@ import java.util.*;
  */
 class NGramStats {
 
-  private void lookup(File dir, String phrase) throws IOException {
-    try (HomophoneOccurrenceDumper lm = new HomophoneOccurrenceDumper(dir)) {
-      String[] tokens = phrase.split(" ");
-      if (tokens.length > 3) {
-        throw new RuntimeException("Phrases of length " + tokens.length + " are not yet supported: '" + phrase + "'");
-      } else {
-        long count = lm.getCount(Arrays.asList(tokens));
-        System.out.println(phrase + ": " + count);
-      }
+  private void lookup(HomophoneOccurrenceDumper lm, File phraseFile) throws IOException {
+    List<String> lines = Files.readAllLines(phraseFile.toPath());
+    for (String line : lines) {
+      lookup(lm, line);
+    }
+  }
+
+  private void lookup(HomophoneOccurrenceDumper lm, String phrase) throws IOException {
+    String[] tokens = phrase.split(" ");
+    if (tokens.length > 3) {
+      throw new RuntimeException("Phrases of length " + tokens.length + " are not yet supported: '" + phrase + "'");
+    } else {
+      long count = lm.getCount(Arrays.asList(tokens));
+      System.out.println(count + " " + phrase);
     }
   }
 
@@ -44,13 +50,20 @@ class NGramStats {
     if (args.length != 1 && args.length != 2) {
       System.out.println("Usage: " + NGramStats.class.getSimpleName() + " <dir> <phrase>");
       System.out.println("  'dir' is a directory with '1grams' etc sub directories with a Lucene index of ngrams");
-      System.out.println("  'phrase' is a 1 to 3 word case-sensitive phrase, e.g. \"the tall boy\" (include the quotes)");
+      System.out.println("  'phrase' is a 1 to 3 word case-sensitive phrase, e.g. \"the tall boy\" (include the quotes) or a file");
       System.exit(1);
     }
     String dir = args[0];
-    String phrase = args[1];
+    String phraseOrFile = args[1];
     NGramStats stats = new NGramStats();
-    stats.lookup(new File(dir), phrase);
+    File file = new File(phraseOrFile);
+    try (HomophoneOccurrenceDumper lm = new HomophoneOccurrenceDumper(new File(dir))) {
+      if (file.exists()) {
+        stats.lookup(lm, file);
+      } else {
+        stats.lookup(lm, phraseOrFile);
+      }
+    }
   }
 
 }
