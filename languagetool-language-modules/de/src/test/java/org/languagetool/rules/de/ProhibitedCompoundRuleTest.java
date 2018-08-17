@@ -18,16 +18,24 @@
  */
 package org.languagetool.rules.de;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
+import org.languagetool.Languages;
 import org.languagetool.TestTools;
 import org.languagetool.language.German;
+import org.languagetool.languagemodel.LanguageModel;
+import org.languagetool.languagemodel.LuceneLanguageModel;
+import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.ngrams.FakeLanguageModel;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static org.hamcrest.core.Is.is;
@@ -53,6 +61,34 @@ public class ProhibitedCompoundRuleTest {
     assertMatches("Viel Wohnungslehrstand.", 1, rule, lt);
     assertMatches("Viel Xliseihfleerstand.", 0, rule, lt);
     assertMatches("Viel Xliseihflehrstand.", 0, rule, lt);  // no correct spelling, so not suggested
+  }
+
+  private ProhibitedCompoundRule getRule(String languageModelPath) throws IOException {
+    Language lang = Languages.getLanguageForShortCode("de");
+    LanguageModel languageModel = new LuceneLanguageModel(new File(languageModelPath, lang.getShortCode()));
+    List<Rule> rules = lang.getRelevantLanguageModelRules(JLanguageTool.getMessageBundle(), languageModel);
+    if (rules == null) {
+      throw new RuntimeException("Language " + lang + " doesn't seem to support a language model");
+    }
+    ProhibitedCompoundRule foundRule = null;
+    for (Rule rule : rules) {
+      if (rule.getId().equals(ProhibitedCompoundRule.RULE_ID)) {
+        foundRule = (ProhibitedCompoundRule) rule;
+        break;
+      }
+    }
+    return foundRule;
+  }
+
+  @Test
+  @Ignore // requires language model
+  public void testRuleWithLanguageModel() throws IOException {
+    ProhibitedCompoundRule rule = getRule("/home/fabian/Documents/languagetool/data/ngrams/");
+    JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("de"));
+    assertMatches("Das neue Mittagsgewicht schmeckt ausgezeichnet.", 1, rule, lt);
+    assertMatches("Das neue Mittagsgericht schmeckt ausgezeichnet.", 0, rule, lt);
+    assertMatches("Ich bin ein Gerichtheber.", 1, rule, lt);
+    assertMatches("Ich bin ein Gewichtheber.", 0, rule, lt);
   }
 
   private void assertMatches(String input, int expecteMatches, ProhibitedCompoundRule rule, JLanguageTool lt) throws IOException {

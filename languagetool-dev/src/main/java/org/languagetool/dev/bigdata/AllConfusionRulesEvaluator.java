@@ -84,8 +84,8 @@ final class AllConfusionRulesEvaluator {
           String word2 = set2.getString();
           String key = word1 + " " + word2;
           if (!done.contains(key)) {
-            Map<Long, ConfusionRuleEvaluator.EvalResult> evalResults = eval.run(inputsFiles, word1, word2, MAX_SENTENCES, Arrays.asList(confusionSet.getFactor()));
-            ConfusionRuleEvaluator.EvalResult evalResult = evalResults.values().iterator().next();
+            Map<Long, RuleEvalResult> evalResults = eval.run(inputsFiles, word1, word2, MAX_SENTENCES, Arrays.asList(confusionSet.getFactor()));
+            RuleEvalResult evalResult = evalResults.values().iterator().next();
             String summary1 = set1.getDescription() != null ? word1 + "|" + set1.getDescription() : word1;
             String summary2 = set2.getDescription() != null ? word2 + "|" + set2.getDescription() : word2;
             String start;

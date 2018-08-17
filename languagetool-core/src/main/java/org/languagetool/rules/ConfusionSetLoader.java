@@ -51,11 +51,17 @@ public class ConfusionSetLoader {
         List<ConfusionString> confusionStrings = new ArrayList<>();
         Set<String> loadedForSet = new HashSet<>();
         String prevWord = null;
-        for (String part : Arrays.asList(parts).subList(0, parts.length-1)) {
+        for (String part : Arrays.asList(parts).subList(0, parts.length - 1)) {
           String[] subParts = part.split("\\|");
           String word = subParts[0];
           if (prevWord != null && word.compareTo(prevWord) < 0) {
-            throw new RuntimeException("Order words alphabetically per line in the confusion set file: " + line);
+            // Quick hack for reordering lines
+            //System.err.println("Delete: " + line);
+            //String comment = line.substring(line.indexOf("#"));
+            //String newLine = parts[1] + "; " + parts[0] + "; " + parts[2] + "; " + comment;
+            //System.err.println("Add: " + newLine);
+
+            throw new RuntimeException("Order words alphabetically per line in the confusion set file: " + line + ": found " + word + " after " + prevWord);
           }
           prevWord = word;
           String description = subParts.length == 2 ? subParts[1] : null;

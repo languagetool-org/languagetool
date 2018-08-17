@@ -38,7 +38,7 @@ final class PerformanceTest {
   private void run(JLanguageTool lt, File textFile) throws IOException {
     String text = StringTools.readStream(new FileInputStream(textFile), "utf-8");
     int sentenceCount = lt.sentenceTokenize(text).size();
-    //lt.activateLanguageModelRules(new File("/data/google-ngram-index/"));
+    lt.activateLanguageModelRules(new File("data/ngrams"));
     System.out.println("Language: " +  lt.getLanguage() +
                        ", Text length: " + text.length() + " chars, " + sentenceCount + " sentences");
 
@@ -50,7 +50,7 @@ final class PerformanceTest {
     System.out.printf("Check time on first run: " + runTime1 + "ms = %.1fms per sentence\n", timePerSentence1);
 
     System.out.println("Checking text...");
-    long totalTime = 0;
+    float totalTime = 0;
     for (int i = 0; i < RUNS; i++) {
       long startTime2 = System.currentTimeMillis();
       lt.check(text);
