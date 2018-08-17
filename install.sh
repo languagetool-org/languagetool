@@ -389,7 +389,7 @@ detect_unzip() {
 
 detect_screen() {
     if ! [ "$(type -t DISPLAY)" ]; then
-        if ! [ "$command" ]; then
+        if [ "$command" ]; then
             command="commandline"
         fi
         display='no'
