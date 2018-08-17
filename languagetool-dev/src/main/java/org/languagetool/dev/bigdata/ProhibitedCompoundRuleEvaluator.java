@@ -1,40 +1,39 @@
-/* LanguageTool, a natural language style checker 
- * Copyright (C) 2014 Daniel Naber (http://www.danielnaber.de)
- * 
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
+/*
+ *  LanguageTool, a natural language style checker
+ *  * Copyright (C) 2018 Fabian Richter
+ *  *
+ *  * This library is free software; you can redistribute it and/or
+ *  * modify it under the terms of the GNU Lesser General Public
+ *  * License as published by the Free Software Foundation; either
+ *  * version 2.1 of the License, or (at your option) any later version.
+ *  *
+ *  * This library is distributed in the hope that it will be useful,
+ *  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ *  * Lesser General Public License for more details.
+ *  *
+ *  * You should have received a copy of the GNU Lesser General Public
+ *  * License along with this library; if not, write to the Free Software
+ *  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+ *  * USA
  *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
- * USA
  */
+
 package org.languagetool.dev.bigdata;
 
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
-import org.languagetool.chunking.Chunker;
-import org.languagetool.dev.dumpcheck.*;
-import org.languagetool.language.English;
+import org.languagetool.dev.dumpcheck.MixingSentenceSource;
+import org.languagetool.dev.dumpcheck.PlainTextSentenceSource;
+import org.languagetool.dev.dumpcheck.Sentence;
+import org.languagetool.dev.dumpcheck.SentenceSource;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.languagemodel.LuceneLanguageModel;
-import org.languagetool.rules.ngrams.ConfusionProbabilityRule;
-import org.languagetool.rules.ConfusionSet;
-import org.languagetool.rules.Rule;
-import org.languagetool.rules.RuleMatch;
-import org.languagetool.tagging.Tagger;
-import org.languagetool.tagging.xx.DemoTagger;
-import org.languagetool.tools.StringTools;
+import org.languagetool.rules.*;
+import org.languagetool.rules.de.ProhibitedCompoundRule;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -48,43 +47,37 @@ import static java.util.Locale.ENGLISH;
 import static java.util.stream.Collectors.toList;
 
 /**
- * Loads sentences with a homophone (e.g. there/their) from Wikipedia or confusion set files
- * and evaluates EnglishConfusionProbabilityRule with them.
- * 
- * @see AutomaticConfusionRuleEvaluator
- * @since 3.0
- * @author Daniel Naber 
+ * Loads sentences with with compounds that have a given token as a part and
+ * evaluates this variant with another, easily confused variant via ProhibitedCompoundRule
+ * @since 4.3
+ * @author Fabian Richter
  */
-class ConfusionRuleEvaluator {
-
-  private static final boolean CASE_SENSITIVE = false;
-  private static final List<Long> EVAL_FACTORS = Arrays.asList(10L, 100L, 1_000L, 10_000L, 100_000L, 1_000_000L, 10_000_000L);
-  private static final int MAX_SENTENCES = 1000;
+class ProhibitedCompoundRuleEvaluator {
+  // TODO maybe remove
+  private static final List<Long> EVAL_FACTORS = Arrays.asList(10L);//, 100L, 1_000L, 10_000L, 100_000L, 1_000_000L, 10_000_000L);
+  private static final int MAX_SENTENCES = 10;//00;
 
   private final Language language;
-  private final boolean caseSensitive;
-  private final ConfusionProbabilityRule rule;
+  private final ProhibitedCompoundRule rule;
   private final Map<Long, RuleEvalValues> evalValues = new HashMap<>();
-
   private boolean verbose = true;
 
-  ConfusionRuleEvaluator(Language language, LanguageModel languageModel, boolean caseSensitive) {
+  ProhibitedCompoundRuleEvaluator(Language language, LanguageModel languageModel) {
     this.language = language;
-    this.caseSensitive = caseSensitive;
     try {
       List<Rule> rules = language.getRelevantLanguageModelRules(JLanguageTool.getMessageBundle(), languageModel);
       if (rules == null) {
         throw new RuntimeException("Language " + language + " doesn't seem to support a language model");
       }
-      ConfusionProbabilityRule foundRule = null;
+      ProhibitedCompoundRule foundRule = null;
       for (Rule rule : rules) {
-        if (rule.getId().equals(ConfusionProbabilityRule.RULE_ID)) {
-          foundRule = (ConfusionProbabilityRule)rule;
+        if (rule.getId().equals(ProhibitedCompoundRule.RULE_ID)) {
+          foundRule = (ProhibitedCompoundRule) rule;
           break;
         }
       }
       if (foundRule == null) {
-        throw new RuntimeException("Language " + language + " has no language model rule with id " + ConfusionProbabilityRule.RULE_ID);
+        throw new RuntimeException("Language " + language + " has no language model rule with id " + ProhibitedCompoundRule.RULE_ID);
       } else {
         this.rule = foundRule;
       }
@@ -92,7 +85,7 @@ class ConfusionRuleEvaluator {
       throw new RuntimeException(e);
     }
   }
-  
+
   void setVerboseMode(boolean verbose) {
     this.verbose = verbose;
   }
@@ -101,9 +94,9 @@ class ConfusionRuleEvaluator {
     for (Long evalFactor : evalFactors) {
       evalValues.put(evalFactor, new RuleEvalValues());
     }
-    List<Sentence> allTokenSentences = getRelevantSentences(inputsOrDir, token, maxSentences);
+    List<Map.Entry<Sentence, Integer>> allTokenSentences = getRelevantSentences(inputsOrDir, token, maxSentences);
     // Load the sentences with a homophone and later replace it so we get error sentences:
-    List<Sentence> allHomophoneSentences = getRelevantSentences(inputsOrDir, homophoneToken, maxSentences);
+    List<Map.Entry<Sentence, Integer>> allHomophoneSentences = getRelevantSentences(inputsOrDir, homophoneToken, maxSentences);
     //if (allTokenSentences.size() < 20 || allHomophoneSentences.size() < 20) {
     //  System.out.println("Skipping " + token + " / " + homophoneToken);
     //  return null;
@@ -112,34 +105,41 @@ class ConfusionRuleEvaluator {
     evaluate(allTokenSentences, false, homophoneToken, token, evalFactors);
     evaluate(allHomophoneSentences, false, token, homophoneToken, evalFactors);
     evaluate(allHomophoneSentences, true, homophoneToken, token, evalFactors);
-    return printEvalResult(allTokenSentences, allHomophoneSentences, inputsOrDir, token, homophoneToken);
+    return printRuleEvalResult(allTokenSentences, allHomophoneSentences, inputsOrDir, token, homophoneToken);
   }
 
   @SuppressWarnings("ConstantConditions")
-  private void evaluate(List<Sentence> sentences, boolean isCorrect, String token, String homophoneToken, List<Long> evalFactors) throws IOException {
+  private void evaluate(List<Map.Entry<Sentence, Integer>> sentences, boolean isCorrect, String token, String homophoneToken, List<Long> evalFactors) throws IOException {
     println("======================");
-    printf("Starting evaluation on " + sentences.size() + " sentences with %s/%s:\n", token, homophoneToken);
+    printf("Starting evaluation on " + sentences.size() + " sentences with %s/%s (%s):\n", token, homophoneToken, String.valueOf(isCorrect));
     JLanguageTool lt = new JLanguageTool(language);
     List<Rule> allActiveRules = lt.getAllActiveRules();
     for (Rule activeRule : allActiveRules) {
       lt.disableRule(activeRule.getId());
     }
-    for (Sentence sentence : sentences) {
-      String textToken = isCorrect ? token : homophoneToken;
+    for (Map.Entry<Sentence, Integer> sentenceMatch : sentences) {
+      Sentence sentence = sentenceMatch.getKey();
       String plainText = sentence.getText();
-      String replacement = plainText.indexOf(textToken) == 0 ? StringTools.uppercaseFirstChar(token) : token;
-      String replacedTokenSentence = isCorrect ? plainText : plainText.replaceFirst("(?i)\\b" + textToken + "\\b", replacement);
-      AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence(replacedTokenSentence);
+      int matchStart = sentenceMatch.getValue();
+      int matchEnd = matchStart + homophoneToken.length();
+      String match = plainText.substring(matchStart, matchEnd);
+      String textToken = Character.isUpperCase(match.charAt(0)) ? StringUtils.capitalize(token) : StringUtils.uncapitalize(token);
+      String replacement = plainText;
+      if (!isCorrect)
+        replacement = plainText.substring(0, matchStart) + textToken + plainText.substring(matchEnd);
+      //printf("%nCorrect: %s%nPlain text: %s%nToken: %s%nHomophone: %s%nMatch: '%s'%nReplacement: %s%n%n", String.valueOf(isCorrect), plainText, token, homophoneToken, match, replacement);
+      AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence(replacement);
       for (Long factor : evalFactors) {
-        rule.setConfusionSet(new ConfusionSet(factor, homophoneToken, token));
+        rule.setConfusionPair(new ProhibitedCompoundRule.Pair(homophoneToken, "", token, ""));
         RuleMatch[] matches = rule.match(analyzedSentence);
+        String displayStr = plainText.substring(0, matchStart) + token.toUpperCase() + plainText.substring(matchStart + (isCorrect ? token.length() : homophoneToken.length()));
         boolean consideredCorrect = matches.length == 0;
-        String displayStr = plainText.replaceFirst("(?i)\\b" + textToken + "\\b", "**" + replacement + "**");
         if (consideredCorrect && isCorrect) {
           evalValues.get(factor).trueNegatives++;
+          //println("true negative: " + displayStr);
         } else if (!consideredCorrect && isCorrect) {
           evalValues.get(factor).falsePositives++;
-          println("false positive with factor " + factor + ": " + displayStr);
+          //println("false positive: " + displayStr);
         } else if (consideredCorrect && !isCorrect) {
           //println("false negative: " + displayStr);
           evalValues.get(factor).falseNegatives++;
@@ -151,14 +151,13 @@ class ConfusionRuleEvaluator {
     }
   }
 
-  private Map<Long, RuleEvalResult> printEvalResult(List<Sentence> allTokenSentences, List<Sentence> allHomophoneSentences, List<String> inputsOrDir,
-                                                    String token, String homophoneToken) {
-    Map<Long, RuleEvalResult> results = new HashMap<>();
+  private Map<Long,RuleEvalResult> printRuleEvalResult(List<Map.Entry<Sentence, Integer>> allTokenSentences, List<Map.Entry<Sentence, Integer>> allHomophoneSentences, List<String> inputsOrDir,
+                                                       String token, String homophoneToken) {
+    Map<Long,RuleEvalResult> results = new HashMap<>();
     int sentences = allTokenSentences.size() + allHomophoneSentences.size();
     System.out.println("\nEvaluation results for " + token + "/" + homophoneToken
-            + " with " + sentences + " sentences as of " + new Date() + ":");
+      + " with " + sentences + " sentences as of " + new Date() + ":");
     System.out.printf(ENGLISH, "Inputs:       %s\n", inputsOrDir);
-    System.out.printf(ENGLISH, "Case sensit.: %s\n", caseSensitive);
     List<Long> factors = evalValues.keySet().stream().sorted().collect(toList());
     for (Long factor : factors) {
       RuleEvalValues evalValues = this.evalValues.get(factor);
@@ -166,13 +165,22 @@ class ConfusionRuleEvaluator {
       float recall = (float) evalValues.truePositives / (evalValues.truePositives + evalValues.falseNegatives);
       String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
       String spaces = StringUtils.repeat(" ", 82-Long.toString(factor).length());
-      String summary = String.format(ENGLISH, "%s; %s; %d; %s # p=%.3f, r=%.3f, %d+%d, %dgrams, %s",
-              token, homophoneToken, factor, spaces, precision, recall, allTokenSentences.size(), allHomophoneSentences.size(), rule.getNGrams(), date);
+
+      // alphabetical ordering for ConfusionSetLoader
+      String firstToken = token, secondToken = homophoneToken;
+      if (secondToken.compareTo(firstToken) < 0) {
+        String tmp = firstToken;
+        firstToken = secondToken;
+        secondToken = tmp;
+      }
+
+      String summary = String.format(ENGLISH, "%s; %s; %d; %s # p=%.3f, r=%.3f, %d+%d, %s",
+        firstToken, secondToken, factor, spaces, precision, recall, allTokenSentences.size(), allHomophoneSentences.size(), date);
       results.put(factor, new RuleEvalResult(summary, precision, recall));
       if (verbose) {
         System.out.println();
         System.out.printf(ENGLISH, "Factor: %d - %d false positives, %d false negatives, %d true positives, %d true negatives\n",
-                          factor, evalValues.falsePositives, evalValues.falseNegatives, evalValues.truePositives, evalValues.trueNegatives);
+          factor, evalValues.falsePositives, evalValues.falseNegatives, evalValues.truePositives, evalValues.trueNegatives);
         //System.out.printf(ENGLISH, "Precision:    %.3f (%d false positives)\n", precision, evalValues.falsePositives);
         //System.out.printf(ENGLISH, "Recall:       %.3f (%d false negatives)\n", recall, evalValues.falseNegatives);
         //double fMeasure = FMeasure.getWeightedFMeasure(precision, recall);
@@ -185,8 +193,9 @@ class ConfusionRuleEvaluator {
     return results;
   }
 
-  private List<Sentence> getRelevantSentences(List<String> inputs, String token, int maxSentences) throws IOException {
-    List<Sentence> sentences = new ArrayList<>();
+  // TODO deduplicate / delegate
+  private List<Map.Entry<Sentence, Integer>> getRelevantSentences(List<String> inputs, String token, int maxSentences) throws IOException {
+    List<Map.Entry<Sentence, Integer>> sentences = new ArrayList<>();
     for (String input : inputs) {
       if (new File(input).isDirectory()) {
         File file = new File(input, token + ".txt");
@@ -205,17 +214,16 @@ class ConfusionRuleEvaluator {
     return sentences;
   }
 
-  private List<Sentence> getSentencesFromSource(List<String> inputs, String token, int maxSentences, SentenceSource sentenceSource) {
-    List<Sentence> sentences = new ArrayList<>();
-    Pattern pattern = Pattern.compile(".*\\b" + (caseSensitive ? token : token.toLowerCase()) + "\\b.*");
+  private List<Map.Entry<Sentence, Integer>> getSentencesFromSource(List<String> inputs, String token, int maxSentences, SentenceSource sentenceSource) {
+    List<Map.Entry<Sentence, Integer>> sentences = new ArrayList<>();
+    Pattern pattern = Pattern.compile("(?iu)\\b(" + token.toLowerCase() + ")\\p{Alpha}+\\b|\\b\\p{Alpha}+(" + token.toLowerCase() + ")\\b");
     while (sentenceSource.hasNext()) {
       Sentence sentence = sentenceSource.next();
-      String sentenceText = caseSensitive ? sentence.getText() : sentence.getText().toLowerCase();
-      Matcher matcher = pattern.matcher(sentenceText);
-      if (matcher.matches()) {
-        sentences.add(sentence);
+      Matcher matcher = pattern.matcher(sentence.getText());
+      if (matcher.find() && Character.isUpperCase(matcher.group().charAt(0))) {
+        sentences.add(new AbstractMap.SimpleEntry<>(sentence, Math.max(matcher.start(1), matcher.start(2))));
         if (sentences.size() % 250 == 0) {
-          println("Loaded sentence " + sentences.size() + " with '" + token + "' from " + inputs);
+          //println("Loaded sentence " + sentences.size() + " with '" + token + "' from " + inputs);
         }
         if (sentences.size() >= maxSentences) {
           break;
@@ -225,7 +233,7 @@ class ConfusionRuleEvaluator {
     println("Loaded " + sentences.size() + " sentences with '" + token + "' from " + inputs);
     return sentences;
   }
-  
+
   private void println(String msg) {
     if (verbose) {
       System.out.println(msg);
@@ -239,9 +247,10 @@ class ConfusionRuleEvaluator {
   }
 
   public static void main(String[] args) throws IOException {
-    if (args.length < 5 || args.length > 6) {
-      System.err.println("Usage: " + ConfusionRuleEvaluator.class.getSimpleName()
-              + " <token> <homophoneToken> <langCode> <languageModelTopDir> <wikipediaXml|tatoebaFile|plainTextFile|dir>...");
+    if (args.length < 4 || args.length > 5) {
+      System.err.println("Usage: " + ProhibitedCompoundRuleEvaluator.class.getSimpleName()
+              + " <tokens> <langCode> <languageModelTopDir> <wikipediaXml|tatoebaFile|plainTextFile|dir>...");
+      System.err.println("   <tokens> is confusion set file with token/homophone pairs");
       System.err.println("   <languageModelTopDir> is a directory with sub-directories like 'en' which then again contain '1grams',");
       System.err.println("                      '2grams', and '3grams' sub directories with Lucene indexes");
       System.err.println("                      See http://wiki.languagetool.org/finding-errors-using-n-gram-data");
@@ -252,51 +261,31 @@ class ConfusionRuleEvaluator {
       System.exit(1);
     }
     long startTime = System.currentTimeMillis();
-    String token = args[0];
-    String homophoneToken = args[1];
-    String langCode = args[2];
-    Language lang;
-    if ("en".equals(langCode)) {
-      lang = new EnglishLight();
-    } else {
-      lang = Languages.getLanguageForShortCode(langCode);
-    }
-    LanguageModel languageModel = new LuceneLanguageModel(new File(args[3], lang.getShortCode()));
+    String confusionSetFile = args[0];
+    ConfusionSetLoader loader = new ConfusionSetLoader();
+    Map<String, List<ConfusionSet>> confusionSet = loader.loadConfusionSet(new FileInputStream(confusionSetFile));
+    String langCode = args[1];
+    Language lang = Languages.getLanguageForShortCode(langCode);
+    LanguageModel languageModel = new LuceneLanguageModel(new File(args[2], lang.getShortCode()));
     //LanguageModel languageModel = new BerkeleyRawLanguageModel(new File("/media/Data/berkeleylm/google_books_binaries/ger.blm.gz"));
     //LanguageModel languageModel = new BerkeleyLanguageModel(new File("/media/Data/berkeleylm/google_books_binaries/ger.blm.gz"));
     List<String> inputsFiles = new ArrayList<>();
-    inputsFiles.add(args[4]);
-    if (args.length >= 6) {
-      inputsFiles.add(args[5]);
+    inputsFiles.add(args[3]);
+    if (args.length >= 5) {
+      inputsFiles.add(args[4]);
     }
-    ConfusionRuleEvaluator generator = new ConfusionRuleEvaluator(lang, languageModel, CASE_SENSITIVE);
-    generator.run(inputsFiles, token, homophoneToken, MAX_SENTENCES, EVAL_FACTORS);
+    ProhibitedCompoundRuleEvaluator generator = new ProhibitedCompoundRuleEvaluator(lang, languageModel);
+    for (List<ConfusionSet> entries : confusionSet.values()) {
+      for (ConfusionSet set : entries) {
+          ConfusionString[] words  = set.getSet().toArray(new ConfusionString[0]);
+          if (words.length < 2) {
+            throw new RuntimeException("Invalid confusion set entry: " + set);
+          }
+          generator.run(inputsFiles, words[0].getString(), words[1].getString(), MAX_SENTENCES, EVAL_FACTORS);
+      }
+    }
     long endTime = System.currentTimeMillis();
     System.out.println("\nTime: " + (endTime-startTime)+"ms");
   }
-
-  // faster version of English as it uses no chunking:
-  static class EnglishLight extends English {
-    
-    private DemoTagger tagger;
-
-    @Override
-    public String getName() {
-      return "English Light";
-    }
-    
-    @Override
-    public Tagger getTagger() {
-      if (tagger == null) {
-        tagger = new DemoTagger();
-      }
-      return tagger;
-    }
-
-    @Override
-    public Chunker getChunker() {
-      return null;
-    }
-  }
-
 }
+

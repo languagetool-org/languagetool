@@ -1,24 +1,27 @@
-/* LanguageTool, a natural language style checker 
- * Copyright (C) 2015 Daniel Naber (http://www.danielnaber.de)
- * 
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
+/*
+ *  LanguageTool, a natural language style checker
+ *  * Copyright (C) 2018 Fabian Richter
+ *  *
+ *  * This library is free software; you can redistribute it and/or
+ *  * modify it under the terms of the GNU Lesser General Public
+ *  * License as published by the Free Software Foundation; either
+ *  * version 2.1 of the License, or (at your option) any later version.
+ *  *
+ *  * This library is distributed in the hope that it will be useful,
+ *  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ *  * Lesser General Public License for more details.
+ *  *
+ *  * You should have received a copy of the GNU Lesser General Public
+ *  * License along with this library; if not, write to the Free Software
+ *  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+ *  * USA
  *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
- * USA
  */
 package org.languagetool.dev.bigdata;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.search.*;
@@ -40,34 +43,33 @@ import java.util.stream.Collectors;
  * @since 3.2
  */
 @SuppressWarnings({"resource", "CallToPrintStackTrace"})
-class AutomaticConfusionRuleEvaluator {
-  
-  private static final String LANGUAGE = "en";
-  private static final boolean CASE_SENSITIVE = true;
+class AutomaticProhibitedCompoundRuleEvaluator {
+
+  private static final String LANGUAGE = "de";
   private static final int MAX_EXAMPLES = 1000;
   private static final int MIN_EXAMPLES = 50;
-  private static final List<Long> EVAL_FACTORS = Arrays.asList(10L, 100L, 1_000L, 10_000L, 100_000L, 1_000_000L, 10_000_000L);
+  private static final List<Long> EVAL_FACTORS = Arrays.asList(10L);//, 100L, 1_000L, 10_000L, 100_000L, 1_000_000L, 10_000_000L);
   private static final float MIN_PRECISION = 0.95f;
   private static final float MIN_RECALL = 0.1f;
-  private static final String LUCENE_CONTENT_FIELD = "field";
+  private static final String LUCENE_CONTENT_FIELD = "fieldLowercase";
 
   private final IndexSearcher searcher;
   private final Map<String, List<ConfusionSet>> knownSets;
   private final Set<String> finishedPairs = new HashSet<>();
-  
+
   private int ignored = 0;
 
-  AutomaticConfusionRuleEvaluator(File luceneIndexDir) throws IOException {
+  AutomaticProhibitedCompoundRuleEvaluator(File luceneIndexDir) throws IOException {
     DirectoryReader reader = DirectoryReader.open(FSDirectory.open(luceneIndexDir.toPath()));
     searcher = new IndexSearcher(reader);
-    InputStream confusionSetStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream("/en/confusion_sets.txt");
+    InputStream confusionSetStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream("/" + LANGUAGE + "/confusion_sets.txt");
     knownSets = new ConfusionSetLoader().loadConfusionSet(confusionSetStream);
   }
 
   private void run(List<String> lines, File indexDir) throws IOException {
     Language language = Languages.getLanguageForShortCode(LANGUAGE);
     LanguageModel lm = new LuceneLanguageModel(indexDir);
-    ConfusionRuleEvaluator evaluator = new ConfusionRuleEvaluator(language, lm, CASE_SENSITIVE);
+    ProhibitedCompoundRuleEvaluator evaluator = new ProhibitedCompoundRuleEvaluator(language, lm);
     int lineCount = 0;
     for (String line : lines) {
       lineCount++;
@@ -96,10 +98,10 @@ class AutomaticConfusionRuleEvaluator {
   }
 
   private String removeComment(String str) {
-    return str.replaceFirst("\\|.*", "");
+    return str.replaceFirst("\\|.*", "").trim();
   }
 
-  private void runOnPair(ConfusionRuleEvaluator evaluator, String line, int lineCount, int totalLines, String part1, String part2) throws IOException {
+  private void runOnPair(ProhibitedCompoundRuleEvaluator evaluator, String line, int lineCount, int totalLines, String part1, String part2) throws IOException {
     if (finishedPairs.contains(part1 + "/" + part2) || finishedPairs.contains(part2 + "/" + part1)) {
       System.out.println("Ignoring: " + part1 + "/" + part2 + ", finished before");
       return;
@@ -165,26 +167,20 @@ class AutomaticConfusionRuleEvaluator {
   }
 
   private int findExampleSentences(String word, FileWriter fw) throws IOException {
-    Term term = new Term(LUCENE_CONTENT_FIELD, CASE_SENSITIVE ? word.toLowerCase() : word);
+    Term term = new Term(LUCENE_CONTENT_FIELD, ".+" + word + "|" + StringUtils.capitalize(word) + ".+");
     long t1 = System.currentTimeMillis();
-    //TopDocs topDocs = searcher.search(new TermQuery(term), CASE_SENSITIVE ? Integer.MAX_VALUE : MAX_EXAMPLES);
-    TopDocs topDocs = searcher.search(new TermQuery(term), MAX_EXAMPLES);
+    TopDocs topDocs = searcher.search(new RegexpQuery(term), MAX_EXAMPLES);
     long t2 = System.currentTimeMillis();
     int count = 0;
     Set<String> foundSentences = new HashSet<>();
     for (ScoreDoc scoreDoc : topDocs.scoreDocs) {
       String sentence = searcher.doc(scoreDoc.doc).get(LUCENE_CONTENT_FIELD);
-      if (CASE_SENSITIVE) {
-        if (sentence.contains(word) && !foundSentences.contains(sentence)) {
-          fw.write(sentence + "\n");
-          foundSentences.add(sentence);
-          count++;
-        }
-      } else if (!foundSentences.contains(sentence)) {
+      if (!foundSentences.contains(sentence)) {
         fw.write(sentence + "\n");
         foundSentences.add(sentence);
         count++;
       }
+
       if (count > MAX_EXAMPLES) {
         break;
       }
@@ -198,13 +194,13 @@ class AutomaticConfusionRuleEvaluator {
 
   public static void main(String[] args) throws IOException {
     if (args.length != 3) {
-      System.out.println("Usage: " + AutomaticConfusionRuleEvaluator.class.getSimpleName() + " <confusionPairCandidates> <exampleSentenceIndexDir> <ngramDir>");
+      System.out.println("Usage: " + AutomaticProhibitedCompoundRuleEvaluator.class.getSimpleName() + " <confusionPairCandidates> <exampleSentenceIndexDir> <ngramDir>");
       System.out.println("   <confusionPairCandidates> is a semicolon-separated list of words (one pair per line)");
       System.out.println("   <exampleSentenceIndexDir> is a Lucene index created by TextIndexCreator");
       System.exit(1);
     }
     List<String> lines = IOUtils.readLines(new FileInputStream(args[0]), "utf-8");
-    AutomaticConfusionRuleEvaluator eval = new AutomaticConfusionRuleEvaluator(new File(args[1]));
+    AutomaticProhibitedCompoundRuleEvaluator eval = new AutomaticProhibitedCompoundRuleEvaluator(new File(args[1]));
     eval.run(lines, new File(args[2]));
   }
 
