@@ -35,6 +35,7 @@ slf4j-nop.jar: MIT License, http://www.slf4j.org
 swc-engine.jar: Apache License 2.0, http://sweble.org
 swc-parser-lazy.jar: Apache License 2.0, http://sweble.org
 utils.jar: part of Sweble, Apache License 2.0, http://sweble.org
+xgboost-predictor.jar: Apache License 2.0, https://github.com/komiya-atsushi/xgboost-predictor-java
 
 Other resources like dictionaries are not technically libraries, they may have 
 different licenses (including GPL) without affecting LanguageTool's licensing. 
