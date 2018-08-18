@@ -1114,6 +1114,7 @@ regexp case-insensitive maken : (?i)
             </rule>
         </rulegroup>
 
+        <!-- geeft te veel false positives
         <rulegroup id="WOORDEN_WORDEN" name="waarschuwing bij gebruik worden i.p.v. woorden">
             <rule>
                 <pattern>
@@ -1123,7 +1124,7 @@ regexp case-insensitive maken : (?i)
                 <example correction="woorden">Het woord <marker>worden</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
-
+        -->
         <rulegroup id="HOORT_HORT" name="waarschuwing bij gebruik hort i.p.v. hoort">
             <rule>
                 <pattern>
@@ -5030,6 +5031,7 @@ regexp case-insensitive maken : (?i)
             </rule>
         </rulegroup>
 
+        <!-- waarschijnlijker andersom
         <rulegroup id="FIJTJE_FEITJE" name="waarschuwing bij gebruik feitje i.p.v. fijtje">
             <rule>
                 <pattern>
@@ -5039,8 +5041,8 @@ regexp case-insensitive maken : (?i)
                 <example correction="fijtje">Het woord <marker>feitje</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
-        
-
+        -->
+        <!-- waarschijnlijker andersom
         <rulegroup id="HIPPIES_HIPPISCH" name="waarschuwing bij gebruik hippisch i.p.v. hippies">
             <rule>
                 <pattern>
@@ -5050,7 +5052,8 @@ regexp case-insensitive maken : (?i)
                 <example correction="hippies">Het woord <marker>hippisch</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
-
+        -->
+        <!-- waarschijnlijker andersom
         <rulegroup id="LOGIES_LOGISCH" name="waarschuwing bij gebruik logisch i.p.v. logies">
             <rule>
                 <pattern>
@@ -5060,7 +5063,8 @@ regexp case-insensitive maken : (?i)
                 <example correction="logies">Het woord <marker>logisch</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
-
+        -->
+        <!-- waarswchijnlijker andersom
         <rulegroup id="OPTIES_OPTISCH" name="waarschuwing bij gebruik optisch i.p.v. opties">
             <rule>
                 <pattern>
@@ -5070,7 +5074,8 @@ regexp case-insensitive maken : (?i)
                 <example correction="opties">Het woord <marker>optisch</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
-
+        -->
+        <!-- beide komen vaak voor
         <rulegroup id="ACADEMIES_ACADEMISCH" name="waarschuwing bij gebruik academisch i.p.v. academies">
             <rule>
                 <pattern>
@@ -5080,7 +5085,8 @@ regexp case-insensitive maken : (?i)
                 <example correction="academies">Het woord <marker>academisch</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
-
+        -->
+        <!-- waarschijnlijker andersom
         <rulegroup id="STATIES_STATISCH" name="waarschuwing bij gebruik statisch i.p.v. staties">
             <rule>
                 <pattern>
@@ -5090,7 +5096,8 @@ regexp case-insensitive maken : (?i)
                 <example correction="staties">Het woord <marker>statisch</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
-
+        -->
+        <!-- waarschijnlijker andersom
         <rulegroup id="EVANGELIES_EVANGELISCH" name="waarschuwing bij gebruik evangelisch i.p.v. evangelies">
             <rule>
                 <pattern>
@@ -5100,7 +5107,8 @@ regexp case-insensitive maken : (?i)
                 <example correction="evangelies">Het woord <marker>evangelisch</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
-
+        -->
+        <!-- waarschijnlijker andersom
         <rulegroup id="HISTORIES_HISTORISCH" name="waarschuwing bij gebruik historisch i.p.v. histories">
             <rule>
                 <pattern>
@@ -5110,7 +5118,8 @@ regexp case-insensitive maken : (?i)
                 <example correction="histories">Het woord <marker>historisch</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
-
+        -->
+        <!-- waarschijnlijker andersom
         <rulegroup id="HARMONIES_HARMONISCH" name="waarschuwing bij gebruik harmonisch i.p.v. harmonies">
             <rule>
                 <pattern>
@@ -5120,7 +5129,8 @@ regexp case-insensitive maken : (?i)
                 <example correction="harmonies">Het woord <marker>harmonisch</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
-
+        -->
+        <!-- waarschijnlijker andersom
         <rulegroup id="EPIDEMIES_EPIDEMISCH" name="waarschuwing bij gebruik epidemisch i.p.v. epidemies">
             <rule>
                 <pattern>
@@ -5130,17 +5140,8 @@ regexp case-insensitive maken : (?i)
                 <example correction="epidemies">Het woord <marker>epidemisch</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
-
-        <rulegroup id="AUTOMATIES_AUTOMATISCH" name="waarschuwing bij gebruik automatisch i.p.v. automaties">
-            <rule>
-                <pattern>
-                       <token>automatisch</token>
-                </pattern>
-                <message>Bedoelt u wellicht <suggestion>automaties</suggestion>?</message>
-                <example correction="automaties">Het woord <marker>automatisch</marker> kan een vergissing zijn.</example>
-            </rule>
-        </rulegroup>
-
+        -->
+        <!-- waarschijnlijker andersom
         <rulegroup id="PROGRAMMATIES_PROGRAMMATISCH" name="waarschuwing bij gebruik programmatisch i.p.v. programmaties">
             <rule>
                 <pattern>
@@ -5150,108 +5151,40 @@ regexp case-insensitive maken : (?i)
                 <example correction="programmaties">Het woord <marker>programmatisch</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
-
+        -->
+        <!-- mogelijk andersom
         <rulegroup id="MANIES_MANISCH" name="waarschuwing bij gebruik manisch i.p.v. manies">
             <rule>
                 <pattern>
                        <token>manisch</token>
                 </pattern>
-                <message>Bedoelt u wellicht <suggestion>manies</suggestion>?</message>
+                <message>Bedoelt u wellicht <suggestion>manies</suggestion> (?</message>
                 <example correction="manies">Het woord <marker>manisch</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
-
+        -->
+        <!-- waarschijnlijker andersom
         <rulegroup id="SAFFIES_SAFFISCH" name="waarschuwing bij gebruik saffisch i.p.v. saffies">
             <rule>
                 <pattern>
                        <token>saffisch</token>
                 </pattern>
-                <message>Bedoelt u wellicht <suggestion>saffies</suggestion>?</message>
+                <message>Bedoelt u wellicht <suggestion>saffies</suggestion> (sigaretten)?</message>
                 <example correction="saffies">Het woord <marker>saffisch</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
-
-        <rulegroup id="PROFETIES_PROFETISCH" name="waarschuwing bij gebruik profetisch i.p.v. profeties">
-            <rule>
-                <pattern>
-                       <token>profetisch</token>
-                </pattern>
-                <message>Bedoelt u wellicht <suggestion>profeties</suggestion>?</message>
-                <example correction="profeties">Het woord <marker>profetisch</marker> kan een vergissing zijn.</example>
-            </rule>
-        </rulegroup>
-
+        -->
+        <!-- moet fijngeregeld worden
         <rulegroup id="FAMILIEHISTORIES_FAMILIEHISTORISCH" name="waarschuwing bij gebruik familiehistorisch i.p.v. familiehistories">
             <rule>
                 <pattern>
                        <token>familiehistorisch</token>
                 </pattern>
-                <message>Bedoelt u wellicht <suggestion>familiehistories</suggestion>?</message>
+                <message>Bedoelt u wellicht <suggestion>familiehistories</suggestion> (familieverhalen)?</message>
                 <example correction="familiehistories">Het woord <marker>familiehistorisch</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
-
-        <rulegroup id="MELANCHOLIES_MELANCHOLISCH" name="waarschuwing bij gebruik melancholisch i.p.v. melancholies">
-            <rule>
-                <pattern>
-                       <token>melancholisch</token>
-                </pattern>
-                <message>Bedoelt u wellicht <suggestion>melancholies</suggestion>?</message>
-                <example correction="melancholies">Het woord <marker>melancholisch</marker> kan een vergissing zijn.</example>
-            </rule>
-        </rulegroup>
-
-        <rulegroup id="FILMHISTORIES_FILMHISTORISCH" name="waarschuwing bij gebruik filmhistorisch i.p.v. filmhistories">
-            <rule>
-                <pattern>
-                       <token>filmhistorisch</token>
-                </pattern>
-                <message>Bedoelt u wellicht <suggestion>filmhistories</suggestion>?</message>
-                <example correction="filmhistories">Het woord <marker>filmhistorisch</marker> kan een vergissing zijn.</example>
-            </rule>
-        </rulegroup>
-
-        <rulegroup id="PREHISTORIES_PREHISTORISCH" name="waarschuwing bij gebruik prehistorisch i.p.v. prehistories">
-            <rule>
-                <pattern>
-                       <token>prehistorisch</token>
-                </pattern>
-                <message>Bedoelt u wellicht <suggestion>prehistories</suggestion>?</message>
-                <example correction="prehistories">Het woord <marker>prehistorisch</marker> kan een vergissing zijn.</example>
-            </rule>
-        </rulegroup>
-
-        <rulegroup id="THEOCRATIES_THEOCRATISCH" name="waarschuwing bij gebruik theocratisch i.p.v. theocraties">
-            <rule>
-                <pattern>
-                       <token>theocratisch</token>
-                </pattern>
-                <message>Bedoelt u wellicht <suggestion>theocraties</suggestion>?</message>
-                <example correction="theocraties">Het woord <marker>theocratisch</marker> kan een vergissing zijn.</example>
-            </rule>
-        </rulegroup>
-
-        <rulegroup id="WERELDHISTORIES_WERELDHISTORISCH" name="waarschuwing bij gebruik wereldhistorisch i.p.v. wereldhistories">
-            <rule>
-                <pattern>
-                       <token>wereldhistorisch</token>
-                </pattern>
-                <message>Bedoelt u wellicht <suggestion>wereldhistories</suggestion>?</message>
-                <example correction="wereldhistories">Het woord <marker>wereldhistorisch</marker> kan een vergissing zijn.</example>
-            </rule>
-        </rulegroup>
-
-        <rulegroup id="CULTUURHISTORIES_CULTUURHISTORISCH" name="waarschuwing bij gebruik cultuurhistorisch i.p.v. cultuurhistories">
-            <rule>
-                <pattern>
-                       <token>cultuurhistorisch</token>
-                </pattern>
-                <message>Bedoelt u wellicht <suggestion>cultuurhistories</suggestion>?</message>
-                <example correction="cultuurhistories">Het woord <marker>cultuurhistorisch</marker> kan een vergissing zijn.</example>
-            </rule>
-        </rulegroup>
-
-
+        -->
         <rulegroup id="MARGE_MARSJE" name="waarschuwing bij gebruik marsje i.p.v. marge">
             <rule>
                 <pattern>
