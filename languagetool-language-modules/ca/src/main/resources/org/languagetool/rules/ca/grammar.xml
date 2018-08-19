@@ -19456,6 +19456,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <!-- This rulegroup would be unnecessary if LibreOffice/OpenOffice tokenized the words containing hyphens like LanguageTool -->
             <rule>
                 <pattern>
+                    <token>contra</token>
+                    <token>-</token>
+                    <token inflected="yes">direcció</token>
+                </pattern>
+                <message>S'escriu sense guionet.</message>
+                <suggestion>contra direcció</suggestion>
+                <example correction="contra direcció">Anava <marker>contra- direcció</marker></example>
+            </rule>
+            <rule>
+                <pattern>
                     <token>sots</token>
                     <token>-</token>
                     <token regexp="yes" inflected="yes">campió|campionat</token>
@@ -26863,6 +26873,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
+        <rulegroup id="CONTRADIRECCIO" name="*en contra direcció">
+            <rule>
+                <pattern>
+                    <token>en</token>
+                    <token>contra</token>
+                    <token min="0">-</token>
+                    <token inflected="yes">direcció</token>
+                </pattern>
+                <message>Expressió incorrecta.</message>
+                <suggestion>contra direcció</suggestion>
+                <example correction="contra direcció">Anava <marker>en contra direcció</marker></example>
+                <example correction="contra direcció">Anava <marker>en contra-direcció</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>en</token>
+                    <token>contradirecció</token>
+                </pattern>
+                <message>Expressió incorrecta.</message>
+                <suggestion>contra direcció</suggestion>
+                <example correction="contra direcció">Anava <marker>en contradirecció</marker></example>
+            </rule>
+    </rulegroup>
         <rulegroup id="GIRAR_LES_TORNES" name="*girar les tornes">
              <rule>
                 <pattern>
