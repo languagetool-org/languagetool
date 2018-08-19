@@ -184,6 +184,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("unverantwortungsvoll(e[nmrs]?)?", "unverantwortungsvoll", "verantwortungslos");
     putRepl("[gG]erechtlichkeit", "[gG]erechtlich", "Gerechtig");
     putRepl("[zZ]uverlässlichkeit", "lich", "ig");
+    putRepl("[uU]nverzeilig(e[mnrs]?)?", "zeilig", "zeihlich");
     putRepl("[zZ]uk(ue?|ü)nftlich(e[mnrs]?)?", "uk(ue?|ü)nftlich", "ukünftig");
     putRepl("[rR]eligiösisch(e[nmrs]?)?", "isch", "");
     putRepl("[fF]olklorisch(e[nmrs]?)?", "isch", "istisch");
