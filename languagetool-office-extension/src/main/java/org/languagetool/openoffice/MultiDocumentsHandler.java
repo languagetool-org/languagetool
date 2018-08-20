@@ -67,7 +67,6 @@ public class MultiDocumentsHandler {
   private final File configDir;
   private final String configFile;
   private Configuration config;
-  private MessageHandler messageHandler;
   
   private XComponentContext xContext;       //  The context of the document
   private List<SingleDocument> documents;   //  The List of LO documents to be checked
@@ -81,13 +80,12 @@ public class MultiDocumentsHandler {
 
 
   MultiDocumentsHandler(XComponentContext xContext, File configDir, String configFile,
-      ResourceBundle MESSAGES, XEventListener xEventListener, MessageHandler messageHandler) {
+      ResourceBundle MESSAGES, XEventListener xEventListener) {
     this.xContext = xContext;
     this.configDir = configDir;
     this.configFile = configFile;
     this.MESSAGES = MESSAGES;
     this.xEventListener = xEventListener;
-    this.messageHandler = messageHandler;
     
     documents = new ArrayList<>();
   }
@@ -175,7 +173,7 @@ public class MultiDocumentsHandler {
    */
   @Nullable
   public Language getLanguage() {
-    XComponent xComponent = OfficeTools.getCurrentComponent(xContext, messageHandler);
+    XComponent xComponent = OfficeTools.getCurrentComponent(xContext);
     Locale charLocale;
     XPropertySet xCursorProps;
     try {
@@ -230,7 +228,7 @@ public class MultiDocumentsHandler {
         return null;
       }
     } catch (Throwable t) {
-      messageHandler.showError(t);
+      MessageHandler.showError(t);
       return null;
     }
     return getLanguage(charLocale);
@@ -252,7 +250,7 @@ public class MultiDocumentsHandler {
         }
       }
     } catch (Throwable t) {
-      messageHandler.showError(t);
+      MessageHandler.showError(t);
     }
     return false;
   }
@@ -296,16 +294,16 @@ public class MultiDocumentsHandler {
     //  Add new document
     XComponent xComponent = null;
     if (!testMode) {              //  xComponent == null for test cases 
-      xComponent = OfficeTools.getCurrentComponent(xContext, messageHandler);
+      xComponent = OfficeTools.getCurrentComponent(xContext);
       if (xComponent == null) {
-        messageHandler.printToLogFile("Error: Document (ID: " + docID + ") has no XComponent -> Analyse only single paragraphs");
+        MessageHandler.printToLogFile("Error: Document (ID: " + docID + ") has no XComponent -> Analyse only single paragraphs");
       } else {
         xComponent.addEventListener(xEventListener);
       }
     }
-    documents.add(new SingleDocument(xContext, config, docID, xComponent, messageHandler));
+    documents.add(new SingleDocument(xContext, config, docID, xComponent));
     if (debugMode) {
-      messageHandler.printToLogFile("Document " + docNum + " created; docID = " + docID);
+      MessageHandler.printToLogFile("Document " + docNum + " created; docID = " + docID);
     }
     return documents.size() - 1;
   }
@@ -323,7 +321,7 @@ public class MultiDocumentsHandler {
       }
     }
     if(rmNum < 0) {
-      messageHandler.printToLogFile("Error: Disposed document not found");
+      MessageHandler.printToLogFile("Error: Disposed document not found");
       goneContext = null;
     }
     for (int i = 0; i < documents.size(); i++) {
@@ -336,7 +334,7 @@ public class MultiDocumentsHandler {
       documents.remove(rmNum);
       goneContext = null;
       if (debugMode) {
-        messageHandler.printToLogFile("Document " + rmNum + " deleted");
+        MessageHandler.printToLogFile("Document " + rmNum + " deleted");
       }
     }
   }
@@ -364,7 +362,7 @@ public class MultiDocumentsHandler {
       }
       setConfigValues(config, langTool);
     } catch (Throwable t) {
-      messageHandler.showError(t);
+      MessageHandler.showError(t);
     }
   }
 

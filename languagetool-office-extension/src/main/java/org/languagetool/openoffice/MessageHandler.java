@@ -37,21 +37,21 @@ class MessageHandler {
   
   private static final String logLineBreak = System.getProperty("line.separator");  //  LineBreak in Log-File (MS-Windows compatible)
   
-  private final String homeDir;
-  private final String logFileName;
+  private static String homeDir;
+  private static String logFileName;
   
-  private boolean testMode;
+  private static boolean testMode;
   
   MessageHandler(String homeDir, String logFileName) {
-    this.homeDir = homeDir;
-    this.logFileName = logFileName;
+    MessageHandler.homeDir = homeDir;
+    MessageHandler.logFileName = logFileName;
     initLogFile();
   }
 
   /**
    * Initialize log-file
    */
-  private void initLogFile() {
+  private static void initLogFile() {
     try (BufferedWriter bw = new BufferedWriter(new FileWriter(getLogPath()))) {
       Date date = new Date();
       bw.write("LT office integration log from " + date.toString() + logLineBreak);
@@ -60,7 +60,13 @@ class MessageHandler {
     }
   }
   
-  void showError(Throwable e) {
+  static void init(String homeDir, String logFileName) {
+    MessageHandler.homeDir = homeDir;
+    MessageHandler.logFileName = logFileName;
+    initLogFile();
+  }
+
+  static void showError(Throwable e) {
     if (testMode) {
       throw new RuntimeException(e);
     }
@@ -80,7 +86,7 @@ class MessageHandler {
   /**
    * write to log-file
    */
-  void printToLogFile(String str) {
+  static void printToLogFile(String str) {
     try (BufferedWriter bw = new BufferedWriter(new FileWriter(getLogPath(), true))) {
       bw.write(str + logLineBreak);
     } catch (Throwable t) {
@@ -91,11 +97,11 @@ class MessageHandler {
   /** 
    * Prints Exception to log-file  
    */
-  void printException (Throwable t) {
+  static void printException (Throwable t) {
    printToLogFile(Tools.getFullStackTrace(t));
   }
 
-  private String getLogPath() {
+  private static String getLogPath() {
     String xdgDataHome = System.getenv().get("XDG_DATA_HOME");
     String logHome = xdgDataHome != null ? xdgDataHome + "/LanguageTool" : homeDir;
     String path = logHome + "/" + logFileName;
@@ -114,7 +120,7 @@ class MessageHandler {
   /**
    * Will throw exception instead of showing errors as dialogs - use only for test cases.
    */
-  void setTestMode(boolean mode) {
+  static void setTestMode(boolean mode) {
     testMode = mode;
   }
 
@@ -122,7 +128,7 @@ class MessageHandler {
    * Shows a message in a dialog box
    * @param txt message to be shown
    */
-  void showMessage(String txt) {
+  static void showMessage(String txt) {
     DialogThread dt = new DialogThread(txt);
     dt.run();
   }

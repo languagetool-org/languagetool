@@ -42,14 +42,12 @@ public class FlatParagraphTools {
   
   private static final boolean debugMode = false;   //  should be false except for testing
   
-  private MessageHandler messageHandler;
   private XFlatParagraphIterator xFlatParaIter;
   private XFlatParagraph xFlatPara;
   
-  FlatParagraphTools(XComponentContext xContext, MessageHandler messageHandler) {
-    this.messageHandler = messageHandler;
+  FlatParagraphTools(XComponentContext xContext) {
     xFlatParaIter = getXFlatParagraphIterator(xContext);
-    xFlatPara = getFlatParagraph(xFlatParaIter);
+    xFlatPara = getFlatParagraph();
   }
 
   /**
@@ -59,7 +57,7 @@ public class FlatParagraphTools {
   @Nullable
   private XFlatParagraphIterator getXFlatParagraphIterator(XComponentContext xContext) {
     try {
-      XComponent xCurrentComponent = OfficeTools.getCurrentComponent(xContext, messageHandler);
+      XComponent xCurrentComponent = OfficeTools.getCurrentComponent(xContext);
       if(xCurrentComponent == null) {
         return null;
       }
@@ -70,7 +68,7 @@ public class FlatParagraphTools {
       }
       return xFlatParaItPro.getFlatParagraphIterator(TextMarkupType.PROOFREADING, true);
     } catch (Throwable t) {
-      messageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
+      MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
       return null;           // Return null as method failed
     }
   }
@@ -80,14 +78,17 @@ public class FlatParagraphTools {
    * Returns null if it fails
    */
   @Nullable
-  private XFlatParagraph getFlatParagraph(XFlatParagraphIterator xFlatParaIter) {
+  private XFlatParagraph getFlatParagraph() {
     try {
     if(xFlatParaIter == null) {
+      if(debugMode) {
+        MessageHandler.printToLogFile("!?! FlatParagraphIterator == null");
+      }
       return null;
     }
     return xFlatParaIter.getLastPara();
     } catch (Throwable t) {
-      messageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
+      MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
       return null;           // Return null as method failed
     }
   }
@@ -98,22 +99,15 @@ public class FlatParagraphTools {
    */
   public boolean isFlatParaFromIter() {
     try {
-    if(xFlatParaIter == null) {
-      if(debugMode) {
-        messageHandler.printToLogFile("!?! FlatParagraphIterator == null");
-      }
-      return false;
-    }
-    xFlatPara = getFlatParagraph(xFlatParaIter);
     if(xFlatPara == null) {
       if(debugMode) {
-        messageHandler.printToLogFile("!?! FlatParagraph == null");
+        MessageHandler.printToLogFile("!?! FlatParagraph == null");
       }
       return false;
     }
       return xFlatParaIter.getParaBefore(xFlatPara) != null || xFlatParaIter.getParaAfter(xFlatPara) != null;
     } catch (Throwable t) {
-      messageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
+      MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
       return false;          // Return false as method failed
     }
   }
@@ -124,16 +118,9 @@ public class FlatParagraphTools {
    */
   int getCurNumFlatParagraphs() {
     try {
-      if(xFlatParaIter == null) {
-        if(debugMode) {
-          messageHandler.printToLogFile("!?! FlatParagraphIterator == null");
-        }
-        return -1;
-      }
-      xFlatPara = getFlatParagraph(xFlatParaIter);
       if(xFlatPara == null) {
         if(debugMode) {
-          messageHandler.printToLogFile("!?! FlatParagraph == null");
+          MessageHandler.printToLogFile("!?! FlatParagraph == null");
         }
         return -1;
       }
@@ -145,7 +132,7 @@ public class FlatParagraphTools {
       }
       return pos;
     } catch (Throwable t) {
-      messageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
+      MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
       return -1;           // Return -1 as method failed
     }
   }
@@ -157,16 +144,9 @@ public class FlatParagraphTools {
   @Nullable
   public List<String> getAllFlatParagraphs() {
     try {
-      if(xFlatParaIter == null) {
-        if(debugMode) {
-          messageHandler.printToLogFile("!?! FlatParagraphIterator == null");
-        }
-        return null;
-      }
-      xFlatPara = getFlatParagraph(xFlatParaIter);
       if(xFlatPara == null) {
         if(debugMode) {
-          messageHandler.printToLogFile("!?! FlatParagraph == null");
+          MessageHandler.printToLogFile("!?! FlatParagraph == null");
         }
         return null;
       }
@@ -183,7 +163,7 @@ public class FlatParagraphTools {
       }
       return allParas;
     } catch (Throwable t) {
-      messageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
+      MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
       return null;           // Return null as method failed
     }
   }
@@ -194,16 +174,9 @@ public class FlatParagraphTools {
    */
   int getNumberOfAllFlatPara() {
     try {
-      if(xFlatParaIter == null) {
-        if(debugMode) {
-          messageHandler.printToLogFile("!?! FlatParagraphIterator == null");
-        }
-        return -1;
-      }
-      xFlatPara = getFlatParagraph(xFlatParaIter);
       if(xFlatPara == null) {
         if(debugMode) {
-          messageHandler.printToLogFile("!?! FlatParagraph == null");
+          MessageHandler.printToLogFile("!?! FlatParagraph == null");
         }
         return -1;
       }
@@ -221,7 +194,7 @@ public class FlatParagraphTools {
       }
       return num;
     } catch (Throwable t) {
-      messageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
+      MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
       return -1;             // Return -1 as method failed
     }
   }
@@ -230,16 +203,15 @@ public class FlatParagraphTools {
    * Returns positions of properties by name 
    */
   private int[] getPropertyValues(String propName, XFlatParagraph xFlatPara) {
-    xFlatPara = getFlatParagraph(xFlatParaIter);
     if(xFlatPara == null) {
       if(debugMode) {
-        messageHandler.printToLogFile("!?! FlatParagraph == null");
+        MessageHandler.printToLogFile("!?! FlatParagraph == null");
       }
       return  new int[]{};
     }
     XPropertySet paraProps = UnoRuntime.queryInterface(XPropertySet.class, xFlatPara);
     if (paraProps == null) {
-      messageHandler.printToLogFile("XPropertySet == null");
+      MessageHandler.printToLogFile("XPropertySet == null");
       return  new int[]{};
     }
     Object propertyValue;
@@ -248,10 +220,10 @@ public class FlatParagraphTools {
       if (propertyValue instanceof int[]) {
         return (int[]) propertyValue;
       } else {
-        messageHandler.printToLogFile("Not of expected type int[]: " + propertyValue + ": " + propertyValue);
+        MessageHandler.printToLogFile("Not of expected type int[]: " + propertyValue + ": " + propertyValue);
       }
     } catch (Throwable t) {
-      messageHandler.printException(t);
+      MessageHandler.printException(t);
     }
     return new int[]{};
   }
@@ -262,16 +234,9 @@ public class FlatParagraphTools {
   List<int[]> getFootnotePositions() {
     List<int[]> paraPositions = new ArrayList<>();
     try {
-      if(xFlatParaIter == null) {
-        if(debugMode) {
-          messageHandler.printToLogFile("!?! FlatParagraphIterator == null");
-        }
-        return paraPositions;
-      }
-      xFlatPara = getFlatParagraph(xFlatParaIter);
       if(xFlatPara == null) {
         if(debugMode) {
-          messageHandler.printToLogFile("!?! FlatParagraph == null");
+          MessageHandler.printToLogFile("!?! FlatParagraph == null");
         }
         return paraPositions;
       }
@@ -291,7 +256,7 @@ public class FlatParagraphTools {
       }
       return paraPositions;
     } catch (Throwable t) {
-      messageHandler.printException(t);        // all Exceptions thrown by UnoRuntime.queryInterface are caught
+      MessageHandler.printException(t);        // all Exceptions thrown by UnoRuntime.queryInterface are caught
       return paraPositions;     // Return empty list as method failed
     }
   }
@@ -301,16 +266,9 @@ public class FlatParagraphTools {
    */
   void markFlatParasAsChecked(int from, int to) {
     try {
-      if(xFlatParaIter == null) {
-        if(debugMode) {
-          messageHandler.printToLogFile("!?! FlatParagraphIterator == null");
-        }
-        return;
-      }
-      xFlatPara = getFlatParagraph(xFlatParaIter);
       if(xFlatPara == null) {
         if(debugMode) {
-          messageHandler.printToLogFile("!?! FlatParagraph == null");
+          MessageHandler.printToLogFile("!?! FlatParagraph == null");
         }
         return;
       }
@@ -337,7 +295,7 @@ public class FlatParagraphTools {
         num++;
       }
     } catch (Throwable t) {
-      messageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
+      MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
     }
   }
   

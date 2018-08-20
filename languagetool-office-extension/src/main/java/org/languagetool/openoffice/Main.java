@@ -88,16 +88,15 @@ public class Main extends WeakBase implements XJobExecutor,
   private XComponentContext xContext;
   
   private MultiDocumentsHandler documents;
-  private MessageHandler messageHandler;
-  
+
 
   public Main(XComponentContext xCompContext) {
     changeContext(xCompContext);
     xEventListeners = new ArrayList<>();
     File homeDir = getHomeDir();
     String homeDirName = homeDir == null ? "." : homeDir.toString();
-    messageHandler = new MessageHandler(homeDirName, LOG_FILE);
-    documents = new MultiDocumentsHandler(xContext, getHomeDir(), CONFIG_FILE, MESSAGES, this, messageHandler);
+    MessageHandler.init(homeDirName, LOG_FILE);
+    documents = new MultiDocumentsHandler(xContext, getHomeDir(), CONFIG_FILE, MESSAGES, this);
   }
 
   private void prepareConfig(Language lang) {
@@ -109,7 +108,7 @@ public class Main extends WeakBase implements XJobExecutor,
       }
       disabledRulesUI = new HashSet<>(disabledRules);
     } catch (Throwable t) {
-      messageHandler.showError(t);
+      MessageHandler.showError(t);
     }
   }
 
@@ -149,7 +148,7 @@ public class Main extends WeakBase implements XJobExecutor,
         documents.optimizeReset();
       }
     } catch (Throwable t) {
-      messageHandler.showError(t);
+      MessageHandler.showError(t);
     }
     return paRes;
   }
@@ -160,7 +159,7 @@ public class Main extends WeakBase implements XJobExecutor,
         if (propertyValue.Value instanceof int[]) {
           return (int[]) propertyValue.Value;
         } else {
-          messageHandler.printToLogFile("Not of expected type int[]: " + propertyValue.Name + ": " + propertyValue.Value.getClass());
+          MessageHandler.printToLogFile("Not of expected type int[]: " + propertyValue.Name + ": " + propertyValue.Value.getClass());
         }
       }
     }
@@ -185,7 +184,7 @@ public class Main extends WeakBase implements XJobExecutor,
       return;
     }
     prepareConfig(lang);
-    ConfigThread configThread = new ConfigThread(lang, config, this, messageHandler);
+    ConfigThread configThread = new ConfigThread(lang, config, this);
     configThread.start();
   }
 
@@ -216,7 +215,7 @@ public class Main extends WeakBase implements XJobExecutor,
       }
       return locales.toArray(new Locale[0]);
     } catch (Throwable t) {
-      messageHandler.showError(t);
+      MessageHandler.showError(t);
       return new Locale[0];
     }
   }
@@ -346,10 +345,10 @@ public class Main extends WeakBase implements XJobExecutor,
         AboutDialogThread aboutThread = new AboutDialogThread(MESSAGES);
         aboutThread.start();
       } else {
-        messageHandler.printToLogFile("Sorry, don't know what to do, sEvent = " + sEvent);
+        MessageHandler.printToLogFile("Sorry, don't know what to do, sEvent = " + sEvent);
       }
     } catch (Throwable e) {
-      messageHandler.showError(e);
+      MessageHandler.showError(e);
     }
   }
 
@@ -360,7 +359,7 @@ public class Main extends WeakBase implements XJobExecutor,
             || version.startsWith("1.2") || version.startsWith("1.3")
             || version.startsWith("1.4") || version.startsWith("1.5")
             || version.startsWith("1.6") || version.startsWith("1.7"))) {
-      messageHandler.showMessage("Error: LanguageTool requires Java 8 or later. Current version: " + version);
+      MessageHandler.showMessage("Error: LanguageTool requires Java 8 or later. Current version: " + version);
       return false;
     }
     try {
@@ -380,7 +379,7 @@ public class Main extends WeakBase implements XJobExecutor,
   private File getHomeDir() {
     String homeDir = System.getProperty("user.home");
     if (homeDir == null) {
-      messageHandler.showError(new RuntimeException("Could not get home directory"));
+      MessageHandler.showError(new RuntimeException("Could not get home directory"));
       return null;
     }
     return new File(homeDir);
@@ -392,7 +391,7 @@ public class Main extends WeakBase implements XJobExecutor,
    */
   void setTestMode(boolean mode) {
     documents.setTestMode(mode);
-    messageHandler.setTestMode(mode);
+    MessageHandler.setTestMode(mode);
   }
 
   private static class AboutDialogThread extends Thread {
@@ -425,7 +424,7 @@ public class Main extends WeakBase implements XJobExecutor,
       JLanguageTool langTool = documents.getLanguageTool();
       config.saveConfiguration(langTool.getLanguage());
     } catch (Throwable t) {
-      messageHandler.showError(t);
+      MessageHandler.showError(t);
     }
     documents.setRecheck();
   }
@@ -443,7 +442,7 @@ public class Main extends WeakBase implements XJobExecutor,
       JLanguageTool langTool = documents.getLanguageTool();
       config.saveConfiguration(langTool.getLanguage());
     } catch (Throwable t) {
-      messageHandler.showError(t);
+      MessageHandler.showError(t);
     }
     documents.setRecheck();
   }

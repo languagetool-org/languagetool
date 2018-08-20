@@ -38,7 +38,7 @@ public class OfficeTools {
    * Returns null if it fails
    */
   @Nullable
-  public static XDesktop getCurrentDesktop(XComponentContext xContext, MessageHandler messageHandler) {
+  public static XDesktop getCurrentDesktop(XComponentContext xContext) {
     try {
       if (xContext == null) {
         return null;
@@ -54,7 +54,7 @@ public class OfficeTools {
       }
       return UnoRuntime.queryInterface(XDesktop.class, desktop);
     } catch (Throwable t) {
-      messageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
+      MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
       return null;           // Return null as method failed
     }
   }
@@ -64,15 +64,15 @@ public class OfficeTools {
    * Returns null if it fails
    */
   @Nullable
-  public static XComponent getCurrentComponent(XComponentContext xContext, MessageHandler messageHandler) {
+  public static XComponent getCurrentComponent(XComponentContext xContext) {
     try {
-      XDesktop xdesktop = getCurrentDesktop(xContext, messageHandler);
+      XDesktop xdesktop = getCurrentDesktop(xContext);
       if(xdesktop == null) {
         return null;
       }
       else return xdesktop.getCurrentComponent();
     } catch (Throwable t) {
-      messageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
+      MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
       return null;           // Return null as method failed
     }
   }
