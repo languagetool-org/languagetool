@@ -98,8 +98,8 @@ public class LanguageIdentifierTest {
 
   @Test
   public void testIgnoreSignature() {
-    langAssert("de", "Das ist ein deutscher Text\n-- \nBut this is an English text in the signature, and it's much longer than the original text.");
-    langAssert("en", "This is an English text.\n-- \nDas ist ein deutscher Text in der Signatur, der länger ist als der Haupttext.");
+    langAssert("de", "Das ist ein deutscher Text\n-- \nBut this is an\nEnglish text in the signature, and it's much longer than the original text.");
+    langAssert("en", "This is an English text.\n-- \nDas ist ein\ndeutscher Text in der Signatur, der länger ist als der Haupttext.");
   }
   
   private void langAssert(String expectedLangCode, String text) {

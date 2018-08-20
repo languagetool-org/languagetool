@@ -35,6 +35,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.util.*;
+import java.util.regex.Pattern;
 
 /**
  * Identify the language of a text. Note that some languages might never be
@@ -51,6 +52,7 @@ public class LanguageIdentifier {
   private static final double MINIMAL_CONFIDENCE = 0.9;
   private static final int K_HIGHEST_SCORES = 5;
   private static final int SHORT_ALGO_THRESHOLD = 50;
+  private static final Pattern SIGNATURE = Pattern.compile("\n-- \n.*", Pattern.DOTALL);
 
   // ast and gl often prevent the correct detection of Spanish (as the are quite similar
   // to Spanish, I assume) so we disable them for now. See LanguageDetectionEval.java:
@@ -234,7 +236,7 @@ public class LanguageIdentifier {
   class RemoveEMailSignatureFilter implements TextFilter {
     @Override
     public String filter(CharSequence text) {
-      return text.toString().replaceFirst("\n-- \n.*", "");
+      return SIGNATURE.matcher(text.toString()).replaceFirst("");
     }
   }
 }
