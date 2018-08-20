@@ -459,9 +459,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="INDIREKTE_REDE" name="Leichte Sprache: Indirekte Rede">
             <rule>
                 <pattern>
-                    <token regexp="yes" inflected="yes" skip="-1">(sagen|antworten|entgegnen|beschließen|berichten|meinen|glauben|denken|fragen|schreib?en|bitten|rufen|erzählen|behaupten)</token>
+                    <token regexp="yes" inflected="yes" skip="5">(antworten|argumentieren|behaupten|berichten|befürchten|beschließen|bitten|denken|entgegnen|erklären|erzählen|fragen|gestehen|glauben|hoffen|meinen|rufen|sagen|schreib?en|übermitteln|wissen)</token>
                     <token>,</token>
-                    <token negate_pos="yes" postag_regexp="yes" postag="VER:.*"/>
+                    <token negate_pos="yes" postag_regexp="yes" postag="(ADV|VER):.*"/>
                 </pattern>
                 <message>Indirekte Rede gefunden. Benutzen Sie direkte Rede.</message>
                 <example>Er sagte: ich bin 30 Jahre alt.</example>
