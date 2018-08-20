@@ -84,7 +84,7 @@ public class HunspellRule extends SpellingCheckRule {
 
   /**
    * Is the given token part of a hyphenated compound preceded by a quoted token (e.g., „Spiegel“-Magazin) 
-   * and should be treated as an ordinary hypenated compound (e.g., „Spiegel-Magazin“)
+   * and should be treated as an ordinary hyphenated compound (e.g., „Spiegel-Magazin“)
    */
   protected boolean isQuotedCompound (AnalyzedSentence analyzedSentence, int idx, String token) {
     return false;
