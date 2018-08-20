@@ -50,6 +50,9 @@
     before feeding them into LT.  
     (Issue: https://github.com/languagetool-org/languagetool/issues/757)
   * The `blockedReferrers` setting now also considers the `Origin` header
+  * New setting `fasttextModel` (see https://fasttext.cc/docs/en/language-identification.html)
+    and `fasttextBinary` (see https://fasttext.cc/docs/en/support.html). With these
+    options set, the automatic language detection is much better than the built-in one.
 
 
 
