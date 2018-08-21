@@ -189,8 +189,7 @@ regexp case-insensitive maken : (?i)
                 <example>Het gebeurde op <marker>28 feb</marker> 2014.</example>
             </rule>
         </rulegroup>
-    </category>
-    
+    </category>   
     <category id="DYSLEXIE" name="Speciale regels m.b.t. dyslexie" default="on">
         <rulegroup id="BEER_BIR" name="waarschuwing bij gebruik bir i.p.v. beer">
             <rule>
@@ -9789,7 +9788,6 @@ regexp case-insensitive maken : (?i)
         
         <!-- ######### TODO : meer ######## -->
     </category>
-
     <category id="HINTS_CAT" name="Geen fout, maar er is een gerelateerd advies" default="on">
         <rulegroup id="HINTS" name="Taaladvies over woord of woordgroep">
             <rule>
@@ -14930,6 +14928,15 @@ regexp case-insensitive maken : (?i)
                 <example correction="zgn.">Door juist inzaaien van deze <marker>zgn</marker> vette kruidachtigen weer een kans om te bloeien en zich te vermeerderen.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="T" name="t → het, 't aio">
+            <rule>
+                <pattern>
+                    <token spacebefore="yes">t</token>
+                </pattern>
+                <message>Schrijf liever <suggestion>het</suggestion> of eventueel <suggestion>'t</suggestion>.</message>
+                <example correction="het|'t">Hij is <marker>t</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="A_I_O" name="a.i.o. → aio">
             <!-- 2014-08-19 TaalTik -->
             <rule>
@@ -14985,7 +14992,7 @@ regexp case-insensitive maken : (?i)
             <!-- 2014-08-20 TaalTik uitzondering cellulitis, godvrucht, Honolulu, aardkloot, stefanus toegevoegd -->
             <rule>
                 <pattern>
-                    <token regexp="yes">.*(fuck|godv|kont|anus|lul|kut|kloot|klote|druiloor|zakkenwasser|shit|.*verdom.*).*<exception regexp="yes">.*(aardkloot|honolulu|godvrucht|cellul|kontich|ontwik|tetanus|ijkont|gshitte|drukontl|kontakt|manus|llul[ao]).*|bullshit</exception><exception regexp="yes" case_sensitive="yes">[A-Z].*anus|Matsushita|kontinent.*|kontrole.*|netwerkontwerp|Kuta|Lulu|Akuta|Lula|Konta|Talula|Kutiman|Orkutel|kontant.*|Kinoshita</exception></token>
+                    <token regexp="yes">.*(fuck|godv|kont|anus|lul|kut|kloot|klote|druiloor|zakkenwasser|shit|.*verdom.*).*<exception regexp="yes">.*(aardkloot|honolulu|godvrucht|cellul|kontich|ontwik|tetanus|ijkont|gshitte|drukontl|kontakt|manus|llul[ao]).*|bullshit</exception><exception regexp="yes" case_sensitive="yes">[A-Z].*anus|Matsushita|kontinent.*|kontrole.*|netwerkontwerp|Kuta|Lulu|Akuta|Lula|Konta|Talula|Kutiman|Orkutel|kontant.*|Kinoshita|godsvrezend|oorlogshitsers</exception></token>
                 </pattern>
                 <message>Dit taalgebruik kan als ongepast, grof of beledigend worden ervaren.</message>
                 <short>ongepast</short>
@@ -15877,7 +15884,7 @@ regexp case-insensitive maken : (?i)
         </rulegroup>
     </category>
     <category id="OPTIONAL_FORMS" name="niet-noodzakelijke correcte spellingvarianten">
-        <rulegroup id="ACCENTS" name= "optionele accenten">
+        <rulegroup id="ACCENTEN" name= "optionele accenten">
             <rule>
                 <pattern>
 					<token regexp="yes">.*[áéíóú].*<exception regexp="yes">.*(café|éminence|tracé|comité|mémoire|appliqué|arrivé|associé|attaché|employé|barré|cliché|beauté|defilé|blasé|bouclé|canapé|carré|cloqué|communiqué|comprimé|confrérie|congé|consommé|conté|privé|coupé|craquelé|crémant|cultivé|decafeïné|decolleté|demasqué|deputé|djahé|djembé|doré|doublé|procedé|débouché|dégénéré|déjà|délégué|ecarté|evacué|exposé|fiancé|frivolité|glacé|habitué|introducé|invité|soufflé|saté|lamé|macramé|laqué|logé|marqué|masqué|maté|moiré|mopé|ménière|nouveauté|negligé|oké|maché|paté|passé|piqué|plissé|pointillé|preparé|prostitué|protegé|présence|psyché|quarté|rassé|refugié|resumé|rosé|régence|réussite|santé|spécialité|taboulé|taugé|tempé|tiercé|tjabé|tragédienne|variété|velouté|vidé|wengé|élégance|résistance|plié|karité|vélocipède|olé|azobé|éclat|éloge|étang|sémillon|cité|peigné|rapé|chiné|lancé|époque|décharge).*</exception></token>
@@ -30492,7 +30499,7 @@ tuinkussens;Tuinkussens
                 <example correction="een">Dat is zo <marker>'n</marker> beetje zijn redenering.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="T" name="'t">
+        <rulegroup id="T2" name="'t">
             <rule>
                 <!-- 2014-08-21 TaalTik -->
                 <pattern>
@@ -31573,7 +31580,7 @@ tuinkussens;Tuinkussens
         </rulegroup>
     </category>
     <category id="CONFUSED_WORDS" name="Woordverwarring">
-        <rulegroup id="KAMT_MET" name="akmt met / kamt met">
+        <rulegroup id="KAMT_MET" name="kamt met / kamt met">
             <rule>
                 <pattern>
                     <marker>
@@ -31658,7 +31665,7 @@ tuinkussens;Tuinkussens
             <rule>
                 <antipattern case_sensitive="yes"><token>B</token><token>en</token><token>W</token></antipattern>
                 <pattern>
-                    <token>b</token>
+                    <token spacebefore="yes">b</token>
                     <token regexp="yes">&amp;|en</token>
                     <token>w</token>
                 </pattern>
@@ -31731,8 +31738,9 @@ tuinkussens;Tuinkussens
             -->
             <rule>
                 <pattern>
+                     <token negate="yes" >.</token>
                     <marker>
-                        <token regexp="yes">f|fl</token>
+                        <token regexp="yes" >f|fl</token>
                     </marker>
                     <token regexp="yes">[0-9].*</token>
                 </pattern>
@@ -32108,18 +32116,7 @@ tuinkussens;Tuinkussens
                 <example type="incorrect">Ik zie de <marker>kakelvrije</marker> zin.</example>
             </rule>
         </rulegroup>  
-        <rulegroup id="FOUTE_VORM" name="Bijvoeglijk naamwoord met n te veel">
-            <rule>
-                <pattern>
-					<marker>
-                        <token postag_regexp="yes" postag="BNW:...:MRV:DE_" ><exception>laten</exception></token>
-					</marker>
-					<token postag_regexp="yes" postag="ZNW.*"/>
-                </pattern>
-				<message>Juist is de vorm zonder -n : <suggestion><match no="1" regexp_match="n$" regexp_replace=""/></suggestion>.</message>
-                <example correction="dikke">Ik zie de <marker>dikken</marker> man.</example>
-            </rule>
-        </rulegroup>  
+
         <rulegroup id="VOORWAARDEN" name="op deze voorwaarden">
             <rule>
 				<antipattern><token regexp="yes">op|onder|tegen</token><token>deze</token><token>voorwaarden</token></antipattern>
@@ -36580,4 +36577,16 @@ tuinkussens;Tuinkussens
             </rule>
         </rulegroup>
 	</category>
+    <category id="TEST" name="test">
+        <rulegroup id="GEBEURD" name="Gebeurd / gebeurt">
+            <antipattern><token inflected="yes">zijn</token></antipattern>
+            <rule>
+                <pattern>
+                    <token>gebeurd</token>
+                </pattern>
+                <message>Moet het niet <suggestion>gebeurt</suggestion> zijn?</message>
+                <example correction="gebeurt">Het <marker>gebeurd</marker> wel eens.</example>
+            </rule>
+        </rulegroup>
+    </category>
 </rules>
