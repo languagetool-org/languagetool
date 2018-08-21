@@ -157,4 +157,4 @@ echo "" >>$OUTFILE
 echo -n "Number of client-side errors: " >>$OUTFILE
 grep "$DATE_APACHE" /home/languagetool/api/apache_error.log | grep -c $YEAR >>$OUTFILE
 
-cat $OUTFILE | mail -a 'Content-Type: text/plain; charset=utf-8' -s "LanguageTool API Report (HE2)" daniel.naber@languagetool.org
+cat $OUTFILE | mail -a 'Content-Type: text/plain; charset=utf-8' -s "LanguageTool API Report (HE2)" report@languagetool.org
