@@ -3481,10 +3481,13 @@ regexp case-insensitive maken : (?i)
         <rulegroup id="BELIJD_BELEID" name="waarschuwing bij gebruik beleid i.p.v. belijd">
             <rule>
                 <pattern>
+                    <token>ik</token>
+                    <marker>
                        <token>beleid</token>
+                   </marker>
                 </pattern>
-                <message>Bedoelt u wellicht <suggestion>belijd</suggestion>?</message>
-                <example correction="belijd">Het woord <marker>beleid</marker> kan een vergissing zijn.</example>
+                <message>U bedoelt vast <suggestion>belijd</suggestion>?</message>
+                <example correction="belijd">Ik <marker>beleid</marker> mijn geloof.</example>
             </rule>
         </rulegroup>
 
@@ -7737,16 +7740,6 @@ regexp case-insensitive maken : (?i)
                 </pattern>
                 <message>Bedoelt u wellicht <suggestion>vormpjes</suggestion>?</message>
                 <example correction="vormpjes">Het woord <marker>formpjes</marker> kan een vergissing zijn.</example>
-            </rule>
-        </rulegroup>
-
-        <rulegroup id="F_V" name="waarschuwing bij gebruik f i.p.v. v">
-            <rule>
-                <pattern>
-                       <token>f</token>
-                </pattern>
-                <message>Bedoelt u wellicht <suggestion>v</suggestion>?</message>
-                <example correction="v">Het woord <marker>f</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
 
@@ -25728,7 +25721,7 @@ tuinkussens;Tuinkussens
         <rulegroup id="AANV_WIJS" name="aanvoegende wijs">
             <rule>
                 <pattern>
-                    <token postag="WKW:AWS"><exception negate_pos="yes" postag="WKW:AWS"/><exception>welke</exception></token>
+                    <token postag="WKW:AWS"><exception negate_pos="yes" postag="WKW:AWS"/><exception regexp="yes" case_sensitive="yes">welke|[A-Z].*</exception></token>
                 </pattern>
                 <message>Als dit geen typefout is (<suggestion>\1n</suggestion>), dan is een antieke vorm. Herschrijf het dan moderner.</message>
                 <example correction="stokken">Babystoel van <marker>stokke</marker>.</example>
@@ -36579,7 +36572,8 @@ tuinkussens;Tuinkussens
 	</category>
     <category id="TEST" name="test">
         <rulegroup id="GEBEURD" name="Gebeurd / gebeurt">
-            <antipattern><token inflected="yes">zijn</token></antipattern>
+            <antipattern><token inflected="yes">zijn</token></antipattern> <!-- iets kan gebeurd zijn -->
+            <antipattern><token inflected="yes">hebben</token></antipattern> <!-- je kunt ook iets gebeurd (gekregen) hebben -->
             <rule>
                 <pattern>
                     <token>gebeurd</token>
