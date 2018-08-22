@@ -532,6 +532,7 @@ regexp case-insensitive maken : (?i)
             </rule>
         </rulegroup>
 
+        <!-- erg onwaarschijnlijk; steuren is vrij zeldzaam op zich; zo geeft het veel false positives; moet checken of het een meervoud is door de woorden vooraf, zoals de, telwoord, of uitzonderingen voor een werkwoord
         <rulegroup id="STEUREN_STUREN" name="waarschuwing bij gebruik sturen i.p.v. steuren">
             <rule>
                 <pattern>
@@ -541,6 +542,7 @@ regexp case-insensitive maken : (?i)
                 <example correction="steuren">Het woord <marker>sturen</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
+        -->
 
         <rulegroup id="SCHEURINGEN_SCHURINGEN" name="waarschuwing bij gebruik schuringen i.p.v. scheuringen">
             <rule>
@@ -13470,7 +13472,7 @@ regexp case-insensitive maken : (?i)
                 <example correction="collega-wielertoerist">Een <marker>collega wielertoerist</marker> was hier om het leven gekomen.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="TST_DARM_SYNDROOM" name="prikkelbare darmsyndroom → prikkelbaredarmsyndroom">
+        <rulegroup id="DARM_SYNDROOM" name="prikkelbare darmsyndroom → prikkelbaredarmsyndroom">
             <rule>
                 <pattern>
                     <token>prikkelbare</token>
@@ -16843,7 +16845,7 @@ tuinkussens;Tuinkussens
                 <example correction="Nieuw-Zeeland">De kans is groot dat chipsproducenten in <marker>Nieuw Zeeland</marker> tijdelijk hun productie moeten stilleggen.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="TST_HOOFDLETTERS_OVERBODIG" name="Woorden die ook klein geschreven mogen worden.">
+        <rulegroup id="HOOFDLETTERS_OVERBODIG" name="Woorden die ook klein geschreven mogen worden.">
             <rule>
                 <pattern>
                     <token case_sensitive="yes" regexp="yes">BTW|LED|CV|CD|DVD|TV|IC</token>
@@ -31784,10 +31786,7 @@ tuinkussens;Tuinkussens
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes" negate="yes">[0-9]*|\.</token>
-                    <marker>
-                        <token case_sensitive="yes">m</token>
-                    </marker>
+                    <token case_sensitive="yes" spacebefore="yes">m</token>
                 </pattern>
                 <message>Bent u een apostrof vergeten? Of beter nog, schrijf <suggestion>hem</suggestion>.</message>
                 <example correction="hem">Het is <marker>m</marker> toch.</example>
