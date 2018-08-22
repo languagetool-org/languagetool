@@ -210,6 +210,10 @@ POS tag information for common proper names.
 For more information, see the scripts in the source directory
 `languagetool-language-modules/en/src/main/resources/org/languagetool/resource/en/`.
 
+#### Esperanto
+
+See org/languagetool/resource/eo/hunspell/README_eo.txt
+
 #### French
 
 See org/languagetool/resource/fr/README_lexique.txt and org/languagetool/resource/fr/hunspell/fr_FR.README
@@ -231,6 +235,10 @@ See org/languagetool/resource/el/README.txt and org/languagetool/resource/el/hun
 
 See org/languagetool/resource/it/README.txt and org/languagetool/resource/it/hunspell/README_it_IT.txt
  
+#### Japanese
+
+No POS or spelling data included in these sources.
+
 #### Khmer
 
 See org/languagetool/resource/km/README.txt
@@ -238,10 +246,18 @@ See org/languagetool/resource/km/README.txt
 #### Malayalam (inactive)
 
 See org/languagetool/resource/ml/README.txt
+
+#### Persian
+
+See org/languagetool/resource/km/README.txt
  
 #### Polish
 
 See org/languagetool/resource/pl/README.txt and org/languagetool/resource/pl/hunspell/README_en.txt
+
+#### Portuguese
+
+See org/languagetool/resource/pt/portuguese_dict_README and org/languagetool/resource/pt/hunspell/README*.txt
 
 #### Romanian
 
@@ -251,9 +267,18 @@ See org/languagetool/resource/ro/README.txt and org/languagetool/resource/ro/hun
 
 See org/languagetool/resource/ru/README.txt and org/languagetool/resource/ru/hunspell/README.txt
 
+#### Serbian
+
+See org/languagetool/resource/sr/README.md and org/languagetool/resource/sr/dictionary/ekavian/README_hunspell.txt
+and org/languagetool/resource/sr/dictionary/jekavian/README_hunspell.txt
+
 #### Slovak
 
 See org/languagetool/resource/sk/README.txt
+
+#### Slovenian
+
+See org/languagetool/resource/sl/hunspell/README_sl_SI.txt
 
 #### Spanish
 
