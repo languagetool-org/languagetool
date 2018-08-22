@@ -278,6 +278,8 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("Xter", "X-ter", rule, lt);
     assertFirstSuggestion("Kaufentfehlung", "Kaufempfehlung", rule, lt);
     assertFirstSuggestion("unverzeilige", "unverzeihliche", rule, lt);
+    assertFirstSuggestion("Addons
+", "Add-ons", rule, lt);
   }
 
   @Test

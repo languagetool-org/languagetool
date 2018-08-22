@@ -158,6 +158,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("Lezte[mnrs]?", "Lez", "Letz");
     putRepl("Makeups?", "up", "-up");
     putRepl("Add-?Ons?", "Add-?On", "Add-on");
+    putRepl("Addons?", "on", "-on");
     putRepl("Internetkaffees?", "kaffee", "café");
     putRepl("[gG]ehorsamkeitsverweigerung(en)?", "[gG]ehorsamkeit", "Gehorsam");
     putRepl("[wW]ochende[ns]?", "[wW]ochend", "Wochenend");
