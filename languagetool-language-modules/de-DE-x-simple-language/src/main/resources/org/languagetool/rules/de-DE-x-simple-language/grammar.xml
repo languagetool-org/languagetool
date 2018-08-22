@@ -459,13 +459,57 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="INDIREKTE_REDE" name="Leichte Sprache: Indirekte Rede">
             <rule>
                 <pattern>
-                    <token regexp="yes" inflected="yes" skip="5">(antworten|argumentieren|behaupten|berichten|befürchten|beschließen|bitten|denken|entgegnen|erklären|erzählen|fragen|gestehen|glauben|hoffen|meinen|rufen|sagen|schreib?en|übermitteln|wissen)</token>
+                    <token regexp="yes" inflected="yes" skip="5">(antworten|argumentieren|aussagen|behaupten|berichten|befürchten|beschließen|bitten|denken|entgegnen|erklären|erzählen|feststellen|fragen|gestehen|glauben|hoffen|meinen|rufen|sagen|schreib?en|übermitteln|verkünden|vermuten|wissen)</token>
                     <token>,</token>
-                    <token negate_pos="yes" postag_regexp="yes" postag="(ADV|VER):.*"/>
+                    <token negate_pos="yes" postag_regexp="yes" postag="(ADV|VER):.*|KON:UNT"><exception>dass</exception></token>
                 </pattern>
                 <message>Indirekte Rede gefunden. Benutzen Sie direkte Rede.</message>
                 <example>Er sagte: ich bin 30 Jahre alt.</example>
                 <example correction="">Er <marker>sagte, er</marker> sei 30 Jahre alt.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" skip="5">stellen</token>
+                    <token>fest</token>
+                    <token>,</token>
+                    <token negate_pos="yes" postag_regexp="yes" postag="(ADV|VER):.*"/>
+                </pattern>
+                <message>Indirekte Rede gefunden. Benutzen Sie direkte Rede.</message>
+                <example>Er stellte fest: sie ist schön.</example>
+                <example correction="">Er <marker>stellte fest, sie</marker> sie sei schön.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" skip="5">geben</token>
+                    <token regexp="yes">an|vor</token>
+                    <token>,</token>
+                    <token negate_pos="yes" postag_regexp="yes" postag="(ADV|VER):.*"/>
+                </pattern>
+                <message>Indirekte Rede gefunden. Benutzen Sie direkte Rede.</message>
+                <example>Er gibt an: sie ist um 10 Uhr gekommen.</example>
+                <example correction="">Er <marker>gibt an, dass</marker> sie um 10 Uhr gekommen sei.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" skip="5">teilen</token>
+                    <token>mit</token>
+                    <token>,</token>
+                    <token negate_pos="yes" postag_regexp="yes" postag="(ADV|VER):.*"/>
+                </pattern>
+                <message>Indirekte Rede gefunden. Benutzen Sie direkte Rede.</message>
+                <example>Er teilt mit: sie ist um 10 Uhr gekommen.</example>
+                <example correction="">Er <marker>teilt mit, dass</marker> sie um 10 Uhr gekommen sei.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" skip="5">nehmen</token>
+                    <token>an</token>
+                    <token>,</token>
+                    <token negate_pos="yes" postag_regexp="yes" postag="(ADV|VER):.*"/>
+                </pattern>
+                <message>Indirekte Rede gefunden. Benutzen Sie direkte Rede.</message>
+                <example>Er nimmt an: sie ist um 10 Uhr gekommen.</example>
+                <example correction="">Er <marker>nimmt an, dass</marker> sie um 10 Uhr gekommen sei.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ZWEI_INFORMATIONSEINHEITEN_PRO_SATZ" name="Leichte Sprache: eine Aussage pro Satz">
