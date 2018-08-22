@@ -84,6 +84,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("nichtmals", w -> Arrays.asList("nicht mal", "nicht einmal"));
     put("eingepeilt", "angepeilt");
     put("gekukt", "geguckt");
+    put("überhaut", "überhaupt");
+    put("nacher", "nachher");
+    put("jeztz", "jetzt");
     put("[wW]ah?rscheindlichkeit", "Wahrscheinlichkeit");
     put("Hijab", "Hidschāb");
     putRepl("for?melar(en?)?", "for?me", "Formu");
@@ -119,6 +122,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("fangte", "fing");
     put("fangten", "fingen");
     put("past", "passt");
+    put("Schwitch", "Switch");
     put("[aA]nwesenzeiten", "Anwesenheitszeiten");
     put("[gG]eizigkeit", "Geiz");
     put("[fF]leißigkeit", "Fleiß");
