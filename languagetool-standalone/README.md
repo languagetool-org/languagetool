@@ -282,7 +282,7 @@ See org/languagetool/resource/sl/hunspell/README_sl_SI.txt
 
 #### Spanish
 
-See  org/languagetool/resource/es/hunspell/README_es_ES.txt and org/languagetool/resource/es/README.cvs
+See  org/languagetool/resource/es/hunspell/README_es_ES.txt and org/languagetool/resource/es/README.txt
 
 #### Swedish
 
