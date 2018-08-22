@@ -254,7 +254,7 @@ public class EsperantoTagger implements Tagger {
             l.add(new AnalyzedToken(word, "T " +
               accusative + plural + type1Group + " " + type, null));
 
-            if ((matcher = patternTabelvortoAdverb.matcher(lWord)).find()) {
+            if (patternTabelvortoAdverb.matcher(lWord).find()) {
               l.add(new AnalyzedToken(word, "E nak", lWord));
             }
 
