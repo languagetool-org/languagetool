@@ -18,6 +18,7 @@
  */
 package org.languagetool.language;
 
+import org.languagetool.Language;
 import org.languagetool.UserConfig;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.Rule;
@@ -54,7 +55,7 @@ public class SimpleGerman extends GermanyGerman {
   }
 
   @Override
-  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig) throws IOException {
+  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, List<Language> altLanguages) throws IOException {
     List<Rule> rules = new ArrayList<>();
     LongSentenceRule lengthRule = new LongSentenceRule(messages, userConfig, 12, true);
     rules.add(lengthRule);

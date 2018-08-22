@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import org.languagetool.Language;
 import org.languagetool.UserConfig;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.en.MorfologikSouthAfricanSpellerRule;
@@ -41,9 +42,9 @@ public class SouthAfricanEnglish extends English {
   }
 
   @Override
-  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig) throws IOException {
+  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, List<Language> altLanguages) throws IOException {
     List<Rule> rules = new ArrayList<>();
-    rules.addAll(super.getRelevantRules(messages, userConfig));
+    rules.addAll(super.getRelevantRules(messages, userConfig, altLanguages));
     rules.add(new MorfologikSouthAfricanSpellerRule(messages, this, userConfig));
     return rules;
   }

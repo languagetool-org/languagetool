@@ -23,6 +23,7 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 
 import java.io.File;
+import java.util.Collections;
 
 import static org.junit.Assert.*;
 
@@ -33,7 +34,7 @@ public class LanguageBuilderTest {
     Language language = LanguageBuilder.makeAdditionalLanguage(new File("rules-xy-Fakelanguage.xml"));
     assertEquals("Fakelanguage", language.getName());
     assertEquals("xy", language.getShortCode());
-    assertEquals(0, language.getRelevantRules(JLanguageTool.getMessageBundle(), null).size());
+    assertEquals(0, language.getRelevantRules(JLanguageTool.getMessageBundle(), null, Collections.emptyList()).size());
     assertTrue(language.isExternal());
   }
 

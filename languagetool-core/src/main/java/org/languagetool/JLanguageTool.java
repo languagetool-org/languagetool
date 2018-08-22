@@ -126,6 +126,7 @@ public class JLanguageTool {
   private final Set<String> enabledRules = new HashSet<>();
   private final Set<CategoryId> enabledRuleCategories = new HashSet<>();
   private final Language language;
+  private final List<Language> altLanguages;
   private final Language motherTongue;
 
   private PrintStream printStream;
@@ -219,15 +220,20 @@ public class JLanguageTool {
    * given language and false friend rules for the text language / mother tongue pair.
    * 
    * @param language the language of the text to be checked
+   * @param altLanguages The languages that are accepted as alternative languages - currently this means
+   *                     words are accepted if they are in an alternative language and not similar to
+   *                     a word from {@code language}. If there's a similar word in {@code language},
+   *                     there will be an error of type {@link RuleMatch.Type#Hint} (EXPERIMENTAL)
    * @param motherTongue the user's mother tongue, used for false friend rules, or <code>null</code>.
    *          The mother tongue may also be used as a source language for checking bilingual texts.
    * @param cache a cache to speed up checking if the same sentences get checked more than once,
    *              e.g. when LT is running as a server and texts are re-checked due to changes
-   * @since 4.2
+   * @since 4.3
    */
   @Experimental
-  public JLanguageTool(Language language, Language motherTongue, ResultCache cache, UserConfig userConfig) {
+  public JLanguageTool(Language language, List<Language> altLanguages, Language motherTongue, ResultCache cache, UserConfig userConfig) {
     this.language = Objects.requireNonNull(language, "language cannot be null");
+    this.altLanguages = Objects.requireNonNull(altLanguages, "altLanguages cannot be null (but empty)");
     this.motherTongue = motherTongue;
     if(userConfig == null) {
       this.userConfig = new UserConfig();
@@ -244,6 +250,22 @@ public class JLanguageTool {
       throw new RuntimeException("Could not activate rules", e);
     }
     this.cache = cache;
+  }
+
+  /**
+   * Create a JLanguageTool and setup the built-in rules for the
+   * given language and false friend rules for the text language / mother tongue pair.
+   *
+   * @param language the language of the text to be checked
+   * @param motherTongue the user's mother tongue, used for false friend rules, or <code>null</code>.
+   *          The mother tongue may also be used as a source language for checking bilingual texts.
+   * @param cache a cache to speed up checking if the same sentences get checked more than once,
+   *              e.g. when LT is running as a server and texts are re-checked due to changes
+   * @since 4.2
+   */
+  @Experimental
+  public JLanguageTool(Language language, Language motherTongue, ResultCache cache, UserConfig userConfig) {
+    this(language, Collections.emptyList(), motherTongue, cache, userConfig);
   }
   
   /**
@@ -328,7 +350,7 @@ public class JLanguageTool {
   
   private List<Rule> getAllBuiltinRules(Language language, ResourceBundle messages, UserConfig userConfig) {
     try {
-      return language.getRelevantRules(messages, userConfig);
+      return language.getRelevantRules(messages, userConfig, altLanguages);
     } catch (IOException e) {
       throw new RuntimeException("Could not get rules of language " + language, e);
     }

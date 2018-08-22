@@ -72,7 +72,7 @@ public class Tamil extends Language {
   }
 
   @Override
-  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig) {
+  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, List<Language> altLanguages) {
     return Arrays.asList(
         new CommaWhitespaceRule(messages),
         new DoublePunctuationRule(messages),

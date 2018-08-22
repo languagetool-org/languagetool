@@ -51,7 +51,7 @@ public class SimpleSentenceTokenizer extends SRXSentenceTokenizer {
     @Override public Contributor[] getMaintainers() {
       return new Contributor[0];
     }
-    @Override public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig) {
+    @Override public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, List<Language> altLanguages) {
       return Collections.emptyList();
     }
   }

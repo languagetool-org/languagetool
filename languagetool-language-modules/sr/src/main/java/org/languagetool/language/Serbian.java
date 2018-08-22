@@ -160,7 +160,7 @@ public class Serbian extends Language {
   }
 
   @Override
-  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig)
+  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, List<Language> altLanguages)
           throws IOException {
     List<Rule> rules = new ArrayList<>(getBasicRules(messages));
     rules.add(new MorfologikEkavianSpellerRule(messages, this, null));

@@ -36,8 +36,10 @@ import com.google.common.io.Resources;
 import org.apache.commons.lang3.StringUtils;
 import org.languagetool.*;
 import org.languagetool.rules.Categories;
+import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.spelling.SpellingCheckRule;
+import org.languagetool.tools.Tools;
 
 /**
  * A hunspell-based spellchecking-rule.
@@ -66,11 +68,20 @@ public class HunspellRule extends SpellingCheckRule {
   protected Pattern nonWordPattern;
 
   private final UserConfig userConfig;
+  private final List<RuleWithLanguage> altRules;
 
   public HunspellRule(ResourceBundle messages, Language language, UserConfig userConfig) {
+    this(messages, language, userConfig, Collections.emptyList());
+  }
+
+  /**
+   * @since 4.3
+   */
+   public HunspellRule(ResourceBundle messages, Language language, UserConfig userConfig, List<Language> alternativeLanguages) {
     super(messages, language, userConfig);
     super.setCategory(Categories.TYPOS.getCategory(messages));
     this.userConfig = userConfig;
+    this.altRules = getAlternativeLangSpellingRules(alternativeLanguages);
   }
 
   @Override
@@ -136,7 +147,30 @@ public class HunspellRule extends SpellingCheckRule {
               suggestions.addAll(additionalSuggestions);
             }
           }
-          if (!suggestions.isEmpty()) {
+          Language acceptingLanguage = acceptedInAlternativeLanguage(word);
+          boolean isSpecialCase = word.matches(".+-[A-ZÖÄÜ].*");
+          if (suggestions.isEmpty()) {
+            if (acceptingLanguage != null && !isSpecialCase) {
+              // e.g. "Das finde ich total incomprehensible" - no German word close to "incomprehensible", so accept
+              continue;
+            }
+          } else {
+            if (acceptingLanguage != null && !isSpecialCase) {
+              // e.g. "Der Typ ist in UK echt famous" -> could be German 'famos'
+              /*List<String> closeSuggestions = new ArrayList<>();
+              for (String suggestion : suggestions) {
+                int dist = StringUtils.getLevenshteinDistance(word, suggestion);
+                if (dist <= 2) {  // with higher distances, you basically always get a suggestion
+                  closeSuggestions.add(suggestion);
+                }
+              }
+              suggestions = closeSuggestions;
+              */
+              ruleMatch = new RuleMatch(this, sentence,
+                      len, len + word.length(),
+                      Tools.i18n(messages, "accepted_in_alt_language", word, messages.getString(acceptingLanguage.getShortCode())));
+              ruleMatch.setType(RuleMatch.Type.Hint);
+            }
             filterSuggestions(suggestions);
             filterDupes(suggestions);
             ruleMatch.setSuggestedReplacements(suggestions);
@@ -152,6 +186,46 @@ public class HunspellRule extends SpellingCheckRule {
     return toRuleMatchArray(ruleMatches);
   }
 
+  private List<RuleWithLanguage> getAlternativeLangSpellingRules(List<Language> alternativeLanguages) {
+    List<RuleWithLanguage> spellingRules = new ArrayList<>();
+    for (Language altLanguage : alternativeLanguages) {
+      List<Rule> rules;
+      try {
+        rules = altLanguage.getRelevantRules(messages, userConfig, Collections.emptyList());
+      } catch (IOException e) {
+        throw new RuntimeException(e);
+      }
+      for (Rule rule : rules) {
+        if (rule.isDictionaryBasedSpellingRule()) {
+          spellingRules.add(new RuleWithLanguage(rule, altLanguage));
+        }
+      }
+    }
+    return spellingRules;
+  }
+
+  private Language acceptedInAlternativeLanguage(String word) throws IOException {
+    for (RuleWithLanguage altRule : altRules) {
+      AnalyzedToken token = new AnalyzedToken(word, null, null);
+      AnalyzedToken sentenceStartToken = new AnalyzedToken("", JLanguageTool.SENTENCE_START_TAGNAME, null);
+      AnalyzedTokenReadings startTokenReadings = new AnalyzedTokenReadings(sentenceStartToken, 0);
+      AnalyzedTokenReadings atr = new AnalyzedTokenReadings(token, 0);
+      RuleMatch[] matches = altRule.rule.match(new AnalyzedSentence(new AnalyzedTokenReadings[]{startTokenReadings, atr}));
+      if (matches.length == 0) {
+        return altRule.language;
+      } else {
+        if (word.endsWith(".")) {
+          Language language = acceptedInAlternativeLanguage(word.substring(0, word.length() - 1));
+          if (language != null) {
+            return language;
+          }
+        }
+      }
+    }
+    return null;
+  }
+
+    
   /**
    * @since public since 4.1
    */
@@ -321,6 +395,15 @@ public class HunspellRule extends SpellingCheckRule {
         out.write(buf, 0, len);
       }
       in.close();
+    }
+  }
+  
+  class RuleWithLanguage {
+    Rule rule;
+    Language language;
+    RuleWithLanguage(Rule rule, Language language) {
+      this.rule = rule;
+      this.language = language;
     }
   }
 

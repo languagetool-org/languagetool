@@ -195,7 +195,7 @@ public abstract class Rule {
     try {
       List<Class<? extends Rule>> relevantRuleClasses = new ArrayList<>();
       List<Rule> relevantRules = language.getRelevantRules(JLanguageTool.getMessageBundle(), 
-          new UserConfig());  //  empty UserConfig has to be added to prevent null pointer exception
+          new UserConfig(), Collections.emptyList());  //  empty UserConfig has to be added to prevent null pointer exception
       for (Rule relevantRule : relevantRules) {
         relevantRuleClasses.add(relevantRule.getClass());
       }

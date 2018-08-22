@@ -136,6 +136,17 @@ abstract class TextChecker {
     String motherTongueParam = parameters.get("motherTongue");
     Language motherTongue = motherTongueParam != null ? Languages.getLanguageForShortCode(motherTongueParam) : null;
     boolean useEnabledOnly = "yes".equals(parameters.get("enabledOnly")) || "true".equals(parameters.get("enabledOnly"));
+    List<Language> altLanguages = new ArrayList<>();
+    if (parameters.get("altLanguages") != null) {
+      String[] altLangParams = parameters.get("altLanguages").split(",\\s*");
+      for (String langCode : altLangParams) {
+        Language altLang = Languages.getLanguageForShortCode(langCode);
+        altLanguages.add(altLang);
+        if (altLang.hasVariant()) {
+          throw new IllegalArgumentException("You specified altLanguage '" + langCode + "', but for this language you need to specify a variant, e.g. 'en-GB' instead of just 'en'");
+        }
+      }
+    }
     List<String> enabledRules = getEnabledRuleIds(parameters);
 
     List<String> disabledRules = getDisabledRuleIds(parameters);
@@ -154,7 +165,7 @@ abstract class TextChecker {
     boolean allowIncompleteResults = "true".equals(parameters.get("allowIncompleteResults"));
     boolean enableHiddenRules = "true".equals(parameters.get("enableHiddenRules"));
     JLanguageTool.Mode mode = ServerTools.getMode(parameters);
-    QueryParams params = new QueryParams(enabledRules, disabledRules, enabledCategories, disabledCategories, 
+    QueryParams params = new QueryParams(altLanguages, enabledRules, disabledRules, enabledCategories, disabledCategories, 
             useEnabledOnly, useQuerySettings, allowIncompleteResults, enableHiddenRules, mode);
 
     Long textSessionId = null;
@@ -356,7 +367,7 @@ abstract class TextChecker {
    * @param motherTongue the user's mother tongue or {@code null}
    */
   private JLanguageTool getLanguageToolInstance(Language lang, Language motherTongue, QueryParams params, UserConfig userConfig) throws Exception {
-    JLanguageTool lt = new JLanguageTool(lang, motherTongue, cache, userConfig);
+    JLanguageTool lt = new JLanguageTool(lang, params.altLanguages, motherTongue, cache, userConfig);
     lt.setMaxErrorsPerWordRate(config.getMaxErrorsPerWordRate());
     if (config.getLanguageModelDir() != null) {
       lt.activateLanguageModelRules(config.getLanguageModelDir());
@@ -396,6 +407,7 @@ abstract class TextChecker {
   }
 
   private static class QueryParams {
+    final List<Language> altLanguages;
     final List<String> enabledRules;
     final List<String> disabledRules;
     final List<CategoryId> enabledCategories;
@@ -406,8 +418,9 @@ abstract class TextChecker {
     final boolean enableHiddenRules;
     final JLanguageTool.Mode mode;
 
-    QueryParams(List<String> enabledRules, List<String> disabledRules, List<CategoryId> enabledCategories, List<CategoryId> disabledCategories,
+    QueryParams(List<Language> altLanguages, List<String> enabledRules, List<String> disabledRules, List<CategoryId> enabledCategories, List<CategoryId> disabledCategories,
                 boolean useEnabledOnly, boolean useQuerySettings, boolean allowIncompleteResults, boolean enableHiddenRules, JLanguageTool.Mode mode) {
+      this.altLanguages = Objects.requireNonNull(altLanguages);
       this.enabledRules = enabledRules;
       this.disabledRules = disabledRules;
       this.enabledCategories = enabledCategories;

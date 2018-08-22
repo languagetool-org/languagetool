@@ -67,7 +67,7 @@ public class Chinese extends Language implements AutoCloseable {
   }
 
   @Override
-  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig) {
+  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, List<Language> altLanguages) {
     return Arrays.asList(
             new DoublePunctuationRule(messages),
             new MultipleWhitespaceRule(messages, this)

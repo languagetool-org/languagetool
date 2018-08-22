@@ -110,7 +110,7 @@ public class Polish extends Language {
   }
 
   @Override
-  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig) throws IOException {
+  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, List<Language> altLanguages) throws IOException {
     return Arrays.asList(
         new CommaWhitespaceRule(messages),
         new UppercaseSentenceStartRule(messages, this),

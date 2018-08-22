@@ -2,7 +2,12 @@
 
 ## 4.4-SNAPSHOT (release planned for 2018-12-27)
 
-...
+#### HTTP API / LT server
+  * Experimental support for `altLanguages` parameter: takes a list of languages
+    codes. Unknown words of the main languages (as specified by the `language` parameter)
+    will be accepted if accepted by one of these languages and if they are not to similar
+    to a word of the main language. Support for this is experimental, i.e. it might be
+    removed again or implemented in a different way. 
 
 
 

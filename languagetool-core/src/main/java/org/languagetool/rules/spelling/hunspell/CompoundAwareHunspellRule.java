@@ -42,7 +42,15 @@ public abstract class CompoundAwareHunspellRule extends HunspellRule {
   protected abstract void filterForLanguage(List<String> suggestions);
 
   public CompoundAwareHunspellRule(ResourceBundle messages, Language language, CompoundWordTokenizer compoundSplitter, MorfologikMultiSpeller morfoSpeller, UserConfig userConfig) {
-    super(messages, language, userConfig);
+    this(messages, language, compoundSplitter, morfoSpeller, userConfig, Collections.emptyList());
+  }
+
+  /**
+   * @since 4.3
+   */
+  public CompoundAwareHunspellRule(ResourceBundle messages, Language language, CompoundWordTokenizer compoundSplitter, 
+                                   MorfologikMultiSpeller morfoSpeller, UserConfig userConfig, List<Language> alternativeLanguages) {
+    super(messages, language, userConfig, alternativeLanguages);
     this.compoundSplitter = compoundSplitter;
     this.morfoSpeller = morfoSpeller;
   }

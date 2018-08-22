@@ -147,7 +147,7 @@ public class Ukrainian extends Language {
   }
 
   @Override
-  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig) throws IOException {
+  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, List<Language> altLanguages) throws IOException {
     return Arrays.asList(
         new CommaWhitespaceRule(messages,
             Example.wrong("Ми обідали борщем<marker> ,</marker> пловом і салатом."),
