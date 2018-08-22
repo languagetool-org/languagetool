@@ -1134,7 +1134,24 @@ USA
             <short>Probable typo</short>
             <example correction="how">These are also examples of <marker>the how</marker> a woman's perspective can contribute to science.</example>
         </rule>
-        <rulegroup id="I_LOWERCASE" name="i'm (I'm)">
+        <rulegroup id="I_LOWERCASE" name="i vs. I">
+			<rule>
+				<antipattern>
+					<token regexp="yes">row|index</token>
+					<token>i</token>
+				</antipattern>
+				<pattern case_sensitive="yes">
+					<marker>
+						<token>i</token>
+					</marker>
+					<token postag="V.+" postag_regexp="yes"></token>
+				</pattern>
+				<message>Is this the personal pronoun 'I'? It is spelled uppercase.</message>
+				<suggestion>I</suggestion>
+				<example correction="I">Way back in the day, I had no tonality whatsoever when <marker>i</marker> talked.</example>
+				<example>The table of contents can be found on page i.</example>
+				<example>Items i) and j) support this point of view.</example>
+			</rule>
             <rule>
                 <pattern case_sensitive="yes">
                     <token>i</token>
