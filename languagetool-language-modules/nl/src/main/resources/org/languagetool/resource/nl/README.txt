@@ -1,4 +1,3 @@
-The Dutch data are partly based on Alpino parser for Dutch by Gertjan van
-Noord and is released on LGPL license. Alpino is available at
-http://www.let.rug.nl/~vannoord/alp/Alpino/. The POS tag system and values
-come mostly from OpenTaal, www.opentaal.org.
+The Dutch POS data (dutch.dict, dutch_synth.dict) are based on data from OpenTaal,
+licensed under either Creative Commons Attribution 3.0 Unported
+or BSD, at your choice. See https://www.opentaal.org/licentie for details
