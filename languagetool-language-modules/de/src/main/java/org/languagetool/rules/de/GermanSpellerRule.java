@@ -273,6 +273,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("untergangen", "untergegangen");
     put("BluRay", "Blu-ray");
     put("Freiwilligerin", "Freiwillige");
+    put("Mitgliederinnen", w -> Arrays.asList("Mitglieder", "Mitgliedern"));
     put("Hautreinheiten", "Hautunreinheiten");
     put("tuhen", "tun");
     put("ccm", "cm³");
