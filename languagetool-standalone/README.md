@@ -102,60 +102,31 @@ International License (http://creativecommons.org/licenses/by/4.0/).
 
 #### Asturian
 
-The Asturian data for part-of-speech tagging are from the Freeling dictionary,
-licensed under GNU General Public License.
-Contributor(s): Xesús González Rato <esbardu@softastur.org>
+See org/languagetool/resource/ast/README.txt and org/languagetool/resource/ast/hunspell/LICENSES*.txt
 
 #### Belarusian
 
-Spellchecker dictionary is based on dict-be-official-2008-20140108.oxt from http://bnkorpus.info/download.html 
-under Creative Commons Attribution/Share-Alike 3.0.
+See org/languagetool/resource/be/hunspell/README.txt
 
 #### Breton
 
-The Breton data for part-of-speech tagging is based on the Apertium Breton
-dictionary under GNU General Public License with permission of its authors:
-
-    Copyright (C) 2008--2010 Francis Tyers <ftyers@prompsit.com>
-    Copyright (C) 2009--2010 Fulup Jakez <fulup.jakez@ofis-bzh.org>
-    Copyright (C) 2009       Gwenvael Jekel <jequelg@yahoo.fr>
-    Development supported by:
-    * Prompsit Language Engineering, S. L.
-    * Ofis ar Brezhoneg
-    * Grup Transducens, Universitat d'Alacant
-
-The Breton FSA spelling dictionary is based on the Breton Hunspell dictionary
-"Difazier Hunspell an Drouizig" (0.13) licensed under the Lesser GNU Public
-License (LGPL), available at:
-http://extensions.libreoffice.org/extension-center/an-drouizig-breton-spellchecker/releases/0.13/difazier-an-drouizig-0_13.oxt
+See org/languagetool/resource/br/README.txt and See org/languagetool/resource/br/hunspell/README.txt
 
 #### Catalan
 
-The Catalan data for part-of-speech tagging were created by Jaume Ortolà
-based on the Freeling 3.0 and Softcatalà 2.5.0 dictionaries, both released
-under the GNU General Public License. See: https://github.com/Softcatala/catalan-dict-tools
- 
+See org/languagetool/resource/ca/README.txt
+
 #### Chinese
 
-The Chinese data and code for part-of-speech tagging is based on ictclas4j project
-(http://code.google.com/p/ictclas4j/) under Apache License 2.0.
+See org/languagetool/resource/zh/README.txt
 
 #### Danish
 
-The Danish tagger is based upon data from Stavekontrolden - Danish dictionary
-for Hunspell. © 2012 Foreningen for frit tilgængelige sprogværktøjer.
-These files are published under the following open source licenses:
-GNU GPL version 2.0, GNU LGPL version 2.1, Mozilla MPL version 1.1
-http://www.stavekontrolden.dk
-Stavekontrolden is based on data from Det Danske Sprog- og Litteraturselskab
-(The Danish Society for Language and Literature), http://www.dsl.dk.
+See org/languagetool/resource/da/README.txt and org/languagetool/resource/da/spelling/README_da_DK.txt
 
 #### Dutch
 
-The Dutch data are partly based on Alpino parser for Dutch by Gertjan van
-Noord and is released on LGPL license. Alpino is available at
-http://www.let.rug.nl/~vannoord/alp/Alpino/. The POS tag system and values
-come mostly from OpenTaal, www.opentaal.org.
+See org/languagetool/resource/nl/README.txt and org/languagetool/resource/nl/spelling/README.txt
  
 #### English
 
@@ -241,129 +212,65 @@ For more information, see the scripts in the source directory
 
 #### French
 
-The French data for part-of-speech tagging are from
-the [Dicollecte](http://www.dicollecte.org/home.php?prj=fr) project.
-They are made available here under the terms of the Mozilla Public
-License 2.0 (http://mozilla.org/MPL/2.0/). See also detailed information
-in [README_lexique.txt](https://github.com/languagetool-org/languagetool/blob/master/languagetool-language-modules/fr/src/main/resources/org/languagetool/resource/fr/README_lexique.txt).
+See org/languagetool/resource/fr/README_lexique.txt and org/languagetool/resource/fr/hunspell/fr_FR.README
 
 #### Galician
 
-The Galician data for part-of-speech tagging were created by Susana Sotelo
-Docio based on Freeling and Apertium dictionaries. Both are licensed under GPL.
- 
+See org/languagetool/resource/gl/README.txt and org/languagetool/resource/gl/hunspell/README-gl-ES.txt
+and LICENSES-en.txt
+
 #### German
 
-See https://github.com/languagetool-org/german-pos-dict:
-The German data for part-of-speech tagging is taken from Morphy
-(http://morphy.wolfganglezius.de/) with extensions
-and corrections from Julian von Heyl (https://www.korrekturen.de/flexion/)
-under Creative Commons Attribution-Share Alike 4.0.
+See org/languagetool/resource/de/README.txt and org/languagetool/resource/de/hunspell/*README.txt
 
 #### Greek
 
-The Greek dictionary only contains very few test entries for now,
-added by Panagiotis Minos. They are made available here under LGPL.
+See org/languagetool/resource/el/README.txt and org/languagetool/resource/el/hunspell/README_el_GR.txt
 
 #### Italian
 
-The Italian data for part-of-speech tagging is taken from Morph-it!,
-licensed under the Creative Commons Attribution ShareAlike 2.0 License
-and the GNU Lesser General Public License (LGPL)
-(see http://sslmitdev-online.sslmit.unibo.it/linguistics/morph-it.php).
+See org/languagetool/resource/it/README.txt and org/languagetool/resource/it/hunspell/README_it_IT.txt
  
 #### Khmer
 
-The dictionary was obtained from these four sources:
-http://code.google.com/p/khmer-dictionary-tools/ - Part of Speech entries and words from
-
-* Chuon Nath's dictionary released by the Buddhist Institute of Cambodia under a BSD License
-  for the LanguageTool Project
-* http://sealang.net/khmer/ - Part of Speech entries and words from Robert Headley's dictionary
-  were released by Robert Headley under a BSD License for the LanguageTool Project
-* http://www.panl10n.net/english/Outputs%20Phase%202/CCs/Cambodia/MoEYS/Software/2009/KhmerCorpus.zip
-  Released under the Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License
-  for the LanguageTool Project
-* http://www.sbbic.org - The Society for Better Books of Cambodia has made changes to all
-  these sources, correcting, and adding new words in order to improve the grammar checker -
-  SBBIC releases these changes and additions under a BSD License for the LanguageTool Project
+See org/languagetool/resource/km/README.txt
 
 #### Malayalam (inactive)
 
-The data has been collected by Jithesh.V.S. of the Centre For Development of Imaging Technology (C-DIT),
-Thiruvananthapuram, Kerala, India (http://www.cdit.org/index/). It comes from public sources like newspapers,
-magazines, and novels. It is made available here under GPL.
+See org/languagetool/resource/ml/README.txt
  
 #### Polish
 
-The Polish data for part-of-speech tagging is from the Morfologik project,
-licensed on BSD (see http://morfologik.blogspot.com).
+See org/languagetool/resource/pl/README.txt and org/languagetool/resource/pl/hunspell/README_en.txt
 
 #### Romanian
 
-The Romanian data for part-of-speech tagging is developed by Ionuț Păduraru
-(http://www.archeus.ro). It's being released here on LGPL license.
+See org/languagetool/resource/ro/README.txt and org/languagetool/resource/ro/hunspell/README_*.txt
 
 #### Russian
 
-Russian dictionary originally developed by www.aot.ru and licensed under LGPL.
-(http://www.aot.ru) or (http://sourceforge.net/p/seman/svn/HEAD/tree/trunk/Dicts/SrcMorph/RusSrc/) file (morphs.mrd).
-It was partially converted to fsa format in 2008-2011, 2014, 2016, 2017, 2018 by Yakov Reztsov.
-Frequency information for spell-checking dictionary from (www.aot.ru).
-Source frequency information (https://sourceforge.net/p/seman/svn/HEAD/tree/trunk/Dicts/SrcBinDict/WordData.txt).
-It was converted to use with spell-checking dictionary in 2014, 2016 by Yakov Reztsov.
+See org/languagetool/resource/ru/README.txt and org/languagetool/resource/ru/hunspell/README.txt
 
 #### Slovak
 
-The Slovak data were created by Zdenko Podobný based on Slovak National
-Corpus data (http://korpus.juls.savba.sk/). They are released here on
-LGPL license.
+See org/languagetool/resource/sk/README.txt
 
 #### Spanish
 
-The dictionary was mainly obtained from the Freeling project:
-
-* http://devel.cpl.upc.edu/freeling/svn/trunk/data/es/senses30.src
-* http://devel.cpl.upc.edu/freeling/svn/versions/freeling-3.1/data/es/senses30.src
-* http://garraf.epsevg.upc.es/freeling/
-
-It is released under the GNU General Public License.
+See  org/languagetool/resource/es/hunspell/README_es_ES.txt and org/languagetool/resource/es/README.cvs
 
 #### Swedish
 
-The Swedish data are based on DSSO. The Initial Developer of the Original Code is Göran Andersson. Contributor(s):
-
-* Tom Westerberg <tweg@welho.com>
-* Niklas Johansson <sleeping.pillow@gmail.com>
-
-The Swedish Dictionary may be used under the terms of the GNU Lesser General Public License
-Version 2.1 or later (the "LGPL"). http://dsso.se
+See org/languagetool/resource/sv/hunspell/LICENSE*.txt and org/languagetool/resource/sv/README.txt
  
 #### Tagalog
 
-The Tagalog Tagset was designed by Nathaniel Oco.
-The words for the Tagger Dictionary were taken from the Philippine Literature
-Domain of Dalos D. Miguel's Comparative Analysis of Tagalog POS Taggers.
-The Tagger Dictionary and the Tagset are made available under LGPL.
-The Trigram Training Data is available at: The Trigram Training Data is available
-at: https://sourceforge.net/projects/tattoi.u/files/Trigram%20Text/
+See org/languagetool/resource/tl/README.txt
 
 #### Tamil
 
-The Tamil dictionary, tagset and rules were created by
-Ve. Elanjelian <tamiliam@gmail.com>. It is released under GPLv3 licence.
-
-* The work owes much to his previous work with Hunspell spellchecker, a project
-  that has had many contributors including S. Muguntharaj, Radhakrishnan, Vijay,
-  A. Suji, Malathi Selvaraj, Sri Ramadoss, Yagna Kalyanaraman, and Pranava Swaroop.
-* The work also made use the Tamil corpus created by Crubadan 2.0
-  <http://crubadan.org/> for shortlisting nouns and verbs.
-  The corpus data is released under GPLv3, as well.
-* The grammatical rules themselves are based on "thamizhnadaik kaiyEdu" (2004)
- and "thamizhil nAmum thavaRillAmal ezhuthalAm" (2007)
+See org/languagetool/resource/ta/README.txt
 
 #### Ukrainian
 
-The Ukrainian data for part-of-speech tagging was created by Andriy Rysin.
-It's based on https://github.com/brown-uk/dict_uk project and is licensed under
-Creative Commons Attribution-ShareAlike 4.0 International license.
+See org/languagetool/resource/uk/README.txt
