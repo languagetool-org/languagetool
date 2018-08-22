@@ -657,7 +657,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return Collections.singletonList("d.\u202fh.");
     } else if (word.equals("ua") || word.equals("ua.")) {
       return Collections.singletonList("u.\u202fa.");
-    } else if (word.equals("zb") || word.equals("zb.")) {
+    } else if (word.matches("z[bB]") || word.matches("z[bB].")) {
       return Collections.singletonList("z.\u202fB.");
     } else if (word.equals("uvm") || word.equals("uvm.")) {
       return Collections.singletonList("u.\u202fv.\u202fm.");
