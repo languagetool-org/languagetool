@@ -3009,6 +3009,7 @@ regexp case-insensitive maken : (?i)
             </rule>
         </rulegroup>
 
+        <!-- het werkwoord diggen is te zeldzaam; fouten zijn vooral andersom
         <rulegroup id="DIGT_DICHT" name="waarschuwing bij gebruik dicht i.p.v. digt">
             <rule>
                 <pattern>
@@ -3018,7 +3019,17 @@ regexp case-insensitive maken : (?i)
                 <example correction="digt">Het woord <marker>dicht</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
-
+        -->
+        <rulegroup id="DICHT_DIGT" name="waarschuwing bij gebruik digt i.p.v. dicht">
+            <rule>
+                <pattern>
+                       <token>digt</token>
+                </pattern>
+                <message>De kans is groot dat u <suggestion>dicht</suggestion> bedoelt? Het werkword diggen is erg zeldzaam.</message>
+                <example correction="dicht">Het woord <marker>digt</marker> kan een vergissing zijn.</example>
+            </rule>
+        </rulegroup>        
+        
         <rulegroup id="DOORLIGT_DOORLICHT" name="waarschuwing bij gebruik doorlicht i.p.v. doorligt">
             <rule>
                 <pattern>
@@ -3049,6 +3060,7 @@ regexp case-insensitive maken : (?i)
             </rule>
         </rulegroup>
 
+        <!-- fout zal vooral andersom zijn.
         <rulegroup id="NAGT_NACHT" name="waarschuwing bij gebruik nacht i.p.v. nagt">
             <rule>
                 <pattern>
@@ -3058,7 +3070,17 @@ regexp case-insensitive maken : (?i)
                 <example correction="nagt">Het woord <marker>nacht</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
-
+        -->
+        <rulegroup id="NACHT_NAGT" name="waarschuwing bij gebruik nagt i.p.v. nacht">
+            <rule>
+                <pattern>
+                       <token>nagt</token>
+                </pattern>
+                <message>Bedoelt u wellicht <suggestion>nacht</suggestion> (late avond)? Naggen is treiteren.</message>
+                <example correction="nacht">Het woord <marker>nagt</marker> kan een vergissing zijn.</example>
+            </rule>
+        </rulegroup>
+        
         <rulegroup id="PLAGT_PLACHT" name="waarschuwing bij gebruik placht i.p.v. plagt">
             <rule>
                 <pattern>
