@@ -1217,10 +1217,13 @@ regexp case-insensitive maken : (?i)
         <rulegroup id="WOORD_WORD" name="waarschuwing bij gebruik word i.p.v. woord">
             <rule>
                 <pattern>
+                    <token regexp="yes">de|het|een|geen</token>
+                    <marker>
                        <token>word</token>
+                   </marker>
                 </pattern>
                 <message>Bedoelt u wellicht <suggestion>woord</suggestion>?</message>
-                <example correction="woord">Het woord <marker>word</marker> kan een vergissing zijn.</example>
+                <example correction="woord">Het <marker>word</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
 
@@ -2874,7 +2877,7 @@ regexp case-insensitive maken : (?i)
             </rule>
         </rulegroup>
         
-
+        <!-- geeft te veel false alarms
         <rulegroup id="LIGT_LICHT" name="waarschuwing bij gebruik licht i.p.v. ligt">
             <rule>
                 <pattern>
@@ -2884,7 +2887,7 @@ regexp case-insensitive maken : (?i)
                 <example correction="ligt">Het woord <marker>licht</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
-        
+        -->
         <!-- echt komt veel vaker voor dat egt
         <rulegroup id="EGT_ECHT" name="waarschuwing bij gebruik echt i.p.v. egt">
             <rule>
@@ -3096,7 +3099,7 @@ regexp case-insensitive maken : (?i)
             </rule>
         </rulegroup>
 
-
+        <!-- moet gedetailleerder; dit slaat te veel aan
         <rulegroup id="LIJDEN_LEIDEN" name="waarschuwing bij gebruik leiden i.p.v. lijden">
             <rule>
                 <pattern>
@@ -3104,16 +3107,6 @@ regexp case-insensitive maken : (?i)
                 </pattern>
                 <message>Bedoelt u wellicht <suggestion>lijden</suggestion>?</message>
                 <example correction="lijden">Het woord <marker>leiden</marker> kan een vergissing zijn.</example>
-            </rule>
-        </rulegroup>
-
-        <rulegroup id="MIJDEN_MEIDEN" name="waarschuwing bij gebruik meiden i.p.v. mijden">
-            <rule>
-                <pattern>
-                       <token>meiden</token>
-                </pattern>
-                <message>Bedoelt u wellicht <suggestion>mijden</suggestion>?</message>
-                <example correction="mijden">Het woord <marker>meiden</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
 
@@ -3127,16 +3120,6 @@ regexp case-insensitive maken : (?i)
             </rule>
         </rulegroup>
 
-        <rulegroup id="WIJDT_WEIDT" name="waarschuwing bij gebruik weidt i.p.v. wijdt">
-            <rule>
-                <pattern>
-                       <token>weidt</token>
-                </pattern>
-                <message>Bedoelt u wellicht <suggestion>wijdt</suggestion>?</message>
-                <example correction="wijdt">Het woord <marker>weidt</marker> kan een vergissing zijn.</example>
-            </rule>
-        </rulegroup>
-
         <rulegroup id="LIJDENDE_LEIDENDE" name="waarschuwing bij gebruik leidende i.p.v. lijdende">
             <rule>
                 <pattern>
@@ -3144,6 +3127,27 @@ regexp case-insensitive maken : (?i)
                 </pattern>
                 <message>Bedoelt u wellicht <suggestion>lijdende</suggestion>?</message>
                 <example correction="lijdende">Het woord <marker>leidende</marker> kan een vergissing zijn.</example>
+            </rule>
+        </rulegroup>
+
+        -->
+        
+        <rulegroup id="MIJDEN_MEIDEN" name="waarschuwing bij gebruik meiden i.p.v. mijden">
+            <rule>
+                <pattern>
+                       <token>meiden</token>
+                </pattern>
+                <message>Bedoelt u wellicht <suggestion>mijden</suggestion>?</message>
+                <example correction="mijden">Het woord <marker>meiden</marker> kan een vergissing zijn.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="WIJDT_WEIDT" name="waarschuwing bij gebruik weidt i.p.v. wijdt">
+            <rule>
+                <pattern>
+                       <token>weidt</token>
+                </pattern>
+                <message>Bedoelt u wellicht <suggestion>wijdt</suggestion>?</message>
+                <example correction="wijdt">Het woord <marker>weidt</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
 
@@ -3267,6 +3271,47 @@ regexp case-insensitive maken : (?i)
                 <example correction="lijdend">Het woord <marker>leidend</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
+
+        <rulegroup id="LIJD_LEID" name="waarschuwing bij gebruik leid i.p.v. lijd">
+            <rule>
+                <pattern>
+                       <token>leid</token>
+                </pattern>
+                <message>Bedoelt u wellicht <suggestion>lijd</suggestion>? Lijd=pijn hebben, leid=stuur.</message>
+                <example correction="lijd">Het woord <marker>leid</marker> kan een vergissing zijn.</example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup id="LIJDER_LEIDER" name="waarschuwing bij gebruik leider i.p.v. lijder">
+            <rule>
+                <pattern>
+                       <token>leider</token>
+                </pattern>
+                <message>Bedoelt u wellicht <suggestion>lijder</suggestion>?</message>
+                <example correction="lijder">Het woord <marker>leider</marker> kan een vergissing zijn.</example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup id="LIJDERS_LEIDERS" name="waarschuwing bij gebruik leiders i.p.v. lijders">
+            <rule>
+                <pattern>
+                       <token>leiders</token>
+                </pattern>
+                <message>Bedoelt u wellicht <suggestion>lijders</suggestion>?</message>
+                <example correction="lijders">Het woord <marker>leiders</marker> kan een vergissing zijn.</example>
+            </rule>
+        </rulegroup>
+        
+        <rulegroup id="LIJDENDEN_LEIDENDEN" name="waarschuwing bij gebruik leidenden i.p.v. lijdenden">
+            <rule>
+                <pattern>
+                       <token>leidenden</token>
+                </pattern>
+                <message>Bedoelt u wellicht <suggestion>lijdenden</suggestion>?</message>
+                <example correction="lijdenden">Het woord <marker>leidenden</marker> kan een vergissing zijn.</example>
+            </rule>
+        </rulegroup>
+
         -->
         <rulegroup id="BERIJDER_BEREIDER" name="waarschuwing bij gebruik bereider i.p.v. berijder">
             <rule>
@@ -3285,16 +3330,6 @@ regexp case-insensitive maken : (?i)
                 </pattern>
                 <message>Bedoelt u wellicht <suggestion>afrijden</suggestion>? (afreien is het afwerken van glas.)</message>
                 <example correction="afrijden">Het woord <marker>afreiden</marker> kan een vergissing zijn.</example>
-            </rule>
-        </rulegroup>
-
-        <rulegroup id="LIJD_LEID" name="waarschuwing bij gebruik leid i.p.v. lijd">
-            <rule>
-                <pattern>
-                       <token>leid</token>
-                </pattern>
-                <message>Bedoelt u wellicht <suggestion>lijd</suggestion>? Lijd=pijn hebben, leid=stuur.</message>
-                <example correction="lijd">Het woord <marker>leid</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
 
@@ -3368,16 +3403,6 @@ regexp case-insensitive maken : (?i)
             </rule>
         </rulegroup>
 
-        <rulegroup id="LIJDERS_LEIDERS" name="waarschuwing bij gebruik leiders i.p.v. lijders">
-            <rule>
-                <pattern>
-                       <token>leiders</token>
-                </pattern>
-                <message>Bedoelt u wellicht <suggestion>lijders</suggestion>?</message>
-                <example correction="lijders">Het woord <marker>leiders</marker> kan een vergissing zijn.</example>
-            </rule>
-        </rulegroup>
-
         <rulegroup id="VERLIJDEN_VERLEIDEN" name="waarschuwing bij gebruik verleiden i.p.v. verlijden">
             <rule>
                 <pattern>
@@ -3415,16 +3440,6 @@ regexp case-insensitive maken : (?i)
                 </pattern>
                 <message>Bedoelt u wellicht <suggestion>verwijd</suggestion>?</message>
                 <example correction="verwijd">Het woord <marker>verweid</marker> kan een vergissing zijn.</example>
-            </rule>
-        </rulegroup>
-
-        <rulegroup id="LIJDER_LEIDER" name="waarschuwing bij gebruik leider i.p.v. lijder">
-            <rule>
-                <pattern>
-                       <token>leider</token>
-                </pattern>
-                <message>Bedoelt u wellicht <suggestion>lijder</suggestion>?</message>
-                <example correction="lijder">Het woord <marker>leider</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
 
@@ -3518,16 +3533,6 @@ regexp case-insensitive maken : (?i)
                 </pattern>
                 <message>Bedoelt u wellicht <suggestion>ontwijd</suggestion>?</message>
                 <example correction="ontwijd">Het woord <marker>ontweid</marker> kan een vergissing zijn.</example>
-            </rule>
-        </rulegroup>
-
-        <rulegroup id="LIJDENDEN_LEIDENDEN" name="waarschuwing bij gebruik leidenden i.p.v. lijdenden">
-            <rule>
-                <pattern>
-                       <token>leidenden</token>
-                </pattern>
-                <message>Bedoelt u wellicht <suggestion>lijdenden</suggestion>?</message>
-                <example correction="lijdenden">Het woord <marker>leidenden</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
 
@@ -3628,16 +3633,6 @@ regexp case-insensitive maken : (?i)
                 </pattern>
                 <message>Bedoelt u wellicht <suggestion>verwijdde</suggestion>?</message>
                 <example correction="verwijdde">Het woord <marker>verweidde</marker> kan een vergissing zijn.</example>
-            </rule>
-        </rulegroup>
-
-        <rulegroup id="ZENUWLIJDERS_ZENUWLEIDERS" name="waarschuwing bij gebruik zenuwleiders i.p.v. zenuwlijders">
-            <rule>
-                <pattern>
-                       <token>zenuwleiders</token>
-                </pattern>
-                <message>Bedoelt u wellicht <suggestion>zenuwlijders</suggestion>?</message>
-                <example correction="zenuwlijders">Het woord <marker>zenuwleiders</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
 
@@ -4706,6 +4701,7 @@ regexp case-insensitive maken : (?i)
             </rule>
         </rulegroup>
 
+        <!-- heeft weinig zin, want de fout andersom is veel kansrijker
         <rulegroup id="FIJT_FEIT" name="waarschuwing bij gebruik feit i.p.v. fijt">
             <rule>
                 <pattern>
@@ -4715,7 +4711,17 @@ regexp case-insensitive maken : (?i)
                 <example correction="fijt">Het woord <marker>feit</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
-
+        -->
+        <rulegroup id="FEIT_FIJT" name="waarschuwing bij gebruik fijt">
+            <rule>
+                <pattern>
+                       <token>fijt</token>
+                </pattern>
+                <message>Dit is een huidaandoening; u bedoelt vast: <suggestion>feit</suggestion>?</message>
+                <example correction="feit">Het woord <marker>fijt</marker> kan een vergissing zijn.</example>
+            </rule>
+        </rulegroup>
+        
         <rulegroup id="SCHIJTERD_SCHEITERD" name="waarschuwing bij gebruik scheiterd i.p.v. schijterd">
             <rule>
                 <pattern>
@@ -4786,6 +4792,7 @@ regexp case-insensitive maken : (?i)
             </rule>
         </rulegroup>
 
+        <!-- te veel false positives
         <rulegroup id="FIJTEN_FEITEN" name="waarschuwing bij gebruik feiten i.p.v. fijten">
             <rule>
                 <pattern>
@@ -4795,7 +4802,6 @@ regexp case-insensitive maken : (?i)
                 <example correction="fijten">Het woord <marker>feiten</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
-
         <rulegroup id="FIJTJES_FEITJES" name="waarschuwing bij gebruik feitjes i.p.v. fijtjes">
             <rule>
                 <pattern>
@@ -4805,6 +4811,7 @@ regexp case-insensitive maken : (?i)
                 <example correction="fijtjes">Het woord <marker>feitjes</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
+        -->
 
         <rulegroup id="BRIJTJES_BREITJES" name="waarschuwing bij gebruik breitjes i.p.v. brijtjes">
             <rule>
@@ -9477,6 +9484,7 @@ regexp case-insensitive maken : (?i)
             </rule>
         </rulegroup>
 
+        <!-- stuc is veel zeldzamer dan stuk, en er is geen detecteerbaar verschil
         <rulegroup id="STUC_STUK" name="waarschuwing bij gebruik stuk i.p.v. stuc">
             <rule>
                 <pattern>
@@ -9486,6 +9494,7 @@ regexp case-insensitive maken : (?i)
                 <example correction="stuc">Het woord <marker>stuk</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
+        -->
         
         <rulegroup id="CROP_KROP" name="waarschuwing bij gebruik krop i.p.v. crop">
             <rule>
@@ -36572,13 +36581,16 @@ tuinkussens;Tuinkussens
 	</category>
     <category id="TEST" name="test">
         <rulegroup id="GEBEURD" name="Gebeurd / gebeurt">
-            <antipattern><token inflected="yes">zijn</token></antipattern> <!-- iets kan gebeurd zijn -->
-            <antipattern><token inflected="yes">hebben</token></antipattern> <!-- je kunt ook iets gebeurd (gekregen) hebben -->
+            <antipattern><token>waar</token><token>gebeurd</token></antipattern> <!-- een waar gebeurd verhaal -->
+            <antipattern><token inflected="yes" skip="-1">zijn</token><token>gebeurd</token></antipattern> <!-- iets kan gebeurd zijn -->
+            <antipattern><token skip="-1">gebeurd</token><token inflected="yes">zijn</token></antipattern> <!-- iets kan gebeurd zijn -->
+            <antipattern><token inflected="yes" skip="-1">hebben</token><token>gebeurd</token></antipattern> <!-- iets kan gebeurd zijn -->
+            <antipattern><token skip="-1">gebeurd</token><token inflected="yes">hebben</token></antipattern> <!-- iets kan gebeurd zijn -->
             <rule>
                 <pattern>
                     <token>gebeurd</token>
                 </pattern>
-                <message>Moet het niet <suggestion>gebeurt</suggestion> zijn?</message>
+                <message>Moet het niet <suggestion>gebeurt</suggestion> zijn? (Of is het werkwoord weggelaten?)</message>
                 <example correction="gebeurt">Het <marker>gebeurd</marker> wel eens.</example>
             </rule>
         </rulegroup>
