@@ -52,32 +52,32 @@ public class PunctuationMarkAtParagraphEnd extends TextLevelRule {
     return messages.getString("punctuation_mark_paragraph_end_desc");
   }
   
-  private static boolean stringEqualsAny (String token, String[] any) {
-     for(int i = 0; i < any.length; i++) {
-      if(token.equals(any[i])) {
+  private static boolean stringEqualsAny(String token, String[] any) {
+    for (String s : any) {
+      if (token.equals(s)) {
         return true;
       }
     }
     return false;
   }
 
-  private static boolean isQuotationMark (AnalyzedTokenReadings tk) {
+  private static boolean isQuotationMark(AnalyzedTokenReadings tk) {
     return stringEqualsAny(tk.getToken(), QUOTATION_MARKS);
   }
 
-  private static boolean isPunctuationMark (AnalyzedTokenReadings tk) {
+  private static boolean isPunctuationMark(AnalyzedTokenReadings tk) {
     return stringEqualsAny(tk.getToken(), PUNCTUATION_MARKS);
   }
 
-  private static boolean isWord (AnalyzedTokenReadings tk) {
+  private static boolean isWord(AnalyzedTokenReadings tk) {
     return Character.isLetter(tk.getToken().charAt(0));
   }
 
-  private static boolean isWhitespace (AnalyzedTokenReadings token) {
+  private static boolean isWhitespace(AnalyzedTokenReadings token) {
     return token.isWhitespace() && !token.isLinebreak();
   }
 
-  private static boolean isParaBreak (AnalyzedTokenReadings token) {
+  private static boolean isParaBreak(AnalyzedTokenReadings token) {
     return "\n".equals(token.getToken()) || "\r\n".equals(token.getToken()) || "\n\r".equals(token.getToken());
   }
 
@@ -116,9 +116,9 @@ public class PunctuationMarkAtParagraphEnd extends TextLevelRule {
               int toPos = pos + tokens[i].getEndPos();
               RuleMatch ruleMatch = new RuleMatch(this, sentence, fromPos, toPos, 
                   messages.getString("punctuation_mark_paragraph_end_msg"));
-              List<String> replacements = new ArrayList<String>();
-              for(int j = 0; j < PUNCTUATION_MARKS.length; j++) {
-                replacements.add(tokens[i].getToken() + PUNCTUATION_MARKS[j]);
+              List<String> replacements = new ArrayList<>();
+              for (String PUNCTUATION_MARK : PUNCTUATION_MARKS) {
+                replacements.add(tokens[i].getToken() + PUNCTUATION_MARK);
               }
               ruleMatch.setSuggestedReplacements(replacements);
               ruleMatches.add(ruleMatch);
