@@ -2054,16 +2054,6 @@ regexp case-insensitive maken : (?i)
             </rule>
         </rulegroup>
 
-        <rulegroup id="TRANSPOORT_TRANSPORT" name="waarschuwing bij gebruik transport i.p.v. transpoort">
-            <rule>
-                <pattern>
-                       <token>transport</token>
-                </pattern>
-                <message>Bedoelt u wellicht <suggestion>transpoort</suggestion>?</message>
-                <example correction="transpoort">Het woord <marker>transport</marker> kan een vergissing zijn.</example>
-            </rule>
-        </rulegroup>
-
         <rulegroup id="HOOFDBOORD_HOOFDBORD" name="waarschuwing bij gebruik hoofdbord i.p.v. hoofdboord">
             <rule>
                 <pattern>
@@ -15835,15 +15825,8 @@ regexp case-insensitive maken : (?i)
         </rulegroup>
         <rulegroup id="GETALLEN_0_20_OF_ROND" name="Getallen onder 20 en ronde getallen uitschrijven">
             <rule>
-                <antipattern>
-                    <token regexp="yes">[€.,/-]|artikel|jaar|jaren|'</token>
-                    <token regexp="yes">[0-9]|[1][0-9]|[1-9]0|[1-9][0-9]00|[1-9]00</token>
-                    <token/>
-                </antipattern>
-                <antipattern>
-                    <token/>
-                    <token regexp="yes">[0-9]|[1][0-9]|[1-9]0|[1-9][0-9]00|[1-9]00</token>
-                    <token regexp="yes">.{4,50}|[%.,/-]|u|uur|(jan|feb|maa|apr|mei|jun|jul|aug|okt|nov|dec).*|º|mg|kg|dl|ml|m|mm|cm|km|kHz</token>
+                <antipattern><token regexp="yes">[€.,/-]|lid|artikel|jaar|jaren|'</token><token regexp="yes">[0-9]|[1][0-9]|[1-9]0|[1-9][0-9]00|[1-9]00</token><token/></antipattern>
+                <antipattern><token/><token regexp="yes">[0-9]|[1][0-9]|[1-9]0|[1-9][0-9]00|[1-9]00</token><token regexp="yes">.{4,50}|[%.,/-]|GB|u|uur|(jan|feb|maa|apr|mei|jun|jul|aug|okt|nov|dec).*|º|mg|kg|dl|ml|m|mm|cm|km|kHz</token>
                 </antipattern>
                 <pattern>
                     <token/>
@@ -31825,12 +31808,13 @@ tuinkussens;Tuinkussens
                 <example correction="dia's">Als je de <marker>dia s</marker> in de lounge ziet is het de hemel op aarde.</example>
             </rule>
             <rule>
+                <antipattern><token regexp="yes">[0-9]+</token><token case_sensitive="yes" spacebefore="yes">m</token></antipattern>
+                <antipattern><token case_sensitive="yes" spacebefore="yes">m</token><token regexp="yes">[/.]</token></antipattern>
                 <pattern>
-                    <token negate="yes" regexp="yes">[0-9]+</token>
                     <marker>
-                    <token case_sensitive="yes" spacebefore="yes">m</token>
+                        <token case_sensitive="yes" spacebefore="yes">m</token>
                     </marker>
-                    <token negate="yes" regexp="yes">\./</token>
+                    <token spacebefore="yes"/>
                 </pattern>
                 <message>Bent u een apostrof vergeten? Of beter nog, schrijf <suggestion>hem</suggestion>.</message>
                 <example correction="hem">Het is <marker>m</marker> toch.</example>
@@ -36405,6 +36389,8 @@ tuinkussens;Tuinkussens
                 <antipattern><token>de</token><token>een</token><token>een</token><token postag="ZNW:EKV.*" postag_regexp="yes"/></antipattern>
                 <antipattern><token>het</token><token>het</token><token postag="BNW.*e" postag_regexp="yes"/></antipattern>
                 <antipattern><token>is</token><token>is</token></antipattern>
+                <antipattern><token>agar</token><token>agar</token></antipattern>
+                <antipattern><token>ja</token><token>ja</token></antipattern>
                 <pattern>
                     <token><exception>’</exception></token>
                     <marker>
