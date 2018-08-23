@@ -450,6 +450,7 @@ regexp case-insensitive maken : (?i)
             </rule>
         </rulegroup>
 
+        <!--
         <rulegroup id="BEUREN_BUREN" name="waarschuwing bij gebruik buren i.p.v. beuren">
             <rule>
                 <pattern>
@@ -459,7 +460,7 @@ regexp case-insensitive maken : (?i)
                 <example correction="beuren">Het woord <marker>buren</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
-
+        -->
         <rulegroup id="LEUREN_LUREN" name="waarschuwing bij gebruik luren i.p.v. leuren">
             <rule>
                 <antipattern><token skip="5">luren</token><token inflected="yes">leggen</token></antipattern>
@@ -1574,6 +1575,7 @@ regexp case-insensitive maken : (?i)
             </rule>
         </rulegroup>
 
+        <!--
         <rulegroup id="FACTOOR_FACTOR" name="waarschuwing bij gebruik factor i.p.v. factoor">
             <rule>
                 <pattern>
@@ -1583,7 +1585,7 @@ regexp case-insensitive maken : (?i)
                 <example correction="factoor">Het woord <marker>factor</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
-
+        -->
         <rulegroup id="TOORNEN_TORNEN" name="waarschuwing bij gebruik tornen i.p.v. toornen">
             <rule>
                 <pattern>
@@ -4284,7 +4286,7 @@ regexp case-insensitive maken : (?i)
                 <example correction="schijt">Het woord <marker>scheid</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
-
+        <!-- onwaarschijnlijk
         <rulegroup id="MIJTEN_MEIDEN" name="waarschuwing bij gebruik meiden i.p.v. mijten">
             <rule>
                 <pattern>
@@ -4294,13 +4296,16 @@ regexp case-insensitive maken : (?i)
                 <example correction="mijten">Het woord <marker>meiden</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
-
+        -->
         <rulegroup id="BIJTJES_BEIDJES" name="waarschuwing bij gebruik beidjes i.p.v. bijtjes">
             <rule>
                 <pattern>
+                    <token negate="yes" regexp="yes">jullie|ons|hun|z'n|je|zijn|uw|wij</token>
+                    <marker>
                        <token>beidjes</token>
+                   </marker>
                 </pattern>
-                <message>Bedoelt u wellicht <suggestion>bijtjes</suggestion>?</message>
+                <message>Bedoelt u wellicht <suggestion>bijtjes</suggestion> (insecten)?</message>
                 <example correction="bijtjes">Het woord <marker>beidjes</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
@@ -5344,7 +5349,7 @@ regexp case-insensitive maken : (?i)
                 <pattern>
                        <token>set</token>
                 </pattern>
-                <message>Bedoelt u wellicht <suggestion>zet</suggestion>?</message>
+                <message>Bedoelt u wellicht <suggestion>zet</suggestion> (Beurt) of toch set (stel)?</message>
                 <example correction="zet">Het woord <marker>set</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
@@ -5354,7 +5359,7 @@ regexp case-insensitive maken : (?i)
                 <pattern>
                        <token>selden</token>
                 </pattern>
-                <message>Bedoelt u wellicht <suggestion>zelden</suggestion>?</message>
+                <message>Bedoelt u wellicht <suggestion>zelden</suggestion>? Het werkwoord sellen is zeldzaam en af te raden.</message>
                 <example correction="zelden">Het woord <marker>selden</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
@@ -5452,7 +5457,10 @@ regexp case-insensitive maken : (?i)
         <rulegroup id="SINT_ZINT" name="waarschuwing bij gebruik sint i.p.v. zint">
             <rule>
                 <pattern>
-                       <token>sint</token>
+                    <token negate="yes">de</token>
+                    <marker>
+                        <token>sint</token>
+                    </marker>
                 </pattern>
                 <message>Bedoelt u wellicht <suggestion>zint</suggestion>?</message>
                 <example correction="zint">Het woord <marker>sint</marker> kan een vergissing zijn.</example>
@@ -8131,6 +8139,7 @@ regexp case-insensitive maken : (?i)
             </rule>
         </rulegroup>
 
+        <!-- frank en vrank (zonder hoofdletter) betekent hetzelfde
         <rulegroup id="FRANK_VRANK" name="waarschuwing bij gebruik frank i.p.v. vrank">
             <rule>
                 <pattern>
@@ -8140,13 +8149,13 @@ regexp case-insensitive maken : (?i)
                 <example correction="vrank">Het woord <marker>frank</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
-
+        -->
         <rulegroup id="FANS_VANS" name="waarschuwing bij gebruik fans i.p.v. vans">
             <rule>
                 <pattern>
                        <token>fans</token>
                 </pattern>
-                <message>Bedoelt u wellicht <suggestion>vans</suggestion>?</message>
+                <message>Bedoelt u wellicht <suggestion>vans</suggestion> (vrachtauto's)?</message>
                 <example correction="vans">Het woord <marker>fans</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
@@ -8693,6 +8702,7 @@ regexp case-insensitive maken : (?i)
             </rule>
         </rulegroup>
 
+<!-- kans is eerder andersom
         <rulegroup id="FEESTEN_VEESTEN" name="waarschuwing bij gebruik feesten i.p.v. veesten">
             <rule>
                 <pattern>
@@ -8702,7 +8712,7 @@ regexp case-insensitive maken : (?i)
                 <example correction="veesten">Het woord <marker>feesten</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
-
+        -->
         <rulegroup id="FOORTJES_VOORTJES" name="waarschuwing bij gebruik foortjes i.p.v. voortjes">
             <rule>
                 <pattern>
@@ -9391,6 +9401,7 @@ regexp case-insensitive maken : (?i)
             </rule>
         </rulegroup>        
 
+        <!-- andersom is waarschijnlijker!
         <rulegroup id="CAMP_KAMP" name="waarschuwing bij gebruik kamp i.p.v. camp">
             <rule>
                 <pattern>
@@ -9400,7 +9411,8 @@ regexp case-insensitive maken : (?i)
                 <example correction="camp">Het woord <marker>kamp</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
-
+        -->
+        
         <rulegroup id="DOC_DOK" name="waarschuwing bij gebruik dok i.p.v. doc">
             <rule>
                 <pattern>
@@ -14921,7 +14933,7 @@ regexp case-insensitive maken : (?i)
                 <antipattern><token>.</token><token spacebefore="no">nl</token></antipattern> <!-- tegen html-klets -->
                 <pattern>
                     <marker>
-                        <token regexp="yes">aanw|afb|afd|art|bez|bijv|blz|bw|ca|dhr|div|dr|drs|ds|enz|etc|excl|fa|fam|fig|fr|geb|incl|ing|ir|jhr|jkvr|jl|jr|max|mld|mln|mr|nl|no|nr|nrs|ong|onov|pag|plm|plv|resp|vgl|vnl|vnw|voorz|zgn</token>
+                        <token regexp="yes">aanw|afb|afd|art|bez|bijv|blz|bw|ca|dhr|div|dr|drs|ds|enz|etc|excl|fa|fam|fig|fr|geb|incl|ing|ir|jhr|jkvr|jl|jr|max|mld|mln|mr|nl|no|nr|nrs|ong|onov|pag|plm|plv|resp|vgl|vnl|vnw|voorz|zgn<exception postag="SENT_END"/></token>
                     </marker>
                     <token negate="yes">.</token>
                 </pattern>
