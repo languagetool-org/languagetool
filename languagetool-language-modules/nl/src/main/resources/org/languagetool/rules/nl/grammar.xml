@@ -31809,7 +31809,7 @@ tuinkussens;Tuinkussens
             </rule>
             <rule>
                 <antipattern><token regexp="yes">[0-9]+</token><token case_sensitive="yes" spacebefore="yes">m</token></antipattern>
-                <antipattern><token case_sensitive="yes" spacebefore="yes">m</token><token regexp="yes">[/.]</token></antipattern>
+                <antipattern><token case_sensitive="yes" spacebefore="yes">m</token><token regexp="yes">[/.2]</token></antipattern>
                 <pattern>
                     <marker>
                         <token case_sensitive="yes" spacebefore="yes">m</token>
@@ -31819,6 +31819,22 @@ tuinkussens;Tuinkussens
                 <message>Bent u een apostrof vergeten? Of beter nog, schrijf <suggestion>hem</suggestion>.</message>
                 <example correction="hem">Het is <marker>m</marker> toch.</example>
                 <example>Het is <marker>hem</marker> niet.</example>
+            </rule>
+            <rule>
+                <pattern>
+                     <token case_sensitive="yes" spacebefore="yes">m</token>
+                     <token spacebefore="yes">2</token>
+                </pattern>
+                <message>U bedoelt vast <suggestion>m²</suggestion>.</message>
+                <example correction="m²">Het is 5 <marker>m 2</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                     <token case_sensitive="yes" spacebefore="yes">m</token>
+                     <token spacebefore="yes">3</token>
+                </pattern>
+                <message>U bedoelt vast <suggestion>m³</suggestion>.</message>
+                <example correction="m³">Het is 5 <marker>m 3</marker>.</example>
             </rule>
             <rule>
                 <pattern>
