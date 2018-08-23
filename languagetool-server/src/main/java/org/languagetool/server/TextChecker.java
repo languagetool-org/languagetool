@@ -78,6 +78,7 @@ abstract class TextChecker {
     this.workQueue = workQueue;
     this.reqCounter = reqCounter;
     this.identifier = new LanguageIdentifier();
+    this.identifier.enableFasttext(config.getFasttextBinary(), config.getFasttextModel());
     this.executorService = Executors.newCachedThreadPool(new ThreadFactoryBuilder().setNameFormat("lt-textchecker-thread-%d").build());
     this.cache = config.getCacheSize() > 0 ? new ResultCache(config.getCacheSize()) : null;
   }

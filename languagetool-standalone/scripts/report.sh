@@ -66,8 +66,6 @@ echo "too many parallel requests : `grep -c 'too many parallel requests' $TMPFIL
 echo "Incomplete results sent    : `grep -c  "matches found so far" $TMPFILE`" >>$OUTFILE
 echo "ErrorRateTooHigh           : `grep -c  "ErrorRateTooHigh" $TMPFILE`" >>$OUTFILE
 echo "WARN                       : `grep -c  "WARN:" $TMPFILE`" >>$OUTFILE
-ERROR_TOO_MANY_ERRORS=`grep -c  "Text checking was stopped due to too many errors" $TMPFILE`
-echo "Too many errors            : $ERROR_TOO_MANY_ERRORS" >>$OUTFILE
 ERROR_TIMEOUT=`grep -c  "Text checking took longer than allowed maximum" $TMPFILE`
 echo "Check timeout              : $ERROR_TIMEOUT" >>$OUTFILE
 
@@ -147,4 +145,4 @@ echo "" >>$OUTFILE
 echo -n "Number of client-side errors: " >>$OUTFILE
 grep "$DATE_APACHE" /home/languagetool/api/apache_error.log | grep -c $YEAR >>$OUTFILE
 
-cat $OUTFILE | mail -a 'Content-Type: text/plain; charset=utf-8' -s "LanguageTool API Report" daniel.naber@languagetool.org
+cat $OUTFILE | mail -a 'Content-Type: text/plain; charset=utf-8' -s "LanguageTool API Report" report@languagetool.org

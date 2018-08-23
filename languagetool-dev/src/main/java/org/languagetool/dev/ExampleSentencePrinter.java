@@ -33,7 +33,9 @@ import java.util.List;
  */
 final class ExampleSentencePrinter {
 
-  private void run(Language lang) throws IOException {
+  private static final int MAX_BLOCK_SIZE = 5000;
+  
+  private void run(Language lang) {
     File basePath = new File("/home/dnaber/lt/git/languagetool/languagetool-language-modules");
     if (!basePath.exists()) {
       throw new RuntimeException("basePath does not exist: " + basePath);
@@ -46,13 +48,21 @@ final class ExampleSentencePrinter {
     System.out.println("</head>");
     System.out.println("<body>");
     int i = 1;
+    int blockSize = 0;
     for (Rule rule : tool.getAllActiveRules()) {
       List<IncorrectExample> incorrectExamples = rule.getIncorrectExamples();
       if (incorrectExamples.size() > 0) {
         String example = incorrectExamples.get(0).getExample()
                 .replace("<marker>", "<b>")
                 .replace("</marker>", "</b>");
-        System.out.println(i + ". " + example + " [" + rule.getId() + "]<br>");
+        int exampleLength = example.replace("<b>", "").replace("</b>", "").length();
+        if (blockSize + exampleLength > MAX_BLOCK_SIZE) {
+          System.out.println("<br><br>");
+          blockSize = 0;
+        }
+        //System.out.println(i + ". " + example + " [" + rule.getId() + "]<br>");
+        System.out.println(example + "<br>");
+        blockSize += exampleLength;
         i++;
       }
     }
@@ -60,9 +70,9 @@ final class ExampleSentencePrinter {
     System.out.println("</html>");
   }
 
-  public static void main(String[] args) throws IOException {
+  public static void main(String[] args) {
     ExampleSentencePrinter prg = new ExampleSentencePrinter();
-    prg.run(Languages.getLanguageForShortCode("en"));
+    prg.run(Languages.getLanguageForShortCode("de"));
   }
 
 }

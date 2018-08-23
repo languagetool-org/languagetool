@@ -48,7 +48,6 @@ class LanguageToolHttpHandler implements HttpHandler {
   private final LinkedBlockingQueue<Runnable> workQueue;
   private final TextChecker textCheckerV2;
   private final HTTPServerConfig config;
-  private final Set<String> ownIps;
   private final RequestCounter reqCounter = new RequestCounter();
   
   LanguageToolHttpHandler(HTTPServerConfig config, Set<String> allowedIps, boolean internal, RequestLimiter requestLimiter, ErrorRequestLimiter errorLimiter, LinkedBlockingQueue<Runnable> workQueue) {
@@ -57,11 +56,6 @@ class LanguageToolHttpHandler implements HttpHandler {
     this.requestLimiter = requestLimiter;
     this.errorRequestLimiter = errorLimiter;
     this.workQueue = workQueue;
-    if (config.getTrustXForwardForHeader()) {
-      this.ownIps = getServersOwnIps();
-    } else {
-      this.ownIps = new HashSet<>();
-    }
     this.textCheckerV2 = new V2TextChecker(config, internal, workQueue, reqCounter);
   }
 
@@ -94,9 +88,17 @@ class LanguageToolHttpHandler implements HttpHandler {
         }
       }
       String referrer = httpExchange.getRequestHeaders().getFirst("Referer");
+      String origin = httpExchange.getRequestHeaders().getFirst("Origin");   // Referer can be turned off with meta tags, so also check this
       for (String ref : config.getBlockedReferrers()) {
-        if (referrer != null && ref != null && !ref.isEmpty() && referrer.startsWith(ref)) {
-          String errorMessage = "Error: Access with referrer " + referrer + " denied.";
+        String errorMessage = null;
+        if (ref != null && !ref.isEmpty()) {
+          if (referrer != null && referrer.startsWith(ref)) {
+            errorMessage = "Error: Access with referrer " + referrer + " denied.";
+          } else if (origin != null && origin.startsWith(ref)) {
+            errorMessage = "Error: Access with origin " + origin + " denied.";
+          }
+        }
+        if (errorMessage != null) {
           sendError(httpExchange, HttpURLConnection.HTTP_FORBIDDEN, errorMessage);
           logError(errorMessage, HttpURLConnection.HTTP_FORBIDDEN, parameters, httpExchange);
           return;
@@ -279,57 +281,20 @@ class LanguageToolHttpHandler implements HttpHandler {
     return httpExchange.getRequestHeaders().getFirst("Referer");
   }
 
-  // Call only if really needed, seems to be slow on some Windows machines.
-  private Set<String> getServersOwnIps() {
-    Set<String> ownIps = new HashSet<>();
-    try {
-      Enumeration e = NetworkInterface.getNetworkInterfaces();
-      while (e.hasMoreElements()) {
-        NetworkInterface netInterface = (NetworkInterface) e.nextElement();
-        Enumeration addresses = netInterface.getInetAddresses();
-        while (addresses.hasMoreElements()) {
-          InetAddress address = (InetAddress) addresses.nextElement();
-          ownIps.add(address.getHostAddress());
-        }
-      }
-    } catch (SocketException e1) {
-      throw new RuntimeException("Could not get the server's own IP addresses", e1);
-    }
-    return ownIps;
-  }
-
   /**
    * A (reverse) proxy can set the 'X-forwarded-for' header so we can see a user's original IP.
-   * But that's just a common header than can also be set by the client. So we can
-   * only trust the last item in the list of proxies, as it was set by our proxy,
-   * which we can trust.
+   * But that's just a common header than can also be set by the client. So we restrict access to this
+   * server to the load balancer, which should add the header originally with the user's own IP.
    */
   @Nullable
   private String getRealRemoteAddressOrNull(HttpExchange httpExchange) {
     if (config.getTrustXForwardForHeader()) {
       List<String> forwardedIpsStr = httpExchange.getRequestHeaders().get("X-forwarded-for");
-      if (forwardedIpsStr != null) {
-        String allForwardedIpsStr = String.join(", ", forwardedIpsStr);
-        List<String> allForwardedIps = Arrays.asList(allForwardedIpsStr.split(", "));
-        return getLastIpIgnoringOwn(allForwardedIps);
+      if (forwardedIpsStr != null && forwardedIpsStr.size() > 0) {
+        return forwardedIpsStr.get(0);
       }
     }
     return null;
-  }
-
-  private String getLastIpIgnoringOwn(List<String> forwardedIps) {
-    String lastIp = null;
-    for (String ip : forwardedIps) {
-      if (ownIps.contains(ip)) {
-        // If proxy.php runs on this machine, our own IP will be listed. We want to ignore that
-        // because otherwise all requests would seem to be coming from the same address (our own),
-        // making the request limiter a bit useless: other users could send tons of requests and
-        // stop the service for everybody else.
-        continue;
-      }
-      lastIp = ip;  // use last in the list, we assume we can trust our own proxy (other items can be faked)
-    }
-    return lastIp;
   }
 
   private void sendError(HttpExchange httpExchange, int httpReturnCode, String response) throws IOException {

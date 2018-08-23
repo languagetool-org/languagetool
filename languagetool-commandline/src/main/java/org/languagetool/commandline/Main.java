@@ -477,8 +477,9 @@ class Main {
     }
   }
 
-  private static Language detectLanguageOfString(String text) {
+  private Language detectLanguageOfString(String text) {
     LanguageIdentifier identifier = new LanguageIdentifier();
+    identifier.enableFasttext(options.getFasttextBinary(), options.getFasttextModel());
     return identifier.detectLanguage(text);
   }
 

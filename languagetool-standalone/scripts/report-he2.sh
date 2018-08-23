@@ -71,8 +71,6 @@ ERROR_RATE_TOO_HIGH=`grep -c  "ErrorRateTooHigh" $TMPFILE`
 echo "ErrorRateTooHigh           : $ERROR_RATE_TOO_HIGH" >>$OUTFILE
 ERROR_WARN=`grep -c  "WARN:" $TMPFILE`
 echo "WARN                       : $ERROR_WARN" >>$OUTFILE
-ERROR_TOO_MANY_ERRORS=`grep -c  "Text checking was stopped due to too many errors" $TMPFILE`
-echo "Too many errors            : $ERROR_TOO_MANY_ERRORS" >>$OUTFILE
 ERROR_TIMEOUT=`grep -c  "Text checking took longer than allowed maximum" $TMPFILE`
 echo "Check timeout              : $ERROR_TIMEOUT" >>$OUTFILE
 
@@ -88,7 +86,7 @@ echo "Request limit              : $ERROR_REQ_LIMIT" >>$OUTFILE
 ERROR_REQ_SIZE_LIMIT=`grep -c 'Request size limit of' $TMPFILE`
 echo "Request size limit         : $ERROR_REQ_SIZE_LIMIT" >>$OUTFILE
 
-echo "$DATE2;$ERROR_OOM;$ERROR_TOO_MANY_PAR_REQ;$ERROR_INCOMPLETE_RES;$ERROR_RATE_TOO_HIGH;$ERROR_WARN;$ERROR_SOME;$ERROR_TOO_MANY_REQ;$ERROR_TOO_MANY_REQ_ANDROID;$ERROR_REQ_LIMIT;$ERROR_REQ_SIZE_LIMIT;$ERROR_TOO_MANY_ERRORS;$ERROR_TIMEOUT" >>/home/languagetool/api/api-errors-log.csv
+echo "$DATE2;$ERROR_OOM;$ERROR_TOO_MANY_PAR_REQ;$ERROR_INCOMPLETE_RES;$ERROR_RATE_TOO_HIGH;$ERROR_WARN;$ERROR_SOME;$ERROR_TOO_MANY_REQ;$ERROR_TOO_MANY_REQ_ANDROID;$ERROR_REQ_LIMIT;$ERROR_REQ_SIZE_LIMIT;-;$ERROR_TIMEOUT" >>/home/languagetool/api/api-errors-log.csv
 cp /home/languagetool/api/api-errors-log.csv /home/languagetool/data.languagetool.org/public/analytics/
 
 echo "" >>$OUTFILE
@@ -159,4 +157,4 @@ echo "" >>$OUTFILE
 echo -n "Number of client-side errors: " >>$OUTFILE
 grep "$DATE_APACHE" /home/languagetool/api/apache_error.log | grep -c $YEAR >>$OUTFILE
 
-cat $OUTFILE | mail -a 'Content-Type: text/plain; charset=utf-8' -s "LanguageTool API Report (HE2)" daniel.naber@languagetool.org
+cat $OUTFILE | mail -a 'Content-Type: text/plain; charset=utf-8' -s "LanguageTool API Report (HE2)" report@languagetool.org

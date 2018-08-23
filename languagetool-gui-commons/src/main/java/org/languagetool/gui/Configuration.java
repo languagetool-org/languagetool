@@ -75,6 +75,8 @@ public class Configuration {
   // find all comma followed by zero or more white space characters that are preceded by ":" AND a valid 6-digit hex code
   // example: ":#44ffee,"
   private static final String COLOR_SPLITTER_REGEXP = "(?<=:#[0-9A-Fa-f]{6}),\\s*";
+ //find all colon followed by a valid 6-digit hex code, e.g., ":#44ffee"
+ private static final String COLOR_SPLITTER_REGEXP_COLON = ":(?=#[0-9A-Fa-f]{6})";
   // find all comma followed by zero or more white space characters that are preceded by at least one digit
   // example: "4,"
   private static final String CONFIGURABLE_RULE_SPLITTER_REGEXP = "(?<=[0-9]),\\s*";
@@ -716,7 +718,7 @@ public class Configuration {
     if (StringUtils.isNotEmpty(colorsString)) {
       String[] typeToColorList = colorsString.split(COLOR_SPLITTER_REGEXP);
       for (String typeToColor : typeToColorList) {
-        String[] typeAndColor = typeToColor.split(":");
+        String[] typeAndColor = typeToColor.split(COLOR_SPLITTER_REGEXP_COLON);
         if (typeAndColor.length != 2) {
           throw new RuntimeException("Could not parse type and color, colon expected: '" + typeToColor + "'");
         }
@@ -731,7 +733,7 @@ public class Configuration {
     if (StringUtils.isNotEmpty(colorsString)) {
       String[] typeToColorList = colorsString.split(COLOR_SPLITTER_REGEXP);
       for (String typeToColor : typeToColorList) {
-        String[] typeAndColor = typeToColor.split(":");
+        String[] typeAndColor = typeToColor.split(COLOR_SPLITTER_REGEXP_COLON);
         if (typeAndColor.length != 2) {
           throw new RuntimeException("Could not parse type and color, colon expected: '" + typeToColor + "'");
         }
@@ -840,7 +842,7 @@ public class Configuration {
     for (Map.Entry<ITSIssueType, Color> entry : errorColors.entrySet()) {
       String rgb = Integer.toHexString(entry.getValue().getRGB());
       rgb = rgb.substring(2, rgb.length());
-      sb.append(entry.getKey()).append(":").append("#").append(rgb).append(", ");
+      sb.append(entry.getKey()).append(":#").append(rgb).append(", ");
     }
     props.setProperty(ERROR_COLORS_KEY, sb.toString());
 
@@ -848,7 +850,7 @@ public class Configuration {
     for (Map.Entry<String, Color> entry : underlineColors.entrySet()) {
       String rgb = Integer.toHexString(entry.getValue().getRGB());
       rgb = rgb.substring(2, rgb.length());
-      sbUC.append(entry.getKey()).append(":").append("#").append(rgb).append(", ");
+      sbUC.append(entry.getKey()).append(":#").append(rgb).append(", ");
     }
     props.setProperty(UNDERLINE_COLORS_KEY, sbUC.toString());
 

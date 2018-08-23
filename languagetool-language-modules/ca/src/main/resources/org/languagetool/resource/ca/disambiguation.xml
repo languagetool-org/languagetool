@@ -1147,6 +1147,19 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </pattern>
             <disambig action="add"><wd lemma="loc_adv" pos="LOC_ADV"/><wd lemma="loc_adv" pos="LOC_ADV"/></disambig>
         </rule>
+        <rule id="loc_adv5paraules" name="locució adverbial 5 paraules">
+            <pattern>
+                <token postag="&lt;LOC_ADV&gt;"></token>
+                <marker>
+                    <token/>
+                    <token/>
+                    <token/>
+                </marker>
+                <token postag="&lt;/LOC_ADV&gt;"></token>
+            </pattern>
+            <disambig action="add"><wd lemma="loc_adv" pos="LOC_ADV"/><wd lemma="loc_adv" pos="LOC_ADV"/><wd lemma="loc_adv" pos="LOC_ADV"/></disambig>
+        </rule>
+
         <!--locucions adverbials de temps-->
         <rule id="de_dos_en_dos" name="de dos en dos">
             <pattern>
@@ -2914,7 +2927,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
-                <token inflected="yes" regexp="yes">valor|quantitat|xifra|import|volum|pes|durada|quantia|mesura|suma</token>
+                <token inflected="yes" regexp="yes">energia|potència|valor|quantitat|xifra|import|volum|pes|durada|quantia|mesura|suma</token>
                 <marker>
                     <token>llindar</token>
                 </marker>
@@ -4020,6 +4033,14 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </marker>
         </pattern>
         <disambig action="remove" postag="V.P.*"/>
+    </rule>
+    <rule id="CONTENT" name="contenta (contentar)">
+        <pattern>
+            <marker>
+                <token postag="AQ.*" postag_regexp="yes" inflected="yes">content</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="V.*"/>
     </rule>
     <rule id="TRAVAR_TRAVESSAR" name="travar/travessar">
         <pattern>
@@ -12036,6 +12057,28 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <pattern>
                 <token inflected="yes" skip="1">haver</token>
                 <token>dubte</token>
+                <marker>
+                    <token>que</token>
+                </marker>
+                <token postag="V.N.*" postag_regexp="yes"></token>
+            </pattern>
+            <disambig action="add"><wd pos="relatiu" lemma="que"></wd></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token inflected="yes" skip="1" regexp="yes">fer|donar</token>
+                <token regexp="yes">efecte|impressió</token>
+                <marker>
+                    <token>que</token>
+                </marker>
+                <token postag="V.N.*" postag_regexp="yes"></token>
+            </pattern>
+            <disambig action="add"><wd pos="relatiu" lemma="que"></wd></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token inflected="yes" skip="1">fer</token>
+                <token regexp="yes" inflected="yes">&unitats_temps;</token>
                 <marker>
                     <token>que</token>
                 </marker>

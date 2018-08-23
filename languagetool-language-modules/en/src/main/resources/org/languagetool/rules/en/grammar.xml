@@ -5,7 +5,7 @@
 <!--
 English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
-Copyright (C) 2001-2015 Daniel Naber (http://www.danielnaber.de),
+Copyright (C) 2001-2018 Daniel Naber (http://www.danielnaber.de),
   Marcin Miłkowski and the LanguageTool contributors
 
 Portions of rules are converted from After The Deadline grammar checker, 
@@ -50,12 +50,23 @@ USA
         <token regexp="yes">&months;|&abbrevMonths;</token>
         <token regexp="yes">\d\d\d\d</token>
     '>
+    <!ENTITY date_dmy_skip '
+        <token regexp="yes">\d\d?</token>
+        <token regexp="yes">&months;|&abbrevMonths;</token>
+        <token regexp="yes" skip="-1">\d\d\d\d</token>
+    '>
     <!-- "October 7, 2014" -->
     <!ENTITY date_mdy '
         <token regexp="yes">&months;|&abbrevMonths;</token>
         <token regexp="yes">\d\d?</token>
         <token>,</token>
         <token regexp="yes">\d\d\d\d</token>
+    '>
+    <!ENTITY date_mdy_skip '
+        <token regexp="yes">&months;|&abbrevMonths;</token>
+        <token regexp="yes">\d\d?</token>
+        <token>,</token>
+        <token regexp="yes" skip="-1">\d\d\d\d</token>
     '>
     <!-- "31/10/2014" -->
     <!ENTITY date_dmy_numbers '
@@ -65,6 +76,13 @@ USA
         <token>/</token>
         <token regexp="yes">\d\d\d\d</token>
     '>
+    <!ENTITY date_dmy_numbers_skip '
+        <token regexp="yes">0?[1-9]|[12][0-9]|3[01]</token>
+        <token>/</token>
+        <token regexp="yes">0?[1-9]|1[0-2]</token>
+        <token>/</token>
+        <token regexp="yes" skip="-1">\d\d\d\d</token>
+    '>
     <!-- "10/31/2014" -->
     <!ENTITY date_mdy_numbers '
         <token regexp="yes">0?[1-9]|1[0-2]</token>
@@ -72,6 +90,13 @@ USA
         <token regexp="yes">0?[1-9]|[12][0-9]|3[01]</token>
         <token>/</token>
         <token regexp="yes">\d\d\d\d</token>
+    '>
+    <!ENTITY date_mdy_numbers_skip '
+        <token regexp="yes">0?[1-9]|1[0-2]</token>
+        <token>/</token>
+        <token regexp="yes">0?[1-9]|[12][0-9]|3[01]</token>
+        <token>/</token>
+        <token regexp="yes" skip="-1">\d\d\d\d</token>
     '>
 ]>
 
@@ -1109,7 +1134,24 @@ USA
             <short>Probable typo</short>
             <example correction="how">These are also examples of <marker>the how</marker> a woman's perspective can contribute to science.</example>
         </rule>
-        <rulegroup id="I_LOWERCASE" name="i'm (I'm)">
+        <rulegroup id="I_LOWERCASE" name="i vs. I">
+			<rule>
+				<antipattern>
+					<token regexp="yes">row|index</token>
+					<token>i</token>
+				</antipattern>
+				<pattern case_sensitive="yes">
+					<marker>
+						<token>i</token>
+					</marker>
+					<token postag="V.+" postag_regexp="yes"></token>
+				</pattern>
+				<message>Is this the personal pronoun 'I'? It is spelled uppercase.</message>
+				<suggestion>I</suggestion>
+				<example correction="I">Way back in the day, I had no tonality whatsoever when <marker>i</marker> talked.</example>
+				<example>The table of contents can be found on page i.</example>
+				<example>Items i) and j) support this point of view.</example>
+			</rule>
             <rule>
                 <pattern case_sensitive="yes">
                     <token>i</token>
@@ -25388,7 +25430,21 @@ USA
                 <example>I had already informed the customer on <marker>7 October 2010</marker>.</example>
                 <example>We will inform the client on 7 October 2010.</example>
             </rule>
-            <rule> <!-- We visited the client on 7 October 2020 -->
+            <rule> <!-- On 7 October 2020, we have visited the client -->
+                <pattern>
+                    <marker> &date_dmy_skip; </marker>
+                    <token inflected="yes" postag="VBD?" postag_regexp="yes" skip="-1">have</token>
+                    <token postag="VBN" skip="-1"/>
+                </pattern>
+                <filter class="org.languagetool.rules.en.FutureDateFilter" args="year:\3 month:\2 day:\1"/>
+                <message>The given date is in the future, but the verb is in past tense.</message>
+                <example correction="">On <marker>7 October 2020</marker>, we have visited the client.</example>
+                <example correction="">On <marker>7 October 2025</marker>, I had already informed the customer.</example>
+                <example>On <marker>7 October 2010</marker>, we have visited the client.</example>
+                <example>On <marker>7 October 2010</marker>, I had already informed the customer.</example>
+                <example>On 7 October 2010, we will inform the client.</example>
+            </rule>
+	    <rule> <!-- We visited the client on 7 October 2020 -->
                 <pattern>
                     <token postag="VBD" skip="-1"/>
                     <marker> &date_dmy; </marker>
@@ -25400,6 +25456,19 @@ USA
                 <example>We visited the client on <marker>7 October 2010</marker>.</example>
                 <example>I already informed the customer on <marker>7 October 2010</marker>.</example>
                 <example>We will inform the client on 7 October 2010.</example>
+            </rule>
+            <rule> <!-- On 7 October 2020, we visited the client -->
+                <pattern>
+                    <marker> &date_dmy_skip; </marker>
+                    <token postag="VBD" skip="-1"/>
+                </pattern>
+                <filter class="org.languagetool.rules.en.FutureDateFilter" args="year:\3 month:\2 day:\1"/>
+                <message>The given date is in the future, but the verb is in past tense.</message>
+                <example correction="">On <marker>7 October 2020</marker>, we visited the client.</example>
+                <example correction="">On <marker>7 October 2025</marker>, I already informed the customer.</example>
+                <example>On <marker>7 October 2010</marker>, we visited the client.</example>
+                <example>On <marker>7 October 2010</marker>, I already informed the customer.</example>
+                <example>On 7 October 2010, we will inform the client.</example>
             </rule>
             <rule> <!-- We have visited the client on October 7, 2020 -->
                 <pattern>
@@ -25415,6 +25484,20 @@ USA
                 <example>I had already informed the customer on <marker>October 7, 2010</marker>.</example>
                 <example>We will inform the client on October 7, 2010.</example>
             </rule>
+            <rule> <!-- On October 7, 2020, we have visited the client -->
+                <pattern>
+                    <marker> &date_mdy_skip; </marker>
+                    <token inflected="yes" postag="VBD?" postag_regexp="yes" skip="-1">have</token>
+                    <token postag="VBN" skip="-1"/>
+                </pattern>
+                <filter class="org.languagetool.rules.en.FutureDateFilter" args="year:\4 month:1 day:\2"/>
+                <message>The given date is in the future, but the verb is in past tense.</message>
+                <example correction="">On <marker>October 7, 2020</marker>, we have visited the client.</example>
+                <example correction="">On <marker>October 7, 2020</marker>, I had already informed the customer.</example>
+                <example>On <marker>October 7, 2010</marker>, we have visited the client.</example>
+                <example>On <marker>October 7, 2010</marker>, I had already informed the customer.</example>
+                <example>On October 7, 2010, we will inform the client.</example>
+            </rule>
             <rule> <!-- We visited the client on October 7, 2020 -->
                 <pattern>
                     <token postag="VBD" skip="-1"/>
@@ -25427,6 +25510,19 @@ USA
                 <example>We visited the client on <marker>October 7, 2010</marker>.</example>
                 <example>I already informed the customer on <marker>October 7, 2010</marker>.</example>
                 <example>We will inform the client on October 7, 2010.</example>
+            </rule>
+            <rule> <!-- On October 7, 2020, we visited the client -->
+                <pattern>
+                    <marker> &date_mdy_skip; </marker>
+                    <token postag="VBD" skip="-1"/>
+                </pattern>
+                <filter class="org.languagetool.rules.en.FutureDateFilter" args="year:\4 month:\1 day:\2"/>
+                <message>The given date is in the future, but the verb is in past tense.</message>
+                <example correction="">On <marker>October 7, 2020</marker>, we visited the client.</example>
+                <example correction="">On <marker>October 7, 2020</marker>, I already informed the customer.</example>
+                <example>We visited the client on <marker>October 7, 2010</marker>.</example>
+                <example>On <marker>October 7, 2010</marker>, I already informed the customer.</example>
+                <example>On October 7, 2010, we will inform the client.</example>
             </rule>
             <rule> <!-- We have visited the client on 27/10/2040 -->
                 <pattern>
@@ -25442,6 +25538,20 @@ USA
                 <example>I had already informed the customer on <marker>27/10/2010</marker>.</example>
                 <example>We will inform the client on 27/10/2010.</example>
             </rule>
+            <rule> <!-- On 27/10/2040, we have visited the client -->
+                <pattern>
+                    <marker> &date_dmy_numbers_skip; </marker>
+                    <token inflected="yes" postag="VBD?" postag_regexp="yes" skip="-1">have</token>
+                    <token postag="VBN" skip="-1"/>
+                </pattern>
+                <filter class="org.languagetool.rules.en.FutureDateFilter" args="year:\5 month:\3 day:\1"/>
+                <message>The given date is in the future, but the verb is in past tense.</message>
+                <example correction="">On <marker>27/10/2040</marker>, we have visited the client.</example>
+                <example correction="">On <marker>27/10/2040</marker>, I had already informed the customer.</example>
+                <example>On <marker>27/10/2010</marker>, we have visited the client.</example>
+                <example>On <marker>27/10/2010</marker>, I had already informed the customer.</example>
+                <example>On 27/10/2010, we will inform the client.</example>
+            </rule>
             <rule> <!-- We visited the client on 27/10/2040  -->
                 <pattern>
                     <token postag="VBD" skip="-1"/>
@@ -25454,6 +25564,19 @@ USA
                 <example>We visited the client on <marker>27/10/2010</marker>.</example>
                 <example>I already informed the customer on <marker>27/10/2010</marker>.</example>
                 <example>We will inform the client on 27/10/2010.</example>
+            </rule>
+            <rule> <!-- On 27/10/2040, we visited the client -->
+                <pattern>
+                    <marker> &date_dmy_numbers_skip; </marker>
+                    <token postag="VBD" skip="-1"/>
+                </pattern>
+                <filter class="org.languagetool.rules.en.FutureDateFilter" args="year:\5 month:\3 day:\1"/>
+                <message>The given date is in the future, but the verb is in past tense.</message>
+                <example correction="">On <marker>27/10/2040</marker>, we visited the client.</example>
+                <example correction="">On <marker>27/10/2040</marker>, I already informed the customer.</example>
+                <example>On <marker>27/10/2010</marker>, we visited the client.</example>
+                <example>On <marker>27/10/2010</marker>, I already informed the customer.</example>
+                <example>On 27/10/2010, we will inform the client.</example>
             </rule>
             <rule> <!-- We have visited the client on 10/27/2040 -->
                 <pattern>
@@ -25469,6 +25592,20 @@ USA
                 <example>I had already informed the customer on <marker>10/27/2010</marker>.</example>
                 <example>We will inform the client on 10/27/2010.</example>
             </rule>
+            <rule> <!-- On 10/27/2040, we have visited the client -->
+                <pattern>
+                    <marker> &date_mdy_numbers_skip; </marker>
+                    <token inflected="yes" postag="VBD?" postag_regexp="yes" skip="-1">have</token>
+                    <token postag="VBN" skip="-1"/>
+                </pattern>
+                <filter class="org.languagetool.rules.en.FutureDateFilter" args="year:\5 month:\1 day:\2"/>
+                <message>The given date is in the future, but the verb is in past tense.</message>
+                <example correction="">On <marker>10/27/2040</marker>, we have visited the client.</example>
+                <example correction="">On <marker>10/27/2040</marker>, I had already informed the customer.</example>
+                <example>On <marker>10/27/2010</marker>, we have visited the client.</example>
+                <example>On <marker>10/27/2010</marker>, I had already informed the customer.</example>
+                <example>On 10/27/2010, we will inform the client.</example>
+            </rule>
             <rule> <!-- We visited the client on 27/10/2040  -->
                 <pattern>
                     <token postag="VBD" skip="-1"/>
@@ -25481,6 +25618,19 @@ USA
                 <example>We visited the client on <marker>10/27/2010</marker>.</example>
                 <example>I already informed the customer on <marker>10/27/2010</marker>.</example>
                 <example>We will inform the client on 10/27/2010.</example>
+            </rule>
+            <rule> <!-- On 27/10/2040, we visited the client -->
+                <pattern>
+                    <marker> &date_mdy_numbers_skip; </marker>
+                    <token postag="VBD" skip="-1"/>
+                </pattern>
+                <filter class="org.languagetool.rules.en.FutureDateFilter" args="year:\5 month:\1 day:\3"/>
+                <message>The given date is in the future, but the verb is in past tense.</message>
+                <example correction="">On <marker>10/27/2040</marker>, we visited the client.</example>
+                <example correction="">On <marker>10/27/2040</marker>, I already informed the customer.</example>
+                <example>On <marker>10/27/2010</marker>, we visited the client.</example>
+                <example>On <marker>10/27/2010</marker>, I already informed the customer.</example>
+                <example>On 10/27/2010, we will inform the client.</example>
             </rule>
         </rulegroup>
 

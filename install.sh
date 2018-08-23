@@ -389,8 +389,10 @@ detect_unzip() {
 
 detect_screen() {
     if ! [ "$(type -t DISPLAY)" ]; then
-        if ! [ "$command" ]; then
+        if [ "$command" ]; then
             command="commandline"
+        else
+            command="none"
         fi
         display='no'
     fi
@@ -414,10 +416,8 @@ postinstall_command () {
         check_command_line
     elif [ "$command" = server ] || [ "$command" = web ]; then
         cmd="languagetool-server"
-    elif [ "$command" = none ] || [ "$command" = N ] || [ "$command" = n ]; then
-        cmd=""
     else
-        cmd="languagetool"
+        cmd=""
     fi
 }
 
@@ -440,8 +440,10 @@ build_or_install_loud () {
     else
         install
         postinstall_command
-        echo "Running $cmd, press CTRL-C to cancel"
-        java -jar "$RELEASE-$version"/$cmd.jar $file
+        if [ "$cmd" ]; then
+            echo "Running $cmd, press CTRL-C to cancel"
+            java -jar "$RELEASE-$version"/$cmd.jar $file
+        fi
     fi
 }
 
@@ -454,8 +456,10 @@ build_or_install_quiet () {
     else
         install_quiet
         postinstall_command
-        echo "Running $cmd, press CTRL-C to cancel"
-        java -jar "$RELEASE-$version"/$cmd.jar
+        if [ "$cmd" ]; then
+            echo "Running $cmd, press CTRL-C to cancel"
+            java -jar "$RELEASE-$version"/$cmd.jar
+        fi
     fi
 }
 

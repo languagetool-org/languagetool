@@ -143,6 +143,11 @@ public class VerbAgreementRule extends TextLevelRule {
      new PatternTokenBuilder().posRegex("PRO:PER:NOM:.+").build(),
      new PatternTokenBuilder().posRegex("VER:INF:.+").build(),
      new PatternTokenBuilder().csToken("?").build()
+    ),
+    Arrays.asList(
+     new PatternTokenBuilder().csToken("(").build(),
+     new PatternTokenBuilder().posRegex("VER:2:SIN:.+").build(),
+     new PatternTokenBuilder().csToken(")").build()
     )
   );
 

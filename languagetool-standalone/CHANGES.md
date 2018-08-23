@@ -8,6 +8,12 @@
 #### Galician
   * added and improved rules
 
+#### German
+  * added and improved rules
+
+#### German (simple)
+  * added and improved rules
+
 #### Portuguese
   * added and improved rules
   * improvements to disambiguation, and segmentation
@@ -19,6 +25,8 @@
 #### General
   * Prepared support for AIX. See https://github.com/MartinKallinger/hunspell-aix
     for the required libraries
+  * Email signatures are now ignored for language detection as long as they are
+    separated from the main text with `\n-- \n` 
 
 #### HTTP API / LT server
   * The server can now accept JSON as the `data` parameter that describes
@@ -41,6 +49,12 @@
     Note that HTML entities (including `&nbsp;`) still need to be converted to Unicode characters
     before feeding them into LT.  
     (Issue: https://github.com/languagetool-org/languagetool/issues/757)
+  * The `blockedReferrers` setting now also considers the `Origin` header
+  * New setting `fasttextModel` (see https://fasttext.cc/docs/en/language-identification.html)
+    and `fasttextBinary` (see https://fasttext.cc/docs/en/support.html). With these
+    options set, the automatic language detection is much better than the built-in one.
+
+
 
 ## 4.2 (2018-06-26)
 

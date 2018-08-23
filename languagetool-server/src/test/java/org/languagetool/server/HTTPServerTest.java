@@ -400,12 +400,19 @@ public class HTTPServerTest {
     URL url = new URL("http://localhost:" + HTTPTools.getDefaultPort() + urlOptions);
     return HTTPTools.checkAtUrl(url);
   }
-  
+
   /**
    * Same as {@link #checkV1(Language, String)} but using HTTP POST method instead of GET
    */
   String checkByPOST(Language lang, String text) throws IOException {
-    String postData = "language=" + lang.getShortCodeWithCountryAndVariant() + "&text=" + URLEncoder.encode(text, "UTF-8"); // latin1 is not enough for languages like Polish, Romanian, etc
+    return checkByPOST(lang.getShortCodeWithCountryAndVariant(), text);
+  }
+
+  /**
+   * Same as {@link #checkV1(Language, String)} but using HTTP POST method instead of GET; overloaded to allow language detection (langCode = 'auto')
+   */
+  String checkByPOST(String langCode, String text) throws IOException {
+    String postData = "language=" + langCode + "&text=" + URLEncoder.encode(text, "UTF-8"); // latin1 is not enough for languages like Polish, Romanian, etc
     URL url = new URL(LOAD_TEST_URL.replace("<PORT>", String.valueOf(HTTPTools.getDefaultPort())));
     try {
       return HTTPTools.checkAtUrlByPost(url, postData);
@@ -415,11 +422,10 @@ public class HTTPServerTest {
         System.err.println("Got expected error on long text (" + text.length() + " chars): " + e.getMessage());
         return "";
       } else {
-        System.err.println("Got error from " + url + " (" + lang.getShortCodeWithCountryAndVariant() + ", " +
+        System.err.println("Got error from " + url + " (" + langCode + ", " +
                            text.length() + " chars): " + e.getMessage() + ", text was (" + text.length() +  " chars): '" + StringUtils.abbreviate(text, 100) + "'");
         return "";
       }
     }
   }
-
 }

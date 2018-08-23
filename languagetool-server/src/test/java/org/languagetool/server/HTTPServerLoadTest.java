@@ -98,7 +98,7 @@ public class HTTPServerLoadTest extends HTTPServerTest {
           throw new RuntimeException(e);
         } finally {
           int count = runningTests.decrementAndGet();
-          System.out.println("Tests currently running: " + count);
+          //System.out.println("Tests currently running: " + count);
         }
       }
     }

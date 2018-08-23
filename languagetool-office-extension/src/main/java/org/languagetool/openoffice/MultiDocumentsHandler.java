@@ -37,12 +37,10 @@ import org.languagetool.rules.Rule;
 import org.languagetool.tools.Tools;
 
 import com.sun.star.beans.XPropertySet;
-import com.sun.star.frame.XDesktop;
 import com.sun.star.frame.XModel;
 import com.sun.star.lang.Locale;
 import com.sun.star.lang.XComponent;
 import com.sun.star.lang.XEventListener;
-import com.sun.star.lang.XMultiComponentFactory;
 import com.sun.star.linguistic2.ProofreadingResult;
 import com.sun.star.text.XTextViewCursor;
 import com.sun.star.text.XTextViewCursorSupplier;
@@ -69,7 +67,6 @@ public class MultiDocumentsHandler {
   private final File configDir;
   private final String configFile;
   private Configuration config;
-  private MessageHandler messageHandler;
   
   private XComponentContext xContext;       //  The context of the document
   private List<SingleDocument> documents;   //  The List of LO documents to be checked
@@ -83,13 +80,12 @@ public class MultiDocumentsHandler {
 
 
   MultiDocumentsHandler(XComponentContext xContext, File configDir, String configFile,
-      ResourceBundle MESSAGES, XEventListener xEventListener, MessageHandler messageHandler) {
+      ResourceBundle MESSAGES, XEventListener xEventListener) {
     this.xContext = xContext;
     this.configDir = configDir;
     this.configFile = configFile;
     this.MESSAGES = MESSAGES;
     this.xEventListener = xEventListener;
-    this.messageHandler = messageHandler;
     
     documents = new ArrayList<>();
   }
@@ -113,7 +109,7 @@ public class MultiDocumentsHandler {
     }
     
     docNum = getNumDoc(paRes.aDocumentIdentifier);
-    paRes = documents.get(docNum).getCheckResults(paraText, paRes, footnotePositions, isParallelThread);
+    paRes = documents.get(docNum).getCheckResults(paraText, paRes, footnotePositions, isParallelThread, langTool);
     
     if(isParallelThread) {
       isParallelThread = false;
@@ -177,7 +173,7 @@ public class MultiDocumentsHandler {
    */
   @Nullable
   public Language getLanguage() {
-    XComponent xComponent = getXComponent();
+    XComponent xComponent = OfficeTools.getCurrentComponent(xContext);
     Locale charLocale;
     XPropertySet xCursorProps;
     try {
@@ -232,7 +228,7 @@ public class MultiDocumentsHandler {
         return null;
       }
     } catch (Throwable t) {
-      messageHandler.showError(t);
+      MessageHandler.showError(t);
       return null;
     }
     return getLanguage(charLocale);
@@ -254,7 +250,7 @@ public class MultiDocumentsHandler {
         }
       }
     } catch (Throwable t) {
-      messageHandler.showError(t);
+      MessageHandler.showError(t);
     }
     return false;
   }
@@ -266,20 +262,7 @@ public class MultiDocumentsHandler {
     this.config = config;
     this.langTool = langTool;
     for (SingleDocument document : documents) {
-      document.setConfigValues(config, langTool);
-    }
-  }
-
-  @Nullable
-  private XComponent getXComponent() {
-    try {
-      XMultiComponentFactory xMCF = xContext.getServiceManager();
-      Object desktop = xMCF.createInstanceWithContext("com.sun.star.frame.Desktop", xContext);
-      XDesktop xDesktop = UnoRuntime.queryInterface(XDesktop.class, desktop);
-      return xDesktop.getCurrentComponent();
-    } catch (Throwable t) {
-      messageHandler.showError(t);
-      return null;
+      document.setConfigValues(config);
     }
   }
 
@@ -310,15 +293,18 @@ public class MultiDocumentsHandler {
     }
     //  Add new document
     XComponent xComponent = null;
-    if (!testMode) {
-      xComponent = getXComponent();   //  xComponent == null for test cases 
+    if (!testMode) {              //  xComponent == null for test cases 
+      xComponent = OfficeTools.getCurrentComponent(xContext);
       if (xComponent == null) {
-        messageHandler.printToLogFile("Error: Document (ID: " + docID + ") has no XComponent -> Analyse only single paragraphs");
+        MessageHandler.printToLogFile("Error: Document (ID: " + docID + ") has no XComponent -> Analyse only single paragraphs");
       } else {
         xComponent.addEventListener(xEventListener);
       }
     }
-    documents.add(new SingleDocument(xContext, langTool, config, docID, xComponent, messageHandler));
+    documents.add(new SingleDocument(xContext, config, docID, xComponent));
+    if (debugMode) {
+      MessageHandler.printToLogFile("Document " + docNum + " created; docID = " + docID);
+    }
     return documents.size() - 1;
   }
 
@@ -335,7 +321,7 @@ public class MultiDocumentsHandler {
       }
     }
     if(rmNum < 0) {
-      messageHandler.printToLogFile("Error: Disposed document not found");
+      MessageHandler.printToLogFile("Error: Disposed document not found");
       goneContext = null;
     }
     for (int i = 0; i < documents.size(); i++) {
@@ -348,7 +334,7 @@ public class MultiDocumentsHandler {
       documents.remove(rmNum);
       goneContext = null;
       if (debugMode) {
-        messageHandler.printToLogFile("Document " + docNum + " deleted");
+        MessageHandler.printToLogFile("Document " + rmNum + " deleted");
       }
     }
   }
@@ -376,7 +362,7 @@ public class MultiDocumentsHandler {
       }
       setConfigValues(config, langTool);
     } catch (Throwable t) {
-      messageHandler.showError(t);
+      MessageHandler.showError(t);
     }
   }
 

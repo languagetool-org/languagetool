@@ -72,8 +72,6 @@ class SingleDocument {
   private static int debugMode = 0;         //  should be 0 except for testing; 1 = low level; 2 = advanced level
   
   private Configuration config;
-  private JLanguageTool langTool;
-  private MessageHandler messageHandler;
 
   private int numParasToCheck = 5;              // will be overwritten by config
   private int defaultParaCheck = 10;            // will be overwritten by config
@@ -85,7 +83,7 @@ class SingleDocument {
 
   private List<String> allParas = null;         //  List of paragraphs (only readable by parallel thread)
   private DocumentCursorTools docCursor = null; //  Save Cursor for the single documents
-  private FlatParagraphTools flatPara = null;   //  Save FlatParagraph for the single documents
+//  private FlatParagraphTools flatPara = null;   //  Save FlatParagraph for the single documents
   private Integer numLastVCPara = 0;            //  Save position of ViewCursor for the single documents
   private Integer numLastFlPara = 0;            //  Save position of FlatParagraph for the single documents
   private boolean textIsChanged = false;        //  false: check number of paragraphs again (ignored by parallel thread)
@@ -98,14 +96,11 @@ class SingleDocument {
   private int resetFrom = 0;                    //  Reset from paragraph
   private int resetTo = 0;                      //  Reset to paragraph
   
-  SingleDocument(XComponentContext xContext, JLanguageTool langTool, Configuration config, String docID,
-      XComponent xComponent, MessageHandler messageHandler) {
+  SingleDocument(XComponentContext xContext, Configuration config, String docID, XComponent xComponent) {
     this.xContext = xContext;
-    this.langTool = langTool;
     this.config = config;
     this.docID = docID;
     this.xComponent = xComponent;
-    this.messageHandler = messageHandler;
     this.sentencesCache = new ResultCache();
     this.paragraphsCache = new ResultCache();
     this.singleParaCache = new ResultCache();
@@ -119,8 +114,8 @@ class SingleDocument {
    * @param isParallelThread  true: check runs as parallel thread
    * @return                  proof reading result
    */
-  ProofreadingResult getCheckResults(String paraText,
-      ProofreadingResult paRes, int[] footnotePositions, boolean isParallelThread) {
+  ProofreadingResult getCheckResults(String paraText, ProofreadingResult paRes, 
+      int[] footnotePositions, boolean isParallelThread, JLanguageTool langTool) {
     try {
       SingleProofreadingError[] sErrors = null;
       int paraNum = getParaPos(paraText, isParallelThread);
@@ -134,26 +129,30 @@ class SingleDocument {
         }
       }
       if (debugMode > 1) {
-        messageHandler.printToLogFile("... Check Sentence: numCurPara: " + paraNum 
+        MessageHandler.printToLogFile("... Check Sentence: numCurPara: " + paraNum 
             + "; startPos: " + paRes.nStartOfSentencePosition + "; Paragraph: " + paraText 
             + ", sErrors: " + (sErrors == null ? 0 : sErrors.length) + logLineBreak);
       }
       if(sErrors == null) {
-        SentenceFromPara sfp = new SentenceFromPara(paraText, paRes.nStartOfSentencePosition);
+        SentenceFromPara sfp = new SentenceFromPara(paraText, paRes.nStartOfSentencePosition, langTool);
         String sentence = sfp.getSentence();
         paRes.nStartOfSentencePosition = sfp.getPosition();
         paRes.nStartOfNextSentencePosition = sfp.getPosition() + sentence.length();
         paRes.nBehindEndOfSentencePosition = paRes.nStartOfNextSentencePosition;
-        sErrors = checkSentence(sentence, paRes.nStartOfSentencePosition, 
-            paRes.nStartOfNextSentencePosition, paraNum, footnotePositions, isParallelThread);
+        sErrors = checkSentence(sentence, paRes.nStartOfSentencePosition, paRes.nStartOfNextSentencePosition, 
+            paraNum, footnotePositions, isParallelThread, langTool);
         setFirstCheckDone();
       }
       SingleProofreadingError[] pErrors = checkParaRules(paraText, paraNum, paRes.nStartOfSentencePosition,
-          paRes.nStartOfNextSentencePosition, isParallelThread);
+          paRes.nStartOfNextSentencePosition, isParallelThread, langTool);
       paRes.aErrors = mergeErrors(sErrors, pErrors);
+      if (debugMode > 1) {
+        MessageHandler.printToLogFile("paRes.aErrors.length: " + paRes.aErrors.length + "; docID: " + docID + logLineBreak);
+      }
+
       textIsChanged = false;
     } catch (Throwable t) {
-      messageHandler.showError(t);
+      MessageHandler.showError(t);
     }
     return paRes;
   }
@@ -161,9 +160,8 @@ class SingleDocument {
   /**
    * set values set by configuration dialog
    */
-  void setConfigValues(Configuration config, JLanguageTool langTool) {
+  void setConfigValues(Configuration config) {
     this.config = config;
-    this.langTool = langTool;
     numParasToCheck = config.getNumParasToCheck();
     defaultParaCheck = numParasToCheck * PARA_CHECK_FACTOR;
     doResetCheck = config.isResetCheck();
@@ -205,6 +203,7 @@ class SingleDocument {
    */
   void optimizeReset() {
     if(firstCheckDone) {
+      FlatParagraphTools flatPara = new FlatParagraphTools(xContext);
       flatPara.markFlatParasAsChecked(resetFrom, resetTo);
     }
   }
@@ -227,11 +226,9 @@ class SingleDocument {
     }
 
     if (docCursor == null) {
-      docCursor = new DocumentCursorTools(xContext, messageHandler);
+      docCursor = new DocumentCursorTools(xContext);
     }
-    if (flatPara == null) {
-      flatPara = new FlatParagraphTools(xContext, messageHandler);
-    }
+    FlatParagraphTools flatPara = null;
 
     int nParas;
     boolean isReset = false;
@@ -244,11 +241,12 @@ class SingleDocument {
       if (isParallelThread) {              //  if numThread > 0: Thread may only read allParas
         return -1;
       }
-      if (!resetAllParas(docCursor)) {
+      flatPara = new FlatParagraphTools(xContext);
+      if (!resetAllParas(docCursor, flatPara)) {
         return -1;
       }
       if (debugMode > 0) {
-        messageHandler.printToLogFile("+++ resetAllParas (allParas == null): allParas.size: " + allParas.size()
+        MessageHandler.printToLogFile("+++ resetAllParas (allParas == null): allParas.size: " + allParas.size()
                 + ", docID: " + docID + logLineBreak);
       }
       isReset = true;
@@ -263,11 +261,14 @@ class SingleDocument {
         return -1;
       }
       if (debugMode > 0) {
-        messageHandler.printToLogFile("*** resetAllParas: allParas.size: " + allParas.size() + ", nParas: " + nParas
+        MessageHandler.printToLogFile("*** resetAllParas: allParas.size: " + allParas.size() + ", nParas: " + nParas
                 + ", docID: " + docID + logLineBreak);
       }
       List<String> oldParas = allParas;
-      if (!resetAllParas(docCursor)) {
+      if (flatPara == null) {
+        flatPara = new FlatParagraphTools(xContext);
+      }
+      if (!resetAllParas(docCursor, flatPara)) {
         return -1;
       }
       int from = 0;
@@ -320,10 +321,13 @@ class SingleDocument {
     }
 
     //  try to get paragraph position from automatic iteration
+    if (flatPara == null) {
+      flatPara = new FlatParagraphTools(xContext);
+    }
     nParas = flatPara.getNumberOfAllFlatPara();
 
     if (debugMode > 0) {
-      messageHandler.printToLogFile("numLastFlPara: " + numLastFlPara + " (isParallelThread: " + isParallelThread 
+      MessageHandler.printToLogFile("numLastFlPara: " + numLastFlPara + " (isParallelThread: " + isParallelThread 
           + "); nParas: " + nParas + "; docID: " + docID + logLineBreak);
     }
 
@@ -346,7 +350,7 @@ class SingleDocument {
         return -1;
       } else {
         if (debugMode > 0) {
-          messageHandler.printToLogFile("!!! allParas set: NParas: " + nParas + "; divNum: " + divNum
+          MessageHandler.printToLogFile("!!! allParas set: NParas: " + nParas + "; divNum: " + divNum
                   + "; docID: " + docID
                   + logLineBreak + "old: " + allParas.get(nParas) + logLineBreak 
                   + "new: " + chPara + logLineBreak);
@@ -364,7 +368,7 @@ class SingleDocument {
       }
     }
     if (debugMode > 0) {
-      messageHandler.printToLogFile("nParas from FlatParagraph: " + nParas);
+      MessageHandler.printToLogFile("nParas from FlatParagraph: " + nParas);
     }
     return nParas;
   }
@@ -372,7 +376,7 @@ class SingleDocument {
   /**
    * Reset allParas
    */
-  private boolean resetAllParas(DocumentCursorTools docCursor) {
+  private boolean resetAllParas(DocumentCursorTools docCursor, FlatParagraphTools flatPara) {
     allParas = docCursor.getAllTextParagraphs();
     if (allParas == null || allParas.size() < 1) {
       return false;
@@ -540,7 +544,7 @@ class SingleDocument {
 
   @Nullable
   private SingleProofreadingError[] checkParaRules( String paraText, int paraNum, 
-      int startSentencePos, int endSentencePos, boolean isParallelThread) {
+      int startSentencePos, int endSentencePos, boolean isParallelThread, JLanguageTool langTool) {
 
     List<RuleMatch> paragraphMatches;
     SingleProofreadingError[] pErrors = null;
@@ -579,7 +583,7 @@ class SingleDocument {
             errorList.add(createOOoError(myRuleMatch, 0, toPos, paraText.charAt(toPos-1)));
           }
           if (!errorList.isEmpty()) {
-            singleParaCache.put(0, errorList.toArray(new SingleProofreadingError[errorList.size()]));
+            singleParaCache.put(0, errorList.toArray(new SingleProofreadingError[0]));
           } else {
             singleParaCache.put(0, new SingleProofreadingError[0]);
           }
@@ -635,14 +639,14 @@ class SingleDocument {
             }
           }
           if (!errorList.isEmpty()) {
-            paragraphsCache.put(i, errorList.toArray(new SingleProofreadingError[errorList.size()]));
+            paragraphsCache.put(i, errorList.toArray(new SingleProofreadingError[0]));
             if (debugMode > 1) {
-              messageHandler.printToLogFile("--> Enter to para cache: Paragraph: " + allParas.get(i) + "; Error number: " + errorList.size() + logLineBreak);
+              MessageHandler.printToLogFile("--> Enter to para cache: Paragraph: " + allParas.get(i) + "; Error number: " + errorList.size() + logLineBreak);
             }
           } else {
             paragraphsCache.put(i, new SingleProofreadingError[0]);
             if (debugMode > 1) {
-              messageHandler.printToLogFile("--> Enter to para cache: Paragraph: " + allParas.get(i) + "; Error number: 0" + logLineBreak);
+              MessageHandler.printToLogFile("--> Enter to para cache: Paragraph: " + allParas.get(i) + "; Error number: 0" + logLineBreak);
             }
           }
         }
@@ -650,13 +654,13 @@ class SingleDocument {
       }
       return paragraphsCache.getFromPara(paraNum, startSentencePos, endSentencePos);
     } catch (Throwable t) {
-      messageHandler.showError(t);
+      MessageHandler.showError(t);
     }
     return null;
   }
   
-  private SingleProofreadingError[] checkSentence(String sentence,
-      int startPos, int nextPos, int numCurPara, int[] footnotePositions, boolean isParallelThread) {
+  private SingleProofreadingError[] checkSentence(String sentence, int startPos, int nextPos, 
+      int numCurPara, int[] footnotePositions, boolean isParallelThread, JLanguageTool langTool) {
     try {
       SingleProofreadingError[] errorArray;
       if (StringTools.isEmpty(sentence)) {
@@ -678,7 +682,7 @@ class SingleDocument {
       }
       if(!isParallelThread && numParasToCheck != 0 && doResetCheck) {
         if (debugMode > 1) {
-          messageHandler.printToLogFile("--> Enter to sentences cache: numCurPara: " + numCurPara 
+          MessageHandler.printToLogFile("--> Enter to sentences cache: numCurPara: " + numCurPara 
               + "; startPos: " + startPos + "; Sentence: " + sentence 
               + "; Error number: " + errorArray.length + logLineBreak);
         }
@@ -687,7 +691,7 @@ class SingleDocument {
       }
       return errorArray;
     } catch (Throwable t) {
-      messageHandler.showError(t);
+      MessageHandler.showError(t);
     }
     return null;
   }
@@ -765,7 +769,7 @@ class SingleDocument {
     private int position;
     private String str;
 
-    SentenceFromPara(String paraText, int startPos) {
+    SentenceFromPara(String paraText, int startPos, JLanguageTool langTool) {
       List<String> tokenizedSentences = langTool.sentenceTokenize(cleanFootnotes(paraText));
       if (!tokenizedSentences.isEmpty()) {
         int i = 0;
@@ -798,14 +802,18 @@ class SingleDocument {
 
   private void setFirstCheckDone() {
     if (!firstCheckDone && allParas != null) {
+      int numParas = sentencesCache.getNumberOfParas();
       if (debugMode > 1) {
-        messageHandler.printToLogFile("firstCheckDone --> sentenceCache: " + sentencesCache.getNumberOfParas() 
-            + "; allParas: " + allParas.size() + "; docID: " + docID + logLineBreak);
+        MessageHandler.printToLogFile("firstCheckDone --> sentenceCache: " + numParas 
+            + "; allParas: " + allParas.size() + "; docID: " + docID + logLineBreak
+            + "sentenceCache entries: " + sentencesCache.getNumberOfEntries()
+            + "; paragraphsCache entries: " + paragraphsCache.getNumberOfEntries()
+            + "; singleParaCache entries: " + singleParaCache.getNumberOfEntries());
       }
-      if(sentencesCache.getNumberOfParas() == allParas.size()) {
+      if(numParas == allParas.size()) {
         firstCheckDone = true;
         if (debugMode > 0) {
-          messageHandler.printToLogFile(">>> firstCheckDone: true; docID: " + docID + logLineBreak);
+          MessageHandler.printToLogFile(">>> firstCheckDone: true; docID: " + docID + logLineBreak);
         }
       }
     }

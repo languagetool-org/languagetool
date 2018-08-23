@@ -4822,6 +4822,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="caldria|s'hauria de">No <marker>hi hauria que</marker> fer res</example>
                 <example>No <marker>cal</marker> fer res</example>
             </rule>
+            <rule id="HAURA_QUE" name="Incorrecte: «haver-hi que»">
+                <pattern>
+                    <marker>
+                        <token postag="VA..3S..?" postag_regexp="yes" inflected="yes">haver</token>
+                        <token>que</token>
+                    </marker>
+                    <token postag="V.N.*" postag_regexp="yes"></token>
+                </pattern>
+                <message>Incorrecte com a perífrasi d'obligació.</message>
+                <suggestion><match no="1" postag="VA(.*)" postag_regexp="yes" postag_replace="VM$1">caldre</match></suggestion>
+                <suggestion>s'<match no="1" case_conversion="alllower"/> de</suggestion>
+                <example correction="caldrà|s'haurà de">Potser <marker>haurà que</marker> actualitzar</example>
+                <example correction="caldria|s'hauria de"><marker>Hauria que</marker> triar diputat.</example>
+            </rule>
             <rule id="TENIR_QUE" name="Incorrecte: «tenir que»">
                 <pattern>
                     <marker>
@@ -13704,6 +13718,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>por</token>
                 </marker>
             </antipattern>
+            <antipattern>
+                <marker>
+                    <token>de</token>
+                    <token>por</token>
+                </marker>
+            </antipattern>
             <pattern>
                 <marker>
                     <token>por</token>
@@ -13714,6 +13734,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion>per</suggestion>
             <example correction="pot|per"><marker>por</marker> requerir.</example>
             <example>Fa por canviar algunes coses.</example>
+            <example>Feia una miqueta de por arribar tard.</example>
         </rule>
         <rule id="RECONDIT" name="recondit/recòndit">
             <pattern>
@@ -19433,6 +19454,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="MOTS_SENSE_GUIONETS" name="mots sense guionets: *vist-i-plau,...">
             <!-- This rulegroup would be unnecessary if LibreOffice/OpenOffice tokenized the words containing hyphens like LanguageTool -->
+            <rule>
+                <pattern>
+                    <token>contra</token>
+                    <token>-</token>
+                    <token inflected="yes">direcció</token>
+                </pattern>
+                <message>S'escriu sense guionet.</message>
+                <suggestion>contra direcció</suggestion>
+                <example correction="contra direcció">Anava <marker>contra- direcció</marker></example>
+            </rule>
             <rule>
                 <pattern>
                     <token>sots</token>
@@ -26842,6 +26873,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
+        <rulegroup id="CONTRADIRECCIO" name="*en contra direcció">
+            <rule>
+                <pattern>
+                    <token>en</token>
+                    <token>contra</token>
+                    <token min="0">-</token>
+                    <token inflected="yes">direcció</token>
+                </pattern>
+                <message>Expressió incorrecta.</message>
+                <suggestion>contra direcció</suggestion>
+                <example correction="contra direcció">Anava <marker>en contra direcció</marker></example>
+                <example correction="contra direcció">Anava <marker>en contra-direcció</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>en</token>
+                    <token>contradirecció</token>
+                </pattern>
+                <message>Expressió incorrecta.</message>
+                <suggestion>contra direcció</suggestion>
+                <example correction="contra direcció">Anava <marker>en contradirecció</marker></example>
+            </rule>
+    </rulegroup>
         <rulegroup id="GIRAR_LES_TORNES" name="*girar les tornes">
              <rule>
                 <pattern>
@@ -45216,6 +45270,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>no hi ha res millor en aquesta vida que menjar, beure i estar content</example>
                 <example>no té altre camí que tancar-se a la cuina</example>
                 <example>hi havia d'haver alguna cosa més que servir-lo</example>
+                <example>Fa dies que agafar el tren és esport de risc.</example>
+                <example>Em fa l'efecte que acabar el projecte no serà fàcil.</example>
             </rule>
             <rule>
                 <pattern>

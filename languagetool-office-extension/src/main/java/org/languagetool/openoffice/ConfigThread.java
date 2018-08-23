@@ -39,15 +39,13 @@ class ConfigThread extends Thread {
   private final Language docLanguage;
   private final Configuration config;
   private final Main mainThread;
-  private final MessageHandler messageHandler;
-  
+
   private final ConfigurationDialog cfgDialog;
   
-  ConfigThread(Language docLanguage, Configuration config, Main main, MessageHandler messageHandler) {
+  ConfigThread(Language docLanguage, Configuration config, Main main) {
     this.docLanguage = docLanguage;
     this.config = config;
     this.mainThread = main; 
-    this.messageHandler = messageHandler;
     cfgDialog = new ConfigurationDialog(null, true, config);
   }
 
@@ -72,7 +70,7 @@ class ConfigThread extends Thread {
         }
       }
     } catch (Throwable e) {
-      messageHandler.showError(e);
+      MessageHandler.showError(e);
     }
   }
   

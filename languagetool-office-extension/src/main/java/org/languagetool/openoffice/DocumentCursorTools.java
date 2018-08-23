@@ -24,10 +24,8 @@ import java.util.List;
 import org.jetbrains.annotations.Nullable;
 
 import com.sun.star.frame.XController;
-import com.sun.star.frame.XDesktop;
 import com.sun.star.frame.XModel;
 import com.sun.star.lang.XComponent;
-import com.sun.star.lang.XMultiComponentFactory;
 import com.sun.star.text.XParagraphCursor;
 import com.sun.star.text.XText;
 import com.sun.star.text.XTextCursor;
@@ -45,60 +43,14 @@ import com.sun.star.uno.XComponentContext;
  */
 class DocumentCursorTools {
   
-  private MessageHandler messageHandler;
   private XParagraphCursor xPCursor;
   private XTextViewCursor xVCursor;
   
-  DocumentCursorTools(XComponentContext xContext, MessageHandler messageHandler) {
-    this.messageHandler = messageHandler;
+  DocumentCursorTools(XComponentContext xContext) {
     xPCursor = getParagraphCursor(xContext);
     xVCursor = getViewCursor(xContext);
   }
 
-  /**
-   * Returns the current XDesktop
-   * Returns null if it fails
-   */
-  @Nullable
-  private XDesktop getCurrentDesktop(XComponentContext xContext) {
-    try {
-      if (xContext == null) {
-        return null;
-      }
-      XMultiComponentFactory xMCF = UnoRuntime.queryInterface(XMultiComponentFactory.class,
-              xContext.getServiceManager());
-      if (xMCF == null) {
-        return null;
-      }
-      Object desktop = xMCF.createInstanceWithContext("com.sun.star.frame.Desktop", xContext);
-      if (desktop == null) {
-        return null;
-      }
-      return UnoRuntime.queryInterface(XDesktop.class, desktop);
-    } catch (Throwable t) {
-      messageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
-      return null;           // Return null as method failed
-    }
-  }
-
-  /**
-   * Returns the current XComponent
-   * Returns null if it fails
-   */
-  @Nullable
-  private XComponent getCurrentComponent(XComponentContext xContext) {
-    try {
-      XDesktop xdesktop = getCurrentDesktop(xContext);
-      if(xdesktop == null) {
-        return null;
-      }
-      else return xdesktop.getCurrentComponent();
-    } catch (Throwable t) {
-      messageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
-      return null;           // Return null as method failed
-    }
-  }
-    
   /**
    * Returns the current text document (if any) 
    * Returns null if it fails
@@ -106,13 +58,13 @@ class DocumentCursorTools {
   @Nullable
   private XTextDocument getCurrentDocument(XComponentContext xContext) {
     try {
-      XComponent curcomp = getCurrentComponent(xContext);
+      XComponent curcomp = OfficeTools.getCurrentComponent(xContext);
       if (curcomp == null) {
         return null;
       }
       else return UnoRuntime.queryInterface(XTextDocument.class, curcomp);
     } catch (Throwable t) {
-      messageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
+      MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
       return null;           // Return null as method failed
     }
   }
@@ -134,7 +86,7 @@ class DocumentCursorTools {
       }
       else return xText.createTextCursor();
     } catch (Throwable t) {
-      messageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
+      MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
       return null;           // Return null as method failed
     }
   }
@@ -152,7 +104,7 @@ class DocumentCursorTools {
       }
       return UnoRuntime.queryInterface(XParagraphCursor.class, xcursor);
     } catch (Throwable t) {
-      messageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
+      MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
       return null;           // Return null as method failed
     }
 }
@@ -164,11 +116,7 @@ class DocumentCursorTools {
   @Nullable
   private XTextViewCursor getViewCursor(XComponentContext xContext) {
     try {
-      XDesktop xDesktop = getCurrentDesktop(xContext);
-      if(xDesktop == null) {
-        return null;
-      }
-      XComponent xCurrentComponent = xDesktop.getCurrentComponent();
+      XComponent xCurrentComponent = OfficeTools.getCurrentComponent(xContext);
       if(xCurrentComponent == null) {
         return null;
       }
@@ -187,7 +135,7 @@ class DocumentCursorTools {
       }
       return xViewCursorSupplier.getViewCursor();
     } catch (Throwable t) {
-      messageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
+      MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
       return null;           // Return null as method failed
     }
   }
@@ -206,7 +154,7 @@ class DocumentCursorTools {
       while (xPCursor.gotoNextParagraph(false)) npara++;
       return npara;
     } catch (Throwable t) {
-      messageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
+      MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
       return 0;              // Return 0 as method failed
     }
   }
@@ -233,7 +181,7 @@ class DocumentCursorTools {
       }
       return allParas;
     } catch (Throwable t) {
-      messageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
+      MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
       return null;           // Return null as method failed
     }
   }
@@ -264,7 +212,7 @@ class DocumentCursorTools {
       while (xParagraphCursor.gotoPreviousParagraph(false)) pos++;
       return pos;
     } catch (Throwable t) {
-      messageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
+      MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
       return -5;             // Return negative value as method failed
     }
   }

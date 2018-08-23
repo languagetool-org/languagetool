@@ -135,10 +135,14 @@ abstract class Server {
     System.out.println("                  each with ngram occurrence counts; activates the confusion rule if supported (optional)");
     System.out.println("                 'word2vecModel' - a directory with word2vec data (optional), see");
     System.out.println("                  https://github.com/languagetool-org/languagetool/blob/master/languagetool-standalone/CHANGES.md#word2vec");
+    System.out.println("                 'fasttextModel' - a model file for better language detection (optional), see");
+    System.out.println("                  https://fasttext.cc/docs/en/language-identification.html");
+    System.out.println("                 'fasttextBinary' - compiled fasttext executable for language detection (optional), see");
+    System.out.println("                  https://fasttext.cc/docs/en/support.html");
     System.out.println("                 'maxWorkQueueSize' - reject request if request queue gets larger than this (optional)");
     System.out.println("                 'rulesFile' - a file containing rules configuration, such as .langugagetool.cfg (optional)");
     System.out.println("                 'warmUp' - set to 'true' to warm up server at start, i.e. run a short check with all languages (optional)");
-    System.out.println("                 'blockedReferrers' - a comma-separated list of HTTP referrers that are blocked and will not be served (optional)");
+    System.out.println("                 'blockedReferrers' - a comma-separated list of HTTP referrers (and 'Origin' headers) that are blocked and will not be served (optional)");
   }
 
   protected static void printCommonOptions() {

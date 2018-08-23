@@ -84,6 +84,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("nichtmals", w -> Arrays.asList("nicht mal", "nicht einmal"));
     put("eingepeilt", "angepeilt");
     put("gekukt", "geguckt");
+    put("überhaut", "überhaupt");
+    put("nacher", "nachher");
+    put("jeztz", "jetzt");
     put("[wW]ah?rscheindlichkeit", "Wahrscheinlichkeit");
     put("Hijab", "Hidschāb");
     putRepl("for?melar(en?)?", "for?me", "Formu");
@@ -119,6 +122,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("fangte", "fing");
     put("fangten", "fingen");
     put("past", "passt");
+    put("Schwitch", "Switch");
     put("[aA]nwesenzeiten", "Anwesenheitszeiten");
     put("[gG]eizigkeit", "Geiz");
     put("[fF]leißigkeit", "Fleiß");
@@ -158,6 +162,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("Lezte[mnrs]?", "Lez", "Letz");
     putRepl("Makeups?", "up", "-up");
     putRepl("Add-?Ons?", "Add-?On", "Add-on");
+    putRepl("Addons?", "on", "-on");
     putRepl("Internetkaffees?", "kaffee", "café");
     putRepl("[gG]ehorsamkeitsverweigerung(en)?", "[gG]ehorsamkeit", "Gehorsam");
     putRepl("[wW]ochende[ns]?", "[wW]ochend", "Wochenend");
@@ -184,6 +189,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("unverantwortungsvoll(e[nmrs]?)?", "unverantwortungsvoll", "verantwortungslos");
     putRepl("[gG]erechtlichkeit", "[gG]erechtlich", "Gerechtig");
     putRepl("[zZ]uverlässlichkeit", "lich", "ig");
+    putRepl("[uU]nverzeilig(e[mnrs]?)?", "zeilig", "zeihlich");
     putRepl("[zZ]uk(ue?|ü)nftlich(e[mnrs]?)?", "uk(ue?|ü)nftlich", "ukünftig");
     putRepl("[rR]eligiösisch(e[nmrs]?)?", "isch", "");
     putRepl("[fF]olklorisch(e[nmrs]?)?", "isch", "istisch");
@@ -192,7 +198,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("^[uU]nabsichtig(e[nmrs]?)?", "ig", "lich");
     putRepl("[aA]ntisemitistisch(e[mnrs]?)?", "tist", "t");
     putRepl("[uU]nvorsehbar(e[mnrs]?)?", "vor", "vorher");
-    putRepl("([eE]r|[bB]e|unter)?hälst", "hälst", "hältst");
+    putRepl("([eE]r|[bB]e|unter|[aA]uf)?hälst", "hälst", "hältst");
     put("[wW]ohlfühlseins?", w -> Arrays.asList("Wellness", w.replaceFirst("[wW]ohlfühlsein", "Wohlbefinden"), w.replaceFirst("[wW]ohlfühlsein", "Wohlfühlen")));
     putRepl("[sS]chmett?e?rling(s|en?)?", "[sS]chmett?e?rling", "Schmetterling");
     putRepl("^[eE]inlamie?nie?r(st|en?|(t(e[nmrs]?)?))?", "^einlamie?nie?r", "laminier");
@@ -230,6 +236,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("ausiehs?t", "aus", "auss");
     putRepl("unterbemittel(nd|t)(e[nmrs]?)?", "unterbemittel(nd|t)", "minderbemittelt");
     putRepl("[xX]te[mnrs]?", "te", "-te");
+    put("[zZ]oolophie", "Zoophilie");
     put("Makieren", "Markieren");
     put("Altersheimer", "Alzheimer");
     put("gesen", "gesehen");
@@ -270,6 +277,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("untergangen", "untergegangen");
     put("BluRay", "Blu-ray");
     put("Freiwilligerin", "Freiwillige");
+    put("Mitgliederinnen", w -> Arrays.asList("Mitglieder", "Mitgliedern"));
     put("Hautreinheiten", "Hautunreinheiten");
     put("tuhen", "tun");
     put("ccm", "cm³");
@@ -536,8 +544,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return Arrays.asList("jetzt", "geht's");
     } else if ("Trons".equals(word)) {
       return Collections.singletonList("Trance");
-    } else if (word.endsWith("ibelkeit")) {
-      suggestion = word.replaceFirst("elkeit$", "ilität");
+    } else if (word.matches(".*ibel[hk]eit$")) {
+      suggestion = word.replaceFirst("el[hk]eit$", "ilität");
       if (!hunspellDict.misspelled(suggestion)) {
         return Collections.singletonList(suggestion);
       }
@@ -649,7 +657,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return Collections.singletonList("d.\u202fh.");
     } else if (word.equals("ua") || word.equals("ua.")) {
       return Collections.singletonList("u.\u202fa.");
-    } else if (word.equals("zb") || word.equals("zb.")) {
+    } else if (word.matches("z[bB]") || word.matches("z[bB].")) {
       return Collections.singletonList("z.\u202fB.");
     } else if (word.equals("uvm") || word.equals("uvm.")) {
       return Collections.singletonList("u.\u202fv.\u202fm.");

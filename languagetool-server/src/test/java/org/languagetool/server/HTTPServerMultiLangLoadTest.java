@@ -39,13 +39,13 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Ignore("for interactive use; requires local Tatoeba data")
 public class HTTPServerMultiLangLoadTest extends HTTPServerLoadTest {
 
-  private static final String DATA_PATH = "/home/dnaber/data/corpus/tatoeba/20170711";
-  private static final int MIN_TEXT_LENGTH = 1;
-  private static final int MAX_TEXT_LENGTH = 5_000;
-  private static final int MAX_SLEEP_MILLIS = 1;
-  
-  private long totalTimes = 0;
-  private long totalChars = 0;
+  private static final String DATA_PATH = "/home/fabian/Downloads/tatoeba";
+  static final int MIN_TEXT_LENGTH = 10;
+  static final int MAX_TEXT_LENGTH = 5_000;
+  static final int MAX_SLEEP_MILLIS = 1;
+
+  long totalTimes = 0;
+  long totalChars = 0;
   
   final Map<Language, String> langCodeToText = new HashMap<>();
   final Random random = new Random(1234);
@@ -56,7 +56,6 @@ public class HTTPServerMultiLangLoadTest extends HTTPServerLoadTest {
   public void testHTTPServer() throws Exception {
     File dir = new File(DATA_PATH);
     List<Language> languages = new ArrayList<>();
-    //languages.add(new German());
     languages.addAll(Languages.get());
     for (Language language : languages) {
       File file = new File(dir, "tatoeba-" + language.getShortCode() + ".txt");
@@ -101,6 +100,7 @@ public class HTTPServerMultiLangLoadTest extends HTTPServerLoadTest {
     }
     long startTime = System.currentTimeMillis();
     counter.incrementAndGet();
+
     checkByPOST(language, textSubstring);
     long runtime = System.currentTimeMillis() - startTime;
     totalTimes += runtime;
@@ -114,7 +114,7 @@ public class HTTPServerMultiLangLoadTest extends HTTPServerLoadTest {
             + ", per100Chars on avg.: " + padLeft((int)avgMillisPer100Chars + "", 3) + "ms");
   }
 
-  private static String padLeft(String s, int n) {
+  static String padLeft(String s, int n) {
     return String.format("%1$" + n + "s", s);
   }
 

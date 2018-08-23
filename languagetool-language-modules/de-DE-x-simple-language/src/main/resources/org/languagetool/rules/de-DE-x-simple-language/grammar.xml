@@ -310,10 +310,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token inflected="yes">der</token>
                 </antipattern>
                 <pattern>
-                    <token postag="(SUB|EIG|PRO):.+|UNKNOWN" postag_regexp="yes" regexp="yes">[A-ZÄÖÜ].+</token>
+                    <token postag="(SUB|EIG|PRO|ADJ):.+|UNKNOWN" postag_regexp="yes" regexp="yes">[A-ZÄÖÜ].+</token>
                     <marker>
                         <token>,</token>
-                        <token postag="PRP:.+" postag_regexp="yes" min="0"/>
+                        <token postag="PRP:.+" postag_regexp="yes" min="0"><exception>als</exception></token>
                         <token inflected="yes" skip="-1">der</token>
                     </marker>
                     <token postag="VER.*:[123]:.+" postag_regexp="yes"/>
@@ -341,6 +341,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="">Er ist jemand<marker>, der</marker> gern lacht, dem alles egal ist und über den keiner schimpft.</example>
                 <example correction="">Er ist jemand<marker>, der</marker> gern lacht, nichts nachträgt und auf den alle hören.</example>
                 <example correction="">Er ist jemand<marker>, der</marker> gern lacht, der selten schimpft und viel Geduld hat</example>
+                <example>Ich badete gerade, als das Telefon klingelte.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ABKUERZUNG" name="Leichte Sprache: Abkürzung">
@@ -458,13 +459,57 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="INDIREKTE_REDE" name="Leichte Sprache: Indirekte Rede">
             <rule>
                 <pattern>
-                    <token regexp="yes" inflected="yes" skip="-1">(sagen|antworten|entgegnen|beschließen|berichten|meinen|glauben|denken|fragen|schreib?en|bitten|rufen|erzählen|behaupten)</token>
+                    <token regexp="yes" inflected="yes" skip="5">(antworten|argumentieren|aussagen|behaupten|berichten|befürchten|beschließen|bitten|denken|entgegnen|erklären|erzählen|feststellen|fragen|gestehen|glauben|hoffen|meinen|rufen|sagen|schreib?en|übermitteln|verkünden|vermuten|wissen)</token>
                     <token>,</token>
-                    <token negate_pos="yes" postag_regexp="yes" postag="VER:.*"/>
+                    <token negate_pos="yes" postag_regexp="yes" postag="(ADV|VER):.*|KON:UNT"><exception>dass</exception></token>
                 </pattern>
                 <message>Indirekte Rede gefunden. Benutzen Sie direkte Rede.</message>
                 <example>Er sagte: ich bin 30 Jahre alt.</example>
                 <example correction="">Er <marker>sagte, er</marker> sei 30 Jahre alt.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" skip="5">stellen</token>
+                    <token>fest</token>
+                    <token>,</token>
+                    <token negate_pos="yes" postag_regexp="yes" postag="(ADV|VER):.*"/>
+                </pattern>
+                <message>Indirekte Rede gefunden. Benutzen Sie direkte Rede.</message>
+                <example>Er stellte fest: sie ist schön.</example>
+                <example correction="">Er <marker>stellte fest, sie</marker> sie sei schön.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" skip="5">geben</token>
+                    <token regexp="yes">an|vor</token>
+                    <token>,</token>
+                    <token negate_pos="yes" postag_regexp="yes" postag="(ADV|VER):.*"/>
+                </pattern>
+                <message>Indirekte Rede gefunden. Benutzen Sie direkte Rede.</message>
+                <example>Er gibt an: sie ist um 10 Uhr gekommen.</example>
+                <example correction="">Er <marker>gibt an, dass</marker> sie um 10 Uhr gekommen sei.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" skip="5">teilen</token>
+                    <token>mit</token>
+                    <token>,</token>
+                    <token negate_pos="yes" postag_regexp="yes" postag="(ADV|VER):.*"/>
+                </pattern>
+                <message>Indirekte Rede gefunden. Benutzen Sie direkte Rede.</message>
+                <example>Er teilt mit: sie ist um 10 Uhr gekommen.</example>
+                <example correction="">Er <marker>teilt mit, dass</marker> sie um 10 Uhr gekommen sei.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" skip="5">nehmen</token>
+                    <token>an</token>
+                    <token>,</token>
+                    <token negate_pos="yes" postag_regexp="yes" postag="(ADV|VER):.*"/>
+                </pattern>
+                <message>Indirekte Rede gefunden. Benutzen Sie direkte Rede.</message>
+                <example>Er nimmt an: sie ist um 10 Uhr gekommen.</example>
+                <example correction="">Er <marker>nimmt an, dass</marker> sie um 10 Uhr gekommen sei.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ZWEI_INFORMATIONSEINHEITEN_PRO_SATZ" name="Leichte Sprache: eine Aussage pro Satz">
@@ -665,6 +710,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="">Ich kündige heute, <marker>denn</marker> morgen ist es zu spät.</example>
                 <example correction="">Er will kündigen, <marker>denn</marker> der Job gefällt ihm nicht.</example>
                 <example correction="">Ich mache heute den Abwasch, <marker>denn</marker> morgen hab ich Dienst.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                       <token>sowie</token>
+                    </marker>
+                </pattern>
+                <message>Jeder Satz sollte nur eine Aussage enthalten. Können Sie diesen Satz in mehrere Sätze aufteilen?</message>
+                <example correction="">Er hat 5 Katzen <marker>sowie</marker> 12 Kühe.</example>
+                <example>Er hat 5 Katzen. Er hat auch 12 Kühe.</example>
             </rule>
         </rulegroup>
         <rulegroup id="KONJUNKTIV" name="Leichte Sprache: Konjunktiv">
