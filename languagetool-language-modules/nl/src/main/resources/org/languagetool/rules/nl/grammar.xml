@@ -17343,7 +17343,7 @@ tuinkussens;Tuinkussens
         <rulegroup id="IE" name="ie → hij">
             <rule>
                 <pattern>
-                    <token>ie</token>
+                    <token case_sensitive="yes">ie</token>
                 </pattern>
                 <message>Dit is spreektaal. Voor schrijftaal is <suggestion>hij</suggestion> beter.</message>
                 <example correction="hij">Daar komt <marker>ie</marker>.</example>
@@ -36387,7 +36387,6 @@ tuinkussens;Tuinkussens
             <rule>
                 <antipattern><token/><token postag="WKW:TGW:1EP"/><token postag="WKW:TGW:1EP"/></antipattern>
                 <antipattern><token>de</token><token>een</token><token>een</token><token postag="ZNW:EKV.*" postag_regexp="yes"/></antipattern>
-                <antipattern><token>het</token><token>het</token><token postag="BNW.*e" postag_regexp="yes"/></antipattern>
                 <antipattern><token>is</token><token>is</token></antipattern>
                 <antipattern><token>agar</token><token>agar</token></antipattern>
                 <antipattern><token>ja</token><token>ja</token></antipattern>
@@ -36395,10 +36394,20 @@ tuinkussens;Tuinkussens
                     <token><exception>’</exception></token>
                     <marker>
                         <token regexp="yes">.*[a-z].*<exception postag="SENT_START"/></token>
-                        <token><match no="1"/><exception regexp="yes">lepeltje|sam|tom|sapiens|ai|leren|je|dat|van|die|aan|ze|haar|via|zijn</exception></token>
+                        <token><match no="1"/><exception regexp="yes">lepeltje|sam|tom|sapiens|ai|leren|je|dat|van|die|aan|ze|haar|via|zijn|het</exception></token>
                     </marker>
                 </pattern>
                 <message>Een dubbel woord kan juist zijn, maar vaak is het een vergissing.</message>
+                <example type="incorrect">Ik zie <marker>de de</marker> man.</example>
+            </rule>
+            <rule>
+                <antipattern><token>id</token><token>het</token><token>het</token></antipattern>
+                <antipattern><token>het</token><token>het</token><token postag="BNW.*e" postag_regexp="yes"/></antipattern>
+                <pattern>
+                        <token>het</token>
+                        <token>het</token>
+                </pattern>
+                <message>Een dubbel woord kan juist zijn, maar kan eventueel ook een fout zijn.</message>
                 <example type="incorrect">Ik zie <marker>het het</marker> juist.</example>
             </rule>
         </rulegroup>
