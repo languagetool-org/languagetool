@@ -39,8 +39,6 @@ import org.languagetool.tools.StringTools;
 /**
  * Catalan Tagger
  *
- * Based on FreeLing tagger dictionary
- *
  * @author Jaume Ortolà 
  */
 public class CatalanTagger extends BaseTagger {
