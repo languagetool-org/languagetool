@@ -15863,8 +15863,8 @@ regexp case-insensitive maken : (?i)
         </rulegroup>
         <rulegroup id="GETALLEN_0_20_OF_ROND" name="Getallen onder 20 en ronde getallen uitschrijven">
             <rule>
-                <antipattern><token regexp="yes">[€.,/-]|lid|artikel|jaar|jaren|'</token><token regexp="yes">[0-9]|[1][0-9]|[1-9]0|[1-9][0-9]00|[1-9]00</token><token/></antipattern>
-                <antipattern><token/><token regexp="yes">[0-9]|[1][0-9]|[1-9]0|[1-9][0-9]00|[1-9]00</token><token regexp="yes">.{4,50}|[%.,/-]|GB|u|uur|(jan|feb|maa|apr|mei|jun|jul|aug|okt|nov|dec).*|º|mg|kg|dl|ml|m|mm|cm|km|kHz</token>
+                <antipattern><token regexp="yes">[€.,/-]|lid|artikel|jaar|jaren|figuur|sub|stap|tabel|ISO'</token><token regexp="yes">[0-9]|[1][0-9]|[1-9]0|[1-9][0-9]00|[1-9]00</token><token/></antipattern>
+                <antipattern><token/><token regexp="yes">[0-9]|[1][0-9]|[1-9]0|[1-9][0-9]00|[1-9]00</token><token regexp="yes">.{4,50}|[%.,/-]|GB|u|uur|(jan|feb|maa|apr|mei|jun|jul|aug|okt|nov|dec).*|º|mg|kg|dl|ml|m|mm|cm|km|kHz|TB</token>
                 </antipattern>
                 <pattern>
                     <token/>
@@ -18267,7 +18267,6 @@ tuinkussens;Tuinkussens
         </rulegroup>
         -->
         <rulegroup id="HET_JE_DIE" name="het hondje die">
-            <!-- 2012-08-22 TaalTik -->
             <rule>
                 <pattern>
                     <token negate="yes" regexp="yes">als|wanneer</token>
@@ -18285,6 +18284,7 @@ tuinkussens;Tuinkussens
                 <example correction="dat">In het midden hangt het printje <marker>die</marker> tussen de booster en de ringleiding is geplaatst.</example>
             </rule>
         </rulegroup>
+        
         <!--
         TODO: geeft false positives i.v.m. znw's en voltooide deelwoorden, dus opsplitsen in veel subregels?
         <rulegroup id="WEDERKEREND" name="verplicht wederkerend werkwoord">
@@ -31827,7 +31827,7 @@ tuinkussens;Tuinkussens
                 <pattern>
                      <token negate="yes" >.</token>
                     <marker>
-                        <token regexp="yes" >f|fl</token>
+                        <token regexp="yes" case_sensitive="yes">f|fl</token>
                     </marker>
                     <token regexp="yes">[0-9].*</token>
                 </pattern>
@@ -32203,7 +32203,7 @@ tuinkussens;Tuinkussens
         <rulegroup id="BNW-VRIJ" name="Bijvoeglijk naamwoord met -vrij">
             <rule>
                 <pattern>
-					<token regexp="yes">.*vrije?</token>
+					<token regexp="yes">.{4,}vrije?</token>
                 </pattern>
 				<message>Het is soms beter om te omschrijven met 'zonder'.</message>
 				<url>http://taaladvies.net/taal/advies/vraag/862/vrij/</url>
@@ -36448,7 +36448,7 @@ tuinkussens;Tuinkussens
                     <token><exception>’</exception></token>
                     <marker>
                         <token regexp="yes">.*[a-z].*<exception postag="SENT_START"/></token>
-                        <token><match no="1"/><exception regexp="yes">lepeltje|sam|tom|sapiens|ai|leren|je|dat|van|die|aan|ze|haar|via|zijn|het</exception></token>
+                        <token><match no="1"/><exception regexp="yes">lepeltje|sam|tom|sapiens|ai|leren|je|dat|van|die|aan|ze|haar|via|zijn|het|etc|enz</exception></token>
                     </marker>
                 </pattern>
                 <message>Een dubbel woord kan juist zijn, maar vaak is het een vergissing.</message>
@@ -36724,6 +36724,5 @@ tuinkussens;Tuinkussens
                 <example correction="gebeurt er">Dan <marker>gebeurd er</marker> niets.</example>
             </rule>
         </rulegroup>
- 
     </category>
 </rules>
