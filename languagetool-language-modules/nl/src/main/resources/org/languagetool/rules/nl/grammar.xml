@@ -15007,7 +15007,7 @@ regexp case-insensitive maken : (?i)
         <rulegroup id="T" name="t → het, 't aio">
             <rule>
                 <pattern>
-                    <token spacebefore="yes">t</token>
+                    <token spacebefore="yes" case_sensitive="yes">t</token>
                 </pattern>
                 <message>Schrijf liever <suggestion>het</suggestion> of eventueel <suggestion>'t</suggestion>.</message>
                 <example correction="het|'t">Hij is <marker>t</marker>.</example>
@@ -30554,8 +30554,11 @@ tuinkussens;Tuinkussens
         <rulegroup id="M" name="'m">
             <rule>
                 <pattern>
-                    <token regexp="yes">'|‘</token>
-                    <token>m</token>
+                    <marker>
+                        <token regexp="yes">'|‘</token>
+                        <token>m</token>
+                    </marker>
+                    <token negate="yes" regexp="yes">'|‘</token>
                 </pattern>
                 <message>Minder informeel en leesbaarder is voluit schrijven, dus <suggestion>hem</suggestion>.</message>
                 <short>Niet verkorten</short>
