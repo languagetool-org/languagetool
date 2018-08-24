@@ -22,9 +22,7 @@ import java.util.Locale;
 
 import org.languagetool.tagging.BaseTagger;
 
-/** Asturian Part-of-speech tagger.
- * Based on FreeLing tagger dictionary
- * 
+/** Asturian part-of-speech tagger.
  * @author Xesús González Rato
  */
 public class AsturianTagger extends BaseTagger {
