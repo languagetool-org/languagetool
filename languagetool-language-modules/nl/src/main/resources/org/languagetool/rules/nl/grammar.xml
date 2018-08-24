@@ -15006,11 +15006,15 @@ regexp case-insensitive maken : (?i)
         </rulegroup>
         <rulegroup id="T" name="t → het, 't aio">
             <rule>
+                <antipattern><token>t</token><token spacebefore="no">.</token></antipattern>
                 <pattern>
-                    <token spacebefore="yes" case_sensitive="yes">t</token>
+                    <marker>
+                        <token spacebefore="yes" case_sensitive="yes">t</token>
+                    </marker>
+                    <token/>
                 </pattern>
                 <message>Schrijf liever <suggestion>het</suggestion> of eventueel <suggestion>'t</suggestion>.</message>
-                <example correction="het|'t">Hij is <marker>t</marker>.</example>
+                <example correction="het|'t">Hij is <marker>t</marker> niet.</example>
             </rule>
         </rulegroup>
         <rulegroup id="A_I_O" name="a.i.o. → aio">
@@ -30580,8 +30584,11 @@ tuinkussens;Tuinkussens
         <rulegroup id="N" name="'n">
             <rule>
                 <pattern>
-                    <token spacebefore="yes" regexp="yes">'|‘</token>
-                    <token spacebefore="no">n</token>
+                    <marker>
+                        <token spacebefore="yes" regexp="yes">'|‘</token>
+                        <token spacebefore="no" case_sensitive="yes">n</token>
+                    </marker>
+                <token negate="yes" spacebefore="yes" regexp="yes">'|‘</token>
                 </pattern>
                 <message>Minder informeel en leesbaarder is voluit schrijven, dus <suggestion>een</suggestion>.</message>
                 <short>Niet verkorten</short>
@@ -36451,7 +36458,7 @@ tuinkussens;Tuinkussens
                     <token><exception>’</exception></token>
                     <marker>
                         <token regexp="yes">.*[a-z].*<exception postag="SENT_START"/></token>
-                        <token><match no="1"/><exception regexp="yes">lepeltje|sam|tom|sapiens|ai|leren|je|dat|van|die|aan|ze|haar|via|zijn|het|etc|enz</exception></token>
+                        <token><match no="1"/><exception regexp="yes">lepeltje|sam|tom|sapiens|ai|leren|je|dat|van|die|aan|ze|haar|via|zijn|het|etc|enz|bling|lepeltje</exception></token>
                     </marker>
                 </pattern>
                 <message>Een dubbel woord kan juist zijn, maar vaak is het een vergissing.</message>
