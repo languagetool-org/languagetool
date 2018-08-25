@@ -40,9 +40,10 @@ public class HTTPSServerTest {
   private static final String KEYSTORE_PASSWORD = "mytest";
 
   @Test
-  public void runRequestAndReferrerLimitationTest() throws Exception {
+  public void runRequestLimitationTest() throws Exception {
     HTTPTools.disableCertChecks();
     HTTPSServerConfig serverConfig = new HTTPSServerConfig(HTTPTools.getDefaultPort(), false, getKeystoreFile(), KEYSTORE_PASSWORD, 2, 120);
+    serverConfig.setBlockedReferrers(Arrays.asList("http://foo.org", "bar.org"));
     HTTPSServer server = new HTTPSServer(serverConfig, false, HTTPServerConfig.DEFAULT_HOST, null);
     try {
       server.run();
@@ -53,17 +54,46 @@ public class HTTPSServerTest {
         String result = check(new German(), "foo");
         fail("Expected exception not thrown, got this result instead: '" + result + "'");
       } catch (IOException ignored) {}
+    } finally {
+      server.stop();
+    }
+  }
+  
+  @Test
+  public void runReferrerLimitationTest() throws Exception {
+    HTTPTools.disableCertChecks();
+    HTTPSServerConfig serverConfig = new HTTPSServerConfig(HTTPTools.getDefaultPort(), false, getKeystoreFile(), KEYSTORE_PASSWORD);
+    serverConfig.setBlockedReferrers(Arrays.asList("http://foo.org", "bar.org"));
+    HTTPSServer server = new HTTPSServer(serverConfig, false, HTTPServerConfig.DEFAULT_HOST, null);
+    try {
+      server.run();
 
-      serverConfig.setBlockedReferrers(Arrays.asList("http://foo.org"));
+      HashMap<String, String> map = new HashMap<>();
+      URL url = new URL("https://localhost:" + HTTPTools.getDefaultPort() + "/v2/check");
       try {
-        URL url = new URL("https://localhost:" + HTTPTools.getDefaultPort() + "/v2/check");
-        HashMap<String, String> map = new HashMap<>();
         map.put("Referer", "http://foo.org/myref");
         HTTPTools.checkAtUrlByPost(url, "language=en&text=a test", map);
         fail("Request should fail because of blocked referrer");
-      } catch (Exception ignored) {
-        ignored.printStackTrace();
-      }
+      } catch (IOException ignored) {}
+
+      try {
+        map.put("Referer", "http://bar.org/myref");
+        HTTPTools.checkAtUrlByPost(url, "language=en&text=a test", map);
+        fail("Request should fail because of blocked referrer");
+      } catch (IOException ignored) {}
+      try {
+        map.put("Referer", "https://bar.org/myref");
+        HTTPTools.checkAtUrlByPost(url, "language=en&text=a test", map);
+        fail("Request should fail because of blocked referrer");
+      } catch (IOException ignored) {}
+      try {
+        map.put("Referer", "https://www.bar.org/myref");
+        HTTPTools.checkAtUrlByPost(url, "language=en&text=a test", map);
+        fail("Request should fail because of blocked referrer");
+      } catch (IOException ignored) {}
+      map.put("Referer", "https://www.something-else.org/myref");
+      HTTPTools.checkAtUrlByPost(url, "language=en&text=a test", map);
+
     } finally {
       server.stop();
     }

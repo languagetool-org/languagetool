@@ -92,9 +92,9 @@ class LanguageToolHttpHandler implements HttpHandler {
       for (String ref : config.getBlockedReferrers()) {
         String errorMessage = null;
         if (ref != null && !ref.isEmpty()) {
-          if (referrer != null && referrer.startsWith(ref)) {
+          if (referrer != null && siteMatches(referrer, ref)) {
             errorMessage = "Error: Access with referrer " + referrer + " denied.";
-          } else if (origin != null && origin.startsWith(ref)) {
+          } else if (origin != null && siteMatches(origin, ref)) {
             errorMessage = "Error: Access with origin " + origin + " denied.";
           }
         }
@@ -197,6 +197,12 @@ class LanguageToolHttpHandler implements HttpHandler {
         reqCounter.decrementHandleCount(reqId);
       }
     }
+  }
+
+  private boolean siteMatches(String referrer, String blockedRef) {
+    return referrer.startsWith(blockedRef) || 
+           referrer.startsWith("http://" + blockedRef) || referrer.startsWith("https://" + blockedRef) ||
+           referrer.startsWith("http://www." + blockedRef) || referrer.startsWith("https://www." + blockedRef);
   }
 
   private boolean workQueueFull(HttpExchange httpExchange, String response) throws IOException {
