@@ -42,8 +42,8 @@ public class FlatParagraphTools {
   
   private static final boolean debugMode = false;   //  should be false except for testing
   
-  private XFlatParagraphIterator xFlatParaIter;
-  private XFlatParagraph xFlatPara;
+  private final XFlatParagraphIterator xFlatParaIter;
+  private final XFlatParagraph xFlatPara;
   
   FlatParagraphTools(XComponentContext xContext) {
     xFlatParaIter = getXFlatParagraphIterator(xContext);
@@ -58,12 +58,12 @@ public class FlatParagraphTools {
   private XFlatParagraphIterator getXFlatParagraphIterator(XComponentContext xContext) {
     try {
       XComponent xCurrentComponent = OfficeTools.getCurrentComponent(xContext);
-      if(xCurrentComponent == null) {
+      if (xCurrentComponent == null) {
         return null;
       }
       XFlatParagraphIteratorProvider xFlatParaItPro 
           = UnoRuntime.queryInterface(XFlatParagraphIteratorProvider.class, xCurrentComponent);
-      if(xFlatParaItPro == null) {
+      if (xFlatParaItPro == null) {
         return null;
       }
       return xFlatParaItPro.getFlatParagraphIterator(TextMarkupType.PROOFREADING, true);
@@ -80,13 +80,13 @@ public class FlatParagraphTools {
   @Nullable
   private XFlatParagraph getFlatParagraph() {
     try {
-    if(xFlatParaIter == null) {
-      if(debugMode) {
-        MessageHandler.printToLogFile("!?! FlatParagraphIterator == null");
+      if (xFlatParaIter == null) {
+        if (debugMode) {
+          MessageHandler.printToLogFile("!?! FlatParagraphIterator == null");
+        }
+        return null;
       }
-      return null;
-    }
-    return xFlatParaIter.getLastPara();
+      return xFlatParaIter.getLastPara();
     } catch (Throwable t) {
       MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
       return null;           // Return null as method failed
@@ -99,8 +99,8 @@ public class FlatParagraphTools {
    */
   public boolean isFlatParaFromIter() {
     try {
-    if(xFlatPara == null) {
-      if(debugMode) {
+    if (xFlatPara == null) {
+      if (debugMode) {
         MessageHandler.printToLogFile("!?! FlatParagraph == null");
       }
       return false;
@@ -118,8 +118,8 @@ public class FlatParagraphTools {
    */
   int getCurNumFlatParagraphs() {
     try {
-      if(xFlatPara == null) {
-        if(debugMode) {
+      if (xFlatPara == null) {
+        if (debugMode) {
           MessageHandler.printToLogFile("!?! FlatParagraph == null");
         }
         return -1;
@@ -144,8 +144,8 @@ public class FlatParagraphTools {
   @Nullable
   public List<String> getAllFlatParagraphs() {
     try {
-      if(xFlatPara == null) {
-        if(debugMode) {
+      if (xFlatPara == null) {
+        if (debugMode) {
           MessageHandler.printToLogFile("!?! FlatParagraph == null");
         }
         return null;
@@ -174,8 +174,8 @@ public class FlatParagraphTools {
    */
   int getNumberOfAllFlatPara() {
     try {
-      if(xFlatPara == null) {
-        if(debugMode) {
+      if (xFlatPara == null) {
+        if (debugMode) {
           MessageHandler.printToLogFile("!?! FlatParagraph == null");
         }
         return -1;
@@ -203,8 +203,8 @@ public class FlatParagraphTools {
    * Returns positions of properties by name 
    */
   private int[] getPropertyValues(String propName, XFlatParagraph xFlatPara) {
-    if(xFlatPara == null) {
-      if(debugMode) {
+    if (xFlatPara == null) {
+      if (debugMode) {
         MessageHandler.printToLogFile("!?! FlatParagraph == null");
       }
       return  new int[]{};
@@ -234,8 +234,8 @@ public class FlatParagraphTools {
   List<int[]> getFootnotePositions() {
     List<int[]> paraPositions = new ArrayList<>();
     try {
-      if(xFlatPara == null) {
-        if(debugMode) {
+      if (xFlatPara == null) {
+        if (debugMode) {
           MessageHandler.printToLogFile("!?! FlatParagraph == null");
         }
         return paraPositions;
@@ -266,8 +266,8 @@ public class FlatParagraphTools {
    */
   void markFlatParasAsChecked(int from, int to) {
     try {
-      if(xFlatPara == null) {
-        if(debugMode) {
+      if (xFlatPara == null) {
+        if (debugMode) {
           MessageHandler.printToLogFile("!?! FlatParagraph == null");
         }
         return;

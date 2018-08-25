@@ -43,8 +43,8 @@ import com.sun.star.uno.XComponentContext;
  */
 class DocumentCursorTools {
   
-  private XParagraphCursor xPCursor;
-  private XTextViewCursor xVCursor;
+  private final XParagraphCursor xPCursor;
+  private final XTextViewCursor xVCursor;
   
   DocumentCursorTools(XComponentContext xContext) {
     xPCursor = getParagraphCursor(xContext);
@@ -58,11 +58,11 @@ class DocumentCursorTools {
   @Nullable
   private XTextDocument getCurrentDocument(XComponentContext xContext) {
     try {
-      XComponent curcomp = OfficeTools.getCurrentComponent(xContext);
-      if (curcomp == null) {
+      XComponent curComp = OfficeTools.getCurrentComponent(xContext);
+      if (curComp == null) {
         return null;
       }
-      else return UnoRuntime.queryInterface(XTextDocument.class, curcomp);
+      else return UnoRuntime.queryInterface(XTextDocument.class, curComp);
     } catch (Throwable t) {
       MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
       return null;           // Return null as method failed
@@ -76,11 +76,11 @@ class DocumentCursorTools {
   @Nullable
   private XTextCursor getCursor(XComponentContext xContext) {
     try {
-      XTextDocument curdoc = getCurrentDocument(xContext);
-      if (curdoc == null) {
+      XTextDocument curDoc = getCurrentDocument(xContext);
+      if (curDoc == null) {
         return null;
       }
-      XText xText = curdoc.getText();
+      XText xText = curDoc.getText();
       if (xText == null) {
         return null;
       }
@@ -98,11 +98,11 @@ class DocumentCursorTools {
   @Nullable
   private XParagraphCursor getParagraphCursor(XComponentContext xContext) {
     try {
-      XTextCursor xcursor = getCursor(xContext);
-      if(xcursor == null) {
+      XTextCursor xCursor = getCursor(xContext);
+      if (xCursor == null) {
         return null;
       }
-      return UnoRuntime.queryInterface(XParagraphCursor.class, xcursor);
+      return UnoRuntime.queryInterface(XParagraphCursor.class, xCursor);
     } catch (Throwable t) {
       MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
       return null;           // Return null as method failed
@@ -117,20 +117,20 @@ class DocumentCursorTools {
   private XTextViewCursor getViewCursor(XComponentContext xContext) {
     try {
       XComponent xCurrentComponent = OfficeTools.getCurrentComponent(xContext);
-      if(xCurrentComponent == null) {
+      if (xCurrentComponent == null) {
         return null;
       }
       XModel xModel = UnoRuntime.queryInterface(XModel.class, xCurrentComponent);
-      if(xModel == null) {
+      if (xModel == null) {
         return null;
       }
       XController xController = xModel.getCurrentController();
-      if(xController == null) {
+      if (xController == null) {
         return null;
       }
       XTextViewCursorSupplier xViewCursorSupplier =
           UnoRuntime.queryInterface(XTextViewCursorSupplier.class, xController);
-      if(xViewCursorSupplier == null) {
+      if (xViewCursorSupplier == null) {
         return null;
       }
       return xViewCursorSupplier.getViewCursor();
@@ -150,9 +150,9 @@ class DocumentCursorTools {
         return 0;
       }
       xPCursor.gotoStart(false);
-      int npara = 1;
-      while (xPCursor.gotoNextParagraph(false)) npara++;
-      return npara;
+      int nPara = 1;
+      while (xPCursor.gotoNextParagraph(false)) nPara++;
+      return nPara;
     } catch (Throwable t) {
       MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
       return 0;              // Return 0 as method failed
@@ -192,20 +192,20 @@ class DocumentCursorTools {
    */
   int getViewCursorParagraph() {
     try {
-      if(xVCursor == null) {
+      if (xVCursor == null) {
         return -4;
       }
       XText xDocumentText = xVCursor.getText();
-      if(xDocumentText == null) {
+      if (xDocumentText == null) {
         return -3;
       }
       XTextCursor xModelCursor = xDocumentText.createTextCursorByRange(xVCursor.getStart());
-      if(xModelCursor == null) {
+      if (xModelCursor == null) {
         return -2;
       }
       XParagraphCursor xParagraphCursor = UnoRuntime.queryInterface(
           XParagraphCursor.class, xModelCursor);
-      if(xParagraphCursor == null) {
+      if (xParagraphCursor == null) {
         return -1;
       }
       int pos = 0;
