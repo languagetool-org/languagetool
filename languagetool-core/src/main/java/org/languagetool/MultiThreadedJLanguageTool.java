@@ -31,6 +31,7 @@ import java.util.concurrent.ThreadFactory;
 import org.languagetool.markup.AnnotatedText;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.tools.StringTools;
 
 /**
  * A variant of {@link JLanguageTool} that uses several threads for rule matching.
@@ -137,10 +138,13 @@ public class MultiThreadedJLanguageTool extends JLanguageTool {
     
     List<Callable<AnalyzedSentence>> callables = new ArrayList<>();
     for (String sentence : sentences) {
-      AnalyzeSentenceCallable analyzeSentenceCallable = 
-          ++j < sentences.size() 
-            ? new AnalyzeSentenceCallable(sentence)
-            : new ParagraphEndAnalyzeSentenceCallable(sentence);
+      boolean isParaEnd = StringTools.isParagraphEnd(sentence, getLanguage().getSentenceTokenizer().singleLineBreaksMarksPara());
+      AnalyzeSentenceCallable analyzeSentenceCallable;
+      if (++j >= sentences.size() || isParaEnd) {
+        analyzeSentenceCallable = new ParagraphEndAnalyzeSentenceCallable(sentence);
+      } else {
+        analyzeSentenceCallable = new AnalyzeSentenceCallable(sentence);
+      }
       callables.add(analyzeSentenceCallable);
     }
     

@@ -20,19 +20,18 @@ package org.languagetool;
 
 import org.junit.Test;
 import org.languagetool.language.Demo;
-import org.languagetool.rules.MultipleWhitespaceRule;
-import org.languagetool.rules.Rule;
-import org.languagetool.rules.RuleMatch;
-import org.languagetool.rules.UppercaseSentenceStartRule;
+import org.languagetool.rules.*;
 import org.languagetool.rules.patterns.AbstractPatternRule;
 
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.RejectedExecutionException;
 
+import static junit.framework.TestCase.assertTrue;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.fail;
 
 @SuppressWarnings("ResultOfObjectAllocationIgnored")
@@ -50,6 +49,45 @@ public class MultiThreadedJLanguageToolTest {
     lt2.setCleanOverlappingMatches(false);
     List<String> ruleMatchIds2 = getRuleMatchIds(lt2);
     assertEquals(ruleMatchIds1, ruleMatchIds2);
+  }
+
+  @Test
+  public void testParagraphEnd() throws IOException {
+    Demo demoLang = new Demo();
+    demoLang.getSentenceTokenizer().setSingleLineBreaksMarksParagraph(true);
+      
+    List<String> sentences1 = Arrays.asList("This is a sentence.\n", "This is the next one.");
+
+    MultiThreadedJLanguageTool lt1 = new MultiThreadedJLanguageTool(demoLang);
+    List<AnalyzedSentence> res1 = lt1.analyzeSentences(sentences1);
+    assertFalse(res1.get(0).getTokens()[8].isParagraphEnd());
+    assertTrue(res1.get(0).getTokens()[9].isParagraphEnd());
+
+    JLanguageTool lt2 = new JLanguageTool(demoLang);
+    List<AnalyzedSentence> res2 = lt2.analyzeSentences(sentences1);
+    assertFalse(res2.get(0).getTokens()[8].isParagraphEnd());
+    assertTrue(res2.get(0).getTokens()[9].isParagraphEnd());
+
+    List<String> sentences2 = Arrays.asList("This is a sentence.\n\n", "This is the next one.");
+
+    demoLang.getSentenceTokenizer().setSingleLineBreaksMarksParagraph(false);
+    MultiThreadedJLanguageTool lt3 = new MultiThreadedJLanguageTool(demoLang);
+    List<AnalyzedSentence> res3 = lt3.analyzeSentences(sentences2);
+    assertFalse(res3.get(0).getTokens()[8].isParagraphEnd());
+    assertFalse(res3.get(0).getTokens()[9].isParagraphEnd());
+    assertTrue(res3.get(0).getTokens()[10].isParagraphEnd());
+    // last sentence is also considered paragraph end:
+    assertFalse(res3.get(1).getTokens()[9].isParagraphEnd());
+    assertTrue(res3.get(1).getTokens()[10].isParagraphEnd());
+
+    JLanguageTool lt4 = new JLanguageTool(demoLang);
+    List<AnalyzedSentence> res4 = lt4.analyzeSentences(sentences2);
+    assertFalse(res4.get(0).getTokens()[8].isParagraphEnd());
+    assertFalse(res4.get(0).getTokens()[9].isParagraphEnd());
+    assertTrue(res4.get(0).getTokens()[10].isParagraphEnd());
+    // last sentence is also considered paragraph end:
+    assertFalse(res4.get(1).getTokens()[9].isParagraphEnd());
+    assertTrue(res4.get(1).getTokens()[10].isParagraphEnd());
   }
   
   @Test
@@ -76,7 +114,7 @@ public class MultiThreadedJLanguageToolTest {
   }
   
   @Test
-  public void testConfigurableThreadPoolSize() throws IOException {
+  public void testConfigurableThreadPoolSize() {
     MultiThreadedJLanguageTool lt = new MultiThreadedJLanguageTool(new Demo());
     assertEquals(Runtime.getRuntime().availableProcessors(), lt.getThreadPoolSize());
     lt.shutdown();

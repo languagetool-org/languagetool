@@ -31,6 +31,7 @@ import org.languagetool.rules.patterns.AbstractPatternRule;
 import org.languagetool.rules.patterns.FalseFriendRuleLoader;
 import org.languagetool.rules.patterns.PatternRule;
 import org.languagetool.rules.patterns.PatternRuleLoader;
+import org.languagetool.tools.StringTools;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -642,7 +643,8 @@ public class JLanguageTool {
     for (String sentence : sentences) {
       AnalyzedSentence analyzedSentence = getAnalyzedSentence(sentence);
       rememberUnknownWords(analyzedSentence);
-      if (++j == sentences.size()) {
+      boolean isParaEnd = StringTools.isParagraphEnd(sentence, getLanguage().getSentenceTokenizer().singleLineBreaksMarksPara());
+      if (++j == sentences.size() || isParaEnd) {
         AnalyzedTokenReadings[] anTokens = analyzedSentence.getTokens();
         anTokens[anTokens.length - 1].setParagraphEnd();
         analyzedSentence = new AnalyzedSentence(anTokens);

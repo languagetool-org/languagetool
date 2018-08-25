@@ -45,7 +45,7 @@ public final class AnalyzedSentence {
     int[] mapping = new int[tokens.length + 1];
     List<AnalyzedTokenReadings> l = new ArrayList<>();
     for (AnalyzedTokenReadings token : tokens) {
-      if (!token.isWhitespace() || token.isSentenceStart() || token.isSentenceEnd() || token.isParagraphEnd()) {
+      if (!token.isWhitespace() || token.isSentenceStart() || token.isSentenceEnd()) {
         l.add(token);
         mapping[nonWhCounter] = whCounter;
         nonWhCounter++;

@@ -444,4 +444,19 @@ public final class StringTools {
     return s.toString();
   }
 
+  /**
+   * @since 4.3
+   */
+  public static boolean isParagraphEnd(String sentence, boolean singleLineBreaksMarksPara) {
+    boolean isParaEnd = false;
+    if (singleLineBreaksMarksPara) {
+      if (sentence.endsWith("\n") || sentence.endsWith("\n\r")) {
+        isParaEnd = true;
+      }
+    } else if (sentence.endsWith("\n\n") || sentence.endsWith("\n\r\n\r") || sentence.endsWith("\r\n\r\n")) {
+      isParaEnd = true;
+    }
+    return isParaEnd;
+  }
+  
 }
