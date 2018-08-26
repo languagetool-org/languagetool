@@ -61,7 +61,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
         <rule id="SCHWIERIGE_WOERTER" name="Leichte Sprache: schwierige Wörter">
             <pattern>
-                <token inflected='yes' regexp='yes'>abnor+|ambi.+|anti.+|asy.+|auth.+|diffizil|ge(nehmigen|statten)|hemi.+|hy.+|kontra.+|mono.+|neo.+|omni.+|ortho.+|poly.+|prä.+|pseudo.+|retro.+|rhy.+|semi.+|sy[mn].+|theo.*|zy.+|.+ismus|.+phobien?|.+nym</token>
+                <token inflected='yes' regexp='yes'>abnor+|ambi.+|anti.+|asy.+|auth.+|bblio.+|diffizil|ge(nehmigen|statten)|hemi.+|hy.+|kontra.+|mono.+|neo.+|omni.+|ortho.+|poly.+|prä.+|pseudo.+|retro.+|rhy.+|semi.+|sy[mn].+|theo.*|zy.+|.+ismus|.+phobien?|.+nym</token>
             </pattern>
             <message>Verwenden Sie keine schwierigen Begriffe. Vermeiden Sie schwierige Wörter und Fremdwörter.</message>
             <short>Schwierige Wörter vermeiden</short>
@@ -492,7 +492,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token inflected="yes" skip="5">geben</token>
-                    <token regexp="yes">an|vor</token>
+                    <token regexp="yes">an|bekannt|vor</token>
                     <token>,</token>
                     <token negate_pos="yes" postag_regexp="yes" postag="(ADV|VER):.*|KON:UNT"/>
                 </pattern>
@@ -784,11 +784,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="ZAHLEN" name="Leichte Sprache: Zahlen und Jahreszahlen">
             <rule>
                 <pattern>
-                    <token spacebefore="yes" regexp="yes">\p{N}{3,}</token>
+                    <token spacebefore="yes" regexp="yes">\p{N}{3,}<exception scope="previous" inflected="yes">Jahr</exception></token>
                 </pattern>
                 <message>Hohe Zahl gefunden. Vermeiden Sie hohe Zahlen.</message>
                 <example>Sehr viele Menschen</example>
                 <example correction="">Bis zu <marker>100000</marker> Menschen</example>
+                <example>Das erste Weltkrieg hat im Jahr <marker>1914</marker> begonnen.</example>
             </rule>
             <rule>
                 <pattern>
