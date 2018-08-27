@@ -3636,16 +3636,6 @@ regexp case-insensitive maken : (?i)
             </rule>
         </rulegroup>
 
-        <rulegroup id="LIJDRAAD_LEIDRAAD" name="waarschuwing bij gebruik leidraad i.p.v. lijdraad">
-            <rule>
-                <pattern>
-                       <token>leidraad</token>
-                </pattern>
-                <message>Bedoelt u wellicht <suggestion>lijdraad</suggestion>?</message>
-                <example correction="lijdraad">Het woord <marker>leidraad</marker> kan een vergissing zijn.</example>
-            </rule>
-        </rulegroup>
-
         <rulegroup id="ONTWIJDEN_ONTWEIDEN" name="waarschuwing bij gebruik ontweiden i.p.v. ontwijden">
             <rule>
                 <pattern>
@@ -15007,6 +14997,7 @@ regexp case-insensitive maken : (?i)
         <rulegroup id="T" name="t → het, 't aio">
             <rule>
                 <pattern>
+                    <token><exception spacebefore="no" regexp="yes">[a=z]</exception></token>
                     <marker>
                         <token spacebefore="yes" case_sensitive="yes">t</token>
                     </marker>
@@ -32208,6 +32199,16 @@ tuinkussens;Tuinkussens
 				<url>https://onzetaal.nl/taaladvies/achterin-achter-in</url>
                 <example correction="achter in">Het bestek ligt <marker>achterin</marker> de lade.</example>
             </rule>
+            <rule>
+                <pattern>
+					<marker><token regexp="yes" skip="2">(achter|boven|midden|onder)(in|op)</token></marker>
+                    <token regexp="yes" >mij|me|jou|je|haar|hem|ons|jullie|hen</token>
+                </pattern>
+				<message>Hier moet vast een spatie in: <suggestion><match no="1" regexp_match="(.*)(op|in)$" regexp_replace="$1 $2"/></suggestion>.</message>
+				<url>https://onzetaal.nl/taaladvies/achterin-achter-in</url>
+                <example correction="boven op">Ze ligt <marker>bovenop</marker> hem.</example>
+            </rule>
+
         </rulegroup>  
         <rulegroup id="BNW-VRIJ" name="Bijvoeglijk naamwoord met -vrij">
             <rule>
