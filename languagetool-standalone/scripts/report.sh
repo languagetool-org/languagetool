@@ -68,6 +68,7 @@ echo "ErrorRateTooHigh           : `grep -c  "ErrorRateTooHigh" $TMPFILE`" >>$OU
 echo "WARN                       : `grep -c  "WARN:" $TMPFILE`" >>$OUTFILE
 ERROR_TIMEOUT=`grep -c  "Text checking took longer than allowed maximum" $TMPFILE`
 echo "Check timeout              : $ERROR_TIMEOUT" >>$OUTFILE
+echo "Fasttext failure           : `grep -c  "Disabling fasttext" $TMPFILE`" >>$OUTFILE
 
 echo "" >>$OUTFILE
 echo "An error has occurred      : `grep -c 'An error has occurred' $TMPFILE`" >>$OUTFILE
