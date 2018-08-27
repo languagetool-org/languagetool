@@ -643,10 +643,13 @@ public class JLanguageTool {
     for (String sentence : sentences) {
       AnalyzedSentence analyzedSentence = getAnalyzedSentence(sentence);
       rememberUnknownWords(analyzedSentence);
-      boolean isParaEnd = StringTools.isParagraphEnd(sentence, getLanguage().getSentenceTokenizer().singleLineBreaksMarksPara());
+      boolean singleLineBreaksMarksPara = getLanguage().getSentenceTokenizer().singleLineBreaksMarksPara();
+      boolean isParaEnd = StringTools.isParagraphEnd(sentence, singleLineBreaksMarksPara);
       if (++j == sentences.size() || isParaEnd) {
         AnalyzedTokenReadings[] anTokens = analyzedSentence.getTokens();
-        anTokens[anTokens.length - 1].setParagraphEnd();
+        int offset = j >= sentences.size() || singleLineBreaksMarksPara ? 1 : 2;
+        int markerOffset = Math.min(anTokens.length-1, offset);
+        anTokens[anTokens.length - markerOffset].setParagraphEnd();
         analyzedSentence = new AnalyzedSentence(anTokens);
       }
       analyzedSentences.add(analyzedSentence);

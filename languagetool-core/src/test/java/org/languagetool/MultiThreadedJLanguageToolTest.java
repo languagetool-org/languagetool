@@ -74,8 +74,8 @@ public class MultiThreadedJLanguageToolTest {
     MultiThreadedJLanguageTool lt3 = new MultiThreadedJLanguageTool(demoLang);
     List<AnalyzedSentence> res3 = lt3.analyzeSentences(sentences2);
     assertFalse(res3.get(0).getTokens()[8].isParagraphEnd());
-    assertFalse(res3.get(0).getTokens()[9].isParagraphEnd());
-    assertTrue(res3.get(0).getTokens()[10].isParagraphEnd());
+    assertTrue(res3.get(0).getTokens()[9].isParagraphEnd());
+    assertFalse(res3.get(0).getTokens()[10].isParagraphEnd());
     // last sentence is also considered paragraph end:
     assertFalse(res3.get(1).getTokens()[9].isParagraphEnd());
     assertTrue(res3.get(1).getTokens()[10].isParagraphEnd());
@@ -83,8 +83,8 @@ public class MultiThreadedJLanguageToolTest {
     JLanguageTool lt4 = new JLanguageTool(demoLang);
     List<AnalyzedSentence> res4 = lt4.analyzeSentences(sentences2);
     assertFalse(res4.get(0).getTokens()[8].isParagraphEnd());
-    assertFalse(res4.get(0).getTokens()[9].isParagraphEnd());
-    assertTrue(res4.get(0).getTokens()[10].isParagraphEnd());
+    assertTrue(res4.get(0).getTokens()[9].isParagraphEnd());
+    assertFalse(res4.get(0).getTokens()[10].isParagraphEnd());
     // last sentence is also considered paragraph end:
     assertFalse(res4.get(1).getTokens()[9].isParagraphEnd());
     assertTrue(res4.get(1).getTokens()[10].isParagraphEnd());

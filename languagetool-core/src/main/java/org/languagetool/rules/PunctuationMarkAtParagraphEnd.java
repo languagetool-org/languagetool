@@ -78,7 +78,7 @@ public class PunctuationMarkAtParagraphEnd extends TextLevelRule {
   }
 
   private static boolean isParaBreak(AnalyzedTokenReadings token) {
-    return "\n".equals(token.getToken()) || "\r\n".equals(token.getToken()) || "\n\r".equals(token.getToken());
+    return token.isParagraphEnd();
   }
 
   @Override

@@ -138,10 +138,12 @@ public class MultiThreadedJLanguageTool extends JLanguageTool {
     
     List<Callable<AnalyzedSentence>> callables = new ArrayList<>();
     for (String sentence : sentences) {
-      boolean isParaEnd = StringTools.isParagraphEnd(sentence, getLanguage().getSentenceTokenizer().singleLineBreaksMarksPara());
+      boolean singleLineBreaksMarksPara = getLanguage().getSentenceTokenizer().singleLineBreaksMarksPara();
+      boolean isParaEnd = StringTools.isParagraphEnd(sentence, singleLineBreaksMarksPara);
       AnalyzeSentenceCallable analyzeSentenceCallable;
       if (++j >= sentences.size() || isParaEnd) {
-        analyzeSentenceCallable = new ParagraphEndAnalyzeSentenceCallable(sentence);
+        int offset = j >= sentences.size() || singleLineBreaksMarksPara ? 1 : 2;
+        analyzeSentenceCallable = new ParagraphEndAnalyzeSentenceCallable(sentence, offset);
       } else {
         analyzeSentenceCallable = new AnalyzeSentenceCallable(sentence);
       }
@@ -230,15 +232,18 @@ public class MultiThreadedJLanguageTool extends JLanguageTool {
   }
   
   private final class ParagraphEndAnalyzeSentenceCallable extends AnalyzeSentenceCallable {
-    private ParagraphEndAnalyzeSentenceCallable(String sentence) {
+    private int offset;
+    private ParagraphEndAnalyzeSentenceCallable(String sentence, int offset) {
       super(sentence);
+      this.offset = offset;
     }
 
     @Override
     public AnalyzedSentence call() throws Exception {
       AnalyzedSentence analyzedSentence = super.call();
       AnalyzedTokenReadings[] anTokens = analyzedSentence.getTokens();
-      anTokens[anTokens.length - 1].setParagraphEnd();
+      int markerOffset = Math.min(anTokens.length-1, offset);
+      anTokens[anTokens.length - markerOffset].setParagraphEnd();
       analyzedSentence = new AnalyzedSentence(anTokens);  ///TODO: why???
       return analyzedSentence;
     }
