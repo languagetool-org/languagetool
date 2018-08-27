@@ -18,7 +18,6 @@
  */
 package org.languagetool;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -129,7 +128,7 @@ public class MultiThreadedJLanguageTool extends JLanguageTool {
   }
   
   @Override
-  protected List<AnalyzedSentence> analyzeSentences(List<String> sentences) throws IOException {
+  protected List<AnalyzedSentence> analyzeSentences(List<String> sentences) {
     List<AnalyzedSentence> analyzedSentences = new ArrayList<>();
     
     ExecutorService executorService = getExecutorService();
@@ -170,7 +169,7 @@ public class MultiThreadedJLanguageTool extends JLanguageTool {
   @Override
   protected List<RuleMatch> performCheck(List<AnalyzedSentence> analyzedSentences, List<String> sentences,
        List<Rule> allRules, ParagraphHandling paraMode, 
-       AnnotatedText annotatedText, RuleMatchListener listener) throws IOException {
+       AnnotatedText annotatedText, RuleMatchListener listener) {
     int charCount = 0;
     int lineCount = 0;
     int columnCount = 1;
