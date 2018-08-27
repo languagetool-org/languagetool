@@ -345,6 +345,7 @@ public class MultiDocumentsHandler {
       // not using MultiThreadedJLanguageTool here fixes "osl::Thread::Create failed", see https://bugs.documentfoundation.org/show_bug.cgi?id=90740:
       langTool = new JLanguageTool(docLanguage, config.getMotherTongue(), null, 
           new UserConfig(config.getConfigurableValues()));
+      docLanguage.getSentenceTokenizer().setSingleLineBreaksMarksParagraph(true);
       File ngramDirectory = config.getNgramDirectory();
       if (ngramDirectory != null) {
         File ngramLangDir = new File(config.getNgramDirectory(), docLanguage.getShortCode());
