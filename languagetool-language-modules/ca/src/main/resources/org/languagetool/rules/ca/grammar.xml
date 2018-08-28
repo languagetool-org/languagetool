@@ -3373,7 +3373,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule id="CONFUSIO_NOMBRE" name="Confusions de nombre: catequesis, diesis">
                 <pattern>
-                    <token regexp="yes">dièresis|catequesis|diesis|deisis|eneuresis|èmesis|catarsis|praxis|fibrosis|psicosis|.*sintaxis|.*praxis|.*diàlisis<exception postag="_GN_FP"/></token>
+                    <token regexp="yes">dièresis|catequesis|diesis|deisis|eneuresis|èmesis|catarsis|praxis|fibrosis|psicosis|.*sintaxis|.*praxis|.*diàlisis|.*mitosis<exception postag="_GN_FP"/></token>
                 </pattern>
                 <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(?iu)(.+)s" regexp_replace="$1"/></suggestion> (singular) en comptes de "<match no="1"/>" (plural)?</message>
                 <short>Possible confusió</short>
@@ -29936,15 +29936,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="PESAT_PESANT" name="pesat_pesant">
             <pattern>
-                <token inflected="yes" regexp="yes">aigua|pes|indústria|metall|maquinària|armament|arma|artilleria</token>
-                <token postag="AQ.*" postag_regexp="yes" inflected="yes">pesat</token>
+                <token inflected="yes" regexp="yes">aigua|pes|indústria|metall|maquinària|armament|arma|artilleria|partícula|element|nucli|quark</token>
+                <token min="0" regexp="yes">més|menys</token>
+                <marker>
+                    <token postag="AQ.*" postag_regexp="yes" inflected="yes">pesat</token>
+                </marker>
             </pattern>
             <message>Expressió incorrecta.</message>
-            <suggestion>\1 <match no="2" postag="AQ..([SP])." postag_regexp="yes" postag_replace="AQ0C$10">pesant</match></suggestion>
-            <example correction="pesos pesants"><marker>pesos pesats</marker></example>
-            <example correction="pes pesant"><marker>pes pesat</marker></example>
-            <example correction="indústria pesant"><marker>indústria pesada</marker></example>
-            <example correction="metalls pesants"><marker>metalls pesats</marker></example>
+            <suggestion><match no="3" postag="AQ..([SP])." postag_regexp="yes" postag_replace="AQ0C$10">pesant</match></suggestion>
+            <example correction="pesants">pesos <marker>pesats</marker></example>
+            <example correction="pesant">pes <marker>pesat</marker></example>
+            <example correction="pesant">indústria <marker>pesada</marker></example>
+            <example correction="pesants">metalls <marker>pesats</marker></example>
+            <example correction="pesants">Els elements més <marker>pesats</marker></example>
             <example>pesos pesants</example>
         </rule>
         <rule id="RESPECTE_AMB" name="respecte amb">
