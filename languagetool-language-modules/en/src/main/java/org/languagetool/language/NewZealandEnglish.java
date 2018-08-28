@@ -28,6 +28,7 @@ import org.languagetool.UserConfig;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.en.MorfologikNewZealandSpellerRule;
 import org.languagetool.rules.en.NewZealandReplaceRule;
+import org.languagetool.rules.en.UnitConversionRuleImperial;
 
 public class NewZealandEnglish extends English {
 
@@ -47,6 +48,7 @@ public class NewZealandEnglish extends English {
     rules.addAll(super.getRelevantRules(messages, userConfig));
     rules.add(new MorfologikNewZealandSpellerRule(messages, this, userConfig));
     rules.add(new NewZealandReplaceRule(messages));
+    rules.add(new UnitConversionRuleImperial(messages));
     return rules;
   }
 

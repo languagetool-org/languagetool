@@ -28,6 +28,7 @@ import org.languagetool.UserConfig;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.en.BritishReplaceRule;
 import org.languagetool.rules.en.MorfologikBritishSpellerRule;
+import org.languagetool.rules.en.UnitConversionRuleImperial;
 
 public class BritishEnglish extends English {
 
@@ -47,6 +48,7 @@ public class BritishEnglish extends English {
     rules.addAll(super.getRelevantRules(messages, userConfig));
     rules.add(new BritishReplaceRule(messages));
     rules.add(new MorfologikBritishSpellerRule(messages, this, userConfig));
+    rules.add(new UnitConversionRuleImperial(messages));
     return rules;
   }
 }

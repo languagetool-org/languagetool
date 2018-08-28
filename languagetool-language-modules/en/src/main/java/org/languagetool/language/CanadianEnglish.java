@@ -27,6 +27,7 @@ import java.util.ResourceBundle;
 import org.languagetool.UserConfig;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.en.MorfologikCanadianSpellerRule;
+import org.languagetool.rules.en.UnitConversionRuleImperial;
 
 public class CanadianEnglish extends English {
 
@@ -45,6 +46,7 @@ public class CanadianEnglish extends English {
     List<Rule> rules = new ArrayList<>();
     rules.addAll(super.getRelevantRules(messages, userConfig));
     rules.add(new MorfologikCanadianSpellerRule(messages, this, userConfig));
+    rules.add(new UnitConversionRuleImperial(messages));
     return rules;
   }
 
