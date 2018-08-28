@@ -648,8 +648,7 @@ public class JLanguageTool {
       if (++j == sentences.size() || isParaEnd) {
         AnalyzedTokenReadings[] anTokens = analyzedSentence.getTokens();
         int offset = j >= sentences.size() || singleLineBreaksMarksPara ? 1 : 2;
-        int markerOffset = Math.min(anTokens.length-1, offset);
-        anTokens[anTokens.length - markerOffset].setParagraphEnd();
+        anTokens[Math.max(0, anTokens.length - offset)].setParagraphEnd();
         analyzedSentence = new AnalyzedSentence(anTokens);
       }
       analyzedSentences.add(analyzedSentence);

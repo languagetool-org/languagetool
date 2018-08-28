@@ -241,8 +241,7 @@ public class MultiThreadedJLanguageTool extends JLanguageTool {
     public AnalyzedSentence call() throws Exception {
       AnalyzedSentence analyzedSentence = super.call();
       AnalyzedTokenReadings[] anTokens = analyzedSentence.getTokens();
-      int markerOffset = Math.min(anTokens.length-1, offset);
-      anTokens[anTokens.length - markerOffset].setParagraphEnd();
+      anTokens[Math.max(0, anTokens.length - offset)].setParagraphEnd();
       analyzedSentence = new AnalyzedSentence(anTokens);  ///TODO: why???
       return analyzedSentence;
     }
