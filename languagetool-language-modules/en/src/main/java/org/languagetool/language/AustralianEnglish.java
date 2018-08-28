@@ -27,6 +27,7 @@ import java.util.ResourceBundle;
 import org.languagetool.UserConfig;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.en.MorfologikAustralianSpellerRule;
+import org.languagetool.rules.en.UnitConversionRuleImperial;
 
 public class AustralianEnglish extends English {
 
@@ -45,6 +46,7 @@ public class AustralianEnglish extends English {
     List<Rule> rules = new ArrayList<>();
     rules.addAll(super.getRelevantRules(messages, userConfig));    
     rules.add(new MorfologikAustralianSpellerRule(messages, this, userConfig));
+    rules.add(new UnitConversionRuleImperial(messages));
     return rules;
   }
 

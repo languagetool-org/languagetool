@@ -27,6 +27,7 @@ import java.util.ResourceBundle;
 import org.languagetool.UserConfig;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.en.MorfologikAmericanSpellerRule;
+import org.languagetool.rules.en.UnitConversionRuleUS;
 
 public class AmericanEnglish extends English {
 
@@ -45,6 +46,7 @@ public class AmericanEnglish extends English {
     List<Rule> rules = new ArrayList<>();
     rules.addAll(super.getRelevantRules(messages, userConfig));
     rules.add(new MorfologikAmericanSpellerRule(messages, this, userConfig));
+    rules.add(new UnitConversionRuleUS(messages));
     return rules;
   }
 
