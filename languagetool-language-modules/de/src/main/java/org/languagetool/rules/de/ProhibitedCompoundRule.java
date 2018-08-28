@@ -167,7 +167,7 @@ public class ProhibitedCompoundRule extends Rule {
   private final BaseLanguageModel lm;
   private Pair confusionPair = null; // specify single pair for evaluation
   private AhoCorasickDoubleArrayTrie<String> ahoCorasickDoubleArrayTrie = null;
-  private Map<String, Pair> pairMap = new HashMap<>();
+  private Map<String, List<Pair>> pairMap = new HashMap<>();
 
   public ProhibitedCompoundRule(ResourceBundle messages, LanguageModel lm) {
     this.lm = (BaseLanguageModel) Objects.requireNonNull(lm);
@@ -191,8 +191,11 @@ public class ProhibitedCompoundRule extends Rule {
     {
       map.put(pair.part1, pair.part1);
       map.put(pair.part2, pair.part2);
-      pairMap.put(pair.part1, pair);
-      pairMap.put(pair.part2, pair);
+
+      pairMap.putIfAbsent(pair.part1, new LinkedList<>());
+      pairMap.putIfAbsent(pair.part2, new LinkedList<>());
+      pairMap.get(pair.part1).add(pair);
+      pairMap.get(pair.part2).add(pair);
     }
     // Build an AhoCorasickDoubleArrayTrie
     ahoCorasickDoubleArrayTrie = new AhoCorasickDoubleArrayTrie<String>();
@@ -215,12 +218,12 @@ public class ProhibitedCompoundRule extends Rule {
       // ignore other pair when confusionPair is set (-> running for evaluation)
 
       if (confusionPair == null) {
-        //candidatePairs = pairs;
         List<AhoCorasickDoubleArrayTrie.Hit<String>> wordList = ahoCorasickDoubleArrayTrie.parseText(word);
+        // might get duplicates, but since we only ever allow one match per word it doesn't matter
         for (AhoCorasickDoubleArrayTrie.Hit<String> hit : wordList) {
-          Pair pair = pairMap.get(hit.value);
+          List<Pair> pair = pairMap.get(hit.value);
           if (pair != null) {
-            candidatePairs.add(pair);
+            candidatePairs.addAll(pair);
           }
         }
       } else {
