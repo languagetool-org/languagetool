@@ -30,6 +30,9 @@ import java.util.ResourceBundle;
 
 import static tech.units.indriya.unit.Units.*;
 
+/**
+ * @since 4.3
+ */
 public class UnitConversionRule extends AbstractUnitConversionRule {
 
 
