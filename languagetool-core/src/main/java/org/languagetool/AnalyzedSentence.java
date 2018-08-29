@@ -49,9 +49,6 @@ public final class AnalyzedSentence {
         l.add(token);
         mapping[nonWhCounter] = whCounter;
         nonWhCounter++;
-      } else if(token.isParagraphEnd()) {
-        //  add paragraph end information to last non blank token
-        l.get(l.size()-1).setParagraphEnd();
       }
       whCounter++;
     }
