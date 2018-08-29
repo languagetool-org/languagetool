@@ -34,6 +34,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.regex.Pattern;
 
@@ -178,8 +179,8 @@ public class LanguageIdentifier {
 
   private void startFasttext(File modelPath, File binaryPath) throws IOException {
     fasttextProcess = new ProcessBuilder(binaryPath.getPath(), "predict-prob", modelPath.getPath(), "-", "" + K_HIGHEST_SCORES).start();
-    fasttextIn = new BufferedReader(new InputStreamReader(fasttextProcess.getInputStream()));
-    fasttextOut = new BufferedWriter(new OutputStreamWriter(fasttextProcess.getOutputStream()));
+    fasttextIn = new BufferedReader(new InputStreamReader(fasttextProcess.getInputStream(), StandardCharsets.UTF_8));
+    fasttextOut = new BufferedWriter(new OutputStreamWriter(fasttextProcess.getOutputStream(), StandardCharsets.UTF_8));
   }
 
   private String getHighestScoringResult(Map<String, Double> probs) {
