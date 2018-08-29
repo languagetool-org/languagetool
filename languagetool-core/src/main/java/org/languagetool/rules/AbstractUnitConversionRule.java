@@ -48,6 +48,10 @@ import java.util.stream.Collectors;
 
 import static tech.units.indriya.unit.Units.*;
 
+/**
+ * Base class providing support for detecting, parsing and converting between measurements in different units
+ * @since 4.3
+ */
 @SuppressWarnings("unchecked")
 public abstract class AbstractUnitConversionRule extends Rule {
   protected static final Unit<Mass> POUND = KILOGRAM.multiply(0.45359237);
@@ -77,9 +81,13 @@ public abstract class AbstractUnitConversionRule extends Rule {
   private static final int MAX_SUGGESTIONS = 5;
 
   protected Map<Pattern, Unit> unitPatterns = new HashMap<>();
+
+  // for patterns that require a custom number parsing function
   protected Map<Pattern, Map.Entry<Unit, Function<MatchResult, Double>>> specialPatterns = new HashMap<>();
   protected Map<Unit, List<String>>  unitSymbols = new HashMap<>();
+  // for recognizing conversions made by this rule or the user
   protected List<Pattern> convertedPatterns = new ArrayList<>();
+  // units to use for conversions
   protected final List<Unit> metricUnits = new ArrayList<>();
 
   protected enum Message {
@@ -89,7 +97,7 @@ public abstract class AbstractUnitConversionRule extends Rule {
     UNIT_MISMATCH
   }
 
-  private URL getUrl(String original) {
+  private URL buildURLForExplanation(String original) {
     try {
       String query = URLEncoder.encode("convert " + original + " to metric", "utf-8");
       return new URL("http://www.wolframalpha.com/input/?i=" + query);
@@ -98,6 +106,10 @@ public abstract class AbstractUnitConversionRule extends Rule {
     }
   }
 
+  /**
+   * Override in subclasses
+   * @return locale-specific number format
+   */
   protected NumberFormat getNumberFormat() {
     DecimalFormat df = new DecimalFormat();
     df.setMaximumFractionDigits(2);
@@ -105,21 +117,27 @@ public abstract class AbstractUnitConversionRule extends Rule {
     return df;
   }
 
+  /**
+   * Override in subclasses
+   */
   protected String getMessage(Message message) {
     switch(message) {
       case CHECK:
-        return "This conversion doesn't seem right. Correct it automatically?";
+        return "This conversion doesn't seem right. Do you want to correct it automatically?";
       case SUGGESTION:
-        return "Writing for an international audience? Automatically add the converted metric equivalent.";
+        return "Writing for an international audience? Consider adding the metric equivalent.";
       case CHECK_UNKNOWN_UNIT:
         return "This conversion doesn't seem right, unable to recognize the used unit.";
       case UNIT_MISMATCH:
         return "These units don't seem to be compatible.";
       default:
-        throw new RuntimeException("Unknown message type.");
+        throw new RuntimeException("Unknown message type." + message);
     }
   }
 
+  /**
+   * Override in subclasses
+   */
   protected String getShortMessage(Message message) {
     switch(message) {
       case CHECK:
@@ -131,20 +149,44 @@ public abstract class AbstractUnitConversionRule extends Rule {
       case UNIT_MISMATCH:
         return "Units incompatible.";
       default:
-        throw new RuntimeException("Unknown message type.");
+        throw new RuntimeException("Unknown message type." + message);
     }
   }
 
+  /**
+   *
+   * Format suggestion.
+   * @param original matched in the text
+   * @param converted computed by this rule
+   * @return
+   */
   protected String getSuggestion(String original, String converted) {
     return original + " (" + converted + ")";
   }
 
+  /**
+   * Override in subclasses.
+   * @return formatting of rounded numbers according to locale
+   */
+  protected String formatRounded(String s) {
+    return "ca. " + s;
+  }
+
+
+  /**
+   * Associate a notation with a given unit.
+   * @param pattern Regex for recognizing the unit. Word boundaries and numbers are added to this pattern by addUnit itself.
+   * @param base Unit to associate with the pattern
+   * @param symbol Suffix used for suggestion.
+   * @param factor Convience parameter for prefixes for metric units, unit is multiplied with this. Default to 1 if not used.
+   * @param metric Register this notation for suggestion.
+   */
   protected void addUnit(String pattern, Unit base, String symbol, double factor, boolean metric) {
     Unit unit = base.multiply(factor);
     unitPatterns.put(Pattern.compile("\\b" + NUMBER_REGEX + "\\s*" + pattern + "\\b"), unit);
     unitSymbols.putIfAbsent(unit, new ArrayList<>());
     unitSymbols.get(unit).add(symbol);
-    if (metric) {
+    if (metric && !metricUnits.contains(unit)) {
       metricUnits.add(unit);
     }
   }
@@ -222,6 +264,7 @@ public abstract class AbstractUnitConversionRule extends Rule {
 
     convertedPatterns.add(Pattern.compile("\\s*\\((?:ca. )?" + NUMBER_REGEX + "\\s*([^)]+)\\s*\\)"));
 
+    // recognizes 5'6" = 5 feet + 6 inches = 5.5 feet
     Function<MatchResult, Double> parseFeetAndInch = match -> {
       double feet, inch;
       try {
@@ -240,8 +283,14 @@ public abstract class AbstractUnitConversionRule extends Rule {
       new AbstractMap.SimpleImmutableEntry<>( FEET, parseFeetAndInch ));
   }
 
+  /**
+   * @param value number to convert
+   * @param unit unit used in text
+   * @return suggestions of the given number converted into metric units, sorted by naturalness
+   *         or null if conversion is not necessary / was not possible
+   */
   @Nullable
-  protected List<Map.Entry<Unit, Double>> getMetricEquivalent(double value, @NotNull Unit unit) throws IllegalArgumentException {
+  protected List<Map.Entry<Unit, Double>> getMetricEquivalent(double value, @NotNull Unit unit) {
     LinkedList<Map.Entry<Unit, Double>> conversions = new LinkedList<>();
     for (Unit metric : metricUnits) {
       if (unit.equals(metric)) { // don't convert to itself
@@ -254,33 +303,16 @@ public abstract class AbstractUnitConversionRule extends Rule {
       }
     }
     sortByNaturalness(conversions);
-    if (conversions.size() == 0)
-      throw new IllegalArgumentException("Unit " + unit + " is not convertible to any metric unit.");
-    else
+    if (conversions.size() == 0) {
+      return null;
+    }
+    else {
       return conversions;
+    }
   }
 
-  private void sortByNaturalness(List<Map.Entry<Unit, Double>> conversions) {
-    conversions.sort((a, b) -> { // sort according to "naturalness" of this unit, i.e. numbers not being too small/large
-      DoubleUnaryOperator naturalness = number -> { // smaller score -> better
-        double abs = Math.abs(number);
-        if (abs < 1.0) {
-          return 1.0 / (abs * abs * 2);
-        } else if (abs < 100) {
-          return abs - 50;
-        } else {
-          return abs * abs;
-        }
-      };
-      double scoreA = naturalness.applyAsDouble(a.getValue());
-      double scoreB = naturalness.applyAsDouble(b.getValue());
-      return Double.compare(scoreA, scoreB);
-    }) ;
-  }
-
-  // TODO refactor so that it can also format non metric values
   @Nullable
-  protected List<String> formatMeasurement(double value, @NotNull Unit unit) throws IllegalArgumentException {
+  protected List<String> formatMeasurement(double value, @NotNull Unit unit) {
     List<Map.Entry<Unit, Double>> equivalents = getMetricEquivalent(value, unit);
     if (equivalents == null) {
       return null;
@@ -292,6 +324,11 @@ public abstract class AbstractUnitConversionRule extends Rule {
     return formatted;
   }
 
+  /**
+   * Adds different formatted variants of the given conversions up to MAX_SUGGESTIONS.
+   * @param conversions as computed by getMetricEquivalent
+   * @return formatted numbers, with various units and unit symbols, rounded to integers or according to getNumberFormat
+   */
   @NotNull
   private List<String> getFormattedConversions(List<Map.Entry<Unit, Double>> conversions) {
     List<String> formatted = new ArrayList<>();
@@ -320,47 +357,22 @@ public abstract class AbstractUnitConversionRule extends Rule {
     return formatted;
   }
 
-  protected String formatRounded(String s) {
-    return "ca. " + s;
-  }
-
-  @Override
-  public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
-    List<RuleMatch> matches = new ArrayList<>();
-    List<Map.Entry<Integer, Integer>> ignoreRanges = new LinkedList<>();
-
-    // handle special patterns where simple number parsing is not enough, e.g. 5'6"
-    for (Pattern specialPattern : specialPatterns.keySet()) {
-      Matcher matcher = specialPattern.matcher(sentence.getText());
-      while (matcher.find()) {
-        MatchResult result = matcher.toMatchResult();
-        Double value = specialPatterns.get(specialPattern).getValue().apply(result);
-        Unit unit = specialPatterns.get(specialPattern).getKey();
-        if (value == null) {
-          continue;
+  private void sortByNaturalness(List<Map.Entry<Unit, Double>> conversions) {
+    conversions.sort((a, b) -> { // sort according to "naturalness" of this unit, i.e. numbers not being too small/large
+      DoubleUnaryOperator naturalness = number -> { // smaller score -> better
+        double abs = Math.abs(number);
+        if (abs < 1.0) {
+          return 1.0 / (abs * abs * 2);
+        } else if (abs < 100) {
+          return abs - 50;
+        } else {
+          return abs * abs;
         }
-        boolean ignore = false;
-        for (Map.Entry<Integer, Integer> range : ignoreRanges) {
-          if (matcher.start() >= range.getKey() && matcher.end() <= range.getValue()) {
-            ignore = true;
-            break;
-          }
-        }
-        if (!ignore) {
-            tryConversion(sentence, matches, specialPattern, value, unit, matcher, ignoreRanges);
-          }
-      }
-    }
-
-    // check for numbers with a given set of units (e.g. imperial)
-
-    // two runs: first metric units, so that ignore ranges are set up properly
-    // then match other units
-    // should fix sentences like 10 km (5 miles), where 5 miles matches first and matching 10 km first would have prevented that
-    // there should be no influence on other results
-    matchUnits(sentence, matches, ignoreRanges, true);
-    matchUnits(sentence, matches, ignoreRanges, false);
-    return matches.toArray(new RuleMatch[0]);
+      };
+      double scoreA = naturalness.applyAsDouble(a.getValue());
+      double scoreB = naturalness.applyAsDouble(b.getValue());
+      return Double.compare(scoreA, scoreB);
+    }) ;
   }
 
   private void matchUnits(AnalyzedSentence sentence, List<RuleMatch> matches, List<Map.Entry<Integer, Integer>> ignoreRanges, boolean isMetric) {
@@ -424,7 +436,7 @@ public abstract class AbstractUnitConversionRule extends Rule {
         .map(formatted -> getSuggestion(unitMatcher.group(0), formatted))
         .collect(Collectors.toList());
       match.setSuggestedReplacements(suggestions);
-      match.setUrl(getUrl(unitMatcher.group(0)));
+      match.setUrl(buildURLForExplanation(unitMatcher.group(0)));
       matches.add(match);
     } else { // check given conversion for accuracy
       Map.Entry<Integer, Integer> convertedRange = new AbstractMap.SimpleImmutableEntry<>(
@@ -449,7 +461,7 @@ public abstract class AbstractUnitConversionRule extends Rule {
           return;
         }
         if (converted == null) { // already metric, check conversion in convertedUnit / convertedValueInText (order may be reversed)
-            List<String> reverseConverted = null;
+          List<String> reverseConverted = null;
           try {
             double unitConverted = unit.getConverterTo(convertedUnit).convert(value);
             double diff = Math.abs(unitConverted - convertedValueInText);
@@ -457,12 +469,12 @@ public abstract class AbstractUnitConversionRule extends Rule {
               RuleMatch match = new RuleMatch(this, sentence,
                 convertedMatcher.start(1) + convertedOffset, convertedMatcher.end(1) + convertedOffset,
                 getMessage(Message.CHECK), getShortMessage(Message.CHECK));
-              match.setUrl(getUrl(convertedTrimmed));
+              match.setUrl(buildURLForExplanation(convertedTrimmed));
               List<Map.Entry<Unit, Double>> numbers = new ArrayList<>();
               numbers.add(new AbstractMap.SimpleImmutableEntry<>(convertedUnit, unitConverted));
               reverseConverted = getFormattedConversions(numbers);
               if (reverseConverted.stream().anyMatch(s -> s.equals(convertedTrimmed))) {
-                  return;
+                return;
               }
               match.setSuggestedReplacements(reverseConverted);
               matches.add(match);
@@ -473,7 +485,7 @@ public abstract class AbstractUnitConversionRule extends Rule {
             if (reverseConverted != null) {
               match.setSuggestedReplacements(reverseConverted);
             }
-            match.setUrl(getUrl(convertedTrimmed));
+            match.setUrl(buildURLForExplanation(convertedTrimmed));
             matches.add(match);
           }
         } else { // found conversion to metric, check for accuracy
@@ -489,7 +501,7 @@ public abstract class AbstractUnitConversionRule extends Rule {
               convertedMatcher.start(1) + convertedOffset, convertedMatcher.end(2) + convertedOffset,
               getMessage(Message.CHECK), getShortMessage(Message.CHECK));
             match.setSuggestedReplacements(converted);
-            match.setUrl(getUrl(unitMatcher.group(0)));
+            match.setUrl(buildURLForExplanation(unitMatcher.group(0)));
             matches.add(match);
           }
         }
@@ -502,5 +514,45 @@ public abstract class AbstractUnitConversionRule extends Rule {
       }
     }
   }
+
+  @Override
+  public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
+    List<RuleMatch> matches = new ArrayList<>();
+    List<Map.Entry<Integer, Integer>> ignoreRanges = new LinkedList<>();
+
+    // handle special patterns where simple number parsing is not enough, e.g. 5'6"
+    for (Pattern specialPattern : specialPatterns.keySet()) {
+      Matcher matcher = specialPattern.matcher(sentence.getText());
+      while (matcher.find()) {
+        MatchResult result = matcher.toMatchResult();
+        Double value = specialPatterns.get(specialPattern).getValue().apply(result);
+        Unit unit = specialPatterns.get(specialPattern).getKey();
+        if (value == null) {
+          continue;
+        }
+        boolean ignore = false;
+        for (Map.Entry<Integer, Integer> range : ignoreRanges) {
+          if (matcher.start() >= range.getKey() && matcher.end() <= range.getValue()) {
+            ignore = true;
+            break;
+          }
+        }
+        if (!ignore) {
+          tryConversion(sentence, matches, specialPattern, value, unit, matcher, ignoreRanges);
+        }
+      }
+    }
+
+    // check for numbers with a given set of units (e.g. imperial)
+
+    // two runs: first metric units, so that ignore ranges are set up properly
+    // then match other units
+    // should fix sentences like 10 km (5 miles), where 5 miles matches first and matching 10 km first would have prevented that
+    // there should be no influence on other results
+    matchUnits(sentence, matches, ignoreRanges, true);
+    matchUnits(sentence, matches, ignoreRanges, false);
+    return matches.toArray(new RuleMatch[0]);
+  }
+
 
 }

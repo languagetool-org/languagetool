@@ -30,6 +30,9 @@ import java.util.ResourceBundle;
 
 import static tech.units.indriya.unit.Units.*;
 
+/**
+ * @since 4.3
+ */
 public class UnitConversionRule extends AbstractUnitConversionRule {
 
   private final NumberFormat format;
@@ -110,7 +113,7 @@ public class UnitConversionRule extends AbstractUnitConversionRule {
       case UNIT_MISMATCH:
         return "Diese Einheiten sind nicht kompatibel.";
       default:
-        throw new RuntimeException("Unknown message type.");
+        throw new RuntimeException("Unknown message type." + message);
     }
   }
 
@@ -126,7 +129,7 @@ public class UnitConversionRule extends AbstractUnitConversionRule {
       case UNIT_MISMATCH:
         return "Inkompatible Einheiten.";
       default:
-        throw new RuntimeException("Unknown message type.");
+        throw new RuntimeException("Unknown message type." + message);
     }
   }
 
