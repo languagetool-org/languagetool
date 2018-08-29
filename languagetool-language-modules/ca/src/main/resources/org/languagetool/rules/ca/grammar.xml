@@ -36814,7 +36814,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token postag="AQ.MP.|V.P..PM." postag_regexp="yes"/>
                 </pattern>
-                <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(.+)es" regexp_replace="$1os" /></suggestion> (nom masc. pl.) en comptes de "<match no="1"/>" (adj. fem. sing.)?</message>
+                <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(?iu)(.+)es" regexp_replace="$1os" /></suggestion> (nom masc. pl.) en comptes de "<match no="1"/>" (adj. fem. sing.)?</message>
                 <short>Possible confusió</short>
                 <example correction="complexos">càpsules, begudes, <marker>complexes</marker> vitamínics.</example>
                 <example correction="reflexos">amb suaus ondulacions i <marker>reflexes</marker> produïts pels vidres.</example>
@@ -36828,10 +36828,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token><exception postag="N.F.*" postag_regexp="yes"/></token>
                 </pattern>
-                <message>¿Volíeu dir <suggestion><match no="2" regexp_match="(.+)es" regexp_replace="$1os" /></suggestion> (nom masc. pl.) en comptes de "<match no="2"/>" (adj. fem. sing.)?</message>
+                <message>¿Volíeu dir <suggestion><match no="2" regexp_match="(?iu)(.+)es" regexp_replace="$1os" /></suggestion> (nom masc. pl.) en comptes de "<match no="2"/>" (adj. fem. sing.)?</message>
                 <short>Possible confusió</short>
                 <example correction="reflexos">És un porter de grans <marker>reflexes</marker>, seguretat i personalitat.</example>
-                <example>Té grans complexos</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>els</token>
+                    <marker>
+                        <token regexp="yes">complexes|reflexes|annexes</token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="2" regexp_match="(?iu)(.+)es" regexp_replace="$1os" /></suggestion> (nom masc. pl.) en comptes de "<match no="2"/>" (adj. fem. sing.)?</message>
+                <short>Possible confusió</short>
+                <example correction="complexos">I que no confonguin <marker>complexes</marker> del sector.</example>
             </rule>
             <rule>
                 <pattern>
