@@ -19223,13 +19223,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>prêt-à-porter</example>
         </rule>
         <rule id="DEJA_VU" name="déjà-vu">
-            <antipattern> <!-- unnecessary when dictionary is updated-->
-                <marker>
-                    <token>déjà</token>
-                    <token spacebefore="no">-</token>
-                    <token spacebefore="no">vu</token>
-                </marker>
-            </antipattern>
             <pattern>
                 <token regexp="yes">d[eèé]j[aàá]</token>
                 <token min="0">-</token>
@@ -19238,7 +19231,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Error ortogràfic.</message>
             <suggestion>déjà-vu</suggestion>
             <example correction="déjà-vu"><marker>dejà-vu</marker>.</example>
-            <example>déjà-vu.</example>
+            <example>Un déjà-vu.</example>
         </rule>
         <rulegroup id="VERBS_NOMSPROPIS" name="verbs / noms propis: Barbara, Macàs, Adoram">
             <rule>
@@ -19475,6 +19468,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="subcampionats">Els <marker>sots-campionats</marker></example>
                 <example correction="subcampiones">Les <marker>sots-campiones</marker></example>
                 <example>El subcampió</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">cuita|corre|mata|nap|rat</token>
+                    <token>-</token>
+                    <token regexp="yes">corrents|cuita|degolla|buf</token>
+                </pattern>
+                <message>S'escriu junt sense guionet.</message>
+                <suggestion>\1\3</suggestion>
+                <example correction="matadegolla">A <marker>mata-degolla</marker></example>
+                <example correction="correcuita">A <marker>corre-cuita</marker></example>
             </rule>
             <rule>
                 <pattern>
@@ -26896,7 +26900,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>contra direcció</suggestion>
                 <example correction="contra direcció">Anava <marker>en contradirecció</marker></example>
             </rule>
-    </rulegroup>
+        </rulegroup>
         <rulegroup id="GIRAR_LES_TORNES" name="*girar les tornes">
              <rule>
                 <pattern>
@@ -26929,6 +26933,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="(girar-se) la truita|(bufar) nous vents|(bufar) vent contrari|(haver-hi) un capgirell|(mudar-se) els daus|(canviar) la sort">I llavors <marker>les tornes es van invertir</marker>.</example>
             </rule>
         </rulegroup>
+         <rule id="TRANQUES_I_BARRANQUES" name="*a tranques i barranques">
+            <pattern>
+                <token>a</token>
+                <token>tranques</token>
+                <token>i</token>
+                <token>barranques</token>
+            </pattern>
+            <message>Expressió incorrecta.</message>
+            <suggestion>a empentes i rodolons</suggestion>
+            <suggestion>a espentes i redolons</suggestion>
+            <suggestion>ara caic ara m'aixec</suggestion>
+            <suggestion>ací caic i allà m'alce</suggestion>
+            <example correction="a empentes i rodolons|a espentes i redolons|ara caic ara m'aixec|ací caic i allà m'alce"><marker>a tranques i barranques</marker>.</example>
+        </rule>
         <rulegroup id="VENIR_AVALL" name="venir-se avall">
              <rule>
                 <pattern>
@@ -31455,9 +31473,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">corre|cuita</token>
                     <token regexp="yes">cuita|corrents</token>
                 </pattern>
-                <message>¿Volíeu dir <suggestion>a <match no="2"/>-<match no="3"/></suggestion>?</message>
-                <example correction="a corre-cuita">se'n va anar <marker>a corre cuita</marker></example>
-                <example>se'n va anar a corre-cuita</example>
+                <message>¿Volíeu dir <suggestion>a <match no="2"/><match no="3"/></suggestion>?</message>
+                <example correction="a correcuita">se'n va anar <marker>a corre cuita</marker></example>
             </rule>
             <rule>
                 <pattern>
@@ -31467,20 +31484,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token regexp="yes">cuita|corrents</token>
                     </marker>
                 </pattern>
-                <message>¿Volíeu dir <suggestion>a <match no="2"/>-<match no="3"/></suggestion>?</message>
-                <example correction="a corre-cuita">se'n va anar <marker>corre cuita</marker></example>
-                <example>se'n va anar a corre-cuita</example>
+                <message>¿Volíeu dir <suggestion>a <match no="2"/><match no="3"/></suggestion>?</message>
+                <example correction="a correcuita">se'n va anar <marker>corre cuita</marker></example>
             </rule>
             <rule>
                 <pattern>
                     <token negate="yes">a</token>
                     <marker>
-                        <token regexp="yes">corre-cuita|cuita-corrents|corre-corrents</token>
+                        <token regexp="yes">correcuita|cuitacorrents|correcorrents</token>
                     </marker>
                 </pattern>
                 <message>¿Volíeu dir <suggestion>a <match no="2"/></suggestion>?</message>
-                <example correction="a corre-cuita">se'n va anar <marker>corre-cuita</marker></example>
-                <example>se'n va anar a corre-cuita</example>
+                <example correction="a correcorrents">se'n va anar <marker>correcorrents</marker></example>
+                <example correction="a correcuita">se'n va anar <marker>correcuita</marker></example>
             </rule>
         </rulegroup>
         <rule id="DIMMEDIAT" name="d'immediat">
@@ -40857,7 +40873,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion>(fer a algú) passar vergonya</suggestion>
             <suggestion>vergonya per (algú)</suggestion>
             <suggestion>vergonya</suggestion>
-            <example correction="(fer a algú) passar vergonya|vergonya per (algú)|vergonya">Tinc <marker>vergonya aliena</marker></example>
+            <suggestion>espectacle vergonyós</suggestion>
+            <example correction="(fer a algú) passar vergonya|vergonya per (algú)|vergonya|espectacle vergonyós">Tinc <marker>vergonya aliena</marker></example>
             <example>Em va fer passar vergonya</example>
         </rule>
         <rule id="ACCENTUACIO_PRINCIPAL" name="Exigeix accentuacions principals: sépia" default="off">
@@ -47147,68 +47164,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Useu el nom oficial del municipi valencià.</message>
                 <suggestion>Villanueva de Viver</suggestion>
                 <example correction="Villanueva de Viver"><marker>Vilanova de la Reina</marker></example>
-            </rule>
-        </rulegroup>
-        <!--<rulegroup id="PRE_IEC2017" name="Exigeix l'ortografia prèvia a la reforma IEC 2017">
-            <rule>
-                <pattern>
-                    <token postag="[NVA].*" postag_regexp="yes" regexp="yes">erradi.*</token>
-                </pattern>
-                <message>Useu l'ortografia de l'AVL.</message>
-                <suggestion><match no="1" regexp_match="(?iu)erradi(.*)" regexp_replace="eradi$1"/></suggestion>
-                <example correction="Eradicaren"><marker>Erradicaren</marker> els problemes.</example>
-                <example correction="eradicació">L'<marker>erradicació</marker> total.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token postag="[ANV].*" postag_regexp="yes" inflected="yes" regexp="yes">correceptor|corredempció|corredemptor|correferent|correferència|corregent|corregnant|corregnar|corregulació|corregulador|corregència|correligionari|correpressor|corresponsabilitat|corresponsabilització|corresponsabilitzar|corresponsable</token>
-                </pattern>
-                <message>Useu l'ortografia de l'AVL.</message>
-                <suggestion><match no="1" regexp_match="(?iu)corre(.*)" regexp_replace="core$1"/></suggestion>
-                <example correction="coresponsabilització"><marker>corresponsabilització</marker></example>
-                <example correction="coresponsabilitzen">Es <marker>corresponsabilitzen</marker>.</example>
-                <example correction="coreligionàries"><marker>correligionàries</marker></example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token postag="[NA].*" postag_regexp="yes" regexp="yes" inflected="yes">.*oidal|fluidal|laical</token>
-                </pattern>
-                <message>Useu l'ortografia de l'AVL.</message>
-                <suggestion><match no="1" regexp_match="(?iu)(.*o|flu|la)i([dc]als?)" regexp_replace="$1ï$2"/></suggestion>
-                <example correction="Laïcals"><marker>Laicals</marker>.</example>
-                <example correction="framboïdal">De forma <marker>framboidal</marker>.</example>
-            </rule>
-        </rulegroup>-->
-    </category>
-    <category id="IEC2017" name="Ortografia IEC2017" default="on"> <!-- es pot eliminar quan s'actualitzi el diccionari -->
-        <rulegroup id="ORTO_IEC2017" name="Exigeix l'ortografia IEC 2017 (excepte diacrítics)">
-            <rule>
-                <pattern>
-                    <token postag="[NVA].*" postag_regexp="yes" regexp="yes">eradi.*</token>
-                </pattern>
-                <message>Useu l'ortografia de l'IEC (2017).</message>
-                <suggestion><match no="1" regexp_match="(?iu)eradi(.*)" regexp_replace="erradi$1"/></suggestion>
-                <example correction="Erradicaren"><marker>Eradicaren</marker> els problemes.</example>
-                <example correction="erradicació">L'<marker>eradicació</marker> total.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token postag="[ANV].*" postag_regexp="yes" inflected="yes" regexp="yes">coreceptor|coredempció|coredemptor|coreferent|coreferència|coregent|coregnant|coregnar|coregulació|coregulador|coregència|coreligionari|corepressor|coresponsabilitat|coresponsabilització|coresponsabilitzar|coresponsable</token>
-                </pattern>
-                <message>Useu la nova ortografia (2017-2018).</message>
-                <suggestion><match no="1" regexp_match="(?iu)core(.*)" regexp_replace="corre$1"/></suggestion>
-                <example correction="corresponsabilització"><marker>coresponsabilització</marker></example>
-                <example correction="corresponsabilitzen">Es <marker>coresponsabilitzen</marker>.</example>
-                <example correction="correligionàries"><marker>coreligionàries</marker></example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token postag="[NA].*" postag_regexp="yes" regexp="yes" inflected="yes">.*oïdal|fluïdal|laïcal</token>
-                </pattern>
-                <message>Useu la nova ortografia (2017-2018).</message>
-                <suggestion><match no="1" regexp_match="(?iu)(.*o|flu|la)ï([dc]als?)" regexp_replace="$1i$2"/></suggestion>
-                <example correction="Laicals"><marker>Laïcals</marker>.</example>
-                <example correction="framboidal">De forma <marker>framboïdal</marker>.</example>
             </rule>
         </rulegroup>
     </category>
