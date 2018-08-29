@@ -4378,6 +4378,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Raneja a la ridiculesa.</example>
             </rule>
             <rule id="TRUCAR_A" name="trucar/telefonar intransitius">
+                <antipattern>
+                    <marker>
+                        <token postag="&pronom_feble;" postag_regexp="yes" regexp="yes">[^'-].*</token>
+                        <token min="0" max="4" inflected="yes" regexp="yes">anar|a|de|haver</token>
+                        <token inflected="yes" regexp="yes" postag="V.N.*|V...3..." postag_regexp="yes">trucar|telefonar</token>
+                    </marker>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token inflected="yes" regexp="yes">trucar|telefonar</token>
@@ -4386,9 +4393,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>El verb '<match no="1" postag="V.*" postag_regexp="yes" postag_replace="V.N.*"/>' és intransitiu. Probablement falta la preposició 'a'.</message>
                 <suggestion>\1 a</suggestion>
-                <short>Verb intransitiu.</short>
                 <example correction="truca a">Puigdemont <marker>truca</marker> Rajoy.</example>
-                <example>Vaig trucar la moto</example>
+                <example>Em va trucar Joan.</example>
+                <example>M'ha de telefonar Joan.</example>
+                <example>Si us telefona Joan.</example>
             </rule>
             <rule>
                 <pattern>
