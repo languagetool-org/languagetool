@@ -54,6 +54,7 @@ import static tech.units.indriya.unit.Units.*;
  */
 @SuppressWarnings("unchecked")
 public abstract class AbstractUnitConversionRule extends Rule {
+  
   protected static final Unit<Mass> POUND = KILOGRAM.multiply(0.45359237);
   protected static final Unit<Mass> OUNCE = POUND.divide(12);
 
@@ -154,11 +155,9 @@ public abstract class AbstractUnitConversionRule extends Rule {
   }
 
   /**
-   *
    * Format suggestion.
    * @param original matched in the text
    * @param converted computed by this rule
-   * @return
    */
   protected String getSuggestion(String original, String converted) {
     return original + " (" + converted + ")";
@@ -171,7 +170,6 @@ public abstract class AbstractUnitConversionRule extends Rule {
   protected String formatRounded(String s) {
     return "ca. " + s;
   }
-
 
   /**
    * Associate a notation with a given unit.
@@ -427,8 +425,7 @@ public abstract class AbstractUnitConversionRule extends Rule {
     }
     List<String> converted = formatMeasurement(value, unit);
     if (converted == null && convertedInText == null) {
-      // no conversion neccessary, e.g. already metric
-
+      // no conversion necessary, e.g. already metric
     } else if (convertedInText == null) { // no conversion found -> suggest one
       RuleMatch match = new RuleMatch(this, sentence, unitMatcher.start(), unitMatcher.end(),
         getMessage(Message.SUGGESTION), getShortMessage(Message.SUGGESTION));
@@ -553,6 +550,5 @@ public abstract class AbstractUnitConversionRule extends Rule {
     matchUnits(sentence, matches, ignoreRanges, false);
     return matches.toArray(new RuleMatch[0]);
   }
-
-
+  
 }

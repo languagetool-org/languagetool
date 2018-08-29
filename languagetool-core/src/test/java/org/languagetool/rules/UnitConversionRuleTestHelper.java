@@ -33,6 +33,7 @@ public class UnitConversionRuleTestHelper {
 
   public UnitConversionRuleTestHelper() {
   }
+
   public UnitConversionRuleTestHelper(boolean verbose) {
     this.verbose = verbose;
   }
@@ -42,10 +43,10 @@ public class UnitConversionRuleTestHelper {
     if (verbose) {
       System.out.println("----------------------------------------");
       System.out.println(input);
-    for (RuleMatch match : matches) {
-      System.out.println(match);
-      System.out.println(match.getSuggestedReplacements());
-    }
+      for (RuleMatch match : matches) {
+        System.out.println(match);
+        System.out.println(match.getSuggestedReplacements());
+      }
     }
     Assert.assertThat("Got matches: " + Arrays.toString(matches), matches.length, CoreMatchers.is(expectedMatches));
     if (expectedMatches > 0 && converted != null) {
