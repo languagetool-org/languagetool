@@ -21432,6 +21432,21 @@ USA
             <example>There was a long time there where my feelings for him was hella twisted.</example>
             <example>Additionally, there was a couple there where a woman had her entire arm adorned with a huge elaborate tattoo.</example>
         </rule>
+        <rulegroup id="WERE_WHERE" name="were (where)">
+            <rule>
+                <pattern>
+                    <token regexp="yes">from|to</token>
+                    <marker>
+                        <token>were</token>
+                    </marker>
+                    <token postag="PRP"></token>
+                </pattern>
+                <message>Did you mean <suggestion>where</suggestion>?</message>
+                <short>Possible typo</short>
+                <example correction="where">The troops had been taken to southern Libya from <marker>were</marker> they were rescued on Monday.</example>
+                <example correction="where">Go back to <marker>were</marker> you came from.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="ALTER_BOY" name="alter (altar)">
             <rule>
                 <pattern>
