@@ -156,6 +156,7 @@ public class LanguageIdentifier {
   @Nullable
   public Language detectLanguage(String text) {
     String shortText = text.length() > maxLength ? text.substring(0, maxLength) : text;
+    shortText = textObjectFactory.forText(shortText).toString();
     String languageCode = null;
     if (fasttextEnabled) {
       try {
@@ -223,8 +224,7 @@ public class LanguageIdentifier {
    */
   @Nullable
   private String detectLanguageCode(String text) {
-    TextObject textObject = textObjectFactory.forText(text);
-    Optional<LdLocale> lang = languageDetector.detect(textObject);
+    Optional<LdLocale> lang = languageDetector.detect(text);
     // comment in for debugging:
     //System.out.println(languageDetector.getProbabilities(textObject));
     if (lang.isPresent()) {
