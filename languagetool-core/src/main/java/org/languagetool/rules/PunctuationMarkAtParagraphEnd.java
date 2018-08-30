@@ -21,10 +21,12 @@ package org.languagetool.rules;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.Language;
 
 /**
  * A rule that checks for a punctuation mark at the end of a paragraph
@@ -35,9 +37,11 @@ public class PunctuationMarkAtParagraphEnd extends TextLevelRule {
   
   private final static String PUNCTUATION_MARKS[] = {".", "!", "?", ":", ",", ";"};
   private final static String QUOTATION_MARKS[] = {"„", "»", "«", "\"", "”", "″", "’", "‚", "‘", "›", "‹", "′", "'"};
+  private final Language lang;
 
-  public PunctuationMarkAtParagraphEnd(ResourceBundle messages) {
+  public PunctuationMarkAtParagraphEnd(ResourceBundle messages, Language lang) {
     super(messages);
+    this.lang = Objects.requireNonNull(lang);
     super.setCategory(Categories.PUNCTUATION.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Grammar);
   }
@@ -77,8 +81,12 @@ public class PunctuationMarkAtParagraphEnd extends TextLevelRule {
     return token.isWhitespace() && !token.isLinebreak();
   }
 
-  private static boolean isParaBreak(AnalyzedTokenReadings token) {
-    return token.isParagraphEnd();
+  private boolean isParaBreak(AnalyzedTokenReadings token) {
+    if (lang.getSentenceTokenizer().singleLineBreaksMarksPara()) {
+      return "\n".equals(token.getToken()) || "\r\n".equals(token.getToken()) || "\n\r".equals(token.getToken());
+    } else {
+      return "\n\n".equals(token.getToken()) || "\r\n\r\n".equals(token.getToken()) || "\n\r\n\r".equals(token.getToken());
+    }
   }
 
   @Override

@@ -94,7 +94,7 @@ public class SuggestionReplacerTest {
 
   @Test
   public void testErrorAtParagraphBeginning() throws Exception {
-    String markup = "X\n\nA hour ago\n";
+    String markup = "X\n\nA hour ago.\n";
     applySuggestion(englishLangTool, filter, markup, markup.replace("A", "<s>An</s>"));
   }
 
@@ -144,6 +144,7 @@ public class SuggestionReplacerTest {
     langTool.disableRule("TYPOGRAFISCHE_ANFUEHRUNGSZEICHEN");
     langTool.disableRule("OLD_SPELLING");
     langTool.disableRule("DE_TOO_LONG_SENTENCE_40");
+    langTool.disableRule("PUNCTUATION_PARAGRAPH_END");
     PlainTextMapping mapping = filter.filter(origMarkup);
     List<RuleMatch> matches = langTool.check(mapping.getPlainText());
     assertThat("Expected 3 matches, got: " + matches, matches.size(), is(3));

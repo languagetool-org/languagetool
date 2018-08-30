@@ -52,7 +52,7 @@ public class PunctuationMarkAtParagraphEndTest {
     for (Rule rule : lt.getAllRules()) {
       lt.disableRule(rule.getId());
     }
-    PunctuationMarkAtParagraphEnd rule = new PunctuationMarkAtParagraphEnd(TestTools.getEnglishMessages());
+    PunctuationMarkAtParagraphEnd rule = new PunctuationMarkAtParagraphEnd(TestTools.getEnglishMessages(), TestTools.getDemoLanguage());
     lt.addRule(rule);
   }
 

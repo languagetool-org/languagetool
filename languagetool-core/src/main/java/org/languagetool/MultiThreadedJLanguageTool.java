@@ -18,6 +18,7 @@
  */
 package org.languagetool;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -30,7 +31,6 @@ import java.util.concurrent.ThreadFactory;
 import org.languagetool.markup.AnnotatedText;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
-import org.languagetool.tools.StringTools;
 
 /**
  * A variant of {@link JLanguageTool} that uses several threads for rule matching.
@@ -128,7 +128,7 @@ public class MultiThreadedJLanguageTool extends JLanguageTool {
   }
   
   @Override
-  protected List<AnalyzedSentence> analyzeSentences(List<String> sentences) {
+  protected List<AnalyzedSentence> analyzeSentences(List<String> sentences) throws IOException {
     List<AnalyzedSentence> analyzedSentences = new ArrayList<>();
     
     ExecutorService executorService = getExecutorService();
@@ -137,15 +137,10 @@ public class MultiThreadedJLanguageTool extends JLanguageTool {
     
     List<Callable<AnalyzedSentence>> callables = new ArrayList<>();
     for (String sentence : sentences) {
-      boolean singleLineBreaksMarksPara = getLanguage().getSentenceTokenizer().singleLineBreaksMarksPara();
-      boolean isParaEnd = StringTools.isParagraphEnd(sentence, singleLineBreaksMarksPara);
-      AnalyzeSentenceCallable analyzeSentenceCallable;
-      if (++j >= sentences.size() || isParaEnd) {
-        int offset = j >= sentences.size() || singleLineBreaksMarksPara ? 1 : 2;
-        analyzeSentenceCallable = new ParagraphEndAnalyzeSentenceCallable(sentence, offset);
-      } else {
-        analyzeSentenceCallable = new AnalyzeSentenceCallable(sentence);
-      }
+      AnalyzeSentenceCallable analyzeSentenceCallable = 
+          ++j < sentences.size() 
+            ? new AnalyzeSentenceCallable(sentence)
+            : new ParagraphEndAnalyzeSentenceCallable(sentence);
       callables.add(analyzeSentenceCallable);
     }
     
@@ -231,17 +226,15 @@ public class MultiThreadedJLanguageTool extends JLanguageTool {
   }
   
   private final class ParagraphEndAnalyzeSentenceCallable extends AnalyzeSentenceCallable {
-    private int offset;
-    private ParagraphEndAnalyzeSentenceCallable(String sentence, int offset) {
+    private ParagraphEndAnalyzeSentenceCallable(String sentence) {
       super(sentence);
-      this.offset = offset;
     }
 
     @Override
     public AnalyzedSentence call() throws Exception {
       AnalyzedSentence analyzedSentence = super.call();
       AnalyzedTokenReadings[] anTokens = analyzedSentence.getTokens();
-      anTokens[Math.max(0, anTokens.length - offset)].setParagraphEnd();
+      anTokens[anTokens.length - 1].setParagraphEnd();
       analyzedSentence = new AnalyzedSentence(anTokens);  ///TODO: why???
       return analyzedSentence;
     }
