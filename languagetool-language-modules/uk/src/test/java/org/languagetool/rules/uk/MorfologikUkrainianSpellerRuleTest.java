@@ -161,6 +161,13 @@ public class MorfologikUkrainianSpellerRuleTest {
     assertEquals(1, match.length);
 
     assertTrue("Unexpected suggestions: " + match[0].getSuggestedReplacements().toString(), match[0].getSuggestedReplacements().isEmpty());
+
+    match = rule.match(langTool.getAnalyzedSentence("радіо- та відеоспостереження"));
+    assertEquals(0, match.length);
+
+    match = rule.match(langTool.getAnalyzedSentence("радіо- засоби"));
+    assertEquals(1, match.length);
+
   }  
   
 }

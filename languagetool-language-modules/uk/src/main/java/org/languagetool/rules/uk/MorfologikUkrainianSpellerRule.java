@@ -57,9 +57,13 @@ public final class MorfologikUkrainianSpellerRule extends MorfologikSpellerRule 
   
   @Override
   protected boolean isMisspelled(MorfologikMultiSpeller speller, String word) {
+    if( word.endsWith("-") )
+      return true;
+  
     if( word.endsWith("²") || word.endsWith("³") ) {
       word = word.substring(0, word.length() - 1); 
     }
+
     return super.isMisspelled(speller, word);
   }
 
@@ -108,9 +112,11 @@ public final class MorfologikUkrainianSpellerRule extends MorfologikSpellerRule 
   protected void filterSuggestions(List<String> suggestions) {
     super.filterSuggestions(suggestions);
 
+    // do not suggest "кіно прокат, вело- прогулянка..."
     for (Iterator<String> iterator = suggestions.iterator(); iterator.hasNext();) {
       String item = iterator.next();
-      if( item.contains(" ") && DO_NOT_SUGGEST_SPACED_PATTERN.matcher(item).matches() ) {
+      if( item.contains(" ") && DO_NOT_SUGGEST_SPACED_PATTERN.matcher(item).matches()
+              || item.contains("- ") ) {
         iterator.remove();
       }
     }
