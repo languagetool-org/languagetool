@@ -139,8 +139,17 @@ public class UkrainianWordTokenizerTest {
     testList = w.tokenize("І.\u00A0Єрмолюк.");
     assertEquals(Arrays.asList("І.", "\u00A0", "Єрмолюк", "."), testList);
 
+    testList = w.tokenize("Засідав Єрмолюк І.");
+    assertEquals(Arrays.asList("Засідав", " ", "Єрмолюк", " ", "І."), testList);
+
+    testList = w.tokenize("Засідав Єрмолюк І. П.");
+    assertEquals(Arrays.asList("Засідав", " ", "Єрмолюк", " ", "І.", " ", "П."), testList);
+
+    testList = w.tokenize("Засідав Єрмолюк І. та інші");
+    assertEquals(Arrays.asList("Засідав", " ", "Єрмолюк", " ", "І.", " ", "та", " ", "інші"), testList);
+
     // скорочення
-    
+
     testList = w.tokenize("140 тис. працівників");
     assertEquals(Arrays.asList("140", " ", "тис.", " ", "працівників"), testList);
 
@@ -174,6 +183,15 @@ public class UkrainianWordTokenizerTest {
  
     testList = w.tokenize("до н.е.");
     assertEquals(Arrays.asList("до", " ", "н.", "е."), testList);
+
+    testList = w.tokenize("в. о. начальника");
+    assertEquals(Arrays.asList("в.", " ", "о.", " ", "начальника"), testList);
+
+    testList = w.tokenize("в.о. начальника");
+    assertEquals(Arrays.asList("в.", "о.", " ", "начальника"), testList);
+
+    testList = w.tokenize("100 к.с.");
+    assertEquals(Arrays.asList("100", " ", "к.", "с."), testList);
 
     testList = w.tokenize("1998 р.н.");
     assertEquals(Arrays.asList("1998", " ", "р.", "н."), testList);

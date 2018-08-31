@@ -81,21 +81,27 @@ public class UkrainianWordTokenizer implements Tokenizer {
   private static final String BREAKING_PLACEHOLDER = "\uE110";
 
   // abbreviation dot
-  //TODO: л.с., ч.л./ч. л., ст. л., р. х.
-  private static final Pattern ABBR_DOT_TYS_PATTERN1 = Pattern.compile("([0-9IІ][\\s\u00A0\u202F]+)(тис)\\.");
-  private static final Pattern ABBR_DOT_TYS_PATTERN2 = Pattern.compile("(тис)\\.([\\s\u00A0\u202F]+[а-яіїєґ0-9])");
+  private static final Pattern ABBR_DOT_VO_PATTERN1 = Pattern.compile("(в)\\.([\\s\u00A0\u202F]*о)\\.");
+  private static final Pattern ABBR_DOT_VO_PATTERN2 = Pattern.compile("(к)\\.([\\s\u00A0\u202F]*с)\\.");
+  private static final Pattern ABBR_DOT_VO_PATTERN3 = Pattern.compile("(ч|ст)\\.([\\s\u00A0\u202F]*л)\\.");
+//  private static final Pattern ABBR_DOT_VO_PATTERN4 = Pattern.compile("(р)\\.([\\s\u00A0\u202F]*х)\\.");
+  private static final Pattern ABBR_DOT_TYS_PATTERN1 = Pattern.compile("([0-9IІ][\\s\u00A0\u202F]+)(тис|арт)\\.");
+  private static final Pattern ABBR_DOT_TYS_PATTERN2 = Pattern.compile("(тис|арт)\\.([\\s\u00A0\u202F]+[а-яіїєґ0-9])");
   private static final Pattern ABBR_DOT_LAT_PATTERN = Pattern.compile("([^а-яіїєґА-ЯІЇЄҐ'-]лат)\\.([\\s\u00A0\u202F]+[a-zA-Z])");
-  private static final Pattern ABBR_DOT_PROF_PATTERN = Pattern.compile("([Аа]кад|[Пп]роф|[Дд]оц|[Аа]сист|вул|о|р|ім)\\.([\\s\u00A0\u202F]+[А-ЯІЇЄҐ])");
+  private static final Pattern ABBR_DOT_PROF_PATTERN = Pattern.compile("([Аа]кад|[Пп]роф|[Дд]оц|[Аа]сист|[Аа]рх|вул|о|р|ім)\\.([\\s\u00A0\u202F]+[А-ЯІЇЄҐ])");
 
-  // tokenize initials with dot, e.g. "А.", "Ковальчук"
-  private static final Pattern INITIALS_DOT_PATTERN_SP_2 = Pattern.compile("([А-ЯІЇЄҐ])\\.([\\s\u00A0\u202F][А-ЯІЇЄҐ])\\.([\\s\u00A0\u202F][А-ЯІЇЄҐ][а-яіїєґ']+)");
-  private static final String INITIALS_DOT_REPL_SP_2 = "$1" + NON_BREAKING_DOT_SUBST + "$2" + NON_BREAKING_DOT_SUBST + "$3";
-  private static final Pattern INITIALS_DOT_PATTERN_SP_1 = Pattern.compile("([А-ЯІЇЄҐ])\\.([\\s\u00A0\u202F][А-ЯІЇЄҐ][а-яіїєґ']+)");
-  private static final String INITIALS_DOT_REPL_SP_1 = "$1" + NON_BREAKING_DOT_SUBST + "$2";
-  private static final Pattern INITIALS_DOT_PATTERN_NSP_2 = Pattern.compile("([А-ЯІЇЄҐ])\\.([А-ЯІЇЄҐ])\\.([А-ЯІЇЄҐ][а-яіїєґ']+)");
-  private static final String INITIALS_DOT_REPL_NSP_2 = "$1" + NON_BREAKING_DOT_SUBST + BREAKING_PLACEHOLDER + "$2" + NON_BREAKING_DOT_SUBST + BREAKING_PLACEHOLDER + "$3";
-  private static final Pattern INITIALS_DOT_PATTERN_NSP_1 = Pattern.compile("([А-ЯІЇЄҐ])\\.([А-ЯІЇЄҐ][а-яіїєґ']+)");
-  private static final String INITIALS_DOT_REPL_NSP_1 = "$1" + NON_BREAKING_DOT_SUBST + BREAKING_PLACEHOLDER + "$2";
+  // tokenize initials with dot before last name, e.g. "А.", "Ковальчук"
+  private static final Pattern INITIALS_DOT_PATTERN_SP_2 = Pattern.compile("([А-ЯІЇЄҐ])\\.([\\s\u00A0\u202F]?[А-ЯІЇЄҐ])\\.([\\s\u00A0\u202F]?[А-ЯІЇЄҐ][а-яіїєґ']+)");
+  private static final Pattern INITIALS_DOT_PATTERN_SP_1 = Pattern.compile("([А-ЯІЇЄҐ])\\.([\\s\u00A0\u202F]?[А-ЯІЇЄҐ][а-яіїєґ']+)");
+
+  // tokenize initials with dot after last name, e.g.  "Ковальчук", "А."
+  private static final Pattern INITIALS_DOT_PATTERN_RSP_2 = Pattern.compile("([А-ЯІЇЄҐ][а-яіїєґ']+)([\\s\u00A0\u202F]?[А-ЯІЇЄҐ])\\.([\\s\u00A0\u202F]?[А-ЯІЇЄҐ])\\.");
+  private static final Pattern INITIALS_DOT_PATTERN_RSP_1 = Pattern.compile("([А-ЯІЇЄҐ][а-яіїєґ']+)([\\s\u00A0\u202F]?[А-ЯІЇЄҐ])\\.");
+
+  private static final String INITIALS_DOT_REPL_SP_2 = "$1" + NON_BREAKING_DOT_SUBST + BREAKING_PLACEHOLDER + "$2" + NON_BREAKING_DOT_SUBST + BREAKING_PLACEHOLDER + "$3";
+  private static final String INITIALS_DOT_REPL_SP_1 = "$1" + NON_BREAKING_DOT_SUBST + BREAKING_PLACEHOLDER + "$2";
+  private static final String INITIALS_DOT_REPL_RSP_2 = "$1" + BREAKING_PLACEHOLDER + "$2" + NON_BREAKING_DOT_SUBST + BREAKING_PLACEHOLDER + "$3" + NON_BREAKING_DOT_SUBST + BREAKING_PLACEHOLDER;
+  private static final String INITIALS_DOT_REPL_RSP_1 = "$1" + BREAKING_PLACEHOLDER + "$2" + NON_BREAKING_DOT_SUBST + BREAKING_PLACEHOLDER;
 
   // село, місто, річка (якщо з цифрою: секунди, метри, роки) - з роками складно
 //  private static final Pattern ABBR_DOT_INVALID_DOT_PATTERN = Pattern.compile("((?:[0-9]|кв\\.|куб\\.)[\\s\u00A0\u202F]+(?:[смкд]|мк)?м)\\.(.)");
@@ -103,14 +109,18 @@ public class UkrainianWordTokenizer implements Tokenizer {
   private static final Pattern ABBR_DOT_S_G_PATTERN = Pattern.compile("(с)\\.(-г)\\.");
   private static final Pattern ABBR_DOT_2_SMALL_LETTERS_PATTERN = Pattern.compile("([^а-яіїєґ'-][векнпрстцч]{1,2})\\.([екмнпрстч]{1,2})\\.");
   private static final String ABBR_DOT_2_SMALL_LETTERS_REPL = "$1" + NON_BREAKING_DOT_SUBST + BREAKING_PLACEHOLDER + "$2" + NON_BREAKING_DOT_SUBST;
+  
+  private static final String ONE_DOT_TWO_REPL = "$1" + NON_BREAKING_DOT_SUBST + "$2";
 
   // скорочення що не можуть бути в кінці речення
-  private static final Pattern ABBR_DOT_NON_ENDING_PATTERN = Pattern.compile("(?<![а-яіїєґА-ЯІЇЄҐ'-])(абз|амер|англ|акад(ем)?|арк|бл(?:изьк)?|буд|вип|вірм|грец(?:ьк)|див|дод|дол|досл|доц|доп|ел|жін|зав|заст|зб|зв|ім|івр|ісп|італ"
-      + "|к|каф|канд|кв|[1-9]-кімн|кімн|кл|н|напр|п|пен|перекл|пл|пор|поч|прибл|пров|просп|[Рр]ед|[Рр]еж|рт|с|[Сс]в|соц|співавт|стор|табл|[тТ]ел|укр|філол|фр|франц|ч|чайн|ц)\\.(?!$)");
+  private static final Pattern ABBR_DOT_NON_ENDING_PATTERN = Pattern.compile("(?<![а-яіїєґА-ЯІЇЄҐ'-])(абз|амер|англ|акад(ем)?|арк|ауд|бл(?:изьк)?|буд|в|вип|вірм|грец(?:ьк)|див|дод|дол|досл|доц|доп|ел|жін|зав|заст|зб|зв|ім|івр|ісп|італ"
+      + "|к|каф|канд|кв|[1-9]-кімн|кімн|кл|н|напр|п|пен|перекл|пл|пол|пор|поч|пп|прибл|пров|просп|[Рр]ед|[Рр]еж|розд|рт|с|[Сс]в|соц|співавт|стор|табл|[тТ]ел|укр|філол|фр|франц|ч|чайн|ц)\\.(?!$)");
   private static final Pattern ABBR_DOT_NON_ENDING_PATTERN_2 = Pattern.compile("([^а-яіїєґА-ЯІЇЄҐ'-]м)\\.([\\s\u00A0\u202F]*[А-ЯІЇЄҐ])");
   // скорочення що можуть бути в кінці речення
-  private static final Pattern ABBR_DOT_ENDING_PATTERN = Pattern.compile("([^а-яіїєґА-ЯІЇЄҐ'-]((та|й) ін|е|коп|обл|р|рр|руб|ст|стол|стор|чол|шт))\\.");
+  private static final Pattern ABBR_DOT_ENDING_PATTERN = Pattern.compile("([^а-яіїєґА-ЯІЇЄҐ'-]((та|й) ін|атм|е|коп|обл|р|рр|руб|ст|стол|стор|чол|шт))\\.");
   private static final Pattern ABBR_DOT_I_T_P_PATTERN = Pattern.compile("([ій][\\s\u00A0\u202F]+т)\\.([\\s\u00A0\u202F]*(д|п|ін))\\.");
+
+  private static final Pattern ABBR_AT_THE_END = Pattern.compile("(?<![а-яіїєґА-ЯІЇЄҐ])(тис|[А-ЯІЇЄҐ])\\.$");
 
   // Сьогодні (у четвер. - Ред.), вранці.
 //  private static final Pattern ABBR_DOT_PATTERN8 = Pattern.compile("([\\s\u00A0\u202F]+[–—-][\\s\u00A0\u202F]+(?:[Рр]ед|[Аа]вт))\\.([\\)\\]])");
@@ -162,39 +172,43 @@ public class UkrainianWordTokenizer implements Tokenizer {
     boolean dotInsideSentence = dotIndex >= 0 && dotIndex < text.length()-1;
     
     if( dotInsideSentence 
-        || (dotIndex == text.length()-1 && text.endsWith("тис.") ) ) {  // ugly - special case for тис.
+        || (dotIndex == text.length()-1
+            && ABBR_AT_THE_END.matcher(text).find()) ) {  // ugly - special case for тис.
 
-    	if( text.contains(ELLIPSIS) ) {
-    		text = text.replace(ELLIPSIS, ELLIPSIS_SUBST);
-    	}
-    	if( text.contains(ELLIPSIS2) ) {
-    		text = text.replace(ELLIPSIS2, ELLIPSIS2_SUBST);
-    	}
-    	if( text.contains(ELLIPSIS3) ) {
-    		text = text.replace(ELLIPSIS3, ELLIPSIS3_SUBST);
-    	}
-    
-    	text = DATE_PATTERN.matcher(text).replaceAll(DATE_PATTERN_REPL);
+      if( text.contains(ELLIPSIS) ) {
+        text = text.replace(ELLIPSIS, ELLIPSIS_SUBST);
+      }
+      if( text.contains(ELLIPSIS2) ) {
+        text = text.replace(ELLIPSIS2, ELLIPSIS2_SUBST);
+      }
+      if( text.contains(ELLIPSIS3) ) {
+        text = text.replace(ELLIPSIS3, ELLIPSIS3_SUBST);
+      }
+
+      text = DATE_PATTERN.matcher(text).replaceAll(DATE_PATTERN_REPL);
       text = DOTTED_NUMBERS_PATTERN.matcher(text).replaceAll(DOTTED_NUMBERS_REPL);
 
       text = ABBR_DOT_2_SMALL_LETTERS_PATTERN.matcher(text).replaceAll(ABBR_DOT_2_SMALL_LETTERS_REPL);
+      text = ABBR_DOT_VO_PATTERN1.matcher(text).replaceAll(ABBR_DOT_2_SMALL_LETTERS_REPL);
+      text = ABBR_DOT_VO_PATTERN2.matcher(text).replaceAll(ABBR_DOT_2_SMALL_LETTERS_REPL);
+      text = ABBR_DOT_VO_PATTERN3.matcher(text).replaceAll(ABBR_DOT_2_SMALL_LETTERS_REPL);
       text = ABBR_DOT_TYS_PATTERN1.matcher(text).replaceAll("$1$2" + NON_BREAKING_DOT_SUBST + BREAKING_PLACEHOLDER);
-      text = ABBR_DOT_TYS_PATTERN2.matcher(text).replaceAll("$1" + NON_BREAKING_DOT_SUBST + "$2");
-      text = ABBR_DOT_LAT_PATTERN.matcher(text).replaceAll("$1" + NON_BREAKING_DOT_SUBST + "$2");
-      text = ABBR_DOT_PROF_PATTERN.matcher(text).replaceAll("$1" + NON_BREAKING_DOT_SUBST + "$2");
-      
+      text = ABBR_DOT_TYS_PATTERN2.matcher(text).replaceAll(ONE_DOT_TWO_REPL);
+      text = ABBR_DOT_LAT_PATTERN.matcher(text).replaceAll(ONE_DOT_TWO_REPL);
+      text = ABBR_DOT_PROF_PATTERN.matcher(text).replaceAll(ONE_DOT_TWO_REPL);
+
       text = INITIALS_DOT_PATTERN_SP_2.matcher(text).replaceAll(INITIALS_DOT_REPL_SP_2);
       text = INITIALS_DOT_PATTERN_SP_1.matcher(text).replaceAll(INITIALS_DOT_REPL_SP_1);
-      text = INITIALS_DOT_PATTERN_NSP_2.matcher(text).replaceAll(INITIALS_DOT_REPL_NSP_2);
-      text = INITIALS_DOT_PATTERN_NSP_1.matcher(text).replaceAll(INITIALS_DOT_REPL_NSP_1);
+      text = INITIALS_DOT_PATTERN_RSP_2.matcher(text).replaceAll(INITIALS_DOT_REPL_RSP_2);
+      text = INITIALS_DOT_PATTERN_RSP_1.matcher(text).replaceAll(INITIALS_DOT_REPL_RSP_1);
 
-//      text = ABBR_DOT_INVALID_DOT_PATTERN.matcher(text).replaceAll("$1" + NON_BREAKING_DOT_SUBST + "$2");
+//      text = ABBR_DOT_INVALID_DOT_PATTERN.matcher(text).replaceAll(ONE_DOT_TWO_REPL);
       text = ABBR_DOT_KUB_SM_PATTERN.matcher(text).replaceAll("$1" + NON_BREAKING_DOT_SUBST + BREAKING_PLACEHOLDER + "$2");
       text = ABBR_DOT_S_G_PATTERN.matcher(text).replaceAll("$1" + NON_BREAKING_DOT_SUBST + "$2" + NON_BREAKING_DOT_SUBST);
       text = ABBR_DOT_I_T_P_PATTERN.matcher(text).replaceAll("$1" + NON_BREAKING_DOT_SUBST + "$2" + NON_BREAKING_DOT_SUBST);
-      text = ABBR_DOT_RED_AVT_PATTERN.matcher(text).replaceAll("$1" + NON_BREAKING_DOT_SUBST + "$2");
+      text = ABBR_DOT_RED_AVT_PATTERN.matcher(text).replaceAll(ONE_DOT_TWO_REPL);
       text = ABBR_DOT_NON_ENDING_PATTERN.matcher(text).replaceAll("$1" + NON_BREAKING_DOT_SUBST);
-      text = ABBR_DOT_NON_ENDING_PATTERN_2.matcher(text).replaceAll("$1" + NON_BREAKING_DOT_SUBST + "$2");
+      text = ABBR_DOT_NON_ENDING_PATTERN_2.matcher(text).replaceAll(ONE_DOT_TWO_REPL);
     }
 
     text = ABBR_DOT_ENDING_PATTERN.matcher(text).replaceAll("$1" + NON_BREAKING_DOT_SUBST);
@@ -263,7 +277,7 @@ public class UkrainianWordTokenizer implements Tokenizer {
           token = token.replace(entry.getKey(), entry.getValue());
         }
       }
-      
+
       tokenList.add( token );
     }
 
