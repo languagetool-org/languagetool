@@ -78,6 +78,11 @@ public class UppercaseSentenceStartRule extends TextLevelRule {
   public RuleMatch[] match(List<AnalyzedSentence> sentences) throws IOException {
     String lastParagraphString = "";
     List<RuleMatch> ruleMatches = new ArrayList<>();
+    if (sentences.size() == 1 && sentences.get(0).getTokens().length == 2) {
+      // Special case for a single "sentence" with a single word - it's not useful
+      // to complain about this (and might hide a typo error):
+      return toRuleMatchArray(ruleMatches);
+    }
     int pos = 0;
     for (AnalyzedSentence sentence : sentences) {
       AnalyzedTokenReadings[] tokens = getSentenceWithImmunization(sentence).getTokensWithoutWhitespace();
