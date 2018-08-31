@@ -264,6 +264,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       -->
     </rulegroup>
 
+    <rulegroup id="missing_space" name="Пропуски">
+      <rule>
+        <pattern>
+          <token regexp="yes">.*[а-яіїєґ]</token>
+          <marker>
+            <token>,</token>
+            <token spacebefore="no" regexp="yes">[^  —–-]</token>
+          </marker>
+        </pattern>
+        <message>Відсутній пробіл після коми</message>
+        <suggestion>\2 \3</suggestion>
+        <example correction=", і">я цього досягла<marker>,і</marker> все</example>
+        <example>я цього досягла, і все</example>
+      </rule>
+    </rulegroup>
+
     <!--
         На жаль правило впирається в семантичний рівень, можна хіба що спробувати ловити перед числом або числівником
         <rulegroup name="Зайва кома в оборотах «більш ніж…»" id="NO_COMMA_BEFORE_NIZH">

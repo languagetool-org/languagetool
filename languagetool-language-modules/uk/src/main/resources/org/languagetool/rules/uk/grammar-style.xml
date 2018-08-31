@@ -292,7 +292,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           </token>
         </pattern>
         <message>Перед нейотованими голосними варто писати в: <suggestion>в</suggestion></message>
-        <url>http://vlada.kiev.ua/pravopys/pravXXI/11.html</url>
+        <url>https://r2u.org.ua/pravopys/pravXXI/11.html</url>
         <!--
             <example correction="В"><marker>У</marker> арт-проекту.</example>
         -->
@@ -310,9 +310,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token regexp="yes">[уu].*</token>
         </pattern>
         <message>Перед у варто писати в: <suggestion>в</suggestion></message>
-        <url>http://vlada.kiev.ua/pravopys/pravXXI/11.html</url>
+        <url>https://r2u.org.ua/pravopys/pravXXI/11.html</url>
         <example correction="В"><marker>У</marker> Україні.</example>
         <example>У одного з студентів аркуш паперу.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token>в</token>
+          </marker>
+          <token regexp="yes">2.*|[бгґджзйклмнпрстхчцшщqwrpsghkjlzxcbnm]ь?[вфvfw].*
+            <exception postag_regexp="yes" postag=".*:abbr"/>
+          </token>
+        </pattern>
+        <message>Перед словами, що починаються на в, ф або збігом приголосних із в, ф пишемо у: <suggestion>у</suggestion> \2</message>
+        <url>https://r2u.org.ua/pravopys/pravXXI/11.html</url>
+        <example correction="у">А <marker>в</marker> Гвіздці.</example>
+        <example correction="у">А <marker>в</marker> Львові.</example>
+        <example correction="у">парад <marker>в</marker> зворотному напрямку</example>
+        <example correction="у">таких ознак <marker>в</marker> двійнятах</example>
+        <example>В МВС.</example>
       </rule>
 
       <rule>
@@ -324,17 +342,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <marker>
             <token>в</token>
           </marker>
-          <token regexp="yes">[28вфvfw].*|[бгґджзйклмнпрстчцшщхqwrpsghkjlzxcbnm]ь?[вфvfw].*
+          <token regexp="yes">[8вфvfw].*
             <exception postag_regexp="yes" postag=".*:abbr"/>
           </token>
         </pattern>
         <message>Перед словами, що починаються на в, ф або збігом приголосних із в, ф пишемо у: <suggestion>у</suggestion> \3</message>
-        <url>http://vlada.kiev.ua/pravopys/pravXXI/11.html</url>
+        <url>https://r2u.org.ua/pravopys/pravXXI/11.html</url>
         <example correction="у"><marker>в</marker> вівторок.</example>
         <example correction="У"><marker>В</marker> вольєрі сталася пожежа.</example>
         <example correction="у">Наприклад, <marker>в</marker> фанерних будинках.</example>
-        <example correction="у">парад <marker>в</marker> зворотному напрямку</example>
-        <example correction="у">таких ознак <marker>в</marker> двійнятах</example>
         <example>у вівторок.</example>
         <example>Сьогодні у Львові.</example>
         <example>перевагу в швидкості</example>
@@ -368,7 +384,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token regexp="yes">([238]|[ґйцкнгшщзхпрлджчсмтбqrtpsdghjklzxcbnm]{2,}).*</token>
           </pattern>
           <message>Після паузи перед збігом приголосних варто писати у: <suggestion>у</suggestion> \3</message>
-          <url>http://vlada.kiev.ua/pravopys/pravXXI/11.html</url>
+          <url>https://r2u.org.ua/pravopys/pravXXI/11.html</url>
           <example>Звичайно, у закладі.</example>
           <example>Звичайно, в закладі.</example>
           <example correction="у">Наприклад, <marker>в</marker> простих визарах.</example>
@@ -423,7 +439,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           </marker>
           </pattern>
           <message>На початку речення треба писати «і»: \1 <suggestion>і</suggestion> \3</message>
-          <url>http://vlada.kiev.ua/pravopys/pravXXI/13.html</url>
+          <url>https://r2u.org.ua/pravopys/pravXXI/13.html</url>
           <example correction="й|та"><marker>Й</marker> долом геть собі село понад водою простяглось.</example>
           <example>І долом геть собі село понад водою простяглось</example>
           </rule>
@@ -436,7 +452,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token regexp="yes">[ґйцкнгшщзхпрлджчсмтьбqwrtpsdghjklzxcbnm23456789].*</token>
           </pattern>
           <message>Після приголосної або після паузи треба писати «і»: \1 <suggestion>і</suggestion> \3</message>
-          <url>http://vlada.kiev.ua/pravopys/pravXXI/13.html</url>
+          <url>https://r2u.org.ua/pravopys/pravXXI/13.html</url>
           <example>Пам’ять і серце</example>
           <example correction="й|та">Пам’ять <marker>й</marker> серце.</example>
           <example correction="X">1 <marker>й</marker> 3.</example>
@@ -450,7 +466,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token regexp="yes">[йїєяюyu].*</token>
         </pattern>
         <message>Перед й, ї, є, я, ю треба писати і: <suggestion>і</suggestion> \2</message>
-        <url>http://vlada.kiev.ua/pravopys/pravXXI/13.html</url>
+        <url>https://r2u.org.ua/pravopys/pravXXI/13.html</url>
         <example>Хто і як?</example>
         <example correction="і">Хто <marker>й</marker> як?</example>
         <example correction="і">Йому <marker>й</marker> їй?</example>
@@ -465,7 +481,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token regexp="yes">([уеіаоиeioa].*|11?)</token>
         </pattern>
         <message>Між двома голосними варто писати й: \1 <suggestion>й</suggestion> \3, \1 <suggestion>та</suggestion> \3</message>
-        <url>http://vlada.kiev.ua/pravopys/pravXXI/13.html</url>
+        <url>https://r2u.org.ua/pravopys/pravXXI/13.html</url>
         <example correction="й|та">Марко <marker>і</marker> Іван.</example>
         <example correction="й|та">2 <marker>і</marker> 1.</example>
         <example correction="й|та">увійти <marker>і</marker> обідати</example>
@@ -481,7 +497,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token regexp="yes">[^йїюя].*</token>
         </pattern>
         <message>Після голосної зі звуком і/и варто писати й або та: \1 <suggestion>й</suggestion> \3, \1 <suggestion>та</suggestion> \3</message>
-        <url>http://vlada.kiev.ua/pravopys/pravXXI/13.html</url>
+        <url>https://r2u.org.ua/pravopys/pravXXI/13.html</url>
         <example correction="й|та">увійти <marker>і</marker> обідати</example>
         <example>сісти і їхати</example>
       </rule>
@@ -497,7 +513,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token regexp="yes">[уеіаоиeioa].*</token>
         </pattern>
         <message>Перед голосною вживаємо з: <suggestion>з</suggestion> \2</message>
-        <url>http://vlada.kiev.ua/pravopys/pravXXI/13.html</url>
+        <url>https://r2u.org.ua/pravopys/pravXXI/13.html</url>
         <example>Потяг з Австрії.</example>
         <example>Родина із шести осіб.</example>
         <example>Один із яскравих.</example>
@@ -515,7 +531,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           </token>
         </pattern>
         <message>Після голосної та на початку речення перед приголосною (крім с, ш) вживаємо з: <suggestion>з</suggestion> \3</message>
-        <url>http://vlada.kiev.ua/pravopys/pravXXI/13.html</url>
+        <url>https://r2u.org.ua/pravopys/pravXXI/13.html</url>
         <example correction="З"><marker>Із</marker> її приходом.</example>
         <example>3 її приходом</example>
         <example>Зі всієї.</example>
@@ -530,7 +546,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token regexp="yes">[ґйцкнгхпрлджчмтьбqwrtpsdghjklzxcbnm][аеєиіоуюя].*|6789.*</token>
           </pattern>
           <message>Після голосної (та після паузи) перед приголосною (крім с, ш) вживаємо з: <suggestion>з</suggestion> \2</message>
-          <url>http://vlada.kiev.ua/pravopys/pravXXI/13.html</url>
+          <url>https://r2u.org.ua/pravopys/pravXXI/13.html</url>
           <example>Плугатарі з плугами</example>
           <example>свій погляд я з любов’ю повертав</example>
           <example correction="X">свій погляд я <marker>із</marker> любов’ю повертав.</example>
@@ -547,7 +563,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token regexp="yes">[зсцчшщ][ь]*[^ґйцкнгшщзхфвпрлджчсмтьб].*</token>
           </pattern>
           <message>Після голосної перед свистячими і шиплячими пишемо із: \1 <suggestion>із</suggestion> \3</message>
-          <url>http://vlada.kiev.ua/pravopys/pravXXI/13.html</url>
+          <url>https://r2u.org.ua/pravopys/pravXXI/13.html</url>
           <example>Родина із шести осіб</example>
           <example correction="X">Родина <marker>з</marker> шести осіб.</example>
           <example correction="X">Родина <marker>зі</marker> шести осіб.</example>
@@ -563,7 +579,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           </token>
         </pattern>
         <message>Перед сполученням приголосних із початковим свистячим або шиплячим пишемо зі: <suggestion>зі</suggestion> \2</message>
-        <url>http://vlada.kiev.ua/pravopys/pravXXI/13.html</url>
+        <url>https://r2u.org.ua/pravopys/pravXXI/13.html</url>
         <example>Бере книжку зі стола.</example>
         <example>Висновок із цього.</example>
         <example>Балада зі знаком запитання.</example>
@@ -874,6 +890,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
 
+<!-- 
+    <rulegroup id="poverhnevyi_vs_poverhovyi" name="Поверхневий і поверховий">
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">поверхневий
+              <exception regexp="yes" inflected="yes">натяг|хвиля|опір|похідна|дефект|інтеграл|збурення|ротор|структура|швидкість</exception>
+            </token>
+          </marker>
+        </pattern>
+        <message>оверхневий стосується фізичної поверхні, а сенсі «неглибокий» вживаємо поверховий</message>
+        <suggestion>поверховий</suggestion>
+        <example correction="поверхове"><marker>поверхневі</marker> води.</example>
+      </rule>
+    </rulegroup>
+-->
+ 
     <rulegroup id="stypin_vs_stepin" name="Ступінь і степінь">
       <rule>
         <pattern>
@@ -1245,6 +1278,89 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example>зблизитися з ціллю</example>
     </rule>
 
+    <rulegroup id="vyrishuvaty_problemu" name="Вирішувати проблему">
+      <rule>
+        <pattern>
+          <marker>
+            <token regexp="yes" inflected="yes">вирішувати|вирішити</token>
+            <token postag_regexp="yes" postag="adj:.:v_zna.*" min="0"/>
+            <token regexp="yes" inflected="yes" postag_regexp="yes" postag="noun:inanim:.:v_zna.*">проблема|питання</token>
+          </marker>
+        </pattern>
+        <message>Краще: <suggestion>розв'язувати \2 \3</suggestion></message>
+        <example correction="розв'язувати цю проблему">він <marker>вирішив цю проблему</marker> просто...</example>
+        <example correction="розв'язувати питання">він <marker>вирішив питання</marker>...</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker>
+            <token regexp="yes" inflected="yes">рішення|вирішення</token>
+            <token postag_regexp="yes" postag="adj:.:v_rod.*" min="0"/>
+            <token regexp="yes" inflected="yes" postag_regexp="yes" postag="noun:inanim:.:v_rod.*">проблема|питання</token>
+          </marker>
+        </pattern>
+        <message>Краще: <suggestion>розв'язання \2 \3</suggestion></message>
+        <example correction="розв'язання цієї проблеми">а <marker>вирішення цієї проблеми</marker> непросте...</example>
+      </rule>
+    </rulegroup>
+
+    <rulegroup id="u_vidpovidnosti_do" name="У відповідності до">
+      <rule>
+        <pattern>
+          <marker>
+            <token>у
+              <exception scope="previous" inflected="yes" regexp="yes">бути|перебувати|знаходитися</exception>
+            </token>
+            <token>відповідності</token>
+            <token>до</token>
+          </marker>
+        </pattern>
+        <message>Краще: <suggestion>відповідно до</suggestion></message>
+        <example correction="Відповідно до"><marker>У відповідності до</marker> накладної.</example>
+        <example>бути у відповідності до накладної</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes" regexp="yes">бути|перебувати|знаходитися</token>
+            <token>у</token>
+            <token>відповідності</token>
+            <token>до</token>
+            <token postag_regexp="yes" postag="noun.*?v_rod.*"/>
+          </marker>
+        </pattern>
+        <message>Краще: <suggestion>відповідати <match no="5" postag_regexp="yes" postag="(noun:.*?)v_rod(.*)" postag_replace="$1v_dav$2"/></suggestion></message>
+        <example correction="відповідати накладній">все <marker>було у відповідності до накладної</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes" regexp="yes">приводити|привести</token>
+            <token>у</token>
+            <token>відповідність</token>
+            <token regexp="yes">до|із|з</token>
+          </marker>
+        </pattern>
+        <message>Краще: <suggestion>увідповіднювати</suggestion></message>
+        <suggestion>робити відповідним</suggestion>
+        <suggestion>узгіднювати</suggestion>
+        <example correction="увідповіднювати|робити відповідним|узгіднювати"><marker>привів у відповідність до</marker> законодавства.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes" regexp="yes">приводити|привести</token>
+            <token postag_regexp="yes" postag="noun.*?v_zna.*"/>
+            <token>у</token>
+            <token>відповідність</token>
+          </marker>
+        </pattern>
+        <message>Краще: <suggestion>увідповіднювати \2</suggestion></message>
+        <suggestion>робити \2 відповідним</suggestion>
+        <suggestion>узгіднювати \2</suggestion>
+        <example correction="увідповіднювати законодавство|робити законодавство відповідним|узгіднювати законодавство"><marker>привів законодавство у відповідність</marker> до вимог...</example>
+      </rule>
+    </rulegroup>
 <!--
     схоже, «відсутній» не має такого чіткого розділення
 
