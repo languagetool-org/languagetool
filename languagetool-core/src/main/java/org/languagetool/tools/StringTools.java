@@ -337,6 +337,18 @@ public final class StringTools {
   }
 
   /**
+   * eliminate special (unicode) characters, e.g. soft hyphens
+   * @since 4.3
+   * @param s String to filter
+   * @return s, with non-(alphanumeric, punctuation, space) characters deleted
+   */
+  public static String trimSpecialCharacters(String s) {
+    // need unicode character classes -> (?U)
+    // lists all allowed character classes, replace everything else
+    return s.replaceAll("(?U)[^\\p{Space}\\p{Alnum}\\p{Punct}]", "");
+  }
+
+  /**
    * Adds spaces before words that are not punctuation.
    * 
    * @param word Word to add the preceding space.
