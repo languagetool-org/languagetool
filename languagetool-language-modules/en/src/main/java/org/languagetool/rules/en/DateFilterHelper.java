@@ -18,6 +18,8 @@
  */
 package org.languagetool.rules.en;
 
+import org.languagetool.tools.StringTools;
+
 import java.util.Calendar;
 import java.util.Locale;
 
@@ -32,7 +34,7 @@ class DateFilterHelper {
 
   @SuppressWarnings("ControlFlowStatementWithoutBraces")
   protected int getDayOfWeek(String dayStr) {
-    String day = dayStr.toLowerCase();
+    String day = StringTools.trimSpecialCharacters(dayStr).toLowerCase();
     if (day.startsWith("su")) return Calendar.SUNDAY;
     if (day.startsWith("mo")) return Calendar.MONDAY;
     if (day.startsWith("tu")) return Calendar.TUESDAY;
@@ -49,7 +51,7 @@ class DateFilterHelper {
 
   @SuppressWarnings({"ControlFlowStatementWithoutBraces", "MagicNumber"})
   protected int getMonth(String monthStr) {
-    String mon = monthStr.toLowerCase();
+    String mon = StringTools.trimSpecialCharacters(monthStr).toLowerCase();
     if (mon.startsWith("jan")) return 1;
     if (mon.startsWith("feb")) return 2;
     if (mon.startsWith("mar")) return 3;
