@@ -25,6 +25,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import org.apache.commons.lang3.StringUtils;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
@@ -35,12 +39,15 @@ import org.languagetool.tagging.disambiguation.AbstractDisambiguator;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.disambiguation.rules.XmlRuleDisambiguator;
 import org.languagetool.tagging.uk.PosTagHelper;
+import org.languagetool.tools.StringTools;
 
 /**
  * Hybrid chunker-disambiguator for Ukrainian.
  */
 
 public class UkrainianHybridDisambiguator extends AbstractDisambiguator {
+  private static Logger logger = LoggerFactory.getLogger(UkrainianHybridDisambiguator.class);
+
   private static final String LAST_NAME_TAG = ":lname";
   private static final Pattern INITIAL_REGEX = Pattern.compile("[А-ЯІЇЄҐ]\\.");
   private static final Pattern INANIM_VKLY = Pattern.compile("noun:inanim:.:v_kly.*");
@@ -51,13 +58,13 @@ public class UkrainianHybridDisambiguator extends AbstractDisambiguator {
   private static final Pattern LATIN_DIGITS_PATTERN = Pattern.compile("[XIVХІ]+([–—-][XIVХІ]+)?");
   private static final Pattern DIGITS_PATTERN = Pattern.compile("[0-9]+([–—-][0-9]+)?");
   private static final Pattern STATION_NAME_PATTERN = Pattern.compile("метро|[А-Я][а-яіїєґ'-]+");
-  
+
   private final Disambiguator chunker = new UkrainianMultiwordChunker("/uk/multiwords.txt", true);
 
   private final Disambiguator disambiguator = new XmlRuleDisambiguator(new Ukrainian());
   private final SimpleDisambiguator simpleDisambiguator = new SimpleDisambiguator();
 
-  
+
   /**
    * Calls two disambiguator classes: (1) a chunker; (2) a rule-based disambiguator.
    */
@@ -73,12 +80,57 @@ public class UkrainianHybridDisambiguator extends AbstractDisambiguator {
     retagInitials(input);
     removeInanimVKly(input);
     removePluralForNames(input);
+    removeLowerCaseHomonymsForAbbreviations(input);
+    removeLowerCaseBadForUpperCaseGood(input);
     simpleDisambiguator.removeRareForms(input);
     disambiguateSt(input);
 
     return input;
   }
 
+  // correct: Єврокомісія, but often written: єврокомісія
+  // we will tag 2nd as :bad but need to remove :bad from Єврокомісія (tagger brings lowercase lemma too)
+  private void removeLowerCaseBadForUpperCaseGood(AnalyzedSentence input) {
+    AnalyzedTokenReadings[] tokens = input.getTokensWithoutWhitespace();
+    for (int i = 1; i < tokens.length; i++) {
+      if( tokens[i].getReadings().size() > 1
+          && StringTools.isCapitalizedWord(tokens[i].getToken())
+          && LemmaHelper.hasLemma(tokens[i], Pattern.compile("[А-ЯІЇЄҐ][а-яіїєґ'-].*"), Pattern.compile(".*?:prop")) ) {
+
+        String lowerLemmaToCheck = tokens[i].getAnalyzedToken(0).getLemma().toLowerCase();
+        
+        List<AnalyzedToken> analyzedTokens = tokens[i].getReadings();
+        for(int j=analyzedTokens.size()-1; j>=0; j--) {
+          AnalyzedToken analyzedToken = analyzedTokens.get(j);
+          
+          if( PosTagHelper.hasPosTagPart(analyzedToken, ":bad") 
+              && lowerLemmaToCheck.equals(analyzedToken.getLemma()) ) {
+            tokens[i].removeReading(analyzedToken);
+          }
+        }
+      }
+    }
+  }
+
+  // all uppercase mostly are abbreviations, e.g. "АТО" is not part/intj
+  private void removeLowerCaseHomonymsForAbbreviations(AnalyzedSentence input) {
+    AnalyzedTokenReadings[] tokens = input.getTokensWithoutWhitespace();
+    for (int i = 1; i < tokens.length; i++) {
+      if( StringUtils.isAllUpperCase(tokens[i].getToken())
+          && PosTagHelper.hasPosTagPart(tokens[i], ":abbr") ) {
+        
+        List<AnalyzedToken> analyzedTokens = tokens[i].getReadings();
+        for(int j=analyzedTokens.size()-1; j>=0; j--) {
+          AnalyzedToken analyzedToken = analyzedTokens.get(j);
+          
+          if( ! PosTagHelper.hasPosTagPart(analyzedToken, ":abbr") 
+              && ! JLanguageTool.SENTENCE_END_TAGNAME.equals(analyzedToken) ) {
+            tokens[i].removeReading(analyzedToken);
+          }
+        }
+      }
+    }    
+  }
 
   private void removeInanimVKly(AnalyzedSentence input) {
     AnalyzedTokenReadings[] tokens = input.getTokensWithoutWhitespace();
@@ -171,31 +223,72 @@ public class UkrainianHybridDisambiguator extends AbstractDisambiguator {
 
   private void retagInitials(AnalyzedSentence input) {
     AnalyzedTokenReadings[] tokens = input.getTokens();
-    for (int i = 1; i < tokens.length - 1; i++) {
-      if( isInitial(tokens, i) ) {
-        boolean spaced = isSpace(tokens[i+1].getToken());
-        int spacedOffset = spaced ? 1 : 0;
 
-        int nextPos = i + 1 + spacedOffset;
+    if( input.toString().contains("Баку") ) {
+        logger.debug(Arrays.asList(tokens).toString());
+    }
+
+    List<Integer> initialsIdxs = new ArrayList<Integer>();
+    AnalyzedTokenReadings lastName = null;
+
+    for (int i = 1; i < tokens.length; i++) {
+
+      if( tokens[i].isWhitespace() ) {
+        continue;
+      }
+
+      if( tokens[i].hasPartialPosTag(LAST_NAME_TAG) ) {
+        lastName = tokens[i];
+    if( input.toString().contains("Баку") )
+        logger.debug("lastN: " + lastName);
         
-        // checking for :pname
-        if( nextPos + 1 + spacedOffset < tokens.length
-            && isInitial(tokens, nextPos)
-            && (! spaced || isSpace(tokens[nextPos+1].getToken()) )
-            && tokens[nextPos + 1 + spacedOffset].hasPartialPosTag(LAST_NAME_TAG) ) {
-          
-          int currPos = nextPos;
-          nextPos += 1 + spacedOffset;
-          
-          AnalyzedTokenReadings newReadings = getInitialReadings(tokens[currPos], tokens[nextPos], "pname");
-          tokens[currPos] = newReadings;
+        // split before next inital starts: "для Л.Кучма Л.Кравчук"
+        if( initialsIdxs.size() > 0 ) {
+          checkForInitialRetag(lastName, initialsIdxs, tokens);
+          lastName = null;
+          initialsIdxs.clear();
         }
-        
-        if( nextPos < tokens.length && tokens[nextPos].hasPartialPosTag(LAST_NAME_TAG) ) {
-          AnalyzedTokenReadings newReadings = getInitialReadings(tokens[i], tokens[nextPos], "fname");
-          tokens[i] = newReadings;
-          i = nextPos;
-        }
+        continue;
+      }
+
+
+      if( isInitial(tokens, i) ) {
+    if( input.toString().contains("Баку") )
+        logger.debug("init: " + tokens[i]);
+        initialsIdxs.add(i);
+        continue;
+      }
+
+      checkForInitialRetag(lastName, initialsIdxs, tokens);
+
+      if( lastName != null )
+    if( input.toString().contains("Баку") )
+        logger.debug("--");
+
+      lastName = null;
+      initialsIdxs.clear();
+    }
+
+    checkForInitialRetag(lastName, initialsIdxs, tokens);
+    if( lastName != null )
+    if( input.toString().contains("Баку") )
+      logger.debug("--");
+  }
+
+  private static void checkForInitialRetag(AnalyzedTokenReadings lastName, List<Integer> initialsIdxs, AnalyzedTokenReadings[] tokens) {
+    if( lastName != null
+        && (initialsIdxs.size() == 1 || initialsIdxs.size() == 2) ) {
+
+      logger.debug("{} / {}", lastName, initialsIdxs);
+
+      int fnamePos = initialsIdxs.get(0);
+      AnalyzedTokenReadings newReadings = getInitialReadings(tokens[fnamePos], lastName, "fname");
+      tokens[fnamePos] = newReadings;
+
+      if( initialsIdxs.size() == 2 ) {
+        int pnamePos = initialsIdxs.get(1);
+        AnalyzedTokenReadings newReadings2 = getInitialReadings(tokens[pnamePos], lastName, "pname");
+        tokens[pnamePos] = newReadings2;
       }
     }
   }
@@ -308,11 +401,12 @@ TODO:
 
   private static AnalyzedTokenReadings getInitialReadings(AnalyzedTokenReadings initialsReadings, AnalyzedTokenReadings lnameTokens, String initialType) {
     List<AnalyzedToken> newTokens = new ArrayList<>();
+
     for(AnalyzedToken lnameToken: lnameTokens.getReadings()) {
       String lnamePosTag = lnameToken.getPOSTag();
       if( lnamePosTag == null || ! lnamePosTag.contains(LAST_NAME_TAG) )
         continue;
-      
+
       String initialsToken = initialsReadings.getAnalyzedToken(0).getToken();
       AnalyzedToken newToken = new AnalyzedToken(initialsToken, lnamePosTag.replace(LAST_NAME_TAG, ":"+initialType+":abbr"), initialsToken);
       newTokens.add(newToken);
@@ -321,11 +415,12 @@ TODO:
   }
 
   private static boolean isInitial(AnalyzedTokenReadings[] tokens, int pos) {
-    return pos < tokens.length - 1
+    return //pos < tokens.length - 1
+        tokens[pos].getToken().endsWith(".")
         && INITIAL_REGEX.matcher(tokens[pos].getToken()).matches();
   }
   
-  private static boolean isSpace(String str) {
-    return str != null && (str.equals(" ") || str.equals("\u00A0")|| str.equals("\u202F"));
-  }
+//  private static boolean isSpace(String str) {
+//    return str != null && (str.equals(" ") || str.equals("\u00A0")|| str.equals("\u202F"));
+//  }
 }
