@@ -14,6 +14,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.tagging.TaggedWord;
 
 /**
  * @since 2.9
@@ -23,6 +24,7 @@ public final class PosTagHelper {
   private static final Pattern CONJ_REGEX = Pattern.compile("(noun:(?:in)?anim|numr|adj|adjp.*):[mfnp]:(v_...).*");
   private static final Pattern GENDER_REGEX = NUM_REGEX;
   private static final Pattern GENDER_CONJ_REGEX = Pattern.compile("(noun:(?:in)?anim|adj|numr|adjp.*):(.:v_...).*");
+  public static final Pattern ADJ_COMP_REGEX = Pattern.compile(":comp[bcs]");
 
   public static final Map<String, String> VIDMINKY_MAP;
   public static final Map<String, String> GENDER_MAP;
@@ -155,6 +157,14 @@ public final class PosTagHelper {
   public static boolean hasPosTagPart(List<AnalyzedToken> analyzedTokenReadings, String posTagPart) {
     for(AnalyzedToken analyzedToken: analyzedTokenReadings) {
       if( analyzedToken.getPOSTag() != null && analyzedToken.getPOSTag().contains(posTagPart) )
+        return true;
+    }
+    return false;
+  }
+
+  public static boolean hasPosTagPart2(List<TaggedWord> taggedWords, String posTagPart) {
+    for(TaggedWord analyzedToken: taggedWords) {
+      if( analyzedToken.getPosTag() != null && analyzedToken.getPosTag().contains(posTagPart) )
         return true;
     }
     return false;

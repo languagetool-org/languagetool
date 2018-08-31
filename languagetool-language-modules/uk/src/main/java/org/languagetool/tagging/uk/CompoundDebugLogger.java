@@ -74,7 +74,9 @@ class CompoundDebugLogger {
   }
   
   private void debug_tagged_write(List<AnalyzedToken> analyzedTokens, BufferedWriter writer) {
-    if( analyzedTokens.get(0).getLemma() == null || analyzedTokens.get(0).getToken().trim().isEmpty() )
+    if( analyzedTokens.isEmpty()
+        || analyzedTokens.get(0).getLemma() == null 
+        || analyzedTokens.get(0).getToken().trim().isEmpty() )
       return;
 
     try {

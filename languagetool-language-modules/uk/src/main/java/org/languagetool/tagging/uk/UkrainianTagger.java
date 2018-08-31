@@ -138,6 +138,9 @@ public class UkrainianTagger extends BaseTagger {
 
         tokens = newTokens;
       }
+      else if( word.endsWith("м²") ||  word.endsWith("м³") ) {
+        tokens = super.getAnalyzedTokens(word.substring(0, word.length()-1));
+      }
     }
 
 //    if( taggedDebugWriter != null && ! tkns.isEmpty() ) {
