@@ -118,6 +118,9 @@ public final class PatternTestTools {
           // <token postag="..."><exception scope="next">foo</exception</token>
           
           // We now allow scope="next" without skip="..."
+          if (exception.hasNextException())
+            continue;
+
 //          if (exception.hasNextException() && pToken.getSkipNext() == 0) {
 //            System.err.println("The " + lang + " rule: "
 //                    + ruleId + "[" + ruleSubId + "]"
