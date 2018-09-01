@@ -167,6 +167,40 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Alternative">Ist das eine <marker>alternative</marker> zu Hausaufgaben?</example>
             </rule>
         </rulegroup>
+        <rulegroup id="STATT" name="an ... Statt (statt)">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token inflected="yes">an</token>
+                    <token/>
+                    <marker>
+                        <token>Statt</token>
+                    </marker>
+                </pattern>
+                <message>In festen Verbindungen wie 'an ... statt' wird <suggestion><match no="3" case_conversion="startlower"/></suggestion> neu kleingeschrieben.</message>
+                <url>http://www.canoo.net/services/GermanSpelling/Reform/grossklein/einzelfaelle.jsp</url>
+                <short>&prgk;.</short>
+                <example correction="statt">An Eides <marker>Statt</marker></example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="WURST_SEIN" name="Wurst (wurst) sein">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token inflected="yes">sein</token>
+                    <token postag="PRO:PER:DAT:.+" postag_regexp="yes"/>
+                    <token postag="AD[VJ]:.+" postag_regexp="yes" min="0"/>
+                    <marker>
+                        <token regexp="yes">Wurs(ch)?t</token>
+                    </marker>
+                </pattern>
+                <message>In festen Verbindungen wie 'wurst sein' wird <suggestion><match no="4" case_conversion="startlower"/></suggestion> neu kleingeschrieben.</message>
+                <url>http://www.canoo.net/services/GermanSpelling/Reform/grossklein/einzelfaelle.jsp</url>
+                <short>&prgk;.</short>
+                <example correction="wurst">Das ist mir <marker>Wurst</marker>!</example>
+                <example correction="wurst">Das ist ihm doch <marker>Wurst</marker>!</example>
+                <example correction="wurscht">Das ist mir <marker>Wurscht</marker>!</example>
+                <example correction="wurscht">Das ist ihm doch <marker>Wurscht</marker>!</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="ENTGEHEN_LASSEN" name="entgegen (entgehen) lassen">
             <rule>
                 <pattern case_sensitive="yes">
