@@ -15003,12 +15003,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>&prgk;.</short>
             <example correction="Schwere">Festgestellt wurde eine besondere <marker>schwere</marker> der Schuld.</example>
         </rule>
+        <rule id="ZU_ALLEM_ÜBEL" name="zu allem übel (Übel)">
+            <pattern case_sensitive="yes">
+                <token inflected="yes">zu</token>
+                <token>allem</token>
+                <marker>
+                    <token>übel</token>
+                </marker>
+            </pattern>
+            <message>Meinten Sie das Substantiv <suggestion>Übel</suggestion>?</message>
+            <short>&prgk;.</short>
+            <example correction="Übel">Zu allem <marker>übel</marker> hat sie sich auch den Fuß gebrochen.</example>
+        </rule>
         <rule id="STELLT_FEST" name="stellen Fest (fest)">
             <pattern case_sensitive="yes">
-                <token inflected="yes" skip="1">stellen</token>
+                <token inflected="yes" skip="1" regexp="yes">legen|setzen|stellen</token>
                 <marker>
                     <token>Fest</token>
                 </marker>
+                <token postag="PKT"></token>
             </pattern>
             <message>Meinten Sie <suggestion><match no="2" case_conversion="startlower"/></suggestion> (feststellen)?</message>
             <short>prgk;.</short>
@@ -15064,7 +15077,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="BESTES_GEBEN" name="'bestes (Bestes) geben/tun/kommen'">
             <pattern>
-                <token postag="ART:DEF:.*|PRO:POS:NOM:.*|PRO:PER:GEN:.*" postag_regexp="yes"/>
+                <token postag="ART:DEF:.+|PRO:POS:NOM:.+|PRO:PER:GEN:.+" postag_regexp="yes"/>
                 <marker>
                    <token case_sensitive="yes" regexp="yes">beste[sn]?</token>
                 </marker>
