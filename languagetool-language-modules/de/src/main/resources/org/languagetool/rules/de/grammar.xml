@@ -167,6 +167,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Alternative">Ist das eine <marker>alternative</marker> zu Hausaufgaben?</example>
             </rule>
         </rulegroup>
+        <rulegroup id="ENTGEHEN_LASSEN" name="entgegen (entgehen) lassen">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag="PRO:REF:DAT:.+" postag_regexp="yes" skip="5"/>
+                    <marker>
+                        <token>entgegen</token>
+                    </marker>
+                    <token inflected="yes">lassen</token>
+                </pattern>
+                <message>Ist hier die Wendung 'sich etwas <suggestion>entgehen</suggestion> lassen' (= etw. verpassen) gemeint?</message>
+                <short>&prgk;.</short>
+                <example correction="entgehen">Du solltest dir das nicht <marker>entgegen</marker> lassen?</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="BEAMTER" name="der Beamte(r)">
             <rule>
                 <pattern>
@@ -8609,6 +8623,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Damit"><marker>Da mit</marker> kannst du den Fleck aufwischen.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="NACH_DEM_VS_NACHDEM" name="'Nach dem (Nachdem) ...'">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag="SENT_START"/>
+                    <marker>
+                        <token>Nach</token>
+                        <token>dem</token>
+                    </marker>
+                    <token postag="PRO:PER:NOM:.+|ART:DEF:NOM:.+" postag_regexp="yes"/>
+                </pattern>
+                <message>Meinten Sie <suggestion>\2\3</suggestion>? Die Konjunktion 'nachdem' wird zusammengeschrieben.</message>
+                <short>&getrennt;.</short>
+                <example correction="Nachdem"><marker>Nach dem</marker> er sie gesehen hatte, war er glücklich.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="SO_BALD_VS_SOBALD" name="'sobald (so bald) wie möglich' etc.">
             <url>http://www.duden.de/rechtschreibung/sobald</url>
             <rule>
@@ -10159,7 +10188,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>bereit</token>
                     <token inflected="yes" regexp="yes">halten|li?egen|ste(h|ll)en</token>
                 </pattern>
-                <message>Falls Sie eine Form des Verbs '\1<match no="2" postag="VER:INF:.*" postag_regexp="yes"/>' meinten, wird diese zusammengeschrieben.</message>
+                <message>Falls Sie eine Form des Verbs '\1<match no="2" postag="VER:INF:.+" postag_regexp="yes"/>' meinten, wird diese zusammengeschrieben.</message>
                 <suggestion>\1\2</suggestion>
                 <short>&getrennt;.</short>
                 <example correction="bereitstellen">Ich werde alle Unterlagen <marker>bereit stellen</marker>.</example>
@@ -31042,6 +31071,17 @@ Andere Projekte</example>
                 <message>Die Präposition '\1' erfordert in der Regel den Dativ: <suggestion><match no="2" postag="PRO:PER:AKK:SIN:(.*)" postag_regexp="yes" postag_replace="PRO:PER:DAT:SIN:$1"/></suggestion></message>
                 <example correction="ihm">Sie ging zu <marker>ihn</marker> Arzt.</example>
                 <example correction="mir">Komm mit zu <marker>mich</marker>!</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">bei|mit(samt)?</token>
+                    <marker>
+                        <token regexp="yes">keinen|niemanden</token>
+                    </marker>
+                </pattern>
+                <message>Die Präposition '\1' erfordert in der Regel den Dativ: <suggestion><match no="2" regexp_match="n$" regexp_replace="m"/></suggestion></message>
+                <example correction="keinem">Sie sprach mit <marker>keinen</marker> der Ärzte.</example>
+                <example correction="niemandem">Sie spricht mit <marker>niemanden</marker>!</example>
             </rule>
         </rulegroup>
         <rulegroup id="PRAEP_AKK" name="Präposition mit Akkusativ (ohne, für etc.)">
