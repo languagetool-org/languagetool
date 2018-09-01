@@ -200,6 +200,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="wurscht">Das ist mir <marker>Wurscht</marker>!</example>
                 <example correction="wurscht">Das ist ihm doch <marker>Wurscht</marker>!</example>
             </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag="PRO:PER:DAT:.+" postag_regexp="yes"/>
+                    <token postag="AD[VJ]:.+" postag_regexp="yes" min="0"/>
+                    <marker>
+                        <token regexp="yes">Wurs(ch)?t</token>
+                    </marker>
+                    <token inflected="yes">sein</token>
+                </pattern>
+                <message>In festen Verbindungen wie 'wurst sein' wird <suggestion><match no="3" case_conversion="startlower"/></suggestion> neu kleingeschrieben.</message>
+                <url>http://www.canoo.net/services/GermanSpelling/Reform/grossklein/einzelfaelle.jsp</url>
+                <short>&prgk;.</short>
+                <example correction="wurst">Das kann ihm doch <marker>Wurst</marker> sein!</example>
+            </rule>
         </rulegroup>
         <rulegroup id="ENTGEHEN_LASSEN" name="entgegen (entgehen) lassen">
             <rule>
