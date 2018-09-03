@@ -27,6 +27,7 @@ import java.util.ResourceBundle;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
+import org.languagetool.tools.StringTools;
 
 /**
  * A rule that checks for a punctuation mark at the end of a paragraph
@@ -76,57 +77,31 @@ public class PunctuationMarkAtParagraphEnd extends TextLevelRule {
   private static boolean isWord(AnalyzedTokenReadings tk) {
     return Character.isLetter(tk.getToken().charAt(0));
   }
-
-  private static boolean isWhitespace(AnalyzedTokenReadings token) {
-    return token.isWhitespace() && !token.isLinebreak();
-  }
-
-  private boolean isParaBreak(AnalyzedTokenReadings token) {
-    if (lang.getSentenceTokenizer().singleLineBreaksMarksPara()) {
-      return "\n".equals(token.getToken()) || "\r\n".equals(token.getToken()) || "\n\r".equals(token.getToken());
-    } else {
-      return "\n\n".equals(token.getToken()) || "\r\n\r\n".equals(token.getToken()) || "\n\r\n\r".equals(token.getToken());
-    }
-  }
-
+  
   @Override
   public RuleMatch[] match(List<AnalyzedSentence> sentences) throws IOException {
     List<RuleMatch> ruleMatches = new ArrayList<>();
     int lastPara = -1;
     int pos = 0;
-    boolean doCheck = true;
     boolean isFirstWord = false;
     for (int n = 0; n < sentences.size(); n++) {
       AnalyzedSentence sentence = sentences.get(n);
-      AnalyzedTokenReadings[] tokens = sentence.getTokens();
-      if (doCheck) {
-        int i = 1;
-        for (; i < tokens.length && isWhitespace(tokens[i]); i++);
-        if (i < tokens.length) {
-          isFirstWord = tokens.length > i + 2 && ((isWord(tokens[i]) && !isPunctuationMark(tokens[i + 1]))
-              || (isQuotationMark(tokens[i]) && isWord(tokens[i + 1]) && !isPunctuationMark(tokens[i + 2])));
-        } else {
-          isFirstWord = false;
-        }
-        doCheck = false;
-      }
-      for (int i = 1; i < tokens.length; i++) {
-        if(isParaBreak(tokens[i]) || (n == sentences.size() - 1 && i == tokens.length - 1)) {
+      if(sentence.hasParagraphEndMark(lang) || n == sentences.size() - 1) {
+        AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
+        if (tokens.length > 2) {
+          isFirstWord = (isWord(tokens[1]) && !isPunctuationMark(tokens[2]))
+                || (tokens.length > 3 && isQuotationMark(tokens[1]) && isWord(tokens[2]) && !isPunctuationMark(tokens[3]));
           // paragraphs containing less than two sentences (e.g. headlines, listings) are excluded from rule
           if (n - lastPara > 1 && isFirstWord) {
-            if (n == sentences.size() - 1 && i == tokens.length - 1) {
-              i++;
-            }
-            for (i--; i > 0 && isWhitespace(tokens[i]); i--);
-            if (i > 0 && (isWord(tokens[i]) 
-                || (i < tokens.length - 1 && isQuotationMark(tokens[i]) && isWord(tokens[i + 1])))) { 
-              int fromPos = pos + tokens[i].getStartPos();
-              int toPos = pos + tokens[i].getEndPos();
+            if (isWord(tokens[tokens.length - 1]) 
+                || (isQuotationMark(tokens[tokens.length - 1]) && isWord(tokens[tokens.length - 2]))) { 
+              int fromPos = pos + tokens[tokens.length - 1].getStartPos();
+              int toPos = pos + tokens[tokens.length - 1].getEndPos();
               RuleMatch ruleMatch = new RuleMatch(this, sentence, fromPos, toPos, 
                   messages.getString("punctuation_mark_paragraph_end_msg"));
               List<String> replacements = new ArrayList<>();
               for (String PUNCTUATION_MARK : PUNCTUATION_MARKS) {
-                replacements.add(tokens[i].getToken() + PUNCTUATION_MARK);
+                replacements.add(tokens[tokens.length - 1].getToken() + PUNCTUATION_MARK);
               }
               ruleMatch.setSuggestedReplacements(replacements);
               ruleMatches.add(ruleMatch);
@@ -134,12 +109,11 @@ public class PunctuationMarkAtParagraphEnd extends TextLevelRule {
           }
           lastPara = n;
           isFirstWord = false;
-          doCheck = true;
         }
       }
       pos += sentence.getText().length();
     }
     return toRuleMatchArray(ruleMatches);
   }
-
+  
 }

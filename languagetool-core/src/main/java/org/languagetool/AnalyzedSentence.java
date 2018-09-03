@@ -19,6 +19,7 @@
 package org.languagetool;
 
 import org.apache.commons.lang3.StringUtils;
+import org.languagetool.tools.StringTools;
 
 import java.util.*;
 
@@ -280,6 +281,14 @@ public final class AnalyzedSentence {
   public int hashCode() {
     // tokenSet and lemmaSet are a subset of tokens and don't need to be included
     return Objects.hash(nonBlankTokens, tokens, whPositions);
+  }
+
+  /**
+   * Returns true if sentences ends with a paragraph break.
+   * @since 4.3
+   */
+  public boolean hasParagraphEndMark(Language lang) {
+    return StringTools.isParagraphEnd(getText(), lang.getSentenceTokenizer().singleLineBreaksMarksPara());
   }
 
 }
