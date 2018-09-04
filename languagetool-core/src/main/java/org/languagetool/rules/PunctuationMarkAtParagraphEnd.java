@@ -27,7 +27,6 @@ import java.util.ResourceBundle;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
-import org.languagetool.tools.StringTools;
 
 /**
  * A rule that checks for a punctuation mark at the end of a paragraph
@@ -77,7 +76,7 @@ public class PunctuationMarkAtParagraphEnd extends TextLevelRule {
   private static boolean isWord(AnalyzedTokenReadings tk) {
     return Character.isLetter(tk.getToken().charAt(0));
   }
-  
+
   @Override
   public RuleMatch[] match(List<AnalyzedSentence> sentences) throws IOException {
     List<RuleMatch> ruleMatches = new ArrayList<>();
@@ -93,15 +92,19 @@ public class PunctuationMarkAtParagraphEnd extends TextLevelRule {
                 || (tokens.length > 3 && isQuotationMark(tokens[1]) && isWord(tokens[2]) && !isPunctuationMark(tokens[3]));
           // paragraphs containing less than two sentences (e.g. headlines, listings) are excluded from rule
           if (n - lastPara > 1 && isFirstWord) {
-            if (isWord(tokens[tokens.length - 1]) 
-                || (isQuotationMark(tokens[tokens.length - 1]) && isWord(tokens[tokens.length - 2]))) { 
-              int fromPos = pos + tokens[tokens.length - 1].getStartPos();
-              int toPos = pos + tokens[tokens.length - 1].getEndPos();
+            int lastNWToken = tokens.length - 1;
+            while (tokens[lastNWToken].isLinebreak()) {
+              lastNWToken--;
+            }
+            if (isWord(tokens[lastNWToken]) 
+                || (isQuotationMark(tokens[lastNWToken]) && isWord(tokens[lastNWToken - 1]))) {
+              int fromPos = pos + tokens[lastNWToken].getStartPos();
+              int toPos = pos + tokens[lastNWToken].getEndPos();
               RuleMatch ruleMatch = new RuleMatch(this, sentence, fromPos, toPos, 
                   messages.getString("punctuation_mark_paragraph_end_msg"));
               List<String> replacements = new ArrayList<>();
               for (String PUNCTUATION_MARK : PUNCTUATION_MARKS) {
-                replacements.add(tokens[tokens.length - 1].getToken() + PUNCTUATION_MARK);
+                replacements.add(tokens[lastNWToken].getToken() + PUNCTUATION_MARK);
               }
               ruleMatch.setSuggestedReplacements(replacements);
               ruleMatches.add(ruleMatch);
@@ -115,5 +118,5 @@ public class PunctuationMarkAtParagraphEnd extends TextLevelRule {
     }
     return toRuleMatchArray(ruleMatches);
   }
-  
+
 }
