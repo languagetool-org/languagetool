@@ -300,24 +300,39 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
     <rulegroup id="DIAKUYUCHI_INANIM" name="Дякуючи - завдяки">
       <rule>
+        <antipattern>
+          <token>дякуючи</token>
+          <token postag_regexp="yes" postag="adj:.:v_dav.*" min="0"/>
+          <token postag_regexp="yes" postag="noun:inanim:.:v_dav.*"/>
+          <token>за</token>
+        </antipattern>
         <pattern>
           <marker>
             <token>дякуючи</token>
           </marker>
           <token postag_regexp="yes" postag="adj:.:v_dav.*" min="0"/>
           <token postag_regexp="yes" postag="noun:inanim:.:v_dav.*">
+            <exception regexp="yes" inflected="yes" postag_regexp="yes" postag="noun:inanim:.:v_dav.*">доля|бог|Господь|кожний</exception>
+          <!--
             <exception postag_regexp="yes" postag="noun:anim:.:v_dav.*"/>
-            <exception regexp="yes" inflected="yes">доля|родина|сім'я|ЗМІ|міністерство|рада|адміністрація|уряд|газета|комбінат|рука|завод</exception>
             <exception postag_regexp="yes" postag="noun:.*:prop.*"/>
             <exception case_sensitive="yes" regexp="yes">[А-ЯІЇЄҐ].*</exception>
+           -->
           </token>
         </pattern>
-        <message>Перед неперсонифікованими об'єктами правильно: <suggestion>завдяки</suggestion></message>
-        <example correction="Завдяки"><marker>Дякуючи</marker> погоді</example>
-        <example>Дякуючи авторитету</example> <!-- авторитет: anim/inanim -->
+        <message>«Дякуючи» вживаємо тоді, коли хтось висловлює комусь подяку, а для вказівки на причину чогось вживаємо <suggestion>завдяки</suggestion></message>
+        <suggestion>через</suggestion>
+        <example correction="Завдяки|Через"><marker>Дякуючи</marker> поганій погоді</example>
+        <example correction="завдяки|через">і <marker>дякуючи</marker> авторитету</example> <!-- авторитет: anim/inanim -->
         <example>дякуючи долі і добрим людям</example>
+        <example>дякуючи Богу живиий</example>
+        <example>Дякуючи Юрію за науку</example>
+        <example>Дякуючи газеті за принциповість</example>
+        <example>Дякуючи кожному, хто виходив</example>
+        <!--
         <example>дякуючи Чорногорі за те, що немає дощу</example>
         <example>Дякуючи Писарчукові, дякуючи адміністрації</example>
+        -->
       </rule>
     </rulegroup>
 
