@@ -39340,10 +39340,21 @@ Andere Projekte</example>
             <message>Der Ausdruck '\1' gilt als Phrase. Es wird empfohlen ihn zu löschen, falls möglich.</message>
             <example type="incorrect">Sie sah <marker>ohne Zweifel</marker> hinreißend aus.</example>
         </rule>
-        <rule id="BINDEWOERTER_SATZANFANG" name="Bindewörter am Satzanfang" default="off">
-            <regexp>^(aber|allerdings|als|also|andererseits|anschließend|anstatt|außer|ausserdem|bevor|beziehungsweise|bis|da|dadurch|dafür|dagegen|damit|danach|dann|darauf|darum|dass|davor|dazu|denn|deshalb|dessen|desto|desungeachtet|deswegen|doch|eh|ehe|entweder|falls|ferner|folglich|genauso|geschweige|im Falle|immerhin|indem|indes|indessen|insofern|insoweit|inzwischen|je|jedoch|nachdem|ob|obgleich|obschon|obwohl|obzwar|oder|respektive|seit|seitdem|so|sodass|sofern|solang|solange|sondern|sooft|soviel|soweit|sowie|sowohl|später|statt|trotzdem|um|umso|und|ungeachtet|vorher|während|währenddem|währenddessen|weder|weil|wenn|wenngleich|wennschon|wie|wiewohl|wobei|wohingegen|zumal|zuvor|zwar")\b</regexp>
-            <message>Ein Bindewort wie '\1' sollte nur in Ausnahmefällen am Satzanfang verwendet werden. Formulieren Sie den Satz um, falls möglich.</message>
+        <rule id="BINDEWOERTER_SATZANFANG" name="Bindewörter am Satzanfang" default="on">
+            <pattern>
+                <token postag="SENT_START"/>
+                <token min="0" regexp="yes">„|“|»|«|"</token>
+                <marker>
+                <token skip="-1" regexp="yes">aber|allerdings|als|also|andererseits|anschließend|anstatt|außer|ausserdem|bevor|beziehungsweise|bis|da|dadurch|dafür|dagegen|damit|danach|dann|darauf|darum|dass|davor|dazu|denn|deshalb|dessen|desto|desungeachtet|deswegen|doch|eh|ehe|entweder|falls|ferner|folglich|genauso|geschweige|im Falle|immerhin|indem|indes|indessen|insofern|insoweit|inzwischen|je|jedoch|nachdem|ob|obgleich|obschon|obwohl|obzwar|oder|respektive|seit|seitdem|so|sodass|sofern|solang|solange|sondern|sooft|soviel|soweit|sowie|sowohl|später|statt|trotzdem|um|umso|und|ungeachtet|vorher|während|währenddem|währenddessen|weder|weil|wenn|wenngleich|wennschon|wie|wiewohl|wobei|wohingegen|zumal|zuvor|zwar
+                    <exception scope="next">,</exception>
+                </token>
+                </marker>
+                <token postag="SENT_END"/>
+            </pattern>
+            <message>Ein Bindewort wie '\3' sollte nur in Ausnahmefällen am Satzanfang verwendet werden. Formulieren Sie den Satz um, falls möglich.</message>
             <example type="incorrect"><marker>Also</marker> ging er.</example>
+            <example type="incorrect">»<marker>Also</marker> ging er.«</example>
+            <example ><marker>Als</marker> er ging, graute schon der Morgen.</example>
         </rule>
     </category>
 </rules>
