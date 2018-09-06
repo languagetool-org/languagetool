@@ -369,7 +369,14 @@ public class UkrainianDisambiguationRuleTest extends DisambiguationRuleTest {
         tokenizer, sentenceTokenizer, tagger, disambiguator);
   }
 
-  
+  @Test
+  public void testSimpleRemove() throws IOException {
+    TestTools.myAssert("була", "/[null]SENT_START була/[бути]verb:imperf:past:f",
+        tokenizer, sentenceTokenizer, tagger, disambiguator);
+    TestTools.myAssert("була-то", "/[null]SENT_START була-то/[бути]verb:imperf:past:f",
+        tokenizer, sentenceTokenizer, tagger, disambiguator);
+  }
+
   @Test
   public void testDisambiguatorRemovePresentInDictionary() throws IOException {
     // make sure our disambiguation lines are valid lines in dictionary

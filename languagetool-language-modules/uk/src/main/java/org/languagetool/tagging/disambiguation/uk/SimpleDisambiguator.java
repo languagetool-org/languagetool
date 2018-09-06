@@ -65,6 +65,14 @@ class SimpleDisambiguator {
       if( tokenMatcher == null ) {
         String lowerToken = token.toLowerCase();
         tokenMatcher = DISAMBIG_REMOVE_MAP.get(lowerToken);
+
+        if( tokenMatcher == null ) {
+          int idx = token.lastIndexOf('-');
+          if( idx > 0 && token.matches(".*-(то|от|таки|бо|но)") ) {
+            String mainToken = token.substring(0, idx);
+            tokenMatcher = DISAMBIG_REMOVE_MAP.get(mainToken);
+          }
+        }
       }
 
       if( tokenMatcher == null )
