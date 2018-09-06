@@ -19,6 +19,8 @@
 package org.languagetool.server;
 
 import com.sun.net.httpserver.HttpExchange;
+import org.jetbrains.annotations.NotNull;
+import org.languagetool.JLanguageTool;
 
 import java.io.PrintStream;
 import java.text.SimpleDateFormat;
@@ -70,5 +72,24 @@ final class ServerTools {
     }
   }
 
+  @NotNull
+  public static JLanguageTool.Mode getMode(Map<String, String> params) {
+    JLanguageTool.Mode mode;
+    if (params.get("mode") != null) {
+      String modeParam = params.get("mode");
+      if ("textLevelOnly".equals(modeParam)) {
+        mode = JLanguageTool.Mode.TEXTLEVEL_ONLY;
+      } else if ("allButTextLevelOnly".equals(modeParam)) {
+        mode = JLanguageTool.Mode.ALL_BUT_TEXTLEVEL_ONLY;
+      } else if ("all".equals(modeParam)) {
+        mode = JLanguageTool.Mode.ALL;
+      } else {
+        throw new IllegalArgumentException("Mode must be one of 'textLevelOnly', 'allButTextLevelOnly', or 'all' but was: '" + modeParam + "'");
+      }
+    } else {
+      mode = JLanguageTool.Mode.ALL;
+    }
+    return mode;
+  }
 
 }

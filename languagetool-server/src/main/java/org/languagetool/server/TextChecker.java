@@ -131,8 +131,9 @@ abstract class TextChecker {
             enabledCategories.size() > 0 || disabledCategories.size() > 0;
     boolean allowIncompleteResults = "true".equals(parameters.get("allowIncompleteResults"));
     boolean enableHiddenRules = "true".equals(parameters.get("enableHiddenRules"));
+    JLanguageTool.Mode mode = ServerTools.getMode(parameters);
     QueryParams params = new QueryParams(enabledRules, disabledRules, enabledCategories, disabledCategories, 
-            useEnabledOnly, useQuerySettings, allowIncompleteResults, enableHiddenRules);
+            useEnabledOnly, useQuerySettings, allowIncompleteResults, enableHiddenRules, mode);
 
     List<RuleMatch> ruleMatchesSoFar = Collections.synchronizedList(new ArrayList<>());
     
@@ -248,7 +249,7 @@ abstract class TextChecker {
       print("Cache stats: " + hitPercentage + "% hit rate");
     }
     JLanguageTool lt = getLanguageToolInstance(lang, motherTongue, params, userConfig);
-    return lt.check(aText, listener);
+    return lt.check(aText, true, JLanguageTool.ParagraphHandling.NORMAL, listener, params.mode);
   }
 
   @NotNull
@@ -352,9 +353,10 @@ abstract class TextChecker {
     final boolean useQuerySettings;
     final boolean allowIncompleteResults;
     final boolean enableHiddenRules;
+    final JLanguageTool.Mode mode;
 
     QueryParams(List<String> enabledRules, List<String> disabledRules, List<CategoryId> enabledCategories, List<CategoryId> disabledCategories,
-                boolean useEnabledOnly, boolean useQuerySettings, boolean allowIncompleteResults, boolean enableHiddenRules) {
+                boolean useEnabledOnly, boolean useQuerySettings, boolean allowIncompleteResults, boolean enableHiddenRules, JLanguageTool.Mode mode) {
       this.enabledRules = enabledRules;
       this.disabledRules = disabledRules;
       this.enabledCategories = enabledCategories;
@@ -363,6 +365,7 @@ abstract class TextChecker {
       this.useQuerySettings = useQuerySettings;
       this.allowIncompleteResults = allowIncompleteResults;
       this.enableHiddenRules = enableHiddenRules;
+      this.mode = Objects.requireNonNull(mode);
     }
   }
 

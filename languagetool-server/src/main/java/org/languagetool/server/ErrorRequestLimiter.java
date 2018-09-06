@@ -18,6 +18,8 @@
  */
 package org.languagetool.server;
 
+import org.languagetool.JLanguageTool;
+
 import java.util.Date;
 
 /**
@@ -39,7 +41,7 @@ class ErrorRequestLimiter extends RequestLimiter {
    */
   boolean wouldAccessBeOkay(String ipAddress) {
     try {
-      checkLimit(ipAddress);
+      checkLimit(ipAddress, JLanguageTool.Mode.ALL);
       return true;
     } catch (TooManyRequestsException e) {
       return false;

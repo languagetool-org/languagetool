@@ -164,7 +164,7 @@ public class MultiThreadedJLanguageTool extends JLanguageTool {
   @Override
   protected List<RuleMatch> performCheck(List<AnalyzedSentence> analyzedSentences, List<String> sentences,
        List<Rule> allRules, ParagraphHandling paraMode, 
-       AnnotatedText annotatedText, RuleMatchListener listener) {
+       AnnotatedText annotatedText, RuleMatchListener listener, Mode mode) {
     int charCount = 0;
     int lineCount = 0;
     int columnCount = 1;
@@ -174,7 +174,7 @@ public class MultiThreadedJLanguageTool extends JLanguageTool {
     ExecutorService executorService = getExecutorService();
     try {
       List<Callable<List<RuleMatch>>> callables =
-              createTextCheckCallables(paraMode, annotatedText, analyzedSentences, sentences, allRules, charCount, lineCount, columnCount, listener);
+              createTextCheckCallables(paraMode, annotatedText, analyzedSentences, sentences, allRules, charCount, lineCount, columnCount, listener, mode);
       List<Future<List<RuleMatch>>> futures = executorService.invokeAll(callables);
       for (Future<List<RuleMatch>> future : futures) {
         ruleMatches.addAll(future.get());
@@ -188,7 +188,7 @@ public class MultiThreadedJLanguageTool extends JLanguageTool {
 
   private List<Callable<List<RuleMatch>>> createTextCheckCallables(ParagraphHandling paraMode,
        AnnotatedText annotatedText, List<AnalyzedSentence> analyzedSentences, List<String> sentences, 
-       List<Rule> allRules, int charCount, int lineCount, int columnCount, RuleMatchListener listener) {
+       List<Rule> allRules, int charCount, int lineCount, int columnCount, RuleMatchListener listener, Mode mode) {
     int threads = getThreadPoolSize();
     int totalRules = allRules.size();
     int chunkSize = totalRules / threads;
@@ -206,7 +206,7 @@ public class MultiThreadedJLanguageTool extends JLanguageTool {
       } else {
         subRules = allRules.subList(firstItem, firstItem + chunkSize);
       }
-      callables.add(new TextCheckCallable(subRules, sentences, analyzedSentences, paraMode, annotatedText, charCount, lineCount, columnCount, listener));
+      callables.add(new TextCheckCallable(subRules, sentences, analyzedSentences, paraMode, annotatedText, charCount, lineCount, columnCount, listener, mode));
       firstItem = firstItem + chunkSize;
     }
     return callables;

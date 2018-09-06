@@ -18,6 +18,8 @@
  */
 package org.languagetool.server;
 
+import org.languagetool.JLanguageTool;
+
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -78,7 +80,7 @@ class RequestLimiter {
       requestEvents.remove(0);
     }
     requestEvents.add(new RequestEvent(ipAddress, new Date(), reqSize));
-    checkLimit(ipAddress);
+    checkLimit(ipAddress, ServerTools.getMode(parameters));
   }
 
   private int getRequestSize(Map<String, String> params) {
@@ -94,7 +96,7 @@ class RequestLimiter {
     return 0;
   }
 
-  void checkLimit(String ipAddress) {
+  void checkLimit(String ipAddress, JLanguageTool.Mode mode) {
     int requestsByIp = 0;
     int requestSizeByIp = 0;
     // all requests before this date are considered old:
@@ -107,9 +109,17 @@ class RequestLimiter {
                   requestLimitPeriodInSeconds + " seconds exceeded");
         }
         requestSizeByIp += requestEvent.getSizeInBytes();
-        if (requestLimitInBytes > 0 && requestSizeByIp > requestLimitInBytes) {
-          throw new TooManyRequestsException("Request size limit of " + requestLimitInBytes + " bytes per " +
-                  requestLimitPeriodInSeconds + " seconds exceeded");
+        if (mode == JLanguageTool.Mode.TEXTLEVEL_ONLY) {
+          int tmpLimit = requestLimitInBytes * 10;
+          if (requestLimitInBytes > 0 && requestSizeByIp > tmpLimit) {
+            throw new TooManyRequestsException("Request size limit of " + tmpLimit + " (requestLimitInBytes*10) bytes per " +
+                    requestLimitPeriodInSeconds + " seconds exceeded for text-level checks");
+          }
+        } else {
+          if (requestLimitInBytes > 0 && requestSizeByIp > requestLimitInBytes) {
+            throw new TooManyRequestsException("Request size limit of " + requestLimitInBytes + " bytes per " +
+                    requestLimitPeriodInSeconds + " seconds exceeded");
+          }
         }
       }
     }
