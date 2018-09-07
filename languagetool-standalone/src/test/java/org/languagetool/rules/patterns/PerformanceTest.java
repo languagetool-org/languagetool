@@ -19,6 +19,8 @@
 package org.languagetool.rules.patterns;
 
 import org.languagetool.*;
+//import org.languagetool.markup.AnnotatedText;
+//import org.languagetool.markup.AnnotatedTextBuilder;
 import org.languagetool.tools.StringTools;
 
 import java.io.File;
@@ -39,6 +41,7 @@ final class PerformanceTest {
     String text = StringTools.readStream(new FileInputStream(textFile), "utf-8");
     int sentenceCount = lt.sentenceTokenize(text).size();
     lt.activateLanguageModelRules(new File("data/ngrams"));
+    //lt.activateLanguageModelRules(new File("/home/dnaber/data/google-ngram-index"));
     System.out.println("Language: " +  lt.getLanguage() +
                        ", Text length: " + text.length() + " chars, " + sentenceCount + " sentences");
 
@@ -54,6 +57,7 @@ final class PerformanceTest {
     for (int i = 0; i < RUNS; i++) {
       long startTime2 = System.currentTimeMillis();
       lt.check(text);
+      //lt.check(new AnnotatedTextBuilder().addText(text).build(), true, JLanguageTool.ParagraphHandling.NORMAL, null, JLanguageTool.Mode.ALL);
       long runTime2 = System.currentTimeMillis() - startTime2;
       float timePerSentence2 = (float)runTime2 / sentenceCount;
       System.out.printf("Check time after warmup: " + runTime2 + "ms = %.1fms per sentence\n", timePerSentence2);
