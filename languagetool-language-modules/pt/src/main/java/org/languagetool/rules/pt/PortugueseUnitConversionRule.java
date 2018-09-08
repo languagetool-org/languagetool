@@ -126,9 +126,9 @@ public class PortugueseUnitConversionRule extends AbstractUnitConversionRule {
       case SUGGESTION:
         return "Adicionar equivalência de métrica?";
       case CHECK_UNKNOWN_UNIT:
-        return "Unbekannte Einheit.";
-      case UNIT_MISMATCH:
         return "Unidade desconhecida.";
+      case UNIT_MISMATCH:
+        return "Unidade não relacionada.";
       default:
         throw new RuntimeException("Unknown message type." + message);
     }
