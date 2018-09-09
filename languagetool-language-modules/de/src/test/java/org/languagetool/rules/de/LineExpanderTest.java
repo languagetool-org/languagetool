@@ -37,6 +37,8 @@ public class LineExpanderTest {
     assertThat(expand("klein/A"), is("[klein, kleine, kleiner, kleines, kleinen, kleinem]"));
     assertThat(expand("x/NSE"), is("[x, xn, xs, xe]"));
     assertThat(expand("x/NA"), is("[x, xn, xe, xer, xes, xen, xem]"));
+    assertThat(expand("Das  #foo"), is("[Das]"));
+    assertThat(expand("Tisch/E  #bla #foo"), is("[Tisch, Tische]"));
   }
 
   private String expand(String line) {
