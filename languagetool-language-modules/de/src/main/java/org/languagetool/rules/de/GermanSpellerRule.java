@@ -114,6 +114,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("hinund?her", "hin und her");
     put("misverständniss", "Missverständnis");
     put("warheit", "Wahrheit");
+    put("[pP]okemon", "Pokémon");
+    put("kreigt", "kriegt");
+    put("Fritöse", "Fritteuse");
     put("unerkennlich", "unkenntlich");
     put("rückg[äe]nglich", "rückgängig");
     put("emen[sz]", "immens");
@@ -136,10 +139,11 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Opelarena", "Opel Arena");
     put("Toll-Collect", "Toll Collect");
     put("desweitere[nm]", "des Weiteren");
+    put("handzuhaben", "zu handhaben");
     putRepl("indifiziert(e[mnrs]?)?", "ind", "ident");
     putRepl("dreite[mnrs]?", "dreit", "dritt");
     putRepl("verblüte[mnrs]?", "blü", "blüh");
-    putRepl("einzigste[mnrs]?", "einzigst", "einzig");
+    putRepl("(aller)?einzigste[mnrs]?", "(aller)?einzigst", "einzig");
     putRepl("[iI]nterkurell(e[nmrs]?)?", "ku", "kultu");
     putRepl("ubera(g|sch)end(e[nmrs]?)?", "uber", "überr");
     putRepl("[wW]olt$", "lt", "llt");
