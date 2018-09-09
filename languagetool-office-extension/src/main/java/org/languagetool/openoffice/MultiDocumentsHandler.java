@@ -296,7 +296,7 @@ public class MultiDocumentsHandler {
     if (!testMode) {              //  xComponent == null for test cases 
       xComponent = OfficeTools.getCurrentComponent(xContext);
       if (xComponent == null) {
-        MessageHandler.printToLogFile("Error: Document (ID: " + docID + ") has no XComponent -> Analyse only single paragraphs");
+        MessageHandler.printToLogFile("Error: Document (ID: " + docID + ") has no XComponent -> Internal space can not be deleted when document disposes");
       } else {
         xComponent.addEventListener(xEventListener);
       }
@@ -315,7 +315,8 @@ public class MultiDocumentsHandler {
     int rmNum = -1;
     int docNum = -1;
     for (int i = 0; i < documents.size(); i++) {
-      if (documents.get(i).getXComponent().equals(goneContext)) { //  disposed document found
+      XComponent xComponent = documents.get(i).getXComponent();
+      if (xComponent != null && xComponent.equals(goneContext)) { //  disposed document found
         rmNum = i;
         break;
       }
