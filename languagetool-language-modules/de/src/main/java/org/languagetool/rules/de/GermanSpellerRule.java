@@ -140,6 +140,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Toll-Collect", "Toll Collect");
     put("desweitere[nm]", "des Weiteren");
     put("handzuhaben", "zu handhaben");
+    put("nachvollzuziehe?n", "nachzuvollziehen");
     putRepl("indifiziert(e[mnrs]?)?", "ind", "ident");
     putRepl("dreite[mnrs]?", "dreit", "dritt");
     putRepl("verblüte[mnrs]?", "blü", "blüh");
