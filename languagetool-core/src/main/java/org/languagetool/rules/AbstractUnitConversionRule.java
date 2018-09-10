@@ -277,8 +277,9 @@ public abstract class AbstractUnitConversionRule extends Rule {
       }
       return feet + inch / 12.0;
     };
-    specialPatterns.put(Pattern.compile("(?:(?<=[^º°\\d]))\\s(\\d+)(?:ft|′|')\\s*(\\d+)\\s*(?:in|\"|″)?|(?:(?<=[^º°\\d\\s]))(\\d+)(?:ft|′|')\\s*(\\d+)\\s*(?:in|\"|″)?"),
-      new AbstractMap.SimpleImmutableEntry<>( FEET, parseFeetAndInch ));
+    Map.Entry<Unit, Function<MatchResult, Double>> feetAndInchEntry = new AbstractMap.SimpleImmutableEntry<>( FEET, parseFeetAndInch );
+    specialPatterns.put(Pattern.compile("(?:(?<=[^º°\\d]))\\s(\\d+)(?:ft|′|')\\s*(\\d+)\\s*(?:in|\"|″)?"), feetAndInchEntry);
+    specialPatterns.put(Pattern.compile("(?:(?<=[^º°\\d\\s]))(\\d+)(?:ft|′|')\\s*(\\d+)\\s*(?:in|\"|″)?"), feetAndInchEntry);
   }
 
   /**
