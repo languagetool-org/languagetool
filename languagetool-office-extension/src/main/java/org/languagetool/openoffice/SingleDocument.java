@@ -167,6 +167,13 @@ class SingleDocument {
     doResetCheck = config.isResetCheck();
   }
   
+  /** Set XComponentContext and XComponent of the document
+   */
+  void setXComponent(XComponentContext xContext, XComponent xComponent) {
+    this.xContext = xContext;
+    this.xComponent = xComponent;
+  }
+  
   /** Get xComponent of the document
    */
   XComponent getXComponent() {
@@ -221,7 +228,7 @@ class SingleDocument {
    */
   private int getParaPos(String chPara, boolean isParallelThread) {
 
-    if (numParasToCheck == 0) {
+    if (numParasToCheck == 0 || xComponent == null) {
       return -1;  //  check only the processed paragraph
     }
 

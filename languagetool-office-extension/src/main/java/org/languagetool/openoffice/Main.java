@@ -87,7 +87,7 @@ public class Main extends WeakBase implements XJobExecutor,
 
   private XComponentContext xContext;
   
-  private MultiDocumentsHandler documents;
+  private MultiDocumentsHandler documents = null;
 
 
   public Main(XComponentContext xCompContext) {
@@ -114,6 +114,9 @@ public class Main extends WeakBase implements XJobExecutor,
 
   void changeContext(XComponentContext xCompContext) {
     xContext = xCompContext;
+    if(documents != null) {
+      documents.setComponentContext(xCompContext);
+    }
   }
 
   /**

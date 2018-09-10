@@ -127,6 +127,13 @@ public class MultiDocumentsHandler {
   }
   
   /**
+   *  Set XComponentContext
+   */
+  void setComponentContext(XComponentContext xContext) {
+    this.xContext = xContext;
+  }
+  
+  /**
    *  Set a document as closed
    */
   void setContextOfClosedDoc(XComponent context) {
@@ -288,6 +295,16 @@ public class MultiDocumentsHandler {
     }
     for (int i = 0; i < documents.size(); i++) {
       if (documents.get(i).getDocID().equals(docID)) {  //  document exist
+        if(!testMode && documents.get(i).getXComponent() == null) {
+          XComponent xComponent = OfficeTools.getCurrentComponent(xContext);
+          if (xComponent == null) {
+            MessageHandler.printToLogFile("Error: Document (ID: " + docID + ") has no XComponent -> Internal space can not be deleted when document disposes");
+          } else {
+            documents.get(i).setXComponent(xContext, xComponent);
+            xComponent.addEventListener(xEventListener);
+            MessageHandler.printToLogFile("Fixed: XComponent set for Document (ID: " + docID + ")");
+          }
+        }
         return i;
       }
     }
