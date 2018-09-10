@@ -1183,7 +1183,7 @@ public class JLanguageTool {
           throw e;
         } catch (Exception e) {
           throw new RuntimeException("Could not check sentence (language: " + language + "): '"
-                  + StringUtils.abbreviate(analyzedSentence.toTextString(), 200) + "'", e);
+                  + StringUtils.abbreviate(analyzedSentence.toTextString(), 500) + "'", e);
         }
       }
       return ruleMatches;
