@@ -124,7 +124,7 @@ public class MorfologikMultiSpeller {
     return new MorfologikSpeller(dictionary, maxEditDistance);
   }
 
-  private MorfologikSpeller getBinaryDict(String binaryDictPath, int maxEditDistance) throws IOException {
+  private MorfologikSpeller getBinaryDict(String binaryDictPath, int maxEditDistance) {
     if (binaryDictPath.endsWith(".dict")) {
       return new MorfologikSpeller(binaryDictPath, maxEditDistance);
     } else {
