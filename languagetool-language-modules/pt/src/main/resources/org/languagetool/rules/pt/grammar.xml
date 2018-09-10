@@ -22507,7 +22507,7 @@ TODO Write better examples
           <token regexp="yes">\d{1,2}(?:\,\d+)?</token>
           <token spacebefore="no" regexp="yes">['`’‘]</token>
           <token spacebefore="no" regexp="yes">\d+(?:%|&unidades_de_medida;)?</token>
-          <token spacebefore="no" regexp="yes">[”&quot;"]</token>
+          <token spacebefore="no" regexp="yes">[”&quot;]</token>
       </antipattern>
       <pattern>
           <token regexp="yes">\d+|\d{1,3}(?:[\. &#8239;&#160;]\d\d\d)+
@@ -24103,8 +24103,160 @@ TODO Write better examples
 
    <!-- XXX Inserir DATE_FUTURE_VERB_PAST aqui -->
    <!-- XXX Inserir DATE_NEW_YEAR aqui -->
-   <!-- XXX Inserir DATE_WEEKDAY_WITHOUT_YEAR aqui -->
-   
+
+  <rulegroup id="DATE_WEEKDAY_WITHOUT_YEAR" name="Data Incorreta: Dia da Semana Errado em Data Incompleta">
+    <!-- Localized from English grammar.xml by Tiago F. Santos, 2018-07-19 -->
+      <antipattern>
+          <token regexp="yes">\d\d\d\d</token>
+          <token>AC</token>
+      </antipattern>
+      <antipattern>
+          <token regexp="yes">\d\d\d\d</token>
+          <token>a</token>
+          <token>.</token>
+          <token>C</token>
+          <token>.</token>
+      </antipattern>
+    <!-- prevent overlapping match with DATE_WEEKDAY -->
+      <antipattern>
+    <!-- "Segunda, 7 Outubro 2014" -->
+          <token regexp="yes">&dias_semana;|&dias_semana_abrev;</token>
+          <token min='0' regexp='yes' spacebefore='no'>&hifen;</token>
+          <token min='0'>feira</token>
+          <token>,</token>
+          <token regexp="yes">\d\d?</token>
+          <token regexp="yes">&meses_ano;|&meses_ano_abrev;</token>
+          <token regexp="yes">\d\d\d\d</token>
+      </antipattern>
+      <antipattern>
+    <!-- "Segunda, Outubro 7, 2014" -->
+          <token regexp="yes">&dias_semana;|&dias_semana_abrev;</token>
+          <token min='0' regexp='yes' spacebefore='no'>&hifen;</token>
+          <token min='0'>feira</token>
+          <token>,</token>
+          <token regexp="yes">&meses_ano;|&meses_ano_abrev;</token>
+          <token regexp="yes">\d\d?</token>
+          <token>,</token>
+          <token regexp="yes">\d\d\d\d</token>
+      </antipattern>
+      <antipattern>
+          <token regexp="yes">&dias_semana;</token>
+          <token min='0' regexp='yes' spacebefore='no'>&hifen;</token>
+          <token min='0'>feira</token>
+          <token>,</token>
+          <token regexp="yes">0?[1-9]|[12][0-9]|3[01]</token>
+          <token>/</token>
+          <token regexp="yes">0?[1-9]|1[0-2]</token>
+          <token>/</token>
+          <token regexp="yes">\d\d\d\d</token>
+      </antipattern>
+      <antipattern>
+          <token regexp="yes">&dias_semana;</token>
+          <token min='0' regexp='yes' spacebefore='no'>&hifen;</token>
+          <token min='0'>feira</token>
+          <token>,</token>
+          <token regexp="yes">0?[1-9]|1[0-2]</token>
+          <token>/</token>
+          <token regexp="yes">0?[1-9]|[12][0-9]|3[01]</token>
+          <token>/</token>
+          <token regexp="yes">\d\d\d\d</token>
+      </antipattern>
+    <rule>
+      <pattern>
+    <!-- "Segunda, 7 Outubro" -->
+          <token regexp="yes">&dias_semana;|&dias_semana_abrev;</token>
+          <token min='0' regexp='yes' spacebefore='no'>&hifen;</token>
+          <token min='0'>feira</token>
+          <token>,</token>
+          <token regexp="yes">\d\d?</token>
+          <token min='0'>de</token>
+          <token regexp="yes">&meses_ano;|&meses_ano_abrev;</token>
+      </pattern>
+      <filter class="org.languagetool.rules.pt.DateCheckFilter" args="month:\7 day:\5 weekDay:\1"/>
+      <message>Refere-se ao ano atual? \3 \4 {currentYear} não é {day}, mas sim {realDay}.</message>
+      <example correction="">Festival Pop/Rock - <marker>Segunda-feira, 7 de Outubro</marker></example>
+      <example correction="">Festival Pop/Rock - <marker>Seg, 7 Outubro</marker></example>
+      <example correction="">Festival Pop/Rock - <marker>Seg, 7 Outubro</marker></example>
+      <example correction="">Festival Pop/Rock - <marker>Segunda, 7 Out</marker></example>
+      <example correction="">Festival Pop/Rock - <marker>Segunda-Feira, 7 Out</marker></example>
+      <example>Festival Pop/Rock - <marker>Tuesday, 7 Outubro</marker></example>
+      <example>Festival Pop/Rock - <marker>Tuesday, 7 Out</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+    <!-- "Segunda, Outubro 7" -->
+          <token regexp="yes">&dias_semana;|&dias_semana_abrev;</token>
+          <token min='0' regexp='yes' spacebefore='no'>&hifen;</token>
+          <token min='0'>feira</token>
+          <token>,</token>
+          <token regexp="yes">&meses_ano;|&meses_ano_abrev;</token>
+          <token regexp="yes">\d\d?</token>
+      </pattern>
+      <filter class="org.languagetool.rules.pt.DateCheckFilter" args="month:\5 day:\6 weekDay:\1"/>
+      <message>Refere-se ao ano atual? \3 \4, {currentYear} não é {day}, mas sim {realDay}.</message>
+      <example correction="">Festival Pop/Rock - <marker>Segunda, Outubro 7</marker></example>
+      <example correction="">Festival Pop/Rock - <marker>Segunda-Feira, Outubro 7</marker></example>
+      <example correction="">Festival Pop/Rock - <marker>Seg, Outubro 7</marker></example>
+      <example correction="">Festival Pop/Rock - <marker>Seg, Outubro 7</marker></example>
+      <example correction="">Festival Pop/Rock - <marker>Quarta, Outubro 7</marker></example>
+      <example correction="">Festival Pop/Rock - <marker>Quinta, Outubro 7</marker></example>
+      <example correction="">Festival Pop/Rock - <marker>Sexta, Outubro 7</marker></example>
+      <example correction="">Festival Pop/Rock - <marker>Sábado, Outubro 7</marker></example>
+      <example correction="">Festival Pop/Rock - <marker>Domingo, Outubro 7</marker></example>
+      <example correction="">Festival Pop/Rock - <marker>Domingo, Out 7</marker></example>
+      <example>Festival Pop/Rock - <marker>Tuesday, Outubro 7</marker></example>
+      <example>Festival Pop/Rock - <marker>Tuesday, Out 7</marker></example>
+    </rule>
+    <rule>
+    <!-- "Segunda, 31/10" -->
+      <pattern>
+          <token regexp="yes">&dias_semana;</token>
+          <token min='0' regexp='yes' spacebefore='no'>&hifen;</token>
+          <token min='0'>feira</token>
+          <token>,</token>
+          <token regexp="yes">0?[1-9]|[12][0-9]|3[01]</token>
+          <token>/</token>
+          <token regexp="yes">0?[1-9]|1[0-2]</token>
+      </pattern>
+      <filter class="org.languagetool.rules.pt.DateCheckFilter" args="month:\7 day:\5 weekDay:\1"/>
+      <message>Refere-se ao ano atual? \3/\5/{currentYear} não é {day}, mas sim {realDay}.</message>
+      <example correction="">Festival Pop/Rock 2014 - <marker>Segunda, 31/10</marker></example>
+      <example correction="">Festival Pop/Rock 2014 - <marker>Segunda-Feira, 31/10</marker></example>
+      <example>Festival Pop/Rock 2014 - <marker>Sexta, 31/10</marker></example>
+      <!--example>Festival Pop/Rock 2014 - <marker>Segunda, 10/09</marker></example> not ambiguous in Portuguese-->
+      <!--example>Festival Pop/Rock 2014 - <marker>Segunda, 9/10</marker></example> not ambiguous in Portuguese-->
+    </rule>
+    <rule>
+    <!-- "Segunda, 10/31" -->
+    <!-- the ambiguous forms have been antipatterned and are analysed by former rule-->
+      <antipattern>
+          <token regexp="yes">&dias_semana;</token>
+          <token min='0' regexp='yes' spacebefore='no'>&hifen;</token>
+          <token min='0'>feira</token>
+          <token>,</token>
+          <token regexp="yes">0?[1-9]|1[0-2]</token>
+          <token>/</token>
+          <token regexp="yes">0?[1-9]|1[0-2]</token>
+      </antipattern>
+      <pattern>
+          <token regexp="yes">&dias_semana;</token>
+          <token min='0' regexp='yes' spacebefore='no'>&hifen;</token>
+          <token min='0'>feira</token>
+          <token>,</token>
+          <token regexp="yes">0?[1-9]|1[0-2]</token>
+          <token>/</token>
+          <token regexp="yes">0?[1-9]|[12][0-9]|3[01]</token>
+      </pattern>
+      <filter class="org.languagetool.rules.pt.DateCheckFilter" args="month:\5 day:\7 weekDay:\1"/>
+      <message>Refere-se ao ano atual? \3/\5/{currentYear} não é {day}, mas sim {realDay}.</message>
+      <example correction="">Festival Pop/Rock 2014 - <marker>Segunda, 10/31</marker></example>
+      <example correction="">Festival Pop/Rock 2014 - <marker>Segunda-Feira, 10/31</marker></example>
+      <example>Festival Pop/Rock 2014 - <marker>Sexta, 10/31</marker></example>
+      <!--example>Festival Pop/Rock 2014 - <marker>Segunda, 10/09</marker></example> not ambiguous in Portuguese-->
+      <!--example>Festival Pop/Rock 2014 - <marker>Segunda, 9/10</marker></example> not ambiguous in Portuguese-->
+    </rule>
+  </rulegroup>
+
     <!--      Semantics rules l18n from Catalan grammar.xml - START-->
     <!-- Localized by Tiago F. Santos, Portuguese rule, 2016-11-13 -->
     <rule id='ANY20016_2016' name="Data Incorreta: *20016/2016">
