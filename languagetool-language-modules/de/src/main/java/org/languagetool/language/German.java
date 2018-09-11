@@ -187,7 +187,7 @@ public class German extends Language implements AutoCloseable {
             new WiederVsWiderRule(messages),
             new WhiteSpaceBeforeParagraphEnd(messages, this),
             new WhiteSpaceAtBeginOfParagraph(messages),
-            new EmptyLineRule(messages),
+            new EmptyLineRule(messages, this),
             new GermanStyleRepeatedWordRule(messages, userConfig),
             new CompoundCoherencyRule(messages),
             new LongSentenceRule(messages, userConfig),

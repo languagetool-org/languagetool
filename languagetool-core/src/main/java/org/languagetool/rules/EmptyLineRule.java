@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.Language;
 
 /**
  * A rule that checks for empty lines. Useful especially for office extension
@@ -34,9 +35,12 @@ import org.languagetool.AnalyzedTokenReadings;
 
 public class EmptyLineRule extends TextLevelRule {
 
-  public EmptyLineRule(ResourceBundle messages, boolean defaultActive) {
+  private final Language lang;
+  
+  public EmptyLineRule(ResourceBundle messages, Language lang, boolean defaultActive) {
     super(messages);
     super.setCategory(Categories.STYLE.getCategory(messages));
+    this.lang = lang;
     if (!defaultActive) {
       setDefaultOff();
     }
@@ -44,8 +48,8 @@ public class EmptyLineRule extends TextLevelRule {
     setLocQualityIssueType(ITSIssueType.Style);
   }
 
-  public EmptyLineRule(ResourceBundle messages) {
-    this(messages, false);
+  public EmptyLineRule(ResourceBundle messages, Language lang) {
+    this(messages, lang, false);
   }
 
   @Override
@@ -62,20 +66,18 @@ public class EmptyLineRule extends TextLevelRule {
   public org.languagetool.rules.RuleMatch[] match(List<AnalyzedSentence> sentences) throws IOException {
     List<RuleMatch> ruleMatches = new ArrayList<>();
     int pos = 0;
-    for (int n = 0; n < sentences.size(); n++) {
+    for (int n = 0; n < sentences.size() - 1; n++) {
       AnalyzedSentence sentence = sentences.get(n);
-      AnalyzedTokenReadings[] tokens = sentence.getTokens();
-      for(int i = 2; i < tokens.length; i++) {
-        if(tokens[i].isLinebreak() && !tokens[i - 1].isLinebreak()) {
-          int firstLB = i;
-          for (i++; i < tokens.length && tokens[i].isWhitespace() && !tokens[i].isLinebreak() && !tokens[i].getToken().equals("\u200B"); i++);  
-          if (i < tokens.length && tokens[i].isLinebreak()) { 
-            int toPos = pos + tokens[firstLB - 1].getEndPos();
-            int fromPos = toPos - 1;
+      if(sentence.hasParagraphEndMark(lang)) {
+        AnalyzedTokenReadings[] tokens = sentences.get(n + 1).getTokensWithoutWhitespace();
+        if(tokens.length <= 2 && tokens[tokens.length - 1].isWhitespace()) {
+          tokens = sentence.getTokensWithoutWhitespace();
+          if(tokens.length > 2 || (tokens.length ==  2 && !tokens[1].isWhitespace())) {
+            int fromPos = pos + tokens[tokens.length - 1].getStartPos();
+            int toPos = pos + tokens[tokens.length - 1].getEndPos();
             RuleMatch ruleMatch = new RuleMatch(this, sentence, fromPos, toPos, messages.getString("empty_line_rule_msg"));
             // Can't use SuggestedReplacement because of problems in LO/OO dialog with linebreaks
             ruleMatches.add(ruleMatch);
-            i--;
           }
         }
       }

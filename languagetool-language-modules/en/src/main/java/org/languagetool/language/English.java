@@ -180,7 +180,7 @@ public class English extends Language implements AutoCloseable {
         new SentenceWhitespaceRule(messages),
         new WhiteSpaceBeforeParagraphEnd(messages, this),
         new WhiteSpaceAtBeginOfParagraph(messages),
-        new EmptyLineRule(messages),
+        new EmptyLineRule(messages, this),
         new LongSentenceRule(messages, userConfig),
         new LongParagraphRule(messages, userConfig),
         //new OpenNMTRule(),     // commented out because of #903
