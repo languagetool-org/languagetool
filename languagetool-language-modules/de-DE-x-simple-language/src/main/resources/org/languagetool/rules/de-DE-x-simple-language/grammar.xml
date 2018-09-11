@@ -522,6 +522,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Er nimmt an: sie ist um 10 Uhr gekommen.</example>
                 <example correction="">Er <marker>nimmt an, sie</marker> sei um 10 Uhr gekommen.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"></token>
+                    <token postag="(PRO|ART):.+" postag_regexp="yes"></token>
+                    <token postag="SUB:NOM:.+" postag_regexp="yes"></token>
+                    <marker>
+                        <token>,</token>
+                        <token></token>
+                        <token min="0"></token>
+                    </marker>
+                    <token postag="VER:.*KJ.*" postag_regexp="yes" skip="-1"></token>
+                    <token postag="VER:INF:.+" postag_regexp="yes"></token>
+                    <token>,</token>
+                </pattern>
+                <message>Indirekte Rede gefunden. Benutzen Sie direkte Rede.</message>
+                <example correction="">Ihre Behauptung<marker>, er</marker> könne das niemals schaffen, kränkte ihn.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="ZWEI_INFORMATIONSEINHEITEN_PRO_SATZ" name="Leichte Sprache: eine Aussage pro Satz">
             <rule>
