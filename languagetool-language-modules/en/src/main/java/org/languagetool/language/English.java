@@ -178,7 +178,7 @@ public class English extends Language implements AutoCloseable {
                 Example.fixed("This house is old. <marker>It</marker> was built in 1950.")),
         new MultipleWhitespaceRule(messages, this),
         new SentenceWhitespaceRule(messages),
-        new WhiteSpaceBeforeParagraphEnd(messages),
+        new WhiteSpaceBeforeParagraphEnd(messages, this),
         new WhiteSpaceAtBeginOfParagraph(messages),
         new EmptyLineRule(messages),
         new LongSentenceRule(messages, userConfig),

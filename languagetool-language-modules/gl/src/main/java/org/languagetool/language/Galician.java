@@ -134,7 +134,7 @@ public class Galician extends Language {
             new LongSentenceRule(messages, userConfig, -1, true),
             new LongParagraphRule(messages, userConfig),
             new SentenceWhitespaceRule(messages),
-            new WhiteSpaceBeforeParagraphEnd(messages),
+            new WhiteSpaceBeforeParagraphEnd(messages, this),
             new WhiteSpaceAtBeginOfParagraph(messages),
             new EmptyLineRule(messages),
             new ParagraphRepeatBeginningRule(messages),
