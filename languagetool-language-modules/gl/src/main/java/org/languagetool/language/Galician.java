@@ -137,7 +137,7 @@ public class Galician extends Language {
             new WhiteSpaceBeforeParagraphEnd(messages, this),
             new WhiteSpaceAtBeginOfParagraph(messages),
             new EmptyLineRule(messages, this),
-            new ParagraphRepeatBeginningRule(messages),
+            new ParagraphRepeatBeginningRule(messages, this),
             new PunctuationMarkAtParagraphEnd(messages, this),
             // Specific to Galician:
             new SimpleReplaceRule(messages),

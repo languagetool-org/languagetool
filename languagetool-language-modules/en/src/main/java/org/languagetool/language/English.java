@@ -184,7 +184,7 @@ public class English extends Language implements AutoCloseable {
         new LongSentenceRule(messages, userConfig),
         new LongParagraphRule(messages, this, userConfig),
         //new OpenNMTRule(),     // commented out because of #903
-        new ParagraphRepeatBeginningRule(messages),
+        new ParagraphRepeatBeginningRule(messages, this),
         new PunctuationMarkAtParagraphEnd(messages, this),
         // specific to English:
         new EnglishUnpairedBracketsRule(messages, this),
