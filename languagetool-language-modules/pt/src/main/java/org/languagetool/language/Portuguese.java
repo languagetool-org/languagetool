@@ -145,7 +145,7 @@ public class Portuguese extends Language implements AutoCloseable {
                     Arrays.asList("]", ")", "}", "\"", "”" /*, "»", "'", "’" */)),
             new HunspellRule(messages, this, userConfig),
             new LongSentenceRule(messages, userConfig, -1, true),
-            new LongParagraphRule(messages, userConfig),
+            new LongParagraphRule(messages, this, userConfig),
             new UppercaseSentenceStartRule(messages, this,
                 Example.wrong("Esta casa é velha. <marker>foi</marker> construida em 1950."),
                 Example.fixed("Esta casa é velha. <marker>Foi</marker> construida em 1950.")),
