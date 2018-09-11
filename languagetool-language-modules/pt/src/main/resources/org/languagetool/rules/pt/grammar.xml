@@ -24111,6 +24111,99 @@ TODO Write better examples
 
     <!-- XXX Inserir DATE_FUTURE_VERB_PAST aqui -->
 
+  <rulegroup id="DATE_NEW_YEAR" name="Datas: Novo Ano">
+    <!-- Localized from English grammar.xml by Tiago F. Santos, 2018-09-10 -->
+      <antipattern>
+          <token regexp="yes">\d\d\d\d</token>
+          <token>AC</token>
+      </antipattern>
+      <antipattern>
+          <token regexp="yes">\d\d\d\d</token>
+          <token>A</token>
+          <token>.</token>
+          <token>C</token>
+          <token>.</token>
+      </antipattern>
+    <rule>
+      <pattern>
+    <!-- "7 Outubro 2014" -->
+                    &date_dmy;
+      </pattern>
+      <filter class="org.languagetool.rules.pt.NewYearDateFilter" args="year:\3 month:\2 day:\1"/>
+      <message>Um novo ano começou. Será que quis dizer <suggestion>\1 \2 {realYear}</suggestion>?
+      </message>
+      <example correction="7 Outubro 2014">Festival Pop/Rock - <marker>7 Outubro 2013</marker></example>
+      <example correction="7 Out 2014">Festival Pop/Rock - <marker>7 Out 2013</marker></example>
+      <example>Festival Pop/Rock - Terça-feira, <marker>7 Outubro 2014</marker></example>
+      <example>Festival Pop/Rock - Terça-feira, <marker>7 Out 2014</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+    <!-- "Outubro 7, 2014" -->
+                    &date_mdy;
+      </pattern>
+      <filter class="org.languagetool.rules.pt.NewYearDateFilter" args="year:\4 month:\1 day:\2"/>
+      <message>Um novo ano começou. Será que quis dizer <suggestion>\1 \2, {realYear}</suggestion>?
+      </message>
+      <example correction="Outubro 7, 2014">Festival Pop/Rock - <marker>Outubro 7, 2013</marker></example>
+      <example correction="Out 7, 2014">Festival Pop/Rock - <marker>Out 7, 2013</marker></example>
+      <example>Festival Pop/Rock - Terça-feira, <marker>Out 7, 2014</marker></example>
+      <example>Festival Pop/Rock - Terça-feira, <marker>Out 7, 2018</marker></example>
+      <example>Festival Pop/Rock - Terça-feira, <marker>Outubro 7, 2012</marker></example>
+    </rule>
+    <!-- "31/10/2014" -->
+    <!-- the ambiguous forms have been antipatterned -->
+    <rule>
+      <antipattern>
+                    &ambiguous_date;
+      </antipattern>
+      <pattern>
+                    &date_dmy_numbers;
+      </pattern>
+      <filter class="org.languagetool.rules.pt.NewYearDateFilter" args="year:\5 month:\3 day:\1"/>
+      <message>Um novo ano começou. Será que quis dizer <suggestion>\1/\3/{realYear}</suggestion>?
+      </message>
+      <example correction="31/10/2014">Festival Pop/Rock 2014 - <marker>31/10/2013</marker></example>
+      <example>Festival Pop/Rock 2014 - <marker>31/10/2014</marker></example>
+      <example>Festival Pop/Rock 2014 - <marker>31/10/2018</marker></example>
+      <example>Festival Pop/Rock 2014 - <marker>31/10/2012</marker></example>
+      <example>Festival Pop/Rock 2014 - <marker>10/09/2014</marker></example><!-- not correct, but ambiguous -->
+      <example>Festival Pop/Rock 2014 - <marker>9/10/2014</marker></example><!-- not correct, but ambiguous -->
+    </rule>
+    <rule>
+    <!-- "10/31/2014" -->
+    <!-- the ambiguous forms have been antipatterned -->
+      <antipattern>
+                    &ambiguous_date;
+      </antipattern>
+      <pattern>
+                    &date_mdy_numbers;
+      </pattern>
+      <filter class="org.languagetool.rules.pt.NewYearDateFilter" args="year:\5 month:\1 day:\3"/>
+      <message>Um novo ano começou. Será que quis dizer <suggestion>\1/\3/{realYear}</suggestion>?
+      </message>
+      <example correction="10/31/2014">Festival Pop/Rock 2014 - <marker>10/31/2013</marker></example>
+      <example>Festival Pop/Rock 2014 - <marker>10/31/2014</marker></example>
+      <example>Festival Pop/Rock 2014 - <marker>10/31/2018</marker></example>
+      <example>Festival Pop/Rock 2014 - <marker>10/31/2012</marker></example>
+      <example>Festival Pop/Rock 2014 - <marker>10/09/2014</marker></example><!-- not correct, but ambiguous -->
+      <example>Festival Pop/Rock 2014 - <marker>9/10/2014</marker></example><!-- not correct, but ambiguous -->
+    </rule>
+    <!--rule> TODO Tokenize YYYY-MM-DD. Not standard notation. 
+    < "2014-10-31" >
+      <pattern>
+          <token regexp="yes">\d\d\d\d-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])</token>
+      </pattern>
+      <filter class="org.languagetool.rules.pt.YMDNewYearDateFilter" args="date:\1"/>
+      <message>Um novo ano começou. Será que quis dizer <suggestion>{realDate}</suggestion>?
+      </message>
+      <example correction="2014-10-31">Festival Pop/Rock 2014 - <marker>2013-10-31</marker></example>
+      <example>Festival Pop/Rock 2014 - <marker>2014-10-31</marker></example>
+      <example>Festival Pop/Rock 2014 - <marker>2018-10-31</marker></example>
+      <example>Festival Pop/Rock 2014 - <marker>2012-10-31</marker></example>
+    </rule-->
+  </rulegroup>
+
   <rulegroup id="DATE_WEEKDAY_WITHOUT_YEAR" name="Data Incorreta: Dia da Semana Errado em Data Incompleta">
     <!-- Localized from English grammar.xml by Tiago F. Santos, 2018-07-19 -->
       <antipattern>
