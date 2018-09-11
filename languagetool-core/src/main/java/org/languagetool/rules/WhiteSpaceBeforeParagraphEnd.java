@@ -33,7 +33,7 @@ import org.languagetool.Language;
  */
 public class WhiteSpaceBeforeParagraphEnd extends TextLevelRule {
 
-  Language lang;
+  private final Language lang;
   
   public WhiteSpaceBeforeParagraphEnd(ResourceBundle messages, Language lang, boolean defaultActive) {
     super(messages);
