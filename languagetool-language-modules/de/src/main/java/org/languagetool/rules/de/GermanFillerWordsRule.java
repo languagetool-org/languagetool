@@ -26,6 +26,7 @@ import java.util.Set;
 import javax.swing.JOptionPane;
 
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.Language;
 import org.languagetool.UserConfig;
 import org.languagetool.rules.AbstractFillerWordsRule;
 
@@ -59,8 +60,8 @@ public class GermanFillerWordsRule extends AbstractFillerWordsRule {
       "womöglich","ziemlich","zudem","zugegeben","zumeist","zusehends","zuweilen","zweifellos","zweifelsfrei","zweifelsohne"
   ));
   
-  public GermanFillerWordsRule(ResourceBundle messages, UserConfig userConfig) {
-    super(messages, userConfig);
+  public GermanFillerWordsRule(ResourceBundle messages, Language lang, UserConfig userConfig) {
+    super(messages, lang, userConfig);
   }
 
   @Override
@@ -75,7 +76,7 @@ public class GermanFillerWordsRule extends AbstractFillerWordsRule {
 
   @Override
   public boolean isException(AnalyzedTokenReadings[] tokens, int num) {
-    if ("aber".equals(tokens[num].getToken()) && num >= 2 && ",".equals(tokens[num - 2].getToken())) {
+    if ("aber".equals(tokens[num].getToken()) && num >= 1 && ",".equals(tokens[num - 1].getToken())) {
       return true;
     }
     return false;

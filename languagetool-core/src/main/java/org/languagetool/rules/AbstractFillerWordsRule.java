@@ -26,6 +26,7 @@ import java.util.regex.Pattern;
 
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.Language;
 import org.languagetool.UserConfig;
 import org.languagetool.rules.Category.Location;
 
@@ -48,16 +49,18 @@ public abstract class AbstractFillerWordsRule extends TextLevelRule {
   private static final boolean DEFAULT_ACTIVATION = false;
 
   private int minPercent = DEFAULT_MIN_PERCENT;
+  private final Language lang;
 
   /*
    * Override this to detect filler words in the specified language
    */
   protected abstract boolean isFillerWord(String token);
   
-  public AbstractFillerWordsRule(ResourceBundle messages, UserConfig userConfig, boolean defaultActive) {
+  public AbstractFillerWordsRule(ResourceBundle messages, Language lang, UserConfig userConfig, boolean defaultActive) {
     super(messages);
     super.setCategory(new Category(new CategoryId("CREATIVE_WRITING"), 
         messages.getString("category_creative_writing"), Location.INTERNAL, false));
+    this.lang = lang;
     if (!defaultActive) {
       setDefaultOff();
     }
@@ -70,8 +73,8 @@ public abstract class AbstractFillerWordsRule extends TextLevelRule {
     setLocQualityIssueType(ITSIssueType.Style);
   }
 
-  public AbstractFillerWordsRule(ResourceBundle messages, UserConfig userConfig) {
-    this(messages, userConfig, DEFAULT_ACTIVATION);
+  public AbstractFillerWordsRule(ResourceBundle messages, Language lang, UserConfig userConfig) {
+    this(messages, lang, userConfig, DEFAULT_ACTIVATION);
   }
 
   @Override
@@ -115,7 +118,7 @@ public abstract class AbstractFillerWordsRule extends TextLevelRule {
   protected boolean isException(AnalyzedTokenReadings[] tokens, int num) {
     return false;
   }
-  
+
   @Override
   public RuleMatch[] match(List<AnalyzedSentence> sentences) throws IOException {
     List<RuleMatch> ruleMatches = new ArrayList<>();
@@ -128,42 +131,41 @@ public abstract class AbstractFillerWordsRule extends TextLevelRule {
     int wordCount = 0;
     boolean isDirectSpeech = false;
     for (AnalyzedSentence sentence : sentences) {
-      AnalyzedTokenReadings[] tokens = sentence.getTokens();
-      for (int n = 0; n < tokens.length; n++) {
+      AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
+      for (int n = 1; n < tokens.length; n++) {
         AnalyzedTokenReadings token = tokens[n];
         String sToken = token.getToken();
-        if (OPENING_QUOTES.matcher(sToken).matches() && n < tokens.length -1 && !tokens[n + 1].isWhitespace()) {
+        if (OPENING_QUOTES.matcher(sToken).matches() && n < tokens.length -1 && !tokens[n + 1].isWhitespaceBefore()) {
           isDirectSpeech = true;
         }
-        else if (ENDING_QUOTES.matcher(sToken).matches() 
-            && !tokens[n - 1].isWhitespace() && !tokens[n - 1].isSentenceStart()) {
+        else if (ENDING_QUOTES.matcher(sToken).matches() && n > 1 && !tokens[n].isWhitespaceBefore()) {
           isDirectSpeech = false;
         }
-        else if ((!isDirectSpeech || minPercent == 0) && !token.isWhitespace() && !token.isSentenceStart() 
-            && !token.isSentenceEnd() && !NON_WORD_REGEX.matcher(sToken).matches()) {
+        else if ((!isDirectSpeech || minPercent == 0) && !token.isWhitespace() && !NON_WORD_REGEX.matcher(sToken).matches()) {
           wordCount++;
           if (isFillerWord(sToken) && !isException(tokens, n)) {
             startPos.add(token.getStartPos() + pos);
             endPos.add(token.getEndPos() + pos);
             relevantSentences.add(sentence);
           }
-        } else if ("\n".equals(sToken) || "\r\n".equals(sToken) || "\n\r".equals(sToken)) {
-          if(wordCount > 0) {
-            percent = startPos.size() * 100.0 / wordCount;
-          } else {
-            percent = 0;
-          }
-          if (percent > minPercent) {
-            for (int i = 0; i < startPos.size(); i++) {
-              RuleMatch ruleMatch = new RuleMatch(this, sentence, startPos.get(i), endPos.get(i), msg);
-              ruleMatches.add(ruleMatch);
-            }
-          }
-          wordCount = 0;
-          startPos = new ArrayList<>();
-          endPos = new ArrayList<>();
-          relevantSentences = new ArrayList<>();
         }
+      }
+      if (sentence.hasParagraphEndMark(lang)) {
+        if(wordCount > 0) {
+          percent = startPos.size() * 100.0 / wordCount;
+        } else {
+          percent = 0;
+        }
+        if (percent > minPercent) {
+          for (int i = 0; i < startPos.size(); i++) {
+            RuleMatch ruleMatch = new RuleMatch(this, relevantSentences.get(i), startPos.get(i), endPos.get(i), msg);
+            ruleMatches.add(ruleMatch);
+          }
+        }
+        wordCount = 0;
+        startPos = new ArrayList<>();
+        endPos = new ArrayList<>();
+        relevantSentences = new ArrayList<>();
       }
       pos += sentence.getText().length();
     }

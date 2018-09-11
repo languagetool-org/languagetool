@@ -20,6 +20,7 @@ package org.languagetool.rules.de;
 
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
 import org.languagetool.TestTools;
 import org.languagetool.UserConfig;
 import org.languagetool.language.German;
@@ -35,10 +36,12 @@ import static org.junit.Assert.assertEquals;
  * @author Fred Kruse
  */
 public class GermanFillerWordsRuleTest {
+  
+  private final Language lang = new German();
 
   @Test
   public void testRule() throws IOException {
-    JLanguageTool lt = new JLanguageTool(new German());
+    JLanguageTool lt = new JLanguageTool(lang);
     setUpRule(lt, null);
 
     //  more than 8% filler words (default)
@@ -63,7 +66,7 @@ public class GermanFillerWordsRuleTest {
       lt.disableRule(rule.getId());
     }
     GermanFillerWordsRule rule = 
-        new GermanFillerWordsRule(TestTools.getMessages(new German().getShortCode()), userConfig);
+        new GermanFillerWordsRule(TestTools.getMessages(lang.getShortCode()), lang, userConfig);
     lt.addRule(rule);
     lt.enableRule(rule.getId());
   }
