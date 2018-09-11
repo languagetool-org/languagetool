@@ -24109,7 +24109,98 @@ TODO Write better examples
     </rule>
   </rulegroup>
 
-    <!-- XXX Inserir DATE_FUTURE_VERB_PAST aqui -->
+  <rulegroup id="DATE_FUTURE_VERB_PAST" name="Datas: Data futura + verbo no passado">
+    <!-- Localized from English grammar.xml by Tiago F. Santos, 2018-09-11 -->
+    <rule> <!-- Visitávamos 7 Outubro 2020 -->
+      <pattern>
+          <token postag="V.(?:P.|.[ISM]).+" postag_regexp="yes" skip="-1"/>
+        <marker> &date_dmy; </marker>
+      </pattern>
+      <filter class="org.languagetool.rules.pt.FutureDateFilter" args="year:\4 month:\3 day:\2"/>
+      <message>A data apresentada está no futuro, mas o verbo associado está no passado.</message>
+      <example correction="">Visitávamos o cliente a <marker>7 Outubro 2020</marker>.</example>
+      <example correction="">Estávamos a visitar o cliente a <marker>7 Outubro 2020</marker>.</example>
+      <example>Visitávamos o cliente a <marker>7 Outubro 2010</marker>.</example>
+      <example>Estávamos a visitar o cliente a <marker>7 Outubro 2010</marker>.</example>
+    </rule>
+    <rule> <!-- A 7 Outubro 2020, estávamos a visitar o cliente -->
+      <pattern>
+        <marker> &date_dmy_skip; </marker>
+          <token postag="V.(?:P.|.[ISM]).+" postag_regexp="yes" skip="-1"/>
+      </pattern>
+      <filter class="org.languagetool.rules.pt.FutureDateFilter" args="year:\3 month:\2 day:\1"/>
+      <message>A data apresentada está no futuro, mas o verbo associado está no passado.</message>
+      <example correction="">A <marker>7 Outubro 2020</marker>, visitávamos o cliente.</example>
+      <example>A <marker>7 Outubro 2010</marker>, visitávamos o cliente.</example>
+      <example>A 7 Outubro 2010, visitaremos o cliente.</example>
+    </rule>
+    <rule> <!-- Estávamos a visitar o cliente a Outubro 7, 2020 -->
+      <pattern>
+          <token postag="V.(?:P.|.[ISM]).+" postag_regexp="yes" skip="-1"/>
+        <marker> &date_mdy; </marker>
+      </pattern>
+      <filter class="org.languagetool.rules.pt.FutureDateFilter" args="year:\5 month:2 day:\3"/>
+      <message>A data apresentada está no futuro, mas o verbo associado está no passado.</message>
+      <example correction="">Visitávamos o cliente a <marker>Outubro 7, 2020</marker>.</example>
+      <example>Visitávamos o cliente a <marker>Outubro 7, 2010</marker>.</example>
+      <example>Informaremos o cliente a Outubro 7, 2010.</example>
+    </rule>
+    <rule> <!-- A Outubro 7, 2020, estávamos a visitar o cliente -->
+      <pattern>
+        <marker> &date_mdy_skip; </marker>
+          <token postag="V.(?:P.|.[ISM]).+" postag_regexp="yes" skip="-1"/>
+      </pattern>
+      <filter class="org.languagetool.rules.pt.FutureDateFilter" args="year:\4 month:1 day:\2"/>
+      <message>A data apresentada está no futuro, mas o verbo associado está no passado.</message>
+      <example correction="">A <marker>Outubro 7, 2020</marker>, visitávamos o cliente.</example>
+      <example>A <marker>Outubro 7, 2010</marker>, visitávamos o cliente.</example>
+      <example>A Outubro 7, 2010, informaremos o cliente.</example>
+    </rule>
+    <rule> <!-- estávamos a visitar o cliente a 27/10/2040 -->
+      <pattern>
+          <token postag="V.(?:P.|.[ISM]).+" postag_regexp="yes" skip="-1"/>
+        <marker> &date_dmy_numbers; </marker>
+      </pattern>
+      <filter class="org.languagetool.rules.pt.FutureDateFilter" args="year:\6 month:\4 day:\2"/>
+      <message>A data apresentada está no futuro, mas o verbo associado está no passado.</message>
+      <example correction="">Estávamos a visitar o cliente a <marker>27/10/2040</marker>.</example>
+      <example>Estávamos a visitar o cliente a <marker>27/10/2010</marker>.</example>
+      <example>Informaremos o cliente a 27/10/2010.</example>
+    </rule>
+    <rule> <!-- A 27/10/2040, estávamos a visitar o cliente -->
+      <pattern>
+        <marker> &date_dmy_numbers_skip; </marker>
+          <token postag="V.(?:P.|.[ISM]).+" postag_regexp="yes" skip="-1"/>
+      </pattern>
+      <filter class="org.languagetool.rules.pt.FutureDateFilter" args="year:\5 month:\3 day:\1"/>
+      <message>A data apresentada está no futuro, mas o verbo associado está no passado.</message>
+      <example correction="">A <marker>27/10/2040</marker>, estávamos a visitar o cliente.</example>
+      <example>A <marker>27/10/2010</marker>, estávamos a visitar o cliente.</example>
+      <example>On 27/10/2010, informaremos o cliente.</example>
+    </rule>
+    <rule> <!-- Estávamos a visitar o cliente a 10/27/2040 -->
+      <pattern>
+          <token postag="V.(?:P.|.[ISM]).+" postag_regexp="yes" skip="-1"/>
+        <marker> &date_mdy_numbers; </marker>
+      </pattern>
+      <filter class="org.languagetool.rules.pt.FutureDateFilter" args="year:\6 month:\2 day:\4"/>
+      <message>A data apresentada está no futuro, mas o verbo associado está no passado.</message>
+      <example correction="">Estávamos a visitar o cliente a <marker>10/27/2040</marker>.</example>
+      <example>Estávamos a visitar o cliente a <marker>10/27/2010</marker>.</example>
+      <example>Informaremos o cliente a 10/27/2010.</example>
+    </rule>
+    <rule> <!-- A 10/27/2040, estávamos a visitar o cliente -->
+      <pattern>
+        <marker> &date_mdy_numbers_skip; </marker>
+          <token postag="V.(?:P.|.[ISM]).+" postag_regexp="yes" skip="-1"/>
+      </pattern>
+      <filter class="org.languagetool.rules.pt.FutureDateFilter" args="year:\5 month:\1 day:\2"/>
+      <message>A data apresentada está no futuro, mas o verbo associado está no passado.</message>
+      <example correction="">A <marker>10/27/2040</marker>, estávamos a visitar o cliente.</example>
+      <example>A <marker>10/27/2010</marker>, estávamos a visitar o cliente.</example>
+      <example>A 10/27/2010, informaremos o cliente.</example>
+    </rule>
+  </rulegroup>
 
   <rulegroup id="DATE_NEW_YEAR" name="Datas: Novo Ano">
     <!-- Localized from English grammar.xml by Tiago F. Santos, 2018-09-10 -->
@@ -24189,8 +24280,8 @@ TODO Write better examples
       <example>Festival Pop/Rock 2014 - <marker>10/09/2014</marker></example><!-- not correct, but ambiguous -->
       <example>Festival Pop/Rock 2014 - <marker>9/10/2014</marker></example><!-- not correct, but ambiguous -->
     </rule>
-    <!--rule> TODO Tokenize YYYY-MM-DD. Not standard notation. 
-    < "2014-10-31" >
+    <!--rule> TODO Tokenize YYYY-MM-DD. Not standard notation.
+    < "2014-10-31">
       <pattern>
           <token regexp="yes">\d\d\d\d-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])</token>
       </pattern>
