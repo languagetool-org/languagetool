@@ -62,7 +62,7 @@ abstract class TextChecker {
   protected final HTTPServerConfig config;
 
   private static final String ENCODING = "UTF-8";
-  private static final int CACHE_STATS_PRINT = 500; // print cache stats every n cache requests 
+  private static final int CACHE_STATS_PRINT = 500; // print cache stats every n cache requests
   
   private final Map<String,Integer> languageCheckCounts = new HashMap<>(); 
   private final boolean internalServer;
@@ -71,6 +71,8 @@ abstract class TextChecker {
   private final LanguageIdentifier identifier;
   private final ExecutorService executorService;
   private final ResultCache cache;
+  private final DatabaseLogger logger;
+  private final long logServerId;
 
   TextChecker(HTTPServerConfig config, boolean internalServer, Queue<Runnable> workQueue, RequestCounter reqCounter) {
     this.config = config;
@@ -81,6 +83,9 @@ abstract class TextChecker {
     this.identifier.enableFasttext(config.getFasttextBinary(), config.getFasttextModel());
     this.executorService = Executors.newCachedThreadPool(new ThreadFactoryBuilder().setNameFormat("lt-textchecker-thread-%d").build());
     this.cache = config.getCacheSize() > 0 ? new ResultCache(config.getCacheSize()) : null;
+    DatabaseAccess db = DatabaseAccess.getInstance();
+    this.logger = db.getDatabaseLogger();
+    this.logServerId = db.getOrCreateServerId();
   }
 
   void shutdownNow() {
@@ -92,7 +97,17 @@ abstract class TextChecker {
     checkParams(parameters);
     long timeStart = System.currentTimeMillis();
     UserLimits limits = ServerTools.getUserLimits(parameters, config);
+
+    // logging information
+    String agent = parameters.get("useragent") != null ? parameters.get("useragent") : "-";
+    DatabaseAccess db = DatabaseAccess.getInstance();
+    Long agentId = db.getOrCreateClientId(agent);
+    Long userId = limits.getPremiumUid();
+    String referrer = httpExchange.getRequestHeaders().getFirst("Referer");
+    String userAgent = httpExchange.getRequestHeaders().getFirst("User-Agent");
+
     if (aText.getPlainText().length() > limits.getMaxTextLength()) {
+      logger.log(new DatabaseAccessLimitLogEntry("MaxCharacterSizeExceeded", logServerId, agentId, userId, referrer, userAgent, "limit: " + limits.getMaxTextLength() + ", size: " + aText.getPlainText().length()));
       throw new TextTooLongException("Your text exceeds the limit of " + limits.getMaxTextLength() +
               " characters (it's " + aText.getPlainText().length() + " characters). Please submit a shorter text.");
     }
@@ -135,6 +150,16 @@ abstract class TextChecker {
     QueryParams params = new QueryParams(enabledRules, disabledRules, enabledCategories, disabledCategories, 
             useEnabledOnly, useQuerySettings, allowIncompleteResults, enableHiddenRules, mode);
 
+    Long textSessionId = null;
+    try {
+      if (parameters.containsKey("textSessionId")) {
+        textSessionId = Long.valueOf(parameters.get("textSessionId"));
+      }
+    } catch(NumberFormatException ignored) {
+    }
+    int textSize = aText.getPlainText().length();
+
+
     List<RuleMatch> ruleMatchesSoFar = Collections.synchronizedList(new ArrayList<>());
     
     Future<List<RuleMatch>> future = executorService.submit(new Callable<List<RuleMatch>>() {
@@ -156,6 +181,11 @@ abstract class TextChecker {
         matches = future.get(limits.getMaxCheckTimeMillis(), TimeUnit.MILLISECONDS);
       } catch (ExecutionException e) {
         future.cancel(true);
+
+        if (ExceptionUtils.getRootCause(e) instanceof ErrorRateTooHighException) {
+          logger.log(new DatabaseCheckErrorLogEntry("ErrorRateTooHigh", logServerId, agentId, userId, lang, detLang.getDetectedLanguage(), textSize, "matches: " + ruleMatchesSoFar.size()));
+        }
+
         if (params.allowIncompleteResults && ExceptionUtils.getRootCause(e) instanceof ErrorRateTooHighException) {
           print(e.getMessage() + " - returning " + ruleMatchesSoFar.size() + " matches found so far. Detected language: " + detLang);
           matches = new ArrayList<>(ruleMatchesSoFar);  // threads might still be running, so make a copy
@@ -185,6 +215,8 @@ abstract class TextChecker {
           incompleteResultReason = "Results are incomplete: text checking took longer than allowed maximum of " + 
                   String.format(Locale.ENGLISH, "%.2f", limits.getMaxCheckTimeMillis()/1000.0) + " seconds";
         } else {
+          logger.log(new DatabaseCheckErrorLogEntry("MaxCheckTimeExceeded",
+            logServerId, agentId, limits.getPremiumUid(), lang, detLang.getDetectedLanguage(), textSize, "load: "+ loadInfo));
           throw new RuntimeException(message, e);
         }
       }
@@ -207,7 +239,6 @@ abstract class TextChecker {
     String response = getResponse(aText, detLang, motherTongue, matches, hiddenMatches, incompleteResultReason);
     String messageSent = "sent";
     String languageMessage = lang.getShortCodeWithCountryAndVariant();
-    String referrer = httpExchange.getRequestHeaders().getFirst("Referer");
     try {
       httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, response.getBytes(ENCODING).length);
       httpExchange.getResponseBody().write(response.getBytes(ENCODING));
@@ -221,14 +252,27 @@ abstract class TextChecker {
     if (autoDetectLanguage) {
       languageMessage += "[auto]";
     }
-    String agent = parameters.get("useragent") != null ? parameters.get("useragent") : "-";
     languageCheckCounts.put(lang.getShortCodeWithCountryAndVariant(), count);
+    int computationTime = (int) (System.currentTimeMillis() - timeStart);
     print("Check done: " + aText.getPlainText().length() + " chars, " + languageMessage + ", #" + count + ", " + referrer + ", "
             + matches.size() + " matches, "
-            + (System.currentTimeMillis() - timeStart) + "ms, agent:" + agent
+            + computationTime + "ms, agent:" + agent
             + ", " + messageSent + ", q:" + (workQueue != null ? workQueue.size() : "?")
             + ", h:" + reqCounter.getHandleCount() + ", distinctH:" + reqCounter.getDistinctIps()
             + ", r:" + reqCounter.getRequestCount());
+
+    int matchCount = matches.size();
+    DatabaseCheckLogEntry logEntry = new DatabaseCheckLogEntry(userId, agentId, logServerId, textSize, matchCount,
+      lang, detLang.getDetectedLanguage(), computationTime, textSessionId);
+    Map<String, Integer> ruleMatchCount = new HashMap<>();
+    for (RuleMatch match : matches) {
+      String ruleId = match.getRule().getId();
+      ruleMatchCount.put(ruleId, ruleMatchCount.getOrDefault(ruleId, 0) + 1);
+    }
+    for (Map.Entry<String, Integer> ruleCount : ruleMatchCount.entrySet()) {
+      logEntry.addRuleMatch(new DatabaseRuleMatchLogEntry(ruleCount.getKey(), ruleCount.getValue()));
+    }
+    logger.log(logEntry);
   }
 
   private List<String> getUserDictWords(Long userId) {
@@ -245,8 +289,10 @@ abstract class TextChecker {
   private List<RuleMatch> getRuleMatches(AnnotatedText aText, Language lang,
                                          Language motherTongue, QueryParams params, UserConfig userConfig, RuleMatchListener listener) throws Exception {
     if (cache != null && cache.requestCount() > 0 && cache.requestCount() % CACHE_STATS_PRINT == 0) {
-      String hitPercentage = String.format(Locale.ENGLISH, "%.2f", cache.hitRate() * 100.0f);
+      double hitRate = cache.hitRate();
+      String hitPercentage = String.format(Locale.ENGLISH, "%.2f", hitRate * 100.0f);
       print("Cache stats: " + hitPercentage + "% hit rate");
+      logger.log(new DatabaseCacheStatsLogEntry(logServerId, (float) hitRate));
     }
     JLanguageTool lt = getLanguageToolInstance(lang, motherTongue, params, userConfig);
     return lt.check(aText, true, JLanguageTool.ParagraphHandling.NORMAL, listener, params.mode);
@@ -306,7 +352,7 @@ abstract class TextChecker {
    */
   private JLanguageTool getLanguageToolInstance(Language lang, Language motherTongue, QueryParams params, UserConfig userConfig) throws Exception {
     JLanguageTool lt = new JLanguageTool(lang, motherTongue, cache, userConfig);
-    lt.setMaxErrorsPerWordRate(config.getMaxErrorsPerWordRate());
+    lt.setMaxErrorsPerWordRate(0.01f/*config.getMaxErrorsPerWordRate()*/);
     if (config.getLanguageModelDir() != null) {
       lt.activateLanguageModelRules(config.getLanguageModelDir());
     }

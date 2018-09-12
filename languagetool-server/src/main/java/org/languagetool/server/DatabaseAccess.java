@@ -29,6 +29,8 @@ import org.languagetool.Language;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -191,6 +193,75 @@ class DatabaseAccess {
     }
   }
 
+  /**
+   * @since 4.3
+   * @return logger or mock object if database not configured
+   */
+  DatabaseLogger getDatabaseLogger() {
+    return DatabaseLogger.getInstance(sqlSessionFactory);
+  }
+
+  /**
+   * @since 4.3
+   * @return
+   */
+  Long getOrCreateServerId() {
+    if (sqlSessionFactory == null) {
+      return null;
+    }
+    try {
+      String hostname = InetAddress.getLocalHost().getHostName();
+      try (SqlSession session = sqlSessionFactory.openSession(true)) {
+        HashMap<Object, Object> parameters = new HashMap<>();
+        parameters.put("hostname", hostname);
+        List<Long> result = session.selectList("org.languagetool.server.LogMapper.findServer", parameters);
+        if (result.size() > 0) {
+          return result.get(0);
+        } else {
+          session.insert("org.languagetool.server.LogMapper.newServer", parameters);
+          Object value = parameters.get("id");
+          if (value == null) {
+            System.err.println("Could not get new server id for this host.");
+            return null;
+          } else {
+            return (Long) value;
+          }
+        }
+      }
+    } catch (UnknownHostException e) {
+      System.err.println("Could not get hostname to fetch/register server id: " + e);
+      return null;
+    }
+  }
+
+  /**
+   * @since 4.3
+   * @return
+   */
+  Long getOrCreateClientId(String client) {
+    if (sqlSessionFactory == null || client == null) {
+      return null;
+    }
+
+    try (SqlSession session = sqlSessionFactory.openSession(true)) {
+      HashMap<Object, Object> parameters = new HashMap<>();
+      parameters.put("name", client);
+      List<Long> result = session.selectList("org.languagetool.server.LogMapper.findClient", parameters);
+      if (result.size() > 0) {
+        return result.get(0);
+      } else {
+        session.insert("org.languagetool.server.LogMapper.newClient", parameters);
+        Object value = parameters.get("id");
+        if (value == null) {
+          throw new RuntimeException("Could not get new id for this client.");
+        } else {
+          return (Long) value;
+        }
+      }
+    }
+  }
+
+  @Deprecated
   void logAccess(Language lang, int textSize, int matches, Long userId) {
     if (sqlSessionFactory == null) {
       return;
