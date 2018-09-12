@@ -39583,6 +39583,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <!--<example correction="havies de">Per què t'<marker>anaves a</marker> pensar que aniria així?</example>-->
                 <example>Què m'anàveu a dir?</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START|_PUNCT.*" postag_regexp="yes"/>
+                    <marker>
+                        <token>anem</token>
+                        <token>a</token>
+                        <token>veure</token>
+                    </marker>
+                    <token regexp="yes">[,\.;!]</token>
+                </pattern>
+                <message>Si no indica moviment, val més fer servir una altra expressió.</message>
+                <suggestion>vejam</suggestion>
+                <suggestion>a veure</suggestion>
+                <example correction="Vejam|A veure"><marker>Anem a veure</marker>.</example>
+                <example correction="vejam|a veure">Bé, <marker>anem a veure</marker>.</example>
+                <example>Eixim al carrer i anem a veure'l.</example>
+                <example>Vull saber a qui anem a veure.</example>
+                <example>Anem a veure què passa.</example>
+                <example>Vull que l'anem a veure.</example>
+            </rule>
         </rulegroup>
         <rule id="FINS_A_LA_SACIETAT" name="fins a la sacietat">
             <pattern>
