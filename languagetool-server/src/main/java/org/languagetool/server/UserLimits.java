@@ -156,7 +156,7 @@ class UserLimits {
   }
 
   long getMaxCheckTimeMillis() {
-    return maxCheckTimeMillis;
+   return maxCheckTimeMillis;
   }
 
   @Nullable

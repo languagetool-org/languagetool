@@ -39,6 +39,24 @@ final class ServerTools {
     print(s, System.out);
   }
 
+  /* replace with structured logging:
+  check done
+  cache stats
+
+  maybe: (could be combined in table)
+  Access denied: request size / rate limit / ...
+  more interesting:
+  error rate too high
+  text checking took longer than ...
+
+  misc.:
+  language code unknown
+  missing arguments
+  old api
+  blacklisted referrer
+  various other exceptions
+   */
+
   static void print(String s, PrintStream outputStream) {
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     String now = dateFormat.format(new Date());

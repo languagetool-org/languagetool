@@ -1,7 +1,45 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.languagetool.server.LogMapper">
-    <insert id="logCheck">
-        INSERT INTO check_log (date, day, user_id, matches, textsize, language) VALUES (#{date}, #{day}, #{user_id}, #{matches}, #{textsize}, #{language})
+
+    <select id="findServer" resultType="_long">
+        SELECT id from servers where hostname = #{hostname}
+    </select>
+    <insert id="newServer" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO servers (hostname) VALUES (#{hostname})
     </insert>
+    <select id="findClient" resultType="_long">
+        SELECT id from clients where name = #{name}
+    </select>
+    <insert id="newClient" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO clients (name) VALUES (#{name})
+    </insert>
+
+    <insert id="logCheck" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO check_log (day, date, matches, textsize, user_id, language_set, server, client,
+        language_detected, computation_time, text_session_id) VALUES
+            (#{day}, #{date}, #{matches}, #{textsize}, #{user_id}, #{language}, #{server}, #{client},
+            #{language_detected}, #{computation_time}, #{text_session_id})
+    </insert>
+    <insert id="ruleMatch">
+       INSERT INTO rule_matches (check_id, rule_id, match_count) VALUES
+            (#{check_id}, #{rule_id}, #{match_count})
+    </insert>
+    <insert id="cacheStats">
+       INSERT INTO cache_stats (date, server, cache_hits)
+            VALUES (#{date}, #{server}, #{cache_hits})
+    </insert>
+    <insert id="miscLogs">
+        INSERT INTO misc_log (date, server, client, user, message)
+            VALUES (#{date}, #{server}, #{client}, #{user}, #{message})
+    </insert>
+    <insert id="checkError">
+        INSERT INTO check_error (type, date, server, client, user, language_set, language_detected, text_length, reason)
+            VALUES (#{type}, #{date}, #{server}, #{client}, #{user}, #{language_set}, #{language_detected}, #{text_length}, #{reason})
+    </insert>
+    <insert id="accessLimit">
+        INSERT INTO access_limits (type, date, server, client, user, referrer, user_agent)
+            VALUES (#{type}, #{date}, #{server}, #{client}, #{user}, #{referrer}, #{user_agent})
+    </insert>
+
 </mapper>

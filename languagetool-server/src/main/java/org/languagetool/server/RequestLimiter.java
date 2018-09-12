@@ -37,6 +37,8 @@ class RequestLimiter {
   private final int requestLimit;
   private final int requestLimitInBytes;
   private final int requestLimitPeriodInSeconds;
+  private final Long server;
+  private DatabaseLogger logger;
 
   /**
    * @param requestLimit the maximum number of request per <tt>requestLimitPeriodInSeconds</tt>
@@ -46,6 +48,9 @@ class RequestLimiter {
     this.requestLimit = requestLimit;
     this.requestLimitInBytes = requestLimitInBytes;
     this.requestLimitPeriodInSeconds = requestLimitPeriodInSeconds;
+    DatabaseAccess db = DatabaseAccess.getInstance();
+    this.logger = db.getDatabaseLogger();
+    this.server = db.getOrCreateServerId();
   }
 
   /**
@@ -105,6 +110,7 @@ class RequestLimiter {
       if (requestEvent.ip.equals(ipAddress) && requestEvent.date.after(thresholdDate)) {
         requestsByIp++;
         if (requestLimit > 0 && requestsByIp > requestLimit) {
+          logger.log(new DatabaseAccessLimitLogEntry("MaxRequestPerPeriod", server, null, null, null, null, "limit: " + requestLimit + " / " + requestLimitPeriodInSeconds + ", requests: "  + requestsByIp + ", ip: " + ipAddress));
           throw new TooManyRequestsException("Request limit of " + requestLimit + " requests per " +
                   requestLimitPeriodInSeconds + " seconds exceeded");
         }
@@ -112,11 +118,13 @@ class RequestLimiter {
         if (mode == JLanguageTool.Mode.TEXTLEVEL_ONLY) {
           int tmpLimit = requestLimitInBytes * 10;
           if (requestLimitInBytes > 0 && requestSizeByIp > tmpLimit) {
+            logger.log(new DatabaseAccessLimitLogEntry("MaxRequestSizePerPeriod", server, null, null, null, null, "limit: " + tmpLimit + " / " + requestLimitPeriodInSeconds + ", request size: "  + requestSizeByIp + ", ip: " + ipAddress));
             throw new TooManyRequestsException("Request size limit of " + tmpLimit + " (requestLimitInBytes*10) bytes per " +
                     requestLimitPeriodInSeconds + " seconds exceeded for text-level checks");
           }
         } else {
           if (requestLimitInBytes > 0 && requestSizeByIp > requestLimitInBytes) {
+            logger.log(new DatabaseAccessLimitLogEntry("MaxRequestSizePerPeriod", server, null, null, null, null, "limit: " + requestLimitInBytes + " / " + requestLimitPeriodInSeconds + ", request size: "  + requestSizeByIp + ", ip: " + ipAddress));
             throw new TooManyRequestsException("Request size limit of " + requestLimitInBytes + " bytes per " +
                     requestLimitPeriodInSeconds + " seconds exceeded");
           }

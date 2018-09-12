@@ -191,6 +191,7 @@ class LanguageToolHttpHandler implements HttpHandler {
       long endTime = System.currentTimeMillis();
       logError(remoteAddress, e, errorCode, httpExchange, parameters, textLoggingAllowed, logStacktrace, endTime-startTime);
       sendError(httpExchange, errorCode, "Error: " + response);
+
     } finally {
       httpExchange.close();
       if (incrementHandleCount) {
@@ -238,6 +239,8 @@ class LanguageToolHttpHandler implements HttpHandler {
     if (params.get("apiKey") != null) {
       message += ", apiKey: " + params.get("apiKey");
     }
+
+    logToDatabase(params, message);
     print(message);
   }
 
@@ -271,10 +274,28 @@ class LanguageToolHttpHandler implements HttpHandler {
       message += "(no stacktrace logged)";
       print(message, System.err);
     }
+
+
     if (config.isVerbose() && text != null && textLoggingAllowed) {
       print("Exception was caused by this text (" + text.length() + " chars, showing up to 500):\n" +
               StringUtils.abbreviate(text, 500), System.err);
+      logToDatabase(params, message + StringUtils.abbreviate(text, 500));
+    } else {
+      logToDatabase(params, message);
     }
+  }
+
+  private void logToDatabase(Map<String, String> params, String message) {
+    DatabaseAccess db = DatabaseAccess.getInstance();
+    Long server = db.getOrCreateServerId();
+    Long client = db.getOrCreateClientId(params.get("agent"));
+    Long user = null;
+    try {
+      user = db.getUserId(params.get("username"), params.get("apiKey"));
+    } catch(IllegalArgumentException | IllegalStateException ignored) {
+    }
+    DatabaseLogger logger = db.getDatabaseLogger();
+    logger.log(new DatabaseMiscLogEntry(server, client, user, message));
   }
 
   @Nullable
