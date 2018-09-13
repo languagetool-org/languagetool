@@ -20,7 +20,9 @@ package org.languagetool.server;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
+import org.apache.ibatis.exceptions.PersistenceException;
 import org.apache.ibatis.io.Resources;
+import org.apache.ibatis.jdbc.SQL;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -31,8 +33,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 import static org.languagetool.server.ServerTools.print;
@@ -221,7 +225,7 @@ class DatabaseAccess {
           session.insert("org.languagetool.server.LogMapper.newServer", parameters);
           Object value = parameters.get("id");
           if (value == null) {
-            System.err.println("Could not get new server id for this host.");
+            //System.err.println("Could not get new server id for this host.");
             return null;
           } else {
             return (Long) value;
@@ -229,7 +233,10 @@ class DatabaseAccess {
         }
       }
     } catch (UnknownHostException e) {
-      System.err.println("Could not get hostname to fetch/register server id: " + e);
+      //System.err.println("Could not get hostname to fetch/register server id: " + e);
+      return null;
+    } catch (PersistenceException e) {
+      //System.err.println("Could not get fetch/register server id from database: " + e);
       return null;
     }
   }
@@ -253,11 +260,15 @@ class DatabaseAccess {
         session.insert("org.languagetool.server.LogMapper.newClient", parameters);
         Object value = parameters.get("id");
         if (value == null) {
-          throw new RuntimeException("Could not get new id for this client.");
+          //System.err.println("Could not get/register id for this client.");
+          return null;
         } else {
           return (Long) value;
         }
       }
+    } catch(PersistenceException e) {
+      //System.err.println("Could not get/register id for this client: " + e);
+      return null;
     }
   }
 
@@ -311,4 +322,16 @@ class DatabaseAccess {
       session.delete("org.languagetool.server.UserDictMapper.deleteIgnoreWordsTable");
     }
   }
+
+  /** For unit tests only */
+  static ResultSet executeStatement(SQL sql) throws SQLException {
+    try (SqlSession session = sqlSessionFactory.openSession(true)) {
+      try (Connection conn = session.getConnection()) {
+        try (Statement stmt = conn.createStatement()) {
+          return stmt.executeQuery(sql.toString());
+        }
+      }
+    }
+  }
+
 }
