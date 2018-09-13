@@ -21,9 +21,11 @@
 
 package org.languagetool.server;
 
+import org.apache.ibatis.jdbc.SQL;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -61,27 +63,60 @@ class DatabaseLogger {
     }
   }
 
-  private final BlockingQueue<DatabaseLogEntry> messages;
+  private final BlockingQueue<DatabaseLogEntry> messages = new LinkedBlockingQueue<>();;
   private final SqlSessionFactory sessionFactory;
+  private final WorkerThread worker;
+  private boolean disabled = false;
 
   private DatabaseLogger(SqlSessionFactory sessionFactory) {
     this.sessionFactory = sessionFactory;
-    if (sessionFactory != null) {
-       messages = new LinkedBlockingQueue<>();
-      WorkerThread worker = new WorkerThread();
+    if (this.sessionFactory != null) {
+      worker = new WorkerThread();
       worker.start();
     } else {
-      messages = null;
+      worker = null;
+      disabled = true;
     }
+  }
+
+  public void disableLogging() {
+    this.disabled = false;
+    worker.interrupt();
   }
 
   public void log(DatabaseLogEntry entry) {
     try {
-      if (messages != null) {
+      if (!disabled) {
         messages.put(entry);
       }
     } catch (InterruptedException e) {
       e.printStackTrace();
+    }
+  }
+
+  void createTestTables() {
+    try (SqlSession session = sessionFactory.openSession(true)) {
+      session.insert("org.languagetool.server.LogMapper.createRuleMatches");
+      session.insert("org.languagetool.server.LogMapper.createCheckLog");
+      session.insert("org.languagetool.server.LogMapper.createMiscLog");
+      session.insert("org.languagetool.server.LogMapper.createAccessLimits");
+      session.insert("org.languagetool.server.LogMapper.createCheckError");
+      session.insert("org.languagetool.server.LogMapper.createCacheStats");
+      session.insert("org.languagetool.server.LogMapper.createServers");
+      session.insert("org.languagetool.server.LogMapper.createClients");
+    }
+  }
+
+  void dropTestTables() {
+    try (SqlSession session = sessionFactory.openSession(true)) {
+      session.delete("org.languagetool.server.LogMapper.dropRuleMatches");
+      session.delete("org.languagetool.server.LogMapper.dropCheckLog");
+      session.delete("org.languagetool.server.LogMapper.dropMiscLog");
+      session.delete("org.languagetool.server.LogMapper.dropAccessLimits");
+      session.delete("org.languagetool.server.LogMapper.dropCheckError");
+      session.delete("org.languagetool.server.LogMapper.dropCacheStats");
+      session.delete("org.languagetool.server.LogMapper.dropServers");
+      session.delete("org.languagetool.server.LogMapper.dropClients");
     }
   }
 

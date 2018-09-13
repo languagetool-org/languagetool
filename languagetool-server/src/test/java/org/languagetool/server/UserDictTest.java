@@ -36,11 +36,11 @@ import static org.junit.Assert.*;
 
 public class UserDictTest {
 
-  private static final String USERNAME1 = "test@test.de";
-  private static final String API_KEY1 = "foo";
-  private static final String USERNAME2 = "two@test.de";
-  private static final String API_KEY2 = "foo-two";
-  
+  static final String USERNAME1 = "test@test.de";
+  static final String API_KEY1 = "foo";
+  static final String USERNAME2 = "two@test.de";
+  static final String API_KEY2 = "foo-two";
+
   @Test
   public void testHTTPServer() throws Exception {
     HTTPServerConfig config = new HTTPServerConfig(HTTPTools.getDefaultPort());
@@ -51,6 +51,8 @@ public class UserDictTest {
     config.setSecretTokenKey("myfoo");
     config.setCacheSize(100);
     DatabaseAccess.init(config);
+    // no need to also create test tables for logging
+    DatabaseAccess.getInstance().getDatabaseLogger().disableLogging();
     try {
       DatabaseAccess.createAndFillTestTables();
       HTTPServer server = new HTTPServer(config);

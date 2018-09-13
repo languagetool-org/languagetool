@@ -46,7 +46,7 @@ class DatabaseRuleMatchLogEntry extends DatabaseLogEntry {
 
   @Override
   public String getMappingIdentifier() {
-    return null;
+    return "org.languagetool.server.LogMapper.ruleMatch";
   }
 
   @Override

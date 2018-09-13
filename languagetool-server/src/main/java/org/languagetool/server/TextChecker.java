@@ -72,7 +72,7 @@ abstract class TextChecker {
   private final ExecutorService executorService;
   private final ResultCache cache;
   private final DatabaseLogger logger;
-  private final long logServerId;
+  private final Long logServerId;
 
   TextChecker(HTTPServerConfig config, boolean internalServer, Queue<Runnable> workQueue, RequestCounter reqCounter) {
     this.config = config;
@@ -101,7 +101,7 @@ abstract class TextChecker {
     // logging information
     String agent = parameters.get("useragent") != null ? parameters.get("useragent") : "-";
     DatabaseAccess db = DatabaseAccess.getInstance();
-    Long agentId = db.getOrCreateClientId(agent);
+    Long agentId = db.getOrCreateClientId(parameters.get("useragent"));
     Long userId = limits.getPremiumUid();
     String referrer = httpExchange.getRequestHeaders().getFirst("Referer");
     String userAgent = httpExchange.getRequestHeaders().getFirst("User-Agent");
