@@ -18,6 +18,7 @@
  */
 package org.languagetool.server;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.languagetool.Language;
 import org.languagetool.language.German;
@@ -38,6 +39,11 @@ public class HTTPSServerTest {
 
   private static final String KEYSTORE = "/org/languagetool/server/test-keystore.jks";
   private static final String KEYSTORE_PASSWORD = "mytest";
+
+  @Before
+  public void setup() {
+    DatabaseLogger.getInstance().disableLogging();
+  }
 
   @Test
   public void runRequestLimitationTest() throws Exception {

@@ -21,11 +21,9 @@
 
 package org.languagetool.server;
 
-import org.apache.ibatis.jdbc.SQL;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -37,11 +35,23 @@ class DatabaseLogger {
 
   private static DatabaseLogger instance = null;
 
-  static DatabaseLogger getInstance(SqlSessionFactory sessionFactory) {
+  /**
+   * @return an instance that will be disabled until initialized by DatabaseAccess
+   */
+
+  public static DatabaseLogger getInstance() {
     if (instance == null) {
-      instance = new DatabaseLogger(sessionFactory);
+      instance = new DatabaseLogger();
     }
     return instance;
+  }
+
+  /**
+   * called by DatabaseAccess.init
+   * @param factory shared factory from DatabaseAccess
+   */
+  static void init(SqlSessionFactory factory) {
+   getInstance().start(factory);
   }
 
   private class WorkerThread extends Thread {
@@ -64,24 +74,34 @@ class DatabaseLogger {
   }
 
   private final BlockingQueue<DatabaseLogEntry> messages = new LinkedBlockingQueue<>();;
-  private final SqlSessionFactory sessionFactory;
-  private final WorkerThread worker;
-  private boolean disabled = false;
+  private SqlSessionFactory sessionFactory = null;
+  private WorkerThread worker = null;
+  private boolean disabled = true;
 
-  private DatabaseLogger(SqlSessionFactory sessionFactory) {
-    this.sessionFactory = sessionFactory;
-    if (this.sessionFactory != null) {
-      worker = new WorkerThread();
-      worker.start();
-    } else {
-      worker = null;
-      disabled = true;
-    }
+  private void start(SqlSessionFactory factory) {
+    sessionFactory = factory;
+    disabled = false;
+    worker = new WorkerThread();
+    worker.start();
+  }
+
+  private DatabaseLogger() {
+
   }
 
   public void disableLogging() {
-    this.disabled = false;
-    worker.interrupt();
+    this.disabled = true;
+    if (worker != null) {
+      worker.interrupt();
+    }
+  }
+
+  /**
+   * For use in unit tests, because logging may require information from the database
+   * which might not be setup there
+   */
+  public boolean isLogging() {
+    return !this.disabled;
   }
 
   public void log(DatabaseLogEntry entry) {

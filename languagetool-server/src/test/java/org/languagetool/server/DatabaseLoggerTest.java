@@ -49,10 +49,11 @@ public class DatabaseLoggerTest {
     config.setCacheSize(100);
     DatabaseAccess.init(config);
     db = DatabaseAccess.getInstance();
-    logger = db.getDatabaseLogger();
+    logger = DatabaseLogger.getInstance();
     try {
       logger.createTestTables();
       DatabaseAccess.createAndFillTestTables();
+
       HTTPServer server = new HTTPServer(config);
       Language en = Languages.getLanguageForShortCode("en-US");
       try {

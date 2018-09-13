@@ -66,6 +66,7 @@ class DatabaseAccess {
         properties.setProperty("username", config.getDatabaseUsername());
         properties.setProperty("password", config.getDatabasePassword());
         sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream, properties);
+        DatabaseLogger.init(sqlSessionFactory);
       } catch (IOException e) {
         throw new RuntimeException(e);
       }
@@ -195,14 +196,6 @@ class DatabaseAccess {
         return affectedRows >= 1;
       }
     }
-  }
-
-  /**
-   * @since 4.3
-   * @return logger or mock object if database not configured
-   */
-  DatabaseLogger getDatabaseLogger() {
-    return DatabaseLogger.getInstance(sqlSessionFactory);
   }
 
   /**
