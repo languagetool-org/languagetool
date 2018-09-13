@@ -116,11 +116,14 @@ title="Easy editing stylesheet" ?>
     <!-- "7 Outubro 2014" -->
     <!ENTITY date_dmy "
           <token regexp='yes'>\d\d?</token>
+          <token min='0'>de</token>
           <token regexp='yes'>&meses_ano;|&meses_ano_abrev;</token>
+          <token min='0' regexp='yes'>de|\,</token>
           <token regexp='yes'>\d\d\d\d</token>
     ">
     <!ENTITY date_dmy_skip "
           <token regexp='yes'>\d\d?</token>
+          <token min='0'>de</token>
           <token regexp='yes'>&meses_ano;|&meses_ano_abrev;</token>
           <token regexp='yes' skip='-1'>\d\d\d\d</token>
     ">
@@ -24116,7 +24119,7 @@ TODO Write better examples
           <token postag="V.(?:P.|.[ISM]).+" postag_regexp="yes" skip="-1"/>
         <marker> &date_dmy; </marker>
       </pattern>
-      <filter class="org.languagetool.rules.pt.FutureDateFilter" args="year:\4 month:\3 day:\2"/>
+      <filter class="org.languagetool.rules.pt.FutureDateFilter" args="year:\6 month:\4 day:\2"/>
       <message>A data apresentada está no futuro, mas o verbo associado está no passado.</message>
       <example correction="">Visitávamos o cliente a <marker>7 Outubro 2020</marker>.</example>
       <example correction="">Estávamos a visitar o cliente a <marker>7 Outubro 2020</marker>.</example>
@@ -24128,7 +24131,7 @@ TODO Write better examples
         <marker> &date_dmy_skip; </marker>
           <token postag="V.(?:P.|.[ISM]).+" postag_regexp="yes" skip="-1"/>
       </pattern>
-      <filter class="org.languagetool.rules.pt.FutureDateFilter" args="year:\3 month:\2 day:\1"/>
+      <filter class="org.languagetool.rules.pt.FutureDateFilter" args="year:\4 month:\3 day:\1"/>
       <message>A data apresentada está no futuro, mas o verbo associado está no passado.</message>
       <example correction="">A <marker>7 Outubro 2020</marker>, visitávamos o cliente.</example>
       <example>A <marker>7 Outubro 2010</marker>, visitávamos o cliente.</example>
@@ -24220,7 +24223,7 @@ TODO Write better examples
     <!-- "7 Outubro 2014" -->
                     &date_dmy;
       </pattern>
-      <filter class="org.languagetool.rules.pt.NewYearDateFilter" args="year:\3 month:\2 day:\1"/>
+      <filter class="org.languagetool.rules.pt.NewYearDateFilter" args="year:\5 month:\3 day:\1"/>
       <message>Um novo ano começou. Será que quis dizer <suggestion>\1 \2 {realYear}</suggestion>?
       </message>
       <example correction="7 Outubro 2014">Festival Pop/Rock - <marker>7 Outubro 2013</marker></example>
