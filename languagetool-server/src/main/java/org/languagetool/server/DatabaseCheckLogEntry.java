@@ -87,7 +87,7 @@ class DatabaseCheckLogEntry extends DatabaseLogEntry {
       System.err.println("Could not get generated key for check log entry in database.");
       return;
     }
-    DatabaseLogger logger = DatabaseAccess.getInstance().getDatabaseLogger();
+    DatabaseLogger logger = DatabaseLogger.getInstance();
     for (DatabaseRuleMatchLogEntry entry : ruleMatches) {
       entry.setCheckId(checkId);
       logger.log(entry);

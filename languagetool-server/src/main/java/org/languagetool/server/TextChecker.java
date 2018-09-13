@@ -83,9 +83,12 @@ abstract class TextChecker {
     this.identifier.enableFasttext(config.getFasttextBinary(), config.getFasttextModel());
     this.executorService = Executors.newCachedThreadPool(new ThreadFactoryBuilder().setNameFormat("lt-textchecker-thread-%d").build());
     this.cache = config.getCacheSize() > 0 ? new ResultCache(config.getCacheSize()) : null;
-    DatabaseAccess db = DatabaseAccess.getInstance();
-    this.logger = db.getDatabaseLogger();
-    this.logServerId = db.getOrCreateServerId();
+    this.logger = DatabaseLogger.getInstance();
+    if (logger.isLogging()) {
+      this.logServerId = DatabaseAccess.getInstance().getOrCreateServerId();
+    } else {
+      this.logServerId = null;
+    }
   }
 
   void shutdownNow() {
@@ -100,9 +103,12 @@ abstract class TextChecker {
 
     // logging information
     String agent = parameters.get("useragent") != null ? parameters.get("useragent") : "-";
-    DatabaseAccess db = DatabaseAccess.getInstance();
-    Long agentId = db.getOrCreateClientId(parameters.get("useragent"));
-    Long userId = limits.getPremiumUid();
+    Long agentId = null, userId = null;
+    if (logger.isLogging()) {
+      DatabaseAccess db = DatabaseAccess.getInstance();
+      agentId = db.getOrCreateClientId(parameters.get("useragent"));
+      userId = limits.getPremiumUid();
+    }
     String referrer = httpExchange.getRequestHeaders().getFirst("Referer");
     String userAgent = httpExchange.getRequestHeaders().getFirst("User-Agent");
 
@@ -352,7 +358,7 @@ abstract class TextChecker {
    */
   private JLanguageTool getLanguageToolInstance(Language lang, Language motherTongue, QueryParams params, UserConfig userConfig) throws Exception {
     JLanguageTool lt = new JLanguageTool(lang, motherTongue, cache, userConfig);
-    lt.setMaxErrorsPerWordRate(0.01f/*config.getMaxErrorsPerWordRate()*/);
+    lt.setMaxErrorsPerWordRate(config.getMaxErrorsPerWordRate());
     if (config.getLanguageModelDir() != null) {
       lt.activateLanguageModelRules(config.getLanguageModelDir());
     }

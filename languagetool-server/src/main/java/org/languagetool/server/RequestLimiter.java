@@ -48,9 +48,13 @@ class RequestLimiter {
     this.requestLimit = requestLimit;
     this.requestLimitInBytes = requestLimitInBytes;
     this.requestLimitPeriodInSeconds = requestLimitPeriodInSeconds;
-    DatabaseAccess db = DatabaseAccess.getInstance();
-    this.logger = db.getDatabaseLogger();
-    this.server = db.getOrCreateServerId();
+    this.logger = DatabaseLogger.getInstance();
+    if (this.logger.isLogging()) {
+      DatabaseAccess db = DatabaseAccess.getInstance();
+      this.server = db.getOrCreateServerId();
+    } else {
+      this.server = null;
+    }
   }
 
   /**

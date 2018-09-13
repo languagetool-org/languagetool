@@ -286,6 +286,10 @@ class LanguageToolHttpHandler implements HttpHandler {
   }
 
   private void logToDatabase(Map<String, String> params, String message) {
+    DatabaseLogger logger = DatabaseLogger.getInstance();
+    if (!logger.isLogging()) {
+      return;
+    }
     DatabaseAccess db = DatabaseAccess.getInstance();
     Long server = db.getOrCreateServerId();
     Long client = db.getOrCreateClientId(params.get("agent"));
@@ -294,7 +298,6 @@ class LanguageToolHttpHandler implements HttpHandler {
       user = db.getUserId(params.get("username"), params.get("apiKey"));
     } catch(IllegalArgumentException | IllegalStateException ignored) {
     }
-    DatabaseLogger logger = db.getDatabaseLogger();
     logger.log(new DatabaseMiscLogEntry(server, client, user, message));
   }
 
@@ -302,7 +305,6 @@ class LanguageToolHttpHandler implements HttpHandler {
   private String getHttpUserAgent(HttpExchange httpExchange) {
     return httpExchange.getRequestHeaders().getFirst("User-Agent");
   }
-
   @Nullable
   private String getHttpReferrer(HttpExchange httpExchange) {
     return httpExchange.getRequestHeaders().getFirst("Referer");

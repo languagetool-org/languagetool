@@ -52,7 +52,7 @@ public class UserDictTest {
     config.setCacheSize(100);
     DatabaseAccess.init(config);
     // no need to also create test tables for logging
-    DatabaseAccess.getInstance().getDatabaseLogger().disableLogging();
+    DatabaseLogger.getInstance().disableLogging();
     try {
       DatabaseAccess.createAndFillTestTables();
       HTTPServer server = new HTTPServer(config);
