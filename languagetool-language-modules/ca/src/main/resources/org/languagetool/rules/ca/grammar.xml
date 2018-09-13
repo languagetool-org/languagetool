@@ -10516,17 +10516,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Pregunta pel què i pel com</example>
             </rule>
         </rulegroup>
-        <rule id="PROVAR_A_DE" name="provar *a/de fer">
-            <pattern>
-                <token inflected="yes">provar</token>
-                <token>a</token>
-                <token postag="V.N.*" postag_regexp="yes"/>
-            </pattern>
-            <message>Probablement cal usar la preposició "de".</message>
-            <suggestion>\1 de \3</suggestion>
-            <example correction="Proveu de fer"><marker>Proveu a fer</marker>-ho.</example>
-            <example>No n'hi ha cap prova a la Bíblia.</example>
-        </rule>
+        <rulegroup id="PROVAR_A_DE" name="provar *a/de fer">
+            <rule>
+                <pattern>
+                    <token inflected="yes">provar</token>
+                    <token>a</token>
+                    <token postag="V.N.*" postag_regexp="yes" regexp="yes">h?[aeiou].*<exception regexp="yes">&verbs_no_apostrofen;</exception></token>
+                </pattern>
+                <message>Probablement cal usar la preposició "de".</message>
+                <suggestion>\1 d'\3</suggestion>
+                <example correction="Proveu d'obrir"><marker>Proveu a obrir</marker>-ho.</example>
+                <example>No n'hi ha cap prova a la Bíblia.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">provar</token>
+                    <token>a</token>
+                    <token postag="V.N.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Probablement cal usar la preposició "de".</message>
+                <suggestion>\1 de \3</suggestion>
+                <example correction="Proveu de fer"><marker>Proveu a fer</marker>-ho.</example>
+                <example correction="Proveu de ioditzar"><marker>Proveu a ioditzar</marker>-ho.</example>
+                <example>No n'hi ha cap prova a la Bíblia.</example>
+            </rule>
+        </rulegroup>
         <rule id="PER_ENTRE" name="*per entre">
             <antipattern>
                 <marker>
