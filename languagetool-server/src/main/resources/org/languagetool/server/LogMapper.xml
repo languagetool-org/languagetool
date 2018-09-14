@@ -16,7 +16,7 @@
     </insert>
 
     <insert id="logCheck" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO check_log (day, date, matches, textsize, user_id, language_set, server, client,
+        INSERT INTO check_log (day, date, matches, textsize, user_id, language, server, client,
         language_detected, computation_time, text_session_id) VALUES
             (#{day}, #{date}, #{matches}, #{textsize}, #{user_id}, #{language}, #{server}, #{client},
             #{language_detected}, #{computation_time}, #{text_session_id})
@@ -34,8 +34,8 @@
             VALUES (#{date}, #{server}, #{client}, #{user}, #{message})
     </insert>
     <insert id="checkError">
-        INSERT INTO check_error (type, date, server, client, user, language_set, language_detected, text_length, reason)
-            VALUES (#{type}, #{date}, #{server}, #{client}, #{user}, #{language_set}, #{language_detected}, #{text_length}, #{reason})
+        INSERT INTO check_error (type, date, server, client, user, language, language_detected, text_length, reason)
+            VALUES (#{type}, #{date}, #{server}, #{client}, #{user}, #{language}, #{language_detected}, #{text_length}, #{reason})
     </insert>
     <insert id="accessLimit">
         INSERT INTO access_limits (type, date, server, client, user, referrer, user_agent)
@@ -58,7 +58,7 @@
             matches INTEGER,
             textsize INTEGER,
             user_id INTEGER,
-            language_set VARCHAR(8),
+            language VARCHAR(8),
             server INTEGER,
             client INTEGER,
             language_detected VARCHAR(8),
@@ -110,7 +110,7 @@
         server INTEGER,
         client INTEGER,
         user INTEGER,
-        language_set varchar(8),
+        language varchar(8),
         language_detected varchar(8),
         text_length INTEGER,
         extra varchar(256)
