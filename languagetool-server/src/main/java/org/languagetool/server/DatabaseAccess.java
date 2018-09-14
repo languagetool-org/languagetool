@@ -183,7 +183,7 @@ class DatabaseAccess {
       return false;
     }
     try (SqlSession session = sqlSessionFactory.openSession(true)) {
-      HashMap<Object, Object> map = new HashMap<>();
+      Map<Object, Object> map = new HashMap<>();
       map.put("word", word);
       map.put("userId", userId);
       int count = session.delete("org.languagetool.server.UserDictMapper.selectWord", map);
@@ -200,7 +200,6 @@ class DatabaseAccess {
 
   /**
    * @since 4.3
-   * @return
    */
   Long getOrCreateServerId() {
     if (sqlSessionFactory == null) {
@@ -209,7 +208,7 @@ class DatabaseAccess {
     try {
       String hostname = InetAddress.getLocalHost().getHostName();
       try (SqlSession session = sqlSessionFactory.openSession(true)) {
-        HashMap<Object, Object> parameters = new HashMap<>();
+        Map<Object, Object> parameters = new HashMap<>();
         parameters.put("hostname", hostname);
         List<Long> result = session.selectList("org.languagetool.server.LogMapper.findServer", parameters);
         if (result.size() > 0) {
@@ -236,7 +235,6 @@ class DatabaseAccess {
 
   /**
    * @since 4.3
-   * @return
    */
   Long getOrCreateClientId(String client) {
     if (sqlSessionFactory == null || client == null) {
@@ -244,7 +242,7 @@ class DatabaseAccess {
     }
 
     try (SqlSession session = sqlSessionFactory.openSession(true)) {
-      HashMap<Object, Object> parameters = new HashMap<>();
+      Map<Object, Object> parameters = new HashMap<>();
       parameters.put("name", client);
       List<Long> result = session.selectList("org.languagetool.server.LogMapper.findClient", parameters);
       if (result.size() > 0) {
@@ -271,7 +269,7 @@ class DatabaseAccess {
       return;
     }
     try (SqlSession session = sqlSessionFactory.openSession(true)) {
-      HashMap<Object, Object> map = new HashMap<>();
+      Map<Object, Object> map = new HashMap<>();
       Calendar date = Calendar.getInstance();
       SimpleDateFormat dayFormat = new SimpleDateFormat("yyyy-MM-dd");
       SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
