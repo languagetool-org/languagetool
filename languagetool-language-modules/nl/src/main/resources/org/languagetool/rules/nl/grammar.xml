@@ -23575,7 +23575,7 @@ regexp case-insensitive maken : (?i)
         <rulegroup id="ACCENTEN" name= "optionele accenten">
             <rule>
                 <pattern>
-					<token regexp="yes">.*[áéíóú].*<exception regexp="yes">.*(café|éminence|tracé|comité|mémoire|appliqué|arrivé|associé|attaché|employé|barré|cliché|beauté|defilé|blasé|bouclé|canapé|carré|cloqué|communiqué|comprimé|confrérie|congé|consommé|conté|privé|coupé|craquelé|crémant|cultivé|decafeïné|decolleté|demasqué|deputé|djahé|djembé|doré|doublé|procedé|débouché|dégénéré|déjà|délégué|ecarté|evacué|exposé|fiancé|frivolité|glacé|habitué|introducé|invité|soufflé|saté|lamé|macramé|laqué|logé|marqué|masqué|maté|moiré|mopé|ménière|nouveauté|negligé|oké|maché|paté|passé|piqué|plissé|pointillé|preparé|prostitué|protegé|présence|psyché|quarté|rassé|refugié|resumé|rosé|régence|réussite|santé|spécialité|taboulé|taugé|tempé|tiercé|tjabé|tragédienne|variété|velouté|vidé|wengé|élégance|résistance|plié|karité|vélocipède|olé|azobé|éclat|éloge|étang|sémillon|cité|peigné|rapé|chiné|lancé|époque|décharge).*</exception></token>
+					<token regexp="yes">.*[áéíóú].*<exception regexp="yes">.*(café|éminence|tracé|comité|mémoire|appliqué|arrivé|associé|attaché|employé|barré|cliché|beauté|defilé|blasé|bouclé|canapé|carré|cloqué|communiqué|comprimé|confrérie|congé|consommé|conté|privé|coupé|craquelé|crémant|cultivé|decafeïné|decolleté|demasqué|deputé|djahé|djembé|doré|doublé|procedé|débouché|dégénéré|déjà|délégué|ecarté|evacué|exposé|fiancé|frivolité|glacé|habitué|introducé|invité|soufflé|saté|lamé|macramé|laqué|logé|marqué|masqué|maté|moiré|mopé|ménière|nouveauté|negligé|oké|maché|paté|passé|piqué|plissé|pointillé|preparé|prostitué|protegé|présence|psyché|quarté|rassé|refugié|resumé|rosé|régence|réussite|santé|spécialité|taboulé|taugé|tempé|tiercé|tjabé|tragédienne|variété|velouté|vidé|wengé|élégance|résistance|plié|karité|vélocipède|olé|azobé|éclat|éloge|étang|sémillon|cité|peigné|rapé|chiné|lancé|époque|décharge).*</exception><exception postag="ENM:.*" postag_regexp="yes"/></token>
                 </pattern>
 				<message>Gebruik geen nadruktekens als het niet noodzakelijk is. Het staat lelijk.</message>
                 <example type="incorrect">Hij is <marker>één</marker> van de vreemden.</example>
@@ -25902,6 +25902,20 @@ tuinkussens;Tuinkussens
             </rule>
         </rulegroup>
         
+        <rulegroup id="MIJN_FAVORIET_PRODUCT" name="mijn favoriet product">
+            <rule>
+                <pattern>
+                    <token regexp="yes">mijn|zijn|ons|haar|hun|het|de</token>
+                    <marker>
+                        <token postag_regexp="yes" postag="BNW:.*:ONV"><exception postag_regexp="yes" postag="BNW:.*:VRB"/></token>
+                    </marker>
+                <token postag="ZNW:EKV:HET"/>
+                </pattern>
+                <message>Correct is: <suggestion><match no="2" postag="(BNW.*):ONV" postag_replace="$1:VRB" postag_regexp="yes"/></suggestion> moet staan.</message>
+                <example correction="favoriete">Dat is niet mijn <marker>favoriet</marker> product.</example>
+            </rule>
+        </rulegroup>
+
         <!--
         TODO: geeft false positives i.v.m. znw's en voltooide deelwoorden, dus opsplitsen in veel subregels?
         <rulegroup id="WEDERKEREND" name="verplicht wederkerend werkwoord">
@@ -31032,14 +31046,14 @@ tuinkussens;Tuinkussens
                 <example correction="opgeknapte|weer tot leven gebrachte">Het is een <marker>gerevitaliseerde</marker> zaak.</example>
             </rule>
         </rulegroup>
-<!-- ########## COULD NOT GET THIS TO WORK ###### HELP IS WELCOME ##########
+<!-- not working
         <rulegroup id="GESCHIEDEN" name="geschieden">
             <rule>
                 <antipattern><token>uw</token><token>wil</token><token>geschiede</token></antipattern>
                 <pattern>
                     <token inflected="yes">geschieden</token>
                 </pattern>
-                <message>De tekst wordt vlotter als je deze herschrijft met <suggestion><match no="1" postag="WKW:.*" postag_regexp="yes">gebeuren</match></suggestion>.</message>
+                <message>De tekst wordt vlotter als je deze herschrijft met <suggestion><match no="1" postag="(WKW:.*)" postag_regexp="yes" postag_replace="$1">gebeuren</match></suggestion>.</message>
                 <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
                 <example correction="gebeuren">Ook dit helpen dient beheerst te <marker>geschieden</marker>.</example>
                 <example correction="gebeurde">En zo <marker>geschiedde</marker>, want voor Jan is een woord een woord.</example>
@@ -35938,7 +35952,7 @@ tuinkussens;Tuinkussens
                 <pattern>
                     <token>genaamd</token><token>naar</token>
                 </pattern>
-                <message>Juist zijn <suggestion>genoemd naar</suggestion> enf <suggestion>vernoemd naar</suggestion></message>
+                <message>Juist zijn <suggestion>genoemd naar</suggestion> en <suggestion>vernoemd naar</suggestion></message>
                 <url>https://taaladvies.net/taal/advies/vraag/1813</url>
                 <example correction="genoemd naar|vernoemd naar">Jan is <marker>genaamd naar</marker> opa.</example>
             </rule>
@@ -38796,7 +38810,6 @@ tuinkussens;Tuinkussens
         </rulegroup>
         <rulegroup id="TEN_ONRECHTE" name="ten onrechte">
             <rule>
-                <!-- 2014-08-19 TaalTik: regel werkt naar behoren. Suggesties waren een beetje wild, aangepast. -->
                 <pattern>
                     <token negate="yes">ten</token>
                     <token>onrechte</token>
@@ -44213,6 +44226,7 @@ tuinkussens;Tuinkussens
         </rulegroup>
     </category>
     <category id="TYPOGRAPHY" name="Aandachtspunten rond o.a. punten en aanhalingstekens.">
+		
         <rulegroup id="KOMMA_APO" name=",&quot; → &quot;,">
             <rule>
                 <pattern>
@@ -44290,6 +44304,7 @@ tuinkussens;Tuinkussens
                 <example>Dit is een <marker>—</marker> gedachtestreep.</example>
             </rule>
         </rulegroup>
+
         <rulegroup id="_2_LEESTEKENS" name="Twee maal zelfde leesteken">
             <rule>
                 <pattern>
@@ -44385,6 +44400,51 @@ tuinkussens;Tuinkussens
             </rule>
         </rulegroup>
 	</category>
+   <!--
+	<category id="TEST" name="test">
+        <rulegroup id="UNKOWN_TO_ZNW_EKV_DE" name="tag vinden">
+            <rule>
+                <pattern>
+                    <token>de</token>
+                        <marker>
+                            <token postag="UNKNOWN"/>
+                        </marker>
+                    <token postag="WKW:TGW:3EP|WKW:VLT:1EP" postag_regexp="yes"/>
+                </pattern>
+                <message></message>
+                <example type="incorrect">Hij ziet dat de <marker>xyz</marker> loopt.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="UNKOWN_TO_ZNW_EKV_HET" name="tag vinden">
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token>Het</token>
+                        <marker>
+                            <token postag="UNKNOWN"/>
+                        </marker>
+                    <token postag="WKW:TGW:3EP|WKW:VLT:1EP" postag_regexp="yes"/>
+                </pattern>
+                <message></message>
+                <example type="incorrect">Het <marker>xyz</marker> loopt.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="UNKOWN_TO_ZNW_MRV_DE" name="tag vinden">
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token>de</token>
+                        <marker>
+                            <token postag="UNKNOWN"/>
+                        </marker>
+                    <token postag="WKW:TGW:INF|WKW:VLT:INF" postag_regexp="yes"/>
+                </pattern>
+                <message></message>
+                <example type="incorrect">De <marker>xyz</marker> denken.</example>
+            </rule>
+        </rulegroup>
+    </category>
+	-->
     <!-- voor onderzoek later, wellicht
     <category id="TEST" name="test">
         <rulegroup id="WIJ_X" name="vreemde woordvolgorde">
