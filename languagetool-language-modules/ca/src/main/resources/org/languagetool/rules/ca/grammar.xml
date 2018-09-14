@@ -16113,6 +16113,65 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rulegroup id="LA_INFINITIU" name="la + infinitiu*/nom: la necessitar/necessitat">
             <rule>
+                <pattern>
+                    <token>la</token>
+                    <token postag="V.N.*" postag_regexp="yes" regexp="yes">\p{Ll}.+re<exception postag="_GN.*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Possible confusió.</message>
+                <suggestion><match no="1"/> <match no="2" regexp_match="(?iu)(.+)re" regexp_replace="$1ré" /></suggestion>
+                <suggestion><match no="1"/> de <match no="2"/></suggestion>
+                <suggestion><match no="1" regexp_match=".+" regexp_replace="al"/> <match no="2"/></suggestion>
+                <suggestion><match no="1" regexp_match=".+" regexp_replace="va"/> <match no="2"/></suggestion>
+                <!--  caldria comprovar que les paraules suggerides són al diccionari -->
+                <example correction="la respondré|la de respondre|al respondre|va respondre"><marker>la respondre</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>la</token>
+                    <token postag="V.N.*" postag_regexp="yes" regexp="yes">\p{Ll}.+ir<exception postag="_GN.*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Possible confusió.</message>
+                <suggestion><match no="1"/> <match no="2" regexp_match="(?iu)(.+)ir" regexp_replace="$1í" /></suggestion>
+                <suggestion><match no="1"/> de <match no="2"/></suggestion>
+                <suggestion><match no="1" regexp_match=".+" regexp_replace="al"/> <match no="2"/></suggestion>
+                <suggestion><match no="1" regexp_match=".+" regexp_replace="va"/> <match no="2"/></suggestion>
+                <!--  caldria comprovar que les paraules suggerides són al diccionari -->
+                <example correction="la partí|la de partir|al partir|va partir"><marker>la partir</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>la</token>
+                    <token postag="V.N.*" postag_regexp="yes" regexp="yes">\p{Ll}.+ar<exception postag="_GN.*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Possible confusió.</message>
+                <suggestion><match no="1"/> <match no="2" regexp_match="(?iu)(.+)ar" regexp_replace="$1a" /></suggestion>
+                <suggestion><match no="1"/> <match no="2" regexp_match="(?iu)(.+)ar" regexp_replace="$1à" /></suggestion>
+                <suggestion><match no="1"/> <match no="2" regexp_match="(?iu)(.+)ar" regexp_replace="$1at" /></suggestion>
+                <suggestion><match no="1"/> de <match no="2"/></suggestion>
+                <suggestion><match no="1" regexp_match=".+" regexp_replace="al"/> <match no="2"/></suggestion>
+                <suggestion><match no="1" regexp_match=".+" regexp_replace="va"/> <match no="2"/></suggestion>
+                <!--  caldria comprovar que les paraules suggerides són al diccionari -->
+                <example correction="la necessita|la necessità|la necessitat|la de necessitar|al necessitar|va necessitar"><marker>la necessitar</marker></example>
+                <example>la necessitat</example>
+                <example>la mort</example>
+                <example>la Ser</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>la</token>
+                    <token postag="V.N.*" postag_regexp="yes" regexp="yes">\p{Ll}.+er<exception postag="_GN.*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Possible confusió.</message>
+                <suggestion><match no="1"/> de <match no="2"/></suggestion>
+                <suggestion><match no="1" regexp_match=".+" regexp_replace="al"/> <match no="2"/></suggestion>
+                <suggestion><match no="1" regexp_match=".+" regexp_replace="va"/> <match no="2"/></suggestion>
+                <!--  caldria comprovar que les paraules suggerides són al diccionari -->
+                <example correction="la de desaparèixer|al desaparèixer|va desaparèixer"><marker>la desaparèixer</marker></example>
+                <example>la necessitat</example>
+                <example>la mort</example>
+                <example>la Ser</example>
+            </rule>
+            <rule>
                 <antipattern>
                     <marker>
                         <token regexp="yes">d'|com</token>
@@ -16127,11 +16186,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token><exception postag="&pronom_feble;" postag_regexp="yes" regexp="yes">['-].+</exception></token>
                 </pattern>
                 <message>Possible confusió.</message>
-                <suggestion><match no="1"/> <match no="2" regexp_match="(.+)r" regexp_replace="$1t" /></suggestion>
-                <suggestion><match no="1"/> <match no="2" regexp_match="(.+)r" regexp_replace="$1" /></suggestion>
-                <suggestion><match no="1"/> de <match no="2"/></suggestion>
-                <short>Possible confusió</short>
-                <example correction="aquesta necessitat|aquesta necessita|aquesta de necessitar"><marker>aquesta necessitar</marker> ajuda</example>
+                <example correction=""><marker>aquesta necessitar</marker> ajuda</example>
                 <example>aquesta necessitat</example>
                 <example>aquesta mort</example>
                 <example>una Ser</example>
@@ -16139,39 +16194,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>i per sota d'aquesta tenir categories</example>
                 <example>En una situació com aquesta parlar de quelcom</example>
             </rule>
-            <rule>
-                <pattern>
-                    <token>la</token>
-                    <token postag="V.N.*" postag_regexp="yes" regexp="yes">\p{Ll}.+<exception postag="_GN.*" postag_regexp="yes"/></token>
-                </pattern>
-                <message>Possible confusió.</message>
-                <suggestion><match no="1"/> <match no="2" regexp_match="(.+)r" regexp_replace="$1t" /></suggestion>
-                <suggestion><match no="1"/> <match no="2" regexp_match="(.+)r" regexp_replace="$1" /></suggestion>
-                <suggestion><match no="1"/> de <match no="2"/></suggestion>
-                <suggestion><match no="1" regexp_match=".+" regexp_replace="al"/> <match no="2"/></suggestion>
-                <suggestion><match no="1" regexp_match=".+" regexp_replace="va"/> <match no="2"/></suggestion>
-                <!--  caldria comprovar que les paraules suggerides són al diccionari -->
-                <short>Possible confusió</short>
-                <example correction="la necessitat|la necessita|la de necessitar|al necessitar|va necessitar"><marker>la necessitar</marker></example>
-                <example>la necessitat</example>
-                <example>la mort</example>
-                <example>la Ser</example>
-            </rule>
-            <!-- <rule>
-                <pattern>
-                <token><exception>a</exception></token>
-                <marker>
-                <token>l'</token>
-                <token postag="V.N.*" postag_regexp="yes" regexp="yes">\p{Ll}.+<exception postag="_GN.*" postag_regexp="yes"/></token>
-                </marker>
-                </pattern>
-                <message>¿Volíeu dir <suggestion>l'<match no="3" regexp_match="(.+)r" regexp_replace="$1t"/></suggestion>, <suggestion>l'<match no="3" regexp_match="(.+)r" regexp_replace="$1"/></suggestion>?</message>
-                <short>Possible confusió</short>
-                <example correction=""><marker>l'habilitar</marker></example>
-                <example>l'habilita</example>
-                <example>A l'emmagatzemar</example>
-                <example>L'ésser ja no es troba allí.</example>
-                </rule> -->
         </rulegroup>
         <rule id="ELS_INFINITIU" name="els (infinitiu)">
             <pattern>
