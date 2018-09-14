@@ -1436,7 +1436,11 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 	<rule name="what_you_see_is_what_you_get" id="WHAT_YOU_SEE_IS_WHAT_YOU_GET"><pattern><marker><token>what</token><token>you</token><token>see</token><token>is</token><token>what</token><token>you</token><token>get</token></marker></pattern><disambig action="ignore_spelling"/></rule>
 	<rule name="World_Wide_Web_Consortium_" id="WORLD_WIDE_WEB_CONSORTIUM_"><pattern><marker><token>World</token><token>Wide</token><token>Web</token><token>Consortium</token><token></token></marker></pattern><disambig action="ignore_spelling"/></rule>
     
-	<!-- TODO GUESSING TAGS for extremely flexible words ======================================== -->
+
+    <!-- disabling error report for longer string of unknown words (foreign quotes) ;--> 
+ 	<rule name="FOREIGN" id="SOME_UNKNOWN_WORDS"><pattern><marker><token postag="UNKNOWN|FOREIGN" postag_regexp="yes"/><token postag="UNKNOWN|FOREIGN" postag_regexp="yes"/><token postag="UNKNOWN|FOREIGN" postag_regexp="yes"/><token postag="UNKNOWN|FOREIGN" postag_regexp="yes"/><token postag="UNKNOWN|FOREIGN" postag_regexp="yes"/></marker></pattern><disambig action="ignore_spelling"/></rule>
+    
+    <!-- TODO GUESSING TAGS for extremely flexible words ======================================== -->
 
 	<!-- GETALLEN -->
 	<rule name="GUESS_number" id="NUMBERS">
