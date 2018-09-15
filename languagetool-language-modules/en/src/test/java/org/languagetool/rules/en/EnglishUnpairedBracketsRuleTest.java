@@ -49,6 +49,7 @@ public class EnglishUnpairedBracketsRuleTest {
     // correct sentences:
     assertCorrect("(This is a test sentence).");
     assertCorrect("This is a word 'test'.");
+    assertCorrect("This is no smiley: (some more text)");
     assertCorrect("This is a sentence with a smiley :)");
     assertCorrect("This is a sentence with a smiley :(");
     assertCorrect("This is a sentence with a smiley :-)");

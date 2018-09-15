@@ -131,11 +131,11 @@ public class GenericUnpairedBracketsRule extends TextLevelRule {
     if (i >= 1) {
       String prevToken = tokens[i - 1].getToken();
       // Smiley ":)" and  ":("
-      if (prevToken.equals(":") && (tokenStr.equals(")") || tokenStr.equals("("))) {
+      if (prevToken.equals(":") && !tokens[i].isWhitespaceBefore() && (tokenStr.equals(")") || tokenStr.equals("("))) {
         return false;
       }
       // Smiley ";)" and  ";("
-      if (prevToken.equals(";") && (tokenStr.equals(")") || tokenStr.equals("("))) {
+      if (prevToken.equals(";") && !tokens[i].isWhitespaceBefore() && (tokenStr.equals(")") || tokenStr.equals("("))) {
         return false;
       }
     }
