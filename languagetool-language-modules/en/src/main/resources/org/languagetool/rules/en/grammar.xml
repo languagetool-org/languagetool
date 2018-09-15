@@ -7219,6 +7219,19 @@ USA
                 <example>The most common of <marker>these two is</marker> on the outside.</example>
            </rule>
         </rulegroup>
+        <rulegroup id="PLURAL_VERB_AFTER_THIS" name="Plural verb after 'this' or 'that'">
+    <!-- Created by Tiago F. Santos, 2018-09-15	-->
+            <rule>
+                <pattern>
+                    <token regexp='yes'>th(?:is|at)<exception scope="previous" regexp="yes">of|like</exception></token>
+                    <token min='0' postag_regexp='yes' postag='NN.*'/>
+                    <token postag='VBP?' postag_regexp='yes'/>
+                </pattern>
+                <message>The verb '\3' is plural. Did you mean: <suggestion>\1 \2 <match no="3" include_skipped='all' postag="VBZ"/></suggestion>?</message>
+                <short>Grammar error</short>
+                <example correction='This word has'><marker>This word have</marker> errors.</example>
+           </rule>
+        </rulegroup>
         <rulegroup id="THIS_NNS_VB" name="this + plural noun + verb (these)">
             <rule>
                 <antipattern>
