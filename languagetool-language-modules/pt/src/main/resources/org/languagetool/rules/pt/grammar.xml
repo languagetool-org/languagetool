@@ -7112,7 +7112,7 @@ title="Easy editing stylesheet" ?>
       <pattern>
           <token regexp="yes">já|o(?:ra|u)|nem|qu(?:al|er)|seja|tal(?:vez)?</token>
           <token skip='-1'>
-            <exception regexp='yes'>[,\:;»“”\(\)\"]</exception>
+            <exception regexp='yes'>[»“”\(\)\"]|&separadores_de_oracoes;</exception>
             <exception scope='next' regexp='yes'>[,\:;»\(\)\"]</exception></token>
           <token><match no='0'/></token>
       </pattern>
@@ -7120,6 +7120,7 @@ title="Easy editing stylesheet" ?>
         <suggestion>\1 <match no='2' include_skipped='all'/>, \3</suggestion>
       <example correction="Quer diga que sim, quer"><marker>Quer diga que sim quer</marker> diga que não, está bem feito.</example>
       <example>"Ou sim, ou sopas?"</example>
+      <example>O pior já passou — o furacão já passou a tempestade tropical.</example>
     </rule>
   </rulegroup>
 
@@ -7558,6 +7559,11 @@ title="Easy editing stylesheet" ?>
       <example correction="além disso,">Foi feito com distinção e, <marker>além disso</marker> está bem feito.</example>
     </rule>
     <rule>
+      <antipattern>
+          <token>ou</token>
+          <token>melhor</token>
+          <token postag='VMG0000'/>
+      </antipattern>
       <pattern>
         <marker>
           <token>ou</token>
