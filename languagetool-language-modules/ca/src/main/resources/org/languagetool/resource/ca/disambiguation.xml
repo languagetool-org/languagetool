@@ -9038,24 +9038,46 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </pattern>
             <disambig action="filter" postag="DI.*"></disambig>
         </rule>
-        <rule id="eren_tots" name="eren tots família">
+        <!-- eren tots família -->
+        <rule>
             <pattern>
-                <token postag="V.[MSI].*|_GV_" postag_regexp="yes"/>
+                <token postag="V.[MSI]..P.." postag_regexp="yes"/>
+                <token min="0" max="1" postag="V.P.*" postag_regexp="yes"/>
                 <marker>
-                    <token postag="PI.*"  postag_regexp="yes" inflected="yes">tot<exception postag="_GN_.*" postag_regexp="yes"/></token>
+                    <token postag="PI..P..."  postag_regexp="yes" inflected="yes">tot<exception postag="_GN_.*" postag_regexp="yes"/></token>
                 </marker>
-                <!-- <token><exception inflected="yes">un</exception></token> -->
             </pattern>
             <disambig action="filter" postag="PI.*"></disambig>
         </rule>
-        <rule id="eren_pas_tots" name="no eren pas tots família">
+        <rule>
             <pattern>
-                <token postag="VS[MSI].*|_GV_" postag_regexp="yes"/>
+                <token postag="V.[MSI]..P.." postag_regexp="yes"/>
+                <token min="0" max="1" postag="V.P.*" postag_regexp="yes"/>
                 <token>pas</token>
                 <marker>
-                    <token postag="PI.*"  postag_regexp="yes" inflected="yes">tot<exception postag="_GN_.*" postag_regexp="yes"/></token>
+                    <token postag="PI..P..."  postag_regexp="yes" inflected="yes">tot<exception postag="_GN_.*" postag_regexp="yes"/></token>
                 </marker>
-                <!-- <token><exception inflected="yes">un</exception></token> -->
+            </pattern>
+            <disambig action="filter" postag="PI.*"></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="V.[MSI]..S.." postag_regexp="yes"/>
+                <token min="0" max="1" postag="V.P.*" postag_regexp="yes"/>
+                <marker>
+                    <token postag="PI..S..."  postag_regexp="yes" inflected="yes">tot<exception postag="_GN_.*" postag_regexp="yes"/></token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="PI.*"></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="V.[MSI]..S.." postag_regexp="yes"/>
+                <token min="0" max="1" postag="V.P.*" postag_regexp="yes"/>
+                <token>pas</token>
+                <marker>
+                    <token postag="PI..S..."  postag_regexp="yes" inflected="yes">tot<exception postag="_GN_.*" postag_regexp="yes"/></token>
+                </marker>
             </pattern>
             <disambig action="filter" postag="PI.*"></disambig>
         </rule>
