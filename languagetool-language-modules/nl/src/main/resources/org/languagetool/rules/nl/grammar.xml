@@ -5183,16 +5183,6 @@ regexp case-insensitive maken : (?i)
             </rule>
         </rulegroup>
 
-        <rulegroup id="NIESEN_NIEZEN" name="waarschuwing bij gebruik niesen i.p.v. niezen">
-            <rule>
-                <pattern>
-                       <token>niesen</token>
-                </pattern>
-                <message>Bedoelt u wellicht <suggestion>niezen</suggestion>?</message>
-                <example correction="niezen">Het woord <marker>niesen</marker> kan een vergissing zijn.</example>
-            </rule>
-        </rulegroup>
-
         <rulegroup id="SUSSEN_ZUSSEN" name="waarschuwing bij gebruik sussen i.p.v. zussen">
             <rule>
                 <pattern>
@@ -19515,11 +19505,12 @@ tuinkussens;Tuinkussens
             <!-- 2014-08-20 TaalTik -->
             <rule>
                 <antipattern><token>op</token><token>zoek</token><token>gaat</token></antipattern>
+                <antipattern><token>schuil</token><token>gaat</token></antipattern>
                 <pattern>
                     <token/>
                     <marker>
                         <token postag_regexp="yes" postag="WKW:TGW:1EP|WKW:TGW:3EP|WKW:VLT:1EP"><exception postag_regexp="yes" postag="BNW:STL:VRB|BNW:STL:ONV|BNW:VGR:ONV|.*ZNW.*|WKW:VTD:ONV"/><exception regexp="yes">Vries|Delft|jou|zoek|maart|pas|echt|eigen|mijn|zeker|weer|kan|men|maar|nodig|heel|veel|jij|meer|wel|niet|uit|in|nipt|naar|verluidt|minder</exception></token>
-                        <token postag_regexp="yes" postag="WKW:TGW:1EP|WKW:TGW:3EP|WKW:VLT:1EP"><exception postag_regexp="yes" postag="BNW:STL:VRB|BNW:STL:ONV|BNW:VGR:ONV|.*ZNW.*|WKW:VTD:ONV"/><exception regexp="yes">jouw|maart|pas|echt|eigen|mijn|zeker|weer|kan|men|maar|nodig|heel|veel|jij|meer|wel|niet|uit|in|nipt|naar|open|minder</exception></token>
+                        <token postag_regexp="yes" postag="WKW:TGW:1EP|WKW:TGW:3EP|WKW:VLT:1EP"><exception postag_regexp="yes" postag="BNW:STL:VRB|BNW:STL:ONV|BNW:VGR:ONV|.*ZNW.*|WKW:VTD:ONV"/><exception regexp="yes">jouw|maart|pas|echt|eigen|mijn|zeker|weer|kan|men|maar|nodig|heel|veel|jij|meer|wel|niet|uit|in|nipt|naar|open|minder|naast</exception></token>
                     </marker>
                 </pattern>
                 <message>Als er bij het oplezen een pauze is, dan een komma toevoegen: <suggestion>\2, \3</suggestion>.</message>
@@ -38611,7 +38602,7 @@ tuinkussens;Tuinkussens
                         <marker>
                             <token postag="UNKNOWN"/>
                         </marker>
-                    <token postag="WKW:TGW:3EP|WKW:VLT:1EP" postag_regexp="yes"/>
+						<token postag="WKW:TGW:3EP|WKW:VLT:1EP" postag_regexp="yes"><exception postag_regexp="yes" postag="ZNW:EKV.*"/></token>
                 </pattern>
                 <message></message>
                 <example type="incorrect">Hij ziet dat de <marker>xyz</marker> loopt.</example>
@@ -38645,17 +38636,18 @@ tuinkussens;Tuinkussens
                 <example type="incorrect">De <marker>xyz</marker> denken.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="MEN_DING" name="men i.p.v. m'n">
+
+		<rulegroup id="MEN_DING" name="men i.p.v. m'n">
             <rule>
                 <pattern>
-					<token negate="yes">ik</token>
+					<token><exception>ik</exception></token>
                         <marker>
 							<token>men</token>
                         </marker>
-						<token postag="ZNW.*" postag_regexp="yes"><exception regexp="yes">voor|moet|niet|kan</exception></token>
+						<token postag="ZNW.*" postag_regexp="yes"><exception regexp="yes">voor|moet|niet|kan|meer|bij</exception></token>
                 </pattern>
 				<message>Fout. Correct zijn <suggestion>m'n</suggestion>  en <suggestion>mijn</suggestion>.</message>
-                <example correction="m'n|mijn">Hij ziet <marker>men</marker> paarden.</example>
+                <example correction="m'n|mijn">Hij ziet <marker>men</marker> olifanten.</example>
             </rule>
         </rulegroup>
 
