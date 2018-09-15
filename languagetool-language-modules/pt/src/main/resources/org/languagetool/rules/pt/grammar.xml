@@ -45,7 +45,7 @@ title="Easy editing stylesheet" ?>
     <!ENTITY outros_toponimos_com_artigo "(?:Europa|A(?:lgarve|madora)|C(?:airo|aldas|ovilhã)|Figueira|Guarda|Porto|Avenida|Largo|Praceta|Rua|Terreiro)"><!-- TODO praça cause mismatched article. verufy -->
     <!ENTITY toponimos_sem_artigo "(?:A(?:lagoas|ngola|ragão)|B(?:raga|urma)|C(?:astela|oimbra|uba)|Espanha|F(?:aro|rança)|Goiás|Havana|I(?:nglaterra|tália)|Lisboa|M(?:adagáscar|arrocos|oçambique)|P(?:aris|ernambuco|ortugal)|R(?:ondônia|oraima)|S(?:ergipe|ri)|T(?:ai[uw]an|aiuã|imor)|M(?:ercúrio|arte)|Vénus|Júpiter|Saturno|Urano|Neptuno|Plutão)">
 
-    <!ENTITY precede_nome_proprio "(?:a(?:ssociação|venida)|balneário|c(?:a(sal?|nção)|o(?:lec?ção|ligação|meta|ncurso|ndecoração|pa)|urso)|d(?:esigna(?:ção|d[ao]s?)|istribuição)|es(?:cola|tação|tilo)|f(?:ilme|ragata|undação)|g(?:aleria|alardão|eração)|herdade|i(?:lha|mpério|niciativa|nstituto|ntitulado)|l(?:agoa?|ei|iceu|ivro)|m(?:onte|useu)|n(?:avio|ovela)|o(?:bra|rquestra)|pr(?:aça|émio|ograma|ojec?to)|quinta|r(?:egistr?o|eino|elatório|evista|io|ua)|serra|t(?:aça|eatro|ema|ipo)|universidade|versão)">
+    <!ENTITY precede_nome_proprio "(?:a(?:ssociação|venida)|balneário|c(?:a(sal?|nção)|o(?:lec?ção|ligação|meta|ncurso|ndecoração|pa)|urso)|d(?:esigna(?:ção|d[ao]s?)|istribuição)|es(?:cola|tação|tilo)|f(?:ilme|ragata|undação|uracão)|g(?:aleria|alardão|eração)|herdade|i(?:lha|mpério|niciativa|nstituto|ntitulado)|l(?:agoa?|ei|iceu|ivro)|m(?:onte|useu)|n(?:avio|ovela)|o(?:bra|rquestra)|pr(?:aça|émio|ograma|ojec?to)|quinta|r(?:egistr?o|eino|elatório|evista|io|ua)|serra|t(?:aça|eatro|ema|empestade|ipo)|universidade|versão)">
     <!ENTITY divisas "(?:euros|dólares|francos|pesos|libras|rublos|rupias|i(?:uanes|enes)|[€£¥$₽])">
 
     <!ENTITY separadores_de_oracoes "(?:[,;:…–—\(«“]|\-|\[)">
@@ -3230,6 +3230,10 @@ title="Easy editing stylesheet" ?>
       <example correction='superiores à'>Nestas regiões é possível obter ordenados <marker>superiores a</marker> média.</example>
     </rule>
     <rule>
+      <antipattern>
+          <token>para</token>
+          <token>a</token>
+      </antipattern>
       <pattern>
           <token>a</token>
           <token regexp='yes'>direita|esquerda</token>
@@ -3239,6 +3243,7 @@ title="Easy editing stylesheet" ?>
         <suggestion>à \2 \3</suggestion>
       <example correction='à direita do'>Os estacionamentos <marker>a direita do</marker> parque são reservados.</example>
       <example>Os autocarros estacionaram à esquerda do pátio.</example>
+      <example>Efeito Coriolis é a força aparente que desvia as partículas de ar para a direita no hemisfério norte e para a esquerda no hemisfério sul.</example>
     <!--example>A esquerda dos safe spaces e das manifestações nas universidades</example-->
     </rule>
   </rulegroup>
@@ -3268,13 +3273,15 @@ title="Easy editing stylesheet" ?>
       <pattern>
           <token regexp='yes'>mim|comigo</token>
           <token postag_regexp='yes' postag='V.+'>
-            <exception negate_pos='yes' postag_regexp='yes' postag='V.+'/></token>
+            <exception negate_pos='yes' postag_regexp='yes' postag='V.+'/>
+            <exception>há</exception></token>
       </pattern>
       <message>Pronomes oblíquos tónicos não devem ser utilizados como sujeito.</message>
         <suggestion>\1, \2</suggestion>
         <suggestion>eu \2</suggestion>
       <example correction='mim, estudar|eu estudar'>Para <marker>mim estudar</marker> é um sacrifício.</example>
       <example>Para mim, estudar é um sacrifício.</example>
+      <example>Está comigo há cinco anos.</example>
     </rule>
     <rule>
       <pattern>
@@ -7113,7 +7120,7 @@ title="Easy editing stylesheet" ?>
           <token regexp="yes">já|o(?:ra|u)|nem|qu(?:al|er)|seja|tal(?:vez)?</token>
           <token skip='-1'>
             <exception regexp='yes'>[»“”\(\)\"]|&separadores_de_oracoes;</exception>
-            <exception scope='next' regexp='yes'>[,\:;»\(\)\"]</exception></token>
+            <exception scope='next' regexp='yes'>[»“”\(\)\"]|&separadores_de_oracoes;</exception></token>
           <token><match no='0'/></token>
       </pattern>
       <message>Conjunções alternativas ou disjuntivas devem ser separadas por vírgulas.</message>
@@ -8498,7 +8505,8 @@ title="Easy editing stylesheet" ?>
       </antipattern>
       <pattern>
           <token postag='I'>
-            <exception negate_pos='yes' postag='I'/></token>
+            <exception negate_pos='yes' postag='I'/>
+            <exception case_sensitive='yes'>EIA</exception></token>
           <token postag_regexp='yes' postag="_PUNCT|''">
             <exception regexp='yes'>[\!\?:\)]</exception></token>
       </pattern>
