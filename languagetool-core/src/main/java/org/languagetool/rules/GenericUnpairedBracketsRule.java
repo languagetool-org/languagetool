@@ -115,16 +115,31 @@ public class GenericUnpairedBracketsRule extends TextLevelRule {
                                   AnalyzedTokenReadings[] tokens, int i, int j,
                                   boolean precSpace,
                                   boolean follSpace, UnsyncStack<SymbolLocator> symbolStack) {
-    // Smiley ":-)"
-    if (i >= 2 && tokens[i-2].getToken().equals(":") && tokens[i-1].getToken().equals("-") && tokens[i].getToken().equals(")")) {
-      return false;
+    String tokenStr = tokens[i].getToken();
+    if (i >= 2) {
+      String prevPrevToken = tokens[i - 2].getToken();
+      String prevToken = tokens[i - 1].getToken();
+      // Smiley ":-)" and ":-("
+      if (prevPrevToken.equals(":") && prevToken.equals("-") && (tokenStr.equals(")") || tokenStr.equals("("))) {
+        return false;
+      }
+      // Smiley ";-)" and ";-("
+      if (prevPrevToken.equals(";") && prevToken.equals("-") && (tokenStr.equals(")") || tokenStr.equals("("))) {
+        return false;
+      }
     }
-    // Smiley ":-("
-    if (i >= 2 && tokens[i-2].getToken().equals(":") && tokens[i-1].getToken().equals("-") && tokens[i].getToken().equals("(")) {
-      return false;
+    if (i >= 1) {
+      String prevToken = tokens[i - 1].getToken();
+      // Smiley ":)" and  ":("
+      if (prevToken.equals(":") && !tokens[i].isWhitespaceBefore() && (tokenStr.equals(")") || tokenStr.equals("("))) {
+        return false;
+      }
+      // Smiley ";)" and  ";("
+      if (prevToken.equals(";") && !tokens[i].isWhitespaceBefore() && (tokenStr.equals(")") || tokenStr.equals("("))) {
+        return false;
+      }
     }
-    // Smiley ";-)"
-    return !(i >= 2 && tokens[i - 2].getToken().equals(";") && tokens[i - 1].getToken().equals("-") && tokens[i].getToken().equals(")"));
+    return true;
   }
 
   @Override

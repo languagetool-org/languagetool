@@ -45,6 +45,8 @@ public class GenericUnpairedBracketsRuleTest {
     assertMatches("(Das sind die Sätze (noch mehr Klammern [schon wieder!]), die sie testen sollen).", 0);
     assertMatches("Das ist ein Satz mit Smiley :-)", 0);
     assertMatches("Das ist auch ein Satz mit Smiley ;-)", 0);
+    assertMatches("Das ist ein Satz mit Smiley :)", 0);
+    assertMatches("Das ist ein Satz mit Smiley :(", 0);
     // incorrect sentences:
     assertMatches("Die „Sätze zum Testen.", 1);
     assertMatches("Die «Sätze zum Testen.", 1);

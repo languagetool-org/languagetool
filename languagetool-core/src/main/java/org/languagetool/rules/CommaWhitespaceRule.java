@@ -81,8 +81,11 @@ public class CommaWhitespaceRule extends Rule {
       String msg = null;
       String suggestionText = null;
       if (isWhitespace && isLeftBracket(prevToken)) {
-        msg = messages.getString("no_space_after");
-        suggestionText = prevToken;
+        boolean isException = i + 1 < tokens.length && prevToken.equals("[") && token.equals(" ") && tokens[i+1].getToken().equals("]");  // "- [ ]" syntax e.g. on GitHub
+        if (!isException) {
+          msg = messages.getString("no_space_after");
+          suggestionText = prevToken;
+        }
       } else if (!isWhitespace && prevToken.equals(getCommaCharacter())
           && !isQuoteOrHyphenOrComma(token)
           && !containsDigit(prevPrevToken)
@@ -92,8 +95,11 @@ public class CommaWhitespaceRule extends Rule {
         suggestionText = getCommaCharacter() + " " + tokens[i].getToken();
       } else if (prevWhite) {
         if (isRightBracket(token)) {
-          msg = messages.getString("no_space_before");
-          suggestionText = token;
+          boolean isException = token.equals("]") && prevToken.equals(" ") && prevPrevToken.equals("["); // "- [ ]" syntax e.g. on GitHub
+          if (!isException) {
+            msg = messages.getString("no_space_before");
+            suggestionText = token;
+          }
         } else if (token.equals(getCommaCharacter())) {
           msg = messages.getString("space_after_comma");
           suggestionText = getCommaCharacter();

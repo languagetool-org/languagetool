@@ -9038,24 +9038,46 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </pattern>
             <disambig action="filter" postag="DI.*"></disambig>
         </rule>
-        <rule id="eren_tots" name="eren tots família">
+        <!-- eren tots família -->
+        <rule>
             <pattern>
-                <token postag="V.[MSI].*|_GV_" postag_regexp="yes"/>
+                <token postag="V.[MSI]..P.." postag_regexp="yes"/>
+                <token min="0" max="1" postag="V.P.*" postag_regexp="yes"/>
                 <marker>
-                    <token postag="PI.*"  postag_regexp="yes" inflected="yes">tot<exception postag="_GN_.*" postag_regexp="yes"/></token>
+                    <token postag="PI..P..."  postag_regexp="yes" inflected="yes">tot<exception postag="_GN_.*" postag_regexp="yes"/></token>
                 </marker>
-                <!-- <token><exception inflected="yes">un</exception></token> -->
             </pattern>
             <disambig action="filter" postag="PI.*"></disambig>
         </rule>
-        <rule id="eren_pas_tots" name="no eren pas tots família">
+        <rule>
             <pattern>
-                <token postag="VS[MSI].*|_GV_" postag_regexp="yes"/>
+                <token postag="V.[MSI]..P.." postag_regexp="yes"/>
+                <token min="0" max="1" postag="V.P.*" postag_regexp="yes"/>
                 <token>pas</token>
                 <marker>
-                    <token postag="PI.*"  postag_regexp="yes" inflected="yes">tot<exception postag="_GN_.*" postag_regexp="yes"/></token>
+                    <token postag="PI..P..."  postag_regexp="yes" inflected="yes">tot<exception postag="_GN_.*" postag_regexp="yes"/></token>
                 </marker>
-                <!-- <token><exception inflected="yes">un</exception></token> -->
+            </pattern>
+            <disambig action="filter" postag="PI.*"></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="V.[MSI]..S.." postag_regexp="yes"/>
+                <token min="0" max="1" postag="V.P.*" postag_regexp="yes"/>
+                <marker>
+                    <token postag="PI..S..."  postag_regexp="yes" inflected="yes">tot<exception postag="_GN_.*" postag_regexp="yes"/></token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="PI.*"></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="V.[MSI]..S.." postag_regexp="yes"/>
+                <token min="0" max="1" postag="V.P.*" postag_regexp="yes"/>
+                <token>pas</token>
+                <marker>
+                    <token postag="PI..S..."  postag_regexp="yes" inflected="yes">tot<exception postag="_GN_.*" postag_regexp="yes"/></token>
+                </marker>
             </pattern>
             <disambig action="filter" postag="PI.*"></disambig>
         </rule>
@@ -13025,4 +13047,44 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="remove" postag="VM[^P].*"/>
     </rule>
+    <rule name="Ignore spelling of file names" id="IGNORE_SPELLING_OF_FILE_NAMES">
+        <pattern>
+           <token/>
+           <token spacebefore="no">.</token>
+           <token spacebefore="no" regexp="yes">asp|aspx|avi|bak|bat|bmp|cab|cfg|cgi|com|css|csv|dat|db|dbf|dll|eps|exe|flv|gif|htm|html|ibooks|ico|ini|jar|jpg|js|jsp|lnk|md|mdb|mid|mov|mp3|mp4|mpa|mpg|pdf|php|pl|png|pps|ppt|pptx|ps|psd|py|rss|sh|sql|svg|sys|tar|tif|tiff|tmp|txt|wav|wma|xhtml|xls|xlsx|xsl|xml|zip|zipx</token><!-- For more extensions, refer to https://fileinfo.com -->
+        </pattern>
+        <disambig action="ignore_spelling"></disambig>
+    </rule>
+    <rule name="Ignore spelling of @user mentions" id="IGNORE_USER_MENTION">
+        <pattern>
+            <token regexp="yes">@.+</token>
+        </pattern>
+        <disambig action="ignore_spelling"></disambig>
+    </rule>
+    <rulegroup name="Ignore spelling of #hashtags" id="IGNORE_HASHTAG">
+        <rule>
+           <pattern>
+            <token spacebefore="yes">#</token>
+            <token spacebefore="no"></token>
+          </pattern>
+          <disambig action="ignore_spelling"></disambig>
+        </rule>
+        <rule>
+          <pattern>
+            <token postag="SENT_START"/>
+            <token>#</token>
+            <token spacebefore="no"></token>
+          </pattern>
+          <disambig action="ignore_spelling"></disambig>
+        </rule>
+    </rulegroup>
+    <rule name="Ignore spelling of domain names" id="IGNORE_DOMAIN_NAMES">
+      <pattern case_sensitive="yes">
+        <token regexp="yes">[a-z0-9\-]+</token>
+        <token spacebefore="no">.</token>
+        <token spacebefore="no" regexp="yes">(cat|ae|ar|asia|at|au|be|bid|biz|br|ca|cc|cf|ch|cl|club|cn|co|com|cz|de|dk|edu|es|eu|fi|fr|ga|gdn|gov|gq|gr|hk|hu|id|ie|il|in|info|int|io|ir|it|jp|kiwi|kr|kz|life|link|loan|lt|me|men|mil|ml|mobi|mx|my|name|net|nl|no|nu|nz|online|org|party|pl|pro|pt|pw|racing|ro|ru|se|sg|shop|site|sk|space|store|su|tech|tk|top|tr|trade|tv|tw|ua|uk|us|vip|vn|wang|website|win|ws|xin|xyz|za)</token> <!-- the 100 most used + cat -->
+      </pattern>
+      <disambig action="ignore_spelling"></disambig>
+    </rule>
+
 </rules>

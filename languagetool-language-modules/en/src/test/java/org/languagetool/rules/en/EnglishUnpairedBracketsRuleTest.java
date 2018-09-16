@@ -38,7 +38,7 @@ public class EnglishUnpairedBracketsRuleTest {
   private JLanguageTool langTool;
 
   @Before
-  public void setUp() throws IOException {
+  public void setUp() {
     rule = new EnglishUnpairedBracketsRule(TestTools.getEnglishMessages(), new English());
     langTool = new JLanguageTool(new English());
   }
@@ -49,6 +49,9 @@ public class EnglishUnpairedBracketsRuleTest {
     // correct sentences:
     assertCorrect("(This is a test sentence).");
     assertCorrect("This is a word 'test'.");
+    assertCorrect("This is no smiley: (some more text)");
+    assertCorrect("This is a sentence with a smiley :)");
+    assertCorrect("This is a sentence with a smiley :(");
     assertCorrect("This is a sentence with a smiley :-)");
     assertCorrect("This is a sentence with a smiley ;-) and so on...");
     assertCorrect("I don't know.");

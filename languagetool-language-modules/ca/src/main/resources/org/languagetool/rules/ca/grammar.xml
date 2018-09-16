@@ -2494,6 +2494,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Totes les metges</example>
                 <example correction="">Com <marker>tot els altres</marker> països del món</example>
                 <example correction="">Com <marker>tot els seus</marker> ministres</example>
+                <example correction="">Baixa <marker>totes els objectes</marker> adjunts</example>
+                <example correction="">Ha baixat <marker>totes els objectes</marker> adjunts</example>
+                <example>Han baixat totes els objectes adjunts.</example> <!-- ambigu-->
+                <example>Baixen totes els objectes adjunts.</example> <!-- ambigu-->
                 <example>Tots els gests</example>
                 <example>Totes les gestes</example>
                 <example>destacant-se entre tots la figura de Joan Amades</example>
@@ -16180,7 +16184,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <pattern>
                     <marker>
-                        <token postag="D[ID]0FS.*" postag_regexp="yes"/>
+                        <token postag="D[ID]0FS.*" postag_regexp="yes"><exception scope="previous" postag="V.N.*" postag_regexp="yes"/></token>
                         <token postag="V.N.*" postag_regexp="yes" regexp="yes">\p{Ll}.+<exception postag="_GN.*" postag_regexp="yes"/></token>
                     </marker>
                     <token><exception postag="&pronom_feble;" postag_regexp="yes" regexp="yes">['-].+</exception></token>
@@ -16193,6 +16197,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>i aquesta incloure-la en la categoria mitologia</example>
                 <example>i per sota d'aquesta tenir categories</example>
                 <example>En una situació com aquesta parlar de quelcom</example>
+                <example>En no voler aquesta acceptar el català com a llengua oficial.</example>
             </rule>
         </rulegroup>
         <rule id="ELS_INFINITIU" name="els (infinitiu)">
