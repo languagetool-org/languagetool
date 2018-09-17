@@ -86,7 +86,6 @@ public class MultiDocumentsHandler {
     this.configFile = configFile;
     this.MESSAGES = MESSAGES;
     this.xEventListener = xEventListener;
-    
     documents = new ArrayList<>();
   }
   
@@ -145,6 +144,13 @@ public class MultiDocumentsHandler {
    */
   JLanguageTool getLanguageTool() {
     return langTool;
+  }
+  
+  /**
+   *  get Configuration
+   */
+  Configuration getConfiguration() {
+    return config;
   }
   
   /**
@@ -385,7 +391,7 @@ public class MultiDocumentsHandler {
     }
   }
 
-  private void initCheck() {
+  void initCheck() {
     Set<String> disabledRuleIds = config.getDisabledRuleIds();
     if (disabledRuleIds != null) {
       // copy as the config thread may access this as well
