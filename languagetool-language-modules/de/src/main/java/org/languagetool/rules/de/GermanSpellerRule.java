@@ -62,7 +62,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private final Set<String> wordsToBeIgnoredInCompounds = new HashSet<>();
   private final Set<String> wordStartsToBeProhibited    = new HashSet<>();
   private static final Map<Pattern, Function<String,List<String>>> ADDITIONAL_SUGGESTIONS = new HashMap<>();
-  static{
+  private static final Map<Pattern, Function<String,List<String>>> ADDITIONAL_SUGGESTIONS_WITH_DOT = new HashMap<>();
+  static {
+    put("wars", w -> Arrays.asList("war's", "war es"));
     put("[aA]wa", w -> Arrays.asList("AWA", "ach was", "aber"));
     put("[aA]lsallerersten?s", w -> Arrays.asList(w.replaceFirst("lsallerersten?s", "ls allererstes"), w.replaceFirst("lsallerersten?s", "ls Allererstes")));
     putRepl("(an|auf|ein|zu)gehangen(e[mnrs]?)?$", "hangen", "hängt");
