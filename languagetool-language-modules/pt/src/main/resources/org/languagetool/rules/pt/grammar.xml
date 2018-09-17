@@ -1046,22 +1046,23 @@ title="Easy editing stylesheet" ?>
           <token inflected='yes' postag_regexp='yes' postag='V....S.+' regexp='yes'>&verbos_de_ligacao;
             <exception postag_regexp='yes' postag='V.[NP].+'/>
             <exception inflected='yes' regexp='yes'>andar|continuar</exception></token>
-          <token postag='RG' min='0' skip='2'>
+          <token postag='RG' min='0' max='2'>
             <exception negate_pos='yes' postag='RG'/></token>
           <token postag_regexp='yes' postag='(?:NC|A..|V.P.).P.+'>
             <exception negate_pos='yes' postag_regexp='yes' postag='(?:NC|A..|V.P.).P.+'/></token>
       </pattern>
       <message>O predicativo tem de concordar em número com o verbo de ligação.</message>
-        <suggestion>\1 <match no='2' include_skipped='all'/> <match no="3" postag="(NC|A..|V.P.)(.)P(.+)" postag_replace='$1$2S$3' postag_regexp="yes"/></suggestion>
-        <suggestion><match no="1" postag="(V....)S(.+)" postag_replace='$1P$2' postag_regexp="yes"/> <match no='2' include_skipped='all'/> \3</suggestion>
+        <suggestion>\1 <match no='2' include_skipped='all'/> <match no="3" include_skipped='all' postag="(NC|A..|V.P.)(.)P(.+)" postag_replace='$1$2S$3' postag_regexp="yes"/></suggestion>
+        <suggestion><match no="1" postag="(V....)S(.+)" postag_replace='$1P$2' postag_regexp="yes"/> <match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/></suggestion>
     <!--<example correction='é rosa|são rosas'>Isto <marker>é rosas</marker>, Senhor. São rosas.</example>--><!-- TODO rosas? also from verb Rosar - Disambiguate colors/verbs -->
       <example correction='é trevo|são trevos'>Isto <marker>é trevos</marker>, Senhor. São trevos.</example>
-      <example correction='é muito pouco trevo|são muito pouco trevos'>Isto <marker>é muito pouco trevos</marker>, Senhor. São muito pouco trevos.</example>
+    <!--example correction='é muito pouco trevo|são muito pouco trevos'>Isto <marker>é muito pouco trevos</marker>, Senhor. São muito pouco trevos.</example XXX wrong suggestion due to min + max bug -->
       <example correction='Foi corrigido|Foram corrigidos'><marker>Foi corrigidos</marker> o valor da fatura.</example>
     <!--example correction="são funcionais|é funcional">Os correctores gramaticais <marker>é funcionais</marker>.</example XXX add after disambiguating funcionais-->
       <example>Tal Estado, ainda que proletário, somente faria permanecer antigas estruturas de dominação de uma parcela da populaç…</example>
       <example>Eles têm sido bons vizinhos até hoje.</example>
       <example>Nós devemos aprender a viver juntos como irmãos, ou vamos morrer juntos como tolos.</example>
+      <example>O nosso País foi sempre dependente das importações dos países vizinhos.</example>
     </rule>
     <rule>
       <pattern case_sensitive='yes'>
@@ -6350,7 +6351,7 @@ title="Easy editing stylesheet" ?>
       <pattern>
         <marker>
           <token/>
-          <token regexp='yes'>antes|apesar|capacidade|depois|expec?tativas?|facto|possibilidade|risco|intenção</token>
+          <token regexp='yes'>antes|apesar|depois|expec?tativas?|facto|possibilidade|risco|intenção</token><!-- |capacidade -->
           <token skip='-1' regexp='yes'>d[ao]s?
             <exception scope='next' postag='_PUNCT'/></token>
         </marker>
@@ -6419,9 +6420,7 @@ title="Easy editing stylesheet" ?>
     <rule>
       <antipattern>
           <token regexp='yes'>antes|apesar|capacidade|depois|expec?tativas?|facto|objec?tivo|possibilidade|risco|intenção</token>
-          <token skip='-1'>de
-            <exception scope='next' postag='_PUNCT'/></token>
-          <token postag='VMN0000'/>
+          <token>de</token>
       </antipattern>
       <antipattern>
           <token regexp='yes'>aos?</token>
@@ -6565,9 +6564,7 @@ title="Easy editing stylesheet" ?>
     <rule id='CONTRACAO_DELA' name='De + ela'>
       <antipattern>
           <token regexp='yes'>antes|apesar|capacidade|depois|expec?tativas?|facto|objec?tivo|possibilidade|risco|intenção</token>
-          <token skip='-1'>de
-            <exception scope='next' postag='_PUNCT'/></token>
-          <token postag='VMN0000'/>
+          <token>de</token>
       </antipattern>
       <antipattern>
           <token regexp='yes'>aos?</token>
@@ -6602,9 +6599,7 @@ title="Easy editing stylesheet" ?>
     <rule id='CONTRACAO_DONDE' name='De + onde'>
       <antipattern>
           <token regexp='yes'>antes|apesar|capacidade|depois|expec?tativas?|facto|objec?tivo|possibilidade|risco|intenção</token>
-          <token skip='-1'>de
-            <exception scope='next' postag='_PUNCT'/></token>
-          <token postag='VMN0000'/>
+          <token>de</token>
       </antipattern>
       <antipattern>
           <token regexp='yes'>aos?</token>
@@ -6634,9 +6629,7 @@ title="Easy editing stylesheet" ?>
     <rule id='CONTRACAO_DACOLÁ' name='De + artigos'><!-- default='off' -->
       <antipattern>
           <token regexp='yes'>antes|apesar|capacidade|depois|expec?tativas?|facto|objec?tivo|possibilidade|risco|intenção</token>
-          <token skip='-1'>de
-            <exception scope='next' postag='_PUNCT'/></token>
-          <token postag='VMN0000'/>
+          <token>de</token>
       </antipattern>
       <antipattern>
           <token regexp='yes'>aos?</token>
@@ -6680,9 +6673,7 @@ title="Easy editing stylesheet" ?>
     <rule id='CONTRACAO_DA' name='De + artigos'> <!--default='off' -->
       <antipattern>
           <token regexp='yes'>antes|apesar|capacidade|depois|expec?tativas?|facto|objec?tivo|possibilidade|risco|intenção</token>
-          <token skip='-1'>de
-            <exception scope='next' postag='_PUNCT'/></token>
-          <token postag='VMN0000'/>
+          <token>de</token>
       </antipattern>
       <antipattern>
           <token regexp='yes'>aos?</token>
@@ -6716,9 +6707,7 @@ title="Easy editing stylesheet" ?>
     <rule id='CONTRACAO_DUM' name='De + um/uns'><!--default='off' -->
       <antipattern>
           <token regexp='yes'>antes|apesar|capacidade|depois|expec?tativas?|facto|objec?tivo|possibilidade|risco|intenção</token>
-          <token skip='-1'>de
-            <exception scope='next' postag='_PUNCT'/></token>
-          <token postag='VMN0000'/>
+          <token>de</token>
       </antipattern>
       <antipattern>
           <token regexp='yes'>aos?</token>
@@ -18606,7 +18595,7 @@ o tomate'>
     </rule>
     <rule id='PARONYM_CIENTIFICA_388' name='Parónimo: cientifica'>
       <pattern>
-          <token regexp='yes'>&art_detecao_paronimos;
+          <token regexp='yes'>&art_detecao_paronimos;|(?:prova|teste)s?
             <exception regexp='yes'>os?</exception></token>
           <token min='0' postag='A.+' postag_regexp='yes'/>
           <token regexp='yes'>cientificas?</token>
@@ -18615,10 +18604,11 @@ o tomate'>
         <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> científica<match no='3' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
       <example correction='uma científica'><marker>uma cientifica</marker>.</example>
       <example correction='umas científicas'><marker>umas cientificas</marker>.</example>
+      <example correction='prova científica'>Uma <marker>prova cientifica</marker>.</example>
     </rule>
     <rule id='PARONYM_CIENTIFICO_389' name='Parónimo: cientifico'>
       <pattern>
-          <token regexp='yes'>&art_detecao_paronimos;</token>
+          <token regexp='yes'>&art_detecao_paronimos;|(?:prova|teste)s?</token>
           <token min='0' postag='A.+' postag_regexp='yes'/>
           <token regexp='yes'>cientificos?</token>
       </pattern>
@@ -24037,7 +24027,7 @@ TODO Write better examples
           <token regexp="yes" spacebefore="yes">[MCDXLVI]+
             <exception regexp="yes">(?=.)M{0,4}(?:CM|CD|D?C{0,3})(?:XC|XL|L?X{0,3})(?:IX|IV|V?I{0,3})</exception>
             <exception postag="[RZANDV].*|.*LOC.*" postag_regexp="yes"/>
-            <exception regexp="yes">XML|DLL|MIDI</exception></token>
+            <exception regexp="yes">XML|DLL|MIDI|IMI</exception></token>
       </pattern>
       <message>Número romano inválido.</message>
       <example correction="">Bem-vindo à <marker>XXIVIIV</marker> Conferência.</example>
