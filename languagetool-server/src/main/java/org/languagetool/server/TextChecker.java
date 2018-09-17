@@ -113,7 +113,8 @@ abstract class TextChecker {
     String userAgent = httpExchange.getRequestHeaders().getFirst("User-Agent");
 
     if (aText.getPlainText().length() > limits.getMaxTextLength()) {
-      logger.log(new DatabaseAccessLimitLogEntry("MaxCharacterSizeExceeded", logServerId, agentId, userId, referrer, userAgent, "limit: " + limits.getMaxTextLength() + ", size: " + aText.getPlainText().length()));
+      String msg = "limit: " + limits.getMaxTextLength() + ", size: " + aText.getPlainText().length();
+      logger.log(new DatabaseAccessLimitLogEntry("MaxCharacterSizeExceeded", logServerId, agentId, userId, msg, referrer, userAgent));
       throw new TextTooLongException("Your text exceeds the limit of " + limits.getMaxTextLength() +
               " characters (it's " + aText.getPlainText().length() + " characters). Please submit a shorter text.");
     }

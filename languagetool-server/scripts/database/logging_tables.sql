@@ -17,13 +17,14 @@ alter table `check_log` add column `server` int(10) unsigned comment "host name 
 alter table `check_log` add column `client` int(10) unsigned comment "client responsible for this request, e.g. browser addon/website/word";
 alter table `check_log` add column `language_detected` varchar(8) comment "language code as detected by server";
 alter table `check_log` add column `computation_time` int(10) comment "request handling time in milliseconds";
-alter table `check_log` add column `text_session_id` int(10) comment "randomly generated number consistent across editing & check actions";
+alter table `check_log` add column `text_session_id` int(10) unsigned comment "randomly generated number consistent across editing & check actions";
+--alter table `check_log` change column `language` `language_set` varchar(8) not null comment "language code provided by client, e.g. de-DE";
 
-#alter table `check_log` drop column `day`;
+
+--#alter table `check_log` drop column `day`;
 #alter table `check_log` add index `date_index` (`date`);
 #alter table `check_log` drop index `check_log_day_user_id_index`;
 #alter table `check_log` add index `date_user_index` (`date`, `user_id`);
-#alter table `check_log` change column `language` `language_set` varchar(8) not null comment "language code provided by client, e.g. de-DE";
 
 create table if not exists `servers` (
 	`id` int(10) unsigned not null auto_increment,
@@ -87,5 +88,4 @@ create table if not exists  `access_limits` (
     key `date_index` (`date`)
     ) engine=MyISAM default charset=utf8;
 
-    
     

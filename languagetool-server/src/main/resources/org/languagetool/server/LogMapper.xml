@@ -34,12 +34,12 @@
             VALUES (#{date}, #{server}, #{client}, #{user}, #{message})
     </insert>
     <insert id="checkError">
-        INSERT INTO check_error (type, date, server, client, user, language, language_detected, text_length, reason)
-            VALUES (#{type}, #{date}, #{server}, #{client}, #{user}, #{language}, #{language_detected}, #{text_length}, #{reason})
+        INSERT INTO check_error (type, date, server, client, user, language, language_detected, text_length, extra)
+            VALUES (#{type}, #{date}, #{server}, #{client}, #{user}, #{language}, #{language_detected}, #{text_length}, #{extra})
     </insert>
     <insert id="accessLimit">
-        INSERT INTO access_limits (type, date, server, client, user, referrer, user_agent)
-            VALUES (#{type}, #{date}, #{server}, #{client}, #{user}, #{referrer}, #{user_agent})
+        INSERT INTO access_limits (type, date, server, client, user, referrer, user_agent, reason)
+            VALUES (#{type}, #{date}, #{server}, #{client}, #{user}, #{referrer}, #{user_agent}, #{reason})
     </insert>
 
     <insert id="createRuleMatches">

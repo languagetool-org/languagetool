@@ -60,7 +60,7 @@ public class DatabaseCheckErrorLogEntry extends DatabaseLogEntry {
     parameters.put("server", server);
     parameters.put("client", client);
     parameters.put("user", user);
-    parameters.put("language_set", languageSet.getShortCodeWithCountryAndVariant());
+    parameters.put("language", languageSet.getShortCodeWithCountryAndVariant());
     parameters.put("language_detected", languageDetected.getShortCodeWithCountryAndVariant());
     parameters.put("text_length", textLength);
     parameters.put("extra", extra);
