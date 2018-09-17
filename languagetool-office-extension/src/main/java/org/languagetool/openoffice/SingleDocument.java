@@ -852,7 +852,7 @@ class SingleDocument {
       List<String> synonyms = linguServices.getSynonyms(word, locale);
       for (String synonym : synonyms) {
         synonym = synonym.replaceAll("\\(.*\\)", "").trim();
-        if (!allSynonyms.contains(synonym)) {
+        if (!synonym.isEmpty() && !allSynonyms.contains(synonym)) {
           allSynonyms.add(synonym);
         }
       }
