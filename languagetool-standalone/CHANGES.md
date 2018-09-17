@@ -17,7 +17,8 @@
 #### Portuguese
   * added and improved rules
   * improvements to disambiguation, and segmentation
-  * dictionary update
+  * updated Hunspell dictionaries to:
+    - [pt-PT pos-AO] Dicionários Portugueses Complementares 3.0
 
 #### Russian
   * added and improved rules
