@@ -370,7 +370,7 @@ title="Easy editing stylesheet" ?>
           <token negate='yes' regexp='yes'>e|de|&hifen;</token>
         <marker>
           <token regexp='yes'>&contracoes_MS;
-            <exception postag_regexp='yes' postag='RG|NP.+'/></token>
+            <exception postag_regexp='yes' postag='R.|NP.+'/></token>
           <token min='0' regexp='yes'>&adverbios_de_intensidade;</token>
           <token min='0' postag='(?:A..|Z.)C[SN].+' postag_regexp='yes'>
             <exception negate_pos='yes' postag_regexp='yes' postag='(?:[NZ].|A..)C[SN].+'/></token>
@@ -436,7 +436,7 @@ title="Easy editing stylesheet" ?>
           <token negate='yes' regexp='yes'>e|de|&hifen;</token>
         <marker>
           <token regexp='yes'>&contracoes_MP;
-            <exception postag_regexp='yes' postag='RG|NP.+'/></token>
+            <exception postag_regexp='yes' postag='R.|NP.+'/></token>
           <token min='0' regexp='yes'>&adverbios_de_intensidade;</token>
           <token min='0' postag='(?:A..|Z.)C[NP].+' postag_regexp='yes'>
             <exception negate_pos='yes' postag_regexp='yes' postag='(?:[NZ].|A..)C[NP].+'/></token>
@@ -522,7 +522,7 @@ title="Easy editing stylesheet" ?>
           <token negate='yes' regexp='yes'>e|de|&hifen;</token>
         <marker>
           <token regexp='yes'>&contracoes_FS;
-            <exception postag_regexp='yes' postag='RG|NP.+'/></token>
+            <exception postag_regexp='yes' postag='R.|NP.+'/></token>
           <token min='0' regexp='yes'>&adverbios_de_intensidade;</token>
           <token min='0' postag='(?:A..|Z.)C[NS].+' postag_regexp='yes'>
             <exception negate_pos='yes' postag_regexp='yes' postag='(?:[NZ].|A..)C[NS].+'/></token>
@@ -597,7 +597,7 @@ title="Easy editing stylesheet" ?>
         <marker>
           <token regexp='yes'>&contracoes_FP;
             <exception>mas</exception>
-            <exception postag_regexp='yes' postag='RG|NP.+'/></token>
+            <exception postag_regexp='yes' postag='R.|NP.+'/></token>
           <token min='0' regexp='yes'>&adverbios_de_intensidade;</token>
           <token min='0' postag='(?:A..|Z.)C[NP].+' postag_regexp='yes'>
             <exception negate_pos='yes' postag_regexp='yes' postag='(?:[NZ].|A..)C[NP].+'/></token>
@@ -1046,8 +1046,8 @@ title="Easy editing stylesheet" ?>
           <token inflected='yes' postag_regexp='yes' postag='V....S.+' regexp='yes'>&verbos_de_ligacao;
             <exception postag_regexp='yes' postag='V.[NP].+'/>
             <exception inflected='yes' regexp='yes'>andar|continuar</exception></token>
-          <token postag='RG' min='0' max='2'>
-            <exception negate_pos='yes' postag='RG'/></token>
+          <token postag='R.' postag_regexp='yes' min='0' max='2'>
+            <exception negate_pos='yes' postag='R.' postag_regexp='yes'/></token>
           <token postag_regexp='yes' postag='(?:NC|A..|V.P.).P.+'>
             <exception negate_pos='yes' postag_regexp='yes' postag='(?:NC|A..|V.P.).P.+'/></token>
       </pattern>
@@ -1071,8 +1071,8 @@ title="Easy editing stylesheet" ?>
             <exception postag_regexp='yes' postag='V.[NP].+'/>
             <exception>sede</exception>
             <exception inflected='yes' regexp='yes'>andar|continuar</exception></token>
-          <token postag='RG' min='0' skip='2'>
-            <exception negate_pos='yes' postag='RG'/></token>
+          <token postag='R.' postag_regexp='yes' min='0' max='2'>
+            <exception negate_pos='yes' postag='R.' postag_regexp='yes'/></token>
           <token postag_regexp='yes' postag='(?:NC|A..|V.P.).S.+'>
             <exception negate_pos='yes' postag_regexp='yes' postag='(?:NC|A..|V.P.).S.+'/>
             <exception regexp='yes'>demasiado|maioria|minoria|propriedade</exception></token>
@@ -1085,7 +1085,7 @@ title="Easy editing stylesheet" ?>
         <suggestion><match no="1" postag="(V....)P(.+)" postag_replace='$1S$2' postag_regexp="yes"/> <match no='2' include_skipped='all'/> \3</suggestion>
     <!--<example correction='são rosas|é rosa'>Isto <marker>são rosa</marker>, Senhor. São rosas.</example>--><!-- TODO rosas? also from verb Rosar - Disambiguate colors/verbs -->
       <example correction='são trevos|é trevo'>Isto <marker>são trevo</marker>, Senhor. São trevos.</example>
-      <example correction='são muito pouco trevos|é muito pouco trevo'>Isto <marker>são muito pouco trevo</marker>, Senhor. São muito pouco trevos.</example>
+      <!--example correction='são muito pouco trevos|é muito pouco trevo'>Isto <marker>são muito pouco trevo</marker>, Senhor. São muito pouco trevos.</example XXX wrong suggestion due to min + max bug -->
       <example correction="forem necessárias|for necessária">Quando <marker>forem necessária</marker> novas medidas.</example>
       <example correction="forem necessários|for necessário">Quando <marker>forem necessário</marker> mais meios.</example>
       <example correction="forem urgentes|for urgente">Todos os exames que <marker>forem urgente</marker> serão marcados.</example>
@@ -1109,6 +1109,10 @@ title="Easy editing stylesheet" ?>
       <antipattern>
           <token>calça</token>
           <token regexp='yes'>umas?</token>
+      </antipattern>
+      <antipattern>
+          <token>alta</token>
+          <token>finança</token>
       </antipattern>
       <pattern>
           <token regexp='yes'>algema|afazere|alvíssara|anai|antolho|apetrecho|arra|arredore|boda|brócol[io]|cã|calça|calenda|ceroula|cócega|condolência|confin|endoença|esponsai|esposório|exéquia|fasto|féria|feze|finança|hemorróida|mane|matina|nádega|núpcia|óculo|olheira|pantalona|parabé[mn]|pêsame|petrecho|pi[ck]le|primícia|reticência|suspensório|treva|víscera|vívere</token>
@@ -2423,44 +2427,6 @@ title="Easy editing stylesheet" ?>
       <example>Nem sequer vi o que estava a fazer.</example>
     </rule>
 
-  <rulegroup id='GRAMMATICAL_DOUBLE_NEGATIVES' name="Duplas negativas">
-    <!--      Created by Tiago F. Santos, 2017-07-07      -->
-    <rule>
-      <pattern>
-          <token regexp='yes'>&negacoes;</token>
-          <token postag='V.+' postag_regexp='yes'/>
-          <token regexp='yes'>qualquer|quaisquer</token>
-      </pattern>
-      <message>Esta situação requer a utilização de 'nenhum(a)'.</message>
-        <suggestion>\1 \2 nenhum</suggestion>
-        <suggestion>\1 \2 nenhuma</suggestion>
-        <suggestion>\1, \2 \3</suggestion>
-      <example correction='Não fez nenhum|Não fez nenhuma|Não, fez qualquer'><marker>Não fez qualquer</marker> esforço para melhorar a sua condição de vida.</example>
-    </rule>
-    <rule>
-      <pattern>
-          <token regexp='yes'>&negacoes;</token>
-          <token postag='V.+' postag_regexp='yes'/>
-          <token>alguém</token>
-      </pattern>
-      <message>Esta situação requer a utilização de 'ninguém'.</message>
-        <suggestion>\1 \2 ninguém</suggestion>
-        <suggestion>\1, \2 \3</suggestion>
-      <example correction='Não vi ninguém|Não, vi alguém'><marker>Não vi alguém</marker> em casa.</example>
-    </rule>
-    <rule>
-      <pattern>
-          <token regexp='yes'>&negacoes;</token>
-          <token postag='V.+' postag_regexp='yes'/>
-          <token>algo</token>
-      </pattern>
-      <message>Esta situação requer a utilização de 'ninguém'.</message>
-        <suggestion>\1 \2 nada</suggestion>
-        <suggestion>\1, \2 \3</suggestion>
-      <example correction='Não quero nada|Não, quero algo'><marker>Não quero algo</marker>.</example>
-    </rule>
-  </rulegroup>
-
   <rulegroup id='PHRASAL_VERBS_ERRORS' name='Erros de regência verbal'>
       <url>https://pt.wikipedia.org/wiki/Reg%C3%AAncia_verbal</url>
       <short>Erro de regência verbal.</short>
@@ -3084,7 +3050,7 @@ title="Easy editing stylesheet" ?>
         <marker>
           <token inflected='yes' regexp='yes'>aderir|desobedecer|ir|pertencer|obedecer|reagir|equivaler|equivalente
             <exception inflected='yes'>ser</exception></token>
-          <token postag='RG' min='0'/>
+          <token postag='R.' min='0' postag_regexp='yes'/>
           <token regexp='yes'>as?</token>
         </marker>
           <token postag_regexp='yes' postag='N.F.+'>
@@ -3892,6 +3858,10 @@ title="Easy editing stylesheet" ?>
 
   <rulegroup id='FRAGMENT_TWO_ARTICLES' name='Fragmento: dois artigos seguidos' default='on'>
     <!-- Created by Tiago F. Santos, Portuguese rule, 2017-01-08 -->
+      <antipattern>
+          <token postag='R.' postag_regexp='yes'>
+            <exception negate_pos='yes' postag='R.' postag_regexp='yes'/></token>
+      </antipattern>
     <rule>
       <antipattern>
           <token>entre</token>
@@ -3951,6 +3921,7 @@ title="Easy editing stylesheet" ?>
       <example>As línguas oficiais são as das antigas metrópoles —</example>
       <example>Portugal foi um dos últimos países a adotar o novo método, </example>
       <example>O resgate deve começar a partir da uma da manhã.</example>
+      <example>...contradigam de modo algum o que aí se encontra escrito...</example>
     </rule>
     <rule>
       <antipattern>
@@ -4750,7 +4721,7 @@ title="Easy editing stylesheet" ?>
     <rule id='DE_PRESSA' name="Confusão: de pressa - depressa">
     <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
-          <token postag_regexp="yes" postag="(?:N..|A...)S.+|RG"/>
+          <token postag_regexp="yes" postag="(?:N..|A...)S.+|R."/>
         <marker>
           <token>de</token>
           <token regexp='yes'>pressa|vagar</token>
@@ -5748,7 +5719,7 @@ title="Easy editing stylesheet" ?>
       <pattern>
           <token>o</token>
           <token>mas</token>
-          <token postag_regexp="yes" postag="RG|A..[CM]S.+"/>
+          <token postag_regexp="yes" postag="R.|A..[CM]S.+"/>
       </pattern>
       <message>Substitua por <suggestion>\1 mais \3</suggestion>.</message>
       <example correction="o mais rapidamente">Quero resultados <marker>o mas rapidamente</marker> possível</example>
@@ -6435,6 +6406,10 @@ title="Easy editing stylesheet" ?>
           <token inflected='yes'>ser</token>
           <token>tempo</token>
           <token>de</token>
+      </antipattern>
+      <antipattern>
+          <token postag_regexp='yes' postag='[LR].+' regexp='yes'>[ao]s?
+            <exception negate_pos='yes' postag_regexp='yes' postag='[LR].+'/></token>
       </antipattern>
       <pattern>
           <token>de</token>
@@ -7405,6 +7380,13 @@ title="Easy editing stylesheet" ?>
           <token>bem</token>
           <token postag='_PUNCT'/>
       </antipattern>
+      <antipattern>
+        <marker>
+          <token/>
+          <token>mas</token>
+        </marker>
+          <token>,</token>
+      </antipattern>
       <pattern>
         <marker>
           <token>
@@ -7428,6 +7410,7 @@ title="Easy editing stylesheet" ?>
       <example correction='devendo, contudo'>…símbolos nacionais, <marker>devendo contudo</marker> ser dada precedência a estes.</example>
       <example correction='", mas'>...muitos escritores que "ninguém lê<marker>" mas</marker> que esgotam edições atrás de edições.</example>
       <example>Tchecov lembra, "mas nossa alma recebemos de nossa mãe."</example>
+      <example>...as políticas são feitas com as melhores intenções mas, porque não preveem os resultados colaterais, muitas vezes geram os resultados contrários...</example>
     </rule>
     <rule>
       <pattern>
@@ -9328,7 +9311,7 @@ tokenizer spreadsheet in the forum	     -->
     <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
           <token regexp='yes'>preços?</token>
-          <token postag="RG" min='0'/>
+          <token postag="R." postag_regexp='yes' min='0'/>
           <token regexp='yes'>económicos?</token>
       </pattern>
       <message>Expressão desnecessariamente complexa. Procure alternativas.</message>
@@ -22933,12 +22916,13 @@ TODO Write better examples
     <rule>
       <pattern case_sensitive='yes'>
           <token regexp='yes'>(?:\d+)?(?:&tabela_periodica;)+2((?:&tabela_periodica;)+)?
-            <exception regexp='yes'>I[CP]2</exception></token>
+            <exception regexp='yes'>(?:I[CP]|U)2</exception></token>
       </pattern>
       <message>Os números nas fórmulas químicas devem estar em subscrito.</message>
         <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)2(((&tabela_periodica;)+)?)' regexp_replace='$1₂$3'/></suggestion>
       <example correction='O₂'><marker>O2</marker></example>
       <example correction='4H₂O'><marker>4H2O</marker></example>
+      <example>U2</example>
     </rule>
     <rule>
       <pattern case_sensitive='yes'>
@@ -25047,6 +25031,44 @@ TODO Write better examples
       </pattern>
       <message>Para melhorar o estilo de escrita, pode omitir o pronome pessoal: <suggestion>\2</suggestion>.</message>
       <example correction="queremos">O que <marker>nós queremos</marker> é casar.</example>
+    </rule>
+  </rulegroup>
+
+  <rulegroup id='GRAMMATICAL_DOUBLE_NEGATIVES' name="Duplas negativas" type='style'>
+    <!--      Created by Tiago F. Santos, 2017-07-07      -->
+    <rule>
+      <pattern>
+          <token regexp='yes'>&negacoes;</token>
+          <token postag='V.+' postag_regexp='yes'/>
+          <token regexp='yes'>qualquer|quaisquer</token>
+      </pattern>
+      <message>Esta situação requer a utilização de 'nenhum(a)'.</message>
+        <suggestion>\1 \2 nenhum</suggestion>
+        <suggestion>\1 \2 nenhuma</suggestion>
+        <suggestion>\1, \2 \3</suggestion>
+      <example correction='Não fez nenhum|Não fez nenhuma|Não, fez qualquer'><marker>Não fez qualquer</marker> esforço para melhorar a sua condição de vida.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp='yes'>&negacoes;</token>
+          <token postag='V.+' postag_regexp='yes'/>
+          <token>alguém</token>
+      </pattern>
+      <message>Esta situação requer a utilização de 'ninguém'.</message>
+        <suggestion>\1 \2 ninguém</suggestion>
+        <suggestion>\1, \2 \3</suggestion>
+      <example correction='Não vi ninguém|Não, vi alguém'><marker>Não vi alguém</marker> em casa.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp='yes'>&negacoes;</token>
+          <token postag='V.+' postag_regexp='yes'/>
+          <token>algo</token>
+      </pattern>
+      <message>Esta situação requer a utilização de 'ninguém'.</message>
+        <suggestion>\1 \2 nada</suggestion>
+        <suggestion>\1, \2 \3</suggestion>
+      <example correction='Não quero nada|Não, quero algo'><marker>Não quero algo</marker>.</example>
     </rule>
   </rulegroup>
 
