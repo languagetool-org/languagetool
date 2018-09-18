@@ -1257,10 +1257,11 @@ regexp case-insensitive maken : (?i)
             <rule>
                 <antipattern><token>de</token><token>or</token></antipattern> <!-- ondernemingsraad -->
                 <antipattern><token>or</token><token>the</token></antipattern> <!-- Engels -->
+                <antipattern><token postag="UNKNOWN|FOREIGN" postag_regexp="yes"/><token>or</token><token postag="UNKNOWN|FOREIGN" postag_regexp="yes"/></antipattern> <!-- Engels -->
                 <pattern>
                        <token case_sensitive="yes">or</token>
                 </pattern>
-                <message>Bedoelt u wellicht <suggestion>oor</suggestion>?</message>
+                <message>Bedoelt u wellicht <suggestion>oor</suggestion>? Of is toch de ondernemingraad of Engels?</message>
                 <example correction="oor">Het woord <marker>or</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
@@ -3143,8 +3144,8 @@ regexp case-insensitive maken : (?i)
         
         <rulegroup id="MIJDEN_MEIDEN" name="waarschuwing bij gebruik meiden i.p.v. mijden">
             <rule>
-                <antipattern><token regexp="yes">de|onze</token><token>meiden</token></antipattern>
-                <antipattern><token postag="BNW:STL:VRB"/><token>meiden</token></antipattern>
+                <antipattern><token regexp="yes">de|onze|je</token><token>meiden</token></antipattern>
+                <antipattern><token postag_regexp="yes" postag=".*VRB.*"/><token>meiden</token></antipattern>
                 <pattern>
                     <token/>
                     <marker>
@@ -5789,10 +5790,13 @@ regexp case-insensitive maken : (?i)
         <rulegroup id="LASER_LAZER" name="waarschuwing bij gebruik laser i.p.v. lazer">
             <rule>
                 <pattern>
-                       <token>laser</token>
+					<marker>
+                       <token skip="8">laser</token>
+				   </marker>
+				   <token>op</token>
                 </pattern>
-                <message>Bedoelt u wellicht <suggestion>lazer</suggestion>?</message>
-                <example correction="lazer">Het woord <marker>laser</marker> kan een vergissing zijn.</example>
+                <message>Bedoelt u wellicht <suggestion>lazer</suggestion> (van oplazeren)?</message>
+                <example correction="lazer">Het woord <marker>laser</marker> op zal een vergissing zijn.</example>
             </rule>
         </rulegroup>
 
@@ -9502,6 +9506,8 @@ regexp case-insensitive maken : (?i)
         <rulegroup id="CASTEN_KASTEN" name="waarschuwing bij gebruik kasten i.p.v. casten">
             <rule>
                 <antipattern><token postag="BNW:STL:VRB"/><token>kasten</token></antipattern>
+				<antipattern><token regexp="yes">mijn|zijn|hun|de|deze|veel</token><token>kasten</token></antipattern>
+				<antipattern><token postag="SENT_START" skip="-1"/><token regexp="yes">stoel|deur|kamer</token></antipattern>
                 <pattern>
                        <token>kasten</token>
                 </pattern>
