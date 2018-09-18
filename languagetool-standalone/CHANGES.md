@@ -60,6 +60,9 @@
     Will check only text-level rules or all other rules. As there are fewer text-level rules,
     this is usually much faster and the access limit for characters per minute that can be
     checked is more generous for this mode.
+  * Experimental new `type` in JSON. This is supposed to help clients choose the color
+    with which they underline/mark errors. Please do not rely on this yet, it might change
+    or even be removed.
 
 
 ## 4.2 (2018-06-26)

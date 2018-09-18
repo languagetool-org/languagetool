@@ -19,10 +19,7 @@
 package org.languagetool.rules;
 
 import org.jetbrains.annotations.Nullable;
-import org.languagetool.AnalyzedSentence;
-import org.languagetool.AnalyzedToken;
-import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.ApiCleanupNeeded;
+import org.languagetool.*;
 import org.languagetool.tools.StringTools;
 
 import java.net.URL;
@@ -43,6 +40,23 @@ public class RuleMatch implements Comparable<RuleMatch> {
 
   private static final Pattern SUGGESTION_PATTERN = Pattern.compile("<suggestion>(.*?)</suggestion>");
 
+  /**
+   * Unlike {@link Category}, this is specific to a RuleMatch, not to a rule.
+   * It is mainly used for selecting the underline color in clients.
+   * Note: this is experimental and might change soon (types might be added, deleted or renamed
+   * without deprecating them first)
+   * @since 4.3
+   */
+  @Experimental
+  public enum Type {
+    /** Spelling errors, typically red. */
+    UnknownWord,
+    /** Style errors, typically light blue. */
+    Hint,
+    /** Other errors (including grammar), typically yellow/orange. */
+    Other
+  }
+
   private final Rule rule;
   private final OffsetPosition offsetPosition;
   private final String message;
@@ -54,6 +68,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
   private List<String> suggestedReplacements = new ArrayList<>();
   private URL url;
   private List<String> synonymsFor = null;
+  private Type type = Type.Other;
 
   /**
    * Creates a RuleMatch object, taking the rule that triggered
@@ -347,6 +362,22 @@ public class RuleMatch implements Comparable<RuleMatch> {
     return synonymsFor;
   }
 
+  /**
+   * @since 4.3
+   */
+  @Experimental
+  public void setType(Type type) {
+    this.type = Objects.requireNonNull(type);
+  }
+
+  /**
+   * @since 4.3
+   */
+  @Experimental
+  public Type getType() {
+    return this.type;
+  }
+
   @Override
   public String toString() {
     return rule.getId() + ":" + offsetPosition + ":" + message;
@@ -369,12 +400,13 @@ public class RuleMatch implements Comparable<RuleMatch> {
         && Objects.equals(message, other.message)
         && Objects.equals(suggestedReplacements, other.suggestedReplacements)
         && Objects.equals(sentence, other.sentence)
+        && Objects.equals(type, other.type)
         && Objects.equals(synonymsFor, other.synonymsFor);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(rule.getId(), offsetPosition, message, suggestedReplacements, sentence);
+    return Objects.hash(rule.getId(), offsetPosition, message, suggestedReplacements, sentence, type);
   }
 
   static class OffsetPosition extends MatchPosition {

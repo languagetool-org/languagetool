@@ -33,7 +33,7 @@ import java.util.regex.Pattern;
  */
 public abstract class AbstractNewYearDateFilter extends RuleFilter {
   // The day of the month may contain not only digits but also extra letters
-  // such as"22nd" in English or "22-an" in Esperanto. The regexp extracts
+  // such as "22nd" in English or "22-an" in Esperanto. The regexp extracts
   // the numerical part.
   private static final Pattern DAY_OF_MONTH_PATTERN = Pattern.compile("(\\d+).*");
 
@@ -86,7 +86,9 @@ public abstract class AbstractNewYearDateFilter extends RuleFilter {
       String message = match.getMessage()
               .replace("{year}", Integer.toString(yearFromDate))
               .replace("{realYear}", Integer.toString(currentYear));
-      return new RuleMatch(match.getRule(),match.getSentence(), match.getFromPos(), match.getToPos(), message, match.getShortMessage());
+      RuleMatch ruleMatch = new RuleMatch(match.getRule(), match.getSentence(), match.getFromPos(), match.getToPos(), message, match.getShortMessage());
+      ruleMatch.setType(match.getType());
+      return ruleMatch;
     } else {
       return null;
     }

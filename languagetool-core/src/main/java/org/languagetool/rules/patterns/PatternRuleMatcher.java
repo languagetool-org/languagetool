@@ -22,6 +22,7 @@ import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
+import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.RuleMatchFilter;
 import org.languagetool.rules.RuleWithMaxFilter;
@@ -204,6 +205,11 @@ final class PatternRuleMatcher extends AbstractPatternRulePerformer implements R
         String clearMsg = errMessage.replaceAll(PatternRuleHandler.PLEASE_SPELL_ME, "").replaceAll(MISTAKE, "");
         RuleMatch ruleMatch = new RuleMatch(rule, sentence, fromPos, toPos, clearMsg,
                 shortErrMessage, startsWithUppercase, suggestionsOutMsg);
+        ITSIssueType issueType = ruleMatch.getRule().getLocQualityIssueType();
+        if (issueType == ITSIssueType.Style || issueType == ITSIssueType.LocaleViolation || issueType == ITSIssueType.Register) {
+          // interpret the issue type - this is what the clients have done so far before there was RuleMatch.Type
+          ruleMatch.setType(RuleMatch.Type.Hint);
+        }
         if (rule.getFilter() != null) {
           RuleFilterEvaluator evaluator = new RuleFilterEvaluator(rule.getFilter());
           AnalyzedTokenReadings[] patternTokens = Arrays.copyOfRange(tokens, firstMatchToken, lastMatchToken + 1);
