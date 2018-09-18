@@ -572,7 +572,10 @@ regexp case-insensitive maken : (?i)
             <antipattern><token skip="1">de</token><token>muren</token></antipattern>
             <rule>
                 <pattern>
+					<token/>
+					<marker>
                        <token>muren</token>
+				   </marker>
                 </pattern>
                 <message>Bedoelt u wellicht <suggestion>meuren</suggestion>? Muren=wanden, meuren=stinken.</message>
                 <example correction="meuren">Het woord <marker>muren</marker> kan een vergissing zijn.</example>
@@ -9890,6 +9893,16 @@ regexp case-insensitive maken : (?i)
                 <message>Bij situeren hoort geen 'zich'.</message>
                 <example type="incorrect">De verschillende factoren situeren <marker>zich</marker> op het biologische domein.</example>                
             </rule>          
+            <rule>
+                <pattern>
+					<marker>
+					<token>zo'n</token>
+					</marker>
+					<token postag_regexp="yes" postag=".*MRV.*"/>
+				</pattern>
+				<message>Beter is <suggestion>zulke</suggestion>.</message>
+                <example correction="zulke">Hij wist niets van <marker>zo'n</marker> auto's.</example>
+            </rule>			
             
             
             <rule>
@@ -13533,6 +13546,15 @@ regexp case-insensitive maken : (?i)
                 <example correction="in de">Een golvend landschap met veel open ruimte en <marker>inde</marker> namiddag de plassen in de vallei van de Scarpe.</example>
                 <example correction="In de"><marker>Inde</marker> middeleeuwen werd dit gezien als een symbool van status.</example>
                 <example correction="in de">De tentoonstelling van de foto’s <marker>inde</marker> binnenstad was een brede campagne.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="MENIET" name="meniet → me niet">
+            <rule>
+                <pattern>
+                    <token>meniet</token>
+                </pattern>
+                <message>Hoewel '<match no="1"/>' een correct woord is, is de kans groot dat hier '<suggestion>me niet</suggestion>' moet staan.</message>
+				<example correction="me niet">Jij lijkt <marker>meniet</marker> de aangewezen persoon om met vader te praten erover.</example>
             </rule>
         </rulegroup>
         <rulegroup id="DAT_ER" name="dater → dat er">
@@ -17812,9 +17834,9 @@ regexp case-insensitive maken : (?i)
                 <example correction="Sara">De eega van Abraham was <marker>sara</marker>.</example>
             </rule>
         </rulegroup>
+
 <!-- TODO: veel meer hoofdletterdiscussie:
 Mogelijk ook naar Wrongwordincontext? 
-
 boer;Boer
 helen;Helen
 hun;Hun
@@ -18136,11 +18158,8 @@ ko;Ko
 sjaak;Sjaak
 jaap;Jaap
 banaat;Banaat
-#####
-perk;Perk
 perk;Perk
 klaas;Klaas
-bv's;BV's
 bo;Bo
 kazak;Kazak
 kozakken;Kozakken
@@ -18150,7 +18169,6 @@ grietje;Grietje
 eden;Eden
 asveld;Asveld
 kaffer;Kaffer
-kaffer;Kaffer
 marken;Marken
 pooltje;Pooltje
 kanton;Kanton
@@ -18159,9 +18177,7 @@ belgjes;Belgjes
 beweegspel;Beweegspel
 grims;Grims
 moordlied;Moordlied
-schepemmer;Schepemmer
 britse;Britse
-christus;Christus
 bunk;Bunk
 tartaar;Tartaar
 goudkust;Goudkust
@@ -18178,16 +18194,11 @@ kola;Kola
 mensenzoon;Mensenzoon
 elco;Elco
 anansitori;Anansitori
-apenschedel;Apenschedel
 balt;Balt
-computerforum;Computerforum
 edammers;Edammers
-inhoudstype;Inhoudstype
-provinciesite;Provinciesite
 turkje;Turkje
+turkjes;Turkjes
 brussen;Brussen
-meander;Meander
-meander;Meander
 tegelen;Tegelen
 keen;Keen
 dirk;Dirk
@@ -18196,56 +18207,37 @@ friezen;Friezen
 eros;Eros
 gebben;Gebben
 turken;Turken
-turken;Turken
-cito;Cito
 memel;Memel
-turkjes;Turkjes
-lazarus;Lazarus
 lazarus;Lazarus
 koen;Koen
 lauw;Lauw
 mirte;Mirte
 eva;Eva
 aken;Aken
-kerntitels;Kerntitels
-leerboerderijen;Leerboerderijen
-roden;Roden
 roden;Roden
 han;Han
 pieter;Pieter
 alken;Alken
 madras;Madras
 waal;Waal
-waal;Waal
 kempen;Kempen
 heule;Heule
 ruien;Ruien
-ruien;Ruien
 margriet;Margriet
 bep;Bep
-dijkbewoner;Dijkbewoner
-hondenschoen;Hondenschoen
 huft;Huft
 kaffers;Kaffers
-lichtletter;Lichtletter
 pooltjes;Pooltjes
 schotser;Schotser
-nero;Nero
-brits;Brits
 brits;Brits
 dongen;Dongen
 wiers;Wiers
 noren;Noren
 rabat;Rabat
-rabat;Rabat
-rabat;Rabat
-lauwe;Lauwe
 lauwe;Lauwe
 laar;Laar
 stene;Stene
 goten;Goten
-goten;Goten
-thai;Thai
 thai;Thai
 genua;Genua
 berbers;Berbers
@@ -18255,21 +18247,12 @@ mike;Mike
 kamper;Kamper
 gelten;Gelten
 leut;Leut
-leut;Leut
-leut;Leut
 trees;Trees
-handzame;Handzame
 grieken;Grieken
 ijszee;IJszee
-keukenboilers;Keukenboilers
-ringmusjes;Ringmusjes
-sectorcursus;Sectorcursus
 hoofddorp;Hoofddorp
-deurstickers;Deurstickers
 drachten;Drachten
 turk;Turk
-turk;Turk
-golfoorlog;Golfoorlog
 joop;Joop
 schermer;Schermer
 jehova;Jehova
@@ -18286,27 +18269,20 @@ berber;Berber
 asse;Asse
 maagden;Maagden
 reet;Reet
-reet;Reet
 slots;Slots
 boni;Boni
 gouda;Gouda
 taco;Taco
 schelde;Schelde
-schelde;Schelde
-bogaarden;Bogaarden
 tex;TeX
 veda;Veda
 sinterklaasje;Sinterklaasje
 rio;Rio
 lappen;Lappen
-lappen;Lappen
-miep;Miep
 miep;Miep
 sucre;Sucre
-ids;Ids
 hendrik;Hendrik
 moor;Moor
-lossers;Lossers
 lossers;Lossers
 wapenstilstand;Wapenstilstand
 bram;Bram
@@ -18314,10 +18290,7 @@ gavere;Gavere
 wekenfeest;Wekenfeest
 deli;Deli
 geels;Geels
-boerentoren;Boerentoren
-goochelboek;Goochelboek
 romeintjes;Romeintjes
-kluizen;Kluizen
 kluizen;Kluizen
 demi;Demi
 beert;Beert
@@ -18328,19 +18301,15 @@ rik;Rik
 belgje;Belgje
 dolly;Dolly
 nutter;Nutter
-nutter;Nutter
 heffen;Heffen
 apaches;Apaches
 puurs;Puurs
-slaaf;Slaaf
 slaaf;Slaaf
 hoorns;Hoorns
 petertje;Petertje
 brus;Brus
 aaltje;Aaltje
 moren;Moren
-moren;Moren
-gezinsportret;Gezinsportret
 edammer;Edammer
 ria;Ria
 kelvin;Kelvin
@@ -18354,7 +18323,6 @@ pajot;Pajot
 apachen;Apachen
 ester;Ester
 cools;Cools
-klemblokjes;Klemblokjes
 triep;Triep
 aagje;Aagje
 mink;Mink
@@ -18363,10 +18331,8 @@ anita;Anita
 joris;Joris
 kelly;Kelly
 walen;Walen
-walen;Walen
 halters;Halters
 perzen;Perzen
-hondenprobleem;Hondenprobleem
 deen;Deen
 donk;Donk
 klijn;Klijn
@@ -18380,19 +18346,13 @@ newton;Newton
 sara;Sara
 schore;Schore
 landgraaf;Landgraaf
-dressuurclinics;Dressuurclinics
 schouten;Schouten
 malen;Malen
-malen;Malen
-malen;Malen
 helders;Helders
-fotoreizen;Fotoreizen
 stevens;Stevens
-arbobesluit;Arbobesluit
 dolf;Dolf
 beieren;Beieren
 tommy;Tommy
-showhonden;Showhonden
 dekker;Dekker
 cas;Cas
 seine;Seine
@@ -18403,9 +18363,7 @@ karen;Karen
 kings;Kings
 doorns;Doorns
 artesisch;Artesisch
-artesisch;Artesisch
 tartaren;Tartaren
-voors;Voors
 voors;Voors
 molenveld;Molenveld
 arco;Arco
@@ -18413,7 +18371,6 @@ afghaan;Afghaan
 spiere;Spiere
 delfts;Delfts
 slijpe;Slijpe
-trio's;Trio's
 munte;Munte
 soest;Soest
 aad;Jacqueline
@@ -18439,10 +18396,7 @@ beiers;Beiers
 kales;Kales
 henry;Henry
 beier;Beier
-beier;Beier
 huizingen;Huizingen
-huizingen;Huizingen
-kozen;Kozen
 kozen;Kozen
 heister;Heister
 spitketen;Spitketen
@@ -18469,11 +18423,8 @@ raf;Raf
 kristen;Kristen
 ceylon;Ceylon
 jeanet;Jeanet
-donsdekbedden;Donsdekbedden
-asten;Asten
 asten;Asten
 moerdijk;Moerdijk
-gulpen;Gulpen
 gulpen;Gulpen
 evers;Evers
 abel;Abel
@@ -18496,10 +18447,8 @@ rachel;Rachel
 moere;Moere
 jonathan;Jonathan
 jorissen;Jorissen
-jorissen;Jorissen
 einstein;Einstein
 grazen;Grazen
-nanking;Nanking
 berend;Berend
 baäl;Baäl
 buitenwerf;Buitenwerf
@@ -18508,12 +18457,8 @@ lisse;Lisse
 busker;Busker
 maartje;Maartje
 vermunt;Vermunt
-vermunt;Vermunt
-vermunt;Vermunt
 jolle;Jolle
 pellen;Pellen
-pellen;Pellen
-gezinskeuken;Gezinskeuken
 leekster;Leekster
 knokke;Knokke
 letjes;Letjes
@@ -18540,13 +18485,11 @@ maxim;Maxim
 clement;Clement
 borgers;Borgers
 carol;Carol
-hondenhotels;Hondenhotels
 halsteren;Halsteren
 gellingen;Gellingen
 staten-generaal;Staten-Generaal
 ieren;Ieren
 boekel;Boekel
-jette;Jette
 jette;Jette
 lierde;Lierde
 ijsbrand;IJsbrand
@@ -18561,13 +18504,11 @@ bavo;Bavo
 ranst;Ranst
 bennet;Bennet
 houthulst;Houthulst
-designmerk;Designmerk
 lieshout;Lieshout
 beringen;Beringen
 vaals;Vaals
 nevele;Nevele
 boele;Boele
-nootdorp;Nootdorp
 leeds;Leeds
 reuver;Reuver
 tjerk;Tjerk
@@ -18667,18 +18608,10 @@ romeintje;Romeintje
 rossing;Rossing
 rozenburg;Rozenburg
 ruisbroek;Ruisbroek
-schaarbeek;Schaarbeek
-schoonhoven;Schoonhoven
 spellingbesluit;Spellingbesluit
-spiegeltoren;Spiegeltoren
 staatsbosbeheer;Staatsbosbeheer
-steenbergen;Steenbergen
 steendorp;Steendorp
 steenwijk;Steenwijk
-suizebol;Suizebol
-tepelklevers;Tepelklevers
-tuinkussens;Tuinkussens
-
 -->
         <rulegroup id="NIEUW_ZEELAND" name="nieuw zeelander → Nieuw-Zeelander">
             <!-- 2014-08-21 TaalTik regel komt vaak op, maar terecht, vooral bij afkortingen met een onterechte hoofdletter. -->
@@ -19504,13 +19437,13 @@ tuinkussens;Tuinkussens
         <rulegroup id="KOMMA_ONTBR" name="Komma vergeten?">
             <!-- 2014-08-20 TaalTik -->
             <rule>
-                <antipattern><token>op</token><token>zoek</token><token>gaat</token></antipattern>
-                <antipattern><token>schuil</token><token>gaat</token></antipattern>
+                <antipattern><token>op</token><token>zoek</token><token inflected="yes">gaan</token></antipattern>
+                <antipattern><token>schuil</token><token inflected="yes">gaan</token></antipattern>
                 <pattern>
                     <token/>
                     <marker>
-                        <token postag_regexp="yes" postag="WKW:TGW:1EP|WKW:TGW:3EP|WKW:VLT:1EP"><exception postag_regexp="yes" postag="BNW:STL:VRB|BNW:STL:ONV|BNW:VGR:ONV|.*ZNW.*|WKW:VTD:ONV"/><exception regexp="yes">Vries|Delft|jou|zoek|maart|pas|echt|eigen|mijn|zeker|weer|kan|men|maar|nodig|heel|veel|jij|meer|wel|niet|uit|in|nipt|naar|verluidt|minder</exception></token>
-                        <token postag_regexp="yes" postag="WKW:TGW:1EP|WKW:TGW:3EP|WKW:VLT:1EP"><exception postag_regexp="yes" postag="BNW:STL:VRB|BNW:STL:ONV|BNW:VGR:ONV|.*ZNW.*|WKW:VTD:ONV"/><exception regexp="yes">jouw|maart|pas|echt|eigen|mijn|zeker|weer|kan|men|maar|nodig|heel|veel|jij|meer|wel|niet|uit|in|nipt|naar|open|minder|naast</exception></token>
+                        <token postag_regexp="yes" postag="WKW:TGW:1EP|WKW:TGW:3EP|WKW:VLT:1EP"><exception postag_regexp="yes" postag="BNW:STL:VRB|BNW:STL:ONV|BNW:VGR:ONV|.*ZNW.*|WKW:VTD:ONV"/><exception regexp="yes">kwijt|Vries|Delft|jou|zoek|maart|pas|echt|eigen|mijn|zeker|weer|kan|men|maar|nodig|heel|veel|jij|meer|wel|niet|uit|in|nipt|naar|verluidt|minder</exception></token>
+                        <token postag_regexp="yes" postag="WKW:TGW:1EP|WKW:TGW:3EP|WKW:VLT:1EP"><exception postag_regexp="yes" postag="BNW:STL:VRB|BNW:STL:ONV|BNW:VGR:ONV|.*ZNW.*|WKW:VTD:ONV"/><exception regexp="yes">jouw|maart|pas|echt|eigen|mijn|zeker|weer|kan|men|maar|nodig|heel|veel|jij|meer|wel|niet|uit|in|nipt|naar|open|minder|naast|indien</exception></token>
                     </marker>
                 </pattern>
                 <message>Als er bij het oplezen een pauze is, dan een komma toevoegen: <suggestion>\2, \3</suggestion>.</message>
@@ -34120,16 +34053,16 @@ tuinkussens;Tuinkussens
                 <example correction="onder|tegen|op">Ik krijg het <marker>aan</marker> deze voorwaarden.</example>
             </rule>
         </rulegroup>     
-        <!-- rulegroup id="VRIJ" name="Bijvoeglijk met ~vrij">
+        <rulegroup id="VRIJ" name="Bijvoeglijk met ~vrij">
             <rule>
                 <pattern>
-                    <token postag="UNKNOWN" regexp="yes">.*vrije?</token>
+                    <token regexp="yes">....*(vrije|vrij)$</token>
                 </pattern>
                 <message>Bij zeldzame combinaties is het beter om te omschrijven.</message>
 				<url>http://taaladvies.net/taal/advies/vraag/862/vrij/</url>
                 <example type="incorrect"><marker>Babyvrij</marker> is gekunsteld.</example>
             </rule>
-        </rulegroup -->     
+        </rulegroup>     
         <rulegroup id="FOUTE_WOORDGROEPEN" name="Foute woordgroepen">
             <rule>
                 <pattern>
@@ -38608,6 +38541,7 @@ tuinkussens;Tuinkussens
                 <example type="incorrect">Hij ziet dat de <marker>xyz</marker> loopt.</example>
             </rule>
         </rulegroup>
+		
         <rulegroup id="UNKOWN_TO_ZNW_EKV_HET" name="tag vinden">
             <rule>
                 <pattern>
@@ -38622,6 +38556,7 @@ tuinkussens;Tuinkussens
                 <example type="incorrect">Het <marker>xyz</marker> loopt.</example>
             </rule>
         </rulegroup>
+		
         <rulegroup id="UNKOWN_TO_ZNW_MRV_DE" name="tag vinden">
             <rule>
                 <pattern>
@@ -38638,16 +38573,17 @@ tuinkussens;Tuinkussens
         </rulegroup>
 
 		<rulegroup id="MEN_DING" name="men i.p.v. m'n">
+			<!-- let op: meervouden geven veel false positives -->
             <rule>
+				<antipattern><token postag="WKW:TGW:3EP|WKW:VLT:1EP" postag_regexp="yes"/><token>men</token><token/></antipattern>
+				<antipattern><token>men</token><token/><token postag="WKW.*" postag_regexp="yes"/></antipattern>
+				<antipattern><token>men</token><token postag="WKW.*" postag_regexp="yes"/><token/></antipattern>
                 <pattern>
-					<token><exception>ik</exception></token>
-                        <marker>
-							<token>men</token>
-                        </marker>
-						<token postag="ZNW.*" postag_regexp="yes"><exception regexp="yes">voor|moet|niet|kan|meer|bij</exception></token>
+						<token>men</token>
+						<token postag="ZNW.*" postag_regexp="yes"/>
                 </pattern>
-				<message>Fout. Correct zijn <suggestion>m'n</suggestion>  en <suggestion>mijn</suggestion>.</message>
-                <example correction="m'n|mijn">Hij ziet <marker>men</marker> olifanten.</example>
+				<message>Bedoelt u: <suggestion>m'n \2</suggestion>  of <suggestion>mijn \2</suggestion>?</message>
+                <example correction="m'n olifant|mijn olifant">Kijk eens naar <marker>men olifant</marker>.</example>
             </rule>
         </rulegroup>
 
@@ -38655,10 +38591,35 @@ tuinkussens;Tuinkussens
             <rule>
                 <pattern>
 					<token regexp="yes">aan|naar|op|in|voor|tegen|over</token>
-					<token postag_regexp="yes" postag="ZNW:EKV.*"/>
+					<token postag_regexp="yes" postag="ZNW:EKV.*"><exception regexp="yes">een|mijn|hun|ons|zijn|haar|u|voor</exception></token>
                 </pattern>
 				<message></message>
                 <example type="incorrect">Ik ga <marker>naar school</marker> om te leren.</example>
+            </rule>
+        </rulegroup>
+
+		<rulegroup id="DIKKEN_MAN" name="een n te veel">
+            <rule>
+                <pattern>
+					<token postag_regexp="yes" postag="(BNW|WKW):.*MRV.*"><exception postag_regexp="yes" postag="WKW:TGW:INF|WKW:VLT:INF|ZNW:MRV:DE_" /><exception regexp="yes">geleden|anderen|gelovigen|allen</exception></token>
+					<token postag_regexp="yes" postag="ZNW.*"><exception postag_regexp="yes" postag="WKW:TGW:INF|WKW:VLT:INF"/><exception regexp="yes">bent|voor|van|tekort|niet|is|ja|rond|zij|over|heeft|bij|leek|nu|was|een|wel|tegen</exception></token>
+                </pattern>
+				<message>Er staat wellicht een n te veel: <suggestion><match no="1" regexp_match="n$" regexp_replace=""/> \2</suggestion></message>
+                <example correction="gestoorde man">Ik zie de <marker>gestoorden man</marker> lopen.</example>
+            </rule>
+        </rulegroup>
+
+		<rulegroup id="X_DIKKE_MAN" name="vangen van woord voor BNW ZNW:DE">
+            <rule>
+                <pattern>
+					<marker>
+						<token/>
+					</marker>
+					<token postag="BNW:(STL|VRG|OVR|ALR):VRB|WKW:(VTD|ODW):VRB" postag_regexp="yes" />
+					<token postag="ZNW:EKV:DE_"/>
+                </pattern>
+				<message></message>
+				<example type="incorrect">Ik zie <marker>de</marker> dikke deur lopen.</example>
             </rule>
         </rulegroup>
 		
