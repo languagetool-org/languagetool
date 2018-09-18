@@ -35,6 +35,8 @@
     <!ENTITY numero_por_extenso_MP "uns|dous|centos?|(douscent|trescent|catrocent|cincocent|seiscent|setecent|oitocent|novecent)os|(mi|bi|tri|cuadri)ll?óne?s">
     <!ENTITY numero_por_extenso_FP "unhas|dúas|decenas|ducias|centenares|(duzent|trezent|quatrocent|quinhent|seiscent|setecent|oitocent|novecent)as">
 
+    <!ENTITY extensoes_de_ficheiros "aspx?|avi|bak|bat|bmp|cab|cfg|cgi|com|css|csv|dat|db|dbf|dll|docx?|eps|exe|flv|gif|html?|ibooks|ico|ini|jar|jpe?g|js|jsp|lnk|md|mdb|mid|mov|mp3|mp4|mpa|mpg|o[dt][tspfg]|pdf|php|pl|png|pps|pptx?|ps|psd|py|rss|sh|sql|svg|sys|tar|tif|tiff|tmp|txt|wav|wma|xhtml|xlsx?|xsl|xml|zipx?|7z">
+    <!ENTITY dominios_internet "(?:cat|ae|ar|asia|at|au|be|bid|biz|br|ca|cc|cf|ch|cl|club|cn|co|com|cz|de|dk|edu|es|eu|fi|fr|ga|gdn|gov|gq|gr|hk|hu|id|ie|il|in|info|int|io|ir|it|jp|kiwi|kr|kz|life|link|loan|lt|me|men|mil|ml|mobi|mx|my|name|net|nl|no|nu|nz|online|org|party|pl|pro|pt|pw|racing|ro|ru|se|sg|shop|site|sk|space|store|su|tech|tk|top|tr|trade|tv|tw|ua|uk|us|vip|vn|wang|website|win|ws|xin|xyz|za)"><!-- the 100 most used + cat -->
 ]>
 
 <rules lang="gl" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/resource/disambiguation.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -1496,5 +1498,44 @@
       <disambig action="ignore_spelling"/>
     </rule>
   </rulegroup>
-
+    <rule name="Ignore spelling of file names" id="IGNORE_SPELLING_OF_FILE_NAMES">
+    <!-- Localized from English by Tiago F. Santos, 2018-09-15  -->
+      <pattern>
+          <token/>
+          <token spacebefore="no">.</token>
+          <token spacebefore="no" regexp="yes">&extensoes_de_ficheiros;</token><!-- For more extensions, refer to https://fileinfo.com -->
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Ignore spelling of @user mentions" id="IGNORE_USER_MENTION">
+      <pattern>
+          <token regexp="yes">@.+</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+  <rulegroup name="Ignore spelling of #hashtags" id="IGNORE_HASHTAG">
+    <rule>
+      <pattern>
+          <token spacebefore="yes">#</token>
+          <token spacebefore="no"/>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule>
+      <pattern>
+          <token postag="SENT_START"/>
+          <token>#</token>
+          <token spacebefore="no"/>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+  </rulegroup>
+    <rule name="Ignore spelling of domain names" id="IGNORE_DOMAIN_NAMES">
+      <pattern case_sensitive="yes">
+          <token regexp="yes">[a-z0-9\-]+</token>
+          <token spacebefore="no">.</token>
+          <token spacebefore="no" regexp="yes">&dominios_internet;</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
 </rules>

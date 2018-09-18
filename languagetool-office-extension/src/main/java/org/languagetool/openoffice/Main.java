@@ -78,11 +78,9 @@ public class Main extends WeakBase implements XJobExecutor,
 
   private final List<XLinguServiceEventListener> xEventListeners;
 
-  private Configuration config;
-
   // Rules disabled using the config dialog box rather than Spelling dialog box
   // or the context menu.
-  private Set<String> disabledRules;
+  private Set<String> disabledRules = null;
   private Set<String> disabledRulesUI;
 
   private XComponentContext xContext;
@@ -99,17 +97,20 @@ public class Main extends WeakBase implements XJobExecutor,
     documents = new MultiDocumentsHandler(xContext, getHomeDir(), CONFIG_FILE, MESSAGES, this);
   }
 
-  private void prepareConfig(Language lang) {
+  private Configuration prepareConfig() {
     try {
-      config = new Configuration(getHomeDir(), CONFIG_FILE, lang);
+      Configuration config = documents.getConfiguration();
       disabledRules = config.getDisabledRuleIds();
       if (disabledRules == null) {
         disabledRules = new HashSet<>();
       }
       disabledRulesUI = new HashSet<>(disabledRules);
+      return config;
+
     } catch (Throwable t) {
       MessageHandler.showError(t);
     }
+    return null;
   }
 
   void changeContext(XComponentContext xCompContext) {
@@ -146,6 +147,9 @@ public class Main extends WeakBase implements XJobExecutor,
     try {
       int[] footnotePositions = getPropertyValues("FootnotePositions", propertyValues);  // since LO 4.3
       paRes = documents.getCheckResults(paraText, locale, paRes, footnotePositions);
+      if (disabledRules == null) {
+        prepareConfig();
+      }
       if(documents.doResetCheck()) {
         resetCheck();
         documents.optimizeReset();
@@ -186,7 +190,7 @@ public class Main extends WeakBase implements XJobExecutor,
     if (lang == null) {
       return;
     }
-    prepareConfig(lang);
+    Configuration config = prepareConfig();
     ConfigThread configThread = new ConfigThread(lang, config, this);
     configThread.start();
   }
@@ -289,6 +293,7 @@ public class Main extends WeakBase implements XJobExecutor,
    */
   void resetDocument() {
     if (resetCheck()) {
+      Configuration config = documents.getConfiguration();
       documents.setRecheck();
       disabledRules = config.getDisabledRuleIds();
       if (disabledRules == null) {
@@ -421,10 +426,12 @@ public class Main extends WeakBase implements XJobExecutor,
   @Override
   public void ignoreRule(String ruleId, Locale locale) {
     /* TODO: config should be locale-dependent */
+    Configuration config = documents.getConfiguration();
     disabledRulesUI.add(ruleId);
     config.setDisabledRuleIds(disabledRulesUI);
     try {
       JLanguageTool langTool = documents.getLanguageTool();
+      documents.initCheck();
       config.saveConfiguration(langTool.getLanguage());
     } catch (Throwable t) {
       MessageHandler.showError(t);
@@ -440,9 +447,11 @@ public class Main extends WeakBase implements XJobExecutor,
    */
   @Override
   public void resetIgnoreRules() {
+    Configuration config = documents.getConfiguration();
     config.setDisabledRuleIds(disabledRules);
     try {
       JLanguageTool langTool = documents.getLanguageTool();
+      documents.initCheck();
       config.saveConfiguration(langTool.getLanguage());
     } catch (Throwable t) {
       MessageHandler.showError(t);

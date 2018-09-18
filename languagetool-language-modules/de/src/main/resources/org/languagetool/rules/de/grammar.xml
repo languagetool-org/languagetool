@@ -4066,8 +4066,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="PRIESE" name="'Priese (Prise) Salz'">
             <pattern>
-                <token postag="ART:.*" postag_regexp="yes"/>
-                <token postag="ADJ:.*" postag_regexp="yes" min="0"/>
+                <token postag="ART:.+" postag_regexp="yes"/>
+                <token postag="ADJ:.+" postag_regexp="yes" min="0"/>
                 <marker>
                     <token>Priese</token>
                 </marker>
@@ -4728,6 +4728,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="breit">Weit und <marker>bereit</marker> war niemand zu sehen.</example>
             </rule>
         </rulegroup>
+        <rule id="UEBERSEHT_UEBERSAET" name="überseht (übersät)">
+            <pattern>
+                <token inflected="yes">sein</token>
+                <token regexp="yes" skip="2">mit|von</token>
+                <token postag="SUB:.+" postag_regexp="yes"></token>
+                <marker><token>überseht</token></marker>
+            </pattern>
+            <message>Meinten Sie <suggestion>übersät</suggestion> (=überzogen/bedeckt)?</message>
+            <example correction="übersät">Die Truhe war mit einer dicken Staubschicht <marker>überseht</marker>.</example>
+        </rule>
         <rule id="PASSIONIERTE_PASSIERTE" name="passionierte/passierte">
             <pattern>
                 <marker>
@@ -10151,7 +10161,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token regexp="yes" case_sensitive="yes">a[nb]|auf|los|unter|vor|weg|fehl|wider|vorbei|heran|hinzu|entgegen|inne|abhanden|anheim|dar|einher|entzwei|überhand</token>
                         <token postag="VER:.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöüß]+
-                            <exception inflected="yes" regexp="yes">meinen|sein|einen|sieben|achten|einigen|äußern|fernsehen|proben</exception>
+                            <exception inflected="yes" regexp="yes">fahren|meinen|sein|einen|sieben|achten|einigen|äußern|fernsehen|proben</exception>
                             <exception postag="ADJ:.*|VER:EIZ:.*" postag_regexp="yes"/>
                             <exception regexp="yes">(a[bn]|au[fs]|be|los|unter|ein|ent|er|in|vor|über|um|zer|zwischen|ver|zurück|weiter|vorbei|wieder).*|null|genügend</exception>
                         </token>
@@ -10278,6 +10288,67 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="zulässt">Falls er es <marker>zu lässt</marker>, sind wir machtlos.</example>
                 <example correction="zugibt">Wenn er es <marker>zu gibt</marker>, erhält er eine mildere Strafe.</example>
                 <example>Es wäre besser, es zu lassen.</example>
+            </rule>
+              <rule>
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <token/>
+                    <token regexp="yes" case_sensitive="yes">a[nb]|auf|los|unter|vor|weg|fehl|wider|vorbei|heran|hinzu|entgegen|inne|abhanden|anheim|dar|einher|entzwei|überhand</token>
+                    <token postag="VER:.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöüß]+</token>
+                </antipattern>
+                <antipattern>
+                    <token>;</token>
+                    <token/>
+                    <token regexp="yes" case_sensitive="yes">a[nb]|auf|los|unter|vor|weg|fehl|wider|vorbei|heran|hinzu|entgegen|inne|abhanden|anheim|dar|einher|entzwei|überhand</token>
+                    <token postag="VER:.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöüß]+</token>
+                </antipattern>
+                <antipattern>
+                    <token skip="-1" regexp="yes">vo[mn]</token>
+                    <token regexp="yes">a[nb]|au[fs]|weg</token>
+                </antipattern>
+                <antipattern>
+                    <token>nach</token>
+                    <token>wie</token>
+                    <token>vor</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="ADV:MOD"/>
+                    <token>an</token>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes">hören</token>
+                    <token>auf</token>
+                </antipattern>
+                <antipattern>
+                    <token>hör</token>
+                    <token>auf</token>
+                </antipattern>
+                <antipattern>
+                    <token>auf</token>
+                    <token>und</token>
+                    <token>ab</token>
+                </antipattern>
+                <antipattern>
+                    <token>ab</token>
+                    <token>und</token>
+                    <token>an</token>
+                </antipattern>
+                <antipattern>
+                    <token>von</token>
+                    <token>weit</token>
+                    <token>weg</token>
+                </antipattern>
+                <pattern case_sensitive="yes">
+                    <token><exception>;</exception><exception>:</exception><exception>,</exception></token>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">a[nb]|auf|los|unter|vor|weg|fehl|wider|vorbei|heran|hinzu|entgegen|inne|abhanden|anheim|dar|einher|entzwei|überhand</token>
+                        <token inflected="yes" case_sensitive="yes">fahren</token>
+                    </marker>
+                </pattern>
+                <message>Falls Sie eine Form des Verbs '\2fahren' meinten, wird diese zusammengeschrieben.</message>
+                <suggestion>\2\3</suggestion>
+                <short>&getrennt;.</short>
+                <example correction="vorfuhr">Als er <marker>vor fuhr</marker>, wichen die anderen zurück.</example>
             </rule>
         </rulegroup>
         <rule id="INBEGRIFFEN" name="in begriffen (inbegriffen)">
@@ -10922,7 +10993,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token>Es</token>
                     <token postag='VER:3:.*' postag_regexp='yes'><exception postag="VER:MOD.*" postag_regexp="yes"></exception></token>
-                    <token postag='PRO:PER:(AKK|DAT):.*' postag_regexp='yes'></token>
+                    <token postag='PRO:PER:(AKK|DAT):.+' postag_regexp='yes'></token>
                     <token min='0'>,</token>
                     <marker>
                     <token case_sensitive="yes" regexp="yes">zu(sehen|hören|machen|bauen|bekommen|betonieren|bewegen|billigen|binden|bringen|brüllen|buchen|decken|drehen|drücken|fahren|fassen|faxen|fliegen|gewinnen|gipsen|gucken|haben|halten|heften|heilen|kaufen|kehren|kiffen|kitten|kleben|knallen|knöpfen|knoten|lassen|leimen|leiten|messen|mischen|nähen|nehmen|ordnen|packen|parken|raten|rechnen|reiten|rollen|rufen|sagen|schalten|schauen|schicken|schieben|schießen|schlagen|schließen|schmeißen|schmieren|schnallen|schneiden|schnüren|schrauben|schreiben|schreien|schütten|spielen|stechen|stecken|stopfen|stoßen|teilen|tragen|treffen|treiben|werfen)</token>
@@ -29791,6 +29862,18 @@ Andere Projekte</example>
           <example type="incorrect">Sie hilft <marker>ihn</marker> gerne.</example>
         </rule>
         -->
+        <rule id="SCHENKEN_DATIV" name="'Dativ nach 'schenken'">
+          <pattern case_sensitive="yes">
+            <token inflected="yes" regexp="yes">geben|schenken|vertrauen</token>
+            <marker><token>ihn</token></marker>
+            <token min="0">nicht</token>
+            <token postag="PRO:(POS|DEM):AKK:.+|PKT" postag_regexp="yes"/>
+          </pattern>
+          <message>Kasusfehler: Das Personalpronomen nach '\1' muss im Dativ stehen (z.B. 'ihm').</message>
+          <suggestion>ihm</suggestion>
+          <example correction="ihm">Sie schenkt <marker>ihn</marker> ihre volle Aufmerksamkeit.</example>
+          <example correction="ihm">Ich vertraue <marker>ihn</marker> nicht.</example>
+        </rule>
         <!-- TODO: too many false alarms
         <rulegroup id="SEIT_PREP_TEILGRUPPE_MIT_NACH_ETC" name="'seit/nach/... des (dem)'">
           <rule>

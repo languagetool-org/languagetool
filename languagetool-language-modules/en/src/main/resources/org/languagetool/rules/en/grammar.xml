@@ -19578,18 +19578,45 @@ USA
                 <example correction="cleanup">A full <marker>clean up</marker> is required.</example>
             </rule>
         </rulegroup>
-        <rule id="TURNED_OFF" name="turned of (off)">
-            <pattern>
-                <token regexp="yes">turned|switched</token>
-                <marker>
-                    <token>of</token>
-                </marker>
-            </pattern>
-            <message>Did you mean <suggestion>off</suggestion>?</message>
-            <short>Possible typo</short>
-            <example correction="off">The light was switched <marker>of</marker></example>
-            <example>The light was turned <marker>off</marker></example>
-        </rule>
+        <rulegroup id="TURNED_OFF" name="turn of (off)">
+            <rule>
+                <pattern>
+                    <token regexp="yes">turned|switched</token>
+                    <marker>
+                        <token>of</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion>off</suggestion>?</message>
+                <short>Possible typo</short>
+                <example correction="off">The light was switched <marker>of</marker></example>
+                <example>The light was turned <marker>off</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes">turn|switch</token>
+                    <marker>
+                        <token>of</token>
+                    </marker>
+                    <token>the</token>
+                    <token regexp="yes">lights?|heat|TV|water|engines|television|gas|power|phone|oven|radio|camera|alarm|computer|sound|stove|screen|music</token>
+                </pattern>
+                <message>Did you mean <suggestion>off</suggestion>?</message>
+                <short>Possible typo</short>
+                <example correction="off">Turn <marker>of</marker> the TV</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes">turn|switch</token>
+                    <marker>
+                        <token>of</token>
+                    </marker>
+                    <token regexp="yes">for|at|in|from|on(to)?|with</token>
+                </pattern>
+                <message>Did you mean <suggestion>off</suggestion>?</message>
+                <short>Possible typo</short>
+                <example correction="off">This is a big turn <marker>of</marker> for both women and men.</example>
+            </rule>
+        </rulegroup>
         <rule id="THE_FLEW" name="the flew (flu)">
             <pattern>
                 <token>the</token>
