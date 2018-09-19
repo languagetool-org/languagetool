@@ -2536,6 +2536,17 @@ title="Easy editing stylesheet" ?>
         <suggestion>\1 por</suggestion>
       <example correction='empatou por'>A equipa <marker>empatou em</marker> 1 a 1.</example>
     </rule>
+    <rule id='PHRASAL_VERB_TER_DE_QUE' name='Regência verbal: Ter de/que'>
+    <!--      Created by Tiago F. Santos, 2018-09-19      -->
+      <pattern>
+          <token inflected='yes'>ter</token>
+          <token postag='VMN.+' postag_regexp='yes'/>
+        </marker>
+      </pattern>
+      <message>Dependendo do significado, deve separar os verbos. <suggestion>\1 de \2</suggestion> se é uma obrigação, ou <suggestion>\1 que \2</suggestion> se é uma constatação.</message>
+      <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/duvidas-sobre-o-ter-de-e-o-ter-que/14247</url>
+      <example correction='Tenho de pensar|Tenho que pensar'><marker>Tenho pensar</marker> sobre o assunto.</example>
+    </rule>
   </rulegroup>
 
   <rulegroup id='PHRASAL_VERB_A' name='Regência verbal: VERBO + a'>
@@ -16313,7 +16324,7 @@ o tomate'>
       <example correction='no homicídio'><marker>no homicidio</marker>.</example>
       <example correction='nos homicídios'><marker>nos homicidios</marker>.</example>
     </rule>
-    <rule id='PARONYM_HOMILIA_158' name='Parónimo: homilia'>
+    <rule id='PARONYM_HOMILIA_158' name='Parónimo: homilia' default='off'>
       <pattern>
           <token regexp='yes'>&art_detecao_paronimos;
             <exception regexp='yes'>os?</exception></token>
