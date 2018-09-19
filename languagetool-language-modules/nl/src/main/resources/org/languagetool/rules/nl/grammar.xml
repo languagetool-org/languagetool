@@ -191,16 +191,8 @@ regexp case-insensitive maken : (?i)
         </rulegroup>
     </category>   
     <category id="DYSLEXIE" name="Speciale regels m.b.t. dyslexie" default="on">
-        <rulegroup id="BEER_BIR" name="waarschuwing bij gebruik bir i.p.v. beer">
-            <rule>
-                <pattern>
-                       <token>bir</token>
-                </pattern>
-                <message>Bedoelt u <suggestion>beer</suggestion>? Bir komt weinig voor in het Nederlands.</message>
-                <example correction="beer">De <marker>bir</marker> smeert nog een broodje.</example>
-            </rule>
-        </rulegroup>
         <rulegroup id="MEERT_MIRT" name="waarschuwing bij gebruik mirt i.p.v. meert">
+			<antipattern><token>de></token><token>mirt</token></antipattern>
             <rule>
                 <pattern>
                        <token>mirt</token>
@@ -5500,6 +5492,7 @@ regexp case-insensitive maken : (?i)
 
         <rulegroup id="SETTING_ZETTING" name="waarschuwing bij gebruik setting i.p.v. zetting">
             <rule>
+				<antipattern><token regexp="yes">intieme|informele|klinische|veilige|unieke|ideale</token><token>setting</token></antipattern>
                 <pattern>
                        <token>setting</token>
                 </pattern>
@@ -7398,7 +7391,7 @@ regexp case-insensitive maken : (?i)
                 <pattern>
                        <token>golfen</token>
                 </pattern>
-                <message>Bedoelt u wellicht <suggestion>golven</suggestion> (verhogiingen in water), of toch het spelen van het spel golf?</message>
+                <message>Bedoelt u wellicht <suggestion>golven</suggestion> (verhogingen in water)? Alleen in dat geval moet het met een v.</message>
                 <example correction="golven">Het woord <marker>golfen</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
@@ -38612,6 +38605,8 @@ steenwijk;Steenwijk
 		<rulegroup id="VREEMDE_WOORDVOLGORDE_2" name="vangen van woordvolgorden om alleen de vreemde over te laten">
 			<antipattern><token>de</token><token postag_regexp="yes" postag="ZNW:.*:DE_|ZNW:EKV"/></antipattern>
 			<antipattern><token>het</token><token postag_regexp="yes" postag="ZNW:.*:HET|ZNW:EKV"/></antipattern>
+			<antipattern><token postag="SENT_START" regexp="yes">het|dat|dit</token><token postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP"/></antipattern>
+			<antipattern><token postag="SENT_START">Ik</token><token postag_regexp="yes" postag="WKW:TGW:1EP|WKW:VLT:1EP"/></antipattern>
 			<rule>
 				<pattern><token negate_pos="yes" postag="SENT_START"/><token/><token/></pattern>
 				<message></message>
