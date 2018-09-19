@@ -536,7 +536,7 @@ USA
                     <token/>
                     <token>and</token>
                     <marker><token>me</token></marker>
-                    <token postag="VB.*" postag_regexp="yes"/>
+                    <token postag="VB.?" postag_regexp="yes"/>
                 </pattern>
                 <message>Did you mean <suggestion>I</suggestion>?</message>
                 <url>http://data.grammarbook.com/blog/pronouns/tis-i-or-tis-me/</url>
@@ -600,6 +600,41 @@ USA
                 </pattern>
                 <message>Did you mean <suggestion>I</suggestion>?</message>
                 <example correction="I">My mother and <marker>me</marker> went to California.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag="SENT_START"></token>
+                    <marker><token regexp="yes">Myself|Me</token></marker>
+                    <token skip="3">and</token>
+                    <token postag="VB.?" postag_regexp="yes"></token>
+                </pattern>
+                <message>When referring to yourself and somebody else, put their name first. Also check whether the nominative form <suggestion>I</suggestion> is required here.</message>
+                <example correction="I"><marker>Me</marker> and John work together.</example>
+                <example><marker>John</marker> and I work together.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag="SENT_START"></token>
+                    <token regexp="yes">My|Your|H(er|is)|The(ir)?|Our</token>
+                    <token></token>
+                    <token>and</token>
+                    <marker><token>him</token></marker>
+                    <token postag="VB.?" postag_regexp="yes"/>
+                </pattern>
+                <message>Did you mean <suggestion>he</suggestion>?</message>
+                <example correction="he">My mother and <marker>him</marker> went to California.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag="SENT_START"></token>
+                    <token regexp="yes">My|Your|H(er|is)|The(ir)?|Our</token>
+                    <token></token>
+                    <token>and</token>
+                    <marker><token>her</token></marker>
+                    <token postag="VB.?" postag_regexp="yes"/>
+                </pattern>
+                <message>Did you mean <suggestion>she</suggestion>?</message>
+                <example correction="she">My mother and <marker>her</marker> went to California.</example>
             </rule>
         </rulegroup>
         <rulegroup id="CONFUSION_OF_BEEN_BEING" name="been (being)">
