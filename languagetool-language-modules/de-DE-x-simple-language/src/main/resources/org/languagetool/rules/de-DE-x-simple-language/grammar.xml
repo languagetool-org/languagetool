@@ -314,6 +314,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Vermeiden Sie Nebensätze.</message>
                 <example correction="">Studien, <marker>dass</marker> Obst und Gemüse gesund sind, gibt es viele.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token postag="SUB:.+" postag_regexp="yes"></token>
+                    <token postag="PKT">,</token>
+                    <marker><token postag="ADV:INR"></token></marker>
+                    <token skip="-1"></token>
+                    <token postag="SENT_END">.</token>
+                </pattern>
+                <message>Vermeiden Sie Nebensätze.</message>
+                <example correction="">Seine Antwort auf die Frage, <marker>wann</marker> er angekommen war, war unbefriedigend.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="RELATIVSAETZE" name="Leichte Sprache: Relativsätze">
             <rule>
