@@ -162,7 +162,7 @@ public class UppercaseSentenceStartRule extends TextLevelRule {
     if (!language.getShortCode().equals("nl")) {
       return null;
     }
-    if (tokens.length >= 3 && firstToken.equals("'")
+    if (tokens.length > 3 && firstToken.equals("'")
         && isDutchSpecialCase(secondToken)) {
       return tokens[3].getToken();
     }
