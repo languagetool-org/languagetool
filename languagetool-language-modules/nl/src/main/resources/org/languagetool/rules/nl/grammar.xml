@@ -27,6 +27,7 @@ Contributions and ideas from:
 - Jan de Ridder (missende regels aan de hand van fouten op Wikipedia)
 - F. de Raat: Hoe bereidt je een paard, uitgeverij Nieuw Amsterdan (NRC), met toestemming van de auteur
 - M v d Wiel, m.b.t. dyslexie
+- Computing power supplied by Kiss the Frog (NL)
 ================================
 * full update of all rules at end of march 2018
 ================================
@@ -343,9 +344,10 @@ regexp case-insensitive maken : (?i)
             </rule>
         </rulegroup>
 
-        <!--
         <rulegroup id="DEUREN_DUREN" name="waarschuwing bij gebruik duren i.p.v. deuren">
             <rule>
+				<antipattern><token>duren</token><token>voordat</token></antipattern>
+				<antipattern><token regexp="yes">jaar|maand|weken|lang|langer</token><token>duren</token></antipattern>
                 <pattern>
                        <token>duren</token>
                 </pattern>
@@ -353,8 +355,8 @@ regexp case-insensitive maken : (?i)
                 <example correction="deuren">Het woord <marker>duren</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
-        -->
-        <rulegroup id="GEUREN_GUREN" name="waarschuwing bij gebruik guren i.p.v. geuren">
+
+		<rulegroup id="GEUREN_GUREN" name="waarschuwing bij gebruik guren i.p.v. geuren">
             <rule>
                 <pattern>
                        <token>guren</token>
@@ -384,40 +386,36 @@ regexp case-insensitive maken : (?i)
             </rule>
         </rulegroup>
         
-        <rulegroup id="ZEURENDE_ZURENDE" name="waarschuwing bij gebruik zurende i.p.v. zeurende">
-            <rule>
-                <pattern>
-                       <token>zurende</token>
-                </pattern>
-                <message>Bedoelt u wellicht <suggestion>zeurende</suggestion>? Zeurend=klagend, zurend=zuur makend.</message>
-                <example correction="zeurende">Het woord <marker>zurende</marker> kan een vergissing zijn.</example>
-            </rule>
-        </rulegroup>
-
-        <rulegroup id="ZEUREND_ZUREND" name="waarschuwing bij gebruik zurend i.p.v. zeurend">
-            <rule>
-                <pattern>
-                       <token>zurend</token>
-                </pattern>
-                <message>Bedoelt u wellicht <suggestion>zeurend</suggestion>? Zeurend=klagend, zurend=zuur makend.</message>
-                <example correction="zeurend">Het woord <marker>zurend</marker> kan een vergissing zijn.</example>
-            </rule>
-        </rulegroup>
-
         <rulegroup id="SPEURT_SPURT" name="waarschuwing bij gebruik spurt i.p.v. speurt">
             <rule>
                 <pattern>
+					<token negate="yes">de</token>
+					<marker>
                        <token>spurt</token>
+				   </marker>
                 </pattern>
                 <message>Bedoelt u wellicht <suggestion>speurt</suggestion>? Speurt=zoekt, spurt=snelle ren.</message>
                 <example correction="speurt">Het woord <marker>spurt</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
 
+        <rulegroup id="SCHEURINGEN_SCHURINGEN" name="waarschuwing bij gebruik schuringen i.p.v. scheuringen">
+            <rule>
+                <pattern>
+                       <token>schuringen</token>
+                </pattern>
+                <message>Bedoelt u wellicht <suggestion>scheuringen</suggestion>? Scheuringen=splitsing, schuring=wrijving.</message>
+                <example correction="scheuringen">Het woord <marker>schuringen</marker> kan een vergissing zijn.</example>
+            </rule>
+        </rulegroup>
+		
         <rulegroup id="SCHEURING_SCHURING" name="waarschuwing bij gebruik schuring i.p.v. scheuring">
             <rule>
                 <pattern>
+					<token negate="yes">een</token>
+					<marker>
                        <token>schuring</token>
+				   </marker>
                 </pattern>
                 <message>Bedoelt u wellicht <suggestion>scheuring</suggestion>? Scheuring=deling, schuring=het langs elkaar wrijven.</message>
                 <example correction="scheuring">Het woord <marker>schuring</marker> kan een vergissing zijn.</example>
@@ -444,21 +442,24 @@ regexp case-insensitive maken : (?i)
             </rule>
         </rulegroup>
 
-        <!--
         <rulegroup id="BEUREN_BUREN" name="waarschuwing bij gebruik buren i.p.v. beuren">
             <rule>
                 <pattern>
-                       <token>buren</token>
+						<token negate="yes" regexp="yes">de|mijn|hun|je|onze|uw|zijn|haar|naaste|nieuwe</token>
+						<marker>
+							<token>buren</token>	
+							</marker>
                 </pattern>
                 <message>Bedoelt u wellicht <suggestion>beuren</suggestion>? Beuren=tillen, buren wonen naast je.</message>
                 <example correction="beuren">Het woord <marker>buren</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
-        -->
-        <rulegroup id="LEUREN_LUREN" name="waarschuwing bij gebruik luren i.p.v. leuren">
+
+		<rulegroup id="LEUREN_LUREN" name="waarschuwing bij gebruik luren i.p.v. leuren">
             <rule>
                 <antipattern><token skip="5">luren</token><token inflected="yes">leggen</token></antipattern>
                 <pattern>
+					<token negate="yes">de</token>
                     <marker>
                        <token>luren</token>
                    </marker>
@@ -508,16 +509,6 @@ regexp case-insensitive maken : (?i)
             </rule>
         </rulegroup>
 
-        <rulegroup id="KEURENDE_KURENDE" name="waarschuwing bij gebruik kurende i.p.v. keurende">
-            <rule>
-                <pattern>
-                       <token>kurende</token>
-                </pattern>
-                <message>Bedoelt u wellicht <suggestion>keurende</suggestion>? Keurend=beoordelend, kurend=kuur volgend.</message>
-                <example correction="keurende">Het woord <marker>kurende</marker> kan een vergissing zijn.</example>
-            </rule>
-        </rulegroup>
-
         <rulegroup id="KEUREND_KUREND" name="waarschuwing bij gebruik kurend i.p.v. keurend">
             <rule>
                 <pattern>
@@ -528,9 +519,21 @@ regexp case-insensitive maken : (?i)
             </rule>
         </rulegroup>
 
-        <!-- erg onwaarschijnlijk; steuren is vrij zeldzaam op zich; zo geeft het veel false positives; moet checken of het een meervoud is door de woorden vooraf, zoals de, telwoord, of uitzonderingen voor een werkwoord
-        <rulegroup id="STEUREN_STUREN" name="waarschuwing bij gebruik sturen i.p.v. steuren">
+        <rulegroup id="KEURENDE_KURENDE" name="waarschuwing bij gebruik kurende i.p.v. keurende">
             <rule>
+                <pattern>
+                       <token>kurende</token>
+                </pattern>
+                <message>Bedoelt u wellicht <suggestion>keurende</suggestion>? Keurend=beoordelend, kurend=kuur volgend.</message>
+                <example correction="keurende">Het woord <marker>kurende</marker> kan een vergissing zijn.</example>
+            </rule>
+        </rulegroup>
+
+<!-- steuren is een erg zeldzaam werkwoord
+		<rulegroup id="STEUREN_STUREN" name="waarschuwing bij gebruik sturen i.p.v. steuren">
+            <rule>
+                <antipattern><token>te</token><token>sturen</token></antipattern>
+                <antipattern><token>sturen</token><token>naar</token></antipattern>
                 <pattern>
                        <token>sturen</token>
                 </pattern>
@@ -538,18 +541,7 @@ regexp case-insensitive maken : (?i)
                 <example correction="steuren">Het woord <marker>sturen</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
-        -->
-
-        <rulegroup id="SCHEURINGEN_SCHURINGEN" name="waarschuwing bij gebruik schuringen i.p.v. scheuringen">
-            <rule>
-                <pattern>
-                       <token>schuringen</token>
-                </pattern>
-                <message>Bedoelt u wellicht <suggestion>scheuringen</suggestion>? Scheuringen=splitsing, schuring=wrijving.</message>
-                <example correction="scheuringen">Het woord <marker>schuringen</marker> kan een vergissing zijn.</example>
-            </rule>
-        </rulegroup>
-
+		-->
         <rulegroup id="DOORSCHEUREN_DOORSCHUREN" name="waarschuwing bij gebruik doorschuren i.p.v. doorscheuren">
             <rule>
                 <pattern>
@@ -619,13 +611,14 @@ regexp case-insensitive maken : (?i)
                 <pattern>
                        <token>vluchtduren</token>
                 </pattern>
-                <message>Bedoelt u wellicht <suggestion>vluchtdeuren</suggestion>? Vluchtdeuren latne je ontsnappen, vluchtduren is hoe lang dat duurt.</message>
+                <message>Bedoelt u wellicht <suggestion>vluchtdeuren</suggestion>? Vluchtdeuren laten je ontsnappen, vluchtduren is hoe lang dat duurt.</message>
                 <example correction="vluchtdeuren">Het woord <marker>vluchtduren</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
 
         <rulegroup id="PEUR_PUR" name="waarschuwing bij gebruik pur i.p.v. peur">
             <rule>
+				<antipattern><token>pur</token><token>sang</token></antipattern>
                 <pattern>
                        <token>pur</token>
                 </pattern>
@@ -666,6 +659,8 @@ regexp case-insensitive maken : (?i)
 
         <rulegroup id="AANSCHEUREN_AANSCHUREN" name="waarschuwing bij gebruik aanschuren i.p.v. aanscheuren">
             <rule>
+                <antipattern><token skip="5">tegen</token><token>aanschuren</token></antipattern>
+                <antipattern><token>aanschuren</token><token>tegen</token></antipattern>
                 <pattern>
                        <token>aanschuren</token>
                 </pattern>
@@ -676,6 +671,7 @@ regexp case-insensitive maken : (?i)
 
         <rulegroup id="DROOGSCHEUREN_DROOGSCHUREN" name="waarschuwing bij gebruik droogschuren i.p.v. droogscheuren">
             <rule>
+				<antipattern><token regexp="yes">de|speciale</token><token>droogschuren</token></antipattern>
                 <pattern>
                        <token>droogschuren</token>
                 </pattern>
@@ -734,8 +730,19 @@ regexp case-insensitive maken : (?i)
             </rule>
         </rulegroup>
 
+        <rulegroup id="ZEURIG_ZURIG" name="waarschuwing bij gebruik zurig i.p.v. zeurig">
+            <rule>
+				<antipattern><token postag="SENT_START" skip="-1"/><token regexp="yes">smaak|geur|lucht</token></antipattern>
+                <pattern>
+                       <token>zurig</token>
+                </pattern>
+                <message>Bedoelt u wellicht <suggestion>zeurig</suggestion>? Zeurig=klagerig, zurig=beetje zuur.</message>
+                <example correction="zeurig">Het woord <marker>zurig</marker> kan een vergissing zijn.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="ZEURIGE_ZURIGE" name="waarschuwing bij gebruik zurige i.p.v. zeurige">
             <rule>
+				<antipattern><token postag="SENT_START" skip="-1"/><token regexp="yes">smaak|geur|lucht</token></antipattern>
                 <pattern>
                        <token>zurige</token>
                 </pattern>
@@ -743,6 +750,17 @@ regexp case-insensitive maken : (?i)
                 <example correction="zeurige">Het woord <marker>zurige</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="ZEURIGER_ZURIGER" name="waarschuwing bij gebruik zuriger i.p.v. zeuriger">
+            <rule>
+				<antipattern><token postag="SENT_START" skip="-1"/><token regexp="yes">smaak|geur|lucht</token></antipattern>
+                <pattern>
+                       <token>zuriger</token>
+                </pattern>
+                <message>Bedoelt u wellicht <suggestion>zeuriger</suggestion>?</message>
+                <example correction="zeuriger">Het woord <marker>zuriger</marker> kan een vergissing zijn.</example>
+            </rule>
+        </rulegroup>
+
 
         <rulegroup id="OVENDEUREN_OVENDUREN" name="waarschuwing bij gebruik ovenduren i.p.v. ovendeuren">
             <rule>
@@ -756,6 +774,7 @@ regexp case-insensitive maken : (?i)
 
         <rulegroup id="VEUREN_VUREN" name="waarschuwing bij gebruik vuren i.p.v. veuren">
             <rule>
+				<antipattern><token postag="SENT_START" skip="-1"/><token regexp="yes">staak|staken|af|tussen|hete|hetere</token></antipattern>
                 <pattern>
                        <token>vuren</token>
                 </pattern>
@@ -794,16 +813,6 @@ regexp case-insensitive maken : (?i)
             </rule>
         </rulegroup>
 
-        <rulegroup id="ZEURIG_ZURIG" name="waarschuwing bij gebruik zurig i.p.v. zeurig">
-            <rule>
-                <pattern>
-                       <token>zurig</token>
-                </pattern>
-                <message>Bedoelt u wellicht <suggestion>zeurig</suggestion>? Zeurig=klagerig, zurig=beetje zuur.</message>
-                <example correction="zeurig">Het woord <marker>zurig</marker> kan een vergissing zijn.</example>
-            </rule>
-        </rulegroup>
-
         <rulegroup id="DOORSCHEUREND_DOORSCHUREND" name="waarschuwing bij gebruik doorschurend i.p.v. doorscheurend">
             <rule>
                 <pattern>
@@ -819,7 +828,7 @@ regexp case-insensitive maken : (?i)
                 <pattern>
                        <token>nakuren</token>
                 </pattern>
-                <message>Bedoelt u wellicht <suggestion>nakeuren</suggestion>?</message>
+                <message>Bedoelt u wellicht <suggestion>nakeuren</suggestion> (opnieuw controleren)? Of toch nog eens kuur volgen?</message>
                 <example correction="nakeuren">Het woord <marker>nakuren</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
@@ -827,9 +836,12 @@ regexp case-insensitive maken : (?i)
         <rulegroup id="BEURELEN_BURELEN" name="waarschuwing bij gebruik burelen i.p.v. beurelen">
             <rule>
                 <pattern>
+					<token negate="yes" regexp="yes">de|hun</token>
+					<marker>
                        <token>burelen</token>
+				   </marker>
                 </pattern>
-                <message>Bedoelt u wellicht <suggestion>beurelen</suggestion>?</message>
+                <message>Bedoelt u wellicht <suggestion>beurelen</suggestion> (burlen)?</message>
                 <example correction="beurelen">Het woord <marker>burelen</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
@@ -837,15 +849,17 @@ regexp case-insensitive maken : (?i)
         <rulegroup id="GEURIGS_GURIGS" name="waarschuwing bij gebruik gurigs i.p.v. geurigs">
             <rule>
                 <pattern>
-                       <token>gurigs</token>
+                      <token>gurigs</token>
                 </pattern>
                 <message>Bedoelt u wellicht <suggestion>geurigs</suggestion>?</message>
                 <example correction="geurigs">Het woord <marker>gurigs</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
 
+		<!--
         <rulegroup id="STEURENDE_STURENDE" name="waarschuwing bij gebruik sturende i.p.v. steurende">
             <rule>
+				<antipattern><token postag="SENT_START" skip="-1"/><token regexp="yes">werking|rol|kracht|auto|invloed|factor|invloed|functie|overheid</token></antipattern>
                 <pattern>
                        <token>sturende</token>
                 </pattern>
@@ -853,7 +867,7 @@ regexp case-insensitive maken : (?i)
                 <example correction="steurende">Het woord <marker>sturende</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
-
+		-->
         <rulegroup id="PEUREND_PUREND" name="waarschuwing bij gebruik purend i.p.v. peurend">
             <rule>
                 <pattern>
@@ -876,6 +890,7 @@ regexp case-insensitive maken : (?i)
 
         <rulegroup id="UITSCHEURENDE_UITSCHURENDE" name="waarschuwing bij gebruik uitschurende i.p.v. uitscheurende">
             <rule>
+                <antipattern><token>uitschurende</token><token>werking</token></antipattern>
                 <pattern>
                        <token>uitschurende</token>
                 </pattern>
@@ -889,13 +904,14 @@ regexp case-insensitive maken : (?i)
                 <pattern>
                        <token>burende</token>
                 </pattern>
-                <message>Bedoelt u wellicht <suggestion>beurende</suggestion>?</message>
+                <message>Bedoelt u wellicht <suggestion>beurende</suggestion>? Of is er iets anders mis?</message>
                 <example correction="beurende">Het woord <marker>burende</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
 
         <rulegroup id="AFSCHEUREND_AFSCHUREND" name="waarschuwing bij gebruik afschurend i.p.v. afscheurend">
             <rule>
+				<antipattern><token postag="SENT_START" skip="-1"/><token regexp="yes">.*scrub.*</token></antipattern>
                 <pattern>
                        <token>afschurend</token>
                 </pattern>
@@ -906,6 +922,7 @@ regexp case-insensitive maken : (?i)
 
         <rulegroup id="AFSCHEURENDE_AFSCHURENDE" name="waarschuwing bij gebruik afschurende i.p.v. afscheurende">
             <rule>
+				<antipattern><token postag="SENT_START" skip="-1"/><token regexp="yes">.*scrub.*</token></antipattern>
                 <pattern>
                        <token>afschurende</token>
                 </pattern>
@@ -924,6 +941,7 @@ regexp case-insensitive maken : (?i)
             </rule>
         </rulegroup>
 
+		<!-- steuren is een vrij zeldzaam werkwoord
         <rulegroup id="STEUREND_STUREND" name="waarschuwing bij gebruik sturend i.p.v. steurend">
             <rule>
                 <pattern>
@@ -933,7 +951,7 @@ regexp case-insensitive maken : (?i)
                 <example correction="steurend">Het woord <marker>sturend</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
-
+		-->
         <rulegroup id="BEUREND_BUREND" name="waarschuwing bij gebruik burend i.p.v. beurend">
             <rule>
                 <pattern>
@@ -941,16 +959,6 @@ regexp case-insensitive maken : (?i)
                 </pattern>
                 <message>Bedoelt u wellicht <suggestion>beurend</suggestion>?</message>
                 <example correction="beurend">Het woord <marker>burend</marker> kan een vergissing zijn.</example>
-            </rule>
-        </rulegroup>
-
-        <rulegroup id="ZEURIGER_ZURIGER" name="waarschuwing bij gebruik zuriger i.p.v. zeuriger">
-            <rule>
-                <pattern>
-                       <token>zuriger</token>
-                </pattern>
-                <message>Bedoelt u wellicht <suggestion>zeuriger</suggestion>?</message>
-                <example correction="zeuriger">Het woord <marker>zuriger</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
 
@@ -964,7 +972,27 @@ regexp case-insensitive maken : (?i)
             </rule>
         </rulegroup>
 
-        <rulegroup id="ZEURENDEN_ZURENDEN" name="waarschuwing bij gebruik zurenden i.p.v. zeurenden">
+        <rulegroup id="ZEUREND_ZUREND" name="waarschuwing bij gebruik zurend i.p.v. zeurend">
+            <rule>
+                <pattern>
+                       <token>zurend</token>
+                </pattern>
+                <message>Bedoelt u wellicht <suggestion>zeurend</suggestion>? Zeurend=klagend, zurend=zuur makend.</message>
+                <example correction="zeurend">Het woord <marker>zurend</marker> kan een vergissing zijn.</example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup id="ZEURENDE_ZURENDE" name="waarschuwing bij gebruik zurende i.p.v. zeurende">
+            <rule>
+                <pattern>
+                       <token>zurende</token>
+                </pattern>
+                <message>Bedoelt u wellicht <suggestion>zeurende</suggestion>? Zeurend=klagend, zurend=zuur makend.</message>
+                <example correction="zeurende">Het woord <marker>zurende</marker> kan een vergissing zijn.</example>
+            </rule>
+        </rulegroup>
+
+		<rulegroup id="ZEURENDEN_ZURENDEN" name="waarschuwing bij gebruik zurenden i.p.v. zeurenden">
             <rule>
                 <pattern>
                        <token>zurenden</token>
@@ -1007,6 +1035,7 @@ regexp case-insensitive maken : (?i)
 
         <rulegroup id="HOORDEN_HORDEN" name="waarschuwing bij gebruik horden i.p.v. hoorden">
             <rule>
+				<antipattern><token regexp="yes">meter|de</token><token>horden</token></antipattern>
                 <pattern>
                        <token>horden</token>
                 </pattern>
