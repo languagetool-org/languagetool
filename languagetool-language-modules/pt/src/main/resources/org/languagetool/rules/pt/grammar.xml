@@ -1303,7 +1303,7 @@ title="Easy editing stylesheet" ?>
       </antipattern>
     <rule>
       <pattern>
-          <token postag="SPS00"/>
+          <token postag_regexp='yes' postag="SPS00|CC|SENT_START"/>
         <marker>
           <token regexp="yes" case_sensitive="yes">&paises_com_artigo;|&outros_toponimos_com_artigo;</token>
         </marker>
@@ -1312,6 +1312,7 @@ title="Easy editing stylesheet" ?>
         <suggestion><match no="2" postag="N.(..).+" postag_regexp="yes" postag_replace="DA0$1." case_conversion="alllower">o</match> \2</suggestion>
       <example correction="o Perú">Vão a <marker>Perú</marker>.</example><!-- XXX a o handled by CONTRACOES_OBRIGATORIAS -->
       <example correction="os EUA">Vão a <marker>EUA</marker>.</example><!-- XXX a os handled by CONTRACOES_OBRIGATORIAS -->
+      <example correction="a China">...entre os EUA e <marker>China</marker>...</example>
       <example>Perú</example>
       <example>Vão aos EUA</example>
       <example>Cerca de 500 km a oeste de Dakar, Senegal</example>
@@ -2540,11 +2541,15 @@ title="Easy editing stylesheet" ?>
     <!--      Created by Tiago F. Santos, 2018-09-19      -->
       <pattern>
           <token inflected='yes'>ter</token>
-          <token postag='VMN.+' postag_regexp='yes'/>
+          <token postag='VMN0000'>
+            <exception regexp='yes'>poder|prazer</exception></token>
       </pattern>
       <message>Dependendo do significado, deve separar os verbos. <suggestion>\1 de \2</suggestion> se é uma obrigação, ou <suggestion>\1 que \2</suggestion> se é uma constatação.</message>
       <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/duvidas-sobre-o-ter-de-e-o-ter-que/14247</url>
       <example correction='Tenho de pensar|Tenho que pensar'><marker>Tenho pensar</marker> sobre o assunto.</example>
+      <example>Terei prazer em ajudá-la..</example>
+      <example>…s industriais, por serem em número muito restrito têm poder oligopolístico sobre esse mercado.</example>
+      <example>…rimeira é eleita por sufrágio universal directo e tem poderes fundamentalmente legislativos, além de fiscalizar…</example>
     </rule>
   </rulegroup>
 
