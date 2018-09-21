@@ -313,57 +313,47 @@
   </rulegroup>
   <rulegroup id="NOME_COMÚM_MULTIWORD" name="Nomes comuns em multiwords">
     <!-- 	Rulegroup based on Catalan grammar.xml	-->
-    <rule id="NOMECOMUM2PALAVRAS" name="Nome comúm 2 palavras">
+    <rule id="NOMECOMUM2PALAVRAS_FILTRA_FS" name="Nome proprio 2 palavras - FS">
       <pattern>
-        <marker>
-          <token postag="&lt;NCFS000&gt;"/>
-          <token postag="&lt;/NCFS000&gt;"/>
-        </marker>
+          <token postag="&lt;NCFP.+&gt;" postag_regexp="yes"/>
+          <token postag="&lt;/NC.+&gt;" postag_regexp="yes"/>
       </pattern>
       <disambig action="replace"><wd pos="NCFS000_"/><wd pos="AQ0FS0_"/></disambig>
     </rule>
-    <rule>
+    <rule id="NOMECOMUM2PALAVRAS_FILTRA_MS" name="Nome proprio 2 palavras - MS">
       <pattern>
-        <marker>
-          <token postag="&lt;NCMS000&gt;"/>
-          <token postag="&lt;/NCMS000&gt;"/>
-        </marker>
+          <token postag="&lt;NCMS.+&gt;" postag_regexp="yes"/>
+          <token postag="&lt;/NC.+&gt;" postag_regexp="yes"/>
       </pattern>
       <disambig action="replace"><wd pos="NCMS000_"/><wd pos="AQ0MS0_"/></disambig>
     </rule>
-    <rule>
+    <rule id="NOMECOMUM2PALAVRAS_FILTRA_FP" name="Nome proprio 2 palavras - FP">
       <pattern>
-        <marker>
-          <token postag="&lt;NCFP000&gt;"/>
-          <token postag="&lt;/NCFP000&gt;"/>
-        </marker>
+          <token postag="&lt;NCFP.+&gt;" postag_regexp="yes"/>
+          <token postag="&lt;/NC.+&gt;" postag_regexp="yes"/>
       </pattern>
       <disambig action="replace"><wd pos="NCFP000_"/><wd pos="AQ0FP0_"/></disambig>
     </rule>
-    <rule>
+    <rule id="NOMECOMUM2PALAVRAS_FILTRA_FP" name="Nome proprio 2 palavras - FP">
       <pattern>
-        <marker>
-          <token postag="&lt;NCMP000&gt;"/>
-          <token postag="&lt;/NCMP000&gt;"/>
-        </marker>
+          <token postag="&lt;NCMP.+&gt;" postag_regexp="yes"/>
+          <token postag="&lt;/NC.+&gt;" postag_regexp="yes"/>
       </pattern>
       <disambig action="replace"><wd pos="NCMP000_"/><wd pos="AQ0MP0_"/></disambig>
     </rule>
-    <rule>
+    <rule id="NOMECOMUM2PALAVRAS_FILTRA_MN" name="Nome proprio 2 palavras - MN">
       <pattern>
-        <marker>
-          <token postag="&lt;NCMN000&gt;"/>
-          <token postag="&lt;/NCMN000&gt;"/>
-        </marker>
+          <token postag="&lt;NCMN.+&gt;" postag_regexp="yes"/>
+          <token postag="&lt;/NC.+&gt;" postag_regexp="yes"/>
       </pattern>
       <disambig action="replace"><wd pos="NCMN000_"/><wd pos="AQ0MN0_"/></disambig>
     </rule>
     <rule>
       <pattern>
         <marker>
-          <token postag="&lt;NCMN000&gt;"/>
+          <token postag_regexp='yes' postag="&lt;NCMN.+&gt;"/>
           <token/>
-          <token postag="&lt;/NCMN000&gt;"/>
+          <token postag_regexp='yes' postag="&lt;/NCMN.+&gt;"/>
         </marker>
       </pattern>
       <disambig action="replace"><wd pos="NCMN000_"/><wd pos="AQ0MN0_"/><wd pos="AQ0MN0_"/></disambig>
