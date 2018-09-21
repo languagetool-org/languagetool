@@ -492,7 +492,7 @@ title="Easy editing stylesheet" ?>
         <marker>
           <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.)FS.+' postag_regexp='yes'>
             <exception postag='(?:[NZ].|A..)[CM]S.+|V.[CSI].+|(C|R).+|SPS00' postag_regexp='yes'/>
-            <exception regexp='yes'>e|ser|a|mas|palavra|letra|comunidade</exception></token>
+            <exception regexp='yes'>e|ser|a|mas|palavra|letra|comunidade|continha</exception></token>
           <token min='0' regexp='yes'>&adverbios_de_intensidade;</token>
           <token min='0' postag='(?:A..|Z.)C[NS].+' postag_regexp='yes'>
             <exception negate_pos='yes' postag_regexp='yes' postag='(?:[NZ].|A..)C[NS].+'/></token>
@@ -935,7 +935,7 @@ title="Easy editing stylesheet" ?>
         <marker>
           <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.)[FC]S.+' postag_regexp='yes'>
             <exception postag='(?:D[ADIP].|N.|A..|Z.)[FC]P.+|C.|R.' postag_regexp='yes'/>
-            <exception regexp='yes'>.+[°′″]|leva</exception></token>
+            <exception regexp='yes'>.+[°′″]|leva|continha</exception></token>
           <token regexp='yes' min='0'>&adverbios_de_intensidade;</token><!-- XXX use POS after disambiguation improvements -->
           <token postag='(?:[NZ].|A..)[FC]P.+' postag_regexp='yes'>
             <exception postag='(?:[NZ].|A..)[FC]S.+|P[ID].[CFM].+|(C|R).+|SPS00.*' postag_regexp='yes'/></token>
@@ -1307,7 +1307,7 @@ title="Easy editing stylesheet" ?>
       </antipattern>
     <rule>
       <pattern>
-          <token postag_regexp='yes' postag="SPS00|CC|SENT_START"/>
+          <token postag="SPS00"/><!-- TODO rethink postag_regexp='yes' CC|SENT_START Belize, Honduras e Panamá usam também a língua inglesa.-->
         <marker>
           <token regexp="yes" case_sensitive="yes">&paises_com_artigo;|&outros_toponimos_com_artigo;</token>
         </marker>
@@ -1316,7 +1316,7 @@ title="Easy editing stylesheet" ?>
         <suggestion><match no="2" postag="N.(..).+" postag_regexp="yes" postag_replace="DA0$1." case_conversion="alllower">o</match> \2</suggestion>
       <example correction="o Perú">Vão a <marker>Perú</marker>.</example><!-- XXX a o handled by CONTRACOES_OBRIGATORIAS -->
       <example correction="os EUA">Vão a <marker>EUA</marker>.</example><!-- XXX a os handled by CONTRACOES_OBRIGATORIAS -->
-      <example correction="a China">...entre os EUA e <marker>China</marker>...</example>
+      <!--example correction="a China">...entre os EUA e <marker>China</marker>...</example--><!-- TODO rethink postag_regexp='yes' CC|SENT_START Belize, Honduras e Panamá usam também a língua inglesa.-->
       <example>Perú</example>
       <example>Vão aos EUA</example>
       <example>Cerca de 500 km a oeste de Dakar, Senegal</example>
@@ -1666,6 +1666,14 @@ title="Easy editing stylesheet" ?>
       <example>Ele preocupar-se-ia, talvez, com esta manifestação de ignorância.</example>
     </rule>
     <rule>
+      <antipattern>
+          <token regexp='yes'>(?:alg|nenh)?u[mn]a?s?|maioria</token>
+          <token regexp='yes'>de|entre</token>
+          <token>nós</token>
+          <token min="0" skip="2" postag='R.+' postag_regexp='yes'>
+            <exception scope='next'>,</exception></token>
+          <token postag='V.[CIS].3S0' postag_regexp='yes'/></token>
+      </antipattern>
       <pattern>
           <token>nós</token>
           <token min="0" skip="2" postag='R.+' postag_regexp='yes'>
@@ -1679,6 +1687,7 @@ title="Easy editing stylesheet" ?>
     <!-- 	TODO 'Nós não passeamo' is a inflection for reflexive forms. Find a way to remove it from suggestions -->
       <example type="correct"><marker>Nós ainda não passeamos</marker> na praia.</example>
       <example>Nós preocupar-nos-iamos, talvez, com esta manifestação de ignorância.</example>
+      <example>Um de nós passeia na praia.</example>
     </rule>
     <rule>
       <pattern>
@@ -1715,6 +1724,14 @@ title="Easy editing stylesheet" ?>
       <example>Tu e eu preocupar-nos-iamos, talvez, com esta manifestação de ignorância.</example>
     </rule>
     <rule>
+      <antipattern>
+          <token regexp='yes'>(?:alg|nenh)?u[mn]a?s?|maioria</token>
+          <token regexp='yes'>de|entre</token>
+          <token>vós</token>
+          <token min="0" skip="2" postag='R.+' postag_regexp='yes'>
+            <exception scope='next'>,</exception></token>
+          <token postag='V.[CIS].3S0' postag_regexp='yes'/></token>
+      </antipattern>
       <pattern>
           <token>vós</token>
           <token min="0" skip="2" postag='R.+' postag_regexp='yes'>
@@ -1726,6 +1743,7 @@ title="Easy editing stylesheet" ?>
         <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' include_skipped='all' postag='(V.[CIS].)..(.)' postag_replace='$1\2P$2' postag_regexp='yes'/></suggestion>
       <example correction='Vós passeai|Vós passeais'><marker>Vós passeiam</marker> na praia.</example>
       <example type="correct">Vós passeais na praia.</example>
+      <example>A maioria de vós passeia na praia.</example>
     </rule>
     <rule>
       <antipattern>
@@ -1737,7 +1755,7 @@ title="Easy editing stylesheet" ?>
           <token postag='V.[CIS].1P0' postag_regexp='yes'/>
       </antipattern>
       <antipattern>
-          <token regexp='yes'>uma?|nenhuma?|ninguém|nada|tudo</token>
+          <token regexp='yes'>(?:alg|nenh)?uma?|ninguém|nada|tudo</token>
           <token>de</token>
           <token regexp='yes'>el[ea]s|vocês</token>
       </antipattern>
@@ -1761,7 +1779,7 @@ title="Easy editing stylesheet" ?>
     </rule>
     <rule>
       <antipattern>
-          <token regexp='yes'>uma?|nenhuma?|ninguém|nada|tudo</token>
+          <token regexp='yes'>(?:alg|nenh)?uma?|ninguém|nada|tudo</token>
           <token regexp='yes'>[dn][eao]s?</token>
           <token postag_regexp='yes' postag='D...P.+'>
             <exception negate_pos='yes' postag_regexp='yes' postag='D...P.+'/></token>
@@ -6352,27 +6370,31 @@ title="Easy editing stylesheet" ?>
     </rule>
 
   <rulegroup id='O_FACTO_DA_ACÇÂO' name="Contração: expressão invariável com contração (p.ex. o facto da/de a)">
+      <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/preposicao-seguida-de-artigo-definido-sem-contracao/32586</url>
     <!-- Created by Marco A.G. Pinto, Portuguese rule -->
     <rule>
       <pattern>
         <marker>
-          <token/>
-          <token regexp='yes'>antes|apesar|depois|expec?tativas?|facto|possibilidade|risco|intenção</token><!-- |capacidade -->
+          <token regexp='yes'>antes|apesar|capacidade|depois|expec?tativas?|facto|necessidade|objec?tivo|possibilidade|risco|intenção</token>
           <token skip='-1' regexp='yes'>d[ao]s?
             <exception scope='next' postag='_PUNCT'/></token>
         </marker>
-          <token postag_regexp='yes' postag='V.+'/>
+          <token postag_regexp='yes' postag='VMN.+'/>
       </pattern>
-      <message>Substitua por <suggestion>\1 \2 de <match no='3' regexp_match='d(.+)' regexp_replace='$1'/></suggestion>.</message>
-      <example correction="o facto de a">Ter em conta <marker>o facto da</marker> aluna não saber.</example>
-
-      <example correction="o facto de as">Ter em conta <marker>o facto das</marker> alunas não saberem.</example>
-
-      <example correction="o facto de o">Ter em conta <marker>o facto do</marker> aluno não saber.</example>
-      <example correction="o facto de os">Ter em conta <marker>o facto dos</marker> alunos não saberem.</example>
+      <message>Nesta expressão não deve utilizar a contração.</message>
+        <suggestion>\1 de <match no='2' regexp_match='d(.+)' regexp_replace='$1'/></suggestion>
+      <example correction="facto de a">Ter em conta o <marker>facto da</marker> aluna não saber.</example>
+      <example correction="facto de as">Ter em conta o <marker>facto das</marker> alunas não saberem.</example>
+      <example correction="facto de o">Ter em conta o <marker>facto do</marker> aluno não saber.</example>
+      <example correction="facto de os">Ter em conta o <marker>facto dos</marker> alunos não saberem.</example>
       <example>Esta é a intenção da senhora.</example>
       <example>…Tancredo Neves, morto antes da posse, sendo substituído pelo seu vice…</example>
       <example><marker>Muito antes da</marker> chegada de Cristóvão Colombo à América.</example>
+      <example>O problema resultou de a secção de contabilidade ter enviado o NIB errado.</example>
+      <example>Preocupa-me o facto de ele não estar preocupado.</example>
+      <example>O cão pôs-se a rosnar pouco antes de uma rapariga ter aparecido.</example>
+      <example>O problema está em o homem não querer pagar impostos.</example>
+      <example>Esperou por o João chegar.</example>
     </rule>
   </rulegroup>
 
@@ -6425,7 +6447,7 @@ title="Easy editing stylesheet" ?>
     </rule>
     <rule>
       <antipattern>
-          <token regexp='yes'>antes|apesar|capacidade|depois|expec?tativas?|facto|objec?tivo|possibilidade|risco|intenção</token>
+          <token regexp='yes'>antes|apesar|capacidade|depois|expec?tativas?|facto|necessidade|objec?tivo|possibilidade|risco|intenção</token>
           <token>de</token>
       </antipattern>
       <antipattern>
@@ -6573,7 +6595,7 @@ title="Easy editing stylesheet" ?>
     </rule>
     <rule id='CONTRACAO_DELA' name='De + ela'>
       <antipattern>
-          <token regexp='yes'>antes|apesar|capacidade|depois|expec?tativas?|facto|objec?tivo|possibilidade|risco|intenção</token>
+          <token regexp='yes'>antes|apesar|capacidade|depois|expec?tativas?|facto|necessidade|objec?tivo|possibilidade|risco|intenção</token>
           <token>de</token>
       </antipattern>
       <antipattern>
@@ -6608,7 +6630,7 @@ title="Easy editing stylesheet" ?>
     </rule>
     <rule id='CONTRACAO_DONDE' name='De + onde'>
       <antipattern>
-          <token regexp='yes'>antes|apesar|capacidade|depois|expec?tativas?|facto|objec?tivo|possibilidade|risco|intenção</token>
+          <token regexp='yes'>antes|apesar|capacidade|depois|expec?tativas?|facto|necessidade|objec?tivo|possibilidade|risco|intenção</token>
           <token>de</token>
       </antipattern>
       <antipattern>
@@ -6638,7 +6660,7 @@ title="Easy editing stylesheet" ?>
     </rule>
     <rule id='CONTRACAO_DACOLÁ' name='De + artigos'><!-- default='off' -->
       <antipattern>
-          <token regexp='yes'>antes|apesar|capacidade|depois|expec?tativas?|facto|objec?tivo|possibilidade|risco|intenção</token>
+          <token regexp='yes'>antes|apesar|capacidade|depois|expec?tativas?|facto|necessidade|objec?tivo|possibilidade|risco|intenção</token>
           <token>de</token>
       </antipattern>
       <antipattern>
@@ -6682,7 +6704,7 @@ title="Easy editing stylesheet" ?>
     </rule>
     <rule id='CONTRACAO_DA' name='De + artigos'> <!--default='off' -->
       <antipattern>
-          <token regexp='yes'>antes|apesar|capacidade|depois|expec?tativas?|facto|objec?tivo|possibilidade|risco|intenção</token>
+          <token regexp='yes'>antes|apesar|capacidade|depois|expec?tativas?|facto|necessidade|objec?tivo|possibilidade|risco|intenção</token>
           <token>de</token>
       </antipattern>
       <antipattern>
@@ -6716,7 +6738,7 @@ title="Easy editing stylesheet" ?>
     </rule>
     <rule id='CONTRACAO_DUM' name='De + um/uns'><!--default='off' -->
       <antipattern>
-          <token regexp='yes'>antes|apesar|capacidade|depois|expec?tativas?|facto|objec?tivo|possibilidade|risco|intenção</token>
+          <token regexp='yes'>antes|apesar|capacidade|depois|expec?tativas?|facto|necessidade|objec?tivo|possibilidade|risco|intenção</token>
           <token>de</token>
       </antipattern>
       <antipattern>
