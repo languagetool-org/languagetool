@@ -497,57 +497,70 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <exception>bitte</exception>
                         <exception scope="previous" postag="SENT_START"/>
                     </token>
-                    <token>,</token>
-                    <token negate_pos="yes" postag_regexp="yes" postag="(ADV|VER):.*|KON:UNT"><exception regexp="yes">dass|um</exception></token>
+                    <marker>
+                        <token>,</token>
+                        <token negate_pos="yes" postag_regexp="yes" postag="(ADV|VER):.*|KON:UNT"><exception regexp="yes">dass|um</exception></token>
+                    </marker>
                 </pattern>
                 <message>Indirekte Rede gefunden. Benutzen Sie direkte Rede.</message>
+                <short>Vermeiden Sie Nebensätze.</short>
                 <example>Er sagte: ich bin 30 Jahre alt.</example>
-                <example correction="">Er <marker>sagte, er</marker> sei 30 Jahre alt.</example>
+                <example correction="">Er sagte <marker>, er</marker> sei 30 Jahre alt.</example>
                 <example>Weißt du zufälligerweise, wo sie wohnt?</example>
             </rule>
             <rule>
                 <pattern>
                     <token inflected="yes" skip="5" regexp="yes">legen|stellen</token>
                     <token regexp="yes">dar|fest</token>
-                    <token>,</token>
-                    <token negate_pos="yes" postag_regexp="yes" postag="(ADV|VER):.*|KON:UNT"/>
+                    <marker>
+                        <token>,</token>
+                        <token negate_pos="yes" postag_regexp="yes" postag="(ADV|VER):.*|KON:UNT"/>
+                    </marker>
                 </pattern>
                 <message>Indirekte Rede gefunden. Benutzen Sie direkte Rede.</message>
+                <short>Vermeiden Sie Nebensätze.</short>
                 <example>Er stellte fest: sie ist schön.</example>
-                <example correction="">Er <marker>stellte fest, sie</marker> sie sei schön.</example>
+                <example correction="">Er stellte fest<marker>, sie</marker> sie sei schön.</example>
             </rule>
             <rule>
                 <pattern>
                     <token inflected="yes" skip="5">geben</token>
                     <token regexp="yes">an|bekannt|vor</token>
-                    <token>,</token>
-                    <token negate_pos="yes" postag_regexp="yes" postag="(ADV|VER):.*|KON:UNT"/>
+                    <marker>
+                        <token>,</token>
+                        <token negate_pos="yes" postag_regexp="yes" postag="(ADV|VER):.*|KON:UNT"/>
+                    </marker>
                 </pattern>
                 <message>Indirekte Rede gefunden. Benutzen Sie direkte Rede.</message>
+                <short>Vermeiden Sie Nebensätze.</short>
                 <example>Er gibt an: sie ist um 10 Uhr gekommen.</example>
-                <example correction="">Er <marker>gibt an, sie</marker> sei um 10 Uhr gekommen.</example>
+                <example correction="">Er gibt an<marker>, sie</marker> sei um 10 Uhr gekommen.</example>
             </rule>
             <rule>
                 <pattern>
                     <token inflected="yes" skip="5">teilen</token>
                     <token>mit</token>
-                    <token>,</token>
-                    <token negate_pos="yes" postag_regexp="yes" postag="(ADV|VER):.*|KON:UNT"/>
+                    <marker>
+                        <token>,</token>
+                        <token negate_pos="yes" postag_regexp="yes" postag="(ADV|VER):.*|KON:UNT"/>
+                    </marker>
                 </pattern>
                 <message>Indirekte Rede gefunden. Benutzen Sie direkte Rede.</message>
                 <example>Er teilt mit: sie ist um 10 Uhr gekommen.</example>
-                <example correction="">Er <marker>teilt mit, sie</marker> sei um 10 Uhr gekommen.</example>
+                <example correction="">Er teilt mit<marker>, sie</marker> sei um 10 Uhr gekommen.</example>
             </rule>
             <rule>
                 <pattern>
                     <token inflected="yes" skip="5">nehmen</token>
                     <token>an</token>
-                    <token>,</token>
-                    <token negate_pos="yes" postag_regexp="yes" postag="(ADV|VER):.*|KON:UNT"/>
+                    <marker>
+                        <token>,</token>
+                        <token negate_pos="yes" postag_regexp="yes" postag="(ADV|VER):.*|KON:UNT"/>
+                    </marker>
                 </pattern>
                 <message>Indirekte Rede gefunden. Benutzen Sie direkte Rede.</message>
                 <example>Er nimmt an: sie ist um 10 Uhr gekommen.</example>
-                <example correction="">Er <marker>nimmt an, sie</marker> sei um 10 Uhr gekommen.</example>
+                <example correction="">Er nimmt an<marker>, sie</marker> sei um 10 Uhr gekommen.</example>
             </rule>
             <rule>
                 <pattern>
@@ -582,6 +595,42 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Indirekte Rede gefunden. Benutzen Sie direkte Rede.</message>
                 <example correction="">Ihre Behauptung<marker>, er</marker> wisse überhaupt nichts, kränkte ihn.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"></token>
+                    <token postag="PRP:.+" postag_regexp="yes"></token>
+                    <token postag="(PRO|ART):.+" postag_regexp="yes"></token>
+                    <token postag="SUB:(AKK|DAT|GEN):.+|UNKNOWN" postag_regexp="yes" regexp="yes">[A-ZÄÖÜ].+</token>
+                    <marker>
+                        <token>,</token>
+                        <token></token>
+                        <token min="0"></token>
+                    </marker>
+                    <token postag="VER:.*KJ.*" postag_regexp="yes" skip="-1"><exception scope="next" postag="VER:.+" postag_regexp="yes"/></token>
+                    <token>,</token>
+                </pattern>
+                <message>Indirekte Rede gefunden. Benutzen Sie direkte Rede.</message>
+                <example correction="">Mit ihrer Behauptung<marker>, er</marker> wisse überhaupt nichts, kränkte ihn.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"></token>
+                    <token postag="PRP:.+" postag_regexp="yes"></token>
+                    <token postag="(PRO|ART):.+" postag_regexp="yes"></token>
+                    <token postag="SUB:(AKK|DAT|GEN):.+|UNKNOWN" postag_regexp="yes" regexp="yes">[A-ZÄÖÜ].+</token>
+                    <marker>
+                        <token>,</token>
+                        <token></token>
+                        <token min="0"></token>
+                    </marker>
+                    <token postag="VER:.*KJ.*" postag_regexp="yes" skip="-1"></token>
+                    <token postag="VER:INF:.+|PA2:.+" postag_regexp="yes"></token>
+                    <token>,</token>
+                </pattern>
+                <message>Indirekte Rede gefunden. Benutzen Sie direkte Rede.</message>
+                <example correction="">Gemäß ihrer Aussage<marker>, er</marker> habe unfair gespielt, disqualifizierte man ihn.</example>
+                <example correction="">Durch seine Behauptung<marker>, er</marker> könne das schaffen, war ich besonders motiviert.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ZWEI_INFORMATIONSEINHEITEN_PRO_SATZ" name="Leichte Sprache: eine Aussage pro Satz">
