@@ -1058,6 +1058,8 @@ regexp case-insensitive maken : (?i)
 
         <rulegroup id="TOORN_TORN" name="waarschuwing bij gebruik torn i.p.v. toorn">
             <rule>
+				<antipattern><token>torn</token><token skip="1">aan</token></antipattern>
+				<antipattern><token skip="3">aan</token><token>torn</token></antipattern>
                 <pattern>
                        <token>torn</token>
                 </pattern>
@@ -1065,8 +1067,37 @@ regexp case-insensitive maken : (?i)
                 <example correction="toorn">Het woord <marker>torn</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="TOORNDE_TORNDE" name="waarschuwing bij gebruik tornde i.p.v. toornde">
+            <rule>
+				<antipattern><token>tornde</token><token skip="1">aan</token></antipattern>
+				<antipattern><token skip="3">aan</token><token>tornde</token></antipattern>
+                <pattern>
+                       <token>tornde</token>
+                </pattern>
+                <message>Bedoelt u wellicht <suggestion>toornde</suggestion>?</message>
+                <example correction="toornde">Het woord <marker>tornde</marker> kan een vergissing zijn.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="TOORNDEN_TORNDEN" name="waarschuwing bij gebruik tornden i.p.v. toornden">
+            <rule>
+                <pattern>
+                       <token>tornden</token>
+                </pattern>
+                <message>Bedoelt u wellicht <suggestion>toornden</suggestion>?</message>
+                <example correction="toornden">Het woord <marker>tornden</marker> kan een vergissing zijn.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="GETOORNDE_GETORNDE" name="waarschuwing bij gebruik getornde i.p.v. getoornde">
+            <rule>
+                <pattern>
+                       <token>getornde</token>
+                </pattern>
+                <message>Bedoelt u wellicht <suggestion>getoornde</suggestion>?</message>
+                <example correction="getoornde">Het woord <marker>getornde</marker> kan een vergissing zijn.</example>
+            </rule>
+        </rulegroup>		
 
-        <rulegroup id="VERWOORD_VERWORD" name="waarschuwing bij gebruik verword i.p.v. verwoord">
+		<rulegroup id="VERWOORD_VERWORD" name="waarschuwing bij gebruik verword i.p.v. verwoord">
             <rule>
                 <pattern>
                        <token>verword</token>
@@ -1555,26 +1586,6 @@ regexp case-insensitive maken : (?i)
             </rule>
         </rulegroup>
 
-        <rulegroup id="TOORNT_TORNT" name="waarschuwing bij gebruik tornt i.p.v. toornt">
-            <rule>
-				<antipattern><token>tornt</token><token skip="1">aan</token></antipattern>
-                <pattern>
-                       <token>tornt</token>
-                </pattern>
-                <message>Bedoelt u wellicht <suggestion>toornt</suggestion>?</message>
-                <example correction="toornt">Het woord <marker>tornt</marker> kan een vergissing zijn.</example>
-            </rule>
-        </rulegroup>
-        <rulegroup id="TOORNEN_TORNEN" name="waarschuwing bij gebruik tornen i.p.v. toornen">
-            <rule>
-				<antipattern><token>tornen</token><token skip="1">aan</token></antipattern>
-                <pattern>
-                       <token>tornen</token>
-                </pattern>
-                <message>Bedoelt u Z<suggestion>toornen</suggestion>?</message>
-                <example correction="toornen">Het woord <marker>tornen</marker> kan een vergissing zijn.</example>
-            </rule>
-        </rulegroup>
 
 		<!-- onwaarschijnlijk
         <rulegroup id="VOORSTEN_VORSTEN" name="waarschuwing bij gebruik vorsten i.p.v. voorsten">
@@ -1612,9 +1623,9 @@ regexp case-insensitive maken : (?i)
         <rulegroup id="POORTHUIS_PORTHUIS" name="waarschuwing bij gebruik porthuis i.p.v. poorthuis">
             <rule>
                 <pattern>
-                       <token>porthuis</token>
+                       <token inflected="yes">porthuis</token>
                 </pattern>
-                <message>Bedoelt u wellicht <suggestion>poorthuis</suggestion> (standspoort) of toch de drankimporteur?</message>
+				<message>Bedoelt u wellicht <suggestion><match no="1" regexp_match="port" regexp_replace="poort"/></suggestion> (standspoort) of toch de drankimporteur?</message>
                 <example correction="poorthuis">Het woord <marker>porthuis</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
@@ -1715,36 +1726,16 @@ regexp case-insensitive maken : (?i)
             </rule>
         </rulegroup>
 
-        <rulegroup id="SCHOORT_SCHORT" name="waarschuwing bij gebruik schort i.p.v. schoort">
-            <rule>
-                <pattern>
-                       <token>schort</token>
-                </pattern>
-                <message>Bedoelt u wellicht <suggestion>schoort</suggestion>?</message>
-                <example correction="schoort">Het woord <marker>schort</marker> kan een vergissing zijn.</example>
-            </rule>
-        </rulegroup>
-
-        <rulegroup id="TOORNENDE_TORNENDE" name="waarschuwing bij gebruik tornende i.p.v. toornende">
-            <rule>
-                <pattern>
-                       <token>tornende</token>
-                </pattern>
-                <message>Bedoelt u wellicht <suggestion>toornende</suggestion>?</message>
-                <example correction="toornende">Het woord <marker>tornende</marker> kan een vergissing zijn.</example>
-            </rule>
-        </rulegroup>
-
         <rulegroup id="GEMOORDE_GEMORDE" name="waarschuwing bij gebruik gemorde i.p.v. gemoorde">
             <rule>
                 <pattern>
                        <token>gemorde</token>
                 </pattern>
-                <message>Bedoelt u wellicht <suggestion>gemoorde</suggestion>?</message>
+                <message>Bedoelt u wellicht <suggestion>gemoorde</suggestion>? Of nog iets anders?</message>
                 <example correction="gemoorde">Het woord <marker>gemorde</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
-
+<!--
         <rulegroup id="BOORDER_BORDER" name="waarschuwing bij gebruik border i.p.v. boorder">
             <rule>
                 <pattern>
@@ -1754,7 +1745,8 @@ regexp case-insensitive maken : (?i)
                 <example correction="boorder">Het woord <marker>border</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
-
+		-->
+		<!-- getoornd is nogal zeldzaam!
         <rulegroup id="GETOORND_GETORND" name="waarschuwing bij gebruik getornd i.p.v. getoornd">
             <rule>
                 <pattern>
@@ -1764,7 +1756,8 @@ regexp case-insensitive maken : (?i)
                 <example correction="getoornd">Het woord <marker>getornd</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
-
+		-->
+		
         <rulegroup id="BOORDZIJDE_BORDZIJDE" name="waarschuwing bij gebruik bordzijde i.p.v. boordzijde">
             <rule>
                 <pattern>
@@ -1780,7 +1773,7 @@ regexp case-insensitive maken : (?i)
                 <pattern>
                        <token>verwordend</token>
                 </pattern>
-                <message>Bedoelt u wellicht <suggestion>verwoordend</suggestion>?</message>
+                <message>Bedoelt u wellicht <suggestion>verwoordend</suggestion> (onder woorden brengend)?</message>
                 <example correction="verwoordend">Het woord <marker>verwordend</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
@@ -1790,8 +1783,8 @@ regexp case-insensitive maken : (?i)
                 <pattern>
                        <token>dorren</token>
                 </pattern>
-                <message>Bedoelt u wellicht <suggestion>doorren</suggestion>?</message>
-                <example correction="doorren">Het woord <marker>dorren</marker> kan een vergissing zijn.</example>
+				<message>Bedoelt u wellicht <suggestion>doorren</suggestion>? Anders is <suggestion>verdorren</suggestion> gebruikelijker.</message>
+                <example correction="doorren|verdorren">Het woord <marker>dorren</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
 
@@ -1805,27 +1798,7 @@ regexp case-insensitive maken : (?i)
             </rule>
         </rulegroup>
 
-        <rulegroup id="VOETENBOORD_VOETENBORD" name="waarschuwing bij gebruik voetenbord i.p.v. voetenboord">
-            <rule>
-                <pattern>
-                       <token>voetenbord</token>
-                </pattern>
-                <message>Bedoelt u wellicht <suggestion>voetenboord</suggestion>?</message>
-                <example correction="voetenboord">Het woord <marker>voetenbord</marker> kan een vergissing zijn.</example>
-            </rule>
-        </rulegroup>
-
-        <rulegroup id="POORTSCANS_PORTSCANS" name="waarschuwing bij gebruik portscans i.p.v. poortscans">
-            <rule>
-                <pattern>
-                       <token>portscans</token>
-                </pattern>
-                <message>Bedoelt u wellicht <suggestion>poortscans</suggestion>?</message>
-                <example correction="poortscans">Het woord <marker>portscans</marker> kan een vergissing zijn.</example>
-            </rule>
-        </rulegroup>
-
-        <rulegroup id="GEHOORDEN_GEHORDEN" name="waarschuwing bij gebruik gehorden i.p.v. gehoorden">
+		<rulegroup id="GEHOORDEN_GEHORDEN" name="waarschuwing bij gebruik gehorden i.p.v. gehoorden">
             <rule>
                 <pattern>
                        <token>gehorden</token>
@@ -1845,16 +1818,6 @@ regexp case-insensitive maken : (?i)
             </rule>
         </rulegroup>
 
-        <rulegroup id="TOORNDE_TORNDE" name="waarschuwing bij gebruik tornde i.p.v. toornde">
-            <rule>
-                <pattern>
-                       <token>tornde</token>
-                </pattern>
-                <message>Bedoelt u wellicht <suggestion>toornde</suggestion>?</message>
-                <example correction="toornde">Het woord <marker>tornde</marker> kan een vergissing zijn.</example>
-            </rule>
-        </rulegroup>
-
         <rulegroup id="BOORDRANDEN_BORDRANDEN" name="waarschuwing bij gebruik bordranden i.p.v. boordranden">
             <rule>
                 <pattern>
@@ -1862,16 +1825,6 @@ regexp case-insensitive maken : (?i)
                 </pattern>
                 <message>Bedoelt u wellicht <suggestion>boordranden</suggestion>?</message>
                 <example correction="boordranden">Het woord <marker>bordranden</marker> kan een vergissing zijn.</example>
-            </rule>
-        </rulegroup>
-
-        <rulegroup id="POORTHUISJE_PORTHUISJE" name="waarschuwing bij gebruik porthuisje i.p.v. poorthuisje">
-            <rule>
-                <pattern>
-                       <token>porthuisje</token>
-                </pattern>
-                <message>Bedoelt u wellicht <suggestion>poorthuisje</suggestion>?</message>
-                <example correction="poorthuisje">Het woord <marker>porthuisje</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
 
@@ -1885,32 +1838,53 @@ regexp case-insensitive maken : (?i)
             </rule>
         </rulegroup>
 
-        <rulegroup id="SCHOORTJES_SCHORTJES" name="waarschuwing bij gebruik schortjes i.p.v. schoortjes">
-            <rule>
-                <pattern>
-                       <token>schortjes</token>
-                </pattern>
-                <message>Bedoelt u wellicht <suggestion>schoortjes</suggestion>?</message>
-                <example correction="schoortjes">Het woord <marker>schortjes</marker> kan een vergissing zijn.</example>
-            </rule>
-        </rulegroup>
-
         <rulegroup id="KOORNIS_KORNIS" name="waarschuwing bij gebruik kornis i.p.v. koornis">
             <rule>
                 <pattern>
-                       <token>kornis</token>
+                       <token inflected="yes">kornis</token>
                 </pattern>
-                <message>Bedoelt u wellicht <suggestion>koornis</suggestion>?</message>
+				<message>Bedoelt u wellicht <suggestion><match no="1" regexp_match="kor" regexp_replace="koor" /></suggestion>? Of toch een sierlijst?</message>
                 <example correction="koornis">Het woord <marker>kornis</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
-
+		
+        <rulegroup id="TOORNT_TORNT" name="waarschuwing bij gebruik tornt i.p.v. toornt">
+            <rule>
+				<antipattern><token>tornt</token><token skip="1">aan</token></antipattern>
+				<antipattern><token skip="3">aan</token><token>tornt</token></antipattern>
+                <pattern>
+                       <token>tornt</token>
+                </pattern>
+                <message>Bedoelt u wellicht <suggestion>toornt</suggestion>?</message>
+                <example correction="toornt">Het woord <marker>tornt</marker> kan een vergissing zijn.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="TOORNEN_TORNEN" name="waarschuwing bij gebruik tornen i.p.v. toornen">
+            <rule>
+				<antipattern><token>tornen</token><token skip="1">aan</token></antipattern>
+				<antipattern><token skip="3">aan</token><token>tornen</token></antipattern>
+                <pattern>
+                       <token>tornen</token>
+                </pattern>
+                <message>Bedoelt u Z<suggestion>toornen</suggestion>?</message>
+                <example correction="toornen">Het woord <marker>tornen</marker> kan een vergissing zijn.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="TOORNENDE_TORNENDE" name="waarschuwing bij gebruik tornende i.p.v. toornende">
+            <rule>
+                <pattern>
+                       <token>tornende</token>
+                </pattern>
+                <message>Bedoelt u wellicht <suggestion>toornende</suggestion> (kwaad zijnde)? Of toch losmakende?</message>
+                <example correction="toornende">Het woord <marker>tornende</marker> kan een vergissing zijn.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="TOORNEND_TORNEND" name="waarschuwing bij gebruik tornend i.p.v. toornend">
             <rule>
                 <pattern>
                        <token>tornend</token>
                 </pattern>
-                <message>Bedoelt u wellicht <suggestion>toornend</suggestion>?</message>
+                <message>Bedoelt u wellicht <suggestion>toornend</suggestion> (kwaad zijnd)? Of toch losmakend?</message>
                 <example correction="toornend">Het woord <marker>tornend</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
@@ -1920,61 +1894,11 @@ regexp case-insensitive maken : (?i)
                 <pattern>
                        <token>kordeel</token>
                 </pattern>
-                <message>Bedoelt u wellicht <suggestion>koordeel</suggestion>?</message>
+                <message>Bedoelt u wellicht <suggestion>koordeel</suggestion> (zangstuk)? Of toch het zeldzame kordeel (touw)?</message>
                 <example correction="koordeel">Het woord <marker>kordeel</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
 
-        <rulegroup id="POORTGEBIEDEN_PORTGEBIEDEN" name="waarschuwing bij gebruik portgebieden i.p.v. poortgebieden">
-            <rule>
-                <pattern>
-                       <token>portgebieden</token>
-                </pattern>
-                <message>Bedoelt u wellicht <suggestion>poortgebieden</suggestion>?</message>
-                <example correction="poortgebieden">Het woord <marker>portgebieden</marker> kan een vergissing zijn.</example>
-            </rule>
-        </rulegroup>
-
-<!--
-        <rulegroup id="BOORDEEL_BORDEEL" name="waarschuwing bij gebruik bordeel i.p.v. boordeel">
-            <rule>
-                <pattern>
-                       <token>bordeel</token>
-                </pattern>
-                <message>Bedoelt u wellicht <suggestion>boordeel</suggestion>?</message>
-                <example correction="boordeel">Het woord <marker>bordeel</marker> kan een vergissing zijn.</example>
-            </rule>
-        </rulegroup>
-        -->
-        <rulegroup id="TOORNDEN_TORNDEN" name="waarschuwing bij gebruik tornden i.p.v. toornden">
-            <rule>
-                <pattern>
-                       <token>tornden</token>
-                </pattern>
-                <message>Bedoelt u wellicht <suggestion>toornden</suggestion>?</message>
-                <example correction="toornden">Het woord <marker>tornden</marker> kan een vergissing zijn.</example>
-            </rule>
-        </rulegroup>
-
-        <rulegroup id="HOOFDBOORD_HOOFDBORD" name="waarschuwing bij gebruik hoofdbord i.p.v. hoofdboord">
-            <rule>
-                <pattern>
-                       <token>hoofdbord</token>
-                </pattern>
-                <message>Bedoelt u wellicht <suggestion>hoofdboord</suggestion>?</message>
-                <example correction="hoofdboord">Het woord <marker>hoofdbord</marker> kan een vergissing zijn.</example>
-            </rule>
-        </rulegroup>
-
-        <rulegroup id="GETOORNDE_GETORNDE" name="waarschuwing bij gebruik getornde i.p.v. getoornde">
-            <rule>
-                <pattern>
-                       <token>getornde</token>
-                </pattern>
-                <message>Bedoelt u wellicht <suggestion>getoornde</suggestion>?</message>
-                <example correction="getoornde">Het woord <marker>getornde</marker> kan een vergissing zijn.</example>
-            </rule>
-        </rulegroup>
 
         <rulegroup id="SPATBOORD_SPATBORD" name="waarschuwing bij gebruik spatbord i.p.v. spatboord">
             <rule>
@@ -1986,38 +1910,19 @@ regexp case-insensitive maken : (?i)
             </rule>
         </rulegroup>
 
-        <rulegroup id="VOETENBOORDEN_VOETENBORDEN" name="waarschuwing bij gebruik voetenborden i.p.v. voetenboorden">
-            <rule>
-                <pattern>
-                       <token>voetenborden</token>
-                </pattern>
-                <message>Bedoelt u wellicht <suggestion>voetenboorden</suggestion>?</message>
-                <example correction="voetenboorden">Het woord <marker>voetenborden</marker> kan een vergissing zijn.</example>
-            </rule>
-        </rulegroup>
-
         <rulegroup id="SIERBOORD_SIERBORD" name="waarschuwing bij gebruik sierbord i.p.v. sierboord">
             <rule>
                 <pattern>
                        <token>sierbord</token>
                 </pattern>
-                <message>Bedoelt u wellicht <suggestion>sierboord</suggestion>?</message>
+                <message>Bedoelt u wellicht <suggestion>sierboord</suggestion> (op kleding) of toch een mooie schaal?</message>
                 <example correction="sierboord">Het woord <marker>sierbord</marker> kan een vergissing zijn.</example>
-            </rule>
-        </rulegroup>
-
-        <rulegroup id="WATERBOORD_WATERBORD" name="waarschuwing bij gebruik waterbord i.p.v. waterboord">
-            <rule>
-                <pattern>
-                       <token>waterbord</token>
-                </pattern>
-                <message>Bedoelt u wellicht <suggestion>waterboord</suggestion>?</message>
-                <example correction="waterboord">Het woord <marker>waterbord</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
 
         <rulegroup id="POORTVRIJE_PORTVRIJE" name="waarschuwing bij gebruik portvrije i.p.v. poortvrije">
             <rule>
+                <antipattern><token>portvrije</token><token regexp="yes">envelop.*</token></antipattern>
                 <pattern>
                        <token>portvrije</token>
                 </pattern>
@@ -2041,7 +1946,7 @@ regexp case-insensitive maken : (?i)
                 <pattern>
                        <token>kortoren</token>
                 </pattern>
-                <message>Bedoelt u wellicht <suggestion>koortoren</suggestion>?</message>
+                <message>Bedoelt u wellicht <suggestion>koortoren</suggestion> (waar gezongen wordt), of toch kort-oren?</message>
                 <example correction="koortoren">Het woord <marker>kortoren</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
@@ -2096,26 +2001,6 @@ regexp case-insensitive maken : (?i)
             </rule>
         </rulegroup>
 
-        <rulegroup id="POORTHUISJES_PORTHUISJES" name="waarschuwing bij gebruik porthuisjes i.p.v. poorthuisjes">
-            <rule>
-                <pattern>
-                       <token>porthuisjes</token>
-                </pattern>
-                <message>Bedoelt u wellicht <suggestion>poorthuisjes</suggestion>?</message>
-                <example correction="poorthuisjes">Het woord <marker>porthuisjes</marker> kan een vergissing zijn.</example>
-            </rule>
-        </rulegroup>
-
-        <rulegroup id="KOORNISSEN_KORNISSEN" name="waarschuwing bij gebruik kornissen i.p.v. koornissen">
-            <rule>
-                <pattern>
-                       <token>kornissen</token>
-                </pattern>
-                <message>Bedoelt u wellicht <suggestion>koornissen</suggestion>?</message>
-                <example correction="koornissen">Het woord <marker>kornissen</marker> kan een vergissing zijn.</example>
-            </rule>
-        </rulegroup>
-
         <rulegroup id="KOORTORENS_KORTORENS" name="waarschuwing bij gebruik kortorens i.p.v. koortorens">
             <rule>
                 <pattern>
@@ -2156,23 +2041,22 @@ regexp case-insensitive maken : (?i)
             </rule>
         </rulegroup>
 
-        <rulegroup id="SCHOORTJE_SCHORTJE" name="waarschuwing bij gebruik schortje i.p.v. schoortje">
-            <rule>
-                <pattern>
-                       <token>schortje</token>
-                </pattern>
-                <message>Bedoelt u wellicht <suggestion>schoortje</suggestion>?</message>
-                <example correction="schoortje">Het woord <marker>schortje</marker> kan een vergissing zijn.</example>
-            </rule>
-        </rulegroup>
-
         <rulegroup id="POORTGEBIED_PORTGEBIED" name="waarschuwing bij gebruik portgebied i.p.v. poortgebied">
             <rule>
                 <pattern>
                        <token>portgebied</token>
                 </pattern>
-                <message>Bedoelt u wellicht <suggestion>poortgebied</suggestion>?</message>
+                <message>Bedoelt u wellicht <suggestion>poortgebied</suggestion> (aanvoergebied van stad), of toch een gebied waar port wordt gemaakt?</message>
                 <example correction="poortgebied">Het woord <marker>portgebied</marker> kan een vergissing zijn.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="POORTGEBIEDEN_PORTGEBIEDEN" name="waarschuwing bij gebruik portgebieden i.p.v. poortgebieden">
+            <rule>
+                <pattern>
+                       <token>portgebieden</token>
+                </pattern>
+                <message>Bedoelt u wellicht <suggestion>poortgebieden</suggestion> (aanvoergebied van stad), of toch een gebied waar port wordt gemaakt?</message>
+                <example correction="poortgebieden">Het woord <marker>portgebieden</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
 
@@ -2553,16 +2437,6 @@ regexp case-insensitive maken : (?i)
                 </pattern>
                 <message>Bedoelt u wellicht <suggestion>jachtspoortjes</suggestion>?</message>
                 <example correction="jachtspoortjes">Het woord <marker>jachtsportjes</marker> kan een vergissing zijn.</example>
-            </rule>
-        </rulegroup>
-
-        <rulegroup id="HOOFDBOORDEN_HOOFDBORDEN" name="waarschuwing bij gebruik hoofdborden i.p.v. hoofdboorden">
-            <rule>
-                <pattern>
-                       <token>hoofdborden</token>
-                </pattern>
-                <message>Bedoelt u wellicht <suggestion>hoofdboorden</suggestion>?</message>
-                <example correction="hoofdboorden">Het woord <marker>hoofdborden</marker> kan een vergissing zijn.</example>
             </rule>
         </rulegroup>
 
