@@ -769,8 +769,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="">Es wurde uns als Dauerleihgabe <marker>überlasen</marker>.</example>
             </rule>
             <rule>
-                <pattern>
-                    <token>Entscheidung</token>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">Entscheidung|Feld|Nutzung|Zufall</token>
                     <marker>
                         <token regexp="yes">überl(asen|ies)</token>
                     </marker>
@@ -778,38 +778,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Meinten Sie eine Form des Verbs 'überlassen'?</message>
                 <short>Möglicher Tippfehler</short>
                 <example correction="">Sie haben uns die Entscheidung <marker>überlasen</marker>.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token>Feld</token>
-                    <marker>
-                        <token regexp="yes">überl(asen|ies)</token>
-                    </marker>
-                </pattern>
-                <message>Meinten Sie eine Form des Verbs 'überlassen'?</message>
-                <short>Möglicher Tippfehler</short>
                 <example correction="">Wir dürfen der Opposition nicht kampflos das Feld <marker>überlasen</marker>.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token>Zufall</token>
-                    <marker>
-                        <token regexp="yes">überl(asen|ies)</token>
-                    </marker>
-                </pattern>
-                <message>Meinten Sie eine Form des Verbs 'überlassen'?</message>
-                <short>Möglicher Tippfehler</short>
                 <example correction="">Wir dürfen nichts dem Zufall <marker>überlasen</marker>.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token>Nutzung</token>
-                    <marker>
-                        <token regexp="yes">überl(asen|ies)</token>
-                    </marker>
-                </pattern>
-                <message>Meinten Sie eine Form des Verbs 'überlassen'?</message>
-                <short>Möglicher Tippfehler</short>
                 <example correction="">Es wurde uns zur Nutzung <marker>überlasen</marker>.</example>
             </rule>
         </rulegroup>
@@ -32026,6 +31996,20 @@ Andere Projekte</example>
                 <example correction="dem">Seit <marker>den</marker> schweren Unfall ist er nicht mehr derselbe.</example>
                 <example>Bei klarem Wetter kann man von hier aus den Berg Fuji sehen.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">auf|in|vor</token>
+                    <marker><token regexp="yes">d(ies)?em|jenem|[dms]?einem|ihrem</token></marker>
+                    <token postag="ADJ:.+:SIN:.+" postag_regexp="yes" min="0"/>
+                    <token postag="SUB:.+:SIN:.*" postag_regexp="yes"><exception  postag="SUB:.+:PLU:.+|.+:INF" postag_regexp="yes"></exception></token>
+                    <token inflected="yes">legen</token>
+                    <token postag="PKT"/>
+                </pattern>
+                <message>Meinten Sie <suggestion><match no="2" regexp_match="m$" regexp_replace="n"/></suggestion> oder sollte eine Form von 'liegen' statt 'legen' verwendet werden?</message>
+                <example correction="den">Er hat die Briefe auf <marker>dem</marker> Schreibtisch gelegt.</example>
+                <example correction="ihren">Sie sagte, dass das Geld in <marker>ihrem</marker> Zimmer legt.</example>
+                <example>Auf dem Rollfeld legt eine Verkehrsmaschine im Mittel 5 km pro Flug zurück.</example>
+            </rule>
         </rulegroup>
         <rule id="AN_HERR" name="Präposition/Kasus – 'an/für Herr (Herrn)' etc.">
             <pattern case_sensitive="yes">
@@ -32330,7 +32314,7 @@ Andere Projekte</example>
             <rule>
                 <pattern>
                     <marker>
-                        <token regexp="yes">weil|obwohl|nachdem</token>
+                        <token regexp="yes">damit|dass|indem|weil|obwohl|nachdem</token>
                         <token postag="PRO:PER:NOM:.*" postag_regexp="yes"/>
                         <token postag="VER:[123]:.*PRÄ:.*" postag_regexp="yes">
                             <exception postag="SUB:.+|VER:(INF|EIZ):.*|PA[12]:.*|AD[JV]:.*" postag_regexp="yes"/>
