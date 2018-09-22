@@ -243,7 +243,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">(ein|dies|jen)(e[nms])?</token>
+                    <token regexp="yes">(k?ein|dies?|jen)(e[nms])?</token>
                     <marker>
                         <token regexp='yes'>\w*beamte</token>
                     </marker>
@@ -251,6 +251,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Meinten Sie <suggestion><match no="2" regexp_match="e$" regexp_replace="er"/></suggestion> oder <suggestion><match no="2" regexp_match="e$" regexp_replace="en"/></suggestion>?</message>
                 <example correction='Schalterbeamter|Schalterbeamten'>Ein <marker>Schalterbeamte</marker> war sehr unhöflich.</example>
                 <example correction='Beamter|Beamten'>Sehen Sie diesen <marker>Beamte</marker> dort?</example>
+                <example correction='Polizeibeamter|Polizeibeamten'>Die <marker>Polizeibeamte</marker> kamen zu spät.</example>
             </rule>
         </rulegroup>
         <rule id="ZU_SCHRIEBEN_ETC" name="zu schrieben (schreiben) etc.">
@@ -3027,21 +3028,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">gibt|gab|gäbe</token>
+                    <token inflected="yes">geben</token>
                     <token>es</token>
-                    <marker>
-                        <token regexp="yes">genügen|ausreichen</token>
-                    </marker>
-                </pattern>
-                <message>Meinten Sie ein Partizip, z.B. 'genügend' statt 'genügen'?</message>
-                <suggestion><match no="3" postag="VER:PA1:.*" postag_regexp="yes" /></suggestion>
-                <example correction="genügend">Gibt es <marker>genügen</marker> davon?</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token regexp="yes">gibt|gab|gäbe</token>
-                    <token>es</token>
-                    <token regexp="yes">nicht|kaum</token>
+                    <token min="0" regexp="yes">nicht|kaum</token>
                     <marker>
                         <token regexp="yes">genügen|ausreichen</token>
                     </marker>
@@ -3055,18 +3044,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token regexp="yes">mir|sich|uns|euch</token>
-                    <token regexp="yes">ziemlich|recht|sehr|relativ|absolut|völlig|ganz|total|eher|halbwegs</token>
-                    <marker>
-                        <token>sich</token>
-                    </marker>
-                </pattern>
-                <message>Meinten Sie <suggestion>sicher</suggestion>?</message>
-                <example correction="sicher">Er ist sich absolut <marker>sich</marker>.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token regexp="yes">mir|sich|uns|euch</token>
-                    <token regexp="yes">d(ort|a)</token>
+                    <token regexp="yes" min="0">d(ort|a)</token>
                     <token regexp="yes">ziemlich|recht|sehr|relativ|absolut|völlig|ganz|total|eher|halbwegs</token>
                     <marker>
                         <token>sich</token>
@@ -3074,6 +3052,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Meinten Sie <suggestion>sicher</suggestion>?</message>
                 <example correction="sicher">Er ist sich da absolut <marker>sich</marker>.</example>
+                <example correction="sicher">Er ist sich absolut <marker>sich</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="BEIN_NAECHSTEN" name="'Bein (Beim) nächsten/...'">
