@@ -133,7 +133,7 @@ public class AgreementRule extends Rule {
       new PatternTokenBuilder().token("Gaul").build()
     ),
     Arrays.asList(
-      new PatternTokenBuilder().token("keingit").build(),
+      new PatternTokenBuilder().token("kein").build(),
       new PatternTokenBuilder().token("schöner").build(),
       new PatternTokenBuilder().token("Land").build()  // https://de.wikipedia.org/wiki/Kein_sch%C3%B6ner_Land
     ),
