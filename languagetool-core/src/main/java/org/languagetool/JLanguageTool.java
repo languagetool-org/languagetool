@@ -1141,7 +1141,7 @@ public class JLanguageTool {
           if (cache != null) {
             cacheKey = new InputSentence(analyzedSentence.getText(), language, motherTongue,
                     disabledRules, disabledRuleCategories,
-                    enabledRules, enabledRuleCategories, userConfig);
+                    enabledRules, enabledRuleCategories, userConfig, mode);
             sentenceMatches = cache.getIfPresent(cacheKey);
           }
           if (sentenceMatches == null) {

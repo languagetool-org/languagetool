@@ -32,23 +32,29 @@ public class InputSentenceTest {
   public void test() {
     Language lang = Languages.getLanguageForShortCode("xx-XX");
     UserConfig userConfig1 = new UserConfig(Arrays.asList("foo1", "foo2"));
+    JLanguageTool.Mode mode = JLanguageTool.Mode.ALL;
     InputSentence inputSentence1a = new InputSentence("foo", lang, lang,
             new HashSet<>(Arrays.asList("ID1")), new HashSet<>(Arrays.asList(new CategoryId("C1"))),
-            new HashSet<>(Arrays.asList("ID2")), new HashSet<>(Arrays.asList(new CategoryId("C2"))), userConfig1);
+            new HashSet<>(Arrays.asList("ID2")), new HashSet<>(Arrays.asList(new CategoryId("C2"))), userConfig1, mode);
     InputSentence inputSentence1b = new InputSentence("foo", lang, lang,
             new HashSet<>(Arrays.asList("ID1")), new HashSet<>(Arrays.asList(new CategoryId("C1"))),
-            new HashSet<>(Arrays.asList("ID2")), new HashSet<>(Arrays.asList(new CategoryId("C2"))), userConfig1);
+            new HashSet<>(Arrays.asList("ID2")), new HashSet<>(Arrays.asList(new CategoryId("C2"))), userConfig1, mode);
     assertEquals(inputSentence1a, inputSentence1b);
     InputSentence inputSentence2 = new InputSentence("foo", lang, null,
             new HashSet<>(Arrays.asList("ID1")), new HashSet<>(Arrays.asList(new CategoryId("C1"))),
-            new HashSet<>(Arrays.asList("ID2")), new HashSet<>(Arrays.asList(new CategoryId("C2"))), userConfig1);
+            new HashSet<>(Arrays.asList("ID2")), new HashSet<>(Arrays.asList(new CategoryId("C2"))), userConfig1, mode);
     assertNotEquals(inputSentence1a, inputSentence2);
     assertNotEquals(inputSentence1b, inputSentence2);
     UserConfig userConfig2 = new UserConfig(Arrays.asList("foo1", "foo2"));
     InputSentence inputSentence1bUserConfig2 = new InputSentence("foo", lang, lang,
             new HashSet<>(Arrays.asList("ID1")), new HashSet<>(Arrays.asList(new CategoryId("C1"))),
-            new HashSet<>(Arrays.asList("ID2")), new HashSet<>(Arrays.asList(new CategoryId("C2"))), userConfig2);
+            new HashSet<>(Arrays.asList("ID2")), new HashSet<>(Arrays.asList(new CategoryId("C2"))), userConfig2, mode);
     assertEquals(inputSentence1a, inputSentence1bUserConfig2);
+
+    InputSentence inputSentence1aOtherMode = new InputSentence("foo", lang, lang,
+            new HashSet<>(Arrays.asList("ID1")), new HashSet<>(Arrays.asList(new CategoryId("C1"))),
+            new HashSet<>(Arrays.asList("ID2")), new HashSet<>(Arrays.asList(new CategoryId("C2"))), userConfig1, JLanguageTool.Mode.TEXTLEVEL_ONLY);
+    assertNotEquals(inputSentence1a, inputSentence1aOtherMode);
   }
 
 }

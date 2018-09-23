@@ -46,24 +46,25 @@ public class ResultCacheTest {
     assertThat(cache.hitCount(), is(0L));
     assertThat(cache.hitRate(), is(1.0));
     UserConfig userConfig1 = new UserConfig(Arrays.asList("word1"));
-    InputSentence input1a = new InputSentence("foo", Languages.getLanguageForShortCode("de"), null, new HashSet<>(), new HashSet<>(), new HashSet<>(), new HashSet<>(), userConfig1);
-    InputSentence input1b = new InputSentence("foo", Languages.getLanguageForShortCode("de"), null, new HashSet<>(), new HashSet<>(), new HashSet<>(), new HashSet<>(), userConfig1);
+    JLanguageTool.Mode mode = JLanguageTool.Mode.ALL;
+    InputSentence input1a = new InputSentence("foo", Languages.getLanguageForShortCode("de"), null, new HashSet<>(), new HashSet<>(), new HashSet<>(), new HashSet<>(), userConfig1, mode);
+    InputSentence input1b = new InputSentence("foo", Languages.getLanguageForShortCode("de"), null, new HashSet<>(), new HashSet<>(), new HashSet<>(), new HashSet<>(), userConfig1, mode);
     cache.put(input1a, Arrays.asList());
     assertNotNull(cache.getIfPresent(input1a));
     assertNotNull(cache.getIfPresent(input1b));
-    InputSentence input2a = new InputSentence("foo bar", Languages.getLanguageForShortCode("de"), null, new HashSet<>(), new HashSet<>(), new HashSet<>(), new HashSet<>(), userConfig1);
-    InputSentence input2b = new InputSentence("foo", Languages.getLanguageForShortCode("en"), null, new HashSet<>(), new HashSet<>(), new HashSet<>(), new HashSet<>(), userConfig1);
-    InputSentence input2c = new InputSentence("foo", Languages.getLanguageForShortCode("de"), Languages.getLanguageForShortCode("en"), new HashSet<>(), new HashSet<>(), new HashSet<>(), new HashSet<>(), userConfig1);
-    InputSentence input2d = new InputSentence("foo", Languages.getLanguageForShortCode("de"), null, new HashSet<>(Arrays.asList("ID1")), new HashSet<>(), new HashSet<>(), new HashSet<>(), userConfig1);
+    InputSentence input2a = new InputSentence("foo bar", Languages.getLanguageForShortCode("de"), null, new HashSet<>(), new HashSet<>(), new HashSet<>(), new HashSet<>(), userConfig1, mode);
+    InputSentence input2b = new InputSentence("foo", Languages.getLanguageForShortCode("en"), null, new HashSet<>(), new HashSet<>(), new HashSet<>(), new HashSet<>(), userConfig1, mode);
+    InputSentence input2c = new InputSentence("foo", Languages.getLanguageForShortCode("de"), Languages.getLanguageForShortCode("en"), new HashSet<>(), new HashSet<>(), new HashSet<>(), new HashSet<>(), userConfig1, mode);
+    InputSentence input2d = new InputSentence("foo", Languages.getLanguageForShortCode("de"), null, new HashSet<>(Arrays.asList("ID1")), new HashSet<>(), new HashSet<>(), new HashSet<>(), userConfig1, mode);
     assertNull(cache.getIfPresent(input2a));
     assertNull(cache.getIfPresent(input2b));
     assertNull(cache.getIfPresent(input2c));
     assertNull(cache.getIfPresent(input2d));
     
     UserConfig userConfig2 = new UserConfig(Arrays.asList("word2"));
-    InputSentence input1aUc1 = new InputSentence("foo", Languages.getLanguageForShortCode("de"), null, new HashSet<>(), new HashSet<>(), new HashSet<>(), new HashSet<>(), userConfig1);
+    InputSentence input1aUc1 = new InputSentence("foo", Languages.getLanguageForShortCode("de"), null, new HashSet<>(), new HashSet<>(), new HashSet<>(), new HashSet<>(), userConfig1, mode);
     assertNotNull(cache.getIfPresent(input1aUc1));
-    InputSentence input1aUc2 = new InputSentence("foo", Languages.getLanguageForShortCode("de"), null, new HashSet<>(), new HashSet<>(), new HashSet<>(), new HashSet<>(), userConfig2);
+    InputSentence input1aUc2 = new InputSentence("foo", Languages.getLanguageForShortCode("de"), null, new HashSet<>(), new HashSet<>(), new HashSet<>(), new HashSet<>(), userConfig2, mode);
     assertNull(cache.getIfPresent(input1aUc2));
   }
 
