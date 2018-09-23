@@ -43,8 +43,4 @@ public class MorfologikSpanishSpellerRule extends MorfologikSpellerRule {
   public final String getId() {
     return "MORFOLOGIK_RULE_ES";
   }
-
-  protected boolean ignoreWord(String word) throws IOException {
-    return super.ignoreWord(word) || isSurrogatePairCombination(word);
-  }
 }

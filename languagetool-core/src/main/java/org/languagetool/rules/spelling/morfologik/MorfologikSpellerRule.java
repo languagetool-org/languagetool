@@ -273,4 +273,13 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     }
     return false;
   }
+
+  /**
+   * Ignore surrogate pairs (emojis) 
+   * @since 4.3 
+   * @see org.languagetool.rules.spelling.SpellingCheckRule#ignoreWord(java.lang.String)
+   */
+  protected boolean ignoreWord(String word) throws IOException {
+    return super.ignoreWord(word) || isSurrogatePairCombination(word);
+  }
 }

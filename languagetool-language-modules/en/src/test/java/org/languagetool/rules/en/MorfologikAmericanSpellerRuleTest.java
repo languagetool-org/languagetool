@@ -83,6 +83,7 @@ public class MorfologikAmericanSpellerRuleTest extends AbstractEnglishSpellerRul
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("He doesn't know what to do.")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence(",")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("123454")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("I like my emoji 😾")).length);
 
     // test words in language-specific spelling_en-US.txt
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("USTestWordToBeIgnored")).length);
