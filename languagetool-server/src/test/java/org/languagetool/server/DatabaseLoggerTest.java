@@ -34,10 +34,6 @@ import static org.junit.Assert.*;
 
 public class DatabaseLoggerTest {
 
-
-  private DatabaseAccess db;
-  private DatabaseLogger logger;
-
   @Test
   public void testHTTPServer() throws Exception {
     HTTPServerConfig config = new HTTPServerConfig(HTTPTools.getDefaultPort());
@@ -48,8 +44,8 @@ public class DatabaseLoggerTest {
     config.setSecretTokenKey("myfoo");
     config.setCacheSize(100);
     DatabaseAccess.init(config);
-    db = DatabaseAccess.getInstance();
-    logger = DatabaseLogger.getInstance();
+    DatabaseAccess db = DatabaseAccess.getInstance();
+    DatabaseLogger logger = DatabaseLogger.getInstance();
     try {
       logger.createTestTables();
       DatabaseAccess.createAndFillTestTables();
@@ -169,7 +165,6 @@ public class DatabaseLoggerTest {
       DatabaseAccess.deleteTestTables();
     }
   }
-
 
   private String check(Language lang, String text, String username, String apiKey, String textSessionId, String agent) throws IOException {
     String urlOptions = "?language=" + lang.getShortCodeWithCountryAndVariant();
