@@ -18772,20 +18772,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern case_sensitive="yes">
                     <token regexp="yes">ist|war</token>
                     <token regexp="yes">eine|die</token>
-                    <marker>
-                        <token regexp="yes">&femsubklein;</token>
-                    </marker>
-                    <token postag="SENT_END"/>
-                </pattern>
-                <message>&subanfang;<suggestion><match no="3" case_conversion="startupper"/></suggestion>&subende;</message>
-                <short>&prgk;.</short>
-                <example correction="Pumpe">Das ist eine <marker>pumpe</marker>.</example>
-            </rule>
-            <rule>
-                <pattern case_sensitive="yes">
-                    <token regexp="yes">ist|war</token>
-                    <token regexp="yes">eine|die</token>
-                    <token postag="ADJ:NOM:SIN:FEM.*" postag_regexp="yes"/>
+                    <token postag="ADJ:NOM:SIN:FEM.*" postag_regexp="yes" min="0"/>
                     <marker>
                         <token regexp="yes">&femsubklein;</token>
                     </marker>
@@ -18795,6 +18782,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>&prgk;.</short>
                 <example correction="Pumpe">Das ist eine gute <marker>pumpe</marker>.</example>
                 <example>Das ist eine <marker>Pumpe</marker>.</example>
+                <example correction="Pumpe">Das ist eine <marker>pumpe</marker>.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -19296,7 +19284,7 @@ Andere Projekte</example>
         <rule id="IN_GEORDNETEN_BAHNEN" name="'in geordneten bahnen (Bahnen)'">
             <pattern case_sensitive="yes">
                 <token regexp="yes">[iI]n</token>
-                <token>geordneten</token>
+                <token regexp="yes">geordneten?</token>
                 <marker>
                     <token>bahnen</token>
                 </marker>
@@ -30376,6 +30364,18 @@ Andere Projekte</example>
                 <message>Prüfen Sie, ob hier <suggestion>Dass</suggestion> stehen sollte.</message>
                 <example correction="Dass"><marker>Das</marker> dem Mann jetzt ein Zahn fehlt, ist bedauerlich.</example>
                 <example correction="Dass"><marker>Das</marker> dieser Frau jetzt ein Zahn fehlt, ist bedauerlich.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>das</token>
+                    </marker>
+                    <token inflected="yes" postag="PRO:PER:NOM:.+" postag_regexp="yes">ich</token>
+                    <token case_sensitive="yes">das</token>
+                </pattern>
+                <message>Prüfen Sie, ob hier <suggestion>dass</suggestion> stehen sollte!</message>
+                <example correction="dass">Sie wusste <marker>das</marker> er das schafft.</example>
+                <example>Das Gesicht, das ihm das Leben gegeben hat.</example>
             </rule>
         </rulegroup>
         <rulegroup id="BEI_OHNE_DATIV" name="'bei/entsprechend/...' ohne Dativ">
