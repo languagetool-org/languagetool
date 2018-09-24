@@ -8571,6 +8571,11 @@ USA
                     <token>often</token>
                     <token inflected="yes">be</token>
                 </antipattern>
+                <antipattern>
+                    <token postag="SENT_START"></token>
+                    <token regexp="yes">Always|Never</token>
+                    <token>be</token>
+                </antipattern>
                 <pattern>
                     <token postag="SENT_START" skip="-1">
                         <exception scope="next" postag_regexp="yes" postag="VB.*|MD"/>
@@ -8579,12 +8584,15 @@ USA
                         <token regexp="yes">always|hardly|never|often|rarely|seldom|sometimes|usually</token>
                         <token inflected="yes">be</token>
                     </marker>
+                    <token><exception postag="SENT_END"/></token>
                 </pattern>
-                <message>The adverb '\2' is usually put after the verb '\3'.</message>
+                <message>The adverb '\2' usually goes after the verb '\3'.</message>
                 <suggestion>\3 \2</suggestion>
                 <example correction="am sometimes">I <marker>sometimes am</marker> happy.</example>
                 <example>Although they can <marker>sometimes</marker> be found.</example>
                 <example>How <marker>often are</marker> feeling lonely?</example>
+                <example>They always are.</example>
+                <example>Never be afraid of monsters!</example>
             </rule>
             <rule>
                 <antipattern>
