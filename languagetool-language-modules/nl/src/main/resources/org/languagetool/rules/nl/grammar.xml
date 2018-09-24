@@ -17358,6 +17358,7 @@ steenwijk;Steenwijk
                 <example correction="weekeind">Prettig <marker>weekend</marker> allemaal.</example>
             </rule>
         </rulegroup>
+		
         <rulegroup id="CRUISECONTROL" name="cruisecontrol +&gt; snelheidsregeling">
             <rule>
                 <!-- 2014-08-20 TaalTik -->
@@ -17375,6 +17376,18 @@ steenwijk;Steenwijk
         </rulegroup>
     </category>
     <category id="CONGRUENTIE" name="Congruentie">
+		
+		<rulegroup id="DIKKEN_MAN" name="een n te veel">
+            <rule>
+                <pattern>
+					<token postag_regexp="yes" postag="(BNW|WKW):.*MRV.*"><exception postag_regexp="yes" postag="WKW:TGW:INF|WKW:VLT:INF|ZNW:MRV:DE_" /><exception regexp="yes">geleden|anderen|gelovigen|allen|geïntegreerden</exception></token>
+					<token postag_regexp="yes" postag="ZNW.*"><exception postag_regexp="yes" postag="WKW:TGW:INF|WKW:VLT:INF"/><exception regexp="yes">bent|voor|van|tekort|niet|is|ja|rond|zij|over|heeft|bij|leek|nu|was|een|wel|tegen</exception></token>
+                </pattern>
+				<message>Er staat wellicht een n te veel: <suggestion><match no="1" regexp_match="n$" regexp_replace=""/> \2</suggestion></message>
+                <example correction="gestoorde man">Ik zie de <marker>gestoorden man</marker> lopen.</example>
+            </rule>
+        </rulegroup>
+		
         <rulegroup id="EEN_LELIJKE_MEISJE" name="Een lelijke meisje">
             <antipattern><token>een</token><token/><token postag="BNW.*" postag_regexp="yes"/></antipattern>
             <antipattern><token>een</token><token regexp="yes">laatste|enkele</token><token/></antipattern>
