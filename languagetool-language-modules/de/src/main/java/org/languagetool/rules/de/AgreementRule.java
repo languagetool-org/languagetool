@@ -118,14 +118,14 @@ public class AgreementRule extends Rule {
       new PatternTokenBuilder().posRegex("ADJ:AKK:.*").build()  // "Ein für viele wichtiges Anliegen."
     ),
     Arrays.asList(
-      new PatternTokenBuilder().tokenRegex("machen|jagen").matchInflectedForms().build(),
+      new PatternTokenBuilder().tokenRegex("flößen|machen|jagen").matchInflectedForms().build(),
       new PatternTokenBuilder().token("einem").build(),
       new PatternTokenBuilder().token("Angst").build()  // "Dinge, die/ Etwas, das einem Angst macht"
     ),
     Arrays.asList(
       new PatternTokenBuilder().token("einem").build(),
       new PatternTokenBuilder().token("Angst").build(),  // "Was einem Angst macht"
-      new PatternTokenBuilder().tokenRegex("machen|einjagen").matchInflectedForms().build()
+      new PatternTokenBuilder().tokenRegex("machen|ein(flößen|jagen)").matchInflectedForms().build()
     ),
     Arrays.asList(
       new PatternTokenBuilder().token("einem").build(),
