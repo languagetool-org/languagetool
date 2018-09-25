@@ -63,19 +63,24 @@ public class ParagraphRepeatBeginningRule extends TextLevelRule {
   }
   
   private int numCharEqualBeginning(AnalyzedTokenReadings[] lastTokens, AnalyzedTokenReadings[] nextTokens) throws IOException {
-    if(lastTokens.length < 2 || nextTokens.length < 2) {
+    if(lastTokens.length < 2 || nextTokens.length < 2 
+        || lastTokens[1].isWhitespace() || nextTokens[1].isWhitespace()) {
       return 0;
     }
     int nToken = 1;
     String lastToken = lastTokens[nToken].getToken();
-    if (NON_WORD_REGEX.matcher(lastToken).matches()) {
+    String nextToken = nextTokens[nToken].getToken();
+    if (NON_WORD_REGEX.matcher(lastToken).matches() && lastToken.equals(nextToken)) {
       if(lastTokens.length <= nToken + 1 || nextTokens.length <= nToken + 1) {
         return 0;
       }
       nToken++;
       lastToken = lastTokens[nToken].getToken();
+      nextToken = nextTokens[nToken].getToken();
     }
-    String nextToken = nextTokens[nToken].getToken();
+    if(!Character.isLetter(lastToken.charAt(0))) {
+      return 0;
+    }
     if (lastTokens.length > nToken + 1 && isArticle(lastTokens[nToken]) && lastToken.equals(nextToken)) {
       if(lastTokens.length <= nToken + 1 || nextTokens.length <= nToken + 1) {
         return 0;
@@ -84,11 +89,13 @@ public class ParagraphRepeatBeginningRule extends TextLevelRule {
       lastToken = lastTokens[nToken].getToken();
       nextToken = nextTokens[nToken].getToken();
     }
+    if(!Character.isLetter(lastToken.charAt(0))) {
+      return 0;
+    }
     if (lastToken.equals(nextToken)) {
       return lastTokens[nToken].getEndPos();
     }
     return 0;
-
   }
 
   @Override
