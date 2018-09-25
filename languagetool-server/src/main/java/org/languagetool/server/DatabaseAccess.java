@@ -169,7 +169,7 @@ class DatabaseAccess {
       throw new IllegalArgumentException("username must be set");
     }
     if (apiKey == null || apiKey.trim().isEmpty()) {
-      throw new IllegalArgumentException("apikey must be set");
+      throw new IllegalArgumentException("apiKey must be set");
     }
     if (sqlSessionFactory ==  null) {
       throw new IllegalStateException("sqlSessionFactory not initialized - has the database been configured?");
@@ -193,7 +193,7 @@ class DatabaseAccess {
         return value;
       }
     } catch (ExecutionException e) {
-      throw new IllegalStateException("Could not fetch given user '" + username + "' from cache");
+      throw new IllegalStateException("Could not fetch given user '" + username + "' from cache", e);
     }
   }
 
@@ -244,7 +244,7 @@ class DatabaseAccess {
             }
           }
         } catch (PersistenceException e) {
-          //System.err.println("Could not get fetch/register server id from database: " + e);
+          print("Error: Could not get fetch/register server id from database: " + e);
           return -1L;
         }
       });
@@ -254,7 +254,7 @@ class DatabaseAccess {
         return id;
       }
     } catch (UnknownHostException | ExecutionException e) {
-      //System.err.println("Could not get hostname to fetch/register server id: " + e);
+      print("Error: Could not get hostname to fetch/register server id: " + e);
       return null;
     }
   }
@@ -285,7 +285,7 @@ class DatabaseAccess {
             }
           }
         } catch (PersistenceException e) {
-          //System.err.println("Could not get/register id for this client: " + e);
+          print("Error: Could not get/register id for this client: " + e);
           return -1L;
         }
       });
