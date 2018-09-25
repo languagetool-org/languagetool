@@ -59,6 +59,9 @@ class DatabaseLogger {
     public void run() {
       try (SqlSession session = sessionFactory.openSession(true)) {
         while (!Thread.currentThread().isInterrupted()) {
+          if (messages.size() > 10) {
+            ServerTools.print(String.format("Logging queue filling up: %d entries", messages.size()));
+          }
           DatabaseLogEntry entry = messages.take();
           Map<Object, Object> parameters = entry.getMapping();
           session.insert(entry.getMappingIdentifier(), parameters);

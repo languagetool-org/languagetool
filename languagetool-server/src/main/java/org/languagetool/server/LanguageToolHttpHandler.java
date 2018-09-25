@@ -297,6 +297,7 @@ class LanguageToolHttpHandler implements HttpHandler {
     try {
       user = db.getUserId(params.get("username"), params.get("apiKey"));
     } catch(IllegalArgumentException | IllegalStateException ignored) {
+      // invalid username, api key or combination thereof - user stays null
     }
     logger.log(new DatabaseMiscLogEntry(server, client, user, message));
   }

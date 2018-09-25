@@ -33,10 +33,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.Date;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
 import static org.languagetool.server.ServerTools.print;
@@ -54,6 +57,11 @@ class DatabaseAccess {
           .maximumSize(1000)
           .expireAfterWrite(24, TimeUnit.HOURS)
           .build();
+
+  private final Cache<String, Long> dbLoggingCache = CacheBuilder.newBuilder()
+    .expireAfterAccess(1, TimeUnit.HOURS)
+    .maximumSize(5000)
+    .build();
 
   private DatabaseAccess(HTTPServerConfig config) {
     if (config.getDatabaseDriver() != null) {
@@ -166,15 +174,26 @@ class DatabaseAccess {
     if (sqlSessionFactory ==  null) {
       throw new IllegalStateException("sqlSessionFactory not initialized - has the database been configured?");
     }
-    try (SqlSession session = sqlSessionFactory.openSession()) {
-      Map<Object, Object> map = new HashMap<>();
-      map.put("username", username);
-      map.put("apiKey", apiKey);
-      Long id = session.selectOne("org.languagetool.server.UserDictMapper.getUserIdByApiKey", map);
-      if (id == null) {
+    try {
+      Long value = dbLoggingCache.get(String.format("user_%s_%s", username, apiKey), () -> {
+        try (SqlSession session = sqlSessionFactory.openSession()) {
+          Map<Object, Object> map = new HashMap<>();
+          map.put("username", username);
+          map.put("apiKey", apiKey);
+          Long id = session.selectOne("org.languagetool.server.UserDictMapper.getUserIdByApiKey", map);
+          if (id == null) {
+            return -1L;
+          }
+          return id;
+        }
+      });
+      if (value == -1) {
         throw new IllegalArgumentException("No user found for given username '" + username + "' and given api key");
+      } else {
+        return value;
       }
-      return id;
+    } catch (ExecutionException e) {
+      throw new IllegalStateException("Could not fetch given user '" + username + "' from cache");
     }
   }
 
@@ -207,28 +226,35 @@ class DatabaseAccess {
     }
     try {
       String hostname = InetAddress.getLocalHost().getHostName();
-      try (SqlSession session = sqlSessionFactory.openSession(true)) {
-        Map<Object, Object> parameters = new HashMap<>();
-        parameters.put("hostname", hostname);
-        List<Long> result = session.selectList("org.languagetool.server.LogMapper.findServer", parameters);
-        if (result.size() > 0) {
-          return result.get(0);
-        } else {
-          session.insert("org.languagetool.server.LogMapper.newServer", parameters);
-          Object value = parameters.get("id");
-          if (value == null) {
-            //System.err.println("Could not get new server id for this host.");
-            return null;
+      Long id = dbLoggingCache.get("server_" + hostname, () -> {
+        try (SqlSession session = sqlSessionFactory.openSession(true)) {
+          Map<Object, Object> parameters = new HashMap<>();
+          parameters.put("hostname", hostname);
+          List<Long> result = session.selectList("org.languagetool.server.LogMapper.findServer", parameters);
+          if (result.size() > 0) {
+            return result.get(0);
           } else {
-            return (Long) value;
+            session.insert("org.languagetool.server.LogMapper.newServer", parameters);
+            Object value = parameters.get("id");
+            if (value == null) {
+              //System.err.println("Could not get new server id for this host.");
+              return -1L;
+            } else {
+              return (Long) value;
+            }
           }
+        } catch (PersistenceException e) {
+          //System.err.println("Could not get fetch/register server id from database: " + e);
+          return -1L;
         }
+      });
+      if (id == -1L) { // loaders can't return null, so using -1 instead
+        return null;
+      } else {
+        return id;
       }
-    } catch (UnknownHostException e) {
+    } catch (UnknownHostException | ExecutionException e) {
       //System.err.println("Could not get hostname to fetch/register server id: " + e);
-      return null;
-    } catch (PersistenceException e) {
-      //System.err.println("Could not get fetch/register server id from database: " + e);
       return null;
     }
   }
@@ -240,25 +266,35 @@ class DatabaseAccess {
     if (sqlSessionFactory == null || client == null) {
       return null;
     }
-
-    try (SqlSession session = sqlSessionFactory.openSession(true)) {
-      Map<Object, Object> parameters = new HashMap<>();
-      parameters.put("name", client);
-      List<Long> result = session.selectList("org.languagetool.server.LogMapper.findClient", parameters);
-      if (result.size() > 0) {
-        return result.get(0);
-      } else {
-        session.insert("org.languagetool.server.LogMapper.newClient", parameters);
-        Object value = parameters.get("id");
-        if (value == null) {
-          //System.err.println("Could not get/register id for this client.");
-          return null;
-        } else {
-          return (Long) value;
+    try {
+      Long id = dbLoggingCache.get("client_" + client, () -> {
+        try (SqlSession session = sqlSessionFactory.openSession(true)) {
+          Map<Object, Object> parameters = new HashMap<>();
+          parameters.put("name", client);
+          List<Long> result = session.selectList("org.languagetool.server.LogMapper.findClient", parameters);
+          if (result.size() > 0) {
+            return result.get(0);
+          } else {
+            session.insert("org.languagetool.server.LogMapper.newClient", parameters);
+            Object value = parameters.get("id");
+            if (value == null) {
+              //System.err.println("Could not get/register id for this client.");
+              return -1L;
+            } else {
+              return (Long) value;
+            }
+          }
+        } catch (PersistenceException e) {
+          //System.err.println("Could not get/register id for this client: " + e);
+          return -1L;
         }
+      });
+      if (id == -1L) { // loaders can't return null, so using -1 instead
+        return null;
+      } else {
+        return id;
       }
-    } catch(PersistenceException e) {
-      //System.err.println("Could not get/register id for this client: " + e);
+    } catch (ExecutionException e) {
       return null;
     }
   }
