@@ -44,7 +44,7 @@ public class ProhibitedCompoundRule extends Rule {
   /** @since 4.3 */
   public static final String RULE_ID = "DE_PROHIBITED_COMPOUNDS";
   // have objects static for better performance (rule gets initialized for every check)
-  private static final List<Pair> lowercasePairs = Arrays.asList(
+  protected static final List<Pair> lowercasePairs = Arrays.asList(
           // NOTE: words here must be all-lowercase
           // NOTE: no need to add words from confusion_sets.txt, they will be used automatically (if starting with uppercase char)
           new Pair("uhr", "Instrument zur Zeitmessung", "ur", "ursprünglich"),
@@ -64,49 +64,9 @@ public class ProhibitedCompoundRule extends Rule {
   );
   private static final GermanSpellerRule spellerRule = new GermanSpellerRule(JLanguageTool.getMessageBundle(), new GermanyGerman(), null, null);
   private static final List<String> ignoreWords = Arrays.asList("Die", "De");
-  private static final List<Pair> pairs = new ArrayList<>();
+  protected static final List<Pair> pairs = new ArrayList<>();
   static {
     addUpperCaseVariants();
-  /* Performance impact: Before / After /
-    Optimized: only nouns / + at least 6 characters / + AhoCorasick
-   --------------------------------------------------------------
-    Language: German, Text length: 494609 chars, 10513 sentences
-    Warmup...
-    Check time on first run: 61001ms = 5.8ms per sentence
-    Checking text...
-    Check time after warmup: 50635ms = 4.8ms per sentence
-    Average time per sentence = 4.0ms
-   --------------------------------------------------------------
-    Language: German, Text length: 494609 chars, 10513 sentences
-    Warmup...
-    Check time on first run: 268446ms = 25.5ms per sentence
-    Checking text...
-    Check time after warmup: 240333ms = 22.9ms per sentence
-    Average time per sentence = 22.0ms
-   --------------------------------------------------------------
-    Language: German, Text length: 494609 chars, 10513 sentences
-    Warmup...
-    Check time on first run: 108777ms = 10.3ms per sentence
-    Checking text...
-    Check time after warmup: 95940ms = 9.1ms per sentence
-    Average time per sentence = 9.0ms
-   --------------------------------------------------------------
-    Language: German, Text length: 494609 chars, 10513 sentences
-    Warmup...
-    Check time on first run: 78983ms = 7.5ms per sentence
-    Checking text...
-    Check time after warmup: 68574ms = 6.5ms per sentence / 6.7 / 6.4
-    Average time per sentence = 6.0ms
-   --------------------------------------------------------------
-    Language: German, Text length: 494609 chars, 10513 sentences
-    Warmup...
-    Check time on first run: 65225ms = 6.2ms per sentence
-    Checking text...
-    Check time after warmup: 52716ms = 5.0ms per sentence / 5.0 / 4.7 / / 5.0
-    Average time per sentence = 5.0ms
-   */
-
-
     addItemsFromConfusionSets("/de/confusion_sets.txt", true);
   }
 
@@ -132,7 +92,7 @@ public class ProhibitedCompoundRule extends Rule {
     }
   }
 
-  private static void addItemsFromConfusionSets(String confusionSetsFile, boolean isUpperCase) {
+  protected static void addItemsFromConfusionSets(String confusionSetsFile, boolean isUpperCase) {
     try {
       ResourceDataBroker dataBroker = JLanguageTool.getDataBroker();
       try (InputStream confusionSetStream = dataBroker.getFromResourceDirAsStream(confusionSetsFile)) {

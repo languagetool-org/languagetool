@@ -18,7 +18,6 @@
  */
 package org.languagetool.rules.de;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
@@ -39,7 +38,7 @@ import java.util.List;
 import java.util.Map;
 
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 
 public class ProhibitedCompoundRuleTest {
   
@@ -63,7 +62,11 @@ public class ProhibitedCompoundRuleTest {
     assertMatches("Viel Xliseihflehrstand.", 0, rule, lt);  // no correct spelling, so not suggested
   }
 
-  private ProhibitedCompoundRule getRule(String languageModelPath) throws IOException {
+  ProhibitedCompoundRule getRule(String languageModelPath) throws IOException {
+    return getRule(languageModelPath, ProhibitedCompoundRule.RULE_ID);
+  }
+
+  ProhibitedCompoundRule getRule(String languageModelPath, String ruleId) throws IOException {
     Language lang = Languages.getLanguageForShortCode("de");
     LanguageModel languageModel = new LuceneLanguageModel(new File(languageModelPath, lang.getShortCode()));
     List<Rule> rules = lang.getRelevantLanguageModelRules(JLanguageTool.getMessageBundle(), languageModel);
@@ -72,7 +75,7 @@ public class ProhibitedCompoundRuleTest {
     }
     ProhibitedCompoundRule foundRule = null;
     for (Rule rule : rules) {
-      if (rule.getId().equals(ProhibitedCompoundRule.RULE_ID)) {
+      if (rule.getId().equals(ruleId)) {
         foundRule = (ProhibitedCompoundRule) rule;
         break;
       }
@@ -80,18 +83,7 @@ public class ProhibitedCompoundRuleTest {
     return foundRule;
   }
 
-  @Test
-  @Ignore // requires language model
-  public void testRuleWithLanguageModel() throws IOException {
-    ProhibitedCompoundRule rule = getRule("/home/fabian/Documents/languagetool/data/ngrams/");
-    JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("de"));
-    assertMatches("Das neue Mittagsgewicht schmeckt ausgezeichnet.", 1, rule, lt);
-    assertMatches("Das neue Mittagsgericht schmeckt ausgezeichnet.", 0, rule, lt);
-    assertMatches("Ich bin ein Gerichtheber.", 1, rule, lt);
-    assertMatches("Ich bin ein Gewichtheber.", 0, rule, lt);
-  }
-
-  private void assertMatches(String input, int expecteMatches, ProhibitedCompoundRule rule, JLanguageTool lt) throws IOException {
+  void assertMatches(String input, int expecteMatches, ProhibitedCompoundRule rule, JLanguageTool lt) throws IOException {
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(input));
     assertThat("Got matches: " + Arrays.toString(matches), matches.length, is(expecteMatches));
   }
