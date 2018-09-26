@@ -48,25 +48,25 @@ import static java.util.Comparator.comparing;
  */
 @SuppressWarnings("StringConcatenationInsideStringBufferAppend")
 public final class RuleOverview {
-  
+
+  private final static List<String> langSpecificWebsites = Arrays.asList(
+          "br", "ca", "zh", "da", "nl", "eo", "fr", "gl", "de", "it", "pl", "pt", "ru", "es", "uk"
+  );
+
   enum SpellcheckSupport {
     Full, NoSuggestion, None
   }
 
   public static void main(final String[] args) throws IOException {
-    if (args.length != 1) {
-      System.out.println("Usage: " + RuleOverview.class.getName() + " <webRoot>");
-      System.exit(1);
-    }
-    final RuleOverview prg = new RuleOverview();
-    prg.run(new File(args[0]));
+    RuleOverview prg = new RuleOverview();
+    prg.run();
   }
   
   private RuleOverview() {
     // no public constructor
   }
   
-  private void run(File webRoot) throws IOException {
+  private void run() throws IOException {
     System.out.println("<p><b>Rules in LanguageTool " + JLanguageTool.VERSION + "</b><br />");
     System.out.println("Date: " + new SimpleDateFormat("yyyy-MM-dd").format(new Date()) + "</p>\n");
     System.out.println("<table class=\"tablesorter sortable\" style=\"width: auto\">");
@@ -94,7 +94,6 @@ public final class RuleOverview {
       .replaceAll("(?s)<rules.*?>", "");
 
     int overallJavaCount = 0;
-    int langSpecificWebsiteCount = 0;
     RuleActivityOverview activity = new RuleActivityOverview();
     for (final Language lang : sortedLanguages) {
       if (lang.isVariant()) {
@@ -102,15 +101,13 @@ public final class RuleOverview {
       }
       System.out.print("<tr>");
       final String langCode = lang.getShortCode();
-      final File langSpecificWebsite = new File(webRoot, langCode);
       final List<String> variants = getVariantNames(sortedLanguages, lang);
       String variantsText = "";
       if (variants.size() > 0) {
         variantsText = "<br/><span class='langVariants'>Variants for: " + String.join(", ", variants) + "</span>";
       }
-      if (langSpecificWebsite.isDirectory()) {
+      if (langSpecificWebsites.contains(langCode)) {
         System.out.print("<td valign=\"top\"><a href=\"../" + langCode + "/\">" + lang.getName() + "</a>" + variantsText + "</td>");
-        langSpecificWebsiteCount++;
       } else {
         System.out.print("<td valign=\"top\">" + lang.getName() + " " + variantsText + "</td>");
       }
@@ -193,10 +190,6 @@ public final class RuleOverview {
       
     if (overallJavaCount == 0) {
       throw new RuntimeException("No Java rules found - start this script from the languagetool-standalone directory");
-    }
-    if (langSpecificWebsiteCount == 0) {
-      throw new RuntimeException("No language specific websites found - please let the web root parameter " +
-              "point to the 'www' directory (current value: '" + webRoot + "')");
     }
 
     System.out.println("</tbody>");
