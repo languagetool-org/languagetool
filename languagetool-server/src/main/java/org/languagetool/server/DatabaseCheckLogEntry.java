@@ -37,7 +37,7 @@ class DatabaseCheckLogEntry extends DatabaseLogEntry {
   private final int computationTime;
   private final Long textSessionId;
   private final Calendar date;
-  private final List<DatabaseRuleMatchLogEntry> ruleMatches = new ArrayList<>();
+  private DatabaseRuleMatchLogEntry ruleMatches = null;
 
   public DatabaseCheckLogEntry(Long userId, Long client, Long server, int textSize, int matches, Language lang, Language langDetected, int computationTime, Long textSessionId) {
     this.userId = userId;
@@ -52,8 +52,8 @@ class DatabaseCheckLogEntry extends DatabaseLogEntry {
     this.date = Calendar.getInstance();
   }
 
-  public void addRuleMatch(DatabaseRuleMatchLogEntry entry) {
-    ruleMatches.add(entry);
+  public void setRuleMatches(DatabaseRuleMatchLogEntry entry) {
+    ruleMatches = entry;
   }
 
   @Override
@@ -81,21 +81,14 @@ class DatabaseCheckLogEntry extends DatabaseLogEntry {
   }
 
   @Override
-  public void followup(Map<Object, Object> parameters) {
-    Long checkId = (Long) parameters.get("id");
-    if (checkId == null) {
-      System.err.println("Could not get generated key for check log entry in database.");
-      return;
+  public DatabaseLogEntry followup() {
+    if (ruleMatches == null) {
+      throw new IllegalStateException("No rule matches provided for check_log entry: " + getMapping());
     }
-    DatabaseLogger logger = DatabaseLogger.getInstance();
-    for (DatabaseRuleMatchLogEntry entry : ruleMatches) {
-      entry.setCheckId(checkId);
-      logger.log(entry);
+    if (ruleMatches.getMatchCount() == 0) {
+      return null;
     }
+    return ruleMatches;
   }
 
-  //@Override
-  //public void print(PrintStream out) {
-  // TODO
-  //}
 }

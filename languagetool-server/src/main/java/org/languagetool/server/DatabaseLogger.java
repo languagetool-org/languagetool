@@ -21,12 +21,13 @@
 
 package org.languagetool.server;
 
+import org.apache.ibatis.session.ExecutorType;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 
-import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @since 4.3
@@ -34,6 +35,14 @@ import java.util.concurrent.LinkedBlockingQueue;
 class DatabaseLogger {
 
   private static DatabaseLogger instance = null;
+
+/*  // smaller numbers for tests
+  static final int SQL_BATCH_SIZE = 10;
+  static final int SQL_BATCH_WAITING_TIME = 5000; // milliseconds to wait until batch gets committed anyway
+  static final int POLLING_TIME = 1000; */
+  static final int SQL_BATCH_SIZE = 100;
+  static final int SQL_BATCH_WAITING_TIME = 10000; // milliseconds to wait until batch gets committed anyway
+  static final int POLLING_TIME = 1000;
 
   /**
    * @return an instance that will be disabled until initialized by DatabaseAccess
@@ -57,15 +66,32 @@ class DatabaseLogger {
   private class WorkerThread extends Thread {
     @Override
     public void run() {
-      try (SqlSession session = sessionFactory.openSession(true)) {
+      try (SqlSession session = sessionFactory.openSession(ExecutorType.BATCH, false)) {
         while (!Thread.currentThread().isInterrupted()) {
-          if (messages.size() > 10) {
-            ServerTools.print(String.format("Logging queue filling up: %d entries", messages.size()));
+          int batchSize = 0;
+          long batchTime = System.currentTimeMillis();
+          // commit when batch size is reached or after waiting period elapsed
+          while(!Thread.currentThread().isInterrupted()
+            && batchSize < SQL_BATCH_SIZE
+            && System.currentTimeMillis() - batchTime < SQL_BATCH_WAITING_TIME)  {
+            if (messages.size() > 10) {
+              ServerTools.print(String.format("Logging queue filling up: %d entries", messages.size()));
+            }
+            // polling to be able to react when waiting time has elapsed
+            DatabaseLogEntry entry = messages.poll(POLLING_TIME, TimeUnit.MILLISECONDS);
+
+            if (entry == null) {
+              continue;
+            }
+            batchSize++;
+            session.insert(entry.getMappingIdentifier(), entry.getMapping());
+            DatabaseLogEntry followup = entry.followup();
+            if (followup != null) { // followup statements need to be inserted directly afterwards, dependant on e.g. generated primary keys
+              session.insert(followup.getMappingIdentifier(), followup.getMapping());
+              batchSize++;
+            }
           }
-          DatabaseLogEntry entry = messages.take();
-          Map<Object, Object> parameters = entry.getMapping();
-          session.insert(entry.getMappingIdentifier(), parameters);
-          entry.followup(parameters);
+          session.commit();
         }
       } catch (Exception e) {
         e.printStackTrace();
@@ -118,15 +144,26 @@ class DatabaseLogger {
   }
 
   void createTestTables() {
+    createTestTables(false);
+  }
+
+  void createTestTables(boolean mysql) {
     try (SqlSession session = sessionFactory.openSession(true)) {
-      session.insert("org.languagetool.server.LogMapper.createRuleMatches");
-      session.insert("org.languagetool.server.LogMapper.createCheckLog");
-      session.insert("org.languagetool.server.LogMapper.createMiscLog");
-      session.insert("org.languagetool.server.LogMapper.createAccessLimits");
-      session.insert("org.languagetool.server.LogMapper.createCheckError");
-      session.insert("org.languagetool.server.LogMapper.createCacheStats");
-      session.insert("org.languagetool.server.LogMapper.createServers");
-      session.insert("org.languagetool.server.LogMapper.createClients");
+      String[] statements = {"org.languagetool.server.LogMapper.createRuleMatches",
+        "org.languagetool.server.LogMapper.createCheckLog",
+        "org.languagetool.server.LogMapper.createMiscLog",
+        "org.languagetool.server.LogMapper.createAccessLimits",
+        "org.languagetool.server.LogMapper.createCheckError",
+        "org.languagetool.server.LogMapper.createCacheStats",
+        "org.languagetool.server.LogMapper.createServers",
+        "org.languagetool.server.LogMapper.createClients"};
+      for (String statement : statements) {
+        if (mysql) {
+          session.insert(statement + "MySQL");
+        } else {
+          session.insert(statement);
+        }
+      }
     }
   }
 

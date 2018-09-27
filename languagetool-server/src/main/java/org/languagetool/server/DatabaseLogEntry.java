@@ -21,6 +21,8 @@
 
 package org.languagetool.server;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.io.PrintStream;
 import java.util.Map;
 
@@ -41,9 +43,15 @@ public abstract class DatabaseLogEntry {
 
   /**
    * for interdependent log entries, i.e. with foreign keys referencing other entries
-   * @param parameters result of insert operation for this entry, may contain generated keys
+   * @return null if no followup needed, else log entry that needs to be inserted directly afterwards
+   * e.g. to use LAST_INSERT_ID from mysql
    */
-  public abstract void followup(Map<Object, Object> parameters);
+  @SuppressWarnings("UnusedReturnValue")
+  @Nullable
+  public DatabaseLogEntry followup() {
+    // default: nothing to be done
+    return null;
+  }
 
   public void print(PrintStream out) {
     out.println(getMappingIdentifier());

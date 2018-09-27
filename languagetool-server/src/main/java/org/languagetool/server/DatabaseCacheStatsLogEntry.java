@@ -51,9 +51,4 @@ public class DatabaseCacheStatsLogEntry extends DatabaseLogEntry {
   public String getMappingIdentifier() {
     return "org.languagetool.server.LogMapper.cacheStats";
   }
-
-  @Override
-  public void followup(Map<Object, Object> parameters) {
-    // nothing to be done
-  }
 }

@@ -332,10 +332,22 @@ class DatabaseAccess {
 
   /** For unit tests only! */
   public static void createAndFillTestTables() {
+    createAndFillTestTables(false);
+  }
+
+  /** For unit tests only! */
+  public static void createAndFillTestTables(boolean mysql) {
     try (SqlSession session = sqlSessionFactory.openSession(true)) {
       System.out.println("Setting up tables and adding test user...");
-      session.insert("org.languagetool.server.UserDictMapper.createUserTable");
-      session.insert("org.languagetool.server.UserDictMapper.createIgnoreWordTable");
+      String[] statements = { "org.languagetool.server.UserDictMapper.createUserTable",
+        "org.languagetool.server.UserDictMapper.createIgnoreWordTable" };
+      for (String statement : statements) {
+        if (mysql) {
+          session.insert(statement + "MySQL");
+        } else {
+          session.insert(statement);
+        }
+      }
       session.insert("org.languagetool.server.UserDictMapper.createTestUser1");
       session.insert("org.languagetool.server.UserDictMapper.createTestUser2");
     }
