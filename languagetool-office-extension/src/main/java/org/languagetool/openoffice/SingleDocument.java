@@ -19,6 +19,7 @@
 package org.languagetool.openoffice;
 
 import java.awt.Color;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -766,22 +767,24 @@ class SingleDocument {
     // LibreOffice since version 6.2 supports the change of underline style (key: "LineType", value: short (DASHED = 5))
     // older version will simply ignore the properties
     Color underlineColor = config.getUnderlineColor(ruleMatch.getRule().getCategory().getName());
+    URL url = ruleMatch.getUrl();
+    if (url == null) {                      // match URL overrides rule URL 
+      url = ruleMatch.getRule().getUrl();
+    }
     if(underlineColor != Color.blue) {
       int ucolor = underlineColor.getRGB() & 0xFFFFFF;
-      if (ruleMatch.getRule().getUrl() != null) {
+      if (url != null) {
         aError.aProperties = new PropertyValue[] { new PropertyValue(
-            "FullCommentURL", -1, ruleMatch.getRule().getUrl().toString(),
-            PropertyState.DIRECT_VALUE),
+            "FullCommentURL", -1, url.toString(), PropertyState.DIRECT_VALUE),
             new PropertyValue("LineColor", -1, ucolor, PropertyState.DIRECT_VALUE) };
       } else {
         aError.aProperties = new PropertyValue[] {
             new PropertyValue("LineColor", -1, ucolor, PropertyState.DIRECT_VALUE) };
       }
     } else {
-      if (ruleMatch.getRule().getUrl() != null) {
+      if (url != null) {
         aError.aProperties = new PropertyValue[] { new PropertyValue(
-            "FullCommentURL", -1, ruleMatch.getRule().getUrl().toString(),
-            PropertyState.DIRECT_VALUE) };
+            "FullCommentURL", -1, url.toString(), PropertyState.DIRECT_VALUE) };
       } else {
         aError.aProperties = new PropertyValue[0];
       }
