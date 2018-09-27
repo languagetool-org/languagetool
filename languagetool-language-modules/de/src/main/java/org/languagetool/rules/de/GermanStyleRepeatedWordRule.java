@@ -36,8 +36,7 @@ import org.languagetool.rules.Categories;
  * This rule detects no grammar error but a stylistic problem (default off)
  * @author Fred Kruse
  */
-
-public class GermanStyleRepeatedWordRule  extends AbstractStyleRepeatedWordRule {
+public class GermanStyleRepeatedWordRule extends AbstractStyleRepeatedWordRule {
   
   private static final String SYNONYMS_URL = "https://www.openthesaurus.de/synonyme/";
   
@@ -107,7 +106,7 @@ public class GermanStyleRepeatedWordRule  extends AbstractStyleRepeatedWordRule 
   }
   
   protected boolean isPartOfWord(String testTokenText, String tokenText) {
-    if((testTokenText.startsWith(tokenText) || testTokenText.endsWith(tokenText) 
+    if ((testTokenText.startsWith(tokenText) || testTokenText.endsWith(tokenText) 
         || tokenText.startsWith(testTokenText) || tokenText.endsWith(testTokenText)) 
         && (testTokenText.length() == tokenText.length() || testTokenText.length() < tokenText.length() - 3
         || testTokenText.length() > tokenText.length() + 3)
@@ -120,8 +119,8 @@ public class GermanStyleRepeatedWordRule  extends AbstractStyleRepeatedWordRule 
   /* 
    *  set an URL to the German openThesaurus
    */
-  protected URL setURL(AnalyzedTokenReadings token ) throws MalformedURLException {
-    if(token != null) {
+  protected URL setURL(AnalyzedTokenReadings token) throws MalformedURLException {
+    if (token != null) {
       List<AnalyzedToken> readings = token.getReadings();
       List<String> lemmas = new ArrayList<>();
       for (AnalyzedToken reading : readings) {
@@ -130,7 +129,7 @@ public class GermanStyleRepeatedWordRule  extends AbstractStyleRepeatedWordRule 
           lemmas.add(lemma);
         }
       }
-      if(lemmas.size() == 1) {
+      if (lemmas.size() == 1) {
         return new URL(SYNONYMS_URL + lemmas.get(0));
       }
       return new URL(SYNONYMS_URL + token.getToken());

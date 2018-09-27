@@ -54,11 +54,10 @@ public abstract class AbstractStyleRepeatedWordRule  extends TextLevelRule {
     setDefaultOff();
     if (userConfig != null) {
       int confDistance = userConfig.getConfigValueByID(getId());
-      if(confDistance >= 0) {
+      if (confDistance >= 0) {
         this.maxDistanceOfSentences = confDistance;
       }
     }
-
   }
 
   /**
@@ -147,7 +146,7 @@ public abstract class AbstractStyleRepeatedWordRule  extends TextLevelRule {
    * listings are excluded
    */
   private static boolean hasBreakToken(AnalyzedTokenReadings[] tokens) {
-    for(int i = 0; i < tokens.length && i < MAX_TOKEN_TO_CHECK; i++) {
+    for (int i = 0; i < tokens.length && i < MAX_TOKEN_TO_CHECK; i++) {
       if (tokens[i].getToken().equals("-") || tokens[i].getToken().equals("—") || tokens[i].getToken().equals("–")) {
         return true;
       }
