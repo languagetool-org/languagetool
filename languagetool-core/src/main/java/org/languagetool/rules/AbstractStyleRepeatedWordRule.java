@@ -19,11 +19,11 @@
 package org.languagetool.rules;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-
-import javax.swing.JOptionPane;
 
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
@@ -168,6 +168,13 @@ public abstract class AbstractStyleRepeatedWordRule  extends TextLevelRule {
   }
 
   /* 
+   *  set an URL to an synonym dictionary for a token
+   */
+  protected URL setURL(AnalyzedTokenReadings token ) throws MalformedURLException {
+    return null;
+  }
+
+  /* 
    *  true if token is found in sentence
    */
   private boolean isTokenInSentence(AnalyzedTokenReadings testToken, AnalyzedTokenReadings[] tokens, int notCheck) {
@@ -253,6 +260,10 @@ public abstract class AbstractStyleRepeatedWordRule  extends TextLevelRule {
               int startPos = pos + token.getStartPos();
               int endPos = pos + token.getEndPos();
               RuleMatch ruleMatch = new RuleMatch(this, startPos, endPos, msg);
+              URL url = setURL(token);
+              if(url != null) {
+                ruleMatch.setUrl(url);
+              }
               ruleMatch.setSynonymsFor(token);
               ruleMatches.add(ruleMatch);
             }
@@ -263,5 +274,5 @@ public abstract class AbstractStyleRepeatedWordRule  extends TextLevelRule {
     }
     return toRuleMatchArray(ruleMatches);
   }
-
+  
 }
