@@ -173,7 +173,7 @@ class LanguageToolHttpHandler implements HttpHandler {
         errorCode = HttpURLConnection.HTTP_BAD_REQUEST;
         response = ExceptionUtils.getRootCause(e).getMessage();
         logStacktrace = false;
-      } else if (e instanceof AuthException || rootCause instanceof AuthException) {
+      } else if (hasCause(e, AuthException.class)) {
         errorCode = HttpURLConnection.HTTP_FORBIDDEN;
         response = e.getMessage();
       } else if (e instanceof IllegalArgumentException || rootCause instanceof IllegalArgumentException) {
@@ -198,6 +198,15 @@ class LanguageToolHttpHandler implements HttpHandler {
         reqCounter.decrementHandleCount(reqId);
       }
     }
+  }
+
+  private boolean hasCause(Exception e, Class<AuthException> clazz) {
+    for (Throwable throwable : ExceptionUtils.getThrowableList(e)) {
+      if (throwable.getClass().equals(clazz)) {
+        return true;
+      }
+    }
+    return false;
   }
 
   private boolean siteMatches(String referrer, String blockedRef) {

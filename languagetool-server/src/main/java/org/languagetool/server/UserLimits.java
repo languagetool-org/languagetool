@@ -135,7 +135,7 @@ class UserLimits {
         return StringTools.streamToString(conn.getInputStream(), "UTF-8");
       } catch (IOException e) {
         if (conn.getResponseCode() == 403) {
-          throw new RuntimeException("Could not get token for user '" + username + "' from " + url + ", invalid username or password (code: 403)", e);
+          throw new AuthException("Could not get token for user '" + username + "' from " + url + ", invalid username or password (code: 403)", e);
         } else {
           throw new RuntimeException("Could not get token for user '" + username + "' from " + url, e);
         }
