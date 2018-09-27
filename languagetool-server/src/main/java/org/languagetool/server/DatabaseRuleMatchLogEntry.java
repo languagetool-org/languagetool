@@ -21,26 +21,29 @@
 
 package org.languagetool.server;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
 class DatabaseRuleMatchLogEntry extends DatabaseLogEntry {
-  private Long checkId;
-  private final String ruleId;
-  private final int matchCount;
+  private final List<RuleMatchInfo> matches = new ArrayList<>();
 
-  DatabaseRuleMatchLogEntry(String ruleId, int matchCount) {
-    this.ruleId = ruleId;
-    this.matchCount = matchCount;
+  DatabaseRuleMatchLogEntry(Map<String, Integer> matchCounts) {
+    for (Map.Entry<String, Integer> match : matchCounts.entrySet()) {
+      matches.add(new RuleMatchInfo(match.getKey(), match.getValue()));
+    }
+  }
+
+  public int getMatchCount() {
+    return matches.size();
   }
 
   @Override
   public Map<Object, Object> getMapping() {
     HashMap<Object, Object> map = new HashMap<>();
-    map.put("check_id", checkId);
-    map.put("rule_id", ruleId);
-    map.put("match_count", matchCount);
+    map.put("matches", matches);
     return map;
   }
 
@@ -49,12 +52,13 @@ class DatabaseRuleMatchLogEntry extends DatabaseLogEntry {
     return "org.languagetool.server.LogMapper.ruleMatch";
   }
 
-  @Override
-  public void followup(Map<Object, Object> parameters) {
-    // not needed
-  }
+  static class RuleMatchInfo {
+    String ruleId;
+    int matchCount;
 
-  void setCheckId(Long checkId) {
-    this.checkId = checkId;
+    RuleMatchInfo(String rule_id, int match_count) {
+      this.ruleId = rule_id;
+      this.matchCount = match_count;
+    }
   }
 }

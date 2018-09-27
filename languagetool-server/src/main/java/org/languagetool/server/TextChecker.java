@@ -276,9 +276,7 @@ abstract class TextChecker {
       String ruleId = match.getRule().getId();
       ruleMatchCount.put(ruleId, ruleMatchCount.getOrDefault(ruleId, 0) + 1);
     }
-    for (Map.Entry<String, Integer> ruleCount : ruleMatchCount.entrySet()) {
-      logEntry.addRuleMatch(new DatabaseRuleMatchLogEntry(ruleCount.getKey(), ruleCount.getValue()));
-    }
+    logEntry.setRuleMatches(new DatabaseRuleMatchLogEntry(ruleMatchCount));
     logger.log(logEntry);
   }
 

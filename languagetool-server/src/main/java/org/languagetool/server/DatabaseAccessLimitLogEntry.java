@@ -66,9 +66,4 @@ public class DatabaseAccessLimitLogEntry extends DatabaseLogEntry {
   public String getMappingIdentifier() {
     return "org.languagetool.server.LogMapper.accessLimit";
   }
-
-  @Override
-  public void followup(Map<Object, Object> parameters) {
-    // nothing to be done
-  }
 }

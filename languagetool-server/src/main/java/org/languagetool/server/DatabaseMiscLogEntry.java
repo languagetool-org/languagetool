@@ -57,9 +57,4 @@ public class DatabaseMiscLogEntry extends DatabaseLogEntry {
   public String getMappingIdentifier() {
     return "org.languagetool.server.LogMapper.miscLogs";
   }
-
-  @Override
-  public void followup(Map<Object, Object> parameters) {
-    // nothing to be done
-  }
 }
