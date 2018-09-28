@@ -75,8 +75,8 @@ abstract class Server {
       httpHandler.shutdown();
     }
     if (server != null) {
-      System.out.println("Stopping server");
-      server.stop(0);
+      System.out.println("Stopping server...");
+      server.stop(5);
       isRunning = false;
       System.out.println("Server stopped");
     }
