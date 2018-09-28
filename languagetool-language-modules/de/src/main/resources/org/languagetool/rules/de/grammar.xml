@@ -20001,6 +20001,20 @@ Andere Projekte</example>
                 <example correction="Anklang">Seine Vorschläge fanden keinen großen <marker>anklang</marker>.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="WERT_ADV" name="'Wert (wert) sein' etc.">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token inflected="yes" skip="1">sein</token>
+                    <token regexp="yes">nichts|viel|mehr|mir|dir|ihm|ihnen</token>
+                    <marker>
+                        <token>Wert</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="3" case_conversion="startlower"/></suggestion>&advende;</message>
+                <short>&prgk;.</short>
+                <example correction="wert">Das ist es mir <marker>Wert</marker>!</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="WERT_SUBST" name="'wert (Wert) legen' etc.">
             <rule>
                 <pattern case_sensitive="yes">
