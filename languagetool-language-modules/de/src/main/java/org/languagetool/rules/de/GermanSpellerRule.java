@@ -127,6 +127,11 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("fangte", "fing");
     put("fangten", "fingen");
     put("past", "passt");
+    put("eingetragt", "eingetragen");
+    put("getrunkt", "getrunken");
+    put("Komplexibilität", "Komplexität");
+    put("abbonement", "Abonnement");
+    put("perse", "per se");
     put("Schwitch", "Switch");
     put("[aA]nwesenzeiten", "Anwesenheitszeiten");
     put("[gG]eizigkeit", "Geiz");
