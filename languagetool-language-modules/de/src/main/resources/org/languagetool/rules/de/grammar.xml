@@ -154,6 +154,41 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Stille">Sie wurde in aller <marker>Stile</marker> beigesetzt.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="FEIEN" name="'im Feien (Freien)'">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[iI]m</token>
+                    <marker>
+                        <token>Feien</token>
+                    </marker>
+                </pattern>
+                <message>Ist hier <suggestion>Freien</suggestion> (= nicht in geschlossenen Räumen) gemeint?</message>
+                <short>&prgk;.</short>
+                <example correction="Freien">Die Feier findet im <marker>Feien</marker> statt.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[iI]ns</token>
+                    <marker>
+                        <token>Feie</token>
+                    </marker>
+                </pattern>
+                <message>Ist hier das <suggestion>Freie</suggestion> (= nicht in geschlossenen Räumen) gemeint?</message>
+                <short>&prgk;.</short>
+                <example correction="Freie">Sie gingen ins <marker>Feie</marker>.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token regexp="yes">Feien?</token>
+                    </marker>
+                    <token regexp="yes">Demokrat.+|und</token>
+                </pattern>
+                <message>Ist hier <suggestion><match no="1" regexp_match="Fe" regexp_replace="Fre"/></suggestion> (= unabhängig) gemeint?</message>
+                <short>&prgk;.</short>
+                <example correction="Freien">In der <marker>Feien</marker> und Hansestadt Hamburg.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="ALTERNATIVE" name="alternative (Alternative) zu">
             <rule>
                 <pattern case_sensitive="yes">
@@ -30383,7 +30418,7 @@ Andere Projekte</example>
                 <pattern>
                     <token regexp="yes">bei|entsprechend|gemäß|entgegen|nahe</token>
                     <marker>
-                        <token regexp="yes">[dms]eine|unsere|eue?re|ihre</token>
+                        <token regexp="yes">[dkms]eine|unsere|eue?re|ihre</token>
                     </marker>
                     <!-- TODO: in den marker, sobald wir einen synthesizer haben: -->
                     <token min="0" postag_regexp="yes" postag=".*ADJ.*"/>
