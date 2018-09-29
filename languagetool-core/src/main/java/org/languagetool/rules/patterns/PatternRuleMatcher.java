@@ -27,8 +27,8 @@ import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.RuleMatchFilter;
 import org.languagetool.rules.RuleWithMaxFilter;
 import org.languagetool.tools.StringTools;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+//import org.slf4j.Logger;
+//import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -40,7 +40,7 @@ import java.util.List;
  */
 final class PatternRuleMatcher extends AbstractPatternRulePerformer implements RuleMatcher {
 
-  private static final Logger logger = LoggerFactory.getLogger(PatternRuleMatcher.class);
+  //private static final Logger logger = LoggerFactory.getLogger(PatternRuleMatcher.class);
   private static final String SUGGESTION_START_TAG = "<suggestion>";
   private static final String SUGGESTION_END_TAG = "</suggestion>";
   private static final String MISTAKE = "<mistake/>";
