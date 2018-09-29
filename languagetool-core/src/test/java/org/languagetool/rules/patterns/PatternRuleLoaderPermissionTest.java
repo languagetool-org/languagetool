@@ -29,17 +29,14 @@ import java.security.CodeSource;
 import java.security.Permission;
 import java.security.PermissionCollection;
 import java.security.Policy;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Enumeration;
-import java.util.List;
+import java.util.*;
 
 public class PatternRuleLoaderPermissionTest {
 
   private static final SecurityManager secManager = System.getSecurityManager();
 
   @BeforeClass
-  public static void startup() throws Exception {
+  public static void startup() {
     Policy.setPolicy(new MyPolicy());
     System.setSecurityManager(new SecurityManager());
   }
@@ -68,6 +65,7 @@ public class PatternRuleLoaderPermissionTest {
       PermissionCollection perms = new MyPermissionCollection();
       perms.add(new RuntimePermission("setIO"));
       perms.add(new RuntimePermission("setSecurityManager"));
+      perms.add(new PropertyPermission("getProperty.slowMatchThreshold", "read"));
       perms.add(new FilePermission("<<ALL FILES>>", "read"));
       return perms;
     }
