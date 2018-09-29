@@ -27,6 +27,8 @@ import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.RuleMatchFilter;
 import org.languagetool.rules.RuleWithMaxFilter;
 import org.languagetool.tools.StringTools;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -38,21 +40,26 @@ import java.util.List;
  */
 final class PatternRuleMatcher extends AbstractPatternRulePerformer implements RuleMatcher {
 
+  private static final Logger logger = LoggerFactory.getLogger(PatternRuleMatcher.class);
   private static final String SUGGESTION_START_TAG = "<suggestion>";
   private static final String SUGGESTION_END_TAG = "</suggestion>";
   private static final String MISTAKE = "<mistake/>";
 
   private final boolean useList;
   private final List<PatternTokenMatcher> patternTokenMatchers;
+  private final Integer slowMatchThreshold;
 
   PatternRuleMatcher(PatternRule rule, boolean useList) {
     super(rule, rule.getLanguage().getUnifier());
     this.useList = useList;
     this.patternTokenMatchers = createElementMatchers();
+    String slowMatchThresholdStr = System.getProperty("slowMatchThreshold");
+    slowMatchThreshold = slowMatchThresholdStr != null ? Integer.parseInt(slowMatchThresholdStr) : null;
   }
 
   @Override
   public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
+    long startTime = System.currentTimeMillis();
     List<RuleMatch> ruleMatches = new ArrayList<>();
 
     AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
@@ -145,6 +152,12 @@ final class PatternRuleMatcher extends AbstractPatternRulePerformer implements R
     }
     RuleMatchFilter maxFilter = new RuleWithMaxFilter();
     List<RuleMatch> filteredMatches = maxFilter.filter(ruleMatches);
+    if (slowMatchThreshold != null) {
+      long runTime = System.currentTimeMillis() - startTime;
+      if (runTime > slowMatchThreshold) {
+        logger.warn("Slow match for rule " + rule.getFullId() + ": " + runTime + "ms, sentence len: " + sentence.getText().length() + " (threshold: " + slowMatchThreshold + "ms)");
+      }
+    }
     return filteredMatches.toArray(new RuleMatch[filteredMatches.size()]);
   }
 
