@@ -47,7 +47,7 @@ public class EnglishWordRepeatRuleTest {
     assertGood("The can can hold the water.");
     assertGood("May May awake up?");
     assertGood("May may awake up.");
-    assertGood("Not all options or implications had had been fully considered");
+    assertGood("Alice and Bob had had a long-standing relationship.");
     assertBad("I may may awake up.");
     assertBad("That is May May.");
     assertGood("Will Will awake up?");

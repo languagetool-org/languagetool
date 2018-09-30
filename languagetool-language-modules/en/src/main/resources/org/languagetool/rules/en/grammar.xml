@@ -18045,7 +18045,14 @@ USA
                     <token>in</token>
                     <token>case</token>
                 </antipattern>
-                 <pattern>
+                <antipattern>
+                     <token postag='SENT_START'></token>
+                     <token postag='IN'></token>
+                     <token/>
+                     <token regexp="yes" case_sensitive="yes">I|you|s?he|it|we|they</token>
+                     <token postag='IN'></token>
+                </antipattern>
+                <pattern>
                      <token postag='SENT_START'></token>
                      <token postag='IN'></token>
                      <marker>
@@ -18059,6 +18066,7 @@ USA
                  <example correction='years, I'>For <marker>years I</marker> have been travelling.</example>
                  <example>At least they believed me.</example>
                  <example>To see you is always a great pleasure.</example>
+                 <example>While setting it up correctly, he heard some strange noises.</example>
             </rule>
         </rulegroup>
         <rulegroup id="INTERJECTIONS_PUNCTUATION" name="Missing comma after introductory phrase">
@@ -19079,7 +19087,8 @@ USA
                     <token>far</token>
                 </antipattern>
                 <antipattern>
-                    <marker><token>however</token></marker>
+                    <token postag="SENT_START"></token>
+                    <token/>
                     <token postag="JJ"/>
                 </antipattern>
                 <antipattern>
@@ -19129,6 +19138,7 @@ USA
                 <example>Alas! Her heart belonged to another.</example>
                 <example>Further to this previous point, it is difficult to fully respect a high-ranking business official if their grammar isn’t up to par.</example>
                 <example>Thus far, the tests are in agreement with the observations made.</example>
+                <example>Finally outside, she caused a bit of shock amongst the Assisians.</example>
             </rule>
             <rule>
                 <pattern>
