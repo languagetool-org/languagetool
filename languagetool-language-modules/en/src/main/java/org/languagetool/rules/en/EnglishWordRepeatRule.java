@@ -46,7 +46,7 @@ public class EnglishWordRepeatRule extends WordRepeatRule {
     if (position == 0) {
       return false;
     }
-    if (wordRepetitionOf("had", tokens, position) && posIsIn(tokens, position - 2, "PRP")) {
+    if (wordRepetitionOf("had", tokens, position) && posIsIn(tokens, position - 2, "PRP", "NN")) {
       return true;   // "If I had had time, I would have gone to see him."
     }
     if (wordRepetitionOf("that", tokens, position) && posIsIn(tokens, position+1, "NN", "PRP$", "JJ", "VBZ", "VBD")) {
