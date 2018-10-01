@@ -1446,7 +1446,7 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 	<!-- GETALLEN -->
 	<rule name="GUESS_number" id="NUMBERS">
 		<pattern>
-			<token regexp="yes">[0-9]*</token>
+			<token regexp="yes">[0-9]{1,}</token>
 		</pattern>
 		<disambig action="add"><wd pos="GET"/></disambig>
 	</rule>
@@ -1461,15 +1461,18 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
     <!-- TODO GUESSING TAGS BY FORM ONLY ======================================== -->
    
     <!-- REAL DISAMBIGUATION -->
-	<!--
-	als de bij die vliegende dingen horende koe : bij is geen znw !
-	<rule id="DE_X_DIE" name="woord tussen de en die is znw" >
-    <pattern><token>de</token><marker><token/></marker><token>die</token>
-    </pattern>
-    <disambig action="filter" postag_regexp="yes" postag="ZNW:EKV|ZNW:EKV:DE_|ZNW:MRV:DE_|ZNW:MRV:VRK:DE_" />
-	</rule>
-	-->
 	
-
-
+		<!-- verwijder m.n. znw na des te, bijvoorbeeld bij 'koeler' -->
+		<rule id="DES_TE_VREEMD" name="Vreemd woord na des te">
+			<pattern><token>des</token><token>te</token><marker><token><exception regexp="yes">meer|eerder|minder</exception></token></marker></pattern>
+			<disambig><match no="3" postag="BNW:VGR:.*" postag_regexp="yes" /></disambig>
+		</rule>
+		
+		<!-- bij is vaak ook znw, en zit dan in de weg. Voor heeft hetzelfde, maar zeldzamer -->
+		<rule id="HET_BIJ" name="na sommige woorden kan bij geen znw zijn.">
+			<pattern><token regexp="yes">het|dat|dit|dan|om</token><marker><token regexp="yes">bij|voor</token></marker></pattern>
+			<disambig action="remove" postag="ZNW:EKV:DE_" />
+		</rule>
+		
+		
 </rules>
