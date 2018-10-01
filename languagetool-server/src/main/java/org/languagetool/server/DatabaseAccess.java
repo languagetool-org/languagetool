@@ -244,7 +244,7 @@ class DatabaseAccess {
             }
           }
         } catch (PersistenceException e) {
-          print("Error: Could not get fetch/register server id from database: " + e);
+          print("Error: Could not fetch/register server id from database for server: " + hostname + " caused by " + e);
           return -1L;
         }
       });
@@ -285,7 +285,7 @@ class DatabaseAccess {
             }
           }
         } catch (PersistenceException e) {
-          print("Error: Could not get/register id for this client: " + e);
+          print("Error: Could not get/register id for this client: " + client + " caused by " + e);
           return -1L;
         }
       });
