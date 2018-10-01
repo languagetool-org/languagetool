@@ -268,7 +268,7 @@ public final class Tools {
     }
   }
 
-  static void showRuleInfoDialog(Component parent, String title, String message, Rule rule, ResourceBundle messages, String lang) {
+  static void showRuleInfoDialog(Component parent, String title, String message, Rule rule, URL matchUrl, ResourceBundle messages, String lang) {
     int dialogWidth = 320;
     JTextPane textPane = new JTextPane();
     textPane.setEditable(false);
@@ -286,7 +286,7 @@ public final class Tools {
     String ruleDetailLink = rule instanceof FalseFriendPatternRule || isExternal ?
             "" : "<a href='" + url + "'>" + messages.getString("ruleDetailsLink") +"</a>";
     textPane.setText("<html>"
-            + messageWithBold + exampleSentences + formatURL(rule.getUrl())
+            + messageWithBold + exampleSentences + formatURL(matchUrl)
             + "<br><br>"
             + ruleDetailLink
             + "</html>");

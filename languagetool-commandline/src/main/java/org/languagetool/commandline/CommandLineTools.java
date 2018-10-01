@@ -185,7 +185,9 @@ public final class CommandLineTools {
         System.out.println("Suggestion: " + String.join("; ", replacements));
       }
       System.out.println(contextTools.getPlainTextContext(match.getFromPos(), match.getToPos(), contents));
-      if (rule.getUrl() != null) {
+      if (match.getUrl() != null) {
+        System.out.println("More info: " + match.getUrl());
+      } else if (rule.getUrl() != null) {
         System.out.println("More info: " + rule.getUrl());
       }
       if (i < ruleMatches.size()) {

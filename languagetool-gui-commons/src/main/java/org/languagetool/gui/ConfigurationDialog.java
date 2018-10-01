@@ -685,7 +685,7 @@ public class ConfigurationDialog implements ActionListener {
                   lang = Languages.getLanguageForLocale(Locale.getDefault());
                 }
                 Tools.showRuleInfoDialog(tree, messages.getString("guiAboutRuleTitle"),
-                        rule.getDescription(), rule, messages,
+                        rule.getDescription(), rule, rule.getUrl(), messages,
                         lang.getShortCodeWithCountryAndVariant());
               }
             });
