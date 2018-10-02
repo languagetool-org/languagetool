@@ -22,6 +22,8 @@ import com.sun.net.httpserver.HttpServer;
 import org.languagetool.JLanguageTool;
 import org.languagetool.tools.Tools;
 
+import javax.management.ObjectName;
+import java.lang.management.ManagementFactory;
 import java.net.InetSocketAddress;
 import java.util.ResourceBundle;
 import java.util.Set;
@@ -92,6 +94,10 @@ public class HTTPServer extends Server {
     this.port = config.getPort();
     this.host = host;
     try {
+      if (System.getProperty("monitorActiveRules") != null) {
+        ManagementFactory.getPlatformMBeanServer().registerMBean(new ActiveRules(),
+          ObjectName.getInstance("org.languagetool:name=ActiveRules, type=ActiveRules"));
+      }
       InetSocketAddress address = host != null ? new InetSocketAddress(host, port) : new InetSocketAddress(port);
       server = HttpServer.create(address, 0);
       RequestLimiter limiter = getRequestLimiterOrNull(config);
