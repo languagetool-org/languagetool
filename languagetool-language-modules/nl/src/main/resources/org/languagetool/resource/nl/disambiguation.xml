@@ -1462,17 +1462,36 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
    
     <!-- REAL DISAMBIGUATION -->
 	
-		<!-- verwijder m.n. znw na des te, bijvoorbeeld bij 'koeler' -->
-		<rule id="DES_TE_VREEMD" name="Vreemd woord na des te">
-			<pattern><token>des</token><token>te</token><marker><token><exception regexp="yes">meer|eerder|minder</exception></token></marker></pattern>
-			<disambig><match no="3" postag="BNW:VGR:.*" postag_regexp="yes" /></disambig>
-		</rule>
-		
-		<!-- bij is vaak ook znw, en zit dan in de weg. Voor heeft hetzelfde, maar zeldzamer -->
-		<rule id="HET_BIJ" name="na sommige woorden kan bij geen znw zijn.">
-			<pattern><token regexp="yes">het|dat|dit|dan|om</token><marker><token regexp="yes">bij|voor</token></marker></pattern>
-			<disambig action="remove" postag="ZNW:EKV:DE_" />
-		</rule>
-		
-		
+	<rule id="TE_X" name="verwarring tussen WKW:TGW:INF (werkwoord) en ZNW:MRV:DE_ (meervoud) of ZNW:EKV en ZNW:MRV:VRK:DE_ (netjes)bij 'des te'">
+		<!-- verwijdert ook tags bij 'te paard', 'te vuur' etc. -->
+		<pattern>
+			<token>te</token>
+			<marker><token/></marker>
+		</pattern>
+		<disambig action="remove" postag="ZNW:MRV:DE_|BNW:STL:MRV:DE_" />
+	</rule>	
+	
+	<rule id="DE_X_END" name="alleen znw">
+		<!-- hier alleen zelfstandige naamwoorden met de ; is wellicht -->
+		<pattern><token>de</token><marker><token postag_regexp="yes" postag="ZNW:EKV|ZNW.*MRV.*"/></marker><token regexp="yes">[.!]</token></pattern>
+		<disambig action="remove" postag="WKW.*|BNW.*" />
+	</rule>
+
+	<rule id="EEN_X_VAN" name="geen meervoud">
+		<pattern><token>een</token><marker><token/></marker><token>van</token></pattern>
+		<disambig action="remove" postag=".*MRV.*" />
+	</rule>
+
+	<rule id="NETJES" name="geen meervoud">
+		<!-- de netjes komt weinig voor; wellicht is dit iets te fors aangepakt, maar dat komt later dan wel boen -->
+		<pattern><token><exception>de</exception></token><marker><token postag="BYW:JES"/></marker><token>van</token></pattern>
+		<disambig action="remove" postag="ZNW.*" />
+	</rule>
+
+	<rule id="ZIJN_ZNW-EKV" name="vangen">
+		<!-- als er na 'zijn' een enkelvoud staat, is het alleen bezittelijk -->
+		<pattern><token>zijn</token><marker><token postag="ZNW:EKV.*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="ZNW:EKV.*" /></token></marker></pattern>
+		<disambig action="remove" postag="WKW:TGW:INF" />
+	</rule>
+	
 </rules>
