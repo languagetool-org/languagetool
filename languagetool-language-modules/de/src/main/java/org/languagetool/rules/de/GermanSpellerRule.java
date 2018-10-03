@@ -103,9 +103,17 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("^funk?z[ou]nier.+", "funk?z[ou]nier", "funktionier");
     putRepl("[wW]öruber", "öru", "orü");
     putRepl("[lL]einensamens?", "[lL]einen", "Lein");
+    putRepl("Feinleiner[ns]?", "Feinlei", "Fineli");
     putRepl("Oldheimer[ns]?", "he", "t");
     putRepl("unternehmensl[uü]stig(e[mnrs]?)?", "mensl[uü]st", "mungslust"); // "unternehmenslüstig" -> "unternehmungslustig"
     putRepl("proff?ess?ional(e[mnrs]?)?", "ff?ess?ional", "fessionell");
+    putRepl("zuverlässlich(e[mnrs]?)?", "lich", "ig");
+    putRepl("fluoreszenzierend(e[mnrs]?)?", "zen", "");
+    putRepl("revalierend(e[mnrs]?)?", "^reval", "rivalis");
+    putRepl("verhäuft(e[mnrs]?)?", "^ver", "ge");
+    putRepl("stürmig(e[mnrs]?)?", "mig", "misch");
+    putRepl("größeste[mnrs]?", "ßes", "ß");
+    putRepl("naheste[mnrs]?", "nahe", "näch");
     putRepl("gesundlich(e[mnrs]?)?", "lich", "heitlich");
     putRepl("eckel(e|t(en?)?|st)?", "^eck", "ek");
     putRepl("entt?euscht(e[mnrs]?)?", "entt?eusch", "enttäusch");

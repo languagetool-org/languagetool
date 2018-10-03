@@ -281,6 +281,12 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("unverzeilige", "unverzeihliche", rule, lt);
     assertFirstSuggestion("Addons", "Add-ons", rule, lt);
     assertFirstSuggestion("Mitgliederinnen", "Mitglieder", rule, lt);
+    assertFirstSuggestion("Feinleiner", "Fineliner", rule, lt);
+    assertFirstSuggestion("größester", "größter", rule, lt);
+    assertFirstSuggestion("verhäufte", "gehäufte", rule, lt);
+    assertFirstSuggestion("naheste", "nächste", rule, lt);
+    assertFirstSuggestion("fluoreszenzierend", "fluoreszierend", rule, lt);
+    assertFirstSuggestion("revalierender", "rivalisierender", rule, lt);
   }
 
   @Test
