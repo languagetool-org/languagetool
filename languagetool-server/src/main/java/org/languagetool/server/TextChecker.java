@@ -142,7 +142,7 @@ abstract class TextChecker {
       for (String langCode : altLangParams) {
         Language altLang = Languages.getLanguageForShortCode(langCode);
         altLanguages.add(altLang);
-        if (altLang.hasVariant()) {
+        if (altLang.hasVariant() && !altLang.isVariant()) {
           throw new IllegalArgumentException("You specified altLanguage '" + langCode + "', but for this language you need to specify a variant, e.g. 'en-GB' instead of just 'en'");
         }
       }

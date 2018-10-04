@@ -102,7 +102,36 @@ public class TextCheckerTest {
             .sign(algorithm);
     System.out.println(token);
   }
-  
+
+  @Test
+  public void testInvalidAltLanguages() throws Exception {
+    Map<String, String> params = new HashMap<>();
+    params.put("text", "not used");
+    params.put("language", "en");
+    HTTPServerConfig config1 = new HTTPServerConfig(HTTPTools.getDefaultPort());
+    TextChecker checker = new V2TextChecker(config1, false, null, new RequestCounter());
+    try {
+      params.put("altLanguages", "en");
+      checker.checkText(new AnnotatedTextBuilder().addText("something").build(), new FakeHttpExchange(), params, null, null);
+      fail();
+    } catch (IllegalArgumentException ignore) {
+    }
+    try {
+      params.put("altLanguages", "xy");
+      checker.checkText(new AnnotatedTextBuilder().addText("something").build(), new FakeHttpExchange(), params, null, null);
+      fail();
+    } catch (IllegalArgumentException ignore) {
+    }
+    
+    params.put("language", "en");
+    params.put("altLanguages", "de-DE");
+    checker.checkText(new AnnotatedTextBuilder().addText("something").build(), new FakeHttpExchange(), params, null, null);
+
+    params.put("language", "en-US");
+    params.put("altLanguages", "en-US");  // not useful, but not forbidden
+    checker.checkText(new AnnotatedTextBuilder().addText("something").build(), new FakeHttpExchange(), params, null, null);
+  }
+
   @Test
   public void testDetectLanguageOfString() {
     assertThat(checker.detectLanguageOfString("", "en", Arrays.asList("en-GB")).getShortCodeWithCountryAndVariant(), is("en-GB"));
