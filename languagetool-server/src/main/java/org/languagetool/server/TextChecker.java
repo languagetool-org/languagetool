@@ -276,8 +276,8 @@ abstract class TextChecker {
             + matches.size() + " matches, "
             + computationTime + "ms, agent:" + agent
             + ", " + messageSent + ", q:" + (workQueue != null ? workQueue.size() : "?")
-            + ", h:" + reqCounter.getHandleCount() + ", distinctH:" + reqCounter.getDistinctIps()
-            + ", r:" + reqCounter.getRequestCount());
+            + ", h:" + reqCounter.getHandleCount() + ", dH:" + reqCounter.getDistinctIps()
+            + ", m:" + mode.toString().toLowerCase());
 
     int matchCount = matches.size();
     DatabaseCheckLogEntry logEntry = new DatabaseCheckLogEntry(userId, agentId, logServerId, textSize, matchCount,
