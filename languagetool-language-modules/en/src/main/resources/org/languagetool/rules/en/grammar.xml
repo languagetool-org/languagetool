@@ -10741,6 +10741,26 @@ USA
           <example type="incorrect">I am <em>searched</em> through some fields.</example>
         </rule>
         -->
+        <rule id="I_A_NONBASE" name="'I am' + non-gerund form">
+            <pattern>
+                <token postag="PRP"/>
+                    <marker>
+                        <token inflected="yes">be</token>
+                        <or>
+                            <token postag_regexp="yes" postag="VB[DNPZ]?">
+                                <exception>delayed</exception>
+                            </token>
+                            <token>count
+                                <exception>delayed</exception>
+                            </token>
+                        </or>
+                    </marker>
+                </pattern>
+          <message>You might need to use the gerund form of the verb here (e.g. 'learning' instead of 'learn'). Use: <suggestion><match no="2"/> <match no="3" postag="VBG"/></suggestion></message>
+          <example correction="am searching">I <marker>am searched</marker> through some fields.</example>
+          <example correction="am counting">I <marker>am count</marker> 10 seconds.</example>
+          <example>I am delayed.</example>
+        </rule>
         <rulegroup id="TO_NON_BASE" name="'to' + non-base form">
             <rule>
                 <antipattern>
