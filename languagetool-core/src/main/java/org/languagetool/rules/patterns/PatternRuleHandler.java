@@ -561,9 +561,6 @@ public class PatternRuleHandler extends XMLRuleHandler {
     } else {
       PatternToken patternToken = elemList.get(numElement);
       if (patternToken.hasOrGroup()) {
-
-
-
         // When creating a new rule, we finally clear the backed-up variables. All the elements in
         // the OR group should share the values of backed-up variables. That's why these variables
         // are backed-up.
@@ -575,9 +572,8 @@ public class PatternRuleHandler extends XMLRuleHandler {
         for (PatternToken patternTokenOfOrGroup : patternToken.getOrGroup()) {
           List<PatternToken> tmpElements2 = new ArrayList<>();
           tmpElements2.addAll(tmpPatternTokens);
-          tmpElements2.add((PatternToken) ObjectUtils.clone(patternTokenOfOrGroup));
+          tmpElements2.add(ObjectUtils.clone(patternTokenOfOrGroup));
           createRules(elemList, tmpElements2, numElement + 1);
-
           startPos = startPosBackup;
           endPos = endPosBackup;
           suggestionMatches = suggestionMatchesBackup;
@@ -585,7 +581,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
           ruleAntiPatterns.addAll(ruleAntiPatternsBackup);
         }
       }
-      tmpPatternTokens.add((PatternToken) ObjectUtils.clone(patternToken));
+      tmpPatternTokens.add(ObjectUtils.clone(patternToken));
       createRules(elemList, tmpPatternTokens, numElement + 1);
     }
   }
