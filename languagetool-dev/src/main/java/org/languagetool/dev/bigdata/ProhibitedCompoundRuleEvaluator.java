@@ -94,9 +94,9 @@ class ProhibitedCompoundRuleEvaluator {
     for (Long evalFactor : evalFactors) {
       evalValues.put(evalFactor, new RuleEvalValues());
     }
-    List<Map.Entry<Sentence, Integer>> allTokenSentences = getRelevantSentences(inputsOrDir, token, maxSentences);
+    List<Map.Entry<Sentence, Map.Entry<Integer, Integer>>> allTokenSentences = getRelevantSentences(inputsOrDir, token, maxSentences);
     // Load the sentences with a homophone and later replace it so we get error sentences:
-    List<Map.Entry<Sentence, Integer>> allHomophoneSentences = getRelevantSentences(inputsOrDir, homophoneToken, maxSentences);
+    List<Map.Entry<Sentence, Map.Entry<Integer, Integer>>> allHomophoneSentences = getRelevantSentences(inputsOrDir, homophoneToken, maxSentences);
     //if (allTokenSentences.size() < 20 || allHomophoneSentences.size() < 20) {
     //  System.out.println("Skipping " + token + " / " + homophoneToken);
     //  return null;
@@ -109,7 +109,7 @@ class ProhibitedCompoundRuleEvaluator {
   }
 
   @SuppressWarnings("ConstantConditions")
-  private void evaluate(List<Map.Entry<Sentence, Integer>> sentences, boolean isCorrect, String token, String homophoneToken, List<Long> evalFactors) throws IOException {
+  private void evaluate(List<Map.Entry<Sentence, Map.Entry<Integer, Integer>>> sentences, boolean isCorrect, String token, String homophoneToken, List<Long> evalFactors) throws IOException {
     println("======================");
     printf("Starting evaluation on " + sentences.size() + " sentences with %s/%s (%s):\n", token, homophoneToken, String.valueOf(isCorrect));
     JLanguageTool lt = new JLanguageTool(language);
@@ -117,18 +117,19 @@ class ProhibitedCompoundRuleEvaluator {
     for (Rule activeRule : allActiveRules) {
       lt.disableRule(activeRule.getId());
     }
-    for (Map.Entry<Sentence, Integer> sentenceMatch : sentences) {
+    for (Map.Entry<Sentence, Map.Entry<Integer, Integer>> sentenceMatch : sentences) {
       Sentence sentence = sentenceMatch.getKey();
       String plainText = sentence.getText();
-      int matchStart = sentenceMatch.getValue();
-      int matchEnd = matchStart + homophoneToken.length();
+      int matchStart = sentenceMatch.getValue().getKey();
+      int matchEnd = sentenceMatch.getValue().getValue();
       String match = plainText.substring(matchStart, matchEnd);
       String textToken = Character.isUpperCase(match.charAt(0)) ? StringUtils.capitalize(token) : StringUtils.uncapitalize(token);
-      String replacement = plainText;
-      if (!isCorrect)
-        replacement = plainText.substring(0, matchStart) + textToken + plainText.substring(matchEnd);
+      String evaluated = plainText;
+      if (!isCorrect) {
+        evaluated = plainText.substring(0, matchStart) + textToken + plainText.substring(matchEnd);
+      }
       //printf("%nCorrect: %s%nPlain text: %s%nToken: %s%nHomophone: %s%nMatch: '%s'%nReplacement: %s%n%n", String.valueOf(isCorrect), plainText, token, homophoneToken, match, replacement);
-      AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence(replacement);
+      AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence(evaluated);
       for (Long factor : evalFactors) {
         rule.setConfusionPair(new ProhibitedCompoundRule.Pair(homophoneToken, "", token, ""));
         RuleMatch[] matches = rule.match(analyzedSentence);
@@ -151,7 +152,7 @@ class ProhibitedCompoundRuleEvaluator {
     }
   }
 
-  private Map<Long,RuleEvalResult> printRuleEvalResult(List<Map.Entry<Sentence, Integer>> allTokenSentences, List<Map.Entry<Sentence, Integer>> allHomophoneSentences, List<String> inputsOrDir,
+  private Map<Long,RuleEvalResult> printRuleEvalResult(List<Map.Entry<Sentence, Map.Entry<Integer, Integer>>> allTokenSentences, List<Map.Entry<Sentence, Map.Entry<Integer, Integer>>> allHomophoneSentences, List<String> inputsOrDir,
                                                        String token, String homophoneToken) {
     Map<Long,RuleEvalResult> results = new HashMap<>();
     int sentences = allTokenSentences.size() + allHomophoneSentences.size();
@@ -194,8 +195,8 @@ class ProhibitedCompoundRuleEvaluator {
   }
 
   // TODO deduplicate / delegate
-  private List<Map.Entry<Sentence, Integer>> getRelevantSentences(List<String> inputs, String token, int maxSentences) throws IOException {
-    List<Map.Entry<Sentence, Integer>> sentences = new ArrayList<>();
+  private List<Map.Entry<Sentence, Map.Entry<Integer, Integer>>> getRelevantSentences(List<String> inputs, String token, int maxSentences) throws IOException {
+    List<Map.Entry<Sentence, Map.Entry<Integer, Integer>>> sentences = new ArrayList<>();
     for (String input : inputs) {
       if (new File(input).isDirectory()) {
         File file = new File(input, token + ".txt");
@@ -214,17 +215,21 @@ class ProhibitedCompoundRuleEvaluator {
     return sentences;
   }
 
-  private List<Map.Entry<Sentence, Integer>> getSentencesFromSource(List<String> inputs, String token, int maxSentences, SentenceSource sentenceSource) {
-    List<Map.Entry<Sentence, Integer>> sentences = new ArrayList<>();
+  private List<Map.Entry<Sentence, Map.Entry<Integer, Integer>>> getSentencesFromSource(List<String> inputs, String token, int maxSentences, SentenceSource sentenceSource) {
+    List<Map.Entry<Sentence, Map.Entry<Integer, Integer>>> sentences = new ArrayList<>();
     Pattern pattern = Pattern.compile("(?iu)\\b(" + token.toLowerCase() + ")\\p{Alpha}+\\b|\\b\\p{Alpha}+(" + token.toLowerCase() + ")\\b");
     while (sentenceSource.hasNext()) {
       Sentence sentence = sentenceSource.next();
       Matcher matcher = pattern.matcher(sentence.getText());
       if (matcher.find() && Character.isUpperCase(matcher.group().charAt(0))) {
-        sentences.add(new AbstractMap.SimpleEntry<>(sentence, Math.max(matcher.start(1), matcher.start(2))));
-        if (sentences.size() % 250 == 0) {
-          //println("Loaded sentence " + sentences.size() + " with '" + token + "' from " + inputs);
-        }
+        Map.Entry<Integer, Integer> range = new AbstractMap.SimpleEntry<>(
+          // -1 if group did not match anything -> max gets result from group that matched
+          Math.max(matcher.start(1), matcher.start(2)),
+          Math.max(matcher.end(1), matcher.end(2)));
+        sentences.add(new AbstractMap.SimpleEntry<>(sentence, range));
+        //if (sentences.size() % 250 == 0) {
+        //  println("Loaded sentence " + sentences.size() + " with '" + token + "' from " + inputs);
+        //}
         if (sentences.size() >= maxSentences) {
           break;
         }
