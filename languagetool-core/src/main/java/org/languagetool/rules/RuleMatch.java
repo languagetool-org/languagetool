@@ -20,6 +20,7 @@ package org.languagetool.rules;
 
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
+import org.languagetool.rules.patterns.PatternRule;
 import org.languagetool.tools.StringTools;
 
 import java.net.URL;
@@ -380,7 +381,11 @@ public class RuleMatch implements Comparable<RuleMatch> {
 
   @Override
   public String toString() {
-    return rule.getId() + ":" + offsetPosition + ":" + message;
+    if (rule instanceof PatternRule) {
+      return ((PatternRule) rule).getFullId() + ":" + offsetPosition + ":" + message;
+    } else {
+      return rule.getId() + ":" + offsetPosition + ":" + message;
+    }
   }
 
   /** Compare by start position. */
