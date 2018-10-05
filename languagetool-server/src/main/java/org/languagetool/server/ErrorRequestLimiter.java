@@ -41,7 +41,7 @@ class ErrorRequestLimiter extends RequestLimiter {
    */
   boolean wouldAccessBeOkay(String ipAddress) {
     try {
-      checkLimit(ipAddress, JLanguageTool.Mode.ALL);
+      checkLimit(ipAddress);
       return true;
     } catch (TooManyRequestsException e) {
       return false;
@@ -55,7 +55,7 @@ class ErrorRequestLimiter extends RequestLimiter {
     while (requestEvents.size() > REQUEST_QUEUE_SIZE) {
       requestEvents.remove(0);
     }
-    requestEvents.add(new RequestEvent(ipAddress, new Date(), 0));
+    requestEvents.add(new RequestEvent(ipAddress, new Date(), 0, JLanguageTool.Mode.ALL));
   }
   
 }

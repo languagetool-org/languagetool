@@ -83,13 +83,13 @@ class RequestLimiter {
    * @param ipAddress the client's IP address
    * @throws TooManyRequestsException if access is not allowed because the request limit is reached
    */
-  void checkAccess(String ipAddress, Map<String, String> parameters) {
-    int reqSize = getRequestSize(parameters);
+  void checkAccess(String ipAddress, Map<String, String> params) {
+    int reqSize = getRequestSize(params);
     while (requestEvents.size() > REQUEST_QUEUE_SIZE) {
       requestEvents.remove(0);
     }
-    requestEvents.add(new RequestEvent(ipAddress, new Date(), reqSize));
-    checkLimit(ipAddress, ServerTools.getMode(parameters));
+    requestEvents.add(new RequestEvent(ipAddress, new Date(), reqSize, ServerTools.getMode(params)));
+    checkLimit(ipAddress);
   }
 
   private int getRequestSize(Map<String, String> params) {
@@ -105,13 +105,13 @@ class RequestLimiter {
     return 0;
   }
 
-  void checkLimit(String ipAddress, JLanguageTool.Mode mode) {
+  void checkLimit(String ipAddress) {
     int requestsByIp = 0;
     int requestSizeByIp = 0;
     // all requests before this date are considered old:
     Date thresholdDate = new Date(System.currentTimeMillis() - requestLimitPeriodInSeconds * 1000);
-    for (RequestEvent requestEvent : requestEvents) {
-      if (requestEvent.ip.equals(ipAddress) && requestEvent.date.after(thresholdDate)) {
+    for (RequestEvent event : requestEvents) {
+      if (event.ip.equals(ipAddress) && event.date.after(thresholdDate)) {
         requestsByIp++;
         if (requestLimit > 0 && requestsByIp > requestLimit) {
           String msg = "limit: " + requestLimit + " / " + requestLimitPeriodInSeconds + ", requests: "  + requestsByIp + ", ip: " + ipAddress;
@@ -119,16 +119,16 @@ class RequestLimiter {
           throw new TooManyRequestsException("Request limit of " + requestLimit + " requests per " +
                   requestLimitPeriodInSeconds + " seconds exceeded");
         }
-        requestSizeByIp += requestEvent.getSizeInBytes();
-        if (mode == JLanguageTool.Mode.TEXTLEVEL_ONLY) {
-          int tmpLimit = requestLimitInBytes * 10;
-          if (requestLimitInBytes > 0 && requestSizeByIp > tmpLimit) {
-            String msg = "limit: " + tmpLimit + " / " + requestLimitPeriodInSeconds + ", request size: "  + requestSizeByIp + ", ip: " + ipAddress;
+        if (event.mode == JLanguageTool.Mode.TEXTLEVEL_ONLY) {
+          requestSizeByIp += event.getSizeInBytes() / 10;    // text level rules cause much less load, so count them accordingly
+          if (requestLimitInBytes > 0 && requestSizeByIp > requestLimitInBytes) {
+            String msg = "limit in Mode.TEXTLEVEL_ONLY: " + requestLimitInBytes + " / " + requestLimitPeriodInSeconds + ", request size: "  + requestSizeByIp + ", ip: " + ipAddress;
             logger.log(new DatabaseAccessLimitLogEntry("MaxRequestSizePerPeriod", server, null, null, msg, null, null));
-            throw new TooManyRequestsException("Request size limit of " + tmpLimit + " (requestLimitInBytes*10) bytes per " +
-                    requestLimitPeriodInSeconds + " seconds exceeded for text-level checks");
+            throw new TooManyRequestsException("Request size limit of " + requestLimitInBytes + " bytes per " +
+                    requestLimitPeriodInSeconds + " seconds exceeded in text-level checks");
           }
         } else {
+          requestSizeByIp += event.getSizeInBytes();
           if (requestLimitInBytes > 0 && requestSizeByIp > requestLimitInBytes) {
             String msg = "limit: " + requestLimitInBytes + " / " + requestLimitPeriodInSeconds + ", request size: "  + requestSizeByIp + ", ip: " + ipAddress;
             logger.log(new DatabaseAccessLimitLogEntry("MaxRequestSizePerPeriod", server, null, null, msg, null, null));
@@ -145,11 +145,13 @@ class RequestLimiter {
     private final String ip;
     private final Date date;
     private final int sizeInBytes;
+    private final JLanguageTool.Mode mode;
 
-    RequestEvent(String ip, Date date, int sizeInBytes) {
+    RequestEvent(String ip, Date date, int sizeInBytes, JLanguageTool.Mode mode) {
       this.ip = ip;
       this.date = new Date(date.getTime());
       this.sizeInBytes = sizeInBytes;
+      this.mode = mode;
     }
 
     protected Date getDate() {

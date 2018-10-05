@@ -63,6 +63,21 @@ public class RequestLimiterTest {
     assertOkay(limiter, secondIp, params);
   }
 
+  @Test
+  public void testTextLevelChecksCountLess() {
+    RequestLimiter limiter = new RequestLimiter(100, 35, 100);
+    String firstIp = "192.168.10.1";
+    Map<String, String> params = new HashMap<>();
+    params.putIfAbsent("text", "0123456789");
+    assertOkay(limiter, firstIp, params);  // 10 bytes
+    assertOkay(limiter, firstIp, params);  // 20 bytes
+    assertOkay(limiter, firstIp, params);  // 30 bytes
+    params.put("mode", "textLevelOnly");
+    assertOkay(limiter, firstIp, params);  // +10 bytes! but text level only, counts only a tenth of that, so okay (31 bytes)
+    params.put("mode", "all");
+    assertException(limiter, firstIp, params);  // 41 bytes!
+  }
+
   private void assertOkay(RequestLimiter limiter, String ip, Map<String, String> params) {
     try {
       limiter.checkAccess(ip, params);
