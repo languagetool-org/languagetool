@@ -2,6 +2,12 @@
 
 ## 4.4-SNAPSHOT (release planned for 2018-12-27)
 
+#### English
+  * added and improved rules
+
+#### German
+  * added and improved rules
+
 #### HTTP API / LT server
   * Experimental support for `altLanguages` parameter: takes a list of language
     codes. Unknown words of the main languages (as specified by the `language` parameter)
