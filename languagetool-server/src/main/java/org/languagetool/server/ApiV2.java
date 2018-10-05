@@ -70,9 +70,10 @@ class ApiV2 {
     } else if (path.equals("words/delete")) {
       handleWordDeleteRequest(httpExchange, parameters, config);
     } else if (path.equals("rule/examples")) {
-      // private API for our own use only
+      // private (i.e. undocumented) API for our own use only
       handleRuleExamplesRequest(httpExchange, parameters, config);
     } else if (path.equals("log")) {
+      // private (i.e. undocumented) API for our own use only
       handleLogRequest(httpExchange, parameters);
     } else {
       throw new RuntimeException("Unsupported action: '" + path + "'");
