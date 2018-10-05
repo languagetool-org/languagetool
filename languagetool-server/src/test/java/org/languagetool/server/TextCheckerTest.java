@@ -21,17 +21,11 @@ package org.languagetool.server;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.SignatureVerificationException;
-import com.sun.net.httpserver.Headers;
-import com.sun.net.httpserver.HttpContext;
-import com.sun.net.httpserver.HttpExchange;
-import com.sun.net.httpserver.HttpPrincipal;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.languagetool.markup.AnnotatedTextBuilder;
 
 import java.io.*;
-import java.net.InetSocketAddress;
-import java.net.URI;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
@@ -154,74 +148,6 @@ public class TextCheckerTest {
   @Test(expected = RuntimeException.class)
   public void testInvalidPreferredVariant2() {
     checker.detectLanguageOfString(english, "de", Arrays.asList("en-YY"));  // variant doesn't exist
-  }
-
-  class FakeHttpExchange extends HttpExchange {
-    @Override
-    public Headers getRequestHeaders() {
-      return new Headers();
-    }
-    @Override
-    public Headers getResponseHeaders() {
-      return new Headers();
-    }
-    @Override
-    public URI getRequestURI() {
-      return null;
-    }
-    @Override
-    public String getRequestMethod() {
-      return null;
-    }
-    @Override
-    public HttpContext getHttpContext() {
-      return null;
-    }
-    @Override
-    public void close() {
-
-    }
-    @Override
-    public InputStream getRequestBody() {
-      return null;
-    }
-    @Override
-    public OutputStream getResponseBody() {
-      return new ByteArrayOutputStream();
-    }
-    @Override
-    public void sendResponseHeaders(int i, long l) throws IOException {
-    }
-    @Override
-    public InetSocketAddress getRemoteAddress() {
-      return null;
-    }
-    @Override
-    public int getResponseCode() {
-      return 0;
-    }
-    @Override
-    public InetSocketAddress getLocalAddress() {
-      return null;
-    }
-    @Override
-    public String getProtocol() {
-      return null;
-    }
-    @Override
-    public Object getAttribute(String s) {
-      return null;
-    }
-    @Override
-    public void setAttribute(String s, Object o) {
-    }
-    @Override
-    public void setStreams(InputStream inputStream, OutputStream outputStream) {
-    }
-    @Override
-    public HttpPrincipal getPrincipal() {
-      return null;
-    }
   }
 
 }

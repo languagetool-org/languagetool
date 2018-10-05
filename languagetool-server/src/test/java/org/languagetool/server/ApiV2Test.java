@@ -22,6 +22,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import static org.junit.Assert.*;
 
@@ -34,6 +37,29 @@ public class ApiV2Test {
     assertTrue(json.contains("\"de\""));
     assertTrue(json.contains("\"de-DE\""));
     assertTrue(StringUtils.countMatches(json, "\"name\"") >= 43);
+  }
+  
+  @Test
+  public void testInvalidRequest() {
+    ApiV2 apiV2 = new ApiV2(null, null);
+    try {
+      apiV2.handleRequest("unknown", new FakeHttpExchange(), null, null, null, new HTTPServerConfig());
+      fail();
+    } catch (Exception ignored) {}
+  }
+  
+  @Test
+  public void testRuleExamples() throws Exception {
+    HTTPServerConfig config = new HTTPServerConfig();
+    ApiV2 apiV2 = new ApiV2(new V2TextChecker(config, false, new LinkedBlockingQueue<>(), new RequestCounter()), null);
+    FakeHttpExchange httpExchange = new FakeHttpExchange();
+    Map<String, String> params = new HashMap<>();
+    params.put("lang", "en");
+    params.put("ruleId", "EN_A_VS_AN");
+    apiV2.handleRequest("rule/examples", httpExchange, params, null, null, config);
+    //System.out.println(httpExchange.getOutput());
+    assertTrue(httpExchange.getOutput().contains("The train arrived <marker>an hour</marker> ago."));
+    assertTrue(httpExchange.getOutput().contains("The train arrived <marker>a hour</marker> ago."));
   }
   
 }

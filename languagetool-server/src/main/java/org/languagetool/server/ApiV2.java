@@ -24,10 +24,14 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.net.httpserver.HttpExchange;
 import org.jetbrains.annotations.NotNull;
+import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
 import org.languagetool.markup.AnnotatedText;
 import org.languagetool.markup.AnnotatedTextBuilder;
+import org.languagetool.rules.CorrectExample;
+import org.languagetool.rules.IncorrectExample;
+import org.languagetool.rules.Rule;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -65,6 +69,9 @@ class ApiV2 {
       handleWordAddRequest(httpExchange, parameters, config);
     } else if (path.equals("words/delete")) {
       handleWordDeleteRequest(httpExchange, parameters, config);
+    } else if (path.equals("rule/examples")) {
+      // private API for our own use only
+      handleRuleExamplesRequest(httpExchange, parameters, config);
     } else if (path.equals("log")) {
       handleLogRequest(httpExchange, parameters);
     } else {
@@ -129,6 +136,62 @@ class ApiV2 {
     DatabaseAccess db = DatabaseAccess.getInstance();
     boolean deleted = db.deleteWord(parameters.get("word"), limits.getPremiumUid());
     writeResponse("deleted", deleted, httpExchange);
+  }
+
+  private void handleRuleExamplesRequest(HttpExchange httpExchange, Map<String, String> params, HTTPServerConfig config) throws Exception {
+    ensureGetMethod(httpExchange, "/rule/examples");
+    if (params.get("lang") ==  null) {
+      throw new RuntimeException("'lang' parameter missing");
+    }
+    if (params.get("ruleId") == null) {
+      throw new RuntimeException("'ruleId' parameter missing");
+    }
+    Language lang = Languages.getLanguageForShortCode(params.get("lang"));
+    JLanguageTool lt = new JLanguageTool(lang);
+    if (textChecker.config.languageModelDir != null) {
+      lt.activateLanguageModelRules(textChecker.config.languageModelDir);
+    }
+    List<Rule> rules = lt.getAllRules();
+    List<Rule> foundRules = new ArrayList<>();
+    for (Rule rule : rules) {
+      if (rule.getId().equals(params.get("ruleId"))) {
+        foundRules.add(rule);
+      }
+    }
+    if (foundRules.size() == 0) {
+      throw new RuntimeException("Rule '" + params.get("ruleId") + "' not found for language " + lang +
+              " (LanguageTool version/date: " + JLanguageTool.VERSION + "/" + JLanguageTool.BUILD_DATE + ", total rules of language: " + rules.size() + ")");
+    }
+    StringWriter sw = new StringWriter();
+    try (JsonGenerator g = factory.createGenerator(sw)) {
+      g.writeStartObject();
+      g.writeArrayFieldStart("results");
+      g.writeStartObject();
+      g.writeStringField("warning", "*** This is not a public API - it may change anytime ***");
+      g.writeEndObject();
+      for (Rule foundRule : foundRules) {
+        for (CorrectExample example : foundRule.getCorrectExamples()) {
+          g.writeStartObject();
+          g.writeStringField("status", "correct");
+          g.writeStringField("sentence", example.getExample());
+          g.writeEndObject();
+        }
+        for (IncorrectExample example : foundRule.getIncorrectExamples()) {
+          g.writeStartObject();
+          g.writeStringField("status", "incorrect");
+          g.writeStringField("sentence", example.getExample());
+          g.writeArrayFieldStart("corrections");
+          for (String s : example.getCorrections()) {
+            g.writeString(s);
+          }
+          g.writeEndArray();
+          g.writeEndObject();
+        }
+      }
+      g.writeEndArray();
+      g.writeEndObject();
+    }
+    sendJson(httpExchange, sw);
   }
 
   private void ensureGetMethod(HttpExchange httpExchange, String url) {
