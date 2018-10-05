@@ -39,18 +39,19 @@ public class SpellingTest {
   public void testEnglishWords() throws Exception {
     HunspellRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE, null, null, Collections.singletonList(Languages.getLanguageForShortCode("en-US")));
     JLanguageTool lt = new JLanguageTool(GERMAN_DE);
-    assertMatches(0, "Ein deutscher Text mit dem englischen Wort incomprehensible", rule, lt);
-    assertMatches(1, "Das Fahrrad heißt auf Englisch bicycle.", rule, lt);
-    assertMatches(1, "Er is nach Schweden gefahren.", rule, lt);
+    assertHintMatch("Ein deutscher Text mit dem englischen Wort incomprehensible", rule, lt);
+    assertHintMatch("Das Fahrrad heißt auf Englisch bicycle.", rule, lt);
+    assertHintMatch("Er is nach Schweden gefahren.", rule, lt);
   }
 
-  private void assertMatches(int expectedMatches, String text, HunspellRule rule, JLanguageTool lt) throws IOException {
+  private void assertHintMatch(String text, HunspellRule rule, JLanguageTool lt) throws IOException {
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(text));
     /*for (RuleMatch match : matches) {
       System.out.println(match);
       System.out.println(match.getSuggestedReplacements());
     }*/
-    assertEquals(expectedMatches, matches.length);
+    assertEquals(1, matches.length);
+    assertEquals(matches[0].getType(), RuleMatch.Type.Hint);
   }
 
 }

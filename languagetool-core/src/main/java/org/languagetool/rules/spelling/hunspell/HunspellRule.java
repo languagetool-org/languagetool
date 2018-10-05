@@ -149,32 +149,16 @@ public class HunspellRule extends SpellingCheckRule {
           }
           Language acceptingLanguage = acceptedInAlternativeLanguage(word);
           boolean isSpecialCase = word.matches(".+-[A-ZÖÄÜ].*");
-          if (suggestions.isEmpty()) {
-            if (acceptingLanguage != null && !isSpecialCase) {
-              // e.g. "Das finde ich total incomprehensible" - no German word close to "incomprehensible", so accept
-              continue;
-            }
-          } else {
-            if (acceptingLanguage != null && !isSpecialCase) {
-              // e.g. "Der Typ ist in UK echt famous" -> could be German 'famos'
-              /*List<String> closeSuggestions = new ArrayList<>();
-              for (String suggestion : suggestions) {
-                int dist = StringUtils.getLevenshteinDistance(word, suggestion);
-                if (dist <= 2) {  // with higher distances, you basically always get a suggestion
-                  closeSuggestions.add(suggestion);
-                }
-              }
-              suggestions = closeSuggestions;
-              */
-              ruleMatch = new RuleMatch(this, sentence,
-                      len, len + word.length(),
-                      Tools.i18n(messages, "accepted_in_alt_language", word, messages.getString(acceptingLanguage.getShortCode())));
-              ruleMatch.setType(RuleMatch.Type.Hint);
-            }
-            filterSuggestions(suggestions);
-            filterDupes(suggestions);
-            ruleMatch.setSuggestedReplacements(suggestions);
+          if (acceptingLanguage != null && !isSpecialCase) {
+            // e.g. "Der Typ ist in UK echt famous" -> could be German 'famos'
+            ruleMatch = new RuleMatch(this, sentence,
+                    len, len + word.length(),
+                    Tools.i18n(messages, "accepted_in_alt_language", word, messages.getString(acceptingLanguage.getShortCode())));
+            ruleMatch.setType(RuleMatch.Type.Hint);
           }
+          filterSuggestions(suggestions);
+          filterDupes(suggestions);
+          ruleMatch.setSuggestedReplacements(suggestions);
         } else {
           // limited to save CPU
           ruleMatch.setSuggestedReplacement(messages.getString("too_many_errors"));
