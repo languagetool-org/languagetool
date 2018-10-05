@@ -30,6 +30,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
  */
 class RequestLimiter {
 
+  // TODO: this only works if the period covered is larger than requestLimitPeriodInSeconds -
+  // we should add a sanity check that warns if that's not the case
   static final int REQUEST_QUEUE_SIZE = 1000;
 
   final List<RequestEvent> requestEvents = new CopyOnWriteArrayList<>();
