@@ -173,7 +173,8 @@ abstract class TextChecker {
       if (parameters.containsKey("textSessionId")) {
         textSessionId = Long.valueOf(parameters.get("textSessionId"));
       }
-    } catch(NumberFormatException ignored) {
+    } catch (NumberFormatException ex) {
+      print("Could not parse textSessionId '" + parameters.get("textSessionId") + "' as long: " + ex.getMessage());
     }
     int textSize = aText.getPlainText().length();
 
