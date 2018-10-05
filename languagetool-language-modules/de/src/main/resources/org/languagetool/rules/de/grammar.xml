@@ -34693,6 +34693,24 @@ Andere Projekte</example>
                 <example correction="weit,">So <marker>weit</marker> so gut.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="FEHLENDER_PUNKT_BEI_DATUM" name="Fehlender Punkt bei Datumsangabe (24.12)">
+            <rule>
+                <pattern>
+                    <token postag="PRP:LOK\+TMP.*:DAT" postag_regexp="yes"/>
+                    <token regexp='yes'>[01]?[0-9]</token>
+                    <token spacebefore="no">.</token>
+                    <marker>
+                        <token regexp='yes' spacebefore="no">[01]?[0-9]</token>
+                    </marker>
+                    <token><exception>.</exception></token>
+                </pattern>
+                <message>Bei mehrteiligen Datumsangaben steht hinter der Monatsangabe ein Punkt.</message>
+                <suggestion>\4.</suggestion>
+                <short>Fehlender Punkt</short>
+                <example correction="12.">Ich komme am 13.<marker>12</marker> um 12 Uhr.</example>
+                <example correction="1.">Ferien sind vom 1.<marker>1</marker> bis 31.1.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="KOMMA_DATUM_WOCHENTAG" name="Fehlendes Komma zwischen Wochentag und Datumsangabe">
             <url>http://www.canoo.net/services/GermanSpelling/Regeln/Interpunktion/Komma/Angaben.html#Anchor-Bei-49575</url>
             <rule>
