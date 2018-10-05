@@ -2047,14 +2047,26 @@ USA
         </rulegroup>
         <rule id="NUT_NOT" name="nut (not)">
             <antipattern>
+                <token postag="NN.*" postag_regexp="yes"></token>
+                <token regexp="yes">['´`]</token>
+                <token>s</token>
+                <token>nut</token>
+            </antipattern>
+            <antipattern>
                 <token regexp="yes">areca|beech|betel|brazil|cashew|kola|macadamia|monkey|palm|barrel|cage|clip-on|collar|coupling|flange|hex|split|wing</token><!-- Only a subset that are unlikely to cause false negatives. -->
                 <token>nut</token>
+            </antipattern>
+            <antipattern>
+                <token postag="DT"></token>
+                <token postag="JJ.?" postag_regexp="yes" min="0"></token>
+                <token>nut</token>
+                <token postag="NN.*|IN" postag_regexp="yes"></token>
             </antipattern>
             <pattern>
                 <marker>
                     <token>nut</token>
                 </marker>
-                <token postag="(RB|JJ|NN|NN:.*)" postag_regexp="yes"><exception inflected="yes" regexp="yes">case|tree|job|butter|mixture|flour|bread|oil|shell|cracker|allergy|cake</exception></token>
+                <token postag="(RB|JJ|NN|NN:.*)" postag_regexp="yes"><exception inflected="yes" regexp="yes">the|case|tree|job|butter|mixture|flour|bread|oil|shell|cracker|allergy|cake|may|can</exception></token>
             </pattern>
             <message>Did you mean <suggestion>not</suggestion>?</message>
             <short>Possible typo</short>
@@ -2066,6 +2078,8 @@ USA
             <example>Since 2007, <marker>Brazil nut</marker> production in the area has increased 20%.</example>
             <example>This new <marker>monkey nut</marker> sampling system is excellent.</example>
             <example>The <marker>barrel nut</marker> test device caused problems.</example>
+            <example>It was to be expected … but he reckoned that the faucet’s nut needed only one more turn.</example>
+            <example>To maintain a high nut quality...</example>
         </rule>
         <rule id="AND_SO_ONE" name="and so one (on)">
             <pattern>
@@ -18052,6 +18066,13 @@ USA
                      <token regexp="yes" case_sensitive="yes">I|you|s?he|it|we|they</token>
                      <token postag='IN'></token>
                 </antipattern>
+                <antipattern>
+                     <token postag='SENT_START'></token>
+                     <token postag='IN'></token>
+                     <token postag='VBG'/>
+                     <token>it</token>
+                     <token>,</token>
+                </antipattern>
                 <pattern>
                      <token postag='SENT_START'></token>
                      <token postag='IN'></token>
@@ -18067,6 +18088,7 @@ USA
                  <example>At least they believed me.</example>
                  <example>To see you is always a great pleasure.</example>
                  <example>While setting it up correctly, he heard some strange noises.</example>
+                 <example>After circling it, he knew that they were dealing with a WW2-era explosive.</example>
             </rule>
         </rulegroup>
         <rulegroup id="INTERJECTIONS_PUNCTUATION" name="Missing comma after introductory phrase">
