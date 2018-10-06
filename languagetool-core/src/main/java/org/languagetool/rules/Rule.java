@@ -389,7 +389,15 @@ public abstract class Rule {
    * @since 2.5
    */
   protected void addExamplePair(IncorrectExample incorrectSentence, CorrectExample correctSentence) {
-    incorrectExamples.add(incorrectSentence);
+    String correctExample = correctSentence.getExample();
+    int markerStart= correctExample.indexOf("<marker>");
+    int markerEnd = correctExample.indexOf("</marker>");
+    if (markerStart != -1 && markerEnd != -1) {
+      List<String> correction = Collections.singletonList(correctExample.substring(markerStart + "<marker>".length(), markerEnd));
+      incorrectExamples.add(new IncorrectExample(incorrectSentence.getExample(), correction));
+    } else {
+      incorrectExamples.add(incorrectSentence);
+    }
     correctExamples.add(correctSentence);
   }
 
