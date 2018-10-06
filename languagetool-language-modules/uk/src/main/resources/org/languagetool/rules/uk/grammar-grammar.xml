@@ -1909,6 +1909,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
 
+    <rulegroup id="vybachaty_kogo" name="Вибачати кого">
+      <rule>
+        <pattern>
+          <token inflected="yes" regexp="yes">вибачати|вибачити|пробачати|пробачити</token>
+          <unify>
+            <feature id="gender"/>
+            <feature id="case"/>
+            <token postag_regexp="yes" postag="adj.*" min="0"/>
+            <token postag_regexp="yes" postag="noun:anim.*?(:[pm]:v_rod|:[fn]:v_zna).*">
+              <exception  postag_regexp="yes" postag="noun:anim:.:v_dav.*"/>
+            </token>
+          </unify>
+        </pattern>
+        <message>Правильно: <suggestion><match no="1"/> <match no="2" postag_regexp="yes" postag="(adj.*?)(?:v_rod|v_zna)(.*)" postag_replace="$1v_dav$2"/> <match no="3" postag_regexp="yes" postag="(noun:anim:.:)(?:v_rod|v_zna)(.*)" postag_replace="$1v_dav$2"/></suggestion></message>
+        <example correction="вибачати хлопцеві|вибачати хлопцю"><marker>вибачати хлопця</marker>.</example>
+        <example correction="вибачати тому хлопцеві|вибачати тому хлопцю"><marker>вибачати того хлопця</marker>.</example>
+        <example correction="пробачили дівчині"><marker>пробачили дівчину</marker>.</example>
+        <example correction="пробачили учням"><marker>пробачили учнів</marker>.</example>
+        <example correction="пробачили дівчаткові|пробачили дівчатку"><marker>пробачили дівчатко</marker>.</example>
+        <example>вибачити все йому</example>
+      </rule>
+    </rulegroup>
+
 
     <rule id="DASYSH" name="Дасиш, їсиш, відповісиш">
       <pattern>
