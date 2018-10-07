@@ -3875,6 +3875,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Hinweis: Gewehr = Schusswaffe, <suggestion>Gewähr</suggestion> = Garantie/Gewährleistung/Sicherheit</message>
             <example correction="Gewähr">Alle Angaben ohne <marker>Gewehr</marker>.</example>
         </rule>
+        <rulegroup id="SEHEN_STEHEN" name="sehen/stehen">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token inflected="yes">Rückfrage</token>
+                    <marker>
+                        <token inflected="yes">sehen</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie <suggestion><match no="2" regexp_match="^se" regexp_replace="ste"/></suggestion>?</message>
+                <example correction="stehe">Für Rückfragen <marker>sehe</marker> ich gerne zur Verfügung.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="VEREIST_VERREIST" name="vereist/verreist">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token inflected="yes" regexp="yes">Tag|Woche(nende)?|Monat</token>
+                    <marker>
+                        <token>vereist</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie <suggestion><match no="2" regexp_match="ere" regexp_replace="erre"/></suggestion>?</message>
+                <example correction="verreist">Ich war übers Wochenende <marker>vereist</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="LASEN_LASSEN" name="lasen/lassen">
             <rule>
                 <pattern case_sensitive="yes">
