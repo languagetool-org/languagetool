@@ -29480,20 +29480,37 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="en compte">Tingueu sempre <marker>amb compte</marker></example>
             <example>Tingueu en compte</example>
         </rule>
-        <rule id="ANAR_EN_COMPTE" name="anar *en/amb compte">
-            <pattern>
-                <token postag="VM.*" postag_regexp="yes" inflected="yes" skip="1">anar</token>
-                <marker>
-                    <token>en<exception scope="previous" inflected="yes">tenir</exception></token>
-                    <token regexp="yes">compte|conte|comte</token>
-                </marker>
-            </pattern>
-            <message>Cal dir <suggestion>amb compte</suggestion>.</message>
-            <short>Expressió incorrecta</short>
-            <example correction="amb compte">Sempre anaven <marker>en compte</marker></example>
-            <example>No van tenir en compte aquell cas.</example>
-            <example>Es van tenint en compte aquell cas.</example>
-        </rule>
+        <rulegroup id="ANAR_EN_COMPTE" name="anar *en/amb compte">
+            <rule>
+                <pattern>
+                    <token postag="VM.*" postag_regexp="yes" inflected="yes" skip="1">anar</token>
+                    <marker>
+                        <token>en<exception scope="previous" inflected="yes">tenir</exception></token>
+                        <token regexp="yes">compte|conte|comte</token>
+                    </marker>
+                </pattern>
+                <message>Cal dir <suggestion>amb compte</suggestion>.</message>
+                <short>Expressió incorrecta</short>
+                <example correction="amb compte">Sempre anaven <marker>en compte</marker></example>
+                <example>No van tenir en compte aquell cas.</example>
+                <example>Es van tenint en compte aquell cas.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="VM.*" postag_regexp="yes" inflected="yes" skip="1">anar</token>
+                    <marker>
+                        <token>en<exception scope="previous" inflected="yes">tenir</exception></token>
+                        <token>molt</token>
+                        <token min="0">de</token>
+                        <token regexp="yes">compte|conte|comte</token>
+                    </marker>
+                </pattern>
+                <message>Cal dir <suggestion>amb molt de compte</suggestion>.</message>
+                <short>Expressió incorrecta</short>
+                <example correction="amb molt de compte">Sempre anaven <marker>en molt compte</marker></example>
+                <example correction="amb molt de compte">Sempre anaven <marker>en molt de compte</marker></example>
+            </rule>
+        </rulegroup>
         <rule id="TENIR_EN_COMTE_CONTE" name="tenir en comte/conte/compte">
             <pattern>
                 <token inflected="yes">tenir</token>
