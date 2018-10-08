@@ -42,7 +42,7 @@ public class WordListValidatorTest {
           "ŚśōżúïÎôêâû" +
           "õ" +   // for Portuguese
           "·" +   // for Catalan
-          "'" +   // for Dutch
+          "'Å" +   // for Dutch
           "./-]+" + 
           "|[khmcdµ]?m[²³]|°[CFR]"
   );
