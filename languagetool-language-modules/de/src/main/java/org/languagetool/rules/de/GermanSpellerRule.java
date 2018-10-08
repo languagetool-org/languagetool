@@ -149,6 +149,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("[mM]issionarie?sie?rung", "Missionierung");
     put("[sS]chee?selonge?", "Chaiselongue");
     put("Re[kc]amiere", "Récamière");
+    put("Singel", "Single");
     put("legen[td]lich", "lediglich");
     put("ein[ua]ndhalb", "eineinhalb");
     put("[mM]illion(en)?mal", w -> Collections.singletonList(StringTools.uppercaseFirstChar(w.replaceFirst("mal", " Mal"))));
@@ -228,6 +229,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("[aA]ufwechse?lungsreich(er|st)?(e[nmrs]?)?", "ufwechse?lung", "bwechslung");
     putRepl("[iI]nordnung", "ordnung", " Ordnung");
     putRepl("[iI]mmoment", "moment", " Moment");
+    putRepl("[hH]euteabend", "abend", " Abend");
     putRepl("[wW]ienerschnitzel[ns]?", "[wW]ieners", "Wiener S");
     putRepl("[sS]chwarzwälderkirschtorten?", "[sS]chwarzwälderk", "Schwarzwälder K");
     putRepl("[kK]oxial(e[nmrs]?)?", "x", "ax");
@@ -317,6 +319,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Lexion", "Lexikon");
     put("[mM]otorisation", "Motorisierung");
     put("[mM]enegment", "Management");
+    put("[gG]ebrauspuren", "Gebrauchsspuren");
+    put("viedeo", "Video");
+    put("[hH]erstammung", "Abstammung");
     put("[iI]nstall?atör", "Installateur");
     put("maletriert", "malträtiert");
     put("abgeschaffen", "abgeschafft");
