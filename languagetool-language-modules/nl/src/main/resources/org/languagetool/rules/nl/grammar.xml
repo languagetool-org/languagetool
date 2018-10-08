@@ -12114,6 +12114,20 @@ onwaarschijnlijk
         </rulegroup>
     </category>
     <category id="CONSTRUCTIEFOUT" name="Constructiefout">
+
+		<rulegroup id="DIT_END" name="vangen">
+			<rule>
+				<pattern><marker><token regexp="yes">aan|achter|af|beneden|bij|binnen|boven|buiten|door|heen|in|langs|na|naar|om|omheen|omtrent|onder|op|over|rond|tegen|tegenover|toe|tussen|uit|van|vandaan|voor</token><token>dit</token></marker><token postag="SENT_END" regexp="yes">[.!?]</token></pattern>
+				<message>Veel beter is vast: <suggestion>hier\1</suggestion></message>
+                <example correction="hierin">We zijn <marker>in dit</marker>.</example>
+			</rule>
+			<rule>
+				<pattern><marker><token regexp="yes">aan|achter|af|beneden|bij|binnen|boven|buiten|door|heen|in|langs|na|naar|om|omheen|omtrent|onder|op|over|rond|tegen|tegenover|toe|tussen|uit|van|vandaan|voor</token><token>dat</token></marker><token postag="SENT_END" regexp="yes">[.!?]</token></pattern>
+				<message>Veel beter is vast: <suggestion>daar\1</suggestion></message>
+                <example correction="daarin">We zijn <marker>in dat</marker>.</example>
+			</rule>
+		</rulegroup>
+		
 		<rulegroup id="TE-VREEMD" name="Vreemd woord na 'te'">
 			<rule>
 				<antipattern><token>te</token><token postag="UNKNOWN"/></antipattern>
@@ -12341,8 +12355,6 @@ onwaarschijnlijk
             </rule>
         </rulegroup>
         <rulegroup id="GROTERE_ALS" name="grotere als">
-            <!--
-            2014-08-23 TaalTik regel komt niet te vaak op, maar raakt ook niet vaak een juist geval TODO: betere grip op vergelijkingen krijgen -->
             <rule>
                 <antipattern><token regexp="yes">lekker|ouders|later|vroeger</token><token>als</token></antipattern>
                 <pattern>
