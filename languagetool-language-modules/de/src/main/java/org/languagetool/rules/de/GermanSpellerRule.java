@@ -343,6 +343,27 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Campagnen", "Kampagnen");
     put("Jockei", "Jockey");
     put("Roulett", "Roulette");
+    put("Mo-Di", "Mo.–Di.");
+    put("Mo-Mi", "Mo.–Mi.");
+    put("Mo-Do", "Mo.–Do.");
+    put("Mo-Fr", "Mo.–Fr.");
+    put("Mo-Sa", "Mo.–Sa.");
+    put("Mo-So", "Mo.–So.");
+    put("Di-Mi", "Di.–Mi.");
+    put("Di-Do", "Di.–Do.");
+    put("Di-Fr", "Di.–Fr.");
+    put("Di-Sa", "Di.–Sa.");
+    put("Di-So", "Di.–So.");
+    put("Mi-Do", "Mi.–Do.");
+    put("Mi-Fr", "Mi.–Fr.");
+    put("Mi-Sa", "Mi.–Sa.");
+    put("Mi-So", "Mi.–So.");
+    put("Do-Fr", "Do.–Fr.");
+    put("Do-Sa", "Do.–Sa.");
+    put("Do-So", "Do.–So.");
+    put("Fr-Sa", "Fr.–Sa.");
+    put("Fr-So", "Fr.–So.");
+    put("Sa-So", "Sa.–So.");
   }
 
   private static void putRepl(String wordPattern, String pattern, String replacement) {
