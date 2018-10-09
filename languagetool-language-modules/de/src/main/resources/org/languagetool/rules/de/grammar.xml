@@ -3890,23 +3890,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="VEREIST_VERREIST" name="vereist/verreist">
             <rule>
                 <pattern case_sensitive="yes">
-                    <token inflected="yes" regexp="yes">Tag|Woche(nende)?|Monat</token>
+                    <token inflected="yes" regexp="yes">Tag|Woche(nende)?|Monat|geschäfltich|dienstlich|Diktat</token>
                     <marker>
                         <token>vereist</token>
                     </marker>
                 </pattern>
                 <message>Meinten Sie <suggestion><match no="2" regexp_match="ere" regexp_replace="erre"/></suggestion>?</message>
                 <example correction="verreist">Ich war übers Wochenende <marker>vereist</marker>.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token>nach</token>
-                    <token>Diktat</token>
-                    <marker>
-                        <token>vereist</token>
-                    </marker>
-                </pattern>
-                <message>Meinten Sie <suggestion>verreist</suggestion>?</message>
                 <example correction="verreist">Mein Herz ist total vereist, nach Diktat <marker>vereist</marker>.</example>
             </rule>
         </rulegroup>
@@ -29900,6 +29890,17 @@ Andere Projekte</example>
           <suggestion>ihm</suggestion>
           <example correction="ihm">Sie schenkt <marker>ihn</marker> ihre volle Aufmerksamkeit.</example>
           <example correction="ihm">Ich vertraue <marker>ihn</marker> nicht.</example>
+        </rule>
+        <rule id="ZEITANGABE_DATIV" name="'Dativ mit Zeitangaben">
+          <pattern case_sensitive="yes">
+            <token>in</token>
+            <marker><token regexp="yes">eine[nms]?</token></marker>
+            <token regexp="yes">Minute|Stunde|Woche|Sekunde</token>
+            <token postag="PKT"/>
+          </pattern>
+          <message>Kasusfehler: Für eine Zeitangabe sollte der Dativ verwendet werden.</message>
+          <suggestion>einer</suggestion>
+          <example correction="einer">Sie kommt in <marker>eine</marker> Stunde.</example>
         </rule>
         <!-- TODO: too many false alarms
         <rulegroup id="SEIT_PREP_TEILGRUPPE_MIT_NACH_ETC" name="'seit/nach/... des (dem)'">
