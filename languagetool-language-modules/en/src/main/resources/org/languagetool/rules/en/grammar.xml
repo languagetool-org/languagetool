@@ -24024,6 +24024,18 @@ USA
                 <example correction="three">I've lived in Barcelona for <marker>tree</marker> years.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="NEEDLES_NEEDLESS" name="needles (needless)">
+            <rule>
+                <pattern>
+                    <marker><token>needles</token></marker>
+                    <token>to</token>
+                    <token regexp="yes">add|mention|say</token>
+                </pattern>
+                <message>Did you mean <suggestion>\1s</suggestion>?</message>
+                <short>Possible typo</short>
+                <example correction="Needless"><marker>Needles</marker> to say, she liked it.</example>
+            </rule>
+        </rulegroup>
         <rule id="ACCUSED_OF_A_CHARGE_CHARGED_WITH" name="accused of a charge (charged with)">
             <pattern>
                 <token>accused</token>
