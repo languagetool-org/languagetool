@@ -846,18 +846,45 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="KONJUNKTIV" name="Leichte Sprache: Konjunktiv">
             <rule>
                 <pattern>
+                    <token>,</token>
+                    <token skip="-1"/>
+                    <!-- Für SFT gibt es zu viele falsche Positive. -->
+                    <token postag_regexp="yes" postag=".*:KJ(1|2):NON">
+                        <exception postag_regexp="yes" postag="VER:INF:.*"/>
+                        <exception postag="VER:1:SIN:PRÄ:NON"/>
+                        <exception regexp="yes" case_sensitive="yes">[A-Z].+</exception>
+                        <!-- Gleiche Verbform VER:2:PLU:KJ1:NON und VER:3:SIN:PRÄ:NON. Die 2:PLU ist vermutlich sehr viel seltener, daher wird eine Ausnahme hinzugefügt. -->
+                        <exception postag_regexp="yes" postag="VER:2:PLU:KJ1:.*"/>
+                    </token>
+                </pattern>
+                <message>Konjunktiv gefunden. Vermeiden Sie den Konjunktiv. Ist der Konjunktiv Bestandteil einer indirekten Rede, vermeiden Sie auch indirekte Rede.</message>
+                <example correction="">Sie sagte<marker>, man sei</marker> bereit.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <!-- Für SFT gibt es zu viele falsche Positive. -->
                     <token postag_regexp="yes" postag=".*:KJ(1|2):NON">
                         <exception postag_regexp="yes" postag="VER:INF:.*"/>
                         <exception postag="VER:1:SIN:PRÄ:NON"/>
                         <!-- Gleiche Verbform VER:2:PLU:KJ1:NON und VER:3:SIN:PRÄ:NON. Die 2:PLU ist vermutlich sehr viel seltener, daher wird eine Ausnahme hinzugefügt. -->
                         <exception postag_regexp="yes" postag="VER:2:PLU:KJ1:.*"/>
+                        <exception regexp="yes" case_sensitive="yes">[A-Z].+</exception>
                     </token>
                 </pattern>
                 <message>Konjunktiv gefunden. Vermeiden Sie den Konjunktiv.</message>
                 <example>Angeblich sind sie bereit.</example>
                 <example correction="">Man <marker>sei</marker> bereit.</example>
                 <example>Ich schlafe nicht mehr.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>,</token>
+                    <token skip="-1"/>
+                    <token postag_regexp="yes" postag="VER:(MOD|AUX):.*:KJ2"></token>
+                </pattern>
+                <message>Konjunktiv gefunden. Vermeiden Sie den Konjunktiv. Ist der Konjunktiv Bestandteil einer indirekten Rede, vermeiden Sie auch indirekte Rede.</message>
+                <example>Morgen regnet es vielleicht.</example>
+                <example correction="">Sie sagte<marker>, morgen könnte</marker> es regnen.</example>
             </rule>
             <rule>
                 <pattern>
