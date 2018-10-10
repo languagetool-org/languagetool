@@ -20,6 +20,10 @@ package org.languagetool.server;
 
 import org.junit.Test;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import static org.junit.Assert.*;
 
 public class ErrorRequestLimiterTest {
@@ -27,18 +31,19 @@ public class ErrorRequestLimiterTest {
   @Test
   public void testErrorLimiter() throws InterruptedException {
     ErrorRequestLimiter limiter = new ErrorRequestLimiter(3, 1);
+    Map<String, List<String>> header = new HashMap<>(); // not relevant for test
     String ip1 = "192.168.0.1";
     String ip2 = "192.168.0.2";
-    assertTrue(limiter.wouldAccessBeOkay(ip1));
-    assertTrue(limiter.wouldAccessBeOkay(ip2));
-    limiter.logAccess(ip1);
-    limiter.logAccess(ip1);
-    limiter.logAccess(ip1);
-    limiter.logAccess(ip1);
-    assertFalse(limiter.wouldAccessBeOkay(ip1));
-    assertTrue(limiter.wouldAccessBeOkay(ip2));
+    assertTrue(limiter.wouldAccessBeOkay(ip1, header));
+    assertTrue(limiter.wouldAccessBeOkay(ip2, header));
+    limiter.logAccess(ip1, header);
+    limiter.logAccess(ip1, header);
+    limiter.logAccess(ip1, header);
+    limiter.logAccess(ip1, header);
+    assertFalse(limiter.wouldAccessBeOkay(ip1, header));
+    assertTrue(limiter.wouldAccessBeOkay(ip2, header));
     Thread.sleep(1050);
-    assertTrue(limiter.wouldAccessBeOkay(ip1));
+    assertTrue(limiter.wouldAccessBeOkay(ip1, header));
   }
 
 }

@@ -67,6 +67,7 @@ public class HTTPServerConfig {
   protected int requestLimitInBytes;
   protected int timeoutRequestLimit;
   protected int requestLimitPeriodInSeconds;
+  protected int ipFingerprintFactor = 1;
   protected boolean trustXForwardForHeader;
   protected int maxWorkQueueSize;
   protected File rulesConfigFile = null;
@@ -172,6 +173,7 @@ public class HTTPServerConfig {
         requestLimitInBytes = Integer.parseInt(getOptionalProperty(props, "requestLimitInBytes", "0"));
         timeoutRequestLimit = Integer.parseInt(getOptionalProperty(props, "timeoutRequestLimit", "0"));
         requestLimitPeriodInSeconds = Integer.parseInt(getOptionalProperty(props, "requestLimitPeriodInSeconds", "0"));
+        ipFingerprintFactor = Integer.parseInt(getOptionalProperty(props, "ipFingerprintFactor", "1"));
         trustXForwardForHeader = Boolean.valueOf(getOptionalProperty(props, "trustXForwardForHeader", "false"));
         maxWorkQueueSize = Integer.parseInt(getOptionalProperty(props, "maxWorkQueueSize", "0"));
         if (maxWorkQueueSize < 0) {
@@ -367,6 +369,11 @@ public class HTTPServerConfig {
 
   int getRequestLimitPeriodInSeconds() {
     return requestLimitPeriodInSeconds;
+  }
+
+  /** since 4.4 */
+  int getIpFingerprintFactor() {
+    return ipFingerprintFactor;
   }
 
   /**
