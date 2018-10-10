@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules.patterns;
 
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
@@ -27,6 +28,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import org.intellij.lang.annotations.Language;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -447,6 +449,21 @@ public class PatternRuleMatcherTest {
     RuleMatch[] matches2 = getMatches("xx a b x x x b a", matcher);
     assertThat(matches2.length , is(1));
     assertPosition(matches2[0], 3, 16);
+  }
+
+  @Test
+  public void testNoMatchReferenceRecursion() throws IOException {
+    // \n in rule messages refers to matches, but if match text contains \n this should not be resolved
+    PatternRule rule = new PatternRule("MATCH_REFERENCERE_CURSION_DEMO", new Demo(),
+      Arrays.asList(new PatternToken("\\p{Punct}", false, true, false), new PatternToken("\\d+", false, true, false)),
+      "", "Here come the match references: \\1\\2. This is the end", "");
+    PatternRuleMatcher matcher = new PatternRuleMatcher(rule, false);
+    RuleMatch[] matches = getMatches(":42", matcher);
+    assertThat(matches.length, is(1));
+    assertThat(matches[0].getMessage(), equalTo("Here come the match references: :42. This is the end"));
+    RuleMatch[] matches2 = getMatches("\\42", matcher);
+    assertThat(matches2.length, is(1));
+    assertThat(matches2[0].getMessage(), equalTo("Here come the match references: \\42. This is the end"));
   }
 
   @Test
