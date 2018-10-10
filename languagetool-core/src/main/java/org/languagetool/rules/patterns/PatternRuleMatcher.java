@@ -306,13 +306,19 @@ final public class PatternRuleMatcher extends AbstractPatternRulePerformer imple
     int[] numbersToMatches = new int[errorMsg.length()];
     boolean newWay = false;
     int errLen = errorMessage.length();
-    int errMarker = errorMessage.indexOf('\\');
+    /*
+    track position of already replaced text to avoid recursion
+    otherwise, if we insert user matches into text and these contain backslashes
+    we will try to interpret these as well -> this can lead to array index violations, etc.
+     */
+    int errorMessageProcessed = 0;
+    int errMarker = errorMessage.indexOf('\\', errorMessageProcessed);
     boolean numberFollows = false;
     if (errMarker >= 0 && errMarker < errLen - 1) {
       numberFollows = StringTools.isPositiveNumber(errorMessage.charAt(errMarker + 1));
     }
     while (errMarker >= 0 && numberFollows) {
-      int backslashPos = errorMessage.indexOf('\\');
+      int backslashPos = errorMessage.indexOf('\\', errorMessageProcessed);
       if (backslashPos >= 0 && StringTools.isPositiveNumber(errorMessage.charAt(backslashPos + 1))) {
         int numLen = 1;
         while (backslashPos + numLen < errorMessage.length()
@@ -348,10 +354,13 @@ final public class PatternRuleMatcher extends AbstractPatternRulePerformer imple
               // if we removed optional token from suggestion then remove leading space from the next word
               if (matches[0].isEmpty() && (leftSide.endsWith(" ") || leftSide.endsWith("suggestion>")) && rightSide.startsWith(" ")) {
                 errorMessage = leftSide + rightSide.substring(1);
+                errorMessageProcessed = leftSide.length();
               } else {
                 errorMessage = leftSide + matches[0] + rightSide;
+                errorMessageProcessed = leftSide.length() + matches[0].length();
               }
             } else {
+              // TODO compute/return errorMessageProcessed here as well
               errorMessage = formatMultipleSynthesis(matches, leftSide, rightSide);
             }
             matchCounter++;
@@ -363,11 +372,15 @@ final public class PatternRuleMatcher extends AbstractPatternRulePerformer imple
         }
         if (!newWay) {
           // in case <match> elements weren't used (yet)
-          errorMessage = errorMessage.replace("\\" + (j + 1),
+          int newErrorMessageProcessed = errorMessage.lastIndexOf("\\" + (j + 1)) +
+            tokenReadings[firstMatchTok + repTokenPos - 1].getToken().length();
+          errorMessage = errorMessage.substring(0, errorMessageProcessed) +
+            errorMessage.substring(errorMessageProcessed).replace("\\" + (j + 1),
               tokenReadings[firstMatchTok + repTokenPos - 1].getToken());
+          errorMessageProcessed = newErrorMessageProcessed;
         }
       }
-      errMarker = errorMessage.indexOf('\\');
+      errMarker = errorMessage.indexOf('\\', errorMessageProcessed);
       numberFollows = false;
       errLen = errorMessage.length();
       if (errMarker >= 0 && errMarker < errLen - 1) {
