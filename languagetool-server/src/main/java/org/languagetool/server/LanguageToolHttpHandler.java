@@ -115,7 +115,7 @@ class LanguageToolHttpHandler implements HttpHandler {
       parameters = getRequestQuery(httpExchange, requestedUri);
       if (requestLimiter != null) {
         try {
-          requestLimiter.checkAccess(remoteAddress, parameters);
+          requestLimiter.checkAccess(remoteAddress, parameters, httpExchange.getRequestHeaders());
         } catch (TooManyRequestsException e) {
           String errorMessage = "Error: Access from " + remoteAddress + " denied: " + e.getMessage();
           int code = HttpURLConnection.HTTP_FORBIDDEN;
@@ -124,7 +124,7 @@ class LanguageToolHttpHandler implements HttpHandler {
           return;
         }
       }
-      if (errorRequestLimiter != null && !errorRequestLimiter.wouldAccessBeOkay(remoteAddress)) {
+      if (errorRequestLimiter != null && !errorRequestLimiter.wouldAccessBeOkay(remoteAddress, httpExchange.getRequestHeaders())) {
         String textSizeMessage = getTextOrDataSizeMessage(parameters);
         String errorMessage = "Error: Access from " + remoteAddress + " denied - too many recent timeouts. " +
                 textSizeMessage +
