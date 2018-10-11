@@ -59,7 +59,7 @@ public final class StringTools {
     CONTINUE_API
   }
 
-  private static final Pattern XML_COMMENT_PATTERN = Pattern.compile("<!--.*?-->", Pattern.DOTALL);
+  private static final Pattern XML_COMMENT_PATTERN = Pattern.compile("<!--(.*)?-->", Pattern.DOTALL);
   private static final Pattern XML_PATTERN = Pattern.compile("(?<!<)<[^<>]+>", Pattern.DOTALL);
 
   private StringTools() {
