@@ -227,6 +227,7 @@ abstract class TextChecker {
                          ", detected: " + detLang +
                          ", #" + count +
                          ", " + aText.getPlainText().length() + " characters of text" +
+                         ", mode: " + mode.toString().toLowerCase() +
                          ", h: " + reqCounter.getHandleCount() + ", r: " + reqCounter.getRequestCount() + ", system load: " + loadInfo + ")";
         if (params.allowIncompleteResults) {
           print(message + " - returning " + ruleMatchesSoFar.size() + " matches found so far");
