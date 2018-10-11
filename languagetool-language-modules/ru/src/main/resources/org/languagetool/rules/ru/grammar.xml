@@ -8000,12 +8000,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         
         <rule default="on" id="Verb_and_PREP" name="Глагол и предлог">
-            <pattern case_sensitive="yes">
+            <pattern case_sensitive="no">
                 <!--              PREP VB:.*    -->
                 <!--              excluded prep "по" for another rule    -->
                 <token postag="PREP">
                     <exception negate_pos="yes" postag="PREP"></exception>
-                    <exception regexp="yes">спустя|ради|по|[А-ЯЁ][А-ЯЁ]*</exception>
+                    <exception regexp="yes">спустя|ради|по</exception>   <!--  |[А-ЯЁ]* -->
                 </token>
                 <token postag="VB:.*" postag_regexp="yes">
                     <exception negate_pos="yes" postag="VB:.*" postag_regexp="yes"></exception>
