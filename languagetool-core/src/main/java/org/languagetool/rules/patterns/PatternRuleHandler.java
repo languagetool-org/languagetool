@@ -70,6 +70,16 @@ public class PatternRuleHandler extends XMLRuleHandler {
   private boolean relaxedMode = false;
   private boolean inAntiPattern;
 
+  private final String sourceFile;
+
+  public PatternRuleHandler() {
+    this.sourceFile = null;
+  }
+
+  public PatternRuleHandler(String sourceFile) {
+    this.sourceFile = sourceFile;
+  }
+
   /**
    * If set to true, don't throw an exception if id or name is not set.
    * Used for online rule editor.
@@ -541,6 +551,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
         rule = new PatternRule(id, language, tmpPatternTokens, name,
                 message.toString(), shortMessage,
                 suggestionsOutMsg.toString(), phrasePatternTokens.size() > 1);
+        rule.setSourceFile(sourceFile);
       } else if (regex.length() > 0) {
         int flags = regexCaseSensitive ? 0 : Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE;
         String regexStr = regex.toString();
