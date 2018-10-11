@@ -71,7 +71,8 @@ class SingleDocument {
   private static final int MAX_SUGGESTIONS = 15;
 
 
-  private static int debugMode = 0;         //  should be 0 except for testing; 1 = low level; 2 = advanced level
+  private static int debugMode = 0;               //  should be 0 except for testing; 1 = low level; 2 = advanced level
+  private static boolean specialOptimization = false;   //  special optimization switched off; TODO: fix the optimization or delete it
   
   private Configuration config;
 
@@ -149,7 +150,9 @@ class SingleDocument {
         paRes.nBehindEndOfSentencePosition = paRes.nStartOfNextSentencePosition;
         sErrors = checkSentence(sentence, paRes.nStartOfSentencePosition, paRes.nStartOfNextSentencePosition, 
             paraNum, footnotePositions, isParallelThread, langTool);
-        setFirstCheckDone();
+        if(specialOptimization) {
+          setFirstCheckDone();
+        }
       }
       SingleProofreadingError[] pErrors = checkParaRules(paraText, paraNum, paRes.nStartOfSentencePosition,
           paRes.nStartOfNextSentencePosition, isParallelThread, langTool);
