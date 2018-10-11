@@ -847,7 +847,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token>,</token>
-                    <token skip="-1"/>
+                    <token skip="-1"><exception postag="PRO:RIN:.+|KON:UNT|PRP:.+" postag_regexp="yes"/></token>
                     <!-- Für SFT gibt es zu viele falsche Positive. -->
                     <token postag_regexp="yes" postag=".*:KJ(1|2):NON">
                         <exception postag_regexp="yes" postag="VER:INF:.*"/>
@@ -879,7 +879,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token>,</token>
-                    <token skip="-1"/>
+                    <token skip="-1"><exception postag="PRO:RIN:.+|KON:UNT|PRP:.+" postag_regexp="yes"/></token>
                     <token postag_regexp="yes" postag="VER:(MOD|AUX):.*:KJ2"></token>
                 </pattern>
                 <message>Konjunktiv gefunden. Vermeiden Sie den Konjunktiv. Ist der Konjunktiv Bestandteil einer indirekten Rede, vermeiden Sie auch indirekte Rede.</message>
