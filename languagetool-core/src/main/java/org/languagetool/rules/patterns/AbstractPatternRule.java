@@ -61,6 +61,7 @@ public abstract class AbstractPatternRule extends Rule {
   protected RuleFilter filter;
   protected String filterArgs;
   protected String message;
+  protected String sourceFile = null;
 
   private final String id;
   private final String description;
@@ -138,12 +139,22 @@ public abstract class AbstractPatternRule extends Rule {
 
   @Override
   public String toString() {
-    return id + "[" + subId + "]:" + patternTokens + ":" + description;
+    return id + "[" + subId + "]" + (sourceFile != null ? "@" + sourceFile : "" ) + ":" + patternTokens + ":" + description;
   }
 
   @Override
   public String getDescription() {
     return description;
+  }
+
+
+  @Nullable
+  public String getSourceFile() {
+    return sourceFile;
+  }
+
+  public void setSourceFile(String sourceFile) {
+    this.sourceFile = sourceFile;
   }
 
   /**
