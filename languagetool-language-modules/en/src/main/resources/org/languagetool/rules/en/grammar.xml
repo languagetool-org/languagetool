@@ -6837,6 +6837,11 @@ USA
             <example correction="answer">Please <marker>answers</marker> quickly!</example>
         </rule>
         <rule id="BE_WILL" name="will follows be ('he is would')">
+            <antipattern>
+                <token>those</token>
+                <token>that</token>
+                <token regexp="yes">are|were</token>
+            </antipattern>
             <pattern>
                 <token postag="W(RB|P)" postag_regexp="yes"/>
                 <marker>
@@ -6846,6 +6851,8 @@ USA
             </pattern>
             <message>Please check whether one of these words is redundant.</message>
             <example correction="">How <marker>is would</marker> this approach be useful?</example>
+            <example>How <marker>would</marker> this approach be useful?</example>
+            <example>Vehicles should not be parked at these locations and those that <marker>are will</marker> be ticketed and subject to being towed.</example>
         </rule>
         <rule id="CAN_ABLE_TO" name="can able to (can)">
             <pattern>
