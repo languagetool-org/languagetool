@@ -105,9 +105,9 @@ public class ReadabilityRule extends TextLevelRule {
   @Override
   public String getDescription() {
     if(isToEasy) {
-      return "Readability: To easy text";
+      return "Readability: Too easy text";
     } else {
-      return "Readability: To difficult text";
+      return "Readability: Too difficult text";
     }
   }
 
@@ -170,7 +170,7 @@ public class ReadabilityRule extends TextLevelRule {
       simple = "difficult";
       few = "many";
     }
-    return "Readability: The text of this paragraph is to " + simple + printMessageLevel(level) + ". To "
+    return "Readability: The text of this paragraph is too " + simple + printMessageLevel(level) + ". Too "
         + few + " words per sentence and to " + few + " syllables per word.";
   }
   
