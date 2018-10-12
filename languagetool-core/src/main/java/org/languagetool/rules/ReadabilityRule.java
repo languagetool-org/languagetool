@@ -171,7 +171,7 @@ public class ReadabilityRule extends TextLevelRule {
       few = "many";
     }
     return "Readability: The text of this paragraph is too " + simple + printMessageLevel(level) + ". Too "
-        + few + " words per sentence and to " + few + " syllables per word.";
+        + few + " words per sentence and too " + few + " syllables per word.";
   }
   
   /**
