@@ -8003,10 +8003,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern case_sensitive="no">
                 <!--              PREP VB:.*    -->
                 <!--              excluded prep "по" for another rule    -->
+                <or>
                 <token postag="PREP">
                     <exception negate_pos="yes" postag="PREP"></exception>
                     <exception regexp="yes">спустя|ради|по</exception>   <!--  |[А-ЯЁ]* -->
                 </token>
+                <token regexp="yes">у|при</token>
+                </or>
                 <token postag="VB:.*" postag_regexp="yes">
                     <exception negate_pos="yes" postag="VB:.*" postag_regexp="yes"></exception>
                     <exception>трём</exception>
