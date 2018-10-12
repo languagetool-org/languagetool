@@ -195,7 +195,9 @@ public class English extends Language implements AutoCloseable {
         new ContractionSpellingRule(messages),
         new EnglishWrongWordInContextRule(messages),
         new EnglishDashRule(),
-        new WordCoherencyRule(messages)
+        new WordCoherencyRule(messages),
+        new ReadabilityRule(messages, this, userConfig, false),
+        new ReadabilityRule(messages, this, userConfig, true)
     );
   }
 

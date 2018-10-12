@@ -67,6 +67,7 @@ public class MultiDocumentsHandler {
   private final File configDir;
   private final String configFile;
   private Configuration config;
+  private LinguisticServices linguServices = null;
   
   private XComponentContext xContext;       //  The context of the document
   private List<SingleDocument> documents;   //  The List of LO documents to be checked
@@ -130,6 +131,7 @@ public class MultiDocumentsHandler {
    */
   void setComponentContext(XComponentContext xContext) {
     this.xContext = xContext;
+    setRecheck();
   }
   
   /**
@@ -366,9 +368,12 @@ public class MultiDocumentsHandler {
   private void initLanguageTool() {
     try {
       config = new Configuration(configDir, configFile, docLanguage);
+      if(xContext != null) {
+        linguServices = new LinguisticServices(xContext);
+      }
       // not using MultiThreadedJLanguageTool here fixes "osl::Thread::Create failed", see https://bugs.documentfoundation.org/show_bug.cgi?id=90740:
       langTool = new JLanguageTool(docLanguage, config.getMotherTongue(), null, 
-          new UserConfig(config.getConfigurableValues()));
+          new UserConfig(config.getConfigurableValues(), linguServices));
       docLanguage.getSentenceTokenizer().setSingleLineBreaksMarksParagraph(true);
       File ngramDirectory = config.getNgramDirectory();
       if (ngramDirectory != null) {

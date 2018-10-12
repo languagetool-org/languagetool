@@ -21,6 +21,9 @@ package org.languagetool.openoffice;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.languagetool.Language;
+import org.languagetool.LinguServices;
+
 import com.sun.star.beans.PropertyValue;
 import com.sun.star.beans.XPropertySet;
 import com.sun.star.lang.Locale;
@@ -28,6 +31,7 @@ import com.sun.star.lang.XMultiComponentFactory;
 import com.sun.star.linguistic2.XHyphenator;
 import com.sun.star.linguistic2.XLinguServiceManager;
 import com.sun.star.linguistic2.XMeaning;
+import com.sun.star.linguistic2.XPossibleHyphens;
 import com.sun.star.linguistic2.XSpellChecker;
 import com.sun.star.linguistic2.XThesaurus;
 import com.sun.star.uno.UnoRuntime;
@@ -38,7 +42,7 @@ import com.sun.star.uno.XComponentContext;
  * @since 4.3
  * @author Fred Kruse
  */
-public class LinguisticServices {
+public class LinguisticServices extends LinguServices {
   
   private XThesaurus thesaurus;
   private XSpellChecker spellChecker;
@@ -145,18 +149,38 @@ public class LinguisticServices {
     MessageHandler.printException(t);
   }
   
-  public List<String> getSynonyms(String word, Locale lang) {
+  private static Locale getLocale(Language lang) {
+    Locale locale = new Locale();
+    locale.Language = lang.getShortCode();
+    locale.Country = lang.getCountries()[0];
+    if(lang.getVariant() == null) {
+      locale.Variant = "";
+    } else {
+      locale.Variant = lang.getVariant();
+    }
+    return locale;
+  }
+  
+  /**
+   * Get all synonyms of a word as list of strings.
+   */
+  @Override
+  public List<String> getSynonyms(String word, Language lang) {
+    return getSynonyms(word, getLocale(lang));
+  }
+  
+  public List<String> getSynonyms(String word, Locale locale) {
     try {
       if (thesaurus == null) {
         printText("XThesaurus == null");
         return null;
       }
-      if (lang == null) {
+      if (locale == null) {
         printText("Locale == null");
         return null;
       }
       PropertyValue[] properties = new PropertyValue[0];
-      XMeaning meanings[] = thesaurus.queryMeanings(word, lang, properties);
+      XMeaning meanings[] = thesaurus.queryMeanings(word, locale, properties);
       List<String> synonyms = new ArrayList<String>();
       for (XMeaning meaning : meanings) {
         String singleSynonyms[] = meaning.querySynonyms();
@@ -172,5 +196,48 @@ public class LinguisticServices {
     }
   }
 
+  /**
+   * Returns true if the spell check is positive
+   */
+  @Override
+  public boolean isCorrectSpell(String word, Language lang) {
+    return isCorrectSpell(word, getLocale(lang));
+  }
+  
+  public boolean isCorrectSpell(String word, Locale locale) {
+    PropertyValue[] properties = new PropertyValue[0];
+    try {
+      return spellChecker.isValid(word, locale, properties);
+    } catch (Throwable t) {
+      // If anything goes wrong, give the user a stack trace
+      printMessage(t);
+      return false;
+    }
+  }
+
+  /**
+   * Returns the number of syllable of a word
+   * Returns -1 if the word was not found or anything goes wrong
+   */
+  @Override
+  public int getNumberOfSyllables(String word, Language lang) {
+    return getNumberOfSyllables(word, getLocale(lang));
+  }
+  
+  public int getNumberOfSyllables(String word, Locale locale) {
+    PropertyValue[] properties = new PropertyValue[0];
+    try {
+      XPossibleHyphens possibleHyphens = hyphenator.createPossibleHyphens(word, locale, properties);
+      if (possibleHyphens == null) {
+        return 1;
+      }
+      short[] numSyllable = possibleHyphens.getHyphenationPositions();
+      return numSyllable.length + 1;
+    } catch (Throwable t) {
+      // If anything goes wrong, give the user a stack trace
+      printMessage(t);
+      return 1;
+    }
+  }
 
 }

@@ -196,7 +196,9 @@ public class German extends Language implements AutoCloseable {
             new GermanParagraphRepeatBeginningRule(messages, this),
             new PunctuationMarkAtParagraphEnd(messages, this),
             new DuUpperLowerCaseRule(messages),
-            new UnitConversionRule(messages)
+            new UnitConversionRule(messages),
+            new GermanReadabilityRule(messages, this, userConfig, true),
+            new GermanReadabilityRule(messages, this, userConfig, false)
     );
   }
 

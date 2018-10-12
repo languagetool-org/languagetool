@@ -34,6 +34,7 @@ public class UserConfig {
   private final List<String> userSpecificSpellerWords;
   private final int maxSpellingSuggestions;
   private final Map<String, Integer> configurableRuleValues = new HashMap<>();
+  private final LinguServices linguServices;
 
   public UserConfig() {
     this(new ArrayList<>(), new HashMap<>());
@@ -47,16 +48,26 @@ public class UserConfig {
     this(new ArrayList<>(), Objects.requireNonNull(ruleValues));
   }
 
+  public UserConfig(Map<String, Integer> ruleValues, LinguServices linguServices) {
+    this(new ArrayList<>(), Objects.requireNonNull(ruleValues), 0, linguServices);
+  }
+
   public UserConfig(List<String> userSpecificSpellerWords, Map<String, Integer> ruleValues) {
     this(userSpecificSpellerWords, ruleValues, 0);
   }
 
   public UserConfig(List<String> userSpecificSpellerWords, Map<String, Integer> ruleValues, int maxSpellingSuggestions) {
+    this(userSpecificSpellerWords, ruleValues, maxSpellingSuggestions, null);
+  }
+  
+  public UserConfig(List<String> userSpecificSpellerWords, Map<String, Integer> ruleValues, 
+        int maxSpellingSuggestions, LinguServices linguServices) {
     this.userSpecificSpellerWords = Objects.requireNonNull(userSpecificSpellerWords);
     for (Map.Entry<String, Integer> entry : ruleValues.entrySet()) {
       this.configurableRuleValues.put(entry.getKey(), entry.getValue());
     }
     this.maxSpellingSuggestions = maxSpellingSuggestions;
+    this.linguServices = linguServices;
   }
 
   public List<String> getAcceptedWords() {
@@ -82,6 +93,14 @@ public class UserConfig {
       return configurableRuleValues.get(ruleID);
     }
     return -1;
+  }
+  
+  public boolean hasLinguServices() {
+    return (linguServices != null ? true : false);
+  }
+  
+  public LinguServices getLinguServices() {
+    return linguServices;
   }
   
   @Override
