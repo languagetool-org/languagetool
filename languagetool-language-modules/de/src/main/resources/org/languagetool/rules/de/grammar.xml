@@ -36217,12 +36217,13 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">vor|seit</token>
-                    <token regexp="yes">kurzer|einiger</token>
-                    <token>Zeit</token>
+                    <token regexp='yes'>vor|seit</token>
+                    <token inflected='yes' regexp='yes'>kurz|einig</token>
+                    <token regexp='yes'>Zeit|Jahren|Monaten</token>
                 </pattern>
                 <message>Eine relative Zeitangabe wie 'seit kurzer Zeit' ist für Wikipedia-Artikel nicht gut geeignet und sollte möglicherweise durch eine absolute Zeitangabe ersetzt werden.</message>
                 <example correction=""><marker>Seit einiger Zeit</marker> ist sie Bundeskanzlerin.</example>
+                <example correction=""><marker>Seit einigen Jahren</marker> ist sie Bundeskanzlerin.</example>
                 <example>Seit März 2009 ist sie Bundeskanzlerin.</example>
             </rule>
             <rule>
