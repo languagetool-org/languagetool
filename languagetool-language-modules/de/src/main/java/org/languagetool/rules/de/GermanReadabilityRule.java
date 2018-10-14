@@ -31,35 +31,37 @@ import org.languagetool.rules.Category.Location;
 
 /**
  * A rule that checks the readability of German text (using the Flesch-Reading-Ease Formula)
+ * If tooEasyTest == true, the rule tests if paragraph level > level (readability is too easy)
+ * If tooEasyTest == false, the rule tests if paragraph level < level (readability is too difficult)
  * @author Fred Kruse
  * @since 4.4
  */
 public class GermanReadabilityRule extends ReadabilityRule {
   
-  boolean isToEasy;
+  boolean tooEasyTest;
 
-  public GermanReadabilityRule(ResourceBundle messages, Language lang, UserConfig userConfig, boolean isToEasy) {
-    this (messages, lang, userConfig, isToEasy, -1, false);
+  public GermanReadabilityRule(ResourceBundle messages, Language lang, UserConfig userConfig, boolean tooEasyTest) {
+    this (messages, lang, userConfig, tooEasyTest, -1, false);
   }
   
-  public GermanReadabilityRule(ResourceBundle messages, Language lang, UserConfig userConfig, boolean isToEasy, int level) {
-    this (messages, lang, userConfig, isToEasy, level, false);
+  public GermanReadabilityRule(ResourceBundle messages, Language lang, UserConfig userConfig, boolean tooEasyTest, int level) {
+    this (messages, lang, userConfig, tooEasyTest, level, false);
   }
   
-  public GermanReadabilityRule(ResourceBundle messages, Language lang, UserConfig userConfig, boolean isToEasy, boolean defaultOn) {
-    this (messages, lang, userConfig, isToEasy, -1, defaultOn);
+  public GermanReadabilityRule(ResourceBundle messages, Language lang, UserConfig userConfig, boolean tooEasyTest, boolean defaultOn) {
+    this (messages, lang, userConfig, tooEasyTest, -1, defaultOn);
   }
   
   public GermanReadabilityRule(ResourceBundle messages, Language lang, UserConfig userConfig, 
-      boolean isToEasy, int level, boolean defaultOn) {
-    super(messages, lang, userConfig, isToEasy, level, defaultOn);
+      boolean tooEasyTest, int level, boolean defaultOn) {
+    super(messages, lang, userConfig, tooEasyTest, level, defaultOn);
     super.setCategory(new Category(new CategoryId("TEXT_ANALYSIS"), "Textanalyse", Location.INTERNAL, false));
-    this.isToEasy = isToEasy;
+    this.tooEasyTest = tooEasyTest;
   }
   
   @Override
   public String getId() {
-    if(isToEasy) {
+    if(tooEasyTest) {
       return "READABILITY_RULE_SIMPLE_DE";
     } else {
       return "READABILITY_RULE_DIFFICULT_DE";
@@ -68,7 +70,7 @@ public class GermanReadabilityRule extends ReadabilityRule {
 
   @Override
   public String getDescription() {
-    if(isToEasy) {
+    if(tooEasyTest) {
       return "Lesbarkeit: Zu einfacher Text";
     } else {
       return "Lesbarkeit: Zu schwieriger Text";
@@ -103,7 +105,7 @@ public class GermanReadabilityRule extends ReadabilityRule {
     String simple;
     String few;
 
-    if(isToEasy) {
+    if(tooEasyTest) {
       simple = "einfach";
       few = "wenige";
     } else {
@@ -125,12 +127,9 @@ public class GermanReadabilityRule extends ReadabilityRule {
   }
   
   private static boolean isVowel(char c) {
-    if(c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u' || c == 'y' ||
+    return (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u' || c == 'y' ||
         c == 'A' || c == 'E' || c == 'I' || c == 'O' || c == 'U' || c == 'Y' ||
-        c == 'ä' || c == 'ö' || c == 'ü' || c == 'Ä' || c == 'Ö' || c == 'Ü') {
-      return true;
-    }
-    return false;
+        c == 'ä' || c == 'ö' || c == 'ü' || c == 'Ä' || c == 'Ö' || c == 'Ü');
   }
   
   @Override

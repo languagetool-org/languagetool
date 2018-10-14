@@ -39,6 +39,8 @@ import org.languagetool.rules.Category.Location;
 
 /**
  * A rule that checks the readability of English text (using the Flesch-Reading-Ease Formula)
+ * If tooEasyTest == true, the rule tests if paragraph level > level (readability is too easy)
+ * If tooEasyTest == false, the rule tests if paragraph level < level (readability is too difficult)
  * @author Fred Kruse
  * @since 4.4
  */
@@ -51,22 +53,22 @@ public class ReadabilityRule extends TextLevelRule {
   private final LinguServices linguServices;
   private final Language lang;
   private int level;
-  private boolean isToEasy;
+  private boolean tooEasyTest;
 
-  public ReadabilityRule(ResourceBundle messages, Language lang, UserConfig userConfig, boolean isToEasy) {
-    this (messages, lang, userConfig, isToEasy, -1, false);
+  public ReadabilityRule(ResourceBundle messages, Language lang, UserConfig userConfig, boolean tooEasyTest) {
+    this (messages, lang, userConfig, tooEasyTest, -1, false);
   }
   
-  public ReadabilityRule(ResourceBundle messages, Language lang, UserConfig userConfig, boolean isToEasy, int level) {
-    this (messages, lang, userConfig, isToEasy, level, false);
+  public ReadabilityRule(ResourceBundle messages, Language lang, UserConfig userConfig, boolean tooEasyTest, int level) {
+    this (messages, lang, userConfig, tooEasyTest, level, false);
   }
   
-  public ReadabilityRule(ResourceBundle messages, Language lang, UserConfig userConfig, boolean isToEasy, boolean defaultOn) {
-    this (messages, lang, userConfig, isToEasy, -1, defaultOn);
+  public ReadabilityRule(ResourceBundle messages, Language lang, UserConfig userConfig, boolean tooEasyTest, boolean defaultOn) {
+    this (messages, lang, userConfig, tooEasyTest, -1, defaultOn);
   }
   
   public ReadabilityRule(ResourceBundle messages, Language lang, UserConfig userConfig, 
-      boolean isToEasy, int level, boolean defaultOn) {
+      boolean tooEasyTest, int level, boolean defaultOn) {
     super(messages);
     super.setCategory(new Category(new CategoryId("TEXT_ANALYSIS"), "Text Analysis", Location.INTERNAL, false));
     setLocQualityIssueType(ITSIssueType.Style);
@@ -74,7 +76,7 @@ public class ReadabilityRule extends TextLevelRule {
       setDefaultOff();
     }
     this.lang = lang;
-    this.isToEasy = isToEasy;
+    this.tooEasyTest = tooEasyTest;
     if (userConfig != null) {
       linguServices = userConfig.getLinguServices();
       if(level >= 0) {
@@ -84,7 +86,7 @@ public class ReadabilityRule extends TextLevelRule {
         if(lv >= 0) {
           this.level = lv;
         } else {
-          this.level = isToEasy ? 4 : 2;
+          this.level = tooEasyTest ? 4 : 2;
         }
       }
     }
@@ -95,7 +97,7 @@ public class ReadabilityRule extends TextLevelRule {
   
   @Override
   public String getId() {
-    if(isToEasy) {
+    if(tooEasyTest) {
       return "READABILITY_RULE_SIMPLE";
     } else {
       return "READABILITY_RULE_DIFFICULT";
@@ -104,7 +106,7 @@ public class ReadabilityRule extends TextLevelRule {
 
   @Override
   public String getDescription() {
-    if(isToEasy) {
+    if(tooEasyTest) {
       return "Readability: Too easy text";
     } else {
       return "Readability: Too difficult text";
@@ -113,7 +115,7 @@ public class ReadabilityRule extends TextLevelRule {
 
   @Override
   public int getDefaultValue() {
-    return (isToEasy ? 4 : 2);
+    return (tooEasyTest ? 4 : 2);
   }
   
   @Override
@@ -163,7 +165,7 @@ public class ReadabilityRule extends TextLevelRule {
     String simple;
     String few;
 
-    if(isToEasy) {
+    if(tooEasyTest) {
       simple = "simple";
       few = "few";
     } else {
@@ -204,11 +206,8 @@ public class ReadabilityRule extends TextLevelRule {
   }
   
   private static boolean isVowel(char c) {
-    if(c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u' || c == 'y' ||
-        c == 'A' || c == 'E' || c == 'I' || c == 'O' || c == 'U' || c == 'Y') {
-      return true;
-    }
-    return false;
+    return (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u' || c == 'y' ||
+        c == 'A' || c == 'E' || c == 'I' || c == 'O' || c == 'U' || c == 'Y');
   }
   
   /**
@@ -302,7 +301,7 @@ public class ReadabilityRule extends TextLevelRule {
 
           endPos = pos + sentence.getText().length();
           
-          if (isToEasy && rLevel > level) {
+          if (tooEasyTest && rLevel > level) {
             msg = getMessage(rLevel, (int) FRE, (int) ASL, (int) ASW);
             RuleMatch ruleMatch = new RuleMatch(this, startPos, startPos + MARK_DISTANCE, msg);
             ruleMatches.add(ruleMatch);
@@ -310,7 +309,7 @@ public class ReadabilityRule extends TextLevelRule {
             ruleMatch = new RuleMatch(this, endPos - MARK_DISTANCE, endPos, msg);
             ruleMatches.add(ruleMatch);
 
-          } else if (!isToEasy && rLevel < level) {
+          } else if (!tooEasyTest && rLevel < level) {
             msg = getMessage(rLevel, (int) FRE, (int) ASL, (int) ASW);
             RuleMatch ruleMatch = new RuleMatch(this, startPos, startPos + MARK_DISTANCE, msg);
             ruleMatches.add(ruleMatch);
