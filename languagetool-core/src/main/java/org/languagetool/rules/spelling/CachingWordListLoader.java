@@ -57,6 +57,9 @@ public class CachingWordListLoader {
          Scanner scanner = new Scanner(inputStream, "utf-8")) {
       while (scanner.hasNextLine()) {
         String line = scanner.nextLine();
+        if (line.isEmpty()) {
+          continue;
+        }
         if (line.startsWith("#")) {
           continue;
         }
