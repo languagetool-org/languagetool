@@ -83,6 +83,7 @@ public class HTTPServerConfig {
   protected String dbUrl = null;
   protected String dbUsername = null;
   protected String dbPassword = null;
+  protected boolean dbLogging;
 
   /**
    * Create a server configuration for the default port ({@link #DEFAULT_PORT}).
@@ -234,6 +235,10 @@ public class HTTPServerConfig {
         dbUrl = getOptionalProperty(props, "dbUrl", null);
         dbUsername = getOptionalProperty(props, "dbUsername", null);
         dbPassword = getOptionalProperty(props, "dbPassword", null);
+        dbLogging = Boolean.valueOf(getOptionalProperty(props, "dbLogging", "false"));
+        if (dbLogging && (dbDriver == null || dbUrl == null || dbUsername == null || dbPassword == null)) {
+          throw new IllegalArgumentException("dbLogging can only be true if dbDriver, dbUrl, dbUsername, and dbPassword are all set");
+        }
       }
     } catch (IOException e) {
       throw new RuntimeException("Could not load properties from '" + file + "'", e);
@@ -637,6 +642,23 @@ public class HTTPServerConfig {
   @Experimental
   void setDatabasePassword(String dbPassword) {
     this.dbPassword = dbPassword;
+  }
+  
+  /**
+   * Whether meta data about each search (like in the logfile) should be logged to the database. 
+   * @since 4.4
+   */
+  @Experimental
+  void setDatabaseLogging(boolean logging) {
+    this.dbLogging = logging;
+  }
+  
+  /**
+   * @since 4.4
+   */
+  @Experimental
+  boolean getDatabaseLogging() {
+    return this.dbLogging;
   }
   
   /**

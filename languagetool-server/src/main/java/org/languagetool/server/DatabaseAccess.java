@@ -75,6 +75,10 @@ class DatabaseAccess {
         properties.setProperty("password", config.getDatabasePassword());
         sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream, properties);
         DatabaseLogger.init(sqlSessionFactory);
+        if (!config.getDatabaseLogging()) {
+          print("dbLogging not set to true, turning off logging");
+          DatabaseLogger.getInstance().disableLogging();
+        }
       } catch (IOException e) {
         throw new RuntimeException(e);
       }

@@ -47,7 +47,6 @@ class DatabaseLogger {
   /**
    * @return an instance that will be disabled until initialized by DatabaseAccess
    */
-
   public static DatabaseLogger getInstance() {
     if (instance == null) {
       instance = new DatabaseLogger();
@@ -60,7 +59,7 @@ class DatabaseLogger {
    * @param factory shared factory from DatabaseAccess
    */
   static void init(SqlSessionFactory factory) {
-   getInstance().start(factory);
+    getInstance().start(factory);
   }
 
   private class WorkerThread extends Thread {
@@ -115,7 +114,6 @@ class DatabaseLogger {
   }
 
   private DatabaseLogger() {
-
   }
 
   public void disableLogging() {
@@ -125,10 +123,6 @@ class DatabaseLogger {
     }
   }
 
-  /**
-   * For use in unit tests, because logging may require information from the database
-   * which might not be setup there
-   */
   public boolean isLogging() {
     return !this.disabled;
   }
