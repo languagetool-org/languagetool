@@ -138,6 +138,13 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("past", "passt");
     put("eingetragt", "eingetragen");
     put("getrunkt", "getrunken");
+    put("veräht", "verrät");
+    put("helfte", "half");
+    put("helften", "halfen");
+    put("befehlte", "befahl");
+    put("befehlten", "befahlen");
+    put("lügte", "log");
+    put("lügten", "logen");
     put("Komplexibilität", "Komplexität");
     put("abbonement", "Abonnement");
     put("perse", "per se");
@@ -155,6 +162,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("[mM]illion(en)?mal", w -> Collections.singletonList(StringTools.uppercaseFirstChar(w.replaceFirst("mal", " Mal"))));
     put("Opelarena", "Opel Arena");
     put("Toll-Collect", "Toll Collect");
+    put("[pP][qQ]-Formel", "p-q-Formel");
     put("desweitere[nm]", "des Weiteren");
     put("handzuhaben", "zu handhaben");
     put("nachvollzuziehe?n", "nachzuvollziehen");
@@ -182,6 +190,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("[uU]naufbesichtigt(e[nmrs]?)?", "aufbe", "beauf");
     putRepl("[nN]utzvoll(e[nmrs]?)?", "utzvoll", "ützlich");
     putRepl("Lezte[mnrs]?", "Lez", "Letz");
+    putRepl("Letze[mnrs]?", "Letz", "Letzt");
     putRepl("Makeups?", "up", "-up");
     putRepl("Add-?Ons?", "Add-?On", "Add-on");
     putRepl("Addons?", "on", "-on");
@@ -216,6 +225,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("[rR]eligiösisch(e[nmrs]?)?", "isch", "");
     putRepl("[fF]olklorisch(e[nmrs]?)?", "isch", "istisch");
     putRepl("[eE]infühlsvoll(e[nmrs]?)?", "voll", "am");
+    putRepl("Unstimmlichkeit(en)?", "lich", "ig");
+    putRepl("Strebergartens?", "Stre", "Schre");
+    putRepl("[hH]ähern(e[mnrs]?)?", "ähern", "ären");
     putRepl("todesbedroh(end|lich)(e[nmrs]?)?", "todes", "lebens");
     putRepl("^[uU]nabsichtig(e[nmrs]?)?", "ig", "lich");
     putRepl("[aA]ntisemitistisch(e[mnrs]?)?", "tist", "t");

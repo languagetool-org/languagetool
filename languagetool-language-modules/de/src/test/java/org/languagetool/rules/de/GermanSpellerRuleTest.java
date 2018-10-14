@@ -287,6 +287,7 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("naheste", "nächste", rule, lt);
     assertFirstSuggestion("fluoreszenzierend", "fluoreszierend", rule, lt);
     assertFirstSuggestion("revalierender", "rivalisierender", rule, lt);
+    assertFirstSuggestion("häherne", "härene", rule, lt);
   }
 
   @Test
