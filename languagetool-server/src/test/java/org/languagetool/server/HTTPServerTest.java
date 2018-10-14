@@ -43,13 +43,11 @@ public class HTTPServerTest {
   private static final String LOAD_TEST_URL = "http://localhost:<PORT>/v2/check";
   //private static final String LOAD_TEST_URL = "https://api.languagetool.org/v2/check";
   //private static final String LOAD_TEST_URL = "https://languagetool.org/api/v2/check";
-
-
+  
   @Before
   public void setup() {
     DatabaseLogger.getInstance().disableLogging();
   }
-
 
   @Test
   public void testHTTPServer() throws Exception {

@@ -284,7 +284,6 @@ class LanguageToolHttpHandler implements HttpHandler {
       print(message, System.err);
     }
 
-
     if (config.isVerbose() && text != null && textLoggingAllowed) {
       print("Exception was caused by this text (" + text.length() + " chars, showing up to 500):\n" +
               StringUtils.abbreviate(text, 500), System.err);
