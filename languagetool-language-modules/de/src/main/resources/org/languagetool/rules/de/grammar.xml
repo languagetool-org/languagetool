@@ -3977,7 +3977,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token regexp="yes">Bescheid[es]</token>
                 </marker>
-                <token regexp="yes">sagen|sags?t|wissen|weißt|wisst|geben|gebt</token>
+                <token inflected="yes" regexp="yes">sagen|wissen|geben</token>
             </pattern>
             <message>Meinten Sie <suggestion>Bescheid</suggestion>?</message>
             <example correction="Bescheid">Da würde ich auch <marker>Bescheide</marker> sagen.</example>
@@ -4008,16 +4008,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Wider"><marker>Wieder</marker> Erwarten.</example>
             </rule>
         </rulegroup>
-        <rule id="ICH_VERALTE" name="'ich veralte (verwalte/verhalte)'">
-            <pattern>
-                <token>ich</token>
-                <marker>
-                    <token>veralte</token>
-                </marker>
-            </pattern>
-            <message>Meinten Sie <suggestion>verhalte</suggestion> oder <suggestion>verwalte</suggestion>?</message>
-            <example correction="verhalte|verwalte">Ich <marker>veralte</marker> auf diese Weise so 100 E-Mail-Adressen.</example>
-        </rule>
+        <rulegroup id="ICH_VERALTE" name="'ich veralte (verwalte/verhalte)'">
+            <rule>
+                <pattern>
+                    <token>ich</token>
+                    <marker>
+                        <token>veralte</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie <suggestion>verhalte</suggestion> oder <suggestion>verwalte</suggestion>?</message>
+                <example correction="verhalte|verwalte">Ich <marker>veralte</marker> auf diese Weise so 100 E-Mail-Adressen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>veralte</token>
+                    </marker>
+                    <token regexp="yes">[dm]ich</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>verhalte</suggestion> oder <suggestion>verwalte</suggestion>?</message>
+                <example correction="verhalte|verwalte">Dann <marker>veralte</marker> dich nicht so!</example>
+            </rule>
+        </rulegroup>
         <rule id="MITTELOHRENZUENDUNG" name="'Mittelohrenzündung (Mittelohrentzündung)'">
             <regexp>Mittelohrenzündung(en)?</regexp>
             <message>Meinten Sie <suggestion><match no="0" regexp_match="enz" regexp_replace="entz"/></suggestion>?</message>
@@ -4121,7 +4133,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
              <rule>
                 <pattern>
                     <token postag="PA2:PRD:GRU:VER"></token>
-                    <marker><token regexp="yes" case_sensitive="yes">erden?</token></marker>
+                    <marker><token regexp="yes" case_sensitive="yes">erde[nt]?</token></marker>
                 </pattern>
                 <message>Meinten Sie <suggestion>w\2</suggestion> (Hilfsverb für das Perfekt / Passiv) statt '\2' &odkomma;?</message>
                 <example correction="werden">Er soll bestraft <marker>erden</marker>.</example>
@@ -4131,7 +4143,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="GEROCHEN_GEBROCHEN" name="gerochen (gebrochen)">
             <pattern>
                 <marker><token inflected="yes" case_sensitive="yes">gerochen</token></marker>
-                <token regexp="yes">&sprachadj1;|Arm|Bein</token>
+                <token regexp="yes">&sprachadj1;|Arm|Bein|Finger|Zeh</token>
             </pattern>
             <message>Meinten Sie <suggestion><match no="1" regexp_match="ger" regexp_replace="gebr"/></suggestion>?</message>
             <example correction="gebrochenem">Er antwortete in <marker>gerochenem</marker> Englisch.</example>
