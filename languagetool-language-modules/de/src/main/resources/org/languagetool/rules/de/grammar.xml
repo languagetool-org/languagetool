@@ -3937,17 +3937,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Sie <marker>verlasen</marker> das Urteil.</example>
             </rule>
         </rulegroup>
-        <rule id="DENN_DEN" name="'aber denn (dann)'">
-            <pattern>
-                <token regexp="yes">aber|doch|und</token>
-                <marker>
-                    <token>denn</token>
-                </marker>
-            </pattern>
-            <message>Meinten Sie <suggestion>den</suggestion> oder <suggestion>dann</suggestion>?</message>
-            <example>Aber <marker>dann</marker> ging es los.</example>
-            <example correction="den|dann">Aber <marker>denn</marker> haben Sie ja schon.</example>
-        </rule>
+        <rulegroup id="DENN_DEN" name="'aber denn (dann)'">
+            <rule>
+                <pattern>
+                    <token regexp="yes">aber|doch|und</token>
+                    <marker>
+                        <token>denn</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie <suggestion>den</suggestion> oder <suggestion>dann</suggestion>?</message>
+                <example>Aber <marker>dann</marker> ging es los.</example>
+                <example correction="den|dann">Aber <marker>denn</marker> haben Sie ja schon.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token><exception postag="ADJ:.+" postag_regexp="yes"></exception></token>
+                    <token postag="PRP:.+" postag_regexp="yes"></token>
+                    <marker><token>denn</token></marker>
+                </pattern>
+                <message>Meinten Sie <suggestion>den</suggestion>?</message>
+                <example correction="den">Sie ging in <marker>denn</marker> Garten.</example>
+            </rule>
+        </rulegroup>
         <rule id="BESCHEIDE_BESCHEID" name="'Bescheide/Bescheid'">
             <pattern>
                 <marker>
