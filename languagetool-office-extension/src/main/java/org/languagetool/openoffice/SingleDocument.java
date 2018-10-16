@@ -72,7 +72,7 @@ class SingleDocument {
 
 
   private static int debugMode = 0;               //  should be 0 except for testing; 1 = low level; 2 = advanced level
-  private static boolean specialOptimization = false;   //  special optimization switched off; TODO: fix the optimization or delete it
+  private static boolean specialOptimization = true;   //  special optimization switched on; TODO: test this version and delete switch, if it is OK
   
   private Configuration config;
 
@@ -255,8 +255,6 @@ class SingleDocument {
     boolean isReset = false;
     textIsChanged = false;
     resetCheck = false;
-    resetFrom = 0;
-    resetTo = 0;
 
     if (allParas == null || allParas.size() < 1) {
       if (isParallelThread) {              //  if numThread > 0: Thread may only read allParas

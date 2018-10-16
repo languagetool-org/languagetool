@@ -82,6 +82,7 @@ public class Main extends WeakBase implements XJobExecutor,
   // or the context menu.
   private Set<String> disabledRules = null;
   private Set<String> disabledRulesUI;
+  private String lastPara = null;
 
   private XComponentContext xContext;
   
@@ -153,6 +154,12 @@ public class Main extends WeakBase implements XJobExecutor,
       if(documents.doResetCheck()) {
         resetCheck();
         documents.optimizeReset();
+        lastPara = paraText;
+      }
+      if(lastPara != null && !paraText.equals(lastPara)) {
+        resetCheck();
+        documents.optimizeReset();
+        lastPara = null;
       }
     } catch (Throwable t) {
       MessageHandler.showError(t);
