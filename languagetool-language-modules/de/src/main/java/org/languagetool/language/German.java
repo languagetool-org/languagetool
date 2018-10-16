@@ -198,7 +198,8 @@ public class German extends Language implements AutoCloseable {
             new DuUpperLowerCaseRule(messages),
             new UnitConversionRule(messages),
             new GermanReadabilityRule(messages, this, userConfig, true),
-            new GermanReadabilityRule(messages, this, userConfig, false)
+            new GermanReadabilityRule(messages, this, userConfig, false),
+            new CompoundInfinitivRule(messages, this, userConfig)
     );
   }
 

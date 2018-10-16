@@ -367,10 +367,10 @@ public class MultiDocumentsHandler {
 
   private void initLanguageTool() {
     try {
-      config = new Configuration(configDir, configFile, docLanguage);
       if(xContext != null) {
         linguServices = new LinguisticServices(xContext);
       }
+      config = new Configuration(configDir, configFile, docLanguage, linguServices);
       // not using MultiThreadedJLanguageTool here fixes "osl::Thread::Create failed", see https://bugs.documentfoundation.org/show_bug.cgi?id=90740:
       langTool = new JLanguageTool(docLanguage, config.getMotherTongue(), null, 
           new UserConfig(config.getConfigurableValues(), linguServices));

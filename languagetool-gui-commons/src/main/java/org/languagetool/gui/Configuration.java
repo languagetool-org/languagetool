@@ -23,6 +23,8 @@ import org.jetbrains.annotations.Nullable;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
+import org.languagetool.LinguServices;
+import org.languagetool.UserConfig;
 import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.Rule;
 
@@ -126,13 +128,17 @@ public class Configuration {
   }
 
   public Configuration(File baseDir, String filename, Language lang) throws IOException {
+    this(baseDir, filename, lang, null);
+  }
+
+  public Configuration(File baseDir, String filename, Language lang, LinguServices linguServices) throws IOException {
     if (baseDir == null || !baseDir.isDirectory()) {
       throw new IllegalArgumentException("Cannot open file " + filename + " in directory " + baseDir);
     }
     configFile = new File(baseDir, filename);
     loadConfiguration(lang);
     // initialize style like categories
-    initStyleCategories(lang);
+    initStyleCategories(lang, linguServices);
   }
 
   private Configuration() {
@@ -485,14 +491,20 @@ public class Configuration {
    * @since 4.3
    * Initialize set of style like categories
    */
-  private void initStyleCategories(Language lang) {
+  private void initStyleCategories(Language lang, LinguServices linguServices) {
     if (lang == null) {
       lang = language;
       if (lang == null) {
         return;
       }
     }
-    JLanguageTool langTool = new JLanguageTool(lang, motherTongue);
+    JLanguageTool langTool;
+    if (linguServices != null) {
+      langTool = new JLanguageTool(lang, motherTongue, null, 
+          new UserConfig(getConfigurableValues(), linguServices));
+    } else {
+      langTool = new JLanguageTool(lang, motherTongue);
+    }
     List<Rule> allRules = langTool.getAllRules();
     for (Rule rule : allRules) {
       if(rule.getCategory().getTabName() != null) {

@@ -36,13 +36,15 @@ import org.languagetool.rules.Rule;
  */
 class ConfigThread extends Thread {
 
+  private final JLanguageTool langTool;
   private final Language docLanguage;
   private final Configuration config;
   private final Main mainThread;
 
   private final ConfigurationDialog cfgDialog;
   
-  ConfigThread(Language docLanguage, Configuration config, Main main) {
+  ConfigThread(JLanguageTool langTool, Language docLanguage, Configuration config, Main main) {
+    this.langTool = langTool;
     this.docLanguage = docLanguage;
     this.config = config;
     this.mainThread = main; 
@@ -52,8 +54,6 @@ class ConfigThread extends Thread {
   @Override
   public void run() {
     try {
-      JLanguageTool langTool = new JLanguageTool(docLanguage, config.getMotherTongue(), null,
-              new UserConfig(config.getConfigurableValues()));
       List<Rule> allRules = langTool.getAllRules();
       for (Rule rule : allRules) {
         if (rule.isOfficeDefaultOn()) {

@@ -191,7 +191,7 @@ public class Main extends WeakBase implements XJobExecutor,
       return;
     }
     Configuration config = prepareConfig();
-    ConfigThread configThread = new ConfigThread(lang, config, this);
+    ConfigThread configThread = new ConfigThread(documents.getLanguageTool(), lang, config, this);
     configThread.start();
   }
 
