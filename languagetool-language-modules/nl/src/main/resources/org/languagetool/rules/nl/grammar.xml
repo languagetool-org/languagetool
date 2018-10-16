@@ -2250,7 +2250,7 @@ regexp case-insensitive maken : (?i)
             <rule>
 				<pattern><token inflected="yes" skip="2">kunnen</token><marker><token>lijden</token></marker><token>tot</token></pattern>
                 <message>Bedoelt u wellicht <suggestion>leiden</suggestion> (sturen)? Of toch pijn hebben?</message>
-                <example correction="leiden">Het woord kan <marker>lijden</marker> tot een vergissing zijn.</example>
+                <example correction="leiden">Het gedrag kan <marker>lijden</marker> tot een probleem maken.</example>
             </rule>
         </rulegroup>
 
@@ -12115,6 +12115,18 @@ onwaarschijnlijk
     </category>
     <category id="CONSTRUCTIEFOUT" name="Constructiefout">
 
+		<rulegroup id="HET_WORD" name="vangen">
+			<rule>
+				<pattern>
+					<token regexp="yes">het|dit|dat|die|deze</token>
+					<marker>
+						<token regexp="yes">wor[dt]</token>
+					</marker>
+				</pattern>
+				<message>Juist is: <suggestion>wordt</suggestion></message>
+                <example correction="wordt">Het <marker>wort</marker> vergeten.</example>
+			</rule>
+		</rulegroup>
 		<rulegroup id="DIT_END" name="vangen">
 			<rule>
 				<pattern><marker><token regexp="yes">aan|achter|af|beneden|bij|binnen|boven|buiten|door|heen|in|langs|na|naar|om|omheen|omtrent|onder|op|over|rond|tegen|tegenover|toe|tussen|uit|van|vandaan|voor</token><token>dit</token></marker><token postag="SENT_END" regexp="yes">[.!?]</token></pattern>
@@ -27675,8 +27687,6 @@ steenwijk;Steenwijk
                 </pattern>
                 <message>De tekst wordt vlotter als je deze herschrijft met <suggestion><match no="1" postag="WKW.*" postag_regexp="yes">proberen</match></suggestion>.</message>
                 <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
-                <example correction="Probeert"><marker>Tracht</marker> uzelf te zijn.</example>
-                <example correction="probeer">Ik <marker>tracht</marker> op te leven.</example>
                 <example correction="proberen">Wij <marker>trachten</marker> U te helpen.</example>
                 <example correction="probeerde">Daar <marker>trachtte</marker> ik op te doelen.</example>
                 <example correction="probeerden">Ze <marker>trachtten</marker> ons echt iets bij te brengen.</example>
@@ -29156,6 +29166,27 @@ steenwijk;Steenwijk
         </rule>
         </rulegroup>
         -->
+        <rulegroup id="WORT" name="wort → wordt of word">
+            <rule>
+                <pattern>
+					<token>wort</token>
+                </pattern>
+                <message>Wanneer dit niet over brouwen gaat, dan bedoelt vast: (ik) <suggestion>word</suggestion> of (hij) <suggestion>wordt</suggestion>.</message>
+                <example correction="word|wordt">Ik <marker>wort</marker> gek.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="NAAR_BET" name="Naar bet → naar het of naar bed">
+            <rule>
+                <pattern>
+					<token>naar</token>
+					<marker>
+						<token>bet</token>
+					</marker>
+                </pattern>
+                <message>U bedoelt vast: <suggestion>het</suggestion> of <suggestion>bed</suggestion>.</message>
+                <example correction="het|bed">Ik ga naar <marker>bet</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="X-EN" name="voor-en → voor- en">
             <rule>
                 <pattern>
@@ -29988,6 +30019,22 @@ steenwijk;Steenwijk
 		-->
     </category>
     <category id="WOORDGROEPEN" name="Woordgroepen">
+
+		<rulegroup id="HANGT_ERVAN_AF" name="Moet hangt ervan af zijn">
+			<rule>
+				<pattern><token>hangt</token><token>er</token><token>vanaf</token></pattern>
+				<message>Juist is: <suggestion>hangt ervan af</suggestion>.</message>
+				<url>https://onzetaal.nl/taaladvies/er-voorzetsel-werkwoord/</url>
+                <example correction="hangt ervan af">Het <marker>hangt er vanaf</marker>.</example>
+			</rule>
+			<rule>
+				<pattern><token>hangt</token><token>er</token><token>van</token><token>af</token></pattern>
+				<message>Juist is: <suggestion>hangt ervan af</suggestion>.</message>
+				<url>https://onzetaal.nl/taaladvies/er-voorzetsel-werkwoord/</url>
+                <example correction="hangt ervan af">Het <marker>hangt er van af</marker>.</example>
+			</rule>
+		</rulegroup>
+		
         
         <rulegroup id="MET_ZONDER_X" name="met zonder jas / zonder jas">
             <rule>

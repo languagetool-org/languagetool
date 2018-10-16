@@ -1437,12 +1437,9 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 	<rule name="World_Wide_Web_Consortium_" id="WORLD_WIDE_WEB_CONSORTIUM_"><pattern case_sensitive="yes"><marker><token>World</token><token>Wide</token><token>Web</token><token>Consortium</token><token></token></marker></pattern><disambig action="ignore_spelling"/></rule>
 	<rule name="Leger_des_Heils" id="LEGER_DES_HEILS"><pattern case_sensitive="yes"><marker><token>Leger</token><token>des</token><token>Heils</token></marker></pattern><disambig action="ignore_spelling"/></rule>
     
-
     <!-- disabling error report for longer string of unknown words (foreign quotes) ;--> 
  	<rule name="FOREIGN" id="SOME_UNKNOWN_WORDS"><pattern><marker><token postag="UNKNOWN|FOREIGN" postag_regexp="yes"/><token postag="UNKNOWN|FOREIGN" postag_regexp="yes"/><token postag="UNKNOWN|FOREIGN" postag_regexp="yes"/><token postag="UNKNOWN|FOREIGN" postag_regexp="yes"/></marker></pattern><disambig action="ignore_spelling"/></rule>
     
-    <!-- TODO GUESSING TAGS for extremely flexible words ======================================== -->
-
 	<!-- GETALLEN -->
 	<rule name="GUESS_number" id="NUMBERS">
 		<pattern>
@@ -1459,16 +1456,23 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 	</rule>
 
     <!-- TODO GUESSING TAGS BY FORM ONLY ======================================== -->
-   
-    <!-- REAL DISAMBIGUATION -->
+	<!-- replaced by extensive postag database, but may be added again latern, when disambiguations is better -->
 	
+    <!-- REAL DISAMBIGUATION -->
 	<rule id="ZNW_ZELDZAAM" name="niet, bij etc">
 		<!-- verwijdert ook tags bij 'te paard', 'te vuur' etc. -->
 		<pattern>
 			<token regexp="yes" negate="yes">de|een</token>
-			<marker><token regexp="yes">niet|bij|voor|dan|maar|nu|van|ik|ben|een</token></marker>
+			<marker><token regexp="yes">niet|bij|voor|dan|maar|nu|van|ik|ben|een|is|heeft|[a-z]</token></marker>
 		</pattern>
 		<disambig action="remove" postag="ZNW.*" />
+	</rule>	
+
+	<rule id="ZIJ_AWS" name="wat er ook van zij">
+		<pattern>
+			<token>wat</token><token regexp="yes">er|daar</token><token>ook</token><token>van</token><token postag="WKW:AWS">zij</token>
+		</pattern>
+		<disambig action="filterall" />
 	</rule>	
 
 	<rule id="DES_TE_X" name="na des te komt een vergroting">
@@ -1489,7 +1493,15 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 		</pattern>
 		<disambig action="filterall" />
 	</rule>	
-	
+
+	<rule id="TE_BNW-STL-ONV" name="alleen bnw">
+		<pattern>
+			<token>te</token>
+			<token postag="BNW:STL:ONV"/>
+		</pattern>
+		<disambig action="filterall" />
+	</rule>
+
 	<rule id="DE_X_END" name="alleen znw">
 		<!-- hier alleen zelfstandige naamwoorden met de ; is wellicht -->
 		<pattern>
@@ -1816,30 +1828,204 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 		<disambig action="filterall" />
 	</rule>
 
-<!--	
-	<rule id="MAKEN_WE_UW_BEDRIJF_GEWILD" name="-">
+	<rule id="IN_GROTE_DELEN_VAN" name="-">
 		<pattern>
-			<marker>
-				<token postag="WKW:TGW:INF"/>
-				<token regexp="yes">we|wij|zij|ze</token>
-				<token regexp="yes">uw|ons|onze|hun|zijn|mijn</token>
-				<token postag_regexp="yes" postag="ZNW.*|WKW:TGW:INF"/>
-				<token postag_regexp="yes" postag="WKW:VTD:ONV|BNW:(STL|VGR|OVR|ALR):ONV"/>
-			</marker>
-			<token>van</token>
+			<token postag="VRZ"/>
+			<token postag_regexp="yes" postag="BNW:.*:VRB|WKW:(VTD|ODW):VRB"/>
+			<token postag_regexp="yes" postag=".*MRV.*"/>
+			<token postag="VRZ"/>
 		</pattern>
 		<disambig action="filterall" />
 	</rule>
-	-->
-	<!--
-	<rule id="ADD_WEIRD_TAG" name="voeg een tag toe om weg te halen bij normale structuren">
-		<pattern><marker><token/></marker></pattern>
-		<disambig action="add"><wd pos="WEIRD"/></disambig>
+
+	<rule id="ZIJN_END" name="-">
+		<pattern>
+			<token postag="WKW:TGW:INF">zijn</token>
+			<token regexp="yes">[.!?,;:]|er|en|of</token>
+		</pattern>
+		<disambig action="filterall" />
 	</rule>
-	<rule id="IN_VERBAND_MET" name="in verband met">
-		<pattern><token>in</token><token>verband</token><token>met</token></pattern>
-		<disambig action="remove" postag="WEIRD" />
+
+	<rule id="ZIJN_3EP" name="-">
+		<pattern>
+			<token postag="WKW:TGW:INF">zijn</token>
+			<token postag="WKW:TGW:3EP"><exception negate_pos="yes" postag="WKW:TGW:3EP"/></token>
+		</pattern>
+		<disambig action="filterall" />
 	</rule>
-	-->	
+
+	<rule id="IN" name=" maak van in een voorzetsel; is erg gulzig; moet ooit nog als ik-vorm worden toegevoegd met regel">
+		<pattern>
+			<token postag="VRZ">in</token>
+		</pattern>
+		<disambig action="filterall" />
+	</rule>	
 	
+	<rule id="ZIJ_AAN_ZIJ" name="-">
+		<pattern><token postag="ZNW:EKV:DE">zij</token><token  postag="VRZ">aan</token><token postag="ZNW:EKV:DE">zij</token></pattern>	
+		<disambig action="filterall" />
+	</rule>	
+
+	<rule id="GEVONDEN_ZIJN" name="-">
+		<pattern>
+			<token postag="WKW:VTD:ONV"><exception negate_pos="yes" postag="WKW:VTD:ONV"/></token>
+			<token postag="WKW:VTD:INF">zijn</token>
+		</pattern>
+		<disambig action="filterall" />
+	</rule>
+
+	<rule id="DAT_ER_EEN_PROBLEEM_IS" name="-">
+		<pattern>
+			<token postag_regexp="yes" postag="VGW.*"/>
+			<token>er</token>
+			<token postag="GET:EKV"/>
+			<token postag_regexp="yes" postag="ZNW:EKV.*"/>
+			<token postag_regexp="yes" postag="WKW:(VLT|TGW):3EP"/>
+		</pattern>
+		<disambig action="filterall" />
+	</rule>
+	
+	<rule id="DE_VAN_DE_TRAPPEN_GELAZERDE_DOOS" name="-">
+		<pattern>
+			<token postag_regexp="yes" postag="VNW:AWZ:EKV:DE_|VNW:PER:.*:BEZ|GET:EKV"/>
+			<token postag="VRZ"/>
+			<token postag_regexp="yes" postag="VNW:AWZ:.*:DE_"/>
+			<token postag_regexp="yes" postag="ZNW:EKV|ZNW:.*:DE_"/>
+			<token postag="WKW:VTD:VRB"/>
+			<token postag_regexp="yes" postag="ZNW:EKV|ZNW:EKV:DE_"/>
+		</pattern>
+		<disambig action="filterall" />
+	</rule>
+
+	<rule id="DE_VAN_HET_KIND_GELAZERDE_DOOS" name="-">
+		<pattern>
+			<token postag_regexp="yes" postag="VNW:AWZ:EKV:DE_|VNW:PER:.*:BEZ|GET:EKV"/>
+			<token postag="VRZ"/>
+			<token postag="VNW:AWZ:EKV:HET"/>
+			<token postag_regexp="yes" postag="ZNW:EKV|ZNW:.*:HET"/>
+			<token postag="WKW:VTD:VRB"/>
+			<token postag_regexp="yes" postag="ZNW:EKV|ZNW:EKV:DE_"/>
+		</pattern>
+		<disambig action="filterall" />
+	</rule>
+
+	<rule id="DE_VAN_DE_TRAPPEN_GELAZERDE_DOZEN" name="-">
+		<pattern>
+			<token postag_regexp="yes" postag="VNW:AWZ:EKV:DE_|VNW:PER:.*:BEZ"/>
+			<token postag="VRZ"/>
+			<token postag_regexp="yes" postag="VNW:AWZ:.*:DE_"/>
+			<token postag_regexp="yes" postag="ZNW:EKV|ZNW:.*:DE_"/>
+			<token postag="WKW:VTD:VRB"/>
+			<token postag_regexp="yes" postag=".*MRV.*"/>
+		</pattern>
+		<disambig action="filterall" />
+	</rule>
+
+	<rule id="DE_VAN_HET_KIND_GELAZERDE_DOZEN" name="-">
+		<pattern>
+			<token postag_regexp="yes" postag="VNW:AWZ:EKV:DE_|VNW:PER:.*:BEZ"/>
+			<token postag="VRZ"/>
+			<token postag="VNW:AWZ:EKV:HET"/>
+			<token postag_regexp="yes" postag="ZNW:EKV|ZNW:.*:HET"/>
+			<token postag="WKW:VTD:VRB"/>
+			<token postag_regexp="yes" postag=".*MRV.*"/>
+		</pattern>
+		<disambig action="filterall" />
+	</rule>
+
+	<rule id="HET_VAN_DE_TRAPPEN_GELAZERDE_KIND" name="-">
+		<pattern>
+			<token postag_regexp="yes" postag="VNW:AWZ:EKV:HET|VNW:PER:.*:BEZ"/>
+			<token postag="VRZ"/>
+			<token postag_regexp="yes" postag="VNW:AWZ:.*:DE_"/>
+			<token postag_regexp="yes" postag="ZNW:EKV|ZNW:.*:DE_"/>
+			<token postag="WKW:VTD:VRB"/>
+			<token postag_regexp="yes" postag="ZNW:EKV|ZNW:.*:HET"/>
+		</pattern>
+		<disambig action="filterall" />
+	</rule>
+
+	<rule id="HET_VAN_HET_KIND_GELAZERDE_KIND" name="-">
+		<pattern>
+			<token postag_regexp="yes" postag="VNW:AWZ:EKV:HET|VNW:PER:.*:BEZ"/>
+			<token postag="VRZ"/>
+			<token postag="VNW:AWZ:EKV:HET"/>
+			<token postag_regexp="yes" postag="ZNW:EKV|ZNW:.*:HET"/>
+			<token postag="WKW:VTD:VRB"/>
+			<token postag_regexp="yes" postag="ZNW:EKV|ZNW:.*:HET"/>
+		</pattern>
+		<disambig action="filterall" />
+	</rule>
+	
+	<rule id="EEN_VAN_DE_TRAPPEN_GELAZERD_KIND" name="-">
+		<pattern>
+			<token postag="GET:EKV"/>
+			<token postag="VRZ"/>
+			<token postag_regexp="yes" postag="VNW:AWZ:.*:DE_"/>
+			<token postag_regexp="yes" postag="ZNW:EKV|ZNW:.*:DE_"/>
+			<token postag="WKW:VTD:ONV"/>
+			<token postag_regexp="yes" postag="ZNW:EKV|ZNW:.*:HET"/>
+		</pattern>
+		<disambig action="filterall" />
+	</rule>
+
+	<rule id="EEN_VAN_HET_DAK_GELAZERD_KIND" name="-">
+		<pattern>
+			<token postag="GET:EKV"/>
+			<token postag="VRZ"/>
+			<token postag="VNW:AWZ:EKV:HET"/>
+			<token postag_regexp="yes" postag="ZNW:EKV|ZNW:.*:HET"/>
+			<token postag="WKW:VTD:ONV"/>
+			<token postag_regexp="yes" postag="ZNW:EKV|ZNW:.*:HET"/>
+		</pattern>
+		<disambig action="filterall" />
+	</rule>
+	
+	<rule id="WKW_VTD" name="-">
+		<pattern>
+			<token inflected="yes" regexp="yes" postag_regexp="yes" postag="WKW.*">worden|zijn|hebben</token>
+			<token postag="WKW:VTD:ONV"/>
+			<token postag="SENT_END" regexp="yes">[.!]</token>
+		</pattern>
+		<disambig action="filterall" />
+	</rule>
+
+	<rule id="KOMMA_VGW" name="-">
+		<pattern>
+			<token>,</token>
+			<token postag="VGW"/>
+		</pattern>
+		<disambig action="filterall" />
+	</rule>
+
+	<rule id="MEN_X" name="-">
+		<pattern>
+			<token postag="VNW:PER:3EP:EKV:ACT">men</token>
+			<token postag="WKW:TGW:3EP|WKW:VLT:1EP" postag_regexp="yes"/>
+		</pattern>
+		<disambig action="filterall" />
+	</rule>
+	
+	<rule id="X_MEN" name="-">
+		<pattern>
+			<token postag="WKW:TGW:3EP|WKW:VLT:1EP" postag_regexp="yes"/>
+			<token postag="VNW:PER:3EP:EKV:ACT">men</token>
+		</pattern>
+		<disambig action="filterall" />
+	</rule>
+
+	<rule id="EEN_OPTIMALE_AANPAK_VOOR" name="-">
+		<pattern>
+			<token postag_regexp="yes" postag="GET:EKV|VNW:AWZ:EKV:DE_"/>
+			<token postag_regexp="yes" postag="BNW:.*:VRB"/>
+			<token postag="ZNW:EKV:DE_"/>
+			<token postag="VRZ"/>
+		</pattern>
+		<disambig action="filterall" />
+	</rule>		
+	
+	
+	<!-- GENERATED RULES; MIGHT NOT ALL BE VERY EFFECTIVE, BUT AS A WHOLE, THEY MIGHT BE -->
+
+
 </rules>
