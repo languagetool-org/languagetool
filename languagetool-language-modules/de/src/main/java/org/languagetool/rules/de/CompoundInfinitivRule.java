@@ -19,12 +19,15 @@
 package org.languagetool.rules.de;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
 import org.languagetool.AnalyzedSentence;
+import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
@@ -99,6 +102,20 @@ public class CompoundInfinitivRule extends Rule {
   private boolean isRelevant(AnalyzedTokenReadings token) {
     return token.matchesPosTagRegex("ZUS.*") && !"um".equals(token.getToken().toLowerCase());
   }
+
+  private String getLemma(AnalyzedTokenReadings token) {
+    if (token != null) {
+      List<AnalyzedToken> readings = token.getReadings();
+      for (AnalyzedToken reading : readings) {
+        String lemma = reading.getLemma();
+        if (lemma != null) {
+          return lemma;
+        }
+      }
+    }
+    return null;
+  }
+
   
   private boolean isException(AnalyzedTokenReadings[] tokens, int n) {
     if(tokens[n - 2].matchesPosTagRegex("VER.*")) {
@@ -118,10 +135,18 @@ public class CompoundInfinitivRule extends Rule {
     if("gehen".equals(tokens[n + 1].getToken()) && "ab".equals(tokens[n - 1].getToken())) {
       return true;
     }
-    for(int i = n - 2; i > 0 && !MARK_REGEX.matcher(tokens[i].getToken()).matches(); i--) {
-      if(tokens[i].matchesPosTagRegex("VER.*") || "Fang".equals(tokens[i].getToken())) {
-        if(!isMisspelled(tokens[n - 1].getToken() + tokens[i].getToken().toLowerCase())) {
-          return true;
+    String verb = null;
+    for(int i = n - 2; i > 0 && !MARK_REGEX.matcher(tokens[i].getToken()).matches() && verb == null; i--) {
+      if(tokens[i].matchesPosTagRegex("VER:IMP.*")) {
+        verb = getLemma(tokens[i]).toLowerCase();
+      } else if(tokens[i].matchesPosTagRegex("VER.*")) {
+        verb = tokens[i].getToken().toLowerCase();
+      } else if("Fang".equals(tokens[i].getToken())) {
+        verb = "fangen";
+      }
+      if (verb != null) { 
+        if(!isMisspelled(tokens[n - 1].getToken() + verb)) {
+            return true;
         } else {
           break;
         }
@@ -144,7 +169,7 @@ public class CompoundInfinitivRule extends Rule {
     
     return false;
   }
-  
+
   @Override
   public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
     List<RuleMatch> ruleMatches = new ArrayList<>();

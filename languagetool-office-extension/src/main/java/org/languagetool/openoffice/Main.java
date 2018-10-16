@@ -155,8 +155,7 @@ public class Main extends WeakBase implements XJobExecutor,
         resetCheck();
         documents.optimizeReset();
         lastPara = paraText;
-      }
-      if(lastPara != null && !paraText.equals(lastPara)) {
+      } else if(lastPara != null && !paraText.equals(lastPara)) {
         resetCheck();
         documents.optimizeReset();
         lastPara = null;
