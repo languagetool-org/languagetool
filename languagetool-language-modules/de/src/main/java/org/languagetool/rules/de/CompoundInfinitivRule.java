@@ -85,7 +85,7 @@ public class CompoundInfinitivRule extends Rule {
   }
 
   private static boolean isInfinitiv(AnalyzedTokenReadings token) {
-    return token.matchesPosTagRegex("VER:INF:.*");
+    return token.hasPosTagStartingWith("VER:INF");
   }
   
   private boolean isMisspelled(String word) {
@@ -116,7 +116,7 @@ public class CompoundInfinitivRule extends Rule {
 
   
   private boolean isException(AnalyzedTokenReadings[] tokens, int n) {
-    if(tokens[n - 2].matchesPosTagRegex("VER.*")) {
+    if(tokens[n - 2].hasPosTagStartingWith("VER")) {
       return true;
     }
     if("sagen".equals(tokens[n + 1].getToken()) &&
@@ -135,9 +135,9 @@ public class CompoundInfinitivRule extends Rule {
     }
     String verb = null;
     for(int i = n - 2; i > 0 && !MARK_REGEX.matcher(tokens[i].getToken()).matches() && verb == null; i--) {
-      if(tokens[i].matchesPosTagRegex("VER:IMP.*")) {
+      if(tokens[i].hasPosTagStartingWith("VER:IMP")) {
         verb = getLemma(tokens[i]).toLowerCase();
-      } else if(tokens[i].matchesPosTagRegex("VER.*")) {
+      } else if(tokens[i].hasPosTagStartingWith("VER")) {
         verb = tokens[i].getToken().toLowerCase();
       } else if("Fang".equals(tokens[i].getToken())) {
         verb = "fangen";
