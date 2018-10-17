@@ -786,7 +786,6 @@ public class JLanguageTool {
         fromPos, toPos, match.getMessage(), match.getShortMessage());
     thisMatch.setSuggestedReplacements(match.getSuggestedReplacements());
     thisMatch.setUrl(match.getUrl());
-    thisMatch.setSynonymsFor(match.getSynonymsFor());
     thisMatch.setType(match.getType());
     String sentencePartToError = sentence.substring(0, match.getFromPos());
     String sentencePartToEndOfError = sentence.substring(0, match.getToPos());
@@ -1135,7 +1134,6 @@ public class JLanguageTool {
             }
             newMatch.setEndColumn(range.to.column);
             newMatch.setSuggestedReplacements(match.getSuggestedReplacements());
-            newMatch.setSynonymsFor(match.getSynonymsFor());
             newMatch.setType(match.getType());
             adaptedMatches.add(newMatch);
           }

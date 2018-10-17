@@ -299,29 +299,8 @@ class DatabaseAccess {
         return id;
       }
     } catch (ExecutionException e) {
+      print("Failure in getOrCreateClientId with client '" + client + "': " + e.getMessage());
       return null;
-    }
-  }
-
-  @Deprecated
-  void logAccess(Language lang, int textSize, int matches, Long userId) {
-    if (sqlSessionFactory == null) {
-      return;
-    }
-    try (SqlSession session = sqlSessionFactory.openSession(true)) {
-      Map<Object, Object> map = new HashMap<>();
-      Calendar date = Calendar.getInstance();
-      SimpleDateFormat dayFormat = new SimpleDateFormat("yyyy-MM-dd");
-      SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-      map.put("day", dayFormat.format(date.getTime()));
-      map.put("date", dateFormat.format(date.getTime()));
-      map.put("user_id", userId);
-      map.put("textsize", textSize);
-      map.put("matches", matches);
-      map.put("language", lang.getShortCodeWithCountryAndVariant());
-      session.insert("org.languagetool.server.LogMapper.logCheck", map);
-    } catch (Exception e) {
-      print("Could not log check for " + userId + ": " + e.getMessage());
     }
   }
   

@@ -23,7 +23,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.regex.Pattern;
 
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
@@ -48,7 +47,6 @@ public class ReadabilityRule extends TextLevelRule {
 
   private static final int MARK_DISTANCE = 10;
   private static final int MIN_WORDS = 10;
-  private static final Pattern NON_WORD_REGEX = Pattern.compile("[.?!…:;,~’'\"„“”»«‚‘›‹()\\[\\]\\-–—*×∗·+÷/=]");
 
   private final LinguServices linguServices;
   private final Language lang;
@@ -275,7 +273,7 @@ public class ReadabilityRule extends TextLevelRule {
       nSentences++;
       for (AnalyzedTokenReadings token : tokens) {
         String sToken = token.getToken();
-        if (!token.isWhitespace() && !NON_WORD_REGEX.matcher(sToken).matches()) {
+        if (!token.isWhitespace() && !token.isNonWord()) {
           nWords++;
           if(linguServices == null) {
             nSyllables += simpleSyllablesCount(sToken);

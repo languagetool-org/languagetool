@@ -1462,7 +1462,7 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 	<rule id="ZNW_ZELDZAAM" name="niet, bij etc">
 		<!-- verwijdert ook tags bij 'te paard', 'te vuur' etc. -->
 		<pattern>
-			<token regexp="yes" negate="yes">de|een</token>
+			<token><exception regexp="yes">de|een</exception></token>
 			<marker><token regexp="yes">niet|bij|voor|dan|maar|nu|van|ik|ben|een|is|heeft|[a-z]</token></marker>
 		</pattern>
 		<disambig action="remove" postag="ZNW.*" />
@@ -2024,8 +2024,51 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 		<disambig action="filterall" />
 	</rule>		
 	
+	<rule id="IN_PLAATS_VAN" name="vang">
+		<pattern>
+			<token postag="VRZ"><exception>te</exception></token>
+			<and>
+				<token postag="WKW:TGW:1EP"/>
+				<token postag_regexp="yes" postag="ZNW:EKV.*"><exception regexp="yes" case_sensitive="yes">[A_z]a-z]*|meer|weer|ons</exception></token>
+			</and>
+			<token postag="VRZ"/>
+		</pattern>
+		<disambig action="filterall" />
+	</rule>
 	
-	<!-- GENERATED RULES; MIGHT NOT ALL BE VERY EFFECTIVE, BUT AS A WHOLE, THEY MIGHT BE -->
+	<rule id="EEN_DING_WKW" name="-">
+		<pattern>
+			<token postag="GET:EKV"/>
+			<and>
+				<token postag_regexp="yes" postag="ZNW:EKV.*"/>
+				<token negate_pos="yes" postag_regexp="yes" postag="ZNW:EKV.*"/>
+			</and>				
+			<token postag_regexp="yes" postag="WKW:(TGW|VLT):(INF|1EP|3EP)"><exception postag_regexp="yes" postag="ZNW:EKV.*"/></token>
+		</pattern>
+		<disambig action="filterall" />
+	</rule>		
+
+	<!-- behoud, herstel en ontwikkeling  -->
+	<rule id="OPSOMMING_1" name="-">
+		<pattern>
+			<token postag_regexp="yes" postag="ZNW:EKV.*"/>
+			<token>,</token>
+			<token postag_regexp="yes" postag="ZNW:EKV.*"/>
+			<token regexp="yes">en|of</token>
+			<token postag_regexp="yes" postag="ZNW:EKV.*"/>
+		</pattern>
+		<disambig action="filterall" />
+	</rule>
+	<rule id="DE_WKW" name="-">
+		<pattern>
+			<token postag="VNW:AWZ:EKV:DE_"/>
+			<and>
+				<token postag_regexp="yes" postag="WKW:(TGW|VLT):.*"/>
+				<token postag_regexp="yes" postag="ZNW:EKV:DE_"/>
+			</and>
+		</pattern>
+		<disambig action="filterall" />
+	</rule>
 
 
 </rules>

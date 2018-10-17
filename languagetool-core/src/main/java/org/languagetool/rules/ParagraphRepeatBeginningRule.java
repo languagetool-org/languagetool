@@ -38,7 +38,7 @@ import org.languagetool.Language;
 public class ParagraphRepeatBeginningRule extends TextLevelRule {
 
   private final Language lang;
-  private static final Pattern NON_WORD_REGEX = Pattern.compile("[’'\"„“”»«‚‘›‹()\\[\\]]");
+  private static final Pattern QUOTES_REGEX = Pattern.compile("[’'\"„“”»«‚‘›‹()\\[\\]]");
 
   public ParagraphRepeatBeginningRule(ResourceBundle messages, Language lang) {
     super(messages);
@@ -70,7 +70,7 @@ public class ParagraphRepeatBeginningRule extends TextLevelRule {
     int nToken = 1;
     String lastToken = lastTokens[nToken].getToken();
     String nextToken = nextTokens[nToken].getToken();
-    if (NON_WORD_REGEX.matcher(lastToken).matches() && lastToken.equals(nextToken)) {
+    if (QUOTES_REGEX.matcher(lastToken).matches() && lastToken.equals(nextToken)) {
       if(lastTokens.length <= nToken + 1 || nextTokens.length <= nToken + 1) {
         return 0;
       }
