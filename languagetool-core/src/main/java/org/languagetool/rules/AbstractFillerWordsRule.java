@@ -43,7 +43,6 @@ public abstract class AbstractFillerWordsRule extends TextLevelRule {
   public static final String RULE_ID = "FILLER_WORDS";
   
   private static final int DEFAULT_MIN_PERCENT = 8;
-  private static final Pattern NON_WORD_REGEX = Pattern.compile("[.?!…:;,~’'\"„“”»«‚‘›‹()\\[\\]\\-–—*×∗·+÷/=]");
   private static final Pattern OPENING_QUOTES = Pattern.compile("[\"„”»«]");
   private static final Pattern ENDING_QUOTES = Pattern.compile("[\"“»«]");
   private static final boolean DEFAULT_ACTIVATION = false;
@@ -141,7 +140,7 @@ public abstract class AbstractFillerWordsRule extends TextLevelRule {
         else if (ENDING_QUOTES.matcher(sToken).matches() && n > 1 && !tokens[n].isWhitespaceBefore()) {
           isDirectSpeech = false;
         }
-        else if ((!isDirectSpeech || minPercent == 0) && !token.isWhitespace() && !NON_WORD_REGEX.matcher(sToken).matches()) {
+        else if ((!isDirectSpeech || minPercent == 0) && !token.isWhitespace() && !token.isNonWord()) {
           wordCount++;
           if (isFillerWord(sToken) && !isException(tokens, n)) {
             startPos.add(token.getStartPos() + pos);
