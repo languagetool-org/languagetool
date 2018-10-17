@@ -30948,6 +30948,25 @@ Andere Projekte</example>
                 <example><marker>Meine Mutter</marker> ist unglücklich gestürzt.</example>
             </rule>
         </rulegroup>
+        <rule id="DER_ABGEORDNETER" name="Falscher Artikel bei substantivierten Adjektiven">
+            <pattern>
+                <token postag="SENT_START" />
+                <token postag='ART:DEF:NOM:SIN:MAS'></token>
+                <marker>
+                <token regexp='yes' postag='SUB:NOM:SIN:MAS:ADJ'>.*er\b</token>
+                </marker>
+            </pattern>
+            <message>Artikel und Substantiv stimmen grammatikalisch nicht überein. Meinten Sie <suggestion><match no="3" case_conversion="preserve" regexp_match="er\b" regexp_replace="e"></match></suggestion>?</message>
+            <example correction='Abgeordnete'>Der <marker>Abgeordneter</marker> ging nach Hause.</example>
+            <example correction='Jugendliche'>Der <marker>Jugendlicher</marker> ist bockig.</example>
+            <example correction='Verrückte'>Der <marker>Verrückter</marker> ist wieder unterwegs.</example>
+            <example correction='Angestellte'>Der <marker>Angestellter</marker> streikt.</example>
+            <example correction='Verurteilte'>Der <marker>Verurteilter</marker> wurde freigesprochen.</example>
+            <example>Der Abgeordnete ging nach Hause.</example>
+            <example>Der Bauarbeiter ist auf der Baustelle.</example>
+            <example>Die Sitzung, der Abgeordneter Müller fernblieb, war beendet.</example>
+            <example>Justizvollzugsbeamter Müller betrat den Zeugenstand.</example>
+        </rule>  
         <rulegroup id="OBJECT_AGREEMENT" name="falscher Kasus des Objekts">
             <rule>
                 <pattern>
