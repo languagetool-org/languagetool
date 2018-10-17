@@ -627,15 +627,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token>Aras</token><token>de</token><token>Alpuente</token>
-                </pattern>
-                <message>Useu el nom valencià (no oficial).</message>
-                <suggestion>Ares d'Alpont</suggestion>
-                <suggestion>Ares dels Oms</suggestion>
-                <example correction="Ares d'Alpont|Ares dels Oms"><marker>Aras de Alpuente</marker></example>
-            </rule>
-            <rule>
-                <pattern>
                     <token>Fuente</token><token>la</token><token>Reina</token>
                 </pattern>
                 <message>Useu el nom valencià (no oficial).</message>
@@ -723,14 +714,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>Algímia d'Almonesir</suggestion>
                 <example correction="Algímia d'Almonesir"><marker>Algimia de Almonacid</marker></example>
             </rule>
-            <!--<rule>
-                <pattern>
-                    <token>Aras</token><token>de</token><token>los</token><token>Olmos</token>
-                </pattern>
-                <message>Useu el nom valencià (no oficial) del municipi.</message>
-                <suggestion>Ares dels Oms</suggestion>
-                <example correction="Ares dels Oms"><marker>Aras de los Olmos</marker></example>
-            </rule>-->
             <rule>
                 <pattern case_sensitive="yes">
                     <token>Casas</token><token>Altas</token>
@@ -26956,6 +26939,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
+        <rule id="ARAS_DE_LOS_OLMOS" name="Aras de los Olmos">
+            <pattern>
+                <token regexp="yes">Ares|Aras</token><token inflected="yes">de</token><token min="0">ls</token><token regexp="yes">Oms|Alpont|Alpuente</token>
+            </pattern>
+            <message>Useu el nom actual del municipi valencià.</message>
+            <suggestion>Aras de los Olmos</suggestion>
+            <example correction="Aras de los Olmos"><marker>Ares dels Oms</marker></example>
+            <example correction="Aras de los Olmos"><marker>Ares d'Alpont</marker></example>
+            <example correction="Aras de los Olmos"><marker>Aras de Alpuente</marker></example>
+        </rule>
         <rulegroup id="CONTRADIRECCIO" name="*en contra direcció">
             <rule>
                 <pattern>
@@ -46974,14 +46967,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Useu el nom oficial del municipi valencià.</message>
                 <suggestion>Algimia de Almonacid</suggestion>
                 <example correction="Algimia de Almonacid"><marker>Algímia d'Almonesir</marker></example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token>Ares</token><token>de</token><token>ls</token><token>Oms</token>
-                </pattern>
-                <message>Useu el nom oficial del municipi valencià.</message>
-                <suggestion>Aras de los Olmos</suggestion>
-                <example correction="Aras de los Olmos"><marker>Ares dels Oms</marker></example>
             </rule>
             <rule>
                 <pattern>
