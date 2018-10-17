@@ -21,7 +21,6 @@
 
 package org.languagetool.server;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -49,10 +48,9 @@ public class DatabaseAccessLimitLogEntry extends DatabaseLogEntry {
 
   @Override
   public Map<Object, Object> getMapping() {
-    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     HashMap<Object, Object> parameters = new HashMap<>();
     parameters.put("type", type);
-    parameters.put("date", dateFormat.format(date.getTime()));
+    parameters.put("date", ServerTools.getSQLDatetimeString(date));
     parameters.put("server", server);
     parameters.put("client", client);
     parameters.put("user", user);

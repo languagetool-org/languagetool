@@ -24,8 +24,10 @@ import org.languagetool.JLanguageTool;
 
 import java.io.PrintStream;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
+import java.util.TimeZone;
 
 /**
  * @since 3.4
@@ -33,6 +35,12 @@ import java.util.Map;
 final class ServerTools {
 
   private ServerTools() {
+  }
+
+  static String getSQLDatetimeString(Calendar date) {
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+    return dateFormat.format(date.getTime());
   }
 
   static void print(String s) {
@@ -58,9 +66,10 @@ final class ServerTools {
    */
 
   static void print(String s, PrintStream outputStream) {
-    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss ZZ");
+    dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
     String now = dateFormat.format(new Date());
-    outputStream.println(now + " " + s);
+    outputStream.println(now + s);
   }
 
   static void setCommonHeaders(HttpExchange httpExchange, String contentType, String allowOriginUrl) {

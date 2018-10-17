@@ -21,7 +21,6 @@
 
 package org.languagetool.server;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -44,8 +43,7 @@ public class DatabaseMiscLogEntry extends DatabaseLogEntry {
   @Override
   public Map<Object, Object> getMapping() {
     HashMap<Object, Object> parameters = new HashMap<>();
-    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    parameters.put("date", dateFormat.format(date.getTime()));
+    parameters.put("date", ServerTools.getSQLDatetimeString(date));
     parameters.put("server", server);
     parameters.put("client", client);
     parameters.put("user", user);
