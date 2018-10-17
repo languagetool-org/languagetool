@@ -69,7 +69,7 @@ final class ServerTools {
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss ZZ");
     dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
     String now = dateFormat.format(new Date());
-    outputStream.println(now + s);
+    outputStream.println(now + " " + s);
   }
 
   static void setCommonHeaders(HttpExchange httpExchange, String contentType, String allowOriginUrl) {
