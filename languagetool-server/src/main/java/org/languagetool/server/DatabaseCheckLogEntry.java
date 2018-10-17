@@ -60,9 +60,9 @@ class DatabaseCheckLogEntry extends DatabaseLogEntry {
   public Map<Object, Object> getMapping() {
     HashMap<Object, Object> map = new HashMap<>();
     SimpleDateFormat dayFormat = new SimpleDateFormat("yyyy-MM-dd");
-    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    dayFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
     map.put("day", dayFormat.format(date.getTime()));
-    map.put("date", dateFormat.format(date.getTime()));
+    map.put("date", ServerTools.getSQLDatetimeString(date));
     map.put("user_id", userId);
     map.put("textsize", textSize);
     map.put("matches", matches);
