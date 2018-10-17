@@ -20,6 +20,7 @@ package org.languagetool.rules.de;
 
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
 import org.languagetool.TestTools;
 import org.languagetool.UserConfig;
 import org.languagetool.language.German;
@@ -33,10 +34,11 @@ import static org.junit.Assert.assertEquals;
  * @author Fred Kruse
  */
 public class GermanStyleRepeatedWordRuleTest {
+  Language lang = new German();
 
   @Test
   public void testRule() throws IOException {
-    JLanguageTool lt = new JLanguageTool(new German());
+    JLanguageTool lt = new JLanguageTool(lang);
     setUpRule(lt);
 
     assertEquals(2, lt.check("Der alte Mann wohnte in einem großen Haus. Es stand in einem großen Garten.").size());
@@ -47,8 +49,8 @@ public class GermanStyleRepeatedWordRuleTest {
     for (Rule rule : lt.getAllRules()) {
       lt.disableRule(rule.getId());
     }
-    GermanStyleRepeatedWordRule rule = new GermanStyleRepeatedWordRule(TestTools.getMessages(new German().getShortCode()),
-        new UserConfig());
+    GermanStyleRepeatedWordRule rule = new GermanStyleRepeatedWordRule(TestTools.getMessages(lang.getShortCode()),
+        lang, new UserConfig());
     lt.addRule(rule);
     lt.enableRule(rule.getId());
   }

@@ -26,6 +26,7 @@ import java.util.ResourceBundle;
 
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.Language;
 import org.languagetool.UserConfig;
 import org.languagetool.rules.AbstractStyleRepeatedWordRule;
 import org.languagetool.rules.Categories;
@@ -40,8 +41,8 @@ public class GermanStyleRepeatedWordRule extends AbstractStyleRepeatedWordRule {
   
   private static final String SYNONYMS_URL = "https://www.openthesaurus.de/synonyme/";
   
-  public GermanStyleRepeatedWordRule(ResourceBundle messages, UserConfig userConfig) {
-    super(messages, userConfig);
+  public GermanStyleRepeatedWordRule(ResourceBundle messages, Language lang, UserConfig userConfig) {
+    super(messages, lang, userConfig);
     super.setCategory(Categories.STYLE.getCategory(messages));
   }
 

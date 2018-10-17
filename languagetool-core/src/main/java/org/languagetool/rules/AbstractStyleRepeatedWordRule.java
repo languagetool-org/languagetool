@@ -28,6 +28,8 @@ import java.util.ResourceBundle;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.Language;
+import org.languagetool.LinguServices;
 import org.languagetool.UserConfig;
 import org.languagetool.rules.Categories;
 import org.languagetool.rules.ITSIssueType;
@@ -45,18 +47,24 @@ public abstract class AbstractStyleRepeatedWordRule  extends TextLevelRule {
   
   private static final int MAX_TOKEN_TO_CHECK = 5;
   
+  private final LinguServices linguServices;
+  private final Language lang;
   protected int maxDistanceOfSentences = 1;
 
-  public AbstractStyleRepeatedWordRule(ResourceBundle messages, UserConfig userConfig) {
+  public AbstractStyleRepeatedWordRule(ResourceBundle messages, Language lang, UserConfig userConfig) {
     super(messages);
     super.setCategory(Categories.STYLE.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Style);
     setDefaultOff();
+    this.lang = lang;
     if (userConfig != null) {
+      linguServices = userConfig.getLinguServices();
       int confDistance = userConfig.getConfigValueByID(getId());
       if (confDistance >= 0) {
         this.maxDistanceOfSentences = confDistance;
       }
+    } else {
+      linguServices = null;
     }
   }
 
@@ -172,6 +180,39 @@ public abstract class AbstractStyleRepeatedWordRule  extends TextLevelRule {
   protected URL setURL(AnalyzedTokenReadings token ) throws MalformedURLException {
     return null;
   }
+  
+  /**
+   * get synonyms for a repeated word
+   */
+  public List<String> getSynonyms(AnalyzedTokenReadings token) {
+    List<String> synonyms = new ArrayList<String>();
+    if(linguServices == null || token == null) {
+      return synonyms;
+    }
+    List<AnalyzedToken> readings = token.getReadings();
+    for (AnalyzedToken reading : readings) {
+      String lemma = reading.getLemma();
+      if (lemma != null) {
+        List<String> rawSynonyms = linguServices.getSynonyms(lemma, lang);
+        for (String synonym : rawSynonyms) {
+          synonym = synonym.replaceAll("\\(.*\\)", "").trim();
+          if (!synonym.isEmpty() && !synonyms.contains(synonym)) {
+            synonyms.add(synonym);
+          }
+        }
+      }
+    }
+    if(synonyms.size() == 0) {
+      List<String> rawSynonyms = linguServices.getSynonyms(token.getToken(), lang);
+      for (String synonym : rawSynonyms) {
+        synonym = synonym.replaceAll("\\(.*\\)", "").trim();
+        if (!synonym.isEmpty() && !synonyms.contains(synonym)) {
+          synonyms.add(synonym);
+        }
+      }
+    }
+    return synonyms;
+  }
 
   /* 
    *  true if token is found in sentence
@@ -259,11 +300,14 @@ public abstract class AbstractStyleRepeatedWordRule  extends TextLevelRule {
               int startPos = pos + token.getStartPos();
               int endPos = pos + token.getEndPos();
               RuleMatch ruleMatch = new RuleMatch(this, startPos, endPos, msg);
+              List<String> suggestions = getSynonyms(token);
+              if(!suggestions.isEmpty()) {
+                ruleMatch.setSuggestedReplacements(suggestions);
+              }
               URL url = setURL(token);
               if(url != null) {
                 ruleMatch.setUrl(url);
               }
-              ruleMatch.setSynonymsFor(token);
               ruleMatches.add(ruleMatch);
             }
           } 
