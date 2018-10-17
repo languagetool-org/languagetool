@@ -68,7 +68,6 @@ public class RuleMatch implements Comparable<RuleMatch> {
   private ColumnPosition columnPosition = new ColumnPosition(-1, -1);
   private List<String> suggestedReplacements = new ArrayList<>();
   private URL url;
-  private List<String> synonymsFor = null;
   private Type type = Type.Other;
 
   /**
@@ -317,53 +316,6 @@ public class RuleMatch implements Comparable<RuleMatch> {
   }
   
   /**
-   * set lemmas from token for that synonyms should be suggested
-   * (only used by office extension)
-   *  @since 4.3
-   */
-  public void setSynonymsFor(AnalyzedTokenReadings token) {
-    if(token != null) {
-      List<AnalyzedToken> readings = token.getReadings();
-      synonymsFor = new ArrayList<String>();
-      for (AnalyzedToken reading : readings) {
-        if (reading.getLemma() != null) {
-          synonymsFor.add(reading.getLemma());
-        }
-      }
-      String sToken = token.getToken();
-      if(synonymsFor.size() == 0) {
-        synonymsFor.add(sToken);
-      } else {
-        for (int i = 0; i < synonymsFor.size(); i++) {
-          if (sToken.equals(synonymsFor.get(i))) {
-            synonymsFor.remove(i);
-            synonymsFor.add(0, sToken);
-          }
-        }
-      }
-      
-    }
-  }
-  
-  /**
-   * set words for that synonyms should be suggested
-   * (only used by office extension)
-   *  @since 4.3
-   */
-  public void setSynonymsFor(List<String> words) {
-    synonymsFor = words;
-  }
-  
-  /**
-   * get all words for that synonyms should be suggested
-   * (only used by office extension)
-   *  @since 4.3
-   */
-  public List<String> getSynonymsFor() {
-    return synonymsFor;
-  }
-
-  /**
    * @since 4.3
    */
   @Experimental
@@ -405,8 +357,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
         && Objects.equals(message, other.message)
         && Objects.equals(suggestedReplacements, other.suggestedReplacements)
         && Objects.equals(sentence, other.sentence)
-        && Objects.equals(type, other.type)
-        && Objects.equals(synonymsFor, other.synonymsFor);
+        && Objects.equals(type, other.type);
   }
 
   @Override

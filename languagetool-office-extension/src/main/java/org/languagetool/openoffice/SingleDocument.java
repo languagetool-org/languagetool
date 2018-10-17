@@ -83,9 +83,7 @@ class SingleDocument {
   private XComponentContext xContext;             //  The context of the document
   private String docID;                           //  docID of the document
   private XComponent xComponent;                  //  XComponent of the open document
-  private Locale locale;                          //  Language of the document
 
-  private LinguisticServices linguServices = null;//  Linguistic services for the document
   private List<String> allParas = null;           //  List of paragraphs (only readable by parallel thread)
   private DocumentCursorTools docCursor = null;   //  Save Cursor for the single documents
 //  private FlatParagraphTools flatPara = null;   //  Save FlatParagraph for the single documents
@@ -109,9 +107,6 @@ class SingleDocument {
     this.sentencesCache = new ResultCache();
     this.paragraphsCache = new ResultCache();
     this.singleParaCache = new ResultCache();
-    if (xContext != null) {
-      this.linguServices = new LinguisticServices(xContext);
-    }
   }
   
   /**  get the result for a check of a single document 
@@ -125,7 +120,6 @@ class SingleDocument {
   ProofreadingResult getCheckResults(String paraText, Locale locale, ProofreadingResult paRes, 
       int[] footnotePositions, boolean isParallelThread, JLanguageTool langTool) {
     try {
-      this.locale = locale;
       SingleProofreadingError[] sErrors = null;
       int paraNum = getParaPos(paraText, isParallelThread);
       // Don't use Cache for check in single paragraph mode
@@ -183,9 +177,6 @@ class SingleDocument {
   void setXComponent(XComponentContext xContext, XComponent xComponent) {
     this.xContext = xContext;
     this.xComponent = xComponent;
-    if (xContext != null) {
-      this.linguServices = new LinguisticServices(xContext);
-    }
   }
   
   /** Get xComponent of the document
@@ -734,27 +725,22 @@ class SingleDocument {
     aError.aShortComment = org.languagetool.gui.Tools.shortenComment(aError.aShortComment);
     int numSuggestions;
     String[] allSuggestions;
-    if(ruleMatch.getSynonymsFor() == null) {
-      numSuggestions = ruleMatch.getSuggestedReplacements().size();
-      allSuggestions = ruleMatch.getSuggestedReplacements().toArray(new String[numSuggestions]);
-      //  Filter: remove suggestions for override dot at the end of sentences
-      //  needed because of error in dialog
-      if (lastChar == '.' && (ruleMatch.getToPos() + startIndex) == sentencesLength) {
-        int i = 0;
-        while (i < numSuggestions && i < MAX_SUGGESTIONS
-            && allSuggestions[i].length() > 0 && allSuggestions[i].charAt(allSuggestions[i].length()-1) == '.') {
-          i++;
-        }
-        if (i < numSuggestions && i < MAX_SUGGESTIONS) {
-        numSuggestions = 0;
-        allSuggestions = new String[0];
-        }
+    numSuggestions = ruleMatch.getSuggestedReplacements().size();
+    allSuggestions = ruleMatch.getSuggestedReplacements().toArray(new String[numSuggestions]);
+    //  Filter: remove suggestions for override dot at the end of sentences
+    //  needed because of error in dialog
+    if (lastChar == '.' && (ruleMatch.getToPos() + startIndex) == sentencesLength) {
+      int i = 0;
+      while (i < numSuggestions && i < MAX_SUGGESTIONS
+          && allSuggestions[i].length() > 0 && allSuggestions[i].charAt(allSuggestions[i].length()-1) == '.') {
+        i++;
       }
-      //  End of Filter
-    } else {
-      allSuggestions = getSynonymsAsSuggestions(ruleMatch.getSynonymsFor());
-      numSuggestions = allSuggestions.length;
+      if (i < numSuggestions && i < MAX_SUGGESTIONS) {
+      numSuggestions = 0;
+      allSuggestions = new String[0];
+      }
     }
+    //  End of Filter
     if (numSuggestions > MAX_SUGGESTIONS) {
       aError.aSuggestions = Arrays.copyOfRange(allSuggestions, 0, MAX_SUGGESTIONS);
     } else {
@@ -847,21 +833,4 @@ class SingleDocument {
     }
   }
 
-  private String[] getSynonymsAsSuggestions(List<String> words) {
-    if (words == null || linguServices == null) {
-      return new String[0];
-    }
-    List<String> allSynonyms = new ArrayList<String>();
-    for (String word : words) {
-      List<String> synonyms = linguServices.getSynonyms(word, locale);
-      for (String synonym : synonyms) {
-        synonym = synonym.replaceAll("\\(.*\\)", "").trim();
-        if (!synonym.isEmpty() && !allSynonyms.contains(synonym)) {
-          allSynonyms.add(synonym);
-        }
-      }
-    }
-    return allSynonyms.toArray(new String[allSynonyms.size()]);
-  }
-  
 }
