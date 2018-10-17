@@ -46520,6 +46520,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="ORDINALS_E" name="Exigeix ordinals: cinqué, sisé...">
             <url>http://www.ceice.gva.es/documents/161863132/163843714/Criteris+Ling%C3%BC%C3%ADstics_web.pdf#page=42</url>
             <rule>
+                <antipattern>
+                   <marker>
+                       <token>quinta</token>
+                       <token regexp="yes">essència|columna</token>
+                   </marker>
+                </antipattern>
                 <pattern>
                     <token postag="AO.*" postag_regexp="yes" inflected="yes">quint</token>
                 </pattern>
@@ -46527,6 +46533,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="1" postag_regexp="yes" postag="(AO.*)" postag_replace="$1">cinquè</match></suggestion>
                 <example correction="cinquena">Ha arribat en la <marker>quinta</marker> posició.</example>
                 <example correction="cinquè|cinqué">Ha arribat el <marker>quint</marker> decret llei.</example>
+                <example>N'és la quinta essència.</example>
             </rule>
             <rule>
                 <pattern>
