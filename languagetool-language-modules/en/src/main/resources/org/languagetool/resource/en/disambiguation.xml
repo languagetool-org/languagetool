@@ -1065,13 +1065,15 @@
   </rule>
    <rule>
     <pattern>
-      <marker><token regexp="yes">can|will|must</token></marker>
+      <marker><token regexp="yes">can|will|must<exception scope="previous" regexp="yes">be|am|is|was|are|were</exception></token></marker>
       <token postag="RB"/>
       <token postag="VB"/>      
     </pattern>
     <disambig postag="MD"/>
     <example type="untouched">It is a can of soup.</example>
+    <example type="untouched">Turkey's accession <marker>is will</marker> ultimately be impossible if Turkey fails to recognize Cyprus.</example>
     <example type="ambiguous" inputform="can[can/MD,can/NN,can/VB,can/VBP]" outputform="can[can/MD]">This <marker>can</marker> only be eliminated.</example>
+    <example type="ambiguous" inputform="will[will/MD,will/NN:UN]" outputform="will[will/MD]">Her very being <marker>will</marker> always express the utmost ...</example><!-- TODO 'will' is also a lexical verb. -->
     </rule>
     <rule>
         <pattern>
