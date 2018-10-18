@@ -1457,6 +1457,49 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 
     <!-- TODO GUESSING TAGS BY FORM ONLY ======================================== -->
 	<!-- replaced by extensive postag database, but may be added again latern, when disambiguations is better -->
+
+	<!-- ADDING TAGS FOR FUNCTIONS FOR MULTIFUNCTIONAL TAGS -->
+	<!-- this added ambiguity can be removed using multi-word patterns if needed -->
+	<rule id="WKW-ODW-VRB" name="lopende is ook bijvoeglijk">
+		<pattern><token postag="WKW:ODW:VRB"/></pattern>
+		<disambig action="add" postag="BNW:STL:VRB" />
+	</rule>	
+	<rule id="WKW-ODW-ONV" name="lopend is ook bijvoeglijk">
+		<pattern><token postag="WKW:ODW:ONV"/></pattern>
+		<disambig action="add" postag="BNW:STL:ONV" />
+	</rule>	
+	<rule id="WKW-VTD-VRB" name="gepakte is ook bijvoeglijk">
+		<pattern><token postag="WKW:VTD:VRB"/></pattern>
+		<disambig action="add" postag="BNW:STL:VRB" />
+	</rule>	
+	<rule id="WKW-VTD-ONV" name="gepakt is ook bijvoeglijk">
+		<pattern><token postag="WKW:VTD:ONV"/></pattern>
+		<disambig action="add" postag="BNW:STL:ONV" />
+	</rule>	
+	<rule id="WKW-VTD-ZNW-EKV" name="gevangene">
+		<pattern><token postag="WKW:VTD:ZNW:EKV"/></pattern>
+		<disambig action="add" postag="ZNW:EKV" />
+	</rule>	
+	<rule id="WKW-VTD-MRV-DE_" name="gevangenen">
+		<pattern><token postag="WKW:VTD:MRV:DE_"/></pattern>
+		<disambig action="add" postag="ZNW:MRV:DE_" />
+	</rule>	
+	<rule id="WKW-ODW-ZNW-MRV-DE_" name="gepakt is ook bijvoeglijk">
+		<pattern><token postag="WKW:ODW:MRV:DE_"/></pattern>
+		<disambig action="add" postag="ZNW:MRV:DE_" />
+	</rule>	
+	<rule id="WKW-ODW-ZNW-EKV" name="gepakt is ook bijvoeglijk">
+		<pattern><token postag="WKW:ODW:MRV:DE_"/></pattern>
+		<disambig action="add" postag="ZNW:EKV" />
+	</rule>	
+	<rule id="BNW-STL-MRV-DE_" name="zelfstandige vorm bnw">
+		<pattern><token postag_regexp="yes" postag="BNW:.*:MRV:DE_"/></pattern>
+		<disambig action="add" postag="ZNW:MRV:DE_" />
+	</rule>	
+	<rule id="BNW-OVR-VRB" name="verbogen bnw kan ook als znw worden gebruikt: de of het rode">
+		<pattern><token postag_regexp="yes" postag="BNW:.*:VRB"/></pattern>
+		<disambig action="add" postag="ZNW:EKV" />
+	</rule>	
 	
     <!-- REAL DISAMBIGUATION -->
 	<rule id="ZNW_ZELDZAAM" name="niet, bij etc">
@@ -2069,6 +2112,5 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 		</pattern>
 		<disambig action="filterall" />
 	</rule>
-
-
+	
 </rules>

@@ -12115,6 +12115,31 @@ onwaarschijnlijk
     </category>
     <category id="CONSTRUCTIEFOUT" name="Constructiefout">
 
+		<rulegroup id="VREEMD_VRZ_HIJ" name="vang">
+			<rule>
+				<pattern>
+					<token postag="VRZ"><exception regexp="yes">tot|naar|voor|sinds|vóór</exception></token>
+					<token postag_regexp="yes" postag="VNW:PER.*ACT"><exception postag_regexp="yes" postag="VNW:PER.*PSF"/></token>
+				</pattern>
+				<message>Hier staat iets zeer vreemds.</message>
+				<short>Vreemd!</short>
+				<example type="incorrect"><marker>aan hij</marker></example>
+			</rule>
+		</rulegroup>
+
+		<rulegroup id="VREEMD_DE_DIE" name="vang">
+			<!-- de Die is ook een achternaam -->
+			<rule>
+				<pattern>
+					<token>de</token>
+					<token regexp="yes" case_sensitive="yes">die|dit|dat|deze</token>
+				</pattern>
+				<message>Vreemde woordvolgorde. Wellicht een woord te veel of ontbrekende punten of komma's?</message>
+				<short>Vreemd!</short>
+				<example type="incorrect"><marker>de die</marker></example>
+			</rule>
+		</rulegroup>
+
 		<rulegroup id="HET_WORD" name="vangen">
 			<rule>
 				<pattern>
