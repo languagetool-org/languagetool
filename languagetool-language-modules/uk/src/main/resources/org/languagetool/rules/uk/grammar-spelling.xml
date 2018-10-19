@@ -599,15 +599,147 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example>вул.</example>
     </rule>
 
-    <rule id="VICH_NA_VICH" name="Віч на віч">
-      <pattern>
-        <token>віч</token>
-        <token>на</token>
-        <token>віч</token>
-      </pattern>
-      <message>Правильно: <suggestion>віч-на-віч</suggestion></message>
-      <example correction="віч-на-віч">Зустрілися <marker>віч на віч</marker>.</example>
-    </rule>
+    <rulegroup id="pryslivnykovi_spoluky_cherez_defis" name="Прислівникові сполуки через дефіс">
+      <rule>
+        <pattern>
+          <token>давним</token>
+          <token>давно</token>
+        </pattern>
+        <message>Правильно: <suggestion>давним-давно</suggestion></message>
+        <example correction="давним-давно">Це було <marker>давним давно</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>навіки</token>
+          <token>віків</token>
+        </pattern>
+        <message>Правильно: <suggestion>навіки-віків</suggestion></message>
+        <example correction="навіки-віків">це вже <marker>навіки віків</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>віч</token>
+          <token>на</token>
+          <token>віч</token>
+        </pattern>
+        <message>Правильно: <suggestion>віч-на-віч</suggestion></message>
+        <example correction="віч-на-віч">Зустрілися <marker>віч на віч</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">[ву]сього</token>
+          <token>на</token>
+          <token>всього</token>
+        </pattern>
+        <message>Правильно: <suggestion>\1-на-всього</suggestion></message>
+        <example correction="всього-на-всього">Їх було <marker>всього на всього</marker> троє.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">[ву]сього</token>
+          <token>навсього</token>
+        </pattern>
+        <message>Правильно: <suggestion>\1-на-всього</suggestion></message>
+        <example correction="всього-на-всього">Їх було <marker>всього навсього</marker> троє.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">[ву]сього-навсього</token>
+        </pattern>
+        <message>Правильно: <suggestion>всього-на-всього</suggestion></message>
+        <example correction="всього-на-всього">Їх було <marker>всього-навсього</marker> троє.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>як</token>
+          <token>не</token>
+          <token>як</token>
+        </pattern>
+        <message>Правильно: <suggestion>як-не-як</suggestion></message>
+        <example correction="як-не-як">але <marker>як не як</marker> пішло.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>де</token>
+          <token>не</token>
+          <token>де</token>
+        </pattern>
+        <message>Правильно: <suggestion>де-не-де</suggestion></message>
+        <example correction="де-не-де">але <marker>де не де</marker> пішло.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>коли</token>
+          <token>не</token>
+          <token>коли</token>
+        </pattern>
+        <message>Правильно: <suggestion>коли-не-коли</suggestion></message>
+        <example correction="коли-не-коли">але <marker>коли не коли</marker> працювало.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>хоч</token>
+          <token>не</token>
+          <token>хоч</token>
+        </pattern>
+        <message>Правильно: <suggestion>хоч-не-хоч</suggestion></message>
+        <example correction="хоч-не-хоч">але <marker>хоч не хоч</marker> зробив.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>з</token>
+          <token>давніх</token>
+          <token>давен</token>
+        </pattern>
+        <message>Правильно: <suggestion>з давніх-давен</suggestion></message>
+        <example correction="з давніх-давен">так <marker>з давніх давен</marker> повелося.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>з</token>
+          <token>діда</token>
+          <token>прадіда</token>
+        </pattern>
+        <message>Правильно: <suggestion>з діда-прадіда</suggestion></message>
+        <example correction="з діда-прадіда">так <marker>з діда прадіда</marker> повелося.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>без</token>
+          <token>кінця</token>
+          <token>краю</token>
+        </pattern>
+        <message>Правильно: <suggestion>без кінця-краю</suggestion></message>
+        <example correction="без кінця-краю">і так <marker>без кінця краю</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>на</token>
+          <token case_sensitive="yes">гора</token>
+        </pattern>
+        <message>Правильно: <suggestion>на-гора</suggestion></message>
+        <example correction="на-гора">видавати <marker>на гора</marker>.</example>
+        <example>натякаючи, що на Гора поширюється «аморальність» поведінки Клінтона</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>по</token>
+          <token>латині</token>
+        </pattern>
+        <message>Правильно: <suggestion>по-латині</suggestion></message>
+        <example correction="по-латині">шпарити <marker>по латині</marker>.</example>
+      </rule>
+<!-- десь колись може писатися окремо
+      <rule>
+        <pattern>
+          <token>десь</token>
+          <token>колись</token>
+        </pattern>
+        <message>Правильно: <suggestion>десь-колись</suggestion></message>
+        <example correction="десь-колись">і <marker>десь колись</marker>.</example>
+      </rule>
+-->
+    </rulegroup>
 
     <rule id="VERB_SUBSTANDARD_FORMS" name="Просторічні форми">
       <antipattern>
