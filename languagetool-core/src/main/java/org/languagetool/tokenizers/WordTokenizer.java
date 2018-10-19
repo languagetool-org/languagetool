@@ -117,7 +117,7 @@ public class WordTokenizer implements Tokenizer {
       sb.append(item);
     }
     String text = sb.toString();
-    if (E_MAIL.matcher(text).find()) {
+    if (text.contains("@") && E_MAIL.matcher(text).find()) {  // explicit check for "@" speeds up method by factor of ~10
       Matcher matcher = E_MAIL.matcher(text);
       List<String> l = new ArrayList<>();
       int currentPosition = 0, start, end, idx = 0;
