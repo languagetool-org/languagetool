@@ -1506,9 +1506,18 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 		<!-- verwijdert ook tags bij 'te paard', 'te vuur' etc. -->
 		<pattern>
 			<token><exception regexp="yes">de|een</exception></token>
-			<marker><token regexp="yes">niet|bij|voor|dan|maar|nu|van|ik|ben|een|is|heeft|[a-z]</token></marker>
+			<marker><token regexp="yes">niet|bij|voor|dan|maar|nu|van|ik|ben|een|is|heeft|ons|[a-z]</token></marker>
 		</pattern>
 		<disambig action="remove" postag="ZNW.*" />
+	</rule>	
+	<!-- correct for 'een ons bekend ... -->
+	<rule id="ONS_BEKEND" name="terugcorrigeren">
+		<pattern>
+			<token>een</token>
+			<marker><token>ons</token></marker>
+			<token postag_regexp="yes" postag="WKW:VTD:.*"/>
+		</pattern>
+		<disambig action="add" postag="VNW:PER:1EP:MRV:PSF" />
 	</rule>	
 
 	<rule id="ZIJ_AWS" name="wat er ook van zij">
@@ -2102,6 +2111,7 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 		</pattern>
 		<disambig action="filterall" />
 	</rule>
+	
 	<rule id="DE_WKW" name="-">
 		<pattern>
 			<token postag="VNW:AWZ:EKV:DE_"/>
@@ -2109,6 +2119,44 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 				<token postag_regexp="yes" postag="WKW:(TGW|VLT):.*"/>
 				<token postag_regexp="yes" postag="ZNW:EKV:DE_"/>
 			</and>
+		</pattern>
+		<disambig action="filterall" />
+	</rule>
+
+	<rule id="DISAMBIG_DAT_ER_EEN_REKENING_WORDT_GEOPEND" name="-">
+		<pattern>
+			<token postag_regexp="yes" postag="VGW.*"/>
+			<token>er</token>
+			<token postag="GET:EKV"/>
+			<token min="0" postag_regexp="yes" postag="BNW:.*:VRB"/>
+			<token postag_regexp="yes" postag="ZNW:EKV.*"/>
+			<token postag_regexp="yes" postag="WKW:(VLT|TGW):3EP"/>
+			<token postag="WKW:VTD:ONV"/>
+		</pattern>
+		<disambig action="filterall" />
+	</rule>
+	
+	<rule id="DISAMBIG_DAT_ER_EEN_REKENING_GEOPEND_WORDT" name="-">
+		<pattern>
+			<token postag_regexp="yes" postag="VGW.*"/>
+			<token>er</token>
+			<token postag="GET:EKV"/>
+			<token min="0" postag_regexp="yes" postag="BNW:.*:VRB"/>
+			<token postag_regexp="yes" postag="ZNW:EKV.*"/>
+			<token postag="WKW:VTD:ONV"/>
+			<token postag_regexp="yes" postag="WKW:(VLT|TGW):3EP"/>
+		</pattern>
+		<disambig action="filterall" />
+	</rule>
+
+	<rule id="DISAMBIG_DAT_ER_PROBLEMEN_ZIJN" name="-">
+		<pattern>
+			<token postag_regexp="yes" postag="VGW.*"/>
+			<token>er</token>
+			<token min="0" postag="GET:MRV"/>
+			<token min="0" postag_regexp="yes" postag="BNW:.*:VRB"/>
+			<token postag_regexp="yes" postag=".*MRV.*"/>
+			<token postag_regexp="yes" postag="WKW:(TGW|VLT):INF" regexp="yes">zijn|waren</token>
 		</pattern>
 		<disambig action="filterall" />
 	</rule>

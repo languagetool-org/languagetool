@@ -12536,32 +12536,6 @@ onwaarschijnlijk
                 <example correction="cordon bleu">Waarom een kant en klare <marker>cordon blue</marker> kopen als je dit ook zelf kan maken ?</example>
             </rule>
         </rulegroup>
-        <!-- diabled : taaladvies.net, advies 38
-        <rulegroup id="AKKOORD_ZIJN" name="akkoord zijn">
-        <rule>
-        <pattern>
-        <token>akkoord</token>
-        <marker>
-        <token inflected="yes">zijn</token>
-        </marker>
-        <token>met</token>
-        </pattern>
-        <message>Juist is akkoord <suggestion><match no="2" postag="WKW.*" postag_regexp="yes">gaan</match></suggestion>.</message>
-        <example correction="gaat">Is het goed als hij akkoord <marker>is</marker> met het plan.</example>
-        </rule>
-        <rule>
-        <pattern>
-        <marker>
-        <token inflected="yes">zijn</token>
-        </marker>
-        <token>akkoord</token>
-        <token>met</token>
-        </pattern>
-        <message>Juist is <suggestion><match no="1" postag="WKW.*" postag_regexp="yes">gaan</match></suggestion>.</message>
-        <example correction="ga">Ik <marker>ben</marker> akkoord met het plan.</example>
-        </rule>
-        </rulegroup>
-        -->
         <rulegroup id="MISTTE" name="mistte of miste">
             <!-- 2014-08-23 TaalTik regel werkt goed, en komt niet te vaak op. -->
             <rule>
@@ -17189,41 +17163,6 @@ steenwijk;Steenwijk
                 <example correction="het">Draai <marker>de geld</marker> kranen toe..</example>
             </rule>
         </rulegroup>
-        <!--
-        <rulegroup id="BEIDE_NN1" name="Beide impliceert meestal meervoud">
-        <rule>
-        <pattern>
-        <token>beide</token>
-        <marker>
-        <token postag="ZNW:EKV:DE_|NN1f|NN1" postag_regexp="yes"><exception postag_regexp="yes" postag="ZNW:MRV:DE_|BNW.*"/><exception regexp="yes">een|niet|van|voor|was</exception></token>
-        <token postag="ZNW:MRV:DE_.*" postag_regexp="yes"/>
-        </marker>
-        </pattern>
-        <message>Bedoelt u <match no="1"/> <match no="2"/><match no="3"/></message>
-        <example type="incorrect">Ik zie beide <marker>zygoot drangers</marker>.</example>
-        </rule>
-        <rule>
-        <pattern>
-        <token>beide</token>
-        <marker>
-        <token postag="ZNW:EKV:DE_|NN1f|NN1" postag_regexp="yes"><exception postag_regexp="yes" postag="ZNW:MRV:DE_|BNW.*"/><exception regexp="yes">een|niet|van|voor|was</exception></token>
-        </marker>
-        </pattern>
-        <message>Na <match no="1"/> hoort een meervoud.</message>
-        <example type="incorrect">Ik zie beide <marker>zygoot</marker>.</example>
-        </rule>
-        <rule>
-        <pattern>
-        <token>beide</token>
-        <marker>
-        <token postag="ZNW:EKV:VRK:HET"/>
-        </marker>
-        </pattern>
-        <message>Na <match no="1"/> hoort een meervoud: <suggestion><match no="2" postag_regexp="yes" postag=".*ZNW.*" postag_replace="ZNW:MRV:DE_"/></suggestion></message>
-        <example correction="deurtjes">Ik zie beide <marker>zygoottje</marker>.</example>
-        </rule>
-        </rulegroup>
-        -->
         <rulegroup id="HET_JE_DIE" name="het hondje die">
             <rule>
                 <pattern>
@@ -17257,24 +17196,6 @@ steenwijk;Steenwijk
             </rule>
         </rulegroup>
 
-        <!--
-        TODO: geeft false positives i.v.m. znw's en voltooide deelwoorden, dus opsplitsen in veel subregels?
-        <rulegroup id="WEDERKEREND" name="verplicht wederkerend werkwoord">
-        <rule>
-        <pattern>
-        <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes">zich|hem|ons|je|me|mij|u|hen</exception></token>
-        <marker>
-        <token skip="-1" inflected="yes" regexp="yes">verslapen|eregeren|gedragen|ontfermen|schamen|uitsloven|vergissen|verschuilen|verslikken|verspreken|voornemen<exception scope="next" regexp="yes">zich|hem|ons|je|me|hen</exception></token>
-        </marker>
-        <token postag="SENT_END"><exception scope="current" regexp="yes">zich|hem|ons|je|me|mij|u|hen</exception></token>
-        </pattern>
-        <message>Hier ontbreekt dat waar het werkwoord betrekking op heeft: 'zich'</message>
-        <short>wederkerend</short>
-        <example type="incorrect">Hij <marker>verslaapt</marker> weer.</example>
-        <example>Hij <marker>verslaapt</marker> zich.</example>
-        </rule>
-        </rulegroup>
-        -->
     </category>
     <category id="NOTATIES" name="Notaties">
         <rulegroup id="EURO" name="Correcties rond euro">
@@ -29856,23 +29777,6 @@ steenwijk;Steenwijk
                 <example correction="groep pelgrims ging">Gisterenavond met <marker>groep pelgrims gaan</marker> vieren.</example>
             </rule>
         </rulegroup>
-        <!-- uitgeschakeld vawege te veel false positives
-        <rulegroup id="AANTAL_DEED" name="het aantal deed">
-        <rule>
-        <pattern>
-        <token>het</token>
-        <token>aantal</token>
-        <token postag="ZNW:MRV:DE_.*" postag_regexp="yes"/>
-        <token postag="WKW.*INF.*" postag_regexp="yes"><exception postag="WKW:VTD:ONV"/></token>
-        </pattern>
-        <message>Het aantal is één groep, dus juist is <suggestion><match no="4" postag="WKW:VLT:1EP"/></suggestion>.</message>
-        <url>https://onzetaal.nl/taaladvies/advies/aantal</url>
-        <short>Geen meervoud.</short>
-        <example correction="Viel"><marker>Het aantal soldaten vielen</marker> aan.</example>
-        <example><marker>Het aantal soldaten</marker> viel aan.</example>
-        </rule>
-        </rulegroup>
-        -->
         <rulegroup id="UW_U_a" name="uw gaat → u gaat">
             <rule>
                 <pattern>
@@ -29887,6 +29791,17 @@ steenwijk;Steenwijk
                 <example correction="U"><marker>Uw</marker> ontvangt altijd een factuur.</example>
                 <example correction="U"><marker>Uw</marker> kunt hier voordeel aanhalen.</example>
                 <example correction="u">Wat <marker>uw</marker> aankaart is zeer terecht.</example>
+            </rule>
+        </rulegroup>
+
+		<rulegroup id="U_WIL" name="u wil → u wilt">
+            <rule>
+                <pattern>
+					<token>u</token>
+                    <token>wil</token>
+                </pattern>
+                <message>U bedoelt vast: <suggestion>u wilt</suggestion>.</message>
+                <example correction="u wilt">Wat <marker>u wil</marker> is zeer terecht.</example>
             </rule>
         </rulegroup>
 
@@ -30802,7 +30717,7 @@ steenwijk;Steenwijk
             <rule>
                 <!-- TODO: meer gevallen? -->
                 <pattern>
-                    <token regexp="yes">de|hete</token>
+                    <token regexp="yes">de|hete|lauwe</token>
                     <marker>
                         <token>brei</token>
                     </marker>
