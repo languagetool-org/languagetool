@@ -45,22 +45,20 @@ public class AbstractPatternRuleTest {
   }
 
   private void warnIfShortMessageLongerThanErrorMessage(AbstractPatternRule rule) {
-    if (rule instanceof PatternRule ||rule instanceof RegexPatternRule) {
-      String shortMessage = rule.getShortMessage();
-      int sizeOfShortMessage = shortMessage.length();
-      int sizeOfErrorMessage = rule.getMessage().length();
-      if (sizeOfShortMessage >= sizeOfErrorMessage) {
-        if (shortMessage.equals(rule.getMessage())) {
-          System.err.println("Warning: The content of <short> and <message> are identical. No need for <short> tag in that case. "
-                  + "<message>. Language: " + rule.language.getName() + ". Rule: " + rule.getFullId() + ":\n"
-                  + "  <short>:   " + shortMessage + "\n"
-                  + "  <message>: " + rule.getMessage());
-        } else {
-          System.err.println("Warning: The content of <short> should be shorter than the content of "
-                  + "<message>. Language: " + rule.language.getName() + ". Rule: " + rule.getFullId() + ":\n"
-                  + "  <short>:   " + shortMessage + "\n"
-                  + "  <message>: " + rule.getMessage());
-        }
+    String shortMessage = rule.getShortMessage();
+    int sizeOfShortMessage = shortMessage.length();
+    int sizeOfErrorMessage = rule.getMessage().length();
+    if (sizeOfShortMessage >= sizeOfErrorMessage) {
+      if (shortMessage.equals(rule.getMessage())) {
+        System.err.println("Warning: The content of <short> and <message> are identical. No need for <short> tag in that case. "
+                + "<message>. Language: " + rule.language.getName() + ". Rule: " + rule.getFullId() + ":\n"
+                + "  <short>:   " + shortMessage + "\n"
+                + "  <message>: " + rule.getMessage());
+      } else {
+        System.err.println("Warning: The content of <short> should be shorter than the content of "
+                + "<message>. Language: " + rule.language.getName() + ". Rule: " + rule.getFullId() + ":\n"
+                + "  <short>:   " + shortMessage + "\n"
+                + "  <message>: " + rule.getMessage());
       }
     }
   }
