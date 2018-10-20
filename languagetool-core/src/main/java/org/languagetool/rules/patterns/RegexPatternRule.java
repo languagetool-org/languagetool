@@ -47,11 +47,13 @@ class RegexPatternRule extends AbstractPatternRule implements RuleMatcher {
 
   private final Pattern pattern;
   private final int markGroup;
+  private final String shortMessage;
 
-  RegexPatternRule(String id, String description, String message, String suggestionsOutMsg, Language language, Pattern regex, int regexpMark) {
+  RegexPatternRule(String id, String description, String message, String shortMessage,String suggestionsOutMsg, Language language, Pattern regex, int regexpMark) {
     super(id, description, language, regex, regexpMark);
     this.message = message;
     this.pattern = regex;
+    this.shortMessage = shortMessage == null ? "" : shortMessage;
     this.suggestionsOutMsg = suggestionsOutMsg;
     markGroup = regexpMark;
   }
@@ -84,7 +86,7 @@ class RegexPatternRule extends AbstractPatternRule implements RuleMatcher {
                 suggestionsInSuggestionsOutMsg, suggestionMatchesOutMsg);
 
         boolean startsWithUpperCase = patternMatcher.start() == 0 && Character.isUpperCase(sentenceObj.getText().charAt(patternMatcher.start()));
-        RuleMatch ruleMatch = new RuleMatch(this, sentenceObj, markStart, markEnd, processedMessage, null, startsWithUpperCase, processedSuggestionsOutMsg);
+        RuleMatch ruleMatch = new RuleMatch(this, sentenceObj, markStart, markEnd, processedMessage, shortMessage, startsWithUpperCase, processedSuggestionsOutMsg);
         matches.add(ruleMatch);
 
         startPos = patternMatcher.end();
@@ -161,5 +163,12 @@ class RegexPatternRule extends AbstractPatternRule implements RuleMatcher {
   @Override
   public String toString() {
     return pattern.toString() + "/flags:" + pattern.flags();
+  }
+
+  /* (non-Javadoc)
+   * @see org.languagetool.rules.patterns.AbstractPatternRule#getShortMessage()
+   */
+  String getShortMessage() {
+    return shortMessage;
   }
 }

@@ -562,7 +562,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
         if (ruleAntiPatterns.size() > 0 || rulegroupAntiPatterns.size() > 0) {
           throw new RuntimeException("<regexp> rules currently cannot be used together with <antipattern>. Rule id: " + id + "[" + subId + "]");
         }
-        rule = new RegexPatternRule(id, name, message.toString(), suggestionsOutMsg.toString(), language, Pattern.compile(regexStr, flags), regexpMark);
+        rule = new RegexPatternRule(id, name, message.toString(), shortMessage, suggestionsOutMsg.toString(), language, Pattern.compile(regexStr, flags), regexpMark);
       } else {
         throw new IllegalStateException("Neither '<pattern>' tokens nor '<regex>' is set in rule '" + id + "'");
       }

@@ -339,4 +339,9 @@ public abstract class AbstractPatternRule extends Rule {
     return Collections.unmodifiableList(antiPatterns);
   }
 
+  /**
+   * @return String of short message as specified in &lt;short&gt;...&lt;/short&gt;
+   * @since 4.3
+   */
+  String getShortMessage() {return "";}
 }

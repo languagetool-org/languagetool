@@ -155,7 +155,7 @@ public class PatternRule extends AbstractPatternRule {
       if (patternTokens != null) {
         matcher = new PatternRuleMatcher(this, useList);
       } else if (regex != null) {
-        matcher = new RegexPatternRule(this.getId(), getDescription(), getMessage(), getSuggestionsOutMsg(), language, regex, regexMark);
+        matcher = new RegexPatternRule(this.getId(), getDescription(), getMessage(), getShortMessage(), getSuggestionsOutMsg(), language, regex, regexMark);
       } else {
         throw new IllegalStateException("Neither pattern tokens nor regex set for rule " + getId());
       }
@@ -197,6 +197,9 @@ public class PatternRule extends AbstractPatternRule {
     return elementNo;
   }
 
+  /* (non-Javadoc)
+   * @see org.languagetool.rules.patterns.AbstractPatternRule#getShortMessage()
+   */
   String getShortMessage() {
     return shortMessage;
   }
