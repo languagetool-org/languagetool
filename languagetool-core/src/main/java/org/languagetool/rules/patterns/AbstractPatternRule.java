@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
@@ -341,7 +342,9 @@ public abstract class AbstractPatternRule extends Rule {
 
   /**
    * @return String of short message as specified in &lt;short&gt;...&lt;/short&gt;
-   * @since 4.3
+   * @since 4.4
    */
-  String getShortMessage() {return "";}
+  String getShortMessage() {
+  	return StringUtils.EMPTY;
+  }
 }

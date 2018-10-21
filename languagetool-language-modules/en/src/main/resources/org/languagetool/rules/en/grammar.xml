@@ -14306,7 +14306,22 @@ USA
                     <token postag="JJ"></token>
                 </pattern>
                 <message>Did you mean <suggestion>and</suggestion>?</message>
+                <short>Possible typo</short>
                 <example correction="and">They discussed the environmental, economic <marker>ad</marker> social aspects.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="GOOD_GOOF" name="goof (good)">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token inflected="yes">be</token>
+                    <token min="0" regexp="yes">as|not</token>
+                    <marker>
+                        <token>goof</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion>good</suggestion>?</message>
+                <short>Possible typo</short>
+                <example correction="good">It wasn't the best game, but it was <marker>goof</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="SENTENCE_FRAGMENT" name="Sentence is a fragment">
