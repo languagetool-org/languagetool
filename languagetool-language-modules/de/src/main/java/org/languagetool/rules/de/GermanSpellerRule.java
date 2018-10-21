@@ -477,17 +477,13 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
 
   @Override
   protected void addIgnoreWords(String origLine) {
-    String line;
-    if (language.getShortCodeWithCountryAndVariant().equals("de-CH")) {
-      // hack: Swiss German doesn't use "ß" but always "ss" - replace this, otherwise
-      // misspellings (from Swiss point-of-view) like "äußere" wouldn't be found:
-      line = origLine.replace("ß", "ss");
-    } else if (origLine.endsWith("-*")) {
+    // hack: Swiss German doesn't use "ß" but always "ss" - replace this, otherwise
+    // misspellings (from Swiss point-of-view) like "äußere" wouldn't be found:
+    String line = language.getShortCodeWithCountryAndVariant().equals("de-CH") ? origLine.replace("ß", "ss") : origLine;
+    if (origLine.endsWith("-*")) {
       // words whose line ends with "-*" are only allowed in hyphenated compounds
-      wordsToBeIgnoredInCompounds.add(origLine.substring(0, origLine.length() - 2));
+      wordsToBeIgnoredInCompounds.add(line.substring(0, line.length() - 2));
       return;
-    } else {
-      line = origLine;
     }
     List<String> words = expandLine(line);
     for (String word : words) {
