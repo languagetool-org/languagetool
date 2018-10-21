@@ -44,12 +44,6 @@ public abstract class SpellingCheckRule extends Rule {
    * @since 2.3
    */
   public static final String LANGUAGETOOL = "LanguageTool";
-  /**
-   * The name of the LanguageTool Firefox extension, {@code LanguageToolFx}.
-   * @since 2.3
-   * @deprecated not needed anymore, the add-on is now just called 'LanguageTool' 
-   */
-  public static final String LANGUAGETOOL_FX = "LanguageToolFx";
 
   protected final Language language;
   protected final CachingWordListLoader wordListLoader = new CachingWordListLoader();
