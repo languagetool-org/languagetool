@@ -16288,7 +16288,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="KRAFT_MEINES_AMTES" name="'Kraft (kraft) meines Amtes'">
             <pattern case_sensitive="yes">
-                <token negate_pos="yes" postag="SENT_START"/>
+                <token>
+                    <exception postag="SENT_START"/>
+                    <exception regexp="yes">&anf;</exception>
+                </token>
                 <marker>
                     <token>Kraft</token>
                 </marker>
@@ -16299,6 +16302,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>&prgk;.</short>
             <example correction="kraft">Der Pfleger ist <marker>Kraft</marker> seines Amtes dazu nicht berechtigt.</example>
             <example><marker>Kraft</marker> meines Amtes verfüge ich folgendes.</example>
+            <example>Sie sprach: „<marker>Kraft</marker> meines Amtes erkläre ich euch zu Mann und Frau.“</example>
         </rule>
         <rulegroup id="DAS_INFINITIV_VON" name="'das importieren (Importieren) von' etc.">
             <!-- Jan: Die Regel hieß vorher IMPORTIEREN_SUBST, ist aber jetzt verallgemeinert auf alle Verben -->
