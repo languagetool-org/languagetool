@@ -1,6 +1,6 @@
-/* LanguageTool, a natural language style checker 
+/* LanguageTool, a natural language style checker
  * Copyright (C) 2018 Fred Kruse
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -43,12 +43,12 @@ import morfologik.stemming.Dictionary;
 
 /**
  * Checks the compound spelling of infinitive clause (Erweiterter Infinitiv mit zu)
- * 
+ *
  * @author Fred Kruse
  * @since 4.4
  */
 public class CompoundInfinitivRule extends Rule {
-  
+
   private static final Pattern MARK_REGEX = Pattern.compile("[.?!…:;,()\\[\\]]");
   private final LinguServices linguServices;
   private final Speller speller;
@@ -58,7 +58,7 @@ public class CompoundInfinitivRule extends Rule {
     super.setCategory(Categories.COMPOUNDING.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Misspelling);
     addExamplePair(Example.wrong("Er überprüfte die Rechnungen noch einmal, um ganz <marker>sicher zu gehen</marker>."),
-        Example.fixed("Er überprüfte die Rechnungen noch einmal, um ganz <marker>sicherzugehen</marker>."));
+                   Example.fixed("Er überprüfte die Rechnungen noch einmal, um ganz <marker>sicherzugehen</marker>."));
     this.lang = lang;
     if (userConfig != null) {
       linguServices = userConfig.getLinguServices();
@@ -87,7 +87,7 @@ public class CompoundInfinitivRule extends Rule {
   private static boolean isInfinitiv(AnalyzedTokenReadings token) {
     return token.hasPosTagStartingWith("VER:INF");
   }
-  
+
   private boolean isMisspelled(String word) {
     if (linguServices == null && speller != null) {
       return speller.isMisspelled(word);
@@ -96,7 +96,7 @@ public class CompoundInfinitivRule extends Rule {
     }
     return false;
   }
-  
+
   private boolean isRelevant(AnalyzedTokenReadings token) {
     return token.matchesPosTagRegex("ZUS.*") && !"um".equals(token.getToken().toLowerCase());
   }
@@ -113,58 +113,56 @@ public class CompoundInfinitivRule extends Rule {
     }
     return null;
   }
-
   
   private boolean isException(AnalyzedTokenReadings[] tokens, int n) {
-    if(tokens[n - 2].hasPosTagStartingWith("VER")) {
+    if (tokens[n - 2].hasPosTagStartingWith("VER")) {
       return true;
     }
-    if("sagen".equals(tokens[n + 1].getToken()) &&
-        ("weiter".equals(tokens[n - 1].getToken()) || "dazu".equals(tokens[n - 1].getToken()))) {
+    if ("sagen".equals(tokens[n + 1].getToken()) &&
+            ("weiter".equals(tokens[n - 1].getToken()) || "dazu".equals(tokens[n - 1].getToken()))) {
       return true;
     }
-    if(("tragen".equals(tokens[n + 1].getToken()) || "machen".equals(tokens[n + 1].getToken()))
-        && "davon".equals(tokens[n - 1].getToken())) {
+    if (("tragen".equals(tokens[n + 1].getToken()) || "machen".equals(tokens[n + 1].getToken()))
+            && "davon".equals(tokens[n - 1].getToken())) {
       return true;
     }
-    if("geben".equals(tokens[n + 1].getToken()) && "daran".equals(tokens[n - 1].getToken())) {
+    if ("geben".equals(tokens[n + 1].getToken()) && "daran".equals(tokens[n - 1].getToken())) {
       return true;
     }
-    if("gehen".equals(tokens[n + 1].getToken()) && "ab".equals(tokens[n - 1].getToken())) {
+    if ("gehen".equals(tokens[n + 1].getToken()) && "ab".equals(tokens[n - 1].getToken())) {
       return true;
     }
     String verb = null;
-    for(int i = n - 2; i > 0 && !MARK_REGEX.matcher(tokens[i].getToken()).matches() && verb == null; i--) {
-      if(tokens[i].hasPosTagStartingWith("VER:IMP")) {
+    for (int i = n - 2; i > 0 && !MARK_REGEX.matcher(tokens[i].getToken()).matches() && verb == null; i--) {
+      if (tokens[i].hasPosTagStartingWith("VER:IMP")) {
         verb = getLemma(tokens[i]).toLowerCase();
-      } else if(tokens[i].hasPosTagStartingWith("VER")) {
+      } else if (tokens[i].hasPosTagStartingWith("VER")) {
         verb = tokens[i].getToken().toLowerCase();
-      } else if("Fang".equals(tokens[i].getToken())) {
+      } else if ("Fang".equals(tokens[i].getToken())) {
         verb = "fangen";
       }
-      if (verb != null) { 
-        if(!isMisspelled(tokens[n - 1].getToken() + verb)) {
-            return true;
+      if (verb != null) {
+        if (!isMisspelled(tokens[n - 1].getToken() + verb)) {
+          return true;
         } else {
           break;
         }
       }
     }
-    if("aus".equals(tokens[n - 1].getToken()) || "an".equals(tokens[n - 1].getToken())) {
-      for(int i = n - 2; i > 0 && !MARK_REGEX.matcher(tokens[i].getToken()).matches(); i--) {
-        if("von".equals(tokens[i].getToken()) || "vom".equals(tokens[i].getToken())) {
+    if ("aus".equals(tokens[n - 1].getToken()) || "an".equals(tokens[n - 1].getToken())) {
+      for (int i = n - 2; i > 0 && !MARK_REGEX.matcher(tokens[i].getToken()).matches(); i--) {
+        if ("von".equals(tokens[i].getToken()) || "vom".equals(tokens[i].getToken())) {
           return true;
         }
       }
     }
-    if("her".equals(tokens[n - 1].getToken())) {
-      for(int i = n - 2; i > 0 && !MARK_REGEX.matcher(tokens[i].getToken()).matches(); i--) {
-        if("vor".equals(tokens[i].getToken())) {
+    if ("her".equals(tokens[n - 1].getToken())) {
+      for (int i = n - 2; i > 0 && !MARK_REGEX.matcher(tokens[i].getToken()).matches(); i--) {
+        if ("vor".equals(tokens[i].getToken())) {
           return true;
         }
       }
     }
-    
     return false;
   }
 
@@ -173,19 +171,18 @@ public class CompoundInfinitivRule extends Rule {
     List<RuleMatch> ruleMatches = new ArrayList<>();
     AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
     for (int i = 2; i < tokens.length - 1; i++) {
-      if("zu".equals(tokens[i].getToken()) && isInfinitiv(tokens[i+1])) {
+      if ("zu".equals(tokens[i].getToken()) && isInfinitiv(tokens[i + 1])) {
         if (isRelevant(tokens[i - 1]) && !isException(tokens, i) && !isMisspelled(tokens[i - 1].getToken() + tokens[i + 1].getToken())) {
           String msg = "Wenn der erweiterte Infinitv von dem Verb '" + tokens[i - 1].getToken() + tokens[i + 1].getToken()
-              + "' abgeleitet ist, muss er zusammengeschrieben werden";
+                  + "' abgeleitet ist, muss er zusammengeschrieben werden";
           RuleMatch ruleMatch = new RuleMatch(this, tokens[i - 1].getStartPos(), tokens[i + 1].getEndPos(), msg);
-          List<String> suggestions = new ArrayList<String>();
+          List<String> suggestions = new ArrayList<>();
           suggestions.add(tokens[i - 1].getToken() + tokens[i].getToken() + tokens[i + 1].getToken());
           ruleMatch.setSuggestedReplacements(suggestions);
           ruleMatches.add(ruleMatch);
         }
       }
     }
-    
     return toRuleMatchArray(ruleMatches);
   }
 
