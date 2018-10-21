@@ -200,6 +200,7 @@ public class PatternRule extends AbstractPatternRule {
   /* (non-Javadoc)
    * @see org.languagetool.rules.patterns.AbstractPatternRule#getShortMessage()
    */
+  @Override
   String getShortMessage() {
     return shortMessage;
   }

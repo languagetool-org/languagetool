@@ -10842,9 +10842,9 @@ USA
                 <pattern>
                     <marker>
                         <token>to</token>
-                        <token postag_regexp="yes" postag="VB[DN]"><exception postag="VB|NN.*" postag_regexp="yes"/></token>
+                        <token postag_regexp="yes" postag="VB[DN]"><exception postag="VB[PS]?" postag_regexp="yes"/></token>
                     </marker>
-                    <token postag="DT"/>
+                    <token postag="DT"><exception>that</exception></token>
                 </pattern>
                 <message>Did you mean <suggestion>\1 <match no="2" postag="VB"/></suggestion>?</message>
                 <example correction="to rename">I've decided <marker>to renamed</marker> the project.</example>
@@ -10852,6 +10852,21 @@ USA
                 <example>Refer all servicing to qualified service personnel.</example>
                 <example>They vary in their shape from round to flattened.</example>
                 <example>The last person I told my idea to thought I was nuts.</example>
+                <example correction="to win">What is needed <marker>to won</marker> the ticket?</example>
+                <example>The students we talked to said that Tom is easy to get along with.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>to</token>
+                        <token postag_regexp="yes" postag="VB[DN]"><exception postag="VB[PS]?|JJ" postag_regexp="yes"/></token>
+                    </marker>
+                    <token postag="SENT_END"></token>
+                </pattern>
+                <message>Did you mean <suggestion>\1 <match no="2" postag="VB"/></suggestion>?</message>
+                <example correction="to buy">I've decided <marker>to bought</marker>.</example>
+                <example>Arabic is written from right to left.</example>
+                <example correction="to notice">Tom was the only one who seemed <marker>to noticed</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="MANY_FEW_UNCOUNTABLE" name="'many/few' + uncountable noun, e.g. 'many (much) food'">
