@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
+import org.jetbrains.annotations.NotNull;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
@@ -50,6 +51,9 @@ import morfologik.stemming.Dictionary;
 public class CompoundInfinitivRule extends Rule {
 
   private static final Pattern MARK_REGEX = Pattern.compile("[.?!…:;,()\\[\\]]");
+  
+  private static Dictionary dict;
+  
   private final LinguServices linguServices;
   private final Speller speller;
   private final Language lang;
@@ -66,12 +70,20 @@ public class CompoundInfinitivRule extends Rule {
       linguServices = null;
     }
     if (linguServices == null) {
-      Dictionary dict = Dictionary.read(JLanguageTool.getDataBroker().getFromResourceDirAsUrl("/de/hunspell/de_DE.dict"));
-      speller = new Speller(dict);
+      speller = new Speller(getDictionary());
     } else {
       speller = null;
     }
     setUrl(Tools.getUrl("https://www.duden.de/sprachwissen/sprachratgeber/Infinitiv-mit-zu"));
+  }
+
+  @NotNull
+  private Dictionary getDictionary() throws IOException {
+    if (dict == null) {
+      // Dictionary is thread-safe, so we can re-use it (https://github.com/morfologik/morfologik-stemming/issues/69)
+      dict = Dictionary.read(JLanguageTool.getDataBroker().getFromResourceDirAsUrl("/de/hunspell/de_DE.dict"));
+    }
+    return dict;
   }
 
   @Override
