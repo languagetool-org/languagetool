@@ -19,20 +19,25 @@
  */
 package org.languagetool.tagging.disambiguation.rules;
 
-import org.languagetool.AnalyzedSentence;
-import org.languagetool.AnalyzedToken;
-import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.chunking.ChunkTag;
-import org.languagetool.rules.patterns.*;
-import org.languagetool.tools.StringTools;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.languagetool.AnalyzedSentence;
+import org.languagetool.AnalyzedToken;
+import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.chunking.ChunkTag;
+import org.languagetool.rules.patterns.AbstractPatternRulePerformer;
+import org.languagetool.rules.patterns.Match;
+import org.languagetool.rules.patterns.MatchState;
+import org.languagetool.rules.patterns.PatternToken;
+import org.languagetool.rules.patterns.PatternTokenMatcher;
+import org.languagetool.rules.patterns.RuleFilter;
+import org.languagetool.rules.patterns.RuleFilterEvaluator;
+import org.languagetool.tools.StringTools;
 
 /**
  * @since 2.3
@@ -161,6 +166,9 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
     return true;
   }
 
+  /* (non-Javadoc)
+   * @see org.languagetool.rules.patterns.AbstractPatternRulePerformer#skipMaxTokens(org.languagetool.AnalyzedTokenReadings[], org.languagetool.rules.patterns.PatternTokenMatcher, int, int, org.languagetool.rules.patterns.PatternTokenMatcher, int, int)
+   */
   @Override
   protected int skipMaxTokens(AnalyzedTokenReadings[] tokens, PatternTokenMatcher matcher, int firstMatchToken, int prevSkipNext, PatternTokenMatcher prevElement, int m, int remainingElems) throws IOException {
     int maxSkip = 0;

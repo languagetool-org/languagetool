@@ -110,7 +110,7 @@ public class CompoundInfinitivRule extends Rule {
   }
 
   private boolean isRelevant(AnalyzedTokenReadings token) {
-    return token.matchesPosTagRegex("ZUS.*") && !"um".equals(token.getToken().toLowerCase());
+    return token.hasPosTag("ZUS") && !"um".equals(token.getToken().toLowerCase());
   }
 
   private String getLemma(AnalyzedTokenReadings token) {
