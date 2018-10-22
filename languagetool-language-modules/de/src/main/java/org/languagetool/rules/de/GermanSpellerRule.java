@@ -173,6 +173,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("verblüte[mnrs]?", "blü", "blüh");
     putRepl("Einzigste[mnrs]?", "zigst", "zig");
     putRepl("(aller)?einzigste[mnrs]?", "(aller)?einzigst", "einzig");
+    putRepl("[iI]nterkurell(e[nmrs]?)?", "ku", "kultu");
     putRepl("[iI]ntersannt(e[mnrs]?)?", "sannt", "essant");
     putRepl("ubera(g|sch)end(e[nmrs]?)?", "uber", "überr");
     putRepl("[wW]olt$", "lt", "llt");
