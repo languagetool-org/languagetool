@@ -9013,7 +9013,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="Many_PREP" name="Два предлога подряд">        
             <pattern>
                 <marker>
-                  <token postag="PREP"><exception postag="PREP|ABR:.*" negate_pos="yes"  postag_regexp="yes" /><exception case_sensitive="yes" regexp="yes">К|По|У</exception><exception regexp="yes">минус|изо|насчёт|насчет|ради|перед</exception><exception postag="SENT_START" negate_pos="yes" case_sensitive="yes" regexp="yes">[А-Я].*</exception></token>
+                  <token postag="PREP"><exception postag="PREP|ABR:.*" negate_pos="yes"  postag_regexp="yes" /><exception case_sensitive="yes" regexp="yes">К|По|У</exception><exception regexp="yes">минус|изо|насчёт|насчет|ради|перед</exception><exception postag="SENT_START" negate_pos="yes" case_sensitive="yes" regexp="yes">[АБГ-ЖИ-НПРСТФ-Я].*</exception></token>
                   <token postag="PREP"><exception postag="PREP|ABR:.*" negate_pos="yes"  postag_regexp="yes" /><exception case_sensitive="yes" regexp="yes">[А-Я].*</exception><exception case_sensitive="yes" regexp="yes">ПО|свыше</exception><exception regexp="yes">минус|изо|без|перед</exception></token>
                 </marker>
                 <token negate="yes" regexp="yes">;|:|[\p{Punct}]</token>
@@ -9030,6 +9030,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Она преподаёт изо в школе.</example>
             <example>Разбил в аварии перед у машины</example>
             <example>К ИЗО ученик подготовился.</example>
+            <example correction="В|К"><marker>В к</marker> ране.</example>
         </rule>
                         
         <rule id="Many_PNN" name="Избыточность употребления местоимений">
