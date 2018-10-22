@@ -288,6 +288,12 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("fluoreszenzierend", "fluoreszierend", rule, lt);
     assertFirstSuggestion("revalierender", "rivalisierender", rule, lt);
     assertFirstSuggestion("häherne", "härene", rule, lt);
+    assertFirstSuggestion("Portfolien", "Portfolios", rule, lt);
+    assertFirstSuggestion("Nivo", "Niveau", rule, lt);
+    assertFirstSuggestion("dilletanten", "Dilettanten", rule, lt);
+    assertFirstSuggestion("intersannt", "interessant", rule, lt);
+    assertFirstSuggestion("allereinzigstem", "einzigem", rule, lt);
+    assertFirstSuggestion("Einzigste", "Einzige", rule, lt);
   }
 
   @Test

@@ -166,11 +166,14 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("desweitere[nm]", "des Weiteren");
     put("handzuhaben", "zu handhaben");
     put("nachvollzuziehe?n", "nachzuvollziehen");
+    put("[bB]ischen", "bisschen");
+    put("Porto?folien", "Portfolios");
     putRepl("indifiziert(e[mnrs]?)?", "ind", "ident");
     putRepl("dreite[mnrs]?", "dreit", "dritt");
     putRepl("verblüte[mnrs]?", "blü", "blüh");
+    putRepl("Einzigste[mnrs]?", "zigst", "zig");
     putRepl("(aller)?einzigste[mnrs]?", "(aller)?einzigst", "einzig");
-    putRepl("[iI]nterkurell(e[nmrs]?)?", "ku", "kultu");
+    putRepl("[iI]ntersannt(e[mnrs]?)?", "sannt", "essant");
     putRepl("ubera(g|sch)end(e[nmrs]?)?", "uber", "überr");
     putRepl("[wW]olt$", "lt", "llt");
     putRepl("[zZ]uende", "ue", "u E");
@@ -191,6 +194,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("[nN]utzvoll(e[nmrs]?)?", "utzvoll", "ützlich");
     putRepl("Lezte[mnrs]?", "Lez", "Letz");
     putRepl("Letze[mnrs]?", "Letz", "Letzt");
+    putRepl("[nN]i[vw]os?", "[nN]i[vw]o", "Niveau");
+    putRepl("[dD]illetant(en)?", "[dD]ille", "Dilet");
     putRepl("Makeups?", "up", "-up");
     putRepl("Add-?Ons?", "Add-?On", "Add-on");
     putRepl("Addons?", "on", "-on");
