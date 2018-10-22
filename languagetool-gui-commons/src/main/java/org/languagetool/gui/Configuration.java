@@ -138,7 +138,6 @@ public class Configuration {
     }
     configFile = new File(baseDir, filename);
     loadConfiguration(lang);
-    initStyleCategories(lang, linguServices);
   }
 
   private Configuration() {
@@ -482,24 +481,10 @@ public class Configuration {
   }
 
   /**
-   * @since 4.3
+   * @since 4.4
    * Initialize set of style like categories
    */
-  private void initStyleCategories(Language lang, LinguServices linguServices) {
-    if (lang == null) {
-      lang = language;
-      if (lang == null) {
-        return;
-      }
-    }
-    JLanguageTool langTool;
-    if (linguServices != null) {
-      langTool = new JLanguageTool(lang, motherTongue, null,
-                     new UserConfig(getConfigurableValues(), linguServices));
-    } else {
-      langTool = new JLanguageTool(lang, motherTongue);
-    }
-    List<Rule> allRules = langTool.getAllRules();
+  public void initStyleCategories(List<Rule> allRules) {
     for (Rule rule : allRules) {
       if (rule.getCategory().getTabName() != null) {
         if (!specialTabCategories.containsKey(rule.getCategory().getName())) {
