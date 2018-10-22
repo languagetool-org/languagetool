@@ -91,15 +91,9 @@ public class EnglishWordRepeatRule extends WordRepeatRule {
       }
     }
     if (tokens[position].getToken().endsWith("ill")) {
-      if (position > 0 && tokens[position - 1].getToken().equals("will") && tokens[position].getToken().equals("Will")) {
-        return true;   // "will Will"
-      }
-      if (tokens[position - 1].getToken().equals("Will") && tokens[position].getToken().equals("will")) {
-        return true;   // "Will will"
-      }
-      if (tokens[1].getToken().equals("Will") && tokens[2].getToken().equals("Will")) {
-        return true;   // "Will Will" SENT_START
-      }
+      return (position > 0 && tokens[position - 1].getToken().equals("will") && tokens[position].getToken().equals("Will")) // will Wills
+        || (tokens[position - 1].getToken().equals("Will") && tokens[position].getToken().equals("will")) // Will will ...
+        || (tokens[1].getToken().equals("Will") && tokens[2].getToken().equals("Will")); // "Will Will" SENT_START
     }
     return false;
   }
