@@ -83,6 +83,7 @@ public class Main extends WeakBase implements XJobExecutor,
   private Set<String> disabledRules = null;
   private Set<String> disabledRulesUI;
   private String lastPara = null;
+  private boolean switchOff = false;
 
   private XComponentContext xContext;
   
@@ -146,6 +147,9 @@ public class Main extends WeakBase implements XJobExecutor,
     paRes.aText = paraText;
     paRes.aProperties = propertyValues;
     try {
+      if(switchOff) {
+        return paRes;
+      }
       int[] footnotePositions = getPropertyValues("FootnotePositions", propertyValues);  // since LO 4.3
       paRes = documents.getCheckResults(paraText, locale, paRes, footnotePositions);
       if (disabledRules == null) {
@@ -358,6 +362,9 @@ public class Main extends WeakBase implements XJobExecutor,
       } else if ("about".equals(sEvent)) {
         AboutDialogThread aboutThread = new AboutDialogThread(MESSAGES);
         aboutThread.start();
+      } else if ("switchOff".equals(sEvent)) {
+        switchOff = !switchOff;
+        resetCheck();
       } else {
         MessageHandler.printToLogFile("Sorry, don't know what to do, sEvent = " + sEvent);
       }
