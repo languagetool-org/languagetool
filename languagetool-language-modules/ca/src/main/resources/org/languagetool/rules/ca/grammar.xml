@@ -9229,6 +9229,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Va marcar de cap el 4-0</example>
             </rule>
         </rulegroup>
+        <rule id="CAP_A_CAP" name="cap *(a) ací">
+            <pattern>
+                <token>cap</token>
+                <token>a</token>
+                <token regexp="yes">ací|ahí|aquí|allí|allà|avant|arrere|endavant|endarrere|envant|enrere</token>
+            </pattern>
+            <message>Sobra una 'a'.</message>
+            <suggestion>\1 \3</suggestion>
+            <example correction="cap allà">Vaig <marker>cap a allà</marker>.</example>
+        </rule>
         <rulegroup id="DACI_A" name="d'ací a">
             <rule>
                 <pattern>
