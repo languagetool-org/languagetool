@@ -85,6 +85,7 @@ public class WordTokenizerTest {
   public void testUrlTokenizeWithQuote() {
     assertEquals("This| |'|http://foo.org|'| |blah", tokenize("This 'http://foo.org' blah"));
     assertEquals("This| |\"|http://foo.org|\"| |blah", tokenize("This \"http://foo.org\" blah"));
+    assertEquals("This| |(|\"|http://foo.org|\"|)| |blah", tokenize("This (\"http://foo.org\") blah"));   // issue #1226
   }
 
   @Test
