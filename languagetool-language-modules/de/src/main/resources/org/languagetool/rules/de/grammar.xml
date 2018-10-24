@@ -30957,25 +30957,55 @@ Andere Projekte</example>
                 <example><marker>Meine Mutter</marker> ist unglücklich gestürzt.</example>
             </rule>
         </rulegroup>
-        <rule id="DER_ABGEORDNETER" name="Falscher Artikel bei substantivierten Adjektiven">
-            <pattern>
-                <token postag="SENT_START" />
-                <token postag='ART:DEF:NOM:SIN:MAS'></token>
-                <marker>
-                <token regexp='yes' postag='SUB:NOM:SIN:MAS:ADJ'>.*er\b</token>
-                </marker>
-            </pattern>
-            <message>Artikel und Substantiv stimmen grammatikalisch nicht überein. Meinten Sie <suggestion><match no="3" case_conversion="preserve" regexp_match="er\b" regexp_replace="e"></match></suggestion>?</message>
-            <example correction='Abgeordnete'>Der <marker>Abgeordneter</marker> ging nach Hause.</example>
-            <example correction='Jugendliche'>Der <marker>Jugendlicher</marker> ist bockig.</example>
-            <example correction='Verrückte'>Der <marker>Verrückter</marker> ist wieder unterwegs.</example>
-            <example correction='Angestellte'>Der <marker>Angestellter</marker> streikt.</example>
-            <example correction='Verurteilte'>Der <marker>Verurteilter</marker> wurde freigesprochen.</example>
-            <example>Der Abgeordnete ging nach Hause.</example>
-            <example>Der Bauarbeiter ist auf der Baustelle.</example>
-            <example>Die Sitzung, der Abgeordneter Müller fernblieb, war beendet.</example>
-            <example>Justizvollzugsbeamter Müller betrat den Zeugenstand.</example>
-        </rule>  
+               <rulegroup id="DER_ABGEORDNETER" name="Falscher Artikel bei substantivierten Adjektiven">
+            <rule>
+                <pattern>
+                    <token postag="SENT_START" />
+                    <token postag='ART:DEF:NOM:SIN:MAS'></token>
+                    <marker>
+                    <token regexp='yes' postag='SUB:NOM:SIN:MAS:ADJ'>.*er\b</token>
+                    </marker>
+                </pattern>
+                <message>Artikel und Substantiv stimmen grammatikalisch nicht überein. Meinten Sie <suggestion><match no="3" case_conversion="preserve" regexp_match="er\b" regexp_replace="e"></match></suggestion>?</message>
+                <short>Fehlende Übereinstimmung von Artikel und Substantiv</short>
+                <example correction='Abgeordnete'>Der <marker>Abgeordneter</marker> ging nach Hause.</example>
+                <example correction='Jugendliche'>Der <marker>Jugendlicher</marker> ist bockig.</example>
+                <example correction='Verrückte'>Der <marker>Verrückter</marker> ist wieder unterwegs.</example>
+                <example correction='Angestellte'>Der <marker>Angestellter</marker> streikt.</example>
+                <example correction='Verurteilte'>Der <marker>Verurteilter</marker> wurde auf Bewährung freigelassen.</example>
+                <example>Der Abgeordnete ging nach Hause.</example>
+                <example>Der Bauarbeiter ist auf der Baustelle.</example>
+                <example>Die Sitzung, der Abgeordneter Müller fernblieb, war beendet.</example>
+                <example>Justizvollzugsbeamter Müller betrat den Zeugenstand.</example>
+            </rule> 
+            <rule>
+                <antipattern>
+                    <token postag="SENT_START" />
+                    <token postag='ART:IND:NOM:SIN:MAS'></token>
+                    <token skip="-1" regexp='yes' postag='SUB:NOM:SIN:MAS:ADJ'>.*e\b</token>
+                    <token postag="PA1:.*" postag_regexp="yes"></token>
+                </antipattern>
+                <pattern>
+                    <token postag="SENT_START" />
+                    <marker>
+                    <token postag='ART:IND:NOM:SIN:MAS'></token>
+                    <token regexp='yes' postag='SUB:NOM:SIN:MAS:ADJ'><exception>Junge</exception>.*e\b</token>
+                    </marker>
+                </pattern>
+                <message>Artikel und Substantiv stimmen grammatikalisch nicht überein. Meinten Sie <suggestion>Ein <match no="3" case_conversion="preserve" regexp_match="e\b" regexp_replace="er"></match></suggestion> oder <suggestion>Eine \3</suggestion>?</message>
+                <short>Fehlende Übereinstimmung von Artikel und Substantiv</short>
+                <example correction="Ein Abgeordneter|Eine Abgeordnete"><marker>Ein Abgeordnete</marker> ging nach Hause.</example>
+                <example correction="Ein Jugendlicher|Eine Jugendliche"><marker>Ein Jugendliche</marker> war tatverdächtig.</example>
+                <example correction='Ein Verrückter|Eine Verrückte'><marker>Ein Verrückte</marker> ist wieder unterwegs.</example>
+                <example correction='Ein Angestellter|Eine Angestellte'><marker>Ein Angestellte</marker> streikt.</example>
+                <example correction='Ein Verurteilter|Eine Verurteilte'><marker>Ein Verurteilte</marker> wurde auf Bewährung freigelassen.</example>
+                <example>Ein Abgeordneter ging ans Rednerpult.</example>
+                <example>Ein Abgeordnete betreffendes Problem ist die schlechte Work-Life-Balance.</example>
+                <example>Ein Verrückte zu unüberlegten Reaktionen provozierendes Verhalten wird nicht empfohlen.</example>
+                <example>Justizvollzugsbeamte Müller betrat den Zeugenstand.</example>
+                <example>Ein Junge ging spazieren.</example>
+            </rule>   
+        </rulegroup>
         <rulegroup id="OBJECT_AGREEMENT" name="falscher Kasus des Objekts">
             <rule>
                 <pattern>
