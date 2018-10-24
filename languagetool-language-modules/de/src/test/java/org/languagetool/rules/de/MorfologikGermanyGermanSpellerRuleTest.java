@@ -38,6 +38,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
+@Ignore
 public class MorfologikGermanyGermanSpellerRuleTest {
 
   @Test

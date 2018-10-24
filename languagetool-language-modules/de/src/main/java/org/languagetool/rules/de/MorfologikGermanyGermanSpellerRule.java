@@ -30,6 +30,7 @@ import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
 /**
  * Spell checker rule that, unlike {@link GermanSpellerRule}, does not support compounds
  * (except those listed in the dictionary of course).
+ * @deprecated since 4.4, use GermanSpellerRule
  */
 public final class MorfologikGermanyGermanSpellerRule extends MorfologikSpellerRule {
 
