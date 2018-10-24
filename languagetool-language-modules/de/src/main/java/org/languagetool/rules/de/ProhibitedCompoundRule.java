@@ -126,7 +126,7 @@ public class ProhibitedCompoundRule extends Rule {
 
   private final BaseLanguageModel lm;
   private Pair confusionPair = null; // specify single pair for evaluation
-  private AhoCorasickDoubleArrayTrie<String> ahoCorasickDoubleArrayTrie = null;
+  private AhoCorasickDoubleArrayTrie<String> doubleArrayTrie = null;
   private Map<String, List<Pair>> pairMap = new HashMap<>();
 
   public ProhibitedCompoundRule(ResourceBundle messages, LanguageModel lm) {
@@ -146,9 +146,8 @@ public class ProhibitedCompoundRule extends Rule {
   }
 
   private void setupAhoCorasickSearch() {
-    TreeMap<String, String> map = new TreeMap<String, String>();
-    for (Pair pair : pairs)
-    {
+    TreeMap<String, String> map = new TreeMap<>();
+    for (Pair pair : pairs) {
       map.put(pair.part1, pair.part1);
       map.put(pair.part2, pair.part2);
 
@@ -157,9 +156,8 @@ public class ProhibitedCompoundRule extends Rule {
       pairMap.get(pair.part1).add(pair);
       pairMap.get(pair.part2).add(pair);
     }
-    // Build an AhoCorasickDoubleArrayTrie
-    ahoCorasickDoubleArrayTrie = new AhoCorasickDoubleArrayTrie<String>();
-    ahoCorasickDoubleArrayTrie.build(map);
+    doubleArrayTrie = new AhoCorasickDoubleArrayTrie<>();
+    doubleArrayTrie.build(map);
   }
 
   @Override
@@ -176,9 +174,8 @@ public class ProhibitedCompoundRule extends Rule {
       }
       List<Pair> candidatePairs = new ArrayList<>();
       // ignore other pair when confusionPair is set (-> running for evaluation)
-
       if (confusionPair == null) {
-        List<AhoCorasickDoubleArrayTrie.Hit<String>> wordList = ahoCorasickDoubleArrayTrie.parseText(word);
+        List<AhoCorasickDoubleArrayTrie.Hit<String>> wordList = doubleArrayTrie.parseText(word);
         // might get duplicates, but since we only ever allow one match per word it doesn't matter
         for (AhoCorasickDoubleArrayTrie.Hit<String> hit : wordList) {
           List<Pair> pair = pairMap.get(hit.value);
