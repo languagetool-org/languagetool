@@ -32,6 +32,7 @@ DIC_NO_SUFFIX=$CONTENT_DIR/$PREFIX
 DIC_FILE=$DIC_NO_SUFFIX.dic
 DIC_HEADER=${DIC_FILE}.header
 ADDITIONAL_DIC_FILE=${CONTENT_DIR}/spelling.txt
+ADDITIONAL_DIC_FILE_MERGED=${CONTENT_DIR}/spelling_merged.txt
 ADDITIONAL_DIC_HEADER=${ADDITIONAL_DIC_FILE}.header
 # get frequency data from https://github.com/mozilla-b2g/gaia/tree/master/apps/keyboard/js/imes/latin/dictionaries -
 FREQ_FILE=${CONTENT_DIR}/${LANG_CODE}_wordlist.xml
@@ -42,20 +43,41 @@ if [ ! -f $ADDITIONAL_DIC_FILE ]; then
     exit
 fi
 
-echo "Merging $ADDITIONAL_DIC_FILE and $DIC_FILE.."
+ADDITIONAL_DIC_FILE_FILTERED=/tmp/additional_dic_filtered
+ADDITIONAL_DIC_FILE_REST=/tmp/additional_dic_rest
+echo "Filtering $ADDITIONAL_DIC_FILE..."
+fgrep -v " " $ADDITIONAL_DIC_FILE > $ADDITIONAL_DIC_FILE_FILTERED
+cat $ADDITIONAL_DIC_FILE_FILTERED >>$ADDITIONAL_DIC_FILE_MERGED
+fgrep " " $ADDITIONAL_DIC_FILE | grep -v "^#" >$ADDITIONAL_DIC_FILE_REST
+
+echo "Merging filtered $ADDITIONAL_DIC_FILE and $DIC_FILE.."
 export LC_ALL="$PREFIX"
-cat $DIC_FILE $ADDITIONAL_DIC_FILE | grep -v "^#" | sort | uniq >$TEMP_FILE
+tail -n +2 $DIC_FILE >/tmp/dic_no_count
+cat /tmp/dic_no_count $ADDITIONAL_DIC_FILE_FILTERED | grep -v "^#" | sort | uniq >$TEMP_FILE
 cat $TEMP_FILE | wc -l >$WORD_COUNT
 cat $WORD_COUNT $DIC_HEADER $TEMP_FILE >$DIC_FILE
-cp $ADDITIONAL_DIC_HEADER $ADDITIONAL_DIC_FILE
+cat $ADDITIONAL_DIC_HEADER $ADDITIONAL_DIC_FILE_REST >$ADDITIONAL_DIC_FILE
 echo "Saved result."
 
+SUGGESTION_WORDS=${CONTENT_DIR}/suggestions.txt
+
 echo "Unmunching and filtering..."
-unmunch ${DIC_NO_SUFFIX}.{dic,aff} | hunspell -d $DIC_NO_SUFFIX -G -l >$FINAL_FILE
+
+UNMUNCHED=/tmp/unmunch
+unmunch ${DIC_NO_SUFFIX}.{dic,aff} >$UNMUNCHED
+EXTENDED_LIST=/tmp/extended
+if [ -f $SUGGESTION_WORDS ]; then
+    echo "Extending file with word list for suggestions"
+    cat $SUGGESTION_WORDS $UNMUNCHED | grep -v "^#" | sort | uniq >$EXTENDED_LIST
+else
+    echo "Continuining without extending word list for suggestions"
+    cp $UNMUNCHED $EXTENDED_LIST
+fi
+cat $EXTENDED_LIST | grep -v "^#" | hunspell -i utf8 -d $DIC_NO_SUFFIX -G -l >$FINAL_FILE
 
 echo "Building morfologik dictionary..."
 
-mvn clean package -DskipTests
+#mvn clean package -DskipTests
 if [ -f $FREQ_FILE ]; then
   echo "Using frequency file..."
   java -cp $CPATH:languagetool-standalone/target/LanguageTool-$LT_VERSION/LanguageTool-$LT_VERSION/languagetool.jar:languagetool-standalone/target/LanguageTool-$LT_VERSION/LanguageTool-$LT_VERSION/libs/languagetool-tools.jar \
