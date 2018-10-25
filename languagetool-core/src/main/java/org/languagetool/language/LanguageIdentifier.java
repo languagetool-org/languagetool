@@ -212,13 +212,16 @@ public class LanguageIdentifier {
     return result;
   }
 
-  private synchronized Map<String, Double> runFasttext(String text, List<String> additionalLanguageCodes) throws IOException {
+  private Map<String, Double> runFasttext(String text, List<String> additionalLanguageCodes) throws IOException {
     Map<String, Double> probabilities = new HashMap<>();
     String joined = text.replace("\n", " ");
-    fasttextOut.write(joined);
-    fasttextOut.newLine();
-    fasttextOut.flush();
-    String buffer = fasttextIn.readLine();
+    String buffer;
+    synchronized(this) {
+      fasttextOut.write(joined);
+      fasttextOut.newLine();
+      fasttextOut.flush();
+      buffer = fasttextIn.readLine();
+    }
     String[] values = buffer.split(" ");
     if (values.length % 2 != 0) {
       throw new RuntimeException("Error while parsing fasttext output: " + buffer);
