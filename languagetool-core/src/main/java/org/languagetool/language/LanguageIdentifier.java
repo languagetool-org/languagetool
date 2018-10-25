@@ -62,9 +62,6 @@ public class LanguageIdentifier {
   // languages that we offer profiles for as they are not yet supported by language-detector:
   private static final List<String> externalLangCodes = Arrays.asList("eo");
 
-  // languages that we don't support but detect:
-  private static final List<String> noopLangCodes = Arrays.asList();
-
   private final LanguageDetector languageDetector;
   private final TextObjectFactory textObjectFactory;
   private final int maxLength;
