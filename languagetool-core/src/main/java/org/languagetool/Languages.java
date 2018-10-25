@@ -19,6 +19,7 @@
 package org.languagetool;
 
 import org.jetbrains.annotations.Nullable;
+import org.languagetool.noop.NoopLanguage;
 import org.languagetool.tools.MultiKeyProperties;
 import org.languagetool.tools.StringTools;
 
@@ -38,6 +39,7 @@ public final class Languages {
   private static final List<Language> LANGUAGES = getAllLanguages();
   private static final String PROPERTIES_PATH = "META-INF/org/languagetool/language-module.properties";
   private static final String PROPERTIES_KEY = "languageClasses";
+  private static final Language NOOP_LANGUAGE = new NoopLanguage();
 
   private Languages() {
   }
@@ -53,7 +55,7 @@ public final class Languages {
   public static List<Language> get() {
     List<Language> result = new ArrayList<>();
     for (Language lang : LANGUAGES) {
-      if (!"xx".equals(lang.getShortCode())) {  // skip demo language
+      if (!"xx".equals(lang.getShortCode()) && !"zz".equals(lang.getShortCode())) {  // skip demo and noop language
         result.add(lang);
       }
     }
@@ -140,16 +142,32 @@ public final class Languages {
    * @since 3.6
    */
   public static Language getLanguageForShortCode(String langCode) {
+    return getLanguageForShortCode(langCode, Collections.emptyList());
+  }
+  
+  /**
+   * Get the Language object for the given language code.
+   * @param langCode e.g. <code>en</code> or <code>en-US</code>
+   * @param noopLanguageCodes list of languages that can be detected but that will not actually find any errors
+   *                           (can be used so non-supported languages are not detected as some other language)
+   * @throws IllegalArgumentException if the language is not supported or if the language code is invalid
+   * @since 4.4
+   */
+  public static Language getLanguageForShortCode(String langCode, List<String> noopLanguageCodes) {
     Language language = getLanguageForShortCodeOrNull(langCode);
     if (language == null) {
-      List<String> codes = new ArrayList<>();
-      for (Language realLanguage : LANGUAGES) {
-        codes.add(realLanguage.getShortCodeWithCountryAndVariant());
+      if (noopLanguageCodes.contains(langCode)) {
+        return NOOP_LANGUAGE;
+      } else {
+        List<String> codes = new ArrayList<>();
+        for (Language realLanguage : LANGUAGES) {
+          codes.add(realLanguage.getShortCodeWithCountryAndVariant());
+        }
+        Collections.sort(codes);
+        throw new IllegalArgumentException("'" + langCode + "' is not a language code known to LanguageTool." +
+                " Supported language codes are: " + String.join(", ", codes) + ". The list of languages is read from " + PROPERTIES_PATH +
+                " in the Java classpath. See http://wiki.languagetool.org/java-api for details.");
       }
-      Collections.sort(codes);
-      throw new IllegalArgumentException("'" + langCode + "' is not a language code known to LanguageTool." +
-              " Supported language codes are: " + String.join(", ", codes) + ". The list of languages is read from " + PROPERTIES_PATH +
-              " in the Java classpath. See http://wiki.languagetool.org/java-api for details.");
     }
     return language;
   }

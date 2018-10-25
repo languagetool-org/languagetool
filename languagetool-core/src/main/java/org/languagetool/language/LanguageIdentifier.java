@@ -62,9 +62,13 @@ public class LanguageIdentifier {
   // languages that we offer profiles for as they are not yet supported by language-detector:
   private static final List<String> externalLangCodes = Arrays.asList("eo");
 
+  // languages that we don't support but detect:
+  private static final List<String> noopLangCodes = Arrays.asList();
+
   private final LanguageDetector languageDetector;
   private final TextObjectFactory textObjectFactory;
   private final int maxLength;
+  private final List<String> additionalLanguageCodes;
 
   private boolean fasttextEnabled = false;
   private Process fasttextProcess;
@@ -75,6 +79,10 @@ public class LanguageIdentifier {
     this(1000);
   }
 
+  public LanguageIdentifier(List<String> additionalLanguageCodes) {
+    this(additionalLanguageCodes, 1000);
+  }
+
   /**
    * @param maxLength the maximum number of characters that will be considered - can help
    *                  with performance. Don't use values below 100, as this would decrease
@@ -83,8 +91,26 @@ public class LanguageIdentifier {
    * @since 4.2
    */
   public LanguageIdentifier(int maxLength) {
+    this(noopLangCodes, maxLength);
+  }
+
+  /**
+   * @param maxLength the maximum number of characters that will be considered - can help
+   *                  with performance. Don't use values below 100, as this would decrease
+   *                  accuracy.
+   * @throws IllegalArgumentException if {@code maxLength} is less than 10
+   * @since 4.4
+   */
+  public LanguageIdentifier(List<String> additionalLanguageCodes, int maxLength) {
+    this.additionalLanguageCodes = Objects.requireNonNull(additionalLanguageCodes);
+    if (maxLength < 10) {
+      throw new IllegalArgumentException("maxLength must be >= 10 (but values > 100 are recommended): " + maxLength);
+    }
+    this.maxLength = maxLength;
     try {
-      List<LanguageProfile> profiles = loadProfiles(getLanguageCodes());
+      List<String> langCodes = getLanguageCodes();
+      langCodes.addAll(additionalLanguageCodes);
+      List<LanguageProfile> profiles = loadProfiles(langCodes);
       languageDetector = LanguageDetectorBuilder.create(NgramExtractors.standard())
         .minimalConfidence(MINIMAL_CONFIDENCE)
         .shortTextAlgorithm(SHORT_ALGO_THRESHOLD)
@@ -99,10 +125,6 @@ public class LanguageIdentifier {
     } catch (IOException e) {
       throw new RuntimeException("Could not set up language identifier", e);
     }
-    if (maxLength < 10) {
-      throw new IllegalArgumentException("maxLength must be >= 10 (but values > 100 are recommended): " + maxLength);
-    }
-    this.maxLength = maxLength;
   }
 
   public void enableFasttext(File fasttextBinary, File fasttextModel) {
@@ -170,13 +192,16 @@ public class LanguageIdentifier {
     if (!fasttextEnabled) { // no else, value can change in if clause
       languageCode = detectLanguageCode(shortText);
     }
-    if (languageCode != null && Languages.isLanguageSupported(languageCode)) {
-      return Languages.getLanguageForShortCode(languageCode);
+    if (languageCode != null && canLanguageBeDetected(languageCode)) {
+      return Languages.getLanguageForShortCode(languageCode, additionalLanguageCodes);
     } else {
       return null;
     }
   }
-
+  
+  private boolean canLanguageBeDetected(String langCode) {
+    return Languages.isLanguageSupported(langCode) || additionalLanguageCodes.contains(langCode);
+  }
 
   private void startFasttext(File modelPath, File binaryPath) throws IOException {
     fasttextProcess = new ProcessBuilder(binaryPath.getPath(), "predict-prob", modelPath.getPath(), "-", "" + K_HIGHEST_SCORES).start();
@@ -212,7 +237,7 @@ public class LanguageIdentifier {
       String langCode = lang.substring(lang.lastIndexOf("__") + 2);
       String prob = values[i + 1];
       Double probValue = Double.parseDouble(prob);
-      if (Languages.isLanguageSupported(langCode)) {
+      if (canLanguageBeDetected(langCode)) {
         probabilities.put(langCode, probValue);
       }
     }
