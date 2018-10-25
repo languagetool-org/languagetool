@@ -18,6 +18,7 @@
  */
 package org.languagetool.language;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.languagetool.Language;
 
@@ -108,6 +109,7 @@ public class LanguageIdentifierTest {
   }
 
   @Test
+  @Ignore("Only works with locally installed fastText")
   public void testAdditionalLanguagesFasttext() {
     LanguageIdentifier defaultIdent = new LanguageIdentifier();
     langAssert("sk", czech, defaultIdent);  // misdetected, as cz isn't supported by LT
