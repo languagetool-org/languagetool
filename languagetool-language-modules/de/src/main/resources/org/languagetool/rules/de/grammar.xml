@@ -30959,24 +30959,33 @@ Andere Projekte</example>
         </rulegroup>
         <rulegroup id="DER_ABGEORDNETER" name="Falscher Artikel bei substantivierten Adjektiven">
             <rule>
+                <antipattern>
+                    <token postag="PKT"></token>
+                    <token postag='ART:DEF:NOM:SIN:MAS'></token>
+                    <token regexp='yes' postag='SUB:NOM:SIN:MAS:ADJ' skip="-1">.*er\b</token>
+                    <token inflected="yes">sein</token>
+                </antipattern>
                 <pattern>
-                    <token postag="SENT_START" />
                     <token postag='ART:DEF:NOM:SIN:MAS'></token>
                     <marker>
-                    <token regexp='yes' postag='SUB:NOM:SIN:MAS:ADJ'>.*er\b</token>
+                    <token case_sensitive="yes" regexp='yes' postag_regexp="yes" postag='(SUB:NOM:SIN:MAS:ADJ|PA2:NOM:SIN:MAS:.*)'>[A-Z].*er\b</token>
                     </marker>
                 </pattern>
-                <message>Artikel und Substantiv stimmen grammatikalisch nicht überein. Meinten Sie <suggestion><match no="3" case_conversion="preserve" regexp_match="er\b" regexp_replace="e"></match></suggestion>?</message>
+                <message>Artikel und Substantiv stimmen grammatikalisch nicht überein. Meinten Sie <suggestion><match no="2" case_conversion="preserve" regexp_match="er\b" regexp_replace="e"></match></suggestion>?</message>
                 <short>Fehlende Übereinstimmung von Artikel und Substantiv</short>
                 <example correction='Abgeordnete'>Der <marker>Abgeordneter</marker> ging nach Hause.</example>
                 <example correction='Jugendliche'>Der <marker>Jugendlicher</marker> ist bockig.</example>
                 <example correction='Verrückte'>Der <marker>Verrückter</marker> ist wieder unterwegs.</example>
                 <example correction='Angestellte'>Der <marker>Angestellter</marker> streikt.</example>
                 <example correction='Verurteilte'>Der <marker>Verurteilter</marker> wurde auf Bewährung freigelassen.</example>
-                <example>Der Abgeordnete ging nach Hause.</example>
+                <example correction='Angestellte'>Der Arbeiter, der Landwirt und der <marker>Angestellter</marker> wählten alle dieselbe Partei.</example>
+                <example correction='Obdachlose'>Er wollte dem Mann helfen, doch der <marker>Obdachloser</marker> schüttelte müde den Kopf.</example>
+                <example correction='Vorgesetzte'>Hans wollte gerne nach Hause, aber der <marker>Vorgesetzter</marker> erlaubte es nicht.</example>
                 <example>Der Bauarbeiter ist auf der Baustelle.</example>
                 <example>Die Sitzung, der Abgeordneter Müller fernblieb, war beendet.</example>
+                <example>Hans Meiser, der Abgeordneter im Bundestag war, hatte niemals Feierabend.</example>
                 <example>Justizvollzugsbeamter Müller betrat den Zeugenstand.</example>
+                <example>Der Mann, der verrückter nicht sein konnte, lachte diabolisch.</example>
             </rule> 
             <rule>
                 <antipattern>
