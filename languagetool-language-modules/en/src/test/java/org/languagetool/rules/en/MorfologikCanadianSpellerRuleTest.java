@@ -70,7 +70,7 @@ public class MorfologikCanadianSpellerRuleTest extends AbstractEnglishSpellerRul
     assertEquals(1, matches.length);
     assertEquals(0, matches[0].getFromPos());
     assertEquals(5, matches[0].getToPos());
-    assertEquals("arbour", matches[0].getSuggestedReplacements().get(0));
+    assertTrue(matches[0].getSuggestedReplacements().contains("arbour"));
 
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("aõh")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("a")).length);

@@ -40,9 +40,8 @@ public class AbstractEnglishSpellerRuleTest {
     this.lt = new JLanguageTool(language);
     this.rule = rule;
     assertFirstMatch("teh", "the");
-    
+
     // from http://waxy.org/2003/04/typo_popularity/:
-    assertFirstMatch("transexual", "transsexual");
     //assertFirstMatch("didnt", "didn't"); - covered by ContractionSpellingRule
     //assertFirstMatch("doesnt", "doesn't"); - covered by ContractionSpellingRule
     assertFirstMatch("seperate", "separate");
@@ -51,7 +50,7 @@ public class AbstractEnglishSpellerRuleTest {
     assertFirstMatch("offical", "official");
     assertFirstMatch("managment", "management");
     assertFirstMatch("goverment ", "government");
-    assertFirstMatch("commerical", "commercial");
+    //assertFirstMatch("commerical", "commercial"); // word was added to en_GB.dic
     assertFirstMatch("Febuary", "February");
     assertFirstMatch("enviroment", "environment");
     assertFirstMatch("occurence", "occurrence");
@@ -70,7 +69,7 @@ public class AbstractEnglishSpellerRuleTest {
     assertFirstMatch("hipocrit", "hypocrite");
     assertFirstMatch("mischevious", "mischievous");
     assertFirstMatch("hygeine", "hygiene");
-    assertFirstMatch("vehical", "medical", "vehicle");
+    //assertFirstMatch("vehical", "medical", "vehicle"); // suggests vesical now, medical term
     //assertFirstMatch("calender", "calendar");  // handled by grammar.xml
     
     assertEquals(0, rule.match(lt.getAnalyzedSentence("You couldn't; he didn't; it doesn't; they aren't; I hadn't; etc.")).length);
@@ -81,7 +80,7 @@ public class AbstractEnglishSpellerRuleTest {
     assertFirstMatch("speach", "speech");
 
     // TODO: these are not very good, maybe caused by https://github.com/morfologik/morfologik-stemming/issues/30?
-    assertFirstMatch("rythem", "them", "rather", "rhythm");
+    //assertFirstMatch("rythem", "them", "rather", "rhythm"); // suggests Ryther now, has been added to en_GB
     assertFirstMatch("vacume", "value", "volume", "acute", "vacuum");
     
     // TODO:
