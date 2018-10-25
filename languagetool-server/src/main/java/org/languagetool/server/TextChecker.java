@@ -124,6 +124,9 @@ abstract class TextChecker {
     //print("Check start: " + text.length() + " chars, " + langParam);
     boolean autoDetectLanguage = getLanguageAutoDetect(parameters);
     List<String> preferredVariants = getPreferredVariants(parameters);
+    if (parameters.get("noopLanguages") != null && !autoDetectLanguage) {
+      throw new IllegalArgumentException("You can specify 'noopLanguages' only when also using 'language=auto'");
+    }
     List<String> noopLangs = parameters.get("noopLanguages") != null ?
             Arrays.asList(parameters.get("noopLanguages").split(",")) : Collections.emptyList();        
     DetectedLanguage detLang = getLanguage(aText.getPlainText(), parameters, preferredVariants, noopLangs);
