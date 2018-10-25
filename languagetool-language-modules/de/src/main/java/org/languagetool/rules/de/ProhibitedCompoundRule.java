@@ -39,12 +39,12 @@ import static org.languagetool.tools.StringTools.*;
  * Find compounds that might be morphologically correct but are still probably wrong, like 'Lehrzeile'.
  * @since 4.1
  */
-public class ProhibitedCompoundRule extends Rule {
+public final class ProhibitedCompoundRule extends Rule {
 
   /** @since 4.3 */
   public static final String RULE_ID = "DE_PROHIBITED_COMPOUNDS";
   // have objects static for better performance (rule gets initialized for every check)
-  protected static final List<Pair> lowercasePairs = Arrays.asList(
+  private static final List<Pair> lowercasePairs = Arrays.asList(
           // NOTE: words here must be all-lowercase
           // NOTE: no need to add words from confusion_sets.txt, they will be used automatically (if starting with uppercase char)
           new Pair("uhr", "Instrument zur Zeitmessung", "ur", "ursprünglich"),
@@ -64,10 +64,14 @@ public class ProhibitedCompoundRule extends Rule {
   );
   private static final GermanSpellerRule spellerRule = new GermanSpellerRule(JLanguageTool.getMessageBundle(), new GermanyGerman(), null, null);
   private static final List<String> ignoreWords = Arrays.asList("Die", "De");
-  protected static final List<Pair> pairs = new ArrayList<>();
+  private static final List<Pair> pairs = new ArrayList<>();
+  private static AhoCorasickDoubleArrayTrie<String> ahoCorasickDoubleArrayTrie = null;
+  private static Map<String, List<Pair>> pairMap = new HashMap<>();
+
   static {
     addUpperCaseVariants();
     addItemsFromConfusionSets("/de/confusion_sets.txt", true);
+    setupAhoCorasickSearch();
   }
 
 
@@ -92,7 +96,7 @@ public class ProhibitedCompoundRule extends Rule {
     }
   }
 
-  protected static void addItemsFromConfusionSets(String confusionSetsFile, boolean isUpperCase) {
+  private static void addItemsFromConfusionSets(String confusionSetsFile, boolean isUpperCase) {
     try {
       ResourceDataBroker dataBroker = JLanguageTool.getDataBroker();
       try (InputStream confusionSetStream = dataBroker.getFromResourceDirAsStream(confusionSetsFile)) {
@@ -124,15 +128,28 @@ public class ProhibitedCompoundRule extends Rule {
     }
   }
 
+  private static void setupAhoCorasickSearch() {
+    TreeMap<String, String> map = new TreeMap<String, String>();
+    for (Pair pair : pairs) {
+      map.put(pair.part1, pair.part1);
+      map.put(pair.part2, pair.part2);
+
+      pairMap.putIfAbsent(pair.part1, new LinkedList<>());
+      pairMap.putIfAbsent(pair.part2, new LinkedList<>());
+      pairMap.get(pair.part1).add(pair);
+      pairMap.get(pair.part2).add(pair);
+    }
+    // Build an AhoCorasickDoubleArrayTrie
+    ahoCorasickDoubleArrayTrie = new AhoCorasickDoubleArrayTrie<String>();
+    ahoCorasickDoubleArrayTrie.build(map);
+  }
+
   private final BaseLanguageModel lm;
   private Pair confusionPair = null; // specify single pair for evaluation
-  private AhoCorasickDoubleArrayTrie<String> doubleArrayTrie = null;
-  private Map<String, List<Pair>> pairMap = new HashMap<>();
 
   public ProhibitedCompoundRule(ResourceBundle messages, LanguageModel lm) {
     this.lm = (BaseLanguageModel) Objects.requireNonNull(lm);
     super.setCategory(Categories.TYPOS.getCategory(messages));
-    setupAhoCorasickSearch();
   }
 
   @Override
@@ -145,20 +162,6 @@ public class ProhibitedCompoundRule extends Rule {
     return "Markiert wahrscheinlich falsche Komposita wie 'Lehrzeile', wenn 'Leerzeile' häufiger vorkommt.";
   }
 
-  private void setupAhoCorasickSearch() {
-    TreeMap<String, String> map = new TreeMap<>();
-    for (Pair pair : pairs) {
-      map.put(pair.part1, pair.part1);
-      map.put(pair.part2, pair.part2);
-
-      pairMap.putIfAbsent(pair.part1, new LinkedList<>());
-      pairMap.putIfAbsent(pair.part2, new LinkedList<>());
-      pairMap.get(pair.part1).add(pair);
-      pairMap.get(pair.part2).add(pair);
-    }
-    doubleArrayTrie = new AhoCorasickDoubleArrayTrie<>();
-    doubleArrayTrie.build(map);
-  }
 
   @Override
   public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
@@ -174,8 +177,9 @@ public class ProhibitedCompoundRule extends Rule {
       }
       List<Pair> candidatePairs = new ArrayList<>();
       // ignore other pair when confusionPair is set (-> running for evaluation)
+
       if (confusionPair == null) {
-        List<AhoCorasickDoubleArrayTrie.Hit<String>> wordList = doubleArrayTrie.parseText(word);
+        List<AhoCorasickDoubleArrayTrie.Hit<String>> wordList = ahoCorasickDoubleArrayTrie.parseText(word);
         // might get duplicates, but since we only ever allow one match per word it doesn't matter
         for (AhoCorasickDoubleArrayTrie.Hit<String> hit : wordList) {
           List<Pair> pair = pairMap.get(hit.value);
