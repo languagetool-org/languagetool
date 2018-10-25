@@ -680,7 +680,7 @@ public class GermanSpellerRuleTest {
   private void assertCorrection(HunspellRule rule, String input, String... expectedTerms) throws IOException {
     List<String> suggestions = rule.getSuggestions(input);
     for (String expectedTerm : expectedTerms) {
-      assertTrue("Not found: '" + expectedTerm + "' in: " + suggestions, suggestions.contains(expectedTerm));
+      assertTrue("Not found: '" + expectedTerm + "' in: " + suggestions + " for input '" + input + "'", suggestions.contains(expectedTerm));
     }
   }
   
@@ -688,7 +688,7 @@ public class GermanSpellerRuleTest {
     List<String> suggestions = rule.getSuggestions(input);
     int i = 0;
     for (String expectedTerm : expectedTerms) {
-      assertTrue("Not found at position " + i + ": '" + expectedTerm + "' in: " + suggestions, suggestions.get(i).equals(expectedTerm));
+      assertTrue("Not found at position " + i + ": '" + expectedTerm + "' in: " + suggestions + " for input '" + input + "'", suggestions.get(i).equals(expectedTerm));
       i++;
     }
   }
