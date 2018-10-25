@@ -50,7 +50,7 @@ abstract class TextChecker {
                                         List<RuleMatch> hiddenMatches, String incompleteResultReason);
   @NotNull
   protected abstract List<String> getPreferredVariants(Map<String, String> parameters);
-  protected abstract DetectedLanguage getLanguage(String text, Map<String, String> parameters, List<String> preferredVariants);
+  protected abstract DetectedLanguage getLanguage(String text, Map<String, String> parameters, List<String> preferredVariants, List<String> additionalDetectLangs);
   protected abstract boolean getLanguageAutoDetect(Map<String, String> parameters);
   @NotNull
   protected abstract List<String> getEnabledRuleIds(Map<String, String> parameters);
@@ -124,7 +124,9 @@ abstract class TextChecker {
     //print("Check start: " + text.length() + " chars, " + langParam);
     boolean autoDetectLanguage = getLanguageAutoDetect(parameters);
     List<String> preferredVariants = getPreferredVariants(parameters);
-    DetectedLanguage detLang = getLanguage(aText.getPlainText(), parameters, preferredVariants);
+    List<String> noopLangs = parameters.get("noopLanguages") != null ?
+            Arrays.asList(parameters.get("noopLanguages").split(",")) : Collections.emptyList();        
+    DetectedLanguage detLang = getLanguage(aText.getPlainText(), parameters, preferredVariants, noopLangs);
     Language lang = detLang.getGivenLanguage();
     Integer count = languageCheckCounts.get(lang.getShortCodeWithCountryAndVariant());
     if (count == null) {
@@ -336,8 +338,8 @@ abstract class TextChecker {
     return result;
   }
 
-  Language detectLanguageOfString(String text, String fallbackLanguage, List<String> preferredVariants) {
-    Language lang = identifier.detectLanguage(text);
+  Language detectLanguageOfString(String text, String fallbackLanguage, List<String> preferredVariants, List<String> noopLangs) {
+    Language lang = identifier.detectLanguage(text, noopLangs);
     if (lang == null) {
       lang = Languages.getLanguageForShortCode(fallbackLanguage != null ? fallbackLanguage : "en");
     }

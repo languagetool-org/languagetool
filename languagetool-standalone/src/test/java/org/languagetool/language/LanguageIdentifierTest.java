@@ -23,6 +23,7 @@ import org.languagetool.Language;
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.fail;
@@ -111,26 +112,29 @@ public class LanguageIdentifierTest {
     LanguageIdentifier defaultIdent = new LanguageIdentifier();
     langAssert("sk", czech, defaultIdent);  // misdetected, as cz isn't supported by LT
 
-    LanguageIdentifier csIdent = new LanguageIdentifier(Arrays.asList("cs"));
+    LanguageIdentifier csIdent = new LanguageIdentifier();
     csIdent.enableFasttext(new File(fastTextBinary), new File(fastTextModel));
-    langAssert("zz", czech, csIdent);   // the no-op language
+    langAssert("zz", czech, csIdent, Arrays.asList("cs"));   // the no-op language
   }
 
   @Test
   public void testAdditionalLanguagesBuiltIn() {
     LanguageIdentifier defaultIdent = new LanguageIdentifier();
     langAssert("sk", czech, defaultIdent);  // misdetected, as cz isn't supported by LT
-
-    LanguageIdentifier csIdent = new LanguageIdentifier(Arrays.asList("cs"));
-    langAssert("zz", czech, csIdent);   // the no-op language
+    LanguageIdentifier csIdent = new LanguageIdentifier();
+    langAssert("sk", czech, csIdent, Arrays.asList("cs"));   // no-op language only supported by fastText 
   }
 
   private void langAssert(String expectedLangCode, String text) {
-    langAssert(expectedLangCode, text, identifier);
+    langAssert(expectedLangCode, text, identifier, Collections.emptyList());
   }
   
   private void langAssert(String expectedLangCode, String text, LanguageIdentifier id) {
-    Language detectedLang = id.detectLanguage(text);
+    langAssert(expectedLangCode, text, id, Collections.emptyList());
+  }
+  
+  private void langAssert(String expectedLangCode, String text, LanguageIdentifier id, List<String> noopLangCodes) {
+    Language detectedLang = id.detectLanguage(text, noopLangCodes);
     String detectedLangCode = detectedLang != null ? detectedLang.getShortCode() : null;
     if (expectedLangCode == null) {
       if (detectedLangCode != null) {

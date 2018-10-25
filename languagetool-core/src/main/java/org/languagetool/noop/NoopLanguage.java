@@ -27,6 +27,8 @@ import org.languagetool.rules.patterns.AbstractPatternRule;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.xx.DemoTagger;
+import org.languagetool.tokenizers.SentenceTokenizer;
+import org.languagetool.tokenizers.Tokenizer;
 
 import java.util.Collections;
 import java.util.List;
@@ -102,4 +104,24 @@ public class NoopLanguage extends Language {
   protected synchronized List<AbstractPatternRule> getPatternRules() {
     return Collections.emptyList();
   }
+
+  public SentenceTokenizer getSentenceTokenizer() {
+    return new SentenceTokenizer() {
+      @Override
+      public List<String> tokenize(String text) {
+        return Collections.singletonList(text);
+      }
+      @Override
+      public void setSingleLineBreaksMarksParagraph(boolean lineBreakParagraphs) {}
+      @Override
+      public boolean singleLineBreaksMarksPara() {
+        return false;
+      }
+    };
+  }
+
+  public Tokenizer getWordTokenizer() {
+    return Collections::singletonList;
+  }
+
 }
