@@ -315,6 +315,9 @@ abstract class TextChecker {
       double hitRate = cache.hitRate();
       String hitPercentage = String.format(Locale.ENGLISH, "%.2f", hitRate * 100.0f);
       print("Cache stats: " + hitPercentage + "% hit rate");
+      //print("Matches    : " + cache.getMatchesCache().stats().hitRate() + " hit rate");
+      //print("Sentences  : " + cache.getSentenceCache().stats().hitRate() + " hit rate");
+      //print("Size       : " + cache.getMatchesCache().size() + " (matches cache), " + cache.getSentenceCache().size() + " (sentence cache)");
       logger.log(new DatabaseCacheStatsLogEntry(logServerId, (float) hitRate));
     }
     JLanguageTool lt = getLanguageToolInstance(lang, motherTongue, params, userConfig);
