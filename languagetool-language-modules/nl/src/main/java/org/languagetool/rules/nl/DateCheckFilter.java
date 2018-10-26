@@ -77,7 +77,7 @@ public class DateCheckFilter extends AbstractDateCheckFilter {
     if (mon.startsWith("jul")) return 7;
     if (mon.startsWith("aug")) return 8;
     if (mon.startsWith("sep")) return 9;
-    if (mon.startsWith("okt")) return 10;
+    if (mon.startsWith("okt") || mon.startsWith("oct")) return 10;
     if (mon.startsWith("nov")) return 11;
     if (mon.startsWith("dec")) return 12;
     throw new RuntimeException("Could not find month '" + monthStr + "'");
