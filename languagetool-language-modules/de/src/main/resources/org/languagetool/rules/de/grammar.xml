@@ -7640,6 +7640,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message><suggestion>\1\2</suggestion> wird zusammengeschrieben.</message>
             <example correction='auseinandergesetzt'>Ich habe mich damit schon länger <marker>auseinander gesetzt</marker>.</example>
         </rule>
+        <rule id="AUSSEN_VOR_LASSE" name="außen vorlassen (vor lassen)">
+            <pattern>
+                <token>außen</token>
+                <marker><token regexp="yes">vor(ge)?l[aä]ss(en|t)</token></marker>
+            </pattern>
+            <message>In der Bedeutung 'jemanden außschließen / nicht beteiligen / nicht informieren' wird 'außen vor lassen' auseinandergeschrieben.</message>
+            <suggestion>vor <match no="2" regexp_match="vor" regexp_replace=""/></suggestion>
+            <example correction="vor gelassen">Sie hat mich außen <marker>vorgelassen</marker>.</example>
+        </rule>
         <rule id="STATT_DESSEN" name="statt dessen (stattdessen)">
             <pattern>
                 <token>statt<exception scope="previous">,</exception></token>
