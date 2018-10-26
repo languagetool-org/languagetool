@@ -294,6 +294,8 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("intersannt", "interessant", rule, lt);
     assertFirstSuggestion("allereinzigstem", "einzigem", rule, lt);
     assertFirstSuggestion("Einzigste", "Einzige", rule, lt);
+    assertFirstSuggestion("namenhafte", "namhafte", rule, lt);
+    assertFirstSuggestion("homeophatisch", "homöopathisch", rule, lt);
   }
 
   @Test

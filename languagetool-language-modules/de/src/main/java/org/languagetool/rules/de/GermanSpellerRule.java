@@ -120,6 +120,12 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("Phählen?", "^Ph", "Pf");
     putRepl("Kattermesser[ns]?", "Ka", "Cu");
     putRepl("gehert(e[mnrs]?)?", "he", "eh"); // "geherte" -> "geehrte"
+    putRepl("gehrter?", "^ge", "gee");
+    putRepl("[nN]amenhaft(e[mnrs]?)?", "amen", "am");
+    putRepl("hom(o?e|ö)ophatisch(e[mnrs]?)?", "hom(o?e|ö)ophat", "homöopath");
+    putRepl("Geschwindlichkeit(en)?", "lich", "ig");
+    put("Investion", "Investition");
+    put("Pakur", w -> Arrays.asList("Parcours", "Parkuhr"));
     put("kreativlos(e[nmrs]?)?", w -> Arrays.asList(w.replaceFirst("kreativ", "fantasie"), w.replaceFirst("kreativ", "einfalls"), w.replaceFirst("kreativlos", "unkreativ"), w.replaceFirst("kreativlos", "uninspiriert")));
     put("Kreativlosigkeit", "Unkreativität");
     put("hinund?her", "hin und her");
