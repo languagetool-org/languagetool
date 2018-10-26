@@ -205,14 +205,14 @@ public class WordTokenizer implements Tokenizer {
       return true;
     } else if (l.size() > i + 1) {
       String nextToken = l.get(i + 1);
-      if (StringTools.isWhitespace(nextToken) &&
+      if ((StringTools.isWhitespace(nextToken) || StringUtils.equalsAny(nextToken, "\"", "»", "«", "‘", "’", "“", "”", "'", ".")) &&
             (StringUtils.equalsAny(token, ".", ",", ";", ":", "!", "?") || token.equals(urlQuote))) {
         return true;
       } else if (!URL_CHARS.matcher(token).matches()) {
         return true;
       }
     } else {
-      if (!URL_CHARS.matcher(token).matches()) {
+      if (!URL_CHARS.matcher(token).matches() || token.equals(".")) {
         return true;
       }
     }
