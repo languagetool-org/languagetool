@@ -118,7 +118,7 @@ public class GermanReadabilityRule extends ReadabilityRule {
 
   @Override
   public String getConfigureText() {
-    return "Grad der Lebarkeit 0 (sehr schwierig) bis 6 (sehr einfach):";
+    return "Grad der Lesbarkeit 0 (sehr schwierig) bis 6 (sehr einfach):";
   }
 
   @Override
