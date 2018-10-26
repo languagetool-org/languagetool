@@ -142,7 +142,8 @@ public class VerbAgreementRule extends TextLevelRule {
      new PatternTokenBuilder().tokenRegex("D[au]rf.*|Muss.*").build(),
      new PatternTokenBuilder().posRegex("PRO:PER:NOM:.+").build(),
      new PatternTokenBuilder().posRegex("VER:INF:.+").build(),
-     new PatternTokenBuilder().pos("PKT").build()
+     new PatternTokenBuilder().pos("PKT").build(),
+     new PatternTokenBuilder().tokenRegex("(?!die).+").build()
     ),
     Arrays.asList(
      new PatternTokenBuilder().csToken("(").build(),
