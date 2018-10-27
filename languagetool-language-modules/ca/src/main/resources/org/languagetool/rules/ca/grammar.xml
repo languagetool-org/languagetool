@@ -19494,6 +19494,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <!-- This rulegroup would be unnecessary if LibreOffice/OpenOffice tokenized the words containing hyphens like LanguageTool -->
             <rule>
                 <pattern>
+                    <token>boca</token>
+                    <token>-</token>
+                    <token inflected="yes">moll</token>
+                </pattern>
+                <message>S'escriu sense guionet.</message>
+                <suggestion>\1\3</suggestion>
+                <example correction="bocamolles">Són unes <marker>boca-molles</marker></example>
+                <example correction="bocamoll">És un <marker>boca-moll</marker></example>
+            </rule>
+            <rule>
+                <pattern>
                     <token>contra</token>
                     <token>-</token>
                     <token inflected="yes">direcció</token>
