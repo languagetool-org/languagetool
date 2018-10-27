@@ -131,8 +131,10 @@ public class CaseRuleTest {
     assertGood("Das machen eher die Erwachsenen.");
     assertGood("Das ist ihr Zuhause.");
     assertGood("Das ist Sandras Zuhause.");
+    assertGood("Das machen eher wohlhabende Leute.");
 
     //assertBad("Sie sind nicht Verständlich");
+    assertBad("Das machen der Töne ist schwierig.");
     assertBad("Sie Vertraute niemandem.");
     assertBad("Beten Lernt man in Nöten.");
     assertBad("Ich gehe gerne Joggen.");

@@ -247,7 +247,7 @@ public class CaseRule extends Rule {
      ),
      Arrays.asList(
         // "Vor Betreten des" / "Trotz Verboten seiner Eltern"
-        posRegex("PRP:.*|ADV:MOD"),
+        posRegex("PRP:.+|ADV:MOD"),
         pos("VER:PA2:NON"),
         posRegex("(ART|PRO):(IND|DE[FM]|POS):GEN:.*")
      ),
@@ -281,7 +281,7 @@ public class CaseRule extends Rule {
      Arrays.asList( // "Das schließen Forscher aus ..."
        new PatternTokenBuilder().pos(JLanguageTool.SENTENCE_START_TAGNAME).build(),
        new PatternTokenBuilder().csToken("Das").build(),
-       new PatternTokenBuilder().pos("VER:INF:NON").build(), 
+       new PatternTokenBuilder().posRegex("VER:INF:(SFT|NON)").build(), 
        new PatternTokenBuilder().posRegex("SUB:NOM:PLU:.+|ADV:MOD").build()
     ),
     Arrays.asList( // "Tausende Gläubige kamen, um ihn zu sehen."
