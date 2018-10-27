@@ -826,11 +826,8 @@ public class CaseRule extends Rule {
             continue;
           }
         }
-        if (isPrevProbablyRelativePronoun(tokens, i)) {
-          continue;
-        }
-        if (prevTokenIsDas && getTokensWithPartialPosTagCount(tokens, "VER") == 1) {
-          // ignore sentences containing a single verb, e.g., "Das wissen viele nicht."
+        if (isPrevProbablyRelativePronoun(tokens, i) ||
+            (prevTokenIsDas && getTokensWithPartialPosTagCount(tokens, "VER") == 1)) {// ignore sentences containing a single verb, e.g., "Das wissen viele nicht."
           continue;
         }
         potentiallyAddLowercaseMatch(ruleMatches, tokens[i], prevTokenIsDas, token, nextTokenIsPersonalOrReflexivePronoun, sentence);
@@ -1035,7 +1032,7 @@ public class CaseRule extends Rule {
     }
     // capitalization after ":" requires an independent clause to follow
     // if there is not a single verb, the tokens cannot be part of an independent clause
-    return getTokensWithPartialPosTagCount(subarray, "VER") != 0;
+    return getTokensWithPartialPosTagCount(subarray, "VER:") != 0;
 }
 
   private void addRuleMatch(List<RuleMatch> ruleMatches, AnalyzedSentence sentence, String msg, AnalyzedTokenReadings tokenReadings, String fixedWord) {
@@ -1049,7 +1046,8 @@ public class CaseRule extends Rule {
     return i >= 2
             && StringUtils.equalsAny(tokens[i-1].getToken(), ")", "]")
             && NUMERALS_EN.matcher(tokens[i-2].getToken()).matches()
-            && !(i > 3 && tokens[i-3].getToken().equals("(") && tokens[i-4].hasPartialPosTag("SUB:")); // no numbering "Der Vater (51) fuhr nach Rom."
+            && !(i > 3 && tokens[i-3].getToken().equals("(")
+              && tokens[i-4].hasPosTagStartingWith("SUB:")); // no numbering "Der Vater (51) fuhr nach Rom."
   }
 
   private boolean isEllipsis(int i, AnalyzedTokenReadings[] tokens) {
@@ -1230,10 +1228,7 @@ public class CaseRule extends Rule {
     }
     int i = 0;
     for (int j = startIndex; j <= endIndex; j++) {
-      if (i >= patterns.length || j >= tokens.length) {
-        return false;
-      }
-      if (!patterns[i].matcher(tokens[j].getToken()).matches()) {
+      if (i >= patterns.length || j >= tokens.length || !patterns[i].matcher(tokens[j].getToken()).matches()) {
         return false;
       }
       i++;
