@@ -212,8 +212,10 @@ public class AgreementRuleTest {
     assertGood("Auch das hatte sein Gutes.");
     assertGood("Auch wenn es sein Gutes hatte, war es doch traurig.");
     assertGood("Er wollte doch nur jemandem Gutes tun.");
+    assertGood("und das erst Jahrhunderte spätere Auftauchen der Legende");
 
     // incorrect sentences:
+    assertBad("Ein Buch mit einem ganz ähnlichem Titel.");
     assertBad("Meiner Chef raucht.");
     assertBad("Er hat eine 34-jährigen Sohn.");
     assertBad("Es sind die Tisch.", "dem Tisch", "den Tisch", "der Tisch", "die Tische");

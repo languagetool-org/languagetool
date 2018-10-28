@@ -370,6 +370,16 @@ public class AgreementRule extends Rule {
     )
   );
 
+  private static final Set<String> MODIFIERS = new HashSet<>(Arrays.asList(
+      "besonders",
+      "fast",
+      "ganz",
+      "geradezu",
+      "sehr",
+      "überaus",
+      "ziemlich"
+    ));
+
   private static final Set<String> VIELE_WENIGE_LOWERCASE = new HashSet<>(Arrays.asList(
     "viele",
     "vieler",
@@ -540,7 +550,7 @@ public class AgreementRule extends Rule {
    * @return index of first non-modifier token
    */
   private int getPosAfterModifier(int startAt, AnalyzedTokenReadings[] tokens) {
-    if ((startAt + 1) < tokens.length && tokens[startAt].hasPosTag("ADV:MOD")) {
+    if ((startAt + 1) < tokens.length && MODIFIERS.contains(tokens[startAt].getToken())) {
       startAt++;
     }
     if ((startAt + 1) < tokens.length && (StringUtils.isNumeric(tokens[startAt].getToken()) || tokens[startAt].hasPosTag("ZAL"))) {
