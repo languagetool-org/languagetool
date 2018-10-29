@@ -288,7 +288,7 @@ abstract class TextChecker {
 
     int matchCount = matches.size();
     DatabaseCheckLogEntry logEntry = new DatabaseCheckLogEntry(userId, agentId, logServerId, textSize, matchCount,
-      lang, detLang.getDetectedLanguage(), computationTime, textSessionId);
+      lang, detLang.getDetectedLanguage(), computationTime, textSessionId, mode.toString());
     Map<String, Integer> ruleMatchCount = new HashMap<>();
     for (RuleMatch match : matches) {
       String ruleId = match.getRule().getId();
