@@ -20,6 +20,7 @@ package org.languagetool.server;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
+import org.apache.ibatis.datasource.pooled.PooledDataSource;
 import org.apache.ibatis.exceptions.PersistenceException;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.jdbc.SQL;
@@ -74,6 +75,12 @@ class DatabaseAccess {
         properties.setProperty("username", config.getDatabaseUsername());
         properties.setProperty("password", config.getDatabasePassword());
         sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream, properties);
+
+        // try to close connections even on hard restart
+        // workaround as described in https://github.com/mybatis/mybatis-3/issues/821
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> ((PooledDataSource)sqlSessionFactory
+          .getConfiguration().getEnvironment().getDataSource()).forceCloseAll()));
+
         DatabaseLogger.init(sqlSessionFactory);
         if (!config.getDatabaseLogging()) {
           print("dbLogging not set to true, turning off logging");
