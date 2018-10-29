@@ -40,9 +40,10 @@ class DatabaseLogger {
   static final int SQL_BATCH_SIZE = 10;
   static final int SQL_BATCH_WAITING_TIME = 5000; // milliseconds to wait until batch gets committed anyway
   static final int POLLING_TIME = 1000; */
-  static final int SQL_BATCH_SIZE = 100;
+  static final int SQL_BATCH_SIZE = 1000;
   static final int SQL_BATCH_WAITING_TIME = 10000; // milliseconds to wait until batch gets committed anyway
   static final int POLLING_TIME = 1000;
+  static final int MAX_QUEUE_SIZE = 50000; // drop entries after limit is reached, to avoid running out of memory
 
   /**
    * @return an instance that will be disabled until initialized by DatabaseAccess
@@ -73,7 +74,7 @@ class DatabaseLogger {
           while(!Thread.currentThread().isInterrupted()
             && batchSize < SQL_BATCH_SIZE
             && System.currentTimeMillis() - batchTime < SQL_BATCH_WAITING_TIME)  {
-            if (messages.size() > 10) {
+            if (messages.size() > SQL_BATCH_SIZE) {
               ServerTools.print(String.format("Logging queue filling up: %d entries", messages.size()));
             }
             // polling to be able to react when waiting time has elapsed
@@ -129,7 +130,7 @@ class DatabaseLogger {
 
   public void log(DatabaseLogEntry entry) {
     try {
-      if (!disabled) {
+      if (!disabled && messages.size() < MAX_QUEUE_SIZE) {
         messages.put(entry);
       }
     } catch (InterruptedException e) {
