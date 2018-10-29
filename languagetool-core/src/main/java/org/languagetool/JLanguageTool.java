@@ -153,6 +153,8 @@ public class JLanguageTool {
   }
 
   public enum Mode {
+    // IMPORTANT: directly logged via toString into check_log database table.
+    // column is varchar(32), so take care to not exceed this length here
     /** Use all active rules for checking. */
     ALL,
     /** Use only text-level rules for checking. This is typically much faster then using all rules or {@code ALL_BUT_TEXTLEVEL_ONLY}. */
