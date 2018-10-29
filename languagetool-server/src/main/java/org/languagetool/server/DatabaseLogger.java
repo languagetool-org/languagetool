@@ -130,8 +130,12 @@ class DatabaseLogger {
 
   public void log(DatabaseLogEntry entry) {
     try {
-      if (!disabled && messages.size() < MAX_QUEUE_SIZE) {
-        messages.put(entry);
+      if (!disabled) {
+        if (messages.size() < MAX_QUEUE_SIZE) {
+          messages.put(entry);
+        } else {
+          ServerTools.print("Logging queue has reached size limit; discarding new messages.");
+        }
       }
     } catch (InterruptedException e) {
       e.printStackTrace();
