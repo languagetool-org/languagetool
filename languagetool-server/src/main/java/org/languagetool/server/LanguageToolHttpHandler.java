@@ -76,7 +76,7 @@ class LanguageToolHttpHandler implements HttpHandler {
         // healthcheck should come before other limit checks (requests per time etc.), to be sure it works: 
         String pathWithoutVersion = requestedUri.getRawPath().substring("/v2/".length());
         if (pathWithoutVersion.equals("healthcheck")) {
-          if (workQueueFull(httpExchange, "Healthcheck failed: There are currently too many parallel requests.")) {
+          if (workQueueFull(httpExchange, parameters, "Healthcheck failed: There are currently too many parallel requests.")) {
             return;
           } else {
             String ok = "OK";
@@ -120,7 +120,8 @@ class LanguageToolHttpHandler implements HttpHandler {
           String errorMessage = "Error: Access from " + remoteAddress + " denied: " + e.getMessage();
           int code = HttpURLConnection.HTTP_FORBIDDEN;
           sendError(httpExchange, code, errorMessage);
-          logError(errorMessage, code, parameters, httpExchange);
+          // already logged vai DatabaseAccessLimitLogEntry
+          logError(errorMessage, code, parameters, httpExchange, false);
           return;
         }
       }
@@ -135,7 +136,7 @@ class LanguageToolHttpHandler implements HttpHandler {
         logError(errorMessage, code, parameters, httpExchange);
         return;
       }
-      if (workQueueFull(httpExchange, "Error: There are currently too many parallel requests. Please try again later.")) {
+      if (workQueueFull(httpExchange, parameters, "Error: There are currently too many parallel requests. Please try again later.")) {
         return;
       }
       if (allowedIps == null || allowedIps.contains(origAddress)) {
@@ -215,10 +216,10 @@ class LanguageToolHttpHandler implements HttpHandler {
            referrer.startsWith("http://www." + blockedRef) || referrer.startsWith("https://www." + blockedRef);
   }
 
-  private boolean workQueueFull(HttpExchange httpExchange, String response) throws IOException {
+  private boolean workQueueFull(HttpExchange httpExchange, Map<String, String> parameters, String response) throws IOException {
     if (config.getMaxWorkQueueSize() != 0 && workQueue.size() > config.getMaxWorkQueueSize()) {
-      print(response + ", sending code 503. Queue size: " + workQueue.size() + ", maximum size: " + config.getMaxWorkQueueSize() +
-              ", handlers:" + reqCounter.getHandleCount() + ", r:" + reqCounter.getRequestCount());
+      String message = response + " queue size: " + workQueue.size() + ", maximum size: " + config.getMaxWorkQueueSize();
+      logError(message, 503, parameters, httpExchange);
       sendError(httpExchange, HttpURLConnection.HTTP_UNAVAILABLE, "Error: " + response);
       return true;
     }
@@ -240,6 +241,10 @@ class LanguageToolHttpHandler implements HttpHandler {
   }
 
   private void logError(String errorMessage, int code, Map<String, String> params, HttpExchange httpExchange) {
+    logError(errorMessage, code, params, httpExchange, true);
+  }
+
+  private void logError(String errorMessage, int code, Map<String, String> params, HttpExchange httpExchange, boolean logToDb) {
     String message = errorMessage + ", sending code " + code + " - useragent: " + params.get("useragent") +
             " - HTTP UserAgent: " + getHttpUserAgent(httpExchange) + ", r:" + reqCounter.getRequestCount();
     if (params.get("username") != null) {
@@ -248,8 +253,9 @@ class LanguageToolHttpHandler implements HttpHandler {
     if (params.get("apiKey") != null) {
       message += ", apiKey: " + params.get("apiKey");
     }
-
-    logToDatabase(params, message);
+    if (logToDb) {
+      logToDatabase(params, message);
+    }
     print(message);
   }
 
@@ -285,7 +291,7 @@ class LanguageToolHttpHandler implements HttpHandler {
     }
 
     if (!(e instanceof TextTooLongException || e instanceof TooManyRequestsException ||
-        e instanceof ErrorRateTooHighException || e.getCause() instanceof TimeoutException)) {
+        ExceptionUtils.getRootCause(e) instanceof ErrorRateTooHighException || e.getCause() instanceof TimeoutException)) {
       if (config.isVerbose() && text != null && textLoggingAllowed) {
         print("Exception was caused by this text (" + text.length() + " chars, showing up to 500):\n" +
           StringUtils.abbreviate(text, 500), System.err);
