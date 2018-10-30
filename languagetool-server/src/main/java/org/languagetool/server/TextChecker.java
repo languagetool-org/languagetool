@@ -20,15 +20,16 @@ package org.languagetool.server;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.sun.net.httpserver.HttpExchange;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.jetbrains.annotations.NotNull;
 import org.languagetool.*;
-import org.languagetool.gui.Configuration;
 import org.languagetool.language.LanguageIdentifier;
 import org.languagetool.markup.AnnotatedText;
 import org.languagetool.rules.CategoryId;
 import org.languagetool.rules.RuleMatch;
-import org.languagetool.tools.Tools;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -65,7 +66,6 @@ abstract class TextChecker {
   private static final int CACHE_STATS_PRINT = 500; // print cache stats every n cache requests
   
   private final Map<String,Integer> languageCheckCounts = new HashMap<>(); 
-  private final boolean internalServer;
   private Queue<Runnable> workQueue;
   private RequestCounter reqCounter;
   private final LanguageIdentifier identifier;
@@ -73,10 +73,10 @@ abstract class TextChecker {
   private final ResultCache cache;
   private final DatabaseLogger logger;
   private final Long logServerId;
+  PipelinePool pipelinePool; // mocked in test -> package-private / not final
 
   TextChecker(HTTPServerConfig config, boolean internalServer, Queue<Runnable> workQueue, RequestCounter reqCounter) {
     this.config = config;
-    this.internalServer = internalServer;
     this.workQueue = workQueue;
     this.reqCounter = reqCounter;
     this.identifier = new LanguageIdentifier();
@@ -89,6 +89,7 @@ abstract class TextChecker {
     } else {
       this.logServerId = null;
     }
+    pipelinePool = new PipelinePool(config, cache, internalServer);
   }
 
   void shutdownNow() {
@@ -320,8 +321,15 @@ abstract class TextChecker {
       //print("Size       : " + cache.getMatchesCache().size() + " (matches cache), " + cache.getSentenceCache().size() + " (sentence cache)");
       logger.log(new DatabaseCacheStatsLogEntry(logServerId, (float) hitRate));
     }
-    JLanguageTool lt = getLanguageToolInstance(lang, motherTongue, params, userConfig);
-    return lt.check(aText, true, JLanguageTool.ParagraphHandling.NORMAL, listener, params.mode);
+    PipelinePool.PipelineSettings settings = null;
+    Pipeline lt = null;
+    try {
+      settings = new PipelinePool.PipelineSettings(lang, motherTongue, params, userConfig);
+      lt = pipelinePool.getPipeline(settings);
+      return lt.check(aText, true, JLanguageTool.ParagraphHandling.NORMAL, listener, params.mode);
+    } finally {
+      pipelinePool.returnPipeline(settings, lt);
+    }
   }
 
   @NotNull
@@ -370,53 +378,7 @@ abstract class TextChecker {
     return lang;
   }
 
-  /**
-   * Create a JLanguageTool instance for a specific language, mother tongue, and rule configuration.
-   *
-   * @param lang the language to be used
-   * @param motherTongue the user's mother tongue or {@code null}
-   */
-  private JLanguageTool getLanguageToolInstance(Language lang, Language motherTongue, QueryParams params, UserConfig userConfig) throws Exception {
-    JLanguageTool lt = new JLanguageTool(lang, params.altLanguages, motherTongue, cache, userConfig);
-    lt.setMaxErrorsPerWordRate(config.getMaxErrorsPerWordRate());
-    if (config.getLanguageModelDir() != null) {
-      lt.activateLanguageModelRules(config.getLanguageModelDir());
-    }
-    if (config.getWord2VecModelDir () != null) {
-      lt.activateWord2VecModelRules(config.getWord2VecModelDir());
-    }
-    if (config.getRulesConfigFile() != null) {
-      configureFromRulesFile(lt, lang);
-    } else {
-      configureFromGUI(lt, lang);
-    }
-    if (params.useQuerySettings) {
-      Tools.selectRules(lt, new HashSet<>(params.disabledCategories), new HashSet<>(params.enabledCategories),
-              new HashSet<>(params.disabledRules), new HashSet<>(params.enabledRules), params.useEnabledOnly);
-    }
-    return lt;
-  }
-
-  private void configureFromRulesFile(JLanguageTool langTool, Language lang) throws IOException {
-    print("Using options configured in " + config.getRulesConfigFile());
-    // If we are explicitly configuring from rules, ignore the useGUIConfig flag
-    if (config.getRulesConfigFile() != null) {
-      org.languagetool.gui.Tools.configureFromRules(langTool, new Configuration(config.getRulesConfigFile()
-          .getCanonicalFile().getParentFile(), config.getRulesConfigFile().getName(), lang));
-    } else {
-      throw new RuntimeException("config.getRulesConfigFile() is null");
-    }
-  }
-
-  private void configureFromGUI(JLanguageTool langTool, Language lang) throws IOException {
-    Configuration config = new Configuration(lang);
-    if (internalServer && config.getUseGUIConfig()) {
-      print("Using options configured in the GUI");
-      org.languagetool.gui.Tools.configureFromRules(langTool, config);
-    }
-  }
-
-  private static class QueryParams {
+  static class QueryParams {
     final List<Language> altLanguages;
     final List<String> enabledRules;
     final List<String> disabledRules;
@@ -440,6 +402,59 @@ abstract class TextChecker {
       this.allowIncompleteResults = allowIncompleteResults;
       this.enableHiddenRules = enableHiddenRules;
       this.mode = Objects.requireNonNull(mode);
+    }
+
+    @Override
+    public int hashCode() {
+      return new HashCodeBuilder()
+        .append(altLanguages)
+        .append(enabledRules)
+        .append(disabledRules)
+        .append(enabledCategories)
+        .append(disabledCategories)
+        .append(useEnabledOnly)
+        .append(useQuerySettings)
+        .append(allowIncompleteResults)
+        .append(enableHiddenRules)
+        .append(mode)
+        .toHashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+      if (obj == this) return true;
+      if (obj == null || getClass() != obj.getClass()) {
+        return false;
+      }
+      QueryParams other = (QueryParams) obj;
+      return new EqualsBuilder()
+        .append(altLanguages, other.altLanguages)
+        .append(enabledRules, other.enabledRules)
+        .append(disabledRules, other.disabledRules)
+        .append(enabledCategories, other.enabledCategories)
+        .append(disabledCategories, other.disabledCategories)
+        .append(useEnabledOnly, other.useEnabledOnly)
+        .append(useQuerySettings, other.useQuerySettings)
+        .append(allowIncompleteResults, other.allowIncompleteResults)
+        .append(enableHiddenRules, other.enableHiddenRules)
+        .append(mode, other.mode)
+        .isEquals();
+    }
+
+    @Override
+    public String toString() {
+      return new ToStringBuilder(this)
+        .append("altLanguages", altLanguages)
+        .append("enabledRules", enabledRules)
+        .append("disabledRules", disabledRules)
+        .append("enabledCategories", enabledCategories)
+        .append("disabledCategories", disabledCategories)
+        .append("useEnabledOnly", useEnabledOnly)
+        .append("useQuerySettings", useQuerySettings)
+        .append("allowIncompleteResults", allowIncompleteResults)
+        .append("enableHiddenRules", enableHiddenRules)
+        .append("mode", mode)
+        .build();
     }
   }
 

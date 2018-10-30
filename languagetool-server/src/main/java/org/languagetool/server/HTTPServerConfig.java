@@ -63,6 +63,10 @@ public class HTTPServerConfig {
   protected Mode mode;
   protected File languageModelDir = null;
   protected File word2vecModelDir = null;
+  protected boolean pipelineCaching = false;
+
+  protected int maxPipelinePoolSize;
+  protected int pipelineExpireTime;
   protected int requestLimit;
   protected int requestLimitInBytes;
   protected int timeoutRequestLimit;
@@ -173,6 +177,9 @@ public class HTTPServerConfig {
         requestLimit = Integer.parseInt(getOptionalProperty(props, "requestLimit", "0"));
         requestLimitInBytes = Integer.parseInt(getOptionalProperty(props, "requestLimitInBytes", "0"));
         timeoutRequestLimit = Integer.parseInt(getOptionalProperty(props, "timeoutRequestLimit", "0"));
+        pipelineCaching = Boolean.parseBoolean(getOptionalProperty(props, "pipelineCaching", "false"));
+        maxPipelinePoolSize = Integer.parseInt(getOptionalProperty(props, "maxPipelinePoolSize", "5"));
+        pipelineExpireTime = Integer.parseInt(getOptionalProperty(props, "pipelineExpireTimeInSeconds", "10"));
         requestLimitPeriodInSeconds = Integer.parseInt(getOptionalProperty(props, "requestLimitPeriodInSeconds", "0"));
         ipFingerprintFactor = Integer.parseInt(getOptionalProperty(props, "ipFingerprintFactor", "1"));
         trustXForwardForHeader = Boolean.valueOf(getOptionalProperty(props, "trustXForwardForHeader", "false"));
@@ -491,6 +498,49 @@ public class HTTPServerConfig {
   /** @since 2.9 */
   int getMaxWorkQueueSize() {
     return maxWorkQueueSize;
+  }
+
+
+  /**
+   * @since 4.4
+   * Cache initalized JLanguageTool instances and share between non-parallel requests with identical paramenters
+   * Improves response time (especially when dealing with many small requests without specific settings),
+   * but increases memory usage
+   */
+  public boolean isPipelineCachingEnabled() {
+    return pipelineCaching;
+  }
+
+  /**
+   * @since 4.4
+   * Keep pipelines ready for this many different request settings
+   */
+  public int getMaxPipelinePoolSize() {
+    return maxPipelinePoolSize;
+  }
+
+  /**
+   * @since 4.4
+   * Expire pipelines for a specific request setting after this many seconds without any matching request elapsed
+   */
+  public int getPipelineExpireTime() {
+    return pipelineExpireTime;
+  }
+
+
+  /** @since 4.4 */
+  public void setPipelineCaching(boolean pipelineCaching) {
+    this.pipelineCaching = pipelineCaching;
+  }
+
+  /** @since 4.4 */
+  public void setMaxPipelinePoolSize(int maxPipelinePoolSize) {
+    this.maxPipelinePoolSize = maxPipelinePoolSize;
+  }
+
+  /** @since 4.4 */
+  public void setPipelineExpireTime(int pipelineExpireTime) {
+    this.pipelineExpireTime = pipelineExpireTime;
   }
 
   /**

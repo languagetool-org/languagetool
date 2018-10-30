@@ -102,7 +102,8 @@ public class UserConfig {
   public LinguServices getLinguServices() {
     return linguServices;
   }
-  
+
+  // TODO: optimize this! equals on userSpecificSpellerWords can be expensive with huge dicts
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
