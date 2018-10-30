@@ -42,8 +42,9 @@ class DatabaseLogger {
   static final int POLLING_TIME = 1000; */
   static final int SQL_BATCH_SIZE = 1000;
   static final int SQL_BATCH_WAITING_TIME = 10000; // milliseconds to wait until batch gets committed anyway
-  static final int POLLING_TIME = 1000;
-  static final int MAX_QUEUE_SIZE = 50000; // drop entries after limit is reached, to avoid running out of memory
+  
+  private static final int POLLING_TIME = 1000;
+  private static final int MAX_QUEUE_SIZE = 50000; // drop entries after limit is reached, to avoid running out of memory
 
   /**
    * @return an instance that will be disabled until initialized by DatabaseAccess
@@ -79,7 +80,6 @@ class DatabaseLogger {
             }
             // polling to be able to react when waiting time has elapsed
             DatabaseLogEntry entry = messages.poll(POLLING_TIME, TimeUnit.MILLISECONDS);
-
             if (entry == null) {
               continue;
             }
@@ -102,19 +102,19 @@ class DatabaseLogger {
     }
   }
 
-  private final BlockingQueue<DatabaseLogEntry> messages = new LinkedBlockingQueue<>();;
+  private final BlockingQueue<DatabaseLogEntry> messages = new LinkedBlockingQueue<>();
   private SqlSessionFactory sessionFactory = null;
   private WorkerThread worker = null;
   private boolean disabled = true;
+
+  private DatabaseLogger() {
+  }
 
   private void start(SqlSessionFactory factory) {
     sessionFactory = factory;
     disabled = false;
     worker = new WorkerThread();
     worker.start();
-  }
-
-  private DatabaseLogger() {
   }
 
   public void disableLogging() {
