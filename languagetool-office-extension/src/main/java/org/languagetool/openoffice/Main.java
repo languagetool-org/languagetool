@@ -102,7 +102,9 @@ public class Main extends WeakBase implements XJobExecutor,
   private Configuration prepareConfig() {
     try {
       Configuration config = documents.getConfiguration();
-      disabledRules = config.getDisabledRuleIds();
+      if (config != null) {
+        disabledRules = config.getDisabledRuleIds();
+      }
       if (disabledRules == null) {
         disabledRules = new HashSet<>();
       }
