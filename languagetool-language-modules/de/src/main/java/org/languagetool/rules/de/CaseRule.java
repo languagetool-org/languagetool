@@ -1061,7 +1061,8 @@ public class CaseRule extends Rule {
     // TODO: wir finden den Fehler in "Die moderne Wissenschaftlich" nicht, weil nicht alle
     // Substantivierungen in den Morphy-Daten stehen (z.B. "Größte" fehlt) und wir deshalb nur
     // eine Abfrage machen, ob der erste Buchstabe groß ist.
-    if (StringTools.startsWithUppercase(token) && !isNumber(token) && !(hasNounReading(nextReadings) || StringUtils.isNumeric(nextReadings.getToken())) && !token.matches("Alle[nm]")) {
+    if (StringTools.startsWithUppercase(token) && !isNumber(token) && !(hasNounReading(nextReadings) ||
+        (nextReadings != null && StringUtils.isNumeric(nextReadings.getToken()))) && !token.matches("Alle[nm]")) {
       if (lowercaseReadings != null && lowercaseReadings.hasPosTag("PRP:LOK+TMP+CAU:DAT+AKK")) {
         return false;
       }
