@@ -247,6 +247,10 @@ class LanguageToolHttpHandler implements HttpHandler {
   private void logError(String errorMessage, int code, Map<String, String> params, HttpExchange httpExchange, boolean logToDb) {
     String message = errorMessage + ", sending code " + code + " - useragent: " + params.get("useragent") +
             " - HTTP UserAgent: " + getHttpUserAgent(httpExchange) + ", r:" + reqCounter.getRequestCount();
+    // TODO: might need more than 512 chars:
+    //message += ", referrer: " + getHttpReferrer(httpExchange);
+    //message += ", language: " + params.get("language");
+    //message += ", " + getTextOrDataSizeMessage(params);
     if (params.get("username") != null) {
       message += ", user: " + params.get("username");
     }
