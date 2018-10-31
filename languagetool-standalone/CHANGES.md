@@ -16,6 +16,12 @@
     be underlined with a light blue instead of red.
     Support for this is experimental, i.e. it might be removed again or implemented
     in a different way. 
+  * Experimental support for `noopLanguages` parameter: takes a list of language
+    codes of languages that are not supported by LT but that will be detected and
+    mapped to a no-op language without rules. Useful for clients that rely on
+    language auto-detection and whose users might use languages not supported by LT.
+    NOTE 1: only works with fastText configured
+    NOTE 2: setting languages here will worsen language detection quality on average 
 
 
 

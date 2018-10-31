@@ -247,7 +247,7 @@ public class CaseRule extends Rule {
      ),
      Arrays.asList(
         // "Vor Betreten des" / "Trotz Verboten seiner Eltern"
-        posRegex("PRP:.*|ADV:MOD"),
+        posRegex("PRP:.+|ADV:MOD"),
         pos("VER:PA2:NON"),
         posRegex("(ART|PRO):(IND|DE[FM]|POS):GEN:.*")
      ),
@@ -281,7 +281,7 @@ public class CaseRule extends Rule {
      Arrays.asList( // "Das schließen Forscher aus ..."
        new PatternTokenBuilder().pos(JLanguageTool.SENTENCE_START_TAGNAME).build(),
        new PatternTokenBuilder().csToken("Das").build(),
-       new PatternTokenBuilder().pos("VER:INF:NON").build(), 
+       new PatternTokenBuilder().posRegex("VER:INF:(SFT|NON)").build(), 
        new PatternTokenBuilder().posRegex("SUB:NOM:PLU:.+|ADV:MOD").build()
     ),
     Arrays.asList( // "Tausende Gläubige kamen, um ihn zu sehen."
@@ -826,11 +826,8 @@ public class CaseRule extends Rule {
             continue;
           }
         }
-        if (isPrevProbablyRelativePronoun(tokens, i)) {
-          continue;
-        }
-        if (prevTokenIsDas && getTokensWithPartialPosTagCount(tokens, "VER") == 1) {
-          // ignore sentences containing a single verb, e.g., "Das wissen viele nicht."
+        if (isPrevProbablyRelativePronoun(tokens, i) ||
+            (prevTokenIsDas && getTokensWithPartialPosTagCount(tokens, "VER") == 1)) {// ignore sentences containing a single verb, e.g., "Das wissen viele nicht."
           continue;
         }
         potentiallyAddLowercaseMatch(ruleMatches, tokens[i], prevTokenIsDas, token, nextTokenIsPersonalOrReflexivePronoun, sentence);
@@ -1035,7 +1032,7 @@ public class CaseRule extends Rule {
     }
     // capitalization after ":" requires an independent clause to follow
     // if there is not a single verb, the tokens cannot be part of an independent clause
-    return getTokensWithPartialPosTagCount(subarray, "VER") != 0;
+    return getTokensWithPartialPosTagCount(subarray, "VER:") != 0;
 }
 
   private void addRuleMatch(List<RuleMatch> ruleMatches, AnalyzedSentence sentence, String msg, AnalyzedTokenReadings tokenReadings, String fixedWord) {
@@ -1049,7 +1046,8 @@ public class CaseRule extends Rule {
     return i >= 2
             && StringUtils.equalsAny(tokens[i-1].getToken(), ")", "]")
             && NUMERALS_EN.matcher(tokens[i-2].getToken()).matches()
-            && !(i > 3 && tokens[i-3].getToken().equals("(") && tokens[i-4].hasPartialPosTag("SUB:")); // no numbering "Der Vater (51) fuhr nach Rom."
+            && !(i > 3 && tokens[i-3].getToken().equals("(")
+              && tokens[i-4].hasPosTagStartingWith("SUB:")); // no numbering "Der Vater (51) fuhr nach Rom."
   }
 
   private boolean isEllipsis(int i, AnalyzedTokenReadings[] tokens) {
@@ -1063,7 +1061,8 @@ public class CaseRule extends Rule {
     // TODO: wir finden den Fehler in "Die moderne Wissenschaftlich" nicht, weil nicht alle
     // Substantivierungen in den Morphy-Daten stehen (z.B. "Größte" fehlt) und wir deshalb nur
     // eine Abfrage machen, ob der erste Buchstabe groß ist.
-    if (StringTools.startsWithUppercase(token) && !isNumber(token) && !(hasNounReading(nextReadings) || StringUtils.isNumeric(nextReadings.getToken())) && !token.matches("Alle[nm]")) {
+    if (StringTools.startsWithUppercase(token) && !isNumber(token) && !(hasNounReading(nextReadings) ||
+        (nextReadings != null && StringUtils.isNumeric(nextReadings.getToken()))) && !token.matches("Alle[nm]")) {
       if (lowercaseReadings != null && lowercaseReadings.hasPosTag("PRP:LOK+TMP+CAU:DAT+AKK")) {
         return false;
       }
@@ -1230,10 +1229,7 @@ public class CaseRule extends Rule {
     }
     int i = 0;
     for (int j = startIndex; j <= endIndex; j++) {
-      if (i >= patterns.length || j >= tokens.length) {
-        return false;
-      }
-      if (!patterns[i].matcher(tokens[j].getToken()).matches()) {
+      if (i >= patterns.length || j >= tokens.length || !patterns[i].matcher(tokens[j].getToken()).matches()) {
         return false;
       }
       i++;

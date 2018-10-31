@@ -83,6 +83,10 @@ public class LanguageIdentifier {
    * @since 4.2
    */
   public LanguageIdentifier(int maxLength) {
+    if (maxLength < 10) {
+      throw new IllegalArgumentException("maxLength must be >= 10 (but values > 100 are recommended): " + maxLength);
+    }
+    this.maxLength = maxLength;
     try {
       List<LanguageProfile> profiles = loadProfiles(getLanguageCodes());
       languageDetector = LanguageDetectorBuilder.create(NgramExtractors.standard())
@@ -99,10 +103,6 @@ public class LanguageIdentifier {
     } catch (IOException e) {
       throw new RuntimeException("Could not set up language identifier", e);
     }
-    if (maxLength < 10) {
-      throw new IllegalArgumentException("maxLength must be >= 10 (but values > 100 are recommended): " + maxLength);
-    }
-    this.maxLength = maxLength;
   }
 
   public void enableFasttext(File fasttextBinary, File fasttextModel) {
@@ -155,12 +155,22 @@ public class LanguageIdentifier {
    */
   @Nullable
   public Language detectLanguage(String text) {
+    return detectLanguage(text, Collections.emptyList());
+  }
+  
+  /**
+   * @return language or {@code null} if language could not be identified
+   * @param noopLangs list of codes that are detected but will lead to the NoopLanguage that has no rules
+   * @since 4.4
+   */
+  @Nullable
+  public Language detectLanguage(String text, List<String> noopLangs) {
     String shortText = text.length() > maxLength ? text.substring(0, maxLength) : text;
     shortText = textObjectFactory.forText(shortText).toString();
     String languageCode = null;
     if (fasttextEnabled) {
       try {
-        languageCode = getHighestScoringResult(runFasttext(shortText));
+        languageCode = getHighestScoringResult(runFasttext(shortText, noopLangs));
       } catch (Exception e) {
         fasttextEnabled = false;
         logger.error("Disabling fasttext language identification, got error for text: " + text, e);
@@ -169,14 +179,20 @@ public class LanguageIdentifier {
     }
     if (!fasttextEnabled) { // no else, value can change in if clause
       languageCode = detectLanguageCode(shortText);
+      if (noopLangs.size() > 0) {
+        logger.warn("Cannot consider noopLanguages because not in fastText mode: " + noopLangs);
+      }
     }
-    if (languageCode != null && Languages.isLanguageSupported(languageCode)) {
-      return Languages.getLanguageForShortCode(languageCode);
+    if (languageCode != null && canLanguageBeDetected(languageCode, noopLangs)) {
+      return Languages.getLanguageForShortCode(languageCode, noopLangs);
     } else {
       return null;
     }
   }
-
+  
+  private boolean canLanguageBeDetected(String langCode, List<String> additionalLanguageCodes) {
+    return Languages.isLanguageSupported(langCode) || additionalLanguageCodes.contains(langCode);
+  }
 
   private void startFasttext(File modelPath, File binaryPath) throws IOException {
     fasttextProcess = new ProcessBuilder(binaryPath.getPath(), "predict-prob", modelPath.getPath(), "-", "" + K_HIGHEST_SCORES).start();
@@ -196,13 +212,16 @@ public class LanguageIdentifier {
     return result;
   }
 
-  private synchronized Map<String, Double> runFasttext(String text) throws IOException {
+  private Map<String, Double> runFasttext(String text, List<String> additionalLanguageCodes) throws IOException {
     Map<String, Double> probabilities = new HashMap<>();
     String joined = text.replace("\n", " ");
-    fasttextOut.write(joined);
-    fasttextOut.newLine();
-    fasttextOut.flush();
-    String buffer = fasttextIn.readLine();
+    String buffer;
+    synchronized(this) {
+      fasttextOut.write(joined);
+      fasttextOut.newLine();
+      fasttextOut.flush();
+      buffer = fasttextIn.readLine();
+    }
     String[] values = buffer.split(" ");
     if (values.length % 2 != 0) {
       throw new RuntimeException("Error while parsing fasttext output: " + buffer);
@@ -212,7 +231,7 @@ public class LanguageIdentifier {
       String langCode = lang.substring(lang.lastIndexOf("__") + 2);
       String prob = values[i + 1];
       Double probValue = Double.parseDouble(prob);
-      if (Languages.isLanguageSupported(langCode)) {
+      if (canLanguageBeDetected(langCode, additionalLanguageCodes)) {
         probabilities.put(langCode, probValue);
       }
     }

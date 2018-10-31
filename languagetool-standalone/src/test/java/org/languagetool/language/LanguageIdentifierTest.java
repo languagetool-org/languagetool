@@ -18,22 +18,28 @@
  */
 package org.languagetool.language;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.languagetool.Language;
-import org.languagetool.Languages;
 
 import java.io.File;
-import java.util.Objects;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import static org.junit.Assert.fail;
 
 public class LanguageIdentifierTest {
 
   private final LanguageIdentifier identifier = new LanguageIdentifier();
+  private final static String fastTextBinary = "/prg/fastText-0.1.0/fasttext";
+  private final static String fastTextModel = "/prg/fastText-0.1.0/data/lid.176.bin";
+  private final static String czech = "V současné době je označením Linux míněno nejen jádro operačního systému, " +
+          "ale zahrnuje do něj též veškeré programové vybavení";
 
   @Test
   public void testDetection() {
-//    identifier.enableFasttext(new File("/path/to/fasttext/binary"), new File("/path/to/fasttext/model"));
+    //identifier.enableFasttext(new File(fastTextBinary), new File(fastTextModel));
     // fasttext just assumes english, ignore / comment out
     langAssert(null, "");
     langAssert(null, "X");
@@ -101,19 +107,49 @@ public class LanguageIdentifierTest {
     langAssert("de", "Das ist ein deutscher Text\n-- \nBut this is an\nEnglish text in the signature, and it's much longer than the original text.");
     langAssert("en", "This is an English text.\n-- \nDas ist ein\ndeutscher Text in der Signatur, der länger ist als der Haupttext.");
   }
-  
+
+  @Test
+  @Ignore("Only works with locally installed fastText")
+  public void testAdditionalLanguagesFasttext() {
+    LanguageIdentifier defaultIdent = new LanguageIdentifier();
+    langAssert("sk", czech, defaultIdent);  // misdetected, as cz isn't supported by LT
+
+    LanguageIdentifier csIdent = new LanguageIdentifier();
+    csIdent.enableFasttext(new File(fastTextBinary), new File(fastTextModel));
+    langAssert("zz", czech, csIdent, Arrays.asList("cs"));   // the no-op language
+  }
+
+  @Test
+  public void testAdditionalLanguagesBuiltIn() {
+    LanguageIdentifier defaultIdent = new LanguageIdentifier();
+    langAssert("sk", czech, defaultIdent);  // misdetected, as cz isn't supported by LT
+    LanguageIdentifier csIdent = new LanguageIdentifier();
+    langAssert("sk", czech, csIdent, Arrays.asList("cs"));   // no-op language only supported by fastText 
+  }
+
   private void langAssert(String expectedLangCode, String text) {
-    langAssert(expectedLangCode, text, identifier);
+    langAssert(expectedLangCode, text, identifier, Collections.emptyList());
   }
   
   private void langAssert(String expectedLangCode, String text, LanguageIdentifier id) {
-    Language expectedLang = expectedLangCode != null ? Languages.getLanguageForShortCode(expectedLangCode) : null;
-    //long start = System.currentTimeMillis();
-    Language detectedLang = id.detectLanguage(text);
-    //long end = System.currentTimeMillis();
-    //System.out.println("-> " + (end-start) + "ms");
-    if (!Objects.equals(expectedLang, detectedLang)) {
-      fail("Got '" + detectedLang + "', expected '" + expectedLangCode + "' for '" + text + "'");
+    langAssert(expectedLangCode, text, id, Collections.emptyList());
+  }
+  
+  private void langAssert(String expectedLangCode, String text, LanguageIdentifier id, List<String> noopLangCodes) {
+    Language detectedLang = id.detectLanguage(text, noopLangCodes);
+    String detectedLangCode = detectedLang != null ? detectedLang.getShortCode() : null;
+    if (expectedLangCode == null) {
+      if (detectedLangCode != null) {
+        fail("Got '" + detectedLangCode + "', expected null for '" + text + "'");
+      }
+    } else {
+      if (!expectedLangCode.equals(detectedLangCode)) {
+        if (detectedLang != null) {
+          fail("Got '" + detectedLangCode + "', expected '" + expectedLangCode + "' for '" + text + "'");
+        } else {
+          fail("Got null, expected '" + expectedLangCode + "' for '" + text + "'");
+        }
+      }
     }
   }
 

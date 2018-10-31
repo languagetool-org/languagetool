@@ -40,9 +40,11 @@ class DatabaseLogger {
   static final int SQL_BATCH_SIZE = 10;
   static final int SQL_BATCH_WAITING_TIME = 5000; // milliseconds to wait until batch gets committed anyway
   static final int POLLING_TIME = 1000; */
-  static final int SQL_BATCH_SIZE = 100;
+  static final int SQL_BATCH_SIZE = 1000;
   static final int SQL_BATCH_WAITING_TIME = 10000; // milliseconds to wait until batch gets committed anyway
-  static final int POLLING_TIME = 1000;
+  
+  private static final int POLLING_TIME = 1000;
+  private static final int MAX_QUEUE_SIZE = 50000; // drop entries after limit is reached, to avoid running out of memory
 
   /**
    * @return an instance that will be disabled until initialized by DatabaseAccess
@@ -73,12 +75,11 @@ class DatabaseLogger {
           while(!Thread.currentThread().isInterrupted()
             && batchSize < SQL_BATCH_SIZE
             && System.currentTimeMillis() - batchTime < SQL_BATCH_WAITING_TIME)  {
-            if (messages.size() > 10) {
+            if (messages.size() > SQL_BATCH_SIZE) {
               ServerTools.print(String.format("Logging queue filling up: %d entries", messages.size()));
             }
             // polling to be able to react when waiting time has elapsed
             DatabaseLogEntry entry = messages.poll(POLLING_TIME, TimeUnit.MILLISECONDS);
-
             if (entry == null) {
               continue;
             }
@@ -101,19 +102,19 @@ class DatabaseLogger {
     }
   }
 
-  private final BlockingQueue<DatabaseLogEntry> messages = new LinkedBlockingQueue<>();;
+  private final BlockingQueue<DatabaseLogEntry> messages = new LinkedBlockingQueue<>();
   private SqlSessionFactory sessionFactory = null;
   private WorkerThread worker = null;
   private boolean disabled = true;
+
+  private DatabaseLogger() {
+  }
 
   private void start(SqlSessionFactory factory) {
     sessionFactory = factory;
     disabled = false;
     worker = new WorkerThread();
     worker.start();
-  }
-
-  private DatabaseLogger() {
   }
 
   public void disableLogging() {
@@ -130,7 +131,11 @@ class DatabaseLogger {
   public void log(DatabaseLogEntry entry) {
     try {
       if (!disabled) {
-        messages.put(entry);
+        if (messages.size() < MAX_QUEUE_SIZE) {
+          messages.put(entry);
+        } else {
+          ServerTools.print("Logging queue has reached size limit; discarding new messages.");
+        }
       }
     } catch (InterruptedException e) {
       e.printStackTrace();

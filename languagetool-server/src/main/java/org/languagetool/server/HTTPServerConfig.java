@@ -430,6 +430,14 @@ public class HTTPServerConfig {
   }
 
   /**
+   * Set model path for fasttext language detection
+   * @since 4.4
+   */
+  public void setFasttextModel(File model) {
+    fasttextModel = Objects.requireNonNull(model);
+  }
+
+  /**
    * Get binary path for fasttext language detection
    * @since 4.3
    */
@@ -438,7 +446,14 @@ public class HTTPServerConfig {
     return fasttextBinary;
   }
 
-
+  /**
+   * Set binary path for fasttext language detection
+   * @since 4.4
+   */
+  public void setFasttextBinary(File binary) {
+    fasttextBinary = Objects.requireNonNull(binary);
+  }
+  
   /** @since 2.7 */
   Mode getMode() {
     return mode;

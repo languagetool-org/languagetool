@@ -50,7 +50,7 @@ abstract class TextChecker {
                                         List<RuleMatch> hiddenMatches, String incompleteResultReason);
   @NotNull
   protected abstract List<String> getPreferredVariants(Map<String, String> parameters);
-  protected abstract DetectedLanguage getLanguage(String text, Map<String, String> parameters, List<String> preferredVariants);
+  protected abstract DetectedLanguage getLanguage(String text, Map<String, String> parameters, List<String> preferredVariants, List<String> additionalDetectLangs);
   protected abstract boolean getLanguageAutoDetect(Map<String, String> parameters);
   @NotNull
   protected abstract List<String> getEnabledRuleIds(Map<String, String> parameters);
@@ -124,7 +124,12 @@ abstract class TextChecker {
     //print("Check start: " + text.length() + " chars, " + langParam);
     boolean autoDetectLanguage = getLanguageAutoDetect(parameters);
     List<String> preferredVariants = getPreferredVariants(parameters);
-    DetectedLanguage detLang = getLanguage(aText.getPlainText(), parameters, preferredVariants);
+    if (parameters.get("noopLanguages") != null && !autoDetectLanguage) {
+      throw new IllegalArgumentException("You can specify 'noopLanguages' only when also using 'language=auto'");
+    }
+    List<String> noopLangs = parameters.get("noopLanguages") != null ?
+            Arrays.asList(parameters.get("noopLanguages").split(",")) : Collections.emptyList();        
+    DetectedLanguage detLang = getLanguage(aText.getPlainText(), parameters, preferredVariants, noopLangs);
     Language lang = detLang.getGivenLanguage();
     Integer count = languageCheckCounts.get(lang.getShortCodeWithCountryAndVariant());
     if (count == null) {
@@ -283,7 +288,7 @@ abstract class TextChecker {
 
     int matchCount = matches.size();
     DatabaseCheckLogEntry logEntry = new DatabaseCheckLogEntry(userId, agentId, logServerId, textSize, matchCount,
-      lang, detLang.getDetectedLanguage(), computationTime, textSessionId);
+      lang, detLang.getDetectedLanguage(), computationTime, textSessionId, mode.toString());
     Map<String, Integer> ruleMatchCount = new HashMap<>();
     for (RuleMatch match : matches) {
       String ruleId = match.getRule().getId();
@@ -310,6 +315,9 @@ abstract class TextChecker {
       double hitRate = cache.hitRate();
       String hitPercentage = String.format(Locale.ENGLISH, "%.2f", hitRate * 100.0f);
       print("Cache stats: " + hitPercentage + "% hit rate");
+      //print("Matches    : " + cache.getMatchesCache().stats().hitRate() + " hit rate");
+      //print("Sentences  : " + cache.getSentenceCache().stats().hitRate() + " hit rate");
+      //print("Size       : " + cache.getMatchesCache().size() + " (matches cache), " + cache.getSentenceCache().size() + " (sentence cache)");
       logger.log(new DatabaseCacheStatsLogEntry(logServerId, (float) hitRate));
     }
     JLanguageTool lt = getLanguageToolInstance(lang, motherTongue, params, userConfig);
@@ -336,8 +344,8 @@ abstract class TextChecker {
     return result;
   }
 
-  Language detectLanguageOfString(String text, String fallbackLanguage, List<String> preferredVariants) {
-    Language lang = identifier.detectLanguage(text);
+  Language detectLanguageOfString(String text, String fallbackLanguage, List<String> preferredVariants, List<String> noopLangs) {
+    Language lang = identifier.detectLanguage(text, noopLangs);
     if (lang == null) {
       lang = Languages.getLanguageForShortCode(fallbackLanguage != null ? fallbackLanguage : "en");
     }

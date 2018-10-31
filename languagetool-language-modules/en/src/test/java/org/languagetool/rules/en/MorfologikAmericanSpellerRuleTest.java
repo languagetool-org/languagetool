@@ -75,6 +75,11 @@ public class MorfologikAmericanSpellerRuleTest extends AbstractEnglishSpellerRul
   @Test
   public void testMorfologikSpeller() throws IOException {
 
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("mansplaining")).length); // test merge of spelling.txt
+    // test suggesting words with diacritics
+    assertTrue(rule.match(langTool.getAnalyzedSentence("fianc"))[0].getSuggestedReplacements().contains("fiancé"));
+
+
     // correct sentences:
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("This is an example: we get behavior as a dictionary word.")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Why don't we speak today.")).length);

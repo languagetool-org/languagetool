@@ -37,9 +37,12 @@ class DatabaseCheckLogEntry extends DatabaseLogEntry {
   private final int computationTime;
   private final Long textSessionId;
   private final Calendar date;
+  private final String checkMode;
   private DatabaseRuleMatchLogEntry ruleMatches = null;
 
-  public DatabaseCheckLogEntry(Long userId, Long client, Long server, int textSize, int matches, Language lang, Language langDetected, int computationTime, Long textSessionId) {
+  public DatabaseCheckLogEntry(Long userId, Long client, Long server, int textSize, int matches,
+                               Language lang, Language langDetected, int computationTime,
+                               Long textSessionId, String checkMode) {
     this.userId = userId;
     this.client = client;
     this.server = server;
@@ -49,6 +52,7 @@ class DatabaseCheckLogEntry extends DatabaseLogEntry {
     this.langDetected = langDetected;
     this.computationTime = computationTime;
     this.textSessionId = textSessionId;
+    this.checkMode = checkMode;
     this.date = Calendar.getInstance();
   }
 
@@ -70,6 +74,7 @@ class DatabaseCheckLogEntry extends DatabaseLogEntry {
     map.put("language_detected", langDetected.getShortCodeWithCountryAndVariant());
     map.put("computation_time", computationTime);
     map.put("text_session_id", textSessionId);
+    map.put("check_mode", checkMode);
     map.put("server", server);
     map.put("client", client);
     return map;

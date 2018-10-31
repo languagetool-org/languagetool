@@ -69,6 +69,10 @@ public class WordTokenizerTest {
 
   @Test
   public void testUrlTokenize() {
+    assertEquals("\"|This| |http://foo.org|.|\"", tokenize("\"This http://foo.org.\""));
+    assertEquals("«|This| |http://foo.org|.|»", tokenize("«This http://foo.org.»"));
+    assertEquals("This| |http://foo.org|.|.|.", tokenize("This http://foo.org..."));
+    assertEquals("This| |http://foo.org|.", tokenize("This http://foo.org."));
     assertEquals("This| |http://foo.org| |blah", tokenize("This http://foo.org blah"));
     assertEquals("This| |http://foo.org| |and| |ftp://bla.com| |blah", tokenize("This http://foo.org and ftp://bla.com blah"));
     assertEquals("foo| |http://localhost:32000/?ch=1| |bar", tokenize("foo http://localhost:32000/?ch=1 bar"));

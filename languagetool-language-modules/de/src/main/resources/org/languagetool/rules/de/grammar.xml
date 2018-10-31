@@ -7630,6 +7630,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">reiche?[rns]?</token>
             </pattern>
             <message>Meinten Sie <suggestion><match no="1" case_conversion="startlower" />\2</suggestion>? Dieses Adjektiv wird zusammengeschrieben.</message>
+            <short>&getrennt;.</short>
             <example correction="eiweißreiche">Die <marker>Eiweiß reiche</marker> Ernährung macht den Unterschied.</example>
         </rule>
         <rule id="AUSEINANDER_GESETZT" name="auseinander setzen (auseinandersetzen)">
@@ -7638,7 +7639,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token inflected="yes">setzen</token>
             </pattern>
             <message><suggestion>\1\2</suggestion> wird zusammengeschrieben.</message>
+            <short>&getrennt;.</short>
             <example correction='auseinandergesetzt'>Ich habe mich damit schon länger <marker>auseinander gesetzt</marker>.</example>
+        </rule>
+        <rule id="AUSSEN_VOR_LASSEN" name="außen vorlassen (vor lassen)">
+            <pattern>
+                <token>außen</token>
+                <marker><token regexp="yes">vor(ge)?l[aä]ss(en|t)</token></marker>
+            </pattern>
+            <message>In der Bedeutung 'jemanden außschließen / nicht beteiligen / nicht informieren' wird 'außen vor lassen' auseinandergeschrieben.</message>
+            <suggestion>vor <match no="2" regexp_match="vor" regexp_replace=""/></suggestion>
+            <url>https://www.korrekturen.de/beliebte_fehler/aussen_vorlassen.shtml</url>
+            <short>&getrennt;.</short>
+            <example correction="vor gelassen">Sie hat mich außen <marker>vorgelassen</marker>.</example>
         </rule>
         <rule id="STATT_DESSEN" name="statt dessen (stattdessen)">
             <pattern>
@@ -7646,6 +7659,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>dessen</token>
             </pattern>
             <message>Im Sinne von 'ersatzweise' wird <suggestion>\1\2</suggestion> zusammengeschrieben.</message>
+            <short>&getrennt;.</short>
             <example correction='stattdessen'>Ich habe keine Lust auf Kino. Wollen wir <marker>statt dessen</marker> ins Theater?</example>
         </rule>
         <rule id="ZU_DEM_ZUDEM" name="Zu dem (Zudem)">
@@ -8007,7 +8021,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Wohlgemerkt habe ich das bestätigt.</example>
         </rule>
         <rule id="ZU_ALLERERST" name="'zu allererst (zuallererst)'">
-            <regexp>(zu) (allererst|allerletzt|alleroberst|allerunterst|allermeist)</regexp>
+            <regexp>(zu) (aller(erst|letzt|oberst|unterst|meist))</regexp>
             <message>Das Adverb <suggestion>\1\2</suggestion> wird zusammengeschrieben.</message>
             <short>&getrennt;</short>
             <example correction="Zuallererst"><marker>Zu allererst</marker> mal in Ruhe nachdenken.</example>
@@ -8027,7 +8041,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="GEZWUNGENER_MASSEN" name="gezwungener maßen (gezwungenermaßen)">
             <pattern>
-                <token regexp="yes">gezwungener|gewisser|folgender|bekannter|bewiesener</token>
+                <token regexp="yes">einiger|gezwungener|gewisser|gleicher|folgender|bekannter|bewiesener|erwiesener</token>
                 <token>maßen</token>
             </pattern>
             <message>Das Adverb <suggestion>\1<match no="2" case_conversion="startlower"/></suggestion> wird zusammengeschrieben.</message>
@@ -8837,7 +8851,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <antipattern>
-                    <token regexp="yes">den|einen|seinen|ihren</token>
+                    <token regexp="yes">d(ies)?en|einen|[dms]einen|ihren</token>
                     <token>Preis</token>
                 </antipattern>
                 <pattern>
@@ -24424,7 +24438,7 @@ Andere Projekte</example>
                 <marker>
                     <token regexp="yes">wesentlichen|voraus|ungewissen|speziellen|klaren|guten|ganzen|dunkeln|argen|besonderen|übrigen|trüben</token>
                 </marker>
-                <token><exception postag="(SUB|ADJ):.*" postag_regexp="yes"/></token>
+                <token><exception postag="(SUB|ADJ|EIG):.*" postag_regexp="yes"/></token>
             </pattern>
             <message>&inwend;'im <match case_conversion="startupper" no="2"/>' wird <suggestion><match case_conversion="startupper" no="2"/></suggestion> in der Regel großgeschrieben.</message>
             <url>https://www.korrekturen.de/wortliste/i/</url>
@@ -24439,6 +24453,7 @@ Andere Projekte</example>
             <example>Er war im <marker>ganzen</marker> damals bekannten Mittelmeerraum bekannt.</example>
             <example>Er war im <marker>ganzen</marker> antiken Europa bekannt.</example>
             <example correction="Wesentlichen">Wir gehen im <marker>wesentlichen</marker> vor wie im Skript.</example>
+            <example>In der sowjetischen Besatzungszone und Berlin dauerte die Sommerzeit 1945 zwei Monate länger als im übrigen Deutschland.</example>
         </rule>
         <rule id="IM_GROSSEN_UND_GANZEN" name="'im großen und ganzen (Großen und Ganzen)'">
             <antipattern case_sensitive="yes">
@@ -29208,6 +29223,7 @@ Andere Projekte</example>
                 <message>&subanfang;<suggestion>Allgemeinen</suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example correction="Allgemeinen">Daneben stellen Geschwister im <marker>allgemeine</marker> auch ein „Problem“ dar.</example>
+                <example correction="Allgemeinen">Daneben stellen Geschwister im <marker>allgemeinen</marker> auch ein „Problem“ dar.</example>
                 <example correction="Allgemeinen">Im <marker>allgemeinen</marker> stimme ich dir zu.</example>
                 <example>Im <marker>allgemeinen</marker> europäischen Sprachgebrauch ist das anders.</example>
                 <example>Im <marker>allgemeinen</marker> Sprachgebrauch ist das anders.</example>
@@ -30956,25 +30972,64 @@ Andere Projekte</example>
                 <example><marker>Meine Mutter</marker> ist unglücklich gestürzt.</example>
             </rule>
         </rulegroup>
-        <rule id="DER_ABGEORDNETER" name="Falscher Artikel bei substantivierten Adjektiven">
-            <pattern>
-                <token postag="SENT_START" />
-                <token postag='ART:DEF:NOM:SIN:MAS'></token>
-                <marker>
-                <token regexp='yes' postag='SUB:NOM:SIN:MAS:ADJ'>.*er\b</token>
-                </marker>
-            </pattern>
-            <message>Artikel und Substantiv stimmen grammatikalisch nicht überein. Meinten Sie <suggestion><match no="3" case_conversion="preserve" regexp_match="er\b" regexp_replace="e"></match></suggestion>?</message>
-            <example correction='Abgeordnete'>Der <marker>Abgeordneter</marker> ging nach Hause.</example>
-            <example correction='Jugendliche'>Der <marker>Jugendlicher</marker> ist bockig.</example>
-            <example correction='Verrückte'>Der <marker>Verrückter</marker> ist wieder unterwegs.</example>
-            <example correction='Angestellte'>Der <marker>Angestellter</marker> streikt.</example>
-            <example correction='Verurteilte'>Der <marker>Verurteilter</marker> wurde freigesprochen.</example>
-            <example>Der Abgeordnete ging nach Hause.</example>
-            <example>Der Bauarbeiter ist auf der Baustelle.</example>
-            <example>Die Sitzung, der Abgeordneter Müller fernblieb, war beendet.</example>
-            <example>Justizvollzugsbeamter Müller betrat den Zeugenstand.</example>
-        </rule>  
+        <rulegroup id="DER_ABGEORDNETER" name="Falscher Artikel bei substantivierten Adjektiven">
+            <rule>
+                <antipattern>
+                    <token postag="PKT"></token>
+                    <token postag='ART:DEF:NOM:SIN:MAS'></token>
+                    <token regexp='yes' postag='SUB:NOM:SIN:MAS:ADJ' skip="-1">.*er\b</token>
+                    <token inflected="yes">sein</token>
+                </antipattern>
+                <pattern>
+                    <token postag='ART:DEF:NOM:SIN:MAS'></token>
+                    <marker>
+                    <token case_sensitive="yes" regexp='yes' postag_regexp="yes" postag='(SUB:NOM:SIN:MAS:ADJ|PA2:NOM:SIN:MAS:.*)'>[A-Z].*er\b</token>
+                    </marker>
+                </pattern>
+                <message>Artikel und Substantiv stimmen grammatikalisch nicht überein. Meinten Sie <suggestion><match no="2" case_conversion="preserve" regexp_match="er\b" regexp_replace="e"></match></suggestion>?</message>
+                <short>Fehlende Übereinstimmung von Artikel und Substantiv</short>
+                <example correction='Abgeordnete'>Der <marker>Abgeordneter</marker> ging nach Hause.</example>
+                <example correction='Jugendliche'>Der <marker>Jugendlicher</marker> ist bockig.</example>
+                <example correction='Verrückte'>Der <marker>Verrückter</marker> ist wieder unterwegs.</example>
+                <example correction='Angestellte'>Der <marker>Angestellter</marker> streikt.</example>
+                <example correction='Verurteilte'>Der <marker>Verurteilter</marker> wurde auf Bewährung freigelassen.</example>
+                <example correction='Angestellte'>Der Arbeiter, der Landwirt und der <marker>Angestellter</marker> wählten alle dieselbe Partei.</example>
+                <example correction='Obdachlose'>Er wollte dem Mann helfen, doch der <marker>Obdachloser</marker> schüttelte müde den Kopf.</example>
+                <example correction='Vorgesetzte'>Hans wollte gerne nach Hause, aber der <marker>Vorgesetzter</marker> erlaubte es nicht.</example>
+                <example>Der Bauarbeiter ist auf der Baustelle.</example>
+                <example>Die Sitzung, der Abgeordneter Müller fernblieb, war beendet.</example>
+                <example>Hans Meiser, der Abgeordneter im Bundestag war, hatte niemals Feierabend.</example>
+                <example>Justizvollzugsbeamter Müller betrat den Zeugenstand.</example>
+                <example>Der Mann, der verrückter nicht sein konnte, lachte diabolisch.</example>
+            </rule> 
+            <rule>
+                <antipattern>
+                    <token postag="SENT_START" />
+                    <token postag='ART:IND:NOM:SIN:MAS'></token>
+                    <token skip="-1" regexp='yes' postag='SUB:NOM:SIN:MAS:ADJ'>.*e\b</token>
+                    <token postag="PA1:.*" postag_regexp="yes"></token>
+                </antipattern>
+                <pattern>
+                    <token postag="SENT_START" />
+                    <marker>
+                    <token postag='ART:IND:NOM:SIN:MAS'></token>
+                    <token regexp='yes' postag='SUB:NOM:SIN:MAS:ADJ'><exception>Junge</exception>.*e\b</token>
+                    </marker>
+                </pattern>
+                <message>Artikel und Substantiv stimmen grammatikalisch nicht überein. Meinten Sie <suggestion>Ein <match no="3" case_conversion="preserve" regexp_match="e\b" regexp_replace="er"></match></suggestion> oder <suggestion>Eine \3</suggestion>?</message>
+                <short>Fehlende Übereinstimmung von Artikel und Substantiv</short>
+                <example correction="Ein Abgeordneter|Eine Abgeordnete"><marker>Ein Abgeordnete</marker> ging nach Hause.</example>
+                <example correction="Ein Jugendlicher|Eine Jugendliche"><marker>Ein Jugendliche</marker> war tatverdächtig.</example>
+                <example correction='Ein Verrückter|Eine Verrückte'><marker>Ein Verrückte</marker> ist wieder unterwegs.</example>
+                <example correction='Ein Angestellter|Eine Angestellte'><marker>Ein Angestellte</marker> streikt.</example>
+                <example correction='Ein Verurteilter|Eine Verurteilte'><marker>Ein Verurteilte</marker> wurde auf Bewährung freigelassen.</example>
+                <example>Ein Abgeordneter ging ans Rednerpult.</example>
+                <example>Ein Abgeordnete betreffendes Problem ist die schlechte Work-Life-Balance.</example>
+                <example>Ein Verrückte zu unüberlegten Reaktionen provozierendes Verhalten wird nicht empfohlen.</example>
+                <example>Justizvollzugsbeamte Müller betrat den Zeugenstand.</example>
+                <example>Ein Junge ging spazieren.</example>
+            </rule>   
+        </rulegroup>
         <rulegroup id="OBJECT_AGREEMENT" name="falscher Kasus des Objekts">
             <rule>
                 <pattern>

@@ -279,6 +279,13 @@ public class AgreementRule extends Rule {
       new PatternTokenBuilder().posRegex("SUB:.+").build(),
       new PatternTokenBuilder().tokenRegex("bedeuten|sein").matchInflectedForms().build()
     ),
+    Arrays.asList( // "Sie fragte, ob das wirklich Rache bedeuten würde"
+      new PatternTokenBuilder().pos("KON:UNT").build(),
+      new PatternTokenBuilder().csToken("das").build(),
+      new PatternTokenBuilder().pos("ADV:MOD").build(),
+      new PatternTokenBuilder().posRegex("SUB:.+").build(),
+      new PatternTokenBuilder().tokenRegex("bedeuten|sein").matchInflectedForms().build()
+    ),
     Arrays.asList( // "Karl sagte, dass sie niemandem Bescheid gegeben habe."
       new PatternTokenBuilder().token("niemand").matchInflectedForms().build(),
       new PatternTokenBuilder().posRegex("SUB:.+").build()
@@ -359,18 +366,19 @@ public class AgreementRule extends Rule {
     Arrays.asList(
       new PatternTokenBuilder().csToken("dieser").build(),
       new PatternTokenBuilder().csToken("einen").build(),
-      new PatternTokenBuilder().posRegex("SUB:DAT:SIN:FEM").build()
+      new PatternTokenBuilder().pos("SUB:DAT:SIN:FEM").build()
     )
   );
 
   private static final Set<String> MODIFIERS = new HashSet<>(Arrays.asList(
-    "besonders",
-    "fast",
-    "geradezu",
-    "sehr",
-    "überaus",
-    "ziemlich"
-  ));
+      "besonders",
+      "fast",
+      "ganz",
+      "geradezu",
+      "sehr",
+      "überaus",
+      "ziemlich"
+    ));
 
   private static final Set<String> VIELE_WENIGE_LOWERCASE = new HashSet<>(Arrays.asList(
     "viele",
