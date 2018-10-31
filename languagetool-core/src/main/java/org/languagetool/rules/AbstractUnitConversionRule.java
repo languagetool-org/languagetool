@@ -18,7 +18,6 @@
  *  * USA
  *
  */
-
 package org.languagetool.rules;
 
 import org.jetbrains.annotations.NotNull;
@@ -75,8 +74,8 @@ public abstract class AbstractUnitConversionRule extends Rule {
   protected static final Unit<Volume> IMP_FL_OUNCE = IMP_PINT.divide(20);
 
   protected static final Unit<Temperature> FAHRENHEIT = CELSIUS.multiply(5.0/9.0).shift(-32);
-
   protected static final String NUMBER_REGEX = "(-?[0-9]+[0-9,.]*)";
+  
   private static final double DELTA = 1e-2;
   private static final double ROUNDING_DELTA = 0.05;
   private static final int MAX_SUGGESTIONS = 5;
@@ -132,7 +131,7 @@ public abstract class AbstractUnitConversionRule extends Rule {
       case UNIT_MISMATCH:
         return "These units don't seem to be compatible.";
       default:
-        throw new RuntimeException("Unknown message type." + message);
+        throw new RuntimeException("Unknown message type: " + message);
     }
   }
 
@@ -150,7 +149,7 @@ public abstract class AbstractUnitConversionRule extends Rule {
       case UNIT_MISMATCH:
         return "Units incompatible.";
       default:
-        throw new RuntimeException("Unknown message type." + message);
+        throw new RuntimeException("Unknown message type: " + message);
     }
   }
 
@@ -176,7 +175,7 @@ public abstract class AbstractUnitConversionRule extends Rule {
    * @param pattern Regex for recognizing the unit. Word boundaries and numbers are added to this pattern by addUnit itself.
    * @param base Unit to associate with the pattern
    * @param symbol Suffix used for suggestion.
-   * @param factor Convience parameter for prefixes for metric units, unit is multiplied with this. Default to 1 if not used.
+   * @param factor Convenience parameter for prefixes for metric units, unit is multiplied with this. Defaults to 1 if not used.
    * @param metric Register this notation for suggestion.
    */
   protected void addUnit(String pattern, Unit base, String symbol, double factor, boolean metric) {
@@ -295,7 +294,6 @@ public abstract class AbstractUnitConversionRule extends Rule {
       if (unit.equals(metric)) { // don't convert to itself
         return null;
       }
-
       if (unit.isCompatible(metric)) {
         Double converted = unit.getConverterTo(metric).convert(value);
         conversions.add(new AbstractMap.SimpleImmutableEntry<>(metric, converted));
@@ -304,8 +302,7 @@ public abstract class AbstractUnitConversionRule extends Rule {
     sortByNaturalness(conversions);
     if (conversions.size() == 0) {
       return null;
-    }
-    else {
+    } else {
       return conversions;
     }
   }
@@ -371,7 +368,7 @@ public abstract class AbstractUnitConversionRule extends Rule {
       double scoreA = naturalness.applyAsDouble(a.getValue());
       double scoreB = naturalness.applyAsDouble(b.getValue());
       return Double.compare(scoreA, scoreB);
-    }) ;
+    });
   }
 
   private void matchUnits(AnalyzedSentence sentence, List<RuleMatch> matches, List<Map.Entry<Integer, Integer>> ignoreRanges, boolean isMetric) {
@@ -396,9 +393,6 @@ public abstract class AbstractUnitConversionRule extends Rule {
   }
 
   private void tryConversion(AnalyzedSentence sentence, List<RuleMatch> matches, Pattern unitPattern, Double customValue, Unit customUnit, Matcher unitMatcher, List<Map.Entry<Integer, Integer>> ignoreRanges) {
-    Unit unit;
-    double value;
-
     Map.Entry<Integer, Integer> range = new AbstractMap.SimpleImmutableEntry<>(
       unitMatcher.start(), unitMatcher.end());
     ignoreRanges.add(range);
@@ -414,7 +408,8 @@ public abstract class AbstractUnitConversionRule extends Rule {
       }
     }
     // customValue/unit are used with patterns in specialPatterns, where unit and value are already extracted
-    unit = unitPatterns.getOrDefault(unitPattern, customUnit);
+    Unit unit = unitPatterns.getOrDefault(unitPattern, customUnit);
+    double value;
     if (customValue == null) {
       try {
         value = getNumberFormat().parse(unitMatcher.group(1)).doubleValue();

@@ -18,7 +18,6 @@
  *  * USA
  *
  */
-
 package org.languagetool.rules.de;
 
 import org.languagetool.rules.AbstractUnitConversionRule;
@@ -70,7 +69,7 @@ public class UnitConversionRule extends AbstractUnitConversionRule {
     addUnit("Hektar", SQUARE_METRE, "Hektar", 1e4, true);
     addUnit("Ar", SQUARE_METRE, "Ar", 1e2, true);
     addUnit("Quadratkilometer", SQUARE_METRE,  "Quadratkilometer",  1e6, true);
-    addUnit("Quadratdezimeter", SQUARE_METRE,  "Quadratdezimeter",  1e-2,  false/*true*/); // Metric, but not commonly used
+    addUnit("Quadratdezimeter", SQUARE_METRE,  "Quadratdezimeter",  1e-2, false/*true*/); // Metric, but not commonly used
     addUnit("Quadratzentimeter", SQUARE_METRE, "Quadratzentimeter", 1e-4, true);
     addUnit("Quadratmillimeter", SQUARE_METRE, "Quadratmillimeter", 1e-6, true);
     addUnit("Quadratmikrometer", SQUARE_METRE, "Quadratmikrometer", 1e-12, true);
@@ -78,7 +77,7 @@ public class UnitConversionRule extends AbstractUnitConversionRule {
 
     addUnit("Kubikmeter", CUBIC_METRE,     "Kubikmeter",      1, true);
     addUnit("Kubikkilometer", CUBIC_METRE, "Kubikkilometer",  1e9, true);
-    addUnit("Kubikdezimeter", CUBIC_METRE, "Kubikdezimeter",  1e-3,  false/*true*/); // Metric, but not commonly used
+    addUnit("Kubikdezimeter", CUBIC_METRE, "Kubikdezimeter",  1e-3, false/*true*/); // Metric, but not commonly used
     addUnit("Kubikzentimeter", CUBIC_METRE,"Kubikzentimeter", 1e-6, true);
     addUnit("Kubikmillimeter", CUBIC_METRE,"Kubikmillimeter", 1e-9, true);
     addUnit("Kubikmikrometer", CUBIC_METRE,"Kubikmikrometer", 1e-18, true);
@@ -113,7 +112,7 @@ public class UnitConversionRule extends AbstractUnitConversionRule {
       case UNIT_MISMATCH:
         return "Diese Einheiten sind nicht kompatibel.";
       default:
-        throw new RuntimeException("Unknown message type." + message);
+        throw new RuntimeException("Unknown message type: " + message);
     }
   }
 
@@ -129,7 +128,7 @@ public class UnitConversionRule extends AbstractUnitConversionRule {
       case UNIT_MISMATCH:
         return "Inkompatible Einheiten.";
       default:
-        throw new RuntimeException("Unknown message type." + message);
+        throw new RuntimeException("Unknown message type: " + message);
     }
   }
 
