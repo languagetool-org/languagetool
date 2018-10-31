@@ -780,6 +780,15 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </pattern>
         <disambig action="remove" postag="VER:.+"/>
     </rule>
+    <rule id="Zahlen" name="Zahlen">
+        <pattern case_sensitive="yes">
+            <marker>
+                <token regexp="yes">(zw(ei|an)|dreiß?|vier|fünf|sechs?|sieb(en)?|acht|neun)(zehn|zig|hundert|tausend)?((und)?(eins?|zwei|zwan|dreiß?|vier|fünf|sechs|sieb(en)?|acht|neun)(.*zehn|.*zig)?)?<exception postag="ZAL"/></token>
+            </marker>
+        </pattern>
+        <disambig action="add"><wd pos="ZAL"/></disambig>
+        <example type="ambiguous" inputform="achtzig[achtzig]" outputform="achtzig[achtzig/ZAL]">Er hat <marker>achtzig</marker> Pfennige.</example>
+    </rule>
     <!-- ============================================================================================================== -->
     <!-- IGNORE SPELLING -->
 
