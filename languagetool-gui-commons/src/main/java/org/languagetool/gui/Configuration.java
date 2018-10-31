@@ -72,6 +72,7 @@ public class Configuration {
   private static final String ERROR_COLORS_KEY = "errorColors";
   private static final String UNDERLINE_COLORS_KEY = "underlineColors";
   private static final String CONFIGURABLE_RULE_VALUES_KEY = "configurableRuleValues";
+  private static final String LT_SWITCHED_OFF_KEY = "ltSwitchedOff";
 
   private static final String DELIMITER = ",";
   // find all comma followed by zero or more white space characters that are preceded by ":" AND a valid 6-digit hex code
@@ -113,6 +114,7 @@ public class Configuration {
   private boolean doResetCheck = false;
   private String externalRuleDirectory;
   private String lookAndFeelName;
+  private boolean switchOff = false;
 
   /**
    * Uses the configuration file from the default location.
@@ -614,6 +616,25 @@ public class Configuration {
     configurableRuleValues.put(ruleID, value);
   }
 
+  /**
+   * @since 4.4
+   * if true: LT is switched Off, else: LT is switched On
+   */
+  public boolean isSwitchedOff() {
+    return switchOff;
+  }
+
+  /**
+   * @throws IOException 
+   * @since 4.4
+   * Set LT is switched Off or On
+   * save configuration
+   */
+  public void setSwitchedOff(boolean switchOff, Language lang) throws IOException {
+    this.switchOff = switchOff;
+    saveConfiguration(lang);
+  }
+
   private void loadConfiguration(Language lang) throws IOException {
 
     String qualifier = getQualifier(lang);
@@ -685,6 +706,11 @@ public class Configuration {
       String resetCheckString = (String) props.get(RESET_CHECK_KEY);
       if (resetCheckString != null) {
         doResetCheck = Boolean.parseBoolean(resetCheckString);
+      }
+
+      String switchOffString = (String) props.get(LT_SWITCHED_OFF_KEY);
+      if (switchOffString != null) {
+        switchOff = Boolean.parseBoolean(switchOffString);
       }
 
       String rulesValuesString = (String) props.get(CONFIGURABLE_RULE_VALUES_KEY);
@@ -808,6 +834,9 @@ public class Configuration {
     props.setProperty(SERVER_PORT_KEY, Integer.toString(serverPort));
     props.setProperty(PARA_CHECK_KEY, Integer.toString(numParasToCheck));
     props.setProperty(RESET_CHECK_KEY, Boolean.toString(doResetCheck));
+    if(switchOff) {
+      props.setProperty(LT_SWITCHED_OFF_KEY, Boolean.toString(switchOff));
+    }
     if (fontName != null) {
       props.setProperty(FONT_NAME_KEY, fontName);
     }

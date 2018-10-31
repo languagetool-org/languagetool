@@ -20,9 +20,14 @@ package org.languagetool.openoffice;
 
 import org.jetbrains.annotations.Nullable;
 
+import com.sun.star.awt.XMenuBar;
+import com.sun.star.beans.XPropertySet;
 import com.sun.star.frame.XDesktop;
+import com.sun.star.frame.XFrame;
+import com.sun.star.frame.XLayoutManager;
 import com.sun.star.lang.XComponent;
 import com.sun.star.lang.XMultiComponentFactory;
+import com.sun.star.ui.XUIElement;
 import com.sun.star.uno.UnoRuntime;
 import com.sun.star.uno.XComponentContext;
 
@@ -33,6 +38,8 @@ import com.sun.star.uno.XComponentContext;
  */
 public class OfficeTools {
   
+  private static final String MENU_BAR = "private:resource/menubar/menubar";
+
   /**
    * Returns the current XDesktop
    * Returns null if it fails
@@ -77,6 +84,33 @@ public class OfficeTools {
     }
   }
     
+  public static XMenuBar getMenuBar(XComponentContext xContext) {
+    try {
+      XDesktop desktop = OfficeTools.getCurrentDesktop(xContext);
+      if (desktop == null) {
+        return null;
+      }
+      XFrame frame = desktop.getCurrentFrame();
+      if (frame == null) {
+        return null;
+      }
+      XPropertySet propSet = UnoRuntime.queryInterface(XPropertySet.class, frame);
+      if (propSet == null) {
+        return null;
+      }
+      XLayoutManager layoutManager = UnoRuntime.queryInterface(XLayoutManager.class,  propSet.getPropertyValue("LayoutManager"));
+      if (layoutManager == null) {
+        return null;
+      }
+      XUIElement oMenuBar = layoutManager.getElement(MENU_BAR); 
+      XPropertySet props = UnoRuntime.queryInterface(XPropertySet.class, oMenuBar); 
+      return UnoRuntime.queryInterface(XMenuBar.class,  props.getPropertyValue("XMenuBar"));
+    } catch (Throwable t) {
+      MessageHandler.printException(t);
+    }
+    return null;
+  }
+  
 
 
 }

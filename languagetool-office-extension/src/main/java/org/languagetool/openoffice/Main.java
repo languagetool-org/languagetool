@@ -71,7 +71,6 @@ public class Main extends WeakBase implements XJobExecutor,
 
   private static final ResourceBundle MESSAGES = JLanguageTool.getMessageBundle();
 
-  
   // LibreOffice (since 4.2.0) special tag for locale with variant 
   // e.g. language ="qlt" country="ES" variant="ca-ES-valencia":
   private static final String LIBREOFFICE_SPECIAL_LANGUAGE_TAG = "qlt";
@@ -83,7 +82,6 @@ public class Main extends WeakBase implements XJobExecutor,
   private Set<String> disabledRules = null;
   private Set<String> disabledRulesUI;
   private String lastPara = null;
-  private boolean switchOff = false;
 
   private XComponentContext xContext;
   
@@ -102,7 +100,9 @@ public class Main extends WeakBase implements XJobExecutor,
   private Configuration prepareConfig() {
     try {
       Configuration config = documents.getConfiguration();
-      disabledRules = config.getDisabledRuleIds();
+      if (config != null) {
+        disabledRules = config.getDisabledRuleIds();
+      }
       if (disabledRules == null) {
         disabledRules = new HashSet<>();
       }
@@ -147,9 +147,6 @@ public class Main extends WeakBase implements XJobExecutor,
     paRes.aText = paraText;
     paRes.aProperties = propertyValues;
     try {
-      if(switchOff) {
-        return paRes;
-      }
       int[] footnotePositions = getPropertyValues("FootnotePositions", propertyValues);  // since LO 4.3
       paRes = documents.getCheckResults(paraText, locale, paRes, footnotePositions);
       if (disabledRules == null) {
@@ -363,8 +360,9 @@ public class Main extends WeakBase implements XJobExecutor,
         AboutDialogThread aboutThread = new AboutDialogThread(MESSAGES);
         aboutThread.start();
       } else if ("switchOff".equals(sEvent)) {
-        switchOff = !switchOff;
-        resetCheck();
+        if(documents.toggleSwitchedOff()) {
+          resetCheck();
+        }
       } else {
         MessageHandler.printToLogFile("Sorry, don't know what to do, sEvent = " + sEvent);
       }
@@ -488,6 +486,5 @@ public class Main extends WeakBase implements XJobExecutor,
     documents.setContextOfClosedDoc(goneContext);
     goneContext.removeEventListener(this); 
   }
-
 
 }
