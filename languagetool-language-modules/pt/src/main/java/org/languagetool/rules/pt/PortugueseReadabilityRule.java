@@ -55,7 +55,7 @@ public class PortugueseReadabilityRule extends ReadabilityRule {
   public PortugueseReadabilityRule(ResourceBundle messages, Language lang, UserConfig userConfig, 
       boolean tooEasyTest, int level, boolean defaultOn) {
     super(messages, lang, userConfig, tooEasyTest, level, defaultOn);
-    super.setCategory(new Category(new CategoryId("TEXT_ANALYSIS"), "Textanalyse", Location.INTERNAL, false));
+    super.setCategory(new Category(new CategoryId("TEXT_ANALYSIS"), "Análise de Texto", Location.INTERNAL, false));
     this.tooEasyTest = tooEasyTest;
   }
   
@@ -127,7 +127,7 @@ public class PortugueseReadabilityRule extends ReadabilityRule {
            * ASL = Average Sentence Length
            * ASW = Average Number of Syllables per Word
            * English:    FRE= 206,835 - ( 1,015 * ASL ) - ( 84,6 * ASW )
-           * Portuguese: FRE= 206,840 - ( 1.020 * ASL ) - ( 60.0 * AWS )
+           * Portuguese: FRE= 206,840 - ( 1.020 * ASL ) - ( 60.0 * ASW )
            * http://ridi.ibict.br/bitstream/123456789/273/1/EnyIS2007.pdf
            */
   protected double getFleschReadingEase(double ASL, double ASW) {
@@ -168,8 +168,7 @@ public class PortugueseReadabilityRule extends ReadabilityRule {
             (c == 'í' && (cl == 'a' || cl == 'e')) ||
             (c == 'o' && (cl == 'a' || cl == 'á' || cl == 'e' || cl == 'é' || cl == 'i' || cl == 'í' || cl == 'u')) ||
             (c == 'u' && (cl == 'a' || cl == 'á' || cl == 'e' || cl == 'é' || cl == 'i' || cl == 'o')) ||
-            (c == 'ú' && (cl == 'a' || cl == 'e' || cl == 'o')) ||
-            (c == 'a' && (cl == 'a' || cl == 'A'))) {
+            (c == 'ú' && (cl == 'a' || cl == 'e' || cl == 'o'))) {
           lastDouble = true;
         } else {
           nSyllables++;
