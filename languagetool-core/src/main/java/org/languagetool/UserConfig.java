@@ -32,6 +32,8 @@ import java.util.Objects;
 public class UserConfig {
 
   private final List<String> userSpecificSpellerWords;
+  // Optimization: compare large user dictionaries via ID instead of using List.equals
+  private String dictIdentifier = null;
   private final int maxSpellingSuggestions;
   private final Map<String, Integer> configurableRuleValues = new HashMap<>();
   private final LinguServices linguServices;
@@ -103,15 +105,20 @@ public class UserConfig {
     return linguServices;
   }
 
-  // TODO: optimize this! equals on userSpecificSpellerWords can be expensive with huge dicts
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     UserConfig that = (UserConfig) o;
     if (maxSpellingSuggestions != that.maxSpellingSuggestions) return false;
-    if (!userSpecificSpellerWords.equals(that.userSpecificSpellerWords)) return false;
-    return configurableRuleValues.equals(that.configurableRuleValues);
+    if (!configurableRuleValues.equals(that.configurableRuleValues)) return false;
+
+    // optimization: equals on userSpecificSpellerWords can be expensive with huge dictionaries
+    if (dictIdentifier != null && that.dictIdentifier != null) {
+      return dictIdentifier.equals(that.dictIdentifier);
+    } else {
+      return userSpecificSpellerWords.equals(that.userSpecificSpellerWords);
+    }
   }
 
   @Override
@@ -120,5 +127,16 @@ public class UserConfig {
     result = 31 * result + maxSpellingSuggestions;
     result = 31 * result + configurableRuleValues.hashCode();
     return result;
+  }
+
+  /**
+   * Generate an internal identifier for the dictionary associated with this object based on user id and dictionary names
+   * For use in equals (e.g. for PipelinePool) to efficiently compare large dictionaries
+   * @param premiumId user ID
+   * @param dictGroups names of dictionary groups used in request; empty list = default dictionary
+   * @since 4.4
+   */
+  public void generateUserDictionaryIdentifier(Long premiumId, List<String> dictGroups) {
+    this.dictIdentifier = String.format("u=%d,d=%s", premiumId, String.join(";", dictGroups));
   }
 }

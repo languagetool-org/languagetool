@@ -98,6 +98,9 @@ public class PipelinePool {
   private final ResultCache cache;
   private final LoadingCache<PipelineSettings, ConcurrentLinkedQueue<Pipeline>> pool;
   private final boolean internalServer;
+  // stats
+  private long pipelinesUsed;
+  private long requests;
 
   public PipelinePool(HTTPServerConfig config, ResultCache cache, boolean internalServer) {
     this.internalServer = internalServer;
@@ -124,13 +127,21 @@ public class PipelinePool {
 
   public Pipeline getPipeline(PipelineSettings settings) throws Exception {
     if (pool != null) {
+      requests++;
       ConcurrentLinkedQueue<Pipeline> pipelines = pool.get(settings);
+      if (pipelines.size() > 10) {
+        ServerTools.print(String.format("Pipeline buildup for %s: %d pipelines created.", settings, pipelines.size()));
+      }
+      if (requests % 1000 == 0) {
+        ServerTools.print(String.format("Pipeline cache stats: %f hit rate", (double) pipelinesUsed / requests));
+      }
       Pipeline pipeline = pipelines.poll();
       if (pipeline == null) {
-        ServerTools.print("No prepared pipeline found; creating one.");
+        ServerTools.print(String.format("No prepared pipeline found for %s; creating one.", settings));
         pipeline = createPipeline(settings.lang, settings.motherTongue, settings.query, settings.user);
       } else {
-        ServerTools.print("Prepared pipeline found; using it.");
+        pipelinesUsed++;
+        ServerTools.print(String.format("Prepared pipeline found for %s; using it.", settings));
       }
       return pipeline;
     } else {

@@ -22,9 +22,11 @@
 package org.languagetool.server;
 
 import org.languagetool.*;
+import org.languagetool.markup.AnnotatedText;
 import org.languagetool.rules.Category;
 import org.languagetool.rules.CategoryId;
 import org.languagetool.rules.Rule;
+import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.AbstractPatternRule;
 import org.xml.sax.SAXException;
 
@@ -46,7 +48,7 @@ public class Pipeline extends JLanguageTool {
 
   public static class IllegalPipelineMutationException extends RuntimeException {
     IllegalPipelineMutationException() {
-      super("Pipeline is frozen; mutating shared JLanguageTool instace is forbidden.");
+      super("Pipeline is frozen; mutating shared JLanguageTool instance is forbidden.");
     }
   }
 
