@@ -2804,7 +2804,7 @@
         <pattern>
             <marker>
                 <and>
-                    <token postag="PDT"><exception scope="previous" postag="JJ"/></token>
+                    <token postag="PDT"><exception scope="previous" postag_regexp="yes" postag="JJ|DT"/></token>
                     <token postag="DT"/>
                 </and>
             </marker>
@@ -2813,6 +2813,7 @@
         <disambig postag="DT"/>
         <example type="ambiguous" inputform="All[all/DT,all/JJ,all/PDT]" outputform="All[all/DT]"><marker>All</marker> students are happy.</example>
         <example type="untouched">All the people.</example>
+        <example type="untouched">Incorrect grammar. …and put <marker>the all</marker> effort on the other tasks.</example>
     </rule>
     <rule name="PDT/DT -&gt; PDT" id="PDT_PDT">
         <pattern>
