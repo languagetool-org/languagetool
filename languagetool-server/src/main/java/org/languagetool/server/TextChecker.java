@@ -122,6 +122,10 @@ abstract class TextChecker {
     UserConfig userConfig = new UserConfig(
             limits.getPremiumUid() != null ? getUserDictWords(limits.getPremiumUid()) : Collections.emptyList(),
             new HashMap<>(), config.getMaxSpellingSuggestions());
+
+    if (limits.getPremiumUid() != null) {
+      userConfig.generateUserDictionaryIdentifier(limits.getPremiumUid(), Collections.emptyList());
+    }
     //print("Check start: " + text.length() + " chars, " + langParam);
     boolean autoDetectLanguage = getLanguageAutoDetect(parameters);
     List<String> preferredVariants = getPreferredVariants(parameters);
