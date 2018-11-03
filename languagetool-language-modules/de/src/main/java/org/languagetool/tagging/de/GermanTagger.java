@@ -62,7 +62,7 @@ public class GermanTagger extends BaseTagger {
     List<TaggedWord> result = new ArrayList<>();
     for (TaggedWord tw : analyzedWordResults) {
       String lemma = tw.getLemma();
-      if (tw.getPosTag().matches("SUB.*") && stem.length() > 0 && stem.charAt(stem.length() - 1) != '-') {
+      if (stem.length() > 0 && stem.charAt(stem.length() - 1) != '-' && tw.getPosTag().startsWith("SUB:")) {
         lemma = lemma.toLowerCase();
       }
       result.add(new TaggedWord(stem + lemma, tw.getPosTag()));
@@ -126,7 +126,7 @@ public class GermanTagger extends BaseTagger {
 
   private boolean matchesUppercaseAdjective(String unknownUppercaseToken) {
     List<TaggedWord> temp = getWordTagger().tag(StringTools.lowercaseFirstChar(unknownUppercaseToken));
-    return temp.size() > 0 && temp.get(0).getPosTag().matches("ADJ.*");
+    return temp.size() > 0 && temp.get(0).getPosTag().startsWith("ADJ");
   }
 
   @Override
@@ -206,14 +206,14 @@ public class GermanTagger extends BaseTagger {
                 word = wordOrig;
                 
                 boolean wordStartsUppercase = StringTools.startsWithUppercase(word);
-                if (linkedTaggerTokens.size() > 0) {
+                if (linkedTaggerTokens.isEmpty()) {
+                  readings.add(getNoInfoToken(word));
+                } else {
                   if (wordStartsUppercase) { //Choose between uppercase/lowercase Lemma
                     readings.addAll(getAnalyzedTokens(linkedTaggerTokens, word));
                   } else {
                     readings.addAll(getAnalyzedTokens(linkedTaggerTokens, word, compoundedWord));
                   }
-                } else {
-                  readings.add(getNoInfoToken(word));
                 }
               } else {
                 readings.add(getNoInfoToken(word));
@@ -226,10 +226,10 @@ public class GermanTagger extends BaseTagger {
               lastPart = StringTools.uppercaseFirstChar(lastPart);
             }
             List<TaggedWord> partTaggerTokens = getWordTagger().tag(lastPart);
-            if (partTaggerTokens.size() > 0) {
-              readings.addAll(getAnalyzedTokens(partTaggerTokens, word, compoundParts));
-            } else {
+            if (partTaggerTokens.isEmpty()) {
               readings.add(getNoInfoToken(word));
+            } else {
+              readings.addAll(getAnalyzedTokens(partTaggerTokens, word, compoundParts));
             }
           }
         } else {
