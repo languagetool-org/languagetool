@@ -137,11 +137,11 @@ public class PipelinePool {
       }
       Pipeline pipeline = pipelines.poll();
       if (pipeline == null) {
-        ServerTools.print(String.format("No prepared pipeline found for %s; creating one.", settings));
+        //ServerTools.print(String.format("No prepared pipeline found for %s; creating one.", settings));
         pipeline = createPipeline(settings.lang, settings.motherTongue, settings.query, settings.user);
       } else {
         pipelinesUsed++;
-        ServerTools.print(String.format("Prepared pipeline found for %s; using it.", settings));
+        //ServerTools.print(String.format("Prepared pipeline found for %s; using it.", settings));
       }
       return pipeline;
     } else {
