@@ -15120,6 +15120,46 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Nach der Anredeformel sollte ein Komma stehen: <suggestion>Herren,</suggestion></message>
                 <example correction="Herren,">Sehr geehrte Damen und <marker>Herren</marker></example>
             </rule>
+            <rule>
+                <antipattern case_sensitive="yes">
+                    <token postag="SENT_START"/>
+                    <token min="0" regexp="yes">&anfauf;</token>
+                    <token regexp="yes">Hallo|Hi|Moin</token>
+                    <token/>
+                    <token>!</token>
+                </antipattern>
+                <pattern case_sensitive="yes">
+                    <token postag="SENT_START"/>
+                    <token min="0" regexp="yes">&anfauf;</token>
+                    <marker>
+                        <token regexp="yes">Hallo|Hi|Moin|Tschüss?</token>
+                    </marker>
+                    <token>
+                       <exception postag="PKT"/>
+                    </token>
+                </pattern>
+                <message>Nach der Anredeformel sollte ein Komma stehen: <suggestion>\3,</suggestion></message>
+                <example><marker>Hallo</marker> Tom!</example>
+                <example correction="Hallo,">„<marker>Hallo</marker> da seid ihr ja endlich!“</example>
+                <example correction="Hallo,"><marker>Hallo</marker> Carin, komm gut nach Berlin zurück!</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag="SENT_START"/>
+                    <token min="0" regexp="yes">&anfauf;</token>
+                    <token>Guten</token>
+                    <marker>
+                        <token regexp="yes">Abend|Morgen|Nacht|Tag</token>
+                    </marker>
+                    <token>
+                       <exception postag="PKT|ADV:.+" postag_regexp="yes"/>
+                    </token>
+                </pattern>
+                <message>Nach der Anredeformel sollte ein Komma stehen: <suggestion>\4,</suggestion></message>
+                <example correction="Tag,">„Guten <marker>Tag</marker> Herr Müller!“</example>
+                <example correction="Morgen,">Guten <marker>Morgen</marker> lieb Sorgen!</example>
+                <example>Guten Morgen allerseits!</example>
+            </rule>
         </rulegroup>
     </category>
 
