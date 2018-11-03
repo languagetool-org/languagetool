@@ -58,8 +58,8 @@ public class PortugueseUnitConversionRule extends AbstractUnitConversionRule {
     addUnit("milhas por hora", MILE.divide(HOUR), "milhas por hora", 1, false);
 
     addUnit("metros?", METRE, "metros", 1, true);
-    // TODO: this causes errors with input "Quilómetro" (NullPointerException)
-    //addUnit("kilómetros?|Quilómetros?", METRE, "quilómetros", 1e3, true);
+    addUnit("Quilómetros?", METRE, "quilómetros", 1e3, true);
+    addUnit("kilómetros?", METRE, "quilómetros", 1e3, true);
     addUnit("decímetros?", METRE, "decímetros", 1e-1, false); // metric, but should not be suggested
     addUnit("centímetros?", METRE, "centímetros", 1e-2, true);
     addUnit("milímetros?", METRE, "milímetros", 1e-3, true);
