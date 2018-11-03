@@ -24,6 +24,7 @@ import org.languagetool.AnalyzedTokenReadings;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * A rule that matches words for which two different spellings are used
@@ -63,24 +64,26 @@ public abstract class AbstractWordCoherencyRule extends TextLevelRule {
       for (AnalyzedTokenReadings tmpToken : tokens) {
         String token = tmpToken.getToken();
         List<AnalyzedToken> readings = tmpToken.getReadings();
-        // TODO: in theory we need to care about the other readings, too (affects e.g. German "Schenke" as a noun):
-        if (readings.size() > 0) {
-          String baseform = readings.get(0).getLemma();
-          if (baseform != null) {
-            token = baseform;
+        if (!readings.isEmpty()) {
+          Set<String> baseforms = readings.stream().map(AnalyzedToken::getLemma).collect(Collectors.toSet());
+          for (String baseform : baseforms) {
+            if (baseform != null) {
+              token = baseform;
+            }
+            if (shouldNotAppearWord.containsKey(token)) {
+              RuleMatch otherMatch = shouldNotAppearWord.get(token);
+              String otherSpelling = otherMatch.getMessage();
+              String msg = getMessage(token, otherSpelling);
+              RuleMatch ruleMatch = new RuleMatch(this, sentence, pos+tmpToken.getStartPos(), pos+tmpToken.getEndPos(), msg);
+              ruleMatch.setSuggestedReplacement(otherSpelling);
+              ruleMatches.add(ruleMatch);
+              break;
+            } else if (getWordMap().containsKey(token)) {
+              String shouldNotAppear = getWordMap().get(token);
+              RuleMatch potentialRuleMatch = new RuleMatch(this, sentence, pos+tmpToken.getStartPos(), pos+tmpToken.getEndPos(), token);
+              shouldNotAppearWord.put(shouldNotAppear, potentialRuleMatch);
+            }
           }
-        }
-        if (shouldNotAppearWord.containsKey(token)) {
-          RuleMatch otherMatch = shouldNotAppearWord.get(token);
-          String otherSpelling = otherMatch.getMessage();
-          String msg = getMessage(token, otherSpelling);
-          RuleMatch ruleMatch = new RuleMatch(this, sentence, pos+tmpToken.getStartPos(), pos+tmpToken.getEndPos(), msg);
-          ruleMatch.setSuggestedReplacement(otherSpelling);
-          ruleMatches.add(ruleMatch);
-        } else if (getWordMap().containsKey(token)) {
-          String shouldNotAppear = getWordMap().get(token);
-          RuleMatch potentialRuleMatch = new RuleMatch(this, sentence, pos+tmpToken.getStartPos(), pos+tmpToken.getEndPos(), token);
-          shouldNotAppearWord.put(shouldNotAppear, potentialRuleMatch);
         }
       }
       pos += sentence.getText().length();

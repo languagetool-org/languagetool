@@ -90,7 +90,7 @@ public class GermanTagger extends BaseTagger {
 
       //Only give result if the last part is either a noun or an adjective (or adjective written in Uppercase)
       List<TaggedWord> tagged = tag(lastPart);
-      if (tagged.size() > 0 && (tagged.get(0).getPosTag().matches("SUB.*|ADJ.*") || matchesUppercaseAdjective(lastPart))) {
+      if (tagged.size() > 0 && (StringUtils.startsWithAny(tagged.get(0).getPosTag(), "SUB", "ADJ") || matchesUppercaseAdjective(lastPart))) {
         result = lastPart;
       }
     }
@@ -196,11 +196,9 @@ public class GermanTagger extends BaseTagger {
                 List<TaggedWord> linkedTaggerTokens = addStem(getWordTagger().tag(word), wordStem); //Try to analyze the last part found
 
                 //Some words that are linked with a dash ('-') will be written in uppercase, even adjectives
-                if (wordOrig.contains("-") && linkedTaggerTokens.isEmpty()) {
-                  if (matchesUppercaseAdjective(word)) {
-                    word = StringTools.lowercaseFirstChar(word);
-                    linkedTaggerTokens = getWordTagger().tag(word);
-                  }
+                if (wordOrig.contains("-") && linkedTaggerTokens.isEmpty() && matchesUppercaseAdjective(word)) {
+                  word = StringTools.lowercaseFirstChar(word);
+                  linkedTaggerTokens = getWordTagger().tag(word);
                 }
 
                 word = wordOrig;
