@@ -26,6 +26,7 @@ import morfologik.fsa.builders.FSABuilder;
 import morfologik.fsa.builders.CFSA2Serializer;
 import morfologik.stemming.Dictionary;
 
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.Experimental;
@@ -148,7 +149,7 @@ public class MorfologikMultiSpeller {
     String line;
     while ((line = br.readLine()) != null) {
       if (!line.startsWith("#")) {
-        lines.add(line.replaceFirst("#.*", "").trim().getBytes("utf-8"));
+        lines.add(StringUtils.substringBefore(line,"#").trim().getBytes("utf-8"));
       }
     }
     return lines;
