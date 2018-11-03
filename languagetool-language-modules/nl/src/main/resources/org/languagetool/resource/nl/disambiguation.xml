@@ -2115,12 +2115,14 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 	<rule id="DE_WKW" name="-">
 		<pattern>
 			<token postag="VNW:AWZ:EKV:DE_"/>
-			<and>
-				<token postag_regexp="yes" postag="WKW:(TGW|VLT):.*"/>
-				<token postag_regexp="yes" postag="ZNW:EKV:DE_"/>
-			</and>
+			<marker>
+				<and>
+					<token postag_regexp="yes" postag="WKW:(TGW|VLT):.*"/>
+					<token postag_regexp="yes" postag="ZNW:EKV:DE_"/>
+				</and>
+			</marker>
 		</pattern>
-		<disambig action="filterall" />
+		<disambig postag="ZNW:EKV:DE_" />
 	</rule>
 
 	<rule id="DISAMBIG_DAT_ER_EEN_REKENING_WORDT_GEOPEND" name="-">
