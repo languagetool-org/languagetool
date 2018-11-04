@@ -28493,6 +28493,40 @@ USA
             <example correction='1990s'>Where were you in the <marker>1990’s</marker>?</example>
             <example>Disc wheels replaced the <marker>Alvis 12/70</marker>'s wire wheels and are fitted with larger tyres.</example>
         </rule>
+        <rulegroup id="CAPITALIZATION_NNP_DERIVED" name="Capitalization of words derived from proper nouns"><!-- 1) AmE and BrE have different capitalization, but for simplicity, put all the terms in one general rule. If necessary, move the rule to the locale-specific directory and edit as necessary. 2) Cannot use <or> in the pattern; a rulegroup is necessary. -->
+            <url>https://www.btb.termiumplus.gc.ca/tpv2guides/guides/wrtps/index-eng.html?lang=eng&amp;lettr=indx_catlog_c&amp;page=9Yk5QGXu4S3I.html</url>
+            <rule><!-- verbs -->
+                <pattern><!-- case_sensitive does not give the expected result, nor does (?-i) on a token. Cf the adjective rule. -->
+                    <token postag_regexp="yes" postag="VB.*" inflected="yes" regexp="yes">(balkan|creol|dor|gaelic|japan|polon|roman|sinic|western)i(s|z)e<exception case_sensitive="yes" regexp="yes">[A-Z].+</exception></token>
+                </pattern>
+                <message>Possible incorrect capitalization. Some verbs that are derived from proper nouns can have both an initial capital letter and an initial lower case letter. If there is a close association with the proper noun, use <suggestion><match no="1" case_conversion="startupper"/></suggestion>.</message>
+                <short>Capitalization: words from proper nouns</short>
+                <example correction="Balkanize">During the decline of the Ottoman Empire, these areas began to <marker>balkanize</marker>.</example>
+                <example correction="Balkanises">... as it <marker>balkanises</marker> the surrounding states.</example>
+                <example>During the decline of the Ottoman Empire, these areas began to <marker>Balkanize</marker>.</example>
+                <example>The missionaries tried to <marker>Christianise</marker> the natives.</example>
+                <example type="triggers_error">Do we want to <marker>balkanize</marker> the internet?</example>
+            </rule>
+            <rule><!-- nouns -->
+                <pattern>
+                    <token postag_regexp="yes" postag="NN.*" inflected="yes" regexp="yes">(balkan|creol|dor|gaelic|japan|polon|roman|sinic|western)i(s|z)(ation|er)<exception case_sensitive="yes" regexp="yes">[A-Z].+</exception></token>
+                </pattern>
+                <message>Possible incorrect capitalization. Some nouns that are derived from proper nouns can have both an initial capital letter and an initial lower case letter. If there is a close association with the proper noun, use <suggestion><match no="1" case_conversion="startupper"/></suggestion>.</message>
+                <short>Capitalization: words from proper nouns</short>
+                <example correction="Romanizers">These <marker>romanizers</marker> think that the Roman Catholic church...</example>
+                <example correction="Romanization">During this period of <marker>romanization</marker>, the native British peoples...</example>
+            </rule>
+            <rule><!-- adjectives -->
+                <pattern>
+                    <token postag="JJ" regexp="yes" case_sensitive="yes">bohemian|byzantine|draconian|herculean|philistine|platonic|stentorian|stoic</token>
+                </pattern>
+                <message>Possible incorrect capitalization. Some adjectives that are derived from proper nouns can have both an initial capital letter and an initial lower case letter. If there is a close association with the proper noun, use <suggestion><match no="1" case_conversion="startupper"/></suggestion>.</message>
+                <short>Capitalization: words from proper nouns</short>
+                <example correction="Byzantine">Examples of this <marker>byzantine</marker> architecture…</example>
+                <example>Examples of this <marker>Byzantine</marker> architecture…</example>
+                <example type="triggers_error">These <marker>byzantine</marker> rules are not easy to understand.</example>
+            </rule>
+        </rulegroup>
   </category>
 
     <!-- ====================================================================== -->
