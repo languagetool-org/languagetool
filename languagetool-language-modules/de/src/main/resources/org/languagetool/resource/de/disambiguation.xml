@@ -780,7 +780,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </pattern>
         <disambig action="remove" postag="VER:.+"/>
     </rule>
-    <rule id="Zahlen" name="Zahlen">
+    <rule id="ZAHLEN" name="Zahlen">
         <pattern case_sensitive="yes">
             <marker>
                 <token regexp="yes">(zw(ei|an)|dreiß?|vier|fünf|sechs?|sieb(en)?|acht|neun)(zehn|zig|hundert|tausend)?((und)?(eins?|zwei|zwan|dreiß?|vier|fünf|sechs|sieb(en)?|acht|neun)(.*zehn|.*zig)?)?<exception postag="ZAL"/></token>
@@ -789,6 +789,28 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <disambig action="add"><wd pos="ZAL"/></disambig>
         <example type="ambiguous" inputform="achtzig[achtzig]" outputform="achtzig[achtzig/ZAL]">Er hat <marker>achtzig</marker> Pfennige.</example>
     </rule>
+    <rulegroup id="KONJUNKTIV" name="Konjunktiv">
+        <rule>
+            <pattern>
+                <token regexp="yes">er|sie|es</token>
+                <marker>
+                    <token postag="VER:.*3:SIN:.+" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöü]+e</token>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="VER.*:1:.+"/>
+            <example type="ambiguous" inputform="ginge[gehen/VER:1:SIN:KJ2:NON,gehen/VER:3:SIN:KJ2:NON]" outputform="ginge[gehen/VER:3:SIN:KJ2:NON]">Sie sagte, er <marker>ginge</marker> jetzt.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <token skip="5">,<exception scope="next" regexp="yes">,|ich</exception><exception scope="next" postag="PA[12]:.+|VER:.*INF.*" postag_regexp="yes"></exception></token>
+                <marker>
+                    <token postag="VER:.*3:SIN:.+" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöü]+e</token>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="VER.*:1:.+"/>
+            <example type="ambiguous" inputform="ginge[gehen/VER:1:SIN:KJ2:NON,gehen/VER:3:SIN:KJ2:NON]" outputform="ginge[gehen/VER:3:SIN:KJ2:NON]">Sie sagte, wenn der Mann <marker>ginge</marker>, könne man beginnen.</example>
+        </rule>
+    </rulegroup>
     <!-- ============================================================================================================== -->
     <!-- IGNORE SPELLING -->
 
