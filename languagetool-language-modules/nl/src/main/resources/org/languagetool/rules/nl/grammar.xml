@@ -7907,11 +7907,13 @@ onwaarschijnlijk
                     <marker>
                         <token>ter</token>
                     </marker>
-                    <token postag="BNW:OVR:ONV"/>
+					<or>
+						<token postag="BNW:OVR:ONV"/>
+						<token>meest</token>
+					</or>
                 </pattern>
                 <message>Standaardnederlands is \1 <suggestion>het</suggestion> \3 </message>
                 <example correction="het">Zij reden om <marker>ter</marker> hardst.</example>
-                <example correction="het">Juist onbedeesd, zing om <marker>ter</marker> meest.</example>
                 <example correction="het">De zeven strofen van zijn lied zijn immers niet alleen om <marker>ter</marker> bloeddorstigst.</example>
                 <example correction="het">Ik heb geen zin in een wedstrijd "om <marker>ter</marker> verst pissen"</example>
                 <example correction="het">We nemen het op door om <marker>ter</marker> snelst een parcours af te leggen.</example>
@@ -35696,4 +35698,41 @@ steenwijk;Steenwijk
         </rulegroup>
 	</category>
    
+	<category id="TEST" name="test" default="on">
+	
+		<rulegroup id="VERWISSEL_OM" name="Verwissel / wissel om">
+            <rule>
+				<antipattern><token>om</token><token>te</token></antipattern>
+				<pattern><token inflected="yes" skip="-1">verwisselen</token><token>om</token></pattern>
+				<message>Bij verwisselen hoort geen 'om'.</message>
+				<example type="incorrect">Ik <marker>verwissel de lamp steeds weer om</marker>.</example>
+            </rule>
+        </rulegroup>
+		<rulegroup id="TEST_AANGEDAAN_WORDT" name="vang">
+			<rule>
+				<pattern>
+					<token skip="1">er</token>
+					<marker>
+					<token>aangedaan</token>
+					</marker>
+					<token inflected="yes">worden</token>
+				</pattern>
+				<message>U bedoelt mogelijk <suggestion>aan gedaan</suggestion>.</message>
+				<example correction="aan gedaan">Als er iets <marker>aangedaan</marker> wordt.</example>
+			</rule>
+		</rulegroup>		
+
+		<rulegroup id="TEST_DES_TE-VREEMD" name="Vreemd woord na des te">
+			<rule>
+				<antipattern><token>des</token><token>te</token><token postag="BNW:VGR:ONV"/></antipattern>
+				<antipattern><token>des</token><token>te</token><token regexp="yes">meer|eerder|minder</token></antipattern>
+				<antipattern><token>des</token><token>te</token><token postag="UNKNOWN"/></antipattern>
+				
+				<pattern><token>des</token><token>te</token><token/></pattern>
+				<message>\1 \2 \3</message>
+                <example type="incorrect"><marker>des te liep</marker></example>
+			</rule>
+		</rulegroup>
+
+	</category>
 </rules>
