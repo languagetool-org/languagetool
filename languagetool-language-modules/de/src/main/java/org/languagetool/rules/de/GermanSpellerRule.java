@@ -18,7 +18,12 @@
  */
 package org.languagetool.rules.de;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.SequenceInputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -33,12 +38,15 @@ import java.util.function.Function;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import de.danielnaber.jwordsplitter.InputTooLongException;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nullable;
-import org.languagetool.*;
+import org.languagetool.AnalyzedSentence;
+import org.languagetool.AnalyzedToken;
+import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
+import org.languagetool.UserConfig;
 import org.languagetool.language.German;
-import org.languagetool.language.GermanyGerman;
 import org.languagetool.rules.Example;
 import org.languagetool.rules.spelling.hunspell.CompoundAwareHunspellRule;
 import org.languagetool.rules.spelling.morfologik.MorfologikMultiSpeller;
@@ -48,6 +56,7 @@ import org.languagetool.tokenizers.de.GermanCompoundTokenizer;
 import org.languagetool.tools.StringTools;
 
 import de.danielnaber.jwordsplitter.GermanWordSplitter;
+import de.danielnaber.jwordsplitter.InputTooLongException;
 
 public class GermanSpellerRule extends CompoundAwareHunspellRule {
 
@@ -63,7 +72,6 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private final Set<String> wordsToBeIgnoredInCompounds = new HashSet<>();
   private final Set<String> wordStartsToBeProhibited    = new HashSet<>();
   private static final Map<Pattern, Function<String,List<String>>> ADDITIONAL_SUGGESTIONS = new HashMap<>();
-  private static final Map<Pattern, Function<String,List<String>>> ADDITIONAL_SUGGESTIONS_WITH_DOT = new HashMap<>();
   static {
     put("wars", w -> Arrays.asList("war's", "war es"));
     put("[aA]wa", w -> Arrays.asList("AWA", "ach was", "aber"));
@@ -844,7 +852,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       String[] words = word.split("-");
       if (words.length > 1) {
         List<List<String>> suggestionLists = new ArrayList<>(words.length);
-        int startAt = 0, stopAt = words.length;
+        int startAt = 0;
+        int stopAt = words.length;
         String partialWord = words[0] + "-" + words[1];
         if (super.ignoreWord(partialWord) || wordsToBeIgnoredInCompounds.contains(partialWord)) { // "Au-pair-Agentr"
           startAt = 2;

@@ -392,8 +392,6 @@ public class AgreementRule extends Rule {
   ));
   
   private static final String[] REL_PRONOUN_LEMMAS = {"der", "welch"};
-
-  private static final Pattern UNITS = Pattern.compile(".*([gG]ramm|[mM]eter)");
   
   private static final Set<String> PRONOUNS_TO_BE_IGNORED = new HashSet<>(Arrays.asList(
     "ich",
@@ -558,7 +556,7 @@ public class AgreementRule extends Rule {
       if ((startAt + 3) < tokens.length && ",".equals(tokens[startAt+1].getToken()) && StringUtils.isNumeric(tokens[startAt+2].getToken())) {
         posAfterModifier = startAt + 3;
       }
-      if (UNITS.matcher(tokens[posAfterModifier].getToken()).matches()) {
+      if (StringUtils.endsWithAny(tokens[posAfterModifier].getToken(), "gramm", "Gramm", "Meter", "meter")) {
         return posAfterModifier + 1;
       }
     }
@@ -581,7 +579,7 @@ public class AgreementRule extends Rule {
   }
 
   private boolean isParticiple(AnalyzedTokenReadings tokensReadings) {
-    return tokensReadings.hasPartialPosTag("PA1") || tokensReadings.hasPartialPosTag("PA2");
+    return tokensReadings.hasPosTagStartingWith("PA");
   }
 
   private boolean isRelevantPronoun(AnalyzedTokenReadings[] tokens, int pos) {
@@ -798,7 +796,7 @@ public class AgreementRule extends Rule {
 
   private boolean possessiveSpecialCase(AnalyzedTokenReadings aToken, AnalyzedToken tmpReading) {
     // would cause error misses as it contains 'ALG', e.g. in "Der Zustand meiner Gehirns."
-    return aToken.hasPartialPosTag("PRO:POS") && StringUtils.equalsAny(tmpReading.getLemma(), "ich", "sich");
+    return aToken.hasPosTagStartingWith("PRO:POS") && StringUtils.equalsAny(tmpReading.getLemma(), "ich", "sich");
   }
 
   private String makeString(GermanToken.Kasus casus, GermanToken.Numerus num, GermanToken.Genus gen,

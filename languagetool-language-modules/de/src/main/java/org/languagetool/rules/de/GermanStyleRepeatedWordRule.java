@@ -105,21 +105,20 @@ public class GermanStyleRepeatedWordRule extends AbstractStyleRepeatedWordRule {
     }
     return false;
   }
-  
+
+  @Override
   protected boolean isPartOfWord(String testTokenText, String tokenText) {
-    if ((testTokenText.startsWith(tokenText) || testTokenText.endsWith(tokenText) 
-        || tokenText.startsWith(testTokenText) || tokenText.endsWith(testTokenText)) 
+    return ((testTokenText.startsWith(tokenText) || testTokenText.endsWith(tokenText)
+        || tokenText.startsWith(testTokenText) || tokenText.endsWith(testTokenText))
         && (testTokenText.length() == tokenText.length() || testTokenText.length() < tokenText.length() - 3
         || testTokenText.length() > tokenText.length() + 3)
-        || testTokenText.equals(tokenText + "s") || tokenText.equals(testTokenText + "s")) {
-      return true;
-    }
-    return false;
+        || testTokenText.equals(tokenText + "s") || tokenText.equals(testTokenText + "s"));
   }
 
   /* 
    *  set an URL to the German openThesaurus
    */
+  @Override
   protected URL setURL(AnalyzedTokenReadings token) throws MalformedURLException {
     if (token != null) {
       List<AnalyzedToken> readings = token.getReadings();
