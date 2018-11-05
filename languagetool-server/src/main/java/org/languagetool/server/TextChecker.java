@@ -181,7 +181,25 @@ abstract class TextChecker {
     Long textSessionId = null;
     try {
       if (parameters.containsKey("textSessionId")) {
-        textSessionId = Long.valueOf(parameters.get("textSessionId"));
+        String textSessionIdStr = parameters.get("textSessionId");
+        if (textSessionIdStr.contains(":")) { // transitioning to new format used in chrome addon
+          // format: "{random number in 0..99999}:{unix time}"
+          long random, timestamp;
+          int sepPos = textSessionIdStr.indexOf(':');
+          random = Long.valueOf(textSessionIdStr.substring(0, sepPos));
+          timestamp = Long.valueOf(textSessionIdStr.substring(sepPos + 1));
+          // use random number to choose a slice in possible range of values
+          // then choose position in slice by timestamp
+          long maxRandom = 100000;
+          long randomSegmentSize = (Long.MAX_VALUE - maxRandom) / maxRandom;
+          long segmentOffset = random * randomSegmentSize;
+          if (timestamp > randomSegmentSize) {
+            print(String.format("Could not transform textSessionId '%s'", textSessionIdStr));
+          }
+          textSessionId = segmentOffset + timestamp;
+        } else {
+          textSessionId = Long.valueOf(textSessionIdStr);
+        }
       }
     } catch (NumberFormatException ex) {
       print("Could not parse textSessionId '" + parameters.get("textSessionId") + "' as long: " + ex.getMessage());
