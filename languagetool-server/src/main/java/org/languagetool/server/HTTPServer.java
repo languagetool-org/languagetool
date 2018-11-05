@@ -98,12 +98,13 @@ public class HTTPServer extends Server {
         ManagementFactory.getPlatformMBeanServer().registerMBean(new ActiveRules(),
           ObjectName.getInstance("org.languagetool:name=ActiveRules, type=ActiveRules"));
       }
-      InetSocketAddress address = host != null ? new InetSocketAddress(host, port) : new InetSocketAddress(port);
-      server = HttpServer.create(address, 0);
       RequestLimiter limiter = getRequestLimiterOrNull(config);
       ErrorRequestLimiter errorLimiter = getErrorRequestLimiterOrNull(config);
       LinkedBlockingQueue<Runnable> workQueue = new LinkedBlockingQueue<>();
       httpHandler = new LanguageToolHttpHandler(config, allowedIps, runInternally, limiter, errorLimiter, workQueue);
+
+      InetSocketAddress address = host != null ? new InetSocketAddress(host, port) : new InetSocketAddress(port);
+      server = HttpServer.create(address, 0);
       server.createContext("/", httpHandler);
       executorService = getExecutorService(workQueue, config);
       server.setExecutor(executorService);

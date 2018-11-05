@@ -38,6 +38,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.concurrent.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.languagetool.server.ServerTools.print;
 
@@ -45,6 +47,7 @@ import static org.languagetool.server.ServerTools.print;
  * @since 3.4
  */
 abstract class TextChecker {
+
 
   protected abstract void setHeaders(HttpExchange httpExchange);
   protected abstract String getResponse(AnnotatedText text, DetectedLanguage lang, Language motherTongue, List<RuleMatch> matches,
@@ -59,6 +62,7 @@ abstract class TextChecker {
   protected abstract List<String> getDisabledRuleIds(Map<String, String> parameters);
     
   protected static final int CONTEXT_SIZE = 40; // characters
+  protected static final int NUM_PIPELINES_PER_SETTING = 3; // for prewarming
 
   protected final HTTPServerConfig config;
 
@@ -90,6 +94,58 @@ abstract class TextChecker {
       this.logServerId = null;
     }
     pipelinePool = new PipelinePool(config, cache, internalServer);
+    if (config.isPipelinePrewarmingEnabled()) {
+      ServerTools.print("Prewarming pipelines...");
+      prewarmPipelinePool();
+      ServerTools.print("Prewarming finished.");
+    }
+  }
+
+  private void prewarmPipelinePool() {
+    // setting + number of pipelines
+    // typical addon settings at the moment (2018-11-05)
+    Map<PipelinePool.PipelineSettings, Integer> prewarmSettings = new HashMap<>();
+    List<Language> prewarmLanguages = Stream.of(
+      "de-DE", "en-US", "en-GB", "pt-BR", "ru-RU", "es", "it", "fr", "pl-PL", "uk-UA")
+      .map(Languages::getLanguageForShortCode)
+      .collect(Collectors.toList());
+    List<String> addonDisabledRules = Collections.singletonList("WHITESPACE_RULE");
+    List<JLanguageTool.Mode> addonModes = Arrays.asList(JLanguageTool.Mode.TEXTLEVEL_ONLY, JLanguageTool.Mode.ALL_BUT_TEXTLEVEL_ONLY);
+    UserConfig user = new UserConfig();
+    for (Language language : prewarmLanguages) {
+      for (JLanguageTool.Mode mode : addonModes) {
+        QueryParams params = new QueryParams(Collections.emptyList(), Collections.emptyList(), addonDisabledRules,
+          Collections.emptyList(), Collections.emptyList(), false, true,
+          false, false, mode);
+        PipelinePool.PipelineSettings settings = new PipelinePool.PipelineSettings(language, null, params, user);
+        prewarmSettings.put(settings, NUM_PIPELINES_PER_SETTING);
+
+        PipelinePool.PipelineSettings settingsMotherTongueEqual = new PipelinePool.PipelineSettings(language, language, params, user);
+        PipelinePool.PipelineSettings settingsMotherTongueEnglish = new PipelinePool.PipelineSettings(language,
+          Languages.getLanguageForName("English"), params, user);
+        prewarmSettings.put(settingsMotherTongueEqual, NUM_PIPELINES_PER_SETTING);
+        prewarmSettings.put(settingsMotherTongueEnglish, NUM_PIPELINES_PER_SETTING);
+      }
+    }
+    try {
+      for (Map.Entry<PipelinePool.PipelineSettings, Integer> prewarmSetting : prewarmSettings.entrySet()) {
+          int numPipelines = prewarmSetting.getValue();
+          PipelinePool.PipelineSettings setting = prewarmSetting.getKey();
+
+          // request n pipelines first, return all afterwards -> creates multiple for same setting
+          List<Pipeline> pipelines = new ArrayList<>();
+          for (int i = 0; i < numPipelines; i++) {
+            Pipeline p = pipelinePool.getPipeline(setting);
+            p.check("LanguageTool");
+            pipelines.add(p);
+          }
+          for (Pipeline p : pipelines) {
+            pipelinePool.returnPipeline(setting, p);
+          }
+      }
+    } catch (Exception e) {
+      throw new RuntimeException("Error while prewarming pipelines", e);
+    }
   }
 
   void shutdownNow() {

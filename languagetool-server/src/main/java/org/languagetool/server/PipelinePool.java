@@ -39,17 +39,20 @@ import java.util.HashSet;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Caches pre-configured JLanguageTool instances to avoid costly setup time of rules, etc.
  */
-public class PipelinePool {
+class PipelinePool {
+
+  static final long PIPELINE_EXPIRE_TIME = 15 * 60 * 1000;
 
   public static class PipelineSettings {
-    private Language lang;
-    private Language motherTongue;
-    private TextChecker.QueryParams query;
-    private UserConfig user;
+    private final Language lang;
+    private final Language motherTongue;
+    private final TextChecker.QueryParams query;
+    private final UserConfig user;
 
     PipelineSettings(Language lang, Language motherTongue, TextChecker.QueryParams params, UserConfig userConfig) {
       this.lang = lang;
@@ -98,18 +101,19 @@ public class PipelinePool {
   private final ResultCache cache;
   private final LoadingCache<PipelineSettings, ConcurrentLinkedQueue<Pipeline>> pool;
   private final boolean internalServer;
+
+  private long pipelineExpireCheckTimestamp;
   // stats
   private long pipelinesUsed;
   private long requests;
 
-  public PipelinePool(HTTPServerConfig config, ResultCache cache, boolean internalServer) {
+  PipelinePool(HTTPServerConfig config, ResultCache cache, boolean internalServer) {
     this.internalServer = internalServer;
     this.config = config;
     this.cache = cache;
+    this.pipelineExpireCheckTimestamp = System.currentTimeMillis();
     int maxPoolSize = config.getMaxPipelinePoolSize();
     int expireTime = config.getPipelineExpireTime();
-    // TODO: figure out how to expire elements of the queue if many build up after a load spike
-    // and then sit around unused later when there is steady, but low usage of the specific pipeline
     if (config.isPipelineCachingEnabled()) {
       this.pool = CacheBuilder.newBuilder()
         .maximumSize(maxPoolSize)
@@ -125,13 +129,27 @@ public class PipelinePool {
     }
   }
 
-  public Pipeline getPipeline(PipelineSettings settings) throws Exception {
+  Pipeline getPipeline(PipelineSettings settings) throws Exception {
     if (pool != null) {
+      // expire old pipelines in queues (where settings may be used, but some of the created pipelines are unused)
+      long expireCheckDelta = System.currentTimeMillis() - pipelineExpireCheckTimestamp;
+      if (expireCheckDelta > PIPELINE_EXPIRE_TIME) {
+        AtomicInteger removed = new AtomicInteger();
+        pipelineExpireCheckTimestamp = System.currentTimeMillis();
+        //pool.asMap().forEach((s, queue) -> queue.removeIf(Pipeline::isExpired));
+        pool.asMap().forEach((s, queue) -> queue.removeIf(pipeline -> {
+          if (pipeline.isExpired()) {
+            removed.getAndIncrement();
+            return true;
+          } else {
+            return false;
+          }
+        }));
+        ServerTools.print("Removing " + removed.get() + " expired pipelines");
+      }
+
       requests++;
       ConcurrentLinkedQueue<Pipeline> pipelines = pool.get(settings);
-      if (pipelines.size() > 10) {
-        ServerTools.print(String.format("Pipeline buildup for %s: %d pipelines created.", settings, pipelines.size()));
-      }
       if (requests % 1000 == 0) {
         ServerTools.print(String.format("Pipeline cache stats: %f hit rate", (double) pipelinesUsed / requests));
       }
@@ -149,9 +167,10 @@ public class PipelinePool {
     }
   }
 
-  public void returnPipeline(PipelineSettings settings, Pipeline pipeline) throws ExecutionException {
+  void returnPipeline(PipelineSettings settings, Pipeline pipeline) throws ExecutionException {
     if (pool == null) return;
     ConcurrentLinkedQueue<Pipeline> pipelines = pool.get(settings);
+    pipeline.refreshExpireTimer();
     pipelines.add(pipeline);
   }
 

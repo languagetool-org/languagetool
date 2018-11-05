@@ -64,6 +64,7 @@ public class HTTPServerConfig {
   protected File languageModelDir = null;
   protected File word2vecModelDir = null;
   protected boolean pipelineCaching = false;
+  protected boolean pipelinePrewarming = false;
 
   protected int maxPipelinePoolSize;
   protected int pipelineExpireTime;
@@ -76,6 +77,7 @@ public class HTTPServerConfig {
   protected int maxWorkQueueSize;
   protected File rulesConfigFile = null;
   protected int cacheSize = 0;
+  @Deprecated
   protected boolean warmUp = false;
   protected float maxErrorsPerWordRate = 0;
   protected int maxSpellingSuggestions = 0;
@@ -178,6 +180,7 @@ public class HTTPServerConfig {
         requestLimitInBytes = Integer.parseInt(getOptionalProperty(props, "requestLimitInBytes", "0"));
         timeoutRequestLimit = Integer.parseInt(getOptionalProperty(props, "timeoutRequestLimit", "0"));
         pipelineCaching = Boolean.parseBoolean(getOptionalProperty(props, "pipelineCaching", "false"));
+        pipelinePrewarming = Boolean.parseBoolean(getOptionalProperty(props, "pipelinePrewarming", "false"));
         maxPipelinePoolSize = Integer.parseInt(getOptionalProperty(props, "maxPipelinePoolSize", "5"));
         pipelineExpireTime = Integer.parseInt(getOptionalProperty(props, "pipelineExpireTimeInSeconds", "10"));
         requestLimitPeriodInSeconds = Integer.parseInt(getOptionalProperty(props, "requestLimitPeriodInSeconds", "0"));
@@ -218,6 +221,9 @@ public class HTTPServerConfig {
         cacheSize = Integer.parseInt(getOptionalProperty(props, "cacheSize", "0"));
         if (cacheSize < 0) {
           throw new IllegalArgumentException("Invalid value for cacheSize: " + cacheSize + ", use 0 to deactivate cache");
+        }
+        if (props.containsKey("warmUp")) {
+          System.err.println("Setting deprecated: 'warmUp'. Look into using pipelineCaching and pipelinePrewarming instead.");
         }
         String warmUpStr = getOptionalProperty(props, "warmUp", "false");
         if (warmUpStr.equals("true")) {
@@ -511,6 +517,16 @@ public class HTTPServerConfig {
     return pipelineCaching;
   }
 
+
+  /**
+   * @since 4.4
+   * Before starting to listen for requests, create a few pipelines for frequently used request settings
+   * and run simple checks on them; prevents long response time / request overload on the first real incoming requests
+   */
+  public boolean isPipelinePrewarmingEnabled() {
+    return pipelinePrewarming;
+  }
+
   /**
    * @since 4.4
    * Keep pipelines ready for this many different request settings
@@ -531,6 +547,11 @@ public class HTTPServerConfig {
   /** @since 4.4 */
   public void setPipelineCaching(boolean pipelineCaching) {
     this.pipelineCaching = pipelineCaching;
+  }
+
+  /** @since 4.4 */
+  public void setPipelinePrewarming(boolean pipelinePrewarming) {
+    this.pipelinePrewarming = pipelinePrewarming;
   }
 
   /** @since 4.4 */
@@ -559,7 +580,10 @@ public class HTTPServerConfig {
     this.cacheSize = sentenceCacheSize;
   }
 
-  /** @since 3.7 */
+  /** @since 3.7
+   * @deprecated Use pipeline cache and prewarming instead.
+   * */
+  @Deprecated
   boolean getWarmUp() {
     return warmUp;
   }
