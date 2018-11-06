@@ -23,6 +23,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.LanguageMaintainedState;
 import org.languagetool.UserConfig;
@@ -142,4 +143,13 @@ public class Dutch extends Language {
     }
     return 0;
   }
+
+  @Override
+  public List<String> getRuleFileNames() {
+    List<String> ruleFileNames = super.getRuleFileNames();
+    String dirBase = JLanguageTool.getDataBroker().getRulesDir() + "/" + getShortCode() + "/";
+    ruleFileNames.add(dirBase + "grammar-test-1.xml");
+    return ruleFileNames;
+  }
+
 }

@@ -36,10 +36,7 @@ import org.languagetool.tokenizers.SimpleSentenceTokenizer;
 import org.languagetool.tokenizers.Tokenizer;
 import org.languagetool.tokenizers.WordTokenizer;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.*;
 import java.util.regex.Pattern;
 
@@ -201,7 +198,8 @@ public abstract class Language {
 
   /**
    * Get the location of the rule file(s) in a form like {@code /org/languagetool/rules/de/grammar.xml},
-   * i.e. a path in the classpath.
+   * i.e. a path in the classpath. The files must exist or an exception will be thrown, unless the filename
+   * contains the string {@code -test-}.
    */
   public List<String> getRuleFileNames() {
     List<String> ruleFiles = new ArrayList<>();
@@ -362,11 +360,23 @@ public abstract class Language {
         InputStream is = null;
         try {
           is = this.getClass().getResourceAsStream(fileName);
+          boolean ignore = false;
           if (is == null) {                     // files loaded via the dialog
-            is = new FileInputStream(fileName);
+            try {
+              is = new FileInputStream(fileName);
+            } catch (FileNotFoundException e) {
+              if (fileName.contains("-test-")) {
+                // ignore, used for testing
+                ignore = true;
+              } else {
+                throw e;
+              }
+            }
           }
-          rules.addAll(ruleLoader.getRules(is, fileName));
-          patternRules = Collections.unmodifiableList(rules);
+          if (!ignore) {
+            rules.addAll(ruleLoader.getRules(is, fileName));
+            patternRules = Collections.unmodifiableList(rules);
+          }
         } finally {
           if (is != null) {
             is.close();

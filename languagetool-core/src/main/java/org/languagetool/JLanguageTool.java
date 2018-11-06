@@ -376,8 +376,13 @@ public class JLanguageTool {
     PatternRuleLoader ruleLoader = new PatternRuleLoader();
     try (InputStream is = this.getClass().getResourceAsStream(filename)) {
       if (is == null) {
-        // happens for external rules plugged in as an XML file:
-        return ruleLoader.getRules(new File(filename));
+        // happens for external rules plugged in as an XML file or testing files:
+        if (filename.contains("-test-")) {
+          // ignore, for testing
+          return Collections.emptyList();
+        } else {
+          return ruleLoader.getRules(new File(filename));
+        }
       } else {
         return ruleLoader.getRules(is, filename);
       }
