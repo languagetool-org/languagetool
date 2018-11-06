@@ -858,7 +858,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token>,</token>
-                    <token skip="-1"><exception postag="PRO:RIN:.+|KON:UNT|PRP:.+" postag_regexp="yes"/></token>
+                    <token skip="-1"><exception postag="PRO:RIN:.+|KON:UNT|PRP:.+|ADV:INR" postag_regexp="yes"/></token>
                     <!-- Für SFT gibt es zu viele falsche Positive. -->
                     <token postag_regexp="yes" postag=".*:KJ(1|2)(:NON)?">
                         <exception postag_regexp="yes" postag="VER:INF:.*"/>
@@ -918,6 +918,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Vermeiden Sie den Konjunktiv.</message>
                 <example>Morgen regnet es vielleicht.</example>
                 <example correction="">Morgen <marker>könnte</marker> es regnen.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>habet</token>
+                </pattern>
+                <message>Vermeiden Sie den Konjunktiv.</message>
+                <example correction="">Sie nimmt an, ihr <marker>habet</marker> es vergessen.</example>
             </rule>
         </rulegroup>
 
