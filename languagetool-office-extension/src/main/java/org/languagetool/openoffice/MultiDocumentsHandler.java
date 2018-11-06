@@ -71,8 +71,8 @@ public class MultiDocumentsHandler {
   
   private JLanguageTool langTool = null;
   private Language docLanguage = null;
-  private ResourceBundle MESSAGES;
-  private XEventListener xEventListener;
+  private final ResourceBundle messages;
+  private final XEventListener xEventListener;
   private final File configDir;
   private final String configFile;
   private Configuration config = null;
@@ -92,11 +92,11 @@ public class MultiDocumentsHandler {
 
 
   MultiDocumentsHandler(XComponentContext xContext, File configDir, String configFile,
-      ResourceBundle MESSAGES, XEventListener xEventListener) {
+      ResourceBundle messages, XEventListener xEventListener) {
     this.xContext = xContext;
     this.configDir = configDir;
     this.configFile = configFile;
-    this.MESSAGES = MESSAGES;
+    this.messages = messages;
     this.xEventListener = xEventListener;
     documents = new ArrayList<>();
   }
@@ -249,7 +249,7 @@ public class MultiDocumentsHandler {
         }
       }
       if (!langIsSupported) {
-        String message = Tools.i18n(MESSAGES, "language_not_supported", charLocale.Language);
+        String message = Tools.i18n(messages, "language_not_supported", charLocale.Language);
         JOptionPane.showMessageDialog(null, message);
         return null;
       }
@@ -450,12 +450,12 @@ public class MultiDocumentsHandler {
     XMenuBar menubar = OfficeTools.getMenuBar(xContext);
     if (menubar == null) {
       MessageHandler.printToLogFile("Menubar is null");
-      return false;
+      return ret;
     }
     XPopupMenu toolsMenu = null;
     XPopupMenu ltMenu = null;
-    short toolsId = 525;
-    short ltId = 1501;
+    short toolsId = 0;
+    short ltId = 0;
     try {
       for (short i = 0; i < menubar.getItemCount(); i++) {
         toolsId = menubar.getItemId(i);
@@ -467,7 +467,7 @@ public class MultiDocumentsHandler {
       }
       if (toolsMenu == null) {
         MessageHandler.printToLogFile("Tools Menu is null");
-        return false;
+        return ret;
       }
       for (short i = 0; i < toolsMenu.getItemCount(); i++) {
         String command = toolsMenu.getCommand(toolsMenu.getItemId(i));
@@ -479,7 +479,7 @@ public class MultiDocumentsHandler {
       }
       if (ltMenu == null) {
         MessageHandler.printToLogFile("LT Menu is null");
-        return false;
+        return ret;
       }
       short switchOffId = 0;
       for (short i = 0; i < ltMenu.getItemCount(); i++) {
@@ -491,14 +491,15 @@ public class MultiDocumentsHandler {
       }
       if (switchOffId == 0) {
         MessageHandler.printToLogFile("switchOffId not found");
-        return false;
+        return ret;
       }
       
       boolean isSwitchOff = ltMenu.isItemChecked(switchOffId);
       if((switchOff && isSwitchOff) || (!switchOff && !isSwitchOff)) {
-        switchOff = !switchOff;
         ret = false;
       }
+      
+      ltMenu.setItemText(switchOffId, messages.getString("loMenuSwitchOff"));
       
       if(switchOff) {
         ltMenu.checkItem(switchOffId, true);
@@ -507,7 +508,6 @@ public class MultiDocumentsHandler {
       }
     } catch (Throwable t) {
       MessageHandler.printException(t);
-      ret = false;
     }
     toolsMenu.setPopupMenu(ltId, ltMenu);
     menubar.setPopupMenu(toolsId, toolsMenu);
@@ -531,6 +531,9 @@ public class MultiDocumentsHandler {
     }
     switchOff = !switchOff;
     boolean ret = setMenuTextForSwitchOff(xContext);
+    if(!ret) {
+      switchOff = !switchOff;
+    }
     langTool = null;
     config.setSwitchedOff(switchOff, docLanguage);
     return ret;
