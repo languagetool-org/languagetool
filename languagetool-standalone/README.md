@@ -13,8 +13,8 @@ https://www.languagetool.org
 
 * Java 8 or later
 * For LibreOffice/OpenOffice.org integration:
-    * LibreOffice 3.5.4 (or later) or
-    * Apache OpenOffice 3.4.1 (or later)
+    * LibreOffice 4.2.3 (or later) or
+    * Apache OpenOffice 4.1.2 (or later)
 
 
 ## Usage
