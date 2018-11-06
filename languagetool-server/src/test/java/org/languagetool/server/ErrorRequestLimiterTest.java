@@ -32,18 +32,19 @@ public class ErrorRequestLimiterTest {
   public void testErrorLimiter() throws InterruptedException {
     ErrorRequestLimiter limiter = new ErrorRequestLimiter(3, 1);
     Map<String, List<String>> header = new HashMap<>(); // not relevant for test
+    Map<String, String> params = new HashMap<>(); // not relevant for test
     String ip1 = "192.168.0.1";
     String ip2 = "192.168.0.2";
-    assertTrue(limiter.wouldAccessBeOkay(ip1, header));
-    assertTrue(limiter.wouldAccessBeOkay(ip2, header));
+    assertTrue(limiter.wouldAccessBeOkay(ip1, params, header));
+    assertTrue(limiter.wouldAccessBeOkay(ip2, params, header));
     limiter.logAccess(ip1, header);
     limiter.logAccess(ip1, header);
     limiter.logAccess(ip1, header);
     limiter.logAccess(ip1, header);
-    assertFalse(limiter.wouldAccessBeOkay(ip1, header));
-    assertTrue(limiter.wouldAccessBeOkay(ip2, header));
+    assertFalse(limiter.wouldAccessBeOkay(ip1, params, header));
+    assertTrue(limiter.wouldAccessBeOkay(ip2, params, header));
     Thread.sleep(1050);
-    assertTrue(limiter.wouldAccessBeOkay(ip1, header));
+    assertTrue(limiter.wouldAccessBeOkay(ip1, params, header));
   }
 
 }

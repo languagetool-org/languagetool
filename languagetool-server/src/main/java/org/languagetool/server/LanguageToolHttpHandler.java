@@ -125,7 +125,7 @@ class LanguageToolHttpHandler implements HttpHandler {
           return;
         }
       }
-      if (errorRequestLimiter != null && !errorRequestLimiter.wouldAccessBeOkay(remoteAddress, httpExchange.getRequestHeaders())) {
+      if (errorRequestLimiter != null && !errorRequestLimiter.wouldAccessBeOkay(remoteAddress, parameters, httpExchange.getRequestHeaders())) {
         String textSizeMessage = getTextOrDataSizeMessage(parameters);
         String errorMessage = "Error: Access from " + remoteAddress + " denied - too many recent timeouts. " +
                 textSizeMessage +

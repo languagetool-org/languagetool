@@ -41,9 +41,9 @@ class ErrorRequestLimiter extends RequestLimiter {
    * @param ipAddress the client's IP address
    * @return true if access is allowed because the request limit is not reached yet
    */
-  boolean wouldAccessBeOkay(String ipAddress, Map<String, List<String>> httpHeader) {
+  boolean wouldAccessBeOkay(String ipAddress, Map<String, String> parameters, Map<String, List<String>> httpHeader) {
     try {
-      checkLimit(ipAddress, httpHeader);
+      checkLimit(ipAddress, parameters, httpHeader);
       return true;
     } catch (TooManyRequestsException e) {
       return false;
