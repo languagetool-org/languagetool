@@ -36,9 +36,6 @@ import java.util.*;
  */
 public class HTTPServerConfig {
 
-  private File fasttextModel;
-  private File fasttextBinary;
-
   enum Mode { LanguageTool }
 
   public static final String DEFAULT_HOST = "localhost";
@@ -48,6 +45,7 @@ public class HTTPServerConfig {
   
   static final String LANGUAGE_MODEL_OPTION = "--languageModel";
   static final String WORD2VEC_MODEL_OPTION = "--word2vecModel";
+  static final String NN_MODEL_OPTION = "--neuralNetworkModel";
 
   protected boolean verbose = false;
   protected boolean publicAccess = false;
@@ -68,6 +66,9 @@ public class HTTPServerConfig {
 
   protected int maxPipelinePoolSize;
   protected int pipelineExpireTime;
+  protected File fasttextModel = null;
+  protected File fasttextBinary = null;
+  protected File neuralNetworkModelDir = null;
   protected int requestLimit;
   protected int requestLimitInBytes;
   protected int timeoutRequestLimit;
@@ -125,7 +126,8 @@ public class HTTPServerConfig {
       }
       switch (args[i]) {
         case "--config":
-          parseConfigFile(new File(args[++i]), !ArrayUtils.contains(args, LANGUAGE_MODEL_OPTION), !ArrayUtils.contains(args, WORD2VEC_MODEL_OPTION));
+          parseConfigFile(new File(args[++i]), !ArrayUtils.contains(args, LANGUAGE_MODEL_OPTION),
+            !ArrayUtils.contains(args, WORD2VEC_MODEL_OPTION), !ArrayUtils.contains(args, NN_MODEL_OPTION));
           break;
         case "-p":
         case "--port":
@@ -154,6 +156,9 @@ public class HTTPServerConfig {
         case WORD2VEC_MODEL_OPTION:
           setWord2VecModelDirectory(args[++i]);
           break;
+        case NN_MODEL_OPTION:
+          setNeuralNetworkModelDir(args[++i]);
+          break;
         default:
           if (args[i].contains("=")) {
             System.out.println("WARNING: unknown option: " + args[i] +
@@ -165,7 +170,7 @@ public class HTTPServerConfig {
     }
   }
 
-  private void parseConfigFile(File file, boolean loadLangModel, boolean loadWord2VecModel) {
+  private void parseConfigFile(File file, boolean loadLangModel, boolean loadWord2VecModel, boolean loadNeuralNetworkModel) {
     try {
       Properties props = new Properties();
       try (FileInputStream fis = new FileInputStream(file)) {
@@ -197,6 +202,10 @@ public class HTTPServerConfig {
         String word2vecModel = getOptionalProperty(props, "word2vecModel", null);
         if (word2vecModel != null && loadWord2VecModel) {
           setWord2VecModelDirectory(word2vecModel);
+        }
+        String neuralNetworkModel = getOptionalProperty(props, "neuralNetworkModel", null);
+        if (neuralNetworkModel != null && loadNeuralNetworkModel) {
+          setNeuralNetworkModelDir(neuralNetworkModel);
         }
         String fasttextModel = getOptionalProperty(props, "fasttextModel", null);
         String fasttextBinary = getOptionalProperty(props, "fasttextBinary", null);
@@ -270,6 +279,13 @@ public class HTTPServerConfig {
     word2vecModelDir = new File(w2vModelDir);
     if (!word2vecModelDir.exists() || !word2vecModelDir.isDirectory()) {
       throw new RuntimeException("Word2Vec directory not found or is not a directory: " + word2vecModelDir);
+    }
+  }
+
+  private void setNeuralNetworkModelDir(String nnModelDir) {
+    neuralNetworkModelDir = new File(nnModelDir);
+    if (!neuralNetworkModelDir.exists() || !neuralNetworkModelDir.isDirectory()) {
+      throw new RuntimeException("Neural network model directory not found or is not a directory: " + neuralNetworkModelDir);
     }
   }
 
@@ -434,6 +450,15 @@ public class HTTPServerConfig {
 
 
   /**
+   * Get base directory for neural network models or {@code null}
+   * @since 4.4
+   */
+  public File getNeuralNetworkModelDir() {
+    return neuralNetworkModelDir;
+  }
+
+
+  /**
    * Get model path for fasttext language detection
    * @since 4.3
    */
@@ -466,7 +491,7 @@ public class HTTPServerConfig {
   public void setFasttextBinary(File binary) {
     fasttextBinary = Objects.requireNonNull(binary);
   }
-  
+
   /** @since 2.7 */
   Mode getMode() {
     return mode;
@@ -734,14 +759,14 @@ public class HTTPServerConfig {
   }
   
   /**
-   * Whether meta data about each search (like in the logfile) should be logged to the database. 
+   * Whether meta data about each search (like in the logfile) should be logged to the database.
    * @since 4.4
    */
   @Experimental
   void setDatabaseLogging(boolean logging) {
     this.dbLogging = logging;
   }
-  
+
   /**
    * @since 4.4
    */
@@ -749,7 +774,7 @@ public class HTTPServerConfig {
   boolean getDatabaseLogging() {
     return this.dbLogging;
   }
-  
+
   /**
    * @throws IllegalConfigurationException if property is not set 
    */

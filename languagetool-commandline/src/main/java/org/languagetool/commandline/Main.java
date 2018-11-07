@@ -80,6 +80,9 @@ class Main {
     if (options.getWord2VecModel() != null) {
       lt.activateWord2VecModelRules(options.getWord2VecModel());
     }
+    if (options.getNeuralNetworkModel() != null) {
+      lt.activateNeuralNetworkRules(options.getNeuralNetworkModel());
+    }
     Tools.selectRules(lt, options.getDisabledCategories(), options.getEnabledCategories(),
             new HashSet<>(options.getDisabledRules()), new HashSet<>(options.getEnabledRules()), options.isUseEnabledOnly());
   }

@@ -413,6 +413,17 @@ public class JLanguageTool {
   }
 
   /**
+   * Activate rules that depend on pretrained neural network models.
+   * @param modelDir root dir of exported models
+   * @since 4.4
+   */
+  public void activateNeuralNetworkRules(File modelDir) throws IOException {
+    ResourceBundle messages = getMessageBundle(language);
+    List<Rule> rules = language.getRelevantNeuralNetworkModels(messages, modelDir);
+    userRules.addAll(rules);
+  }
+
+  /**
    * Activate rules that depend on a language model. The language model currently
    * consists of Lucene indexes with ngram occurrence counts.
    * @param indexDir directory with a '3grams' sub directory which contains a Lucene index with 3gram occurrence counts

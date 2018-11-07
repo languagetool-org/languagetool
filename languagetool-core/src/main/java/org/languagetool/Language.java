@@ -174,6 +174,15 @@ public abstract class Language {
   }
 
   /**
+   * Get a list of rules that load trained neural networks. Returns an empty list for
+   * languages that don't have such rules.
+   * @since 4.4
+   */
+  public List<Rule> getRelevantNeuralNetworkModels(ResourceBundle messages, File modelDir) {
+    return Collections.emptyList();
+  }
+
+  /**
    * Get this language's Java locale, not considering the country code.
    */
   public Locale getLocale() {
