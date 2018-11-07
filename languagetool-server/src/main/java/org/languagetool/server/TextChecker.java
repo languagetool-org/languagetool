@@ -69,7 +69,7 @@ abstract class TextChecker {
   private static final String ENCODING = "UTF-8";
   private static final int CACHE_STATS_PRINT = 500; // print cache stats every n cache requests
   
-  private final Map<String,Integer> languageCheckCounts = new HashMap<>(); 
+  private final Map<String,Integer> languageCheckCounts = new HashMap<>();
   private Queue<Runnable> workQueue;
   private RequestCounter reqCounter;
   private final LanguageIdentifier identifier;
@@ -189,7 +189,7 @@ abstract class TextChecker {
       throw new IllegalArgumentException("You can specify 'noopLanguages' only when also using 'language=auto'");
     }
     List<String> noopLangs = parameters.get("noopLanguages") != null ?
-            Arrays.asList(parameters.get("noopLanguages").split(",")) : Collections.emptyList();        
+            Arrays.asList(parameters.get("noopLanguages").split(",")) : Collections.emptyList();
     DetectedLanguage detLang = getLanguage(aText.getPlainText(), parameters, preferredVariants, noopLangs);
     Language lang = detLang.getGivenLanguage();
     Integer count = languageCheckCounts.get(lang.getShortCodeWithCountryAndVariant());
@@ -231,7 +231,7 @@ abstract class TextChecker {
     boolean allowIncompleteResults = "true".equals(parameters.get("allowIncompleteResults"));
     boolean enableHiddenRules = "true".equals(parameters.get("enableHiddenRules"));
     JLanguageTool.Mode mode = ServerTools.getMode(parameters);
-    QueryParams params = new QueryParams(altLanguages, enabledRules, disabledRules, enabledCategories, disabledCategories, 
+    QueryParams params = new QueryParams(altLanguages, enabledRules, disabledRules, enabledCategories, disabledCategories,
             useEnabledOnly, useQuerySettings, allowIncompleteResults, enableHiddenRules, mode);
 
     Long textSessionId = null;

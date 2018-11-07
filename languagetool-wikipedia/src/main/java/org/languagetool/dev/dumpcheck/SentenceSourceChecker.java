@@ -79,8 +79,11 @@ public class SentenceSourceChecker {
                             new File(commandLine.getOptionValue("languagemodel")) : null;
     File word2vecModelDir = commandLine.hasOption("word2vecmodel") ?
             new File(commandLine.getOptionValue("word2vecmodel")) : null;
+    File neuralNetworkModelDir = commandLine.hasOption("neuralnetworkmodel") ?
+      new File(commandLine.getOptionValue("neuralnetworkmodel")) : null;
     Pattern filter = commandLine.hasOption("filter") ? Pattern.compile(commandLine.getOptionValue("filter")) : null;
-    prg.run(propFile, disabledRuleIds, languageCode, Arrays.asList(fileNames), ruleIds, categoryIds, maxArticles, maxErrors, languageModelDir, word2vecModelDir, filter);
+    prg.run(propFile, disabledRuleIds, languageCode, Arrays.asList(fileNames), ruleIds, categoryIds, maxArticles,
+      maxErrors, languageModelDir, word2vecModelDir, neuralNetworkModelDir, filter);
   }
 
   private static void addDisabledRules(String languageCode, Set<String> disabledRuleIds, Properties disabledRules) {
@@ -126,6 +129,9 @@ public class SentenceSourceChecker {
     options.addOption(OptionBuilder.withLongOpt("languagemodel").withArgName("indexDir").hasArg()
             .withDescription("directory with a '3grams' sub directory that contains an ngram index")
             .create());
+    options.addOption(OptionBuilder.withLongOpt("neuralnetworkmodel").withArgName("baseDir").hasArg()
+      .withDescription("base directory for saved neural network models")
+      .create());
     options.addOption(OptionBuilder.withLongOpt("filter").withArgName("regex").hasArg()
             .withDescription("Consider only sentences that contain this regular expression (for speed up)")
             .create());
@@ -144,7 +150,8 @@ public class SentenceSourceChecker {
   }
 
   private void run(File propFile, Set<String> disabledRules, String langCode, List<String> fileNames, String[] ruleIds,
-                   String[] additionalCategoryIds, int maxSentences, int maxErrors, File languageModelDir, File word2vecModelDir, Pattern filter) throws IOException {
+                   String[] additionalCategoryIds, int maxSentences, int maxErrors,
+                   File languageModelDir, File word2vecModelDir, File neuralNetworkModelDir, Pattern filter) throws IOException {
     Language lang = Languages.getLanguageForShortCode(langCode);
     MultiThreadedJLanguageTool languageTool = new MultiThreadedJLanguageTool(lang);
     languageTool.setCleanOverlappingMatches(false);
@@ -153,6 +160,9 @@ public class SentenceSourceChecker {
     }
     if (word2vecModelDir != null) {
       languageTool.activateWord2VecModelRules(word2vecModelDir);
+    }
+    if (neuralNetworkModelDir != null) {
+      languageTool.activateNeuralNetworkRules(neuralNetworkModelDir);
     }
     if (ruleIds != null) {
       enableOnlySpecifiedRules(ruleIds, languageTool);
