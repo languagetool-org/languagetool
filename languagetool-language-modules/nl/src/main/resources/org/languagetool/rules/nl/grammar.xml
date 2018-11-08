@@ -35697,44 +35697,75 @@ steenwijk;Steenwijk
             </rule>
         </rulegroup>
 	</category>
-   
-	<category id="TEST" name="test" default="on">
-	
-		<rulegroup id="VERWISSEL_OM" name="Verwissel / wissel om">
-            <rule>
-				<antipattern><token>om</token><token>te</token></antipattern>
-				<pattern><token inflected="yes" skip="-1">verwisselen</token><token>om</token></pattern>
-				<message>Bij verwisselen hoort geen 'om'.</message>
-				<example type="incorrect">Ik <marker>verwissel de lamp steeds weer om</marker>.</example>
-            </rule>
-        </rulegroup>
-		<rulegroup id="TEST_AANGEDAAN_WORDT" name="vang">
+	<category id="UNEXPECTED" name="Ongebruikelijke constructies">
+		<rulegroup id="DE_ONVERWACHT" name="Onverwachte woorden na 'de'">
 			<rule>
-				<pattern>
-					<token skip="1">er</token>
-					<marker>
-					<token>aangedaan</token>
-					</marker>
-					<token inflected="yes">worden</token>
-				</pattern>
-				<message>U bedoelt mogelijk <suggestion>aan gedaan</suggestion>.</message>
-				<example correction="aan gedaan">Als er iets <marker>aangedaan</marker> wordt.</example>
-			</rule>
-		</rulegroup>		
+				<!-- antipatronen: eventueel nuttig voor analyse van reeksen met meer tags -->
+				<antipattern><token>de</token><token postag="ZNW:EKV"/></antipattern>
+				<antipattern><token>de</token><token postag="ZNW:EKV:DE_"/></antipattern>
+				<antipattern><token>de</token><token postag="ZNW:MRV:DE_"/></antipattern>
+				<antipattern><token>de</token><token postag="ZNW:MRV:VRK:DE_"/></antipattern>
+				<antipattern><token>de</token><token postag="BNW:STL:VRB"/></antipattern>
+				<antipattern><token>de</token><token postag="BNW:VGR:VRB"/></antipattern>
+				<antipattern><token>de</token><token postag="BNW:OVR:VRB"/></antipattern>
+				<antipattern><token>de</token><token postag="GET:RNG"/></antipattern>
+				<antipattern><token>de</token><token postag="WKW:VTD:VRB"/></antipattern>
+				<antipattern><token>de</token><token postag="WKW:ODW:VRB"/></antipattern>
+				<antipattern><token>de</token><token postag="BNW:STF"/></antipattern>
+				<antipattern><token>de</token><token postag="GET:MRV"/></antipattern>
+				<antipattern><token>de</token><token postag="BNW:STL:ONV"/></antipattern>
+				<antipattern><token>de</token><token postag="BNW:VGR:ONV"/></antipattern>
+				<antipattern><token>de</token><token postag="BNW:OVR:ONV"/></antipattern>
+				<antipattern><token>de</token><token postag="VRZ"/></antipattern>
+				<antipattern><token>de</token><token postag="BYW"/></antipattern>
+				<antipattern><token>de</token><token postag="VNW:OBP"/></antipattern>
+				<antipattern><token>de</token><token postag="WKW:VTD:MRV:DE_"/></antipattern>
+				<antipattern><token>de</token><token postag="ENM:PER:LST"/></antipattern>
+				<antipattern><token>de</token><token postag="DVS"/></antipattern>
+				<antipattern><token>de</token><token postag="WKW:ODW:MRV:DE_"/></antipattern>
+				<antipattern><token>de</token><token postag="BNW:STL:MRV:DE_"/></antipattern>
+				<antipattern><token>de</token><token postag="GET:EKV"/></antipattern>
+				<antipattern><token>de</token><token postag="BNW:ALR:VRB"/></antipattern>
+				<antipattern><token>de</token><token postag="GET:NMR:MRV:DE_"/></antipattern>
+				<antipattern><token>de</token><token postag="VNW:PER:1EP:MRV:BEZ"/></antipattern>
+				<antipattern><token>de</token><token postag="WKW:ODW:ONV"/></antipattern>
+				<antipattern><token>de</token><token postag="VNW:RFX"/></antipattern>
+				<antipattern><token>de</token><token postag="VGW"/></antipattern>
+				<antipattern><token>de</token><token postag="VNW:PER:3EP:EKV:PSF"/></antipattern>
+				<antipattern><token>de</token><token postag="WKW:VTD:ONV"/></antipattern>
 
-		<rulegroup id="TEST_DES_TE-VREEMD" name="Vreemd woord na des te">
-			<rule>
-				<antipattern><token>des</token><token>te</token><token postag="BNW:VGR:ONV"/></antipattern>
-				<antipattern><token>des</token><token>te</token><token regexp="yes">meer|eerder|minder</token></antipattern>
-				<antipattern><token>des</token><token>te</token><token postag="UNKNOWN"/></antipattern>
+				<antipattern><token>de</token><token>nummer</token><token postag_regexp="yes" postag="GET:EKV|GET:MRV"/></antipattern>
+				<antipattern><token>de</token><token>wat</token><token postag_regexp="yes" postag="BNW:(STL|VGR):(VRB|ONV)"/></antipattern>
+
+
+				<antipattern><token>de</token><token>facto</token></antipattern>
+				<antipattern><token>op</token><token>de</token><token>been</token></antipattern>
+				<antipattern><token>in</token><token>de</token><token>war</token></antipattern>
+				<antipattern><token>in</token><token>de</token><token>maak</token></antipattern>
+				<antipattern><token>in</token><token>de</token><token>rats</token></antipattern>
+
+				<antipattern><token>KU</token><token>Leuven</token></antipattern>
+				<antipattern><token>de</token><token case_sensitive="yes" regexp="yes">[A-Z].*</token></antipattern>
+				<antipattern><token>de</token><token>personal</token><token>computer</token></antipattern>
+				<antipattern><token>de</token><token>public</token><token>relations</token></antipattern>
+				<antipattern><token>de</token><token>condition</token><token>humaine</token></antipattern>
+				<antipattern><token>de</token><token>intensive</token><token>care</token></antipattern>
+				<antipattern><token>de</token><token>fine</token><token>fleur</token></antipattern>
+				<antipattern><token>de</token><token regexp="yes">mij|hem|haar|hen|jullie|ons|hun</token></antipattern>
+
+				<!-- eigennamen -->
+				<antipattern case_sensitive="yes"><token>de</token><token regexp="yes">^[A-Z][a-z].*</token><token regexp="yes">^[A-Z][a-z].*</token></antipattern>
 				
-				<pattern><token>des</token><token>te</token><token/></pattern>
-				<message>\1 \2 \3</message>
-                <example type="incorrect"><marker>des te liep</marker></example>
+				
+				<antipattern><token>de</token><token postag="UNKNOWN"/></antipattern>
+				<pattern>
+					<token>de</token>
+					<token/>
+				</pattern>
+				<message>Het woord na 'de' is onverwacht. Kijk eens goed of er geen spatie te veel staat, 'de' 'te' of 'het' moet zijn, of nog iets anders. </message>
+				<example type="incorrect"><marker>de het</marker></example>
 			</rule>
 		</rulegroup>
-
-	</category>
-
+	</category>	
 
 </rules>
