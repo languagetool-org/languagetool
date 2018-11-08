@@ -1312,7 +1312,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="WIR_WIE" name="'im selben Stall wir (wie)' etc.">
             <pattern>
-                <token regexp="yes">gleich.*|.*selbe.*<exception>gleichzeitig</exception></token>
+                <token regexp="yes">gleich.+|.*selbe.*<exception>gleichzeitig</exception></token>
                 <token skip="1"><exception scope="next" postag="VER.*:1:PLU.*|UNKNOWN" postag_regexp="yes"/><exception>,</exception></token>
                 <marker>
                     <token>wir</token>
@@ -1325,6 +1325,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Gleichzeitig wollen wir aber an dem Ort bleiben, an dem wir einmal investiert haben.</example>
             <example>Im selben Boot sitzen <marker>wir</marker>.</example>
             <example>Unsere Sprache ist fast dieselbe, <marker>wir</marker> haben eine gemeinsame Kultur.</example>
+            <example>Gleich wissen <marker>wir</marker> die Wahrheit.</example>
         </rule>
         <rule id="DU_DIE" name="'du (die)'">
             <antipattern>
