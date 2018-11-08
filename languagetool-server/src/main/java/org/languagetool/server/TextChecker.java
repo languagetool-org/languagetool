@@ -358,9 +358,10 @@ abstract class TextChecker {
     }
     languageCheckCounts.put(lang.getShortCodeWithCountryAndVariant(), count);
     int computationTime = (int) (System.currentTimeMillis() - timeStart);
+    String version = parameters.get("v") != null ? ", version: " + parameters.get("v") : "";
     print("Check done: " + aText.getPlainText().length() + " chars, " + languageMessage + ", #" + count + ", " + referrer + ", "
             + matches.size() + " matches, "
-            + computationTime + "ms, agent:" + agent
+            + computationTime + "ms, agent:" + agent + version
             + ", " + messageSent + ", q:" + (workQueue != null ? workQueue.size() : "?")
             + ", h:" + reqCounter.getHandleCount() + ", dH:" + reqCounter.getDistinctIps()
             + ", m:" + mode.toString().toLowerCase());
