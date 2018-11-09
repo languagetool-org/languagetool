@@ -110,6 +110,10 @@ public abstract class CompoundAwareHunspellRule extends HunspellRule {
     }
   }
 
+  /**
+   * Find potential corrections - it's okay if some of these are not valid words,
+   * this list will be filtered against the spellchecker before being returned to the user.
+   */
   protected List<String> getCandidates(String word) {
     return compoundSplitter.tokenize(word);
   }
