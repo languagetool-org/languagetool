@@ -26,6 +26,7 @@ import org.languagetool.markup.AnnotatedText;
 import org.languagetool.markup.AnnotatedTextBuilder;
 import org.languagetool.rules.Category;
 import org.languagetool.rules.CategoryId;
+import org.languagetool.rules.RuleInformation;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.AbstractPatternRule;
 
@@ -80,9 +81,9 @@ public class RuleMatchesAsJsonSerializer {
         writeSoftwareSection(g);
         writeWarningsSection(g, incompleteResultsReason);
         writeLanguageSection(g, lang, detectedLang);
-        writeMatchesSection("matches", g, matches, text, contextTools);
+        writeMatchesSection("matches", g, matches, text, contextTools, lang);
         if (hiddenMatches != null && hiddenMatches.size() > 0) {
-          writeMatchesSection("hiddenMatches", g, hiddenMatches, text, contextTools);
+          writeMatchesSection("hiddenMatches", g, hiddenMatches, text, contextTools, lang);
         }
         g.writeEndObject();
       }
@@ -130,7 +131,7 @@ public class RuleMatchesAsJsonSerializer {
     g.writeEndObject();
   }
 
-  private void writeMatchesSection(String sectionName, JsonGenerator g, List<RuleMatch> matches, AnnotatedText text, ContextTools contextTools) throws IOException {
+  private void writeMatchesSection(String sectionName, JsonGenerator g, List<RuleMatch> matches, AnnotatedText text, ContextTools contextTools, Language lang) throws IOException {
     g.writeArrayFieldStart(sectionName);
     for (RuleMatch match : matches) {
       g.writeStartObject();
@@ -146,12 +147,13 @@ public class RuleMatchesAsJsonSerializer {
       g.writeStringField("typeName", match.getType().toString());
       g.writeEndObject();
       writeRule(g, match);
+      g.writeBooleanField("ignoreForIncompleteSentence", RuleInformation.ignoreForIncompleteSentences(match.getRule().getId(), lang));
       g.writeEndObject();
     }
     g.writeEndArray();
   }
 
-  private String cleanSuggestion(String s) throws IOException {
+  private String cleanSuggestion(String s) {
     return s.replace("<suggestion>", "\"").replace("</suggestion>", "\"");
   }
   
