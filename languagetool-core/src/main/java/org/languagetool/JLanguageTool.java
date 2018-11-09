@@ -1179,7 +1179,7 @@ public class JLanguageTool {
           if (cache != null) {
             cacheKey = new InputSentence(analyzedSentence.getText(), language, motherTongue,
                     disabledRules, disabledRuleCategories,
-                    enabledRules, enabledRuleCategories, userConfig, mode);
+                    enabledRules, enabledRuleCategories, userConfig, altLanguages, mode);
             sentenceMatches = cache.getIfPresent(cacheKey);
           }
           if (sentenceMatches == null) {
