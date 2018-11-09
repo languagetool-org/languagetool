@@ -35355,6 +35355,19 @@ steenwijk;Steenwijk
                 <example correction="begane grond">De carport op de <marker>begaande grond</marker> biedt ruimte voor twee tot drie auto’s.</example>
             </rule>
         </rulegroup>
+		<rulegroup id="AANGEDAAN_WORDT" name="vang">
+			<rule>
+				<pattern>
+					<token skip="1">er</token>
+					<marker>
+					<token>aangedaan</token>
+					</marker>
+					<token inflected="yes">worden</token>
+				</pattern>
+				<message>U bedoelt mogelijk <suggestion>aan gedaan</suggestion>.</message>
+				<example correction="aan gedaan">Als er iets <marker>aangedaan</marker> wordt.</example>
+			</rule>
+		</rulegroup>			
         <rulegroup id="ONTROEREND_GOED" name="Ontroerend goed → onroerend goed">
             <rule>
                 <antipattern case_sensitive="yes"><token>Ontroerend</token><token>Goed</token></antipattern> <!-- Gents toneelgezelschap -->
