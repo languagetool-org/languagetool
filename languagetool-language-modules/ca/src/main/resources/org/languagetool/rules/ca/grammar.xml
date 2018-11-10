@@ -39621,6 +39621,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="PREFERABLE_EXPRESSIONS" name="C7) Expressions preferibles" default="on" type="style">
+        <rule id="SER_CESSAT" name="ser cessat/destituït">
+            <pattern>
+                <token inflected="yes">ser</token>
+                <marker>
+                    <token postag="V.P.*" postag_regexp="yes" inflected="yes">cessar</token>
+                </marker>
+            </pattern>
+            <message>Ús impropi, no normatiu, en el sentit de <suggestion><match no="2" postag="(V.P.*)" postag_regexp="yes" postag_replace="$1">destituir</match></suggestion>.</message>
+            <url>http://esadir.cat/entrades/fitxa/node/cessar</url>
+            <example correction="destituït">Fou <marker>cessat</marker> pel president.</example>
+        </rule>
         <rulegroup id="TIPUS_MENA" name="*tipus/mena">
             <rule>
                 <pattern>
