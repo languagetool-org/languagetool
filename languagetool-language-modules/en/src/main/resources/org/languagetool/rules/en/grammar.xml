@@ -8727,6 +8727,17 @@ USA
                 <example correction="will always love">I <marker>always will love</marker> you.</example>
             </rule>
         </rulegroup>
+        <rule id="ADVERB_VERB_ADVERB_REPETITION" name="Adverb repetition: e.g. 'also see also'">
+            <pattern>
+                <token postag='RB'/>
+                <token postag='V.+' postag_regexp='yes'/>
+                <token><match no='0'/></token>
+            </pattern>
+            <message>Adverb repetition. Please, verify.</message>
+              <suggestion>\1 \2</suggestion>
+              <suggestion>\2 \3</suggestion>
+            <example correction="also see|see also">You may <marker>also see also</marker> Scotland...</example>
+        </rule>
         <rule id="GOING_TO_VBD" name="Use of past form with 'going to ...'">
             <pattern>
                 <token>going</token>
