@@ -26,6 +26,7 @@ import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Stream;
 
 /**
  * A spell checker that combines Hunspell und Morfologik spell checking
@@ -72,22 +73,24 @@ public abstract class CompoundAwareHunspellRule extends HunspellRule {
     List<String> noSplitSuggestions = morfoSpeller.getSuggestions(word);  // after getCorrectWords() so spelling.txt is considered
     handleWordEndPunctuation(".", word, noSplitSuggestions);
     handleWordEndPunctuation("...", word, noSplitSuggestions);
+    List<String> noSplitLowercaseSuggestions = new ArrayList<>();
     if (StringTools.startsWithUppercase(word) && !StringTools.isAllUppercase(word)) {
       // almost all words can be uppercase because they can appear at the start of a sentence:
-      List<String> noSplitLowercaseSuggestions = morfoSpeller.getSuggestions(word.toLowerCase());
-      for (String suggestion : noSplitLowercaseSuggestions) {
-        noSplitSuggestions.add(StringTools.uppercaseFirstChar(suggestion));
-      }
+      noSplitLowercaseSuggestions = morfoSpeller.getSuggestions(word.toLowerCase());
     }
     // We don't know about the quality of the results here, so mix both lists together,
     // taking elements from both lists on a rotating basis:
     List<String> suggestions = new ArrayList<>();
-    for (int i = 0; i < Math.max(simpleSuggestions.size(), noSplitSuggestions.size()); i++) {
+    int max = Stream.of(simpleSuggestions.size(), noSplitSuggestions.size(), noSplitLowercaseSuggestions.size()).mapToInt(v -> v).max().orElse(0);
+    for (int i = 0; i < max; i++) {
       if (i < simpleSuggestions.size()) {
         suggestions.add(simpleSuggestions.get(i));
       }
       if (i < noSplitSuggestions.size()) {
         suggestions.add(noSplitSuggestions.get(i));
+      }
+      if (i < noSplitLowercaseSuggestions.size()) {
+        suggestions.add(StringTools.uppercaseFirstChar(noSplitLowercaseSuggestions.get(i)));
       }
     }
 

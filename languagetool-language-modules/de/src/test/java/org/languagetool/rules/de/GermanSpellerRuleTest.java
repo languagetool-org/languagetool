@@ -563,6 +563,7 @@ public class GermanSpellerRuleTest {
     assertCorrection(rule, "wieviele", "wie viele");
     assertCorrection(rule, "wievielen", "wie vielen");
     assertCorrection(rule, "undzwar", "und zwar");
+    assertCorrection(rule, "Ambei", "Anbei");
 
     // TODO: compounds with errors in more than one part
     // totally wrong jwordsplitter split: Hands + elvertretertreffn:
