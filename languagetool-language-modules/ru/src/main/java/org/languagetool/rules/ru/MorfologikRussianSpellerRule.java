@@ -38,8 +38,8 @@ public final class MorfologikRussianSpellerRule extends MorfologikSpellerRule {
   private static final String RESOURCE_FILENAME = "/ru/hunspell/ru_RU.dict";
   private static final Pattern RUSSIAN_LETTERS = Pattern.compile(".*[а-яёА-ЯЁ].*");
 
-  public MorfologikRussianSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig) throws IOException {
-    super(messages, language, userConfig);
+  public MorfologikRussianSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig, List<Language> altLanguages) throws IOException {
+    super(messages, language, userConfig, altLanguages);
     addExamplePair(Example.wrong("Все счастливые семьи похожи друг на друга, <marker>каждя</marker> несчастливая семья несчастлива по-своему."),
                    Example.fixed("Все счастливые семьи похожи друг на друга, <marker>каждая</marker> несчастливая семья несчастлива по-своему."));
   }

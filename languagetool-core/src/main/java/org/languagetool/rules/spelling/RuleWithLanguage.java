@@ -1,6 +1,6 @@
 /* LanguageTool, a natural language style checker
- * Copyright (C) 2014 Daniel Naber (http://www.danielnaber.de)
- * 
+ * Copyright (C) 2018 Daniel Naber (http://danielnaber.de)
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -16,32 +16,44 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.rules.es;
+package org.languagetool.rules.spelling;
 
 import org.languagetool.Language;
-import org.languagetool.UserConfig;
-import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
+import org.languagetool.rules.Rule;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.Objects;
 
 /**
- * @since 2.8
+ * @since 4.4
  */
-public class MorfologikSpanishSpellerRule extends MorfologikSpellerRule {
+public class RuleWithLanguage {
 
-  public MorfologikSpanishSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig, List<Language> altLanguages) throws IOException {
-    super(messages, language, userConfig, altLanguages);
+  private final Rule rule;
+  private final Language language;
+  
+  RuleWithLanguage(Rule rule, Language language) {
+    this.rule = Objects.requireNonNull(rule);
+    this.language = Objects.requireNonNull(language);
+  }
+
+  public Language getLanguage() {
+    return language;
+  }
+
+  public Rule getRule() {
+    return rule;
   }
 
   @Override
-  public String getFileName() {
-    return "/es/hunspell/es_ES.dict";
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    RuleWithLanguage that = (RuleWithLanguage) o;
+    return Objects.equals(rule, that.rule) && Objects.equals(language, that.language);
   }
 
   @Override
-  public final String getId() {
-    return "MORFOLOGIK_RULE_ES";
+  public int hashCode() {
+    return Objects.hash(rule, language);
   }
 }

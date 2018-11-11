@@ -88,8 +88,8 @@ public final class MorfologikPolishSpellerRule extends MorfologikSpellerRule {
   private final UserConfig userConfig;
 
   public MorfologikPolishSpellerRule(ResourceBundle messages,
-                                     Language language, UserConfig userConfig) throws IOException {
-    super(messages, language, userConfig);
+                                     Language language, UserConfig userConfig, List<Language> altLanguages) throws IOException {
+    super(messages, language, userConfig, altLanguages);
     setCategory(Categories.TYPOS.getCategory(messages));
     addExamplePair(Example.wrong("To jest zdanie z <marker>bledem</marker>"),
                    Example.fixed("To jest zdanie z <marker>błędem</marker>."));

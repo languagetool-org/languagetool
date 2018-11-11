@@ -143,7 +143,7 @@ public class Portuguese extends Language implements AutoCloseable {
             new GenericUnpairedBracketsRule(messages,
                     Arrays.asList("[", "(", "{", "\"", "“" /*, "«", "'", "‘" */),
                     Arrays.asList("]", ")", "}", "\"", "”" /*, "»", "'", "’" */)),
-            new HunspellRule(messages, this, userConfig),
+            new HunspellRule(messages, this, userConfig, altLanguages),
             new LongSentenceRule(messages, userConfig, -1, true),
             new LongParagraphRule(messages, this, userConfig),
             new UppercaseSentenceStartRule(messages, this,

@@ -94,7 +94,7 @@ public class Malayalam extends Language {
             new CommaWhitespaceRule(messages),
             new DoublePunctuationRule(messages),
             new GenericUnpairedBracketsRule(messages),
-            new MorfologikMalayalamSpellerRule(messages, this, null),
+            new MorfologikMalayalamSpellerRule(messages, this, null, altLanguages),
             new UppercaseSentenceStartRule(messages, this),
             new WordRepeatRule(messages, this),
             new MultipleWhitespaceRule(messages, this)

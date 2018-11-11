@@ -20,6 +20,8 @@
 package org.languagetool.rules.en;
 
 import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import org.languagetool.Language;
@@ -33,14 +35,14 @@ public final class MorfologikAmericanSpellerRule extends AbstractEnglishSpellerR
   private static final String LANGUAGE_SPECIFIC_PLAIN_TEXT_DICT = "en/hunspell/spelling_en-US.txt";
 
   public MorfologikAmericanSpellerRule(ResourceBundle messages, Language language) throws IOException {
-    super(messages, language, null);
+    super(messages, language, null, Collections.emptyList());
   }
 
   /**
    * @since 4.2
    */
-  public MorfologikAmericanSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig) throws IOException {
-    super(messages, language, userConfig);
+  public MorfologikAmericanSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig, List<Language> altLanguages) throws IOException {
+    super(messages, language, userConfig, altLanguages);
   }
 
   @Override

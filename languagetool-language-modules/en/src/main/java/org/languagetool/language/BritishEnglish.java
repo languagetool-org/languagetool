@@ -48,7 +48,7 @@ public class BritishEnglish extends English {
     List<Rule> rules = new ArrayList<>();
     rules.addAll(super.getRelevantRules(messages, userConfig, altLanguages));
     rules.add(new BritishReplaceRule(messages));
-    rules.add(new MorfologikBritishSpellerRule(messages, this, userConfig));
+    rules.add(new MorfologikBritishSpellerRule(messages, this, userConfig, altLanguages));
     rules.add(new UnitConversionRuleImperial(messages));
     return rules;
   }

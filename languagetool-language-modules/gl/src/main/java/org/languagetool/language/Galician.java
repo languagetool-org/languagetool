@@ -126,7 +126,7 @@ public class Galician extends Language {
             new GenericUnpairedBracketsRule(messages,
                     Arrays.asList("[", "(", "{", "“", "«", "»", "‘", "\"", "'"),
                     Arrays.asList("]", ")", "}", "”", "»", "«", "’", "\"", "'")),
-            new HunspellRule(messages, this, userConfig),
+            new HunspellRule(messages, this, userConfig, altLanguages),
             new UppercaseSentenceStartRule(messages, this,
                 Example.wrong("Esta casa é vella. <marker>foi</marker> construida en 1950."),
                 Example.fixed("Esta casa é vella. <marker>Foi</marker> construida en 1950.")),

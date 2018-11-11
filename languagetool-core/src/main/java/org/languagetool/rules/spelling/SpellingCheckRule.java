@@ -54,8 +54,10 @@ public abstract class SpellingCheckRule extends Rule {
   private static final String SPELLING_FILE_VARIANT = null;
   private static final Comparator<String> STRING_LENGTH_COMPARATOR = Comparator.comparingInt(String::length);
 
+  private final UserConfig userConfig;
   private final Set<String> wordsToBeIgnored = new HashSet<>();
   private final Set<String> wordsToBeProhibited = new HashSet<>();
+  private final List<RuleWithLanguage> altRules;
 
   private Map<String,Set<String>> wordsToBeIgnoredDictionary = new HashMap<>();
   private Map<String,Set<String>> wordsToBeIgnoredDictionaryIgnoreCase = new HashMap<>();
@@ -65,11 +67,20 @@ public abstract class SpellingCheckRule extends Rule {
   private boolean convertsCase = false;
 
   public SpellingCheckRule(ResourceBundle messages, Language language, UserConfig userConfig) {
+    this(messages, language, userConfig, Collections.emptyList());
+  }
+
+  /**
+   * @since 4.4
+   */
+  public SpellingCheckRule(ResourceBundle messages, Language language, UserConfig userConfig, List<Language> altLanguages) {
     super(messages);
     this.language = language;
+    this.userConfig = userConfig;
     if (userConfig != null) {
       wordsToBeIgnored.addAll(userConfig.getAcceptedWords());
     }
+    this.altRules = getAlternativeLangSpellingRules(altLanguages);
     setLocQualityIssueType(ITSIssueType.Misspelling);
   }
 
@@ -315,6 +326,45 @@ public abstract class SpellingCheckRule extends Rule {
    */
   protected List<String> expandLine(String line) {
     return Collections.singletonList(line);
+  }
+
+  protected List<RuleWithLanguage> getAlternativeLangSpellingRules(List<Language> alternativeLanguages) {
+    List<RuleWithLanguage> spellingRules = new ArrayList<>();
+    for (Language altLanguage : alternativeLanguages) {
+      List<Rule> rules;
+      try {
+        rules = altLanguage.getRelevantRules(messages, userConfig, Collections.emptyList());
+      } catch (IOException e) {
+        throw new RuntimeException(e);
+      }
+      for (Rule rule : rules) {
+        if (rule.isDictionaryBasedSpellingRule()) {
+          spellingRules.add(new RuleWithLanguage(rule, altLanguage));
+        }
+      }
+    }
+    return spellingRules;
+  }
+
+  protected Language acceptedInAlternativeLanguage(String word) throws IOException {
+    for (RuleWithLanguage altRule : altRules) {
+      AnalyzedToken token = new AnalyzedToken(word, null, null);
+      AnalyzedToken sentenceStartToken = new AnalyzedToken("", JLanguageTool.SENTENCE_START_TAGNAME, null);
+      AnalyzedTokenReadings startTokenReadings = new AnalyzedTokenReadings(sentenceStartToken, 0);
+      AnalyzedTokenReadings atr = new AnalyzedTokenReadings(token, 0);
+      RuleMatch[] matches = altRule.getRule().match(new AnalyzedSentence(new AnalyzedTokenReadings[]{startTokenReadings, atr}));
+      if (matches.length == 0) {
+        return altRule.getLanguage();
+      } else {
+        if (word.endsWith(".")) {
+          Language language = acceptedInAlternativeLanguage(word.substring(0, word.length() - 1));
+          if (language != null) {
+            return language;
+          }
+        }
+      }
+    }
+    return null;
   }
 
   /**

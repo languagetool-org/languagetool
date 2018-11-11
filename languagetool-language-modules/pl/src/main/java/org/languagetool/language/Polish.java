@@ -119,7 +119,7 @@ public class Polish extends Language {
         new SentenceWhitespaceRule(messages),
         // specific to Polish:
         new PolishUnpairedBracketsRule(messages, this),
-        new MorfologikPolishSpellerRule(messages, this, userConfig),
+        new MorfologikPolishSpellerRule(messages, this, userConfig, altLanguages),
         new PolishWordRepeatRule(messages),
         new CompoundRule(messages),
         new SimpleReplaceRule(messages),

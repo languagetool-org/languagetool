@@ -95,7 +95,7 @@ public class Italian extends Language implements AutoCloseable {
             new GenericUnpairedBracketsRule(messages,
                     Arrays.asList("[", "(", "{", "»", "«" /*"‘"*/),
                     Arrays.asList("]", ")", "}", "«", "»" /*"’"*/)),
-            new MorfologikItalianSpellerRule(messages, this, userConfig),
+            new MorfologikItalianSpellerRule(messages, this, userConfig, altLanguages),
             new UppercaseSentenceStartRule(messages, this),
             new ItalianWordRepeatRule(messages, this),
             new MultipleWhitespaceRule(messages, this)

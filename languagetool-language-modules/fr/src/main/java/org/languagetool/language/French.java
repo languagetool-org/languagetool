@@ -116,7 +116,7 @@ public class French extends Language implements AutoCloseable {
             // very fast, but no suggestions:
             //new HunspellNoSuggestionRule(messages, this, Example.wrong("Le <marker>chein</marker> noir"), Example.fixed("Le <marker>chien</marker> noir")),
             // slower than HunspellNoSuggestionRule but with suggestions:
-            new FrenchCompoundAwareHunspellRule(messages, this, userConfig),
+            new FrenchCompoundAwareHunspellRule(messages, this, userConfig, altLanguages),
             new UppercaseSentenceStartRule(messages, this),
             new MultipleWhitespaceRule(messages, this),
             new SentenceWhitespaceRule(messages),

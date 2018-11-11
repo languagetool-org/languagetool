@@ -46,7 +46,7 @@ public class CanadianEnglish extends English {
   public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, List<Language> altLanguages) throws IOException {
     List<Rule> rules = new ArrayList<>();
     rules.addAll(super.getRelevantRules(messages, userConfig, altLanguages));
-    rules.add(new MorfologikCanadianSpellerRule(messages, this, userConfig));
+    rules.add(new MorfologikCanadianSpellerRule(messages, this, userConfig, altLanguages));
     rules.add(new UnitConversionRuleImperial(messages));
     return rules;
   }

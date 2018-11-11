@@ -74,7 +74,7 @@ public class Slovenian extends Language {
             new GenericUnpairedBracketsRule(messages,
                     Arrays.asList("[", "(", "{", "„", "»", "«", "\""),
                     Arrays.asList("]", ")", "}", "”", "«", "»", "\"")),
-            new MorfologikSlovenianSpellerRule(messages, this, userConfig),
+            new MorfologikSlovenianSpellerRule(messages, this, userConfig, altLanguages),
             new UppercaseSentenceStartRule(messages, this),
             new WordRepeatRule(messages, this),
             new MultipleWhitespaceRule(messages, this)

@@ -163,7 +163,7 @@ public class Serbian extends Language {
   public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, List<Language> altLanguages)
           throws IOException {
     List<Rule> rules = new ArrayList<>(getBasicRules(messages));
-    rules.add(new MorfologikEkavianSpellerRule(messages, this, null));
+    rules.add(new MorfologikEkavianSpellerRule(messages, this, null, altLanguages));
     rules.add(new SimpleGrammarEkavianReplaceRule(messages));
     rules.add(new SimpleStyleEkavianReplaceRule(messages));
     return rules;

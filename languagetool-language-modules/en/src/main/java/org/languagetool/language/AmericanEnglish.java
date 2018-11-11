@@ -46,7 +46,7 @@ public class AmericanEnglish extends English {
   public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, List<Language> altLanguages) throws IOException {
     List<Rule> rules = new ArrayList<>();
     rules.addAll(super.getRelevantRules(messages, userConfig, altLanguages));
-    rules.add(new MorfologikAmericanSpellerRule(messages, this, userConfig));
+    rules.add(new MorfologikAmericanSpellerRule(messages, this, userConfig, altLanguages));
     rules.add(new UnitConversionRuleUS(messages));
     return rules;
   }

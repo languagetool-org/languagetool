@@ -50,8 +50,8 @@ public abstract class CompoundAwareHunspellRule extends HunspellRule {
    * @since 4.3
    */
   public CompoundAwareHunspellRule(ResourceBundle messages, Language language, CompoundWordTokenizer compoundSplitter, 
-                                   MorfologikMultiSpeller morfoSpeller, UserConfig userConfig, List<Language> alternativeLanguages) {
-    super(messages, language, userConfig, alternativeLanguages);
+                                   MorfologikMultiSpeller morfoSpeller, UserConfig userConfig, List<Language> altLanguages) {
+    super(messages, language, userConfig, altLanguages);
     this.compoundSplitter = compoundSplitter;
     this.morfoSpeller = morfoSpeller;
   }

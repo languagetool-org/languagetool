@@ -20,6 +20,7 @@
 package org.languagetool.rules.de;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import org.languagetool.Language;
@@ -37,8 +38,8 @@ public final class MorfologikGermanyGermanSpellerRule extends MorfologikSpellerR
   private static final String RESOURCE_FILENAME = "/de/hunspell/de_DE.dict";
 
   public MorfologikGermanyGermanSpellerRule(ResourceBundle messages,
-                                            Language language, UserConfig userConfig) throws IOException {
-    super(messages, language, userConfig);
+                                            Language language, UserConfig userConfig, List<Language> altLanguages) throws IOException {
+    super(messages, language, userConfig, altLanguages);
     addExamplePair(Example.wrong("LanguageTool kann mehr als eine <marker>nromale</marker> Rechtschreibprüfung."),
                    Example.fixed("LanguageTool kann mehr als eine <marker>normale</marker> Rechtschreibprüfung."));
   }

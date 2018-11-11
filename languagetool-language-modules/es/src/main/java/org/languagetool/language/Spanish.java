@@ -125,7 +125,7 @@ public class Spanish extends Language implements AutoCloseable{
             new GenericUnpairedBracketsRule(messages,
                     Arrays.asList("[", "(", "{", "“", "«", "»", "¿", "¡"),
                     Arrays.asList("]", ")", "}", "”", "»", "«", "?", "!")),
-            new MorfologikSpanishSpellerRule(messages, this, userConfig),
+            new MorfologikSpanishSpellerRule(messages, this, userConfig, altLanguages),
             new UppercaseSentenceStartRule(messages, this),
             new WordRepeatRule(messages, this),
             new MultipleWhitespaceRule(messages, this),

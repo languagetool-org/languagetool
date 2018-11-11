@@ -24,12 +24,18 @@ import org.languagetool.UserConfig;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
 
 import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public final class MorfologikDutchSpellerRule extends MorfologikSpellerRule {
 
   public MorfologikDutchSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig) throws IOException {
-    super(messages, language, userConfig);
+    this(messages, language, userConfig, Collections.emptyList());
+  }
+  
+  public MorfologikDutchSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig, List<Language> altLanguages) throws IOException {
+    super(messages, language, userConfig, altLanguages);
   }
 
   @Override

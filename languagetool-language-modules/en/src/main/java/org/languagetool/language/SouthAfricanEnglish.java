@@ -45,7 +45,7 @@ public class SouthAfricanEnglish extends English {
   public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, List<Language> altLanguages) throws IOException {
     List<Rule> rules = new ArrayList<>();
     rules.addAll(super.getRelevantRules(messages, userConfig, altLanguages));
-    rules.add(new MorfologikSouthAfricanSpellerRule(messages, this, userConfig));
+    rules.add(new MorfologikSouthAfricanSpellerRule(messages, this, userConfig, altLanguages));
     return rules;
   }
 

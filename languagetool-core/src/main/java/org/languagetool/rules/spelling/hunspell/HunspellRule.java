@@ -36,7 +36,6 @@ import com.google.common.io.Resources;
 import org.apache.commons.lang3.StringUtils;
 import org.languagetool.*;
 import org.languagetool.rules.Categories;
-import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.tools.Tools;
@@ -68,7 +67,6 @@ public class HunspellRule extends SpellingCheckRule {
   protected Pattern nonWordPattern;
 
   private final UserConfig userConfig;
-  private final List<RuleWithLanguage> altRules;
 
   public HunspellRule(ResourceBundle messages, Language language, UserConfig userConfig) {
     this(messages, language, userConfig, Collections.emptyList());
@@ -77,11 +75,10 @@ public class HunspellRule extends SpellingCheckRule {
   /**
    * @since 4.3
    */
-   public HunspellRule(ResourceBundle messages, Language language, UserConfig userConfig, List<Language> alternativeLanguages) {
-    super(messages, language, userConfig);
+   public HunspellRule(ResourceBundle messages, Language language, UserConfig userConfig, List<Language> altLanguages) {
+    super(messages, language, userConfig, altLanguages);
     super.setCategory(Categories.TYPOS.getCategory(messages));
     this.userConfig = userConfig;
-    this.altRules = getAlternativeLangSpellingRules(alternativeLanguages);
   }
 
   @Override
@@ -170,46 +167,6 @@ public class HunspellRule extends SpellingCheckRule {
     return toRuleMatchArray(ruleMatches);
   }
 
-  private List<RuleWithLanguage> getAlternativeLangSpellingRules(List<Language> alternativeLanguages) {
-    List<RuleWithLanguage> spellingRules = new ArrayList<>();
-    for (Language altLanguage : alternativeLanguages) {
-      List<Rule> rules;
-      try {
-        rules = altLanguage.getRelevantRules(messages, userConfig, Collections.emptyList());
-      } catch (IOException e) {
-        throw new RuntimeException(e);
-      }
-      for (Rule rule : rules) {
-        if (rule.isDictionaryBasedSpellingRule()) {
-          spellingRules.add(new RuleWithLanguage(rule, altLanguage));
-        }
-      }
-    }
-    return spellingRules;
-  }
-
-  private Language acceptedInAlternativeLanguage(String word) throws IOException {
-    for (RuleWithLanguage altRule : altRules) {
-      AnalyzedToken token = new AnalyzedToken(word, null, null);
-      AnalyzedToken sentenceStartToken = new AnalyzedToken("", JLanguageTool.SENTENCE_START_TAGNAME, null);
-      AnalyzedTokenReadings startTokenReadings = new AnalyzedTokenReadings(sentenceStartToken, 0);
-      AnalyzedTokenReadings atr = new AnalyzedTokenReadings(token, 0);
-      RuleMatch[] matches = altRule.rule.match(new AnalyzedSentence(new AnalyzedTokenReadings[]{startTokenReadings, atr}));
-      if (matches.length == 0) {
-        return altRule.language;
-      } else {
-        if (word.endsWith(".")) {
-          Language language = acceptedInAlternativeLanguage(word.substring(0, word.length() - 1));
-          if (language != null) {
-            return language;
-          }
-        }
-      }
-    }
-    return null;
-  }
-
-    
   /**
    * @since public since 4.1
    */
@@ -382,13 +339,4 @@ public class HunspellRule extends SpellingCheckRule {
     }
   }
   
-  class RuleWithLanguage {
-    Rule rule;
-    Language language;
-    RuleWithLanguage(Rule rule, Language language) {
-      this.rule = rule;
-      this.language = language;
-    }
-  }
-
 }

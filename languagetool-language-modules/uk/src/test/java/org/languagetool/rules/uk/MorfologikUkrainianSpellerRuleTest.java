@@ -23,6 +23,7 @@ import static org.junit.Assert.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
@@ -34,7 +35,8 @@ public class MorfologikUkrainianSpellerRuleTest {
 
   @Test
   public void testMorfologikSpeller() throws IOException {
-    MorfologikUkrainianSpellerRule rule = new MorfologikUkrainianSpellerRule (TestTools.getMessages("uk"), new Ukrainian(), null);
+    MorfologikUkrainianSpellerRule rule = new MorfologikUkrainianSpellerRule (TestTools.getMessages("uk"), new Ukrainian(), 
+            null, Collections.emptyList());
 
     JLanguageTool langTool = new JLanguageTool(new Ukrainian());
 
@@ -134,7 +136,8 @@ public class MorfologikUkrainianSpellerRuleTest {
 
   @Test
   public void testProhibitedSuggestions() throws IOException {
-    MorfologikUkrainianSpellerRule rule = new MorfologikUkrainianSpellerRule (TestTools.getMessages("uk"), new Ukrainian(), null);
+    MorfologikUkrainianSpellerRule rule = new MorfologikUkrainianSpellerRule (TestTools.getMessages("uk"), new Ukrainian(), 
+            null, Collections.emptyList());
     JLanguageTool langTool = new JLanguageTool(new Ukrainian());
     
     RuleMatch[] match = rule.match(langTool.getAnalyzedSentence("онлайннавчання"));

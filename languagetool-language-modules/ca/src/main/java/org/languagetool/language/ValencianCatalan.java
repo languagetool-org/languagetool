@@ -85,7 +85,7 @@ public class ValencianCatalan extends Catalan {
             new LongSentenceRule(messages, userConfig),
             // specific to Catalan:
             new CatalanWordRepeatRule(messages, this),
-            new MorfologikCatalanSpellerRule(messages, this, userConfig),
+            new MorfologikCatalanSpellerRule(messages, this, userConfig, altLanguages),
             new CatalanUnpairedQuestionMarksRule(messages, this),
             new CatalanUnpairedExclamationMarksRule(messages, this),
             new AccentuationCheckRule(messages),

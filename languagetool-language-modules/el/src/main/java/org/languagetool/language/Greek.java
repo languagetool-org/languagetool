@@ -84,7 +84,7 @@ public class Greek extends Language {
                     Arrays.asList("[", "(", "{", "“", "\"", "«"),
                     Arrays.asList("]", ")", "}", "”", "\"", "»")),
             new LongSentenceRule(messages, userConfig),
-            new MorfologikGreekSpellerRule(messages, this, null),
+            new MorfologikGreekSpellerRule(messages, this, null, altLanguages),
             new UppercaseSentenceStartRule(messages, this,
                     Example.wrong("Η τελεία είναι σημείο στίξης. <marker>δείχνει</marker> το τέλος μίας πρότασης."),
                     Example.fixed("Η τελεία είναι σημείο στίξης. <marker>Δείχνει</marker> το τέλος μίας πρότασης.")),

@@ -160,7 +160,7 @@ public class Ukrainian extends Language {
 
         // TODO: does not handle !.. and ?..
         //            new DoublePunctuationRule(messages),
-        new MorfologikUkrainianSpellerRule(messages, this, userConfig),
+        new MorfologikUkrainianSpellerRule(messages, this, userConfig, altLanguages),
 
         new MissingHyphenRule(messages, ((UkrainianTagger)getTagger()).getWordTagger()),
         

@@ -125,7 +125,7 @@ public class Dutch extends Language {
                     Arrays.asList("[", "(", "{", "“", "‹", "“", "„", "\""),
                     Arrays.asList("]", ")", "}", "”", "›", "”", "”", "\"")),
             new UppercaseSentenceStartRule(messages, this),
-            new MorfologikDutchSpellerRule(messages, this, userConfig),
+            new MorfologikDutchSpellerRule(messages, this, userConfig, altLanguages),
             new MultipleWhitespaceRule(messages, this),
             new CompoundRule(messages),
             new DutchWrongWordInContextRule(messages),

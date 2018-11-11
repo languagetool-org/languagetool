@@ -84,7 +84,7 @@ public class Icelandic extends Language {
             new CommaWhitespaceRule(messages),
             new DoublePunctuationRule(messages),
             new GenericUnpairedBracketsRule(messages),
-            new HunspellNoSuggestionRule(messages, this, userConfig),
+            new HunspellNoSuggestionRule(messages, this, userConfig, altLanguages),
             new UppercaseSentenceStartRule(messages, this),
             new WordRepeatRule(messages, this),
             new MultipleWhitespaceRule(messages, this)

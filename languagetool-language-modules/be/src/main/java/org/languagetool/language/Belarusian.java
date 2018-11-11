@@ -85,7 +85,7 @@ public class Belarusian extends Language {
     return Arrays.asList(
             new CommaWhitespaceRule(messages),
             new DoublePunctuationRule(messages),
-            new MorfologikBelarusianSpellerRule(messages, this, userConfig),
+            new MorfologikBelarusianSpellerRule(messages, this, userConfig, altLanguages),
             new UppercaseSentenceStartRule(messages, this),
             new MultipleWhitespaceRule(messages, this)
     );

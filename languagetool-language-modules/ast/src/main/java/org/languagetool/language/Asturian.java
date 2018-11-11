@@ -67,7 +67,7 @@ public class Asturian extends Language {
             new CommaWhitespaceRule(messages),
             new DoublePunctuationRule(messages),
             new GenericUnpairedBracketsRule(messages),
-            new MorfologikAsturianSpellerRule(messages, this, userConfig),
+            new MorfologikAsturianSpellerRule(messages, this, userConfig, altLanguages),
             new UppercaseSentenceStartRule(messages, this),
             new MultipleWhitespaceRule(messages, this)
     );

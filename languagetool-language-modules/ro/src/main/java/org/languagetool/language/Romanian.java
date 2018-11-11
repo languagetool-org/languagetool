@@ -96,7 +96,7 @@ public class Romanian extends Language {
                     Arrays.asList("]", ")", "}", "”", "»", "«")),
             new WordRepeatRule(messages, this),
             // specific to Romanian:
-            new MorfologikRomanianSpellerRule(messages, this, userConfig),
+            new MorfologikRomanianSpellerRule(messages, this, userConfig, altLanguages),
             new RomanianWordRepeatBeginningRule(messages, this),
             new SimpleReplaceRule(messages),
             new CompoundRule(messages)

@@ -51,7 +51,7 @@ public class SpellingTest {
       System.out.println(match.getSuggestedReplacements());
     }*/
     assertEquals(1, matches.length);
-    assertEquals(matches[0].getType(), RuleMatch.Type.Hint);
+    assertEquals(RuleMatch.Type.Hint, matches[0].getType());
   }
 
 }

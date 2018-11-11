@@ -106,7 +106,7 @@ public class Slovak extends Language {
             new MultipleWhitespaceRule(messages, this),
             // specific to Slovak:
             new CompoundRule(messages),
-            new MorfologikSlovakSpellerRule(messages, this, userConfig)
+            new MorfologikSlovakSpellerRule(messages, this, userConfig, altLanguages)
             //new SlovakVesRule(messages)
     );
   }

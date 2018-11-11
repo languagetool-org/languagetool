@@ -20,6 +20,7 @@
 package org.languagetool.rules.en;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import org.languagetool.Language;
@@ -31,8 +32,8 @@ public final class MorfologikCanadianSpellerRule extends AbstractEnglishSpellerR
   private static final String LANGUAGE_SPECIFIC_PLAIN_TEXT_DICT = "en/hunspell/spelling_en-CA.txt";
 
   public MorfologikCanadianSpellerRule(ResourceBundle messages,
-                                       Language language, UserConfig userConfig) throws IOException {
-    super(messages, language, userConfig);
+                                       Language language, UserConfig userConfig, List<Language> altLanguages) throws IOException {
+    super(messages, language, userConfig, altLanguages);
   }
 
   @Override

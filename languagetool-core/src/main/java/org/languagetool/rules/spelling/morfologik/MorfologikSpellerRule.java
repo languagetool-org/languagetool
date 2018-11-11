@@ -26,6 +26,7 @@ import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.rules.spelling.morfologik.suggestions_ordering.SuggestionsOrderer;
+import org.languagetool.tools.Tools;
 
 import java.io.IOException;
 import java.util.*;
@@ -39,11 +40,12 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
   protected MorfologikMultiSpeller speller3;
   protected Locale conversionLocale;
 
+  private static SuggestionsOrderer suggestionsOrderer = null;
+  
   private boolean ignoreTaggedWords = false;
   private boolean checkCompound = false;
   private Pattern compoundRegex = Pattern.compile("-");
   private final UserConfig userConfig;
-  private static SuggestionsOrderer suggestionsOrderer = null;
 
   /**
    * Get the filename, e.g., <tt>/resource/pl/spelling.dict</tt>.
@@ -58,7 +60,11 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
   }
   
   public MorfologikSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig) throws IOException {
-    super(messages, language, userConfig);
+    this(messages, language, userConfig, Collections.emptyList());
+  }
+  
+  public MorfologikSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig, List<Language> altLanguages) throws IOException {
+    super(messages, language, userConfig, altLanguages);
     this.userConfig = userConfig;
     super.setCategory(Categories.TYPOS.getCategory(messages));
     this.conversionLocale = conversionLocale != null ? conversionLocale : Locale.getDefault();
@@ -186,9 +192,19 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
   protected List<RuleMatch> getRuleMatches(String word, int startPos, AnalyzedSentence sentence, List<RuleMatch> ruleMatchesSoFar) throws IOException {
     List<RuleMatch> ruleMatches = new ArrayList<>();
     if (isMisspelled(speller1, word) || isProhibited(word)) {
-      RuleMatch ruleMatch = new RuleMatch(this, sentence, startPos, startPos
-          + word.length(), messages.getString("spelling"),
-          messages.getString("desc_spelling_short"));
+      RuleMatch ruleMatch;
+      Language acceptingLanguage = acceptedInAlternativeLanguage(word);
+      if (acceptingLanguage != null) {
+        // e.g. "Der Typ ist in UK echt famous" -> could be German 'famos'
+        ruleMatch = new RuleMatch(this, sentence, startPos, startPos
+                + word.length(),
+                Tools.i18n(messages, "accepted_in_alt_language", word, messages.getString(acceptingLanguage.getShortCode())));
+        ruleMatch.setType(RuleMatch.Type.Hint);
+      } else {
+        ruleMatch = new RuleMatch(this, sentence, startPos, startPos
+                + word.length(), messages.getString("spelling"),
+                messages.getString("desc_spelling_short"));
+      }
       if (userConfig == null || userConfig.getMaxSpellingSuggestions() == 0 || ruleMatchesSoFar.size() <= userConfig.getMaxSpellingSuggestions()) {
         List<String> suggestions = speller1.getSuggestions(word);
         if (suggestions.isEmpty() && word.length() >= 5) {

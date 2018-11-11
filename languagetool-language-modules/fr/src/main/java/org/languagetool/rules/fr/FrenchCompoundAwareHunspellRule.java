@@ -36,8 +36,8 @@ import java.util.*;
  */
 public class FrenchCompoundAwareHunspellRule extends CompoundAwareHunspellRule {
   
-  public FrenchCompoundAwareHunspellRule(ResourceBundle messages, Language language, UserConfig userConfig) {
-    super(messages, language, new NonSplittingTokenizer(), getSpeller(language, userConfig), userConfig);
+  public FrenchCompoundAwareHunspellRule(ResourceBundle messages, Language language, UserConfig userConfig, List<Language> altLanguages) {
+    super(messages, language, new NonSplittingTokenizer(), getSpeller(language, userConfig), userConfig, altLanguages);
     addExamplePair(Example.wrong("Le <marker>chein</marker> noir"),
                    Example.fixed("Le <marker>chien</marker> noir"));
   }

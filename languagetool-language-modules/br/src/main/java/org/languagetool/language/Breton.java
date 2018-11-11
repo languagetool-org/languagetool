@@ -108,7 +108,7 @@ public class Breton extends Language {
     return Arrays.asList(
             new CommaWhitespaceRule(messages),
             new DoublePunctuationRule(messages),
-            new MorfologikBretonSpellerRule(messages, this, userConfig),
+            new MorfologikBretonSpellerRule(messages, this, userConfig, altLanguages),
             new UppercaseSentenceStartRule(messages, this),
             new MultipleWhitespaceRule(messages, this),
             new SentenceWhitespaceRule(messages),
