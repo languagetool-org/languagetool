@@ -95,7 +95,7 @@ public class Danish extends Language {
             new GenericUnpairedBracketsRule(messages,
                     Arrays.asList("[", "(", "{", "\"", "”"),
                     Arrays.asList("]", ")", "}", "\"", "”")),
-            new HunspellNoSuggestionRule(messages, this, null, altLanguages),
+            new HunspellNoSuggestionRule(messages, this, userConfig, altLanguages),
             new UppercaseSentenceStartRule(messages, this),  // abbreviation exceptions, done in DanishSentenceTokenizer
             // "WORD_REPEAT_RULE" implemented in grammar.xml
             new MultipleWhitespaceRule(messages, this)

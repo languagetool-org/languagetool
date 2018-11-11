@@ -66,7 +66,7 @@ public class JekavianSerbian extends Serbian {
   public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, List<Language> altLanguages) throws IOException {
     List<Rule> rules = new ArrayList<>(getBasicRules(messages));
     // Rules specific for Jekavian Serbian
-    rules.add(new MorfologikJekavianSpellerRule(messages, this, null, altLanguages));
+    rules.add(new MorfologikJekavianSpellerRule(messages, this, userConfig, altLanguages));
     rules.add(new SimpleGrammarJekavianReplaceRule(messages));
     rules.add(new SimpleStyleJekavianReplaceRule(messages));
     return rules;
