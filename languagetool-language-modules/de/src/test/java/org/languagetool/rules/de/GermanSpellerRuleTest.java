@@ -296,8 +296,7 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("Einzigste", "Einzige", rule, lt);
     assertFirstSuggestion("namenhafte", "namhafte", rule, lt);
     assertFirstSuggestion("homeophatisch", "homöopathisch", rule, lt);
-    assertFirstSuggestion("verswindet
-", "verschwindet", rule, lt);
+    assertFirstSuggestion("verswindet", "verschwindet", rule, lt);
   }
 
   @Test
