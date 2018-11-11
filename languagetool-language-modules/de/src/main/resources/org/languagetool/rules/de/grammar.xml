@@ -207,12 +207,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern case_sensitive="yes">
                     <token regexp="yes" inflected="yes">rot|schwarz|kostbar|neu</token>
                     <marker>
-                        <token regexp="yes">Robben?</token>
+                        <token inflected="yes">Robbe</token>
                     </marker>
                 </pattern>
                 <message>Ist hier das Nomen <suggestion><match no="2" regexp_match="bb" regexp_replace="b"/></suggestion> (= Kleid, Amtskleidung) gemeint?</message>
                 <short>Möglicher Tippfehler.</short>
                 <example correction="Roben">Die Richter tragen schwarze <marker>Robben</marker>.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token inflected="yes">Robe</token>
+                    </marker>
+                    <token regexp="yes" inflected="yes">er(nähren|schlagen)|fangen|fressen|jagen</token>
+                </pattern>
+                <message>Ist hier das Nomen <suggestion><match no="1" regexp_match="b" regexp_replace="bb"/></suggestion> (= Säugetier) gemeint?</message>
+                <short>Möglicher Tippfehler.</short>
+                <example correction="Robben"><marker>Roben</marker> fressen Fisch.</example>
             </rule>
         </rulegroup>
         <rulegroup id="STATT" name="an ... Statt (statt)">
