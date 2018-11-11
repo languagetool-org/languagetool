@@ -10772,7 +10772,8 @@ USA
                 <example correction="are|were">They <marker>is</marker> too old for that.</example>
             </rule>
         </rulegroup>
-        <!-- TODO: is this really an error? see http://www.ef.com/english-resources/english-grammar/adverbs/
+        <!-- XXX: is this really an error? see http://www.ef.com/english-resources/english-grammar/adverbs/
+             TODO: test again, fix, set as style.
         <rule id="ADVERBS_ORDER" name="word order: adverb + auxiliary verb + main verb">
           <pattern mark_from="2"><token regexp="yes">certainly|definitely|probably|undoubtedly|surely</token><token regexp="yes">has|had|have|will</token><token postag="VBN|VB"/>/pattern>
           <message>Place the adverb between </message>
@@ -10780,14 +10781,29 @@ USA
           <example type="incorrect">He <em>probably</em> will remember tomorrow.</example>
         </rule>
         -->
-        <!-- TODO: too many false alarms, e.g. I am convinced that our suggestions...
+        <!-- XXX: too many false alarms, e.g. I am convinced that our suggestions...
+             TODO: test again and fix.
         <rule id="I_A_NONBASE" name="'I am' + non-gerund form">
-          <pattern mark_from="2"><token regexp="yes">I</token><token regexp="yes">am</token><token postag="VB|VB[DN]|VBP|VBZ"/>/pattern>
+          <pattern mark_from="2"><token regexp="yes">I</token><token regexp="yes">am</token><token postag="VB[DNPZ]?" postag_regexp='yes'/></pattern>
           <message>You might need to use the gerund form of the verb here (e.g. 'learning' instead of 'learn').</message>
           <example>I am <em>searching</em> through some fields.</example>
           <example type="incorrect">I am <em>searched</em> through some fields.</example>
         </rule>
         -->
+        <rule id="PRONOUN_NOUN" name="Pronoun + noun">
+        <!-- Created by Tiago F. Santos, 2018-11-11 -->
+          <pattern>
+            <marker>
+              <token postag="PRP"/>
+              <token postag="N.+" postag_regexp='yes'>
+                <exception postag='V.+|RB' postag_regexp='yes'/></token>
+            </marker>
+            <token postag="V.+" postag_regexp='yes'/>
+          </pattern>
+          <message>Possible fragment. Please, verify.</message>
+          <example correction=""><marker>I home</marker> went yesterday.</example>
+          <example>I went home yesterday.</example>
+        </rule>
         <rulegroup id="TO_NON_BASE" name="'to' + non-base form">
             <rule>
                 <antipattern>
