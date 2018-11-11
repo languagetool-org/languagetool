@@ -202,6 +202,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Alternative">Ist das eine <marker>alternative</marker> zu Hausaufgaben?</example>
             </rule>
         </rulegroup>
+        <rulegroup id="ROBBE_ROBE" name="Robbe (Robe)">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes" inflected="yes">rot|schwarz|kostbar|neu</token>
+                    <marker>
+                        <token regexp="yes">Robben?</token>
+                    </marker>
+                </pattern>
+                <message>Ist hier das Nomen <suggestion><match no="2" regexp_match="bb" regexp_replace="b"/></suggestion> (= Kleid, Amtskleidung) gemeint?</message>
+                <short>&prgk;.</short>
+                <example correction="Roben">Die Richter tragen schwarze <marker>Robben</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="STATT" name="an ... Statt (statt)">
             <rule>
                 <pattern case_sensitive="yes">
@@ -39621,14 +39634,16 @@ Andere Projekte</example>
                         <exception scope="next" regexp="yes">,|:|;|-|–|—|\)|\(|und|oder</exception>
                     </token>
                     <marker>
-                    <token case_sensitive="yes">Recht</token>
+                        <token case_sensitive="yes">Recht</token>
                     </marker>
+                    <token><exception regexp="yes" inflected="yes">bekommen|finden|pochen|sprechen</exception></token>
                 </pattern>
                 <message>Der Duden empfiehlt für das Wort "Recht" im Zusammenhang mit "recht haben" oder "recht geben" klein zu schreiben </message>
                 <suggestion><match no="2" case_conversion ="alllower"/></suggestion>
                 <example correction="recht">Er gab ihm <marker>Recht</marker>.</example>
                 <example correction="recht">Sie hatte wirklich <marker>Recht</marker>.</example>
-                <example >Er hatte kein <marker>Recht</marker> so etwas zu sagen.</example>
+                <example>Er hatte kein <marker>Recht</marker> so etwas zu sagen.</example>
+                <example>Man hat <marker>Recht</marker> gesprochen.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -39657,7 +39672,7 @@ Andere Projekte</example>
                 <example correction="recht">Sie wollte unbedingt <marker>Recht</marker> haben.</example>
                 <example>Er wusste, dass er das <marker>Recht</marker> hatte so etwas zu verlangen.</example>
                 <example><marker>Recht</marker> hatte sie.</example>
-                <example>Herr Zero sagte: „Recht haben und recht bekommen sind zwei verschiedene Fakten.“</example>
+                <example>Er sagte: „Recht haben und recht bekommen sind zwei verschiedene Fakten.“</example>
             </rule>
         </rulegroup>
     </category>
