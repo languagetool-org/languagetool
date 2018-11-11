@@ -237,6 +237,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("[uU]nzerbrechbar(e[nmrs]?)?", "bar", "lich");
     putRepl("kolegen?", "ko", "Kol");
     putRepl("tableten?", "tablet", "Tablett");
+    putRepl("verswinde(n|s?t)", "^vers", "versch");
     putRepl("unverantwortungsvoll(e[nmrs]?)?", "unverantwortungsvoll", "verantwortungslos");
     putRepl("[gG]erechtlichkeit", "[gG]erechtlich", "Gerechtig");
     putRepl("[zZ]uverlässlichkeit", "lich", "ig");
