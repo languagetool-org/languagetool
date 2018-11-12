@@ -6800,10 +6800,29 @@ USA
             <pattern case_sensitive="yes">
                 <token>au</token>
             </pattern>
-            <message>Make sure that '\1' means 'astronomical unit'. If you mean the chemical symbol for gold, use  <suggestion>Au</suggestion>.</message>
+            <message>Make sure that '\1' means 'astronomical unit'. If you mean the chemical symbol for gold, use <suggestion>Au</suggestion>.</message>
             <url>https://en.wikipedia.org/wiki/Astronomical_unit</url>
             <short>Possible typo</short>
             <example correction="Au">The chemical symbol for gold is <marker>au</marker>.</example>
+        </rule>
+        <rule id="IT_S_EVENT_JJ" name="it's event (even) possible">
+            <pattern>
+                <token>it</token>
+                <token regexp="yes">['’]</token>
+                <token>s</token>
+                <marker>
+                    <token>event</token>
+                </marker>
+                <token min="0" max="1" postag="RB"/>
+                <token postag="JJ"/>
+            </pattern>
+            <message>Did you mean <suggestion>even</suggestion>?</message>
+            <short>Possible typo</short>
+            <example correction="even">… whether it's <marker>event</marker> possible to do this.</example>
+            <example correction="even">It's <marker>event</marker> usually possible to do this before 09:00.</example>
+            <example correction="even">Possibly, it's <marker>event</marker> impossible.</example>
+            <example>… whether it's <marker>even</marker> possible to do this.</example>
+            <example>although it's <marker>event horizon</marker> is more than...</example><!-- TODO. Not correct English, but out of scope. -->
         </rule>
     </category>
 
