@@ -26965,6 +26965,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
+        <rule id="SABER_A_POC" name="*saber a poc">
+            <pattern>
+                <marker>
+                    <token inflected="yes">saber</token>
+                    <token>a<exception postag=".*LOC_.*" postag_regexp="yes"/></token>
+                </marker>
+                <token>poc</token>
+            </pattern>
+            <message>Expressió incorrecta.</message>
+            <suggestion>(no satisfer)</suggestion>
+            <suggestion>(no fer el pes)</suggestion>
+            <suggestion>(decebre)</suggestion>
+            <suggestion>(semblar poc)</suggestion>
+            <suggestion>(semblar poca cosa)</suggestion>
+            <example correction="(no satisfer)|(no fer el pes)|(decebre)|(semblar poc)|(semblar poca cosa)">Li va <marker>saber a poc</marker>.</example>
+            <example>Ho va saber a poc a poc.</example>
+        </rule>
         <rule id="ARAS_DE_LOS_OLMOS" name="Aras de los Olmos">
             <pattern>
                 <token regexp="yes">Ares|Aras</token><token inflected="yes">de</token><token min="0">ls</token><token regexp="yes">Oms|Alpont|Alpuente</token>
@@ -39621,6 +39638,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="PREFERABLE_EXPRESSIONS" name="C7) Expressions preferibles" default="on" type="style">
+        <rule id="SABER_A" name="*saber a/fer gust de">
+            <pattern>
+                <marker>
+                    <token inflected="yes">saber</token>
+                    <token>a<exception postag=".*LOC_.*" postag_regexp="yes"/></token>
+                </marker>
+                <token><exception regexp="yes">intervals|estones|poc</exception><exception postag="NP..G.." postag_regexp="yes"/></token>
+            </pattern>
+            <message>Expressió normativa, però obsoleta. Val més usar-ne una altra.</message>
+            <suggestion><match no="1" postag="(V.[^M].*)" postag_regexp="yes" postag_replace="$1">fer</match> gust de</suggestion>
+            <suggestion><match no="1" postag="(V.[^M].*)" postag_regexp="yes" postag_replace="$1">tenir</match> gust de</suggestion>
+            <example correction="fa gust de|té gust de">El llard <marker>sap a</marker> ranci.</example>
+            <example>Ho sabia al voltant de la séquia.</example>
+            <example>Sabien a Greia el que passava a Tarragona?</example>
+        </rule>
         <rule id="SER_CESSAT" name="ser cessat/destituït">
             <pattern>
                 <token inflected="yes">ser</token>
