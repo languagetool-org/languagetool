@@ -18,6 +18,9 @@
  */
 package org.languagetool;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -32,9 +35,8 @@ import java.util.Objects;
 public class UserConfig {
 
   private final List<String> userSpecificSpellerWords;
-  // Optimization: compare large user dictionaries via ID instead of using List.equals
-  private String dictIdentifier = null;
   private final int maxSpellingSuggestions;
+  private final String userDictName;
   private final Map<String, Integer> configurableRuleValues = new HashMap<>();
   private final LinguServices linguServices;
 
@@ -51,7 +53,7 @@ public class UserConfig {
   }
 
   public UserConfig(Map<String, Integer> ruleValues, LinguServices linguServices) {
-    this(new ArrayList<>(), Objects.requireNonNull(ruleValues), 0, linguServices);
+    this(new ArrayList<>(), Objects.requireNonNull(ruleValues), 0, null, linguServices);
   }
 
   public UserConfig(List<String> userSpecificSpellerWords, Map<String, Integer> ruleValues) {
@@ -59,16 +61,18 @@ public class UserConfig {
   }
 
   public UserConfig(List<String> userSpecificSpellerWords, Map<String, Integer> ruleValues, int maxSpellingSuggestions) {
-    this(userSpecificSpellerWords, ruleValues, maxSpellingSuggestions, null);
+    this(userSpecificSpellerWords, ruleValues, maxSpellingSuggestions, null, null);
   }
   
-  public UserConfig(List<String> userSpecificSpellerWords, Map<String, Integer> ruleValues, 
-        int maxSpellingSuggestions, LinguServices linguServices) {
+  public UserConfig(List<String> userSpecificSpellerWords, Map<String, Integer> ruleValues,
+                    int maxSpellingSuggestions, String userDictName,
+                    LinguServices linguServices) {
     this.userSpecificSpellerWords = Objects.requireNonNull(userSpecificSpellerWords);
     for (Map.Entry<String, Integer> entry : ruleValues.entrySet()) {
       this.configurableRuleValues.put(entry.getKey(), entry.getValue());
     }
     this.maxSpellingSuggestions = maxSpellingSuggestions;
+    this.userDictName = userDictName == null ? "default" : userDictName;
     this.linguServices = linguServices;
   }
 
@@ -105,38 +109,36 @@ public class UserConfig {
     return linguServices;
   }
 
+  /**
+   * @since 4.4
+   */
+  public String getUserDictName() {
+    return userDictName;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
-    UserConfig that = (UserConfig) o;
-    if (maxSpellingSuggestions != that.maxSpellingSuggestions) return false;
-    if (!configurableRuleValues.equals(that.configurableRuleValues)) return false;
-
+    UserConfig other = (UserConfig) o;
     // optimization: equals on userSpecificSpellerWords can be expensive with huge dictionaries
-    if (dictIdentifier != null && that.dictIdentifier != null) {
-      return dictIdentifier.equals(that.dictIdentifier);
-    } else {
-      return userSpecificSpellerWords.equals(that.userSpecificSpellerWords);
-    }
+    // -> we use user id & dictionary names
+    return new EqualsBuilder()
+      .append(maxSpellingSuggestions, other.maxSpellingSuggestions)
+      .append(configurableRuleValues, other.configurableRuleValues)
+      .append(userDictName, other.userDictName)
+      .append(userSpecificSpellerWords, other.userSpecificSpellerWords)
+      .isEquals();
   }
 
   @Override
   public int hashCode() {
-    int result = userSpecificSpellerWords.hashCode();
-    result = 31 * result + maxSpellingSuggestions;
-    result = 31 * result + configurableRuleValues.hashCode();
-    return result;
+    // not calculating userSpecificSpellerWords.hashCode(), can be expensive; premiumId + userDictName is close enough
+    return new HashCodeBuilder(3, 11)
+      .append(maxSpellingSuggestions)
+      .append(userDictName)
+      .append(configurableRuleValues)
+      .toHashCode();
   }
 
-  /**
-   * Generate an internal identifier for the dictionary associated with this object based on user id and dictionary names
-   * For use in equals (e.g. for PipelinePool) to efficiently compare large dictionaries
-   * @param premiumId user ID
-   * @param dictGroups names of dictionary groups used in request; empty list = default dictionary
-   * @since 4.4
-   */
-  public void generateUserDictionaryIdentifier(Long premiumId, List<String> dictGroups) {
-    this.dictIdentifier = String.format("u=%d,d=%s", premiumId, String.join(";", dictGroups));
-  }
 }
