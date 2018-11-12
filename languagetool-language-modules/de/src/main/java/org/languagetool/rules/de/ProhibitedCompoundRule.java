@@ -39,7 +39,7 @@ import static org.languagetool.tools.StringTools.*;
  * Find compounds that might be morphologically correct but are still probably wrong, like 'Lehrzeile'.
  * @since 4.1
  */
-public final class ProhibitedCompoundRule extends Rule {
+public class ProhibitedCompoundRule extends Rule {
 
   /** @since 4.3 */
   public static final String RULE_ID = "DE_PROHIBITED_COMPOUNDS";
@@ -64,14 +64,22 @@ public final class ProhibitedCompoundRule extends Rule {
   );
   private static final GermanSpellerRule spellerRule = new GermanSpellerRule(JLanguageTool.getMessageBundle(), new GermanyGerman(), null, null);
   private static final List<String> ignoreWords = Arrays.asList("Die", "De");
-  private static final List<Pair> pairs = new ArrayList<>();
-  private static AhoCorasickDoubleArrayTrie<String> ahoCorasickDoubleArrayTrie = null;
-  private static Map<String, List<Pair>> pairMap = new HashMap<>();
+
+  // have per-class static list of these and reference that in instance
+  // -> avoid loading word list for every instance, but allow variations in subclasses
+  protected AhoCorasickDoubleArrayTrie<String> ahoCorasickDoubleArrayTrie;
+  protected Map<String, List<Pair>> pairMap;
+
+  private static final AhoCorasickDoubleArrayTrie<String> prohibitedCompoundRuleSearcher;
+  private static final Map<String, List<Pair>> prohibitedCompoundRulePairMap;
 
   static {
-    addUpperCaseVariants();
-    addItemsFromConfusionSets("/de/confusion_sets.txt", true);
-    setupAhoCorasickSearch();
+    List<Pair> pairs = new ArrayList<>();
+    Map<String, List<Pair>> pairMap = new HashMap<>();
+    addUpperCaseVariants(pairs);
+    addItemsFromConfusionSets(pairs, "/de/confusion_sets.txt", true);
+    prohibitedCompoundRuleSearcher = setupAhoCorasickSearch(pairs, pairMap);
+    prohibitedCompoundRulePairMap = pairMap;
   }
 
 
@@ -84,7 +92,7 @@ public final class ProhibitedCompoundRule extends Rule {
     }
   }
 
-  private static void addUpperCaseVariants() {
+  private static void addUpperCaseVariants(List<Pair> pairs) {
     for (Pair lcPair : lowercasePairs) {
       if (StringTools.startsWithUppercase(lcPair.part1)) {
         throw new IllegalArgumentException("Use all-lowercase word in " + ProhibitedCompoundRule.class + ": " + lcPair.part1);
@@ -96,7 +104,7 @@ public final class ProhibitedCompoundRule extends Rule {
     }
   }
 
-  private static void addItemsFromConfusionSets(String confusionSetsFile, boolean isUpperCase) {
+  protected static void addItemsFromConfusionSets(List<Pair> pairs, String confusionSetsFile, boolean isUpperCase) {
     try {
       ResourceDataBroker dataBroker = JLanguageTool.getDataBroker();
       try (InputStream confusionSetStream = dataBroker.getFromResourceDirAsStream(confusionSetsFile)) {
@@ -128,7 +136,7 @@ public final class ProhibitedCompoundRule extends Rule {
     }
   }
 
-  private static void setupAhoCorasickSearch() {
+  protected static AhoCorasickDoubleArrayTrie<String> setupAhoCorasickSearch(List<Pair> pairs, Map<String, List<Pair>> pairMap) {
     TreeMap<String, String> map = new TreeMap<String, String>();
     for (Pair pair : pairs) {
       map.put(pair.part1, pair.part1);
@@ -140,8 +148,9 @@ public final class ProhibitedCompoundRule extends Rule {
       pairMap.get(pair.part2).add(pair);
     }
     // Build an AhoCorasickDoubleArrayTrie
-    ahoCorasickDoubleArrayTrie = new AhoCorasickDoubleArrayTrie<String>();
+    AhoCorasickDoubleArrayTrie<String> ahoCorasickDoubleArrayTrie = new AhoCorasickDoubleArrayTrie<>();
     ahoCorasickDoubleArrayTrie.build(map);
+    return ahoCorasickDoubleArrayTrie;
   }
 
   private final BaseLanguageModel lm;
@@ -150,6 +159,8 @@ public final class ProhibitedCompoundRule extends Rule {
   public ProhibitedCompoundRule(ResourceBundle messages, LanguageModel lm) {
     this.lm = (BaseLanguageModel) Objects.requireNonNull(lm);
     super.setCategory(Categories.TYPOS.getCategory(messages));
+    this.ahoCorasickDoubleArrayTrie = prohibitedCompoundRuleSearcher;
+    this.pairMap = prohibitedCompoundRulePairMap;
   }
 
   @Override
