@@ -10816,17 +10816,154 @@ USA
         -->
         <rule id="PRONOUN_NOUN" name="Pronoun + noun">
         <!-- Created by Tiago F. Santos, 2018-11-11 -->
+          <antipattern>
+            <token regexp='yes'>block|level|century</token>
+            <token>I</token>
+          </antipattern>
+          <antipattern>
+            <token regexp='yes'>we|you</token>
+              <token postag="CD|NN(S|:U)" postag_regexp='yes'/>
+          </antipattern>
           <pattern>
             <marker>
-              <token postag="PRP"/>
+              <token regexp='yes'>I|you|s?he|we</token>
               <token postag="N.+" postag_regexp='yes'>
-                <exception postag='V.+|RB' postag_regexp='yes'/></token>
+                <exception postag='V.+|RB|IN' postag_regexp='yes'/></token>
             </marker>
             <token postag="V.+" postag_regexp='yes'/>
           </pattern>
           <message>Possible fragment. Please, verify.</message>
           <example correction=""><marker>I downtown</marker> went yesterday.</example><!-- XXX home is also a verb. fixing it may mess with disambiguation -->
           <example>I went downtown yesterday.</example>
+          <example>Sarah was discerning enough to realize that her friends were trying to prank her.</example>
+          <example>More than half of US children diagnosed with ASD are prescribed psychoactive dr...</example>
+          <example>She's got a fair complexion while her brother is very dark.</example>
+          <example>Her garden is a work of art.</example>
+          <example>We men are used to waiting for the women.</example>
+          <example>UAB Hospital is the only Level I trauma center in Alabama.</example>
+          <example>Her eyes were shining with joy.</example>
+          <example>They competed for it by giving speeches on why they were the bravest afte...</example>
+          <example>Are you in jest or in earnest?</example>
+          <example>...antic interest was Ann Rutledge, whom he met when he first moved to New Salem; by 1835, they were in a relat...</example><!-- TODO first is also adverb. add to added.txt -->
+          <example>He first articulated this in 1837, saying, "[The] Institut...</example><!-- TODO first is also adverb. add to added.txt -->
+          <example>...y 12, was never a national holiday, but it was at one time observed by as many as 30 states.</example>
+          <example>One kinship cue is facial resemblance.</example>
+          <example>You two are the nucleus of the team.</example>
+          <example>You students are supposed to be diligent.</example>
+          <example>Did any of you gentlemen wait on this man?</example>
+          <example>...about the Polish actress Pola Negri, which became her first published work.</example>
+          <example>...ld be Rand, possibly as a Cyrillic contraction of her birth surname, and she adopted the first name Ayn, eith...</example>
+          <example>...d struggled in Hollywood and took odd jobs to pay her basic living expenses.</example>
+          <example>Both she and her husband worked full-time in volunteer positions for the 1...</example>
+          <example>...when the book was done, she was so exhausted that her doctor ordered two weeks' rest.</example>
+          <example>Her testimony described the disparity between her personal expe...</example>
+          <example>Her testimony described the disparity between her personal experiences in the Soviet Union and the portrayal...</example>
+          <example>...d music to sexuality and facial hair, and some of her followers mimicked her preferences, wearing clothes to matc...</example>
+          <example>...d and promoted her Objectivist philosophy through her nonfiction works and by giving talks to students at institut...</example>
+          <example>... We the Living (which Rand later revised), and in her overall writing style.</example>
+          <example>During Rand's lifetime, her work evoked both extreme praise and condemnation.</example>
+          <example>...Rand's nonfiction received far fewer reviews than her novels had.</example>
+          <example>Rand and her works have been referred to in a variety of media: on t...</example>
+          <example>During Rand's lifetime her work received little attention from academic scholars....</example>
+          <example>...consideration of Rand as a literary figure during her life was even more limited.</example>
+          <example>Since Rand's death, interest in her work has gradually increased.</example>
+          <example>In 1794, US Congress voted for funds appropriation for warship constru...</example>
+          <example>In March of this year the US government authorized war against the Barbary States, giving...</example>
+          <example>It helps us in times of difficulty.</example>
+          <example>...ight (Berber) as a national language and teaching it in schools.</example>
+          <example>Although her house is nearby, I seldom see her.</example>
+          <example>Galt marks the pinnacle of everything Dagny seeks in the world and is the kind of man alluded...</example>
+          <example>Her eyes become round in surprise.</example>
+          <example>As her motives become more clear, Lillian is found to share the ...</example>
+          <example>Her actions are explained as the desire to destroy achievemen...</example>
+          <example>Her heart was throbbing with excitement.</example>
+          <example>With her heart pounding, she opened the door.</example>
+          <example>Her husband quit shortly after Galt did and joined the strike...</example>
+          <example>Her lead allows Dagny to find Hugh Akston.</example>
+          <!--example>...east bad of the government representatives, since he does have some real knowledge on the running of trains...</example--><!-- TODO disambiguate does properly -->
+          <example>...he customs of peoples considered "different" from themselves in terms of geography.</example>
+          <example>There is only one day left, whether we like it or not.</example>
+          <example>...uantitative substance of all bodies first reveals itself in differentiated form."</example>
+          <example>The chairman would only make her comments off the record.</example>
+          <example>Her face was animated by joy.</example>
+          <example>Her tears formed the river Achelous.</example>
+          <example>Apollo complained to Maia that her son had stolen his cattle, but Hermes had already rep...</example>
+          <example>The Greek sculptors tried to clarify it by looking for mathematical proportions, just as the...</example>
+          <example>...d Federer, who was seeking his second consecutive US Open title and his sixth Grand Slam title in two years...</example>
+          <example>The school stands about one mile off.</example>
+          <example>Generally speaking, we Japanese are a little too timid in speaking foreign langua...</example>
+          <example>... absent for long periods, and is forgiven because her excuses are so convincing and she "purred so affectionate...</example>
+          <example>Her absence went unnoticed until the end of the meeting.</example>
+          <example>We Japanese live on rice.</example>
+          <example>We Japanese come of age at twenty.</example>
+          <example>We students are now at our best.</example>
+          <example>...general change from small patchworks of fields to one large open field divided into strips owned by various m...</example>
+          <example>As of 2000 the top six US supermarket groups had 50% of sales compared to 32% in 1992.</example>
+          <example>We Germans fear God, but nothing else in the world.</example>
+          <example>When prices decline, the heavily subsidized US farmer is not forced to reduce his output, making it dif...</example>
+          <example>...and it's on about two-thirds of an acre, and when we first bought it I spent several hours every week gettin...</example><!-- TODO first is also adverb. add to added.txt -->
+          <example>Her eyes have sunk through overwork.</example>
+          <example>Her cheeks were tinged with red by the warmth of fire.</example>
+          <example>She scraped her shoes clean before she entered the house.</example>
+          <example>...spring-tydes or great rigs of the sea, they fetch it in sacks on horse backes, and carie the same three, ...</example>
+          <example>One technique used in factorial designs is to minimize replicat...</example>
+          <example>... typically compare two sets of groups means where one set has two or more groups (e.g., compare average gro...</example>
+          <example>Why did her father go to Japan?</example>
+          <example>Please give me something hot to drink.</example>
+          <example>Lend me something interesting to read.</example>
+          <example>In 2009, on her album Running for the Drum, Buffy Sainte-Marie released...</example>
+          <example>Her version contained some new lyrics, as well as a small mod...</example>
+          <example>...e Saturn V launch vehicle using an unmanned Block I production model of the Apollo Command and Service Module in...</example>
+          <example>He amazed everyone by passing his driving test.</example>
+          <example>...e parachutes dragged the spacecraft over and left it upside down, in what was termed Stable 2 position.</example>
+          <example>...sh citizens their natural rights and dehumanizing them by viewing them as a mere commodity.</example>
+          <example>Two letters representing one sound is widely used in Hungarian as well (where, for i...</example>
+          <example>Off hand, I'd say her problem is shyness.</example>
+          <example>Miss Ito made her students work hard.</example>
+          <example>Let us students contribute to the welfare of the victims of the e...</example>
+          <example>...hauer's court testimony, she deliberately annoyed him by raising her voice while standing right outside hi...</example>
+          <example>Her companion testified that she saw Marquet prostrate outside ...</example>
+          <example>When she died, he wrote on a copy of her death certificate, Obit anus, abit onus ("The old woman...</example>
+          <example>...e so by giving them the opportunity of slandering me by saying that I defend and commend pederasty."</example>
+          <example>Her name wasn't on the list.</example>
+          <example>...to a recent Human Rights Watch report, 32 billion US dollars disappeared from government accounts from 2007 to...</example>
+          <example>Finally, Susan cuts her mother short, promises to write, and hangs up.</example>
+          <example>...e great trade routes and the agreements that made them possible were the driving force for activities between the...</example>
+          <example>If her temperature goes up, send for the doctor.</example>
+          <example>...n't made waves about it, she never would have got her money back.</example>
+          <example>Her systems were made to be similar to a human's.</example>
+          <example>Her fate is unknown, but the contents of a letter Einstein...</example>
+          <example>During one reception given to him, the building was "stormed by throng...</example>
+          <example>...ave to go to Kyoto once more, I will have visited it four times this year.</example>
+          <example>Mary took her beauty sleep before the big party.</example>
+          <example>Mary stood with her hand shading her eyes.</example>
+          <example>Mary put her piano up for sale.</example>
+          <example>Mary and her sister took turns at looking after their sick mother.</example>
+          <example>When Mary was a child, her family was dirt poor.</example>
+          <example>The US government identified Osama bin Laden, Khalid Sheikh Mohamme...</example>
+          <example>Max explained to Julie why he could not go to her farewell party.</example>
+          <example>... which can vary between and 530 km2, out of which one third belongs to Albania and rest to Montenegro.</example>
+          <example>...nicity other than what was written down on his or her birth certificate.</example>
+          <example>...Approximately 681,000 people with over 100,000 of them women went to the front, while the total population of ...</example>
+          <example>...ons with the European Union and could potentially one day apply for membership.</example>
+          <example>Paul wasn't with Mary when her purse was stolen.</example>
+          <example>She got into hot water when her boyfriend called her at work.</example>
+          <example>Helen always keeps her room clean.</example>
+          <example>...esting requirements vary, so a particular rank in one organization is not comparable or interchangeable with the ran...</example>
+          <example>The very thought of snakes makes her turn pale.</example>
+          <example>Betty sat in the chair with her legs crossed.</example>
+          <example>Beth protested, but her mother reminded her that she was incredibly fat.</example>
+          <example>Mrs. Baker had her purse stolen.</example>
+          <example>...female nude, hooded detainee strapped to a chair, her legs open to reveal her sexual organs, surrounded by t...</example>
+          <example>French is her mother tongue.</example>
+          <example>While swimming in the pool, she lost her locker key.</example>
+          <example>What happens when one number is zero, both numbers are zero?</example>
+          <example>On getting off the bus, she heard her name called.</example>
+          <example>...summation of her marriage to Philip, dreamed that her womb was struck by a thunder bolt, causing a flame tha...</example>
+          <example>...ageira, which Philip had razed, and to repopulate it by buying and freeing the ex-citizens who were slave...</example>
+          <example>...gyius, and had the Corinthians bring Thessalus to him in chains.</example>
+          <example>...eities and believed that Alexander meant to deify himself by requiring it.</example>
+          <example>The one exception was a call to arms by Spartan king Agis III in 33...</example>
         </rule>
         <rulegroup id="TO_NON_BASE" name="'to' + non-base form">
             <rule>
