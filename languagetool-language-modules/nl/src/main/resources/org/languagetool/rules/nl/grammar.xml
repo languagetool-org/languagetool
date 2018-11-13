@@ -35779,6 +35779,45 @@ steenwijk;Steenwijk
 				<example type="incorrect"><marker>de het</marker></example>
 			</rule>
 		</rulegroup>
+		
+		<rulegroup id="OP_ZIJN_ZACHTS" name="zachts => zachtst">
+			<rule>
+				<pattern>
+					<token>op</token>
+					<token regexp="yes">zijn|z'n</token>
+					<marker>
+					<token postag="BNW:STL:IET"><exception negate_pos="yes" postag="BNW:STL:IET"/></token>
+					</marker>
+				</pattern>
+				<message>U bedoelt mogelijk: <suggestion>\3t</suggestion>.</message>
+				<example correction="zachtst">Hij zei het op zijn <marker>zachts</marker>.</example>
+			</rule>
+		</rulegroup>
+	
+		<rulegroup id="IETS_KLEINS" name="vreemde constructie rond 'kleins'">
+			<rule>
+				<!-- antipatronen: eventueel nuttig voor analyse van reeksen met meer tags -->
+				<antipattern><token>al</token><token regexp="yes">het|dat|dit|te</token><token postag_regexp="yes" postag="BNW:.*:IET"/></antipattern>
+				<antipattern><token regexp="yes" skip="6">iets|niets|niks|weinig|wat|hoeveel|zoveel|zoiets|veel|allerlei|genoeg|ander|vele|voor</token><token postag_regexp="yes" postag="BNW:.*:IET"/></antipattern>
+				
+				<antipattern><token regexp="yes">iets|niets|niks|weinig|wat|hoeveel|zoveel|zoiets|veel|allerlei|genoeg|ander|vele|voor</token><token postag_regexp="yes" postag="BNW:.*:IET"/><token regexp="yes">en|of</token><token postag_regexp="yes" postag="BNW:.*:IET"/></antipattern>
+				<antipattern><token>op</token><token regexp="yes">zijn|z'n</token><token postag="BNW:STL:IET"/></antipattern>			
+				<antipattern><token/><token postag_regexp="yes" postag=".*MRV.*"/></antipattern> 
+				<antipattern><token>van</token><token regexp="yes">jongs|kleins</token><token>af</token><token>aan</token></antipattern> 		
+				<antipattern><token>'</token><token>s</token><token>rijks</token></antipattern>	
+				<antipattern><token postag="UNKNOWN"/><token postag_regexp="yes" postag="BNW:.*:IET"/></antipattern>
+				<antipattern><token>veels</token><token>te</token></antipattern>	
+				<antipattern><token>ups</token><token>en</token><token>downs</token></antipattern>	
+				<antipattern case_sensitive="yes"><token regexp="yes">[A-Z].*</token></antipattern>	
+				<pattern case_sensitive="yes">
+					<token/>
+					<token postag_regexp="yes" postag="BNW:.*:IET"><exception negate_pos="yes" postag_regexp="yes" postag="BNW:.*:IET"/><exception>anders</exception></token>
+				</pattern>
+				<message>Gebruikelijk is 'iets kleins', maar klopt wat hier staat wel?</message>
+				<example type="incorrect"><marker>het kleins</marker>.</example>		
+			</rule>
+		</rulegroup>
+		
 	</category>	
 
 </rules>
