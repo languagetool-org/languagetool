@@ -952,7 +952,9 @@ class CompoundTagger {
     
     for (AnalyzedToken analyzedToken : analyzedTokens) {
       String posTag = analyzedToken.getPOSTag();
-      if( posTag.startsWith( IPOSTag.noun.getText() )
+      if( (posTag.startsWith(IPOSTag.noun.getText())
+          || (posTag.startsWith(IPOSTag.adj.getText())    // n-векторний 
+              && leftWord.matches("[a-zA-Z]")) )
             && ! posTag.contains("v_kly") ) {
         newAnalyzedTokens.add(new AnalyzedToken(word, posTag, leftWord + "-" + analyzedToken.getLemma()));
       }
