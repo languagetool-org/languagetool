@@ -109,44 +109,48 @@ public class UkrainianTagger extends BaseTagger {
 
         List<AnalyzedToken> newTokens = super.getAnalyzedTokens(newWord);
 
-        for (int i = 0; i < newTokens.size(); i++) {
-          AnalyzedToken analyzedToken = newTokens.get(i);
-          if( newWord.equals(analyzedToken.getToken()) ) {
-            String lemma = analyzedToken.getLemma();
-    // we probably want the original lemma
+        if( ! newTokens.get(0).hasNoTag() ) {
+          for (int i = 0; i < newTokens.size(); i++) {
+            AnalyzedToken analyzedToken = newTokens.get(i);
+            if( newWord.equals(analyzedToken.getToken()) ) {
+              String lemma = analyzedToken.getLemma();
+    // new lemma with regular dash allows rules to match
 //            if( lemma != null ) {
 //              lemma = lemma.replace('-', otherHyphen);
 //            }
-            AnalyzedToken newToken = new AnalyzedToken(word, analyzedToken.getPOSTag(), lemma);
-            newTokens.set(i, newToken);
+              AnalyzedToken newToken = new AnalyzedToken(word, analyzedToken.getPOSTag(), lemma);
+              newTokens.set(i, newToken);
+            }
           }
+
+          tokens = newTokens;
         }
-        
-        tokens = newTokens;
       }
       // try УКРАЇНА as Україна
       else if( StringUtils.isAllUpperCase(word) ) {
         String newWord = StringUtils.capitalize(StringUtils.lowerCase(word));
         List<AnalyzedToken> newTokens = super.getAnalyzedTokens(newWord);
 
-        for (int i = 0; i < newTokens.size(); i++) {
-          AnalyzedToken analyzedToken = newTokens.get(i);
-          String lemma = analyzedToken.getLemma();
-          AnalyzedToken newToken = new AnalyzedToken(word, analyzedToken.getPOSTag(), lemma);
-          newTokens.set(i, newToken);
-        }
+        if( ! newTokens.get(0).hasNoTag() ) {
+          for (int i = 0; i < newTokens.size(); i++) {
+            AnalyzedToken analyzedToken = newTokens.get(i);
+            String lemma = analyzedToken.getLemma();
+            AnalyzedToken newToken = new AnalyzedToken(word, analyzedToken.getPOSTag(), lemma);
+            newTokens.set(i, newToken);
+          }
 
-        tokens = newTokens;
+          tokens = newTokens;
+        }
       }
       else if( word.endsWith("м²") ||  word.endsWith("м³") ) {
         tokens = super.getAnalyzedTokens(word.substring(0, word.length()-1));
       }
       // try г instead of ґ
       else if( word.contains("ґ") ) {
-        tokens = convertTokens(word, "ґ", "г", ":alt");
+        tokens = convertTokens(tokens, word, "ґ", "г", ":alt");
       }
       else if( word.contains("ія") ) {
-        tokens = convertTokens(word, "ія", "іа", ":alt");
+        tokens = convertTokens(tokens, word, "ія", "іа", ":alt");
       }
     }
 
@@ -157,9 +161,13 @@ public class UkrainianTagger extends BaseTagger {
     return tokens;
   }
 
-  private List<AnalyzedToken> convertTokens(String word, String str, String dictStr, String additionalTag) {
+  private List<AnalyzedToken> convertTokens(List<AnalyzedToken> origTokens, String word, String str, String dictStr, String additionalTag) {
     String newWord = word.replace(str, dictStr);
     List<AnalyzedToken> newTokens = super.getAnalyzedTokens(newWord);
+
+    if( newTokens.get(0).hasNoTag() )
+        return origTokens;
+
     for (int i = 0; i < newTokens.size(); i++) {
       AnalyzedToken analyzedToken = newTokens.get(i);
       String posTag = analyzedToken.getPOSTag();
@@ -173,6 +181,7 @@ public class UkrainianTagger extends BaseTagger {
       AnalyzedToken newToken = new AnalyzedToken(word, posTag, lemma);
       newTokens.set(i, newToken);
     }
+
     return newTokens;
   }
 
