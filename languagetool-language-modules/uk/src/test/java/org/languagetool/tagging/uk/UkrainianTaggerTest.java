@@ -468,6 +468,12 @@ public class UkrainianTaggerTest {
 //    TestTools.myAssert("стін\nку", "", tokenizer, tagger);
   }
 
+  @Test
+  public void testInvalidSpelling() throws IOException {
+    TestTools.myAssert("тренінґ", "тренінґ/[тренінґ]noun:inanim:m:v_naz:alt|тренінґ/[тренінґ]noun:inanim:m:v_zna:alt", tokenizer, tagger);
+    TestTools.myAssert("антирадіяційно", "антирадіяційно/[антирадіяційно]adv:alt", tokenizer, tagger);
+  }
+  
 //  @Test
 //  public void testSpecialChars() throws IOException {
 //    AnalyzedSentence analyzedSentence = new JLanguageTool(new Ukrainian()).getAnalyzedSentence("і карт\u00ADками.");

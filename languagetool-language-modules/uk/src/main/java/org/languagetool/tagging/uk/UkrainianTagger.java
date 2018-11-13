@@ -141,6 +141,13 @@ public class UkrainianTagger extends BaseTagger {
       else if( word.endsWith("м²") ||  word.endsWith("м³") ) {
         tokens = super.getAnalyzedTokens(word.substring(0, word.length()-1));
       }
+      // try г instead of ґ
+      else if( word.contains("ґ") ) {
+        tokens = convertTokens(word, "ґ", "г", ":alt");
+      }
+      else if( word.contains("ія") ) {
+        tokens = convertTokens(word, "ія", "іа", ":alt");
+      }
     }
 
 //    if( taggedDebugWriter != null && ! tkns.isEmpty() ) {
@@ -148,6 +155,25 @@ public class UkrainianTagger extends BaseTagger {
 //    }
     
     return tokens;
+  }
+
+  private List<AnalyzedToken> convertTokens(String word, String str, String dictStr, String additionalTag) {
+    String newWord = word.replace(str, dictStr);
+    List<AnalyzedToken> newTokens = super.getAnalyzedTokens(newWord);
+    for (int i = 0; i < newTokens.size(); i++) {
+      AnalyzedToken analyzedToken = newTokens.get(i);
+      String posTag = analyzedToken.getPOSTag();
+      if( ! PosTagHelper.hasPosTagPart(analyzedToken, additionalTag) ) {
+        posTag += additionalTag;
+      }
+      String lemma = analyzedToken.getLemma();
+      if( lemma != null ) {
+        lemma = lemma.replace(dictStr, str);
+      }
+      AnalyzedToken newToken = new AnalyzedToken(word, posTag, lemma);
+      newTokens.set(i, newToken);
+    }
+    return newTokens;
   }
 
   private static char getOtherHyphen(String word) {
