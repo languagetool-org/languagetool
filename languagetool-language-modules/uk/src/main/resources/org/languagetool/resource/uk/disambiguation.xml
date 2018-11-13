@@ -94,6 +94,99 @@
         outputform="метру[метр/noun:inanim:m:v_rod:xp1]">Фестиваль короткого <marker>метру</marker>.</example>
     <example type="untouched">На тому метру.</example>
   </rule>
+<!--
+  <rule name="Тому - сполучник" id="tomu_conj">
+    <pattern>
+      <marker>
+        <token>тому</token>
+      </marker>
+      <token min="0">,</token>
+      <token>що</token>
+    </pattern>
+    <disambig action="filter" postag="conj.*"/>
+    <example type="ambiguous"
+        inputform="тому[те/noun:inanim:n:v_dav:&amp;pron:dem,те/noun:inanim:n:v_mis:&amp;pron:dem,той/adj:m:v_dav:&amp;pron:dem,той/adj:m:v_mis:&amp;pron:dem,той/adj:n:v_dav:&amp;pron:dem,той/adj:n:v_mis:&amp;pron:dem,том/noun:inanim:m:v_dav,том/noun:inanim:m:v_mis,том/noun:inanim:m:v_rod,тому/adv,тому/conj:subord]"
+        outputform="тому[тому/conj:subord]">Це сталося <marker>тому</marker>, що.</example>
+    <example type="untouched">І тому і цьому.</example>
+    <example type="untouched">Дякуючи тому, що ...</example>
+  </rule>
+-->
+  <rule name="Тому - не сполучник 1" id="tomu_non_conj_1">
+    <pattern>
+      <marker>
+        <token>тому</token>
+      </marker>
+      <token><exception>,</exception></token>
+    </pattern>
+    <disambig action="remove" postag="conj:subord"/>
+    <example type="ambiguous"
+        inputform="тому[те/noun:inanim:n:v_dav:&amp;pron:dem,те/noun:inanim:n:v_mis:&amp;pron:dem,той/adj:m:v_dav:&amp;pron:dem,той/adj:m:v_mis:&amp;pron:dem,той/adj:n:v_dav:&amp;pron:dem,той/adj:n:v_mis:&amp;pron:dem,том/noun:inanim:m:v_dav,том/noun:inanim:m:v_mis,том/noun:inanim:m:v_rod,тому/adv,тому/conj:subord]"
+        outputform="тому[те/noun:inanim:n:v_dav:&amp;pron:dem,те/noun:inanim:n:v_mis:&amp;pron:dem,той/adj:m:v_dav:&amp;pron:dem,той/adj:m:v_mis:&amp;pron:dem,той/adj:n:v_dav:&amp;pron:dem,той/adj:n:v_mis:&amp;pron:dem,том/noun:inanim:m:v_dav,том/noun:inanim:m:v_mis,том/noun:inanim:m:v_rod,тому/adv]"
+        >дали <marker>тому</marker> хлопцю</example>
+    <example type="untouched">І тому, що.</example>
+  </rule>
+
+  <rule name="Тому - не сполучник 2" id="tomu_non_conj_2">
+    <pattern>
+      <marker>
+        <token>тому</token>
+      </marker>
+      <token>,</token>
+      <token><exception>що</exception></token>
+    </pattern>
+    <disambig action="remove" postag="conj:subord"/>
+    <example type="ambiguous"
+        inputform="тому[те/noun:inanim:n:v_dav:&amp;pron:dem,те/noun:inanim:n:v_mis:&amp;pron:dem,той/adj:m:v_dav:&amp;pron:dem,той/adj:m:v_mis:&amp;pron:dem,той/adj:n:v_dav:&amp;pron:dem,той/adj:n:v_mis:&amp;pron:dem,том/noun:inanim:m:v_dav,том/noun:inanim:m:v_mis,том/noun:inanim:m:v_rod,тому/adv,тому/conj:subord]"
+        outputform="тому[те/noun:inanim:n:v_dav:&amp;pron:dem,те/noun:inanim:n:v_mis:&amp;pron:dem,той/adj:m:v_dav:&amp;pron:dem,той/adj:m:v_mis:&amp;pron:dem,той/adj:n:v_dav:&amp;pron:dem,той/adj:n:v_mis:&amp;pron:dem,том/noun:inanim:m:v_dav,том/noun:inanim:m:v_mis,том/noun:inanim:m:v_rod,тому/adv]"
+        >відбулося саме <marker>тому</marker>, і </example>
+    <example type="untouched">І тому, що.</example>
+  </rule>
+
+  <rule name="Тому: не іменник «том»" id="tomu_not_noun_tom">
+    <pattern>
+      <marker>
+        <token>тому
+          <exception scope="previous" postag_regexp="yes" postag="adj:m:v_rod.*"/>
+          <exception scope="previous" regexp="yes">[XVIХІ]+</exception>
+        </token>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="noun:inanim:m:v_(rod|dav|mis)"/>
+    <example type="ambiguous"
+        inputform="тому[те/noun:inanim:n:v_dav:&amp;pron:dem,те/noun:inanim:n:v_mis:&amp;pron:dem,той/adj:m:v_dav:&amp;pron:dem,той/adj:m:v_mis:&amp;pron:dem,той/adj:n:v_dav:&amp;pron:dem,той/adj:n:v_mis:&amp;pron:dem,том/noun:inanim:m:v_dav,том/noun:inanim:m:v_mis,том/noun:inanim:m:v_rod,тому/adv]"
+        outputform="тому[те/noun:inanim:n:v_dav:&amp;pron:dem,те/noun:inanim:n:v_mis:&amp;pron:dem,той/adj:m:v_dav:&amp;pron:dem,той/adj:m:v_mis:&amp;pron:dem,той/adj:n:v_dav:&amp;pron:dem,той/adj:n:v_mis:&amp;pron:dem,тому/adv]"
+            >даю волю всьому <marker>тому</marker> злу</example>
+    <example type="ambiguous"
+        inputform="Тому[Том/noun:anim:m:v_dav:prop:fname,Том/noun:anim:m:v_mis:prop:fname,Тома/noun:anim:m:v_zna:prop:fname,те/noun:inanim:n:v_dav:&amp;pron:dem,те/noun:inanim:n:v_mis:&amp;pron:dem,той/adj:m:v_dav:&amp;pron:dem,той/adj:m:v_mis:&amp;pron:dem,той/adj:n:v_dav:&amp;pron:dem,той/adj:n:v_mis:&amp;pron:dem,том/noun:inanim:m:v_dav,том/noun:inanim:m:v_mis,том/noun:inanim:m:v_rod,тому/adv]"
+        outputform="Тому[Том/noun:anim:m:v_dav:prop:fname,Том/noun:anim:m:v_mis:prop:fname,Тома/noun:anim:m:v_zna:prop:fname,те/noun:inanim:n:v_dav:&amp;pron:dem,те/noun:inanim:n:v_mis:&amp;pron:dem,той/adj:m:v_dav:&amp;pron:dem,той/adj:m:v_mis:&amp;pron:dem,той/adj:n:v_dav:&amp;pron:dem,той/adj:n:v_mis:&amp;pron:dem,тому/adv]"
+            ><marker>Тому</marker> це не відбулося</example>
+            <!-- років 5 тому, -->
+    <example type="untouched">частину четвертого тому,</example>
+    <example type="untouched">від останнього тому.</example>
+    <example type="untouched">З нагоди появи IX тому «Історії України-Руси»</example>
+    <!-- зустрічається не часто, правильно: 4-го тому
+    <example type="untouched">приміток до 4 тому</example>
+    -->
+  </rule>
+
+  <rule name="Тому: не іменник «те»" id="tomu_not_noun_te">
+    <pattern>
+      <token postag_regexp="yes" postag="num.*"/>
+      <marker>
+        <token>тому</token>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="noun:inanim:n:v_(...):&amp;pron.*"/>
+    <example type="ambiguous"
+        inputform="тому[те/noun:inanim:n:v_dav:&amp;pron:dem,те/noun:inanim:n:v_mis:&amp;pron:dem,той/adj:m:v_dav:&amp;pron:dem,той/adj:m:v_mis:&amp;pron:dem,той/adj:n:v_dav:&amp;pron:dem,той/adj:n:v_mis:&amp;pron:dem,тому/adv]"
+        outputform="тому[той/adj:m:v_dav:&amp;pron:dem,той/adj:m:v_mis:&amp;pron:dem,той/adj:n:v_dav:&amp;pron:dem,той/adj:n:v_mis:&amp;pron:dem,тому/adv]"
+            >роки півтора <marker>тому</marker>.</example>
+    <example type="ambiguous"
+        inputform="тому[те/noun:inanim:n:v_dav:&amp;pron:dem,те/noun:inanim:n:v_mis:&amp;pron:dem,той/adj:m:v_dav:&amp;pron:dem,той/adj:m:v_mis:&amp;pron:dem,той/adj:n:v_dav:&amp;pron:dem,той/adj:n:v_mis:&amp;pron:dem,тому/adv]"
+        outputform="тому[той/adj:m:v_dav:&amp;pron:dem,той/adj:m:v_mis:&amp;pron:dem,той/adj:n:v_dav:&amp;pron:dem,той/adj:n:v_mis:&amp;pron:dem,тому/adv]"
+            >тижні 3 <marker>тому</marker>.</example>
+    <example type="untouched">і при тому, не залежав від них</example>
+  </rule>
 
   <rule name="Шлем/шолом 1" id="shlem_sholom_1">
     <pattern>
@@ -1823,52 +1916,6 @@
     <example type="untouched">немилосердно смердить став</example>
     <example type="untouched">Окрім цього став замулювався</example>
     <example type="untouched">чоловік подався на став</example>
-  </rule>
-
-  <rule name="Тому: не іменник «том»" id="tomu_not_noun_tom">
-    <pattern>
-      <marker>
-        <token>тому
-          <exception scope="previous" postag_regexp="yes" postag="adj:m:v_rod.*"/>
-          <exception scope="previous" regexp="yes">[XVIХІ]+</exception>
-        </token>
-      </marker>
-    </pattern>
-    <disambig action="remove" postag="noun:inanim:m:v_(rod|dav|mis)"/>
-    <example type="ambiguous"
-        inputform="тому[те/noun:inanim:n:v_dav:&amp;pron:dem,те/noun:inanim:n:v_mis:&amp;pron:dem,той/adj:m:v_dav:&amp;pron:dem,той/adj:m:v_mis:&amp;pron:dem,той/adj:n:v_dav:&amp;pron:dem,той/adj:n:v_mis:&amp;pron:dem,том/noun:inanim:m:v_dav,том/noun:inanim:m:v_mis,том/noun:inanim:m:v_rod,тому/adv,тому/conj:subord]"
-        outputform="тому[те/noun:inanim:n:v_dav:&amp;pron:dem,те/noun:inanim:n:v_mis:&amp;pron:dem,той/adj:m:v_dav:&amp;pron:dem,той/adj:m:v_mis:&amp;pron:dem,той/adj:n:v_dav:&amp;pron:dem,той/adj:n:v_mis:&amp;pron:dem,тому/adv,тому/conj:subord]"
-            >даю волю всьому <marker>тому</marker>, що</example>
-    <example type="ambiguous"
-        inputform="Тому[Том/noun:anim:m:v_dav:prop:fname,Том/noun:anim:m:v_mis:prop:fname,Тома/noun:anim:m:v_zna:prop:fname,те/noun:inanim:n:v_dav:&amp;pron:dem,те/noun:inanim:n:v_mis:&amp;pron:dem,той/adj:m:v_dav:&amp;pron:dem,той/adj:m:v_mis:&amp;pron:dem,той/adj:n:v_dav:&amp;pron:dem,той/adj:n:v_mis:&amp;pron:dem,том/noun:inanim:m:v_dav,том/noun:inanim:m:v_mis,том/noun:inanim:m:v_rod,тому/adv,тому/conj:subord]"
-        outputform="Тому[Том/noun:anim:m:v_dav:prop:fname,Том/noun:anim:m:v_mis:prop:fname,Тома/noun:anim:m:v_zna:prop:fname,те/noun:inanim:n:v_dav:&amp;pron:dem,те/noun:inanim:n:v_mis:&amp;pron:dem,той/adj:m:v_dav:&amp;pron:dem,той/adj:m:v_mis:&amp;pron:dem,той/adj:n:v_dav:&amp;pron:dem,той/adj:n:v_mis:&amp;pron:dem,тому/adv,тому/conj:subord]"
-            ><marker>Тому</marker> це не відбулося</example>
-            <!-- років 5 тому, -->
-    <example type="untouched">частину четвертого тому,</example>
-    <example type="untouched">від останнього тому.</example>
-    <example type="untouched">З нагоди появи IX тому «Історії України-Руси»</example>
-    <!-- зустрічається не часто, правильно: 4-го тому
-    <example type="untouched">приміток до 4 тому</example>
-    -->
-  </rule>
-
-  <rule name="Тому: не іменник «те»" id="tomu_not_noun_te">
-    <pattern>
-      <token postag_regexp="yes" postag="num.*"/>
-      <marker>
-        <token>тому</token>
-      </marker>
-    </pattern>
-    <disambig action="remove" postag="noun:inanim:n:v_(...):&amp;pron.*"/>
-    <example type="ambiguous"
-        inputform="тому[те/noun:inanim:n:v_dav:&amp;pron:dem,те/noun:inanim:n:v_mis:&amp;pron:dem,той/adj:m:v_dav:&amp;pron:dem,той/adj:m:v_mis:&amp;pron:dem,той/adj:n:v_dav:&amp;pron:dem,той/adj:n:v_mis:&amp;pron:dem,тому/adv,тому/conj:subord]"
-        outputform="тому[той/adj:m:v_dav:&amp;pron:dem,той/adj:m:v_mis:&amp;pron:dem,той/adj:n:v_dav:&amp;pron:dem,той/adj:n:v_mis:&amp;pron:dem,тому/adv,тому/conj:subord]"
-            >роки півтора <marker>тому</marker>.</example>
-    <example type="ambiguous"
-        inputform="тому[те/noun:inanim:n:v_dav:&amp;pron:dem,те/noun:inanim:n:v_mis:&amp;pron:dem,той/adj:m:v_dav:&amp;pron:dem,той/adj:m:v_mis:&amp;pron:dem,той/adj:n:v_dav:&amp;pron:dem,той/adj:n:v_mis:&amp;pron:dem,тому/adv,тому/conj:subord]"
-        outputform="тому[той/adj:m:v_dav:&amp;pron:dem,той/adj:m:v_mis:&amp;pron:dem,той/adj:n:v_dav:&amp;pron:dem,той/adj:n:v_mis:&amp;pron:dem,тому/adv,тому/conj:subord]"
-            >тижні 3 <marker>тому</marker>.</example>
-    <example type="untouched">і при тому, не залежав від них</example>
   </rule>
 
 
