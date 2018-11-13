@@ -297,6 +297,12 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("namenhafte", "namhafte", rule, lt);
     assertFirstSuggestion("homeophatisch", "homöopathisch", rule, lt);
     assertFirstSuggestion("verswindet", "verschwindet", rule, lt);
+    assertFirstSuggestion("Durschnitt", "Durchschnitt", rule, lt);
+    assertFirstSuggestion("höchstwahrliche", "höchstwahrscheinliche", rule, lt);
+    assertFirstSuggestion("vidasehen", "wiedersehen", rule, lt);
+    assertFirstSuggestion("striktliches", "striktes", rule, lt);
+    assertFirstSuggestion("preventiert", "verhindert", rule, lt);
+    assertFirstSuggestion("zurverfügung", "zur Verfügung", rule, lt);
   }
 
   @Test
