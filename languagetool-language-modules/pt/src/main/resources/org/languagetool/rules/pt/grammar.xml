@@ -2329,6 +2329,20 @@ title="Easy editing stylesheet" ?>
       <example>Se espera que o consumo privado se mantenha.</example>
     </rule>
 
+    <rule id='WRONG_REFLEXIVE_MOS' name='Conjugação verbal: Reflexivo -mos em lugar da primeira pessoa do plural'>
+    <!-- Created by Tiago F. Santos, 2017-03-10 -->
+      <pattern>
+          <token postag_regexp='yes' postag='V...[23]S.+' regexp='yes'/>
+          <token regexp='yes' spacebefore='no'>&tracos_de_separacao;</token>
+          <token regexp='yes' spacebefore='no'>m[oa]s?</token>
+      </pattern>
+      <message>Possível erro de colocação verbal. Está a utilizar o reflexivo em lugar da primeira pessoa do plural (nós).</message>
+        <suggestion>\1\3</suggestion>
+      <url>https://pt.wiktionary.org/wiki/Categoria:Verbo_(Portugu%C3%AAs)</url>
+      <example correction='tiramos'>Assim, <marker>tira-mos</marker> as conclusões necessárias.</example>
+      <example correction='vêmos'>Escreve-se 'vemos', e não '<marker>vê-mos</marker>'.</example>
+    </rule>
+
     <rule id='PRONOMIAL_COLOCATIONS_ADJUSTMENT_NOS' name='Colocações pronomiais: ênclise de formas nasais (no, na, nos, nas)'>
     <!-- Created by Tiago F. Santos, 2017-03-10 -->
       <pattern>
@@ -22987,7 +23001,7 @@ TODO Write better examples
     <rule>
       <pattern case_sensitive='yes'>
           <token regexp='yes'>(?:\d+)?(?:&tabela_periodica;)+2((?:&tabela_periodica;)+)?
-            <exception regexp='yes'>(?:I[CP]|U)2</exception></token>
+            <exception regexp='yes'>(?:I[CP]|U|PS)2</exception></token>
       </pattern>
       <message>Os números nas fórmulas químicas devem estar em subscrito.</message>
         <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)2(((&tabela_periodica;)+)?)' regexp_replace='$1₂$3'/></suggestion>
@@ -22998,16 +23012,17 @@ TODO Write better examples
     <rule>
       <pattern case_sensitive='yes'>
           <token regexp='yes'>(?:\d+)?(?:&tabela_periodica;)+3((?:&tabela_periodica;)+)?
-            <exception regexp='yes'>I[CP]3</exception></token>
+            <exception regexp='yes'>(?:I[CP]|PS)3</exception></token>
       </pattern>
       <message>Os números nas fórmulas químicas devem estar em subscrito.</message>
         <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)3(((&tabela_periodica;)+)?)' regexp_replace='$1₃$3'/></suggestion>
       <example correction='2S₃'><marker>2S3</marker></example>
+      <example>PS3</example>
     </rule>
     <rule>
       <pattern case_sensitive='yes'>
           <token regexp='yes'>(?:\d+)?(?:&tabela_periodica;)+4((?:&tabela_periodica;)+)?
-            <exception regexp='yes'>I[CP]4</exception></token>
+            <exception regexp='yes'>(?:I[CP]|PS)4</exception></token>
       </pattern>
       <message>Os números nas fórmulas químicas devem estar em subscrito.</message>
         <suggestion><match no='1' regexp_match='((&tabela_periodica;)+)4(((&tabela_periodica;)+)?)' regexp_replace='$1₄$3'/></suggestion>
@@ -29203,8 +29218,8 @@ TODO Write better examples
       <pattern>
           <token regexp='yes'>censor(?:as?|es)?</token>
       </pattern>
-      <message>'Censor' é uma pessoa que censura. Se se refere ao componente elétrónico <suggestion><match no='1' regexp_match='censor' regexp_replace='sensor'/></suggestion></suggestion>.</message>
-      <example correction="além">O Mário <marker>alem</marker> de ter pedido uma indemnização, exigiu um pedido de desculpas.</example>
+      <message>'Censor' é uma pessoa que censura. Se se refere ao componente elétrónico <suggestion><match no='1' regexp_match='censor' regexp_replace='sensor'/></suggestion>.</message>
+      <example correction="sensores">O olho é composto por inúmeros <marker>censores</marker> de luz.</example>
     </rule>
     <rule>
       <pattern>
