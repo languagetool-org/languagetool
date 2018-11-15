@@ -303,6 +303,13 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("striktliches", "striktes", rule, lt);
     assertFirstSuggestion("preventiert", "verhindert", rule, lt);
     assertFirstSuggestion("zurverfügung", "zur Verfügung", rule, lt);
+    assertFirstSuggestion("trationelle", "traditionelle", rule, lt);
+    assertFirstSuggestion("achsiales", "axiales", rule, lt);
+    assertFirstSuggestion("famiele", "Familie", rule, lt);
+    assertFirstSuggestion("miters", "Mieters", rule, lt);
+    assertFirstSuggestion("besigen", "besiegen", rule, lt);
+    assertFirstSuggestion("verziehrte", "verzierte", rule, lt);
+    assertFirstSuggestion("pieken", "piken", rule, lt); // Duden insists on this spelling
   }
 
   @Test

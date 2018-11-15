@@ -284,6 +284,16 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Verwahrlosigkeit", "Verwahrlosung");
     put("[oO]r?ganisazion", "Organisation");
     put("[oO]rganisative", "Organisation");
+    put("Emall?iearbeit", "Emaillearbeit");
+    put("[aA]petitt", "Appetit");
+    put("bezuggenommen", "Bezug genommen");
+    putRepl("trationell(e[mnrs]?)?", "^tra", "tradi");
+    putRepl("achsial(e[mnrs]?)?", "^achs", "ax");
+    putRepl("famielen?", "^famiel", "Famili");
+    putRepl("miter[ns]?", "^mi", "Mie");
+    putRepl("besig(t(e[mnrs]?)?|en?)", "sig", "sieg");
+    putRepl("[vV]erziehr(t(e[mnrs]?)?|en?)", "ieh", "ie");
+    putRepl("^[pP]iek(s?t|en?)", "iek", "ik");
     putRepl("[hH]eilei[td]s?", "[hH]eilei[td]", "Highlight");
     putRepl("[mM]atschscheiben?", "[mM]atschsch", "Mattsch");
     put("schafen?", w -> Arrays.asList(w.replaceFirst("sch", "schl"), w.replaceFirst("af", "arf"), w.replaceFirst("af", "aff")));
