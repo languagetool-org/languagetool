@@ -7680,10 +7680,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction='fünfteiliges'>Ich biete ein <marker>fünf teiliges</marker> Set zum Verkauf an.</example>
             </rule>
         </rulegroup>
+        <rule id="AM_SONSTEN" name="am sonsten (ansonsten)">
+            <pattern>
+                <token>am</token>
+                <token>sonsten</token>
+            </pattern>
+            <message>Meinten Sie <suggestion>ansonsten</suggestion>? Dieses Wort wird zusammen und mit n geschrieben.</message>
+            <short>&getrennt;.</short>
+            <example correction="Ansonsten"><marker>Am sonsten</marker> läuft alles glatt.</example>
+        </rule>
         <rule id="EIWEISS_REICH" name="Eiweiß reich (eiweißreich)">
             <pattern>
                 <token>Eiweiß</token>
-                <token regexp="yes">reiche?[rns]?</token>
+                <token regexp="yes">reich(e[mrns]?)?</token>
             </pattern>
             <message>Meinten Sie <suggestion><match no="1" case_conversion="startlower" />\2</suggestion>? Dieses Adjektiv wird zusammengeschrieben.</message>
             <short>&getrennt;.</short>
