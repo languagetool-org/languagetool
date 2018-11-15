@@ -21,6 +21,7 @@
 
 package org.languagetool.server;
 
+import org.apache.commons.lang3.StringUtils;
 import org.languagetool.Language;
 
 import java.text.SimpleDateFormat;
@@ -70,11 +71,11 @@ class DatabaseCheckLogEntry extends DatabaseLogEntry {
     map.put("user_id", userId);
     map.put("textsize", textSize);
     map.put("matches", matches);
-    map.put("language", lang.getShortCodeWithCountryAndVariant());
-    map.put("language_detected", langDetected.getShortCodeWithCountryAndVariant());
+    map.put("language", StringUtils.abbreviate(lang.getShortCodeWithCountryAndVariant(), 30));
+    map.put("language_detected", StringUtils.abbreviate(langDetected.getShortCodeWithCountryAndVariant(), 30));
     map.put("computation_time", computationTime);
     map.put("text_session_id", textSessionId);
-    map.put("check_mode", checkMode);
+    map.put("check_mode", StringUtils.abbreviate(checkMode, 32));
     map.put("server", server);
     map.put("client", client);
     return map;

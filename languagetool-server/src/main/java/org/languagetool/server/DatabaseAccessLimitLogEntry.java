@@ -21,6 +21,8 @@
 
 package org.languagetool.server;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -49,14 +51,14 @@ public class DatabaseAccessLimitLogEntry extends DatabaseLogEntry {
   @Override
   public Map<Object, Object> getMapping() {
     HashMap<Object, Object> parameters = new HashMap<>();
-    parameters.put("type", type);
+    parameters.put("type", StringUtils.abbreviate(type, 64));
     parameters.put("date", ServerTools.getSQLDatetimeString(date));
     parameters.put("server", server);
     parameters.put("client", client);
     parameters.put("user", user);
-    parameters.put("referrer", referrer);
-    parameters.put("user_agent", userAgent);
-    parameters.put("reason", reason);
+    parameters.put("referrer", StringUtils.abbreviate(referrer, 128));
+    parameters.put("user_agent", StringUtils.abbreviate(userAgent,  512));
+    parameters.put("reason", StringUtils.abbreviate(reason,  512));
     return parameters;
   }
 

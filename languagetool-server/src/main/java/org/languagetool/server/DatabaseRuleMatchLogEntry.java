@@ -21,6 +21,9 @@
 
 package org.languagetool.server;
 
+import org.apache.commons.lang3.StringUtils;
+import org.languagetool.tools.StringTools;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -57,7 +60,7 @@ class DatabaseRuleMatchLogEntry extends DatabaseLogEntry {
     int matchCount;
 
     RuleMatchInfo(String rule_id, int match_count) {
-      this.ruleId = rule_id;
+      this.ruleId = StringUtils.abbreviate(rule_id, 128);
       this.matchCount = match_count;
     }
   }

@@ -21,6 +21,7 @@
 
 package org.languagetool.server;
 
+import org.apache.commons.lang3.StringUtils;
 import org.languagetool.Language;
 
 import java.util.Calendar;
@@ -53,15 +54,15 @@ public class DatabaseCheckErrorLogEntry extends DatabaseLogEntry {
   @Override
   public Map<Object, Object> getMapping() {
     HashMap<Object, Object> parameters = new HashMap<>();
-    parameters.put("type", type);
+    parameters.put("type", StringUtils.abbreviate(type, 64));
     parameters.put("date", ServerTools.getSQLDatetimeString(date));
     parameters.put("server", server);
     parameters.put("client", client);
     parameters.put("user", user);
-    parameters.put("language", languageSet.getShortCodeWithCountryAndVariant());
-    parameters.put("language_detected", languageDetected.getShortCodeWithCountryAndVariant());
+    parameters.put("language", StringUtils.abbreviate(languageSet.getShortCodeWithCountryAndVariant(), 30));
+    parameters.put("language_detected", StringUtils.abbreviate(languageDetected.getShortCodeWithCountryAndVariant(), 30));
     parameters.put("text_length", textLength);
-    parameters.put("extra", extra);
+    parameters.put("extra", StringUtils.abbreviate(extra, 256));
     return parameters;
   }
 

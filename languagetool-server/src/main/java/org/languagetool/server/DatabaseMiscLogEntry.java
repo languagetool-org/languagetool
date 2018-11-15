@@ -21,6 +21,8 @@
 
 package org.languagetool.server;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -47,7 +49,7 @@ public class DatabaseMiscLogEntry extends DatabaseLogEntry {
     parameters.put("server", server);
     parameters.put("client", client);
     parameters.put("user", user);
-    parameters.put("message", message);
+    parameters.put("message", StringUtils.abbreviate(message, 1024));
     return parameters;
   }
 
