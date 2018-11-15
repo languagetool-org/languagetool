@@ -34866,7 +34866,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes" skip="4" inflected="yes">sobreseïment|jutge|jutgessa|fiscal|fiscalia|recórrer|anticorrupció|recurs</token>
+                    <token regexp="yes" skip="6" inflected="yes">sobreseïment|jutge|jutgessa|fiscal|fiscalia|recórrer|anticorrupció|recurs</token>
                     <marker>
                         <token inflected="yes">arxiu</token>
                     </marker>
@@ -39643,20 +39643,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>saber</token>
                 </marker>
             </antipattern>
-            <antipattern>
-                <marker>
-                    <token>a</token>
-                    <token>l'</token>
-                    <token>acte</token>
-                </marker>
-            </antipattern>
             <rule>
                 <pattern>
                     <marker>
                         <token postag="VM..3[SP].." postag_regexp="yes" inflected="yes">saber</token>
                         <token>a<exception postag=".*LOC_.*" postag_regexp="yes"/></token>
                     </marker>
-                    <token><exception regexp="yes">intervals|estones|poc|fora</exception><exception postag="NP..G..|(PR|PT|DE|DT|PP).*" postag_regexp="yes"/></token>
+                    <token><exception regexp="yes">intervals|estones|poc|fora</exception><exception postag="NP..G..|[PD].*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Expressió normativa, però obsoleta. Val més usar-ne una altra.</message>
                 <suggestion><match no="1" postag="(V.[^M].*)" postag_regexp="yes" postag_replace="$1">fer</match> gust de</suggestion>
@@ -39677,7 +39670,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token regexp="yes">sabut|saber</token>
                         <token>a<exception postag=".*LOC_.*" postag_regexp="yes"/></token>
                     </marker>
-                    <token><exception regexp="yes">intervals|estones|poc|fora</exception><exception postag="NP..G..|(PR|PT|DE|DT|PP).*" postag_regexp="yes"/></token>
+                    <token><exception regexp="yes">intervals|estones|poc|fora</exception><exception postag="NP..G..|[PD].*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Expressió normativa, però obsoleta. Val més usar-ne una altra.</message>
                 <suggestion>\1 <match no="2" postag="(V.[^M].*)" postag_regexp="yes" postag_replace="$1">fer</match> gust de</suggestion>
