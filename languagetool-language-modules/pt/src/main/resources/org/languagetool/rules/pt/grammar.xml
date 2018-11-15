@@ -2330,7 +2330,7 @@ title="Easy editing stylesheet" ?>
     </rule>
 
     <rule id='WRONG_REFLEXIVE_MOS' name='Conjugação verbal: Reflexivo -mos em lugar da primeira pessoa do plural'>
-    <!-- Created by Tiago F. Santos, 2017-03-10 -->
+    <!-- Created by Tiago F. Santos, 2017-11-13 -->
       <pattern>
           <token postag_regexp='yes' postag='V...[23]S.+'/>
           <token regexp='yes' spacebefore='no'>&tracos_de_separacao;</token>
@@ -29216,7 +29216,8 @@ TODO Write better examples
     </rule>
     <rule>
       <pattern>
-          <token regexp='yes'>censor(?:as?|es)?</token>
+          <token regexp='yes'>censor(?:as?|es)?
+            <exception scope='next'>estat(?:al|ais)</exception></token>
       </pattern>
       <message>'Censor' é uma pessoa que censura. Refere-se ao componente eletrónico <suggestion><match no='1' regexp_match='censor' regexp_replace='sensor'/></suggestion>?</message>
       <example correction="sensores">O olho é composto por inúmeros <marker>censores</marker> de luz.</example>
