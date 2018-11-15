@@ -9685,14 +9685,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>zu</token>
             </antipattern>
             <antipattern>
-                <token inflected="yes" skip="2">hören</token>
+                <token inflected="yes" skip="3">hören</token>
                 <token>auf</token>
                 <token>zu</token>
             </antipattern>
             <antipattern>
-                <token skip="3" regexp="yes">hör(en|t)?</token>
-                <token>auf</token>
+                <token inflected="yes" skip="3">fangen</token>
+                <token>an</token>
                 <token>zu</token>
+                <token postag=".*VER:.*INF.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token skip="2">Fang</token>
+                <token>an</token>
+                <token>zu</token>
+                <token postag=".*VER:.*INF.*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
                 <token>ab</token>
@@ -9746,12 +9753,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>durch</token>
                 <token>zu</token>
                 <token regexp="yes">schnellen|feuchten|langen|heißen</token>
-            </antipattern>
-            <antipattern>
-                <token skip="3" regexp="yes">fangen|fängt|fing</token>
-                <token>an</token>
-                <token>zu</token>
-                <token postag=".*VER:.*INF.*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
                 <token>zu</token>
@@ -9837,6 +9838,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>&getrennt;: Meinten Sie <suggestion><match no="2"/><match no="3"/><match no="4"/></suggestion>?</message>
                 <example>Wir fingen <marker>an zu heulen</marker>.</example>
+                <example>Fang nicht <marker>an zu heulen</marker>.</example>
                 <example>Sie begannen, den Mond <marker>anzuheulen</marker>.</example>
                 <example correction="anzufangen">Wir beschlossen <marker>an zu fangen</marker>.</example>
             </rule>
