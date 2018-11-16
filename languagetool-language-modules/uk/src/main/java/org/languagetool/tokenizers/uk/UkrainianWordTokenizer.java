@@ -211,6 +211,13 @@ public class UkrainianWordTokenizer implements Tokenizer {
       text = ABBR_DOT_NON_ENDING_PATTERN_2.matcher(text).replaceAll(ONE_DOT_TWO_REPL);
     }
 
+    // preserve * inside words (sometimes used instead of apostrophe or to mask profane words)
+    // but split if it's the beginning or end of the word (often used for mark-up and footnotes)
+    if( text.contains("*") ) {
+      text = text.replaceAll("((?:^|[^а-яіїєґА-ЯІЇЄҐ])\\*+)([а-яіїєґА-ЯІЇЄҐ])", "$1" + BREAKING_PLACEHOLDER + "$2");
+      text = text.replaceAll("([а-яіїєґА-ЯІЇЄҐ])(\\*+(?:[^а-яіїєґА-ЯІЇЄҐ]|$))", "$1" + BREAKING_PLACEHOLDER + "$2");
+    }
+
     text = ABBR_DOT_ENDING_PATTERN.matcher(text).replaceAll("$1" + NON_BREAKING_DOT_SUBST);
 
     // 2 000 000

@@ -123,6 +123,18 @@ public class UkrainianWordTokenizerTest {
 
     testList = w.tokenize("п\"яний");
     assertEquals(Arrays.asList("п'яний"), testList);
+
+    testList = w.tokenize("Веретениця**");
+    assertEquals(Arrays.asList("Веретениця", "**"), testList);
+
+    testList = w.tokenize("мові***,");
+    assertEquals(Arrays.asList("мові", "***", ","), testList);
+
+    testList = w.tokenize("*Оренбург");
+    assertEquals(Arrays.asList("*", "Оренбург"), testList);
+
+    testList = w.tokenize("з*ясував");
+    assertEquals(Arrays.asList("з*ясував"), testList);
   }
 
   @Test
