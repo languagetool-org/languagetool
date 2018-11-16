@@ -132,6 +132,8 @@ public class MorfologikUkrainianSpellerRuleTest {
     match = rule.match(langTool.getAnalyzedSentence("півтора раза"));
     assertEquals(0, match.length);
 
+    match = rule.match(langTool.getAnalyzedSentence("УКРА"));
+    assertEquals(1, Arrays.asList(match).size());
   }
 
   @Test

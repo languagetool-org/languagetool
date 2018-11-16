@@ -152,6 +152,9 @@ public class UkrainianTagger extends BaseTagger {
       else if( word.contains("ія") ) {
         tokens = convertTokens(tokens, word, "ія", "іа", ":alt");
       }
+      else if( word.endsWith("тер") ) {
+        tokens = convertTokens(tokens, word, "тер", "тр", ":alt");
+      }
     }
 
 //    if( taggedDebugWriter != null && ! tkns.isEmpty() ) {
