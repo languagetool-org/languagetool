@@ -70,7 +70,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     this.conversionLocale = conversionLocale != null ? conversionLocale : Locale.getDefault();
     init();
     setLocQualityIssueType(ITSIssueType.Misspelling);
-    this.suggestionsOrderer = new SuggestionsOrderer(language, this.getId());
+    suggestionsOrderer = new SuggestionsOrderer(language, this.getId());
   }
 
   @Override

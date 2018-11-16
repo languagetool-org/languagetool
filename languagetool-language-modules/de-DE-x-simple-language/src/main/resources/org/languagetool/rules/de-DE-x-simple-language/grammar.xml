@@ -433,6 +433,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
         <rulegroup id="PASSIV" name="Leichte Sprache: Passiv">
             <rule>
+                <antipattern>
+                    <token skip="3">,</token>
+                    <token inflected="yes" postag_regexp="yes" postag=".*:KJ.:.*" skip="-1">werden</token>
+                    <token postag_regexp="yes" postag="VER:INF:.+"/>
+                    <token postag="PKT"></token>
+                </antipattern>
                 <pattern>
                     <token inflected="yes" postag_regexp="yes" postag="VER:AUX:.*" skip="-1">werden</token>
                     <marker>
@@ -442,6 +448,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>In diesem Satz haben Sie das Passiv verwendet. Benutzen Sie aktive Wörter.</message>
                 <example>Jemand feuerte den Manager.</example>
                 <example correction="">Der Manager wurde <marker>gefeuert</marker>.</example>
+                <example correction="">Der Manager wurde <marker>gefeuert</marker>.</example>
+                <example>Sie nimmt an, er werde das vergessen.</example>
             </rule>
             <rule>
                 <pattern>

@@ -64,7 +64,7 @@ public class CaseRule extends Rule {
   private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
     Arrays.asList(
       // see https://www.duden.de/suchen/dudenonline/u-f%C3%B6rmig
-      regex("[A-Z]-förmig(e|en|es|em|er|es)?")
+      regex("[A-Z]-förmig(e[mnrs]?)?")
     ),
     Arrays.asList(
       // see http://www.lektorenverband.de/die-deutsche-rechtschreibung-was-ist-neu/
@@ -75,12 +75,12 @@ public class CaseRule extends Rule {
     Arrays.asList(
       // see http://www.rechtschreibrat.com/DOX/rfdr_Woerterverzeichnis_2017.pdf
       regex("Graue[nr]?"),
-      regex("Star|Eminenz")
+      regex("Stars?|Eminenz")
     ),
     Arrays.asList(
       // see http://www.rechtschreibrat.com/DOX/rfdr_Woerterverzeichnis_2017.pdf
       regex("Große[nr]?"),
-      regex("Strafkammer|Latinums?|Rat")
+      regex("Strafkammer|Latinums?|Rats?")
     ),
     Arrays.asList(
       // see http://www.rechtschreibrat.com/DOX/rfdr_Woerterverzeichnis_2017.pdf
@@ -173,7 +173,7 @@ public class CaseRule extends Rule {
     Arrays.asList(
         // Er fragte, ob das gelingen oder scheitern wird.
         csToken("das"),
-        posRegex("VER:.*"),
+        posRegex("VER:.+"),
         new PatternTokenBuilder().pos("KON:NEB").setSkip(5).build(),
         posRegex("VER:AUX:.*"),
         posRegex("PKT|KON:NEB")
@@ -181,7 +181,7 @@ public class CaseRule extends Rule {
     Arrays.asList(
         // um ihren eigenen Glauben an das Gute, Wahre und Schöne zu stärken.
         token("das"),
-        posRegex("SUB:.*"),
+        posRegex("SUB:.+"),
         token(","),
         regex("[A-ZÄÖÜ][a-zäöü]+"),
         regex("und|oder")
