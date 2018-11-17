@@ -149,6 +149,11 @@ public class VerbAgreementRule extends TextLevelRule {
      new PatternTokenBuilder().csToken("(").build(),
      new PatternTokenBuilder().posRegex("VER:2:SIN:.+").build(),
      new PatternTokenBuilder().csToken(")").build()
+    ),
+    Arrays.asList(
+     new PatternTokenBuilder().posRegex("VER:MOD:1:PLU:.+").build(),
+     new PatternTokenBuilder().csToken("wir").build(),
+     new PatternTokenBuilder().csToken("bitte").build()
     )
   );
 
