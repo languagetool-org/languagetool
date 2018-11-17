@@ -4809,6 +4809,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Meinten Sie <suggestion>übersät</suggestion> (=überzogen/bedeckt)?</message>
             <example correction="übersät">Die Truhe war mit einer dicken Staubschicht <marker>überseht</marker>.</example>
         </rule>
+        <rule id="SOL_SOLL" name="Sol (Soll)">
+            <pattern case_sensitive="yes">
+                <token postag="SENT_START" skip="1"/>
+                <marker><token>Sol</token></marker>
+                <token postag="PRO:.+|ART:.+" postag_regexp="yes"></token>
+            </pattern>
+            <message>Meinten Sie <suggestion>Soll</suggestion>?</message>
+            <example correction="Soll"><marker>Sol</marker> ich dir helfen?</example>
+            <example correction="Soll">„<marker>Sol</marker> das weg?“</example>
+        </rule>
         <rule id="PASSIONIERTE_PASSIERTE" name="passionierte/passierte">
             <pattern>
                 <marker>
