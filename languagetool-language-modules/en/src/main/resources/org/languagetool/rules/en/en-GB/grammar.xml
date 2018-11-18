@@ -275,5 +275,717 @@ USA
                 <example correction="Visualization"><marker>Visualisation</marker> methods are useful for complex tasks.</example>
             </rule>
          </rulegroup>
+        <rulegroup id="PROTOTYPE_OXFORD_SPELLING_PROTOTYPE_USES_POSTAGS" name="Oxford spelling is/iz" type="locale-violation" default="off">
+<!-- TODO
+adverbs ~isationally
+nouns ~isement
+adjectives ~isable
+adjectives ~ised
+-->         <rule id="PROTOTYPE_OXFORD_SPELLING_ISATION_NOUNS" name="Oxford spelling of nouns (~ization not ~isation)">
+            <!-- For the suggestion, regexp_match and regexp_replace are sufficient. The token finds an ~isation noun that has a singular or plural postag. If the ~isation word has a postag, then the ~ization word should have that postag. (Possibly, the pairs of words are used differently in different locales, and thus they have different postags.) -->
+                <pattern>
+                    <token postag_regexp="yes" postag="NN(:UN?)?|NNS" inflected="yes" regexp="yes">([a-z]+?-?[a-z]+?)isations?<exception postag="NNP"/><exception regexp="yes" inflected="yes">improvisation|xxxx</exception></token><!-- The NNP exception is for proper nouns such as company names -->
+                </pattern>
+                <message>Use the Oxford spelling '<suggestion><match no="1" suppress_misspelled="yes" regexp_match="([a-z]+?-?[a-z]+?)isation(s?)" regexp_replace="$1ization$2"/></suggestion>'.</message>
+                <url>https://blog.oxforddictionaries.com/2011/03/28/ize-or-ise/</url>
+                <short>Oxford spelling: ~ization nouns</short>
+                <example correction="organization">The word '<marker>organisation</marker>' is not the Oxford spelling.</example>
+                <example correction="organizations">The word '<marker>organisations</marker>' is not the Oxford spelling.</example>
+                <example>The word '<marker>organization</marker>' is the Oxford spelling.</example>
+                <example>The word '<marker>organizations</marker>' is the Oxford spelling.</example>
+                <example>'<marker>Americanisation</marker>' is NNP.</example><!-- TODO. Is 'Americanisation' a proper noun? -->
+                <example>'<marker>Americanisations</marker>' is NNPS.</example>
+                <example>Most of the surviving paperwork, up until 1986, for successful <marker>naturalisations</marker> is now held at The National Archives (www.nationalarchives.gov.uk/help-with-your-research/research-guides/naturalisation-british-citizenship/).</example><!-- TODO. naturalisations[naturalization/NNS and naturalizations[naturalization/NNS. Is the word not found because  naturalisation[naturalisation/NN:UN but naturalization[naturalization/NN:U ? -->
+                <example correction="Demutualizations">'<marker>Demutualisations</marker>: LT gives a spelling warning for demutualizations. BUT LT also suggests the Oxford spelling although the suggestion uses suppress_misspelled="yes". Why?</example>
+                <example>These words are always spelled with ~isation: improvisation/improvisations</example>
+                <example correction="de-energization"><marker>de-energisation</marker></example>
+                <example><marker>de-energisations</marker> has no postag.</example>
+                <example><marker>catheterisations</marker></example><!-- TODO: Add plural POS for some of these words that follow. Are all the plurals standard BrE? -->
+                <example><marker>componentisations</marker></example>
+                <example><marker>demonisations</marker></example>
+                <example><marker>depoliticisations</marker></example>
+                <example><marker>depressurisations</marker></example>
+                <example><marker>immortalisations</marker></example>
+                <example><marker>incentivisations</marker></example>
+                <example><marker>intellectualisations</marker></example>
+                <example><marker>legitimisations</marker></example>
+                <example><marker>lionisations</marker></example>
+                <example><marker>memorialisations</marker></example>
+                <example><marker>militarisations</marker></example>
+                <example><marker>neutralisations</marker></example>
+                <example><marker>nominalisations</marker></example>
+                <example><marker>parameterisations</marker></example>
+                <example correction=""><marker>passivisations</marker></example><!-- TODO. If we cannot prevent a suggestion of "", then this word and similar must be in an exception.-->
+                <example><marker>particularisations</marker></example>
+                <example><marker>photosensitisations</marker></example>
+                <example><marker>plagiarisations</marker></example>
+                <example><marker>productisations</marker></example>
+                <example><marker>professionalisations</marker></example>
+                <example><marker>proselytisations</marker></example>
+                <example><marker>repressurisations</marker></example>
+                <example><marker>satirisations</marker></example>
+                <example><marker>scandalisations</marker></example>
+                <example><marker>schematisations</marker></example>
+                <example><marker>sensualisations</marker></example>
+                <example><marker>sodomisations</marker></example>
+                <example><marker>spiritualisations</marker></example>
+                <example><marker>tenderisations</marker></example>
+                <example><marker>universalisations</marker></example>
+                <example><marker>vandalisations</marker></example>
+                <example correction="acclimatization"><marker>acclimatisation</marker></example>
+                <example correction="acclimatizations"><marker>acclimatisations</marker></example>
+                <example correction="actualization"><marker>actualisation</marker></example>
+                <example correction="actualizations"><marker>actualisations</marker></example>
+                <example correction="alphabetization"><marker>alphabetisation</marker></example>
+                <example correction="alphabetizations"><marker>alphabetisations</marker></example>
+                <example correction="amortization"><marker>amortisation</marker></example>
+                <example correction="amortizations"><marker>amortisations</marker></example>
+                <example correction="anaesthetization"><marker>anaesthetisation</marker></example>
+                <example correction="anaesthetizations"><marker>anaesthetisations</marker></example>
+                <example correction="anglicization"><marker>anglicisation</marker></example>
+                <example correction="anglicizations"><marker>anglicisations</marker></example>
+                <example correction="anodization"><marker>anodisation</marker></example>
+                <example correction="anodizations"><marker>anodisations</marker></example>
+                <example correction="atomization"><marker>atomisation</marker></example>
+                <example correction="atomizations"><marker>atomisations</marker></example>
+                <example correction="authorization"><marker>authorisation</marker></example>
+                <example correction="authorizations"><marker>authorisations</marker></example>
+                <example correction="bastardization"><marker>bastardisation</marker></example>
+                <example correction="bastardizations"><marker>bastardisations</marker></example>
+                <example correction="bowdlerization"><marker>bowdlerisation</marker></example>
+                <example correction="bowdlerizations"><marker>bowdlerisations</marker></example>
+                <example correction="brutalization"><marker>brutalisation</marker></example>
+                <example correction="brutalizations"><marker>brutalisations</marker></example>
+                <example correction="canalization"><marker>canalisation</marker></example>
+                <example correction="canalizations"><marker>canalisations</marker></example>
+                <example correction="cannibalization"><marker>cannibalisation</marker></example>
+                <example correction="cannibalizations"><marker>cannibalisations</marker></example>
+                <example correction="canonization"><marker>canonisation</marker></example>
+                <example correction="canonizations"><marker>canonisations</marker></example>
+                <example correction="capitalization"><marker>capitalisation</marker></example>
+                <example correction="capitalizations"><marker>capitalisations</marker></example>
+                <example correction="caramelization"><marker>caramelisation</marker></example>
+                <example correction="caramelizations"><marker>caramelisations</marker></example>
+                <example correction="carbonization"><marker>carbonisation</marker></example>
+                <example correction="carbonizations"><marker>carbonisations</marker></example>
+                <example correction="categorization"><marker>categorisation</marker></example>
+                <example correction="categorizations"><marker>categorisations</marker></example>
+                <example correction="catheterization"><marker>catheterisation</marker></example>
+                <example correction="cauterization"><marker>cauterisation</marker></example>
+                <example correction="cauterizations"><marker>cauterisations</marker></example>
+                <example correction="centralization"><marker>centralisation</marker></example>
+                <example correction="centralizations"><marker>centralisations</marker></example>
+                <example correction="characterization"><marker>characterisation</marker></example>
+                <example correction="characterizations"><marker>characterisations</marker></example>
+                <example correction="civilization"><marker>civilisation</marker></example>
+                <example correction="civilizations"><marker>civilisations</marker></example>
+                <example correction="collectivization"><marker>collectivisation</marker></example>
+                <example correction="collectivizations"><marker>collectivisations</marker></example>
+                <example correction="colonization"><marker>colonisation</marker></example>
+                <example correction="colonizations"><marker>colonisations</marker></example>
+                <example correction="colourization"><marker>colourisation</marker></example>
+                <example correction="colourizations"><marker>colourisations</marker></example>
+                <example correction="commercialization"><marker>commercialisation</marker></example>
+                <example correction="commercializations"><marker>commercialisations</marker></example>
+                <example correction="compartmentalization"><marker>compartmentalisation</marker></example>
+                <example correction="compartmentalizations"><marker>compartmentalisations</marker></example>
+                <example correction="componentization"><marker>componentisation</marker></example>
+                <example correction="computerization"><marker>computerisation</marker></example>
+                <example correction="computerizations"><marker>computerisations</marker></example>
+                <example correction="conceptualization"><marker>conceptualisation</marker></example>
+                <example correction="conceptualizations"><marker>conceptualisations</marker></example>
+                <example correction="containerization"><marker>containerisation</marker></example>
+                <example correction="containerizations"><marker>containerisations</marker></example>
+                <example correction="contextualization"><marker>contextualisation</marker></example>
+                <example correction="contextualizations"><marker>contextualisations</marker></example>
+                <example correction="criminalization"><marker>criminalisation</marker></example>
+                <example correction="criminalizations"><marker>criminalisations</marker></example>
+                <example correction="crystallization"><marker>crystallisation</marker></example>
+                <example correction="crystallizations"><marker>crystallisations</marker></example>
+                <example correction="customization"><marker>customisation</marker></example>
+                <example correction="customizations"><marker>customisations</marker></example>
+                <example correction="decentralization"><marker>decentralisation</marker></example>
+                <example correction="decentralizations"><marker>decentralisations</marker></example>
+                <example correction="decimalization"><marker>decimalisation</marker></example>
+                <example correction="decimalizations"><marker>decimalisations</marker></example>
+                <example correction="decolonization"><marker>decolonisation</marker></example>
+                <example correction="decolonizations"><marker>decolonisations</marker></example>
+                <example correction="decriminalization"><marker>decriminalisation</marker></example>
+                <example correction="decriminalizations"><marker>decriminalisations</marker></example>
+                <example correction="dehumanization"><marker>dehumanisation</marker></example>
+                <example correction="dehumanizations"><marker>dehumanisations</marker></example>
+                <example correction="demagnetization"><marker>demagnetisation</marker></example>
+                <example correction="demagnetizations"><marker>demagnetisations</marker></example>
+                <example correction="demilitarization"><marker>demilitarisation</marker></example>
+                <example correction="demilitarizations"><marker>demilitarisations</marker></example>
+                <example correction="demobilization"><marker>demobilisation</marker></example>
+                <example correction="demobilizations"><marker>demobilisations</marker></example>
+                <example correction="democratization"><marker>democratisation</marker></example>
+                <example correction="democratizations"><marker>democratisations</marker></example>
+                <example correction="demonization"><marker>demonisation</marker></example>
+                <example correction="demoralization"><marker>demoralisation</marker></example>
+                <example correction="demoralizations"><marker>demoralisations</marker></example>
+                <example correction="denationalization"><marker>denationalisation</marker></example>
+                <example correction="denationalizations"><marker>denationalisations</marker></example>
+                <example correction="deodorization"><marker>deodorisation</marker></example>
+                <example correction="deodorizations"><marker>deodorisations</marker></example>
+                <example correction="departmentalization"><marker>departmentalisation</marker></example>
+                <example correction="departmentalizations"><marker>departmentalisations</marker></example>
+                <example correction="depoliticization"><marker>depoliticisation</marker></example>
+                <example correction="depressurization"><marker>depressurisation</marker></example>
+                <example correction="deputization"><marker>deputisation</marker></example>
+                <example correction="deputizations"><marker>deputisations</marker></example>
+                <example correction="desensitization"><marker>desensitisation</marker></example>
+                <example correction="desensitizations"><marker>desensitisations</marker></example>
+                <example correction="destabilization"><marker>destabilisation</marker></example>
+                <example correction="destabilizations"><marker>destabilisations</marker></example>
+                <example correction="digitization"><marker>digitisation</marker></example>
+                <example correction="digitizations"><marker>digitisations</marker></example>
+                <example correction="dramatization"><marker>dramatisation</marker></example>
+                <example correction="dramatizations"><marker>dramatisations</marker></example>
+                <example correction="economization"><marker>economisation</marker></example>
+                <example correction="economizations"><marker>economisations</marker></example>
+                <example correction="equalization"><marker>equalisation</marker></example>
+                <example correction="equalizations"><marker>equalisations</marker></example>
+                <example correction="evangelization"><marker>evangelisation</marker></example>
+                <example correction="evangelizations"><marker>evangelisations</marker></example>
+                <example correction="extemporization"><marker>extemporisation</marker></example>
+                <example correction="extemporizations"><marker>extemporisations</marker></example>
+                <example correction="externalization"><marker>externalisation</marker></example>
+                <example correction="externalizations"><marker>externalisations</marker></example>
+                <example correction="factorization"><marker>factorisation</marker></example>
+                <example correction="factorizations"><marker>factorisations</marker></example>
+                <example correction="familiarization"><marker>familiarisation</marker></example>
+                <example correction="familiarizations"><marker>familiarisations</marker></example>
+                <example correction="feminization"><marker>feminisation</marker></example>
+                <example correction="feminizations"><marker>feminisations</marker></example>
+                <example correction="fertilization"><marker>fertilisation</marker></example>
+                <example correction="fertilizations"><marker>fertilisations</marker></example>
+                <example correction="fictionalization"><marker>fictionalisation</marker></example>
+                <example correction="fictionalizations"><marker>fictionalisations</marker></example>
+                <example correction="finalization"><marker>finalisation</marker></example>
+                <example correction="finalizations"><marker>finalisations</marker></example>
+                <example correction="fluidization"><marker>fluidisation</marker></example>
+                <example correction="fluidizations"><marker>fluidisations</marker></example>
+                <example correction="formalization"><marker>formalisation</marker></example>
+                <example correction="formalizations"><marker>formalisations</marker></example>
+                <example correction="fossilization"><marker>fossilisation</marker></example>
+                <example correction="fossilizations"><marker>fossilisations</marker></example>
+                <example correction="fraternization"><marker>fraternisation</marker></example>
+                <example correction="fraternizations"><marker>fraternisations</marker></example>
+                <example correction="galvanization"><marker>galvanisation</marker></example>
+                <example correction="galvanizations"><marker>galvanisations</marker></example>
+                <example correction="generalization"><marker>generalisation</marker></example>
+                <example correction="generalizations"><marker>generalisations</marker></example>
+                <example correction="ghettoization"><marker>ghettoisation</marker></example>
+                <example correction="ghettoizations"><marker>ghettoisations</marker></example>
+                <example correction="glamorization"><marker>glamorisation</marker></example>
+                <example correction="glamorizations"><marker>glamorisations</marker></example>
+                <example correction="globalization"><marker>globalisation</marker></example>
+                <example correction="globalizations"><marker>globalisations</marker></example>
+                <example correction="harmonization"><marker>harmonisation</marker></example>
+                <example correction="harmonizations"><marker>harmonisations</marker></example>
+                <example correction="homogenization"><marker>homogenisation</marker></example>
+                <example correction="homogenizations"><marker>homogenisations</marker></example>
+                <example correction="hospitalization"><marker>hospitalisation</marker></example>
+                <example correction="hospitalizations"><marker>hospitalisations</marker></example>
+                <example correction="humanization"><marker>humanisation</marker></example>
+                <example correction="humanizations"><marker>humanisations</marker></example>
+                <example correction="hybridization"><marker>hybridisation</marker></example>
+                <example correction="hybridizations"><marker>hybridisations</marker></example>
+                <example correction="hypnotization"><marker>hypnotisation</marker></example>
+                <example correction="hypnotizations"><marker>hypnotisations</marker></example>
+                <example correction="idealization"><marker>idealisation</marker></example>
+                <example correction="idealizations"><marker>idealisations</marker></example>
+                <example correction="idolization"><marker>idolisation</marker></example>
+                <example correction="idolizations"><marker>idolisations</marker></example>
+                <example correction="immobilization"><marker>immobilisation</marker></example>
+                <example correction="immobilizations"><marker>immobilisations</marker></example>
+                <example correction="immortalization"><marker>immortalisation</marker></example>
+                <example correction="immunization"><marker>immunisation</marker></example>
+                <example correction="immunizations"><marker>immunisations</marker></example>
+                <example correction="individualization"><marker>individualisation</marker></example>
+                <example correction="individualizations"><marker>individualisations</marker></example>
+                <example correction="industrialization"><marker>industrialisation</marker></example>
+                <example correction="industrializations"><marker>industrialisations</marker></example>
+                <example correction="institutionalization"><marker>institutionalisation</marker></example>
+                <example correction="institutionalizations"><marker>institutionalisations</marker></example>
+                <example correction="intellectualization"><marker>intellectualisation</marker></example>
+                <example correction="internalization"><marker>internalisation</marker></example>
+                <example correction="internalizations"><marker>internalisations</marker></example>
+                <example correction="internationalization"><marker>internationalisation</marker></example>
+                <example correction="internationalizations"><marker>internationalisations</marker></example>
+                <example correction="ionization"><marker>ionisation</marker></example>
+                <example correction="ionizations"><marker>ionisations</marker></example>
+                <example correction="italicization"><marker>italicisation</marker></example>
+                <example correction="italicizations"><marker>italicisations</marker></example>
+                <example correction="itemization"><marker>itemisation</marker></example>
+                <example correction="itemizations"><marker>itemisations</marker></example>
+                <example correction="legalization"><marker>legalisation</marker></example>
+                <example correction="legalizations"><marker>legalisations</marker></example>
+                <example correction="legitimization"><marker>legitimisation</marker></example>
+                <example correction="liberalization"><marker>liberalisation</marker></example>
+                <example correction="liberalizations"><marker>liberalisations</marker></example>
+                <example correction="lionization"><marker>lionisation</marker></example>
+                <example correction="liquidization"><marker>liquidisation</marker></example>
+                <example correction="liquidizations"><marker>liquidisations</marker></example>
+                <example correction="localization"><marker>localisation</marker></example>
+                <example correction="localizations"><marker>localisations</marker></example>
+                <example correction="magnetization"><marker>magnetisation</marker></example>
+                <example correction="magnetizations"><marker>magnetisations</marker></example>
+                <example correction="marginalization"><marker>marginalisation</marker></example>
+                <example correction="marginalizations"><marker>marginalisations</marker></example>
+                <example correction="materialization"><marker>materialisation</marker></example>
+                <example correction="materializations"><marker>materialisations</marker></example>
+                <example correction="maximization"><marker>maximisation</marker></example>
+                <example correction="maximizations"><marker>maximisations</marker></example>
+                <example correction="mechanization"><marker>mechanisation</marker></example>
+                <example correction="mechanizations"><marker>mechanisations</marker></example>
+                <example correction="memorialization"><marker>memorialisation</marker></example>
+                <example correction="memorization"><marker>memorisation</marker></example>
+                <example correction="memorizations"><marker>memorisations</marker></example>
+                <example correction="mesmerization"><marker>mesmerisation</marker></example>
+                <example correction="mesmerizations"><marker>mesmerisations</marker></example>
+                <example correction="methodization"><marker>methodisation</marker></example>
+                <example correction="methodizations"><marker>methodisations</marker></example>
+                <example correction="militarization"><marker>militarisation</marker></example>
+                <example correction="miniaturization"><marker>miniaturisation</marker></example>
+                <example correction="miniaturizations"><marker>miniaturisations</marker></example>
+                <example correction="minimization"><marker>minimisation</marker></example>
+                <example correction="minimizations"><marker>minimisations</marker></example>
+                <example correction="mobilization"><marker>mobilisation</marker></example>
+                <example correction="mobilizations"><marker>mobilisations</marker></example>
+                <example correction="modernization"><marker>modernisation</marker></example>
+                <example correction="modernizations"><marker>modernisations</marker></example>
+                <example correction="modularization"><marker>modularisation</marker></example>
+                <example correction="modularizations"><marker>modularisations</marker></example>
+                <example correction="monetization"><marker>monetisation</marker></example>
+                <example correction="monetizations"><marker>monetisations</marker></example>
+                <example correction="monopolization"><marker>monopolisation</marker></example>
+                <example correction="monopolizations"><marker>monopolisations</marker></example>
+                <example correction="moralization"><marker>moralisation</marker></example>
+                <example correction="moralizations"><marker>moralisations</marker></example>
+                <example correction="motorization"><marker>motorisation</marker></example>
+                <example correction="motorizations"><marker>motorisations</marker></example>
+                <example correction="nasalization"><marker>nasalisation</marker></example>
+                <example correction="nasalizations"><marker>nasalisations</marker></example>
+                <example correction="nationalization"><marker>nationalisation</marker></example>
+                <example correction="nationalizations"><marker>nationalisations</marker></example>
+                <example correction="naturalization"><marker>naturalisation</marker></example>
+                <example correction="neutralization"><marker>neutralisation</marker></example>
+                <example correction="nominalization"><marker>nominalisation</marker></example>
+                <example correction="normalization"><marker>normalisation</marker></example>
+                <example correction="normalizations"><marker>normalisations</marker></example>
+                <example correction="optimization"><marker>optimisation</marker></example>
+                <example correction="optimizations"><marker>optimisations</marker></example>
+                <example correction="organization"><marker>organisation</marker></example>
+                <example correction="organizations"><marker>organisations</marker></example>
+                <example correction="oxidization"><marker>oxidisation</marker></example>
+                <example correction="oxidizations"><marker>oxidisations</marker></example>
+                <example correction="parameterization"><marker>parameterisation</marker></example>
+                <example correction="particularization"><marker>particularisation</marker></example>
+                <example correction="pasteurization"><marker>pasteurisation</marker></example>
+                <example correction="pasteurizations"><marker>pasteurisations</marker></example>
+                <example correction="patronization"><marker>patronisation</marker></example>
+                <example correction="patronizations"><marker>patronisations</marker></example>
+                <example correction="pedestrianization"><marker>pedestrianisation</marker></example>
+                <example correction="pedestrianizations"><marker>pedestrianisations</marker></example>
+                <example correction="penalization"><marker>penalisation</marker></example>
+                <example correction="penalizations"><marker>penalisations</marker></example>
+                <example correction="personalization"><marker>personalisation</marker></example>
+                <example correction="personalizations"><marker>personalisations</marker></example>
+                <example correction="photosensitization"><marker>photosensitisation</marker></example>
+                <example correction="plagiarization"><marker>plagiarisation</marker></example>
+                <example correction="polarization"><marker>polarisation</marker></example>
+                <example correction="polarizations"><marker>polarisations</marker></example>
+                <example correction="politicization"><marker>politicisation</marker></example>
+                <example correction="politicizations"><marker>politicisations</marker></example>
+                <example correction="popularization"><marker>popularisation</marker></example>
+                <example correction="popularizations"><marker>popularisations</marker></example>
+                <example correction="pressurization"><marker>pressurisation</marker></example>
+                <example correction="pressurizations"><marker>pressurisations</marker></example>
+                <example correction="prioritization"><marker>prioritisation</marker></example>
+                <example correction="prioritizations"><marker>prioritisations</marker></example>
+                <example correction="privatization"><marker>privatisation</marker></example>
+                <example correction="privatizations"><marker>privatisations</marker></example>
+                <example correction="productization"><marker>productisation</marker></example>
+                <example correction="professionalization"><marker>professionalisation</marker></example>
+                <example correction="proselytization"><marker>proselytisation</marker></example>
+                <example correction="pulverization"><marker>pulverisation</marker></example>
+                <example correction="pulverizations"><marker>pulverisations</marker></example>
+                <example correction="radicalization"><marker>radicalisation</marker></example>
+                <example correction="radicalizations"><marker>radicalisations</marker></example>
+                <example correction="randomization"><marker>randomisation</marker></example>
+                <example correction="randomizations"><marker>randomisations</marker></example>
+                <example correction="rationalization"><marker>rationalisation</marker></example>
+                <example correction="rationalizations"><marker>rationalisations</marker></example>
+                <example correction="realization"><marker>realisation</marker></example>
+                <example correction="realizations"><marker>realisations</marker></example>
+                <example correction="regularization"><marker>regularisation</marker></example>
+                <example correction="regularizations"><marker>regularisations</marker></example>
+                <example correction="reorganization"><marker>reorganisation</marker></example>
+                <example correction="reorganizations"><marker>reorganisations</marker></example>
+                <example correction="repressurization"><marker>repressurisation</marker></example>
+                <example correction="revitalization"><marker>revitalisation</marker></example>
+                <example correction="revitalizations"><marker>revitalisations</marker></example>
+                <example correction="sanitization"><marker>sanitisation</marker></example>
+                <example correction="sanitizations"><marker>sanitisations</marker></example>
+                <example correction="satirization"><marker>satirisation</marker></example>
+                <example correction="scandalization"><marker>scandalisation</marker></example>
+                <example correction="schematization"><marker>schematisation</marker></example>
+                <example correction="scrutinization"><marker>scrutinisation</marker></example>
+                <example correction="scrutinizations"><marker>scrutinisations</marker></example>
+                <example correction="secularization"><marker>secularisation</marker></example>
+                <example correction="secularizations"><marker>secularisations</marker></example>
+                <example correction="sensitization"><marker>sensitisation</marker></example>
+                <example correction="sensitizations"><marker>sensitisations</marker></example>
+                <example correction="sensualization"><marker>sensualisation</marker></example>
+                <example correction="sentimentalization"><marker>sentimentalisation</marker></example>
+                <example correction="sentimentalizations"><marker>sentimentalisations</marker></example>
+                <example correction="serialization"><marker>serialisation</marker></example>
+                <example correction="serializations"><marker>serialisations</marker></example>
+                <example correction="signalization"><marker>signalisation</marker></example>
+                <example correction="signalizations"><marker>signalisations</marker></example>
+                <example correction="socialization"><marker>socialisation</marker></example>
+                <example correction="socializations"><marker>socialisations</marker></example>
+                <example correction="sodomization"><marker>sodomisation</marker></example>
+                <example correction="solarization"><marker>solarisation</marker></example>
+                <example correction="solarizations"><marker>solarisations</marker></example>
+                <example correction="solemnization"><marker>solemnisation</marker></example>
+                <example correction="solemnizations"><marker>solemnisations</marker></example>
+                <example correction="solmization"><marker>solmisation</marker></example>
+                <example correction="solmizations"><marker>solmisations</marker></example>
+                <example correction="specialization"><marker>specialisation</marker></example>
+                <example correction="specializations"><marker>specialisations</marker></example>
+                <example correction="spiritualization"><marker>spiritualisation</marker></example>
+                <example correction="stabilization"><marker>stabilisation</marker></example>
+                <example correction="stabilizations"><marker>stabilisations</marker></example>
+                <example correction="standardization"><marker>standardisation</marker></example>
+                <example correction="standardizations"><marker>standardisations</marker></example>
+                <example correction="sterilization"><marker>sterilisation</marker></example>
+                <example correction="sterilizations"><marker>sterilisations</marker></example>
+                <example correction="stigmatization"><marker>stigmatisation</marker></example>
+                <example correction="stigmatizations"><marker>stigmatisations</marker></example>
+                <example correction="stylization"><marker>stylisation</marker></example>
+                <example correction="stylizations"><marker>stylisations</marker></example>
+                <example correction="subsidization"><marker>subsidisation</marker></example>
+                <example correction="subsidizations"><marker>subsidisations</marker></example>
+                <example correction="subvocalization"><marker>subvocalisation</marker></example>
+                <example correction="subvocalizations"><marker>subvocalisations</marker></example>
+                <example correction="summarization"><marker>summarisation</marker></example>
+                <example correction="summarizations"><marker>summarisations</marker></example>
+                <example correction="symbolization"><marker>symbolisation</marker></example>
+                <example correction="symbolizations"><marker>symbolisations</marker></example>
+                <example correction="synchronization"><marker>synchronisation</marker></example>
+                <example correction="synchronizations"><marker>synchronisations</marker></example>
+                <example correction="systematization"><marker>systematisation</marker></example>
+                <example correction="systematizations"><marker>systematisations</marker></example>
+                <example correction="tantalization"><marker>tantalisation</marker></example>
+                <example correction="tantalizations"><marker>tantalisations</marker></example>
+                <example correction="tenderization"><marker>tenderisation</marker></example>
+                <example correction="terrorization"><marker>terrorisation</marker></example>
+                <example correction="terrorizations"><marker>terrorisations</marker></example>
+                <example correction="theorization"><marker>theorisation</marker></example>
+                <example correction="theorizations"><marker>theorisations</marker></example>
+                <example correction="tokenizations"><marker>tokenisations</marker></example>
+                <example correction="totalization"><marker>totalisation</marker></example>
+                <example correction="totalizations"><marker>totalisations</marker></example>
+                <example correction="tranquillization"><marker>tranquillisation</marker></example>
+                <example correction="tranquillizations"><marker>tranquillisations</marker></example>
+                <example correction="traumatization"><marker>traumatisation</marker></example>
+                <example correction="traumatizations"><marker>traumatisations</marker></example>
+                <example correction="trivialization"><marker>trivialisation</marker></example>
+                <example correction="trivializations"><marker>trivialisations</marker></example>
+                <example correction="unionization"><marker>unionisation</marker></example>
+                <example correction="unionizations"><marker>unionisations</marker></example>
+                <example correction="universalization"><marker>universalisation</marker></example>
+                <example correction="urbanization"><marker>urbanisation</marker></example>
+                <example correction="urbanizations"><marker>urbanisations</marker></example>
+                <example correction="utilization"><marker>utilisation</marker></example>
+                <example correction="utilizations"><marker>utilisations</marker></example>
+                <example correction="vandalization"><marker>vandalisation</marker></example>
+                <example correction="vaporization"><marker>vaporisation</marker></example>
+                <example correction="vaporizations"><marker>vaporisations</marker></example>
+                <example correction="verbalization"><marker>verbalisation</marker></example>
+                <example correction="verbalizations"><marker>verbalisations</marker></example>
+            </rule>
+            <rule id="PROTOTYPE_OXFORD_SPELLING_ISE_VERBS" name="Oxford spelling of verbs (~ize not ~ise)">
+                <pattern>
+                    <token postag_regexp="yes" postag="VB.*" inflected="yes" regexp="yes">([a-z]+?-?[a-z]+?)ise<exception postag="NNP"/><exception regexp="yes" inflected="yes">advertise|braise|chastise|merchandise|misadvise|paralyse|prise|televise</exception></token><!-- suppress_misspelled does not work with these verbs. Also, some z spellings are not verbs but are correct spellings: example 'braize' is a fish. Refer to the full list of ~ise verbs in the example. AmE prize = BrE prise (move or lift). BrE prize = to value -->
+                </pattern>
+                <message>Use the Oxford spelling '<suggestion suppress_misspelled="yes"><match suppress_misspelled="yes" no="1" regexp_match="([a-z]+?-?[a-z]+?)is(e|es|ed|ing)" regexp_replace="$1iz$2" /></suggestion>'.</message><!-- Cannot use postag_regexp="yes" postag="(VB.*)" postag_replace="$1" because it causes the suggestion to be the same as the target token -->
+                <url>https://blog.oxforddictionaries.com/2011/03/28/ize-or-ise/</url>
+                <short>Oxford spelling: ~ise verbs</short>
+                <example correction="organize">The verb '<marker>organise</marker>' is not the Oxford spelling.</example>
+                <example correction="organizes">Who usually <marker>organises</marker> the meetings?</example>
+                <example correction="organized">Who <marker>organised</marker> the meeting?</example>
+                <example correction="organizing">The basic <marker>organising</marker> principles...</example>
+                <example>The word '<marker>organize</marker>' is the Oxford spelling.</example>
+                <example>Keep this list of ~ise only verbs as a fail-safe test: abscise, advertise, advise, affranchise, alias [aliased], appraise, arise, braise, bruise, chastise, circumcise, comprise, compromise, counterpoise, cruise, demise, despise, devise, disenfranchise, disfranchise, disguise, dispraise, enfranchise, equipoise, excise, exercise, franchise, fundraise, improvise, incise, liaise, merchandise, misadvise, miscategorise, misraise, mortise, noise, outraise, overexercise, overpraise, overpromise, poise, porpoise [aviation slang], practise, praise, premise, previse, promise, raise, readvertise, readvise, rearise, reappraise, reprise, repromise, re-raise, reraise, revise, rise, supervise, surmise, surprise, televise, trellis [VBZ = trellises], underpraise, upraise, uprise, wise</example><!-- TODO: merchandize is a verb, but rare -->
+                <example>The word '<marker>otherwise</marker>' is not a verb.</example>
+                <example>These rare/obsolete ~ise-only verbs have no postag: annalise, bepraise, debruise, disseise, grandise, grise, hoise, marmalise, misprise, remise, re-rise, rerise, seise, sensibilise, unpromise, </example>
+                <example><marker>recentralise</marker> is not found because suppress_misspelled="yes". 'Recentralize' has no pos.</example><!-- TODO: get a more obscure example as a test. -->
+                <example correction="de-energize"><marker>de-energise</marker></example>
+                <example correction="de-energizes"><marker>de-energises</marker></example>
+                <example correction="de-energized"><marker>de-energised</marker></example>
+                <example correction="de-energizing"><marker>de-energising</marker></example>
+                <example correction="accessorize"><marker>accessorise</marker></example>
+                <example correction="acclimatize"><marker>acclimatise</marker></example>
+                <example correction="actualize"><marker>actualise</marker></example>
+                <example correction="agonize"><marker>agonise</marker></example>
+                <example correction="alphabetize"><marker>alphabetise</marker></example>
+                <example correction="Americanize"><marker>Americanise</marker></example>
+                <example correction="amortize"><marker>amortise</marker></example>
+                <example correction="anaesthetize"><marker>anaesthetise</marker></example>
+                <example correction="anglicize"><marker>anglicise</marker></example>
+                <example correction="anodize"><marker>anodise</marker></example>
+                <example correction="antagonize"><marker>antagonise</marker></example>
+                <example correction="apologize"><marker>apologise</marker></example>
+                <example correction="atomize"><marker>atomise</marker></example>
+                <example correction="authorize"><marker>authorise</marker></example>
+                <example correction="baptize"><marker>baptise</marker></example>
+                <example correction="bastardize"><marker>bastardise</marker></example>
+                <example correction="bowdlerize"><marker>bowdlerise</marker></example>
+                <example correction="brutalize"><marker>brutalise</marker></example>
+                <example correction="burglarize"><marker>burglarise</marker></example>
+                <example correction="canalize"><marker>canalise</marker></example>
+                <example correction="cannibalize"><marker>cannibalise</marker></example>
+                <example correction="canonize"><marker>canonise</marker></example>
+                <example correction="capitalize"><marker>capitalise</marker></example>
+                <example correction="caramelize"><marker>caramelise</marker></example>
+                <example correction="carbonize"><marker>carbonise</marker></example>
+                <example correction="categorize"><marker>categorise</marker></example>
+                <example correction="catheterize"><marker>catheterise</marker></example>
+                <example correction="cauterize"><marker>cauterise</marker></example>
+                <example correction="centralize"><marker>centralise</marker></example>
+                <example correction="characterize"><marker>characterise</marker></example>
+                <example correction="civilize"><marker>civilise</marker></example>
+                <example correction="collateralize"><marker>collateralise</marker></example>
+                <example correction="collectivize"><marker>collectivise</marker></example>
+                <example correction="colonize"><marker>colonise</marker></example>
+                <example correction="colourize"><marker>colourise</marker></example>
+                <example correction="commercialize"><marker>commercialise</marker></example>
+                <example correction="compartmentalize"><marker>compartmentalise</marker></example>
+                <example correction="computerize"><marker>computerise</marker></example>
+                <example correction="conceptualize"><marker>conceptualise</marker></example>
+                <example correction="constitutionalize"><marker>constitutionalise</marker></example>
+                <example correction="containerize"><marker>containerise</marker></example>
+                <example correction="contextualize"><marker>contextualise</marker></example>
+                <example correction="criminalize"><marker>criminalise</marker></example>
+                <example correction="criticize"><marker>criticise</marker></example>
+                <example correction="crystallize"><marker>crystallise</marker></example>
+                <example correction="customize"><marker>customise</marker></example>
+                <example correction="decentralize"><marker>decentralise</marker></example>
+                <example correction="decimalize"><marker>decimalise</marker></example>
+                <example correction="decolonize"><marker>decolonise</marker></example>
+                <example correction="decriminalize"><marker>decriminalise</marker></example>
+                <example correction="dehumanize"><marker>dehumanise</marker></example>
+                <example correction="demagnetize"><marker>demagnetise</marker></example>
+                <example correction="demilitarize"><marker>demilitarise</marker></example>
+                <example correction="demobilize"><marker>demobilise</marker></example>
+                <example correction="democratize"><marker>democratise</marker></example>
+                <example correction="demonetize"><marker>demonetise</marker></example>
+                <example correction="demonize"><marker>demonise</marker></example>
+                <example correction="demoralize"><marker>demoralise</marker></example>
+                <example correction="denationalize"><marker>denationalise</marker></example>
+                <example correction="deodorize"><marker>deodorise</marker></example>
+                <example correction="departmentalize"><marker>departmentalise</marker></example>
+                <example correction="depoliticize"><marker>depoliticise</marker></example>
+                <example correction="depressurize"><marker>depressurise</marker></example>
+                <example correction="deputize"><marker>deputise</marker></example>
+                <example correction="desensitize"><marker>desensitise</marker></example>
+                <example correction="destabilize"><marker>destabilise</marker></example>
+                <example correction="digitize"><marker>digitise</marker></example>
+                <example correction="dramatize"><marker>dramatise</marker></example>
+                <example correction="economize"><marker>economise</marker></example>
+                <example correction="editorialize"><marker>editorialise</marker></example>
+                <example correction="empathize"><marker>empathise</marker></example>
+                <example correction="emphasize"><marker>emphasise</marker></example>
+                <example correction="energize"><marker>energise</marker></example>
+                <example correction="epitomize"><marker>epitomise</marker></example>
+                <example correction="equalize"><marker>equalise</marker></example>
+                <example correction="eulogize"><marker>eulogise</marker></example>
+                <example correction="evangelize"><marker>evangelise</marker></example>
+                <example correction="exorcize"><marker>exorcise</marker></example>
+                <example correction="extemporize"><marker>extemporise</marker></example>
+                <example correction="externalize"><marker>externalise</marker></example>
+                <example correction="factorize"><marker>factorise</marker></example>
+                <example correction="familiarize"><marker>familiarise</marker></example>
+                <example correction="fantasize"><marker>fantasise</marker></example>
+                <example correction="feminize"><marker>feminise</marker></example>
+                <example correction="fertilize"><marker>fertilise</marker></example>
+                <example correction="fictionalize"><marker>fictionalise</marker></example>
+                <example correction="finalize"><marker>finalise</marker></example>
+                <example correction="formalize"><marker>formalise</marker></example>
+                <example correction="fossilize"><marker>fossilise</marker></example>
+                <example correction="fraternize"><marker>fraternise</marker></example>
+                <example correction="galvanize"><marker>galvanise</marker></example>
+                <example correction="generalize"><marker>generalise</marker></example>
+                <example correction="ghettoize"><marker>ghettoise</marker></example>
+                <example correction="glamorize"><marker>glamorise</marker></example>
+                <example correction="globalize"><marker>globalise</marker></example>
+                <example correction="harmonize"><marker>harmonise</marker></example>
+                <example correction="homogenize"><marker>homogenise</marker></example>
+                <example correction="hospitalize"><marker>hospitalise</marker></example>
+                <example correction="humanize"><marker>humanise</marker></example>
+                <example correction="hybridize"><marker>hybridise</marker></example>
+                <example correction="hypnotize"><marker>hypnotise</marker></example>
+                <example correction="hypothesize"><marker>hypothesise</marker></example>
+                <example correction="idealize"><marker>idealise</marker></example>
+                <example correction="idolize"><marker>idolise</marker></example>
+                <example correction="immobilize"><marker>immobilise</marker></example>
+                <example correction="immortalize"><marker>immortalise</marker></example>
+                <example correction="immunize"><marker>immunise</marker></example>
+                <example correction="imperialize"><marker>imperialise</marker></example>
+                <example correction="incentivize"><marker>incentivise</marker></example>
+                <example correction="individualize"><marker>individualise</marker></example>
+                <example correction="industrialize"><marker>industrialise</marker></example>
+                <example correction="institutionalize"><marker>institutionalise</marker></example>
+                <example correction="intellectualize"><marker>intellectualise</marker></example>
+                <example correction="internalize"><marker>internalise</marker></example>
+                <example correction="internationalize"><marker>internationalise</marker></example>
+                <example correction="ionize"><marker>ionise</marker></example>
+                <example correction="italicize"><marker>italicise</marker></example>
+                <example correction="itemize"><marker>itemise</marker></example>
+                <example correction="jeopardize"><marker>jeopardise</marker></example>
+                <example correction="legalize"><marker>legalise</marker></example>
+                <example correction="legitimize"><marker>legitimise</marker></example>
+                <example correction="liberalize"><marker>liberalise</marker></example>
+                <example correction="lionize"><marker>lionise</marker></example>
+                <example correction="liquidize"><marker>liquidise</marker></example>
+                <example correction="lobotomize"><marker>lobotomise</marker></example>
+                <example correction="localize"><marker>localise</marker></example>
+                <example correction="magnetize"><marker>magnetise</marker></example>
+                <example correction="marginalize"><marker>marginalise</marker></example>
+                <example correction="materialize"><marker>materialise</marker></example>
+                <example correction="maximize"><marker>maximise</marker></example>
+                <example correction="mechanize"><marker>mechanise</marker></example>
+                <example correction="memorialize"><marker>memorialise</marker></example>
+                <example correction="memorize"><marker>memorise</marker></example>
+                <example correction="mesmerize"><marker>mesmerise</marker></example>
+                <example correction="metabolize"><marker>metabolise</marker></example>
+                <example correction="methodize"><marker>methodise</marker></example>
+                <example correction="militarize"><marker>militarise</marker></example>
+                <example correction="miniaturize"><marker>miniaturise</marker></example>
+                <example correction="minimize"><marker>minimise</marker></example>
+                <example correction="mobilize"><marker>mobilise</marker></example>
+                <example correction="modernize"><marker>modernise</marker></example>
+                <example correction="modularize"><marker>modularise</marker></example>
+                <example correction="moisturize"><marker>moisturise</marker></example>
+                <example correction="monetize"><marker>monetise</marker></example>
+                <example correction="monopolize"><marker>monopolise</marker></example>
+                <example correction="moralize"><marker>moralise</marker></example>
+                <example correction="motorize"><marker>motorise</marker></example>
+                <example correction="nasalize"><marker>nasalise</marker></example>
+                <example correction="nationalize"><marker>nationalise</marker></example>
+                <example correction="naturalize"><marker>naturalise</marker></example>
+                <example correction="neutralize"><marker>neutralise</marker></example>
+                <example correction="nominalize"><marker>nominalise</marker></example>
+                <example correction="normalize"><marker>normalise</marker></example>
+                <example correction="optimize"><marker>optimise</marker></example>
+                <example correction="organize"><marker>organise</marker></example>
+                <example correction="ostracize"><marker>ostracise</marker></example>
+                <example correction="overemphasize"><marker>overemphasise</marker></example>
+                <example correction="oxidize"><marker>oxidise</marker></example>
+                <example correction="paganize"><marker>paganise</marker></example>
+                <example correction="parameterize"><marker>parameterise</marker></example>
+                <example correction="parenthesize"><marker>parenthesise</marker></example>
+                <example correction="particularize"><marker>particularise</marker></example>
+                <example correction="passivize"><marker>passivise</marker></example>
+                <example correction="pasteurize"><marker>pasteurise</marker></example>
+                <example correction="patronize"><marker>patronise</marker></example>
+                <example correction="pauperize"><marker>pauperise</marker></example>
+                <example correction="pedestrianize"><marker>pedestrianise</marker></example>
+                <example correction="penalize"><marker>penalise</marker></example>
+                <example correction="personalize"><marker>personalise</marker></example>
+                <example correction="philosophize"><marker>philosophise</marker></example>
+                <example correction="photosensitize"><marker>photosensitise</marker></example>
+                <example correction="photosynthesize"><marker>photosynthesise</marker></example>
+                <example correction="plagiarize"><marker>plagiarise</marker></example>
+                <example correction="polarize"><marker>polarise</marker></example>
+                <example correction="politicize"><marker>politicise</marker></example>
+                <example correction="popularize"><marker>popularise</marker></example>
+                <example correction="pressurize"><marker>pressurise</marker></example>
+                <example correction="prioritize"><marker>prioritise</marker></example>
+                <example correction="privatize"><marker>privatise</marker></example>
+                <example correction="professionalize"><marker>professionalise</marker></example>
+                <example correction="propagandize"><marker>propagandise</marker></example>
+                <example correction="proselytize"><marker>proselytise</marker></example>
+                <example correction="publicize"><marker>publicise</marker></example>
+                <example correction="pulverize"><marker>pulverise</marker></example>
+                <example correction="radicalize"><marker>radicalise</marker></example>
+                <example correction="randomize"><marker>randomise</marker></example>
+                <example correction="rationalize"><marker>rationalise</marker></example>
+                <example correction="realize"><marker>realise</marker></example>
+                <example correction="recognize"><marker>recognise</marker></example>
+                <example correction="regularize"><marker>regularise</marker></example>
+                <example correction="reorganize"><marker>reorganise</marker></example>
+                <example correction="repressurize"><marker>repressurise</marker></example>
+                <example correction="revitalize"><marker>revitalise</marker></example>
+                <example correction="revolutionize"><marker>revolutionise</marker></example>
+                <example correction="rhapsodize"><marker>rhapsodise</marker></example>
+                <example correction="romanticize"><marker>romanticise</marker></example>
+                <example correction="ruralize"><marker>ruralise</marker></example>
+                <example correction="sanitize"><marker>sanitise</marker></example>
+                <example correction="satirize"><marker>satirise</marker></example>
+                <example correction="scandalize"><marker>scandalise</marker></example>
+                <example correction="schematize"><marker>schematise</marker></example>
+                <example correction="scrutinize"><marker>scrutinise</marker></example>
+                <example correction="secularize"><marker>secularise</marker></example>
+                <example correction="sensationalize"><marker>sensationalise</marker></example>
+                <example correction="sensitize"><marker>sensitise</marker></example>
+                <example correction="sensualize"><marker>sensualise</marker></example>
+                <example correction="sentimentalize"><marker>sentimentalise</marker></example>
+                <example correction="serialize"><marker>serialise</marker></example>
+                <example correction="sermonize"><marker>sermonise</marker></example>
+                <example correction="signalize"><marker>signalise</marker></example>
+                <example correction="socialize"><marker>socialise</marker></example>
+                <example correction="sodomize"><marker>sodomise</marker></example>
+                <example correction="solarize"><marker>solarise</marker></example>
+                <example correction="solecize"><marker>solecise</marker></example>
+                <example correction="solemnize"><marker>solemnise</marker></example>
+                <example correction="soliloquize"><marker>soliloquise</marker></example>
+                <example correction="specialize"><marker>specialise</marker></example>
+                <example correction="spiritualize"><marker>spiritualise</marker></example>
+                <example correction="stabilize"><marker>stabilise</marker></example>
+                <example correction="sterilize"><marker>sterilise</marker></example>
+                <example correction="stigmatize"><marker>stigmatise</marker></example>
+                <example correction="strategize"><marker>strategise</marker></example>
+                <example correction="stylize"><marker>stylise</marker></example>
+                <example correction="subsidize"><marker>subsidise</marker></example>
+                <example correction="subvocalize"><marker>subvocalise</marker></example>
+                <example correction="summarize"><marker>summarise</marker></example>
+                <example correction="symbolize"><marker>symbolise</marker></example>
+                <example correction="sympathize"><marker>sympathise</marker></example>
+                <example correction="synchronize"><marker>synchronise</marker></example>
+                <example correction="synthesize"><marker>synthesise</marker></example>
+                <example correction="systematize"><marker>systematise</marker></example>
+                <example correction="tantalize"><marker>tantalise</marker></example>
+                <example correction="temporize"><marker>temporise</marker></example>
+                <example correction="tenderize"><marker>tenderise</marker></example>
+                <example correction="terrorize"><marker>terrorise</marker></example>
+                <example correction="theorize"><marker>theorise</marker></example>
+                <example correction="totalize"><marker>totalise</marker></example>
+                <example correction="tranquillize"><marker>tranquillise</marker></example>
+                <example correction="traumatize"><marker>traumatise</marker></example>
+                <example correction="trivialize"><marker>trivialise</marker></example>
+                <example correction="tyrannize"><marker>tyrannise</marker></example>
+                <example correction="unionize"><marker>unionise</marker></example>
+                <example correction="universalize"><marker>universalise</marker></example>
+                <example correction="urbanize"><marker>urbanise</marker></example>
+                <example correction="utilize"><marker>utilise</marker></example>
+                <example correction="vandalize"><marker>vandalise</marker></example>
+                <example correction="vaporize"><marker>vaporise</marker></example>
+                <example correction="verbalize"><marker>verbalise</marker></example>
+                <example correction="victimize"><marker>victimise</marker></example>
+                <example correction="visualize"><marker>visualise</marker></example>
+                <example correction="vitalize"><marker>vitalise</marker></example>
+                <example correction="vocalize"><marker>vocalise</marker></example>
+                <example correction="vulcanize"><marker>vulcanise</marker></example>
+                <example correction="vulgarize"><marker>vulgarise</marker></example>
+                <example correction="westernize"><marker>westernise</marker></example>
+                <example correction="womanize"><marker>womanise</marker></example>
+            </rule>
+         </rulegroup>
     </category>
 </rules>
