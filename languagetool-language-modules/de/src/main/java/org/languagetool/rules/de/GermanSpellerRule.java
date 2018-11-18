@@ -134,6 +134,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("Geschwindlichkeit(en)?", "lich", "ig");
     put("Investion", "Investition");
     put("Pakur", w -> Arrays.asList("Parcours", "Parkuhr"));
+    put("Erstsemesterin", w -> Arrays.asList("Erstsemester", "Erstsemesters"));
+    put("Erstsemesterinnen", w -> Arrays.asList("Erstsemester", "Erstsemestern"));
     put("kreativlos(e[nmrs]?)?", w -> Arrays.asList(w.replaceFirst("kreativ", "fantasie"), w.replaceFirst("kreativ", "einfalls"), w.replaceFirst("kreativlos", "unkreativ"), w.replaceFirst("kreativlos", "uninspiriert")));
     put("Kreativlosigkeit", "Unkreativität");
     put("hinund?her", "hin und her");
