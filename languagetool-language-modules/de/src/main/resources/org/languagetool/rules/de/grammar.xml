@@ -14697,6 +14697,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Geschlechtergerechte Sprache -->
     <!-- ====================================================================== -->
     <category id="GENDER_NEUTRALITY" name="Geschlechtergerechte Sprache" type="style">
+        <rule id="ERSTSEMESTERIN" name="die Erstsemesterin (das Erstsemester)">
+            <pattern>
+                <marker>
+                    <token postag_regexp="yes" postag="ART:(DEF|IND):(AKK|NOM|DAT):SIN:FEM"></token>
+                    <token>Erstsemesterin</token>
+                </marker>
+            </pattern>
+            <message>Meinten Sie <suggestion><match no="1" postag_regexp="yes" postag="^(ART:(DEF|IND):(AKK|NOM|DAT):SIN):FEM" postag_replace="$1:NEU" /> Erstsemester</suggestion>? Das Wort "Semester" ist geschlechtsneutral.</message>
+            <url>https://www.duden.de/rechtschreibung/Erstsemester</url>
+            <example correction="Das Erstsemester"><marker>Die Erstsemesterin</marker> war sehr hübsch.</example>
+            <example correction="Einem Erstsemester"><marker>Einer Erstsemesterin</marker> wurde eine Frage gestellt.</example>
+            <example correction="Ein Erstsemester"><marker>Eine Erstsemesterin</marker> stellte schüchtern eine Frage.</example>
+            <example correction="ein Erstsemester">Ich bin <marker>eine Erstsemesterin</marker>.</example>
+        </rule>
         <rule id="MAENNER_VS_LEUTE" name="'Kaufmänner' etc. statt 'Kaufleute'">
             <antipattern>
                 <token regexp="yes">(.*kauf|Kamera|Verbindungs|See|Feuerwehr|Berufsfeuerwehr|Gewährs|Edel|Vertrauens|Ombuds|Wach|Geschäfts|Werbefach)männern?</token>
