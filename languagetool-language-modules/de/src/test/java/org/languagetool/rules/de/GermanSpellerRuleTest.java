@@ -311,6 +311,7 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("verziehrte", "verzierte", rule, lt);
     assertFirstSuggestion("pieken", "piken", rule, lt); // Duden insists on this spelling
     assertFirstSuggestion("Erstsemesterin", "Erstsemester", rule, lt);
+    assertFirstSuggestion("zauberlicher", "zauberischer", rule, lt);
   }
 
   @Test

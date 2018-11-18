@@ -151,6 +151,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("verhingen", "verhängten");
     put("fangte", "fing");
     put("fangten", "fingen");
+    put("schlie[sß]te", "schloss");
+    put("schlie[sß]ten", "schlossen");
     put("past", "passt");
     put("eingetragt", "eingetragen");
     put("getrunkt", "getrunken");
@@ -184,6 +186,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("nachvollzuziehe?n", "nachzuvollziehen");
     put("[bB]ischen", "bisschen");
     put("Porto?folien", "Portfolios");
+    put("schwie?ri?chkeiten", "Schwierigkeiten");
+    put("[zZ]auberlich(e[mnrs]?)?", w -> Arrays.asList(w.replaceFirst("lich", "isch"), w.replaceFirst("lich", "haft")));
     putRepl("indifiziert(e[mnrs]?)?", "ind", "ident");
     putRepl("dreite[mnrs]?", "dreit", "dritt");
     putRepl("verblüte[mnrs]?", "blü", "blüh");
