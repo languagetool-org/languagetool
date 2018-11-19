@@ -7312,6 +7312,14 @@ USA
         <rulegroup id="PLURAL_VERB_AFTER_THIS" name="Plural verb after 'this' or 'that'">
     <!-- Created by Tiago F. Santos, 2018-09-15	-->
             <rule>
+                <antipattern><!--  and those that owe this are called subditus natus; -->
+                    <token>those</token>
+                    <token regexp='yes'>that|which|who</token>
+                    <token postag_regexp='yes' postag='VBD?'/>
+                    <token>this</token>
+                    <token regexp='yes'>are|were</token>
+                    <token postag='VBN'/>
+                </antipattern>
                 <pattern>
                     <token regexp='yes'>th(?:is|at)<exception scope="previous" postag='IN'/><exception postag='W.+' postag_regexp='yes'/></token>
                     <token min='0' postag_regexp='yes' postag='NN(:U|P)?'><exception>can</exception></token>
@@ -7367,6 +7375,7 @@ USA
                 <example>...rily intended for expressing algorithms in a form that can be executed by a computer, but are often used as a w...</example>
                 <example>...ut I suppose that it could do very completely all that can be rationally expected of any logical machine".</example>
                 <example>...rmal definition: "...any sequence of instructions that can be obeyed by a robot, is called an algorithm" (p. 4)...</example>
+                <example>...is called alta ligeantia, and those that owe this are called subditus natus;</example>
            </rule>
         </rulegroup>
         <rulegroup id="THIS_NNS_VB" name="this + plural noun + verb (these)">
