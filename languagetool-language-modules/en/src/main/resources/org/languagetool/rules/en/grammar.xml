@@ -10357,6 +10357,10 @@ USA
         </marker>
         </antipattern>
             <rule>
+                <antipattern>
+                    <token regexp="yes">is|are</token>
+                    <token case_sensitive="yes">GO</token>
+                </antipattern>
                 <pattern>
                     <token inflected="yes">be
                         <exception scope="previous" postag_regexp="yes" postag="VBP?" negate="yes" regexp="yes">ha(?:ve|s)</exception>
@@ -10381,6 +10385,7 @@ USA
                 <example>The other patrons were taxi drivers.</example>
                 <example>All she does is eat.</example>
                 <example>Everybody's fault is nobody's fault.</example>
+                <example>Main Engines <marker>are GO</marker> … 3… 2… 1… And we have liftoff!”</example>
             </rule>
             <rule>
                 <antipattern><!-- Cannot use a chunk in an exception. Thus, use an antipattern with a chunk in a token. -->
