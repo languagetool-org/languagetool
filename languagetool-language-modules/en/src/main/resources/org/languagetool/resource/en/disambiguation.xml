@@ -3436,17 +3436,14 @@
 	</rule>
   		
 	<rule id="VBN_VBD" name="Past Participle">
-	    <antipattern>
-	        <token postag='RB'/>
-	        <token>crowded</token>
-	    </antipattern>
 		<pattern>
 			<token inflected="yes" regexp="yes">be|have</token>
             <token min="0" max="2" postag="PRP|NN.*|RB" postag_regexp="yes"/>
 			<marker>
 				<and>
 					<token postag="VBD"/>
-					<token postag="VBN"/>
+					<token postag="VBN">
+					  <exception>crowded</exception></token>
 				</and>
 			</marker>
 		</pattern>
