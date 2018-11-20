@@ -194,9 +194,19 @@ regexp case-insensitive maken : (?i)
     <category id="DYSLEXIE" name="Speciale regels m.b.t. dyslexie" default="on">
 
 		<!--
-		Deze regels zijn gegenereerd op basis van algemen fonetische veranderingen van woorden, onder de aanname dat dyslectici geneigd zijn fonetische te schrijven.
-		Daadwerkelijke gegevensd van schrijvende dyslectici ontbreken nog, helaas.
+		Deze regels zijn gegenereerd op basis van algemen fonetische veranderingen van woorden (deels handmatig aangepast), onder de aanname dat dyslectici geneigd zijn fonetisch te schrijven.
+		Daadwerkelijke gegevens van schrijvende dyslectici ontbreken nog, helaas.
 		-->
+        <rulegroup id="BOOMEN_BOMEN" name="waarschuwing bij gebruik boomen i.p.v. bomen">
+			<antipattern><token>te</token><token>boomen</token></antipattern>
+            <rule>
+                <pattern>
+                       <token>boomen</token>
+                </pattern>
+                <message>Bedoelt u misschien <suggestion>bomen</suggestion>? Boomen is 'exploderen'.</message>
+                <example correction="bomen">De <marker>boomen</marker> bloeien.</example>
+            </rule>
+        </rulegroup>
 		
         <rulegroup id="MEERT_MIRT" name="waarschuwing bij gebruik mirt i.p.v. meert">
 			<antipattern><token>de</token><token>mirt</token></antipattern>
