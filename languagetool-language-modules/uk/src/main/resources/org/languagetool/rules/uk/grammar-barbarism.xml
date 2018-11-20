@@ -973,10 +973,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <rule id="PRYSVOYUVATY_ZVANNIA" name="Присвоювати звання">
       <pattern>
         <marker>
-          <token inflected="yes" regexp="yes" skip="2">присвоювати|присвоїти|присвоюючи|присвоївши|присвоєний</token>
+          <token inflected="yes" regexp="yes" skip="3">присвоювати|присвоїти|присвоюючи|присвоївши|присвоєний</token>
         </marker>
-        <token postag_regexp="yes" postag="adv.*" min="0"/>
-        <token postag_regexp="yes" postag="adj:[np]:v_zna.*" min="0" max="2"/>
+<!--
+        <token min="0" max="3" postag_regexp="yes" postag="(noun|adj|adv|part).*">
+          <exception>звання</exception>
+        </token>
+-->
         <token>звання</token>
       </pattern>
       <message>Правильно: <suggestion>надати</suggestion>, <suggestion>надавати</suggestion></message>
@@ -986,6 +989,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="Надати|Надавати"><marker>Присвоїли</marker> йому звання народного артиста</example>
       <example correction="Надати|Надавати"><marker>Присвоїли</marker> йому почесне звання народного артиста</example>
       <example correction="Надати|Надавати"><marker>Присвоїли</marker> йому це почесне звання</example>
+      <example correction="Надати|Надавати"><marker>Присвоїли</marker> уряду Дзуринди звання</example>
+      <example correction="Надати|Надавати"><marker>Присвоїли</marker> Степанові Бандері звання</example>
       <example>Присвоїли собі чуже добро</example>
     </rule>
 
