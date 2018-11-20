@@ -10398,6 +10398,22 @@ onwaarschijnlijk
                 <example correction="Mark Zuckerberg">We zijn niet allemaal <marker>Marc Zuckerberg</marker>.</example>
                 <example correction="Mark Zuckerberg">Wellicht past hierbij ook de oproep van <marker>Marc Zuckerberg</marker>.</example>
             </rule>
+            <rule>
+                <antipattern>
+                    <token>Erich</token>
+                    <token>von</token>
+                    <token>Däniken</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">Eric|Erich|Erik</token>
+                    <token>von</token>
+                    <token regexp="yes">d[aä]niken</token>
+                </pattern>
+                <message>Schrijf <suggestion>Erich von Däniken</suggestion> als het gaat om de man van de ufo-theoriën.</message>
+                <url>https://nl.wikipedia.org/wiki/Erich_von_D%C3%A4niken</url>
+                <example correction="Erich von Däniken">Kent u <marker>Eric von Daniken</marker>?</example>
+
+            </rule>
 			<!-- DUTCH NAME CONFUSION -->
             <rule>
 				<antipattern><token>Mark</token><token>Rutte</token></antipattern>
