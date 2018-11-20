@@ -52,4 +52,14 @@ public class BritishEnglish extends English {
     rules.add(new UnitConversionRuleImperial(messages));
     return rules;
   }
+
+  @Override
+  public int getPriorityForId(String id) {
+    switch (id) {
+      case "OXFORD_SPELLING_IZE":                     return -20;
+      case "PROTOTYPE_OXFORD_SPELLING_ISATION_NOUNS": return -21;
+      case "PROTOTYPE_OXFORD_SPELLING_ISE_VERBS":     return -22;
+    }
+    return 0;
+  }
 }
