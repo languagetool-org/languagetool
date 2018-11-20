@@ -37,6 +37,7 @@ USA
     <!ENTITY languages "Akan|Amharic|Arabic|Assamese|Awadhi|Azerbaijani|Balochi|Bangla|Belarusian|Bengali|Bhojpuri|Burmese|Cantonese|Cebuano|Chewa|Chhattisgarhi|Chinese|Chittagonian|Czech|Deccan|Dhundhari|Dutch|English|Filipino|French|Fula|Gaelic|German|Greek|Gujarati|Hakka|Haryanvi|Hausa|Hiligaynon|Hindi|Hmong|Hunanese|Hungarian|Igbo|Ilocano|Ilonggo|Indonesian|Italian|Ja[pv]anese|Jin|Kannada|Kazakh|Khmer|Kinyarwanda|Kirundi|Konkani|Korean|Kurdish|Madurese|Magahi|Maithili|Malagasy|Malay(alam)?|Malaysian|Mandarin|Marathi|Marwari|Mossi|Nepali|Odia|Oriya|Oromo|Pashto|Persian|Polish|Portuguese|Punjabi|Quechua|Romanian|Russian|Saraiki|Serbo-Croatian|Shona|Sindhi|Sinhalese|Somali|Spanish|Sundanese|Swedish|Sylheti|Tagalog|Tamil|Telugu|Thai|Turk(ish|men)|Ukrainian|Urdu|Uyghur|Uzbek|Vietnamese|Visayan|Wu|Xhosa|Xiang|Yoruba|Yue|Zhuang|Zulu"><!-- Most are from https://en.wikipedia.org/wiki/List_of_languages_by_number_of_native_speakers -->
     <!ENTITY short_adjectives "bad|big|black|bland|blue|bold|brave|brief|bright|broad|calm|cheap|chewy|clean|close|coarse|cold|cool|cruel|cute|damp|dark|deep|dense|dry|dull|dumb|early|easy|faint|fair|far|fast|fat|few|fierce|fine|firm|fit|flat|fresh|full|good|grand|grave|great|gross|hard|harsh|high|hip|hot|humble|kind|large|late|light|little|long|loud|low|mad|mean|mild|moist|narrow|near|neat|new|nice|odd|old|plain|poor|proud|pure|quick|quiet|rare|raw|rich|ripe|rough|rude|sad|safe|sane|shallow|sharp|short|shy|silly|simple|sincere|slim|slow|small|smart|smooth|soft|soon|sore|sour|steep|strange|strict|strong|sweet|tall|tan|thick|thin|tiny|tough|true|ugly|warm|weak|weird|wet|wide|wild|wise|young">
     <!ENTITY optional_short_adjectives "angry|bitter|bloody|bossy|busy|chubby|classy|clear|clever|cloudy|clumsy|crazy|creamy|creepy|crispy|crunchy|curly|curvy|deadly|dirty|dusty|fancy|filthy|flaky|friendly|funny|gentle|gloomy|greasy|greedy|guilty|hairy|handy|happy|healthy|heavy|hungry|icy|itchy|juicy|lazy|likely|lively|lonely|lovely|messy|nasty|naughty|needy|noisy|oily|polite|pretty|risky|roomy|rusty|salty|scary|shiny|skinny|sleepy|slimy|smelly|smoky|sorry|spicy|stingy|sunny|sweaty|tasty|thirsty|wealthy|windy|worldly|worthy">
+    <!ENTITY extreme_qualifiers "extremely|exceedingly|exceptionally|especially|extraordinarily|fault|extreme|extra|tremendously|immensely|vastly|hugely|abundantly|intensely|acutely|singularly|significantly|distinctly|outstandingly|uncommonly|unusually|decidedly|particularly|eminently|supremely|highly|remarkably|really|truly|mightily|thoroughly|utmost|super|hiper|ultra">
     <!ENTITY ambiguous_date '
         <token regexp="yes">0?[1-9]|1[0-2]</token>
         <token>/</token>
@@ -12567,7 +12568,7 @@ USA
             <short>Use the extreme adjective instead.</short>
         <rule>
             <pattern>
-                <token regexp='yes'>very|extremely|utmost|super|hiper|ultra</token>
+                <token regexp='yes'>&extreme_qualifiers;</token>
                 <token inflected="yes">angry</token>
             </pattern>
             <message>The extreme adjective for angry is '<suggestion><match no="2">furious</match></suggestion>'.</message>
@@ -12575,7 +12576,7 @@ USA
         </rule>
         <rule>
             <pattern>
-                <token regexp='yes'>very|extremely|utmost|super|hiper|ultra</token>
+                <token regexp='yes'>&extreme_qualifiers;</token>
                 <token inflected="yes">bad</token>
             </pattern>
             <message>The extreme adjective for bad is '<suggestion><match no="2">awful</match></suggestion>', or '<suggestion><match no="2">terrible</match></suggestion>', or '<suggestion><match no="2">horrible</match></suggestion>'.</message>
@@ -12583,7 +12584,7 @@ USA
         </rule>
         <rule>
             <pattern>
-                <token regexp='yes'>very|extremely|utmost|super|hiper|ultra</token>
+                <token regexp='yes'>&extreme_qualifiers;</token>
                 <token inflected="yes">big</token>
             </pattern>
             <message>The extreme adjective for big is '<suggestion><match no="2">huge</match></suggestion>', or '<suggestion><match no="2">gigantic</match></suggestion>', or '<suggestion><match no="2">giant</match></suggestion>'.</message>
@@ -12591,7 +12592,7 @@ USA
         </rule>
         <rule>
             <pattern>
-                <token regexp='yes'>very|extremely|utmost|super|hiper|ultra</token>
+                <token regexp='yes'>&extreme_qualifiers;</token>
                 <token inflected="yes">clean</token>
             </pattern>
             <message>The extreme adjective for clean is '<suggestion><match no="2">spotless</match></suggestion>'.</message>
@@ -12599,7 +12600,7 @@ USA
         </rule>
         <rule>
             <pattern>
-                <token regexp='yes'>very|extremely|utmost|super|hiper|ultra</token>
+                <token regexp='yes'>&extreme_qualifiers;</token>
                 <token inflected="yes">cold</token>
             </pattern>
             <message>The extreme adjective for cold is '<suggestion><match no="2">freezing</match></suggestion>'.</message>
@@ -12607,7 +12608,7 @@ USA
         </rule>
         <rule>
             <pattern>
-                <token regexp='yes'>very|extremely|utmost|super|hiper|ultra</token>
+                <token regexp='yes'>&extreme_qualifiers;</token>
                 <token inflected="yes">crowded</token>
             </pattern>
             <message>The extreme adjective for crowded is '<suggestion><match no="2">packed</match></suggestion>'.</message>
@@ -12615,7 +12616,7 @@ USA
         </rule>
         <rule>
             <pattern>
-                <token regexp='yes'>very|extremely|utmost|super|hiper|ultra</token>
+                <token regexp='yes'>&extreme_qualifiers;</token>
                 <token inflected="yes">dirty</token>
             </pattern>
             <message>The extreme adjective for dirty is '<suggestion><match no="2">filthy</match></suggestion>'.</message>
@@ -12623,7 +12624,7 @@ USA
         </rule>
         <rule>
             <pattern>
-                <token regexp='yes'>very|extremely|utmost|super|hiper|ultra</token>
+                <token regexp='yes'>&extreme_qualifiers;</token>
                 <token inflected="yes">funny</token>
             </pattern>
             <message>The extreme adjective for funny is '<suggestion><match no="2">hilarious</match></suggestion>'.</message>
@@ -12631,7 +12632,7 @@ USA
         </rule>
         <rule>
             <pattern>
-                <token regexp='yes'>very|extremely|utmost|super|hiper|ultra</token>
+                <token regexp='yes'>&extreme_qualifiers;</token>
                 <token inflected="yes">good</token>
             </pattern>
             <message>The extreme adjective for good is '<suggestion><match no="2">wonderful</match></suggestion>', or '<suggestion><match no="2">fantastic</match></suggestion>', or '<suggestion><match no="2">excellent</match></suggestion>'.</message>
@@ -12639,7 +12640,7 @@ USA
         </rule>
         <rule>
             <pattern>
-                <token regexp='yes'>very|extremely|utmost|super|hiper|ultra</token>
+                <token regexp='yes'>&extreme_qualifiers;</token>
                 <token inflected="yes">hot</token>
             </pattern>
             <message>The extreme adjective for hot is '<suggestion><match no="2">boiling</match></suggestion>'.</message>
@@ -12647,7 +12648,7 @@ USA
         </rule>
         <rule>
             <pattern>
-                <token regexp='yes'>very|extremely|utmost|super|hiper|ultra</token>
+                <token regexp='yes'>&extreme_qualifiers;</token>
                 <token inflected="yes">hungry</token>
             </pattern>
             <message>The extreme adjective for hungry is '<suggestion><match no="2">starving</match></suggestion>'.</message>
@@ -12655,7 +12656,7 @@ USA
         </rule>
         <rule>
             <pattern>
-                <token regexp='yes'>very|extremely|utmost|super|hiper|ultra</token>
+                <token regexp='yes'>&extreme_qualifiers;</token>
                 <token inflected="yes">interesting</token>
             </pattern>
             <message>The extreme adjective for interesting is '<suggestion><match no="2">fascinating</match></suggestion>'.</message>
@@ -12663,7 +12664,7 @@ USA
         </rule>
         <rule>
             <pattern>
-                <token regexp='yes'>very|extremely|utmost|super|hiper|ultra</token>
+                <token regexp='yes'>&extreme_qualifiers;</token>
                 <token inflected="yes">old</token>
             </pattern>
             <message>The extreme adjective for old is '<suggestion><match no="2">ancient</match></suggestion>'.</message>
@@ -12671,7 +12672,7 @@ USA
         </rule>
         <rule>
             <pattern>
-                <token regexp='yes'>very|extremely|utmost|super|hiper|ultra</token>
+                <token regexp='yes'>&extreme_qualifiers;</token>
                 <token inflected="yes">pretty</token>
             </pattern>
             <message>The extreme adjective for pretty is '<suggestion><match no="2">gorgeous</match></suggestion>'.</message>
@@ -12679,7 +12680,7 @@ USA
         </rule>
         <rule>
             <pattern>
-                <token regexp='yes'>very|extremely|utmost|super|hiper|ultra</token>
+                <token regexp='yes'>&extreme_qualifiers;</token>
                 <token inflected="yes">scary</token>
             </pattern>
             <message>The extreme adjective for scary is '<suggestion><match no="2">terrifying</match></suggestion>'.</message>
@@ -12687,7 +12688,7 @@ USA
         </rule>
         <rule>
             <pattern>
-                <token regexp='yes'>very|extremely|utmost|super|hiper|ultra</token>
+                <token regexp='yes'>&extreme_qualifiers;</token>
                 <token inflected="yes">small</token>
             </pattern>
             <message>The extreme adjective for small is '<suggestion><match no="2">tiny</match></suggestion>'.</message>
@@ -12695,7 +12696,7 @@ USA
         </rule>
         <rule>
             <pattern>
-                <token regexp='yes'>very|extremely|utmost|super|hiper|ultra</token>
+                <token regexp='yes'>&extreme_qualifiers;</token>
                 <token inflected="yes">surprising</token>
             </pattern>
             <message>The extreme adjective for surprising is '<suggestion><match no="2">astounding</match></suggestion>'.</message>
@@ -12703,7 +12704,7 @@ USA
         </rule>
         <rule>
             <pattern>
-                <token regexp='yes'>very|extremely|utmost|super|hiper|ultra</token>
+                <token regexp='yes'>&extreme_qualifiers;</token>
                 <token inflected="yes">tired</token>
             </pattern>
             <message>The extreme adjective for tired is '<suggestion><match no="2">exhausted</match></suggestion>'.</message>
@@ -12711,7 +12712,7 @@ USA
         </rule>
         <rule>
             <pattern>
-                <token regexp='yes'>very|extremely|utmost|super|hiper|ultra</token>
+                <token regexp='yes'>&extreme_qualifiers;</token>
                 <token inflected="yes">ugly</token>
             </pattern>
             <message>The extreme adjective for ugly is '<suggestion><match no="2">hideous</match></suggestion>'.</message>
