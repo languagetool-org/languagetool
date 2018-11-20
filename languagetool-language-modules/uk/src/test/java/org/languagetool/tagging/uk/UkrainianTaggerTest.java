@@ -169,18 +169,32 @@ public class UkrainianTaggerTest {
         + "|120-мм/[120-мм]adj:m:v_dav|120-мм/[120-мм]adj:m:v_mis|120-мм/[120-мм]adj:m:v_naz|120-мм/[120-мм]adj:m:v_oru|120-мм/[120-мм]adj:m:v_rod|120-мм/[120-мм]adj:m:v_zna"
         + "|120-мм/[120-мм]adj:n:v_dav|120-мм/[120-мм]adj:n:v_mis|120-мм/[120-мм]adj:n:v_naz|120-мм/[120-мм]adj:n:v_oru|120-мм/[120-мм]adj:n:v_rod|120-мм/[120-мм]adj:n:v_zna"
         + "|120-мм/[120-мм]adj:p:v_dav|120-мм/[120-мм]adj:p:v_mis|120-мм/[120-мм]adj:p:v_naz|120-мм/[120-мм]adj:p:v_oru|120-мм/[120-мм]adj:p:v_rod|120-мм/[120-мм]adj:p:v_zna", tokenizer, tagger);
+    }
 
+  @Test
+  public void testNumberedEntities() throws IOException {
     TestTools.myAssert("Євро-2014", "Євро-2014/[Євро-2014]noun:inanim:m:v_dav:nv:prop|Євро-2014/[Євро-2014]noun:inanim:m:v_mis:nv:prop|Євро-2014/[Євро-2014]noun:inanim:m:v_naz:nv:prop|Євро-2014/[Євро-2014]noun:inanim:m:v_oru:nv:prop|Євро-2014/[Євро-2014]noun:inanim:m:v_rod:nv:prop|Євро-2014/[Євро-2014]noun:inanim:m:v_zna:nv:prop", tokenizer, tagger);
     TestTools.myAssert("Ігри-2014", "Ігри-2014/[Гра-2014]noun:inanim:p:v_naz:prop|Ігри-2014/[Гра-2014]noun:inanim:p:v_zna:prop", tokenizer, tagger);
     TestTools.myAssert("ЧЄ-2014", "ЧЄ-2014/[ЧЄ-2014]noun:inanim:m:v_dav:nv:np:prop:abbr|ЧЄ-2014/[ЧЄ-2014]noun:inanim:m:v_mis:nv:np:prop:abbr|ЧЄ-2014/[ЧЄ-2014]noun:inanim:m:v_naz:nv:np:prop:abbr|ЧЄ-2014/[ЧЄ-2014]noun:inanim:m:v_oru:nv:np:prop:abbr|ЧЄ-2014/[ЧЄ-2014]noun:inanim:m:v_rod:nv:np:prop:abbr|ЧЄ-2014/[ЧЄ-2014]noun:inanim:m:v_zna:nv:np:prop:abbr", tokenizer, tagger);
-    TestTools.myAssert("Лондон-2014", "Лондон-2014/[Лондон-2014]noun:inanim:m:v_naz:prop:geo:xp2|Лондон-2014/[Лондон-2014]noun:inanim:m:v_zna:prop:geo:xp2", tokenizer, tagger);
-    TestTools.myAssert("Афіни-2014", "Афіни-2014/[Афіни-2014]noun:inanim:p:v_naz:prop:geo:ns|Афіни-2014/[Афіни-2014]noun:inanim:p:v_zna:prop:geo:ns", tokenizer, tagger);
-    TestTools.myAssert("Замок-2002", "Замок-2002/[Замок-2002]noun:inanim:m:v_naz:prop:geo|Замок-2002/[Замок-2002]noun:inanim:m:v_zna:prop:geo", tokenizer, tagger);
+    TestTools.myAssert("Лондон-2014", "Лондон-2014/[Лондон-2014]noun:inanim:m:v_naz:prop:xp2|Лондон-2014/[Лондон-2014]noun:inanim:m:v_zna:prop:xp2", tokenizer, tagger);
+    TestTools.myAssert("Афіни-2014", "Афіни-2014/[Афіни-2014]noun:inanim:p:v_naz:prop:ns|Афіни-2014/[Афіни-2014]noun:inanim:p:v_zna:prop:ns", tokenizer, tagger);
+    TestTools.myAssert("Замок-2002", "Замок-2002/[Замок-2002]noun:inanim:m:v_naz:prop|Замок-2002/[Замок-2002]noun:inanim:m:v_zna:prop", tokenizer, tagger);
 
-    TestTools.myAssert("Ан-140", "Ан-140/[Ан-140]noun:m:v_dav:prop|Ан-140/[Ан-140]noun:m:v_mis:prop|Ан-140/[Ан-140]noun:m:v_naz:prop|Ан-140/[Ан-140]noun:m:v_oru:prop|Ан-140/[Ан-140]noun:m:v_rod:prop|Ан-140/[Ан-140]noun:m:v_zna:prop", tokenizer, tagger);
-    TestTools.myAssert("ВАЗ-2104", "ВАЗ-2104/[ВАЗ-2104]noun:f:v_dav:prop|ВАЗ-2104/[ВАЗ-2104]noun:f:v_mis:prop|ВАЗ-2104/[ВАЗ-2104]noun:f:v_naz:prop|ВАЗ-2104/[ВАЗ-2104]noun:f:v_oru:prop|ВАЗ-2104/[ВАЗ-2104]noun:f:v_rod:prop|ВАЗ-2104/[ВАЗ-2104]noun:f:v_zna:prop|ВАЗ-2104/[ВАЗ-2104]noun:m:v_dav:prop|ВАЗ-2104/[ВАЗ-2104]noun:m:v_mis:prop|ВАЗ-2104/[ВАЗ-2104]noun:m:v_naz:prop|ВАЗ-2104/[ВАЗ-2104]noun:m:v_oru:prop|ВАЗ-2104/[ВАЗ-2104]noun:m:v_rod:prop|ВАЗ-2104/[ВАЗ-2104]noun:m:v_zna:prop", tokenizer, tagger);
-    TestTools.myAssert("Міг-21М", "Міг-21М/[Міг-21М]noun:m:v_dav:prop|Міг-21М/[Міг-21М]noun:m:v_mis:prop|Міг-21М/[Міг-21М]noun:m:v_naz:prop|Міг-21М/[Міг-21М]noun:m:v_oru:prop|Міг-21М/[Міг-21М]noun:m:v_rod:prop|Міг-21М/[Міг-21М]noun:m:v_zna:prop", tokenizer, tagger);
+    TestTools.myAssert("Ан-140", "Ан-140/[Ан-140]noun:inanim:m:v_dav:nv|Ан-140/[Ан-140]noun:inanim:m:v_mis:nv|Ан-140/[Ан-140]noun:inanim:m:v_naz:nv|Ан-140/[Ан-140]noun:inanim:m:v_oru:nv|Ан-140/[Ан-140]noun:inanim:m:v_rod:nv|Ан-140/[Ан-140]noun:inanim:m:v_zna:nv|Ан-140/[Ан-140]noun:inanim:p:v_dav:nv|Ан-140/[Ан-140]noun:inanim:p:v_mis:nv|Ан-140/[Ан-140]noun:inanim:p:v_naz:nv|Ан-140/[Ан-140]noun:inanim:p:v_oru:nv|Ан-140/[Ан-140]noun:inanim:p:v_rod:nv|Ан-140/[Ан-140]noun:inanim:p:v_zna:nv", tokenizer, tagger);
+    TestTools.myAssert("ВАЗ-2104", "ВАЗ-2104/[ВАЗ-2104]noun:inanim:f:v_dav:nv|ВАЗ-2104/[ВАЗ-2104]noun:inanim:f:v_mis:nv|ВАЗ-2104/[ВАЗ-2104]noun:inanim:f:v_naz:nv|ВАЗ-2104/[ВАЗ-2104]noun:inanim:f:v_oru:nv|ВАЗ-2104/[ВАЗ-2104]noun:inanim:f:v_rod:nv|ВАЗ-2104/[ВАЗ-2104]noun:inanim:f:v_zna:nv|ВАЗ-2104/[ВАЗ-2104]noun:inanim:m:v_dav:nv|ВАЗ-2104/[ВАЗ-2104]noun:inanim:m:v_mis:nv|ВАЗ-2104/[ВАЗ-2104]noun:inanim:m:v_naz:nv|ВАЗ-2104/[ВАЗ-2104]noun:inanim:m:v_oru:nv|ВАЗ-2104/[ВАЗ-2104]noun:inanim:m:v_rod:nv|ВАЗ-2104/[ВАЗ-2104]noun:inanim:m:v_zna:nv|ВАЗ-2104/[ВАЗ-2104]noun:inanim:p:v_dav:nv|ВАЗ-2104/[ВАЗ-2104]noun:inanim:p:v_mis:nv|ВАЗ-2104/[ВАЗ-2104]noun:inanim:p:v_naz:nv|ВАЗ-2104/[ВАЗ-2104]noun:inanim:p:v_oru:nv|ВАЗ-2104/[ВАЗ-2104]noun:inanim:p:v_rod:nv|ВАЗ-2104/[ВАЗ-2104]noun:inanim:p:v_zna:nv", tokenizer, tagger);
+    TestTools.myAssert("Міг-21М", "Міг-21М/[Міг-21М]noun:inanim:m:v_dav:nv|Міг-21М/[Міг-21М]noun:inanim:m:v_mis:nv|Міг-21М/[Міг-21М]noun:inanim:m:v_naz:nv|Міг-21М/[Міг-21М]noun:inanim:m:v_oru:nv|Міг-21М/[Міг-21М]noun:inanim:m:v_rod:nv|Міг-21М/[Міг-21М]noun:inanim:m:v_zna:nv|Міг-21М/[Міг-21М]noun:inanim:p:v_dav:nv|Міг-21М/[Міг-21М]noun:inanim:p:v_mis:nv|Міг-21М/[Міг-21М]noun:inanim:p:v_naz:nv|Міг-21М/[Міг-21М]noun:inanim:p:v_oru:nv|Міг-21М/[Міг-21М]noun:inanim:p:v_rod:nv|Міг-21М/[Міг-21М]noun:inanim:p:v_zna:nv", tokenizer, tagger);
 //    TestTools.myAssert("Площі–2006", "Площі–2006/[Площа-2006]noun:inanim:p:v_dav:prop:ns|Площі–2006/[Площа-2006]noun:inanim:p:v_mis:prop:ns|Площі–2006/[Площа-2006]noun:inanim:p:v_rod:prop:ns", tokenizer, tagger);
+
+    TestTools.myAssert("топ-10", "топ-10/[топ-10]noninfl", tokenizer, tagger);
+
+
+    TestTools.myAssert("Формули-1", "Формули-1/[Формула-1]noun:inanim:f:v_rod:prop|Формули-1/[Формула-1]noun:inanim:p:v_naz:prop|Формули-1/[Формула-1]noun:inanim:p:v_zna:prop", tokenizer, tagger);
+    TestTools.myAssert("Карпати-2", "Карпати-2/[Карпати-2]noun:inanim:p:v_naz:prop:geo:ns|Карпати-2/[Карпати-2]noun:inanim:p:v_zna:prop:geo:ns", tokenizer, tagger);
+    TestTools.myAssert("ТЕЦ-1", "ТЕЦ-1/[ТЕЦ-1]noun:inanim:f:v_dav:nv|ТЕЦ-1/[ТЕЦ-1]noun:inanim:f:v_mis:nv|ТЕЦ-1/[ТЕЦ-1]noun:inanim:f:v_naz:nv|ТЕЦ-1/[ТЕЦ-1]noun:inanim:f:v_oru:nv|ТЕЦ-1/[ТЕЦ-1]noun:inanim:f:v_rod:nv|ТЕЦ-1/[ТЕЦ-1]noun:inanim:f:v_zna:nv", tokenizer, tagger);
+
+    TestTools.myAssert("омега-3", "омега-3/[омега-3]noun:inanim:f:v_naz", tokenizer, tagger);
+    
+    assertNotTagged("Берлін-7");
   }
 
   @Test
@@ -426,8 +440,8 @@ public class UkrainianTaggerTest {
     TestTools.myAssert("поселення-гігант", "поселення-гігант/[поселення-гігант]noun:inanim:n:v_naz|поселення-гігант/[поселення-гігант]noun:inanim:n:v_zna", tokenizer, tagger);
     TestTools.myAssert("бот-учитель", "бот-учитель/[бот-учитель]noun:inanim:m:v_naz|бот-учитель/[бот-учитель]noun:inanim:m:v_zna", tokenizer, tagger);
     
-    TestTools.myAssert("сонях-красень", "сонях-красень/[сонях-красень]noun:inanim:m:v_naz|сонях-красень/[сонях-красень]noun:inanim:m:v_zna", tokenizer, tagger);
-    TestTools.myAssert("красень-сонях", "красень-сонях/[красень-сонях]noun:inanim:m:v_naz|красень-сонях/[красень-сонях]noun:inanim:m:v_zna", tokenizer, tagger);
+    TestTools.myAssert("сонях-красень", "сонях-красень/[сонях-красень]noun:inanim:m:v_naz|сонях-красень/[сонях-красень]noun:inanim:m:v_naz|сонях-красень/[сонях-красень]noun:inanim:m:v_zna|сонях-красень/[сонях-красень]noun:inanim:m:v_zna", tokenizer, tagger);
+    TestTools.myAssert("красень-сонях", "красень-сонях/[красень-сонях]noun:inanim:m:v_naz|красень-сонях/[красень-сонях]noun:inanim:m:v_naz|красень-сонях/[красень-сонях]noun:inanim:m:v_zna|красень-сонях/[красень-сонях]noun:inanim:m:v_zna", tokenizer, tagger);
     TestTools.myAssert("депутатів-привидів", "депутатів-привидів/[депутат-привид]noun:anim:p:v_rod|депутатів-привидів/[депутат-привид]noun:anim:p:v_zna", tokenizer, tagger);
     TestTools.myAssert("дівчата-зірочки", "дівчата-зірочки/[дівчина-зірочка]noun:anim:p:v_naz", tokenizer, tagger);
 
