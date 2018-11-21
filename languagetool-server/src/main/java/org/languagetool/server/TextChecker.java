@@ -443,10 +443,13 @@ abstract class TextChecker {
     return result;
   }
 
-  Language detectLanguageOfString(String text, String fallbackLanguage, List<String> preferredVariants, List<String> noopLangs) {
-    Language lang = identifier.detectLanguage(text, noopLangs);
-    if (lang == null) {
+  DetectedLanguage detectLanguageOfString(String text, String fallbackLanguage, List<String> preferredVariants, List<String> noopLangs) {
+    DetectedLanguage detected = identifier.detectLanguage(text, noopLangs);
+    Language lang;
+    if (detected == null) {
       lang = Languages.getLanguageForShortCode(fallbackLanguage != null ? fallbackLanguage : "en");
+    } else {
+      lang = detected.getDetectedLanguage();
     }
     if (preferredVariants.size() > 0) {
       for (String preferredVariant : preferredVariants) {
@@ -466,7 +469,7 @@ abstract class TextChecker {
         lang = lang.getDefaultLanguageVariant();
       }
     }
-    return lang;
+    return new DetectedLanguage(null, lang, detected != null ? detected.getDetectionConfidence() : 0f);
   }
 
   static class QueryParams {

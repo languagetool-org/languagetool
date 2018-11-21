@@ -21,7 +21,10 @@
     mapped to a no-op language without rules. Useful for clients that rely on
     language auto-detection and whose users might use languages not supported by LT.
     NOTE 1: only works with fastText configured
-    NOTE 2: setting languages here will worsen language detection quality on average 
+    NOTE 2: setting languages here will worsen language detection quality on average
+  * Change to language detection behavior: Removed fallback to English when confidence of detection algorithm is low,
+    instead now always returning highest scoring detected language. Added a field `confidence` to `detectedLanguage`
+    object in the JSON response that contains the probability score for the detected language as computed by the detection algorithm.
 
 
 

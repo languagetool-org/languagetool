@@ -27,6 +27,7 @@ import com.optimaize.langdetect.profiles.LanguageProfile;
 import com.optimaize.langdetect.profiles.LanguageProfileReader;
 import com.optimaize.langdetect.text.*;
 import org.jetbrains.annotations.Nullable;
+import org.languagetool.DetectedLanguage;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
@@ -155,22 +156,26 @@ public class LanguageIdentifier {
    */
   @Nullable
   public Language detectLanguage(String text) {
-    return detectLanguage(text, Collections.emptyList());
+    DetectedLanguage detectedLanguage = detectLanguage(text, Collections.emptyList());
+    if (detectedLanguage == null) {
+      return null;
+    }
+    return detectedLanguage.getDetectedLanguage();
   }
   
   /**
    * @return language or {@code null} if language could not be identified
    * @param noopLangs list of codes that are detected but will lead to the NoopLanguage that has no rules
-   * @since 4.4
+   * @since 4.4 (new parameter noopLangs, changed return type to DetectedLanguage)
    */
   @Nullable
-  public Language detectLanguage(String text, List<String> noopLangs) {
+  public DetectedLanguage detectLanguage(String text, List<String> noopLangs) {
     String shortText = text.length() > maxLength ? text.substring(0, maxLength) : text;
     shortText = textObjectFactory.forText(shortText).toString();
-    String languageCode = null;
+    Map.Entry<String,Double> result = null;
     if (fasttextEnabled) {
       try {
-        languageCode = getHighestScoringResult(runFasttext(shortText, noopLangs));
+         result = getHighestScoringResult(runFasttext(shortText, noopLangs));
       } catch (Exception e) {
         fasttextEnabled = false;
         logger.error("Disabling fasttext language identification, got error for text: " + text, e);
@@ -178,13 +183,15 @@ public class LanguageIdentifier {
       }
     }
     if (!fasttextEnabled) { // no else, value can change in if clause
-      languageCode = detectLanguageCode(shortText);
+      result = detectLanguageCode(shortText);
       if (noopLangs.size() > 0) {
         logger.warn("Cannot consider noopLanguages because not in fastText mode: " + noopLangs);
       }
     }
-    if (languageCode != null && canLanguageBeDetected(languageCode, noopLangs)) {
-      return Languages.getLanguageForShortCode(languageCode, noopLangs);
+    if (result != null && canLanguageBeDetected(result.getKey(), noopLangs)) {
+      return new DetectedLanguage(null,
+        Languages.getLanguageForShortCode(result.getKey(), noopLangs),
+        result.getValue().floatValue());
     } else {
       return null;
     }
@@ -200,7 +207,7 @@ public class LanguageIdentifier {
     fasttextOut = new BufferedWriter(new OutputStreamWriter(fasttextProcess.getOutputStream(), StandardCharsets.UTF_8));
   }
 
-  private String getHighestScoringResult(Map<String, Double> probs) {
+  private Map.Entry<String, Double> getHighestScoringResult(Map<String, Double> probs) {
     String result = null;
     double max = -1;
     for (Map.Entry<String, Double> entry : probs.entrySet()) {
@@ -209,7 +216,7 @@ public class LanguageIdentifier {
         result = entry.getKey();
       }
     }
-    return result;
+    return new AbstractMap.SimpleImmutableEntry<>(result, max);
   }
 
   private Map<String, Double> runFasttext(String text, List<String> additionalLanguageCodes) throws IOException {
@@ -242,12 +249,14 @@ public class LanguageIdentifier {
    * @return language or {@code null} if language could not be identified
    */
   @Nullable
-  private String detectLanguageCode(String text) {
-    Optional<LdLocale> lang = languageDetector.detect(text);
+  private Map.Entry<String, Double> detectLanguageCode(String text) {
+    List<com.optimaize.langdetect.DetectedLanguage> lang = languageDetector.getProbabilities(text);
     // comment in for debugging:
     //System.out.println(languageDetector.getProbabilities(textObject));
-    if (lang.isPresent()) {
-      return lang.get().getLanguage();
+    if (lang.size() > 0) {
+      String code = lang.get(0).getLocale().getLanguage();
+      double prob = lang.get(0).getProbability();
+      return new AbstractMap.SimpleImmutableEntry<>(code, prob);
     } else {
       return null;
     }

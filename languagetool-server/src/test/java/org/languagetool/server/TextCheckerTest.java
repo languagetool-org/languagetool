@@ -127,18 +127,34 @@ public class TextCheckerTest {
   @Test
   public void testDetectLanguageOfString() {
     List<String> e = Collections.emptyList();
-    assertThat(checker.detectLanguageOfString("", "en", Arrays.asList("en-GB"), e).getShortCodeWithCountryAndVariant(), is("en-GB"));
-    assertThat(checker.detectLanguageOfString("X", "en", Arrays.asList("en-GB"), e).getShortCodeWithCountryAndVariant(), is("en-GB"));
-    assertThat(checker.detectLanguageOfString("X", "en", Arrays.asList("en-ZA"), e).getShortCodeWithCountryAndVariant(), is("en-ZA"));
-    assertThat(checker.detectLanguageOfString(english, "de", Arrays.asList("en-GB", "de-AT"), e).getShortCodeWithCountryAndVariant(), is("en-GB"));
-    assertThat(checker.detectLanguageOfString(english, "de", Arrays.asList(), e).getShortCodeWithCountryAndVariant(), is("en-US"));
-    assertThat(checker.detectLanguageOfString(english, "de", Arrays.asList("de-AT", "en-ZA"), e).getShortCodeWithCountryAndVariant(), is("en-ZA"));
+    assertThat(checker.detectLanguageOfString("", "en", Arrays.asList("en-GB"), e)
+      .getDetectedLanguage().getShortCodeWithCountryAndVariant(), is("en-GB"));
+
+    // fallback language does not work anymore, now detected as ca-ES, ensure that at least the probability is low
+    //assertThat(checker.detectLanguageOfString("X", "en", Arrays.asList("en-GB"), e)
+    //  .getDetectedLanguage().getShortCodeWithCountryAndVariant(), is("en-GB"));
+    //assertThat(checker.detectLanguageOfString("X", "en", Arrays.asList("en-ZA"), e)
+    //  .getDetectedLanguage().getShortCodeWithCountryAndVariant(), is("en-ZA"));
+    assertThat(checker.detectLanguageOfString("X", "en", Arrays.asList("en-GB"), e)
+      .getDetectedLanguage().getShortCodeWithCountryAndVariant(), is("ca-ES"));
+    assertTrue(checker.detectLanguageOfString("X", "en", Arrays.asList("en-GB"), e)
+      .getDetectionConfidence() < 0.5);
+
+    assertThat(checker.detectLanguageOfString(english, "de", Arrays.asList("en-GB", "de-AT"), e)
+      .getDetectedLanguage().getShortCodeWithCountryAndVariant(), is("en-GB"));
+    assertThat(checker.detectLanguageOfString(english, "de", Arrays.asList(), e)
+      .getDetectedLanguage().getShortCodeWithCountryAndVariant(), is("en-US"));
+    assertThat(checker.detectLanguageOfString(english, "de", Arrays.asList("de-AT", "en-ZA"), e)
+      .getDetectedLanguage().getShortCodeWithCountryAndVariant(), is("en-ZA"));
     String german = "Das hier ist klar ein deutscher Text, sollte gut zu erkennen sein.";
-    assertThat(checker.detectLanguageOfString(german, "fr", Arrays.asList("de-AT", "en-ZA"), e).getShortCodeWithCountryAndVariant(), is("de-AT"));
-    assertThat(checker.detectLanguageOfString(german, "fr", Arrays.asList("de-at", "en-ZA"), e).getShortCodeWithCountryAndVariant(), is("de-AT"));
-    assertThat(checker.detectLanguageOfString(german, "fr", Arrays.asList(), e).getShortCodeWithCountryAndVariant(), is("de-DE"));
-    assertThat(checker.detectLanguageOfString(unsupportedCzech, "en", Arrays.asList(), e).
-            getShortCodeWithCountryAndVariant(), is("sk-SK"));  // misdetected because it's not supported
+    assertThat(checker.detectLanguageOfString(german, "fr", Arrays.asList("de-AT", "en-ZA"), e)
+      .getDetectedLanguage().getShortCodeWithCountryAndVariant(), is("de-AT"));
+    assertThat(checker.detectLanguageOfString(german, "fr", Arrays.asList("de-at", "en-ZA"), e)
+      .getDetectedLanguage().getShortCodeWithCountryAndVariant(), is("de-AT"));
+    assertThat(checker.detectLanguageOfString(german, "fr", Arrays.asList(), e)
+      .getDetectedLanguage().getShortCodeWithCountryAndVariant(), is("de-DE"));
+    assertThat(checker.detectLanguageOfString(unsupportedCzech, "en", Arrays.asList(), e)
+      .getDetectedLanguage().getShortCodeWithCountryAndVariant(), is("sk-SK"));  // misdetected because it's not supported
   }
 
   @Test
@@ -147,9 +163,11 @@ public class TextCheckerTest {
     HTTPServerConfig config = new HTTPServerConfig();
     config.setFasttextBinary(new File("/prg/fastText-0.1.0/fasttext"));
     config.setFasttextModel(new File("/prg/fastText-0.1.0/data/lid.176.bin"));
+    config.setFasttextBinary(new File("/home/fabian/Documents/fastText/fasttext"));
+    config.setFasttextModel(new File("/home/fabian/Documents/fastText/lid.176.bin"));
     TextChecker checker = new V2TextChecker(config, false, null, new RequestCounter());
     assertThat(checker.detectLanguageOfString(unsupportedCzech, "en", Arrays.asList(), Arrays.asList("foo", "cs")).
-            getShortCodeWithCountryAndVariant(), is("zz"));  // cs not supported but mapped to noop language 
+            getDetectedLanguage().getShortCodeWithCountryAndVariant(), is("zz"));  // cs not supported but mapped to noop language
   }
 
   @Test(expected = RuntimeException.class)
