@@ -15,8 +15,9 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
+ *
  */
-package org.languagetool.server;
+package org.languagetool;
 
 import org.languagetool.Language;
 
@@ -29,10 +30,19 @@ public class DetectedLanguage {
 
   private final Language givenLanguage;
   private final Language detectedLanguage;
+  private final float detectionConfidence;
 
   public DetectedLanguage(Language givenLanguage, Language detectedLanguage) {
-    this.givenLanguage = Objects.requireNonNull(givenLanguage);
+    this(givenLanguage, detectedLanguage, 1.0f);
+  }
+
+  /**
+   * @since 4.4
+   */
+  public DetectedLanguage(Language givenLanguage, Language detectedLanguage, float detectionConfidence) {
+    this.givenLanguage = givenLanguage;
     this.detectedLanguage = detectedLanguage;
+    this.detectionConfidence = detectionConfidence;
   }
 
   public Language getGivenLanguage() {
@@ -42,6 +52,14 @@ public class DetectedLanguage {
   public Language getDetectedLanguage() {
     return detectedLanguage;
   }
+
+  /**
+   * @since 4.4
+   */
+  public float getDetectionConfidence() {
+    return detectionConfidence;
+  }
+
 
   @Override
   public String toString() {

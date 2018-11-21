@@ -20,6 +20,7 @@ package org.languagetool.language;
 
 import org.junit.Ignore;
 import org.junit.Test;
+import org.languagetool.DetectedLanguage;
 import org.languagetool.Language;
 
 import java.io.File;
@@ -39,11 +40,6 @@ public class LanguageIdentifierTest {
 
   @Test
   public void testDetection() {
-    //identifier.enableFasttext(new File(fastTextBinary), new File(fastTextModel));
-    // fasttext just assumes english, ignore / comment out
-    langAssert(null, "");
-    langAssert(null, "X");
-
     langAssert("de", "Das ist ein deutscher Text");
     langAssert("en", "This is an English text");
     langAssert("fr", "Le mont Revard est un sommet du département français ...");
@@ -78,6 +74,7 @@ public class LanguageIdentifierTest {
   }
 
   @Test
+  @Ignore("disabled minimum length, instead now providing confidence score")
   public void testShortAndLongText() {
     LanguageIdentifier id10 = new LanguageIdentifier(10);
     langAssert(null, "Das ist so ein Text, mit dem man testen kann", id10);  // too short when max length is applied
@@ -93,9 +90,15 @@ public class LanguageIdentifierTest {
   
   @Test
   public void testKnownLimitations() {
+    // wrong, but low probabilities
+    //identifier.enableFasttext(new File(fastTextBinary), new File(fastTextModel));
+    // fasttext just assumes english, ignore / comment out
+    langAssert(null, "");
+    langAssert("ca", "X");
+
     // not activated because it impairs detection of Spanish, so ast and gl may be mis-detected:
     langAssert("es", "L'Iberorrománicu o Iberromance ye un subgrupu de llingües romances que posiblemente ...");  // ast
-    langAssert(null, "Dodro é un concello da provincia da Coruña pertencente á comarca do Sar ...");  // gl
+    langAssert("es", "Dodro é un concello da provincia da Coruña pertencente á comarca do Sar ...");  // gl
     // Somali, known by language-detector, but not by LT, so we get back something else:
     langAssert("tl", "Dhammaan garoomada caalamka ayaa loo isticmaalaa. Ururku waxa uu qabtaa ama uu ku shaqaleeyahay " +
             "isusocodka diyaaradaha aduunka ee iskaga gooshaya xuduudaha iyo ka hortagga wixii qalad ah iyo baaritaanka " +
@@ -136,8 +139,10 @@ public class LanguageIdentifierTest {
   }
   
   private void langAssert(String expectedLangCode, String text, LanguageIdentifier id, List<String> noopLangCodes) {
-    Language detectedLang = id.detectLanguage(text, noopLangCodes);
-    String detectedLangCode = detectedLang != null ? detectedLang.getShortCode() : null;
+    DetectedLanguage detectedLang = id.detectLanguage(text, noopLangCodes);
+    String detectedLangCode = detectedLang != null ?
+      detectedLang.getDetectedLanguage() != null ? detectedLang.getDetectedLanguage().getShortCode() : null
+      : null;
     if (expectedLangCode == null) {
       if (detectedLangCode != null) {
         fail("Got '" + detectedLangCode + "', expected null for '" + text + "'");
