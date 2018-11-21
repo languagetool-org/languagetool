@@ -141,7 +141,7 @@ class ApiV2 {
 
   private void handleRuleExamplesRequest(HttpExchange httpExchange, Map<String, String> params, HTTPServerConfig config) throws Exception {
     ensureGetMethod(httpExchange, "/rule/examples");
-    if (params.get("lang") ==  null) {
+    if (params.get("lang") == null) {
       throw new RuntimeException("'lang' parameter missing");
     }
     if (params.get("ruleId") == null) {

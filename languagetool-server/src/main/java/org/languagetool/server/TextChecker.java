@@ -261,7 +261,6 @@ abstract class TextChecker {
     }
     int textSize = aText.getPlainText().length();
 
-
     List<RuleMatch> ruleMatchesSoFar = Collections.synchronizedList(new ArrayList<>());
     
     Future<List<RuleMatch>> future = executorService.submit(new Callable<List<RuleMatch>>() {
