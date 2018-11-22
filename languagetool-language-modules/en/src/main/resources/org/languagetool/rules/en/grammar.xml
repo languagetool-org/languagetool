@@ -37,7 +37,7 @@ USA
     <!ENTITY languages "Akan|Amharic|Arabic|Assamese|Awadhi|Azerbaijani|Balochi|Bangla|Belarusian|Bengali|Bhojpuri|Burmese|Cantonese|Cebuano|Chewa|Chhattisgarhi|Chinese|Chittagonian|Czech|Deccan|Dhundhari|Dutch|English|Filipino|French|Fula|Gaelic|German|Greek|Gujarati|Hakka|Haryanvi|Hausa|Hiligaynon|Hindi|Hmong|Hunanese|Hungarian|Igbo|Ilocano|Ilonggo|Indonesian|Italian|Ja[pv]anese|Jin|Kannada|Kazakh|Khmer|Kinyarwanda|Kirundi|Konkani|Korean|Kurdish|Madurese|Magahi|Maithili|Malagasy|Malay(alam)?|Malaysian|Mandarin|Marathi|Marwari|Mossi|Nepali|Odia|Oriya|Oromo|Pashto|Persian|Polish|Portuguese|Punjabi|Quechua|Romanian|Russian|Saraiki|Serbo-Croatian|Shona|Sindhi|Sinhalese|Somali|Spanish|Sundanese|Swedish|Sylheti|Tagalog|Tamil|Telugu|Thai|Turk(ish|men)|Ukrainian|Urdu|Uyghur|Uzbek|Vietnamese|Visayan|Wu|Xhosa|Xiang|Yoruba|Yue|Zhuang|Zulu"><!-- Most are from https://en.wikipedia.org/wiki/List_of_languages_by_number_of_native_speakers -->
     <!ENTITY short_adjectives "bad|big|black|bland|blue|bold|brave|brief|bright|broad|calm|cheap|chewy|clean|close|coarse|cold|cool|cruel|cute|damp|dark|deep|dense|dry|dull|dumb|early|easy|faint|fair|far|fast|fat|few|fierce|fine|firm|fit|flat|fresh|full|good|grand|grave|great|gross|hard|harsh|high|hip|hot|humble|kind|large|late|light|little|long|loud|low|mad|mean|mild|moist|narrow|near|neat|new|nice|odd|old|plain|poor|proud|pure|quick|quiet|rare|raw|rich|ripe|rough|rude|sad|safe|sane|shallow|sharp|short|shy|silly|simple|sincere|slim|slow|small|smart|smooth|soft|soon|sore|sour|steep|strange|strict|strong|sweet|tall|tan|thick|thin|tiny|tough|true|ugly|warm|weak|weird|wet|wide|wild|wise|young">
     <!ENTITY optional_short_adjectives "angry|bitter|bloody|bossy|busy|chubby|classy|clear|clever|cloudy|clumsy|crazy|creamy|creepy|crispy|crunchy|curly|curvy|deadly|dirty|dusty|fancy|filthy|flaky|friendly|funny|gentle|gloomy|greasy|greedy|guilty|hairy|handy|happy|healthy|heavy|hungry|icy|itchy|juicy|lazy|likely|lively|lonely|lovely|messy|nasty|naughty|needy|noisy|oily|polite|pretty|risky|roomy|rusty|salty|scary|shiny|skinny|sleepy|slimy|smelly|smoky|sorry|spicy|stingy|sunny|sweaty|tasty|thirsty|wealthy|windy|worldly|worthy">
-    <!ENTITY extreme_qualifiers "extremely|exceedingly|exceptionally|especially|extraordinarily|fault|extreme|extra|tremendously|immensely|vastly|hugely|abundantly|intensely|acutely|singularly|significantly|distinctly|outstandingly|uncommonly|unusually|decidedly|particularly|eminently|supremely|highly|remarkably|really|truly|mightily|thoroughly|utmost|super|hiper|ultra">
+    <!ENTITY extreme_qualifiers "ex(?:treme(?:ly)?|ceedingly|ceptionally|tra(ordinarily)?)|especially|fault|tremendously|immensely|vastly|hugely|abundantly|intensely|acutely|singularly|significantly|distinctly|outstandingly|uncommonly|unusually|decidedly|particularly|eminently|supremely|highly|remarkably|really|truly|mightily|thoroughly|utmost|super|hiper|ultra">
     <!ENTITY ambiguous_date '
         <token regexp="yes">0?[1-9]|1[0-2]</token>
         <token>/</token>
@@ -3082,6 +3082,42 @@ USA
             <example>Mr. Lewis's dog bit me yesterday.</example>
             <example>People's Republic of China</example>
         </rule>
+      <rulegroup id="MISSING_GENITIVE" name="missing genitive (e.g., 'employees's' instead of 'employee's')">
+        <!-- Created by Tiago F. Santos, 2018-11-22 -->
+            <url>https://www.ef.edu/english-resources/english-grammar/forming-possessive/</url>
+        <rule>
+            <pattern case_sensitive="yes">
+                <token postag='SENT_START'/>
+              <marker>
+                <token postag="NNP">
+                  <exception regexp="yes">\p{L}+s</exception>
+                  <exception negate_pos='yes' postag_regexp='yes' postag="NN.+"/></token>
+                <token postag="NN.+"  postag_regexp='yes'>
+                  <exception postag='NNP'/>
+                  <exception negate_pos='yes' postag_regexp='yes' postag="NN.+"/></token>
+              </marker>
+            </pattern>
+            <message>The genitive is possibly missing.</message>
+              <suggestion>\2's \3</suggestion>
+            <example correction="Angela's idea"><marker>Angela idea</marker> is good.</example>
+        </rule>
+        <rule>
+            <pattern case_sensitive="yes">
+                <token postag='SENT_START'/>
+              <marker>
+                <token postag="NNP" regexp='yes'>\p{L}+s
+                  <exception negate_pos='yes' postag_regexp='yes' postag="NN.+"/></token>
+                <token postag="NN.+"  postag_regexp='yes'>
+                  <exception postag='NNP'/>
+                  <exception negate_pos='yes' postag_regexp='yes' postag="NN.+"/></token>
+              </marker>
+            </pattern>
+            <message>The genitive is possibly missing.</message>
+              <suggestion>\2' \3</suggestion>
+              <suggestion>\2's \3</suggestion>
+            <example correction="Fergus' idea|Fergus's idea"><marker>Fergus idea</marker> is good.</example>
+        </rule>
+      </rulegroup>
         <rulegroup id="WHOS" name="who's (whose)">
             <url>https://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_Misc</url>
             <rule>
