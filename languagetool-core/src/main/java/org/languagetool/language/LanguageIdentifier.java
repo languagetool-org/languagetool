@@ -188,7 +188,7 @@ public class LanguageIdentifier {
         logger.warn("Cannot consider noopLanguages because not in fastText mode: " + noopLangs);
       }
     }
-    if (result != null && canLanguageBeDetected(result.getKey(), noopLangs)) {
+    if (result != null && result.getKey() != null && canLanguageBeDetected(result.getKey(), noopLangs)) {
       return new DetectedLanguage(null,
         Languages.getLanguageForShortCode(result.getKey(), noopLangs),
         result.getValue().floatValue());

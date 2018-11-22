@@ -286,9 +286,8 @@ class LanguageToolHttpHandler implements HttpHandler {
     }
     if (logStacktrace) {
       message += "Stacktrace follows:";
+      message += ExceptionUtils.getStackTrace(e);
       print(message, System.err);
-      //noinspection CallToPrintStackTrace
-      e.printStackTrace();
     } else {
       message += "(no stacktrace logged)";
       print(message, System.err);
