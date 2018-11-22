@@ -26966,6 +26966,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
+        <rule id="FADA_PADRINA" name="fada *padrina">
+            <pattern>
+                <token regexp="yes">fada|fades</token>
+                <token regexp="yes">madrina|padrina|madrines|padrines</token>
+            </pattern>
+            <message>Expressió incorrecta.</message>
+            <suggestion>\1</suggestion>
+            <suggestion>\1 <match no="1" regexp_match="(?iu).*(a|es)" regexp_replace="protector$1"/></suggestion>
+            <example correction="fada|fada protectora">És la meua <marker>fada madrina</marker>.</example>
+            <example correction="fades|fades protectores">Són <marker>fades padrines</marker>.</example>
+        </rule>
         <rule id="SABER_A_POC" name="*saber a poc">
             <pattern>
                 <token inflected="yes">saber</token>
