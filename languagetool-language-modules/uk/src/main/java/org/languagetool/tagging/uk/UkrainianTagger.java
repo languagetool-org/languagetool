@@ -77,7 +77,7 @@ public class UkrainianTagger extends BaseTagger {
       return additionalTaggedTokens;
     }
     
-    if ( word.indexOf('-') != -1 ) {
+    if ( word.indexOf('-') > 0 ) {
       List<AnalyzedToken> guessedCompoundTags = compoundTagger.guessCompoundTag(word);
       return guessedCompoundTags;
     }

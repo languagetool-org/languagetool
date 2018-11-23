@@ -170,6 +170,22 @@ public final class PosTagHelper {
     return false;
   }
 
+  public static boolean hasPosTag2(List<TaggedWord> taggedWords, Pattern pattern) {
+    for(TaggedWord analyzedToken: taggedWords) {
+      if( analyzedToken.getPosTag() != null && pattern.matcher(analyzedToken.getPosTag()).matches() )
+        return true;
+    }
+    return false;
+  }
+
+  public static boolean startsWithPosTag(List<TaggedWord> taggedWords, String posTagPart) {
+    for(TaggedWord analyzedToken: taggedWords) {
+      if( analyzedToken.getPosTag() != null && analyzedToken.getPosTag().startsWith(posTagPart) )
+        return true;
+    }
+    return false;
+  }
+
   public static String getGenders(AnalyzedTokenReadings tokenReadings, String posTagRegex) {
     Pattern posTagPattern = Pattern.compile(posTagRegex);
 
