@@ -1831,7 +1831,18 @@
       <disambig action="replace"><wd pos="NCFP000"/></disambig>
     </rule>
   </rulegroup>
-
+  <rulegroup id="FILTER_PROPER_NAMES" name="Nomes próprios portugueses">
+    <!-- Created by Tiago F. Santos, Portuguese rule, 2017-09-18  	-->
+    <rule>
+      <pattern case_sensitive='yes'>
+          <token postag='NP.+' postag_regexp='yes' regexp='yes'>\p{Lu}.+
+            <exception scope='previous' postag='SENT_START'/></token>
+      </pattern>
+      <disambig action="filter" postag="NP.+"/>
+      <example inputform="Silva[Silva/NPCSG00,Silva/NPMSS00,silva/NCFS000]" outputform="Silva[Silva/NPCSG00,Silva/NPMSS00]" type="ambiguous">Isso são as ferramentas do <marker>Silva</marker>.</example>
+      <example type="untouched">Costa alentejana... que saudades...</example>
+    </rule>
+  </rulegroup>
   <rulegroup id="FOREIGN_PROPER_NAMES" name="Nomes estrangeiros">
     <!-- Created by Tiago F. Santos, Portuguese rule, 2017-09-18  	-->
     <rule>
