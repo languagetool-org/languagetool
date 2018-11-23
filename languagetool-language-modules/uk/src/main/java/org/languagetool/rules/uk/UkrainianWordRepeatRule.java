@@ -16,7 +16,7 @@ public class UkrainianWordRepeatRule extends WordRepeatRule {
       Arrays.asList("ст.")
   );
   private static final HashSet<String> REPEAT_ALLOWED_CAPS_SET = new HashSet<>(
-      Arrays.asList("Джей", "Бі", "Сі")
+      Arrays.asList("Джей", "Бі", "Сі", "Ла")
   );
 
   public UkrainianWordRepeatRule(ResourceBundle messages, Language language) {
@@ -32,13 +32,13 @@ public class UkrainianWordRepeatRule extends WordRepeatRule {
   public boolean ignore(AnalyzedTokenReadings[] tokens, int position) {
     AnalyzedTokenReadings analyzedTokenReadings = tokens[position];
     String token = analyzedTokenReadings.getToken();
-    
+
     // від добра добра не шукають
     if( position > 2 
         && token.equals("добра")
         && tokens[position-2].getToken().equalsIgnoreCase("від") )
       return true;
-    
+
     // Тому що що?
     if( position > 1 
         && token.equals("що")
