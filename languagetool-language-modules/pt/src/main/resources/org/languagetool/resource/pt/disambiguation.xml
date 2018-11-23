@@ -605,7 +605,7 @@
           <token regexp="yes">(?-i)Cividale|Morte|Lingua|Língua|Gagliano|Palestrina|Perugia|Cunha|Gama|Viadana|Vinci</token>
       </pattern>
       <disambig action="replace"><wd pos="NPCNSP0_"/></disambig>
-      <example type="untouched">De acordo com os dados no relatório esta quinta-feira apresentado na capital da Costa do Marfim...</example>
+      <example type="untouched">De acordo com os dados no relatório esta quinta-feira apresentado na capital da Costa do Marfim…</example>
     </rule>
     <rule>
       <pattern>
@@ -616,7 +616,7 @@
           <token regexp="yes">(?-i)Costa|Silva</token>
       </pattern>
       <disambig action="replace"><wd pos="NPCNSP0_"/></disambig>
-      <example type="untouched">De acordo com os dados no relatório esta quinta-feira apresentado na capital da Costa do Marfim...</example>
+      <example type="untouched">De acordo com os dados no relatório esta quinta-feira apresentado na capital da Costa do Marfim…</example>
     </rule>
   </rulegroup>
   <rulegroup id="NP_BRANDS" name="Brands and Trademarks">
@@ -1832,7 +1832,7 @@
     </rule>
   </rulegroup>
   <rulegroup id="FILTER_PROPER_NAMES" name="Nomes próprios portugueses">
-    <!-- Created by Tiago F. Santos, Portuguese rule, 2017-09-18  	-->
+    <!-- Created by Tiago F. Santos, Portuguese rule, 2018-11-23  	-->
     <rule>
       <pattern case_sensitive='yes'>
           <token postag='NP.+' postag_regexp='yes' regexp='yes'>\p{Lu}.+
@@ -1840,7 +1840,7 @@
       </pattern>
       <disambig action="filter" postag="NP.+"/>
       <example inputform="Silva[Silva/NPCSG00,Silva/NPMSS00,silva/NCFS000]" outputform="Silva[Silva/NPCSG00,Silva/NPMSS00]" type="ambiguous">Isso são as ferramentas do <marker>Silva</marker>.</example>
-      <example type="untouched">Costa alentejana... que saudades...</example>
+      <example type="untouched">Costa alentejana... que saudades…</example>
     </rule>
   </rulegroup>
   <rulegroup id="FOREIGN_PROPER_NAMES" name="Nomes estrangeiros">
@@ -1891,6 +1891,14 @@
   </rulegroup>
 
     <!-- XXX Ignore Spelling Rules XXX -->
+    <!--rule id='CONTRATED_INFINITIVE' name='Formas verbais oxítonas'>
+      <pattern>
+          <token postag='VMX0000' postag_regexp='yes'/>
+          <token regexp='yes' spacebefore='no'>&hifen;</token>
+          <token regexp='yes' spacebefore='no'>l[ao]s?</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule-->
     <rule id="EN_VOGUE" name="En vogue">
       <pattern>
           <token>en</token>
