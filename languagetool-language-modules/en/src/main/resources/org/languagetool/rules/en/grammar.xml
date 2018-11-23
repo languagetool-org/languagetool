@@ -181,6 +181,13 @@ USA
         </rule>
         <rulegroup id="APOS_RE" name="we'Re' (we're) etc">
           <rule>
+            <antipattern>
+              <marker>
+                <token regexp="yes">\p{Lu}+</token>
+                <token regexp="yes">['’]</token>
+                <token case_sensitive="yes">RE</token>
+              </marker>
+            </antipattern>
             <pattern>
               <marker>
                 <token regexp="yes">you|we|they|who</token>
@@ -192,18 +199,39 @@ USA
             <short>Possible typo</short>
             <example correction='We&apos;re'><marker>We'Re</marker> looking forward to our meeting.</example>         
             <example correction='We&apos;re'><marker>We'RE</marker> looking forward to our meeting.</example>         
+            <example correction='WE&apos;re'><marker>WE'Re</marker> here!</example><!-- The correction is not correct -->
+            <example><marker>We're</marker> looking forward to our meeting.</example>
+            <example>He's sad, but <marker>WE'RE</marker> happy.</example>
           </rule>
           <rule>
             <pattern>
               <marker>
-                <token regexp="yes">isn|aren|wasn|weren|don|doesn|didn|can|couldn|mayn|mightn|mustn|needn|oughtn|shan|shouldn|usedn|won|wouldn</token>
+                <token regexp="yes">isn|aren|wasn|weren|don|doesn|didn|can|couldn|mayn|mightn|mustn|needn|oughtn|shan|shouldn|usedn|won|wouldn<exception regexp="yes">\p{Lu}+</exception></token>
                 <token regexp="yes">['’]</token>
                 <token case_sensitive="yes">T</token>
               </marker>
             </pattern>
             <message>Did you mean <suggestion>\1\2t</suggestion>?</message>
             <short>Possible typo</short>
-            <example correction='don&apos;t'>We <marker>don'T</marker> need this.</example>         
+            <example correction='don&apos;t'>We <marker>don'T</marker> need this.</example>
+            <example>We <marker>don't</marker> need this.</example>
+            <example>We <marker>DON'T</marker> need this.</example>
+          </rule>
+          <rule>
+            <pattern case_sensitive="yes">
+              <marker>
+                <token postag_regexp="yes" postag="PRP|NN(:UN?)?"><exception regexp="yes">\p{Lu}+</exception></token>
+                <token regexp="yes">['’]</token>
+                <token>S</token>
+              </marker>
+            </pattern>
+            <message>Did you mean <suggestion>\1\2s</suggestion>?</message>
+            <short>Possible typo</short>
+            <example correction='it&apos;s'>… because <marker>it'S</marker> an example.</example>
+            <example correction='document&apos;s'>If the <marker>document'S</marker> too long, people won't read it.</example>
+            <example correction='Example&apos;s'>This <marker>Example'S</marker> not correct.</example>
+            <example>… because <marker>it's</marker> an example.</example>
+            <example>… but <marker>IT'S</marker> AN EXAMPLE!</example>
           </rule>
         </rulegroup>
         <rule id="AS_FOLLOW_AS_FOLLOWS" name="'as follow' (as follows)">
