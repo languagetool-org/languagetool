@@ -269,6 +269,9 @@ class LanguageToolHttpHandler implements HttpHandler {
     message += "Access from " + remoteAddress + ", ";
     message += "HTTP user agent: " + getHttpUserAgent(httpExchange) + ", ";
     message += "User agent param: " + params.get("useragent") + ", ";
+    if (params.get("v") != null) {
+      message += "v: " + params.get("v") + ", ";
+    }
     message += "Referrer: " + getHttpReferrer(httpExchange) + ", ";
     message += "language: " + params.get("language") + ", ";
     message += "h: " + reqCounter.getHandleCount() + ", ";
