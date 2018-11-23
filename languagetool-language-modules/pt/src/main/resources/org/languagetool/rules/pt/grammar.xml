@@ -341,7 +341,7 @@ title="Easy editing stylesheet" ?>
           <token postag='(?:D[ADIP].|NC|A..|P[^IDP].|Z.)MS.+' postag_regexp='yes'>
             <exception postag='(?:[NZ].|A..)[CF]S.+|V.[CSIG].+|(C|R).+|SPS00' postag_regexp='yes'/>
             <exception>ás</exception><!-- XXX Dealt by HOMOPHONE_AS_CARD -->
-            <exception regexp='yes'>e|ser|são|termo|nome</exception></token>
+            <exception regexp='yes'>e|ser|são|termo|nome|haver</exception></token>
           <token min='0' regexp='yes'>&adverbios_de_intensidade;</token>
           <token min='0' postag='(?:A..|Z.)C[SN].+' postag_regexp='yes'>
             <exception negate_pos='yes' postag_regexp='yes' postag='(?:[NZ].|A..)C[SN].+'/></token>
@@ -364,6 +364,7 @@ title="Easy editing stylesheet" ?>
       <example correction="uma terrível dor|um terrível (dor)">Tenho <marker>um terrível dor</marker> na cabeça.</example>
       <example correction="uma grande erupção|um grande (erupção)">Por exemplo, <marker>um grande erupção</marker> vulcânica causa maior reflexão da luz solar de vo…</example>
       <example>O monte Farinha é uma montanha do distrito de Vila Real.</example>
+      <example>Não parece haver má notícia capaz de…</example>
     </rule>
     <rule>
       <pattern>
@@ -498,7 +499,7 @@ title="Easy editing stylesheet" ?>
             <exception negate_pos='yes' postag_regexp='yes' postag='(?:[NZ].|A..)C[NS].+'/></token>
           <token postag='(?:[NZ].|A..)M.+' postag_regexp='yes'>
             <exception postag='(?:[NZ].|A..)[CF].+|V.[CSIG].+|(C|R).+|SPS00.*' postag_regexp='yes'/>
-            <exception regexp='yes'>um|uns|ser|&pontos_cardeais;|números?|são</exception></token>
+            <exception regexp='yes'>um|uns|ser|&pontos_cardeais;|números?|são|poder</exception></token>
         </marker>
           <token>
             <exception postag_regexp='yes' postag='[^Z].+' regexp='yes'>&hifen;</exception></token>
@@ -1316,7 +1317,7 @@ title="Easy editing stylesheet" ?>
         <suggestion><match no="2" postag="N.(..).+" postag_regexp="yes" postag_replace="DA0$1." case_conversion="alllower">o</match> \2</suggestion>
       <example correction="o Perú">Vão a <marker>Perú</marker>.</example><!-- XXX a o handled by CONTRACOES_OBRIGATORIAS -->
       <example correction="os EUA">Vão a <marker>EUA</marker>.</example><!-- XXX a os handled by CONTRACOES_OBRIGATORIAS -->
-      <!--example correction="a China">...entre os EUA e <marker>China</marker>...</example--><!-- TODO rethink postag_regexp='yes' CC|SENT_START Belize, Honduras e Panamá usam também a língua inglesa.-->
+    <!--example correction="a China">...entre os EUA e <marker>China</marker>...</example--><!-- TODO rethink postag_regexp='yes' CC|SENT_START Belize, Honduras e Panamá usam também a língua inglesa.-->
       <example>Perú</example>
       <example>Vão aos EUA</example>
       <example>Cerca de 500 km a oeste de Dakar, Senegal</example>
@@ -3967,6 +3968,11 @@ title="Easy editing stylesheet" ?>
           <token>uma</token>
           <token regexp='yes'>hora|badalada</token>
       </antipattern>
+      <antipattern>
+          <token>de</token>
+          <token regexp='yes'>uma?</token>
+          <token regexp='yes'>a</token>
+      </antipattern>
       <pattern>
           <token>
             <exception regexp='yes'>&hifen;</exception></token>
@@ -4725,16 +4731,16 @@ title="Easy editing stylesheet" ?>
     <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
           <token inflected='yes'>passar</token>
-	      <marker>
-			<token>de</token>
-		  </marker>
-		  <token>cima</token>		  
-		  <token>de</token>
+        <marker>
+          <token>de</token>
+        </marker>
+          <token>cima</token>
+          <token>de</token>
       </pattern>
       <message>Substitua por <suggestion>por</suggestion>.</message>
       <example correction="por">O carro passou <marker>de</marker> cima de uma bola.</example>
     </rule>
-	
+
     <rule id='DE_QUANDO_EM_VEZ' name="De vez em quando">
     <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
@@ -4764,17 +4770,17 @@ title="Easy editing stylesheet" ?>
     <rule id='DERIVADO_AO' name="Devido ao">
     <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
-		  <marker>
-			<token>derivado</token>			
-	      </marker>
-		  <token>ao</token>
-		  <token regexp="yes">calor|frio</token>
+        <marker>
+          <token>derivado</token>
+        </marker>
+          <token>ao</token>
+          <token regexp="yes">calor|frio</token>
       </pattern>
       <message>Substitua por: </message>
         <suggestion>devido</suggestion>
       <example correction='devido'>Tudo isto é <marker>derivado</marker> ao calor.</example>
     </rule>
-	
+
     <rule id='ESTAR_BOM_NA_VIDA' name="Estar bem na vida">
     <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
@@ -7308,6 +7314,12 @@ title="Easy editing stylesheet" ?>
           <token spacebefore='no'>na</token>
           <token regexp='yes'>verdade|prática</token>
           <token regexp='yes'>[\.\!\?]</token>
+      </antipattern>
+      <antipattern>
+          <token spacebefore='no'>na</token>
+          <token regexp='yes'>verdade|prática</token>
+          <token postag='A.+' postag_regexp='yes'/>
+          <token regexp='yes'>[\,\.\!\?]</token>
       </antipattern>
       <pattern>
           <token>
