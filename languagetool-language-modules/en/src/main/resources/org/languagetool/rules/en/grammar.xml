@@ -3888,6 +3888,18 @@ USA
             <message>Did you mean <suggestion>meanwhile</suggestion>?</message>
             <example correction="Meanwhile"><marker>Mean while</marker>, back on the farm...</example>
         </rule>
+        <rule id="IN_THE_MEAN_TIME" name="in the mean time (meantime)">
+            <pattern>
+                <token>in</token>
+                <token case_sensitive="yes">the</token>
+                <marker>
+                    <token case_sensitive="yes">mean</token>
+                    <token case_sensitive="yes">time</token>
+                </marker>
+            </pattern>
+            <message>Did you mean <suggestion>meantime</suggestion> (=the period of time between two things).</message>
+            <example correction="meantime">They won't arrive before 6 p.m., but we can continue to use the old ones in the <marker>mean time</marker>.</example>
+        </rule>
         <!-- nation wide::word=nationwide -->
         <rule id="NATION_WIDE" name="nation wide (nationwide)">
             <pattern>
@@ -7074,6 +7086,21 @@ USA
                 <example correction="graduate from">She will <marker>graduate</marker> high school next month.</example>
                 <example>He became a well known graduate of the school.</example>
                 <example>This is a fully accredited graduate film school.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token inflected="yes" skip="3">graduate</token>
+                    <token>from</token>
+                </antipattern>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token inflected="yes">graduate<exception scope="next" regexp="yes">from|of</exception><exception>graduate</exception></token>
+                    </marker>
+                    <token postag="NNP" regexp="yes">[A-Z]\w+</token>
+                </pattern>
+                <message>The verb 'to graduate' requires the preposition 'from': <suggestion>\1 from</suggestion>.</message>
+                <url>https://www.merriam-webster.com/dictionary/graduate</url>
+                <example correction="graduated from">He <marker>graduated</marker> Yale last June.</example>
             </rule>
         </rulegroup>
         <rule id="ALL_MOST_SOME_OF_NOUN" name="all/most/some (of) + noun">
