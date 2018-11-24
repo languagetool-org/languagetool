@@ -357,15 +357,16 @@ class LanguageToolHttpHandler implements HttpHandler {
   }
 
   private Map<String, String> getRequestQuery(HttpExchange httpExchange, URI requestedUri) throws IOException {
-    String query;
+    Map<String, String> params = new HashMap<>();
     if ("post".equalsIgnoreCase(httpExchange.getRequestMethod())) {
       try (InputStreamReader isr = new InputStreamReader(httpExchange.getRequestBody(), ENCODING)) {
-        query = readerToString(isr, config.getMaxTextHardLength());
+        params.putAll(parseQuery(readerToString(isr, config.getMaxTextHardLength()), httpExchange));
+        params.putAll(parseQuery(requestedUri.getRawQuery(), httpExchange));  // POST requests can have query parameters, too
+        return params;
       }
     } else {
-      query = requestedUri.getRawQuery();
+      return parseQuery(requestedUri.getRawQuery(), httpExchange);
     }
-    return parseQuery(query, httpExchange);
   }
 
   private String readerToString(Reader reader, int maxTextLength) throws IOException {
@@ -394,8 +395,7 @@ class LanguageToolHttpHandler implements HttpHandler {
   private Map<String, String> parseQuery(String query, HttpExchange httpExchange) throws UnsupportedEncodingException {
     Map<String, String> parameters = new HashMap<>();
     if (query != null) {
-      Map<String, String> parameterMap = getParameterMap(query, httpExchange);
-      parameters.putAll(parameterMap);
+      parameters.putAll(getParameterMap(query, httpExchange));
     }
     return parameters;
   }
