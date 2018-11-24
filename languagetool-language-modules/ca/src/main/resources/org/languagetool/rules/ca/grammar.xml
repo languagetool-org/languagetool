@@ -3896,6 +3896,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>que</token>
             </antipattern>
             <antipattern>
+                <token>jo</token>
+                <token>som</token> <!-- forma balear -->
+            </antipattern>
+            <antipattern>
                 <token postag="SPS00|.*LOC_PREP.*" postag_regexp="yes"/>
                 <unify>
                     <feature id="nombre"/>
@@ -46060,6 +46064,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="EXIGEIX_VERBS_CENTRAL" name="Exigeix formes verbals del català central">
             <rule>
                 <pattern>
+                    <token>jo</token>
+                    <token>som</token>
+                </pattern>
+                <message>Forma verbal balear.</message>
+                <suggestion>jo sóc</suggestion>
+                <suggestion>jo soc</suggestion>
+                <example correction="Jo sóc|Jo soc"><marker>Jo som</marker> menorquí.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <marker>
                         <token>es</token>
                         <token regexp="yes">vist|vista</token>
@@ -46215,6 +46229,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="EXIGEIX_VERBS_VALENCIANS" name="Exigeix formes verbals valencianes" default="off">
+            <rule>
+                <pattern>
+                    <token>jo</token>
+                    <token>som</token>
+                </pattern>
+                <message>Forma verbal balear.</message>
+                <suggestion>jo sóc</suggestion>
+                <suggestion>jo soc</suggestion>
+                <example correction="Jo sóc|Jo soc"><marker>Jo som</marker> menorquí.</example>
+            </rule>
             <rule>
                 <pattern>
                     <token postag="V.*B" postag_regexp="yes" regexp="yes">&verbs_balears_ES;</token>
