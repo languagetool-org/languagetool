@@ -155,7 +155,7 @@ public class TokenAgreementAdjNounRuleTest {
 //    assertEquals(1, rule.match(langTool.getAnalyzedSentence("паралельно приймаючі пацієнтів")).length);
 
     // false v_rod with -у
-    RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("кримського епістолярію"));
+    RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("кримського безсмертнику"));
     assertEquals(1, matches.length);
     assertTrue("Missing message for v_rod/v_dav -у/ю", matches[0].getMessage().contains("Можливо"));
 
