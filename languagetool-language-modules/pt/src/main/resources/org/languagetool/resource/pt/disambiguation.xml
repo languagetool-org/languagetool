@@ -1000,7 +1000,8 @@
           <token postag="N.+" postag_regexp="yes">
             <exception postag="RN|CS" postag_regexp="yes"/></token>
         <marker>
-          <token postag="SP.+" postag_regexp="yes"/>
+          <token postag="SP.+" postag_regexp="yes">
+            <exception postag="NP.+" postag_regexp="yes"/></token><!-- XXX for compatibility with multiwords. Odd priorities in disambiguation since rules are jumped -->
         </marker>
           <token postag="[NA].+" postag_regexp="yes"/>
       </pattern>
@@ -1836,9 +1837,9 @@
     <rule>
       <pattern case_sensitive='yes'>
           <token postag='NP.+' postag_regexp='yes' regexp='yes'>\p{Lu}.+
-            <exception scope='previous' postag='SENT_START'/></token>
+            <exception scope='previous' postag='SENT_START|_PUNCT' postag_regexp='yes'/></token>
       </pattern>
-      <disambig action="filter" postag="NP.+"/>
+      <disambig action="filter" postag="N.+"/>
       <example inputform="Silva[Silva/NPCSG00,Silva/NPMSS00,silva/NCFS000]" outputform="Silva[Silva/NPCSG00,Silva/NPMSS00]" type="ambiguous">Isso são as ferramentas do <marker>Silva</marker>.</example>
       <example type="untouched">Costa alentejana... que saudades…</example>
     </rule>
