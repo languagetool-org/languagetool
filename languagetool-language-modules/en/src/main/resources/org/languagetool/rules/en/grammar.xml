@@ -3114,7 +3114,7 @@ USA
         <!-- Created by Tiago F. Santos, 2018-11-22 -->
         <!-- TODO review words that act as adjectives and add postags -->
             <url>https://www.ef.edu/english-resources/english-grammar/forming-possessive/</url>
-        <rule>
+      <!-- too many false positives  <rule>
             <pattern case_sensitive="yes">
                 <token postag='SENT_START'/>
               <marker>
@@ -3130,7 +3130,7 @@ USA
             <message>The genitive is possibly missing.</message>
               <suggestion>\2's \3</suggestion>
             <example correction="Angela's idea"><marker>Angela idea</marker> is good.</example>
-        </rule>
+        </rule> -->
         <rule>
             <pattern case_sensitive="yes">
                 <token postag='SENT_START'/>
@@ -3202,7 +3202,7 @@ USA
                     <token>who</token>
                     <token spacebefore="no" regexp="yes">['’]</token>
                     <token>s</token>
-                    <token postag="NN|NN:UN?" postag_regexp="yes"><exception postag="NN|NN:UN?" postag_regexp="yes" negate_pos="yes"/></token>
+                    <token postag="NN(:UN?)?" postag_regexp="yes"><exception postag="NN|NN:UN?" postag_regexp="yes" negate_pos="yes"/></token>
                 </pattern>
                 <message>Did you mean <suggestion>whose <match no="4"/></suggestion>?</message>
                 <example correction="whose banana">Do we know <marker>who's banana</marker> this is on the table?</example>
@@ -13039,6 +13039,31 @@ USA
                 <example>This palace was used later as a prison.</example>
                 <example>The ozone layer then blocks most UVB.</example>
                 <example>It acts more or less as a replacement.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="MISSING_PAST_TENSE" name="Missing past tense with '...last year/month/etc.'">
+            <rule>
+                <antipattern>
+                    <token postag="VB[DN]" postag_regexp="yes" skip="-1"></token>
+                    <token>last</token>
+                    <token regexp="yes">week|month|year</token>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes" regexp="yes" skip="-1">forget|remember</token>
+                    <token>last</token>
+                    <token regexp="yes">week|month|year</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token><exception scope="previous" postag="IN"></exception>last</token>
+                        <token regexp="yes">month|week|year</token>
+                    </marker>
+                    <token postag="SENT_END"></token>
+                </pattern>
+                <message>‘last \2’ indicates a finished event of the past. Please check the predicate's tense.</message>
+                <example correction="">I choose to go to Italy <marker>last year</marker>.</example>
+                <example correction="">She leaves school <marker>last year</marker>.</example>
+                <example>I'll never forget shaking the President's hand last year.</example>
             </rule>
         </rulegroup>
         <rule id="USE_TO_VERB" name="Missing past tense for 'used to...'">
