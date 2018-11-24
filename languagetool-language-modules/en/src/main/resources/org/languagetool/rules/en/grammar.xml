@@ -3112,9 +3112,10 @@ USA
         </rule>
       <rulegroup id="MISSING_GENITIVE" name="missing genitive (e.g., 'employees's' instead of 'employee's')">
         <!-- Created by Tiago F. Santos, 2018-11-22 -->
-        <!-- TODO review words that act as adjectives and add postags -->
+        <!-- TODO review words that act as adjectives and add postags 
+                  test first. If false positives remain decision will be made. -->
             <url>https://www.ef.edu/english-resources/english-grammar/forming-possessive/</url>
-      <!-- too many false positives  <rule>
+      <rule>
             <pattern case_sensitive="yes">
                 <token postag='SENT_START'/>
               <marker>
@@ -3130,7 +3131,7 @@ USA
             <message>The genitive is possibly missing.</message>
               <suggestion>\2's \3</suggestion>
             <example correction="Angela's idea"><marker>Angela idea</marker> is good.</example>
-        </rule> -->
+        </rule>
         <rule>
             <pattern case_sensitive="yes">
                 <token postag='SENT_START'/>
@@ -3138,6 +3139,7 @@ USA
                 <token postag="NNP" regexp='yes'>\p{L}+s
                   <exception negate_pos='yes' postag_regexp='yes' postag="NNP"/></token>
                 <token postag="NN.+"  postag_regexp='yes'>
+                  <exception regexp='yes'>\p{Lu}\p{L}+</exception>
                   <exception postag='NNP'/>
                   <exception negate_pos='yes' postag_regexp='yes' postag="NN.+"/></token>
               </marker>
