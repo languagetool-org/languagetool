@@ -28382,7 +28382,7 @@ Andere Projekte</example>
             <rule>
                 <pattern case_sensitive="yes">
                     <token><exception regexp="yes">[eE]in</exception></token>
-                    <token regexp="yes" case_sensitive="no">(et)?was|nichts|alles|viel|wenig|genug</token>
+                    <token regexp="yes" case_sensitive="no">irgend(et)?was|(et)?was|nichts|alles|viel|wenig|genug</token>
                     <marker>
                         <token postag="(ADJ:NOM:SIN:NEU:(GRU|KOM):IND)|(PA[12]:AKK:.*)" postag_regexp="yes" regexp="yes">[a-zäöü].+es<exception>anderes</exception></token>
                     </marker>
@@ -28414,7 +28414,7 @@ Andere Projekte</example>
             <rule>
                 <pattern case_sensitive="yes">
                     <token><exception regexp="yes">[eE]in</exception></token>
-                    <token regexp="yes">(et)?was|nichts|alles|viel|wenig|genug</token>
+                    <token regexp="yes">irgend(et)?was|(et)?was|nichts|alles|viel|wenig|genug</token>
                     <token regexp="yes">sehr|besonders|allzu|ziemlich|wirklich|r?echt</token>
                     <marker>
                         <token postag="(ADJ:NOM:SIN:NEU:(GRU|KOM):IND)|(PA1:AKK:.*)" postag_regexp="yes" regexp="yes">[a-zäöü].+es<exception>anderes</exception></token>
@@ -28424,7 +28424,7 @@ Andere Projekte</example>
                 <message>&subanfang;<suggestion><match no="4" case_conversion="startupper"/></suggestion> hier großgeschrieben werden muss.</message>
                 <short>&prgk;.</short>
                 <example>Beiträge, die etwas sehr <marker>Wichtiges</marker> über den Spielverlauf verraten, bitte kennzeichnen.</example>
-                <example correction="Wichtiges">Beiträge die etwas sehr <marker>wichtiges</marker> über den Spielverlauf verraten bitte kennzeichnen.</example>
+                <example correction="Wichtiges">Beiträge, die etwas sehr <marker>wichtiges</marker> über den Spielverlauf verraten bitte kennzeichnen.</example>
                 <example correction="Gutes">Dahinter verbirgt sich nichts allzu <marker>gutes</marker>.</example>
                 <example correction="Passendes">Da findet sich nichts wirklich <marker>passendes</marker>.</example>
                 <example correction="Passendes">Da findet sich wenig wirklich <marker>passendes</marker>.</example>
@@ -28433,7 +28433,7 @@ Andere Projekte</example>
                 <pattern>
                     <token>manches</token>
                     <marker>
-                        <token case_sensitive="yes" postag="ADJ:NOM:.*" postag_regexp="yes" regexp="yes">[a-zäöü].+e</token>
+                        <token case_sensitive="yes" postag="ADJ:NOM:.+" postag_regexp="yes" regexp="yes">[a-zäöüß].+e</token>
                     </marker>
                     <token><exception postag="SUB:NOM:SIN:NEU"/></token>
                 </pattern>
@@ -28445,9 +28445,9 @@ Andere Projekte</example>
             <rule>
                 <pattern>
                     <token regexp="yes">(et)?was|viel</token>
-                    <token postag="(PA[12]|ADJ):.*" postag_regexp="yes" regexp="yes">[a-zäüö].*es</token>
+                    <token postag="(PA[12]|ADJ):.+" postag_regexp="yes" regexp="yes">[a-zäüö].*es</token>
                     <token regexp="yes">und|oder</token>
-                    <marker><token postag="(PA[12]|ADJ):.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäüö].*es</token></marker>
+                    <marker><token postag="(PA[12]|ADJ):.+" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäüö].*es</token></marker>
                     <token><exception postag="SUB:.*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Das Wort '\4' scheint hier als Substantiv verwendet zu werden und ist deshalb großzuschreiben.</message>
@@ -28471,7 +28471,7 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token inflected="yes" skip="1">wünschen</token>
+                    <token inflected="yes" skip="2">wünschen</token>
                     <token>alles</token>
                     <marker>
                         <token>gute</token>
@@ -28487,23 +28487,12 @@ Andere Projekte</example>
                     <marker>
                         <token>gute</token>
                     </marker>
+                    <token min="0">zu</token>
                     <token inflected="yes">wünschen</token>
                 </pattern>
                 <message>In der Glückwunschformel 'alles Gute' wird <suggestion>Gute</suggestion> großgeschrieben.</message>
                 <short>&prgk;.</short>
                 <example correction="Gute">Ich möchte Dir alles <marker>gute</marker> wünschen.</example>
-            </rule>
-            <rule>
-                <pattern case_sensitive="yes">
-                    <token regexp="yes">[aA]lles</token>
-                    <marker>
-                        <token>gute</token>
-                    </marker>
-                    <token>zu</token>
-                    <token inflected="yes">wünschen</token>
-                </pattern>
-                <message>In der Glückwunschformel 'alles Gute' wird <suggestion>Gute</suggestion> großgeschrieben.</message>
-                <short>&prgk;.</short>
                 <example correction="Gute">Ich habe ganz vergessen, alles <marker>gute</marker> zu wünschen!</example>
             </rule>
             <rule>
@@ -28739,7 +28728,7 @@ Andere Projekte</example>
             <pattern case_sensitive="yes">
                 <token>ohne</token>
                 <marker>
-                    <token regexp="yes">frage|verschulden|murren|widerstand</token>
+                    <token regexp="yes">frage|verschulden|murren|widerstand|zögern</token>
                 </marker>
             </pattern>
             <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
