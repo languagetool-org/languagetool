@@ -4,9 +4,15 @@
 
 #### English
   * added and improved rules
+  * segmentation improvements
 
 #### German
   * added and improved rules
+
+#### Portuguese
+  * added and improved rules
+  * disambiguation improvements
+  * POS and spelling improvements
 
 #### HTTP API / LT server
   * Experimental support for `altLanguages` parameter: takes a list of language
