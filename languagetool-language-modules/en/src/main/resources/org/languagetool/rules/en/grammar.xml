@@ -19097,6 +19097,33 @@ USA
             <suggestion>\1 \2</suggestion>
             <example correction="” said">“Good morning, Frank,<marker>”said</marker> Hal.</example>
         </rule>
+        <rulegroup id="UNIT_SPACE" name="Missing space between numeric value and unit (e.g., 25 km)">
+            <rule>
+                <regexp case_sensitive='yes'>(\-?[0-9]+[0-9,.]*(€|¥|°C|°F|°De?|°R[éeøa]?|(Z|E|P|T|G|M|k|h|da|d|c|m|µ|n|f|z|y)?[ΩΩm]|(Z|E|P|T|G|M|k|h|da|d|c|m|µ|n|p|f|a|z|y)?N|[kKMGTPEZY]i?B|[kmµnp]g|[Mk]t|kWh|GWa|MWd|MWh)(?!\w))</regexp>
+                <message>Insert a space between the numerical value and the unit symbol <suggestion><match no="1" regexp_match="((\-)?[0-9]+[0-9,.]*{1,})" regexp_replace="$1 "/></suggestion></message>
+                <url>https://www.bipm.org/en/publications/si-brochure/section5-3.html#section3</url>
+                <example correction="25 °C">The temperature is <marker>25°C</marker>.</example>
+                <example correction="-25 °C">The temperature is <marker>-25°C</marker>.</example>
+                <example correction="25,5 °F">The temperature is <marker>25,5°F</marker> warm.</example>
+                <example correction="5 km">Distance <marker>5km</marker>.</example>
+                <example correction="5 kg">It weighs <marker>5kg</marker>.</example>
+                <example>(AsCH3)2n</example>
+                <example>https://docs.google.com/document/d/1hEO7G3hm6bTkYnNlmT3uV</example>
+            </rule>
+            <rule>
+                <regexp>((\-)?[0-9]+[0-9.,]*{1,}) (°[^CFK])</regexp>
+                <message>For the unit symbols for degree, minute, and second for plane angle no space is left between the numerical value and the unit symbol: <suggestion>\1°</suggestion> or add a missing unit symbol (e.g., <suggestion>\1 °C</suggestion>).</message>
+                <example correction="25°|25 °C">The angle is <marker>25 ° </marker>.</example>
+            </rule>
+            <rule>
+                <regexp>(\-?[0-9]+) (″)</regexp>
+                <message>For the unit symbols for degree, minute, and second for plane angle no space is left between the numerical value and the unit symbol.</message>
+                <suggestion>\1\2</suggestion>
+                <url>https://www.bipm.org/en/publications/si-brochure/section5-3.html#section3</url>
+                <example>3° 14′ 45,54″</example>
+                <example correction="54″">45,<marker>54 ″</marker></example>
+            </rule>
+        </rulegroup>
         <rulegroup name="abbreviations with spaces in between (e. g.)" id="EG_SPACE">
             <rule>
                 <pattern case_sensitive="yes">
