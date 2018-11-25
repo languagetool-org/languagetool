@@ -2916,31 +2916,15 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rule name="Al Kaida" id="AL">
       <pattern case_sensitive="yes">
         <token>Al</token>
-        <token regexp="yes">Jazeera|Kaida</token>
+        <token regexp="yes">Capone|Gore|Jazeera|Kaida</token>
       </pattern>
       <disambig action="ignore_spelling"/>
     </rule>
     <rule name="hin- und hergerissen" id="HIN_HER">
       <pattern case_sensitive="yes">
-        <marker><token>hin-</token></marker>
+        <marker><token regexp="yes">(a[bn]|auf|hin|vor)-</token></marker>
         <token postag="KON:.+" postag_regexp="yes"></token>
-        <token regexp="yes">her\w+</token>
-      </pattern>
-      <disambig action="ignore_spelling"/>
-    </rule>
-    <rule name="auf- und absteigend" id="AUF_AB">
-      <pattern case_sensitive="yes">
-        <marker><token regexp="yes">a(uf|n)-</token></marker>
-        <token postag="KON:.+" postag_regexp="yes"></token>
-        <token regexp="yes">ab\w+</token>
-      </pattern>
-      <disambig action="ignore_spelling"/>
-    </rule>
-    <rule name="ab- und aufsteigend" id="AB_AUF">
-      <pattern case_sensitive="yes">
-        <marker><token>ab-</token></marker>
-        <token postag="KON:.+" postag_regexp="yes"></token>
-        <token regexp="yes">auf\w+</token>
+        <token regexp="yes">(a[bn]|auf|her|hin|vor|weg|zurück)\w+</token>
       </pattern>
       <disambig action="ignore_spelling"/>
     </rule>
