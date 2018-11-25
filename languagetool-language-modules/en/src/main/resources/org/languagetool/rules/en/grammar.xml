@@ -285,7 +285,7 @@ USA
                 <example correction="World War">He was a member of the anti-aircraft artillery during <marker>Word War</marker> II</example>
             </rule>
         </rulegroup>
-        <rule id="WONT" name="wont (won't)">
+        <rule id="WONT_CONTRACTION" name="wont (won't)">
             <pattern>
                 <marker>
                 <token>wont<exception scope="previous" postag="PRP$"/></token>
@@ -297,6 +297,16 @@ USA
             <example>We were wont to meet at that pleasant spot.</example>
             <example>As is his wont, Tourneur shows us only parts of the set, in logical sequence, each at the moment when, and not before, we need to see it.</example>
         </rule>
+        <rulegroup id="ISSUES_WITH_CONTRACTIONS" name="Contraction errors: e.g. did'nt->didn't">
+        <!-- Created by Tiago F. Santos, 2018-11-25 -->
+          <url>https://en.wikipedia.org/wiki/Wikipedia:List_of_English_contractions</url>
+          <rule>
+            <regexp>\b((ai|am|are|ca|could|dare|dares|das|did|does|do|has|have|is|ought|sha|should|was|wo)(['’]n?t|n['’][^t])|(?:I|you|s?he|it|we|they)([ds]['’]|l['’]l|l?l['’]|v['’]e|ve['’])|(oc['’]lock))\b</regexp>
+            <message>This contractions is incorrect. Please, check the apostrophe position.</message>
+            <example type='incorrect'>...it <marker>did'nt</marker> work.</example>
+            <example>... it didn't work.</example>
+          </rule>
+        </rulegroup>
         <rulegroup id="PERS_PRON_CONTRACTION" name="I'l (I'll) etc.">
             <rule>
                 <pattern>
@@ -3114,8 +3124,6 @@ USA
         </rule>
       <rulegroup id="MISSING_GENITIVE" name="missing genitive (e.g., 'employees's' instead of 'employee's')">
         <!-- Created by Tiago F. Santos, 2018-11-22 -->
-        <!-- TODO review words that act as adjectives and add postags 
-                  Test first. If false positives remain decisions will be made. -->
             <url>https://www.ef.edu/english-resources/english-grammar/forming-possessive/</url>
       <rule>
             <pattern case_sensitive="yes">
@@ -12474,7 +12482,7 @@ USA
                 <token>the</token>
                 <marker>
                     <token postag='(?:JJ|RB)R' postag_regexp='yes' regexp='yes'>\p{Ll}+
-                      <exception>layer<!--needs|best.*|\d+(st|nd|rd|th)--></exception>
+                      <exception>layer|latter<!--needs|best.*|\d+(st|nd|rd|th)--></exception>
                       <exception postag='JJS|RBS' postag_regexp='yes'/></token>
                 </marker>
                 <token>of</token>
