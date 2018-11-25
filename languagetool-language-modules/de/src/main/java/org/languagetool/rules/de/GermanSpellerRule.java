@@ -187,7 +187,13 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("[bB]ischen", "bisschen");
     put("Porto?folien", "Portfolios");
     put("schwie?ri?chkeiten", "Schwierigkeiten");
+    put("Übergrifflichkeiten", "Übergriffigkeiten");
+    put("[aA]th?rith?is", "Arthritis");
+    put("zugesand", "zugesandt");
+    put("[sS]charm", "Charme");
     put("[zZ]auberlich(e[mnrs]?)?", w -> Arrays.asList(w.replaceFirst("lich", "isch"), w.replaceFirst("lich", "haft")));
+    putRepl("[kK]önntes", "es$", "est");
+    putRepl("[aA]ssess?oare?s?", "[aA]ssess?oare?", "Accessoire");
     putRepl("indifiziert(e[mnrs]?)?", "ind", "ident");
     putRepl("dreite[mnrs]?", "dreit", "dritt");
     putRepl("verblüte[mnrs]?", "blü", "blüh");
