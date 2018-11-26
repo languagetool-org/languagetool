@@ -22,6 +22,7 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.languagetool.JLanguageTool;
 
@@ -57,16 +58,13 @@ public class CachingWordListLoader {
          Scanner scanner = new Scanner(inputStream, "utf-8")) {
       while (scanner.hasNextLine()) {
         String line = scanner.nextLine();
-        if (line.isEmpty()) {
-          continue;
-        }
-        if (line.startsWith("#")) {
+        if (line.isEmpty() || line.startsWith("#")) {
           continue;
         }
         if (line.trim().length() < line.length()) {
           throw new RuntimeException("No leading or trailing space expected in " + filePath + ": '" + line + "'");
         }
-        result.add(line.replaceFirst("#.*", ""));
+        result.add(StringUtils.substringBefore(line, "#"));
       }
     }
     return result;

@@ -137,7 +137,7 @@ public class ProhibitedCompoundRule extends Rule {
   }
 
   protected static AhoCorasickDoubleArrayTrie<String> setupAhoCorasickSearch(List<Pair> pairs, Map<String, List<Pair>> pairMap) {
-    TreeMap<String, String> map = new TreeMap<String, String>();
+    TreeMap<String, String> map = new TreeMap<>();
     for (Pair pair : pairs) {
       map.put(pair.part1, pair.part1);
       map.put(pair.part2, pair.part2);
