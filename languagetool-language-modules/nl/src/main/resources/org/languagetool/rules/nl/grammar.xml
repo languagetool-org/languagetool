@@ -11945,6 +11945,7 @@ onwaarschijnlijk
         </rulegroup>
     </category>
     <category id="AFKORTINGEN" name="Afkortingen">
+		
         <rulegroup id="AD" name="ad. → ad">
             <rule>
                 <pattern case_sensitive="yes">
@@ -11964,6 +11965,19 @@ onwaarschijnlijk
                 </pattern>
                 <message>Dit is geen afkorting: <suggestion>ad</suggestion></message>
                 <example correction="Ad"><marker>Ad.</marker> punt 5 wil ik nog iets zeggen.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="ET_AL" name="et al → et al.">
+            <rule>
+                <pattern case_sensitive="yes">
+					<marker>
+						<token>et</token>
+						<token>al</token>
+					</marker>
+                    <token negate="yes">.</token>
+                </pattern>
+                <message>Deze afkorting vereist een punt: <suggestion>et al.</suggestion> (et alii, en anderen).</message>
+                <example correction="et al.">Het is gepubliceerd door Janssen <marker>et al</marker> in 2005.</example>
             </rule>
         </rulegroup>
         <rulegroup id="EENHEDEN" name="km. → km">
@@ -13098,10 +13112,10 @@ onwaarschijnlijk
         </rulegroup>
     </category>
     <category id="OPTIONAL_FORMS" name="niet-noodzakelijke correcte spellingvarianten">
-        <rulegroup id="ACCENTEN" name= "optionele accenten">
+        <rulegroup id="NADRUKTEKENS" name= "optionele accenten">
             <rule>
                 <pattern>
-					<token regexp="yes">.*[áéíóú].*<exception regexp="yes">.*(café|éminence|tracé|comité|mémoire|appliqué|arrivé|associé|attaché|employé|barré|cliché|beauté|defilé|blasé|bouclé|canapé|carré|cloqué|communiqué|comprimé|confrérie|congé|consommé|conté|privé|coupé|craquelé|crémant|cultivé|decafeïné|decolleté|demasqué|deputé|djahé|djembé|doré|doublé|procedé|débouché|dégénéré|déjà|délégué|ecarté|evacué|exposé|fiancé|frivolité|glacé|habitué|introducé|invité|soufflé|saté|lamé|macramé|laqué|logé|marqué|masqué|maté|moiré|mopé|ménière|nouveauté|negligé|oké|maché|paté|passé|piqué|plissé|pointillé|preparé|prostitué|protegé|présence|psyché|quarté|rassé|refugié|resumé|rosé|régence|réussite|santé|spécialité|taboulé|taugé|tempé|tiercé|tjabé|tragédienne|variété|velouté|vidé|wengé|élégance|résistance|plié|karité|vélocipède|olé|azobé|éclat|éloge|étang|sémillon|cité|peigné|rapé|chiné|lancé|époque|décharge).*</exception><exception postag="ENM:.*" postag_regexp="yes"/></token>
+					<token regexp="yes">.*[áéíóú].*<exception regexp="yes">.*(café|éminence|tracé|comité|mémoire|appliqué|arrivé|associé|attaché|employé|barré|cliché|beauté|defilé|blasé|bouclé|canapé|carré|cloqué|communiqué|comprimé|confrérie|congé|consommé|conté|privé|coupé|craquelé|crémant|cultivé|decafeïné|decolleté|demasqué|deputé|djahé|djembé|doré|doublé|procedé|débouché|dégénéré|déjà|délégué|ecarté|evacué|exposé|fiancé|frivolité|glacé|habitué|introducé|invité|soufflé|saté|lamé|macramé|laqué|logé|marqué|masqué|maté|moiré|mopé|ménière|nouveauté|negligé|oké|maché|paté|passé|piqué|plissé|pointillé|preparé|prostitué|protegé|présence|psyché|quarté|rassé|refugié|resumé|rosé|régence|réussite|santé|spécialité|taboulé|taugé|tempé|tiercé|tjabé|tragédienne|variété|velouté|vidé|wengé|élégance|résistance|plié|karité|vélocipède|olé|azobé|éclat|éloge|étang|sémillon|cité|peigné|rapé|chiné|lancé|époque|décharge).*</exception><exception postag="ENM:.*|UNKNOWN" postag_regexp="yes"/></token>
                 </pattern>
 				<message>Gebruik geen nadruktekens als het niet noodzakelijk is. Het staat lelijk.</message>
                 <example type="incorrect">Hij is <marker>één</marker> van de vreemden.</example>
@@ -15944,9 +15958,10 @@ steenwijk;Steenwijk
         <rulegroup id="KOMMA_HL" name=", Hoofdletter">
             <!-- 2014-08-21 TaalTik regel komt vaak op, maar terecht, vooral bij afkortingen met een onterechte hoofdletter. -->
             <rule>
-                <antipattern><token>,</token><token postag_regexp="yes" postag="ENM.*"></token></antipattern>
+                <antipattern><token>,</token><token postag_regexp="yes" postag="ENM.*|UNKNOWN"></token></antipattern>
                 <antipattern><token>,</token><token regexp="yes">St|Ch|Th|Ph</token></antipattern>
-                <antipattern><token>,</token><token regexp="yes">(Engel|Fran|Duits).*</token><token></token></antipattern>
+				<antipattern><token>,</token><token regexp="yes" case_sensitive="yes" postag_regexp="yes" postag="ENM.*">[A-Z].*</token></antipattern>
+				<antipattern><token>,</token><token regexp="yes" case_sensitive="yes" >(Nederlands|Twitter|Duits|Frans|Turks|Vlaams|Hollands|Engels|Portugees|Amerikaans).*|.*[a-z][A-Z].*</token></antipattern>
                 <antipattern><token>,</token><token regexp="yes">[A-Z][a-z].*</token><token regexp="yes" case_sensitive="yes">[A-Z][a-z].*</token></antipattern>
                 <pattern case_sensitive="yes">
                     <token>,</token>
@@ -17112,7 +17127,7 @@ steenwijk;Steenwijk
             </rule>
         </rulegroup>
 		
-        <rulegroup id="CRUISECONTROL" name="cruisecontrol +&gt; snelheidsregeling">
+        <rulegroup id="CRUISECONTROL" name="cruisecontrol → snelheidsregeling">
             <rule>
                 <!-- 2014-08-20 TaalTik -->
                 <pattern>
@@ -17213,15 +17228,21 @@ steenwijk;Steenwijk
         
         <rulegroup id="MIJN_FAVORIET_PRODUCT" name="mijn favoriet product">
             <rule>
+				<antipattern><token>openbaar</token><token regexp="yes">bestuur|vervoer|domein|onderwijs</token></antipattern>
+				<antipattern><token>algemeen</token><token regexp="yes">bestuur|belang|overleg</token></antipattern>
+				<antipattern><token>dagelijks</token><token regexp="yes">bestuur|leven</token></antipattern>
+				<antipattern><token>historisch</token><token>besef</token></antipattern>
+				<antipattern><token>Europees</token><token>Parlement</token></antipattern>
+				<antipattern><token>ene</token><token/></antipattern>
                 <pattern>
-                    <token regexp="yes">mijn|zijn|ons|haar|hun|het|de</token>
+					<token regexp="yes">mijn|zijn|ons|haar|hun|het|de</token>
                     <marker>
                         <token postag_regexp="yes" postag="BNW:.*:ONV"><exception postag_regexp="yes" postag="BNW:.*:VRB"/></token>
+						<token postag="ZNW:EKV:HET"/>
                     </marker>
-                <token postag="ZNW:EKV:HET"/>
                 </pattern>
-                <message>Correct is: <suggestion><match no="2" postag="(BNW.*):ONV" postag_replace="$1:VRB" postag_regexp="yes"/></suggestion> moet staan.</message>
-                <example correction="favoriete">Dat is niet mijn <marker>favoriet</marker> product.</example>
+                <message>Misschien is beter: <suggestion><match no="2" postag="(BNW.*):ONV" postag_replace="$1:VRB" postag_regexp="yes"/> \3</suggestion>.</message>
+                <example correction="favoriete product">Dat is niet mijn <marker>favoriet product</marker>.</example>
             </rule>
         </rulegroup>
 
@@ -29143,6 +29164,7 @@ steenwijk;Steenwijk
         -->
         <rulegroup id="WORT" name="wort → wordt of word">
             <rule>
+				<antipattern><token postag="SENT_START" skip="-1"/><token regexp="yes">.*(brouw|bier|gist|mout|kook|koel|ketel).*|sg</token></antipattern>
                 <pattern>
 					<token>wort</token>
                 </pattern>
@@ -29155,7 +29177,7 @@ steenwijk;Steenwijk
                 <pattern>
 					<token>naar</token>
 					<marker>
-						<token>bet</token>
+						<token case_sensitive="yes">bet</token>
 					</marker>
                 </pattern>
                 <message>U bedoelt vast: <suggestion>het</suggestion> of <suggestion>bed</suggestion>.</message>
@@ -29179,7 +29201,7 @@ steenwijk;Steenwijk
 					</marker>
                     <token regexp="yes">wereld|omgeving|omtrek|boog|pijpen|regio|broek|mouwen|rokken|blik|kleding</token>
                 </pattern>
-                <message>U bedoelt vast: <suggestion>wijde</suggestion> wereld.</message>
+                <message>U bedoelt vast: <suggestion>wijde</suggestion> (ruime) \2.</message>
                 <example correction="wijde">Ik kijk naar de <marker>weide</marker> wereld.</example>
             </rule>
         </rulegroup>
@@ -33665,8 +33687,9 @@ steenwijk;Steenwijk
                 <!-- 2014-09-08 TaalTik
                 advies wordt wel vaak vertoond, maar is ook vaak wel van toepassing.
                 -->
+				<antipattern><token>zoals</token><token regexp="yes">jij|wij|zij|mij</token></antipattern>
                 <pattern>
-                    <token regexp="yes">jij|wij|zij|mij&gt;</token>
+					<token regexp="yes">jij|wij|zij|mij<exception postag="UNKNOWN"/></token>
                 </pattern>
                 <message>Als er geen speciale nadruk ligt op \1, dan is <suggestion><match no="1" regexp_match="(?i)ij" regexp_replace="e"/></suggestion> gebruikelijker.</message>
                 <url>https://onzetaal.nl/taaladvies/advies/wij-we</url>
@@ -35471,7 +35494,7 @@ steenwijk;Steenwijk
                 <example correction="rustig">Ik word daar op één of andere manier <marker>een soort van rustig</marker> van.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="HEUR_HAAR" name="Heur haar =&gt; haar haar">
+        <rulegroup id="HEUR_HAAR" name="Heur haar → haar haar">
             <rule>
                 <pattern>
                     <marker>
