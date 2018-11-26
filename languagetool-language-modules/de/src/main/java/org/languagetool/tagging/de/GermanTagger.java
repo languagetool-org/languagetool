@@ -302,7 +302,7 @@ public class GermanTagger extends BaseTagger {
       List<TaggedWord> taggedFemaleForm = getWordTagger().tag(femaleForm);
       boolean isSubstantivatedForm = taggedFemaleForm.stream().anyMatch(t -> t.getPosTag().equals("SUB:NOM:SIN:FEM:ADJ"));
       if (isSubstantivatedForm) {
-        List<AnalyzedToken> list = new ArrayList<AnalyzedToken>();
+        List<AnalyzedToken> list = new ArrayList<>();
         list.add(new AnalyzedToken(word, "SUB:NOM:SIN:MAS:ADJ", word));
         list.add(new AnalyzedToken(word, "SUB:GEN:PLU:MAS:ADJ", word));
         //list.add(new AnalyzedToken(word, "SUB:NOM:SIN:MAS", word));

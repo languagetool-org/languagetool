@@ -1146,6 +1146,10 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     return false;
   }
 
+  /* (non-Javadoc)
+   * @see org.languagetool.rules.spelling.SpellingCheckRule#addProhibitedWords(java.util.List)
+   */
+  @Override
   protected void addProhibitedWords(List<String> words) {
     if(words.size() == 1 && words.get(0).endsWith(".*")) {
       wordStartsToBeProhibited.add(words.get(0).substring(0, words.get(0).length()-2));
