@@ -82,10 +82,10 @@ public class PunctuationMarkAtParagraphEnd extends TextLevelRule {
     List<RuleMatch> ruleMatches = new ArrayList<>();
     int lastPara = -1;
     int pos = 0;
-    boolean isFirstWord = false;
+    boolean isFirstWord;
     for (int n = 0; n < sentences.size(); n++) {
       AnalyzedSentence sentence = sentences.get(n);
-      if(sentence.hasParagraphEndMark(lang) || n == sentences.size() - 1) {
+      if (sentence.hasParagraphEndMark(lang) || n == sentences.size() - 1) {
         AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
         if (tokens.length > 2) {
           isFirstWord = (isWord(tokens[1]) && !isPunctuationMark(tokens[2]))
@@ -111,7 +111,6 @@ public class PunctuationMarkAtParagraphEnd extends TextLevelRule {
             }
           }
           lastPara = n;
-          isFirstWord = false;
         }
       }
       pos += sentence.getText().length();
