@@ -42,9 +42,9 @@ public class WordListValidatorTest {
           "ŚśōżúïÎôêâû" +
           "õ" +   // for Portuguese
           "·" +   // for Catalan
-          "'ÅıøğåšĝÇİŞŠ" +   // for Dutch
+          "'ÅıøğåšĝÇİŞŠś" +   // for Dutch proper names
           "./-]+" + 
-          "|[khmcdµ]?m[²³]|°[CFR]"
+          "|[khmcdµ]?m[²³]|°[CFR]|CO₂"
   );
 
   // Words that are valid but with special characters so that we don't want to
