@@ -14,6 +14,13 @@
   * disambiguation improvements
   * POS and spelling improvements
 
+#### Serbian
+  * Serbian never moved beyond its "initial support" state with a tiny number of rules,
+    and it has no active maintainer, so we have deactivated it for now. If you'd like t
+    maintain support for Serbian, let us know in the forum (https://forum.languagetool.org).
+    Once it's clear that a new active long-term maintainer has been found, we'll activate
+    support for Serbian again. 
+
 #### HTTP API / LT server
   * Experimental support for `altLanguages` parameter: takes a list of language
     codes. Unknown words of the main languages (as specified by the `language` parameter)
