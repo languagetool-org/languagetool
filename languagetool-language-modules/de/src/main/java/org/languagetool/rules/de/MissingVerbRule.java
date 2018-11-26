@@ -74,10 +74,7 @@ public class MissingVerbRule extends Rule {
 
   @Override
   public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
-    if (!isRealSentence(sentence)) {
-      return new RuleMatch[0];
-    }
-    if (isSpecialCase(sentence)) {
+    if (!isRealSentence(sentence) || isSpecialCase(sentence)) {
       return new RuleMatch[0];
     }
     boolean verbFound = false;
@@ -127,14 +124,6 @@ public class MissingVerbRule extends Rule {
     if (lcReadings.size() > 0 && lcReadings.get(0).hasPartialPosTag("VER")) {
       return true;
     }
-    // our dictionary doesn't know some imperative forms like "erzähl", but it knows "erzähle", so let's try that:
-    // Should be fixed by GermanTagger.getImperativeForm(String, List<String>, int)
-    /*if (!lowercased.endsWith("e")) {
-      List<AnalyzedTokenReadings> lcImperativeReadings = language.getTagger().tag(Collections.singletonList(lowercased + "e"));
-      if (lcImperativeReadings.size() > 0 && lcImperativeReadings.get(0).hasPartialPosTag("VER")) {
-        return true;
-      }
-    }*/
     return false;
   }
 

@@ -97,18 +97,6 @@ public class RuleMatch implements Comparable<RuleMatch> {
    * this match, position of the match and an explanation message.
    * This message is scanned for &lt;suggestion&gt;...&lt;/suggestion&gt;
    * to get suggested fixes for the problem detected by this rule.
-   * @deprecated use a constructor that also takes an {@code AnalyzedSentence} parameter (deprecated since 4.0)
-   * @param shortMessage used for example in OpenOffice/LibreOffice's context menu
-   */
-  public RuleMatch(Rule rule, int fromPos, int toPos, String message, String shortMessage) {
-    this(rule, fromPos, toPos, message, shortMessage, false, null);
-  }
-
-  /**
-   * Creates a RuleMatch object, taking the rule that triggered
-   * this match, position of the match and an explanation message.
-   * This message is scanned for &lt;suggestion&gt;...&lt;/suggestion&gt;
-   * to get suggested fixes for the problem detected by this rule.
    *
    * @param shortMessage used for example in OpenOffice/LibreOffice's context menu
    * @since 4.0
