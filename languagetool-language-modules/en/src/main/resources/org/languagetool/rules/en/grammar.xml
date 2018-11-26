@@ -9907,7 +9907,7 @@ USA
                 <example>The dog of war, however, was released.</example>
                 <example correction="were">What happened when the dogs of war, two dachshunds, <marker>was</marker> released.</example>
             </rule>
-            <!-- caused by VBZNNS_DT_NNS in disambiguation.xml: -->
+            <!-- caused by VBZNNS_NNS [was VBZNNS_DT_NNS] in disambiguation.xml: -->
             <rule>
                 <antipattern case_sensitive="yes">
                     <token regexp="yes">[A-Z]+</token>
@@ -9920,9 +9920,9 @@ USA
                 </pattern>
                 <message>Possible agreement error. You should probably use: <suggestion><match no="2" postag="VBP" case_conversion="startupper"/> \3</suggestion> or <suggestion>\2 <match no="3" postag="VBP"/></suggestion>.</message>
                 <short>Possible agreement error</short>
-                <example correction="Cat sleeps|Cats sleep"><marker>Cats sleeps</marker> more than 15 hours per day.</example>
                 <example correction="Do dogs|Does dog"><marker>Does dogs</marker> sleep more than 15 hours per day?</example>
                 <example>AIDS means "Acquired Immune Deficiency Syndrome".</example>
+                <example><marker>Cats sleeps</marker> more than 15 hours per day.</example><!-- 2018-11-26 corrected VBZNNS_NNS such that it does not give 'Cats' the postag VBZ. -->
             </rule>
             <rule>
                 <pattern>
