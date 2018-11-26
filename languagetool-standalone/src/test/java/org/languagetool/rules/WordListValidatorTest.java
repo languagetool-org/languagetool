@@ -42,7 +42,7 @@ public class WordListValidatorTest {
           "ŚśōżúïÎôêâû" +
           "õ" +   // for Portuguese
           "·" +   // for Catalan
-          "'ÅıøğåšĝÇİŞŠść" +   // for Dutch proper names
+          "'ÅıøğåšĝÇİŞŠśćč" +   // for Dutch proper names
           "./-]+" + 
           "|[khmcdµ]?m[²³]|°[CFR]|CO₂"
   );
