@@ -21,6 +21,11 @@
     Once it's clear that a new active long-term maintainer has been found, we'll activate
     support for Serbian again. 
 
+#### Ukrainian
+  * dictionary update (about 7k of new words)
+  * added and improved rules
+  * improvements to tokenization, tagging, and disambiguation
+
 #### HTTP API / LT server
   * Experimental support for `altLanguages` parameter: takes a list of language
     codes. Unknown words of the main languages (as specified by the `language` parameter)
