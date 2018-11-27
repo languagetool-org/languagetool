@@ -9922,7 +9922,7 @@ USA
                 <short>Possible agreement error</short>
                 <example correction="Do dogs|Does dog"><marker>Does dogs</marker> sleep more than 15 hours per day?</example>
                 <example>AIDS means "Acquired Immune Deficiency Syndrome".</example>
-                <example><marker>Cats sleeps</marker> more than 15 hours per day.</example><!-- 2018-11-26 corrected VBZNNS_NNS such that it does not give 'Cats' the postag VBZ. -->
+                <!--example><marker>Cats sleeps</marker> more than 15 hours per day.</example>< 2018-11-26 corrected VBZNNS_NNS such that it does not give 'Cats' the postag VBZ. -->
             </rule>
             <rule><!-- needed after changes in VBZNNS_NNS in disambiguation.xml [3f2b9f5]: -->
                 <antipattern case_sensitive="yes">
@@ -9932,14 +9932,20 @@ USA
                 <pattern>
                     <token postag="SENT_START"/>
                     <token postag_regexp='yes' postag="NNP?S">
-                      <exception postag="NN(P|:.*)?" postag_regexp="yes"/></token>
-                    <token postag="VBZ"/>
+                      <exception postag="NN(P|:.*)?" postag_regexp="yes"/>
+                      <exception>media</exception></token>
+                    <token postag="VBZ">
+                      <exception regexp='yes'>is|was</exception></token><!-- XXX is/are to allow sub-rule 41 -->
                 </pattern>
-                <message>Possible agreement error. You should probably use: <suggestion><match no="2" postag="VBP" case_conversion="startupper"/> \3</suggestion> or <suggestion>\2 <match no="3" postag="VBP"/></suggestion>.</message>
+                <message>Possible agreement error. You should probably use: <suggestion><match no="2" postag_regexp='yes' postag="(NNP?)S" postag_replace='$1'/> \3</suggestion>.</message>
+                  <!-- suggestion>\2 <match no="3" postag="VBP"/></suggestion XXX bug: intermitent failures in suggestions. -->
                 <short>Possible agreement error</short>
+                <example correction="Cat sleeps"><marker>Cats sleeps</marker> more than 15 hours per day.</example>
+                <example correction="Alga has"><marker>Algae has</marker> emerged in recent years as a popular source of om...</example><!-- TODO remove haven from the POS dictionary -->
+                <example correction="Other authors"><marker>Others authors</marker> such as Komarios, and Chymes, we only know throug...</example>
+                <!--example><marker>Media sells</marker> a trace of hatred at bargain prices.</example TODO media should also be tagged as singular noun-->
                 <example><marker>Does dogs</marker> sleep more than 15 hours per day?</example>
                 <example>AIDS means "Acquired Immune Deficiency Syndrome".</example>
-                <example correction="Cat sleeps|Cats sleep"><marker>Cats sleeps</marker> more than 15 hours per day.</example>
             </rule>
             <rule>
                 <pattern>
