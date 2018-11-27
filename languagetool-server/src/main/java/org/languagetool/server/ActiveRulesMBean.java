@@ -22,7 +22,10 @@
 package org.languagetool.server;
 
 import java.util.Map;
+import java.util.Queue;
 
 public interface ActiveRulesMBean {
-  public Map<String, Integer> getActiveRules();
+  public Map<String, Integer> getActivePatternRules();
+
+  public Queue<String> getActiveSpellChecks();
 }
