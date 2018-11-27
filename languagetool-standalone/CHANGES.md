@@ -27,7 +27,7 @@
   * improvements to tokenization, tagging, and disambiguation
 
 #### Dutch
-  * added and improved rules
+  * added and improved rules, including more confusion rules for dyslectic people
   * added large amount of family names
 
 #### HTTP API / LT server
