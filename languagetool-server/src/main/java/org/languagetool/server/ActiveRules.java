@@ -22,13 +22,21 @@
 package org.languagetool.server;
 
 import org.languagetool.rules.patterns.PatternRuleMatcher;
+import org.languagetool.rules.spelling.hunspell.HunspellRule;
 
 import java.util.Map;
+import java.util.Queue;
 
 public class ActiveRules implements ActiveRulesMBean {
 
   @Override
-  public Map<String, Integer> getActiveRules() {
+  public Map<String, Integer> getActivePatternRules() {
     return PatternRuleMatcher.getCurrentRules();
   }
+
+  @Override
+  public Queue<String> getActiveSpellChecks() {
+    return HunspellRule.getActiveChecks();
+  }
+
 }
