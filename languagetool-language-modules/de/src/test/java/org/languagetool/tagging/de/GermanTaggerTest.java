@@ -210,7 +210,7 @@ public class GermanTaggerTest {
    * Returns a string representation like {@code toString()}, but sorts
    * the elements alphabetically.
    */
-  private String toSortedString(AnalyzedTokenReadings tokenReadings) {
+  public static String toSortedString(AnalyzedTokenReadings tokenReadings) {
     StringBuilder sb = new StringBuilder(tokenReadings.getToken());
     Set<String> elements = new TreeSet<>();
     sb.append('[');
@@ -223,5 +223,4 @@ public class GermanTaggerTest {
     sb.append(']');
     return sb.toString();
   }
-
 }

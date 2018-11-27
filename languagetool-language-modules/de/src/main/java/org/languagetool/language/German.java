@@ -58,7 +58,7 @@ public class German extends Language implements AutoCloseable {
 
   private static final Language GERMANY_GERMAN = new GermanyGerman();
   
-  private Tagger tagger;
+  protected Tagger tagger;
   private Synthesizer synthesizer;
   private SentenceTokenizer sentenceTokenizer;
   private Disambiguator disambiguator;
