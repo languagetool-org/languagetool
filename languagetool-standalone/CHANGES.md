@@ -26,6 +26,10 @@
   * added and improved rules
   * improvements to tokenization, tagging, and disambiguation
 
+#### Dutch
+  * added and improved rules
+  * added large amount of family names
+
 #### HTTP API / LT server
   * Experimental support for `altLanguages` parameter: takes a list of language
     codes. Unknown words of the main languages (as specified by the `language` parameter)
@@ -53,7 +57,6 @@
 
 #### Dutch
   * added and improved rules
-  * added large amount of family names
 
 #### English
   * added and improved rules
