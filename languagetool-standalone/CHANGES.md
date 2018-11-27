@@ -53,6 +53,7 @@
 
 #### Dutch
   * added and improved rules
+  * added large amount of family names
 
 #### English
   * added and improved rules
