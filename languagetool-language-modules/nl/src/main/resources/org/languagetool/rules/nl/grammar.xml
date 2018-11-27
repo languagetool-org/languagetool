@@ -16657,13 +16657,14 @@ steenwijk;Steenwijk
         <rulegroup id="KOMMA_ONTBR" name="Komma vergeten?">
             <!-- 2014-08-20 TaalTik -->
             <rule>
+				<antipattern><token>is</token><token>denk</token><token>ik</token></antipattern>
                 <antipattern><token>op</token><token>zoek</token><token inflected="yes">gaan</token></antipattern>
                 <antipattern><token>schuil</token><token inflected="yes">gaan</token></antipattern>
                 <pattern>
                     <token/>
                     <marker>
-                        <token postag_regexp="yes" postag="WKW:TGW:1EP|WKW:TGW:3EP|WKW:VLT:1EP"><exception postag_regexp="yes" postag="BNW:STL:VRB|BNW:STL:ONV|BNW:VGR:ONV|.*ZNW.*|WKW:VTD:ONV"/><exception regexp="yes">kwijt|Vries|Delft|jou|zoek|maart|pas|echt|eigen|mijn|zeker|weer|kan|men|maar|nodig|heel|veel|jij|meer|wel|niet|uit|in|nipt|naar|verluidt|minder</exception></token>
-                        <token postag_regexp="yes" postag="WKW:TGW:1EP|WKW:TGW:3EP|WKW:VLT:1EP"><exception postag_regexp="yes" postag="BNW:STL:VRB|BNW:STL:ONV|BNW:VGR:ONV|.*ZNW.*|WKW:VTD:ONV"/><exception regexp="yes">jouw|maart|pas|echt|eigen|mijn|zeker|weer|kan|men|maar|nodig|heel|veel|jij|meer|wel|niet|uit|in|nipt|naar|open|minder|naast|indien</exception></token>
+                        <token postag_regexp="yes" postag="WKW:TGW:1EP|WKW:TGW:3EP|WKW:VLT:1EP"><exception postag_regexp="yes" postag="BNW:STL:VRB|BNW:STL:ONV|BNW:VGR:ONV|.*ZNW.*|WKW:VTD:ONV"/><exception regexp="yes">kwijt|Vries|Delft|jou|zoek|maart|pas|echt|eigen|mijn|zeker|weer|kan|men|maar|nodig|heel|veel|jij|meer|wel|niet|uit|in|nipt|naar|verluidt|minder|genoeg|nadien</exception></token>
+                        <token postag_regexp="yes" postag="WKW:TGW:1EP|WKW:TGW:3EP|WKW:VLT:1EP"><exception postag_regexp="yes" postag="BNW:STL:VRB|BNW:STL:ONV|BNW:VGR:ONV|.*ZNW.*|WKW:VTD:ONV"/><exception regexp="yes">jouw|maart|pas|echt|eigen|mijn|zeker|weer|kan|men|maar|nodig|heel|veel|jij|meer|wel|niet|uit|in|nipt|naar|open|minder|naast|indien|genoeg|nadien</exception></token>
                     </marker>
                 </pattern>
                 <message>Als er bij het oplezen een pauze is, dan een komma toevoegen: <suggestion>\2, \3</suggestion>.</message>
@@ -17225,7 +17226,7 @@ steenwijk;Steenwijk
                 <example correction="dat">In het midden hangt het printje <marker>die</marker> tussen de booster en de ringleiding is geplaatst.</example>
             </rule>
         </rulegroup>
-        
+        <!-- te veel false postives
         <rulegroup id="MIJN_FAVORIET_PRODUCT" name="mijn favoriet product">
             <rule>
 				<antipattern><token>openbaar</token><token regexp="yes">bestuur|vervoer|domein|onderwijs</token></antipattern>
@@ -17245,7 +17246,7 @@ steenwijk;Steenwijk
                 <example correction="favoriete product">Dat is niet mijn <marker>favoriet product</marker>.</example>
             </rule>
         </rulegroup>
-
+		-->
     </category>
     <category id="NOTATIES" name="Notaties">
         <rulegroup id="EURO" name="Correcties rond euro">
@@ -29438,9 +29439,9 @@ steenwijk;Steenwijk
         <rulegroup id="OVERDRIJVING" name="mogelijke overdrijving">
             <rule>
                 <pattern>
-                    <token regexp="yes">enorm|vreselijk|^(giga|mega|super|ultra).*<exception regexp="yes">^(giga|mega)(pixel|-annum|ster|stal|stallen|ampère|becquerel|bit|byte|calorie|candela|coulomb|farad|gram|gray|henry|hertz|joule|katal|kelvin|liter|lumen|lux|meter|mol|newton|ohm|parsec|pascal|seconde|siemens|sievert|tesla|volt|voltampère|watt|wattuur|weber)|^super(computer.*|macht.*|latief|latieven|held|helden.*|markt.*|visie|nova)|superieur|superior.*|ultraviolet|Superman|ultrasoon|ultrasone|megafoon</exception></token>
+					<token regexp="yes">enorm|vreselijk|^(giga|mega|super|ultra).*<exception regexp="yes">^(giga|mega)(pixels?|-annum|ster|stal|stallen|ampère|becquerel|bit|byte|calorie|candela|coulomb|farad|gram|gray|henry|hertz|joule|katal|kelvin|liter|lumen|lux|meter|mol|newton|ohm|parsec|pascal|seconde|siemens|sievert|tesla|volt|voltampère|watt|wattuur|weber)|^super(computer.*|macht.*|latief|latieven|held|helden.*|markt.*|visie|nova.*)|superieure?n?|superior.*|ultraviolet|Superman|ultrasoon|ultrasone|megafoon|megaloma.*|superster|ultraviolet.*|Megane?|supefoods?|supervisors?|superbe?|superso(on|ne)|ultrageluid|supersets?|megapixel.*</exception><exception postag="UNKNOWN"/></token>
                 </pattern>
-                <message>Is dit niet overdreven?</message>
+                <message>Is dit niet wat overdreven?</message>
                 <example type="incorrect">Dat is <marker>enorm</marker>.</example>
                 <example type="incorrect"><marker>Super</marker> ding.</example>
                 <example type="incorrect">Ze is <marker>superslim</marker>.</example>
