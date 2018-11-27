@@ -16,7 +16,7 @@
 
 #### Serbian
   * Serbian never moved beyond its "initial support" state with a tiny number of rules,
-    and it has no active maintainer, so we have deactivated it for now. If you'd like t
+    and it has no active maintainer, so we have deactivated it for now. If you'd like to
     maintain support for Serbian, let us know in the forum (https://forum.languagetool.org).
     Once it's clear that a new active long-term maintainer has been found, we'll activate
     support for Serbian again. 
