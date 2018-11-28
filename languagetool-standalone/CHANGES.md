@@ -8,6 +8,7 @@
 #### English
   * added and improved rules
   * segmentation improvements
+  * updated en_GB spellchecker dictionary from https://github.com/marcoagpinto/aoo-mozilla-en-dict  (Version 2.67 - 2018-12-01)
 
 #### German
   * added and improved rules
@@ -22,7 +23,11 @@
     and it has no active maintainer, so we have deactivated it for now. If you'd like to
     maintain support for Serbian, let us know in the forum (https://forum.languagetool.org).
     Once it's clear that a new active long-term maintainer has been found, we'll activate
-    support for Serbian again. 
+    support for Serbian again.
+    
+#### Russian
+  * added and improved rules
+  * internal dictionary improvements 
 
 #### Ukrainian
   * dictionary update (about 7k of new words)
@@ -63,7 +68,6 @@
 
 #### English
   * added and improved rules
-  * updated en_GB spellchecker dictionary from https://github.com/marcoagpinto/aoo-mozilla-en-dict  (Version 2.67 - 2018-12-01)
 
 ##### Esperanto
   * added and improved rules
