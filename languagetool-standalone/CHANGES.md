@@ -12,6 +12,8 @@
 
 #### German
   * added and improved rules
+  * Swiss German: improved POS tagging of words that contain 'ß' in de-DE German (e.g.,
+    'gross' is tagged as 'gross[groß/ADJ:PRD:GRU]'); (#1147)
 
 #### Portuguese
   * added and improved rules
