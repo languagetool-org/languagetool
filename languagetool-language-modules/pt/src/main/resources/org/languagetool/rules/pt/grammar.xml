@@ -3115,8 +3115,9 @@ title="Easy editing stylesheet" ?>
     <rule>
       <pattern>
         <marker>
-          <token inflected='yes' regexp='yes' spacebefore='yes'>aderir|desobedecer|ir|pertencer|obedecer|reagir|equivaler|equivalente
-            <exception inflected='yes'>ser</exception></token>
+          <token inflected='yes' regexp='yes'>aderir|desobedecer|ir|pertencer|obedecer|reagir|equivaler|equivalente
+            <exception inflected='yes'>ser</exception>
+            <exception scope='previous'>&hifen;</exception></token>
           <token postag='R.' min='0' postag_regexp='yes'/>
           <token regexp='yes'>as?</token>
         </marker>
@@ -11484,7 +11485,8 @@ tokenizer spreadsheet in the forum	     -->
     </rule>
     <rule id='CLICHE_11_IR' name='Clichê: Ir aos arames'>
       <pattern>
-          <token inflected='yes' spacebefore='yes'>ir</token>
+          <token inflected='yes'>ir
+            <exception scope='previous'>&hifen;</exception></token>
           <token>aos</token>
           <token>arames</token>
       </pattern>
@@ -11495,7 +11497,8 @@ tokenizer spreadsheet in the forum	     -->
     </rule>
     <rule id='CLICHE_12_IR' name='Clichê: Ir buscar o carro'>
       <pattern>
-          <token inflected='yes' spacebefore='yes'>ir</token>
+          <token inflected='yes'>ir
+            <exception scope='previous'>&hifen;</exception></token>
           <token>buscar</token>
           <token>o</token>
           <token>carro</token>
@@ -11506,7 +11509,8 @@ tokenizer spreadsheet in the forum	     -->
     </rule>
     <rule id='CLICHE_13_IR' name='Clichê: Ir catar coquinho'>
       <pattern>
-          <token inflected='yes' spacebefore='yes'>ir</token>
+          <token inflected='yes'>ir
+            <exception scope='previous'>&hifen;</exception></token>
           <token>catar</token>
           <token>coquinho</token>
       </pattern>
@@ -11516,7 +11520,8 @@ tokenizer spreadsheet in the forum	     -->
     </rule>
     <rule id='CLICHE_14_IR' name='Clichê: Ir tomar banho' default='off'>
       <pattern>
-          <token inflected='yes' spacebefore='yes'>ir</token>
+          <token inflected='yes'>ir
+            <exception scope='previous'>&hifen;</exception></token>
           <token>tomar</token>
           <token>banho</token>
       </pattern>
@@ -11526,7 +11531,8 @@ tokenizer spreadsheet in the forum	     -->
     </rule>
     <rule id='CLICHE_15_IR' name='Clichê: Ir dar banho ao cão'>
       <pattern>
-          <token inflected='yes' spacebefore='yes'>ir</token>
+          <token inflected='yes'>ir
+            <exception scope='previous'>&hifen;</exception></token>
           <token>dar</token>
           <token>banho</token>
           <token>ao</token>
@@ -11538,7 +11544,8 @@ tokenizer spreadsheet in the forum	     -->
     </rule>
     <rule id='CLICHE_16_IR' name='Clichê: Ir desta para melhor'>
       <pattern>
-          <token inflected='yes' spacebefore='yes'>ir</token>
+          <token inflected='yes'>ir
+            <exception scope='previous'>&hifen;</exception></token>
           <token>desta</token>
           <token regexp='yes'>pa?ra</token>
           <token>melhor</token>
@@ -11550,7 +11557,8 @@ tokenizer spreadsheet in the forum	     -->
     </rule>
     <rule id='CLICHE_17_IR' name='Clichê: Ir para o espaço'>
       <pattern>
-          <token inflected='yes' spacebefore='yes'>ir</token>
+          <token inflected='yes'>ir
+            <exception scope='previous'>&hifen;</exception></token>
           <token regexp='yes'>pa?ra</token>
           <token>o</token>
           <token regexp='yes'>espaço|saco</token>
@@ -11564,7 +11572,8 @@ tokenizer spreadsheet in the forum	     -->
     </rule>
     <rule id='CLICHE_18_IR' name='Clichê: Ir para cucuia'>
       <pattern>
-          <token inflected='yes' spacebefore='yes'>ir</token>
+          <token inflected='yes'>ir
+            <exception scope='previous'>&hifen;</exception></token>
           <token regexp='yes'>pa?ra</token>
           <token>cucuia</token>
       </pattern>
@@ -11577,7 +11586,8 @@ tokenizer spreadsheet in the forum	     -->
     </rule>
     <rule id='CLICHE_20_IR' name='Clichê: Ir pentear macaco'>
       <pattern>
-          <token inflected='yes' spacebefore='yes'>ir</token>
+          <token inflected='yes'>ir
+            <exception scope='previous'>&hifen;</exception></token>
           <token>pentear</token>
           <token regexp='yes'>macacos?</token>
       </pattern>
@@ -11588,7 +11598,8 @@ tokenizer spreadsheet in the forum	     -->
     </rule>
     <rule id='CLICHE_22_IR' name='Clichê: Ir por água abaixo'>
       <pattern>
-          <token inflected='yes' spacebefore='yes'>ir</token>
+          <token inflected='yes'>ir
+            <exception scope='previous'>&hifen;</exception></token>
           <token>por</token>
           <token>água</token>
           <token>abaixo</token>
@@ -11759,7 +11770,8 @@ tokenizer spreadsheet in the forum	     -->
     </rule>
     <rule id='CLICHE_116_PENTEAR' name='Clichê: Pentear macacos'>
       <pattern>
-          <token inflected='yes' spacebefore='yes'>ir</token>
+          <token inflected='yes'>ir
+            <exception scope='previous'>&hifen;</exception></token>
           <token>pentear</token>
           <token>macacos</token>
       </pattern>
@@ -12352,7 +12364,8 @@ tokenizer spreadsheet in the forum	     -->
     </rule>
     <rule id='CLICHE_246_IR' name='Clichê: Ir chatear o camões'>
       <pattern>
-          <token inflected='yes' spacebefore='yes'>ir</token>
+          <token inflected='yes'>ir
+            <exception scope='previous'>&hifen;</exception></token>
           <token>chatear</token>
           <token>o</token>
           <token>camões</token>
@@ -25004,7 +25017,8 @@ TODO Write better examples
       <short>Possível gerundismo.</short>
     <rule>
       <pattern>
-          <token postag_regexp='yes' postag='V..[CF].+' inflected='yes' spacebefore='yes'>ir</token>
+          <token postag_regexp='yes' postag='V..[CF].+' inflected='yes' spacebefore='yes'>ir
+            <exception scope='previous'>&hifen;</exception></token>
           <token postag='VMN0000'>
             <exception>fazer</exception></token>
       </pattern>
@@ -25016,7 +25030,8 @@ TODO Write better examples
     </rule>
     <rule>
       <pattern>
-          <token postag_regexp='yes' postag='V..[CF].+' inflected='yes' spacebefore='yes'>ir</token>
+          <token postag_regexp='yes' postag='V..[CF].+' inflected='yes' spacebefore='yes'>ir
+            <exception scope='previous'>&hifen;</exception></token>
           <token>fazer</token>
       </pattern>
       <message>Possível gerundismo. Só deverá utilizar esta estrutura se pretender indicar certeza.</message>
@@ -25025,7 +25040,8 @@ TODO Write better examples
     </rule>
     <rule>
       <pattern>
-          <token postag_regexp='yes' postag='V..P.+' inflected='yes' spacebefore='yes'>ir</token>
+          <token postag_regexp='yes' postag='V..P.+' inflected='yes' spacebefore='yes'>ir
+            <exception scope='previous'>&hifen;</exception></token>
           <token postag='VMN0000'/>
       </pattern>
       <message>Possível gerundismo. Só deverá utilizar esta estrutura se pretender indicar certeza.</message>
@@ -26226,7 +26242,8 @@ TODO Write better examples
     </rule>
     <rule>
       <pattern>
-          <token inflected='yes' spacebefore='yes'>ir</token>
+          <token inflected='yes'>ir
+            <exception scope='previous'>&hifen;</exception></token>
           <token>aos</token>
           <token>pés</token>
       </pattern>
