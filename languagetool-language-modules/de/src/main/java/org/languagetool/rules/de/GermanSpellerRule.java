@@ -127,7 +127,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("entt?euscht(e[mnrs]?)?", "entt?eusch", "enttäusch");
     putRepl("Phählen?", "^Ph", "Pf");
     putRepl("Kattermesser[ns]?", "Ka", "Cu");
-    putRepl("gehert(e[mnrs]?)?", "he", "eh"); // "geherte" -> "geehrte"
+    putRepl("geherr?t(e[mnrs]?)?", "herr?", "ehr"); // "geherte" -> "geehrte"
     putRepl("gehrter?", "^ge", "gee");
     putRepl("[nN]amenhaft(e[mnrs]?)?", "amen", "am");
     putRepl("hom(o?e|ö)ophatisch(e[mnrs]?)?", "hom(o?e|ö)ophat", "homöopath");
@@ -163,6 +163,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("befehlten", "befahlen");
     put("lügte", "log");
     put("lügten", "logen");
+    put("bratete", "briet");
+    put("brateten", "brieten");
+    put("gefahl", "gefiel");
     put("Komplexibilität", "Komplexität");
     put("abbonement", "Abonnement");
     put("perse", "per se");
@@ -181,17 +184,25 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Opelarena", "Opel Arena");
     put("Toll-Collect", "Toll Collect");
     put("[pP][qQ]-Formel", "p-q-Formel");
-    put("desweitere[nm]", "des Weiteren");
+    put("desweitere?[nm]", "des Weiteren");
     put("handzuhaben", "zu handhaben");
     put("nachvollzuziehe?n", "nachzuvollziehen");
     put("[bB]ischen", "bisschen");
     put("Porto?folien", "Portfolios");
-    put("schwie?ri?chkeiten", "Schwierigkeiten");
-    put("Übergrifflichkeiten", "Übergriffigkeiten");
-    put("[aA]th?rith?is", "Arthritis");
+    put("[sS]chwie?ri?chkeiten", "Schwierigkeiten");
+    put("[üÜ]bergrifflichkeiten", "Übergriffigkeiten");
+    put("[aA]r?th?rie?th?is", "Arthritis");
     put("zugesand", "zugesandt");
+    put("weibt", "weißt");
+    put("instande?zusetzen", "instand zu setzen");
+    put("Lia(si|is)onen", "Liaisons");
+    put("[cC]asemana?ge?ment", "Case Management");
+    put("[aA]nn?[ou]ll?ie?rung", "Annullierung");
     put("[sS]charm", "Charme");
     put("[zZ]auberlich(e[mnrs]?)?", w -> Arrays.asList(w.replaceFirst("lich", "isch"), w.replaceFirst("lich", "haft")));
+    putRepl("([uU]n)?proff?esionn?ell?(e[mnrs]?)?", "proff?esionn?ell?", "professionell");
+    putRepl("[kK]inderlich(e[mnrs]?)?", "inder", "ind");
+    putRepl("[wW]iedersprichs?t", "ieder", "ider");
     putRepl("[kK]önntes", "es$", "est");
     putRepl("[aA]ssess?oare?s?", "[aA]ssess?oare?", "Accessoire");
     putRepl("indifiziert(e[mnrs]?)?", "ind", "ident");
@@ -278,8 +289,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("[wW]ienerschnitzel[ns]?", "[wW]ieners", "Wiener S");
     putRepl("[sS]chwarzwälderkirschtorten?", "[sS]chwarzwälderk", "Schwarzwälder K");
     putRepl("[kK]oxial(e[nmrs]?)?", "x", "ax");
+    putRepl("([üÜ]ber|[uU]unter)durs?chnitt?lich(e[nmrs]?)?", "s?chnitt?", "chschnitt");
     putRepl("[dD]urs?chnitt?lich(e[nmrs]?)?", "s?chnitt?", "chschnitt");
-    putRepl("[dD]urschnitts?", "schnitt", "chschnitt");
+    putRepl("[dD]urs?chnitts?", "s?chnitt", "chschnitt");
     putRepl("[sS]triktlich(e[mnrs]?)?", "lich", "");
     putRepl("[hH]öchstwahrlich(e[mnrs]?)?", "wahr", "wahrschein");
     putRepl("[oO]rganisativ(e[nmrs]?)?", "tiv", "torisch");

@@ -298,6 +298,9 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("homeophatisch", "homöopathisch", rule, lt);
     assertFirstSuggestion("verswindet", "verschwindet", rule, lt);
     assertFirstSuggestion("Durschnitt", "Durchschnitt", rule, lt);
+    assertFirstSuggestion("Durchnitts", "Durchschnitts", rule, lt);
+    assertFirstSuggestion("überdurschnittlichem", "überdurchschnittlichem", rule, lt);
+    assertFirstSuggestion("Unterdurschnittlicher", "Unterdurchschnittlicher", rule, lt);
     assertFirstSuggestion("höchstwahrliche", "höchstwahrscheinliche", rule, lt);
     assertFirstSuggestion("vidasehen", "wiedersehen", rule, lt);
     assertFirstSuggestion("striktliches", "striktes", rule, lt);
@@ -314,6 +317,12 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("zauberlicher", "zauberischer", rule, lt);
     assertFirstSuggestion("assessoars", "Accessoires", rule, lt);
     assertFirstSuggestion("könntes", "könntest", rule, lt);
+    assertFirstSuggestion("Casemangement", "Case Management", rule, lt);
+    assertFirstSuggestion("Anolierung", "Annullierung", rule, lt);
+    assertFirstSuggestion("Liaisonen", "Liaisons", rule, lt);
+    assertFirstSuggestion("kinderlichem", "kindlichem", rule, lt);
+    assertFirstSuggestion("wiedersprichst", "widersprichst", rule, lt);
+    assertFirstSuggestion("unproffesionele", "unprofessionelle", rule, lt);
   }
 
   @Test
