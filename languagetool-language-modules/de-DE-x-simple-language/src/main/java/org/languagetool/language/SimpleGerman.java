@@ -74,8 +74,8 @@ public class SimpleGerman extends GermanyGerman {
 
   @Override
   public int getPriorityForId(String id) {
-    switch (id) {
-      case LongSentenceRule.RULE_ID: return 10;
+    if (id == LongSentenceRule.RULE_ID) {
+      return 10;
     }
     return super.getPriorityForId(id);
   }

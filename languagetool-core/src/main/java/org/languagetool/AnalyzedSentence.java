@@ -267,9 +267,12 @@ public final class AnalyzedSentence {
   @SuppressWarnings("ControlFlowStatementWithoutBraces")
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null) return false;
-    if (getClass() != o.getClass()) return false;
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
     AnalyzedSentence other = (AnalyzedSentence) o;
     // tokenSet and lemmaSet are a subset of tokens and don't need to be included
     return Arrays.equals(nonBlankTokens, other.nonBlankTokens) 

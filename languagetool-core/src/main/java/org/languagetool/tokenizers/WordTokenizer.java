@@ -82,9 +82,6 @@ public class WordTokenizer implements Tokenizer {
     return E_MAIL.matcher(token).matches();
   }
 
-  public WordTokenizer() {
-  }
-
   @Override
   public List<String> tokenize(String text) {
     List<String> l = new ArrayList<>();
@@ -199,9 +196,7 @@ public class WordTokenizer implements Tokenizer {
 
   private boolean urlEndsAt(int i, List<String> l, String urlQuote) {
     String token = l.get(i);
-    if (StringTools.isWhitespace(token)) {
-      return true;
-    } else if (token.equals(")") || token.equals("]")) {   // this is guesswork
+    if (StringTools.isWhitespace(token) || token.equals(")") || token.equals("]")) {   // this is guesswork
       return true;
     } else if (l.size() > i + 1) {
       String nextToken = l.get(i + 1);

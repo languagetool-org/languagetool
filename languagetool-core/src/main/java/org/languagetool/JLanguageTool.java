@@ -911,11 +911,9 @@ public class JLanguageTool {
     for (int i = 1; i < numTokens; i++) {
       aTokens.get(i).setWhitespaceBefore(aTokens.get(i - 1).isWhitespace());
       aTokens.get(i).setStartPos(aTokens.get(i).getStartPos() + posFix);
-      if (!softHyphenTokens.isEmpty()) {
-        if (softHyphenTokens.get(i) != null) {
-          aTokens.get(i).addReading(language.getTagger().createToken(softHyphenTokens.get(i), null));
-          posFix += softHyphenTokens.get(i).length() - aTokens.get(i).getToken().length();
-        }
+      if (!softHyphenTokens.isEmpty() && softHyphenTokens.get(i) != null) {
+        aTokens.get(i).addReading(language.getTagger().createToken(softHyphenTokens.get(i), null));
+        posFix += softHyphenTokens.get(i).length() - aTokens.get(i).getToken().length();
       }
     }
         
@@ -1050,10 +1048,9 @@ public class JLanguageTool {
     List<Rule> rules = getAllRules();
     List<AbstractPatternRule> rulesById = new ArrayList<>();   
     for (Rule rule : rules) {
-      if (rule instanceof AbstractPatternRule) {
-        if (rule.getId().equals(Id) && ((AbstractPatternRule) rule).getSubId().equals(subId)) {
-          rulesById.add((AbstractPatternRule) rule);
-        }
+      if (rule instanceof AbstractPatternRule &&
+          rule.getId().equals(Id) && ((AbstractPatternRule) rule).getSubId().equals(subId)) {
+        rulesById.add((AbstractPatternRule) rule);
       }
     }    
     return rulesById;
