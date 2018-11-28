@@ -3206,23 +3206,24 @@
     <example type="ambiguous" inputform="claim[claim/NN:UN,claim/VB,claim/VBP]" outputform="claim[claim/VBP]">Yes, actually we <marker>claim</marker> that this is true.</example>
     </rule>
     <rule id="E_NP_NN_VBP" name="noun phrase end -> NN">
-    <pattern>
-      <marker>
-        <and>
-        <token postag="NN:UN"><exception scope="previous" postag="NNP?S" postag_regexp="yes"/><exception scope="previous" regexp="yes">wed|th[oe]se</exception></token> 
-        <token chunk="E-NP-singular"/>
-        <token postag="VBP"/>
-        </and>
+      <pattern>
+        <marker>
+          <and>
+            <token postag="NN:UN"><exception scope="previous" postag="NNP?S" postag_regexp="yes"/><exception scope="previous" regexp="yes">wed|th[oe]se|that</exception></token>
+            <token chunk="E-NP-singular"/>
+            <token postag="VBP"/>
+          </and>
         </marker>
         <token><exception>.</exception><exception>that</exception></token>
-    </pattern>
-    <disambig postag="NN:UN"/>
+      </pattern>
+      <disambig postag="NN:UN"/>
       <example type="untouched">They disputed a claim.</example>
       <example type="untouched">Many claim that the behavior is in the past.</example>
       <example type="untouched">Doubled consonants count as two consonants.</example>
       <example type="untouched">The Beatles play to nearly 60,000 fans at Shea Stadium.</example>
       <example type="untouched">Wed love to hear this!</example>
-      <example type="ambiguous" inputform="claim[claim/NN:UN,claim/VB,claim/VBP]" outputform="claim[claim/NN:UN]">Morroco's disputed <marker>claim</marker> to portions of Algeria.</example>      
+      <example type="untouched">...and angles that <marker>share</marker> a common vertex...</example>
+      <example type="ambiguous" inputform="claim[claim/NN:UN,claim/VB,claim/VBP]" outputform="claim[claim/NN:UN]">Morroco's disputed <marker>claim</marker> to portions of Algeria.</example>
     </rule>
     <rule id="E_NP_VBP" name="noun/verb after a plural NP -> verb">
       <pattern>
