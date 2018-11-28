@@ -2,6 +2,9 @@
 
 ## 4.4-SNAPSHOT (release planned for 2018-12-27)
 
+#### Catalan
+  * added and improved rules
+
 #### English
   * added and improved rules
   * segmentation improvements
