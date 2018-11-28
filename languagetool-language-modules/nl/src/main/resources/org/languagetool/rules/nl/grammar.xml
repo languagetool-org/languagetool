@@ -12158,6 +12158,19 @@ onwaarschijnlijk
     </category>
     <category id="CONSTRUCTIEFOUT" name="Constructiefout">
 
+		<rulegroup id="DES_TE-VREEMD" name="Vreemd woord na des te">
+			<rule>
+				<antipattern><token>des</token><token>te</token><token postag="WKW:TGW:INF"/></antipattern><!-- des als ziekte of medicijn -->
+				<antipattern><token>des</token><token>te</token><token postag_regexp="yes" postag="BNW:VGR:(ONV|VRB)"/></antipattern>
+				<antipattern><token>des</token><token>te</token><token regexp="yes">meer|eerder|minder</token></antipattern>
+				<antipattern><token>des</token><token>te</token><token postag="UNKNOWN"/></antipattern>
+				
+				<pattern><token>des</token><token>te</token><token/></pattern>
+				<message>\1 \2 \3</message>
+                <example type="incorrect"><marker>des te liep</marker></example>
+			</rule>
+		</rulegroup>
+		
 		<rulegroup id="VREEMD_VRZ_HIJ" name="vang">
 			<rule>
 				<pattern>
@@ -12205,6 +12218,21 @@ onwaarschijnlijk
 				<pattern><marker><token regexp="yes">aan|achter|af|beneden|bij|binnen|boven|buiten|door|heen|in|langs|na|naar|om|omheen|omtrent|onder|op|over|rond|tegen|tegenover|toe|tussen|uit|van|vandaan|voor</token><token>dat</token></marker><token postag="SENT_END" regexp="yes">[.!?]</token></pattern>
 				<message>Veel beter is vast: <suggestion>daar\1</suggestion></message>
                 <example correction="daarin">We zijn <marker>in dat</marker>.</example>
+			</rule>
+		</rulegroup>
+
+		<rulegroup id="HET_ZACHTS" name="zachts => zachtst">
+			<rule>
+				<antipattern><token>het</token><token case_sensitive="yes" regexp="yes">[A-Z].*</token></antipattern>
+				<pattern>
+					<token><exception>al</exception></token>
+					<token>het</token>
+					<marker>
+						<token postag="BNW:STL:IET"><exception negate_pos="yes" postag="BNW:STL:IET"/><exception>anders</exception></token>
+					</marker>
+				</pattern>
+				<message>U bedoelt mogelijk: <suggestion>\3t</suggestion>.</message>
+				<example correction="zachtst">Het is echt het <marker>zachts</marker>.</example>
 			</rule>
 		</rulegroup>
 		
@@ -15958,18 +15986,21 @@ steenwijk;Steenwijk
         <rulegroup id="KOMMA_HL" name=", Hoofdletter">
             <!-- 2014-08-21 TaalTik regel komt vaak op, maar terecht, vooral bij afkortingen met een onterechte hoofdletter. -->
             <rule>
-                <antipattern><token>,</token><token postag_regexp="yes" postag="ENM.*|UNKNOWN"></token></antipattern>
+                <antipattern><token>,</token><token postag_regexp="yes" postag="ENM.*|VLG:BHL|UNKNOWN"></token></antipattern>
                 <antipattern><token>,</token><token regexp="yes">St|Ch|Th|Ph</token></antipattern>
 				<antipattern><token>,</token><token regexp="yes" case_sensitive="yes" postag_regexp="yes" postag="ENM.*">[A-Z].*</token></antipattern>
 				<antipattern><token>,</token><token regexp="yes" case_sensitive="yes" >(Nederlands|Twitter|Duits|Frans|Turks|Vlaams|Hollands|Engels|Portugees|Amerikaans).*|.*[a-z][A-Z].*</token></antipattern>
                 <antipattern><token>,</token><token regexp="yes">[A-Z][a-z].*</token><token regexp="yes" case_sensitive="yes">[A-Z][a-z].*</token></antipattern>
+                <antipattern><token>,</token><token regexp="yes">[A-Z][a-z].*(straat|plein|dreef|steeg|laan)</token></antipattern>
                 <pattern case_sensitive="yes">
                     <token>,</token>
-                    <token regexp="yes" case_sensitive="yes">[A-Z][a-z].*</token>
+					<marker>
+						<token regexp="yes" case_sensitive="yes">[A-Z][a-z].*</token>
+					</marker>
                 </pattern>
-                <message>Na een komma hoeft geen hoofdletter (behalve bij een eigennaam):<suggestion>, <match no="2" case_conversion="startlower"/></suggestion>.</message>
-                <example correction=", is">Dit<marker>, Is</marker> een fout.</example>
-                <example>Dit<marker>, is</marker> wel goed.</example>
+                <message>Na een komma hoeft geen hoofdletter (behalve bij een eigennaam); bedoelt u:<suggestion><match no="2" case_conversion="startlower"/></suggestion>?</message>
+                <example correction="is">Dit, <marker>Is</marker> een fout.</example>
+                <example>Dit <marker>is</marker> wel goed.</example>
             </rule>
         </rulegroup>
         <rulegroup id="TITELS" name="Titels zonder hoofdletter">
@@ -33683,11 +33714,8 @@ steenwijk;Steenwijk
                 <example correction="taak is volbracht">Mijn <marker>taak is voldaan</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="WIJ_ZIJ_MIJ" name="Wij, zij, jij → we, ze, je, me">
+        <rulegroup id="WIJ_ZIJ_MIJ" name="Wij, zij, jij , jouw → we, ze, je, me">
             <rule>
-                <!-- 2014-09-08 TaalTik
-                advies wordt wel vaak vertoond, maar is ook vaak wel van toepassing.
-                -->
 				<antipattern><token>zoals</token><token regexp="yes">jij|wij|zij|mij</token></antipattern>
                 <pattern>
 					<token regexp="yes">jij|wij|zij|mij<exception postag="UNKNOWN"/></token>
@@ -33698,6 +33726,15 @@ steenwijk;Steenwijk
                 <example correction="We"><marker>Wij</marker> vinden het fout.</example>
                 <example correction="We"><marker>Wij</marker> geven u een schatting van de kosten.</example>
                 <example correction="Ze"><marker>Zij</marker> vinden er hun tweede huis.</example>
+            </rule>
+            <rule>
+                <pattern>
+					<token>jouw</token>
+                </pattern>
+                <message>Als er geen speciale nadruk ligt op \1, dan is <suggestion>je</suggestion> gebruikelijker.</message>
+                <url>https://onzetaal.nl/taaladvies/advies/wij-we</url>
+                <short>Nadruk?</short>
+				<example correction="je">Ik zie <marker>jouw</marker> auto</example>
             </rule>
         </rulegroup>
         <rulegroup id="KORT_1" name="Zin van 1 woord">
