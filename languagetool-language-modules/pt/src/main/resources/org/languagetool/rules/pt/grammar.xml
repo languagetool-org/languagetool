@@ -3115,7 +3115,7 @@ title="Easy editing stylesheet" ?>
     <rule>
       <pattern>
         <marker>
-          <token inflected='yes' regexp='yes'>aderir|desobedecer|ir|pertencer|obedecer|reagir|equivaler|equivalente
+          <token inflected='yes' regexp='yes' spacebefore='yes'>aderir|desobedecer|ir|pertencer|obedecer|reagir|equivaler|equivalente
             <exception inflected='yes'>ser</exception></token>
           <token postag='R.' min='0' postag_regexp='yes'/>
           <token regexp='yes'>as?</token>
@@ -8692,7 +8692,7 @@ title="Easy editing stylesheet" ?>
 
  </category>
 
- <category id='REPETITIONS' name='Repetições' type='duplication'>
+ <category id='REPETITIONS' name='Repetições' type='grammar'>
 
     <rule id='CONJUNCTION_REPETITION' name="Repetição de conjunções" default='on'>
     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-12-03	-->
@@ -8710,7 +8710,61 @@ title="Easy editing stylesheet" ?>
       <example>Seja por vergonha, seja por timidez.</example>
     </rule>
 
-    <rule id='REPEATED_WORDS' name="Palavras repetidas (2x)" default='on' type='style'>
+  <rulegroup id='PHRASE_REPETITION' name="Duplicação de palavras (por ali por ali)">
+    <!--    Localized and improved by Tiago F. Santos, from English grammar.xml, 2016-11-30    -->
+      <short>Segmento duplicado</short>
+    <rule>
+      <antipattern>
+          <token regexp='yes'>uma?</token>
+          <token regexp='yes'>amig[ao]</token>
+          <token>de</token>
+      </antipattern>
+      <pattern>
+          <token negate_pos="yes" postag="SENT_START" regexp="yes">
+            <exception>e</exception>\p{L}+</token>
+          <token regexp="yes">
+            <exception>e</exception>\p{L}+</token>
+          <token regexp="yes">
+            <exception>e</exception>\p{L}+</token>
+          <token><match no="0"/></token>
+          <token><match no="1"/></token>
+          <token><match no="2"/></token>
+      </pattern>
+      <message>Este segmento está duplicado. Talvez queira, apenas, dizer <suggestion>\1 \2 \3</suggestion>.</message>
+      <example correction="do final de">Hepatologia <marker>do final de do final de</marker> século.</example>
+      <example>Um amigo de um amigo de seu pai não é necessariamente um amigo.</example>
+    </rule>
+    <rule>
+      <antipattern>
+          <token regexp='yes'>cara|dia|face|lado|passo|pouco|terra</token>
+          <token>a</token>
+          <token><match no="0"/></token>
+      </antipattern>
+      <pattern>
+          <token negate_pos="yes" postag="SENT_START" regexp="yes">
+            <exception>e</exception>\p{L}+</token>
+          <token regexp="yes">
+            <exception>e</exception>\p{L}+</token>
+          <token><match no="0"/></token>
+          <token><match no="1"/></token>
+      </pattern>
+      <message>Este segmento está duplicado. Talvez queira, apenas, dizer <suggestion>\1 \2</suggestion>.</message>
+      <example correction="do final">Hepatologia <marker>do final do final</marker> de século.</example>
+      <example correction="colocou o">Ele voltou novamente ao estudo, e <marker>colocou o colocou o</marker> candeeiro encima da mesa.</example>
+      <example correction="vem da">A carruagem com acessibilidade para deficientes motores <marker>vem da vem da</marker> Universidade do Porto.</example>
+      <example>Tudo o que eles queriam era ficar quietos, e olhar e olhar e olhar.</example>
+      <example>As instruções são executadas passo a passo a partir do começo da lista.</example>
+      <example>…integrar o dia a dia a partir do…</example>
+      <example>Vamos pensar em soluções terra-a-terra.</example>
+    </rule>
+  </rulegroup>
+
+ </category>
+
+ <category id='REPETITIONS_STYLE' name='Repetições (estilo)' type='style'>
+
+
+    <rule id='REPEATED_WORDS' name="Palavras repetidas (2x)" default='on'>
     <!-- Created by Tiago F. Santos , Portuguese rule, 2016-12-03 		-->
     <!-- XXX If the user finds this rule too intrusive, they will disable it and use REPEATED_WORDS_3X as a fallback		 	-->
       <antipattern>
@@ -8793,7 +8847,7 @@ title="Easy editing stylesheet" ?>
       <example>Vamos analisar, facto por facto.</example>
     </rule>
 
-    <rule id='REPEATED_WORDS_3X' name="Palavras repetidas (3x)" default='on' type='style'>
+    <rule id='REPEATED_WORDS_3X' name="Palavras repetidas (3x)" default='on'>
     <!-- Created by Tiago F. Santos , Portuguese rule, 2016-12-03 	-->
       <antipattern>
           <token>de</token>
@@ -8834,55 +8888,6 @@ title="Easy editing stylesheet" ?>
       <example correction="">Principalmente migrantes têm procurado residência principalmente em Alagoas, estabelecendo-se <marker>principalmente</marker> na região litorânea</example>
       <example>Principalmente migrantes têm procurado residência em Alagoas, estabelecendo-se <marker>principalmente</marker> na região litorânea</example>
     </rule>
-
-  <rulegroup id='PHRASE_REPETITION' name="Duplicação de palavras (por ali por ali)">
-    <!--    Localized and improved by Tiago F. Santos, from English grammar.xml, 2016-11-30    -->
-      <short>Segmento duplicado</short>
-    <rule>
-      <antipattern>
-          <token regexp='yes'>uma?</token>
-          <token regexp='yes'>amig[ao]</token>
-          <token>de</token>
-      </antipattern>
-      <pattern>
-          <token negate_pos="yes" postag="SENT_START" regexp="yes">
-            <exception>e</exception>\p{L}+</token>
-          <token regexp="yes">
-            <exception>e</exception>\p{L}+</token>
-          <token regexp="yes">
-            <exception>e</exception>\p{L}+</token>
-          <token><match no="0"/></token>
-          <token><match no="1"/></token>
-          <token><match no="2"/></token>
-      </pattern>
-      <message>Este segmento está duplicado. Talvez queira, apenas, dizer <suggestion>\1 \2 \3</suggestion>.</message>
-      <example correction="do final de">Hepatologia <marker>do final de do final de</marker> século.</example>
-      <example>Um amigo de um amigo de seu pai não é necessariamente um amigo.</example>
-    </rule>
-    <rule>
-      <antipattern>
-          <token regexp='yes'>cara|dia|face|lado|passo|pouco|terra</token>
-          <token>a</token>
-          <token><match no="0"/></token>
-      </antipattern>
-      <pattern>
-          <token negate_pos="yes" postag="SENT_START" regexp="yes">
-            <exception>e</exception>\p{L}+</token>
-          <token regexp="yes">
-            <exception>e</exception>\p{L}+</token>
-          <token><match no="0"/></token>
-          <token><match no="1"/></token>
-      </pattern>
-      <message>Este segmento está duplicado. Talvez queira, apenas, dizer <suggestion>\1 \2</suggestion>.</message>
-      <example correction="do final">Hepatologia <marker>do final do final</marker> de século.</example>
-      <example correction="colocou o">Ele voltou novamente ao estudo, e <marker>colocou o colocou o</marker> candeeiro encima da mesa.</example>
-      <example correction="vem da">A carruagem com acessibilidade para deficientes motores <marker>vem da vem da</marker> Universidade do Porto.</example>
-      <example>Tudo o que eles queriam era ficar quietos, e olhar e olhar e olhar.</example>
-      <example>As instruções são executadas passo a passo a partir do começo da lista.</example>
-      <example>…integrar o dia a dia a partir do…</example>
-      <example>Vamos pensar em soluções terra-a-terra.</example>
-    </rule>
-  </rulegroup>
 
  </category>
 
@@ -11479,7 +11484,7 @@ tokenizer spreadsheet in the forum	     -->
     </rule>
     <rule id='CLICHE_11_IR' name='Clichê: Ir aos arames'>
       <pattern>
-          <token inflected='yes'>ir</token>
+          <token inflected='yes' spacebefore='yes'>ir</token>
           <token>aos</token>
           <token>arames</token>
       </pattern>
@@ -11490,7 +11495,7 @@ tokenizer spreadsheet in the forum	     -->
     </rule>
     <rule id='CLICHE_12_IR' name='Clichê: Ir buscar o carro'>
       <pattern>
-          <token inflected='yes'>ir</token>
+          <token inflected='yes' spacebefore='yes'>ir</token>
           <token>buscar</token>
           <token>o</token>
           <token>carro</token>
@@ -11501,7 +11506,7 @@ tokenizer spreadsheet in the forum	     -->
     </rule>
     <rule id='CLICHE_13_IR' name='Clichê: Ir catar coquinho'>
       <pattern>
-          <token inflected='yes'>ir</token>
+          <token inflected='yes' spacebefore='yes'>ir</token>
           <token>catar</token>
           <token>coquinho</token>
       </pattern>
@@ -11511,7 +11516,7 @@ tokenizer spreadsheet in the forum	     -->
     </rule>
     <rule id='CLICHE_14_IR' name='Clichê: Ir tomar banho' default='off'>
       <pattern>
-          <token inflected='yes'>ir</token>
+          <token inflected='yes' spacebefore='yes'>ir</token>
           <token>tomar</token>
           <token>banho</token>
       </pattern>
@@ -11521,7 +11526,7 @@ tokenizer spreadsheet in the forum	     -->
     </rule>
     <rule id='CLICHE_15_IR' name='Clichê: Ir dar banho ao cão'>
       <pattern>
-          <token inflected='yes'>ir</token>
+          <token inflected='yes' spacebefore='yes'>ir</token>
           <token>dar</token>
           <token>banho</token>
           <token>ao</token>
@@ -11533,7 +11538,7 @@ tokenizer spreadsheet in the forum	     -->
     </rule>
     <rule id='CLICHE_16_IR' name='Clichê: Ir desta para melhor'>
       <pattern>
-          <token inflected='yes'>ir</token>
+          <token inflected='yes' spacebefore='yes'>ir</token>
           <token>desta</token>
           <token regexp='yes'>pa?ra</token>
           <token>melhor</token>
@@ -11545,7 +11550,7 @@ tokenizer spreadsheet in the forum	     -->
     </rule>
     <rule id='CLICHE_17_IR' name='Clichê: Ir para o espaço'>
       <pattern>
-          <token inflected='yes'>ir</token>
+          <token inflected='yes' spacebefore='yes'>ir</token>
           <token regexp='yes'>pa?ra</token>
           <token>o</token>
           <token regexp='yes'>espaço|saco</token>
@@ -11559,7 +11564,7 @@ tokenizer spreadsheet in the forum	     -->
     </rule>
     <rule id='CLICHE_18_IR' name='Clichê: Ir para cucuia'>
       <pattern>
-          <token inflected='yes'>ir</token>
+          <token inflected='yes' spacebefore='yes'>ir</token>
           <token regexp='yes'>pa?ra</token>
           <token>cucuia</token>
       </pattern>
@@ -11572,7 +11577,7 @@ tokenizer spreadsheet in the forum	     -->
     </rule>
     <rule id='CLICHE_20_IR' name='Clichê: Ir pentear macaco'>
       <pattern>
-          <token inflected='yes'>ir</token>
+          <token inflected='yes' spacebefore='yes'>ir</token>
           <token>pentear</token>
           <token regexp='yes'>macacos?</token>
       </pattern>
@@ -11583,7 +11588,7 @@ tokenizer spreadsheet in the forum	     -->
     </rule>
     <rule id='CLICHE_22_IR' name='Clichê: Ir por água abaixo'>
       <pattern>
-          <token inflected='yes'>ir</token>
+          <token inflected='yes' spacebefore='yes'>ir</token>
           <token>por</token>
           <token>água</token>
           <token>abaixo</token>
@@ -11754,7 +11759,7 @@ tokenizer spreadsheet in the forum	     -->
     </rule>
     <rule id='CLICHE_116_PENTEAR' name='Clichê: Pentear macacos'>
       <pattern>
-          <token inflected='yes'>ir</token>
+          <token inflected='yes' spacebefore='yes'>ir</token>
           <token>pentear</token>
           <token>macacos</token>
       </pattern>
@@ -12347,7 +12352,7 @@ tokenizer spreadsheet in the forum	     -->
     </rule>
     <rule id='CLICHE_246_IR' name='Clichê: Ir chatear o camões'>
       <pattern>
-          <token inflected='yes'>ir</token>
+          <token inflected='yes' spacebefore='yes'>ir</token>
           <token>chatear</token>
           <token>o</token>
           <token>camões</token>
@@ -16912,10 +16917,12 @@ o tomate'>
           <token min='0' postag='A.+' postag_regexp='yes'/>
           <token regexp='yes'>medias?</token>
       </pattern>
-      <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada.</message>
+      <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma acentuada. Se se refério aos meios de comunicação como estrageirismo, coloque entre aspas ou italize.</message>
         <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> média<match no='3' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
-      <example correction='da média'><marker>da media</marker>.</example>
-      <example correction='das médias'><marker>das medias</marker>.</example>
+        <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> ‘\3’</suggestion>
+        <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> “\3”</suggestion>
+      <example correction='da média|da ‘media’|da “media”'><marker>da media</marker>.</example>
+      <example correction='das médias|da ‘medias’|da “medias”'><marker>das medias</marker>.</example>
     </rule>
     <rule id='PARONYM_MELODIO_203' name='Parónimo: melodio'>
       <pattern>
@@ -24997,7 +25004,7 @@ TODO Write better examples
       <short>Possível gerundismo.</short>
     <rule>
       <pattern>
-          <token postag_regexp='yes' postag='V..[CF].+' inflected='yes'>ir</token>
+          <token postag_regexp='yes' postag='V..[CF].+' inflected='yes' spacebefore='yes'>ir</token>
           <token postag='VMN0000'>
             <exception>fazer</exception></token>
       </pattern>
@@ -25009,7 +25016,7 @@ TODO Write better examples
     </rule>
     <rule>
       <pattern>
-          <token postag_regexp='yes' postag='V..[CF].+' inflected='yes'>ir</token>
+          <token postag_regexp='yes' postag='V..[CF].+' inflected='yes' spacebefore='yes'>ir</token>
           <token>fazer</token>
       </pattern>
       <message>Possível gerundismo. Só deverá utilizar esta estrutura se pretender indicar certeza.</message>
@@ -25018,7 +25025,7 @@ TODO Write better examples
     </rule>
     <rule>
       <pattern>
-          <token postag_regexp='yes' postag='V..P.+' inflected='yes'>ir</token>
+          <token postag_regexp='yes' postag='V..P.+' inflected='yes' spacebefore='yes'>ir</token>
           <token postag='VMN0000'/>
       </pattern>
       <message>Possível gerundismo. Só deverá utilizar esta estrutura se pretender indicar certeza.</message>
@@ -26219,7 +26226,7 @@ TODO Write better examples
     </rule>
     <rule>
       <pattern>
-          <token inflected='yes'>ir</token>
+          <token inflected='yes' spacebefore='yes'>ir</token>
           <token>aos</token>
           <token>pés</token>
       </pattern>
