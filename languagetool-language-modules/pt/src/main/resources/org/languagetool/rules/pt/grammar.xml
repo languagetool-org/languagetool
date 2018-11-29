@@ -29310,6 +29310,19 @@ TODO Write better examples
     </rule>
     <rule>
       <pattern>
+          <token>
+            <exception regexp='yes'>.*as?</exception></token>
+        <marker>
+          <token regexp='yes'>aposiç(ão|ões)</token>
+        </marker>
+      </pattern>
+      <message>'\2' refere-se a um ato de juntar ou conjunto nominal colocado lado a lado. Verifique se não foi uma gralha.</message>
+        <suggestion><match no='2' regexp_match='apos' regexp_replace='pos'/></suggestion>
+      <example correction="posição">... assumirem um <marker>aposição</marker> ...</example>
+      <example>Refere-se a uma <marker>aposição</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
           <token regexp='yes'>bateiras?</token>
       </pattern>
       <message>'Bateira' é um tipo de barco. O modo de alimentação escreve-se <suggestion>bateria</suggestion>.</message>
@@ -29334,7 +29347,7 @@ TODO Write better examples
       <pattern>
           <token regexp='yes'>mandalas?</token>
       </pattern>
-      <message>'Mandala' é um simbola da tradição hindi. O verbo escreve-se <suggestion><match no='1' regexp_match='mandal' regexp_replace='mandá-l'/></suggestion>.</message>
+      <message>'Mandala' é um símbolo da tradição hindi. O verbo escreve-se <suggestion><match no='1' regexp_match='mandal' regexp_replace='mandá-l'/></suggestion>.</message>
       <example correction="mandá-las">Vou <marker>mandalas</marker> por correio registado.</example>
     </rule>
   </rulegroup>
