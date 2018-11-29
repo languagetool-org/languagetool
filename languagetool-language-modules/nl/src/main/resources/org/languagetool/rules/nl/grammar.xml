@@ -12653,6 +12653,51 @@ onwaarschijnlijk
     </category>
     <category id="GEOGRAFIE" name="Geografie">
 
+		<rulegroup id="STRAAT_HL" name="Straat als soortnaam of eigennaam">
+			<rule>
+				<antipattern><token>gulden</token><token>middenweg</token></antipattern>
+				<antipattern> <!-- met huisnummer mag het strenger.. -->
+					<token postag_regexp="yes" postag="ZNW.*" case_sensitive="yes" regexp="yes">[a-z]{5,}(straat|plein|laan|beek|weg)</token>
+					<token postag="GET:(EKV|MRV)" postag_regexp="yes"/>
+				</antipattern>
+				<antipattern>
+					<token>een</token>
+					<token postag_regexp="yes" postag="BNW.*" />
+					<token postag_regexp="yes" postag="ZNW.*" case_sensitive="yes" regexp="yes">[a-z]{5,}(straat|plein|laan|beek|weg)</token>
+				</antipattern>
+				<antipattern>
+					<token>een</token>
+					<token postag_regexp="yes" postag="ZNW.*" case_sensitive="yes" regexp="yes">[a-z]{5,}(straat|plein|laan|beek|weg)</token>
+				</antipattern>
+				<pattern>
+					<token postag_regexp="yes" postag="ZNW.*" case_sensitive="yes" regexp="yes">[a-z]{5,}(straat|plein|laan|beek|weg)<exception postag_regexp="yes" postag="BYW|UNKOWN"/><exception regexp="yes">.*(school|winkel|spoor|terug|verbindings|speel|vlucht|uitvals|ontmoetings|inrij|oprij|toegangs|levens|autosnel|lijdens|milieu|asfalt|baans|tram|slinger|modder|wandel|cultuur|water|richtings|verkeers|kleuter|geloofs)(straat|plein|laan|beek|weg|sport)</exception><exception regexp="yes">.*(sub|magi)straat</exception></token>
+				</pattern>
+				<message>Als dit de naam van een specifieke locatie is, dan heeft het een hoofdletter nodig: <suggestion><match no="1" case_conversion="startupper"/></suggestion>.</message>
+				<short>Hoofdletter</short>
+				<example correction="Beukenlaan">We spreken over de <marker>beukenlaan</marker>.</example>
+			</rule>
+			<rule>
+				<antipattern>
+					<token postag="GET:(EKV|MRV)" postag_regexp="yes" regexp="yes">[0-9]*</token>
+					<token regexp="yes">m[²³23]|(kilo)meter</token>
+				</antipattern>
+				<antipattern>
+					<token postag="GET:(EKV|MRV)" postag_regexp="yes"/>
+					<token regexp="yes" spacebefore="no">[.,:]<exception postag="SENT_END"/></token>
+					<token postag="GET:(EKV|MRV)"  postag_regexp="yes" spacebefore="no"/>
+				</antipattern>
+				<pattern> <!-- met huisnummer mag het strenger.. -->
+					<marker>
+						<token case_sensitive="yes" regexp="yes">[a-z]{5,}(straat|plein|laan|beek|weg)</token>
+					</marker>
+					<token postag="GET:(EKV|MRV)" postag_regexp="yes" regexp="yes">[0-9]*</token>
+				</pattern>
+				<message>Straatnamen krijgen een hoofdletter: <suggestion><match no="1" case_conversion="startupper"/></suggestion>.</message>
+				<short>Hoofdletter</short>
+				<example correction="Beukenlaan">Hij woont op <marker>beukenlaan</marker> 35 te Haarlem.</example>
+			</rule>
+		</rulegroup>
+		
 		<rulegroup id="TE_PLAATS" name="Te voor plaats">
 			<rule>
 				<pattern><marker><token>te</token></marker><token postag="ENM:LOC:PTS"/></pattern>
@@ -13050,7 +13095,7 @@ onwaarschijnlijk
         </rulegroup>
         <rulegroup id="GETALLEN_0_20_OF_ROND" name="Getallen onder 20 en ronde getallen uitschrijven">
             <rule>
-                <antipattern><token regexp="yes">[€.,/-]|lid|artikel|jaar|jaren|figuur|sub|stap|tabel|ISO'</token><token regexp="yes">[0-9]|[1][0-9]|[1-9]0|[1-9][0-9]00|[1-9]00</token><token/></antipattern>
+                <antipattern><token regexp="yes">[A-Z][a-z].*(straat|weg|plein|steeg|dreef|boulevard)|[€.,/-]|lid|artikel|jaar|jaren|figuur|sub|stap|tabel|ISO'</token><token regexp="yes">[0-9]|[1][0-9]|[1-9]0|[1-9][0-9]00|[1-9]00</token><token/></antipattern>
                 <antipattern><token/><token regexp="yes">[0-9]|[1][0-9]|[1-9]0|[1-9][0-9]00|[1-9]00</token><token regexp="yes">.{4,50}|[%.,/-]|GB|u|uur|(jan|feb|maa|apr|mei|jun|jul|aug|okt|nov|dec).*|º|mg|kg|dl|ml|m|mm|cm|km|kHz|TB</token>
                 </antipattern>
                 <pattern>
@@ -30042,6 +30087,34 @@ steenwijk;Steenwijk
 		-->
     </category>
     <category id="WOORDGROEPEN" name="Woordgroepen">
+
+		<rulegroup id="GFT" name="Groente-, fruit- en tuinafval">
+			<rule>
+				<antipattern>
+					<token>groente-</token>
+					<token>,</token>
+					<token>fruit-</token>
+					<token>en</token>
+					<token>tuinafval</token>
+				</antipattern>
+				<pattern>
+					<token regexp="yes" skip="2">groente-|groente|groenten|groenten-</token>
+					<token regexp="yes" skip="2">fruit|fruit-</token>
+					<token>tuinafval</token>
+				</pattern>
+				<message>Juist is: <suggestion>groente-, fruit- en tuinafval</suggestion>.</message>
+				<example correction="groente-, fruit- en tuinafval">Gft staat voor <marker>groente, fruit en tuinafval</marker>.</example>
+				<example correction="groente-, fruit- en tuinafval">Gft staat voor <marker>groente-, fruit en tuinafval</marker>.</example>
+				<example correction="groente-, fruit- en tuinafval">Gft staat voor <marker>groenten-, fruit- en tuinafval</marker>.</example>
+				<example correction="groente-, fruit- en tuinafval">Gft staat voor <marker>groente-, fruit-, en tuinafval</marker>.</example>
+				<example correction="groente-, fruit- en tuinafval">Gft staat voor <marker>groente- fruit en tuinafval</marker>.</example>
+				<example correction="groente-, fruit- en tuinafval">Gft staat voor <marker>groente, fruit- en tuinafval</marker>.</example>
+				<example correction="groente-, fruit- en tuinafval">Gft staat voor <marker>groente, fruit- en tuinafval</marker>.</example>
+				<example correction="groente-, fruit- en tuinafval">Gft staat voor <marker>groenten, fruit en tuinafval</marker>.</example>
+				<example correction="groente-, fruit- en tuinafval">Gft staat voor <marker>groente-, fruit-, tuinafval</marker>.</example>
+				<example correction="groente-, fruit- en tuinafval">Gft staat voor <marker>groente fruit en tuinafval</marker>.</example>
+			</rule>
+		</rulegroup>
 
 		<rulegroup id="HANGT_ERVAN_AF" name="Moet hangt ervan af zijn">
 			<rule>
