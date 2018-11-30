@@ -17544,7 +17544,20 @@ USA
       <example correction='closer to|further from'>I moved in July to be <marker>closer from school</marker>.</example>
     </rule>
     <rule id="A_MY" name="article + possessive form">
-    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14. Edited by MFU 2018-11-30 -->
+      <antipattern>
+          <token regexp="yes">are|were</token>
+          <token regexp="yes">th[eo]se</token>
+          <token skip="-1" postag="PRP$"/>
+          <token>?</token>
+      </antipattern>
+      <antipattern><!-- https://www.macmillandictionary.com/dictionary/british/for-one-reason-or-another -->
+          <token>for</token>
+          <token>one</token>
+          <token>reason</token>
+          <token>or</token>
+          <token>another</token>
+      </antipattern>
       <pattern>
           <token postag="DT">
             <exception regexp="yes">neither|either|that|all|much</exception></token>
@@ -17553,8 +17566,13 @@ USA
           <token/>
       </pattern>
       <message>A determiner cannot combine with a possessive pronoun. Did you mean simply <suggestion>\2 \3</suggestion> or <suggestion>\1 \3</suggestion>.</message>
-      <example correction='My car|The car'><marker>The my car</marker> is on the maintenance services.</example>
-      <example>Either your granddaughter is going insane or ...</example>
+      <example correction='My car|The car'><marker>The my car</marker> is in the garage.</example>
+      <example correction='our country|those country'>These customs differ from <marker>those our country</marker>.</example>
+      <example>Are <marker>these yours</marker>?</example>
+      <example><marker>Either</marker> your granddaughter is going insane or ...</example>
+      <example>Are <marker>those your</marker> pictures?</example>
+      <example>"Were <marker>those your</marker> best options?" he asked.</example>
+      <example><marker>For one reason or another</marker> their holiday in France didn't come up to expectations.</example>
     </rule>
     <rule id="ENROLLED_IN_FOR" name="I enrolled international school">
     <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
