@@ -18,16 +18,18 @@
  */
 package org.languagetool.language;
 
+import com.optimaize.langdetect.text.TextObjectFactory;
+import com.optimaize.langdetect.text.TextObjectFactoryBuilder;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.languagetool.DetectedLanguage;
-import org.languagetool.Language;
 
 import java.io.File;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 public class LanguageIdentifierTest {
@@ -120,6 +122,38 @@ public class LanguageIdentifierTest {
     LanguageIdentifier csIdent = new LanguageIdentifier();
     csIdent.enableFasttext(new File(fastTextBinary), new File(fastTextModel));
     langAssert("zz", czech, csIdent, Arrays.asList("cs"));   // the no-op language
+  }
+
+  @Test
+  @Ignore("Only works with locally installed fastText")
+  public void testShortTexts() {
+    LanguageIdentifier defaultIdent = new LanguageIdentifier();
+    defaultIdent.enableFasttext(new File(fastTextBinary), new File(fastTextModel));
+    langAssert("en", "If the", defaultIdent);
+    langAssert("en", "if the man", defaultIdent);
+    langAssert("en", "Paste text", defaultIdent);
+    langAssert("de", "Sehr leckere Sourcreme", defaultIdent);
+    langAssert("de", "Die Menschen in den öst", defaultIdent);
+    langAssert("de", "Den Vogel ", defaultIdent);
+    langAssert("de", "Den Eisenbahner-Esperanto-Kongress im", defaultIdent);
+    langAssert("uk", "Зараз десь когось нема", defaultIdent);
+    langAssert("da", "En to meter lang levende krokodille er blevet fundet i et drivhus i en have i Sveriges tredje største by", defaultIdent);
+    langAssert("da", "Elektriske lamper, gemt bag et loft af mælkehvidt, gennemskinneligt glas, kastede et mildt lys på museets skatt", defaultIdent);
+    //langAssert("de", "Alles was Tom woll", defaultIdent);
+    //langAssert("nl", "Bewerk lettertypen", defaultIdent);
+    //langAssert("en", "Die in peace", defaultIdent);
+    //langAssert("ja", "一体日本人は生きるということを知っているだろうか。小学校の門を潜ってから", defaultIdent);   // see https://github.com/languagetool-org/languagetool/issues/1278
+  }
+
+  @Test
+  @Ignore("Known to fail due to bug")
+  public void textObjectBugForJapanese() {
+    // see https://github.com/languagetool-org/languagetool/issues/1278
+    TextObjectFactory textObjectFactory  = new TextObjectFactoryBuilder().maxTextLength(1000).build();
+    String inp = "一体日本人は生きるということを知っているだろうか。";
+    String shortText = textObjectFactory.forText(inp).toString();
+    System.out.println(shortText);
+    assertEquals(inp, shortText);
   }
 
   @Test

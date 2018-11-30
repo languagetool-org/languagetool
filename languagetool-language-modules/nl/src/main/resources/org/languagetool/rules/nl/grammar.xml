@@ -11066,6 +11066,18 @@ onwaarschijnlijk
                 <example correction="op zoek">Als ik <marker>opzoek</marker> ga naar een behanger .</example>
             </rule>
         </rulegroup>
+        <rulegroup id="AANDOEN" name="aandoen → aan doen">
+            <rule>
+                <pattern>
+                    <token skip="4" regexp="yes">daar|hier|er</token>
+                    <marker>
+                        <token regexp="yes">aan(doen|doe|doet|deed|deden|gedaan)</token>
+                    </marker>
+                </pattern>
+				<message>Hoewel '<match no="1"/>' een correct woord is, is de kans groot dat hier <suggestion><match no="2" regexp_match="^aan" regexp_replace="aan "/></suggestion> moet staan.</message>
+                <example correction="aan gedaan">Ik heb er niets <marker>aangedaan</marker>.</example>
+            </rule>
+		</rulegroup>
         <rulegroup id="OPMAAT" name="opmaat → op maat">
             <rule>
                 <!-- created 2017-06-22 by TaalTik -->
@@ -35977,9 +35989,70 @@ steenwijk;Steenwijk
 				<example type="incorrect"><marker>het kleins</marker>.</example>		
 			</rule>
 		</rulegroup>
-		
-		
-		
 	</category>	
+	<category id="SEKSE_ZAKEN" name="stimuleren sekseneutraal schrijven">
+		
+		<rulegroup id="SEKSE_VOLGORDE" name="wellicht volgorde omdraaien">
+			<rule>
+				<pattern>
+					<token inflected="yes" regexp="yes">man|jongen</token><token regexp="yes">en|of</token><token inflected="yes" regexp="yes">vrouw|meisje</token>
+				</pattern>
+				<message>De man staat hier voorop, maar is die wel het belangrijkste? Wellicht is <suggestion>\3 \2 \1</suggestion> toepasselijker? Of kies een neutraler woord als <suggestion>personen</suggestion>, <suggestion>mensen</suggestion>, <suggestion>kinderen</suggestion>,</message>
+				<example correction="meisjes en jongens|personen|mensen|kinderen">We spreken de <marker>jongens en meisjes</marker> aan.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token inflected="yes" regexp="yes">bruid|dame</token><token regexp="yes">en|of</token><token inflected="yes" regexp="yes">bruidegom|heer</token>
+				</pattern>
+				<message>De vrouw staat hier voorop, maar is die wel het belangrijkste? Wellicht is <suggestion>\3 \2 \1</suggestion> toepasselijker? Of kies een neutraler woord als <suggestion>personen</suggestion>, <suggestion>mensen</suggestion>, <suggestion>kinderen</suggestion></message>
+				<example correction="heren en dames|personen|mensen|kinderen">We spreken de <marker>dames en heren</marker> aan.</example>
+			</rule>
+		</rulegroup>
+
+		<rulegroup id="SEKSE_LIJK" name="Overbodig gebruik van mannelijk of vrouwelijk">
+			<rule>
+				<pattern>
+					<token inflected="yes" regexp="yes">mannelijk|vrouwelijk</token>
+				</pattern>
+				<message>Is deze kwalificatie wel noodzakelijk? Zo niet, laat het dan weg <suggestion></suggestion>.</message>
+				<example correction="">We spreken de <marker>mannelijke</marker> bestuurder.</example>
+			</rule>
+		</rulegroup>
+		
+		<rulegroup id="VROUWELIJK_FUNCTIE" name="Gebruik de vrouwelijk vorm van een functie">
+			<rule>
+				<pattern><token>vrouwelijke</token><token>piloot</token></pattern>
+				<message>Schrijf liever: <suggestion>pilote</suggestion>.</message>
+				<example correction="pilote">We spreken de <marker>vrouwelijke piloot</marker>.</example>
+			</rule>
+			<rule>
+				<pattern><token inflected="yes">vrouwelijk</token><token regexp="yes" postag_regexp="yes" postag="ZNW:.*">.*nemers?</token></pattern>
+				<message>Schrijf liever: <suggestion><match no="2" regexp_match="nemer" regexp_replace="neemster"/></suggestion>.</message>
+				<example correction="werkneemster">We spreken de <marker>vrouwelijke werknemer</marker>.</example>
+			</rule>
+			<rule>
+				<pattern><token inflected="yes">vrouwelijk</token><token regexp="yes" postag_regexp="yes" postag="ZNW:.*">.*houders?</token></pattern>
+				<message>Schrijf liever: <suggestion><match no="2" regexp_match="houder" regexp_replace="houdster"/></suggestion>.</message>
+				<example correction="rekeninghoudster">We spreken de <marker>vrouwelijke rekeninghouder</marker>.</example>
+			</rule>
+			<rule>
+				<pattern><token inflected="yes">vrouwelijk</token><token regexp="yes" postag_regexp="yes" postag="ZNW:.*">.*rders?</token></pattern>
+				<message>Schrijf liever: <suggestion><match no="2" regexp_match="rder" regexp_replace="rster"/></suggestion>.</message>
+				<example correction="bestuurster">We spreken de <marker>vrouwelijke bestuurder</marker>.</example>
+			</rule>
+			<rule>
+				<pattern><token inflected="yes">vrouwelijk</token><token regexp="yes" postag_regexp="yes" postag="ZNW:.*">.*igers?</token></pattern>
+				<message>Schrijf liever: <suggestion><match no="2" regexp_match="iger" regexp_replace="igster"/></suggestion>.</message>
+				<example correction="vertegenwoordigster">We spreken de <marker>vrouwelijke vertegenwoordiger</marker>.</example>
+			</rule>
+			<rule>
+				<pattern><token inflected="yes">vrouwelijk</token><token regexp="yes" postag_regexp="yes" postag="ZNW:.*">.*zitter?</token></pattern>
+				<message>Schrijf liever: <suggestion><match no="2" regexp_match="zitter" regexp_replace="zitster"/></suggestion>.</message>
+				<example correction="voorzitster">We spreken de <marker>vrouwelijke voorzitter</marker>.</example>
+			</rule>
+			
+		</rulegroup>
+		
+	</category>
 
 </rules>
