@@ -163,13 +163,14 @@ public abstract class BaseTagger implements Tagger {
       addTokens(lowerTaggerTokens, result);
     }
     //tag lowercase word with startuppercase word tags:
-    if (tagLowercaseWithUppercase) {
-      if (lowerTaggerTokens.isEmpty() && taggerTokens.isEmpty() && isLowercase) {
-        List<AnalyzedToken> upperTaggerTokens = asAnalyzedTokenListForTaggedWords(word,
+    if (tagLowercaseWithUppercase
+        && lowerTaggerTokens.isEmpty()
+        && taggerTokens.isEmpty()
+        && isLowercase) {
+      List<AnalyzedToken> upperTaggerTokens = asAnalyzedTokenListForTaggedWords(word,
             getWordTagger().tag(StringTools.uppercaseFirstChar(word)));
-        if (!upperTaggerTokens.isEmpty()) {
-          addTokens(upperTaggerTokens, result);
-        }
+      if (!upperTaggerTokens.isEmpty()) {
+        addTokens(upperTaggerTokens, result);
       }
     }
     // Additional language-dependent-tagging:
@@ -206,10 +207,7 @@ public abstract class BaseTagger implements Tagger {
     if (dictionary.metadata.isFrequencyIncluded() && tag.length() > 1) {
       tag = tag.substring(0, tag.length() - 1);
     }
-    return new AnalyzedToken(
-        word,
-        tag,
-        StringTools.asString(wd.getStem()));
+    return new AnalyzedToken( word, tag, StringTools.asString(wd.getStem()));
   }
 
   private AnalyzedToken asAnalyzedToken(String word, TaggedWord taggedWord) {

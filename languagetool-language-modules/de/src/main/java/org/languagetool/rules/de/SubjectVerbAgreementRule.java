@@ -282,7 +282,7 @@ public class SubjectVerbAgreementRule extends Rule {
       String token = tokens[i].getToken();
       if (tokens[i].hasPartialPosTag("SUB:")) {
         AnalyzedTokenReadings lookup = tagger.lookup(token.toLowerCase());
-        if (lookup != null && lookup.hasPosTagStartingWith("VER:INF:")) {
+        if (lookup != null && lookup.hasPosTagStartingWith("VER:INF")) {
           infinitives++;
         } else {
           return false;
@@ -295,10 +295,9 @@ public class SubjectVerbAgreementRule extends Rule {
   boolean isFollowedByNominativePlural(AnalyzedTokenReadings[] tokens, int startPos) {
     for (int i = startPos; i < tokens.length; i++) {
       AnalyzedTokenReadings token = tokens[i];
-      if (token.hasPartialPosTag("SUB") || token.hasPartialPosTag("PRO")) {
-        if (token.hasPartialPosTag("NOM:PLU") || token.getChunkTags().contains(new ChunkTag("NPP"))) {  // NPP catches 'und' phrases
-          return true;
-        }
+      if (token.hasAnyPartialPosTag("SUB", "PRO")
+      		&& (token.hasPartialPosTag("NOM:PLU") || token.getChunkTags().contains(new ChunkTag("NPP")))) {  // NPP catches 'und' phrases
+        return true;
       }
     }
     return false;
