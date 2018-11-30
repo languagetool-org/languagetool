@@ -24929,6 +24929,18 @@ USA
             </rule>
         </rulegroup>
         <rule id="ALL_OF_THE" name="all of the (all the)">
+            <antipattern><!-- https://historynewsnetwork.org/article/161924. The antipattern does not ignore all possible quoted speech. -->
+                <token skip="-1" regexp="yes">["“'`]</token>
+                <token>all</token>
+                <token>of</token>
+                <token>the</token>
+                <token>people</token>
+                <token>all</token>
+                <token>of</token>
+                <token>the</token>
+                <token skip="-1">time</token>
+                <token regexp="yes">["”'’]</token>
+            </antipattern>
             <pattern>
                 <token negate="yes">or</token>
                 <marker>
@@ -24941,7 +24953,9 @@ USA
             <message>Consider using <suggestion>all the</suggestion>.</message>
             <short>Redundant phrase</short>
             <example correction="all the">She is going to <marker>all of the</marker> parks.</example>
+            <example correction="all the">I say you can't fool <marker>all of the</marker> people all the time.</example>
             <example>She is going some or all of the parks.</example>
+            <example>Did Lincoln say "... but you can’t fool <marker>all of the people all of the time</marker>"?</example>
         </rule>
         <rule id="SELF_ADMITTED" name="self-admitted (admitted)">
         <pattern>
