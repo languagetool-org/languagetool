@@ -139,6 +139,12 @@ public class LanguageIdentifierTest {
     langAssert("uk", "Зараз десь когось нема", defaultIdent);
     langAssert("da", "En to meter lang levende krokodille er blevet fundet i et drivhus i en have i Sveriges tredje største by", defaultIdent);
     langAssert("da", "Elektriske lamper, gemt bag et loft af mælkehvidt, gennemskinneligt glas, kastede et mildt lys på museets skatt", defaultIdent);
+    //langAssert("de", "Am 31. September", defaultIdent);
+    //langAssert("es", "Colores", defaultIdent);
+    //langAssert("fr", "Fermer", defaultIdent);
+    //langAssert("es", "Cerrar", defaultIdent);
+    //langAssert("nl", "Lettertypes", defaultIdent);
+    //langAssert("it", "Brand in arrivo!", defaultIdent);
     //langAssert("de", "Alles was Tom woll", defaultIdent);
     //langAssert("nl", "Bewerk lettertypen", defaultIdent);
     //langAssert("en", "Die in peace", defaultIdent);
