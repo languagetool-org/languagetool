@@ -10533,6 +10533,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="PROVAR_A_DE" name="provar *a/de fer">
+            <antipattern>
+                <marker>
+                     <token>a</token>
+                     <token>partir</token>
+                     <token inflected="yes">de</token>
+                 </marker>
+             </antipattern>
             <rule>
                 <pattern>
                     <token inflected="yes">provar</token>
@@ -10555,6 +10562,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Proveu de fer"><marker>Proveu a fer</marker>-ho.</example>
                 <example correction="Proveu de ioditzar"><marker>Proveu a ioditzar</marker>-ho.</example>
                 <example>No n'hi ha cap prova a la Bíblia.</example>
+                <example>Es pot provar a partir de la definició.</example>
             </rule>
         </rulegroup>
         <rule id="PER_ENTRE" name="*per entre">
@@ -14461,7 +14469,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token inflected="yes">secret</token>
+                    <token regexp="yes">secrets?|regsitres?</token>
                     <marker>
                         <token inflected="yes">sagramental</token>
                     </marker>
@@ -35058,8 +35066,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                      <token postag="SENT_START" skip="-1"/>
                      <token regexp="yes" inflected="yes" skip="-1">te2|cafè|llet</token>
                      <token postag="SENT_END"/>
-		 </marker>
-	    </antipattern>
+           </marker>
+         </antipattern>
             <rule>
                 <pattern>
                     <marker>
@@ -35648,7 +35656,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token min="0">de</token>
                     <token min="0" postag="D.*" postag_regexp="yes"/>
-                    <token postag="[NA].*" postag_regexp="yes" regexp="yes" inflected="yes">circumstància|moral|ètic|repte|moment|esdeveniment</token>
+                    <token postag="[NA].*" postag_regexp="yes" regexp="yes" inflected="yes">circumstància|moral|ètic|repte|moment|esdeveniment|importància</token>
                 </pattern>
                 <message>Paraula inadequada en sentit figurat.</message>
                 <suggestion>altura</suggestion>
