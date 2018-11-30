@@ -18,10 +18,8 @@
  */
 package org.languagetool.language;
 
-import com.google.common.base.Optional;
 import com.optimaize.langdetect.LanguageDetector;
 import com.optimaize.langdetect.LanguageDetectorBuilder;
-import com.optimaize.langdetect.i18n.LdLocale;
 import com.optimaize.langdetect.ngram.NgramExtractors;
 import com.optimaize.langdetect.profiles.LanguageProfile;
 import com.optimaize.langdetect.profiles.LanguageProfileReader;
@@ -62,6 +60,8 @@ public class LanguageIdentifier {
 
   // languages that we offer profiles for as they are not yet supported by language-detector:
   private static final List<String> externalLangCodes = Arrays.asList("eo");
+  // fall back to checking against list of common words if fasttext probability is lower than this:
+  private static final float THRESHOLD = 0.9f;
 
   private final LanguageDetector languageDetector;
   private final TextObjectFactory textObjectFactory;
@@ -175,7 +175,23 @@ public class LanguageIdentifier {
     Map.Entry<String,Double> result = null;
     if (fasttextEnabled) {
       try {
-         result = getHighestScoringResult(runFasttext(shortText, noopLangs));
+        Map<String, Double> scores = runFasttext(shortText, noopLangs);
+        result = getHighestScoringResult(scores);
+        if (result.getValue().floatValue() < THRESHOLD) {
+          //System.out.println(text + " ->" + result.getValue().floatValue() + " " + result.getKey());
+          CommonWords commonWords = new CommonWords();
+          Map<Language, Integer> lang2Count = commonWords.getKnownWordsPerLanguage(text);
+          for (Map.Entry<Language, Integer> entry : lang2Count.entrySet()) {
+            String langCode = entry.getKey().getShortCode();
+            if (scores.containsKey(langCode)) {
+              scores.put(langCode, scores.get(langCode) + Double.valueOf(entry.getValue()));
+            } else {
+              scores.put(langCode, Double.valueOf(entry.getValue()));
+            }
+          }
+          //System.out.println("NEW scores: "+ scores);
+          result = getHighestScoringResult(scores);
+        }
       } catch (Exception e) {
         fasttextEnabled = false;
         logger.error("Disabling fasttext language identification, got error for text: " + text, e);
