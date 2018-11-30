@@ -40,6 +40,9 @@ USA
     <!ENTITY short_adjectives "bad|big|black|bland|blue|bold|brave|brief|bright|broad|calm|cheap|chewy|clean|close|coarse|cold|cool|cruel|cute|damp|dark|deep|dense|dry|dull|dumb|early|easy|faint|fair|far|fast|fat|few|fierce|fine|firm|fit|flat|fresh|full|good|grand|grave|great|gross|hard|harsh|high|hip|hot|humble|kind|large|late|light|little|long|loud|low|mad|mean|mild|moist|narrow|near|neat|new|nice|odd|old|plain|poor|proud|pure|quick|quiet|rare|raw|rich|ripe|rough|rude|sad|safe|sane|shallow|sharp|short|shy|silly|simple|sincere|slim|slow|small|smart|smooth|soft|soon|sore|sour|steep|strange|strict|strong|sweet|tall|tan|thick|thin|tiny|tough|true|ugly|warm|weak|weird|wet|wide|wild|wise|young">
     <!ENTITY optional_short_adjectives "angry|bitter|bloody|bossy|busy|chubby|classy|clear|clever|cloudy|clumsy|crazy|creamy|creepy|crispy|crunchy|curly|curvy|deadly|dirty|dusty|fancy|filthy|flaky|friendly|funny|gentle|gloomy|greasy|greedy|guilty|hairy|handy|happy|healthy|heavy|hungry|icy|itchy|juicy|lazy|likely|lively|lonely|lovely|messy|nasty|naughty|needy|noisy|oily|polite|pretty|risky|roomy|rusty|salty|scary|shiny|skinny|sleepy|slimy|smelly|smoky|sorry|spicy|stingy|sunny|sweaty|tasty|thirsty|wealthy|windy|worldly|worthy">
     <!ENTITY extreme_qualifiers "ex(?:treme(?:ly)?|ceedingly|ceptionally|tra(ordinarily)?)|especially|fault|tremendously|immensely|vastly|hugely|abundantly|intensely|acutely|singularly|significantly|distinctly|outstandingly|uncommonly|unusually|decidedly|particularly|eminently|supremely|highly|remarkably|really|truly|mightily|thoroughly|utmost|super|hiper|ultra">
+
+    <!ENTITY hyphen "(?:[-‑])">
+
     <!ENTITY ambiguous_date '
         <token regexp="yes">0?[1-9]|1[0-2]</token>
         <token>/</token>
@@ -19207,6 +19210,45 @@ USA
                 <example correction="i.e.">Who's responsible for providing public facilities, <marker>i. e.</marker>, a post office, library, etc. for the Northwest?</example>
             </rule>
         </rulegroup>
+    <rulegroup id='ABREVIATIONS_PUNCTUATION' name="Abreviaturas: Pontuação">
+      <!--       Localized from Portuguese, Tiago F. Santos,  2018-11-30      -->
+        <!--antipattern>
+            <token>Feiticeiro</token>
+            <token>de</token>
+            <token>Oz</token>
+        </antipattern>
+        <antipattern>
+            <token>Top</token>
+            <token>Ten</token>
+        </antipattern>
+        <antipattern>
+            <token regexp='yes'>["“]</token>
+            <token regexp='yes' spacebefore='no'>sets?</token>
+            <token regexp='yes' spacebefore='no'>["”]</token>
+        </antipattern>
+        <antipattern>
+            <token regexp='yes'>['‘]</token>
+            <token regexp='yes' spacebefore='no'>sets?</token>
+            <token regexp='yes' spacebefore='no'>['’]</token>
+        </antipattern-->
+      <rule>
+        <pattern case_sensitive="no">
+          <marker>
+            <token regexp="yes">&abbreviations;|&abbreviations2;
+              <exception postag="NP.*" postag_regexp="yes"/>
+              <exception regexp="yes" case_sensitive='yes'>[ad]C|DJ</exception>
+              <exception regexp="yes" case_sensitive='yes'>\p{Lu}+</exception></token>
+          </marker>
+            <token>
+              <exception regexp='yes'>\.|&hyphen;</exception></token>
+        </pattern>
+        <message>If it is an abbreviation, it is missing the period.</message>
+          <suggestion><match no="1"/>.</suggestion>
+        <!--short>Puctuation error</short--><!-- TODO uncomment after testing and false positive removal -->
+        <example correction="núm."><marker>Dr</marker> Phil is in an appointement.</example>
+        <!--example>Isto ocorreu no ano 453 dC, certo?</example XXX use for false positives -->
+      </rule>
+    </rulegroup>
         <rulegroup name="space in 'o´clock'" id="O_CLOCK">
             <rule>
                 <antipattern case_sensitive="yes">
