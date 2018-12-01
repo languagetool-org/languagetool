@@ -19232,7 +19232,7 @@ USA
                 <example correction="i.e.">Who's responsible for providing public facilities, <marker>i. e.</marker>, a post office, library, etc. for the Northwest?</example>
             </rule>
         </rulegroup>
-    <rulegroup id='ABREVIATIONS_PUNCTUATION' name="Abreviaturas: Pontuação" default="off">
+    <rulegroup id='ABREVIATIONS_PUNCTUATION' name="Abbreviations: Punctuation" default="on">
       <!--       Localized from Portuguese, Tiago F. Santos,  2018-11-30      -->
         <antipattern><!-- URLs -->
             <token/>
@@ -19256,9 +19256,7 @@ USA
       <rule>
         <pattern case_sensitive="no">
           <marker>
-            <token regexp="yes">&abbreviations;|&abbreviations2;
-              <exception postag="NNP.*" postag_regexp="yes"/>
-              <exception regexp='yes'>test|will</exception>
+            <token postag='UNKNOWN' regexp="yes" case_sensitive='yes'>&abbreviations;|&abbreviations2;
               <exception regexp="yes" case_sensitive='yes'>[ad]C|DJ</exception>
               <exception regexp="yes" case_sensitive='yes'>\p{Lu}+</exception></token>
           </marker>
@@ -19268,7 +19266,7 @@ USA
         <message>If it is an abbreviation, it is missing the period.</message>
           <suggestion><match no="1"/>.</suggestion>
         <!--short>Puctuation error</short--><!-- TODO uncomment after testing and false positive removal -->
-        <example correction="Dr."><marker>Dr</marker> Phil is in an appointment.</example>
+        <example correction="Dr.">Sorry, <marker>Dr</marker> Phil is in an appointment.</example>
         <!--example>Isto ocorreu no ano 453 dC, certo?</example XXX use for false positives -->
       </rule>
     </rulegroup>
@@ -19938,6 +19936,20 @@ USA
                 <example correction="100-metre">He won the <marker>100 metre</marker> sprint.</example>
                 <example correction="15-foot">Lara handed me a <marker>15 foot</marker> pole.</example>
                 <example correction="eighteen-inch">An <marker>eighteen inch</marker> monitor is too big for my desk.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="V.+" postag_regexp='yes'/>
+                    <marker>
+                        <token postag="CD"></token>
+                        <token regexp="yes">second|min(ute)?|hour|day|week|month|year|foot|met(er|re)|mile|inch|page</token>
+                    </marker>
+                    <token postag="NNP?S" postag_regexp="yes"/>
+                </pattern>
+                <message>When a number forms part of an adjectival compound, use a hyphen: <suggestion>\2-\3</suggestion></message>
+                <url>http://dictionary.cambridge.org/us/grammar/british-grammar/word-formation/compounds</url>
+                <short>Missing hyphen</short>
+                <example correction="6-page">Instead of maintaining <marker>6 page</marker> templates for each language...</example>
             </rule>
             <rule>
                 <antipattern>
