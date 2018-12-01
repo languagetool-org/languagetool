@@ -184,14 +184,19 @@ public class LanguageIdentifier {
           for (Map.Entry<Language, Integer> entry : lang2Count.entrySet()) {
             String langCode = entry.getKey().getShortCode();
             if (scores.containsKey(langCode)) {
+              // this looks arbitrary, but gave best results with evaluation (LanguageDetectionMinLengthEval):
               scores.put(langCode, scores.get(langCode) + Double.valueOf(entry.getValue()));
             } else {
               scores.put(langCode, Double.valueOf(entry.getValue()));
             }
           }
-          //System.out.println("NEW scores: "+ scores);
           result = getHighestScoringResult(scores);
         }
+        // Calculate a trivial confidence value because fasttext's confidence is often
+        // wrong for short text (e.g. 0.99 for a test that's misclassified). Don't
+        // use 1.0 because we can never be totally sure...
+        double newScore = 0.99 / (30.0 / Math.min(text.length(), 30));
+        result = new AbstractMap.SimpleImmutableEntry<>(result.getKey(), newScore);
       } catch (Exception e) {
         fasttextEnabled = false;
         logger.error("Disabling fasttext language identification, got error for text: " + text, e);
