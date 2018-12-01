@@ -58,6 +58,8 @@ class LanguageDetectionMinLengthEval {
     if (stream == null) {
       throw new RuntimeException("No eval data found for " + language);
     } else {
+      int minCharsMax = Integer.MIN_VALUE;
+      String maxText = null;
       int minChars = 0;
       int failures = 0;
       List<String> list = getLines(stream);
@@ -65,13 +67,17 @@ class LanguageDetectionMinLengthEval {
         try {
           int minChar = getShortestCorrectDetection(line, language);
           minChars += minChar;
+          if (minChar > minCharsMax) {
+            minCharsMax = minChar;
+            maxText = line.substring(0, Math.min(line.length(), minChar));
+          }
         } catch (DetectionException e) {
           //System.out.println("FAIL: " + e.getMessage());
           failures++;
         }
       }
       float avgMinChars = (float) minChars / list.size();
-      System.out.printf(Locale.ENGLISH, "Average minimum size still correctly detected: %.2f\n", avgMinChars);
+      System.out.printf(Locale.ENGLISH, "Average minimum size still correctly detected: %.2f, max: %d ('%s')\n", avgMinChars, minCharsMax, maxText);
       if (failures > 0) {
         System.out.println("Detection failures: " + failures + " of " + list.size());
       }
