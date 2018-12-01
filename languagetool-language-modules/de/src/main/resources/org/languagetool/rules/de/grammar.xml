@@ -4864,6 +4864,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="komischer">Er ist schon ein <marker>konischer</marker> Kauz.</example>
             <example correction="komisches">Ich habe ein <marker>konisches</marker> Gefühl bei der Sache.</example>
         </rule>
+        <rulegroup id="SACHEN_SACHSEN" name="Sachen (Sachsen)">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker><token>Sachen</token></marker>
+                    <token regexp="yes">und|oder|,</token>
+                    <token regexp="yes">Baden-Württemberg|Bayern|Berlin|Brandenburg|Bremen|Hamburg|Hessen|Mecklenburg-Vorpommern|Niedersachsen|Nordrhein-Westfalen|Rheinland-Pfalz|Saarland|Sachsen-Anhalt|Schleswig-Holstein|Thüringen</token>
+                </pattern>
+                <message>Meinten Sie das Bundesland <suggestion>Sachsen</suggestion>.</message>
+                <short>Mögliche Wortverwechslung</short>
+                <example correction="Sachsen">Anwesend waren die Ministerpräsidenten von <marker>Sachen</marker> und Thüringen.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">Baden-Württemberg|Bayern|Berlin|Brandenburg|Bremen|Hamburg|Hessen|Mecklenburg-Vorpommern|Niedersachsen|Nordrhein-Westfalen|Rheinland-Pfalz|Saarland|Sachsen-Anhalt|Schleswig-Holstein|Thüringen</token>
+                    <token regexp="yes">und|oder|,</token>
+                    <marker><token>Sachen</token></marker>
+                </pattern>
+                <message>Meinten Sie das Bundesland <suggestion>Sachsen</suggestion>.</message>
+                <short>Mögliche Wortverwechslung</short>
+                <example correction="Sachsen">Anwesend waren die Ministerpräsidenten von Bayern und <marker>Sachen</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="NAJA_NA_JA" name="Naja/Na ja">
             <rule>
                 <pattern>
@@ -6507,7 +6529,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">aus|in|nach</token>
+                    <token regexp="yes">aus|in|nach|von|über</token>
                     <marker>
                         <token>weil</token>
                     </marker>
@@ -15327,6 +15349,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Das <marker>letzte</marker> der drei Bücher</example>
         </rule>
         -->
+        <rule id="TEILEN" name="zu beiden teilen (Teilen)">
+            <pattern case_sensitive="yes">
+                <token postag="PRP:.+" postag_regexp="yes"/>
+                <token regexp="yes">beiden|gleichen</token>
+                <marker>
+                    <token>teilen</token>
+                </marker>
+            </pattern>
+            <message>Meinten Sie <suggestion>Teilen</suggestion>?</message>
+            <example correction="Teilen">Aus beiden <marker>teilen</marker> wird ein neues Teil.</example>
+            <example correction="Teilen">Sie erhielten davon zu gleichen <marker>teilen</marker>.</example>
+        </rule>
         <rule id="DIE_ZEIT" name="die zeit (Zeit)">
             <antipattern>
                 <token>Zeit</token>
