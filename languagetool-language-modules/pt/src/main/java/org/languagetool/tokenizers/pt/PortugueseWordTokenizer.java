@@ -79,13 +79,9 @@ public class PortugueseWordTokenizer extends WordTokenizer {
   private static final Pattern DOTTED_ORDINALS_PATTERN = Pattern.compile("([\\d])\\.([aoªº][sˢ]?)", Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
   private static final String DOTTED_ORDINALS_REPL = "$1" + NON_BREAKING_DOT_SUBST + "$2";
 
-  public PortugueseWordTokenizer() {
-  }
-
   @Override
   public List<String> tokenize(String text) {
 
-    // text = cleanup(text);   
     if( text.contains(",") ) {
     	text = DECIMAL_COMMA_PATTERN.matcher(text).replaceAll(DECIMAL_COMMA_REPL);
     }

@@ -32,7 +32,7 @@ public class EnglishWordTokenizer extends WordTokenizer {
 
   @Override
   public String getTokenizingCharacters() {
-    return super.getTokenizingCharacters() + "_–";  // n-dash
+    return super.getTokenizingCharacters() + "–";  // n-dash
   }
 
   /**
