@@ -30,12 +30,9 @@ import org.languagetool.tokenizers.WordTokenizer;
  */
 public class EnglishWordTokenizer extends WordTokenizer {
 
-  public EnglishWordTokenizer() {
-  }
-
   @Override
   public String getTokenizingCharacters() {
-    return super.getTokenizingCharacters() + "–";  // n-dash
+    return super.getTokenizingCharacters() + "_–";  // n-dash
   }
 
   /**
