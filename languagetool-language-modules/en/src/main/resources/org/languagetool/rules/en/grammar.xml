@@ -2187,6 +2187,20 @@ USA
         </rule>
         <rulegroup id="NOT_US1" name="not us (use)">
             <rule>
+                <antipattern>
+                    <token regexp="yes">is|was|s</token>
+                    <token>not</token>
+                    <token>us</token>
+                    <token><exception>to</exception></token>
+                </antipattern>
+                <antipattern>
+                    <token>to</token>
+                    <token>us</token>
+                    <token>,</token>
+                    <token>not</token>
+                    <token>us</token>
+                    <token>to</token>
+                </antipattern>
                 <pattern>
                     <token inflected="yes">not</token>
                     <marker>
@@ -2195,8 +2209,13 @@ USA
                 </pattern>
                 <message>Did you mean <suggestion>use</suggestion>?</message>
                 <short>Possible typo</short>
-                <example correction="use">Please do not <marker>us</marker> dispose.</example>
+                <example correction="use">Please do not <marker>us</marker> this door.</example>
                 <example correction="use">Please don't <marker>us</marker> dispose.</example>
+                <example correction="use">It was not <marker>us</marker> to try.</example><!-- A correction triggers another error. -->
+                <example correction="use">It was not <marker>us</marker> to them.</example>
+                <example>Please do not <marker>use</marker> this door.</example>
+                <example>It's not <marker>us</marker> who did it.</example>
+                <example>Our governments belong to us, not <marker>us</marker> to them.</example>
             </rule>
         </rulegroup>
         <rule id="YOU_THING" name="I/you/... thing (think)">
@@ -16788,17 +16807,19 @@ USA
       <example correction="lives off">He <marker>lives from</marker> his brother’s money.</example>
     </rule>
     <rule id='ANXIOUS_OF_ABOUT' name='Collocation: anxious of/about'>
-    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14. Edited by MFU 2018-12-02 -->
       <pattern>
         <marker>
           <token>anxious</token>
-          <token regexp="yes">of|for</token>
+          <token>of</token>
         </marker>
           <token postag="PRP$"/>
       </pattern>
-      <message>The usual preposition with "\1" is "about". Did you mean <suggestion>anxious about</suggestion>.</message>
-      <example correction='anxious about'>They are <marker>anxious for</marker> his health.</example>
-      <example correction='anxious about'>Parents are <marker>anxious for</marker> their children’s success.</example>
+      <message>The usual preposition with "\1" is "about" or "for". Did you mean <suggestion>anxious about</suggestion> or <suggestion>anxious for</suggestion>?</message>
+      <example correction='anxious about|anxious for'>They are <marker>anxious of</marker> his health.</example>
+      <example correction='anxious about|anxious for'>Parents are <marker>anxious of</marker> their children’s success.</example>
+      <example>They are <marker>anxious about</marker> his health.</example>
+      <example>Parents are <marker>anxious for</marker> their children’s success.</example>
     </rule>
     <rule id='BE_ON_IN_SHOCK' name='Collocation: be on/in shock'>
     <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
