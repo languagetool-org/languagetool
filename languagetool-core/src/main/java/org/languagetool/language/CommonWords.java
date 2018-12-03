@@ -32,12 +32,12 @@ import java.util.regex.Pattern;
  * Information about common words - use as a fallback if language identification yields low confidence.
  * @since 4.4
  */
-class CommonWords {
+public class CommonWords {
 
   private final static Map<String, List<Language>> word2langs = new HashMap<>();
   private final static Pattern numberPattern = Pattern.compile("[0-9-.,]+");
-  
-  CommonWords() {
+
+  public CommonWords() {
     if (word2langs.size() == 0) {
       for (Language lang : Languages.get()) {
         if (lang.isVariant()) {
@@ -73,7 +73,7 @@ class CommonWords {
     }
   }
 
-  Map<Language, Integer> getKnownWordsPerLanguage(String text) {
+  public Map<Language, Integer> getKnownWordsPerLanguage(String text) {
     Map<Language,Integer> result = new HashMap<>();
     if (!text.endsWith(" ")) {
       // last word might not be finished yet, so ignore

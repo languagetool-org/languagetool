@@ -22,6 +22,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.databroker.DefaultResourceDataBroker;
 import org.languagetool.databroker.ResourceDataBroker;
+import org.languagetool.language.CommonWords;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.markup.AnnotatedText;
 import org.languagetool.markup.AnnotatedTextBuilder;
@@ -1198,8 +1199,10 @@ public class JLanguageTool {
           float errorsPerWord = ruleMatches.size() / (float)wordCounter;
           //System.out.println("errorPerWord " + errorsPerWord + " (matches: " + ruleMatches.size() + " / " + wordCounter + ")");
           if (maxErrorsPerWordRate > 0 && errorsPerWord > maxErrorsPerWordRate && wordCounter > 25) {
+            CommonWords commonWords = new CommonWords();
             throw new ErrorRateTooHighException("Text checking was stopped due to too many errors (more than " + String.format("%.0f", maxErrorsPerWordRate*100) +
-                    "% of words seem to have an error). Are you sure you have set the correct text language? Language set: " + language.getName());
+                    "% of words seem to have an error). Are you sure you have set the correct text language? Language set: " + JLanguageTool.this.language.getName() +
+                    ", text length: " + annotatedText.getPlainText().length() + ", common word count: " + commonWords.getKnownWordsPerLanguage(annotatedText.getPlainText()));
           }
           charCount += sentence.length();
           lineCount += countLineBreaks(sentence);
