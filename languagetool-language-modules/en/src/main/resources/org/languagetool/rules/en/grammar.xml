@@ -10203,6 +10203,10 @@ USA
                     <token>A</token>
                     <token>Levels</token>
                 </antipattern>
+                <antipattern case_sensitive="yes">
+                    <token>Windows</token>
+                    <token regexp="yes">1|2|3|7|8|95|98|10|2000|CE|NT</token><!-- For Windows 1/2/3, there should be a decimal point, but the AP is probably sufficient. https://www.webopedia.com/DidYouKnow/Hardware_Software/history_of_microsoft_windows_operating_system.html -->
+                </antipattern>
                 <pattern>
                     <token><exception regexp="yes">’|'|division|class|category|zone|formula|type|influenza|hepatitis|series</exception><exception postag="CD"/></token>
                     <marker>
@@ -10230,6 +10234,7 @@ USA
                 <example>As a consequence, a LAPS is very similar in structure to an EIS sensor.</example>
                 <example>The batsman averaged almost 40 with the highlight being <marker>an innings</marker> of 125.</example>
                 <example>She attended Sydenham School and left just before taking <marker>A Levels</marker> to go to Drama School.</example>
+                <example>I'm using a Mac and I can't read a <marker>Windows 95</marker> file.</example>
             </rule>
             <rule>
                 <pattern>
@@ -25127,9 +25132,10 @@ USA
                 <token>as</token>
                 <token>to</token>
             </pattern>
-            <message>Consider using <suggestion>to</suggestion></message>
-            <short>Redundant phrase</short>
-            <example correction="to">The band practiced <marker>so as to</marker> increase their chances of success.</example>
+            <message>'So as to' expresses purpose and is used in formal texts. Consider using <suggestion>to</suggestion></message>
+            <url>https://www.englishgrammar.org/order/</url>
+            <short>Possible redundant phrase</short>
+            <example correction="to">We worked hard <marker>so as to</marker> increase our sales.</example>
         </rule>
         <rule id="FEW_OCCASIONS" name="on a few occasions (occasionally)">
             <pattern>
@@ -25224,7 +25230,8 @@ USA
                 <token>then</token>
             </pattern>
             <message>Consider using <suggestion>\2 \3 \4</suggestion>.</message>
-            <short>Redundant phrase</short>
+            <url>https://www.collinsdictionary.com/dictionary/english/now-and-then</url>
+            <short>Possible redundant phrase</short>
             <example correction="Now and then"><marker>Every now and then</marker> the faucet drips.</example>
         </rule>
         <rule id="ESTABLISHED_FACT" name="established fact (fact)">
@@ -25949,6 +25956,9 @@ USA
             <message>Reduce redundancy by using <suggestion>little</suggestion> or <suggestion>bit</suggestion>.</message>
             <short>Redundant phrase</short>
             <example correction="little|bit">He was a <marker>little bit</marker> late.</example>
+            <example correction="little|bit">Every <marker>little bit</marker> will help.</example>
+            <example>He was a <marker>little</marker> late.</example>
+            <example type="triggers_error">These bits are too large. This <marker>little bit</marker> will fit the pony's mouth perfectly.</example>
         </rule>
         <rule id="FREE_GIFT" name="free gift">
             <pattern>
