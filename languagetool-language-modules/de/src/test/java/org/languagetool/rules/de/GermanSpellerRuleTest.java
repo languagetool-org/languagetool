@@ -323,6 +323,9 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("kinderlichem", "kindlichem", rule, lt);
     assertFirstSuggestion("wiedersprichst", "widersprichst", rule, lt);
     assertFirstSuggestion("unproffesionele", "unprofessionelle", rule, lt);
+    assertFirstSuggestion("gefrustuckt", "gefrühstückt", rule, lt);
+    assertFirstSuggestion("Durführung", "Durchführung", rule, lt);
+    assertFirstSuggestion("verheielte", "verheilte", rule, lt);
   }
 
   @Test

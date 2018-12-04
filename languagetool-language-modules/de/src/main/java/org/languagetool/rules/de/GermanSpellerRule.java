@@ -311,6 +311,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Emall?iearbeit", "Emaillearbeit");
     put("[aA]petitt", "Appetit");
     put("bezuggenommen", "Bezug genommen");
+    put("mägt", "mögt");
     putRepl("trationell(e[mnrs]?)?", "^tra", "tradi");
     putRepl("achsial(e[mnrs]?)?", "^achs", "ax");
     putRepl("famielen?", "^famiel", "Famili");
@@ -339,6 +340,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("ausiehs?t", "aus", "auss");
     putRepl("unterbemittel(nd|t)(e[nmrs]?)?", "unterbemittel(nd|t)", "minderbemittelt");
     putRepl("[xX]te[mnrs]?", "te", "-te");
+    putRepl("verheielt(e[mnrs]?)?", "heiel", "heil");
     put("[zZ]oolophie", "Zoophilie");
     put("Makieren", "Markieren");
     put("Altersheimer", "Alzheimer");
@@ -378,14 +380,18 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("[sS]peziellisierung", "Spezialisierung");
     put("[cC]hangse", "Chance");
     put("untergangen", "untergegangen");
+    put("geliegt", "gelegen");
     put("BluRay", "Blu-ray");
     put("Freiwilligerin", "Freiwillige");
     put("Mitgliederinnen", w -> Arrays.asList("Mitglieder", "Mitgliedern"));
     put("Hautreinheiten", "Hautunreinheiten");
+    put("Durfüh?rung", "Durchführung");
     put("tuhen", "tun");
+    put("tuhe", "tue");
+    put("tip", "Tipp");
     put("ccm", "cm³");
     put("Kilimand?jaro", "Kilimandscharo");
-    put("[hH]erausfordung", "Herausforderung");
+    put("[hH]erausfor?dung", "Herausforderung");
     put("[bB]erücksichtung", "Berücksichtigung");
     put("artzt?", "Arzt");
     put("[tT]h?elepath?ie", "Telepathie");
@@ -394,6 +400,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Pearl-Harbou?r", "Pearl Harbor");
     put("[aA]utonomität", "Autonomie");
     put("[fF]r[uü]h?st[uü]c?k", "Frühstück");
+    putRepl("(ge)?fr[uü]h?st[uü](c?k|g)t", "fr[uü]h?st[uü](c?k|g)t", "frühstückt")
     put("zucc?h?inis?", "Zucchini");
     put("[mM]itag", "Mittag");
     put("Lexion", "Lexikon");
