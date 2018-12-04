@@ -400,7 +400,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Pearl-Harbou?r", "Pearl Harbor");
     put("[aA]utonomität", "Autonomie");
     put("[fF]r[uü]h?st[uü]c?k", "Frühstück");
-    putRepl("(ge)?fr[uü]h?st[uü](c?k|g)t", "fr[uü]h?st[uü](c?k|g)t", "frühstückt")
+    putRepl("(ge)?fr[uü]h?st[uü](c?k|g)t", "fr[uü]h?st[uü](c?k|g)t", "frühstückt");
     put("zucc?h?inis?", "Zucchini");
     put("[mM]itag", "Mittag");
     put("Lexion", "Lexikon");
