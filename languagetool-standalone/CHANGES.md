@@ -38,7 +38,7 @@
 
 #### Dutch
   * added and improved rules, including more confusion rules for dyslectic people
-  * added large amount of family names
+  * added large amount of family names to reduce false alarms in spelling
 
 #### HTTP API / LT server
   * Experimental support for `altLanguages` parameter: takes a list of language
