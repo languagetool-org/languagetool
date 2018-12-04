@@ -718,7 +718,7 @@ USA
         <rule id="CONFUSION_OF_OUR_OUT" name="out (our)">
             <pattern>
                 <token>we</token>
-                <token postag="VB[DP]?" postag_regexp="yes"><exception regexp="yes">take|find|go|went</exception></token>
+                <token postag="VB[DP]?" postag_regexp="yes"><exception inflected="yes" regexp="yes">dine|fall|find|go|set|spread|strike|take</exception></token><!-- More than 500 phrasal verbs with the particle 'out': https://en.wiktionary.org/wiki/Category:English_phrasal_verbs_with_particle_(out) -->
                 <marker>
                     <token>out</token>
                 </marker>
@@ -726,9 +726,16 @@ USA
             </pattern>
             <message>Did you mean <suggestion>our</suggestion>?</message>
             <short>Possible typo</short>
-            <example correction="our">We evaluated <marker>out</marker> method by running RASP.</example>
-            <example>If we take out India and China...</example>
-            <example>We lay out our proposal.</example>
+            <example correction="our">We evaluated <marker>out</marker> method.</example>
+            <example correction="our">Before we test <marker>out</marker> new method...</example>
+            <example>We evaluated <marker>our</marker> method.</example>
+            <example>If we <marker>take out</marker> India and China...</example>
+            <example>We <marker>lay out</marker> our proposal.</example>
+            <example>I haven't seen Karen since we <marker>fell out</marker> last month.</example>
+            <example>We <marker>fell out with</marker> Karen last month.</example>
+            <example>We <marker>dine out</marker> once a week.</example>
+            <example>We <marker>spread out</marker> and began to search through the woods.</example>
+            <example>When we <marker>spread out</marker> cards on the table...</example>
         </rule>
         <rule id="YOUR_SHOULD" name="your (you) should">
             <pattern case_sensitive="yes">
@@ -17115,17 +17122,37 @@ USA
       <example correction='Judy came into the house'><marker>Judy came in the house</marker> after greeting her elders.</example>
     </rule>
     <rule id='ARRIVE_ON_AT_THE_BEACH' name='Collocation: arrive on/at the beach'>
-    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+    <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14. Edited by MFU 2018-12-04. -->
+      <antipattern>
+        <token>on</token>
+        <token>the</token>
+        <token regexp='yes'>market|scene</token>
+      </antipattern>
+      <antipattern>
+        <token>on</token>
+        <token>the</token>
+        <token regexp='yes'>morning|afternoon|evening</token>
+        <token>of</token>
+        <token>the</token>
+      </antipattern>
       <pattern>
         <marker>
           <token inflected="yes">arrive</token>
           <token>on</token>
         </marker>
-          <token>
-            <exception regexp='yes'>time|schedule</exception></token>
+          <token><exception regexp='yes'>time|schedule</exception><exception regexp='yes'>&weekdays;</exception></token>
       </pattern>
-      <message>The usual proposition after "\1" is "at" not "\2". Did you mean <suggestion>\1 at</suggestion>.</message>
+      <message>The usual proposition after "\1" is "at" not "\2". Did you mean <suggestion>\1 at</suggestion>?</message>
+      <url>https://www.ldoceonline.com/dictionary/arrive</url>
       <example correction='arrived at'>When John <marker>arrived on</marker> the beach, he went for a swim.</example>
+      <example correction='arrive at'>She will <marker>arrive on</marker> Christmas.</example>
+      <example>When John <marker>arrived at</marker> the beach, he went for a swim.</example>
+      <example>The police will soon <marker>arrive on the scene</marker>.</example>
+      <example>This letter says that he will <marker>arrive on Monday</marker>.</example>
+      <example>Foreign products <marker>arrived on the market</marker> in large quantities.</example>
+      <example>We <marker>arrived on the morning of the</marker> seventh.</example>
+      <example type="triggers_error">He will <marker>arrive on Christmas day</marker>.</example>
+      <example type="triggers_error">The card <marker>arrived on my birthday</marker>.</example>
     </rule>
     <rule id='RETURN_AT_HOME' name='Collocation: return at home'>
     <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
@@ -21036,7 +21063,7 @@ USA
             </rule>
             <rule>
                 <antipattern>
-                    <token>similar</token>
+                    <token regexp="yes">come|similar</token>
                     <token>to</token>
                     <token>much</token>
                 </antipattern>
@@ -21062,6 +21089,7 @@ USA
                 <example>It is limited to few objects.</example>
                 <example>He will never amount to much.</example>
                 <example>It is applicable to few objects.</example>
+                <example>Did your efforts <marker>come to much</marker>?</example>
                 <example correction="too">It broke because <marker>to</marker> much snow was on it.</example>
             </rule>
             <rule>
@@ -21146,6 +21174,15 @@ USA
                     <token postag="JJ"/>
                     <token postag="SENT_END"/>
                 </antipattern>
+                <antipattern><!-- https://www.collinsdictionary.com/dictionary/english/up-to -->
+                    <token>up</token>
+                    <token>to</token>
+                </antipattern>
+                <antipattern>
+                    <token>here</token>
+                    <token>to</token>
+                    <token>there</token>
+                </antipattern>
                 <pattern>
                     <marker><token>to</token></marker>
                     <token postag="RB"><exception postag="JJR"/></token>
@@ -21155,6 +21192,9 @@ USA
                 <example correction="too">She returned <marker>to</marker> quickly.</example>
                 <example>The nights were cool <marker>to</marker> chilly.</example>
                 <example>You might be staring at a long list of potential fixes which typically get postponed to later.</example>
+                <example>It is an hour's drive from <marker>here to there</marker>.</example>
+                <example>What was he <marker>up to</marker> then?</example>
+                <example type="triggers_error">... window dressing; City Hall will do what <marker>it wants to</marker> anyhow.</example>
             </rule>
         </rulegroup>
         <rulegroup id="YOUR" name="your (you're)">
