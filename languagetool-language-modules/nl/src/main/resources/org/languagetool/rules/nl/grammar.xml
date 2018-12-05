@@ -16253,9 +16253,8 @@ steenwijk;Steenwijk
                 <example correction="Kerstman">Hij was die dag <marker>kerstman</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="_2E_KAMER_C" name="tweede kamer">
+        <rulegroup id="EIGENNAMEN_HOOFDLETTER" name="Namen van organisatie met spatie">
             <rule>
-                <!-- 2014-08-22 TaalTik -->
                 <antipattern case_sensitive="yes"><token regexp="yes">Tweede|Eerste</token><token regexp="yes">Kamer.*</token></antipattern>
                 <pattern>
                     <token regexp="yes">tweede|eerste</token>
@@ -16266,9 +16265,16 @@ steenwijk;Steenwijk
                 <example correction="Eerste Kamer">De <marker>eerste kamer</marker> vergadert vandaag.</example>
                 <example>De <marker>Eerste Kamer</marker> vergadert vandaag.</example>
             </rule>
-        </rulegroup>
-        <rulegroup id="RODE_KRUIS" name="rode kruis">
-            <!-- 2014-08-22 TaalTik -->
+            <rule>
+                <antipattern case_sensitive="yes"><token>Hoge</token><token regexp="yes">Raad.*</token></antipattern>
+                <pattern>
+                    <token>hoge</token>
+                    <token regexp="yes">raad.*<exception regexp="yes">.*tje$|.*tjes$</exception></token>
+                </pattern>
+                <message>U bedoelt mogelijk <suggestion><match no="1" case_conversion="startupper"/> <match no="2" case_conversion="startupper"/></suggestion>?</message>
+                <url>https://onzetaal.nl/taaladvies/advies/tweede-kamerlid-tweede-kamer-lid-tweede-kamerlid</url>
+                <example correction="Hoge Raad">De <marker>hoge raad</marker> vergadert vandaag.</example>
+            </rule>
             <rule>
                 <antipattern case_sensitive="yes"><token>Rode</token><token regexp="yes">Kruis.*</token></antipattern>
                 <pattern>
@@ -16284,7 +16290,645 @@ steenwijk;Steenwijk
                 <example correction="Rode Kruis">Ze doet vrijwilligerswerk bij het <marker>rode kruis</marker> en in een bejaardentehuis, dus het is niet dat ze zich nu verveeld of opsluit.</example>
                 <example correction="Rode Kruisgala">Het <marker>rode kruisgala</marker> in Monte Carlo sluit de top 5 af.</example>
             </rule>
+			<rule>
+                <antipattern case_sensitive="yes"><token>Centrale</token><token>Bank</token></antipattern>
+                <pattern>
+                    <token>centrale</token>
+                    <token regexp="yes">bank.*<exception regexp="yes">.*je$|.*jes$</exception></token>
+                </pattern>
+                <message>U bedoelt mogelijk <suggestion><match no="1" case_conversion="startupper"/> <match no="2" case_conversion="startupper"/></suggestion>?</message>
+                <url>https://onzetaal.nl/taaladvies/advies/tweede-kamerlid-tweede-kamer-lid-tweede-kamerlid</url>
+                <example correction="Centrale Bank">De <marker>centrale bank</marker> vergadert vandaag.</example>
+            </rule>
+            <rule>
+                <antipattern case_sensitive="yes"><token>Europese</token><token>Unie</token></antipattern>
+                <pattern>
+                    <token>Europese</token>
+                    <token regexp="yes">unie.*<exception regexp="yes">.*je$|.*jes$</exception></token>
+                </pattern>
+                <message>U bedoelt mogelijk <suggestion><match no="1" case_conversion="startupper"/> <match no="2" case_conversion="startupper"/></suggestion>?</message>
+                <url>https://onzetaal.nl/taaladvies/advies/tweede-kamerlid-tweede-kamer-lid-tweede-kamerlid</url>
+                <example correction="Europese Unie">De <marker>Europese unie</marker> vergadert vandaag.</example>
+            </rule>
+            <rule>
+                <antipattern case_sensitive="yes"><token>Europees</token><token>Parlement</token></antipattern>
+                <pattern>
+                    <token>Europees</token>
+                    <token regexp="yes">parlement.*<exception regexp="yes">.*je$|.*jes$</exception></token>
+                </pattern>
+                <message>U bedoelt mogelijk <suggestion><match no="1" case_conversion="startupper"/> <match no="2" case_conversion="startupper"/></suggestion>?</message>
+                <url>https://onzetaal.nl/taaladvies/advies/tweede-kamerlid-tweede-kamer-lid-tweede-kamerlid</url>
+                <example correction="Europees Parlement">Het <marker>Europees parlement</marker> vergadert vandaag.</example>
+            </rule>
+            <rule>
+                <antipattern case_sensitive="yes"><token>Verenigde</token><token>Staten</token></antipattern>
+                <pattern>
+                    <token>verenigde</token>
+                    <token>staten</token>
+                </pattern>
+                <message>U bedoelt mogelijk <suggestion><match no="1" case_conversion="startupper"/> <match no="2" case_conversion="startupper"/></suggestion>?</message>
+                <example correction="Verenigde Staten">De <marker>verenigde staten</marker> vergaderen vandaag.</example>
+            </rule>
+            <rule>
+                <antipattern case_sensitive="yes"><token>Verenigd</token><token>Koninkrijk</token></antipattern>
+                <pattern>
+                    <token>verenigd</token>
+                    <token>koninkrijk</token>
+                </pattern>
+                <message>U bedoelt mogelijk <suggestion><match no="1" case_conversion="startupper"/> <match no="2" case_conversion="startupper"/></suggestion>?</message>
+                <example correction="Verenigd Koninkrijk">Het <marker>verenigd koninkrijk</marker> gaat ten onder.</example>
+            </rule>
+            <rule>
+				<antipattern case_sensitive="yes"><token>Autoriteit</token><token>Financiële</token><token>Markten</token></antipattern>
+                <pattern>
+                    <token>Autoriteit</token>
+                    <token>Financiële</token>
+                    <token>Markten</token>
+                </pattern>
+                <message>U bedoelt mogelijk <suggestion><match no="1" case_conversion="startupper"/> <match no="2" case_conversion="startupper"/> <match no="3" case_conversion="startupper"/></suggestion>?</message>
+                <example correction="Autoriteit Financiële Markten">De <marker>Autoriteit financiële Markten</marker> vergaderen vandaag.</example>
+            </rule>
+            <rule>
+				<antipattern case_sensitive="yes"><token>Algemene</token><token>Rekenkamer</token></antipattern>
+                <pattern>
+                    <token>Algemene</token>
+                    <token>Rekenkamer</token>
+                </pattern>
+                <message>U bedoelt mogelijk <suggestion><match no="1" case_conversion="startupper"/> <match no="2" case_conversion="startupper"/></suggestion>?</message>
+                <example correction="Algemene Rekenkamer">De <marker>algemene rekenkamer</marker> vergadert vandaag.</example>
+            </rule>
+            <rule>
+				<antipattern case_sensitive="yes"><token>Internationaal</token><token>Monetair</token><token>Fonds</token></antipattern>
+                <pattern>
+                    <token>Internationaal</token>
+                    <token>Monetair</token>
+                    <token>Fonds</token>
+                </pattern>
+                <message>U bedoelt mogelijk <suggestion><match no="1" case_conversion="startupper"/> <match no="2" case_conversion="startupper"/> <match no="3" case_conversion="startupper"/></suggestion>?</message>
+                <example correction="Internationaal Monetair Fonds">Het <marker>Internationaal monetair Fonds</marker> vergadert vandaag.</example>
+            </rule>
+            <rule>
+            <antipattern case_sensitive="yes"><token>Universitair</token><token>Medisch</token><token>Centrum</token></antipattern>
+                <pattern>
+                    <token>Universitair</token>
+                    <token>Medisch</token>
+                    <token>Centrum</token>
+                </pattern>
+                <message>U bedoelt mogelijk <suggestion><match no="1" case_conversion="startupper"/> <match no="2" case_conversion="startupper"/> <match no="3" case_conversion="startupper"/></suggestion>?</message>
+                <example correction="Universitair Medisch Centrum">Ons <marker>universitair medisch centrum</marker> is fout bezig.</example>
+            </rule>
+            <rule>
+            <antipattern case_sensitive="yes"><token>Woordenlijst</token><token>Nederlandse</token><token>Taal</token></antipattern>
+                <pattern>
+                    <token>Woordenlijst</token>
+                    <token>Nederlandse</token>
+                    <token>Taal</token>
+                </pattern>
+                <message>U bedoelt mogelijk <suggestion><match no="1" case_conversion="startupper"/> <match no="2" case_conversion="startupper"/> <match no="3" case_conversion="startupper"/></suggestion>?</message>
+                <example correction="Woordenlijst Nederlandse Taal">Ons <marker>woordenlijst nederlandse taal</marker> is fout bezig.</example>
+            </rule>
+            <rule>
+            <antipattern case_sensitive="yes"><token>Onze</token><token>Lieve</token><token>Vrouw</token></antipattern>
+                <pattern>
+                    <token>Onze</token>
+                    <token>Lieve</token>
+                    <token>Vrouw</token>
+                </pattern>
+                <message>U bedoelt mogelijk <suggestion><match no="1" case_conversion="startupper"/> <match no="2" case_conversion="startupper"/> <match no="3" case_conversion="startupper"/></suggestion>?</message>
+                <example correction="Onze Lieve Vrouw">Ons <marker>onze lieve vrouw</marker> is fout bezig.</example>
+            </rule>
+            <rule>
+            <antipattern case_sensitive="yes"><token>De</token><token>Wereld</token><token>Draait</token><token>Door</token></antipattern>
+                <pattern>
+                    <token>De</token>
+                    <token>Wereld</token>
+                    <token>Draait</token>
+                    <token>Door</token>
+                </pattern>
+                <message>U bedoelt mogelijk <suggestion><match no="1" case_conversion="startupper"/> <match no="2" case_conversion="startupper"/> <match no="3" case_conversion="startupper"/> <match no="4" case_conversion="startupper"/></suggestion>?</message>
+                <example correction="De Wereld Draait Door">Ons <marker>de wereld draait door</marker> is fout bezig.</example>
+            </rule>
+            <rule>
+            <antipattern case_sensitive="yes"><token>Economische</token><token>Zaken</token></antipattern>
+                <pattern>
+                    <token>Economische</token>
+                    <token>Zaken</token>
+                </pattern>
+                <message>U bedoelt mogelijk <suggestion><match no="1" case_conversion="startupper"/> <match no="2" case_conversion="startupper"/></suggestion>?</message>
+                <example correction="Economische Zaken">Ons <marker>economische zaken</marker> is fout bezig.</example>
+            </rule>
+            <rule>
+            <antipattern case_sensitive="yes"><token>Verenigde</token><token>Arabische</token><token>Emiraten</token></antipattern>
+                <pattern>
+                    <token>Verenigde</token>
+                    <token>Arabische</token>
+                    <token>Emiraten</token>
+                </pattern>
+                <message>U bedoelt mogelijk <suggestion><match no="1" case_conversion="startupper"/> <match no="2" case_conversion="startupper"/> <match no="3" case_conversion="startupper"/></suggestion>?</message>
+                <example correction="Verenigde Arabische Emiraten">Ons <marker>verenigde arabische emiraten</marker> is fout bezig.</example>
+            </rule>
+            <rule>
+            <antipattern case_sensitive="yes"><token>Vereniging</token><token>Eigen</token><token>Huis</token></antipattern>
+                <pattern>
+                    <token>Vereniging</token>
+                    <token>Eigen</token>
+                    <token>Huis</token>
+                </pattern>
+                <message>U bedoelt mogelijk <suggestion><match no="1" case_conversion="startupper"/> <match no="2" case_conversion="startupper"/> <match no="3" case_conversion="startupper"/></suggestion>?</message>
+                <example correction="Vereniging Eigen Huis">Ons <marker>vereniging eigen huis</marker> is fout bezig.</example>
+            </rule>
+            <rule>
+            <antipattern case_sensitive="yes"><token>De</token><token>Groene</token><token>Amsterdammer</token></antipattern>
+                <pattern>
+                    <token>De</token>
+                    <token>Groene</token>
+                    <token>Amsterdammer</token>
+                </pattern>
+                <message>U bedoelt mogelijk <suggestion><match no="1" case_conversion="startupper"/> <match no="2" case_conversion="startupper"/> <match no="3" case_conversion="startupper"/></suggestion>?</message>
+                <example correction="De Groene Amsterdammer">Ons <marker>de groene amsterdammer</marker> is fout bezig.</example>
+            </rule>
+            <rule>
+            <antipattern case_sensitive="yes"><token>Vrije</token><token>Universiteit</token></antipattern>
+                <pattern>
+                    <token>Vrije</token>
+                    <token>Universiteit</token>
+                </pattern>
+                <message>U bedoelt mogelijk <suggestion><match no="1" case_conversion="startupper"/> <match no="2" case_conversion="startupper"/></suggestion>?</message>
+                <example correction="Vrije Universiteit">Ons <marker>vrije universiteit</marker> is fout bezig.</example>
+            </rule>
+            <rule>
+            <antipattern case_sensitive="yes"><token>Wereld</token><token>Natuur</token><token>Fonds</token></antipattern>
+                <pattern>
+                    <token>Wereld</token>
+                    <token>Natuur</token>
+                    <token>Fonds</token>
+                </pattern>
+                <message>U bedoelt mogelijk <suggestion><match no="1" case_conversion="startupper"/> <match no="2" case_conversion="startupper"/> <match no="3" case_conversion="startupper"/></suggestion>?</message>
+                <example correction="Wereld Natuur Fonds">Ons <marker>wereld natuur fonds</marker> is fout bezig.</example>
+            </rule>
+            <rule>
+            <antipattern case_sensitive="yes"><token>Radboud</token><token>Universiteit</token><token>Nijmegen</token></antipattern>
+                <pattern>
+                    <token>Radboud</token>
+                    <token>Universiteit</token>
+                    <token>Nijmegen</token>
+                </pattern>
+                <message>U bedoelt mogelijk <suggestion><match no="1" case_conversion="startupper"/> <match no="2" case_conversion="startupper"/> <match no="3" case_conversion="startupper"/></suggestion>?</message>
+                <example correction="Radboud Universiteit Nijmegen">Ons <marker>radboud universiteit nijmegen</marker> is fout bezig.</example>
+            </rule>
+            <rule>
+            <antipattern case_sensitive="yes"><token>Erasmus</token><token>Universiteit</token><token>Rotterdam</token></antipattern>
+                <pattern>
+                    <token>Erasmus</token>
+                    <token>Universiteit</token>
+                    <token>Rotterdam</token>
+                </pattern>
+                <message>U bedoelt mogelijk <suggestion><match no="1" case_conversion="startupper"/> <match no="2" case_conversion="startupper"/> <match no="3" case_conversion="startupper"/></suggestion>?</message>
+                <example correction="Erasmus Universiteit Rotterdam">Ons <marker>erasmus universiteit rotterdam</marker> is fout bezig.</example>
+            </rule>
+            <rule>
+            <antipattern case_sensitive="yes"><token>Onze</token><token>Lieve</token><token>Vrouwe</token></antipattern>
+                <pattern>
+                    <token>Onze</token>
+                    <token>Lieve</token>
+                    <token>Vrouwe</token>
+                </pattern>
+                <message>U bedoelt mogelijk <suggestion><match no="1" case_conversion="startupper"/> <match no="2" case_conversion="startupper"/> <match no="3" case_conversion="startupper"/></suggestion>?</message>
+                <example correction="Onze Lieve Vrouwe">Ons <marker>onze lieve vrouwe</marker> is fout bezig.</example>
+            </rule>
+            <rule>
+            <antipattern case_sensitive="yes"><token>De</token><token>Bezige</token><token>Bij</token></antipattern>
+                <pattern>
+                    <token>De</token>
+                    <token>Bezige</token>
+                    <token>Bij</token>
+                </pattern>
+                <message>U bedoelt mogelijk <suggestion><match no="1" case_conversion="startupper"/> <match no="2" case_conversion="startupper"/> <match no="3" case_conversion="startupper"/></suggestion>?</message>
+                <example correction="De Bezige Bij">Ons <marker>de bezige bij</marker> is fout bezig.</example>
+            </rule>
+            <rule>
+            <antipattern case_sensitive="yes"><token>Heilige</token><token>Geest</token></antipattern>
+                <pattern>
+                    <token>Heilige</token>
+                    <token>Geest</token>
+                </pattern>
+                <message>U bedoelt mogelijk <suggestion><match no="1" case_conversion="startupper"/> <match no="2" case_conversion="startupper"/></suggestion>?</message>
+                <example correction="Heilige Geest">Ons <marker>heilige geest</marker> is fout bezig.</example>
+            </rule>
+            <rule>
+            <antipattern case_sensitive="yes"><token>Vlaams</token><token>Belang</token></antipattern>
+                <pattern>
+                    <token>Vlaams</token>
+                    <token>Belang</token>
+                </pattern>
+                <message>U bedoelt mogelijk <suggestion><match no="1" case_conversion="startupper"/> <match no="2" case_conversion="startupper"/></suggestion>?</message>
+                <example correction="Vlaams Belang">Ons <marker>vlaams belang</marker> is fout bezig.</example>
+            </rule>
+            <rule>
+            <antipattern case_sensitive="yes"><token>Tweede</token><token>Wereldoorlog</token></antipattern>
+                <pattern>
+                    <token>Tweede</token>
+                    <token>Wereldoorlog</token>
+                </pattern>
+                <message>U bedoelt mogelijk <suggestion><match no="1" case_conversion="startupper"/> <match no="2" case_conversion="startupper"/></suggestion>?</message>
+                <example correction="Tweede Wereldoorlog">Ons <marker>tweede wereldoorlog</marker> is fout bezig.</example>
+            </rule>
+            <rule>
+            <antipattern case_sensitive="yes"><token>Universitair</token><token>Medisch</token><token>Centrum</token></antipattern>
+                <pattern>
+                    <token>Universitair</token>
+                    <token>Medisch</token>
+                    <token>Centrum</token>
+                </pattern>
+                <message>U bedoelt mogelijk <suggestion><match no="1" case_conversion="startupper"/> <match no="2" case_conversion="startupper"/> <match no="3" case_conversion="startupper"/></suggestion>?</message>
+                <example correction="Universitair Medisch Centrum">Ons <marker>universitair medisch centrum</marker> is fout bezig.</example>
+            </rule>
+            <rule>
+            <antipattern case_sensitive="yes"><token>Europese</token><token>Raad</token></antipattern>
+                <pattern>
+                    <token>Europese</token>
+                    <token>Raad</token>
+                </pattern>
+                <message>U bedoelt mogelijk <suggestion><match no="1" case_conversion="startupper"/> <match no="2" case_conversion="startupper"/></suggestion>?</message>
+                <example correction="Europese Raad">Ons <marker>europese raad</marker> is fout bezig.</example>
+            </rule>
+            <rule>
+            <antipattern case_sensitive="yes"><token>Heilige</token><token>Roomse</token><token>Rijk</token></antipattern>
+                <pattern>
+                    <token>Heilige</token>
+                    <token>Roomse</token>
+                    <token>Rijk</token>
+                </pattern>
+                <message>U bedoelt mogelijk <suggestion><match no="1" case_conversion="startupper"/> <match no="2" case_conversion="startupper"/> <match no="3" case_conversion="startupper"/></suggestion>?</message>
+                <example correction="Heilige Roomse Rijk">Ons <marker>heilige roomse rijk</marker> is fout bezig.</example>
+            </rule>
+            <rule>
+            <antipattern case_sensitive="yes"><token>Verenigde</token><token>Naties</token></antipattern>
+                <pattern>
+                    <token>Verenigde</token>
+                    <token>Naties</token>
+                </pattern>
+                <message>U bedoelt mogelijk <suggestion><match no="1" case_conversion="startupper"/> <match no="2" case_conversion="startupper"/></suggestion>?</message>
+                <example correction="Verenigde Naties">Ons <marker>verenigde naties</marker> is fout bezig.</example>
+            </rule>
+            <rule>
+            <antipattern case_sensitive="yes"><token>Geert</token><token>Wilders</token></antipattern>
+                <pattern>
+                    <token>Geert</token>
+                    <token>Wilders</token>
+                </pattern>
+                <message>U bedoelt mogelijk <suggestion><match no="1" case_conversion="startupper"/> <match no="2" case_conversion="startupper"/></suggestion>?</message>
+                <example correction="Geert Wilders">Ons <marker>geert wilders</marker> is fout bezig.</example>
+            </rule>
+            <rule>
+            <antipattern case_sensitive="yes"><token>World</token><token>Trade</token><token>Center</token></antipattern>
+                <pattern>
+                    <token>World</token>
+                    <token>Trade</token>
+                    <token>Center</token>
+                </pattern>
+                <message>U bedoelt mogelijk <suggestion><match no="1" case_conversion="startupper"/> <match no="2" case_conversion="startupper"/> <match no="3" case_conversion="startupper"/></suggestion>?</message>
+                <example correction="World Trade Center">Ons <marker>world trade center</marker> is fout bezig.</example>
+            </rule>
+            <rule>
+            <antipattern case_sensitive="yes"><token>Van</token><token>Gogh</token><token>Museum</token></antipattern>
+                <pattern>
+                    <token>Van</token>
+                    <token>Gogh</token>
+                    <token>Museum</token>
+                </pattern>
+                <message>U bedoelt mogelijk <suggestion><match no="1" case_conversion="startupper"/> <match no="2" case_conversion="startupper"/> <match no="3" case_conversion="startupper"/></suggestion>?</message>
+                <example correction="Van Gogh Museum">Ons <marker>van gogh museum</marker> is fout bezig.</example>
+            </rule>
+            <rule>
+            <antipattern case_sensitive="yes"><token>Katholieke</token><token>Universiteit</token><token>Leuven</token></antipattern>
+                <pattern>
+                    <token>Katholieke</token>
+                    <token>Universiteit</token>
+                    <token>Leuven</token>
+                </pattern>
+                <message>U bedoelt mogelijk <suggestion><match no="1" case_conversion="startupper"/> <match no="2" case_conversion="startupper"/> <match no="3" case_conversion="startupper"/></suggestion>?</message>
+                <example correction="Katholieke Universiteit Leuven">Ons <marker>katholieke universiteit leuven</marker> is fout bezig.</example>
+            </rule>
+            <rule>
+            <antipattern case_sensitive="yes"><token>Eerste</token><token>Wereldoorlog</token></antipattern>
+                <pattern>
+                    <token>Eerste</token>
+                    <token>Wereldoorlog</token>
+                </pattern>
+                <message>U bedoelt mogelijk <suggestion><match no="1" case_conversion="startupper"/> <match no="2" case_conversion="startupper"/></suggestion>?</message>
+                <example correction="Eerste Wereldoorlog">Ons <marker>eerste wereldoorlog</marker> is fout bezig.</example>
+            </rule>
+            <rule>
+            <antipattern case_sensitive="yes"><token>Veilig</token><token>Verkeer</token><token>Nederland</token></antipattern>
+                <pattern>
+                    <token>Veilig</token>
+                    <token>Verkeer</token>
+                    <token>Nederland</token>
+                </pattern>
+                <message>U bedoelt mogelijk <suggestion><match no="1" case_conversion="startupper"/> <match no="2" case_conversion="startupper"/> <match no="3" case_conversion="startupper"/></suggestion>?</message>
+                <example correction="Veilig Verkeer Nederland">Ons <marker>veilig verkeer nederland</marker> is fout bezig.</example>
+            </rule>
+            <rule>
+            <antipattern case_sensitive="yes"><token>Nederlands</token><token>Forensisch</token><token>Instituut</token></antipattern>
+                <pattern>
+                    <token>Nederlands</token>
+                    <token>Forensisch</token>
+                    <token>Instituut</token>
+                </pattern>
+                <message>U bedoelt mogelijk <suggestion><match no="1" case_conversion="startupper"/> <match no="2" case_conversion="startupper"/> <match no="3" case_conversion="startupper"/></suggestion>?</message>
+                <example correction="Nederlands Forensisch Instituut">Ons <marker>nederlands forensisch instituut</marker> is fout bezig.</example>
+            </rule>
+            <rule>
+            <antipattern case_sensitive="yes"><token>Technische</token><token>Universiteit</token><token>Delft</token></antipattern>
+                <pattern>
+                    <token>Technische</token>
+                    <token>Universiteit</token>
+                    <token>Delft</token>
+                </pattern>
+                <message>U bedoelt mogelijk <suggestion><match no="1" case_conversion="startupper"/> <match no="2" case_conversion="startupper"/> <match no="3" case_conversion="startupper"/></suggestion>?</message>
+                <example correction="Technische Universiteit Delft">Ons <marker>technische universiteit delft</marker> is fout bezig.</example>
+            </rule>
+            <rule>
+            <antipattern case_sensitive="yes"><token>Prins</token><token>Bernhard</token><token>Cultuurfonds</token></antipattern>
+                <pattern>
+                    <token>Prins</token>
+                    <token>Bernhard</token>
+                    <token>Cultuurfonds</token>
+                </pattern>
+                <message>U bedoelt mogelijk <suggestion><match no="1" case_conversion="startupper"/> <match no="2" case_conversion="startupper"/> <match no="3" case_conversion="startupper"/></suggestion>?</message>
+                <example correction="Prins Bernhard Cultuurfonds">Ons <marker>prins bernhard cultuurfonds</marker> is fout bezig.</example>
+            </rule>
+            <rule>
+            <antipattern case_sensitive="yes"><token>College</token><token>Bescherming</token><token>Persoonsgegevens</token></antipattern>
+                <pattern>
+                    <token>College</token>
+                    <token>Bescherming</token>
+                    <token>Persoonsgegevens</token>
+                </pattern>
+                <message>U bedoelt mogelijk <suggestion><match no="1" case_conversion="startupper"/> <match no="2" case_conversion="startupper"/> <match no="3" case_conversion="startupper"/></suggestion>?</message>
+                <example correction="College Bescherming Persoonsgegevens">Ons <marker>college bescherming persoonsgegevens</marker> is fout bezig.</example>
+            </rule>
+            <rule>
+            <antipattern case_sensitive="yes"><token>Tweede</token><token>Vaticaans</token><token>Concilie</token></antipattern>
+                <pattern>
+                    <token>Tweede</token>
+                    <token>Vaticaans</token>
+                    <token>Concilie</token>
+                </pattern>
+                <message>U bedoelt mogelijk <suggestion><match no="1" case_conversion="startupper"/> <match no="2" case_conversion="startupper"/> <match no="3" case_conversion="startupper"/></suggestion>?</message>
+                <example correction="Tweede Vaticaans Concilie">Ons <marker>tweede vaticaans concilie</marker> is fout bezig.</example>
+            </rule>
+            <rule>
+            <antipattern case_sensitive="yes"><token>Den</token><token>Haag</token><token>Centraal</token></antipattern>
+                <pattern>
+                    <token>Den</token>
+                    <token>Haag</token>
+                    <token>Centraal</token>
+                </pattern>
+                <message>U bedoelt mogelijk <suggestion><match no="1" case_conversion="startupper"/> <match no="2" case_conversion="startupper"/> <match no="3" case_conversion="startupper"/></suggestion>?</message>
+                <example correction="Den Haag Centraal">Ons <marker>den haag centraal</marker> is fout bezig.</example>
+            </rule>
+            <rule>
+            <antipattern case_sensitive="yes"><token>Reclame</token><token>Code</token><token>Commissie</token></antipattern>
+                <pattern>
+                    <token>Reclame</token>
+                    <token>Code</token>
+                    <token>Commissie</token>
+                </pattern>
+                <message>U bedoelt mogelijk <suggestion><match no="1" case_conversion="startupper"/> <match no="2" case_conversion="startupper"/> <match no="3" case_conversion="startupper"/></suggestion>?</message>
+                <example correction="Reclame Code Commissie">Ons <marker>reclame code commissie</marker> is fout bezig.</example>
+            </rule>
+            <rule>
+            <antipattern case_sensitive="yes"><token>Academisch</token><token>Medisch</token><token>Centrum</token></antipattern>
+                <pattern>
+                    <token>Academisch</token>
+                    <token>Medisch</token>
+                    <token>Centrum</token>
+                </pattern>
+                <message>U bedoelt mogelijk <suggestion><match no="1" case_conversion="startupper"/> <match no="2" case_conversion="startupper"/> <match no="3" case_conversion="startupper"/></suggestion>?</message>
+                <example correction="Academisch Medisch Centrum">Ons <marker>academisch medisch centrum</marker> is fout bezig.</example>
+            </rule>
+            <rule>
+            <antipattern case_sensitive="yes"><token>Artsen</token><token>Zonder</token><token>Grenzen</token></antipattern>
+                <pattern>
+                    <token>Artsen</token>
+                    <token>Zonder</token>
+                    <token>Grenzen</token>
+                </pattern>
+                <message>U bedoelt mogelijk <suggestion><match no="1" case_conversion="startupper"/> <match no="2" case_conversion="startupper"/> <match no="3" case_conversion="startupper"/></suggestion>?</message>
+                <example correction="Artsen Zonder Grenzen">Ons <marker>artsen zonder grenzen</marker> is fout bezig.</example>
+            </rule>
+            <rule>
+            <antipattern case_sensitive="yes"><token>Europees</token><token>Sociaal</token><token>Fonds</token></antipattern>
+                <pattern>
+                    <token>Europees</token>
+                    <token>Sociaal</token>
+                    <token>Fonds</token>
+                </pattern>
+                <message>U bedoelt mogelijk <suggestion><match no="1" case_conversion="startupper"/> <match no="2" case_conversion="startupper"/> <match no="3" case_conversion="startupper"/></suggestion>?</message>
+                <example correction="Europees Sociaal Fonds">Ons <marker>europees sociaal fonds</marker> is fout bezig.</example>
+            </rule>
+            <rule>
+            <antipattern case_sensitive="yes"><token>Koninklijke</token><token>Horeca</token><token>Nederland</token></antipattern>
+                <pattern>
+                    <token>Koninklijke</token>
+                    <token>Horeca</token>
+                    <token>Nederland</token>
+                </pattern>
+                <message>U bedoelt mogelijk <suggestion><match no="1" case_conversion="startupper"/> <match no="2" case_conversion="startupper"/> <match no="3" case_conversion="startupper"/></suggestion>?</message>
+                <example correction="Koninklijke Horeca Nederland">Ons <marker>koninklijke horeca nederland</marker> is fout bezig.</example>
+            </rule>
+            <rule>
+            <antipattern case_sensitive="yes"><token>Nationale</token><token>Postcode</token><token>Loterij</token></antipattern>
+                <pattern>
+                    <token>Nationale</token>
+                    <token>Postcode</token>
+                    <token>Loterij</token>
+                </pattern>
+                <message>U bedoelt mogelijk <suggestion><match no="1" case_conversion="startupper"/> <match no="2" case_conversion="startupper"/> <match no="3" case_conversion="startupper"/></suggestion>?</message>
+                <example correction="Nationale Postcode Loterij">Ons <marker>nationale postcode loterij</marker> is fout bezig.</example>
+            </rule>
+            <rule>
+            <antipattern case_sensitive="yes"><token>Europese</token><token>Economische</token><token>Gemeenschap</token></antipattern>
+                <pattern>
+                    <token>Europese</token>
+                    <token>Economische</token>
+                    <token>Gemeenschap</token>
+                </pattern>
+                <message>U bedoelt mogelijk <suggestion><match no="1" case_conversion="startupper"/> <match no="2" case_conversion="startupper"/> <match no="3" case_conversion="startupper"/></suggestion>?</message>
+                <example correction="Europese Economische Gemeenschap">Ons <marker>europese economische gemeenschap</marker> is fout bezig.</example>
+            </rule>
+            <rule>
+            <antipattern case_sensitive="yes"><token>Witte</token><token>Huis</token></antipattern>
+                <pattern>
+                    <token>Witte</token>
+                    <token>Huis</token>
+                </pattern>
+                <message>U bedoelt mogelijk <suggestion><match no="1" case_conversion="startupper"/> <match no="2" case_conversion="startupper"/></suggestion>?</message>
+                <example correction="Witte Huis">Ons <marker>witte huis</marker> is fout bezig.</example>
+            </rule>
+            <rule>
+            <antipattern case_sensitive="yes"><token>Telegraaf</token><token>Media</token><token>Groep</token></antipattern>
+                <pattern>
+                    <token>Telegraaf</token>
+                    <token>Media</token>
+                    <token>Groep</token>
+                </pattern>
+                <message>U bedoelt mogelijk <suggestion><match no="1" case_conversion="startupper"/> <match no="2" case_conversion="startupper"/> <match no="3" case_conversion="startupper"/></suggestion>?</message>
+                <example correction="Telegraaf Media Groep">Ons <marker>telegraaf media groep</marker> is fout bezig.</example>
+            </rule>
+            <rule>
+            <antipattern case_sensitive="yes"><token>Gemeentemuseum</token><token>Den</token><token>Haag</token></antipattern>
+                <pattern>
+                    <token>Gemeentemuseum</token>
+                    <token>Den</token>
+                    <token>Haag</token>
+                </pattern>
+                <message>U bedoelt mogelijk <suggestion><match no="1" case_conversion="startupper"/> <match no="2" case_conversion="startupper"/> <match no="3" case_conversion="startupper"/></suggestion>?</message>
+                <example correction="Gemeentemuseum Den Haag">Ons <marker>gemeentemuseum den haag</marker> is fout bezig.</example>
+            </rule>
+            <rule>
+            <antipattern case_sensitive="yes"><token>Koninklijke</token><token>Militaire</token><token>Academie</token></antipattern>
+                <pattern>
+                    <token>Koninklijke</token>
+                    <token>Militaire</token>
+                    <token>Academie</token>
+                </pattern>
+                <message>U bedoelt mogelijk <suggestion><match no="1" case_conversion="startupper"/> <match no="2" case_conversion="startupper"/> <match no="3" case_conversion="startupper"/></suggestion>?</message>
+                <example correction="Koninklijke Militaire Academie">Ons <marker>koninklijke militaire academie</marker> is fout bezig.</example>
+            </rule>
+            <rule>
+            <antipattern case_sensitive="yes"><token>Dienst</token><token>Uitvoering</token><token>Onderwijs</token></antipattern>
+                <pattern>
+                    <token>Dienst</token>
+                    <token>Uitvoering</token>
+                    <token>Onderwijs</token>
+                </pattern>
+                <message>U bedoelt mogelijk <suggestion><match no="1" case_conversion="startupper"/> <match no="2" case_conversion="startupper"/> <match no="3" case_conversion="startupper"/></suggestion>?</message>
+                <example correction="Dienst Uitvoering Onderwijs">Ons <marker>dienst uitvoering onderwijs</marker> is fout bezig.</example>
+            </rule>
+            <rule>
+            <antipattern case_sensitive="yes"><token>Dienst</token><token>Justitiële</token><token>Inrichtingen</token></antipattern>
+                <pattern>
+                    <token>Dienst</token>
+                    <token>Justitiële</token>
+                    <token>Inrichtingen</token>
+                </pattern>
+                <message>U bedoelt mogelijk <suggestion><match no="1" case_conversion="startupper"/> <match no="2" case_conversion="startupper"/> <match no="3" case_conversion="startupper"/></suggestion>?</message>
+                <example correction="Dienst Justitiële Inrichtingen">Ons <marker>dienst justitiële inrichtingen</marker> is fout bezig.</example>
+            </rule>
+            <rule>
+            <antipattern case_sensitive="yes"><token>Nederlandse</token><token>Publieke</token><token>Omroep</token></antipattern>
+                <pattern>
+                    <token>Nederlandse</token>
+                    <token>Publieke</token>
+                    <token>Omroep</token>
+                </pattern>
+                <message>U bedoelt mogelijk <suggestion><match no="1" case_conversion="startupper"/> <match no="2" case_conversion="startupper"/> <match no="3" case_conversion="startupper"/></suggestion>?</message>
+                <example correction="Nederlandse Publieke Omroep">Ons <marker>nederlandse publieke omroep</marker> is fout bezig.</example>
+            </rule>
+            <rule>
+            <antipattern case_sensitive="yes"><token>Het</token><token>Vrije</token><token>Volk</token></antipattern>
+                <pattern>
+                    <token>Het</token>
+                    <token>Vrije</token>
+                    <token>Volk</token>
+                </pattern>
+                <message>U bedoelt mogelijk <suggestion><match no="1" case_conversion="startupper"/> <match no="2" case_conversion="startupper"/> <match no="3" case_conversion="startupper"/></suggestion>?</message>
+                <example correction="Het Vrije Volk">Ons <marker>het vrije volk</marker> is fout bezig.</example>
+            </rule>
+            <rule>
+            <antipattern case_sensitive="yes"><token>Het</token><token>Nationale</token><token>Ballet</token></antipattern>
+                <pattern>
+                    <token>Het</token>
+                    <token>Nationale</token>
+                    <token>Ballet</token>
+                </pattern>
+                <message>U bedoelt mogelijk <suggestion><match no="1" case_conversion="startupper"/> <match no="2" case_conversion="startupper"/> <match no="3" case_conversion="startupper"/></suggestion>?</message>
+                <example correction="Het Nationale Ballet">Ons <marker>het nationale ballet</marker> is fout bezig.</example>
+            </rule>
+            <rule>
+            <antipattern case_sensitive="yes"><token>Nationaal</token><token>Coördinator</token><token>Terrorismebestrijding</token></antipattern>
+                <pattern>
+                    <token>Nationaal</token>
+                    <token>Coördinator</token>
+                    <token>Terrorismebestrijding</token>
+                </pattern>
+                <message>U bedoelt mogelijk <suggestion><match no="1" case_conversion="startupper"/> <match no="2" case_conversion="startupper"/> <match no="3" case_conversion="startupper"/></suggestion>?</message>
+                <example correction="Nationaal Coördinator Terrorismebestrijding">Ons <marker>nationaal coördinator terrorismebestrijding</marker> is fout bezig.</example>
+            </rule>
+            <rule>
+            <antipattern case_sensitive="yes"><token>Internationaal</token><token>Olympisch</token><token>Comité</token></antipattern>
+                <pattern>
+                    <token>Internationaal</token>
+                    <token>Olympisch</token>
+                    <token>Comité</token>
+                </pattern>
+                <message>U bedoelt mogelijk <suggestion><match no="1" case_conversion="startupper"/> <match no="2" case_conversion="startupper"/> <match no="3" case_conversion="startupper"/></suggestion>?</message>
+                <example correction="Internationaal Olympisch Comité">Ons <marker>internationaal olympisch comité</marker> is fout bezig.</example>
+            </rule>
+            <rule>
+            <antipattern case_sensitive="yes"><token>Erasmus</token><token>Medisch</token><token>Centrum</token></antipattern>
+                <pattern>
+                    <token>Erasmus</token>
+                    <token>Medisch</token>
+                    <token>Centrum</token>
+                </pattern>
+                <message>U bedoelt mogelijk <suggestion><match no="1" case_conversion="startupper"/> <match no="2" case_conversion="startupper"/> <match no="3" case_conversion="startupper"/></suggestion>?</message>
+                <example correction="Erasmus Medisch Centrum">Ons <marker>erasmus medisch centrum</marker> is fout bezig.</example>
+            </rule>
+            <rule>
+            <antipattern case_sensitive="yes"><token>Vereniging</token><token>Nederlandse</token><token>Gemeenten</token></antipattern>
+                <pattern>
+                    <token>Vereniging</token>
+                    <token>Nederlandse</token>
+                    <token>Gemeenten</token>
+                </pattern>
+                <message>U bedoelt mogelijk <suggestion><match no="1" case_conversion="startupper"/> <match no="2" case_conversion="startupper"/> <match no="3" case_conversion="startupper"/></suggestion>?</message>
+                <example correction="Vereniging Nederlandse Gemeenten">Ons <marker>vereniging nederlandse gemeenten</marker> is fout bezig.</example>
+            </rule>
+            <rule>
+            <antipattern case_sensitive="yes"><token>Sociaal</token><token>Cultureel</token><token>Planbureau</token></antipattern>
+                <pattern>
+                    <token>Sociaal</token>
+                    <token>Cultureel</token>
+                    <token>Planbureau</token>
+                </pattern>
+                <message>U bedoelt mogelijk <suggestion><match no="1" case_conversion="startupper"/> <match no="2" case_conversion="startupper"/> <match no="3" case_conversion="startupper"/></suggestion>?</message>
+                <example correction="Sociaal Cultureel Planbureau">Ons <marker>sociaal cultureel planbureau</marker> is fout bezig.</example>
+            </rule>
+            <rule>
+            <antipattern case_sensitive="yes"><token>De</token><token>Olympische</token><token>Spelen</token></antipattern>
+                <pattern>
+                    <token>De</token>
+                    <token>Olympische</token>
+                    <token>Spelen</token>
+                </pattern>
+                <message>U bedoelt mogelijk <suggestion><match no="1" case_conversion="startupper"/> <match no="2" case_conversion="startupper"/> <match no="3" case_conversion="startupper"/></suggestion>?</message>
+                <example correction="De Olympische Spelen">Ons <marker>de olympische spelen</marker> is fout bezig.</example>
+            </rule>
+            <rule>
+            <antipattern case_sensitive="yes"><token>Sociaal</token><token>Economische</token><token>Raad</token></antipattern>
+                <pattern>
+                    <token>Sociaal</token>
+                    <token>Economische</token>
+                    <token>Raad</token>
+                </pattern>
+                <message>U bedoelt mogelijk <suggestion><match no="1" case_conversion="startupper"/> <match no="2" case_conversion="startupper"/> <match no="3" case_conversion="startupper"/></suggestion>?</message>
+                <example correction="Sociaal Economische Raad">Ons <marker>sociaal economische raad</marker> is fout bezig.</example>
+            </rule>
+            <rule>
+            <antipattern case_sensitive="yes"><token>Centraal</token><token>Beheer</token></antipattern>
+                <pattern>
+                    <token>Centraal</token>
+                    <token>Beheer</token>
+                </pattern>
+                <message>U bedoelt mogelijk <suggestion><match no="1" case_conversion="startupper"/> <match no="2" case_conversion="startupper"/></suggestion>?</message>
+                <example correction="Centraal Beheer">Ons <marker>centraal beheer</marker> is fout bezig.</example>
+            </rule>
         </rulegroup>
+		
         <rulegroup id="U" name="u">
             <!-- 2014-08-20 TaalTik -->
             <rule>
@@ -29251,6 +29895,20 @@ steenwijk;Steenwijk
         </rule>
         </rulegroup>
         -->
+        <rulegroup id="WOORD_MET_UNDERSCORE" name="Eeen woor dmet een underscore">
+			<rule>
+				<!-- Refer to https://github.com/languagetool-org/languagetool/issues/1204#issuecomment-443842446 -->
+				<pattern>
+					<token regexp="yes">[a-z-]+</token>
+					<token spacebefore="no" min="1" max="-1">_</token>
+					<token regexp="yes" spacebefore="no">[a-z-]+</token>
+				</pattern>
+				<message>Een liggende streep onderaan (unbderscore) is ongebruikelijk in gewone tekst.</message>
+				<short>Underscore</short>
+				<example type="incorrect">Dit <marker>test_geval</marker> is onvoldoende.</example>
+			</rule>
+		</rulegroup>
+		
         <rulegroup id="WORT" name="wort → wordt of word">
             <rule>
 				<antipattern><token postag="SENT_START" skip="-1"/><token regexp="yes">.*(brouw|bier|gist|mout|kook|koel|ketel).*|sg</token></antipattern>
