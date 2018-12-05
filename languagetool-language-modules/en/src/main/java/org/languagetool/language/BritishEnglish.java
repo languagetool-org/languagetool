@@ -56,9 +56,9 @@ public class BritishEnglish extends English {
   @Override
   public int getPriorityForId(String id) {
     switch (id) {
-      case "OXFORD_SPELLING_IZE":                     return -20;
-      case "PROTOTYPE_OXFORD_SPELLING_ISATION_NOUNS": return -21;
-      case "PROTOTYPE_OXFORD_SPELLING_ISE_VERBS":     return -22;
+      case "OXFORD_SPELLING_ISATION_NOUNS": return -20;
+      case "OXFORD_SPELLING_ISE_VERBS":     return -21;
+      case "OXFORD_SPELLING_IZE":           return -22;
     }
     return 0;
   }
