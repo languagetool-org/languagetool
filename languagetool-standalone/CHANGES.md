@@ -9,6 +9,7 @@
   * added and improved rules
   * segmentation improvements
   * updated en_GB spellchecker dictionary from https://github.com/marcoagpinto/aoo-mozilla-en-dict  (Version 2.67 - 2018-12-01)
+  * added rules for 'Oxford spelling' (applicable to British English only)
 
 #### German
   * added and improved rules
