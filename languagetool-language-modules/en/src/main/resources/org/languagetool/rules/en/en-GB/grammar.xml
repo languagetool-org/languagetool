@@ -277,10 +277,15 @@ USA
          </rulegroup>
         <rulegroup id="OXFORD_SPELLING_Z_NOT_S" name="Oxford spelling is/iz">
         <!-- For general notes and design decisions, refer to OXFORD_SPELLING_ISE_VERBS -->
+            <url>https://blog.oxforddictionaries.com/2011/03/28/ize-or-ise/</url>
             <antipattern><!-- Dans l'organisation de ces autonomies... -->
                 <token>l</token>
                 <token spacebefore="no">'</token>
                 <token spacebefore="no" postag_regexp="yes" postag="NN.*"/>
+            </antipattern>
+            <antipattern><!-- If the token before or the token after is a proper noun, then the target token is probably part of a proper name, and not a common noun. Example: Organisation of Islamic Cooperation. -->
+                <token postag_regexp="yes" postag="NNPS?"/>
+                <token postag_regexp="yes" postag="NNPS?"/>
             </antipattern>
 <!-- TODO
 adverbs ~isationally
@@ -288,20 +293,13 @@ nouns ~isement
 adjectives ~isable
 adjectives ~ised
 -->         <rule id="OXFORD_SPELLING_ISATION_NOUNS" name="Oxford spelling of nouns (~ization not ~isation), **but not CAPITALISATIONS of nouns**">
-            <antipattern><!-- https://www.oic-oci.org/home/?lan=en -->
-                <token>Organisation</token>
-                <token>of</token>
-                <token>Islamic</token>
-                <token>Cooperation</token>
-            </antipattern>
             <!-- For the suggestion, regexp_match and regexp_replace are sufficient. The token finds an ~isation noun that has a singular or plural postag. If the ~isation word has a postag, then the ~ization word should have that postag. (Possibly, the pairs of words are used differently in different locales, and thus they have different postags.) -->
                 <pattern>
-                    <token postag_regexp="yes" postag="NN(:UN?)?|NNS" inflected="yes" regexp="yes">([a-z]+?-?[a-z]+?)isations?<exception postag="NNP"/><exception regexp="yes">(?-i)[A-Z-]+</exception><!-- The NNP exception is for proper nouns such as company names.-->
+                    <token postag_regexp="yes" postag="NN(:UN?)?|NNS" inflected="yes" regexp="yes">([a-z]+?-?[a-z]+?)isations?<exception regexp="yes">(?-i)[A-Z-]+</exception><!-- The NNP exception is for proper nouns such as company names.-->
                     <exception regexp="yes" inflected="yes">improvisation|xxxx</exception><!-- This exception is for nouns that are always spelled with ~isation. -->
                     <exception>passivisations</exception></token><!-- This exception prevents the incorrect suggestion: ". TODO: correct the problem. -->
                 </pattern>
-                <message>Use the Oxford spelling '<suggestion><match no="1" suppress_misspelled="yes" regexp_match="([a-z]+?-?[a-z]+?)isation(s?)" regexp_replace="$1ization$2"/></suggestion>', except in proper names such as 'Shanghai Cooperation Organisation'.</message>
-                <url>https://blog.oxforddictionaries.com/2011/03/28/ize-or-ise/</url>
+                <message>Use the Oxford spelling '<suggestion><match no="1" suppress_misspelled="yes" regexp_match="([a-z]+?-?[a-z]+?)isation(s?)" regexp_replace="$1ization$2"/></suggestion>', except in proper names.</message>
                 <short>Oxford spelling: ~ization nouns</short>
                 <example correction="organization">The word '<marker>organisation</marker>' is not the Oxford spelling.</example>
                 <example correction="Organizations">The word '<marker>Organisations</marker>' is not the Oxford spelling.</example>
@@ -325,11 +323,10 @@ adjectives ~ised
             </rule>
             <rule id="OXFORD_SPELLING_ISE_VERBS" name="Oxford spelling of verbs (~ize not ~ise), **but not CAPITALISED verbs**">
                 <pattern>
-                    <token postag_regexp="yes" postag="VB.*" inflected="yes" regexp="yes">([a-z]+?-?[a-z]+?)ise<exception postag="NNP"/><exception regexp="yes">(?-i)[A-Z-]+</exception><exception regexp="yes" inflected="yes">abscise|advertise|advise|affranchise|alias|appraise|arise|braise|bruise|chastise|circumcise|comprise|compromise|counterpoise|cruise|demise|despise|devise|disenfranchise|disfranchise|disguise|dispraise|enfranchise|equipoise|excise|exercise|franchise|fundraise|improvise|incise|liaise|merchandise|misadvise|miscategorise|misraise|mortise|noise|outraise|overexercise|overpraise|overpromise|paralyse|poise|porpoise|practise|praise|premise|previse|prise|promise|raise|readvertise|readvise|rearise|reappraise|reprise|repromise|re-raise|reraise|revise|rise|supervise|surmise|surprise|televise|trellis|underpraise|upraise|uprise|wise</exception></token><!-- suppress_misspelled does not work with some verbs. The fail-safe solution is to put ~ise-only verbs in the exception. AmE prize = BrE prise (move or lift). BrE prize = to value. Aside: some z spellings are not verbs but are correct spellings: example 'braize' is a fish. --><!-- TODO: merchandize is a verb, but rare -->
+                    <token postag_regexp="yes" postag="VB.*" inflected="yes" regexp="yes">([a-z]+?-?[a-z]+?)ise<exception regexp="yes">(?-i)[A-Z-]+</exception><exception regexp="yes" inflected="yes">abscise|advertise|advise|affranchise|alias|appraise|arise|braise|bruise|chastise|circumcise|comprise|compromise|counterpoise|cruise|demise|despise|devise|disenfranchise|disfranchise|disguise|dispraise|enfranchise|equipoise|excise|exercise|franchise|fundraise|improvise|incise|liaise|merchandise|misadvise|miscategorise|misraise|mortise|noise|outraise|overexercise|overpraise|overpromise|paralyse|poise|porpoise|practise|praise|premise|previse|prise|promise|raise|readvertise|readvise|rearise|reappraise|reprise|repromise|re-raise|reraise|revise|rise|supervise|surmise|surprise|televise|trellis|underpraise|upraise|uprise|wise</exception></token><!-- suppress_misspelled does not work with some verbs. The fail-safe solution is to put ~ise-only verbs in the exception. AmE prize = BrE prise (move or lift). BrE prize = to value. Aside: some z spellings are not verbs but are correct spellings: example 'braize' is a fish. --><!-- TODO: merchandize is a verb, but rare -->
                     <!-- Remove uppercase from the rule: case_sensitive="yes" in the token does not work; (?-i)([a-zA-Z][a-z]+... in the regexp does not work. Use an exception. -->
                 </pattern>
                 <message>Use the Oxford spelling '<suggestion suppress_misspelled="yes"><match suppress_misspelled="yes" no="1" regexp_match="([a-z]+?-?[a-z]+?)is(e|es|ed|ing)" regexp_replace="$1iz$2" /></suggestion>'.</message><!-- Cannot use postag_regexp="yes" postag="(VB.*)" postag_replace="$1" because it causes the suggestion to be the same as the target token. -->
-                <url>https://blog.oxforddictionaries.com/2011/03/28/ize-or-ise/</url>
                 <short>Oxford spelling: ~ise verbs</short>
                 <example correction="organize">The verb '<marker>organise</marker>' is not the Oxford spelling.</example>
                 <example>The word '<marker>organize</marker>' is the Oxford spelling.</example>

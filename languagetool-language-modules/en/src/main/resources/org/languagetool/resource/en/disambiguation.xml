@@ -4317,6 +4317,26 @@
       <disambig action="replace"><wd pos="NNP"/><wd pos="NNP"/></disambig>
     </rule>
 
+    <rule name="Proper noun: Conference of Specialised Ministers" id="CONFERENCE_OF_SPECIALISED_MINISTERS"><!-- www.coe.int/en/web/cm/iguide-chapter6. Used as a test in en-GB OXFORD_SPELLING_Z_NOT_S -->
+      <pattern case_sensitive="yes">
+        <token>Conference</token>
+        <token>of</token>
+        <token>Specialised</token>
+        <token>Ministers</token>
+      </pattern>
+      <disambig action="replace"><wd pos="NNP"/><wd pos="NNP"/><wd pos="NNP"/><wd pos="NNP"/></disambig>
+    </rule>
+
+    <rule name="Proper noun: Organisation of Islamic Cooperation" id="ORGANISATION_OF_ISLAMIC_COOPERATION"><!--  www.oic-oci.org/home/?lan=en. Used as a test in en-GB OXFORD_SPELLING_Z_NOT_S -->
+      <pattern case_sensitive="yes">
+          <token>Organisation</token>
+          <token>of</token>
+          <token>Islamic</token>
+          <token>Cooperation</token>
+      </pattern>
+      <disambig action="replace"><wd pos="NNP"/><wd pos="NNP"/><wd pos="NNP"/><wd pos="NNP"/></disambig>
+    </rule>
+
     <rule name="NNP with trademark symbols" id="PROPER_NOUNS_WITH_TRADEMARK_SYMBOLS">
         <pattern>
             <token regexp="yes">([a-z]+)[™®]</token><!-- The case is not important. Some trade names have non-standard typography. Some start with a lower-case letter. NoDisambiguationEnglishPartialPosTagFilter is necessary to prevent LT ignoring typographic errors such as Yarhoo®. The rule causes false negatives with NNPs that are not legally permitted to use the ® symbol, but that is a relatively unlikely problem. (Nobody is likely to write Michael® unless they mean it.) -->
