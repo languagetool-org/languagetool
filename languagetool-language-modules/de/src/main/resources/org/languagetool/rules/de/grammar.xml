@@ -679,26 +679,41 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Gebrauchsspuren">Die Ware hat deutliche <marker>Gebrauchtspuren</marker>.</example>
             <example correction="Gebrauchsspur">Die Ware hat eine deutliche <marker>Gebrauchtspur</marker>.</example>
         </rule>
-        <rule id="IM_IHM" name="'im (ihm)'">
-            <antipattern>
-                <token>im</token>
-                <token>sog</token>
-                <token>.</token>
-            </antipattern>
-            <pattern>
-                <marker>
+        <rulegroup id="IM_IHM" name="'im (ihm)'">
+            <rule>
+                <antipattern>
                     <token>im</token>
-                </marker>
-                <token postag="VER:[123]:.*" postag_regexp="yes">
-                    <exception postag="VER:.*" postag_regexp="yes" negate_pos="yes"/>
-                    <exception regexp="yes">regen|prallen|siebten|achten|wachen|trauten|ehelichen|Schweiße|stumpfen</exception>
-                </token>
-            </pattern>
-            <message>Möglicher Tippfehler: Meinten Sie <suggestion>ihm</suggestion>?</message>
-            <short>Möglicher Tippfehler</short>
-            <example correction="Ihm"><marker>Im</marker> folgt Merkel.</example>
-            <example><marker>Im</marker> gleichen T-Shirt sah er besser aus.</example>
-        </rule>
+                    <token>sog</token>
+                    <token>.</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>im</token>
+                    </marker>
+                    <token postag="VER:[123]:.*" postag_regexp="yes">
+                        <exception postag="VER:.*" postag_regexp="yes" negate_pos="yes"/>
+                        <exception regexp="yes">regen|prallen|siebten|achten|wachen|trauten|ehelichen|Schweiße|stumpfen</exception>
+                    </token>
+                </pattern>
+                <message>Möglicher Tippfehler: Meinten Sie <suggestion>ihm</suggestion>?</message>
+                <short>Möglicher Tippfehler</short>
+                <example correction="Ihm"><marker>Im</marker> folgt Merkel.</example>
+                <example><marker>Im</marker> gleichen T-Shirt sah er besser aus.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>im</token>
+                    </marker>
+                    <token>zu</token>
+                    <token postag="VER:INF:.+" postag_regexp="yes">
+                    </token>
+                </pattern>
+                <message>Möglicher Tippfehler: Meinten Sie <suggestion>ihm</suggestion>?</message>
+                <short>Möglicher Tippfehler</short>
+                <example correction="ihm">Er schaffte es nicht, sich bei <marker>im</marker> zu bedanken.</example>
+            </rule>
+        </rulegroup>
         <rule id="SEIN_MONATEN" name="sein (seit) Jahren etc.">
             <pattern>
                 <marker>
