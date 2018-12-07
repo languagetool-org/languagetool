@@ -70,14 +70,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Peter will gehen.</example>
         </rule>
         
-        <rule id="LANGES_WORT" name="Leichte Sprache: Langes Wort">
-            <pattern>
-                <token regexp="yes">\p{L}{14,}</token>
-            </pattern>
-            <message>Dieses Wort hat mehr als dreizehn Buchstaben. Benutzen Sie kurze Wörter.</message>
-            <example>Die Schifffahrt auf der Donau ist beliebt.</example>
-            <example correction="">Die <marker>Donaudampfschifffahrt</marker> ist beliebt.</example>
-        </rule>
         <rulegroup id="NEBENSAETZE" name="Leichte Sprache: Nebensätze">
             <rule>
                 <pattern>
@@ -347,54 +339,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="">Er ist jemand<marker>, der</marker> gern lacht, nichts nachträgt und auf den alle hören.</example>
                 <example correction="">Er ist jemand<marker>, der</marker> gern lacht, der selten schimpft und viel Geduld hat</example>
                 <example>Ich badete gerade, als das Telefon klingelte.</example>
-            </rule>
-        </rulegroup>
-        <rulegroup id="ABKUERZUNG" name="Leichte Sprache: Abkürzung">
-            <rule>
-                <pattern>
-                    <token regexp="yes">\p{Lu}{2,}</token>
-                </pattern>
-                <message>Abkürzung gefunden. Verzichten Sie auf Abkürzungen.</message>
-                <example>Das <marker>Köchelverzeichnis</marker> ist ein Verzeichnis der Kompositionen von Mozart.</example>
-                <example correction="">Das <marker>KV</marker> ist ein Verzeichnis der Kompositionen von Mozart.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token regexp="yes">\p{L}</token><token>.</token>
-                    <token regexp="yes">\p{L}</token><token>.</token>
-                    <token regexp="yes">\p{L}</token><token>.</token>
-                </pattern>
-                <message>Abkürzung gefunden. Verzichten Sie auf Abkürzungen.</message>
-                <example>Die Sozialdemokratische Partei Deutschlands.</example>
-                <example correction="">Die <marker>S.P.D.</marker></example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token regexp="yes">\p{L}</token>
-                    <token spacebefore="no">.</token>
-                    <token regexp="yes">\p{L}</token>
-                    <token spacebefore="no">.</token>
-                </pattern>
-                <message>Abkürzung gefunden. Verzichten Sie auf Abkürzungen.</message>
-                <example correction="">Der Tiger ist <marker>z. B.</marker> ein Tier.</example>
-                <example correction="">Er ist krank, <marker>d. h.</marker> er kann nicht kommen.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token regexp="yes">Tel|Temp|trans|Tsd|übertr|übl|ff|überarb|ugs|univ|unveränd|urspr|usw|vgl|Vol|vollst|vorm|etc|Vp|Vs|vs|wesentl|wg|Hd|Ztr|zus|Zus|zzt?|zzgl|Zz|Zt|Min|Bzgl|bzgl|bezügl|Frhr|ggfs|insb|autom|MwSt|hebr|hg|hl|Hg|hist|hochd|hochspr|Hptst|Hr|hrsg|Allg|ill|inkl|incl|Ind|Inf|Ing|ital|Tr|jap|Jb|Jg|Jhd?|Jhdts?|jmdm?|jmdn|jmds|jur|Kap|kart|kath|kaufm|Kfm|kgl|Kl|Konj|königl|Krs|Kr|Kto|bzw</token>
-                    <token spacebefore="no">.</token>
-                </pattern>
-                <message>Abkürzung gefunden. Verzichten Sie auf Abkürzungen.</message>
-                <example correction="">Das ist <marker>Hr.</marker> Meier.</example>
-                <example>Das ist Herr <marker>Meier</marker>.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token postag_regexp="yes" postag="ABK:.*"><exception regexp="yes">\p{L}</exception></token>
-                </pattern>
-                <message>Abkürzung gefunden. Verzichten Sie auf Abkürzungen.</message>
-                <example>Wir brauchen Milch, Eier <marker>und so weiter</marker>.</example>
-                <example correction="">Wir brauchen Milch, Eier <marker>usw</marker>.</example>
             </rule>
         </rulegroup>
 
@@ -902,7 +846,64 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="">Sie nimmt an, ihr <marker>habet</marker> es vergessen.</example>
             </rule>
         </rulegroup>
+        
+        <rule id="FRAGEN" name="Leichte Sprache: Verzicht auf Fragesätze" default="off">
+            <pattern>
+                <token postag="SENT_END">?</token>
+            </pattern>
+            <message>Vermeiden Sie Fragesätze. Verwenden Sie einfache Aussagesätze.</message>
+            <example type="incorrect" correction="">Was machen wir heute<marker>?</marker></example>
+            <example type="correct">Lass uns heute etwas machen.</example>
+        </rule>
+    </category>
 
+    <category id="DIFFICULT_WORDS" name="Schwierige Wörter und Wendungen" type="misspelling">
+        <rule id="METAPHERN" name="Leichte Sprache: Metaphern">
+            <pattern>
+                <token inflected='yes' regexp='yes'>Wiegenfest|Nahverkehr|Fernverkehr|Lichtbild|Bärendienst|Kurschatten|Mauerblümchen|Erdbeermund|Gänsehaut|Pustekuchen|Gardinenpredigt|Orangenhaut|Gipfeltreffen|Honigkuchenpferd|Rabeneltern|Stimmungskanone|Hausdrache|Gaumenschmeichler|Glückspilz|Baumkrone|Sternstunde|Warteschlange|Menschenschlange|Strohfeuer|Wüstenschiff|Zahlenfriedhof|Kaderschmiede|Zwickmühle|Augenweide|Augenschmaus|Hexenkessel|Hosenstall|Stubentiger|Couchsurfer|Lampenfieber|Rohrkrepierer|Goldmarie|Sternstunden|Helikoptereltern|Schwarzmalerei|Augenwischerei|Eselsbrücke|Kredithai|Torschlusspanik|Dreikäsehoch|Hanswurst</token>
+            </pattern>
+            <message>Verwenden Sie keine schwierigen Begriffe. Vermeiden Sie Metaphern und bildhafte Sprache.</message>
+            <short>Metaphern vermeiden</short>
+            <example>Sie haben ihm damit geschadet.</example>
+            <example correction="">Sie erwiesen ihm einen <marker>Bärendienst</marker>.</example>
+            <example correction="">Sie erwiesen ihm <marker>Bärendienste</marker>.</example>
+            <example correction="">Dafür gibt es keine <marker>Eselsbrücken</marker>.</example>
+        </rule>
+
+        <rule id="SCHWIERIGE_WOERTER" name="Leichte Sprache: schwierige Wörter">
+            <pattern>
+                <token inflected='yes' regexp='yes'>abnor.+|ambi.+|anti.+|asy.+|auth.+|biblio.+|diffizil|ge(denken|nehmigen|statten|währen)|hemi.+|hy.+|kontra.+|mono.+|neo.+|omni.+|ortho.+|poly.+|prä.+|pseudo.+|retro.+|rhy.+|semi.+|sy[mn].+|theo.*|zy.+|.+ismus|.+phobien?|.+nym|ehelichen</token>
+            </pattern>
+            <message>Verwenden Sie keine schwierigen Begriffe. Vermeiden Sie schwierige Wörter und Fremdwörter.</message>
+            <short>Schwierige Wörter vermeiden</short>
+            <example>Sie hat es ihm erlaubt.</example>
+            <example correction="">Sie hat es ihm <marker>gestattet</marker>.</example>
+            <example correction="">Eine <marker>asymmetrische</marker> Anordnung.</example>
+        </rule>
+        <rulegroup id="SCHWIERIGE_WENDUNGEN" name="Leichte Sprache: schwierige Wendungen">
+            <rule>
+                <pattern>
+                    <token>außen</token>
+                    <token>vor</token>
+                    <token inflected="yes">lassen</token>
+                </pattern>
+                <message>Verwenden Sie keine schwierigen Wendungen.</message>
+                <example correction="">Sie hat mich <marker>außen vor gelassen</marker>.</example>
+                <example>Sie hat mich <marker>ausgeschlossen</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>Kind</token>
+                    <token min="0">schon</token>
+                    <token inflected="yes">schaukeln</token>
+                </pattern>
+                <message>Verwenden Sie keine schwierigen Wendungen.</message>
+                <example correction="">Sie wird das <marker>Kind schon schaukeln</marker>.</example>
+                <example>Sie wird es <marker>schaffen</marker>.</example>
+            </rule>
+        </rulegroup>
+    </category>
+    <category id="STYLE" name="Stil" type="style">
         <rulegroup id="QUERVERWEIS" name="Leichte Sprache: Querverweise">
             <rule>
                 <pattern>
@@ -1157,62 +1158,60 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Bürgermeister oder Bürgermeisterin|Bürgermeister und Bürgermeisterin">Sie wählen heute eine(n) neue(n) <marker>Bürgermeister/in</marker></example>
             </rule>
         </rulegroup>
-        
-        <rule id="FRAGEN" name="Leichte Sprache: Verzicht auf Fragesätze" default="off">
+        <rule id="LANGES_WORT" name="Leichte Sprache: Langes Wort">
             <pattern>
-                <token postag="SENT_END">?</token>
+                <token regexp="yes">\p{L}{14,}</token>
             </pattern>
-            <message>Vermeiden Sie Fragesätze. Verwenden Sie einfache Aussagesätze.</message>
-            <example type="incorrect" correction="">Was machen wir heute<marker>?</marker></example>
-            <example type="correct">Lass uns heute etwas machen.</example>
+            <message>Dieses Wort hat mehr als dreizehn Buchstaben. Benutzen Sie kurze Wörter.</message>
+            <example>Die Schifffahrt auf der Donau ist beliebt.</example>
+            <example correction="">Die <marker>Donaudampfschifffahrt</marker> ist beliebt.</example>
         </rule>
-    </category>
-    <!-- ====================================================================== -->
-    <!-- Stil -->
-    <!-- ====================================================================== -->
-    <category id="STYLE" name="Stil" type="style">
-        <rule id="METAPHERN" name="Leichte Sprache: Metaphern">
-            <pattern>
-                <token inflected='yes' regexp='yes'>Wiegenfest|Nahverkehr|Fernverkehr|Lichtbild|Bärendienst|Kurschatten|Mauerblümchen|Erdbeermund|Gänsehaut|Pustekuchen|Gardinenpredigt|Orangenhaut|Gipfeltreffen|Honigkuchenpferd|Rabeneltern|Stimmungskanone|Hausdrache|Gaumenschmeichler|Glückspilz|Baumkrone|Sternstunde|Warteschlange|Menschenschlange|Strohfeuer|Wüstenschiff|Zahlenfriedhof|Kaderschmiede|Zwickmühle|Augenweide|Augenschmaus|Hexenkessel|Hosenstall|Stubentiger|Couchsurfer|Lampenfieber|Rohrkrepierer|Goldmarie|Sternstunden|Helikoptereltern|Schwarzmalerei|Augenwischerei|Eselsbrücke|Kredithai|Torschlusspanik|Dreikäsehoch|Hanswurst</token>
-            </pattern>
-            <message>Verwenden Sie keine schwierigen Begriffe. Vermeiden Sie Metaphern und bildhafte Sprache.</message>
-            <short>Metaphern vermeiden</short>
-            <example>Sie haben ihm damit geschadet.</example>
-            <example correction="">Sie erwiesen ihm einen <marker>Bärendienst</marker>.</example>
-            <example correction="">Sie erwiesen ihm <marker>Bärendienste</marker>.</example>
-            <example correction="">Dafür gibt es keine <marker>Eselsbrücken</marker>.</example>
-        </rule>
-
-        <rule id="SCHWIERIGE_WOERTER" name="Leichte Sprache: schwierige Wörter">
-            <pattern>
-                <token inflected='yes' regexp='yes'>abnor.+|ambi.+|anti.+|asy.+|auth.+|biblio.+|diffizil|ge(denken|nehmigen|statten|währen)|hemi.+|hy.+|kontra.+|mono.+|neo.+|omni.+|ortho.+|poly.+|prä.+|pseudo.+|retro.+|rhy.+|semi.+|sy[mn].+|theo.*|zy.+|.+ismus|.+phobien?|.+nym|ehelichen</token>
-            </pattern>
-            <message>Verwenden Sie keine schwierigen Begriffe. Vermeiden Sie schwierige Wörter und Fremdwörter.</message>
-            <short>Schwierige Wörter vermeiden</short>
-            <example>Sie hat es ihm erlaubt.</example>
-            <example correction="">Sie hat es ihm <marker>gestattet</marker>.</example>
-            <example correction="">Eine <marker>asymmetrische</marker> Anordnung.</example>
-        </rule>
-        <rulegroup id="SCHWIERIGE_WENDUNGEN" name="Leichte Sprache: schwierige Wendungen">
+        <rulegroup id="ABKUERZUNG" name="Leichte Sprache: Abkürzung">
             <rule>
                 <pattern>
-                    <token>außen</token>
-                    <token>vor</token>
-                    <token inflected="yes">lassen</token>
+                    <token regexp="yes">\p{Lu}{2,}</token>
                 </pattern>
-                <message>Verwenden Sie keine schwierigen Wendungen.</message>
-                <example correction="">Sie hat mich <marker>außen vor gelassen</marker>.</example>
-                <example>Sie hat mich <marker>ausgeschlossen</marker>.</example>
+                <message>Abkürzung gefunden. Verzichten Sie auf Abkürzungen.</message>
+                <example>Das <marker>Köchelverzeichnis</marker> ist ein Verzeichnis der Kompositionen von Mozart.</example>
+                <example correction="">Das <marker>KV</marker> ist ein Verzeichnis der Kompositionen von Mozart.</example>
             </rule>
             <rule>
                 <pattern>
-                    <token>Kind</token>
-                    <token min="0">schon</token>
-                    <token inflected="yes">schaukeln</token>
+                    <token regexp="yes">\p{L}</token><token>.</token>
+                    <token regexp="yes">\p{L}</token><token>.</token>
+                    <token regexp="yes">\p{L}</token><token>.</token>
                 </pattern>
-                <message>Verwenden Sie keine schwierigen Wendungen.</message>
-                <example correction="">Sie wird das <marker>Kind schon schaukeln</marker>.</example>
-                <example>Sie wird es <marker>schaffen</marker>.</example>
+                <message>Abkürzung gefunden. Verzichten Sie auf Abkürzungen.</message>
+                <example>Die Sozialdemokratische Partei Deutschlands.</example>
+                <example correction="">Die <marker>S.P.D.</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">\p{L}</token>
+                    <token spacebefore="no">.</token>
+                    <token regexp="yes">\p{L}</token>
+                    <token spacebefore="no">.</token>
+                </pattern>
+                <message>Abkürzung gefunden. Verzichten Sie auf Abkürzungen.</message>
+                <example correction="">Der Tiger ist <marker>z. B.</marker> ein Tier.</example>
+                <example correction="">Er ist krank, <marker>d. h.</marker> er kann nicht kommen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">Tel|Temp|trans|Tsd|übertr|übl|ff|überarb|ugs|univ|unveränd|urspr|usw|vgl|Vol|vollst|vorm|etc|Vp|Vs|vs|wesentl|wg|Hd|Ztr|zus|Zus|zzt?|zzgl|Zz|Zt|Min|Bzgl|bzgl|bezügl|Frhr|ggfs|insb|autom|MwSt|hebr|hg|hl|Hg|hist|hochd|hochspr|Hptst|Hr|hrsg|Allg|ill|inkl|incl|Ind|Inf|Ing|ital|Tr|jap|Jb|Jg|Jhd?|Jhdts?|jmdm?|jmdn|jmds|jur|Kap|kart|kath|kaufm|Kfm|kgl|Kl|Konj|königl|Krs|Kr|Kto|bzw</token>
+                    <token spacebefore="no">.</token>
+                </pattern>
+                <message>Abkürzung gefunden. Verzichten Sie auf Abkürzungen.</message>
+                <example correction="">Das ist <marker>Hr.</marker> Meier.</example>
+                <example>Das ist Herr <marker>Meier</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag_regexp="yes" postag="ABK:.*"><exception regexp="yes">\p{L}</exception></token>
+                </pattern>
+                <message>Abkürzung gefunden. Verzichten Sie auf Abkürzungen.</message>
+                <example>Wir brauchen Milch, Eier <marker>und so weiter</marker>.</example>
+                <example correction="">Wir brauchen Milch, Eier <marker>usw</marker>.</example>
             </rule>
         </rulegroup>
     </category>
