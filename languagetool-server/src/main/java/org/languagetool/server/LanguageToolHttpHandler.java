@@ -287,6 +287,10 @@ class LanguageToolHttpHandler implements HttpHandler {
     if (text != null) {
       message += "text length: " + text.length() + ", ";
     }
+    message += "m: " + ServerTools.getMode(params) + ", ";
+    if (params.containsKey("instanceId")) {
+      message += "iID: " + params.get("instanceId") + ", ";
+    }
     if (logStacktrace) {
       message += "Stacktrace follows:";
       message += ExceptionUtils.getStackTrace(e);
