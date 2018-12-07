@@ -48,39 +48,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Er behauptet, dass sie die Tat verschwiegen hat.</example>
         </rule>
 
-        <rule id="METAPHERN" name="Leichte Sprache: Metaphern">
-            <pattern>
-                <token inflected='yes' regexp='yes'>Wiegenfest|Nahverkehr|Fernverkehr|Lichtbild|Bärendienst|Kurschatten|Mauerblümchen|Erdbeermund|Gänsehaut|Pustekuchen|Gardinenpredigt|Orangenhaut|Gipfeltreffen|Honigkuchenpferd|Rabeneltern|Stimmungskanone|Hausdrache|Gaumenschmeichler|Glückspilz|Baumkrone|Sternstunde|Warteschlange|Menschenschlange|Strohfeuer|Wüstenschiff|Zahlenfriedhof|Kaderschmiede|Zwickmühle|Augenweide|Augenschmaus|Hexenkessel|Hosenstall|Stubentiger|Couchsurfer|Lampenfieber|Rohrkrepierer|Hanswurst|Goldmarie|Sternstunden|Helikoptereltern|Schwarzmalerei|Augenwischerei|Eselsbrücke|Kredithai|Torschlusspanik|Dreikäsehoch|Hanswurst</token>
-            </pattern>
-            <message>Verwenden Sie keine schwierigen Begriffe. Vermeiden Sie Metaphern und bildhafte Sprache.</message>
-            <short>Metaphern vermeiden</short>
-            <example>Sie haben ihm damit geschadet.</example>
-            <example correction="">Sie erwiesen ihm einen <marker>Bärendienst</marker>.</example>
-            <example correction="">Sie erwiesen ihm <marker>Bärendienste</marker>.</example>
-            <example correction="">Dafür gibt es keine <marker>Eselsbrücken</marker>.</example>
-        </rule>
-
-        <rule id="SCHWIERIGE_WOERTER" name="Leichte Sprache: schwierige Wörter">
-            <pattern>
-                <token inflected='yes' regexp='yes'>abnor+|ambi.+|anti.+|asy.+|auth.+|biblio.+|diffizil|ge(nehmigen|statten)|hemi.+|hy.+|kontra.+|mono.+|neo.+|omni.+|ortho.+|poly.+|prä.+|pseudo.+|retro.+|rhy.+|semi.+|sy[mn].+|theo.*|zy.+|.+ismus|.+phobien?|.+nym</token>
-            </pattern>
-            <message>Verwenden Sie keine schwierigen Begriffe. Vermeiden Sie schwierige Wörter und Fremdwörter.</message>
-            <short>Schwierige Wörter vermeiden</short>
-            <example>Sie hat es ihm erlaubt.</example>
-            <example correction="">Sie hat es ihm <marker>gestattet</marker>.</example>
-            <example correction="">Eine <marker>asymmetrische</marker> Anordnung.</example>
-        </rule>
-        <rule id="AUSSEN_VOR_LASSEN" name="außen vor lassen">
-            <pattern>
-                <token>außen</token>
-                <token>vor</token>
-                <token inflected="yes">lassen</token>
-            </pattern>
-            <message>Verwenden Sie keine schwierigen Wendungen.</message>
-            <example correction="">Sie hat mich <marker>außen vor gelassen</marker>.</example>
-            <example>Sie hat mich <marker>ausgeschlossen</marker>.</example>
-        </rule>
-
         <rule id="FUSSNOTE" name="Leichte Sprache: Fußnote">
             <pattern>
                 <token regexp='yes'>.*[¹²³]</token>
@@ -960,13 +927,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
         <rulegroup id="ZAHLEN" name="Leichte Sprache: Zahlen und Jahreszahlen">
             <rule>
+                <antipattern>
+                    <token regexp="yes">bis|im|zum</token>
+                    <token regexp="yes" inflected="yes">Jahr|Januar|Februar|März|April|Mai|Ju[nl]i|August|September|Oktober|November|Dezember</token>
+                    <token spacebefore="yes" regexp="yes">\p{N}{3,}</token>
+                </antipattern>
                 <pattern>
-                    <token spacebefore="yes" regexp="yes">\p{N}{3,}<exception scope="previous" inflected="yes">Jahr</exception></token>
+                    <token spacebefore="yes" regexp="yes">\p{N}{3,}</token>
                 </pattern>
                 <message>Hohe Zahl gefunden. Vermeiden Sie hohe Zahlen.</message>
                 <example>Sehr viele Menschen</example>
                 <example correction="">Bis zu <marker>100000</marker> Menschen</example>
                 <example>Das erste Weltkrieg hat im Jahr <marker>1914</marker> begonnen.</example>
+                <example>Im März <marker>1914</marker> hat es begonnen.</example>
             </rule>
             <rule>
                 <pattern>
@@ -1110,7 +1083,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token regexp="yes">\p{N}+</token>
                     <token spacebefore="no">.</token>
-                    <token regexp="yes">(Januar|Februar|März|April|Mai|Juni|Juli|August|September|Oktober|November|Dezember)</token>
+                    <token regexp="yes">(Januar|Februar|März|April|Mai|Ju[nl]i|August|September|Oktober|November|Dezember)</token>
                 </pattern>
                 <message>Datum mit Monatsnamen gefunden. Fragen Sie die Prüfer und Prüferinnen: Wie sollen Sie ein Datum schreiben?</message>
                 <example>Am 31.1. geht es los.</example>
@@ -1193,5 +1166,54 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example type="incorrect" correction="">Was machen wir heute<marker>?</marker></example>
             <example type="correct">Lass uns heute etwas machen.</example>
         </rule>
+    </category>
+    <!-- ====================================================================== -->
+    <!-- Stil -->
+    <!-- ====================================================================== -->
+    <category id="STYLE" name="Stil" type="style">
+        <rule id="METAPHERN" name="Leichte Sprache: Metaphern">
+            <pattern>
+                <token inflected='yes' regexp='yes'>Wiegenfest|Nahverkehr|Fernverkehr|Lichtbild|Bärendienst|Kurschatten|Mauerblümchen|Erdbeermund|Gänsehaut|Pustekuchen|Gardinenpredigt|Orangenhaut|Gipfeltreffen|Honigkuchenpferd|Rabeneltern|Stimmungskanone|Hausdrache|Gaumenschmeichler|Glückspilz|Baumkrone|Sternstunde|Warteschlange|Menschenschlange|Strohfeuer|Wüstenschiff|Zahlenfriedhof|Kaderschmiede|Zwickmühle|Augenweide|Augenschmaus|Hexenkessel|Hosenstall|Stubentiger|Couchsurfer|Lampenfieber|Rohrkrepierer|Goldmarie|Sternstunden|Helikoptereltern|Schwarzmalerei|Augenwischerei|Eselsbrücke|Kredithai|Torschlusspanik|Dreikäsehoch|Hanswurst</token>
+            </pattern>
+            <message>Verwenden Sie keine schwierigen Begriffe. Vermeiden Sie Metaphern und bildhafte Sprache.</message>
+            <short>Metaphern vermeiden</short>
+            <example>Sie haben ihm damit geschadet.</example>
+            <example correction="">Sie erwiesen ihm einen <marker>Bärendienst</marker>.</example>
+            <example correction="">Sie erwiesen ihm <marker>Bärendienste</marker>.</example>
+            <example correction="">Dafür gibt es keine <marker>Eselsbrücken</marker>.</example>
+        </rule>
+
+        <rule id="SCHWIERIGE_WOERTER" name="Leichte Sprache: schwierige Wörter">
+            <pattern>
+                <token inflected='yes' regexp='yes'>abnor.+|ambi.+|anti.+|asy.+|auth.+|biblio.+|diffizil|ge(denken|nehmigen|statten|währen)|hemi.+|hy.+|kontra.+|mono.+|neo.+|omni.+|ortho.+|poly.+|prä.+|pseudo.+|retro.+|rhy.+|semi.+|sy[mn].+|theo.*|zy.+|.+ismus|.+phobien?|.+nym</token>
+            </pattern>
+            <message>Verwenden Sie keine schwierigen Begriffe. Vermeiden Sie schwierige Wörter und Fremdwörter.</message>
+            <short>Schwierige Wörter vermeiden</short>
+            <example>Sie hat es ihm erlaubt.</example>
+            <example correction="">Sie hat es ihm <marker>gestattet</marker>.</example>
+            <example correction="">Eine <marker>asymmetrische</marker> Anordnung.</example>
+        </rule>
+        <rulegroup id="SCHWIERIGE_WENDUNGEN" name="Leichte Sprache: schwierige Wendungen">
+            <rule>
+                <pattern>
+                    <token>außen</token>
+                    <token>vor</token>
+                    <token inflected="yes">lassen</token>
+                </pattern>
+                <message>Verwenden Sie keine schwierigen Wendungen.</message>
+                <example correction="">Sie hat mich <marker>außen vor gelassen</marker>.</example>
+                <example>Sie hat mich <marker>ausgeschlossen</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>Kind</token>
+                    <token min="0">schon</token>
+                    <token inflected="yes">schaukeln</token>
+                </pattern>
+                <message>Verwenden Sie keine schwierigen Wendungen.</message>
+                <example correction="">Sie wird das <marker>Kind schon schaukeln</marker>.</example>
+                <example>Sie wird es <marker>schaffen</marker>.</example>
+            </rule>
+        </rulegroup>
     </category>
 </rules>
