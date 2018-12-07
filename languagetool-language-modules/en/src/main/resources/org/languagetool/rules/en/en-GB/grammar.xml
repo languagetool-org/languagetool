@@ -287,12 +287,8 @@ USA
                 <token postag_regexp="yes" postag="NNPS?"/>
                 <token postag_regexp="yes" postag="NNPS?"/>
             </antipattern>
-<!-- TODO
-adverbs ~isationally
-nouns ~isement
-adjectives ~isable
-adjectives ~ised
--->         <rule id="OXFORD_SPELLING_ISATION_NOUNS" name="Oxford spelling of nouns (~ization not ~isation), **but not CAPITALISATIONS of nouns**">
+<!-- TODO nouns  iser ~isement ision isability [universalisability] -->
+            <rule id="OXFORD_SPELLING_ISATION_NOUNS" name="Oxford spelling of nouns (~ization not ~isation), **but not CAPITALISATIONS of nouns**">
             <!-- For the suggestion, regexp_match and regexp_replace are sufficient. The token finds an ~isation noun that has a singular or plural postag. If the ~isation word has a postag, then the ~ization word should have that postag. (Possibly, the pairs of words are used differently in different locales, and thus they have different postags.) -->
                 <pattern>
                     <token postag_regexp="yes" postag="NN(:UN?)?|NNS" inflected="yes" regexp="yes">([a-z]+?-?[a-z]+?)isations?<exception regexp="yes">(?-i)[A-Z-]+</exception><!-- The NNP exception is for proper nouns such as company names.-->
@@ -344,6 +340,38 @@ adjectives ~ised
                 <example>All ~ise-only verbs are in an exception. As a fail-safe test, keep this list of inflections that previously caused incorrect warnings: alias [aliased], arise [arose], porpoise [aviation slang], trellis [VBZ = trellises]</example>
                 <example>These rare/obsolete ~ise-only verbs have no postag: annalise, bepraise, debruise, disseise, grandise, grise, hoise, marmalise, misprise, remise, re-rise, rerise, seise, sensibilise, unpromise, </example>
                 <example><marker>recentralise</marker> is not found because suppress_misspelled="yes". 'Recentralize' has no pos.</example><!-- TODO: get a more obscure example as a test. -->
+            </rule>
+            <rule id="OXFORD_SPELLING_ADJECTIVES" name="Oxford spelling of adjectives (~iz not ~is), **but not adjectives in CAPITALS**"><!-- ~isable, ~isational, ~ised, ~ising -->
+                <pattern>
+                    <token postag="JJ" regexp="yes">([a-z]+?-?[a-z]+?)is(able|ational|ed|ing)<exception regexp="yes">(?-i)[A-Z-]+</exception>
+                    <exception regexp="yes">advisable|hair-raising|ill-advised|improvisational|inadvisable|memorisable|self-advertising</exception><!-- These adjectives are always ~is. Some adjectives are ~isible (divisible, indivisible, invisible), but I did not find ~isible adjectives that are also spelled ~izible.-->
+                    <exception regexp="yes">(un)?(advis|bruis|circumcis|compromis|devis|(dis)?enfranchis|disguis|enterpris|excis|exercis|franchis|immunocompromis|improvis|incis|noncompromis|pois|practis|promis|rais|recognis|revis|supervis|surpris|televis)(ed|ing)</exception></token><!-- These words (adjectives/past participle adjectives/verbs are always ~is. Some words such as 'excised' do not have the postag JJ, but in some contexts, disambiguation DT_VBN_JJ gives the postag JJ to the VBN word (also, other rules do similarly). Possibly, some un* words do not exist, but that is not a problem. -->
+                </pattern>
+                <message>Use the Oxford spelling '<suggestion><match no="1" suppress_misspelled="yes" regexp_match="([a-z]+?-?[a-z]+?)is(able|ational|ed|ing)" regexp_replace="$1iz$2"/></suggestion>', except in proper names.</message>
+                <short>Oxford spelling: adjectives</short>
+                <example correction="magnetizable">The adjective '<marker>magnetisable</marker>' is not the Oxford spelling.</example>
+                <example correction="Magnetizable">The adjective '<marker>Magnetisable</marker>' is not the Oxford spelling.</example>
+                <example correction="organizational">Her <marker>organisational</marker> ability is good.</example>
+                <example correction="randomized">These <marker>randomised</marker> controlled trials are...</example>
+                <example correction="unappetizing">This food is <marker>unappetising</marker>.</example>
+                <example>The word '<marker>magnetizable</marker>' is the Oxford spelling.</example>
+                <example>'<marker>MAGNETISABLE</marker>. All capitalised adjectives are out of scope because the suggestion is ~is.</example>
+                <example>...as a parody of modern DJs' own soundbites and <marker>self-advertising</marker> pieces.</example>
+                <example>These words are always spelled with ~s: advisable, advised, bruised, circumcised, compromised, disenfranchised, divisible, excised, franchised, immunocompromised, improvised, inadvisable, incised, indivisible, invisible, memorisable, noncompromised, poised, practised, promised, raised, revised, surprised, televised, uncircumcised, unenfranchised, unrevised, unsupervised, unsurprised. Enterprising, excising, incising, noncompromising, promising, surprising, uncompromising, unsurprising</example>
+                <example>For information about the <marker>Conference of Specialised Ministers</marker> refer to www.coe.int/en/web/cm/iguide-chapter6</example><!-- Refer to disambiguation.xml CONFERENCE_OF_SPECIALISED_MINISTERS -->
+            </rule>
+            <rule id="OXFORD_SPELLING_ADVERBS" name="Oxford spelling of adverbs (~iz not ~is), **but not adverbs in CAPITALS**"><!-- ~isably, ~isationally) -->
+                <pattern>
+                    <token postag="RB" regexp="yes">([a-z]+?-?[a-z]+?)is(ably|ationally)<exception regexp="yes">(?-i)[A-Z-]+</exception>
+                    <exception regexp="yes">(in)?advisably</exception></token><!-- These adverbs are always ~is.-->
+                </pattern>
+                <message>Use the Oxford spelling '<suggestion><match no="1" suppress_misspelled="yes" regexp_match="([a-z]+?-?[a-z]+?)is(ably|ationally)" regexp_replace="$1iz$2"/></suggestion>', except in proper names.</message>
+                <short>Oxford spelling: adverbs</short>
+                <example correction="organizationally">The adverb '<marker>organisationally</marker>' is not the Oxford spelling.</example>
+                <example correction="Organizationally">The adverb '<marker>Organisationally</marker>' is not the Oxford spelling.</example>
+                <example>The word '<marker>organizationally</marker>' is the Oxford spelling.</example>
+                <example>Not an adverb in standard English: ...he came to an opening, choked with timbers and bars of iron; <marker>surmisably</marker> the front portal at present in disuse.</example>
+                <example>'<marker>ORGANISATIONALLY</marker>. All capitalised adjectives are out of scope because the suggestion is ~is.</example>
             </rule>
          </rulegroup>
     </category>
