@@ -396,7 +396,6 @@ public class PatternRuleTest extends AbstractPatternRuleTest{
           System.err.println("WARN: " + lang.getShortCode() + ": '" + badSentence + "' in "
                   + rule.getId() + " also matched " + match.getRule().getId());
       }*/
-
     }
   }
 

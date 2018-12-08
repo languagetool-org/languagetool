@@ -454,7 +454,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token>aller</token>
                 </marker>
-                <token regexp="yes">\d</token>
+                <token regexp="yes">\d|zwei|drei|vier|fünf|sechs|sieben|acht|neun|zehn|elf|zwölf</token>
                 <token regexp="yes">&zeiteinheitenplu;</token>
             </pattern>
             <message>Meinten Sie <suggestion>alle</suggestion>?</message>
@@ -1080,15 +1080,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Meinten Sie <suggestion>war</suggestion>?</message>
             <example correction="war">Ich <marker>was</marker> ein Idiot.</example>
             <example>Ich fand die Idee gut, <marker>was</marker> ein Fehler war.</example>
-        </rule>
-        <rule id="VIELLEICHT" name="viel leicht (vielleicht)">
-            <pattern>
-                <token>viel</token>
-                <token>leicht</token>
-            </pattern>
-            <message>Meinten Sie <suggestion>vielleicht</suggestion>?</message>
-            <example correction='Vielleicht'><marker>Viel leicht</marker> kann er es besser.</example>
-            <example>Das ist vielleicht ihre beste Arbeit.</example>
         </rule>
         <rule id="ETWAS_ZAHL" name="'etwas (etwa) [Zahl]'">
             <pattern>
@@ -4271,16 +4262,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <message>Meinten Sie <suggestion><match no="2" regexp_match="(&wochentage;)e" regexp_replace="$1"/></suggestion>?</message>
             <example correction="Dienstag">Fangen wir doch ab <marker>Dienstage</marker> damit an.</example>
-        </rule>
-        <rule id="ANS_ARTRPRO" name="ans (an)">
-            <pattern>
-                <marker>
-                    <token>ans</token>
-                </marker>
-                <token postag="(ART|PRO):.*" postag_regexp="yes"/>
-            </pattern>
-            <message>Meinten Sie <suggestion>an</suggestion>?</message>
-            <example correction="an">Gehen wir konservativ <marker>ans</marker> die Sache.</example>
         </rule>
         <rule id="VERZINNST" name="'verzinnst' statt 'verzinst'">
             <pattern>
@@ -8701,14 +8682,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="umso|desto">Je größer, <marker>um so</marker> besser.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="VIEL_LEICHT_PLUS_VERB" name="'Viel leicht (vielleicht) ist' etc.">
+        <rulegroup id="VIEL_LEICHT" name="'Viel leicht (vielleicht) ist' etc.">
             <rule>
                 <pattern>
                     <marker>
                         <token>viel</token>
                         <token>leicht</token>
                     </marker>
-                    <token postag="VER:(AUX:|MOD:)?(1|2|3):.+" postag_regexp="yes"/>
+                    <!--token postag="VER:(AUX:|MOD:)?(1|2|3):.+" postag_regexp="yes"/ -->
                 </pattern>
                 <message>&getrennt;: Meinten Sie das Adverb <suggestion>\1\2</suggestion>?</message>
                 <short>&getrennt;.</short>
@@ -16695,53 +16676,44 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="IM_KLAREN" name="'im klaren (Klaren)'">
-            <url>http://www.korrekturen.de/wortliste/im_klaren.shtml</url>
             <rule>
+                <antipattern case_sensitive="yes">
+                    <token regexp="yes">[iI]m</token>
+                    <token regexp="yes">wesentlichen|voraus|ungewissen|speziellen|klaren|guten|ganzen|dunkeln|argen|besonderen|übrigen|trüben</token>
+                    <token postag="ADV:.+" postag_regexp="yes"><exception postag="ZUS"/></token>
+                </antipattern>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">[Ii]m</token>
+                    <token regexp="yes">[iI]m</token>
                     <marker>
-                        <token>klaren</token>
+                        <token regexp="yes">wesentlichen|voraus|ungewissen|speziellen|klaren|guten|ganzen|dunkeln|argen|besonderen|übrigen|trüben</token>
                     </marker>
-                    <token postag="SENT_END"/>
+                    <token><exception postag="(SUB|ADJ|EIG):.*" postag_regexp="yes"/></token>
                 </pattern>
-                <message>&inwend;'sich im Klaren sein' wird <suggestion>Klaren</suggestion> großgeschrieben.</message>
+                <message>&inwend;'im <match case_conversion="startupper" no="2"/>' wird <suggestion><match case_conversion="startupper" no="2"/></suggestion> in der Regel großgeschrieben.</message>
+                <url>https://www.korrekturen.de/wortliste/i/</url>
                 <short>&prgk;.</short>
-                <example correction="Klaren">Sie ist sich darüber überhaupt nicht im <marker>klaren</marker>.</example>
-                <example>Sie ist sich darüber nicht im <marker>Klaren</marker>.</example>
-                <example>Im <marker>klaren</marker> Wasser ist nichts zu sehen.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token regexp="yes" skip="1">sich|[dm]ir|uns|euch</token>
-                    <token>im</token>
-                    <marker>
-                        <token skip="1" case_sensitive="yes">klaren</token>
-                    </marker>
-                    <token inflected="yes" postag="VER.*" postag_regexp="yes">sein</token>
-                </pattern>
-                <message>&inwend;'sich im Klaren sein' wird <suggestion>Klaren</suggestion> großgeschrieben.</message>
-                <short>&prgk;.</short>
-                <example correction="Klaren">Man sollte sich darüber im <marker>klaren</marker> sein.</example>
-                <example correction="Klaren">Ich frage mich, ob ich mir darüber im <marker>klaren</marker> bin.</example>
-                <example>Sich im <marker>klaren</marker> Wasser zu baden ist schön.</example>
-            </rule>
-            <rule>
-                <pattern case_sensitive="yes">
-                    <token inflected="yes" postag="VER.*" postag_regexp="yes" skip="1">sein</token>
-                    <token regexp="yes" skip="1">sich|[dm]ir|uns|euch</token>
-                    <token>im</token>
-                    <marker>
-                        <token>klaren</token>
-                    </marker>
-                    <token regexp="yes">darüber|,</token>
-                </pattern>
-                <message>&inwend;'sich im Klaren sein' wird <suggestion>Klaren</suggestion> großgeschrieben.</message>
-                <short>&prgk;.</short>
+                <example correction="Voraus">Bezahlung bitte im <marker>voraus</marker>!</example>
+                <example correction="Wesentlichen">Gurken bestehen im <marker>wesentlichen</marker> aus Wasser.</example>
+                <example correction="Ungewissen">Sie ließ ihn im <marker>ungewissen</marker>.</example>
+                <example correction="Dunkeln">Sie fürchtet sich im <marker>dunkeln</marker>.</example>
+                <example correction="Argen">Hier liegt etwas im <marker>argen</marker>.</example>
+                <example correction="Trüben">Er fischt im <marker>trüben</marker>.</example>
+                <example>Im <marker>speziellen</marker> Fall rate davon ab.</example>
+                <example>Er war im <marker>ganzen</marker> damals bekannten Mittelmeerraum bekannt.</example>
+                <example>Er war im <marker>ganzen</marker> antiken Europa bekannt.</example>
+                <example correction="Wesentlichen">Wir gehen im <marker>wesentlichen</marker> vor wie im Skript.</example>
+                <example>In der sowjetischen Besatzungszone und Berlin dauerte die Sommerzeit 1945 zwei Monate länger als im übrigen Deutschland.</example>
                 <example correction="Klaren">Bin ich mir im <marker>klaren</marker> darüber?</example>
                 <example correction="Klaren">Wir sind uns im <marker>klaren</marker>, was das bedeutet.</example>
                 <example correction="Klaren">Ich bin mir nicht im <marker>klaren</marker> darüber.</example>
                 <example correction="Klaren">Warum seid ihr euch im <marker>klaren</marker> darüber, dass das nicht gut ist?</example>
                 <example>Bin ich dir im <marker>klaren</marker> Wasser begegnet?</example>
+                <example correction="Klaren">Man sollte sich darüber im <marker>klaren</marker> sein.</example>
+                <example correction="Klaren">Ich frage mich, ob ich mir darüber im <marker>klaren</marker> bin.</example>
+                <example>Sich im <marker>klaren</marker> Wasser zu baden ist schön.</example>
+                <example correction="Klaren">Sie ist sich darüber überhaupt nicht im <marker>klaren</marker>.</example>
+                <example>Sie ist sich darüber nicht im <marker>Klaren</marker>.</example>
+                <example>Im <marker>klaren</marker> Wasser ist nichts zu sehen.</example>
             </rule>
         </rulegroup>
         <rulegroup id="LINKS_ADV" name="'Links (links)'">
@@ -24660,34 +24632,6 @@ Andere Projekte</example>
                 <example correction="Probe">Du stellst meine Geduld auf eine harte <marker>probe</marker>.</example>
             </rule>
         </rulegroup>
-        <rule id="IM_VORAUS" name="'im voraus (Voraus)'">
-            <antipattern case_sensitive="yes">
-                <token regexp="yes">[iI]m</token>
-                <token regexp="yes">wesentlichen|voraus|ungewissen|speziellen|klaren|guten|ganzen|dunkeln|argen|besonderen|übrigen|trüben</token>
-                <token postag="ADV:.+" postag_regexp="yes"><exception postag="ZUS"/></token>
-            </antipattern>
-            <pattern case_sensitive="yes">
-                <token regexp="yes">[iI]m</token>
-                <marker>
-                    <token regexp="yes">wesentlichen|voraus|ungewissen|speziellen|klaren|guten|ganzen|dunkeln|argen|besonderen|übrigen|trüben</token>
-                </marker>
-                <token><exception postag="(SUB|ADJ|EIG):.*" postag_regexp="yes"/></token>
-            </pattern>
-            <message>&inwend;'im <match case_conversion="startupper" no="2"/>' wird <suggestion><match case_conversion="startupper" no="2"/></suggestion> in der Regel großgeschrieben.</message>
-            <url>https://www.korrekturen.de/wortliste/i/</url>
-            <short>&prgk;.</short>
-            <example correction="Voraus">Bezahlung bitte im <marker>voraus</marker>!</example>
-            <example correction="Wesentlichen">Gurken bestehen im <marker>wesentlichen</marker> aus Wasser.</example>
-            <example correction="Ungewissen">Sie ließ ihn im <marker>ungewissen</marker>.</example>
-            <example correction="Dunkeln">Sie fürchtet sich im <marker>dunkeln</marker>.</example>
-            <example correction="Argen">Hier liegt etwas im <marker>argen</marker>.</example>
-            <example correction="Trüben">Er fischt im <marker>trüben</marker>.</example>
-            <example>Im <marker>speziellen</marker> Fall rate davon ab.</example>
-            <example>Er war im <marker>ganzen</marker> damals bekannten Mittelmeerraum bekannt.</example>
-            <example>Er war im <marker>ganzen</marker> antiken Europa bekannt.</example>
-            <example correction="Wesentlichen">Wir gehen im <marker>wesentlichen</marker> vor wie im Skript.</example>
-            <example>In der sowjetischen Besatzungszone und Berlin dauerte die Sommerzeit 1945 zwei Monate länger als im übrigen Deutschland.</example>
-        </rule>
         <rule id="IM_GROSSEN_UND_GANZEN" name="'im großen und ganzen (Großen und Ganzen)'">
             <antipattern case_sensitive="yes">
                 <token>Großen</token>
@@ -30234,6 +30178,7 @@ Andere Projekte</example>
                 <example>Ins eine Ohr hinein und durchs andere heraus!</example>
                 <example correction="Zu dem"><marker>Zum dem</marker> Bild möchte ich mich nicht äußern.</example>
                 <example>Er entschied sich, beim alles entscheidenden Punkt anzusetzen.</example>
+                <example correction="an die">Gehen wir konservativ <marker>ans die</marker> Sache heran.</example>
             </rule>
             <rule>
                 <pattern>
@@ -30744,103 +30689,6 @@ Andere Projekte</example>
                 <message>Prüfen Sie, ob hier <suggestion>dass</suggestion> stehen sollte!</message>
                 <example correction="dass">Sie wusste <marker>das</marker> er das schafft.</example>
                 <example>Das Gesicht, das ihm das Leben gegeben hat.</example>
-            </rule>
-        </rulegroup>
-        <rulegroup id="BEI_OHNE_DATIV" name="'bei/entsprechend/...' ohne Dativ">
-            <rule>
-                <pattern>
-                    <token regexp="yes">bei|entsprechend|gemäß|entgegen|nahe</token>
-                    <marker>
-                        <token regexp="yes">[dkms]eine|unsere|eue?re|ihre</token>
-                    </marker>
-                    <!-- TODO: in den marker, sobald wir einen synthesizer haben: -->
-                    <token min="0" postag_regexp="yes" postag=".*ADJ.*"/>
-                    <token postag=".*SUB.*SIN.*" postag_regexp="yes"/>
-                </pattern>
-                <message>Meinten Sie <suggestion><match no="2"/>r</suggestion> + Dativ?</message>
-                <example correction="meiner">Bei <marker>meine</marker> Ankunft.</example>
-                <example correction="meiner">Entsprechend <marker>meine</marker> Laune.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token regexp="yes">bei|entsprechend|gemäß|entgegen|nahe</token>
-                    <marker>
-                        <token regexp="yes">mein|dein|sein|unser|euer</token>
-                    </marker>
-                    <!-- TODO: in den marker, sobald wir einen synthesizer haben: -->
-                    <token min="0" postag_regexp="yes" postag=".*ADJ.*"/>
-                    <token postag=".*SUB.*SIN.*" postag_regexp="yes"/>
-                </pattern>
-                <!-- TODO: 'eurem' wäre eine bessere Korrektur -->
-                <message>Meinten Sie <suggestion><match no="2"/>em</suggestion> + Dativ?</message>
-                <example>Bei meinem schönen Haus.</example>
-                <example>Er sucht bei ihr Rat wegen der Abendgarderobe.</example>
-                <example correction="meinem">Bei <marker>mein</marker> Haus.</example>
-                <example correction="meinem">Bei <marker>mein</marker> schönes Haus.</example>
-                <example correction="meinem">Dosis entsprechend <marker>mein</marker> Zustand angepasst.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token regexp="yes">bei|ent(sprechend|gegen)|gemäß|nahe</token>
-                    <marker>
-                        <token regexp="yes">[dms]eine|unsere|eue?re|ihre</token>
-                    </marker>
-                    <!-- TODO: in den marker, sobald wir einen synthesizer haben: -->
-                    <token min="0" postag_regexp="yes" postag=".*ADJ.*"/>
-                    <token postag=".*SUB.*PLU.*" postag_regexp="yes"/>
-                </pattern>
-                <!-- TODO: braucht synthesizer für gute Vorschläge: -->
-                <message>Meinten Sie <suggestion><match no="2"/>n</suggestion> + Dativ?</message>
-                <example>Bei meinen Häusern.</example>
-                <example>Bei meinen alten Häusern.</example>
-                <example>Entsprechend meiner Empfehlungen.</example>
-                <example correction="meinen">Bei <marker>meine</marker> Häuser.</example>
-                <example correction="meinen">Bei <marker>meine</marker> alten Häuser.</example>
-                <example correction="meinen">Bei <marker>meine</marker> Tassen.</example>
-                <example correction="meinen">Bei <marker>meine</marker> großen Tassen.</example>
-                <example correction="meinen">Entsprechend <marker>meine</marker> Empfehlungen.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token regexp="yes">bei|ent(sprechend|gegen)|gemäß|nahe</token>
-                    <marker>
-                        <token>des</token>
-                        <token min="0" postag_regexp="yes" postag=".*ADJ.*"/>
-                        <token postag="SUB:.*:SIN.*" postag_regexp="yes"/>
-                    </marker>
-                </pattern>
-                <message>Standardsprachlich benötigt die Präposition '\1' den Dativ.</message>
-                <suggestion>dem \3 <match no="4" postag="SUB:DAT:SIN:.*" postag_regexp="yes"/></suggestion>
-                <example correction="dem Haus|dem Hause">Nahe <marker>des Hauses</marker> befindet sich ein Parkplatz.</example>
-                <example correction="dem großen Haus|dem großen Hause">Nahe <marker>des großen Hauses</marker> befindet sich ein Parkplatz.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token regexp="yes">bei|ent(sprechend|gegen)|gemäß|nahe</token>
-                    <marker>
-                        <token>eines</token>
-                        <token min="0" postag_regexp="yes" postag=".*ADJ.*"/>
-                        <token postag="SUB:.*:SIN.*" postag_regexp="yes"/>
-                    </marker>
-                </pattern>
-                <message>Standardsprachlich benötigt die Präposition '\1' den Dativ.</message>
-                <suggestion>einem \3 <match no="4" postag="SUB:DAT:SIN.*" postag_regexp="yes"/></suggestion>
-                <example correction="einem Haus|einem Hause">Nahe <marker>eines Hauses</marker> befindet sich der Parkplatz.</example>
-                <example correction="einem einsamen Haus|einem einsamen Hause">Nahe <marker>eines einsamen Hauses</marker> befindet sich die Schlucht.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token regexp="yes">seit|ab|nach|vor</token>
-                    <marker>
-                        <token>den</token>
-                    </marker>
-                    <token regexp="yes">\d{1,2}</token>
-                    <token spacebefore="no">.</token>
-                </pattern>
-                <message>Meinten Sie <suggestion>dem</suggestion>?</message>
-                <example correction="dem">Seit <marker>den</marker> 13. Jahrhundert existiert diese Tradition.</example>
-                <example correction="dem">Wir haben ab <marker>den</marker> 15. Februar geöffnet.</example>
-                <example >Wir haben uns für <marker>den</marker> 15. Februar verabredet.</example>
             </rule>
         </rulegroup>
         <rule id="WIDER_BESSEREN_WISSENS" name="'wider besseren Wissens (wider besseres Wissen)'">
@@ -31615,6 +31463,101 @@ Andere Projekte</example>
                 <message>Die Präposition '\1' erfordert in der Regel den Dativ: <suggestion><match no="2" regexp_match="n$" regexp_replace="m"/></suggestion></message>
                 <example correction="keinem">Sie sprach mit <marker>keinen</marker> der Ärzte.</example>
                 <example correction="niemandem">Sie spricht mit <marker>niemanden</marker>!</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">bei|entsprechend|gemäß|entgegen|nahe</token>
+                    <marker>
+                        <token regexp="yes">[dkms]eine|unsere|eue?re|ihre</token>
+                    </marker>
+                    <!-- TODO: in den marker, sobald wir einen synthesizer haben: -->
+                    <token min="0" postag_regexp="yes" postag=".*ADJ.*"/>
+                    <token postag=".*SUB.*SIN.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Meinten Sie <suggestion><match no="2"/>r</suggestion> + Dativ?</message>
+                <example correction="meiner">Bei <marker>meine</marker> Ankunft.</example>
+                <example correction="meiner">Entsprechend <marker>meine</marker> Laune.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">bei|entsprechend|gemäß|entgegen|nahe</token>
+                    <marker>
+                        <token regexp="yes">mein|dein|sein|unser|euer</token>
+                    </marker>
+                    <!-- TODO: in den marker, sobald wir einen synthesizer haben: -->
+                    <token min="0" postag_regexp="yes" postag=".*ADJ.*"/>
+                    <token postag=".*SUB.*SIN.*" postag_regexp="yes"/>
+                </pattern>
+                <!-- TODO: 'eurem' wäre eine bessere Korrektur -->
+                <message>Meinten Sie <suggestion><match no="2"/>em</suggestion> + Dativ?</message>
+                <example>Bei meinem schönen Haus.</example>
+                <example>Er sucht bei ihr Rat wegen der Abendgarderobe.</example>
+                <example correction="meinem">Bei <marker>mein</marker> Haus.</example>
+                <example correction="meinem">Bei <marker>mein</marker> schönes Haus.</example>
+                <example correction="meinem">Dosis entsprechend <marker>mein</marker> Zustand angepasst.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">bei|ent(sprechend|gegen)|gemäß|nahe</token>
+                    <marker>
+                        <token regexp="yes">[dms]eine|unsere|eue?re|ihre</token>
+                    </marker>
+                    <!-- TODO: in den marker, sobald wir einen synthesizer haben: -->
+                    <token min="0" postag_regexp="yes" postag=".*ADJ.*"/>
+                    <token postag=".*SUB.*PLU.*" postag_regexp="yes"/>
+                </pattern>
+                <!-- TODO: braucht synthesizer für gute Vorschläge: -->
+                <message>Meinten Sie <suggestion><match no="2"/>n</suggestion> + Dativ?</message>
+                <example>Bei meinen Häusern.</example>
+                <example>Bei meinen alten Häusern.</example>
+                <example>Entsprechend meiner Empfehlungen.</example>
+                <example correction="meinen">Bei <marker>meine</marker> Häuser.</example>
+                <example correction="meinen">Bei <marker>meine</marker> alten Häuser.</example>
+                <example correction="meinen">Bei <marker>meine</marker> Tassen.</example>
+                <example correction="meinen">Bei <marker>meine</marker> großen Tassen.</example>
+                <example correction="meinen">Entsprechend <marker>meine</marker> Empfehlungen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">bei|ent(sprechend|gegen)|gemäß|nahe</token>
+                    <marker>
+                        <token>des</token>
+                        <token min="0" postag_regexp="yes" postag=".*ADJ.*"/>
+                        <token postag="SUB:.*:SIN.*" postag_regexp="yes"/>
+                    </marker>
+                </pattern>
+                <message>Standardsprachlich benötigt die Präposition '\1' den Dativ.</message>
+                <suggestion>dem \3 <match no="4" postag="SUB:DAT:SIN:.*" postag_regexp="yes"/></suggestion>
+                <example correction="dem Haus|dem Hause">Nahe <marker>des Hauses</marker> befindet sich ein Parkplatz.</example>
+                <example correction="dem großen Haus|dem großen Hause">Nahe <marker>des großen Hauses</marker> befindet sich ein Parkplatz.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">bei|ent(sprechend|gegen)|gemäß|nahe</token>
+                    <marker>
+                        <token>eines</token>
+                        <token min="0" postag_regexp="yes" postag=".*ADJ.*"/>
+                        <token postag="SUB:.*:SIN.*" postag_regexp="yes"/>
+                    </marker>
+                </pattern>
+                <message>Standardsprachlich benötigt die Präposition '\1' den Dativ.</message>
+                <suggestion>einem \3 <match no="4" postag="SUB:DAT:SIN.*" postag_regexp="yes"/></suggestion>
+                <example correction="einem Haus|einem Hause">Nahe <marker>eines Hauses</marker> befindet sich der Parkplatz.</example>
+                <example correction="einem einsamen Haus|einem einsamen Hause">Nahe <marker>eines einsamen Hauses</marker> befindet sich die Schlucht.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">seit|ab|nach|vor</token>
+                    <marker>
+                        <token>den</token>
+                    </marker>
+                    <token regexp="yes">\d{1,2}</token>
+                    <token spacebefore="no">.</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>dem</suggestion>?</message>
+                <example correction="dem">Seit <marker>den</marker> 13. Jahrhundert existiert diese Tradition.</example>
+                <example correction="dem">Wir haben ab <marker>den</marker> 15. Februar geöffnet.</example>
+                <example >Wir haben uns für <marker>den</marker> 15. Februar verabredet.</example>
             </rule>
         </rulegroup>
         <rulegroup id="PRAEP_AKK" name="Präposition mit Akkusativ (ohne, für etc.)">
