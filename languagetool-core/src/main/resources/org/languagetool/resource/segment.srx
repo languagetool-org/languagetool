@@ -1103,10 +1103,6 @@
 </languagerule>
 <languagerule languagerulename="English">
 <rule break="no">
-<beforebreak>\bwww\.</beforebreak>
-<afterbreak>\w</afterbreak>
-</rule>
-<rule break="no">
 <beforebreak>\b[nN]o\.\s</beforebreak>
 <afterbreak>\p{N}</afterbreak>
 </rule>
@@ -5616,10 +5612,6 @@
 </languagerule>
 <languagerule languagerulename="Tamil">
 <rule break="no">
-<beforebreak>\bwww\.</beforebreak>
-<afterbreak>\w</afterbreak>
-</rule>
-<rule break="no">
 <beforebreak>\bஎ\.கா\.\s</beforebreak>
 <afterbreak></afterbreak>
 </rule>
@@ -5667,10 +5659,6 @@
 </rule>
 </languagerule>
 <languagerule languagerulename="Persian">
-<rule break="no">
-<beforebreak>\bwww\.</beforebreak>
-<afterbreak>\w</afterbreak>
-</rule>
 <rule break="no">
 <beforebreak>\b(نه|بله)\!\s</beforebreak>
 <afterbreak>\p{N}</afterbreak>
@@ -5848,6 +5836,11 @@
 </rule>
 </languagerule>
 <languagerule languagerulename="GeneralImportant">
+<!--Don't split up URLs.-->
+<rule break="no">
+<beforebreak>\bwww\.</beforebreak>
+<afterbreak>\w</afterbreak>
+</rule>
 <!--Don't split up e-mail addresses.-->
 <rule break="no">
 <beforebreak>[\.!?]</beforebreak>
