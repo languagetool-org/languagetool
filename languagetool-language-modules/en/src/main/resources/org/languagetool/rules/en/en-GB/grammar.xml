@@ -287,17 +287,19 @@ USA
                 <token postag_regexp="yes" postag="NNPS?"/>
                 <token postag_regexp="yes" postag="NNPS?"/>
             </antipattern>
-<!-- TODO nouns  iser ~isement ision isability [universalisability] -->
-            <rule id="OXFORD_SPELLING_ISATION_NOUNS" name="Oxford spelling of nouns (~ization not ~isation), **but not CAPITALISATIONS of nouns**">
-            <!-- For the suggestion, regexp_match and regexp_replace are sufficient. The token finds an ~isation noun that has a singular or plural postag. If the ~isation word has a postag, then the ~ization word should have that postag. (Possibly, the pairs of words are used differently in different locales, and thus they have different postags.) -->
+<!-- TODO nouns  ~isement ~ision  -->
+            <rule id="OXFORD_SPELLING_NOUNS" name="Oxford spelling of nouns (~iz not ~is), **but not CAPITALISATIONS of nouns**">
+            <!-- For the suggestion, regexp_match and regexp_replace are sufficient. The token finds an ~is noun that has a singular or plural postag. If the ~is noun has a postag, then the ~iz noun should have that postag. (Possibly, the pairs of words are used differently in different locales, and thus they have different postags.) -->
                 <pattern>
-                    <token postag_regexp="yes" postag="NN(:UN?)?|NNS" inflected="yes" regexp="yes">([a-z]+?-?[a-z]+?)isations?<exception regexp="yes">(?-i)[A-Z-]+</exception><!-- The NNP exception is for proper nouns such as company names.-->
+                    <token postag_regexp="yes" postag="NN(:UN?)?|NNS" inflected="yes" regexp="yes">([a-z]+?-?[a-z]+?)is(ation|er|ability)<exception regexp="yes">(?-i)[A-Z-]+</exception>
                     <exception regexp="yes" inflected="yes">improvisation|xxxx</exception><!-- This exception is for nouns that are always spelled with ~isation. -->
-                    <exception>passivisations</exception></token><!-- This exception prevents the incorrect suggestion: ". TODO: correct the problem. -->
+                    <exception>passivisations</exception><!-- This exception prevents the incorrect suggestion: ". TODO: correct the problem. -->
+                    <exception regexp="yes" inflected="yes">(advert|adv|appra|bru|chast|circumc|comprom|(battle)?cru|curtain-ra|desp|dev|disfranch|disgu|dispra|enfranch|exerc|franch|fundra|hell-?ra|improv|ka|merchand|mort|po|pract|pra|prom|ra|reappra|repr|rev|r|surm|surpr|upra|upr)iser</exception><!-- These nouns are always ~iser. -->
+                    <exception regexp="yes" inflected="yes">(adv|d|)isability</exception></token><!-- These nouns are always ~isability. -->
                 </pattern>
-                <message>Use the Oxford spelling '<suggestion><match no="1" suppress_misspelled="yes" regexp_match="([a-z]+?-?[a-z]+?)isation(s?)" regexp_replace="$1ization$2"/></suggestion>', except in proper names.</message>
-                <short>Oxford spelling: ~ization nouns</short>
-                <example correction="organization">The word '<marker>organisation</marker>' is not the Oxford spelling.</example>
+                <message>Use the Oxford spelling '<suggestion><match no="1" suppress_misspelled="yes" regexp_match="([a-z]+?-?[a-z]+?)is(ations?|ers?|ability|abilities)" regexp_replace="$1iz$2"/></suggestion>', except in proper names.</message>
+                <short>Oxford spelling: nouns</short>
+<!-- ~isation--><example correction="organization">The word '<marker>organisation</marker>' is not the Oxford spelling.</example>
                 <example correction="Organizations">The word '<marker>Organisations</marker>' is not the Oxford spelling.</example>
                 <example>The word '<marker>organization</marker>' is the Oxford spelling.</example>
                 <example>The word '<marker>organizations</marker>' is the Oxford spelling.</example>
@@ -316,6 +318,23 @@ USA
                 <example>'World Health Organization' uses ~z, but the '<marker>Organisation of Islamic Cooperation</marker>' uses ~s.</example>
                 <example type="triggers_error">For information about the <marker>Shanghai Cooperation Organisation</marker>, refer to http://eng.sectsco.org/about_sco/.</example>
                 <example type="triggers_error">File:<marker>Panneau de signalisation multilingue à Issers (Algérie).jpg</marker></example>
+<!-- ~iser --> <example correction="modernizer">The word '<marker>moderniser</marker>' is not the Oxford spelling.</example>
+                <example correction="Modernizers">The word '<marker>Modernisers</marker>' is not the Oxford spelling.</example>
+                <example correction="Americanizer">The word '<marker>Americaniser</marker>' has the postag NNP (and NN). Thus, do not use an NNP exception.</example>
+                <example>The word '<marker>modernizer</marker>' is the Oxford spelling.</example>
+                <example>The word '<marker>Modernizers</marker>' is the Oxford spelling.</example>
+                <example>Make sure that the regexp is correct. These are all ~iser nouns: advertisers, advisers, appraisers, bruisers, chastisers, circumcisers, compromisers, battlecruisers, curtain-raisers, despisers, devisers, disfranchisers, disguisers, dispraisers, enfranchisers, exercisers, franchisers, fundraisers, hell-raisers, hellraisers, improvisers, kaisers, merchandisers, mortisers, paralysers, poisers, practisers, praisers, promisers, raisers, reappraisers, reprisers, revisers, risers, surmisers, surprisers, upraisers, uprisers.</example>
+                <example>'<marker>MODERNISER</marker>. All capitalised nouns are out of scope because the suggestion is ~ise.</example>
+                <example>The <marker>Stratocruiser</marker> set a new standard for luxurious air travel (www.boeing.com/history/products/model-377-stratocruiser.page).</example>
+                <example type="triggers_error">The first Liquid only events were <marker>Liquidiser</marker> at Bristol Academy.</example>
+<!-- ~isability--><example correction="magnetizability">The word '<marker>magnetisability</marker>' is not the Oxford spelling.</example>
+                <example correction="Magnetizability">The word '<marker>Magnetisability</marker>' is not the Oxford spelling.</example>
+<!--                <example correction="Magnetizabilities">The word '<marker>Magnetisabilities</marker>' is not the Oxford spelling.</example> TODO. Find a plural example. -->
+                <example correction="polarizability">This effect (<marker>polarisability</marker>) is shown to be...</example>
+                <example>The word '<marker>magnetizability</marker>' is the Oxford spelling.</example>
+                <example>Refer to <marker>www.example.com/polarisability.html</marker>.</example>
+                <example>Make sure that the regexp is correct. These are all ~isability nouns: advisability, disability, disabilities</example>
+                <example>'<marker>MAGNETISABILITY</marker>. All capitalised nouns are out of scope because the suggestion is ~ise.</example>
             </rule>
             <rule id="OXFORD_SPELLING_ISE_VERBS" name="Oxford spelling of verbs (~ize not ~ise), **but not CAPITALISED verbs**"><!-- ~yse verbs are not ~yze in BrE: https://en.oxforddictionaries.com/spelling/ize-ise-or-yse -->
                 <pattern>
