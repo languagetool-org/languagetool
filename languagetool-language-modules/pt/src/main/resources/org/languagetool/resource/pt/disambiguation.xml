@@ -26,6 +26,7 @@
     <!ENTITY meses_ano "janeiro|fevereiro|março|abril|maio|junho|julho|agosto|setembro|outubro|novembro|dezembro">
     <!ENTITY dias_semana_abrev "seg|ter|qua|qui|sex|sáb|dom">
     <!ENTITY dias_semana "segunda|terça|quarta|quinta|sexta|sábado|domingo">
+    <!ENTITY expressoes_de_tempo "(?:minuto|hora|dia|se(?:gundo|mana|mestre)|(?:bi|tri|quadri)mestre|ano|d(?:écada|ecénio)|mil[éê]nio|temp(?:o|orada)|época)s?|m(?:ês|eses)">
 
     <!ENTITY contracoes_MS "ao|do|dum|dele|deste|desse|daquele|disto|disso|daquilo|doutro|no|num|nele|nesse|neste|naquele|nisto|nisso|naquilo|noutro|pelo|algum|mo|to|lho">
     <!ENTITY contracoes_FS "à|da|duma|dela|desta|dessa|daquela|doutra|na|numa|nela|nessa|nesta|naquela|noutra|pela|alguma|ma|ta|lha">
@@ -900,6 +901,26 @@
         </marker>
       </pattern>
       <disambig action="replace" postag="RG"/>
+    </rule>
+  </rulegroup>
+
+  <rulegroup id="TEMPO_A_FIO" name="Locuções adverbiais de tempo">
+    <!-- Created by Tiago F. Santos, Portuguese rule, 2018-12-09  -->
+    <rule>
+      <pattern>
+          <token regexp='yes'>&expressoes_de_tempo;</token>
+          <token>a</token>
+          <token>fio</token>
+      </pattern>
+      <disambig action="replace"><wd pos="RG"/><wd pos="RG"/><wd pos="RG"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp='yes'>tempos?</token>
+          <token>sem</token>
+          <token>fim</token>
+      </pattern>
+      <disambig action="replace"><wd pos="RG"/><wd pos="RG"/><wd pos="RG"/></disambig>
     </rule>
   </rulegroup>
 
