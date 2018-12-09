@@ -510,7 +510,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   @Override
   protected void init() throws IOException {
     super.init();
-    String pattern = "(" + nonWordPattern.pattern() + "|(?<=\\d)-|-(?=\\d+))";
+    String pattern = "(" + nonWordPattern.pattern() + "|(?<=[\\d°])-|-(?=\\d+))";
     nonWordPattern = Pattern.compile(pattern);
     needsInit = false;
   }
