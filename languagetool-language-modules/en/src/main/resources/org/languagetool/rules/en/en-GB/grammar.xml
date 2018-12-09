@@ -276,7 +276,8 @@ USA
             </rule>
          </rulegroup>
         <rulegroup id="OXFORD_SPELLING_Z_NOT_S" name="Oxford spelling is/iz">
-        <!-- For general notes and design decisions, refer to OXFORD_SPELLING_ISE_VERBS -->
+        <!-- For general notes and design decisions, refer to OXFORD_SPELLING_ISE_VERBS. Rules developed by Mike Unwalla. -->
+        <!-- Not uppercase: https://github.com/languagetool-org/languagetool/issues/1292 -->
             <url>https://blog.oxforddictionaries.com/2011/03/28/ize-or-ise/</url>
             <antipattern><!-- Dans l'organisation de ces autonomies... -->
                 <token>l</token>
@@ -287,8 +288,7 @@ USA
                 <token postag_regexp="yes" postag="NNPS?"/>
                 <token postag_regexp="yes" postag="NNPS?"/>
             </antipattern>
-<!-- TODO nouns  ~isement ~ision  -->
-            <rule id="OXFORD_SPELLING_NOUNS" name="Oxford spelling of nouns (~iz not ~is), **but not CAPITALISATIONS of nouns**">
+            <rule id="OXFORD_SPELLING_NOUNS" name="Oxford spelling of nouns (~iz not ~is), **but not CAPITALISATIONS of nouns**"><!-- Always ~isement not ~izement. Always ~ision, not ~izion. -->
             <!-- For the suggestion, regexp_match and regexp_replace are sufficient. The token finds an ~is noun that has a singular or plural postag. If the ~is noun has a postag, then the ~iz noun should have that postag. (Possibly, the pairs of words are used differently in different locales, and thus they have different postags.) -->
                 <pattern>
                     <token postag_regexp="yes" postag="NN(:UN?)?|NNS" inflected="yes" regexp="yes">([a-z]+?-?[a-z]+?)is(ation|er|ability)<exception regexp="yes">(?-i)[A-Z-]+</exception>
