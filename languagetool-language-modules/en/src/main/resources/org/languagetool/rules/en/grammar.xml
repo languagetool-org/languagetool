@@ -21301,6 +21301,17 @@ USA
                     <token postag="VBG"/>
                     <token postag="RB"/>
                 </antipattern>
+                <antipattern>
+                    <token inflected="yes">be</token>
+                    <token>no</token>
+                    <token regexp="yes">good|use</token>
+                    <token>your</token>
+                </antipattern>
+                <antipattern><!-- your boarding pass. ~ing = a noun that acts as an adjective in a noun cluster -->
+                    <token>your</token>
+                    <token postag_regexp="yes" postag="NN.*"/>
+                    <token postag_regexp="yes" postag="NN.*"/>
+                </antipattern>
                 <pattern>
                     <token><exception postag="IN|VB.*" postag_regexp="yes"/><exception>t</exception></token>
                     <marker>
@@ -21318,6 +21329,9 @@ USA
                 <example>Your timing really sucks.</example>
                 <example><marker>Your</marker> dreaming will not change the world. Do something!</example>
                 <example>I am told that <marker>your</marker> singing can shatter glasses.</example>
+                <example>I tell you <marker>it's no good your</marker> being angry with me.</example>
+                <example>It <marker>is no use your</marker> pretending that you know nothing.</example>
+                <example>Can you show me <marker>your boarding pass</marker>?</example>
                 <example correction="you're|you are">If <marker>your</marker> thinking of going to Paris...</example>
                 <example correction="you're|you are">If <marker>your</marker> thinking of the time that we were in Paris...</example>
                 <example type="triggers_error">If <marker>your</marker> testing of the rules is complete...</example>
