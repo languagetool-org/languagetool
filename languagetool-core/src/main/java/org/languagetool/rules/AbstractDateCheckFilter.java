@@ -71,7 +71,7 @@ public abstract class AbstractDateCheckFilter extends RuleFilter {
    */
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> args, AnalyzedTokenReadings[] patternTokens) {
-    int dayOfWeekFromString = getDayOfWeek(getRequired("weekDay", args));
+    int dayOfWeekFromString = getDayOfWeek(getRequired("weekDay", args).replace("\u00AD", ""));  // replace soft hyphen
     Calendar dateFromDate = getDate(args);
     int dayOfWeekFromDate;
     try {
