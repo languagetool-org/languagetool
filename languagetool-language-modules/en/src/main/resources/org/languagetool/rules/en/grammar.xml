@@ -24405,13 +24405,18 @@ USA
             <pattern>
                 <token>in</token>
                 <token regexp="yes">an?</token>
-                <token postag="JJ"><exception regexp="yes">big|certain|preparatory|good|modern|christian|agglutinative|unsterile|particular|humanlike|military</exception></token>
+                <token postag="JJ"><exception regexp="yes">big|certain|preparatory|good|modern|christian|agglutinative|unsterile|particular|humanlike|military|ordinary|roundabout|special|timely</exception><exception case_sensitive="yes" regexp="yes">[A-Z].*</exception></token>
                 <token regexp="yes">manner|style|way|fashion|mode</token>
             </pattern>
-            <message>Consider replacing "\1 \2 \3 \4" with adverb for "\3"; e.g., "in a hasty manner" with "hastily".</message>
+            <message>Consider replacing "\1 \2 \3 \4" with the adverb for "\3"; e.g., "in a hasty manner" with "hastily".</message>
             <short>Possible wordiness</short>
             <example correction="">He came <marker>in a hasty manner</marker>.</example>
-            <example>He came hastily.</example>
+            <example>He came <marker>hastily</marker>.</example>
+            <example>This ethnic dish is arranged in a Japanese style.</example>
+            <example>I feel good in a special way.</example>
+            <example>Don't say it in a roundabout way.</example>
+            <example>You cannot solve this problem in an ordinary way.</example>
+            <example>You must perform all assignments in a timely manner.</example>
         </rule>
         <rulegroup id="ATM_MACHINE" name="ATM machine (ATM)">
             <rule>
