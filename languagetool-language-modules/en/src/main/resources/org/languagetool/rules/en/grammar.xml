@@ -7520,7 +7520,7 @@ USA
            </rule>
         </rulegroup>
         <rulegroup id="PLURAL_VERB_AFTER_THIS" name="Plural verb after 'this' or 'that'">
-    <!-- Created by Tiago F. Santos, 2018-09-15	-->
+    <!-- Created by Tiago F. Santos, 2018-09-15. Edited by MFU 2018-12-10-->
             <rule>
                 <antipattern><!--  and those that owe this are called subditus natus; -->
                     <token>those</token>
@@ -7530,14 +7530,45 @@ USA
                     <token regexp='yes'>are|were</token>
                     <token postag='VBN'/>
                 </antipattern>
+                <antipattern><!--  does this book...? -->
+                    <token regexp='yes'>does|did|is|was</token>
+                    <token regexp='yes'>th(?:is|at)</token>
+                    <token skip="-1" postag_regexp="yes" postag='NN(:UN?)?'/>
+                    <token>?</token>
+                </antipattern>
+                <antipattern><!--  will this [dictionary] do...? -->
+                    <token postag='MD'/>
+                    <token regexp='yes'>th(?:is|at)</token>
+                    <token skip="-1" postag_regexp="yes" postag='VBP?|NN(:UN?)?'/>
+                    <token>?</token>
+                </antipattern>
+                <antipattern><!--  that sheep eat grass -->
+                    <token>that</token>
+                    <token postag='NNS'/>
+                    <token postag='VBP?' postag_regexp='yes'/>
+                </antipattern>
+                <antipattern><!--  This Sunday let's. The sentence is better with a comma after Sunday, but that problem not applicable to this rule. Abbreviations are unlikely and are not good style, but the problem is not applicable to this rule. -->
+                    <token>this</token>
+                    <token regexp='yes'>&weekdays;|&abbrevWeekdays;|&months;|&abbrevMonths;</token> 
+                    <token>let</token>
+                    <token spacebefore='no' regexp='yes'>['´]</token>
+                    <token spacebefore='no'>s</token>
+                </antipattern>
+                <antipattern><!--  living costs this month are -->
+                    <token chunk="E-NP-plural"/>
+                    <token>this</token>
+                    <token postag='NN(:UN?)?' postag_regexp='yes'/>
+                    <token postag='VBP?' postag_regexp='yes'/>
+                </antipattern>
                 <pattern>
-                    <token regexp='yes'>th(?:is|at)<exception scope="previous" postag='IN'/><exception postag='W.+' postag_regexp='yes'/></token>
-                    <token min='0' postag_regexp='yes' postag='NN(:U|P)?'><exception>can</exception></token>
+                    <token regexp='yes'>th(?:is|at)<exception scope="previous" postag='IN'/><exception postag='W.+' postag_regexp='yes'/><exception scope="previous">let</exception></token>
+                    <token min='0' postag_regexp='yes' postag='NN(:U|P)?'><exception regexp='yes'>can|one</exception></token>
                     <token postag='VBP?' postag_regexp='yes'><exception negate_pos='yes' postag='VBP?' postag_regexp='yes'/><exception>be</exception></token>
                 </pattern>
                 <message>The verb '\3' is plural. Did you mean: <suggestion>\1 \2 <match no="3" include_skipped='all' postag="VBZ"/></suggestion>?</message>
                 <short>Grammar error</short>
                 <example correction='This word has'><marker>This word have</marker> errors.</example>
+                <example correction='this sheep eats'>You know <marker>this sheep eat</marker> grass, don't you?</example>
                 <example>Certain frogs that lay eggs underground have unpigmented eggs.</example>
                 <example>... blocs; other organisational tactics pioneered in this time include security culture, affinity groups and the use of ...</example>
                 <example>Anything that can be misunderstood will be.</example>
@@ -7586,6 +7617,20 @@ USA
                 <example>...ut I suppose that it could do very completely all that can be rationally expected of any logical machine".</example>
                 <example>...rmal definition: "...any sequence of instructions that can be obeyed by a robot, is called an algorithm" (p. 4)...</example>
                 <example>...is called alta ligeantia, and those that owe this are called subditus natus;</example>
+                <example>Did this backpack belong to him?</example>
+                <example>How many subscribers does this magazine have?</example>
+                <example>Who does this suitcase belong to?</example>
+                <example>Is this fish still alive?</example>
+                <example>Will this dictionary do?</example>
+                <example>Might that test suffice for now?</example>
+                <example>You know that sheep eat grass, don't you?</example>
+                <example>Not many people know that carp eat tadpoles.</example>
+                <example>This Sunday let's go for a drive and see where we end up.</example>
+                <example>Living costs this month are lower than those of last month are.</example>
+                <example>Don't let this discourage you from trying it again.</example>
+                <example>I can't afford a new car, so I'll have to make this one do.</example>
+                <example type="triggers_error">What does all this add up to?</example>
+                <example type="triggers_error">"Will this do now?", she asked.</example><!-- Caused by incorrect disambiguation in UPPER_NNP. I do not know how to correct the disambiguation. -->
            </rule>
         </rulegroup>
         <rulegroup id="THIS_NNS_VB" name="this + plural noun + verb (these)">
