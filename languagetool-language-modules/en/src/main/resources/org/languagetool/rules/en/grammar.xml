@@ -6963,6 +6963,62 @@ USA
             <example type="correct">But <marker>these_</marker> unlike other tests...</example><!-- TODO -->
             <example type="correct">Refer to <marker>_TESTS</marker>' on page 33.</example><!-- TODO -->
         </rule>
+        <rulegroup id="FR" name="fr [franc), Fr (Father, francium)">
+            <url>https://www.collinsdictionary.com/dictionary/english/fr</url><!-- Applicable to all locales. AmE 'fr' = franc, father, friar, from (https://www.merriam-webster.com/dictionary/fr), thus do not put 'fr' in removed.txt. If necessary, make a rule for AmE in /en-US. -->
+            <antipattern>
+                <token regexp="yes" >[\|\[=:]</token>
+                <token spacebefore="no">fr</token>
+                <token regexp="yes" spacebefore="no">[\|=:]</token>
+            </antipattern>
+            <rule><!-- fr -->
+                <pattern>
+                    <token case_sensitive="yes">fr<exception scope="previous" postag="CD"/></token>
+                </pattern>
+                <message>Make sure that '\1' means 'franc'. Do you mean <suggestion>for</suggestion>?</message>
+                <short>Possible typo</short>
+                <example correction="for">Do a test <marker>fr</marker> errors.</example>
+                <example correction="for">What did you do that <marker>fr</marker>?</example>
+                <example>Do a test <marker>for</marker> for errors.</example>
+                <example>Out of scope. <marker>Fr</marker> this type of problem…</example>
+                <example>The price of grapes shot up to 32 <marker>fr</marker> a kilo.</example>
+                <example>...books.google.com/books?id=VpyjGdEsCA4C|language=fr|location=France|publisher=L'Harmattan...</example>
+                <example>Eiffel presented his plans to the {{lang|fr|Société des Ingénieurs Civils}}; after...</example>
+                <example>[[fr:Ludwig von Mises#Le calcul économique et l'...</example>
+                <example>... [[:wikisource:fr:De Buonaparte et des Bourbons|&quot;De...</example>
+                <example>Refer to www.example.fr for more information.</example>
+                <example type="triggers_error">...website = banque.sonore.breton.free.fr|access-date = 2016-01-14}}&lt;/ref&gt; It...</example>
+            </rule>
+            <rule><!-- Fr -->
+                <antipattern>
+                    <token>(</token>
+                    <token spacebefore="no" case_sensitive="yes">Fr</token>
+                    <token spacebefore="no">)</token>
+                </antipattern>
+<!--            <antipattern> Why does this not work?
+                    <token postag="SENT_START" skip="-1" regexp="yes">elements?|francium</token>
+                    <token postag="SENT_END"/>
+                </antipattern>-->
+                <antipattern>
+                    <token skip="-1" case_sensitive="yes">Fr</token>
+                    <token regexp="yes">elements?|francium</token>
+                </antipattern>
+                <antipattern>
+                    <token skip="-1" regexp="yes">elements?|francium</token>
+                    <token case_sensitive="yes">Fr</token>
+                </antipattern>
+                <pattern>
+                    <token case_sensitive="yes">Fr<exception scope="next">.</exception><exception scope="next" postag="NNP"/></token>
+                </pattern>
+                <message>Make sure that '\1' is an abbreviation for 'Father' or the element francium. Do you mean <suggestion>For</suggestion>?</message>
+                <short>Possible typo</short>
+                <example correction="For"><marker>Fr</marker> this type of problem…</example>
+                <example><marker>For</marker> this type of problem…</example>
+                <example><marker>Fr</marker> Simon makes me laugh.</example>
+                <example>Do you know <marker>Fr</marker>. Silas?</example>
+                <example>The element francium (<marker>Fr</marker>) has an atomic number of 87.</example>
+                <example>The chemical symbol for francium is <marker>Fr</marker>.</example>
+            </rule>
+        </rulegroup>
     </category>
 
     <!-- ====================================================================== -->
