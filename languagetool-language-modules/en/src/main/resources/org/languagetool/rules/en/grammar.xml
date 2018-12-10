@@ -13374,6 +13374,7 @@ USA
                 <example>Are they <marker>friends</marker>?</example>
                 <example>All we need is love.</example>
                 <example>Phase I corresponds to the small-deformation regime.</example>
+                <example type="triggers_error">We <marker>parents</marker> sometimes become blind in loving our children too...</example>
             </rule>
             <rule>
                 <pattern>
@@ -13394,13 +13395,46 @@ USA
                     <token postag="SENT_START"/>
                     <token skip="-1">What</token>
                     <token>you</token>
-                    <token>is</token>
+                    <token postag="VBZ"/>
                 </antipattern>
                 <antipattern>
                     <token>,</token>
                     <token>you</token>
                     <token/>
                     <token postag="SENT_END"/>
+                </antipattern>
+                <antipattern><!-- to see you -->
+                    <token>to</token>
+                    <token postag="VB"/>
+                    <token>you</token>
+                </antipattern>
+                <antipattern><!-- how much we pay you -->
+                    <token>how</token>
+                    <token regexp="yes">much|many</token>
+                    <token regexp="yes">I|you|we|they</token>
+                    <token postag_regexp="yes" postag="VBD?"/>
+                    <token>you</token>
+                </antipattern>
+                <antipattern><!-- how many she gave you -->
+                    <token>how</token>
+                    <token regexp="yes">much|many</token>
+                    <token regexp="yes">he|she|it</token>
+                    <token postag_regexp="yes" postag="VB(Z|D)?"/>
+                    <token>you</token>
+                </antipattern>
+                <antipattern><!-- about whom I told you -->
+                    <token>about</token>
+                    <token regexp="yes">whom|which</token>
+                    <token regexp="yes">I|you|we|they</token>
+                    <token postag_regexp="yes" postag="VBD?"/>
+                    <token>you</token>
+                </antipattern>
+                <antipattern><!-- about which she tells you -->
+                    <token>about</token>
+                    <token regexp="yes">whom|which</token>
+                    <token regexp="yes">he|she|it</token>
+                    <token postag_regexp="yes" postag="VB(Z|D)?"/>
+                    <token>you</token>
                 </antipattern>
                 <pattern>
                     <token skip="1" postag="PRP">you<exception scope="previous" postag="IN"/><exception scope="next" postag="PRP"/></token>
@@ -13411,7 +13445,8 @@ USA
                 </pattern>
                 <message>The pronoun '<match no="1"/>' must be used with a non-third-person form of a verb: <suggestion><match no="2" postag="VBP"/></suggestion></message>
                 <example correction="work">You <marker>works</marker> here.</example>
-                <example correction="am|are|aren">You <marker>is</marker> a good engineer.</example>
+                <example correction="am|are|aren">You <marker>is</marker> a good engineer.</example><!-- You=E-NP-singular, thus cannot use chunks in the antipatterns -->
+                <example correction="am|are|aren">Either Mary or you <marker>is</marker> to go.</example><!-- https://theeditorsblog.net/2015/09/12/either-neither-and-subject-verb-agreement/, Condition Two -->
                 <example>You <marker>make</marker> a lot of mistakes.</example>
                 <example>One of you thinks that this is possible.</example>
                 <example>Be sure the man nearest you is awake.</example>
@@ -13419,6 +13454,12 @@ USA
                 <example>How many times do I have to tell you he isn't here?</example>
                 <example>What I have told you is true.</example>
                 <example>Scatter, you chickens!</example>
+                <example><marker>To see you</marker> is always a great pleasure.</example>
+                <example><marker>What he told you</marker> wasn't true.</example>
+                <example>... and <marker>how much we pay you</marker> depends on your skill.</example>
+                <example>"<marker>How many she gave you</marker> interests us very much," said the policeman.</example>
+                <example>The girl <marker>about whom I told you</marker> lives here.</example>
+                <example>The projects <marker>about which she tells you</marker> are confidential.</example>
             </rule>
             <rule>
                 <pattern>
