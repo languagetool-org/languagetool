@@ -12872,14 +12872,38 @@ USA
             </rule>
         </rulegroup>
           <rule id='SHORT_COMPARATIVES' name="Short comparatives">
-	      <!--      Created by Tiago F. Santos, 2018-07-10      -->
-                <pattern>
+	      <!--      Created by Tiago F. Santos, 2018-07-10. Edited by MFU 2012-12-11      -->
+                <antipattern>
                     <token>more</token>
                     <token regexp='yes'>&short_adjectives;</token>
+                    <token>than</token>
+                    <token postag="JJ"/>
+                </antipattern>
+                <antipattern><!-- www.collinsdictionary.com/dictionary/english/all-the-more -->
+                    <token>all</token>
+                    <token>the</token>
+                    <token>more</token>
+                </antipattern>
+                <antipattern><!-- www.collinsdictionary.com/dictionary/english/more-and-more -->
+                    <token>more</token>
+                    <token>and</token>
+                    <token>more</token>
+                </antipattern>
+                <pattern>
+                    <token>more</token>
+                    <token regexp='yes'>&short_adjectives;<exception scope="next" postag="NNS"/></token>
                 </pattern>
                 <message>This adjective uses the short comparatives form.</message>
                   <suggestion><match no='2' postag='(.+)' postag_regexp='yes' postag_replace='JJR'/></suggestion>
                 <example correction="sillier">This example is <marker>more silly</marker> than the other.</example>
+                <example>This example is <marker>sillier</marker> than the other.</example>
+                <example>Tom is <marker>more wise than clever</marker>.</example>
+                <example>I felt <marker>all the more sad</marker> to hear that.</example>
+                <example>I get the feeling that <marker>more and more</marker> young people are losing their ability to distinguish...</example>
+                <example>My brother has many <marker>more good books</marker> than I do.</example>
+                <example>These days <marker>more young husbands</marker> help their wives with housework.</example>
+                <example>Lately you see <marker>more young couples</marker> making out at the train station ticket...</example>
+                <example>Eat <marker>more fresh vegetables</marker>.</example>
           </rule>
           <rule id='SHORT_SUPERLATIVES' name="Short superlatives">
 	      <!--      Created by Tiago F. Santos, 2018-07-10      -->
