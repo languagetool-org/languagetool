@@ -275,52 +275,50 @@ abstract class TextChecker {
     });
     String incompleteResultReason = null;
     List<RuleMatch> matches;
-    if (limits.getMaxCheckTimeMillis() < 0) {
-      matches = future.get();
-    } else {
-      try {
+    try {
+      if (limits.getMaxCheckTimeMillis() < 0) {
+        matches = future.get();
+      } else {
         matches = future.get(limits.getMaxCheckTimeMillis(), TimeUnit.MILLISECONDS);
-      } catch (ExecutionException e) {
-        future.cancel(true);
-
-        if (ExceptionUtils.getRootCause(e) instanceof ErrorRateTooHighException) {
-          logger.log(new DatabaseCheckErrorLogEntry("ErrorRateTooHigh", logServerId, agentId, userId, lang, detLang.getDetectedLanguage(), textSize, "matches: " + ruleMatchesSoFar.size()));
-        }
-
-        if (params.allowIncompleteResults && ExceptionUtils.getRootCause(e) instanceof ErrorRateTooHighException) {
-          print(e.getMessage() + " - returning " + ruleMatchesSoFar.size() + " matches found so far. Detected language: " + detLang);
-          matches = new ArrayList<>(ruleMatchesSoFar);  // threads might still be running, so make a copy
-          incompleteResultReason = "Results are incomplete: " + ExceptionUtils.getRootCause(e).getMessage();
-        } else if (e.getCause() != null && e.getCause() instanceof OutOfMemoryError) {
-          throw (OutOfMemoryError)e.getCause();
-        } else {
-          throw new RuntimeException(e.getMessage() + ", detected: " + detLang, e);
-        }
-      } catch (TimeoutException e) {
-        boolean cancelled = future.cancel(true);
-        Path loadFile = Paths.get("/proc/loadavg");  // works in Linux only(?)
-        String loadInfo = loadFile.toFile().exists() ? Files.readAllLines(loadFile).toString() : "(unknown)";
-        if (errorRequestLimiter != null) {
-          errorRequestLimiter.logAccess(remoteAddress, httpExchange.getRequestHeaders());
-        }
-        String message = "Text checking took longer than allowed maximum of " + limits.getMaxCheckTimeMillis() +
-                         " milliseconds (cancelled: " + cancelled +
-                         ", lang: " + lang.getShortCodeWithCountryAndVariant() +
-                         ", detected: " + detLang +
-                         ", #" + count +
-                         ", " + aText.getPlainText().length() + " characters of text" +
-                         ", mode: " + mode.toString().toLowerCase() +
-                         ", h: " + reqCounter.getHandleCount() + ", r: " + reqCounter.getRequestCount() + ", system load: " + loadInfo + ")";
-        if (params.allowIncompleteResults) {
-          print(message + " - returning " + ruleMatchesSoFar.size() + " matches found so far");
-          matches = new ArrayList<>(ruleMatchesSoFar);  // threads might still be running, so make a copy
-          incompleteResultReason = "Results are incomplete: text checking took longer than allowed maximum of " + 
-                  String.format(Locale.ENGLISH, "%.2f", limits.getMaxCheckTimeMillis()/1000.0) + " seconds";
-        } else {
-          logger.log(new DatabaseCheckErrorLogEntry("MaxCheckTimeExceeded",
-            logServerId, agentId, limits.getPremiumUid(), lang, detLang.getDetectedLanguage(), textSize, "load: "+ loadInfo));
-          throw new RuntimeException(message, e);
-        }
+      }
+    } catch (ExecutionException e) {
+      future.cancel(true);
+      if (ExceptionUtils.getRootCause(e) instanceof ErrorRateTooHighException) {
+        logger.log(new DatabaseCheckErrorLogEntry("ErrorRateTooHigh", logServerId, agentId, userId, lang, detLang.getDetectedLanguage(), textSize, "matches: " + ruleMatchesSoFar.size()));
+      }
+      if (params.allowIncompleteResults && ExceptionUtils.getRootCause(e) instanceof ErrorRateTooHighException) {
+        print(e.getMessage() + " - returning " + ruleMatchesSoFar.size() + " matches found so far. Detected language: " + detLang);
+        matches = new ArrayList<>(ruleMatchesSoFar);  // threads might still be running, so make a copy
+        incompleteResultReason = "Results are incomplete: " + ExceptionUtils.getRootCause(e).getMessage();
+      } else if (e.getCause() != null && e.getCause() instanceof OutOfMemoryError) {
+        throw (OutOfMemoryError)e.getCause();
+      } else {
+        throw new RuntimeException(e.getMessage() + ", detected: " + detLang, e);
+      }
+    } catch (TimeoutException e) {
+      boolean cancelled = future.cancel(true);
+      Path loadFile = Paths.get("/proc/loadavg");  // works in Linux only(?)
+      String loadInfo = loadFile.toFile().exists() ? Files.readAllLines(loadFile).toString() : "(unknown)";
+      if (errorRequestLimiter != null) {
+        errorRequestLimiter.logAccess(remoteAddress, httpExchange.getRequestHeaders());
+      }
+      String message = "Text checking took longer than allowed maximum of " + limits.getMaxCheckTimeMillis() +
+                       " milliseconds (cancelled: " + cancelled +
+                       ", lang: " + lang.getShortCodeWithCountryAndVariant() +
+                       ", detected: " + detLang +
+                       ", #" + count +
+                       ", " + aText.getPlainText().length() + " characters of text" +
+                       ", mode: " + mode.toString().toLowerCase() +
+                       ", h: " + reqCounter.getHandleCount() + ", r: " + reqCounter.getRequestCount() + ", system load: " + loadInfo + ")";
+      if (params.allowIncompleteResults) {
+        print(message + " - returning " + ruleMatchesSoFar.size() + " matches found so far");
+        matches = new ArrayList<>(ruleMatchesSoFar);  // threads might still be running, so make a copy
+        incompleteResultReason = "Results are incomplete: text checking took longer than allowed maximum of " + 
+                String.format(Locale.ENGLISH, "%.2f", limits.getMaxCheckTimeMillis()/1000.0) + " seconds";
+      } else {
+        logger.log(new DatabaseCheckErrorLogEntry("MaxCheckTimeExceeded",
+          logServerId, agentId, limits.getPremiumUid(), lang, detLang.getDetectedLanguage(), textSize, "load: "+ loadInfo));
+        throw new RuntimeException(message, e);
       }
     }
 
