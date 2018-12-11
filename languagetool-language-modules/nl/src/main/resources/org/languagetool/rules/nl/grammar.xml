@@ -10454,8 +10454,8 @@ onwaarschijnlijk
         <rulegroup id="VOORVOEGSEL" name="mega, giga etc.">
             <rule>
                 <pattern>
-                    <token regexp="yes">mini|ultra|giga|mega|nano</token>
-                    <token><exception regexp="yes">[.?]|is</exception></token>
+                    <token regexp="yes">mini|ultra|giga|mega|nano|micro|macro</token>
+                    <token postag_regexp="yes" postag="ZNW.*|BNW.*"/>
                 </pattern>
                 <message>\1 is meestal een voorvoegsel, dus de kans is groot dat het <suggestion>\1\2</suggestion> of <suggestion>\1-\2</suggestion> moet zijn.</message>
                 <example correction="megagroot|mega-groot">Het bestand is <marker>mega groot</marker>.</example> 
