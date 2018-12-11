@@ -8847,6 +8847,29 @@ USA
 
         <rulegroup id="ADVERB_WORD_ORDER" name="Word order: Wrong position of adverb, e.g. 'Always I am happy. (I am always happy.)'">
             <url>http://faculty.washington.edu/marynell/grammar/AdverbPl.html</url>
+            <antipattern><!-- www.merriam-webster.com/dictionary/never%20again and www.macmillandictionary.com/dictionary/british/never-again and http://www.bbc.co.uk/worldservice/learningenglish/grammar/learnit/learnitv34.shtml -->
+                <token postag="SENT_START"/>
+                <token>Never</token>
+                <token regexp="yes">again|before</token>
+            </antipattern>
+            <antipattern><!-- https://idioms.thefreedictionary.com/never+in+my+life-->
+                <token postag="SENT_START"/>
+                <token>Never</token>
+                <token>in</token>
+                <token>my</token>
+                <token>life</token>
+            </antipattern>
+            <antipattern><!-- www.ldoceonline.com/dictionary/hardly -->
+                <token postag="SENT_START"/>
+                <token>Hardly</token>
+                <token>anyone</token>
+            </antipattern>
+            <antipattern><!-- www.ldoceonline.com/dictionary/hardly -->
+                <token postag="SENT_START"/>
+                <token>Hardly</token>
+                <token>a</token>
+                <token regexp="yes">day|week|month|year</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token postag="SENT_START"/> <!-- or but -->
@@ -8861,6 +8884,12 @@ USA
                 <example><marker>Always</marker> wear your helmet.</example>
                 <example><marker>Always</marker> late, is he?</example>
                 <example>Hardly.</example>
+                <example><marker>Never again</marker> would she want to live there.</example>
+                <example><marker>Never before</marker> have we had such a strong longing for peace.</example>
+                <example><marker>Never in my life</marker> have I heard or seen such a thing.</example>
+                <example><marker>Hardly a day</marker> passes when I don't think of you.</example>
+                <example><marker>Hardly anyone</marker> writes to me these days.</example>
+                <example type="triggers_error">Never too much of anything.</example>
             </rule>
             <rule>
                 <pattern>
