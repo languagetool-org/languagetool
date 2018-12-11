@@ -12485,31 +12485,44 @@ USA
             </rule>
         </rulegroup>
         <rulegroup id="PROGRESSIVE_VERBS" name="Progressive forms of non-progressive verbs (doubt, believe, understand)">
+            <url>https://learnenglish.britishcouncil.org/en/intermediate-grammar/stative-verbs</url>
             <rule>
                 <antipattern>
                     <token inflected="yes">have</token>
                     <token>been</token>
                     <token postag="VBG"/>
                 </antipattern>
+                <antipattern><!-- https://dictionary.cambridge.org/dictionary/english/seeing-is-believing -->
+                    <token>seeing</token>
+                    <token>is</token>
+                    <token>believing</token>
+                </antipattern>
+                <antipattern><!-- www.collinsdictionary.com/dictionary/english/seeing-hearing-things -->
+                    <token inflected="yes">be</token>
+                    <token>hearing</token>
+                    <token>things</token>
+                </antipattern>
                 <pattern>
                     <token inflected="yes">be</token>
                     <token min="0" max="1" postag="RB"/>
                     <token inflected="yes" postag="VBG" regexp="yes">doubt|believe|imagine|know|(dis)?like|love|hate|prefer|reali[zs]e|recogni[sz]e|remember|suppose|understand|w(ant|ish)|appear|hear|s(eem|mell|ound)|taste|agree|d(eny|isagree)|impress|mean|please|satisfy|belong|con(cern|sist|tain)|de(pend|serve)|involve|matter|need|own|possess</token>
                 </pattern>
-                <message>The verb '\3' is normally not used in the progressive form. Try a simple form instead.</message>
-                <short>Grammatical problem: do not use the progressive</short>
+                <message>The verb '\3' is a stative verb and sometimes the progressive form is not correct. Try a simple form instead.</message>
+                <short>Possible grammatical problem: do not use the progressive</short>
                 <example>I <marker>doubt</marker> these results.</example>
                 <example correction="">I <marker>am doubting</marker> these results.</example>
                 <example correction="">I <marker>am not understanding</marker> whether my mails...</example>
                 <example correction="">The conflict <marker>is merely seeming</marker> to be over.</example>
                 <example correction="">Although you explained many times, I <marker>am not understanding</marker>.</example>
                 <example correction="">Whether you <marker>are loving</marker>, or indeed only liking, the new film...</example>
+                <example correction="">The technician <marker>is usually hearing</marker> things that other persons cannot hear.</example>
                 <example>He <marker>has been wanting</marker> very much to meet you.</example>
                 <example>You are not listening. I <marker>have been agreeing</marker> with you for the past 10 minutes.</example>
                 <example>I <marker>had been depending</marker> on having the test results by 17:00 today.</example>
                 <example>The Tigers <marker>have been deserving</marker> winners of the title.</example>
                 <example>I <marker>have been hearing</marker> good things about you.</example>
                 <example>This <marker>is promising</marker>!</example>
+                <example>You must <marker>be hearing things</marker> again. There's nobody in the other room.</example>
                 <example type="triggers_error">As you said many times, I <marker>am not understanding</marker>. Nor do I have tolerance, patience, or kindness.</example><!-- Adjective -->
                 <example type="triggers_error">I am very <marker>understanding</marker>, and I care very much.</example><!-- Adjective -->
                 <example type="triggers_error">The conflict is merely <marker>seeming</marker>.</example><!-- Adjective -->
