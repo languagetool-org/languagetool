@@ -10578,17 +10578,24 @@ USA
             <rule>
                 <pattern>
                     <token regexp="yes" postag="VB.?" postag_regexp="yes">ha[ds]|(?:ha)?ve</token>
-                    <token postag="RB"><exception>no</exception><exception postag="IN|RP|CC" postag_regexp="yes"/></token>
+                    <token postag="RB"><exception regexp="yes">no|little</exception><exception postag="IN|RP|CC" postag_regexp="yes"/></token>
                     <marker>
                         <token postag="VB[DP]?" postag_regexp="yes"><exception postag="VBN|RB|JJ" postag_regexp="yes"/></token>
                     </marker>
-                    <token><exception postag="VBG"/></token>
+                    <token><exception postag_regexp="yes" postag="VBG|JJ"/></token>
                 </pattern>
                 <message>Possible agreement error -- use past participle here: <suggestion><match no="3" postag="VBN"/></suggestion>.</message>
                 <short>Possible agreement error</short>
                 <example>I have always done that.</example>
                 <example correction="written">I must have always <marker>wrote</marker> that.</example>
+                <example correction="rained">It has often <marker>rain</marker> this summer.</example>
+                <example correction="been">Had there <marker>was</marker> a problem, you could have...</example>
                 <example>I have always liked her.</example>
+                <example>The country is dry: it had little <marker>rain</marker> this summer.</example>
+                <example>I'm always bored with films that have little <marker>action</marker>.</example>
+                <example>That dinner they had together <marker>was</marker> delicious.</example>
+                <example>The tea we had there <marker>was</marker> excellent.</example>
+<!-- False negative --><example>... but had there <marker>was</marker> sufficient information, we could have...</example>
             </rule>
             <rule>
                 <pattern>
