@@ -22,11 +22,9 @@
 package org.languagetool.server;
 
 import org.languagetool.*;
-import org.languagetool.markup.AnnotatedText;
 import org.languagetool.rules.Category;
 import org.languagetool.rules.CategoryId;
 import org.languagetool.rules.Rule;
-import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.AbstractPatternRule;
 import org.xml.sax.SAXException;
 
@@ -44,9 +42,9 @@ import java.util.Set;
  * Use case: Setup instances once (ahead of time or on demand), cache and use when matching queries come in; work around thread safety issues by only giving out one reference at a time
  * @see PipelinePool
  */
-public class Pipeline extends JLanguageTool {
+class Pipeline extends JLanguageTool {
 
-  public static class IllegalPipelineMutationException extends RuntimeException {
+  static class IllegalPipelineMutationException extends RuntimeException {
     IllegalPipelineMutationException() {
       super("Pipeline is frozen; mutating shared JLanguageTool instance is forbidden.");
     }
@@ -58,14 +56,14 @@ public class Pipeline extends JLanguageTool {
   /**
    * Prevents any further changes after this method was called.
    */
-  public void setupFinished() {
+  void setupFinished() {
    this.setup = true;
   }
 
   /**
    * Refresh expire timer of pipeline
    */
-  public void refreshExpireTimer() {
+  void refreshExpireTimer() {
     lastUsedTimestamp = System.currentTimeMillis();
   }
 
@@ -73,12 +71,12 @@ public class Pipeline extends JLanguageTool {
    * Test if expire time has elapsed since last use.
    * @return is pipeline expired?
    */
-  public boolean isExpired() {
+  boolean isExpired() {
     long delta = System.currentTimeMillis() - lastUsedTimestamp;
     return delta > PipelinePool.PIPELINE_EXPIRE_TIME;
   }
 
-  public Pipeline(Language language, List<Language> altLanguages, Language motherTongue, ResultCache cache, UserConfig userConfig) {
+  Pipeline(Language language, List<Language> altLanguages, Language motherTongue, ResultCache cache, UserConfig userConfig) {
     super(language, altLanguages, motherTongue, cache, userConfig);
     lastUsedTimestamp = System.currentTimeMillis();
   }
