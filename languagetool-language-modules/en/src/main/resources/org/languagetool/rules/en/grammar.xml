@@ -13876,12 +13876,28 @@ USA
                     <token postag="NNP" chunk="I-NP-singular"/><!-- Unionist -->
                     <token chunk="E-NP-singular"/><!-- platform -->
                 </antipattern>
+                <antipattern><!-- https://en.oxforddictionaries.com/definition/(the)_devil_take_the_hindmost -->
+                    <token>Devil</token>
+                    <token>take</token>
+                    <token>the</token>
+                    <token>hindmost</token>
+                </antipattern>
+                <antipattern><!-- https://en.oxforddictionaries.com/definition/god_grant -->
+                    <token>God</token>
+                    <token>grant</token>
+                </antipattern>
+                <antipattern><!--  elected Jeffrey captain -->
+                    <token inflected="yes" regexp="yes">choose|elect</token>
+                    <token postag="NNP"/>
+                    <token postag="NN"/>
+                </antipattern>
                 <pattern>
                     <token>
                         <exception regexp="yes">(that|ha[ds]|will|must|could|can|should|would|does|did|may|might|t|let)</exception>
                         <exception inflected="yes" regexp="yes">feel|hear|see|watch|prevent|help|stop|be|make</exception>
                         <exception postag="C[CD]|IN|DT|MD|NNP|\." postag_regexp="yes"/>
                         <exception scope="previous" postag="PRP$"/>
+                        <exception regexp="yes">initials|letters</exception>
                     </token>
                     <token postag="NNP" regexp="yes">.{2,}<exception postag="JJ|CC|RP|DT|PRP\$?|NNP?S|IN|RB|WRB|VBN" postag_regexp="yes"/></token>
                     <marker>
@@ -13908,9 +13924,12 @@ USA
                 <example>The amendment became part of the Republican / Unionist <marker>platform</marker> in the election of 1864.</example>
                 <example>The amendment became part of the Republican/Unionist <marker>platform</marker> in the election of 1864.</example>
                 <example>Facebook tries to explain their practices in ways that make Facebook look like the good guy.</example>
+                <example>The <marker>initials USA</marker> stand for the United States of America.</example>
+                <example>The couple has been falling out over what <marker>TV program</marker> to watch for over a week.</example>
+                <example><marker>God grant</marker> that you come home safe and sound.</example>
                 <example>… by Muslims, including "Subhan-Allah" (<marker>Holiness</marker> be to God).</example><!-- The text is correct English (subjunctive 'be'). Unlike the example below, it does not trigger an error, because rules in the disambiguator rulegroup QUOT treat curly quotes and straight quotes differently.  -->
                 <example type="triggers_error">… by Muslims, including “Subhan-Allah” (<marker>Holiness</marker> be to God).</example>
-                <example type="triggers_error">We elected Jeffrey <marker>captain</marker> of our team.</example>
+                <example>We elected Jeffrey <marker>captain</marker> of our team.</example>
                 <example type="triggers_error">FBI <marker>file</marker> on Albert Einstein</example>
                 <example type="triggers_error">… to reproduce the statistics of a Bose–Einstein <marker>gas</marker> by considering a box.</example><!-- Bose–Einstein incorrectly contains an en-dash, not a hyphen (Chicago Manual of Style, 15th edition, section 6.85).  -->
                 <example type="triggers_error">The oil sands of Alberta, Canada <marker>are</marker> a similar material.</example>
