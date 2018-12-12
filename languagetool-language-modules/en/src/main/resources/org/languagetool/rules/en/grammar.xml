@@ -7445,7 +7445,12 @@ USA
             <example><marker>Will Will</marker> notice this?</example>
             <example><marker>Will will</marker> notice this.</example>
         </rule>
-        <rule id='COLLECTIVE_NOUN_VERB_AGREEMENT_VBP' name='COLLECTIVE_NOUN_VERB_AGREEMENT_VBP'>
+        <rule id='COLLECTIVE_NOUN_VERB_AGREEMENT_VBP' name='a fleet of ships are (is)'>
+            <antipattern><!-- what sort of curtains do you think -->
+                <token postag='NNS'/>
+                <token regexp='yes'>do|did</token>
+                <token regexp='yes'>I|you|we|they</token>
+            </antipattern>
             <pattern>
                 <token postag='NN'>
                     <exception postag='^(?!.*NN(?!(S|P))).*$' postag_regexp='yes'/>
@@ -7457,12 +7462,19 @@ USA
                     <exception>people</exception>
                 </token>
                 <marker>
-                    <token postag='VBP'/>
+                    <token postag='VBP'><exception postag='RB'/></token>
                 </marker>
             </pattern>
-            <message>Possible agreement error</message>
-            <suggestion><match no='4' postag='VBZ'/></suggestion>
+            <message>Possible agreement error. Do you mean <suggestion><match no='4' postag='VBZ'/></suggestion>? (Some collective nouns can be treated as both singular and plural, so '\4' is not always incorrect.)</message>
+            <url>https://blog.oxforddictionaries.com/2011/09/05/agreement-over-collective-nouns/</url>
             <example correction='is'>A fleet of ships <marker>are</marker> spotted.</example>
+            <example>A fleet of ships <marker>is</marker> spotted.</example>
+            <example>...involvement of the inhabitants drove the band of thugs <marker>out</marker> of the town.</example>
+            <example>I'm taking a couple of days <marker>off</marker>.</example>
+            <example>What sort of curtains <marker>do</marker> you think would go with the carpet?</example>
+            <example type="triggers_error">Only a handful of activists <marker>are</marker> articulate in our union.</example>
+            <example type="triggers_error">A couple of swallows <marker>are</marker> flying overhead.</example>
+            <example type="triggers_error">Only a handful of men <marker>want</marker> to take childcare leave.</example>
         </rule>
         <rule id='COLLECTIVE_NOUN_VERB_AGREEMENT_VBD' name='a fleet of ships have (has)'>
             <pattern>
