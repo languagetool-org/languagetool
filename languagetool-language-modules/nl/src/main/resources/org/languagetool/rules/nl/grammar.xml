@@ -1173,7 +1173,7 @@ regexp case-insensitive maken : (?i)
 
         <rulegroup id="WOORDEN_WORDEN" name="waarschuwing bij gebruik worden i.p.v. woorden">
             <rule>
-				<antipattern><token regexp="yes">te|kan|kunnen|moet|zal|zou|niet|zullen|het</token><token>worden</token></antipattern>
+				<antipattern><token regexp="yes">te|kan|kunnen|moet|moeten|moest|zal|zou|niet|zullen|het|gaan|rekening</token><token>worden</token></antipattern>
 				<antipattern><token skip="3">worden</token><token postag="WKW:VTD:ONV"/></antipattern>
 				<antipattern><token postag="WKW:VTD:ONV" skip="3"/><token>worden</token></antipattern>
 				<antipattern><token>,</token><token>worden</token></antipattern>
@@ -1297,7 +1297,7 @@ regexp case-insensitive maken : (?i)
         <rulegroup id="WOORD_WORD" name="waarschuwing bij gebruik word i.p.v. woord">
             <rule>
                 <pattern>
-                    <token regexp="yes">het|een|geen|zo'n|dat|dit</token>
+                    <token regexp="yes">één|n|enkel|Griekse|gods|gesproken|Engelse|Latijnse|laatste|goed|te|het|een|geen|zo'n|dat|dit</token>
                     <marker>
                        <token>word</token>
                    </marker>
@@ -31500,7 +31500,6 @@ steenwijk;Steenwijk
                 <message>Met problemen 'kamp' je. .</message>
                 <example type="incorrect">Hij heeft met grote problemen <marker>gekamd</marker>.</example>
             </rule>
-            
         </rulegroup>
         <rulegroup id="SEPSIS_SCEPSIS" name="Sepsis vs scepsis">
             <rule>
@@ -31509,6 +31508,18 @@ steenwijk;Steenwijk
                 </pattern>
                 <message>Bedooelt u wellicht <suggestion>scepsis</suggestion> (wantrouwen) in plaats van sepsis (bloedvergiftiging)?</message>
                 <example correction="scepsis">Ik hoor het met <marker>sepsis</marker> aan.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="GEVAARLIJK_PRESIDENT" name="President vs precedent">
+            <rule>
+                <pattern>
+                        <token>gevaarlijk</token>
+						<marker>
+							<token>president</token>
+						</marker>
+                </pattern>
+                <message>Bedooelt u wellicht <suggestion>precedent</suggestion> (eerste geval) in plaats van president (voorzitter, leider)?</message>
+                <example correction="precedent">Ik hoor een gevaarlijk <marker>president</marker>.</example>
             </rule>
         </rulegroup>
 		
