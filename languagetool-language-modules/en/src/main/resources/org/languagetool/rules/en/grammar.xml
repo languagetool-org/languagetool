@@ -8882,6 +8882,17 @@ USA
                 <token>a</token>
                 <token regexp="yes">day|week|month|year</token>
             </antipattern>
+            <antipattern><!-- https://en.oxforddictionaries.com/definition/now_or_never -->
+                <token>now</token>
+                <token>or</token>
+                <token>never</token>
+            </antipattern>
+            <antipattern><!-- https://en.oxforddictionaries.com/definition/better_late_than_never -->
+                <token>better</token>
+                <token>late</token>
+                <token>than</token>
+                <token>never</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token postag="SENT_START"/> <!-- or but -->
@@ -8933,6 +8944,9 @@ USA
                 <example correction="">I am happy <marker>always</marker>.</example>
                 <example>I am <marker>always</marker> happy.</example>
                 <example>The band emerged triumphant, <marker>as always</marker>.</example>
+                <example>It's <marker>now or never</marker>.</example>
+                <example>... but <marker>better late than never</marker>.</example>
+                <example type="triggers_error">It was an event that occurred <marker>only rarely</marker>.</example><!-- This sounds correct to me (MFU), but I did not find a reference. -->
             </rule>
             <rule>
                 <antipattern>
