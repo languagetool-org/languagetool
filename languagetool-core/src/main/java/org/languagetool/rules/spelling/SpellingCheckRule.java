@@ -44,6 +44,11 @@ public abstract class SpellingCheckRule extends Rule {
    * @since 2.3
    */
   public static final String LANGUAGETOOL = "LanguageTool";
+  /**
+   * The string {@code LanguageTooler}.
+   * @since 4.4
+   */
+  public static final String LANGUAGETOOLER = "LanguageTooler";
 
   protected final Language language;
   protected final CachingWordListLoader wordListLoader = new CachingWordListLoader();
@@ -136,6 +141,9 @@ public abstract class SpellingCheckRule extends Rule {
     List<String> moreSuggestions = new ArrayList<>();
     if (("Languagetool".equals(word) || "languagetool".equals(word)) && !suggestions.contains(LANGUAGETOOL)) {
       moreSuggestions.add(LANGUAGETOOL);
+    }
+    if (("Languagetooler".equals(word) || "languagetooler".equals(word)) && !suggestions.contains(LANGUAGETOOLER)) {
+      moreSuggestions.add(LANGUAGETOOLER);
     }
     return moreSuggestions;
   }
