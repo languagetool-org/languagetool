@@ -8769,6 +8769,18 @@ USA
                 <token>it</token>
                 <token postag_regexp="yes" postag="VBD|R[BP]|IN|JJR?"/>
             </antipattern>
+            <antipattern><!-- cut it short [ also 'as time passes' because 'time' is JJ and NN:UN (but JJ_NN_JJ removes NN:UN)] -->
+                <token postag_regexp="yes" postag="VBP?"/>
+                <token>it</token>
+                <token min="0" max="1" postag="RB"/>
+                <token postag_regexp="yes" postag="JJR?"/>
+            </antipattern>
+            <antipattern><!-- lights went off and it became dark -->
+                <token postag="VBD"/>
+                <token min="0" max="1" postag="RP"/>
+                <token postag="CC"/>
+                <token>it</token>
+            </antipattern>
             <pattern>
                 <!-- 't': from "doesn't" etc -->
                 <token><exception regexp="yes">can|could|must|might|shall|does|will|ll|would|should|may|t|did|be|is|were|was|that|about|of|lest|whether|surrounding|had</exception><exception regexp="yes" inflected="yes">hear|feel|see|insist|call|claim|make|let</exception><exception postag="IN"/></token>
@@ -8804,6 +8816,11 @@ USA
             <example>He could do it even better.</example>
             <example>The details of how to do it have been explained.</example>
             <example>I can have it ready in thirty minutes.</example>
+            <example>Cut it <marker>short</marker> all over.</example>
+            <example>Don't cut it too <marker>short</marker> in the front.</example>
+            <example>You will understand it as <marker>time</marker> passes.</example>
+            <example>The lights suddenly went off and it <marker>become</marker> dark.</example>
+            <example type="triggers_error">The lights suddenly went out and it <marker>become</marker> dark.</example><!-- Disambiguation BE_OUT removes 'RP' from the phrasal verb 'go out'. But, there is no easy correction to the disambiguation, because in "The man went out of the office", 'out' is an adverb. -->
         </rule>
         <rulegroup id="DID_PAST" name="'did' with past tense verb">
             <rule>
