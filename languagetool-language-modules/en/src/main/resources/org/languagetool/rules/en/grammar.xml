@@ -13773,6 +13773,12 @@ USA
         </rule>
         <rulegroup id="HE_VERB_AGR" name="Agreement error: Non-third person/past tense verb with 'he/she/it' or a pronoun">
             <short>Agreement error</short>
+            <antipattern><!-- nobody having any question. Applicable to rule 1 and rule 7. -->
+                <token regexp="yes">(any|every|no|some)(one|body)</token>
+                <token postag="VBG"/>
+                <token postag_regexp="yes" postag="DT|PRP\$"/>
+                <token postag_regexp="yes" postag="NN.*"/>
+            </antipattern>
             <rule>
                 <antipattern>
                     <token regexp="yes">with(out)?</token>
@@ -13789,6 +13795,24 @@ USA
                     <token regexp="yes">(s)?he</token>
                     <token>/</token>
                     <token regexp="yes">(s)?he</token>
+                </antipattern>
+                <antipattern><!-- you and he are -->
+                    <token postag="PRP"/>
+                    <token>and</token>
+                    <token regexp="yes">s?he</token>
+                </antipattern>
+                <antipattern><!-- you as well as [=and] he are -->
+                    <token postag="PRP"/>
+                    <token>as</token>
+                    <token>well</token>
+                    <token>as</token>
+                    <token regexp="yes">s?he</token>
+                </antipattern>
+                <antipattern><!-- for anyone wishing to learn-->
+                    <token regexp="yes">(any|every|no|some)(one|body)</token>
+                    <token postag="VBG"/>
+                    <token>to</token>
+                    <token postag_regexp="yes" postag="VBP?"/>
                 </antipattern>
                 <pattern>
                     <token negate="yes" regexp="yes"><exception inflected="yes" regexp="yes">feel|hear|see|insist|suggest|help|prevent|stop|of|have|be</exception>(that|how|will|must|could|can|should|would|does|did|may|might|t|let|dare|lest|into)</token>
@@ -13816,8 +13840,13 @@ USA
                 <example correction="does|did">Without somebody <marker>do</marker> the test, we cannot know.</example>
                 <example>Only supply information that you are comfortable with anyone <marker>seeing</marker>.</example>
                 <example correction="likes|liked">Everybody <marker>liking</marker> my new suit.</example>
-                <example type="triggers_error">I don't want anyone <marker>touching</marker> my car.</example>
-                <example type="triggers_error">Anybody <marker>touching</marker> my car will get a black eye!</example>
+                <example>Both <marker>you and he are</marker> eligible for up to five years in federal prison.</example>
+                <example><marker>You as well as he are</marker> diligent.</example>
+                <example>This is a good book for <marker>anyone wishing to learn</marker> English.</example>
+                <example><marker>Nobody having any question</marker>, he ended the lecture.</example>
+                <example>I don't want <marker>anyone touching my car</marker>.</example>
+                <example><marker>Anybody touching my car</marker> will get a black eye!</example>
+                <example type="triggers_error"><marker>His parents as well as he</marker> are very kind to me.</example>
             </rule>
             <rule>
                 <pattern>
@@ -13924,6 +13953,7 @@ USA
                 <example>What is he doing here at this hour?</example>
                 <example>And why was she crying?</example>
                 <example>What's he going to do?</example>
+                <example>I don't want <marker>anyone touching my car</marker>.</example>
             </rule>
             <rule>
                 <antipattern>
