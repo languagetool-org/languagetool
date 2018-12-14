@@ -16149,6 +16149,26 @@ USA
                     <token><match no="1"  case_conversion="startupper"/></token>
                     <token postag="NNP" regexp="yes">[A-Z][a-z]+</token>
                 </antipattern>
+                <antipattern><!-- www.collinsdictionary.com/dictionary/english/hand-in-hand-->
+                    <token inflected="yes" regexp="yes">be|walk|talk</token>
+                    <token>hand</token>
+                    <token>in</token>
+                    <token>hand</token>
+                </antipattern>
+                <antipattern><!-- www.merriam-webster.com/dictionary/call%20a%20spade%20a%20spade -->
+                    <token inflected="yes">call</token>
+                    <token>a</token>
+                    <token>spade</token>
+                    <token>a</token>
+                    <token>spade</token>
+                </antipattern>
+                <antipattern>
+                    <token>far</token>
+                    <token>as</token>
+                    <token>far</token>
+                    <token>as</token>
+                    <token postag="PRP"/>
+                </antipattern>
                 <pattern>
                     <token negate_pos="yes" postag="SENT_START" regexp="yes"><exception>and</exception>\p{L}+</token>
                     <token regexp="yes"><exception>and</exception>\p{L}+</token>
@@ -16167,6 +16187,9 @@ USA
                 <example>Northern California dispatches from 2015 were <marker>as bad as bad could be</marker>.</example>
                 <example>He needed a bell <marker>as big as</marker> Big Ben.</example>
                 <example>Very few men were <marker>as big as</marker> Big Rich.</example>
+                <example>I saw Jim and Mary taking a <marker>walk hand in hand</marker> in the park.</example>
+                <example>Jane <marker>calls a spade a spade</marker>.</example>
+                <example>It is very <marker>far as far as I</marker> know.</example>
                 <example type="triggers_error">Entertainment is about to get <marker>as real as</marker> real life and nothing will ever be the same.</example>
                 <example type="triggers_error">No credit is almost <marker>as bad as</marker> bad credit.</example>
                 <example type="triggers_error">He accuses the public health lobby of being just <marker>as big as</marker> big business.</example>
