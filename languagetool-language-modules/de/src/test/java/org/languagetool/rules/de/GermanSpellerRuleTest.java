@@ -473,8 +473,7 @@ public class GermanSpellerRuleTest {
     commonGermanAsserts(rule, lt);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("Der äußere Übeltäter.")).length);  // umlauts
     assertEquals(1, rule.match(lt.getAnalyzedSentence("Der äussere Übeltäter.")).length);
-    // TODO: this is a false alarm:
-    //assertEquals(0, rule.match(langTool.getAnalyzedSentence("Die Mozart'sche Sonate.")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("Die Mozart'sche Sonate.")).length);
   }
 
   // note: copied from HunspellRuleTest
