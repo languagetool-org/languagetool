@@ -541,7 +541,7 @@ public class GermanSpellerRuleTest {
     assertCorrection(rule, "InnereMedizin", "Innere Medizin");
 
     //TODO: requires morfologik-speller change (suggestions for known words):
-    //assertCorrection(rule, "Arbeitamt", "Arbeitsamt");
+    assertCorrection(rule, "Arbeitamt", "Arbeitsamt");
 
     assertCorrection(rule, "Autoverkehrr", "Autoverkehr");
 
@@ -606,7 +606,7 @@ public class GermanSpellerRuleTest {
     GermanSpellerRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
     JLanguageTool lt = new JLanguageTool(GERMAN_DE);
     assertFirstSuggestion("informationnen.", "Informationen.", rule, lt);
-//    assertFirstSuggestion("Kundigungsfrist.", "Kündigungsfrist.", rule, lt);
+    assertFirstSuggestion("Kundigungsfrist.", "Kündigungsfrist.", rule, lt);
     assertFirstSuggestion("aufgeregegt.", "aufgeregt.", rule, lt);
     assertFirstSuggestion("informationnen...", "Informationen...", rule, lt);
     assertFirstSuggestion("arkbeiten-", "arbeiten", rule, lt);
