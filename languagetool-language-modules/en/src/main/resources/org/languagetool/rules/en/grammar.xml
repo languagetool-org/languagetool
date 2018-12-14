@@ -20217,6 +20217,20 @@ USA
                     <token>Further</token>
                     <token postag="VBG" regexp="yes">(add|comp(licat|ound)|exp(and|lain)|read|stat)ing</token>
                 </antipattern>
+                <antipattern>
+                    <token>However</token>
+                    <token>that</token>
+                    <token>may</token>
+                    <token>be</token>
+                    <token>,</token>
+                </antipattern>
+                <antipattern>
+                    <token>However</token>
+                    <token postag_regexp="yes" postag="PRP|NNP"/>
+                    <token postag_regexp="yes" postag="VB.*"/><!-- Other rules should find incorrect text such as "However they goes, ..." -->
+                    <token min="0" max="1" postag="PRP"/>
+                    <token>,</token>
+                </antipattern>
                 <pattern>
                     <!-- TODO: also cover the case where a new sub-clause is connected by ";|, $adverb," and detect missing punctuation -->
                     <token postag="SENT_START"/>
@@ -20226,7 +20240,7 @@ USA
                             <exception negate_pos="yes" postag="RB">further</exception>
                         </token>
                     </marker>
-                    <token negate="yes" regexp="yes">,|!</token>
+                    <token negate="yes" regexp="yes">[,!\.\?]</token>
                 </pattern>
                 <message>Did you forget a comma after a conjunctive/linking adverb?</message>
                 <suggestion>\2,</suggestion>
@@ -20246,6 +20260,12 @@ USA
                 <example>Further to this previous point, it is difficult to fully respect a high-ranking business official if their grammar isn’t up to par.</example>
                 <example>Thus far, the tests are in agreement with the observations made.</example>
                 <example>Finally outside, she caused a bit of shock amongst the Assisians.</example>
+                <example><marker>However that may be</marker>, I am wrong.</example>
+                <example><marker>However we go</marker>, we must get there by seven.</example>
+                <example><marker>However you do it</marker>, the result will be the same.</example>
+                <example><marker>Indeed</marker>. He is young, but smart for his age.</example>
+                <example type="triggers_error"><marker>Indeed he is rich</marker>, but he is not reliable.</example><!-- Comma is also correct. -->
+                <example type="triggers_error">Still others simply travel around America in recreation...</example><!-- Comma is also correct. -->
             </rule>
             <rule>
                 <pattern>
@@ -20255,13 +20275,14 @@ USA
                     <marker>
                         <token regexp="yes">addition|contrast|comparison</token>
                     </marker>
-                    <token negate="yes">,<exception>to</exception></token>
+                    <token negate="yes">,<exception regexp="yes">to|with</exception></token>
                 </pattern>
                 <message>Did you forget a comma after a conjunctive/linking adverb?</message>
                 <suggestion>\3,</suggestion>
                 <short>Punctuation error</short>
                 <example correction="addition,">In <marker>addition</marker> he created a great rule for LanguageTool.</example>
                 <example>In addition to these, it is also featured in Schoolhouse Rock.</example>
+                <example><marker>In comparison with Tokyo</marker>, London is small.</example>
             </rule>
         </rulegroup>
         <rulegroup id="MISSING_HYPHEN" name="Missing hyphens in compounds">
