@@ -40,7 +40,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token postag='VER:.*PRT.*' postag_regexp='yes'><exception postag='VER:(MOD|AUX):.+|PA2:PRD:GRU:VER' postag_regexp='yes'/></token>
             </pattern>
-            <message>Vermeiden Sie die 1. Vergangenheit (Präteritum). Schreiben Sie in der 2. Vergangenheit. Verwenden Sie das Perfekt.</message>
+            <message>Vermeiden Sie die 1. Vergangenheit (Präteritum). Schreiben Sie in der 2. Vergangenheit (Perfekt).</message>
             <short>1. Vergangenheit vermeiden</short>
             <example correction="">Ich <marker>ging</marker> einkaufen.</example>
             <example>Ich bin einkaufen gegangen.</example>
@@ -356,7 +356,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token postag_regexp="yes" postag="PA2:PRD:.*|VER:PA2:.*"/>
                     </marker>
                 </pattern>
-                <message>In diesem Satz haben Sie das Passiv verwendet. Benutzen Sie aktive Wörter.</message>
+                <message>Passiv gefunden. Benutzen Sie aktive Wörter.</message>
                 <example>Jemand feuerte den Manager.</example>
                 <example correction="">Der Manager wurde <marker>gefeuert</marker>.</example>
                 <example correction="">Der Manager wurde <marker>gefeuert</marker>.</example>
@@ -367,7 +367,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag_regexp="yes" postag="PA2:PRD:.*|VER:PA2:.*"/>
                     <token inflected="yes" postag_regexp="yes" postag="VER:AUX:.*"><exception>,</exception>werden</token>
                 </pattern>
-                <message>In diesem Satz haben Sie das Passiv verwendet. Benutzen Sie aktive Wörter.</message>
+                <message>Passiv gefunden. Benutzen Sie aktive Wörter.</message>
                 <example>Sie hat den Manager entlassen.</example>
                 <example correction="">Als der Manager <marker>gefeuert wurde</marker>.</example>
             </rule>
@@ -378,7 +378,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token negate="yes" postag="KON:NEB"/>
                     <token inflected="yes" postag_regexp="yes" postag="VER:AUX:.*"><exception>,</exception>werden</token>
                 </pattern>
-                <message>In diesem Satz haben Sie das Passiv verwendet. Benutzen Sie aktive Wörter.</message>
+                <message>Passiv gefunden. Benutzen Sie aktive Wörter.</message>
                 <example>Sie mahnten den Manager ab und feuerten ihn.</example>
                 <example type="incorrect">Als der Manager <marker>abgemahnt und gefeuert wurde</marker>.</example>
             </rule>
@@ -394,7 +394,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token postag_regexp="yes" postag="SUB:GEN:.*"/>
                     </marker>
                 </pattern>
-                <message>Genitiv gefunden. Vermeiden Sie den Genitiv.</message>
+                <message>Vermeiden Sie den Genitiv.</message>
                 <example>Der Sattel von dem Fahrrad.</example>
                 <example correction="">Der Sattel <marker>des Fahrrads</marker>.</example>
             </rule>
@@ -406,7 +406,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token postag_regexp="yes" postag="SUB:GEN:.+"/>
                     </marker>
                 </pattern>
-                <message>Genitiv gefunden. Vermeiden Sie den Genitiv.</message>
+                <message>Vermeiden Sie den Genitiv.</message>
                 <example>Der Sattel von deinem Fahrrad.</example>
                 <example correction="">Der Sattel <marker>deines Fahrrads</marker>.</example>
                 <!-- Vorschlag: Verwenden Sie statt dessen den Dativ. -->
@@ -936,7 +936,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token spacebefore="yes" regexp="yes">\p{N}{3,}</token>
                 </pattern>
-                <message>Hohe Zahl gefunden. Vermeiden Sie hohe Zahlen.</message>
+                <message>Vermeiden Sie hohe Zahlen.</message>
                 <example>Sehr viele Menschen</example>
                 <example correction="">Bis zu <marker>100000</marker> Menschen</example>
                 <example>Das erste Weltkrieg hat im Jahr <marker>1914</marker> begonnen.</example>
@@ -948,7 +948,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token spacebefore="no">.</token>
                     <token spacebefore="no" regexp="yes">\p{N}{3}</token>
                 </pattern>
-                <message>Hohe Zahl gefunden. Vermeiden Sie hohe Zahlen.</message>
+                <message>Vermeiden Sie hohe Zahlen.</message>
                 <example>Sehr viele Menschen</example>
                 <example correction=""><marker>100.000</marker> Menschen</example>
             </rule>
@@ -958,7 +958,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token spacebefore="no">,</token>
                     <token spacebefore="no" regexp="yes">\p{N}+</token>
                 </pattern>
-                <message>Kommazahl gefunden. Vermeiden Sie Kommazahlen.</message>
+                <message>Vermeiden Sie Kommazahlen.</message>
                 <example>Etwa 4</example>
                 <example correction=""><marker>3,91</marker></example>
             </rule>
@@ -966,7 +966,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token regexp="yes">\p{N}+%</token>
                 </pattern>
-                <message>Prozentzahl gefunden. Vermeiden Sie Prozentzahlen.</message>
+                <message>Vermeiden Sie Prozentzahlen.</message>
                 <example>14 Prozent</example>
                 <example correction=""><marker>14%</marker></example>
             </rule>
@@ -975,7 +975,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">\p{N}+</token>
                     <token>%</token>
                 </pattern>
-                <message>Prozentzahl gefunden. Vermeiden Sie Prozentzahlen.</message>
+                <message>Vermeiden Sie Prozentzahlen.</message>
                 <example>14 Prozent</example>
                 <example correction=""><marker>14 %</marker></example>
             </rule>
@@ -992,7 +992,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token negate="yes">bis</token>
                 </pattern>
                 <message>Schreiben Sie 'bis' bei vorangehendem 'von' aus: <suggestion>A bis Z</suggestion>.</message>
-                <short>Bitte schreiben Sie 'bis' bei vorhergehendem 'von' aus.</short>
+                <short>Schreiben Sie 'bis' bei vorhergehendem 'von' aus.</short>
                 <example><marker>Pilze von A bis Z</marker>.</example>
                 <example>Die Buchstaben <marker>A–Z</marker>.</example>
                 <example correction="A bis Z">Pilze von <marker>A-Z</marker>.</example>
@@ -1008,7 +1008,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token negate="yes">bis</token>
                 </pattern>
                 <message>Schreiben Sie 'bis' bei vorhergehendem 'von' aus: <suggestion>\2 bis \4</suggestion>.</message>
-                <short>Bitte schreiben Sie 'bis' bei vorhergehendem 'von' aus.</short>
+                <short>Schreiben Sie 'bis' bei vorhergehendem 'von' aus.</short>
                 <example><marker>Pilze von A bis Z</marker>.</example>
                 <example>Die Buchstaben <marker>A–Z</marker>.</example>
                 <example correction="A bis Z">Pilze von <marker>A - Z</marker>.</example>
@@ -1021,8 +1021,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token regexp="yes">([0-9]{1,5})(\-|–)([0-9]{1,5})</token>
                     </marker>
                 </pattern>
-                <message>Bitte schreiben Sie 'bis' bei vorhergehendem 'von' aus: <suggestion><match no="1"/> <match no="2" regexp_match="([0-9]{1,5})(\-|–)([0-9]{1,5})" regexp_replace="$1 bis $3"/></suggestion>.</message>
-                <short>Bitte schreiben Sie 'bis' bei vorhergehendem 'von' aus.</short>
+                <message>Schreiben Sie 'bis' bei vorhergehendem 'von' aus: <suggestion><match no="1"/> <match no="2" regexp_match="([0-9]{1,5})(\-|–)([0-9]{1,5})" regexp_replace="$1 bis $3"/></suggestion>.</message>
+                <short>Schreiben Sie 'bis' bei vorhergehendem 'von' aus.</short>
                 <example correction="Von 9 bis 10"><marker>Von 9–10</marker> Uhr.</example>
             </rule>
             <rule>
@@ -1034,14 +1034,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token regexp="yes">[0-9]{1,5}</token>
                     </marker>
                 </pattern>
-                <message>Bitte schreiben Sie 'bis' bei vorhergehendem 'von' aus: <suggestion>\1 \2 bis \4</suggestion>.</message>
-                <short>Bitte schreiben Sie 'bis' bei vorhergehendem 'von' aus.</short>
+                <message>Schreiben Sie 'bis' bei vorhergehendem 'von' aus: <suggestion>\1 \2 bis \4</suggestion>.</message>
+                <short>Schreiben Sie 'bis' bei vorhergehendem 'von' aus.</short>
                 <example correction="Von 9 bis 10"><marker>Von 9 – 10</marker> Uhr.</example>
             </rule>
             <rule>
                 <regexp case_sensitive='yes'>([vV]o[nm]) (Band|Blatt|Seite|Zeile) (([0-9]{1,5})(\-|–)([0-9]{1,5}))</regexp>
-                <message>Bitte schreiben Sie 'bis' bei vorhergehendem 'von' aus: <suggestion><match no="1"/> <match no="2"/> <match no="3" regexp_match="([0-9]{1,5})(\-|–)([0-9]{1,5})" regexp_replace="$1 bis $3"/></suggestion>.</message>
-                <short>Bitte schreiben Sie 'bis' bei vorhergehendem 'von' aus.</short>
+                <message>Schreiben Sie 'bis' bei vorhergehendem 'von' aus: <suggestion><match no="1"/> <match no="2"/> <match no="3" regexp_match="([0-9]{1,5})(\-|–)([0-9]{1,5})" regexp_replace="$1 bis $3"/></suggestion>.</message>
+                <short>Schreiben Sie 'bis' bei vorhergehendem 'von' aus.</short>
                 <example correction="Von Zeile 7 bis 11"><marker>Von Zeile 7-11</marker> wird geprüft, ob die Zahl eine Primzahl ist.</example>
                 <example correction="Von Zeile 7 bis 11"><marker>Von Zeile 7–11</marker> wird geprüft, ob die Zahl eine Primzahl ist.</example>
             </rule>
@@ -1133,7 +1133,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token regexp="yes">(&klamauf;|&klamzu;|&anfauf;|&anfzu;|&amp;|[*†§…;'"])</token>
                 </pattern>
-                <message>Sonderzeichen gefunden. Vermeiden Sie Sonderzeichen.</message>
+                <message>Vermeiden Sie Sonderzeichen.</message>
                 <example>Hier steht was, und noch was...</example>
                 <example correction="">Hier steht was <marker>(</marker>und noch was...</example>
             </rule>
@@ -1141,7 +1141,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token>%<exception scope="previous" regexp="yes">\p{N}+</exception></token>
                 </pattern>
-                <message>Sonderzeichen gefunden. Vermeiden Sie Sonderzeichen.</message>
+                <message>Vermeiden Sie Sonderzeichen.</message>
                 <example>Erhöhung um einige Prozent</example>
                 <example correction="">Erhöhung um einige <marker>%</marker></example>
             </rule>
@@ -1151,7 +1151,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token spacebefore="no">/</token>
                     <token spacebefore="no" regexp="yes">-?in(nen)?</token>
                 </pattern>
-                <message>Sonderzeichen gefunden. Vermeiden Sie Sonderzeichen.</message>
+                <message>Vermeiden Sie Sonderzeichen.</message>
                 <suggestion>\1 oder \1<match no="3" regexp_match="-" regexp_replace=""/></suggestion>
                 <suggestion>\1 und \1<match no="3" regexp_match="-" regexp_replace=""/></suggestion>
                 <example correction="Lehrer oder Lehrerinnen|Lehrer und Lehrerinnen">Hier arbeiten viele <marker>Lehrer/-innen</marker></example>
@@ -1171,7 +1171,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token regexp="yes">\p{Lu}{2,}</token>
                 </pattern>
-                <message>Abkürzung gefunden. Verzichten Sie auf Abkürzungen.</message>
+                <message>Verzichten Sie auf Abkürzungen.</message>
                 <example>Das <marker>Köchelverzeichnis</marker> ist ein Verzeichnis der Kompositionen von Mozart.</example>
                 <example correction="">Das <marker>KV</marker> ist ein Verzeichnis der Kompositionen von Mozart.</example>
             </rule>
@@ -1181,7 +1181,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">\p{L}</token><token>.</token>
                     <token regexp="yes">\p{L}</token><token>.</token>
                 </pattern>
-                <message>Abkürzung gefunden. Verzichten Sie auf Abkürzungen.</message>
+                <message>Verzichten Sie auf Abkürzungen.</message>
                 <example>Die Sozialdemokratische Partei Deutschlands.</example>
                 <example correction="">Die <marker>S.P.D.</marker></example>
             </rule>
@@ -1192,7 +1192,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">\p{L}</token>
                     <token spacebefore="no">.</token>
                 </pattern>
-                <message>Abkürzung gefunden. Verzichten Sie auf Abkürzungen.</message>
+                <message>Verzichten Sie auf Abkürzungen.</message>
                 <example correction="">Der Tiger ist <marker>z. B.</marker> ein Tier.</example>
                 <example correction="">Er ist krank, <marker>d. h.</marker> er kann nicht kommen.</example>
             </rule>
@@ -1201,7 +1201,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">Tel|Temp|trans|Tsd|übertr|übl|ff|überarb|ugs|univ|unveränd|urspr|usw|vgl|Vol|vollst|vorm|etc|Vp|Vs|vs|wesentl|wg|Hd|Ztr|zus|Zus|zzt?|zzgl|Zz|Zt|Min|Bzgl|bzgl|bezügl|Frhr|ggfs|insb|autom|MwSt|hebr|hg|hl|Hg|hist|hochd|hochspr|Hptst|Hr|hrsg|Allg|ill|inkl|incl|Ind|Inf|Ing|ital|Tr|jap|Jb|Jg|Jhd?|Jhdts?|jmdm?|jmdn|jmds|jur|Kap|kart|kath|kaufm|Kfm|kgl|Kl|Konj|königl|Krs|Kr|Kto|bzw</token>
                     <token spacebefore="no">.</token>
                 </pattern>
-                <message>Abkürzung gefunden. Verzichten Sie auf Abkürzungen.</message>
+                <message>Verzichten Sie auf Abkürzungen.</message>
                 <example correction="">Das ist <marker>Hr.</marker> Meier.</example>
                 <example>Das ist Herr <marker>Meier</marker>.</example>
             </rule>
@@ -1209,7 +1209,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token postag_regexp="yes" postag="ABK:.*"><exception regexp="yes">\p{L}</exception></token>
                 </pattern>
-                <message>Abkürzung gefunden. Verzichten Sie auf Abkürzungen.</message>
+                <message>Verzichten Sie auf Abkürzungen.</message>
                 <example>Wir brauchen Milch, Eier <marker>und so weiter</marker>.</example>
                 <example correction="">Wir brauchen Milch, Eier <marker>usw</marker>.</example>
             </rule>
