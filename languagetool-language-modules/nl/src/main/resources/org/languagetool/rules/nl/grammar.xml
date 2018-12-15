@@ -15936,6 +15936,20 @@ steenwijk;Steenwijk
                 <example correction="Nieuw-Zeeland">De kans is groot dat chipsproducenten in <marker>Nieuw Zeeland</marker> tijdelijk hun productie moeten stilleggen.</example>
             </rule>
         </rulegroup>
+		
+        <rulegroup id="GEEN_HOOFDLETTER_NA_GETAL" name="Na getal begint zin niet met hoofdletter.">
+            <rule>
+                <pattern>
+					<token postag="SENT_START"/>
+                    <token regexp="yes">[0-9]+</token>
+					<marker>
+						<token case_sensitive="yes" regexp="yes">[A-Z][a-z].*<exception postag_regexp="yes" postag="ENM.*|VLG:BHL"/></token>
+					</marker>
+                </pattern>
+                <message>Na een getal krijgt het eerste gewone woord geen hoofdletters: <suggestion><match no="3" case_conversion="alllower"/></suggestion></message>
+                <example correction="was">2018 <marker>Was</marker> een mooi jaar.</example>
+            </rule>
+		</rulegroup>
         <rulegroup id="HOOFDLETTERS_OVERBODIG" name="Woorden die ook klein geschreven mogen worden.">
             <rule>
                 <pattern>
