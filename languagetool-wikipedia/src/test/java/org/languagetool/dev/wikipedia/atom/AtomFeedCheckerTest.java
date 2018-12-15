@@ -18,11 +18,9 @@
  */
 package org.languagetool.dev.wikipedia.atom;
 
-import org.junit.Ignore;
-import org.junit.Test;
-import org.languagetool.language.English;
-import org.languagetool.language.German;
-import org.languagetool.tools.Tools;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -33,9 +31,12 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
+import org.junit.Ignore;
+import org.junit.Test;
+import org.languagetool.language.English;
+import org.languagetool.language.German;
+import org.languagetool.language.German;
+import org.languagetool.tools.Tools;
 
 public class AtomFeedCheckerTest {
 
@@ -61,7 +62,7 @@ public class AtomFeedCheckerTest {
 
   @Test
   public void testCheck() throws IOException {
-    AtomFeedChecker atomFeedChecker = new AtomFeedChecker(new GermanyGerman());
+    AtomFeedChecker atomFeedChecker = new AtomFeedChecker(new German());
     CheckResult checkResult = atomFeedChecker.checkChanges(getStream());
     List<ChangeAnalysis> changeAnalysis = checkResult.getCheckResults();
     assertThat(changeAnalysis.size(), is(3));
