@@ -862,7 +862,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token inflected='yes' regexp='yes'>Wiegenfest|Nahverkehr|Fernverkehr|Lichtbild|Bärendienst|Kurschatten|Mauerblümchen|Erdbeermund|Gänsehaut|Pustekuchen|Gardinenpredigt|Orangenhaut|Gipfeltreffen|Honigkuchenpferd|Rabeneltern|Stimmungskanone|Hausdrache|Gaumenschmeichler|Glückspilz|Baumkrone|Sternstunde|Warteschlange|Menschenschlange|Strohfeuer|Wüstenschiff|Zahlenfriedhof|Kaderschmiede|Zwickmühle|Augenweide|Augenschmaus|Hexenkessel|Hosenstall|Stubentiger|Couchsurfer|Lampenfieber|Rohrkrepierer|Goldmarie|Sternstunden|Helikoptereltern|Schwarzmalerei|Augenwischerei|Eselsbrücke|Kredithai|Torschlusspanik|Dreikäsehoch|Hanswurst</token>
             </pattern>
-            <message>Verwenden Sie keine schwierigen Begriffe. Vermeiden Sie Metaphern und bildhafte Sprache.</message>
+            <message>Vermeiden Sie Metaphern und bildhafte Sprache.</message>
             <short>Metaphern vermeiden</short>
             <example>Sie haben ihm damit geschadet.</example>
             <example correction="">Sie erwiesen ihm einen <marker>Bärendienst</marker>.</example>
@@ -874,7 +874,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token inflected='yes' regexp='yes'>abnor.+|ambi.+|anti.+|asy.+|auth.+|biblio.+|diffizil|ge(denken|nehmigen|statten|währen)|hemi.+|hy.+|kontra.+|mono.+|neo.+|omni.+|ortho.+|poly.+|prä.+|pseudo.+|retro.+|rhy.+|semi.+|sy[mn].+|theo.*|zy.+|.+ismus|.+phobien?|.+nym|ehelichen</token>
             </pattern>
-            <message>Verwenden Sie keine schwierigen Begriffe. Vermeiden Sie schwierige Wörter und Fremdwörter.</message>
+            <message>Vermeiden Sie schwierige Wörter und Fremdwörter.</message>
             <short>Schwierige Wörter vermeiden</short>
             <example>Sie hat es ihm erlaubt.</example>
             <example correction="">Sie hat es ihm <marker>gestattet</marker>.</example>
@@ -919,7 +919,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token regexp="yes">(M{0,4}(C[DM]|D?C{0,3})(X[CL]|L?X{0,3})(I[VX]|V?I{0,3}))|(m{0,4}(c[md]|d?c{0,3})(x[cl]|l?x{0,3})(i[xv]|v?i{0,3}))<exception>cm</exception></token>
             </pattern>
-            <message>Römische Zahl gefunden. Benutzen Sie arabische Zahlen.</message>
+            <message>Benutzen Sie arabische Zahlen.</message>
             <example>Stufe 4</example>
             <example>Das ist 4 cm lang.</example>
             <example correction="">Stufe <marker>IV</marker></example>
@@ -1065,7 +1065,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token postag="ZAL"/>
                 </pattern>
-                <message>Zahlwort gefunden. Fragen Sie die Prüfer und Prüferinnen: Wie sollen Sie Zahlen schreiben? Meistens sind Ziffern leichter als Worte.</message>
+                <message>Zahlwort gefunden. Meistens sind Ziffern leichter als Worte.</message>
                 <example>Es waren 7 Leute da.</example>
                 <example correction="">Es waren <marker>sieben</marker> Leute da.</example>
             </rule>
@@ -1073,7 +1073,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token regexp="yes">(ein|zwei|zwan|dreiß?|vier|fünf|sechs?|sieb|acht|neun).*(zehn|zig|hundert|tausend)((und)?(eins?|zwei|zwan|dreiß?|vier|fünf|sechs|sieben|acht|neun)(.*zehn|.*zig)?)?|Zwei|Drei|Vier|Fünf|Sechs|Sieben|Acht|Neun</token>
                 </pattern>
-                <message>Zahlwort gefunden. Fragen Sie die Prüfer und Prüferinnen: Wie sollen Sie Zahlen schreiben? Meistens sind Ziffern leichter als Worte.</message>
+                <message>Zahlwort gefunden. Meistens sind Ziffern leichter als Worte.</message>
                 <example>Es sind 200 Leute da.</example>
                 <example correction="">Es sind <marker>zweihundert</marker> Leute da.</example>
             </rule>
@@ -1082,25 +1082,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="DATUM" name="Leichte Sprache: Datum">
             <rule>
                 <pattern>
-                    <token regexp="yes">\p{N}+</token>
-                    <token spacebefore="no">.</token>
-                    <token regexp="yes">(Januar|Februar|März|April|Mai|Ju[nl]i|August|September|Oktober|November|Dezember)</token>
+                    <marker>
+                        <token regexp="yes">\p{N}+</token>
+                        <token spacebefore="no">.</token>
+                        <token regexp="yes">(Januar|Februar|März|April|Mai|Ju[nl]i|August|September|Oktober|November|Dezember)</token>
+                    </marker>
+                    <token><exception regexp="yes">\d+</exception></token>
                 </pattern>
-                <message>Datum mit Monatsnamen gefunden. Fragen Sie die Prüfer und Prüferinnen: Wie sollen Sie ein Datum schreiben?</message>
-                <example>Am 31.1. geht es los.</example>
+                <message>Schreiben Sie das Datum deutlich.</message>
+                <example>Am <marker>31. Januar 2022</marker> geht es los.</example>
                 <example correction="">Am <marker>31. Januar</marker> geht es los.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token regexp="yes">(0|1|2|3)?\p{N}</token>
-                    <token spacebefore="no">.</token>
-                    <token spacebefore="no" regexp="yes">(0|1)?\p{N}</token>
-                    <token spacebefore="no">.</token>
-                    <token spacebefore="no" regexp="yes">(19|20)?\p{N}{2}</token>
-                </pattern>
-                <message>Datumsangabe gefunden. Fragen Sie die Prüfer und Prüferinnen: Wie sollen Sie ein Datum schreiben?</message>
-                <example>Am 31. Januar 2011 geht es los.</example>
-                <example correction="">Am <marker>31.01.2011</marker> geht es los.</example>
             </rule>
             <rule>
                 <pattern>
@@ -1110,19 +1101,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token spacebefore="no">.</token>
                     <marker><token spacebefore="no" regexp="yes">\p{N}{2}</token></marker>
                 </pattern>
-                <message>Datumsangabe gefunden. Schreiben Sie die Jahreszahl aus. Fragen Sie die Prüfer und Prüferinnen: Wie sollen Sie ein Datum schreiben?</message>
+                <message>Schreiben Sie das Datum deutlich.</message>
                 <suggestion>20\5</suggestion>
                 <example>Am 31.01.2020 geht es los.</example>
                 <example correction="2020">Am 31.01.<marker>20</marker> geht es los.</example>
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">(0|1|2|3)?\p{N}</token>
-                    <token spacebefore="no">.</token>
-                    <token spacebefore="no" regexp="yes">(0|1)?\p{N}</token>
-                    <token spacebefore="no">.</token>
+                    <marker>
+                        <token regexp="yes">(0|1|2|3)?\p{N}</token>
+                        <token spacebefore="no">.</token>
+                        <token spacebefore="no" regexp="yes">(0|1)?\p{N}</token>
+                        <token spacebefore="no">.</token>
+                    </marker>
+                    <token><exception regexp="yes">\d+</exception></token>
                 </pattern>
-                <message>Datumsangabe gefunden. Fragen Sie die Prüfer und Prüferinnen: Wie sollen Sie ein Datum schreiben?</message>
+                <message>Schreiben Sie das Datum deutlich.</message>
                 <example>Am 31. Januar geht es los.</example>
                 <example correction="">Am <marker>31.01.</marker> geht es los.</example>
             </rule>
