@@ -18,26 +18,26 @@
  */
 package org.languagetool.rules.de;
 
-import org.junit.Test;
-import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
-import org.languagetool.TestTools;
-import org.languagetool.UserConfig;
-import org.languagetool.language.German;
-import org.languagetool.rules.Rule;
+import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
+import org.junit.Test;
+import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
+import org.languagetool.TestTools;
+import org.languagetool.UserConfig;
+import org.languagetool.language.GermanyGerman;
+import org.languagetool.rules.Rule;
 
 /**
  * @author Fred Kruse
  */
 public class GermanFillerWordsRuleTest {
   
-  private final Language lang = new German();
+  private final Language lang = new GermanyGerman();
 
   @Test
   public void testRule() throws IOException {

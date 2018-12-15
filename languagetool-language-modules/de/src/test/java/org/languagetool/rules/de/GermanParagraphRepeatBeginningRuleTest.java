@@ -18,23 +18,23 @@
  */
 package org.languagetool.rules.de;
 
+import static org.junit.Assert.assertEquals;
+
+import java.io.IOException;
+
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.TestTools;
-import org.languagetool.language.German;
+import org.languagetool.language.GermanyGerman;
 import org.languagetool.rules.Rule;
-
-import java.io.IOException;
-
-import static org.junit.Assert.assertEquals;
 
 /**
  * @author Fred Kruse
  */
 public class GermanParagraphRepeatBeginningRuleTest {
   
-  private final Language lang = new German();
+  private final Language lang = new GermanyGerman();
 
   @Test
   public void testRule() throws IOException {

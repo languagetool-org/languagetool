@@ -18,13 +18,13 @@
  */
 package org.languagetool.dev.bigdata;
 
+import java.io.File;
+import java.io.IOException;
+
 import org.apache.commons.io.FileUtils;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.languagetool.language.German;
-
-import java.io.File;
-import java.io.IOException;
+import org.languagetool.language.GermanyGerman;
 
 public class CommonCrawlToNgramTest {
   
@@ -35,7 +35,7 @@ public class CommonCrawlToNgramTest {
     try {
       tempDir.mkdir();
       String filename = CommonCrawlToNgramTest.class.getResource("/org/languagetool/dev/bigdata/ngram-input.txt.xz").getFile();
-      try (CommonCrawlToNgram prg = new CommonCrawlToNgram(new German(), new File(filename), tempDir, null)) {
+      try (CommonCrawlToNgram prg = new CommonCrawlToNgram(new GermanyGerman(), new File(filename), tempDir, null)) {
         prg.setCacheLimit(1);
         prg.indexInputFile();
       }

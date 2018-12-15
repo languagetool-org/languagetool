@@ -18,25 +18,25 @@
  */
 package org.languagetool.rules.de;
 
-import org.junit.Test;
-import org.languagetool.AnalyzedSentence;
-import org.languagetool.JLanguageTool;
-import org.languagetool.TestTools;
-import org.languagetool.language.German;
-import org.languagetool.rules.RuleMatch;
+import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertThat;
 
 import java.io.IOException;
 import java.util.Collections;
 
-import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.*;
+import org.junit.Test;
+import org.languagetool.AnalyzedSentence;
+import org.languagetool.JLanguageTool;
+import org.languagetool.TestTools;
+import org.languagetool.language.GermanyGerman;
+import org.languagetool.rules.RuleMatch;
 
 public class SimilarNameRuleTest {
 
   @Test
   public void testRule() throws IOException {
     SimilarNameRule rule = new SimilarNameRule(TestTools.getEnglishMessages());
-    JLanguageTool lt = new JLanguageTool(new German());
+    JLanguageTool lt = new JLanguageTool(new GermanyGerman());
     assertErrors("Hier steht Angela Müller. Im nächsten Satz dann Miller.", 1, rule, lt);
     assertErrors("Hier steht Angela Müller. Im nächsten Satz dann Müllers Ehemann.", 0, rule, lt);
     assertErrors("Hier steht Angela Müller. Dann Mulla, nicht ähnlich genug.", 0, rule, lt);

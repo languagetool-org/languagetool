@@ -18,10 +18,19 @@
  */
 package org.languagetool;
 
-import org.junit.Test;
-import org.languagetool.language.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
 
-import static org.junit.Assert.*;
+import org.junit.Test;
+import org.languagetool.language.AmericanEnglish;
+import org.languagetool.language.AustrianGerman;
+import org.languagetool.language.BritishEnglish;
+import org.languagetool.language.English;
+import org.languagetool.language.German;
+import org.languagetool.language.GermanyGerman;
+import org.languagetool.language.SwissGerman;
 
 public class LanguageTest {
 
@@ -30,7 +39,7 @@ public class LanguageTest {
     assertEquals("[/org/languagetool/rules/en/grammar.xml, /org/languagetool/rules/en/en-GB/grammar.xml]", new BritishEnglish().getRuleFileNames().toString());
     assertEquals("[/org/languagetool/rules/en/grammar.xml, /org/languagetool/rules/en/en-US/grammar.xml]", new AmericanEnglish().getRuleFileNames().toString());
     assertEquals("[/org/languagetool/rules/en/grammar.xml]", new English().getRuleFileNames().toString());
-    assertEquals("[/org/languagetool/rules/de/grammar.xml]", new German().getRuleFileNames().toString());
+    assertEquals("[/org/languagetool/rules/de/grammar.xml]", new GermanyGerman().getRuleFileNames().toString());
   }
 
   @Test
@@ -40,14 +49,14 @@ public class LanguageTest {
 
     assertEquals("Englisch", new English().getTranslatedName(TestTools.getMessages("de")));
     assertEquals("Englisch (Großbritannien)", new BritishEnglish().getTranslatedName(TestTools.getMessages("de")));
-    assertEquals("Deutsch", new German().getTranslatedName(TestTools.getMessages("de")));
+    assertEquals("Deutsch", new GermanyGerman().getTranslatedName(TestTools.getMessages("de")));
     assertEquals("Deutsch (Schweiz)", new SwissGerman().getTranslatedName(TestTools.getMessages("de")));
   }
 
   @Test
   public void testGetShortNameWithVariant() {
     assertEquals("en-US", new AmericanEnglish().getShortCodeWithCountryAndVariant());
-    assertEquals("de", new German().getShortCodeWithCountryAndVariant());
+    assertEquals("de", new GermanyGerman().getShortCodeWithCountryAndVariant());
   }
 
   @Test

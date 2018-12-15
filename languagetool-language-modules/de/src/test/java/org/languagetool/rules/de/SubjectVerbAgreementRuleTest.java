@@ -18,6 +18,13 @@
  */
 package org.languagetool.rules.de;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -26,14 +33,8 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.chunking.GermanChunker;
 import org.languagetool.language.German;
+import org.languagetool.language.GermanyGerman;
 import org.languagetool.rules.RuleMatch;
-
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 
 public class SubjectVerbAgreementRuleTest {
@@ -43,7 +44,7 @@ public class SubjectVerbAgreementRuleTest {
 
   @BeforeClass
   public static void setUp() {
-    German german = new German();
+    German german = new GermanyGerman();
     rule = new SubjectVerbAgreementRule(TestTools.getMessages("de"), german);
     langTool = new JLanguageTool(german);
   }

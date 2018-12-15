@@ -20,7 +20,7 @@ package org.languagetool.tokenizers.de;
 
 import org.junit.Test;
 import org.languagetool.TestTools;
-import org.languagetool.language.German;
+import org.languagetool.language.GermanyGerman;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 
 /**
@@ -28,7 +28,7 @@ import org.languagetool.tokenizers.SRXSentenceTokenizer;
  */
 public class GermanSRXSentenceTokenizerTest {
 
-  private final SRXSentenceTokenizer stokenizer = new SRXSentenceTokenizer(new German());
+  private final SRXSentenceTokenizer stokenizer = new SRXSentenceTokenizer(new GermanyGerman());
 
   @Test
   public void testTokenize() {

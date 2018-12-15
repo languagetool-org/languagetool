@@ -18,23 +18,33 @@
  */
 package org.languagetool.server;
 
-import org.apache.commons.lang3.StringUtils;
-import org.junit.Before;
-import org.junit.Test;
-import org.languagetool.Language;
-import org.languagetool.language.*;
-import org.languagetool.tools.StringTools;
-import org.xml.sax.SAXException;
+import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
-import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.HashSet;
 
-import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.*;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.apache.commons.lang3.StringUtils;
+import org.junit.Before;
+import org.junit.Test;
+import org.languagetool.Language;
+import org.languagetool.language.AmericanEnglish;
+import org.languagetool.language.English;
+import org.languagetool.language.German;
+import org.languagetool.language.GermanyGerman;
+import org.languagetool.language.Polish;
+import org.languagetool.language.Romanian;
+import org.languagetool.tools.StringTools;
+import org.xml.sax.SAXException;
 
 public class HTTPServerTest {
 
@@ -67,7 +77,7 @@ public class HTTPServerTest {
   void runTestsV2() throws IOException, SAXException, ParserConfigurationException {
     // no error:
     String emptyResultPattern = ".*\"matches\":\\[\\].*";
-    German german = new German();
+    German german = new GermanyGerman();
     String result1 = checkV2(german, "");
     assertTrue("Got " + result1 + ", expected " + emptyResultPattern, result1.matches(emptyResultPattern));
     String result2 = checkV2(german, "Ein kleiner Test");

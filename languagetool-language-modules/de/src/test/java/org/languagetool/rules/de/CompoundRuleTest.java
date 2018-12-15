@@ -24,14 +24,14 @@ import org.junit.Before;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
-import org.languagetool.language.German;
+import org.languagetool.language.GermanyGerman;
 import org.languagetool.rules.AbstractCompoundRuleTest;
 
 public class CompoundRuleTest extends AbstractCompoundRuleTest {
 
   @Before
   public void setUp() throws Exception {
-    lt = new JLanguageTool(new German());
+    lt = new JLanguageTool(new GermanyGerman());
     rule = new CompoundRule(TestTools.getMessages("de"));
   }
 

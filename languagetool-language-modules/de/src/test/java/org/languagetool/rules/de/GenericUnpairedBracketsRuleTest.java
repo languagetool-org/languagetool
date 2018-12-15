@@ -18,16 +18,16 @@
  */
 package org.languagetool.rules.de;
 
-import org.junit.Test;
-import org.languagetool.JLanguageTool;
-import org.languagetool.language.German;
-import org.languagetool.rules.GenericUnpairedBracketsRule;
-import org.languagetool.rules.RuleMatch;
+import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
 import java.util.Collections;
 
-import static org.junit.Assert.assertEquals;
+import org.junit.Test;
+import org.languagetool.JLanguageTool;
+import org.languagetool.language.GermanyGerman;
+import org.languagetool.rules.GenericUnpairedBracketsRule;
+import org.languagetool.rules.RuleMatch;
 
 public class GenericUnpairedBracketsRuleTest {
 
@@ -36,7 +36,7 @@ public class GenericUnpairedBracketsRuleTest {
 
   @Test
   public void testGermanRule() throws IOException {
-    lt = new JLanguageTool(new German());
+    lt = new JLanguageTool(new GermanyGerman());
     rule = org.languagetool.rules.GenericUnpairedBracketsRuleTest.getBracketsRule(lt);
     // correct sentences:
     assertMatches("(Das sind die Sätze, die sie testen sollen).", 0);

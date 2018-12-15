@@ -33719,6 +33719,23 @@ Andere Projekte</example>
                 <example>Der Operator „,“ ist nützlich.</example>
                 <example correction="“,">„Die Fenster sind geschlossen<marker>,“</marker> sagt sie.</example>
             </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token skip="-1">„</token>
+                    <token postag="PKT"/>
+                    <marker>
+                        <token>“</token>
+                        <token regexp="yes" spacebefore="yes">[a-zäöüß]+</token>
+                    </marker>
+                </pattern>
+                <message>Folgt nach dem angeführten Satz der Begleitsatz oder ein Teil von ihm, so setzt man nach dem abschließenden Anführungszeichen ein Komma. Falls ein neuer Satz beginnt, schreiben Sie groß weiter</message>
+                <suggestion>\3, \4</suggestion>
+                <suggestion>\3 <match no="4" case_conversion="startupper"/></suggestion>
+                <url>http://www.canoo.net/services/GermanSpelling/Regeln/Interpunktion/Anfuehrungszeichen.html</url>
+                <example correction="“, dachte|“ Dachte">„Das war also Paris!<marker>“ dachte</marker> Frank.</example>
+                <example>Sie las den Artikel „Staatliche Schulen testen Einheitskleidung“ im „Spiegel“.</example>
+                <example>Sie liest Heinrich Bölls Roman „Wo warst du, Adam?”.</example>
+            </rule>
         </rulegroup>
         <rule id="SEMIKOLON_VOR_ANFUEHRUNGSZEICHEN" name="Fälschliches Semikolon vor schließendem Anführungszeichen">
             <antipattern>

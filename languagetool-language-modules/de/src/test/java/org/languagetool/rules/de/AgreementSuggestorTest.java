@@ -18,16 +18,16 @@
  */
 package org.languagetool.rules.de;
 
-import org.junit.Test;
-import org.languagetool.AnalyzedToken;
-import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.language.German;
+import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertThat;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
+import org.junit.Test;
+import org.languagetool.AnalyzedToken;
+import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.language.GermanyGerman;
 
 public class AgreementSuggestorTest {
 
@@ -60,7 +60,7 @@ public class AgreementSuggestorTest {
     if (tokenReadings.size() != 2) {
       throw new RuntimeException("Size of input not yet supported: " + tokenReadings.size());
     }
-    AgreementSuggestor suggestor = new AgreementSuggestor(new German().getSynthesizer(), tokenReadings.get(0), tokenReadings.get(1));
+    AgreementSuggestor suggestor = new AgreementSuggestor(new GermanyGerman().getSynthesizer(), tokenReadings.get(0), tokenReadings.get(1));
     List<String> suggestions = suggestor.getSuggestions();
     assertThat(suggestions.toString(), is(expectedSuggestions));
   }

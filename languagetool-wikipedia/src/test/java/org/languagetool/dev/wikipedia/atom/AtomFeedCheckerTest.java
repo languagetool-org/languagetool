@@ -61,7 +61,7 @@ public class AtomFeedCheckerTest {
 
   @Test
   public void testCheck() throws IOException {
-    AtomFeedChecker atomFeedChecker = new AtomFeedChecker(new German());
+    AtomFeedChecker atomFeedChecker = new AtomFeedChecker(new GermanyGerman());
     CheckResult checkResult = atomFeedChecker.checkChanges(getStream());
     List<ChangeAnalysis> changeAnalysis = checkResult.getCheckResults();
     assertThat(changeAnalysis.size(), is(3));
