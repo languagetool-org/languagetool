@@ -18,18 +18,19 @@
  */
 package org.languagetool.dev.archive;
 
-import morfologik.stemming.Dictionary;
-import morfologik.stemming.DictionaryLookup;
-import morfologik.stemming.WordData;
-import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.JLanguageTool;
-import org.languagetool.language.German;
-import org.languagetool.tagging.Tagger;
-import org.languagetool.tools.StringTools;
-
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
+
+import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.JLanguageTool;
+import org.languagetool.language.GermanyGerman;
+import org.languagetool.tagging.Tagger;
+import org.languagetool.tools.StringTools;
+
+import morfologik.stemming.Dictionary;
+import morfologik.stemming.DictionaryLookup;
+import morfologik.stemming.WordData;
 
 /**
  * One-time script (used 2015-02-25) to add forms:
@@ -57,7 +58,7 @@ public class GermanTaggerEnhancer {
     final Dictionary dictionary = Dictionary.read(
             JLanguageTool.getDataBroker().getFromResourceDirAsUrl("/de/german.dict"));
     final DictionaryLookup dl = new DictionaryLookup(dictionary);
-    Tagger tagger = new German().getTagger();
+    Tagger tagger = new GermanyGerman().getTagger();
     String prev = null;
     for (WordData wd : dl) {
       String word = wd.getWord().toString();

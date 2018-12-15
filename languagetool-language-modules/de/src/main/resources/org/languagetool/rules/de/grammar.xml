@@ -31431,14 +31431,17 @@ Andere Projekte</example>
                 <pattern>
                     <token regexp="yes">bei|nahe|nebst|mit(samt)?|samt|von|zu</token>
                     <marker>
-                        <token regexp="yes">[dms]einen|ihren|unseren|euren</token>
+                        <token regexp="yes">[dkms]einen|ihren|unseren|euren</token>
                     </marker>
+                    <token regexp="yes" min="0">\d+</token>
+                    <token min="0" spacebefore="no">.</token>
                     <token postag_regexp="yes" postag="SUB:...:SIN:(MAS|NEU).*"><exception postag_regexp="yes" postag="SUB:...:PLU:.*"/></token>
                 </pattern>
                 <message>Die Präposition '\1' erfordert in der Regel den Dativ: <suggestion><match no="2" regexp_match="n$" regexp_replace="m"/></suggestion></message>
                 <example correction="ihrem">Sie ging zu <marker>ihren</marker> Arzt.</example>
                 <example correction="seinem">Mit <marker>seinen</marker> Arzt spreche ich nicht.</example>
                 <example correction="ihrem">Er ging von <marker>ihren</marker> Mann zu einem anderen.</example>
+                <example correction="ihrem">Er ging zu <marker>ihren</marker> 18. Geburtstag.</example>
                 <example>Sie sah ab und zu einen Mann.</example>
                 <example>Sie versprach, meinen Vater zu grüßen.</example>
             </rule>
