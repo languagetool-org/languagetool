@@ -33724,7 +33724,8 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token>„<exception scope="previous" regexp="yes">Roman|Titel|Theaterstück|Film</exception></token>
+                    <token postag="PKT|SENT_START" postag_regexp="yes"/>
+                    <token>„</token>
                     <token skip="-1"/>
                     <token postag="PKT"><exception scope="previous" regexp="yes">Inc|Adam</exception></token>
                     <marker>
@@ -33733,8 +33734,8 @@ Andere Projekte</example>
                     </marker>
                 </pattern>
                 <message>Folgt nach dem angeführten Satz (direkte Rede) der Begleitsatz oder ein Teil von ihm, so setzt man nach dem abschließenden Anführungszeichen ein Komma. Falls ein neuer Satz beginnt, schreiben Sie groß weiter.</message>
-                <suggestion>\4, \5</suggestion>
-                <suggestion>\4 <match no="5" case_conversion="startupper"/></suggestion>
+                <suggestion>\5, \6</suggestion>
+                <suggestion>\5 <match no="6" case_conversion="startupper"/></suggestion>
                 <url>http://www.canoo.net/services/GermanSpelling/Regeln/Interpunktion/Anfuehrungszeichen.html</url>
                 <example correction="“, dachte|“ Dachte">„Das war also Paris!<marker>“ dachte</marker> Frank.</example>
                 <example>Sie las den Artikel „Staatliche Schulen testen Einheitskleidung“ im „Spiegel“.</example>
