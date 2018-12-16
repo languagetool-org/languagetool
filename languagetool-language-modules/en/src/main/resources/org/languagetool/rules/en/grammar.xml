@@ -25599,8 +25599,15 @@ USA
             <antipattern>
                 <token>give</token>
                 <token>it</token>
-                <token>a</token>
+                <token regexp="yes">a(nother)?</token>
+                <token min="0" postag="JJ"></token>
                 <token>try</token>
+            </antipattern>
+            <antipattern>
+                <token>try</token>
+                <token>and</token>
+                <token>see</token>
+                <token postag="SENT_END"/>
             </antipattern>
             <pattern>
                 <token>try</token>
@@ -25609,6 +25616,8 @@ USA
             <message>"Try and" is common in colloquial speech, but "<suggestion>try to</suggestion>" is recommended for writing.</message>
             <short>Possibly bad style</short>
             <example correction="try to">She is going to <marker>try and</marker> go to the store.</example>
+            <example>I would be happy if you could give it a second <marker>try and</marker> send me your feedback.</example>
+            <example>Let's <marker>try and</marker> see!</example>
         </rule>
         <rule id="SO_AS_TO" name="so as to (to)">
             <pattern>
