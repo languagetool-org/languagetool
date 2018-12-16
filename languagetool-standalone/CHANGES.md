@@ -4,6 +4,7 @@
 
 #### Catalan
   * added and improved rules
+  * updated dictionary
 
 #### English
   * added and improved rules
