@@ -10470,7 +10470,44 @@ onwaarschijnlijk
                 <example correction="ultrafijne|ultra-fijne">Fijne, grove en <marker>ultra fijne</marker>.</example>
             </rule>            
         </rulegroup>
+        <rulegroup id="ZO_N" name="Zo 'n / zo'n">
+            <rule>
+                <pattern>
+					<token>zo</token>
+					<token spacebefore="yes">'</token>
+					<token spacebefore="no">n</token>
+                </pattern>
+                <message>Juist is: <suggestion>\1\2\3</suggestion>.</message>
+                <example correction="zo'n">Het is <marker>zo 'n</marker> auto.</example> 
+            </rule>            
+        </rulegroup>
 		
+        <rulegroup id="VLAKBIJ" name="vlakbij /vlak bij">
+            <rule>
+				<antipattern><token regexp="yes">[.;:,]|en|of</token></antipattern>
+                <pattern>
+					<marker>
+						<token regexp="yes" skip="5">(vlak|dicht|dichter|dichtst)bij</token>
+					</marker>
+                    <token postag_regexp="yes" postag="ZNW.*"/>
+                </pattern>
+				<message>Als \1 bij de volgende woordgroep hoort, dan is het: <suggestion><match no="1" regexp_match="bij$" regexp_replace=" bij"/></suggestion>.</message>
+				<url>https://onzetaal.nl/taaladvies/vlakbij-vlak-bij</url>
+                <example correction="vlak bij">Het is <marker>vlakbij</marker> ons huis.</example> 
+            </rule>            
+            <rule>
+				<antipattern><token regexp="yes">[.;:,]|en|of</token></antipattern>
+                <pattern>
+					<marker>
+						<token regexp="yes" skip="5">midden(op|in)</token>
+					</marker>
+                    <token postag_regexp="yes" postag="ZNW.*"/>
+                </pattern>
+				<message>Als \1 bij de volgende woordgroep hoort, dan is het: <suggestion><match no="1" regexp_match="midden" regexp_replace="midden "/></suggestion>.</message>
+				<url>https://onzetaal.nl/taaladvies/vlakbij-vlak-bij</url>
+                <example correction="midden in">Het is <marker>middenin</marker> het huis.</example> 
+            </rule>            
+        </rulegroup>
         <rulegroup id="DE_WEGGAAT" name="De weggaat = de weg gaat">
             <rule>
                 <pattern>
@@ -30434,45 +30471,16 @@ steenwijk;Steenwijk
         <example>Jan is <marker>lelijker dan</marker> Kees.</example>
         </rule>
         -->
+		
         <rulegroup id="GEBEURD_GEBEURT" name="Gebeurd / gebeurt">
-            <antipattern><token>waar</token><token>gebeurd</token></antipattern> <!-- een waar gebeurd verhaal -->
-            <antipattern><token inflected="yes" skip="-1">zijn</token><token>gebeurd</token></antipattern> <!-- iets kan gebeurd zijn -->
-            <antipattern><token skip="-1">gebeurd</token><token inflected="yes">zijn</token></antipattern> <!-- iets kan gebeurd zijn -->
-            <antipattern><token inflected="yes" skip="-1">hebben</token><token>gebeurd</token></antipattern> <!-- iets kan gebeurd zijn -->
-            <antipattern><token skip="-1">gebeurd</token><token inflected="yes">hebben</token></antipattern> <!-- iets kan gebeurd zijn -->
             <rule>
-                <pattern>
+				<antipattern><token skip="5">gebeurd</token><token inflected="yes">zijn</token></antipattern>
+				<antipattern><token inflected="yes" skip="5">zijn</token><token>gebeurd</token></antipattern>
+				<pattern>
                     <token>gebeurd</token>
                 </pattern>
                 <message>Moet het niet <suggestion>gebeurt</suggestion> zijn? (Of is het werkwoord weggelaten?)</message>
                 <example correction="gebeurt">Het <marker>gebeurd</marker> wel eens.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token regexp="yes">is|was</token>
-                    <token>gebeurt</token>
-                </pattern>
-                <message>U bedoelt vast <suggestion>\1 gebeurd</suggestion> of <suggestion>\1, \2</suggestion></message>
-                <example correction="is gebeurd|is, gebeurt">Het <marker>is gebeurt</marker>.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token postag="SENT_START"/>
-                    <token regexp="yes">Dit|Het|Dat|Er|Helaas|Vaak|Zo|Alles|Meestal|Veel|Toch|Soms|Nu|Hetzelfde|Hier|Daar|Uiteraard|Gelukkig</token>
-                    <marker>
-                        <token>gebeurd</token>
-                    </marker>
-                </pattern>
-                <message>U bedoelt vast <suggestion>gebeurt</suggestion>.</message>
-                <example correction="gebeurt">Het <marker>gebeurd</marker> vaker.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token>gebeurd</token>
-                    <token regexp="yes">er|daar|hier</token>
-                </pattern>
-                <message>U bedoelt vast <suggestion>gebeurt \2</suggestion>.</message>
-                <example correction="gebeurt er">Dan <marker>gebeurd er</marker> niets.</example>
             </rule>
         </rulegroup>
         
@@ -30622,6 +30630,19 @@ steenwijk;Steenwijk
                 </pattern>
                 <message>U bedoelt vast: <suggestion>u wilt</suggestion>.</message>
                 <example correction="u wilt">Wat <marker>u wil</marker> is zeer terecht.</example>
+            </rule>
+        </rulegroup>
+
+		<rulegroup id="HOUT_JE" name="hout je → houd je">
+            <rule>
+                <pattern>
+					<marker>
+						<token regexp="yes">hout|houdt</token>
+					</marker>
+                    <token regexp="yes">je|jij</token>
+                </pattern>
+                <message>U bedoelt vast: <suggestion>houd</suggestion>.</message>
+                <example correction="houd">Wat <marker>hout</marker> je tegen?</example>
             </rule>
         </rulegroup>
 
