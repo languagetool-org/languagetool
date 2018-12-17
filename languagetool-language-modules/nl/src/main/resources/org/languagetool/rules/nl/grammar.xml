@@ -30637,9 +30637,9 @@ steenwijk;Steenwijk
             <rule>
                 <pattern>
 					<marker>
-						<token regexp="yes">hout|houdt</token>
+						<token>hout</token>
 					</marker>
-                    <token regexp="yes">je|jij</token>
+                    <token regexp="yes">je|jij|hij|men|zij|ze|ik</token>
                 </pattern>
                 <message>U bedoelt vast: <suggestion>houd</suggestion>.</message>
                 <example correction="houd">Wat <marker>hout</marker> je tegen?</example>
@@ -30699,9 +30699,13 @@ steenwijk;Steenwijk
         </rulegroup>
         <rulegroup id="BEPAALD_JE" name="voltooid deelwoord / 3e persoon">
             <rule>
+				<antipattern><token postag="WKW:VTD:ONV" regexp="yes" skip="10">.*[^kfsp]d</token><token inflected="yes" regexp="yes">zijn|hebben</token></antipattern>
+				<antipattern><token inflected="yes" skip="10" regexp="yes">zijn|hebben</token><token postag="WKW:VTD:ONV" regexp="yes">.*[^kfsp]d</token></antipattern>
+				<antipattern><token postag="WKW:TGW:1EP"/><token>ze</token></antipattern>
+				<antipattern><token>ik</token><token postag="WKW:TGW:1EP"/></antipattern>
                 <pattern>
 					<marker>
-						<token postag="WKW:VTD:ONV" regexp="yes">.*[^kfsp]d</token>
+						<token postag="WKW:VTD:ONV" regexp="yes">.*[^kfsp]d<exception regexp="yes">ge.*|uitge.*</exception></token>
 					</marker>
 					<token regexp="yes">hij|je|zij|ze</token>
                 </pattern>
