@@ -9794,6 +9794,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Они пошли к реке, по которой плавала лодка.</example>
             <example correction="">Они пошли к реке, по <marker>которой плавала лодка, которая</marker> была окрашена в белый цвет.</example>
         </rule>
+        <rule default="on" id="O_KOTORIJ" name="Определения «который»">
+            <pattern>
+                <token postag="NN:.*:PL:Nom" postag_regexp="yes"><exception postag="NN:.*" postag_regexp="yes" negate_pos ="yes"></exception></token>
+                <token>,</token>
+                <token regexp="yes">который|которого|которому|котором|которая|которой|которую|которое</token>
+            </pattern>
+            <message>Ошибка в согласовании по числу, возможное исправление: <suggestion>\1, которые</suggestion></message>
+            <short>Ошибка в согласовании.</short>
+
+            <example correction="звёзды, которые">Яркие <marker>звёзды, которая</marker> сияли.</example>
+        </rule>
+        
         <rulegroup default="off" name="Благозвучность" id="BLAGOZVUCHNOST">
             <rule>
                 <pattern case_sensitive="yes">
