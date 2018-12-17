@@ -22354,7 +22354,7 @@ Andere Projekte</example>
                 <token postag_regexp="yes" postag="SUB:.*"/>
             </antipattern>
             <pattern>
-                <token regexp="yes">in|auf|korrekte[ms]|richtige[ms]</token>
+                <token regexp="yes">in|auf|korrekte[ms]|richtige[ms]|[mds]ein|euer</token>
                 <marker>
                     <token regexp="yes" case_sensitive="yes">&sprachadj1;</token>
                 </marker>
@@ -22366,6 +22366,29 @@ Andere Projekte</example>
             <example correction="Englisch">Ist das korrektes <marker>englisch</marker>?</example>
             <example>Er schreibt den Text auf <marker>englischem</marker> Boden.</example>
             <example>Nach einem erfolgreichen Angriff auf <marker>türkisch</marker> besetztes Territorium.</example>
+        </rule>
+        <rule id="KEIN_WORT_ENGLISCH" name="'kein Wort englisch (Englisch)'">
+            <pattern>
+                <token>kein</token>
+                <token>Wort</token>
+                <marker>
+                    <token regexp="yes" case_sensitive="yes">&sprachadj1;</token>
+                </marker>
+            </pattern>
+            <message>Meinten Sie <suggestion><match no="3" case_conversion="startupper"/></suggestion> ('der \3en Sprache')?</message>
+            <example correction="Englisch">Er spricht kein Wort <marker>englisch</marker>.</example>
+        </rule>
+        <rule id="IHR_ENGLISCH_IST" name="'ihr englisch (Englisch) ist'">
+            <pattern>
+                <token>ihr</token>
+                <marker>
+                    <token regexp="yes" case_sensitive="yes">&sprachadj1;</token>
+                </marker>
+                <token inflected="yes">sein</token>
+            </pattern>
+            <message>Meinten Sie <suggestion><match no="2" case_conversion="startupper"/></suggestion>?</message>
+            <example correction="Englisch">Ihr <marker>englisch</marker> ist hervorragend.</example>
+            <example>Ich gehe davon aus, dass ihr französisch sprechen könnt.</example>
         </rule>
         <rule id="NACH_AUSSAGE" name="nach aussage (Aussage) von">
             <pattern case_sensitive="yes">
