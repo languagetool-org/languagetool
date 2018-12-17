@@ -313,6 +313,10 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("bezuggenommen", "Bezug genommen");
     put("mägt", "mögt");
     putRepl("trationell(e[mnrs]?)?", "^tra", "tradi");
+    putRepl("[bB]erreichs?", "^[bB]er", "Be");
+    putRepl("[fF]uscher[ns]?", "^[fF]u", "Pfu");
+    putRepl("unausweichbar(e[mnrs]?)?", "bar", "lich");
+    putRepl("ausgewöh?nlich(e[mnrs]?)?", "^ausgewöh?n", "außergewöhn");
     putRepl("achsial(e[mnrs]?)?", "^achs", "ax");
     putRepl("famielen?", "^famiel", "Famili");
     putRepl("miter[ns]?", "^mi", "Mie");
@@ -405,6 +409,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("[mM]itag", "Mittag");
     put("Lexion", "Lexikon");
     put("[mM]otorisation", "Motorisierung");
+    put("[fF]ormalisation", "Formalisierung");
+    put("ausprache", "Aussprache");
     put("[mM]enegment", "Management");
     put("[gG]ebrauspuren", "Gebrauchsspuren");
     put("viedeo", "Video");
