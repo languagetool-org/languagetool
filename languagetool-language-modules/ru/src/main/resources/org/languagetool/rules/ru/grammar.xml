@@ -5260,8 +5260,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           </rule>
           <rule>
              <pattern>
-                <token inflected="yes" >ругаться</token>
-                <token>на</token>
+                 <marker>
+                     <token inflected="yes" >ругаться</token>
+                     <token>на</token>
+                 </marker>
+                 <token postag_regexp="yes" postag="NN:(Anim|Name|Fam|Patr):.*"></token>
             </pattern>
             <message>В данном контексте предлог «на» недопустим. Возможная замена - использовать предлог «с/со» или глагол «ругать» без предлога.</message>         
             <short>Требуется предлог «с/со».</short>
@@ -7999,7 +8002,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="кормит">Она сидит и <marker>кормить</marker> ребёнка.</example>
         </rule>
         
-        <rule default="on" id="Verb_and_PREP" name="Глагол и предлог">
+        <rule default="on" id="PREP_and_DPT" name="Деепричастие и предлог">
+            <pattern case_sensitive="no">
+                <!--              PREP :.*    -->
+                <!--              excluded prep "по" for another rule    -->
+                <token postag="PREP"><exception negate_pos="yes" postag="PREP"></exception></token>
+                <token postag="DPT:.*" postag_regexp="yes">
+                    <exception negate_pos="yes" postag="DPT:.*" postag_regexp="yes"></exception>
+                </token> 
+            </pattern>
+            <message>Предлог перед деепричастием не употребляется. Исправление: <suggestion>\1\2</suggestion> или <suggestion>\2</suggestion>.</message>
+            <url>http://ru.wikipedia.org/wiki/%D0%9F%D1%80%D0%B5%D0%B4%D0%BB%D0%BE%D0%B3</url>
+            <short>Предлог перед деепричастием не употребляется.</short>
+
+            <example correction="пробежав|бежав">Он, <marker>про бежав</marker> в лес по тропе, устал.</example>
+        </rule>
+        
+         <rule default="on" id="Verb_and_PREP" name="Глагол и предлог">
             <pattern case_sensitive="no">
                 <!--              PREP VB:.*    -->
                 <!--              excluded prep "по" for another rule    -->
@@ -9010,7 +9029,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>С днём рождения!</example>
         </rule>
 
-        <rule id="Many_PREP" name="Два предлога подряд">        
+        <rule id="Two_PREP" name="Два предлога подряд">        
             <pattern>
                 <marker>
                   <token postag="PREP"><exception postag="PREP|ABR:.*" negate_pos="yes"  postag_regexp="yes" /><exception case_sensitive="yes" regexp="yes">К|По|У</exception><exception regexp="yes">минус|изо|насчёт|насчет|ради|перед</exception><exception scope="previous" postag="PREP"></exception></token>  <!--   <exception postag="SENT_START" negate_pos="yes" case_sensitive="yes" regexp="yes">[АБГ-ЖИ-НПРСТФ-Я].*</exception>  -->
