@@ -22661,6 +22661,44 @@ USA
                 <example correction="gold">She is a <marker>golf</marker> medallist.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="CONFUSION_OF_JIB_JOB" name="jib (job)">
+            <rule>
+                <pattern>
+                   <token inflected="yes" regexp='yes'>get|do|find</token>
+                   <token postag="DT"></token>
+                   <token postag="JJ" min="0"/>
+                    <marker>
+                        <token>jib</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion>job</suggestion>?</message>
+                <example correction="job">He got a new <marker>jib</marker>.</example>
+                <example correction="job">He has done a great <marker>jib</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes">quit|lose</token>
+                    <token postag="PRP$"/>
+                    <marker>
+                        <token>jib</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion>job</suggestion>?</message>
+                <example correction="job">He lost his <marker>jib</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="CONFUSION_OF_SCEPTIC_SEPTIC" name="sceptic (septic)">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">s[ck]eptic</token>
+                    </marker>
+                    <token regexp="yes">arthritis|complications?|effluents?|infections?</token>
+                </pattern>
+                <message>Did you mean <suggestion>septic</suggestion> (=infected with bacteria/causing putrefaction)?</message>
+                <example correction="septic">He died of cardiac arrest as a result of the <marker>sceptic</marker> infection.</example>
+            </rule>
+        </rulegroup>
         <rule id="CONFUSION_OF_ADDICTING_ADDICITVE" name="addicting (addictive)">
             <pattern>
                 <marker>
