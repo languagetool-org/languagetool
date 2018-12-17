@@ -10450,7 +10450,30 @@ onwaarschijnlijk
         </rulegroup>
     </category>
     <category id="COMPOUNDING" name="Aaneen of los">
-        <!-- samenstellingen die vaak los worden geschreven staan in compounds.txt -->
+		<!-- samenstellingen die vaak los worden geschreven staan in compounds.txt -->
+	
+        <rulegroup id="GAAN_ERVAN_UIT" name="Gaan ervan uit">
+            <rule>
+                <pattern>
+                    <token inflected="yes">gaan</token>
+					<token>er</token>
+					<token>vanuit</token>
+                </pattern>
+                <message>Juist is: <suggestion>\1 ervan uit</suggestion>.</message>
+                <example correction="ga ervan uit">Ik <marker>ga er vanuit</marker> dat het klopt.</example>
+            </rule>            
+            <rule>
+                <pattern>
+                    <token inflected="yes">gaan</token>
+					<token>er</token>
+					<token>van</token>
+					<token>uit</token>
+                </pattern>
+                <message>Juist is: <suggestion>\1 ervan uit</suggestion>.</message>
+                <example correction="ga ervan uit">Ik <marker>ga er van uit</marker> dat het klopt.</example>
+            </rule>            
+        </rulegroup>
+		
         <rulegroup id="VOORVOEGSEL" name="mega, giga etc.">
             <rule>
                 <pattern>
