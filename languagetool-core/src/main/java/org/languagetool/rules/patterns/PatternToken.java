@@ -248,8 +248,10 @@ public class PatternToken implements Cloneable {
   public boolean isMatchedByPreviousException(AnalyzedToken token) {
     if (exceptionValidPrevious) {
       for (PatternToken testException : previousExceptionList) {
-        if (!testException.exceptionValidNext && testException.isMatched(token)) {
-          return true;
+        if (!testException.exceptionValidNext) {
+          if (testException.isMatched(token)) {
+            return true;
+          }
         }
       }
     }

@@ -122,7 +122,7 @@ public class French extends Language implements AutoCloseable {
             new SentenceWhitespaceRule(messages),
             // specific to French:
             new CompoundRule(messages),
-            new QuestionWhitespaceRule(messages, this)
+            new QuestionWhitespaceRule(messages)
     );
   }
 
