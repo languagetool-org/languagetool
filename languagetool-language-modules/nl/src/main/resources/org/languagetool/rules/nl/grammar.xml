@@ -27843,7 +27843,7 @@ steenwijk;Steenwijk
                 <pattern>
                     <token regexp="yes">....*technisch</token>
                 </pattern>
-                <message>De tekst wordt vlotter als je het achtervoegse technisch vermijdt.</message>
+                <message>De tekst wordt vlotter als je het achtervoegsel technisch vermijdt.</message>
                 <url>https://onzetaal.nl/taaladvies/ouderwets-taalgebruik</url>
                 <example type="incorrect">Actueel en <marker>vaktechnisch</marker>.</example>
                 <example type="incorrect">Puur <marker>crosstechnisch</marker> door de omloop.</example>
@@ -30494,11 +30494,21 @@ steenwijk;Steenwijk
         <example>Jan is <marker>lelijker dan</marker> Kees.</example>
         </rule>
         -->
+        <rulegroup id="HOED_U" name="Hoedt u / hoed u">
+            <rule>
+				<pattern>
+                    <token>hoedt</token>
+                    <token>u</token>
+                </pattern>
+                <message>U bedoelt vast: <suggestion>hoed u</suggestion> (pas op).</message>
+                <example correction="Hoed u"><marker>Hoedt u</marker> voor het gevaar.</example>
+            </rule>
+        </rulegroup>
 		
         <rulegroup id="GEBEURD_GEBEURT" name="Gebeurd / gebeurt">
             <rule>
-				<antipattern><token skip="5">gebeurd</token><token inflected="yes">zijn</token></antipattern>
-				<antipattern><token inflected="yes" skip="5">zijn</token><token>gebeurd</token></antipattern>
+				<antipattern><token skip="10">gebeurd</token><token inflected="yes">zijn</token></antipattern>
+				<antipattern><token inflected="yes" skip="10">zijn</token><token>gebeurd</token></antipattern>
 				<pattern>
                     <token>gebeurd</token>
                 </pattern>
@@ -36532,8 +36542,8 @@ steenwijk;Steenwijk
                     <token regexp="yes">!|\?|,|;|:</token>
                     <token><match no="0"/></token>
                 </pattern>
-                <message>2 maal leesteken</message>
-                <example type="incorrect">Ik zie het<marker>!!</marker></example>
+				<message>Meerder leestekens, dat is overbodig. <suggestion>\1</suggestion></message>
+                <example correction="!">Ik zie het<marker>!!</marker></example>
             </rule>
         </rulegroup>
         <rulegroup id="_2_AANH_A" name="Twee enkele aanhalingstekens">
