@@ -44,8 +44,8 @@ public class SuggestionsOrderer {
 
   private boolean mlAvailable = true;
 
-  private static NGramUtil nGramUtil = null;
-  private static Predictor predictor;
+  private NGramUtil nGramUtil = null;
+  private Predictor predictor;
 
   public boolean isMlAvailable() {
     return mlAvailable && SuggestionsOrdererConfig.isMLSuggestionsOrderingEnabled();
@@ -63,6 +63,7 @@ public class SuggestionsOrderer {
       } else {
         languageModelFileName = ngramBasedModelFilename;
       }
+      System.out.printf("Using suggestion ordering model '%s'.%n", languageModelFileName); // TODO: debugging only
 
       try (InputStream modelsPath = this.getClass().getClassLoader().getResourceAsStream(languageModelFileName)) {
         predictor = new Predictor(modelsPath);
@@ -82,7 +83,7 @@ public class SuggestionsOrderer {
     }
   }
 
-  private static float processRow(String sentence, String correctedSentence, String covered, String replacement,
+  private float processRow(String sentence, String correctedSentence, String covered, String replacement,
                                   Integer contextLength) {
 
     Pair<String, String> context = Pair.of("", "");
@@ -162,7 +163,7 @@ public class SuggestionsOrderer {
 
   private static class NGramUtil {
 
-    private Language language;
+    private final Language language;
     private LanguageModel languageModel;
     private boolean mockLanguageModel = false;
 

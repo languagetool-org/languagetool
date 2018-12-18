@@ -40,7 +40,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
   protected MorfologikMultiSpeller speller3;
   protected Locale conversionLocale;
 
-  private static SuggestionsOrderer suggestionsOrderer = null;
+  private final SuggestionsOrderer suggestionsOrderer;
   
   private boolean ignoreTaggedWords = false;
   private boolean checkCompound = false;
