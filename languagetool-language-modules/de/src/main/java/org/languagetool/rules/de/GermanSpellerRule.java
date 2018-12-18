@@ -321,7 +321,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Begierigkeiten", "Begehrlichkeiten");
     put("selblosigkeit", "Selbstlosigkeit");
     put("gestyled", "gestylt");
-    put("umstimigkeiten", "Unstimigkeiten");
+    put("umstimigkeiten", "Unstimmigkeiten");
     put("unann?äh?ml?ichkeiten", "Unannehmlichkeiten");
     put("unn?ann?ehmichkeiten", "Unannehmlichkeiten");
     put("übertr[äa]gte", "übertrug");
