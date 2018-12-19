@@ -7987,7 +7987,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
         <rule id="Verb_INF_OR_3P" name="Инфинитив вместо личной формы глагола">
             <pattern>
-                <token postag="PNN:.*:.*:P3|NN:.*:.*:.*:Nom" postag_regexp="yes" skip="-1"></token>
+                <token postag="PNN:.*:.*:P3|NN:.*:.*:.*:Nom" postag_regexp="yes" skip="-1"><exception postag="VB:(Fut|IMP|Past|Real):.*" postag_regexp="yes" scope="next"></exception><exception regexp="yes" scope="next">[,;и]</exception></token>
                 <marker>
                     <token postag="VB:INF:.*" postag_regexp="yes" skip="-1">
                         <exception postag="VB:.*" postag_regexp="yes" scope="next"></exception>
