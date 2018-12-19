@@ -12,10 +12,14 @@
   * updated en_GB spellchecker dictionary from https://github.com/marcoagpinto/aoo-mozilla-en-dict  (Version 2.67 - 2018-12-01)
   * added rules for 'Oxford spelling' (applicable to British English only)
 
+##### French
+  * small rule improvements
+
 #### German
   * added and improved rules
   * Swiss German: improved POS tagging of words that contain 'ß' in de-DE German (e.g.,
     'gross' is tagged as 'gross[groß/ADJ:PRD:GRU]'); (#1147)
+  * Simple German: added and improved rules; restructured grammar.xml
 
 #### Portuguese
   * added and improved rules
