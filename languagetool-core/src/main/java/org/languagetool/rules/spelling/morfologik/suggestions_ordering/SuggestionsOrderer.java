@@ -202,7 +202,7 @@ public class SuggestionsOrderer {
   private static class ContextUtils {
 
     private static String leftContext(String originalSentence, int errorStartIdx, String errorString, int contextLength) {
-      String regex = repeat(contextLength, "\\w+\\W+") + errorString + "$";
+      String regex = repeat(contextLength, "\\w+\\W+") + Pattern.quote(errorString) + "$";
       String stringToSearch = originalSentence.substring(0, errorStartIdx + errorString.length());
       return findFirstRegexMatch(regex, stringToSearch);
     }
@@ -337,6 +337,7 @@ public class SuggestionsOrderer {
 
     private static String findFirstRegexMatch(String regex, String stringToSearch) {
       String result = "";
+      //Pattern pattern = Pattern.compile(Pattern.quote(regex));
       Pattern pattern = Pattern.compile(regex);
       Matcher stringToSearchMatcher = pattern.matcher(stringToSearch);
       if (stringToSearchMatcher.find()) {
