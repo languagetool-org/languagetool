@@ -1758,7 +1758,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rule name="Terra incognita" id="TERRA_INCOGNITA">
         <pattern>
             <token>terra</token>
-            <token>incognita</token>
+            <tokenregexp="yes">incognita|preta</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -2896,7 +2896,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rule name="Long Island" id="LONG_ISLAND">
       <pattern case_sensitive="yes">
         <token>Long</token>
-        <token>Island</token>
+        <token regexp="yes">Beach|Island</token>
       </pattern>
       <disambig action="ignore_spelling"/>
     </rule>
@@ -2923,9 +2923,9 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     </rule>
     <rule name="hin- und hergerissen" id="HIN_HER">
       <pattern case_sensitive="yes">
-        <marker><token regexp="yes">(a[bn]|auf|hin|vor)-</token></marker>
+        <marker><token regexp="yes">(a[bn]|auf|hin|nach|vor|zurück)-</token></marker>
         <token postag="KON:.+" postag_regexp="yes"></token>
-        <token regexp="yes">(a[bn]|auf|her|hin|vor|weg|zurück)\w+</token>
+        <token regexp="yes">(a[bn]|auf|her|hin|nach|vor|weg|zurück)\w+</token>
       </pattern>
       <disambig action="ignore_spelling"/>
     </rule>

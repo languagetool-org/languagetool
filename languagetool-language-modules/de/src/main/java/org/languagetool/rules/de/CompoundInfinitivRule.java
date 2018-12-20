@@ -144,6 +144,9 @@ public class CompoundInfinitivRule extends Rule {
     if ("gehen".equals(tokens[n + 1].getToken()) && "ab".equals(tokens[n - 1].getToken())) {
       return true;
     }
+    if ("errichten".equals(tokens[n + 1].getToken()) && "wieder".equals(tokens[n - 1].getToken())) {
+      return true;
+    }
     String verb = null;
     for (int i = n - 2; i > 0 && !MARK_REGEX.matcher(tokens[i].getToken()).matches() && verb == null; i--) {
       if (tokens[i].hasPosTagStartingWith("VER:IMP")) {

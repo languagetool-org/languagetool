@@ -247,6 +247,13 @@ public class AgreementRule extends Rule {
       new PatternTokenBuilder().csToken("First").build(),
       new PatternTokenBuilder().csToken("Lady").build()
     ),
+    Arrays.asList( // Texas und New Mexico, beides spanische Kolonien, sind
+      new PatternTokenBuilder().csToken(",").build(),
+      new PatternTokenBuilder().csToken("beides").build(),
+      new PatternTokenBuilder().posRegex("ADJ:NOM:PLU.+").build(),
+      new PatternTokenBuilder().posRegex("SUB:NOM:PLU.+").build(),
+      new PatternTokenBuilder().csToken(",").build()
+    ),
     Arrays.asList(
       new PatternTokenBuilder().tokenRegex("[dD]e[rn]").build(),
       new PatternTokenBuilder().csToken("Gold").build(),
