@@ -39,6 +39,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 
 import static org.junit.Assert.assertTrue;
 
@@ -110,10 +111,17 @@ public class SuggestionsOrdererTest {
     final AtomicInteger numOriginalCorrect = new AtomicInteger(0),
       numReorderedCorrect = new AtomicInteger(0),
       numOtherCorrect = new AtomicInteger(0),
-      numBothCorrect = new AtomicInteger(0);
+      numBothCorrect = new AtomicInteger(0),
+      numTotalReorderings = new AtomicInteger(0),
+      numMatches = new AtomicInteger(0);
+    AtomicLong totalReorderingComputationTime = new AtomicLong(0),
+          totalHunspellComputationTime = new AtomicLong(0);
     Runtime.getRuntime().addShutdownHook(new Thread(() ->
-      System.out.printf("%n**** Correct Suggestions ****%nBoth: %d / Original: %d / Reordered: %d / Other: %d%n",
-        numBothCorrect.intValue(), numOriginalCorrect.intValue(), numReorderedCorrect.intValue(), numOtherCorrect.intValue())));
+      System.out.printf("%n**** Correct Suggestions ****%nBoth: %d / Original: %d / Reordered: %d / Other: %d%n" +
+          "Average time per reordering: %fms / Average time in match(): %fms%n",
+        numBothCorrect.intValue(), numOriginalCorrect.intValue(), numReorderedCorrect.intValue(), numOtherCorrect.intValue(),
+      (double) totalReorderingComputationTime.get() / numTotalReorderings.get(),
+      (double) totalHunspellComputationTime.get() / numMatches.get())));
     SuggestionsOrdererConfig.setNgramsPath(args[1]);
     try (CSVParser parser = new CSVParser(new FileReader(args[0]), CSVFormat.DEFAULT.withFirstRecordAsHeader())) {
       for (CSVRecord record : parser) {
@@ -121,9 +129,8 @@ public class SuggestionsOrdererTest {
         String covered = record.get("covered");
         String replacement = record.get("replacement");
         String sentenceStr = record.get("sentence");
-        int suggestionPos = Integer.parseInt(record.get("suggestion_pos"));
 
-        if (lang.equals("auto") || !lang.equals("en-US")) { // TODO: debugging only
+        if (lang.equals("auto") || !(lang.equals("en-US") || lang.equals("de-DE"))) { // TODO: debugging only
           continue; // TODO do language detection?
         }
         Language language = Languages.getLanguageForShortCode(lang);
@@ -144,8 +151,11 @@ public class SuggestionsOrdererTest {
         if (orderer == null) {
           continue;
         }
+        numMatches.incrementAndGet();
         AnalyzedSentence sentence = lt.getAnalyzedSentence(sentenceStr);
+        long startTime = System.currentTimeMillis();
         RuleMatch[] matches = spellerRule.match(sentence);
+        totalHunspellComputationTime.addAndGet(System.currentTimeMillis() - startTime);
         for (RuleMatch match : matches) {
           String matchedWord = sentence.getText().substring(match.getFromPos(), match.getToPos());
           if (!matchedWord.equals(covered)) {
@@ -154,7 +164,10 @@ public class SuggestionsOrdererTest {
           }
           List<String> original = match.getSuggestedReplacements();
           SuggestionsOrdererConfig.setMLSuggestionsOrderingEnabled(true);
+          numTotalReorderings.incrementAndGet();
+          startTime = System.currentTimeMillis();
           List<String> reordered = orderer.orderSuggestionsUsingModel(original, matchedWord, sentence, match.getFromPos(), matchedWord.length());
+          totalReorderingComputationTime.addAndGet(System.currentTimeMillis() - startTime);
           SuggestionsOrdererConfig.setMLSuggestionsOrderingEnabled(false);
           if (original.size() == 0 || reordered.size() == 0) {
             continue;

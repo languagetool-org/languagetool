@@ -247,10 +247,29 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
 
   private List<String> orderSuggestions(List<String> suggestions, String word, AnalyzedSentence sentence, int startPos) {
     List<String> orderedSuggestions;
-    if (suggestionsOrderer.isMlAvailable()) {
-      orderedSuggestions = suggestionsOrderer.orderSuggestionsUsingModel(suggestions, word, sentence, startPos, word.length());
+    if (userConfig != null && userConfig.getAbTest() != null && userConfig.getAbTest().equals("SuggestionsOrderer") &&
+      suggestionsOrderer.isMlAvailable() && userConfig.getTextSessionId() != null) {
+      boolean logGroup = Math.random() < 0.01;
+      if (logGroup) {
+        System.out.print("Running A/B-Test for SuggestionsOrderer ->");
+      }
+      if (userConfig.getTextSessionId() % 2 == 0) {
+        if (logGroup) {
+          System.out.println("in group A (using new ordering)");
+        }
+        orderedSuggestions = suggestionsOrderer.orderSuggestionsUsingModel(suggestions, word, sentence, startPos, word.length());
+      } else {
+        if (logGroup) {
+          System.out.println("in group B (using old ordering)");
+        }
+        orderedSuggestions = orderSuggestions(suggestions, word);
+      }
     } else {
-      orderedSuggestions = orderSuggestions(suggestions, word);
+      if (suggestionsOrderer.isMlAvailable()) {
+        orderedSuggestions = suggestionsOrderer.orderSuggestionsUsingModel(suggestions, word, sentence, startPos, word.length());
+      } else {
+        orderedSuggestions = orderSuggestions(suggestions, word);
+      }
     }
     return orderedSuggestions;
   }
