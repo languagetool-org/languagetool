@@ -133,6 +133,7 @@ public class UserConfig {
       .append(configurableRuleValues, other.configurableRuleValues)
       .append(userDictName, other.userDictName)
       .append(userSpecificSpellerWords, other.userSpecificSpellerWords)
+      // skipping abTest and textSessionId on purpose - not relevant for caching
       .isEquals();
   }
 
@@ -143,6 +144,7 @@ public class UserConfig {
       .append(maxSpellingSuggestions)
       .append(userDictName)
       .append(configurableRuleValues)
+      // skipping abTest and textSessionId on purpose - not relevant for caching
       .toHashCode();
   }
 
