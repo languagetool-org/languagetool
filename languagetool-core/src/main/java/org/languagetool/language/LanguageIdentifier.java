@@ -24,6 +24,7 @@ import com.optimaize.langdetect.ngram.NgramExtractors;
 import com.optimaize.langdetect.profiles.LanguageProfile;
 import com.optimaize.langdetect.profiles.LanguageProfileReader;
 import com.optimaize.langdetect.text.*;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
 import org.slf4j.Logger;
@@ -32,6 +33,7 @@ import org.slf4j.LoggerFactory;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
+import java.util.logging.Level;
 import java.util.regex.Pattern;
 
 /**
@@ -215,7 +217,9 @@ public class LanguageIdentifier {
         result = new AbstractMap.SimpleImmutableEntry<>(result.getKey(), newScore);
       } catch (Exception e) {
         fasttextEnabled = false;
-        logger.error("Disabling fasttext language identification, got error for text: " + text, e);
+        RuleLoggerMessage msg = new RuleErrorNotification(this.getClass().getSimpleName(), "-",
+          String.format("Fasttext disabled, failed on '%s': %s", text, ExceptionUtils.getStackTrace(e)));
+        RuleLoggerManager.getInstance().log(msg, Level.WARNING);
         fasttextProcess.destroy();
       }
     }
