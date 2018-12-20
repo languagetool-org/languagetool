@@ -40,6 +40,11 @@ public class UserConfig {
   private final Map<String, Integer> configurableRuleValues = new HashMap<>();
   private final LinguServices linguServices;
 
+  // indifferent for comparing UserConfigs (e.g. in PipelinePool)
+  // provided to rules only for A/B tests ->
+  private long textSessionId;
+  private String abTest;
+
   public UserConfig() {
     this(new ArrayList<>(), new HashMap<>());
   }
@@ -141,4 +146,19 @@ public class UserConfig {
       .toHashCode();
   }
 
+  public void setTextSessionId(Long textSessionId) {
+    this.textSessionId = textSessionId;
+  }
+
+  public Long getTextSessionId() {
+    return textSessionId;
+  }
+
+  public String getAbTest() {
+    return abTest;
+  }
+
+  public void setAbTest(String abTest) {
+    this.abTest = abTest;
+  }
 }

@@ -31,6 +31,7 @@ import org.languagetool.markup.AnnotatedText;
 import org.languagetool.rules.CategoryId;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.bitext.BitextRule;
+import org.languagetool.rules.spelling.morfologik.suggestions_ordering.SuggestionsOrdererConfig;
 import org.languagetool.tools.Tools;
 
 import java.io.IOException;
@@ -100,6 +101,12 @@ abstract class TextChecker {
       ServerTools.print("Prewarming pipelines...");
       prewarmPipelinePool();
       ServerTools.print("Prewarming finished.");
+    }
+    if (config.getAbTest() != null) {
+      ServerTools.print("A/B-Test enabled: " + config.getAbTest());
+      if (config.getAbTest().equals("SuggestionsOrderer")) {
+        SuggestionsOrdererConfig.setMLSuggestionsOrderingEnabled(true);
+      }
     }
   }
 
@@ -181,6 +188,11 @@ abstract class TextChecker {
             limits.getPremiumUid() != null ? getUserDictWords(limits.getPremiumUid()) : Collections.emptyList(),
             new HashMap<>(), config.getMaxSpellingSuggestions());
 
+    // NOTE: at the moment, feedback for A/B-Tests is only delivered from this client, so only run tests there
+    if (agent != null && agent.equals("ltorg")) {
+      userConfig.setAbTest(config.getAbTest());
+    }
+
     //print("Check start: " + text.length() + " chars, " + langParam);
     boolean autoDetectLanguage = getLanguageAutoDetect(parameters);
     List<String> preferredVariants = getPreferredVariants(parameters);
@@ -255,6 +267,8 @@ abstract class TextChecker {
         } else {
           textSessionId = Long.valueOf(textSessionIdStr);
         }
+
+        userConfig.setTextSessionId(textSessionId);
       }
     } catch (NumberFormatException ex) {
       print("Could not parse textSessionId '" + parameters.get("textSessionId") + "' as long: " + ex.getMessage());

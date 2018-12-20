@@ -92,6 +92,7 @@ public class HTTPServerConfig {
   protected String dbPassword = null;
   protected boolean dbLogging;
 
+  protected String abTest = null;
   /**
    * Create a server configuration for the default port ({@link #DEFAULT_PORT}).
    */
@@ -261,6 +262,8 @@ public class HTTPServerConfig {
         if (dbLogging && (dbDriver == null || dbUrl == null || dbUsername == null || dbPassword == null)) {
           throw new IllegalArgumentException("dbLogging can only be true if dbDriver, dbUrl, dbUsername, and dbPassword are all set");
         }
+
+        setAbTest(getOptionalProperty(props, "abTest", null));
       }
     } catch (IOException e) {
       throw new RuntimeException("Could not load properties from '" + file + "'", e);
@@ -774,6 +777,31 @@ public class HTTPServerConfig {
   boolean getDatabaseLogging() {
     return this.dbLogging;
   }
+
+
+  /**
+   * @since 4.4
+   * See if a specific A/B-Test is to be run
+   */
+  @Experimental
+  @Nullable
+  public String getAbTest() {
+    return abTest;
+  }
+
+  /**
+   * @since 4.4
+   * Enable a specific A/B-Test to be run (or null to disable all tests)
+   */
+  @Experimental
+  public void setAbTest(@Nullable String abTest) {
+    List<String> values = Arrays.asList("SuggestionsOrderer");
+    if (abTest != null && !values.contains(abTest)) {
+        throw new IllegalConfigurationException("Unknown value for 'abTest' property: Must be one of: " + values);
+    }
+    this.abTest = abTest;
+  }
+
 
   /**
    * @throws IllegalConfigurationException if property is not set 

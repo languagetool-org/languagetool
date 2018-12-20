@@ -63,8 +63,6 @@ public class SuggestionsOrderer {
       } else {
         languageModelFileName = ngramBasedModelFilename;
       }
-      System.out.printf("Using suggestion ordering model '%s'.%n", languageModelFileName); // TODO: debugging only
-
       try (InputStream modelsPath = this.getClass().getClassLoader().getResourceAsStream(languageModelFileName)) {
         predictor = new Predictor(modelsPath);
       } catch (IOException | NullPointerException e) {
