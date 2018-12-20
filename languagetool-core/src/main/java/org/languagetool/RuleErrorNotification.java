@@ -21,28 +21,8 @@
 
 package org.languagetool;
 
-import java.io.PrintStream;
-import java.util.logging.Level;
-
-public class SlowRuleLogger extends OutputStreamLogger  {
-  private static final int SLOW_THRESHOLD = 50; // milliseconds
-
-  public SlowRuleLogger() {
-    this(System.out);
-  }
-
-  public SlowRuleLogger(PrintStream stream) {
-    super(stream);
-    this.setLevel(Level.FINE);
-  }
-
-  @Override
-  public void log(RuleLoggerMessage message, Level level) {
-    if (message instanceof SlowRuleMessage) {
-      SlowRuleMessage msg = (SlowRuleMessage) message;
-      if (msg.getExecutionTime() >= SLOW_THRESHOLD) {
-        super.log(message, level);
-      }
-    }
+public class RuleErrorNotification extends RuleLoggerMessage {
+  public RuleErrorNotification(String ruleId, String language, String message) {
+    super(ruleId, language, message);
   }
 }

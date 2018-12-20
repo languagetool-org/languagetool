@@ -96,9 +96,11 @@ abstract class TextChecker {
     this.logger = DatabaseLogger.getInstance();
     if (logger.isLogging()) {
       this.logServerId = DatabaseAccess.getInstance().getOrCreateServerId();
+      RuleLoggerManager.getInstance().addLogger(new RuleDatabaseLogger(this.logServerId));
     } else {
       this.logServerId = null;
     }
+
     pipelinePool = new PipelinePool(config, cache, internalServer);
     if (config.isPipelinePrewarmingEnabled()) {
       ServerTools.print("Prewarming pipelines...");
