@@ -31280,7 +31280,7 @@ Andere Projekte</example>
             <rule>
                 <antipattern case_sensitive="yes">
                     <token inflected="yes">haben</token>
-                    <token postag="PRO:PER:AKK:SIN:.+" postag_regexp="yes"></token>
+                    <token postag="PRO:PER:...:SIN:.+" postag_regexp="yes"></token>
                     <token>lieb</token>
                 </antipattern>
                 <pattern case_sensitive="yes">
@@ -31296,6 +31296,18 @@ Andere Projekte</example>
                 <example correction="liebe|liebt">Ich <marker>lieb</marker> dich.</example>
                 <example correction="liebe|liebt">Er <marker>lieb</marker> dich.</example>
                 <example>Er hatte sie <marker>lieb</marker>.</example>
+                <example>Sie hatte er <marker>lieb</marker>.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token inflected="yes">haben</token>
+                    <token postag="PRO:PER:(NOM|AKK):.+" postag_regexp="yes"><exception inflected="yes">der</exception></token>
+                    <marker>
+                        <token>liebe</token>
+                    </marker>
+                </pattern>
+                <message>Prüfen Sie, ob hier <suggestion>lieb</suggestion> oder <suggestion>lieber</suggestion> stehen sollte.</message>
+                <example correction="lieb|lieber">Mich hatte er <marker>liebe</marker>, weil ich keine Lügen erzählte.</example>
             </rule>
         </rulegroup>
         <rule id="PASSIV_KEIN_PARTIZIP" name="fehlerhafte Passivkonstruktion (z.B. 'ist fahndet (gefahndet) worden')">
