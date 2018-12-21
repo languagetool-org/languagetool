@@ -34,7 +34,7 @@ import java.util.regex.Pattern;
  */
 public class CommonWords {
 
-  private final static Map<String, List<Language>> word2langs = new HashMap<>();
+  private final static Map<String, List<Language>> word2langs = Collections.synchronizedMap(new HashMap<>());
   private final static Pattern numberPattern = Pattern.compile("[0-9-.,]+");
 
   public CommonWords() {

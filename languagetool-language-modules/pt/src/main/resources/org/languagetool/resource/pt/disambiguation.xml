@@ -838,24 +838,25 @@
         <marker>
           <token>cerca</token>
         </marker>
-          <token>de
-            <exception scope='next' postag_regexp='yes' postag='NC.+'/></token>
+          <token>de</token>
+          <token regexp='yes'>&numero_por_extenso_CP;|&numero_por_extenso_FS;|&numero_por_extenso_FP;|&numero_por_extenso_MS;|&numero_por_extenso_MP;|mei[ao]</token>
       </pattern>
       <disambig action="replace" postag="RG"/>
     </rule>
     <rule>
       <pattern>
         <marker>
-          <token regexp='yes'>cercas?</token>
+          <token regexp='yes'>cerca</token>
         </marker>
           <token>de</token>
-          <token postag_regexp='yes' postag='NC.+'/>
+          <token postag_regexp='yes' postag='NC.+'>
+            <exception regexp='yes'>&numero_por_extenso_CP;|&numero_por_extenso_FS;|&numero_por_extenso_FP;|&numero_por_extenso_MS;|&numero_por_extenso_MP;|mei[ao]</exception></token>
       </pattern>
       <disambig action="filter" postag="N.+"/>
     </rule>
     <rule>
       <pattern>
-          <token regexp='yes'>cercas?</token>
+          <token regexp='yes'>cercas</token>
           <token>de</token>
         <marker>
           <token postag_regexp='yes' postag='NC.+'/>

@@ -180,9 +180,9 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes'>0?[1-9]|[12][0-9]|3[01]</token>
     ">
 
-    <!ENTITY MSG_ECV "Erro de concordância verbal.">
-    <!ENTITY MSG_ECG "Erro de concordância de género.">
-    <!ENTITY MSG_ECN "Erro de concordância de número.">
+    <!ENTITY MSG_ECV "Possível erro de concordância verbal.">
+    <!ENTITY MSG_ECG "Possível erro de concordância de género.">
+    <!ENTITY MSG_ECN "Possível erro de concordância de número.">
 
 ]>
 
@@ -794,6 +794,12 @@ title="Easy editing stylesheet" ?>
       <antipattern>
           <token postag='(?:D[ADIP].|NC|A..|Z.).S.+' postag_regexp='yes'/>
           <token regexp='yes'>d[eao]s?</token>
+          <token postag='(?:D[ADIP].|NC|A..|Z.)[MC]P.+' postag_regexp='yes'/>
+      </antipattern>
+      <antipattern>
+          <token>entre</token>
+          <token regexp='yes'>[ao]s</token>
+          <token>quais</token>
           <token postag='(?:D[ADIP].|NC|A..|Z.)[MC]P.+' postag_regexp='yes'/>
       </antipattern>
       <pattern>
@@ -25521,7 +25527,7 @@ TODO Write better examples
       <pattern>
           <token postag_regexp='yes' postag='AQC.+|N.....[AD]'>
             <exception negate_pos='yes' postag_regexp='yes' postag='AQC.+|N.....[AD]'/>
-            <exception regexp='yes'>sozinh[ao]s?|finit[ao]s?|ca(?:pita|[mn]arinh[ao])s?</exception></token>
+            <exception regexp='yes'>(?:sozinh[ao]|finit[ao]|ca(?:pita|[mn]arinh[ao])|perita|retinha)s?</exception></token>
     <!-- TODO Improve tagger so that it recognizes missing aumentatives and diminutives -->
       </pattern>
       <message>Linguagem informal. Considere as alternativas.</message>
@@ -29341,7 +29347,7 @@ TODO Write better examples
     <rule>
       <pattern>
           <token regexp='yes'>censor(?:as?|es)?
-            <exception scope='next'>estat(?:al|ais)</exception></token>
+            <exception scope='next' regexp='yes'>estat(?:al|ais)|pol[ií]t.+</exception></token>
       </pattern>
       <message>'Censor' é uma pessoa que censura. Refere-se ao componente eletrónico <suggestion><match no='1' regexp_match='censor' regexp_replace='sensor'/></suggestion>?</message>
       <example correction="sensores">O olho é composto por inúmeros <marker>censores</marker> de luz.</example>
