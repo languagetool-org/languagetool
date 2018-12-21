@@ -56,7 +56,8 @@ public class CommonWords {
               String key = line.toLowerCase();
               List<Language> languages = word2langs.get(key);
               if (languages == null) {
-                ArrayList<Language> l = new ArrayList<>();
+                // word2langs is static, so this can be accessed from multiple threads concurrently -> prevent exceptions
+                List<Language> l = Collections.synchronizedList(new LinkedList<>());
                 l.add(lang);
                 word2langs.put(key, l);
               } else {
