@@ -8896,9 +8896,8 @@ USA
                 <token>life</token>
             </antipattern>
             <antipattern><!-- www.ldoceonline.com/dictionary/hardly -->
-                <token postag="SENT_START"/>
-                <token>Hardly</token>
-                <token>anyone</token>
+                <token>hardly</token>
+                <token regexp="yes">any(one|thing)?</token>
             </antipattern>
             <antipattern><!-- www.ldoceonline.com/dictionary/hardly -->
                 <token postag="SENT_START"/>
@@ -9073,6 +9072,11 @@ USA
                 <!--                 <example correction="have often been">He has been <marker>often</marker> late.</example> TODO -->
             </rule>
             <rule>
+                <antipattern><!-- 'promise never to' does not mean 'never promise to' -->
+                    <token>never</token>
+                    <token>to</token>
+                    <token postag="VBP?" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token postag="VB[DPZ]?" postag_regexp="yes"><exception inflected="yes" regexp="yes">have|be|will</exception><exception postag="NNS?" postag_regexp="yes"/></token>
@@ -9085,6 +9089,9 @@ USA
                 <example correction="often go">I <marker>go often</marker> to bed before midnight.</example>
                 <example>I <marker>will always</marker> love you.</example>
                 <example correction="always love">I will <marker>love always</marker> you.</example>
+                <example>Didn't you <marker>promise never to tell</marker> a lie?</example>
+                <example>Mary <marker>decided never to see</marker> him any more.</example>
+                <example>He knows <marker>hardly anything</marker> about it.</example>
             </rule>
             <rule>
                 <pattern>
