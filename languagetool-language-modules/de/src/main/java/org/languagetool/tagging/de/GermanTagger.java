@@ -151,6 +151,12 @@ public class GermanTagger extends BaseTagger {
         firstWord = word.matches("^\\W?$");
       } else if (pos == 0 && ignoreCase) {   // "Haben", "Sollen", "Können", "Gerade" etc. at start of sentence
         taggerTokens.addAll(getWordTagger().tag(word.toLowerCase()));
+      } else if (pos > 1 && taggerTokens.isEmpty() && ignoreCase) {
+          int idx = sentenceTokens.indexOf(word);
+          // add lowercase token readings to words at start of direct speech
+          if (idx > 2 && sentenceTokens.get(idx-1).contentEquals("„") && sentenceTokens.get(idx-3).contentEquals(":")) {
+            taggerTokens.addAll(getWordTagger().tag(word.toLowerCase()));
+          }
       }
 
       if (taggerTokens.size() > 0) { //Word known, just add analyzed token to readings

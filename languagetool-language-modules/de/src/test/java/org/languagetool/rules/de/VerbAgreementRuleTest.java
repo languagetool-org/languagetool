@@ -102,6 +102,7 @@ public class VerbAgreementRuleTest {
     assertGood("„Werde ich tun!“");
     assertGood("Sie fragte: „Muss ich aussagen?“");
     assertGood("„Können wir bitte das Thema wechseln, denn ich möchte ungern darüber reden?“");
+    assertGood("Er sagt: „Willst du behaupten, dass mein Sohn euch liebt?“");
     // incorrect sentences:
     assertBad("Als Borcarbid weißt es eine hohe Härte auf.");
     assertBad("Das greift auf Vorläuferinstitutionen bist auf die Zeit von 1234 zurück.");
