@@ -92,6 +92,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY verbendirekterede "be(fehlen|haupten)|denken|fragen|rufen|sagen|versichern|flüstern|sprechen|schreien|antworten|säuseln|flehen">
     <!ENTITY gefuehladj "böse|erzürnt|sauer|verärgert|wütend|ärgerlich|enttäuscht|genervt|empört|entrüstet|erbost">
     <!ENTITY fragewoerter "inwie(fern|weit)|wa(nn|rum|s)|we[mnr]|wes(halb|sen|wegen)|wie(so)?|wo(durch|für|gegen|h(er|in)|mit|nach|ran|rauf|raus|rüber|runter|von|zu)?">
+    <!ENTITY farbadj "grau|weiß|schwarz|grün|rot|gelb|blau|lila|orange|beige|rosa">
     <!--
     for local testing of an external file - also see below:
     <!ENTITY UserRules SYSTEM "file:///lt/git/languagetool/languagetool-language-modules/de/src/main/resources/org/languagetool/rules/de/grammar-test.xml">
@@ -29688,18 +29689,18 @@ Andere Projekte</example>
         </rulegroup>
         <rule id="IN_WEISS" name="in + 'Farbe' ('in Weiß')">
             <antipattern>
-                <token case_sensitive="yes" regexp="yes">grau|weiß|schwarz|grün|rot|gelb|blau|lila|orange|beige|rosa</token>
+                <token case_sensitive="yes" regexp="yes">&farbadj;</token>
                 <token>in</token>
-                <token case_sensitive="yes" regexp="yes">grau|weiß|schwarz|grün|rot|gelb|blau|lila|orange|beige|rosa</token>
+                <token case_sensitive="yes" regexp="yes">&farbadj;</token>
             </antipattern>
             <antipattern>
                 <token>in</token>
-                <token case_sensitive="yes" regexp="yes">grau|weiß|schwarz|grün|rot|gelb|blau|lila|orange|beige|rosa</token>
+                <token case_sensitive="yes" regexp="yes">&farbadj;</token>
                 <token postag="SUB:.*|UNKNOWN"  postag_regexp="yes"/>
             </antipattern>
             <pattern>
                 <token regexp="yes">in|Farbe</token>
-                <marker><token case_sensitive="yes" regexp="yes">grau|weiß|schwarz|grün|rot|gelb|blau|lila|orange|beige|rosa</token></marker>
+                <marker><token case_sensitive="yes" regexp="yes">&farbadj;</token></marker>
             </pattern>
             <message>In dieser Wendung scheint der Farbname als Substantiv gebraucht zu werden und ist deshalb großzuschreiben ('ein Traum in Weiß', 'die Farbe Lila').</message>
             <suggestion><match case_conversion="startupper" no="2"/></suggestion>
@@ -29713,7 +29714,7 @@ Andere Projekte</example>
         <rule id="DAS_FARBE_GENITIV" name="das + 'Farbe' + Genitiv ('das Weiß ihres Kleides')">
             <pattern>
                 <token>das</token>
-                <marker><token case_sensitive="yes" regexp="yes">grau|weiß|schwarz|grün|rot|gelb|blau|lila|orange|beige|rosa</token></marker>
+                <marker><token case_sensitive="yes" regexp="yes">&farbadj;</token></marker>
                 <token postag="(ART:DEF|PRO:POS):GEN:[^ ]*" postag_regexp="yes"/>
             </pattern>
             <message>In dieser Wendung scheint der Farbname als Substantiv gebraucht zu werden und ist deshalb großzuschreiben ('das Blau ihrer Augen').</message>
@@ -39134,7 +39135,7 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <antipattern>
-                    <token regexp="yes">.*pho[nt]ograph.*|graphe(mi(sch|k)|mati(sch|k)|ologi(sch|e)).*|Graph(e[nm]|ics)?</token>
+                    <token regexp="yes">.*pho[nt]ograph.*|graphe(mi(sch|k)|mati(sch|k)|ologi(sch|e)).*|Graph(e[nm]|ic(s|al))?</token>
                 </antipattern>
                 <pattern>
                     <token regexp="yes">.*graph.*</token>
@@ -39144,6 +39145,7 @@ Andere Projekte</example>
                 <example correction="Geografie">Sie hat <marker>Geographie</marker> studiert.</example>
                 <example>Die Abbildung zeigt den <marker>Graph</marker> der genannten Funktion.</example>
                 <example correction="Kryptografie">Sie galt als Spezialistin für <marker>Kryptographie</marker> in ihrem Unternehmen.</example>
+                <example>GUI = Graphical User Interface</example>
             </rule>
             <rule>
                 <pattern>
