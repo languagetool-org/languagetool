@@ -27,6 +27,7 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.LanguageMaintainedState;
 import org.languagetool.UserConfig;
+import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.*;
 import org.languagetool.rules.nl.*;
 import org.languagetool.synthesis.Synthesizer;
@@ -136,6 +137,14 @@ public class Dutch extends Language {
     );
   }
 
+  /* @since 4.5 
+  @Override
+  public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel) throws IOException {
+    return Arrays.asList(
+            new DutchConfusionProbabilityRule(messages, languageModel, this)
+    );
+  }*/
+  
   @Override
   public int getPriorityForId(String id) {
     switch (id) {
