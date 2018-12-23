@@ -13389,9 +13389,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>pro</token>
                     <token>Stunde</token>
                 </pattern>
-                <message>&redundanz; Das Einheitenzeichen <suggestion>km/h</suggestion> steht alleine schon für <suggestion>Kilometer pro Stunde</suggestion> oder <suggestion>Stundenkilometer</suggestion>.</message>
+                <message>&redundanz; Das Einheitenzeichen <suggestion>km/h</suggestion> steht alleine schon für <suggestion>Kilometer pro Stunde</suggestion>.</message>
                 <short>&redundanz;</short>
-                <example correction="km/h|Kilometer pro Stunde|Stundenkilometer">Der Wagen fährt maximal 210 <marker>km/h pro Stunde</marker>.</example>
+                <example correction="km/h|Kilometer pro Stunde">Der Wagen fährt maximal 210 <marker>km/h pro Stunde</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="RECHTLICH_LEGAL" name="'rechtlich/juristisch legal'">
@@ -13885,7 +13885,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rulegroup id="LILANES" name="'lilanes (lila) Shirt'">
             <rule>
-                <regexp case_sensitive='yes'>\b((lilane?|pinke|chamoise)n?s?|olive[rsn]|orange(ne)?[nrs]|türkise[nrs])\b</regexp>
+                <regexp case_sensitive='yes'>\b((lilane?|pinke|chamoise)[mnrs]?|olive[rsn]|orange(ne)?[nrs]|türkise[nrs])\b</regexp>
                 <message>Dieses Farbadjektiv wird standardsprachlich nicht gebeugt.</message>
                 <url>http://www.spiegel.de/kultur/zwiebelfisch/zwiebelfisch-sind-rosane-t-shirts-und-lilane-leggings-erlaubt-a-292846.html</url>
                 <short>Umgangssprache</short>
@@ -16515,7 +16515,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>Kraft</token>
                 </marker>
                 <token regexp="yes" case_sensitive="no">[dms]eines|(ih|unse|eu)res</token>
-                <token regexp="yes">Amtes|Amts</token>
+                <token regexp="yes">Amte?s</token>
             </pattern>
             <message>&inwend;'kraft meines Amtes' wird <suggestion><match no="2" case_conversion="startlower"/></suggestion> kleingeschrieben.</message>
             <short>&prgk;.</short>
@@ -17316,28 +17316,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token case_sensitive="yes">pelle</token>
                     </marker>
-                    <token inflected="yes">rücken</token>
                 </pattern>
                 <message>&subanfang;<suggestion>Pelle</suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example correction="Pelle">Sie sind mir auf die <marker>pelle</marker> gerückt.</example>
-            </rule>
-            <!-- TODO: test fails
-        <rule>
-                <pattern>
-                    <token inflected="yes">rücken</token>
-                    <token min="0" max="3"/>
-                    <token>auf</token>
-                    <token>die</token>
-                    <marker>
-                        <token case_sensitive="yes">pelle</token>
-                    </marker>
-                </pattern>
-                <message>&subanfang;<suggestion>Pelle</suggestion>&subende;</message>
-                <short>&prgk;.</short>
                 <example correction="Pelle">Sie rücken mir auf die <marker>pelle</marker>.</example>
             </rule>
-            -->
         </rulegroup>
         <rulegroup id="EBENE_SUBST" name="'auf vielen ebenen (Ebenen)' etc.">
             <rule>
