@@ -7985,7 +7985,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="строиться">Нужно <marker>строится</marker> на этом месте.</example>
         </rule>
 
-        <rule id="Verb_INF_OR_3P" name="Инфинитив вместо личной формы глагола">
+        <rule id="Verb_INF_OR_3P" default="off" name="Инфинитив вместо личной формы глагола">
             <pattern>
                 <token postag="PNN:.*:.*:P3|NN:(Name|Fam|Patr):.*:.*:Nom" postag_regexp="yes" skip="-1"><exception postag="VB:(Fut|IMP|Past|Real):.*" postag_regexp="yes" scope="next"></exception><exception postag="VB:.*" postag_regexp="yes" scope="previous"></exception><exception regexp="yes" scope="next">[,;и]</exception></token>
                 <marker>
@@ -9813,7 +9813,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Они пошли к реке, по которой плавала лодка.</example>
             <example correction="">Они пошли к реке, по <marker>которой плавала лодка, которая</marker> была окрашена в белый цвет.</example>
         </rule>
-        <rule default="on" id="O_KOTORIJ" name="Определения «который»">
+        <rule default="off" id="O_KOTORIJ" name="Определения «который»">
             <pattern>
                 <unify negate="yes">
                     <feature id="gender"/>

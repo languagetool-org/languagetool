@@ -35,7 +35,8 @@
     
 #### Russian
   * added and improved rules
-  * internal dictionary improvements 
+  * disambiguation improvements
+  * POS and spelling dictionary improvements 
 
 #### Ukrainian
   * dictionary update (about 7k of new words)
