@@ -2117,7 +2117,7 @@ title="Easy editing stylesheet" ?>
           <phraseref idref="ALL_FUTURE_EXPRESSIONS"/>
           <token min='0' skip='4'/>
           <token postag="V.I[PM][23]S.+" postag_regexp="yes" regexp="yes">.+?ras?
-            <exception regexp='yes'>para|fronteiras?</exception></token>
+            <exception regexp='yes'>feira|para|fronteiras?</exception></token>
       </pattern>
       <message>Esta inflexão refere-se ao passado. Se pretende referir-se ao futuro subsitua '-ra' por '-rá'.</message>
       <example correction=""><marker>Amanhã, enviara</marker> os livros antes do fecho.</example>
@@ -8451,6 +8451,11 @@ title="Easy editing stylesheet" ?>
           <token>.</token>
           <token>.</token>
       </antipattern>
+      <antipattern><!-- sentence ends in an abreviation -->
+          <token regexp='yes'>\p{L}|&abreviaturas;</token>
+          <token spacebefore='no'>.</token>
+          <token>.</token>
+      </antipattern>
       <pattern>
           <token>.</token>
           <token>.</token>
@@ -8460,6 +8465,7 @@ title="Easy editing stylesheet" ?>
         <suggestion>…</suggestion>
       <example correction='.|…'>A situação financeira era estável<marker>..</marker></example>
       <example>A situação financeira era estável<marker>...</marker></example>
+      <example>... o intervalo entre 27 d.C. e 29 d.C.. Por isso, se Jesus tinha ...</example>
     </rule>
     <rule>
       <antipattern>
