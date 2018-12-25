@@ -7987,6 +7987,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
 
         <rule id="Verb_INF_OR_3P" default="off" name="Инфинитив вместо личной формы глагола">
+            <!-- set default="on" in next release -->
             <antipattern>
                 <token postag="VB:.*" postag_regexp="yes" skip="-1">
                     <exception postag="VB:.*" postag_regexp="yes" negate_pos="yes"></exception>
@@ -7999,12 +8000,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </token>
                 </marker>
             </antipattern>        
-            
+            <antipattern>
+                <token postag="ADJ:Comp|ADJ:Short:.*|DPT:.*|PRDC"  postag_regexp="yes" skip="-1"></token>
+                <marker>
+                    <token postag="VB:INF:INTR:.*" postag_regexp="yes" ></token>
+                </marker>
+            </antipattern>              
             <pattern>
                 <token postag="PNN:.*:.*:P3|NN:(Name|Fam|Patr):.*:.*:Nom" postag_regexp="yes" skip="-1"><exception postag="VB:(Fut|IMP|Past|Real):.*" postag_regexp="yes" scope="next"></exception><exception postag="VB:.*" postag_regexp="yes" scope="previous"></exception><exception regexp="yes" scope="next">[,;и]</exception></token>
                 <marker>
                     <token postag="VB:INF:INTR:.*" postag_regexp="yes" skip="-1">
-                        <exception postag="VB:.*" postag_regexp="yes" scope="next"></exception>
+                        <exception postag="VB:.*|PRDC" postag_regexp="yes" scope="next"></exception>
                         <exception postag="VB:.*" postag_regexp="yes" scope="previous"></exception>
                         <exception regexp="yes" >быть|есть|идти</exception>
                     </token>
@@ -8017,6 +8023,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="приходится">Он мне <marker>приходиться</marker> племенником.</example>
             <example>Он мне приходится племенником.</example>
             <example>Ты увидишь, что ей трудно угодить.</example>
+            <example>На него всегда можно положиться в сложной ситуации.</example>
             <example>Ты ведь собирался сейчас же её бросить, не так ли?</example>
         </rule>
 
@@ -9831,6 +9838,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="">Они пошли к реке, по <marker>которой плавала лодка, которая</marker> была окрашена в белый цвет.</example>
         </rule>
         <rule default="off" id="O_KOTORIJ" name="Определения «который»">
+             <!-- set default="on" in next release -->
             <antipattern>
                 <token skip="-1" postag="NN:.*:.*:.*:Nom" postag_regexp="yes" />
                 <marker>                        
