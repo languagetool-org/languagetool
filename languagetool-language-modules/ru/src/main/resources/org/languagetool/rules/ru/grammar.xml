@@ -7989,7 +7989,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token postag="PNN:.*:.*:P3|NN:(Name|Fam|Patr):.*:.*:Nom" postag_regexp="yes" skip="-1"><exception postag="VB:(Fut|IMP|Past|Real):.*" postag_regexp="yes" scope="next"></exception><exception postag="VB:.*" postag_regexp="yes" scope="previous"></exception><exception regexp="yes" scope="next">[,;и]</exception></token>
                 <marker>
-                    <token postag="VB:INF:.*" postag_regexp="yes" skip="-1">
+                    <token postag="VB:INF:INTR:.*" postag_regexp="yes" skip="-1">
                         <exception postag="VB:.*" postag_regexp="yes" scope="next"></exception>
                         <exception postag="VB:.*" postag_regexp="yes" scope="previous"></exception>
                         <exception regexp="yes" >быть|есть|идти</exception>
@@ -8002,6 +8002,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Глагол должен быть в в личной форме.</short>
             <example correction="приходится">Он мне <marker>приходиться</marker> племенником.</example>
             <example>Он мне приходится племенником</example>
+            <example>Ты ведь собирался сейчас же её бросить, не так ли?</example>
         </rule>
 
         <rule default="on" id="Verb_3P_and_inf" name="Правописание «-т» и «-ть» в глаголах – однородных членах предложения">
@@ -9815,20 +9816,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule default="off" id="O_KOTORIJ" name="Определения «который»">
             <pattern>
-                <unify negate="yes">
-                    <feature id="gender"/>
-                    <feature id="number"/>
-                    
-                    <token postag="NN:.*:PL:Nom" postag_regexp="yes">
-                        <exception postag="NN:.*" postag_regexp="yes" negate_pos ="yes"></exception>
-                    </token>
-                    <unify-ignore>
-                        <token>,</token>
-                    </unify-ignore>
-                    <token regexp="yes">который|которого|которому|котором|которая|которой|которую|которое</token>
-                </unify>
+                <token skip="-1" postag="SENT_START"></token>
+                <marker>
+                    <unify negate="yes">
+                        <feature id="gender"/>
+                        <feature id="number"/>                
+                        <token postag="NN:.*:PL:Nom" postag_regexp="yes">
+                            <exception postag="NN:.*" postag_regexp="yes" negate_pos ="yes"></exception>
+                            <exception postag="NN:.*:PL:Nom" postag_regexp="yes" scope ="previous"></exception>
+                        </token>
+                        <unify-ignore>
+                            <token>,</token>
+                        </unify-ignore>
+                        <token regexp="yes">который|которого|которому|котором|которая|которой|которую|которое</token>
+                    </unify>
+                </marker>
             </pattern>
-            <message>Ошибка в согласовании по числу, возможное исправление: <suggestion>\1, которые</suggestion></message>
+            <message>Ошибка в согласовании по числу, возможное исправление: <suggestion>\2, которые</suggestion></message>
             <short>Ошибка в согласовании.</short>
 
             <example correction="звёзды, которые">Яркие <marker>звёзды, которая</marker> сияли.</example>
