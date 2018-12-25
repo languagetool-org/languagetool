@@ -3583,7 +3583,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern> <!--  remove case sensitive -->
                   <marker> 
-                    <token negate="yes" regexp="yes">[\p{Punct}]|-|—|бы|возникши(.*)|но|однако|только|а|что<exception postag="SENT_START"></exception><exception postag_regexp="yes"  postag="VB:.*"></exception></token>
+                    <token negate="yes" regexp="yes">[\p{Punct}]|-|—|бы|возникши(.*)|но|однако|только|а|что<exception postag="SENT_START"></exception><exception postag_regexp="yes"  postag="VB:.*|NN:.*:Nom"></exception></token>
                     <token regexp="yes">кроме|помимо|вместо</token>
                   </marker>
                   <token><exception inflected="yes" regexp="yes" >аналогичный|типовой|похожий|нетиповой|непохожий|одинаковый|различный</exception></token>
@@ -3598,6 +3598,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Однако вместо нужной конструкции привезли типовую.</example>
                 <example>А вместо нужной конструкции привезли типовую.</example>
                 <example>Оказалось, что вместо нужной конструкции привезли типовую.</example>
+                <example>Инфинитив вместо личной формы.</example>
                 <example>Только вместо нужной конструкции привезли типовую.</example>
                 <example>Обстоятельства, возникшие помимо воли и желания сторон.</example>
                 <example correction="костра, кроме">Около <marker>костра кроме</marker> Ивана грелось ещё пять человек.</example>
@@ -7999,7 +8000,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <message>Инфинитив вместо личной формы глагола: <suggestion><match no="2" postag_regexp="yes" postag="VB:INF:(.*):(.*)"  postag_replace="VB:Real:$1:$2:Sin:P3"></match></suggestion></message>
             <url>http://tsya.ru/</url>
-            <short>Глагол должен быть в в личной форме.</short>
+            <short>Глагол должен быть в личной форме.</short>
             <example correction="приходится">Он мне <marker>приходиться</marker> племенником.</example>
             <example>Он мне приходится племенником</example>
             <example>Ты ведь собирался сейчас же её бросить, не так ли?</example>
@@ -9313,7 +9314,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup default="on" id="missing_noun_at_end" name="Опущено существительное">
             <rule>
                 <pattern>
-                  <token><exception postag="NN:.*|ADV|PNN:.*" postag_regexp="yes"></exception><exception>является</exception><exception regexp="yes">-|—|очень|совсем|крайне</exception></token>
+                  <token><exception postag="NN:.*|ADV|PNN:.*" postag_regexp="yes"></exception><exception inflected="yes" regexp="yes">являться|быть</exception><exception regexp="yes">-|—|очень|совсем|крайне</exception></token>
                   <marker>  
                     <token postag="ADJ:Posit:.*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="ADJ:Posit:.*" /></token> 
                     <token postag="SENT_END" spacebefore="no">.</token>
@@ -9325,6 +9326,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Он богат.</example>
                 <example>Это кольцо является волшебным.</example>
                 <example>Такой подход оказался достаточно универсальным.</example>
+                <example>Когда он был маленький.</example>
                 <example correction="">Так он и выбрал <marker>красивую.</marker></example>
             </rule>
        </rulegroup>
