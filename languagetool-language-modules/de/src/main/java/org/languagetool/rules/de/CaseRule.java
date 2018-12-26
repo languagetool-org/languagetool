@@ -321,6 +321,10 @@ public class CaseRule extends Rule {
     Arrays.asList( // Das ist also ihr Zuhause.
       posRegex(".+:(POS|GEN):.+"),
       csToken("Zuhause")
+    ),
+    Arrays.asList( // Ein anderes Zuhause habe ich nicht.
+      csToken("anderes"),
+      csToken("Zuhause")
     )
   );
 
