@@ -20,7 +20,6 @@
 package org.languagetool.rules.de;
 
 import java.util.ResourceBundle;
-import java.util.regex.Pattern;
 
 import org.languagetool.Language;
 import org.languagetool.UserConfig;
@@ -38,7 +37,7 @@ import org.languagetool.rules.Category.Location;
  */
 public class GermanReadabilityRule extends ReadabilityRule {
   
-  boolean tooEasyTest;
+  private boolean tooEasyTest;
 
   public GermanReadabilityRule(ResourceBundle messages, Language lang, UserConfig userConfig, boolean tooEasyTest) {
     this (messages, lang, userConfig, tooEasyTest, -1, false);
@@ -164,7 +163,5 @@ public class GermanReadabilityRule extends ReadabilityRule {
     }
     return nSyllables == 0 ? 1 : nSyllables;
   }
-
-
-
+  
 }
