@@ -32427,6 +32427,28 @@ Andere Projekte</example>
                 <example correction="ihren">Sie sagte, dass das Geld in <marker>ihrem</marker> Zimmer legt.</example>
                 <example>Auf dem Rollfeld legt eine Verkehrsmaschine im Mittel 5 km pro Flug zurück.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token postag_regexp="yes" postag="PRO:REF:AKK:.+" skip="1"></token>
+                    <token case_sensitive="yes">auf</token>
+                    <marker><token regexp="yes">dem</token></marker>
+                    <token regexp="yes">Weg|Rückweg</token>
+                    <token inflected="yes">machen</token>
+                </pattern>
+                <message>Meinten Sie <suggestion><match no="3" regexp_match="m$" regexp_replace="n"/></suggestion>?</message>
+                <example correction="den">Er hat sich auf <marker>dem</marker> Rückweg gemacht.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">machen</token>
+                    <token postag_regexp="yes" postag="PRO:REF:AKK:.+" skip="1"></token>
+                    <token case_sensitive="yes">auf</token>
+                    <marker><token regexp="yes">dem</token></marker>
+                    <token regexp="yes">Weg|Rückweg</token>
+                </pattern>
+                <message>Meinten Sie <suggestion><match no="4" regexp_match="m$" regexp_replace="n"/></suggestion>?</message>
+                <example correction="den">Wir machten uns auf <marker>dem</marker> Weg!</example>
+            </rule>
         </rulegroup>
         <rule id="AN_HERR" name="Präposition/Kasus – 'an/für Herr (Herrn)' etc.">
             <pattern case_sensitive="yes">
