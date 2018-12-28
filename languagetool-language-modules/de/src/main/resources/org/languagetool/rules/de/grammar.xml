@@ -23860,8 +23860,30 @@ Andere Projekte</example>
                 </pattern>
                 <message>&subanfang;<suggestion>Ärger</suggestion>&subende;</message>
                 <short>&prgk;.</short>
-                <example correction="Ärger">Er versuchte <marker>ärger</marker> zu machen.</example>
+                <example correction="Ärger">Er versuchte, <marker>ärger</marker> zu machen.</example>
                 <example>Um es noch <marker>ärger</marker> zu machen, fiel ich danach die Treppe herunter.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token inflected="yes" regexp="yes">be(kommen|deuten)|machen|kriegen|geben</token>
+                    <marker>
+                        <token>ärger</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion>Ärger</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example correction="Ärger">Das bedeutet <marker>ärger</marker>.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token>ärger</token>
+                    </marker>
+                    <token inflected="yes" regexp="yes">be(kommen|deuten)|sorgen|geben|einhandeln</token>
+                </pattern>
+                <message>Meinten Sie das Substantiv <suggestion>Ärger</suggestion>?</message>
+                <short>&prgk;.</short>
+                <example correction="Ärger">Er hat für <marker>ärger</marker> gesorgt.</example>
             </rule>
         </rulegroup>
         <rulegroup id="HERZEN_SUBST" name="'von herzen (Herzen)'">
