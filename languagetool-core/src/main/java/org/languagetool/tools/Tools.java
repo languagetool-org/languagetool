@@ -377,7 +377,7 @@ public final class Tools {
    * @since 3.0
    */
   public static void setPasswordAuthenticator() {
-    SecurityManager security = System.getSecurityManager();
+    /*SecurityManager security = System.getSecurityManager();
     if (security != null) {
       try {
         security.checkPermission(new NetPermission("setDefaultAuthenticator"));
@@ -388,7 +388,7 @@ public final class Tools {
       }
     } else {
       Authenticator.setDefault(new PasswordAuthenticator());
-    }
+    }*/
   }
 
   /**

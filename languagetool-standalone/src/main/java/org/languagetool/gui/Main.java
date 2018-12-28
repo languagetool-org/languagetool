@@ -1161,9 +1161,9 @@ public final class Main {
   }
 
   public static void main(String[] args) {
-    if (System.getSecurityManager() == null) {
-      JnaTools.setBugWorkaroundProperty();
-    }
+    //if (System.getSecurityManager() == null) {
+    //  JnaTools.setBugWorkaroundProperty();
+    //}
     LocalStorage localStorage = new LocalStorage();
     LocaleBean bean = localStorage.loadProperty("gui.locale", LocaleBean.class);
     if(bean != null) {

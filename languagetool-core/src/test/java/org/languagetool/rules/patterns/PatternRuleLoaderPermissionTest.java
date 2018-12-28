@@ -36,7 +36,7 @@ import java.util.List;
 
 public class PatternRuleLoaderPermissionTest {
 
-  private static final SecurityManager secManager = System.getSecurityManager();
+  //private static final SecurityManager secManager = System.getSecurityManager();
 
   @BeforeClass
   public static void startup() throws Exception {
@@ -59,7 +59,7 @@ public class PatternRuleLoaderPermissionTest {
 
   @AfterClass
   public static void shutdown(){
-    System.setSecurityManager(secManager);
+    //System.setSecurityManager(secManager);
   }
   
   static class MyPolicy extends Policy {
