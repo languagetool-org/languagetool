@@ -36,6 +36,21 @@
                     </descriptorRefs>
                 </configuration>
             </plugin>
+            <plugin>
+                <!-- build one big JAR named languagetool-dev-x.y-SNAPSHOT-shaded.jar -->
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <shadedArtifactAttached>true</shadedArtifactAttached>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>        
         </plugins>
     </build>
     
