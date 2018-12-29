@@ -31028,6 +31028,18 @@ Andere Projekte</example>
                 <example correction=""><marker>Jedes möglich Wort</marker> enthält nur genau ein „a“.</example>
                 <example><marker>Jedes mögliche Wort</marker> enthält nur genau ein „a“.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes">m?ein<exception inflected="yes">ich</exception></token>
+                    <token postag="ADJ:PRD:GRU"><exception>wenig</exception></token>
+                    <token postag="SUB:.+(FEM|MAS|NEU)" postag_regexp="yes"><exception regexp="yes">.*er</exception></token>
+                </pattern>
+                <message>Prüfen Sie die grammatikalische Übereinstimmung von '\1', '\2' und '\3'.</message>
+                <example correction="">Das ist aber <marker>ein groß Haus</marker>.</example>
+                <example>Er brauchte <marker>ein wenig Geld</marker>.</example>
+                <example>Er ist <marker>ein völlig Fremder</marker> für mich.</example>
+                <example>Habt <marker>ihr kurz Zeit</marker>?</example>
+            </rule>
         </rulegroup>
         <rulegroup id="PRONOUN_SUBJECT_AGREEMENT" name="fehlende Übereinstimmung zwischen Pronomen und Subjekt">
             <rule>
