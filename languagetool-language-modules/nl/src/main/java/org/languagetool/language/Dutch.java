@@ -18,6 +18,7 @@
  */
 package org.languagetool.language;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
@@ -28,6 +29,7 @@ import org.languagetool.Language;
 import org.languagetool.LanguageMaintainedState;
 import org.languagetool.UserConfig;
 import org.languagetool.languagemodel.LanguageModel;
+import org.languagetool.languagemodel.LuceneLanguageModel;
 import org.languagetool.rules.*;
 import org.languagetool.rules.nl.*;
 import org.languagetool.synthesis.Synthesizer;
@@ -48,6 +50,7 @@ public class Dutch extends Language {
   private Synthesizer synthesizer;
   private Disambiguator disambiguator;
   private Tokenizer wordTokenizer;
+  private LanguageModel languageModel;
 
   @Override
   public String getName() {
@@ -137,14 +140,23 @@ public class Dutch extends Language {
     );
   }
 
-  /* @since 4.5 
+  /** @since 4.5 */
   @Override
   public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel) throws IOException {
     return Arrays.asList(
             new DutchConfusionProbabilityRule(messages, languageModel, this)
     );
-  }*/
-  
+  }
+
+  /** @since 4.5 */
+  @Override
+  public synchronized LanguageModel getLanguageModel(File indexDir) throws IOException {
+    if (languageModel == null) {
+      languageModel = new LuceneLanguageModel(new File(indexDir, getShortCode()));
+    }
+    return languageModel;
+  }
+
   @Override
   public int getPriorityForId(String id) {
     switch (id) {
