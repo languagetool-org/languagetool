@@ -30933,6 +30933,11 @@ Andere Projekte</example>
                     <token>Null</token>
                 </antipattern>
                 <antipattern>
+                    <token>auf</token>
+                    <token>gut</token>
+                    <token>Glück</token>
+                </antipattern>
+                <antipattern>
                     <token>ohne</token>
                     <token>gleich</token>
                     <token postag="SUB:.+" postag_regexp="yes" skip="2"/>
@@ -30980,10 +30985,15 @@ Andere Projekte</example>
             </rule>
             <!-- TODO ergaenzen -->
             <rule>
+                <antipattern>
+                    <token>ein</token>
+                    <token></token>
+                    <token regexp="yes">.+er</token>
+                </antipattern>
                 <pattern>
                     <token><exception>,</exception></token>
                     <marker>
-                        <token postag="(ART:(IND|DEF)|PRO:(IND|POS)):NOM:SIN:MAS.*" postag_regexp="yes"/>
+                        <token postag="(ART:(IND|DEF)|PRO:(IND|POS)):NOM:SIN:MAS.*" postag_regexp="yes"><exception>ihr</exception></token>
                         <token postag="ADJ:PRD:GRU"><exception postag="ADJ:NOM:SIN:MAS.*" postag_regexp="yes"/><exception regexp="yes">&meinkleinhausausnahmen;</exception></token>
                         <token postag="SUB:NOM:SIN:MAS"><exception>Abhängige</exception></token>
                     </marker>
@@ -30992,6 +31002,7 @@ Andere Projekte</example>
                 <short>Möglicherweise fehlende grammatische Übereinstimmung zwischen Artikel, Adjektiv und Nomen.</short>
                 <example correction=""><marker>Ein nett Mann</marker> ist gekommen.</example>
                 <example><marker>Ein netter Mann</marker> ist gekommen.</example>
+                <example>Spielt ihr gut Tennis?</example>
             </rule>
             <rule>
                 <pattern>
@@ -31032,7 +31043,7 @@ Andere Projekte</example>
                 <pattern>
                     <token inflected="yes" regexp="yes">m?ein<exception inflected="yes">ich</exception></token>
                     <token postag="ADJ:PRD:GRU"><exception>wenig</exception></token>
-                    <token postag="SUB:.+(FEM|MAS|NEU)" postag_regexp="yes"><exception regexp="yes">.*er</exception></token>
+                    <token postag="SUB:.+(FEM|MAS)" postag_regexp="yes"><exception regexp="yes">[A-ZÄÖÜ].+er</exception></token>
                 </pattern>
                 <message>Prüfen Sie die grammatikalische Übereinstimmung von '\1', '\2' und '\3'.</message>
                 <example correction="">Das ist aber <marker>ein groß Haus</marker>.</example>
