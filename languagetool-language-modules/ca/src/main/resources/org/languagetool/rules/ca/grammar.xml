@@ -20476,7 +20476,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token><exception postag="NC.*" postag_regexp="yes"/><exception>més</exception></token>
+                    <token><exception postag="NC.*" postag_regexp="yes"/><exception regexp="yes">més|menys</exception></token>
                     <marker>
                         <token inflected="yes">net</token>
                     </marker>
@@ -20544,7 +20544,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token inflected="yes">fill</token>
+                    <token inflected="yes" regexp="yes">fill|avi|pare|mare</token>
                     <token regexp="yes">i|o|ni|,</token>
                     <marker>
                         <token inflected="yes">net</token>
@@ -20554,6 +20554,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="3" regexp_match="ne(.+)" regexp_replace="né$1"/></suggestion>
                 <short>S'accentua quan és nom</short>
                 <example correction="néts">Eren tots fills i <marker>nets</marker>.</example>
+                <example>És net de sabó.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes">net</token>
+                    </marker>
+                    <token regexp="yes">i|o|ni|,</token>
+                    <token inflected="yes" regexp="yes">fill|avi|pare|mare</token>
+                </pattern>
+                <message>S'accentua quan és nom.</message>
+                <suggestion><match no="3" regexp_match="ne(.+)" regexp_replace="né$1"/></suggestion>
+                <short>S'accentua quan és nom</short>
+                <example correction="néts">Eren tots <marker>nets</marker> i fills.</example>
                 <example>És net de sabó.</example>
             </rule>
             <rule>
