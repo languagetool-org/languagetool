@@ -115,7 +115,7 @@ public final class Languages {
     } catch (ClassNotFoundException e) {
       throw new RuntimeException("Class '" + className + "' specified in " + url + " could not be found in classpath", e);
     } catch (Exception e) {
-      throw new RuntimeException("Object for class '" + className + "' specified in " + url + " could not created", e);
+      throw new RuntimeException("Object for class '" + className + "' specified in " + url + " could not be created", e);
     }
   }
 
