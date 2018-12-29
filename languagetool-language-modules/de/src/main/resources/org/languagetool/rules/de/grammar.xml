@@ -30957,7 +30957,7 @@ Andere Projekte</example>
                 </antipattern>
                 <pattern>
                     <marker>
-                        <token postag="PRP:.+" postag_regexp="yes"><exception regexp="yes">um|zu|als</exception></token>
+                        <token postag="PRP:.+" postag_regexp="yes"><exception regexp="yes">um|zu|als|seit</exception></token>
                         <token postag="ADJ:PRD:GRU"><exception postag=".*(IND|SOL)" postag_regexp="yes"/><exception regexp="yes">&meinkleinhausausnahmen;</exception></token>
                         <token postag="SUB:.+" postag_regexp="yes">
                             <exception postag="SUB:.*:ADJ" postag_regexp="yes" />
@@ -30982,6 +30982,7 @@ Andere Projekte</example>
                 <example>Die Konflikte gipfelten <marker>im scherzhaft Gedankenstrich-Krieg</marker> genannten Diskurs.</example>
                 <example>Du wirst auf ewig Schuldgefühle haben.</example>
                 <example>Er hat das Problem aus der Welt geschafft, ohne gleich Blut zu vergießen.</example>
+                <example>Ich habe seit eben Schluckauf.</example>
             </rule>
             <!-- TODO ergaenzen -->
             <rule>
@@ -31040,13 +31041,18 @@ Andere Projekte</example>
                 <example><marker>Jedes mögliche Wort</marker> enthält nur genau ein „a“.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>ein</token>
+                    <token></token>
+                    <token regexp="yes">.+er</token>
+                </antipattern>
                 <pattern>
-                    <token inflected="yes" regexp="yes">m?ein<exception inflected="yes">ich</exception></token>
+                    <token inflected="yes" regexp="yes">m?ein<exception>ihr</exception></token>
                     <token postag="ADJ:PRD:GRU"><exception>wenig</exception></token>
-                    <token postag="SUB:.+(FEM|MAS)" postag_regexp="yes"><exception regexp="yes">[A-ZÄÖÜ].+er</exception></token>
+                    <token postag="SUB:.+(FEM|MAS)" postag_regexp="yes"></token>
                 </pattern>
                 <message>Prüfen Sie die grammatikalische Übereinstimmung von '\1', '\2' und '\3'.</message>
-                <example correction="">Das ist aber <marker>ein groß Haus</marker>.</example>
+                <example correction="">Er ging zu <marker>ihren gemeinsam Vater</marker>.</example>
                 <example>Er brauchte <marker>ein wenig Geld</marker>.</example>
                 <example>Er ist <marker>ein völlig Fremder</marker> für mich.</example>
                 <example>Habt <marker>ihr kurz Zeit</marker>?</example>
