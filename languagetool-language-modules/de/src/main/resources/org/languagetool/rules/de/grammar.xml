@@ -4975,6 +4975,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="hinter sich|hinters Ich">Er ließ das alles <marker>hinters ich</marker>.</example>
             <example correction="an sich|ans Ich">Das ist <marker>ans sich</marker> eine gute Sache.</example>
         </rule>
+        <rule id="SEI_SIE" name="sei (sie)">
+            <pattern>
+                <marker><token>Sei</token></marker>
+                <token postag="VER.*[1-3]:.+" postag_regexp="yes" regexp="yes">[a-zäöüß]+
+                    <exception postag="ADV.*|.*PA[12].*|ART:IND:.+|VER:INF:.*" postag_regexp="yes"/>
+                </token>
+            </pattern>
+            <message>Meinten Sie <suggestion>Sie</suggestion>?</message>
+            <example correction="Sie"><marker>Sei</marker> ließ sich scheiden.</example>
+            <example>Sei bitte ruhig!</example>
+        </rule>
         <rulegroup id="WAISE_WEISE" name="Waise/Weise/Wiese">
             <url>http://www.duden.de/rechtschreibung/Weise_Methode_Melodie_Lied</url>
             <rule>
