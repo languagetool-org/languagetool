@@ -4227,6 +4227,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Meinten Sie <suggestion>weiß</suggestion>, die Form des Verbs 'wissen'? 'weis' ist die Befehlsform von 'weisen' (z.B. 'weis mich darauf hin').</message>
                 <example correction="weiß">Das war keine gute Idee, das <marker>weis</marker> ich ja auch.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>weiß</token>
+                    </marker>
+                    <token>du</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>\1t</suggestion>, die Form des Verbs 'wissen'?</message>
+                <example correction="Weißt">Sie fragte: „<marker>Weiß</marker> du, ob er kommt?“</example>
+            </rule>
         </rulegroup>
         <rulegroup id="WESEN_WESSEN" name="Wesen/Wessen">
             <rule>
@@ -31046,9 +31056,19 @@ Andere Projekte</example>
                     <token></token>
                     <token regexp="yes">.+er</token>
                 </antipattern>
+                <antipattern>
+                    <token regexp="yes">[mds]?eine[mnr]</token>
+                    <token></token>
+                    <token regexp="yes">.+en</token>
+                </antipattern>
                 <pattern>
-                    <token inflected="yes" regexp="yes">m?ein<exception>ihr</exception></token>
-                    <token postag="ADJ:PRD:GRU"><exception>wenig</exception></token>
+                    <token inflected="yes" regexp="yes">m?ein
+                        <exception>ihr</exception>
+                    </token>
+                    <token postag="ADJ:PRD:GRU">
+                        <exception>wenig</exception>
+                        <exception postag="ADV.*" postag_regexp="yes"/>
+                    </token>
                     <token postag="SUB:.+(FEM|MAS)" postag_regexp="yes"></token>
                 </pattern>
                 <message>Prüfen Sie die grammatikalische Übereinstimmung von '\1', '\2' und '\3'.</message>
@@ -31056,6 +31076,8 @@ Andere Projekte</example>
                 <example>Er brauchte <marker>ein wenig Geld</marker>.</example>
                 <example>Er ist <marker>ein völlig Fremder</marker> für mich.</example>
                 <example>Habt <marker>ihr kurz Zeit</marker>?</example>
+                <example>Sein erst Anfang 1978 in Angriff genommenes Projekt</example>
+                <example>Ihre Rolle einer psychisch Kranken in dem Film</example>
             </rule>
         </rulegroup>
         <rulegroup id="PRONOUN_SUBJECT_AGREEMENT" name="fehlende Übereinstimmung zwischen Pronomen und Subjekt">
