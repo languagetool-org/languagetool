@@ -7987,7 +7987,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
 
         <rule id="Verb_INF_OR_3P" default="on" name="Инфинитив вместо личной формы глагола">
-            <!-- set default="on" in next release -->
+            <!-- need test on big data -->
             <antipattern>
                 <token postag="VB:.*" postag_regexp="yes" skip="-1">
                     <exception postag="VB:.*" postag_regexp="yes" negate_pos="yes"></exception>
@@ -8010,8 +8010,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="PNN:.*:.*:P3|NN:(Name|Fam|Patr):.*:.*:Nom" postag_regexp="yes" skip="-1"><exception postag="VB:(Fut|IMP|Past|Real):.*" postag_regexp="yes" scope="next"></exception><exception postag="VB:.*" postag_regexp="yes" scope="previous"></exception><exception regexp="yes" scope="next">[,;и]</exception></token>
                 <marker>
                     <token postag="VB:INF:INTR:.*" postag_regexp="yes" skip="-1">
-                        <exception postag="VB:.*|PRDC" postag_regexp="yes" scope="next"></exception>
-                        <exception postag="VB:.*" postag_regexp="yes" scope="previous"></exception>
+                        <exception postag="VB:.*|PRDC|PT_Short:.*" postag_regexp="yes" scope="next"></exception>
+                        <exception regexp="yes" scope="next">—|-|–</exception>
+                        <exception postag="VB:.*|PT_Short:.*" postag_regexp="yes" scope="previous"></exception>
+                        <exception regexp="yes" scope="previous">—|-|–</exception>
                         <exception regexp="yes" >быть|есть|идти</exception>
                     </token>
                 </marker>
@@ -8025,6 +8027,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Ты увидишь, что ей трудно угодить.</example>
             <example>На него всегда можно положиться в сложной ситуации.</example>
             <example>Ты ведь собирался сейчас же её бросить, не так ли?</example>
+            <example>Волков бояться — в лес не ходить.</example>
+            <example>Ей запрещено выходить из дома.</example>
         </rule>
 
         <rule default="on" id="Verb_3P_and_inf" name="Правописание «-т» и «-ть» в глаголах – однородных членах предложения">
