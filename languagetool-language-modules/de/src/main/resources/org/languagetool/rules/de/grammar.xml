@@ -34712,7 +34712,10 @@ Andere Projekte</example>
                 <pattern>
                     <or>
                         <token>DVD</token>
-                        <token postag_regexp="yes" postag="SUB:.*"><exception>Halt</exception></token>
+                        <token postag_regexp="yes" postag="SUB:.*">
+                            <exception>Halt</exception>
+                            <exception postag_regexp="yes" postag="VER:IMP.*"/>
+                        </token>
                     </or>
                     <token regexp="yes">'|’|`|´|‘</token>
                     <token>s</token>
@@ -34724,6 +34727,7 @@ Andere Projekte</example>
                 <example correction="Hits|Hit">Die Gruppe hatte viele <marker>Hit’s</marker>.</example>
                 <!-- vgl. http://web.archive.org/web/20110214064020/http://www.duden.de/deutsche_sprache/sprachberatung/newsletter/archiv.php?id=54 -->
                 <example>Der <marker>Girls’</marker> Day findet jährlich statt.</example>
+                <example>„Versuch’s doch.“</example>
             </rule>
         </rulegroup>
         <rulegroup id="APOSTROPH_S" name="Apostroph vor Genitiv-s">
