@@ -13716,11 +13716,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="BRAUCHEN_ZU" name="brauchen mit Infinitiv mit 'zu">
             <antipattern>
                 <token regexp="yes">gebraucht|brauchen</token>
-                <token regexp="yes">w[uü]rden?|w[eo]rden|ist|sind|w[aä]r(en)</token>
+                <token regexp="yes">w[uü]rde(n|st)?|w[eo]rden|ist|sind|w[aä]r(en|st)</token>
             </antipattern>
             <antipattern>
                 <token inflected="yes" skip="-1">brauchen</token>
-                <token regexp="yes">,|;|-|:|„|“|–|und|oder</token>
+                <token regexp="yes">,|;|-|:|„|–|und|oder|\(</token>
             </antipattern>
             <antipattern>
                 <token inflected="yes" skip="-1">brauchen</token>
@@ -13742,11 +13742,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token inflected="yes" skip="-1">brauchen</token>
                 <marker><token postag="VER:INF:.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-z]+<exception regexp="yes">m?einen</exception><exception scope="previous">zu</exception></token></marker>
             </pattern>
-            <message>Die Verwendung von 'brauchen + Infinitiv' (ohne 'zu') ist umgangssprachlich. Standardsprachlich sollte vor dem Infinitiv 'zu' stehen. Vorschlag: <suggestion>zu \2</suggestion></message>
+            <message>Die Verwendung von 'brauchen + Infinitiv' (ohne 'zu') ist umgangssprachlich. Standardsprachlich sollte Infinitiv mit 'zu' verwendet werden. Vorschlag: <suggestion>zu \2</suggestion> (oder <suggestion><match no="2" postag="VER:EIZ:.*" postag_regexp="yes"/></suggestion>)</message>
             <url>http://www.duden.de/rechtschreibung/brauchen</url>
             <short>Umgangssprache</short>
-            <example correction="zu kommen">Du brauchst nicht <marker>kommen</marker>.</example>
-            <example correction="zu machen">Darüber brauchst du dir keine Sorgen <marker>machen</marker>.</example>
+            <example correction="zu kommen|(kommen)">Du brauchst nicht <marker>kommen</marker>.</example>
+            <example correction="zu machen|(machen)">Darüber brauchst du dir keine Sorgen <marker>machen</marker>.</example>
+            <example correction="zu nachkommen|nachzukommen">“Du brauchst nicht <marker>nachkommen</marker>.”</example>
             <example>Er kaufte die Schuhe, obwohl sie gebraucht waren.</example>
             <example>Ich brauche bald <marker>einen</marker> neuen Fernseher.</example>
             <example>Ich brauchte sechs Jahre um Finnisch <marker>sprechen</marker> zu können.</example>
