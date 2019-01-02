@@ -13716,7 +13716,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="BRAUCHEN_ZU" name="brauchen mit Infinitiv mit 'zu">
             <antipattern>
                 <token regexp="yes">gebraucht|brauchen</token>
-                <token regexp="yes">w[uü]rde(n|st)?|w[eo]rden|ist|sind|w[aä]r(en|st)</token>
+                <token regexp="yes">w[uü]rde(n|st)?|w[eo]rden|ist|sind|w[aäi]r(en|st)</token>
             </antipattern>
             <antipattern>
                 <token inflected="yes" skip="-1">brauchen</token>
@@ -13742,7 +13742,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token inflected="yes" skip="-1">brauchen</token>
                 <marker><token postag="VER:INF:.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-z]+<exception regexp="yes">m?einen</exception><exception scope="previous">zu</exception></token></marker>
             </pattern>
-            <message>Die Verwendung von 'brauchen + Infinitiv' (ohne 'zu') ist umgangssprachlich. Standardsprachlich sollte Infinitiv mit 'zu' verwendet werden. Vorschlag: <suggestion>zu \2</suggestion> (oder <suggestion><match no="2" postag="VER:EIZ:.*" postag_regexp="yes"/></suggestion>)</message>
+            <message>Die Verwendung von 'brauchen + Infinitiv' (ohne 'zu') ist umgangssprachlich. Standardsprachlich sollte ein erweiterter Infinitiv mit 'zu' verwendet werden.</message>
+            <suggestion>zu \2</suggestion>
+            <suggestion><match no="2" postag="VER:EIZ:.*" postag_regexp="yes"/></suggestion>
             <url>http://www.duden.de/rechtschreibung/brauchen</url>
             <short>Umgangssprache</short>
             <example correction="zu kommen|(kommen)">Du brauchst nicht <marker>kommen</marker>.</example>
