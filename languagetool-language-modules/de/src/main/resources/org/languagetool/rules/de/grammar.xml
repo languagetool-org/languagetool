@@ -15412,6 +15412,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Teilen">Aus beiden <marker>teilen</marker> wird ein neues Teil.</example>
             <example correction="Teilen">Sie erhielten davon zu gleichen <marker>teilen</marker>.</example>
         </rule>
+        <rule id="DER_UNTERSCHIED" name="der unterschied (Unterschied)">
+            <pattern>
+                <token regexp="yes">der|dem|den</token>
+                <marker>
+                    <token case_sensitive="yes">unterschied</token>
+                </marker>
+            </pattern>
+            <message>Meinten Sie das Nomen <suggestion>Unterschied</suggestion> (als Nomen großgeschrieben)?</message>
+            <example correction="Unterschied">Was ist der <marker>unterschied</marker> zwischen "gratis" und "kostenlos"?</example>
+        </rule>
+        <rule id="EINIGE_FRAGEN" name="einige fragen (Fragen)">
+            <pattern>
+                <token regexp="yes">eine|zwei|einige|paar|wenige</token>
+                <marker>
+                    <token case_sensitive="yes" regexp="yes">fragen?</token>
+                </marker>
+                <token regexp="yes">an|über|zu</token>
+            </pattern>
+            <message>Meinten Sie das Nomen <suggestion>Fragen</suggestion> (als Nomen großgeschrieben)?</message>
+            <example correction="Fragen">Ich habe noch einige <marker>fragen</marker> an dich.</example>
+        </rule>
         <rule id="DIE_ZEIT" name="die zeit (Zeit)">
             <antipattern>
                 <token>Zeit</token>
@@ -30089,6 +30110,16 @@ Andere Projekte</example>
     <!-- Grammatik -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammatik">
+        <rule id="IST_UNTERSCHIED" name="ist (der) Unterschied">
+            <pattern>
+                <token regexp="yes">ist|war|soll</token>
+                <marker>
+                    <token regexp="yes">Unterschied|Hinweis</token> <!-- TODO: extend -->
+                </marker>
+            </pattern>
+            <message>Hier scheint der Artikel zu fehlen: <suggestion><match case_conversion="startlower" no="2" regexp_match="^(.*)$" regexp_replace="der $1"/></suggestion></message>
+            <example correction="der Unterschied">Was ist <marker>Unterschied</marker> zwischen "gratis" und "kostenlos"?</example>
+        </rule>
         <rule id="SIND_IST" name="sind (ist) x Jahre her">
             <pattern>
                 <marker><token regexp="yes">sind|waren</token></marker>
