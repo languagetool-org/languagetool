@@ -121,5 +121,7 @@ public class RomanianWordTokenizerTest {
     assertEquals(testList.size(), 4);
     assertEquals("[pere, \n, \r, mere]",
         testList.toString());
+    // test for URLs  
+    testList = w.tokenize("www.LanguageTool.org");
   }
 }
