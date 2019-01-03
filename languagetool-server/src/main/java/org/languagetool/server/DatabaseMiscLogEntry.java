@@ -49,7 +49,7 @@ public class DatabaseMiscLogEntry extends DatabaseLogEntry {
     parameters.put("server", server);
     parameters.put("client", client);
     parameters.put("user", user);
-    parameters.put("message", StringUtils.abbreviate(message, 1024));
+    parameters.put("message", StringUtils.abbreviate(message, 4096));
     return parameters;
   }
 
