@@ -314,7 +314,7 @@ abstract class TextChecker {
       Path loadFile = Paths.get("/proc/loadavg");  // works in Linux only(?)
       String loadInfo = loadFile.toFile().exists() ? Files.readAllLines(loadFile).toString() : "(unknown)";
       if (errorRequestLimiter != null) {
-        errorRequestLimiter.logAccess(remoteAddress, httpExchange.getRequestHeaders());
+        errorRequestLimiter.logAccess(remoteAddress, httpExchange.getRequestHeaders(), parameters);
       }
       String message = "Text checking took longer than allowed maximum of " + limits.getMaxCheckTimeMillis() +
                        " milliseconds (cancelled: " + cancelled +

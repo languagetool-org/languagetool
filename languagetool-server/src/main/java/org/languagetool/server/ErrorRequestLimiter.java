@@ -52,12 +52,13 @@ class ErrorRequestLimiter extends RequestLimiter {
   
   /**
    * @param ipAddress the client's IP address
+   * @param params the request's query parameters
    */
-  void logAccess(String ipAddress, Map<String, List<String>> httpHeader) {
+  void logAccess(String ipAddress, Map<String, List<String>> httpHeader, Map<String, String> params) {
     while (requestEvents.size() > REQUEST_QUEUE_SIZE) {
       requestEvents.remove(0);
     }
-    requestEvents.add(new RequestEvent(ipAddress, new Date(), 0, computeFingerprint(httpHeader), JLanguageTool.Mode.ALL));
+    requestEvents.add(new RequestEvent(ipAddress, new Date(), 0, computeFingerprint(httpHeader, params), JLanguageTool.Mode.ALL));
   }
   
 }
