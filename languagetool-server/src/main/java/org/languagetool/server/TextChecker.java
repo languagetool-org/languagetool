@@ -24,6 +24,7 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.apache.commons.lang3.tuple.Pair;
 import org.jetbrains.annotations.NotNull;
 import org.languagetool.*;
 import org.languagetool.language.LanguageIdentifier;
@@ -73,8 +74,8 @@ abstract class TextChecker {
   private static final int CACHE_STATS_PRINT = 500; // print cache stats every n cache requests
   
   private final Map<String,Integer> languageCheckCounts = new HashMap<>();
-  private Queue<Runnable> workQueue;
-  private RequestCounter reqCounter;
+  private final Queue<Runnable> workQueue;
+  private final RequestCounter reqCounter;
   // keep track of timeouts of the hidden matches server, check health periodically;
   // -1 => healthy, else => check timed out at given date, check back if time difference > config.getHiddenMatchesFailTimeout()
   private long lastHiddenMatchesServerTimeout;
@@ -278,6 +279,35 @@ abstract class TextChecker {
     }
     int textSize = aText.getPlainText().length();
 
+    // future = null -> skipped; future.get() = null -> error; else: results, computation time
+    Future<Pair<List<RemoteRuleMatch>, Long>> hiddenMatches = null;
+    ResultExtender resultExtender;
+
+    if (config.getHiddenMatchesServer() != null && params.enableHiddenRules &&
+      config.getHiddenMatchesLanguages().contains(lang)) {
+      if(config.getHiddenMatchesServerFailTimeout() > 0 && lastHiddenMatchesServerTimeout != -1 &&
+        System.currentTimeMillis() - lastHiddenMatchesServerTimeout < config.getHiddenMatchesServerFailTimeout()) {
+        print("Warn: Skipped querying hidden matches server at " +
+          config.getHiddenMatchesServer() + " because of recent error/timeout.");
+        resultExtender = null;
+      } else {
+        resultExtender = new ResultExtender(config.getHiddenMatchesServer(), config.getHiddenMatchesServerTimeout());
+        hiddenMatches = executorService.submit(() -> {
+          try {
+            long start = System.currentTimeMillis();
+            List<RemoteRuleMatch> extensionMatches = resultExtender.getExtensionMatches(aText.getPlainText(), lang);
+            long end = System.currentTimeMillis();
+            return Pair.of(extensionMatches, end - start);
+          } catch (Exception e) {
+            print("Warn: Failed to query hidden matches server at " + config.getHiddenMatchesServer() + ": " + e.getClass() + ": " + e.getMessage());
+            return null;
+          }
+        });
+      }
+    } else {
+      resultExtender = null;
+    }
+
     List<RuleMatch> ruleMatchesSoFar = Collections.synchronizedList(new ArrayList<>());
     
     Future<List<RuleMatch>> future = executorService.submit(new Callable<List<RuleMatch>>() {
@@ -340,30 +370,25 @@ abstract class TextChecker {
     }
 
     setHeaders(httpExchange);
+    List<RuleMatch> hiddenMatchesResult = new ArrayList<>();
 
-    List<RuleMatch> hiddenMatches = new ArrayList<>();
-    if (config.getHiddenMatchesServer() != null && params.enableHiddenRules &&
-      config.getHiddenMatchesLanguages().contains(lang)) {
-      if(config.getHiddenMatchesServerFailTimeout() > 0 && lastHiddenMatchesServerTimeout != -1 &&
-        System.currentTimeMillis() - lastHiddenMatchesServerTimeout < config.getHiddenMatchesServerFailTimeout()) {
-        print("Warn: Skipped querying hidden matches server at " +
-          config.getHiddenMatchesServer() + " because of recent error/timeout.");
-      } else {
-        ResultExtender resultExtender = new ResultExtender(config.getHiddenMatchesServer(), config.getHiddenMatchesServerTimeout());
-        try {
-          long start = System.currentTimeMillis();
-          List<RemoteRuleMatch> extensionMatches = resultExtender.getExtensionMatches(aText.getPlainText(), lang);
-          hiddenMatches = resultExtender.getFilteredExtensionMatches(matches, extensionMatches);
-          long end = System.currentTimeMillis();
-          print("Hidden matches: " + extensionMatches.size() + " -> " + hiddenMatches.size() + " in " + (end - start) + "ms");
-          lastHiddenMatchesServerTimeout = -1;
-        } catch (Exception e) {
-          print("Warn: Failed to query hidden matches server at " + config.getHiddenMatchesServer() + ": " + e.getClass() + ": " + e.getMessage());
-          lastHiddenMatchesServerTimeout = System.currentTimeMillis();
+    if (hiddenMatches != null) { // null -> computation skipped, fail timeout in effect
+      try {
+        Pair<List<RemoteRuleMatch>, Long> futureResult = hiddenMatches.get(config.getHiddenMatchesServerTimeout(), TimeUnit.MILLISECONDS);
+        if (futureResult != null && resultExtender != null) {
+          hiddenMatchesResult = resultExtender.getFilteredExtensionMatches(matches, futureResult.getLeft());
+          print("Hidden matches: " + futureResult.getLeft().size() + " -> " + hiddenMatchesResult.size() + " in " + futureResult.getRight() + "ms");
+          lastHiddenMatchesServerTimeout = -1; // disable fail timeout
+        } else {
+          lastHiddenMatchesServerTimeout = System.currentTimeMillis(); // an error occurred, activate fail timeout
         }
+      } catch(InterruptedException | TimeoutException |  ExecutionException e) {
+        print("Warn: Failed to query hidden matches server at " + config.getHiddenMatchesServer() + ": " + e.getClass() + ": " + e.getMessage());
+        lastHiddenMatchesServerTimeout = System.currentTimeMillis(); // an error occurred, activate fail timeout
       }
     }
-    String response = getResponse(aText, detLang, motherTongue, matches, hiddenMatches, incompleteResultReason);
+
+    String response = getResponse(aText, detLang, motherTongue, matches, hiddenMatchesResult, incompleteResultReason);
     String messageSent = "sent";
     String languageMessage = lang.getShortCodeWithCountryAndVariant();
     try {
