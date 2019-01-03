@@ -85,6 +85,7 @@ public class HTTPServerConfig {
   protected List<String> blockedReferrers = new ArrayList<>();
   protected String hiddenMatchesServer;
   protected int hiddenMatchesServerTimeout;
+  protected int hiddenMatchesServerFailTimeout;
   protected List<Language> hiddenMatchesLanguages = new ArrayList<>();
   protected String dbDriver = null;
   protected String dbUrl = null;
@@ -248,6 +249,7 @@ public class HTTPServerConfig {
         blockedReferrers = Arrays.asList(getOptionalProperty(props, "blockedReferrers", "").split(",\\s*"));
         hiddenMatchesServer = getOptionalProperty(props, "hiddenMatchesServer", null);
         hiddenMatchesServerTimeout = Integer.parseInt(getOptionalProperty(props, "hiddenMatchesServerTimeout", "1000"));
+        hiddenMatchesServerFailTimeout = Integer.parseInt(getOptionalProperty(props, "hiddenMatchesServerFailTimeout", "10000"));
         String langCodes = getOptionalProperty(props, "hiddenMatchesLanguages", "");
         for (String code : langCodes.split(",\\s*")) {
           if (!code.isEmpty()) {
@@ -669,6 +671,15 @@ public class HTTPServerConfig {
   @Experimental
   int getHiddenMatchesServerTimeout() {
     return hiddenMatchesServerTimeout;
+  }
+
+  /**
+   * Period to skip requests to hidden matches server after a timeout (in milliseconds)
+   * @since 4.5
+   */
+  @Experimental
+  int getHiddenMatchesServerFailTimeout() {
+    return hiddenMatchesServerFailTimeout;
   }
 
   /**
