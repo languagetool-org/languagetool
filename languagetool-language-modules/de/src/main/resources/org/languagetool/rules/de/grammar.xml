@@ -30111,14 +30111,21 @@ Andere Projekte</example>
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammatik">
         <rule id="IST_UNTERSCHIED" name="ist (der) Unterschied">
+            <antipattern>
+                <token>genug</token>
+            </antipattern>
             <pattern>
                 <token regexp="yes">ist|war|soll</token>
                 <marker>
                     <token regexp="yes">Unterschied|Hinweis</token> <!-- TODO: extend -->
                 </marker>
+                <token skip="-1"/>
+                <token regexp="yes">[?!.]</token>
             </pattern>
             <message>Hier scheint der Artikel zu fehlen: <suggestion><match case_conversion="startlower" no="2" regexp_match="^(.*)$" regexp_replace="der $1"/></suggestion></message>
             <example correction="der Unterschied">Was ist <marker>Unterschied</marker> zwischen "gratis" und "kostenlos"?</example>
+            <example>Ratsmitgliedern ist <marker>Unterschied</marker> zwischen Amts- und leichter Sprache oft unbekannt</example><!-- typical headline -->
+            <example>Die Farbe ist <marker>Unterschied</marker> genug</example>
         </rule>
         <rule id="SIND_IST" name="sind (ist) x Jahre her">
             <pattern>
