@@ -37,10 +37,10 @@ public class ErrorRequestLimiterTest {
     String ip2 = "192.168.0.2";
     assertTrue(limiter.wouldAccessBeOkay(ip1, params, header));
     assertTrue(limiter.wouldAccessBeOkay(ip2, params, header));
-    limiter.logAccess(ip1, header);
-    limiter.logAccess(ip1, header);
-    limiter.logAccess(ip1, header);
-    limiter.logAccess(ip1, header);
+    limiter.logAccess(ip1, header, params);
+    limiter.logAccess(ip1, header, params);
+    limiter.logAccess(ip1, header, params);
+    limiter.logAccess(ip1, header, params);
     assertFalse(limiter.wouldAccessBeOkay(ip1, params, header));
     assertTrue(limiter.wouldAccessBeOkay(ip2, params, header));
     Thread.sleep(1050);
