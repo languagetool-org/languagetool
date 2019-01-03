@@ -123,5 +123,6 @@ public class RomanianWordTokenizerTest {
         testList.toString());
     // test for URLs  
     testList = w.tokenize("www.LanguageTool.org");
+    assertEquals(testList.size(), 1);
   }
 }
