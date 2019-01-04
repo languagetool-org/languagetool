@@ -323,7 +323,7 @@ public class CaseRule extends Rule {
       csToken("Zuhause")
     ),
     Arrays.asList( // Ein anderes Zuhause habe ich nicht.
-      csToken("anderes"),
+      regex("altes|anderes|k?ein|neues"),
       csToken("Zuhause")
     )
   );
