@@ -26993,6 +26993,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
+        <rule id="COMTESSA" name="comtessa/contesa">
+            <pattern>
+                <marker>
+                    <token inflected="yes">comtessa</token>
+                </marker>
+                <token inflected="yes" regexp="yes">electoral|entre</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion><match no="1" postag="(N.*)" postag_regexp="yes" postag_replace="$1">contesa</match></suggestion> (disputa, litigi)?</message>
+            <example correction="conteses">El guanyador de les <marker>comtesses</marker> electorals.</example>
+        </rule>
         <rule id="FADA_PADRINA" name="fada *padrina">
             <pattern>
                 <token regexp="yes">fada|fades</token>
