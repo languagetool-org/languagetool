@@ -3981,13 +3981,14 @@
           <pattern>
             <token regexp="yes" inflected="yes" skip="3">perform|show|have</token>            
             <marker>
-            <token>live</token>
+            <token>live<exception scope="previous">to</exception></token>
             </marker>
             <token regexp="yes">in|at</token>
             <token postag="NNP"/>
           </pattern>
           <disambig postag="JJ"/>
           <example type="untouched">I can live in Stockholm.</example>
+          <example type="untouched">Tom has decided to <marker>live</marker> in Boston for the rest of his life.</example>
           <example type="ambiguous" inputform="live[live/JJ,live/VB,live/VBP]" outputform="live[live/JJ]">He performed it <marker>live</marker> in Stockholm.</example>
         </rule>
 
