@@ -7,7 +7,7 @@ title="Easy editing stylesheet" ?>
 Russian grammar and typo rules for LanguageTool.
 See resource/ru/russian_tags.txt for the meaning of the POS tags.
 
-Copyright © 2008-2018 Yakov Reztsov
+Copyright © 2008-2019 Yakov Reztsov
 http://www.languagetool.org
 
 This library is free software; you can redistribute it and/or
@@ -9842,7 +9842,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Они пошли к реке, по которой плавала лодка.</example>
             <example correction="">Они пошли к реке, по <marker>которой плавала лодка, которая</marker> была окрашена в белый цвет.</example>
         </rule>
-        <rule default="off" id="O_KOTORIJ" name="Определения «который»">
+        <rule default="on" id="O_KOTORIJ" name="Определения «который»">
              <!-- set default="on" in next release -->
             <antipattern>
                 <token skip="-1" postag="NN:.*:.*:.*:Nom" postag_regexp="yes" />
@@ -9856,7 +9856,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </marker>
             </antipattern>        
             <pattern>
-                <token skip="-1" postag="SENT_START"></token>
+                <token skip="-1" postag="SENT_START"><exception postag="PT_Short:.*|VB:Real:INTR:IMPFV:.*:.*" postag_regexp="yes" scope ="next"></exception></token>
                 <marker>
                     <unify negate="yes">
                         <feature id="gender"/>
@@ -9875,6 +9875,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Ошибка в согласовании по числу, возможное исправление: <suggestion>\2, которые</suggestion></message>
             <short>Ошибка в согласовании.</short>
             <example>Математика есть часть науки, которой можно было бы продолжать заниматься, проснувшись утром и поняв, что вселенной больше нет.</example>
+            <example>В 1979 году в Финском заливе начато строительство дамбы, которая и защищала бы город от наводнений.</example>
+            <example>Из неё забирается более 96 % воды, которая проходит обработку на 5 сооружениях.</example>
             <example correction="звёзды, которые">Яркие <marker>звёзды, которая</marker> сияли.</example>      
         </rule>
         
