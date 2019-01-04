@@ -5128,14 +5128,6 @@ regexp case-insensitive maken : (?i)
             </rule>
         </rulegroup>
 
-        <rulegroup id="FINNEN_VINNEN" name="waarschuwing bij gebruik finnen i.p.v. vinnen">
-            <rule>
-                <pattern case_sensitive="yes"><token>finnen</token></pattern>
-                <message>Bedoelt u wellicht <suggestion>vinnen</suggestion> (van waterdieren) of <suggestion>Finnen</suggestion> (Finland)? Of toch blaaswormen?</message>
-                <example correction="vinnen|Finnen">Het woord <marker>finnen</marker> kan een vergissing zijn.</example>
-            </rule>
-        </rulegroup>
-
         <rulegroup id="FLOER_VLOER" name="waarschuwing bij gebruik floer i.p.v. vloer">
             <rule>
                 <pattern>
@@ -15819,7 +15811,6 @@ gulpen;Gulpen
 evers;Evers
 abel;Abel
 robbert;Robbert
-finnen;Finnen
 janet;Janet
 bridget;Bridget
 bedrijfsdiner;Bedrijfsdiner
@@ -31584,7 +31575,21 @@ steenwijk;Steenwijk
         </rulegroup>
     </category>
     <category id="CONFUSED_WORDS" name="Woordverwarring">
-        <rulegroup id="KAMT_MET" name="kamt met / kamt met">
+
+		<rulegroup id="DANKJE" name="dankje / dank je">
+            <rule>
+                <antipattern><marker><token>dankje</token><token>wel</token></marker></antipattern>
+                <antipattern><token regexp="yes" skip="1">een|het</token><marker><token>dankje</token></marker></antipattern>
+                <pattern>
+                    <marker>
+                        <token>dankje</token>
+                    </marker>
+                </pattern>
+				<message>Je bedoelt vast: <suggestion>dank je</suggestion>.</message>
+                <example correction="Dank je"><marker>Dankje</marker> voor de correctie.</example>
+            </rule>
+        </rulegroup>
+		<rulegroup id="KAMT_MET" name="kamt met / kamt met">
             <rule>
                 <pattern>
                     <marker>
