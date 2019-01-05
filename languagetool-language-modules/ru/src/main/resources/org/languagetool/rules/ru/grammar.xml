@@ -9843,7 +9843,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="">Они пошли к реке, по <marker>которой плавала лодка, которая</marker> была окрашена в белый цвет.</example>
         </rule>
         <rule default="on" id="O_KOTORIJ" name="Определения «который»">
-             <!-- set default="on" in next release -->
+             <!-- need test rule -->
             <antipattern>
                 <token skip="-1" postag="NN:.*:.*:.*:Nom" postag_regexp="yes" />
                 <marker>                        
@@ -9862,6 +9862,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <feature id="gender"/>
                         <feature id="number"/>                
                         <token postag="NN:.*:PL:Nom" postag_regexp="yes">
+                            <exception postag="NN:.*:Sin:R" postag_regexp="yes" ></exception> <!-- проверить, может нужно менее строгое исключение -->
                             <exception postag="NN:.*" postag_regexp="yes" negate_pos ="yes"></exception>
                             <exception postag="NN:.*:PL:Nom" postag_regexp="yes" scope ="previous"></exception>
                         </token>
@@ -9877,6 +9878,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Математика есть часть науки, которой можно было бы продолжать заниматься, проснувшись утром и поняв, что вселенной больше нет.</example>
             <example>В 1979 году в Финском заливе начато строительство дамбы, которая и защищала бы город от наводнений.</example>
             <example>Из неё забирается более 96 % воды, которая проходит обработку на 5 сооружениях.</example>
+            <example>Нет такой собаки, которая была бы больше этой.</example> 
             <example correction="звёзды, которые">Яркие <marker>звёзды, которая</marker> сияли.</example>      
         </rule>
         
