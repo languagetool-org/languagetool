@@ -33970,12 +33970,27 @@ Andere Projekte</example>
                 <example>Kennst du „Wo warst du, Adam?“ von Böll?</example>
             </rule>
         </rulegroup>
+        <rulegroup id="GROSSSCHREIBUNG_WOERTLICHER_REDE" name="Fälschliche Kleingschreibung des ersten Wortes wörtlicher Rede">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag="SENT_START" skip="5"></token>
+                    <token>:</token>
+                    <token>„</token>
+                    <marker>
+                        <token regexp="yes">[a-zäöüß]+</token>
+                    </marker>
+                    <token><exception>“</exception></token>
+                </pattern>
+                <message>Das erste Wort der wörtlichen  Rede schreibt man groß.</message>
+                <suggestion><match no="4" case_conversion="startupper"/></suggestion>
+                <example correction="Kommt">Sie fragte: „<marker>kommt</marker> er heute?“.</example>
+            </rule>
+        </rulegroup>
         <rule id="SEMIKOLON_VOR_ANFUEHRUNGSZEICHEN" name="Fälschliches Semikolon vor schließendem Anführungszeichen">
             <antipattern>
                 <token regexp="yes">„|»|«|"</token>
                 <token>;</token>
-                <token regexp="yes">“|»|«|"|”|‘|‹|›|'>
-   </token>
+                <token regexp="yes">“|»|«|"|”|‘|‹|›|'></token>
             </antipattern>
             <pattern>
                 <marker>
