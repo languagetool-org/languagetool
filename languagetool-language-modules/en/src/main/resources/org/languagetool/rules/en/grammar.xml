@@ -15345,6 +15345,11 @@ USA
                     <token regexp="yes">['’]</token>
                     <token regexp="yes">s|ll|ve</token>
                 </antipattern>
+                <antipattern case_sensitive="yes">
+                    <token>If</token>
+                    <token skip="2">only</token>
+                    <token postag="VBD"></token>
+                </antipattern>
                 <!-- If it got past the antipatterns, then something is wrong -->
                 <pattern>
                     <marker>
@@ -15366,6 +15371,7 @@ USA
                 <example type="triggers_error">As soon as I get paid I will pay you back.</example>
                 <example type="triggers_error">Because of the rain they had to cancel the game.</example>
                 <example type="triggers_error">After a month's stay here I will get much better.</example>
+                <example>If only he knew the truth.</example>
             </rule>
             <!-- Note: 
                 The following are too useful not to be declared as phrases, unfortunately I want to make progress and I can't find a decent tutorial on 'phrases' and 'unify' 
