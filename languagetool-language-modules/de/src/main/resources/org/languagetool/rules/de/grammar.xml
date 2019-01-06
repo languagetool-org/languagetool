@@ -38584,6 +38584,13 @@ Andere Projekte</example>
                     <token>nicht</token>
                     <token regexp="yes">die|der</token>
                 </antipattern>
+                <antipattern>
+                    <token postag="SUB:.*SIN.*FEM.*|SUB:.*PLU.*|PRO:.*SIN.*FEM.*|PRO:.*PLU.*" postag_regexp="yes"/>
+                    <token regexp="yes" case_sensitive="yes" skip="-1">die|der|dem|den|dessen|deren|denen
+                        <exception scope="next" postag=".*(NOM|GEN|DAT|AKK).*" postag_regexp="yes"/>
+                    </token>
+                    <token postag="SENT_END"/>
+                </antipattern>
                 <pattern>
                     <token skip="-1" postag="SUB:.*SIN.*(FEM|MAS).*|SUB:.*PLU.*|PRO:.*SIN.*(FEM|MAS).*|PRO:.*PLU.*" postag_regexp="yes">
                         <exception scope="previous" regexp="yes">weil|ob(wohl|gleich)?|da(mit|ss)?|indem|wenn|falls|während|bevor|nachdem|seitdem|so(bald|dass|fern|lange)|was|als|wie|bis|wer|wo|wohin|weswegen</exception>
@@ -38610,6 +38617,7 @@ Andere Projekte</example>
                 <example correction="Hund, die vor dem Auto steht">Die Frau mit dem <marker>Hund die vor dem Auto steht</marker>, ist meine Nachbarin.</example>
                 <example correction="Hand, die sie für ihre Katze gekauft hat">Die Frau hält die Leine in der <marker>Hand die sie für ihre Katze gekauft hat</marker>.</example>
                 <example>Sie bemerkte die Kameras, weswegen sie die abschalten müssen.</example>
+                <example>Die Politik wird sich dem kaum entgegenstemmen können.</example>
             </rule>
             <rule>
                 <antipattern>
