@@ -11612,6 +11612,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Wir werden am 7.8.2025 den Kunden informieren.</example>
                 <example>Wir werden am 7.8.2025 den Kunden informiert haben.</example>
                 <example>Ich habe mich zum 1.1.2020 beworben.</example>
+                <!-- TODO: Fehlalarm: "Ist erledigt, ab 5.2.2019 nutzen Sie wieder die kostenlose Basisversion." -->
             </rule>
             <rule><!-- Waren am DD.MM.JJJJ  -->
                 <pattern>
@@ -11620,7 +11621,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="VER:(INF|PA2):.*" postag_regexp="yes"/>
                 </pattern>
                 <filter class="org.languagetool.rules.de.FutureDateFilter" args="year:\6 month:\4 day:\2"/>
-                <message>Das Datum liegt in der Zukunft, aber das Verb TODO bla bla ist in der Vergangenheitsform.</message>
+                <message>Das Datum liegt in der Zukunft, aber das Verb ist in der Vergangenheitsform.</message>
                 <example correction="">Wir sind am <marker>7.8.2025</marker> zum Kunden geflogen.</example>
                 <example correction="">Ich bin am <marker>7.8.2025</marker> schwimmen gewesen.</example>
                 <example correction="">Wir sind am <marker>7.8.2025</marker> um 12:00 Uhr zum Kunden geflogen.</example>
@@ -11637,7 +11638,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     &date_allnumbers_skip;
                 </pattern>
                 <filter class="org.languagetool.rules.de.FutureDateFilter" args="year:\6 month:\4 day:\2"/>
-                <message>Das Datum liegt in der Zukunft, aber das Verb TODO foo bar ist in der Vergangenheitsform.</message>
+                <message>Das Datum liegt in der Zukunft, aber das Verb ist in der Vergangenheitsform.</message>
                 <example correction="">Ich war am <marker>7.8.2025</marker> im Pool.</example>
                 <example correction="">Ich schwamm am <marker>7.8.2025</marker> um 12 Uhr im Pool.</example>
                 <example>Ich war am 7.8.2010 im Pool.</example>
