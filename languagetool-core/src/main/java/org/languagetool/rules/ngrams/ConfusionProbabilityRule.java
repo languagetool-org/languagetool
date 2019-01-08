@@ -226,8 +226,8 @@ public abstract class ConfusionProbabilityRule extends Rule {
     } else {
       throw new RuntimeException("Only 3grams and 4grams are supported");
     }
-    debug("P(" + word + ") = %.90f\n", p1);
-    debug("P(" + otherWord + ") = %.90f\n", p2);
+    debug("%.90f <- P(" + word + ") \n", p1);
+    debug("%.90f <- P(" + otherWord + ")\n", p2);
     return p2 >= MIN_PROB && p2 > p1 * factor ? otherWord : null;
   }
 
@@ -284,9 +284,15 @@ public abstract class ConfusionProbabilityRule extends Rule {
     Probability ngram3Middle;
     Probability ngram3Right;
     if (newTokens.size() == 1) {
-      ngram3Left = lm.getPseudoProbability(getContext(token, tokens, term, 0, 2));
-      ngram3Middle = lm.getPseudoProbability(getContext(token, tokens, term, 1, 1));
-      ngram3Right = lm.getPseudoProbability(getContext(token, tokens, term, 2, 0));
+      List<String> leftContext = getContext(token, tokens, term, 0, 2);
+      ngram3Left = lm.getPseudoProbability(leftContext);
+      debug("Left  : %.90f %s\n", ngram3Left.getProb(), Arrays.asList(leftContext));
+      List<String> middleContext = getContext(token, tokens, term, 1, 1);
+      ngram3Middle = lm.getPseudoProbability(middleContext);
+      debug("Middle: %.90f %s\n", ngram3Middle.getProb(), Arrays.asList(middleContext));
+      List<String> rightContext = getContext(token, tokens, term, 2, 0);
+      ngram3Right = lm.getPseudoProbability(rightContext);
+      debug("Right : %.90f %s\n", ngram3Right.getProb(), Arrays.asList(rightContext));
     } else if (newTokens.size() == 2) {
       // e.g. you're -> you 're
       ngram3Left = lm.getPseudoProbability(getContext(token, tokens, newTokens, 0, 1));
@@ -314,7 +320,7 @@ public abstract class ConfusionProbabilityRule extends Rule {
       debug("  Min coverage of %.2f not reached: %.2f, %.2f, %.2f, assuming p=0\n", MIN_COVERAGE, ngram4Left.getCoverage(), ngram4Middle.getCoverage(), ngram4Right.getCoverage());
       return 0.0;
     } else {
-      //debug("  Min coverage of %.2f okay: %.2f, %.2f\n", MIN_COVERAGE, ngram3Left.coverage, ngram3Right.coverage);
+      //debug("  Min coverage of %.2f okay: %.2f, %.2f\n", MIN_COVERAGE, ngram4Left.getCoverage(), ngram4Right.getCoverage());
       return ngram4Left.getProb() * ngram4Middle.getProb() * ngram4Right.getProb();
     }
   }
