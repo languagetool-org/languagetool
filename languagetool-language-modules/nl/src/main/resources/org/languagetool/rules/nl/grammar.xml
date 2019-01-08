@@ -16151,96 +16151,20 @@ steenwijk;Steenwijk
                 <example>Dit <marker>is</marker> wel goed.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="TITELS" name="Titels zonder hoofdletter">
-            <rule>
-                <antipattern><token regexp="yes">[A-Z].*</token><token regexp="yes">de|der</token><token>Graaf</token></antipattern>
-                <antipattern><token regexp="yes">[A-Z].*</token><token>den</token><token>Hertog</token></antipattern>
-                <pattern case_sensitive="yes">
-                    <token/>
-                    <token><exception postag="SENT_START"/><exception>De</exception></token>
-                    <marker>
-                        <token regexp="yes">Prinses|Prins|Koning|Koningin|Graaf|Hertog|Minister|Staatssecretaris</token>
-                    </marker>
-                </pattern>
-                <message>Als u de titel bedoelt, dan is het: <suggestion><match no="3" case_conversion="startlower"/></suggestion> (behalve als u bijzonder respect wilt wergeven).</message>
-                <short>Kleine letter gebruiken</short>
-                <example>Ik zie <marker>prinses</marker> Alexia.</example>
-                <example correction="prinses">Ik zie <marker>Prinses</marker> Alexia.</example>
-                <example correction="graaf">Wat denken jullie van "<marker>Graaf</marker>"?</example>
-                <example correction="graaf">Het lot viel op <marker>Graaf</marker> van Elissem.</example>
-                <example correction="koningin">15 <marker>Koningin</marker> Paola gaat elke dag naar de mis.</example>
-                <example correction="koning">Gelukkig hebben we onze goede <marker>Koning</marker> nog.</example>
-                <example correction="koningin">Misoffer op tot lafenis der ziel van <marker>Koningin</marker> Astrid.</example>
-                <example correction="prins">De prijs wordt uitgereikt door Pelé en <marker>Prins</marker> Albert van Monaco.</example>
-            </rule>
-        </rulegroup>
-        <rulegroup id="BISDOM" name="geen Bisdom maar bisdom">
+        <rulegroup id="HOOFDL_OVERB" name="Hoofdletters overbodig">
             <rule>
                 <pattern case_sensitive="yes">
                     <token><exception postag="SENT_START"/></token>
                     <marker>
-                        <token>Bisdom</token>
+						<token regexp="yes">[A-Z].*<exception postag_regexp="yes" postag="ENM.*|UNKNOWN"/></token>
                     </marker>
                 </pattern>
-                <message>Geen hoofdletter nodig: <suggestion><match no="2" case_conversion="startlower"/></suggestion></message>
+                <message>Er is geen hoofdletter nodig: <suggestion><match no="2" case_conversion="startlower"/></suggestion> (behalve bij een eigennaam of bij uitzonderlijk respect).</message>
                 <example correction="bisdom">Sedert 2012 is hij tevens ook voorzitter van de zetel <marker>Bisdom</marker> Brugge.</example>
                 <example correction="bisdom">Het gaat volgen van een cursus bij een van de broeders in het <marker>Bisdom</marker>.</example>
                 <example correction="bisdom">We zullen het wel vinden in de archieven van het <marker>Bisdom</marker> Brugge.</example>
                 <example correction="bisdom">Het <marker>Bisdom</marker> van Brugge vroeg een nieuw werk te componeren.</example>
                 <example correction="bisdom">Het domein is eigendom van het <marker>Bisdom</marker> Brugge en wordt door de vzw Jericho beheerd.</example>
-            </rule>
-        </rulegroup>
-        <rulegroup id="MAANDEN" name="maanden hebben geen hoofdletter">
-            <rule>
-                <!-- 2014-08-21 TaalTik -->
-                <antipattern><token>van</token><token>der</token><token>Mei</token></antipattern>
-                <pattern case_sensitive="yes">
-                    <token><exception postag="SENT_START"/></token>
-                    <marker>
-                        <token regexp="yes">Januari|Februari|Maart|April|Mei|Juni|Juli|Augustus|September|Oktober|November|December</token>
-                    </marker>
-                </pattern>
-                <message>Maanden krijgen geen hoofdletter: <suggestion><match no="2" case_conversion="startlower"/></suggestion></message>
-                <example correction="mei">De maand <marker>Mei</marker> is droog.</example>
-                <example correction="juni">30 <marker>Juni</marker>.</example>
-                <example correction="juli">16 <marker>Juli</marker>.</example>
-                <example correction="januari">Maandag 8 <marker>Januari</marker>.</example>
-                <example correction="december">Vrijdag, 2 <marker>December</marker>.</example>
-                <example correction="juni">De Wet van 10 <marker>Juni</marker> 1938.</example>
-                <example correction="juli">Zaterdag 23" <marker>Juli</marker> 1887.</example>
-                <example correction="juli">Donderdag 30- <marker>Juli</marker>.</example>
-            </rule>
-        </rulegroup>
-        <rulegroup id="FEESTDAGEN" name="samenstellingen met feestdagen, geen hoofdletter">
-            <!-- 2014-08-19 TaalTik -->
-            <rule>
-                <pattern case_sensitive="yes">
-                    <token><exception postag="SENT_START"/></token>
-                    <marker>
-                        <token regexp="yes">(Oudejaar|Oudjaar|Nieuwjaar|Allerzielen|Dierendag|Prinsjesdag|Vaderdag|Moederdag|Aswoensdag|Carnaval|Valentijnsdag|Driekoningen|Kinderboekenweek|Boekenweek|Allerheiligen|Pinkster|Kerst|Hemelvaarts).*...<exception regexp="yes">Kerstmis|Kerstman|Hemelvaartsdag</exception></token>
-                    </marker>
-                </pattern>
-                <message>Samenstellingen met namen van feesten behoeven geen hoofdletter: <suggestion><match no="2" case_conversion="startlower"/></suggestion></message>
-                <short>Geen hoofdletter</short>
-                <example correction="boekenweekgeschenk">Een <marker>Boekenweekgeschenk</marker> is fout.</example>
-                <example correction="kerstdesign">Ronde doos met <marker>Kerstdesign</marker>.</example>
-                <example correction="oudejaarsdag">Morgen is het <marker>Oudejaarsdag</marker>.</example>
-                <example correction="kerstmarkten">13 december 2013: <marker>Kerstmarkten</marker>!</example>
-                <example correction="kerstmuziek">Ook nergens <marker>Kerstmuziek</marker> te horen.</example>
-                <example correction="kerstboom">De <marker>Kerstboom</marker> van juffrouw Martine (4b).</example>
-                <example correction="nieuwjaarswens">Ik besluit met een <marker>Nieuwjaarswens</marker>.</example>
-                <example correction="kerstverlof">Wanneer spelen tijdens het <marker>Kerstverlof</marker>?</example>
-                <example correction="nieuwjaarswensen">2001-60-1-015 <marker>Nieuwjaarswensen</marker> (A.</example>
-                <example correction="kerstfeest">Wij wensen jullie een fijn <marker>Kerstfeest</marker> toe.</example>
-                <example correction="pinksterweekend">Een fijn lang <marker>Pinksterweekend</marker> gewenst.</example>
-                <example correction="pinksterfeest">Aan ieder van u een zalig <marker>Pinksterfeest</marker>!</example>
-                <example correction="kerstmannetje">Door een <marker>Kerstmannetje</marker> dat er bovenop zit.</example>
-                <example correction="driekoningenliedjes">Een van de vele <marker>Driekoningenliedjes</marker>.</example>
-                <example correction="kerstnachtmis">De <marker>Kerstnachtmis</marker> is daar een voorbeeld van.</example>
-                <example correction="pinkstermorgen">Welkom aan iedereen op deze <marker>Pinkstermorgen</marker>.</example>
-                <example correction="nieuwjaarsoverweging">Laat dit de <marker>Nieuwjaarsoverweging</marker> zijn.</example>
-                <example correction="carnavalkermis">De <marker>Carnavalkermis</marker> is al het eerste slachtoffer.</example>
-                <example correction="allerheiligendag">Traditie op <marker>Allerheiligendag</marker>: onze Run-Bike-Run.</example>
             </rule>
         </rulegroup>
         <rulegroup id="PAMPUS" name="Pampus of pampus">
