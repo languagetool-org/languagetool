@@ -71,12 +71,18 @@ final class AutomaticConfusionRuleEvaluatorFilter {
       }
       String[] parts = line.replaceFirst("=> ", "").replaceFirst("; \\d.*", "").split("; ");
       String key = parts[0] + ";" + parts[1];
-      Pattern data = Pattern.compile(".*p=(\\d\\.\\d+), r=(\\d\\.\\d+), (\\d+)\\+(\\d+),.*");
-      Matcher m = data.matcher(line);
+      Pattern data = Pattern.compile("^(.+?); (.+?);.*p=(\\d\\.\\d+), r=(\\d\\.\\d+), (\\d+)\\+(\\d+),.*");
+      Matcher m = data.matcher(line.replaceFirst("=> ", ""));
       m.find();
-      float precision = Float.parseFloat(m.group(1));
-      int occ1 = Integer.parseInt(m.group(3));
-      int occ2 = Integer.parseInt(m.group(4));
+      String word1 = m.group(1);
+      String word2 = m.group(2);
+      String wordGroup = word1 + "; " + word2;
+      if (word1.compareTo(word2) > 0) {
+        wordGroup = word2 + "; " + word1;
+      }
+      float precision = Float.parseFloat(m.group(3));
+      int occ1 = Integer.parseInt(m.group(5));
+      int occ2 = Integer.parseInt(m.group(6));
       if (prevKey != null && key.equals(prevKey)) {
         if (skipping) {
           //System.out.println("SKIP: " + reformat(line));
@@ -94,7 +100,7 @@ final class AutomaticConfusionRuleEvaluatorFilter {
           skipping = true;
           continue;
         }
-        System.out.println(reformat(line.replaceFirst("=> ", "")));
+        System.out.println(reformat(line.replaceFirst("=> .+?; .+?; ", wordGroup + "; ")));
         skipping = false;
         usedCount++;
       }
