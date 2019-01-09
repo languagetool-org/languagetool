@@ -75,6 +75,7 @@ class AutomaticConfusionRuleEvaluator {
         System.out.println("Ignoring: " + line);
         continue;
       }
+      System.out.printf(Locale.ENGLISH, "Line " + lineCount + " of " + lines.size() + " (%.2f%%)\n", ((float)lineCount/lines.size())*100.f);
       String[] parts = line.split(";\\s*");
       if (parts.length != 2) {
         throw new IOException("Expected semicolon-separated input: " + line);
