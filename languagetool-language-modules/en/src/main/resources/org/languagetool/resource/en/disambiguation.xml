@@ -4564,4 +4564,42 @@
           <disambig action="replace"><wd pos="RB"/><wd pos="RB"/></disambig>
     </rule>
   </rulegroup>
+
+    <rulegroup id="DIGIT_HYPHENATED_ADJECTIVES" name="hyphenated adjectives (e.g. 10-part)">
+        <rule>
+            <pattern>
+                <token regexp="yes">[0-9]+-[a-z]+<exception postag="JJ"/></token>
+            </pattern>
+            <filter class="org.languagetool.rules.en.NoDisambiguationEnglishPartialPosTagFilter"
+                args="no:1 regexp:[0-9]+-([a-z]+|[A-Z]+) postag_regexp:NN"/><!-- The filter is case-sensitive -->
+            <disambig action="add"><wd pos="JJ"/></disambig>
+            <example type="untouched">Do a <marker>4-Hour</marker> test.</example>
+            <example type="untouched">Do a <marker>3-wORd</marker> test.</example>
+            <example type="untouched">Do a <marker>3-secTIon</marker> test.</example>
+            <example type="untouched">A <marker>500-pages</marker> document is too large.</example>
+            <example type="untouched">A <marker>6-degree</marker> angle is satisfactory.</example>
+            <example type="untouched">A <marker>7-degree Celsius</marker> change is too large.</example>
+            <example type="ambiguous" inputform="4-hour[4-hour]" outputform="4-hour[4-hour/JJ]">Do a <marker>4-hour</marker> test.</example>
+            <example type="ambiguous" inputform="5-hour[5-hour]" outputform="5-hour[5-hour/JJ]">Do a 3.<marker>5-hour</marker> test.</example>
+            <example type="ambiguous" inputform="500-page[500-page]" outputform="500-page[500-page/JJ]">A <marker>500-page</marker> document is too large.</example>
+            <example type="ambiguous" inputform="400-chapter[400-chapter]" outputform="400-chapter[400-chapter/JJ]">This large (<marker>400-chapter</marker>) document is too large.</example>
+            <example type="ambiguous" inputform="2-word[2-word]" outputform="2-word[2-word/JJ]">When you use an approved <marker>2-word</marker> term, make sure that the ...</example>
+            <example type="ambiguous" inputform="3-PAGE[3-PAGE]" outputform="3-PAGE[3-PAGE/JJ]">WRITE A <marker>3-PAGE</marker> DOCUMENT.</example>
+            <example type="ambiguous" inputform="10-person[10-person]" outputform="10-person[10-person/JJ]">A <marker>10-person</marker> or possibly 11-person team is the optimum size.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes" case_sensitive="yes">[0-9]+-(KB|MB|GB)<exception postag="JJ"/></token>
+            </pattern>
+            <disambig action="add"><wd pos="JJ"/></disambig>
+            <example type="untouched">The file is <marker>30 GB</marker>.</example>
+            <example type="untouched">A <marker>30-Gb</marker> file is too large.</example>
+            <example type="untouched">A <marker>3-5-GB</marker> file is too large.</example>
+<!--            <example type="untouched">A <marker>3.3.3-GB</marker> file is too large.</example>-->
+            <example type="ambiguous" inputform="30-GB[30-GB]" outputform="30-GB[30-GB/JJ]">A <marker>30-GB</marker> file is too large.</example>
+            <example type="ambiguous" inputform="5-GB[5-GB]" outputform="5-GB[5-GB/JJ]">A 55.<marker>5-GB</marker> file is too large.</example>
+            <example type="ambiguous" inputform="5-GB[5-GB]" outputform="5-GB[5-GB/JJ]">2.<marker>5-GB</marker> files and larger can ...</example>
+        </rule>
+    </rulegroup>
+
 </rules>
