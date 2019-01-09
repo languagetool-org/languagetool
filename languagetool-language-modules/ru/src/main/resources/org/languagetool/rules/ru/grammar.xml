@@ -9339,12 +9339,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rulegroup default="on" id="missing_noun_at_end" name="Опущено существительное">
             <rule>
+                <antipattern>
+                        <token postag="VB:.*" postag_regexp="yes"></token>
+                        <marker>  
+                            <token postag="ADJ:Posit:.*:T" postag_regexp="yes"></token> 
+                            <token postag="SENT_END" spacebefore="no">.</token>
+                        </marker> 
+                </antipattern>    
                 <pattern>
-                  <token><exception postag="NN:.*|ADV|PNN:.*" postag_regexp="yes"></exception><exception inflected="yes" regexp="yes">являться|быть</exception><exception regexp="yes">-|—|очень|совсем|крайне</exception></token>
-                  <marker>  
-                    <token postag="ADJ:Posit:.*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="ADJ:Posit:.*" /></token> 
-                    <token postag="SENT_END" spacebefore="no">.</token>
-                  </marker>
+                    <token>
+                        <exception postag="NN:.*|ADV|PNN:.*" postag_regexp="yes"></exception>
+                        <exception inflected="yes" regexp="yes">являться|быть</exception>
+                        <exception regexp="yes">-|—|очень|совсем|крайне</exception>
+                    </token>
+                    <marker>  
+                        <token postag="ADJ:Posit:.*" postag_regexp="yes">
+                            <exception negate_pos="yes" postag_regexp="yes" postag="ADJ:Posit:.*" />
+                        </token> 
+                        <token postag="SENT_END" spacebefore="no">.</token>
+                    </marker>
                 </pattern>
                 <message>Опущено существительное в конце предложения.</message>
                 <short>Опущено существительное</short>
@@ -9353,6 +9366,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Это кольцо является волшебным.</example>
                 <example>Такой подход оказался достаточно универсальным.</example>
                 <example>Когда он был маленький.</example>
+                <example>В случае, если локальные минимумы сильно отличаются друг от друга, то предсказание становится затруднительным.</example>
                 <example correction="">Так он и выбрал <marker>красивую.</marker></example>
             </rule>
        </rulegroup>
