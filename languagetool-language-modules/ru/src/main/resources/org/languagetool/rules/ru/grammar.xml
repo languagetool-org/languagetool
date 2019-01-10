@@ -8072,7 +8072,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <or>
                 <token postag="PREP">
                     <exception negate_pos="yes" postag="PREP"></exception>
-                    <exception regexp="yes">спустя|ради|по</exception>   <!--  |[А-ЯЁ]* -->
+                    <exception regexp="yes">спустя|ради|по|насчёт|насчет</exception>   <!--  |[А-ЯЁ]* -->
                 </token>
                 <token regexp="yes">у|при</token>
                 </or>
@@ -8086,6 +8086,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <url>http://ru.wikipedia.org/wiki/%D0%9F%D1%80%D0%B5%D0%B4%D0%BB%D0%BE%D0%B3</url>
             <short>Предлог перед глаголом не употребляется.</short>
             <example>Он пошёл в лес.</example>
+            <example>Как насчет поиграть в теннис сегодня после обеда?</example>
             <example correction="пошёл|пошёл в">Он <marker>в пошёл</marker> лес.</example>
         </rule>
         
@@ -8330,7 +8331,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <and>
                         <token postag="PNN:.*:P3" postag_regexp="yes">
                             <exception postag="PNN:.*:Nom:P3" postag_regexp="yes"></exception>
-                            <exception regexp="yes" >её|его|их</exception>
+                            <exception regexp="yes" >её|ее|его|их</exception>
                         </token>
                         <token regexp="yes" negate="yes">[н].*</token>
                     </and>
@@ -9348,7 +9349,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>    
                 <pattern>
                     <token>
-                        <exception postag="NN:.*|ADV|PNN:.*" postag_regexp="yes"></exception>
+                        <exception postag="NN:.*|ADV|ADJ:Comp|PNN:.*|PREP" postag_regexp="yes"></exception>
                         <exception inflected="yes" regexp="yes">являться|быть</exception>
                         <exception regexp="yes">-|—|очень|совсем|крайне</exception>
                     </token>
