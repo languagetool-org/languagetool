@@ -3209,6 +3209,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>una arma</suggestion>
                 <example correction="una arma">Era <marker>un arma</marker> perillosa.</example>
             </rule>
+            <rule id="DETECTIVA" name="concordança: detectiva">
+                <pattern>
+                    <token postag="D[^ARN].F.." postag_regexp="yes"></token>
+                    <token postag="NCM.*." postag_regexp="yes" inflected="yes">detectiu</token>
+                </pattern>
+                <message>Error de concordança</message>
+                <suggestion><match no="1" postag="(D.).F.." postag_regexp="yes" postag_replace="$10MS0"></match> <match no="2" postag="N.*" postag_regexp="yes" postag_replace="NCMS000"></match></suggestion>
+                <suggestion><match no="1" postag="(D.).F.." postag_regexp="yes" postag_replace="$10MP0"></match> <match no="2" postag="N.*" postag_regexp="yes" postag_replace="NCMP000"></match></suggestion>
+                <suggestion><match no="1" postag="(D.).F.." postag_regexp="yes" postag_replace="$10FS0"></match> <match no="2" postag="N.*" postag_regexp="yes" postag_replace="NCFS000"></match></suggestion>
+                <suggestion><match no="1" postag="(D.).F.." postag_regexp="yes" postag_replace="$10FP0"></match> <match no="2" postag="N.*" postag_regexp="yes" postag_replace="NCFP000"></match></suggestion>
+                <example correction="un detectiu|uns detectius|una detectiva|unes detectives"><marker>una detectiu</marker>.</example>
+                <example correction="aquest detectiu|aquests detectius|aquesta detectiva|aquestes detectives"><marker>aquesta detectiu</marker>.</example>
+                <example>La detectiva</example>
+            </rule>
         </rulegroup>
         <rulegroup id="PENDENT_CORRENT" name="pendent, corrent (nom masculí)">
             <antipattern>
