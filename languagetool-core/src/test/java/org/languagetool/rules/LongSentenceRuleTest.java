@@ -51,13 +51,14 @@ public class LongSentenceRuleTest {
     assertNoMatch("one two three four five six.", shortRule, lt);
     assertNoMatch("one two three (four) five six.", shortRule, lt);
     assertMatch("one two three four five six seven.", 24, 33, shortRule, lt);
+    assertNoMatch("Eins zwei drei vier fünf sechs.", shortRule, lt);
   }
 
-  private void assertNoMatch(String input, LongSentenceRule rule, JLanguageTool lt) throws IOException {
+  protected void assertNoMatch(String input, LongSentenceRule rule, JLanguageTool lt) throws IOException {
     assertThat(rule.match(lt.getAnalyzedSentence(input)).length, is(0));
   }
 
-  private void assertMatch(String input, int from, int to, LongSentenceRule rule, JLanguageTool lt) throws IOException {
+  protected void assertMatch(String input, int from, int to, LongSentenceRule rule, JLanguageTool lt) throws IOException {
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(input));
     assertThat(matches.length, is(1));
     assertThat(matches[0].getFromPos(), is(from));

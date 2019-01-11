@@ -180,7 +180,10 @@ public class LongSentenceRule extends org.languagetool.rules.LongSentenceRule {
       if (numWords > maxWords) {
         for (int j = 0; j < fromPos.size(); j++) {
           RuleMatch ruleMatch = new RuleMatch(this, sentence, fromPos.get(j), toPos.get(j), msg);
-          ruleMatches.add(ruleMatch);
+          // workaround for https://forum.languagetool.org/t/de-leichte-sprache-tests-zur-textprufung/3755/4
+          if (fromPos.get(j) > 0) {
+            ruleMatches.add(ruleMatch);
+          }
         }
       } else {
         for (int j = fromPos.size() - 1; j >= 0; j--) {
