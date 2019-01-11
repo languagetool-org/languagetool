@@ -442,7 +442,9 @@ abstract class TextChecker {
         lt = pipelinePool.getPipeline(settings);
         return lt.check(aText, true, JLanguageTool.ParagraphHandling.NORMAL, listener, params.mode);
       } finally {
-        pipelinePool.returnPipeline(settings, lt);
+        if (lt != null) {
+          pipelinePool.returnPipeline(settings, lt);
+        }
       }
     }
   }
