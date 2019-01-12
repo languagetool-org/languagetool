@@ -76,6 +76,8 @@ public class SimpleGerman extends GermanyGerman {
   public int getPriorityForId(String id) {
     if (id == LongSentenceRule.RULE_ID) {
       return 10;
+    } else if (id == "LANGES_WORT") {
+      return -1;
     }
     return super.getPriorityForId(id);
   }
