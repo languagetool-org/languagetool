@@ -7033,6 +7033,23 @@ USA
                 <example>The chemical symbol for francium is <marker>Fr</marker>.</example>
             </rule>
         </rulegroup>
+        <rule id="THANKS_YOU" name="Thanks (Thank) you">
+            <pattern>
+                <token postag="SENT_START"/>
+                <marker>
+                    <token>Thanks</token>
+                    <token>you</token>
+                </marker>
+            </pattern>
+            <message>Do you mean <suggestion><match no="2" regexp_match="(?i)(thank)s" regexp_replace="$1"></match> \3</suggestion>?</message>
+            <url>https://en.oxforddictionaries.com/definition/thank_you</url>
+            <short>Possible typo</short>
+            <example correction="Thank you"><marker>Thanks you</marker> for your help.</example>
+            <example correction="THANK YOU"><marker>THANKS YOU</marker>!</example>
+            <example><marker>Thank you</marker> for your help.</example>
+            <example>He <marker>thanks</marker> you for your help.</example>
+            <example><marker>Thanks</marker>, you are good to me.</example>
+        </rule>
     </category>
 
     <!-- ====================================================================== -->
