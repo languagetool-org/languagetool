@@ -122,7 +122,7 @@ public class LongSentenceRule extends org.languagetool.rules.LongSentenceRule {
         fromPos.add(tokens[i].getStartPos());
         toPos.add(tokens[i].getEndPos());
       }
-      int numWords = 1;
+      int numWords = 0;
       //  Text before and after ':' and ';' is handled as separated sentences
       //  Direct speech is splitted 
       while (i < tokens.length && !tokens[i].getToken().equals(":") && !tokens[i].getToken().equals(";")
@@ -132,7 +132,7 @@ public class LongSentenceRule extends org.languagetool.rules.LongSentenceRule {
               || (!tokens[i].getToken().equals("“") && !tokens[i].getToken().equals("»")
               && !tokens[i].getToken().equals("«") && !tokens[i].getToken().equals("\"")))) {
         if (isWordCount(tokens[i].getToken())) {
-          if(numWords == maxWords + 1) {
+          if(numWords == maxWords) {
             fromPos.set(fromPos.size() - 1, tokens[i].getStartPos());
             toPos.set(fromPos.size() - 1, tokens[i].getEndPos());
           }
@@ -180,10 +180,7 @@ public class LongSentenceRule extends org.languagetool.rules.LongSentenceRule {
       if (numWords > maxWords) {
         for (int j = 0; j < fromPos.size(); j++) {
           RuleMatch ruleMatch = new RuleMatch(this, sentence, fromPos.get(j), toPos.get(j), msg);
-          // workaround for https://forum.languagetool.org/t/de-leichte-sprache-tests-zur-textprufung/3755/4
-          if (fromPos.get(j) > 0) {
-            ruleMatches.add(ruleMatch);
-          }
+          ruleMatches.add(ruleMatch);
         }
       } else {
         for (int j = fromPos.size() - 1; j >= 0; j--) {
