@@ -3196,7 +3196,7 @@
     </rule>
     <rule id="PRP_NN_VBP" name="vb->vbp">    
     <pattern>
-        <token postag="PRP"><exception postag="RB|PRP\$" postag_regexp="yes"/></token>
+        <token postag="PRP"><exception postag="RB|PRP\$" postag_regexp="yes"/><exception>one</exception></token>
         <marker>
         <and>
         <token postag="NN:UN"/>
@@ -3207,6 +3207,7 @@
     <disambig postag="VBP"/>
     <example type="untouched">Pigs know that.</example>
     <example type="untouched">He set up several dojo.</example>
+    <example type="untouched">Is it one <marker>flight</marker> or two?</example>
     <example type="ambiguous" inputform="claim[claim/NN:UN,claim/VB,claim/VBP]" outputform="claim[claim/VBP]">Yes, actually we <marker>claim</marker> that this is true.</example>
     </rule>
     <rule id="E_NP_NN_VBP" name="noun phrase end -> NN">
