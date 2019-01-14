@@ -1,5 +1,11 @@
 # LanguageTool Change Log
 
+## 4.4.1 (2019-01-14)
+
+ * Fix a bug that prevented opening the Options dialog in LibreOffice/OpenOffice
+
+
+
 ## 4.4 (2018-12-27)
 
 #### Catalan
