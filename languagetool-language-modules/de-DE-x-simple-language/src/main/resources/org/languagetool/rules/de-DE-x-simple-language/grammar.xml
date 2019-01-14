@@ -884,7 +884,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="ABSTRAKTE_WOERTER" name="Leichte Sprache: abstrakte Wörter">
             <rule>
                 <pattern>
-                    <token postag="SUB:.+" postag_regexp="yes" inflected='yes' regexp='yes'>[A-ZÄÖÜ][a-zäöüß]{2,}(ung|[hk]eit)|[A-ZÄÖÜ][a-zäüöß]{3,}([hk]eit|ung)s[a-zäöüß]{2,}</token>
+                    <token postag="SUB:.+" postag_regexp="yes" inflected='yes' regexp='yes'>[A-ZÄÖÜ][a-zäöüß]{2,}(ung|[hk]eit|([hk]eit|ung)s[a-zäöüß]{2,})</token>
                 </pattern>
                 <message>Vermeiden Sie abstrakte Wörter. Benutzen Sie möglichst konkrete Aussagen.</message>
                 <short>Abstrakte Wörter vermeiden</short>
@@ -892,6 +892,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Sie möchte das Rätsel <marker>lösen</marker>.</example>
                 <!--example correction="">Sie sagt die <marker>Wahrheit</marker>.</example>
                 <example>Sie ist <marker>ehrlich</marker>.</example-->
+                <example correction="">Sie sucht nach einer <marker>Lösungsidee</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="SCHWIERIGE_WENDUNGEN" name="Leichte Sprache: schwierige Wendungen">
