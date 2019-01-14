@@ -2782,7 +2782,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern case_sensitive="yes">
                     <marker>
-                        <token negate="yes" regexp="yes">[\p{Punct}]|-|—|так|и|но<exception postag="SENT_START"></exception></token>
+                        <token negate="yes" regexp="yes">[\p{Punct}]|-|—|так|и|но|а|да<exception postag="SENT_START"></exception></token>
                         <token>как</token>
                         <token regexp="yes">обычно|всегда|правило|исключение|нарочно|сейчас</token>
                         <token skip= "1" negate="yes" regexp="yes">[\p{Punct}]|»|-|—|…<exception  postag_regexp="yes" postag="NN:.*"></exception><exception  scope="next" postag_regexp="yes" postag="NN:.*"></exception></token>
@@ -2801,7 +2801,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             
             <rule>
                 <pattern case_sensitive="yes">
-                    <token negate="yes" regexp="yes">[\p{Punct}]|-|—|так|и|но<exception postag="SENT_START"></exception></token>
+                    <token negate="yes" regexp="yes">[\p{Punct}]|-|—|так|и|но|а|да<exception postag="SENT_START"></exception></token>
                     <token>как</token>
                     <token regexp="yes">обычно|всегда|правило|исключение|нарочно|сейчас</token>
                     <token>,</token>
@@ -2830,9 +2830,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             
             <rule>
                 <pattern case_sensitive="yes">
+                    <!--  removed как сейчас (#1127)   -->
                     <token postag="SENT_START"></token>
                     <token>Как</token>
-                    <token regexp="yes">обычно|всегда|правило|исключение|нарочно|сейчас</token>
+                    <token regexp="yes">обычно|всегда|правило|исключение|нарочно</token>
                     <token negate="yes" regexp="yes">[\p{Punct}]</token>
                 </pattern>
                 <message>Пропущена запятая: <suggestion>\2 \3, \4</suggestion>.</message>
