@@ -7532,7 +7532,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         
-        <rulegroup default="on" id="V_K_S" name="Беглая гласная в предлогах: «в», «к», «с», «без», «из» ...">
+        <rulegroup default="on" id="V_K_IS" name="Беглая гласная в предлогах: «в», «к», «без», «из» ...">
             <rule>
                 <pattern>
                     <token>во</token>
@@ -7586,17 +7586,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Буква &quot;о&quot; не нужна.</short>
                 <example>Мы успели к обеду.</example>
                 <example correction="к обеду">Мы успели <marker>ко обеду</marker>.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token>cо</token>
-                    <token regexp="yes">[аеёиоуыэюяьънбгдкптфхцч].*</token>
-                </pattern>
-                <message>Неправильная форма предлога. Буква &quot;о&quot; не нужна: <suggestion>c \2</suggestion>.</message>
-                <short>Буква &quot;о&quot; не нужна.</short>
-                <example>Иван взял сумку с едой.</example>
-                <example correction="c едой">Иван взял сумку <marker>cо едой</marker>.</example>
-            </rule>
+            </rule>         
             <rule>
                 <pattern>
                     <token>безо</token>
@@ -7642,6 +7632,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Со Смирновым"><marker>С Смирновым</marker> я знаком.</example>
                 <example correction="со Степаном"> Я встретился <marker>с Степаном</marker>.</example>
                 <!-- <example correction="со СвДП"> ХСС делила власть <marker>с СвДП</marker>.</example> -->
+            </rule>
+            <rule>
+                <pattern>
+                    <token>со</token>
+                    <token regexp="yes">[аеёиоуыэюяьънбгдкптфхцч][а-яё]*</token>    <!-- [аеёиоуыэюя][а-яё]*|[бвгдкмнпфх][аеёиоуыэюя][а-яё]*  --> 
+                </pattern>
+                <message>Неправильная форма предлога. Буква &quot;о&quot; не нужна: <suggestion>с \2</suggestion>.</message>
+                <short>Буква &quot;о&quot; не нужна.</short>
+                <example>Иван взял сумку с едой.</example>
+                <example correction="с едой">Иван взял сумку <marker>со едой</marker>.</example>
+                <example correction="с покрытием">Дорога <marker>со покрытием</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup default="on" id="Vo_izbezhanie" name="Правописание предлога «во избежание»">
@@ -8677,7 +8678,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern case_sensitive="yes">
                 <!--  PREP у, без, вместо, для, до, из (изо), из-за, из-под, кроме, около, от, против, среди-> NN:.*:R   -->
                 <token regexp="yes">у|без|вместо|для|до|из|изо|из-за|из-под|кроме|около|от|против|среди</token>
-                <token postag="NN:.*:.*:.*" postag_regexp="yes" regexp="yes">[а-яё].*<exception postag="NN:.*:.*:.*:R|NN:.*:.*:.*:2P" postag_regexp="yes"></exception>
+                <token postag="NN:.*:.*:.*" postag_regexp="yes" ><exception postag="NN:.*:.*:.*:R|NN:.*:.*:.*:2P" postag_regexp="yes"></exception>
                     <exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes"></exception>
                     <exception regexp="yes">нее|варяг|грек|роду|полсотни</exception>
                 </token>
