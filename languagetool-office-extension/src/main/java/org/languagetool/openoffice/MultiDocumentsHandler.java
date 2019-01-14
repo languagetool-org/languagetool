@@ -163,6 +163,17 @@ public class MultiDocumentsHandler {
    *  get Configuration
    */
   Configuration getConfiguration() {
+    try {
+      if (config == null) {
+        if(xContext != null) {
+          linguServices = new LinguisticServices(xContext);
+        }
+        docLanguage = getLanguage();
+        initLanguageTool();
+      }
+    } catch (Throwable t) {
+      MessageHandler.showError(t);
+    }
     return config;
   }
   
