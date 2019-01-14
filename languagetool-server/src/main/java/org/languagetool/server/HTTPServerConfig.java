@@ -92,6 +92,7 @@ public class HTTPServerConfig {
   protected String dbUsername = null;
   protected String dbPassword = null;
   protected boolean dbLogging;
+  protected boolean skipLoggingRuleMatches = false;
 
   protected String abTest = null;
   /**
@@ -261,6 +262,7 @@ public class HTTPServerConfig {
         dbUsername = getOptionalProperty(props, "dbUsername", null);
         dbPassword = getOptionalProperty(props, "dbPassword", null);
         dbLogging = Boolean.valueOf(getOptionalProperty(props, "dbLogging", "false"));
+        skipLoggingRuleMatches = Boolean.valueOf(getOptionalProperty(props, "skipLoggingRuleMatches", "false"));
         if (dbLogging && (dbDriver == null || dbUrl == null || dbUsername == null || dbPassword == null)) {
           throw new IllegalArgumentException("dbLogging can only be true if dbDriver, dbUrl, dbUsername, and dbPassword are all set");
         }
@@ -787,6 +789,14 @@ public class HTTPServerConfig {
   @Experimental
   boolean getDatabaseLogging() {
     return this.dbLogging;
+  }
+
+  /**
+   * @since 4.5
+   */
+  @Experimental
+  boolean isSkipLoggingRuleMatches() {
+    return this.skipLoggingRuleMatches;
   }
 
 

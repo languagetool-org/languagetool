@@ -393,9 +393,11 @@ abstract class TextChecker {
     DatabaseCheckLogEntry logEntry = new DatabaseCheckLogEntry(userId, agentId, logServerId, textSize, matchCount,
       lang, detLang.getDetectedLanguage(), computationTime, textSessionId, mode.toString());
     Map<String, Integer> ruleMatchCount = new HashMap<>();
-    for (RuleMatch match : matches) {
-      String ruleId = match.getRule().getId();
-      ruleMatchCount.put(ruleId, ruleMatchCount.getOrDefault(ruleId, 0) + 1);
+    if (!config.isSkipLoggingRuleMatches()) {
+      for (RuleMatch match : matches) {
+        String ruleId = match.getRule().getId();
+        ruleMatchCount.put(ruleId, ruleMatchCount.getOrDefault(ruleId, 0) + 1);
+      }
     }
     logEntry.setRuleMatches(new DatabaseRuleMatchLogEntry(ruleMatchCount));
     logger.log(logEntry);
