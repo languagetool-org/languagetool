@@ -7651,11 +7651,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token>со</token>
-                    <token regexp="yes">[аеёиоуыэюяьънбгдкптфхцч][а-яё]*</token>    <!-- [аеёиоуыэюя][а-яё]*|[бвгдкмнпфх][аеёиоуыэюя][а-яё]*  --> 
+                    <token regexp="yes">[аеёиоуыэюя][а-яё]*|[бвгдкмнпфх][аеёиоуыэюя][а-яё]*</token>    <!--  [аеёиоуыэюяьънбгдкптфхцч][а-яё]* --> 
                 </pattern>
                 <message>Неправильная форма предлога. Буква &quot;о&quot; не нужна: <suggestion>с \2</suggestion>.</message>
                 <short>Буква &quot;о&quot; не нужна.</short>
                 <example>Иван взял сумку с едой.</example>
+                <example>Король Дон Жуан VI со двором переехал в Рио-де-Жанейро.</example>
                 <example correction="с едой">Иван взял сумку <marker>со едой</marker>.</example>
                 <example correction="с покрытием">Дорога <marker>со покрытием</marker>.</example>
             </rule>
@@ -8693,7 +8694,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern case_sensitive="yes">
                 <!--  PREP у, без, вместо, для, до, из (изо), из-за, из-под, кроме, около, от, против, среди-> NN:.*:R   -->
                 <token regexp="yes">у|без|вместо|для|до|из|изо|из-за|из-под|кроме|около|от|против|среди</token>
-                <token postag="NN:.*:.*:.*" postag_regexp="yes" ><exception postag="NN:.*:.*:.*:R|NN:.*:.*:.*:2P" postag_regexp="yes"></exception>
+                <token postag="NN:.*:.*:.*" postag_regexp="yes" regexp="yes">[а-яё].*<exception postag="NN:.*:.*:.*:R|NN:.*:.*:.*:2P" postag_regexp="yes"></exception>
                     <exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes"></exception>
                     <exception regexp="yes">нее|варяг|грек|роду|полсотни</exception>
                 </token>
