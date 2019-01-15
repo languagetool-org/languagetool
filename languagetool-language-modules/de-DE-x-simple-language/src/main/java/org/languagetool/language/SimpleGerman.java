@@ -18,6 +18,7 @@
  */
 package org.languagetool.language;
 
+import org.apache.commons.lang3.StringUtils;
 import org.languagetool.Language;
 import org.languagetool.UserConfig;
 import org.languagetool.languagemodel.LanguageModel;

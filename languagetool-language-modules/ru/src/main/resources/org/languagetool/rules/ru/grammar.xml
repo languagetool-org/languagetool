@@ -6585,6 +6585,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="жареная">Сегодня на ужин <marker>жаренная</marker> картошка.</example>
             </rule>
         </rulegroup>
+         <rulegroup default="on" id="Ne_narech" name="«Не» с наречиями">
+            <rule> <!-- TODO  1.) невесть кто (что, какой, где, куда )-->
+                <pattern case_sensitive="no">
+                    <marker>
+                        <token>не</token>
+                        <token>весть</token>
+                    </marker>
+                    <token regexp="yes">кто|что|какой|где|куда</token>
+                </pattern>
+                <message>Пишется слитно: <suggestion>\1\2</suggestion>.</message>
+                <short>Слитно с «не»</short>
+                <example>Невесть кто</example>
+                <example correction="Невесть"><marker>Не весть</marker> кто.</example>
+            </rule>
+        </rulegroup>
         <rulegroup default="on" id="Ne_pril_prich" name="«Не» с прилагательными/причастиями">
             <rule> <!-- TODO -->
                 <pattern>
