@@ -26,6 +26,7 @@ import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 /**
@@ -81,16 +82,17 @@ public abstract class CompoundAwareHunspellRule extends HunspellRule {
     // We don't know about the quality of the results here, so mix both lists together,
     // taking elements from both lists on a rotating basis:
     List<String> suggestions = new ArrayList<>();
-    int max = Stream.of(simpleSuggestions.size(), noSplitSuggestions.size(), noSplitLowercaseSuggestions.size()).mapToInt(v -> v).max().orElse(0);
+    int max = IntStream.of(simpleSuggestions.size(), noSplitSuggestions.size(), noSplitLowercaseSuggestions.size()).max().orElse(0);
     for (int i = 0; i < max; i++) {
-      if (i < simpleSuggestions.size()) {
-        suggestions.add(simpleSuggestions.get(i));
-      }
       if (i < noSplitSuggestions.size()) {
         suggestions.add(noSplitSuggestions.get(i));
       }
       if (i < noSplitLowercaseSuggestions.size()) {
         suggestions.add(StringTools.uppercaseFirstChar(noSplitLowercaseSuggestions.get(i)));
+      }
+      // put these behind suggestions by Morfologik, often low-quality / made-up words
+      if (i < simpleSuggestions.size()) {
+        suggestions.add(simpleSuggestions.get(i));
       }
     }
 
