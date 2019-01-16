@@ -1950,6 +1950,35 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="шокований|(кого) взяв/охопив шок|в легкому шоку">я <marker>в легкому шоці</marker></example>
     </rule>
 
+    <rule id="na_chyyus_dumku" name="На чиюсь думку">
+      <pattern>
+        <token postag="SENT_START"/>
+        <marker>
+          <token>на</token>
+          <token regexp="yes">мою|нашу|його|її|їхню</token>
+          <token>думку</token>
+        </marker>
+        <token>
+          <exception regexp="yes">[,().!?—–-]</exception>
+        </token>
+      </pattern>
+      <message>Після вставного звороту має йти кома</message>
+      <suggestion>\2 \3 \4,</suggestion>
+      <example>пристав на його думку</example>
+      <example correction="На мою думку,"><marker>На мою думку</marker> це марнотратство.</example>
+    </rule>
+
+    <rule id="mizhosobystisni_stosunky" name="Міжособистісні стосунки">
+      <pattern>
+        <marker>
+          <token regexp="yes" inflected="yes">міжособистісний|міжособистий</token>
+          <token inflected="yes">стосунок</token>
+        </marker>
+      </pattern>
+      <message>Краще: <suggestion><match no="2" postag_regexp="yes" postag="noun.*">взаємостосунок</match></suggestion></message>
+      <example correction="взаємостосунків">Такиж <marker>міжособистісних стосунків</marker>.</example>
+    </rule>
+
 <!--
     TODO: досить складна логіка
     <rulegroup id="NE_Z_PRUKMETNYKAMY" name="Не з прикметниками">

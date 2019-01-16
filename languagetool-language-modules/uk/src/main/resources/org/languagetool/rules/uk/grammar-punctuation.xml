@@ -99,25 +99,48 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token>одне</token>
           <token>але</token>
         </antipattern>
+        <antipattern>
+          <token>а</token>
+          <token>ля</token>
+        </antipattern>
+        <antipattern>
+          <token>хоча</token>
+          <token regexp="yes">би?</token>
+        </antipattern>
+        <antipattern>
+          <token regexp="yes">би?</token>
+          <token>хоча</token>
+        </antipattern>
+        <antipattern>
+          <token postag_regexp="yes" postag="conj.*">
+            <exception regexp="yes">же?</exception>
+          </token>
+          <token regexp="yes" min="0">же?</token>
+          <token regexp="yes">однак|проте|зате|адже|хоча</token>
+        </antipattern>
         <pattern case_sensitive="yes">
           <marker>
-            <token regexp="yes" negate="yes">[!?:;,…"«“„\(\)\[\]/–—-]|[!?.]{3}|[?!]\.\.|[нН]у|[АаІіЙй]|але
-              <exception postag="SENT_START"></exception>
+            <token regexp="yes" negate="yes">[!?:;,…"«“„\(\)\[\]/–—-]|[!?.]{3}|[?!]\.\.|[нН]у
+              <exception postag="SENT_START"/>
             </token>
-            <token regexp="yes">а|але|однак|проте|зате</token>
+            <token regexp="yes">а|але|однак|проте|зате|адже|хоча</token>
           </marker>
-          <token regexp="yes" negate="yes">[\p{Punct}"«“„\(\)–—]|ля</token>
+          <token regexp="yes" negate="yes">[\p{Punct}"«“„\(\)–—]</token>
         </pattern>
         <message>Відсутня кома перед сполучником: <suggestion>\1, \2</suggestion></message>
+        <example correction="літери, але">Вгадав всі <marker>літери але</marker> не зміг прочитати слово.</example>
+        <example correction="ж, однак">гроші <marker>ж однак</marker> державні.</example>
         <example>Вгадав всі літери — але не зміг прочитати слово.</example>
         <example>почалося щось а ля комедія</example>
         <example>Якби не одне але</example>
+        <example>я мав надію, що хоча засновники</example>
+        <example>вахтер мав би хоча запитати</example>
+        <example>але ж зате матимете</example>
+        <example>Боже мій! а що буде з матір'ю</example>
         <example>Всесвіт припинить своє існування, а це неможливо!</example>
         <example>Всесвіт припинить своє існування! а це неможливо!</example>
         <example>Всесвіт припинить своє існування!!! а це неможливо!</example>
         <example>Всесвіт припинить своє існування!.. а це неможливо!</example>
-        <example>Боже мій! а що буде з матір'ю</example>
-        <example correction="літери, але">Вгадав всі <marker>літери але</marker> не зміг прочитати слово.</example>
       </rule>
     </rulegroup>
 

@@ -369,6 +369,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="27°C">температура знизиться до <marker>27оC</marker>.</example>
       <example>20 ОС</example>
     </rule>
+
     <rulegroup id="ABBREVIATIONS_WRONG_DOT" name="Скорочення - зайва крапка">
       <!-- TODO: c - секунда, c. - село/сторінка; м — метр, м. — місто; т - тонна, т. - точка -->
       <url>http://www.library.ukma.edu.ua/fileadmin/documents/Bibliography/26_DCTU3582-97.pdf</url>
@@ -391,6 +392,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>Прийшов Л. Коцюба.</example>
         <example>штрафували на 30 тисяч злотих (близько 54 000 грн. – Авт.), конфіскували у нього машину.</example>
       </rule>
+
       <rule>
         <pattern>
           <token case_sensitive="yes">смт</token>
@@ -399,6 +401,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <message>Стягнені скорочення та метричні одиниці пишуться без крапки: <suggestion><match no="1"/></suggestion></message>
         <example correction="смт">розташовано у <marker>смт.</marker> Луків.</example>
       </rule>
+
       <rule>
         <pattern>
           <token regexp="yes">[0-9,-]+|кв\.|куб\.</token>
@@ -421,6 +424,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Проїхали с. Веселе.</example>
         -->
       </rule>
+
       <rule>
         <pattern case_sensitive="yes">
           <token regexp="yes">р\.</token>
@@ -454,6 +458,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>це 100 тис...</example>
       </rule>
     </rulegroup>
+
+    <rule id="dot_with_gram_hryven" name="Крапка з грамами і гривнями">
+      <pattern>
+        <token regexp="yes">[0-9]([0-9, ]*)</token>
+        <marker>
+          <token>гр.</token>
+        </marker>
+      </pattern>
+      <message>Грами скорочено пишемо: <suggestion>г</suggestion>; гривні скорочено пишемо <suggestion>грн</suggestion></message>
+      <example correction="г|грн">800 <marker>гр.</marker> м'яса.</example>
+      <example correction="г|грн">1 000 <marker>гр.</marker> 80 коп.</example>
+    </rule>
 
 <!--
     <rule id="INVALID_APOSTROPHE" name="Нерекомендований символ апострофа">
@@ -758,6 +774,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="десь-колись">і <marker>десь колись</marker>.</example>
       </rule>
 -->
+      <rule>
+        <pattern>
+          <token regexp="yes">куди|коли</token>
+          <token>небудь</token>
+        </pattern>
+        <message>Правильно: <suggestion>\1-небудь</suggestion></message>
+        <example correction="куди-небудь">поїхав <marker>куди небудь</marker>.</example>
+      </rule>
     </rulegroup>
 
     <rule id="DASH_STREET" name="-стріт/-стрит">
@@ -913,6 +937,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="III">починаючи з <marker>III-го</marker> кварталу.</example>
         <example correction="IX">на <marker>IX-му</marker> з'їзді.</example>
         <example>на IX з'їзді.</example>
+      </rule>
+    </rulegroup>
+
+    <rule id="tumana" name="Тумана">
+      <pattern>
+        <token>тумана</token>
+      </pattern>
+      <message>У значенні природного явища р.в.<suggestion>туману</suggestion></message>
+      <example correction="туману"><marker>тумана</marker> напустив.</example>
+    </rule>
+
+    <rulegroup id="word_with_long_dash" name="Слова з довгим тире без пробілу">
+      <rule>
+        <pattern>
+          <marker>
+            <token regexp="yes">[а-яіїєґ][а-яіїєґ'-]*</token>
+            <token spacebefore="no">—</token>
+          </marker>
+          <token spacebefore="yes"/>
+        </pattern>
+        <message>Довге тире після слова без пробілу</message>
+        <suggestion>\1 —</suggestion>
+        <suggestion>\1-</suggestion>
+        <example correction="зими —|зими-"><marker>зими—</marker> літа</example>
       </rule>
     </rulegroup>
 
