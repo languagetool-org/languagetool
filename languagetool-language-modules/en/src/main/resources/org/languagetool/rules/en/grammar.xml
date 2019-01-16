@@ -7057,6 +7057,25 @@ USA
             <example>He <marker>thanks</marker> you for your help.</example>
             <example><marker>Thanks</marker>, you are good to me.</example>
         </rule>
+        <rule id="HI_TIME" name="hi (his, high) time">
+            <antipattern><!-- Assume initial caps is NNP -->
+                <token case_sensitive="yes" regexp="yes">[A-Z][a-z].+</token>
+                <token case_sensitive="yes" regexp="yes">[A-Z][a-z].+</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token>hi</token>
+                    <token>time</token>
+                </marker>
+            </pattern>
+            <message>Do you mean <suggestion>high \2</suggestion> or <suggestion>his \2</suggestion>?</message>
+            <url>https://www.collinsdictionary.com/dictionary/english/high-time</url>
+            <short>Possible typo</short>
+            <example correction="high time|his time">It's <marker>hi time</marker> you did this work.</example>
+            <example correction="high time|his time">During <marker>hi time</marker> with our organization, Jones made many improvements.</example>
+            <example>It's <marker>high time</marker> you did this work.</example>
+            <example><marker>Hi Time Wine Cellars</marker> is excited to introduce Mount Michael Wines to...</example>
+        </rule>
     </category>
 
     <!-- ====================================================================== -->
