@@ -732,5 +732,4 @@ public class GermanSpellerRuleTest {
       i++;
     }
   }
-  
 }

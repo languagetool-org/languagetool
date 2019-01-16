@@ -47,7 +47,10 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.UserConfig;
 import org.languagetool.language.German;
+import org.languagetool.languagemodel.BaseLanguageModel;
+import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.Example;
+import org.languagetool.rules.ngrams.Probability;
 import org.languagetool.rules.spelling.hunspell.CompoundAwareHunspellRule;
 import org.languagetool.rules.spelling.morfologik.MorfologikMultiSpeller;
 import org.languagetool.synthesis.Synthesizer;
@@ -524,27 +527,33 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private final Synthesizer synthesizer;
   private final Tagger tagger;
 
+
   public GermanSpellerRule(ResourceBundle messages, German language) {
     this(messages, language, null, null);
   }
+
 
   /**
    * @since 4.2
    */
   public GermanSpellerRule(ResourceBundle messages, German language, UserConfig userConfig, String languageVariantPlainTextDict) {
-    this(messages, language, userConfig, languageVariantPlainTextDict, Collections.emptyList());
+    this(messages, language, userConfig, languageVariantPlainTextDict, Collections.emptyList(), null);
   }
   
   /**
    * @since 4.3
    */
-  public GermanSpellerRule(ResourceBundle messages, German language, UserConfig userConfig, String languageVariantPlainTextDict, List<Language> altLanguages) {
-    super(messages, language, language.getNonStrictCompoundSplitter(), getSpeller(language, userConfig, languageVariantPlainTextDict), userConfig, altLanguages);
+  public GermanSpellerRule(ResourceBundle messages, German language, UserConfig userConfig, String languageVariantPlainTextDict, List<Language> altLanguages, LanguageModel lm) {
+    super(messages, language, language.getNonStrictCompoundSplitter(), getSpeller(language, userConfig, languageVariantPlainTextDict, true),
+      "ReplacementPairs".equals(System.getProperty("SuggestionsChange")) && System.getProperty("SuggestionsChangesTestAlternativeEnabled", "0").equals("1") ? getSpeller(language, userConfig, languageVariantPlainTextDict, false) : null,
+      userConfig, altLanguages);
+
     addExamplePair(Example.wrong("LanguageTool kann mehr als eine <marker>nromale</marker> Rechtschreibprüfung."),
                    Example.fixed("LanguageTool kann mehr als eine <marker>normale</marker> Rechtschreibprüfung."));
     compoundTokenizer = language.getStrictCompoundTokenizer();
     tagger = language.getTagger();
     synthesizer = language.getSynthesizer();
+    languageModel = lm;
   }
 
   @Override
@@ -631,7 +640,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   }
 
   @Nullable
-  private static MorfologikMultiSpeller getSpeller(Language language, UserConfig userConfig, String languageVariantPlainTextDict) {
+  private static MorfologikMultiSpeller getSpeller(Language language, UserConfig userConfig,
+                                                   String languageVariantPlainTextDict, boolean useReplacementPairs) {
     if (!language.getShortCode().equals(Locale.GERMAN.getLanguage())) {
       throw new RuntimeException("Language is not a variant of German: " + language);
     }
@@ -655,7 +665,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
             variantReader = new ExpandingReader (new BufferedReader(new InputStreamReader(variantStream, "utf-8")));
           }
           return new MorfologikMultiSpeller(morfoFile, new ExpandingReader(br), concatPaths.toString(),
-            variantReader, languageVariantPlainTextDict, userConfig != null ? userConfig.getAcceptedWords(): Collections.emptyList(), MAX_EDIT_DISTANCE);
+            variantReader, languageVariantPlainTextDict, userConfig != null ? userConfig.getAcceptedWords(): Collections.emptyList(), MAX_EDIT_DISTANCE, useReplacementPairs);
         }
       } else {
         return null;
@@ -684,14 +694,34 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   @Override
   protected List<String> sortSuggestionByQuality(String misspelling, List<String> suggestions) {
     List<String> result = new ArrayList<>();
+    List<String> topSuggestions = new ArrayList<>(); // candidates from suggestions that get boosted to the top
+
     for (String suggestion : suggestions) {
-      if (misspelling.equalsIgnoreCase(suggestion) || suggestion.contains(" ")) {
-        // this should be preferred - only case differs || prefer e.g. "vor allem":
-        result.add(0, suggestion);
+      if (misspelling.equalsIgnoreCase(suggestion)) { // this should be preferred - only case differs
+        topSuggestions.add(suggestion);
+      } else if (suggestion.contains(" ")) { // this should be preferred - prefer e.g. "vor allem":
+        // suggestions at the sentence end include a period sometimes, clean up for ngram lookup
+        String[] words = suggestion.replaceFirst("\\.$", "").split(" ", 2);
+        if (languageModel != null && words.length == 2) {
+          // language model available, test if split word occurs at all / more frequently than alternative
+          Probability nonSplit = languageModel.getPseudoProbability(Collections.singletonList(words[0] + words[1]));
+          Probability split = languageModel.getPseudoProbability(Arrays.asList(words));
+          //System.out.printf("Probability - %s vs %s: %.12f (%d) vs %.12f (%d)%n",
+          //  words[0] + words[1], suggestion,
+          //  nonSplit.getProb(), nonSplit.getOccurrences(), split.getProb(), split.getOccurrences());
+          if (nonSplit.getProb() > split.getProb() || split.getProb() == 0) {
+            result.add(suggestion);
+          } else {
+            topSuggestions.add(suggestion);
+          }
+        } else {
+          topSuggestions.add(suggestion);
+        }
       } else {
         result.add(suggestion);
       }
     }
+    result.addAll(0, topSuggestions);
     return result;
   }
 

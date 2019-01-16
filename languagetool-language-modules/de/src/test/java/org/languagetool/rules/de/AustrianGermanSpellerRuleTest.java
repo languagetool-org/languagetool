@@ -32,7 +32,7 @@ public class AustrianGermanSpellerRuleTest {
 
   @Test
   public void testGetSuggestionsFromSpellingTxt() throws Exception {
-    AustrianGermanSpellerRule rule = new AustrianGermanSpellerRule(TestTools.getEnglishMessages(), DE_AT, null);
+    AustrianGermanSpellerRule rule = new AustrianGermanSpellerRule(TestTools.getEnglishMessages(), DE_AT, null, null);
     JLanguageTool lt = new JLanguageTool(DE_AT);
     assertThat(rule.match(lt.getAnalyzedSentence("Shopbewertung")).length, is(0));  // from spelling.txt
     assertThat(rule.match(lt.getAnalyzedSentence("Wahlzuckerl")).length, is(0));
