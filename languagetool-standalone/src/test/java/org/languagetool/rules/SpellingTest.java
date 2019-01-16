@@ -37,7 +37,7 @@ public class SpellingTest {
 
   @Test
   public void testEnglishWords() throws Exception {
-    HunspellRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE, null, null, Collections.singletonList(Languages.getLanguageForShortCode("en-US")));
+    HunspellRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE, null, null, Collections.singletonList(Languages.getLanguageForShortCode("en-US")), null);
     JLanguageTool lt = new JLanguageTool(GERMAN_DE);
     assertHintMatch("Ein deutscher Text mit dem englischen Wort incomprehensible", rule, lt);
     assertHintMatch("Das Fahrrad heißt auf Englisch bicycle.", rule, lt);
