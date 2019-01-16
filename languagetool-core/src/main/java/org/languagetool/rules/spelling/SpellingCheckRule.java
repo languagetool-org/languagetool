@@ -18,10 +18,9 @@
  */
 package org.languagetool.rules.spelling;
 
-import com.google.common.collect.Streams;
-import jdk.internal.jline.internal.Nullable;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
 import org.languagetool.languagemodel.BaseLanguageModel;
 import org.languagetool.languagemodel.LanguageModel;
@@ -37,7 +36,6 @@ import org.languagetool.tools.StringTools;
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * An abstract rule for spellchecking rules.
@@ -370,7 +368,9 @@ public abstract class SpellingCheckRule extends Rule {
     for (Language altLanguage : alternativeLanguages) {
       List<Rule> rules;
       try {
-        rules = altLanguage.getRelevantRules(messages, userConfig, Collections.emptyList());
+        rules = new ArrayList<>(altLanguage.getRelevantRules(messages, userConfig, Collections.emptyList()));
+        rules.addAll(altLanguage.getRelevantLanguageModelCapableRules(messages, null,
+          userConfig, Collections.emptyList()));
       } catch (IOException e) {
         throw new RuntimeException(e);
       }

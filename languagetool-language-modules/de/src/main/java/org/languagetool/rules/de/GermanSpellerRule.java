@@ -544,9 +544,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
    * @since 4.3
    */
   public GermanSpellerRule(ResourceBundle messages, German language, UserConfig userConfig, String languageVariantPlainTextDict, List<Language> altLanguages, LanguageModel lm) {
-    super(messages, language, language.getNonStrictCompoundSplitter(), getSpeller(language, userConfig, languageVariantPlainTextDict, true),
-      "ReplacementPairs".equals(System.getProperty("SuggestionsChange")) && System.getProperty("SuggestionsChangesTestAlternativeEnabled", "0").equals("1") ? getSpeller(language, userConfig, languageVariantPlainTextDict, false) : null,
-      userConfig, altLanguages);
+    super(messages, language, language.getNonStrictCompoundSplitter(), getSpeller(language, userConfig, languageVariantPlainTextDict), userConfig, altLanguages);
 
     addExamplePair(Example.wrong("LanguageTool kann mehr als eine <marker>nromale</marker> Rechtschreibprüfung."),
                    Example.fixed("LanguageTool kann mehr als eine <marker>normale</marker> Rechtschreibprüfung."));
@@ -641,7 +639,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
 
   @Nullable
   private static MorfologikMultiSpeller getSpeller(Language language, UserConfig userConfig,
-                                                   String languageVariantPlainTextDict, boolean useReplacementPairs) {
+                                                   String languageVariantPlainTextDict) {
     if (!language.getShortCode().equals(Locale.GERMAN.getLanguage())) {
       throw new RuntimeException("Language is not a variant of German: " + language);
     }
@@ -665,7 +663,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
             variantReader = new ExpandingReader (new BufferedReader(new InputStreamReader(variantStream, "utf-8")));
           }
           return new MorfologikMultiSpeller(morfoFile, new ExpandingReader(br), concatPaths.toString(),
-            variantReader, languageVariantPlainTextDict, userConfig != null ? userConfig.getAcceptedWords(): Collections.emptyList(), MAX_EDIT_DISTANCE, useReplacementPairs);
+            variantReader, languageVariantPlainTextDict, userConfig != null ? userConfig.getAcceptedWords(): Collections.emptyList(), MAX_EDIT_DISTANCE);
         }
       } else {
         return null;
