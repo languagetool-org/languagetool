@@ -46,6 +46,7 @@ import java.util.*;
 import java.util.concurrent.Callable;
 import java.util.jar.Manifest;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * The main class used for checking text against different rules:
@@ -122,6 +123,8 @@ public class JLanguageTool {
 
   private final List<Rule> builtinRules;
   private final List<Rule> userRules = new ArrayList<>(); // rules added via addRule() method
+  // rules fetched via getRelevantLanguageModelCapableRules()
+  private final Set<String> optionalLanguageModelRules = new HashSet<>();
   private final Set<String> disabledRules = new HashSet<>();
   private final Set<CategoryId> disabledRuleCategories = new HashSet<>();
   private final Set<String> enabledRules = new HashSet<>();
@@ -249,6 +252,7 @@ public class JLanguageTool {
     try {
       activateDefaultPatternRules();
       activateDefaultFalseFriendRules();
+      updateOptionalLanguageModelRules(null); // start out with rules without language model
     } catch (Exception e) {
       throw new RuntimeException("Could not activate rules", e);
     }
@@ -414,6 +418,23 @@ public class JLanguageTool {
   }
 
   /**
+   * Remove rules that can profit from a language model, recreate them with the given model and add them again
+   * @param lm the language model or null if none is available
+   */
+  private void updateOptionalLanguageModelRules(@Nullable LanguageModel lm) {
+    ResourceBundle messages = getMessageBundle(language);
+    try {
+      List<Rule> rules = language.getRelevantLanguageModelCapableRules(messages, lm, userConfig, altLanguages);
+      userRules.removeIf(rule -> optionalLanguageModelRules.contains(rule.getId()));
+      optionalLanguageModelRules.clear();
+      rules.stream().map(Rule::getId).forEach(optionalLanguageModelRules::add);
+      userRules.addAll(rules);
+    } catch(Exception e) {
+      throw new RuntimeException("Could not load language model capable rules.", e);
+    }
+  }
+
+  /**
    * Activate rules that depend on pretrained neural network models.
    * @param modelDir root dir of exported models
    * @since 4.4
@@ -436,6 +457,7 @@ public class JLanguageTool {
       ResourceBundle messages = getMessageBundle(language);
       List<Rule> rules = language.getRelevantLanguageModelRules(messages, languageModel);
       userRules.addAll(rules);
+      updateOptionalLanguageModelRules(languageModel);
     }
   }
 

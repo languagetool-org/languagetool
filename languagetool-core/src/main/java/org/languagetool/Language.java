@@ -154,6 +154,18 @@ public abstract class Language {
     return Collections.emptyList();
   }
 
+
+  /**
+   * Get a list of rules that can optionally use a {@link LanguageModel}. Returns an empty list for
+   * languages that don't have such rules.
+   * @since 4.5
+   * @param languageModel null if no language model is available
+   */
+  public List<Rule> getRelevantLanguageModelCapableRules(ResourceBundle messages, @Nullable LanguageModel languageModel,
+                                                         UserConfig userConfig, List<Language> altLanguages) throws IOException {
+    return Collections.emptyList();
+  }
+
   /**
    * @param indexDir directory with a subdirectories like 'en', each containing dictionary.txt and final_embeddings.txt
    * @return a {@link Word2VecModel} or {@code null} if this language doesn't support one

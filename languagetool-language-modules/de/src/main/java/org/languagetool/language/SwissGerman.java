@@ -18,8 +18,10 @@
  */
 package org.languagetool.language;
 
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.Language;
 import org.languagetool.UserConfig;
+import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.de.SwissGermanSpellerRule;
 import org.languagetool.tagging.de.SwissGermanTagger;
@@ -32,9 +34,9 @@ import java.util.ResourceBundle;
 @SuppressWarnings("deprecation")
 public class SwissGerman extends German {
 
-	public SwissGerman() {
+  public SwissGerman() {
     super.tagger = new SwissGermanTagger();
-	}
+  }
 
   @Override
   public String[] getCountries() {
@@ -47,10 +49,11 @@ public class SwissGerman extends German {
   }
 
   @Override
-  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, List<Language> altLanguages) throws IOException {
-    List<Rule> rules = new ArrayList<>(super.getRelevantRules(messages, userConfig, altLanguages));
-    rules.add(new SwissGermanSpellerRule(messages, this, userConfig));
+  public List<Rule> getRelevantLanguageModelCapableRules(ResourceBundle messages, @Nullable LanguageModel languageModel, UserConfig userConfig, List<Language> altLanguages) throws IOException {
+    List<Rule> rules = new ArrayList<>(super.getRelevantLanguageModelCapableRules(messages, languageModel, userConfig, altLanguages));
+    rules.add(new SwissGermanSpellerRule(messages, this,
+      userConfig, languageModel));
     return rules;
   }
-  
+
 }
