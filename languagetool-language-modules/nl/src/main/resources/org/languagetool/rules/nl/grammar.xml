@@ -14025,6 +14025,8 @@ onwaarschijnlijk
 		</rule>
 
 		<rule>
+			<!-- uitzondering: aan de wilgen hangen -->
+			<antipattern case_sensitive="yes"><token postag="SENT_START" skip="-1"/><token inflected="yes" regexp="yes">hangen|sloot|rivier|plant|knotten</token></antipattern>
 			<antipattern case_sensitive="yes"><token>De</token><token>Wilgen</token></antipattern>
 			<pattern><token>de</token><token>wilgen</token></pattern>
 			<message>U bedoelt misschien het gehucht <suggestion>De Wilgen</suggestion>.</message>
