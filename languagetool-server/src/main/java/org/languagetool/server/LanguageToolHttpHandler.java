@@ -36,6 +36,7 @@ import java.util.*;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeoutException;
 
+import static java.net.HttpURLConnection.HTTP_UNAVAILABLE;
 import static org.languagetool.server.ServerTools.print;
 
 class LanguageToolHttpHandler implements HttpHandler {
@@ -219,8 +220,8 @@ class LanguageToolHttpHandler implements HttpHandler {
   private boolean workQueueFull(HttpExchange httpExchange, Map<String, String> parameters, String response) throws IOException {
     if (config.getMaxWorkQueueSize() != 0 && workQueue.size() > config.getMaxWorkQueueSize()) {
       String message = response + " queue size: " + workQueue.size() + ", maximum size: " + config.getMaxWorkQueueSize();
-      logError(message, 503, parameters, httpExchange);
-      sendError(httpExchange, HttpURLConnection.HTTP_UNAVAILABLE, "Error: " + response);
+      logError(message, HTTP_UNAVAILABLE, parameters, httpExchange);
+      sendError(httpExchange, HTTP_UNAVAILABLE, "Error: " + response);
       return true;
     }
     return false;
