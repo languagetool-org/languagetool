@@ -68,8 +68,11 @@ public abstract class CompoundAwareHunspellRule extends HunspellRule {
     if (needsInit) {
       init();
     }
+    //System.out.println("Computing suggestions for " + word);
     List<String> candidates = getCandidates(word);
     List<String> simpleSuggestions = getCorrectWords(candidates);
+    //System.out.println("simpleSuggestions: " + simpleSuggestions);
+
 
     List<String> noSplitSuggestions = morfoSpeller.getSuggestions(word);  // after getCorrectWords() so spelling.txt is considered
     handleWordEndPunctuation(".", word, noSplitSuggestions);
@@ -95,13 +98,16 @@ public abstract class CompoundAwareHunspellRule extends HunspellRule {
         suggestions.add(simpleSuggestions.get(i));
       }
     }
+    //System.out.println("suggestions (mixed from simpleSuggestions, noSplitSuggestions, noSplitLowerCaseSuggestions): " + suggestions);
 
     filterDupes(suggestions);
     filterForLanguage(suggestions);
     List<String> sortedSuggestions = sortSuggestionByQuality(word, suggestions);
+    //System.out.println("sortSuggestionByQuality(): " + sortedSuggestions);
     // This is probably be the right place to sort suggestions by probability:
     //SuggestionSorter sorter = new SuggestionSorter(new LuceneLanguageModel(new File("/home/dnaber/data/google-ngram-index/de")));
     //sortedSuggestions = sorter.sortSuggestions(sortedSuggestions);
+    //System.out.println();
     return sortedSuggestions.subList(0, Math.min(MAX_SUGGESTIONS, sortedSuggestions.size()));
   }
 

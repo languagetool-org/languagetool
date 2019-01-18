@@ -18,7 +18,12 @@
  */
 package org.languagetool.rules.spelling;
 
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.tuple.Pair;
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
+import org.languagetool.languagemodel.BaseLanguageModel;
+import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
@@ -51,6 +56,15 @@ public abstract class SpellingCheckRule extends Rule {
   public static final String LANGUAGETOOLER = "LanguageTooler";
 
   protected final Language language;
+
+  /**
+   * @since 4.5
+   * For rules from @see Language.getRelevantLanguageModelCapableRules
+   * Optional, allows e.g. better suggestions when set
+   */
+  @Nullable
+  @Experimental
+  protected LanguageModel languageModel;
   protected final CachingWordListLoader wordListLoader = new CachingWordListLoader();
 
   private static final String SPELLING_IGNORE_FILE = "/hunspell/ignore.txt";
@@ -224,7 +238,19 @@ public abstract class SpellingCheckRule extends Rule {
   protected boolean isEMail(String token) {
     return WordTokenizer.isEMail(token);
   }
-  
+
+  protected void filterDupes(List<String> words) {
+    Set<String> seen = new HashSet<>();
+    Iterator<String> iterator = words.iterator();
+    while (iterator.hasNext()) {
+      String word = iterator.next();
+      if (seen.contains(word)) {
+        iterator.remove();
+      }
+      seen.add(word);
+    }
+  }
+
   protected void init() throws IOException {
     for (String ignoreWord : wordListLoader.loadWords(getIgnoreFileName())) {
       addIgnoreWords(ignoreWord);
@@ -293,6 +319,7 @@ public abstract class SpellingCheckRule extends Rule {
    */
   protected void filterSuggestions(List<String> suggestions) {
     suggestions.removeIf(suggestion -> isProhibited(suggestion));
+    filterDupes(suggestions);
   }
 
   /**
@@ -341,7 +368,9 @@ public abstract class SpellingCheckRule extends Rule {
     for (Language altLanguage : alternativeLanguages) {
       List<Rule> rules;
       try {
-        rules = altLanguage.getRelevantRules(messages, userConfig, Collections.emptyList());
+        rules = new ArrayList<>(altLanguage.getRelevantRules(messages, userConfig, Collections.emptyList()));
+        rules.addAll(altLanguage.getRelevantLanguageModelCapableRules(messages, null,
+          userConfig, Collections.emptyList()));
       } catch (IOException e) {
         throw new RuntimeException(e);
       }
@@ -462,4 +491,29 @@ public abstract class SpellingCheckRule extends Rule {
     return match.isPresent() ? match.get().length() : 0;
   }
 
+
+  @Experimental
+  protected List<String> reorderSuggestions(List<String> suggestions, String word) {
+    // WORK IN PROGRESS
+    if (languageModel == null) {
+      return suggestions;
+    }
+    BaseLanguageModel lm = (BaseLanguageModel) languageModel;
+    List<Integer> levenshteinDistances = suggestions.stream().map(suggestion -> StringUtils.getLevenshteinDistance(word, suggestion)).collect(Collectors.toList());
+    List<Long> frequencies = suggestions.stream().map(lm::getCount).collect(Collectors.toList());
+    Long frequenciesSum = frequencies.stream().reduce((a, b) -> a + b).orElse(1L);
+    List<Float> normalizedFrequencies = frequencies.stream().map(f -> (float) f / frequenciesSum).collect(Collectors.toList());
+    System.out.println("frequencies: " + frequencies + " / normalized: " + normalizedFrequencies);
+
+    List<Pair<String, Float>> scoredSuggestions = new ArrayList<>(suggestions.size());
+    for (int i = 0; i < suggestions.size(); i++) {
+      float score = (1f / normalizedFrequencies.get(i)) * levenshteinDistances.get(i);
+      scoredSuggestions.add(Pair.of(suggestions.get(i), score));
+    }
+    scoredSuggestions.sort(Comparator.comparing(Pair::getRight));
+
+    System.out.println("Before reordering: " + suggestions.subList(0, 5) + " / After: " + scoredSuggestions.subList(0, 5));
+
+    return scoredSuggestions.stream().map(Pair::getLeft).collect(Collectors.toList());
+  }
 }

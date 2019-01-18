@@ -194,8 +194,11 @@ public abstract class Rule {
   public boolean supportsLanguage(Language language) {
     try {
       List<Class<? extends Rule>> relevantRuleClasses = new ArrayList<>();
-      List<Rule> relevantRules = language.getRelevantRules(JLanguageTool.getMessageBundle(), 
-          new UserConfig(), Collections.emptyList());  //  empty UserConfig has to be added to prevent null pointer exception
+      UserConfig config = new UserConfig();
+      List<Rule> relevantRules = new ArrayList<>(language.getRelevantRules(JLanguageTool.getMessageBundle(),
+          config, Collections.emptyList()));  //  empty UserConfig has to be added to prevent null pointer exception
+      relevantRules.addAll(language.getRelevantLanguageModelCapableRules(JLanguageTool.getMessageBundle(), null,
+        config, Collections.emptyList()));
       for (Rule relevantRule : relevantRules) {
         relevantRuleClasses.add(relevantRule.getClass());
       }

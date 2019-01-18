@@ -273,7 +273,11 @@ public final class RuleOverview {
   }
 
   private SpellcheckSupport spellcheckSupport(Language lang) throws IOException {
-    for (Rule rule : lang.getRelevantRules(JLanguageTool.getMessageBundle(), null, Collections.emptyList())) {
+    List<Rule> rules = new ArrayList<>(lang.getRelevantRules(JLanguageTool.getMessageBundle(),
+      null, Collections.emptyList()));
+    rules.addAll(lang.getRelevantLanguageModelCapableRules(JLanguageTool.getMessageBundle(), null, null,
+      Collections.emptyList()));
+    for (Rule rule : rules) {
       if (rule.isDictionaryBasedSpellingRule()) {
         if (rule instanceof HunspellNoSuggestionRule) {
           return SpellcheckSupport.NoSuggestion;
