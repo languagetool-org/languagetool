@@ -3535,6 +3535,10 @@ USA
                 <example>This will make the malicious <marker>programs</marker> spam the persons who have an entry in the address book.</example><!-- http://forum.languagetool.org/t/en-possible-false-positive-2017-05-31/1727/1 -->
                 <example>The <marker>arms shipment</marker> is not satisfactory.</example>
                 <example>With the ability to impose boundaries on <marker>spaces</marker> comes the question of how...</example>
+                <example>The <marker>devices</marker> comes in a number of variations where they can be...</example><!-- 'comes' is the start of a verb phrase. AGREEMENT_SENT_START[1] finds the problem -->
+                <example>The <marker>samples</marker> tests were not satisfactory.</example><!-- False negative, not related to the addition of the antipattern for 'boundaries on spaces' on 2019-01-18 -->
+                <example>The <marker>standards</marker> committee decided against shifting, and so ASCII ...</example><!-- False negative? The term 'standards committee' is possible, but in some contexts, the term is possibly incorrect. Cause: the chunker incorrectly gives 'B-VP' to committee. -->
+                <example>Much of the material in these <marker>articles</marker> comes from the CIA World Factbook 2000 and the...</example>
             </rule>
             <rule>
                 <antipattern>
