@@ -38019,8 +38019,12 @@ Andere Projekte</example>
                         <exception regexp="yes" scope="previous">,|\.|:|\?|!|;|-|–|—|\)|\(|„|“|»|«|"|und|oder|da|weil|ob(wohl|gleich)?|damit|sodass|dass|indem|wenn|falls|sofern|während|bevor|nachdem|seitdem|so(bald|lange)|was|als|wie|bis|wer|wo|wohin</exception>
                     </token>
                 </pattern>
+                <filter class="org.languagetool.rules.de.InsertCommaFilter" args="fake:1"/>
                 <message>Hier ein Komma einfügen?</message>
+                <suggestion><match include_skipped="all" no="1"/> <match no="2"/></suggestion> <!-- suggestion will be set by InsertCommaFilter, if possible -->
                 <example type="incorrect">Die Sonne <marker>versank hinter dem Horizont die Schatten der Nacht senkten</marker> sich über das Land.</example>
+                <example correction="steht, parkt">Das Auto, das am Straßenrand <marker>steht parkt</marker> im Halteverbot.</example>
+                <example correction="habt, wäre">Und wenn ihr noch ein Kabel <marker>habt wäre</marker> das super.</example>
                 <example>Die Sonne <marker>versank hinter dem Horizont, die Schatten der Nacht senkten</marker> sich über das Land.</example>
                 <example>Beim Einsatz gentechnisch veränderter Individuen könnten jedoch schädliche Gene durch Hybridisierung in den Genpool anderer Tierarten gelangen.</example>
                 <example>Dies wird durch den sog. Brechungsindex n ausgedrückt.</example>
