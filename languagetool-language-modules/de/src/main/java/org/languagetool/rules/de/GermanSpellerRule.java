@@ -38,6 +38,7 @@ import java.util.function.Function;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.RegExUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
@@ -47,7 +48,6 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.UserConfig;
 import org.languagetool.language.German;
-import org.languagetool.languagemodel.BaseLanguageModel;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.Example;
 import org.languagetool.rules.ngrams.Probability;
@@ -135,6 +135,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("[nN]amenhaft(e[mnrs]?)?", "amen", "am");
     putRepl("hom(o?e|ö)ophatisch(e[mnrs]?)?", "hom(o?e|ö)ophat", "homöopath");
     putRepl("Geschwindlichkeit(en)?", "lich", "ig");
+    putRepl("[DN]r", "r", "r.");
     put("Investion", "Investition");
     put("Pakur", w -> Arrays.asList("Parcours", "Parkuhr"));
     put("Erstsemesterin", w -> Arrays.asList("Erstsemester", "Erstsemesters"));
@@ -726,7 +727,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private boolean ignoreElative(String word) {
     if (StringUtils.startsWithAny(word, "bitter", "dunkel", "erz", "extra", "früh",
         "gemein", "hyper", "lau", "mega", "minder", "stock", "super", "tod", "ultra", "ur")) {
-      String lastPart = StringUtils.removePattern(word, "^(bitter|dunkel|erz|extra|früh|gemein|grund|hyper|lau|mega|minder|stock|super|tod|ultra|ur|voll)");
+      String lastPart = RegExUtils.removePattern(word, "^(bitter|dunkel|erz|extra|früh|gemein|grund|hyper|lau|mega|minder|stock|super|tod|ultra|ur|voll)");
       return !isMisspelled(lastPart);
     }
     return false;

@@ -15540,18 +15540,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Von allen Vorschlägen scheint der von Tom der <marker>beste</marker> zu sein.</example>
         </rule>
         <rule id="BESTES_GEBEN" name="'bestes (Bestes) geben/tun/kommen'">
+            <antipattern>
+                <token regexp="yes">das|[dms]ein|ihr<exception scope="previous" postag="PRP.+|NEG" postag_regexp="yes"></exception></token>
+                <token postag="SUB:.+" postag_regexp="yes" skip="-1"/>
+                <token>das</token>
+                <token case_sensitive="yes" regexp="yes" postag_regexp="yes" postag="ADJ:AKK:SIN:NEU:.+">(best|gleich|übrig)+e</token>
+            </antipattern>
             <pattern>
-                <token postag="ART:DEF:.+|PRO:POS:NOM:.+|PRO:PER:GEN:.+" postag_regexp="yes"/>
+                <token postag="ART:DEF:(AKK|NOM):SIN:NEU|PRO:POS:NOM:.+|PRO:PER:GEN:.+" postag_regexp="yes"/>
                 <marker>
-                   <token case_sensitive="yes" regexp="yes">beste[sn]?</token>
+                   <token case_sensitive="yes" regexp="yes" postag_regexp="yes" postag="ADJ:AKK:SIN:NEU:.+">(best|gleich|übrig)+e[sn]?</token>
                 </marker>
-                <token inflected="yes" regexp="yes">tun|geben|kommen</token>
+                <token postag="VER:.+|ADV.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöüß]+<exception>sehr</exception></token>
             </pattern>
-            <message><suggestion><match no="2" case_conversion="startupper"/></suggestion> wird in diesem Zusammenhang großgeschrieben.</message>
+            <message><suggestion><match no="2" case_conversion="startupper"/></suggestion> wird in diesem Zusammenhang vermutlich großgeschrieben.</message>
             <short>&prgk;.</short>
             <example correction="Bestes">Sie hat immer ihr <marker>bestes</marker> getan.</example>
             <example correction="Bestes">Wir müssen immer unser <marker>bestes</marker> geben.</example>
             <example correction="Beste">Das <marker>beste</marker> kommt zum Schluss.</example>
+            <example correction="Übriges">Er kann sein <marker>übriges</marker> dazu beitragen.</example>
+            <example>Das Verhältnis zwischen ihnen war nicht das <marker>beste</marker>.</example>
+            <example>Tom war klar, dass sein Französisch nicht das beste war.</example>
         </rule>
         <rule id="DAS_BESTE_SEIN" name="'das beste (Beste) sein'">
             <pattern>
