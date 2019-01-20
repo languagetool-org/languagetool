@@ -15540,18 +15540,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Von allen Vorschlägen scheint der von Tom der <marker>beste</marker> zu sein.</example>
         </rule>
         <rule id="BESTES_GEBEN" name="'bestes (Bestes) geben/tun/kommen'">
+            <antipattern>
+                <token regexp="yes">das|[dms]ein|ihr<exception scope="previous" postag="PRP.+|NEG" postag_regexp="yes"></exception></token>
+                <token postag="SUB:.+" postag_regexp="yes" skip="-1"/>
+                <token>das</token>
+                <token case_sensitive="yes" regexp="yes" postag_regexp="yes" postag="ADJ:AKK:SIN:NEU:.+">(best|gleich|übrig)+e</token>
+            </antipattern>
             <pattern>
-                <token postag="ART:DEF:.+|PRO:POS:NOM:.+|PRO:PER:GEN:.+" postag_regexp="yes"/>
+                <token postag="ART:DEF:(AKK|NOM):SIN:NEU|PRO:POS:NOM:.+|PRO:PER:GEN:.+" postag_regexp="yes"/>
                 <marker>
-                   <token case_sensitive="yes" regexp="yes">beste[sn]?</token>
+                   <token case_sensitive="yes" regexp="yes" postag_regexp="yes" postag="ADJ:AKK:SIN:NEU:.+">(best|gleich|übrig)+e[sn]?</token>
                 </marker>
-                <token inflected="yes" regexp="yes">tun|geben|kommen</token>
+                <token postag="VER:.+|ADV.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöüß]+<exception>sehr</exception></token>
             </pattern>
-            <message><suggestion><match no="2" case_conversion="startupper"/></suggestion> wird in diesem Zusammenhang großgeschrieben.</message>
+            <message><suggestion><match no="2" case_conversion="startupper"/></suggestion> wird in diesem Zusammenhang vermutlich großgeschrieben.</message>
             <short>&prgk;.</short>
             <example correction="Bestes">Sie hat immer ihr <marker>bestes</marker> getan.</example>
             <example correction="Bestes">Wir müssen immer unser <marker>bestes</marker> geben.</example>
             <example correction="Beste">Das <marker>beste</marker> kommt zum Schluss.</example>
+            <example correction="Übriges">Er kann sein <marker>übriges</marker> dazu beitragen.</example>
+            <example>Das Verhältnis zwischen ihnen war nicht das <marker>beste</marker>.</example>
+            <example>Tom war klar, dass sein Französisch nicht das beste war.</example>
         </rule>
         <rule id="DAS_BESTE_SEIN" name="'das beste (Beste) sein'">
             <pattern>
@@ -15881,22 +15890,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token case_sensitive="yes">spiel</token>
                     </marker>
-                    <token inflected="yes">setzen</token>
-                </pattern>
-                <message><suggestion>Spiel</suggestion> wird in dieser Wendung großgeschrieben.</message>
-                <short>&prgk;.</short>
-                <example correction="Spiel">Sie hat ihr Vermögen aufs <marker>spiel</marker> gesetzt.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token inflected="yes" skip="3">setzen</token>
-                    <token>aufs</token>
-                    <marker>
-                        <token case_sensitive="yes">spiel</token>
-                    </marker>
                 </pattern>
                 <message>&inwend;"aufs Spiel setzen" wird <suggestion>Spiel</suggestion> großgeschrieben.</message>
                 <short>&prgk;.</short>
+                <example correction="Spiel">Sie hat ihr Vermögen aufs <marker>spiel</marker> gesetzt.</example>
                 <example correction="Spiel">Sie setze ihr Vermögen aufs <marker>spiel</marker>.</example>
             </rule>
         </rulegroup>
@@ -38019,8 +38016,12 @@ Andere Projekte</example>
                         <exception regexp="yes" scope="previous">,|\.|:|\?|!|;|-|–|—|\)|\(|„|“|»|«|"|und|oder|da|weil|ob(wohl|gleich)?|damit|sodass|dass|indem|wenn|falls|sofern|während|bevor|nachdem|seitdem|so(bald|lange)|was|als|wie|bis|wer|wo|wohin</exception>
                     </token>
                 </pattern>
+                <filter class="org.languagetool.rules.de.InsertCommaFilter" args="fake:1"/>
                 <message>Hier ein Komma einfügen?</message>
+                <suggestion><match include_skipped="all" no="1"/> <match no="2"/></suggestion> <!-- suggestion will be set by InsertCommaFilter, if possible -->
                 <example type="incorrect">Die Sonne <marker>versank hinter dem Horizont die Schatten der Nacht senkten</marker> sich über das Land.</example>
+                <example correction="steht, parkt">Das Auto, das am Straßenrand <marker>steht parkt</marker> im Halteverbot.</example>
+                <example correction="habt, wäre">Und wenn ihr noch ein Kabel <marker>habt wäre</marker> das super.</example>
                 <example>Die Sonne <marker>versank hinter dem Horizont, die Schatten der Nacht senkten</marker> sich über das Land.</example>
                 <example>Beim Einsatz gentechnisch veränderter Individuen könnten jedoch schädliche Gene durch Hybridisierung in den Genpool anderer Tierarten gelangen.</example>
                 <example>Dies wird durch den sog. Brechungsindex n ausgedrückt.</example>
