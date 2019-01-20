@@ -127,6 +127,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("naheste[mnrs]?", "nahe", "näch");
     putRepl("gesundlich(e[mnrs]?)?", "lich", "heitlich");
     putRepl("eckel(e|t(en?)?|st)?", "^eck", "ek");
+    putRepl("unhervorgesehen(e[mnrs]?)?", "hervor", "vorher");
     putRepl("entt?euscht(e[mnrs]?)?", "entt?eusch", "enttäusch");
     putRepl("Phählen?", "^Ph", "Pf");
     putRepl("Kattermesser[ns]?", "Ka", "Cu");
