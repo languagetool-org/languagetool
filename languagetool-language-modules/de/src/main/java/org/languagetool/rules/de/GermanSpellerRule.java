@@ -61,6 +61,8 @@ import org.languagetool.tools.StringTools;
 import de.danielnaber.jwordsplitter.GermanWordSplitter;
 import de.danielnaber.jwordsplitter.InputTooLongException;
 
+import static java.nio.charset.StandardCharsets.*;
+
 public class GermanSpellerRule extends CompoundAwareHunspellRule {
 
   public static final String RULE_ID = "GERMAN_SPELLER_RULE";
@@ -653,16 +655,15 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
         StringBuilder concatPaths = new StringBuilder();
         List<InputStream> streams = new ArrayList<>();
         for (String path : paths) {
-          concatPaths.append(path + ";");
+          concatPaths.append(path).append(";");
           streams.add(JLanguageTool.getDataBroker().getFromResourceDirAsStream(path));
         }
         try (BufferedReader br = new BufferedReader(
-          new InputStreamReader(new SequenceInputStream(Collections.enumeration(streams)), "utf-8"))) {
-          InputStream variantStream = null;
+          new InputStreamReader(new SequenceInputStream(Collections.enumeration(streams)), UTF_8))) {
           BufferedReader variantReader = null;
           if (languageVariantPlainTextDict != null && !languageVariantPlainTextDict.isEmpty()) {
-            variantStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(languageVariantPlainTextDict);
-            variantReader = new ExpandingReader (new BufferedReader(new InputStreamReader(variantStream, "utf-8")));
+            InputStream variantStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(languageVariantPlainTextDict);
+            variantReader = new ExpandingReader (new BufferedReader(new InputStreamReader(variantStream, UTF_8)));
           }
           return new MorfologikMultiSpeller(morfoFile, new ExpandingReader(br), concatPaths.toString(),
             variantReader, languageVariantPlainTextDict, userConfig != null ? userConfig.getAcceptedWords(): Collections.emptyList(), MAX_EDIT_DISTANCE);
