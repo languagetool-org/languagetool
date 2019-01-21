@@ -8511,6 +8511,13 @@ USA
                 <token spacebefore="no">.</token>
                 <token spacebefore="no">a</token>
             </antipattern>
+            <antipattern><!-- the merge process/es to be/become -->
+                <token>the</token>
+                <token/>
+                <token postag_regexp="yes" postag="NN(S|:UN?)?"/>
+                <token>to</token>
+                <token regexp="yes">be(come)?</token>
+            </antipattern>
             <pattern>
                 <token regexp='yes'>an?|the</token>
                 <token postag='VB|VBP' postag_regexp='yes'>
@@ -8518,13 +8525,14 @@ USA
                     <exception postag='VBP?|(SENT|PARA)_END' postag_regexp='yes' negate_pos='yes'/>
                 </token>
             </pattern>
-            <message>Maybe a wrong construction: a/the + infinitive</message>
-            <example correction=""><marker>a compete</marker> catastrophe.</example>
+            <message>Maybe a wrong construction: a/the + infinitive. Some possible errors: 1) An incorrect spelling of a noun. 2) A missing hyphen in a compound adjective. </message>
+            <example correction="">This is <marker>a compete</marker> catastrophe.</example>
             <example correction=""><marker>a compete</marker></example>
-            <example>a complete catastrophe</example>
+            <example correction="">Missing hyphen: Here's <marker>a follow</marker> up task.</example>
+            <example>This is <marker>a complete</marker> catastrophe</example>
             <example>a show</example>
             <example>Sections 4.a and 5.<marker>a are</marker> not correct.</example>
-            <example type="triggers_error">For the <marker>merge processes</marker> to be faster, we must...</example>
+            <example>For the <marker>merge processes</marker> to be faster, we must...</example>
         </rule>
         <rule id="BE_FINED_WITH" name="be fined with (be fine with)">
             <pattern>
