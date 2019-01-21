@@ -140,8 +140,16 @@ public abstract class CompoundAwareHunspellRule extends HunspellRule {
         if (suggestions.isEmpty()) {
           suggestions = morfoSpeller.getSuggestions(doUpperCase ? StringTools.lowercaseFirstChar(part) : part);
         }
+        boolean appendS = false;
+        if (doUpperCase && part.endsWith("s")) {  // maybe infix-s as in "Dampfschiffahrtskapitän" -> "Dampfschifffahrtskapitän"
+          suggestions.addAll(morfoSpeller.getSuggestions(part.replaceFirst("s$", "")));
+          appendS = true;
+        }
         for (String suggestion : suggestions) {
           List<String> partsCopy = new ArrayList<>(parts);
+          if (appendS) {
+            suggestion += "s";
+          }
           if (partCount > 0 && parts.get(partCount).startsWith("-") && parts.get(partCount).length() > 1) {
             partsCopy.set(partCount, "-" + StringTools.uppercaseFirstChar(suggestion.substring(1)));
           } else if (partCount > 0 && !parts.get(partCount-1).endsWith("-")) {
