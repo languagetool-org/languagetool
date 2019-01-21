@@ -3757,6 +3757,58 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Вокалисты неритмично поют,и вдобавок не те ноты.</example>
                 <example correction=" вдобавок">Вокалисты неритмично поют,и<marker>, вдобавок,</marker>не те ноты.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"></token>
+                    <marker>
+                        <token>В</token>
+                        <token regexp="yes">последнем|этом|том|противном|хорошем|худшем</token>
+                        <token>случае</token>
+                        <token>,</token>
+                    </marker>
+                    <token negate="yes" regexp="yes">&start_vvodnoe;|если|когда|разумеется</token>
+                </pattern>
+                <message>Выражение не является вводным. Запятые не нужны:<suggestion>\2 \3 \4</suggestion>.</message>
+                <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
+                <short>Запятые не нужны.</short>
+                <example>В противном случае о наличии сбоя можно будет судить только по итоговому результату работы программы.</example>
+                <example>В том случае, если я опоздаю, тебе не надо меня ждать.</example>
+                <example correction="В противном случае"><marker>В противном случае,</marker>о наличии сбоя можно будет судить только по итоговому результату работы программы.</example>
+            </rule>
+            <rule>
+                <pattern>
+                   <token postag="SENT_START"></token>
+                    <marker>
+                        <token>В</token>
+                        <token>результате</token>
+                        <token>,</token>
+                    </marker>
+                    <token negate="yes" regexp="yes">&start_vvodnoe;</token>
+                </pattern>
+                <message>Выражение не является вводным. Запятые не нужны:<suggestion>\2 \3</suggestion>.</message>
+                <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
+                <short>Запятые не нужны.</short>
+                <example>В результате приходится ограничить выбор.</example>
+                <example correction="В результате"><marker>В результате,</marker> приходится ограничить выбор</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"></token> 
+                    <marker>
+                        <token>В</token>
+                        <token>отличие</token>
+                        <token>от</token>
+                        <token postag="PNN:.*:R:P3|NN:.*:R" postag_regexp="yes"></token>
+                        <token>,</token>
+                    </marker>
+                    <token negate="yes" regexp="yes">&start_vvodnoe;</token>
+                </pattern>
+                <message>Выражение не является вводным. Запятые не нужны:<suggestion>\2 \3 \4 \5</suggestion>.</message>
+                <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
+                <short>Запятые не нужны.</short>
+                <example>В отличие от них эти методы могут работать.</example>
+                <example correction="В отличие от них"><marker>В отличие от них,</marker> эти методы могут работать.</example>
+            </rule>
         </rulegroup>
         
         <rulegroup default="on" id="COMPLEX_SOUZ_PUNCT_START_S" name="Сложный союз в начале предложения">
