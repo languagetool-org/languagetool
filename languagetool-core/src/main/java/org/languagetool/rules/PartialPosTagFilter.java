@@ -70,7 +70,7 @@ public abstract class PartialPosTagFilter extends RuleFilter {
     if (matcher.matches()) {
       String partialToken = matcher.group(1);
       if (matcher.groupCount() == 2) {
-      partialToken = partialToken + matcher.group(2);
+        partialToken += matcher.group(2);
       } 
       List<AnalyzedTokenReadings> tags = tag(partialToken);
       if (tags != null && partialTagHasRequiredTag(tags, requiredTagRegexp, negatePos)) {

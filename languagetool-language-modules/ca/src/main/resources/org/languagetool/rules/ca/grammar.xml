@@ -3352,9 +3352,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="CONCORDANCES_NOMS_COLLECTIUS" name="concordances en noms col·lectius">
             <antipattern>
                 <marker>
-                    <token>parella</token>
-                    <token>de</token>
-                    <token regexp="yes">fet|mitjana</token>
+                    <token regexp="yes">parella?</token>
+                    <token regexp="yes">de|d'</token>
+                    <token regexp="yes">fet|mitjana|ball|engegada|interlletratge</token>
                 </marker>
             </antipattern>
             <rule>
@@ -3362,7 +3362,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">parella?</token>
                     <token regexp="yes">de|d'</token>
                     <marker>
-                        <token postag="NC.S.*" postag_regexp="yes"><exception regexp="yes">engegada|ball</exception><exception postag="_possible_nompropi"/></token> <!--  caldria veure quin tipus de noms... -->
+                        <token postag="NC.S.*" postag_regexp="yes"><exception postag="_possible_nompropi"/></token> <!--  caldria veure quin tipus de noms... -->
                     </marker>
                 </pattern>
                 <message>Falta un nom en plural.</message>

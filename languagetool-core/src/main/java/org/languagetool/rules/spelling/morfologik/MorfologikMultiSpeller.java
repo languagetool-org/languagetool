@@ -37,6 +37,8 @@ import java.io.*;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
+import static java.nio.charset.StandardCharsets.*;
+
 /**
  * Morfologik speller that merges results from binary (.dict) and plain text (.txt) dictionaries.
  *
@@ -76,9 +78,9 @@ public class MorfologikMultiSpeller {
   public MorfologikMultiSpeller(String binaryDictPath, String plainTextPath, String languageVariantPlainTextPath,
     UserConfig userConfig, int maxEditDistance) throws IOException {
     this(binaryDictPath,
-         new BufferedReader(new InputStreamReader(JLanguageTool.getDataBroker().getFromResourceDirAsStream(plainTextPath), "utf-8")),
+         new BufferedReader(new InputStreamReader(JLanguageTool.getDataBroker().getFromResourceDirAsStream(plainTextPath), UTF_8)),
          plainTextPath,
-         languageVariantPlainTextPath == null ? null : new BufferedReader(new InputStreamReader(JLanguageTool.getDataBroker().getFromResourceDirAsStream(languageVariantPlainTextPath), "utf-8")),
+         languageVariantPlainTextPath == null ? null : new BufferedReader(new InputStreamReader(JLanguageTool.getDataBroker().getFromResourceDirAsStream(languageVariantPlainTextPath), UTF_8)),
          languageVariantPlainTextPath,
          userConfig != null ? userConfig.getAcceptedWords(): Collections.emptyList(),
          maxEditDistance);
@@ -119,7 +121,7 @@ public class MorfologikMultiSpeller {
     }
     List<byte[]> byteLines = new ArrayList<>();
     for (String line : userWords) {
-      byteLines.add(line.getBytes("utf-8"));
+      byteLines.add(line.getBytes(UTF_8));
     }
     Dictionary dictionary = getDictionary(byteLines, dictPath, dictPath.replace(".dict", ".info"), false);
     return new MorfologikSpeller(dictionary, maxEditDistance);
@@ -149,7 +151,7 @@ public class MorfologikMultiSpeller {
     String line;
     while ((line = br.readLine()) != null) {
       if (!line.startsWith("#")) {
-        lines.add(StringUtils.substringBefore(line,"#").trim().getBytes("utf-8"));
+        lines.add(StringUtils.substringBefore(line,"#").trim().getBytes(UTF_8));
       }
     }
     return lines;

@@ -328,6 +328,7 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("verheielte", "verheilte", rule, lt);
     assertFirstSuggestion("ausgewönlich", "außergewöhnlich", rule, lt);
     assertFirstSuggestion("unausweichbaren", "unausweichlichen", rule, lt);
+    assertFirstSuggestion("Dampfschiffahrtskapitän", "Dampfschifffahrtskapitän", rule, lt);
   }
 
   @Test
