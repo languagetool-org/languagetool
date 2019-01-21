@@ -26017,6 +26017,7 @@ Andere Projekte</example>
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[zZ]u</token>
+                    <token min="0">großem</token>
                     <marker>
                         <token>dank</token>
                     </marker>
@@ -26025,23 +26026,11 @@ Andere Projekte</example>
                 <message>&subanfang;<suggestion>Dank</suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example correction="Dank">Wir sind ihr zu <marker>dank</marker> verpflichtet.</example>
-            </rule>
-            <rule>
-                <pattern case_sensitive="yes">
-                    <token regexp="yes">[zZ]u</token>
-                    <token>großem</token>
-                    <marker>
-                        <token>dank</token>
-                    </marker>
-                    <token>verpflichtet</token>
-                </pattern>
-                <message>&subanfang;<suggestion>Dank</suggestion>&subende;</message>
-                <short>&prgk;.</short>
                 <example correction="Dank">Wir sind ihr zu großem <marker>dank</marker> verpflichtet.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token>Gott</token>
+                    <token regexp="yes">Gott|Himmel</token>
                     <token>sei</token>
                     <marker>
                         <token>dank</token>
@@ -26051,18 +26040,6 @@ Andere Projekte</example>
                 <short>&prgk;.</short>
                 <example correction="Dank">Gott sei <marker>dank</marker>!</example>
                 <example>Wir sind ihr zu großem <marker>Dank</marker> verpflichtet.</example>
-            </rule>
-            <rule>
-                <pattern case_sensitive="yes">
-                    <token regexp="yes">[dD]em</token>
-                    <token>Himmel</token>
-                    <token>sei</token>
-                    <marker>
-                        <token>dank</token>
-                    </marker>
-                </pattern>
-                <message>&subanfang;<suggestion>Dank</suggestion>&subende;</message>
-                <short>&prgk;.</short>
                 <example correction="Dank">Dem Himmel sei <marker>dank</marker>!</example>
             </rule>
             <rule>
@@ -26071,7 +26048,6 @@ Andere Projekte</example>
                     <marker>
                         <token>dank</token>
                     </marker>
-                    <token>für</token>
                 </pattern>
                 <message>&subanfang;<suggestion>Dank</suggestion>&subende;</message>
                 <short>&prgk;.</short>
@@ -26153,7 +26129,7 @@ Andere Projekte</example>
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[Ii]n|[Bb]ei</token>
-                    <token regexp="yes">den|denjenigen|diesen|einfachen|einigen|leichten|manchen|mehreren|schweren|schwierigen|vielen|wenigen|zahlreichen</token>
+                    <token regexp="yes">den(jenigen)|diesen|einfachen|einigen|leichten|manchen|mehreren|schweren|schwierigen|vielen|wenigen|zahlreichen</token>
                     <marker>
                         <token>fällen</token>
                     </marker>
@@ -26439,7 +26415,7 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">nicht|kaum</token>
+                    <token regexp="yes" inflected="yes">nicht|kaum|kommen</token>
                     <token>von</token>
                     <token>der</token>
                     <marker>
@@ -26450,18 +26426,6 @@ Andere Projekte</example>
                 <short>&prgk;.</short>
                 <example>Wir kommen kaum von der <marker>Stelle</marker>.</example>
                 <example correction="Stelle">Rühren Sie sich nicht von der <marker>stelle</marker>!</example>
-            </rule>
-            <rule>
-                <pattern case_sensitive="yes">
-                    <token inflected="yes">kommen</token>
-                    <token>von</token>
-                    <token>der</token>
-                    <marker>
-                        <token>stelle</token>
-                    </marker>
-                </pattern>
-                <message>&subanfang;<suggestion>Stelle</suggestion>&subende;</message>
-                <short>&prgk;.</short>
                 <example correction="Stelle">Wir kommen von der <marker>stelle</marker>.</example>
             </rule>
             <rule>
@@ -26481,7 +26445,7 @@ Andere Projekte</example>
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[aA]n</token>
-                    <token regexp="yes">(mein|[dD]ein|sein|unser|[iI]hr|eur|dies|ander)er</token>
+                    <token regexp="yes">(mein|[dD]ein|sein|unser|[iI]hr|eur|dies|ander)er|derselben|dieselbe</token>
                     <marker>
                         <token>stelle</token>
                     </marker>
@@ -26490,17 +26454,6 @@ Andere Projekte</example>
                 <short>&prgk;.</short>
                 <example>Ich hätte an deiner <marker>Stelle</marker> genauso entschieden.</example>
                 <example correction="Stelle">Ich an deiner <marker>stelle</marker> hätte genauso entschieden.</example>
-            </rule>
-            <rule>
-                <pattern case_sensitive="yes">
-                    <token regexp="yes">[aA]n</token>
-                    <token regexp="yes">derselben|dieselbe</token>
-                    <marker>
-                        <token>stelle</token>
-                    </marker>
-                </pattern>
-                <message>&subanfang;<suggestion>Stelle</suggestion>&subende;</message>
-                <short>&prgk;.</short>
                 <example correction="Stelle">Es passierte an derselben <marker>stelle</marker> bereits zum zweiten Mal.</example>
             </rule>
             <rule>
@@ -26682,7 +26635,7 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token postag="VER:.*" postag_regexp="yes"/>
+                    <token postag="VER:.+" postag_regexp="yes"/>
                     <token>die</token>
                     <marker>
                         <token>hecke</token>
