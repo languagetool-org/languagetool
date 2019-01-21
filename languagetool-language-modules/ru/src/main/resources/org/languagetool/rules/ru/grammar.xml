@@ -3791,24 +3791,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>В результате приходится ограничить выбор.</example>
                 <example correction="В результате"><marker>В результате,</marker> приходится ограничить выбор</example>
             </rule>
-            <rule>
-                <pattern>
-                    <token postag="SENT_START"></token> 
-                    <marker>
-                        <token>В</token>
-                        <token>отличие</token>
-                        <token>от</token>
-                        <token postag="PNN:.*:R:P3|NN:.*:R" postag_regexp="yes"></token>
-                        <token>,</token>
-                    </marker>
-                    <token negate="yes" regexp="yes">&start_vvodnoe;</token>
-                </pattern>
-                <message>Выражение не является вводным. Запятые не нужны:<suggestion>\2 \3 \4 \5</suggestion>.</message>
-                <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
-                <short>Запятые не нужны.</short>
-                <example>В отличие от них эти методы могут работать.</example>
-                <example correction="В отличие от них"><marker>В отличие от них,</marker> эти методы могут работать.</example>
-            </rule>
+       
         </rulegroup>
         
         <rulegroup default="on" id="COMPLEX_SOUZ_PUNCT_START_S" name="Сложный союз в начале предложения">
@@ -4085,6 +4068,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Запятая обычно не ставится.</short>
                 <example>Тем более что мыши являются переносчиком серьезных заболеваний.</example>
                 <example correction="Тем более что"><marker>Тем более, что</marker> мыши являются переносчиком серьезных заболеваний.</example>
+            </rule>
+            <rule>  <!-- http://www.gramota.tv/spravka/punctum?layout=item&id=58_99 -->
+                <pattern>
+                    <token postag="SENT_START"></token> 
+                    <marker>
+                        <token>В</token>
+                        <token>отличие</token>
+                        <token>от</token>
+                        <token postag="PNN:.*:R:P3|NN:.*:R" postag_regexp="yes"></token>
+                        <token>,</token>
+                    </marker>
+                    <token negate="yes" regexp="yes">&start_vvodnoe;</token>
+                </pattern>
+                <message>Запятая не требуется, но возможна:<suggestion>\2 \3 \4 \5</suggestion>.</message>
+                <url>http://new.gramota.ru/spravka/punctum/punctum-attach1</url>
+                <short>Запятая не является необходимой.</short>
+                <example>В отличие от них эти методы могут работать.</example>
+                <example correction="В отличие от них"><marker>В отличие от них,</marker> эти методы могут работать.</example>
             </rule>
         </rulegroup>
         
