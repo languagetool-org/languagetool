@@ -16358,6 +16358,328 @@ USA
             <short>Possible grammar error</short>
             <example correction="well">You speak English very <marker>good</marker>.</example>
         </rule>
+        <rulegroup id="COMPOUND_ADJECTIVE_NOUN" name="Missing hyphen in a compound adjective before a noun"><!-- Refer to https://github.com/languagetool-org/languagetool/issues/1318. Reference dictionary: www.ldoceonline.com/dictionary/ otherwise stated -->
+            <url>https://www.grammarbook.com/punctuation/hyphens.asp</url>
+            <short>Compound adjective + noun: missing hyphen</short>
+            <antipattern>
+                <token postag="NNP"/>
+                <token postag="NNP"/>
+            </antipattern>
+            <antipattern><!-- Assume that initial caps is NNP. Refer to 'brand new' -->
+                <token case_sensitive="yes" regexp="yes">[A-Z][a-z].+</token>
+                <token postag_regexp="yes" postag="NN.*" case_sensitive="yes" regexp="yes">[A-Z][a-z].+</token>
+            </antipattern>
+            <rule id="CA_BRAND_NEW" name="Compound adjective: brand new"><!-- https://en.oxforddictionaries.com/definition/brand_new -->
+                <pattern>
+                    <marker>
+                        <token>brand</token>
+                        <token>new</token>
+                    </marker>
+                    <token postag_regexp="yes" postag="NN.*"/>
+                </pattern>
+                <message>'\1 \2' seems to be a compound adjective in front of a noun. Use a hyphen: <suggestion>\1-\2</suggestion>.</message>
+                <example correction="brand-new">Yesterday, she bought a <marker>brand new</marker> car.</example>
+                <example>Yesterday, she bought a <marker>brand-new</marker> car.</example>
+                <example>Her car is <marker>brand new</marker>.</example>
+                <example>Have you heard the <marker>Brand New Shadows</marker> song 'White Flags'?</example><!-- The text is not correct. A possessive apostrophe is missing, but that is a different problem and a separate rule is necessary. -->
+            </rule>
+            <rule id="CA_BRICK_RED" name="Compound adjective: brick red"><!-- www.collinsdictionary.com/dictionary/english/brick-red -->
+                <pattern>
+                    <marker>
+                        <token>brick</token>
+                        <token>red</token>
+                    </marker>
+                    <token postag_regexp="yes" postag="NN.*"/>
+                </pattern>
+                <message>'\1 \2' seems to be a compound adjective in front of a noun. Use a hyphen: <suggestion>\1-\2</suggestion>.</message>
+                <example correction="brick-red">She hast a <marker>brick red</marker> car.</example>
+            </rule>
+            <rule id="CA_BUG_EYED" name="Compound adjective: bug eyed"><!-- https://en.oxforddictionaries.com/definition/bug-eyed -->
+                <pattern>
+                    <marker>
+                        <token>bug</token>
+                        <token>eyed</token>
+                    </marker>
+                    <token postag_regexp="yes" postag="NN.*"/>
+                </pattern>
+                <message>'\1 \2' seems to be a compound adjective in front of a noun. Use a hyphen: <suggestion>\1-\2</suggestion>.</message>
+                <example correction="bug-eyed">… generating a parade of little green men and <marker>bug eyed</marker> monsters.</example>
+            </rule>
+            <rule id="CA_CARD_CARRYING" name="Compound adjective: card carrying">
+                <pattern>
+                    <marker>
+                        <token>card</token>
+                        <token>carrying</token>
+                    </marker>
+                    <token postag_regexp="yes" postag="NN.*"/>
+                </pattern>
+                <message>'\1 \2' seems to be a compound adjective in front of a noun. Use a hyphen: <suggestion>\1-\2</suggestion>.</message>
+                <example correction="card-carrying">For twenty-two years he was a <marker>card carrying</marker> Communist.</example>
+            </rule>
+            <rule id="CA_COAST_TO_COAST" name="Compound adjective: coast to coast">
+                <antipattern case_sensitive="yes"><!-- www.coasttocoastam.com -->
+                     <token>Coast</token>
+                     <token>to</token>
+                    <token>Coast</token>
+                    <token>AM</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>coast</token>
+                        <token>to</token>
+                        <token>coast</token>
+                    </marker>
+                    <token postag_regexp="yes" postag="NN.*"/>
+                </pattern>
+                <message>'\1 \2 \3' seems to be a compound adjective in front of a noun. Use a hyphen: <suggestion>\1-\2-\3</suggestion>.</message>
+                <example correction="coast-to-coast">Our <marker>coast to coast</marker> trip was wonderful.</example>
+                <example>Our <marker>coast-to-coast</marker> trip was wonderful.</example>
+                <example>We walked from <marker>coast to coast</marker> in ten days.</example>
+                <example><marker>Coast to Coast AM</marker> airs on more than 600 stations in the U.S.</example>
+            </rule>
+            <rule id="CA_COOLING_OFF" name="Compound adjective: cooling off">
+                <pattern>
+                    <marker>
+                        <token>cooling</token>
+                        <token>off</token>
+                    </marker>
+                    <token postag_regexp="yes" postag="NN.*"/><!-- The dictionaries show 'cooling-off period' rather than 'cooling-off' as an adjective before a noun. -->
+                </pattern>
+                <message>'\1 \2' seems to be a compound adjective in front of a noun. Use a hyphen: <suggestion>\1-\2</suggestion>.</message>
+                <example correction="cooling-off">During the <marker>cooling off</marker> period, you can…</example>
+            </rule>
+            <rule id="CA_CUT_AND_PASTE" name="Compound adjective: cut and paste">
+                <pattern>
+                    <marker>
+                        <token>cut</token>
+                        <token>and</token>
+                        <token>paste</token>
+                    </marker>
+                    <token postag_regexp="yes" postag="NN.*"/>
+                </pattern>
+                <message>'\1 \2 \3' seems to be a compound adjective in front of a noun. Use a hyphen: <suggestion>\1-\2-\3</suggestion>.</message>
+                <example correction="cut-and-paste">… because of a <marker>cut and paste</marker> error.</example>
+            </rule>
+            <rule id="CA_CUT_THROAT" name="Compound adjective: cut throat">
+                <pattern>
+                    <marker>
+                        <token>cut</token>
+                        <token>throat</token>
+                    </marker>
+                    <token postag_regexp="yes" postag="NN.*"/>
+                </pattern>
+                <message>'\1 \2' seems to be a compound adjective in front of a noun. Use a hyphen: <suggestion>\1-\2</suggestion>.</message>
+                <example correction="cut-throat">Advertising is a <marker>cut throat</marker> business.</example>
+            </rule>
+            <rule id="CA_DO_OR_DIE" name="Compound adjective: do or die">
+                <pattern>
+                    <marker>
+                        <token>do</token>
+                        <token>or</token>
+                        <token>die</token>
+                    </marker>
+                    <token postag_regexp="yes" postag="NN.*"/>
+                </pattern>
+                <message>'\1 \2 \3' seems to be a compound adjective in front of a noun. Use a hyphen: <suggestion>\1-\2-\3</suggestion>.</message>
+                <example correction="do-or-die">In this organization, we have a <marker>do or die</marker> attitude.</example>
+            </rule>
+            <rule id="CA_DOWN_AND_OUT" name="Compound adjective: down and out">
+                <pattern>
+                    <marker>
+                        <token>down</token>
+                        <token>and</token>
+                        <token>out</token>
+                    </marker>
+                    <token postag_regexp="yes" postag="NN.*"/>
+                </pattern>
+                <message>'\1 \2 \3' seems to be a compound adjective in front of a noun. Use a hyphen: <suggestion>\1-\2-\3</suggestion>.</message>
+                <example correction="Down-and-out"><marker>Down and out</marker> actors struggle to…</example>
+            </rule>
+            <rule id="CA_DUAL_PURPOSE" name="Compound adjective: dual purpose">
+                <pattern>
+                    <marker>
+                        <token>dual</token>
+                        <token>purpose</token>
+                    </marker>
+                    <token postag_regexp="yes" postag="NN.*"/>
+                </pattern>
+                <message>'\1 \2' seems to be a compound adjective in front of a noun. Use a hyphen: <suggestion>\1-\2</suggestion>.</message>
+                <example correction="dual-purpose">This is a <marker>dual purpose</marker> test.</example>
+            </rule>
+            <rule id="CA_DUTY_FREE" name="Compound adjective: duty free">
+                <pattern>
+                    <marker>
+                        <token>duty</token>
+                        <token>free</token>
+                    </marker>
+                    <token postag_regexp="yes" postag="NN.*"/>
+                </pattern>
+                <message>'\1 \2' seems to be a compound adjective in front of a noun. Use a hyphen: <suggestion>\1-\2</suggestion>.</message>
+                <example correction="duty-free">Did you buy some <marker>duty free</marker> wine?</example>
+            </rule>
+            <rule id="CA_EAGLE_EYED" name="Compound adjective: eagle eyed">
+                <pattern>
+                    <marker>
+                        <token>eagle</token>
+                        <token>eyed</token>
+                    </marker>
+                    <token postag_regexp="yes" postag="NN.*"/>
+                </pattern>
+                <message>'\1 \2' seems to be a compound adjective in front of a noun. Use a hyphen: <suggestion>\1-\2</suggestion>.</message>
+                <example correction="eagle-eyed">The <marker>eagle eyed</marker> editors found many errors.</example>
+            </rule>
+            <rule id="CA_EYE_CATCHING" name="Compound adjective: eye catching">
+                <pattern>
+                    <marker>
+                        <token>eye</token>
+                        <token>catching</token>
+                    </marker>
+                    <token postag_regexp="yes" postag="NN.*"/>
+                </pattern>
+                <message>'\1 \2' seems to be a compound adjective in front of a noun. Use a hyphen: <suggestion>\1-\2</suggestion>.</message>
+                <example correction="eye-catching">We make clothes in <marker>eye catching</marker> colours.</example>
+            </rule>
+            <rule id="CA_FIRST_HAND" name="Compound adjective: first hand">
+                <pattern>
+                    <marker>
+                        <token>first</token>
+                        <token>hand</token>
+                    </marker>
+                    <token postag_regexp="yes" postag="NN.*"/>
+                </pattern>
+                <message>'\1 \2' seems to be a compound adjective in front of a noun. Use a hyphen: <suggestion>\1-\2</suggestion>.</message>
+                <example correction="first-hand">I gained <marker>first hand</marker> information from the manager.</example>
+            </rule>
+            <rule id="CA_FLY_BY_NIGHT" name="Compound adjective: fly by night">
+                <pattern>
+                    <marker>
+                        <token>fly</token>
+                        <token>by</token>
+                        <token>night</token>
+                    </marker>
+                    <token postag_regexp="yes" postag="NN.*"/>
+                </pattern>
+                <message>'\1 \2 \3' seems to be a compound adjective in front of a noun. Use a hyphen: <suggestion>\1-\2-\3</suggestion>.</message>
+                <example correction="fly-by-night">These <marker>fly by night</marker> companies are not reliable.</example>
+            </rule>
+            <rule id="CA_FOLLOW_UP" name="Compound adjective: follow up">
+                <pattern>
+                    <marker>
+                        <token>follow</token>
+                        <token>up</token>
+                    </marker>
+                    <token postag_regexp="yes" postag="NN.*"/>
+                </pattern>
+                <message>'\1 \2' seems to be a compound adjective in front of a noun. Use a hyphen: <suggestion>\1-\2</suggestion>.</message>
+                <example correction="follow-up">Here's a <marker>follow up</marker> task.</example>
+            </rule>
+            <rule id="CA_HAND_TO_HAND" name="Compound adjective: hand to hand">
+                <pattern>
+                    <marker>
+                        <token>hand</token>
+                        <token>to</token>
+                        <token>hand</token>
+                    </marker>
+                    <token postag_regexp="yes" postag="NN.*"/>
+                </pattern>
+                <message>'\1 \2 \3' seems to be a compound adjective in front of a noun. Use a hyphen: <suggestion>\1-\2-\3</suggestion>.</message>
+                <example correction="Hand-to-hand"><marker>Hand to hand</marker> combat is not easy.</example>
+            </rule>
+            <rule id="CA_HEAD_TO_HEAD" name="Compound adjective: head to head">
+                <pattern>
+                    <marker>
+                        <token>head</token>
+                        <token>to</token>
+                        <token>head</token>
+                    </marker>
+                    <token postag_regexp="yes" postag="NN.*"/>
+                </pattern>
+                <message>'\1 \2 \3' seems to be a compound adjective in front of a noun. Use a hyphen: <suggestion>\1-\2-\3</suggestion>.</message>
+                <example correction="head-to-head">In this <marker>head to head</marker> competition, the winner…</example>
+            </rule>
+            <rule id="CA_HEAVY_DUTY" name="Compound adjective: heavy duty">
+                <pattern>
+                    <marker>
+                        <token>heavy</token>
+                        <token>duty</token>
+                    </marker>
+                    <token postag_regexp="yes" postag="NN.*"/>
+                </pattern>
+                <message>'\1 \2' seems to be a compound adjective in front of a noun. Use a hyphen: <suggestion>\1-\2</suggestion>.</message>
+                <example correction="heavy-duty">A <marker>heavy duty</marker> battery is necessary.</example>
+            </rule>
+            <rule id="CA_KNIFE_EDGE" name="Compound adjective: knife edge">
+                <pattern>
+                    <marker>
+                        <token>knife</token>
+                        <token>edge</token>
+                    </marker>
+                    <token postag_regexp="yes" postag="NN.*"/>
+                </pattern>
+                <message>'\1 \2' seems to be a compound adjective in front of a noun. Use a hyphen: <suggestion>\1-\2</suggestion>.</message>
+                <example correction="knife-edge">The result of tonight's <marker>knife edge</marker> vote is still uncertain.</example>
+            </rule>
+            <rule id="CA_MOM_AND_POP" name="Compound adjective: mom and pop"><!-- Although this is AmE, keep the rule here. The rule is always correct. -->
+                <pattern>
+                    <marker>
+                        <token>mom</token>
+                        <token>and</token>
+                        <token>pop</token>
+                    </marker>
+                    <token postag_regexp="yes" postag="NN.*"/>
+                </pattern>
+                <message>'\1 \2 \3' seems to be a compound adjective in front of a noun. Use a hyphen: <suggestion>\1-\2-\3</suggestion>.</message>
+                <example correction="mom-and-pop">Most wineries in California are <marker>mom and pop</marker> operations…</example>
+            </rule>
+            <rule id="CA_NEW_LOOK" name="Compound adjective: new look">
+                <pattern>
+                    <marker>
+                        <token>new</token>
+                        <token>look</token>
+                    </marker>
+                    <token postag_regexp="yes" postag="NN.*"/>
+                </pattern>
+                <message>'\1 \2' seems to be a compound adjective in front of a noun. Use a hyphen: <suggestion>\1-\2</suggestion>.</message>
+                <example correction="new-look">I like this <marker>new look</marker> clothing.</example>
+            </rule>
+            <rule id="CA_OUT_OF_BODY" name="Compound adjective: out of body">
+                <pattern>
+                    <marker>
+                        <token>out</token>
+                        <token>of</token>
+                        <token>body</token>
+                    </marker>
+                    <token postag_regexp="yes" postag="NN.*"/>
+                </pattern>
+                <message>'\1 \2 \3' seems to be a compound adjective in front of a noun. Use a hyphen: <suggestion>\1-\2-\3</suggestion>.</message>
+                <example correction="out-of-body">I had an <marker>out of body</marker> experience yesterday.</example>
+                <example correction="out-of-body">During these <marker>out of body</marker> tests, we will…</example>
+            </rule>
+            <rule id="CA_RAGS_TO_RICHES" name="Compound adjective: rags to riches">
+                <pattern>
+                    <marker>
+                        <token>rags</token>
+                        <token>to</token>
+                        <token>riches</token>
+                    </marker>
+                    <token postag_regexp="yes" postag="NN.*"/>
+                </pattern>
+                <message>'\1 \2 \3' seems to be a compound adjective in front of a noun. Use a hyphen: <suggestion>\1-\2-\3</suggestion>.</message>
+                <example correction="rags-to-riches">Her <marker>rags to riches</marker> story is fascinating.</example>
+            </rule>
+            <rule id="CA_WALL_TO_WALL" name="Compound adjective: wall to wall">
+                <pattern>
+                    <marker>
+                        <token>wall</token>
+                        <token>to</token>
+                        <token>wall</token>
+                    </marker>
+                    <token postag_regexp="yes" postag="NN.*"/>
+                </pattern>
+                <message>'\1 \2 \3' seems to be a compound adjective in front of a noun. Use a hyphen: <suggestion>\1-\2-\3</suggestion>.</message>
+                <example correction="wall-to-wall">This <marker>wall to wall</marker> carpeting is exquisite.</example>
+            </rule>
+        </rulegroup>
     </category>
 
     <!-- ====================================================================== -->
