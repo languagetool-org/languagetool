@@ -25910,26 +25910,15 @@ Andere Projekte</example>
         <rulegroup id="TAGEN_SUBST" name="'unter tage (Tage)' etc.">
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">[uU]nter</token>
+                    <token regexp="yes">[uU]nter|[aA]ller</token>
                     <marker>
                         <token>tage</token>
                     </marker>
                 </pattern>
                 <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
                 <short>&prgk;.</short>
-                <example correction="Tage">Sie arbeiten unter <marker>tage</marker>.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token>aller</token>
-                    <marker>
-                        <token case_sensitive="yes">tage</token>
-                    </marker>
-                    <token>abend</token>
-                </pattern>
-                <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
-                <short>&prgk;.</short>
                 <example correction="Tage">Es ist noch nicht aller <marker>tage</marker> Abend.</example>
+                <example correction="Tage">Sie arbeiten unter <marker>tage</marker>.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -25968,7 +25957,7 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">[sS]eit|[vV]or|[nN]ach</token>
+                    <token regexp="yes">[sS]eit|[vV]or|[nN]ach|[Ii]n</token>
                     <token min="0" postag_regexp="yes" postag="PRO:IND:DAT:PLU:FEM:B/S|ZAL"/>
                     <marker>
                         <token regexp="yes">tagen|stunden</token>
