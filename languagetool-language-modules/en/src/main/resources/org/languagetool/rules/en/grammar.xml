@@ -8345,7 +8345,7 @@ USA
         </rule>
         <rule id="GAVE_GIVE" name="verb before 'gave'">
             <pattern>
-                <token postag='VBP?' postag_regexp='yes'><exception postag='NN[PS]?' postag_regexp='yes'/></token>
+                <token postag='VBP?' postag_regexp='yes'><exception postag='NN.*' postag_regexp='yes'/></token>
                 <marker>
                     <token>gave</token>
                 </marker>
@@ -8353,6 +8353,8 @@ USA
             </pattern>
             <message>Did you mean <suggestion>give</suggestion>?</message>
             <example correction="give">The updates do <marker>gave</marker> the correct date.</example>
+            <example>The updates do <marker>give</marker> the correct date.</example>
+            <example>That stuff <marker>gave</marker> you a rash last week.</example>
         </rule>
         <rule id="TO_WITHDRAWN" name="to/will before withdrawn">
             <pattern>
