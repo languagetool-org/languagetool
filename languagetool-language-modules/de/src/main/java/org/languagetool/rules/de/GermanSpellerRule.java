@@ -304,6 +304,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("[oO]rganisativ(e[nmrs]?)?", "tiv", "torisch");
     putRepl("[kK]ontaktfreundlich(e[nmrs]?)?", "ndlich", "dig");
     put("berücksicht", "berücksichtigt");
+    put("nix", "nichts");
     put("must", "musst");
     put("kaffe", "Kaffee");
     put("zetel", "Zettel");
