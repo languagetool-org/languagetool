@@ -17063,12 +17063,18 @@ USA
       <message>The usual collocation for an activity that does not end in "-ing" and is not something you can win is "do" not "go" or "play." Revise: <suggestion><match no='1' postag='V.+'>do</match> \2</suggestion>.</message>
       <example correction='does ballet'>My sister <marker>plays ballet</marker> at the community center.</example>
     </rule>
-    <rule id='GO_GERUNG' name='Collocation: do/go activity'>
+    <rule id='GO_GERUND' name='Collocation: do/go activity'>
     <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
       <antipattern>
           <token inflected="yes">be</token>
           <token>done</token>
           <token postag="VBG"/>
+      </antipattern>
+      <antipattern><!-- MFU 2019-01-21 -->
+          <token postag="WRB"/>
+          <token regexp="yes">do|does|did</token>
+          <token skip="-1" postag="VBG"/>
+          <token>?</token>
       </antipattern>
       <pattern>
           <marker>
@@ -17082,7 +17088,11 @@ USA
       <message>The usual collocation for an activity ending in "-ing" is "go" not "do" or "play." Revise: <suggestion><match no='1' postag='V.+'>go</match> \2</suggestion>.</message>
       <example correction='go jogging'>Do you <marker>do jogging</marker>?</example>
       <example correction='goes jogging'>He <marker>does jogging</marker>.</example>
+      <example correction='goes jogging'>Who <marker>does jogging</marker>?</example>
       <example>After the squad is done installing the gear.</example>
+      <example>Why does implementing or changing XYZ not satisfy the requirements?</example>
+      <example>...and why did running quickly make me feel so good?</example>
+      <example>...and how does jogging slowly stimulate the flow of blood?</example>
     </rule>
     <rule id='DAMAGE_OF_TO' name='Collocation: damage of/to'>
     <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
