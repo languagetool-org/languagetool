@@ -15546,12 +15546,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>das</token>
                 <token case_sensitive="yes" regexp="yes" postag_regexp="yes" postag="ADJ:AKK:SIN:NEU:.+">(best|gleich|übrig)+e</token>
             </antipattern>
+            <antipattern>
+                <token inflected="yes" skip="5">sein</token>
+                <token>das</token>
+                <token>beste</token>
+            </antipattern>
             <pattern>
                 <token postag="ART:DEF:(AKK|NOM):SIN:NEU|PRO:POS:NOM:.+|PRO:PER:GEN:.+" postag_regexp="yes"/>
                 <marker>
                    <token case_sensitive="yes" regexp="yes" postag_regexp="yes" postag="ADJ:AKK:SIN:NEU:.+">(best|gleich|übrig)+e[sn]?</token>
                 </marker>
-                <token postag="VER:.+|ADV.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöüß]+<exception>sehr</exception></token>
+                <token postag="VER:.+|ZUS|PKT" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöüß]+|\.<exception>sehr</exception></token>
             </pattern>
             <message><suggestion><match no="2" case_conversion="startupper"/></suggestion> wird in diesem Zusammenhang vermutlich großgeschrieben.</message>
             <short>&prgk;.</short>
@@ -15561,6 +15566,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Übriges">Er kann sein <marker>übriges</marker> dazu beitragen.</example>
             <example>Das Verhältnis zwischen ihnen war nicht das <marker>beste</marker>.</example>
             <example>Tom war klar, dass sein Französisch nicht das beste war.</example>
+            <example>Von allen Häusern ist unseres das beste.</example>
+            <example correction="Übriges">Das tat sein <marker>übriges</marker>.</example>
         </rule>
         <rule id="DAS_BESTE_SEIN" name="'das beste (Beste) sein'">
             <pattern>
