@@ -12974,12 +12974,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>atenent</token>
                         <token>a</token>
                     </marker>
+                    <token postag="D.*" postag_regexp="yes"/>
                 </pattern>
                 <message>En el sentit de "tenir en compte" el verb "atendre" és transitiu.</message>
-                <suggestion>atenent</suggestion>
+                <suggestion><match no="4" postag="D..(.)(.)." postag_regexp="yes" postag_replace="VMP00$2$10">atendre</match></suggestion>
                 <suggestion>atenint-nos a</suggestion>
                 <suggestion>tenint en compte</suggestion>
-                <example correction="Atenent|Atenint-nos a|Tenint en compte"><marker>Atenent a</marker> aquesta qüestió.</example>
+                <example correction="Ateses|Atenint-nos a|Tenint en compte"><marker>Atenent a</marker> les circumstàncies.</example>
+                <example>Atenent a tots els clients</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START|_PUNCT.*" postag_regexp="yes"/>
+                    <marker>
+                        <token>atenent</token>
+                        <token>a</token>
+                    </marker>
+                </pattern>
+                <message>En el sentit de "tenir en compte" el verb "atendre" és transitiu.</message>
+                <suggestion>atenint-nos a</suggestion>
+                <suggestion>tenint en compte</suggestion>
+                <example correction="Atenint-nos a|Tenint en compte"><marker>Atenent a</marker> aquesta qüestió.</example>
                 <example>Atenent a tots els clients</example>
             </rule>
         </rulegroup>
