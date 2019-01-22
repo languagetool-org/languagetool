@@ -35,7 +35,7 @@ import org.languagetool.tagging.WordTagger;
 import org.languagetool.tagging.uk.PosTagHelper;
 
 /**
- * 
+ *
  * @author Andriy Rysin
  */
 public class MissingHyphenRule extends Rule {
@@ -44,12 +44,7 @@ public class MissingHyphenRule extends Rule {
   private static final Pattern ALL_LOWER = Pattern.compile("[а-яіїєґ'-]+");
   private WordTagger wordTagger;
 
-
-  public MissingHyphenRule(ResourceBundle messages, WordTagger wordTagger) throws IOException {
-    super(messages);
-    setLocQualityIssueType(ITSIssueType.Misspelling);
-    this.wordTagger = wordTagger;
-    
+  static {
     // these two generate too many false positives
     dashPrefixes.remove("блок");
     dashPrefixes.remove("рейтинг");
@@ -58,6 +53,13 @@ public class MissingHyphenRule extends Rule {
         it.remove();
       }
     }
+  }
+
+
+  public MissingHyphenRule(ResourceBundle messages, WordTagger wordTagger) throws IOException {
+    super(messages);
+    setLocQualityIssueType(ITSIssueType.Misspelling);
+    this.wordTagger = wordTagger;
   }
 
   @Override
@@ -73,7 +75,7 @@ public class MissingHyphenRule extends Rule {
   @Override
   public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
     List<RuleMatch> ruleMatches = new ArrayList<>();
-    AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();    
+    AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
 
     for (int i = 1; i < tokens.length-1; i++) {
       AnalyzedTokenReadings tokenReadings = tokens[i];
