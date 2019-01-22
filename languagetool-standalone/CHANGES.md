@@ -2,12 +2,14 @@
 
 ## 4.5-SNAPSHOT(release planned for 2019-03-26)
 
-  ...
-
 #### Russian
   * added and improved rules
   * added many words without "yo" letter to POS dictionary
 
+#### General
+  * URLs written like `mydomain.org/` are now detected as domains and not
+    considered spelling errors anymore. Note that the slash is still needed
+    to avoid missing real errors.
 
 
 ## 4.4.1 (2019-01-14)

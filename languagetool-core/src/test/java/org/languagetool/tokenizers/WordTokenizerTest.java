@@ -46,14 +46,24 @@ public class WordTokenizerTest {
     assertEquals(2, tokens.size());
     tokens = wordTokenizer.tokenize("Schreiben Sie Hr. Meier (meier@mail.com).");
     assertEquals(tokens.size(), 13);
+    tokens = wordTokenizer.tokenize("Get more at languagetool.org/foo, and via twitter");
+    assertEquals(14, tokens.size());
+    assertTrue(tokens.contains("languagetool.org/foo"));
+    tokens = wordTokenizer.tokenize("Get more at sub.languagetool.org/foo, and via twitter");
+    assertEquals(14, tokens.size());
+    assertTrue(tokens.contains("sub.languagetool.org/foo"));
   }
 
   @Test
   public void testIsUrl() {
     assertTrue(WordTokenizer.isUrl("www.languagetool.org"));
+    assertTrue(WordTokenizer.isUrl("languagetool.org/"));
+    assertTrue(WordTokenizer.isUrl("languagetool.org/foo"));
+    assertTrue(WordTokenizer.isUrl("subdomain.languagetool.org/"));
     assertTrue(WordTokenizer.isUrl("http://www.languagetool.org"));
     assertTrue(WordTokenizer.isUrl("https://www.languagetool.org"));
     assertFalse(WordTokenizer.isUrl("languagetool.org"));  // not detected yet
+    assertFalse(WordTokenizer.isUrl("sub.languagetool.org"));  // not detected yet
     assertFalse(WordTokenizer.isUrl("something-else"));
   }
 

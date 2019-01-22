@@ -41,6 +41,8 @@ public class WordTokenizer implements Tokenizer {
 
   private static final List<String> PROTOCOLS = Collections.unmodifiableList(Arrays.asList("http", "https", "ftp"));
   private static final Pattern URL_CHARS = Pattern.compile("[a-zA-Z0-9/%$-_.+!*'(),\\?#]+");
+  private static final Pattern DOMAIN_CHARS = Pattern.compile("[a-zA-Z0-9][a-zA-Z0-9-]+");
+  private static final Pattern NO_PROTOCOL_URL = Pattern.compile("([a-zA-Z0-9][a-zA-Z0-9-]+\\.)?([a-zA-Z0-9][a-zA-Z0-9-]+)\\.([a-zA-Z0-9][a-zA-Z0-9-]+)/.*");
   private static final Pattern E_MAIL = Pattern.compile("(?<!:)\\b[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))\\b");
 
   private static final String TOKENIZING_CHARACTERS = "\u0020\u00A0\u115f" +
@@ -72,7 +74,7 @@ public class WordTokenizer implements Tokenizer {
         return true;
       }
     }
-    return false;
+    return NO_PROTOCOL_URL.matcher(token).matches();
   }
 
   /**
@@ -181,9 +183,30 @@ public class WordTokenizer implements Tokenizer {
       }
     }
     if (l.size() > i + 1) {
+      // e.g. www.mydomain.org
       String nToken = l.get(i);
       String nnToken = l.get(i + 1);
       if (nToken.equals("www") && nnToken.equals(".")) {
+        return true;
+      }
+    }
+    if (l.size() > i + 3) {
+      // e.g. mydomain.org/ (require slash to avoid missing errors that can be interpreted as domains)
+      if (DOMAIN_CHARS.matcher(token).matches() &&
+          l.get(i + 1).equals(".") &&
+          DOMAIN_CHARS.matcher(l.get(i + 2)).matches() &&
+          l.get(i + 3).equals("/")) {
+        return true;
+      }
+    }
+    if (l.size() > i + 5) {
+      // e.g. sub.mydomain.org/ (require slash to avoid missing errors that can be interpreted as domains)
+      if (DOMAIN_CHARS.matcher(token).matches() &&
+          l.get(i + 1).equals(".") &&
+          DOMAIN_CHARS.matcher(l.get(i + 2)).matches() &&
+          l.get(i + 3).equals(".") &&
+          DOMAIN_CHARS.matcher(l.get(i + 4)).matches() &&
+          l.get(i + 5).equals("/")) {
         return true;
       }
     }
