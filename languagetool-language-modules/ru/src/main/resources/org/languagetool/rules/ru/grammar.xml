@@ -6299,6 +6299,100 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             -->
         </rulegroup>
         
+        <rulegroup  id="Unify_Mult_Adj" name="Согласование нескольких прилагательных в словосочетании">
+            <rule>        
+                <pattern>
+                    <marker>
+                        <unify negate="yes">
+                            <feature id="gender"/>
+                            <token postag="ADJ:.*" postag_regexp="yes">
+                                <exception scope="previous"  regexp="yes">,|и|–|-|—|&double_num;</exception>
+                                <exception postag="ADV|ADJ:Comp|PT:.*|ADJ:MPR:.*|ADJ:Short:.*|NN:.*" postag_regexp='yes'/>
+                                <exception regexp="yes">полн.*|выходн(ых|ые)|средн.*|арифметическ(ое|ие)|зернов.*|животных|основн.*|легких|лёгких|позднее|поминальное</exception>
+                            </token>
+                            <token postag="ADJ:.*" postag_regexp="yes">
+                                <exception scope="previous"  regexp="yes">,|и|–|-|—|&double_num;</exception>
+                                <exception postag="ADV|ADJ:Comp|PT:.*|ADJ:MPR:.*|ADJ:Short:.*|NN:.*" postag_regexp='yes'/>
+                                <exception regexp="yes">полн.*|выходн(ых|ые)|средн.*|арифметическ(ое|ие)|зернов.*|животных|основн.*|легких|лёгких|позднее|поминальное</exception>
+                            </token>
+                            <token postag="NN:.*" postag_regexp="yes">
+                                <exception postag="CONJ|PREP|ADV|Ord:.*" postag_regexp="yes" />
+                                <exception regexp="yes">друг|уже|были|дай|гей|стряпней|стерней</exception>
+                                <!-- полчаса, полдня -->
+                                <exception regexp="yes">пол.*</exception>
+                            </token>
+                        </unify>				        
+                    </marker>
+                        
+                </pattern>
+                <message>Прилагательное не согласуется с существительным по роду.</message>
+                <short>Грамматическая ошибка в согласовании рода.</short>
+                <example>Крыловский государственный научный центр</example>
+                <example correction="">Крыловский <marker>государственной научный центр</marker></example>
+            </rule>
+            <rule>        
+                <pattern>
+                    <marker>
+                        <unify negate="yes">
+                            <feature id="number"/>
+                            <token postag="ADJ:.*" postag_regexp="yes">
+                                <exception scope="previous"  regexp="yes">,|и|–|-|—|&double_num;</exception>
+                                <exception postag="ADV|ADJ:Comp|PT:.*|ADJ:MPR:.*|ADJ:Short:.*|NN:.*" postag_regexp='yes'/>
+                                <exception regexp="yes">полн.*|выходн(ых|ые)|средн.*|арифметическ(ое|ие)|зернов.*|животных|основн.*|легких|лёгких|позднее|поминальное</exception>
+                            </token>
+                            <token postag="ADJ:.*" postag_regexp="yes">
+                                <exception scope="previous"  regexp="yes">,|и|–|-|—|&double_num;</exception>
+                                <exception postag="ADV|ADJ:Comp|PT:.*|ADJ:MPR:.*|ADJ:Short:.*|NN:.*" postag_regexp='yes'/>
+                                <exception regexp="yes">полн.*|выходн(ых|ые)|средн.*|арифметическ(ое|ие)|зернов.*|животных|основн.*|легких|лёгких|позднее|поминальное</exception>
+                            </token>
+                            <token postag="NN:.*" postag_regexp="yes">
+                                <exception postag="CONJ|PREP|ADV|Ord:.*" postag_regexp="yes" />
+                                <exception regexp="yes">друг|уже|были|дай|гей|стряпней|стерней</exception>
+                                <!-- полчаса, полдня -->
+                                <exception regexp="yes">пол.*</exception>
+                            </token>
+                        </unify>				        
+                    </marker>
+                        
+                </pattern>
+                <message>Прилагательное не согласуется с существительным по роду.</message>
+                <short>Грамматическая ошибка в согласовании рода.</short>
+                <example>Крыловский государственный научный центр</example>
+                <example correction="">Крыловский <marker>государственные научный центр</marker></example>
+            </rule>
+            <rule>        
+                <pattern>
+                    <marker>
+                        <unify negate="yes">
+                            <feature id="case"/>
+                            <token postag="ADJ:.*" postag_regexp="yes">
+                                <exception scope="previous"  regexp="yes">,|и|–|-|—|&double_num;</exception>
+                                <exception postag="ADV|ADJ:Comp|PT:.*|ADJ:MPR:.*|ADJ:Short:.*|NN:.*" postag_regexp='yes'/>
+                                <exception regexp="yes">полн.*|выходн(ых|ые)|средн.*|арифметическ(ое|ие)|зернов.*|животных|основн.*|легких|лёгких|позднее|поминальное</exception>
+                            </token>
+                            <token postag="ADJ:.*" postag_regexp="yes">
+                                <exception scope="previous"  regexp="yes">,|и|–|-|—|&double_num;</exception>
+                                <exception postag="ADV|ADJ:Comp|PT:.*|ADJ:MPR:.*|ADJ:Short:.*|NN:.*" postag_regexp='yes'/>
+                                <exception regexp="yes">полн.*|выходн(ых|ые)|средн.*|арифметическ(ое|ие)|зернов.*|животных|основн.*|легких|лёгких|позднее|поминальное</exception>
+                            </token>
+                            <token postag="NN:.*" postag_regexp="yes">
+                                <exception postag="CONJ|PREP|ADV|Ord:.*" postag_regexp="yes" />
+                                <exception regexp="yes">друг|уже|были|дай|гей|стряпней|стерней</exception>
+                                <!-- полчаса, полдня -->
+                                <exception regexp="yes">пол.*</exception>
+                            </token>
+                        </unify>				        
+                    </marker>
+                        
+                </pattern>
+                <message>Прилагательное не согласуется с существительным по падежу.</message>
+                <short>Грамматическая ошибка в согласовании рода.</short>
+                <example>Крыловский государственный научный центр</example>
+                <example correction="">Крыловский <marker>государственному научный центр</marker></example>
+            </rule>
+        </rulegroup>
+        
+        
         <rulegroup default="off" id="Obobchajuchee_slovo" name="Согласование с обобщающим словом">
             
             <!--TO DO: добавить остальные падежи       -->
