@@ -4,6 +4,10 @@
 
   ...
 
+#### Russian
+  * added and improved rules
+  * added many words without "yo" letter to POS dictionary
+
 
 
 ## 4.4.1 (2019-01-14)
