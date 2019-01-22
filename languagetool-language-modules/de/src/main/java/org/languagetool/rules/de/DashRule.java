@@ -63,17 +63,17 @@ public class DashRule extends Rule {
           ) {
         char firstChar = token.charAt(0);
         if (Character.isUpperCase(firstChar)) {
-          if (StringUtils.isAllUpperCase(token) && StringUtils.isAllUpperCase(prevToken.substring(0, prevToken.length()-1))) {
-            continue; // ignore "NORD- UND SÜDKOREA"
+          if (!StringUtils.equalsAny(token, "UND", "ODER", "BZW") ) {  // ignore "NORD- UND SÜDKOREA"
+            String msg = "Möglicherweise fehlt ein 'und' oder ein Komma, oder es wurde nach dem Wort " +
+                    "ein überflüssiges Leerzeichen eingefügt. Eventuell haben Sie auch versehentlich einen Bindestrich statt eines Punktes eingefügt.";
+            String shortMsg = "Fehlendes 'und' oder Komma oder überflüssiges Leerzeichen?";
+            int fromPos = tokens[i - 1].getStartPos();
+            RuleMatch ruleMatch = new RuleMatch(this, sentence, fromPos,
+                    fromPos +prevToken.length()+1, msg, shortMsg);
+            String prevTokenStr = tokens[i-1].getToken();
+            ruleMatch.setSuggestedReplacements(Arrays.asList(prevTokenStr, prevTokenStr + ", "));
+            ruleMatches.add(ruleMatch);
           }
-          String msg = "Möglicherweise fehlt ein 'und' oder ein Komma, oder es wurde nach dem Wort " +
-            "ein überflüssiges Leerzeichen eingefügt. Eventuell haben Sie auch versehentlich einen Bindestrich statt eines Punktes eingefügt.";
-          String shortMsg = "Fehlendes 'und' oder Komma oder überflüssiges Leerzeichen?";
-          RuleMatch ruleMatch = new RuleMatch(this, sentence, tokens[i-1].getStartPos(),
-              tokens[i-1].getStartPos()+prevToken.length()+1, msg, shortMsg);
-          String prevTokenStr = tokens[i-1].getToken();
-          ruleMatch.setSuggestedReplacements(Arrays.asList(prevTokenStr, prevTokenStr + ", "));
-          ruleMatches.add(ruleMatch);
         }
       }      
       prevToken = token;

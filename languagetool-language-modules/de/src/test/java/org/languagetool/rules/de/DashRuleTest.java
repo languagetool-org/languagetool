@@ -44,13 +44,16 @@ public class DashRuleTest {
     assertGood("Die große Diäten- oder Gehaltserhöhung kam dann doch.", lt);
     assertGood("Erst so - Karl-Heinz dann blah.", lt);
     assertGood("Erst so -- Karl-Heinz aber...", lt);
+    assertGood("Nord- und Südkorea", lt);
     assertGood("NORD- UND SÜDKOREA", lt);
+    assertGood("NORD- BZW. SÜDKOREA", lt);
     
     // incorrect sentences:
     assertBad("Die große Diäten- Erhöhung kam dann doch.", lt);
     assertBad("Die große Diäten-  Erhöhung kam dann doch.", lt);
     assertBad("Die große Diäten-Erhöhungs- Manie kam dann doch.", lt);
     assertBad("Die große Diäten- Erhöhungs-Manie kam dann doch.", lt);
+    assertBad("MAZEDONIEN- SKOPJE Str.", lt);
   }
 
   private void assertGood(String text, JLanguageTool lt) throws IOException {
