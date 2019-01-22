@@ -7087,6 +7087,19 @@ USA
             <example>It's <marker>high time</marker> you did this work.</example>
             <example><marker>Hi Time Wine Cellars</marker> is excited to introduce Mount Michael Wines to...</example>
         </rule>
+        <rule id="LANGUAGE_TOOL" name="Language Tool (LanguageTool)">
+            <pattern>
+                <marker>
+                    <token case_sensitive="yes">Language</token>
+                    <token case_sensitive="yes">Tool</token>
+                </marker>
+            </pattern>
+            <message>Do you mean <suggestion>\1\2</suggestion> (the product name) or <suggestion><match no="1" case_conversion="startlower"/> <match no="2" case_conversion="startlower"/></suggestion>?</message>
+            <short>Possible typo</short>
+            <example correction="LanguageTool|language tool">… and does <marker>Language Tool</marker> work on mobile devices?</example>
+            <example>… and does <marker>LanguageTool</marker> work on mobile devices?</example>
+            <example>Is the <marker>language tool</marker> satisfactory?</example>
+        </rule>
     </category>
 
     <!-- ====================================================================== -->
