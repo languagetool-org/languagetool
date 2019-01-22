@@ -15693,6 +15693,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction='bestand'>Sie <marker>Bestand</marker> darauf, sofort zu gehen.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="SUBSTANTIVIERTES_ADJEKTIV" name="ein langsames senken (Senken) des Drucks">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token inflected="yes" regexp="yes">s?ein</token>
+                    <token postag="(ADJ|PA2):AKK:SIN:NEU:GRU.*" postag_regexp="yes"></token>
+                    <marker><token postag="VER:INF:.+" postag_regexp="yes" regexp="yes">[a-zäöü]+</token></marker>
+                    <token regexp="yes">d(ies)?e[rs]|[mds]?eine[rs]</token>
+                </pattern>
+                <message><suggestion><match no="3" case_conversion="startupper"/></suggestion> scheint hier substantivisch verwendet zu werden und muss daher großgeschrieben werden.</message>
+                <example correction="Absenken">Ein vorsichtiges <marker>absenken</marker> des Drucks ist notwendig.</example>
+            </rule>
+        </rulegroup>
         <rule id="SEIT_BEGINN" name="'seit beginn (seit Beginn)'">
             <pattern>
                 <token regexp='yes'>seit|vo[nr]|mit|nach|zu</token>
