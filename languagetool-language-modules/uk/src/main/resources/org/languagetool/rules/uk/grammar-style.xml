@@ -1404,6 +1404,40 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example>накидав зверху каміння та давай носити воду</example>
     </rule>
 
+    <rule id="u_znak_vdiachnosti" name="У знак вдячності">
+      <pattern>
+        <token regexp="yes">[ву]</token>
+        <token>знак</token>
+        <token>вдячності</token>
+      </pattern>
+      <message>Краще: <suggestion>на знак вдячності</suggestion></message>
+      <example correction="на знак вдячності">посмішка <marker>у знак вдячності</marker>.</example>
+    </rule>
+
+    <rulegroup id="u_znachniy_miri" name="У значній мірі">
+      <rule>
+        <pattern>
+          <token regexp="yes">[ву]</token>
+          <token regexp="yes">значній|тій|меншій|більшій</token>
+          <token>мірі</token>
+        </pattern>
+        <message>Краще: <suggestion><match no="2" postag_regexp="yes" postag="(adj:f:)v_mis(.*)" postag_replace="$1v_oru$2"/> <match no="3" postag_regexp="yes" postag="(noun:inanim:f:)v_mis(.*)" postag_replace="$1v_oru$2"/></suggestion></message>
+        <example correction="тою мірою|тією мірою">посмішка <marker>у тій мірі</marker>.</example>
+        <example correction="більшою мірою">і <marker>у більшій мірі</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">[ву]</token>
+          <token>тій</token>
+          <token>чи</token>
+          <token>іншій</token>
+          <token>мірі</token>
+        </pattern>
+        <message>Краще: <suggestion>так чи інакше</suggestion>, <suggestion>тою чи іншою мірою</suggestion></message>
+        <example correction="так чи інакше|тою чи іншою мірою">і <marker>у тій чи іншій мірі</marker>.</example>
+      </rule>
+    </rulegroup>
+
 <!--
     схоже, «відсутній» не має такого чіткого розділення
 
