@@ -34,9 +34,10 @@ import org.languagetool.Language;
  * @since 4.1
  */
 public class PunctuationMarkAtParagraphEnd extends TextLevelRule {
+
+  private final static String[] PUNCTUATION_MARKS = {".", "!", "?", ":", ",", ";"};
+  private final static String[] QUOTATION_MARKS = {"„", "»", "«", "\"", "”", "″", "’", "‚", "‘", "›", "‹", "′", "'"};
   
-  private final static String PUNCTUATION_MARKS[] = {".", "!", "?", ":", ",", ";"};
-  private final static String QUOTATION_MARKS[] = {"„", "»", "«", "\"", "”", "″", "’", "‚", "‘", "›", "‹", "′", "'"};
   private final Language lang;
 
   public PunctuationMarkAtParagraphEnd(ResourceBundle messages, Language lang) {
