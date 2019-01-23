@@ -35389,10 +35389,10 @@ Andere Projekte</example>
                     <token regexp="yes">dass|weil|obwohl|obgleich|sodass|wenn</token>
                 </antipattern>
                 <pattern case_sensitive="yes">
-                    <token postag="SENT_START" skip="-1">
-                        <exception scope="next" regexp="yes">,|–|\-|;|\:|&anfauf;|…|[0-9]+|\?|\!|&gt;|\=|&klamauf;</exception>
-                    </token>
                     <marker>
+                        <token postag="SENT_START" skip="-1">
+                            <exception scope="next" regexp="yes">,|–|\-|;|\:|&anfauf;|…|[0-9]+|\?|\!|&gt;|\=|&klamauf;</exception>
+                        </token>
                         <token regexp="yes" skip="-1">
                             dass|weil|obwohl|obgleich|sodass|wenn
                             <exception scope="next" regexp="yes">,|–|\-|;|\:|&anfauf;|…|[0-9]+|\?|\!|&gt;|\=|&klamauf;|möglich</exception>
@@ -35404,15 +35404,15 @@ Andere Projekte</example>
                     <token postag="SENT_END"/>
                 </pattern>
                 <message>Ein mit der Subjunktion '\2' eingeleiteter Nebensatz wird in der Regel mit (mindestens) einem Komma vom Hauptsatz abgetrennt.</message>
-                <suggestion>, \2</suggestion>
+                <suggestion><match no="1" include_skipped="all"/>, \2</suggestion>
                 <example>Er mag das Spiel, <marker>weil</marker> es ihm Spaß macht.</example>
                 <example>Er mag das Spiel, auch <marker>weil</marker> es Spaß macht.</example>
-                <example correction=", weil">Er mag das Spiel <marker>weil</marker> es ihm Spaß macht.</example>
+                <example correction="Er mag das Spiel, weil"><marker>Er mag das Spiel weil</marker> es ihm Spaß macht.</example>
                 <example>Er mag das Spiel nicht, selbst <marker>wenn</marker> es Spaß macht.</example>
                 <example>Besser <marker>denn</marker> je.</example>
                 <example>Auch <marker>wenn</marker> es so ist, bist du noch mein Freund.</example>
                 <example>Erst <marker>wenn</marker> es so ist, kann ich dir helfen.</example>
-                <example correction=", wenn">Erst <marker>wenn</marker> es so ist kann ich dir helfen.</example>
+                <example correction="Erst, wenn"><marker>Erst wenn</marker> es so ist kann ich dir helfen.</example>
                 <example>Er ist in der freien Reichsstadt <marker>Weil</marker> geboren.</example>
                 <example>Ich komme <marker>wenn</marker> möglich früher.</example>
                 <example>Falls nötig und <marker>wenn</marker> möglich wird er beendet.</example>
