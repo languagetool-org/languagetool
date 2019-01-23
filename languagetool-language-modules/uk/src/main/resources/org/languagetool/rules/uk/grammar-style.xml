@@ -23,15 +23,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
 
   <category name="Стиль" id="STYLE" type="style">
-    <rulegroup id="BILSH_WITH_ADJ" name="Більш з прикметниками">
+
+    <rulegroup id="bilsh_with_adj_compc" name="Більш з порівняльною формою">
       <rule>
         <pattern>
-          <token>більш</token>
+          <token regexp="yes">(най)?більш</token>
           <token postag_regexp="yes" postag="ad[jv]:.*compc.*">
             <exception>менш</exception>
           </token>
         </pattern>
-        <message>Після «більш» не може стояти вища форма прикметника</message>
+        <message>Після «(най)більш» не може стояти порівняльна форма прикметника</message>
         <!-- TODO: when we can bind comparative forms togher again
             <suggestion><match no="2"/></suggestion>
             <suggestion><match no="1"/> <match no="2" postag_regexp="yes" postag="(.*):compc(.*)" postag_replace="$1:compb$2"/></suggestion>
@@ -39,21 +40,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         -->
         <example correction=""><marker>Більш світліший</marker>.</example>
         <example>все закінчилось більш менш</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token>найбільш</token>
-          <token postag_regexp="yes" postag="ad[jv]:.*compc.*"/>
-        </pattern>
-        <message>Після «найбільш» не може стояти вища форма прикметника</message>
-        <!-- TODO: when we can bind comparative forms togher again
-            <suggestion><match no="2" postag_regexp="yes" postag="(.*):compc(.*)" postag_replace="$1:super$2"/></suggestion>
-            <suggestion><match no="1"/> <match no="2" postag_regexp="yes" postag="(.*):compc(.*)" postag_replace="$1:compb$2"/></suggestion>
-            <example correction="найцікавіших|щонайцікавіших|якнайцікавіших|найбільш цікавих">Серед <marker>найбільш цікавіших</marker> відповідей.</example>
-        -->
         <example correction="">Серед <marker>найбільш цікавіших</marker> відповідей.</example>
       </rule>
     </rulegroup>
+
+    <rulegroup id="mensh_with_adj_compc" name="Менш з порівняльною формою">
+      <rule>
+        <pattern>
+          <token regexp="yes">(най)?менш</token>
+          <token postag_regexp="yes" postag="ad[jv]:.*compc.*"/>
+        </pattern>
+        <message>Після «(най)менш» не може стояти порівняльна форма прикметника</message>
+        <example correction=""><marker>Менш світліший</marker>.</example>
+      </rule>
+    </rulegroup>
+
     <!--
         Уживання складеної форми є дозволеним, хоча перевага надається простій формі
         <rulegroup name="Більш/менш з прикметниками" id="BILSH_WITH_ADJ">
@@ -1437,6 +1438,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="так чи інакше|тою чи іншою мірою">і <marker>у тій чи іншій мірі</marker>.</example>
       </rule>
     </rulegroup>
+
+    <rule id="hlopnuty_dveryma" name="Хлопнути дверима">
+      <pattern>
+        <token inflected="yes">хлопнути</token>
+        <token>дверима</token>
+      </pattern>
+      <message>Краще: <suggestion>гримнути \2</suggestion></message>
+      <suggestion>грюкнути \2</suggestion>
+      <suggestion>хряснути \2</suggestion>
+      <example correction="гримнути дверима|грюкнути дверима|хряснути дверима">Він <marker>хлопнув дверима</marker>.</example>
+    </rule>
 
 <!--
     схоже, «відсутній» не має такого чіткого розділення
