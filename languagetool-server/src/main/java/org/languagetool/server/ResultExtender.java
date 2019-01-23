@@ -34,6 +34,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
@@ -93,7 +94,8 @@ class ResultExtender {
     try {
       huc.connect();
       try (DataOutputStream wr = new DataOutputStream(huc.getOutputStream())) {
-        String urlParameters = "language=" + lang.getShortCodeWithCountryAndVariant() + "&text=" + plainText;
+        String urlParameters = "language=" + lang.getShortCodeWithCountryAndVariant() +
+                "&text=" + URLEncoder.encode(plainText, StandardCharsets.UTF_8.name());
         byte[] postData = urlParameters.getBytes(StandardCharsets.UTF_8);
         wr.write(postData);
       }
