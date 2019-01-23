@@ -431,6 +431,20 @@
     <example type="untouched">держав її в своїх руках.</example>
   </rule>
 
+  <rule name="вчений - прикметник" id="vchenyi-adj">
+    <pattern>
+      <marker>
+        <token inflected="yes">вчений</token>
+      </marker>
+      <token inflected="yes" regexp="yes">секретар|ступінь|звання|рада|людина|чоловік</token>
+    </pattern>
+    <disambig action="filter" postag="adj.*"/>
+    <example type="ambiguous"
+        inputform="вчений[вчений/adj:m:v_kly:&amp;&amp;adjp:pasv:imperf,вчений/adj:m:v_naz:&amp;&amp;adjp:pasv:imperf,вчений/adj:m:v_zna:rinanim:&amp;&amp;adjp:pasv:imperf,вчений/noun:anim:m:v_kly,вчений/noun:anim:m:v_naz]"
+        outputform="вчений[вчений/adj:m:v_kly:&amp;&amp;adjp:pasv:imperf,вчений/adj:m:v_naz:&amp;&amp;adjp:pasv:imperf,вчений/adj:m:v_zna:rinanim:&amp;&amp;adjp:pasv:imperf]">отримав <marker>вчений</marker> ступінь.</example>
+    <example type="untouched">держав її в своїх руках.</example>
+  </rule>
+
   <rule name="коли - не іменник" id="KOLY_NOT_NOUN">
     <pattern>
       <marker>
