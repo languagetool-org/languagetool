@@ -4350,6 +4350,16 @@
       <disambig action="replace"><wd pos="NNP"/><wd pos="NNP"/><wd pos="NNP"/><wd pos="NNP"/></disambig>
     </rule>
 
+    <rule name="Proper noun: Palme d'Or" id="PALME_D_OR"><!--  www.festival-cannes.com/en/69-editions/palme/a-brief-history-of-the-palme-d-or-->
+      <pattern case_sensitive="yes">
+          <token>Palme</token>
+          <token>d</token>
+          <token spacebefore="no" regexp="yes">['’]</token>
+          <token spacebefore="no" regexp="yes">[Oo]r</token><!-- Both are on the reference website -->
+      </pattern>
+      <disambig action="replace"><wd pos="NNP"/><wd pos="NNP"/><wd pos="NNP"/><wd pos="NNP"/></disambig>
+    </rule>
+
     <rule name="NNP with trademark symbols" id="PROPER_NOUNS_WITH_TRADEMARK_SYMBOLS">
         <pattern>
             <token regexp="yes">([a-z]+)[™®]</token><!-- The case is not important. Some trade names have non-standard typography. Some start with a lower-case letter. NoDisambiguationEnglishPartialPosTagFilter is necessary to prevent LT ignoring typographic errors such as Yarhoo®. The rule causes false negatives with NNPs that are not legally permitted to use the ® symbol, but that is a relatively unlikely problem. (Nobody is likely to write Michael® unless they mean it.) -->
