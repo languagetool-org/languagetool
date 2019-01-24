@@ -16705,6 +16705,27 @@ USA
                 <example correction="wall-to-wall">This <marker>wall to wall</marker> carpeting is exquisite.</example>
             </rule>
         </rulegroup>
+        <rule id="MISSING_APOSTROPHE_T" name="Missing: 't">
+            <antipattern>
+                <token/>
+                <token spacebefore="no" regexp="yes">['’]</token>
+                <token spacebefore="no">t</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">aren|couldn|didn|doesn|hadn|hasn|isn|mightn|mustn|needn|shan|shouldn|wasn|weren|wouldn<exception postag_regexp="yes" postag="NNPS?"/></token>
+            </pattern>
+            <message>The abbreviation is not correct. Do you mean <suggestion>\1't</suggestion> (straight quote) or <suggestion>\1’t</suggestion> (curly quote).</message>
+            <short>Grammar error</short>
+            <example correction="doesn't|doesn’t">It <marker>doesn</marker> work.</example>
+            <example correction="isn't|isn’t">Make sure that there <marker>isn</marker> 't a space.</example>
+            <example correction="shan't|shan’t">I <marker>shan</marker> tell you again!</example>
+            <example>It <marker>doesn't</marker> work.</example>
+            <example>'<marker>Ain</marker>' is an alternative spelling of 'ayin' (www.collinsdictionary.com/dictionary/english/ain).</example>
+            <example>Quickly <marker>don</marker> the safety mask.</example>
+            <example>This village is a <marker>haven</marker>.</example>
+            <example>... hundreds of thousands of Karen, Karenni, and <marker>Shan</marker> have been pushed into nearby jungles.</example>
+            <example type="triggers_error">... and infantry support units, the Germans <marker>didn't--&gt;</marker>  The French armies were...</example>
+        </rule>
     </category>
 
     <!-- ====================================================================== -->
