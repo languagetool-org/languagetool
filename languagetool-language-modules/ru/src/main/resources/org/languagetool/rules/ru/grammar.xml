@@ -6205,6 +6205,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Кошка грелась"><marker>Коты грелся</marker> на солнышке.</example>
             </rule>
 -->
+
+  <rule>                  
+                <pattern>
+                    <token  postag="SENT_START" skip ="-1">
+                        <exception scope="next" postag_regexp="yes" postag="NN:.*:Sin:Nom" />
+                        <exception scope="next" postag_regexp="yes" postag="PNN:.*" />
+                    </token>
+                    <marker>
+                    <unify negate="yes">
+                        <feature id="number"/>          
+                        <token  postag="NN:.*" postag_regexp="yes"></token>
+                        <token  postag="VB:Past:.*"  postag_regexp="yes">
+                       <!--     <exception postag="VB:Past:.*:.*:PL" />  -->
+                            <exception negate_pos="yes" postag_regexp="yes" postag="VB:Past:.*"  />
+                        </token>                            
+                    </unify>
+                    </marker>
+                </pattern>
+                <message>Существительное не согласуется с глаголом по числу.</message>
+                <url>http://ru.wikipedia.org/wiki/%D0%93%D0%BB%D0%B0%D0%B3%D0%BE%D0%BB_%D0%B2_%D1%80%D1%83%D1%81%D1%81%D0%BA%D0%BE%D0%BC_%D1%8F%D0%B7%D1%8B%D0%BA%D0%B5</url>
+                <short>Ошибка в согласовании по числу.</short>
+                <example>Коты грелись на солнышке.</example>
+                <example correction=""><marker>Коты грелся</marker> на солнышке.</example>
+            </rule>
+
      <!--          Оба + существительное + глагол  -->
            <rule>                  
                 <pattern>
@@ -8151,8 +8176,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="строиться">Нужно <marker>строится</marker> на этом месте.</example>
         </rule>
 
-        <rule id="Verb_INF_OR_3P" default="on" name="Инфинитив вместо личной формы глагола">
+        <rulegroup id="Verb_INF_OR_3P" default="on" name="Инфинитив вместо личной формы глагола">
             <!-- need test on big data -->
+        <rule>    
             <antipattern>
                 <token postag="VB:.*" postag_regexp="yes" skip="-1">
                     <exception postag="VB:.*" postag_regexp="yes" negate_pos="yes"></exception>
@@ -8195,7 +8221,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Волков бояться — в лес не ходить.</example>
             <example>Ей запрещено выходить из дома.</example>
             <example>Ей не с кем поговорить.</example>
-        </rule>
+            <example>Не надо суетиться!</example>
+         </rule>
+        </rulegroup>
 
         <rule default="on" id="Verb_3P_and_inf" name="Правописание «-т» и «-ть» в глаголах – однородных членах предложения">
             <pattern>
@@ -8362,7 +8390,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="избежал встречи">Он <marker>избежал встречу</marker>.</example>
         </rule>
         <rule id="Verb_and_wo_P" name="Глагольное управление (падеж)">
-        <!--TODO   неоюходимо использовать грамматические характеристики глагола (переходный/непереходный) -->            
+        <!--TODO   необходимо использовать грамматические характеристики глагола (переходный/непереходный) -->            
 	        <antipattern>
 		        <marker>
 			        <token case_sensitive="yes" regexp="yes">[А-Я].*[А-Я].*</token>
