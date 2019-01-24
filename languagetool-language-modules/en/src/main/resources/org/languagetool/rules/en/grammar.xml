@@ -7102,11 +7102,15 @@ USA
         </rule>
         <rule id="TR" name="tr (try)">
             <pattern>
-                <token>tr</token>
+                <token>tr<exception scope="next" spacebefore="no">:</exception></token>
             </pattern>
             <message>Make sure that '\1' is an abbreviation for a word such as 'treasurer' or 'trustee' and not a typing error. Do you mean <suggestion><match no="1"/>y</suggestion>?</message>
             <short>Possible typo</short>
             <example correction="Try"><marker>Tr</marker> this test:</example>
+            <example correction="try">... but you can always <marker>tr</marker>.</example>
+            <example><marker>Try</marker> this test:</example>
+            <example>fi:Ada sv:Ada <marker>tr</marker>:Ada (anlam ayrımı)</example>
+            <example type="triggers_error">August Comte, Catechisme positiviste (1852) or Catechism of Positivism, <marker>tr</marker>. R. Congreve, (London: Kegan Paul, 1891).</example>
         </rule>
     </category>
 
