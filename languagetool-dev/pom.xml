@@ -28,12 +28,11 @@
         <plugins>
             <plugin>
                 <!-- call with: mvn clean compile assembly:single -->
+                <!-- may need to call `mvn install` in parent folder for this to work -->
                 <artifactId>maven-assembly-plugin</artifactId>
                 <version>${maven.assemby.plugin}</version>
                 <configuration>
-                    <descriptorRefs>
-                        <descriptorRef>jar-with-dependencies</descriptorRef>
-                    </descriptorRefs>
+                    <descriptor>src/main/assembly/zip.xml</descriptor>
                 </configuration>
             </plugin>
             <plugin>
