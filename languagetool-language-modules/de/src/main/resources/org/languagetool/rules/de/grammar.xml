@@ -15319,7 +15319,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Herren,">Sehr geehrte Damen und <marker>Herren</marker></example>
             </rule>
         </rulegroup>
-        <rulegroup id="ANREDE_KOMMA_2" name="Fehlendes Komma nach Begrüßungsformeln (Hallo, Guten Tag)" default="off">
+        <rulegroup id="ANREDE_KOMMA_2" name="Fehlendes Komma nach Begrüßungsformeln (Hallo, Guten Tag)" default="on">
             <rule>
                 <antipattern case_sensitive="yes">
                     <token postag="SENT_START"/>
@@ -15332,18 +15332,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="SENT_START"/>
                     <token min="0" regexp="yes">&anfauf;</token>
                     <marker>
-                        <token regexp="yes">Hallo|Hi|Moin|Tschüss?</token>
+                        <token regexp="yes">Hallo|Hi|Hey|Moin|Servus|Tschüss?</token>
                     </marker>
                     <token>
                        <exception postag="PKT"/>
+                       <exception regexp="yes">[A-ZÄÖÜ].*|alle(rseits)?|zusammen|und|oder</exception>
                     </token>
                 </pattern>
                 <message>Nach der Anredeformel sollte ein Komma stehen: <suggestion>\3,</suggestion></message>
                 <example><marker>Hallo</marker> Tom!</example>
                 <example correction="Hallo,">„<marker>Hallo</marker> da seid ihr ja endlich!“</example>
-                <example correction="Hallo,"><marker>Hallo</marker> Carin, komm gut nach Berlin zurück!</example>
+                <example correction="Hallo,"><marker>Hallo</marker> wie geht es euch?</example>
             </rule>
-            <rule>
+            <!--<rule>
                 <pattern case_sensitive="yes">
                     <token postag="SENT_START"/>
                     <token min="0" regexp="yes">&anfauf;</token>
@@ -15359,7 +15360,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Tag,">„Guten <marker>Tag</marker> Herr Müller!“</example>
                 <example correction="Morgen,">Guten <marker>Morgen</marker> liebe Sorgen!</example>
                 <example>Guten Morgen allerseits!</example>
-            </rule>
+            </rule>-->
         </rulegroup>
     </category>
 
