@@ -27,9 +27,10 @@ import java.util.ResourceBundle;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
+import org.languagetool.tokenizers.WordTokenizer;
 
 /**
- * A rule that checks for a punctuation mark at the end of a paragraph
+ * A rule that checks for a punctuation mark at the end of a paragraph.
  * @author Fred Kruse
  * @since 4.1
  */
@@ -96,6 +97,11 @@ public class PunctuationMarkAtParagraphEnd extends TextLevelRule {
             int lastNWToken = tokens.length - 1;
             while (tokens[lastNWToken].isLinebreak()) {
               lastNWToken--;
+            }
+            if (tokens[tokens.length-2].getToken().equalsIgnoreCase(":") &&
+                WordTokenizer.isUrl(tokens[tokens.length-1].getToken())) {
+              // e.g. "find it at: http://example.com" should not be an error
+              continue;
             }
             if (isWord(tokens[lastNWToken]) 
                 || (isQuotationMark(tokens[lastNWToken]) && isWord(tokens[lastNWToken - 1]))) {

@@ -38,6 +38,8 @@ public class PunctuationMarkAtParagraphEndTest {
 
     assertEquals(0, lt.check("This is a test sentence.").size());
     assertEquals(0, lt.check("This is a test headline").size());
+    assertEquals(0, lt.check("This is a test sentence. This is a link: http://example.com").size());  // no error because of colon
+    assertEquals(1, lt.check("This is a test sentence. It can be found at http://example.com/foobar").size());
     assertEquals(1, lt.check("This is a test sentence. And this is a second test sentence").size());
     assertEquals(1, lt.check("\"This is a test sentence. And this is a second test sentence").size());
     assertEquals(0, lt.check("This is a test sentence. And this is a second test sentence.").size());
