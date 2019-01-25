@@ -6206,20 +6206,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
 -->
 
-  <rule>                  
+            <rule>        <!-- #1063 -->          
                 <pattern>
-                    <token  postag="SENT_START" skip ="-1">
-                        <exception scope="next" postag_regexp="yes" postag="NN:.*:Sin:Nom" />
-                        <exception scope="next" postag_regexp="yes" postag="PNN:.*" />
-                    </token>
+                    <token  postag="SENT_START" skip ="-1"><exception scope="next" postag_regexp="yes" postag="PNN:.*" /></token>
                     <marker>
                     <unify negate="yes">
                         <feature id="number"/>          
                         <token  postag="NN:.*" postag_regexp="yes"></token>
-                        <token  postag="VB:Past:.*"  postag_regexp="yes">
-                       <!--     <exception postag="VB:Past:.*:.*:PL" />  -->
-                            <exception negate_pos="yes" postag_regexp="yes" postag="VB:Past:.*"  />
-                        </token>                            
+                        <token  postag="VB:(Past|Real):.*"  postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="VB:(Past|Real):.*" /></token>                            
                     </unify>
                     </marker>
                 </pattern>
@@ -6228,6 +6222,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Ошибка в согласовании по числу.</short>
                 <example>Коты грелись на солнышке.</example>
                 <example correction=""><marker>Коты грелся</marker> на солнышке.</example>
+                <example correction=""><marker>Маша гуляют</marker> на солнышке.</example>
             </rule>
 
      <!--          Оба + существительное + глагол  -->
@@ -10956,7 +10951,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         
         <rulegroup id="missing_prep_v_vide" name="Пропущен предлог: «в виде»">
-            <rule>   <!-- TODO add check to "В" before noun -->
+            <rule>
+                <antipattern>
+                    <token skip="-1">в</token>
+                    <token postag="NN:.*" postag_regexp="yes"></token>
+                    <token>виде</token>               
+                </antipattern> 
                 <pattern>
                     <token postag="NN:.*" postag_regexp="yes">
                         <exception postag="NN:.*" postag_regexp="yes" negate_pos="yes"></exception>
