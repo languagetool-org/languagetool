@@ -1173,54 +1173,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="Привіт, Василю"><marker>Привіт Василь</marker>!</example>
     </rule>
 
-    <rulegroup id="PASSIVE_PREDICATE" name="Пасивний предикат або пасивний атрибут (ev. апозиція) з інструменталем дієвої особи">
-      <rule>
-        <pattern>
-          <token postag_regexp="yes" postag="noun.*v_zna.*|adj:n:v_zna:&amp;pron:(gen|dem).*"/>
-          <marker>
-            <token postag_regexp="yes" postag="verb.*:impers.*">
-              <exception regexp="yes">визнано|названо|призначено|.*обрано|обумовлено|.*укомплектовано|зумовлено</exception>
-            </token>
-            <token postag_regexp="yes" postag="adj.*v_oru.*" min="0" max="2">
-              <exception regexp="yes">тим|таким</exception>
-            </token>
-            <token postag_regexp="yes" postag="noun:anim.*v_oru.*|.*v_oru.*pron:pers.*">
-              <exception negate_pos="yes" postag_regexp="yes" postag="noun:anim.*v_oru.*.*|.*v_oru.*pron:pers.*"/>
-              <exception postag_regexp="yes" postag="&lt;(adv|insert)&gt;"/>
-              <exception regexp="yes">тим|таким|персоною|днями|цими</exception>
-            </token>
-            <!-- TODO: особа-діяч може бути не лише :anim
-                <token postag_regexp="yes" postag="noun.*v_oru.*"/>
-            -->
-          </marker>
-        </pattern>
-        <message>Невластива мові конструкція: пасивний предикат</message>
-        <url>http://kurylo.wikidot.com/3-nevlastyva-ukrainskii-movi-konstruktsiia:pasyvnyi-predykat</url>
-        <example correction="">Справу <marker>порушено прокурором</marker>.</example>
-        <example correction="">Справу <marker>порушено генеральним прокурором</marker>.</example>
-        <example correction="">Це <marker>зроблено шановним академіком</marker>.</example>
-        <example correction="">Громадянство <marker>отримано ним</marker> законно.</example>
-        <example>Користувача авторизовано.</example>
-        <example>Листа написано Келлі.</example>
-        <example>Справу порушено за фактом.</example>
-        <example>Наказ підписано синьою ручкою.</example>
-        <example>церковні терміни використано тією мірою.</example>
-        <example>це викликано тим, що</example>
-        <example>його обрано президентом</example>
-        <example>документ виписано таким чином</example>
-        <example>Яку роль відведено Ульянченко</example>
-        <!-- TODO: див. вище
-            <example correction="">Справу <marker>порушено судом</marker></example>
-            <example type="incorrect">Справу <marker>порушено міським судом</marker></example>
-        -->
-        <example correction="">Користувача <marker>авторизовано адміністратором</marker>.</example>
-        <!--
-            <example correction="">Все <marker>зроблено самими учасниками</marker></example>
-            <example correction="">Потепління <marker>ускладнено нашою недолугою діяльністю</marker></example>
-        -->
-      </rule>
-    </rulegroup>
-
     <rule id="VIDMINA_CHOLOVICHYH_PRIZVYSCH" name="Відмінювання чоловічих прізвищ">
       <antipattern>
         <token postag_regexp="yes" postag="noun.*:f.*:fname.*"/>
