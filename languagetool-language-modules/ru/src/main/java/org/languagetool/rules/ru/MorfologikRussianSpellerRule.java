@@ -36,7 +36,7 @@ public final class MorfologikRussianSpellerRule extends MorfologikSpellerRule {
   public static final String RULE_ID = "MORFOLOGIK_RULE_RU_RU";
 
   private static final String RESOURCE_FILENAME = "/ru/hunspell/ru_RU.dict";
-  private static final Pattern RUSSIAN_LETTERS = Pattern.compile(".*[а-яёА-ЯЁ].*");
+  private static final Pattern RUSSIAN_LETTERS = Pattern.compile("[а-яёА-ЯЁ]*");
 
   public MorfologikRussianSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig, List<Language> altLanguages) throws IOException {
     super(messages, language, userConfig, altLanguages);

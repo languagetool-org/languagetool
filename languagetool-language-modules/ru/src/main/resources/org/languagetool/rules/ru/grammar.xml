@@ -6188,23 +6188,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             -->
             
             
-            <!--           NN:.*:PL:Nom   VB:Past:.*:.*:PL  !!!!!!!!!!!!!!!!  -->
-            <!--
-           <rule>                  
-                <pattern mark_from="1">
-                    <token  postag="SENT_START" skip ="-1"><exception scope="next" postag_regexp="yes" postag="NN:.*:Sin:Nom" /><exception scope="next" postag_regexp="yes" postag="PNN:.*" /></token>
-                    <token  postag="NN:.*:PL:Nom" postag_regexp="yes"></token>
-                    <token  postag="VB:Past:.*"  postag_regexp="yes"><exception postag="VB:Past:.*:.*:PL" /><exception negate_pos="yes" postag_regexp="yes" postag="VB:Past:.*"  /></token>               
-                </pattern>
-                <message>Существительное не согласуется с глаголом по числу.
-                    <suggestion><match no="2"></match> <match no="3" postag="VB:Past:.*" postag_regexp="yes" postag_replace="VB:Past:.*:.*:PL"></match></suggestion>
-                </message>
-                <url>http://ru.wikipedia.org/wiki/%D0%93%D0%BB%D0%B0%D0%B3%D0%BE%D0%BB_%D0%B2_%D1%80%D1%83%D1%81%D1%81%D0%BA%D0%BE%D0%BC_%D1%8F%D0%B7%D1%8B%D0%BA%D0%B5</url>
-                <short>Ошибка в согласовании по числу.</short>
-                <example>Коты грелись на солнышке.</example>
-                <example correction="Кошка грелась"><marker>Коты грелся</marker> на солнышке.</example>
-            </rule>
--->
+         
 
             <rule>        <!-- #1063 -->          
                 <pattern>
@@ -6221,6 +6205,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <url>http://ru.wikipedia.org/wiki/%D0%93%D0%BB%D0%B0%D0%B3%D0%BE%D0%BB_%D0%B2_%D1%80%D1%83%D1%81%D1%81%D0%BA%D0%BE%D0%BC_%D1%8F%D0%B7%D1%8B%D0%BA%D0%B5</url>
                 <short>Ошибка в согласовании по числу.</short>
                 <example>Коты грелись на солнышке.</example>
+                <example>Блюдо готовилось на сковородке.</example>
+                <example correction=""><marker>Блюдо готовились</marker> на сковородке.</example>
                 <example correction=""><marker>Коты грелся</marker> на солнышке.</example>
                 <example correction=""><marker>Маша гуляют</marker> на солнышке.</example>
             </rule>
@@ -6261,11 +6247,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 <!--
            <rule>                 
                 <pattern>
-		  <marker>
-		    <token  regexp="yes" >пять|шесть|семь|восемь|девять|десять|одиннадцать|двенадцать|тринадцать|четырнадцать|пятнадцать|шестнадцать|семнадцать|восемнадцать|девятнадцать|двадцать|двое|трое|четверо|пятеро|шестеро|семеро<exception scope="previous" postag_regexp="yes" postag="NN.*:.*:.*:Nom"></exception><exception scope="previous" postag_regexp="yes"  postag="PNN:.*:Nom:.*" ></exception><exception scope="previous" postag="PREP" ></exception></token>
-		    <token  postag="NN:.*:PL:R" postag_regexp="yes"></token>
-                    <token  postag="VB:Past:.*"  postag_regexp="yes" skip="-1"><exception postag="VB:Past:.*:.*:PL" /><exception negate_pos="yes" postag_regexp="yes" postag="VB:Past:.*"  /><exception scope="next" postag_regexp="yes" postag="NN:.*:.*:Nom"></exception><exception scope="next" postag_regexp="yes" postag="NN.*:.*:.*:Nom"></exception><exception scope="next" postag_regexp="yes"  postag="PNN:.*:Nom:.*" ></exception></token>	
-		  </marker>
+                    <marker>
+                        <token  regexp="yes" >пять|шесть|семь|восемь|девять|десять|одиннадцать|двенадцать|тринадцать|четырнадцать|пятнадцать|шестнадцать|семнадцать|восемнадцать|девятнадцать|двадцать|двое|трое|четверо|пятеро|шестеро|семеро<exception scope="previous" postag_regexp="yes" postag="NN.*:.*:.*:Nom"></exception>
+                            <exception scope="previous" postag_regexp="yes"  postag="PNN:.*:Nom:.*" ></exception>
+                            <exception scope="previous" postag="PREP" ></exception>
+                        </token>
+                        <unify negate="yes">
+                            <feature id="number"/>  
+                            <token  postag="NN:.*:PL:R" postag_regexp="yes"></token>
+                            <token  postag="VB:Past:.*"  postag_regexp="yes" skip="-1">
+                                <exception postag="VB:Past:.*:.*:PL" />
+                                <exception negate_pos="yes" postag_regexp="yes" postag="VB:Past:.*"  />
+                                <exception scope="next" postag_regexp="yes" postag="NN:.*:.*:Nom"></exception>
+                                <exception scope="next" postag_regexp="yes" postag="NN.*:.*:.*:Nom"></exception>
+                                <exception scope="next" postag_regexp="yes"  postag="PNN:.*:Nom:.*" ></exception>
+                            </token>	
+                        </unify>	  
+                    </marker>
 		    <token regexp="yes">[.;?!,]</token>
 		</pattern>
                 <message>Существительное не согласуется с глаголом по числу: <suggestion><match no="1"></match> <match no="2"></match> <match no="3" postag="VB:Past:.*" postag_regexp="yes" postag_replace="VB:Past:.*:.*:PL"></match></suggestion></message>
@@ -6310,29 +6308,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Кошка грелась на солнышке.</example>
                 <example correction="Кошка грелась"><marker>Кошка грелись</marker> на солнышке.</example>
             </rule>
-            
-            <!--           NN:Neut:Sin:.*   VB:Past:!PL   -->
-            <!--           NN:Neut:Sin:Nom   VB:Past:!PL   -->
-            <!--  
-                <rule>
-                <pattern>                          
-                <token postag="SENT_START" skip="-1"><exception scope="next" postag_regexp="yes" postag="NN:.*:PL:Nom"></exception><exception scope="next" postag_regexp="yes" postag="PNN:.*"></exception><exception scope="next" regexp = "yes" >и|или</exception></token>
-                    <marker>
-                        <token postag="NN:Neut:Sin:Nom"><exception negate_pos="yes" postag_regexp="yes" postag="NN:Neut:Sin:.*"></exception><exception scope="previous" regexp="yes">и|,</exception></token>
-                        <token postag="VB:Past:.*:.*:PL" skip="-1"><exception negate_pos="yes" postag="VB:Past:.*:.*:PL"></exception><exception scope="next" postag_regexp="yes" postag="NN:.*:PL:Nom"></exception></token>
-                    </marker>
-                    <token regexp="yes">[.;]</token>
-                </pattern>
-                
-                <message>Существительное не согласуется с глаголом по числу.
-                    <suggestion><match no="2"></match> <match no="3" postag="VB:Past:.*:.*:PL" postag_regexp="yes" postag_replace="VB:Past:.*:.*:Neut"></match></suggestion>
-                </message>
-                <url>http://ru.wikipedia.org/wiki/%D0%93%D0%BB%D0%B0%D0%B3%D0%BE%D0%BB_%D0%B2_%D1%80%D1%83%D1%81%D1%81%D0%BA%D0%BE%D0%BC_%D1%8F%D0%B7%D1%8B%D0%BA%D0%B5</url>
-                <short>Ошибка в согласовании по числу.</short>
-                <example>Блюдо готовилось на сковородке.</example>
-                <example type="incorrect"><marker>Блюдо готовились</marker> на сковородке.</example>
-            </rule>
-            -->
         </rulegroup>
         
         <rulegroup  id="Unify_Mult_Adj" name="Согласование нескольких прилагательных в словосочетании">
