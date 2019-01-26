@@ -36516,15 +36516,22 @@ steenwijk;Steenwijk
         </rulegroup>
         <rulegroup id="SPATIE_LEESTEKEN" name="spatie voor leesteken schrappen">
             <rule>
+                <antipattern>
+                    <!-- smiley -->
+                    <token regexp="yes">[:;]</token>
+                    <token spacebefore="no" min="0">-</token>
+                    <token spacebefore="no" regexp="yes">[()D]</token>
+                </antipattern>
                 <pattern>
                     <token/>
                     <token spacebefore="yes" regexp="yes">[!?;,:]</token>
                 </pattern>
-                <message>Voor dit teken hoort geen spatie<suggestion>\1\2</suggestion></message>
+                <message>Voor dit teken hoort geen spatie <suggestion>\1\2</suggestion></message>
                 <short>!</short>
                 <example correction="fout!">Dit is <marker>fout !</marker></example>
                 <example correction="fout?">Is dit <marker>fout ?</marker></example>
                 <example correction="fout,">Dit is <marker>fout ,</marker> toch?</example>
+                <example>Dit is :-)</example>
             </rule>
         </rulegroup>
         <rulegroup id="GEDACHTESTREEPJE" name="- → —">

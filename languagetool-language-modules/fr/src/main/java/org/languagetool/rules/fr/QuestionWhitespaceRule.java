@@ -56,11 +56,11 @@ public class QuestionWhitespaceRule extends Rule {
       Arrays.asList( // ignore smileys, such as :-)
         new PatternTokenBuilder().tokenRegex("[:;]").build(),
         new PatternTokenBuilder().csToken("-").setIsWhiteSpaceBefore(false).build(),
-        new PatternTokenBuilder().tokenRegex("[\\(\\)]").setIsWhiteSpaceBefore(false).build()
+        new PatternTokenBuilder().tokenRegex("[\\(\\)D]").setIsWhiteSpaceBefore(false).build()
       ),
       Arrays.asList( // ignore smileys, such as :)
         new PatternTokenBuilder().tokenRegex("[:;]").build(),
-        new PatternTokenBuilder().tokenRegex("[\\(\\)]").setIsWhiteSpaceBefore(false).build()
+        new PatternTokenBuilder().tokenRegex("[\\(\\)D]").setIsWhiteSpaceBefore(false).build()
       )
     );
 
