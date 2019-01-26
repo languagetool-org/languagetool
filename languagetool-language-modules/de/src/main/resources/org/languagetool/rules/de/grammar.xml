@@ -28802,19 +28802,21 @@ Andere Projekte</example>
                 </antipattern>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[zZ]um|[bB]eim|im|ins</token>
+                    <token postag="(ADJ|PA2):DAT:SIN:NEU:GRU:.*" postag_regexp="yes" min="0"></token>
                     <marker>
                         <token postag="VER:INF.*" postag_regexp="yes" regexp="yes">[a-zäöü].+
                             <exception postag_regexp="yes" postag="ADJ:.*"/>
-                            <exception regexp="yes">spielentscheidenden|diskussionswürdigen|prallen|stumpfen|schrägen|ehelichen|öden|regen|rauen|apologetischen|wachen|achten|.*genetischen|einen|.*romantischen|.+haften|.*dramatischen|starren|sieben|.+werten</exception>
+                            <exception regexp="yes">spielentscheidenden|diskussionswürdigen|prallen|stumpfen|schrägen|ehelichen|öden|regen|rauen|apologetischen|wachen|achten|.*genetischen|einen|.*romantischen|.+haften|.*dramatischen|starren|sieben|.+werten|werden</exception>
                         </token>
                     </marker>
                 </pattern>
-                <message>Das Verb <suggestion><match no="2" case_conversion="startupper"/></suggestion> scheint hier substantiviert verwendet zu werden und muss dann großgeschrieben werden.</message>
+                <message>Das Verb <suggestion><match no="3" case_conversion="startupper"/></suggestion> scheint hier substantiviert verwendet zu werden und muss dann großgeschrieben werden.</message>
                 <short>Substantivierte Verben werden großgeschrieben.</short>
                 <example correction="Vergnügen">Wir sind schließlich nicht zum <marker>vergnügen</marker> hier.</example>
                 <example correction="Mitnehmen">Alle Gerichte auch zum <marker>mitnehmen</marker>.</example>
                 <example correction="Stehen">Ich bin fast im <marker>stehen</marker> eingeschlafen.</example>
                 <example correction="Suchen">Beim <marker>suchen</marker> fiel mir etwas ein.</example>
+                <example correction="Suchen">Beim vorsichtigen <marker>suchen</marker> fiel mir etwas ein.</example>
                 <example correction="Wanken">Seine Pläne gerieten dadurch ins <marker>wanken</marker>.</example>
                 <example>Er steht im <marker>erhalten</marker> gebliebenen Seitenflügel.</example>
             </rule>
