@@ -16730,16 +16730,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token>das</token>
+                    <token regexp="yes">das|geplante|besiegelte</token>
                     <marker>
                         <token case_sensitive="yes">aus</token>
                     </marker>
-                    <token postag="VER:.*|^PRP:.+" postag_regexp="yes"/>
+                    <token postag="VER:.*|^PRP:.+|ART:DEF:GEN:.+" postag_regexp="yes"/>
                 </pattern>
                 <message>&inwend;'im Aus sein/landen' wird <suggestion>Aus</suggestion> großgeschrieben.</message>
                 <short>&prgk;.</short>
                 <example correction="Aus">Das <marker>aus</marker> für Italien kam unerwartet.</example>
                 <example>Sie war blind und er nutzte das aus.</example>
+                <example correction="Aus">Das von der neuen Regierung besiegelte <marker>aus</marker> der Aktion</example>
             </rule>
         </rulegroup>
         <rulegroup id="IM_GESTERN" name="im gestern (Gestern) leben">
