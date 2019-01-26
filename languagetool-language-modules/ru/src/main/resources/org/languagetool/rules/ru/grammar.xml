@@ -6191,13 +6191,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
          
 
             <rule>        <!-- #1063 -->          
+                <antipattern>
+                    <token  postag="SENT_START" skip ="-1"><exception scope="next" postag_regexp="yes" postag="PNN:.*" /></token>
+                    <marker>
+                         
+                        <token  postag="NN:.*:Nom" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="NN:.*"></exception></token>
+                        <token  postag="VB:(Past|Real):.*"  postag_regexp="yes" skip="-1"><exception negate_pos="yes" postag_regexp="yes" postag="VB:(Past|Real):.*" /><exception  postag_regexp="yes" postag="VB:(Past|Real):TRANS:.*" /></token>                            
+
+                    </marker>
+                    <token postag_regexp="yes" postag="NN:.*:Nom" skip="-1"><exception negate_pos="yes" postag_regexp="yes" postag="NN:.*"></exception></token>
+                    <token regexp="yes">;|:|[\p{Punct}]</token>
+                </antipattern>
+               
                 <pattern>
                     <token  postag="SENT_START" skip ="-1"><exception scope="next" postag_regexp="yes" postag="PNN:.*" /></token>
                     <marker>
                     <unify negate="yes">
                         <feature id="number"/>          
-                        <token  postag="NN:.*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="NN:.*"></exception></token>
-                        <token  postag="VB:(Past|Real):.*"  postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="VB:(Past|Real):.*" /><exception  postag_regexp="yes" postag="VB:(Past|Real):TRANS:.*" /></token>                            
+                        <token  postag="NN:.*:Nom" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="NN:.*"></exception></token>
+                        <token  postag="VB:(Past|Real):.*"  postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="VB:(Past|Real):.*" /><exception  postag_regexp="yes" postag="VB:(Past|Real):TRANS:.*" /><exception scope="next" postag_regexp="yes" postag="NN:.*:Nom"></exception></token>                            
                     </unify>
                     </marker>
                 </pattern>
@@ -6207,6 +6219,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Коты грелись на солнышке.</example>
                 <example>Блюдо готовилось на сковородке.</example>
                 <example>Матч отменили из-за дождя.</example> <!-- Пропущено слово, управление  -->
+                <example>В 1448 году упоминаются городские волнения против строительства замка.</example>
                 <example correction=""><marker>Блюдо готовились</marker> на сковородке.</example>
                 <example correction=""><marker>Коты грелся</marker> на солнышке.</example>
                 <example correction=""><marker>Маша гуляют</marker> на солнышке.</example>
