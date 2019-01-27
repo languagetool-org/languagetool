@@ -139,12 +139,13 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <unify>
                 <feature id="number"/><feature id="case"/><feature id="gender"/>
                 <!-- "Am Strand stehen schöne Häuser"-->
-                <token postag="ADJ:.*" postag_regexp="yes"/>
+                <token postag="ADJ:.*" postag_regexp="yes"><exception>liebe</exception></token>
                 <token postag="SUB:.*" postag_regexp="yes"><exception postag="ADJ:.+:SOL" postag_regexp="yes" regexp="yes">[A-Z].+</exception></token>
             </unify>
         </pattern>
         <disambig action="unify"/>
         <example type="untouched">Gegen eine schwache Wiener Austria holte das Schlusslicht einen 1:0-Heimerfolg.</example>
+        <example type="untouched">Ich liebe Lachs.</example>
     </rule>
 
     <rule name="NP unify 4" id="UNIFY_4">
@@ -921,6 +922,15 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
                 <token inflected="yes">Taschenmesser</token>
             </pattern>
             <disambig action="remove" postag="SUB:.*:MAS"/>
+        </rule>
+    </rulegroup>
+    <rulegroup id="ICH_LIEBE" name="ich liebe ... (liebe als Verb)">
+        <rule>
+            <pattern case_sensitive="yes">
+                <token>Ich</token>
+                <marker><token>liebe</token></marker>
+            </pattern>
+            <disambig action="remove" postag="ADJ:.+"/>
         </rule>
     </rulegroup>
     <!-- ============================================================================================================== -->
