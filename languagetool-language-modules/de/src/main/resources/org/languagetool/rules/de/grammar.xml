@@ -7548,7 +7548,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <regexp>(Lentzsche\w*) (Regel|Gesetz)</regexp>
-                <message>Meinten Sie <suggestion><match no="1" regexp_match="entz" regexp_replace="enz"/> \2</suggestion>?</message>
+                <message>Meinten Sie <suggestion><match no="1" regexp_match="entz" regexp_replace="enz"/> \2</suggestion> (benannt nach Emil Lenz)?</message>
                 <example correction="Lenzschen Regel">Nach der <marker>Lentzschen Regel</marker> wird durch eine Änderung des magnetischen Flusses …</example>
                 <example correction="Lenzsche Gesetz">Das <marker>Lentzsche Gesetz</marker> ist wichtig.</example>
             </rule>
@@ -7646,7 +7646,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <regexp>Leibnitz[\w-]*keks[\w-]*</regexp>
-                <message>Meinten Sie <suggestion><match no="0" regexp_match="Leibnitz" regexp_replace="Leibniz"/></suggestion>?</message>
+                <message>Meinten Sie <suggestion><match no="0" regexp_match="Leibnitz" regexp_replace="Leibniz"/></suggestion> (nach dem langjährigen hannoverschen Hofbibliothekar und Philosophen G. W. Leibniz)?</message>
                 <example>Ich esse <marker>Leibniz-Kekse</marker>.</example>
                 <example correction="Leibniz-Kekse">Ich esse <marker>Leibnitz-Kekse</marker>.</example>
                 <example correction="Leibniz-Butterkeks">Ich esse einen <marker>Leibnitz-Butterkeks</marker>.</example>
@@ -15409,7 +15409,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>teilen</token>
                 </marker>
             </pattern>
-            <message>Meinten Sie <suggestion>Teilen</suggestion>?</message>
+            <message>Meinten Sie <suggestion>Teilen</suggestion> (vom Substantiv 'der Teil')?</message>
+            <short>&prgk;.</short>
             <example correction="Teilen">Aus beiden <marker>teilen</marker> wird ein neues Teil.</example>
             <example correction="Teilen">Sie erhielten davon zu gleichen <marker>teilen</marker>.</example>
         </rule>
@@ -15421,6 +15422,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </marker>
             </pattern>
             <message>Meinten Sie das Nomen <suggestion>Unterschied</suggestion> (als Nomen großgeschrieben)?</message>
+            <short>&prgk;.</short>
             <example correction="Unterschied">Was ist der <marker>unterschied</marker> zwischen "gratis" und "kostenlos"?</example>
         </rule>
         <rule id="EINIGE_FRAGEN" name="einige fragen (Fragen)">
@@ -15432,6 +15434,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">an|über|zu</token>
             </pattern>
             <message>Meinten Sie das Nomen <suggestion>Fragen</suggestion> (als Nomen großgeschrieben)?</message>
+            <short>&prgk;.</short>
             <example correction="Fragen">Ich habe noch einige <marker>fragen</marker> an dich.</example>
         </rule>
         <rule id="DIE_ZEIT" name="die zeit (Zeit)">
@@ -15446,7 +15449,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token case_sensitive="yes">zeit</token>
                 </marker>
             </pattern>
-            <message>Meinten Sie <suggestion>Zeit</suggestion>?</message>
+            <message>Meinten Sie das Substantiv <suggestion>Zeit</suggestion>?</message>
+            <short>&prgk;.</short>
             <example correction="Zeit">Und wenn schon – die <marker>zeit</marker> ist ein unzuverlässiges Kriterium.</example>
             <example>Die <marker>zeit</marker> seines Lebens immer wieder vorkommenden Vorwürfe haben sich nicht erhärtet.</example>
         </rule>
@@ -15463,6 +15467,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </marker>
             </pattern>
             <message>&subanfang;<suggestion><match no="3" case_conversion="startupper"/></suggestion>&subende;</message>
+            <short>&prgk;.</short>
             <example correction="Folgendes">Er teilte ihr <marker>folgendes</marker> mit: ...</example>
             <example>Sie verschrieb ihm folgendes Medikament: viel Schlaf und Erholung!</example>
             <example>Die Wahlen brachten folgendes offizielles Ergebnis:..</example>
@@ -15477,6 +15482,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Meinten Sie das Substantiv <suggestion>Schwere</suggestion>?</message>
             <short>&prgk;.</short>
             <example correction="Schwere">Festgestellt wurde eine besondere <marker>schwere</marker> der Schuld.</example>
+        </rule>
+        <rule id="SAMT_UND_SONDERS" name="Samt (samt) und sonders">
+            <antipattern case_sensitive="yes">
+                <token>samt</token>
+                <token>und</token>
+                <token>sonders</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">\w+</token>
+                <marker>
+                    <token>samt</token>
+                    <token case_sensitive="yes">und</token>
+                    <token>sonders</token>
+                </marker>
+            </pattern>
+            <message>Meinten Sie die Wendung <suggestion><match no="2" case_conversion="alllower"/> und sonders</suggestion> (=ohne Ausnahme, allesamt)?</message>
+            <short>&prgk;.</short>
+            <example correction='samt und sonders'>Wir waren <marker>Samt und sonders</marker> zur Teilnahme verpflichtet.</example>
         </rule>
         <rule id="ZU_ALLEM_ÜBEL" name="zu allem übel (Übel)">
             <pattern case_sensitive="yes">
@@ -30189,22 +30212,23 @@ Andere Projekte</example>
         -->
         <!-- TODO: make this more generic + avoid false alarm in "helfen ihm zu finden"
         <rule id="HELFEN_DATIV" name="'Dativ nach 'helfen'">
-          <pattern mark_from="1">
-            <token regexp="yes">helfen?|hilfs?t|helft|half(en)?|halfs?t</token>
-            <token>ihn</token>
+          <pattern>
+            <token inflected regexp="yes">helfen</token>
+            <marker><token>ihn</token></marker>
+            <token><exception postag="ADV.*" postag_regexp="yes"/></token>
           </pattern>
-          <message>Kasusfehler: Das Personalpronomen nach 'helfen' muss im Dativ stehen (z.B. 'ihm').</message>
+          <message>Kasusfehler: Das Personalpronomen nach 'helfen' muss im Dativ stehen (z. B. 'ihm').</message>
           <example>Sie hilft <marker>ihm</marker> gerne.</example>
           <example>Sie hilft <marker>ihnen</marker> gerne.</example>
           <example>Sie helfen <marker>mir</marker> gerne.</example>
           <example>Sie helfen <marker>dir</marker> gerne.</example>
           <example>Sie helfen <marker>uns</marker> gerne.</example>
-          <example type="incorrect">Sie hilft <marker>ihn</marker> gerne.</example>
+          <example>Sie hilft <marker>ihn</marker> gerne.</example>
         </rule>
         -->
         <rule id="SCHENKEN_DATIV" name="'Dativ nach 'schenken'">
           <pattern case_sensitive="yes">
-            <token inflected="yes" regexp="yes">geben|schenken|vertrauen</token>
+            <token inflected="yes" regexp="yes">helfen|geben|schenken|vertrauen|folgen</token>
             <marker><token>ihn</token></marker>
             <token min="0">nicht</token>
             <token postag="PRO:(POS|DEM):AKK:.+|PKT" postag_regexp="yes"/>

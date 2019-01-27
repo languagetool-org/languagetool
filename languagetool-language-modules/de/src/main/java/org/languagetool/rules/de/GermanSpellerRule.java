@@ -504,6 +504,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Fr-Sa", "Fr.–Sa.");
     put("Fr-So", "Fr.–So.");
     put("Sa-So", "Sa.–So.");
+    putRepl("[hH]ats", "ats", "at es");
   }
 
   private static void putRepl(String wordPattern, String pattern, String replacement) {
