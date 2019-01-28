@@ -7625,7 +7625,7 @@ USA
            </rule>
         </rulegroup>
         <rulegroup id="PLURAL_VERB_AFTER_THIS" name="Plural verb after 'this' or 'that'">
-    <!-- Created by Tiago F. Santos, 2018-09-15. Edited by MFU 2018-12-10-->
+    <!-- Created by Tiago F. Santos, 2018-09-15. Edited by MFU 2018-12-10 and 2019-01-28 -->
             <rule>
                 <antipattern><!--  and those that owe this are called subditus natus; -->
                     <token>those</token>
@@ -7635,10 +7635,11 @@ USA
                     <token regexp='yes'>are|were</token>
                     <token postag='VBN'/>
                 </antipattern>
-                <antipattern><!--  does this book...? -->
+                <antipattern><!--  does this book...? / Does this extend...? -->
                     <token regexp='yes'>does|did|is|was</token>
+                    <token min='0' max='1' postag='PDT'/>
                     <token regexp='yes'>th(?:is|at)</token>
-                    <token skip="-1" postag_regexp="yes" postag='NN(:UN?)?'/>
+                    <token skip="-1" postag_regexp="yes" postag='NN(:UN?)?|VB'/>
                     <token>?</token>
                 </antipattern>
                 <antipattern><!--  will this [dictionary] do...? -->
@@ -7664,6 +7665,15 @@ USA
                     <token>this</token>
                     <token postag='NN(:UN?)?' postag_regexp='yes'/>
                     <token postag='VBP?' postag_regexp='yes'/>
+                </antipattern>
+                <antipattern><!-- Authors who assert this thesis include... -->
+                    <token postag='VB.*' postag_regexp='yes'/><!-- Necessary to prevent FP on: This word have errors. -->
+                    <token>this</token>
+                    <token chunk="E-NP-singular"/>
+                    <and>
+                        <token chunk="B-VP"/>
+                        <token postag='VBP?' postag_regexp='yes'/>
+                    </and>
                 </antipattern>
                 <pattern>
                     <token regexp='yes'>th(?:is|at)<exception scope="previous" postag='IN'/><exception postag='W.+' postag_regexp='yes'/><exception scope="previous">let</exception></token>
@@ -7717,7 +7727,7 @@ USA
                 <example>...evel of creative expertise by the artist, whether this be a demonstration of technical ability, an original...</example>
                 <example>Pan is a monkey that can spread butter on bread.</example>
                 <example>...an be considered to be any sequence of operations that can be simulated by a Turing-complete system.</example>
-                <!--example>Authors who assert this thesis include Minsky (1967), Savage (and Gurevich (2000):...</example> TODO Use chunks to correct this  -->
+                <example>Authors who assert this thesis include Minsky (1967), Savage (and Gurevich (2000):...</example>
                 <example>...rily intended for expressing algorithms in a form that can be executed by a computer, but are often used as a w...</example>
                 <example>...ut I suppose that it could do very completely all that can be rationally expected of any logical machine".</example>
                 <example>...rmal definition: "...any sequence of instructions that can be obeyed by a robot, is called an algorithm" (p. 4)...</example>
@@ -7734,7 +7744,8 @@ USA
                 <example>Living costs this month are lower than those of last month are.</example>
                 <example>Don't let this discourage you from trying it again.</example>
                 <example>I can't afford a new car, so I'll have to make this one do.</example>
-                <example type="triggers_error">What does all this add up to?</example>
+                <example>Does this extend to the test?</example>
+                <example>What does all this add up to?</example>
                 <example type="triggers_error">"Will this do now?", she asked.</example><!-- Caused by incorrect disambiguation in UPPER_NNP. I do not know how to correct the disambiguation. -->
            </rule>
         </rulegroup>
