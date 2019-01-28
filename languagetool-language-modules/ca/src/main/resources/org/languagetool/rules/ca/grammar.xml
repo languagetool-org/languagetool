@@ -27064,6 +27064,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
+        <rule id="DOIDA" name="conèixer *d'oïda">
+            <pattern>
+                <token inflected="yes">conèixer</token>
+                <token inflected="yes">de</token>
+                <token regexp="yes">oïda|oïdes</token>
+            </pattern>
+            <message>Expressió incorrecta.</message>
+            <suggestion>\1 de nom</suggestion>
+            <suggestion>\1 per referències</suggestion>
+            <example correction="coneixia de nom|coneixia per referències">El <marker>coneixia d'oïdes</marker>.</example>
+        </rule>
         <rule id="COMTESSA" name="comtessa/contesa">
             <pattern>
                 <marker>
