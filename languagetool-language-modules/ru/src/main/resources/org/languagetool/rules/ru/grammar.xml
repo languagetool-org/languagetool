@@ -49,7 +49,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <token postag=".*:Sin(:.*)*|((ADJ|Ord|PT:(Past|Real):.*|PT_Short:Real|VB:Past):.*:(Masc|Fem|Neut)(:.*)*)|NN:.*:(Masc|Fem|Neut)" postag_regexp="yes"></token>
         </equivalence>
         <equivalence type="PL">
-            <token postag=".*:PL(:.*)*" postag_regexp="yes"></token>
+            <token postag=".*:PL(:.*)*|NN:.*:(Masc|Fem|Neut)" postag_regexp="yes"></token>
         </equivalence>
     </unification>
      
@@ -5796,6 +5796,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <example correction="">Вдали виднелись <marker>красивые ёлка</marker>.</example>
                     <example>Мебель сделана из красивой сосны.</example>
                     <example>Невежливо показывать на других пальцем.</example>
+                    <example>Незначительный объём перевозок выполняется маршрутными такси.</example>
                     <example>Он каждые полчаса бежит в лабораторию.</example>
                     <example correction="">Столы сделаны из <marker>красивой сосен</marker>.</example>
                 </rule>
@@ -6208,6 +6209,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token  postag="VB:(Past|Real):.*"  postag_regexp="yes" skip="-1"><exception negate_pos="yes" postag_regexp="yes" postag="VB:(Past|Real):.*" /><exception  postag_regexp="yes" postag="VB:(Past|Real):TRANS:.*" /></token>                            
                     </marker>
                 </antipattern>
+                <antipattern>
+                    <token  postag="SENT_START" skip ="-1"><exception scope="next" postag_regexp="yes" postag="PNN:.*" /></token>
+                    <token skip="3" postag="NN:.*:Nom" postag_regexp="yes"></token>
+                    <marker>  
+                        <token  postag="NN:.*:Nom" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="NN:.*"></exception></token>
+                        <token  postag="VB:(Past|Real):.*"  postag_regexp="yes" skip="-1"><exception negate_pos="yes" postag_regexp="yes" postag="VB:(Past|Real):.*" /><exception  postag_regexp="yes" postag="VB:(Past|Real):TRANS:.*" /></token>                            
+                    </marker>
+                </antipattern>
                
                 <pattern>
                     <token  postag="SENT_START" skip ="-1"><exception scope="next" postag_regexp="yes" postag="PNN:.*" /></token>
@@ -6225,7 +6234,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Коты грелись на солнышке.</example>
                 <example>Блюдо готовилось на сковородке.</example>
                 <example>Сыр и сливочное масло делаются из молока.</example>
-    <!--            <example>При низких температурах вода превращается в лёд.</example>   -->
+                <example>Учащиеся всё время сидели неподвижно.</example>
+                <example>Вода превращается в лёд.</example>  
                 <example>Матч отменили из-за дождя.</example> <!-- Пропущено слово, управление  -->
                 <example>В 1448 году упоминаются городские волнения против строительства замка.</example>
                 <example correction=""><marker>Блюдо готовились</marker> на сковородке.</example>
