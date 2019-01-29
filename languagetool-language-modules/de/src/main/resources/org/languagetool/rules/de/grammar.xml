@@ -294,7 +294,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token regexp="yes">de[rsmn]</token>
                     <marker>
-                        <token regexp='yes'>\w*beamter</token>
+                        <token regexp='yes'>[\wäöüÄÖÜß-]*beamter</token>
                     </marker>
                 </pattern>
                 <message>Meinten Sie <suggestion><match no="2" regexp_match="er$" regexp_replace="e"/></suggestion> oder <suggestion><match no="2" regexp_match="er$" regexp_replace="en"/></suggestion>?</message>
@@ -305,7 +305,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token regexp="yes">(k?ein|dies?|jen)(e[nms])?</token>
                     <marker>
-                        <token regexp='yes'>\w*beamte</token>
+                        <token regexp='yes'>[\wäöüÄÖÜß-]*beamte</token>
                     </marker>
                 </pattern>
                 <message>Meinten Sie <suggestion><match no="2" regexp_match="e$" regexp_replace="er"/></suggestion> oder <suggestion><match no="2" regexp_match="e$" regexp_replace="en"/></suggestion>?</message>
@@ -39416,7 +39416,7 @@ Andere Projekte</example>
                     <token regexp="yes">.*pho[nt]ograph.*|graphe(mi(sch|k)|mati(sch|k)|ologi(sch|e)).*|Graph(e[nm]|ic(s|al))?</token>
                 </antipattern>
                 <pattern>
-                    <token regexp="yes">\w*graph\w*</token>
+                    <token regexp="yes">[\wäöüÄÖÜß-]*graph[\wäöüÄÖÜß-]*</token>
                 </pattern>
                 <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" regexp_match="(.)(.*)raph(.*)" regexp_replace="$1$2raf$3"/></suggestion> verwenden?</message>
                 <example correction="geografischen">Er vertrieb sich die Zeit mit <marker>geographischen</marker> Studien.</example>
@@ -39428,14 +39428,14 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes" case_sensitive="yes">Photograph\w*</token>
+                    <token regexp="yes" case_sensitive="yes">Photograph[\wäöüÄÖÜß-]*</token>
                 </pattern>
                 <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" regexp_match="Photograph(.*)" regexp_replace="Fotograf$1"/></suggestion> verwenden?</message>
                 <example correction="Fotografien">Sie sammelte <marker>Photographien</marker>.</example>
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes" case_sensitive="yes">\w*photograph\w*</token>
+                    <token regexp="yes" case_sensitive="yes">[\wäöüÄÖÜß-]*photograph[\wäöüÄÖÜß-]*</token>
                 </pattern>
                 <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" regexp_match="(.*)photograph(.*)" regexp_replace="$1fotograf$2"/></suggestion> verwenden?</message>
                 <example correction="Familienfotografien">Ihr gelangen immer wieder wundervolle <marker>Familienphotographien</marker>.</example>
@@ -39447,7 +39447,7 @@ Andere Projekte</example>
                     <token regexp="yes">Photograph.*|Photons?|Photonen.*|Photoshop.*|Phono.*|Phone[mt].*</token>
                 </antipattern>
                 <pattern>
-                    <token regexp="yes" case_sensitive="yes">Pho(to|n)\w*</token>
+                    <token regexp="yes" case_sensitive="yes">Pho(to|n)[\wäöüÄÖÜß-]*</token>
                 </pattern>
                 <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" regexp_match="Photo(.*)" regexp_replace="Foto$1"/></suggestion> verwenden?</message>
                 <example correction="Fotoalbum">Sie blätterte gerne durch das <marker>Photoalbum</marker>.</example>
@@ -39478,7 +39478,7 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes" case_sensitive="yes">Fonograf\w*</token>
+                    <token regexp="yes" case_sensitive="yes">Fonograf[\wäöüÄÖÜß-]*</token>
                 </pattern>
                 <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" regexp_match="Fonograf(.*)" regexp_replace="Phonograph$1"/></suggestion> verwenden?</message>
                 <example correction="Phonograph">Die Aufnahme wurde mit einem <marker>Fonograf</marker> erstellt.</example>
@@ -39488,7 +39488,7 @@ Andere Projekte</example>
                     <token regexp="yes">fonograf.*</token>
                 </antipattern>
                 <pattern>
-                    <token regexp="yes" case_sensitive="yes">fono\w*</token>
+                    <token regexp="yes" case_sensitive="yes">fono[\wäöüÄÖÜß-]*</token>
                 </pattern>
                 <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" regexp_match="fono(.*)" regexp_replace="phono$1"/></suggestion> verwenden?</message>
                 <example correction="phonogene">Er verfügt über eine <marker>fonogene</marker> Stimme.</example>
@@ -39505,7 +39505,7 @@ Andere Projekte</example>
             <url>http://www.duden.de/hilfe/rechtschreibung</url>
             <rule>
                 <pattern>
-                    <token regexp="yes">\w*oxyd\w*</token>
+                    <token regexp="yes">[\wäöüÄÖÜß-]*oxyd[\wäöüÄÖÜß-]*</token>
                 </pattern>
                 <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" regexp_match="(.)(.*)xyd(.*)" regexp_replace="$1$2xid$3"/></suggestion> verwenden?</message>
                 <example correction="Kohlendioxidvergiftung">Er zog sich eine <marker>Kohlendioxydvergiftung</marker> zu.</example>
@@ -39515,7 +39515,7 @@ Andere Projekte</example>
             <url>http://www.duden.de/hilfe/rechtschreibung</url>
             <rule>
                 <pattern>
-                    <token regexp="yes">(demen|poten|essen)tiell\w*</token>
+                    <token regexp="yes">(demen|poten|essen)tiell[\wäöüÄÖÜß-]*</token>
                 </pattern>
                 <message>Möchten Sie die vom Duden empfohlene Schreibweise <suggestion><match no="1" regexp_match="(.*)tiell(.*)" regexp_replace="$1ziell$2"/></suggestion> verwenden?</message>
                 <example correction="essenziell">Diese Aussage ist <marker>essentiell</marker>.</example>
