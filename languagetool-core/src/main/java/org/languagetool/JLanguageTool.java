@@ -45,6 +45,7 @@ import java.net.URL;
 import java.util.*;
 import java.util.concurrent.Callable;
 import java.util.jar.Manifest;
+import java.util.logging.Level;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -773,6 +774,7 @@ public class JLanguageTool {
   public List<RuleMatch> checkAnalyzedSentence(ParagraphHandling paraMode,
         List<Rule> rules, AnalyzedSentence analyzedSentence) throws IOException {
     List<RuleMatch> sentenceMatches = new ArrayList<>();
+    RuleLoggerManager logger = RuleLoggerManager.getInstance();
     for (Rule rule : rules) {
       if (rule instanceof TextLevelRule) {
         continue;
@@ -787,7 +789,10 @@ public class JLanguageTool {
       if (paraMode == ParagraphHandling.ONLYPARA) {
         continue;
       }
+      long time = System.currentTimeMillis();
       RuleMatch[] thisMatches = rule.match(analyzedSentence);
+      logger.log(new RuleCheckTimeMessage(rule.getId(), language.getShortCodeWithCountryAndVariant(),
+        time, analyzedSentence.getText().length()), Level.FINE);
       for (RuleMatch elem : thisMatches) {
         sentenceMatches.add(elem);
       }
@@ -1171,9 +1176,14 @@ public class JLanguageTool {
 
     private List<RuleMatch> getTextLevelRuleMatches() throws IOException {
       List<RuleMatch> ruleMatches = new ArrayList<>();
+      RuleLoggerManager logger = RuleLoggerManager.getInstance();
+      String lang = language.getShortCodeWithCountryAndVariant();
       for (Rule rule : rules) {
         if (rule instanceof TextLevelRule && !ignoreRule(rule) && paraMode != ParagraphHandling.ONLYNONPARA) {
+          long time = System.currentTimeMillis();
           RuleMatch[] matches = ((TextLevelRule) rule).match(analyzedSentences, annotatedText);
+          logger.log(new RuleCheckTimeMessage(rule.getId(), lang,
+            time, annotatedText.getPlainText().length()), Level.FINE);
           List<RuleMatch> adaptedMatches = new ArrayList<>();
           for (RuleMatch match : matches) {
             LineColumnRange range = getLineColumnRange(match);

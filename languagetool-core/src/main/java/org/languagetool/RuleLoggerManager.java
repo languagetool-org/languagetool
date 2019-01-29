@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.logging.Level;
 
 /**
- * @since 4.4
+ * @since 4.5
  * Flexible, unified logging from inside rules; messages can be read from other modules,
  * e.g. languagetool-servers DatabaseLogger
  */
@@ -63,7 +63,9 @@ public final class RuleLoggerManager {
 
   public void log(RuleLoggerMessage message, Level logLevel) {
     if (logLevel.intValue() >= level.intValue()) {
-      loggerList.forEach(logger -> logger.log(message, logLevel));
+      loggerList.stream()
+        .filter(logger -> logger.filter(message))
+        .forEach(logger -> logger.log(message, logLevel));
     }
   }
 

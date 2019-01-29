@@ -19,30 +19,36 @@
  *
  */
 
-package org.languagetool;
+package org.languagetool.server;
 
-import java.io.PrintStream;
+import org.languagetool.Experimental;
+import org.languagetool.RuleLogger;
+import org.languagetool.RuleLoggerMessage;
+
 import java.util.logging.Level;
 
-public class SlowRuleLogger extends OutputStreamLogger  {
-  private static final int SLOW_THRESHOLD = 50; // milliseconds
+/**
+ * @since 4.5
+ * Logs messages to database as well as System.out
+ */
+@Experimental
+public abstract class DatabaseRuleLogger extends RuleLogger {
 
-  public SlowRuleLogger() {
-    this(System.out);
-  }
+  protected final Long serverId;
 
-  public SlowRuleLogger(PrintStream stream) {
-    super(stream);
-    this.setLevel(Level.FINE);
+  public DatabaseRuleLogger(Long serverId) {
+    this.serverId = serverId;
   }
 
   @Override
   public void log(RuleLoggerMessage message, Level level) {
-    if (message instanceof SlowRuleMessage) {
-      SlowRuleMessage msg = (SlowRuleMessage) message;
-      if (msg.getExecutionTime() >= SLOW_THRESHOLD) {
-        super.log(message, level);
-      }
-    }
+
+    String text = String.format("[%s] %s - %s (%s): %s", level.getName(), message.getClass().getSimpleName(),
+      message.getRuleId(), message.getLanguage(), message.getMessage());
+
+    DatabaseLogger.getInstance().log(new DatabaseMiscLogEntry(serverId, null, null, text));
+
+    System.out.println(text);
   }
+
 }

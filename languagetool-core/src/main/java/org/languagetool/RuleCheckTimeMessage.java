@@ -21,17 +21,26 @@
 
 package org.languagetool;
 
-public class SlowRuleMessage extends RuleLoggerMessage {
+public class RuleCheckTimeMessage extends RuleLoggerMessage {
   private final long executionTime;
 
-  public SlowRuleMessage(String ruleId, String language, long startTime) {
+  private final int textSize;
+
+  public RuleCheckTimeMessage(String ruleId, String language, long startTime, int textSize) {
     super(ruleId, language, null);
 
     executionTime = System.currentTimeMillis() - startTime;
-    setMessage(String.format("Rule checked in %d ms", executionTime));
+    this.textSize = textSize;
+    setMessage(String.format("Rule checked %d chars in %d ms (%f chars/ms)",
+      textSize, executionTime, (float) textSize / executionTime));
   }
 
   public long getExecutionTime() {
     return executionTime;
   }
+
+  public int getTextSize() {
+    return textSize;
+  }
+
 }

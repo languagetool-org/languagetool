@@ -21,11 +21,31 @@
 
 package org.languagetool;
 
+import java.util.LinkedList;
+import java.util.List;
+import java.util.function.Predicate;
 import java.util.logging.Level;
 
 @Experimental
-public interface RuleLogger {
+public abstract class RuleLogger {
 
-  void log(RuleLoggerMessage message, Level level);
+  private final List<Predicate<RuleLoggerMessage>> filters = new LinkedList<>();
 
+  public abstract void log(RuleLoggerMessage message, Level level);
+
+  public boolean filter(RuleLoggerMessage message) {
+    return filters.stream().allMatch(filter -> filter.test(message));
+  }
+
+  public void addFilter(Predicate<RuleLoggerMessage> filter) {
+    filters.add(filter);
+  }
+
+  public void removeFilter(Predicate<RuleLoggerMessage> filter) {
+    filters.remove(filter);
+  }
+
+  public void clearFilters() {
+    filters.clear();
+  }
 }
