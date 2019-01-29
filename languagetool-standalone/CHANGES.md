@@ -10,7 +10,10 @@
   * URLs written like `mydomain.org/` are now detected as domains and not
     considered spelling errors anymore. Note that the slash is still needed
     to avoid missing real errors.
-
+  * JSON output: The `replacements` list now has an optional new item `shortDescription`
+    for each `value`. It can contain a short definition/hint about the word. Currently,
+    the only words that have a short description are ones that have a description
+    in `confusion_sets.txt` (i.e. a text after the `|` symbol).
 
 ## 4.4.1 (2019-01-14)
 
