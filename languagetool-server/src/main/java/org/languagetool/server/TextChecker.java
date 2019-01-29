@@ -347,7 +347,7 @@ abstract class TextChecker {
       if(config.getHiddenMatchesServerFailTimeout() > 0 && lastHiddenMatchesServerTimeout != -1 &&
         System.currentTimeMillis() - lastHiddenMatchesServerTimeout < config.getHiddenMatchesServerFailTimeout()) {
         print("Warn: Skipped querying hidden matches server at " +
-          config.getHiddenMatchesServer() + " because of recent error/timeout.");
+          config.getHiddenMatchesServer() + " because of recent error/timeout (timeout=" + config.getHiddenMatchesServerFailTimeout() + "ms).");
       } else {
         ResultExtender resultExtender = new ResultExtender(config.getHiddenMatchesServer(), config.getHiddenMatchesServerTimeout());
         try {
