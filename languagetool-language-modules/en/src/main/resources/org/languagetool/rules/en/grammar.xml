@@ -7435,7 +7435,7 @@ USA
                     <token postag_regexp="yes" postag="TO|RP"/>
                     <token regexp="yes">I|[hw]e|she|they</token>
                 </marker>
-                <token postag="SENT_END"/>
+                <token postag="SENT_END" regexp="yes">[\.\?!]</token>
             </pattern>
             <message>Did you mean <suggestion>\1 me</suggestion>, <suggestion>\1 her</suggestion>, <suggestion>\1 him</suggestion>, <suggestion>\1 us</suggestion>, or <suggestion>\1 them</suggestion>?</message>
             <example correction="to me|to her|to him|to us|to them">Give it <marker>to I</marker>.</example>
@@ -7443,6 +7443,7 @@ USA
             <example>I feel safe <marker>with him</marker>.</example>
             <example>Look <marker>at her</marker>!</example>
             <example>I have no time to put my books in order before I go.</example>
+            <example>List item in a bulleted list: * A text that he typed</example>
         </rule>
         <rule id="POSSESSIVE_CASE" name="possessive case after with(out)/at/in/to/...">
             <pattern>
