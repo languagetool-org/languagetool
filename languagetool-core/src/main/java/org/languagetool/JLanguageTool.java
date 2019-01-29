@@ -86,6 +86,8 @@ public class JLanguageTool {
 
   private final ResultCache cache;
   private final UserConfig userConfig;
+  private final ShortDescriptionProvider descProvider;
+
   private float maxErrorsPerWordRate;
 
   /**
@@ -257,6 +259,7 @@ public class JLanguageTool {
       throw new RuntimeException("Could not activate rules", e);
     }
     this.cache = cache;
+    descProvider = new ShortDescriptionProvider(language);
   }
 
   /**
@@ -826,7 +829,8 @@ public class JLanguageTool {
     }
     RuleMatch thisMatch = new RuleMatch(match.getRule(), match.getSentence(),
         fromPos, toPos, match.getMessage(), match.getShortMessage());
-    thisMatch.setSuggestedReplacements(match.getSuggestedReplacements());
+    List<SuggestedReplacement> replacements = match.getSuggestedReplacementObjects();
+    thisMatch.setSuggestedReplacementObjects(extendSuggestions(replacements));
     thisMatch.setUrl(match.getUrl());
     thisMatch.setType(match.getType());
     String sentencePartToError = sentence.substring(0, match.getFromPos());
@@ -854,6 +858,19 @@ public class JLanguageTool {
     return thisMatch;
   }
 
+  private List<SuggestedReplacement> extendSuggestions(List<SuggestedReplacement> replacements) {
+    List<SuggestedReplacement> extended = new ArrayList<>();
+    for (SuggestedReplacement replacement : replacements) {
+      if (replacement.getShortDescription() == null) {  // don't overwrite more specific suggestions from the rule
+        String descOrNull = descProvider.getShortDescription(replacement.getReplacement());
+        extended.add(new SuggestedReplacement(replacement.getReplacement(), descOrNull));
+      } else {
+        extended.add(new SuggestedReplacement(replacement.getReplacement(), replacement.getShortDescription()));
+      }
+    }
+    return extended;
+  }
+  
   protected void rememberUnknownWords(AnalyzedSentence analyzedText) {
     if (listUnknownWords) {
       AnalyzedTokenReadings[] atr = analyzedText.getTokensWithoutWhitespace();

@@ -25,10 +25,7 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.markup.AnnotatedText;
 import org.languagetool.markup.AnnotatedTextBuilder;
-import org.languagetool.rules.Category;
-import org.languagetool.rules.CategoryId;
-import org.languagetool.rules.RuleInformation;
-import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.*;
 import org.languagetool.rules.patterns.AbstractPatternRule;
 
 import java.io.IOException;
@@ -159,9 +156,12 @@ public class RuleMatchesAsJsonSerializer {
   
   private void writeReplacements(JsonGenerator g, RuleMatch match) throws IOException {
     g.writeArrayFieldStart("replacements");
-    for (String replacement : match.getSuggestedReplacements()) {
+    for (SuggestedReplacement replacement : match.getSuggestedReplacementObjects()) {
       g.writeStartObject();
-      g.writeStringField("value", replacement);
+      g.writeStringField("value", replacement.getReplacement());
+      if (replacement.getShortDescription() != null) {
+        g.writeStringField("shortDescription", replacement.getShortDescription());
+      }
       g.writeEndObject();
     }
     g.writeEndArray();
