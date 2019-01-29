@@ -19,26 +19,28 @@
  *
  */
 
-package org.languagetool;
+package org.languagetool.server;
 
+import org.junit.Ignore;
 import org.junit.Test;
+import org.languagetool.*;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
-import java.io.PrintStream;
-import java.util.logging.Level;
 
 import static org.mockito.Mockito.*;
 
+@Ignore("For version of SlowRuleLogger that logs to database; can't mock System.out in maven tests anyway")
 public class SlowRuleLoggerTest {
 
   @Test
   public void log() throws IOException {
 
-    PrintStream stream = spy(System.out);
-    SlowRuleLogger logger = new SlowRuleLogger(stream);
+    //SlowRuleLogger logger = new SlowRuleLogger(0L);
+    SlowRuleLogger logger = new SlowRuleLogger(System.out);
     RuleLoggerManager manager = RuleLoggerManager.getInstance();
+    DatabaseLogger.instance = spy(DatabaseLogger.getInstance());
 
     manager.addLogger(logger);
     Rule testRule = new Rule() {
@@ -54,8 +56,6 @@ public class SlowRuleLoggerTest {
 
       @Override
       public RuleMatch[] match(AnalyzedSentence sentence) {
-        long startTime = System.currentTimeMillis();
-
         if (sentence.getText().contains("slow")) {
           try {
             Thread.sleep(1000);
@@ -63,8 +63,6 @@ public class SlowRuleLoggerTest {
             throw new RuntimeException(e);
           }
         }
-
-        manager.log(new SlowRuleMessage(this.getId(), "YY", startTime), Level.FINE);
         return new RuleMatch[0];
       }
     };
@@ -73,8 +71,8 @@ public class SlowRuleLoggerTest {
     lt.addRule(testRule);
 
     lt.check("This should go fast");
-    verify(stream, never()).printf(any(), any());
+    verify(DatabaseLogger.getInstance(), never()).log(any());
     lt.check("This should be slow");
-    verify(stream).printf(any(), any());
+    verify(DatabaseLogger.getInstance()).log(isA(DatabaseMiscLogEntry.class));
   }
 }

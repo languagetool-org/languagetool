@@ -94,6 +94,8 @@ public class HTTPServerConfig {
   protected boolean dbLogging;
   protected boolean skipLoggingRuleMatches = false;
 
+  protected int slowRuleLoggingThreshold = -1; // threshold in milliseconds, used by SlowRuleLogger; < 0 - disabled
+
   protected String abTest = null;
   /**
    * Create a server configuration for the default port ({@link #DEFAULT_PORT}).
@@ -266,6 +268,8 @@ public class HTTPServerConfig {
         if (dbLogging && (dbDriver == null || dbUrl == null || dbUsername == null || dbPassword == null)) {
           throw new IllegalArgumentException("dbLogging can only be true if dbDriver, dbUrl, dbUsername, and dbPassword are all set");
         }
+        slowRuleLoggingThreshold = Integer.valueOf(getOptionalProperty(props,
+          "slowRuleLoggingThreshold", "-1"));
 
         setAbTest(getOptionalProperty(props, "abTest", null));
       }
@@ -789,6 +793,15 @@ public class HTTPServerConfig {
   @Experimental
   boolean getDatabaseLogging() {
     return this.dbLogging;
+  }
+
+  /**
+   * @since 4.5
+   * @return threshold for rule computation time until a warning gets logged, in milliseconds
+   */
+  @Experimental
+  public int getSlowRuleLoggingThreshold() {
+    return slowRuleLoggingThreshold;
   }
 
   /**

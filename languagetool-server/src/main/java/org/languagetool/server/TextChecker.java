@@ -96,7 +96,6 @@ abstract class TextChecker {
     this.logger = DatabaseLogger.getInstance();
     if (logger.isLogging()) {
       this.logServerId = DatabaseAccess.getInstance().getOrCreateServerId();
-      RuleLoggerManager.getInstance().addLogger(new RuleDatabaseLogger(this.logServerId));
     } else {
       this.logServerId = null;
     }
@@ -112,6 +111,11 @@ abstract class TextChecker {
       if (config.getAbTest().equals("SuggestionsOrderer")) {
         SuggestionsOrdererConfig.setMLSuggestionsOrderingEnabled(true);
       }
+    }
+    // enable logging after warmup to avoid false alarms
+    if (config.getSlowRuleLoggingThreshold() >= 0) {
+      //RuleLoggerManager.getInstance().addLogger(new SlowRuleLogger(this.logServerId, config.getSlowRuleLoggingThreshold()));
+      RuleLoggerManager.getInstance().addLogger(new SlowRuleLogger(System.out, config.getSlowRuleLoggingThreshold()));
     }
   }
 
