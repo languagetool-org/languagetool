@@ -13023,6 +13023,12 @@ USA
                 <token regexp="yes">[&amp;,;]|and</token>
                 <token postag="JJS"/>
             </antipattern>
+            <antipattern>
+                <token>.</token>
+                <token>.</token>
+                <token>.</token>
+                <token/>
+            </antipattern>
             <rule>
                 <antipattern>
                     <marker><token>best</token></marker>
@@ -13044,7 +13050,7 @@ USA
             <rule>
                 <pattern>
                     <marker>
-                        <token><exception postag="PRP\$|WP\$|DT|JJ|C[CD]|:|NNP" postag_regexp="yes"/><exception>s</exception><exception regexp="yes">['’]</exception><exception>at</exception></token>
+                        <token><exception postag="PRP\$|WP\$|DT|JJ|C[CD]|:|NNP" postag_regexp="yes"/><exception>s</exception><exception regexp="yes">['’…]</exception><exception>at</exception></token>
                         <token postag="JJS"><exception regexp="yes">most|least|best</exception></token>
                     </marker>
                     <token postag="NN.*|JJ" postag_regexp="yes"><exception>in</exception></token>
@@ -13058,6 +13064,8 @@ USA
                 <example>American placed the "largest aircraft order in history" in July 2011, purchasing 460 "next generation" Boeing 737 and Airbus A320 aircraft for delivery between 2013 and 2022.</example>
                 <example>Second largest &amp; busiest Railway station in Asia.</example>
                 <example>Historian Samuel Walker writes that the ACLU’s “greatest impact on American life” was its role in persuading the Supreme Court to constitutionalize so many public controversies.</example>
+                <example><marker>…largest</marker> animals known to exist.</example>
+                <example>...in 1984: "<marker>... wisest</marker> animals on the farm, and one of the few who can read properly."</example>
             </rule>
             <rule>
                 <antipattern>
