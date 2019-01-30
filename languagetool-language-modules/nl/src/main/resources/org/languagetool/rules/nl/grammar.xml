@@ -30282,16 +30282,73 @@ steenwijk;Steenwijk
         <rulegroup id="VAAG" name="vage taal">
             <rule>
                 <pattern>
-                    <token regexp="yes">dingen|alles|ergens|ooit|wellicht|misschien|men</token>
+                    <token regexp="yes">dingen|alles|ergens|ooit|wellicht|men</token>
                 </pattern>
                 <message>Woorden als '<match no="1"/>' kunnen een tekst vaag maken.</message>
                 <example type="incorrect">Deze zin is <marker>ergens</marker> wel vaag hoor!</example>
-                <example type="incorrect"><marker>Misschien</marker> dat je daar iets mee kunt?</example>
                 <example type="incorrect">Hoe kom ik hier <marker>ooit</marker> doorheen?</example>
                 <example type="incorrect">Heviger dan <marker>ooit</marker>.</example>
                 <example type="incorrect">Hier <marker>alles</marker> ok.</example>
                 <example type="incorrect">Wat van <marker>alles</marker>.</example>
             </rule>
+        </rulegroup>
+        <rulegroup id="INSPECIFIEK" name="vage aanduiding hoeveelheid">
+            <rule>
+                <pattern>
+                    <token regexp="yes">doorgaans|meestal|waarschijnlijk|vaak|vermoedelijk|mogelijk|misschien|onzeker|twijfelachtig|soms|onwaarschijnlijk</token>
+                </pattern>
+                <message>Wanneer u een kans wilt aangeven, kunt u beter een percentage aangeven; uit onderzoek blijkt dat '\1' heel verschillend wordt geïnterpreteerd.</message>
+                <example type="incorrect">Dit is <marker>doorgaans</marker> onduidelijk.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>bijna</token>
+                    <token regexp="yes">zeker|altijd</token>
+                </pattern>
+                <message>Wanneer u een kans wilt aangeven, kunt u beter een percentage aangeven; uit onderzoek blijkt dat '\1 \2' heel verschillend wordt geïnterpreteerd.</message>
+                <example type="incorrect">Dit is <marker>bijna zeker</marker> onduidelijk.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>zeer</token>
+                    <token>waarschijnlijk</token>
+                </pattern>
+                <message>Wanneer u een kans wilt aangeven, kunt u beter een percentage aangeven; uit onderzoek blijkt dat '\1 \2' heel verschillend wordt geïnterpreteerd.</message>
+                <example type="incorrect">Dit is <marker>zeer waarschijnlijk</marker> onduidelijk.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>heel</token>
+                    <token>vaak</token>
+                </pattern>
+                <message>Wanneer u een kans wilt aangeven, kunt u beter een percentage aangeven; uit onderzoek blijkt dat '\1 \2' heel verschillend wordt geïnterpreteerd.</message>
+                <example type="incorrect">Dit is <marker>heel vaak</marker> onduidelijk.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">grote|kleine</token>
+                    <token>kans</token>
+                </pattern>
+                <message>Wanneer u een kans wilt aangeven, kunt u beter een percentage aangeven; uit onderzoek blijkt dat '\1 \2' heel verschillend wordt geïnterpreteerd.</message>
+                <example type="incorrect">Dit is <marker>grote kans</marker> onduidelijk.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>te</token>
+                    <token>verwachten</token>
+                </pattern>
+                <message>Wanneer u een kans wilt aangeven, kunt u beter een percentage aangeven; uit onderzoek blijkt dat '\1 \2' heel verschillend wordt geïnterpreteerd.</message>
+                <example type="incorrect">Dit is <marker>te verwachten</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">kunnen</token>
+                    <token>gebeuren</token>
+                </pattern>
+                <message>Wanneer u een kans wilt aangeven, kunt u beter een percentage aangeven; uit onderzoek blijkt dat '\1 \2' heel verschillend wordt geïnterpreteerd.</message>
+                <example type="incorrect">Dit <marker>kan gebeuren</marker>.</example>
+            </rule>
+			
         </rulegroup>
         <rulegroup id="OVERDRIJVING" name="mogelijke overdrijving">
             <rule>
