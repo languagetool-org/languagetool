@@ -1166,11 +1166,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <rule id="slang_words" name="Жаргонні слова">
       <pattern>
         <token postag_regexp="yes" postag=".*:slang.*">
-          <exception negate_pos="yes" postag_regexp="yes" postag=".*:slang.*"/>
+          <exception negate_pos="yes" postag_regexp="yes" postag=".*:slang.*|SENT_END"/>
         </token>
       </pattern>
       <message>Це слово є жаргонним</message>
       <example correction="">Ось так він <marker>лоханувся</marker>.</example>
+      <example correction="">Ось так він <marker>лоханувся</marker></example>
       <example>прапор</example>
     </rule>
 
@@ -1467,7 +1468,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag_regexp="yes" postag="noun.*v_oru.*"/>
             -->
               <token postag_regexp="yes" postag="noun:anim.*v_oru.*">
-                <exception negate_pos="yes" postag_regexp="yes" postag="noun:anim.*v_oru.*.*"/>
+                <exception negate_pos="yes" postag_regexp="yes" postag="noun:anim.*v_oru.*.*|SENT_END"/>
                 <exception postag_regexp="yes" postag="noun.*?v_oru:&amp;pron.*"/>
                 <exception postag_regexp="yes" postag="&lt;(adv|insert)&gt;"/>
                 <exception>персоною</exception>
