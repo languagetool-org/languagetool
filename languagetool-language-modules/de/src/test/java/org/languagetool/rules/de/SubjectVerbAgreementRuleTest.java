@@ -410,7 +410,8 @@ public class SubjectVerbAgreementRuleTest {
         "Die Ursachen der vorliegenden Durchblutungsstörung sind noch unbekannt.",
         "Der See und das Marschland sind ein Naturschutzgebiet",
         "Details, Dialoge, wie auch die Typologie der Charaktere sind frei erfunden.",
-        "Die internen Ermittler und auch die Staatsanwaltschaft sind nun am Zug."
+        "Die internen Ermittler und auch die Staatsanwaltschaft sind nun am Zug.",
+        "Sie sind so erfolgreich, weil sie eine Einheit sind."
     );
     for (String sentence : sentences) {
       assertGood(sentence);
