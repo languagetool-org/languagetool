@@ -18,7 +18,6 @@
  */
 package org.languagetool.language;
 
-import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.Language;
 import org.languagetool.UserConfig;
@@ -81,9 +80,9 @@ public class SimpleGerman extends GermanyGerman {
 
   @Override
   public int getPriorityForId(String id) {
-    if (id == LongSentenceRule.RULE_ID) {
+    if (id.equals(LongSentenceRule.RULE_ID)) {
       return 10;
-    } else if (id == "LANGES_WORT") {
+    } else if (id.equals("LANGES_WORT")) {
       return -1;
     }
     return super.getPriorityForId(id);
