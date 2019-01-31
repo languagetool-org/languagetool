@@ -8872,8 +8872,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern case_sensitive="yes">
                 <!--  PREP у, без, вместо, для, до, из (изо), из-за, из-под, кроме, около, от, против, среди-> NN:.*:R   -->
                 <token regexp="yes">у|без|вместо|для|до|из|изо|из-за|из-под|кроме|около|от|против|среди</token>
-                <token postag="NN:.*:.*:.*" postag_regexp="yes" regexp="yes">[а-яё].*<exception postag="NN:.*:.*:.*:R|NN:.*:.*:.*:2P" postag_regexp="yes"></exception>
-                    <exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes"></exception>
+                <token postag="NN:.*:.*:.*|SENT_END|PARA_END" postag_regexp="yes" regexp="yes">[а-яё].*<exception postag="NN:.*:.*:.*:R|NN:.*:.*:.*:2P" postag_regexp="yes"></exception>
+                    <exception postag="NN:.*:.*:.*|SENT_END|PARA_END" negate_pos="yes" postag_regexp="yes"></exception>
                     <exception regexp="yes">нее|варяг|грек|роду|полсотни</exception>
                 </token>
             </pattern>
@@ -8882,6 +8882,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Заросший пруд у опушки леса.</example>
             <example>У семи нянек дитя без глазу.</example>
             <example correction="у опушки|опушка">Заросший пруд <marker>у опушка</marker> леса.</example>
+            <example correction="у опушек|у опушки|опушка">Заросший пруд <marker>у опушка</marker></example>
         </rule>
         <rule default="on" id="PREP_U_and_ADJ" name="Предлоги «у», «без», ... и прилагательное">
             <pattern>
