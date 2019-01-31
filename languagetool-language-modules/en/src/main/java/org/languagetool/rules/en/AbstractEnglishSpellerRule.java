@@ -21,6 +21,7 @@ package org.languagetool.rules.en;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
+import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.Example;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
@@ -44,7 +45,18 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
    * @since 4.4
    */
   public AbstractEnglishSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig, List<Language> altLanguages) throws IOException {
-    super(messages, language, userConfig, altLanguages);
+    this(messages, language, userConfig, altLanguages, null);
+  }
+
+
+  /**
+   * @since 4.5
+   * optional: language model for better suggestions
+   */
+  @Experimental
+  public AbstractEnglishSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig,
+                                    List<Language> altLanguages, LanguageModel languageModel) throws IOException {
+    super(messages, language, userConfig, altLanguages, languageModel);
     super.ignoreWordsWithLength = 1;
     setCheckCompound(true);
     addExamplePair(Example.wrong("This <marker>sentenc</marker> contains a spelling mistake."),

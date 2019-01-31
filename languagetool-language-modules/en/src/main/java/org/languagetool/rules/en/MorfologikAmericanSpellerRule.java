@@ -19,11 +19,13 @@
 
 package org.languagetool.rules.en;
 
-import java.io.IOException;
-import java.util.*;
-
+import org.languagetool.Experimental;
 import org.languagetool.Language;
 import org.languagetool.UserConfig;
+import org.languagetool.languagemodel.LanguageModel;
+
+import java.io.IOException;
+import java.util.*;
 
 public final class MorfologikAmericanSpellerRule extends AbstractEnglishSpellerRule {
 
@@ -51,6 +53,14 @@ public final class MorfologikAmericanSpellerRule extends AbstractEnglishSpellerR
    */
   public MorfologikAmericanSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig, List<Language> altLanguages) throws IOException {
     super(messages, language, userConfig, altLanguages);
+  }
+
+  /**
+   * @since 4.5
+   */
+  @Experimental
+  public MorfologikAmericanSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig, List<Language> altLanguages, LanguageModel languageModel) throws IOException {
+    super(messages, language, userConfig, altLanguages, languageModel);
   }
 
   @Override

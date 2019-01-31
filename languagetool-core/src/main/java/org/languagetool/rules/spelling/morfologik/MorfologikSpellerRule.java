@@ -21,11 +21,14 @@ package org.languagetool.rules.spelling.morfologik;
 
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
+import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.Categories;
 import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.spelling.SpellingCheckRule;
+import org.languagetool.rules.spelling.morfologik.suggestions_ordering.NewSuggestionsOrderer;
 import org.languagetool.rules.spelling.morfologik.suggestions_ordering.SuggestionsOrderer;
+import org.languagetool.rules.spelling.morfologik.suggestions_ordering.SuggestionsOrdererGSoC;
 import org.languagetool.tools.Tools;
 
 import java.io.IOException;
@@ -64,15 +67,25 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
   public MorfologikSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig) throws IOException {
     this(messages, language, userConfig, Collections.emptyList());
   }
-  
+
   public MorfologikSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig, List<Language> altLanguages) throws IOException {
-    super(messages, language, userConfig, altLanguages);
+    this(messages, language, userConfig, altLanguages, null);
+  }
+
+  public MorfologikSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig,
+                               List<Language> altLanguages, LanguageModel languageModel) throws IOException {
+    super(messages, language, userConfig, altLanguages, languageModel);
     this.userConfig = userConfig;
     super.setCategory(Categories.TYPOS.getCategory(messages));
     this.conversionLocale = conversionLocale != null ? conversionLocale : Locale.getDefault();
     init();
     setLocQualityIssueType(ITSIssueType.Misspelling);
-    suggestionsOrderer = new SuggestionsOrderer(language, this.getId());
+
+    if (SpellingCheckRule.isTestingChange("NewSuggestionsOrderer")) {
+      suggestionsOrderer = new NewSuggestionsOrderer(this.languageModel);
+    } else {
+      suggestionsOrderer = new SuggestionsOrdererGSoC(language, this.languageModel, this.getId());
+    }
   }
 
   @Override

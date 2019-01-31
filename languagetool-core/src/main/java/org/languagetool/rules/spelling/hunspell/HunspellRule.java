@@ -36,9 +36,12 @@ import com.google.common.io.Resources;
 
 import org.apache.commons.lang3.StringUtils;
 import org.languagetool.*;
+import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.Categories;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.spelling.SpellingCheckRule;
+import org.languagetool.rules.spelling.morfologik.suggestions_ordering.NewSuggestionsOrderer;
+import org.languagetool.rules.spelling.morfologik.suggestions_ordering.SuggestionsOrderer;
 import org.languagetool.tools.Tools;
 
 /**
@@ -52,6 +55,7 @@ import org.languagetool.tools.Tools;
 public class HunspellRule extends SpellingCheckRule {
 
   private static final ConcurrentLinkedQueue<String> activeChecks = new ConcurrentLinkedQueue<>();
+  protected final SuggestionsOrderer suggestionsOrderer;
   private final boolean monitorRules;
 
   public static Queue<String> getActiveChecks() {
@@ -84,10 +88,20 @@ public class HunspellRule extends SpellingCheckRule {
    * @since 4.3
    */
    public HunspellRule(ResourceBundle messages, Language language, UserConfig userConfig, List<Language> altLanguages) {
-    super(messages, language, userConfig, altLanguages);
+     this(messages, language, userConfig, altLanguages, null);
+   }
+   public HunspellRule(ResourceBundle messages, Language language, UserConfig userConfig, List<Language> altLanguages,
+                       LanguageModel languageModel) {
+    super(messages, language, userConfig, altLanguages, languageModel);
     super.setCategory(Categories.TYPOS.getCategory(messages));
     this.userConfig = userConfig;
     this.monitorRules = System.getProperty("monitorActiveRules") != null;
+
+     if (SpellingCheckRule.isTestingChange("NewSuggestionsOrderer")) {
+       suggestionsOrderer = new NewSuggestionsOrderer(this.languageModel);
+     } else {
+       suggestionsOrderer = null;
+     }
   }
 
   @Override
@@ -127,7 +141,12 @@ public class HunspellRule extends SpellingCheckRule {
       String[] tokens = tokenizeText(getSentenceTextWithoutUrlsAndImmunizedTokens(sentence));
 
       // starting with the first token to skip the zero-length START_SENT
-      int len = sentence.getTokens()[1].getStartPos();
+      int len;
+      if (sentence.getTokens().length > 1) { // if fixes exception in SuggestionsChangesTest
+        len = sentence.getTokens()[1].getStartPos();
+      } else {
+        len = sentence.getTokens()[0].getStartPos();
+      }
       for (int i = 0; i < tokens.length; i++) {
         String word = tokens[i];
         if ((ignoreWord(Arrays.asList(tokens), i) || ignoreWord(word)) && !isProhibited(removeTrailingDot(word))) {
@@ -183,6 +202,21 @@ public class HunspellRule extends SpellingCheckRule {
             }
             filterSuggestions(suggestions);
             filterDupes(suggestions);
+
+            if(suggestionsOrderer != null && suggestionsOrderer.isMlAvailable()) {
+              if (word.endsWith(".")) {
+                suggestions = suggestions.stream().map(s -> s.substring(0, s.length() - 1)).collect(Collectors.toList());
+                suggestions = suggestionsOrderer.orderSuggestionsUsingModel(suggestions, word.substring(0, word.length() - 1), sentence, len, word.length() - 1);
+                suggestions = suggestions.stream().map(s -> s + ".").collect(Collectors.toList());
+              } else {
+                suggestions = suggestionsOrderer.orderSuggestionsUsingModel(suggestions, word, sentence, len, word.length());
+              }
+            }
+
+            if (SpellingCheckRule.isTestingChange("sortAfterSuggestionOrderer")) {
+              suggestions = sortSuggestionByQuality(word, suggestions);
+            }
+
             ruleMatch.setSuggestedReplacements(suggestions);
           } else {
             // limited to save CPU
@@ -232,6 +266,11 @@ public class HunspellRule extends SpellingCheckRule {
     }
     return hunspellDict.suggest(word);
   }
+
+  protected List<String> sortSuggestionByQuality(String misspelling, List<String> suggestions) {
+    return suggestions;
+  }
+
 
   protected String[] tokenizeText(String sentence) {
     return nonWordPattern.split(sentence);
@@ -360,5 +399,5 @@ public class HunspellRule extends SpellingCheckRule {
       in.close();
     }
   }
-  
+
 }
