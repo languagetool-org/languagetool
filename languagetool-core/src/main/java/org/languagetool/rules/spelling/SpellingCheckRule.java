@@ -20,6 +20,7 @@ package org.languagetool.rules.spelling;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
 import org.languagetool.languagemodel.BaseLanguageModel;
@@ -94,14 +95,28 @@ public abstract class SpellingCheckRule extends Rule {
    * @since 4.4
    */
   public SpellingCheckRule(ResourceBundle messages, Language language, UserConfig userConfig, List<Language> altLanguages) {
+    this(messages, language, userConfig, altLanguages, null);
+  }
+
+  /**
+   * @since 4.5
+   */
+  @Experimental
+  public SpellingCheckRule(ResourceBundle messages, Language language, UserConfig userConfig, List<Language> altLanguages, @Nullable LanguageModel languageModel) {
     super(messages);
     this.language = language;
     this.userConfig = userConfig;
+    this.languageModel = languageModel;
     if (userConfig != null) {
       wordsToBeIgnored.addAll(userConfig.getAcceptedWords());
     }
     this.altRules = getAlternativeLangSpellingRules(altLanguages);
     setLocQualityIssueType(ITSIssueType.Misspelling);
+  }
+
+  public static boolean isTestingChange(@NotNull String name) {
+    return name.equals(System.getProperty("SuggestionsChange")) &&
+      System.getProperty("SuggestionsChangesTestAlternativeEnabled", "0").equals("1");
   }
 
   @Override

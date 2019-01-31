@@ -18,6 +18,8 @@
  */
 package org.languagetool.rules.spelling.morfologik.suggestions_ordering;
 
+import org.languagetool.rules.spelling.SpellingCheckRule;
+
 public class SuggestionsOrdererConfig {
 
   private static final String PROP_NAME = "enableMLSuggestionsOrdering";
@@ -33,6 +35,9 @@ public class SuggestionsOrdererConfig {
   }
 
   public static boolean isMLSuggestionsOrderingEnabled() {
+    if (SpellingCheckRule.isTestingChange("SuggestionsOrderer")) {
+      return true;
+    }
     String enableMLSuggestionsOrderingProperty = System.getProperty(PROP_NAME, "false");
     return Boolean.parseBoolean(enableMLSuggestionsOrderingProperty);
   }

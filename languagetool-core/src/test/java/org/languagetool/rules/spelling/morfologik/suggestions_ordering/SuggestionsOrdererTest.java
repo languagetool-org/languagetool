@@ -88,7 +88,7 @@ public class SuggestionsOrdererTest {
 
   private void testOrderingHappened(Language language, String rule_id) throws IOException {
     JLanguageTool languageTool = new JLanguageTool(language);
-    SuggestionsOrderer suggestionsOrderer = new SuggestionsOrderer(language, rule_id);
+    SuggestionsOrderer suggestionsOrderer = new SuggestionsOrdererGSoC(language, null, rule_id);
 
     String word = "wprd";
     String sentence = String.join(" ","a", word, "containing", "sentence");
@@ -145,7 +145,7 @@ public class SuggestionsOrdererTest {
         }
         SuggestionsOrderer orderer = null;
         try {
-          orderer = ordererMap.computeIfAbsent(lang, langCode -> new SuggestionsOrderer(language, spellerRule.getId()));
+          orderer = ordererMap.computeIfAbsent(lang, langCode -> new SuggestionsOrdererGSoC(language,null, spellerRule.getId()));
         } catch (RuntimeException ignored) {
         }
         if (orderer == null) {

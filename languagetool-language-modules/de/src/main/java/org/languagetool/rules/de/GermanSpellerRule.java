@@ -51,8 +51,11 @@ import org.languagetool.language.German;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.Example;
 import org.languagetool.rules.ngrams.Probability;
+import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.rules.spelling.hunspell.CompoundAwareHunspellRule;
 import org.languagetool.rules.spelling.morfologik.MorfologikMultiSpeller;
+import org.languagetool.rules.spelling.morfologik.suggestions_ordering.NewSuggestionsOrderer;
+import org.languagetool.rules.spelling.morfologik.suggestions_ordering.SuggestionsOrderer;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tokenizers.de.GermanCompoundTokenizer;
@@ -607,15 +610,14 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   /**
    * @since 4.3
    */
-  public GermanSpellerRule(ResourceBundle messages, German language, UserConfig userConfig, String languageVariantPlainTextDict, List<Language> altLanguages, LanguageModel lm) {
-    super(messages, language, language.getNonStrictCompoundSplitter(), getSpeller(language, userConfig, languageVariantPlainTextDict), userConfig, altLanguages);
+  public GermanSpellerRule(ResourceBundle messages, German language, UserConfig userConfig, String languageVariantPlainTextDict, List<Language> altLanguages, LanguageModel languageModel) {
+    super(messages, language, language.getNonStrictCompoundSplitter(), getSpeller(language, userConfig, languageVariantPlainTextDict), userConfig, altLanguages, languageModel);
 
     addExamplePair(Example.wrong("LanguageTool kann mehr als eine <marker>nromale</marker> Rechtschreibprüfung."),
                    Example.fixed("LanguageTool kann mehr als eine <marker>normale</marker> Rechtschreibprüfung."));
     compoundTokenizer = language.getStrictCompoundTokenizer();
     tagger = language.getTagger();
     synthesizer = language.getSynthesizer();
-    languageModel = lm;
   }
 
   @Override
@@ -784,6 +786,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       }
     }
     result.addAll(0, topSuggestions);
+
     return result;
   }
 
