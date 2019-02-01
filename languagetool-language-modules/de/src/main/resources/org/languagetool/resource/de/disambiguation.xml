@@ -680,7 +680,10 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rulegroup name="VER -> PA2" id="VER_PA2">
         <rule>
             <pattern case_sensitive="yes">
-                <token inflected="yes" skip="2">sein<exception>sein</exception></token>
+                <token inflected="yes" skip="10">sein
+                    <exception>sein</exception>
+                    <exception postag="PKT" scope="next"></exception>
+                </token>
                 <marker>
                     <and>
                         <token postag=".*PA2:.+" postag_regexp="yes"/>
