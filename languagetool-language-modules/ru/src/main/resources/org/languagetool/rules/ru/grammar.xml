@@ -4879,7 +4879,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule>
             <pattern>
                     <token postag="NumC:Nom" ><exception regexp="yes">одни|один|одно|одна|две|два|три|четыре|столько|сколько|несколько|много|немного|немножко|немало|мало|сто|тысяча|двое|трое|четверо|пятеро</exception></token>
-                    <token postag="NN:.*:.*:.*" postag_regexp="yes"><exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes"/><exception postag="NN:.*:PL:R"  postag_regexp="yes"/><exception regexp="yes" >утра|вечера|дня|ночи|минимум|максимум</exception></token>
+                    <token postag="NN:.*:.*:.*|SENT_END|PARA_END" postag_regexp="yes"><exception postag="NN:.*:.*:.*|SENT_END|PARA_END" negate_pos="yes" postag_regexp="yes"/><exception postag="NN:.*:PL:R"  postag_regexp="yes"/><exception regexp="yes" >утра|вечера|дня|ночи|минимум|максимум</exception></token>
             </pattern>
             <message>Числительное не согласуется с существительным по падежу: <suggestion><match no="1"/> <match no="2" postag_regexp="yes" postag="NN:(.*):.*:.*" postag_replace="NN:$1:PL:R" /></suggestion>.</message>
             <url>https://ru.wikipedia.org/wiki/%D0%98%D0%BC%D1%8F_%D1%87%D0%B8%D1%81%D0%BB%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5#.D0.A1.D0.BA.D0.BB.D0.BE.D0.BD.D0.B5.D0.BD.D0.B8.D0.B5_.D0.B8.D0.BC.D1.91.D0.BD_.D1.87.D0.B8.D1.81.D0.BB.D0.B8.D1.82.D0.B5.D0.BB.D1.8C.D0.BD.D1.8B.D1.85</url>
@@ -4898,12 +4898,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="NumC:Nom" />
                 <marker>
                     <token>один</token>
-                    <token postag="NN:.*:.*:.*" postag_regexp="yes"><exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes"/><exception postag="NN:.*:Sin:Nom"  postag_regexp="yes"/><exception postag="NN:.*:Sin:V"  postag_regexp="yes"/></token>
+                    <token postag="NN:.*:.*:.*|SENT_END|PARA_END" postag_regexp="yes"><exception postag="NN:.*:.*:.*|SENT_END|PARA_END" negate_pos="yes" postag_regexp="yes"/><exception postag="NN:.*:Sin:Nom"  postag_regexp="yes"/><exception postag="NN:.*:Sin:V"  postag_regexp="yes"/></token>
                 </marker>
             </antipattern>
             <pattern>
                     <token>один</token>
-                    <token postag="NN:.*:.*:.*" postag_regexp="yes"><exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes"/><exception postag="NN:.*:Sin:Nom"  postag_regexp="yes"/><exception postag="NN:.*:Sin:V"  postag_regexp="yes"/></token>
+                    <token postag="NN:.*:.*:.*|SENT_END|PARA_END" postag_regexp="yes"><exception postag="NN:.*:.*:.*|SENT_END|PARA_END" negate_pos="yes" postag_regexp="yes"/><exception postag="NN:.*:Sin:Nom"  postag_regexp="yes"/><exception postag="NN:.*:Sin:V"  postag_regexp="yes"/></token>
             </pattern>
             <message>Числительное не согласуется с существительным по падежу: <suggestion><match no="1"/> <match no="2" postag_regexp="yes" postag="NN:(.*):.*:.*" postag_replace="NN:$1:Sin:Nom" /></suggestion>.</message>
             <url>https://ru.wikipedia.org/wiki/%D0%98%D0%BC%D1%8F_%D1%87%D0%B8%D1%81%D0%BB%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5#.D0.A1.D0.BA.D0.BB.D0.BE.D0.BD.D0.B5.D0.BD.D0.B8.D0.B5_.D0.B8.D0.BC.D1.91.D0.BD_.D1.87.D0.B8.D1.81.D0.BB.D0.B8.D1.82.D0.B5.D0.BB.D1.8C.D0.BD.D1.8B.D1.85</url>
@@ -4916,7 +4916,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
          <rule>
             <pattern>
                     <token regexp="yes">два|три|четыре<exception scope="previous" postag="NN:.*:Sin:R"  postag_regexp="yes"/></token>
-                    <token postag="NN:.*:.*:.*" postag_regexp="yes"><exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes"/><exception postag="NN:.*:Sin:R"  postag_regexp="yes"/><exception regexp="yes" >минимум|максимум</exception></token>
+                    <token postag="NN:.*:.*:.*|SENT_END|PARA_END" postag_regexp="yes"><exception postag="NN:.*:.*:.*|SENT_END|PARA_END" negate_pos="yes" postag_regexp="yes"/><exception postag="NN:.*:Sin:R"  postag_regexp="yes"/><exception regexp="yes" >минимум|максимум</exception></token>
             </pattern>
             <message>Числительное не согласуется с существительным по падежу: <suggestion><match no="1"/> <match no="2" postag_regexp="yes" postag="NN:(.*):.*:.*" postag_replace="NN:$1:Sin:R" /></suggestion>.</message>
             <url>https://ru.wikipedia.org/wiki/%D0%98%D0%BC%D1%8F_%D1%87%D0%B8%D1%81%D0%BB%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5#.D0.A1.D0.BA.D0.BB.D0.BE.D0.BD.D0.B5.D0.BD.D0.B8.D0.B5_.D0.B8.D0.BC.D1.91.D0.BD_.D1.87.D0.B8.D1.81.D0.BB.D0.B8.D1.82.D0.B5.D0.BB.D1.8C.D0.BD.D1.8B.D1.85</url>
@@ -4935,7 +4935,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token postag='NumC:.*' postag_regexp='yes'><exception postag='NumC:T'></exception></token>
                 <token postag='NumC:.*' postag_regexp='yes'><exception postag='NumC:T'></exception></token>
-                <token postag='NumC:T'><exception negate_pos="yes" postag='NumC:T'></exception></token>
+                <token postag='NumC:T|SENT_END|PARA_END' postag_regexp='yes'><exception postag_regexp='yes' negate_pos="yes" postag='NumC:T|SENT_END|PARA_END'></exception></token>
             </pattern>
             <message>При склонении количественных имён числительных изменяются все слова и все части сложных слов: <suggestion><match no="1" postag_regexp="yes" postag="NumC:.*" postag_replace="NumC:T" /> <match no="2" postag_regexp="yes" postag="NumC:.*" postag_replace="NumC:T" /> <match no="3"/></suggestion>.</message>
             <url>https://ru.wikipedia.org/wiki/%D0%98%D0%BC%D1%8F_%D1%87%D0%B8%D1%81%D0%BB%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5#.D0.A1.D0.BA.D0.BB.D0.BE.D0.BD.D0.B5.D0.BD.D0.B8.D0.B5_.D0.B8.D0.BC.D1.91.D0.BD_.D1.87.D0.B8.D1.81.D0.BB.D0.B8.D1.82.D0.B5.D0.BB.D1.8C.D0.BD.D1.8B.D1.85</url>
@@ -4947,7 +4947,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token postag='NumC:.*' postag_regexp='yes'><exception postag='NumC:T'></exception></token>
                 <token postag='NumC:T' ></token>
-                <token postag='NumC:T'><exception negate_pos="yes" postag='NumC:T'></exception></token>
+                <token postag='NumC:T|SENT_END|PARA_END' postag_regexp='yes'><exception postag_regexp='yes' negate_pos="yes" postag='NumC:T|SENT_END|PARA_END'></exception></token>
             </pattern>
             <message>При склонении количественных имён числительных изменяются все слова и все части сложных слов: <suggestion><match no="1" postag_regexp="yes" postag="NumC:.*" postag_replace="NumC:T" /> <match no="2" /> <match no="3"/></suggestion>.</message>
             <url>https://ru.wikipedia.org/wiki/%D0%98%D0%BC%D1%8F_%D1%87%D0%B8%D1%81%D0%BB%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5#.D0.A1.D0.BA.D0.BB.D0.BE.D0.BD.D0.B5.D0.BD.D0.B8.D0.B5_.D0.B8.D0.BC.D1.91.D0.BD_.D1.87.D0.B8.D1.81.D0.BB.D0.B8.D1.82.D0.B5.D0.BB.D1.8C.D0.BD.D1.8B.D1.85</url>
@@ -4959,7 +4959,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token postag='NumC:T' ></token>
                 <token postag='NumC:.*' postag_regexp='yes'><exception postag='NumC:T'></exception></token>
-                <token postag='NumC:T'><exception negate_pos="yes" postag='NumC:T'></exception></token>
+                <token postag='NumC:T|SENT_END|PARA_END' postag_regexp='yes'><exception postag_regexp='yes' negate_pos="yes" postag='NumC:T|SENT_END|PARA_END'></exception></token>
             </pattern>
             <message>При склонении количественных имён числительных изменяются все слова и все части сложных слов: <suggestion><match no="1"  /> <match no="2" postag_regexp="yes" postag="NumC:.*" postag_replace="NumC:T" /> <match no="3"/></suggestion>.</message>
             <url>https://ru.wikipedia.org/wiki/%D0%98%D0%BC%D1%8F_%D1%87%D0%B8%D1%81%D0%BB%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5#.D0.A1.D0.BA.D0.BB.D0.BE.D0.BD.D0.B5.D0.BD.D0.B8.D0.B5_.D0.B8.D0.BC.D1.91.D0.BD_.D1.87.D0.B8.D1.81.D0.BB.D0.B8.D1.82.D0.B5.D0.BB.D1.8C.D0.BD.D1.8B.D1.85</url>
@@ -4972,7 +4972,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token negate_pos="yes"  postag='NumC:.*' postag_regexp='yes'></token>
                <marker>
                 <token postag='NumC:.*' postag_regexp='yes'><exception postag='NumC:T'></exception></token>
-                <token skip="1" postag='NumC:T'><exception negate_pos="yes" postag='NumC:T'></exception><exception  scope="next" postag_regexp="yes" postag='NumC:.*'></exception></token>             
+                <token skip="1" postag='NumC:T|SENT_END|PARA_END' postag_regexp='yes'><exception postag_regexp='yes' negate_pos="yes" postag='NumC:T|SENT_END|PARA_END'></exception><exception  scope="next" postag_regexp="yes" postag='NumC:.*'></exception></token>             
                </marker>
             </pattern>
             <message>При склонении количественных имён числительных изменяются все слова и все части сложных слов: <suggestion><match no="2" postag_regexp="yes" postag="NumC:.*" postag_replace="NumC:T" /> <match no="3"/></suggestion>.</message>
@@ -5118,7 +5118,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token><exception  postag="VB:.*|UNKNOWN|DPT.*|PT:.*|PT_Short:.*|ADJ:Short:.*" postag_regexp="yes" /></token>
                 <token>,</token>
                 <token postag="PNN:.*:Nom:P3" postag_regexp="yes"><exception  postag="PNN:.*:Nom:P3" postag_regexp="yes"  negate_pos="yes"></exception></token>
-                <token postag="VB:.*" postag_regexp="yes"><exception  postag="VB:.*" postag_regexp="yes"  negate_pos="yes"></exception></token>
+                <token postag="VB:.*|SENT_END|PARA_END" postag_regexp="yes"><exception  postag="VB:.*|SENT_END|PARA_END" postag_regexp="yes"  negate_pos="yes"></exception></token>
             </pattern>
             <message>Грамматическая ошибка. Дублирование местоимением существительного-подлежащего: <suggestion>\1 \2 \5</suggestion>.</message>
             
@@ -5198,7 +5198,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>в</token>
                 <token>контакте</token>
                 <token regexp="yes">с|со</token>
-                <token postag_regexp="yes" postag="NN:.*"><exception  postag_regexp="yes" postag="NN:.*:.*:T" /><exception  postag_regexp="yes" postag="NN:.*" negate_pos="yes" /></token>
+                <token postag_regexp="yes" postag="NN:.*|SENT_END|PARA_END"><exception  postag_regexp="yes" postag="NN:.*:.*:T" /><exception  postag_regexp="yes" postag="NN:.*|SENT_END|PARA_END" negate_pos="yes" /></token>
             </pattern>
             <message>После словосочетания «в контакте с» необходим творительный падеж:<suggestion><match no="1"/> <match no="2"/> <match no="3"/> <match no="4" postag_regexp="yes" postag="NN:(.*):(.*):(.*):.*"  postag_replace="NN:$1:$2:$3:T"/></suggestion></message>         
             <short>Требуется творительный падеж</short>
@@ -5607,7 +5607,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <unify negate="yes">
                         <feature id="number"/>
                         <token postag="PNN:.*" postag_regexp="yes"><exception scope="previous" regexp="yes">,|–|-|—</exception><exception scope="previous" postag="PREP"></exception><exception inflected="yes" regexp="yes" >это|то</exception></token>
-                        <token postag="NN:.*" postag_regexp="yes"><exception negate_pos="yes" postag="NN:.*" postag_regexp="yes" />
+                        <token postag="NN:.*|SENT_END|PARA_END" postag_regexp="yes"><exception negate_pos="yes" postag="NN:.*|SENT_END|PARA_END" postag_regexp="yes" />
                             <!-- Слова без буквы ё имеют неправильный падеж -->
                             <exception regexp="yes">&missing_yo;</exception>
                         </token>
@@ -6075,7 +6075,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <!--           Он (PNN:Masc)   VB:Past:.*:.*:Masc   -->
                     <token regexp="yes">он|этот|тот</token>
-                    <token postag="VB:Past:.*" postag_regexp="yes"><exception postag_regexp="yes" postag="VB:Past:.*:.*:Masc"></exception><exception regexp="yes">был|была|было</exception><exception negate_pos="yes" postag_regexp="yes" postag="VB:Past:.*"></exception></token>
+                    <token postag="VB:Past:.*|SENT_END|PARA_END" postag_regexp="yes"><exception postag_regexp="yes" postag="VB:Past:.*:.*:Masc"></exception><exception regexp="yes">был|была|было</exception><exception negate_pos="yes" postag_regexp="yes" postag="VB:Past:.*|SENT_END|PARA_END"></exception></token>
                 </pattern>
                 <message>Местоимение не согласуется с глаголом по роду: <suggestion><match no="1"></match> <match no="2" postag="VB:Past:(.*):(.*):.*" postag_regexp="yes" postag_replace="VB:Past:$1:$2:Masc"></match></suggestion></message>
                 <url>http://ru.wikipedia.org/wiki/%D0%9C%D0%B5%D1%81%D1%82%D0%BE%D0%B8%D0%BC%D0%B5%D0%BD%D0%B8%D0%B5_%D0%B2_%D1%80%D1%83%D1%81%D1%81%D0%BA%D0%BE%D0%BC_%D1%8F%D0%B7%D1%8B%D0%BA%D0%B5</url>
@@ -6090,7 +6090,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <!--          она (PNN:Fem)   VB:Past:.*:.*:Fem    -->
                     <token  regexp="yes">она|эта|та</token>
-                    <token postag="VB:Past:.*" postag_regexp="yes"><exception postag_regexp="yes" postag="VB:Past:.*:.*:Fem"></exception><exception regexp="yes">был|была|было</exception><exception negate_pos="yes" postag_regexp="yes" postag="VB:Past:.*"></exception></token>
+                    <token postag="VB:Past:.*|SENT_END|PARA_END" postag_regexp="yes"><exception postag_regexp="yes" postag="VB:Past:.*:.*:Fem"></exception><exception regexp="yes">был|была|было</exception><exception negate_pos="yes" postag_regexp="yes" postag="VB:Past:.*|SENT_END|PARA_END"></exception></token>
                 </pattern>   
                 <message>Местоимение не согласуется с глаголом по роду: <suggestion><match no="1"></match> <match no="2" postag="VB:Past:(.*):(.*):.*" postag_regexp="yes" postag_replace="VB:Past:$1:$2:Fem"></match></suggestion></message>
                 <url>http://ru.wikipedia.org/wiki/%D0%9C%D0%B5%D1%81%D1%82%D0%BE%D0%B8%D0%BC%D0%B5%D0%BD%D0%B8%D0%B5_%D0%B2_%D1%80%D1%83%D1%81%D1%81%D0%BA%D0%BE%D0%BC_%D1%8F%D0%B7%D1%8B%D0%BA%D0%B5</url>
@@ -6104,7 +6104,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <!--        оно   (PNN:Neut)   VB:Past:.*:.*:Neut    -->
                     <token>оно</token>
-                    <token postag="VB:Past:.*" postag_regexp="yes"><exception postag_regexp="yes" postag="VB:Past:.*:.*:Neut"></exception><exception regexp="yes">был|была|было</exception><exception negate_pos="yes" postag_regexp="yes" postag="VB:Past:.*"></exception></token>
+                    <token postag="VB:Past:.*|SENT_END|PARA_END" postag_regexp="yes"><exception postag_regexp="yes" postag="VB:Past:.*:.*:Neut"></exception><exception regexp="yes">был|была|было</exception><exception negate_pos="yes" postag_regexp="yes" postag="VB:Past:.*|SENT_END|PARA_END"></exception></token>
                 </pattern>              
                 <message>Местоимение не согласуется с глаголом по роду: <suggestion><match no="1"></match> <match no="2" postag="VB:Past:(.*):(.*):.*" postag_regexp="yes" postag_replace="VB:Past:$1:$2:Neut"></match></suggestion></message>
                 <url>http://ru.wikipedia.org/wiki/%D0%9C%D0%B5%D1%81%D1%82%D0%BE%D0%B8%D0%BC%D0%B5%D0%BD%D0%B8%D0%B5_%D0%B2_%D1%80%D1%83%D1%81%D1%81%D0%BA%D0%BE%D0%BC_%D1%8F%D0%B7%D1%8B%D0%BA%D0%B5</url>
@@ -6119,7 +6119,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <!--        оно   (PNN:PL)   VB:Past:.*:.*:PL    -->
                     <token  regexp="yes">они|эти</token>
-                    <token postag="VB:Past:.*" postag_regexp="yes"><exception postag_regexp="yes" postag="VB:Past:.*:.*:PL"></exception><exception regexp="yes">был|была|было</exception><exception negate_pos="yes" postag_regexp="yes" postag="VB:Past:.*"></exception></token>
+                    <token postag="VB:Past:.*|SENT_END|PARA_END" postag_regexp="yes"><exception postag_regexp="yes" postag="VB:Past:.*:.*:PL"></exception><exception regexp="yes">был|была|было</exception><exception negate_pos="yes" postag_regexp="yes" postag="VB:Past:.*|SENT_END|PARA_END"></exception></token>
                 </pattern>       
                 <message>Местоимение не согласуется с глаголом по числу: <suggestion><match no="1"></match> <match no="2" postag="VB:Past:(.*):(.*):.*" postag_regexp="yes" postag_replace="VB:Past:$1:$2:PL"></match></suggestion></message>
                 <url>http://ru.wikipedia.org/wiki/%D0%9C%D0%B5%D1%81%D1%82%D0%BE%D0%B8%D0%BC%D0%B5%D0%BD%D0%B8%D0%B5_%D0%B2_%D1%80%D1%83%D1%81%D1%81%D0%BA%D0%BE%D0%BC_%D1%8F%D0%B7%D1%8B%D0%BA%D0%B5</url>
@@ -8605,8 +8605,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern case_sensitive="yes">
                 <!--              PREP к, ко -> NN:.*:D   -->
                 <token regexp="yes">к|ко</token>
-                <token postag="NN:.*:.*:.*" postag_regexp="yes" regexp="yes">[а-яё].*<exception postag="NN:.*:.*:D" postag_regexp="yes"></exception>
-                    <exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes"></exception>
+                <token postag="NN:.*:.*:.*|SENT_END|PARA_END" postag_regexp="yes" regexp="yes">[а-яё].*<exception postag="NN:.*:.*:D" postag_regexp="yes"></exception>
+                    <exception postag="NN:.*:.*:.*|SENT_END|PARA_END" negate_pos="yes" postag_regexp="yes"></exception>
                 </token>
             </pattern>
             <message>Предлог «к» предполагает употребление существительного в дательном падеже: <suggestion><match no="1"></match> <match no="2" postag="NN:(.*):(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:$3:D"></match></suggestion></message>
@@ -8618,10 +8618,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <!--              PREP к, ко -> ADJ:.*:D   -->
                 <token regexp="yes">к|ко</token>
-                <token postag="ADJ:.*:.*" postag_regexp="yes">
+                <token postag="ADJ:.*:.*|SENT_END|PARA_END" postag_regexp="yes">
                     <exception postag="ADJ:.*:D" postag_regexp="yes"></exception>
                     <exception postag="ADJ:Short:.*|ADJ:Comp" postag_regexp="yes"></exception>
-                    <exception postag="ADJ:.*:.*" negate_pos="yes" postag_regexp="yes"></exception>
+                    <exception postag="ADJ:.*:.*|SENT_END|PARA_END" negate_pos="yes" postag_regexp="yes"></exception>
                 </token>
             </pattern>
             <message>Предлог «к» предполагает употребление прилагательного в дательном падеже: <suggestion><match no="1"></match> <match no="2" postag="ADJ:(.*):.*" postag_regexp="yes" postag_replace="ADJ:$1:D"></match></suggestion> или
@@ -8684,9 +8684,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <!--              PREP над, перед -> NN:.*:T   -->
                 <token regexp="yes">над|перед</token>
-                <token postag="NN:.*:.*:.*" postag_regexp="yes">
+                <token postag="NN:.*:.*:.*|SENT_END|PARA_END" postag_regexp="yes">
                     <exception postag="NN:.*:.*:T" postag_regexp="yes"></exception>
-                    <exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes"></exception>
+                    <exception postag="NN:.*:.*:.*|SENT_END|PARA_END" negate_pos="yes" postag_regexp="yes"></exception>
                 </token>
             </pattern>
             <message>Предлоги «над» и «перед» предполагают употребление существительного в творительном падеже: <suggestion><match no="1"></match> <match no="2" postag="NN:(.*):(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:$3:T"></match></suggestion> или <suggestion><match no="2"></match></suggestion></message>
@@ -8698,10 +8698,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <!--               PREP над, перед -> ADJ:.*:T   -->
                 <token regexp="yes">над|перед</token>
-                <token postag="ADJ:.*:.*" postag_regexp="yes">
+                <token postag="ADJ:.*:.*|SENT_END|PARA_END" postag_regexp="yes">
                     <exception postag="ADJ:.*:T" postag_regexp="yes"></exception>
                     <exception postag="ADJ:Short:.*|ADJ:Comp" postag_regexp="yes"></exception>
-                    <exception postag="ADJ:.*:.*" negate_pos="yes" postag_regexp="yes"></exception>
+                    <exception postag="ADJ:.*:.*|SENT_END|PARA_END" negate_pos="yes" postag_regexp="yes"></exception>
                 </token>
             </pattern>
             <message>Предлоги «над» и «перед» предполагают употребление прилагательного  в творительном падеже: <suggestion><match no="1"></match> <match no="2" postag="ADJ:(.*):.*" postag_regexp="yes" postag_replace="ADJ:$1:T"></match></suggestion> или <suggestion><match no="2"></match></suggestion></message>
@@ -8715,9 +8715,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern case_sensitive="yes">
                 <!--              PREP сквозь, через -> NN:.*:V   -->
                 <token regexp="yes">сквозь|через</token>
-                <token postag="NN:.*:.*:.*" postag_regexp="yes" regexp="yes">[а-яё].*<exception postag="NN:.*:.*:V" postag_regexp="yes"></exception>
+                <token postag="NN:.*:.*:.*|SENT_END|PARA_END" postag_regexp="yes" regexp="yes">[а-яё].*<exception postag="NN:.*:.*:V" postag_regexp="yes"></exception>
                     <exception postag="NN:.*:.*:Nom" postag_regexp="yes"></exception>
-                    <exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes"></exception>
+                    <exception postag="NN:.*:.*:.*|SENT_END|PARA_END" negate_pos="yes" postag_regexp="yes"></exception>
                 </token>
             </pattern>
             <message>Предлоги «сквозь» и «через» предполагают употребление существительного в винительном падеже: <suggestion><match no="1"></match> <match no="2" postag="NN:(.*):(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:$3:V"></match></suggestion> или <suggestion><match no="2"></match></suggestion></message>
@@ -8729,10 +8729,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <!--               PREP сквозь, через -> ADJ:.*:V   -->
                 <token regexp="yes">сквозь|через</token>
-                <token postag="ADJ:.*:.*" postag_regexp="yes">
+                <token postag="ADJ:.*:.*|SENT_END|PARA_END" postag_regexp="yes">
                     <exception postag="ADJ:.*:V" postag_regexp="yes"></exception>
                     <exception postag="ADJ:Short:.*|ADJ:Comp" postag_regexp="yes"></exception>
-                    <exception postag="ADJ:.*:.*" negate_pos="yes" postag_regexp="yes"></exception>
+                    <exception postag="ADJ:.*:.*|SENT_END|PARA_END" negate_pos="yes" postag_regexp="yes"></exception>
                 </token>
             </pattern>
             <message>Предлоги «сквозь» и «через» предполагают употребление прилагательного в винительном падеже: <suggestion><match no="1"></match> <match no="2" postag="ADJ:(.*):.*" postag_regexp="yes" postag_replace="ADJ:$1:V"></match></suggestion> или <suggestion><match no="2"></match></suggestion></message>
@@ -8746,7 +8746,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <!--              PREP в -> NN:.*:.*:V или NN:.*:P NN:.*:2R    исключение для "в учителя,... -->
                 <token>в</token>
-                <token postag="NN:.*:.*:.*" postag_regexp="yes"><exception regexp="yes">тысяча|миллион</exception><exception postag="NN:.*:.*:R" postag_regexp="yes" regexp="yes">.*y</exception><exception postag="NN:.*:.*:(P|V|2R|2P)" postag_regexp="yes"></exception><exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes"></exception><exception postag="NN:.*:PL:Nom" postag_regexp="yes"></exception></token> 
+                <token postag="NN:.*:.*:.*|SENT_END|PARA_END" postag_regexp="yes"><exception regexp="yes">тысяча|миллион</exception><exception postag="NN:.*:.*:R" postag_regexp="yes" regexp="yes">.*y</exception><exception postag="NN:.*:.*:(P|V|2R|2P)" postag_regexp="yes"></exception><exception postag="NN:.*:.*:.*|SENT_END|PARA_END" negate_pos="yes" postag_regexp="yes"></exception><exception postag="NN:.*:PL:Nom" postag_regexp="yes"></exception></token> 
             </pattern>
             <message>Предлог «в» предполагает употребление существительного в винительном или предложном падеже: <suggestion><match no="1"></match> <match no="2" postag="NN:(.*):(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:$3:P"></match></suggestion> или <suggestion><match no="1"></match> <match no="2" postag="NN:(.*):(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:$3:V"></match></suggestion> </message>
             <short>Требуется винительный или предложный падеж.</short>
@@ -8761,9 +8761,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <!--              PREP при -> NN:.*:P   -->
                 <token>при</token>
-                <token postag="NN:.*:.*:.*:.*" postag_regexp="yes">
+                <token postag="NN:.*:.*:.*:.*|SENT_END|PARA_END" postag_regexp="yes">
                     <exception postag="NN:.*:.*:.*:P" postag_regexp="yes"></exception>
-                    <exception postag="NN:.*:.*:.*:.*" negate_pos="yes" postag_regexp="yes"></exception>
+                    <exception postag="NN:.*:.*:.*:.*|SENT_END|PARA_END" negate_pos="yes" postag_regexp="yes"></exception>
                 </token>
             </pattern>
             <message>Предлог «при» предполагает употребление существительного в предложном падеже: <suggestion><match no="1"></match> <match no="2" postag="NN:(.*):(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:$3:P"></match></suggestion> или <suggestion><match no="2"></match></suggestion></message>
@@ -8778,9 +8778,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>при</token>
                 <token postag="NN:.*:.*:P" postag_regexp="yes"></token>
                 <token skip="1">и<exception postag="UNKNOWN" scope="next"></exception></token>
-                <token postag="NN:.*:.*:.*" postag_regexp="yes">
+                <token postag="NN:.*:.*:.*|SENT_END|PARA_END" postag_regexp="yes">
                     <exception postag="NN:.*:.*:.*:P" postag_regexp="yes"></exception>
-                    <exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes"></exception>
+                    <exception postag="NN:.*:.*:.*|SENT_END|PARA_END" negate_pos="yes" postag_regexp="yes"></exception>
                 </token>
                 </marker>
                 <token><exception postag="NN:.*:.*:.*:Nom"  postag_regexp="yes"></exception></token>
@@ -8798,9 +8798,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>при</token>
                 <token postag="NN:.*:.*:P" postag_regexp="yes"></token>
                 <token skip="1">,<exception postag="CONJ|PREP|UNKNOWN" scope="next" postag_regexp="yes"></exception></token>
-                <token postag="NN:.*:.*:.*" postag_regexp="yes">
+                <token postag="NN:.*:.*:.*|SENT_END|PARA_END" postag_regexp="yes">
                     <exception postag="NN:.*:.*:P" postag_regexp="yes"></exception>
-                    <exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes"></exception>
+                    <exception postag="NN:.*:.*:.*|SENT_END|PARA_END" negate_pos="yes" postag_regexp="yes"></exception>
                 </token>
             </pattern>
             <message>Предлог «при» предполагает употребление существительного в предложном падеже: <suggestion><match no="1"></match> <match no="2"></match><match no="3" include_skipped="all" ></match> <match no="4" postag="NN:(.*):(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:$3:P"></match></suggestion></message>
@@ -8819,9 +8819,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>,</token>
                 <token postag="NN:.*:.*:P" postag_regexp="yes"></token>
                 <token skip="1">,<exception postag="CONJ|PREP|UNKNOWN" scope="next" postag_regexp="yes"></exception></token>
-                <token postag="NN:.*:.*:.*" postag_regexp="yes">
+                <token postag="NN:.*:.*:.*|SENT_END|PARA_END" postag_regexp="yes">
                     <exception postag="NN:.*:.*:P" postag_regexp="yes"></exception>
-                    <exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes"></exception>
+                    <exception postag="NN:.*:.*:.*|SENT_END|PARA_END" negate_pos="yes" postag_regexp="yes"></exception>
                 </token>
             </pattern>
             <message>Предлог «при» предполагает употребление существительного в предложном падеже: <suggestion><match no="1"></match> <match no="2"></match><match no="3"></match> <match no="4"></match><match no="5" include_skipped="all"></match> <match no="6" postag="NN:(.*):(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:$3:P"></match></suggestion></message>
@@ -8838,9 +8838,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>,</token>
                 <token postag="NN:.*:.*:P" postag_regexp="yes"></token>
                 <token skip="1">и<exception postag="UNKNOWN" scope="next"></exception></token>
-                <token postag="NN:.*:.*:.*" postag_regexp="yes">
+                <token postag="NN:.*:.*:.*|SENT_END|PARA_END" postag_regexp="yes">
                     <exception postag="NN:.*:.*:P" postag_regexp="yes"></exception>
-                    <exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes"></exception>
+                    <exception postag="NN:.*:.*:.*|SENT_END|PARA_END" negate_pos="yes" postag_regexp="yes"></exception>
                 </token>
             </pattern>
             <message>Предлог «при» предполагает употребление существительного в предложном падеже: <suggestion><match no="1"></match> <match no="2"></match><match no="3"></match> <match no="4"></match> <match  no="5" include_skipped="all"></match> <match no="6" postag="NN:(.*):(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:$3:P"></match></suggestion></message>
@@ -8855,10 +8855,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <!--              PREP при -> ADJ:.*:P   -->
                 <token>при</token>
-                <token postag="ADJ:.*:.*" postag_regexp="yes">
+                <token postag="ADJ:.*:.*|SENT_END|PARA_END" postag_regexp="yes">
                     <exception postag="ADJ:.*:P" postag_regexp="yes"></exception>
                     <exception postag="ADJ:Short:.*|ADJ:Comp" postag_regexp="yes"></exception>
-                    <exception postag="ADJ:.*:.*" negate_pos="yes" postag_regexp="yes"></exception>
+                    <exception postag="ADJ:.*:.*|SENT_END|PARA_END" negate_pos="yes" postag_regexp="yes"></exception>
                     <exception>различного</exception>
                 </token>
             </pattern>
@@ -8872,8 +8872,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern case_sensitive="yes">
                 <!--  PREP у, без, вместо, для, до, из (изо), из-за, из-под, кроме, около, от, против, среди-> NN:.*:R   -->
                 <token regexp="yes">у|без|вместо|для|до|из|изо|из-за|из-под|кроме|около|от|против|среди</token>
-                <token postag="NN:.*:.*:.*" postag_regexp="yes" regexp="yes">[а-яё].*<exception postag="NN:.*:.*:.*:R|NN:.*:.*:.*:2P" postag_regexp="yes"></exception>
-                    <exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes"></exception>
+                <token postag="NN:.*:.*:.*|SENT_END|PARA_END" postag_regexp="yes" regexp="yes">[а-яё].*<exception postag="NN:.*:.*:.*:R|NN:.*:.*:.*:2P" postag_regexp="yes"></exception>
+                    <exception postag="NN:.*:.*:.*|SENT_END|PARA_END" negate_pos="yes" postag_regexp="yes"></exception>
                     <exception regexp="yes">нее|варяг|грек|роду|полсотни</exception>
                 </token>
             </pattern>
@@ -8882,15 +8882,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Заросший пруд у опушки леса.</example>
             <example>У семи нянек дитя без глазу.</example>
             <example correction="у опушки|опушка">Заросший пруд <marker>у опушка</marker> леса.</example>
+            <example correction="у опушек|у опушки|опушка">Заросший пруд <marker>у опушка</marker></example>
         </rule>
         <rule default="on" id="PREP_U_and_ADJ" name="Предлоги «у», «без», ... и прилагательное">
             <pattern>
                 <!--   PREP у, без вместо для, до, из (изо), из-за, из-под, кроме, около, от, против, среди- -> ADJ:.*:.*:R   -->
                 <token regexp="yes">у|без|вместо|для|до|из|изо|из-за|из-под|кроме|около|от|против|среди</token>
-                <token postag="ADJ:.*:.*" postag_regexp="yes">
+                <token postag="ADJ:.*:.*:.*|SENT_END|PARA_END" postag_regexp="yes">
                     <exception postag="ADJ:.*:.*:R" postag_regexp="yes"></exception>
                     <exception postag="ADJ:Short:.*|ADJ:Comp" postag_regexp="yes"></exception>
-                    <exception postag="ADJ:.*:.*:.*" negate_pos="yes" postag_regexp="yes"></exception>
+                    <exception postag="ADJ:.*:.*:.*|SENT_END|PARA_END" negate_pos="yes" postag_regexp="yes"></exception>
                 </token>
             </pattern>
             <message>Предлог «\1» предполагает употребление прилагательного  в родительном падеже:<suggestion><match no="1"></match> <match no="2" postag="ADJ:(.*):(.*):.*" postag_regexp="yes" postag_replace="ADJ:$1:$2:R"></match></suggestion> или <suggestion><match no="2"></match></suggestion></message>
@@ -8902,7 +8903,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern case_sensitive="yes">
                 <!--  PREP  с -> NN:.*:R or  NN:.*:T   -->
                 <token regexp="yes">с|со</token>
-                <token postag="NN:.*:.*:.*" postag_regexp="yes" ><exception regexp="yes">[а-я]*у</exception><exception postag="NN:.*:.*:R" postag_regexp="yes"></exception><exception postag="NN:.*:.*:T" postag_regexp="yes"></exception><exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes"></exception></token>
+                <token postag="NN:.*:.*:.*|SENT_END|PARA_END" postag_regexp="yes" ><exception regexp="yes">[а-я]*у</exception><exception postag="NN:.*:.*:R" postag_regexp="yes"></exception><exception postag="NN:.*:.*:T" postag_regexp="yes"></exception><exception postag="NN:.*:.*:.*|SENT_END|PARA_END" negate_pos="yes" postag_regexp="yes"></exception></token>
             </pattern>
             <message>Предлог «\1» предполагает употребление существительного в родительном или творительном падеже.</message>
             <short>Требуется родительный или творительный падеж.</short>
@@ -8926,7 +8927,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern case_sensitive="yes">
                 <!--  PREP  о -> NN:.*:V or  NN:.*:P   -->
                 <token>о</token>
-                <token postag="NN:.*:.*:.*" postag_regexp="yes" ><exception postag="NN:.*:.*:V" postag_regexp="yes"></exception><exception postag="NN:.*:.*:P" postag_regexp="yes"></exception><exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes"></exception></token>
+                <token postag="NN:.*:.*:.*|SENT_END|PARA_END" postag_regexp="yes" ><exception postag="NN:.*:.*:V" postag_regexp="yes"></exception><exception postag="NN:.*:.*:P" postag_regexp="yes"></exception><exception postag="NN:.*:.*:.*|SENT_END|PARA_END" negate_pos="yes" postag_regexp="yes"></exception></token>
             </pattern>
             <message>Предлог «о» предполагает употребление существительного в винительном или предложном падеже.</message>
             <short>Требуется винительный или предложный падеж.</short>
@@ -8953,7 +8954,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>    -->
             <pattern case_sensitive="yes">
                 <token>по</token>
-                <token postag="NN:.*:.*:.*" postag_regexp="yes" ><exception postag="NN:.*:.*:D" postag_regexp="yes"></exception><exception postag="NN:.*:.*:V" postag_regexp="yes"></exception><exception postag="NN:.*:.*:P" postag_regexp="yes"></exception><exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes"></exception></token>
+                <token postag="NN:.*:.*:.*|SENT_END|PARA_END" postag_regexp="yes" ><exception postag="NN:.*:.*:D" postag_regexp="yes"></exception><exception postag="NN:.*:.*:V" postag_regexp="yes"></exception><exception postag="NN:.*:.*:P" postag_regexp="yes"></exception><exception postag="NN:.*:.*:.*|SENT_END|PARA_END" negate_pos="yes" postag_regexp="yes"></exception></token>
             </pattern>
             <message>Предлог «по» предполагает употребление существительного в дательном падеже, но возможен предложный или винительный падеж.</message>
             <short>Требуется дательный (винительный, предложный) падеж.</short>
@@ -8966,7 +8967,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token>без</token>
                 <token regexp="yes">учёта|учета</token>
-                <token postag="NN:.*:.*:.*" postag_regexp="yes" ><exception postag="NN:.*:.*:R" postag_regexp="yes" /><exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes"></exception></token>
+                <token postag="NN:.*:.*:.*|SENT_END|PARA_END" postag_regexp="yes" ><exception postag="NN:.*:.*:R" postag_regexp="yes" /><exception postag="NN:.*:.*:.*|SENT_END|PARA_END" negate_pos="yes" postag_regexp="yes"></exception></token>
             </pattern>
             <message>Оборот «без учёта» предполагает употребление существительного в родительном падеже: <suggestion><match no="1" /> <match no="2" /> <match no="3" postag="NN:(.*):(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:$3:R"></match></suggestion></message>
             <short>Требуется родительный падеж.</short>
@@ -8977,7 +8978,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token>в</token>
                 <token>адрес</token>
-                <token postag="NN:.*:.*:.*" postag_regexp="yes" ><exception postag="NN:.*:.*:R" postag_regexp="yes" /><exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes"></exception></token>
+                <token postag="NN:.*:.*:.*|SENT_END|PARA_END" postag_regexp="yes" ><exception postag="NN:.*:.*:R" postag_regexp="yes" /><exception postag="NN:.*:.*:.*|SENT_END|PARA_END" negate_pos="yes" postag_regexp="yes"></exception></token>
             </pattern>
             <message>Оборот «в адрес» предполагает употребление существительного в родительном падеже: <suggestion><match no="1" /> <match no="2" /> <match no="3" postag="NN:(.*):(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:$3:R"></match></suggestion></message>
             <short>Требуется родительный падеж.</short>
@@ -8988,7 +8989,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token>в</token>
                 <token>ведение</token>
-                <token postag="NN:.*:.*:.*" postag_regexp="yes" ><exception postag="NN:.*:.*:R" postag_regexp="yes" /><exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes"></exception></token>
+                <token postag="NN:.*:.*:.*|SENT_END|PARA_END" postag_regexp="yes" ><exception postag="NN:.*:.*:R" postag_regexp="yes" /><exception postag="NN:.*:.*:.*|SENT_END|PARA_END" negate_pos="yes" postag_regexp="yes"></exception></token>
             </pattern>
             <message>Оборот «в ведение» предполагает употребление существительного в родительном падеже: <suggestion><match no="1" /> <match no="2" /> <match no="3" postag="NN:(.*):(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:$3:R"></match></suggestion></message>
             <short>Требуется родительный падеж.</short>
@@ -8999,7 +9000,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token>в</token>
                 <token>виде</token>
-                <token postag="NN:.*:.*:.*" postag_regexp="yes" ><exception postag="NN:.*:.*:R" postag_regexp="yes" /><exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes"></exception></token>
+                <token postag="NN:.*:.*:.*|SENT_END|PARA_END" postag_regexp="yes" ><exception postag="NN:.*:.*:R" postag_regexp="yes" /><exception postag="NN:.*:.*:.*|SENT_END|PARA_END" negate_pos="yes" postag_regexp="yes"></exception></token>
             </pattern>
             <message>Оборот «в виде» предполагает употребление существительного в родительном падеже: <suggestion><match no="1" /> <match no="2" /> <match no="3" postag="NN:(.*):(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:$3:R"></match></suggestion></message>
             <short>Требуется родительный падеж.</short>
@@ -9010,7 +9011,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token>в</token>
                 <token>видах</token>
-                <token postag="NN:.*:.*:.*" postag_regexp="yes" ><exception postag="NN:.*:.*:R" postag_regexp="yes" /><exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes"></exception></token>
+                <token postag="NN:.*:.*:.*|SENT_END|PARA_END" postag_regexp="yes" ><exception postag="NN:.*:.*:R" postag_regexp="yes" /><exception postag="NN:.*:.*:.*|SENT_END|PARA_END" negate_pos="yes" postag_regexp="yes"></exception></token>
             </pattern>
             <message>Оборот «в видах» предполагает употребление существительного в родительном падеже: <suggestion><match no="1" /> <match no="2" /> <match no="3" postag="NN:(.*):(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:$3:R"></match></suggestion></message>
             <short>Требуется родительный падеж.</short>
@@ -9054,9 +9055,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern case_sensitive="no">
                 <!--     вопреки предположениям    NN:.*:.*:D       -->
                 <token>вопреки</token>
-                <token postag="NN:.*:.*:.*" postag_regexp="yes">
+                <token postag="NN:.*:.*:.*|SENT_END|PARA_END" postag_regexp="yes">
                     <exception postag="NN:.*:.*:D" postag_regexp="yes"></exception>
-                    <exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes"></exception>
+                    <exception postag="NN:.*:.*:.*|SENT_END|PARA_END" negate_pos="yes" postag_regexp="yes"></exception>
                 </token>
             </pattern>
             <message> '\1' предполагает употребление зависимого слова в творительном падеже:<suggestion><match no="1"></match> <match no="2" postag="NN:(.*):(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:$3:D"></match></suggestion></message>
@@ -9069,9 +9070,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern case_sensitive="no">
                 <!--    заслуживать доверия    NN:.*:.*:R       -->
                 <token>заслуживать</token>
-                <token postag="NN:.*:.*:.*" postag_regexp="yes">
+                <token postag="NN:.*:.*:.*|SENT_END|PARA_END" postag_regexp="yes">
                     <exception postag="NN:.*:.*:R" postag_regexp="yes"></exception>
-                    <exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes"></exception>
+                    <exception postag="NN:.*:.*:.*|SENT_END|PARA_END" negate_pos="yes" postag_regexp="yes"></exception>
                 </token>
             </pattern>
             <message> \1 предполагает употребление зависимого слова в родительном падеже: <suggestion><match no="1"></match> <match no="2" postag="NN:(.*):(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:$3:R"></match></suggestion></message>
@@ -9083,9 +9084,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern case_sensitive="no">
                 <!--    заслужить доверие    NN:.*:.*:V       -->
                 <token>заслужить</token>
-                <token postag="NN:.*:.*:.*" postag_regexp="yes">
+                <token postag="NN:.*:.*:.*|SENT_END|PARA_END" postag_regexp="yes">
                     <exception postag="NN:.*:.*:V" postag_regexp="yes"></exception>
-                    <exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes"></exception>
+                    <exception postag="NN:.*:.*:.*|SENT_END|PARA_END" negate_pos="yes" postag_regexp="yes"></exception>
                 </token>
             </pattern>
             <message> \1 предполагает употребление зависимого слова в винительном падеже: <suggestion><match no="1"></match> <match no="2" postag="NN:(.*):(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:$3:V"></match></suggestion></message>
@@ -9111,7 +9112,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule default="on" id="pouchastvovat" name="Правописание «поучаствовать», ...">
             <pattern case_sensitive="no">       
                 <token>по</token>
-                <token postag="VB:.*" postag_regexp="yes" ><exception postag="VB:.*" postag_regexp="yes" negate_pos="yes" ></exception><exception regexp="yes" >по(.*)</exception></token>
+                <token postag="VB:.*|SENT_END|PARA_END" postag_regexp="yes" ><exception postag="VB:.*|SENT_END|PARA_END" postag_regexp="yes" negate_pos="yes" ></exception><exception regexp="yes" >по(.*)</exception></token>
             </pattern>
             <message>Пишется слитно: <suggestion>\1\2</suggestion></message>
             <short>Пишется слитно</short>

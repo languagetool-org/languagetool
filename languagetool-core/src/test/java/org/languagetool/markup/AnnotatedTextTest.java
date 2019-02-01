@@ -19,6 +19,7 @@
 package org.languagetool.markup;
 
 import org.junit.Test;
+import org.languagetool.tools.ContextTools;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
@@ -53,6 +54,22 @@ public class AnnotatedTextTest {
     // hello <b>user!</b>
     //           ^ = position 11
     assertThat(text.getOriginalTextPositionFor(8), is(11));
+  }
+
+  @Test
+  public void testIgnoreInterpretAs() {   // https://github.com/languagetool-org/languagetool/issues/1393
+    AnnotatedText text = new AnnotatedTextBuilder().
+            addText("hello ").
+            addMarkup("<p>","\n\n").
+            addText("more xxxx text!").
+            build();
+    assertThat(text.getPlainText(), is("hello \n\nmore xxxx text!"));
+    assertThat(text.getTextWithMarkup(), is("hello <p>more xxxx text!"));
+    ContextTools contextTools = new ContextTools();
+    contextTools.setErrorMarkerStart("#");
+    contextTools.setErrorMarkerEnd("#");
+    contextTools.setEscapeHtml(false);
+    assertThat(contextTools.getContext(14, 18, text.getTextWithMarkup()), is("hello <p>more #xxxx# text!"));
   }
 
 }

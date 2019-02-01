@@ -15,6 +15,10 @@
     the only words that have a short description are ones that have a description
     in `confusion_sets.txt` (i.e. a text after the `|` symbol).
 
+#### General
+  * bug fix: don't make `interpretAs` part of getTextWithMarkup() (#1393)
+
+
 ## 4.4.1 (2019-01-14)
 
   * Fixed a bug that prevented opening the Options dialog in LibreOffice/OpenOffice

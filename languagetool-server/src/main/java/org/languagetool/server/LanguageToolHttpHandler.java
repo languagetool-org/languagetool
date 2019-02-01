@@ -178,6 +178,7 @@ class LanguageToolHttpHandler implements HttpHandler {
       } else if (hasCause(e, AuthException.class)) {
         errorCode = HttpURLConnection.HTTP_FORBIDDEN;
         response = e.getMessage();
+        logStacktrace = false;
       } else if (e instanceof IllegalArgumentException || rootCause instanceof IllegalArgumentException) {
         errorCode = HttpURLConnection.HTTP_BAD_REQUEST;
         response = e.getMessage();
