@@ -2392,12 +2392,16 @@
                     <token postag_regexp="yes" postag="NN.*"/>
                 </and>
             </marker>
-            <token><exception postag="DT|RB?" postag_regexp="yes"/></token>
+            <token><exception postag="DT|RB?" postag_regexp="yes"/><exception spacebefore="no" regexp="yes">['’]</exception></token><!-- Cannot use postag POS because that is added in POS_ADD after this rule -->
         </pattern>
         <disambig><match no="2" postag_regexp="yes" postag="NN.*"/></disambig>
         <example type="untouched">His friend is now in England.</example>
+        <example type="untouched">Incorrect grammar. The air get's colder.</example><!-- https://github.com/languagetool-org/languagetool/issues/1395 -->
+        <example type="untouched">Incorrect grammar. The air filter's on the machine are dirty.</example>
+        <example type="untouched">Incorrect grammar. The air filter's operate correctly.</example>
         <example type="ambiguous" inputform="nose[nose/NN,nose/VB,nose/VBP]" outputform="nose[nose/NN]">The elephant swings its long <marker>nose</marker>.</example> 
         <example type="ambiguous" inputform="stone[stone/JJ,stone/NN:UN,stone/NNS,stone/VB,stone/VBP]" outputform="stone[stone/NN:UN,stone/NNS]">A rolling <marker>stone</marker> gathers no moss.</example>
+        <!-- Correct: The air filter's dirtier than the oil filter. -->
     </rule>
     <rulegroup name="a few + JJ + NNS" id="a_few_JJ_NNS">
      <rule>
