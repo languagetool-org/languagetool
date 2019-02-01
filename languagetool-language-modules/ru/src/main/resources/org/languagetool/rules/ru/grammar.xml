@@ -3961,7 +3961,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Причём я вздремнул.</example>
                 <example correction="Причем"><marker>Причем,</marker>я вздремнул.</example>
             </rule>
-            <rule>
+          </rulegroup>
+          <rule default="off" id="tem_ne_menee" name="Тем не менее">
                 <pattern> 
                     <token postag="SENT_START"></token>
                     <marker>
@@ -3975,15 +3976,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token negate_pos="yes" postag_regexp="yes" postag="PT:.*|DPT:.*"></token>
                     </and>
                 </pattern>
-                <message>Слово не является вводным. Запятые не нужны:<suggestion>\2 \3 \4</suggestion>.</message>
+                <message>Слово часто не является вводным и запятые не нужны:<suggestion>\2 \3 \4</suggestion>. Определить, является ли в конкретном случае конструкция «тем не менее» вводным оборотом очень просто: проверить, может
+ли предложение обойтись без этой конструкции без радикальной потери или изменения смысла. Если может — это вводный оборот и запятую можно оставить. При сомнениях можно попробовать заменить на «кроме того», после которого всегда ставится запятая, либо на «но», после которого запятая не нужна.</message>
                 <url>http://aprikablog.com/2013/10/tem-ne-menee/</url>
-                <short>Запятые не нужны.</short>
+                <short>Запятые не нужны, если выражение нельзя убрать без радикальной потери смысла.</short>
                 <example>Тем не менее я вздремнул.</example>
                 <example>Тем не менее, несмотря на указанные сложности, ремонт оказался завершён.</example>
                 <example>Тем не менее, приняв пакет, секретарь не проставил дату в журнале.</example>
                 <example correction="Тем не менее"><marker>Тем не менее,</marker>я вздремнул.</example>
-            </rule>
-        </rulegroup>
+        </rule>
         <rulegroup default="off" id="COMPLEX_SOUZ_PUNCT" name="Зяпятые в сложных союзах">
             <rule>
                 <pattern> 
