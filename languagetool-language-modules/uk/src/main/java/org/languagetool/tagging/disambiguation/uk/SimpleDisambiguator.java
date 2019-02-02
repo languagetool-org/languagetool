@@ -103,7 +103,7 @@ class SimpleDisambiguator {
 
     public boolean matches(AnalyzedToken analyzedToken) {
       return lemma.equals(analyzedToken.getLemma())
-          && analyzedToken.getPOSTag() != null
+          && ! analyzedToken.hasNoTag()
           && tagRegex.matcher(analyzedToken.getPOSTag()).matches();
     }
 

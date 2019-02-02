@@ -57,14 +57,14 @@ public class CaseGovernmentHelper {
   public static Set<String> getCaseGovernments(AnalyzedTokenReadings analyzedTokenReadings, String startPosTag) {
     LinkedHashSet<String> list = new LinkedHashSet<>();
     for(AnalyzedToken token: analyzedTokenReadings.getReadings()) {
-      if( token.getPOSTag() != null 
+      if( ! token.hasNoTag()
           && (token.getPOSTag().startsWith(startPosTag) 
-              || (startPosTag == "prep" && token.getPOSTag().equals("<prep>")) ) 
+              || (startPosTag == "prep" && token.getPOSTag().equals("<prep>")) )
           && CASE_GOVERNMENT_MAP.containsKey(token.getLemma()) ) {
 
         Set<String> rvList = CASE_GOVERNMENT_MAP.get(token.getLemma());
         list.addAll(rvList);
-        
+
         if( token.getPOSTag().contains("adjp:pasv") ) {
           rvList.add("v_oru");
         }
