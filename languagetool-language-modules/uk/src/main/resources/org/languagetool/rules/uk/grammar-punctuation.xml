@@ -27,12 +27,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <rulegroup id="PLEASE_NO_COMMA" name="«будь ласка» виділяється комами">
       <rule>
         <pattern>
-          <token>будь</token>
-          <token>ласка</token>
-          <token negate="yes" regexp="yes">[,\.!?:»”“]|[.!?]{3}</token>
+          <marker>
+            <token>будь</token>
+            <token>ласка</token>
+          </marker>
+          <token regexp="yes">[а-яіїєґa-z]</token>
         </pattern>
-        <message>Відсутня права кома: <suggestion>\1 \2, \3</suggestion>.</message>
-        <example correction="будь ласка, у">Запитайте, <marker>будь ласка у</marker> водія.</example>
+        <message>Відсутня права кома: <suggestion>\1 \2,</suggestion>.</message>
+        <example correction="будь ласка,">Запитайте, <marker>будь ласка</marker> у водія.</example>
+        <example>— Будь ласка — миску, ложку й мій хліб!</example>
+        <example>— "Будь ласка"?</example>
       </rule>
       <rule>
         <pattern>
