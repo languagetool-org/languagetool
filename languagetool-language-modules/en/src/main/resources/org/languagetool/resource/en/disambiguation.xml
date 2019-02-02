@@ -656,12 +656,13 @@
             <marker>
                 <and>
                     <token postag="VB"/>
-                    <token postag_regexp="yes" postag="JJ|NN.*"/>
+                    <token postag_regexp="yes" postag="JJ|NN.*"><exception postag_regexp="yes" postag="NNPS?"/></token>
                 </and>
             </marker>
         </pattern>
         <disambig postag="VB"/>       
         <example type="untouched">I did my homework.</example>
+        <example type="untouched">What do <marker>Peter's</marker> parents do?</example>
         <example type="ambiguous" inputform="notice[notice/NN:UN,notice/VB,notice/VBP]" outputform="notice[notice/VB]">I did <marker>notice</marker> what you said.</example>
     </rule>
     <rule id="DO_not_VBNN_VB" name="do/did/does + not + verb/noun -> VB">
@@ -671,12 +672,13 @@
             <token>not</token>
                 <and>
                     <token postag="VB"/>
-                    <token postag_regexp="yes" postag="JJ|NN.*"/>
+                    <token postag_regexp="yes" postag="JJ|NN.*"><exception postag_regexp="yes" postag="NNPS?"/></token>
                 </and>
             </marker>
         </pattern>
         <disambig action="filterall"/>
         <example type="untouched">I did my homework.</example>
+        <example type="untouched">But do not <marker>Peter's</marker> parents agree with you?</example>
         <example type="ambiguous" inputform="notice[notice/NN:UN,notice/VB,notice/VBP]" outputform="notice[notice/VB]">I did not <marker>notice</marker> what you said.</example>
     </rule>
     <rule id="DOES_not" name="does + not = verb">

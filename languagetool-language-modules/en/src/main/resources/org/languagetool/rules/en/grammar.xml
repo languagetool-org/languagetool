@@ -3613,6 +3613,51 @@ USA
                 <example correction="reasons">7 <marker>reason's</marker> why</example>
             </rule>
         </rulegroup>
+        <rulegroup id="VERB_APOSTROPHE_S" name="Verb with 's">
+            <short>Possible typo</short>
+            <rule>
+                <pattern>
+                    <token postag_regexp="yes" postag="VBP?"><exception postag_regexp="yes" postag="NN.*"/></token>
+                    <token spacebefore="no" regexp="yes">['’]</token>
+                    <token spacebefore="no">s</token>
+                </pattern>
+                <message>Do not use 's with a verb. Do you mean <suggestion>\1\3</suggestion>?</message>
+                <example correction="becomes">If this <marker>become's</marker> a problem, stop the test.</example>
+                <example correction="begins">Before he <marker>begin's</marker> the test, the technician must…</example>
+                <example correction="disambiguates">Not a noun in standard English. Sometimes, the special <marker>disambiguate's</marker> are not correct.</example>
+                <example>If this <marker>becomes</marker> a problem, stop the test.</example>
+                <example>What do <marker>Peter's</marker> parents do?DO_VBNN_VB</example>
+                <example>But do not <marker>Peter's</marker> parents agree with you?</example>
+                <example>Not correct, but out of scope. The <marker>air filter's</marker> on the machine are dirty.</example>
+                <example>Not correct, but out of scope. Make sure that the window <marker>open's</marker> fully.</example>
+            </rule>
+            <rule><!-- Special rule for 'get': https://github.com/languagetool-org/languagetool/issues/1395 -->
+                <antipattern><!-- ... and his stunning get's surprised everyone. -->
+                    <token postag_regexp="yes" postag="DT|PRP\$"/>
+                    <token postag="JJ"/>
+                    <token>get</token>
+                    <token/>
+                    <token/>
+                    <token postag="VBN"/>
+                </antipattern>
+                <pattern>
+                    <token postag="VB">get</token><!-- The noun 'get' is not archaic. Refer to noun (2): https://www.merriam-webster.com/dictionary/get -->
+                    <token spacebefore="no" regexp="yes">['’]</token>
+                    <token spacebefore="no">s<exception scope="next">are</exception><exception scope="next" postag="VBN"/></token>
+                </pattern>
+                <message>Do not use 's with a verb. Do you mean <suggestion>\1\3</suggestion>?</message>
+                <example correction="gets">This vehicle <marker>get’s</marker> used too much.</example>
+                <example>This vehicle <marker>gets</marker> used too much..</example>
+                <example>The stupid <marker>get's</marker> fallen off his bicycle.</example>
+                <example>... in the tennis match, and his <marker>get's</marker> surprised everyone. [=get has surprised]</example>
+                <example>Found by APOSTROPHE_PLURAL and APOS_ARE. His <marker>get's</marker> are amazing to watch.</example>
+                <example>Noun, out of scope. His <marker>get’s</marker> surprise everyone.</example>
+                <example>... and his stunning <marker>get's</marker> surprised everyone.</example>
+                <example>... and her amazing <marker>get's</marker> shown how good she is.</example>
+                <example>... but his <marker>get's</marker> very unusual. The entire progeny is...</example>
+<!-- False negative caused by PRPPOSS_VB_NN. The problem is semantic. Refer to the 'progeny' example. --><example>My car stays clean, but his <marker>get's</marker> very dirty.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="ANY_BODY" name="any body (anybody)">
             <rule>
                 <antipattern>
