@@ -77,7 +77,7 @@ class CompoundTagger {
   private static final String ADJ_TAG_FOR_PO_ADV_NAZ = "adj:m:v_naz";
 
   private static final List<String> LEFT_O_ADJ = Arrays.asList(
-    "австро", "адиго", "американо", "англо", "афро", "еко", "етно", "іспано", "києво", "марокано", "угро"
+    "австро", "адиго", "американо", "англо", "афро", "еко", "етно", "іспано", "італо", "києво", "марокано", "угро"
   );
 
   private static final List<String> LEFT_INVALID = Arrays.asList(
@@ -665,18 +665,20 @@ class CompoundTagger {
   private List<AnalyzedToken> tagMatch(String word, List<AnalyzedToken> leftAnalyzedTokens, List<AnalyzedToken> rightAnalyzedTokens) {
     List<AnalyzedToken> newAnalyzedTokens = new ArrayList<>();
     List<AnalyzedToken> newAnalyzedTokensAnimInanim = new ArrayList<>();
-    
+
     String animInanimNotTagged = null;
-    
+
     for (AnalyzedToken leftAnalyzedToken : leftAnalyzedTokens) {
       String leftPosTag = leftAnalyzedToken.getPOSTag();
-      
+
       if( leftPosTag == null 
           || IPOSTag.contains(leftPosTag, IPOSTag.abbr.getText()) )
         continue;
 
-      // we don't want to mess with v_kly, e.g. no v_kly у рибо-полювання
-      if( leftPosTag.startsWith("noun") && leftPosTag.contains("v_kly") )
+      // we don't want to have v_kly for рибо-полювання
+      // but we do for пане-товаришу
+      if( leftPosTag.startsWith("noun:inanim")
+          && leftPosTag.contains("v_kly") )
         continue;
 
       String leftPosTagExtra = "";
@@ -700,13 +702,14 @@ class CompoundTagger {
 
       for (AnalyzedToken rightAnalyzedToken : rightAnalyzedTokens) {
         String rightPosTag = rightAnalyzedToken.getPOSTag();
-        
+
         if( rightPosTag == null
 //            || rightPosTag.contains("v_kly")
             || rightPosTag.contains(IPOSTag.abbr.getText()) )
           continue;
 
-        if( rightPosTag.startsWith("noun") && rightPosTag.contains("v_kly") )
+        if( rightPosTag.startsWith("noun:inanim")
+            && rightPosTag.contains("v_kly") )
           continue;
 
         String extraNvTag = "";

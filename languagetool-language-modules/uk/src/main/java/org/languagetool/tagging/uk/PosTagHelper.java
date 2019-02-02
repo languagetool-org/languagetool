@@ -222,6 +222,13 @@ public final class PosTagHelper {
     return newAnalyzedTokens;
   }
 
+  @NotNull
+  public static String addIfNotContains(@NotNull String tag, @NotNull String part) {
+    if( ! tag.contains(part) )
+      return tag + part;
+    return tag;
+  }
+
 //private static String getNumAndConj(String posTag) {
 //  Matcher pos4matcher = GENDER_CONJ_REGEX.matcher(posTag);
 //  if( pos4matcher.matches() ) {
