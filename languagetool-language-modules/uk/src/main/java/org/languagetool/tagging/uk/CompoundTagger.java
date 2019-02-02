@@ -225,8 +225,27 @@ class CompoundTagger {
 
     List<TaggedWord> rightWdList = tagEitherCase(rightWord);
       
-    if( rightWdList.isEmpty() )
+    if( rightWdList.isEmpty() ) {
+     
+      if( word.startsWith("напів") ) {
+        // напівпольської-напіванглійської
+        Matcher napivMatcher = Pattern.compile("напів(.+?)-напів(.+)").matcher(word);
+        if( napivMatcher.matches() ) {
+          List<TaggedWord> napivLeftWdList = tagAsIsAndWithLowerCase(napivMatcher.group(1));
+          List<TaggedWord> napivRightWdList = tagAsIsAndWithLowerCase(napivMatcher.group(2));
+
+          List<AnalyzedToken> napivLeftAnalyzedTokens = ukrainianTagger.asAnalyzedTokenListForTaggedWordsInternal(napivMatcher.group(1), napivLeftWdList);
+          List<AnalyzedToken> napivRightAnalyzedTokens = ukrainianTagger.asAnalyzedTokenListForTaggedWordsInternal(napivMatcher.group(2), napivRightWdList);
+
+          List<AnalyzedToken> tagMatch = tagMatch(word, napivLeftAnalyzedTokens, napivRightAnalyzedTokens);
+          if( tagMatch != null ) {
+            return tagMatch;
+          }
+        }
+      }
+      
       return null;
+    }
 
     List<AnalyzedToken> rightAnalyzedTokens = ukrainianTagger.asAnalyzedTokenListForTaggedWordsInternal(rightWord, rightWdList);
 
@@ -326,14 +345,12 @@ class CompoundTagger {
     // вгору-вниз, лікар-гомеопат, жило-було
 
     if( ! leftWdList.isEmpty() ) {
-
       List<AnalyzedToken> tagMatch = tagMatch(word, leftAnalyzedTokens, rightAnalyzedTokens);
       if( tagMatch != null ) {
         return tagMatch;
       }
     }
 
-    
     List<AnalyzedToken> match = tryOWithAdj(word, leftWord, rightAnalyzedTokens);
     if( match != null )
       return match;

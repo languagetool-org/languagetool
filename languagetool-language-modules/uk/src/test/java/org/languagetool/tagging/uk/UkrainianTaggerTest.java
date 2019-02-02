@@ -527,11 +527,12 @@ public class UkrainianTaggerTest {
   }
 
   @Test
-  public void testInvalidSpelling() throws IOException {
+  public void testAltSpelling() throws IOException {
     TestTools.myAssert("тренінґ", "тренінґ/[тренінґ]noun:inanim:m:v_naz:alt|тренінґ/[тренінґ]noun:inanim:m:v_zna:alt", tokenizer, tagger);
     TestTools.myAssert("антирадіяційно", "антирадіяційно/[антирадіяційно]adv:alt", tokenizer, tagger);
-    assertNotTagged("австріях");
     TestTools.myAssert("фотометер", "фотометер/[фотометер]noun:inanim:m:v_naz:alt|фотометер/[фотометер]noun:inanim:m:v_zna:alt", tokenizer, tagger);
+
+    assertNotTagged("австріях");
   }
 
   @Test
@@ -544,7 +545,7 @@ public class UkrainianTaggerTest {
     TestTools.myAssert("напіврозслабленого", "напіврозслабленого/[напіврозслаблений]adj:m:v_rod:&&adjp:pasv:perf|напіврозслабленого/[напіврозслаблений]adj:m:v_zna:ranim:&&adjp:pasv:perf|напіврозслабленого/[напіврозслаблений]adj:n:v_rod:&&adjp:pasv:perf", tokenizer, tagger);
     TestTools.myAssert("напів\u2013фантастичних", "напів–фантастичних/[напів-фантастичний]adj:p:v_mis:bad|напів–фантастичних/[напів-фантастичний]adj:p:v_rod:bad|напів–фантастичних/[напів-фантастичний]adj:p:v_zna:ranim:bad", tokenizer, tagger);
     //TODO:
-//    TestTools.myAssert("напівпольської-напіванглійської", "", tokenizer, tagger);
+    TestTools.myAssert("напівпольської-напіванглійської", "напівпольської-напіванглійської/[польська-англійська]noun:inanim:f:v_rod|напівпольської-напіванглійської/[польський-англійський]adj:f:v_rod", tokenizer, tagger);
 //    TestTools.myAssert("красунями-напівптахами", "", tokenizer, tagger);
     assertNotTagged("напіврозслабеному");   // typo
     assertNotTagged("напіви");
