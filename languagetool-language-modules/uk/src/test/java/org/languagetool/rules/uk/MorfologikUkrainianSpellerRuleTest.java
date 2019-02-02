@@ -61,10 +61,10 @@ public class MorfologikUkrainianSpellerRuleTest {
     // check match positions:
     assertEquals(1, matches.length);
 
-    matches = rule.match(langTool.getAnalyzedSentence("шкляний"));
+    matches = rule.match(langTool.getAnalyzedSentence("шклянка"));
 
     assertEquals(1, matches.length);
-    assertEquals("скляний", matches[0].getSuggestedReplacements().get(0));
+    assertEquals("склянка", matches[0].getSuggestedReplacements().get(0));
 
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("а")).length);
 
