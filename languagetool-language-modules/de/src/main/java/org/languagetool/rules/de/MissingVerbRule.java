@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules.de;
 
+import org.apache.commons.lang3.StringUtils;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
@@ -81,12 +82,9 @@ public class MissingVerbRule extends Rule {
     AnalyzedTokenReadings lastToken = null;
     int i = 0;
     for (AnalyzedTokenReadings readings : sentence.getTokensWithoutWhitespace()) {
-      if (readings.hasPartialPosTag("VER") || (!readings.isTagged() && !StringTools.isCapitalizedWord(readings.getToken()))) {  // ignore unknown words to avoid false alarms
-        //System.out.println("Found verb: " + readings.getToken());
-        verbFound = true;
-        break;
-      } else if (i == 1 && verbAtSentenceStart(readings)) {
-        //System.out.println("Found verb: " + readings.getToken());
+      if (readings.hasPosTagStartingWith("VER")
+          || (!readings.isTagged() && !StringTools.isCapitalizedWord(readings.getToken()) // ignore unknown words to avoid false alarms
+          || (i == 1 && verbAtSentenceStart(readings)))) {
         verbFound = true;
         break;
       }
@@ -105,10 +103,7 @@ public class MissingVerbRule extends Rule {
     AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
     if (tokens.length > 0) {
       AnalyzedTokenReadings lastToken = tokens[tokens.length - 1];
-      if (lastToken.hasPosTag("PKT")) {
-        String lastTokenStr = lastToken.getToken();
-        return (lastTokenStr.equals(".") || lastTokenStr.equals("?") || lastTokenStr.equals("!"));
-      }
+      return lastToken.hasPosTag("PKT") && StringUtils.equalsAny(lastToken.getToken(), ".", "?", "!");
     }
     return false;
   }
@@ -121,10 +116,7 @@ public class MissingVerbRule extends Rule {
     // start of sentence is mis-tagged because of the uppercase first character, work around that:
     String lowercased = StringTools.lowercaseFirstChar(readings.getToken());
     List<AnalyzedTokenReadings> lcReadings = language.getTagger().tag(Collections.singletonList(lowercased));
-    if (lcReadings.size() > 0 && lcReadings.get(0).hasPartialPosTag("VER")) {
-      return true;
-    }
-    return false;
+    return lcReadings.size() > 0 && lcReadings.get(0).hasPosTagStartingWith("VER");
   }
 
 }
