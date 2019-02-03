@@ -3621,6 +3621,7 @@ USA
                     <token postag_regexp="yes" postag="VBP?">
                         <exception postag_regexp="yes" postag="NN.*"/>
                         <exception>let</exception>
+                        <exception case_sensitive="yes" regexp="yes">[A-Z].+</exception><!-- Assume initial caps is NNP -->
                     </token>
                     <token spacebefore="no" regexp="yes">['’]</token>
                     <token spacebefore="no">s</token>
@@ -3632,9 +3633,11 @@ USA
                 <example>If this <marker>becomes</marker> a problem, stop the test.</example>
                 <example>What do <marker>Peter's</marker> parents do?</example>
                 <example>But do not <marker>Peter's</marker> parents agree with you?</example>
+                <example><marker>Let's</marker> face it, it's impossible.</example>
+                <example>I tell you, <marker>Bleed's</marker> the man you need to see.</example>
                 <example>Not correct, but out of scope. The <marker>air filter's</marker> on the machine are dirty.</example>
                 <example>Not correct, but out of scope. Make sure that the window <marker>open's</marker> fully.</example>
-                <example><marker>Let's</marker> face it, it's impossible.</example>
+                <example>Not correct, but out of scope. The <marker>let's</marker> are not expensive in this part of town.</example>
             </rule>
             <rule><!-- Special rule for 'get': https://github.com/languagetool-org/languagetool/issues/1395 -->
                 <antipattern><!-- ... and his stunning get's surprised everyone. -->
