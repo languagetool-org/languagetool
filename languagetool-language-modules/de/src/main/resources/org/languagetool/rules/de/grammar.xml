@@ -16247,16 +16247,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token regexp="yes">durch|um|nach|mit|b(is|ei)|unter|über|g(egen|leich)|plus|m(inus|al)|a(n|uf)|zu|von|in</token>
+                    <token postag="ADJ:PRD:GRU" min="0"/>
                     <marker>
                         <token case_sensitive="yes">Null</token>
                     </marker>
                 </pattern>
                 <message>Zahlen unter einer Million werden in der Regel kleingeschrieben.</message>
-                <suggestion><match no="2" case_conversion="startlower"/></suggestion>
+                <suggestion><match no="3" case_conversion="startlower"/></suggestion>
+                <url>https://www.korrekturen.de/wortliste/null.shtml</url>
                 <short>&prgk;.</short>
                 <example correction="null">Die Temperatur fiel unter <marker>Null</marker>.</example>
                 <example correction="null">Wir spielten zu <marker>Null</marker>.</example>
                 <example correction="null">Die Reihe konvergiert gegen <marker>Null</marker>.</example>
+                <example correction="null">Die Emissionswerte müssen auf effektiv <marker>Null</marker> reduziert werden.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ZAHLWOERTER" name="Großschreibung von Zahlwörtern">
@@ -31002,8 +31005,8 @@ Andere Projekte</example>
         <rulegroup id="MEIN_KLEIN_HAUS" name="Unflektiertes Adjektiv statt flektierter Form (unvollständig!), z.B. 'mein klein (kleines) Haus' ">
             <rule>
                 <antipattern>
-                    <token>auf</token>
-                    <token>praktisch</token>
+                    <token>auf</token><!-- auf praktisch Null-->
+                    <token postag=" ADJ:PRD:GRU"/>
                     <token>Null</token>
                 </antipattern>
                 <antipattern>
