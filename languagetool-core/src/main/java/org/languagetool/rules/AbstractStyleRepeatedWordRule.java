@@ -49,6 +49,7 @@ public abstract class AbstractStyleRepeatedWordRule  extends TextLevelRule {
   
   private final LinguServices linguServices;
   private final Language lang;
+  
   protected int maxDistanceOfSentences = 1;
 
   public AbstractStyleRepeatedWordRule(ResourceBundle messages, Language lang, UserConfig userConfig) {
@@ -222,10 +223,10 @@ public abstract class AbstractStyleRepeatedWordRule  extends TextLevelRule {
       return false;
     }
     List<AnalyzedToken> readings = testToken.getReadings();
-    List<String> lemmas = new ArrayList<String>();
-    for (int i = 0; i < readings.size(); i++) {
-      if (readings.get(i).getLemma() != null) {
-        lemmas.add(readings.get(i).getLemma());
+    List<String> lemmas = new ArrayList<>();
+    for (AnalyzedToken reading : readings) {
+      if (reading.getLemma() != null) {
+        lemmas.add(reading.getLemma());
       }
     }
     for (int i = 0; i < tokens.length; i++) {
