@@ -31,6 +31,11 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class RuleTest {
+  
+  private final static Map<String, Integer> idToExpectedMatches = new HashMap<>();
+  static {
+    idToExpectedMatches.put("STYLE_REPEATED_WORD_RULE_DE", 2);
+  }
 
   @Test
   public void testJavaRules() throws IOException {
@@ -101,7 +106,7 @@ public class RuleTest {
       assertEquals("Did not get the expected rule match for the incorrect example sentence:\n"
               + "Text: " + input + "\n"
               + "Rule: " + rule.getId() + "\n"
-              + "Matches: " + ruleMatches, 1, ruleMatches.size());
+              + "Matches: " + ruleMatches, (int)idToExpectedMatches.getOrDefault(rule.getId(), 1), ruleMatches.size());
     }
   }
 
