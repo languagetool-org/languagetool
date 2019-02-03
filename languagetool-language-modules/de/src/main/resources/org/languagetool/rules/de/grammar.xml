@@ -16246,7 +16246,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">durch|um|nach|mit|b(is|ei)|unter|über|g(egen|leich)|plus|m(inus|al)|a(n|uf)|zu|von|in</token>
+                    <token regexp="yes">durch|um|na(ch|he)|mit|b(is|ei)|unter|über|g(egen|leich)|plus|m(inus|al)|a(n|uf)|zu|von|in</token>
                     <token postag="ADJ:PRD:GRU" min="0"/>
                     <marker>
                         <token case_sensitive="yes">Null</token>
@@ -16295,6 +16295,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>&prgk;.</short>
                 <example correction="Drei">Sie hatte eine <marker>drei</marker> bekommen.</example>
                 <example correction="Drei">Mit einer <marker>drei</marker> in Physik war sie sehr zufrieden.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">sein</token>
+                    <token>eine</token>
+                    <token min="0">absolute</token>
+                    <marker>
+                        <token case_sensitive="yes">null</token>
+                    </marker>
+                    <token regexp="yes">in|\.</token>
+                </pattern>
+                <message>In der Wendung 'eine <suggestion><match no="4" case_conversion="startupper"/></suggestion> sein' wird das Zahlwort großgeschrieben.</message>
+                <url>https://www.korrekturen.de/wortliste/null.shtml</url>
+                <short>&prgk;.</short>
+                <example correction="Null">Er ist eine <marker>null</marker> in Physik.</example>
+                <example correction="Null">Ich bin eine absolute <marker>null</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="FOLGE_LEISTEN" name="leiste ... folge (Folge)">
