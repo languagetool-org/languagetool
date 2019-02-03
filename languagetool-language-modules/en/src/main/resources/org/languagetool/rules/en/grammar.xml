@@ -3162,10 +3162,10 @@ USA
             <url>https://www.ef.edu/english-resources/english-grammar/forming-possessive/</url>
       <rule>
             <pattern case_sensitive="yes">
-                <token postag='SENT_START'/>
+              <token postag='SENT_START'/>
               <marker>
                 <token postag="NNP">
-                  <exception regexp="yes">\p{L}+s</exception>
+                  <exception regexp="yes">\p{L}+s|Klan</exception>
                   <exception negate_pos='yes' postag="NNP"/></token>
                 <token postag="NN.+"  postag_regexp='yes'>
                   <exception regexp='yes'>\p{Lu}\p{L}+</exception>
@@ -3174,8 +3174,9 @@ USA
               </marker>
             </pattern>
             <message>The genitive is possibly missing.</message>
-              <suggestion>\2's \3</suggestion>
+            <suggestion>\2's \3</suggestion>
             <example correction="Angela's idea"><marker>Angela idea</marker> is good.</example>
+            <example>Klan members adopted masks and robes that hid their identities.</example>
         </rule>
         <rule>
             <pattern case_sensitive="yes">
@@ -3617,7 +3618,10 @@ USA
             <short>Possible typo</short>
             <rule>
                 <pattern>
-                    <token postag_regexp="yes" postag="VBP?"><exception postag_regexp="yes" postag="NN.*"/></token>
+                    <token postag_regexp="yes" postag="VBP?">
+                        <exception postag_regexp="yes" postag="NN.*"/>
+                        <exception>let</exception>
+                    </token>
                     <token spacebefore="no" regexp="yes">['’]</token>
                     <token spacebefore="no">s</token>
                 </pattern>
@@ -3630,6 +3634,7 @@ USA
                 <example>But do not <marker>Peter's</marker> parents agree with you?</example>
                 <example>Not correct, but out of scope. The <marker>air filter's</marker> on the machine are dirty.</example>
                 <example>Not correct, but out of scope. Make sure that the window <marker>open's</marker> fully.</example>
+                <example><marker>Let's</marker> face it, it's impossible.</example>
             </rule>
             <rule><!-- Special rule for 'get': https://github.com/languagetool-org/languagetool/issues/1395 -->
                 <antipattern><!-- ... and his stunning get's surprised everyone. -->
