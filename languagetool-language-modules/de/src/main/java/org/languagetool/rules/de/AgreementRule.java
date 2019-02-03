@@ -316,6 +316,16 @@ public class AgreementRule extends Rule {
       new PatternTokenBuilder().csToken("Achtung").build()
     ),
     Arrays.asList(
+      new PatternTokenBuilder().csToken("dem").build(),
+      new PatternTokenBuilder().csToken("Rechnung").setSkip(1).build(),
+      new PatternTokenBuilder().csToken("tragen").matchInflectedForms().build()
+    ),
+    Arrays.asList(
+      new PatternTokenBuilder().csToken("tragen").matchInflectedForms().build(),
+      new PatternTokenBuilder().csToken("dem").build(),
+      new PatternTokenBuilder().csToken("Rechnung").build()
+    ),
+    Arrays.asList(
       new PatternTokenBuilder().csToken("zum").build(),
       new PatternTokenBuilder().csToken("einen").build(),
       new PatternTokenBuilder().posRegex("ADJ:.+").build()

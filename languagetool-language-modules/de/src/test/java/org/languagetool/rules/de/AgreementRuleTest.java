@@ -98,7 +98,7 @@ public class AgreementRuleTest {
     assertGood("Sie kann einem Angst einjagen.");
     assertGood("Damit sollten zum einen neue Energien gefördert werden, zum anderen der Sozialbereich.");
     assertGood("Nichts ist mit dieser einen Nacht zu vergleichen.");
-
+    assertGood("dann muss Schule dem Rechnung tragen.");
     assertGood("Das Dach von meinem Auto.");
     assertGood("Das Dach von meinen Autos.");
 
