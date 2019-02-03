@@ -626,15 +626,22 @@
         
     <rule name="Modal verb + verb/noun -&gt; modal verb + verb" id="MD_VB">
         <pattern>
-            <token postag="MD"/>
+            <token postag="MD"><exception>need</exception></token>
             <marker>
                 <and>
                     <token postag="VB"/>
                     <token postag="NN(:UN?)?" postag_regexp="yes"/>
                 </and>
             </marker>
+            <token skip="-1"><exception scope="next">?</exception></token>
+            <token postag="SENT_END"/>
         </pattern>
         <disambig postag="VB"/>
+        <example type="untouched">He did not need <marker>man's</marker> testimony about man…</example>
+        <example type="untouched">If you need <marker>oil</marker>, get a requisition order from your manager.</example>
+        <example type="untouched">Will <marker>man</marker> ever reach the moon?</example>
+        <example type="untouched">... but can <marker>oil</marker> be used instead of water?</example>
+      <example type="ambiguous" inputform="open[open/JJ,open/NN:U,open/RP,open/VB,open/VBP]" outputform="open[open/VB]">You can <marker>open</marker> your books now.</example>
     </rule>
         
     <rule name="be + to + verb/... -&gt;be + to + verb" id="BE_TO_VB">
