@@ -1472,26 +1472,36 @@
     <rulegroup name="let's" id="LETS1">    
         <rule>
             <pattern>
+                <token><exception postag_regexp="yes" postag="DT|PRP\$|WP\$"/></token>
                 <marker>
                     <token>let</token>
                 </marker>
                 <token regexp="yes">['’]</token>
                 <token>s</token>
+                <token><exception regexp="yes">are|were</exception></token>
             </pattern>
             <disambig postag="VBP"/>
+            <example type="untouched">Let's are not expensive in this part of town.</example><!-- All 'untouched' examples contain an incorrect possessive 's with a noun -->
+            <example type="untouched">Our let's in this prestigious property are taken very quickly.</example>
+            <example type="untouched">... but whose let's go quickly?</example>
+            <example type="ambiguous" inputform="Let[Let/NNP,let/NN,let/VB,let/VBD,let/VBN,let/VBP]" outputform="Let[let/VBP]"><marker>Let</marker>'s do a test.</example>
         </rule>
         <rule>
             <pattern>
+                <token><exception postag_regexp="yes" postag="DT|PRP\$|WP\$"/></token>
                 <token>let</token>
                 <token regexp="yes">['’]</token>
                 <marker>
                     <token>s</token>
                 </marker>
+                <token><exception regexp="yes">are|were</exception></token>
             </pattern>
             <disambig postag="PRP"/>
+            <example type="untouched">... and whose let's are these?</example>
         </rule>
         <rule>
             <pattern>
+                <token><exception postag_regexp="yes" postag="DT|PRP\$|WP\$"/></token>
                 <token>let</token>
                 <token regexp="yes">['’]</token>
                 <token>s</token>
@@ -1500,6 +1510,7 @@
                 </marker>
             </pattern>
             <disambig postag="VB"/>
+            <example type="untouched">The let's go very quickly because they are cheap.</example>
         </rule>
     </rulegroup>
     <rule id="LET_GO" name="let as a verb">
