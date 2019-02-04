@@ -21,10 +21,12 @@
 
 package org.languagetool.server;
 
+import org.jetbrains.annotations.NotNull;
 import org.languagetool.Experimental;
 import org.languagetool.RuleLogger;
 import org.languagetool.RuleLoggerMessage;
 
+import java.util.Objects;
 import java.util.logging.Level;
 
 /**
