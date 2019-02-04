@@ -21,18 +21,25 @@
 
 package org.languagetool;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Objects;
 import java.util.TimeZone;
 
 @Experimental
 public class RuleLoggerMessage {
+  private final String ruleId;
+  private final String language;
+  private final Date timestamp;
+  private String message;
 
-  public RuleLoggerMessage(String ruleId, String language, String message) {
-    this.ruleId = ruleId;
-    this.language = language;
+  public RuleLoggerMessage(@NotNull String ruleId, @NotNull String language, @NotNull String message) {
+    this.ruleId = Objects.requireNonNull(ruleId);
+    this.language = Objects.requireNonNull(language);
     this.timestamp = Calendar.getInstance(TimeZone.getTimeZone("UTC")).getTime();
-    this.message = message;
+    this.message = Objects.requireNonNull(message);
   }
 
   public String getRuleId() {
@@ -54,10 +61,4 @@ public class RuleLoggerMessage {
   public void setMessage(String message) {
     this.message = message;
   }
-
-  private final String ruleId;
-  private final String language;
-  private final Date timestamp;
-  private String message;
-
 }

@@ -27,7 +27,7 @@ public class RuleCheckTimeMessage extends RuleLoggerMessage {
   private final int textSize;
 
   public RuleCheckTimeMessage(String ruleId, String language, long startTime, int textSize) {
-    super(ruleId, language, null);
+    super(ruleId, language, "");
 
     executionTime = System.currentTimeMillis() - startTime;
     this.textSize = textSize;
