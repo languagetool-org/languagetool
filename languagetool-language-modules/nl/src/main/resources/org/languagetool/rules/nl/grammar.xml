@@ -31645,6 +31645,18 @@ steenwijk;Steenwijk
     </category>
     <category id="CONFUSED_WORDS" name="Woordverwarring">
 
+		<rulegroup id="OVALEN" name="ovalen / ovale">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>ovalen</token>
+                    </marker>
+                <token postag_regexp="yes" postag="ZNW.*"/>
+                </pattern>
+				<message>Als de \2 ovaal is of zijn, is juist: <suggestion>ovale</suggestion>.</message>
+                <example correction="ovale">Het is een <marker>ovalen</marker> tafeltje.</example>
+            </rule>
+        </rulegroup>
 		<rulegroup id="DANKJE" name="dankje / dank je">
             <rule>
                 <antipattern><marker><token>dankje</token><token>wel</token></marker></antipattern>
