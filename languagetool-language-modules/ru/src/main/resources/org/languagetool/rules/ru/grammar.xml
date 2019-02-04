@@ -8167,7 +8167,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule default="on" id="Verb_tsa_and_ttsya" name="Правописание «-тся» и «-ться» в глаголах">
             <pattern>
                 <!--     VB:.*         -->
-                <token skip="-1">нужно<exception  scope="next" regexp="yes">[,:;]</exception></token>
+                <token skip="-1" regexp="yes">нужно|надо<exception  scope="next" regexp="yes">[,:;]</exception></token>
                 <marker>
                   <token postag="VB:.*" postag_regexp="yes" skip="-1"><exception postag_regexp="yes"  postag="VB:INF:.*"></exception><exception postag_regexp="yes" negate_pos="yes" postag="VB:.*"></exception><exception>трём</exception><exception postag_regexp="yes" scope="next" postag="VB:.*"></exception></token>
                 </marker>
@@ -8177,6 +8177,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <url>http://tsya.ru/</url>
             <short>Глагол должен быть в неопределённой форме.</short>
             <example>Нужно, чтобы мы готовились к худшему.</example>
+            <example>Не надо суетиться!</example>
+            <example correction="суетиться">Не надо <marker>суетится</marker>!</example>
             <example correction="строиться">Нужно <marker>строится</marker> на этом месте.</example>
         </rule>
 
