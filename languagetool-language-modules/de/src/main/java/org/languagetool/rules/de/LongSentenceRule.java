@@ -109,7 +109,7 @@ public class LongSentenceRule extends org.languagetool.rules.LongSentenceRule {
   public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
     List<RuleMatch> ruleMatches = new ArrayList<>();
     AnalyzedTokenReadings[] tokens = sentence.getTokens();
-    if (tokens.length < maxWords + 1) {   // just a short-circuit
+    if (tokens.length < maxWords) {   // just a short-circuit
       return toRuleMatchArray(ruleMatches);
     }
     String msg = getMessage();
@@ -117,14 +117,7 @@ public class LongSentenceRule extends org.languagetool.rules.LongSentenceRule {
     List<Integer> fromPos = new ArrayList<>();
     List<Integer> toPos = new ArrayList<>();
     while (i < tokens.length) {
-      for (; i < tokens.length && !isWordCount(tokens[i].getToken()); i++) ;
-      if (i < tokens.length) {
-        fromPos.add(tokens[i].getStartPos());
-        toPos.add(tokens[i].getEndPos());
-      }
       int numWords = 0;
-      //  Text before and after ':' and ';' is handled as separated sentences
-      //  Direct speech is splitted 
       while (i < tokens.length && !tokens[i].getToken().equals(":") && !tokens[i].getToken().equals(";")
               && !tokens[i].getToken().equals("\n") && !tokens[i].getToken().equals("\r\n") 
               && !tokens[i].getToken().equals("\n\r")
@@ -133,8 +126,8 @@ public class LongSentenceRule extends org.languagetool.rules.LongSentenceRule {
               && !tokens[i].getToken().equals("«") && !tokens[i].getToken().equals("\"")))) {
         if (isWordCount(tokens[i].getToken())) {
           if(numWords == maxWords) {
-            fromPos.set(fromPos.size() - 1, tokens[i].getStartPos());
-            toPos.set(fromPos.size() - 1, tokens[i].getEndPos());
+            fromPos.add(tokens[i].getStartPos());
+            toPos.add(tokens[i].getEndPos());
           }
           numWords++;
         } else if (tokens[i].getToken().equals("(") || tokens[i].getToken().equals("{")
@@ -144,54 +137,27 @@ public class LongSentenceRule extends org.languagetool.rules.LongSentenceRule {
           else if (tokens[i].getToken().equals("{")) endChar = "}";
           else endChar = "]";
           int numWordsInt = 0;
-          int fromPosInt = 0;
-          int toPosInt = 0;
           int k;
-          for (k = i + 1; k < tokens.length && !tokens[k].getToken().equals(endChar) 
-                && !isWordCount(tokens[k].getToken()); k++);
-          if (k < tokens.length) {
-            fromPosInt = tokens[k].getStartPos();
-            toPosInt = tokens[k].getEndPos();
-          }
-          for (k++; k < tokens.length && !tokens[k].getToken().equals(endChar); k++) {
+          for (k = i + 1; k < tokens.length && !tokens[k].getToken().equals(endChar); k++) {
             if (isWordCount(tokens[k].getToken())) {
-              if(numWordsInt == maxWords + 1) {
-                fromPosInt = tokens[k].getStartPos();
-                toPosInt = tokens[k].getEndPos();
+              if(numWordsInt == maxWords) {
+                fromPos.add(tokens[k].getStartPos());
+                toPos.add(tokens[k].getEndPos());
               }
               numWordsInt++;
             }
           }
-          if (k < tokens.length) {
-            if (numWordsInt > maxWords) {
-              RuleMatch ruleMatch = new RuleMatch(this, sentence, fromPosInt, toPosInt, msg);
-              ruleMatches.add(ruleMatch);
-            }
-            for (i = k; i < tokens.length && !isWordCount(tokens[i].getToken()); i++) ;
-            if (i < tokens.length) {
-              fromPos.add(tokens[i].getStartPos());
-              toPos.add(tokens[i].getEndPos());
-              numWords++;
-            }
-          }
+          i = k + 1;
         }
         i++;
       }
-      if (numWords > maxWords) {
-        for (int j = 0; j < fromPos.size(); j++) {
-          RuleMatch ruleMatch = new RuleMatch(this, sentence, fromPos.get(j), toPos.get(j), msg);
-          // workaround for https://forum.languagetool.org/t/de-leichte-sprache-tests-zur-textprufung/3755/4
-          if (fromPos.get(j) > 0) {
-            ruleMatches.add(ruleMatch);
-          }
-        }
-      } else {
-        for (int j = fromPos.size() - 1; j >= 0; j--) {
-          fromPos.remove(j);
-          toPos.remove(j);
-        }
-      }
+      i++;
+    }
+    for (int j = 0; j < fromPos.size(); j++) {
+      RuleMatch ruleMatch = new RuleMatch(this, sentence, fromPos.get(j), toPos.get(j), msg);
+      ruleMatches.add(ruleMatch);
     }
     return toRuleMatchArray(ruleMatches);
   }
+
 }
