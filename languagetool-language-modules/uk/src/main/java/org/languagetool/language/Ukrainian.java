@@ -170,9 +170,9 @@ public class Ukrainian extends Language {
 
         new MixedAlphabetsRule(messages),
 
-        new SimpleReplaceRule(messages),
         new SimpleReplaceSoftRule(messages),
         new SimpleReplaceRenamedRule(messages),
+        new SimpleReplaceRule(messages),
 
         new HiddenCharacterRule(messages)
     );
