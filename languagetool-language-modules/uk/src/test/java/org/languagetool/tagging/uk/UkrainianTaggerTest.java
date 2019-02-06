@@ -365,6 +365,7 @@ public class UkrainianTaggerTest {
     assertNotTagged("відео-навчання");
     assertNotTagged("рибо-полювання");
     assertNotTagged("вовіки-вічні");
+    assertNotTagged("юре-юре");
   }
 
   @Test
