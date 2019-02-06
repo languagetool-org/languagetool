@@ -1503,11 +1503,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
 
-    <rulegroup id="kraschiy_vs_naikraschiy" name="Кращий і найкращий">
+    <rulegroup id="kraschiy_vs_naikraschiy_with_ne" name="Кращий і найкращий (З не)">
       <antipattern>
         <token inflected="yes">кращий</token>
         <token min="0">,</token>
-        <token regexp="yes">за|від|ніж|як</token>
+        <token regexp="yes">за|від|ніж|аніж|як|од</token>
       </antipattern>
 
       <rule>
@@ -1584,10 +1584,290 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <marker>
             <token inflected="yes">кращий</token>
           </marker>
-          <token inflected="yes" regexp="yes">час|період|вихід|спосіб</token>
+          <token inflected="yes" regexp="yes">час|період|вихід|спосіб|бік</token>
         </pattern>
         <message>Коли мається на увазі найвищий ступінь порівняння, слід вживати <suggestion>найкращий</suggestion>?</message>
         <example correction="найкращий">Зараз не <marker>кращий</marker> час починати справу.</example>
+      </rule>
+    </rulegroup>
+
+    <rulegroup id="kraschiy_vs_naikraschiy_without_ne" name="Кращий і найкращий (беЗ не)">
+      <antipattern>
+        <token>не</token>
+        <token inflected="yes">кращий</token>
+      </antipattern>
+      <antipattern>
+        <token>кращий</token>
+        <token max="3"/>
+        <token postag_regexp="yes" postag="adj:.:v_naz:compc.*"/>
+      </antipattern>
+      <antipattern>
+        <token regexp="yes">значно|набагато|суттєво|трохи|куди|дещо|якомога|чим|тим|ще</token>
+        <!--
+        <token postag_regexp="yes" postag="adv(:.*|$)">
+          <exception postag_regexp="yes" postag="conj.*"/>
+          <exception postag_regexp="yes" postag=".*?:dem.*"/>
+          <exception regexp="yes">натомість|взагалі</exception>
+        </token>
+        -->
+        <token>кращий</token>
+      </antipattern>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token>кращий</token>
+          </marker>
+          <token regexp="yes">з|із|поміж|серед</token>
+        </pattern>
+        <message>Коли мається на увазі найвищий ступінь порівняння, слід вживати <suggestion>найкращий</suggestion>?</message>
+        <example correction="найкращий"><marker>кращий</marker> з людей</example>
+        <example correction="найкращий"><marker>кращий</marker> із світів</example>
+        <example correction="найкращий"><marker>кращий</marker> із кращих</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token regexp="yes">серед|поміж|з|із</token>
+          <token postag_regexp="yes" postag="noun:.*?:v_rod(?!.*?pron).*"/>
+          <marker>
+            <token>кращий</token>
+          </marker>
+        </pattern>
+        <message>Коли мається на увазі найвищий ступінь порівняння, слід вживати <suggestion>найкращий</suggestion>?</message>
+        <example correction="найкращий">серед жінок <marker>кращий</marker> результат</example>
+        <example>який із них кращий, який дешевший</example>
+        <example>який із них кращий і дешевший</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token regexp="yes">за|як</token>
+          <marker>
+            <token>кращий</token>
+          </marker>
+          <token postag_regexp="yes" postag="adj.*?:v_naz.*" min="0"/>
+          <token postag_regexp="yes" postag="noun:.*?:v_naz.*"/>
+        </pattern>
+        <message>Коли мається на увазі найвищий ступінь порівняння, слід вживати <suggestion>найкращий</suggestion>?</message>
+        <example correction="найкращий">за <marker>кращий</marker> короткий сценарій</example>
+        <example correction="найкращий">як <marker>кращий</marker> виконавець</example>
+        <example>розраховувати на кращий результат</example>
+        <example>за кращий город, за багатше князівство</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token inflected="yes" regexp="yes">конкурс|звання|змагання|тендер|претендувати</token>
+          <token regexp="yes" min="0">[:—–-]</token>
+          <token>на</token>
+          <marker>
+            <token>кращий</token>
+          </marker>
+        </pattern>
+        <message>Коли мається на увазі найвищий ступінь порівняння, слід вживати <suggestion>найкращий</suggestion>?</message>
+        <example correction="найкращий">конкурс на <marker>кращий</marker> фільм</example>
+        <example correction="найкращий">організовує конкурси: на <marker>кращий</marker> твір про гімназію</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token postag_regexp="yes" postag="noun:.*?:v_naz.*"/>
+          <token regexp="yes">[—–-]</token>
+          <marker>
+            <token>кращий</token>
+          </marker>
+          <token postag_regexp="yes" postag="adj:.:v_naz.*" min="0"/>
+          <token postag_regexp="yes" postag="noun:.*?:v_naz.*"/>
+        </pattern>
+        <message>Коли мається на увазі найвищий ступінь порівняння, слід вживати <suggestion>найкращий</suggestion>?</message>
+        <example correction="найкращий">Сергій Стаховський — <marker>кращий</marker> тенісист</example>
+        <example correction="найкращий">книжка - <marker>кращий</marker> подарунок</example>
+        <example correction="найкращий">собака - <marker>кращий</marker> друг людини</example>
+        <example>якийсь інший світ – кращий світ, вільніший</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token>кращий
+              <exception scope="previous" regexp="yes">["«„“]</exception>
+            </token>
+          </marker>
+          <token postag_regexp="yes" postag="adj:m:v_naz.*" min="0"/>
+          <token postag_regexp="yes" postag="noun:anim:m:v_naz.*"/>
+          <token postag_regexp="yes" postag="adj:.:v_rod.*" min="0"/>
+          <token postag_regexp="yes" postag="noun:.*?:v_rod.*"/>
+        </pattern>
+        <message>Коли мається на увазі найвищий ступінь порівняння, слід вживати <suggestion>найкращий</suggestion>?</message>
+        <example correction="найкращий">там <marker>кращий</marker> поет революції</example>
+        <example correction="найкращий">спочатку <marker>кращий</marker> голеадор чемпіонату</example>
+        <example correction="найкращий"><marker>кращий</marker> гравець цього матчу</example>
+        <example>значно кращий гравець команди</example>
+        <example>куди кращий гравець команди</example>
+        <example>кращий стан здоров'я</example>
+        <example>розвернути в кращий бік життя</example>
+        <example>забезпечити для себе кращий розподіл ресурсів</example>
+        <example>швидший і кращий розвиток економіки</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token regexp="yes">["«„“]</token>
+          <marker>
+            <token spacebefore="no">кращий</token>
+          </marker>
+          <token postag_regexp="yes" postag="adj:m:v_naz.*" min="0"/>
+          <token postag_regexp="yes" postag="noun:.*?:m:v_naz.*"/>
+          <token postag_regexp="yes" postag="noun:.*?:v_rod.*"/>
+        </pattern>
+        <message>Коли мається на увазі найвищий ступінь порівняння, слід вживати <suggestion>найкращий</suggestion>?</message>
+        <example correction="найкращий">«<marker>кращий</marker> оперний спектакль року»</example>
+        <example correction="найкращий">«<marker>кращий</marker> господар року»</example>
+        <example>кращий стан здоров'я</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token>кращий</token>
+          </marker>
+          <token postag_regexp="yes" postag="adj:m:v_naz.*" min="0"/>
+          <token postag_regexp="yes" postag="noun:inanim:m:v_naz.*"/>
+          <or>
+            <token postag_regexp="yes" postag="noun:inanim:.:v_rod.*" regexp="yes">світу|міста|країни|планети|області|сезону|турніру|матчу|року|місяця|сторіччя|століття</token>
+            <token postag_regexp="yes" postag="noun:inanim:.:v_rod.*?geo.*"/>
+          </or>
+        </pattern>
+        <message>Коли мається на увазі найвищий ступінь порівняння, слід вживати <suggestion>найкращий</suggestion>?</message>
+        <example correction="найкращий"><marker>кращий</marker> час сезону</example>
+        <example correction="найкращий"><marker>кращий</marker> документальний фільм року</example>
+        <example correction="найкращий"><marker>кращий</marker> фестиваль Європи</example>
+        <!-- TODO:
+        <example correction="найкращий"><marker>кращий</marker> фільм країн</example>
+        -->
+        <example>розвернути в кращий бік життя</example>
+        <example>забезпечити для себе кращий розподіл ресурсів</example>
+        <example>швидший і кращий розвиток економіки</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token>кращий</token>
+          </marker>
+          <token postag_regexp="yes" postag="adj:.:v_naz.*" min="0"/>
+          <token postag_regexp="yes" postag="noun:anim:.:v_naz.*"/>
+          <token regexp="yes">у|в|на</token>
+          <or>
+            <token postag_regexp="yes" postag="noun:inanim:.:v_mis.*" regexp="yes">світі|місті|країні|планеті|області|сезоні|турнірі|матчі|році|сторіччі|столітті|сфері</token>
+            <token postag_regexp="yes" postag="noun:inanim:.:v_mis.*?geo.*"/>
+          </or>
+        </pattern>
+        <message>Коли мається на увазі найвищий ступінь порівняння, слід вживати <suggestion>найкращий</suggestion>?</message>
+        <example correction="найкращий"><marker>кращий</marker> захисник в Україні</example>
+        <example>розвернути в кращий бік на сході</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token>кращий</token>
+          </marker>
+          <token postag_regexp="yes" postag="adj:.:v_naz.*" min="0"/>
+          <token postag_regexp="yes" postag="noun:inanim:.:v_naz.*"/>
+          <token regexp="yes">у|в|на</token>
+          <token postag_regexp="yes" postag="noun:inanim:.:v_mis.*" regexp="yes">світі|місті|країні|планеті|області|сезоні|турнірі|матчі|році|місяці|сторіччі|столітті|сфері|історії</token>
+          <!--
+          <or>
+            <token postag_regexp="yes" postag="noun:inanim:.:v_mis.*" regexp="yes">світі|місті|країні|планеті|області|сезоні|турнірі|матчі|році|сторіччі|столітті|сфері</token>
+            <token postag_regexp="yes" postag="noun:inanim:.:v_mis.*?geo.*"/>
+          </or>
+          -->
+        </pattern>
+        <message>Коли мається на увазі найвищий ступінь порівняння, слід вживати <suggestion>найкращий</suggestion>?</message>
+        <!-- TODO:
+        <example correction="найкращий"><marker>кращий</marker> турнір у Європі</example>
+        -->
+        <example correction="найкращий"><marker>кращий</marker> матч у сезоні</example>
+        <example correction="найкращий"><marker>кращий</marker> проект у сфері</example>
+        <example correction="найкращий"><marker>кращий</marker> кооператив у області</example>
+        <!--
+        <example correction="найкращий">це все одно був <marker>кращий</marker> виступ в порівнянні з усіма іншими</example>
+        -->
+        <example>має куди кращий ресурс на всіх рівнях</example>
+        <example>розвернути в кращий бік на сході</example>
+        <example>жодних змін у кращий бік у ставленні</example>
+        <example>поширюючи кращий досвід у межах двосторонньої</example>
+        <example>але кращий результат у відсотках</example>
+        <example>Важко уявити собі кращий момент у житті</example>
+        <example>Попри кращий розвиток в Україні чоловічого баскетболу</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token>кращий</token>
+          </marker>
+          <token postag_regexp="yes" postag="adj:m:v_naz.*" min="0"/>
+          <token regexp="yes">друг|бомбардир|спортсмен|бестселер|представник|винахід</token>
+        </pattern>
+        <message>Коли мається на увазі найвищий ступінь порівняння, слід вживати <suggestion>найкращий</suggestion>?</message>
+        <example correction="найкращий">наш <marker>кращий</marker> друг людини - собака</example>
+        <example correction="найкращий">натомість <marker>кращий</marker> бомбардир чемпіонату</example>
+        <example correction="найкращий">і <marker>кращий</marker> український бомбардир</example>
+        <!-- TODO: exception that maybe not worth complicating the rules
+        <example> щедріший, гостинніший і взагалі кращий друг</example>
+        -->
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token>кращий</token>
+          </marker>
+          <token>світовий</token>
+          <token>досвід</token>
+        </pattern>
+        <message>Коли мається на увазі найвищий ступінь порівняння, слід вживати <suggestion>найкращий</suggestion>?</message>
+        <example correction="найкращий">спираючись на <marker>кращий</marker> світовий досвід</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token regexp="yes">свій|мій|наш|твій</token>
+          <marker>
+            <token>кращий</token>
+          </marker>
+          <token postag_regexp="yes" postag="adj.*?:v_naz.*" min="0"/>
+          <token postag_regexp="yes" postag="noun:.*?:v_naz.*"/>
+        </pattern>
+        <message>Коли мається на увазі найвищий ступінь порівняння, слід вживати <suggestion>найкращий</suggestion>?</message>
+        <example correction="найкращий">наш <marker>кращий</marker> друг людини - собака</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token>кращий</token>
+          </marker>
+          <token>захист</token>
+          <token regexp="yes">[—–-]</token>
+        </pattern>
+        <message>Коли мається на увазі найвищий ступінь порівняння, слід вживати <suggestion>найкращий</suggestion>?</message>
+        <example correction="найкращий"><marker>кращий</marker> захист - це напад</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token>кращий</token>
+          </marker>
+          <token>тому</token>
+          <token postag_regexp="yes" postag="noun:.*?:v_naz.*"/>
+        </pattern>
+        <message>Коли мається на увазі найвищий ступінь порівняння, слід вживати <suggestion>найкращий</suggestion>?</message>
+        <example correction="найкращий">це — <marker>кращий</marker> тому доказ</example>
       </rule>
 
     </rulegroup>
