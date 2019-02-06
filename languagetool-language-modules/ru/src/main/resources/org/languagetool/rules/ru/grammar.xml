@@ -4712,6 +4712,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="было о чём подумать">Ему <marker>было, о чём подумать</marker>.</example>
             </rule>
         </rulegroup>
+        <rule id="Comma_Chtobi_2VERB" name="Запятая в предложении со «чтобы»">
+            <pattern> 
+                <token>Чтобы</token>
+                <token postag="VB:.*" postag_regexp="yes" skip="-1"><exception regexp="yes" scope="next">[,;-—]</exception></token>
+                <token regexp="yes">нужен|нужно|необходимо|достаточно<exception regexp="yes" scope="previous">[,;-—]</exception></token>  <!-- TODO VB:.* -->
+            </pattern>
+            <message>Требуется запятая.</message>
+            <short>Требуется запятая</short>
+            <example correction=""><marker>Чтобы полететь на луну нужен</marker> корабль.</example>
+            <example>Чтобы полететь на луну, нужен корабль.</example>
+        </rule>
     </category>
     <category id="TYPOGRAPHY" name="Типографика">     
         
