@@ -30851,12 +30851,25 @@ steenwijk;Steenwijk
                     <token postag="SENT_START"/>
                     <marker>
                         <token regexp="yes">jij|hij|je|ze|zij|u</token>
-                        <token postag="WKW:TGW:1EP"><exception postag="ZNW:.*|WKW:VLT:1EP|WKW:TGW:3EP|BNW.*|UNKNOWN" postag_regexp="yes"/><exception regexp="yes">in|wil|zal|eigen</exception></token>
+                        <token postag="WKW:TGW:1EP"><exception regexp="yes">in|wil|zal|eigen</exception></token>
                     </marker>
                 </pattern>
                 <message>U bedoelt vast <suggestion><match no="2"/> <match no="3" postag="WKW:TGW:3EP"/></suggestion></message>
                 <example correction="U leest"><marker>U lees</marker> verkeerd.</example>
                 <example correction="Ze houdt"><marker>Ze houd</marker> van een thuis.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="LOOPT_JIJ" name="loopt jij">
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <marker>
+                        <token postag="WKW:TGW:3EP" regexp="yes">.*t$<exception postag="WKW:TGW:1EP"/></token>
+                        <token regexp="yes">jij|je</token>
+                    </marker>
+                </pattern>
+                <message>U bedoelt vast <suggestion><match no="2" regexp_match="t$" regexp_replace=""/> <match no="3"/></suggestion></message>
+                <example correction="Loop je"><marker>Loopt je</marker> naar huis?.</example>
             </rule>
         </rulegroup>
         <rulegroup id="JIJ_BEHEERD" name="Jij beheerd → jij beheert">
