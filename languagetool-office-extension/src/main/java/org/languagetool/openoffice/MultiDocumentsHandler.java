@@ -328,11 +328,18 @@ public class MultiDocumentsHandler {
         if(!testMode && documents.get(i).getXComponent() == null) {
           XComponent xComponent = OfficeTools.getCurrentComponent(xContext);
           if (xComponent == null) {
-            MessageHandler.printToLogFile("Error: Document (ID: " + docID + ") has no XComponent -> Internal space can not be deleted when document disposes");
+            MessageHandler.printToLogFile("Error: Document (ID: " + docID + ") has no XComponent -> Internal space will not be deleted when document disposes");
           } else {
-            documents.get(i).setXComponent(xContext, xComponent);
-            xComponent.addEventListener(xEventListener);
-            MessageHandler.printToLogFile("Fixed: XComponent set for Document (ID: " + docID + ")");
+            try {
+              xComponent.addEventListener(xEventListener);
+            } catch (Throwable t) {
+              MessageHandler.printToLogFile("Error: Document (ID: " + docID + ") has no XComponent -> Internal space will not be deleted when document disposes");
+              xComponent = null;
+            }
+            if(xComponent != null) {
+              documents.get(i).setXComponent(xContext, xComponent);
+              MessageHandler.printToLogFile("Fixed: XComponent set for Document (ID: " + docID + ")");
+            }
           }
         }
         return i;
@@ -343,9 +350,14 @@ public class MultiDocumentsHandler {
     if (!testMode) {              //  xComponent == null for test cases 
       xComponent = OfficeTools.getCurrentComponent(xContext);
       if (xComponent == null) {
-        MessageHandler.printToLogFile("Error: Document (ID: " + docID + ") has no XComponent -> Internal space can not be deleted when document disposes");
+        MessageHandler.printToLogFile("Error: Document (ID: " + docID + ") has no XComponent -> Internal space will not be deleted when document disposes");
       } else {
-        xComponent.addEventListener(xEventListener);
+        try {
+          xComponent.addEventListener(xEventListener);
+        } catch (Throwable t) {
+          MessageHandler.printToLogFile("Error: Document (ID: " + docID + ") has no XComponent -> Internal space will not be deleted when document disposes");
+          xComponent = null;
+        }
       }
     }
     documents.add(new SingleDocument(xContext, config, docID, xComponent));
