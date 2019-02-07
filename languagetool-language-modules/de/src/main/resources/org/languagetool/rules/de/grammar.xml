@@ -6951,10 +6951,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern case_sensitive="yes">
                 <token>Alexius</token>
                 <marker>
-                    <token>Meinung</token>
+                    <token regexp="yes">Meinungs?</token>
                 </marker>
             </pattern>
-            <message>Meinten Sie den Philosophen Alexius <suggestion>Meinong</suggestion>?</message>
+            <message>Meinten Sie den Philosophen Alexius <suggestion><match no="2" regexp_match="Meinungs?" regexp_replace="Meinong"/></suggestion>?</message>
             <url>https://de.wikipedia.org/wiki/Alexius_Meinong</url>
             <short>&eigenname;</short>
             <example correction="Meinong">Alexius <marker>Meinung</marker> war ein Philosoph.</example>
@@ -7013,7 +7013,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">Fran[cç]ois</token>
                 <token regexp="yes">Holl?ande?</token>
             </pattern>
-            <message>Meinten Sie <suggestion>François Hollande</suggestion>, den französischen Präsidenten?</message>
+            <message>Meinten Sie <suggestion>François Hollande</suggestion>, den französischen Präsidenten (2012 bis 2017)?</message>
             <url>https://de.wikipedia.org/wiki/Fran%C3%A7ois_Hollande</url>
             <short>&eigenname;</short>
             <example correction="François Hollande">Kennst du <marker>François Holland</marker>?</example>
@@ -7126,7 +7126,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="FRIEDRICH_LOEFFLER" name="'Friedrich Loeffler'">
-            <url>https://de.wikipedia.org/wiki/Firedrich_Loeffler</url>
+            <url>https://de.wikipedia.org/wiki/Friedrich_Loeffler</url>
             <short>&eigenname;</short>
             <rule>
                 <regexp>Friedrich Löffler</regexp>
@@ -7151,10 +7151,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token>Ulrike</token>
                     <marker>
-                        <token>Meinhoff</token>
+                        <token regexp="yes">Meinhoffs?</token>
                     </marker>
                 </pattern>
-                <message>Meinten Sie Ulrike <suggestion>Meinhof</suggestion> (Mitglied der RAF)?</message>
+                <message>Meinten Sie Ulrike <suggestion><match no="2" regexp_match="Meinhoff" regexp_replace="Meinhof"/></suggestion> (Mitglied der RAF)?</message>
                 <url>https://de.wikipedia.org/wiki/Ulrike_Meinhof</url>
                 <short>&eigenname;</short>
                 <example correction="Meinhof">Ulrike <marker>Meinhoff</marker></example>
@@ -7167,10 +7167,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token>Johannes</token>
                     <marker>
-                        <token>Guttenberg</token>
+                        <token regexp="yes">Guttenbergs?</token>
                     </marker>
                 </pattern>
-                <message>Meinten Sie Johannes <suggestion>Gutenberg</suggestion>, den Erfinder des Buchdrucks?</message>
+                <message>Meinten Sie Johannes <suggestion><match no="2" regexp_match="Gutten" regexp_replace="Guten"/></suggestion>, den Erfinder des Buchdrucks?</message>
                 <url>https://de.wikipedia.org/wiki/Johannes_Gutenberg</url>
                 <example>Karl Theodor zu <marker>Guttenberg</marker> ist wegen einer Plagiatsaffäre zurückgetreten.</example>
                 <example correction="Gutenberg">Johannes <marker>Guttenberg</marker> ist der Erfinder des Buchdrucks mit beweglichen Lettern.</example>
@@ -7181,10 +7181,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>und</token>
                     <token>zu</token>
                     <marker>
-                        <token>Gutenberg</token>
+                        <token regexp="yes">Gutenbergs?</token>
                     </marker>
                 </pattern>
-                <message>Meinten Sie Karl-Theodor zu <suggestion>Guttenberg</suggestion>, den ehemaligen Bundesminister der Verteidigung?</message>
+                <message>Meinten Sie Karl-Theodor zu <suggestion><match no="4" regexp_match="Guten" regexp_replace="Gutten"/></suggestion>, den ehemaligen Bundesminister der Verteidigung?</message>
                 <url>https://de.wikipedia.org/wiki/Karl-Theodor_zu_Guttenberg</url>
                 <example>Ich sagte zu <marker>Gutenberg</marker>: "Erfinde doch mal den Buchdruck mit beweglichen Lettern."</example>
                 <example>Johannes <marker>Gutenberg</marker> ist der Erfinder des Buchdrucks mit beweglichen Lettern.</example>
@@ -7195,10 +7195,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token regexp="yes" skip="1">Theodor|.*Minister</token>
                     <marker>
-                        <token>Gutenberg</token>
+                        <token regexp="yes">Gutenbergs?</token>
                     </marker>
                 </pattern>
-                <message>Meinten Sie Karl-Theodor zu <suggestion>Guttenberg</suggestion>, den ehemaligen Bundesminister der Verteidigung?</message>
+                <message>Meinten Sie Karl-Theodor zu <suggestion><match no="2" regexp_match="Guten" regexp_replace="Gutten"/></suggestion>, den ehemaligen Bundesminister der Verteidigung?</message>
                 <url>https://de.wikipedia.org/wiki/Karl-Theodor_zu_Guttenberg</url>
                 <example>Johannes <marker>Gutenberg</marker> ist der Erfinder des Buchdrucks mit beweglichen Lettern.</example>
                 <example>Karl-Theodor zu <marker>Guttenberg</marker> ist wegen einer Plagiatsaffäre zurückgetreten.</example>
@@ -7209,13 +7209,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <url>https://de.wikipedia.org/wiki/Elisabeth_Selbert</url>
             <short>&eigenname;</short>
             <rule>
-                <regexp case_sensitive="yes">Eli[sz]abeth? (Selber|Selberth)\b</regexp>
+                <regexp case_sensitive="yes">Eli[sz]abeth? (Selbers?|Selberths?)\b</regexp>
                 <message>Meinten Sie <suggestion>Elisabeth Selbert</suggestion> (deutsche Politikerin)?</message>
                 <example><marker>Elisabeth Selbert</marker> was eine der vier „Mütter des Grundgesetzes“.</example>
                 <example correction="Elisabeth Selbert"><marker>Elisabeth Selber</marker> war eine der vier „Mütter des Grundgesetzes“.</example>
             </rule>
             <rule>
-                <regexp case_sensitive="yes">Elisabeth (Selber|Selberth)\b</regexp>
+                <regexp case_sensitive="yes">Elisabeth (Selbers?|Selberths?)\b</regexp>
                 <message>Meinten Sie <suggestion>Elisabeth Selbert</suggestion> (deutsche Politikerin)?</message>
                 <example><marker>Elisabeth Selbert</marker> was eine der vier „Mütter des Grundgesetzes“.</example>
                 <example correction="Elisabeth Selbert"><marker>Elisabeth Selber</marker> war eine der vier „Mütter des Grundgesetzes“.</example>
@@ -7226,10 +7226,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token>Andreas</token>
                     <marker>
-                        <token>Bader</token>
+                        <token regexp="yes">Baders?</token>
                     </marker>
                 </pattern>
-                <message>Meinten Sie Andreas <suggestion>Baader</suggestion> (Mitglied der RAF)?</message>
+                <message>Meinten Sie Andreas <suggestion><match no="2" regexp_match="Bader" regexp_replace="Baader"/></suggestion> (Mitglied der RAF)?</message>
                 <url>https://de.wikipedia.org/wiki/Andreas_Baader</url>
                 <short>&eigenname;</short>
                 <example correction="Baader">Andreas <marker>Bader</marker></example>
@@ -7255,10 +7255,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token>Bertrand</token>
                     <marker>
-                        <token>Russel</token>
+                        <token regexp="yes">Russels?</token>
                     </marker>
                 </pattern>
-                <message>Meinten Sie den Philosophen und Mathematiker Lord Bertrand <suggestion>Russell</suggestion>?</message>
+                <message>Meinten Sie den Philosophen und Mathematiker Lord Bertrand <suggestion><match no="2" regexp_match="Russel" regexp_replace="Russell"/></suggestion>?</message>
                 <url>https://de.wikipedia.org/wiki/Bertrand_Russell</url>
                 <example correction="Russell">Bertrand <marker>Russel</marker></example>
             </rule>
@@ -7279,7 +7279,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token regexp="yes">Sarah?</token>
                 </marker>
-                <token>Wagenknecht</token>
+                <token regexp="yes">Wagenknechts?</token>
             </pattern>
             <message>Meinen Sie die Politikerin <suggestion>Sahra</suggestion> Wagenknecht? (Das ist die von ihr selbst bevorzugte Schreibweise des Vornamens.)</message>
             <url>https://de.wikipedia.org/wiki/Sahra_Wagenknecht</url>
@@ -7292,7 +7292,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token regexp="yes">Sarah?</token>
                 </marker>
-                <token>Leander</token>
+                <token regexp="yes">Leanders?</token>
             </pattern>
             <message>Meinen Sie die schwedische Schauspielerin und Sängerin <suggestion>Zarah</suggestion> Leander?</message>
             <url>https://de.wikipedia.org/wiki/Zarah_Leander</url>
@@ -7305,7 +7305,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token>Till</token>
                 </marker>
-                <token>Schweiger</token>
+                <token regexp="yes">Schweigers?</token>
             </pattern>
             <message>Meinen Sie den deutschen Schauspieler und Filmemacher <suggestion>Til</suggestion> Schweiger?</message>
             <url>https://de.wikipedia.org/wiki/Til_Schweiger</url>
@@ -7318,7 +7318,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token>Willi</token>
                 </marker>
-                <token>Brandt</token>
+                <token regexp="yes">Brandts?</token>
             </pattern>
             <message>Meinen Sie den deutschen SPD-Politiker <suggestion>Willy</suggestion> Brandt (Bundeskanzler 1969 bis 1974)?</message>
             <url>https://de.wikipedia.org/wiki/Willy_Brandt</url>
@@ -7334,7 +7334,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>Helmuth</token>
                     </marker>
-                    <token>Schmidt</token>
+                    <token regexp="yes">Schmidts?</token>
                 </pattern>
                 <message>Meinen Sie den deutschen SPD-Politiker <suggestion>Helmut</suggestion> Schmidt (Bundeskanzler 1974 bis 1982)?</message>
                 <example correction="Helmut"><marker>Helmuth</marker> Schmidt</example>
@@ -7346,7 +7346,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token regexp="yes">Schmi(tt|d)</token>
                     </marker>
                 </pattern>
-                <message>Meinen Sie den deutschen SPD-Politiker Helmut <suggestion>Schmidt</suggestion> (Bundeskanzler 1974 bis 1982)?</message>
+                <message>Meinen Sie den deutschen SPD-Politiker Helmut <suggestion><match no="2" regexp_match="Schmi(tt|d)" regexp_replace="Schmidt"/></suggestion> (Bundeskanzler 1974 bis 1982)?</message>
                 <example correction="Schmidt">Helmut <marker>Schmitt</marker></example>
             </rule>
         </rulegroup>
@@ -7356,7 +7356,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>Helmuth</token>
                     </marker>
-                    <token>Kohl</token>
+                    <token regexp="yes">Kohls?</token>
                 </pattern>
                 <message>Meinen Sie den deutschen CDU-Politiker <suggestion>Helmut</suggestion> Kohl (Bundeskanzler 1982 bis 1998)?</message>
                 <url>https://de.wikipedia.org/wiki/Helmut_Kohl</url>
@@ -7384,7 +7384,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token>Barbara</token>
                 </marker>
-                <token>Streisand</token>
+                <token regexp="yes">Streisands?</token>
             </pattern>
             <message>Meinen Sie die amerikanische Schauspielerin und Sängerin <suggestion>Barbra</suggestion> Streisand? (Das ist die von ihr selbst bevorzugte Schreibweise des Vornamens.)</message>
             <url>https://de.wikipedia.org/wiki/Barbra_Streisand</url>
@@ -7396,7 +7396,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token regexp="yes">Berth?old</token>
                 </marker>
-                <token>Brecht</token>
+                <token regexp="yes">Brechts?</token>
             </pattern>
             <message>Meinen Sie den deutschen Dramatiker <suggestion>Bertolt</suggestion> Brecht? (Das ist die von ihm selbst bevorzugte Schreibweise des Vornamens.)</message>
             <url>https://de.wikipedia.org/wiki/Bertolt_Brecht</url>
@@ -7421,7 +7421,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token>Emanuel</token>
                 </marker>
-                <token>Kant</token>
+                <token regexp="yes">Kants?</token>
             </pattern>
             <message>Meinten Sie <suggestion>Immanuel</suggestion> Kant (Philosoph der Aufklärung)?</message>
             <url>https://de.wikipedia.org/wiki/Immanuel_Kant</url>
@@ -7433,7 +7433,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token>Siegmund</token>
                 </marker>
-                <token>Freud</token>
+                <token regexp="yes">Freuds?</token>
             </pattern>
             <message>Meinten Sie <suggestion>Sigmund</suggestion> Freud (Begründer der Psychoanalyse)?</message>
             <url>https://de.wikipedia.org/wiki/Sigmund_Freud</url>
@@ -7445,7 +7445,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token>Gottlieb</token>
                 </marker>
-                <token>Frege</token>
+                <token regexp="yes">Freges?</token>
             </pattern>
             <message>Meinten Sie <suggestion>Gottlob</suggestion> Frege (Begründer der modernen Logik)?</message>
             <url>https://de.wikipedia.org/wiki/Gottlob_Frege</url>
@@ -7478,10 +7478,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern case_sensitive="yes">
                     <token regexp="yes">Georg|Mathematiker</token>
                     <marker>
-                        <token>Kantor</token>
+                        <token regexp="yes">Kantors?</token>
                     </marker>
                 </pattern>
-                <message>Meinten Sie den Mathematiker Georg <suggestion>Cantor</suggestion>?</message>
+                <message>Meinten Sie den Mathematiker Georg <suggestion><match no="2" regexp_match="Kantor" regexp_replace="Cantor"/></suggestion>?</message>
                 <example correction="Cantor">Georg <marker>Kantor</marker></example>
             </rule>
             <rule>
@@ -7522,10 +7522,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern case_sensitive="yes">
                     <token>Albert</token>
                     <marker>
-                        <token>Schweizer</token>
+                        <token regexp="yes">Schweizers?</token>
                     </marker>
                 </pattern>
-                <message>Meinten Sie Albert <suggestion>Schweitzer</suggestion> (den Arzt)?</message>
+                <message>Meinten Sie Albert <suggestion><match no="2" regexp_match="Schweizer" regexp_replace="Schweitzer"/></suggestion> (den Arzt)?</message>
                 <url>https://de.wikipedia.org/wiki/Albert_Schweitzer</url>
                 <short>&eigenname;</short>
                 <example correction="Schweitzer">Albert <marker>Schweizer</marker> war ein berühmter Arzt.</example>
