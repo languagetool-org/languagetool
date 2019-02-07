@@ -8807,7 +8807,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>в</token>
                 <token postag="ADJ:.*:(V|P)" postag_regexp="yes" min="1" max="2"></token> 
                 <marker>
-                <token postag="NN:.*:.*:.*|SENT_END|PARA_END" postag_regexp="yes">
+                <token postag="NN:.*:.*:.*" postag_regexp="yes">
                     <exception regexp="yes">тысяча|миллион</exception>
                     <exception postag="NN:.*:.*:R" postag_regexp="yes" regexp="yes">.*y</exception>
                     <exception postag="NN:.*:.*:(P|V|2R|2P)" postag_regexp="yes"></exception>
@@ -8819,8 +8819,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Предлог «в» предполагает употребление существительного в винительном или предложном падеже: <suggestion><match no="3" postag="NN:(.*):(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:$3:P"></match></suggestion></message>
             <short>Требуется винительный или предложный падеж.</short>
             <example>Он смотрел в новое окно.</example>
+            <example>Он всегда смотрит в будущее.</example>
             <example>Это наблюдается в одной такой группе</example>
-            <example correction="группе">Это наблюдается в одной такой <marker>группой</marker>.</example>
+            <example correction="группе">Это наблюдается в одной такой <marker>группой</marker></example>
           </rule>
         </rulegroup>
         <rulegroup default="on" id="PREP_Pri_and_Noun" name="Предлог «при» и существительное">
