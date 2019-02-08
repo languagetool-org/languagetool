@@ -1912,4 +1912,63 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="este">En relación con <marker>éste</marker>.</example>
         </rule>
     </category>
+ <category id='TYPOGRAPHY' name="Tipografía" type="typographical">
+  <rulegroup id="ARROWS" name="Flechas: -&gt; (→)">
+    <!-- Localized from German grammar.xml, by Tiago F. Santos, 2017-07-07 -->
+    <rule>
+      <pattern>
+          <token negate="yes">&lt;</token>
+        <marker>
+          <token regexp="yes">(?:\-|=){1,2}</token>
+          <token>&gt;</token>
+        </marker>
+      </pattern>
+      <message>¿Desea utilizar una flecha?</message>
+        <suggestion>≥</suggestion>
+        <suggestion>→</suggestion>
+        <suggestion>⇾</suggestion>
+        <suggestion>⇉</suggestion>
+        <suggestion>⇒</suggestion>
+        <suggestion>⇨</suggestion>
+        <suggestion>⇛</suggestion>
+      <example correction="≥|→|⇾|⇉|⇒|⇨|⇛"><marker>-&gt;</marker> Punto 1</example>
+    </rule>
+    <!--rule> FIXME &lt; equence is not being properly escaped. Verify interpreter.
+      <pattern>
+        <marker>
+          <token>&lt;</token>
+          <token regexp="yes">(?:\-|=){1,2}</token>
+        </marker>
+          <token negate="yes">&gt;</token>
+      </pattern>
+      <message>¿Desea utilizar una flecha?</message>
+        <suggestion>≤</suggestion>
+        <suggestion>←</suggestion>
+        <suggestion>⇽</suggestion>
+        <suggestion>⇇</suggestion>
+        <suggestion>⇐</suggestion>
+        <suggestion>⇦</suggestion>
+        <suggestion>⇚</suggestion>
+      <example correction="≤|←|⇽|⇇|⇐|⇦|⇚">A <marker>&lt;-</marker> B</example>
+      <example >A ← B</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>&lt;</token>
+          <token regexp="yes">\-|=</token>
+          <token>&gt;</token>
+      </pattern>
+      <message>¿Desea utilizar una flecha?</message>
+        <suggestion>↔</suggestion>
+        <suggestion>⇿</suggestion>
+        <suggestion>⇄</suggestion>
+        <suggestion>⇆</suggestion>
+        <suggestion>⇋</suggestion>
+        <suggestion>⇌</suggestion>
+        <suggestion>⇔</suggestion>
+      <example correction="↔|⇿|⇄|⇆|⇋|⇌|⇔">A <marker>&lt;=></marker> B</example>
+      <example>A ⇔ B</example>
+            </rule-->
+  </rulegroup>
+ </category>
 </rules>
