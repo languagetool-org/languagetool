@@ -10805,6 +10805,10 @@ USA
                 <example>What little money I had <marker>was stolen</marker>.</example>
             </rule>
             <rule>
+                <antipattern><!-- www.ldoceonline.com/dictionary/far -->
+                    <token>far</token>
+                    <token>better</token>
+                </antipattern>
                 <pattern>
                     <token regexp="yes" postag="VB.?" postag_regexp="yes">ha[ds]|(?:ha)?ve</token>
                     <token postag="RB"><exception regexp="yes">no|little</exception><exception postag="IN|RP|CC" postag_regexp="yes"/></token>
@@ -10815,15 +10819,18 @@ USA
                 </pattern>
                 <message>Possible agreement error -- use past participle here: <suggestion><match no="3" postag="VBN"/></suggestion>.</message>
                 <short>Possible agreement error</short>
-                <example>I have always done that.</example>
+                <example correction="forgotten">I have already <marker>forgot</marker> their names.</example>
                 <example correction="written">I must have always <marker>wrote</marker> that.</example>
                 <example correction="rained">It has often <marker>rain</marker> this summer.</example>
                 <example correction="been">Had there <marker>was</marker> a problem, you could have...</example>
+                <example>I have already <marker>forgotten</marker> their names.</example>
+                <example>I have always done that.</example>
                 <example>I have always liked her.</example>
                 <example>The country is dry: it had little <marker>rain</marker> this summer.</example>
                 <example>I'm always bored with films that have little <marker>action</marker>.</example>
                 <example>That dinner they had together <marker>was</marker> delicious.</example>
                 <example>The tea we had there <marker>was</marker> excellent.</example>
+                <example>You had <marker>far better</marker> stay here.</example>
 <!-- False negative --><example>... but had there <marker>was</marker> sufficient information, we could have...</example>
             </rule>
             <rule>
