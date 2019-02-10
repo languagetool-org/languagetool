@@ -24,7 +24,6 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
 import org.languagetool.LinguServices;
-import org.languagetool.UserConfig;
 import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.Rule;
 
@@ -64,6 +63,7 @@ public class Configuration {
   private static final String SERVER_PORT_KEY = "serverPort";
   private static final String PARA_CHECK_KEY = "numberParagraphs";
   private static final String RESET_CHECK_KEY = "doResetCheck";
+  private static final String USE_DOC_LANG_KEY = "useDocumentLanguage";
   private static final String USE_GUI_KEY = "useGUIConfig";
   private static final String FONT_NAME_KEY = "font.name";
   private static final String FONT_STYLE_KEY = "font.style";
@@ -115,6 +115,7 @@ public class Configuration {
   private String externalRuleDirectory;
   private String lookAndFeelName;
   private boolean switchOff = false;
+  private boolean useDocLanguage = true;
 
   /**
    * Uses the configuration file from the default location.
@@ -177,6 +178,7 @@ public class Configuration {
     this.serverPort = configuration.serverPort;
     this.numParasToCheck = configuration.numParasToCheck;
     this.doResetCheck = configuration.doResetCheck;
+    this.useDocLanguage = configuration.useDocLanguage;
     this.lookAndFeelName = configuration.lookAndFeelName;
     this.externalRuleDirectory = configuration.externalRuleDirectory;
     this.disabledRuleIds.clear();
@@ -258,6 +260,21 @@ public class Configuration {
 
   public void setMotherTongue(Language motherTongue) {
     this.motherTongue = motherTongue;
+  }
+
+  public Language getDefaultLanguage() {
+    if(useDocLanguage) {
+      return null;
+    }
+    return motherTongue;
+  }
+
+  public void setUseDocLanguage(boolean useDocLang) {
+    useDocLanguage = useDocLang;
+  }
+
+  public boolean getUseDocLanguage() {
+    return useDocLanguage;
   }
 
   public boolean getAutoDetect() {
@@ -708,12 +725,20 @@ public class Configuration {
         doResetCheck = Boolean.parseBoolean(resetCheckString);
       }
 
+      String useDocLangString = (String) props.get(USE_DOC_LANG_KEY);
+      if (useDocLangString != null) {
+        useDocLanguage = Boolean.parseBoolean(useDocLangString);
+      }
+
       String switchOffString = (String) props.get(LT_SWITCHED_OFF_KEY);
       if (switchOffString != null) {
         switchOff = Boolean.parseBoolean(switchOffString);
       }
 
-      String rulesValuesString = (String) props.get(CONFIGURABLE_RULE_VALUES_KEY);
+      String rulesValuesString = (String) props.get(CONFIGURABLE_RULE_VALUES_KEY + qualifier);
+      if(rulesValuesString == null) {
+        rulesValuesString = (String) props.get(CONFIGURABLE_RULE_VALUES_KEY);
+      }
       parseConfigurableRuleValues(rulesValuesString);
 
       String colorsString = (String) props.get(ERROR_COLORS_KEY);
@@ -834,6 +859,9 @@ public class Configuration {
     props.setProperty(SERVER_PORT_KEY, Integer.toString(serverPort));
     props.setProperty(PARA_CHECK_KEY, Integer.toString(numParasToCheck));
     props.setProperty(RESET_CHECK_KEY, Boolean.toString(doResetCheck));
+    if(!useDocLanguage) {
+      props.setProperty(USE_DOC_LANG_KEY, Boolean.toString(useDocLanguage));
+    }
     if(switchOff) {
       props.setProperty(LT_SWITCHED_OFF_KEY, Boolean.toString(switchOff));
     }
@@ -856,7 +884,7 @@ public class Configuration {
     for (Map.Entry<String, Integer> entry : configurableRuleValues.entrySet()) {
       sbRV.append(entry.getKey()).append(":").append(Integer.toString(entry.getValue())).append(", ");
     }
-    props.setProperty(CONFIGURABLE_RULE_VALUES_KEY, sbRV.toString());
+    props.setProperty(CONFIGURABLE_RULE_VALUES_KEY + qualifier, sbRV.toString());
 
     StringBuilder sb = new StringBuilder();
     for (Map.Entry<ITSIssueType, Color> entry : errorColors.entrySet()) {

@@ -193,11 +193,14 @@ public class Main extends WeakBase implements XJobExecutor,
    * Runs LT options dialog box.
    */
   private void runOptionsDialog() {
-    Language lang = documents.getLanguage();
+    Configuration config = prepareConfig();
+    Language lang = config.getDefaultLanguage();
+    if (lang == null) {
+      lang = documents.getLanguage();
+    }
     if (lang == null) {
       return;
     }
-    Configuration config = prepareConfig();
     ConfigThread configThread = new ConfigThread(documents.getLanguageTool(), lang, config, this);
     configThread.start();
   }
@@ -299,9 +302,9 @@ public class Main extends WeakBase implements XJobExecutor,
    * the doc should be rechecked.
    */
   void resetDocument() {
+    documents.setRecheck();
     if (resetCheck()) {
       Configuration config = documents.getConfiguration();
-      documents.setRecheck();
       disabledRules = config.getDisabledRuleIds();
       if (disabledRules == null) {
         disabledRules = new HashSet<>();

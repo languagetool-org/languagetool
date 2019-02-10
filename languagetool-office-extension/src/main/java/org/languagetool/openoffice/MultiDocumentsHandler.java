@@ -71,6 +71,8 @@ public class MultiDocumentsHandler {
   
   private JLanguageTool langTool = null;
   private Language docLanguage = null;
+  private Language fixedLanguage = null;
+  private Language langForShortName;
   private final ResourceBundle messages;
   private final XEventListener xEventListener;
   private final File configDir;
@@ -106,7 +108,9 @@ public class MultiDocumentsHandler {
     if (!hasLocale(locale)) {
       return paRes;
     }
-    Language langForShortName = getLanguage(locale);
+    if(fixedLanguage == null || langForShortName == null) {
+      langForShortName = getLanguage(locale);
+    }
     if (!langForShortName.equals(docLanguage) || langTool == null || recheck) {
       docLanguage = langForShortName;
       initLanguageTool();
@@ -164,7 +168,7 @@ public class MultiDocumentsHandler {
    */
   Configuration getConfiguration() {
     try {
-      if (config == null) {
+      if (config == null || recheck) {
         if(xContext != null) {
           linguServices = new LinguisticServices(xContext);
         }
@@ -406,6 +410,10 @@ public class MultiDocumentsHandler {
         linguServices = new LinguisticServices(xContext);
       }
       config = new Configuration(configDir, configFile, docLanguage, linguServices);
+      fixedLanguage = config.getDefaultLanguage();
+      if(fixedLanguage != null) {
+        docLanguage = fixedLanguage;
+      }
       switchOff = config.isSwitchedOff();
       // not using MultiThreadedJLanguageTool here fixes "osl::Thread::Create failed", see https://bugs.documentfoundation.org/show_bug.cgi?id=90740:
       langTool = new JLanguageTool(docLanguage, config.getMotherTongue(), null, 

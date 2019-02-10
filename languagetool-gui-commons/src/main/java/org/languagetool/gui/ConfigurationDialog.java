@@ -256,7 +256,11 @@ public class ConfigurationDialog implements ActionListener {
     cons.anchor = GridBagConstraints.WEST;
     jPane.add(getMotherTonguePanel(cons), cons);
 
-    cons.gridy++;
+    if(insideOffice) {
+      cons.gridy += 3;
+    } else {
+      cons.gridy++;
+    }
     cons.anchor = GridBagConstraints.WEST;
     jPane.add(getNgramPanel(cons), cons);
 
@@ -755,15 +759,64 @@ public class ConfigurationDialog implements ActionListener {
   @NotNull
   private JPanel getMotherTonguePanel(GridBagConstraints cons) {
     JPanel motherTonguePanel = new JPanel();
-    motherTonguePanel.add(new JLabel(messages.getString("guiMotherTongue")), cons);
-    JComboBox<String> motherTongueBox = new JComboBox<>(getPossibleMotherTongues());
-    if (config.getMotherTongue() != null) {
-      motherTongueBox.setSelectedItem(config.getMotherTongue().getTranslatedName(messages));
-    }
-    motherTongueBox.addItemListener(new ItemListener() {
-      @Override
-      public void itemStateChanged(ItemEvent e) {
-        if (e.getStateChange() == ItemEvent.SELECTED) {
+    if(insideOffice){
+      motherTonguePanel.setLayout(new GridBagLayout());
+      GridBagConstraints cons1 = new GridBagConstraints();
+      cons1.insets = new Insets(0, 0, 0, 0);
+      cons1.gridx = 0;
+      cons1.gridy = 0;
+      cons1.anchor = GridBagConstraints.WEST;
+      cons1.fill = GridBagConstraints.NONE;
+      cons1.weightx = 0.0f;
+      JRadioButton[] radioButtons = new JRadioButton[2];
+      ButtonGroup numParaGroup = new ButtonGroup();
+      radioButtons[0] = new JRadioButton(Tools.getLabel(messages.getString("guiUseDocumentLanguage")));
+      radioButtons[0].setActionCommand("DocLang");
+      radioButtons[0].setSelected(true);
+
+      radioButtons[1] = new JRadioButton(Tools.getLabel(messages.getString("guiSetLanguageTo")));
+      radioButtons[1].setActionCommand("SelectLang");
+
+      JComboBox<String> motherTongueBox = new JComboBox<>(getPossibleMotherTongues());
+      if (config.getMotherTongue() != null) {
+        motherTongueBox.setSelectedItem(config.getMotherTongue().getTranslatedName(messages));
+      }
+      motherTongueBox.addItemListener(new ItemListener() {
+        @Override
+        public void itemStateChanged(ItemEvent e) {
+          if (e.getStateChange() == ItemEvent.SELECTED) {
+            Language motherTongue;
+            if (motherTongueBox.getSelectedItem() instanceof String) {
+              motherTongue = getLanguageForLocalizedName(motherTongueBox.getSelectedItem().toString());
+            } else {
+              motherTongue = (Language) motherTongueBox.getSelectedItem();
+            }
+            config.setMotherTongue(motherTongue);
+            config.setUseDocLanguage(false);
+            radioButtons[1].setSelected(true);
+          }
+        }
+      });
+      
+      for (int i = 0; i < 2; i++) {
+        numParaGroup.add(radioButtons[i]);
+      }
+      
+      if (config.getUseDocLanguage()) {
+        radioButtons[0].setSelected(true);
+      } else {
+        radioButtons[1].setSelected(true);
+      }
+
+      radioButtons[0].addActionListener(new ActionListener() {
+        public void actionPerformed(ActionEvent e) {
+          config.setUseDocLanguage(true);
+        }
+      });
+      
+      radioButtons[1].addActionListener(new ActionListener() {
+        public void actionPerformed(ActionEvent e) {
+          config.setUseDocLanguage(false);
           Language motherTongue;
           if (motherTongueBox.getSelectedItem() instanceof String) {
             motherTongue = getLanguageForLocalizedName(motherTongueBox.getSelectedItem().toString());
@@ -772,9 +825,34 @@ public class ConfigurationDialog implements ActionListener {
           }
           config.setMotherTongue(motherTongue);
         }
+      });
+      motherTonguePanel.add(radioButtons[0], cons1);
+      cons1.gridy++;
+      motherTonguePanel.add(radioButtons[1], cons1);
+      cons1.gridx = 1;
+      motherTonguePanel.add(motherTongueBox, cons1);
+    } else {
+      motherTonguePanel.add(new JLabel(messages.getString("guiMotherTongue")), cons);
+      JComboBox<String> motherTongueBox = new JComboBox<>(getPossibleMotherTongues());
+      if (config.getMotherTongue() != null) {
+        motherTongueBox.setSelectedItem(config.getMotherTongue().getTranslatedName(messages));
       }
-    });
-    motherTonguePanel.add(motherTongueBox, cons);
+      motherTongueBox.addItemListener(new ItemListener() {
+        @Override
+        public void itemStateChanged(ItemEvent e) {
+          if (e.getStateChange() == ItemEvent.SELECTED) {
+            Language motherTongue;
+            if (motherTongueBox.getSelectedItem() instanceof String) {
+              motherTongue = getLanguageForLocalizedName(motherTongueBox.getSelectedItem().toString());
+            } else {
+              motherTongue = (Language) motherTongueBox.getSelectedItem();
+            }
+            config.setMotherTongue(motherTongue);
+          }
+        }
+      });
+      motherTonguePanel.add(motherTongueBox, cons);
+    }
     return motherTonguePanel;
   }
 
@@ -852,7 +930,9 @@ public class ConfigurationDialog implements ActionListener {
 
   private String[] getPossibleMotherTongues() {
     List<String> motherTongues = new ArrayList<>();
-    motherTongues.add(NO_MOTHER_TONGUE);
+    if(!insideOffice) {
+      motherTongues.add(NO_MOTHER_TONGUE);
+    }
     for (Language lang : Languages.get()) {
      motherTongues.add(lang.getTranslatedName(messages));
     }
