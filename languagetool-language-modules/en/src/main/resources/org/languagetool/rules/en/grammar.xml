@@ -30536,6 +30536,27 @@ USA
     </rule>
   </rulegroup>
 
+  <rulegroup id='PLUS_MINUS' name="Matemático: +- - ± ">
+    <!-- Localised from Portuguese by Tiago F. Santos, 2019-02-10 -->
+    <rule>
+      <pattern>
+          <token>+</token>
+          <token regexp='yes' spacebefore='no'>&hifen;</token>
+      </pattern>
+      <message>Replace by the typographical symbol.</message>
+        <suggestion>±</suggestion>
+      <example correction='±'>m = 75,5 <marker>+-</marker> 0,1 g</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp='yes'>&hifen;</token>
+          <token spacebefore='no'>+</token>
+      </pattern>
+      <message>Replace by the typographical symbol.</message>
+        <suggestion>±</suggestion>
+      <example correction='±'>m = 75,5 <marker>-+</marker> 0,1 g</example>
+    </rule>
+  </rulegroup>
 
   </category>
 
