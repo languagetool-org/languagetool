@@ -23,6 +23,7 @@ import org.jetbrains.annotations.NotNull;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.Language;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.tools.InterruptibleCharSequence;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -71,8 +72,7 @@ class RegexPatternRule extends AbstractPatternRule implements RuleMatcher {
     List<Pair<Integer, Integer>> suggestionsInSuggestionsOutMsg = getClausePositionsInMessage(suggestionPattern, suggestionsOutMsg);
     List<Pair<Integer, Integer>> backReferencesInSuggestionsOutMsg = getClausePositionsInMessage(matchPattern, suggestionsOutMsg);
 
-
-    Matcher patternMatcher = pattern.matcher(sentenceObj.getText());
+    Matcher patternMatcher = pattern.matcher(new InterruptibleCharSequence(sentenceObj.getText()));
     List<RuleMatch> matches = new ArrayList<>();
     int startPos = 0;
 
