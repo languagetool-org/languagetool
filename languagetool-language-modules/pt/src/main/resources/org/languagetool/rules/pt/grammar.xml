@@ -22336,7 +22336,18 @@ TODO Write better examples
     </rule>
   </rulegroup>
 
-  <rulegroup id="UNITS_OF_MEASURE_SPACING" name="Espaçamento em unidades de medida">
+        <rule id="NO_SPACE_CLOSING_QUOTE" name="Espaçamento: Aspas de fecho">
+    <!-- Localized from English by Tiago F. Santos, Portuguese rule, 2019-02-10 -->
+            <pattern>
+                <token>”</token>
+                <token regexp='yes' spacebefore='no'>\w+</token>
+            </pattern>
+            <message>Deve espaçar depois de fechar aspas.</message>
+            <suggestion>\1 \2</suggestion>
+            <example correction="” said">“Bom dia, Frank,<marker>”disse</marker> o Hal.</example>
+        </rule>
+
+  <rulegroup id="UNITS_OF_MEASURE_SPACING" name="Espaçamento: Unidades de medida">
     <!-- Localized from German by Tiago F. Santos, Portuguese rule, 2017-09-29 -->
       <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/simbolos-de-unidades/11572</url>
     <rule>
@@ -22384,7 +22395,7 @@ TODO Write better examples
     </rule>
   </rulegroup>
 
-  <rulegroup id='SI_UNITS_EXPONENT' name="Matemático: Unidades do Sistema Internacional: km2/km²">
+  <rulegroup id='SI_UNITS_EXPONENT' name="Unidades: Sistema Internacional: km2/km²">
     <!-- Created by Tiago F. Santos, 2017-05-12 -->
       <url>https://pt.wikipedia.org/wiki/Exponencia%C3%A7%C3%A3o</url>
       <short>Erro tipográfico</short>
@@ -22442,7 +22453,7 @@ TODO Write better examples
     </rule>
   </rulegroup>
 
-  <rulegroup id="kWh" name="kW/h → kWh">
+  <rulegroup id="kWh" name="Unidades: kW/h → kWh">
     <!-- Localized from French grammar.xml by Tiago F. Santos, 2017-06-28 -->
       <url>https://pt.wikipedia.org/wiki/Watt-hora</url>
     <rule>
