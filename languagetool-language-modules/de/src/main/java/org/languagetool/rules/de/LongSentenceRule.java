@@ -121,33 +121,13 @@ public class LongSentenceRule extends org.languagetool.rules.LongSentenceRule {
       while (i < tokens.length && !tokens[i].getToken().equals(":") && !tokens[i].getToken().equals(";")
               && !tokens[i].getToken().equals("\n") && !tokens[i].getToken().equals("\r\n") 
               && !tokens[i].getToken().equals("\n\r")
-              && ((i < tokens.length - 1 && !tokens[i + 1].getToken().equals(","))
-              || (!tokens[i].getToken().equals("“") && !tokens[i].getToken().equals("»")
-              && !tokens[i].getToken().equals("«") && !tokens[i].getToken().equals("\"")))) {
+              ) {
         if (isWordCount(tokens[i].getToken())) {
           if(numWords == maxWords) {
             fromPos.add(tokens[i].getStartPos());
             toPos.add(tokens[i].getEndPos());
           }
           numWords++;
-        } else if (tokens[i].getToken().equals("(") || tokens[i].getToken().equals("{")
-                || tokens[i].getToken().equals("[")) {        //  The Text between brackets is handled as separate sentence
-          String endChar;
-          if (tokens[i].getToken().equals("(")) endChar = ")";
-          else if (tokens[i].getToken().equals("{")) endChar = "}";
-          else endChar = "]";
-          int numWordsInt = 0;
-          int k;
-          for (k = i + 1; k < tokens.length && !tokens[k].getToken().equals(endChar); k++) {
-            if (isWordCount(tokens[k].getToken())) {
-              if(numWordsInt == maxWords) {
-                fromPos.add(tokens[k].getStartPos());
-                toPos.add(tokens[k].getEndPos());
-              }
-              numWordsInt++;
-            }
-          }
-          i = k + 1;
         }
         i++;
       }

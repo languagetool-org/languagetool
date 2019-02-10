@@ -32,13 +32,11 @@ public class LongSentenceRuleTest extends org.languagetool.rules.LongSentenceRul
     LongSentenceRule rule = new LongSentenceRule(TestTools.getMessages("de"), new UserConfig(), 6, true);
     
     assertNoMatch("Eins zwei drei vier fünf sechs.", rule, lt);
-    //  Words in brackets are handled as separate sentences
-    assertNoMatch("Eins zwei drei vier fünf (Eins zwei drei vier fünf sechs) sechs.", rule, lt);
     //  Words after colon are treated like a separate sentence
     assertNoMatch("Ich zähle jetzt: \"Eins zwei drei vier fünf sechs.\"", rule, lt);
     
     assertMatch("Eins zwei drei vier fünf sechs sieben.", 31, 37, rule, lt);
-    assertMatch("Eins zwei (zwei) drei vier fünf sechs sieben.", 38, 44, rule, lt);
+    assertMatch("Eins zwei drei vier fünf (sechs sieben) acht.", 32, 38, rule, lt);
     assertMatch("Ich zähle jetzt: Eins zwei drei vier fünf sechs sieben.", 48, 54, rule, lt);
 
   }
