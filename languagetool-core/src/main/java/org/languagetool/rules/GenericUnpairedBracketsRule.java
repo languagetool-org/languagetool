@@ -61,8 +61,8 @@ public class GenericUnpairedBracketsRule extends TextLevelRule {
     if (startSymbols.size() != endSymbols.size()) {
       throw new IllegalArgumentException("Different number of start and end symbols: " + startSymbols + " vs. " + endSymbols);
     }
-    this.startSymbols = startSymbols.toArray(new String[startSymbols.size()]);
-    this.endSymbols = endSymbols.toArray(new String[endSymbols.size()]);
+    this.startSymbols = startSymbols.toArray(new String[0]);
+    this.endSymbols = endSymbols.toArray(new String[0]);
     this.numerals = Objects.requireNonNull(numerals);
     this.uniqueMap = uniqueMapInit();
     setLocQualityIssueType(ITSIssueType.Typographical);

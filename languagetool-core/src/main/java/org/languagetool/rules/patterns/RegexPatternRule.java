@@ -96,7 +96,7 @@ class RegexPatternRule extends AbstractPatternRule implements RuleMatcher {
         throw new RuntimeException(String.format("Unexpected exception when processing regexp in rule with id %s.", this.getFullId()), e);
       }
     }
-    return matches.toArray(new RuleMatch[matches.size()]);
+    return matches.toArray(new RuleMatch[0]);
   }
 
   @NotNull
@@ -108,7 +108,6 @@ class RegexPatternRule extends AbstractPatternRule implements RuleMatcher {
     }
     return clausePositionsInMessage;
   }
-
 
   private String processMessage(Matcher matcher, String message, List<Pair<Integer, Integer>> backReferences,
                                 List<Pair<Integer, Integer>> suggestions, List<Match> matches) {
@@ -151,7 +150,7 @@ class RegexPatternRule extends AbstractPatternRule implements RuleMatcher {
       } else {
         suggestion = matchReferenceStringValue;
       }
-      processedMessage.append(message.substring(startOfProcessingPart, reference.getLeft())).append(suggestion);
+      processedMessage.append(message, startOfProcessingPart, reference.getLeft()).append(suggestion);
 
       startOfProcessingPart = reference.getRight();
     }

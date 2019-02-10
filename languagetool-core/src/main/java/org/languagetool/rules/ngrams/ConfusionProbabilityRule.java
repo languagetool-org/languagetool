@@ -137,7 +137,7 @@ public abstract class ConfusionProbabilityRule extends Rule {
       }
       pos++;
     }
-    return matches.toArray(new RuleMatch[matches.size()]);
+    return matches.toArray(new RuleMatch[0]);
   }
 
   /**

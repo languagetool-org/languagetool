@@ -170,7 +170,7 @@ final public class PatternRuleMatcher extends AbstractPatternRulePerformer imple
       if (runTime > slowMatchThreshold) {
         logger.warn("Slow match for rule " + rule.getFullId() + ": " + runTime + "ms, sentence len: " + sentence.getText().length() + " (threshold: " + slowMatchThreshold + "ms)");
       }
-    }*/return filteredMatches.toArray(new RuleMatch[filteredMatches.size()]);
+    }*/return filteredMatches.toArray(new RuleMatch[0]);
     } finally {
       if (monitorRules) {
         currentlyActiveRules.computeIfPresent(key, (k, v) -> v - 1 > 0 ? v - 1 : null);
@@ -506,7 +506,7 @@ final public class PatternRuleMatcher extends AbstractPatternRulePerformer imple
         outputList.addAll(Arrays.asList(sList));
       }
     }
-    return outputList.toArray(new String[outputList.size()]);
+    return outputList.toArray(new String[0]);
   }
 
 }

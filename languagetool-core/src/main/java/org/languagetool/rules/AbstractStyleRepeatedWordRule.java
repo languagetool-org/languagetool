@@ -231,7 +231,7 @@ public abstract class AbstractStyleRepeatedWordRule  extends TextLevelRule {
     }
     for (int i = 0; i < tokens.length; i++) {
       if (i != notCheck && isTokenToCheck(tokens[i])) {
-        if ((!lemmas.isEmpty() && tokens[i].hasAnyLemma(lemmas.toArray(new String[lemmas.size()]))) 
+        if ((!lemmas.isEmpty() && tokens[i].hasAnyLemma(lemmas.toArray(new String[0]))) 
             || isPartOfWord(testToken.getToken(), tokens[i].getToken())) {
           if (notCheck >= 0) {
             if (notCheck == i - 2) {

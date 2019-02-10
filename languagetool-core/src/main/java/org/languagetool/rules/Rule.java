@@ -285,7 +285,7 @@ public abstract class Rule {
   }
 
   protected final RuleMatch[] toRuleMatchArray(List<RuleMatch> ruleMatches) {
-    return ruleMatches.toArray(new RuleMatch[ruleMatches.size()]);
+    return ruleMatches.toArray(new RuleMatch[0]);
   }
 
   /**

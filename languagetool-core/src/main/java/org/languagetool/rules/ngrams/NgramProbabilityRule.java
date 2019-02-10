@@ -161,7 +161,7 @@ public class NgramProbabilityRule extends Rule {
       prevToken = googleToken;
       i++;
     }
-    return matches.toArray(new RuleMatch[matches.size()]);
+    return matches.toArray(new RuleMatch[0]);
   }
 
   /**

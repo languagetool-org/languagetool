@@ -54,7 +54,7 @@ public final class AnalyzedSentence {
       whCounter++;
     }
     this.whPositions = mapping;
-    this.nonBlankTokens = l.toArray(new AnalyzedTokenReadings[l.size()]);
+    this.nonBlankTokens = l.toArray(new AnalyzedTokenReadings[0]);
     this.tokenSet = getTokenSet(tokens);
     this.lemmaSet = getLemmaSet(tokens);
   }

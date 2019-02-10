@@ -78,7 +78,7 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
   }
 
   public AnalyzedTokenReadings(List<AnalyzedToken> tokens, int startPos) {
-    anTokReadings = tokens.toArray(new AnalyzedToken[tokens.size()]);
+    anTokReadings = tokens.toArray(new AnalyzedToken[0]);
     this.startPos = startPos;
     token = anTokReadings[0].getToken();
     isWhitespace = StringTools.isWhitespace(token);
@@ -248,7 +248,7 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
     }
     token.setWhitespaceBefore(isWhitespaceBefore);
     l.add(token);
-    anTokReadings = l.toArray(new AnalyzedToken[l.size()]);
+    anTokReadings = l.toArray(new AnalyzedToken[0]);
     if (token.getToken().length() > this.token.length()) { //in case a longer token is added
       this.token = token.getToken();
     }
@@ -284,7 +284,7 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
       l.add(new AnalyzedToken(this.token, null, null));
       l.get(0).setWhitespaceBefore(isWhitespaceBefore);
     }
-    anTokReadings = l.toArray(new AnalyzedToken[l.size()]);
+    anTokReadings = l.toArray(new AnalyzedToken[0]);
     setNoRealPOStag();
     if (removedSentEnd) {
       isSentEnd = false;
@@ -315,7 +315,7 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
       l.add(new AnalyzedToken(this.token, null, null));
       l.get(0).setWhitespaceBefore(isWhitespaceBefore);
     }
-    anTokReadings = l.toArray(new AnalyzedToken[l.size()]);
+    anTokReadings = l.toArray(new AnalyzedToken[0]);
     setNoRealPOStag();
     hasSameLemmas = areLemmasSame();
   }
