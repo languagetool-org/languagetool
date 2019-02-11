@@ -186,6 +186,45 @@ NewSuggestionsOrderer, fixed context, sortSuggestionsByQuality after orderSugges
 Sum of positions: 24335
 
 
+Original, new data (1%, 3m):
+
+ Original: 5172 / 6398 (80.837761%)
+Sum of positions: 2117
+
+
+NewSuggestionsOrderer: 1grams + 3grams + 4grams + levensthein prob, new data: (1%, 3m30s)
+ Alternative: 4434 / 6398 (69.302902%)
+Sum of positions: 6634
+
+
+Original, artificial data: (100%, 9m30s)
+ Original: 12746 / 20340 (62.664700%)
+Sum of positions: 13301
+
+Original, artificial data w/ less errors: (100%, 5m20s)
+ Original: 6620 / 10227 (64.730614%)
+Sum of positions: 5562
+
+NewSuggestionsOrderer: 1grams + 3grams + levensthein prob, artificial data: (100%, 14m0s)
+ Alternative: 13942 / 20340 (68.544739%)
+Sum of positions: 9115
+
+NewSuggestionsOrderer: 1grams + 3grams + levensthein prob, artificial data w/ less errors: (100%, 14m0s)
+ Alternative: 7205 / 10227 (70.450768%)
+Sum of positions: 4288
+
+stupid backoff, artificial data w/ 1 error / line: (100%, 1m25s)
+ Alternative: 846 / 3470 (24.380404%)
+Sum of positions: 19766
+
+1+3grams, levensthein 0.7 prob, artifical 1e/l:
+ Alternative: 2275 / 3470 (65.561966%)
+Sum of positions: 1879
+
+1+3grams, levensthein 0.2 prob, artifical 1e/l:
+ Alternative: 2365 / 3470 (68.155624%)
+Sum of positions: 1547
+
 English:
 baseline: 10% @ 51s
 **** Correct Suggestions ****
@@ -219,6 +258,48 @@ NewSuggestionsOrderer: left, middle, right context: 10% @ 7m40s
 **** Correct Suggestions ****
  Alternative: 20618 / 25284 (81.545639%)
 Sum of positions: 15459
+
+
+NewSuggestionsOrderer: 4grams, log prob, using LanguageModelUtils
+ Alternative: 21546 / 25284 (85.215942%)
+Sum of positions: 15996
+
+NewSuggestionsOrderer: 3grams, log prob, using LanguageModelUtils
+ Alternative: 21858 / 25284 (86.449928%)
+Sum of positions: 10620
+
+NewSuggestionsOrderer: 3grams + 4grams, log prob, using LanguageModelUtils
+ Alternative: 21817 / 25284 (86.287773%)
+Sum of positions: 12527
+
+NewSuggestionsOrderer: 1grams + 3grams + 4grams, log prob, using LanguageModelUtils
+ Alternative: 22138 / 25284 (87.557343%)
+Sum of positions: 10099
+
+NewSuggestionsOrderer: 1grams + 3grams + 4grams + levensthein prob, new data:
+
+ Alternative: 29722 / 33993 (87.435654%)
+Sum of positions: 13933
+ Alternative: 29942 / 34162 (87.647095%)
+Sum of positions: 13152
+ Alternative: 3169 / 3609 (87.808258%)
+Sum of positions: 1405
+
+
+NewSuggestionsOrderer: 1grams + 3grams + 4grams, new data:
+ Alternative: 3159 / 3609 (87.531174%)
+Sum of positions: 1468
+
+Original with new data:
+Original: 30399 / 35649 (85.273079%)
+Sum of positions: 7926
+
+
+Jamspell:
+
+**** Correct Suggestions ****
+ Alternative: 14264 / 24456 (58.325153%)
+Sum of positions: 5920
 
 SuggestionsOrderer (GSoC):
 

@@ -82,7 +82,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     setLocQualityIssueType(ITSIssueType.Misspelling);
 
     if (SpellingCheckRule.isTestingChange("NewSuggestionsOrderer")) {
-      suggestionsOrderer = new NewSuggestionsOrderer(this.languageModel);
+      suggestionsOrderer = new NewSuggestionsOrderer(language, this.languageModel);
     } else {
       suggestionsOrderer = new SuggestionsOrdererGSoC(language, this.languageModel, this.getId());
     }
@@ -220,19 +220,24 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
       }
       if (userConfig == null || userConfig.getMaxSpellingSuggestions() == 0 || ruleMatchesSoFar.size() <= userConfig.getMaxSpellingSuggestions()) {
         List<String> suggestions = speller1.getSuggestions(word);
+        //System.out.println("speller1: " + suggestions);
         if (suggestions.isEmpty() && word.length() >= 5) {
           // speller1 uses a maximum edit distance of 1, it won't find suggestion for "garentee", "greatful" etc.
+          //System.out.println("speller2: " + speller2.getSuggestions(word));
           suggestions.addAll(speller2.getSuggestions(word));
           if (suggestions.isEmpty()) {
+            //System.out.println("speller3: " + speller3.getSuggestions(word));
             suggestions.addAll(speller3.getSuggestions(word));
           }
         }
+        //System.out.println("getAdditionalTopSuggestions(suggestions, word): " + getAdditionalTopSuggestions(suggestions, word));
         suggestions.addAll(0, getAdditionalTopSuggestions(suggestions, word));
+        //System.out.println("getAdditionalSuggestions(suggestions, word): " + getAdditionalSuggestions(suggestions, word));
         suggestions.addAll(getAdditionalSuggestions(suggestions, word));
         if (!suggestions.isEmpty()) {
           filterSuggestions(suggestions);
-          List<String> replacements = orderSuggestions(suggestions, word, sentence, startPos);
-          ruleMatch.setSuggestedReplacements(replacements);
+          ruleMatch.setSuggestedReplacements(orderSuggestions(suggestions, word, sentence, startPos));
+          //System.out.println("orderSuggestions(suggestions, word, sentence, startPos): " + orderSuggestions(suggestions, word, sentence, startPos));
         }
       } else {
         // limited to save CPU

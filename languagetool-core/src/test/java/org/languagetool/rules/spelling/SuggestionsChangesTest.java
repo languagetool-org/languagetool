@@ -75,7 +75,6 @@ public class SuggestionsChangesTest {
     sumPositions = new AtomicInteger(0);
 
   private static final Random sampler = new Random(0);
-  private static final float SAMPLE_RATE = 0.10f;
 
   private String testMode;
 
@@ -267,15 +266,18 @@ public class SuggestionsChangesTest {
       System.setProperty("SuggestionsChangesTestAlternativeEnabled", modeValue);
     }
 
-    String languagesValue = System.getProperty("languages");
-    Set<Language> languages = new HashSet<>();
-    if (languagesValue == null) { // default -> all languages
-      languages.addAll(Languages.get());
-    } else {
-      for (String langCode : languagesValue.split(",")) {
-        languages.add(Languages.getLanguageForShortCode(langCode));
-      }
-    }
+    //String languagesValue = System.getProperty("languages");
+    //Set<Language> languages = new HashSet<>();
+    //if (languagesValue == null) { // default -> all languages
+    //  languages.addAll(Languages.get());
+    //} else {
+    //  for (String langCode : languagesValue.split(",")) {
+    //    languages.add(Languages.getLanguageForShortCode(langCode));
+    //  }
+    //}
+    String testRule = System.getProperty("rule");
+
+    double sampleRate = Double.valueOf(System.getProperty("sampleRate", "0.1"));
 
     Runtime.getRuntime().addShutdownHook(new Thread(() -> {
       if (testMode.equals("AB")) {
@@ -304,24 +306,44 @@ public class SuggestionsChangesTest {
       threads.add(t);
     }
 
-    try (CSVParser parser = new CSVParser(new FileReader(correctionsFileLocation), CSVFormat.DEFAULT.withFirstRecordAsHeader())) {
+
+    String[] header =  { "id", "sentence", "correction", "language" , "rule_id" , "suggestion_pos" , "accept_language" ,
+      "country" , "region" , "created_at" , "updated_at", "covered" , "replacement", "text_session_id" , "client" };
+
+
+    String dataSource = System.getProperty("data", "dump");
+    CSVFormat format = CSVFormat.DEFAULT;
+    if (dataSource.equals("dump")) {
+      format = format.withEscape('\\').withNullString("\\N").withHeader(header);
+    } else if (dataSource.equals("artificial")) {
+      format = format.withEscape('\\').withFirstRecordAsHeader();
+    }
+    try (CSVParser parser = new CSVParser(new FileReader(correctionsFileLocation), format)) {
       for (CSVRecord record : parser) {
 
-        if (sampler.nextFloat() > SAMPLE_RATE) {
+        if (sampler.nextFloat() > sampleRate) {
           continue;
         }
 
         String lang = record.get("language");
+        String rule = dataSource.equals("dump") ? record.get("rule_id") : "";
         String covered = record.get("covered");
         String replacement = record.get("replacement");
         String sentence = record.get("sentence");
+
+        if (sentence == null || sentence.trim().isEmpty()) {
+          continue;
+        }
 
         if (lang.equals("auto")) {
           continue; // TODO do language detection?
         }
         Language language = Languages.getLanguageForShortCode(lang);
 
-        if (!languages.contains(language)) {
+        //if (!languages.contains(language)) {
+        //  continue;
+        //}
+        if (dataSource.equals("dump") && !testRule.equals(rule)) {
           continue;
         }
 

@@ -26,19 +26,21 @@ import org.apache.commons.text.similarity.LevenshteinDistance;
 import org.jetbrains.annotations.NotNull;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.Language;
+import org.languagetool.languagemodel.BaseLanguageModel;
 import org.languagetool.languagemodel.LanguageModel;
-import org.languagetool.rules.ngrams.Probability;
+import org.languagetool.rules.ngrams.LanguageModelUtils;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class NewSuggestionsOrderer implements SuggestionsOrderer {
 
+  private final Language language;
   private final LanguageModel languageModel;
 
-  public NewSuggestionsOrderer(LanguageModel languageModel) {
+  public NewSuggestionsOrderer(Language lang, LanguageModel languageModel) {
+    language = lang;
     this.languageModel = languageModel;
   }
 
@@ -49,58 +51,38 @@ public class NewSuggestionsOrderer implements SuggestionsOrderer {
 
   @Override
   public List<String> orderSuggestionsUsingModel(List<String> suggestions, String word, AnalyzedSentence sentence, int startPos, int wordLength) {
-    List<AnalyzedTokenReadings> tokens = Arrays.asList(sentence.getTokensWithoutWhitespace());
-    AnalyzedTokenReadings center = tokens.stream()
-      .filter(token -> token.getStartPos() == startPos && !token.isSentenceStart()).findFirst().orElse(null);
-    if (center == null) {
-      System.err.printf("Could not find context to order suggestions: %s @ %d in '%s'%n", word, startPos, sentence);
-      return suggestions;
-    }
-    System.out.printf("Center token: %s %n", center);
-    int idx = tokens.indexOf(center);
-    int contextSize = 1;
-    //List<AnalyzedTokenReadings> left = tokens.subList(Math.max(0, idx-contextSize), idx);
-    //List<AnalyzedTokenReadings> right = tokens.subList(idx+1, Math.min(idx+1+contextSize, tokens.size()));
-    //System.out.printf("Context for suggestions for '%s' out of %s: %s / %s # %s%n", word, suggestions,
-    //  left.stream().map(AnalyzedTokenReadings::getToken).collect(Collectors.toList()),
-    //  right.stream().map(AnalyzedTokenReadings::getToken).collect(Collectors.toList()),
-    //  tokens.stream().map(AnalyzedTokenReadings::getToken).collect(Collectors.toList()));
-
-    List<String> words = tokens.stream().map(AnalyzedTokenReadings::getToken).collect(Collectors.toList());
-    // given sentence w_-2 w_-1 w_0 w_1 w_2, contextSize = 1
-    //
-    List<String> contextCenter = words.subList(Math.max(0, idx-contextSize), Math.min(idx+1+contextSize, tokens.size()));
-    int contextCenterIdx = idx - Math.max(0, idx-contextSize);
-    List<String> contextLeft = words.subList(Math.max(0, idx-contextSize-1), Math.min(idx+contextSize, tokens.size()));
-    List<String> contextRight = words.subList(Math.max(0, idx-contextSize+1), Math.min(idx+2+contextSize, tokens.size()));
-    int contextLeftIdx = contextLeft.size() - 1;
-    int contextRightIdx = 0;
-    System.out.printf("Context for suggestions for '%s' : L %s C %s R %s # %s%n",
-      word, contextLeft, contextCenter, contextRight, sentence.getText());
+    //List<AnalyzedTokenReadings> tokens = Arrays.asList(sentence.getTokensWithoutWhitespace());
+    //Optional<AnalyzedTokenReadings> center =  tokens.stream()
+    //  .filter(t -> !t.isSentenceStart() && !t.isWhitespace() && t.getStartPos() == startPos)
+    //  .findFirst();
+    //if (!center.isPresent()) {
+    //  throw new RuntimeException(String.format("Could not find center token '%s' in sentence '%s'.", word, sentence));
+    //}
+    //int index = tokens.indexOf(center.get());
+    //if (index == -1) {
+    //  throw new RuntimeException(String.format("Could not find center token '%s' in sentence '%s'.", word, sentence));
+    //}
+    //List<String> words = tokens.stream().map(AnalyzedTokenReadings::getToken).collect(Collectors.toList());
+    //List<String> candidates = corrector.getCandidates(words, index);
+    //System.out.println(String.format("candidates for '%s' -> %s vs %s [%s @ %s]", word, candidates, suggestions, words.get(index), words));
+    //return candidates;
 
     EditDistance<Integer> distance = LevenshteinDistance.getDefaultInstance();
     List<Feature> features = new ArrayList<>(suggestions.size());
 
-    // TODO: check influence of empty strings contained here
-/*    contextLeft = contextLeft.stream().filter(s -> !s.isEmpty()).collect(Collectors.toList());;
-    contextRight = contextRight.stream().filter(s -> !s.isEmpty()).collect(Collectors.toList());;
-    contextCenter = contextCenter.stream().filter(s -> !s.isEmpty()).collect(Collectors.toList());;
-    System.out.printf("Context (filtered) for suggestions for '%s' : L %s C %s R %s # %s%n",
-      word, contextLeft, contextCenter, contextRight, sentence.getText());*/
-
     for (String candidate : suggestions) {
-      contextCenter.set(contextCenterIdx, candidate);
-      contextLeft.set(contextLeftIdx, candidate);
-      contextRight.set(contextRightIdx, candidate);
-      Probability probC = languageModel.getPseudoProbability(contextCenter);
-      Probability probL = languageModel.getPseudoProbability(contextLeft);
-      Probability probR = languageModel.getPseudoProbability(contextRight);
-      //System.out.printf("Probabilities of suggestion '%s' : L %f C %f R %f%n",
-      //  candidate, probL.getProb(), probC.getProb(), probR.getProb());
+      double prob1 = languageModel.getPseudoProbability(Collections.singletonList(candidate)).getProb();
+      double prob3 = LanguageModelUtils.get3gramProbabilityFor(language, languageModel, startPos, sentence, candidate);
+      double prob4 = 0.0; //LanguageModelUtils.get4gramProbabilityFor(language, languageModel, startPos, sentence, candidate);
+      long wordCount = 0;// ((BaseLanguageModel) languageModel).getCount(candidate);
       int dist = distance.apply(word, candidate);
-      features.add(new Feature(probC, probL, probR, dist, candidate));
+
+      features.add(new Feature(prob1, prob3, prob4, wordCount, dist, candidate));
     }
     features.sort(Feature::compareTo);
+    //features
+    //  .stream().limit(10).forEachOrdered(f -> System.out.printf("Probabilities of suggestion '%20s': P_3 %.20f P_4 %.20f C_1 %20d%n",
+    //     f.getWord(), f.prob3gram, f.prob4gram, f.wordCount));
     List<String> reordered = features.stream().map(Feature::getWord).collect(Collectors.toList());
 
     return reordered;
@@ -108,16 +90,18 @@ public class NewSuggestionsOrderer implements SuggestionsOrderer {
 
 
   static class Feature implements Comparable<Feature>{
-    private final Probability probabilityC;
-    private final Probability probabilityL;
-    private final Probability probabilityR;
+    private final double prob1gram;
+    private final double prob3gram;
+    private final double prob4gram;
+    private final long wordCount;
     private final int levenshteinDistance;
     private final String word;
 
-    Feature(Probability probabilityC, Probability probabilityL, Probability probabilityR, int levenshteinDistance, String word) {
-      this.probabilityC = probabilityC;
-      this.probabilityL = probabilityL;
-      this.probabilityR = probabilityR;
+    Feature(double prob1, double prob3, double prob4, long wordCount, int levenshteinDistance, String word) {
+      this.prob1gram = prob1;
+      this.prob3gram = prob3;
+      this.prob4gram = prob4;
+      this.wordCount = wordCount;
       this.levenshteinDistance = levenshteinDistance;
       this.word = word;
     }
@@ -127,14 +111,27 @@ public class NewSuggestionsOrderer implements SuggestionsOrderer {
     }
 
     private double getMeanProbability() {
-      //return (probabilityC.getProb() + probabilityL.getProb() + probabilityR.getProb()) / 3.0;
-      return probabilityC.getProb();
+      double ngramProb = Math.log(prob1gram) + Math.log(prob3gram);// + Math.log(prob4gram);
+      final double MISTAKE_PROB = 0.1;
+      double misspellingProb = Math.pow(MISTAKE_PROB, levenshteinDistance);
+      return ngramProb + Math.log(misspellingProb);
+      //return prob3gram;
     }
 
     @Override
     public int compareTo(@NotNull Feature o) {
       // sort descending
+      // maybe use threshold instead of 0
       return Double.compare(o.getMeanProbability(), this.getMeanProbability());
+/*      if (this.wordCount == o.wordCount) {
+        return 0;
+      } else if (this.wordCount == 0) {
+        return 1;
+      } else if (o.wordCount == 0) {
+        return -1;
+      } else {
+        return 0;
+      }*/
     }
   }
 
