@@ -98,7 +98,7 @@ public class HunspellRule extends SpellingCheckRule {
     this.monitorRules = System.getProperty("monitorActiveRules") != null;
 
      if (SpellingCheckRule.isTestingChange("NewSuggestionsOrderer")) {
-       suggestionsOrderer = new NewSuggestionsOrderer(this.languageModel);
+       suggestionsOrderer = new NewSuggestionsOrderer(language, this.languageModel);
      } else {
        suggestionsOrderer = null;
      }
