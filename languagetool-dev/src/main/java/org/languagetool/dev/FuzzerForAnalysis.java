@@ -18,48 +18,44 @@
  */
 package org.languagetool.dev;
 
-import org.apache.commons.lang3.StringUtils;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
+import org.languagetool.chunking.Chunker;
 
 import java.io.IOException;
 import java.util.Random;
 
 /**
- * A very simple fuzzer to see if certain random input causes long processing times.
+ * A very simple fuzzer to see if certain random input causes long processing times
+ * when analyzing text.
  */
-public class Fuzzer {
-
-  private final static String[] charList = "0,.-".split("");
+public class FuzzerForAnalysis extends Fuzzer {
 
   private void run() throws IOException {
-    Random rnd = new Random(231);
-    for (Language language : Languages.get()) {
-      JLanguageTool lt = new JLanguageTool(language);
-      String text = fuzz(rnd, 1000);
-      long t1 = System.currentTimeMillis();
-      System.out.println(language.getShortCode() + " with text length of " + text.length() + "...");
-      System.out.println(">> " + text);
-      lt.check(text);
-      long t2 = System.currentTimeMillis();
-      System.out.println(language.getShortCode() + ": " + (t2-t1) + "ms");
+    for (int i = 0; i < 10; i++) {
+      System.out.println("-----------------------");
+      Random rnd = new Random(i);
+      for (Language language : Languages.get()) {
+        JLanguageTool lt = new JLanguageTool(language);
+        Chunker chunker = language.getChunker();
+        if (chunker != null) {
+          String text = fuzz(rnd, 2500);
+          long t1 = System.currentTimeMillis();
+          System.out.println(language.getShortCode() + " with text length of " + text.length() + "...");
+          //System.out.println(">> " + text);
+          lt.getAnalyzedSentence(text);
+          long t2 = System.currentTimeMillis();
+          long runtime = t2 - t1;
+          float relRuntime = (float) runtime / text.length() * 1000;
+          System.out.printf(language.getShortCode() + ": " + runtime + "ms = %.2f ms/1K chars\n", relRuntime);
+        }
+      }
     }
-  }
-
-  String fuzz(Random rnd, int length) {
-    StringBuilder sb = new StringBuilder();
-    for (int i = 0; i < charList.length; i++) {
-      int randomPos = rnd.nextInt(charList.length);
-      int repeat = rnd.nextInt(length);
-      String s = StringUtils.repeat(charList[randomPos], repeat);
-      sb.append(s);
-    }
-    return sb.toString();
   }
 
   public static void main(String[] args) throws IOException {
-    new Fuzzer().run();
+    new FuzzerForAnalysis().run();
   }
 
 }
