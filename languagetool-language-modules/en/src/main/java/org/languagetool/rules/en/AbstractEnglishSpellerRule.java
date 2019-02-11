@@ -93,7 +93,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     }
     return words;
   }
-  
+
   @Override
   protected List<RuleMatch> getRuleMatches(String word, int startPos, AnalyzedSentence sentence, List<RuleMatch> ruleMatchesSoFar) throws IOException {
     List<RuleMatch> ruleMatches = super.getRuleMatches(word, startPos, sentence, ruleMatchesSoFar);
@@ -123,7 +123,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
   protected VariantInfo isValidInOtherVariant(String word) {
     return null;
   }
-  
+
   private void addFormsToFirstMatch(String message, AnalyzedSentence sentence, List<RuleMatch> ruleMatches, List<String> forms) {
     RuleMatch oldMatch = ruleMatches.get(0);
     RuleMatch newMatch = new RuleMatch(this, sentence, oldMatch.getFromPos(), oldMatch.getToPos(), message);

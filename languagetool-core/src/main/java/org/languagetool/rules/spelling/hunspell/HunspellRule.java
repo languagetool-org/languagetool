@@ -97,7 +97,7 @@ public class HunspellRule extends SpellingCheckRule {
     this.userConfig = userConfig;
     this.monitorRules = System.getProperty("monitorActiveRules") != null;
 
-     if (SpellingCheckRule.isTestingChange("NewSuggestionsOrderer")) {
+     if (isTestingChange("NewSuggestionsOrderer")) {
        suggestionsOrderer = new NewSuggestionsOrderer(language, this.languageModel);
      } else {
        suggestionsOrderer = null;
@@ -213,7 +213,7 @@ public class HunspellRule extends SpellingCheckRule {
               }
             }
 
-            if (SpellingCheckRule.isTestingChange("sortAfterSuggestionOrderer")) {
+            if (isTestingChange("sortAfterSuggestionOrderer")) {
               suggestions = sortSuggestionByQuality(word, suggestions);
             }
 
