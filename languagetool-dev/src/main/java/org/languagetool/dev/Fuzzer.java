@@ -31,7 +31,7 @@ import java.util.Random;
  */
 public class Fuzzer {
 
-  private final static String chars = "0,.-";
+  private final static String[] charList = "0,.-".split("");
 
   private void run() throws IOException {
     Random rnd = new Random(231);
@@ -48,12 +48,11 @@ public class Fuzzer {
   }
 
   private String fuzz(Random rnd) {
-    String[] charsList = chars.split("");
     StringBuilder sb = new StringBuilder();
-    for (int i = 0; i < charsList.length; i++) {
-      int randomPos = rnd.nextInt(charsList.length);
+    for (int i = 0; i < charList.length; i++) {
+      int randomPos = rnd.nextInt(charList.length);
       int repeat = rnd.nextInt(1000);
-      String s = StringUtils.repeat(charsList[randomPos], repeat);
+      String s = StringUtils.repeat(charList[randomPos], repeat);
       sb.append(s);
     }
     return sb.toString();
