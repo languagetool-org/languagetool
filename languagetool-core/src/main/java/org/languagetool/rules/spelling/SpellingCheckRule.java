@@ -114,7 +114,12 @@ public abstract class SpellingCheckRule extends Rule {
     setLocQualityIssueType(ITSIssueType.Misspelling);
   }
 
-  public static boolean isTestingChange(@NotNull String name) {
+  /**
+   * For testing changes to suggestion ordering using a data corpus;
+   * returns whether a specific change should be active
+   * IMPORTANT: should be called in the constructor of subclasses, as AB testing mode depends on this behavior
+   */
+  protected boolean isTestingChange(@NotNull String name) {
     return name.equals(System.getProperty("SuggestionsChange")) &&
       System.getProperty("SuggestionsChangesTestAlternativeEnabled", "0").equals("1");
   }

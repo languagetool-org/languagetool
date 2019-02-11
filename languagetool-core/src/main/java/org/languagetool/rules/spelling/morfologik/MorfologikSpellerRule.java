@@ -81,7 +81,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     init();
     setLocQualityIssueType(ITSIssueType.Misspelling);
 
-    if (SpellingCheckRule.isTestingChange("NewSuggestionsOrderer")) {
+    if (isTestingChange("NewSuggestionsOrderer")) {
       suggestionsOrderer = new NewSuggestionsOrderer(language, this.languageModel);
     } else {
       suggestionsOrderer = new SuggestionsOrdererGSoC(language, this.languageModel, this.getId());

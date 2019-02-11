@@ -84,7 +84,7 @@ public abstract class CompoundAwareHunspellRule extends HunspellRule {
     List<String> simpleSuggestions = getCorrectWords(candidates);
     //System.out.println("simpleSuggestions: " + simpleSuggestions);
 
-    if (SpellingCheckRule.isTestingChange("sortSuggestionByFrequency")) {
+    if (isTestingChange("sortSuggestionByFrequency")) {
       simpleSuggestions = sortSuggestionByFrequency(word, simpleSuggestions);
     }
 
@@ -117,7 +117,7 @@ public abstract class CompoundAwareHunspellRule extends HunspellRule {
     filterDupes(suggestions);
     filterForLanguage(suggestions);
 
-    if (SpellingCheckRule.isTestingChange("sortAfterSuggestionOrderer")) {
+    if (isTestingChange("sortAfterSuggestionOrderer")) {
       return suggestions.subList(0, Math.min(MAX_SUGGESTIONS, suggestions.size()));
     }
 

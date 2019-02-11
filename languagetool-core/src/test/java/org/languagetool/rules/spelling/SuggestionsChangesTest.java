@@ -24,7 +24,7 @@ package org.languagetool.rules.spelling;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
-import org.jetbrains.annotations.NotNull;
+import org.apache.commons.lang3.tuple.Pair;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.languagetool.AnalyzedSentence;
@@ -33,6 +33,7 @@ import org.languagetool.Language;
 import org.languagetool.Languages;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.ngrams.LanguageModelUtils;
 
 import java.io.File;
 import java.io.FileReader;
@@ -57,6 +58,7 @@ import static org.junit.Assert.assertNotEquals;
  * suggestionsTestMode: Test original (A), updated (B) or both (AB) suggestion algorithms. Some changes may not be able to run in AB mode
  * SuggestionsChange: name of the change to test (use this when writing your own tests)
  * SuggestionsChangesTestAlternativeEnabled: set by this class - 0 for A, 1 for B
+ * ngramLocation
  *
  * Prints results on interrupt, or after finishing.
  */
@@ -110,13 +112,18 @@ public class SuggestionsChangesTest {
 
   class SuggestionTestThread extends Thread {
 
-    private Map<Language, JLanguageTool> ltMap;
-    private Map<Language, Rule> rules;
-    private BlockingQueue<SuggestionTestData> tasks;
+    private final Map<Language, JLanguageTool> ltMap;
+    private final Map<Language, JLanguageTool> ltMapChanged;
+    private final Map<Language, Rule> rules;
+    private final Map<Language, Rule> rulesChanged;
+    private final BlockingQueue<SuggestionTestData> tasks;
 
     SuggestionTestThread(BlockingQueue<SuggestionTestData> tasks) {
       ltMap = new HashMap<>();
+      ltMapChanged = new HashMap<>();
       rules = new HashMap<>();
+      rulesChanged = new HashMap<>();
+      //noinspection AssignmentOrReturnOfFieldWithMutableType
       this.tasks = tasks;
     }
 
@@ -136,36 +143,60 @@ public class SuggestionsChangesTest {
       }
     }
 
+
+    private Pair<JLanguageTool, Rule> initalizeLT(Language lang, boolean changed) {
+      Map<Language, JLanguageTool> ltCache;
+      Map<Language, Rule> ruleCache;
+      JLanguageTool lt;
+      Rule spellerRule;
+      synchronized (tasks) {
+        if (changed) {
+          System.setProperty("SuggestionsChangesTestAlternativeEnabled", "1");
+          ltCache = ltMapChanged;
+          ruleCache = rulesChanged;
+        } else {
+          System.setProperty("SuggestionsChangesTestAlternativeEnabled", "0");
+          ltCache = ltMap;
+          ruleCache = rules;
+        }
+        lt = ltCache.computeIfAbsent(lang, langCode -> {
+          try {
+            JLanguageTool tool = new JLanguageTool(lang);
+            tool.activateLanguageModelRules(new File(System.getProperty("ngramLocation", "ngrams/")));
+            return tool;
+          } catch (IOException e) {
+            throw new RuntimeException(e);
+          }
+        });
+
+        spellerRule = ruleCache.computeIfAbsent(lang, langCode ->
+          lt.getAllRules().stream().filter(Rule::isDictionaryBasedSpellingRule)
+            .findFirst().orElse(null));
+        if (spellerRule == null) {
+          return null;
+        }
+      }
+      return Pair.of(lt, spellerRule);
+    }
+
+
+
     void doWork(SuggestionTestData entry) throws IOException {
 
       Language lang = Languages.getLanguageForShortCode(entry.getLanguage());
 
-      JLanguageTool lt = ltMap.computeIfAbsent(lang, langCode -> {
-        try {
-          JLanguageTool tool = new JLanguageTool(lang);
-          tool.activateLanguageModelRules(new File("ngrams/"));
-          return tool;
-        } catch (IOException e) {
-          throw new RuntimeException(e);
-        }
-      });
-
-      Rule spellerRule = rules.computeIfAbsent(lang, langCode ->
-        lt.getAllRules().stream().filter(Rule::isDictionaryBasedSpellingRule)
-          .findFirst().orElse(null));
-
-      if (spellerRule == null) {
-        return;
-      }
-
-      //AnalyzedSentence sentence = lt.getAnalyzedSentence(entry.getCovered());
-      AnalyzedSentence sentence = lt.getAnalyzedSentence(entry.getSentence());
-
       if (testMode.equals("AB")) {
-        System.setProperty("SuggestionsChangesTestAlternativeEnabled", "0");
-        RuleMatch[] originalMatches = spellerRule.match(sentence);
-        System.setProperty("SuggestionsChangesTestAlternativeEnabled", "1");
-        RuleMatch[] alternativeMatches = spellerRule.match(sentence);
+        Pair<JLanguageTool, Rule> originalLT = initalizeLT(lang, false);
+        Pair<JLanguageTool, Rule> changedLT = initalizeLT(lang, true);
+        if (originalLT == null || changedLT == null) {
+          return;
+        }
+        JLanguageTool ltOriginal = originalLT.getLeft();
+        Rule spellerRuleOriginal = originalLT.getRight();
+        Rule spellerRuleChanged = changedLT.getRight();
+        AnalyzedSentence sentence = ltOriginal.getAnalyzedSentence(entry.getSentence());
+        RuleMatch[] originalMatches = spellerRuleOriginal.match(sentence);
+        RuleMatch[] alternativeMatches = spellerRuleChanged.match(sentence);
         assertEquals(originalMatches.length, alternativeMatches.length);
 
         for (int i = 0; i < originalMatches.length; i++) {
@@ -220,6 +251,13 @@ public class SuggestionsChangesTest {
         }
 
       } else {
+        Pair<JLanguageTool, Rule> ltAndRule = initalizeLT(lang, false);
+        if (ltAndRule == null) {
+          return;
+        }
+        JLanguageTool lt = ltAndRule.getLeft();
+        AnalyzedSentence sentence = lt.getAnalyzedSentence(entry.getSentence());
+        Rule spellerRule = ltAndRule.getRight();
         RuleMatch[] matches = spellerRule.match(sentence);
 
         for (RuleMatch match : matches) {
