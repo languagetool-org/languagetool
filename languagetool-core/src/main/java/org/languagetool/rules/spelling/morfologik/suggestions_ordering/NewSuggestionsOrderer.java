@@ -22,12 +22,12 @@
 package org.languagetool.rules.spelling.morfologik.suggestions_ordering;
 
 import org.apache.commons.text.similarity.EditDistance;
+import org.apache.commons.text.similarity.JaroWinklerDistance;
 import org.apache.commons.text.similarity.LevenshteinDistance;
+import org.apache.commons.text.similarity.SimilarityScore;
 import org.jetbrains.annotations.NotNull;
 import org.languagetool.AnalyzedSentence;
-import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
-import org.languagetool.languagemodel.BaseLanguageModel;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.ngrams.LanguageModelUtils;
 
@@ -67,7 +67,8 @@ public class NewSuggestionsOrderer implements SuggestionsOrderer {
     //System.out.println(String.format("candidates for '%s' -> %s vs %s [%s @ %s]", word, candidates, suggestions, words.get(index), words));
     //return candidates;
 
-    EditDistance<Integer> distance = LevenshteinDistance.getDefaultInstance();
+    EditDistance<Integer> levenshteinDistance = new LevenshteinDistance(9);
+    SimilarityScore<Double> jaroWrinklerDistance = new JaroWinklerDistance();
     List<Feature> features = new ArrayList<>(suggestions.size());
 
     for (String candidate : suggestions) {
@@ -75,9 +76,10 @@ public class NewSuggestionsOrderer implements SuggestionsOrderer {
       double prob3 = LanguageModelUtils.get3gramProbabilityFor(language, languageModel, startPos, sentence, candidate);
       double prob4 = 0.0; //LanguageModelUtils.get4gramProbabilityFor(language, languageModel, startPos, sentence, candidate);
       long wordCount = 0;// ((BaseLanguageModel) languageModel).getCount(candidate);
-      int dist = distance.apply(word, candidate);
+      int levenstheinDist = levenshteinDistance.apply(word, candidate);
+      double jaroWrinklerDist = jaroWrinklerDistance.apply(word, candidate);
 
-      features.add(new Feature(prob1, prob3, prob4, wordCount, dist, candidate));
+      features.add(new Feature(prob1, prob3, prob4, wordCount, levenstheinDist, jaroWrinklerDist, candidate));
     }
     features.sort(Feature::compareTo);
     //features
@@ -95,14 +97,16 @@ public class NewSuggestionsOrderer implements SuggestionsOrderer {
     private final double prob4gram;
     private final long wordCount;
     private final int levenshteinDistance;
+    private final double jaroWrinklerDistance;
     private final String word;
 
-    Feature(double prob1, double prob3, double prob4, long wordCount, int levenshteinDistance, String word) {
+    Feature(double prob1, double prob3, double prob4, long wordCount, int levenshteinDistance, double jaroWrinklerDistance, String word) {
       this.prob1gram = prob1;
       this.prob3gram = prob3;
       this.prob4gram = prob4;
       this.wordCount = wordCount;
       this.levenshteinDistance = levenshteinDistance;
+      this.jaroWrinklerDistance = jaroWrinklerDistance;
       this.word = word;
     }
 
@@ -113,7 +117,8 @@ public class NewSuggestionsOrderer implements SuggestionsOrderer {
     private double getMeanProbability() {
       double ngramProb = Math.log(prob1gram) + Math.log(prob3gram);// + Math.log(prob4gram);
       final double MISTAKE_PROB = 0.1;
-      double misspellingProb = Math.pow(MISTAKE_PROB, levenshteinDistance);
+      //double misspellingProb = Math.pow(MISTAKE_PROB, levenshteinDistance);
+      double misspellingProb = jaroWrinklerDistance;
       return ngramProb + Math.log(misspellingProb);
       //return prob3gram;
     }
