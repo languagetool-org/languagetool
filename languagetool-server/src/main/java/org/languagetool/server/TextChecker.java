@@ -18,6 +18,8 @@
  */
 package org.languagetool.server;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.sun.net.httpserver.HttpExchange;
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -194,9 +196,22 @@ abstract class TextChecker {
       throw new TextTooLongException("Your text exceeds the limit of " + limits.getMaxTextLength() +
               " characters (it's " + aText.getPlainText().length() + " characters). Please submit a shorter text.");
     }
-    UserConfig userConfig = new UserConfig(
-            limits.getPremiumUid() != null ? getUserDictWords(limits.getPremiumUid()) : Collections.emptyList(),
-            new HashMap<>(), config.getMaxSpellingSuggestions());
+
+    List<String> dict = new ArrayList<>(
+      limits.getPremiumUid() != null ? getUserDictWords(limits.getPremiumUid()) : Collections.emptyList()
+    );
+
+    if (parameters.containsKey("dictionary")) {
+      try {
+        ObjectMapper mapper = new ObjectMapper();
+        List<String> dictionaryData = mapper.readValue(parameters.get("dictionary"), new TypeReference<List<String>>(){});
+        dict.addAll(dictionaryData);
+      } catch (Exception e) {
+        throw new RuntimeException("'dictionary' should be a JSON array in string format.");
+      }
+    }
+
+    UserConfig userConfig = new UserConfig(dict, new HashMap<>(), config.getMaxSpellingSuggestions());
 
     // NOTE: at the moment, feedback for A/B-Tests is only delivered from this client, so only run tests there
     if (agent != null && agent.equals("ltorg")) {
