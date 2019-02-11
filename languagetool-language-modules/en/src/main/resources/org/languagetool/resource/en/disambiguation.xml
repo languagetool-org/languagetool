@@ -143,7 +143,7 @@
          </pattern>
           <disambig postag="JJ"/>
          <example type="untouched">Nothing can last forever.</example>
-         <example type="ambiguous" inputform="Last[last/DT,last/JJ,last/NN,last/VB,last/VBP]" outputform="Last[last/JJ]"><marker>Last</marker> Christmas I gave you my heart.</example>
+         <example type="ambiguous" inputform="Last[last/DT,last/JJ,last/NN,last/RB,last/VB,last/VBP]" outputform="Last[last/JJ]"><marker>Last</marker> Christmas I gave you my heart.</example>
      </rule>
      <rule>
          <pattern>
@@ -777,9 +777,10 @@
                 <marker>
                     <token>in</token>
                 </marker>
-                <token postag="DT|PRP\$" postag_regexp="yes"/>
+                <token postag="DT|PRP\$" postag_regexp="yes"><exception postag="RB"/></token>
             </pattern>
             <disambig postag="IN"/>
+            <example type="untouched">Tom <marker>came in</marker> last.</example>
         </rule>
         <rule name="in as noun/preposition + uncountable noun -&gt; in as preposition" id="IN_NNUN">
             <pattern>
