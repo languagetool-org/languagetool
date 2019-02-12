@@ -35135,7 +35135,7 @@ Andere Projekte</example>
         </rulegroup>
         <rulegroup id="EINHEIT_LEERZEICHEN" name="Falsches/Fehlendes Leerzeichen zwischen Zahl und Einheit">
             <rule>
-                <regexp case_sensitive='yes'>(\-?[0-9]+[0-9,.]*(%|€|\$|¥|°C|°F|°De?|°R[éeøa]?|(Z|E|P|T|G|M|k|h|da|d|c|m|µ|n|p|f|a|z|y)?[ΩΩm]|(Z|E|P|T|G|M|k|h|da|d|c|m|µ|n|p|f|a|z|y)?N|[kKMGTPEZY]i?B|[kmµnp]g|[Mk]t|kWh|GWa|MWd|MWh)(?!\w))</regexp>
+                <regexp case_sensitive='yes'>(\-?[0-9]+[0-9,.]{0,15}(%|€|\$|¥|°C|°F|°De?|°R[éeøa]?|(Z|E|P|T|G|M|k|h|da|d|c|m|µ|n|p|f|a|z|y)?[ΩΩm]|(Z|E|P|T|G|M|k|h|da|d|c|m|µ|n|p|f|a|z|y)?N|[kKMGTPEZY]i?B|[kmµnp]g|[Mk]t|kWh|GWa|MWd|MWh)(?!\w))</regexp>
                 <message>Vor Einheitenzeichen sollte ein Leerzeichen gesetzt werden. Vorschlag: <suggestion><match no="1" regexp_match="((\-)?[0-9]+[0-9,.]*{1,})" regexp_replace="$1 "/></suggestion></message>
                 <url>https://de.wikipedia.org/wiki/DIN_5008#Schriftzeichen_f.C3.BCr_W.C3.B6rter_und_Rechenzeichen_.28Abschnitte_7_und_8.29</url>
                 <example correction="25 °C">Es ist <marker>25°C</marker> warm.</example>
@@ -35164,7 +35164,7 @@ Andere Projekte</example>
                 <example>https://docs.google.com/document/d/1hEO7G3hm6bTkYnNlmT3uV</example>
             </rule>
             <rule>
-                <regexp>((\-)?[0-9]+[0-9.,]*{1,}) (°[^CFK])</regexp>
+                <regexp>((\-)?[0-9]+[0-9.,]{0,15}) (°[^CFK])</regexp>
                 <message>Vor dem Gradzeichen, auf das kein Buchstabe zur Kennzeichnung der Skala folgt, steht kein Leerzeichen. Verwenden Sie <suggestion>\1°</suggestion> oder fügen Sie ggf. ein fehlendes Einheitenzeichen hinzu (z. B. <suggestion>\1 °C</suggestion>).</message>
                 <example correction="25°|25 °C">Der Winkel ist <marker>25 ° </marker>groß.</example>
                 <example correction="-25,5°|-25,5 °C">Es ist <marker>-25,5 ° </marker>warm.</example>
@@ -35173,7 +35173,7 @@ Andere Projekte</example>
                 <example correction="-25°|-25 °C">Es ist <marker>-25 ° </marker>warm.</example>
             </rule>
             <rule>
-                <regexp>(\-?[0-9]+) (″)</regexp>
+                <regexp>(\-?[0-9]{1,15}) (″)</regexp>
                 <message>Vor dem \2-Zeichen steht in der Regel kein Leerzeichen.</message>
                 <suggestion>\1\2</suggestion>
                 <example>3° 14′ 45,54″</example>
