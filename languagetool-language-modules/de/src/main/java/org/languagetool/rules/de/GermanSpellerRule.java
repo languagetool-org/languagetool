@@ -1164,7 +1164,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       String partialWord = word.substring(end);
       boolean isCandidateForNonHyphenatedCompound = !StringUtils.isAllUpperCase(ignoredWord) && (StringUtils.isAllLowerCase(partialWord) || ignoredWord.endsWith("-"));
       boolean needFugenS = isNeedingFugenS(ignoredWord);
-      if (isCandidateForNonHyphenatedCompound && !needFugenS && partialWord.length() > 1) {
+      if (isCandidateForNonHyphenatedCompound && !needFugenS && partialWord.length() > 2) {
         return !hunspellDict.misspelled(partialWord) || !hunspellDict.misspelled(StringUtils.capitalize(partialWord));
       } else if (isCandidateForNonHyphenatedCompound && needFugenS && partialWord.length() > 2) {
         partialWord = partialWord.startsWith("s") ? partialWord.substring(1) : partialWord;
