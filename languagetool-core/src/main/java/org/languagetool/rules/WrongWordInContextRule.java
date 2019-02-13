@@ -187,11 +187,20 @@ public abstract class WrongWordInContextRule extends Rule {
   protected abstract String getLongMessageString();
   
   private String getMessage(String wrongWord, String suggestion, String explanationSuggestion, String explanationWrongWord) {
+    String quotedSuggestion = Matcher.quoteReplacement(suggestion);
+    String quotedWrongWord = Matcher.quoteReplacement(wrongWord);
+    String quotedExplanationSuggestion = Matcher.quoteReplacement(explanationSuggestion);
+    String quotedExplanationWrongWord = Matcher.quoteReplacement(explanationWrongWord);
     if (explanationSuggestion.isEmpty() || explanationWrongWord.isEmpty()) {
-      return getMessageString().replaceFirst("\\$SUGGESTION", suggestion).replaceFirst("\\$WRONGWORD", wrongWord);
+      return getMessageString()
+        .replaceFirst("\\$SUGGESTION", quotedSuggestion)
+        .replaceFirst("\\$WRONGWORD", quotedWrongWord);
     } else {
-      return getLongMessageString().replaceFirst("\\$SUGGESTION", suggestion).replaceFirst("\\$WRONGWORD", wrongWord)
-              .replaceFirst("\\$EXPLANATION_SUGGESTION", explanationSuggestion).replaceFirst("\\$EXPLANATION_WRONGWORD", explanationWrongWord);
+      return getLongMessageString()
+        .replaceFirst("\\$SUGGESTION", quotedSuggestion)
+        .replaceFirst("\\$WRONGWORD", quotedWrongWord)
+        .replaceFirst("\\$EXPLANATION_SUGGESTION", quotedExplanationSuggestion)
+        .replaceFirst("\\$EXPLANATION_WRONGWORD", quotedExplanationWrongWord);
     }
   }
   
