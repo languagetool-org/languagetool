@@ -30,9 +30,11 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Stream;
 
 import org.junit.Ignore;
 import org.junit.Test;
+import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.AustrianGerman;
@@ -636,7 +638,7 @@ public class GermanSpellerRuleTest {
     assertCorrectionsByOrder(rule, "Walt", "Wald");
     assertCorrectionsByOrder(rule, "Rythmus", "Rhythmus");
     assertCorrectionsByOrder(rule, "Rytmus", "Rhythmus");
-    assertCorrectionsByOrder(rule, "is", "IS", "in", "im", "ist");  // 'ist' should actually be preferred...
+    assertCorrectionsByOrder(rule, "is", "IS", "die", "in", "im", "ist");  // 'ist' should actually be preferred...
     assertCorrectionsByOrder(rule, "Fux", "Fuchs");  // fixed in morfologik 2.1.4
     assertCorrectionsByOrder(rule, "schänken", "Schänken");  // "schenken" is missing
   }
@@ -735,5 +737,30 @@ public class GermanSpellerRuleTest {
       assertTrue("Not found at position " + i + ": '" + expectedTerm + "' in: " + suggestions + " for input '" + input + "'", suggestions.get(i).equals(expectedTerm));
       i++;
     }
+  }
+
+  /**
+   *  number of suggestions seems to depend on previously checked text
+   * fixed by not resusing morfologik Speller object
+  */
+  @Test
+  public void testMorfologikSuggestionsWorkaround() throws IOException {
+    HunspellRule rule1 = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
+    HunspellRule rule2 = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
+    JLanguageTool lt = new JLanguageTool(GERMAN_DE);
+
+    String sentence1 = "Das Absinken der Motordrehzahl bfi größeren Geschwindigkeiten war.";
+    String sentence2 = "Welche die Eidgenossenschaft ls Staatenbund wiederhergestellt hat.";
+
+    RuleMatch[] matches11 = rule1.match(lt.getAnalyzedSentence(sentence1));
+    RuleMatch[] matches12 = rule1.match(lt.getAnalyzedSentence(sentence2));
+
+    RuleMatch[] matches22 = rule2.match(lt.getAnalyzedSentence(sentence2));
+    RuleMatch[] matches21 = rule2.match(lt.getAnalyzedSentence(sentence1));
+
+    assertTrue(Stream.of(matches11, matches12, matches21, matches22).allMatch(arr -> arr.length == 1));
+
+    assertEquals(matches11[0].getSuggestedReplacements().size(), matches21[0].getSuggestedReplacements().size());
+    assertEquals(matches12[0].getSuggestedReplacements().size(), matches22[0].getSuggestedReplacements().size());
   }
 }
