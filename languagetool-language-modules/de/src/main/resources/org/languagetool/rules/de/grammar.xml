@@ -10312,6 +10312,34 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="krankmelden">Ich muss mich leider <marker>krank melden</marker>?</example>
             </rule>
         </rulegroup>
+        <rulegroup id="WACHHALTEN" name="wach halten / wachhalten">
+            <url>https://www.korrekturen.de/wortliste/wachhalten.shtml</url>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag="PRO:REF:.+" postag_regexp="yes" skip="2"></token>
+                    <marker>
+                        <token inflected="yes">wachhalten</token>
+                    </marker>
+                </pattern>
+                <message>Schreiben Sie 'wach halten' in wörtlicher Bedeutung auseinander.</message>
+                <suggestion><match no="2" regexp_match="wach" regexp_replace="wach "/></suggestion>
+                <short>&getrennt;.</short>
+                <example correction="wach gehalten">Er hat sich mit Kaffee <marker>wachgehalten</marker>.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes" skip="7">Erinnerung|Gedenken|Interesse</token>
+                    <marker>
+                        <token>wach</token>
+                        <token inflected="yes">halten</token>
+                    </marker>
+                </pattern>
+                <message>Schreiben Sie 'wach halten' in wörtlicher Bedeutung auseinander.</message>
+                <suggestion>\2\3</suggestion>
+                <short>&getrennt;.</short>
+                <example correction="wachgehalten">Er hat die Erinnerung an die Schrecken des Krieges <marker>wach gehalten</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="ZUSAMMENGESETZTE_VERBEN" name="auf halten (aufhalten)">
               <url>http://www.canoo.net/services/GermanSpelling/Regeln/Getrennt-zusammen/Verb.html</url>
               <rule>
