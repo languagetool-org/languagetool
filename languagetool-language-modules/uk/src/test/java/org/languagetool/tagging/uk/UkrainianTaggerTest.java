@@ -237,6 +237,7 @@ public class UkrainianTaggerTest {
     assertNotTagged("чи-то");
     assertNotTagged("как-то");
     assertNotTagged("кто-то");
+    assertNotTagged("до-пари");
   }
 
   @Test

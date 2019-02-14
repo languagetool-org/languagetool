@@ -344,7 +344,7 @@ class CompoundTagger {
 
     // вгору-вниз, лікар-гомеопат, жило-було
 
-    if( ! leftWdList.isEmpty() ) {
+    if( ! leftWdList.isEmpty() && leftWord.length() > 2 ) {
       List<AnalyzedToken> tagMatch = tagMatch(word, leftAnalyzedTokens, rightAnalyzedTokens);
       if( tagMatch != null ) {
         return tagMatch;
