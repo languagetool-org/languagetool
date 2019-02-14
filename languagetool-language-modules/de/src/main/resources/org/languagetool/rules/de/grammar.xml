@@ -10296,6 +10296,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="gutzuheißen">Statt es <marker>gut zu heißen</marker>, muss man es kritisieren.</example>
            </rule>
         </rulegroup>
+        <rulegroup id="KRANKSCHREIBEN" name="krank schreiben (krankschreiben)">
+            <url>http://www.canoo.net/services/GermanSpelling/Regeln/Getrennt-zusammen/Verb.html?MenuId=SpellingRules020#Anchor-Verben-33869</url>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token>krank</token>
+                        <token inflected="yes" regexp="yes">melden|schreiben</token>
+                    </marker>
+                </pattern>
+                <message>Falls Sie eine Form des Verbs 'krankschreiben/-melden' (=Arbeitsunfägikeit attestieren/melden) meinten, muss vermutlich das Leerzeichen entfernt werden.</message>
+                <suggestion>\1\2</suggestion>
+                <short>&getrennt;.</short>
+                <example correction="krankgeschrieben">Der Arzt hat ihn <marker>krank geschrieben</marker>?</example>
+                <example correction="krankmelden">Ich muss mich leider <marker>krank melden</marker>?</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="ZUSAMMENGESETZTE_VERBEN" name="auf halten (aufhalten)">
               <url>http://www.canoo.net/services/GermanSpelling/Regeln/Getrennt-zusammen/Verb.html</url>
               <rule>
@@ -24137,7 +24153,7 @@ Andere Projekte</example>
             <rule>
                 <pattern case_sensitive="yes">
                     <token inflected="yes">fallen</token>
-                    <token regexp="yes">ih(m|r|nen)|mir|dir|euch|uns</token>
+                    <token/>
                     <token>in</token>
                     <token>den</token>
                     <marker>
