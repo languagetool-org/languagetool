@@ -26,6 +26,7 @@ import org.languagetool.rules.Categories;
 import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.spelling.SpellingCheckRule;
+import org.languagetool.rules.spelling.SuggestionsChanges;
 import org.languagetool.rules.spelling.morfologik.suggestions_ordering.NewSuggestionsOrderer;
 import org.languagetool.rules.spelling.morfologik.suggestions_ordering.SuggestionsOrderer;
 import org.languagetool.rules.spelling.morfologik.suggestions_ordering.SuggestionsOrdererGSoC;
@@ -81,7 +82,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     init();
     setLocQualityIssueType(ITSIssueType.Misspelling);
 
-    if (isTestingChange("NewSuggestionsOrderer")) {
+    if (SuggestionsChanges.isRunningExperiment("NewSuggestionsOrderer")) {
       suggestionsOrderer = new NewSuggestionsOrderer(language, this.languageModel);
     } else {
       suggestionsOrderer = new SuggestionsOrdererGSoC(language, this.languageModel, this.getId());

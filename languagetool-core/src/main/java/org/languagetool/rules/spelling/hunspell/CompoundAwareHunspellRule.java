@@ -24,7 +24,7 @@ import org.languagetool.Language;
 import org.languagetool.UserConfig;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.ngrams.Probability;
-import org.languagetool.rules.spelling.SpellingCheckRule;
+import org.languagetool.rules.spelling.SuggestionsChanges;
 import org.languagetool.rules.spelling.morfologik.MorfologikMultiSpeller;
 import org.languagetool.tokenizers.CompoundWordTokenizer;
 import org.languagetool.tools.StringTools;
@@ -84,7 +84,7 @@ public abstract class CompoundAwareHunspellRule extends HunspellRule {
     List<String> simpleSuggestions = getCorrectWords(candidates);
     //System.out.println("simpleSuggestions: " + simpleSuggestions);
 
-    if (isTestingChange("sortSuggestionByFrequency")) {
+    if (SuggestionsChanges.isRunningExperiment("sortSuggestionByFrequency")) {
       simpleSuggestions = sortSuggestionByFrequency(word, simpleSuggestions);
     }
 
@@ -96,6 +96,8 @@ public abstract class CompoundAwareHunspellRule extends HunspellRule {
       // almost all words can be uppercase because they can appear at the start of a sentence:
       noSplitLowercaseSuggestions = morfoSpeller.getSuggestions(word.toLowerCase());
     }
+    //System.out.println("noSplitSuggestions: " + noSplitSuggestions);
+    //System.out.println("noSplitLcSuggestions: " + noSplitLowercaseSuggestions);
     // We don't know about the quality of the results here, so mix both lists together,
     // taking elements from both lists on a rotating basis:
     List<String> suggestions = new ArrayList<>();
@@ -117,7 +119,7 @@ public abstract class CompoundAwareHunspellRule extends HunspellRule {
     filterDupes(suggestions);
     filterForLanguage(suggestions);
 
-    if (isTestingChange("sortAfterSuggestionOrderer")) {
+    if (SuggestionsChanges.isRunningExperiment("sortAfterSuggestionOrderer")) {
       return suggestions.subList(0, Math.min(MAX_SUGGESTIONS, suggestions.size()));
     }
 

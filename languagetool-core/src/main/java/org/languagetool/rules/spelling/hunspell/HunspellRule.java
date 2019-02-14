@@ -40,6 +40,7 @@ import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.Categories;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.spelling.SpellingCheckRule;
+import org.languagetool.rules.spelling.SuggestionsChanges;
 import org.languagetool.rules.spelling.morfologik.suggestions_ordering.NewSuggestionsOrderer;
 import org.languagetool.rules.spelling.morfologik.suggestions_ordering.SuggestionsOrderer;
 import org.languagetool.tools.Tools;
@@ -97,7 +98,8 @@ public class HunspellRule extends SpellingCheckRule {
     this.userConfig = userConfig;
     this.monitorRules = System.getProperty("monitorActiveRules") != null;
 
-     if (isTestingChange("NewSuggestionsOrderer")) {
+
+     if (SuggestionsChanges.isRunningExperiment("NewSuggestionsOrderer")) {
        suggestionsOrderer = new NewSuggestionsOrderer(language, this.languageModel);
      } else {
        suggestionsOrderer = null;
@@ -204,6 +206,7 @@ public class HunspellRule extends SpellingCheckRule {
             filterDupes(suggestions);
 
             if(suggestionsOrderer != null && suggestionsOrderer.isMlAvailable()) {
+              List<String> oldSuggestions = new ArrayList<>(suggestions);
               if (word.endsWith(".")) {
                 suggestions = suggestions.stream().map(s -> s.substring(0, s.length() - 1)).collect(Collectors.toList());
                 suggestions = suggestionsOrderer.orderSuggestionsUsingModel(suggestions, word.substring(0, word.length() - 1), sentence, len, word.length() - 1);
@@ -211,9 +214,12 @@ public class HunspellRule extends SpellingCheckRule {
               } else {
                 suggestions = suggestionsOrderer.orderSuggestionsUsingModel(suggestions, word, sentence, len, word.length());
               }
+              //System.out.printf("Reordered suggestions (%s): %s -> %s%n", suggestionsOrderer.getClass().getSimpleName(), oldSuggestions, suggestions);
+            } else {
+              //System.out.printf("Not reordering suggestions: %s%n", suggestions);
             }
 
-            if (isTestingChange("sortAfterSuggestionOrderer")) {
+            if (SuggestionsChanges.isRunningExperiment("sortAfterSuggestionOrderer")) {
               suggestions = sortSuggestionByQuality(word, suggestions);
             }
 
