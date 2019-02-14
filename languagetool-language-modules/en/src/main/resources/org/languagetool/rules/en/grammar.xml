@@ -8214,6 +8214,10 @@ USA
             <example>Who am <marker>I</marker> talking with?</example>
         </rule>
         <rule id="AM_I" name="missing 'I' in 'am I'">
+            <antipattern>
+                <token case_sensitive="yes">AM</token>
+                <token postag="NN:U"/>
+            </antipattern>
             <pattern>
                 <marker>
                     <token>am<exception scope="previous">I</exception></token>
@@ -8222,6 +8226,8 @@ USA
             </pattern>
             <message>Did you mean <suggestion>am I</suggestion>?</message>
             <example correction="am I">Whom <marker>am</marker> talking with?</example>
+            <example>Whom <marker>am I</marker> talking with?</example>
+            <example>AM broadcasting (radio broadcasting using amplitude modulation)...</example>
         </rule>
         <rulegroup id="SHOULD_BE_DO" name="should be do (done)"> 
             <rule>

@@ -1646,7 +1646,7 @@
     </rule>
     <rule id="BE_VBGNN_VBG" name="be + vbg/nn => vbg">
         <pattern>
-          <token inflected="yes">be<exception>being</exception></token>
+          <token inflected="yes">be<exception>being</exception><exception case_sensitive="yes">AM</exception></token>
           <marker>
             <and>
               <token postag="VBG" regexp="yes">.+ing</token>
@@ -1657,6 +1657,7 @@
         <disambig postag="VBG"/>
         <example type="untouched">He is brave.</example>
         <example type="untouched">It's emaciating.</example>
+        <example type="untouched">AM broadcasting (radio broadcasting using amplitude modulation)...</example>
         <example type="ambiguous" inputform="going[go/VBG,going/NN:UN]" outputform="going[go/VBG]">It's <marker>going</marker> to be a killer feature!</example>                
     </rule>    
     <rule name="be + better => .R" id='BE_BETTER'>
