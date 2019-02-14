@@ -307,6 +307,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
 
+    <rulegroup id="short_vs_long_dash" name="Дефіс замість тире">
+      <rule>
+        <pattern>
+          <token regexp="yes">[а-яіїєґ'-]+</token>
+          <token min="0">,</token>
+          <marker>
+            <token spacebefore="yes">-</token>
+          </marker>
+          <token spacebefore="yes" regexp="yes">[а-яіїєґ'-]+</token>
+        </pattern>
+        <message>Між словами краще ставити тире</message>
+        <suggestion>—</suggestion>
+        <example correction="—">все це <marker>-</marker> йому.</example>
+        <example>10 - 10</example>
+      </rule>
+    </rulegroup>
+
     <!--
         На жаль правило впирається в семантичний рівень, можна хіба що спробувати ловити перед числом або числівником
         <rulegroup name="Зайва кома в оборотах «більш ніж…»" id="NO_COMMA_BEFORE_NIZH">
