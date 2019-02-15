@@ -70,7 +70,7 @@ public class RuleInformation {
     private String langCode;
     private String ruleId;
 
-    public Key(String ruleId, String langCode) {
+    Key(String ruleId, String langCode) {
       this.ruleId = Objects.requireNonNull(ruleId);
       this.langCode = Objects.requireNonNull(langCode);
     }
