@@ -121,7 +121,7 @@ public class LanguageIdentifierTest {
 
     LanguageIdentifier csIdent = new LanguageIdentifier();
     csIdent.enableFasttext(new File(fastTextBinary), new File(fastTextModel));
-    langAssert("zz", czech, csIdent, Arrays.asList("cs"));   // the no-op language
+    langAssert("zz", czech, csIdent, Arrays.asList("cs"), Collections.emptyList());   // the no-op language
   }
 
   @Test
@@ -185,6 +185,43 @@ public class LanguageIdentifierTest {
   }
 
   @Test
+  @Ignore("Only works with locally installed fastText")
+  public void testShortTextsWithPreferredLanguage() {
+    LanguageIdentifier ident = new LanguageIdentifier();
+    List<String> enDePreferred = Arrays.asList("de", "en");
+    List<String> noop = Arrays.asList();
+    ident.enableFasttext(new File(fastTextBinary), new File(fastTextModel));
+
+    // neither en nor de, so we get null:
+    langAssert(null, "Зараз десь когось нема", ident, noop, enDePreferred);
+    // long enough to ignore the preferred languages:
+    langAssert("da", "En to meter lang levende krokodille er blevet fundet i et drivhus i en have i Sveriges tredje største by", ident, noop, enDePreferred);
+    langAssert("da", "Elektriske lamper, gemt bag et loft af mælkehvidt, gennemskinneligt glas, kastede et mildt lys på museets skatt", ident, noop, enDePreferred);
+    
+    // English:
+    //langAssert("en", "Die in peace", ident, noop, enDePreferred);
+    langAssert("en", "Paste text", ident, noop, enDePreferred);
+    langAssert("en", "If the man", ident, noop, enDePreferred);
+    langAssert("en", "If the", ident, noop, enDePreferred);
+    
+    // German:
+    //langAssert("de", "Am 31. September", ident, noop, enDePreferred);
+    //langAssert("de", "Anbei.", ident, noop, enDePreferred);
+    //langAssert("de", "was meinst", ident, noop, enDePreferred);
+    //langAssert("de", "was meinst du?", ident, noop, enDePreferred);
+    //langAssert("de", "Hi Traumfrau", ident, noop, enDePreferred);
+    langAssert("de", "Sehr leckere Sourcreme", ident, noop, enDePreferred);
+    langAssert("de", "Die Menschen in den öst", ident, noop, enDePreferred);
+    langAssert("de", "Den Vogel ", ident, noop, enDePreferred);
+    langAssert("de", "Den Eisenbahner-Esperanto-Kongress im", ident, noop, enDePreferred);
+    
+    try {
+      ident.detectLanguage("fake", noop, Arrays.asList("de", "en-US"));
+      fail("Expected exception");
+    } catch (IllegalArgumentException ignore) { }
+  }
+
+  @Test
   @Ignore("Known to fail due to bug")
   public void textObjectBugForJapanese() {
     // see https://github.com/languagetool-org/languagetool/issues/1278
@@ -200,19 +237,20 @@ public class LanguageIdentifierTest {
     LanguageIdentifier defaultIdent = new LanguageIdentifier();
     langAssert("sk", czech, defaultIdent);  // misdetected, as cz isn't supported by LT
     LanguageIdentifier csIdent = new LanguageIdentifier();
-    langAssert("sk", czech, csIdent, Arrays.asList("cs"));   // no-op language only supported by fastText 
+    langAssert("sk", czech, csIdent, Arrays.asList("cs"), Collections.emptyList());   // no-op language only supported by fastText 
   }
 
   private void langAssert(String expectedLangCode, String text) {
-    langAssert(expectedLangCode, text, identifier, Collections.emptyList());
+    langAssert(expectedLangCode, text, identifier, Collections.emptyList(), Collections.emptyList());
   }
   
   private void langAssert(String expectedLangCode, String text, LanguageIdentifier id) {
-    langAssert(expectedLangCode, text, id, Collections.emptyList());
+    langAssert(expectedLangCode, text, id, Collections.emptyList(), Collections.emptyList());
   }
   
-  private void langAssert(String expectedLangCode, String text, LanguageIdentifier id, List<String> noopLangCodes) {
-    DetectedLanguage detectedLang = id.detectLanguage(text, noopLangCodes);
+  private void langAssert(String expectedLangCode, String text, LanguageIdentifier id, List<String> noopLangCodes,
+                          List<String> preferredLangCodes) {
+    DetectedLanguage detectedLang = id.detectLanguage(text, noopLangCodes, preferredLangCodes);
     String detectedLangCode = detectedLang != null ?
       detectedLang.getDetectedLanguage() != null ? detectedLang.getDetectedLanguage().getShortCode() : null
       : null;

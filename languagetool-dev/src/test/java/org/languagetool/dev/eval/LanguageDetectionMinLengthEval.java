@@ -92,7 +92,7 @@ class LanguageDetectionMinLengthEval {
     int textLength = 1;
     for (int i = line.length(); i > 0; i--) {
       String text = line.substring(0, i);
-      DetectedLanguage detectedLangObj = languageIdentifier.detectLanguage(text, Collections.emptyList());
+      DetectedLanguage detectedLangObj = languageIdentifier.detectLanguage(text, Collections.emptyList(), Collections.emptyList());
       String detectedLang = null;
       if (detectedLangObj != null) {
         detectedLang = detectedLangObj.getDetectedLanguage().getShortCode();

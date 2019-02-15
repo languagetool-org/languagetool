@@ -57,7 +57,8 @@ abstract class TextChecker {
                                         List<RuleMatch> hiddenMatches, String incompleteResultReason);
   @NotNull
   protected abstract List<String> getPreferredVariants(Map<String, String> parameters);
-  protected abstract DetectedLanguage getLanguage(String text, Map<String, String> parameters, List<String> preferredVariants, List<String> additionalDetectLangs);
+  protected abstract DetectedLanguage getLanguage(String text, Map<String, String> parameters, List<String> preferredVariants,
+                                                  List<String> additionalDetectLangs, List<String> preferredLangs);
   protected abstract boolean getLanguageAutoDetect(Map<String, String> parameters);
   @NotNull
   protected abstract List<String> getEnabledRuleIds(Map<String, String> parameters);
@@ -210,7 +211,9 @@ abstract class TextChecker {
     }
     List<String> noopLangs = parameters.get("noopLanguages") != null ?
             Arrays.asList(parameters.get("noopLanguages").split(",")) : Collections.emptyList();
-    DetectedLanguage detLang = getLanguage(aText.getPlainText(), parameters, preferredVariants, noopLangs);
+    List<String> preferredLangs = parameters.get("preferredLanguages") != null ?
+            Arrays.asList(parameters.get("preferredLanguages").split(",")) : Collections.emptyList();
+    DetectedLanguage detLang = getLanguage(aText.getPlainText(), parameters, preferredVariants, noopLangs, preferredLangs);
     Language lang = detLang.getGivenLanguage();
     Integer count = languageCheckCounts.get(lang.getShortCodeWithCountryAndVariant());
     if (count == null) {
@@ -477,8 +480,9 @@ abstract class TextChecker {
     return result;
   }
 
-  DetectedLanguage detectLanguageOfString(String text, String fallbackLanguage, List<String> preferredVariants, List<String> noopLangs) {
-    DetectedLanguage detected = identifier.detectLanguage(text, noopLangs);
+  DetectedLanguage detectLanguageOfString(String text, String fallbackLanguage, List<String> preferredVariants,
+                                          List<String> noopLangs, List<String> preferredLangs) {
+    DetectedLanguage detected = identifier.detectLanguage(text, noopLangs, preferredLangs);
     Language lang;
     if (detected == null) {
       lang = Languages.getLanguageForShortCode(fallbackLanguage != null ? fallbackLanguage : "en");

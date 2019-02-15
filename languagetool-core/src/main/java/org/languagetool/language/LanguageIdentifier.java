@@ -51,6 +51,8 @@ public class LanguageIdentifier {
   private static final double MINIMAL_CONFIDENCE = 0.9;
   private static final int K_HIGHEST_SCORES = 5;
   private static final int SHORT_ALGO_THRESHOLD = 50;
+  // texts shorter than this will *only* consider preferred languages (if set):
+  private static final int CONSIDER_ONLY_PREFERRED_THRESHOLD = 50;
   private static final Pattern SIGNATURE = Pattern.compile("\n-- \n.*", Pattern.DOTALL);
 
   // ast and gl often prevent the correct detection of Spanish (as the are quite similar
@@ -158,7 +160,7 @@ public class LanguageIdentifier {
    */
   @Nullable
   public Language detectLanguage(String text) {
-    DetectedLanguage detectedLanguage = detectLanguage(text, Collections.emptyList());
+    DetectedLanguage detectedLanguage = detectLanguage(text, Collections.emptyList(), Collections.emptyList());
     if (detectedLanguage == null) {
       return null;
     }
@@ -171,7 +173,7 @@ public class LanguageIdentifier {
   @Nullable
   @Experimental
   DetectedLanguage detectLanguageWithDetails(String text) {
-    DetectedLanguage detectedLanguage = detectLanguage(text, Collections.emptyList());
+    DetectedLanguage detectedLanguage = detectLanguage(text, Collections.emptyList(), Collections.emptyList());
     if (detectedLanguage == null) {
       return null;
     }
@@ -184,7 +186,13 @@ public class LanguageIdentifier {
    * @since 4.4 (new parameter noopLangs, changed return type to DetectedLanguage)
    */
   @Nullable
-  public DetectedLanguage detectLanguage(String text, List<String> noopLangs) {
+  public DetectedLanguage detectLanguage(String text, List<String> noopLangs, List<String> preferredLangs) {
+    Objects.requireNonNull(noopLangs);
+    Objects.requireNonNull(preferredLangs);
+    if (preferredLangs.stream().anyMatch(k -> k.contains("-"))) {
+      throw new IllegalArgumentException("preferredLanguages may only contain language codes without variants (e.g. 'en', but not 'en-US'): " +
+        preferredLangs + ". Use 'preferredVariants' to specify variants");
+    }
     String shortText = text.length() > maxLength ? text.substring(0, maxLength) : text;
     shortText = textObjectFactory.forText(shortText).toString();
     Map.Entry<String,Double> result = null;
@@ -206,6 +214,12 @@ public class LanguageIdentifier {
               scores.put(langCode, Double.valueOf(entry.getValue()));
             }
           }
+          result = getHighestScoringResult(scores);
+        }
+        if (text.length() < CONSIDER_ONLY_PREFERRED_THRESHOLD && preferredLangs.size() > 0) {
+          //System.out.println("remove? " + preferredLangs + " <-> " + scores);
+          scores.keySet().removeIf(k -> !preferredLangs.contains(k));
+          //System.out.println("-> " + b + " ==> " + scores);
           result = getHighestScoringResult(scores);
         }
         // Calculate a trivial confidence value because fasttext's confidence is often

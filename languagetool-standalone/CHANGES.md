@@ -18,6 +18,14 @@
 #### General
   * bug fix: don't make `interpretAs` part of getTextWithMarkup() (#1393)
 
+#### HTTP API / LT server
+  * Experimental new parameter `preferredLanguages`: up to a certain limit (currently
+    50 characters), only these languages will be considered for language detection.
+    This has to be a comma-delimited list of language codes without variants (e.g.
+    use 'en', not 'en-US'). 
+    This only works with fasttext configured as the language detector.
+
+
 
 ## 4.4.1 (2019-01-14)
 
