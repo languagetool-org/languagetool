@@ -667,16 +667,29 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </pattern>
         <disambig action="remove" postag="VER.*"/>
     </rule>
-    <rule name="Ich am Satzanfang" id="ICH_SENT_START">
-        <pattern case_sensitive="yes">
-            <token postag="SENT_START"/>
-            <marker>
-                <token>Ich</token>
-            </marker>
-            <token postag="VER:1:.+" postag_regexp="yes"/>
-        </pattern>
-        <disambig action="remove" postag="SUB:.*:NEU"/>
-    </rule>
+    <rulegroup id="ICH_VERB" name="Ich am Satzanfang">
+        <rule>
+            <pattern>
+                <token postag="SENT_START"></token>
+                <token case_sensitive="yes">Ich</token>
+                <marker>
+                    <token postag="VER:.*1:SIN:.+" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöü]+e</token>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="VER.*:(3|IMP):.+"/>
+            <example type="ambiguous" inputform="sage[sagen/VER:1:SIN:KJ1:SFT,sagen/VER:1:SIN:PRÄ:SFT,sagen/VER:3:SIN:KJ1:SFT,sagen/VER:IMP:SIN:SFT]" outputform="sage[sagen/VER:1:SIN:KJ1:SFT,sagen/VER:1:SIN:PRÄ:SFT]">Ich <marker>sage</marker> ihr die Wahrheit.</example>
+        </rule>
+        <rule name="Ich am Satzanfang" id="ICH_SENT_START">
+            <pattern case_sensitive="yes">
+                <token postag="SENT_START"/>
+                <marker>
+                    <token>Ich</token>
+                </marker>
+                <token postag="VER:1:.+" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="remove" postag="SUB:.*:NEU"/>
+        </rule>
+    </rulegroup>
     <rulegroup name="VER -> PA2" id="VER_PA2">
         <rule>
             <pattern case_sensitive="yes">
@@ -874,7 +887,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rulegroup id="KONJUNKTIV" name="Konjunktiv">
         <rule>
             <pattern>
-                <token regexp="yes">er|sie|es</token>
+                <token regexp="yes">e[rs]|sie</token>
                 <marker>
                     <token postag="VER:.*3:SIN:.+" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöü]+e</token>
                 </marker>
@@ -904,19 +917,6 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             </pattern>
             <disambig action="remove" postag="VER.*:(3|IMP):.+"/>
             <example type="ambiguous" inputform="sage[sagen/VER:1:SIN:KJ1:SFT,sagen/VER:1:SIN:PRÄ:SFT,sagen/VER:3:SIN:KJ1:SFT,sagen/VER:IMP:SIN:SFT]" outputform="sage[sagen/VER:1:SIN:KJ1:SFT,sagen/VER:1:SIN:PRÄ:SFT]">Weil sie es wollte, <marker>sage</marker> ich ihr diw Wahrheit.</example>
-        </rule>
-    </rulegroup>
-    <rulegroup id="ICH_VERB" name="Ich am Satzanfang">
-        <rule>
-            <pattern>
-                <token postag="SENT_START"></token>
-                <token case_sensitive="yes">Ich</token>
-                <marker>
-                    <token postag="VER:.*1:SIN:.+" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöü]+e</token>
-                </marker>
-            </pattern>
-            <disambig action="remove" postag="VER.*:(3|IMP):.+"/>
-            <example type="ambiguous" inputform="sage[sagen/VER:1:SIN:KJ1:SFT,sagen/VER:1:SIN:PRÄ:SFT,sagen/VER:3:SIN:KJ1:SFT,sagen/VER:IMP:SIN:SFT]" outputform="sage[sagen/VER:1:SIN:KJ1:SFT,sagen/VER:1:SIN:PRÄ:SFT]">Ich <marker>sage</marker> ihr die Wahrheit.</example>
         </rule>
     </rulegroup>
     <rulegroup id="TASCHENMESSER" name="Taschenmesser">
@@ -1963,7 +1963,14 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
-
+    <rule name="Air Force One" id="AIR_FORCE_ONE">
+        <pattern case_sensitive="yes">
+            <token>Air</token>
+            <token>Force</token>
+            <token>One</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
     <rule name="cui bono" id="CUI_BONO">
         <pattern>
             <token>cui</token>
