@@ -35,7 +35,6 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.languagetool.language.English;
 import org.languagetool.language.German;
-import org.languagetool.language.German;
 import org.languagetool.tools.Tools;
 
 public class AtomFeedCheckerTest {

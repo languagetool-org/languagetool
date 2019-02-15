@@ -16039,7 +16039,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="SIE_DIALOG" name="Erlauben sie (Sie)?">
             <rule>
                 <pattern case_sensitive='yes'>
-                    <token regexp='yes'>Erlauben|Gestatten</token>
+                    <token regexp='yes'>Erlauben|Gestatten|Verzeihen</token>
                     <marker>
                         <token>sie</token>
                     </marker>
@@ -16319,7 +16319,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="ZAHLWOERTER" name="Großschreibung von Zahlwörtern">
             <rule>
                 <pattern>
-                    <token inflected="yes">bekommen</token>
+                    <token inflected="yes" regexp="yes">bekommen|verdienen|erhalten</token>
                     <token>eine</token>
                     <token min="0">glatte</token>
                     <marker>
@@ -17397,23 +17397,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token regexp="yes">gnade|milde</token>
                     </marker>
                     <token>walten</token>
-                    <token inflected="yes">lassen</token>
                 </pattern>
                 <message>&subanfang;<suggestion><match no="1" case_conversion="startupper"/></suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example correction="Gnade">Wir haben <marker>gnade</marker> walten lassen.</example>
                 <example correction="Milde">Wir haben <marker>milde</marker> walten lassen.</example>
-            </rule>
-            <rule>
-                <pattern case_sensitive="yes">
-                    <token inflected="yes">lassen</token>
-                    <marker>
-                        <token regexp="yes">gnade|milde</token>
-                    </marker>
-                    <token>walten</token>
-                </pattern>
-                <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
-                <short>&prgk;.</short>
                 <example correction="Gnade">Wir ließen <marker>gnade</marker> walten.</example>
                 <example correction="Milde">Wir ließen <marker>milde</marker> walten.</example>
             </rule>
