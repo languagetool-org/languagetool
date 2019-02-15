@@ -708,12 +708,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token postag="ZUS"></token>
                     <token postag="VER:INF:.+|PKT" postag_regexp="yes">
+                        <exception postag="SUB:.+" postag_regexp="yes"/>
                     </token>
                 </pattern>
                 <message>Möglicher Tippfehler: Meinten Sie <suggestion>ihm</suggestion>?</message>
                 <short>Möglicher Tippfehler</short>
                 <example correction="ihm">Er schaffte es nicht, sich bei <marker>im</marker> zu bedanken.</example>
                 <example correction="ihm">Sie schaute <marker>im</marker> zu.</example>
+                <example>Tom ist nicht besonders gut im rückwärts Einparken.</example>
             </rule>
         </rulegroup>
         <rule id="SEIN_MONATEN" name="sein (seit) Jahren etc.">
@@ -721,7 +723,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token regexp="yes" skip="1">sei[dn]</token>
                 </marker>
-                <token regexp="yes">Sekunden|Minuten|Stunden|Tagen|Wochen|Monaten|Jahren|Jahrzehnten|Jahrhunderten</token>
+                <token regexp="yes">Sekunden|Minuten|Stunden|Tagen|Wochen|Monaten|Jahr(zent|hundert)?en</token>
             </pattern>
             <message>Meinten Sie <suggestion>seit</suggestion>?</message>
             <example correction="Seit"><marker>Sein</marker> Monaten nervt er mich.</example>
@@ -1336,7 +1338,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token>Seher</token>
                 </marker>
-                <token regexp="yes">geehrter?</token>
+                <token regexp="yes">geehrter?|verehrter?</token>
             </pattern>
             <message>Meinten Sie <suggestion>Sehr</suggestion>?</message>
             <short>Möglicher Tippfehler</short>
@@ -1670,7 +1672,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>gegen</token>
                     </marker>
-                    <token regexp="yes">wurde|werden</token>
+                    <token regexp="yes">w[uü]rden?|werden?</token>
                 </pattern>
                 <message>Meinten Sie <suggestion>gegeben</suggestion>?</message>
                 <example correction="gegeben">Man hat herausgefunden, dass ihnen wenig <marker>gegen</marker> wurde.</example>
@@ -3821,7 +3823,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">ich|wir</token>
+                    <token regexp="yes">ich|wir|du</token>
                     <marker>
                         <token>seid</token>
                     </marker>
@@ -3973,7 +3975,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="DENN_DEN" name="'aber denn (dann)'">
             <rule>
                 <pattern>
-                    <token regexp="yes">aber|doch|und</token>
+                    <token regexp="yes" postag="KON:NEB">aber|doch|und|oder</token>
                     <marker>
                         <token>denn</token>
                     </marker>
@@ -4110,7 +4112,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token>dem</token>
                 </marker>
-                <token>ersten</token>
+                <token regexp="yes">ersten|zweiten</token>
                 <token>Blick</token>
             </pattern>
             <message>Meinten Sie: auf <suggestion>den</suggestion> ersten Blick?</message>
@@ -4850,7 +4852,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="OSTEN_OSTERN" name="frohe Osten / Ostern">
             <pattern>
-                <token regexp="yes">frohe|fröhliche|gesegnete|schöne|vor|zu</token>
+                <token regexp="yes">an|frohe|fröhliche|gesegnete|schöne|vor|zu</token>
                 <marker>
                     <token case_sensitive="yes">Osten</token>
                 </marker>
@@ -4929,7 +4931,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token inflected="yes">zeigen</token>
-                    <marker><token>Präsens</token></marker>
+                    <marker><token regexp="yes">Präsen[st]</token></marker>
                 </pattern>
                 <message>Meinten Sie '<suggestion>Präsenz</suggestion> zeigen' (= anwesend sein)?</message>
                 <short>Mögliche Wortverwechslung</short>
@@ -4946,8 +4948,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token inflected="yes">schießen</token>
                 </antipattern>
                 <pattern>
-                    <token inflected="yes" regexp="yes">Akte|Fenster|Frieden|Lücke|Pforte|.*Tür|Vertrag</token>
-                    <token min="0">nicht</token>
+                    <token inflected="yes" regexp="yes">Akte|Betrieb|Geschäft|Fenster|Frieden|Lücke|Pforte|.*Tür|Vertrag</token>
+                    <token min="0" regexp="yes">nicht|zu</token>
                     <marker><token inflected="yes" regexp="yes">(ab|ver)?schießen</token></marker>
                 </pattern>
                 <message>Meinten Sie <suggestion><match no="3" regexp_match="sch" regexp_replace="schl"/></suggestion>?</message>
@@ -4955,11 +4957,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="abgeschlossen">Weil er die Tür nicht <marker>abgeschossen</marker> hat, konnten Einbrecher leicht ins Haus.</example>
                 <example>Er hat mehrmals durch die geschlossene Tür <marker>geschossen</marker>.</example>
                 <example correction="verschlossen">War die Tür <marker>verschossen</marker>?</example>
+                <example correction="schließen">Er versprach, die Tür zu <marker>schießen</marker>.</example>
             </rule>
             <rule>
                 <pattern>
                     <marker><token inflected="yes" skip="1">schießen</token></marker>
-                    <token inflected="yes" regexp="yes">Akte|Fenster|Frieden|Kleid|Lücke|Pforte|.*Tür|Vertrag</token>
+                    <token inflected="yes" regexp="yes">Akte|Betrieb|Geschäft|Fenster|Frieden|Kleid|Lücke|Pforte|.*Tür|Vertrag</token>
                 </pattern>
                 <message>Meinten Sie <suggestion><match no="1" regexp_match="sch" regexp_replace="schl"/></suggestion>?</message>
                 <example correction="schloss">Er <marker>schoss</marker> die Tür und setzte sich an den Tisch.</example>
@@ -5277,7 +5280,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="CHAMPIGNON_CHAMPION" name="Champignon/Champion">
             <rule>
                 <pattern>
-                    <token regexp="yes">Dosen?|P(izz|ast)a|Nudeln|Soße|Sauce</token>
+                    <token regexp="yes">Dosen?|P(izz|ast)a|Nudeln|Soße|Sauce|Salat</token>
                     <token>mit</token>
                     <marker>
                         <token>Champions</token>
@@ -5305,7 +5308,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token regexp="yes">Champions?</token>
                     </marker>
                     <token skip="1">aus</token>
-                    <token regexp="yes">Dosen?|Gl(as|äsern?)</token>
+                    <token regexp="yes" inflected="yes">Dose|Glas</token>
                 </pattern>
                 <message>&verw;Meinten Sie <suggestion><match no="1" regexp_match="^Champion" regexp_replace="Champignon"/></suggestion> (Speisepilz)?</message>
                 <short>Mögliche Wortverwechslung</short>
@@ -5972,6 +5975,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <antipattern>
                     <token case_sensitive="yes">Das</token>
+                    <token min="0" postag="ADV(:MOD\+TMP)?" postag_regexp="yes"/>
                     <token postag="VER:.*|UNKNOWN" postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
@@ -5995,7 +5999,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <marker>
                         <token case_sensitive="yes" skip="-1">Das
-                           <exception scope="next" regexp="yes">,|\.|:|\?|!|;|-|–|\)|\(|„|“|»|«|"|und|oder</exception>
+                           <exception scope="next" regexp="yes">,|\.|:|\?|!|;|-|–|\)|\(|„|“|»|«|"|und|oder|was</exception>
                         </token>
                     </marker>
                     <token skip="-1" postag="SUB:NOM.*|EIG:NOM.*|PRO:PER.*|UNKNOWN" postag_regexp="yes"/>
@@ -6005,7 +6009,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <url>https://www.duden.de/rechtschreibung/dass#bi-artikel-div-block_1</url>
                 <example correction="Dass"><marker>Das</marker> er sie liebt, sagt er.</example>
                 <example correction="Dass"><marker>Das</marker> er sie liebt, hat er geschrieben.</example>
-            </rule>
+                <example>Das eben ist der Witz, dass sie es nicht wusste.</example>
+           </rule>
            <rule>
                 <antipattern>
                     <token>,</token>
@@ -6146,7 +6151,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="DASS_MIT_SUBJUNKTION" name="'weil dass (das)' etc.">
             <rule>
                 <pattern>
-                    <token regexp="yes">bevor|dass|indem|nachdem|ob(wohl|gleich)|so(dass|fern|lange)|weil</token>
+                    <token regexp="yes">bevor|dass|indem|nachdem|ob(wohl|gleich)?|so(dass|fern|lange)|weil</token>
                     <marker>
                         <token>dass</token>
                     </marker>
@@ -6235,7 +6240,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token inflected='yes' regexp='yes'>Bedenken|Forderung|Haltung</token>
                 </pattern>
-                <message>Meinten Sie <suggestion><match no="1" regexp_match="[Ee]thni" regexp_replace="ethi"/></suggestion>?</message>
+                <message>Meinten Sie <suggestion><match no="1" regexp_match="thni" regexp_replace="thi"/></suggestion>?</message>
                 <example correction="ethische">Dagegen bestehen <marker>ethnische</marker> Bedenken.</example>
             </rule>
         </rulegroup>
@@ -39195,6 +39200,31 @@ Andere Projekte</example>
                 <example>Wer will welches?</example>
                 <example>Aber welche Fragen waren in der Umfrage vertreten?</example>
                 <example>Die Haustür wurde aufgeschlossen und es kamen welche ins Haus rein.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token regexp="yes">Alles|Das|Nichts</token>
+                    </marker>
+                    <token>was</token>
+                </pattern>
+                <message>Sollten Sie hier ein Komma nach '\1' einfügen (Relativsatz)?</message>
+                <suggestion>\1,</suggestion>
+                <example correction="Das,"><marker>Das</marker> was zählt, ist Liebe.</example>
+                <example correction="Alles,"><marker>Alles</marker> was ich besitze, ist in meinem Rucksack.</example>
+                <example correction="Nichts,"><marker>Nichts</marker> was man von Geld kaufen kann, macht wirklich glücklich.</example>
+                <example>Alles, was man anfassen kann, ist ein Namenwort und wird großgeschrieben.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token regexp="yes">Dort|Hier</token>
+                    </marker>
+                    <token>wo</token>
+                </pattern>
+                <message>Sollten Sie hier ein Komma nach '\1' einfügen (Relativsatz)?</message>
+                <suggestion>\1,</suggestion>
+                <example correction="Dort,"><marker>Dort</marker> wo du wohnst, gibt es dort Blumen?</example>
             </rule>
         </rulegroup>
         <rulegroup id="FEHLERHAFTES_KOMMA_ALLG" name="Fehlerhaftes Komma">
