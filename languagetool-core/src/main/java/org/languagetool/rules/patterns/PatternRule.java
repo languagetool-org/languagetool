@@ -20,10 +20,13 @@ package org.languagetool.rules.patterns;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import org.languagetool.AnalyzedSentence;
+import org.languagetool.Experimental;
 import org.languagetool.Language;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 import org.languagetool.tools.StringTools;
 
 /**
@@ -112,6 +115,54 @@ public class PatternRule extends AbstractPatternRule {
       boolean isMember) {
     this(id, language, patternTokens, description, message, shortMessage, suggestionsOutMsg);
     this.isMemberOfDisjunctiveSet = isMember;
+  }
+
+  /**
+   * A number that estimates how many words there must be after a match before we
+   * can be (relatively) sure the match is valid. This is useful for check-as-you-type,
+   * where a match might occur and the word that gets typed next makes the match
+   * disappear (something one would obviously like to avoid).
+   * Note: this may over-estimate the real context size. 
+   * @since 4.5
+   */
+  @Experimental
+  public int estimateContextForSureMatch() {
+    int extendAfterMarker = 0;
+    boolean markerSeen = false;
+    boolean infinity = false;
+    for (PatternToken pToken : this.patternTokens) {
+      if (markerSeen && !pToken.isInsideMarker()) {
+        extendAfterMarker++;
+      }
+      if (pToken.isInsideMarker()) {
+        markerSeen = true;
+      }
+      if (pToken.getSkipNext() == -1) {
+        infinity = true;
+        break;
+      } else {
+        extendAfterMarker += pToken.getSkipNext();
+      }
+    }
+    List<Integer> antiPatternLengths = antiPatterns.stream().map(p -> p.patternTokens.size()).collect(Collectors.toList());
+    int longestAntiPattern = antiPatternLengths.stream().max(Comparator.comparing(i -> i)).orElse(0);
+    int longestSkip = 0;
+    for (DisambiguationPatternRule antiPattern : antiPatterns) {
+      for (PatternToken token : antiPattern.getPatternTokens()) {
+        if (token.getSkipNext() == -1) {
+          infinity = true;
+          break;
+        } else if (token.getSkipNext() > longestSkip) {
+          longestSkip = token.getSkipNext();
+        }
+      }
+    }
+    //System.out.println("extendAfterMarker: " + extendAfterMarker + ", antiPatternLengths: " + antiPatternLengths + ", longestSkip: " + longestSkip);
+    if (infinity) {
+      return Integer.MAX_VALUE;
+    } else {
+      return extendAfterMarker + Math.max(longestAntiPattern, longestAntiPattern + longestSkip);
+    }
   }
 
   /**
