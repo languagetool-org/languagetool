@@ -786,6 +786,17 @@
     </rule>
   </rulegroup>
 
+        <rule id="NO_SPACE_CLOSING_QUOTE" name="Espazos: comiñas de peche">
+    <!-- Localized from English by Tiago F. Santos, 2019-02-10 -->
+            <pattern>
+                <token>”</token>
+                <token regexp='yes' spacebefore='no'>\w+</token>
+            </pattern>
+            <message>Debe ter espazo despois de pechar comiñas.</message>
+            <suggestion>\1 \2</suggestion>
+            <example correction="” dixo">“Bo día, Frank,<marker>”dixo</marker> o Hal.</example>
+        </rule>
+
   <rulegroup id="UNITS_OF_MEASURE_SPACING" name="Espazos en unidades de medida">
     <!-- Localized from German by Tiago F. Santos, Portuguese rule, 2017-09-29 -->
     <!--url>https://ciberduvidas.iscte-iul.pt/consultorio/preguntas/simbolos-de-unidades/11572</url TODO localize -->
@@ -2220,7 +2231,7 @@
       <example correction="roda.">Existen dúas estratexias posíbeis: aproveitar o que existe ou reinventar a <marker>roda .</marker></example>
     </rule>
     <rule>
-      <regexp>\b([\p{L}\d]+) ([:;])(?!-?[()/])</regexp>
+      <regexp>\b([\p{L}\d]+) ([:;])(?!-?[()/D])</regexp>
       <message>Remova o espazo antes deste sinal de puntuación.</message>
         <suggestion>\1\2</suggestion>
       <example correction="posíbeis:">Existen dúas estratexias <marker>posíbeis :</marker> aproveitar o que existe ou reinventar a roda.</example>
@@ -2229,6 +2240,7 @@
       <example>Un sorriso :(</example>
       <example>Un sorriso :-/</example>
       <example>Un sorriso :/</example>
+      <example>Un sorriso :D</example>
     </rule>
   </rulegroup>
 
@@ -4560,7 +4572,7 @@
     </rule -->
 
  </category>
-
+ 
  <category id='DEVELOPMENT' name="Desenvolvemento" type="grammar" default='off'>
 
     <rule id="UNKNOWN_WORD" name="Desenvolvemento: palabra sen POS">

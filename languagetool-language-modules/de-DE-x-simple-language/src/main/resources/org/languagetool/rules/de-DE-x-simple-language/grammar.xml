@@ -38,36 +38,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
         <rule id="PRAETERITUM" name="Leichte Sprache: Perfekt vs. Präteritum">
             <pattern>
-                <token postag='VER:.*PRT.*' postag_regexp='yes'><exception postag='VER:(MOD|AUX):.+' postag_regexp='yes'/></token> 
+                <token postag='VER:.*PRT.*' postag_regexp='yes'><exception postag='VER:(MOD|AUX):.+|PA2:PRD:GRU:VER' postag_regexp='yes'/></token>
             </pattern>
-            <message>Vermeiden Sie die 1. Vergangenheit (Präteritum). Schreiben Sie in der 2. Vergangenheit. Verwenden Sie das Perfekt.</message>
+            <message>Vermeiden Sie die 1. Vergangenheit (Präteritum). Schreiben Sie in der 2. Vergangenheit (Perfekt).</message>
             <short>1. Vergangenheit vermeiden</short>
             <example correction="">Ich <marker>ging</marker> einkaufen.</example>
             <example>Ich bin einkaufen gegangen.</example>
             <example>Er musste gestern kommen.</example>
-        </rule>
-
-        <rule id="METAPHERN" name="Leichte Sprache: Metaphern">
-            <pattern>
-                <token inflected='yes' regexp='yes'>Wiegenfest|Nahverkehr|Fernverkehr|Lichtbild|Bärendienst|Kurschatten|Mauerblümchen|Erdbeermund|Gänsehaut|Pustekuchen|Gardinenpredigt|Orangenhaut|Gipfeltreffen|Honigkuchenpferd|Rabeneltern|Stimmungskanone|Hausdrache|Gaumenschmeichler|Glückspilz|Baumkrone|Sternstunde|Warteschlange|Menschenschlange|Strohfeuer|Wüstenschiff|Zahlenfriedhof|Kaderschmiede|Zwickmühle|Augenweide|Augenschmaus|Hexenkessel|Hosenstall|Stubentiger|Couchsurfer|Lampenfieber|Rohrkrepierer|Hanswurst|Goldmarie|Sternstunden|Helikoptereltern|Schwarzmalerei|Augenwischerei|Eselsbrücke|Kredithai|Torschlusspanik|Dreikäsehoch|Hanswurst</token>
-            </pattern>
-            <message>Verwenden Sie keine schwierigen Begriffe. Vermeiden Sie Metaphern und bildhafte Sprache.</message>
-            <short>Metaphern vermeiden</short>
-            <example>Sie haben ihm damit geschadet.</example>
-            <example correction="">Sie erwiesen ihm einen <marker>Bärendienst</marker>.</example>
-            <example correction="">Sie erwiesen ihm <marker>Bärendienste</marker>.</example>
-            <example correction="">Dafür gibt es keine <marker>Eselsbrücken</marker>.</example>
-        </rule>
-
-        <rule id="SCHWIERIGE_WOERTER" name="Leichte Sprache: schwierige Wörter">
-            <pattern>
-                <token inflected='yes' regexp='yes'>abnor+|ambi.+|anti.+|asy.+|auth.+|diffizil|ge(nehmigen|statten)|hemi.+|hy.+|kontra.+|mono.+|neo.+|omni.+|ortho.+|poly.+|prä.+|pseudo.+|retro.+|rhy.+|semi.+|sy[mn].+|theo.*|zy.+|.+ismus|.+phobien?|.+nym</token>
-            </pattern>
-            <message>Verwenden Sie keine schwierigen Begriffe. Vermeiden Sie schwierige Wörter und Fremdwörter.</message>
-            <short>Schwierige Wörter vermeiden</short>
-            <example>Sie hat es ihm erlaubt.</example>
-            <example correction="">Sie hat es ihm <marker>gestattet</marker>.</example>
-            <example correction="">Eine <marker>asymmetrische</marker> Anordnung.</example>
+            <example>Er behauptet, dass sie die Tat verschwiegen hat.</example>
         </rule>
 
         <rule id="FUSSNOTE" name="Leichte Sprache: Fußnote">
@@ -92,14 +70,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Peter will gehen.</example>
         </rule>
         
-        <rule id="LANGES_WORT" name="Leichte Sprache: Langes Wort">
-            <pattern>
-                <token regexp="yes">\p{L}{14,}</token>
-            </pattern>
-            <message>Dieses Wort hat mehr als dreizehn Buchstaben. Benutzen Sie kurze Wörter.</message>
-            <example>Die Schifffahrt auf der Donau ist beliebt.</example>
-            <example correction="">Die <marker>Donaudampfschifffahrt</marker> ist beliebt.</example>
-        </rule>
         <rulegroup id="NEBENSAETZE" name="Leichte Sprache: Nebensätze">
             <rule>
                 <pattern>
@@ -298,6 +268,33 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Vermeiden Sie Infinitivsätze.</message>
                 <example correction="">Das <marker>zuzugeben,</marker> fällt ihm schwer.</example>
             </rule>
+            <rule>
+                <antipattern>
+                    <token skip="-1" regexp="yes">so|wie</token>
+                    <token>,</token>
+                    <token regexp="yes">wie|so</token>
+                </antipattern>
+                <pattern>
+                    <token postag="SUB:.+" postag_regexp="yes"><exception postag="ADV:MOD"></exception></token>
+                    <token postag="PKT">,</token>
+                    <marker><token postag="KON:UNT"></token></marker>
+                    <token skip="-1"></token>
+                    <token postag="SENT_END">.</token>
+                </pattern>
+                <message>Vermeiden Sie Nebensätze.</message>
+                <example correction="">Studien, <marker>dass</marker> Obst und Gemüse gesund sind, gibt es viele.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SUB:.+" postag_regexp="yes"><exception postag="ADV:MOD"/></token>
+                    <token postag="PKT">,</token>
+                    <marker><token postag="ADV:INR"></token></marker>
+                    <token skip="-1"></token>
+                    <token postag="SENT_END">.</token>
+                </pattern>
+                <message>Vermeiden Sie Nebensätze.</message>
+                <example correction="">Seine Antwort auf die Frage, <marker>wann</marker> er angekommen war, war unbefriedigend.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="RELATIVSAETZE" name="Leichte Sprache: Relativsätze">
             <rule>
@@ -344,73 +341,33 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Ich badete gerade, als das Telefon klingelte.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="ABKUERZUNG" name="Leichte Sprache: Abkürzung">
-            <rule>
-                <pattern>
-                    <token regexp="yes">\p{Lu}{2,}</token>
-                </pattern>
-                <message>Abkürzung gefunden. Verzichten Sie auf Abkürzungen.</message>
-                <example>Das <marker>Köchelverzeichnis</marker> ist ein Verzeichnis der Kompositionen von Mozart.</example>
-                <example correction="">Das <marker>KV</marker> ist ein Verzeichnis der Kompositionen von Mozart.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token regexp="yes">\p{L}</token><token>.</token>
-                    <token regexp="yes">\p{L}</token><token>.</token>
-                    <token regexp="yes">\p{L}</token><token>.</token>
-                </pattern>
-                <message>Abkürzung gefunden. Verzichten Sie auf Abkürzungen.</message>
-                <example>Die Sozialdemokratische Partei Deutschlands.</example>
-                <example correction="">Die <marker>S.P.D.</marker></example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token regexp="yes">\p{L}</token>
-                    <token spacebefore="no">.</token>
-                    <token regexp="yes">\p{L}</token>
-                    <token spacebefore="no">.</token>
-                </pattern>
-                <message>Abkürzung gefunden. Verzichten Sie auf Abkürzungen.</message>
-                <example correction="">Der Tiger ist <marker>z. B.</marker> ein Tier.</example>
-                <example correction="">Er ist krank, <marker>d. h.</marker> er kann nicht kommen.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token regexp="yes">Tel|Temp|trans|Tsd|übertr|übl|ff|überarb|ugs|univ|unveränd|urspr|usw|vgl|Vol|vollst|vorm|etc|Vp|Vs|vs|wesentl|wg|Hd|Ztr|zus|Zus|zzt?|zzgl|Zz|Zt|Min|Bzgl|bzgl|bezügl|Frhr|ggfs|insb|autom|MwSt|hebr|hg|hl|Hg|hist|hochd|hochspr|Hptst|Hr|hrsg|Allg|ill|inkl|incl|Ind|Inf|Ing|ital|Tr|jap|Jb|Jg|Jhd?|Jhdts?|jmdm?|jmdn|jmds|jur|Kap|kart|kath|kaufm|Kfm|kgl|Kl|Konj|königl|Krs|Kr|Kto|bzw</token>
-                    <token spacebefore="no">.</token>
-                </pattern>
-                <message>Abkürzung gefunden. Verzichten Sie auf Abkürzungen.</message>
-                <example correction="">Das ist <marker>Hr.</marker> Meier.</example>
-                <example>Das ist Herr <marker>Meier</marker>.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token postag_regexp="yes" postag="ABK:.*"><exception regexp="yes">\p{L}</exception></token>
-                </pattern>
-                <message>Abkürzung gefunden. Verzichten Sie auf Abkürzungen.</message>
-                <example>Wir brauchen Milch, Eier <marker>und so weiter</marker>.</example>
-                <example correction="">Wir brauchen Milch, Eier <marker>usw</marker>.</example>
-            </rule>
-        </rulegroup>
 
         <rulegroup id="PASSIV" name="Leichte Sprache: Passiv">
             <rule>
+                <antipattern>
+                    <token skip="3">,</token>
+                    <token inflected="yes" postag_regexp="yes" postag=".*:KJ.:.*" skip="-1">werden</token>
+                    <token postag_regexp="yes" postag="VER:INF:.+"/>
+                    <token postag="PKT"></token>
+                </antipattern>
                 <pattern>
                     <token inflected="yes" postag_regexp="yes" postag="VER:AUX:.*" skip="-1">werden</token>
                     <marker>
                         <token postag_regexp="yes" postag="PA2:PRD:.*|VER:PA2:.*"/>
                     </marker>
                 </pattern>
-                <message>In diesem Satz haben Sie das Passiv verwendet. Benutzen Sie aktive Wörter.</message>
+                <message>Passiv gefunden. Benutzen Sie aktive Wörter.</message>
                 <example>Jemand feuerte den Manager.</example>
                 <example correction="">Der Manager wurde <marker>gefeuert</marker>.</example>
+                <example correction="">Der Manager wurde <marker>gefeuert</marker>.</example>
+                <example>Sie nimmt an, er werde das vergessen.</example>
             </rule>
             <rule>
                 <pattern>
                     <token postag_regexp="yes" postag="PA2:PRD:.*|VER:PA2:.*"/>
                     <token inflected="yes" postag_regexp="yes" postag="VER:AUX:.*"><exception>,</exception>werden</token>
                 </pattern>
-                <message>In diesem Satz haben Sie das Passiv verwendet. Benutzen Sie aktive Wörter.</message>
+                <message>Passiv gefunden. Benutzen Sie aktive Wörter.</message>
                 <example>Sie hat den Manager entlassen.</example>
                 <example correction="">Als der Manager <marker>gefeuert wurde</marker>.</example>
             </rule>
@@ -421,7 +378,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token negate="yes" postag="KON:NEB"/>
                     <token inflected="yes" postag_regexp="yes" postag="VER:AUX:.*"><exception>,</exception>werden</token>
                 </pattern>
-                <message>In diesem Satz haben Sie das Passiv verwendet. Benutzen Sie aktive Wörter.</message>
+                <message>Passiv gefunden. Benutzen Sie aktive Wörter.</message>
                 <example>Sie mahnten den Manager ab und feuerten ihn.</example>
                 <example type="incorrect">Als der Manager <marker>abgemahnt und gefeuert wurde</marker>.</example>
             </rule>
@@ -437,7 +394,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token postag_regexp="yes" postag="SUB:GEN:.*"/>
                     </marker>
                 </pattern>
-                <message>Genitiv gefunden. Vermeiden Sie den Genitiv.</message>
+                <message>Vermeiden Sie den Genitiv.</message>
                 <example>Der Sattel von dem Fahrrad.</example>
                 <example correction="">Der Sattel <marker>des Fahrrads</marker>.</example>
             </rule>
@@ -449,7 +406,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token postag_regexp="yes" postag="SUB:GEN:.+"/>
                     </marker>
                 </pattern>
-                <message>Genitiv gefunden. Vermeiden Sie den Genitiv.</message>
+                <message>Vermeiden Sie den Genitiv.</message>
                 <example>Der Sattel von deinem Fahrrad.</example>
                 <example correction="">Der Sattel <marker>deines Fahrrads</marker>.</example>
                 <!-- Vorschlag: Verwenden Sie statt dessen den Dativ. -->
@@ -458,58 +415,152 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         
         <rulegroup id="INDIREKTE_REDE" name="Leichte Sprache: Indirekte Rede">
             <rule>
+                <antipattern>
+                    <token postag="VER:.*[1-3]:.+" postag_regexp="yes" skip="-1"></token>
+                    <token postag="PKT">,</token>
+                    <token postag="PRO:RIN:.+|ADV(:PRO|:INR)?|KON:UNT" postag_regexp="yes" regexp="yes">w.+</token>
+                    <token skip="-1"></token>
+                    <token postag="SENT_END">.</token>
+                </antipattern>
                 <pattern>
-                    <token regexp="yes" inflected="yes" skip="5">(antworten|argumentieren|aussagen|behaupten|berichten|befürchten|beschließen|bitten|denken|entgegnen|erklären|erzählen|feststellen|fragen|gestehen|glauben|hoffen|meinen|rufen|sagen|schreib?en|übermitteln|verkünden|vermuten|wissen)</token>
-                    <token>,</token>
-                    <token negate_pos="yes" postag_regexp="yes" postag="(ADV|VER):.*|KON:UNT"><exception>dass</exception></token>
+                    <token regexp="yes" inflected="yes" skip="5">(antworten|argumentieren|aussagen|behaupten|bekunden|berichten|befürchten|beschließen|bezeugen|bitten|denken|entgegnen|erklären|erzählen|feststellen|fragen|gestehen|glauben|hoffen|meinen|rufen|sagen|schreib?en|übermitteln|verkünden|vermuten|wissen)
+                        <exception>bitte</exception>
+                        <exception scope="previous" postag="SENT_START"/>
+                    </token>
+                    <marker>
+                        <token>,</token>
+                        <token negate_pos="yes" postag_regexp="yes" postag="(ADV|VER):.*|KON:UNT"><exception regexp="yes">dass|um</exception></token>
+                    </marker>
                 </pattern>
                 <message>Indirekte Rede gefunden. Benutzen Sie direkte Rede.</message>
+                <short>Vermeiden Sie Nebensätze.</short>
                 <example>Er sagte: ich bin 30 Jahre alt.</example>
-                <example correction="">Er <marker>sagte, er</marker> sei 30 Jahre alt.</example>
+                <example correction="">Er sagte <marker>, er</marker> sei 30 Jahre alt.</example>
+                <example>Weißt du zufälligerweise, wo sie wohnt?</example>
             </rule>
             <rule>
                 <pattern>
-                    <token inflected="yes" skip="5">stellen</token>
-                    <token>fest</token>
-                    <token>,</token>
-                    <token negate_pos="yes" postag_regexp="yes" postag="(ADV|VER):.*"/>
+                    <token inflected="yes" skip="5" regexp="yes">legen|stellen</token>
+                    <token regexp="yes">dar|fest</token>
+                    <marker>
+                        <token>,</token>
+                        <token negate_pos="yes" postag_regexp="yes" postag="(ADV|VER):.*|KON:UNT"/>
+                    </marker>
                 </pattern>
                 <message>Indirekte Rede gefunden. Benutzen Sie direkte Rede.</message>
+                <short>Vermeiden Sie Nebensätze.</short>
                 <example>Er stellte fest: sie ist schön.</example>
-                <example correction="">Er <marker>stellte fest, sie</marker> sie sei schön.</example>
+                <example correction="">Er stellte fest<marker>, sie</marker> sie sei schön.</example>
             </rule>
             <rule>
                 <pattern>
                     <token inflected="yes" skip="5">geben</token>
-                    <token regexp="yes">an|vor</token>
-                    <token>,</token>
-                    <token negate_pos="yes" postag_regexp="yes" postag="(ADV|VER):.*"/>
+                    <token regexp="yes">an|bekannt|vor|zu</token>
+                    <marker>
+                        <token>,</token>
+                        <token negate_pos="yes" postag_regexp="yes" postag="(ADV|VER):.*|KON:UNT"/>
+                    </marker>
                 </pattern>
                 <message>Indirekte Rede gefunden. Benutzen Sie direkte Rede.</message>
+                <short>Vermeiden Sie Nebensätze.</short>
                 <example>Er gibt an: sie ist um 10 Uhr gekommen.</example>
-                <example correction="">Er <marker>gibt an, dass</marker> sie um 10 Uhr gekommen sei.</example>
+                <example correction="">Er gibt an<marker>, sie</marker> sei um 10 Uhr gekommen.</example>
             </rule>
             <rule>
                 <pattern>
                     <token inflected="yes" skip="5">teilen</token>
                     <token>mit</token>
-                    <token>,</token>
-                    <token negate_pos="yes" postag_regexp="yes" postag="(ADV|VER):.*"/>
+                    <marker>
+                        <token>,</token>
+                        <token negate_pos="yes" postag_regexp="yes" postag="(ADV|VER):.*|KON:UNT"/>
+                    </marker>
                 </pattern>
                 <message>Indirekte Rede gefunden. Benutzen Sie direkte Rede.</message>
                 <example>Er teilt mit: sie ist um 10 Uhr gekommen.</example>
-                <example correction="">Er <marker>teilt mit, dass</marker> sie um 10 Uhr gekommen sei.</example>
+                <example correction="">Er teilt mit<marker>, sie</marker> sei um 10 Uhr gekommen.</example>
             </rule>
             <rule>
                 <pattern>
                     <token inflected="yes" skip="5">nehmen</token>
                     <token>an</token>
-                    <token>,</token>
-                    <token negate_pos="yes" postag_regexp="yes" postag="(ADV|VER):.*"/>
+                    <marker>
+                        <token>,</token>
+                        <token negate_pos="yes" postag_regexp="yes" postag="(ADV|VER):.*|KON:UNT"/>
+                    </marker>
                 </pattern>
                 <message>Indirekte Rede gefunden. Benutzen Sie direkte Rede.</message>
                 <example>Er nimmt an: sie ist um 10 Uhr gekommen.</example>
-                <example correction="">Er <marker>nimmt an, dass</marker> sie um 10 Uhr gekommen sei.</example>
+                <example correction="">Er nimmt an<marker>, sie</marker> sei um 10 Uhr gekommen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"></token>
+                    <token postag="(PRO|ART):.+" postag_regexp="yes"></token>
+                    <token postag="SUB:NOM:.+|UNKNOWN" postag_regexp="yes" regexp="yes">[A-ZÄÖÜ].+</token>
+                    <marker>
+                        <token>,</token>
+                        <token></token>
+                        <token min="0"></token>
+                    </marker>
+                    <token postag="VER:.*KJ.*" postag_regexp="yes" skip="-1"></token>
+                    <token postag="VER:INF:.+|PA2:.+" postag_regexp="yes"></token>
+                    <token>,</token>
+                </pattern>
+                <message>Indirekte Rede gefunden. Benutzen Sie direkte Rede.</message>
+                <example correction="">Ihre Behauptung<marker>, er</marker> könne das niemals schaffen, kränkte ihn.</example>
+                <example correction="">Ihre Behauptung<marker>, er</marker> habe unfair gespielt, kränkte ihn.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"></token>
+                    <token postag="(PRO|ART):.+" postag_regexp="yes"></token>
+                    <token postag="SUB:NOM:.+|UNKNOWN" postag_regexp="yes" regexp="yes">[A-ZÄÖÜ].+</token>
+                    <marker>
+                        <token>,</token>
+                        <token></token>
+                        <token min="0"></token>
+                    </marker>
+                    <token postag="VER:.*KJ.*" postag_regexp="yes" skip="-1"><exception scope="next" postag="VER:.+" postag_regexp="yes"/></token>
+                    <token>,</token>
+                </pattern>
+                <message>Indirekte Rede gefunden. Benutzen Sie direkte Rede.</message>
+                <example correction="">Ihre Behauptung<marker>, er</marker> wisse überhaupt nichts, kränkte ihn.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"></token>
+                    <token postag="PRP:.+" postag_regexp="yes"></token>
+                    <token postag="(PRO|ART):.+" postag_regexp="yes"></token>
+                    <token postag="SUB:(AKK|DAT|GEN):.+|UNKNOWN" postag_regexp="yes" regexp="yes">[A-ZÄÖÜ].+</token>
+                    <marker>
+                        <token>,</token>
+                        <token></token>
+                        <token min="0"></token>
+                    </marker>
+                    <token postag="VER:.*KJ.*" postag_regexp="yes" skip="-1"><exception scope="next" postag="VER:.+" postag_regexp="yes"/></token>
+                    <token>,</token>
+                </pattern>
+                <message>Indirekte Rede gefunden. Benutzen Sie direkte Rede.</message>
+                <example correction="">Mit ihrer Behauptung<marker>, er</marker> wisse überhaupt nichts, kränkte sie ihn.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"></token>
+                    <token postag="PRP:.+" postag_regexp="yes"></token>
+                    <token postag="(PRO|ART):.+" postag_regexp="yes"></token>
+                    <token postag="SUB:(AKK|DAT|GEN):.+|UNKNOWN" postag_regexp="yes" regexp="yes">[A-ZÄÖÜ].+</token>
+                    <marker>
+                        <token>,</token>
+                        <token></token>
+                        <token min="0"></token>
+                    </marker>
+                    <token postag="VER:.*KJ.*" postag_regexp="yes" skip="-1"></token>
+                    <token postag="VER:INF:.+|PA2:.+" postag_regexp="yes"></token>
+                    <token>,</token>
+                </pattern>
+                <message>Indirekte Rede gefunden. Benutzen Sie direkte Rede.</message>
+                <example correction="">Gemäß ihrer Aussage<marker>, er</marker> habe unfair gespielt, disqualifizierte man ihn.</example>
+                <example correction="">Durch seine Behauptung<marker>, er</marker> könne das schaffen, war ich besonders motiviert.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ZWEI_INFORMATIONSEINHEITEN_PRO_SATZ" name="Leichte Sprache: eine Aussage pro Satz">
@@ -725,35 +776,225 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="KONJUNKTIV" name="Leichte Sprache: Konjunktiv">
             <rule>
                 <pattern>
+                    <token>,</token>
+                    <token skip="-1"><exception postag="PRO:RIN:.+|KON:UNT|PRP:.+|ADV:INR" postag_regexp="yes"/></token>
                     <!-- Für SFT gibt es zu viele falsche Positive. -->
-                    <token postag_regexp="yes" postag=".*:KJ(1|2):NON">
+                    <token postag_regexp="yes" postag=".*:KJ(1|2)(:NON)?">
                         <exception postag_regexp="yes" postag="VER:INF:.*"/>
                         <exception postag="VER:1:SIN:PRÄ:NON"/>
+                        <exception regexp="yes" case_sensitive="yes">[A-Z].+</exception>
                         <!-- Gleiche Verbform VER:2:PLU:KJ1:NON und VER:3:SIN:PRÄ:NON. Die 2:PLU ist vermutlich sehr viel seltener, daher wird eine Ausnahme hinzugefügt. -->
                         <exception postag_regexp="yes" postag="VER:2:PLU:KJ1:.*"/>
                     </token>
                 </pattern>
-                <message>Konjunktiv gefunden. Vermeiden Sie den Konjunktiv.</message>
+                <message>Vermeiden Sie den Konjunktiv. Vermeiden Sie auch indirekte Rede.</message>
+                <example correction="">Sie sagte<marker>, man sei</marker> bereit.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <!-- Für SFT gibt es zu viele falsche Positive. -->
+                    <token postag_regexp="yes" postag=".*:KJ(1|2)(:NON)?" skip="-1" inflected="yes">haben<exception scope="next" postag="PKT"/></token>
+                    <token postag="VER:PA2:NON"></token>
+                    <token postag="PKT"/>
+                </antipattern>
+                <antipattern>
+                    <!-- Für SFT gibt es zu viele falsche Positive. -->
+                    <token postag_regexp="yes" postag=".*:KJ(1|2)(:NON)?"/>
+                    <token inflected="yes">haben</token>
+                    <token postag="PKT"/>
+                </antipattern>
+                <pattern>
+                    <!-- Für SFT gibt es zu viele falsche Positive. -->
+                    <token postag_regexp="yes" postag=".*:KJ(1|2)(:NON)?">
+                        <exception postag_regexp="yes" postag="VER:(MOD:)?INF.*"/>
+                        <exception postag="VER:1:SIN:PRÄ:NON"/>
+                        <!-- Gleiche Verbform VER:2:PLU:KJ1:NON und VER:3:SIN:PRÄ:NON. Die 2:PLU ist vermutlich sehr viel seltener, daher wird eine Ausnahme hinzugefügt. -->
+                        <exception postag_regexp="yes" postag="VER:2:PLU:KJ1:.*"/>
+                        <exception regexp="yes" case_sensitive="yes">[A-Z].+</exception>
+                    </token>
+                </pattern>
+                <message>Vermeiden Sie den Konjunktiv.</message>
                 <example>Angeblich sind sie bereit.</example>
                 <example correction="">Man <marker>sei</marker> bereit.</example>
                 <example>Ich schlafe nicht mehr.</example>
+                <example>Sie nimmt an, er habe das verschwiegen.</example>
+                <example>Er behauptet, dass sie die Tat verschwiegen hat.</example>
+                <example>Wir können lesen, sie müssen arbeiten, wir sollen lernen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>,</token>
+                    <token skip="-1"><exception postag="PRO:RIN:.+|KON:UNT|PRP:.+" postag_regexp="yes"/></token>
+                    <token postag_regexp="yes" postag="VER:(MOD|AUX):.*:KJ2"></token>
+                </pattern>
+                <message>Vermeiden Sie den Konjunktiv. Vermeiden Sie auch indirekte Rede.</message>
+                <example>Morgen regnet es vielleicht.</example>
+                <example correction="">Sie sagte<marker>, morgen könnte</marker> es regnen.</example>
             </rule>
             <rule>
                 <pattern>
                     <token postag_regexp="yes" postag="VER:(MOD|AUX):.*:KJ2"></token>
                 </pattern>
-                <message>Konjunktiv gefunden. Vermeiden Sie den Konjunktiv.</message>
+                <message>Vermeiden Sie den Konjunktiv.</message>
                 <example>Morgen regnet es vielleicht.</example>
                 <example correction="">Morgen <marker>könnte</marker> es regnen.</example>
             </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>habet</token>
+                </pattern>
+                <message>Vermeiden Sie den Konjunktiv.</message>
+                <example correction="">Sie nimmt an, ihr <marker>habet</marker> es vergessen.</example>
+            </rule>
         </rulegroup>
+        
+        <rule id="FRAGEN" name="Leichte Sprache: Verzicht auf Fragesätze" default="off">
+            <pattern>
+                <token postag="SENT_END">?</token>
+            </pattern>
+            <message>Vermeiden Sie Fragesätze. Verwenden Sie einfache Aussagesätze.</message>
+            <example type="incorrect" correction="">Was machen wir heute<marker>?</marker></example>
+            <example type="correct">Lass uns heute etwas machen.</example>
+        </rule>
+        
+    </category>
 
+    <category id="DIFFICULT_WORDS" name="Schwierige Wörter und Wendungen" type="misspelling">
+        
+        <rulegroup id="ABKUERZUNG" name="Leichte Sprache: Abkürzung">
+            <rule>
+                <pattern>
+                    <token regexp="yes">\p{Lu}{2,}</token>
+                </pattern>
+                <message>Verzichten Sie auf Abkürzungen.</message>
+                <example>Das <marker>Köchelverzeichnis</marker> ist ein Verzeichnis der Kompositionen von Mozart.</example>
+                <example correction="">Das <marker>KV</marker> ist ein Verzeichnis der Kompositionen von Mozart.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">\p{L}</token><token>.</token>
+                    <token regexp="yes">\p{L}</token><token>.</token>
+                    <token regexp="yes">\p{L}</token><token>.</token>
+                </pattern>
+                <message>Verzichten Sie auf Abkürzungen.</message>
+                <example>Die Sozialdemokratische Partei Deutschlands.</example>
+                <example correction="">Die <marker>S.P.D.</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">\p{L}</token>
+                    <token spacebefore="no">.</token>
+                    <token regexp="yes">\p{L}</token>
+                    <token spacebefore="no">.</token>
+                </pattern>
+                <message>Verzichten Sie auf Abkürzungen.</message>
+                <example correction="">Der Tiger ist <marker>z. B.</marker> ein Tier.</example>
+                <example correction="">Er ist krank, <marker>d. h.</marker> er kann nicht kommen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">Tel|Temp|trans|Tsd|übertr|übl|ff|überarb|ugs|univ|unveränd|urspr|usw|vgl|Vol|vollst|vorm|etc|Vp|Vs|vs|wesentl|wg|Hd|Ztr|zus|Zus|zzt?|zzgl|Zz|Zt|Min|Bzgl|bzgl|bezügl|Frhr|ggfs|insb|autom|MwSt|hebr|hg|hl|Hg|hist|hochd|hochspr|Hptst|Hr|hrsg|Allg|ill|inkl|incl|Ind|Inf|Ing|ital|Tr|jap|Jb|Jg|Jhd?|Jhdts?|jmdm?|jmdn|jmds|jur|Kap|kart|kath|kaufm|Kfm|kgl|Kl|Konj|königl|Krs|Kr|Kto|bzw</token>
+                    <token spacebefore="no">.</token>
+                </pattern>
+                <message>Verzichten Sie auf Abkürzungen.</message>
+                <example correction="">Das ist <marker>Hr.</marker> Meier.</example>
+                <example>Das ist Herr <marker>Meier</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag_regexp="yes" postag="ABK:.*"><exception regexp="yes">\p{L}</exception></token>
+                </pattern>
+                <message>Verzichten Sie auf Abkürzungen.</message>
+                <example>Wir brauchen Milch, Eier <marker>und so weiter</marker>.</example>
+                <example correction="">Wir brauchen Milch, Eier <marker>usw</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rule id="LANGES_WORT" name="Leichte Sprache: Langes Wort">
+            <pattern>
+                <token regexp="yes">\p{L}{14,}</token>
+            </pattern>
+            <message>Dieses Wort hat mehr als dreizehn Buchstaben. Benutzen Sie kurze Wörter.</message>
+            <example>Die Schifffahrt auf der Donau ist beliebt.</example>
+            <example correction="">Die <marker>Donaudampfschifffahrt</marker> ist beliebt.</example>
+        </rule>
+        <rule id="METAPHERN" name="Leichte Sprache: Metaphern">
+            <pattern>
+                <token inflected='yes' regexp='yes'>Wiegenfest|Nahverkehr|Fernverkehr|Lichtbild|Bärendienst|Kurschatten|Mauerblümchen|Erdbeermund|Gänsehaut|Pustekuchen|Gardinenpredigt|Orangenhaut|Gipfeltreffen|Honigkuchenpferd|Rabeneltern|Stimmungskanone|Hausdrache|Gaumenschmeichler|Glückspilz|Baumkrone|Sternstunde|Warteschlange|Menschenschlange|Strohfeuer|Wüstenschiff|Zahlenfriedhof|Kaderschmiede|Zwickmühle|Augenweide|Augenschmaus|Hexenkessel|Hosenstall|Stubentiger|Couchsurfer|Lampenfieber|Rohrkrepierer|Goldmarie|Sternstunden|Helikoptereltern|Schwarzmalerei|Augenwischerei|Eselsbrücke|Kredithai|Torschlusspanik|Dreikäsehoch|Hanswurst|stiefmütterlich</token>
+            </pattern>
+            <message>Vermeiden Sie Metaphern und bildhafte Sprache.</message>
+            <short>Metaphern vermeiden</short>
+            <example>Sie haben ihm damit geschadet.</example>
+            <example correction="">Sie erwiesen ihm einen <marker>Bärendienst</marker>.</example>
+            <example correction="">Sie erwiesen ihm <marker>Bärendienste</marker>.</example>
+            <example correction="">Dafür gibt es keine <marker>Eselsbrücken</marker>.</example>
+        </rule>
+
+        <rule id="SCHWIERIGE_WOERTER" name="Leichte Sprache: schwierige Wörter">
+            <pattern>
+                <token inflected='yes' regexp='yes'>abnor.+|ambi.+|anti.+|asy.+|auth.+|biblio.+|diffizil|ge(denken|nehmigen|statten|währen)|hemi.+|hy.+|kontra.+|mono.+|my.+|neo.+|omni.+|ortho.+|poly.+|prä.+|pseudo.+|retro.+|rhy.+|semi.+|sy[mn].+|theo.*|zy.+|.+ismus|.+phobien?|.+nym|ehelichen</token>
+            </pattern>
+            <message>Vermeiden Sie schwierige Wörter und Fremdwörter.</message>
+            <short>Schwierige Wörter vermeiden</short>
+            <example>Sie hat es ihm erlaubt.</example>
+            <example correction="">Sie hat es ihm <marker>gestattet</marker>.</example>
+            <example correction="">Eine <marker>asymmetrische</marker> Anordnung.</example>
+        </rule>
+        <rulegroup id="ABSTRAKTE_WOERTER" name="Leichte Sprache: abstrakte Wörter">
+            <rule>
+                <pattern>
+                    <token postag="SUB:.+" postag_regexp="yes" inflected='yes' regexp='yes'>[A-ZÄÖÜ][a-zäöüß]{2,}(ung|[hk]eit|sal|schaft|tum|wesen|nis)(s[a-zäöüß]{3,})?</token>
+                </pattern>
+                <message>Vermeiden Sie abstrakte Wörter. Benutzen Sie möglichst konkrete Aussagen.</message>
+                <short>Abstrakte Wörter vermeiden</short>
+                <example correction="">Sie sucht nach einer <marker>Lösung</marker>.</example>
+                <example>Sie möchte das Rätsel <marker>lösen</marker>.</example>
+                <!--example correction="">Sie sagt die <marker>Wahrheit</marker>.</example>
+                <example>Sie ist <marker>ehrlich</marker>.</example-->
+                <example correction="">Sie sucht nach einer <marker>Lösungsidee</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="SCHWIERIGE_WENDUNGEN" name="Leichte Sprache: schwierige Wendungen">
+            <rule>
+                <pattern>
+                    <token>außen</token>
+                    <token>vor</token>
+                    <token inflected="yes">lassen</token>
+                </pattern>
+                <message>Verwenden Sie keine schwierigen Wendungen.</message>
+                <example correction="">Sie hat mich <marker>außen vor gelassen</marker>.</example>
+                <example>Sie hat mich <marker>ausgeschlossen</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>Kind</token>
+                    <token min="0">schon</token>
+                    <token inflected="yes">schaukeln</token>
+                </pattern>
+                <message>Verwenden Sie keine schwierigen Wendungen.</message>
+                <example correction="">Sie wird das <marker>Kind schon schaukeln</marker>.</example>
+                <example>Sie wird es <marker>schaffen</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>im</token>
+                    <token regexp="yes">Schilde?</token>
+                    <token inflected="yes">führen</token>
+                </pattern>
+                <message>Verwenden Sie keine schwierigen Wendungen.</message>
+                <example correction="">Er hat etwas <marker>im Schilde geführt</marker>.</example>
+            </rule>
+        </rulegroup>
+        
+    </category>
+
+    <category id="STYLE" name="Stil" type="style">
+        
         <rulegroup id="QUERVERWEIS" name="Leichte Sprache: Querverweise">
             <rule>
                 <pattern>
                     <token>siehe</token>
                 </pattern>
-                <message>Querverweis gefunden. Vermeiden Sie Querverweise.</message>
+                <message>Vermeiden Sie Querverweise.</message>
                 <example>In Heft 3 steht mehr dazu.</example>
                 <example correction="">Es gibt viele Informationen dazu (<marker>siehe</marker> Heft 3).</example>
             </rule>
@@ -761,9 +1002,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
         <rule id="ROEMISCHE_ZAHL" name="Leichte Sprache: Römischen Zahl">
             <pattern>
-                <token regexp="yes">(M{0,4}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3}))|(m{0,4}(cm|cd|d?c{0,3})(xc|xl|l?x{0,3})(ix|iv|v?i{0,3}))<exception>cm</exception></token>
+                <token regexp="yes">(M{0,4}(C[DM]|D?C{0,3})(X[CL]|L?X{0,3})(I[VX]|V?I{0,3}))|(m{0,4}(c[md]|d?c{0,3})(x[cl]|l?x{0,3})(i[xv]|v?i{0,3}))<exception>cm</exception></token>
             </pattern>
-            <message>Römische Zahl gefunden. Benutzen Sie arabische Zahlen.</message>
+            <message>Benutzen Sie arabische Zahlen.</message>
             <example>Stufe 4</example>
             <example>Das ist 4 cm lang.</example>
             <example correction="">Stufe <marker>IV</marker></example>
@@ -772,12 +1013,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
         <rulegroup id="ZAHLEN" name="Leichte Sprache: Zahlen und Jahreszahlen">
             <rule>
+                <antipattern>
+                    <token regexp="yes">bis|im|zum</token>
+                    <token regexp="yes" inflected="yes">Jahr|Januar|Februar|März|April|Mai|Ju[nl]i|August|September|Oktober|November|Dezember</token>
+                    <token spacebefore="yes" regexp="yes">\p{N}{3,}</token>
+                </antipattern>
                 <pattern>
                     <token spacebefore="yes" regexp="yes">\p{N}{3,}</token>
                 </pattern>
-                <message>Hohe Zahl gefunden. Vermeiden Sie hohe Zahlen.</message>
+                <message>Vermeiden Sie hohe Zahlen.</message>
                 <example>Sehr viele Menschen</example>
                 <example correction="">Bis zu <marker>100000</marker> Menschen</example>
+                <example>Das erste Weltkrieg hat im Jahr <marker>1914</marker> begonnen.</example>
+                <example>Im März <marker>1914</marker> hat es begonnen.</example>
             </rule>
             <rule>
                 <pattern>
@@ -785,7 +1033,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token spacebefore="no">.</token>
                     <token spacebefore="no" regexp="yes">\p{N}{3}</token>
                 </pattern>
-                <message>Hohe Zahl gefunden. Vermeiden Sie hohe Zahlen.</message>
+                <message>Vermeiden Sie hohe Zahlen.</message>
                 <example>Sehr viele Menschen</example>
                 <example correction=""><marker>100.000</marker> Menschen</example>
             </rule>
@@ -795,7 +1043,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token spacebefore="no">,</token>
                     <token spacebefore="no" regexp="yes">\p{N}+</token>
                 </pattern>
-                <message>Kommazahl gefunden. Vermeiden Sie Kommazahlen.</message>
+                <message>Vermeiden Sie Kommazahlen.</message>
                 <example>Etwa 4</example>
                 <example correction=""><marker>3,91</marker></example>
             </rule>
@@ -803,7 +1051,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token regexp="yes">\p{N}+%</token>
                 </pattern>
-                <message>Prozentzahl gefunden. Vermeiden Sie Prozentzahlen.</message>
+                <message>Vermeiden Sie Prozentzahlen.</message>
                 <example>14 Prozent</example>
                 <example correction=""><marker>14%</marker></example>
             </rule>
@@ -812,7 +1060,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">\p{N}+</token>
                     <token>%</token>
                 </pattern>
-                <message>Prozentzahl gefunden. Vermeiden Sie Prozentzahlen.</message>
+                <message>Vermeiden Sie Prozentzahlen.</message>
                 <example>14 Prozent</example>
                 <example correction=""><marker>14 %</marker></example>
             </rule>
@@ -829,7 +1077,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token negate="yes">bis</token>
                 </pattern>
                 <message>Schreiben Sie 'bis' bei vorangehendem 'von' aus: <suggestion>A bis Z</suggestion>.</message>
-                <short>Bitte schreiben Sie 'bis' bei vorhergehendem 'von' aus.</short>
+                <short>Schreiben Sie 'bis' bei vorhergehendem 'von' aus.</short>
                 <example><marker>Pilze von A bis Z</marker>.</example>
                 <example>Die Buchstaben <marker>A–Z</marker>.</example>
                 <example correction="A bis Z">Pilze von <marker>A-Z</marker>.</example>
@@ -845,7 +1093,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token negate="yes">bis</token>
                 </pattern>
                 <message>Schreiben Sie 'bis' bei vorhergehendem 'von' aus: <suggestion>\2 bis \4</suggestion>.</message>
-                <short>Bitte schreiben Sie 'bis' bei vorhergehendem 'von' aus.</short>
+                <short>Schreiben Sie 'bis' bei vorhergehendem 'von' aus.</short>
                 <example><marker>Pilze von A bis Z</marker>.</example>
                 <example>Die Buchstaben <marker>A–Z</marker>.</example>
                 <example correction="A bis Z">Pilze von <marker>A - Z</marker>.</example>
@@ -858,8 +1106,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token regexp="yes">([0-9]{1,5})(\-|–)([0-9]{1,5})</token>
                     </marker>
                 </pattern>
-                <message>Bitte schreiben Sie 'bis' bei vorhergehendem 'von' aus: <suggestion><match no="1"/> <match no="2" regexp_match="([0-9]{1,5})(\-|–)([0-9]{1,5})" regexp_replace="$1 bis $3"/></suggestion>.</message>
-                <short>Bitte schreiben Sie 'bis' bei vorhergehendem 'von' aus.</short>
+                <message>Schreiben Sie 'bis' bei vorhergehendem 'von' aus: <suggestion><match no="1"/> <match no="2" regexp_match="([0-9]{1,5})(\-|–)([0-9]{1,5})" regexp_replace="$1 bis $3"/></suggestion>.</message>
+                <short>Schreiben Sie 'bis' bei vorhergehendem 'von' aus.</short>
                 <example correction="Von 9 bis 10"><marker>Von 9–10</marker> Uhr.</example>
             </rule>
             <rule>
@@ -871,14 +1119,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token regexp="yes">[0-9]{1,5}</token>
                     </marker>
                 </pattern>
-                <message>Bitte schreiben Sie 'bis' bei vorhergehendem 'von' aus: <suggestion>\1 \2 bis \4</suggestion>.</message>
-                <short>Bitte schreiben Sie 'bis' bei vorhergehendem 'von' aus.</short>
+                <message>Schreiben Sie 'bis' bei vorhergehendem 'von' aus: <suggestion>\1 \2 bis \4</suggestion>.</message>
+                <short>Schreiben Sie 'bis' bei vorhergehendem 'von' aus.</short>
                 <example correction="Von 9 bis 10"><marker>Von 9 – 10</marker> Uhr.</example>
             </rule>
             <rule>
                 <regexp case_sensitive='yes'>([vV]o[nm]) (Band|Blatt|Seite|Zeile) (([0-9]{1,5})(\-|–)([0-9]{1,5}))</regexp>
-                <message>Bitte schreiben Sie 'bis' bei vorhergehendem 'von' aus: <suggestion><match no="1"/> <match no="2"/> <match no="3" regexp_match="([0-9]{1,5})(\-|–)([0-9]{1,5})" regexp_replace="$1 bis $3"/></suggestion>.</message>
-                <short>Bitte schreiben Sie 'bis' bei vorhergehendem 'von' aus.</short>
+                <message>Schreiben Sie 'bis' bei vorhergehendem 'von' aus: <suggestion><match no="1"/> <match no="2"/> <match no="3" regexp_match="([0-9]{1,5})(\-|–)([0-9]{1,5})" regexp_replace="$1 bis $3"/></suggestion>.</message>
+                <short>Schreiben Sie 'bis' bei vorhergehendem 'von' aus.</short>
                 <example correction="Von Zeile 7 bis 11"><marker>Von Zeile 7-11</marker> wird geprüft, ob die Zahl eine Primzahl ist.</example>
                 <example correction="Von Zeile 7 bis 11"><marker>Von Zeile 7–11</marker> wird geprüft, ob die Zahl eine Primzahl ist.</example>
             </rule>
@@ -902,7 +1150,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token postag="ZAL"/>
                 </pattern>
-                <message>Zahlwort gefunden. Fragen Sie die Prüfer und Prüferinnen: Wie sollen Sie Zahlen schreiben? Meistens sind Ziffern leichter als Worte.</message>
+                <message>Zahlwort gefunden. Meistens sind Ziffern leichter als Worte.</message>
                 <example>Es waren 7 Leute da.</example>
                 <example correction="">Es waren <marker>sieben</marker> Leute da.</example>
             </rule>
@@ -910,7 +1158,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token regexp="yes">(ein|zwei|zwan|dreiß?|vier|fünf|sechs?|sieb|acht|neun).*(zehn|zig|hundert|tausend)((und)?(eins?|zwei|zwan|dreiß?|vier|fünf|sechs|sieben|acht|neun)(.*zehn|.*zig)?)?|Zwei|Drei|Vier|Fünf|Sechs|Sieben|Acht|Neun</token>
                 </pattern>
-                <message>Zahlwort gefunden. Fragen Sie die Prüfer und Prüferinnen: Wie sollen Sie Zahlen schreiben? Meistens sind Ziffern leichter als Worte.</message>
+                <message>Zahlwort gefunden. Meistens sind Ziffern leichter als Worte.</message>
                 <example>Es sind 200 Leute da.</example>
                 <example correction="">Es sind <marker>zweihundert</marker> Leute da.</example>
             </rule>
@@ -919,25 +1167,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="DATUM" name="Leichte Sprache: Datum">
             <rule>
                 <pattern>
-                    <token regexp="yes">\p{N}+</token>
-                    <token spacebefore="no">.</token>
-                    <token regexp="yes">(Januar|Februar|März|April|Mai|Juni|Juli|August|September|Oktober|November|Dezember)</token>
+                    <marker>
+                        <token regexp="yes">\p{N}+</token>
+                        <token spacebefore="no">.</token>
+                        <token regexp="yes">(Januar|Februar|März|April|Mai|Ju[nl]i|August|September|Oktober|November|Dezember)</token>
+                    </marker>
+                    <token><exception regexp="yes">\d+</exception></token>
                 </pattern>
-                <message>Datum mit Monatsnamen gefunden. Fragen Sie die Prüfer und Prüferinnen: Wie sollen Sie ein Datum schreiben?</message>
-                <example>Am 31.1. geht es los.</example>
+                <message>Schreiben Sie das Datum deutlich.</message>
+                <example>Am <marker>31. Januar 2022</marker> geht es los.</example>
                 <example correction="">Am <marker>31. Januar</marker> geht es los.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token regexp="yes">(0|1|2|3)?\p{N}</token>
-                    <token spacebefore="no">.</token>
-                    <token spacebefore="no" regexp="yes">(0|1)?\p{N}</token>
-                    <token spacebefore="no">.</token>
-                    <token spacebefore="no" regexp="yes">(19|20)?\p{N}{2}</token>
-                </pattern>
-                <message>Datumsangabe gefunden. Fragen Sie die Prüfer und Prüferinnen: Wie sollen Sie ein Datum schreiben?</message>
-                <example>Am 31. Januar 2011 geht es los.</example>
-                <example correction="">Am <marker>31.01.2011</marker> geht es los.</example>
             </rule>
             <rule>
                 <pattern>
@@ -947,19 +1186,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token spacebefore="no">.</token>
                     <marker><token spacebefore="no" regexp="yes">\p{N}{2}</token></marker>
                 </pattern>
-                <message>Datumsangabe gefunden. Schreiben Sie die Jahreszahl aus. Fragen Sie die Prüfer und Prüferinnen: Wie sollen Sie ein Datum schreiben?</message>
+                <message>Schreiben Sie das Datum deutlich.</message>
                 <suggestion>20\5</suggestion>
                 <example>Am 31.01.2020 geht es los.</example>
                 <example correction="2020">Am 31.01.<marker>20</marker> geht es los.</example>
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">(0|1|2|3)?\p{N}</token>
-                    <token spacebefore="no">.</token>
-                    <token spacebefore="no" regexp="yes">(0|1)?\p{N}</token>
-                    <token spacebefore="no">.</token>
+                    <marker>
+                        <token regexp="yes">(0|1|2|3)?\p{N}</token>
+                        <token spacebefore="no">.</token>
+                        <token spacebefore="no" regexp="yes">(0|1)?\p{N}</token>
+                        <token spacebefore="no">.</token>
+                    </marker>
+                    <token><exception regexp="yes">\d+</exception></token>
                 </pattern>
-                <message>Datumsangabe gefunden. Fragen Sie die Prüfer und Prüferinnen: Wie sollen Sie ein Datum schreiben?</message>
+                <message>Schreiben Sie das Datum deutlich.</message>
                 <example>Am 31. Januar geht es los.</example>
                 <example correction="">Am <marker>31.01.</marker> geht es los.</example>
             </rule>
@@ -970,7 +1212,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token regexp="yes">(&klamauf;|&klamzu;|&anfauf;|&anfzu;|&amp;|[*†§…;'"])</token>
                 </pattern>
-                <message>Sonderzeichen gefunden. Vermeiden Sie Sonderzeichen.</message>
+                <message>Vermeiden Sie Sonderzeichen.</message>
                 <example>Hier steht was, und noch was...</example>
                 <example correction="">Hier steht was <marker>(</marker>und noch was...</example>
             </rule>
@@ -978,7 +1220,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token>%<exception scope="previous" regexp="yes">\p{N}+</exception></token>
                 </pattern>
-                <message>Sonderzeichen gefunden. Vermeiden Sie Sonderzeichen.</message>
+                <message>Vermeiden Sie Sonderzeichen.</message>
                 <example>Erhöhung um einige Prozent</example>
                 <example correction="">Erhöhung um einige <marker>%</marker></example>
             </rule>
@@ -988,21 +1230,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token spacebefore="no">/</token>
                     <token spacebefore="no" regexp="yes">-?in(nen)?</token>
                 </pattern>
-                <message>Sonderzeichen gefunden. Vermeiden Sie Sonderzeichen.</message>
+                <message>Vermeiden Sie Sonderzeichen.</message>
                 <suggestion>\1 oder \1<match no="3" regexp_match="-" regexp_replace=""/></suggestion>
                 <suggestion>\1 und \1<match no="3" regexp_match="-" regexp_replace=""/></suggestion>
                 <example correction="Lehrer oder Lehrerinnen|Lehrer und Lehrerinnen">Hier arbeiten viele <marker>Lehrer/-innen</marker></example>
                 <example correction="Bürgermeister oder Bürgermeisterin|Bürgermeister und Bürgermeisterin">Sie wählen heute eine(n) neue(n) <marker>Bürgermeister/in</marker></example>
             </rule>
         </rulegroup>
-        
-        <rule id="FRAGEN" name="Leichte Sprache: Verzicht auf Fragesätze" default="off">
-            <pattern>
-                <token postag="SENT_END">?</token>
-            </pattern>
-            <message>Vermeiden Sie Fragesätze. Verwenden Sie einfache Aussagesätze.</message>
-            <example type="incorrect" correction="">Was machen wir heute<marker>?</marker></example>
-            <example type="correct">Lass uns heute etwas machen.</example>
-        </rule>
+
     </category>
+
 </rules>

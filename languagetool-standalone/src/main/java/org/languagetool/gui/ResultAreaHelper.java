@@ -249,10 +249,15 @@ class ResultAreaHelper implements LanguageToolListener, HyperlinkListener {
       }
       String context = contextTools.getContext(match.getFromPos(), match.getToPos(), text);
       sb.append("<b>").append(messages.getString("errorContext")).append("</b> ").append(context);
-      if (match.getRule().getUrl() != null && Desktop.isDesktopSupported()) {
+      if ((match.getRule().getUrl() != null || match.getUrl() != null) && Desktop.isDesktopSupported()) {
         sb.append("<br>\n");
         sb.append("<b>").append(messages.getString("moreInfo")).append("</b> <a href=\"");
-        String url = match.getRule().getUrl().toString();
+        String url;
+        if(match.getUrl() != null) {
+          url = match.getUrl().toString();
+        } else {
+          url = match.getRule().getUrl().toString();
+        }
         sb.append(url);
         String shortUrl = StringUtils.abbreviate(url, 60);
         sb.append("\">").append(shortUrl).append("</a>\n");

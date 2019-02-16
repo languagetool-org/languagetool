@@ -19,6 +19,7 @@
 package org.languagetool.openoffice;
 
 import java.awt.Color;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -33,6 +34,7 @@ import org.languagetool.tools.StringTools;
 
 import com.sun.star.beans.PropertyState;
 import com.sun.star.beans.PropertyValue;
+import com.sun.star.lang.Locale;
 import com.sun.star.lang.XComponent;
 import com.sun.star.linguistic2.ProofreadingResult;
 import com.sun.star.linguistic2.SingleProofreadingError;
@@ -69,32 +71,33 @@ class SingleDocument {
   private static final int MAX_SUGGESTIONS = 15;
 
 
-  private static int debugMode = 0;         //  should be 0 except for testing; 1 = low level; 2 = advanced level
+  private static int debugMode = 0;               //  should be 0 except for testing; 1 = low level; 2 = advanced level
+  private static boolean specialOptimization = true;   //  special optimization switched on; TODO: test this version and delete switch, if it is OK
   
   private Configuration config;
 
-  private int numParasToCheck = 5;              // will be overwritten by config
-  private int defaultParaCheck = 10;            // will be overwritten by config
-  private boolean doResetCheck = true;          // will be overwritten by config
+  private int numParasToCheck = 5;                // will be overwritten by config
+  private int defaultParaCheck = 10;              // will be overwritten by config
+  private boolean doResetCheck = true;            // will be overwritten by config
 
-  private XComponentContext xContext;           //  The context of the document
-  private String docID;                         //  docID of the document
-  private XComponent xComponent;                //  XComponent of the open document
+  private XComponentContext xContext;             //  The context of the document
+  private String docID;                           //  docID of the document
+  private XComponent xComponent;                  //  XComponent of the open document
 
-  private List<String> allParas = null;         //  List of paragraphs (only readable by parallel thread)
-  private DocumentCursorTools docCursor = null; //  Save Cursor for the single documents
+  private List<String> allParas = null;           //  List of paragraphs (only readable by parallel thread)
+  private DocumentCursorTools docCursor = null;   //  Save Cursor for the single documents
 //  private FlatParagraphTools flatPara = null;   //  Save FlatParagraph for the single documents
-  private Integer numLastVCPara = 0;            //  Save position of ViewCursor for the single documents
-  private Integer numLastFlPara = 0;            //  Save position of FlatParagraph for the single documents
-  private boolean textIsChanged = false;        //  false: check number of paragraphs again (ignored by parallel thread)
-  private boolean resetCheck = false;           //  true: the whole text has to be checked again (use cache)
-  private int divNum;                           //  difference between number of paragraphs from cursor and from flatParagraph (unchanged by parallel thread)
-  private ResultCache sentencesCache;           //  Cache for matches of sentences rules
-  private ResultCache paragraphsCache;          //  Cache for matches of text rules
-  private ResultCache singleParaCache;          //  Cache for matches of text rules for single paragraphs
-  private boolean firstCheckDone = false;       //  Is set to true, if first iteration of whole document is done
-  private int resetFrom = 0;                    //  Reset from paragraph
-  private int resetTo = 0;                      //  Reset to paragraph
+  private Integer numLastVCPara = 0;              //  Save position of ViewCursor for the single documents
+  private Integer numLastFlPara = 0;              //  Save position of FlatParagraph for the single documents
+  private boolean textIsChanged = false;          //  false: check number of paragraphs again (ignored by parallel thread)
+  private boolean resetCheck = false;             //  true: the whole text has to be checked again (use cache)
+  private int divNum;                             //  difference between number of paragraphs from cursor and from flatParagraph (unchanged by parallel thread)
+  private ResultCache sentencesCache;             //  Cache for matches of sentences rules
+  private ResultCache paragraphsCache;            //  Cache for matches of text rules
+  private ResultCache singleParaCache;            //  Cache for matches of text rules for single paragraphs
+  private boolean firstCheckDone = false;         //  Is set to true, if first iteration of whole document is done
+  private int resetFrom = 0;                      //  Reset from paragraph
+  private int resetTo = 0;                        //  Reset to paragraph
   
   SingleDocument(XComponentContext xContext, Configuration config, String docID, XComponent xComponent) {
     this.xContext = xContext;
@@ -114,7 +117,7 @@ class SingleDocument {
    * @param isParallelThread  true: check runs as parallel thread
    * @return                  proof reading result
    */
-  ProofreadingResult getCheckResults(String paraText, ProofreadingResult paRes, 
+  ProofreadingResult getCheckResults(String paraText, Locale locale, ProofreadingResult paRes, 
       int[] footnotePositions, boolean isParallelThread, JLanguageTool langTool) {
     try {
       SingleProofreadingError[] sErrors = null;
@@ -141,7 +144,9 @@ class SingleDocument {
         paRes.nBehindEndOfSentencePosition = paRes.nStartOfNextSentencePosition;
         sErrors = checkSentence(sentence, paRes.nStartOfSentencePosition, paRes.nStartOfNextSentencePosition, 
             paraNum, footnotePositions, isParallelThread, langTool);
-        setFirstCheckDone();
+        if(specialOptimization) {
+          setFirstCheckDone();
+        }
       }
       SingleProofreadingError[] pErrors = checkParaRules(paraText, paraNum, paRes.nStartOfSentencePosition,
           paRes.nStartOfNextSentencePosition, isParallelThread, langTool);
@@ -165,6 +170,13 @@ class SingleDocument {
     numParasToCheck = config.getNumParasToCheck();
     defaultParaCheck = numParasToCheck * PARA_CHECK_FACTOR;
     doResetCheck = config.isResetCheck();
+  }
+  
+  /** Set XComponentContext and XComponent of the document
+   */
+  void setXComponent(XComponentContext xContext, XComponent xComponent) {
+    this.xContext = xContext;
+    this.xComponent = xComponent;
   }
   
   /** Get xComponent of the document
@@ -221,7 +233,7 @@ class SingleDocument {
    */
   private int getParaPos(String chPara, boolean isParallelThread) {
 
-    if (numParasToCheck == 0) {
+    if (numParasToCheck == 0 || xComponent == null) {
       return -1;  //  check only the processed paragraph
     }
 
@@ -234,8 +246,6 @@ class SingleDocument {
     boolean isReset = false;
     textIsChanged = false;
     resetCheck = false;
-    resetFrom = 0;
-    resetTo = 0;
 
     if (allParas == null || allParas.size() < 1) {
       if (isParallelThread) {              //  if numThread > 0: Thread may only read allParas
@@ -713,8 +723,10 @@ class SingleDocument {
       aError.aShortComment = aError.aFullComment;
     }
     aError.aShortComment = org.languagetool.gui.Tools.shortenComment(aError.aShortComment);
-    int numSuggestions = ruleMatch.getSuggestedReplacements().size();
-    String[] allSuggestions = ruleMatch.getSuggestedReplacements().toArray(new String[numSuggestions]);
+    int numSuggestions;
+    String[] allSuggestions;
+    numSuggestions = ruleMatch.getSuggestedReplacements().size();
+    allSuggestions = ruleMatch.getSuggestedReplacements().toArray(new String[numSuggestions]);
     //  Filter: remove suggestions for override dot at the end of sentences
     //  needed because of error in dialog
     if (lastChar == '.' && (ruleMatch.getToPos() + startIndex) == sentencesLength) {
@@ -742,22 +754,24 @@ class SingleDocument {
     // LibreOffice since version 6.2 supports the change of underline style (key: "LineType", value: short (DASHED = 5))
     // older version will simply ignore the properties
     Color underlineColor = config.getUnderlineColor(ruleMatch.getRule().getCategory().getName());
+    URL url = ruleMatch.getUrl();
+    if (url == null) {                      // match URL overrides rule URL 
+      url = ruleMatch.getRule().getUrl();
+    }
     if(underlineColor != Color.blue) {
       int ucolor = underlineColor.getRGB() & 0xFFFFFF;
-      if (ruleMatch.getRule().getUrl() != null) {
+      if (url != null) {
         aError.aProperties = new PropertyValue[] { new PropertyValue(
-            "FullCommentURL", -1, ruleMatch.getRule().getUrl().toString(),
-            PropertyState.DIRECT_VALUE),
+            "FullCommentURL", -1, url.toString(), PropertyState.DIRECT_VALUE),
             new PropertyValue("LineColor", -1, ucolor, PropertyState.DIRECT_VALUE) };
       } else {
         aError.aProperties = new PropertyValue[] {
             new PropertyValue("LineColor", -1, ucolor, PropertyState.DIRECT_VALUE) };
       }
     } else {
-      if (ruleMatch.getRule().getUrl() != null) {
+      if (url != null) {
         aError.aProperties = new PropertyValue[] { new PropertyValue(
-            "FullCommentURL", -1, ruleMatch.getRule().getUrl().toString(),
-            PropertyState.DIRECT_VALUE) };
+            "FullCommentURL", -1, url.toString(), PropertyState.DIRECT_VALUE) };
       } else {
         aError.aProperties = new PropertyValue[0];
       }
@@ -818,6 +832,5 @@ class SingleDocument {
       }
     }
   }
-  
-  
+
 }

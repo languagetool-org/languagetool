@@ -447,13 +447,13 @@ public class MainTest extends AbstractSecurityTestCase {
     assertTrue(output.indexOf("<?xml version=\"1.0\" encoding=\"UTF-8\"?>") == 0);
     assertTrue(output.contains("ruleId=\"WARD_VS_WART\" subId=\"1\""));
     //check URL part
-    assertTrue(output.contains("url=\"http://www.korrekturen.de/beliebte_fehler/ward.shtml\""));
+    assertTrue(output.contains("url=\"https://www.korrekturen.de/beliebte_fehler/ward.shtml\""));
 
     //now check in normal mode and check for URL
     String[] args2 = {"-l", "de", input.getAbsolutePath()};
     Main.main(args2);
     String output2 = new String(this.out.toByteArray());
-    assertTrue(output2.contains("More info: http://www.korrekturen.de/beliebte_fehler/ward.shtml"));
+    assertTrue(output2.contains("More info: https://www.korrekturen.de/beliebte_fehler/ward.shtml"));
   }
 
   @Test

@@ -18,6 +18,7 @@
  */
 package org.languagetool.server;
 
+import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.languagetool.Language;
@@ -50,6 +51,7 @@ public class HTTPServerMultiLangLoadTest extends HTTPServerLoadTest {
   final Map<Language, String> langCodeToText = new HashMap<>();
   final Random random = new Random(1234);
   final AtomicInteger counter = new AtomicInteger();
+
 
   @Test
   @Override

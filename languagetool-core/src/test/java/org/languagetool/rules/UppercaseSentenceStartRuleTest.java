@@ -38,6 +38,7 @@ public class UppercaseSentenceStartRuleTest {
   @Test
   public void testRule() throws IOException {
     // correct sentences:
+    assertGood("this");
     assertGood("a) This is a test sentence.");
     assertGood("iv. This is a test sentence...");
     assertGood("\"iv. This is a test sentence...\"");
@@ -53,7 +54,7 @@ public class UppercaseSentenceStartRuleTest {
     assertEquals(1, matches.length);
     assertEquals(0, matches[0].getFromPos());
     assertEquals(4, matches[0].getToPos());
-    RuleMatch[] matches2 = rule.match(lt.analyzeText("this"));
+    RuleMatch[] matches2 = rule.match(lt.analyzeText("this!"));
     assertEquals(1, matches2.length);
     assertEquals(0, matches2[0].getFromPos());
     assertEquals(4, matches2[0].getToPos());

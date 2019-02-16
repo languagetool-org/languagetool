@@ -75,7 +75,7 @@ public class PortugueseWordinessRule extends AbstractSimpleReplaceRule2 {
 
   @Override
   public String getSuggestion() {
-    return " é uma expressão desnecessariamente complexa. É preferível dizer ";
+    return " é uma expressão prolixa. É preferível dizer ";
   }
 
   @Override

@@ -34,6 +34,11 @@ public class DutchTagger extends BaseTagger {
     return "/nl/added.txt";
   }
 
+  @Override
+  public String getManualRemovalsFileName() {
+    return "/nl/removed.txt";
+  }
+
   public DutchTagger() {
     super("/nl/dutch.dict",  new Locale("nl"));
   }

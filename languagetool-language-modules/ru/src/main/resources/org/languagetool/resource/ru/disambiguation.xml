@@ -108,6 +108,16 @@ Copyright (C) 2009-2017 Yakov Reztsov
         <disambig action="remove" postag="NN:.*:.*:.*:(Nom|D|R|T)"></disambig>
     </rule>
     
+    <rule name="INTERJECTION_OR_PREP_O" id="INTERJECTION_O">
+        <pattern>
+            <!-- о  -->
+            <marker>
+                <token>о</token>
+            </marker>
+            <token  negate="yes" regexp="yes">[.!,?]</token>
+        </pattern>
+        <disambig action="remove" postag="INTERJECTION"></disambig>
+    </rule>
 
     <rule name="NOUN_NOT_NOM" id="NOUN_NOT_NOM">
         <pattern>	 

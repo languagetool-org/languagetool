@@ -1,9 +1,127 @@
 # LanguageTool Change Log
 
-## 4.3-SNAPSHOT (2018-09-26)
+## 4.5-SNAPSHOT(release planned for 2019-03-26)
+
+#### German
+  * added and improved rules
+  * improved suggestions for typos that end with a dot (typically at the end of
+    the sentence) - the dot is not included anymore 
+  
+#### Russian
+  * added and improved rules
+  * added many words without "yo" letter to POS dictionary
+
+#### General
+  * URLs written like `mydomain.org/` are now detected as domains and not
+    considered spelling errors anymore. Note that the slash is still needed
+    to avoid missing real errors.
+  * JSON output: The `replacements` list now has an optional new item `shortDescription`
+    for each `value`. It can contain a short definition/hint about the word. Currently,
+    the only words that have a short description are ones that have a description
+    in `confusion_sets.txt` (i.e. a text after the `|` symbol).
+
+#### General
+  * bug fix: don't make `interpretAs` part of getTextWithMarkup() (#1393)
+
+#### HTTP API / LT server
+  * Experimental new parameter `preferredLanguages`: up to a certain limit (currently
+    50 characters), only these languages will be considered for language detection.
+    This has to be a comma-delimited list of language codes without variants (e.g.
+    use 'en', not 'en-US'). 
+    This only works with fasttext configured as the language detector.
+
+
+
+## 4.4.1 (2019-01-14)
+
+  * Fixed a bug that prevented opening the Options dialog in LibreOffice/OpenOffice
+
+
+
+## 4.4 (2018-12-27)
+
+#### Catalan
+  * added and improved rules
+  * updated dictionary
+
+#### Dutch
+  * added and improved rules, including more confusion rules for dyslectic people
+  * added large amount of family names to reduce false alarms in spelling
 
 #### English
   * added and improved rules
+  * segmentation improvements
+  * updated en_GB spellchecker dictionary from https://github.com/marcoagpinto/aoo-mozilla-en-dict (Version 2.67 - 2018-12-01)
+  * added rules for 'Oxford spelling' (applicable to British English only)
+
+##### French
+  * small rule improvements
+
+#### German
+  * added and improved rules
+  * Swiss German: improved POS tagging of words that contain 'ß' in de-DE German (e.g.,
+    'gross' is tagged as 'gross[groß/ADJ:PRD:GRU]'); (#1147)
+  * Simple German: added and improved rules; restructured grammar.xml
+
+#### Portuguese
+  * added and improved rules
+  * disambiguation improvements
+  * POS and spelling improvements
+
+#### Russian
+  * added and improved rules
+  * disambiguation improvements
+  * POS and spelling dictionary improvements 
+
+#### Serbian
+  * Serbian never moved beyond its "initial support" state with a tiny number of rules,
+    and it has no active maintainer, so we have deactivated it for now. If you'd like to
+    maintain support for Serbian, let us know in the forum (https://forum.languagetool.org).
+    Once it's clear that a new active long-term maintainer has been found, we'll activate
+    support for Serbian again.
+    
+#### Ukrainian
+  * dictionary update (about 7k of new words)
+  * added and improved rules
+  * improvements to tokenization, tagging, and disambiguation
+
+#### HTTP API / LT server
+  * Experimental support for `altLanguages` parameter: takes a list of language
+    codes. Unknown words of the main languages (as specified by the `language` parameter)
+    will cause errors of type "Hint" if accepted by one of these languages.
+    We expect clients to interpret this like style issues, e.g. these words should
+    be underlined with a light blue instead of red.
+    Support for this is experimental, i.e. it might be removed again or implemented
+    in a different way. 
+  * Experimental support for `noopLanguages` parameter: takes a list of language
+    codes of languages that are not supported by LT but that will be detected and
+    mapped to a no-op language without rules. Useful for clients that rely on
+    language auto-detection and whose users might use languages not supported by LT.
+    NOTE 1: only works with fastText configured
+    NOTE 2: setting languages here will worsen language detection quality on average
+  * Change to language detection behavior: Removed fallback to English when confidence of
+    detection algorithm is low, instead now always returning highest scoring detected language.
+    Added a field `confidence` to `detectedLanguage` object in the JSON response that contains
+    the probability score for the detected language as computed by the detection algorithm.
+
+
+
+## 4.3 (2018-09-26)
+
+#### Catalan
+  * added and improved rules
+
+#### Dutch
+  * added and improved rules
+
+#### English
+  * added and improved rules
+
+##### Esperanto
+  * added and improved rules
+
+##### French
+  * small rule improvements
 
 #### Galician
   * added and improved rules
@@ -17,9 +135,13 @@
 #### Portuguese
   * added and improved rules
   * improvements to disambiguation, and segmentation
-  * dictionary update
+  * updated Hunspell dictionaries to:
+    - [pt-PT pos-AO] Dicionários Portugueses Complementares 3.0
 
 #### Russian
+  * added and improved rules
+
+#### Ukrainian
   * added and improved rules
 
 #### General
@@ -50,11 +172,21 @@
     before feeding them into LT.  
     (Issue: https://github.com/languagetool-org/languagetool/issues/757)
   * The `blockedReferrers` setting now also considers the `Origin` header
+  * A `blockedReferrers` setting of `foobar.org` will now automatically match `http://foobar.org`, 
+   `http://www.foobar.org`, `https://foobar.org`, and `https://www.foobar.org`
   * New setting `fasttextModel` (see https://fasttext.cc/docs/en/language-identification.html)
     and `fasttextBinary` (see https://fasttext.cc/docs/en/support.html). With these
     options set, the automatic language detection is much better than the built-in one.
-
-
+  * Experimental new `mode` parameter with `all`, `textLevelOnly`, or `allButTextLevelOnly` as value:
+    Will check only text-level rules or all other rules. As there are fewer text-level rules,
+    this is usually much faster and the access limit for characters per minute that can be
+    checked is more generous for this mode.
+  * Improved spellchecker suggestions (not yet enabled by default).
+    See https://forum.languagetool.org/t/gsoc-reports-spellchecker-server-side-framework-and-build-tool-tasks/2926/43
+  * Experimental new `type` in JSON. This is supposed to help clients choose the color
+    with which they underline/mark errors. Please do not rely on this yet, it might change
+    or even be removed.
+  
 
 ## 4.2 (2018-06-26)
 

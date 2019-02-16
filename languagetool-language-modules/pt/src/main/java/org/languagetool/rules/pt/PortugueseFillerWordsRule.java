@@ -24,6 +24,7 @@ import java.util.ResourceBundle;
 import java.util.Set;
 
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.Language;
 import org.languagetool.UserConfig;
 import org.languagetool.rules.AbstractFillerWordsRule;
 
@@ -59,8 +60,8 @@ public class PortugueseFillerWordsRule extends AbstractFillerWordsRule {
       "toda", "todas", "todo", "todos", "tudo", "ultrajante", "velho", "verdade", "vez", "vezes", "volta"
   ));
   
-  public PortugueseFillerWordsRule(ResourceBundle messages, UserConfig userConfig) {
-    super(messages, userConfig);
+  public PortugueseFillerWordsRule(ResourceBundle messages, Language lang, UserConfig userConfig) {
+    super(messages, lang, userConfig);
   }
 
   @Override
@@ -75,7 +76,7 @@ public class PortugueseFillerWordsRule extends AbstractFillerWordsRule {
 
   @Override
   public boolean isException(AnalyzedTokenReadings[] tokens, int num) {
-    if ("mas".equals(tokens[num].getToken()) && num >= 2 && ",".equals(tokens[num - 2].getToken())) {
+    if ("mas".equals(tokens[num].getToken()) && num >= 1 && ",".equals(tokens[num - 1].getToken())) {
       return true;
     }
     return false;

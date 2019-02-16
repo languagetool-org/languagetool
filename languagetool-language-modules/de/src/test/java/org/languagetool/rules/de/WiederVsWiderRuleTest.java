@@ -18,14 +18,14 @@
  */
 package org.languagetool.rules.de;
 
-import org.junit.Test;
-import org.languagetool.JLanguageTool;
-import org.languagetool.TestTools;
-import org.languagetool.language.German;
+import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
 
-import static org.junit.Assert.assertEquals;
+import org.junit.Test;
+import org.languagetool.JLanguageTool;
+import org.languagetool.TestTools;
+import org.languagetool.language.GermanyGerman;
 
 public class WiederVsWiderRuleTest {
 
@@ -33,7 +33,7 @@ public class WiederVsWiderRuleTest {
 
   @Test
   public void testRule() throws IOException {
-    JLanguageTool lt = new JLanguageTool(new German());
+    JLanguageTool lt = new JLanguageTool(new GermanyGerman());
 
     assertGood("Das spiegelt wider, wie es wieder läuft.", lt);
     assertGood("Das spiegelt die Situation gut wider.", lt);

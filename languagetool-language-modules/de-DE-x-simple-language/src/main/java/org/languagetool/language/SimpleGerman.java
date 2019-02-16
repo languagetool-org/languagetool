@@ -18,6 +18,8 @@
  */
 package org.languagetool.language;
 
+import org.jetbrains.annotations.Nullable;
+import org.languagetool.Language;
 import org.languagetool.UserConfig;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.Rule;
@@ -54,7 +56,7 @@ public class SimpleGerman extends GermanyGerman {
   }
 
   @Override
-  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig) throws IOException {
+  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, List<Language> altLanguages) throws IOException {
     List<Rule> rules = new ArrayList<>();
     LongSentenceRule lengthRule = new LongSentenceRule(messages, userConfig, 12, true);
     rules.add(lengthRule);
@@ -72,9 +74,16 @@ public class SimpleGerman extends GermanyGerman {
   }
 
   @Override
+  public List<Rule> getRelevantLanguageModelCapableRules(ResourceBundle messages, @Nullable LanguageModel languageModel, UserConfig userConfig, List<Language> altLanguages) throws IOException {
+    return Collections.emptyList();
+  }
+
+  @Override
   public int getPriorityForId(String id) {
-    switch (id) {
-      case LongSentenceRule.RULE_ID: return 10;
+    if (id.equals(LongSentenceRule.RULE_ID)) {
+      return 10;
+    } else if (id.equals("LANGES_WORT")) {
+      return -1;
     }
     return super.getPriorityForId(id);
   }

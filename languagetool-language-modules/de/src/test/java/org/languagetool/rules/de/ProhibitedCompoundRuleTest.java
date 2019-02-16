@@ -18,20 +18,27 @@
  */
 package org.languagetool.rules.de;
 
-import org.junit.Test;
-import org.languagetool.JLanguageTool;
-import org.languagetool.TestTools;
-import org.languagetool.language.German;
-import org.languagetool.rules.RuleMatch;
-import org.languagetool.rules.ngrams.FakeLanguageModel;
+import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertThat;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.*;
+import org.junit.Test;
+import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
+import org.languagetool.Languages;
+import org.languagetool.TestTools;
+import org.languagetool.language.GermanyGerman;
+import org.languagetool.languagemodel.LanguageModel;
+import org.languagetool.languagemodel.LuceneLanguageModel;
+import org.languagetool.rules.Rule;
+import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.ngrams.FakeLanguageModel;
 
 public class ProhibitedCompoundRuleTest {
   
@@ -44,7 +51,7 @@ public class ProhibitedCompoundRuleTest {
     map.put("Wohnungsleerstand", 50);
     map.put("Xliseihflehrstand", 50);
     ProhibitedCompoundRule rule = new ProhibitedCompoundRule(TestTools.getEnglishMessages(), new FakeLanguageModel(map));
-    JLanguageTool lt = new JLanguageTool(new German());
+    JLanguageTool lt = new JLanguageTool(new GermanyGerman());
     assertMatches("Er ist Uhrberliner.", 1, rule, lt);
     assertMatches("Hier leben die Uhreinwohner.", 1, rule, lt);
     assertMatches("Eine Leerzeile einfügen.", 0, rule, lt);
@@ -55,7 +62,28 @@ public class ProhibitedCompoundRuleTest {
     assertMatches("Viel Xliseihflehrstand.", 0, rule, lt);  // no correct spelling, so not suggested
   }
 
-  private void assertMatches(String input, int expecteMatches, ProhibitedCompoundRule rule, JLanguageTool lt) throws IOException {
+  ProhibitedCompoundRule getRule(String languageModelPath) throws IOException {
+    return getRule(languageModelPath, ProhibitedCompoundRule.RULE_ID);
+  }
+
+  ProhibitedCompoundRule getRule(String languageModelPath, String ruleId) throws IOException {
+    Language lang = Languages.getLanguageForShortCode("de");
+    LanguageModel languageModel = new LuceneLanguageModel(new File(languageModelPath, lang.getShortCode()));
+    List<Rule> rules = lang.getRelevantLanguageModelRules(JLanguageTool.getMessageBundle(), languageModel);
+    if (rules == null) {
+      throw new RuntimeException("Language " + lang + " doesn't seem to support a language model");
+    }
+    ProhibitedCompoundRule foundRule = null;
+    for (Rule rule : rules) {
+      if (rule.getId().equals(ruleId)) {
+        foundRule = (ProhibitedCompoundRule) rule;
+        break;
+      }
+    }
+    return foundRule;
+  }
+
+  void assertMatches(String input, int expecteMatches, ProhibitedCompoundRule rule, JLanguageTool lt) throws IOException {
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(input));
     assertThat("Got matches: " + Arrays.toString(matches), matches.length, is(expecteMatches));
   }

@@ -5,7 +5,7 @@
     <parent>
         <artifactId>languagetool-parent</artifactId>
         <groupId>org.languagetool</groupId>
-        <version>4.3-SNAPSHOT</version>
+        <version>4.5-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -28,14 +28,28 @@
         <plugins>
             <plugin>
                 <!-- call with: mvn clean compile assembly:single -->
+                <!-- may need to call `mvn install` in parent folder for this to work -->
                 <artifactId>maven-assembly-plugin</artifactId>
                 <version>${maven.assemby.plugin}</version>
                 <configuration>
-                    <descriptorRefs>
-                        <descriptorRef>jar-with-dependencies</descriptorRef>
-                    </descriptorRefs>
+                    <descriptor>src/main/assembly/zip.xml</descriptor>
                 </configuration>
             </plugin>
+            <plugin>
+                <!-- build one big JAR named languagetool-dev-x.y-SNAPSHOT-shaded.jar -->
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <shadedArtifactAttached>true</shadedArtifactAttached>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>        
         </plugins>
     </build>
     
@@ -78,6 +92,15 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
+        <!-- see https://github.com/commoncrawl/language-detection-cld2 -->
+        <!--
+        <dependency>
+            <groupId>org.commoncrawl</groupId>
+            <artifactId>language-detection-cld2</artifactId>
+            <version>0.1-SNAPSHOT</version>
+            <scope>test</scope>
+        </dependency>
+        -->
     </dependencies>
 
 </project>

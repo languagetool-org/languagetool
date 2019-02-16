@@ -36,6 +36,7 @@ import java.util.*;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeoutException;
 
+import static java.net.HttpURLConnection.HTTP_UNAVAILABLE;
 import static org.languagetool.server.ServerTools.print;
 
 class LanguageToolHttpHandler implements HttpHandler {
@@ -76,7 +77,7 @@ class LanguageToolHttpHandler implements HttpHandler {
         // healthcheck should come before other limit checks (requests per time etc.), to be sure it works: 
         String pathWithoutVersion = requestedUri.getRawPath().substring("/v2/".length());
         if (pathWithoutVersion.equals("healthcheck")) {
-          if (workQueueFull(httpExchange, "Healthcheck failed: There are currently too many parallel requests.")) {
+          if (workQueueFull(httpExchange, parameters, "Healthcheck failed: There are currently too many parallel requests.")) {
             return;
           } else {
             String ok = "OK";
@@ -92,9 +93,9 @@ class LanguageToolHttpHandler implements HttpHandler {
       for (String ref : config.getBlockedReferrers()) {
         String errorMessage = null;
         if (ref != null && !ref.isEmpty()) {
-          if (referrer != null && referrer.startsWith(ref)) {
+          if (referrer != null && siteMatches(referrer, ref)) {
             errorMessage = "Error: Access with referrer " + referrer + " denied.";
-          } else if (origin != null && origin.startsWith(ref)) {
+          } else if (origin != null && siteMatches(origin, ref)) {
             errorMessage = "Error: Access with origin " + origin + " denied.";
           }
         }
@@ -115,16 +116,17 @@ class LanguageToolHttpHandler implements HttpHandler {
       parameters = getRequestQuery(httpExchange, requestedUri);
       if (requestLimiter != null) {
         try {
-          requestLimiter.checkAccess(remoteAddress, parameters);
+          requestLimiter.checkAccess(remoteAddress, parameters, httpExchange.getRequestHeaders());
         } catch (TooManyRequestsException e) {
           String errorMessage = "Error: Access from " + remoteAddress + " denied: " + e.getMessage();
           int code = HttpURLConnection.HTTP_FORBIDDEN;
           sendError(httpExchange, code, errorMessage);
-          logError(errorMessage, code, parameters, httpExchange);
+          // already logged vai DatabaseAccessLimitLogEntry
+          logError(errorMessage, code, parameters, httpExchange, false);
           return;
         }
       }
-      if (errorRequestLimiter != null && !errorRequestLimiter.wouldAccessBeOkay(remoteAddress)) {
+      if (errorRequestLimiter != null && !errorRequestLimiter.wouldAccessBeOkay(remoteAddress, parameters, httpExchange.getRequestHeaders())) {
         String textSizeMessage = getTextOrDataSizeMessage(parameters);
         String errorMessage = "Error: Access from " + remoteAddress + " denied - too many recent timeouts. " +
                 textSizeMessage +
@@ -135,7 +137,7 @@ class LanguageToolHttpHandler implements HttpHandler {
         logError(errorMessage, code, parameters, httpExchange);
         return;
       }
-      if (workQueueFull(httpExchange, "Error: There are currently too many parallel requests. Please try again later.")) {
+      if (workQueueFull(httpExchange, parameters, "Error: There are currently too many parallel requests. Please try again later.")) {
         return;
       }
       if (allowedIps == null || allowedIps.contains(origAddress)) {
@@ -173,9 +175,10 @@ class LanguageToolHttpHandler implements HttpHandler {
         errorCode = HttpURLConnection.HTTP_BAD_REQUEST;
         response = ExceptionUtils.getRootCause(e).getMessage();
         logStacktrace = false;
-      } else if (e instanceof AuthException || rootCause instanceof AuthException) {
+      } else if (hasCause(e, AuthException.class)) {
         errorCode = HttpURLConnection.HTTP_FORBIDDEN;
         response = e.getMessage();
+        logStacktrace = false;
       } else if (e instanceof IllegalArgumentException || rootCause instanceof IllegalArgumentException) {
         errorCode = HttpURLConnection.HTTP_BAD_REQUEST;
         response = e.getMessage();
@@ -191,6 +194,7 @@ class LanguageToolHttpHandler implements HttpHandler {
       long endTime = System.currentTimeMillis();
       logError(remoteAddress, e, errorCode, httpExchange, parameters, textLoggingAllowed, logStacktrace, endTime-startTime);
       sendError(httpExchange, errorCode, "Error: " + response);
+
     } finally {
       httpExchange.close();
       if (incrementHandleCount) {
@@ -199,11 +203,26 @@ class LanguageToolHttpHandler implements HttpHandler {
     }
   }
 
-  private boolean workQueueFull(HttpExchange httpExchange, String response) throws IOException {
+  private boolean hasCause(Exception e, Class<AuthException> clazz) {
+    for (Throwable throwable : ExceptionUtils.getThrowableList(e)) {
+      if (throwable.getClass().equals(clazz)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  private boolean siteMatches(String referrer, String blockedRef) {
+    return referrer.startsWith(blockedRef) || 
+           referrer.startsWith("http://" + blockedRef) || referrer.startsWith("https://" + blockedRef) ||
+           referrer.startsWith("http://www." + blockedRef) || referrer.startsWith("https://www." + blockedRef);
+  }
+
+  private boolean workQueueFull(HttpExchange httpExchange, Map<String, String> parameters, String response) throws IOException {
     if (config.getMaxWorkQueueSize() != 0 && workQueue.size() > config.getMaxWorkQueueSize()) {
-      print(response + ", sending code 503. Queue size: " + workQueue.size() + ", maximum size: " + config.getMaxWorkQueueSize() +
-              ", handlers:" + reqCounter.getHandleCount() + ", r:" + reqCounter.getRequestCount());
-      sendError(httpExchange, HttpURLConnection.HTTP_UNAVAILABLE, "Error: " + response);
+      String message = response + " queue size: " + workQueue.size() + ", maximum size: " + config.getMaxWorkQueueSize();
+      logError(message, HTTP_UNAVAILABLE, parameters, httpExchange);
+      sendError(httpExchange, HTTP_UNAVAILABLE, "Error: " + response);
       return true;
     }
     return false;
@@ -224,13 +243,24 @@ class LanguageToolHttpHandler implements HttpHandler {
   }
 
   private void logError(String errorMessage, int code, Map<String, String> params, HttpExchange httpExchange) {
+    logError(errorMessage, code, params, httpExchange, true);
+  }
+
+  private void logError(String errorMessage, int code, Map<String, String> params, HttpExchange httpExchange, boolean logToDb) {
     String message = errorMessage + ", sending code " + code + " - useragent: " + params.get("useragent") +
             " - HTTP UserAgent: " + getHttpUserAgent(httpExchange) + ", r:" + reqCounter.getRequestCount();
+    // TODO: might need more than 512 chars:
+    //message += ", referrer: " + getHttpReferrer(httpExchange);
+    //message += ", language: " + params.get("language");
+    //message += ", " + getTextOrDataSizeMessage(params);
     if (params.get("username") != null) {
       message += ", user: " + params.get("username");
     }
     if (params.get("apiKey") != null) {
       message += ", apiKey: " + params.get("apiKey");
+    }
+    if (logToDb) {
+      logToDatabase(params, message);
     }
     print(message);
   }
@@ -241,6 +271,9 @@ class LanguageToolHttpHandler implements HttpHandler {
     message += "Access from " + remoteAddress + ", ";
     message += "HTTP user agent: " + getHttpUserAgent(httpExchange) + ", ";
     message += "User agent param: " + params.get("useragent") + ", ";
+    if (params.get("v") != null) {
+      message += "v: " + params.get("v") + ", ";
+    }
     message += "Referrer: " + getHttpReferrer(httpExchange) + ", ";
     message += "language: " + params.get("language") + ", ";
     message += "h: " + reqCounter.getHandleCount() + ", ";
@@ -256,26 +289,52 @@ class LanguageToolHttpHandler implements HttpHandler {
     if (text != null) {
       message += "text length: " + text.length() + ", ";
     }
+    message += "m: " + ServerTools.getMode(params) + ", ";
+    if (params.containsKey("instanceId")) {
+      message += "iID: " + params.get("instanceId") + ", ";
+    }
     if (logStacktrace) {
       message += "Stacktrace follows:";
+      message += ExceptionUtils.getStackTrace(e);
       print(message, System.err);
-      //noinspection CallToPrintStackTrace
-      e.printStackTrace();
     } else {
       message += "(no stacktrace logged)";
       print(message, System.err);
     }
-    if (config.isVerbose() && text != null && textLoggingAllowed) {
-      print("Exception was caused by this text (" + text.length() + " chars, showing up to 500):\n" +
-              StringUtils.abbreviate(text, 500), System.err);
+
+    if (!(e instanceof TextTooLongException || e instanceof TooManyRequestsException ||
+        ExceptionUtils.getRootCause(e) instanceof ErrorRateTooHighException || e.getCause() instanceof TimeoutException)) {
+      if (config.isVerbose() && text != null && textLoggingAllowed) {
+        print("Exception was caused by this text (" + text.length() + " chars, showing up to 500):\n" +
+          StringUtils.abbreviate(text, 500), System.err);
+        logToDatabase(params, message + StringUtils.abbreviate(text, 500));
+      } else {
+        logToDatabase(params, message);
+      }
     }
+  }
+
+  private void logToDatabase(Map<String, String> params, String message) {
+    DatabaseLogger logger = DatabaseLogger.getInstance();
+    if (!logger.isLogging()) {
+      return;
+    }
+    DatabaseAccess db = DatabaseAccess.getInstance();
+    Long server = db.getOrCreateServerId();
+    Long client = db.getOrCreateClientId(params.get("agent"));
+    Long user = null;
+    try {
+      user = db.getUserId(params.get("username"), params.get("apiKey"));
+    } catch(IllegalArgumentException | IllegalStateException ignored) {
+      // invalid username, api key or combination thereof - user stays null
+    }
+    logger.log(new DatabaseMiscLogEntry(server, client, user, message));
   }
 
   @Nullable
   private String getHttpUserAgent(HttpExchange httpExchange) {
     return httpExchange.getRequestHeaders().getFirst("User-Agent");
   }
-
   @Nullable
   private String getHttpReferrer(HttpExchange httpExchange) {
     return httpExchange.getRequestHeaders().getFirst("Referer");
@@ -304,15 +363,16 @@ class LanguageToolHttpHandler implements HttpHandler {
   }
 
   private Map<String, String> getRequestQuery(HttpExchange httpExchange, URI requestedUri) throws IOException {
-    String query;
+    Map<String, String> params = new HashMap<>();
     if ("post".equalsIgnoreCase(httpExchange.getRequestMethod())) {
       try (InputStreamReader isr = new InputStreamReader(httpExchange.getRequestBody(), ENCODING)) {
-        query = readerToString(isr, config.getMaxTextHardLength());
+        params.putAll(parseQuery(readerToString(isr, config.getMaxTextHardLength()), httpExchange));
+        params.putAll(parseQuery(requestedUri.getRawQuery(), httpExchange));  // POST requests can have query parameters, too
+        return params;
       }
     } else {
-      query = requestedUri.getRawQuery();
+      return parseQuery(requestedUri.getRawQuery(), httpExchange);
     }
-    return parseQuery(query, httpExchange);
   }
 
   private String readerToString(Reader reader, int maxTextLength) throws IOException {
@@ -341,8 +401,7 @@ class LanguageToolHttpHandler implements HttpHandler {
   private Map<String, String> parseQuery(String query, HttpExchange httpExchange) throws UnsupportedEncodingException {
     Map<String, String> parameters = new HashMap<>();
     if (query != null) {
-      Map<String, String> parameterMap = getParameterMap(query, httpExchange);
-      parameters.putAll(parameterMap);
+      parameters.putAll(getParameterMap(query, httpExchange));
     }
     return parameters;
   }

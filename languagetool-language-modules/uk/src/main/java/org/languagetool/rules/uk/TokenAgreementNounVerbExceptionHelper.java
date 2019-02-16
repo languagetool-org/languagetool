@@ -466,7 +466,7 @@ public final class TokenAgreementNounVerbExceptionHelper {
     return loadSet;
   }
 
-  
+
   private static void logException() {
     if( logger.isDebugEnabled() ) {
       StackTraceElement stackTraceElement = Thread.currentThread().getStackTrace()[2];

@@ -64,7 +64,7 @@ class ConfusionRuleEvaluator {
   private final Language language;
   private final boolean caseSensitive;
   private final ConfusionProbabilityRule rule;
-  private final Map<Long,EvalValues> evalValues = new HashMap<>();
+  private final Map<Long, RuleEvalValues> evalValues = new HashMap<>();
 
   private boolean verbose = true;
 
@@ -97,9 +97,9 @@ class ConfusionRuleEvaluator {
     this.verbose = verbose;
   }
 
-  Map<Long, EvalResult> run(List<String> inputsOrDir, String token, String homophoneToken, int maxSentences, List<Long> evalFactors) throws IOException {
+  Map<Long, RuleEvalResult> run(List<String> inputsOrDir, String token, String homophoneToken, int maxSentences, List<Long> evalFactors) throws IOException {
     for (Long evalFactor : evalFactors) {
-      evalValues.put(evalFactor, new EvalValues());
+      evalValues.put(evalFactor, new RuleEvalValues());
     }
     List<Sentence> allTokenSentences = getRelevantSentences(inputsOrDir, token, maxSentences);
     // Load the sentences with a homophone and later replace it so we get error sentences:
@@ -151,9 +151,9 @@ class ConfusionRuleEvaluator {
     }
   }
 
-  private Map<Long,EvalResult> printEvalResult(List<Sentence> allTokenSentences, List<Sentence> allHomophoneSentences, List<String> inputsOrDir,
-                                               String token, String homophoneToken) {
-    Map<Long,EvalResult> results = new HashMap<>();
+  private Map<Long, RuleEvalResult> printEvalResult(List<Sentence> allTokenSentences, List<Sentence> allHomophoneSentences, List<String> inputsOrDir,
+                                                    String token, String homophoneToken) {
+    Map<Long, RuleEvalResult> results = new HashMap<>();
     int sentences = allTokenSentences.size() + allHomophoneSentences.size();
     System.out.println("\nEvaluation results for " + token + "/" + homophoneToken
             + " with " + sentences + " sentences as of " + new Date() + ":");
@@ -161,14 +161,21 @@ class ConfusionRuleEvaluator {
     System.out.printf(ENGLISH, "Case sensit.: %s\n", caseSensitive);
     List<Long> factors = evalValues.keySet().stream().sorted().collect(toList());
     for (Long factor : factors) {
-      EvalValues evalValues = this.evalValues.get(factor);
+      RuleEvalValues evalValues = this.evalValues.get(factor);
       float precision = (float)evalValues.truePositives / (evalValues.truePositives + evalValues.falsePositives);
       float recall = (float) evalValues.truePositives / (evalValues.truePositives + evalValues.falseNegatives);
       String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
       String spaces = StringUtils.repeat(" ", 82-Long.toString(factor).length());
+      String word1 = token;
+      String word2 = homophoneToken;
+      if (word1.compareTo(word2) > 0) {
+        String temp = word1;
+        word1 = word2;
+        word2 = temp;
+      }
       String summary = String.format(ENGLISH, "%s; %s; %d; %s # p=%.3f, r=%.3f, %d+%d, %dgrams, %s",
-              token, homophoneToken, factor, spaces, precision, recall, allTokenSentences.size(), allHomophoneSentences.size(), rule.getNGrams(), date);
-      results.put(factor, new EvalResult(summary, precision, recall));
+              word1, word2, factor, spaces, precision, recall, allTokenSentences.size(), allHomophoneSentences.size(), rule.getNGrams(), date);
+      results.put(factor, new RuleEvalResult(summary, precision, recall));
       if (verbose) {
         System.out.println();
         System.out.printf(ENGLISH, "Factor: %d - %d false positives, %d false negatives, %d true positives, %d true negatives\n",
@@ -275,13 +282,6 @@ class ConfusionRuleEvaluator {
     System.out.println("\nTime: " + (endTime-startTime)+"ms");
   }
 
-  static class EvalValues {
-    private int truePositives = 0;
-    private int trueNegatives = 0;
-    private int falsePositives = 0;
-    private int falseNegatives = 0;
-  }
-  
   // faster version of English as it uses no chunking:
   static class EnglishLight extends English {
     
@@ -306,28 +306,4 @@ class ConfusionRuleEvaluator {
     }
   }
 
-  static class EvalResult {
-
-    private final String summary;
-    private final float precision;
-    private final float recall;
-
-    EvalResult(String summary, float precision, float recall) {
-      this.summary = summary;
-      this.precision = precision;
-      this.recall = recall;
-    }
-
-    String getSummary() {
-      return summary;
-    }
-
-    float getPrecision() {
-      return precision;
-    }
-
-    float getRecall() {
-      return recall;
-    }
-  }
 }

@@ -21,6 +21,8 @@ package org.languagetool.tagging.uk;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.function.UnaryOperator;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
@@ -44,6 +46,8 @@ public class UkrainianTagger extends BaseTagger {
   private static final Pattern DATE = Pattern.compile("[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}");
   private static final Pattern TIME = Pattern.compile("([01]?[0-9]|2[0-3])[.:][0-5][0-9]");
   private static final Pattern ALT_DASHES_IN_WORD = Pattern.compile("[а-яіїєґ0-9a-z]\u2013[а-яіїєґ]|[а-яіїєґ]\u2013[0-9]", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+  private static final Pattern NAPIV_ALLOWED_TAGS_REGEX = Pattern.compile("(noun|ad(j|v(?!p))(?!.*?:comp[cs])).*");
+  private static final Pattern NAPIV_REMOVE_TAGS_REGEX = Pattern.compile(":comp.|:&adjp(:(actv|pasv|perf|imperf))*");
   
   private final CompoundTagger compoundTagger = new CompoundTagger(this, wordTagger, conversionLocale);
 //  private BufferedWriter taggedDebugWriter;
@@ -76,12 +80,12 @@ public class UkrainianTagger extends BaseTagger {
       additionalTaggedTokens.add(new AnalyzedToken(word, IPOSTag.date.getText(), word));
       return additionalTaggedTokens;
     }
-    
-    if ( word.indexOf('-') != -1 ) {
+
+    if ( word.indexOf('-') > 0 ) {
       List<AnalyzedToken> guessedCompoundTags = compoundTagger.guessCompoundTag(word);
       return guessedCompoundTags;
     }
-        
+
     return guessOtherTags(word);
   }
 
@@ -92,78 +96,167 @@ public class UkrainianTagger extends BaseTagger {
         || word.endsWith("штрасе")) ) {
       return PosTagHelper.generateTokensForNv(word, "f", ":prop");
     }
-    
+
     return null;
   }
+
 
   @Override
   protected List<AnalyzedToken> getAnalyzedTokens(String word) {
     List<AnalyzedToken> tokens = super.getAnalyzedTokens(word);
 
-    if( tokens.get(0).getPOSTag() == null ) {
-      char otherHyphen = getOtherHyphen(word);
-      if( otherHyphen != '\u0000'
+    if( tokens.get(0).hasNoTag() ) {
+      String origWord = word;
+
+      if( word.endsWith("м²") ||  word.endsWith("м³") ) {
+        word = origWord.substring(0, word.length()-1);
+        List<AnalyzedToken> newTokens = getAdjustedAnalyzedTokens(origWord, word, Pattern.compile("noun:inanim.*"), null, null);
+        return newTokens.size() > 0 ? newTokens : tokens; 
+      }
+
+      
+      if( word.indexOf('\u2013') > 0
            && ALT_DASHES_IN_WORD.matcher(word).find() ) {
 
-        String newWord = word.replace(otherHyphen, '-');
+        word = origWord.replace('\u2013', '-');
 
-        List<AnalyzedToken> newTokens = super.getAnalyzedTokens(newWord);
+        List<AnalyzedToken> newTokens = getAdjustedAnalyzedTokens(origWord, word, null, null, null);
 
-        for (int i = 0; i < newTokens.size(); i++) {
-          AnalyzedToken analyzedToken = newTokens.get(i);
-          if( newWord.equals(analyzedToken.getToken()) ) {
+        if( newTokens.size() > 0 ) {
+          tokens = newTokens;
+        }
+      }
+      
+      if( word.length() > 7 && word.startsWith("напів") ) {
+        String addPosTag = "";
+
+        Matcher matcher = Pattern.compile("(напів['-]?)(.*)").matcher(word);
+        matcher.matches();
+
+        String prefix = matcher.group(1);
+        String adjustedWord = matcher.group(2);
+
+        List<AnalyzedToken> newTokens = getAdjustedAnalyzedTokens(origWord, adjustedWord, NAPIV_ALLOWED_TAGS_REGEX, null, null);
+
+        if( newTokens.size() > 0 ) {
+          if( ! addPosTag.contains(":bad:") ) {
+            if( word.charAt(5) == '-'
+                && ! adjustedWord.matches("[А-ЯІЇЄҐ].*") ) {
+              addPosTag += ":bad";
+            }
+            else if( word.charAt(5) != '\''
+                && adjustedWord.matches("[єїюя].*") ) {
+              addPosTag += ":bad";
+            }
+          }
+
+          for (int i = 0; i < newTokens.size(); i++) {
+            AnalyzedToken analyzedToken = newTokens.get(i);
+
             String lemma = analyzedToken.getLemma();
-    // we probably want the original lemma
-//            if( lemma != null ) {
-//              lemma = lemma.replace('-', otherHyphen);
-//            }
-            AnalyzedToken newToken = new AnalyzedToken(word, analyzedToken.getPOSTag(), lemma);
+            String posTag = analyzedToken.getPOSTag();
+
+            posTag = NAPIV_REMOVE_TAGS_REGEX.matcher(posTag).replaceAll("");
+
+            posTag = PosTagHelper.addIfNotContains(posTag, addPosTag);
+
+            AnalyzedToken newToken = new AnalyzedToken(origWord, posTag, prefix+lemma);
             newTokens.set(i, newToken);
           }
+          tokens = newTokens;
         }
-        
-        tokens = newTokens;
       }
-      // try УКРАЇНА as Україна
-      else if( StringUtils.isAllUpperCase(word) ) {
-        String newWord = StringUtils.capitalize(StringUtils.lowerCase(word));
-        List<AnalyzedToken> newTokens = super.getAnalyzedTokens(newWord);
-
-        for (int i = 0; i < newTokens.size(); i++) {
-          AnalyzedToken analyzedToken = newTokens.get(i);
-          String lemma = analyzedToken.getLemma();
-          AnalyzedToken newToken = new AnalyzedToken(word, analyzedToken.getPOSTag(), lemma);
-          newTokens.set(i, newToken);
-        }
-
-        tokens = newTokens;
+      // try г instead of ґ
+      else if( word.contains("ґ") ) {
+        tokens = convertTokens(tokens, word, "ґ", "г", ":alt");
+      }
+      else if( word.contains("ія") ) {
+        tokens = convertTokens(tokens, word, "ія", "іа", ":alt");
+      }
+      else if( word.endsWith("тер") ) {
+        tokens = convertTokens(tokens, word, "тер", "тр", ":alt");
       }
     }
+
+    // try УКРАЇНА as Україна and СИРІЮ as Сирію
+    if( word.length() > 2 && StringUtils.isAllUpperCase(word) ) {
+
+      String newWord = StringUtils.capitalize(StringUtils.lowerCase(word));
+
+      List<AnalyzedToken> newTokens = getAdjustedAnalyzedTokens(word, newWord, Pattern.compile("noun.*?:prop.*"), null, null);
+      if( newTokens.size() > 0 ) {
+          if( tokens.get(0).hasNoTag() ) {
+            //TODO: add special tags if necessary
+            tokens = newTokens;
+          }
+          else {
+            tokens.addAll(newTokens);
+          }
+        }
+    }
+
 
 //    if( taggedDebugWriter != null && ! tkns.isEmpty() ) {
 //      debug_tagged_write(tkns, taggedDebugWriter);
 //    }
-    
+
     return tokens;
   }
 
-  private static char getOtherHyphen(String word) {
-    if( word.indexOf('\u2013') != -1 )
-      return '\u2013';
-// we normalize \u2011 to \u002D in tokenizer
-//    if( word.indexOf('\u2011') != -1 )
-//      return '\u2011';
+  private List<AnalyzedToken> convertTokens(List<AnalyzedToken> origTokens, String word, String str, String dictStr, String additionalTag) {
+    String adjustedWord = word.replace(str, dictStr);
+
+    List<AnalyzedToken> newTokens = getAdjustedAnalyzedTokens(word, adjustedWord, null, additionalTag,
+        (lemma) -> lemma.replace(dictStr, str));
     
-    return '\u0000';
+    if( newTokens.isEmpty() )
+        return origTokens;
+
+    return newTokens;
   }
+
+  private List<AnalyzedToken> getAdjustedAnalyzedTokens(String word, String adjustedWord, Pattern posTagRegex, 
+      String additionalTag, UnaryOperator<String> lemmaFunction) {
+
+    List<AnalyzedToken> newTokens = super.getAnalyzedTokens(adjustedWord);
+
+    if( newTokens.get(0).hasNoTag() )
+      return new ArrayList<>();
+
+    List<AnalyzedToken> derivedTokens = new ArrayList<>();
+
+    for (int i = 0; i < newTokens.size(); i++) {
+      AnalyzedToken analyzedToken = newTokens.get(i);
+      String posTag = analyzedToken.getPOSTag();
+
+      if( adjustedWord.equals(analyzedToken.getToken()) // filter out tokens with accents etc with null pos tag
+          && (posTagRegex == null || posTagRegex.matcher(posTag).matches()) ) {
+        
+        String lemma = analyzedToken.getLemma();
+        if( lemmaFunction != null ) {
+          lemma = lemmaFunction.apply(lemma);
+        }
+
+        if( additionalTag != null ) {
+          posTag = PosTagHelper.addIfNotContains(posTag, additionalTag);
+        }
+
+        AnalyzedToken newToken = new AnalyzedToken(word, posTag, lemma);
+        derivedTokens.add(newToken);
+      }
+    }
+
+    return derivedTokens;
+  }
+
 
   List<AnalyzedToken> asAnalyzedTokenListForTaggedWordsInternal(String word, List<TaggedWord> taggedWords) {
     return super.asAnalyzedTokenListForTaggedWords(word, taggedWords);
   }
-  
+
   // we need to expose this as some rules want to know if the word is in the dictionary
   public WordTagger getWordTagger() {
     return super.getWordTagger();
   }
-  
+
 }

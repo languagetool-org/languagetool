@@ -18,18 +18,30 @@
  */
 package org.languagetool.rules.spelling.morfologik.suggestions_ordering;
 
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVRecord;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
+import org.languagetool.Languages;
 import org.languagetool.language.Demo;
+import org.languagetool.rules.Rule;
+import org.languagetool.rules.RuleMatch;
 
+import java.io.FileReader;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 public class SuggestionsOrdererTest {
   
@@ -90,6 +102,98 @@ public class SuggestionsOrdererTest {
     List<String> suggestionsOrdered = suggestionsOrderer.orderSuggestionsUsingModel(
             suggestions, word, languageTool.getAnalyzedSentence(sentence), startPos, wordLength);
     assertTrue(suggestionsOrdered.containsAll(suggestions));
+  }
+
+  public static void main(String[] args) throws IOException {
+    Map<String, JLanguageTool> ltMap = new HashMap<>();
+    Map<String, Rule> rules = new HashMap<>();
+    Map<String, SuggestionsOrderer> ordererMap = new HashMap<>();
+    final AtomicInteger numOriginalCorrect = new AtomicInteger(0),
+      numReorderedCorrect = new AtomicInteger(0),
+      numOtherCorrect = new AtomicInteger(0),
+      numBothCorrect = new AtomicInteger(0),
+      numTotalReorderings = new AtomicInteger(0),
+      numMatches = new AtomicInteger(0);
+    AtomicLong totalReorderingComputationTime = new AtomicLong(0),
+          totalHunspellComputationTime = new AtomicLong(0);
+    Runtime.getRuntime().addShutdownHook(new Thread(() ->
+      System.out.printf("%n**** Correct Suggestions ****%nBoth: %d / Original: %d / Reordered: %d / Other: %d%n" +
+          "Average time per reordering: %fms / Average time in match(): %fms%n",
+        numBothCorrect.intValue(), numOriginalCorrect.intValue(), numReorderedCorrect.intValue(), numOtherCorrect.intValue(),
+      (double) totalReorderingComputationTime.get() / numTotalReorderings.get(),
+      (double) totalHunspellComputationTime.get() / numMatches.get())));
+    SuggestionsOrdererConfig.setNgramsPath(args[1]);
+    try (CSVParser parser = new CSVParser(new FileReader(args[0]), CSVFormat.DEFAULT.withFirstRecordAsHeader())) {
+      for (CSVRecord record : parser) {
+        String lang = record.get("language");
+        String covered = record.get("covered");
+        String replacement = record.get("replacement");
+        String sentenceStr = record.get("sentence");
+
+        if (lang.equals("auto") || !(lang.equals("en-US") || lang.equals("de-DE"))) { // TODO: debugging only
+          continue; // TODO do language detection?
+        }
+        Language language = Languages.getLanguageForShortCode(lang);
+        JLanguageTool lt = ltMap.computeIfAbsent(lang, langCode ->
+          new JLanguageTool(language));
+        Rule spellerRule = rules.computeIfAbsent(lang, langCode ->
+            lt.getAllRules().stream().filter(Rule::isDictionaryBasedSpellingRule)
+            .findFirst().orElse(null)
+        );
+        if (spellerRule == null) {
+          continue;
+        }
+        SuggestionsOrderer orderer = null;
+        try {
+          orderer = ordererMap.computeIfAbsent(lang, langCode -> new SuggestionsOrderer(language, spellerRule.getId()));
+        } catch (RuntimeException ignored) {
+        }
+        if (orderer == null) {
+          continue;
+        }
+        numMatches.incrementAndGet();
+        AnalyzedSentence sentence = lt.getAnalyzedSentence(sentenceStr);
+        long startTime = System.currentTimeMillis();
+        RuleMatch[] matches = spellerRule.match(sentence);
+        totalHunspellComputationTime.addAndGet(System.currentTimeMillis() - startTime);
+        for (RuleMatch match : matches) {
+          String matchedWord = sentence.getText().substring(match.getFromPos(), match.getToPos());
+          if (!matchedWord.equals(covered)) {
+            //System.out.println("Other spelling error detected, ignoring: " + matchedWord + " / " + covered);
+            continue;
+          }
+          List<String> original = match.getSuggestedReplacements();
+          SuggestionsOrdererConfig.setMLSuggestionsOrderingEnabled(true);
+          numTotalReorderings.incrementAndGet();
+          startTime = System.currentTimeMillis();
+          List<String> reordered = orderer.orderSuggestionsUsingModel(original, matchedWord, sentence, match.getFromPos(), matchedWord.length());
+          totalReorderingComputationTime.addAndGet(System.currentTimeMillis() - startTime);
+          SuggestionsOrdererConfig.setMLSuggestionsOrderingEnabled(false);
+          if (original.size() == 0 || reordered.size() == 0) {
+            continue;
+          }
+          String firstOriginal = original.get(0);
+          String firstReordered = reordered.get(0);
+          if (firstOriginal.equals(firstReordered)) {
+            if (firstOriginal.equals(replacement)) {
+              numBothCorrect.incrementAndGet();
+            } else {
+              numOtherCorrect.incrementAndGet();
+            }
+            //System.out.println("No change for match: " + matchedWord);
+          } else {
+            System.out.println("Ordering changed for match " + matchedWord + ", before: " + firstOriginal + ", after: " + firstReordered + ", choosen: " + replacement);
+            if (firstOriginal.equals(replacement)) {
+              numOriginalCorrect.incrementAndGet();
+            } else if (firstReordered.equals(replacement)) {
+              numReorderedCorrect.incrementAndGet();
+            } else {
+              numOtherCorrect.incrementAndGet();
+            }
+          }
+        }
+      }
+    }
   }
 
 }

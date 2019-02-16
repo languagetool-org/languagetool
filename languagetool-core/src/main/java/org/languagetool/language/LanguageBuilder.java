@@ -108,7 +108,7 @@ public final class LanguageBuilder {
         }
 
         @Override
-        public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig) {
+        public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, List<Language> altLanguages) {
           return Collections.emptyList();
         }
 
@@ -179,8 +179,8 @@ public final class LanguageBuilder {
     }
 
     @Override
-    public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig) throws IOException {
-      return baseLanguage.getRelevantRules(messages, null);
+    public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, List<Language> altLanguages) throws IOException {
+      return baseLanguage.getRelevantRules(messages, null, altLanguages);
     }
 
     @Nullable @Override

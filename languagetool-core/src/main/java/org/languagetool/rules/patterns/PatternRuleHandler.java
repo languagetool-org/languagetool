@@ -70,6 +70,16 @@ public class PatternRuleHandler extends XMLRuleHandler {
   private boolean relaxedMode = false;
   private boolean inAntiPattern;
 
+  private final String sourceFile;
+
+  public PatternRuleHandler() {
+    this.sourceFile = null;
+  }
+
+  public PatternRuleHandler(String sourceFile) {
+    this.sourceFile = sourceFile;
+  }
+
   /**
    * If set to true, don't throw an exception if id or name is not set.
    * Used for online rule editor.
@@ -541,6 +551,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
         rule = new PatternRule(id, language, tmpPatternTokens, name,
                 message.toString(), shortMessage,
                 suggestionsOutMsg.toString(), phrasePatternTokens.size() > 1);
+        rule.setSourceFile(sourceFile);
       } else if (regex.length() > 0) {
         int flags = regexCaseSensitive ? 0 : Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE;
         String regexStr = regex.toString();
@@ -551,7 +562,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
         if (ruleAntiPatterns.size() > 0 || rulegroupAntiPatterns.size() > 0) {
           throw new RuntimeException("<regexp> rules currently cannot be used together with <antipattern>. Rule id: " + id + "[" + subId + "]");
         }
-        rule = new RegexPatternRule(id, name, message.toString(), suggestionsOutMsg.toString(), language, Pattern.compile(regexStr, flags), regexpMark);
+        rule = new RegexPatternRule(id, name, message.toString(), shortMessage, suggestionsOutMsg.toString(), language, Pattern.compile(regexStr, flags), regexpMark);
       } else {
         throw new IllegalStateException("Neither '<pattern>' tokens nor '<regex>' is set in rule '" + id + "'");
       }
@@ -561,9 +572,6 @@ public class PatternRuleHandler extends XMLRuleHandler {
     } else {
       PatternToken patternToken = elemList.get(numElement);
       if (patternToken.hasOrGroup()) {
-
-
-
         // When creating a new rule, we finally clear the backed-up variables. All the elements in
         // the OR group should share the values of backed-up variables. That's why these variables
         // are backed-up.
@@ -575,9 +583,8 @@ public class PatternRuleHandler extends XMLRuleHandler {
         for (PatternToken patternTokenOfOrGroup : patternToken.getOrGroup()) {
           List<PatternToken> tmpElements2 = new ArrayList<>();
           tmpElements2.addAll(tmpPatternTokens);
-          tmpElements2.add((PatternToken) ObjectUtils.clone(patternTokenOfOrGroup));
+          tmpElements2.add(ObjectUtils.clone(patternTokenOfOrGroup));
           createRules(elemList, tmpElements2, numElement + 1);
-
           startPos = startPosBackup;
           endPos = endPosBackup;
           suggestionMatches = suggestionMatchesBackup;
@@ -585,7 +592,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
           ruleAntiPatterns.addAll(ruleAntiPatternsBackup);
         }
       }
-      tmpPatternTokens.add((PatternToken) ObjectUtils.clone(patternToken));
+      tmpPatternTokens.add(ObjectUtils.clone(patternToken));
       createRules(elemList, tmpPatternTokens, numElement + 1);
     }
   }

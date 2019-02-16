@@ -109,7 +109,7 @@ public class Russian extends Language implements AutoCloseable {
   }
 
   @Override
-  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig) throws IOException {
+  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, List<Language> altLanguages) throws IOException {
     return Arrays.asList(
             new CommaWhitespaceRule(messages,
                     Example.wrong("Не род<marker> ,</marker> а ум поставлю в воеводы."),
@@ -118,7 +118,7 @@ public class Russian extends Language implements AutoCloseable {
             new UppercaseSentenceStartRule(messages, this,
                     Example.wrong("Закончилось лето. <marker>дети</marker> снова сели за школьные парты."),
                     Example.fixed("Закончилось лето. <marker>Дети</marker> снова сели за школьные парты.")),
-            new MorfologikRussianSpellerRule(messages, this, userConfig),
+            new MorfologikRussianSpellerRule(messages, this, userConfig, altLanguages),
             new WordRepeatRule(messages, this),
             new MultipleWhitespaceRule(messages, this),
             // specific to Russian :

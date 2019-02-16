@@ -21,7 +21,7 @@ For more technical details, see [our wiki](http://wiki.languagetool.org).
 #### Scripted installation and building
 To install or build using a script, simply type:
 ```
-curl -L https://git.io/vNqdP | sudo bash <options>
+curl -L https://raw.githubusercontent.com/languagetool-org/languagetool/master/install.sh | sudo bash <options>
 sudo bash install.sh <options>
 ```
 

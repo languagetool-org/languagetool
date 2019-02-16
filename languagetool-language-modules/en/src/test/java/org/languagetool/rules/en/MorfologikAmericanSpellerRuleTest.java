@@ -31,6 +31,7 @@ import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Collections;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -51,7 +52,7 @@ public class MorfologikAmericanSpellerRuleTest extends AbstractEnglishSpellerRul
     rule = new MorfologikAmericanSpellerRule(TestTools.getMessages("en"), language);
     langTool = new JLanguageTool(language);
     CanadianEnglish canadianEnglish = new CanadianEnglish();
-    caRule = new MorfologikCanadianSpellerRule(TestTools.getMessages("en"), canadianEnglish, null);
+    caRule = new MorfologikCanadianSpellerRule(TestTools.getMessages("en"), canadianEnglish, null, Collections.emptyList());
     caLangTool = new JLanguageTool(canadianEnglish);
   }
 
@@ -66,7 +67,7 @@ public class MorfologikAmericanSpellerRuleTest extends AbstractEnglishSpellerRul
   public void testUserDict() throws IOException {
     Language language = new AmericanEnglish();
     UserConfig userConfig = new UserConfig(Arrays.asList("mytestword", "mytesttwo"));
-    Rule rule = new MorfologikAmericanSpellerRule(TestTools.getMessages("en"), language, userConfig);
+    Rule rule = new MorfologikAmericanSpellerRule(TestTools.getMessages("en"), language, userConfig, Collections.emptyList());
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("mytestword")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("mytesttwo")).length);
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("mytestthree")).length);
@@ -74,6 +75,11 @@ public class MorfologikAmericanSpellerRuleTest extends AbstractEnglishSpellerRul
 
   @Test
   public void testMorfologikSpeller() throws IOException {
+
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("mansplaining")).length); // test merge of spelling.txt
+    // test suggesting words with diacritics
+    assertTrue(rule.match(langTool.getAnalyzedSentence("fianc"))[0].getSuggestedReplacements().contains("fiancé"));
+
 
     // correct sentences:
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("This is an example: we get behavior as a dictionary word.")).length);
@@ -83,6 +89,7 @@ public class MorfologikAmericanSpellerRuleTest extends AbstractEnglishSpellerRul
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("He doesn't know what to do.")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence(",")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("123454")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("I like my emoji 😾")).length);
 
     // test words in language-specific spelling_en-US.txt
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("USTestWordToBeIgnored")).length);

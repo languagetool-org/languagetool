@@ -85,7 +85,7 @@ public class Romanian extends Language {
   }
 
   @Override
-  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig) throws IOException {
+  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, List<Language> altLanguages) throws IOException {
     return Arrays.asList(
             new CommaWhitespaceRule(messages),
             new DoublePunctuationRule(messages),
@@ -96,7 +96,7 @@ public class Romanian extends Language {
                     Arrays.asList("]", ")", "}", "”", "»", "«")),
             new WordRepeatRule(messages, this),
             // specific to Romanian:
-            new MorfologikRomanianSpellerRule(messages, this, userConfig),
+            new MorfologikRomanianSpellerRule(messages, this, userConfig, altLanguages),
             new RomanianWordRepeatBeginningRule(messages, this),
             new SimpleReplaceRule(messages),
             new CompoundRule(messages)

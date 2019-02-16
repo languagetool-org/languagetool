@@ -53,6 +53,7 @@ public class MorfologikSpeller {
 
   private final Dictionary dictionary;
   private final Speller speller;
+  private final int maxEditDistance;
 
   /**
    * Creates a speller with the given maximum edit distance.
@@ -76,17 +77,22 @@ public class MorfologikSpeller {
       throw new RuntimeException("maxEditDistance must be > 0: " + maxEditDistance);
     }
     this.dictionary = dictionary;
+    this.maxEditDistance = maxEditDistance;
     speller = new Speller(dictionary, maxEditDistance);
   }
 
   public boolean isMisspelled(String word) {
     return word.length() > 0 
             && !SpellingCheckRule.LANGUAGETOOL.equals(word)
+            && !SpellingCheckRule.LANGUAGETOOLER.equals(word)
             && speller.isMisspelled(word);
   }
 
   public List<String> getSuggestions(String word) {
     List<String> suggestions = new ArrayList<>();
+    // needs to be reset every time, possible bug: HMatrix for distance computation is not reset;
+    // output changes when reused
+    Speller speller = new Speller(dictionary, maxEditDistance);
     suggestions.addAll(speller.findReplacements(word));
     suggestions.addAll(speller.replaceRunOnWords(word));
     // capitalize suggestions if necessary

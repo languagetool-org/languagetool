@@ -160,7 +160,7 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
       StringBuilder sb = new StringBuilder();
       List<String> variants = new ArrayList<>();
       List<AnalyzedTokenReadings> prevTokensList =
-              Arrays.asList(prevTokens.toArray(new AnalyzedTokenReadings[prevTokens.size()]));
+              Arrays.asList(prevTokens.toArray(new AnalyzedTokenReadings[0]));
       for (int j = prevTokensList.size() - 1; j >= 0; j--) {
         if (j != prevTokensList.size() - 1 && prevTokensList.get(j + 1).isWhitespaceBefore()) {
           sb.insert(0, " ");

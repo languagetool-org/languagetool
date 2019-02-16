@@ -28,12 +28,12 @@ import java.util.regex.Pattern;
 
 /**
  * Accepts rule matches if we are in the first days of a new year and the user
- * may have entered a date with the old year
+ * may have entered a date with the old year (but not a date in December).
  * @since 4.3
  */
 public abstract class AbstractNewYearDateFilter extends RuleFilter {
   // The day of the month may contain not only digits but also extra letters
-  // such as"22nd" in English or "22-an" in Esperanto. The regexp extracts
+  // such as "22nd" in English or "22-an" in Esperanto. The regexp extracts
   // the numerical part.
   private static final Pattern DAY_OF_MONTH_PATTERN = Pattern.compile("(\\d+).*");
 
@@ -48,8 +48,9 @@ public abstract class AbstractNewYearDateFilter extends RuleFilter {
   }
 
   protected int getCurrentYear() {
-    if (TestHackHelper.isJUnitTest())
+    if (TestHackHelper.isJUnitTest()) {
       return 2014;
+    }
     return getCalendar().get(Calendar.YEAR);
   }
 
@@ -74,19 +75,23 @@ public abstract class AbstractNewYearDateFilter extends RuleFilter {
    */
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> args, AnalyzedTokenReadings[] patternTokens) {
-    Calendar dateFromDate = getDate(args);
-    int yearFromDate;
+    Calendar dateFromText = getDate(args);
+    int monthFromText;
+    int yearFromText;
     try {
-      yearFromDate = dateFromDate.get(Calendar.YEAR);
+      monthFromText = dateFromText.get(Calendar.MONTH);
+      yearFromText = dateFromText.get(Calendar.YEAR);
     } catch (IllegalArgumentException e) {
       return null; // date is not valid; another rule is responsible
     }
     int currentYear = getCurrentYear();
-    if (isJanuary() && yearFromDate + 1 == currentYear) {
+    if (isJanuary() && monthFromText != 11 /*December*/ && yearFromText + 1 == currentYear) {
       String message = match.getMessage()
-              .replace("{year}", Integer.toString(yearFromDate))
+              .replace("{year}", Integer.toString(yearFromText))
               .replace("{realYear}", Integer.toString(currentYear));
-      return new RuleMatch(match.getRule(),match.getSentence(), match.getFromPos(), match.getToPos(), message, match.getShortMessage());
+      RuleMatch ruleMatch = new RuleMatch(match.getRule(), match.getSentence(), match.getFromPos(), match.getToPos(), message, match.getShortMessage());
+      ruleMatch.setType(match.getType());
+      return ruleMatch;
     } else {
       return null;
     }

@@ -109,7 +109,7 @@ public class LongSentenceRule extends org.languagetool.rules.LongSentenceRule {
   public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
     List<RuleMatch> ruleMatches = new ArrayList<>();
     AnalyzedTokenReadings[] tokens = sentence.getTokens();
-    if (tokens.length < maxWords + 1) {   // just a short-circuit
+    if (tokens.length < maxWords) {   // just a short-circuit
       return toRuleMatchArray(ruleMatches);
     }
     String msg = getMessage();
@@ -117,78 +117,27 @@ public class LongSentenceRule extends org.languagetool.rules.LongSentenceRule {
     List<Integer> fromPos = new ArrayList<>();
     List<Integer> toPos = new ArrayList<>();
     while (i < tokens.length) {
-      for (; i < tokens.length && !isWordCount(tokens[i].getToken()); i++) ;
-      if (i < tokens.length) {
-        fromPos.add(tokens[i].getStartPos());
-        toPos.add(tokens[i].getEndPos());
-      }
-      int numWords = 1;
-      //  Text before and after ':' and ';' is handled as separated sentences
-      //  Direct speech is splitted 
+      int numWords = 0;
       while (i < tokens.length && !tokens[i].getToken().equals(":") && !tokens[i].getToken().equals(";")
               && !tokens[i].getToken().equals("\n") && !tokens[i].getToken().equals("\r\n") 
               && !tokens[i].getToken().equals("\n\r")
-              && ((i < tokens.length - 1 && !tokens[i + 1].getToken().equals(","))
-              || (!tokens[i].getToken().equals("“") && !tokens[i].getToken().equals("»")
-              && !tokens[i].getToken().equals("«") && !tokens[i].getToken().equals("\"")))) {
+              ) {
         if (isWordCount(tokens[i].getToken())) {
-          if(numWords == maxWords + 1) {
-            fromPos.set(fromPos.size() - 1, tokens[i].getStartPos());
-            toPos.set(fromPos.size() - 1, tokens[i].getEndPos());
+          if(numWords == maxWords) {
+            fromPos.add(tokens[i].getStartPos());
+            toPos.add(tokens[i].getEndPos());
           }
           numWords++;
-        } else if (tokens[i].getToken().equals("(") || tokens[i].getToken().equals("{")
-                || tokens[i].getToken().equals("[")) {        //  The Text between brackets is handled as separate sentence
-          String endChar;
-          if (tokens[i].getToken().equals("(")) endChar = ")";
-          else if (tokens[i].getToken().equals("{")) endChar = "}";
-          else endChar = "]";
-          int numWordsInt = 0;
-          int fromPosInt = 0;
-          int toPosInt = 0;
-          int k;
-          for (k = i + 1; k < tokens.length && !tokens[k].getToken().equals(endChar) 
-                && !isWordCount(tokens[k].getToken()); k++);
-          if (k < tokens.length) {
-            fromPosInt = tokens[k].getStartPos();
-            toPosInt = tokens[k].getEndPos();
-          }
-          for (k++; k < tokens.length && !tokens[k].getToken().equals(endChar); k++) {
-            if (isWordCount(tokens[k].getToken())) {
-              if(numWordsInt == maxWords + 1) {
-                fromPosInt = tokens[k].getStartPos();
-                toPosInt = tokens[k].getEndPos();
-              }
-              numWordsInt++;
-            }
-          }
-          if (k < tokens.length) {
-            if (numWordsInt > maxWords) {
-              RuleMatch ruleMatch = new RuleMatch(this, sentence, fromPosInt, toPosInt, msg);
-              ruleMatches.add(ruleMatch);
-            }
-            for (i = k; i < tokens.length && !isWordCount(tokens[i].getToken()); i++) ;
-            if (i < tokens.length) {
-              fromPos.add(tokens[i].getStartPos());
-              toPos.add(tokens[i].getEndPos());
-              numWords++;
-            }
-          }
         }
         i++;
       }
-      if (numWords > maxWords) {
-        for (int j = 0; j < fromPos.size(); j++) {
-          RuleMatch ruleMatch = new RuleMatch(this, sentence, fromPos.get(j), toPos.get(j), msg);
-          ruleMatches.add(ruleMatch);
-        }
-      } else {
-        for (int j = fromPos.size() - 1; j >= 0; j--) {
-          fromPos.remove(j);
-          toPos.remove(j);
-        }
-      }
+      i++;
+    }
+    for (int j = 0; j < fromPos.size(); j++) {
+      RuleMatch ruleMatch = new RuleMatch(this, sentence, fromPos.get(j), toPos.get(j), msg);
+      ruleMatches.add(ruleMatch);
     }
     return toRuleMatchArray(ruleMatches);
   }
+
 }

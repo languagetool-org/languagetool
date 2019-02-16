@@ -18,15 +18,16 @@
  */
 package org.languagetool.rules.fr;
 
-import org.junit.Test;
-import org.languagetool.JLanguageTool;
-import org.languagetool.TestTools;
-import org.languagetool.language.French;
-import org.languagetool.rules.RuleMatch;
+import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
 
-import static org.junit.Assert.assertEquals;
+import org.junit.Test;
+import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
+import org.languagetool.TestTools;
+import org.languagetool.language.French;
+import org.languagetool.rules.RuleMatch;
 
 /**
  * @author Marcin Miłkowski
@@ -35,14 +36,16 @@ public class QuestionWhitespaceRuleTest {
 
     @Test
     public final void testRule() throws IOException {
-      QuestionWhitespaceRule rule = new QuestionWhitespaceRule(TestTools.getEnglishMessages());
+    	Language french = new French();
+      QuestionWhitespaceRule rule = new QuestionWhitespaceRule(TestTools.getEnglishMessages(), french);
       RuleMatch[] matches;
-      JLanguageTool langTool = new JLanguageTool(new French());
+      JLanguageTool langTool = new JLanguageTool(french);
       
       // correct sentences:
       assertEquals(0, rule.match(langTool.getAnalyzedSentence("C'est vrai !")).length);
       assertEquals(0, rule.match(langTool.getAnalyzedSentence("Qu'est ce que c'est ?")).length);
       assertEquals(0, rule.match(langTool.getAnalyzedSentence("L'enjeu de ce livre est donc triple : philosophique")).length);
+      assertEquals(0, rule.match(langTool.getAnalyzedSentence("Bonjour :)")).length);
       
       // errors:
       matches = rule.match(langTool.getAnalyzedSentence("C'est vrai!"));
@@ -55,6 +58,7 @@ public class QuestionWhitespaceRuleTest {
       assertEquals(1, matches.length);
       matches = rule.match(langTool.getAnalyzedSentence("L'enjeu de ce livre est donc triple: philosophique;"));
       assertEquals(2, matches.length);
+      assertEquals(1, rule.match(langTool.getAnalyzedSentence("Bonjour : )")).length);
       matches = rule.match(langTool.getAnalyzedSentence("L'enjeu de ce livre est donc triple: philosophique ;"));
       assertEquals(2, matches.length);
       // check match positions:

@@ -117,7 +117,7 @@ public class Galician extends Language {
   }
 
   @Override
-  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig) throws IOException {
+  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, List<Language> altLanguages) throws IOException {
     return Arrays.asList(
             new CommaWhitespaceRule(messages,
                 Example.wrong("Tomamos café<marker> ,</marker> queixo, bolachas e uvas."),
@@ -126,19 +126,19 @@ public class Galician extends Language {
             new GenericUnpairedBracketsRule(messages,
                     Arrays.asList("[", "(", "{", "“", "«", "»", "‘", "\"", "'"),
                     Arrays.asList("]", ")", "}", "”", "»", "«", "’", "\"", "'")),
-            new HunspellRule(messages, this, userConfig),
+            new HunspellRule(messages, this, userConfig, altLanguages),
             new UppercaseSentenceStartRule(messages, this,
                 Example.wrong("Esta casa é vella. <marker>foi</marker> construida en 1950."),
                 Example.fixed("Esta casa é vella. <marker>Foi</marker> construida en 1950.")),
             new MultipleWhitespaceRule(messages, this),
             new LongSentenceRule(messages, userConfig, -1, true),
-            new LongParagraphRule(messages, userConfig),
+            new LongParagraphRule(messages, this, userConfig),
             new SentenceWhitespaceRule(messages),
-            new WhiteSpaceBeforeParagraphEnd(messages),
+            new WhiteSpaceBeforeParagraphEnd(messages, this),
             new WhiteSpaceAtBeginOfParagraph(messages),
-            new EmptyLineRule(messages),
-            new ParagraphRepeatBeginningRule(messages),
-            new PunctuationMarkAtParagraphEnd(messages),
+            new EmptyLineRule(messages, this),
+            new ParagraphRepeatBeginningRule(messages, this),
+            new PunctuationMarkAtParagraphEnd(messages, this),
             // Specific to Galician:
             new SimpleReplaceRule(messages),
             new CastWordsRule(messages),

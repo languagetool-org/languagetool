@@ -29,6 +29,17 @@ public abstract class ExampleSentence {
 
   public ExampleSentence(String example) {
     this.example = Objects.requireNonNull(example);
+    int markerStart= example.indexOf("<marker>");
+    int markerEnd = example.indexOf("</marker>");
+    if (markerStart != -1 && markerEnd == -1) {
+      throw new IllegalArgumentException("Example contains <marker> but lacks </marker>:" + example);
+    }
+    if (markerStart == -1 && markerEnd != -1) {
+      throw new IllegalArgumentException("Example contains </marker> but lacks <marker>:" + example);
+    }
+    if (markerStart > markerEnd) {
+      throw new IllegalArgumentException("Example <marker> comes before </marker>:" + example);
+    }
   }
 
   /**

@@ -18,14 +18,14 @@
  */
 package org.languagetool.rules.de;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.languagetool.JLanguageTool;
-import org.languagetool.language.German;
+import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
 
-import static org.junit.Assert.assertEquals;
+import org.junit.Before;
+import org.junit.Test;
+import org.languagetool.JLanguageTool;
+import org.languagetool.language.GermanyGerman;
 
 /**
  * @author Markus Brenneis
@@ -37,7 +37,7 @@ public class GermanWrongWordInContextRuleTest {
   
   @Before
   public void setUp() throws IOException {
-    langTool = new JLanguageTool(new German());
+    langTool = new JLanguageTool(new GermanyGerman());
     rule = new GermanWrongWordInContextRule(null);
   }
 

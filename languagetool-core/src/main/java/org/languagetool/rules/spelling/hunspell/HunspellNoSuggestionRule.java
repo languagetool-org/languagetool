@@ -36,15 +36,15 @@ public class HunspellNoSuggestionRule extends HunspellRule {
 
   public static final String RULE_ID = "HUNSPELL_NO_SUGGEST_RULE";
 
-  public HunspellNoSuggestionRule(ResourceBundle messages, Language language, UserConfig userConfig) {
-    super(messages, language, userConfig);
+  public HunspellNoSuggestionRule(ResourceBundle messages, Language language, UserConfig userConfig, List<Language> altLanguages) {
+    super(messages, language, userConfig, altLanguages);
   }
 
   /**
    * @since 3.3
    */
-  public HunspellNoSuggestionRule(ResourceBundle messages, Language language, UserConfig userConfig, IncorrectExample incorrectExample, CorrectExample correctedExample) {
-    super(messages, language, userConfig);
+  public HunspellNoSuggestionRule(ResourceBundle messages, Language language, UserConfig userConfig, List<Language> altLanguages, IncorrectExample incorrectExample, CorrectExample correctedExample) {
+    super(messages, language, userConfig, altLanguages);
     addExamplePair(incorrectExample, correctedExample);
   }
 

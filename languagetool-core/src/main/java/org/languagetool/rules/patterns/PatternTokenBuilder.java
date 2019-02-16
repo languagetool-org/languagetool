@@ -32,6 +32,8 @@ public class PatternTokenBuilder {
   private boolean caseSensitive;
   private boolean regexp;
   private boolean negation;
+  private boolean isWhiteSpaceSet = false;
+  private boolean isWhiteSpaceBefore;
   private int skip;
 
   /**
@@ -83,6 +85,14 @@ public class PatternTokenBuilder {
     this.skip = skip;
     return this;
   }
+
+  /** @since 4.4 */
+  public PatternTokenBuilder setIsWhiteSpaceBefore(boolean whiteSpaceBefore) {
+    this.isWhiteSpaceBefore = whiteSpaceBefore;
+    this.isWhiteSpaceSet = true;
+    return this;
+  }
+
   /**
    * Also match inflected forms of the given word - note this will only work when the
    * given token actually is a baseform.
@@ -101,6 +111,9 @@ public class PatternTokenBuilder {
       patternToken.setNegation(negation);
     } else {
       patternToken = new PatternToken(token, caseSensitive, regexp, matchInflectedForms);
+    }
+    if (isWhiteSpaceSet) {
+      patternToken.setWhitespaceBefore(isWhiteSpaceBefore);
     }
     patternToken.setSkipNext(skip);
     return patternToken;

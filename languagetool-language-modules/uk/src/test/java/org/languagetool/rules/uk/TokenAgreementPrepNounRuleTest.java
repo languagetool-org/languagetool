@@ -102,6 +102,7 @@ public class TokenAgreementPrepNounRuleTest {
     assertEmptyMatch("до мінус сорока град");
     assertEmptyMatch("до мінус шістдесяти");
     assertEmptyMatch("через років 10");
+    assertEmptyMatch("через років зо два");
     assertEmptyMatch("на хвилин 9-10");
     assertEmptyMatch("співпрацювати із собі подібними");
     assertEmptyMatch("через усім відомі причини");

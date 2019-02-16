@@ -69,5 +69,4 @@ public class RegexPatternRuleTest {
     assertThat(matches2[0].getFromPos(), is(8));
     assertThat(matches2[0].getToPos(), is(11));
  }
-  
 }

@@ -19,6 +19,7 @@
 package org.languagetool.language;
 
 
+import org.languagetool.Language;
 import org.languagetool.UserConfig;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.sr.jekavian.MorfologikJekavianSpellerRule;
@@ -62,10 +63,10 @@ public class JekavianSerbian extends Serbian {
   }
 
   @Override
-  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig) throws IOException {
+  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, List<Language> altLanguages) throws IOException {
     List<Rule> rules = new ArrayList<>(getBasicRules(messages));
     // Rules specific for Jekavian Serbian
-    rules.add(new MorfologikJekavianSpellerRule(messages, this, null));
+    rules.add(new MorfologikJekavianSpellerRule(messages, this, userConfig, altLanguages));
     rules.add(new SimpleGrammarJekavianReplaceRule(messages));
     rules.add(new SimpleStyleJekavianReplaceRule(messages));
     return rules;

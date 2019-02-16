@@ -18,20 +18,27 @@
  */
 package org.languagetool.rules.patterns;
 
-import org.junit.Test;
-import org.languagetool.JLanguageTool;
-import org.languagetool.language.*;
-import org.languagetool.rules.RuleMatch;
-import org.languagetool.rules.en.MorfologikAmericanSpellerRule;
-import org.languagetool.rules.en.MorfologikBritishSpellerRule;
-import org.xml.sax.SAXException;
+import static org.junit.Assert.assertEquals;
 
-import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.junit.Test;
+import org.languagetool.JLanguageTool;
+import org.languagetool.language.AmericanEnglish;
+import org.languagetool.language.BritishEnglish;
+import org.languagetool.language.English;
+import org.languagetool.language.German;
+import org.languagetool.language.GermanyGerman;
+import org.languagetool.language.Polish;
+import org.languagetool.language.SwissGerman;
+import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.en.MorfologikAmericanSpellerRule;
+import org.languagetool.rules.en.MorfologikBritishSpellerRule;
+import org.xml.sax.SAXException;
 
 public class FalseFriendRuleTest {
 
@@ -59,7 +66,7 @@ public class FalseFriendRuleTest {
 
   @Test
   public void testHintsForDemoLanguage() throws IOException, ParserConfigurationException, SAXException {
-    JLanguageTool lt1 = new JLanguageTool(new BritishEnglish(), new German());
+    JLanguageTool lt1 = new JLanguageTool(new BritishEnglish(), new GermanyGerman());
     lt1.disableRule(MorfologikBritishSpellerRule.RULE_ID);
     List<RuleMatch> matches1 = assertErrors(1, "And forDemoOnly.", lt1);
     assertEquals("DEMO_ENTRY", matches1.get(0).getRule().getId());

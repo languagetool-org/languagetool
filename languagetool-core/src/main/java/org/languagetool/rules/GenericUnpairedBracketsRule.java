@@ -61,8 +61,8 @@ public class GenericUnpairedBracketsRule extends TextLevelRule {
     if (startSymbols.size() != endSymbols.size()) {
       throw new IllegalArgumentException("Different number of start and end symbols: " + startSymbols + " vs. " + endSymbols);
     }
-    this.startSymbols = startSymbols.toArray(new String[startSymbols.size()]);
-    this.endSymbols = endSymbols.toArray(new String[endSymbols.size()]);
+    this.startSymbols = startSymbols.toArray(new String[0]);
+    this.endSymbols = endSymbols.toArray(new String[0]);
     this.numerals = Objects.requireNonNull(numerals);
     this.uniqueMap = uniqueMapInit();
     setLocQualityIssueType(ITSIssueType.Typographical);
@@ -115,16 +115,31 @@ public class GenericUnpairedBracketsRule extends TextLevelRule {
                                   AnalyzedTokenReadings[] tokens, int i, int j,
                                   boolean precSpace,
                                   boolean follSpace, UnsyncStack<SymbolLocator> symbolStack) {
-    // Smiley ":-)"
-    if (i >= 2 && tokens[i-2].getToken().equals(":") && tokens[i-1].getToken().equals("-") && tokens[i].getToken().equals(")")) {
-      return false;
+    String tokenStr = tokens[i].getToken();
+    if (i >= 2) {
+      String prevPrevToken = tokens[i - 2].getToken();
+      String prevToken = tokens[i - 1].getToken();
+      // Smiley ":-)" and ":-("
+      if (prevPrevToken.equals(":") && prevToken.equals("-") && (tokenStr.equals(")") || tokenStr.equals("("))) {
+        return false;
+      }
+      // Smiley ";-)" and ";-("
+      if (prevPrevToken.equals(";") && prevToken.equals("-") && (tokenStr.equals(")") || tokenStr.equals("("))) {
+        return false;
+      }
     }
-    // Smiley ":-("
-    if (i >= 2 && tokens[i-2].getToken().equals(":") && tokens[i-1].getToken().equals("-") && tokens[i].getToken().equals("(")) {
-      return false;
+    if (i >= 1) {
+      String prevToken = tokens[i - 1].getToken();
+      // Smiley ":)" and  ":("
+      if (prevToken.equals(":") && !tokens[i].isWhitespaceBefore() && (tokenStr.equals(")") || tokenStr.equals("("))) {
+        return false;
+      }
+      // Smiley ";)" and  ";("
+      if (prevToken.equals(";") && !tokens[i].isWhitespaceBefore() && (tokenStr.equals(")") || tokenStr.equals("("))) {
+        return false;
+      }
     }
-    // Smiley ";-)"
-    return !(i >= 2 && tokens[i - 2].getToken().equals(";") && tokens[i - 1].getToken().equals("-") && tokens[i].getToken().equals(")"));
+    return true;
   }
 
   @Override

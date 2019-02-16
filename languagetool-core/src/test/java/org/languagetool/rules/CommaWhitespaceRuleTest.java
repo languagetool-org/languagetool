@@ -33,7 +33,7 @@ public class CommaWhitespaceRuleTest {
   private JLanguageTool langTool;
   
   @Before
-  public void setUp() throws IOException {
+  public void setUp() {
     rule = new CommaWhitespaceRule(TestTools.getEnglishMessages());
     langTool = new JLanguageTool(TestTools.getDemoLanguage());
   }
@@ -53,6 +53,8 @@ public class CommaWhitespaceRuleTest {
     assertMatches("This is,\u00A0really,\u00A0non-breaking whitespace.", 0);
     //test OpenOffice field codes:
     assertMatches("In his book,\u0002 Einstein proved this to be true.", 0);
+    assertMatches("- [ ] A checkbox at GitHub", 0);
+    assertMatches("- [x] A checked checkbox at GitHub", 0);
 
     // errors:
     assertMatches("This,is a test sentence.", 1);

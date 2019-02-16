@@ -26,6 +26,8 @@ import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 /**
  * A spell checker that combines Hunspell und Morfologik spell checking
@@ -42,7 +44,15 @@ public abstract class CompoundAwareHunspellRule extends HunspellRule {
   protected abstract void filterForLanguage(List<String> suggestions);
 
   public CompoundAwareHunspellRule(ResourceBundle messages, Language language, CompoundWordTokenizer compoundSplitter, MorfologikMultiSpeller morfoSpeller, UserConfig userConfig) {
-    super(messages, language, userConfig);
+    this(messages, language, compoundSplitter, morfoSpeller, userConfig, Collections.emptyList());
+  }
+
+  /**
+   * @since 4.3
+   */
+  public CompoundAwareHunspellRule(ResourceBundle messages, Language language, CompoundWordTokenizer compoundSplitter, 
+                                   MorfologikMultiSpeller morfoSpeller, UserConfig userConfig, List<Language> altLanguages) {
+    super(messages, language, userConfig, altLanguages);
     this.compoundSplitter = compoundSplitter;
     this.morfoSpeller = morfoSpeller;
   }
@@ -58,37 +68,46 @@ public abstract class CompoundAwareHunspellRule extends HunspellRule {
     if (needsInit) {
       init();
     }
+    //System.out.println("Computing suggestions for " + word);
     List<String> candidates = getCandidates(word);
     List<String> simpleSuggestions = getCorrectWords(candidates);
+    //System.out.println("simpleSuggestions: " + simpleSuggestions);
+
 
     List<String> noSplitSuggestions = morfoSpeller.getSuggestions(word);  // after getCorrectWords() so spelling.txt is considered
     handleWordEndPunctuation(".", word, noSplitSuggestions);
     handleWordEndPunctuation("...", word, noSplitSuggestions);
+    List<String> noSplitLowercaseSuggestions = new ArrayList<>();
     if (StringTools.startsWithUppercase(word) && !StringTools.isAllUppercase(word)) {
       // almost all words can be uppercase because they can appear at the start of a sentence:
-      List<String> noSplitLowercaseSuggestions = morfoSpeller.getSuggestions(word.toLowerCase());
-      for (String suggestion : noSplitLowercaseSuggestions) {
-        noSplitSuggestions.add(StringTools.uppercaseFirstChar(suggestion));
-      }
+      noSplitLowercaseSuggestions = morfoSpeller.getSuggestions(word.toLowerCase());
     }
     // We don't know about the quality of the results here, so mix both lists together,
     // taking elements from both lists on a rotating basis:
     List<String> suggestions = new ArrayList<>();
-    for (int i = 0; i < Math.max(simpleSuggestions.size(), noSplitSuggestions.size()); i++) {
-      if (i < simpleSuggestions.size()) {
-        suggestions.add(simpleSuggestions.get(i));
-      }
+    int max = IntStream.of(simpleSuggestions.size(), noSplitSuggestions.size(), noSplitLowercaseSuggestions.size()).max().orElse(0);
+    for (int i = 0; i < max; i++) {
       if (i < noSplitSuggestions.size()) {
         suggestions.add(noSplitSuggestions.get(i));
       }
+      if (i < noSplitLowercaseSuggestions.size()) {
+        suggestions.add(StringTools.uppercaseFirstChar(noSplitLowercaseSuggestions.get(i)));
+      }
+      // put these behind suggestions by Morfologik, often low-quality / made-up words
+      if (i < simpleSuggestions.size()) {
+        suggestions.add(simpleSuggestions.get(i));
+      }
     }
+    //System.out.println("suggestions (mixed from simpleSuggestions, noSplitSuggestions, noSplitLowerCaseSuggestions): " + suggestions);
 
     filterDupes(suggestions);
     filterForLanguage(suggestions);
     List<String> sortedSuggestions = sortSuggestionByQuality(word, suggestions);
+    //System.out.println("sortSuggestionByQuality(): " + sortedSuggestions);
     // This is probably be the right place to sort suggestions by probability:
     //SuggestionSorter sorter = new SuggestionSorter(new LuceneLanguageModel(new File("/home/dnaber/data/google-ngram-index/de")));
     //sortedSuggestions = sorter.sortSuggestions(sortedSuggestions);
+    //System.out.println();
     return sortedSuggestions.subList(0, Math.min(MAX_SUGGESTIONS, sortedSuggestions.size()));
   }
 
@@ -102,6 +121,10 @@ public abstract class CompoundAwareHunspellRule extends HunspellRule {
     }
   }
 
+  /**
+   * Find potential corrections - it's okay if some of these are not valid words,
+   * this list will be filtered against the spellchecker before being returned to the user.
+   */
   protected List<String> getCandidates(String word) {
     return compoundSplitter.tokenize(word);
   }
@@ -117,8 +140,16 @@ public abstract class CompoundAwareHunspellRule extends HunspellRule {
         if (suggestions.isEmpty()) {
           suggestions = morfoSpeller.getSuggestions(doUpperCase ? StringTools.lowercaseFirstChar(part) : part);
         }
+        boolean appendS = false;
+        if (doUpperCase && part.endsWith("s")) {  // maybe infix-s as in "Dampfschiffahrtskapitän" -> "Dampfschifffahrtskapitän"
+          suggestions.addAll(morfoSpeller.getSuggestions(part.replaceFirst("s$", "")));
+          appendS = true;
+        }
         for (String suggestion : suggestions) {
           List<String> partsCopy = new ArrayList<>(parts);
+          if (appendS) {
+            suggestion += "s";
+          }
           if (partCount > 0 && parts.get(partCount).startsWith("-") && parts.get(partCount).length() > 1) {
             partsCopy.set(partCount, "-" + StringTools.uppercaseFirstChar(suggestion.substring(1)));
           } else if (partCount > 0 && !parts.get(partCount-1).endsWith("-")) {

@@ -18,13 +18,14 @@
  */
 package org.languagetool.rules;
 
+import java.util.Calendar;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.apache.commons.lang3.StringUtils;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.patterns.RuleFilter;
-
-import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Accepts rule matches if a date doesn't match the accompanying weekday, e.g. if {@code Monday, 8 November 2003}
@@ -71,7 +72,7 @@ public abstract class AbstractDateCheckFilter extends RuleFilter {
    */
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> args, AnalyzedTokenReadings[] patternTokens) {
-    int dayOfWeekFromString = getDayOfWeek(getRequired("weekDay", args));
+    int dayOfWeekFromString = getDayOfWeek(getRequired("weekDay", args).replace("\u00AD", ""));  // replace soft hyphen
     Calendar dateFromDate = getDate(args);
     int dayOfWeekFromDate;
     try {
@@ -87,7 +88,9 @@ public abstract class AbstractDateCheckFilter extends RuleFilter {
               .replace("{realDay}", getDayOfWeek(dateFromDate))
               .replace("{day}", getDayOfWeek(calFromDateString))
               .replace("{currentYear}", Integer.toString(Calendar.getInstance().get(Calendar.YEAR)));
-      return new RuleMatch(match.getRule(),match.getSentence(), match.getFromPos(), match.getToPos(), message, match.getShortMessage());
+      RuleMatch ruleMatch = new RuleMatch(match.getRule(), match.getSentence(), match.getFromPos(), match.getToPos(), message, match.getShortMessage());
+      ruleMatch.setType(match.getType());
+      return ruleMatch;
     } else {
       return null;
     }

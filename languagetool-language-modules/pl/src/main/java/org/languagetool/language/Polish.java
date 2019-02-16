@@ -110,7 +110,7 @@ public class Polish extends Language {
   }
 
   @Override
-  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig) throws IOException {
+  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, List<Language> altLanguages) throws IOException {
     return Arrays.asList(
         new CommaWhitespaceRule(messages),
         new UppercaseSentenceStartRule(messages, this),
@@ -119,7 +119,7 @@ public class Polish extends Language {
         new SentenceWhitespaceRule(messages),
         // specific to Polish:
         new PolishUnpairedBracketsRule(messages, this),
-        new MorfologikPolishSpellerRule(messages, this, userConfig),
+        new MorfologikPolishSpellerRule(messages, this, userConfig, altLanguages),
         new PolishWordRepeatRule(messages),
         new CompoundRule(messages),
         new SimpleReplaceRule(messages),

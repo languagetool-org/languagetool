@@ -19,8 +19,8 @@
 package org.languagetool.rules;
 
 import org.jetbrains.annotations.Nullable;
-import org.languagetool.AnalyzedSentence;
-import org.languagetool.ApiCleanupNeeded;
+import org.languagetool.*;
+import org.languagetool.rules.patterns.PatternRule;
 import org.languagetool.tools.StringTools;
 
 import java.net.URL;
@@ -41,6 +41,23 @@ public class RuleMatch implements Comparable<RuleMatch> {
 
   private static final Pattern SUGGESTION_PATTERN = Pattern.compile("<suggestion>(.*?)</suggestion>");
 
+  /**
+   * Unlike {@link Category}, this is specific to a RuleMatch, not to a rule.
+   * It is mainly used for selecting the underline color in clients.
+   * Note: this is experimental and might change soon (types might be added, deleted or renamed
+   * without deprecating them first)
+   * @since 4.3
+   */
+  @Experimental
+  public enum Type {
+    /** Spelling errors, typically red. */
+    UnknownWord,
+    /** Style errors, typically light blue. */
+    Hint,
+    /** Other errors (including grammar), typically yellow/orange. */
+    Other
+  }
+
   private final Rule rule;
   private final OffsetPosition offsetPosition;
   private final String message;
@@ -49,8 +66,9 @@ public class RuleMatch implements Comparable<RuleMatch> {
 
   private LinePosition linePosition = new LinePosition(-1, -1);
   private ColumnPosition columnPosition = new ColumnPosition(-1, -1);
-  private List<String> suggestedReplacements = new ArrayList<>();
+  private List<SuggestedReplacement> suggestedReplacements = new ArrayList<>();
   private URL url;
+  private Type type = Type.Other;
 
   /**
    * Creates a RuleMatch object, taking the rule that triggered
@@ -72,18 +90,6 @@ public class RuleMatch implements Comparable<RuleMatch> {
    */
   public RuleMatch(Rule rule, AnalyzedSentence sentence, int fromPos, int toPos, String message) {
     this(rule, sentence, fromPos, toPos, message, null, false, null);
-  }
-
-  /**
-   * Creates a RuleMatch object, taking the rule that triggered
-   * this match, position of the match and an explanation message.
-   * This message is scanned for &lt;suggestion&gt;...&lt;/suggestion&gt;
-   * to get suggested fixes for the problem detected by this rule.
-   * @deprecated use a constructor that also takes an {@code AnalyzedSentence} parameter (deprecated since 4.0)
-   * @param shortMessage used for example in OpenOffice/LibreOffice's context menu
-   */
-  public RuleMatch(Rule rule, int fromPos, int toPos, String message, String shortMessage) {
-    this(rule, fromPos, toPos, message, shortMessage, false, null);
   }
 
   /**
@@ -138,8 +144,9 @@ public class RuleMatch implements Comparable<RuleMatch> {
       if (startWithUppercase) {
         replacement = StringTools.uppercaseFirstChar(replacement);
       }
-      if (!suggestedReplacements.contains(replacement)) {
-        suggestedReplacements.add(replacement);
+      SuggestedReplacement repl = new SuggestedReplacement(replacement);
+      if (!suggestedReplacements.contains(repl)) {
+        suggestedReplacements.add(repl);
       }
     }
     this.sentence = sentence;
@@ -262,6 +269,17 @@ public class RuleMatch implements Comparable<RuleMatch> {
    * @see #getSuggestedReplacements()
    */
   public void setSuggestedReplacements(List<String> replacements) {
+    Objects.requireNonNull(replacements, "replacements may be empty but not null");
+    this.suggestedReplacements.clear();
+    for (String replacement : replacements) {
+      this.suggestedReplacements.add(new SuggestedReplacement(replacement));
+    }
+  }
+
+  /**
+   * @see #getSuggestedReplacements()
+   */
+  public void setSuggestedReplacementObjects(List<SuggestedReplacement> replacements) {
     this.suggestedReplacements = Objects.requireNonNull(replacements, "replacements may be empty but not null");
   }
 
@@ -272,6 +290,14 @@ public class RuleMatch implements Comparable<RuleMatch> {
    * @return unmodifiable list of String objects or an empty List
    */
   public List<String> getSuggestedReplacements() {
+    List<String> l = new ArrayList<>();
+    for (SuggestedReplacement repl : suggestedReplacements) {
+      l.add(repl.getReplacement());
+    } 
+    return Collections.unmodifiableList(l);
+  }
+
+  public List<SuggestedReplacement> getSuggestedReplacementObjects() {
     return Collections.unmodifiableList(suggestedReplacements);
   }
 
@@ -297,9 +323,29 @@ public class RuleMatch implements Comparable<RuleMatch> {
     return sentence;
   }
   
+  /**
+   * @since 4.3
+   */
+  @Experimental
+  public void setType(Type type) {
+    this.type = Objects.requireNonNull(type);
+  }
+
+  /**
+   * @since 4.3
+   */
+  @Experimental
+  public Type getType() {
+    return this.type;
+  }
+
   @Override
   public String toString() {
-    return rule.getId() + ":" + offsetPosition + ":" + message;
+    if (rule instanceof PatternRule) {
+      return ((PatternRule) rule).getFullId() + ":" + offsetPosition + ":" + message;
+    } else {
+      return rule.getId() + ":" + offsetPosition + ":" + message;
+    }
   }
 
   /** Compare by start position. */
@@ -318,12 +364,13 @@ public class RuleMatch implements Comparable<RuleMatch> {
         && Objects.equals(offsetPosition, other.offsetPosition)
         && Objects.equals(message, other.message)
         && Objects.equals(suggestedReplacements, other.suggestedReplacements)
-        && Objects.equals(sentence, other.sentence);
+        && Objects.equals(sentence, other.sentence)
+        && Objects.equals(type, other.type);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(rule.getId(), offsetPosition, message, suggestedReplacements, sentence);
+    return Objects.hash(rule.getId(), offsetPosition, message, suggestedReplacements, sentence, type);
   }
 
   static class OffsetPosition extends MatchPosition {

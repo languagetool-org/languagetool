@@ -43,7 +43,7 @@ public class DateRangeChecker extends RuleFilter {
       int x = Integer.parseInt(arguments.get("x"));
       int y = Integer.parseInt(arguments.get("y"));
       if (x >= y) {
-        return new RuleMatch(match.getRule(), match.getSentence(), match.getFromPos(), match.getToPos(), match.getMessage(), match.getShortMessage());
+        return match;
       }
     } catch (IllegalArgumentException ignore) {
       // if something's fishy with the number – ignore it silently,

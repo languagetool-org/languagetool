@@ -88,14 +88,14 @@ public class Danish extends Language {
   }
 
   @Override
-  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig) {
+  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, List<Language> altLanguages) {
     return Arrays.asList(
             new CommaWhitespaceRule(messages),
             new DoublePunctuationRule(messages),
             new GenericUnpairedBracketsRule(messages,
                     Arrays.asList("[", "(", "{", "\"", "”"),
                     Arrays.asList("]", ")", "}", "\"", "”")),
-            new HunspellNoSuggestionRule(messages, this, null),
+            new HunspellNoSuggestionRule(messages, this, userConfig, altLanguages),
             new UppercaseSentenceStartRule(messages, this),  // abbreviation exceptions, done in DanishSentenceTokenizer
             // "WORD_REPEAT_RULE" implemented in grammar.xml
             new MultipleWhitespaceRule(messages, this)

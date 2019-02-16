@@ -22,9 +22,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.regex.Pattern;
 
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.Language;
 
 /**
  * Check if to paragraphs begin with the same word.
@@ -35,9 +37,13 @@ import org.languagetool.AnalyzedTokenReadings;
  */
 public class ParagraphRepeatBeginningRule extends TextLevelRule {
 
-  public ParagraphRepeatBeginningRule(ResourceBundle messages) {
+  private final Language lang;
+  private static final Pattern QUOTES_REGEX = Pattern.compile("[’'\"„“”»«‚‘›‹()\\[\\]]");
+
+  public ParagraphRepeatBeginningRule(ResourceBundle messages, Language lang) {
     super(messages);
     super.setCategory(Categories.STYLE.getCategory(messages));
+    this.lang = lang;
     setLocQualityIssueType(ITSIssueType.Style);
     setDefaultOff();
   }
@@ -52,148 +58,84 @@ public class ParagraphRepeatBeginningRule extends TextLevelRule {
     return messages.getString("repetition_paragraph_beginning_desc");
   }
   
-  private static int getParagraphBegin(AnalyzedTokenReadings[] tokens, int start) {
-    if (start < 1) {
-      start = 1;
-    }
-    for(int i = start; i < tokens.length; i++) {
-      if ("\n".equals(tokens[i].getToken()) || "\r\n".equals(tokens[i].getToken()) || "\n\r".equals(tokens[i].getToken())) {
-        for (i++; i < tokens.length && tokens[i].isWhitespace(); i++);
-        return i;
-      }
-    }
-    return -1;
-  }
-  
-  
   public boolean isArticle(AnalyzedTokenReadings token) {
     return token.hasPosTagStartingWith("DT");
   }
   
-  private int numCharEqualBeginning(AnalyzedTokenReadings[] tokens, int start, AnalyzedTokenReadings[] nextTokens, int nextStart) throws IOException {
-    if(tokens.length < 2 || nextTokens.length < 2) {
+  private int numCharEqualBeginning(AnalyzedTokenReadings[] lastTokens, AnalyzedTokenReadings[] nextTokens) throws IOException {
+    if(lastTokens.length < 2 || nextTokens.length < 2 
+        || lastTokens[1].isWhitespace() || nextTokens[1].isWhitespace()) {
       return 0;
     }
-    int i = start;
-    if (i < 1) {
-      i = 1;
-    }
-    for (; i < tokens.length && (tokens[i].isWhitespace() || tokens[i].isSentenceStart()); i++);
-    if (i >= tokens.length) {
-      return 0;
-    }
-    String token = tokens[i].getToken();
-    if (token.length() == 1) {
-      return 0;
-    }
-    int j = nextStart;
-    if (j < 1) {
-      j = 1;
-    }
-    for (; j < nextTokens.length && (nextTokens[j].isWhitespace() || nextTokens[j].isSentenceStart()); j++);
-    if (j >= nextTokens.length) {
-      return 0;
-    }
-    String nextToken = nextTokens[j].getToken();
-    if (token.equals(nextToken)) {
-      if (!isArticle(tokens[i])) {
-        return tokens[i].getEndPos() - tokens[i].getStartPos();
-      } else {
-        int startPos = tokens[i].getStartPos();
-        for (i++; i < tokens.length && tokens[i].isWhitespace(); i++);
-        if (i >= tokens.length) {
-          return 0;
-        }
-        for (j++; j < nextTokens.length && nextTokens[j].isWhitespace(); j++);
-        if (j >= nextTokens.length) {
-          return 0;
-        }
-        token = tokens[i].getToken();
-        nextToken = nextTokens[j].getToken();
-        if (token.equals(nextToken) && token.length() > 1) {
-          return tokens[i].getEndPos() - startPos;
-        }
+    int nToken = 1;
+    String lastToken = lastTokens[nToken].getToken();
+    String nextToken = nextTokens[nToken].getToken();
+    if (QUOTES_REGEX.matcher(lastToken).matches() && lastToken.equals(nextToken)) {
+      if(lastTokens.length <= nToken + 1 || nextTokens.length <= nToken + 1) {
+        return 0;
       }
+      nToken++;
+      lastToken = lastTokens[nToken].getToken();
+      nextToken = nextTokens[nToken].getToken();
+    }
+    if(!Character.isLetter(lastToken.charAt(0))) {
+      return 0;
+    }
+    if (lastTokens.length > nToken + 1 && isArticle(lastTokens[nToken]) && lastToken.equals(nextToken)) {
+      if(lastTokens.length <= nToken + 1 || nextTokens.length <= nToken + 1) {
+        return 0;
+      }
+      nToken++;
+      lastToken = lastTokens[nToken].getToken();
+      nextToken = nextTokens[nToken].getToken();
+    }
+    if(!Character.isLetter(lastToken.charAt(0))) {
+      return 0;
+    }
+    if (lastToken.equals(nextToken)) {
+      return lastTokens[nToken].getEndPos();
     }
     return 0;
-
   }
 
   @Override
   public RuleMatch[] match(List<AnalyzedSentence> sentences) throws IOException {
+
     List<RuleMatch> ruleMatches = new ArrayList<>();
+
     if (sentences.size() < 1) {
       return toRuleMatchArray(ruleMatches);
     }
-    int pos = 0;
+
     int nextPos = 0;
-    int lastParaBegin = 1;
-    int paraBegin = -1;
-    int nextParaBegin = 1;
-    int numNextSentence = 0;
-    AnalyzedTokenReadings[] lastTokens = null;
-    AnalyzedSentence nextSentence = sentences.get(0);
-    AnalyzedSentence sentence = null;
-    AnalyzedTokenReadings[] tokens = null;
-    AnalyzedTokenReadings[] nextTokens = nextSentence.getTokens();
-    while (numNextSentence < sentences.size()) {
-      if (numNextSentence > 0 || paraBegin >= 0) {
-        lastTokens = tokens;
-        lastParaBegin = paraBegin;
+    int lastPos = 0;
+    int endPos = 0;
+    AnalyzedSentence lastSentence = sentences.get(0);
+    AnalyzedTokenReadings[] lastTokens = lastSentence.getTokensWithoutWhitespace();
+    AnalyzedSentence nextSentence = null;
+    AnalyzedTokenReadings[] nextTokens = null;
+    
+    for (int n = 0; n < sentences.size() - 1; n++) {
+      nextPos += sentences.get(n).getText().length();
+      if(sentences.get(n).hasParagraphEndMark(lang)) {
+        nextSentence = sentences.get(n + 1);
+        nextTokens = nextSentence.getTokensWithoutWhitespace();
+        endPos = numCharEqualBeginning(lastTokens, nextTokens);
+        if (endPos > 0) {
+          int startPos = lastPos + lastTokens[1].getStartPos();
+          String msg = messages.getString("repetition_paragraph_beginning_last_msg");
+          RuleMatch ruleMatch = new RuleMatch(this, lastSentence, startPos, lastPos+endPos, msg);
+          ruleMatches.add(ruleMatch);
+          
+          startPos = nextPos + nextTokens[1].getStartPos();
+          msg = messages.getString("repetition_paragraph_beginning_last_msg");
+          ruleMatch = new RuleMatch(this, nextSentence, startPos, nextPos+endPos, msg);
+          ruleMatches.add(ruleMatch);
+        }
+        lastSentence = nextSentence;
+        lastTokens = nextTokens;
+        lastPos = nextPos;
       }
-      sentence = nextSentence;
-      tokens = nextTokens;
-      paraBegin = nextParaBegin;
-      nextPos = 0;
-      boolean isPara = false;
-      while (numNextSentence < sentences.size() && !isPara) {
-        nextParaBegin = getParagraphBegin(nextTokens, nextParaBegin);
-        if(nextParaBegin >= 0) {
-          isPara = true;
-        }
-        if (nextParaBegin < 0 || nextParaBegin >= nextTokens.length) {
-          numNextSentence++;
-          if(numNextSentence < sentences.size()) {
-            if(nextParaBegin >= nextTokens.length) {
-              nextParaBegin = 1;
-            }
-            nextPos += nextSentence.getText().length();
-            nextSentence = sentences.get(numNextSentence);
-            nextTokens = nextSentence.getTokens();
-          } else {
-            nextTokens = null;
-          }
-        }
-      }
-      if (tokens.length > 2) {
-        int endPos = 0;
-        int num = 0;
-        num = paraBegin;
-        if (num < 1) {
-          num = 1;
-        }
-        if (lastTokens != null) {
-          endPos = numCharEqualBeginning(tokens, paraBegin, lastTokens, lastParaBegin);
-          if (endPos > 0) {
-            for(; tokens[num].isWhitespace() || tokens[num].isSentenceStart(); num++);
-            int startPos = pos + tokens[num].getStartPos();
-            String msg = messages.getString("repetition_paragraph_beginning_last_msg");
-            RuleMatch ruleMatch = new RuleMatch(this, sentence, startPos, startPos+endPos, msg);
-            ruleMatches.add(ruleMatch);
-          }
-        }
-        if (endPos == 0 && nextTokens != null) {
-          endPos = numCharEqualBeginning(tokens, paraBegin, nextTokens, nextParaBegin);
-          if (endPos > 0) {
-            for(; tokens[num].isWhitespace() || tokens[num].isSentenceStart(); num++);
-            int startPos = pos + tokens[num].getStartPos();
-            String msg = messages.getString("repetition_paragraph_beginning_next_msg");
-            RuleMatch ruleMatch = new RuleMatch(this, sentence, startPos, startPos+endPos, msg);
-            ruleMatches.add(ruleMatch);
-          }
-        }
-      }
-      pos += nextPos;
     }
     return toRuleMatchArray(ruleMatches);
   }

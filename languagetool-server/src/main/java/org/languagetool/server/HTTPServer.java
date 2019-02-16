@@ -20,8 +20,12 @@ package org.languagetool.server;
 
 import com.sun.net.httpserver.HttpServer;
 import org.languagetool.JLanguageTool;
+import org.languagetool.RuleLoggerManager;
+import org.languagetool.SlowRuleLogger;
 import org.languagetool.tools.Tools;
 
+import javax.management.ObjectName;
+import java.lang.management.ManagementFactory;
 import java.net.InetSocketAddress;
 import java.util.ResourceBundle;
 import java.util.Set;
@@ -92,12 +96,17 @@ public class HTTPServer extends Server {
     this.port = config.getPort();
     this.host = host;
     try {
-      InetSocketAddress address = host != null ? new InetSocketAddress(host, port) : new InetSocketAddress(port);
-      server = HttpServer.create(address, 0);
+      if (System.getProperty("monitorActiveRules") != null) {
+        ManagementFactory.getPlatformMBeanServer().registerMBean(new ActiveRules(),
+          ObjectName.getInstance("org.languagetool:name=ActiveRules, type=ActiveRules"));
+      }
       RequestLimiter limiter = getRequestLimiterOrNull(config);
       ErrorRequestLimiter errorLimiter = getErrorRequestLimiterOrNull(config);
       LinkedBlockingQueue<Runnable> workQueue = new LinkedBlockingQueue<>();
       httpHandler = new LanguageToolHttpHandler(config, allowedIps, runInternally, limiter, errorLimiter, workQueue);
+
+      InetSocketAddress address = host != null ? new InetSocketAddress(host, port) : new InetSocketAddress(port);
+      server = HttpServer.create(address, 0);
       server.createContext("/", httpHandler);
       executorService = getExecutorService(workQueue, config);
       server.setExecutor(executorService);

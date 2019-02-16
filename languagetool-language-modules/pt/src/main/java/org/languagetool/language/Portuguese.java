@@ -83,8 +83,8 @@ public class Portuguese extends Language implements AutoCloseable {
   public Contributor[] getMaintainers() {
     return new Contributor[] {
             new Contributor("Marco A.G. Pinto", "http://www.marcoagpinto.com/"),
-            new Contributor("Matheus Poletto", "https://github.com/MatheusPoletto"),
-            new Contributor("Tiago F. Santos (3.6+)", "https://github.com/TiagoSantos81")
+            new Contributor("Tiago F. Santos (3.6+)", "https://github.com/TiagoSantos81"),
+            new Contributor("Matheus Poletto (pt-BR)", "https://github.com/MatheusPoletto")
     };
   }
 
@@ -135,7 +135,7 @@ public class Portuguese extends Language implements AutoCloseable {
   }
 
   @Override
-  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig) throws IOException {
+  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, List<Language> altLanguages) throws IOException {
     return Arrays.asList(
             new CommaWhitespaceRule(messages,
                 Example.wrong("Tomamos café<marker> ,</marker> queijo, bolachas e uvas."),
@@ -143,25 +143,25 @@ public class Portuguese extends Language implements AutoCloseable {
             new GenericUnpairedBracketsRule(messages,
                     Arrays.asList("[", "(", "{", "\"", "“" /*, "«", "'", "‘" */),
                     Arrays.asList("]", ")", "}", "\"", "”" /*, "»", "'", "’" */)),
-            new HunspellRule(messages, this, userConfig),
+            new HunspellRule(messages, this, userConfig, altLanguages),
             new LongSentenceRule(messages, userConfig, -1, true),
-            new LongParagraphRule(messages, userConfig),
+            new LongParagraphRule(messages, this, userConfig),
             new UppercaseSentenceStartRule(messages, this,
                 Example.wrong("Esta casa é velha. <marker>foi</marker> construida em 1950."),
                 Example.fixed("Esta casa é velha. <marker>Foi</marker> construida em 1950.")),
             new MultipleWhitespaceRule(messages, this),
             new SentenceWhitespaceRule(messages),
-            new WhiteSpaceBeforeParagraphEnd(messages),
+            new WhiteSpaceBeforeParagraphEnd(messages, this),
             new WhiteSpaceAtBeginOfParagraph(messages),
-            new EmptyLineRule(messages),
-            new ParagraphRepeatBeginningRule(messages),
-            new PunctuationMarkAtParagraphEnd(messages),
+            new EmptyLineRule(messages, this),
+            new ParagraphRepeatBeginningRule(messages, this),
+            new PunctuationMarkAtParagraphEnd(messages, this),
             //Specific to Portuguese:
             new PostReformPortugueseCompoundRule(messages),
             new PortugueseReplaceRule(messages),
             new PortugueseBarbarismsRule(messages),
             new PortugueseClicheRule(messages),
-            new PortugueseFillerWordsRule(messages, userConfig),
+            new PortugueseFillerWordsRule(messages, this, userConfig),
             new PortugueseRedundancyRule(messages),
             new PortugueseWordinessRule(messages),
             new PortugueseWeaselWordsRule(messages),
@@ -170,7 +170,10 @@ public class Portuguese extends Language implements AutoCloseable {
             new PortugueseWordRepeatBeginningRule(messages, this),
             new PortugueseAccentuationCheckRule(messages),
             new PortugueseWrongWordInContextRule(messages),
-            new PortugueseWordCoherencyRule(messages)
+            new PortugueseWordCoherencyRule(messages),
+            new PortugueseUnitConversionRule(messages),
+            new PortugueseReadabilityRule(messages, this, userConfig, true),
+            new PortugueseReadabilityRule(messages, this, userConfig, false)
     );
   }
 
@@ -253,6 +256,8 @@ public class Portuguese extends Language implements AutoCloseable {
       case "FILLER_WORDS_PT":           return -990;
       case LongSentenceRule.RULE_ID:    return -997;
       case LongParagraphRule.RULE_ID:   return -998;
+      case "READABILITY_RULE_SIMPLE_PT":       return -1100;
+      case "READABILITY_RULE_DIFFICULT_PT":    return -1101;
       case "CACOPHONY":                 return -1500;
       case "UNKNOWN_WORD":              return -2000;
     }

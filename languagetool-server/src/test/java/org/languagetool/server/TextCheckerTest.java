@@ -21,21 +21,12 @@ package org.languagetool.server;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.SignatureVerificationException;
-import com.sun.net.httpserver.Headers;
-import com.sun.net.httpserver.HttpContext;
-import com.sun.net.httpserver.HttpExchange;
-import com.sun.net.httpserver.HttpPrincipal;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.languagetool.markup.AnnotatedTextBuilder;
 
 import java.io.*;
-import java.net.InetSocketAddress;
-import java.net.URI;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
@@ -44,6 +35,7 @@ public class TextCheckerTest {
 
   private final String english = "This is clearly an English text, should be easy to detect.";
   private final TextChecker checker = new V2TextChecker(new HTTPServerConfig(), false, null, new RequestCounter());
+  private final String unsupportedCzech = "V současné době je označením Linux míněno nejen jádro operačního systému, ale zahrnuje do něj též veškeré programové vybavení";
 
   @Test
   public void testMaxTextLength() throws Exception {
@@ -102,97 +94,91 @@ public class TextCheckerTest {
             .sign(algorithm);
     System.out.println(token);
   }
-  
+
+  @Test
+  public void testInvalidAltLanguages() throws Exception {
+    Map<String, String> params = new HashMap<>();
+    params.put("text", "not used");
+    params.put("language", "en");
+    HTTPServerConfig config1 = new HTTPServerConfig(HTTPTools.getDefaultPort());
+    TextChecker checker = new V2TextChecker(config1, false, null, new RequestCounter());
+    try {
+      params.put("altLanguages", "en");
+      checker.checkText(new AnnotatedTextBuilder().addText("something").build(), new FakeHttpExchange(), params, null, null);
+      fail();
+    } catch (IllegalArgumentException ignore) {
+    }
+    try {
+      params.put("altLanguages", "xy");
+      checker.checkText(new AnnotatedTextBuilder().addText("something").build(), new FakeHttpExchange(), params, null, null);
+      fail();
+    } catch (IllegalArgumentException ignore) {
+    }
+    
+    params.put("language", "en");
+    params.put("altLanguages", "de-DE");
+    checker.checkText(new AnnotatedTextBuilder().addText("something").build(), new FakeHttpExchange(), params, null, null);
+
+    params.put("language", "en-US");
+    params.put("altLanguages", "en-US");  // not useful, but not forbidden
+    checker.checkText(new AnnotatedTextBuilder().addText("something").build(), new FakeHttpExchange(), params, null, null);
+  }
+
   @Test
   public void testDetectLanguageOfString() {
-    assertThat(checker.detectLanguageOfString("", "en", Arrays.asList("en-GB")).getShortCodeWithCountryAndVariant(), is("en-GB"));
-    assertThat(checker.detectLanguageOfString("X", "en", Arrays.asList("en-GB")).getShortCodeWithCountryAndVariant(), is("en-GB"));
-    assertThat(checker.detectLanguageOfString("X", "en", Arrays.asList("en-ZA")).getShortCodeWithCountryAndVariant(), is("en-ZA"));
-    assertThat(checker.detectLanguageOfString(english, "de", Arrays.asList("en-GB", "de-AT")).getShortCodeWithCountryAndVariant(), is("en-GB"));
-    assertThat(checker.detectLanguageOfString(english, "de", Arrays.asList()).getShortCodeWithCountryAndVariant(), is("en-US"));
-    assertThat(checker.detectLanguageOfString(english, "de", Arrays.asList("de-AT", "en-ZA")).getShortCodeWithCountryAndVariant(), is("en-ZA"));
+    List<String> e = Collections.emptyList();
+    List<String> preferredLangs = Collections.emptyList();
+    assertThat(checker.detectLanguageOfString("", "en", Arrays.asList("en-GB"), e, preferredLangs)
+      .getDetectedLanguage().getShortCodeWithCountryAndVariant(), is("en-GB"));
+
+    // fallback language does not work anymore, now detected as ca-ES, ensure that at least the probability is low
+    //assertThat(checker.detectLanguageOfString("X", "en", Arrays.asList("en-GB"), e)
+    //  .getDetectedLanguage().getShortCodeWithCountryAndVariant(), is("en-GB"));
+    //assertThat(checker.detectLanguageOfString("X", "en", Arrays.asList("en-ZA"), e)
+    //  .getDetectedLanguage().getShortCodeWithCountryAndVariant(), is("en-ZA"));
+    assertThat(checker.detectLanguageOfString("X", "en", Arrays.asList("en-GB"), e, preferredLangs)
+      .getDetectedLanguage().getShortCodeWithCountryAndVariant(), is("ca-ES"));
+    assertTrue(checker.detectLanguageOfString("X", "en", Arrays.asList("en-GB"), e, preferredLangs)
+      .getDetectionConfidence() < 0.5);
+
+    assertThat(checker.detectLanguageOfString(english, "de", Arrays.asList("en-GB", "de-AT"), e, preferredLangs)
+      .getDetectedLanguage().getShortCodeWithCountryAndVariant(), is("en-GB"));
+    assertThat(checker.detectLanguageOfString(english, "de", Arrays.asList(), e, preferredLangs)
+      .getDetectedLanguage().getShortCodeWithCountryAndVariant(), is("en-US"));
+    assertThat(checker.detectLanguageOfString(english, "de", Arrays.asList("de-AT", "en-ZA"), e, preferredLangs)
+      .getDetectedLanguage().getShortCodeWithCountryAndVariant(), is("en-ZA"));
     String german = "Das hier ist klar ein deutscher Text, sollte gut zu erkennen sein.";
-    assertThat(checker.detectLanguageOfString(german, "fr", Arrays.asList("de-AT", "en-ZA")).getShortCodeWithCountryAndVariant(), is("de-AT"));
-    assertThat(checker.detectLanguageOfString(german, "fr", Arrays.asList("de-at", "en-ZA")).getShortCodeWithCountryAndVariant(), is("de-AT"));
-    assertThat(checker.detectLanguageOfString(german, "fr", Arrays.asList()).getShortCodeWithCountryAndVariant(), is("de-DE"));
+    assertThat(checker.detectLanguageOfString(german, "fr", Arrays.asList("de-AT", "en-ZA"), e, preferredLangs)
+      .getDetectedLanguage().getShortCodeWithCountryAndVariant(), is("de-AT"));
+    assertThat(checker.detectLanguageOfString(german, "fr", Arrays.asList("de-at", "en-ZA"), e, preferredLangs)
+      .getDetectedLanguage().getShortCodeWithCountryAndVariant(), is("de-AT"));
+    assertThat(checker.detectLanguageOfString(german, "fr", Arrays.asList(), e, preferredLangs)
+      .getDetectedLanguage().getShortCodeWithCountryAndVariant(), is("de-DE"));
+    assertThat(checker.detectLanguageOfString(unsupportedCzech, "en", Arrays.asList(), e, preferredLangs)
+      .getDetectedLanguage().getShortCodeWithCountryAndVariant(), is("sk-SK"));  // misdetected because it's not supported
+  }
+
+  @Test
+  @Ignore("requires fastText (binary and model) installed locally")
+  public void testDetectLanguageOfStringWithFastText() {
+    HTTPServerConfig config = new HTTPServerConfig();
+    config.setFasttextBinary(new File("/prg/fastText-0.1.0/fasttext"));
+    config.setFasttextModel(new File("/prg/fastText-0.1.0/data/lid.176.bin"));
+    //config.setFasttextBinary(new File("/home/fabian/Documents/fastText/fasttext"));
+    //config.setFasttextModel(new File("/home/fabian/Documents/fastText/lid.176.bin"));
+    TextChecker checker = new V2TextChecker(config, false, null, new RequestCounter());
+    assertThat(checker.detectLanguageOfString(unsupportedCzech, "en", Arrays.asList(), Arrays.asList("foo", "cs"), Collections.emptyList()).
+            getDetectedLanguage().getShortCodeWithCountryAndVariant(), is("zz"));  // cs not supported but mapped to noop language
   }
 
   @Test(expected = RuntimeException.class)
   public void testInvalidPreferredVariant() {
-    checker.detectLanguageOfString(english, "de", Arrays.asList("en"));  // that's not a variant
+    checker.detectLanguageOfString(english, "de", Arrays.asList("en"), Collections.emptyList(), Collections.emptyList());  // that's not a variant
   }
 
   @Test(expected = RuntimeException.class)
   public void testInvalidPreferredVariant2() {
-    checker.detectLanguageOfString(english, "de", Arrays.asList("en-YY"));  // variant doesn't exist
-  }
-
-  class FakeHttpExchange extends HttpExchange {
-    @Override
-    public Headers getRequestHeaders() {
-      return new Headers();
-    }
-    @Override
-    public Headers getResponseHeaders() {
-      return new Headers();
-    }
-    @Override
-    public URI getRequestURI() {
-      return null;
-    }
-    @Override
-    public String getRequestMethod() {
-      return null;
-    }
-    @Override
-    public HttpContext getHttpContext() {
-      return null;
-    }
-    @Override
-    public void close() {
-
-    }
-    @Override
-    public InputStream getRequestBody() {
-      return null;
-    }
-    @Override
-    public OutputStream getResponseBody() {
-      return new ByteArrayOutputStream();
-    }
-    @Override
-    public void sendResponseHeaders(int i, long l) throws IOException {
-    }
-    @Override
-    public InetSocketAddress getRemoteAddress() {
-      return null;
-    }
-    @Override
-    public int getResponseCode() {
-      return 0;
-    }
-    @Override
-    public InetSocketAddress getLocalAddress() {
-      return null;
-    }
-    @Override
-    public String getProtocol() {
-      return null;
-    }
-    @Override
-    public Object getAttribute(String s) {
-      return null;
-    }
-    @Override
-    public void setAttribute(String s, Object o) {
-    }
-    @Override
-    public void setStreams(InputStream inputStream, OutputStream outputStream) {
-    }
-    @Override
-    public HttpPrincipal getPrincipal() {
-      return null;
-    }
+    checker.detectLanguageOfString(english, "de", Arrays.asList("en-YY"), Collections.emptyList(), Collections.emptyList());  // variant doesn't exist
   }
 
 }

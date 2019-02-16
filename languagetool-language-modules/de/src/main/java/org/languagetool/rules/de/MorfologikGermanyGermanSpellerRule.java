@@ -20,6 +20,7 @@
 package org.languagetool.rules.de;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import org.languagetool.Language;
@@ -30,14 +31,15 @@ import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
 /**
  * Spell checker rule that, unlike {@link GermanSpellerRule}, does not support compounds
  * (except those listed in the dictionary of course).
+ * @deprecated since 4.4, use GermanSpellerRule
  */
 public final class MorfologikGermanyGermanSpellerRule extends MorfologikSpellerRule {
 
   private static final String RESOURCE_FILENAME = "/de/hunspell/de_DE.dict";
 
   public MorfologikGermanyGermanSpellerRule(ResourceBundle messages,
-                                            Language language, UserConfig userConfig) throws IOException {
-    super(messages, language, userConfig);
+                                            Language language, UserConfig userConfig, List<Language> altLanguages) throws IOException {
+    super(messages, language, userConfig, altLanguages);
     addExamplePair(Example.wrong("LanguageTool kann mehr als eine <marker>nromale</marker> Rechtschreibprüfung."),
                    Example.fixed("LanguageTool kann mehr als eine <marker>normale</marker> Rechtschreibprüfung."));
   }

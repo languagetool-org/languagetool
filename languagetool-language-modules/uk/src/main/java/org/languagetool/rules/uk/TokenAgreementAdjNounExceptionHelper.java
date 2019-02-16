@@ -22,19 +22,18 @@ import org.slf4j.LoggerFactory;
  */
 final class TokenAgreementAdjNounExceptionHelper {
   private static Logger logger = LoggerFactory.getLogger(TokenAgreementAdjNounExceptionHelper.class);
-  
+
   private static final Pattern NUMBER_V_NAZ = Pattern.compile("number|numr:p:v_naz|noun.*?:p:v_naz:&numr.*");
   // including latin 'a' and 'i' so the rules don't trip on them in Ukrainian sentences
   static final List<String> CONJ_FOR_PLURAL = Arrays.asList("і", "й", "та", "чи", "або", "ані", "також", "то", "a", "i");
   static final Pattern CONJ_FOR_PLULAR_PATTERN = Pattern.compile(StringUtils.join(CONJ_FOR_PLURAL, "|"));
   private static final Pattern DOVYE_TROYE = Pattern.compile(".*[2-4]|.*[2-4][\u2013\u2014-].*[2-4]|два|обидва|двоє|три|троє|чотири|один[\u2013\u2014-]два|два[\u2013\u2014-]три|три[\u2013\u2014-]чотири|двоє[\u2013\u2014-]троє|троє[\u2013\u2014-]четверо");
 
-  //  private static final Logger logger = LoggerFactory.getLogger(TokenInflectionAgreementRule.class);
 
   private TokenAgreementAdjNounExceptionHelper() {
   }
 
-  
+
   public static boolean isException(AnalyzedTokenReadings[] tokens, int i, 
       List<InflectionHelper.Inflection> masterInflections, List<InflectionHelper.Inflection> slaveInflections, 
       List<AnalyzedToken> adjTokenReadings, List<AnalyzedToken> slaveTokenReadings) {
@@ -934,7 +933,7 @@ final class TokenAgreementAdjNounExceptionHelper {
     }
     return false;
   }
-  
+
   private static void logException() {
     if( logger.isDebugEnabled() ) {
       StackTraceElement stackTraceElement = Thread.currentThread().getStackTrace()[2];

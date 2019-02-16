@@ -115,14 +115,25 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
         matches.add(match);
       }
     }
+    else {
+      if( PosTagHelper.hasPosTagPart(tokenReadings, ":subst") ) {
+        for(int i=0; i<matches.size(); i++) {
+          RuleMatch match = matches.get(i);
+          RuleMatch newMatch = new RuleMatch(match.getRule(), match.getSentence(), match.getFromPos(), match.getToPos(), "Це розмовна просторічна форма");
+          newMatch.setSuggestedReplacements(match.getSuggestedReplacements());
+          matches.set(i, newMatch);
+        }
+      }
+    }
     return matches;
   }
-  
+
   private boolean isGoodPosTag(String posTag) {
     return posTag != null
         && !JLanguageTool.PARAGRAPH_END_TAGNAME.equals(posTag)
         && !JLanguageTool.SENTENCE_END_TAGNAME.equals(posTag)
         && !posTag.contains(IPOSTag.bad.getText())
+        && !posTag.contains("subst")
         && !posTag.startsWith("<");
   }
 

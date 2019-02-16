@@ -23,6 +23,7 @@ import org.jetbrains.annotations.NotNull;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.Language;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.tools.InterruptibleCharSequence;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -47,11 +48,13 @@ class RegexPatternRule extends AbstractPatternRule implements RuleMatcher {
 
   private final Pattern pattern;
   private final int markGroup;
+  private final String shortMessage;
 
-  RegexPatternRule(String id, String description, String message, String suggestionsOutMsg, Language language, Pattern regex, int regexpMark) {
+  RegexPatternRule(String id, String description, String message, String shortMessage, String suggestionsOutMsg, Language language, Pattern regex, int regexpMark) {
     super(id, description, language, regex, regexpMark);
     this.message = message;
     this.pattern = regex;
+    this.shortMessage = shortMessage == null ? "" : shortMessage;
     this.suggestionsOutMsg = suggestionsOutMsg;
     markGroup = regexpMark;
   }
@@ -69,8 +72,7 @@ class RegexPatternRule extends AbstractPatternRule implements RuleMatcher {
     List<Pair<Integer, Integer>> suggestionsInSuggestionsOutMsg = getClausePositionsInMessage(suggestionPattern, suggestionsOutMsg);
     List<Pair<Integer, Integer>> backReferencesInSuggestionsOutMsg = getClausePositionsInMessage(matchPattern, suggestionsOutMsg);
 
-
-    Matcher patternMatcher = pattern.matcher(sentenceObj.getText());
+    Matcher patternMatcher = pattern.matcher(new InterruptibleCharSequence(sentenceObj.getText()));
     List<RuleMatch> matches = new ArrayList<>();
     int startPos = 0;
 
@@ -84,7 +86,7 @@ class RegexPatternRule extends AbstractPatternRule implements RuleMatcher {
                 suggestionsInSuggestionsOutMsg, suggestionMatchesOutMsg);
 
         boolean startsWithUpperCase = patternMatcher.start() == 0 && Character.isUpperCase(sentenceObj.getText().charAt(patternMatcher.start()));
-        RuleMatch ruleMatch = new RuleMatch(this, sentenceObj, markStart, markEnd, processedMessage, null, startsWithUpperCase, processedSuggestionsOutMsg);
+        RuleMatch ruleMatch = new RuleMatch(this, sentenceObj, markStart, markEnd, processedMessage, shortMessage, startsWithUpperCase, processedSuggestionsOutMsg);
         matches.add(ruleMatch);
 
         startPos = patternMatcher.end();
@@ -94,7 +96,7 @@ class RegexPatternRule extends AbstractPatternRule implements RuleMatcher {
         throw new RuntimeException(String.format("Unexpected exception when processing regexp in rule with id %s.", this.getFullId()), e);
       }
     }
-    return matches.toArray(new RuleMatch[matches.size()]);
+    return matches.toArray(new RuleMatch[0]);
   }
 
   @NotNull
@@ -106,7 +108,6 @@ class RegexPatternRule extends AbstractPatternRule implements RuleMatcher {
     }
     return clausePositionsInMessage;
   }
-
 
   private String processMessage(Matcher matcher, String message, List<Pair<Integer, Integer>> backReferences,
                                 List<Pair<Integer, Integer>> suggestions, List<Match> matches) {
@@ -149,7 +150,7 @@ class RegexPatternRule extends AbstractPatternRule implements RuleMatcher {
       } else {
         suggestion = matchReferenceStringValue;
       }
-      processedMessage.append(message.substring(startOfProcessingPart, reference.getLeft())).append(suggestion);
+      processedMessage.append(message, startOfProcessingPart, reference.getLeft()).append(suggestion);
 
       startOfProcessingPart = reference.getRight();
     }
@@ -161,5 +162,13 @@ class RegexPatternRule extends AbstractPatternRule implements RuleMatcher {
   @Override
   public String toString() {
     return pattern.toString() + "/flags:" + pattern.flags();
+  }
+
+  /* (non-Javadoc)
+   * @see org.languagetool.rules.patterns.AbstractPatternRule#getShortMessage()
+   */
+  @Override
+  String getShortMessage() {
+    return shortMessage;
   }
 }

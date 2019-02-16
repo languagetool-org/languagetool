@@ -194,8 +194,11 @@ public abstract class Rule {
   public boolean supportsLanguage(Language language) {
     try {
       List<Class<? extends Rule>> relevantRuleClasses = new ArrayList<>();
-      List<Rule> relevantRules = language.getRelevantRules(JLanguageTool.getMessageBundle(), 
-          new UserConfig());  //  empty UserConfig has to be added to prevent null pointer exception
+      UserConfig config = new UserConfig();
+      List<Rule> relevantRules = new ArrayList<>(language.getRelevantRules(JLanguageTool.getMessageBundle(),
+          config, Collections.emptyList()));  //  empty UserConfig has to be added to prevent null pointer exception
+      relevantRules.addAll(language.getRelevantLanguageModelCapableRules(JLanguageTool.getMessageBundle(), null,
+        config, Collections.emptyList()));
       for (Rule relevantRule : relevantRules) {
         relevantRuleClasses.add(relevantRule.getClass());
       }
@@ -282,7 +285,7 @@ public abstract class Rule {
   }
 
   protected final RuleMatch[] toRuleMatchArray(List<RuleMatch> ruleMatches) {
-    return ruleMatches.toArray(new RuleMatch[ruleMatches.size()]);
+    return ruleMatches.toArray(new RuleMatch[0]);
   }
 
   /**
@@ -389,7 +392,15 @@ public abstract class Rule {
    * @since 2.5
    */
   protected void addExamplePair(IncorrectExample incorrectSentence, CorrectExample correctSentence) {
-    incorrectExamples.add(incorrectSentence);
+    String correctExample = correctSentence.getExample();
+    int markerStart= correctExample.indexOf("<marker>");
+    int markerEnd = correctExample.indexOf("</marker>");
+    if (markerStart != -1 && markerEnd != -1) {
+      List<String> correction = Collections.singletonList(correctExample.substring(markerStart + "<marker>".length(), markerEnd));
+      incorrectExamples.add(new IncorrectExample(incorrectSentence.getExample(), correction));
+    } else {
+      incorrectExamples.add(incorrectSentence);
+    }
     correctExamples.add(correctSentence);
   }
 

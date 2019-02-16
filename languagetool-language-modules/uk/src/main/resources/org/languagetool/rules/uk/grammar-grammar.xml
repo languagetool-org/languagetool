@@ -51,10 +51,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <exception negate_pos="yes" postag_regexp="yes" postag="prep.*" />
         </token>
         <token postag_regexp="yes" postag="verb.*">
-          <exception negate_pos="yes" postag_regexp="yes" postag="verb.*" />
+          <exception negate_pos="yes" postag_regexp="yes" postag="verb.*|SENT_END" />
         </token>
       </pattern>
       <message>Прийменник \1 перед дієсловом <suggestion>\2</suggestion></message>
+      <example correction="їхати">Їм треба <marker>в їхати</marker>.</example>
+      <example correction="будь"><marker>для будь</marker> кого</example>
+      <!-- ловимо іншим правилом
+      <example correction="грати">потрапляти <marker>за грати</marker>.</example>
+      -->
       <example>Їм треба їхати.</example>
       <example>Їм треба в'їхати.</example>
       <example>Просто взяти.</example>
@@ -66,13 +71,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example>не залишається нічого іншого, крім чекати.</example>
       <example>Наїхали на Мела Гібсона</example>
       <example>О покладіть мені квіти</example>
+<!--
       <example>заради скажемо</example>
+-->
       <example>кількість захворювань на гепатит В зменшилась у вісім разів.</example>
-      <example correction="їхати">Їм треба <marker>в їхати</marker>.</example>
-      <example correction="будь"><marker>для будь</marker> кого</example>
-      <!-- ловимо іншим правилом
-      <example correction="грати">потрапляти <marker>за грати</marker>.</example>
-      -->
+      <example>О слався, о слався, сміливцю...</example>
     </rule>
 
     <rulegroup id="MODAL_WORD" name="Узгодження з модальними словами">
@@ -92,7 +95,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <token postag_regexp="yes" postag="verb.*">
               <exception postag_regexp="yes" postag="verb.*:inf.*"/>
               <exception regexp="yes">було|буде</exception>
-              <exception negate_pos="yes" postag_regexp="yes" postag="verb.*"/>
+              <exception negate_pos="yes" postag_regexp="yes" postag="verb.*|SENT_END"/>
             </token>
           </marker>
         </pattern>
@@ -147,7 +150,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <marker>
             <token postag_regexp="yes" postag="verb.*">
               <exception postag_regexp="yes" postag="verb.*:inf.*"/>
-              <exception negate_pos="yes" postag_regexp="yes" postag="verb.*"/>
+              <exception negate_pos="yes" postag_regexp="yes" postag="verb.*|SENT_END"/>
               <!--
               <exception inflected="yes">бути</exception>
               -->
@@ -188,7 +191,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <marker>
             <token postag_regexp="yes" postag="verb.*">
               <exception postag_regexp="yes" postag="verb.*:(inf|past:n|futr:s:3).*"/>
-              <exception negate_pos="yes" postag_regexp="yes" postag="verb.*"/>
+              <exception negate_pos="yes" postag_regexp="yes" postag="verb.*|SENT_END"/>
               <exception inflected="yes" postag_regexp="yes" postag="verb:imperf:(past|futr).*">бути</exception>
             </token>
           </marker>
@@ -212,7 +215,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <marker>
             <token postag_regexp="yes" postag="verb.*">
               <exception postag_regexp="yes" postag="verb.*:inf.*"/>
-              <exception negate_pos="yes" postag_regexp="yes" postag="verb.*"/>
+              <exception negate_pos="yes" postag_regexp="yes" postag="verb.*|SENT_END"/>
               <exception inflected="yes" postag_regexp="yes" postag="verb:imperf:(past|futr).*">бути</exception>
             </token>
           </marker>
@@ -492,7 +495,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <rule>
         <antipattern>
           <token regexp="yes">[12][0-9]{3},[12][0-9]{3}</token>
-          <token regexp="yes">рр\.</token>
+          <token>рр.</token>
         </antipattern>
         <antipattern>
           <token regexp="yes">.*,5</token> <!-- ,5 - виняток: 4,5 роки може читатися як «чотири з половиною роки» -->
@@ -884,7 +887,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <marker>
             <token postag_regexp="yes" postag="noun.*?:p:.*">
               <exception postag_regexp="yes" postag=".*:[mfn]:.*|.*pron:pers.*|adv.*"/>
-              <exception regexp="yes">рр\.</exception>
+              <exception>рр.</exception>
             </token>
           </marker>
         </pattern>
@@ -1014,24 +1017,38 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <token regexp="yes">[ву]</token>
           </marker>
           <token postag_regexp="yes" postag="adj:f:v_mis.*" regexp="yes" inflected="yes">&hours;</token>
-          <token>годині</token>
+          <token regexp="yes">годині|ранку|вечора|ночі</token>
         </pattern>
         <message>Правильно: <suggestion>о</suggestion></message>
         <example correction="о">аж <marker>у</marker> третій годині ночі</example>
+        <example correction="о">аж <marker>у</marker> третій ранку</example>
         <example>аж о третій годині ночі</example>
       </rule>
+
       <rule>
         <pattern>
           <marker>
             <token regexp="yes">[ву]</token>
           </marker>
-          <token regexp="yes">[1-9]-і?й|[12][0-9]-і?й</token>
-          <token>годині</token>
+          <token regexp="yes">([1-9]|[12][0-9])(-і?й)?</token>
+          <token regexp="yes">годині|ранку|вечора|ночі</token>
         </pattern>
         <message>Правильно: <suggestion>о</suggestion></message>
         <example correction="о">аж <marker>у</marker> 10-й годині ночі</example>
+        <example correction="о">аж <marker>у</marker> 10-й ранку</example>
         <example>аж о 5-ій годині ночі</example>
       </rule>
+
+      <rule>
+        <pattern>
+          <token regexp="yes">[ву]</token>
+          <token regexp="yes">(2[0-4]|1[0-9]|[1-9]):[0-9]{2}</token>
+        </pattern>
+        <message>Правильно: <suggestion>о <match no="2"/></suggestion></message>
+        <example correction="о 17:00">почнеться <marker>в 17:00</marker> за місцевим часом</example>
+        <example>з рахунком 22:33</example>
+      </rule>
+
       <rule>
         <pattern>
           <token regexp="yes">[ву]</token>
@@ -1045,15 +1062,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <suggestion><match no="2"/> <match no="3"/> до <match no="4"/></suggestion>
         <example correction="о п'ять годині двадцять п'ять хвилин|п'ять годин до двадцять"><marker>в п'ять годин двадцять п'ять хвилин</marker></example>
         <example>п'ять хвилин на дев'яту</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token regexp="yes">[ву]</token>
-          <token regexp="yes">(2[0-4]|1[0-9]|[1-9]):[0-9]{2}</token>
-        </pattern>
-        <message>Правильно: <suggestion>о <match no="2"/></suggestion></message>
-        <example correction="о 17:00">почнеться <marker>в 17:00</marker> за місцевим часом</example>
-        <example>з рахунком 22:33</example>
       </rule>
 
       <rule>
@@ -1074,6 +1082,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="…надцять хвилин">о першій годині <marker>тридцять п'ятій хвилині</marker></example>
         <example>о першій годині двадцять п'ять хвилин</example>
       </rule>
+
       <rule>
         <pattern>
           <token regexp="yes">[1-9]-і?й|[12][0-9]-і?й</token>
@@ -1088,6 +1097,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="…надцять хвилин">о 10-й годині <marker>двадцять п'ятій хвилині</marker></example>
         <example>о 10-й годині двадцять п'ять хвилин</example>
       </rule>
+
       <rule>
         <pattern>
           <token>без</token>
@@ -1102,6 +1112,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="за два хвилин сьома|за двоє хвилин сьома|за дві хвилин сьома|два хвилин до сьомої|двоє хвилин до сьомої|дві хвилин до сьомої"><marker>без двадцяти двох хвилин сьома</marker></example>
         <example>за десять хвилин третя</example>
       </rule>
+
       <rule>
         <antipattern>
           <token postag_regexp="yes" postag="adj:f:v_rod.*" regexp="yes" inflected="yes">&hours;</token>
@@ -1139,53 +1150,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example>в 60-х роках</example>
     </rule>
 
-    <rulegroup id="PASSIVE_PREDICATE" name="Пасивний предикат або пасивний атрибут (ev. апозиція) з інструменталем дієвої особи">
-      <rule>
-        <pattern>
-          <token postag_regexp="yes" postag="noun.*v_zna.*|adj:n:v_zna:&amp;pron:(gen|dem).*"/>
-          <marker>
-            <token postag_regexp="yes" postag="verb.*:impers.*">
-              <exception regexp="yes">визнано|названо|призначено|.*обрано|обумовлено|.*укомплектовано|зумовлено</exception>
-            </token>
-            <token postag_regexp="yes" postag="adj.*v_oru.*" min="0" max="2">
-              <exception regexp="yes">тим|таким</exception>
-            </token>
-            <token postag_regexp="yes" postag="noun:anim.*v_oru.*|.*v_oru.*pron:pers.*">
-              <exception negate_pos="yes" postag_regexp="yes" postag="noun:anim.*v_oru.*.*|.*v_oru.*pron:pers.*"/>
-              <exception postag_regexp="yes" postag="&lt;(adv|insert)&gt;"/>
-              <exception regexp="yes">тим|таким|персоною|днями|цими</exception>
-            </token>
-            <!-- TODO: особа-діяч може бути не лише :anim
-                <token postag_regexp="yes" postag="noun.*v_oru.*"/>
-            -->
-          </marker>
-        </pattern>
-        <message>Невластива мові конструкція: пасивний предикат</message>
-        <url>http://kurylo.wikidot.com/3-nevlastyva-ukrainskii-movi-konstruktsiia:pasyvnyi-predykat</url>
-        <example correction="">Справу <marker>порушено прокурором</marker>.</example>
-        <example correction="">Справу <marker>порушено генеральним прокурором</marker>.</example>
-        <example correction="">Це <marker>зроблено шановним академіком</marker>.</example>
-        <example correction="">Громадянство <marker>отримано ним</marker> законно.</example>
-        <example>Користувача авторизовано.</example>
-        <example>Листа написано Келлі.</example>
-        <example>Справу порушено за фактом.</example>
-        <example>Наказ підписано синьою ручкою.</example>
-        <example>церковні терміни використано тією мірою.</example>
-        <example>це викликано тим, що</example>
-        <example>його обрано президентом</example>
-        <example>документ виписано таким чином</example>
-        <example>Яку роль відведено Ульянченко</example>
-        <!-- TODO: див. вище
-            <example correction="">Справу <marker>порушено судом</marker></example>
-            <example type="incorrect">Справу <marker>порушено міським судом</marker></example>
-        -->
-        <example correction="">Користувача <marker>авторизовано адміністратором</marker>.</example>
-        <!--
-            <example correction="">Все <marker>зроблено самими учасниками</marker></example>
-            <example correction="">Потепління <marker>ускладнено нашою недолугою діяльністю</marker></example>
-        -->
-      </rule>
-    </rulegroup>
+    <rule id="u_svoyemu_zhyti" name="У своєму житі">
+      <pattern>
+        <token regexp="yes">[ув]</token>
+        <token regexp="yes">своєму|твоєму|моєму|її|його|їхньому|вашому|нашому|духовному|національному|соціальному|економічному</token>
+        <marker>
+          <token>житі</token>
+        </marker>
+      </pattern>
+      <message>Можливо: <suggestion>житті</suggestion>?</message>
+      <example correction="житті">в моєму <marker>житі</marker></example>
+    </rule>
+
+    <rule id="pryvit_z_klychnym" name="привіт з кличним">
+      <pattern>
+        <token>привіт</token>
+        <token min="0">,</token>
+        <token postag_regexp="yes" postag="noun:anim:.:v_naz:prop:fname.*">
+          <exception postag_regexp="yes" postag="noun:anim:.:v_kly:prop:fname.*"></exception>
+        </token>
+      </pattern>
+      <message>При звертанні треба вживати кличний відмінок</message>
+      <suggestion>\1, <match no="3" postag_regexp="yes" postag="(noun:anim:.:)v_naz(:prop:fname.*)" postag_replace="$1v_kly$2"/></suggestion>
+      <example correction="Привіт, Василю"><marker>Привіт Василь</marker>!</example>
+    </rule>
 
     <rule id="VIDMINA_CHOLOVICHYH_PRIZVYSCH" name="Відмінювання чоловічих прізвищ">
       <antipattern>
@@ -1515,11 +1503,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
 
-    <rulegroup id="kraschiy_vs_naikraschiy" name="Кращий і найкращий">
+    <rulegroup id="kraschiy_vs_naikraschiy_with_ne" name="Кращий і найкращий (З не)">
       <antipattern>
         <token inflected="yes">кращий</token>
         <token min="0">,</token>
-        <token regexp="yes">за|від|ніж|як</token>
+        <token regexp="yes">за|від|ніж|аніж|як|од</token>
       </antipattern>
 
       <rule>
@@ -1596,25 +1584,293 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <marker>
             <token inflected="yes">кращий</token>
           </marker>
-          <token inflected="yes" regexp="yes">час|період|вихід|спосіб</token>
+          <token inflected="yes" regexp="yes">час|період|вихід|спосіб|бік</token>
         </pattern>
         <message>Коли мається на увазі найвищий ступінь порівняння, слід вживати <suggestion>найкращий</suggestion>?</message>
         <example correction="найкращий">Зараз не <marker>кращий</marker> час починати справу.</example>
       </rule>
-
     </rulegroup>
 
+    <rulegroup id="kraschiy_vs_naikraschiy_without_ne" name="Кращий і найкращий (беЗ не)">
+      <antipattern>
+        <token>не</token>
+        <token inflected="yes">кращий</token>
+      </antipattern>
+      <antipattern>
+        <token>кращий</token>
+        <token max="3"/>
+        <token postag_regexp="yes" postag="adj:.:v_naz:compc.*"/>
+      </antipattern>
+      <antipattern>
+        <token regexp="yes">значно|набагато|суттєво|трохи|куди|дещо|якомога|чим|тим|ще</token>
+        <!--
+        <token postag_regexp="yes" postag="adv(:.*|$)">
+          <exception postag_regexp="yes" postag="conj.*"/>
+          <exception postag_regexp="yes" postag=".*?:dem.*"/>
+          <exception regexp="yes">натомість|взагалі</exception>
+        </token>
+        -->
+        <token>кращий</token>
+      </antipattern>
 
-    <rule id="vyscha_mira_pokarannya" name="Вища міра покарання">
-      <pattern>
-        <token inflected="yes">вищий</token>
-        <token inflected="yes">міра</token>
-        <token>покарання</token>
-      </pattern>
-      <message>Краще: <suggestion>найвища міра покарання</suggestion>, <suggestion>найвища кара</suggestion></message>
-      <example correction="найвища міра покарання|найвища кара">і присудили <marker>вищу міру покарання</marker>.</example>
-    </rule>
+      <rule>
+        <pattern>
+          <marker>
+            <token>кращий</token>
+          </marker>
+          <token regexp="yes">з|із|поміж|серед</token>
+        </pattern>
+        <message>Коли мається на увазі найвищий ступінь порівняння, слід вживати <suggestion>найкращий</suggestion>?</message>
+        <example correction="найкращий"><marker>кращий</marker> з людей</example>
+        <example correction="найкращий"><marker>кращий</marker> із світів</example>
+        <example correction="найкращий"><marker>кращий</marker> із кращих</example>
+      </rule>
 
+      <rule>
+        <pattern>
+          <token regexp="yes">серед|поміж|з|із</token>
+          <token postag_regexp="yes" postag="noun:.*?:v_rod(?!.*?pron).*"/>
+          <marker>
+            <token>кращий</token>
+          </marker>
+        </pattern>
+        <message>Коли мається на увазі найвищий ступінь порівняння, слід вживати <suggestion>найкращий</suggestion>?</message>
+        <example correction="найкращий">серед жінок <marker>кращий</marker> результат</example>
+        <example>який із них кращий, який дешевший</example>
+        <example>який із них кращий і дешевший</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token regexp="yes">за|як</token>
+          <marker>
+            <token>кращий</token>
+          </marker>
+          <token postag_regexp="yes" postag="adj.*?:v_naz.*" min="0"/>
+          <token postag_regexp="yes" postag="noun:.*?:v_naz.*"/>
+        </pattern>
+        <message>Коли мається на увазі найвищий ступінь порівняння, слід вживати <suggestion>найкращий</suggestion>?</message>
+        <example correction="найкращий">за <marker>кращий</marker> короткий сценарій</example>
+        <example correction="найкращий">як <marker>кращий</marker> виконавець</example>
+        <example>розраховувати на кращий результат</example>
+        <example>за кращий город, за багатше князівство</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token inflected="yes" regexp="yes">конкурс|звання|змагання|тендер|претендувати</token>
+          <token regexp="yes" min="0">[:—–-]</token>
+          <token>на</token>
+          <marker>
+            <token>кращий</token>
+          </marker>
+        </pattern>
+        <message>Коли мається на увазі найвищий ступінь порівняння, слід вживати <suggestion>найкращий</suggestion>?</message>
+        <example correction="найкращий">конкурс на <marker>кращий</marker> фільм</example>
+        <example correction="найкращий">організовує конкурси: на <marker>кращий</marker> твір про гімназію</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token postag_regexp="yes" postag="noun:.*?:v_naz.*"/>
+          <token regexp="yes">[—–-]</token>
+          <marker>
+            <token>кращий</token>
+          </marker>
+          <token postag_regexp="yes" postag="adj:.:v_naz.*" min="0"/>
+          <token postag_regexp="yes" postag="noun:.*?:v_naz.*"/>
+        </pattern>
+        <message>Коли мається на увазі найвищий ступінь порівняння, слід вживати <suggestion>найкращий</suggestion>?</message>
+        <example correction="найкращий">Сергій Стаховський — <marker>кращий</marker> тенісист</example>
+        <example correction="найкращий">книжка - <marker>кращий</marker> подарунок</example>
+        <example correction="найкращий">собака - <marker>кращий</marker> друг людини</example>
+        <example>якийсь інший світ – кращий світ, вільніший</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token>кращий
+              <exception scope="previous" regexp="yes">["«„“]</exception>
+            </token>
+          </marker>
+          <token postag_regexp="yes" postag="adj:m:v_naz.*" min="0"/>
+          <token postag_regexp="yes" postag="noun:anim:m:v_naz.*"/>
+          <token postag_regexp="yes" postag="adj:.:v_rod.*" min="0"/>
+          <token postag_regexp="yes" postag="noun:.*?:v_rod.*"/>
+        </pattern>
+        <message>Коли мається на увазі найвищий ступінь порівняння, слід вживати <suggestion>найкращий</suggestion>?</message>
+        <example correction="найкращий">там <marker>кращий</marker> поет революції</example>
+        <example correction="найкращий">спочатку <marker>кращий</marker> голеадор чемпіонату</example>
+        <example correction="найкращий"><marker>кращий</marker> гравець цього матчу</example>
+        <example>значно кращий гравець команди</example>
+        <example>куди кращий гравець команди</example>
+        <example>кращий стан здоров'я</example>
+        <example>розвернути в кращий бік життя</example>
+        <example>забезпечити для себе кращий розподіл ресурсів</example>
+        <example>швидший і кращий розвиток економіки</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token regexp="yes">["«„“]</token>
+          <marker>
+            <token spacebefore="no">кращий</token>
+          </marker>
+          <token postag_regexp="yes" postag="adj:m:v_naz.*" min="0"/>
+          <token postag_regexp="yes" postag="noun:.*?:m:v_naz.*"/>
+          <token postag_regexp="yes" postag="noun:.*?:v_rod.*"/>
+        </pattern>
+        <message>Коли мається на увазі найвищий ступінь порівняння, слід вживати <suggestion>найкращий</suggestion>?</message>
+        <example correction="найкращий">«<marker>кращий</marker> оперний спектакль року»</example>
+        <example correction="найкращий">«<marker>кращий</marker> господар року»</example>
+        <example>кращий стан здоров'я</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token>кращий</token>
+          </marker>
+          <token postag_regexp="yes" postag="adj:m:v_naz.*" min="0"/>
+          <token postag_regexp="yes" postag="noun:inanim:m:v_naz.*"/>
+          <or>
+            <token postag_regexp="yes" postag="noun:inanim:.:v_rod.*" regexp="yes">світу|міста|країни|планети|області|сезону|турніру|матчу|року|місяця|сторіччя|століття</token>
+            <token postag_regexp="yes" postag="noun:inanim:.:v_rod.*?geo.*"/>
+          </or>
+        </pattern>
+        <message>Коли мається на увазі найвищий ступінь порівняння, слід вживати <suggestion>найкращий</suggestion>?</message>
+        <example correction="найкращий"><marker>кращий</marker> час сезону</example>
+        <example correction="найкращий"><marker>кращий</marker> документальний фільм року</example>
+        <example correction="найкращий"><marker>кращий</marker> фестиваль Європи</example>
+        <!-- TODO:
+        <example correction="найкращий"><marker>кращий</marker> фільм країн</example>
+        -->
+        <example>розвернути в кращий бік життя</example>
+        <example>забезпечити для себе кращий розподіл ресурсів</example>
+        <example>швидший і кращий розвиток економіки</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token>кращий</token>
+          </marker>
+          <token postag_regexp="yes" postag="adj:.:v_naz.*" min="0"/>
+          <token postag_regexp="yes" postag="noun:anim:.:v_naz.*"/>
+          <token regexp="yes">у|в|на</token>
+          <or>
+            <token postag_regexp="yes" postag="noun:inanim:.:v_mis.*" regexp="yes">світі|місті|країні|планеті|області|сезоні|турнірі|матчі|році|сторіччі|столітті|сфері</token>
+            <token postag_regexp="yes" postag="noun:inanim:.:v_mis.*?geo.*"/>
+          </or>
+        </pattern>
+        <message>Коли мається на увазі найвищий ступінь порівняння, слід вживати <suggestion>найкращий</suggestion>?</message>
+        <example correction="найкращий"><marker>кращий</marker> захисник в Україні</example>
+        <example>розвернути в кращий бік на сході</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token>кращий</token>
+          </marker>
+          <token postag_regexp="yes" postag="adj:.:v_naz.*" min="0"/>
+          <token postag_regexp="yes" postag="noun:inanim:.:v_naz.*"/>
+          <token regexp="yes">у|в|на</token>
+          <token postag_regexp="yes" postag="noun:inanim:.:v_mis.*" regexp="yes">світі|місті|країні|планеті|області|сезоні|турнірі|матчі|році|місяці|сторіччі|столітті|сфері|історії</token>
+          <!--
+          <or>
+            <token postag_regexp="yes" postag="noun:inanim:.:v_mis.*" regexp="yes">світі|місті|країні|планеті|області|сезоні|турнірі|матчі|році|сторіччі|столітті|сфері</token>
+            <token postag_regexp="yes" postag="noun:inanim:.:v_mis.*?geo.*"/>
+          </or>
+          -->
+        </pattern>
+        <message>Коли мається на увазі найвищий ступінь порівняння, слід вживати <suggestion>найкращий</suggestion>?</message>
+        <!-- TODO:
+        <example correction="найкращий"><marker>кращий</marker> турнір у Європі</example>
+        -->
+        <example correction="найкращий"><marker>кращий</marker> матч у сезоні</example>
+        <example correction="найкращий"><marker>кращий</marker> проект у сфері</example>
+        <example correction="найкращий"><marker>кращий</marker> кооператив у області</example>
+        <!--
+        <example correction="найкращий">це все одно був <marker>кращий</marker> виступ в порівнянні з усіма іншими</example>
+        -->
+        <example>має куди кращий ресурс на всіх рівнях</example>
+        <example>розвернути в кращий бік на сході</example>
+        <example>жодних змін у кращий бік у ставленні</example>
+        <example>поширюючи кращий досвід у межах двосторонньої</example>
+        <example>але кращий результат у відсотках</example>
+        <example>Важко уявити собі кращий момент у житті</example>
+        <example>Попри кращий розвиток в Україні чоловічого баскетболу</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token>кращий</token>
+          </marker>
+          <token postag_regexp="yes" postag="adj:m:v_naz.*" min="0"/>
+          <token regexp="yes">друг|бомбардир|спортсмен|бестселер|представник|винахід</token>
+        </pattern>
+        <message>Коли мається на увазі найвищий ступінь порівняння, слід вживати <suggestion>найкращий</suggestion>?</message>
+        <example correction="найкращий">наш <marker>кращий</marker> друг людини - собака</example>
+        <example correction="найкращий">натомість <marker>кращий</marker> бомбардир чемпіонату</example>
+        <example correction="найкращий">і <marker>кращий</marker> український бомбардир</example>
+        <!-- TODO: exception that maybe not worth complicating the rules
+        <example> щедріший, гостинніший і взагалі кращий друг</example>
+        -->
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token>кращий</token>
+          </marker>
+          <token>світовий</token>
+          <token>досвід</token>
+        </pattern>
+        <message>Коли мається на увазі найвищий ступінь порівняння, слід вживати <suggestion>найкращий</suggestion>?</message>
+        <example correction="найкращий">спираючись на <marker>кращий</marker> світовий досвід</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token regexp="yes">свій|мій|наш|твій</token>
+          <marker>
+            <token>кращий</token>
+          </marker>
+          <token postag_regexp="yes" postag="adj.*?:v_naz.*" min="0"/>
+          <token postag_regexp="yes" postag="noun:.*?:v_naz.*"/>
+        </pattern>
+        <message>Коли мається на увазі найвищий ступінь порівняння, слід вживати <suggestion>найкращий</suggestion>?</message>
+        <example correction="найкращий">наш <marker>кращий</marker> друг людини - собака</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token>кращий</token>
+          </marker>
+          <token>захист</token>
+          <token regexp="yes">[—–-]</token>
+        </pattern>
+        <message>Коли мається на увазі найвищий ступінь порівняння, слід вживати <suggestion>найкращий</suggestion>?</message>
+        <example correction="найкращий"><marker>кращий</marker> захист - це напад</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token>кращий</token>
+          </marker>
+          <token>тому</token>
+          <token postag_regexp="yes" postag="noun:.*?:v_naz.*"/>
+        </pattern>
+        <message>Коли мається на увазі найвищий ступінь порівняння, слід вживати <suggestion>найкращий</suggestion>?</message>
+        <example correction="найкращий">це — <marker>кращий</marker> тому доказ</example>
+      </rule>
+
+    </rulegroup>
 
     <rulegroup id="BIL_MASC" name="Біль - ч.р.">
       <rule>
@@ -1676,7 +1932,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           </token>
           <token postag_regexp="yes" postag="part.*" min="0"/>
           <token postag_regexp="yes" postag="verb.*:impr.*">
-            <exception negate_pos="yes" postag_regexp="yes" postag="verb.*impr.*"/>
+            <exception negate_pos="yes" postag_regexp="yes" postag="verb.*impr.*|SENT_END"/>
           </token>
         </pattern>
         <message>Можливо, пропущена кома після кличного?</message>
@@ -1728,7 +1984,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           </token>
           <token>,</token>
           <token postag_regexp="yes" postag="verb.*:impr(:s:2|:p:1).*">
-            <exception negate_pos="yes" postag_regexp="yes" postag="verb.*impr.*"/>
+            <exception negate_pos="yes" postag_regexp="yes" postag="verb.*impr.*|SENT_END"/>
             <exception postag_regexp="yes" postag="verb.*insert.*"/>
             <!--TODO: якщо знай, бач.., не виділені комою, вони не отримують тегу insert після зняття омонімії -->
             <exception case_sensitive="yes" regexp="yes">.*\.|[А-ЯІЇЄҐ].*|знай|бач|бачте|скажімо|дякуй|дякуйте</exception>
@@ -1769,7 +2025,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <pattern>
           <token>воно</token>
           <token postag_regexp="yes" postag="verb:.*:impers.*">
-            <exception negate_pos="yes" postag_regexp="yes" postag="verb:.*:impers.*"/>
+            <exception negate_pos="yes" postag_regexp="yes" postag="verb:.*:impers.*|SENT_END"/>
           </token>
         </pattern>
         <message>Неправильна конструкція</message>
@@ -1786,7 +2042,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <pattern>
           <token>решта</token>
           <token postag_regexp="yes" postag="verb:.*:impers.*">
-            <exception negate_pos="yes" postag_regexp="yes" postag="verb:.*:impers.*"/>
+            <exception negate_pos="yes" postag_regexp="yes" postag="verb:.*:impers.*|SENT_END"/>
           </token>
         </pattern>
         <message>Неправильна конструкція</message>
@@ -1909,6 +2165,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
 
+    <rulegroup id="vybachaty_kogo" name="Вибачати кого">
+      <rule>
+        <pattern>
+          <token inflected="yes" regexp="yes">вибачати|вибачити|пробачати|пробачити</token>
+          <unify>
+            <feature id="gender"/>
+            <feature id="case"/>
+            <token postag_regexp="yes" postag="adj.*" min="0"/>
+            <token postag_regexp="yes" postag="noun:anim.*?(:[pm]:v_rod|:[fn]:v_zna).*">
+              <exception  postag_regexp="yes" postag="noun:anim:.:v_dav.*"/>
+            </token>
+          </unify>
+        </pattern>
+        <message>Правильно: <suggestion><match no="1"/> <match no="2" postag_regexp="yes" postag="(adj.*?)(?:v_rod|v_zna)(.*)" postag_replace="$1v_dav$2"/> <match no="3" postag_regexp="yes" postag="(noun:anim:.:)(?:v_rod|v_zna)(.*)" postag_replace="$1v_dav$2"/></suggestion></message>
+        <example correction="вибачати хлопцеві|вибачати хлопцю"><marker>вибачати хлопця</marker>.</example>
+        <example correction="вибачати тому хлопцеві|вибачати тому хлопцю"><marker>вибачати того хлопця</marker>.</example>
+        <example correction="пробачили дівчині"><marker>пробачили дівчину</marker>.</example>
+        <example correction="пробачили учням"><marker>пробачили учнів</marker>.</example>
+        <example correction="пробачили дівчаткові|пробачили дівчатку"><marker>пробачили дівчатко</marker>.</example>
+        <example>вибачити все йому</example>
+      </rule>
+    </rulegroup>
+
 
     <rule id="DASYSH" name="Дасиш, їсиш, відповісиш">
       <pattern>
@@ -1923,6 +2202,48 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="їси"><marker>їсиш</marker>.</example>
       <example correction="розповіси"><marker>розповісиш</marker>.</example>
       <example>вивісиш</example>
+    </rule>
+
+    <rule id="V_SHOCI" name="В шоці">
+      <pattern>
+        <token regexp="yes">[ув]</token>
+        <token postag_regexp="yes" postag="adj.*" min="0"/>
+        <token>шоці</token>
+      </pattern>
+      <message>Неправильна форма «шоці»</message>
+      <suggestion>шокований</suggestion>
+      <suggestion>(кого) взяв/охопив шок</suggestion>
+      <suggestion><match no="1"/> <match no="2"/> шоку</suggestion>
+      <example correction="шокований|(кого) взяв/охопив шок|в легкому шоку">я <marker>в легкому шоці</marker></example>
+    </rule>
+
+    <rule id="na_chyyus_dumku" name="На чиюсь думку">
+      <pattern>
+        <token postag="SENT_START"/>
+        <marker>
+          <token>на</token>
+          <token regexp="yes">мою|нашу|його|її|їхню</token>
+          <token>думку</token>
+        </marker>
+        <token>
+          <exception regexp="yes">[,().!?—–-]</exception>
+        </token>
+      </pattern>
+      <message>Після вставного звороту має йти кома</message>
+      <suggestion>\2 \3 \4,</suggestion>
+      <example>пристав на його думку</example>
+      <example correction="На мою думку,"><marker>На мою думку</marker> це марнотратство.</example>
+    </rule>
+
+    <rule id="mizhosobystisni_stosunky" name="Міжособистісні стосунки">
+      <pattern>
+        <marker>
+          <token regexp="yes" inflected="yes">міжособистісний|міжособистий</token>
+          <token inflected="yes">стосунок</token>
+        </marker>
+      </pattern>
+      <message>Краще: <suggestion><match no="2" postag_regexp="yes" postag="noun.*">взаємостосунок</match></suggestion></message>
+      <example correction="взаємостосунків">Такиж <marker>міжособистісних стосунків</marker>.</example>
     </rule>
 
 <!--

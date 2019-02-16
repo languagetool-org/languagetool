@@ -75,8 +75,8 @@ abstract class Server {
       httpHandler.shutdown();
     }
     if (server != null) {
-      System.out.println("Stopping server");
-      server.stop(0);
+      System.out.println("Stopping server...");
+      server.stop(5);
       isRunning = false;
       System.out.println("Server stopped");
     }
@@ -95,8 +95,9 @@ abstract class Server {
     int requestLimit = config.getRequestLimit();
     int requestLimitInBytes = config.getRequestLimitInBytes();
     int requestLimitPeriodInSeconds = config.getRequestLimitPeriodInSeconds();
-    if ((requestLimit > 0 || requestLimitInBytes > 0) && requestLimitPeriodInSeconds > 0) {
-      return new RequestLimiter(requestLimit, requestLimitInBytes, requestLimitPeriodInSeconds);
+    int ipFingerprintFactor = config.getIpFingerprintFactor();
+    if ((requestLimit > 0 || requestLimitInBytes > 0) && requestLimitPeriodInSeconds > 0 && ipFingerprintFactor >= 1) {
+      return new RequestLimiter(requestLimit, requestLimitInBytes, requestLimitPeriodInSeconds, ipFingerprintFactor);
     }
     return null;
   }

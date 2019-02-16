@@ -294,7 +294,10 @@ public class TokenAgreementPrepNounRule extends Rule {
           
           if( (prep.equalsIgnoreCase("через") || prep.equalsIgnoreCase("на"))  // років 10, відсотки 3-4
               && (posTag.startsWith("noun:inanim:p:v_naz") || posTag.startsWith("noun:inanim:p:v_rod")) // token.equals("років") 
-              && IPOSTag.isNum(tokens[i+1].getAnalyzedToken(0).getPOSTag()) ) {
+              && (IPOSTag.isNum(tokens[i+1].getAnalyzedToken(0).getPOSTag())
+                || (i<tokens.length-2
+                    && LemmaHelper.hasLemma(tokens[i+1], Arrays.asList("зо", "з", "із"))
+                    && tokens[i+2].hasPartialPosTag("num")) ) ) {
             prepTokenReadings = null;
             continue;
           }

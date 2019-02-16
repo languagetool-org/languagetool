@@ -20,9 +20,11 @@ package org.languagetool.rules.de;
 
 import org.languagetool.UserConfig;
 import org.languagetool.language.German;
+import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.spelling.CachingWordListLoader;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.ResourceBundle;
 
 /**
@@ -34,14 +36,14 @@ public class SwissGermanSpellerRule extends GermanSpellerRule {
   private static final String LANGUAGE_SPECIFIC_PLAIN_TEXT_DICT = "de/hunspell/spelling-de-CH.txt";
   
   public SwissGermanSpellerRule(ResourceBundle messages, German language) {
-    this(messages, language, null);
+    this(messages, language, null, null);
   }
 
   /**
    * @since 4.2
    */
-  public SwissGermanSpellerRule(ResourceBundle messages, German language, UserConfig userConfig) {
-    super(messages, language, userConfig, LANGUAGE_SPECIFIC_PLAIN_TEXT_DICT);
+  public SwissGermanSpellerRule(ResourceBundle messages, German language, UserConfig userConfig, LanguageModel lm) {
+    super(messages, language, userConfig, LANGUAGE_SPECIFIC_PLAIN_TEXT_DICT, Collections.emptyList(), lm);
   }
 
   @Override

@@ -29,6 +29,7 @@ import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.chunking.ChunkTag;
 import org.languagetool.synthesis.Synthesizer;
+import org.languagetool.tools.InterruptibleCharSequence;
 import org.languagetool.tools.StringTools;
 
 /**
@@ -392,7 +393,7 @@ public class PatternToken implements Cloneable {
   private boolean isStringTokenMatched(AnalyzedToken token) {
     String testToken = getTestToken(token);
     if (stringRegExp) {
-      Matcher m = pattern.matcher(testToken);
+      Matcher m = pattern.matcher(new InterruptibleCharSequence(testToken));
       return m.matches();
     }
     if (caseSensitive) {

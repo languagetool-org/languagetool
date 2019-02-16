@@ -76,6 +76,7 @@ public class WordCoherencyRuleTest {
     assertEquals(0, lt.check("He likes archaeology. Really? She likes archaeology, too.").size());
     assertEquals(1, lt.check("He likes archaeology. Really? She likes archeology, too.").size());
     assertEquals(1, lt.check("He likes archeology. Really? She likes archaeology, too.").size());
+    assertEquals(1, lt.check("Mix of upper case and lower case: Westernize and westernise.").size());
   }
 
   private void assertError(String s) throws IOException {

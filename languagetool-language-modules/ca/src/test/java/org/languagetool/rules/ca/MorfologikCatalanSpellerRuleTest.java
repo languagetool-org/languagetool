@@ -27,6 +27,7 @@ import org.languagetool.language.Catalan;
 import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
+import java.util.Collections;
 
 import static org.junit.Assert.assertEquals;
 
@@ -35,7 +36,7 @@ public class MorfologikCatalanSpellerRuleTest {
     @Test
     public void testMorfologikSpeller() throws IOException {
         MorfologikCatalanSpellerRule rule =
-                new MorfologikCatalanSpellerRule (TestTools.getMessages("ca"), new Catalan(), null);
+                new MorfologikCatalanSpellerRule (TestTools.getMessages("ca"), new Catalan(), null, Collections.emptyList());
 
         RuleMatch[] matches;
         JLanguageTool langTool = new JLanguageTool(new Catalan());

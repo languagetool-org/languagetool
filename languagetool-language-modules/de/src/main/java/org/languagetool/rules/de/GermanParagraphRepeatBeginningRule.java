@@ -21,6 +21,7 @@ package org.languagetool.rules.de;
 import java.util.ResourceBundle;
 
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.Language;
 import org.languagetool.rules.ParagraphRepeatBeginningRule;
 
 /**
@@ -32,8 +33,8 @@ import org.languagetool.rules.ParagraphRepeatBeginningRule;
  */
 public class GermanParagraphRepeatBeginningRule extends ParagraphRepeatBeginningRule {
 
-  public GermanParagraphRepeatBeginningRule(ResourceBundle messages) {
-    super(messages);
+  public GermanParagraphRepeatBeginningRule(ResourceBundle messages, Language lang) {
+    super(messages, lang);
   }
 
   @Override

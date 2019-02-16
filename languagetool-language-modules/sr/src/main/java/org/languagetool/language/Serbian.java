@@ -48,9 +48,10 @@ import java.util.ResourceBundle;
  * Attributes common to all Serbian dialects
  *
  * @author Zoltán Csala
- *
+ * @deprecated this language is currently unmaintained in LT and might be removed in a future release if we cannot find contributors for it (deprecated since 4.4)
  * @since 4.0
  */
+@Deprecated
 public class Serbian extends Language {
 
   private static final Language SERBIA_SERBIAN = new SerbianSerbian();
@@ -71,9 +72,6 @@ public class Serbian extends Language {
           "grammar-spelling.xml",
           "grammar-style.xml"
   );
-
-  public Serbian() {
-  }
 
   @Override
   public String getName() {
@@ -136,7 +134,7 @@ public class Serbian extends Language {
 
   @Override
   public LanguageMaintainedState getMaintainedState() {
-    return LanguageMaintainedState.ActivelyMaintained;
+    return LanguageMaintainedState.LookingForNewMaintainer;
   }
 
 
@@ -160,10 +158,10 @@ public class Serbian extends Language {
   }
 
   @Override
-  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig)
+  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, List<Language> altLanguages)
           throws IOException {
     List<Rule> rules = new ArrayList<>(getBasicRules(messages));
-    rules.add(new MorfologikEkavianSpellerRule(messages, this, null));
+    rules.add(new MorfologikEkavianSpellerRule(messages, this, userConfig, altLanguages));
     rules.add(new SimpleGrammarEkavianReplaceRule(messages));
     rules.add(new SimpleStyleEkavianReplaceRule(messages));
     return rules;

@@ -142,12 +142,18 @@ public class VerbAgreementRule extends TextLevelRule {
      new PatternTokenBuilder().tokenRegex("D[au]rf.*|Muss.*").build(),
      new PatternTokenBuilder().posRegex("PRO:PER:NOM:.+").build(),
      new PatternTokenBuilder().posRegex("VER:INF:.+").build(),
-     new PatternTokenBuilder().csToken("?").build()
+     new PatternTokenBuilder().pos("PKT").build(),
+     new PatternTokenBuilder().tokenRegex("(?!die).+").build()
     ),
     Arrays.asList(
      new PatternTokenBuilder().csToken("(").build(),
      new PatternTokenBuilder().posRegex("VER:2:SIN:.+").build(),
      new PatternTokenBuilder().csToken(")").build()
+    ),
+    Arrays.asList(
+     new PatternTokenBuilder().posRegex("VER:MOD:1:PLU:.+").build(),
+     new PatternTokenBuilder().csToken("wir").build(),
+     new PatternTokenBuilder().csToken("bitte").build()
     )
   );
 
@@ -191,7 +197,9 @@ public class VerbAgreementRule extends TextLevelRule {
   private static final Set<String> CONJUNCTIONS = new HashSet<>(Arrays.asList(
     "weil",
     "obwohl",
-    "dass"/*,
+    "dass",
+    "indem",
+    "sodass"/*,
     "damit",
     "wenn"*/
   ));

@@ -29,7 +29,7 @@ import java.util.*;
  * Options that can be set via command line arguments.
  */
 public class CommandLineOptions {
-  
+
   /**
    * Constants for rule matches output in command-line.
    * @since 3.6
@@ -66,6 +66,8 @@ public class CommandLineOptions {
   private File languageModel = null;
   @Nullable
   private File word2vecModel = null;
+  @Nullable
+  private File neuralNetworkModel = null;
 
   @Nullable
   private File fasttextModel = null;
@@ -259,6 +261,21 @@ public class CommandLineOptions {
     this.word2vecModel = neuralNetworkLanguageModel;
   }
 
+
+  /**
+   * @since 4.4
+   */
+  @Nullable
+  public File getNeuralNetworkModel() {
+    return neuralNetworkModel;
+  }
+
+  /**
+   * @since 4.4
+   */
+  public void setNeuralNetworkModel(File neuralNetworkModel) {
+    this.neuralNetworkModel = neuralNetworkModel;
+  }
 
   /**
    * @since 4.3

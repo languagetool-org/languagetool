@@ -24,6 +24,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
+import java.util.Collections;
 
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
@@ -38,7 +39,7 @@ public class MorfologikAustralianSpellerRuleTest extends AbstractEnglishSpellerR
   @Test
   public void testSuggestions() throws IOException {
     Language language = new AustralianEnglish();
-    Rule rule = new MorfologikAustralianSpellerRule(TestTools.getMessages("en"), language, null);
+    Rule rule = new MorfologikAustralianSpellerRule(TestTools.getMessages("en"), language, null, Collections.emptyList());
     super.testNonVariantSpecificSuggestions(rule, language);
 
     JLanguageTool langTool = new JLanguageTool(language);
@@ -50,21 +51,22 @@ public class MorfologikAustralianSpellerRuleTest extends AbstractEnglishSpellerR
   public void testMorfologikSpeller() throws IOException {
     AustralianEnglish language = new AustralianEnglish();
     MorfologikAustralianSpellerRule rule =
-            new MorfologikAustralianSpellerRule(TestTools.getMessages("en"), language, null);
+            new MorfologikAustralianSpellerRule(TestTools.getMessages("en"), language, null, Collections.emptyList());
 
     JLanguageTool langTool = new JLanguageTool(language);
 
     // correct sentences:
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("This is an example: we get behaviour as a dictionary word.")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Why don't we speak today.")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("A café")).length);  // check encoding isn't broken
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("My fiancée")).length);  // check encoding isn't broken, spelling_merged.txt
     //with doesn't
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("He doesn't know what to do.")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence(",")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("123454")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("I like my emoji 😍!")).length);
 
     //Australian dict:
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Agnathia")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Dinkum")).length);
 
     //incorrect sentences:
 

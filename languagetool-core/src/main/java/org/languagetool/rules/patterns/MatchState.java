@@ -160,7 +160,7 @@ public class MatchState {
       return formattedToken;
     }
     final AnalyzedTokenReadings anTkRead = new AnalyzedTokenReadings(
-        l.toArray(new AnalyzedToken[l.size()]),
+        l.toArray(new AnalyzedToken[0]),
         formattedToken.getStartPos());
     anTkRead.setWhitespaceBefore(formattedToken.isWhitespaceBefore());
     if (!formattedToken.getChunkTags().isEmpty()) {
@@ -262,7 +262,7 @@ public class MatchState {
               formattedString[0] = "(" + formattedToken.getToken() + ")";
             }
           } else {
-            formattedString = wordForms.toArray(new String[wordForms.size()]);
+            formattedString = wordForms.toArray(new String[0]);
           }
         } else {
           TreeSet<String> wordForms = new TreeSet<>();
@@ -272,7 +272,7 @@ public class MatchState {
               wordForms.addAll(Arrays.asList(possibleWordForms));
             }
           }
-          formattedString = wordForms.toArray(new String[wordForms.size()]);
+          formattedString = wordForms.toArray(new String[0]);
         }
       }
     }

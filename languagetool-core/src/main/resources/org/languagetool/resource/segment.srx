@@ -23,7 +23,7 @@
 </rule>
 <!--months-->
 <rule break="no">
-<beforebreak>\b(Ιαν|Φεβ|Μαρ|Απρ|Μαϊ|Ιουν|Ιουλ|Αυγ|Σεπ|Οκτ|Νοε|Δεκ)\.\s</beforebreak>
+<beforebreak>\b(Ιαν|Φεβ|Μαρ|Απρ|Μαϊ|Ιου[νλ]|Αυγ|Σεπ|Οκτ|Νοε|Δεκ)\.\s</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <rule break="yes">
@@ -1103,10 +1103,6 @@
 </languagerule>
 <languagerule languagerulename="English">
 <rule break="no">
-<beforebreak>\bwww\.</beforebreak>
-<afterbreak>\w</afterbreak>
-</rule>
-<rule break="no">
 <beforebreak>\b[nN]o\.\s</beforebreak>
 <afterbreak>\p{N}</afterbreak>
 </rule>
@@ -1115,7 +1111,7 @@
 <afterbreak>D\.</afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>\b(pp|[Vv]iz|i\.?\s*e|[Vvol]|[Rr]col|maj|Lt|[Ff]ig|[Ff]igs|[Vv]iz|[Vv]ols|[Aa]pprox|[Ii]ncl|[Ii]nc|Pres|[Dd]ept|min|max|[Gg]ovt|lb|ft|c\.?\s*f|vs|dia|lbs|\d+-(:?oz|kc|in|h[rp]|ml)|M?sec)\.\s</beforebreak>
+<beforebreak>\b(pp|[Vv]iz|i\.?\s*e|[Vvol]|[Rr]col|maj|Lt|[Ff]ig|[Ff]igs|[Vv]iz|[Vv]ols|[Aa]pprox|[Ii]ncl?|Pres|[Dd]ept|min|max|[Gg]ovt|lb|ft|c\.?\s*f|vs|dia|lbs|\d+-(:?oz|kc|in|h[rp]|ml)|M?sec)\.\s</beforebreak>
 <afterbreak>[^\p{Lu}]|I</afterbreak>
 </rule>
 <rule break="no">
@@ -1156,11 +1152,7 @@
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>\bJun\.\s</beforebreak>
-<afterbreak></afterbreak>
-</rule>
-<rule break="no">
-<beforebreak>\bJul\.\s</beforebreak>
+<beforebreak>\bJu[nl]\.\s</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
@@ -1192,7 +1184,11 @@
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>\b(Atty|Sg?t|[SG]en|Gov|Hon|Prof|Mr?s|[DMJS]r|Col|Maj|L(ieu)?t|Brig|Capt|Cmdr|Cmnd|Revd?|Rep)\.\s</beforebreak>
+<beforebreak>\b(a(?:bbrev|bl|bsol|bstr|cc|ccus|dv|dvb|dvs|gst|lt|phet|pp|ppos|cc|dj|djs|rch|rt|ttrib)|A(?:bbrev|bd|berd|berdeensh|bol|borig|bp|br|bridg|bridgem|bsol|bst|bstr|cad|cc|ccept|ccomm|ccompl|ccs|cct|ccts|chievem|dd|ddit|ddr|dm|dmin|dmir|dmon|dmonit|dv|dvancem|dvert|dvoc|dvt|dvts|erodynam|eronaut|ff|ffect|fr|gric|lch|lg|lleg|llit|lm|lph|mer|nal|nalyt|nat|nc|necd|ng|ngl|nim|nn|nniv|nnot|nsw|nt|nthrop|nthropol|ntiq|poc|pol|pp|ppl|pplic|rch|rchaeol|rchipel|rchit|rgt|rith|rithm|rrangem|rtic|rtific|rtill|ssemb|ssoc|ssyriol|str|strol|stron|stronaut|tt|ttrib|ustral|uth|utobiog|utobiogr|yrsh|rab)|B(?:acteriol|edford|edfordsh|elg|erks|erksh|erw|erwicksh|ibliogr|iochem|iog|iogr|iol|ks|ord|ot|raz|rit|ucks|uild|ull|ur)|b(?:ef|etw)|c(?:ent|ollect|olloq|ompar|ompl|onc|oncr|omp|onj|ons|onst|ontempt|orresp|pd|ontr)|C(?:ontradict|ontrib|ontrov|onv|onvent|onversat|onvoc|ornw|oron|orr|orresp|ounc|ourtsh|raniol|raniom|rim|rit|rt|rts|ryptogr|rystallogr|umb|umberld|umbld|ycl|ytol|ollect|onn|al|alc|alend|alif|alligr|amb|ambr|ampanol|anad|anterb|artogr|atal|atech|ath|ent|eram|ert|ertif|hamb|har|harac|has|hem|hesh|hr|hron|hronol|hrons|inematogr|irc|lass|lassif|limatol|lin|oll|olloq|om|omb|ombs|omm|ommandm|ommend|ommerc|ommiss|ommonw|ommunic|omp|ompan|ompar|ompend|ompl|ompos|onc|onch|oncl|onf|onfid|onfl|onfut|ongr|ongreg|ongress|onsc|onsecr|onsid|onsol|onstit|onstr|ontemp|ontempl|ontend|ontent|ontin)|d(?:at|em|ial|im|yslog|ef|eriv|erog)|D(?:au|eb|eclar|ed|ef|eliv|emonstr|ep|epred|epredat|erbysh|escr|evel|evonsh|ial|ict|iffic|irect|is|isc|iscipl|iscov|iscrim|iscuss|iss|istemp|istill|istrib|iv|ivers|oc|octr|omest|urh)|e(?:tym|tymol|uphem|xc|ast|llipt|mph|rron)|E(?:val|vang|ven|vid|vol|xalt|xam|xch|xec|xerc|xhib|xped|xper|xplan|xplic|xplor|xpos|tymol|ccl|ccles|col|con|din|dinb|duc|dw|gypt|gyptol|lectr|lectro-magn|lectro-physiol|lem|liz|lizab|mb|mbryol|ncycl|ng|ngin|nglishw|nq|nt|nthus|ntom|ntomol|nzymol|pil|pisc|pist|pit|quip|ss|ssent|stabl|thnol)|f(?:em|req|ut|am|amil)|F(?:ifesh|ootpr|orfarsh|ortif|ortn|ound|ragm|ratern|riendsh|und|urnit|ab|am|arew)|G(?:ard|astron|az|eo|eog|eogr|eol|eom|eomorphol|er|lac|lasg|los|loss|louc|loucestersh|osp|ram|ynaecol)|g(?:erund|en)|H(?:aematol|ampsh|andbk|ants|eb|en|er|erb|eref|ereford|erefordsh|ertfordsh|ierogl|ist|istol|om|orol|ort|osp|ouseh|ousek|usb|ydraul|ydrol)|hist|I(?:nd|ndustr|nfl|nnoc|norg|nq|nst|ntell|ntellect|nterc|nterl|nternat|nterpr|chth|cthyol|deol|dol|llustr|mag|mpr|naug|nclos|nd|nstr|tal|ntro|ntrod|nv|nvent|nvertebr|nvestig|nvestm|nvoc|rel|mmunol)|i(?:nt|nterj|nterrog|ntr|ntrans|mp|mperf|mpers|mpf|mprop|nstr|nd|ndef|ndic|ndir|nfin|nfl|ron|rreg|mit)|J(?:ahrb|ap|as|rnl|rnls|urisd|urisdict|urispr|ustif|ustific)|joc|K(?:ent|ingd|nowl|pr)|L(?:ab|anc|ancash|ancs|ang|angs|at|d|ds|ect|eechd|eg|eicest|eicester|eicestersh|eics|et|ett|ex|ibr|imnol|incolnsh|incs|ing|inn|it|ithogr|ithol|iturg|ond)|m(?:asc|ed|etaphor|idl|ispr|od)|M(?:ach|ag|agn|an|anagem|anch|anip|anuf|ath|eas|easurem|ech|ed|edit|em|erc|erch|etall|etallif|etallogr|etamorph|etaph|eteorol|eth|etrop|ex|ich|icrobiol|icrosc|il|ilit|in|ineral|isc|iscell|od|onum|orphol|SS|tg|unic|unif|unim|us|yst|yth|ythol)|n(?:once-wd|orth|om)|N(?:arr|arrat|at|aut|av|avig|eighb|erv|eurol|eurosurg|ewc|ewspr|onconf|orf|orthamptonsh|orthants|orthumb|orthumbld|orthumbr|orw|orweg|otts|ucl|umism|on-conf)|o(?:ccas|pp|rig|bj|bl|bs)|O(?:bs|bserv|bstet|bstetr|ccas|ccup|ccurr|ceanogr|ff|ffic|kla|nt|phthalm|phthalmol|ppress|pt|rac|rd|rg|rig|rkn|rnith|rnithol|rthogr|utl|xf|xfordsh|xon|bed|bj)|p(?:ass|erf|ers|ersonif|honet|hr|op|lur|oet|ref|rep|riv|rob|oss|pl|ple|ples|rec|red|redic|ron|ronunc|rop|rov|ropr|seudo-arch|seudo-dial|seudo-Sc|erh|res)|P(?:eriodontol|redict|rerog|sych|sychoanal|sychoanalyt|sychol|sychopathol|ubl|urg|erf|alaeobot|alaeogr|alaeont|alaeontol|araphr|arasitol|arl|arnass|ath|athol|eculat|enins|ers|ersec|erthsh|etrogr|etrol|harm|harmaceut|harmacol|hil|hilad|hilol|hilos|hoen|honol|hotog|hotogr|hrenol|hys|hysiogr|hysiol|ict|oet|ol|olit|olytechn|op|orc|ort|osth|ostm|ott|ract|ref|reh|rehist|resb|reserv|rim|rinc|rint|robab|robl|roc|rod|rol|rov|rovid|rovinc|rovis|ronunc|rop|ros)|Qld|q(?:uot|uots)|r(?:edupl|eg|epr|het|efash|efl|el)|R(?:adiol|eas|eb|ebell|ec|eclam|ecoll|edempt|ef|efl|efus|efut|eg|egic|egist|egr|el|elig|eminisc|emonstr|enfrewsh|eprod|ept|epub|es|esid|et|etrosp|evol|het|ich|om|oxb|oy|udim|uss)|s(?:ing|outh|pec|tr|ubj|ubjunct|ubord|ubseq|ubst|uff|uperl|yll)|S(?:ubj|uff|ubscr|ubscript|uppl|upplic|uppress|urg|urv|ymmetr|ymp|yst|pan|ask|at|ax|cand|ch|ci|cot|cotl|cript|culpt|eismol|el|elect|er|erm|ess|ettlem|ev|hakes|haks|heph|hetl|hropsh|oc|ociol|om|onn|pec|pecif|pecim|pectrosc|taff|tafford|taffordsh|taffs|tand|tat|tatist|tratigr|truct|tud)|t(?:echn|rans|ransf|ransl)|T(?:ransl|ransubstant|rav|reas|reat|reatm|rib|rig|rigonom|rop|roub|roubl|ypog|ypogr|axon|rans|echn|echnol|el|elecomm|elegr|eleph|eratol|erminol|errestr|est|extbk|heat|heatr|heol|heoret|hermonucl|hes|opogr|rag)|U(?:niv|rin)|u(?:nkn|nstr|lt|su)|U(?:nnat|noffic|tilit)|V(?:ac|aledict)|v(?:ar|arr|ars|bl|bs|ulg)|V(?:eg|enet|ertebr|et|ic|ict|ind|indic|irg|irol|oc|ocab|ol|oy|ulg)|W(?:estm|estmld|estmorld|estmrld|ill|ilts|iltsh|is|isd|kly|ks|onderf|orc|orcestersh|orcs|rit|arwicksh)|west|Y(?:earbk|ng|orks|orksh|rs)|Z(?:eitschr|oogeogr|ool))\.\b</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\b(Atty|Sg?t|[SG]en|Ft|Gov|Hon|Prof|Mr?s|Mt|[DMJS]r|Col|Maj|L(ieu)?t|Brig|Capt|Cmdr|Cmnd|Revd?|Rep)\.\s</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
@@ -1208,7 +1204,7 @@
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>\bInc\.\s</beforebreak>
+<beforebreak>\bI(nc|NC)\.\s</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
@@ -1225,6 +1221,14 @@
 </rule>
 <rule break="no">
 <beforebreak>\bCo\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bo'clock\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bfo'c'sle\s</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
@@ -1358,7 +1362,7 @@
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>\b(ian|feb|febr|mar|mart|apr|iun|iul|aug|sep|sept|oct|nov|dec)\.\s</beforebreak>
+<beforebreak>\b(ian|febr?|mart?|apr|iu[nl]|aug|sept?|oct|nov|dec)\.\s</beforebreak>
 <afterbreak>[^\p{Lu}]</afterbreak>
 </rule>
 <rule break="no">
@@ -1462,6 +1466,14 @@
 <rule break="no">
 <beforebreak>\b(prov|pseud|red|ref|resp|soc|st|tab|tel|tk)\.\s</beforebreak>
 <afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\b([A-Z]|Adr|Chr|Fr|Fred|IJ|Jac|Joh|Ph|St|Th|Tj|v|v\.(\s)?d)\.(\s)?</beforebreak>
+<afterbreak>[A-Z]</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\b[vn]\.\s</beforebreak>
+<afterbreak>Chr</afterbreak>
 </rule>
 <rule break="no">
 <beforebreak>\b(uitsl|ver|vgl|vnl|vnw|voorz|ww|zat|zg)\.\s</beforebreak>
@@ -4268,11 +4280,7 @@
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>\b[jJ]un\.\s</beforebreak>
-<afterbreak></afterbreak>
-</rule>
-<rule break="no">
-<beforebreak>\b[jJ]ul\.\s</beforebreak>
+<beforebreak>\b[jJ]u[ln]\.\s</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
@@ -4622,38 +4630,38 @@
          (z.B. "am 13. Dezember" -> keine Satzgrenze) -->
 <rule break="no">
 <beforebreak>\d+\.\s</beforebreak>
-<afterbreak>Januar|Jänner|Februar|März|April|Mai|Juni|Juli|August|September|Oktober|November|Dezember</afterbreak>
+<afterbreak>Januar|Jänner|Februar|März|April|Mai|Ju[ln]i|August|September|Oktober|November|Dezember</afterbreak>
 </rule>
 <rule break="no">
 <beforebreak>\d+\.\s</beforebreak>
-<afterbreak>Jan|Jän|Febr?|Mär|Apr|Mai|Jun|Jul|Aug|Sept?|Okt|Nov|Dez</afterbreak>
+<afterbreak>J[aä]n|Febr?|Mär|Apr|Mai|Ju[nl]|Aug|Sept?|Okt|Nov|Dez</afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>(Jan|Jän|Febr?|Mär|Apr|Mai|Jun|Jul|Aug|Sept?|Okt|Nov|Dez)\.\s</beforebreak>
+<beforebreak>(Jan|Jän|Febr?|Mär|Apr|Mai|Ju[nl]|Aug|Sept?|Okt|Nov|Dez)\.\s</beforebreak>
 <afterbreak>\d\d(\d\d)?</afterbreak>
 </rule>
 <!-- ähnliche Fälle außerhalb der Monatsnamen -->
 <rule break="no">
 <beforebreak>\d+\.\s</beforebreak>
-<afterbreak>Amtsperiode|Breitengrads?|Breitengrades|Jubiläum|Jhd?|Jhdts?|Konferenz|(Jahres|Partei)(-K|k)onferenz|Tags?|Tages|(Jahres|Spiel|Partei|Geburts)tag|(Jahres|Spiel|Partei|Geburts)tages|(Jahres|Spiel|Partei|Geburts)tags|Jahrhunderts?|Jahrtausend|Platz|Platzes|Lebensjahrs?|Lebensjahres|Lochs?|Loches|Grads|Grades|Obergeschoss|Stock(werk)?s?|Etage|Klasse|Runde|Bezirk|Etappe|Staffel</afterbreak>
+<afterbreak>Amtsperiode|Breitengrads?|Breitengrades|Jubiläum|Jhd?|Jhdts?|Konferenz|(Jahres|Partei)(-K|k)onferenz|Längengrade?s?|Tags?|Tages|(Jahres|Spiel|Partei|Geburts)tag|(Jahres|Spiel|Partei|Geburts)tages|(Jahres|Spiel|Partei|Geburts)tags|Jahrhunderts?|Jahrtausend|Platz|Platzes|Lebensjahrs?|Lebensjahres|Lochs?|Loches|Grads|Grades|Obergeschoss|Stock(werk)?s?|Etage|Klasse|Runde|Bezirk|Etappe|Staffel|Sinfonie</afterbreak>
 </rule>
 <!-- English abbreviations - but these work globally for all languages -->
 <rule break="no">
-<beforebreak>\b(Mrs?|No|pp|St|no|Sr|Jr|Bros|etc|vs|esp|[Ff]ig|Jan|Feb|Mar|Apr|Jun|Jul|Aug|Sept?|Oct|Okt|Nov|Dec|PhD|al|cf|Inc|Ms|Gen|Sen|Prof|Corp|Co|Ltd)\.\s</beforebreak>
+<beforebreak>\b(Mrs?|No|pp|St|no|Sr|Jr|Bros|etc|vs|esp|[Ff]ig|Jan|Feb|Mar|Apr|Ju[nl]|Aug|Sept?|O[ck]t|Nov|Dec|PhD|al|cf|Inc|Ms|Gen|Sen|Prof|Corp|Co|Ltd)\.\s</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <!-- Latin abbreviations - but these work globally for all languages -->
 <rule break="no">
-<beforebreak>\b(sp|spp)\.\s</beforebreak>
+<beforebreak>\b(spp?)\.\s</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <!-- German abbreviations -->
 <rule break="no">
-<beforebreak>\b(versch|d|Übers|usw|bzw|Abh|Abk|Abt|Abs|ahd|Akk|aktual|allg|alltagsspr|altdt|alttest|amerikan|Anh|Ank|Anm|Art|Az|Bat|bayr|Bd|Bde|bearb|Bed|Bem|bes|bez|Bez|Bhf|bspw|btto|bw|bzw)\.\s</beforebreak>
+<beforebreak>\b(mtl|versch|d|Übers|usw|bzw|Ab[hkst]|ahd|Akk|aktual|allg|alltagsspr|altdt|alttest|amerikan|Anh|Ank|Anm|Art|Az|Bat|bayr|Bde?|bearb|Bed|Bem|bes|bez|Bez|Bhf|bspw|btto|bw|bzw)\.\s</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>\b(cts?|Ca|ca|chem|chin|Chr|cresc|dat|Dat|desgl|ders|dgl|Dipl|Dir?|Doz?|durchg|durchges|Dr|dt|ebd|Ed|eigtl|Engl|engl|Erg|al|etc|etw|ev|evtl|Evtl|exkl|Expl|Exz)\.\s</beforebreak>
+<beforebreak>\b(cts?|Ca|ca|chem|chin|Chr|cresc|dat|Dat|desgl|ders|dgl|Dipl|Dir?|Doz?|durchg|durchges|Dr|dt|ebd|Ed|eigtl|Engl|engl|Erg|al|et[cw]|ev(tl)?|Evtl|exkl|Expl|Exz)\.\s</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
@@ -4661,15 +4669,15 @@
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>\b(ff|Fa|fachspr|fam|fem|Fem|Fr|fr|franz|frz|frdl|Frl|Fut|Gd|geb|gebr|Gebr|geh|geleg|gen|Gen|germ|gesch|ges|get|ggf|Ggf|Ggs|ggT|griech)\.\s</beforebreak>
+<beforebreak>\b(ff|Fa|fachspr|fam|fem|Fem|Fr|franz|frz?|frdl|Frl|Fut|Gd|gebr?|Gebr|geh|geleg|gen|Gen|germ|gesch|ges|get|ggf|Ggf|Ggs|ggT|griech)\.\s</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>\b(hebr|hg|hl|Hrsg|Hg|hist|hochd|hochspr|Hptst|Hr|hrsg|Allg|ill|inkl|incl|Ind|Inf|Ing|ital|Tr|jap|Jb|Jg|Jhd?|Jhdts?|jmd|jmdm|jmdn|jmds|jur|Kap|kart|kath|kfm|kaufm|Kfm|kgl|Kl|Konj|königl|Krs|Kr|Kto)\.\s</beforebreak>
+<beforebreak>\b(hebr|hg|hl|Hrsg|Hg|hist|hochd|hochspr|Hptst|Hr|hrsg|Allg|ill|inkl|incl|Ind|Inf|Ing|ital|Tr|jap|Jb|Jg|Jhd?|Jhdts?|jmd[mns]?|jur|Kap|kart|kath|kfm|kaufm|Kfm|kgl|Kl|Konj|königl|Krs?|Kto)\.\s</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>\b(lat|lfd|Lit|lt|Lz|Mask|mask|max|Mrd|mdal|med|phil|met|mhd|Mi|Mio|min|Mo|mod|nachm|nördlBr|neutr|Nhd|Nom|Nrn?|Num|Obj|od|dgl|offz)\.\s</beforebreak>
+<beforebreak>\b(lat|lfd|Lit|lt|Lz|Mask|mask|max|Mrd|mdal|med|phil|met|mhd|Mio?|min|Mo|mod|nachm|nördlBr|neutr|Nhd|Nom|Nrn?|Num|Obj|od|dgl|offz)\.\s</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
@@ -4682,7 +4690,7 @@
 </rule>
 <!-- Break rules -->
 <rule break="yes">
-<beforebreak>[\.!?…][\u0002|'|"|“|«|\)|\]|\}¹²³]?\s+</beforebreak>
+<beforebreak>[\.!?…][\u0002|'|"|“|«|‹|\)|\]|\}¹²³]?\s+</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <rule break="yes">
@@ -4972,7 +4980,7 @@
 </rule>
 <!-- усталені скорочення, що не збігаються з нескороченими словами -->
 <rule break="no">
-<beforebreak>\b(ст|напр|табл|стор|пор|тел|буд|кв|обл|пл|абз|арк)\.[\s\u00A0\u202F]</beforebreak>
+<beforebreak>\b(ст|напр|табл|стор|пор|тел|буд|кв|обл|пл|абз|арк|ауд|бл|поч|пол|пп|розд)\.[\s\u00A0\u202F]</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <!-- усталені скорочення, що збігаються з нескороченими словами -->
@@ -4987,8 +4995,22 @@
 </rule>
 <!-- abbreviation with proper noun: проф. Грицько, о. Лісове -->
 <rule break="no">
-<beforebreak>\b([Аа]кад|[Пп]роф|[Дд]оц|[Аа]сист|[Гг]р|о|р|ім|[Сс]в|вул|просп|бульв)\.[\s\u00A0\u202F]*</beforebreak>
+<beforebreak>\b([Аа]кад|[Пп]роф|[Дд]оц|[Аа]сист|[Аа]рх|о|р|ім|[Сс]вв?|вул|просп|бульв|упоряд|чл\.-кор)\.[\s\u00A0\u202F]*</beforebreak>
 <afterbreak>[\s\u00A0\u202F]*[А-ЯІЇЄҐA-Z]</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>[^0-9]\s+[Гг]р\.[\s\u00A0\u202F]*</beforebreak>
+<afterbreak>[\s\u00A0\u202F]*[А-ЯІЇЄҐA-Z]</afterbreak>
+</rule>
+<!-- арт. - артикул -->
+<!-- TODO: арт. - артист -->
+<rule break="no">
+<beforebreak>\bарт\.[\s\u00A0\u202F]*</beforebreak>
+<afterbreak>[\s\u00A0\u202F]*[0-9]</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>[0-9][\s\u00A0\u202F]+арт\.[\s\u00A0\u202F]*</beforebreak>
+<afterbreak></afterbreak>
 </rule>
 <!-- місто, але принаймні з парою літер в назві бо є ще метри (м) -->
 <rule break="no">
@@ -5327,7 +5349,7 @@
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>\b(card|cat|caus|cf|cit|cód|comp|compar|conj|contr|coord|cop)\.\s?</beforebreak>
+<beforebreak>\b(ca|card|cat|caus|cf|cit|cód|comp|compar|conj|contr|coord|cop)\.\s?</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
@@ -5375,7 +5397,7 @@
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>\b(pág|págs|Paleont|part|pass|[Pp]edag|pejor|pess|Pesc|p|Pe|p.f|pl|pleb|p.m|poét|[Pp]olít|pop|pov|poss|p.p|p.p.m|pp|pref|prep|Prof|pron|P.S)\.\s?</beforebreak>
+<beforebreak>\b(pág|págs|Paleont|part|pass|[Pp]edag|pejor|pess|Pesc|p|Pe|p.f|pl|pleb|p.m|poét|[Pp]olít|pop|pov|poss|p.p|p.p.m|pp|pref|prep|[Pp]rof|pron|P.S)\.\s?</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
@@ -5610,10 +5632,6 @@
 </languagerule>
 <languagerule languagerulename="Tamil">
 <rule break="no">
-<beforebreak>\bwww\.</beforebreak>
-<afterbreak>\w</afterbreak>
-</rule>
-<rule break="no">
 <beforebreak>\bஎ\.கா\.\s</beforebreak>
 <afterbreak></afterbreak>
 </rule>
@@ -5661,10 +5679,6 @@
 </rule>
 </languagerule>
 <languagerule languagerulename="Persian">
-<rule break="no">
-<beforebreak>\bwww\.</beforebreak>
-<afterbreak>\w</afterbreak>
-</rule>
 <rule break="no">
 <beforebreak>\b(نه|بله)\!\s</beforebreak>
 <afterbreak>\p{N}</afterbreak>
@@ -5925,6 +5939,11 @@
 </rule>
 </languagerule>
 <languagerule languagerulename="GeneralImportant">
+<!--Don't split up URLs.-->
+<rule break="no">
+<beforebreak>\bwww\.</beforebreak>
+<afterbreak>\w</afterbreak>
+</rule>
 <!--Don't split up e-mail addresses.-->
 <rule break="no">
 <beforebreak>[\.!?]</beforebreak>

@@ -19,6 +19,7 @@
 package org.languagetool;
 
 import org.apache.commons.lang3.StringUtils;
+import org.languagetool.tools.StringTools;
 
 import java.util.*;
 
@@ -53,7 +54,7 @@ public final class AnalyzedSentence {
       whCounter++;
     }
     this.whPositions = mapping;
-    this.nonBlankTokens = l.toArray(new AnalyzedTokenReadings[l.size()]);
+    this.nonBlankTokens = l.toArray(new AnalyzedTokenReadings[0]);
     this.tokenSet = getTokenSet(tokens);
     this.lemmaSet = getLemmaSet(tokens);
   }
@@ -266,9 +267,12 @@ public final class AnalyzedSentence {
   @SuppressWarnings("ControlFlowStatementWithoutBraces")
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null) return false;
-    if (getClass() != o.getClass()) return false;
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
     AnalyzedSentence other = (AnalyzedSentence) o;
     // tokenSet and lemmaSet are a subset of tokens and don't need to be included
     return Arrays.equals(nonBlankTokens, other.nonBlankTokens) 
@@ -280,6 +284,14 @@ public final class AnalyzedSentence {
   public int hashCode() {
     // tokenSet and lemmaSet are a subset of tokens and don't need to be included
     return Objects.hash(nonBlankTokens, tokens, whPositions);
+  }
+
+  /**
+   * Returns true if sentences ends with a paragraph break.
+   * @since 4.3
+   */
+  public boolean hasParagraphEndMark(Language lang) {
+    return StringTools.isParagraphEnd(getText(), lang.getSentenceTokenizer().singleLineBreaksMarksPara());
   }
 
 }

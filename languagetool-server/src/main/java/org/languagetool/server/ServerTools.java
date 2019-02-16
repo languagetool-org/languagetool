@@ -19,11 +19,15 @@
 package org.languagetool.server;
 
 import com.sun.net.httpserver.HttpExchange;
+import org.jetbrains.annotations.NotNull;
+import org.languagetool.JLanguageTool;
 
 import java.io.PrintStream;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
+import java.util.TimeZone;
 
 /**
  * @since 3.4
@@ -33,12 +37,37 @@ final class ServerTools {
   private ServerTools() {
   }
 
+  static String getSQLDatetimeString(Calendar date) {
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+    return dateFormat.format(date.getTime());
+  }
+
   static void print(String s) {
     print(s, System.out);
   }
 
+  /* replace with structured logging:
+  check done
+  cache stats
+
+  maybe: (could be combined in table)
+  Access denied: request size / rate limit / ...
+  more interesting:
+  error rate too high
+  text checking took longer than ...
+
+  misc.:
+  language code unknown
+  missing arguments
+  old api
+  blacklisted referrer
+  various other exceptions
+   */
+
   static void print(String s, PrintStream outputStream) {
-    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss ZZ");
+    dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
     String now = dateFormat.format(new Date());
     outputStream.println(now + " " + s);
   }
@@ -70,5 +99,24 @@ final class ServerTools {
     }
   }
 
+  @NotNull
+  public static JLanguageTool.Mode getMode(Map<String, String> params) {
+    JLanguageTool.Mode mode;
+    if (params.get("mode") != null) {
+      String modeParam = params.get("mode");
+      if ("textLevelOnly".equals(modeParam)) {
+        mode = JLanguageTool.Mode.TEXTLEVEL_ONLY;
+      } else if ("allButTextLevelOnly".equals(modeParam)) {
+        mode = JLanguageTool.Mode.ALL_BUT_TEXTLEVEL_ONLY;
+      } else if ("all".equals(modeParam)) {
+        mode = JLanguageTool.Mode.ALL;
+      } else {
+        throw new IllegalArgumentException("Mode must be one of 'textLevelOnly', 'allButTextLevelOnly', or 'all' but was: '" + modeParam + "'");
+      }
+    } else {
+      mode = JLanguageTool.Mode.ALL;
+    }
+    return mode;
+  }
 
 }

@@ -1,4 +1,4 @@
-The dictionary was from scratch by TaalTik.
+The dictionary was created from scratch by TaalTik.
 
 We are aware that this list contains some errors as well as very rare words.
 
@@ -9,5 +9,5 @@ License as published by the Free Software Foundation; either
 version 2.1 of the License, or (at your option) any later version.
 
 TaalTik, Ruud Baars, 2018-03-01
-We would be glad to receive improvement suggestions at info*at*taaltik.nl
+We would be glad to receive improvement suggestions at languagetool*at*taaltik.nl
 

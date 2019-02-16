@@ -19,6 +19,7 @@
 package org.languagetool.rules.fr;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
@@ -26,9 +27,13 @@ import java.util.regex.Pattern;
 
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.Language;
 import org.languagetool.rules.Categories;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.patterns.PatternToken;
+import org.languagetool.rules.patterns.PatternTokenBuilder;
+import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 import org.languagetool.tools.StringTools;
 
 /**
@@ -45,9 +50,28 @@ public class QuestionWhitespaceRule extends Rule {
   // space before and after colon ':' in URL with common schemes.
   private static final Pattern urlPattern = Pattern.compile("^(file|s?ftp|finger|git|gopher|hdl|https?|shttp|imap|mailto|mms|nntp|s?news(post|reply)?|prospero|rsync|rtspu|sips?|svn|svn\\+ssh|telnet|wais)$");
 
-  public QuestionWhitespaceRule(ResourceBundle messages) {
-    // super(messages);
+  private final Language FRENCH;
+
+  private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
+      Arrays.asList( // ignore smileys, such as :-)
+        new PatternTokenBuilder().tokenRegex("[:;]").build(),
+        new PatternTokenBuilder().csToken("-").setIsWhiteSpaceBefore(false).build(),
+        new PatternTokenBuilder().tokenRegex("[\\(\\)D]").setIsWhiteSpaceBefore(false).build()
+      ),
+      Arrays.asList( // ignore smileys, such as :)
+        new PatternTokenBuilder().tokenRegex("[:;]").build(),
+        new PatternTokenBuilder().tokenRegex("[\\(\\)D]").setIsWhiteSpaceBefore(false).build()
+      )
+    );
+
+  @Override
+  public List<DisambiguationPatternRule> getAntiPatterns() {
+    return makeAntiPatterns(ANTI_PATTERNS, FRENCH);
+  }
+
+  public QuestionWhitespaceRule(ResourceBundle messages, Language language) {
     super.setCategory(Categories.MISC.getCategory(messages));
+    FRENCH = language;
   }
 
   @Override
@@ -63,9 +87,12 @@ public class QuestionWhitespaceRule extends Rule {
   @Override
   public RuleMatch[] match(AnalyzedSentence sentence) {
     List<RuleMatch> ruleMatches = new ArrayList<>();
-    AnalyzedTokenReadings[] tokens = sentence.getTokens();
+    AnalyzedTokenReadings[] tokens = getSentenceWithImmunization(sentence).getTokens();
     String prevToken = "";
     for (int i = 1; i < tokens.length; i++) {
+    	if (tokens[i].isImmunized()) {
+        continue;
+    	}
       String token = tokens[i].getToken();
       boolean isWhiteBefore = tokens[i].isWhitespaceBefore()
           && !"\u00A0".equals(prevToken) && !"\u202F".equals(prevToken);

@@ -53,8 +53,8 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
   private static final Pattern VERB_INFGERIMP = Pattern.compile("V.[NGM].*");
   private CatalanTagger tagger;
 
-  public MorfologikCatalanSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig) throws IOException {
-    super(messages, language, userConfig);
+  public MorfologikCatalanSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig, List<Language> altLanguages) throws IOException {
+    super(messages, language, userConfig, altLanguages);
     this.setIgnoreTaggedWords();
     tagger = new CatalanTagger(language);
     dictFilename = "/ca/" + language.getShortCodeWithCountryAndVariant() + ".dict";

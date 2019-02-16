@@ -28,7 +28,7 @@ fi
 
 # The list of projects was copied from the top-level pom.xml:
 # Note that we don't stage: languagetool-office-extension, languagetool-standalone, languagetool-commandline hunspell-native-libs
-for PROJECT in languagetool-core en fr de pl ca it br nl pt ru ast be zh da eo gl el ja km ro sk sl es sv tl uk fa ta sr de-DE-x-simple-language all languagetool-gui-commons languagetool-wikipedia languagetool-server languagetool-http-client
+for PROJECT in languagetool-core en fr de pl ca it br nl pt ru ast be zh da eo gl el ja km ro sk sl es sv tl uk fa ta de-DE-x-simple-language all languagetool-gui-commons languagetool-wikipedia languagetool-server languagetool-http-client
 do
 
     if [ -d "../../languagetool-language-modules/$PROJECT" ]

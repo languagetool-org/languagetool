@@ -94,7 +94,7 @@ public class Tagalog extends Language {
   }
 
   @Override
-  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig) throws IOException {
+  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, List<Language> altLanguages) throws IOException {
     return Arrays.asList(
             new CommaWhitespaceRule(messages),
             new DoublePunctuationRule(messages),
@@ -102,7 +102,7 @@ public class Tagalog extends Language {
             new UppercaseSentenceStartRule(messages, this),
             new MultipleWhitespaceRule(messages, this),
             // specific to Tagalog:
-            new MorfologikTagalogSpellerRule(messages, this, null)
+            new MorfologikTagalogSpellerRule(messages, this, userConfig, altLanguages)
     );
   }
 

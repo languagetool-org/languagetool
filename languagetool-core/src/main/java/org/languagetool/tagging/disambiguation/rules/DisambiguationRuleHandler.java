@@ -275,8 +275,7 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
                               + "\n Line: " + pLocator.getLineNumber() + ", column: "
                               + pLocator.getColumnNumber() + ".");
             }
-            rule.setNewInterpretations(newWdList
-                    .toArray(new AnalyzedToken[newWdList.size()]));
+            rule.setNewInterpretations(newWdList.toArray(new AnalyzedToken[0]));
           }
           newWdList.clear();
         }

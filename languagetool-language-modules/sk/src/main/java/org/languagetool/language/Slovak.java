@@ -94,7 +94,7 @@ public class Slovak extends Language {
   }
 
   @Override
-  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig) throws IOException {
+  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, List<Language> altLanguages) throws IOException {
     return Arrays.asList(
             new CommaWhitespaceRule(messages),
             new DoublePunctuationRule(messages),
@@ -106,7 +106,7 @@ public class Slovak extends Language {
             new MultipleWhitespaceRule(messages, this),
             // specific to Slovak:
             new CompoundRule(messages),
-            new MorfologikSlovakSpellerRule(messages, this, userConfig)
+            new MorfologikSlovakSpellerRule(messages, this, userConfig, altLanguages)
             //new SlovakVesRule(messages)
     );
   }

@@ -18,6 +18,9 @@
  */
 package org.languagetool;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -33,7 +36,14 @@ public class UserConfig {
 
   private final List<String> userSpecificSpellerWords;
   private final int maxSpellingSuggestions;
+  private final String userDictName;
   private final Map<String, Integer> configurableRuleValues = new HashMap<>();
+  private final LinguServices linguServices;
+
+  // indifferent for comparing UserConfigs (e.g. in PipelinePool)
+  // provided to rules only for A/B tests ->
+  private long textSessionId;
+  private String abTest;
 
   public UserConfig() {
     this(new ArrayList<>(), new HashMap<>());
@@ -47,16 +57,28 @@ public class UserConfig {
     this(new ArrayList<>(), Objects.requireNonNull(ruleValues));
   }
 
+  public UserConfig(Map<String, Integer> ruleValues, LinguServices linguServices) {
+    this(new ArrayList<>(), Objects.requireNonNull(ruleValues), 0, null, linguServices);
+  }
+
   public UserConfig(List<String> userSpecificSpellerWords, Map<String, Integer> ruleValues) {
     this(userSpecificSpellerWords, ruleValues, 0);
   }
 
   public UserConfig(List<String> userSpecificSpellerWords, Map<String, Integer> ruleValues, int maxSpellingSuggestions) {
+    this(userSpecificSpellerWords, ruleValues, maxSpellingSuggestions, null, null);
+  }
+  
+  public UserConfig(List<String> userSpecificSpellerWords, Map<String, Integer> ruleValues,
+                    int maxSpellingSuggestions, String userDictName,
+                    LinguServices linguServices) {
     this.userSpecificSpellerWords = Objects.requireNonNull(userSpecificSpellerWords);
     for (Map.Entry<String, Integer> entry : ruleValues.entrySet()) {
       this.configurableRuleValues.put(entry.getKey(), entry.getValue());
     }
     this.maxSpellingSuggestions = maxSpellingSuggestions;
+    this.userDictName = userDictName == null ? "default" : userDictName;
+    this.linguServices = linguServices;
   }
 
   public List<String> getAcceptedWords() {
@@ -84,21 +106,61 @@ public class UserConfig {
     return -1;
   }
   
+  public boolean hasLinguServices() {
+    return (linguServices != null ? true : false);
+  }
+  
+  public LinguServices getLinguServices() {
+    return linguServices;
+  }
+
+  /**
+   * @since 4.4
+   */
+  public String getUserDictName() {
+    return userDictName;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
-    UserConfig that = (UserConfig) o;
-    if (maxSpellingSuggestions != that.maxSpellingSuggestions) return false;
-    if (!userSpecificSpellerWords.equals(that.userSpecificSpellerWords)) return false;
-    return configurableRuleValues.equals(that.configurableRuleValues);
+    UserConfig other = (UserConfig) o;
+    // optimization: equals on userSpecificSpellerWords can be expensive with huge dictionaries
+    // -> we use user id & dictionary names
+    return new EqualsBuilder()
+      .append(maxSpellingSuggestions, other.maxSpellingSuggestions)
+      .append(configurableRuleValues, other.configurableRuleValues)
+      .append(userDictName, other.userDictName)
+      .append(userSpecificSpellerWords, other.userSpecificSpellerWords)
+      // skipping abTest and textSessionId on purpose - not relevant for caching
+      .isEquals();
   }
 
   @Override
   public int hashCode() {
-    int result = userSpecificSpellerWords.hashCode();
-    result = 31 * result + maxSpellingSuggestions;
-    result = 31 * result + configurableRuleValues.hashCode();
-    return result;
+    // not calculating userSpecificSpellerWords.hashCode(), can be expensive; premiumId + userDictName is close enough
+    return new HashCodeBuilder(3, 11)
+      .append(maxSpellingSuggestions)
+      .append(userDictName)
+      .append(configurableRuleValues)
+      // skipping abTest and textSessionId on purpose - not relevant for caching
+      .toHashCode();
+  }
+
+  public void setTextSessionId(Long textSessionId) {
+    this.textSessionId = textSessionId;
+  }
+
+  public Long getTextSessionId() {
+    return textSessionId;
+  }
+
+  public String getAbTest() {
+    return abTest;
+  }
+
+  public void setAbTest(String abTest) {
+    this.abTest = abTest;
   }
 }

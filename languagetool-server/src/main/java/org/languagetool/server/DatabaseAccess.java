@@ -20,7 +20,10 @@ package org.languagetool.server;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
+import org.apache.ibatis.datasource.pooled.PooledDataSource;
+import org.apache.ibatis.exceptions.PersistenceException;
 import org.apache.ibatis.io.Resources;
+import org.apache.ibatis.jdbc.SQL;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -29,8 +32,15 @@ import org.languagetool.Language;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
 import static org.languagetool.server.ServerTools.print;
@@ -49,6 +59,11 @@ class DatabaseAccess {
           .expireAfterWrite(24, TimeUnit.HOURS)
           .build();
 
+  private final Cache<String, Long> dbLoggingCache = CacheBuilder.newBuilder()
+    .expireAfterAccess(1, TimeUnit.HOURS)
+    .maximumSize(5000)
+    .build();
+
   private DatabaseAccess(HTTPServerConfig config) {
     if (config.getDatabaseDriver() != null) {
       try {
@@ -60,6 +75,17 @@ class DatabaseAccess {
         properties.setProperty("username", config.getDatabaseUsername());
         properties.setProperty("password", config.getDatabasePassword());
         sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream, properties);
+
+        // try to close connections even on hard restart
+        // workaround as described in https://github.com/mybatis/mybatis-3/issues/821
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> ((PooledDataSource)sqlSessionFactory
+          .getConfiguration().getEnvironment().getDataSource()).forceCloseAll()));
+
+        DatabaseLogger.init(sqlSessionFactory);
+        if (!config.getDatabaseLogging()) {
+          print("dbLogging not set to true, turning off logging");
+          DatabaseLogger.getInstance().disableLogging();
+        }
       } catch (IOException e) {
         throw new RuntimeException(e);
       }
@@ -154,20 +180,31 @@ class DatabaseAccess {
       throw new IllegalArgumentException("username must be set");
     }
     if (apiKey == null || apiKey.trim().isEmpty()) {
-      throw new IllegalArgumentException("apikey must be set");
+      throw new IllegalArgumentException("apiKey must be set");
     }
     if (sqlSessionFactory ==  null) {
       throw new IllegalStateException("sqlSessionFactory not initialized - has the database been configured?");
     }
-    try (SqlSession session = sqlSessionFactory.openSession()) {
-      Map<Object, Object> map = new HashMap<>();
-      map.put("username", username);
-      map.put("apiKey", apiKey);
-      Long id = session.selectOne("org.languagetool.server.UserDictMapper.getUserIdByApiKey", map);
-      if (id == null) {
+    try {
+      Long value = dbLoggingCache.get(String.format("user_%s_%s", username, apiKey), () -> {
+        try (SqlSession session = sqlSessionFactory.openSession()) {
+          Map<Object, Object> map = new HashMap<>();
+          map.put("username", username);
+          map.put("apiKey", apiKey);
+          Long id = session.selectOne("org.languagetool.server.UserDictMapper.getUserIdByApiKey", map);
+          if (id == null) {
+            return -1L;
+          }
+          return id;
+        }
+      });
+      if (value == -1) {
         throw new IllegalArgumentException("No user found for given username '" + username + "' and given api key");
+      } else {
+        return value;
       }
-      return id;
+    } catch (ExecutionException e) {
+      throw new IllegalStateException("Could not fetch given user '" + username + "' from cache", e);
     }
   }
 
@@ -176,7 +213,7 @@ class DatabaseAccess {
       return false;
     }
     try (SqlSession session = sqlSessionFactory.openSession(true)) {
-      HashMap<Object, Object> map = new HashMap<>();
+      Map<Object, Object> map = new HashMap<>();
       map.put("word", word);
       map.put("userId", userId);
       int count = session.delete("org.languagetool.server.UserDictMapper.selectWord", map);
@@ -191,24 +228,86 @@ class DatabaseAccess {
     }
   }
 
-  void logAccess(Language lang, int textSize, int matches, Long userId) {
+  /**
+   * @since 4.3
+   */
+  Long getOrCreateServerId() {
     if (sqlSessionFactory == null) {
-      return;
+      return null;
     }
-    try (SqlSession session = sqlSessionFactory.openSession(true)) {
-      HashMap<Object, Object> map = new HashMap<>();
-      Calendar date = Calendar.getInstance();
-      SimpleDateFormat dayFormat = new SimpleDateFormat("yyyy-MM-dd");
-      SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-      map.put("day", dayFormat.format(date.getTime()));
-      map.put("date", dateFormat.format(date.getTime()));
-      map.put("user_id", userId);
-      map.put("textsize", textSize);
-      map.put("matches", matches);
-      map.put("language", lang.getShortCodeWithCountryAndVariant());
-      session.insert("org.languagetool.server.LogMapper.logCheck", map);
-    } catch (Exception e) {
-      print("Could not log check for " + userId + ": " + e.getMessage());
+    try {
+      String hostname = InetAddress.getLocalHost().getHostName();
+      Long id = dbLoggingCache.get("server_" + hostname, () -> {
+        try (SqlSession session = sqlSessionFactory.openSession(true)) {
+          Map<Object, Object> parameters = new HashMap<>();
+          parameters.put("hostname", hostname);
+          List<Long> result = session.selectList("org.languagetool.server.LogMapper.findServer", parameters);
+          if (result.size() > 0) {
+            return result.get(0);
+          } else {
+            session.insert("org.languagetool.server.LogMapper.newServer", parameters);
+            Object value = parameters.get("id");
+            if (value == null) {
+              //System.err.println("Could not get new server id for this host.");
+              return -1L;
+            } else {
+              return (Long) value;
+            }
+          }
+        } catch (PersistenceException e) {
+          print("Error: Could not fetch/register server id from database for server: " + hostname + " caused by " + e);
+          return -1L;
+        }
+      });
+      if (id == -1L) { // loaders can't return null, so using -1 instead
+        return null;
+      } else {
+        return id;
+      }
+    } catch (UnknownHostException | ExecutionException e) {
+      print("Error: Could not get hostname to fetch/register server id: " + e);
+      return null;
+    }
+  }
+
+  /**
+   * @since 4.3
+   */
+  Long getOrCreateClientId(String client) {
+    if (sqlSessionFactory == null || client == null) {
+      return null;
+    }
+    try {
+      Long id = dbLoggingCache.get("client_" + client, () -> {
+        try (SqlSession session = sqlSessionFactory.openSession(true)) {
+          Map<Object, Object> parameters = new HashMap<>();
+          parameters.put("name", client);
+          List<Long> result = session.selectList("org.languagetool.server.LogMapper.findClient", parameters);
+          if (result.size() > 0) {
+            return result.get(0);
+          } else {
+            session.insert("org.languagetool.server.LogMapper.newClient", parameters);
+            Object value = parameters.get("id");
+            if (value == null) {
+              //System.err.println("Could not get/register id for this client.");
+              return -1L;
+            } else {
+              return (Long) value;
+            }
+          }
+        } catch (PersistenceException e) {
+          print("Error: Could not get/register id for this client: " + client + " caused by " + e);
+          return -1L;
+        }
+      });
+      if (id == -1L) { // loaders can't return null, so using -1 instead
+        return null;
+      } else {
+        return id;
+      }
+    } catch (ExecutionException e) {
+      print("Failure in getOrCreateClientId with client '" + client + "': " + e.getMessage());
+      return null;
     }
   }
   
@@ -223,10 +322,22 @@ class DatabaseAccess {
 
   /** For unit tests only! */
   public static void createAndFillTestTables() {
+    createAndFillTestTables(false);
+  }
+
+  /** For unit tests only! */
+  public static void createAndFillTestTables(boolean mysql) {
     try (SqlSession session = sqlSessionFactory.openSession(true)) {
       System.out.println("Setting up tables and adding test user...");
-      session.insert("org.languagetool.server.UserDictMapper.createUserTable");
-      session.insert("org.languagetool.server.UserDictMapper.createIgnoreWordTable");
+      String[] statements = { "org.languagetool.server.UserDictMapper.createUserTable",
+        "org.languagetool.server.UserDictMapper.createIgnoreWordTable" };
+      for (String statement : statements) {
+        if (mysql) {
+          session.insert(statement + "MySQL");
+        } else {
+          session.insert(statement);
+        }
+      }
       session.insert("org.languagetool.server.UserDictMapper.createTestUser1");
       session.insert("org.languagetool.server.UserDictMapper.createTestUser2");
     }
@@ -240,4 +351,16 @@ class DatabaseAccess {
       session.delete("org.languagetool.server.UserDictMapper.deleteIgnoreWordsTable");
     }
   }
+
+  /** For unit tests only */
+  static ResultSet executeStatement(SQL sql) throws SQLException {
+    try (SqlSession session = sqlSessionFactory.openSession(true)) {
+      try (Connection conn = session.getConnection()) {
+        try (Statement stmt = conn.createStatement()) {
+          return stmt.executeQuery(sql.toString());
+        }
+      }
+    }
+  }
+
 }
