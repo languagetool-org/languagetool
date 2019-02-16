@@ -6,7 +6,7 @@
 German grammar and typo rules for LanguageTool.
 See resource/de/tagset.txt for the meaning of the POS tags.
 
-Copyright © 2001–2018 Markus Brenneis, Daniel Naber, Jan Schreiber
+Copyright © 2001–2019 Markus Brenneis, Daniel Naber, Jan Schreiber
 http://www.languagetool.org
 
 This library is free software; you can redistribute it and/or
@@ -7713,7 +7713,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token regexp="yes">[0-9]+</token>
-                    <token regexp="yes">(wöch|teil|räum)ig(e[mnrs]?)?</token>
+                    <token regexp="yes">(wöch|teil|räum|köpf)ig(e[mnrs]?)?</token>
                 </pattern>
                 <message><suggestion>\1-\2</suggestion> wird mit Bindestrich geschrieben.</message>
                 <example correction='7-teiliges'>Ich biete ein <marker>7 teiliges</marker> Set zum Verkauf an.</example>
@@ -7721,7 +7721,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token postag="ZAL"/>
-                    <token regexp="yes">(wöch|teil|räum)ig(e[mnrs]?)?</token>
+                    <token regexp="yes">(wöch|teil|räum|köpf)ig(e[mnrs]?)?</token>
                 </pattern>
                 <message><suggestion>\1\2</suggestion> wird zusammengeschrieben.</message>
                 <example correction='fünfteiliges'>Ich biete ein <marker>fünf teiliges</marker> Set zum Verkauf an.</example>
@@ -7759,7 +7759,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>außen</token>
                 <marker><token regexp="yes">vor(ge)?l[aä]ss(en|t)</token></marker>
             </pattern>
-            <message>In der Bedeutung 'jemanden außschließen / nicht beteiligen / nicht informieren' wird 'außen vor lassen' auseinandergeschrieben.</message>
+            <message>In der Bedeutung 'jemanden ausschließen / nicht beteiligen / nicht informieren' wird 'außen vor lassen' auseinandergeschrieben.</message>
             <suggestion>vor <match no="2" regexp_match="vor" regexp_replace=""/></suggestion>
             <url>https://www.korrekturen.de/beliebte_fehler/aussen_vorlassen.shtml</url>
             <short>&getrennt;.</short>
