@@ -268,7 +268,7 @@ public class GermanTagger extends BaseTagger {
       return null;
     }
     String w = pos == 0 ? word.toLowerCase() : word;
-    List<TaggedWord> taggedWithE = getWordTagger().tag(w + "e");
+    List<TaggedWord> taggedWithE = getWordTagger().tag(w.concat("e"));
     for (TaggedWord tagged : taggedWithE) {
       if (tagged.getPosTag().startsWith("VER:IMP:SIN:")) {
         // do not overwrite manually removed tags
