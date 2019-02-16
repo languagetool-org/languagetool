@@ -18,6 +18,24 @@
  */
 package org.languagetool.gui;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.EnumMap;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Set;
+
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.JLanguageTool;
@@ -26,11 +44,6 @@ import org.languagetool.Languages;
 import org.languagetool.LinguServices;
 import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.Rule;
-
-import java.awt.*;
-import java.io.*;
-import java.util.*;
-import java.util.List;
 
 /**
  * Configuration like list of disabled rule IDs, server mode etc.
@@ -86,7 +99,7 @@ public class Configuration {
   private static final String EXTERNAL_RULE_DIRECTORY = "extRulesDirectory";
 
   private final Map<String, String> configForOtherLanguages = new HashMap<>();
-  private final Map<ITSIssueType, Color> errorColors = new HashMap<>();
+  private final Map<ITSIssueType, Color> errorColors = new EnumMap<>(ITSIssueType.class);
   private final Map<String, Color> underlineColors = new HashMap<>();
   private final Map<String, Integer> configurableRuleValues = new HashMap<>();
   private final Set<String> styleLikeCategories = new HashSet<>();
@@ -505,10 +518,8 @@ public class Configuration {
    */
   public void initStyleCategories(List<Rule> allRules) {
     for (Rule rule : allRules) {
-      if (rule.getCategory().getTabName() != null) {
-        if (!specialTabCategories.containsKey(rule.getCategory().getName())) {
-          specialTabCategories.put(rule.getCategory().getName(), rule.getCategory().getTabName());
-        }
+      if (rule.getCategory().getTabName() != null && !specialTabCategories.containsKey(rule.getCategory().getName())) {
+        specialTabCategories.put(rule.getCategory().getName(), rule.getCategory().getTabName());
       }
       if (rule.getLocQualityIssueType().toString().equalsIgnoreCase("STYLE")
               || rule.getLocQualityIssueType().toString().equalsIgnoreCase("REGISTER")
