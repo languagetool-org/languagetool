@@ -331,6 +331,13 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("ausgewönlich", "außergewöhnlich", rule, lt);
     assertFirstSuggestion("unausweichbaren", "unausweichlichen", rule, lt);
     assertFirstSuggestion("Dampfschiffahrtskapitän", "Dampfschifffahrtskapitän", rule, lt);
+    assertFirstSuggestion("Helfes-Helfern", "Helfershelfern", rule, lt);
+    assertFirstSuggestion("Intelligentsbestie", "Intelligenzbestie", rule, lt);
+    assertFirstSuggestion("avantgardische", "avantgardistische", rule, lt);
+    assertFirstSuggestion("gewohnheitsbedürftigen", "gewöhnungsbedürftigen", rule, lt);
+    assertFirstSuggestion("patroliert", "patrouilliert", rule, lt);
+    assertFirstSuggestion("beidiges", "beides", rule, lt);
+    assertFirstSuggestion("Propagandierte", "Propagierte", rule, lt);
   }
 
   @Test
