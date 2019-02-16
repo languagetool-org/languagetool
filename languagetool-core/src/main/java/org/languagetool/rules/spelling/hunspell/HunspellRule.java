@@ -135,37 +135,50 @@ public class HunspellRule extends SpellingCheckRule {
           continue;
         }
         if (isMisspelled(word)) {
+          String cleanWord = word;
+          if (word.endsWith(".")) {
+            cleanWord = word.substring(0, word.length()-1);
+          }
           RuleMatch ruleMatch = new RuleMatch(this, sentence,
-            len, len + word.length(),
+            len, len + cleanWord.length(),
             messages.getString("spelling"),
             messages.getString("desc_spelling_short"));
           ruleMatch.setType(RuleMatch.Type.UnknownWord);
           if (userConfig == null || userConfig.getMaxSpellingSuggestions() == 0 || ruleMatches.size() <= userConfig.getMaxSpellingSuggestions()) {
-            List<String> suggestions = getSuggestions(word);
-            List<String> additionalTopSuggestions = getAdditionalTopSuggestions(suggestions, word);
+            List<String> suggestions = getSuggestions(cleanWord);
+            if (word.endsWith(".")) {
+              int pos = 1;
+              for (String suggestion : getSuggestions(word)) {
+                if (!suggestions.contains(suggestion)) {
+                  suggestions.add(Math.min(pos, suggestions.size()), suggestion.substring(0, suggestion.length()-1));
+                  pos += 2;  // we mix the lists, as we don't know which one is the better one
+                }
+              }
+            }
+            List<String> additionalTopSuggestions = getAdditionalTopSuggestions(suggestions, cleanWord);
             if (additionalTopSuggestions.size() == 0 && word.endsWith(".")) {
-              additionalTopSuggestions = getAdditionalTopSuggestions(suggestions, word.substring(0, word.length() - 1)).
+              additionalTopSuggestions = getAdditionalTopSuggestions(suggestions, word).
                 stream().map(k -> k + ".").collect(Collectors.toList());
             }
             Collections.reverse(additionalTopSuggestions);
             for (String additionalTopSuggestion : additionalTopSuggestions) {
-              if (!word.equals(additionalTopSuggestion)) {
+              if (!cleanWord.equals(additionalTopSuggestion)) {
                 suggestions.add(0, additionalTopSuggestion);
               }
             }
-            List<String> additionalSuggestions = getAdditionalSuggestions(suggestions, word);
+            List<String> additionalSuggestions = getAdditionalSuggestions(suggestions, cleanWord);
             for (String additionalSuggestion : additionalSuggestions) {
-              if (!word.equals(additionalSuggestion)) {
+              if (!cleanWord.equals(additionalSuggestion)) {
                 suggestions.addAll(additionalSuggestions);
               }
             }
-            Language acceptingLanguage = acceptedInAlternativeLanguage(word);
-            boolean isSpecialCase = word.matches(".+-[A-ZÖÄÜ].*");
+            Language acceptingLanguage = acceptedInAlternativeLanguage(cleanWord);
+            boolean isSpecialCase = cleanWord.matches(".+-[A-ZÖÄÜ].*");
             if (acceptingLanguage != null && !isSpecialCase) {
               // e.g. "Der Typ ist in UK echt famous" -> could be German 'famos'
               ruleMatch = new RuleMatch(this, sentence,
-                len, len + word.length(),
-                Tools.i18n(messages, "accepted_in_alt_language", word, messages.getString(acceptingLanguage.getShortCode())));
+                len, len + cleanWord.length(),
+                Tools.i18n(messages, "accepted_in_alt_language", cleanWord, messages.getString(acceptingLanguage.getShortCode())));
               ruleMatch.setType(RuleMatch.Type.Hint);
             }
             filterSuggestions(suggestions);

@@ -2,6 +2,11 @@
 
 ## 4.5-SNAPSHOT(release planned for 2019-03-26)
 
+#### German
+  * added and improved rules
+  * improved suggestions for typos that end with a dot (typically at the end of
+    the sentence) - the dot is not included anymore 
+  
 #### Russian
   * added and improved rules
   * added many words without "yo" letter to POS dictionary

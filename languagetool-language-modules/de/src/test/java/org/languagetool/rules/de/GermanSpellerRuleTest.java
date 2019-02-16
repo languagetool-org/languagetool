@@ -107,8 +107,8 @@ public class GermanSpellerRuleTest {
     assertThat(rule.match(lt.getAnalyzedSentence("konservierungsstoffsasdsasda"))[0].getSuggestedReplacements().size(), is(0));
     assertThat(rule.match(lt.getAnalyzedSentence("Ventrolateral")).length, is(0));
     assertThat(rule.match(lt.getAnalyzedSentence("Kleindung")).length, is(1));  // ignored due to ignoreCompoundWithIgnoredWord(), but still in ignore.txt -> ignore.txt must override this
-    assertThat(rule.match(lt.getAnalyzedSentence("Majonäse."))[0].getSuggestedReplacements().toString(), is("[Mayonnaise.]"));
-    assertFirstSuggestion("wars.", "war's.", rule, lt);
+    assertThat(rule.match(lt.getAnalyzedSentence("Majonäse."))[0].getSuggestedReplacements().toString(), is("[Mayonnaise]"));
+    assertFirstSuggestion("wars.", "war's", rule, lt);
     assertFirstSuggestion("konservierungsstoffe", "Konservierungsstoffe", rule, lt);
 //    assertFirstSuggestion("Ist Ventrolateral", "ventrolateral", rule, lt);
     assertFirstSuggestion("denkte", "dachte", rule, lt);
@@ -613,10 +613,10 @@ public class GermanSpellerRuleTest {
   public void testGetSuggestionWithPunctuation() throws Exception {
     GermanSpellerRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
     JLanguageTool lt = new JLanguageTool(GERMAN_DE);
-    assertFirstSuggestion("informationnen.", "Informationen.", rule, lt);
-    assertFirstSuggestion("Kundigungsfrist.", "Kündigungsfrist.", rule, lt);
-    assertFirstSuggestion("aufgeregegt.", "aufgeregt.", rule, lt);
-    assertFirstSuggestion("informationnen...", "Informationen...", rule, lt);
+    assertFirstSuggestion("informationnen.", "Informationen", rule, lt);
+    assertFirstSuggestion("Kundigungsfrist.", "Kündigungsfrist", rule, lt);
+    assertFirstSuggestion("aufgeregegt.", "aufgeregt", rule, lt);
+    assertFirstSuggestion("informationnen...", "Informationen..", rule, lt);  // not 100% perfect, but we can live with this...
     assertFirstSuggestion("arkbeiten-", "arbeiten", rule, lt);
     //assertFirstSuggestion("arkjbeiten-", "arbeiten", rule, lt);
     // commas are actually not part of the word, so the suggestion doesn't include them:
