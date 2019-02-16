@@ -363,17 +363,8 @@ public class CaseRule extends Rule {
     nounIndicators.add("unser");
   }
   
-  private static final Set<String> sentenceStartExceptions = new HashSet<>();
-  static {
-    sentenceStartExceptions.add("(");
-    sentenceStartExceptions.add("\"");
-    sentenceStartExceptions.add("'");
-    sentenceStartExceptions.add("‘");
-    sentenceStartExceptions.add("„");
-    sentenceStartExceptions.add("«");
-    sentenceStartExceptions.add("»");
-    sentenceStartExceptions.add(".");
-  }
+  private static final Set<String> sentenceStartExceptions = new HashSet<>(Arrays.asList(
+      "(", "\"", "'", "‘", "„", "«", "»", "."));
 
   private static final Set<String> UNDEFINED_QUANTIFIERS = new HashSet<>(Arrays.asList(
       "viel", "nichts", "wenig", "allerlei"));
@@ -850,7 +841,7 @@ public class CaseRule extends Rule {
         if (!isPotentialUpperCaseError(i, tokens, lowercaseReadings, isPrecededByModalOrAuxiliary)) {
           continue;
         }
-      } else if (analyzedToken.hasPartialPosTag("SUB:") &&
+      } else if (analyzedToken.hasPosTagStartingWith("SUB:") &&
                  i < tokens.length-1 &&
                  Character.isLowerCase(tokens[i+1].getToken().charAt(0)) &&
                  tokens[i+1].matchesPosTagRegex("VER:[123]:.*")) {
@@ -886,7 +877,8 @@ public class CaseRule extends Rule {
     // "Das ist zu Prüfen." but not "Das geht zu Herzen."
     if ("zu".equals(tokens[pos-1].getToken()) &&
       !tokens[pos].matchesPosTagRegex(".*(NEU|MAS|FEM)$") &&
-      hasPartialTag(lowercaseReadings, "VER:INF:")) {
+      lowercaseReadings != null &&
+      lowercaseReadings.hasPosTagStartingWith("VER:INF:")) {
       return true;
     }
     // find error in: "Man müsse Überlegen, wie man das Problem löst."
@@ -1194,7 +1186,7 @@ public class CaseRule extends Rule {
   }
 
   private boolean isLanguage(int i, AnalyzedTokenReadings[] tokens, String token) {
-    boolean maybeLanguage = languages.contains(token) ||
+    boolean maybeLanguage = (token.endsWith("sch") && languages.contains(token)) ||
                             languages.contains(StringUtils.removeEnd(StringUtils.removeEnd(token, "n"), "e"));   // z.B. "im Japanischen" / z.B. "ins Japanische übersetzt"
     AnalyzedTokenReadings prevToken = i > 0 ? tokens[i-1] : null;
     AnalyzedTokenReadings nextReadings = i < tokens.length-1 ? tokens[i+1] : null;
