@@ -11407,6 +11407,7 @@ USA
             <rule>
                 <pattern>
                     <token>We</token>
+                    <token min="0" max="1" postag="RB"/>
                     <marker>
                         <token regexp="yes">am|is|was</token>
                     </marker>
@@ -11414,10 +11415,13 @@ USA
                 <message>Use first person plural verb with 'we': <suggestion>are</suggestion>, <suggestion>were</suggestion>.</message>
                 <short>Possible agreement error</short>
                 <example correction="are|were">We <marker>is</marker> too old for that.</example>
+                <example correction="are|were">I feel we <marker>is</marker> healthy.</example><!-- https://github.com/languagetool-org/languagetool/issues/1154 -->
+                <example correction="are|were">He thinks that we usually <marker>is</marker> lazy.</example>
             </rule>
             <rule>
                 <pattern>
                     <token>They</token>
+                    <token min="0" max="1" postag="RB"/>
                     <marker>
                         <token regexp="yes">am|is|was</token>
                     </marker>
@@ -11425,6 +11429,8 @@ USA
                 <message>Use third-person plural verb with 'they': <suggestion>are</suggestion>, <suggestion>were</suggestion>.</message>
                 <short>Possible agreement error</short>
                 <example correction="are|were">They <marker>is</marker> too old for that.</example>
+                <example correction="are|were">I feel they <marker>is</marker> ready to use.</example>
+                <example correction="are|were">He thinks that they usually <marker>is</marker> lazy.</example>
             </rule>
         </rulegroup>
         <!-- XXX: is this really an error? see http://www.ef.com/english-resources/english-grammar/adverbs/
@@ -13774,6 +13780,7 @@ USA
                     <marker>
                         <token postag="VBZ">
                             <exception scope="previous" negate_pos="yes" postag_regexp="yes" regexp="yes" postag="RB|PRP|DT|MD"/>
+                            <exception>is</exception>
                         </token>
                     </marker>
                     <token><exception regexp="yes">['’]</exception></token>
@@ -13783,11 +13790,11 @@ USA
                 <example correction="work">They cannot <marker>works</marker> here.</example>
                 <example correction="work">They always <marker>works</marker> here.</example>
                 <example correction="mean">They all <marker>means</marker> the same.</example>
-                <example correction="am|are|aren">They <marker>is</marker> happy.</example>
                 <example>We <marker>make</marker> a lot of mistakes.</example>
                 <example>Are they <marker>friends</marker>?</example>
                 <example>All we need is love.</example>
                 <example>Phase I corresponds to the small-deformation regime.</example>
+                <example>They <marker>is</marker> happy. [Found by PERS_PRONOUN_AGREEMENT_SENT_START]</example>
                 <example type="triggers_error">We <marker>parents</marker> sometimes become blind in loving our children too...</example>
             </rule>
             <rule>
