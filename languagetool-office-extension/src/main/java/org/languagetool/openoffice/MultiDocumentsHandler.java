@@ -172,7 +172,9 @@ public class MultiDocumentsHandler {
         if(xContext != null) {
           linguServices = new LinguisticServices(xContext);
         }
-        docLanguage = getLanguage();
+        if(docLanguage == null) {
+          docLanguage = getLanguage();
+        }
         initLanguageTool();
       }
     } catch (Throwable t) {
@@ -214,6 +216,9 @@ public class MultiDocumentsHandler {
    */
   @Nullable
   public Language getLanguage() {
+    if(docLanguage != null) {
+      return docLanguage;
+    }
     XComponent xComponent = OfficeTools.getCurrentComponent(xContext);
     Locale charLocale;
     XPropertySet xCursorProps;

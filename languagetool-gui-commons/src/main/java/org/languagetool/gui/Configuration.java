@@ -823,6 +823,8 @@ public class Configuration {
         storeConfigKeyFromProp(prop, DISABLED_RULES_KEY + languageSuffix);
         storeConfigKeyFromProp(prop, ENABLED_RULES_KEY + languageSuffix);
         storeConfigKeyFromProp(prop, DISABLED_CATEGORIES_KEY + languageSuffix);
+        storeConfigKeyFromProp(prop, ENABLED_CATEGORIES_KEY + languageSuffix);
+        storeConfigKeyFromProp(prop, CONFIGURABLE_RULE_VALUES_KEY + languageSuffix);
       }
     }
   }
