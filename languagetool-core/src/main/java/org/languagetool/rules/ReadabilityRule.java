@@ -75,26 +75,28 @@ public class ReadabilityRule extends TextLevelRule {
     }
     this.lang = lang;
     this.tooEasyTest = tooEasyTest;
+    int tmpLevel = -1;
     if (userConfig != null) {
       linguServices = userConfig.getLinguServices();
-      if(level >= 0) {
-        this.level = level;
-      } else {
-        int lv = userConfig.getConfigValueByID(getId());
-        if(lv >= 0) {
-          this.level = lv;
-        } else {
-          this.level = tooEasyTest ? 4 : 2;
-        }
-      }
-    }
-    else {
+      tmpLevel = userConfig.getConfigValueByID(getId(tooEasyTest));
+    } else {
       linguServices = null;
+    }
+    if(tmpLevel >= 0) {
+      this.level = tmpLevel;
+    } else if(level >= 0) {
+      this.level = level;
+    } else {
+      this.level = (tooEasyTest ? 4 : 2);
     }
   }
   
   @Override
   public String getId() {
+    return getId(tooEasyTest);
+  }
+
+  public String getId(boolean tooEasyTest) {
     if(tooEasyTest) {
       return "READABILITY_RULE_SIMPLE";
     } else {
