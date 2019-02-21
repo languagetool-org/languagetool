@@ -60,6 +60,11 @@ public class GermanReadabilityRule extends ReadabilityRule {
   
   @Override
   public String getId() {
+    return getId(tooEasyTest);
+  }
+
+  @Override
+  public String getId(boolean tooEasyTest) {
     if(tooEasyTest) {
       return "READABILITY_RULE_SIMPLE_DE";
     } else {
