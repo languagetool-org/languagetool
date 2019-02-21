@@ -61,6 +61,11 @@ public class PortugueseReadabilityRule extends ReadabilityRule {
   
   @Override
   public String getId() {
+    return getId(tooEasyTest);
+  }
+
+  @Override
+  public String getId(boolean tooEasyTest) {
     if(tooEasyTest) {
       return "READABILITY_RULE_SIMPLE_PT";
     } else {
