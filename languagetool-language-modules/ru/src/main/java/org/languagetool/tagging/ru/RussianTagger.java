@@ -56,6 +56,10 @@ public class RussianTagger extends BaseTagger {
         for (String word : sentenceTokens) {
             boolean maymissingyo = false;
             if (word.length() > 1) {
+	      if  ( !(word.contains("ё")) && !(word.contains("Ё")) && (word.contains("е") || word.contains("Е")) && !(word.contains("е́")) && !(word.contains("о́")) &&
+	      !(word.contains("а́")) && !(word.contains("у́")) && !(word.contains("и́")) && !(word.contains("ю́")) && !(word.contains("ы́")) && !(word.contains("э́")) && !(word.contains("я́"))  ) {
+                maymissingyo = true;
+            };
                 word = word.replace("о́", "о");
                 word = word.replace("а́", "а");
                 word = word.replace("е́", "е");
@@ -76,9 +80,7 @@ public class RussianTagger extends BaseTagger {
                 word = word.replace("я̀", "я");
                 word = word.replace("ʼ", "ъ");
             }
-            if ((word.contains("е") || word.contains("Е")) && !(word.contains("ё"))  && !(word.contains("Ё"))) {
-                maymissingyo = true;
-            }
+          
 
             List<AnalyzedToken> l = getAnalyzedTokens(word);
 
