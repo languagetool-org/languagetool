@@ -4246,23 +4246,7 @@
           <example type="untouched">I'm training now.</example>
           <example type="ambiguous" inputform="training[train/VBG,training/NN:U]" outputform="training[training/NN:U]">We need to to pay for <marker>training</marker> to meet national skilled manpower needs.</example>
         </rule>
-        
-        <rule id="WILL_MD" name="will as modal verb">
-          <pattern>
-            <marker>
-            <and>
-              <token postag="MD">will<exception scope="previous" postag="POS"/></token>
-              <token postag="NN:UN"/>
-            </and>
-            </marker>
-            <token postag="VB.*" postag_regexp="yes"/>
-          </pattern>
-          <disambig postag="MD"/>
-          <example type="ambiguous" inputform="will[will/MD,will/NN:UN]" outputform="will[will/MD]">This road <marker>will</marker> designated.</example>
-          <example type="untouched">I will do it.</example>
-          <example type="untouched">A person's will is an important document.</example>
-        </rule>
-                       
+
         <rule id="NNJJ_NN_JJ" name="noun/adj + noun => adj + noun">
           <pattern>
             <marker>
