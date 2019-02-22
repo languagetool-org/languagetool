@@ -67,6 +67,9 @@ public class CaseRule extends Rule {
       regex("[A-Z]-förmig(e[mnrs]?)?")
     ),
     Arrays.asList(
+      token("Geboten")
+    ),
+    Arrays.asList(
       // see http://www.lektorenverband.de/die-deutsche-rechtschreibung-was-ist-neu/
       // and http://www.rechtschreibrat.com/DOX/rfdr_Woerterverzeichnis_2017.pdf
       regex("Goldenen?"),

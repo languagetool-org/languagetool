@@ -52,6 +52,7 @@ public class CaseRuleTest {
   public void testRule() throws IOException {
 
     // correct sentences:
+    assertGood("Das ist eine Abkehr von Gottes Geboten.");
     assertGood("Dem Hund Futter geben");
     assertGood("Heute spricht Frau Stieg.");
     assertGood("Ein einfacher Satz zum Testen.");
