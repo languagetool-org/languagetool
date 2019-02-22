@@ -2532,6 +2532,55 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="totes soles">Ho van fer <marker>tot soles</marker>.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="CONCORDANCES_QUIN" name="concordances quin/quina/quins/quines">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>quins</token>
+                    </marker>
+                    <token max="3" postag="V.*" postag_regexp="yes"></token>
+                    <token postag="D[AD].FP." postag_regexp="yes"/>
+                </pattern>
+                <message>Possible error de concordança.</message>
+                <suggestion>quines</suggestion>
+                <example correction="Quines"><marker>Quins</marker> poden haver estat les causes?</example>
+                <example correction="Quines"><marker>Quins</marker> són les qüestions més interessants?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>quines</token>
+                    </marker>
+                    <token max="3" postag="V.*" postag_regexp="yes"></token>
+                    <token postag="D[AD].MP." postag_regexp="yes"/>
+                </pattern>
+                <message>Possible error de concordança.</message>
+                <suggestion>quins</suggestion>
+                <example correction="Quins"><marker>Quines</marker> poden haver estat els causants?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>quin</token>
+                    </marker>
+                    <token postag="V...3P.." postag_regexp="yes"></token>
+                </pattern>
+                <message>Possible error de concordança.</message>
+                <suggestion>quins</suggestion>
+                <example correction="Quins"><marker>Quin</marker> són els llibres més interessants?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>quina</token>
+                    </marker>
+                    <token postag="V...3P.." postag_regexp="yes"></token>
+                </pattern>
+                <message>Possible error de concordança.</message>
+                <suggestion>quines</suggestion>
+                <example correction="Quines"><marker>Quina</marker> són les qüestions més interessants?</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="UN_DE_LES" name="Concordances dubtoses «un de les»">
             <rule>
                 <pattern>
@@ -11046,18 +11095,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>La projecto cap a fora.</example>
             <example>El castell que projecto.</example>
             <example>Projecto certa simpatia.</example>
-        </rule>
-        <rule id="QUINS_QUINES" name="*quins/quines són les">
-            <pattern>
-                <marker>
-                    <token>quins</token>
-                </marker>
-                <token max="3" postag="V.*" postag_regexp="yes"></token>
-                <token>les</token>
-            </pattern>
-            <message>Possible error de traducció automàtica.</message>
-            <suggestion>quines</suggestion>
-            <example correction="Quines"><marker>Quins</marker> poden haver estat les causes?</example>
         </rule>
         <rule id="AQUESTS_AQUESTES" name="*aquests/aquestes són les">
             <pattern>
