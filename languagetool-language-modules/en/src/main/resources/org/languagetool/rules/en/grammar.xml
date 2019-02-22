@@ -7579,10 +7579,14 @@ USA
             <example>You guys wait here.</example>
         </rule>
         <rule id="TWO_CONNECTED_MODAL_VERBS" name="Two modal verbs in a row (will can)">
-        <!-- Created by Tiago F. Santos, 2018-07-16 -->
+        <!-- Created by Tiago F. Santos, 2018-07-16. Edited by MFU 2019-02-22 -->
             <antipattern>
                  <token/>
                  <token><match no='0'/></token>
+            </antipattern>
+            <antipattern><!-- whose will could -->
+                <token>whose</token>
+                <token postag_regexp="yes" postag="NN(:UN?)?"/>
             </antipattern>
             <pattern>
                  <token regexp="yes">c(an|ould)|w(ill|ould)|sh(ould|all)|m(ight|ay|ust)</token>
@@ -7593,6 +7597,7 @@ USA
             <example correction="could, should|could|should">That <marker>could should</marker> do.</example>
             <example><marker>Will Will</marker> notice this?</example>
             <example><marker>Will will</marker> notice this.</example>
+            <example>I was one who did not conform, and whose <marker>will could</marker> not be broken.</example>
         </rule>
         <rule id='COLLECTIVE_NOUN_VERB_AGREEMENT_VBP' name='a fleet of ships are (is)'>
             <antipattern><!-- what sort of curtains do you think -->
