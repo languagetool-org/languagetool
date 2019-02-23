@@ -58,8 +58,8 @@ public class CaseGovernmentHelper {
     LinkedHashSet<String> list = new LinkedHashSet<>();
     for(AnalyzedToken token: analyzedTokenReadings.getReadings()) {
       if( ! token.hasNoTag()
-          && (token.getPOSTag().startsWith(startPosTag) 
-              || (startPosTag == "prep" && token.getPOSTag().equals("<prep>")) )
+          && (token.getPOSTag() != null && token.getPOSTag().startsWith(startPosTag) 
+              || (startPosTag.equals("prep") && token.getPOSTag() != null && token.getPOSTag().equals("<prep>")) )
           && CASE_GOVERNMENT_MAP.containsKey(token.getLemma()) ) {
 
         Set<String> rvList = CASE_GOVERNMENT_MAP.get(token.getLemma());
