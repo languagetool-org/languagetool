@@ -8960,7 +8960,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">es|Geheimnis|nicht|Ver(fall|steck)</token>
+                    <token regexp="yes">ih[mr]|mir|dir|uns|ihnen|euch|es|Geheimnis|nicht|Ver(fall|steck)</token>
                     <marker>
                         <token>preis</token>
                         <token inflected="yes" postag="VER:.+" postag_regexp="yes">geben</token>
@@ -8975,7 +8975,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <antipattern>
-                    <token regexp="yes">d(ies)?en|einen|[dms]einen|ihren</token>
+                    <token postag="PRP:LOK:.+|ART:.+|PRO:.+|KON:VGL" postag_regexp="yes"></token>
                     <token>Preis</token>
                 </antipattern>
                 <pattern>
@@ -8990,6 +8990,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="preis">Sie gab es nicht <marker>Preis</marker>.</example>
                 <example correction="preis">Sie gab das Versteck nicht <marker>Preis</marker>.</example>
                 <example>Sie gab ihm den <marker>Preis</marker>.</example>
+                <example>Probleme gab es beim Preis: Er war zu hoch.</example>
+                <example>Diesen gab es als <marker>Preis</marker>.</example>
             </rule>
         </rulegroup>
         <rule id="OST_ASIATISCH" name="'ost asiatisch (ostasiatisch)' etc.">
