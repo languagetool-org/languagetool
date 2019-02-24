@@ -86,7 +86,7 @@ public class AgreementRule extends Rule {
     Arrays.asList(  // "Wir bereinigen das nächsten Dienstag."
       new PatternTokenBuilder().posRegex("VER:.*").build(),
       new PatternTokenBuilder().token("das").build(),
-      new PatternTokenBuilder().tokenRegex("nächste[ns]?").build(),
+      new PatternTokenBuilder().tokenRegex("(über)?nächste[ns]?|kommende[ns]?").build(),
       new PatternTokenBuilder().tokenRegex("Montag|D(ien|onner)stag|Mittwoch|Freitag|S(ams|onn)tag|Woche|Monat|Jahr").build()
     ),
     Arrays.asList(
@@ -273,11 +273,11 @@ public class AgreementRule extends Rule {
       new PatternTokenBuilder().posRegex("SUB:AKK:PLU:.*").build()
     ),
     Arrays.asList( // "Für ihn ist das Alltag." / "Für die Religiösen ist das Blasphemie."
-      new PatternTokenBuilder().token("für").setSkip(2).build(),
-      new PatternTokenBuilder().tokenRegex("ist|war").build(),
+    	new PatternTokenBuilder().posRegex("PRP:.+|ADV:MOD").setSkip(2).build(),
+      new PatternTokenBuilder().token("sein").matchInflectedForms().build(),
       new PatternTokenBuilder().csToken("das").build(),
       new PatternTokenBuilder().posRegex("SUB:NOM:.*").build(),
-      new PatternTokenBuilder().pos("PKT").build()
+      new PatternTokenBuilder().posRegex("PKT|SENT_END").build()
     ),
     Arrays.asList( // "Sie sagte, dass das Rache bedeuten würden"
       new PatternTokenBuilder().pos("KON:UNT").build(),
