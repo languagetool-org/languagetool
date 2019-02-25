@@ -40172,7 +40172,12 @@ Andere Projekte</example>
             <url>https://www.duden.de/hilfe/rechtschreibung</url>
             <rule>
                 <antipattern>
-                    <token regexp="yes">das|ein|kein|sein|dieses|welchem|im|zu|als|(ebenso)?viel|mehr|weniger|gleiches</token>
+                    <token inflected="yes">haben</token>
+                    <token>ihr</token>
+                    <token case_sensitive="yes">Recht</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">das|m?ein|kein|sein|dieses|welchem|im|zu|als|(ebenso)?viel|mehr|weniger|gleiches</token>
                     <token postag="(ADJ|PA1):.*" postag_regexp="yes" min="0"/>
                     <token case_sensitive="yes">Recht</token>
                 </antipattern>
@@ -40183,7 +40188,7 @@ Andere Projekte</example>
                     <marker>
                         <token case_sensitive="yes">Recht</token>
                     </marker>
-                    <token><exception regexp="yes" inflected="yes">bekommen|finden|pochen|sprechen</exception></token>
+                    <token><exception regexp="yes" inflected="yes">bekommen|finden|pochen|sprechen|einfordern</exception></token>
                 </pattern>
                 <message>Der Duden empfiehlt für das Wort "Recht" im Zusammenhang mit "recht haben" oder "recht geben" klein zu schreiben.</message>
                 <suggestion><match no="2" case_conversion ="alllower"/></suggestion>
@@ -40191,10 +40196,11 @@ Andere Projekte</example>
                 <example correction="recht">Sie hatte wirklich <marker>Recht</marker>.</example>
                 <example>Er hatte kein <marker>Recht</marker> so etwas zu sagen.</example>
                 <example>Man hat <marker>Recht</marker> gesprochen.</example>
+                <example>Sie hat ihr <marker>Recht</marker> engefordert.</example>
             </rule>
             <rule>
                 <antipattern>
-                    <token regexp="yes">das|ein|kein|sein|dieses|welchem|im|zu|als|(ebenso)?viel|mehr|weniger|gleiches</token>
+                    <token regexp="yes">das|m?ein|kein|sein|dieses|welchem|im|zu|als|(ebenso)?viel|mehr|weniger|gleiches</token>
                     <token postag="(ADJ|PA1):.*" postag_regexp="yes" min="0"/>
                     <token case_sensitive="yes">Recht</token>
                 </antipattern>
