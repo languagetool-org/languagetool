@@ -28,13 +28,14 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.concurrent.ArrayBlockingQueue;
 
 /**
  * A rule that matches words which should not be used and suggests correct ones instead. 
  * Romanian implementations. Loads the list of words from
- * <code>/ro/replace.txt</code>.
+ * <code>/xx/replace.txt</code>.
  *
  * <p>Unlike AbstractSimpleReplaceRule, supports multiple words (Ex: "aqua forte" -&gt; "acvaforte").
  *
@@ -97,7 +98,7 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
           throws IOException {
     List<Map<String, String>> list = new ArrayList<>();
     try (
-      InputStreamReader isr = new InputStreamReader(stream, "utf-8");
+      InputStreamReader isr = new InputStreamReader(stream, StandardCharsets.UTF_8);
       BufferedReader br = new BufferedReader(isr)) 
     {
       String line;

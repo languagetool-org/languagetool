@@ -48,13 +48,8 @@ public class MissingHyphenRule extends Rule {
     // these two generate too many false positives
     dashPrefixes.remove("блок");
     dashPrefixes.remove("рейтинг");
-    for(java.util.Iterator<String> it = dashPrefixes.iterator(); it.hasNext(); ) {
-      if( ! ALL_LOWER.matcher(it.next()).matches() ) {
-        it.remove();
-      }
-    }
+    dashPrefixes.removeIf(s -> !ALL_LOWER.matcher(s).matches());
   }
-
 
   public MissingHyphenRule(ResourceBundle messages, WordTagger wordTagger) throws IOException {
     super(messages);
