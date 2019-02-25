@@ -38,6 +38,15 @@ public final class MorfologikBritishSpellerRule extends AbstractEnglishSpellerRu
   }
 
   @Override
+  protected VariantInfo isValidInOtherVariant(String word) {
+    // TODO: check all US words here
+    if (word.equals("color")) {
+      return new VariantInfo("American English");
+    }
+    return null;
+  }
+
+  @Override
   public String getFileName() {
     return RESOURCE_FILENAME;
   }

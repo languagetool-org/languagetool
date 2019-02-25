@@ -64,6 +64,15 @@ public class MorfologikAmericanSpellerRuleTest extends AbstractEnglishSpellerRul
   }
 
   @Test
+  public void testVariantMessages() throws IOException {
+    Language language = new AmericanEnglish();
+    Rule rule = new MorfologikAmericanSpellerRule(TestTools.getMessages("en"), language);
+    RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("This is a nice colour."));
+    assertEquals(1, matches.length);
+    assertTrue(matches[0].getMessage().contains("is British English"));
+  }
+
+  @Test
   public void testUserDict() throws IOException {
     Language language = new AmericanEnglish();
     UserConfig userConfig = new UserConfig(Arrays.asList("mytestword", "mytesttwo"));

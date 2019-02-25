@@ -60,23 +60,38 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
       // so 'word' is misspelled: 
       IrregularForms forms = getIrregularFormsOrNull(word);
       if (forms != null) {
-        RuleMatch oldMatch = ruleMatches.get(0);
-        RuleMatch newMatch = new RuleMatch(this, sentence, oldMatch.getFromPos(), oldMatch.getToPos(), 
-                "Possible spelling mistake. Did you mean <suggestion>" + forms.forms.get(0) +
+        changeMessageOfFirstMatch("Possible spelling mistake. Did you mean <suggestion>" + forms.forms.get(0) +
                 "</suggestion>, the " + forms.formName + " form of the " + forms.posName +
-                " '" + forms.baseform + "'?");
-        List<String> allSuggestions = new ArrayList<>();
-        allSuggestions.addAll(forms.forms);
-        for (String repl : oldMatch.getSuggestedReplacements()) {
-          if (!allSuggestions.contains(repl)) {
-            allSuggestions.add(repl);
-          }
+                " '" + forms.baseform + "'?", sentence, ruleMatches, forms.forms);
+      } else {
+        VariantInfo variantInfo = isValidInOtherVariant(word);
+        if (variantInfo != null) {
+          changeMessageOfFirstMatch("Possible spelling mistake. '" + word + "' is " + variantInfo.getVariantName() + ".", sentence, ruleMatches, Arrays.asList());
         }
-        newMatch.setSuggestedReplacements(allSuggestions);
-        ruleMatches.set(0, newMatch);
       }
     }
     return ruleMatches;
+  }
+
+  /**
+   * @since 4.5
+   */
+  @Nullable
+  protected VariantInfo isValidInOtherVariant(String word) {
+    return null;
+  }
+  
+  private void changeMessageOfFirstMatch(String message, AnalyzedSentence sentence, List<RuleMatch> ruleMatches, List<String> forms) {
+    RuleMatch oldMatch = ruleMatches.get(0);
+    RuleMatch newMatch = new RuleMatch(this, sentence, oldMatch.getFromPos(), oldMatch.getToPos(), message);
+    List<String> allSuggestions = new ArrayList<>(forms);
+    for (String repl : oldMatch.getSuggestedReplacements()) {
+      if (!allSuggestions.contains(repl)) {
+        allSuggestions.add(repl);
+      }
+    }
+    newMatch.setSuggestedReplacements(allSuggestions);
+    ruleMatches.set(0, newMatch);
   }
 
   @SuppressWarnings({"ReuseOfLocalVariable", "ControlFlowStatementWithoutBraces"})
