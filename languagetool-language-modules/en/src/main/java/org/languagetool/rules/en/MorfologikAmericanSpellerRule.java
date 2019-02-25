@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 import org.languagetool.Language;
 import org.languagetool.UserConfig;
@@ -33,6 +34,7 @@ public final class MorfologikAmericanSpellerRule extends AbstractEnglishSpellerR
 
   private static final String RESOURCE_FILENAME = "/en/hunspell/en_US.dict";
   private static final String LANGUAGE_SPECIFIC_PLAIN_TEXT_DICT = "en/hunspell/spelling_en-US.txt";
+  private static final Set<String> BRITISH_ENGLISH = loadWordlist("en/hunspell/en-GB.txt");
 
   public MorfologikAmericanSpellerRule(ResourceBundle messages, Language language) throws IOException {
     super(messages, language, null, Collections.emptyList());
@@ -40,8 +42,7 @@ public final class MorfologikAmericanSpellerRule extends AbstractEnglishSpellerR
 
   @Override
   protected VariantInfo isValidInOtherVariant(String word) {
-    // TODO: check all British words here
-    if (word.equals("colour")) {
+    if (BRITISH_ENGLISH.contains(word)) {
       return new VariantInfo("British English");
     }
     return null;

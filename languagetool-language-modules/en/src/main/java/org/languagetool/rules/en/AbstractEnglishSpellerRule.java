@@ -19,16 +19,16 @@
 package org.languagetool.rules.en;
 
 import org.jetbrains.annotations.Nullable;
-import org.languagetool.AnalyzedSentence;
-import org.languagetool.AnalyzedToken;
-import org.languagetool.Language;
-import org.languagetool.UserConfig;
+import org.languagetool.*;
 import org.languagetool.rules.Example;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
 import org.languagetool.synthesis.en.EnglishSynthesizer;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
@@ -53,6 +53,26 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     }
   }
 
+  protected static Set<String> loadWordlist(String path) {
+    Set<String> words = new HashSet<>();
+    try (
+        InputStreamReader isr = new InputStreamReader(JLanguageTool.getDataBroker().getFromResourceDirAsStream(path), StandardCharsets.UTF_8);
+        BufferedReader br = new BufferedReader(isr);
+    ) {
+      String line;
+      while ((line = br.readLine()) != null) {
+        line = line.trim();
+        if (line.startsWith("#")) {
+          continue;
+        }
+        words.add(line);
+      }
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+    return words;
+  }
+  
   @Override
   protected List<RuleMatch> getRuleMatches(String word, int startPos, AnalyzedSentence sentence, List<RuleMatch> ruleMatchesSoFar) throws IOException {
     List<RuleMatch> ruleMatches = super.getRuleMatches(word, startPos, sentence, ruleMatchesSoFar);
