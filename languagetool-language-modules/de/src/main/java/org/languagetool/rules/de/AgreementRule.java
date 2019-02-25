@@ -464,6 +464,11 @@ public class AgreementRule extends Rule {
   }
 
   @Override
+  public int estimateContextForSureMatch() {
+    return ANTI_PATTERNS.stream().mapToInt(List::size).max().orElse(0); 
+  }
+
+  @Override
   public String getDescription() {
     return "Kongruenz von Nominalphrasen (unvollständig!), z.B. 'mein kleiner(kleines) Haus'";
   }

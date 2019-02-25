@@ -772,6 +772,11 @@ public class CaseRule extends Rule {
   }
 
   @Override
+  public int estimateContextForSureMatch() {
+    return ANTI_PATTERNS.stream().mapToInt(List::size).max().orElse(0);
+  }
+  
+  @Override
   public URL getUrl() {
     return Tools.getUrl("http://www.canoo.net/services/GermanSpelling/Regeln/Gross-klein/index.html");
   }

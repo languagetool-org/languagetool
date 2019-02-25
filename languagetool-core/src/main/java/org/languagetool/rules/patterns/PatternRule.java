@@ -117,15 +117,8 @@ public class PatternRule extends AbstractPatternRule {
     this.isMemberOfDisjunctiveSet = isMember;
   }
 
-  /**
-   * A number that estimates how many words there must be after a match before we
-   * can be (relatively) sure the match is valid. This is useful for check-as-you-type,
-   * where a match might occur and the word that gets typed next makes the match
-   * disappear (something one would obviously like to avoid).
-   * Note: this may over-estimate the real context size. 
-   * @since 4.5
-   */
   @Experimental
+  @Override
   public int estimateContextForSureMatch() {
     int extendAfterMarker = 0;
     boolean markerSeen = false;

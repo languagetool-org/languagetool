@@ -131,6 +131,11 @@ public class SubjectVerbAgreementRule extends Rule {
   }
 
   @Override
+  public int estimateContextForSureMatch() {
+    return ANTI_PATTERNS.stream().mapToInt(List::size).max().orElse(0);
+  }
+
+  @Override
   public List<DisambiguationPatternRule> getAntiPatterns() {
     return makeAntiPatterns(ANTI_PATTERNS, language);
   }

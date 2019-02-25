@@ -51,6 +51,11 @@ public class WiederVsWiderRule extends Rule {
   }
 
   @Override
+  public int estimateContextForSureMatch() {
+    return 0;
+  }
+
+  @Override
   public RuleMatch[] match(AnalyzedSentence sentence) {
     List<RuleMatch> ruleMatches = new ArrayList<>();
     AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();

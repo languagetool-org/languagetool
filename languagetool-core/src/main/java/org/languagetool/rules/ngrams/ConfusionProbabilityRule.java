@@ -106,6 +106,11 @@ public abstract class ConfusionProbabilityRule extends Rule {
   }
 
   @Override
+  public int estimateContextForSureMatch() {
+    return grams;
+  }
+
+  @Override
   public RuleMatch[] match(AnalyzedSentence sentence) {
     String text = sentence.getText();
     List<GoogleToken> tokens = GoogleToken.getGoogleTokens(text, true, getGoogleStyleWordTokenizer());

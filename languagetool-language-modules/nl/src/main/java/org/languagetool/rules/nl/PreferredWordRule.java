@@ -59,6 +59,11 @@ public class PreferredWordRule extends Rule {
   }
 
   @Override
+  public int estimateContextForSureMatch() {
+    return 1;
+  }
+
+  @Override
   public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
     List<RuleMatch> ruleMatches = new ArrayList<>();
     for (PreferredWordRuleWithSuggestion ruleWithSuggestion : data.get()) {

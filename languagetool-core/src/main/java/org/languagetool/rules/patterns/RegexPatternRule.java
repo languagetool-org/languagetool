@@ -160,6 +160,11 @@ class RegexPatternRule extends AbstractPatternRule implements RuleMatcher {
   }
 
   @Override
+  public int estimateContextForSureMatch() {
+    return -1;
+  }
+  
+  @Override
   public String toString() {
     return pattern.toString() + "/flags:" + pattern.flags();
   }

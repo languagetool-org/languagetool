@@ -57,6 +57,11 @@ public abstract class AbstractDashRule extends Rule {
   public abstract String getDescription();
 
   @Override
+  public int estimateContextForSureMatch() {
+    return 2;
+  }
+
+  @Override
   public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
     List<RuleMatch> matches = new ArrayList<>();
     for (PatternRule dashRule : dashRules) {

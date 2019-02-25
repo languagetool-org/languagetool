@@ -145,6 +145,7 @@ public class RuleMatchesAsJsonSerializer {
       g.writeEndObject();
       writeRule(g, match);
       g.writeBooleanField("ignoreForIncompleteSentence", RuleInformation.ignoreForIncompleteSentences(match.getRule().getId(), lang));
+      g.writeNumberField("contextForSureMatch", match.getRule().estimateContextForSureMatch());
       g.writeEndObject();
     }
     g.writeEndArray();
