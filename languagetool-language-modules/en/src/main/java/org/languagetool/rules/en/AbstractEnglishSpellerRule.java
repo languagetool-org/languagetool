@@ -53,8 +53,11 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     }
   }
 
-  protected static Set<String> loadWordlist(String path) {
-    Set<String> words = new HashSet<>();
+  protected static Map<String,String> loadWordlist(String path, int column) {
+    if (column != 0 && column != 1) {
+      throw new IllegalArgumentException("Only column 0 and 1 are supported: " + column);
+    }
+    Map<String,String> words = new HashMap<>();
     try (
         InputStreamReader isr = new InputStreamReader(JLanguageTool.getDataBroker().getFromResourceDirAsStream(path), StandardCharsets.UTF_8);
         BufferedReader br = new BufferedReader(isr);
@@ -62,10 +65,14 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
       String line;
       while ((line = br.readLine()) != null) {
         line = line.trim();
-        if (line.startsWith("#")) {
+        if (line.isEmpty() ||  line.startsWith("#")) {
           continue;
         }
-        words.add(line);
+        String[] parts = line.split(";");
+        if (parts.length != 2) {
+          throw new IOException("Unexpected format in " + path + ": " + line + " - expected two parts delimited by ';'");
+        }
+        words.put(parts[column], parts[column == 1 ? 0 : 1]);
       }
     } catch (IOException e) {
       throw new RuntimeException(e);
@@ -80,13 +87,15 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
       // so 'word' is misspelled: 
       IrregularForms forms = getIrregularFormsOrNull(word);
       if (forms != null) {
-        changeMessageOfFirstMatch("Possible spelling mistake. Did you mean <suggestion>" + forms.forms.get(0) +
+        String message = "Possible spelling mistake. Did you mean <suggestion>" + forms.forms.get(0) +
                 "</suggestion>, the " + forms.formName + " form of the " + forms.posName +
-                " '" + forms.baseform + "'?", sentence, ruleMatches, forms.forms);
+                " '" + forms.baseform + "'?";
+        addFormsToFirstMatch(message, sentence, ruleMatches, forms.forms);
       } else {
         VariantInfo variantInfo = isValidInOtherVariant(word);
         if (variantInfo != null) {
-          changeMessageOfFirstMatch("Possible spelling mistake. '" + word + "' is " + variantInfo.getVariantName() + ".", sentence, ruleMatches, Arrays.asList());
+          String message = "Possible spelling mistake. '" + word + "' is " + variantInfo.getVariantName() + ".";
+          replaceFormsOfFirstMatch(message, sentence, ruleMatches, Collections.singletonList(variantInfo.otherVariant()));
         }
       }
     }
@@ -101,7 +110,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     return null;
   }
   
-  private void changeMessageOfFirstMatch(String message, AnalyzedSentence sentence, List<RuleMatch> ruleMatches, List<String> forms) {
+  private void addFormsToFirstMatch(String message, AnalyzedSentence sentence, List<RuleMatch> ruleMatches, List<String> forms) {
     RuleMatch oldMatch = ruleMatches.get(0);
     RuleMatch newMatch = new RuleMatch(this, sentence, oldMatch.getFromPos(), oldMatch.getToPos(), message);
     List<String> allSuggestions = new ArrayList<>(forms);
@@ -111,6 +120,13 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
       }
     }
     newMatch.setSuggestedReplacements(allSuggestions);
+    ruleMatches.set(0, newMatch);
+  }
+
+  private void replaceFormsOfFirstMatch(String message, AnalyzedSentence sentence, List<RuleMatch> ruleMatches, List<String> suggestions) {
+    RuleMatch oldMatch = ruleMatches.get(0);
+    RuleMatch newMatch = new RuleMatch(this, sentence, oldMatch.getFromPos(), oldMatch.getToPos(), message);
+    newMatch.setSuggestedReplacements(suggestions);
     ruleMatches.set(0, newMatch);
   }
 

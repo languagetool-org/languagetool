@@ -18,18 +18,26 @@
  */
 package org.languagetool.rules.en;
 
+import java.util.Objects;
+
 /**
  * @since 4.5
  */
 class VariantInfo {
 
   private final String variantName;
+  private final String otherVariant;
 
-  VariantInfo(String variantName) {
-    this.variantName = variantName;
+  VariantInfo(String variantName, String otherVariant) {
+    this.variantName = Objects.requireNonNull(variantName);
+    this.otherVariant = Objects.requireNonNull(otherVariant);
   }
 
   String getVariantName() {
     return variantName;
+  }
+
+  String otherVariant() {
+    return otherVariant;
   }
 }
