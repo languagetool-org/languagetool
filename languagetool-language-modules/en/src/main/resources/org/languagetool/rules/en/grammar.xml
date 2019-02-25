@@ -5479,6 +5479,22 @@ USA
             <example correction="will treated|ill-treated">They <marker>ill treated</marker> me.</example>
             <example>Am I ill, Doc?</example>
         </rule>
+        <rule>
+            <pattern>
+                <token><exception regexp="yes">a|the|whose</exception></token>
+                <token min="0" postag="JJ.*" postag_regexp="yes"></token>
+                <marker>
+                    <token>fort</token>
+                    <token>he</token>
+                </marker>
+                <token postag="JJ.*" postag_regexp="yes"></token>
+            </pattern>
+            <message>Did you mean <suggestion>for the</suggestion>?</message>
+            <short>Possible typo</short>
+            <example correction="for the">Thank you <marker>fort he</marker> great work.</example>
+            <example>He described a small fort he built.</example>
+            <example>By the early 20th century, the fort he built here was deserted.</example>
+        </rule>
         <!-- laid ahead::word=lay ahead::pivots=laid,lay::options=laid,lay -->
         <rule id="LAID_AHEAD" name="laid (lay) ahead">
             <pattern>
