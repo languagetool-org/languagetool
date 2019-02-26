@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -178,6 +179,14 @@ public final class PosTagHelper {
     return false;
   }
 
+  public static boolean startsWithPosTag2(List<AnalyzedToken> analyzedTokenReadings, String posTagPart) {
+    for(AnalyzedToken analyzedToken: analyzedTokenReadings) {
+      if( analyzedToken.getPOSTag() != null && analyzedToken.getPOSTag().startsWith(posTagPart) )
+        return true;
+    }
+    return false;
+  }
+
   public static boolean startsWithPosTag(List<TaggedWord> taggedWords, String posTagPart) {
     for(TaggedWord analyzedToken: taggedWords) {
       if( analyzedToken.getPosTag() != null && analyzedToken.getPosTag().startsWith(posTagPart) )
@@ -228,6 +237,13 @@ public final class PosTagHelper {
       return tag + part;
     return tag;
   }
+
+  public static List<AnalyzedToken> filter(List<AnalyzedToken> analyzedTokens, Pattern posTag) {
+    return 
+        analyzedTokens.stream()
+        .filter(token -> hasPosTag(token, posTag) )
+        .collect(Collectors.toList());
+   }
 
 //private static String getNumAndConj(String posTag) {
 //  Matcher pos4matcher = GENDER_CONJ_REGEX.matcher(posTag);
