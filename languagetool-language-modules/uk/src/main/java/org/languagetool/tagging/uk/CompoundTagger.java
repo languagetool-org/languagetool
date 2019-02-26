@@ -21,6 +21,7 @@ package org.languagetool.tagging.uk;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
@@ -61,6 +62,7 @@ class CompoundTagger {
   private static final Pattern REQ_NUM_DVA_PATTERN = Pattern.compile("(місн|томник|поверхів).{0,4}");
   private static final Pattern REQ_NUM_DESYAT_PATTERN = Pattern.compile("(класни[кц]|раундов|томн|томов|хвилин|десятиріч|кілометрів|річ).{0,4}");
   private static final Pattern REQ_NUM_STO_PATTERN = Pattern.compile("(річч|літт|метрів|грамов|тисячник).{0,3}");
+  private static final Pattern INTJ_PATTERN = Pattern.compile("intj.*");
 
   private static final Pattern MNP_NAZ_REGEX = Pattern.compile(".*?:[mnp]:v_naz.*");
   private static final Pattern MNP_ZNA_REGEX = Pattern.compile(".*?:[mnp]:v_zna.*");
@@ -144,10 +146,20 @@ class CompoundTagger {
     boolean startsWithDigit = Character.isDigit(word.charAt(0));
 
     if( ! startsWithDigit && dashIdx != firstDashIdx ) {
-      if( StringUtils.countMatches(word, "-") == 2
+      int dashCount = StringUtils.countMatches(word, "-");
+
+      if( dashCount >= 2
+          && dashIdx > firstDashIdx + 1 ) {
+        List<AnalyzedToken> tokens = doGuessMultiHyphens(word, firstDashIdx, dashIdx);
+        if( tokens != null )
+          return tokens;
+      }
+      
+      if( dashCount == 2
           && dashIdx > firstDashIdx + 1 ) {
         return doGuessTwoHyphens(word, firstDashIdx, dashIdx);
       }
+      
       return null;
     }
 
@@ -393,6 +405,30 @@ class CompoundTagger {
     return null;
   }
 
+  private List<AnalyzedToken> doGuessMultiHyphens(String word, int firstDashIdx, int dashIdx) {
+    String lowerWord = word.toLowerCase();
+    
+    String[] parts = lowerWord.split("-");
+    HashSet<String> set = new HashSet<>(Arrays.asList(parts));
+
+    if( set.size() == 2 ) {
+      List<TaggedWord> leftWdList = tagEitherCase(parts[0]);
+      List<TaggedWord> rightWdList = tagEitherCase(parts[1]);
+
+      if( PosTagHelper.hasPosTag2(leftWdList, INTJ_PATTERN)
+          && PosTagHelper.hasPosTag2(rightWdList, INTJ_PATTERN) ) {
+        return Arrays.asList(new AnalyzedToken(word, rightWdList.get(0).getPosTag(), lowerWord));
+      }
+    }
+    else if( set.size() == 1 ) {
+      List<TaggedWord> rightWdList = tagEitherCase(parts[0]);
+      if( PosTagHelper.hasPosTag2(rightWdList, INTJ_PATTERN) ) {
+        return Arrays.asList(new AnalyzedToken(word, rightWdList.get(0).getPosTag(), lowerWord));
+      }
+    }
+
+    return null;
+  }
 
   private List<AnalyzedToken> doGuessTwoHyphens(String word, int firstDashIdx, int dashIdx) {
     String[] parts = word.split("-");

@@ -370,6 +370,12 @@ public class UkrainianTaggerTest {
   }
 
   @Test
+  public void testDynamicTaggingIntj() throws IOException {
+    TestTools.myAssert("Гей-гей-гей", "Гей-гей-гей/[гей-гей-гей]intj", tokenizer, tagger);
+    TestTools.myAssert("Ого-го-го-го", "Ого-го-го-го/[ого-го-го-го]intj", tokenizer, tagger);
+  }
+  
+  @Test
   public void testDynamicTaggingNum() throws IOException {
     // numr-numr
     TestTools.myAssert("одним-двома", "одним-двома/[один-два]numr:p:v_oru", tokenizer, tagger);
