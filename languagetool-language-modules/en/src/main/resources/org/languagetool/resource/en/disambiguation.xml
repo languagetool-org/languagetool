@@ -626,7 +626,7 @@
         
     <rule name="Modal verb + verb/noun -&gt; modal verb + verb" id="MD_VB">
         <pattern>
-            <token postag="MD"><exception>need</exception></token>
+            <token postag="MD"><exception>need</exception><exception scope="previous" postag="DT"/></token>
             <marker>
                 <and>
                     <token postag="VB"/>
@@ -641,6 +641,7 @@
         <example type="untouched">If you need <marker>oil</marker>, get a requisition order from your manager.</example>
         <example type="untouched">Will <marker>man</marker> ever reach the moon?</example>
         <example type="untouched">... but can <marker>oil</marker> be used instead of water?</example>
+        <example type="untouched">Modal: ... and the can <marker>will</marker> be used repeatedly.</example>
       <example type="ambiguous" inputform="open[open/JJ,open/NN:U,open/RP,open/VB,open/VBP]" outputform="open[open/VB]">You can <marker>open</marker> your books now.</example>
     </rule>
         
@@ -1066,25 +1067,27 @@
     <rule>
     <pattern>
       <marker><token regexp="yes">can|will|must</token></marker>
-      <token postag="VB"/>      
+      <token postag="VB"><exception postag="MD"/></token>
     </pattern>
     <disambig postag="MD"/>
     <example type="untouched">It is a can of soup.</example>
     <example type="ambiguous" inputform="can[can/MD,can/NN,can/VB,can/VBP]" outputform="can[can/MD]">This <marker>can</marker> be eliminated.</example>
     <example type="untouched">It's a must.</example>
     <example type="ambiguous" inputform="must[must/JJ,must/MD,must/NN:UN]" outputform="must[must/MD]">We <marker>must</marker> win.</example>   
+    <example type="ambiguous" inputform="will[will/MD,will/NN:UN,will/VB,will/VBP]" outputform="will[will/MD]">This can <marker>will</marker> be used as a test.</example>
   </rule>
    <rule>
     <pattern>
       <marker><token regexp="yes">can|will|must<exception scope="previous" regexp="yes">be|am|is|was|are|were</exception></token></marker>
       <token postag="RB"/>
-      <token postag="VB"/>      
+      <token postag="VB"><exception postag="MD"/></token>
     </pattern>
     <disambig postag="MD"/>
     <example type="untouched">It is a can of soup.</example>
     <example type="untouched">Turkey's accession <marker>is will</marker> ultimately be impossible if Turkey fails to recognize Cyprus.</example>
+    <example type="untouched">This <marker>can</marker> usually should not be used as a test.</example>
     <example type="ambiguous" inputform="can[can/MD,can/NN,can/VB,can/VBP]" outputform="can[can/MD]">This <marker>can</marker> only be eliminated.</example>
-    <example type="ambiguous" inputform="will[will/MD,will/NN:UN]" outputform="will[will/MD]">Her very being <marker>will</marker> always express the utmost ...</example><!-- TODO 'will' is also a lexical verb. -->
+    <example type="ambiguous" inputform="will[will/MD,will/NN:UN,will/VB,will/VBP]" outputform="will[will/MD]">Her very being <marker>will</marker> always express the utmost ...</example>
     </rule>
     <rule>
         <pattern>
@@ -1151,7 +1154,7 @@
       <example type="untouched">All <marker>can</marker> accommodate small aircraft.</example>
       <example type="untouched">Although the <marker>divers</marker> can gather pearls with no danger, …</example><!-- Archaic DT in removed.txt -->
       <example type="untouched">... near the eye that <marker>can be</marker> extended and which have...</example>
-      <example type="ambiguous" inputform="can[can/MD]" outputform="can[can/NN]">The <marker>can</marker> can hold the water.</example>
+      <example type="ambiguous" inputform="can[can/MD,can/NN,can/VB,can/VBP]" outputform="can[can/NN]">The <marker>can</marker> can hold the water.</example>
     </rule>
     <rule>
       <pattern>
@@ -1792,7 +1795,7 @@
         <example type="untouched">The Atlantic harbors petroleum and gas fields.</example>
         <example type="untouched">... even to build a gym, much less <marker>build the</marker> administration building.</example>
         <example type="ambiguous" inputform="dogs[dog/NNS,dog/VBZ]" outputform="dogs[dog/NNS]">Today, the black <marker>dogs</marker> barks loudly.</example>
-        <example type="ambiguous" inputform="will[will/MD,will/NN:UN]" outputform="will[will/NN:UN]">Undoubtedly, the general <marker>will</marker> is an important notion in Rousseau.</example>
+        <example type="ambiguous" inputform="will[will/MD,will/NN:UN,will/VB,will/VBP]" outputform="will[will/NN:UN]">Undoubtedly, the general <marker>will</marker> is an important notion in Rousseau.</example>
         <example type="ambiguous" inputform="course[course/NN:UN,course/VB,course/VBP]" outputform="course[course/NN:UN]">Panovsky's notion of the dialectic makes history follow a predetermined <marker>course</marker>.</example>
     </rule>
     
@@ -3693,7 +3696,7 @@
           <disambig action="filter" postag="NN.*|JJ.*"/>
           <example type="untouched">I do what I want to.</example>
           <example type="ambiguous" inputform="minds[mind/NNS,mind/VBZ]" outputform="minds[mind/NNS]">They should make up their <marker>minds</marker>!</example>
-          <example type="ambiguous" inputform="will[will/MD,will/NN:UN]" outputform="will[will/NN:UN]">Don't do anything against my <marker>will</marker>.</example>
+          <example type="ambiguous" inputform="will[will/MD,will/NN:UN,will/VB,will/VBP]" outputform="will[will/NN:UN]">Don't do anything against my <marker>will</marker>.</example>
         </rule>
         
         <rule id="PRPPOSS_VB_NN_VBZ" name="Possesive pronoun + verb/noun + verb sing/modal => noun">
@@ -4258,7 +4261,7 @@
             <token postag="VB.*" postag_regexp="yes"/>
           </pattern>
           <disambig postag="MD"/>
-          <example type="ambiguous" inputform="will[will/MD,will/NN:UN]" outputform="will[will/MD]">This road <marker>will</marker> designated.</example><!-- Although 'will designated' is not correct English, we can parse 'will' as MD. -->
+          <example type="ambiguous" inputform="will[will/MD,will/NN:UN,will/VB,will/VBP]" outputform="will[will/MD]">This road <marker>will</marker> designated.</example><!-- Although 'will designated' is not correct English, we can parse 'will' as MD. -->
           <example type="untouched">I will do it.</example>
           <example type="untouched">A person's will is an important document.</example>
           <example type="untouched">I was one who did not conform, and whose will could not be broken.</example>

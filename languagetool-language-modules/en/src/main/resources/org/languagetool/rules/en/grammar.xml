@@ -7616,7 +7616,7 @@ USA
             <example>You guys wait here.</example>
         </rule>
         <rule id="TWO_CONNECTED_MODAL_VERBS" name="Two modal verbs in a row (will can)">
-        <!-- Created by Tiago F. Santos, 2018-07-16. Edited by MFU 2019-02-22 -->
+        <!-- Created by Tiago F. Santos, 2018-07-16. Edited by MFU 2019-02-26 -->
             <antipattern>
                  <token/>
                  <token><match no='0'/></token>
@@ -7626,7 +7626,7 @@ USA
                 <token postag_regexp="yes" postag="NN(:UN?)?"/>
             </antipattern>
             <pattern>
-                 <token regexp="yes">c(an|ould)|w(ill|ould)|sh(ould|all)|m(ight|ay|ust)</token>
+                 <token regexp="yes">c(an|ould)|w(ill|ould)|sh(ould|all)|m(ight|ay|ust)<exception postag_regexp="yes" postag="NN.*"/></token>
                  <token regexp="yes" case_sensitive='yes'>c(an|ould)|w(ill|ould)|sh(ould|all)|m(ight|ay|ust)
                    <!--exception><match no='0'/></exception--></token><!-- TODO allow element match inside an exception -->
             </pattern>
@@ -7635,6 +7635,8 @@ USA
             <example><marker>Will Will</marker> notice this?</example>
             <example><marker>Will will</marker> notice this.</example>
             <example>I was one who did not conform, and whose <marker>will could</marker> not be broken.</example>
+            <example>This <marker>can will</marker> be used during the test.</example>
+            <example>Do you know that <marker>May will</marker> go to dancing school?</example>
         </rule>
         <rule id='COLLECTIVE_NOUN_VERB_AGREEMENT_VBP' name='a fleet of ships are (is)'>
             <antipattern><!-- what sort of curtains do you think -->
