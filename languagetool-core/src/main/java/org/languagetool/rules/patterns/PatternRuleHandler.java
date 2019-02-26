@@ -38,6 +38,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
   public static final String TYPE = "type";
 
   static final String MARKER_TAG = "<marker>";
+  static final String RAW_TAG = "raw_pos";
   static final String PLEASE_SPELL_ME = "<pleasespellme/>";
 
   private static final String EXTERNAL = "external";
@@ -54,6 +55,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
   private final List<DisambiguationPatternRule> ruleAntiPatterns = new ArrayList<>();
 
   private int subId;
+  private boolean interpretPosTagsPreDisambiguation;
 
   private boolean defaultOff;
   private boolean ruleGroupDefaultOff;
@@ -159,6 +161,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
       case PATTERN:
         startPattern(attrs);
         tokenCountForMarker = 0;
+        interpretPosTagsPreDisambiguation = YES.equals(attrs.getValue(RAW_TAG));
         break;
       case ANTIPATTERN:
         inAntiPattern = true;
@@ -550,7 +553,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
       if (tmpPatternTokens.size() > 0) {
         rule = new PatternRule(id, language, tmpPatternTokens, name,
                 message.toString(), shortMessage,
-                suggestionsOutMsg.toString(), phrasePatternTokens.size() > 1);
+                suggestionsOutMsg.toString(), phrasePatternTokens.size() > 1, interpretPosTagsPreDisambiguation);
         rule.setSourceFile(sourceFile);
       } else if (regex.length() > 0) {
         int flags = regexCaseSensitive ? 0 : Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE;

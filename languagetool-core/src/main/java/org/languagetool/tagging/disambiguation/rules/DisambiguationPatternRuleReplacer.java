@@ -56,6 +56,7 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
     List<PatternTokenMatcher> patternTokenMatchers = createElementMatchers();
 
     AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
+    AnalyzedTokenReadings[] preDisambigTokens = sentence.getTokens();
     AnalyzedTokenReadings[] whTokens = sentence.getTokens();
     int[] tokenPositions = new int[tokens.length + 1];
     int patternSize = patternTokenMatchers.size();
@@ -146,7 +147,7 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
       i++;
     }
     if (changed) {
-      return new AnalyzedSentence(whTokens);
+      return new AnalyzedSentence(whTokens, preDisambigTokens);
     }
     return sentence;
   }

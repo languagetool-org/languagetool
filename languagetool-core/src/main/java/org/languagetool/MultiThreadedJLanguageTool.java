@@ -219,7 +219,9 @@ public class MultiThreadedJLanguageTool extends JLanguageTool {
       AnalyzedSentence analyzedSentence = super.call();
       AnalyzedTokenReadings[] anTokens = analyzedSentence.getTokens();
       anTokens[anTokens.length - 1].setParagraphEnd();
-      analyzedSentence = new AnalyzedSentence(anTokens);  ///TODO: why???
+      AnalyzedTokenReadings[] preDisambigAnTokens = analyzedSentence.getPreDisambigTokens();
+      preDisambigAnTokens[anTokens.length - 1].setParagraphEnd();
+      analyzedSentence = new AnalyzedSentence(anTokens, preDisambigAnTokens);  ///TODO: why???
       return analyzedSentence;
     }
   }

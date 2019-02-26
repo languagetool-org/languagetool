@@ -49,6 +49,8 @@ public class PatternRule extends AbstractPatternRule {
 
   // This property is used for short-circuiting evaluation of the elementNo list order:
   private final boolean useList;
+  
+  private boolean interpretPosTagsPreDisambiguation;
 
   // Marks whether the rule is a member of a disjunctive set (in case of OR operation on phraserefs).
   private boolean isMemberOfDisjunctiveSet;
@@ -113,8 +115,20 @@ public class PatternRule extends AbstractPatternRule {
       List<PatternToken> patternTokens, String description,
       String message, String shortMessage, String suggestionsOutMsg,
       boolean isMember) {
+    this(id, language, patternTokens, description, message, shortMessage, suggestionsOutMsg, isMember, false);
+  }
+
+  /**
+   * @since 4.5
+   */
+  @Experimental
+  public PatternRule(String id, Language language,
+      List<PatternToken> patternTokens, String description,
+      String message, String shortMessage, String suggestionsOutMsg,
+      boolean isMember, boolean interpretPosTagsPreDisambiguation) {
     this(id, language, patternTokens, description, message, shortMessage, suggestionsOutMsg);
     this.isMemberOfDisjunctiveSet = isMember;
+    this.interpretPosTagsPreDisambiguation = interpretPosTagsPreDisambiguation;
   }
 
   @Experimental
@@ -158,6 +172,16 @@ public class PatternRule extends AbstractPatternRule {
     }
   }
 
+  /**
+   * Whether any POS tags from this rule should refer to the POS tags of the analyzed
+   * sentence *before* disambiguation.
+   * @since 4.5
+   */
+  @Experimental
+  boolean isInterpretPosTagsPreDisambiguation() {
+    return interpretPosTagsPreDisambiguation;
+  }
+  
   /**
    * Used for testing rules: only one of the set can match.
    * @return Whether the rule can non-match (as a member of disjunctive set of

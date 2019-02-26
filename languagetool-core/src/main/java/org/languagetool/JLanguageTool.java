@@ -926,7 +926,9 @@ public class JLanguageTool {
     if (cachedSentence != null) {
       return cachedSentence;
     } else {
-      AnalyzedSentence analyzedSentence = language.getDisambiguator().disambiguate(getRawAnalyzedSentence(sentence));
+      AnalyzedSentence raw = getRawAnalyzedSentence(sentence);
+      AnalyzedSentence disambig = language.getDisambiguator().disambiguate(raw);
+      AnalyzedSentence analyzedSentence = new AnalyzedSentence(disambig.getTokens(), raw.getTokens());
       if (language.getPostDisambiguationChunker() != null) {
         language.getPostDisambiguationChunker().addChunkTags(Arrays.asList(analyzedSentence.getTokens()));
       }

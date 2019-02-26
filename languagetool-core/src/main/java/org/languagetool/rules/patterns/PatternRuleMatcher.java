@@ -75,7 +75,8 @@ final public class PatternRuleMatcher extends AbstractPatternRulePerformer imple
       currentlyActiveRules.compute(key, (k, v) -> v == null ? 1 : v + 1);
     }
     try {
-      AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
+      boolean isPreDisambigMatch = rule instanceof PatternRule && ((PatternRule)rule).isInterpretPosTagsPreDisambiguation();
+      AnalyzedTokenReadings[] tokens = isPreDisambigMatch ? sentence.getPreDisambigTokensWithoutWhitespace() : sentence.getTokensWithoutWhitespace();
       List<Integer> tokenPositions = new ArrayList<>(tokens.length + 1);
       int patternSize = patternTokenMatchers.size();
       int limit = Math.max(0, tokens.length - patternSize + 1);

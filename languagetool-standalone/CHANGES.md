@@ -34,7 +34,10 @@
 
 #### General
   * bug fix: don't make `interpretAs` part of getTextWithMarkup() (#1393)
-
+  * Experimental new attribute `raw_pos` for the `<pattern>` element in `grammar.xml`.
+    If set to `yes`,  the `postag` will refer to the part-of-speech tags *before*
+    disambiguation.
+  
 #### HTTP API / LT server
   * Experimental new parameter `preferredLanguages`: up to a certain limit (currently
     50 characters), only these languages will be considered for language detection.
