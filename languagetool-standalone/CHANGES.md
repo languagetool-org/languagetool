@@ -13,7 +13,12 @@
   * added and improved rules
   * improved suggestions for typos that end with a dot (typically at the end of
     the sentence) - the dot is not included anymore 
-  
+
+#### Portuguese
+  * added and improved rules
+  * disambiguation improvements
+  * POS and spelling improvements
+
 #### Russian
   * added and improved rules
   * added many words without "yo" letter to POS dictionary
