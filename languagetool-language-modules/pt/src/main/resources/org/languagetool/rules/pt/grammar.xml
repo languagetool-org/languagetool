@@ -9512,7 +9512,9 @@ tokenizer spreadsheet in the forum	     -->
     <!--  Rule group made semi automatically with the Wikipedia list
 tokenizer spreadsheet in the forum	     -->
     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
-      <url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
+      <!--url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url-->
+      <!--url>https://www.normaculta.com.br/lista-dos-pleonasmos-mais-comuns/</url-->
+      <url>https://pt.everybodywiki.com/Lista_de_pleonasmos</url>
       <short>Pleonasmo.</short>
     <rule id='REDUNDANCY_CEGO' name="Pleonasmo: Cego dos olhos">
       <pattern>
@@ -9523,6 +9525,44 @@ tokenizer spreadsheet in the forum	     -->
       <message>Pleonasmo. Substitua por:</message>
         <suggestion>\1</suggestion>
       <example correction='cego'><marker>cego dos olhos</marker></example>
+    </rule>
+    <rule id='REDUNDANCY_SI_MESMO' name="Pleonasmo: Si mesmo">
+      <pattern>
+          <token>si</token>
+          <token inflected='yes'>mesmo</token>
+      </pattern>
+      <message>Pleonasmo. Substitua por:</message>
+        <suggestion>\1</suggestion>
+      <example correction='si'><marker>si mesmo</marker></example>
+    </rule>
+    <rule id='REDUNDANCY_AGORA_JA' name="Pleonasmo: Agora já">
+      <pattern>
+          <token>agora</token>
+          <token inflected='yes'>já</token>
+      </pattern>
+      <message>Pleonasmo. Substitua por:</message>
+        <suggestion>\1</suggestion>
+        <suggestion>\2</suggestion>
+      <example correction='agora|já'><marker>agora já</marker></example>
+    </rule>
+    <rule id='REDUNDANCY_PREPARAR_ANTES' name="Pleonasmo: Preparar antes">
+      <pattern>
+          <token regexp='yes' inflected='yes'>pre(?:parar|venir)|planejar</token>
+          <token min='0'>com</token>
+          <token regexp='yes'>antes|antecipadamente|antecedência</token>
+      </pattern>
+      <message>Pleonasmo. Substitua por:</message>
+        <suggestion>\1</suggestion>
+      <example correction='prevenir'><marker>prevenir antes</marker></example>
+    </rule>
+    <rule id='REDUNDANCY_JUNTO_COM' name="Pleonasmo: Junto com">
+      <pattern>
+          <token inflected='yes'>junto</token>
+          <token>com</token>
+      </pattern>
+      <message>Pleonasmo. Substitua por:</message>
+        <suggestion>\2</suggestion>
+      <example correction='com'><marker>junto com</marker></example>
     </rule>
     <rule id='REDUNDANCY_PALMAS' name="Pleonasmo: Bater palmas">
       <pattern>
@@ -9535,6 +9575,16 @@ tokenizer spreadsheet in the forum	     -->
       <message>Pleonasmo. Substitua por:</message>
         <suggestion>\1 \2</suggestion>
       <example correction='bater palmas'><marker>bater palmas com as mãos</marker></example>
+    </rule>
+    <rule id='REDUNDANCY_UNANIMES' name="Pleonasmo: Todos foram unânimes">
+      <pattern>
+          <token inflected='yes'>todo</token>
+          <token inflected='yes'>ser</token>
+          <token inflected='yes'>unânime</token>
+      </pattern>
+      <message>Pleonasmo. Substitua por:</message>
+        <suggestion>\2 \3</suggestion>
+      <example correction='foram unânimes'><marker>Todos foram unânimes</marker></example>
     </rule>
     <rule id='REDUNDANCY_CLIMATOLOGIA' name="Pleonasmo: Climatologia">
       <pattern>
@@ -9555,6 +9605,25 @@ tokenizer spreadsheet in the forum	     -->
       <message>Pleonasmo. Substitua por:</message>
         <suggestion>\1 \2</suggestion>
       <example correction='de chapéu'><marker>de chapéu na cabeça</marker></example>
+    </rule>
+    <rule id='REDUNDANCY_SEGUIR_EM_FRENTE' name="Pleonasmo: Seguir em frente">
+      <pattern>
+          <token inflected='yes'>seguir</token>
+          <token>em</token>
+          <token>frente</token>
+      </pattern>
+      <message>Pleonasmo. Substitua por:</message>
+        <suggestion>\1</suggestion>
+      <example correction='seguir'><marker>seguir em frente</marker></example>
+    </rule>
+    <rule id='REDUNDANCY_SEGUIR_EM_FRENTE' name="Pleonasmo: Voltar atrás">
+      <pattern>
+          <token inflected='yes'>voltar</token>
+          <token>atrás</token>
+      </pattern>
+      <message>Pleonasmo. Substitua por:</message>
+        <suggestion>\1</suggestion>
+      <example correction='voltar'><marker>voltar atrás</marker></example>
     </rule>
     <rule id='REDUNDANCY_MALUCO' name="Pleonasmo: Maluco">
       <pattern>
@@ -9643,6 +9712,46 @@ tokenizer spreadsheet in the forum	     -->
       <message>Pleonasmo. Substitua por:</message>
         <suggestion>\2</suggestion>
       <example correction='surpresa'><marker>inesperada surpresa</marker></example>
+    </rule>
+    <rule id='REDUNDANCY_INTRODUZIR_DENTRO' name="Pleonasmo: Introduzir dentro">
+      <pattern>
+          <token inflected='yes'>introduzir</token>
+          <token>dentro</token>
+      </pattern>
+      <message>Pleonasmo. Substitua por:</message>
+        <suggestion>\1</suggestion>
+      <example correction='introduzir'><marker>introduzir dentro</marker></example>
+    </rule>
+    <rule id='REDUNDANCY_INAUGURAR_NOVO' name="Pleonasmo: Inaugurar novo">
+      <pattern>
+          <token inflected='yes'>inaugurar</token>
+          <token min='0' regexp='yes'>[ao]s?|u[nm]a?s?</token>
+          <token inflected='yes'>novo</token>
+      </pattern>
+      <message>Pleonasmo. Substitua por:</message>
+        <suggestion>\1</suggestion>
+      <example correction='inaugurar novo'><marker>inaugurar novo</marker></example>
+    </rule>
+    <rule id='REDUNDANCY_PREPARAR_DE_ANTEMAO' name="Pleonasmo: Preparar de antemão">
+      <pattern>
+          <token inflected='yes'>preparar</token>
+          <token>de</token>
+          <token>antemão</token>
+      </pattern>
+      <message>Pleonasmo. Substitua por:</message>
+        <suggestion>\1</suggestion>
+      <example correction='preparar'><marker>preparar de antemão</marker></example>
+    </rule>
+    <rule id='REDUNDANCY_PISAR' name="Pleonasmo: Pisar com os pés">
+      <pattern>
+          <token regexp='yes' inflected='yes'>pisar|calcar</token>
+          <token>com</token>
+          <token min='0' regexp='yes'>[ao]s?|u[nm]a?s?</token>
+          <token regexp='yes'>pés?</token>
+      </pattern>
+      <message>Pleonasmo. Substitua por:</message>
+        <suggestion>\1</suggestion>
+      <example correction='preparar'><marker>preparar de antemão</marker></example>
     </rule>
     <rule id='REDUNDANCY_CONVIVER' name="Pleonasmo: Conviver juntos">
       <pattern>
@@ -28579,7 +28688,7 @@ TODO Write better examples
           <token regexp="yes">Tangu[iy]|Tangy</token>
       </pattern>
       <message>Escreva <suggestion>Bernez Tangi</suggestion> se se refere ao poeta bretão.</message>
-      <url>https://en.wikipedia.org/wiki/Bernez_Tangi</url>
+      <url>https://fr.wikipedia.org/wiki/Bernez_Tangi</url>
       <example correction="Bernez Tangi"><marker>Bernez Tanguy</marker></example>
     </rule>
     <rule>
@@ -29006,8 +29115,8 @@ TODO Write better examples
     </rule>
     <rule>
       <regexp case_sensitive="yes">Elisabeth (Selber|Selberth)\b</regexp>
-      <message>Pretende referir-se a <suggestion>Elisabeth Selbert</suggestion> (deutsche política)?</message>
-      <url>https://pt.wikipedia.org/wiki/Elisabeth_Selbert</url>
+      <message>Pretende referir-se a <suggestion>Elisabeth Selbert</suggestion> (política alemã)?</message>
+      <url>https://en.wikipedia.org/wiki/Elisabeth_Selbert</url>
       <example correction="Elisabeth Selbert"><marker>Elisabeth Selber</marker> foi uma das quatro "mães da Lei Básica".</example>
     </rule>
     <rule>
