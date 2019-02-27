@@ -19,7 +19,7 @@
  *
  */
 
-package org.languagetool.rules.spelling;
+package org.languagetool.rules.spelling.suggestions;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;

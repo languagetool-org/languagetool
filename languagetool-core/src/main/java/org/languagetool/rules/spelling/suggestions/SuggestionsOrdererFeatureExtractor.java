@@ -19,10 +19,10 @@
  *
  */
 
-package org.languagetool.rules.spelling.morfologik.suggestions_ordering;
+package org.languagetool.rules.spelling.suggestions;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.tuple.Pair;
+import org.apache.commons.lang3.tuple.Triple;
 import org.apache.commons.text.similarity.JaroWinklerDistance;
 import org.apache.commons.text.similarity.SimilarityScore;
 import org.jetbrains.annotations.NotNull;
@@ -31,8 +31,7 @@ import org.languagetool.Language;
 import org.languagetool.languagemodel.BaseLanguageModel;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.ngrams.LanguageModelUtils;
-import org.languagetool.rules.spelling.SuggestionChangesExperiment;
-import org.languagetool.rules.spelling.SuggestionsChanges;
+import org.languagetool.rules.spelling.morfologik.suggestions_ordering.DetailedDamerauLevenstheinDistance;
 import org.languagetool.rules.spelling.symspell.implementation.EditDistance;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,6 +39,12 @@ import org.slf4j.LoggerFactory;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * Computes features that can be stored for training a model to rank suggestions,
+ * or when using the same model for prediction
+ * Used directly by SuggestionChangesTest for the former,
+ * and as a superclass for the latter
+ */
 public class SuggestionsOrdererFeatureExtractor implements SuggestionsOrderer {
 
   private static final Logger logger = LoggerFactory.getLogger(SuggestionsOrdererFeatureExtractor.class);
@@ -62,7 +67,7 @@ public class SuggestionsOrdererFeatureExtractor implements SuggestionsOrderer {
     SuggestionChangesExperiment experiment = SuggestionsChanges.getInstance().getCurrentExperiment();
     topN = (Integer) experiment.parameters.getOrDefault("topN", -1);
     score = (String) experiment.parameters.get("score");
-    mistakeProb = (double) experiment.parameters.get("levenstheinProb");
+    mistakeProb = (double) experiment.parameters.getOrDefault("levenstheinProb", 1.0);
   }
 
   @Override
@@ -75,9 +80,17 @@ public class SuggestionsOrdererFeatureExtractor implements SuggestionsOrderer {
     return computeFeatures(suggestions, word, sentence, startPos).getLeft();
   }
 
-  public Pair<List<String>, List<SortedMap<String, Float>>> computeFeatures(List<String> suggestions, String word, AnalyzedSentence sentence, int startPos) {
+  /**
+   * compute features for training or prediction of a ranking model for suggestions
+   * @param suggestions
+   * @param word
+   * @param sentence
+   * @param startPos
+   * @return correction candidates, features for the match in general, features specific to candidates
+   */
+  public Triple<List<String>, SortedMap<String, Float>, List<SortedMap<String, Float>>> computeFeatures(List<String> suggestions, String word, AnalyzedSentence sentence, int startPos) {
     if (suggestions.isEmpty()) {
-      return Pair.of(Collections.emptyList(), Collections.emptyList());
+      return Triple.of(Collections.emptyList(), Collections.emptySortedMap(), Collections.emptyList());
     }
     if (topN <= 0) {
       topN = suggestions.size();
@@ -91,42 +104,44 @@ public class SuggestionsOrdererFeatureExtractor implements SuggestionsOrderer {
     for (String candidate : topSuggestions) {
       double prob1 = languageModel.getPseudoProbability(Collections.singletonList(candidate)).getProb();
       double prob3 = LanguageModelUtils.get3gramProbabilityFor(language, languageModel, startPos, sentence, candidate);
-      // TODO: try-catch, test if 4grams available
-      double prob4 = LanguageModelUtils.get4gramProbabilityFor(language, languageModel, startPos, sentence, candidate);
+      //double prob4 = LanguageModelUtils.get4gramProbabilityFor(language, languageModel, startPos, sentence, candidate);
       long wordCount = ((BaseLanguageModel) languageModel).getCount(candidate);
       int levenstheinDist = levenstheinDistance.compare(candidate, 3);
       double jaroWrinklerDist = jaroWrinklerDistance.apply(word, candidate);
       DetailedDamerauLevenstheinDistance.Distance detailedDistance = DetailedDamerauLevenstheinDistance.compare(word, candidate);
 
-      features.add(new Feature(prob1, prob3, prob4, wordCount, levenstheinDist, detailedDistance, jaroWrinklerDist, candidate));
+      features.add(new Feature(prob1, prob3, wordCount, levenstheinDist, detailedDistance, jaroWrinklerDist, candidate));
     }
-    features.sort(Feature::compareTo);
-    logger.trace("Features for '%s' in '%s': %n", word, sentence.getText());
-    features.stream().map(Feature::toString).forEach(logger::trace);
-    //features
-    //  .stream().limit(10).forEachOrdered(f -> System.out.printf("Probabilities of suggestion '%20s': P_3 %.20f P_4 %.20f C_1 %20d%n",
-    //     f.getWord(), f.prob3gram, f.prob4gram, f.wordCount));
+    if (!"noop".equals(score)) {
+      features.sort(Feature::compareTo);
+    }
+    //logger.trace("Features for '%s' in '%s': %n", word, sentence.getText());
+    //features.stream().map(Feature::toString).forEach(logger::trace);
     List<String> words = features.stream().map(Feature::getWord).collect(Collectors.toList());
-    List<SortedMap<String, Float>> data = features.stream().map(Feature::getData).collect(Collectors.toList());
-    return Pair.of(words, data);
+
+    // compute general features, not tied to candidates
+    SortedMap<String, Float> matchData = new TreeMap<>();
+    matchData.put("candidateCount", (float) words.size());
+
+    List<SortedMap<String, Float>> suggestionsData = features.stream().map(Feature::getData).collect(Collectors.toList());
+    return Triple.of(words, matchData, suggestionsData);
   }
 
 
   class Feature implements Comparable<Feature>{
     private final double prob1gram;
     private final double prob3gram;
-    private final double prob4gram;
+    //private final double prob4gram;
     private final long wordCount;
     private final int levenshteinDistance;
     private final DetailedDamerauLevenstheinDistance.Distance detailedDistance;
     private final double jaroWrinklerDistance;
     private final String word;
 
-    Feature(double prob1, double prob3, double prob4, long wordCount, int levenshteinDistance,
+    Feature(double prob1, double prob3, long wordCount, int levenshteinDistance,
             DetailedDamerauLevenstheinDistance.Distance detailedDistance, double jaroWrinklerDistance, String word) {
       this.prob1gram = prob1;
       this.prob3gram = prob3;
-      this.prob4gram = prob4;
       this.wordCount = wordCount;
       this.levenshteinDistance = levenshteinDistance;
       this.detailedDistance = detailedDistance;
@@ -167,7 +182,7 @@ public class SuggestionsOrdererFeatureExtractor implements SuggestionsOrderer {
       } else if ("ngrams+binomialLevensthein".equals(score)) {
         double misspellingProb = binomialProbability(mistakeProb, word.length(), levenshteinDistance);
         return ngramProb + Math.log(misspellingProb);
-      } else if ("nop".equals(score)) {
+      } else if ("noop".equals(score)) {
         return 0;
       } else {
         throw new RuntimeException("Unknown scoring method: " + score);
@@ -192,7 +207,6 @@ public class SuggestionsOrdererFeatureExtractor implements SuggestionsOrderer {
       SortedMap<String, Float> data = new TreeMap<>();
       data.put("prob1gram", (float) prob1gram);
       data.put("prob3gram", (float) prob3gram);
-      data.put("prob4gram", (float) prob4gram);
       data.put("wordCount", (float) wordCount);
       data.put("levensthein", (float) levenshteinDistance);
       data.put("jaroWrinkler", (float) jaroWrinklerDistance);
@@ -201,6 +215,7 @@ public class SuggestionsOrdererFeatureExtractor implements SuggestionsOrderer {
       data.put("replaces", (float) detailedDistance.replaces);
       data.put("transposes", (float) detailedDistance.transposes);
       data.put("wordLength", (float) word.length());
+      // TODO: new features: at sentence start / end;
       return data;
     }
   }

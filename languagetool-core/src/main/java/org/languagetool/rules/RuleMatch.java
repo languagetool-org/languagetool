@@ -59,11 +59,11 @@ public class RuleMatch implements Comparable<RuleMatch> {
   }
 
   private final Rule rule;
-  private final OffsetPosition offsetPosition;
   private final String message;
   private final String shortMessage;   // used e.g. for OOo/LO context menu
   private final AnalyzedSentence sentence;
 
+  private OffsetPosition offsetPosition;
   private LinePosition linePosition = new LinePosition(-1, -1);
   private ColumnPosition columnPosition = new ColumnPosition(-1, -1);
   private List<SuggestedReplacement> suggestedReplacements = new ArrayList<>();
@@ -230,6 +230,13 @@ public class RuleMatch implements Comparable<RuleMatch> {
    */
   public int getToPos() {
     return offsetPosition.getEnd();
+  }
+
+  public void setOffsetPosition(int fromPos, int toPos) {
+    if (toPos <= fromPos) {
+      throw new RuntimeException("fromPos (" + fromPos + ") must be less than toPos (" + toPos + ")");
+    }
+    this.offsetPosition = new OffsetPosition(fromPos, toPos);
   }
 
   /**

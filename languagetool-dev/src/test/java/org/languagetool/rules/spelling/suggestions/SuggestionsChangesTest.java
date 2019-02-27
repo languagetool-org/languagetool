@@ -19,7 +19,7 @@
  *
  */
 
-package org.languagetool.rules.spelling;
+package org.languagetool.rules.spelling.suggestions;
 
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParser;
@@ -54,16 +54,11 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
 /**
- * needs to run with classpath of languagetool-standalone (needs access to modules for single languages)
- * configure via java properties (i.e. -Dproperty=value on command line)
- * correctionsFileLocation: path to csv dump with corrections data; created via
- * select sentence, suggestion_pos, covered, replacement, language from corrections where rule_id = "..." and sentence <> "" and sentence is not null
- * languages: restrict languages that are tested; comma-separated list of language codes
- * suggestionsTestMode: Test original (A), updated (B) or both (AB) suggestion algorithms. Some changes may not be able to run in AB mode
- * SuggestionsChange: name of the change to test (use this when writing your own tests)
- * SuggestionsChangesTestAlternativeEnabled: set by this class - 0 for A, 1 for B
- * ngramLocation
- * <p>
+ * needs to run with classpath of languagetool-standalone (needs access to language modules)
+ * configure via JSON file, format specified in SuggestionChangesTestConfig.json
+ * specify path via JVM parameter -Dconfig=... (system property)
+ * used to create training data (features) for suggestion ranking models or test how code changes affect LT's performance
+ *
  * Prints results on interrupt, or after finishing.
  */
 @Ignore("Interactive test for evaluating changes to suggestions based on data")
@@ -113,7 +108,7 @@ public class SuggestionsChangesTest {
 
   static class SuggestionTestResultData {
     private final SuggestionTestData input;
-    private final List<RuleMatch> suggestions;
+    private final List<RuleMatch> suggestions; // results for each experiment, lists should match
 
     SuggestionTestResultData(SuggestionTestData input, List<RuleMatch> suggestions) {
       this.input = input;
@@ -129,6 +124,9 @@ public class SuggestionsChangesTest {
     }
   }
 
+  /**
+   * Worker thread that runs specified experiments on sentences read from the shared queue
+   */
   static class SuggestionTestThread extends Thread {
     private final Random sampler = new Random(0);
 
@@ -166,6 +164,7 @@ public class SuggestionsChangesTest {
 
     private void init(Language lang) {
       Iterator<SuggestionChangesExperiment> iterator = SuggestionsChanges.getInstance().getExperiments().iterator();
+      // parameters for experiments are shared via Singleton, so initialization must block
       synchronized (tasks) {
         SuggestionsChanges.getInstance().setCurrentExperiment(null);
         standardLt = new JLanguageTool(lang);
@@ -294,10 +293,6 @@ public class SuggestionsChangesTest {
     }
   }
 
-  /***
-   * TODO: document
-   * @throws IOException
-   */
   @Ignore("interactive")
   @Test
   public void testChanges() throws IOException, InterruptedException {
@@ -340,6 +335,7 @@ public class SuggestionsChangesTest {
       threads.add(worker);
     }
 
+    // Thread for writing results from worker threads into CSV
     Thread logger = new Thread(() -> {
       try {
         long messages = 0;
@@ -354,6 +350,7 @@ public class SuggestionsChangesTest {
             if (result != null && result.getSuggestions() != null &&
               !result.getSuggestions().isEmpty() && result.getSuggestions().stream()
               .noneMatch(m -> m.getSuggestedReplacements() == null || m.getSuggestedReplacements().size() == 0)) {
+
               List<Object> record = new ArrayList<>(Arrays.asList(
                 result.getInput().getSentence(), result.getInput().getCorrection(),
                 result.getInput().getCovered(), result.getInput().getReplacement(), datasetId));
@@ -361,7 +358,7 @@ public class SuggestionsChangesTest {
                 List<String> suggestions = match.getSuggestedReplacements();
                 List<String> reduced = suggestions.subList(0, Math.min(5, suggestions.size()));
                 record.add(mapper.writeValueAsString(reduced));
-                if (match instanceof ExtendedRuleMatch) {
+                if (match instanceof ExtendedRuleMatch) { // features extracted by SuggestionsOrdererFeatureExtractor
                   List<SortedMap<String, Float>> suggestionsMetadata = ((ExtendedRuleMatch) match).getSuggestedReplacementsMetadata();
                   SortedMap<String, Float> matchMetadata = ((ExtendedRuleMatch) match).getRuleMatchMetadata();
                   record.add(mapper.writeValueAsString(matchMetadata));
@@ -388,11 +385,12 @@ public class SuggestionsChangesTest {
     logger.setDaemon(true);
     logger.start();
 
+    // format straight from database dump
     String[] header = {"id", "sentence", "correction", "language", "rule_id", "suggestion_pos", "accept_language",
       "country", "region", "created_at", "updated_at", "covered", "replacement", "text_session_id", "client"};
 
-    Set<String> userLanguages = new HashSet<>();
     int datasetId = 0;
+    // read data, send to worker threads via queue
     for (SuggestionChangesDataset dataset : config.datasets) {
 
       writer.write(String.format("Evaluating dataset #%d: %s.%n", ++datasetId, dataset));
@@ -411,7 +409,7 @@ public class SuggestionsChangesTest {
           String covered = record.get("covered");
           String replacement = record.get("replacement");
           String sentence = record.get("sentence");
-          String correction = record.get("correction");
+          String correction = record.isSet("correction") ? record.get("correction") : "";
           String acceptLanguage = dataset.type.equals("dump") ? record.get("accept_language") : "";
 
           if (sentence == null || sentence.trim().isEmpty()) {
@@ -425,17 +423,18 @@ public class SuggestionsChangesTest {
             continue;
           }
 
+          // correction column missing in export from doccano; workaround
+          if (dataset.enforceCorrect && !record.isSet("correction")) {
+            throw new IllegalStateException("enforceCorrect in dataset configuration enabled," +
+              " but column 'correction' is not set for entry " + record);
+          }
+
           if (dataset.type.equals("dump") && dataset.enforceAcceptLanguage) {
             if (acceptLanguage != null) {
               String[] entries = acceptLanguage.split(",", 2);
               if (entries.length == 2) {
                 String userLanguage = entries[0]; // TODO: what to do with e.g. de-AT,de-DE;...
                 if (!config.language.equals(userLanguage)) {
-                  //if (!userLanguages.contains(userLanguage)) {
-                  //  userLanguages.add(userLanguage);
-                  //  System.out.printf("Ignoring samples by user with preferred language %s; " +
-                  //    "only allowing %s because of enforceAcceptLanguage setting.%n", userLanguage, config.language);
-                  //}
                   continue;
                 }
               }
@@ -452,6 +451,7 @@ public class SuggestionsChangesTest {
       t.join();
     }
     logger.join(10000L);
+    logger.interrupt();
     datasetWriter.close();
   }
 }

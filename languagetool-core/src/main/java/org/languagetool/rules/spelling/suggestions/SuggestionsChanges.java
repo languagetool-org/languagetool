@@ -19,7 +19,7 @@
  *
  */
 
-package org.languagetool.rules.spelling;
+package org.languagetool.rules.spelling.suggestions;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.jetbrains.annotations.NotNull;

@@ -24,17 +24,15 @@ package org.languagetool.rules.spelling;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
-import org.apache.commons.lang3.tuple.Pair;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
 import org.languagetool.databroker.ResourceDataBroker;
 import org.languagetool.languagemodel.LanguageModel;
-import org.languagetool.rules.ExtendedRuleMatch;
 import org.languagetool.rules.RuleMatch;
-import org.languagetool.rules.spelling.morfologik.suggestions_ordering.SuggestionsOrderer;
-import org.languagetool.rules.spelling.morfologik.suggestions_ordering.SuggestionsOrdererFeatureExtractor;
-import org.languagetool.rules.spelling.morfologik.suggestions_ordering.SuggestionsRanker;
+import org.languagetool.rules.spelling.suggestions.SuggestionsChanges;
+import org.languagetool.rules.spelling.suggestions.SuggestionsOrderer;
+import org.languagetool.rules.spelling.suggestions.SuggestionsOrdererFeatureExtractor;
 import org.languagetool.rules.spelling.symspell.implementation.SuggestItem;
 import org.languagetool.rules.spelling.symspell.implementation.SuggestionStage;
 import org.languagetool.rules.spelling.symspell.implementation.SymSpell;
@@ -240,63 +238,9 @@ public class SymSpellRule extends SpellingCheckRule {
         userCandidates.size() > 0 && userCandidates.get(0).equals(word))) {
         RuleMatch match = new RuleMatch(this, sentence, token.getStartPos(), token.getEndPos(), "Misspelling!");
 
-        if (orderer != null) {
-          if (orderer instanceof SuggestionsRanker) {
-            // don't rank words form user dictionary, assign confidence 0.0, but add at start
-            // hard to ensure performance on unknown words
-            SuggestionsRanker ranker = (SuggestionsRanker) orderer;
-            Pair<List<String>, List<Float>> defaultSuggestions = ranker.rankSuggestions(
-              candidates, word, sentence, token.getStartPos());
-            ExtendedRuleMatch extendedRuleMatch = new ExtendedRuleMatch(match);
-
-            if (userCandidates.size() == 0) {
-              extendedRuleMatch.setAutoCorrect(ranker.shouldAutoCorrect(defaultSuggestions));
-              extendedRuleMatch.setSuggestedReplacements(defaultSuggestions.getLeft());
-              extendedRuleMatch.setSuggestionConfidence(defaultSuggestions.getRight());
-            } else {
-              List<String> combinedSuggestions = new ArrayList<>();
-              List<Float> combinedConfidence = new ArrayList<>();
-              combinedSuggestions.addAll(userCandidates);
-              combinedSuggestions.addAll(defaultSuggestions.getLeft());
-              combinedConfidence.addAll(Collections.nCopies(userCandidates.size(), 0f));
-              combinedConfidence.addAll(defaultSuggestions.getRight());
-              extendedRuleMatch.setSuggestedReplacements(combinedSuggestions);
-              extendedRuleMatch.setSuggestionConfidence(combinedConfidence);
-              // no auto correct when words from personal dictionaries are included
-              extendedRuleMatch.setAutoCorrect(false);
-            }
-
-            match = extendedRuleMatch;
-          } else if (orderer instanceof SuggestionsOrdererFeatureExtractor) {
-            // computing features for words in user dictionaries is unproblematic
-            SuggestionsOrdererFeatureExtractor featureExtractor = (SuggestionsOrdererFeatureExtractor) orderer;
-            Pair<List<String>, List<SortedMap<String, Float>>> defaultSuggestions = featureExtractor.computeFeatures(
-              candidates, word, sentence, token.getStartPos());
-            Pair<List<String>, List<SortedMap<String, Float>>> userSuggestions = featureExtractor.computeFeatures(
-              userCandidates, word, sentence, token.getStartPos());
-
-            // prefer suggestions from user dictionary
-            List<String> combinedSuggestions = new ArrayList<>();
-            List<SortedMap<String, Float>> combinedFeatures = new ArrayList<>();
-            combinedSuggestions.addAll(userSuggestions.getLeft());
-            combinedSuggestions.addAll(defaultSuggestions.getLeft());
-            combinedFeatures.addAll(userSuggestions.getRight());
-            combinedFeatures.addAll(defaultSuggestions.getRight());
-
-            ExtendedRuleMatch extendedRuleMatch = new ExtendedRuleMatch(match);
-            extendedRuleMatch.setSuggestedReplacements(combinedSuggestions);
-            extendedRuleMatch.setSuggestedReplacementsMetadata(combinedFeatures);
-            match = extendedRuleMatch;
-          } else {
-            List<String> combinedSuggestions = new ArrayList<>();
-            combinedSuggestions.addAll(orderer.orderSuggestionsUsingModel(userCandidates, word, sentence, token.getStartPos()));
-            combinedSuggestions.addAll(orderer.orderSuggestionsUsingModel(candidates, word, sentence, token.getStartPos()));
-            match.setSuggestedReplacements(combinedSuggestions);
-          }
-        } else {
-          match.setSuggestedReplacements(candidates);
-        }
-        matches.add(match);
+        RuleMatch matchWithSuggestions = addSuggestionsToRuleMatch(token.getToken(),
+          userCandidates, candidates, orderer, match);
+        matches.add(matchWithSuggestions);
       }
     }
     return matches.toArray(new RuleMatch[0]);
