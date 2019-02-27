@@ -384,6 +384,24 @@
       <disambig action="filterall"/>
     </rule>
 
+  <rulegroup id="ADVERB_VERB_NOUN" name="Via: Advérbio + Verbo/Nome">
+    <!-- Created by Tiago F. Santos, Portuguese rule, 2019-02-27  -->
+    <rule>
+      <pattern>
+          <token postag="R.+" postag_regexp="yes">
+            <exception scope='previous' postag="(A|D).+" postag_regexp="yes"/>
+            <exception postag="(A|D).+" postag_regexp="yes"/></token>
+        <marker>
+        <and>
+          <token postag="N.+" postag_regexp="yes"/>
+          <token postag="V.+" postag_regexp="yes"/>
+        </and>
+        </marker>
+      </pattern>
+      <disambig action="filter" postag="V.+"/>
+    </rule>
+  </rulegroup>
+
     <rule id="DET_SUBST" name="det|pron + subst|adx (det + subst|adx)">
       <pattern>
           <token>
