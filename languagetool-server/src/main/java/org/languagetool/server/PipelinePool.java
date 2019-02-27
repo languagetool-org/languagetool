@@ -43,6 +43,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Caches pre-configured JLanguageTool instances to avoid costly setup time of rules, etc.
+ * TODO: reimplement using apache commons KeyedObjectPool
  */
 class PipelinePool {
 

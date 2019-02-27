@@ -26,7 +26,7 @@ import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.en.MorfologikAmericanSpellerRule;
 import org.languagetool.rules.en.UnitConversionRuleUS;
-import org.languagetool.rules.spelling.SuggestionsChanges;
+import org.languagetool.rules.spelling.suggestions.SuggestionsChanges;
 import org.languagetool.rules.spelling.SymSpellRule;
 
 import java.io.IOException;

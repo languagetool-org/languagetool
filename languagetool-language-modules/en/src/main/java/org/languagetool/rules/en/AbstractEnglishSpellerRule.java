@@ -95,8 +95,9 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
   }
 
   @Override
-  protected List<RuleMatch> getRuleMatches(String word, int startPos, AnalyzedSentence sentence, List<RuleMatch> ruleMatchesSoFar) throws IOException {
-    List<RuleMatch> ruleMatches = super.getRuleMatches(word, startPos, sentence, ruleMatchesSoFar);
+  protected List<RuleMatch> getRuleMatches(AnalyzedTokenReadings token, AnalyzedSentence sentence, List<RuleMatch> ruleMatchesSoFar) throws IOException {
+    String word = token.getToken();
+    List<RuleMatch> ruleMatches = super.getRuleMatches(token, sentence, ruleMatchesSoFar);
     if (ruleMatches.size() > 0) {
       // so 'word' is misspelled: 
       IrregularForms forms = getIrregularFormsOrNull(word);

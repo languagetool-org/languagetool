@@ -19,19 +19,18 @@
 
 package org.languagetool.rules.spelling.morfologik;
 
-import org.apache.commons.lang3.tuple.Pair;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.Categories;
-import org.languagetool.rules.ExtendedRuleMatch;
 import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.spelling.SpellingCheckRule;
-import org.languagetool.rules.spelling.SuggestionsChanges;
-import org.languagetool.rules.spelling.morfologik.suggestions_ordering.SuggestionsOrderer;
-import org.languagetool.rules.spelling.morfologik.suggestions_ordering.SuggestionsOrdererFeatureExtractor;
+import org.languagetool.rules.spelling.suggestions.SuggestionsChanges;
+import org.languagetool.rules.spelling.suggestions.SuggestionsOrderer;
+import org.languagetool.rules.spelling.suggestions.SuggestionsOrdererFeatureExtractor;
 import org.languagetool.rules.spelling.morfologik.suggestions_ordering.SuggestionsOrdererGSoC;
+import org.languagetool.rules.spelling.suggestions.XGBoostSuggestionsOrderer;
 import org.languagetool.tools.Tools;
 
 import java.io.IOException;
@@ -49,7 +48,8 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
   protected Locale conversionLocale;
 
   private final SuggestionsOrderer suggestionsOrderer;
-  
+  private final boolean runningExperiment;
+
   private boolean ignoreTaggedWords = false;
   private boolean checkCompound = false;
   private Pattern compoundRegex = Pattern.compile("-");
@@ -86,8 +86,13 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
 
     if (SuggestionsChanges.isRunningExperiment("NewSuggestionsOrderer")) {
       suggestionsOrderer = new SuggestionsOrdererFeatureExtractor(language, this.languageModel);
-    } else {
+      runningExperiment = true;
+    } else if (SuggestionsChanges.isRunningExperiment("SuggestionsOrdererGSOC")){
       suggestionsOrderer = new SuggestionsOrdererGSoC(language, this.languageModel, this.getId());
+      runningExperiment = true;
+    } else {
+      runningExperiment = false;
+      suggestionsOrderer = new XGBoostSuggestionsOrderer(language, languageModel);
     }
   }
 
@@ -137,20 +142,19 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
       // if we use token.getToken() we'll get ignored characters inside and speller will choke
       String word = token.getAnalyzedToken(0).getToken();
       if (tokenizingPattern() == null) {
-        ruleMatches.addAll(getRuleMatches(word, token.getStartPos(), sentence, ruleMatches));
+        ruleMatches.addAll(getRuleMatches(token, sentence, ruleMatches));
       } else {
         int index = 0;
         Matcher m = tokenizingPattern().matcher(word);
         while (m.find()) {
           String match = word.subSequence(index, m.start()).toString();
-          ruleMatches.addAll(getRuleMatches(match, token.getStartPos() + index, sentence, ruleMatches));
+          ruleMatches.addAll(getRuleMatches(token, sentence, ruleMatches));
           index = m.end();
         }
         if (index == 0) { // tokenizing char not found
-          ruleMatches.addAll(getRuleMatches(word, token.getStartPos(), sentence, ruleMatches));
+          ruleMatches.addAll(getRuleMatches(token, sentence, ruleMatches));
         } else {
-          ruleMatches.addAll(getRuleMatches(word.subSequence(
-              index, word.length()).toString(), token.getStartPos() + index, sentence, ruleMatches));
+          ruleMatches.addAll(getRuleMatches(token, sentence, ruleMatches));
         }
       }
     }
@@ -205,20 +209,19 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     return true;
   }
 
-  protected List<RuleMatch> getRuleMatches(String word, int startPos, AnalyzedSentence sentence, List<RuleMatch> ruleMatchesSoFar) throws IOException {
+  protected List<RuleMatch> getRuleMatches(AnalyzedTokenReadings token, AnalyzedSentence sentence, List<RuleMatch> ruleMatchesSoFar) throws IOException {
+    String word = token.getToken();
     List<RuleMatch> ruleMatches = new ArrayList<>();
     if (isMisspelled(speller1, word) || isProhibited(word)) {
       RuleMatch ruleMatch;
       Language acceptingLanguage = acceptedInAlternativeLanguage(word);
       if (acceptingLanguage != null) {
         // e.g. "Der Typ ist in UK echt famous" -> could be German 'famos'
-        ruleMatch = new RuleMatch(this, sentence, startPos, startPos
-                + word.length(),
+        ruleMatch = new RuleMatch(this, sentence, token.getStartPos(), token.getEndPos(),
                 Tools.i18n(messages, "accepted_in_alt_language", word, messages.getString(acceptingLanguage.getShortCode())));
         ruleMatch.setType(RuleMatch.Type.Hint);
       } else {
-        ruleMatch = new RuleMatch(this, sentence, startPos, startPos
-                + word.length(), messages.getString("spelling"),
+        ruleMatch = new RuleMatch(this, sentence, token.getStartPos(), token.getEndPos(), messages.getString("spelling"),
                 messages.getString("desc_spelling_short"));
       }
       boolean fullResults = SuggestionsChanges.getInstance() != null &&
@@ -227,34 +230,46 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
           .parameters.getOrDefault("fullSuggestionCandidates", Boolean.FALSE);
 
       if (userConfig == null || userConfig.getMaxSpellingSuggestions() == 0 || ruleMatchesSoFar.size() <= userConfig.getMaxSpellingSuggestions()) {
-        List<String> suggestions = speller1.getSuggestions(word);
+        List<String> defaultSuggestions = speller1.getSuggestionsFromDefaultDicts(word);
+        List<String> userSuggestions = speller1.getSuggestionsFromUserDicts(word);
         //System.out.println("speller1: " + suggestions);
-        if (word.length() >= 3 && (fullResults || suggestions.isEmpty())) {
+        if (word.length() >= 3 && (fullResults || defaultSuggestions.isEmpty())) {
           // speller1 uses a maximum edit distance of 1, it won't find suggestion for "garentee", "greatful" etc.
           //System.out.println("speller2: " + speller2.getSuggestions(word));
-          suggestions.addAll(speller2.getSuggestions(word));
-          if (word.length() >= 5 && (fullResults || suggestions.isEmpty())) {
+          defaultSuggestions.addAll(speller2.getSuggestionsFromDefaultDicts(word));
+          userSuggestions.addAll(speller2.getSuggestionsFromUserDicts(word));
+          if (word.length() >= 5 && (fullResults || defaultSuggestions.isEmpty())) {
             //System.out.println("speller3: " + speller3.getSuggestions(word));
-            suggestions.addAll(speller3.getSuggestions(word));
+            defaultSuggestions.addAll(speller3.getSuggestionsFromDefaultDicts(word));
+            userSuggestions.addAll(speller3.getSuggestionsFromUserDicts(word));
           }
         }
         //System.out.println("getAdditionalTopSuggestions(suggestions, word): " + getAdditionalTopSuggestions(suggestions, word));
-        suggestions.addAll(0, getAdditionalTopSuggestions(suggestions, word));
+        defaultSuggestions.addAll(0, getAdditionalTopSuggestions(defaultSuggestions, word));
         //System.out.println("getAdditionalSuggestions(suggestions, word): " + getAdditionalSuggestions(suggestions, word));
-        suggestions.addAll(getAdditionalSuggestions(suggestions, word));
-        if (!suggestions.isEmpty()) {
-          filterSuggestions(suggestions);
-          if (suggestionsOrderer instanceof SuggestionsOrdererFeatureExtractor) {
-            SuggestionsOrdererFeatureExtractor featureExtractor = (SuggestionsOrdererFeatureExtractor) suggestionsOrderer;
-            Pair<List<String>, List<SortedMap<String, Float>>> features = featureExtractor.computeFeatures(suggestions, word,
-              sentence, startPos);
-            ruleMatch.setSuggestedReplacements(features.getLeft());
-            ruleMatch = new ExtendedRuleMatch(ruleMatch);
-            ((ExtendedRuleMatch) ruleMatch).setSuggestedReplacementsMetadata(features.getRight());
+        defaultSuggestions.addAll(getAdditionalSuggestions(defaultSuggestions, word));
+        if (!(defaultSuggestions.isEmpty() && userSuggestions.isEmpty())) {
+          filterSuggestions(defaultSuggestions);
+          filterDupes(userSuggestions);
+          // use suggestionsOrderer only w/ A/B - Testing or manually enabled experiments
+          if (runningExperiment) {
+            ruleMatch = addSuggestionsToRuleMatch(token.getToken(),
+              userSuggestions, defaultSuggestions, suggestionsOrderer, ruleMatch);
+          } else if (userConfig != null && userConfig.getAbTest() != null &&
+            userConfig.getAbTest().equals("SuggestionsRanker") &&
+            suggestionsOrderer.isMlAvailable() && userConfig.getTextSessionId() != null) {
+            boolean testingA = userConfig.getTextSessionId() % 2 == 0;
+            if (testingA) {
+              ruleMatch = addSuggestionsToRuleMatch(token.getToken(),
+                userSuggestions, defaultSuggestions, null, ruleMatch);
+            } else {
+              ruleMatch = addSuggestionsToRuleMatch(token.getToken(),
+                userSuggestions, defaultSuggestions, suggestionsOrderer, ruleMatch);
+            }
           } else {
-            ruleMatch.setSuggestedReplacements(orderSuggestions(suggestions, word, sentence, startPos));
+            ruleMatch = addSuggestionsToRuleMatch(token.getToken(),
+              userSuggestions, defaultSuggestions, null, ruleMatch);
           }
-          //System.out.println("orderSuggestions(suggestions, word, sentence, startPos): " + orderSuggestions(suggestions, word, sentence, startPos));
         }
       } else {
         // limited to save CPU

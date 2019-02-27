@@ -20,16 +20,20 @@ package org.languagetool.rules.spelling;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
-import org.jetbrains.annotations.NotNull;
+import org.apache.commons.lang3.tuple.Triple;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
 import org.languagetool.languagemodel.BaseLanguageModel;
 import org.languagetool.languagemodel.LanguageModel;
+import org.languagetool.rules.ExtendedRuleMatch;
 import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.PatternToken;
 import org.languagetool.rules.patterns.PatternTokenBuilder;
+import org.languagetool.rules.spelling.suggestions.SuggestionsOrderer;
+import org.languagetool.rules.spelling.suggestions.SuggestionsOrdererFeatureExtractor;
+import org.languagetool.rules.spelling.suggestions.SuggestionsRanker;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 import org.languagetool.tokenizers.WordTokenizer;
 import org.languagetool.tools.StringTools;
@@ -112,6 +116,87 @@ public abstract class SpellingCheckRule extends Rule {
     }
     this.altRules = getAlternativeLangSpellingRules(altLanguages);
     setLocQualityIssueType(ITSIssueType.Misspelling);
+  }
+
+  /**
+   *
+   * @param word misspelled word that suggestions should be generated for
+   * @param userCandidates candidates from personal dictionary
+   * @param candidates candidates from default dictionary
+   * @param orderer model to rank suggestions / extract features, or null
+   * @param match rule match to add suggestions to
+   * @return modified match with suggestions and (possibly) extracted features
+   */
+  protected static RuleMatch addSuggestionsToRuleMatch(String word, List<String> userCandidates, List<String> candidates,
+                                                       @Nullable SuggestionsOrderer orderer, RuleMatch match) {
+    AnalyzedSentence sentence = match.getSentence();
+    int startPos = match.getFromPos();
+    long startTime = System.currentTimeMillis();
+    RuleMatch result;
+    if (orderer != null && orderer.isMlAvailable()) {
+      if (orderer instanceof SuggestionsRanker) {
+        // don't rank words form user dictionary, assign confidence 0.0, but add at start
+        // hard to ensure performance on unknown words
+        SuggestionsRanker ranker = (SuggestionsRanker) orderer;
+        Pair<List<String>, List<Float>> defaultSuggestions = ranker.rankSuggestions(
+          candidates, word, sentence, startPos);
+        if (defaultSuggestions.getRight().isEmpty()) {
+          // could not rank for some reason
+          result = match;
+        } else {
+          ExtendedRuleMatch extendedRuleMatch = new ExtendedRuleMatch(match);
+          result = extendedRuleMatch;
+
+          if (userCandidates.size() == 0) {
+            extendedRuleMatch.setAutoCorrect(ranker.shouldAutoCorrect(defaultSuggestions));
+            extendedRuleMatch.setSuggestedReplacements(defaultSuggestions.getLeft());
+            extendedRuleMatch.setSuggestionConfidence(defaultSuggestions.getRight());
+          } else {
+            List<String> combinedSuggestions = new ArrayList<>();
+            List<Float> combinedConfidence = new ArrayList<>();
+            combinedSuggestions.addAll(userCandidates);
+            combinedSuggestions.addAll(defaultSuggestions.getLeft());
+            combinedConfidence.addAll(Collections.nCopies(userCandidates.size(), 0f));
+            combinedConfidence.addAll(defaultSuggestions.getRight());
+            extendedRuleMatch.setSuggestedReplacements(combinedSuggestions);
+            extendedRuleMatch.setSuggestionConfidence(combinedConfidence);
+            // no auto correct when words from personal dictionaries are included
+            extendedRuleMatch.setAutoCorrect(false);
+          }
+        }
+      } else if (orderer instanceof SuggestionsOrdererFeatureExtractor) {
+        // disable user suggestions here
+        // problem: how to merge match features when ranking default and user suggestions separately?
+        if (userCandidates.size() != 0) {
+          throw new IllegalStateException(
+            "SuggestionsOrdererFeatureExtractor does not support suggestions from personal dictionaries at the moment.");
+        }
+        SuggestionsOrdererFeatureExtractor featureExtractor = (SuggestionsOrdererFeatureExtractor) orderer;
+        Triple<List<String>, SortedMap<String, Float>, List<SortedMap<String, Float>>> suggestions =
+          featureExtractor.computeFeatures(candidates, word, sentence, startPos);
+
+        ExtendedRuleMatch extendedRuleMatch = new ExtendedRuleMatch(match);
+        result = extendedRuleMatch;
+        extendedRuleMatch.setSuggestedReplacements(suggestions.getLeft());
+        extendedRuleMatch.setRuleMatchMetadata(suggestions.getMiddle());
+        extendedRuleMatch.setSuggestedReplacementsMetadata(suggestions.getRight());
+      } else {
+        result = match;
+        List<String> combinedSuggestions = new ArrayList<>();
+        combinedSuggestions.addAll(orderer.orderSuggestionsUsingModel(userCandidates, word, sentence, startPos));
+        combinedSuggestions.addAll(orderer.orderSuggestionsUsingModel(candidates, word, sentence, startPos));
+        match.setSuggestedReplacements(combinedSuggestions);
+      }
+    } else { // no reranking
+      result = match;
+      List<String> combinedSuggestions = new ArrayList<>();
+      combinedSuggestions.addAll(userCandidates);
+      combinedSuggestions.addAll(candidates);
+      result.setSuggestedReplacements(combinedSuggestions);
+    }
+    long timeDelta = System.currentTimeMillis() - startTime;
+    //System.out.printf("Reordering %d suggestions took %d ms.%n", result.getSuggestedReplacements().size(), timeDelta);
+    return result;
   }
 
   @Override

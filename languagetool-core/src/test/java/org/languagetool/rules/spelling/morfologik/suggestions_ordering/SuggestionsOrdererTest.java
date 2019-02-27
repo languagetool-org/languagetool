@@ -31,6 +31,7 @@ import org.languagetool.Languages;
 import org.languagetool.language.Demo;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.spelling.suggestions.SuggestionsOrderer;
 
 import java.io.FileReader;
 import java.io.IOException;

@@ -26,6 +26,7 @@ import org.languagetool.Language;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.languagemodel.MockLanguageModel;
 import org.languagetool.rules.ngrams.GoogleTokenUtil;
+import org.languagetool.rules.spelling.suggestions.SuggestionsOrderer;
 
 import java.io.IOException;
 import java.io.InputStream;

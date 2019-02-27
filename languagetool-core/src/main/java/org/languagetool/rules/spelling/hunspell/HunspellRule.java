@@ -19,31 +19,28 @@
 
 package org.languagetool.rules.spelling.hunspell;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.util.*;
-import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
-
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
-
 import org.apache.commons.lang3.StringUtils;
 import org.languagetool.*;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.Categories;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.spelling.SpellingCheckRule;
-import org.languagetool.rules.spelling.SuggestionsChanges;
-import org.languagetool.rules.spelling.morfologik.suggestions_ordering.SuggestionsOrdererFeatureExtractor;
-import org.languagetool.rules.spelling.morfologik.suggestions_ordering.SuggestionsOrderer;
+import org.languagetool.rules.spelling.suggestions.SuggestionsChanges;
+import org.languagetool.rules.spelling.suggestions.SuggestionsOrderer;
+import org.languagetool.rules.spelling.suggestions.SuggestionsOrdererFeatureExtractor;
+import org.languagetool.rules.spelling.morfologik.suggestions_ordering.SuggestionsOrdererGSoC;
+import org.languagetool.rules.spelling.suggestions.XGBoostSuggestionsOrderer;
 import org.languagetool.tools.Tools;
+
+import java.io.*;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.util.*;
+import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * A hunspell-based spellchecking-rule.
@@ -58,6 +55,7 @@ public class HunspellRule extends SpellingCheckRule {
   private static final ConcurrentLinkedQueue<String> activeChecks = new ConcurrentLinkedQueue<>();
   protected final SuggestionsOrderer suggestionsOrderer;
   private final boolean monitorRules;
+  private final boolean runningExperiment;
 
   public static Queue<String> getActiveChecks() {
     return activeChecks;
@@ -101,8 +99,13 @@ public class HunspellRule extends SpellingCheckRule {
 
      if (SuggestionsChanges.isRunningExperiment("NewSuggestionsOrderer")) {
        suggestionsOrderer = new SuggestionsOrdererFeatureExtractor(language, this.languageModel);
+       runningExperiment = true;
+     } else if (SuggestionsChanges.isRunningExperiment("SuggestionsOrdererGSOC")){
+       suggestionsOrderer = new SuggestionsOrdererGSoC(language, this.languageModel, this.getId());
+       runningExperiment = true;
      } else {
-       suggestionsOrderer = null;
+       suggestionsOrderer = new XGBoostSuggestionsOrderer(language, languageModel);
+       runningExperiment = false;
      }
   }
 
@@ -205,25 +208,37 @@ public class HunspellRule extends SpellingCheckRule {
             filterSuggestions(suggestions);
             filterDupes(suggestions);
 
-            if(suggestionsOrderer != null && suggestionsOrderer.isMlAvailable()) {
-              List<String> oldSuggestions = new ArrayList<>(suggestions);
-              if (word.endsWith(".")) {
-                suggestions = suggestions.stream().map(s -> s.substring(0, s.length() - 1)).collect(Collectors.toList());
-                suggestions = suggestionsOrderer.orderSuggestionsUsingModel(suggestions, word.substring(0, word.length() - 1), sentence, len);
-                suggestions = suggestions.stream().map(s -> s + ".").collect(Collectors.toList());
+            // TODO user suggestions
+            List<String> cleanedSuggestions = suggestions;
+            if (word.endsWith(".")) {
+              cleanedSuggestions = suggestions.stream().map(s -> s.substring(0, s.length() - 1)).collect(Collectors.toList());
+            }
+
+            // use suggestionsOrderer only w/ A/B - Testing or manually enabled experiments
+            if (runningExperiment) {
+              ruleMatch = addSuggestionsToRuleMatch(word, Collections.emptyList(), cleanedSuggestions,
+                suggestionsOrderer, ruleMatch);
+            } else if (userConfig != null && userConfig.getAbTest() != null &&
+              userConfig.getAbTest().equals("SuggestionsRanker") &&
+              suggestionsOrderer.isMlAvailable() && userConfig.getTextSessionId() != null) {
+              boolean testingA = userConfig.getTextSessionId() % 2 == 0;
+              if (testingA) {
+                ruleMatch = addSuggestionsToRuleMatch(word, Collections.emptyList(), cleanedSuggestions,
+                  null, ruleMatch);
               } else {
-                suggestions = suggestionsOrderer.orderSuggestionsUsingModel(suggestions, word, sentence, len);
+                ruleMatch = addSuggestionsToRuleMatch(word, Collections.emptyList(), cleanedSuggestions,
+                  suggestionsOrderer, ruleMatch);
               }
-              //System.out.printf("Reordered suggestions (%s): %s -> %s%n", suggestionsOrderer.getClass().getSimpleName(), oldSuggestions, suggestions);
             } else {
-              //System.out.printf("Not reordering suggestions: %s%n", suggestions);
+              ruleMatch = addSuggestionsToRuleMatch(word, Collections.emptyList(), cleanedSuggestions,
+                null, ruleMatch);
             }
 
-            if (SuggestionsChanges.isRunningExperiment("sortAfterSuggestionOrderer")) {
-              suggestions = sortSuggestionByQuality(word, suggestions);
+            List<String> restoredSuggestions = ruleMatch.getSuggestedReplacements();
+            if (word.endsWith(".")) {
+              restoredSuggestions = restoredSuggestions.stream().map(s -> s + ".").collect(Collectors.toList());
             }
-
-            ruleMatch.setSuggestedReplacements(suggestions);
+            ruleMatch.setSuggestedReplacements(restoredSuggestions);
           } else {
             // limited to save CPU
             ruleMatch.setSuggestedReplacement(messages.getString("too_many_errors"));
