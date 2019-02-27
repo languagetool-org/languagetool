@@ -14,6 +14,9 @@
   * improved suggestions for typos that end with a dot (typically at the end of
     the sentence) - the dot is not included anymore 
 
+#### Galician
+  * added and improved rules
+
 #### Portuguese
   * added and improved rules
   * disambiguation improvements
