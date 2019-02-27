@@ -2840,12 +2840,16 @@
             <token postag="PRP"/>
             <marker>
                 <and>
-                    <token postag="MD"/>
+                    <token postag="MD">
+                        <exception>need</exception><!-- Not always MD: www.collinsdictionary.com/dictionary/english/need -->
+                        </token>
                     <token postag_regexp="yes" postag="NN.*"/>
                 </and>
             </marker>
         </pattern>
         <disambig><match no="2" postag="MD" postag_regexp="yes"/></disambig>
+        <example type="untouched">We need paid family and sick leave.</example>
+        <example type="ambiguous" inputform="might[might/MD,might/NN:U]" outputform="might[might/MD]">... and we <marker>might</marker> do this soon.</example>
     </rule>
     <rule name="PDT/DT -&gt; DT" id="PDT_DT">
         <pattern>

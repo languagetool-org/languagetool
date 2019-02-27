@@ -3676,11 +3676,17 @@ USA
         </rulegroup>
         <rulegroup id="ANY_BODY" name="any body (anybody)">
             <rule>
-                <antipattern>
+                <antipattern><!-- any one architectural movement -->
                     <token>any</token>
                     <token>one</token>
-                    <token postag="NN(:UN?)?|JJ" postag_regexp="yes"/>
-                    <token><exception postag="PRP"/></token>
+                    <token postag="NN(:UN?)?|JJ" postag_regexp="yes"><exception postag_regexp="yes" postag="VB.*"/></token>
+                    <token postag="NN(:UN?)?" postag_regexp="yes"><exception postag="PRP"/></token>
+                </antipattern>
+                <antipattern><!-- any one hand at -->
+                    <token>any</token>
+                    <token>one</token>
+                    <token postag="NN(:UN?)?" postag_regexp="yes"/>
+                    <token postag="IN"/>
                 </antipattern>
                 <pattern>
                     <marker>
@@ -3694,6 +3700,8 @@ USA
                 <example correction="anyone">Does <marker>any one</marker> need help here?</example>
                 <example correction="Anyone"><marker>Any one</marker> needs help here?</example>
                 <example correction="anyone">Can <marker>any one</marker> point me to the right direction?</example>
+                <example correction="someone">Come quickly; <marker>some one</marker> needs help here.</example>
+                <example correction="Someone"><marker>Some one</marker> occasionally was seen in the deserted building.</example>
                 <example>Smith was the American architect who refused to be classified in <marker>any one</marker> architectural movement.</example>
                 <example>The propositions of field theory do not concern <marker>any one</marker> particular application;</example>
                 <example>... 960 such combinations, and the chance of drawing <marker>any one</marker> hand at random is 1 / 2,598,960.</example>
