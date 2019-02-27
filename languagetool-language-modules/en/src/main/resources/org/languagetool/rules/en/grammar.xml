@@ -7237,6 +7237,20 @@ USA
             <example>Neon (<marker>Ne</marker>) is a gas</example>
             <example>Jean-Pierre Melville, <marker>né</marker> Grumbach, took his name from his favourite author.</example>
         </rule>
+        <rule id="OM" name="om (on)">
+            <pattern>
+                <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes">Hindu|Brahma|Vishnu|Siva|sacred|mystic</exception></token>
+                <marker>
+                     <token skip="-1" case_sensitive="yes">om<exception scope="next" regexp="yes">Hindu|Brahma|Vishnu|Siva|sacred|mystic</exception></token>
+                </marker>
+            <token postag="SENT_END"><exception scope="current" regexp="yes">Hindu|Brahma|Vishnu|Siva|sacred|mystic</exception></token>
+            </pattern>
+            <message>Make sure that '\2' refers to a mystic syllable and is not a spelling error. Do you mean <suggestion>on</suggestion>?</message>
+            <url>https://en.oxforddictionaries.com/definition/om</url>
+            <short>Possible typo</short>
+            <example correction="on">The test was <marker>om</marker> Thursday.</example>
+            <example>The word <marker>om</marker> is a sacred Hindu word.</example>
+        </rule>
     </category>
 
     <!-- ====================================================================== -->
