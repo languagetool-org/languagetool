@@ -133,7 +133,10 @@ public class UserConfig {
       .append(configurableRuleValues, other.configurableRuleValues)
       .append(userDictName, other.userDictName)
       .append(userSpecificSpellerWords, other.userSpecificSpellerWords)
-      // skipping abTest and textSessionId on purpose - not relevant for caching
+      // omitting these distorts A/B tests, as UserConfig is cached by the pipeline pool
+      // -> (cached) textSessionId on server may say group A, but ID on client (relevant for saved correction) says B
+      .append(textSessionId, other.textSessionId)
+      .append(abTest, other.abTest)
       .isEquals();
   }
 
