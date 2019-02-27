@@ -669,6 +669,24 @@
       <disambig action="filter" postag="PP.+"/>
     </rule>
 
+  <rulegroup id="ADVERB_VERBO_NOUN" name="Via: Advérbio + Verbo/Nome">
+    <!-- Created by Tiago F. Santos, Portuguese rule, 2019-02-27  -->
+    <rule>
+      <pattern>
+          <token postag="R.+" postag_regexp="yes">
+            <exception scope='previous' postag="(A|D).+" postag_regexp="yes"/>
+            <exception postag="(A|D).+" postag_regexp="yes"/></token>
+        <marker>
+        <and>
+          <token postag="N.+" postag_regexp="yes"/>
+          <token postag="V.+" postag_regexp="yes"/>
+        </and>
+        </marker>
+      </pattern>
+      <disambig action="filter" postag="V.+"/>
+    </rule>
+  </rulegroup>
+
     <rule id="PP_D_V" name="Pronome + Pronome + Verbo">
     <!-- Created by Tiago F. Santos, Portuguese rule, 2017-07-15  -->
       <pattern>
@@ -1867,7 +1885,7 @@
             <exception scope='previous' postag='SENT_START' postag_regexp='yes'/></token>
       </pattern>
       <disambig action="filter" postag="N.+"/>
-      <!--example inputform="Silva[Silva/NPCSG00,Silva/NPMSS00,silva/NCFS000]" outputform="Silva[Silva/NPCSG00,Silva/NPMSS00]" type="ambiguous">Isso são as ferramentas do <marker>Silva</marker>.</example XXX Works only for stricter rule (filter NP.+)-->
+    <!--example inputform="Silva[Silva/NPCSG00,Silva/NPMSS00,silva/NCFS000]" outputform="Silva[Silva/NPCSG00,Silva/NPMSS00]" type="ambiguous">Isso são as ferramentas do <marker>Silva</marker>.</example XXX Works only for stricter rule (filter NP.+)-->
       <example inputform="São[São/NPMS000,ser/VMIP3P0,são/AQ0MS0,são/NCMS000]" outputform="São[São/NPMS000,são/NCMS000]" type="ambiguous">Cidade do México, <marker>São</marker> Paulo e Nova Iorque.</example>
       <example type="untouched">Costa alentejana... que saudades…</example>
     </rule>
