@@ -59,6 +59,11 @@ public abstract class TextLevelRule extends Rule {
   }
 
   @Override
+  public int estimateContextForSureMatch() {
+    return -1;
+  }
+  
+  @Override
   public final RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
     throw new RuntimeException("Not implemented for a text-level rule");
   }

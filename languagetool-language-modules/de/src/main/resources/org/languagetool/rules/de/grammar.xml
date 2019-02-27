@@ -7713,7 +7713,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token regexp="yes">[0-9]+</token>
-                    <token regexp="yes">(wöch|teil|räum|köpf|monat|jähr|stünd)ig(e[mnrs]?)?</token>
+                    <token regexp="yes">(wöch|[zt]eil|räum|köpf|monat|jähr|stünd)ig(e[mnrs]?)?</token>
                 </pattern>
                 <message><suggestion>\1-\2</suggestion> wird mit Bindestrich geschrieben.</message>
                 <example correction='7-teiliges'>Ich biete ein <marker>7 teiliges</marker> Set zum Verkauf an.</example>
@@ -7721,7 +7721,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token postag="ZAL"/>
-                    <token regexp="yes">(wöch|teil|räum|köpf|monat|jähr|stünd)ig(e[mnrs]?)?</token>
+                    <token regexp="yes">(wöch|[zt]eil|räum|köpf|monat|jähr|stünd)ig(e[mnrs]?)?</token>
                 </pattern>
                 <message><suggestion>\1\2</suggestion> wird zusammengeschrieben.</message>
                 <example correction='fünfteiliges'>Ich biete ein <marker>fünf teiliges</marker> Set zum Verkauf an.</example>
@@ -40190,7 +40190,7 @@ Andere Projekte</example>
                     </marker>
                     <token><exception regexp="yes" inflected="yes">bekommen|finden|pochen|sprechen|einfordern</exception></token>
                 </pattern>
-                <message>Der Duden empfiehlt für das Wort "Recht" im Zusammenhang mit "recht haben" oder "recht geben" klein zu schreiben.</message>
+                <message>Der Duden empfiehlt, das Wort "Recht" im Zusammenhang mit "recht haben" oder "recht geben" klein zu schreiben.</message>
                 <suggestion><match no="2" case_conversion ="alllower"/></suggestion>
                 <example correction="recht">Er gab ihm <marker>Recht</marker>.</example>
                 <example correction="recht">Sie hatte wirklich <marker>Recht</marker>.</example>
