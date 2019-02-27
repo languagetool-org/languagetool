@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
 Russian Disambiguation Rules for LanguageTool (www.languagetool.org)
-Copyright (C) 2009-2017 Yakov Reztsov
+Copyright (C) 2009-2019 Yakov Reztsov
 -->
 <rules lang="ru"  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/resource/disambiguation.xsd">
@@ -269,6 +269,18 @@ Copyright (C) 2009-2017 Yakov Reztsov
             </marker>
         </pattern>
         <disambig action="remove" postag="ADJ:.*:.*:D"></disambig>
+    </rule>
+    <rule name="PT_P" id="PT_P">
+        <pattern>
+            <token regexp="yes">о|при</token>
+            <marker>
+                <and>
+                    <token postag="PT:.*:.*:D" postag_regexp="yes"></token>
+                    <token postag="PT:.*:.*:P" postag_regexp="yes"><exception postag="PT:.*:.*:V" postag_regexp="yes"></exception></token>
+                </and>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="PT:.*:.*:D"></disambig>
     </rule>
     <rule name="ADJ_P2_NOUN" id="ADJ_P2_NOUN">
         <pattern>
