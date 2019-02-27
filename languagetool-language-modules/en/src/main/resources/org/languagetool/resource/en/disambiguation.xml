@@ -2837,7 +2837,7 @@
     </rule>
     <rule name="PRP + MD/NN -&gt; MD" id="PRP_MD">
         <pattern>
-            <token postag="PRP"/>
+            <token postag="PRP"><exception postag="PRP$"/></token>
             <marker>
                 <and>
                     <token postag="MD">
@@ -2849,6 +2849,7 @@
         </pattern>
         <disambig><match no="2" postag="MD" postag_regexp="yes"/></disambig>
         <example type="untouched">We need paid family and sick leave.</example>
+        <example type="untouched">... and her will featured regularly in the lawyers' debates.</example>
         <example type="ambiguous" inputform="might[might/MD,might/NN:U]" outputform="might[might/MD]">... and we <marker>might</marker> do this soon.</example>
     </rule>
     <rule name="PDT/DT -&gt; DT" id="PDT_DT">
