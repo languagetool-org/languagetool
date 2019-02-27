@@ -1,7 +1,7 @@
 This dictionary was initially based on a subset of the
 original English wordlist created by Kevin Atkinson for
 Pspell and Aspell and thus is covered by his original
-LGPL licence. 
+LGPL licence.
 
 It has been extensively updated by David Bartlett, Brian Kelk,
 Andrew Brown and Marco A.G.Pinto:
@@ -10,7 +10,8 @@ Andrew Brown and Marco A.G.Pinto:
  — Missing words have been added;
  — Many errors have been corrected;
  — Compound hyphenated words have been added where appropriate;
- — Thousands of proper/places names have been added.
+ — Thousands of proper/places names have been added;
+ — Thousands of possessives have been added to nouns and proper names.
 
 Valuable inputs to this process were received from many other
 people — far too numerous to name. Serious thanks to you all
@@ -104,8 +105,15 @@ to
              This list was supplied by Michael Holroyd on Kevin Atkinson's GitHub.
            — Added tons of possessives to nouns, thanks to Jörg Knobloch.
 2018-12-01 — Added the cities from Canada:
-			  — https://en.wikipedia.org/wiki/List_of_cities_in_Canada	   
-			 
+			  — https://en.wikipedia.org/wiki/List_of_cities_in_Canada	   	 
+2019-02-01 — Improved flag "5" thanks to the GitHub user Ding-adong:
+             Some "swomen's" and "women's" entries were missing.
+		   — Fixed flag "3": -ists, -ists, -ist's → -ist, -ists, -ist's.
+		   — Improved flag "N".
+2019-03-01 — Added the LGPL_V3 License .txt into the Extension.
+		   — Ding-adong added a flag "=" for suffixes:  -lessness, -lessnesses, -lessness's.
+		   — Ding-adong changed the prefix flag "O" to "^" since "O" was both prefix and suffix.
+		   — Small fixes and enhancements on flags "z" and "O" by Ding-adong.		   
 -------
 
 MARCO A.G.PINTO:
@@ -120,8 +128,8 @@ The sources used to verify the spelling of the words I included in the dictionar
  1) Oxford Dictionaries;
  2) Collins Dictionary;
  3) Macmillan Dictionary;
- 4) Wiktionary (used with caution);
- 5) Wikipedia (used with caution);
+ 4) Wiktionary (used with caution ⚠);
+ 5) Wikipedia (used with caution ⚠);
  6) Physical dictionaries.
 
 Main difficulties developing this dictionary:
