@@ -4362,7 +4362,7 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes'>[dn]?[aeo]s?</token>
           <token spacebefore="yes" case_sensitive="yes" regexp="yes">\p{Lu}\p{Ll}+</token>
       </antipattern>
-      <!--antipattern>< Isolated unrecognized names. E.g. Outro romano, Tácito, ... XXX Either a rule for this or for the other situation>
+    <!--antipattern>< Isolated unrecognized names. E.g. Outro romano, Tácito, ... XXX Either a rule for this or for the other situation>
           <token regexp='yes'>[\,\;\:]</token>
           <token spacebefore="yes" case_sensitive="yes" regexp="yes">\p{Lu}\p{Ll}+</token>
           <token regexp='yes'>[\,\;\:]</token>
@@ -4383,14 +4383,14 @@ title="Easy editing stylesheet" ?>
         <suggestion>\1 <match no="2" case_conversion="alllower"/></suggestion>
         <suggestion>. \2</suggestion>
       <example correction=", chá|. Chá">Quero café<marker>, Chá</marker>, e gin.</example>
-   <!--example correction=", tácito|. Tácito|, Tácito,">Outro romano<marker>, Tácito</marker> analisou a vida das tribos germânicas, baseando-s...</example-->
-      <example>...ua e Barbuda, Bahamas, Barbados, Dominica, Granada, Santa Lúcia, São Cristóvão e Névis, São Vicente e Grana...</example>
-      <example>...mportação de produtos de países americanos — a TEC, Tarifa Externa Comum.</example>
-      <example>Ladislau batalha; Baudelaire; Guilherme Braga; D. João da Câmara; Camilo Castelo Branco; Júlio Din...</example>
-      <example>Peleu deu ainda ao seu filho um segundo preceptor, Fénix, um homem de grande sabedoria, que instruiu o prí...</example>
-      <example>...rasileira da Cultura, Edição Século XXI", Volume I, Editorial Verbo, Braga, Janeiro de 1998</example>
+    <!--example correction=", tácito|. Tácito|, Tácito,">Outro romano<marker>, Tácito</marker> analisou a vida das tribos germânicas, baseando-s...</example-->
+      <example>…ua e Barbuda, Bahamas, Barbados, Dominica, Granada, Santa Lúcia, São Cristóvão e Névis, São Vicente e Grana…</example>
+      <example>…mportação de produtos de países americanos — a TEC, Tarifa Externa Comum.</example>
+      <example>Ladislau batalha; Baudelaire; Guilherme Braga; D. João da Câmara; Camilo Castelo Branco; Júlio Din…</example>
+      <example>Peleu deu ainda ao seu filho um segundo preceptor, Fénix, um homem de grande sabedoria, que instruiu o prí…</example>
+      <example>…rasileira da Cultura, Edição Século XXI", Volume I, Editorial Verbo, Braga, Janeiro de 1998</example>
       <example>Anarcocapitalismo, Multinacionais e Contratos</example>
-      <example>Sendo liberal, é natural que tenha lido, entre outros, Adam Smith, Bastiat, Böhm-Bawerk, Schumpeter, Mises, Hayek, Friedman, Sowell. No entanto, também li Saint-Simon, Proudhon, Bakunin, Marx, Lassale, Lénin, Trotsky, Gramsci e Nikolai Berdyaev que, em 1923,...</example>
+      <example>Sendo liberal, é natural que tenha lido, entre outros, Adam Smith, Bastiat, Böhm-Bawerk, Schumpeter, Mises, Hayek, Friedman, Sowell. No entanto, também li Saint-Simon, Proudhon, Bakunin, Marx, Lassale, Lénin, Trotsky, Gramsci e Nikolai Berdyaev que, em 1923,…</example>
     </rule>
 
   <rulegroup id='COMPOUND_PROPER_NOUNS_CASING' name="Capitalizar nomes próprios compostos...">
@@ -8466,7 +8466,7 @@ title="Easy editing stylesheet" ?>
         <suggestion>…</suggestion>
       <example correction='.|…'>A situação financeira era estável<marker>..</marker></example>
       <example>A situação financeira era estável<marker>...</marker></example>
-      <example>... o intervalo entre 27 d.C. e 29 d.C.. Por isso, se Jesus tinha ...</example>
+      <example>… o intervalo entre 27 d.C. e 29 d.C.. Por isso, se Jesus tinha …</example>
     </rule>
     <rule>
       <antipattern>
@@ -9512,9 +9512,9 @@ tokenizer spreadsheet in the forum	     -->
     <!--  Rule group made semi automatically with the Wikipedia list
 tokenizer spreadsheet in the forum	     -->
     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
-      <!--url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url-->
+    <!--url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url-->
       <url>https://pt.everybodywiki.com/Lista_de_pleonasmos</url>
-      <!--url>https://www.normaculta.com.br/lista-dos-pleonasmos-mais-comuns/</url-->
+    <!--url>https://www.normaculta.com.br/lista-dos-pleonasmos-mais-comuns/</url-->
       <short>Pleonasmo.</short>
     <rule id='REDUNDANCY_CEGO' name="Pleonasmo: Cego dos olhos">
       <pattern>
@@ -9526,7 +9526,7 @@ tokenizer spreadsheet in the forum	     -->
         <suggestion>\1</suggestion>
       <example correction='cego'><marker>cego dos olhos</marker></example>
     </rule>
-    <rule id='REDUNDANCY_SI_MESMO' name="Pleonasmo: Si mesmo">
+    <rule id='REDUNDANCY_SI_MESMO' name="Pleonasmo: Si mesmo" default="off">
       <pattern>
           <token>si</token>
           <token inflected='yes'>mesmo</token>
@@ -22445,16 +22445,16 @@ TODO Write better examples
     </rule>
   </rulegroup>
 
-        <rule id="NO_SPACE_CLOSING_QUOTE" name="Espaçamento: Aspas de fecho">
+    <rule id="NO_SPACE_CLOSING_QUOTE" name="Espaçamento: Aspas de fecho">
     <!-- Localized from English by Tiago F. Santos, Portuguese rule, 2019-02-10 -->
-            <pattern>
-                <token>”</token>
-                <token regexp='yes' spacebefore='no'>\w+</token>
-            </pattern>
-            <message>Deve espaçar depois de fechar aspas.</message>
-            <suggestion>\1 \2</suggestion>
-            <example correction="” disse">“Bom dia, Frank,<marker>”disse</marker> o Hal.</example>
-        </rule>
+      <pattern>
+          <token>”</token>
+          <token regexp='yes' spacebefore='no'>\w+</token>
+      </pattern>
+      <message>Deve espaçar depois de fechar aspas.</message>
+        <suggestion>\1 \2</suggestion>
+      <example correction="” disse">“Bom dia, Frank,<marker>”disse</marker> o Hal.</example>
+    </rule>
 
   <rulegroup id="UNITS_OF_MEASURE_SPACING" name="Espaçamento: Unidades de medida">
     <!-- Localized from German by Tiago F. Santos, Portuguese rule, 2017-09-29 -->
@@ -29453,7 +29453,7 @@ TODO Write better examples
       </pattern>
       <message>'\2' refere-se a um ato de juntar ou conjunto nominal colocado lado a lado. Verifique se não foi uma gralha.</message>
         <suggestion><match no='2' regexp_match='apos' regexp_replace='pos'/></suggestion>
-      <example correction="posição">... assumirem um <marker>aposição</marker> ...</example>
+      <example correction="posição">... assumirem um <marker>aposição</marker> …</example>
       <example>Refere-se a uma <marker>aposição</marker>.</example>
     </rule>
     <rule>
