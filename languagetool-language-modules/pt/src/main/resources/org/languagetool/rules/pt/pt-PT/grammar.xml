@@ -941,6 +941,11 @@ title="Easy editing stylesheet" ?>
       <example>A Astronomia é uma ciência natural que estuda corpos celestes.</example>
       <example correction="Está"><marker>Estás</marker> bem?</example>
       <example>Está bem.</example>
+      <example>Nas Antilhas existem também ilhas que são possessões (britânicas, francesas, holand...</example>
+      <example>...elevadas altitudes, que ocasionam temperaturas mais baixas e pluviosidade reduzida.</example>
+      <example>Além das dezenas de danças regionais, estilo folclórico nacional argentino s...</example>
+      <example>...estruturas de repetição tais como laços, ou ainda estruturas de dados adicionais tais como pilhas, para resolv...</example>
+      <example>A era nazista produziu principalmente filmes de propaganda, embora a obra de Leni Riefenstahl ...</example>
     </rule>
     <rule>
       <pattern>
@@ -949,9 +954,10 @@ title="Easy editing stylesheet" ?>
           <token postag="V...2.+" postag_regexp='yes'/>
       </pattern>
       <message>Confirme se esta forma de tratamento informal é apropriada.</message>
-        <suggestion><match no="3" postag="(V...)2(.+)" postag_replace='$13$2' postag_regexp="yes"/></suggestion>
+        <suggestion><match no='2' include_skipped='all'/> <match no="3" postag="(V...)2(.+)" postag_replace='$13$2' postag_regexp="yes" include_skipped='all'/></suggestion>
       <short>Tratamento informal</short>
       <example correction="Veja"><marker>Tu vê</marker> aquela notícia.</example>
+      <example correction="Não consegue"><marker>Tu não consegues</marker> levantar o piano.</example>
     </rule>
     <rule>
       <pattern>
@@ -1653,7 +1659,7 @@ title="Easy editing stylesheet" ?>
           <token>Oriente</token>
       </antipattern>
       <antipattern>
-          <token regexp='yes'>em|n[ao]s?</token>
+          <token regexp='yes'>em|(?:n|pel)[ao]s?</token>
           <token regexp='yes' case_sensitive='yes'>Norte|Sul|Este|Oeste|Ocidente|Oriente|Nascente|Poente|Nordeste|Sudeste|Noroeste|Sudoeste</token>
           <token regexp='yes'>d[eao]s?</token>
           <token regexp='yes' case_sensitive='yes'>\p{Lu}.+</token>
