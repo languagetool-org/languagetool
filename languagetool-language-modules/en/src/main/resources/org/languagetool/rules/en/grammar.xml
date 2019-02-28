@@ -14525,9 +14525,12 @@ USA
                 <token>of</token>
                 <token regexp="yes">an?</token>
             </pattern>
-            <message>Don't include '\3' after a classification term. Use simply <suggestion>\1 \2</suggestion>.</message>
-            <short>Grammatical problem: unnecessary 'a/an'</short>
+            <message>If '\1' is a classification term, '\3' is not necessary. Use <suggestion>\1 \2</suggestion>. (The phrases 'kind of' and 'sort of' are informal if they mean 'to some extent'.)</message>
+            <short>Grammatical problem: possible unnecessary 'a/an'</short>
             <example correction="kind of">What <marker>kind of a</marker> man is Bush?</example>
+            <example>What <marker>kind of</marker> man is Bush?</example>
+            <example type="triggers_error">It became <marker>kind of</marker> a last minute decision.</example><!-- https://en.oxforddictionaries.com/definition/kind_of  -->
+            <example type="triggers_error">I was <marker>sort of</marker> a mascot; I would get them coffee or tea ...</example><!-- https://en.oxforddictionaries.com/definition/sort_of -->
         </rule>
         <rule id="REASON_IS_BECAUSE" name="'the reason... is because'">
             <pattern>
