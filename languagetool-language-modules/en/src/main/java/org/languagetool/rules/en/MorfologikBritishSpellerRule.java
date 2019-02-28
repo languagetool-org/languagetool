@@ -33,7 +33,7 @@ public final class MorfologikBritishSpellerRule extends AbstractEnglishSpellerRu
 
   private static final String RESOURCE_FILENAME = "/en/hunspell/en_GB.dict";
   private static final String LANGUAGE_SPECIFIC_PLAIN_TEXT_DICT = "en/hunspell/spelling_en-GB.txt";
-  private static final Map<String,String> US_ENGLISH = loadWordlist("en/hunspell/en-US-GB.txt", 0);
+  private static final Map<String,String> US_ENGLISH = loadWordlist("en/en-US-GB.txt", 0);
   
   public MorfologikBritishSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig, List<Language> altLanguages) throws IOException {
     super(messages, language, userConfig, altLanguages);

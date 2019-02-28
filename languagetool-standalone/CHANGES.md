@@ -3,7 +3,7 @@
 ## 4.5-SNAPSHOT(release planned for 2019-03-26)
 
 #### English
-  * `resource/en/hunspell/en-US-GB.txt` contains a mapping from US to British
+  * `resource/en/en-US-GB.txt` contains a mapping from US to British
     English and vice versa. It's not used to detect correct or incorrect spellings,
     but only to improve error messages so that they explicitly explain that
     the incorrect word is actually a different variant (like 'colour' in an en-US
