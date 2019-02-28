@@ -29,8 +29,6 @@ import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVPrinter;
 import org.apache.commons.csv.CSVRecord;
 import org.apache.commons.lang3.tuple.Pair;
-import org.junit.Ignore;
-import org.junit.Test;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
@@ -61,8 +59,7 @@ import java.util.concurrent.TimeUnit;
  *
  * Prints results on interrupt, or after finishing.
  */
-@Ignore("Interactive test for evaluating changes to suggestions based on data")
-public class SuggestionsChangesTest {
+public class SuggestionChangesTest {
 
   static class SuggestionTestData {
     private final String language;
@@ -263,8 +260,6 @@ public class SuggestionsChangesTest {
   }
 
 
-  @Ignore
-  @Test
   public void testText() throws IOException {
     File configFile = new File(System.getProperty("config", "SuggestionChangesTestConfig.json"));
     ObjectMapper mapper = new ObjectMapper(new JsonFactory().enable(JsonParser.Feature.ALLOW_COMMENTS));
@@ -293,8 +288,6 @@ public class SuggestionsChangesTest {
     }
   }
 
-  @Ignore("interactive")
-  @Test
   public void testChanges() throws IOException, InterruptedException {
 
     File configFile = new File(System.getProperty("config", "SuggestionChangesTestConfig.json"));
@@ -453,5 +446,28 @@ public class SuggestionsChangesTest {
     logger.join(10000L);
     logger.interrupt();
     datasetWriter.close();
+  }
+
+  public static void main(String[] args) throws IOException, InterruptedException {
+    if (args.length != 2) {
+      System.out.println("Usage: SuggestionChangesTest [mode] CONFIG_FILE");
+      System.out.println("Mode is either 'text' or 'csv'");
+      System.exit(1);
+    }
+    String mode = args[0];
+    String config = args[1];
+    System.setProperty("config", config);
+
+    SuggestionChangesTest test = new SuggestionChangesTest();
+
+    if ("text".equals(mode)) {
+      test.testText();
+    } else if ("csv".equals(mode)) {
+      test.testChanges();
+    } else {
+      System.out.println("Usage: SuggestionChangesTest [mode] CONFIG_FILE");
+      System.out.println("Mode is either 'text' or 'csv'");
+      System.exit(1);
+    }
   }
 }
