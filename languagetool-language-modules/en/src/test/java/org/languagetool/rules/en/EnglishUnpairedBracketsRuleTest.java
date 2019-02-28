@@ -119,13 +119,13 @@ public class EnglishUnpairedBracketsRuleTest {
     JLanguageTool lt = new JLanguageTool(new English());
 
     assertEquals(0, getMatches("This is multiple sentence text that contains a bracket: "
-                             + "[This is bracket. With some text.] and this continues.\n", lt));
+                             + "[This is a bracket. With some text.] and this continues.\n", lt));
 
     assertEquals(0, getMatches("This is multiple sentence text that contains a bracket. "
-                             + "(This is bracket. \n\n With some text.) and this continues.", lt));
+                             + "(This is a bracket. \n\n With some text.) and this continues.", lt));
 
     assertEquals(1, getMatches("This is multiple sentence text that contains a bracket: "
-                             + "[This is bracket. With some text. And this continues.\n\n", lt));
+                             + "[This is a bracket. With some text. And this continues.\n\n", lt));
   }
 
   private int getMatches(String input, JLanguageTool lt) throws IOException {
