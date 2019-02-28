@@ -73,7 +73,7 @@ public class GalicianWordinessRule extends AbstractSimpleReplaceRule2 {
 
   @Override
   public String getSuggestion() {
-    return " é unha expresión innecesariamente complexa. É preferíbel dicir ";
+    return "'$match' é unha expresión innecesariamente complexa. É preferíbel dicir $suggestions";
   }
 
   @Override

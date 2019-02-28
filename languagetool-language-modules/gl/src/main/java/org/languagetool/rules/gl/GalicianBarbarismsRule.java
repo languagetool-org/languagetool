@@ -76,7 +76,7 @@ public class GalicianBarbarismsRule extends AbstractSimpleReplaceRule2 {
 
   @Override
   public String getSuggestion() {
-    return " é un xenismo. É preferíbel dicir ";
+    return "'$match' é un xenismo. É preferíbel dicir $suggestions";
   }
 
   @Override

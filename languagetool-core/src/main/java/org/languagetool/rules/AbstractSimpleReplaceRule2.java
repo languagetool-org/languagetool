@@ -53,6 +53,11 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
   @Override
   public abstract String getDescription();
   public abstract String getShort();
+  /**
+   * @return A string where {@code $match} will be replaced with the matching word
+   * and {@code $suggestions} will be replaced with the alternatives. This is the string
+   * shown to the user.
+   */
   public abstract String getSuggestion();
   /**
    * @return the word used to separate multiple suggestions; used only before last suggestion, the rest are comma-separated.  
@@ -176,24 +181,24 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
         String crtMatch = isCaseSensitive() ? wrongWords.get(crtWordCount - 1).get(crt) : wrongWords.get(crtWordCount- 1).get(crt.toLowerCase(getLocale()));
         if (crtMatch != null) {
           List<String> replacements = Arrays.asList(crtMatch.split("\\|"));
-          String msg = crt + getSuggestion();
+          String msgSuggestions = "";
           for (int k = 0; k < replacements.size(); k++) {
             if (k > 0) {
-              msg = msg + (k == replacements.size() - 1 ? getSuggestionsSeparator(): ", ");
+              msgSuggestions += (k == replacements.size() - 1 ? getSuggestionsSeparator(): ", ");
             }
-            msg += "<suggestion>" + replacements.get(k) + "</suggestion>";
+            msgSuggestions += "<suggestion>" + replacements.get(k) + "</suggestion>";
           }
+          String msg = getSuggestion().replaceFirst("\\$match", crt).replaceFirst("\\$suggestions", msgSuggestions);
           int startPos = prevTokensList.get(len - crtWordCount).getStartPos();
           int endPos = prevTokensList.get(len - 1).getEndPos();
-          RuleMatch potentialRuleMatch = new RuleMatch(this, sentence, startPos, endPos, msg, getShort());
-
+          RuleMatch ruleMatch = new RuleMatch(this, sentence, startPos, endPos, msg, getShort());
           if (!isCaseSensitive() && StringTools.startsWithUppercase(crt)) {
             for (int k = 0; k < replacements.size(); k++) {
               replacements.set(k, StringTools.uppercaseFirstChar(replacements.get(k)));
             }
           }
-          potentialRuleMatch.setSuggestedReplacements(replacements);
-          ruleMatches.add(potentialRuleMatch);
+          ruleMatch.setSuggestedReplacements(replacements);
+          ruleMatches.add(ruleMatch);
           break;
         }
       }

@@ -77,7 +77,7 @@ public class PortugueseWikipediaRule extends AbstractSimpleReplaceRule2 {
   
   @Override
   public String getSuggestion() {
-    return " é um erro. Considere utilizar ";
+    return "'$match' é um erro. Considere utilizar $suggestions";
   }
 
   @Override

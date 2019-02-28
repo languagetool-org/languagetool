@@ -76,7 +76,7 @@ public class PortugueseWeaselWordsRule extends AbstractSimpleReplaceRule2 {
 
   @Override
   public String getSuggestion() {
-    return " é uma expressão ambígua e evasiva. Reconsidere o seu uso, de acordo com o objetivo do seu texto. ";
+    return "'$match' é uma expressão ambígua e evasiva. Reconsidere o seu uso, de acordo com o objetivo do seu texto.";
   }
 
   @Override
