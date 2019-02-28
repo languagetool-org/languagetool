@@ -1426,7 +1426,7 @@ USA
         <rulegroup id="HOUR_OUR" name="half an our (half an hour)">
             <rule>
                 <pattern>
-                    <token>half</token>
+                    <token regexp="yes">for|half</token>
                     <token>an</token>
                     <marker>
                         <token>our</token>
@@ -20954,12 +20954,12 @@ USA
                     <token regexp="yes">research|down|to</token>
                 </antipattern>
                 <antipattern>
-                    <marker><token>instead</token></marker>
+                    <token>instead</token>
                     <token>of</token>
                 </antipattern>
                 <antipattern>
-                    <marker><token>rather</token></marker>
-                    <token>than</token>
+                    <token>rather</token>
+                    <token regexp="yes">than|sooner|later</token>
                 </antipattern>
                 <antipattern>
                     <marker><token chunk="B-PP">besides</token></marker>
@@ -20987,13 +20987,13 @@ USA
                     <token postag="JJ"/>
                 </antipattern>
                 <antipattern>
-                    <marker><token>however</token></marker>
+                    <token>however</token>
                     <token/>
                     <token inflected="yes">look</token>
                     <token>at</token>
                 </antipattern>
                 <antipattern>
-                    <marker><token regexp="yes">accordingly|additionally|also|consequently|similarly</token></marker>
+                    <token regexp="yes">accordingly|additionally|also|consequently|similarly</token>
                     <token postag="VBP"><exception negate_pos="yes" postag="VBP?" postag_regexp="yes"/></token>
                 </antipattern>
                 <antipattern>
