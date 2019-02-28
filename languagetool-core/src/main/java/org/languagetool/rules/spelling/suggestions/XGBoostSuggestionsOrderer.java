@@ -83,6 +83,13 @@ public class XGBoostSuggestionsOrderer extends SuggestionsOrdererFeatureExtracto
     //modelClasses.put(Languages.getLanguageForShortCode("de-DE"), Arrays.asList(-1, 0, 1, 2, 3, 4));
   }
 
+  /**
+   * For testing purposes only
+   */
+  public static void setAutoCorrectThresholdForLanguage(Language lang, float value) {
+    autoCorrectThreshold.replace(lang, value);
+  }
+
   public XGBoostSuggestionsOrderer(Language lang, LanguageModel languageModel) {
     super(lang, languageModel);
     if (autoCorrectThreshold.containsKey(lang) && modelClasses.containsKey(lang) &&

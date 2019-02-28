@@ -27,10 +27,7 @@ import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
 import org.languagetool.synthesis.en.EnglishSynthesizer;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
@@ -67,33 +64,6 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     }
   }
 
-  protected static Map<String,String> loadWordlist(String path, int column) {
-    if (column != 0 && column != 1) {
-      throw new IllegalArgumentException("Only column 0 and 1 are supported: " + column);
-    }
-    Map<String,String> words = new HashMap<>();
-    try (
-        InputStreamReader isr = new InputStreamReader(JLanguageTool.getDataBroker().getFromResourceDirAsStream(path), StandardCharsets.UTF_8);
-        BufferedReader br = new BufferedReader(isr);
-    ) {
-      String line;
-      while ((line = br.readLine()) != null) {
-        line = line.trim();
-        if (line.isEmpty() ||  line.startsWith("#")) {
-          continue;
-        }
-        String[] parts = line.split(";");
-        if (parts.length != 2) {
-          throw new IOException("Unexpected format in " + path + ": " + line + " - expected two parts delimited by ';'");
-        }
-        words.put(parts[column], parts[column == 1 ? 0 : 1]);
-      }
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
-    return words;
-  }
-
   @Override
   protected List<RuleMatch> getRuleMatches(AnalyzedTokenReadings token, AnalyzedSentence sentence, List<RuleMatch> ruleMatchesSoFar) throws IOException {
     String word = token.getToken();
@@ -126,6 +96,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
   }
 
   private void addFormsToFirstMatch(String message, AnalyzedSentence sentence, List<RuleMatch> ruleMatches, List<String> forms) {
+    // recreating match, might overwrite information by SuggestionsRanker;
+    // this has precedence
     RuleMatch oldMatch = ruleMatches.get(0);
     RuleMatch newMatch = new RuleMatch(this, sentence, oldMatch.getFromPos(), oldMatch.getToPos(), message);
     List<String> allSuggestions = new ArrayList<>(forms);
@@ -139,6 +111,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
   }
 
   private void replaceFormsOfFirstMatch(String message, AnalyzedSentence sentence, List<RuleMatch> ruleMatches, List<String> suggestions) {
+    // recreating match, might overwrite information by SuggestionsRanker;
+    // this has precedence
     RuleMatch oldMatch = ruleMatches.get(0);
     RuleMatch newMatch = new RuleMatch(this, sentence, oldMatch.getFromPos(), oldMatch.getToPos(), message);
     newMatch.setSuggestedReplacements(suggestions);
