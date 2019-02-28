@@ -11064,6 +11064,10 @@ USA
                     <token regexp="yes">is|are</token>
                     <token case_sensitive="yes">GO</token>
                 </antipattern>
+                <antipattern><!-- https://en.oxforddictionaries.com/definition/brand_new -->
+                    <token>brand</token>
+                    <token>new</token>
+                </antipattern>
                 <pattern>
                     <token inflected="yes">be
                         <exception scope="previous" postag_regexp="yes" postag="VBP?" negate="yes" regexp="yes">ha(?:ve|s)</exception>
@@ -11094,7 +11098,11 @@ USA
                 <example>My favorite team is <marker>Inter Milano</marker> in Italy.</example>
                 <example>It was <marker>sunday</marker> afternoon and I was waiting for a bus.</example><!-- MFU 2018-01-15 removed non-standard verb to prevent LT online giving the message "Consider using a past participle" -->
                 <example>The Anchorage <marker>art exhibit</marker> is to raise awareness about autism.</example>
-                <example type="triggers_error">Your idea cannot be <marker>brand new</marker>. I heard about it from another source last year.</example>
+                <example>Your idea cannot be <marker>brand new</marker>. I heard about it from another source last year.</example>
+                <example type="triggers_error">What we are trying to do with Ridley now is go through the painstaking process of trying to...</example>
+                <example type="triggers_error">Their opponents were club president Cesar de Zulueta and Valentin Barr.</example>
+                <example type="triggers_error">...in question of this school was whether Being came before Not-Being (in Chinese, 'ming' and ...</example>
+                <example type="triggers_error">A 10-day-old pup can die from being host to as few as 25 'A. caninum' worms.</example>
             </rule>
             <rule>
                 <antipattern><!-- Cannot use a chunk in an exception. Thus, use an antipattern with a chunk in a token. -->
