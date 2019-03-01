@@ -45,7 +45,7 @@ import org.languagetool.tools.Tools;
  */
 public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
 
-  private static final Map<String, List<String>> wrongWords = load("/uk/replace.txt");
+  private static final Map<String, List<String>> wrongWords = loadFromPath("/uk/replace.txt");
 
   @Override
   protected Map<String, List<String>> getWrongWords() {

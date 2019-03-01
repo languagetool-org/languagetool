@@ -44,7 +44,7 @@ import org.languagetool.synthesis.ca.CatalanSynthesizer;
  */
 public class ReplaceOperationNamesRule extends AbstractSimpleReplaceRule {
 
-  private static final Map<String, List<String>> wrongWords = load("/ca/replace_operationnames.txt");
+  private static final Map<String, List<String>> wrongWords = loadFromPath("/ca/replace_operationnames.txt");
   private static final Locale CA_LOCALE = new Locale("CA");
 
   @Override

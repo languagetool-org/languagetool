@@ -42,7 +42,7 @@ public class PortugueseReplaceRule extends AbstractSimpleReplaceRule {
 
   public static final String PORTUGUESE_SIMPLE_REPLACE_RULE = "PT_SIMPLE_REPLACE";
 
-  private static final Map<String, List<String>> wrongWords = load("/pt/replace.txt");
+  private static final Map<String, List<String>> wrongWords = loadFromPath("/pt/replace.txt");
   private static final Locale PT_LOCALE = new Locale("pt");
 
   @Override

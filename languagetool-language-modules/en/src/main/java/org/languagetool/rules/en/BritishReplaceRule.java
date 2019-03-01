@@ -38,7 +38,7 @@ public class BritishReplaceRule extends AbstractSimpleReplaceRule {
 
   public static final String BRITISH_SIMPLE_REPLACE_RULE = "EN_GB_SIMPLE_REPLACE";
 
-  private static final Map<String, List<String>> wrongWords = load("/en/en-GB/replace.txt");
+  private static final Map<String, List<String>> wrongWords = loadFromPath("/en/en-GB/replace.txt");
   private static final Locale EN_GB_LOCALE = new Locale("en-GB");
 
   @Override

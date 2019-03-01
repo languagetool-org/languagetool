@@ -109,7 +109,7 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
 
   /**
    * Load the list of words.
-   * Same as {@link AbstractSimpleReplaceRule#load} but allows multiple words.   
+   * Same as {@link AbstractSimpleReplaceRule#loadFromPath} but allows multiple words.   
    * @param filename the file from classpath to load
    * @return the list of maps containing the error-corrections pairs. The n-th map contains key strings of (n+1) words.
    */

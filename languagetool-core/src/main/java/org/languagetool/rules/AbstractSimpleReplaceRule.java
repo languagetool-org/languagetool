@@ -45,7 +45,7 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
 
   protected abstract Map<String, List<String>> getWrongWords();
 
-  protected static Map<String, List<String>> load(String path) {
+  protected static Map<String, List<String>> loadFromPath(String path) {
     return new SimpleReplaceDataLoader().loadWords(path);
   }
 

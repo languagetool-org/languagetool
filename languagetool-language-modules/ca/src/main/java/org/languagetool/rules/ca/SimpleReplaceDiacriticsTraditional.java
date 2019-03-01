@@ -39,7 +39,7 @@ import java.util.ResourceBundle;
  */
 public class SimpleReplaceDiacriticsTraditional extends AbstractSimpleReplaceRule {
 
-  private static final Map<String, List<String>> wrongWords = load("/ca/replace_diacritics_traditional.txt");
+  private static final Map<String, List<String>> wrongWords = loadFromPath("/ca/replace_diacritics_traditional.txt");
   private static final Locale CA_LOCALE = new Locale("CA");
 
   @Override

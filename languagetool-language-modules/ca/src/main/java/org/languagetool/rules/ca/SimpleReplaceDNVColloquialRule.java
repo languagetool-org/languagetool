@@ -18,13 +18,19 @@
  */
 package org.languagetool.rules.ca;
 
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
+import org.jetbrains.annotations.NotNull;
 import org.languagetool.Language;
 import org.languagetool.rules.Categories;
 import org.languagetool.rules.ITSIssueType;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.concurrent.TimeUnit;
 
 /**
  * A rule that matches lemmas found only in DNV (AVL dictionary) and suggests
@@ -36,10 +42,19 @@ import java.util.ResourceBundle;
  * @author Jaume Ortolà
  */
 public class SimpleReplaceDNVColloquialRule extends AbstractSimpleReplaceLemmasRule {
-  
+
+  private static final LoadingCache<String, Map<String, List<String>>> cache = CacheBuilder.newBuilder()
+          .expireAfterWrite(30, TimeUnit.MINUTES)
+          .build(new CacheLoader<String, Map<String, List<String>>>() {
+            @Override
+            public Map<String, List<String>> load(@NotNull String path) {
+              return loadFromPath(path);
+            }
+          });
+
   public SimpleReplaceDNVColloquialRule(final ResourceBundle messages, Language language) throws IOException {
     super(messages, language);
-    wrongLemmas = load("/ca/replace_dnv_colloquial.txt");
+    wrongLemmas = cache.getUnchecked("/ca/replace_dnv_colloquial.txt");
     super.setCategory(Categories.COLLOQUIALISMS.getCategory(messages));
     super.setLocQualityIssueType(ITSIssueType.Style);
   }  

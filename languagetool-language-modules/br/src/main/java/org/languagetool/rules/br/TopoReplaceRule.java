@@ -38,7 +38,7 @@ import java.util.concurrent.ArrayBlockingQueue;
  * translated in Breton.
  *
  * Loads the list of words from <code>rules/br/topo.txt</code>.
- * This class is mostly copied from ro/SimplaceReplaceRules.java.
+ * This class is mostly copied from ro/SimpleReplaceRules.java.
  *
  * @author Dominique Pellé
  */
@@ -53,18 +53,11 @@ public class TopoReplaceRule extends Rule {
 
   // list of maps containing error-corrections pairs.
   // the n-th map contains key strings of (n+1) words 
-  private final List<Map<String, String>> wrongWords;
+  private static final List<Map<String, String>> wrongWords = loadWords(JLanguageTool.getDataBroker().getFromRulesDirAsStream(FILE_NAME));
   
-  private final Tokenizer wordTokenizer = new Breton().getWordTokenizer();
-
-  public final String getFileName() {
-    return FILE_NAME;
-  }
-
-  public TopoReplaceRule(ResourceBundle messages) throws IOException {
+  public TopoReplaceRule(ResourceBundle messages) {
     super(messages);
     super.setCategory(Categories.MISC.getCategory(messages));
-    wrongWords = loadWords(JLanguageTool.getDataBroker().getFromRulesDirAsStream(getFileName()));
   }
 
   @Override
@@ -103,17 +96,6 @@ public class TopoReplaceRule extends Rule {
     return BR_LOCALE;
   }
 
-  public String getEncoding() {
-    return FILE_ENCODING;
-  }
-
-  /**
-   * @return the word tokenizer used for tokenization on loading words.
-   */
-  protected Tokenizer getWordTokenizer() {
-    return wordTokenizer;
-  }
-
   /**
    * @return the list of wrong words for which this rule can suggest correction. The list cannot be modified.
    */
@@ -122,20 +104,19 @@ public class TopoReplaceRule extends Rule {
   }
 
   /**
-   * Load the list of words. Same as {@link AbstractSimpleReplaceRule#load} but allows multiple words.   
+   * Load the list of words. Same as {@link AbstractSimpleReplaceRule#loadFromPath} but allows multiple words.   
    * @param stream the stream to load.
    * @return the list of maps containing the error-corrections pairs. The n-th map contains key strings of (n+1) words.
-   * @see #getWordTokenizer
    */
-  private List<Map<String, String>> loadWords(InputStream stream)
-          throws IOException {
+  private static List<Map<String, String>> loadWords(InputStream stream) {
     List<Map<String, String>> list = new ArrayList<>();
     try (
-      InputStreamReader isr = new InputStreamReader(stream, getEncoding());
+      InputStreamReader isr = new InputStreamReader(stream, FILE_ENCODING);
       BufferedReader br = new BufferedReader(isr);
     ) {
       String line;
 
+      Tokenizer wordTokenizer = new Breton().getWordTokenizer();
       while ((line = br.readLine()) != null) {
         line = line.trim();
         if (line.isEmpty() || line.charAt(0) == '#') { // ignore comments
@@ -144,13 +125,13 @@ public class TopoReplaceRule extends Rule {
         String[] parts = line.split("=");
         if (parts.length != 2) {
           throw new IOException("Format error in file "
-                  + JLanguageTool.getDataBroker().getFromRulesDirAsUrl(getFileName())
+                  + JLanguageTool.getDataBroker().getFromRulesDirAsUrl(FILE_NAME)
                   + ", line: " + line);
         }
         String[] wrongForms = parts[0].split("\\|"); // multiple incorrect forms
         for (String wrongForm : wrongForms) {
           int wordCount = 0;
-          List<String> tokens = getWordTokenizer().tokenize(wrongForm);
+          List<String> tokens = wordTokenizer.tokenize(wrongForm);
           for (String token : tokens) {
             if (!StringTools.isWhitespace(token)) {
               wordCount++;
@@ -163,6 +144,8 @@ public class TopoReplaceRule extends Rule {
           list.get(wordCount - 1).put(wrongForm, parts[1]);
         }
       }
+    } catch (IOException e) {
+      throw new RuntimeException(e);
     }
     // seal the result (prevent modification from outside this class)
     List<Map<String,String>> result = new ArrayList<>();
@@ -184,8 +167,7 @@ public class TopoReplaceRule extends Rule {
   @Override
   public RuleMatch[] match(AnalyzedSentence sentence) {
     List<RuleMatch> ruleMatches = new ArrayList<>();
-    AnalyzedTokenReadings[] tokens = sentence
-            .getTokensWithoutWhitespace();
+    AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
 
     Queue<AnalyzedTokenReadings> prevTokens = new ArrayBlockingQueue<>(wrongWords.size());
 
