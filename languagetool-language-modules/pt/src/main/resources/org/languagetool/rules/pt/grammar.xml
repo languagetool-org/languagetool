@@ -8029,7 +8029,7 @@ title="Easy editing stylesheet" ?>
       <antipattern>
           <token postag="SENT_START"/>
           <token>Coloco</token>
-          <token>&hifen;</token>
+          <token regexp='yes'>&hifen;</token>
           <token>me</token>
           <token>à</token>
           <token>sua</token>
@@ -8054,7 +8054,7 @@ title="Easy editing stylesheet" ?>
           <token>hesite</token>
           <token>em</token>
           <token>contactar</token>
-          <token>&hifen;</token>
+          <token regexp='yes'>&hifen;</token>
           <token>me</token>
           <token postag="SENT_END">,</token>
       </antipattern>
@@ -8071,6 +8071,7 @@ title="Easy editing stylesheet" ?>
           <token min='0' regexp='yes'>Muito|grande</token>
           <token regexp="yes">Atenciosamente|Atentamente|Cordialmente|Obrigad[ao]|Agradecido|Grat[ao]s?|Abraços?|Cumprimentos</token>
           <token postag="SENT_END">,</token>
+      </antipattern>
       <antipattern>
           <token postag="SENT_START"/>
           <token min='0' regexp='yes'>Apresento|Apresentamos|Com</token>
@@ -8250,7 +8251,7 @@ title="Easy editing stylesheet" ?>
         </marker>
       </pattern>
       <message>As fórmulas de despedidas são terminadas com vírgula.</message>
-        <suggestion>\4,</suggestion>
+        <suggestion>\5,</suggestion>
       <example correction="Atentamente,"><marker>Atentamente</marker></example>
     </rule>
   </rulegroup>
