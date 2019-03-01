@@ -135,8 +135,9 @@ public class UserConfig {
       .append(userSpecificSpellerWords, other.userSpecificSpellerWords)
       // omitting these distorts A/B tests, as UserConfig is cached by the pipeline pool
       // -> (cached) textSessionId on server may say group A, but ID on client (relevant for saved correction) says B
-      .append(textSessionId, other.textSessionId)
+      // only group must match; keeps hit rate of pipeline cache up
       .append(abTest, other.abTest)
+      .append(textSessionId % 2, other.textSessionId % 2)
       .isEquals();
   }
 
