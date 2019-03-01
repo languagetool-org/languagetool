@@ -100,7 +100,7 @@ public class SuggestionsOrdererTest {
     int startPos = sentence.indexOf(word);
     int wordLength = word.length();
     List<String> suggestionsOrdered = suggestionsOrderer.orderSuggestionsUsingModel(
-            suggestions, word, languageTool.getAnalyzedSentence(sentence), startPos, wordLength);
+            suggestions, word, languageTool.getAnalyzedSentence(sentence), startPos);
     assertTrue(suggestionsOrdered.containsAll(suggestions));
   }
 
@@ -166,7 +166,7 @@ public class SuggestionsOrdererTest {
           SuggestionsOrdererConfig.setMLSuggestionsOrderingEnabled(true);
           numTotalReorderings.incrementAndGet();
           startTime = System.currentTimeMillis();
-          List<String> reordered = orderer.orderSuggestionsUsingModel(original, matchedWord, sentence, match.getFromPos(), matchedWord.length());
+          List<String> reordered = orderer.orderSuggestionsUsingModel(original, matchedWord, sentence, match.getFromPos());
           totalReorderingComputationTime.addAndGet(System.currentTimeMillis() - startTime);
           SuggestionsOrdererConfig.setMLSuggestionsOrderingEnabled(false);
           if (original.size() == 0 || reordered.size() == 0) {

@@ -57,9 +57,10 @@ class SuggestionChangesTestConfig {
 class SuggestionChangesDataset {
   public String name;
   public String path;
-  public String type;
+  public String type; // dump | artificial; different columns in CSV file
   public float sampleRate;
-  public boolean enforceCorrect;
+  public boolean enforceCorrect; // no spelling errors in correction, otherwise entries are skipped
+  public boolean enforceAcceptLanguage; // only for type==dump: first field in acceptLanguage must be equal to the text language
 
   @Override
   public String toString() {
@@ -69,6 +70,7 @@ class SuggestionChangesDataset {
       ", type='" + type + '\'' +
       ", sampleRate=" + sampleRate +
       ", enforceCorrect=" + enforceCorrect +
+      ", enforceAcceptLanguage=" + enforceAcceptLanguage +
       '}';
   }
 }

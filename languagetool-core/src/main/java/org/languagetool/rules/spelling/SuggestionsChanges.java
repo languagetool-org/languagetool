@@ -34,12 +34,15 @@ import java.util.concurrent.ConcurrentMap;
 public class SuggestionsChanges {
   private static SuggestionsChanges instance;
   private final SuggestionChangesTestConfig config;
-
   private final List<SuggestionChangesExperiment> experiments;
+
   private final ConcurrentMap<SuggestionChangesExperiment, Integer> correctSuggestions = new ConcurrentHashMap<>();
   private final ConcurrentMap<SuggestionChangesExperiment, Integer> notFoundSuggestions = new ConcurrentHashMap<>();
   private final ConcurrentMap<SuggestionChangesExperiment, Integer> suggestionPosSum = new ConcurrentHashMap<>();
+  private final ConcurrentMap<SuggestionChangesExperiment, Integer> textSize = new ConcurrentHashMap<>();
+  private final ConcurrentMap<SuggestionChangesExperiment, Long> computationTime = new ConcurrentHashMap<>();
   private final ConcurrentMap<SuggestionChangesExperiment, Integer> numSamples = new ConcurrentHashMap<>();
+
   private final ConcurrentMap<Pair<SuggestionChangesExperiment, SuggestionChangesDataset>, Integer>
     datasetCorrectSuggestions = new ConcurrentHashMap<>();
   private final ConcurrentMap<Pair<SuggestionChangesExperiment, SuggestionChangesDataset>, Integer>
@@ -47,6 +50,9 @@ public class SuggestionsChanges {
   private final ConcurrentMap<Pair<SuggestionChangesExperiment, SuggestionChangesDataset>, Integer>
     datasetSuggestionPosSum = new ConcurrentHashMap<>();
   private final ConcurrentMap<Pair<SuggestionChangesExperiment, SuggestionChangesDataset>, Integer> datasetNumSamples = new ConcurrentHashMap<>();
+  private final ConcurrentMap<Pair<SuggestionChangesExperiment, SuggestionChangesDataset>, Integer> datasetTextSize = new ConcurrentHashMap<>();
+  private final ConcurrentMap<Pair<SuggestionChangesExperiment, SuggestionChangesDataset>, Long> datasetComputationTime = new ConcurrentHashMap<>();
+
   private SuggestionChangesExperiment currentExperiment = null;
 
   private SuggestionsChanges(SuggestionChangesTestConfig config, BufferedWriter reportWriter) {
@@ -134,9 +140,21 @@ public class SuggestionsChanges {
     return experiment != null && experiment.name.equals(name);
   }
 
-  public void trackExperimentResult(Pair<SuggestionChangesExperiment, SuggestionChangesDataset> source, int position) {
+  public void trackExperimentResult(Pair<SuggestionChangesExperiment, SuggestionChangesDataset> source,
+                                    int position, int resultTextSize, long resultComputationTime) {
     numSamples.compute(source.getKey(), (ex, value) -> value == null ? 1 : value + 1);
     datasetNumSamples.compute(source, (ex, value) -> value == null ? 1 : value + 1);
+
+    textSize.compute(source.getKey(), (ex, value) ->
+      value == null ? resultTextSize : value + resultTextSize);
+    datasetTextSize.compute(source, (ex, value) ->
+      value == null ? resultTextSize : value + resultTextSize);
+
+    computationTime.compute(source.getKey(), (ex, value) ->
+      value == null ? resultComputationTime : value + resultComputationTime);
+    datasetComputationTime.compute(source, (ex, value) ->
+      value == null ? resultComputationTime : value + resultComputationTime);
+
     if (position == 0) {
       correctSuggestions.compute(source.getKey(), (ex, value) -> value == null ? 1 : value + 1);
       datasetCorrectSuggestions.compute(source, (ex, value) -> value == null ? 1 : value + 1);
@@ -168,11 +186,12 @@ public class SuggestionsChanges {
         return;
       }
       try {
-        reportWriter.write("Overall report:\n\n");
+        StringBuilder report = new StringBuilder();
+        report.append("Overall report:\n\n");
 
         SuggestionChangesExperiment best = null;
         int bestId = -1;
-        float bestAccuracy = 0f;
+        double bestAccuracy = 0.0;
 
         int experimentId = 0;
         for (SuggestionChangesExperiment experiment : experiments) {
@@ -181,20 +200,23 @@ public class SuggestionsChanges {
           int score = suggestionPosSum.getOrDefault(experiment, 0);
           int notFound = notFoundSuggestions.getOrDefault(experiment, 0);
           int total = numSamples.getOrDefault(experiment, 0);
-          float accuracy = (float) correct / total * 100;
+          double accuracy = (double) correct / total * 100.0;
+          double speed = (double) textSize.getOrDefault(experiment, 0) /
+            computationTime.getOrDefault(experiment, 0L) * 1000.0;
           if (accuracy > bestAccuracy) {
             best = experiment;
             bestAccuracy = accuracy;
             bestId = experimentId;
           }
-          reportWriter.write(String.format("Experiment #%d (%s): %d / %d correct suggestions -> %f%% accuracy;" +
-            " score (less = better): %d; not found: %d.%n", experimentId, experiment, correct, total, accuracy, score, notFound));
+          report.append(String.format("Experiment #%d (%s): %d / %d correct suggestions -> %f%% accuracy;" +
+            " score (less = better): %d; not found: %d; processed %f chars/second.%n",
+            experimentId, experiment, correct, total, accuracy, score, notFound, speed));
         }
 
-        reportWriter.write(String.format("%nBest experiment: #%d (%s) @ %f%% accuracy%n", bestId, best, bestAccuracy));
+        report.append(String.format("%nBest experiment: #%d (%s) @ %f%% accuracy%n", bestId, best, bestAccuracy));
 
         for (SuggestionChangesDataset dataset : config.datasets) {
-          reportWriter.write(String.format("%nReport for dataset: %s%n", dataset.name));
+          report.append(String.format("%nReport for dataset: %s%n", dataset.name));
           best = null;
           bestAccuracy = 0f;
           bestId = -1;
@@ -207,17 +229,22 @@ public class SuggestionsChanges {
             int score = datasetSuggestionPosSum.getOrDefault(source, 0);
             int notFound = datasetNotFoundSuggestions.getOrDefault(source, 0);
             int total = datasetNumSamples.getOrDefault(source, 0);
-            float accuracy = (float) correct / total * 100;
+            double accuracy = (double) correct / total * 100.0;
+            double speed = (double) datasetTextSize.getOrDefault(source, 0) /
+              datasetComputationTime.getOrDefault(source, 0L) * 1000.0;
             if (accuracy > bestAccuracy) {
               best = experiment;
               bestAccuracy = accuracy;
               bestId = experimentId;
             }
-            reportWriter.write(String.format("Experiment #%d (%s): %d / %d correct suggestions-> %f%% accuracy;" +
-              " score (less = better): %d; not found: %d.%n", experimentId, experiment, correct, total, accuracy, score, notFound));
+            report.append(String.format("Experiment #%d (%s): %d / %d correct suggestions-> %f%% accuracy;" +
+              " score (less = better): %d; not found: %d; processed %f chars/second.%n",
+              experimentId, experiment, correct, total, accuracy, score, notFound, speed));
           }
-          reportWriter.write(String.format("%nBest experiment: #%d (%s) @ %f%% accuracy%n", bestId, best, bestAccuracy));
+          report.append(String.format("%nBest experiment: #%d (%s) @ %f%% accuracy%n", bestId, best, bestAccuracy));
         }
+        System.out.println(report);
+        reportWriter.write(report.toString());
         reportWriter.close();
       } catch (IOException e) {
         throw new RuntimeException(e);
