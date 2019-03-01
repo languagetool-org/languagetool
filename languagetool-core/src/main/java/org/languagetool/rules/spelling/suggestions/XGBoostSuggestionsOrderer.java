@@ -77,7 +77,7 @@ public class XGBoostSuggestionsOrderer extends SuggestionsOrdererFeatureExtracto
 
   static {
     List<Integer> defaultClasses = Arrays.asList(-1, 0, 1, 2, 3, 4);
-    autoCorrectThreshold.put("en-US", 1.00f);
+    autoCorrectThreshold.put("en-US", 0.99897194f);
     modelClasses.put("en-US", defaultClasses);
     candidateFeatureCount.put("en-US", 10);
     matchFeatureCount.put("en-US", 1);
