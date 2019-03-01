@@ -24,6 +24,7 @@ import java.util.stream.Collectors;
 
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.Experimental;
+import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
@@ -139,6 +140,10 @@ public class PatternRule extends AbstractPatternRule {
     boolean infinity = false;
     for (PatternToken pToken : this.patternTokens) {
       if (markerSeen && !pToken.isInsideMarker()) {
+        extendAfterMarker++;
+      }
+      if (JLanguageTool.SENTENCE_END_TAGNAME.equals(pToken.getPOStag())) {
+        // e.g. for DT_JJ_NO_NOUN and all rules that match the sentence end
         extendAfterMarker++;
       }
       if (pToken.isInsideMarker()) {
