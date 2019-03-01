@@ -259,6 +259,9 @@ public class TokenAgreementPrepNounRuleTest {
     assertEmptyMatch("для якої з мов воно первинне");
 
     assertEquals(1, ruleMatch("у дуже обмеженим рамках").length);
+
+    assertEmptyMatch("чи не проти я тієї церковної стройки");
+    assertEmptyMatch("З точністю до навпаки ви все це побачите");
   }
 
   private RuleMatch[] ruleMatch(String text) throws IOException {

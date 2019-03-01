@@ -407,13 +407,13 @@ class CompoundTagger {
 
   private List<AnalyzedToken> doGuessMultiHyphens(String word, int firstDashIdx, int dashIdx) {
     String lowerWord = word.toLowerCase();
-    
+
     String[] parts = lowerWord.split("-");
-    HashSet<String> set = new HashSet<>(Arrays.asList(parts));
+    HashSet<String> set = new LinkedHashSet<>(Arrays.asList(parts));
 
     if( set.size() == 2 ) {
       List<TaggedWord> leftWdList = tagEitherCase(parts[0]);
-      List<TaggedWord> rightWdList = tagEitherCase(parts[1]);
+      List<TaggedWord> rightWdList = tagEitherCase(new ArrayList<>(set).get(1));
 
       if( PosTagHelper.hasPosTag2(leftWdList, INTJ_PATTERN)
           && PosTagHelper.hasPosTag2(rightWdList, INTJ_PATTERN) ) {
@@ -421,6 +421,10 @@ class CompoundTagger {
       }
     }
     else if( set.size() == 1 ) {
+      if( lowerWord.equals("ла") ) {
+        return Arrays.asList(new AnalyzedToken(word, "intj", lowerWord));
+      }
+
       List<TaggedWord> rightWdList = tagEitherCase(parts[0]);
       if( PosTagHelper.hasPosTag2(rightWdList, INTJ_PATTERN) ) {
         return Arrays.asList(new AnalyzedToken(word, rightWdList.get(0).getPosTag(), lowerWord));
@@ -434,15 +438,15 @@ class CompoundTagger {
     String[] parts = word.split("-");
 
     List<TaggedWord> rightWdList = tagEitherCase(parts[2]);
-    
+
     if( rightWdList.isEmpty() )
       return null;
 
     List<AnalyzedToken> rightAnalyzedTokens = ukrainianTagger.asAnalyzedTokenListForTaggedWordsInternal(parts[2], rightWdList);
 
     String firstAndSecond = parts[0] + "-" + parts[1];
-    
-    if( dashPrefixes2.contains( firstAndSecond  ) 
+
+    if( dashPrefixes2.contains( firstAndSecond )
         || dashPrefixes2.contains( firstAndSecond.toLowerCase() ) ) {
 
       return getNvPrefixNounMatch(word, rightAnalyzedTokens, firstAndSecond);

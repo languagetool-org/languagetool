@@ -373,8 +373,10 @@ public class UkrainianTaggerTest {
   public void testDynamicTaggingIntj() throws IOException {
     TestTools.myAssert("Гей-гей-гей", "Гей-гей-гей/[гей-гей-гей]intj", tokenizer, tagger);
     TestTools.myAssert("Ого-го-го-го", "Ого-го-го-го/[ого-го-го-го]intj", tokenizer, tagger);
+    //TODO:
+    assertNotTagged("йо-йо-тусовки");
   }
-  
+
   @Test
   public void testDynamicTaggingNum() throws IOException {
     // numr-numr

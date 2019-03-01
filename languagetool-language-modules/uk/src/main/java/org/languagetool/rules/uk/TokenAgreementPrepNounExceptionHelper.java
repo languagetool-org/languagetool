@@ -193,13 +193,21 @@ public class TokenAgreementPrepNounExceptionHelper {
 
   public static RuleException getExceptionStrong(AnalyzedTokenReadings[] tokens, int i, AnalyzedTokenReadings prepTokenReadings, Set<String> posTagsToFind) {
     AnalyzedTokenReadings tokenReadings = tokens[i];
+    String token = tokenReadings.getToken();
+    String prep = prepTokenReadings.getToken().toLowerCase();
 
     if( tokenReadings.getToken().equals("дуже") )
       return new RuleException(0);
-    
+
+    if( prep.equals("до") ) {
+      if( token.equalsIgnoreCase("навпаки") ) {
+        return new RuleException(Type.exception);
+      }
+    }
+
     return new RuleException(Type.none);
   }
-  
+
   public static RuleException getExceptionNonInfl(AnalyzedTokenReadings[] tokens, int i, AnalyzedTokenReadings prepTokenReadings, Set<String> posTagsToFind) {
     AnalyzedTokenReadings tokenReadings = tokens[i];
     String token = tokenReadings.getToken();
@@ -220,10 +228,10 @@ public class TokenAgreementPrepNounExceptionHelper {
         return new RuleException(Type.exception);
       }
     }
-    
+
     if( PosTagHelper.hasPosTag(tokenReadings, Pattern.compile("adv.*")) )
       return new RuleException(Type.exception);
-    
+
     if( tokens.length > i+2 ) {
       // на лише їм відомому ...
       if ( token.matches("лиш(е(нь)?)?")
