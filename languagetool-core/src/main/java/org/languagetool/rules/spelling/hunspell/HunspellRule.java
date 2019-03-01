@@ -27,10 +27,10 @@ import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.Categories;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.spelling.SpellingCheckRule;
+import org.languagetool.rules.spelling.morfologik.suggestions_ordering.SuggestionsOrdererGSoC;
 import org.languagetool.rules.spelling.suggestions.SuggestionsChanges;
 import org.languagetool.rules.spelling.suggestions.SuggestionsOrderer;
 import org.languagetool.rules.spelling.suggestions.SuggestionsOrdererFeatureExtractor;
-import org.languagetool.rules.spelling.morfologik.suggestions_ordering.SuggestionsOrdererGSoC;
 import org.languagetool.rules.spelling.suggestions.XGBoostSuggestionsOrderer;
 import org.languagetool.tools.Tools;
 
@@ -209,36 +209,25 @@ public class HunspellRule extends SpellingCheckRule {
             filterDupes(suggestions);
 
             // TODO user suggestions
-            List<String> cleanedSuggestions = suggestions;
-            if (word.endsWith(".")) {
-              cleanedSuggestions = suggestions.stream().map(s -> s.substring(0, s.length() - 1)).collect(Collectors.toList());
-            }
-
             // use suggestionsOrderer only w/ A/B - Testing or manually enabled experiments
             if (runningExperiment) {
-              ruleMatch = addSuggestionsToRuleMatch(word, Collections.emptyList(), cleanedSuggestions,
+              addSuggestionsToRuleMatch(cleanWord, Collections.emptyList(), suggestions,
                 suggestionsOrderer, ruleMatch);
             } else if (userConfig != null && userConfig.getAbTest() != null &&
               userConfig.getAbTest().equals("SuggestionsRanker") &&
               suggestionsOrderer.isMlAvailable() && userConfig.getTextSessionId() != null) {
               boolean testingA = userConfig.getTextSessionId() % 2 == 0;
               if (testingA) {
-                ruleMatch = addSuggestionsToRuleMatch(word, Collections.emptyList(), cleanedSuggestions,
+                addSuggestionsToRuleMatch(cleanWord, Collections.emptyList(), suggestions,
                   null, ruleMatch);
               } else {
-                ruleMatch = addSuggestionsToRuleMatch(word, Collections.emptyList(), cleanedSuggestions,
+                addSuggestionsToRuleMatch(cleanWord, Collections.emptyList(), suggestions,
                   suggestionsOrderer, ruleMatch);
               }
             } else {
-              ruleMatch = addSuggestionsToRuleMatch(word, Collections.emptyList(), cleanedSuggestions,
+              addSuggestionsToRuleMatch(cleanWord, Collections.emptyList(), suggestions,
                 null, ruleMatch);
             }
-
-            List<String> restoredSuggestions = ruleMatch.getSuggestedReplacements();
-            if (word.endsWith(".")) {
-              restoredSuggestions = restoredSuggestions.stream().map(s -> s + ".").collect(Collectors.toList());
-            }
-            ruleMatch.setSuggestedReplacements(restoredSuggestions);
           } else {
             // limited to save CPU
             ruleMatch.setSuggestedReplacement(messages.getString("too_many_errors"));

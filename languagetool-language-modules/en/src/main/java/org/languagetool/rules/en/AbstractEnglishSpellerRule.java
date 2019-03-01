@@ -27,7 +27,10 @@ import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
 import org.languagetool.synthesis.en.EnglishSynthesizer;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
@@ -43,6 +46,33 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
    */
   public AbstractEnglishSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig, List<Language> altLanguages) throws IOException {
     this(messages, language, userConfig, altLanguages, null);
+  }
+
+  protected static Map<String,String> loadWordlist(String path, int column) {
+    if (column != 0 && column != 1) {
+      throw new IllegalArgumentException("Only column 0 and 1 are supported: " + column);
+    }
+    Map<String,String> words = new HashMap<>();
+    try (
+      InputStreamReader isr = new InputStreamReader(JLanguageTool.getDataBroker().getFromResourceDirAsStream(path), StandardCharsets.UTF_8);
+      BufferedReader br = new BufferedReader(isr);
+    ) {
+      String line;
+      while ((line = br.readLine()) != null) {
+        line = line.trim();
+        if (line.isEmpty() ||  line.startsWith("#")) {
+          continue;
+        }
+        String[] parts = line.split(";");
+        if (parts.length != 2) {
+          throw new IOException("Unexpected format in " + path + ": " + line + " - expected two parts delimited by ';'");
+        }
+        words.put(parts[column], parts[column == 1 ? 0 : 1]);
+      }
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+    return words;
   }
 
 
@@ -65,9 +95,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
   }
 
   @Override
-  protected List<RuleMatch> getRuleMatches(AnalyzedTokenReadings token, AnalyzedSentence sentence, List<RuleMatch> ruleMatchesSoFar) throws IOException {
-    String word = token.getToken();
-    List<RuleMatch> ruleMatches = super.getRuleMatches(token, sentence, ruleMatchesSoFar);
+  protected List<RuleMatch> getRuleMatches(String word, int startPos, AnalyzedSentence sentence, List<RuleMatch> ruleMatchesSoFar) throws IOException {
+    List<RuleMatch> ruleMatches = super.getRuleMatches(word, startPos, sentence, ruleMatchesSoFar);
     if (ruleMatches.size() > 0) {
       // so 'word' is misspelled: 
       IrregularForms forms = getIrregularFormsOrNull(word);

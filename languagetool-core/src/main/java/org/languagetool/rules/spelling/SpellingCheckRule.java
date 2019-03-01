@@ -20,15 +20,14 @@ package org.languagetool.rules.spelling;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
-import org.apache.commons.lang3.tuple.Triple;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
 import org.languagetool.languagemodel.BaseLanguageModel;
 import org.languagetool.languagemodel.LanguageModel;
-import org.languagetool.rules.ExtendedRuleMatch;
 import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.SuggestedReplacement;
 import org.languagetool.rules.patterns.PatternToken;
 import org.languagetool.rules.patterns.PatternTokenBuilder;
 import org.languagetool.rules.spelling.suggestions.SuggestionsOrderer;
@@ -127,41 +126,35 @@ public abstract class SpellingCheckRule extends Rule {
    * @param match rule match to add suggestions to
    * @return modified match with suggestions and (possibly) extracted features
    */
-  protected static RuleMatch addSuggestionsToRuleMatch(String word, List<String> userCandidates, List<String> candidates,
-                                                       @Nullable SuggestionsOrderer orderer, RuleMatch match) {
+  protected static void addSuggestionsToRuleMatch(String word, List<String> userCandidates, List<String> candidates,
+                                                  @Nullable SuggestionsOrderer orderer, RuleMatch match) {
     AnalyzedSentence sentence = match.getSentence();
     int startPos = match.getFromPos();
     long startTime = System.currentTimeMillis();
-    RuleMatch result;
     if (orderer != null && orderer.isMlAvailable()) {
       if (orderer instanceof SuggestionsRanker) {
         // don't rank words form user dictionary, assign confidence 0.0, but add at start
         // hard to ensure performance on unknown words
         SuggestionsRanker ranker = (SuggestionsRanker) orderer;
-        Pair<List<String>, List<Float>> defaultSuggestions = ranker.rankSuggestions(
+        List<SuggestedReplacement> defaultSuggestions = ranker.orderSuggestions(
           candidates, word, sentence, startPos);
-        if (defaultSuggestions.getRight().isEmpty()) {
+        if (defaultSuggestions.isEmpty()) {
           // could not rank for some reason
-          result = match;
         } else {
-          ExtendedRuleMatch extendedRuleMatch = new ExtendedRuleMatch(match);
-          result = extendedRuleMatch;
-
           if (userCandidates.size() == 0) {
-            extendedRuleMatch.setAutoCorrect(ranker.shouldAutoCorrect(defaultSuggestions));
-            extendedRuleMatch.setSuggestedReplacements(defaultSuggestions.getLeft());
-            extendedRuleMatch.setSuggestionConfidence(defaultSuggestions.getRight());
+            match.setAutoCorrect(ranker.shouldAutoCorrect(defaultSuggestions));
+            match.setSuggestedReplacementObjects(defaultSuggestions);
           } else {
-            List<String> combinedSuggestions = new ArrayList<>();
-            List<Float> combinedConfidence = new ArrayList<>();
-            combinedSuggestions.addAll(userCandidates);
-            combinedSuggestions.addAll(defaultSuggestions.getLeft());
-            combinedConfidence.addAll(Collections.nCopies(userCandidates.size(), 0f));
-            combinedConfidence.addAll(defaultSuggestions.getRight());
-            extendedRuleMatch.setSuggestedReplacements(combinedSuggestions);
-            extendedRuleMatch.setSuggestionConfidence(combinedConfidence);
+            List<SuggestedReplacement> combinedSuggestions = new ArrayList<>();
+            for (String wordFromUserDict : userCandidates) {
+              SuggestedReplacement s = new SuggestedReplacement(wordFromUserDict);
+              s.setConfidence(0.0f);
+              combinedSuggestions.add(s);
+            }
+            combinedSuggestions.addAll(defaultSuggestions);
+            match.setSuggestedReplacementObjects(combinedSuggestions);
             // no auto correct when words from personal dictionaries are included
-            extendedRuleMatch.setAutoCorrect(false);
+            match.setAutoCorrect(false);
           }
         }
       } else if (orderer instanceof SuggestionsOrdererFeatureExtractor) {
@@ -172,31 +165,25 @@ public abstract class SpellingCheckRule extends Rule {
             "SuggestionsOrdererFeatureExtractor does not support suggestions from personal dictionaries at the moment.");
         }
         SuggestionsOrdererFeatureExtractor featureExtractor = (SuggestionsOrdererFeatureExtractor) orderer;
-        Triple<List<String>, SortedMap<String, Float>, List<SortedMap<String, Float>>> suggestions =
+        Pair<List<SuggestedReplacement>, SortedMap<String, Float>> suggestions =
           featureExtractor.computeFeatures(candidates, word, sentence, startPos);
 
-        ExtendedRuleMatch extendedRuleMatch = new ExtendedRuleMatch(match);
-        result = extendedRuleMatch;
-        extendedRuleMatch.setSuggestedReplacements(suggestions.getLeft());
-        extendedRuleMatch.setRuleMatchMetadata(suggestions.getMiddle());
-        extendedRuleMatch.setSuggestedReplacementsMetadata(suggestions.getRight());
+        match.setSuggestedReplacementObjects(suggestions.getLeft());
+        match.setFeatures(suggestions.getRight());
       } else {
-        result = match;
-        List<String> combinedSuggestions = new ArrayList<>();
-        combinedSuggestions.addAll(orderer.orderSuggestionsUsingModel(userCandidates, word, sentence, startPos));
-        combinedSuggestions.addAll(orderer.orderSuggestionsUsingModel(candidates, word, sentence, startPos));
-        match.setSuggestedReplacements(combinedSuggestions);
+        List<SuggestedReplacement> combinedSuggestions = new ArrayList<>();
+        combinedSuggestions.addAll(orderer.orderSuggestions(userCandidates, word, sentence, startPos));
+        combinedSuggestions.addAll(orderer.orderSuggestions(candidates, word, sentence, startPos));
+        match.setSuggestedReplacementObjects(combinedSuggestions);
       }
     } else { // no reranking
-      result = match;
       List<String> combinedSuggestions = new ArrayList<>();
       combinedSuggestions.addAll(userCandidates);
       combinedSuggestions.addAll(candidates);
-      result.setSuggestedReplacements(combinedSuggestions);
+      match.setSuggestedReplacements(combinedSuggestions);
     }
     long timeDelta = System.currentTimeMillis() - startTime;
     //System.out.printf("Reordering %d suggestions took %d ms.%n", result.getSuggestedReplacements().size(), timeDelta);
-    return result;
   }
 
   @Override

@@ -231,16 +231,17 @@ public class SymSpellRule extends SpellingCheckRule {
       List<String> candidates = filterCandidates(getSpellerMatches(word, defaultDictSpeller));
       List<String> userCandidates = getSpellerMatches(word, userDictSpeller);
       // TODO: messages
+      RuleMatch match = null;
       if (candidates.size() + userCandidates.size() == 0) {
-        RuleMatch match = new RuleMatch(this, sentence, token.getStartPos(), token.getEndPos(), "Misspelling or unknown word!");
-        matches.add(match);
+        match = new RuleMatch(this, sentence, token.getStartPos(), token.getEndPos(), "Misspelling or unknown word!");
       } else if (!(candidates.size() > 0 && candidates.get(0).equals(word) ||
         userCandidates.size() > 0 && userCandidates.get(0).equals(word))) {
-        RuleMatch match = new RuleMatch(this, sentence, token.getStartPos(), token.getEndPos(), "Misspelling!");
+        match = new RuleMatch(this, sentence, token.getStartPos(), token.getEndPos(), "Misspelling!");
 
-        RuleMatch matchWithSuggestions = addSuggestionsToRuleMatch(token.getToken(),
-          userCandidates, candidates, orderer, match);
-        matches.add(matchWithSuggestions);
+        addSuggestionsToRuleMatch(token.getToken(), userCandidates, candidates, orderer, match);
+      }
+      if (match != null) {
+        matches.add(match);
       }
     }
     return matches.toArray(new RuleMatch[0]);

@@ -830,6 +830,11 @@ public class JLanguageTool {
       fromPos = annotatedText.getOriginalTextPositionFor(fromPos);
       toPos = annotatedText.getOriginalTextPositionFor(toPos - 1) + 1;
     }
+    RuleMatch thisMatch = new RuleMatch(match);
+    thisMatch.setOffsetPosition(fromPos, toPos);
+    List<SuggestedReplacement> replacements = match.getSuggestedReplacementObjects();
+    thisMatch.setSuggestedReplacementObjects(extendSuggestions(replacements));
+
     String sentencePartToError = sentence.substring(0, match.getFromPos());
     String sentencePartToEndOfError = sentence.substring(0, match.getToPos());
     int lastLineBreakPos = sentencePartToError.lastIndexOf('\n');
@@ -848,25 +853,23 @@ public class JLanguageTool {
     }
     int lineBreaksToError = countLineBreaks(sentencePartToError);
     int lineBreaksToEndOfError = countLineBreaks(sentencePartToEndOfError);
-    match.setOffsetPosition(fromPos, toPos);
-    match.setLine(lineCount + lineBreaksToError);
-    match.setEndLine(lineCount + lineBreaksToEndOfError);
-    match.setColumn(column);
-    match.setEndColumn(endColumn);
+    thisMatch.setLine(lineCount + lineBreaksToError);
+    thisMatch.setEndLine(lineCount + lineBreaksToEndOfError);
+    thisMatch.setColumn(column);
+    thisMatch.setEndColumn(endColumn);
+    return thisMatch;
 
-    match.setSuggestedReplacementObjects(extendSuggestions(match.getSuggestedReplacementObjects()));
-    return match;
   }
 
   private List<SuggestedReplacement> extendSuggestions(List<SuggestedReplacement> replacements) {
     List<SuggestedReplacement> extended = new ArrayList<>();
     for (SuggestedReplacement replacement : replacements) {
+      SuggestedReplacement newReplacement = new SuggestedReplacement(replacement);
       if (replacement.getShortDescription() == null) {  // don't overwrite more specific suggestions from the rule
         String descOrNull = descProvider.getShortDescription(replacement.getReplacement());
-        extended.add(new SuggestedReplacement(replacement.getReplacement(), descOrNull));
-      } else {
-        extended.add(new SuggestedReplacement(replacement.getReplacement(), replacement.getShortDescription()));
+        newReplacement.setShortDescription(descOrNull);
       }
+      extended.add(newReplacement);
     }
     return extended;
   }
@@ -1186,16 +1189,17 @@ public class JLanguageTool {
             LineColumnRange range = getLineColumnRange(match);
             int newFromPos = annotatedText.getOriginalTextPositionFor(match.getFromPos());
             int newToPos = annotatedText.getOriginalTextPositionFor(match.getToPos() - 1) + 1;
-            match.setOffsetPosition(newFromPos, newToPos);
-            match.setLine(range.from.line);
-            match.setEndLine(range.to.line);
+            RuleMatch newMatch = new RuleMatch(match);
+            newMatch.setOffsetPosition(newFromPos, newToPos);
+            newMatch.setLine(range.from.line);
+            newMatch.setEndLine(range.to.line);
             if (match.getLine() == 0) {
-              match.setColumn(range.from.column + 1);
+              newMatch.setColumn(range.from.column + 1);
             } else {
-              match.setColumn(range.from.column);
+              newMatch.setColumn(range.from.column);
             }
-            match.setEndColumn(range.to.column);
-            adaptedMatches.add(match);
+            newMatch.setEndColumn(range.to.column);
+            adaptedMatches.add(newMatch);
           }
           ruleMatches.addAll(adaptedMatches);
           if (listener != null) {
@@ -1232,8 +1236,7 @@ public class JLanguageTool {
           }
           List<RuleMatch> adaptedMatches = new ArrayList<>();
           for (RuleMatch elem : sentenceMatches) {
-            RuleMatch thisMatch = adjustRuleMatchPos(elem,
-                    charCount, columnCount, lineCount, sentence, annotatedText);
+            RuleMatch thisMatch = adjustRuleMatchPos(elem, charCount, columnCount, lineCount, sentence, annotatedText);
             adaptedMatches.add(thisMatch);
             if (listener != null) {
               listener.matchFound(thisMatch);
