@@ -961,7 +961,7 @@ title="Easy editing stylesheet" ?>
       <example>Uma vez acordadas as novas condições, será feito o abastecimento elétrico.</example>
       <example correction='união empobrecida|uniões empobrecidas'>As regiões na <marker>união empobrecidas</marker> acabaram por ser culpabilizadas.</example>
       <example>As regiões da <marker>união empobrecidas</marker> acabaram por ser culpabilizados.</example>
-      <example>...odo estudante confia no Sr. Akai porque ele nunca quebra promessas.</example>
+      <example>…odo estudante confia no Sr. Akai porque ele nunca quebra promessas.</example>
     </rule>
     <rule>
       <antipattern>
@@ -8016,6 +8016,105 @@ title="Easy editing stylesheet" ?>
           <token regexp='yes' skip='-1'>\d{3}</token>
           <token postag="SENT_END">,</token>
       </antipattern>
+      <antipattern><!-- XXX Farewells -->
+          <token postag="SENT_START"/>
+          <token>Qualquer</token>
+          <token>dúvida</token>
+          <token>,</token>
+          <token>estou</token>
+          <token>à</token>
+          <token>disposição</token>
+          <token postag="SENT_END">,</token>
+      </antipattern>
+      <antipattern>
+          <token postag="SENT_START"/>
+          <token>Coloco</token>
+          <token>&hifen;</token>
+          <token>me</token>
+          <token>à</token>
+          <token>sua</token>
+          <token>inteira</token>
+          <token>disposição</token>
+          <token>para</token>
+          <token>quaisquer</token>
+          <token>esclarecimentos</token>
+          <token postag="SENT_END">,</token>
+      </antipattern>
+      <antipattern>
+          <token postag="SENT_START"/>
+          <token>Aguardo</token>
+          <token>a</token>
+          <token>sua</token>
+          <token>resposta</token>
+          <token postag="SENT_END">,</token>
+      </antipattern>
+      <antipattern>
+          <token postag="SENT_START"/>
+          <token>Não</token>
+          <token>hesite</token>
+          <token>em</token>
+          <token>contactar</token>
+          <token>&hifen;</token>
+          <token>me</token>
+          <token postag="SENT_END">,</token>
+      </antipattern>
+      <antipattern>
+          <token postag="SENT_START"/>
+          <token>Saudações</token>
+          <token>calorosas</token>
+          <token postag="SENT_END">,</token>
+      </antipattern>
+      <antipattern>
+          <token postag="SENT_START"/>
+          <token min='0'>Antecipadamente</token>
+          <token min='0'>Um</token>
+          <token min='0' regexp='yes'>Muito|grande</token>
+          <token regexp="yes">Atenciosamente|Atentamente|Cordialmente|Obrigad[ao]|Agradecido|Grat[ao]s?|Abraços?|Cumprimentos</token>
+          <token postag="SENT_END">,</token>
+      <antipattern>
+          <token postag="SENT_START"/>
+          <token min='0' regexp='yes'>Apresento|Apresentamos|Com</token>
+          <token min='0'>Os</token>
+          <token min='0' regexp='yes'>meus|nossos</token>
+          <token min='0'>melhores</token>
+          <token>Cumprimentos</token>
+          <token postag="SENT_END">,</token>
+      </antipattern>
+      <antipattern>
+          <token>Desde</token>
+          <token>já</token>
+          <token>deixo</token>
+          <token>o</token>
+          <token>meu</token>
+          <token>obrigado</token>
+          <token postag="SENT_END">,</token>
+      </antipattern>
+      <antipattern>
+          <token postag="SENT_START"/>
+          <token>Agradeço</token>
+          <token>a</token>
+          <token>atenção</token>
+          <token>dispensada</token>
+          <token postag="SENT_END">,</token>
+      </antipattern>
+      <antipattern>
+          <token postag="SENT_START"/>
+          <token>Obrigado</token>
+          <token>pela</token>
+          <token>sua</token>
+          <token>ajuda</token>
+          <token>com</token>
+          <token>esta</token>
+          <token>questão</token>
+          <token postag="SENT_END">,</token>
+      </antipattern>
+      <antipattern>
+          <token postag="SENT_START"/>
+          <token>Com</token>
+          <token min='0'>elevada</token>
+          <token regexp='yes'>estima|consideração</token>
+          <token postag="SENT_END">,</token>
+      </antipattern>
       <pattern>
           <token postag="SENT_END">,</token>
       </pattern>
@@ -8108,7 +8207,9 @@ title="Easy editing stylesheet" ?>
     <rule>
       <pattern>
           <token postag="SENT_START"/>
-          <token min='0'>Muito</token>
+          <token min='0'>Antecipadamente</token>
+          <token min='0'>Um</token>
+          <token min='0' regexp='yes'>Muito|grande</token>
           <token regexp="yes">Atenciosamente|Atentamente|Cordialmente|Obrigad[ao]|Agradecido|Grat[ao]s?|Abraços?|Cumprimentos</token>
           <token min='0'>cordiais</token>
           <token min='0'>pela</token>
@@ -8141,10 +8242,11 @@ title="Easy editing stylesheet" ?>
     <rule>
       <pattern>
           <token postag="SENT_START"/>
+          <token min='0'>Antecipadamente</token>
           <token min='0'>Um</token>
           <token min='0' regexp='yes'>Muito|grande</token>
         <marker>
-          <token postag='SENT_END' regexp="yes">Atenciosamente|Atentamente|Cordialmente|Obrigad[ao]|Agradecido|Grat[ao]s?|Abraços?|Cumprimentos</token>
+          <token postag='SENT_END' regexp="yes">Atenciosamente|Atentamente|Cordialmente|Obrigad[ao]|Agradecido|Grat[ao]s?|Abraços?|Beij(?:inh)?os?|Cumprimentos</token>
         </marker>
       </pattern>
       <message>As fórmulas de despedidas são terminadas com vírgula.</message>
