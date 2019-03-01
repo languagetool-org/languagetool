@@ -18,20 +18,18 @@
  */
 package org.languagetool.rules.spelling.hunspell;
 
-import org.apache.commons.text.similarity.EditDistance;
-import org.apache.commons.text.similarity.LevenshteinDistance;
 import org.languagetool.Language;
 import org.languagetool.UserConfig;
 import org.languagetool.languagemodel.LanguageModel;
-import org.languagetool.rules.ngrams.Probability;
-import org.languagetool.rules.spelling.suggestions.SuggestionsChanges;
 import org.languagetool.rules.spelling.morfologik.MorfologikMultiSpeller;
 import org.languagetool.tokenizers.CompoundWordTokenizer;
 import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.ResourceBundle;
 import java.util.stream.IntStream;
 
 /**
@@ -84,10 +82,6 @@ public abstract class CompoundAwareHunspellRule extends HunspellRule {
     List<String> simpleSuggestions = getCorrectWords(candidates);
     //System.out.println("simpleSuggestions: " + simpleSuggestions);
 
-    if (SuggestionsChanges.isRunningExperiment("sortSuggestionByFrequency")) {
-      simpleSuggestions = sortSuggestionByFrequency(word, simpleSuggestions);
-    }
-
     List<String> noSplitSuggestions = morfoSpeller.getSuggestions(word);  // after getCorrectWords() so spelling.txt is considered
     handleWordEndPunctuation(".", word, noSplitSuggestions);
     handleWordEndPunctuation("...", word, noSplitSuggestions);
@@ -118,10 +112,6 @@ public abstract class CompoundAwareHunspellRule extends HunspellRule {
 
     filterDupes(suggestions);
     filterForLanguage(suggestions);
-
-    if (SuggestionsChanges.isRunningExperiment("sortAfterSuggestionOrderer")) {
-      return suggestions.subList(0, Math.min(MAX_SUGGESTIONS, suggestions.size()));
-    }
 
     List<String> sortedSuggestions = sortSuggestionByQuality(word, suggestions);
     //System.out.println("sortSuggestionByQuality(): " + sortedSuggestions);
@@ -198,73 +188,6 @@ public abstract class CompoundAwareHunspellRule extends HunspellRule {
       partCount++;
     }
     return candidates;
-  }
-
-  protected List<String> sortSuggestionByFrequency(String misspelling, List<String> suggestions) {
-    if (languageModel == null) {
-      return suggestions;
-    }
-/*    suggestions.stream()
-      .map(word -> Pair.of(word, languageModel.getPseudoProbability(Collections.singletonList(word))))
-      .forEach(System.out::println);*/
-    EditDistance<Integer> dist = LevenshteinDistance.getDefaultInstance();
-
-    class Features {
-      public Probability unigramProb;
-      public int unigramProbRank;
-      public int levenshteinDist;
-      public int distRank;
-
-      @Override
-      public String toString() {
-        return "Features{" +
-          "unigramProb=" + unigramProb +
-          ", unigramProbRank=" + unigramProbRank +
-          ", levenshteinDist=" + levenshteinDist +
-          ", distRank=" + distRank +
-          '}';
-      }
-    }
-
-    Map<String, Features> featureMap = suggestions.stream().distinct()
-      .collect(Collectors.toMap(w -> w, ignored -> new Features()));
-
-    featureMap.forEach((word, features) -> {
-      features.levenshteinDist = dist.apply(word, misspelling);
-      features.unigramProb = languageModel.getPseudoProbability(Collections.singletonList(word));
-    });
-
-    // sort candidates by frequency, descending
-    List<String> sortedByProb = suggestions.stream().sorted((a, b) -> Double.compare(featureMap.get(b).unigramProb.getProb(), featureMap.get(a).unigramProb.getProb())).collect(Collectors.toList());
-    // sort candidates by levenshtein distance, ascending
-    List<String> sortedByDist = suggestions.stream().sorted(Comparator.comparingInt(a -> featureMap.get(a).levenshteinDist)).collect(Collectors.toList());
-
-    featureMap.forEach((word, features) -> {
-      features.distRank = sortedByDist.indexOf(word);
-      features.unigramProbRank = sortedByProb.indexOf(word);
-    });
-
-
-    List<String> sortedByMix = featureMap.entrySet().stream()
-      .sorted((a, b) -> {
-
-        // punish words with probability = zero -> always at the end
-        if (Math.abs(a.getValue().unigramProb.getProb() - b.getValue().unigramProb.getProb()) > 0.001) {
-          if (a.getValue().unigramProb.getProb() == 0.0) {
-            return -1;
-          } else if (b.getValue().unigramProb.getProb() == 0.0){
-            return 1;
-          }
-        }
-        double aScore = 0.5 * a.getValue().unigramProbRank + 0.5 * a.getValue().distRank;
-        double bScore = 0.5 * b.getValue().unigramProbRank + 0.5 * b.getValue().distRank;
-        return Double.compare(aScore, bScore);
-      }).map(Map.Entry::getKey).collect(Collectors.toList());
-
-    System.out.println("Candidates sorted by frequency: " + sortedByProb);
-    System.out.println("Candidates sorted by levenshtein: " + sortedByDist);
-    System.out.println("Candidates sorted by mix: " + sortedByMix);
-    return sortedByMix;
   }
 
   // avoid over-accepting words, as the Morfologik approach above might construct
