@@ -33,9 +33,9 @@ import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
-import org.languagetool.rules.ExtendedRuleMatch;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.SuggestedReplacement;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -239,13 +239,8 @@ public class SuggestionChangesTest {
             continue;
           }
           int position = suggestions.indexOf(entry.getReplacement());
-          if (match instanceof ExtendedRuleMatch) {
-            SuggestionsChanges.getInstance().trackExperimentResult(Pair.of(experiment, entry.getDataset()),
-              position, textSize, computationTime);
-          } else {
-            SuggestionsChanges.getInstance().trackExperimentResult(Pair.of(experiment, entry.getDataset()),
-              position, textSize, computationTime);
-          }
+          SuggestionsChanges.getInstance().trackExperimentResult(Pair.of(experiment, entry.getDataset()),
+            position, textSize, computationTime);
           if (position == 0) {
             correct.add(String.valueOf(experimentId));
           }
@@ -349,18 +344,14 @@ public class SuggestionChangesTest {
                 result.getInput().getCovered(), result.getInput().getReplacement(), datasetId));
               for (RuleMatch match : result.getSuggestions()) {
                 List<String> suggestions = match.getSuggestedReplacements();
-                List<String> reduced = suggestions.subList(0, Math.min(5, suggestions.size()));
-                record.add(mapper.writeValueAsString(reduced));
-                if (match instanceof ExtendedRuleMatch) { // features extracted by SuggestionsOrdererFeatureExtractor
-                  List<SortedMap<String, Float>> suggestionsMetadata = ((ExtendedRuleMatch) match).getSuggestedReplacementsMetadata();
-                  SortedMap<String, Float> matchMetadata = ((ExtendedRuleMatch) match).getRuleMatchMetadata();
-                  record.add(mapper.writeValueAsString(matchMetadata));
-                  record.add(mapper.writeValueAsString(suggestionsMetadata));
-                } else {
-                  record.add(null);
-                  record.add(null);
+                record.add(mapper.writeValueAsString(suggestions));
+                // features extracted by SuggestionsOrdererFeatureExtractor
+                record.add(mapper.writeValueAsString(match.getFeatures()));
+                List<SortedMap<String, Float>> suggestionsMetadata = new ArrayList<>();
+                for (SuggestedReplacement replacement : match.getSuggestedReplacementObjects()) {
+                  suggestionsMetadata.add(replacement.getFeatures());
                 }
-
+                record.add(mapper.writeValueAsString(suggestionsMetadata));
               }
               datasetWriter.printRecord(record);
             }

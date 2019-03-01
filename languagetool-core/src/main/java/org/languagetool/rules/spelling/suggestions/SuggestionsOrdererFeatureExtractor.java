@@ -22,7 +22,7 @@
 package org.languagetool.rules.spelling.suggestions;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.tuple.Triple;
+import org.apache.commons.lang3.tuple.Pair;
 import org.apache.commons.text.similarity.JaroWinklerDistance;
 import org.apache.commons.text.similarity.SimilarityScore;
 import org.jetbrains.annotations.NotNull;
@@ -30,6 +30,7 @@ import org.languagetool.AnalyzedSentence;
 import org.languagetool.Language;
 import org.languagetool.languagemodel.BaseLanguageModel;
 import org.languagetool.languagemodel.LanguageModel;
+import org.languagetool.rules.SuggestedReplacement;
 import org.languagetool.rules.ngrams.LanguageModelUtils;
 import org.languagetool.rules.spelling.morfologik.suggestions_ordering.DetailedDamerauLevenstheinDistance;
 import org.languagetool.rules.spelling.symspell.implementation.EditDistance;
@@ -76,7 +77,7 @@ public class SuggestionsOrdererFeatureExtractor implements SuggestionsOrderer {
   }
 
   @Override
-  public List<String> orderSuggestionsUsingModel(List<String> suggestions, String word, AnalyzedSentence sentence, int startPos) {
+  public List<SuggestedReplacement> orderSuggestions(List<String> suggestions, String word, AnalyzedSentence sentence, int startPos) {
     return computeFeatures(suggestions, word, sentence, startPos).getLeft();
   }
 
@@ -88,9 +89,9 @@ public class SuggestionsOrdererFeatureExtractor implements SuggestionsOrderer {
    * @param startPos
    * @return correction candidates, features for the match in general, features specific to candidates
    */
-  public Triple<List<String>, SortedMap<String, Float>, List<SortedMap<String, Float>>> computeFeatures(List<String> suggestions, String word, AnalyzedSentence sentence, int startPos) {
+  public Pair<List<SuggestedReplacement>, SortedMap<String, Float>> computeFeatures(List<String> suggestions, String word, AnalyzedSentence sentence, int startPos) {
     if (suggestions.isEmpty()) {
-      return Triple.of(Collections.emptyList(), Collections.emptySortedMap(), Collections.emptyList());
+      return Pair.of(Collections.emptyList(), Collections.emptySortedMap());
     }
     if (topN <= 0) {
       topN = suggestions.size();
@@ -123,8 +124,12 @@ public class SuggestionsOrdererFeatureExtractor implements SuggestionsOrderer {
     SortedMap<String, Float> matchData = new TreeMap<>();
     matchData.put("candidateCount", (float) words.size());
 
-    List<SortedMap<String, Float>> suggestionsData = features.stream().map(Feature::getData).collect(Collectors.toList());
-    return Triple.of(words, matchData, suggestionsData);
+    List<SuggestedReplacement> suggestionsData = features.stream().map(f -> {
+      SuggestedReplacement s = new SuggestedReplacement(f.getWord());
+      s.setFeatures(f.getData());
+      return s;
+    }).collect(Collectors.toList());
+    return Pair.of(suggestionsData, matchData);
   }
 
 

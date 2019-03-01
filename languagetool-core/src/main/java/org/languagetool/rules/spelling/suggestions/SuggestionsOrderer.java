@@ -22,11 +22,18 @@
 package org.languagetool.rules.spelling.suggestions;
 
 import org.languagetool.AnalyzedSentence;
+import org.languagetool.rules.SuggestedReplacement;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public interface SuggestionsOrderer {
   boolean isMlAvailable();
 
-  List<String> orderSuggestionsUsingModel(List<String> suggestions, String word, AnalyzedSentence sentence, int startPos);
+  List<SuggestedReplacement> orderSuggestions(List<String> suggestions, String word, AnalyzedSentence sentence, int startPos);
+
+  default List<String> orderSuggestionsUsingModel(List<String> suggestions, String word, AnalyzedSentence sentence, int startPos) {
+    List<SuggestedReplacement> ordered = orderSuggestions(suggestions, word, sentence, startPos);
+    return ordered.stream().map(SuggestedReplacement::getReplacement).collect(Collectors.toList());
+  }
 }

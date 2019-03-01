@@ -166,36 +166,19 @@ public class RuleMatchesAsJsonSerializer {
   
   private void writeReplacements(JsonGenerator g, RuleMatch match) throws IOException {
     g.writeArrayFieldStart("replacements");
-    if (match instanceof ExtendedRuleMatch) {
-      ExtendedRuleMatch extended = (ExtendedRuleMatch) match;
-      if (extended.getSuggestedReplacements().size() != extended.getSuggestionConfidence().size()) {
-        logger.warn(String.format("Suggestions and metadata don't match: length %d vs %d.",
-          extended.getSuggestedReplacements().size(),extended.getSuggestedReplacementsMetadata().size()));
-      } else {
-        List<SuggestedReplacement> suggestions = extended.getSuggestedReplacementObjects();
-        List<Float> confidence = extended.getSuggestionConfidence();
-        for (int i = 0; i < suggestions.size(); i++) {
-          g.writeStartObject();
-          if (i == 0 && extended.isAutoCorrect()) {
-            g.writeBooleanField("autoCorrect", true);
-          }
-          g.writeStringField("value", suggestions.get(i).getReplacement());
-          if (suggestions.get(i).getShortDescription() != null) {
-            g.writeStringField("shortDescription", suggestions.get(i).getShortDescription());
-          }
-          g.writeNumberField("confidence", confidence.get(i));
-          g.writeEndObject();
-        }
-        g.writeEndArray();
-        return;
-      }
-    }
-
+    boolean autoCorrect = match.isAutoCorrect();
     for (SuggestedReplacement replacement : match.getSuggestedReplacementObjects()) {
       g.writeStartObject();
       g.writeStringField("value", replacement.getReplacement());
       if (replacement.getShortDescription() != null) {
         g.writeStringField("shortDescription", replacement.getShortDescription());
+      }
+      if (autoCorrect) {
+        g.writeBooleanField("autoCorrect", true);
+        autoCorrect = false; // only for first replacement
+      }
+      if (replacement.getConfidence() != null) {
+        g.writeNumberField("confidence", replacement.getConfidence());
       }
       g.writeEndObject();
     }

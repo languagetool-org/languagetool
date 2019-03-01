@@ -25,6 +25,7 @@ import org.languagetool.AnalyzedSentence;
 import org.languagetool.Language;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.languagemodel.MockLanguageModel;
+import org.languagetool.rules.SuggestedReplacement;
 import org.languagetool.rules.ngrams.GoogleTokenUtil;
 import org.languagetool.rules.spelling.suggestions.SuggestionsOrderer;
 
@@ -34,6 +35,7 @@ import java.nio.file.Paths;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class SuggestionsOrdererGSoC implements SuggestionsOrderer {
   
@@ -144,9 +146,9 @@ public class SuggestionsOrdererGSoC implements SuggestionsOrderer {
   }
 
   @Override
-  public List<String> orderSuggestionsUsingModel(List<String> suggestions, String word, AnalyzedSentence sentence, int startPos) {
+  public List<SuggestedReplacement> orderSuggestions(List<String> suggestions, String word, AnalyzedSentence sentence, int startPos) {
     if (!isMlAvailable()) {
-      return suggestions;
+      return suggestions.stream().map(SuggestedReplacement::new).collect(Collectors.toList());
     }
     List<Pair<String, Float>> suggestionsScores = new LinkedList<>();
     for (String suggestion : suggestions) {
@@ -158,9 +160,12 @@ public class SuggestionsOrdererGSoC implements SuggestionsOrderer {
     }
     Comparator<Pair<String, Float>> comparing = Comparator.comparing(Pair::getValue);
     suggestionsScores.sort(comparing.reversed());
-    List<String> result = new LinkedList<>();
-    suggestionsScores.iterator().forEachRemaining((Pair<String, Float> p) -> result.add(p.getKey()));
-    return result;
+
+    return suggestionsScores.stream().map(p -> {
+      SuggestedReplacement s = new SuggestedReplacement(p.getKey());
+      s.setConfidence(p.getRight());
+      return s;
+    }).collect(Collectors.toList());
   }
 
   private static class NGramUtil {

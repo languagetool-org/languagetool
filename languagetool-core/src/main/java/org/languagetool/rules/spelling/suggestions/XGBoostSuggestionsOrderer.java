@@ -26,7 +26,6 @@ import ml.dmlc.xgboost4j.java.DMatrix;
 import ml.dmlc.xgboost4j.java.XGBoost;
 import ml.dmlc.xgboost4j.java.XGBoostError;
 import org.apache.commons.lang3.tuple.Pair;
-import org.apache.commons.lang3.tuple.Triple;
 import org.apache.commons.pool2.BaseKeyedPooledObjectFactory;
 import org.apache.commons.pool2.KeyedObjectPool;
 import org.apache.commons.pool2.PooledObject;
@@ -36,8 +35,8 @@ import org.jetbrains.annotations.NotNull;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
-import org.languagetool.Languages;
 import org.languagetool.languagemodel.LanguageModel;
+import org.languagetool.rules.SuggestedReplacement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -70,29 +69,32 @@ public class XGBoostSuggestionsOrderer extends SuggestionsOrdererFeatureExtracto
     return "/" + language.getShortCode() + "/spelling_correction_model.bin";
   }
 
-  private static final Map<Language, Float> autoCorrectThreshold = new HashMap<>();
-  private static final Map<Language, List<Integer>> modelClasses = new HashMap<>();
+  private static final Map<String, Float> autoCorrectThreshold = new HashMap<>();
+  private static final Map<String, List<Integer>> modelClasses = new HashMap<>();
+  private static final Map<String, Integer> candidateFeatureCount = new HashMap<>();
+  private static final Map<String, Integer> matchFeatureCount = new HashMap<>();
   private boolean modelAvailableForLanguage = false;
 
   static {
     List<Integer> defaultClasses = Arrays.asList(-1, 0, 1, 2, 3, 4);
-    autoCorrectThreshold.put(Languages.getLanguageForShortCode("en-US"), 1.00f);
-    modelClasses.put(Languages.getLanguageForShortCode("en-US"), defaultClasses);
+    autoCorrectThreshold.put("en-US", 1.00f);
+    modelClasses.put("en-US", defaultClasses);
+    candidateFeatureCount.put("en-US", 10);
+    matchFeatureCount.put("en-US", 1);
     // disabled German model for now, no manually labeled validation set
-    //autoCorrectThreshold.put(Languages.getLanguageForShortCode("de-DE"), 0.90f);
-    //modelClasses.put(Languages.getLanguageForShortCode("de-DE"), Arrays.asList(-1, 0, 1, 2, 3, 4));
   }
 
   /**
    * For testing purposes only
    */
   public static void setAutoCorrectThresholdForLanguage(Language lang, float value) {
-    autoCorrectThreshold.replace(lang, value);
+    autoCorrectThreshold.replace(lang.getShortCodeWithCountryAndVariant(), value);
   }
 
   public XGBoostSuggestionsOrderer(Language lang, LanguageModel languageModel) {
     super(lang, languageModel);
-    if (autoCorrectThreshold.containsKey(lang) && modelClasses.containsKey(lang) &&
+    String langCode = lang.getShortCodeWithCountryAndVariant();
+    if (autoCorrectThreshold.containsKey(langCode) && modelClasses.containsKey(langCode) &&
       JLanguageTool.getDataBroker().resourceExists(getModelPath(language))) {
       try {
         Booster model = modelPool.borrowObject(language);
@@ -119,21 +121,18 @@ public class XGBoostSuggestionsOrderer extends SuggestionsOrdererFeatureExtracto
   }
 
   @Override
-  public List<String> orderSuggestionsUsingModel(List<String> suggestions, String word, AnalyzedSentence sentence, int startPos) {
-    return rankSuggestions(suggestions, word, sentence, startPos).getLeft();
-  }
-
-  @Override
-  public Pair<List<String>, List<Float>> rankSuggestions(List<String> suggestions, String word, AnalyzedSentence sentence, int startPos) {
+  public List<SuggestedReplacement> orderSuggestions(List<String> suggestions, String word, AnalyzedSentence sentence, int startPos) {
     long featureStartTime = System.currentTimeMillis();
-    Triple<List<String>, SortedMap<String, Float>, List<SortedMap<String, Float>>> candidatesAndFeatures = computeFeatures(suggestions, word, sentence, startPos);
+
+    String langCode = language.getShortCodeWithCountryAndVariant();
+
+    Pair<List<SuggestedReplacement>, SortedMap<String, Float>> candidatesAndFeatures = computeFeatures(suggestions, word, sentence, startPos);
     //System.out.printf("Computing %d features took %d ms.%n", suggestions.size(), System.currentTimeMillis() - featureStartTime);
-    List<String> candidates = candidatesAndFeatures.getLeft();
-    SortedMap<String, Float> matchFeatures = candidatesAndFeatures.getMiddle();
-    List<SortedMap<String, Float>> suggestionFeatures = candidatesAndFeatures.getRight();
-    List<Pair<String, Float>> candidatesWithProbabilities = new ArrayList<>(candidates.size());
+    List<SuggestedReplacement> candidates = candidatesAndFeatures.getLeft();
+    SortedMap<String, Float> matchFeatures = candidatesAndFeatures.getRight();
+    List<SortedMap<String, Float>> suggestionFeatures = candidates.stream().map(SuggestedReplacement::getFeatures).collect(Collectors.toList());
     if (candidates.size() == 0) {
-      return Pair.of(Collections.emptyList(), Collections.emptyList());
+      return Collections.emptyList();
     }
     if (candidates.size() != suggestionFeatures.size()) {
       throw new RuntimeException(
@@ -145,15 +144,30 @@ public class XGBoostSuggestionsOrderer extends SuggestionsOrdererFeatureExtracto
     float[] data = new float[numFeatures];
 
     int featureIndex = 0;
+    //System.out.printf("Features for match on '%s': %n", word);
+    int expectedMatchFeatures = matchFeatureCount.getOrDefault(langCode, -1);
+    int expectedCandidateFeatures = candidateFeatureCount.getOrDefault(langCode, -1);
+    if (matchFeatures.size() != expectedMatchFeatures) {
+      logger.warn(String.format("Match features '%s' do not have expected size %d.",
+        matchFeatures, expectedMatchFeatures));
+    }
     for (Map.Entry<String, Float> feature : matchFeatures.entrySet()) {
+      //System.out.printf("%s = %f%n", feature.getKey(), feature.getValue());
       data[featureIndex++] = feature.getValue();
     }
+    //int suggestionIndex = 0;
     for (SortedMap<String, Float> candidateFeatures : suggestionFeatures) {
+      if (candidateFeatures.size() != expectedCandidateFeatures) {
+        logger.warn(String.format("Candidate features '%s' do not have expected size %d.",
+          candidateFeatures, expectedCandidateFeatures));
+      }
+      //System.out.printf("Features for candidate '%s': %n", candidates.get(suggestionIndex++).getReplacement());
       for (Map.Entry<String, Float> feature : candidateFeatures.entrySet()) {
+        //System.out.printf("%s = %f%n", feature.getKey(), feature.getValue());
         data[featureIndex++] = feature.getValue();
       }
     }
-    List<Integer> labels = modelClasses.get(language);
+    List<Integer> labels = modelClasses.get(langCode);
 
     Booster model = null;
     try {
@@ -185,14 +199,14 @@ public class XGBoostSuggestionsOrderer extends SuggestionsOrdererFeatureExtracto
         if (labelIndex != -1) {
           prob = probabilities[labelIndex];
         }
-        candidatesWithProbabilities.add(Pair.of(candidates.get(candidateIndex), prob));
+        candidates.get(candidateIndex).setConfidence(prob);
       }
     } catch (XGBoostError xgBoostError) {
       logger.error("Error while applying XGBoost model to spelling suggestions", xgBoostError);
-      return Pair.of(suggestions, Collections.emptyList());
+      return candidates;
     } catch (Exception e) {
       logger.error("Error while loading XGBoost model for spelling suggestions", e);
-      return Pair.of(suggestions, Collections.emptyList());
+      return candidates;
     } finally {
       if (model != null) {
         try {
@@ -202,19 +216,16 @@ public class XGBoostSuggestionsOrderer extends SuggestionsOrdererFeatureExtracto
         }
       }
     }
-    // TODO: implement treshold + auto correct
-    candidatesWithProbabilities.sort(Collections.reverseOrder(Comparator.comparing(Pair::getRight)));
-    List<String> sortedCandidates = candidatesWithProbabilities.stream().map(Pair::getLeft).collect(Collectors.toList());
-    List<Float> confidence = candidatesWithProbabilities.stream().map(Pair::getRight).collect(Collectors.toList());
-    return Pair.of(sortedCandidates, confidence);
+    candidates.sort(Collections.reverseOrder(Comparator.comparing(SuggestedReplacement::getConfidence)));
+    return candidates;
   }
 
   @Override
-  public boolean shouldAutoCorrect(Pair<List<String>, List<Float>> rankedSuggestions) {
-    List<Float> confidence = rankedSuggestions.getRight();
-    if (confidence.size() == 0) {
+  public boolean shouldAutoCorrect(List<SuggestedReplacement> rankedSuggestions) {
+    if (rankedSuggestions.size() == 0 || rankedSuggestions.stream().anyMatch(s -> s.getConfidence() == null)) {
       return false;
     }
-    return confidence.get(0) >= autoCorrectThreshold.getOrDefault(language, Float.MAX_VALUE);
+    float threshold = autoCorrectThreshold.getOrDefault(language.getShortCodeWithCountryAndVariant(), Float.MAX_VALUE);
+    return rankedSuggestions.get(0).getConfidence() >= threshold;
   }
 }

@@ -21,12 +21,10 @@
 
 package org.languagetool.rules.spelling.suggestions;
 
-import org.apache.commons.lang3.tuple.Pair;
-import org.languagetool.AnalyzedSentence;
+import org.languagetool.rules.SuggestedReplacement;
 
 import java.util.List;
 
 public interface SuggestionsRanker extends SuggestionsOrderer {
-  Pair<List<String>, List<Float>> rankSuggestions(List<String> suggestions, String word, AnalyzedSentence sentence, int startPos);
-  boolean shouldAutoCorrect(Pair<List<String>, List<Float>> rankedSuggestions);
+  boolean shouldAutoCorrect(List<SuggestedReplacement> rankedSuggestions);
 }
