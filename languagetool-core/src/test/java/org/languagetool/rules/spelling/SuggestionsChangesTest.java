@@ -35,11 +35,14 @@ import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
-import org.languagetool.language.LanguageIdentifier;
+import org.languagetool.rules.ExtendedRuleMatch;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -49,10 +52,6 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
 
 /**
  * needs to run with classpath of languagetool-standalone (needs access to modules for single languages)
@@ -69,8 +68,6 @@ import static org.junit.Assert.assertNotEquals;
  */
 @Ignore("Interactive test for evaluating changes to suggestions based on data")
 public class SuggestionsChangesTest {
-
-  private static final Random sampler = new Random(0);
 
   static class SuggestionTestData {
     private final String language;
@@ -116,9 +113,9 @@ public class SuggestionsChangesTest {
 
   static class SuggestionTestResultData {
     private final SuggestionTestData input;
-    private final List<List<String>> suggestions;
+    private final List<RuleMatch> suggestions;
 
-    SuggestionTestResultData(SuggestionTestData input, List<List<String>> suggestions) {
+    SuggestionTestResultData(SuggestionTestData input, List<RuleMatch> suggestions) {
       this.input = input;
       this.suggestions = suggestions;
     }
@@ -127,12 +124,13 @@ public class SuggestionsChangesTest {
       return input;
     }
 
-    public List<List<String>> getSuggestions() {
+    public List<RuleMatch> getSuggestions() {
       return suggestions;
     }
   }
 
   static class SuggestionTestThread extends Thread {
+    private final Random sampler = new Random(0);
 
     private final ConcurrentLinkedQueue<Pair<SuggestionTestResultData, String>> results;
     private JLanguageTool standardLt;
@@ -208,6 +206,11 @@ public class SuggestionsChangesTest {
         }
       }
 
+      // needs to be here to make combined filtering + sampling more transparent
+      if (sampler.nextFloat() > entry.getDataset().sampleRate) {
+        return;
+      }
+
       List<SuggestionChangesExperiment> experiments = SuggestionsChanges.getInstance().getExperiments();
       int experimentId = 0;
 
@@ -215,7 +218,8 @@ public class SuggestionsChangesTest {
       message.append(String.format("Checking candidates for correction '%s' -> '%s' in sentence '%s':%n",
         entry.getCovered(), entry.getReplacement(), entry.getSentence()));
       List<String> correct = new ArrayList<>();
-      List<List<String>> gatheredSuggestions = new ArrayList<>(experiments.size());
+      List<RuleMatch> gatheredSuggestions = new ArrayList<>(experiments.size());
+      int textSize = sentence.getText().length();
       for (SuggestionChangesExperiment experiment : experiments) {
         experimentId++;
 
@@ -223,7 +227,9 @@ public class SuggestionsChangesTest {
         if (spellerRule == null) {
           continue;
         }
+        long startTime = System.currentTimeMillis();
         RuleMatch[] matches = spellerRule.match(sentence);
+        long computationTime = System.currentTimeMillis() - startTime;
 
         for (RuleMatch match : matches) {
           String matchedWord = sentence.getText().substring(match.getFromPos(), match.getToPos());
@@ -232,12 +238,18 @@ public class SuggestionsChangesTest {
             continue;
           }
           List<String> suggestions = match.getSuggestedReplacements();
-          gatheredSuggestions.add(suggestions);
+          gatheredSuggestions.add(match);
           if (suggestions.size() == 0) { // TODO should be tracked as well
             continue;
           }
           int position = suggestions.indexOf(entry.getReplacement());
-          SuggestionsChanges.getInstance().trackExperimentResult(Pair.of(experiment, entry.getDataset()), position);
+          if (match instanceof ExtendedRuleMatch) {
+            SuggestionsChanges.getInstance().trackExperimentResult(Pair.of(experiment, entry.getDataset()),
+              position, textSize, computationTime);
+          } else {
+            SuggestionsChanges.getInstance().trackExperimentResult(Pair.of(experiment, entry.getDataset()),
+              position, textSize, computationTime);
+          }
           if (position == 0) {
             correct.add(String.valueOf(experimentId));
           }
@@ -301,7 +313,7 @@ public class SuggestionsChangesTest {
 
     BufferedWriter writer = Files.newBufferedWriter(loggingFile);
     CSVPrinter datasetWriter = new CSVPrinter(Files.newBufferedWriter(datasetFile), CSVFormat.DEFAULT.withEscape('\\'));
-    List<String> datasetHeader = new ArrayList<>(Arrays.asList("sentence", "correction", "covered", "replacement"));
+    List<String> datasetHeader = new ArrayList<>(Arrays.asList("sentence", "correction", "covered", "replacement", "dataset_id"));
 
     SuggestionsChanges.init(config, writer);
     writer.write("Evaluation configuration: \n");
@@ -313,6 +325,8 @@ public class SuggestionsChangesTest {
       experimentId++;
       writer.write(String.format("#%d: %s%n", experimentId, experiment));
       datasetHeader.add(String.format("experiment_%d_suggestions", experimentId));
+      datasetHeader.add(String.format("experiment_%d_metadata", experimentId));
+      datasetHeader.add(String.format("experiment_%d_suggestions_metadata", experimentId));
     }
     writer.newLine();
     datasetWriter.printRecord(datasetHeader);
@@ -336,14 +350,27 @@ public class SuggestionsChangesTest {
             writer.write(message.getRight());
 
             SuggestionTestResultData result = message.getLeft();
+            int datasetId = 1 + config.datasets.indexOf(result.getInput().getDataset());
             if (result != null && result.getSuggestions() != null &&
-              !result.getSuggestions().isEmpty() && result.getSuggestions().stream().noneMatch(s -> s.size() == 0)) {
+              !result.getSuggestions().isEmpty() && result.getSuggestions().stream()
+              .noneMatch(m -> m.getSuggestedReplacements() == null || m.getSuggestedReplacements().size() == 0)) {
               List<Object> record = new ArrayList<>(Arrays.asList(
                 result.getInput().getSentence(), result.getInput().getCorrection(),
-                result.getInput().getCovered(), result.getInput().getReplacement()));
-              for (List<String> suggestions : result.getSuggestions()) {
+                result.getInput().getCovered(), result.getInput().getReplacement(), datasetId));
+              for (RuleMatch match : result.getSuggestions()) {
+                List<String> suggestions = match.getSuggestedReplacements();
                 List<String> reduced = suggestions.subList(0, Math.min(5, suggestions.size()));
                 record.add(mapper.writeValueAsString(reduced));
+                if (match instanceof ExtendedRuleMatch) {
+                  List<SortedMap<String, Float>> suggestionsMetadata = ((ExtendedRuleMatch) match).getSuggestedReplacementsMetadata();
+                  SortedMap<String, Float> matchMetadata = ((ExtendedRuleMatch) match).getRuleMatchMetadata();
+                  record.add(mapper.writeValueAsString(matchMetadata));
+                  record.add(mapper.writeValueAsString(suggestionsMetadata));
+                } else {
+                  record.add(null);
+                  record.add(null);
+                }
+
               }
               datasetWriter.printRecord(record);
             }
@@ -364,7 +391,11 @@ public class SuggestionsChangesTest {
     String[] header = {"id", "sentence", "correction", "language", "rule_id", "suggestion_pos", "accept_language",
       "country", "region", "created_at", "updated_at", "covered", "replacement", "text_session_id", "client"};
 
+    Set<String> userLanguages = new HashSet<>();
+    int datasetId = 0;
     for (SuggestionChangesDataset dataset : config.datasets) {
+
+      writer.write(String.format("Evaluating dataset #%d: %s.%n", ++datasetId, dataset));
 
       CSVFormat format = CSVFormat.DEFAULT;
       if (dataset.type.equals("dump")) {
@@ -375,16 +406,13 @@ public class SuggestionsChangesTest {
       try (CSVParser parser = new CSVParser(new FileReader(dataset.path), format)) {
         for (CSVRecord record : parser) {
 
-          if (sampler.nextFloat() > dataset.sampleRate) {
-            continue;
-          }
-
           String lang = record.get("language");
           String rule = dataset.type.equals("dump") ? record.get("rule_id") : "";
           String covered = record.get("covered");
           String replacement = record.get("replacement");
           String sentence = record.get("sentence");
           String correction = record.get("correction");
+          String acceptLanguage = dataset.type.equals("dump") ? record.get("accept_language") : "";
 
           if (sentence == null || sentence.trim().isEmpty()) {
             continue;
@@ -395,6 +423,23 @@ public class SuggestionsChangesTest {
           }
           if (dataset.type.equals("dump") && !config.rule.equals(rule)) {
             continue;
+          }
+
+          if (dataset.type.equals("dump") && dataset.enforceAcceptLanguage) {
+            if (acceptLanguage != null) {
+              String[] entries = acceptLanguage.split(",", 2);
+              if (entries.length == 2) {
+                String userLanguage = entries[0]; // TODO: what to do with e.g. de-AT,de-DE;...
+                if (!config.language.equals(userLanguage)) {
+                  //if (!userLanguages.contains(userLanguage)) {
+                  //  userLanguages.add(userLanguage);
+                  //  System.out.printf("Ignoring samples by user with preferred language %s; " +
+                  //    "only allowing %s because of enforceAcceptLanguage setting.%n", userLanguage, config.language);
+                  //}
+                  continue;
+                }
+              }
+            }
           }
 
           tasks.put(new SuggestionTestData(lang, sentence, covered, replacement, correction, dataset));

@@ -143,14 +143,14 @@ public class SuggestionsOrdererGSoC implements SuggestionsOrderer {
   }
 
   @Override
-  public List<String> orderSuggestionsUsingModel(List<String> suggestions, String word, AnalyzedSentence sentence, int startPos, int wordLength) {
+  public List<String> orderSuggestionsUsingModel(List<String> suggestions, String word, AnalyzedSentence sentence, int startPos) {
     if (!isMlAvailable()) {
       return suggestions;
     }
     List<Pair<String, Float>> suggestionsScores = new LinkedList<>();
     for (String suggestion : suggestions) {
       String text = sentence.getText();
-      String correctedSentence = text.substring(0, startPos) + suggestion + sentence.getText().substring(startPos + wordLength);
+      String correctedSentence = text.substring(0, startPos) + suggestion + sentence.getText().substring(startPos + word.length());
 
       float score = processRow(text, correctedSentence, word, suggestion, DEFAULT_CONTEXT_LENGTH);
       suggestionsScores.add(Pair.of(suggestion, score));

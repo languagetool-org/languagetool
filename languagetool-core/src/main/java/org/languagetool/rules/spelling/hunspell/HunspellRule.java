@@ -41,7 +41,7 @@ import org.languagetool.rules.Categories;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.rules.spelling.SuggestionsChanges;
-import org.languagetool.rules.spelling.morfologik.suggestions_ordering.NewSuggestionsOrderer;
+import org.languagetool.rules.spelling.morfologik.suggestions_ordering.SuggestionsOrdererFeatureExtractor;
 import org.languagetool.rules.spelling.morfologik.suggestions_ordering.SuggestionsOrderer;
 import org.languagetool.tools.Tools;
 
@@ -100,7 +100,7 @@ public class HunspellRule extends SpellingCheckRule {
 
 
      if (SuggestionsChanges.isRunningExperiment("NewSuggestionsOrderer")) {
-       suggestionsOrderer = new NewSuggestionsOrderer(language, this.languageModel);
+       suggestionsOrderer = new SuggestionsOrdererFeatureExtractor(language, this.languageModel);
      } else {
        suggestionsOrderer = null;
      }
@@ -209,10 +209,10 @@ public class HunspellRule extends SpellingCheckRule {
               List<String> oldSuggestions = new ArrayList<>(suggestions);
               if (word.endsWith(".")) {
                 suggestions = suggestions.stream().map(s -> s.substring(0, s.length() - 1)).collect(Collectors.toList());
-                suggestions = suggestionsOrderer.orderSuggestionsUsingModel(suggestions, word.substring(0, word.length() - 1), sentence, len, word.length() - 1);
+                suggestions = suggestionsOrderer.orderSuggestionsUsingModel(suggestions, word.substring(0, word.length() - 1), sentence, len);
                 suggestions = suggestions.stream().map(s -> s + ".").collect(Collectors.toList());
               } else {
-                suggestions = suggestionsOrderer.orderSuggestionsUsingModel(suggestions, word, sentence, len, word.length());
+                suggestions = suggestionsOrderer.orderSuggestionsUsingModel(suggestions, word, sentence, len);
               }
               //System.out.printf("Reordered suggestions (%s): %s -> %s%n", suggestionsOrderer.getClass().getSimpleName(), oldSuggestions, suggestions);
             } else {

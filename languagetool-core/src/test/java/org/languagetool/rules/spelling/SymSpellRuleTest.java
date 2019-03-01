@@ -19,14 +19,9 @@
  *
  */
 
-package org.languagetool.rules.spelling.morfologik.suggestions_ordering;
+package org.languagetool.rules.spelling;
 
-import org.languagetool.AnalyzedSentence;
+public class SymSpellRuleTest {
 
-import java.util.List;
 
-public interface SuggestionsOrderer {
-  boolean isMlAvailable();
-
-  List<String> orderSuggestionsUsingModel(List<String> suggestions, String word, AnalyzedSentence sentence, int startPos);
 }

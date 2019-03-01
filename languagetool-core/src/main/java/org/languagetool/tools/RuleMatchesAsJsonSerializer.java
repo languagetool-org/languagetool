@@ -27,6 +27,8 @@ import org.languagetool.markup.AnnotatedText;
 import org.languagetool.markup.AnnotatedTextBuilder;
 import org.languagetool.rules.*;
 import org.languagetool.rules.patterns.AbstractPatternRule;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -45,7 +47,8 @@ public class RuleMatchesAsJsonSerializer {
   private static final String START_MARKER = "__languagetool_start_marker";
 
   private final JsonFactory factory = new JsonFactory();
-  
+  private static final Logger logger = LoggerFactory.getLogger(RuleMatchesAsJsonSerializer.class);
+
   public String ruleMatchesToJson(List<RuleMatch> matches, String text, int contextSize, DetectedLanguage detectedLang) {
     return ruleMatchesToJson(matches, new ArrayList<>(), text, contextSize, detectedLang, null);
   }
@@ -163,6 +166,31 @@ public class RuleMatchesAsJsonSerializer {
   
   private void writeReplacements(JsonGenerator g, RuleMatch match) throws IOException {
     g.writeArrayFieldStart("replacements");
+    if (match instanceof ExtendedRuleMatch) {
+      ExtendedRuleMatch extended = (ExtendedRuleMatch) match;
+      if (extended.getSuggestedReplacements().size() != extended.getSuggestionConfidence().size()) {
+        logger.warn(String.format("Suggestions and metadata don't match: length %d vs %d.",
+          extended.getSuggestedReplacements().size(),extended.getSuggestedReplacementsMetadata().size()));
+      } else {
+        List<SuggestedReplacement> suggestions = extended.getSuggestedReplacementObjects();
+        List<Float> confidence = extended.getSuggestionConfidence();
+        for (int i = 0; i < suggestions.size(); i++) {
+          g.writeStartObject();
+          if (i == 0 && extended.isAutoCorrect()) {
+            g.writeBooleanField("autoCorrect", true);
+          }
+          g.writeStringField("value", suggestions.get(i).getReplacement());
+          if (suggestions.get(i).getShortDescription() != null) {
+            g.writeStringField("shortDescription", suggestions.get(i).getShortDescription());
+          }
+          g.writeNumberField("confidence", confidence.get(i));
+          g.writeEndObject();
+        }
+        g.writeEndArray();
+        return;
+      }
+    }
+
     for (SuggestedReplacement replacement : match.getSuggestedReplacementObjects()) {
       g.writeStartObject();
       g.writeStringField("value", replacement.getReplacement());
