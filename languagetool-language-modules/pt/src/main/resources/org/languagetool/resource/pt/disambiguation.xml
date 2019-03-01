@@ -169,6 +169,20 @@
       </pattern>
       <disambig action="replace"><wd pos="NPCN000_"/><wd pos="NPCN000_"/></disambig>
     </rule>
+    <rule id="NOMEPROPRIO2PALAVRAS_FILTRA_CS" name="Nome proprio 2 palavras - CS">
+      <pattern>
+          <token postag="&lt;NPCS.+&gt;" postag_regexp="yes"/>
+          <token postag="&lt;/NPCS.+&gt;" postag_regexp="yes"/>
+      </pattern>
+      <disambig action="replace"><wd pos="NPCS000_"/><wd pos="NPCS000_"/></disambig>
+    </rule>
+    <rule id="NOMEPROPRIO2PALAVRAS_FILTRA_CP" name="Nome proprio 2 palavras - CP">
+      <pattern>
+          <token postag="&lt;NPCP.+&gt;" postag_regexp="yes"/>
+          <token postag="&lt;/NPCP.+&gt;" postag_regexp="yes"/>
+      </pattern>
+      <disambig action="replace"><wd pos="NPCP000_"/><wd pos="NPCP000_"/></disambig>
+    </rule>
     <rule id="NOMEPROPRIO3PALAVRAS_FS" name="Nome proprio 3 palavras">
       <pattern>
           <token postag="&lt;NPFS.+&gt;" postag_regexp="yes"/>
@@ -201,6 +215,22 @@
       </pattern>
       <disambig action="replace"><wd pos="NPMS000_"/><wd pos="NPMS000_"/><wd pos="NPMS000_"/></disambig>
     </rule>
+    <rule id="NOMEPROPRIO3PALAVRAS_CS" name="Nome proprio 3 palavras">
+      <pattern>
+          <token postag="&lt;NPCS.+&gt;" postag_regexp="yes"/>
+          <token/>
+          <token postag="&lt;/NPCS.+&gt;" postag_regexp="yes"/>
+      </pattern>
+      <disambig action="add"><wd pos="NPCS000_"/><wd lemma="NP" pos="NPCS000_"/><wd pos="NPMS000_"/></disambig>
+    </rule>
+    <rule id="NOMEPROPRIO3PALAVRAS-CS-FILTRA" name="Nome proprio 3 palavras">
+      <pattern>
+          <token postag="&lt;NPCS.+&gt;" postag_regexp="yes"/>
+          <token postag="NPCS000"/>
+          <token postag="&lt;/NPCS.+&gt;" postag_regexp="yes"/>
+      </pattern>
+      <disambig action="replace"><wd pos="NPCS000_"/><wd pos="NPCS000_"/><wd pos="NPMS000_"/></disambig>
+    </rule>
     <rule id="NOMEPROPRIO3PALAVRAS_FP" name="Nome proprio 3 palavras">
       <pattern>
           <token postag="&lt;NPFP.+&gt;" postag_regexp="yes"/>
@@ -232,6 +262,22 @@
           <token postag="&lt;/NPMP.+&gt;" postag_regexp="yes"/>
       </pattern>
       <disambig action="replace"><wd pos="NPMP000_"/><wd pos="NPMP000_"/><wd pos="NPMP000_"/></disambig>
+    </rule>
+    <rule id="NOMEPROPRIO3PALAVRAS_CS" name="Nome proprio 3 palavras">
+      <pattern>
+          <token postag="&lt;NPCS.+&gt;" postag_regexp="yes"/>
+          <token/>
+          <token postag="&lt;/NPCS.+&gt;" postag_regexp="yes"/>
+      </pattern>
+      <disambig action="add"><wd pos="NPCS000_"/><wd lemma="NP" pos="NPCS000_"/><wd pos="NPMS000_"/></disambig>
+    </rule>
+    <rule id="NOMEPROPRIO3PALAVRAS-CP-FILTRA" name="Nome proprio 3 palavras">
+      <pattern>
+          <token postag="&lt;NPCP.+&gt;" postag_regexp="yes"/>
+          <token postag="NPCP000"/>
+          <token postag="&lt;/NPCP.+&gt;" postag_regexp="yes"/>
+      </pattern>
+      <disambig action="replace"><wd pos="NPCP000_"/><wd pos="NPCP000_"/><wd pos="NPMS000_"/></disambig>
     </rule>
     <rule id="NOMEPROPRIO4PALAVRAS_FS" name="Nome proprio 3 palavras">
       <pattern>
@@ -710,7 +756,8 @@
     </rule>
     <rule>
       <pattern>
-          <token postag="PP.+" postag_regexp="yes"/>
+          <token postag="PP.+" postag_regexp="yes">
+            <exception postag="(D|S).+" postag_regexp="yes"/></token>
           <token postag="R.+" postag_regexp="yes">
             <exception postag="(A|C|D|S).+" postag_regexp="yes"/></token>
         <marker>
