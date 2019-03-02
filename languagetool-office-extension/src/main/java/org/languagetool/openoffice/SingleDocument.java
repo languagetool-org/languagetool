@@ -86,7 +86,6 @@ class SingleDocument {
 
   private List<String> allParas = null;           //  List of paragraphs (only readable by parallel thread)
   private DocumentCursorTools docCursor = null;   //  Save Cursor for the single documents
-//  private FlatParagraphTools flatPara = null;   //  Save FlatParagraph for the single documents
   private Integer numLastVCPara = 0;              //  Save position of ViewCursor for the single documents
   private Integer numLastFlPara = 0;              //  Save position of FlatParagraph for the single documents
   private boolean textIsChanged = false;          //  false: check number of paragraphs again (ignored by parallel thread)
@@ -96,6 +95,7 @@ class SingleDocument {
   private ResultCache paragraphsCache;            //  Cache for matches of text rules
   private ResultCache singleParaCache;            //  Cache for matches of text rules for single paragraphs
   private boolean firstCheckDone = false;         //  Is set to true, if first iteration of whole document is done
+  private boolean useCache = true;                //  Use sentences cache / set to false for changed paragraphs
   private int resetFrom = 0;                      //  Reset from paragraph
   private int resetTo = 0;                        //  Reset to paragraph
   
@@ -121,6 +121,9 @@ class SingleDocument {
       int[] footnotePositions, boolean isParallelThread, JLanguageTool langTool) {
     try {
       SingleProofreadingError[] sErrors = null;
+      if(!useCache && paRes.nStartOfSentencePosition == 0) {
+        useCache = true;
+      }
       int paraNum = getParaPos(paraText, isParallelThread);
       // Don't use Cache for check in single paragraph mode
       if(numParasToCheck != 0 && paraNum >= 0 && doResetCheck) {
@@ -158,6 +161,9 @@ class SingleDocument {
       textIsChanged = false;
     } catch (Throwable t) {
       MessageHandler.showError(t);
+    }
+    if(!useCache && paRes.nStartOfNextSentencePosition >= paraText.length()) {
+      resetCheck = true;
     }
     return paRes;
   }
@@ -369,11 +375,11 @@ class SingleDocument {
         paragraphsCache.remove(nParas);
         if(doResetCheck) {
           sentencesCache.remove(nParas);
+          useCache = false;
         }
         resetFrom = nParas - numParasToCheck;
         resetTo = nParas + numParasToCheck + 1;
         textIsChanged = true;
-        resetCheck = true;
         return nParas;
       }
     }
@@ -690,7 +696,7 @@ class SingleDocument {
           errorArray = new SingleProofreadingError[0];
         }
       }
-      if(!isParallelThread && numParasToCheck != 0 && doResetCheck) {
+      if(!isParallelThread && numParasToCheck != 0 && doResetCheck && useCache) {
         if (debugMode > 1) {
           MessageHandler.printToLogFile("--> Enter to sentences cache: numCurPara: " + numCurPara 
               + "; startPos: " + startPos + "; Sentence: " + sentence 
