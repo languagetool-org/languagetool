@@ -32,6 +32,7 @@ import org.jetbrains.annotations.Nullable;
 import org.languagetool.Experimental;
 import org.languagetool.JLanguageTool;
 import org.languagetool.UserConfig;
+import org.languagetool.rules.spelling.SpellingCheckRule;
 
 import java.io.*;
 import java.util.*;
@@ -55,6 +56,7 @@ public class MorfologikMultiSpeller {
               List<byte[]> lines = getLines(reader.reader);
               if (reader.languageVariantReader != null) {
                 lines.addAll(getLines(reader.languageVariantReader));
+                lines.add(SpellingCheckRule.LANGUAGETOOL.getBytes());  // adding here so it's also used for suggestions
               }
               return lines;
             }
