@@ -30,13 +30,8 @@ import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.chunking.ChunkTag;
-import org.languagetool.rules.patterns.AbstractPatternRulePerformer;
-import org.languagetool.rules.patterns.Match;
-import org.languagetool.rules.patterns.MatchState;
-import org.languagetool.rules.patterns.PatternToken;
-import org.languagetool.rules.patterns.PatternTokenMatcher;
-import org.languagetool.rules.patterns.RuleFilter;
-import org.languagetool.rules.patterns.RuleFilterEvaluator;
+import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.patterns.*;
 import org.languagetool.tools.StringTools;
 
 /**
@@ -138,8 +133,19 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
         }
       }
       if (allElementsMatch && matchingTokens == patternSize || matchingTokens == patternSize - minOccurSkip && firstMatchToken != -1) {
-        boolean keepMatch = keepDespiteFilter(tokens, tokenPositions, firstMatchToken, lastMatchToken);
-        if (keepMatch) {
+        int ruleMatchFromPos = -1;
+        int ruleMatchToPos = -1;
+        int tokenCount = 0;
+        for (AnalyzedTokenReadings token : tokens) {
+          if (ruleMatchFromPos == -1 && tokenCount == firstMatchToken) {
+            ruleMatchFromPos = token.getStartPos();
+          }
+          if (ruleMatchToPos == -1 && tokenCount == lastMatchToken) {
+            ruleMatchToPos = token.getEndPos();
+          }
+          tokenCount++;
+        }
+        if (keepDespiteFilter(tokens, tokenPositions, firstMatchToken, lastMatchToken) && keepByDisambig(sentence, ruleMatchFromPos, ruleMatchToPos)) {
           whTokens = executeAction(sentence, whTokens, unifiedTokens, firstMatchToken, lastMarkerMatchToken, matchingTokens, tokenPositions);
           changed = true;
         }
@@ -150,6 +156,29 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
       return new AnalyzedSentence(whTokens, preDisambigTokens);
     }
     return sentence;
+  }
+
+  private boolean keepByDisambig(AnalyzedSentence sentence, int ruleMatchFromPos, int ruleMatchToPos) throws IOException {
+    List<DisambiguationPatternRule> antiPatterns = rule.getAntiPatterns();
+    for (DisambiguationPatternRule antiPattern : antiPatterns) {
+      PatternRule disambigRule = new PatternRule("fake-disambig-id", rule.getLanguage(), antiPattern.getPatternTokens(), "desc", "msg", "short");
+      RuleMatch[] matches = disambigRule.match(sentence);
+      if (matches != null) {
+        //System.out.println(matches.length + " matches");
+        for (RuleMatch disMatch : matches) {
+          //System.out.println("disambig match: " + disMatch.getFromPos() + " - " + disMatch.getToPos());
+          //System.out.println("rule match    : " + ruleMatchFromPos + " - " + ruleMatchToPos);
+          if ((disMatch.getFromPos() <= ruleMatchFromPos && disMatch.getToPos() >= ruleMatchFromPos) ||  // left overlap of rule match start
+              (disMatch.getFromPos() <= ruleMatchToPos && disMatch.getToPos() >= ruleMatchToPos) ||  // right overlap of rule match end
+              (disMatch.getFromPos() >= ruleMatchFromPos && disMatch.getToPos() <= ruleMatchToPos)  // inside longer rule match
+          ) {
+            //System.out.println("skipping!");
+            return false;
+          }
+        }
+      }
+    }
+    return true;
   }
 
   private boolean keepDespiteFilter(AnalyzedTokenReadings[] tokens, int[] tokenPositions, int firstMatchToken, int lastMatchToken) {

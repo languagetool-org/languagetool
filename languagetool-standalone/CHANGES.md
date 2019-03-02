@@ -42,6 +42,7 @@
   * Experimental new attribute `raw_pos` for the `<pattern>` element in `grammar.xml`.
     If set to `yes`,  the `postag` will refer to the part-of-speech tags *before*
     disambiguation.
+  * Experimental support for `<antipattern>` in `disambiguation.xml`
   
 #### HTTP API / LT server
   * Experimental new parameter `preferredLanguages`: up to a certain limit (currently
