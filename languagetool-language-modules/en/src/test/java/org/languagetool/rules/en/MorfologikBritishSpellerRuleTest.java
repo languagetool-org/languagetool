@@ -76,6 +76,8 @@ public class MorfologikBritishSpellerRuleTest extends AbstractEnglishSpellerRule
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("This is my Ph.D. thesis.")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence(",")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("123454")).length);
+    // Greek letters
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("μ")).length);
 
     //incorrect sentences:
 

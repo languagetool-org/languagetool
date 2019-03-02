@@ -64,6 +64,7 @@ public class MorfologikAustralianSpellerRuleTest extends AbstractEnglishSpellerR
     assertEquals(0, rule.match(langTool.getAnalyzedSentence(",")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("123454")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("I like my emoji 😍!")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("μ")).length);
 
     //Australian dict:
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Dinkum")).length);

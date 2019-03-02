@@ -18,15 +18,23 @@
  */
 package org.languagetool.tools;
 
-import com.google.common.xml.XmlEscapers;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Locale;
+import java.util.Objects;
+import java.util.Set;
+import java.util.regex.Pattern;
+
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.Language;
 
-import java.io.*;
-import java.lang.Character;
-import java.util.Locale;
-import java.util.Objects;
-import java.util.regex.Pattern;
+import com.google.common.xml.XmlEscapers;
 
 /**
  * Tools for working with strings.
@@ -61,6 +69,8 @@ public final class StringTools {
 
   private static final Pattern XML_COMMENT_PATTERN = Pattern.compile("<!--.*?-->", Pattern.DOTALL);
   private static final Pattern XML_PATTERN = Pattern.compile("(?<!<)<[^<>]+>", Pattern.DOTALL);
+  public static final Set<String> UPPERCASE_GREEK_LETTERS = Collections.unmodifiableSet(new HashSet<>(Arrays.asList("Α","Β","Γ","Δ","Ε","Ζ","Η","Θ","Ι","Κ","Λ","Μ","Ν","Ξ","Ο","Π","Ρ","Σ","Τ","Υ","Φ","Χ","Ψ","Ω")));
+  public static final Set<String> LOWERCASE_GREEK_LETTERS = Collections.unmodifiableSet(new HashSet<>(Arrays.asList("α","β","γ","δ","ε","ζ","η","θ","ι","κ","λ","μ","ν","ξ","ο","π","ρ","σ","τ","υ","φ","χ","ψ","ω")));
 
   private StringTools() {
     // only static stuff
@@ -470,5 +480,4 @@ public final class StringTools {
     }
     return isParaEnd;
   }
-  
 }
