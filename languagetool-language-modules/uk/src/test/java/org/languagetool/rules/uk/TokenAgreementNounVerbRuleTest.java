@@ -112,6 +112,8 @@ public class TokenAgreementNounVerbRuleTest {
 //    assertEmptyMatch("Почав, значить, я рости.");
 
     assertEmptyMatch(GOOD_TEXT);
+
+    assertEmptyMatch("— це були невільники");
   }
 
   @Test
