@@ -2324,7 +2324,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Ошибка!</short>
                 <example correction="">Сопутствующий <marker>рост доступных учебных материалов</marker> по языку.</example>
                 <example>Сопутствующий рост количества доступных учебных материалов по языку.</example>
-            </rule>                                 
+            </rule>
+            <rule>
+                <antipattern>
+                    <token postag="NN:Inanim:.*:Nom" postag_regexp="yes" skip="1"><exception inflected="yes" regexp="yes" >количество|качество|показатель|экономика|преступность|безработица</exception></token>
+                    <marker>
+                    <token inflected="yes" skip="1">расти<exception inflected="yes" regexp="yes" scope="next">количество|качество|показатель|экономика|преступность|безработица</exception></token>
+                    <token>от</token>
+                    </marker>
+                </antipattern>
+                <pattern>
+                    <token postag="SENT_START" skip="-1" ><exception inflected="yes" regexp="yes" scope="next">количество|качество|показатель|экономика|преступность|безработица</exception></token>
+                    <marker>
+                        <token inflected="yes" skip="1" postag="VB:.*" postag_regexp="yes" >расти<exception inflected="yes" regexp="yes" scope="next">количество|качество|показатель|экономика|преступность|безработица</exception></token>
+                        <token>от</token>
+                    </marker>
+                </pattern>
+                <message>Рост бывает у одушевлённых слов (человек большого роста), некого числа характеристик (рост показателей, рост качества, количества) и в некоторых устойчивых выражениях (рост экономики, преступности, безработицы).</message>
+                <short>Ошибка!</short>
+                <example correction="">Цвет характеризует величину вектора Пойнтинга (он <marker>растёт от</marker> синего к красному).</example>
+                <example>Цвет характеризует величину вектора Пойнтинга (он меняется от синего к красному)</example>
+                <example>Количество дорожно-транспортных происшествий растёт год от года.</example>
+                <example>В результате трудоёмкость (а значит, и стоимость) разработки растёт от объёма реализованной функциональности по вогнутому закону
+                    (в языках с полиморфной семантикой системы типов этот рост характеризуется выпуклой кривой за счёт существенно более высокого показателя повторного использования кода).</example>
+            </rule>                                        
         </rulegroup>                                                                   
     </category>
     
