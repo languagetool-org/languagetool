@@ -2570,7 +2570,7 @@
     <rulegroup name="DT + whatever/NN + end of phrase -> NN" id="DT_NN_SENT_END">
         <rule>
         <pattern>
-            <token postag="DT|PRP\$" postag_regexp="yes"><exception regexp="yes">th[eo]se|no</exception></token>
+            <token postag="DT|PRP\$" postag_regexp="yes"><exception regexp="yes">th[eo]se|no|much</exception></token>
             <marker>
             <unify>
                 <feature id="number"/>
@@ -2583,10 +2583,12 @@
             </marker>
         </pattern>
         <disambig action="unify"/>
+      <example type="ambiguous" inputform="cleaner[clean/JJR,cleaner/NN]" outputform="cleaner[cleaner/NN]">The bleach is next to the <marker>cleaner</marker>.</example>
+      <example type="untouched">Thank you, this is much cleaner.</example>
     </rule>
         <rule>
             <pattern>
-            <token postag="DT|PRP\$" postag_regexp="yes"><exception regexp="yes">th[eo]se|no</exception></token>
+            <token postag="DT|PRP\$" postag_regexp="yes"><exception regexp="yes">th[eo]se|no|much</exception></token>
             <marker>
             <and>
                 <token postag="NN.*" postag_regexp="yes"/>
@@ -2601,6 +2603,7 @@
             <disambig action="filter" postag="NN.*"/>
             <example type="ambiguous" inputform="animal[animal/JJ,animal/NN:UN]"
                      outputform="animal[animal/NN:UN]">"The <marker>animal</marker>"</example>
+            <example type="untouched">"Much better"</example>
         </rule>
     </rulegroup>
     <rule name="plural noun + that/which etc. + plural verb/nn => verb" id="NNS_WDT_VBNNS_VBP">
