@@ -80,14 +80,16 @@ public class MorfologikMultiSpeller {
   public MorfologikMultiSpeller(String binaryDictPath, String plainTextPath, String languageVariantPlainTextPath,
     UserConfig userConfig, int maxEditDistance) throws IOException {
     this(binaryDictPath,
-         new BufferedReader(new InputStreamReader(JLanguageTool.getDataBroker().getFromResourceDirAsStream(plainTextPath), UTF_8)),
+         plainTextPath != null ? new BufferedReader(new InputStreamReader(JLanguageTool.getDataBroker().getFromResourceDirAsStream(plainTextPath), UTF_8)) : null,
          plainTextPath,
          languageVariantPlainTextPath == null ? null : new BufferedReader(new InputStreamReader(JLanguageTool.getDataBroker().getFromResourceDirAsStream(languageVariantPlainTextPath), UTF_8)),
          languageVariantPlainTextPath,
          userConfig != null ? userConfig.getAcceptedWords(): Collections.emptyList(),
          maxEditDistance);
-    if (!plainTextPath.endsWith(".txt") || (languageVariantPlainTextPath != null && !languageVariantPlainTextPath.endsWith(".txt"))) {
-      throw new RuntimeException("Unsupported dictionary, plain text file needs to have suffix .txt: " + plainTextPath);
+    if (plainTextPath != null) {
+      if (!plainTextPath.endsWith(".txt") || (languageVariantPlainTextPath != null && !languageVariantPlainTextPath.endsWith(".txt"))) {
+        throw new RuntimeException("Unsupported dictionary, plain text file needs to have suffix .txt: " + plainTextPath);
+      }
     }
   }
 
@@ -109,10 +111,12 @@ public class MorfologikMultiSpeller {
     }
     spellers.add(speller);
     convertsCase = speller.convertsCase();
-    MorfologikSpeller plainTextSpeller = getPlainTextDictSpellerOrNull(plainTextReader, plainTextReaderPath,
-      languageVariantPlainTextReader, languageVariantPlainTextPath, binaryDictPath, maxEditDistance);
-    if (plainTextSpeller != null) {
-      spellers.add(plainTextSpeller);
+    if (plainTextReader != null) {
+      MorfologikSpeller plainTextSpeller = getPlainTextDictSpellerOrNull(plainTextReader, plainTextReaderPath,
+              languageVariantPlainTextReader, languageVariantPlainTextPath, binaryDictPath, maxEditDistance);
+      if (plainTextSpeller != null) {
+        spellers.add(plainTextSpeller);
+      }
     }
     this.spellers = Collections.unmodifiableList(spellers);
   }

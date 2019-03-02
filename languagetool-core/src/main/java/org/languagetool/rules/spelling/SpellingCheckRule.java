@@ -257,8 +257,10 @@ public abstract class SpellingCheckRule extends Rule {
     for (String ignoreWord : wordListLoader.loadWords(getIgnoreFileName())) {
       addIgnoreWords(ignoreWord);
     }
-    for (String ignoreWord : wordListLoader.loadWords(getSpellingFileName())) {
-      addIgnoreWords(ignoreWord);
+    if (getSpellingFileName() != null) {
+      for (String ignoreWord : wordListLoader.loadWords(getSpellingFileName())) {
+        addIgnoreWords(ignoreWord);
+      }
     }
     updateIgnoredWordDictionary();
     for (String prohibitedWord : wordListLoader.loadWords(getProhibitFileName())) {

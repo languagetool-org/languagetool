@@ -104,6 +104,14 @@ public abstract class Language {
   // -------------------------------------------------------------------------
 
   /**
+   * A file with commons words, either in the classpath or as a filename in the file system.
+   * @since 4.5
+   */
+  public String getCommonWordsPath() {
+    return getShortCode() + "/common_words.txt";     
+  }
+  
+  /**
    * Get this language's variant, e.g. <code>valencia</code> (as in <code>ca-ES-valencia</code>)
    * or <code>null</code>.
    * Attention: not to be confused with "country" option
@@ -512,6 +520,15 @@ public abstract class Language {
    */
   public int getPriorityForId(String id) {
     return 0;
+  }
+
+  /**
+   * Whether this language supports spell checking only and
+   * no advanced grammar and style checking.
+   * @since 4.5
+   */
+  public boolean isSpellcheckOnlyLanguage() {
+    return false;
   }
 
   /**

@@ -120,10 +120,16 @@ public class RuleMatchesAsJsonSerializer {
     g.writeObjectFieldStart("language");
     g.writeStringField("name", detectedLang.getGivenLanguage().getName());
     g.writeStringField("code", detectedLang.getGivenLanguage().getShortCodeWithCountryAndVariant());
+    if (detectedLang.getGivenLanguage().isSpellcheckOnlyLanguage()) {
+      g.writeBooleanField("spellCheckOnly", true);
+    }
     g.writeObjectFieldStart("detectedLanguage");
     g.writeStringField("name", detectedLang.getDetectedLanguage().getName());
     g.writeStringField("code", detectedLang.getDetectedLanguage().getShortCodeWithCountryAndVariant());
     g.writeNumberField("confidence", detectedLang.getDetectionConfidence());
+    if (detectedLang.getDetectedLanguage().isSpellcheckOnlyLanguage()) {
+      g.writeBooleanField("spellCheckOnly", true);
+    }
     g.writeEndObject();
     g.writeEndObject();
   }

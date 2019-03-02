@@ -53,6 +53,10 @@
     This has to be a comma-delimited list of language codes without variants (e.g.
     use 'en', not 'en-US'). 
     This only works with fasttext configured as the language detector.
+  * Spellcheck-only languages can now be added dynamically from the configuration
+    using `lang-xx=languagename` and `lang-xx-dictPath=/path/to/morfologik.dict`.
+    `xx` needs to be the language code. The JSON result will contain `spellCheckOnly: true`
+    for these languages.
 
 
 

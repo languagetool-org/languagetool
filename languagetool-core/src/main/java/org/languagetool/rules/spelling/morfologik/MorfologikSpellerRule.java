@@ -24,12 +24,13 @@ import org.languagetool.*;
 import org.languagetool.rules.Categories;
 import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.RuleMatch;
-import org.languagetool.rules.SuggestedReplacement;
 import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.rules.spelling.morfologik.suggestions_ordering.SuggestionsOrderer;
 import org.languagetool.tools.Tools;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -100,6 +101,8 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
       String binaryDict = null;
       if (JLanguageTool.getDataBroker().resourceExists(getFileName())) {
         binaryDict = getFileName();
+      } else if (Files.exists(Paths.get(getFileName()))) {
+        binaryDict = getFileName();
       }
       if (binaryDict != null) {
         initSpeller(binaryDict);
@@ -141,20 +144,16 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
   private void initSpeller(String binaryDict) throws IOException {
     String plainTextDict = null;
     String languageVariantPlainTextDict = null;
-    if (JLanguageTool.getDataBroker().resourceExists(getSpellingFileName())) {
+    if (getSpellingFileName() != null && JLanguageTool.getDataBroker().resourceExists(getSpellingFileName())) {
       plainTextDict = getSpellingFileName();
     }
     if (getLanguageVariantSpellingFileName() != null && JLanguageTool.getDataBroker().resourceExists(getLanguageVariantSpellingFileName())) {
       languageVariantPlainTextDict = getLanguageVariantSpellingFileName();
     }
-    if (plainTextDict != null) {
-      speller1 = new MorfologikMultiSpeller(binaryDict, plainTextDict, languageVariantPlainTextDict, userConfig, 1);
-      speller2 = new MorfologikMultiSpeller(binaryDict, plainTextDict, languageVariantPlainTextDict, userConfig, 2);
-      speller3 = new MorfologikMultiSpeller(binaryDict, plainTextDict, languageVariantPlainTextDict, userConfig, 3);
-      setConvertsCase(speller1.convertsCase());
-    } else {
-      throw new RuntimeException("Could not find ignore spell file in path: " + getSpellingFileName());
-    }
+    speller1 = new MorfologikMultiSpeller(binaryDict, plainTextDict, languageVariantPlainTextDict, userConfig, 1);
+    speller2 = new MorfologikMultiSpeller(binaryDict, plainTextDict, languageVariantPlainTextDict, userConfig, 2);
+    speller3 = new MorfologikMultiSpeller(binaryDict, plainTextDict, languageVariantPlainTextDict, userConfig, 3);
+    setConvertsCase(speller1.convertsCase());
   }
 
   private boolean canBeIgnored(AnalyzedTokenReadings[] tokens, int idx, AnalyzedTokenReadings token) throws IOException {

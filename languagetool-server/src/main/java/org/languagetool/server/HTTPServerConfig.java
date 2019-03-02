@@ -22,6 +22,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.Experimental;
+import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
 import org.languagetool.rules.spelling.morfologik.suggestions_ordering.SuggestionsOrdererConfig;
@@ -271,10 +272,45 @@ public class HTTPServerConfig {
         slowRuleLoggingThreshold = Integer.valueOf(getOptionalProperty(props,
           "slowRuleLoggingThreshold", "-1"));
 
+        addDynamicLanguages(props);
         setAbTest(getOptionalProperty(props, "abTest", null));
       }
     } catch (IOException e) {
       throw new RuntimeException("Could not load properties from '" + file + "'", e);
+    }
+  }
+
+  private void addDynamicLanguages(Properties props) throws IOException {
+    for (Object keyObj : props.keySet()) {
+      String key = (String)keyObj;
+      if (key.startsWith("lang-") && !key.contains("-dictPath")) {
+        String code = key.substring("lang-".length());
+        if (!code.contains("-") && code.length() != 2 && code.length() != 3) {
+          throw new IllegalArgumentException("code is supposed to be a 2 (or rarely 3) character code (unless it uses a format with variant, like xx-YY): '" + code + "'");
+        }
+        String nameKey = "lang-" + code;
+        String name = props.getProperty(nameKey);
+        String dictPathKey = "lang-" + code + "-dictPath";
+        String dictPath = props.getProperty(dictPathKey);
+        if (dictPath == null) {
+          throw new IllegalArgumentException(dictPathKey + " must be set");
+        }
+        File dictPathFile = new File(dictPath);
+        if (!dictPathFile.exists() || !dictPathFile.isFile()) {
+          throw new IllegalArgumentException("dictionary file does not exist or is not a file: '" + dictPath + "'");
+        }
+        if (!dictPathFile.getName().endsWith(".dict")) {
+          throw new IllegalArgumentException("dictionary file is supposed to be named *.dict: '" + dictPath + "'");
+        }
+        ServerTools.print("Adding dynamic spell checker language " + name + ", code: " + code + ", dictionary: " + dictPath);
+        Language lang = Languages.addLanguage(name, code, new File(dictPath));
+        // better fail early in case of misconfiguration, so use the language now:
+        if (!new File(lang.getCommonWordsPath()).exists()) {
+          throw new IllegalArgumentException("Common words path not found: '" + lang.getCommonWordsPath() + "'");
+        }
+        JLanguageTool lt = new JLanguageTool(lang);
+        lt.check("test");
+      }
     }
   }
 

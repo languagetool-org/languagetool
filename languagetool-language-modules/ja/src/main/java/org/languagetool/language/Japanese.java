@@ -55,6 +55,12 @@ public class Japanese extends Language {
   }
 
   @Override
+  public String getCommonWordsPath() {
+    // TODO: provide common words file
+    return null;
+  }
+
+  @Override
   public Contributor[] getMaintainers() {
     return new Contributor[] { new Contributor("Takahiro Shinkai")};
   }

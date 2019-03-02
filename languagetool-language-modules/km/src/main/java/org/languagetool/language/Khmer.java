@@ -61,7 +61,13 @@ public class Khmer extends Language {
   public String[] getCountries() {
     return new String[]{"KH"};
   }
-  
+
+  @Override
+  public String getCommonWordsPath() {
+    // TODO: provide common words file
+    return null;
+  }
+
   @Override
   public Tagger getTagger() {
     if (tagger == null) {

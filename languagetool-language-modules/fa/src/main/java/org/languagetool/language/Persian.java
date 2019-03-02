@@ -55,7 +55,13 @@ public class Persian extends Language {
   public String[] getCountries() {
     return new String[]{"IR", "AF"};
   }
-  
+
+  @Override
+  public String getCommonWordsPath() {
+    // TODO: provide common words file
+    return null;
+  }
+
   @Override
   public SentenceTokenizer getSentenceTokenizer() {
     if (sentenceTokenizer == null) {
