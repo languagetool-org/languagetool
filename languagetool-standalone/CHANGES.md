@@ -8,6 +8,7 @@
     but only to improve error messages so that they explicitly explain that
     the incorrect word is actually a different variant (like 'colour' in an en-US
     text).
+  * updated en_GB spellchecker dictionary from https://github.com/marcoagpinto/aoo-mozilla-en-dict (Version 2.70 - 2019-03-01)
   
 #### German
   * added and improved rules
@@ -24,6 +25,7 @@
 
 #### Russian
   * added and improved rules
+  * disambiguation improvements
   * added many words without "yo" letter to POS dictionary
 
 #### General
