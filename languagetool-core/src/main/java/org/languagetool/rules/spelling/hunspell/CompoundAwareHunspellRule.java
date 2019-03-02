@@ -27,7 +27,6 @@ import org.languagetool.tools.StringTools;
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 /**
  * A spell checker that combines Hunspell und Morfologik spell checking

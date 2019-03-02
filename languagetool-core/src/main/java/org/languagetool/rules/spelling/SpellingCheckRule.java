@@ -135,7 +135,7 @@ public abstract class SpellingCheckRule extends Rule {
                                    .collect(Collectors.groupingBy(s -> s.substring(0,1), Collectors.toSet()));
     wordsToBeIgnoredDictionaryIgnoreCase = wordsToBeIgnored
                                              .stream()
-                                             .map(s -> s.toLowerCase())
+                                             .map(String::toLowerCase)
                                              .collect(Collectors.groupingBy(s -> s.substring(0,1), Collectors.toSet()));
   }
 
@@ -346,6 +346,14 @@ public abstract class SpellingCheckRule extends Rule {
     }
   }
 
+  /**
+   * adds Greeks letters to the list of wordsToBeIgnored
+   * @since 4.5 
+   */
+  protected void ignoreGreekLetters() {
+    wordsToBeIgnored.addAll(StringTools.LOWERCASE_GREEK_LETTERS);
+    wordsToBeIgnored.addAll(StringTools.UPPERCASE_GREEK_LETTERS);
+  }
   /**
    * @param words list of words to be prohibited.
    * @since 4.2
