@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules.en;
 
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
 import org.languagetool.rules.Example;
@@ -200,6 +201,10 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
       return Arrays.asList("the");
     } else if ("todays".equals(word)) {
       return Arrays.asList("today's");
+    } else if ("heres".equals(word)) {
+    	return Arrays.asList("here's");
+    } else if ("Heres".equals(word)) {
+      return Arrays.asList("Here's");
     }
     return super.getAdditionalTopSuggestions(suggestions, word);
   }
