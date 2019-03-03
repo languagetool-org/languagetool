@@ -413,10 +413,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">de(r|ss)en|jemandes</token>
+                    <token postag="PRO:(IND|DEM):GEN:.+" postag_regexp="yes"><exception postag="PRO:(IND|DEM):(AKK|NOM|DAT):.+" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Vermeiden Sie den Genitiv.</message>
                 <example correction="">Er bezieht sich auf <marker>deren</marker> Angebot.</example>
+                <example correction="">Er bezieht sich auf <marker>dessen</marker> Angebot.</example>
+                <example correction="">Er bezieht sich auf <marker>jemandes</marker> Angebot.</example>
             </rule>
         </rulegroup>
         
