@@ -185,6 +185,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example><marker>Washington DC, 7 d'octubre del 2014</marker></example>
             </rule>
             <rule>
+                <antipattern>
+                    <marker>
+                        <token regexp="yes">&mesos_any;|&mesos_any_abrev;</token>
+                        <token min="0">de</token>
+                        <token spacebefore="no" min="0">l</token>
+                        <token regexp="yes">\d\d\d\d</token>
+                    </marker>
+                </antipattern>
                 <pattern>
                     <!-- "Dilluns, 7 d'octubre " -->
                     <token regexp="yes">&dies_setmana;|&dies_setmana_abrev;</token>
@@ -199,6 +207,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction=""><marker>Dilluns, 7 d'octubre</marker></example>
                 <example><marker>Dimarts, 7 d'octubre</marker></example>
                 <example><marker>Washington DC, 7 d'octubre</marker></example>
+                <example>Dilluns 27 de novembre de 1922</example>
             </rule>
             <!-- "Dilluns, 7 oct 2014" -->
             <rule>
