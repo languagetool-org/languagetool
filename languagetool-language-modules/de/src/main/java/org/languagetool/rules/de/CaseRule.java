@@ -333,6 +333,21 @@ public class CaseRule extends Rule {
       csToken("das"),
       csToken("kommen"),
       new PatternTokenBuilder().csToken("sehen").matchInflectedForms().build()
+    ),
+    Arrays.asList(
+      token("auf"),
+      csToken("die"),
+      csToken("Schnelle")
+    ),
+    Arrays.asList( // denn es fehlt bis heute am Nötigsten
+    	new PatternTokenBuilder().csToken("fehlen").matchInflectedForms().setSkip(3).build(),
+      csToken("am"),
+      csToken("Nötigsten")
+    ),
+    Arrays.asList(
+      csToken("am"),
+      csToken("Nötigsten"),
+      new PatternTokenBuilder().csToken("fehlen").matchInflectedForms().build()
     )
   );
 

@@ -33466,6 +33466,34 @@ Andere Projekte</example>
                 <example>Er kam mit dem <marker>Rad und tat</marker> sportlich.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="AM_NOETIGSTEN_FEHLEN" name="'am nötigsten (Nötigsten) fehlen'">
+            <rule>
+                <pattern>
+                    <token>am</token>
+                    <marker>
+                        <token case_sensitive="yes">nötigsten</token>
+                    </marker>
+                    <token inflected="yes">fehlen</token>
+                </pattern>
+                <message>Schreiben Sie dieses als Substantiv gebrauchte Adjektiv groß.</message>
+                <suggestion>Nötigsten</suggestion>
+                <short>&prgk;.</short>
+                <example correction="Nötigsten">Es hat ihr am <marker>nötigsten</marker> gefehlt.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token inflected="yes" skip="3">fehlen</token>
+                    <token>am</token>
+                    <marker>
+                        <token case_sensitive="yes">nötigsten</token>
+                    </marker>
+                </pattern>
+                <message>Schreiben Sie dieses als Substantiv gebrauchte Adjektiv groß.</message>
+                <suggestion>Nötigsten</suggestion>
+                <short>&prgk;.</short>
+                <example correction="Nötigsten">Es fehlte ihr am <marker>nötigsten</marker>.</example>
+            </rule>
+        </rulegroup>
         <rule id="IN_BAUCH_UND_BOGEN" name="'in Bauch (Bausch) und Bogen'">
             <regexp case_sensitive='yes'>[iI]n (B(au?(ch|m)|usch)) und Bogen</regexp>
             <message>Meinten Sie die Redewendung <suggestion>in Bausch und Bogen</suggestion>?</message>
