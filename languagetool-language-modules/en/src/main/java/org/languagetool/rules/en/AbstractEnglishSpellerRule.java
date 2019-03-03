@@ -44,7 +44,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
    */
   public AbstractEnglishSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig, List<Language> altLanguages) throws IOException {
     super(messages, language, userConfig, altLanguages);
-    super.ignoreGreekLetters();
+    super.ignoreWordsWithLength = 1;
     setCheckCompound(true);
     addExamplePair(Example.wrong("This <marker>sentenc</marker> contains a spelling mistake."),
                    Example.fixed("This <marker>sentence</marker> contains a spelling mistake."));

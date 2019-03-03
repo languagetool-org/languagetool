@@ -84,6 +84,7 @@ public abstract class SpellingCheckRule extends Rule {
   private List<DisambiguationPatternRule> antiPatterns = new ArrayList<>();
   private boolean considerIgnoreWords = true;
   private boolean convertsCase = false;
+  protected int ignoreWordsWithLength = 0;
 
   public SpellingCheckRule(ResourceBundle messages, Language language, UserConfig userConfig) {
     this(messages, language, userConfig, Collections.emptyList());
@@ -197,7 +198,8 @@ public abstract class SpellingCheckRule extends Rule {
 
   private boolean isIgnoredNoCase(String word) {
     return wordsToBeIgnored.contains(word) ||
-           (convertsCase && wordsToBeIgnored.contains(word.toLowerCase(language.getLocale())));
+           (convertsCase && wordsToBeIgnored.contains(word.toLowerCase(language.getLocale()))) ||
+           (ignoreWordsWithLength > 0 && word.length() <= ignoreWordsWithLength);
   }
 
   /**
@@ -346,14 +348,6 @@ public abstract class SpellingCheckRule extends Rule {
     }
   }
 
-  /**
-   * adds Greeks letters to the list of wordsToBeIgnored
-   * @since 4.5 
-   */
-  protected void ignoreGreekLetters() {
-    wordsToBeIgnored.addAll(StringTools.LOWERCASE_GREEK_LETTERS);
-    wordsToBeIgnored.addAll(StringTools.UPPERCASE_GREEK_LETTERS);
-  }
   /**
    * @param words list of words to be prohibited.
    * @since 4.2

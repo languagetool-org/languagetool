@@ -603,7 +603,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   @Override
   protected void init() throws IOException {
     super.init();
-    super.ignoreGreekLetters();
+    super.ignoreWordsWithLength = 1;
     String pattern = "(" + nonWordPattern.pattern() + "|(?<=[\\d°])-|-(?=\\d+))";
     nonWordPattern = Pattern.compile(pattern);
     needsInit = false;
