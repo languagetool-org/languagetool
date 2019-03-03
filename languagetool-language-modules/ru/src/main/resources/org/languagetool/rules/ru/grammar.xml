@@ -2308,7 +2308,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="ROST" name="«Рост»">
             <rule>
                 <pattern>
-                    <token postag="NN:Inanim:.*" postag_regexp="yes" skip="-1"><exception inflected="yes" regexp="yes" >&rost;</exception></token>
+                    <token postag="NN:Inanim:.*" postag_regexp="yes" skip="-1"><exception inflected="yes" regexp="yes" >&rost;</exception><exception scope="next" inflected="yes" regexp="yes" >&rost;</exception></token>
                     <token inflected="yes">рост<exception inflected="yes" regexp="yes" scope="next" >&rost;</exception><exception postag="NN:Inanim:.*" postag_regexp="yes" scope="next" ></exception></token>
                 </pattern>
                 <message>Рост бывает у одушевлённых слов (человек большого роста), некого числа характеристик (рост показателей, рост качества, количества) и в некоторых устойчивых выражениях (рост экономики, преступности, безработицы).</message>
@@ -2318,7 +2318,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token inflected="yes" skip="-1">рост<exception inflected="yes" regexp="yes" scope="next">&rost;</exception></token>
+                    <token inflected="yes" skip="-1">рост<exception inflected="yes" regexp="yes" scope="next">&rost;</exception><exception inflected="yes" regexp="yes" scope="previous">&rost;</exception></token>
                     <token postag="NN:Inanim:.*" postag_regexp="yes" ></token>
                 </pattern>
                 <message>Рост бывает у одушевлённых слов (человек большого роста), некого числа характеристик (рост показателей, рост качества, количества) и в некоторых устойчивых выражениях (рост экономики, преступности, безработицы).</message>
