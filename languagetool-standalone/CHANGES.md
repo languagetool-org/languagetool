@@ -9,11 +9,14 @@
     the incorrect word is actually a different variant (like 'colour' in an en-US
     text).
   * updated en_GB spellchecker dictionary from https://github.com/marcoagpinto/aoo-mozilla-en-dict (Version 2.70 - 2019-03-01)
+  * spell check ignores single characters (e.g., 'α')
   
 #### German
   * added and improved rules
+  * Simple German: added and improved rules
   * improved suggestions for typos that end with a dot (typically at the end of
-    the sentence) - the dot is not included anymore 
+    the sentence) - the dot is not included anymore
+  * spell check ignores single characters (e.g., 'α') 
 
 #### Galician
   * added and improved rules
