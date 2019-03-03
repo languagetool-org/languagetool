@@ -188,8 +188,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern>
                     <marker>
                         <token regexp="yes">&mesos_any;|&mesos_any_abrev;</token>
-                        <token min="0">de</token>
+                        <token>de</token>
                         <token spacebefore="no" min="0">l</token>
+                        <token regexp="yes">\d\d\d\d</token>
+                    </marker>
+                </antipattern>
+                <antipattern>
+                    <marker>
+                        <token regexp="yes">&mesos_any;|&mesos_any_abrev;</token>
                         <token regexp="yes">\d\d\d\d</token>
                     </marker>
                 </antipattern>
@@ -202,12 +208,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">&mesos_any;|&mesos_any_abrev;</token>
                 </pattern>
                 <filter class="org.languagetool.rules.ca.DateCheckFilter" args="month:\5 day:\3 weekDay:\1"/>
-                <message>Si et refereixes a l'any actual ({currentYear}), aquesta data no és un {day} sinó un {realDay}.</message>
+                <message>Si us referiu a l'any actual ({currentYear}), aquesta data no és un {day} sinó un {realDay}.</message>
                 <example correction=""><marker>Dilluns 7 d'octubre</marker></example>
                 <example correction=""><marker>Dilluns, 7 d'octubre</marker></example>
                 <example><marker>Dimarts, 7 d'octubre</marker></example>
                 <example><marker>Washington DC, 7 d'octubre</marker></example>
                 <example>Dilluns 27 de novembre de 1922</example>
+                <example>Dilluns 27 de novembre del 1922</example>
+                <example>Dilluns 27 de novembre 1922</example>
             </rule>
             <!-- "Dilluns, 7 oct 2014" -->
             <rule>
@@ -19798,7 +19806,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern case_sensitive="yes">
                     <token>Castella</token>
                     <token min="0">-</token>
-                    <token >Lleó</token>
+                    <token>Lleó</token>
                 </pattern>
                 <message>S'escriu amb la conjunció 'i'.</message>
                 <suggestion>Castella i Lleó</suggestion>
