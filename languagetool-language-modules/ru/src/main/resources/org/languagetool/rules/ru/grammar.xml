@@ -39,6 +39,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 <!ENTITY start_vvodnoe "по-видимому|по-моему|по-твоему|впрочем|итак|следовательно|во-первых|во-вторых|в-третьих|в-четвертых|в-пятых|к|видишь|понимаешь|конечно|несомненно|вероятно|может|кажется|однако|одним|несмотря|наверное|прежде"> <!-- First words for exceptions in other rules!!! -->
 <!ENTITY missing_yo "жилье|белье|битье|щеткой|стерней|сырье|ружье|фоторужье|копье|чутье|офицерье|рытье|цевье|острие|вранье|дутье|нытье|звезды">
 <!ENTITY double_num "два|две|три|четыре|2|3|4">
+<!ENTITY rost "количество|количественный|качество|качественный|показатель|показательный|экономика|экономический|преступность|преступный|безработица|безработный">
 <!ENTITY defis_libo "какая|какие|какое|какой|какому|кому|кто|такому|такая|такое|такой|вообще|всего|где|зачем|когда|куда|откуда|отчего|почему|сколько|тогда|так|туда|чего|что">
 ]>
 <!-- «» -->
@@ -2307,8 +2308,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="ROST" name="«Рост»">
             <rule>
                 <pattern>
-                    <token postag="NN:Inanim:.*" postag_regexp="yes" skip="-1"><exception inflected="yes" regexp="yes" >количество|качество|показатель|экономика|преступность|безработица</exception></token>
-                    <token inflected="yes">рост</token>
+                    <token postag="NN:Inanim:.*" postag_regexp="yes" skip="-1"><exception inflected="yes" regexp="yes" >&rost;</exception></token>
+                    <token inflected="yes">рост<exception inflected="yes" regexp="yes" scope="next" >&rost;</exception><exception postag="NN:Inanim:.*" postag_regexp="yes" scope="next" ></exception></token>
                 </pattern>
                 <message>Рост бывает у одушевлённых слов (человек большого роста), некого числа характеристик (рост показателей, рост качества, количества) и в некоторых устойчивых выражениях (рост экономики, преступности, безработицы).</message>
                 <short>Замените другим словом</short>
@@ -2317,7 +2318,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token inflected="yes" skip="-1">рост<exception inflected="yes" regexp="yes" scope="next">количество|качество|показатель|экономика|преступность|безработица</exception></token>
+                    <token inflected="yes" skip="-1">рост<exception inflected="yes" regexp="yes" scope="next">&rost;</exception></token>
                     <token postag="NN:Inanim:.*" postag_regexp="yes" ></token>
                 </pattern>
                 <message>Рост бывает у одушевлённых слов (человек большого роста), некого числа характеристик (рост показателей, рост качества, количества) и в некоторых устойчивых выражениях (рост экономики, преступности, безработицы).</message>
@@ -2327,14 +2328,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <antipattern>
-                    <token postag="NN:Inanim:.*:Nom" postag_regexp="yes" skip="1"><exception inflected="yes" regexp="yes" >количество|качество|показатель|экономика|преступность|безработица</exception></token>
+                    <token postag="NN:Inanim:.*:Nom" postag_regexp="yes" skip="1"><exception inflected="yes" regexp="yes" >&rost;</exception></token>
                     <marker>
-                    <token inflected="yes" skip="1">расти<exception inflected="yes" regexp="yes" scope="next">количество|качество|показатель|экономика|преступность|безработица</exception></token>
+                    <token inflected="yes" skip="1">расти<exception inflected="yes" regexp="yes" scope="next">&rost;</exception></token>
                     <token>от</token>
                     </marker>
                 </antipattern>
                 <pattern>
-                    <token postag="SENT_START" skip="-1" ><exception inflected="yes" regexp="yes" scope="next">количество|качество|показатель|экономика|преступность|безработица</exception></token>
+                    <token postag="SENT_START" skip="-1" ><exception inflected="yes" regexp="yes" scope="next">&rost;</exception></token>
                     <marker>
                         <token inflected="yes" skip="1" postag="VB:.*" postag_regexp="yes" >расти<exception inflected="yes" regexp="yes" scope="next">количество|качество|показатель|экономика|преступность|безработица</exception></token>
                         <token>от</token>
