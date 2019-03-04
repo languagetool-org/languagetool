@@ -81,6 +81,52 @@
   </rule>
 
 
+  <rule name="Вживу" id="vzhyvy_adv_1">
+    <pattern>
+      <token regexp="yes">["«“„]</token>
+      <marker>
+        <token>вживу</token>
+      </marker>
+      <token regexp="yes">["»“”]</token>
+    </pattern>
+    <disambig action="filter" postag="adv:bad"/>
+    <example type="ambiguous"
+        inputform="вживу[вживу/adv:bad,вжити/verb:perf:futr:s:1]"
+        outputform="вживу[вживу/adv:bad]"
+        >побачили «<marker>вживу</marker>»</example>
+    <example type="untouched">я вживу заходів</example>
+  </rule>
+
+  <rule name="Вживу" id="vzhyvy_verb">
+    <pattern>
+      <marker>
+        <token postag="verb:perf:futr:s:1">вживу</token>
+      </marker>
+      <token postag_regexp="yes" postag="(adj|numr).*?v_rod.*" min="0"/>
+      <token inflected="yes" postag_regexp="yes" postag="noun:inanim:.:v_(zna|rod).*" regexp="yes">захід|термін|слово|зусилля|порівняння|означення|приказку|вислів|авторитет</token>
+    </pattern>
+    <disambig action="filter" postag="verb:perf:futr:s:1"/>
+    <example type="ambiguous"
+        inputform="вживу[вживу/adv:bad,вжити/verb:perf:futr:s:1]"
+        outputform="вживу[вжити/verb:perf:futr:s:1]"
+        >я <marker>вживу</marker> таких заходів</example>
+    <example type="untouched">я вживу його не бачив</example>
+  </rule>
+
+  <rule name="Вживу" id="vzhyvy_adv_2">
+    <pattern>
+      <marker>
+        <token postag="adv:bad">вживу</token>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="adv:bad"/>
+    <example type="ambiguous"
+        inputform="вживу[вживу/adv:bad,вжити/verb:perf:futr:s:1]"
+        outputform="вживу[вживу/adv:bad]"
+        >побачили <marker>вживу</marker>.</example>
+  </rule>
+
+
   <rule name="Це - noun 1" id="ce_noun_1">
     <pattern>
       <token regexp="yes">[—–-]</token>
