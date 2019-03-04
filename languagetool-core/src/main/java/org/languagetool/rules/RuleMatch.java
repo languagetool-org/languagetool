@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.ApiCleanupNeeded;
@@ -144,11 +145,12 @@ public class RuleMatch implements Comparable<RuleMatch> {
     this.setEndColumn(clone.getEndColumn());
   }
 
+  @NotNull
   public SortedMap<String, Float> getFeatures() {
     return features;
   }
 
-  public void setFeatures(SortedMap<String, Float> features) {
+  public void setFeatures(@NotNull SortedMap<String, Float> features) {
     this.features = features;
   }
 

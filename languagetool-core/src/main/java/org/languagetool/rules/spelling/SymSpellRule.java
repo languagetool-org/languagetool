@@ -44,6 +44,12 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
+/**
+ * spell checking using SymSpell algorithm, implementation from
+ * https://github.com/Lundez/JavaSymSpell in org.languagetool.rules.spelling.symspell.implementation
+ * potential faster alternative to Morfologik, especially in generating suggestions
+ */
+@Experimental
 public class SymSpellRule extends SpellingCheckRule {
   private static final LoadingCache<Language, SymSpell> spellerCache = CacheBuilder.newBuilder()
     .expireAfterAccess(10, TimeUnit.MINUTES)
@@ -62,6 +68,7 @@ public class SymSpellRule extends SpellingCheckRule {
         return getWordList(lang, "ignore.txt");
       }
     });
+  public static final int INITIAL_CAPACITY = 50000;
 
   @NotNull
   private static Set<String> getWordList(Language lang, String file) {
@@ -132,7 +139,7 @@ public class SymSpellRule extends SpellingCheckRule {
   }
 
   protected static SymSpell initDefaultDictSpeller(Language lang) {
-    SymSpell speller = new SymSpell(100000, 3, -1, 0);
+    SymSpell speller = new SymSpell(INITIAL_CAPACITY, 3, -1, 0);
     System.out.println("Initalizing symspell");
     Set<String> prohibitedWords = prohibitedWordsCache.getUnchecked(lang);
     long startTime = System.currentTimeMillis();
@@ -222,7 +229,7 @@ public class SymSpellRule extends SpellingCheckRule {
     List<RuleMatch> matches = new ArrayList<>();
     Set<String> ignoredWords = ignoredWordsCache.getUnchecked(language);
     for (AnalyzedTokenReadings token : sentence.getTokensWithoutWhitespace()) {
-      if (token.isSentenceStart() || token.isSentenceEnd() || token.isNonWord())
+      if (token.isSentenceStart() || token.isImmunized() || token.isIgnoredBySpeller() || token.isNonWord())
         continue;
       String word = token.getToken();
       if (ignoredWords.contains(word)) {

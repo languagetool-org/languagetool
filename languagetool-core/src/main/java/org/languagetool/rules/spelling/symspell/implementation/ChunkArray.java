@@ -1,4 +1,5 @@
-package org.languagetool.rules.spelling.symspell.implementation;//        MIT License
+package org.languagetool.rules.spelling.symspell.implementation;
+//        MIT License
 //
 //        Copyright (c) 2018 Hampus Londögård
 //

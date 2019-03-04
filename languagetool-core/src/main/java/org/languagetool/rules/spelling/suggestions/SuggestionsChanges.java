@@ -31,6 +31,11 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
+/**
+ * Helper class for SuggestionChangesTest, tracks experiment configuration and results
+ * Rules should use getInstance() != null -> getInstance().getCurrentExperiment() in constructors to fetch relevant parameters
+ * Use isRunningExperiment if no parameters are needed
+ */
 public class SuggestionsChanges {
   private static SuggestionsChanges instance;
   private final SuggestionChangesTestConfig config;
@@ -62,6 +67,10 @@ public class SuggestionsChanges {
     Runtime.getRuntime().addShutdownHook(new Thread(new Report(reportWriter)));
   }
 
+  /**
+   * null if nothing is configured, i.e. in most normal use cases
+   */
+  @Nullable
   public static SuggestionsChanges getInstance() {
     return instance;
   }

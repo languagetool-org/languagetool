@@ -105,10 +105,11 @@ public class SuggestionsRankerTest {
       ObjectMapper mapper = new ObjectMapper();
       List<Map<String, Object>> replacements = mapper.readValue(replacementsData, List.class);
       assertThat(replacements.get(0).get("value"), is("mistaki"));
-      assertThat(replacements.get(0).get("confidence"), is(0.0));
+      assertThat(replacements.get(0).get("confidence"), is(nullValue()));
       assertThat(replacements.get(0).containsKey("autoCorrect"), is(false));
       assertThat(replacements.get(1).get("value"), is("mistake"));
-      assertThat(replacements.get(1).get("confidence"), is(not(0.0)));
+      assertThat(replacements.get(1).get("confidence"), is(notNullValue()));
+      assertThat(replacements.get(1).get("confidence"), not(0.0));
     } finally {
       DatabaseAccess.deleteTestTables();
     }

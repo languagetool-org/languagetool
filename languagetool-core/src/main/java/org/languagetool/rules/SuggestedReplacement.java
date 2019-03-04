@@ -18,6 +18,9 @@
  */
 package org.languagetool.rules;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import java.util.Collections;
 import java.util.Objects;
 import java.util.SortedMap;
@@ -77,19 +80,21 @@ public class SuggestedReplacement {
     return Objects.hash(replacement, shortDescription);
   }
 
+  @Nullable
   public Float getConfidence() {
     return confidence;
   }
 
-  public void setConfidence(Float confidence) {
+  public void setConfidence(@Nullable Float confidence) {
     this.confidence = confidence;
   }
 
+  @NotNull
   public SortedMap<String, Float> getFeatures() {
     return Collections.unmodifiableSortedMap(features);
   }
 
-  public void setFeatures(SortedMap<String, Float> features) {
+  public void setFeatures(@NotNull SortedMap<String, Float> features) {
     this.features = features;
   }
 }

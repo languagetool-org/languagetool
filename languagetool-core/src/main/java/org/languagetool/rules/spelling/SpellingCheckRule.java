@@ -148,7 +148,7 @@ public abstract class SpellingCheckRule extends Rule {
             List<SuggestedReplacement> combinedSuggestions = new ArrayList<>();
             for (String wordFromUserDict : userCandidates) {
               SuggestedReplacement s = new SuggestedReplacement(wordFromUserDict);
-              s.setConfidence(0.0f);
+              // confidence is null
               combinedSuggestions.add(s);
             }
             combinedSuggestions.addAll(defaultSuggestions);
