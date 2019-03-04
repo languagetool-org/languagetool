@@ -428,6 +428,11 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("[xX]te[mnrs]?", "te", "-te");
     putRepl("verheielt(e[mnrs]?)?", "heiel", "heil");
     putRepl("[rR]evolutionie?sier(s?t|en?)", "ie?s", "");
+    putRepl("Kohleaustiegs?", "aus", "auss");
+    putRepl("[jJ]urististisch(e[mnrs]?)?", "istist", "ist");
+    put("Glücklichkeit", "Glück");
+    put("Begierigkeit", "Begierde");
+    put("voralem", "vor allem");
     put("Unorganisation", w -> Arrays.asList("Desorganisation", "Unorganisiertheit"));
     put("Cand(el|le)lightdinner", "Candle-Light-Dinner");
     put("wertgelegt", "Wert gelegt");
