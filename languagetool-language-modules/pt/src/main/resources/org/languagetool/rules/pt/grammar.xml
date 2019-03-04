@@ -22581,6 +22581,158 @@ TODO Write better examples
     </rule>
   </rulegroup>
 
+
+  <rulegroup id='DECIMAL_COMMA' name="Matemático: Vírgula como separador de decimais" default="on">
+    <!-- Localized from Catalan by Tiago F. Santos, 2017-03-05 -->
+      <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/2500-2-500-ou-2500/12873</url>
+      <antipattern>
+          <token postag="SENT_START"/>
+          <token regexp="yes">\d{1,2}\.\d{1,2}</token>
+      </antipattern>
+      <antipattern>
+          <token regexp="yes">\d{1,3}\.\d{3}\.\d{3}</token>
+      </antipattern>
+      <antipattern>
+        <marker>
+          <token regexp="yes">arts?|fig|caps?|ap|s|v|veg|§|cf|\p{Lu}.+|web</token>
+          <token min="0">.</token>
+          <token regexp="yes">\d+\.\d+</token>
+        </marker>
+      </antipattern>
+      <antipattern> <!-- Enumeração principal da frase -->
+        <marker>
+          <token postag="SENT_START"/>
+          <token regexp="yes">\d+\.\d+</token>
+          <token spacebefore="no" regexp="yes">[.:)]</token>
+        </marker>
+      </antipattern>
+      <antipattern>
+        <marker>
+          <token regexp="yes">(?:[01]?[0-9]|2[0-4])\.\d{2}</token>
+          <token regexp="yes">h|horas|am|pm</token>
+        </marker>
+      </antipattern>
+      <antipattern>
+        <marker>
+          <token regexp="yes" skip="2">(?:[01]?[0-9]|2[0-4])\.\d{2}</token>
+          <token regexp="yes">&partes_do_dia;</token>
+        </marker>
+      </antipattern>
+      <antipattern> <!-- tabelas, figuras, etc.  -->
+        <marker>
+          <token inflected="yes" regexp="yes">GNOME|(?:revis|vers|resolu|sec?ç)(?:ão|ões)|(?:decreto|lei|capítulo|apartado|partida|tabela|imagem|fotografia|gráfico|foto|mapa|ponto|artigo|ver|figura)s?</token>
+          <token min="0" regexp="yes" inflected="yes">ac?tual|anterior|antiga|nova</token>
+          <token regexp="yes">\d+\.\d+</token>
+        </marker>
+      </antipattern>
+      <antipattern>
+        <marker>
+          <token inflected="yes" regexp="yes">(?:revis|vers|resolu|sec?ç)(?:ão|ões)|(?:decreto|GNOME|kernel|motor|lei|capítulo|apartado|partida|tabela|imagem|fotografia|gráfico|foto|mapa|ponto|artigo|ver|figura)s?</token>
+          <token regexp="yes">\d+\.\d+</token>
+          <token regexp="yes">e|ou|,|&hifen;|–</token>
+          <token regexp="yes">\d+\.\d+</token>
+        </marker>
+      </antipattern>
+      <antipattern>
+        <marker>
+          <token regexp="yes">arts?|fig|caps?|ap|s|v|veg|§|cf|\p{Lu}.+|web</token>
+          <token min="0">.</token>
+          <token regexp="yes">\d+\.\d+</token>
+        </marker>
+      </antipattern>
+      <antipattern>
+        <marker>
+          <token regexp="yes">arts?|fig|caps?|ap|s|v|veg|§|cf</token>
+          <token min="0">.</token>
+          <token regexp="yes">\d+\.\d+</token>
+          <token regexp="yes">e|ou|,</token>
+          <token regexp="yes">\d+\.\d+</token>
+        </marker>
+      </antipattern>
+    <!--<antipattern>   Livros da Bíblia
+        <marker>
+          <token postag="_abrev_biblia"/>
+          <token min="0" skip="4" regexp="yes">[\d.,-]+
+            <exception regexp="yes">\d+\.\d+</exception></token>
+          <token regexp="yes">\d+\.\d+</token>
+        </marker>
+      </antipattern>-->
+    <rule>
+      <pattern>
+          <token regexp="yes">\d+\.\d+
+            <exception regexp="yes">\d{1,3}\.\d{3}</exception></token>
+      </pattern>
+      <message>Para separar os decimais, utilize uma vírgula.</message>
+        <suggestion><match no='1' regexp_match='(\d+)\.(\d+)' regexp_replace='$1,$2'/></suggestion>
+      <example correction="9,5"># <marker>9.5</marker></example> <!-- XXX # - if a number is at sentence start, it can be part of an enumeration -->
+      <example correction="9,5">És de <marker>9.5</marker>.</example>
+      <example correction="9349,5"><marker>9349.5</marker></example>
+      <example correction="349,56">1 999 <marker>349.56</marker></example>
+      <example correction="896,96">O tamanho da área urbana inteira atinge <marker>896.96</marker> km²…</example>
+      <example>1.231</example>
+      <example>1.231.437</example>
+      <example>As tabelas 5.7 e 5.8.</example>
+    <!--<example>Is 3,1-5.9 é Isaias, capítulo 3, do versículo 1 a 5 e versículo 9.</example>-->
+      <example>1.0. Introdução.</example>
+      <example>Às 5.40 da madrugada.</example>
+      <example>E subiram às 17.40 h.</example>
+      <example>E subiram às 17.40h.</example>
+      <example>Os art. 5.4 e 5.6.</example>
+      <example>A versão 2.4.x é a mais recente.</example>
+      <example>A versão 2.4 é a mais recente.</example>
+      <example>O Apache 2.4 é assim.</example>
+      <example>Na web 2.0 é assim.</example>
+    <!--<example>Gn 4,9.27 – Génesis, capítulo 4, versículo 9 e 27</example>-->
+      <example>Um total de $6.600.000 (32 bilhões de marcos).</example>
+      <example>Esse número diminuiu para 300.000 em 1939.</example>
+      <example>No último censo nacional, 600.000 argentinos (1,autoidentificaram como indígena…</example>
+      <example>GNOME 3.16 – 3.20 Committer</example>
+      <example><marker>111.231</marker></example><!-- XXX Corrigido pela segunda regra -->
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp="yes">\d{2,3}\.\d{3}</token>
+      </pattern>
+      <message>Para separar os decimais, utilize uma vírgula. Se é um número inteiro deve ser separado.</message>
+        <suggestion><match no='1' regexp_match='(\d{1,2})\.(\d{3})' regexp_replace='$1,$2'/></suggestion>
+        <suggestion><match no='1' regexp_match='(\d{1,2})\.(\d{3})' regexp_replace='$1 $2'/></suggestion>
+      <example correction="11,231|11 231"><marker>11.231</marker></example>
+      <example correction="111,231|111 231"><marker>111.231</marker></example>
+      <example><marker>9.5</marker></example>
+      <example>És de <marker>9.5</marker>.</example>
+      <example><marker>9349.5</marker></example>
+      <example>1 999 <marker>349.56</marker></example>
+      <example>O tamanho da área urbana inteira atinge <marker>896.96</marker> km²…</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp="yes">\d\.\d{3}</token>
+      </pattern>
+      <message>Para separar os decimais, utilize uma vírgula. Se é um ano não deve ser separado.</message>
+        <suggestion><match no='1' regexp_match='(\d{1,2})\.(\d{3})' regexp_replace='$1,$2'/></suggestion>
+        <suggestion><match no='1' regexp_match='(\d{1,2})\.(\d{3})' regexp_replace='$1 $2'/></suggestion>
+        <suggestion><match no='1' regexp_match='(\d{1,2})\.(\d{3})' regexp_replace='$1$2'/></suggestion>
+      <example correction="1,231|1 231|1231"><marker>1.231</marker></example>
+      <example><marker>19.349</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp="yes">\d{1,3},\d{3}\.\d+</token>
+      </pattern>
+      <message>Para separar os decimais, utilize uma vírgula.</message>
+        <suggestion><match no='1' regexp_match='(\d{1,3}),(\d{3})\.(\d+)' regexp_replace='$1 $2,$3'/></suggestion>
+      <example correction="21 349,56"><marker>21,349.56</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+          <token regexp="yes">\d{1,3},\d{3},\d{3}\.\d+</token>
+      </pattern>
+      <message>Para separar os decimais, utilize uma vírgula.</message>
+        <suggestion><match no='1' regexp_match='(\d{1,3}),(\d{1,3}),(\d{3})\.(\d+)' regexp_replace='$1 $2 $3,$4'/></suggestion>
+      <example correction="21 999 349,56"><marker>21,999,349.56</marker></example>
+    </rule>
+  </rulegroup>
+
     <rule id="NO_SPACE_CLOSING_QUOTE" name="Espaçamento: Aspas de fecho">
     <!-- Localized from English by Tiago F. Santos, Portuguese rule, 2019-02-10 -->
       <pattern>
@@ -23193,7 +23345,7 @@ TODO Write better examples
           <token postag="SENT_START"/>
           <token regexp="yes">[–‒—]|&hifen;</token>
           <token spacebefore="no">
-            <token><exception>,</exception></token>
+            <exception>,</exception></token>
       </pattern>
       <message>Em diálogos, deve dar espaço depois do travessão.</message>
         <suggestion>— \3</suggestion>
@@ -27053,157 +27205,6 @@ TODO Write better examples
       <message>Substitua por <suggestion>\1 em grande escala</suggestion>.</message>
       <example correction="ataques em grande escala">As botnets fazem <marker>ataques em massa</marker>.</example>
     </rule>
-
-  <rulegroup id='DECIMAL_COMMA' name="Utilização de vírgula como separador de decimais" default="on">
-    <!-- Localized from Catalan by Tiago F. Santos, 2017-03-05 -->
-      <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/2500-2-500-ou-2500/12873</url>
-      <antipattern>
-          <token postag="SENT_START"/>
-          <token regexp="yes">\d{1,2}\.\d{1,2}</token>
-      </antipattern>
-      <antipattern>
-          <token regexp="yes">\d{1,3}\.\d{3}\.\d{3}</token>
-      </antipattern>
-      <antipattern>
-        <marker>
-          <token regexp="yes">arts?|fig|caps?|ap|s|v|veg|§|cf|\p{Lu}.+|web</token>
-          <token min="0">.</token>
-          <token regexp="yes">\d+\.\d+</token>
-        </marker>
-      </antipattern>
-      <antipattern> <!-- Enumeração principal da frase -->
-        <marker>
-          <token postag="SENT_START"/>
-          <token regexp="yes">\d+\.\d+</token>
-          <token spacebefore="no" regexp="yes">[.:)]</token>
-        </marker>
-      </antipattern>
-      <antipattern>
-        <marker>
-          <token regexp="yes">(?:[01]?[0-9]|2[0-4])\.\d{2}</token>
-          <token regexp="yes">h|horas|am|pm</token>
-        </marker>
-      </antipattern>
-      <antipattern>
-        <marker>
-          <token regexp="yes" skip="2">(?:[01]?[0-9]|2[0-4])\.\d{2}</token>
-          <token regexp="yes">&partes_do_dia;</token>
-        </marker>
-      </antipattern>
-      <antipattern> <!-- tabelas, figuras, etc.  -->
-        <marker>
-          <token inflected="yes" regexp="yes">GNOME|(?:revis|vers|resolu|sec?ç)(?:ão|ões)|(?:decreto|lei|capítulo|apartado|partida|tabela|imagem|fotografia|gráfico|foto|mapa|ponto|artigo|ver|figura)s?</token>
-          <token min="0" regexp="yes" inflected="yes">ac?tual|anterior|antiga|nova</token>
-          <token regexp="yes">\d+\.\d+</token>
-        </marker>
-      </antipattern>
-      <antipattern>
-        <marker>
-          <token inflected="yes" regexp="yes">(?:revis|vers|resolu|sec?ç)(?:ão|ões)|(?:decreto|GNOME|kernel|motor|lei|capítulo|apartado|partida|tabela|imagem|fotografia|gráfico|foto|mapa|ponto|artigo|ver|figura)s?</token>
-          <token regexp="yes">\d+\.\d+</token>
-          <token regexp="yes">e|ou|,|&hifen;|–</token>
-          <token regexp="yes">\d+\.\d+</token>
-        </marker>
-      </antipattern>
-      <antipattern>
-        <marker>
-          <token regexp="yes">arts?|fig|caps?|ap|s|v|veg|§|cf|\p{Lu}.+|web</token>
-          <token min="0">.</token>
-          <token regexp="yes">\d+\.\d+</token>
-        </marker>
-      </antipattern>
-      <antipattern>
-        <marker>
-          <token regexp="yes">arts?|fig|caps?|ap|s|v|veg|§|cf</token>
-          <token min="0">.</token>
-          <token regexp="yes">\d+\.\d+</token>
-          <token regexp="yes">e|ou|,</token>
-          <token regexp="yes">\d+\.\d+</token>
-        </marker>
-      </antipattern>
-    <!--<antipattern>   Livros da Bíblia
-        <marker>
-          <token postag="_abrev_biblia"/>
-          <token min="0" skip="4" regexp="yes">[\d.,-]+
-            <exception regexp="yes">\d+\.\d+</exception></token>
-          <token regexp="yes">\d+\.\d+</token>
-        </marker>
-      </antipattern>-->
-    <rule>
-      <pattern>
-          <token regexp="yes">\d+\.\d+
-            <exception regexp="yes">\d{1,3}\.\d{3}</exception></token>
-      </pattern>
-      <message>Para separar os decimais, utilize uma vírgula.</message>
-        <suggestion><match no='1' regexp_match='(\d+)\.(\d+)' regexp_replace='$1,$2'/></suggestion>
-      <example correction="9,5"># <marker>9.5</marker></example> <!-- XXX # - if a number is at sentence start, it can be part of an enumeration -->
-      <example correction="9,5">És de <marker>9.5</marker>.</example>
-      <example correction="9349,5"><marker>9349.5</marker></example>
-      <example correction="349,56">1 999 <marker>349.56</marker></example>
-      <example correction="896,96">O tamanho da área urbana inteira atinge <marker>896.96</marker> km²…</example>
-      <example>1.231</example>
-      <example>1.231.437</example>
-      <example>As tabelas 5.7 e 5.8.</example>
-    <!--<example>Is 3,1-5.9 é Isaias, capítulo 3, do versículo 1 a 5 e versículo 9.</example>-->
-      <example>1.0. Introdução.</example>
-      <example>Às 5.40 da madrugada.</example>
-      <example>E subiram às 17.40 h.</example>
-      <example>E subiram às 17.40h.</example>
-      <example>Os art. 5.4 e 5.6.</example>
-      <example>A versão 2.4.x é a mais recente.</example>
-      <example>A versão 2.4 é a mais recente.</example>
-      <example>O Apache 2.4 é assim.</example>
-      <example>Na web 2.0 é assim.</example>
-    <!--<example>Gn 4,9.27 – Génesis, capítulo 4, versículo 9 e 27</example>-->
-      <example>Um total de $6.600.000 (32 bilhões de marcos).</example>
-      <example>Esse número diminuiu para 300.000 em 1939.</example>
-      <example>No último censo nacional, 600.000 argentinos (1,autoidentificaram como indígena…</example>
-      <example>GNOME 3.16 – 3.20 Committer</example>
-      <example><marker>111.231</marker></example><!-- XXX Corrigido pela segunda regra -->
-    </rule>
-    <rule>
-      <pattern>
-          <token regexp="yes">\d{2,3}\.\d{3}</token>
-      </pattern>
-      <message>Para separar os decimais, utilize uma vírgula. Se é um número inteiro deve ser separado.</message>
-        <suggestion><match no='1' regexp_match='(\d{1,2})\.(\d{3})' regexp_replace='$1,$2'/></suggestion>
-        <suggestion><match no='1' regexp_match='(\d{1,2})\.(\d{3})' regexp_replace='$1 $2'/></suggestion>
-      <example correction="11,231|11 231"><marker>11.231</marker></example>
-      <example correction="111,231|111 231"><marker>111.231</marker></example>
-      <example><marker>9.5</marker></example>
-      <example>És de <marker>9.5</marker>.</example>
-      <example><marker>9349.5</marker></example>
-      <example>1 999 <marker>349.56</marker></example>
-      <example>O tamanho da área urbana inteira atinge <marker>896.96</marker> km²…</example>
-    </rule>
-    <rule>
-      <pattern>
-          <token regexp="yes">\d\.\d{3}</token>
-      </pattern>
-      <message>Para separar os decimais, utilize uma vírgula. Se é um ano não deve ser separado.</message>
-        <suggestion><match no='1' regexp_match='(\d{1,2})\.(\d{3})' regexp_replace='$1,$2'/></suggestion>
-        <suggestion><match no='1' regexp_match='(\d{1,2})\.(\d{3})' regexp_replace='$1 $2'/></suggestion>
-        <suggestion><match no='1' regexp_match='(\d{1,2})\.(\d{3})' regexp_replace='$1$2'/></suggestion>
-      <example correction="1,231|1 231|1231"><marker>1.231</marker></example>
-      <example><marker>19.349</marker></example>
-    </rule>
-    <rule>
-      <pattern>
-          <token regexp="yes">\d{1,3},\d{3}\.\d+</token>
-      </pattern>
-      <message>Para separar os decimais, utilize uma vírgula.</message>
-        <suggestion><match no='1' regexp_match='(\d{1,3}),(\d{3})\.(\d+)' regexp_replace='$1 $2,$3'/></suggestion>
-      <example correction="21 349,56"><marker>21,349.56</marker></example>
-    </rule>
-    <rule>
-      <pattern>
-          <token regexp="yes">\d{1,3},\d{3},\d{3}\.\d+</token>
-      </pattern>
-      <message>Para separar os decimais, utilize uma vírgula.</message>
-        <suggestion><match no='1' regexp_match='(\d{1,3}),(\d{1,3}),(\d{3})\.(\d+)' regexp_replace='$1 $2 $3,$4'/></suggestion>
-      <example correction="21 999 349,56"><marker>21,999,349.56</marker></example>
-    </rule>
-  </rulegroup>
 
   <rulegroup id='ENG_ELETRICO' name="Erro de tradução: 'engenheiro elétrico'">
     <!-- Created by Tiago F. Santos, 2017-05-19 -->
