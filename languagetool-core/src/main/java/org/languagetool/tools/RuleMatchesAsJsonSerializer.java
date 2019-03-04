@@ -27,8 +27,6 @@ import org.languagetool.markup.AnnotatedText;
 import org.languagetool.markup.AnnotatedTextBuilder;
 import org.languagetool.rules.*;
 import org.languagetool.rules.patterns.AbstractPatternRule;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -47,7 +45,6 @@ public class RuleMatchesAsJsonSerializer {
   private static final String START_MARKER = "__languagetool_start_marker";
 
   private final JsonFactory factory = new JsonFactory();
-  private static final Logger logger = LoggerFactory.getLogger(RuleMatchesAsJsonSerializer.class);
 
   public String ruleMatchesToJson(List<RuleMatch> matches, String text, int contextSize, DetectedLanguage detectedLang) {
     return ruleMatchesToJson(matches, new ArrayList<>(), text, contextSize, detectedLang, null);

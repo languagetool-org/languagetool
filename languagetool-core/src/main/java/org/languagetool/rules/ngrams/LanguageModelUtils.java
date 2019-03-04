@@ -22,7 +22,6 @@
 package org.languagetool.rules.ngrams;
 
 import org.languagetool.AnalyzedSentence;
-import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.tokenizers.Tokenizer;
@@ -161,7 +160,8 @@ public final class LanguageModelUtils {
       return 0.0;
     } else {
       //logger.trace(String.format("  Min coverage of %.2f okay: %.2f, %.2f\n", MIN_COVERAGE, ngram3Left.getCoverage(), ngram3Right.getCoverage()));
-      return Math.exp(ngram3Left.getLogProb() + ngram3Middle.getLogProb() + ngram3Right.getLogProb());
+      //return Math.exp(ngram3Left.getLogProb() + ngram3Middle.getLogProb() + ngram3Right.getLogProb());
+      return ngram3Left.getProb() * ngram3Middle.getProb() * ngram3Right.getProb();
     }
   }
 

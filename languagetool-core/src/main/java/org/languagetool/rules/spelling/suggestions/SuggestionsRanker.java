@@ -25,6 +25,15 @@ import org.languagetool.rules.SuggestedReplacement;
 
 import java.util.List;
 
+/**
+ * Implementing classes must provide confidence values with the SuggestedReplacement objects returned by orderSuggestions
+ */
 public interface SuggestionsRanker extends SuggestionsOrderer {
+  /**
+   * Model output should have been calibrated using a precision-recall curve evaluation, so that
+   * a threshold for confidence values with sufficiently high precision for auto correction is known
+   * @param rankedSuggestions suggestions returned by orderSuggestions
+   * @return if confidence is high enough for auto correction
+   */
   boolean shouldAutoCorrect(List<SuggestedReplacement> rankedSuggestions);
 }
