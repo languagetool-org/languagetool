@@ -29,6 +29,8 @@ import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.chunking.ChunkTag;
 import org.languagetool.tagging.BaseTagger;
 
+
+
 /**  Part-of-speech tagger.
  * Russian dictionary originally developed by www.aot.ru and licensed under LGPL.
  * See readme.txt for details, the POS tagset is described in tagset.txt
@@ -53,6 +55,7 @@ public class RussianTagger extends BaseTagger {
     public List<AnalyzedTokenReadings> tag(List<String> sentenceTokens) throws IOException {
         List<AnalyzedTokenReadings> tokenReadings = new ArrayList<>();
         int pos = 0;
+        String word_ie;
         for (String word : sentenceTokens) {
             boolean maymissingyo = false;
             if (word.length() > 1) {
@@ -80,13 +83,24 @@ public class RussianTagger extends BaseTagger {
                 word = word.replace("я̀", "я");
                 word = word.replace("ʼ", "ъ");
             }
-          
+                word_ie=word.replace("е","ё");
+               
 
             List<AnalyzedToken> l = getAnalyzedTokens(word);
 
             AnalyzedTokenReadings atr = new AnalyzedTokenReadings(l, pos);
-
-            if (maymissingyo) {
+            
+            
+            if (maymissingyo) { 
+            if (getWordTagger().tag(word_ie).isEmpty()) {
+            maymissingyo= false;
+            }
+            }
+                
+            
+            
+            
+            if (maymissingyo) { 
                 List<ChunkTag> listChunkTags = new ArrayList<>();
                 listChunkTags.add(new ChunkTag("MayMissingYO"));
                 atr.setChunkTags(listChunkTags);
