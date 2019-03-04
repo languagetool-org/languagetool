@@ -134,7 +134,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("entt?euscht(e[mnrs]?)?", "entt?eusch", "enttäusch");
     putRepl("Phählen?", "^Ph", "Pf");
     putRepl("Kattermesser[ns]?", "Ka", "Cu");
-    putRepl("geherr?t(e[mnrs]?)?", "herr?", "ehr"); // "geherte" -> "geehrte"
+    putRepl("gehe?rr?t(e[mnrs]?)?", "he?rr?", "ehr"); // "geherte" -> "geehrte"
     putRepl("gehrter?", "^ge", "gee");
     putRepl("[nN]amenhaft(e[mnrs]?)?", "amen", "am");
     putRepl("hom(o?e|ö)ophatisch(e[mnrs]?)?", "hom(o?e|ö)ophat", "homöopath");
@@ -427,6 +427,17 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("unterbemittel(nd|t)(e[nmrs]?)?", "unterbemittel(nd|t)", "minderbemittelt");
     putRepl("[xX]te[mnrs]?", "te", "-te");
     putRepl("verheielt(e[mnrs]?)?", "heiel", "heil");
+    putRepl("[rR]evolutionie?sier(s?t|en?)", "ie?s", "");
+    put("Unorganisation", w -> Arrays.asList("Desorganisation", "Unorganisiertheit"));
+    put("Cand(el|le)lightdinner", "Candle-Light-Dinner");
+    put("wertgelegt", "Wert gelegt");
+    put("Deluxe", "de luxe");
+    put("antuhen", "antun");
+    put("komen", "kommen");
+    put("genißen", "genießen");
+    put("Stationskrankenpflegerin", "Stationsschwester");
+    put("[iIüÜuU]b[ea]w[ae]isung", "Überweisung");
+    put("[bB]oxhorn", "Bockshorn");
     put("[zZ]oolophie", "Zoophilie");
     put("Makieren", "Markieren");
     put("Altersheimer", "Alzheimer");

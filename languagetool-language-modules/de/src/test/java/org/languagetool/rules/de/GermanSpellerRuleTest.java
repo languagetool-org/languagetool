@@ -338,6 +338,7 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("patroliert", "patrouilliert", rule, lt);
     assertFirstSuggestion("beidiges", "beides", rule, lt);
     assertFirstSuggestion("Propagandierte", "Propagierte", rule, lt);
+    assertFirstSuggestion("revolutioniesiert", "revolutioniert", rule, lt);
   }
 
   @Test
