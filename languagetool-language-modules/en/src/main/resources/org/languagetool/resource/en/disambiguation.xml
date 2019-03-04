@@ -1983,6 +1983,17 @@
         <example type="untouched">It is in many Caribbean and Latin American countries...</example>
     </rule>
     <rule name="Uppercase word/NNP|NN -&gt; NNP" id="UPPER_NNP">
+        <antipattern><!-- What Will It Do? -->
+            <token postag="WP"/>
+            <token postag="MD"/>
+            <token postag="PRP"/>
+        </antipattern>
+        <antipattern><!-- Can I Sue? / "Will this do...?" -->
+            <token postag="MD"/>
+            <token postag_regexp="yes" postag="PRP|DT"/>
+            <token skip="-1" postag_regexp="yes" postag="VBP?"/>
+            <token>?</token>
+        </antipattern>
         <pattern case_sensitive="yes">
             <and>
                 <marker>
@@ -1994,8 +2005,9 @@
         </pattern>
         <disambig postag="NNP"/>
         <example type="untouched">They looked at the ruins of the old Roman wall on the lower Via Veneto.</example>
-<!-- TODO. Will/NNP. MFU does not know how to correct the error. <example type="untouched">What Will It Do?</example> -->
-<!-- TODO. Can/NNP. MFU does not know how to correct the error. <example type="untouched">Title: <marker>Can I</marker> Sue? An Introduction to Canadian Tort Law</example> -->
+        <example type="untouched">What Will It Do?</example>
+        <example type="untouched">Title: Can I Sue?</example>
+        <example type="untouched">"Will this do now?", she asked.</example>
         <example type="ambiguous" inputform="Bobby[Bobby/NNP,bobby/NN]" outputform="Bobby[Bobby/NNP]">His name was <marker>Bobby</marker> Brown and he acted as a clerk.</example>        
     </rule>
     <rule name="NNP + Uppercase NN -&gt; NNP" id="UPPER_NN_NNP">
