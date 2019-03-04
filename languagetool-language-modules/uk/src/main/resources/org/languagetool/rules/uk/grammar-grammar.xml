@@ -267,14 +267,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <pattern>
         <token inflected="yes" regexp="yes">завідувач|завідувачка|зав|зав\.</token>
         <marker>
-          <token postag_regexp="yes" postag="adj.*v_oru.*" min="0"/>
-          <token postag_regexp="yes" postag="noun.*v_oru.*">
-            <exception postag_regexp="yes" postag="noun.*v_rod.*|.*pron.*"/>
+          <token postag_regexp="yes" postag="adj:.:v_oru.*" min="0"/>
+          <token postag_regexp="yes" postag="noun.*?v_oru.*">
+            <exception postag_regexp="yes" postag="noun.*?v_rod.*|.*?pron.*"/>
           </token>
         </marker>
       </pattern>
       <message>Завідувач(ка) чого</message>
-      <suggestion><match no="2" postag_regexp="yes" postag="(adj.*)v_oru(.*)" postag_replace="$1v_rod$2"/> <match no="3" postag_regexp="yes" postag="(noun.*)v_oru(.*)" postag_replace="$1v_rod$2"/></suggestion>
+      <suggestion><match no="2" postag_regexp="yes" postag="(adj:.:)v_oru(.*)" postag_replace="$1v_rod$2"/> <match no="3" postag_regexp="yes" postag="(noun.*)v_oru(.*)" postag_replace="$1v_rod$2"/></suggestion>
       <!-- TODO: change code to remove space -->
       <example correction="відділу">завідувача <marker>відділом</marker></example>
       <example correction="відділу">зав <marker>відділом</marker></example>
@@ -292,6 +292,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <unify>
               <feature id="gender"/>
               <feature id="case"/>
+              <token postag_regexp="yes" postag="numr:.:v_dav.*" min="0"/>
               <token postag_regexp="yes" postag="adj:.:v_dav.*" min="0"/>
               <token postag_regexp="yes" postag="noun:inanim:.:v_dav.*">
                 <exception postag_regexp="yes" postag="noun:.*:v_(rod|zna|oru).*|noun:anim.*:v_naz.*|adv.*"/>
@@ -387,15 +388,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <pattern>
           <token inflected="yes" regexp="yes">навч[иа]тися|навча(вши|ючи)сь|навчившись</token>
           <marker>
-            <token postag_regexp="yes" postag="adj:.:v_dav.*" min="0"/>
+            <token postag_regexp="yes" postag="numr:.:v_dav.*" min="0">
+              <exception postag_regexp="yes" postag="numr:.:v_naz.*"/>
+            </token>
+            <token postag_regexp="yes" postag="adj:.:v_dav.*" min="0" max="2"/>
             <token postag_regexp="yes" postag="noun:inanim:.:v_dav.*">
               <exception postag_regexp="yes" postag="noun:anim:.:v_naz.*|adv.*|.*?numr.*"/>
+              <exception scope="next" postag_regexp="yes" postag="verb.*"/>
+              <exception scope="next" regexp="yes">нікому</exception> <!-- не вірити -->
             </token>
           </marker>
-          <token>
-            <exception postag_regexp="yes" postag="verb.*"/>
-            <exception>нікому</exception> <!-- не вірити -->
-          </token>
         </pattern>
         <message>Навчатися чого</message>
         <example correction="">навчатися <marker>математиці</marker>.</example>
@@ -411,10 +413,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="">навчитись <marker>східним танцям</marker>.</example>
         <example correction="">навчилася <marker>бойовим мистецтвам</marker>.</example>
         <example correction="">Мир нехай навчається <marker>добру</marker>.</example>
-        <!-- TODO: 
+        <example correction="">навчилася <marker>багатьом речам</marker>.</example>
         <example correction="">навчаються <marker>професійному співу</marker> діти.</example>
         <example correction="">уперто навчається <marker>спокійному подружньому коханню</marker>,</example>
-         -->
         <example correction="">якій навчалися <marker>художній майстерності</marker> у цій школі</example>
         <example>навчатися менеджменту.</example>
         <example>вони навчалися далі, обираючи собі професію</example>
@@ -429,6 +430,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>доведеться таки навчитися цим провокаціям протистояти.</example>
         <example>там теж навчаються тисячі студентів, які потім...</example>
         <example>навчитися самій робити хліб</example>
+        <example>тут навчалася півтора року.</example>
       </rule>
     </rulegroup>
 
@@ -2083,7 +2085,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token inflected="yes" regexp="yes">дякувати|подякувати
             <exception postag_regexp="yes" postag="verb:.*(:impr|:[12]).*"/>
           </token>
-          <token postag_regexp="yes" postag="adj.*v_naz.*" min="0"/>
+          <token postag_regexp="yes" postag="(adj|numr).*v_naz.*" min="0" max="2"/>
           <token postag_regexp="yes" postag="noun:.*v_naz.*"/>
 <!--
           </unify>
@@ -2101,7 +2103,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 -->
         <pattern>
           <token inflected="yes" regexp="yes">дякувати|подякувати</token>
-          <token postag_regexp="yes" postag="adj.*v_zna.*" min="0">
+          <token postag_regexp="yes" postag="(adj|numr).*v_zna.*" min="0" max="2">
             <exception postag_regexp="yes" postag="noun:.*:v_dav.*"/>
             <exception regexp="yes">його|її</exception>
           </token>
@@ -2172,8 +2174,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <unify>
             <feature id="gender"/>
             <feature id="case"/>
-            <token postag_regexp="yes" postag="adj.*" min="0"/>
-            <token postag_regexp="yes" postag="noun:anim.*?(:[pm]:v_rod|:[fn]:v_zna).*">
+            <token postag_regexp="yes" postag="(adj|numr):.:v_zna(?!:ri).*" min="0" max="2"/>
+            <token postag_regexp="yes" postag="noun:anim:.:v_zna.*">
               <exception  postag_regexp="yes" postag="noun:anim:.:v_dav.*"/>
             </token>
           </unify>
@@ -2184,6 +2186,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="пробачили дівчині"><marker>пробачили дівчину</marker>.</example>
         <example correction="пробачили учням"><marker>пробачили учнів</marker>.</example>
         <example correction="пробачили дівчаткові|пробачили дівчатку"><marker>пробачили дівчатко</marker>.</example>
+        <example correction="пробачили своїм батькам"><marker>пробачили своїх батьків</marker>.</example>
+        <!-- TODO:
+        <example correction="пробачили свому коханому"><marker>пробачила свого коханого</marker>.</example>
+        -->
         <example>вибачити все йому</example>
       </rule>
     </rulegroup>
@@ -2207,7 +2213,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <rule id="V_SHOCI" name="В шоці">
       <pattern>
         <token regexp="yes">[ув]</token>
-        <token postag_regexp="yes" postag="adj.*" min="0"/>
+        <token postag_regexp="yes" postag="adj:m:v_mis.*" min="0"/>
         <token>шоці</token>
       </pattern>
       <message>Неправильна форма «шоці»</message>
