@@ -175,32 +175,6 @@ abstract class Server {
     return new StoppingThreadPoolExecutor(threadPoolSize, workQueue);
   }
 
-  /**
-   * Check a tiny text with all languages and all variants, so that e.g. static caches
-   * get initialized. This helps getting a slightly better performance when real
-   * texts get checked.
-   */
-  protected void warmUp() {
-    List<Language> languages = Languages.get();
-    ServerTools.print("Running warm up with all " + languages.size() + " languages/variants:");
-    for (int i = 1; i <= 2; i++) {
-      long startTime = System.currentTimeMillis();
-      for (Language language : languages) {
-        System.out.print(language.getLocaleWithCountryAndVariant() + " ");
-        JLanguageTool lt = new JLanguageTool(language);
-        try {
-          lt.check("test");
-        } catch (IOException e) {
-          throw new RuntimeException(e);
-        }
-      }
-      long endTime = System.currentTimeMillis();
-      float runTime = (endTime-startTime)/1000.0f;
-      System.out.printf(Locale.ENGLISH, "\nRun #" + i + " took %.2fs\n", runTime);
-    }
-    ServerTools.print("Warm up finished");
-  }
-
   static class StoppingThreadPoolExecutor extends ThreadPoolExecutor {
   
     StoppingThreadPoolExecutor(int threadPoolSize, LinkedBlockingQueue<Runnable> workQueue) {

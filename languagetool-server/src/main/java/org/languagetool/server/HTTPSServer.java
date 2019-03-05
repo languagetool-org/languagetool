@@ -75,9 +75,6 @@ public class HTTPSServer extends Server {
       server.createContext("/", httpHandler);
       executorService = getExecutorService(workQueue, config);
       server.setExecutor(executorService);
-      if (config.getWarmUp()) {
-        warmUp();
-      }
     } catch (BindException e) {
       ResourceBundle messages = JLanguageTool.getMessageBundle();
       String message = Tools.i18n(messages, "https_server_start_failed", host, Integer.toString(port));

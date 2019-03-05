@@ -79,8 +79,6 @@ public class HTTPServerConfig {
   protected int maxWorkQueueSize;
   protected File rulesConfigFile = null;
   protected int cacheSize = 0;
-  @Deprecated
-  protected boolean warmUp = false;
   protected float maxErrorsPerWordRate = 0;
   protected int maxSpellingSuggestions = 0;
   protected List<String> blockedReferrers = new ArrayList<>();
@@ -238,15 +236,7 @@ public class HTTPServerConfig {
           throw new IllegalArgumentException("Invalid value for cacheSize: " + cacheSize + ", use 0 to deactivate cache");
         }
         if (props.containsKey("warmUp")) {
-          System.err.println("Setting deprecated: 'warmUp'. Look into using pipelineCaching and pipelinePrewarming instead.");
-        }
-        String warmUpStr = getOptionalProperty(props, "warmUp", "false");
-        if (warmUpStr.equals("true")) {
-          warmUp = true;
-        } else if (warmUpStr.equals("false")) {
-          warmUp = false;
-        } else {
-          throw new IllegalArgumentException("Invalid value for warmUp: '" + warmUpStr + "', use 'true' or 'false'");
+          System.err.println("Setting ignored: 'warmUp'. Look into using pipelineCaching and pipelinePrewarming instead.");
         }
         maxErrorsPerWordRate = Float.parseFloat(getOptionalProperty(props, "maxErrorsPerWordRate", "0"));
         maxSpellingSuggestions = Integer.parseInt(getOptionalProperty(props, "maxSpellingSuggestions", "0"));
@@ -650,14 +640,6 @@ public class HTTPServerConfig {
    */
   void setCacheSize(int sentenceCacheSize) {
     this.cacheSize = sentenceCacheSize;
-  }
-
-  /** @since 3.7
-   * @deprecated Use pipeline cache and prewarming instead.
-   * */
-  @Deprecated
-  boolean getWarmUp() {
-    return warmUp;
   }
 
   /**
