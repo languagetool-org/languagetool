@@ -223,11 +223,24 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
   }
 
   class PathAndLanguage {
-    String path;
-    Language lang;
+    final String path;
+    final Language lang;
     PathAndLanguage(String fileName, Language language) {
-      this.path = fileName;
-      this.lang = language;
+      this.path = Objects.requireNonNull(fileName);
+      this.lang = Objects.requireNonNull(language);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+      if (this == o) return true;
+      if (o == null || getClass() != o.getClass()) return false;
+      PathAndLanguage that = (PathAndLanguage) o;
+      return path.equals(that.path) && lang.equals(that.lang);
+    }
+
+    @Override
+    public int hashCode() {
+      return Objects.hash(path, lang);
     }
   }
 }
