@@ -921,6 +921,9 @@ public class JLanguageTool {
    * @param sentence sentence to be analyzed
    */
   public AnalyzedSentence getAnalyzedSentence(String sentence) throws IOException {
+      return getAnalyzedSentence(sentence, null);
+  }
+  public AnalyzedSentence getAnalyzedSentence(String sentence, List<List<Integer>> forcedTokenRanges) throws IOException {
     SimpleInputSentence cacheKey = new SimpleInputSentence(sentence, language);
     AnalyzedSentence cachedSentence = cache != null ? cache.getIfPresent(cacheKey) : null;
     if (cachedSentence != null) {
@@ -947,7 +950,72 @@ public class JLanguageTool {
    * @since 0.9.8
    */
   public AnalyzedSentence getRawAnalyzedSentence(String sentence) throws IOException {
-    List<String> tokens = language.getWordTokenizer().tokenize(sentence);
+    return this.getRawAnalyzedSentence(sentence, null);
+  }
+
+  public AnalyzedSentence getRawAnalyzedSentence(String sentence, List<List<Integer>> forcedTokenRanges) throws IOException {
+
+
+    forcedTokenRanges = new ArrayList<>();
+
+    List<Integer> myRange = new ArrayList<>();
+    myRange.add(0);
+    myRange.add(1);
+    forcedTokenRanges.add(myRange);
+
+    myRange = new ArrayList<>();
+    myRange.add(8);
+    myRange.add(4);
+    forcedTokenRanges.add(myRange);
+
+    myRange = new ArrayList<>();
+    myRange.add(24);
+    myRange.add(6);
+    forcedTokenRanges.add(myRange);
+
+    myRange = new ArrayList<>();
+    myRange.add(34);
+    myRange.add(7);
+    forcedTokenRanges.add(myRange);
+
+    myRange = new ArrayList<>();
+    myRange.add(54);
+    myRange.add(2);
+    forcedTokenRanges.add(myRange);
+
+    myRange = new ArrayList<>();
+    myRange.add(73);
+    myRange.add(2);
+    forcedTokenRanges.add(myRange);
+
+
+    System.out.println("Forced ranges: " + forcedTokenRanges.toString());
+    System.out.println("Tokens before: " + language.getWordTokenizer().tokenize(sentence));
+    List<String> tokens;
+    if(forcedTokenRanges == null) {
+      tokens = language.getWordTokenizer().tokenize(sentence);
+    } else {
+      tokens = new ArrayList<>();
+      int sentenceLength = sentence.length();
+
+      int currentPosition = 0, tokenEndPosition;
+      for(List<Integer> currentRange : forcedTokenRanges) {
+        tokenEndPosition = currentRange.get(0) + currentRange.get(1);
+        tokens.addAll(language.getWordTokenizer().tokenize(
+          sentence.substring(currentPosition, currentRange.get(0))
+        ));
+        tokens.add(sentence.substring(currentRange.get(0), tokenEndPosition));
+        currentPosition = tokenEndPosition;
+      }
+
+      if(currentPosition < sentenceLength) {
+        tokens.addAll(language.getWordTokenizer().tokenize(
+          sentence.substring(currentPosition)
+        ));
+      }
+    }
+    System.out.println("Tokens after: " + tokens.toString());
+
     Map<Integer, String> softHyphenTokens = replaceSoftHyphens(tokens);
 
     List<AnalyzedTokenReadings> aTokens = language.getTagger().tag(tokens);
