@@ -141,9 +141,9 @@ public class HTTPServer extends Server {
     try {
       checkForNonRootUser();
       HTTPServer server;
-      System.out.println("WARNING: running in HTTP mode, consider using " + HTTPSServer.class.getName() + " for encrypted connections");
+      ServerTools.print("WARNING: running in HTTP mode, consider using " + HTTPSServer.class.getName() + " for encrypted connections");
       if (config.isPublicAccess()) {
-        System.out.println("WARNING: running in public mode, LanguageTool API can be accessed without restrictions!");
+        ServerTools.print("WARNING: running in public mode, LanguageTool API can be accessed without restrictions!");
         server = new HTTPServer(config, false, null, null);
       } else {
         server = new HTTPServer(config, false, DEFAULT_HOST, DEFAULT_ALLOWED_IPS);
