@@ -4,8 +4,8 @@
 Polish, Chinese, French, Russian, Italian, Dutch
 and [more languages](https://www.languagetool.org/languages/)**
 
-Version 4.4, 2018-12-27  
-Copyright (C) 2005-2018 the LanguageTool community and Daniel Naber (www.danielnaber.de)  
+Version 4.5-SNAPSHOT, 2019-xx-xx  
+Copyright (C) 2005-2019 the LanguageTool community and Daniel Naber (www.danielnaber.de)  
 https://www.languagetool.org
 
 
