@@ -40,7 +40,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
       <rule>
         <pattern>
-          <token negate="yes" regexp="yes">[\p{Punct}–—\(«“„]|[!?.]{3}
+          <token negate="yes" regexp="yes">[\p{Punct}–—\(«“„]|[!?.]{2,3}
             <exception postag="SENT_START"/>
           </token>
           <token>будь</token>
@@ -57,7 +57,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <pattern>
           <token regexp="yes">мабуть|по-перше|по-друге|по-третє|щоправда|о?крім того|а втім</token>
           <token>
-            <exception regexp="yes">[!?:;,"»“”\(\)\[\]/–—-]|[!?.]{3}</exception>
+            <exception regexp="yes">[!?:;,"»“”\(\)\[\]/–—-]|[!?.]{2,3}</exception>
             <exception postag="SENT_END">.</exception>
           </token>
         </pattern>
@@ -68,7 +68,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
       <rule>
         <pattern case_sensitive="yes">
-          <token negate="yes" regexp="yes">[!?:;,\(\)\[\]/"«“„АаІіЙй–—-]|[!?.]{3}
+          <token negate="yes" regexp="yes">[!?:;,\(\)\[\]/"«“„АаІіЙй–—-]|[!?.]{2,3}
             <exception postag="SENT_START"/>
           </token>
           <token regexp="yes">мабуть|щоправда|о?крім того|втім</token>
@@ -83,7 +83,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
       <rule>
         <pattern case_sensitive="yes">
-          <token negate="yes" regexp="yes">[!?:;,\(\)\[\]/"«“„АаІі–—-]|[!?.]{3}|[Цц]е
+          <token negate="yes" regexp="yes">[!?:;,\(\)\[\]/"«“„АаІі–—-]|[!?.]{2,3}|[Цц]е
             <exception postag="SENT_START"/>
             <exception>Ну</exception>
           </token>
@@ -124,7 +124,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </antipattern>
         <pattern case_sensitive="yes">
           <marker>
-            <token regexp="yes" negate="yes">[!?:;,…"«“„\(\)\[\]/–—-]|[!?.]{3}|[?!]\.\.|[нН]у
+            <token regexp="yes" negate="yes">[!?:;,…"«“„\(\)\[\]/–—-]|[!?.]{2,3}|[нН]у
               <exception postag="SENT_START"/>
             </token>
             <token regexp="yes">а|але|однак|проте|зате|адже|хоча</token>
@@ -154,7 +154,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <marker>
             <token case_sensitive="yes" regexp="yes">Наприклад|Приміром</token>
           </marker>
-          <token negate="yes" regexp="yes">[:,….!?"«“„\(\)\[\]/–—-]</token>
+          <token negate="yes" regexp="yes">[:,….!?"«“„\(\)\[\]/–—-]|[!.]{2,3}</token>
         </pattern>
         <message>Відсутня кома після наприклад: <suggestion>\1,</suggestion></message>
         <example correction="Наприклад,"><marker>Наприклад</marker> редакторством чи викладанням.</example>
@@ -169,7 +169,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <marker>
             <token>Отже</token>
           </marker>
-          <token negate="yes" regexp="yes">[:,….!?"«“„\(\)\[\]/–—-]|ж</token>
+          <token negate="yes" regexp="yes">[:,….!?"«“„\(\)\[\]/–—-]|[!.]{2,3}|ж</token>
         </pattern>
         <message>Відсутня кома після «отже»: <suggestion>\1,</suggestion></message>
         <example correction="Отже,"><marker>Отже</marker> виникає природна реакція.</example>

@@ -50,7 +50,7 @@ import org.languagetool.tagging.uk.PosTagHelper;
  */
 public class TokenAgreementPrepNounRule extends Rule {
   
-  private static final Pattern NOUN_ANIM_V_NAZ_PATTERN = Pattern.compile("noun:anim.*:v_naz.*");
+  private static final Pattern NOUN_ANIM_V_NAZ_PATTERN = Pattern.compile("noun:anim:.:v_naz.*");
   private static final String VIDMINOK_SUBSTR = ":v_";
   private static final Pattern VIDMINOK_REGEX = Pattern.compile(":(v_[a-z]+)");
   private static final String reqAnimInanimRegex = ":r(?:in)?anim";
