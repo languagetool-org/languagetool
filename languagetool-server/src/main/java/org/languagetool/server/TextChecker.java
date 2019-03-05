@@ -213,6 +213,42 @@ abstract class TextChecker {
 
     UserConfig userConfig = new UserConfig(dict, new HashMap<>(), config.getMaxSpellingSuggestions());
 
+
+
+    List<List<Integer>>forcedTokenRanges = new ArrayList<>();
+
+    List<Integer> myRange = new ArrayList<>();
+    myRange.add(0);
+    myRange.add(1);
+    forcedTokenRanges.add(myRange);
+
+    myRange = new ArrayList<>();
+    myRange.add(8);
+    myRange.add(4);
+    forcedTokenRanges.add(myRange);
+
+    myRange = new ArrayList<>();
+    myRange.add(24);
+    myRange.add(6);
+    forcedTokenRanges.add(myRange);
+
+    myRange = new ArrayList<>();
+    myRange.add(34);
+    myRange.add(7);
+    forcedTokenRanges.add(myRange);
+
+    myRange = new ArrayList<>();
+    myRange.add(54);
+    myRange.add(2);
+    forcedTokenRanges.add(myRange);
+
+    myRange = new ArrayList<>();
+    myRange.add(73);
+    myRange.add(2);
+    forcedTokenRanges.add(myRange);
+
+    userConfig.customTokenRanges = forcedTokenRanges;
+
     // NOTE: at the moment, feedback for A/B-Tests is only delivered from this client, so only run tests there
     if (agent != null && agent.equals("ltorg")) {
       userConfig.setAbTest(config.getAbTest());
@@ -230,6 +266,7 @@ abstract class TextChecker {
             Arrays.asList(parameters.get("preferredLanguages").split(",")) : Collections.emptyList();
     DetectedLanguage detLang = getLanguage(aText.getPlainText(), parameters, preferredVariants, noopLangs, preferredLangs);
     Language lang = detLang.getGivenLanguage();
+
     Integer count = languageCheckCounts.get(lang.getShortCodeWithCountryAndVariant());
     if (count == null) {
       count = 1;
