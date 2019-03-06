@@ -19777,7 +19777,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token>ex</token>
                     <token>-</token>
-                    <token postag="[NA].*|V.P.*" postag_regexp="yes"><exception regexp="yes">\p{Lu}.*|primer(a|s|es)?|alts?|x.+</exception></token>
+                    <token postag="[NA].*|V.P.*" postag_regexp="yes"><exception regexp="yes">\p{Lu}.*|primer(a|s|es)?|alts?|x.+|número</exception></token>
                 </pattern>
                 <message>Normalment s'escriu sense guionet.</message>
                 <suggestion><match no="1"/><match no="3"/></suggestion>
@@ -19788,6 +19788,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Un ex-alt càrrec d'Interior.</example>
                 <example>Un ex-primer ministre.</example>
                 <example>És l'ex-xicot.</example>
+                <example>És l'ex-número dos del partit.</example>
             </rule>
             <rule id="PREFIXOS_SENSE_GUIONET_VERBS" name="prefixos sense guionet: *auto-anomenava *re-dirigia">
                 <pattern>
@@ -20024,6 +20025,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>ETA politicomilitar.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <marker>
+                        <token>secció</token>
+                        <token>històrico</token>
+                        <token spacebefore="no">-</token>
+                        <token spacebefore="no">arqueològica</token>
+                    </marker>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">s[òo]cio|hist[oò]rico|econ[oò]mico|ideol[òo]gico|l[òo]gico|filos[òo]fico</token>
                     <token min="0">-</token>
@@ -20038,6 +20047,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="historicocultural">El clima <marker>històrico-cultural</marker>.</example>
                 <example correction="socioeconòmica">L'organització <marker>sòcio econòmica</marker>.</example>
                 <example>La situació socioeconòmica.</example>
+                <example>La Secció Històrico-Arqueològica de l'IEC.</example>
             </rule>
             <rule>
                 <pattern>
