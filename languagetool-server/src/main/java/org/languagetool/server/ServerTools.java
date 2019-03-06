@@ -87,14 +87,25 @@ final class ServerTools {
     if (params.get("token") != null) {
       return UserLimits.getLimitsFromToken(config, params.get("token"));
     } else if (params.get("username") != null) {
+      if (params.get("apiKey") != null && params.get("password") != null) {
+        // TODO: throw exception (but first log to see how often this happens)
+        print("WARN: apiKey AND password was set: " + params.get("apiKey"), System.err);
+      }
       if (params.get("apiKey") != null) {
         return UserLimits.getLimitsByApiKey(config, params.get("username"), params.get("apiKey"));
       } else if (params.get("password") != null) {
         return UserLimits.getLimitsFromUserAccount(config, params.get("username"), params.get("password"));
       } else {
-        throw new IllegalArgumentException("With 'username' set, you also need to specify either 'apiKey' or 'password'");
+        throw new IllegalArgumentException("With 'username' set, you also need to specify either 'apiKey' (recommended) or 'password'");
       }
     } else {
+      // TODO: throw exception (but first log to see how often this happens)
+      if (params.get("apiKey") != null) {
+        print("WARN: apiKey was set, but username was not: " + params.get("apiKey"), System.err);
+      }
+      if (params.get("password") != null) {
+        print("WARN: password was set, but username was not", System.err);
+      }
       return UserLimits.getDefaultLimits(config);
     }
   }
