@@ -254,7 +254,7 @@ public class PatternRuleQueryBuilder {
     if (patternPatternToken.isUnified()) {
       throw new UnsupportedPatternRuleException("Elements with unified tokens are not supported.");
     }
-    if (patternPatternToken.getString().matches("\\\\\\d+")) { // e.g. "\1"
+    if (patternPatternToken.getString() != null && patternPatternToken.getString().matches("\\\\\\d+")) { // e.g. "\1"
       throw new UnsupportedPatternRuleException("Elements with only match references (e.g. \\1) are not supported.");
     }
   }
