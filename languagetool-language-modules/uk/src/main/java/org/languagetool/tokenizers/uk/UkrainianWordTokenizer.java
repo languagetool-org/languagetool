@@ -51,6 +51,7 @@ public class UkrainianWordTokenizer implements Tokenizer {
   private static final char NON_BREAKING_SPACE_SUBST = '\uE002';
   private static final char NON_BREAKING_DOT_SUBST = '\uE003'; // some unused character to hide dot in date temporary for tokenizer run
   private static final char NON_BREAKING_COLON_SUBST = '\uE004';
+  private static final char NON_BREAKING_SLASH_SUBST = '\uE007';    // hide slash in с/г
 
   private static final Pattern WEIRD_APOSTROPH_PATTERN = Pattern.compile("([бвджзклмнпрстфхш])[\"\u201D\u201F]([єїюя])", Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
 
@@ -109,7 +110,7 @@ public class UkrainianWordTokenizer implements Tokenizer {
   private static final Pattern ABBR_DOT_S_G_PATTERN = Pattern.compile("(с)\\.(-г)\\.");
   private static final Pattern ABBR_DOT_PN_ZAH_PATTERN = Pattern.compile("(пн|пд)\\.(-(зах|сх))\\.");
   private static final Pattern ABBR_DOT_2_SMALL_LETTERS_PATTERN = Pattern.compile("([^а-яіїєґ'-][векнпрстцч]{1,2})\\.([екмнпрстч]{1,2})\\.");
-  private static final String ABBR_DOT_2_SMALL_LETTERS_REPL = "$1" + NON_BREAKING_DOT_SUBST + BREAKING_PLACEHOLDER + "$2" + NON_BREAKING_DOT_SUBST;
+  private static final String ABBR_DOT_2_SMALL_LETTERS_REPL = "$1" + NON_BREAKING_DOT_SUBST + BREAKING_PLACEHOLDER + "$2" + NON_BREAKING_DOT_SUBST + BREAKING_PLACEHOLDER;
   
   private static final String ONE_DOT_TWO_REPL = "$1" + NON_BREAKING_DOT_SUBST + "$2";
 
@@ -117,13 +118,15 @@ public class UkrainianWordTokenizer implements Tokenizer {
   private static final Pattern ABBR_DOT_NON_ENDING_PATTERN = Pattern.compile("(?<![а-яіїєґА-ЯІЇЄҐ'-])(абз|амер|англ|акад(ем)?|арк|ауд|бл(?:изьк)?|буд|в|вип|вірм|грец(?:ьк)"
       + "|держ|див|дод|дол|досл|доц|доп|екон|ел|жін|зав|заст|зах|зб|зв|зовн|ім|івр|ісп|іст|італ"
       + "|к|каб|каф|канд|кв|[1-9]-кімн|кімн|кл|кн|коеф|мал|моб|н|напр|нац|оп|оф|п|пен|перекл|пл|пол|пов|пор|поч|пп|прибл|пров|пром|просп"
-      + "|[Рр]ед|[Рр]еж|розд|рт|с|[Сс]вв?|скор|соц|співавт|стор|сх|табл|[тТ]ел|укр|філол|фр|франц|ч|чайн|ц|яп)\\.(?!$)");
+      + "|[Рр]ед|[Рр]еж|розд|рт|с|[Сс]вв?|скор|соц|співавт|ст|стор|сх|табл|[тТ]ел|укр|філол|фр|франц|ч|чайн|ц|яп)\\.(?!$)");
   private static final Pattern ABBR_DOT_NON_ENDING_PATTERN_2 = Pattern.compile("([^а-яіїєґА-ЯІЇЄҐ'-]м)\\.([\\s\u00A0\u202F]*[А-ЯІЇЄҐ])");
   // скорочення що можуть бути в кінці речення
   private static final Pattern ABBR_DOT_ENDING_PATTERN = Pattern.compile("([^а-яіїєґА-ЯІЇЄҐ'-]((та|й) ін|інш|атм|відс|гр|е|коп|обл|р|рр|руб|ст|стол|стор|чол|шт))\\.");
   private static final Pattern ABBR_DOT_I_T_P_PATTERN = Pattern.compile("([ій][\\s\u00A0\u202F]+т)\\.([\\s\u00A0\u202F]*(д|п|ін))\\.");
 
   private static final Pattern ABBR_AT_THE_END = Pattern.compile("(?<![а-яіїєґА-ЯІЇЄҐ])(тис|[А-ЯІЇЄҐ])\\.$");
+
+  private static final Pattern YEAR_WITH_R = Pattern.compile("((?:[12][0-9]{3}[—–-])?[12][0-9]{3})(рр?\\.)");
 
   // Сьогодні (у четвер. - Ред.), вранці.
 //  private static final Pattern ABBR_DOT_PATTERN8 = Pattern.compile("([\\s\u00A0\u202F]+[–—-][\\s\u00A0\u202F]+(?:[Рр]ед|[Аа]вт))\\.([\\)\\]])");
@@ -151,7 +154,7 @@ public class UkrainianWordTokenizer implements Tokenizer {
     HashMap<String, String> urls = new HashMap<>();
 
     text = cleanup(text);
-    
+
     if( text.contains(",") ) {
       text = DECIMAL_COMMA_PATTERN.matcher(text).replaceAll(DECIMAL_COMMA_REPL);
     }
@@ -174,10 +177,21 @@ public class UkrainianWordTokenizer implements Tokenizer {
       text = text.replaceAll("\u2014(\\s)", BREAKING_PLACEHOLDER + "\u2014$1");
     }
 
+    if( text.indexOf("с/г") != -1 ) {
+      text = text.replaceAll("с/г", "с" +NON_BREAKING_SLASH_SUBST + "г");
+    }
+
+    if( text.indexOf("р.") != -1 ) {
+      Matcher matcher = YEAR_WITH_R.matcher(text);
+      if( matcher.find() ) {
+        text = matcher.replaceAll("$1" + BREAKING_PLACEHOLDER + "$2");
+      }
+    }
+
     // if period is not the last character in the sentence
     int dotIndex = text.indexOf(".");
     boolean dotInsideSentence = dotIndex >= 0 && dotIndex < text.length()-1;
-    
+
     if( dotInsideSentence 
         || (dotIndex == text.length()-1
             && ABBR_AT_THE_END.matcher(text).find()) ) {  // ugly - special case for тис.
@@ -211,11 +225,11 @@ public class UkrainianWordTokenizer implements Tokenizer {
 
 //      text = ABBR_DOT_INVALID_DOT_PATTERN.matcher(text).replaceAll(ONE_DOT_TWO_REPL);
       text = ABBR_DOT_KUB_SM_PATTERN.matcher(text).replaceAll("$1" + NON_BREAKING_DOT_SUBST + BREAKING_PLACEHOLDER + "$2");
-      text = ABBR_DOT_S_G_PATTERN.matcher(text).replaceAll("$1" + NON_BREAKING_DOT_SUBST + "$2" + NON_BREAKING_DOT_SUBST);
-      text = ABBR_DOT_PN_ZAH_PATTERN.matcher(text).replaceAll("$1" + NON_BREAKING_DOT_SUBST + "$2" + NON_BREAKING_DOT_SUBST);
-      text = ABBR_DOT_I_T_P_PATTERN.matcher(text).replaceAll("$1" + NON_BREAKING_DOT_SUBST + "$2" + NON_BREAKING_DOT_SUBST);
+      text = ABBR_DOT_S_G_PATTERN.matcher(text).replaceAll("$1" + NON_BREAKING_DOT_SUBST + "$2" + NON_BREAKING_DOT_SUBST + BREAKING_PLACEHOLDER);
+      text = ABBR_DOT_PN_ZAH_PATTERN.matcher(text).replaceAll("$1" + NON_BREAKING_DOT_SUBST + "$2" + NON_BREAKING_DOT_SUBST + BREAKING_PLACEHOLDER);
+      text = ABBR_DOT_I_T_P_PATTERN.matcher(text).replaceAll("$1" + NON_BREAKING_DOT_SUBST + "$2" + NON_BREAKING_DOT_SUBST + BREAKING_PLACEHOLDER);
       text = ABBR_DOT_RED_AVT_PATTERN.matcher(text).replaceAll(ONE_DOT_TWO_REPL);
-      text = ABBR_DOT_NON_ENDING_PATTERN.matcher(text).replaceAll("$1" + NON_BREAKING_DOT_SUBST);
+      text = ABBR_DOT_NON_ENDING_PATTERN.matcher(text).replaceAll("$1" + NON_BREAKING_DOT_SUBST + BREAKING_PLACEHOLDER);
       text = ABBR_DOT_NON_ENDING_PATTERN_2.matcher(text).replaceAll(ONE_DOT_TWO_REPL);
     }
 
@@ -269,7 +283,8 @@ public class UkrainianWordTokenizer implements Tokenizer {
         continue;
       
       token = token.replace(DECIMAL_COMMA_SUBST, ',');
-      
+
+      token = token.replace(NON_BREAKING_SLASH_SUBST, '/');
       token = token.replace(NON_BREAKING_COLON_SUBST, ':');
       token = token.replace(NON_BREAKING_SPACE_SUBST, ' ');
       
