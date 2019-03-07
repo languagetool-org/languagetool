@@ -353,8 +353,8 @@ final public class PatternRuleMatcher extends AbstractPatternRulePerformer imple
             String rightSide = errorMessage.substring(backslashPos + numLen);
             if (matches.length == 1) {
               // if we removed optional token from suggestion then remove leading space from the next word
-              if (matches[0].isEmpty() && (leftSide.endsWith(" ") || leftSide.endsWith("suggestion>")) && rightSide.startsWith(" ")) {
-                errorMessage = leftSide + rightSide.substring(1);
+              if (matches[0].isEmpty() ) {
+                errorMessage = concatWithoutExtraSpace(leftSide, rightSide);
                 errorMessageProcessed = leftSide.length();
               } else {
                 errorMessage = leftSide + matches[0] + rightSide;
@@ -389,6 +389,17 @@ final public class PatternRuleMatcher extends AbstractPatternRulePerformer imple
       }
     }
     return errorMessage;
+  }
+
+  private static String concatWithoutExtraSpace(String leftSide, String rightSide) {
+    // can't do \\p{Punct} as it catches \2 placeholder
+    if( leftSide.endsWith(" ") && rightSide.matches("[\\s,:;.!?].*") ) {
+      return leftSide.substring(0, leftSide.length()-1) + rightSide;
+    }
+    if( leftSide.endsWith("suggestion>") && rightSide.startsWith(" ") ) {
+      return leftSide + rightSide.substring(1);
+    }
+    return leftSide + rightSide;
   }
 
   // non-private for tests
