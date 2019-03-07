@@ -393,6 +393,7 @@ TODO:
 
       String initialsToken = initialsReadings.getAnalyzedToken(0).getToken();
       AnalyzedToken newToken = new AnalyzedToken(initialsToken, lnamePosTag.replace(LAST_NAME_TAG, ":"+initialType+":abbr"), initialsToken);
+      newToken.setWhitespaceBefore(initialsReadings.isWhitespaceBefore());
       newTokens.add(newToken);
     }
     return new AnalyzedTokenReadings(newTokens, initialsReadings.getStartPos());
