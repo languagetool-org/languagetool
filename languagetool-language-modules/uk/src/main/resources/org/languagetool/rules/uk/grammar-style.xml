@@ -1250,8 +1250,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token inflected="yes" regexp="yes">говорити|говорячи|говоривши|казати|сказати|кажучи|сказавши</token>
           <token postag_regexp="yes" postag="(noun|adj|numr).*" min="0" max="3" />
         <!--
-          <token postag_regexp="yes" postag="noun:inanim:.*:v_zna.*" min="0"/>
-          <token postag_regexp="yes" postag="noun:anim:.*:v_dav.*|noun:.:v_dav:&amp;pron:pers.*" min="0"/>
+          <token postag_regexp="yes" postag="noun:inanim:.:v_zna.*" min="0"/>
+          <token postag_regexp="yes" postag="noun:anim:.:v_dav.*|noun:.:v_dav:&amp;pron:pers.*" min="0"/>
         -->
           <marker>
             <token regexp="yes">[ву]</token>
@@ -1475,15 +1475,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <token postag_regexp="yes" postag="verb.*:impers.*">
               <exception regexp="yes">визнано|названо|призначено|.*обрано|обумовлено|.*укомплектовано|зумовлено|порівняно|передбачувано|оголошено|заявлено|[ву]певнено</exception>
             </token>
-            <token postag_regexp="yes" postag="(adj|numr).*v_oru.*" min="0" max="2">
+            <token postag_regexp="yes" postag="(adj|numr):.:v_oru.*" min="0" max="2">
               <exception regexp="yes">тим|таким</exception>
             </token>
             <or>
             <!-- TODO: особа-діяч може бути не лише :anim
                 <token postag_regexp="yes" postag="noun.*v_oru.*"/>
             -->
-              <token postag_regexp="yes" postag="noun:anim.*v_oru.*">
-                <exception negate_pos="yes" postag_regexp="yes" postag="noun:anim.*v_oru.*.*|SENT_END"/>
+              <token postag_regexp="yes" postag="noun:anim:.:v_oru.*">
+                <exception negate_pos="yes" postag_regexp="yes" postag="noun:anim:.:v_oru.*.*|SENT_END"/>
                 <exception postag_regexp="yes" postag="noun.*?v_oru:&amp;pron.*"/>
                 <exception postag_regexp="yes" postag="&lt;(adv|insert)&gt;"/>
                 <exception>персоною</exception>

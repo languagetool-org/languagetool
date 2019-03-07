@@ -19,6 +19,14 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 -->
+
+<!DOCTYPE rules [
+    <!ENTITY punct_std "[,.:;!?…/()\[\]&quot;«»„“”–—-]|[.!?]{2,3}">
+    <!ENTITY punct_dash "[–—-]">
+    <!ENTITY punct_quote "[&quot;«»„“”]">
+    <!ENTITY punct_quote_left "[&quot;«„“”]">
+]>
+
 <rules lang="uk" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
 
@@ -317,7 +325,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <token regexp="yes">[$+-]?[0-9,-]*[0-9,][а-яіїєґ'][а-яіїєґ'-]*[.²³]?
               <exception case_sensitive="yes">1С</exception>
               <exception regexp="yes">[0-9]+'</exception>
-              <exception case_sensitive="yes" regexp="yes">[+-]?[0-9,-]*[0-9][оo][СC]</exception>	<!-- both lat and cyr o and C, taken care by rule below -->
+              <exception case_sensitive="yes" regexp="yes">[+-]?[0-9,-]*[0-9][оo][СC]</exception>  <!-- both lat and cyr o and C, taken care by rule below -->
             </token>
           </marker>
         </pattern>
@@ -327,7 +335,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="21 відсоток|21-відсоток">набрав <marker>21відсоток</marker>.</example>
         <example correction="505 грн|505-грн"><marker>505грн</marker>.</example>
         <example correction="5,05 грн|5,05-грн"><marker>5,05грн</marker>.</example>
-        <example correction="1981 р.|1981-р.">З <marker>1981р.</marker></example>
         <example correction="1989 го|1989-го">15 лютого <marker>1989го</marker>.</example>
         <example correction="0,4-10 кВ|0,4-10-кВ">напруги <marker>0,4-10кВ</marker>.</example>
         <!--TODO: for some reason antipattrn tiggers here when no space between тис. and ,
@@ -345,6 +352,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>23° 27'</example>
         <example>програма «4М».</example>
         <example>від 27 грудня 1978 року за №44у—279 вирок</example>
+      </rule>
+
+      <!-- we now smart enough to split tokens of year and letter -->
+      <rule>
+        <pattern>
+          <marker>
+            <token regexp="yes">[$+-]?[0-9,-]*[0-9]</token>
+            <token regexp="yes" spacebefore="no">[а-яіїєґ][а-яіїєґ'.-]*</token>
+          </marker>
+        </pattern>
+        <message>Відсутній дефіс або пробіл між числом і словом</message>
+        <suggestion><match no="1"/> <match no="2"/></suggestion>
+        <suggestion><match no="1"/>-<match no="2"/></suggestion>
+        <example correction="1981 р.|1981-р.">З <marker>1981р.</marker></example>
+        <example>концерти № 1 Л. Бетховена</example>
       </rule>
     </rulegroup>
 
@@ -376,7 +398,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <rule>
         <antipattern>
           <token>.</token>
-          <token regexp="yes">[—–-]</token>
+          <token regexp="yes">&punct_dash;</token>
           <token regexp="yes">(авт\.|ред\.)</token>
         </antipattern>
         <pattern>
@@ -440,7 +462,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <rule>
         <antipattern>
           <token regexp="yes">коп|тис</token>
-          <token regexp="yes">[….!?]|\.\.\.</token>   <!-- dot may still happen separately - tokenizing all cases properly is hard -->
+          <token regexp="yes">[….!?]|[.!?]{2,3}</token>   <!-- dot may still happen separately - tokenizing all cases properly is hard -->
         </antipattern>
         <pattern>
           <token regexp="yes">.*[0-9]</token>

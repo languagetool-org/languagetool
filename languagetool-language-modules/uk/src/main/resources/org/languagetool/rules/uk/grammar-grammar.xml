@@ -26,6 +26,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY months "січень|лютий|березень|квітень|травень|червень|липень|серпень|вересень|жовтень|листопад|грудень|січня|лютого|березня|квітня|травня|червня|липня|серпня|вересня|жовтня|листопада|грудня">
     <!ENTITY abbrevMonths "січ|лют|бер|кві|тра|чер|лип|сер|вер|жов|лис|гру">
     <!ENTITY hours "перший|другий|третій|четвертий|п'ятий|шостий|сьомий|восьмий|дев'ятий|десятий|одинадцятий|дванадцятий|тринадцятий|чотирнадцятий|п'ятнадцятий|шістнадцятий|сімнадцятий|вісімнадцятий|дев'ятнадцятий">
+
+    <!ENTITY punct_std "[,.:;!?…/()\[\]&quot;«»„“”–—-]|[.!?]{2,3}">
+    <!ENTITY punct_dash "[–—-]">
+    <!ENTITY punct_quote "[&quot;«»„“”]">
+    <!ENTITY punct_quote_left "[&quot;«„“”]">
 ]>
 
 <rules lang="uk" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -338,7 +343,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </token>
           </marker>
           <or> 
-            <token regexp="yes">[\p{Punct}–—-]</token>
+            <token regexp="yes">&punct_std;</token>
             <token postag_regexp="yes" postag="conj.*"/>
           </or>
         </pattern>
@@ -1473,7 +1478,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
               </token>
             </marker>
           </unify>
-          <token regexp="yes">[—–-]</token>
+          <token regexp="yes">&punct_dash;</token>
         </pattern>
         <message>Замість «самий» + прикметник треба вживати найвищий ступінь</message>
         <example correction=""><marker>Саме краще</marker> — ливарний цех.</example>
@@ -1544,7 +1549,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token>гірший</token>
         </antipattern>
         <pattern>
-          <token regexp="yes">[—–-]|це|зараз</token>
+          <token regexp="yes">&punct_dash;|це|зараз</token>
           <token>не</token>
           <marker>
             <token>кращий</token>
@@ -1675,7 +1680,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <rule>
         <pattern>
           <token postag_regexp="yes" postag="noun:.*?:v_naz.*"/>
-          <token regexp="yes">[—–-]</token>
+          <token regexp="yes">&punct_dash;</token>
           <marker>
             <token>кращий</token>
           </marker>
@@ -1693,7 +1698,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <pattern>
           <marker>
             <token>кращий
-              <exception scope="previous" regexp="yes">["«„“]</exception>
+              <exception scope="previous" regexp="yes">&punct_quote_left;</exception>
             </token>
           </marker>
           <token postag_regexp="yes" postag="adj:m:v_naz.*" min="0"/>
@@ -1715,7 +1720,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
       <rule>
         <pattern>
-          <token regexp="yes">["«„“]</token>
+          <token regexp="yes">&punct_quote_left;</token>
           <marker>
             <token spacebefore="no">кращий</token>
           </marker>
@@ -1854,7 +1859,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <token>кращий</token>
           </marker>
           <token>захист</token>
-          <token regexp="yes">[—–-]</token>
+          <token regexp="yes">&punct_dash;</token>
         </pattern>
         <message>Коли мається на увазі найвищий ступінь порівняння, слід вживати <suggestion>найкращий</suggestion>?</message>
         <example correction="найкращий"><marker>кращий</marker> захист - це напад</example>
@@ -2221,6 +2226,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <suggestion>(кого) взяв/охопив шок</suggestion>
       <suggestion><match no="1"/> <match no="2"/> шоку</suggestion>
       <example correction="шокований|(кого) взяв/охопив шок|в легкому шоку">я <marker>в легкому шоці</marker></example>
+      <example correction="шокований|(кого) взяв/охопив шок|в шоку">я <marker>в шоці</marker></example>
     </rule>
 
     <rule id="na_chyyus_dumku" name="На чиюсь думку">
@@ -2232,7 +2238,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token>думку</token>
         </marker>
         <token>
-          <exception regexp="yes">[,().!?—–-]</exception>
+          <exception regexp="yes">&punct_std;</exception>
         </token>
       </pattern>
       <message>Після вставного звороту має йти кома</message>

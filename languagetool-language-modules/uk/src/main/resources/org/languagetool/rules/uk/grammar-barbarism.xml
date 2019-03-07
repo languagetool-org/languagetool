@@ -19,6 +19,14 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 -->
+
+
+<!DOCTYPE rules [
+    <!ENTITY punct_std "[,.:;!?…/()\[\]&quot;«»„“”–—-]|[.!?]{2,3}">
+    <!ENTITY punct_quote "[&quot;«»„“”]">
+    <!ENTITY punct_dash "[–—-]">
+]>
+
 <rules lang="uk" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
 
@@ -4052,7 +4060,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </token>
             <token>того</token>
           </marker>
-          <token regexp="yes">[,:.…–—-]</token>
+          <token regexp="yes">&punct_std;</token>
         </pattern>
         <message>Правильно: <suggestion>ще ж і надто</suggestion></message>
         <suggestion>ще й надто</suggestion>
@@ -4073,7 +4081,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <token>більше</token>
             <token>того</token>
           </marker>
-          <token regexp="yes">[,:.…–—-]</token>
+          <token regexp="yes">&punct_std;</token>
         </pattern>
         <message>Правильно: <suggestion>(і) не більше</suggestion></message>
         <example correction="(і) не більше">Піар, статусність і <marker>не більше того</marker>.</example>
@@ -4162,8 +4170,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
               <feature id="gender"/>
               <feature id="case"/>
           -->
-          <token postag_regexp="yes" postag="((adj|numr).*:[fp]):(v_dav|v_mis).*"/>
-          <token postag_regexp="yes" postag="noun:inanim:[fp]:(v_dav|v_mis).*" inflected="yes">причина</token>
+          <token postag_regexp="yes" postag="(adj|numr):[fp]:v_(dav|mis).*"/>
+          <token postag_regexp="yes" postag="noun:inanim:[fp]:v_(dav|mis).*" inflected="yes">причина</token>
           <!--
               </unify>
           -->
@@ -5126,7 +5134,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <pattern>
           <token regexp="yes">(оби)?два</token>
           <token regexp="yes">чоботи|черевики</token>
-          <token regexp="yes" min="0">[—–-]</token>
+          <token regexp="yes" min="0">&punct_dash;</token>
           <token>пара</token>
         </pattern>
         <message>Правильно: <suggestion>один одного варт (вартий)</suggestion></message>
@@ -5236,19 +5244,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
     <rulegroup id="rozumiyetsa_insert" name="Розуміється, як вставне слово">
       <rule>
+        <antipattern>
+          <token regexp="yes">&punct_quote;</token>
+          <token spacebefore="no">розуміється</token>
+          <token spacebefore="no" regexp="yes">&punct_quote;</token>
+        </antipattern>
         <pattern>
-          <token regexp="yes">[,—–-]</token>
+          <token regexp="yes">&punct_std;</token>
           <marker>
             <token>розуміється</token>
           </marker>
           <token min="0">ж</token>
-          <token regexp="yes">[,!]</token>
+          <token regexp="yes">&punct_std;</token>
         </pattern>
         <message>Правильно: <suggestion>певна річ</suggestion>, <suggestion>звичайно</suggestion></message>
         <suggestion>звісно</suggestion>
         <suggestion>певне</suggestion>
         <example correction="певна річ|звичайно|звісно|певне">Гуляння, <marker>розуміється</marker>, було не на сухо.</example>
         <example>Він розуміється на таких речах.</example>
+        <example>Він «розуміється» на таких речах.</example>
       </rule>
     </rulegroup>
 
