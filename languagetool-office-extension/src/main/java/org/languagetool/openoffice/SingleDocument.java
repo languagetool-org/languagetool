@@ -72,7 +72,6 @@ class SingleDocument {
 
 
   private static int debugMode = 0;               //  should be 0 except for testing; 1 = low level; 2 = advanced level
-  private static boolean specialOptimization = true;   //  special optimization switched on; TODO: test this version and delete switch, if it is OK
   
   private Configuration config;
 
@@ -94,10 +93,10 @@ class SingleDocument {
   private ResultCache sentencesCache;             //  Cache for matches of sentences rules
   private ResultCache paragraphsCache;            //  Cache for matches of text rules
   private ResultCache singleParaCache;            //  Cache for matches of text rules for single paragraphs
-  private boolean firstCheckDone = false;         //  Is set to true, if first iteration of whole document is done
   private boolean useCache = true;                //  Use sentences cache / set to false for changed paragraphs
   private int resetFrom = 0;                      //  Reset from paragraph
   private int resetTo = 0;                        //  Reset to paragraph
+  private List<Boolean> isChecked;                //  List of status of all flat paragraphs of document
   
   SingleDocument(XComponentContext xContext, Configuration config, String docID, XComponent xComponent) {
     this.xContext = xContext;
@@ -121,12 +120,9 @@ class SingleDocument {
       int[] footnotePositions, boolean isParallelThread, JLanguageTool langTool) {
     try {
       SingleProofreadingError[] sErrors = null;
-      if(!useCache && paRes.nStartOfSentencePosition == 0) {
-        useCache = true;
-      }
       int paraNum = getParaPos(paraText, isParallelThread);
       // Don't use Cache for check in single paragraph mode
-      if(numParasToCheck != 0 && paraNum >= 0 && doResetCheck) {
+      if(numParasToCheck != 0 && paraNum >= 0 && doResetCheck && useCache) {
         sErrors = sentencesCache.getMatches(paraNum, paRes.nStartOfSentencePosition);
         // return Cache result if available
         if(sErrors != null) {
@@ -147,9 +143,6 @@ class SingleDocument {
         paRes.nBehindEndOfSentencePosition = paRes.nStartOfNextSentencePosition;
         sErrors = checkSentence(sentence, paRes.nStartOfSentencePosition, paRes.nStartOfNextSentencePosition, 
             paraNum, footnotePositions, isParallelThread, langTool);
-        if(specialOptimization) {
-          setFirstCheckDone();
-        }
       }
       SingleProofreadingError[] pErrors = checkParaRules(paraText, paraNum, paRes.nStartOfSentencePosition,
           paRes.nStartOfNextSentencePosition, isParallelThread, langTool);
@@ -162,8 +155,13 @@ class SingleDocument {
     } catch (Throwable t) {
       MessageHandler.showError(t);
     }
-    if(!useCache && paRes.nStartOfNextSentencePosition >= paraText.length()) {
+    if((!useCache) && paRes.nStartOfNextSentencePosition >= paraText.length()) {
       resetCheck = true;
+      useCache = true;
+      if (debugMode > 1) {
+        MessageHandler.printToLogFile("paRes.aErrors.length: " + paRes.aErrors.length + "; docID: " + docID + logLineBreak
+            + "paragraph (" + paRes.nStartOfSentencePosition + "): " + paraText + logLineBreak);
+      }
     }
     return paRes;
   }
@@ -203,7 +201,6 @@ class SingleDocument {
     sentencesCache.removeAll();
     paragraphsCache.removeAll();
     singleParaCache.removeAll();
-    firstCheckDone = false;
   }
   
   /** 
@@ -213,6 +210,9 @@ class SingleDocument {
     if(!doResetCheck) {
       return false;
     }
+    if(resetCheck) {
+      loadIsChecked();
+    }
     return resetCheck;
   }
   
@@ -220,12 +220,28 @@ class SingleDocument {
    * Reset only changed paragraphs
    */
   void optimizeReset() {
-    if(firstCheckDone) {
-      FlatParagraphTools flatPara = new FlatParagraphTools(xContext);
-      flatPara.markFlatParasAsChecked(resetFrom, resetTo);
-    }
+    FlatParagraphTools flatPara = new FlatParagraphTools(xContext);
+    flatPara.markFlatParasAsChecked(resetFrom, resetTo, isChecked);
   }
   
+  /** 
+   * load checked status of all paragraphs
+   */
+  public void loadIsChecked () {
+    FlatParagraphTools flatPara = new FlatParagraphTools(xContext);
+    isChecked = flatPara.isChecked();
+    if (debugMode > 0) {
+      int nChecked = 0;
+      for (boolean bChecked : isChecked) {
+        if(bChecked) {
+          nChecked++;
+        }
+      }
+      MessageHandler.printToLogFile("Checked parapraphs: docID: " + docID + ", Number of Paragraphs: " + isChecked.size() 
+          + ", Checked: " + nChecked + logLineBreak);
+    }
+}
+
   // Fix numbers that are (probably) foot notes.
   // See https://bugs.freedesktop.org/show_bug.cgi?id=69416
   // public for test reasons
@@ -571,7 +587,7 @@ class SingleDocument {
         pErrors = paragraphsCache.getFromPara(paraNum, startSentencePos, endSentencePos);
       } else if (startSentencePos > 0) {
         pErrors = singleParaCache.getFromPara(0, startSentencePos, endSentencePos);
-        
+        return pErrors;
       }
       if(pErrors != null || isParallelThread) {   // return Cache result if available
         return pErrors;                           // for parallel Thread only use cache
@@ -817,25 +833,6 @@ class SingleDocument {
     }
     String getSentence() {
       return str;
-    }
-  }
-
-  private void setFirstCheckDone() {
-    if (!firstCheckDone && allParas != null) {
-      int numParas = sentencesCache.getNumberOfParas();
-      if (debugMode > 1) {
-        MessageHandler.printToLogFile("firstCheckDone --> sentenceCache: " + numParas 
-            + "; allParas: " + allParas.size() + "; docID: " + docID + logLineBreak
-            + "sentenceCache entries: " + sentencesCache.getNumberOfEntries()
-            + "; paragraphsCache entries: " + paragraphsCache.getNumberOfEntries()
-            + "; singleParaCache entries: " + singleParaCache.getNumberOfEntries());
-      }
-      if(numParas == allParas.size()) {
-        firstCheckDone = true;
-        if (debugMode > 0) {
-          MessageHandler.printToLogFile(">>> firstCheckDone: true; docID: " + docID + logLineBreak);
-        }
-      }
     }
   }
 

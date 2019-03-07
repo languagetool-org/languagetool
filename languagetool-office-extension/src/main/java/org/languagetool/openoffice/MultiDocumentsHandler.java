@@ -89,6 +89,7 @@ public class MultiDocumentsHandler {
   private int docNum;                       //  number of the current document
 
   private boolean switchOff = false;        //  is LT switched off
+  private boolean doMultiReset = true;      //  will be overwritten by config; TODO: add to configuration dialog
 
   private boolean testMode = false;
 
@@ -195,7 +196,7 @@ public class MultiDocumentsHandler {
    * Do a reset to check document again
    */
   boolean doResetCheck() {
-    if(documents.size() == 0) {
+    if(documents.size() == 0 || (documents.size() > 1 && !doMultiReset)) {
       return false;
     }
     return documents.get(docNum).doresetCheck();
@@ -205,7 +206,7 @@ public class MultiDocumentsHandler {
    * Reset only changed paragraphs
    */
   void optimizeReset() {
-    if(documents.size() == 1) {
+    if(documents.size() > 0) {
       documents.get(docNum).optimizeReset();
     }
   }

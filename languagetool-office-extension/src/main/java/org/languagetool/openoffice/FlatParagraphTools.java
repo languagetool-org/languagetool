@@ -264,13 +264,19 @@ public class FlatParagraphTools {
   /**
    * Marks all paragraphs as checked with exception of the paragraphs "from" to "to"
    */
-  void markFlatParasAsChecked(int from, int to) {
+  void markFlatParasAsChecked(int from, int to, List<Boolean> isChecked) {
     try {
       if (xFlatPara == null) {
         if (debugMode) {
           MessageHandler.printToLogFile("!?! FlatParagraph == null");
         }
         return;
+      }
+      if (isChecked == null) {
+        if (debugMode) {
+          MessageHandler.printToLogFile("!?! List isChecked == null");
+        }
+        isChecked  = new ArrayList<>();
       }
       XFlatParagraph tmpFlatPara = xFlatPara;
       XFlatParagraph startFlatPara = xFlatPara;
@@ -281,22 +287,62 @@ public class FlatParagraphTools {
       tmpFlatPara = startFlatPara;
       int num = 0;
       while (tmpFlatPara != null && num < from) {
-        tmpFlatPara.setChecked(TextMarkupType.PROOFREADING, true);
+        if (debugMode && num >= isChecked.size()) {
+          MessageHandler.printToLogFile("!?! List isChecked == null");
+        }
+        if(num < isChecked.size() && isChecked.get(num)) {
+          tmpFlatPara.setChecked(TextMarkupType.PROOFREADING, true);
+        }
         tmpFlatPara = xFlatParaIter.getParaAfter(tmpFlatPara);
         num++;
       }
       while (tmpFlatPara != null && num < to) {
+        tmpFlatPara.setChecked(TextMarkupType.PROOFREADING, false);
         tmpFlatPara = xFlatParaIter.getParaAfter(tmpFlatPara);
         num++;
       }
       while (tmpFlatPara != null) {
-        tmpFlatPara.setChecked(TextMarkupType.PROOFREADING, true);
+        if (debugMode && num >= isChecked.size()) {
+          MessageHandler.printToLogFile("!?! List isChecked == null");
+        }
+        if(num < isChecked.size() && isChecked.get(num)) {
+          tmpFlatPara.setChecked(TextMarkupType.PROOFREADING, true);
+        }
         tmpFlatPara = xFlatParaIter.getParaAfter(tmpFlatPara);
         num++;
       }
     } catch (Throwable t) {
       MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
     }
+  }
+  
+  /**
+   * Get information of checked status of all paragraphs
+   */
+  public List<Boolean> isChecked() {
+    List<Boolean> isChecked = new ArrayList<>();
+    try {
+      if (xFlatPara == null) {
+        if (debugMode) {
+          MessageHandler.printToLogFile("!?! FlatParagraph == null");
+        }
+        return isChecked;
+      }
+      XFlatParagraph tmpFlatPara = xFlatPara;
+      XFlatParagraph startFlatPara = xFlatPara;
+      while (tmpFlatPara != null) {
+        startFlatPara = tmpFlatPara;
+        tmpFlatPara = xFlatParaIter.getParaBefore(tmpFlatPara);
+      }
+      tmpFlatPara = startFlatPara;
+      while (tmpFlatPara != null) {
+        isChecked.add(tmpFlatPara.isChecked(TextMarkupType.PROOFREADING));
+        tmpFlatPara = xFlatParaIter.getParaAfter(tmpFlatPara);
+      }
+    } catch (Throwable t) {
+      MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
+    }
+    return isChecked;
   }
   
 }
