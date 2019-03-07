@@ -1062,5 +1062,14 @@ doorvoelden	WKW:VLT:INF	WKW:VTD:MRV:DE_
 omspuit	WKW:TGW:1EP	WKW:TGW:3EP
 overbouwden	WKW:VLT:INF	WKW:VTD:MRV:DE_
 overstraalden	WKW:VLT:INF	WKW:VTD:MRV:DE_
+	
+       <rule name="or" id="REMOVE_JJ_FOR_OR">
+          <pattern>
+            <token>or</token>
+          </pattern>
+          <disambig action="remove"><wd pos="JJ"/></disambig>
+          <example type="ambiguous" inputform="or[or/CC,or/JJ,or/NN:U]" outputform="or[or/CC,or/NN:U]">Let's choose A <marker>or</marker> B.</example>
+	      <example type="untouched">Ten dollars</example>
+        </rule>	
 -->	
 </rules>
