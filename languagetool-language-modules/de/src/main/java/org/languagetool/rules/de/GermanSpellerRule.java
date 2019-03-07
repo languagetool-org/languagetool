@@ -430,6 +430,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("[rR]evolutionie?sier(s?t|en?)", "ie?s", "");
     putRepl("Kohleaustiegs?", "aus", "auss");
     putRepl("[jJ]urististisch(e[mnrs]?)?", "istist", "ist");
+    put("Analysierung", "Analyse");
+    put("Exel", "Excel");
     put("Glücklichkeit", "Glück");
     put("Begierigkeit", "Begierde");
     put("voralem", "vor allem");
