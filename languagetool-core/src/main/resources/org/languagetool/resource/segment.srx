@@ -4952,7 +4952,7 @@
 <!-- we don't allow lat and cyr in one rule as this leads to many false positives -->
 <rule break="no">
 <beforebreak>(^|[^°])\b[\u00A0\u202F]?[А-ЯІЇЄҐ]\.[\s\u00A0\u202F]?</beforebreak>
-<afterbreak>[А-ЯІЇЄҐ][а-яіїєґ'-]</afterbreak>
+<afterbreak>[А-ЯІЇЄҐ][а-яіїєґ'’ʼ]{2,}</afterbreak>
 </rule>
 <rule break="no">
 <beforebreak>\b[\u00A0\u202F]?[A-Z]\.[\s\u00A0\u202F]?</beforebreak>
@@ -5032,7 +5032,7 @@
 </rule>
 <!-- abbreviation with small letters that starts right after brace or quote -->
 <rule break="no">
-<beforebreak>[(«„][а-я]+\.[\s\u00A0\u202F]</beforebreak>
+<beforebreak>[(«"„“”][а-яіїєґ]+\.[\s\u00A0\u202F]</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
@@ -5044,11 +5044,11 @@
 <afterbreak>[А-ЯЁІЇЄҐа-яёіїєґ]</afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>['"„][\.!?…]['"”]\s</beforebreak>
+<beforebreak>['"«„“”][.!?…]{1,3}['"»”“]\s</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>[\u00AB][\.!?…][\u00BB][\s\u00A0\u202F]</beforebreak>
+<beforebreak>[\u00AB][.!?…]{1,3}[\u00BB][\s\u00A0\u202F]</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
@@ -5056,33 +5056,27 @@
 <afterbreak>\s*[–—-][\s\u00A0\u202F]*([Рр]ед|[Аа]вт)[\s\u00A0\u202F]*\.[\)\]]</afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>["”'\u00BB]\s*</beforebreak>
+<beforebreak>["”«„'\u00BB]\s*</beforebreak>
 <afterbreak>[\s\u00A0\u202F]*\p{Ll}</afterbreak>
 </rule>
 <!-- break  -->
 <!-- часто зустрічається крапка+U+202F+пробіл, який srx чомусь не розбиває на речення -->
 <!-- але лишаємо ініціали: С.\u202F Шелухин -->
 <rule break="yes">
-<beforebreak>(?&lt;! [А-ЯІЇЄҐ])[.!?…]\u202F\s+</beforebreak>
+<beforebreak>(?&lt;! [А-ЯІЇЄҐ])[.!?…]{1,3}\u202F\s+</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <rule break="yes">
-<beforebreak>[\.!?…]['"\u00BB\u2019\u201D\u203A\u0002¹²³]*\s</beforebreak>
+<beforebreak>[.!?…]['"»„“\u00BB\u2019\u201D\u203A\u0002¹²³]*\s</beforebreak>
 <afterbreak></afterbreak>
 </rule>
-<!-- what was this for?
-<rule break="yes">
-<beforebreak>\u005D\u005D\s</beforebreak>
-<afterbreak></afterbreak>
-</rule>
--->
 <!-- На питання «чи дарувати?» ствердно відповіли 38% -->
 <rule break="yes">
-<beforebreak>[\.!?…]['»"”\p{Pe}]*</beforebreak>
+<beforebreak>[.!?…]['»"„“”\p{Pe}]*</beforebreak>
 <afterbreak>\p{Lu}[^\p{Lu}]</afterbreak>
 </rule>
 <rule break="yes">
-<beforebreak>\s\p{L}[\.!?…]\s</beforebreak>
+<beforebreak>\s\p{L}[\.!?…]{1,3}\s</beforebreak>
 <afterbreak>\p{Lu}\p{Ll}</afterbreak>
 </rule>
 </languagerule>
