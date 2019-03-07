@@ -207,47 +207,23 @@ abstract class TextChecker {
         List<String> dictionaryData = mapper.readValue(parameters.get("dictionary"), new TypeReference<List<String>>(){});
         dict.addAll(dictionaryData);
       } catch (Exception e) {
+        e.printStackTrace();
         throw new RuntimeException("'dictionary' should be a JSON array in string format.");
       }
     }
 
     UserConfig userConfig = new UserConfig(dict, new HashMap<>(), config.getMaxSpellingSuggestions());
 
-
-
-    List<List<Integer>>forcedTokenRanges = new ArrayList<>();
-
-    List<Integer> myRange = new ArrayList<>();
-    myRange.add(0);
-    myRange.add(1);
-    forcedTokenRanges.add(myRange);
-
-    myRange = new ArrayList<>();
-    myRange.add(8);
-    myRange.add(4);
-    forcedTokenRanges.add(myRange);
-
-    myRange = new ArrayList<>();
-    myRange.add(24);
-    myRange.add(6);
-    forcedTokenRanges.add(myRange);
-
-    myRange = new ArrayList<>();
-    myRange.add(34);
-    myRange.add(7);
-    forcedTokenRanges.add(myRange);
-
-    myRange = new ArrayList<>();
-    myRange.add(54);
-    myRange.add(2);
-    forcedTokenRanges.add(myRange);
-
-    myRange = new ArrayList<>();
-    myRange.add(73);
-    myRange.add(2);
-    forcedTokenRanges.add(myRange);
-
-    userConfig.customTokenRanges = forcedTokenRanges;
+    if (parameters.containsKey("immune_text_ranges")) {
+      try {
+        ObjectMapper mapper = new ObjectMapper();
+        List<List<Integer>> forcedTokenRanges = mapper.readValue(parameters.get("immune_text_ranges"), new TypeReference<List<List<Integer>>>(){});
+        userConfig.immuneTextRanges = forcedTokenRanges;
+      } catch (Exception e) {
+        e.printStackTrace();
+        throw new RuntimeException("'immune_text_ranges' should be a JSON array in string format.");
+      }
+    }
 
     // NOTE: at the moment, feedback for A/B-Tests is only delivered from this client, so only run tests there
     if (agent != null && agent.equals("ltorg")) {
