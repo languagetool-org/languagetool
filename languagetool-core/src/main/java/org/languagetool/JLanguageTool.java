@@ -47,7 +47,6 @@ import java.util.concurrent.Callable;
 import java.util.jar.Manifest;
 import java.util.logging.Level;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 /**
  * The main class used for checking text against different rules:
@@ -929,6 +928,7 @@ public class JLanguageTool {
       AnalyzedSentence raw = getRawAnalyzedSentence(sentence);
       AnalyzedSentence disambig = language.getDisambiguator().disambiguate(raw);
       AnalyzedSentence analyzedSentence = new AnalyzedSentence(disambig.getTokens(), raw.getTokens());
+
       if (language.getPostDisambiguationChunker() != null) {
         language.getPostDisambiguationChunker().addChunkTags(Arrays.asList(analyzedSentence.getTokens()));
       }
@@ -947,32 +947,53 @@ public class JLanguageTool {
    * @since 0.9.8
    */
   public AnalyzedSentence getRawAnalyzedSentence(String sentence) throws IOException {
+    Integer sentenceSize = sentence.length();
+    Integer sentenceEnd = userConfig.currentSentenceOffset + sentenceSize;
+
     List<String> tokens;
-    if(userConfig.customTokenRanges == null) {
+    List<Integer> immuneTokenIndexes = new ArrayList<>();
+    if(userConfig.immuneTextRanges == null) {
       tokens = language.getWordTokenizer().tokenize(sentence);
     } else {
-      System.out.println("Forced ranges: " + userConfig.customTokenRanges.toString());
-      System.out.println("Tokens before: " + language.getWordTokenizer().tokenize(sentence));
+      List<List<Integer>> currentSentenceRanges = new ArrayList<>();
+      Integer currentRangeEnd;
+      for(List<Integer> currentRange : userConfig.immuneTextRanges) {
+        currentRangeEnd = currentRange.get(0) + currentRange.get(1);
+
+        if(currentRange.get(0) >= userConfig.currentSentenceOffset && currentRangeEnd <= sentenceEnd) {
+          List<Integer> newRange = new ArrayList<>();
+          newRange.add(currentRange.get(0) - userConfig.currentSentenceOffset);
+          newRange.add(currentRange.get(1));
+          currentSentenceRanges.add(newRange);
+        } else if(currentRange.get(0) > sentenceEnd) {
+          break;
+        }
+      }
+
       tokens = new ArrayList<>();
-      int sentenceLength = sentence.length();
 
       int currentPosition = 0, tokenEndPosition;
-      for(List<Integer> currentRange : userConfig.customTokenRanges) {
+      for(List<Integer> currentRange : currentSentenceRanges) {
+
         tokenEndPosition = currentRange.get(0) + currentRange.get(1);
+
         tokens.addAll(language.getWordTokenizer().tokenize(
           sentence.substring(currentPosition, currentRange.get(0))
         ));
+
+
         tokens.add(sentence.substring(currentRange.get(0), tokenEndPosition));
+        immuneTokenIndexes.add(tokens.size() - 1);
         currentPosition = tokenEndPosition;
       }
-
-      if(currentPosition < sentenceLength) {
+      if(currentPosition < sentenceSize) {
         tokens.addAll(language.getWordTokenizer().tokenize(
           sentence.substring(currentPosition)
         ));
       }
-      System.out.println("Tokens after: " + tokens.toString());
     }
+
+    userConfig.currentSentenceOffset += sentenceSize;
 
     Map<Integer, String> softHyphenTokens = replaceSoftHyphens(tokens);
 
@@ -985,10 +1006,15 @@ public class JLanguageTool {
     for (int i = 1; i < numTokens; i++) {
       aTokens.get(i).setWhitespaceBefore(aTokens.get(i - 1).isWhitespace());
       aTokens.get(i).setStartPos(aTokens.get(i).getStartPos() + posFix);
+
       if (!softHyphenTokens.isEmpty() && softHyphenTokens.get(i) != null) {
         aTokens.get(i).addReading(language.getTagger().createToken(softHyphenTokens.get(i), null));
         posFix += softHyphenTokens.get(i).length() - aTokens.get(i).getToken().length();
       }
+    }
+
+    for(Integer immunizedTokenIndex : immuneTokenIndexes) {
+      aTokens.get(immunizedTokenIndex).immunize();
     }
         
     AnalyzedTokenReadings[] tokenArray = new AnalyzedTokenReadings[tokens.size() + 1];

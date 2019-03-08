@@ -40,7 +40,9 @@ public class UserConfig {
   private final Map<String, Integer> configurableRuleValues = new HashMap<>();
   private final LinguServices linguServices;
 
-  public List<List<Integer>> customTokenRanges = null;
+  public List<List<Integer>> immuneTextRanges = null;
+
+  public Integer currentSentenceOffset = 0;
 
   // indifferent for comparing UserConfigs (e.g. in PipelinePool)
   // provided to rules only for A/B tests ->
