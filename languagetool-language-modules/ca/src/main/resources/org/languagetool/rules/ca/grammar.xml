@@ -34294,6 +34294,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category id="INCORRECT_WORDS_IN_CONTEXT" name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
             (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rule id="RATONERA" name="*ratonera/ratera">
+            <pattern>
+                <token regexp="yes">ratonera|ratoneres</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion><match no="1" postag="A...([PS])." postag_regexp="yes" postag_replace="NCF$1000">ratera</match></suggestion> (substantiu)? Correcte si correspon a l'adjectiu 'ratoner -a'.</message>
+            <example correction="ratera">Una <marker>ratonera</marker>.</example>
+            <example correction="rateres">Les <marker>ratoneres</marker>.</example>
+        </rule>
         <rule id="RATO" name="*rato/estona">
             <pattern>
                 <token>rato<exception postag="_possible_nompropi"/></token>
