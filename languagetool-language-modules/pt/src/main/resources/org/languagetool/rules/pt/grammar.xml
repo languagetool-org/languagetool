@@ -6214,8 +6214,8 @@ title="Easy editing stylesheet" ?>
       <example correction='sobremesa'>Vai comer a <marker>sobre mesa</marker>.</example>
     </rule>
 
-    <!-- TAL VEZ talvez -->
     <rule id='TAL_VEZ' name="Confusão: tal vez - talvez">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
           <token>tal</token>
           <token>vez</token>
@@ -6224,15 +6224,16 @@ title="Easy editing stylesheet" ?>
       <example correction="talvez">Amanhã <marker>tal vez</marker> seja possível.</example>
     </rule>
 
-    <!-- TE DE te dê -->
     <rule id='TE_DE' name="Confusão: de - dê">
+    <!-- Created by Marco A.G. Pinto, Portuguese rule -->
       <pattern>
-          <token>te</token>
+          <token spacebefore='yes' regexp='yes'>&pronomes_nao_ambiguos;|&pronomes_ambiguos;</token>
           <token>de</token>
       </pattern>
-      <message>Substitua por <suggestion>te dê</suggestion>.</message>
+      <message>Se pretende referir-se ao verbo escreva <suggestion>\1 dê</suggestion>.</message>
       <example correction="te dê">Talvez <marker>te de</marker> mais novidades.</example>
     </rule>
+
 
     <rule id='TEM_TÊM' name="Confusão: tem - têm">
     <!-- Created by Marco A.G. Pinto, Portuguese rule -->
