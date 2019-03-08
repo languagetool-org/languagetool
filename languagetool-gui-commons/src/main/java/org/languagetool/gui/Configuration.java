@@ -76,6 +76,7 @@ public class Configuration {
   private static final String SERVER_PORT_KEY = "serverPort";
   private static final String PARA_CHECK_KEY = "numberParagraphs";
   private static final String RESET_CHECK_KEY = "doResetCheck";
+  private static final String NO_MULTI_RESET_KEY = "noMultiReset";
   private static final String USE_DOC_LANG_KEY = "useDocumentLanguage";
   private static final String USE_GUI_KEY = "useGUIConfig";
   private static final String FONT_NAME_KEY = "font.name";
@@ -125,6 +126,7 @@ public class Configuration {
   private int serverPort = DEFAULT_SERVER_PORT;
   private int numParasToCheck = DEFAULT_NUM_CHECK_PARAS;
   private boolean doResetCheck = false;
+  private boolean noMultiReset = true;
   private String externalRuleDirectory;
   private String lookAndFeelName;
   private boolean switchOff = false;
@@ -191,6 +193,7 @@ public class Configuration {
     this.serverPort = configuration.serverPort;
     this.numParasToCheck = configuration.numParasToCheck;
     this.doResetCheck = configuration.doResetCheck;
+    this.noMultiReset = configuration.noMultiReset;
     this.useDocLanguage = configuration.useDocLanguage;
     this.lookAndFeelName = configuration.lookAndFeelName;
     this.externalRuleDirectory = configuration.externalRuleDirectory;
@@ -381,6 +384,24 @@ public class Configuration {
    */
   public void setDoResetCheck(boolean resetCheck) {
     this.doResetCheck = resetCheck;
+  }
+
+  /**
+   * will all paragraphs not checked after every change of text 
+   * if more than one document loaded?
+   * @since 4.5
+   */
+  public boolean isNoMultiReset() {
+    return noMultiReset;
+  }
+
+  /**
+   * set all paragraphs to be not checked after every change of text
+   * if more than one document loaded?
+   * @since 4.5
+   */
+  public void setNoMultiReset(boolean noMultiReset) {
+    this.noMultiReset = noMultiReset;
   }
 
   /**
@@ -736,6 +757,11 @@ public class Configuration {
         doResetCheck = Boolean.parseBoolean(resetCheckString);
       }
 
+      String noMultiResetString = (String) props.get(NO_MULTI_RESET_KEY);
+      if (noMultiResetString != null) {
+        noMultiReset = Boolean.parseBoolean(noMultiResetString);
+      }
+
       String useDocLangString = (String) props.get(USE_DOC_LANG_KEY);
       if (useDocLangString != null) {
         useDocLanguage = Boolean.parseBoolean(useDocLangString);
@@ -872,6 +898,7 @@ public class Configuration {
     props.setProperty(SERVER_PORT_KEY, Integer.toString(serverPort));
     props.setProperty(PARA_CHECK_KEY, Integer.toString(numParasToCheck));
     props.setProperty(RESET_CHECK_KEY, Boolean.toString(doResetCheck));
+    props.setProperty(NO_MULTI_RESET_KEY, Boolean.toString(noMultiReset));
     if(!useDocLanguage) {
       props.setProperty(USE_DOC_LANG_KEY, Boolean.toString(useDocLanguage));
     }

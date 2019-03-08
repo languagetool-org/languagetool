@@ -580,12 +580,23 @@ public class ConfigurationDialog implements ActionListener {
     cons.gridx = 1;
     portPanel.add(numParaField, cons);
     
+    JCheckBox noMultiResetbox = new JCheckBox(Tools.getLabel(messages.getString("guiNoMultiReset")));
+    noMultiResetbox.setSelected(config.isNoMultiReset());
+    noMultiResetbox.setEnabled(config.isResetCheck());
+    noMultiResetbox.addItemListener(new ItemListener() {
+      @Override
+      public void itemStateChanged(ItemEvent e) {
+        config.setNoMultiReset(noMultiResetbox.isSelected());
+      }
+    });
+    
     JCheckBox resetCheckbox = new JCheckBox(Tools.getLabel(messages.getString("guiDoResetCheck")));
     resetCheckbox.setSelected(config.isResetCheck());
     resetCheckbox.addItemListener(new ItemListener() {
       @Override
       public void itemStateChanged(ItemEvent e) {
         config.setDoResetCheck(resetCheckbox.isSelected());
+        noMultiResetbox.setEnabled(resetCheckbox.isSelected());
       }
     });
     cons.gridx = 0;
@@ -594,6 +605,13 @@ public class ConfigurationDialog implements ActionListener {
     portPanel.add(dummyLabel, cons);
     cons.gridy++;
     portPanel.add(resetCheckbox, cons);
+
+    cons.insets = new Insets(0, 30, 0, 0);
+    cons.gridx = 0;
+    cons.gridy++;
+    portPanel.add(noMultiResetbox, cons);
+    
+    
     
   }
 
