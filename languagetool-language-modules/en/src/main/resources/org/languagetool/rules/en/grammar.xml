@@ -27501,66 +27501,98 @@ USA
             <example correction="as well">You will buy some eggs <marker>also</marker>.</example>
         </rule>
         <rulegroup default="off" id="PASSIVE_VOICE" name="Passive voice">
-            <rule> <!-- Passive infinitive (1/2) -->
+            <url>https://www.ef.co.uk/english-resources/english-grammar/passive-voice/</url>
+            <short>Passive voice</short>
+            <rule>
                 <pattern>
                     <token>it</token>
-                    <token skip="1" inflected="yes">be</token>
-                    <!-- skip=1 to handle: it is not possible, it is also possible, etc. -->
-                    <token postag="VBN|JJ" postag_regexp="yes"/> <!--said|thought|believed|possible|necessary|impossible|known|argued -->
+                    <token skip="1" regexp="yes">is|was</token>
+                    <token min="0" max="3" postag="RB"/>
+                    <token postag="VBN"> <!--said|thought|believed|known|argued -->
+                        <exception>put</exception><!-- As an alternative to an exception, specify the VBN words --> 
+                        </token>
                     <token>that</token>
                 </pattern>
-                <message>Change from passive to active voice? Example: "It is possible that the sky is blue." can be changed to "The sky might be blue".</message>
-                <short>Passive voice</short>
-                <example correction=""><marker>It is possible that</marker> the sky is blue.</example>
-                <example correction=""><marker>It is also possible that</marker> the sky is blue.</example>
-                <example>The sky might be blue.</example>
+                <message>The text seems to be passive voice. To make the text clearer and easier to read, you can often use the active voice.</message>
+                <example correction=""><marker>It is also thought that</marker> tests are satisfactory.</example>
+                <example correction="">On 31 May 2013, <marker>it was announced that</marker> Andorra intended to legislate for the...</example>
+                <example correction="">While <marker>it was previously thought that</marker> the heavier alkali metals also...</example>
+                <example correction="">While <marker>it was not always generally thought that</marker> the the tests are...</example>
+                <example correction=""><marker>It is long known that</marker> aquifers in areas as diverse as northern...</example>
+                <example correction="">...guests made the confusion indescribable when <marker>it was found that</marker> scarcely anything of the costly building...</example>
+                <example correction=""><marker>It is disambiguated that</marker> text.</example><!-- Possibly, change the VBN token to permit only words such as thought/said -->
+                <example><marker>We think that</marker> tests are satisfactory.</example>
+                <example><marker>It is possible that</marker> the sky is blue.</example><!-- Not passive voice. 'Possible' is not a past participle verb. -->
+                <example><marker>It are</marker> thought that the sky is blue.</example><!-- Do not give a suggestion for incorrect grammar. -->
+                <example>When it was put <marker>that clearly</marker>, I was at a loss for a response.</example>
             </rule>
-            <rule> <!-- Passive infinitive (2/2) -->
+            <rule><!-- Passive infinitive (1/2): www.ef.co.uk/english-resources/english-grammar/passive-infinitive/ -->
                 <pattern>
                     <token skip="1" inflected="yes">be</token>
-                    <!-- skip to allow for: not, also, etc -->
+                    <token min="0" max="3" postag="RB"/>
                     <token postag="VBN"/> <!-- said, known, believed, thought, etc. -->
                     <token>to</token>
-                    <token skip="1">have</token>
-                    <!-- skip to allow for: not, also, etc -->
+                    <token>have</token>
+                    <token min="0" max="2" postag="RB"/>
                     <token>been</token>
                 </pattern>
-                <message>Change from passive to active voice? Example: "He is said to have been happy."  can be changed to "The people said that he was happy." if you can define who/what performed the action.</message>
-                <short>Passive voice</short>
+                <message>The text seems to be passive voice. To make the text clearer and easier to read, you can often use the active voice.</message>
                 <example correction="">He <marker>is said to have been</marker> happy.</example>
-                <example correction="">He <marker>is said to have not been</marker> happy.</example>
-                <example>The people said that he was happy.</example>
+                <example correction="">He <marker>is said to have not always been</marker> happy.</example>
                 <example correction="">He <marker>is not thought to have been</marker> happy.</example>
-                <example correction="">He <marker>was not thought to have been</marker> happy.</example>
+                <example correction="">He <marker>was not generally thought to have been</marker> happy.</example>
+                <example correction="">... by a litigation-funded study that has since <marker>been shown to have been</marker> 'an elaborate fraud'.</example>
+                <example correction="">Cult films have <marker>been falsely claimed to have been</marker> banned to increase their...</example>
+                <example correction="">Such mixtures <marker>are commonly thought to have first been</marker> prepared by Indian merchants for sale to...</example>
+                <example><marker>People said</marker> that he was happy.</example>
             </rule>
             <rule> <!-- Passive infinitive (2/2) -->
+                <antipattern><!-- https://dictionary.cambridge.org/dictionary/english/rules-are-made-to-be-broken -->
+                    <token regexp="yes">rules?|promises?</token>
+                    <token inflected="yes">be</token>
+                    <token min="0" max="3" postag="RB"/>
+                    <token>made</token>
+                </antipattern>
                 <pattern>
-                    <token skip="1" inflected="yes">be</token>
-                    <!-- skip to allow for: not, also, etc -->
-                    <token postag="VBN"/> <!-- said, known, believed, thought, etc. -->
+                    <token inflected="yes">be</token>
+                    <token min="0" max="3" postag="RB"/>
+                    <token postag="VBN"> <!-- said, known, believed, thought, etc. -->
+                        <exception regexp="yes">bound|meant|pleased|supposed</exception>
+                        <exception postag="JJ"/><!-- VBN_VBD removes JJ in "She was pleased to be treated. Cannot use raw_pos in the pattern, because the rule then does not find "were not usually considered. -->
+                        </token>
                     <token>to</token>
                     <token>be</token>
                 </pattern>
-                <message>Change from passive to active voice? Example: "He is said to be happy." could be changed to "The people said that he was happy." if you can define who/what performed the action.</message>
-                <short>Passive voice</short>
+                <message>The text seems to be passive voice. To make the text clearer and easier to read, you can often use the active voice.</message>
                 <example correction="">He <marker>is said to be</marker> happy.</example>
-                <example>People say that he is happy.</example>
+                <example correction="">They <marker>were not usually considered to be</marker> satisfactory.</example>
+                <example correction="">... forming the negative hydride ion, and <marker>is very occasionally considered to be</marker> a halogen on that basis.</example>
+                <example correction="">Premature births and stillbirths <marker>are generally not considered to be</marker> miscarriages although...</example>
+                <example correction="">The complexity of an algorithm <marker>is usually taken to be</marker> its worst-case complexity, unless specified ...</example>
+                <example><marker>People say</marker> that he is happy.</example>
+                <example>Let's find out what time we're supposed to be there.</example><!-- www.collinsdictionary.com/dictionary/english/be-supposed-to-do-something --> 
+                <example>Rules are made to be broken.</example>
+                <example>There's got to be another way.</example>
+                <example>That's got to be a good sign.</example>
+                <example>But serious music was never meant to be soporific.</example><!-- www.collinsdictionary.com/dictionary/english/be-meant-to -->
+                <example>The aggressors are bound to be defeated.</example><!-- www.ldoceonline.com/dictionary/be-bound-to -->
+                <example>She was <marker>pleased</marker> to be treated as a guest.</example><!-- Can parse 'pleased' as an adjective. Compare: She was happy to be treated... VBN_VBD removes JJ-->
             </rule>
             <rule>
                 <pattern>
                     <token skip="-1" regexp="yes" inflected="yes">advise|insist|propose|recommend|suggest</token>
+                    <token postag="NN.*" postag_regexp="yes"/>
+                    <token min="0" max="1" postag="MD"/>
+                    <token min="0" max="3" postag="RB"/>
                     <marker>
-                        <token postag="NN.*" postag_regexp="yes" skip="1"/>
-                        <!-- skip must/could/should/etc -->
                         <token>be</token>
                         <token postag="VBN"/>
                     </marker>
                 </pattern>
-                <message>Change from passive to active voice? Example: "He insisted that red should be used." can be changed to "He insisted on using red."</message>
-                <short>Passive voice</short>
-                <example correction="">He insisted that <marker>red should be used</marker>.</example>
-                <example correction="">He insisted that <marker>red be used</marker>.</example>
-                <example>He insisted on using red.</example>
+                <message>The text seems to be passive voice. To make the text clearer and easier to read, you can often use the active voice.</message>
+                <example correction="">He insisted that red should <marker>be used</marker> by the designers.</example>
+                <example correction="">If he insists that red <marker>be used</marker>, then use red.</example>
+                <example>He insisted that the designers <marker>should use</marker> red.</example>
             </rule>
             <rule>
                 <pattern> <!-- future perfect tense -->
@@ -27571,7 +27603,6 @@ USA
                     <token postag="VBN"/>
                 </pattern>
                 <message>Change from passive to active voice? Example: "Her work will have been finished by tonight." can be changed to "She will have her work finished by tonight."</message>
-                <short>Passive voice</short>
                 <example correction="">Her work <marker>will have been finished</marker> by tonight.</example>
                 <example correction="">Her work <marker>will not have been finished</marker> by tonight.</example>
                 <example>She will have her work finished by tonight.</example>
@@ -27585,7 +27616,6 @@ USA
                     <token postag="VBN"/>
                 </pattern>
                 <message>Change from passive to active voice? Example: "A cake is being baked by him." can be changed to "He is baking a cake."</message>
-                <short>Passive voice</short>
                 <example correction="">A <marker>cake is being baked</marker> by him by tonight.</example>
                 <example>He is baking a cake.</example>
                 <example correction="">A <marker>cake is also being baked</marker> by him by tonight.</example>
@@ -27602,7 +27632,6 @@ USA
                     <token>by</token>
                 </pattern>
                 <message>Change from passive to active voice? Example: "Instruments are played by her." can be changed to "She plays instruments."</message>
-                <short>Passive voice</short>
                 <example correction=""><marker>Instruments are played by</marker> her.</example>
                 <example correction=""><marker>Instruments were played by</marker> her.</example>
                 <example correction=""><marker>Instruments are not played by</marker> her.</example>
