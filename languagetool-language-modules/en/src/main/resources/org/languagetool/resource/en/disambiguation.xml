@@ -3015,7 +3015,7 @@
     <rulegroup name="Add possessive ending" id="POS_ADD">
         <rule>  <!--	probably verb "is": now add to some -->
             <antipattern>
-                <token>there</token>
+                <token regexp="yes">there|that</token>
                 <token spacebefore="no" regexp="yes">['’]</token>
                 <token spacebefore="no">s</token>
                 <token>got</token>
@@ -3033,6 +3033,7 @@
             <example type="untouched">Let's go!</example>
             <example type="untouched">Let's see!</example>
             <example type="untouched">There's got to be another way.</example>
+            <example type="untouched">That's got to be a good sign.</example>
             <example type="ambiguous" inputform="s[s/POS]" outputform="s[be/VBZ,s/POS]">Where'<marker>s</marker> Bill?</example>
             <example type="ambiguous" inputform="s[s/POS]" outputform="s[be/VBZ,s/POS]">There'<marker>s</marker> no milk in the fridge.</example>
         </rule>
