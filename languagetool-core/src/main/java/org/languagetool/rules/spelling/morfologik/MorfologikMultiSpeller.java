@@ -64,8 +64,6 @@ public class MorfologikMultiSpeller {
   private static final Map<String,Dictionary> dicPathToDict = new HashMap<>();
 
   private final List<MorfologikSpeller> spellers;
-  private final List<MorfologikSpeller> defaultDictSpellers;
-  private final List<MorfologikSpeller> userDictSpellers;
   private final boolean convertsCase;
 
   public MorfologikMultiSpeller(String binaryDictPath, String plainTextPath, String languageVariantPlainTextPath, int maxEditDistance) throws IOException {
@@ -110,23 +108,15 @@ public class MorfologikMultiSpeller {
     if (userDictSpeller != null) {
       // add this first, as otherwise suggestions from user's won dictionary might drown in the mass of other suggestions
       spellers.add(userDictSpeller);
-      userDictSpellers = Collections.singletonList(userDictSpeller);
-    } else {
-      userDictSpellers = Collections.emptyList();
     }
     spellers.add(speller);
     convertsCase = speller.convertsCase();
     if (plainTextReader != null) {
       MorfologikSpeller plainTextSpeller = getPlainTextDictSpellerOrNull(plainTextReader, plainTextReaderPath,
-        languageVariantPlainTextReader, languageVariantPlainTextPath, binaryDictPath, maxEditDistance);
+              languageVariantPlainTextReader, languageVariantPlainTextPath, binaryDictPath, maxEditDistance);
       if (plainTextSpeller != null) {
         spellers.add(plainTextSpeller);
-        defaultDictSpellers = Arrays.asList(speller, plainTextSpeller);
-      } else {
-        defaultDictSpellers = Collections.singletonList(speller);
       }
-    } else {
-      defaultDictSpellers = Collections.singletonList(speller);
     }
     this.spellers = Collections.unmodifiableList(spellers);
   }
@@ -205,10 +195,12 @@ public class MorfologikMultiSpeller {
     return true;
   }
 
-  @NotNull
-  private List<String> getSuggestionsFromSpellers(String word, List<MorfologikSpeller> spellerList) {
+  /**
+   * The suggestions from all dictionaries (without duplicates).
+   */
+  public List<String> getSuggestions(String word) {
     List<String> result = new ArrayList<>();
-    for (MorfologikSpeller speller : spellerList) {
+    for (MorfologikSpeller speller : spellers) {
       List<String> suggestions = speller.getSuggestions(word);
       for (String suggestion : suggestions) {
         if (!result.contains(suggestion) && !suggestion.equals(word)) {
@@ -217,33 +209,6 @@ public class MorfologikMultiSpeller {
       }
     }
     return result;
-  }
-
-  /**
-   * The suggestions from all dictionaries (without duplicates).
-   */
-  public List<String> getSuggestions(String word) {
-    return getSuggestionsFromSpellers(word, spellers);
-  }
-
-  /**
-   * @since 4.5
-   * @param word misspelled word
-   * @return suggestions from users personal dictionary
-   */
-  @Experimental
-  public List<String> getSuggestionsFromUserDicts(String word) {
-    return getSuggestionsFromSpellers(word, userDictSpellers);
-  }
-
-  /**
-   * @since 4.5
-   * @param word misspelled word
-   * @return suggestions from built-in dictionaries
-   */
-  @Experimental
-  public List<String> getSuggestionsFromDefaultDicts(String word) {
-    return getSuggestionsFromSpellers(word, defaultDictSpellers);
   }
 
   /**

@@ -45,7 +45,7 @@ public class RuleMatchesAsJsonSerializer {
   private static final String START_MARKER = "__languagetool_start_marker";
 
   private final JsonFactory factory = new JsonFactory();
-
+  
   public String ruleMatchesToJson(List<RuleMatch> matches, String text, int contextSize, DetectedLanguage detectedLang) {
     return ruleMatchesToJson(matches, new ArrayList<>(), text, contextSize, detectedLang, null);
   }
@@ -163,19 +163,11 @@ public class RuleMatchesAsJsonSerializer {
   
   private void writeReplacements(JsonGenerator g, RuleMatch match) throws IOException {
     g.writeArrayFieldStart("replacements");
-    boolean autoCorrect = match.isAutoCorrect();
     for (SuggestedReplacement replacement : match.getSuggestedReplacementObjects()) {
       g.writeStartObject();
       g.writeStringField("value", replacement.getReplacement());
       if (replacement.getShortDescription() != null) {
         g.writeStringField("shortDescription", replacement.getShortDescription());
-      }
-      if (autoCorrect) {
-        g.writeBooleanField("autoCorrect", true);
-        autoCorrect = false; // only for first replacement
-      }
-      if (replacement.getConfidence() != null) {
-        g.writeNumberField("confidence", replacement.getConfidence());
       }
       g.writeEndObject();
     }

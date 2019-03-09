@@ -113,7 +113,7 @@ public abstract class ConfusionProbabilityRule extends Rule {
   @Override
   public RuleMatch[] match(AnalyzedSentence sentence) {
     String text = sentence.getText();
-    List<GoogleToken> tokens = GoogleToken.getGoogleTokens(text, true, LanguageModelUtils.getGoogleStyleWordTokenizer(language));
+    List<GoogleToken> tokens = GoogleToken.getGoogleTokens(text, true, getGoogleStyleWordTokenizer());
     List<RuleMatch> matches = new ArrayList<>();
     int pos = 0;
     for (GoogleToken googleToken : tokens) {
@@ -157,6 +157,13 @@ public abstract class ConfusionProbabilityRule extends Rule {
     return Tools.i18n(messages, "statistics_rule_description");
   }
 
+  /**
+   * Return a tokenizer that works more like Google does for its ngram index (which
+   * doesn't seem to be properly documented).
+   */
+  protected Tokenizer getGoogleStyleWordTokenizer() {
+    return language.getWordTokenizer();
+  }
 
   private String getMessage(ConfusionString textString, ConfusionString suggestion) {
     if (textString.getDescription() != null && suggestion.getDescription() != null) {
@@ -216,11 +223,11 @@ public abstract class ConfusionProbabilityRule extends Rule {
     double p1;
     double p2;
     if (grams == 3) {
-      p1 = LanguageModelUtils.get3gramProbabilityFor(language, lm, token, tokens, word);
-      p2 = LanguageModelUtils.get3gramProbabilityFor(language, lm, token, tokens, otherWord.getString());
+      p1 = get3gramProbabilityFor(token, tokens, word);
+      p2 = get3gramProbabilityFor(token, tokens, otherWord.getString());
     } else if (grams == 4) {
-      p1 = LanguageModelUtils.get4gramProbabilityFor(language, lm, token, tokens, word);
-      p2 = LanguageModelUtils.get4gramProbabilityFor(language, lm, token, tokens, otherWord.getString());
+      p1 = get4gramProbabilityFor(token, tokens, word);
+      p2 = get4gramProbabilityFor(token, tokens, otherWord.getString());
     } else {
       throw new RuntimeException("Only 3grams and 4grams are supported");
     }
@@ -230,9 +237,99 @@ public abstract class ConfusionProbabilityRule extends Rule {
   }
 
   List<String> getContext(GoogleToken token, List<GoogleToken> tokens, String newToken, int toLeft, int toRight) {
-    return LanguageModelUtils.getContext(token, tokens, newToken, toLeft, toRight);
+    return getContext(token, tokens, Collections.singletonList(new GoogleToken(newToken, 0, newToken.length())), toLeft, toRight);
   }
   
+  private List<String> getContext(GoogleToken token, List<GoogleToken> tokens, List<GoogleToken> newTokens, int toLeft, int toRight) {
+    int pos = tokens.indexOf(token);
+    if (pos == -1) {
+      throw new RuntimeException("Token not found: " + token);
+    }
+    List<String> result = new ArrayList<>();
+    for (int i = 1, added = 0; added < toLeft; i++) {
+      if (pos-i < 0) {
+        // So if we're at the beginning of the sentence, just use the first tokens:
+        result.clear();
+        for (GoogleToken googleToken : newTokens) {
+          result.add(googleToken.token);
+        }
+        for (int j = pos-1; j >= 0; j--) {
+          result.add(0, tokens.get(j).token);
+        }
+        return result;
+      } else {
+        if (!tokens.get(pos-i).isWhitespace()) {
+          result.add(0, tokens.get(pos - i).token);
+          added++;
+        }
+      }
+    }
+    for (GoogleToken googleToken : newTokens) {
+      result.add(googleToken.token);
+    }
+    for (int i = 1, added = 0; added < toRight; i++) {
+      if (pos+i >= tokens.size()) {
+        // I'm not sure if we should use _END_ here instead. Evaluation on 2015-08-12
+        // shows increase in recall for some pairs, decrease in others.
+        result.add(".");
+        added++;
+      } else {
+        if (!tokens.get(pos+i).isWhitespace()) {
+          result.add(tokens.get(pos + i).token);
+          added++;
+        }
+      }
+    }
+    return result;
+  }
+
+  private double get3gramProbabilityFor(GoogleToken token, List<GoogleToken> tokens, String term) {
+    List<GoogleToken> newTokens = GoogleToken.getGoogleTokens(term, false, getGoogleStyleWordTokenizer());
+    Probability ngram3Left;
+    Probability ngram3Middle;
+    Probability ngram3Right;
+    if (newTokens.size() == 1) {
+      List<String> leftContext = getContext(token, tokens, term, 0, 2);
+      ngram3Left = lm.getPseudoProbability(leftContext);
+      debug("Left  : %.90f %s\n", ngram3Left.getProb(), Arrays.asList(leftContext));
+      List<String> middleContext = getContext(token, tokens, term, 1, 1);
+      ngram3Middle = lm.getPseudoProbability(middleContext);
+      debug("Middle: %.90f %s\n", ngram3Middle.getProb(), Arrays.asList(middleContext));
+      List<String> rightContext = getContext(token, tokens, term, 2, 0);
+      ngram3Right = lm.getPseudoProbability(rightContext);
+      debug("Right : %.90f %s\n", ngram3Right.getProb(), Arrays.asList(rightContext));
+    } else if (newTokens.size() == 2) {
+      // e.g. you're -> you 're
+      ngram3Left = lm.getPseudoProbability(getContext(token, tokens, newTokens, 0, 1));
+      ngram3Right = lm.getPseudoProbability(getContext(token, tokens, newTokens, 1, 0));
+      // we cannot just use new Probability(1.0, 1.0f) as that would always produce higher
+      // probabilities than in the case of one token (eg. "your"):
+      ngram3Middle = new Probability((ngram3Left.getProb() + ngram3Right.getProb()) / 2, 1.0f); 
+    } else {
+      throw new RuntimeException("Words that consists of more than 2 tokens (according to Google tokenization) are not supported yet: " + term + " -> " + newTokens);
+    }
+    if (ngram3Left.getCoverage() < MIN_COVERAGE && ngram3Middle.getCoverage() < MIN_COVERAGE && ngram3Right.getCoverage() < MIN_COVERAGE) {
+      debug("  Min coverage of %.2f not reached: %.2f, %.2f, %.2f, assuming p=0\n", MIN_COVERAGE, ngram3Left.getCoverage(), ngram3Middle.getCoverage(), ngram3Right.getCoverage());
+      return 0.0;
+    } else {
+      //debug("  Min coverage of %.2f okay: %.2f, %.2f\n", MIN_COVERAGE, ngram3Left.getCoverage(), ngram3Right.getCoverage());
+      return ngram3Left.getProb() * ngram3Middle.getProb() * ngram3Right.getProb();
+    }
+  }
+
+  private double get4gramProbabilityFor(GoogleToken token, List<GoogleToken> tokens, String term) {
+    Probability ngram4Left = lm.getPseudoProbability(getContext(token, tokens, term, 0, 3));
+    Probability ngram4Middle = lm.getPseudoProbability(getContext(token, tokens, term, 1, 2));
+    Probability ngram4Right = lm.getPseudoProbability(getContext(token, tokens, term, 3, 0));
+    if (ngram4Left.getCoverage() < MIN_COVERAGE && ngram4Middle.getCoverage() < MIN_COVERAGE && ngram4Right.getCoverage() < MIN_COVERAGE) {
+      debug("  Min coverage of %.2f not reached: %.2f, %.2f, %.2f, assuming p=0\n", MIN_COVERAGE, ngram4Left.getCoverage(), ngram4Middle.getCoverage(), ngram4Right.getCoverage());
+      return 0.0;
+    } else {
+      //debug("  Min coverage of %.2f okay: %.2f, %.2f\n", MIN_COVERAGE, ngram4Left.getCoverage(), ngram4Right.getCoverage());
+      return ngram4Left.getProb() * ngram4Middle.getProb() * ngram4Right.getProb();
+    }
+  }
+
   private void debug(String message, Object... vars) {
     if (DEBUG) {
       System.out.printf(Locale.ENGLISH, message, vars);

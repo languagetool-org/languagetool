@@ -35,6 +35,7 @@ import org.languagetool.rules.patterns.PatternRuleLoader;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -46,6 +47,7 @@ import java.util.concurrent.Callable;
 import java.util.jar.Manifest;
 import java.util.logging.Level;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * The main class used for checking text against different rules:
@@ -830,11 +832,12 @@ public class JLanguageTool {
       fromPos = annotatedText.getOriginalTextPositionFor(fromPos);
       toPos = annotatedText.getOriginalTextPositionFor(toPos - 1) + 1;
     }
-    RuleMatch thisMatch = new RuleMatch(match);
-    thisMatch.setOffsetPosition(fromPos, toPos);
+    RuleMatch thisMatch = new RuleMatch(match.getRule(), match.getSentence(),
+        fromPos, toPos, match.getMessage(), match.getShortMessage());
     List<SuggestedReplacement> replacements = match.getSuggestedReplacementObjects();
     thisMatch.setSuggestedReplacementObjects(extendSuggestions(replacements));
-
+    thisMatch.setUrl(match.getUrl());
+    thisMatch.setType(match.getType());
     String sentencePartToError = sentence.substring(0, match.getFromPos());
     String sentencePartToEndOfError = sentence.substring(0, match.getToPos());
     int lastLineBreakPos = sentencePartToError.lastIndexOf('\n');
@@ -858,22 +861,21 @@ public class JLanguageTool {
     thisMatch.setColumn(column);
     thisMatch.setEndColumn(endColumn);
     return thisMatch;
-
   }
 
   private List<SuggestedReplacement> extendSuggestions(List<SuggestedReplacement> replacements) {
     List<SuggestedReplacement> extended = new ArrayList<>();
     for (SuggestedReplacement replacement : replacements) {
-      SuggestedReplacement newReplacement = new SuggestedReplacement(replacement);
       if (replacement.getShortDescription() == null) {  // don't overwrite more specific suggestions from the rule
         String descOrNull = descProvider.getShortDescription(replacement.getReplacement());
-        newReplacement.setShortDescription(descOrNull);
+        extended.add(new SuggestedReplacement(replacement.getReplacement(), descOrNull));
+      } else {
+        extended.add(new SuggestedReplacement(replacement.getReplacement(), replacement.getShortDescription()));
       }
-      extended.add(newReplacement);
     }
     return extended;
   }
-
+  
   protected void rememberUnknownWords(AnalyzedSentence analyzedText) {
     if (listUnknownWords) {
       AnalyzedTokenReadings[] atr = analyzedText.getTokensWithoutWhitespace();
@@ -1189,8 +1191,8 @@ public class JLanguageTool {
             LineColumnRange range = getLineColumnRange(match);
             int newFromPos = annotatedText.getOriginalTextPositionFor(match.getFromPos());
             int newToPos = annotatedText.getOriginalTextPositionFor(match.getToPos() - 1) + 1;
-            RuleMatch newMatch = new RuleMatch(match);
-            newMatch.setOffsetPosition(newFromPos, newToPos);
+            RuleMatch newMatch = new RuleMatch(match.getRule(), match.getSentence(), newFromPos, newToPos, match.getMessage(), match.getShortMessage());
+            newMatch.setUrl(match.getUrl());
             newMatch.setLine(range.from.line);
             newMatch.setEndLine(range.to.line);
             if (match.getLine() == 0) {
@@ -1199,6 +1201,8 @@ public class JLanguageTool {
               newMatch.setColumn(range.from.column);
             }
             newMatch.setEndColumn(range.to.column);
+            newMatch.setSuggestedReplacements(match.getSuggestedReplacements());
+            newMatch.setType(match.getType());
             adaptedMatches.add(newMatch);
           }
           ruleMatches.addAll(adaptedMatches);
@@ -1236,7 +1240,8 @@ public class JLanguageTool {
           }
           List<RuleMatch> adaptedMatches = new ArrayList<>();
           for (RuleMatch elem : sentenceMatches) {
-            RuleMatch thisMatch = adjustRuleMatchPos(elem, charCount, columnCount, lineCount, sentence, annotatedText);
+            RuleMatch thisMatch = adjustRuleMatchPos(elem,
+                    charCount, columnCount, lineCount, sentence, annotatedText);
             adaptedMatches.add(thisMatch);
             if (listener != null) {
               listener.matchFound(thisMatch);

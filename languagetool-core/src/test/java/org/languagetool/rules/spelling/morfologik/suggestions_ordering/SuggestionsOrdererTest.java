@@ -31,7 +31,6 @@ import org.languagetool.Languages;
 import org.languagetool.language.Demo;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
-import org.languagetool.rules.spelling.suggestions.SuggestionsOrderer;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -89,7 +88,7 @@ public class SuggestionsOrdererTest {
 
   private void testOrderingHappened(Language language, String rule_id) throws IOException {
     JLanguageTool languageTool = new JLanguageTool(language);
-    SuggestionsOrderer suggestionsOrderer = new SuggestionsOrdererGSoC(language, null, rule_id);
+    SuggestionsOrderer suggestionsOrderer = new SuggestionsOrderer(language, rule_id);
 
     String word = "wprd";
     String sentence = String.join(" ","a", word, "containing", "sentence");
@@ -101,7 +100,7 @@ public class SuggestionsOrdererTest {
     int startPos = sentence.indexOf(word);
     int wordLength = word.length();
     List<String> suggestionsOrdered = suggestionsOrderer.orderSuggestionsUsingModel(
-            suggestions, word, languageTool.getAnalyzedSentence(sentence), startPos);
+            suggestions, word, languageTool.getAnalyzedSentence(sentence), startPos, wordLength);
     assertTrue(suggestionsOrdered.containsAll(suggestions));
   }
 
@@ -146,7 +145,7 @@ public class SuggestionsOrdererTest {
         }
         SuggestionsOrderer orderer = null;
         try {
-          orderer = ordererMap.computeIfAbsent(lang, langCode -> new SuggestionsOrdererGSoC(language,null, spellerRule.getId()));
+          orderer = ordererMap.computeIfAbsent(lang, langCode -> new SuggestionsOrderer(language, spellerRule.getId()));
         } catch (RuntimeException ignored) {
         }
         if (orderer == null) {
@@ -167,7 +166,7 @@ public class SuggestionsOrdererTest {
           SuggestionsOrdererConfig.setMLSuggestionsOrderingEnabled(true);
           numTotalReorderings.incrementAndGet();
           startTime = System.currentTimeMillis();
-          List<String> reordered = orderer.orderSuggestionsUsingModel(original, matchedWord, sentence, match.getFromPos());
+          List<String> reordered = orderer.orderSuggestionsUsingModel(original, matchedWord, sentence, match.getFromPos(), matchedWord.length());
           totalReorderingComputationTime.addAndGet(System.currentTimeMillis() - startTime);
           SuggestionsOrdererConfig.setMLSuggestionsOrderingEnabled(false);
           if (original.size() == 0 || reordered.size() == 0) {

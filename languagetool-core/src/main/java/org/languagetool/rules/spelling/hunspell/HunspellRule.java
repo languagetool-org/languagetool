@@ -19,28 +19,27 @@
 
 package org.languagetool.rules.spelling.hunspell;
 
-import com.google.common.base.Charsets;
-import com.google.common.io.Resources;
-import org.apache.commons.lang3.StringUtils;
-import org.languagetool.*;
-import org.languagetool.languagemodel.LanguageModel;
-import org.languagetool.rules.Categories;
-import org.languagetool.rules.RuleMatch;
-import org.languagetool.rules.spelling.SpellingCheckRule;
-import org.languagetool.rules.spelling.morfologik.suggestions_ordering.SuggestionsOrdererGSoC;
-import org.languagetool.rules.spelling.suggestions.SuggestionsChanges;
-import org.languagetool.rules.spelling.suggestions.SuggestionsOrderer;
-import org.languagetool.rules.spelling.suggestions.SuggestionsOrdererFeatureExtractor;
-import org.languagetool.rules.spelling.suggestions.XGBoostSuggestionsOrderer;
-import org.languagetool.tools.Tools;
-
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.*;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+
+import com.google.common.base.Charsets;
+import com.google.common.io.Resources;
+
+import org.apache.commons.lang3.StringUtils;
+import org.languagetool.*;
+import org.languagetool.rules.Categories;
+import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.spelling.SpellingCheckRule;
+import org.languagetool.tools.Tools;
 
 /**
  * A hunspell-based spellchecking-rule.
@@ -53,9 +52,7 @@ import java.util.stream.Collectors;
 public class HunspellRule extends SpellingCheckRule {
 
   private static final ConcurrentLinkedQueue<String> activeChecks = new ConcurrentLinkedQueue<>();
-  protected final SuggestionsOrderer suggestionsOrderer;
   private final boolean monitorRules;
-  private final boolean runningExperiment;
 
   public static Queue<String> getActiveChecks() {
     return activeChecks;
@@ -87,26 +84,10 @@ public class HunspellRule extends SpellingCheckRule {
    * @since 4.3
    */
    public HunspellRule(ResourceBundle messages, Language language, UserConfig userConfig, List<Language> altLanguages) {
-     this(messages, language, userConfig, altLanguages, null);
-   }
-   public HunspellRule(ResourceBundle messages, Language language, UserConfig userConfig, List<Language> altLanguages,
-                       LanguageModel languageModel) {
-    super(messages, language, userConfig, altLanguages, languageModel);
+    super(messages, language, userConfig, altLanguages);
     super.setCategory(Categories.TYPOS.getCategory(messages));
     this.userConfig = userConfig;
     this.monitorRules = System.getProperty("monitorActiveRules") != null;
-
-
-     if (SuggestionsChanges.isRunningExperiment("NewSuggestionsOrderer")) {
-       suggestionsOrderer = new SuggestionsOrdererFeatureExtractor(language, this.languageModel);
-       runningExperiment = true;
-     } else if (SuggestionsChanges.isRunningExperiment("SuggestionsOrdererGSOC")){
-       suggestionsOrderer = new SuggestionsOrdererGSoC(language, this.languageModel, this.getId());
-       runningExperiment = true;
-     } else {
-       suggestionsOrderer = new XGBoostSuggestionsOrderer(language, languageModel);
-       runningExperiment = false;
-     }
   }
 
   @Override
@@ -146,12 +127,7 @@ public class HunspellRule extends SpellingCheckRule {
       String[] tokens = tokenizeText(getSentenceTextWithoutUrlsAndImmunizedTokens(sentence));
 
       // starting with the first token to skip the zero-length START_SENT
-      int len;
-      if (sentence.getTokens().length > 1) { // if fixes exception in SuggestionsChangesTest
-        len = sentence.getTokens()[1].getStartPos();
-      } else {
-        len = sentence.getTokens()[0].getStartPos();
-      }
+      int len = sentence.getTokens()[1].getStartPos();
       for (int i = 0; i < tokens.length; i++) {
         String word = tokens[i];
         if ((ignoreWord(Arrays.asList(tokens), i) || ignoreWord(word)) && !isProhibited(removeTrailingDot(word))) {
@@ -207,27 +183,7 @@ public class HunspellRule extends SpellingCheckRule {
             }
             filterSuggestions(suggestions);
             filterDupes(suggestions);
-
-            // TODO user suggestions
-            // use suggestionsOrderer only w/ A/B - Testing or manually enabled experiments
-            if (runningExperiment) {
-              addSuggestionsToRuleMatch(cleanWord, Collections.emptyList(), suggestions,
-                suggestionsOrderer, ruleMatch);
-            } else if (userConfig != null && userConfig.getAbTest() != null &&
-              userConfig.getAbTest().equals("SuggestionsRanker") &&
-              suggestionsOrderer.isMlAvailable() && userConfig.getTextSessionId() != null) {
-              boolean testingA = userConfig.getTextSessionId() % 2 == 0;
-              if (testingA) {
-                addSuggestionsToRuleMatch(cleanWord, Collections.emptyList(), suggestions,
-                  null, ruleMatch);
-              } else {
-                addSuggestionsToRuleMatch(cleanWord, Collections.emptyList(), suggestions,
-                  suggestionsOrderer, ruleMatch);
-              }
-            } else {
-              addSuggestionsToRuleMatch(cleanWord, Collections.emptyList(), suggestions,
-                null, ruleMatch);
-            }
+            ruleMatch.setSuggestedReplacements(suggestions);
           } else {
             // limited to save CPU
             ruleMatch.setSuggestedReplacement(messages.getString("too_many_errors"));
@@ -276,11 +232,6 @@ public class HunspellRule extends SpellingCheckRule {
     }
     return hunspellDict.suggest(word);
   }
-
-  protected List<String> sortSuggestionByQuality(String misspelling, List<String> suggestions) {
-    return suggestions;
-  }
-
 
   protected String[] tokenizeText(String sentence) {
     return nonWordPattern.split(sentence);
@@ -409,5 +360,5 @@ public class HunspellRule extends SpellingCheckRule {
       in.close();
     }
   }
-
+  
 }
