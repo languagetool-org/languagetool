@@ -21277,7 +21277,7 @@ TODO Write better examples
       <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma não acentuada.</message>
         <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> fluido<match no='3' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
       <example correction='um fluido'><marker>um fluído</marker>.</example>
-      <example correction='uns fluidos'><marker>os fluídos</marker>.</example>
+      <example correction='os fluidos'><marker>os fluídos</marker>.</example>
     </rule>
   </rulegroup>
 
@@ -22392,7 +22392,7 @@ TODO Write better examples
           <token regexp='yes'>meia|duas|&art_detecao_F;|&contracoes_FS;|&contracoes_FP;</token>
           <token regexp='yes'>dozes?</token>
       </pattern>
-      <message>\3 é um número. Porção de comida escreve-se <suggestion>\1 <match no='2' regexp_match='doze(s?)' regexp_replace='dose$1' include_skipped='all'/></suggestion></message>
+      <message>\2 é um número. Porção de comida escreve-se <suggestion>\1 <match no='2' regexp_match='doze(s?)' regexp_replace='dose$1' include_skipped='all'/></suggestion></message>
       <example correction="Uma dose"><marker>Uma doze</marker> de bifinhos com cogumelhos para a mesa três.</example>
     </rule>
     <rule>
@@ -22407,6 +22407,7 @@ TODO Write better examples
 
   <rulegroup id='AONDE_ONDE' name="Confusão: aonde - onde">
     <!-- Created by Tiago F. Santos, Portuguese rule, 2019-03-10 -->
+    <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/onde-e-aonde/548</url> 
     <rule>
       <pattern>
           <token>aonde</token>
@@ -29696,8 +29697,15 @@ TODO Write better examples
       <pattern>
           <token regexp='yes'>mandalas?</token>
       </pattern>
-      <message>'Mandala' é um símbolo da tradição hindi. O verbo escreve-se <suggestion><match no='1' regexp_match='mandal' regexp_replace='mandá-l'/></suggestion>.</message>
+      <message>'Mandala' é um símbolo da tradição hindi. O verbo escreve-se <suggestion><match no='1' regexp_match='andal' regexp_replace='andá-l'/></suggestion>.</message>
       <example correction="mandá-las">Vou <marker>mandalas</marker> por correio registado.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token inflected='yes'>concertar</token>
+      </pattern>
+      <message>'\1' refere-se a estar em acordo ou sintonia com algo. O sinónimo de reparar escreve-se <suggestion><match no='1' regexp_match='once' regexp_replace='onse'/></suggestion>.</message>
+      <example correction="consertar">Para <marker>concertar</marker>-lo terá de gastar 100€.</example>
     </rule>
   </rulegroup>
 
