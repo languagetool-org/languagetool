@@ -21268,6 +21268,17 @@ TODO Write better examples
       <example correction='uma espiã'><marker>uma espia</marker>.</example>
       <example correction='umas espiãs'><marker>umas espias</marker>.</example>
     </rule>
+    <rule id='PARONYM_FLUIDO_614' name='Parónimo: fluído'>
+      <pattern>
+          <token regexp='yes'>&art_detecao_paronimos;</token>
+          <token min='0' postag='A.+' postag_regexp='yes'/>
+          <token regexp='yes'>fluídos?</token>
+      </pattern>
+      <message>Esta palavra é um verbo. Se pretende referir-se a um nome ou adjetivo, deve utilizar a forma não acentuada.</message>
+        <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> fluido<match no='3' regexp_match='.+?(s?)$' regexp_replace='$1'/></suggestion>
+      <example correction='uma fluido'><marker>um fluído</marker>.</example>
+      <example correction='uns fluidos'><marker>os fluídos</marker>.</example>
+    </rule>
   </rulegroup>
 
   <rulegroup id='LP_PARONYMS' name='Paranónimos especiais'>
