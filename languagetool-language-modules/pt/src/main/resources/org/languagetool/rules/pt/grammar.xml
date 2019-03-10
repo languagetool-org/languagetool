@@ -22374,6 +22374,26 @@ TODO Write better examples
     </rule>
   </rulegroup>
 
+  <rulegroup id='DOSE_DOZE' name="Confusão: dose - doze">
+    <!-- Created by Tiago F. Santos, Portuguese rule, 2019-03-09 -->
+    <rule>
+      <pattern>
+          <token regexp='yes'>meia|duas|&art_detecao_F;|&contracoes_FS;|&contracoes_FP;</token>
+          <token regexp='yes'>dozes?</token>
+      </pattern>
+      <message>\3 é um número. Porção de comida escreve-se <suggestion>\1 <match no='2' regexp_match='doze(s?)' regexp_replace='dose$1' include_skipped='all'/></suggestion></message>
+      <example correction="Um dose"><marker>Uma doze</marker> de bifinhos com cogumelhos para a mesa três.</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>dose</token>
+          <token postag="(Z|N..P).+" postag_regexp="yes"/>
+      </pattern>
+      <message>\1 é uma porção de comida. O número escreve-se <suggestion>doze \2</suggestion></message>
+      <example correction="Doze mil"><marker>Dose mil</marker> esculturas estão em exposição este Domingo.</example>
+    </rule>
+  </rulegroup>
+
   <rulegroup id='MESTRE_MESTRA' name='Confusão: mestre -> mestra'>
     <!-- Created by Tiago F. Santos, 2017-04-13, based on LightProof rule -->
     <rule>
