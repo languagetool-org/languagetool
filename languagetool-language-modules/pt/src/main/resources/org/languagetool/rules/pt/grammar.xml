@@ -22382,7 +22382,7 @@ TODO Write better examples
           <token regexp='yes'>dozes?</token>
       </pattern>
       <message>\3 é um número. Porção de comida escreve-se <suggestion>\1 <match no='2' regexp_match='doze(s?)' regexp_replace='dose$1' include_skipped='all'/></suggestion></message>
-      <example correction="Um dose"><marker>Uma doze</marker> de bifinhos com cogumelhos para a mesa três.</example>
+      <example correction="Uma dose"><marker>Uma doze</marker> de bifinhos com cogumelhos para a mesa três.</example>
     </rule>
     <rule>
       <pattern>
@@ -22391,6 +22391,34 @@ TODO Write better examples
       </pattern>
       <message>\1 é uma porção de comida. O número escreve-se <suggestion>doze \2</suggestion></message>
       <example correction="Doze mil"><marker>Dose mil</marker> esculturas estão em exposição este Domingo.</example>
+    </rule>
+  </rulegroup>
+
+  <rulegroup id='AONDE_ONDE' name="Confusão: aonde - onde">
+    <!-- Created by Tiago F. Santos, Portuguese rule, 2019-03-10 -->
+    <rule>
+      <pattern>
+          <token>aonde</token>
+          <token regexp='yes' inflected='yes'>estar|viver|morar|trabalhar</token>
+      </pattern>
+      <message>\1 pode ser subsituido 'para que lugar'. Pretende dizer:<suggestion>onde \1</suggestion>?</message>
+      <example correction="Onde trabalha"><marker>Aonde trabalha</marker>?</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>donde</token>
+          <token regexp='yes' inflected='yes'>estar|viver|morar|trabalhar</token>
+      </pattern>
+      <message>\1 pode ser subsituido 'de que lugar'. Pretende dizer:<suggestion>onde \1</suggestion>?</message>
+      <example correction="Onde trabalha"><marker>Donde vives</marker>?</example>
+    </rule>
+    <rule>
+      <pattern>
+          <token>onde</token>
+          <token regexp='yes' inflected='yes'>ir|partir|voar|navegar</token>
+      </pattern>
+      <message>\1 pode ser subsituido 'em que lugar'. Pretende dizer:<suggestion>aonde \1</suggestion> ou <suggestion>donde \1</suggestion>?</message>
+      <example correction="Aonde vais|Donde vais"><marker>Onde vais</marker>?</example>
     </rule>
   </rulegroup>
 
