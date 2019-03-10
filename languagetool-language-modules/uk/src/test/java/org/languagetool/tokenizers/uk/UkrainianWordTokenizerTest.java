@@ -264,6 +264,9 @@ public class UkrainianWordTokenizerTest {
     testList = w.tokenize("і т. ін.");
     assertEquals(Arrays.asList("і", " ", "т.", " ", "ін."), testList);
 
+    testList = w.tokenize("і т.д.");
+    assertEquals(Arrays.asList("і", " ", "т.", "д."), testList);
+
     testList = w.tokenize("Інститут ім. акад. Вернадського.");
     assertEquals(Arrays.asList("Інститут", " ", "ім.", " ", "акад.", " ", "Вернадського", "."), testList);
 
@@ -308,6 +311,10 @@ public class UkrainianWordTokenizerTest {
 
     testList = w.tokenize("30.04.2010р.");
     assertEquals(Arrays.asList("30.04.2010", "р."), testList);
+
+    // not too frequent
+//    testList = w.tokenize("30.04.10р.");
+//    assertEquals(Arrays.asList("30.04.10", "р."), testList);
   }
 
 }
