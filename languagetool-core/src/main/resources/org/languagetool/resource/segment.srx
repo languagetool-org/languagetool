@@ -5365,8 +5365,12 @@
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>\b(Ecol|Econ|ed|elem|Eng|erud|estrang|etc|ex|Ex)\.\s?</beforebreak>
+<beforebreak>\b(Ecol|Econ|ed|elem|Eng|erud|estrang|ex|Ex)\.\s?</beforebreak>
 <afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\b(etc)\.\s?</beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
 </rule>
 <rule break="no">
 <beforebreak>\b(f|fam|Farm|fem|fig|fin|fl|fr|frac)\.\s?</beforebreak>
@@ -5435,6 +5439,11 @@
 <rule break="no">
 <beforebreak>\b(Zool)\.\s?</beforebreak>
 <afterbreak></afterbreak>
+</rule>
+<!-- s. XIX; s.IX; sec. XX; séc. XX -->
+<rule break="no">
+<beforebreak>\bs([eé]c)?\.\s?</beforebreak>
+<afterbreak>[IVXVDMCL]+</afterbreak>
 </rule>
 <!-- English abbreviations - but these work globally for all languages -->
 <rule break="no">
@@ -5558,6 +5567,10 @@
 <afterbreak>[-–—],?\s\p{Ll}.+</afterbreak>
 </rule>
 <!-- Break rules -->
+<rule break="no">
+<beforebreak>\b(etc)\.\s?</beforebreak>
+<afterbreak>\p{Lu}\p{Ll}*</afterbreak>
+</rule>
 <rule break="yes">
 <beforebreak>[\.!?][\u0002|'|"|“|«|\)|\]|\}¹²³]?\s+</beforebreak>
 <afterbreak></afterbreak>
@@ -5568,7 +5581,7 @@
 </rule>
 <rule break="yes">
 <beforebreak>\s\p{L}[\.!?…]\s</beforebreak>
-<afterbreak>\p{Lu}\p{Ll}</afterbreak>
+<afterbreak>\p{Lu}\p{Ll}*</afterbreak>
 </rule>
 <rule break="yes">
 <beforebreak>[^\s]:\s</beforebreak>

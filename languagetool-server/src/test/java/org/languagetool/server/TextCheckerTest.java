@@ -38,6 +38,20 @@ public class TextCheckerTest {
   private final String unsupportedCzech = "V současné době je označením Linux míněno nejen jádro operačního systému, ale zahrnuje do něj též veškeré programové vybavení";
 
   @Test
+  public void testJSONP() throws Exception {
+    Map<String, String> params = new HashMap<>();
+    params.put("text", "not used");
+    params.put("language", "en");
+    params.put("callback", "myCallback");
+    HTTPServerConfig config1 = new HTTPServerConfig(HTTPTools.getDefaultPort());
+    TextChecker checker = new V2TextChecker(config1, false, null, new RequestCounter());
+    FakeHttpExchange httpExchange = new FakeHttpExchange();
+    checker.checkText(new AnnotatedTextBuilder().addText("some random text").build(), httpExchange, params, null, null);
+    assertTrue(httpExchange.getOutput().startsWith("myCallback("));
+    assertTrue(httpExchange.getOutput().endsWith(");"));
+  }
+  
+  @Test
   public void testMaxTextLength() throws Exception {
     Map<String, String> params = new HashMap<>();
     params.put("text", "not used");
