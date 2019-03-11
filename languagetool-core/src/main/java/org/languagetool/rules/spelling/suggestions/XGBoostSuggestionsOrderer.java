@@ -106,14 +106,14 @@ public class XGBoostSuggestionsOrderer extends SuggestionsOrdererFeatureExtracto
           modelPool.returnObject(language, model);
           modelAvailableForLanguage = true;
         }
-      } catch (NoClassDefFoundError | ExceptionInInitializerError e) {
+      } catch (NoClassDefFoundError | ExceptionInInitializerError | UnsatisfiedLinkError e) {
           /*
           Workaround because maven package for XGBoost is missing libraries for Windows;
           just disable functionality of this class via modelAvailableForLanguage and print a warning
           Proper fix would involve building from source or using pre-built packages that include Windows dependencies
           See note here: https://xgboost.readthedocs.io/en/latest/jvm/index.html#id7
            */
-          logger.warn("At the moment, your platform (Windows?) is not supported by XGBoost maven packages;" +
+          logger.warn("At the moment, your platform (Windows?) or architecture (32 bit?) is not supported by XGBoost maven packages;" +
             " ML-based suggestion reordering is disabled.", e);
           xgboostNotSupported = true;
       } catch (Exception e) {
