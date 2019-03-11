@@ -6863,6 +6863,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Невесть кто</example>
                 <example correction="Невесть"><marker>Не весть</marker> кто.</example>
             </rule>
+            <rule>
+                <pattern case_sensitive="no">
+                    <marker>
+                        <token>не</token>
+                        <token regexp="yes">где|куда|откуда|зачем</token>
+                    </marker>
+                </pattern>
+                <message>Пишется слитно: <suggestion>\1\2</suggestion>.</message>
+                <short>Слитно с «не»</short>
+                <example>Некуда идти.</example>
+                <example correction="Некуда"><marker>Не куда</marker> лететь.</example>
+            </rule>
         </rulegroup>
         <rulegroup default="on" id="Ne_pril_prich" name="«Не» с прилагательными/причастиями">
             <rule> <!-- TODO -->
