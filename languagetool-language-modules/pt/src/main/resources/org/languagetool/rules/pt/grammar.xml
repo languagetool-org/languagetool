@@ -1907,6 +1907,14 @@ title="Easy editing stylesheet" ?>
           <token/>
           <token regexp='yes'>&expressoes_de_tempo;</token>
       </antipattern>
+      <antipattern>
+          <token skip='-1'>apesar|a(?:inda|ntes|té)|contanto|mesmo|sem|tomara|embora</token>
+          <token regexp='yes'>maioria|minoria</token>
+          <token min='0' regexp='yes'>d[eao]s?</token>
+          <token min='0' postag_regexp='yes' postag='N.+'/>
+          <token min="0" skip="3" postag_regexp='yes' postag='R.'/>
+          <token postag_regexp='yes' postag='VMN0000'/>
+      </antipattern>
       <pattern>
           <token>a</token>
           <token regexp='yes'>maioria|minoria</token>
@@ -1914,7 +1922,7 @@ title="Easy editing stylesheet" ?>
           <token min='0' postag_regexp='yes' postag='N.+'/>
           <token min="0" skip="3" postag_regexp='yes' postag='R.'/>
           <token postag_regexp='yes' postag='V.+'>
-            <exception postag_regexp='yes' postag='V...3S.+|VMN0000'/>
+            <exception postag_regexp='yes' postag='V...3S.+'/>
             <exception negate_pos='yes' postag_regexp='yes' postag='V.+'/></token>
       </pattern>
       <message>Nesta situação deve utilizar o verbo no singular.</message>
@@ -1922,7 +1930,7 @@ title="Easy editing stylesheet" ?>
       <example correction='A maioria faz|A maioria fá'><marker>A maioria fazem</marker> muito pouco.</example>
       <example correction='A maioria não sabe'><marker>A maioria não sabem</marker> muito.</example>
       <example correction='A maioria do país não sabe'><marker>A maioria do país não sabem</marker> muito.</example>
-      <example>A maioria do país não saber muito.</example>
+      <example>Apesar de a maioria do país não saber muito.</example>
     </rule>
 
   <rulegroup id='REFLEXIVE_VERB_SE_AGREEMENT' name='Concordância verbal: Verbo -se + Plural'>
